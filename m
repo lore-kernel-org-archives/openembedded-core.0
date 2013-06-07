@@ -1,31 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D3EF7601AF
+Return-Path: <andrei.adrianx.dinu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DE02601AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 10:47:52 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57AquUN013888 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 11:52:56 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id VbEhUVYkk-hD
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 11:52:56 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57Aqp3b013883
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 11:52:52 +0100
-Message-ID: <1370602058.6864.24.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Jun 2013 11:47:38 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: OE-Core and Bitbake wrapper changes (min 2.7.3 python version)
+	Fri,  7 Jun 2013 11:34:34 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 07 Jun 2013 04:34:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,821,1363158000"; d="scan'208";a="313691312"
+Received: from adinu-vostro-460.rb.intel.com ([10.237.105.42])
+	by azsmga001.ch.intel.com with ESMTP; 07 Jun 2013 04:34:33 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2013 14:35:28 +0300
+Message-Id: <1370604929-27618-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] openssh : upgrade to 6.2p2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +27,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 10:47:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Jun 2013 11:34:35 -0000
 
-Its not secret that I hate the current bitbake wrapper script and want
-to remove it for 101 different reasons.
+upgrade from 6.2p1 -> 6.2p2
 
-I now have code which removes the need for the double execution of
-bitbake which was the only fundamental reason we had it. The question
-therefore remains, what to do with the other pieces of the wrapper,
-specifically the tar and git versions checks.
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../openssh/{openssh-6.2p1 => openssh-6.2p2}/init  |    0
+ .../{openssh-6.2p1 => openssh-6.2p2}/nostrip.patch |    0
+ .../openssh-CVE-2011-4327.patch                    |    0
+ .../{openssh-6.2p1 => openssh-6.2p2}/ssh_config    |    0
+ .../openssh/{openssh-6.2p1 => openssh-6.2p2}/sshd  |    0
+ .../{openssh-6.2p1 => openssh-6.2p2}/sshd_config   |    0
+ .../openssh/{openssh_6.2p1.bb => openssh_6.2p2.bb} |    5 +++--
+ 7 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh-6.2p1 => openssh-6.2p2}/init (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.2p1 => openssh-6.2p2}/nostrip.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.2p1 => openssh-6.2p2}/openssh-CVE-2011-4327.patch (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.2p1 => openssh-6.2p2}/ssh_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.2p1 => openssh-6.2p2}/sshd (100%)
+ rename meta/recipes-connectivity/openssh/{openssh-6.2p1 => openssh-6.2p2}/sshd_config (100%)
+ rename meta/recipes-connectivity/openssh/{openssh_6.2p1.bb => openssh_6.2p2.bb} (96%)
 
-As a reminder for those who don't remember the problem here, the git
-version is checked since we use certain parameters in the git fetcher
-which need certain versions of git and git is in ASSUME_PROVIDED these
-days. Its possible to trigger git operations at part time to resolve
-revisions. tar is even more ugly since the wrong version has issues
-extracting sstate archives. These issues mean injecting building them
-into the dependency chain at the right point is hard.
-
-Personally, I think we carry around a bit too much legacy these days and
-its starting to hurt us. I would therefore like to propose that we take
-this opportunity to do some spring cleaning and simply error on:
-
-* broken tar versions
-* too old versions of git
-* python < 2.7.3
-
-The python version check would move to the oe-init-build-env script, the
-git/tar versions to sanity.bbclass.
-
-The recommendation for anyone with these older versions would be to
-install our standalone tools tarball which would have python 2.7.3 and
-working versions of tar/git.
-
-The reason for the python version change is so we can embrace the
-unittest improvements in 2.7 and drop all of the workarounds for pre
-2.7.3 bugs in bitbake. This starts to move us towards python 3, if this
-tarball works well, we'd use the same approach to move to python 3.
-
-Any objections?
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/init b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.2p1/init
+rename to meta/recipes-connectivity/openssh/openssh-6.2p2/init
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/nostrip.patch b/meta/recipes-connectivity/openssh/openssh-6.2p2/nostrip.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.2p1/nostrip.patch
+rename to meta/recipes-connectivity/openssh/openssh-6.2p2/nostrip.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-CVE-2011-4327.patch b/meta/recipes-connectivity/openssh/openssh-6.2p2/openssh-CVE-2011-4327.patch
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-CVE-2011-4327.patch
+rename to meta/recipes-connectivity/openssh/openssh-6.2p2/openssh-CVE-2011-4327.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/ssh_config b/meta/recipes-connectivity/openssh/openssh-6.2p2/ssh_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.2p1/ssh_config
+rename to meta/recipes-connectivity/openssh/openssh-6.2p2/ssh_config
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/sshd b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.2p1/sshd
+rename to meta/recipes-connectivity/openssh/openssh-6.2p2/sshd
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
+similarity index 100%
+rename from meta/recipes-connectivity/openssh/openssh-6.2p1/sshd_config
+rename to meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p1.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+similarity index 96%
+rename from meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+index 20502c4..06297da 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+@@ -29,8 +29,9 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-SRC_URI[md5sum] = "7b2d9dd75b5cf267ea1737ec75500316"
+-SRC_URI[sha256sum] = "58690267d7455f444e87c2f8cd9be91fc686ffc0c02d1ebd0be2ab68149f7160"
++SRC_URI[md5sum] = "be46174dcbb77ebb4ea88ef140685de1"
++SRC_URI[sha256sum] = "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90c766432e32161b842313b"
++
+ inherit useradd update-rc.d update-alternatives
+ 
+ USERADD_PACKAGES = "${PN}-sshd"
+-- 
+1.7.9.5
 
 
