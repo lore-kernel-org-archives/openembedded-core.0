@@ -1,39 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CD376A8CF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DB416A53C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 20:42:46 +0000 (UTC)
-Received: by mail-ee0-f43.google.com with SMTP id l10so1237479eei.30
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2013 13:42:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=B9j+A3AFB3g77485jdnvlWifjtpYAkvhb+HAL4H1lOE=;
-	b=eLMFndPIn0TS52S4iux1xjoBVXaFqWvAFJg0PiPLvroL639v0HJ16sH4k8Otay2nhX
-	CROocdrKOYSToemXBvoSVF+kA+j2/CnP3UWIGTJMA5gr4ZmlotAYHOCy5ioNkousmmaX
-	rzV9U1R/CtKOUNcQprY8FWNOCi0OgnVfnvlYUhv5vfCDv8B2+SwaJnDKSYu5f0UrR/ls
-	lHlP9FHHQI8s3FqTO5b16OmUG6RqeOMKIX6SMe91QNg3ESoJn0mr3B/kSxijp4vhxwAY
-	yBun8dbWJqRZ+RmNcg4M9Ghr4Csw2O9PBYrUMtFgwz0hcoe9LHlIGjfrhtt/WdrMI5Ej
-	ZjKw==
-X-Received: by 10.15.98.203 with SMTP id bj51mr460123eeb.22.1370637767240;
-	Fri, 07 Jun 2013 13:42:47 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id ba7sm938795eeb.0.2013.06.07.13.42.45
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 07 Jun 2013 13:42:46 -0700 (PDT)
-Date: Fri, 7 Jun 2013 22:43:05 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20130607204305.GM22710@jama>
-References: <20130607192007.GL22710@jama>
-	<1370636049.4141.22.camel@pb-ThinkPad-R50e>
+	Fri,  7 Jun 2013 21:41:42 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 07 Jun 2013 14:41:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,824,1363158000"; d="scan'208";a="350043840"
+Received: from unknown (HELO [10.255.13.19]) ([10.255.13.19])
+	by orsmga002.jf.intel.com with ESMTP; 07 Jun 2013 14:41:41 -0700
+Message-ID: <51B25395.9050007@linux.intel.com>
+Date: Fri, 07 Jun 2013 14:41:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-In-Reply-To: <1370636049.4141.22.camel@pb-ThinkPad-R50e>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+To: rongqing.li@windriver.com, Donn Seeley <donn.seeley@windriver.com>, 
+	xin.ouyang@windriver.com
+References: <cover.1370568886.git.rongqing.li@windriver.com>
+	<2c0eacd59aacc23859ab90389cd238d26a2679b8.1370568886.git.rongqing.li@windriver.com>
+In-Reply-To: <2c0eacd59aacc23859ab90389cd238d26a2679b8.1370568886.git.rongqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: is sstate-cache really deterministic together with shlibs providers?
+Subject: Re: [PATCH 1/1] openssh: three fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,91 +34,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 20:42:47 -0000
-X-Groupsio-MsgNum: 40334
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jigfid2yHjNFZUTO"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Jun 2013 21:41:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---jigfid2yHjNFZUTO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 06/06/2013 07:27 PM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> 1. fix a alignment issue on ARM v7 NEON cpu
+> 2. fix a empty passwd issue
+> 3. enable tcp-wrappers by default
+>
+openssh has been updated to 6.2p2, so can you please rebase these 
+patches to that newer version.
 
-On Fri, Jun 07, 2013 at 09:14:09PM +0100, Phil Blundell wrote:
-> On Fri, 2013-06-07 at 21:20 +0200, Martin Jansa wrote:
-> > Imagine this process
-> >=20
-> > foo.bb DEPENDS on libabc.bb to provide libabc.1.so
-> >=20
-> > evil recipe bar.bb installs some binary crap in /opt/crap and because i=
-t's
-> > picky about libabc version it bundles own compy of libabc.so.1 and
-> > installs it to /opt/crap/lib/libabc.so.1
-> >=20
-> > At the time of first build nobody notices libabc.1.so and foo, bar and
-> > libabc are happily populated to sysroot.
-> >=20
-> > foo.bb is rebuilt because of some unrelated change, but this times it
-> > uses bar as shlibs provider for libabc.so.1
->=20
-> It sounds like the real bug here is that the shlibdeps code doesn't
-> issue a diagnostic when it encounters this kind of ambiguous situation.
-> It ought to be perfectly capable of figuring out that there are two
-> copies of libabc.so.1 at large which belong to different packages and,
-> absent additional guidance, it has no reliable way of knowing which one
-> of those is going to satisfy the DT_NEEDED in any random binary.
->=20
-> If shlibdeps stopped with an error in that situation, which arguably it
-> ought to, then the erroneous dependency would never get into sstate and
-> the scenario that you describe would not be able to happen.
+Also, have they been sumbitted upstream, for security related bug, I 
+would like to know if the upstream will accept them for correctness 
+since they could lead to security issues otherwise.
 
-I like both suggestions from you and from Richard, there is another
-slightly related issue with
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4102
+Thanks
+	Sau!
 
-It's probably possible to create test case where I create sstate package
-with libabc.so.1 provided by MACHINE_ARCH foo and then try to reuse this
-sstate but with libabc.so.1 provided by TUNE_PKGARCH foo (e.g. with
-different version) shlibs code will still find it provider by
-MACHINE_ARCH foo and there isn't way to clean foo from incremental build
-(only manually).
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> ---
+>   .../openssh-6.2p1/mac_compute-alignment.patch      |   39 ++++++++++++++++++++
+>   .../openssh-permit_empty_passwd.patch              |   33 +++++++++++++++++
+>   meta/recipes-connectivity/openssh/openssh_6.2p1.bb |    5 +++
+>   3 files changed, 77 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch
+>   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch b/meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch
+> new file mode 100644
+> index 0000000..ea8a31a
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch
+> @@ -0,0 +1,39 @@
+> +Upstream-Status: Pending
+> +
+> +The mac_compute() function in openssh calls umac_final() to prepend a tag
+> +to a buffer.  Umac_final() calls pdf_gen_xor() on the tag as its final
+> +operation, and as implemented, pdf_gen_xor() assumes an appropriate
+> +alignment for 64-bit operations on its buffer.  However, the buffer
+> +is declared in mac_compute() as a static u_char array, and the linker
+> +doesn't guarantee 64-bit alignment for such arrays.  On ARM v7 NEON
+> +platforms with gcc, 64-bit values must be 64-bit aligned, and the
+> +unaligned buffer declaration caused alignment faults when executing
+> +certain openssh tests.
+> +
+> +Force the buffer in mac_compute() to be 64-bit aligned.
+> +
+> +Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
+> +---
+> + mac.c |    8 +++++---
+> + 1 file changed, 5 insertions(+), 3 deletions(-)
+> +
+> +--- a/mac.c
+> ++++ b/mac.c
+> +@@ -132,12 +132,14 @@ mac_init(Mac *mac)
+> + u_char *
+> + mac_compute(Mac *mac, u_int32_t seqno, u_char *data, int datalen)
+> + {
+> +-	static u_char m[EVP_MAX_MD_SIZE];
+> ++	static u_int64_t m_buf[(EVP_MAX_MD_SIZE + sizeof (u_int64_t) - 1)
+> ++	    / sizeof (u_int64_t)];
+> ++	u_char *m = (u_char *)m_buf;
+> + 	u_char b[4], nonce[8];
+> +
+> +-	if (mac->mac_len > sizeof(m))
+> ++	if (mac->mac_len > EVP_MAX_MD_SIZE)
+> + 		fatal("mac_compute: mac too long %u %lu",
+> +-		    mac->mac_len, (u_long)sizeof(m));
+> ++		    mac->mac_len, (u_long)EVP_MAX_MD_SIZE);
+> +
+> + 	switch (mac->type) {
+> + 	case SSH_EVP:
+> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch b/meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch
+> new file mode 100644
+> index 0000000..c1d7f8e
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch
+> @@ -0,0 +1,33 @@
+> +Subject: [PATCH] openssh: fix permit_empty_passwd
+> +
+> +Upstream-Status: pending
+> +
+> +When pam enabled, userauth_none calls auth_password("") -->
+> +pam_authenticate("") will cause pam_auth process in the fail
+> +status. This will block all login, even users with a correct
+> +password.
+> +
+> +userauth_none should alway return false since sshd
+> +would check passwords in userauth_passwd using pam* modules.
+> +
+> +Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
+> +---
+> + auth2-none.c |    2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/auth2-none.c b/auth2-none.c
+> +index c8c6c74..560feef 100644
+> +--- a/auth2-none.c
+> ++++ b/auth2-none.c
+> +@@ -61,6 +61,8 @@ userauth_none(Authctxt *authctxt)
+> + {
+> + 	none_enabled = 0;
+> + 	packet_check_eom();
+> ++	if (options.use_pam)	
+> ++		return 0;
+> + 	if (options.permit_empty_passwd && options.password_authentication)
+> + 		return (PRIVSEP(auth_password(authctxt, "")));
+> + 	return (0);
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p1.bb b/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+> index 20502c4..198c09d 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+> @@ -25,6 +25,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+>              file://ssh_config \
+>              file://init \
+>              file://openssh-CVE-2011-4327.patch \
+> +           file://mac_compute-alignment.patch \
+> +           file://openssh-permit_empty_passwd.patch \
+>              ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+>
+>   PAM_SRC_URI = "file://sshd"
+> @@ -45,6 +47,9 @@ inherit autotools
+>   CFLAGS += "-D__FILE_OFFSET_BITS=64"
+>   export LD = "${CC}"
+>
+> +PACKAGECONFIG ??= "tcp-wrappers"
+> +PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
+> +
+>   EXTRA_OECONF = "--with-rand-helper=no \
+>                   ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
+>                   --without-zlib-version-check \
+>
 
-I'll create bug report and try to sum it there:
-1) RP1: We should perhaps limit shlibs to the default linker search paths?
-2) RP2+PB: Warning/Error if two things provide the same shlibs
-   - probably better to error out when bar.bb is being built and tries
-     to provide the same libabc libabc.bb, it can be in different order
-     as bar does not depends on libabc, so next time it can show error
-     when building libabc, but IMHO better then showing error when foo=20
-     finds out 2 possible libabc providers
-3) Restrict possible providers to stuff included in dependencies -=20
-   I don't know how difficult it will be to implement this (to see all
-   dependencies including transitive), but IMHO this one is most=20
-   important and can also solve #4102, most tricky part would be to=20
-   prevent shlib providers silently disappearing from RDEPENDS -=20
-   when something doesn't declare dependency explicitly, but it was
-   always there when do_package was executed - now missing providers
-   are silently ignored IIRC. Buildhistory can probably help a lot to
-   find missing explicit deps for shlibs providers when we restrict it.
-
-   This will also ensure that when shlibs provider is changed, the
-   package which is automagically RDEPENDing on it gets rebuilt too.
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4628
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---jigfid2yHjNFZUTO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlGyRdkACgkQN1Ujt2V2gBx3+gCgj29kQu4J8WYt8jE87a9xytSr
-RKcAniYPraKNrhZ+E3u0zZnzfeeChnJ6
-=1M8p
------END PGP SIGNATURE-----
-
---jigfid2yHjNFZUTO--
