@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BB716620C2
+	by mail.openembedded.org (Postfix) with ESMTP id 1F822620C2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 14:24:42 +0000 (UTC)
+	Fri,  7 Jun 2013 14:25:30 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57ETlhl023757 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 15:29:47 +0100
+	r57EUZht023795 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Jun 2013 15:30:35 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vB7Ekdir9DP2
+	with LMTP id P324LMmrLeWq
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 15:29:46 +0100 (BST)
+	Fri,  7 Jun 2013 15:30:35 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57ETheD023753
+	r57EUVn8023792
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 15:29:45 +0100
-Message-ID: <1370615069.6864.26.camel@ted>
+	Fri, 7 Jun 2013 15:30:32 +0100
+Message-ID: <1370615117.6864.27.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Jun 2013 15:24:29 +0100
+Date: Fri, 07 Jun 2013 15:25:17 +0100
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] git/tar/findutils: Add nativesdk versions
+Subject: python-external-tarball: Moderise and rename
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,78 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 14:24:43 -0000
+X-List-Received-Date: Fri, 07 Jun 2013 14:25:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-We need to be able to generate a standalone tarball containing tar/git so
-add nativesdk versions of the appropriate recipes to allow this to be possible.
+The external-python-tarball was intended to provide python for those users who
+didn't have python 2.6. It has been unloved for a while so this refreshes
+it a bit. Specifically:
 
-Tweak the git perl paths to avoid warnings when building the nativesdk version,
-ensure the binaries are wrapped correctly and avoid update-alternatives in
-nativesdk-tar.
+* Include git and tar since these can have version issues on some systems
+* Rename to buildtools-tarball to better reflect its purpose
+* Remove the site-config file from the tarball, its pointless
+* Prune down the environment file to just cover PATH and OECORE_NATIVE
+  (which is needed to correctly install the tarball)
+* Add missing grp module (used by do_package) from the unixadmin package
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 9829eec..183a93c 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -31,8 +31,8 @@ do_install () {
+diff --git a/meta/recipes-core/meta/external-python-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 5f8cc96..076fe36 100644
+--- a/meta/recipes-core/meta/external-python-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -1,10 +1,8 @@
+-DESCRIPTION = "Meta package for building a standalone python tarball"
++DESCRIPTION = "Meta package for building a standalone python tarball and other key build tools"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
  
- 	# ${libdir} is not applicable here, perl-native files are always
- 	# installed to /usr/lib on both 32/64 bits targets.
--	rm -rf ${D}/usr/lib/perl-native
--	rmdir ${D}/usr/lib || true
-+	rm -rf ${D}${exec_prefix}/lib/perl-native
-+	rmdir ${D}${exec_prefix}/lib || true
- }
+-PR = "r2"
+-
+ TOOLCHAIN_TARGET_TASK ?= ""
  
- do_install_append_class-native() {
-@@ -41,6 +41,12 @@ do_install_append_class-native() {
- 		GIT_TEMPLATE_DIR=${STAGING_DATADIR_NATIVE}/git-core/templates
- }
+ TOOLCHAIN_HOST_TASK ?= "\
+@@ -26,10 +24,13 @@ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-python-netclient \
+     nativesdk-python-netserver \
+     nativesdk-python-distutils \
++    nativesdk-python-unixadmin \
+     nativesdk-chrpath \
++    nativesdk-tar \
++    nativesdk-git \
+     "
  
-+do_install_append_class-nativesdk() {
-+	create_wrapper ${D}/${bindir}/git \
-+		GIT_EXEC_PATH=${libexecdir}/git-core \
-+		GIT_TEMPLATE_DIR=${STAGING_DATADIR_NATIVE}/git-core/templates
+-TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-python-nativesdk-standalone-${DISTRO_VERSION}"
++TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
+ 
+ RDEPENDS = "${TOOLCHAIN_HOST_TASK}"
+ 
+@@ -37,3 +38,10 @@ EXCLUDE_FROM_WORLD = "1"
+ 
+ inherit meta
+ inherit populate_sdk
++
++create_sdk_files_append () {
++	rm -f ${SDK_OUTPUT}/${SDKPATH}/site-config*
++	
++	cat ${SDK_OUTPUT}/${SDKPATH}/environment-setup* | grep " PATH=\|OECORE_NATIVE_SYSROOT" > ${WORKDIR}/envtmp
++	mv ${WORKDIR}/envtmp ${SDK_OUTPUT}/${SDKPATH}/environment-setup*
 +}
-+
- FILES_${PN} += "${datadir}/git-core ${libxecdir}/git-core/"
- FILES_${PN}-dbg += "${libexecdir}/git-core/.debug"
- 
-@@ -78,4 +84,4 @@ PACKAGES =+ "gitweb"
- FILES_gitweb = "${datadir}/gitweb/"
- 
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/findutils/findutils.inc b/meta/recipes-extended/findutils/findutils.inc
-index 9306786..81e6785 100644
---- a/meta/recipes-extended/findutils/findutils.inc
-+++ b/meta/recipes-extended/findutils/findutils.inc
-@@ -21,4 +21,4 @@ ALTERNATIVE_PRIORITY = "100"
- # see diffutils.mk in buildroot)
- EXTRA_OECONF_libc-uclibc = "--without-included-regex"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
-index f49c7de..abeb8c1 100644
---- a/meta/recipes-extended/tar/tar.inc
-+++ b/meta/recipes-extended/tar/tar.inc
-@@ -33,6 +33,10 @@ ALTERNATIVE_PRIORITY = "100"
- 
- ALTERNATIVE_${PN} = "tar"
- ALTERNATIVE_${PN}-rmt = "rmt"
-+ALTERNATIVE_${PN}_class-nativesdk = ""
-+ALTERNATIVE_${PN}-rmt_class-nativesdk = ""
- 
- ALTERNATIVE_LINK_NAME[tar] = "${base_bindir}/tar"
- ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
-+
-+BBCLASSEXTEND = "nativesdk"
 
 
 
