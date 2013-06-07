@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 28A106A8D1
+	by mail.openembedded.org (Postfix) with ESMTP id DDE596A8CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 17:18:50 +0000 (UTC)
+	Fri,  7 Jun 2013 17:19:25 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57HNuxG002576 for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 18:23:56 +0100
+	r57HOUoK002647 for <openembedded-core@lists.openembedded.org>;
+	Fri, 7 Jun 2013 18:24:30 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id a1NigNtgM8Af
+	with LMTP id KscGxZshz8LT
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 18:23:56 +0100 (BST)
+	Fri,  7 Jun 2013 18:24:30 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57HNoia002516
+	r57HOSDA002638
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Jun 2013 18:23:51 +0100
-Message-ID: <1370625515.6864.63.camel@ted>
+	Fri, 7 Jun 2013 18:24:29 +0100
+Message-ID: <1370625553.6864.64.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 07 Jun 2013 18:18:35 +0100
+Date: Fri, 07 Jun 2013 18:19:13 +0100
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] sanity: Drop pseudo test, now unneeded
+Subject: [PATCH] scripts/buildenv-internal/sanity: Update to python 2.7.3 as a minimum
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,57 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 17:18:51 -0000
+X-List-Received-Date: Fri, 07 Jun 2013 17:19:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
 diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 6cea423..3c70a7b 100644
+index 3c70a7b..744e30d 100644
 --- a/meta/classes/sanity.bbclass
 +++ b/meta/classes/sanity.bbclass
-@@ -204,29 +204,6 @@ def check_sanity_version_change(data):
-     # Sanity checks to be done when SANITY_VERSION changes
-     return ""
+@@ -382,11 +382,10 @@ def check_sanity(sanity_data):
  
--def check_pseudo_wrapper():
--    import sys
--    if not sys.argv[0].endswith('/bitbake'):
--        return ""
--
--    import subprocess as sub
--    # Check if bitbake wrapper is being used
--    pseudo_build = os.environ.get( 'PSEUDO_BUILD' )
--    if not pseudo_build:
--        bb.warn("Bitbake has not been run using the bitbake wrapper (scripts/bitbake); this is likely because your PATH has been altered from that normally set up by the oe-init-build-env script. Not using the wrapper may result in failures during package installation, so it is highly recommended that you set your PATH back so that the wrapper script is being executed.")
--
--    if (not pseudo_build) or pseudo_build == '2':
--        # pseudo ought to be working, let's see if it is...
--        p = sub.Popen(['sh', '-c', 'PSEUDO_DISABLED=0 id -u'],stdout=sub.PIPE,stderr=sub.PIPE)
--        out, err = p.communicate()
--        if out.rstrip() != '0':
--            msg = "Pseudo is not functioning correctly, which will cause failures during package installation. Please check your configuration."
--            if pseudo_build == '2':
--                return msg
--            else:
--                bb.warn(msg)
--    return ""
--
- def check_create_long_filename(filepath, pathname):
-     testfile = os.path.join(filepath, ''.join([`num`[-1] for num in xrange(1,200)]))
+     messages = ""
+ 
+-    # Check the Python version, we now use Python 2.6 features in
+-    # various classes
++    # Check the Python version, we now have a minimum of Python 2.7.3
+     import sys
+-    if sys.hexversion < 0x020600F0:
+-        messages = messages + 'The system requires at least Python 2.6 to run. Please update your Python interpreter.\n'
++    if sys.hexversion < 0x020703F0:
++        messages = messages + 'The system requires at least Python 2.7.3 to run. Please update your Python interpreter.\n'
+     # Check the python install is complete. glib-2.0-natives requries
+     # xml.parsers.expat
      try:
-@@ -552,10 +529,6 @@ def check_sanity(sanity_data):
-         missing = missing.rstrip(',')
-         messages = messages + "Please install the following missing utilities: %s\n" % missing
+diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+index a33698c..40d95b7 100755
+--- a/scripts/oe-buildenv-internal
++++ b/scripts/oe-buildenv-internal
+@@ -43,9 +43,9 @@ fi
+ # Similarly, we now have code that doesn't parse correctly with older
+ # versions of Python, and rather than fixing that and being eternally
+ # vigilant for any other new feature use, just check the version here.
+-py_v26_check=`python -c 'import sys; print sys.version_info >= (2,6,0)'`
++py_v26_check=`python -c 'import sys; print sys.version_info >= (2,7,3)'`
+ if [ "$py_v26_check" != "True" ]; then
+-	echo "BitBake requires Python 2.6 or later"
++	echo "BitBake requires Python 2.7.3 or later"
+ 	exit 1
+ fi
  
--    pseudo_msg = check_pseudo_wrapper()
--    if pseudo_msg != "":
--        messages = messages + pseudo_msg + '\n'
--
-     check_supported_distro(sanity_data)
-     if machinevalid:
-         toolchain_msg = check_toolchain(sanity_data)
 
 
 
