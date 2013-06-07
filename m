@@ -1,27 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B8776969C
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 44AA66969C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2013 20:11:53 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57KGw6R014383; Fri, 7 Jun 2013 21:16:58 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mWsUGhscmal9; Fri,  7 Jun 2013 21:16:58 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r57KGtJZ014379
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 7 Jun 2013 21:16:57 +0100
-Message-ID: <1370635900.6864.76.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri,  7 Jun 2013 20:14:19 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1Ul33D-0000Pw-Vs; Fri, 07 Jun 2013 22:14:20 +0200
+Message-ID: <1370636049.4141.22.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
 To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 07 Jun 2013 21:11:40 +0100
+Date: Fri, 07 Jun 2013 21:14:09 +0100
 In-Reply-To: <20130607192007.GL22710@jama>
 References: <20130607192007.GL22710@jama>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: is sstate-cache really deterministic together with shlibs providers?
@@ -37,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2013 20:11:54 -0000
+X-List-Received-Date: Fri, 07 Jun 2013 20:14:19 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -55,42 +49,19 @@ On Fri, 2013-06-07 at 21:20 +0200, Martin Jansa wrote:
 > 
 > foo.bb is rebuilt because of some unrelated change, but this times it
 > uses bar as shlibs provider for libabc.so.1
-> 
-> foo does not work in runtime, because it cannot find libabc.so.1 hidden
-> in /opt/crap/lib.
-> 
-> bar.bb is "fixed" by adding EXCLUDE_FROM_SHLIBS to prevent further
-> polluting of shlibs providers, but damage is already done.
-> 
-> foo doesn't have any dependency on bar (DEPENDS/RDEPENDS) because bar.bb
-> is just unrelated binary crap which just happens to bundle libabc.so.1
-> too (so foo checksum does not include bar checksum)
-> 
-> Now the tricky part:
-> 1) fixing local build is easy
->    bitbake -c cleansstate `grep ' bar' buildhistory/images/machine/eglibc/image-with-foo/depends.dot | sed 's/ -> .*//g' | xargs`
-> 
-> but sstate checksums are identical with bar or libabc in package
-> "Depends:" field, so how to cleanup SSTATE_MIRROR and sstate archives
-> already distributed to every local builder?
-> 
-> I could bump PR in libabc, but with PR bumps and PRINC going away I
-> really need to know how to solve such issues in future. Should we fix
-> do_package to filter shlibs providers to include only recipes which 
-> are in (R)DEPENDS/RRECOMMENDS/RSUGGESTS?
 
-PR bumps can still happen for corner cases like this, the intent is just
-to rely on the system for the 99.9% of cases which it does cover much
-more accurately than a human.
+It sounds like the real bug here is that the shlibdeps code doesn't
+issue a diagnostic when it encounters this kind of ambiguous situation.
+It ought to be perfectly capable of figuring out that there are two
+copies of libabc.so.1 at large which belong to different packages and,
+absent additional guidance, it has no reliable way of knowing which one
+of those is going to satisfy the DT_NEEDED in any random binary.
 
-We should perhaps limit shlibs to the default linker search paths?
+If shlibdeps stopped with an error in that situation, which arguably it
+ought to, then the erroneous dependency would never get into sstate and
+the scenario that you describe would not be able to happen.
 
-Wouldn't there be a warning if two things provide the same shlibs or
-does that assume the shlibs versioning sorts itself out?
-
-Cheers,
-
-Richard
+p.
 
 
 
