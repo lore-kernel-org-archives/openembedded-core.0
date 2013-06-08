@@ -1,31 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A7FF56A918
+	by mail.openembedded.org (Postfix) with ESMTP id 6667C61FB9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2013 02:10:19 +0000 (UTC)
+	Sat,  8 Jun 2013 02:47:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r582AKrB023182
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r582lqGU023653
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 7 Jun 2013 19:10:20 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Fri, 7 Jun 2013 19:10:18 -0700
-Message-ID: <51B292AB.6040602@windriver.com>
-Date: Sat, 8 Jun 2013 10:10:51 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Fri, 7 Jun 2013 19:47:53 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 7 Jun 2013 19:47:50 -0700
+Message-ID: <51B29B55.5050208@windriver.com>
+Date: Sat, 8 Jun 2013 10:47:49 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1370585547.git.Qi.Chen@windriver.com>
-	<4caf51c1d2225dc66aeef8326ba0616d97f7c691.1370585547.git.Qi.Chen@windriver.com>
-	<CAP9ODKoSeooN+tpqVEvB5uEE2U7yyt5O1Jy1LZcPpyOYb7FV8A@mail.gmail.com>
-In-Reply-To: <CAP9ODKoSeooN+tpqVEvB5uEE2U7yyt5O1Jy1LZcPpyOYb7FV8A@mail.gmail.com>
-X-Originating-IP: [128.224.162.233]
-Cc: qingtao.cao@windriver.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] busybox: remove the postinst part of the recipe
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1370568886.git.rongqing.li@windriver.com>
+	<2c0eacd59aacc23859ab90389cd238d26a2679b8.1370568886.git.rongqing.li@windriver.com>
+	<51B25395.9050007@linux.intel.com>
+In-Reply-To: <51B25395.9050007@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] openssh: three fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,127 +36,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2013 02:10:19 -0000
-Content-Type: multipart/alternative;
-	boundary="------------020502040607080907080500"
-
---------------020502040607080907080500
+X-List-Received-Date: Sat, 08 Jun 2013 02:47:55 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/07/2013 08:32 PM, Otavio Salvador wrote:
->
->
->
-> On Fri, Jun 7, 2013 at 3:13 AM, <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
->
->     From: Chen Qi <Qi.Chen@windriver.com <mailto:Qi.Chen@windriver.com>>
->
->     Remove the pkg_postinst_${PN} from this recipe, as it's redundant.
->     It basically wants to do the same thing as the update-alternatives
->     does. But it doesn't do it well.
->
->     Signed-off-by: Chen Qi <Qi.Chen@windriver.com
->     <mailto:Qi.Chen@windriver.com>>
->
->
-> Instead of removing it, please convert it here for update-alternatives 
-> so it keeps working on this commit and allow bisect in future if need.
->
-Hi Otavio,
-
-Thanks for your review and comments.
-Sorry but I don't understand it :(
-What do you mean by "convert it for update-alternatives"?
-Could you please give me a little more explanation?
-
-Best Regards,
-Chen Qi
-
-> -- 
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br http://projetos.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
 
---------------020502040607080907080500
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+On 06/08/2013 05:41 AM, Saul Wold wrote:
+> On 06/06/2013 07:27 PM, rongqing.li@windriver.com wrote:
+>> From: "Roy.Li" <rongqing.li@windriver.com>
+>>
+>> 1. fix a alignment issue on ARM v7 NEON cpu
+>> 2. fix a empty passwd issue
+>> 3. enable tcp-wrappers by default
+>>
+> openssh has been updated to 6.2p2, so can you please rebase these
+> patches to that newer version.
+>
+> Also, have they been sumbitted upstream, for security related bug, I
+> would like to know if the upstream will accept them for correctness
+> since they could lead to security issues otherwise.
+>
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 06/07/2013 08:32 PM, Otavio Salvador
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAP9ODKoSeooN+tpqVEvB5uEE2U7yyt5O1Jy1LZcPpyOYb7FV8A@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html;
-        charset=ISO-8859-1">
-      <div dir="ltr"><br>
-        <div class="gmail_extra"><br>
-          <br>
-          <div class="gmail_quote">On Fri, Jun 7, 2013 at 3:13 AM, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">From:
-              Chen Qi &lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;<br>
-              <br>
-              Remove the pkg_postinst_${PN} from this recipe, as it's
-              redundant.<br>
-              It basically wants to do the same thing as the
-              update-alternatives<br>
-              does. But it doesn't do it well.<br>
-              <br>
-              Signed-off-by: Chen Qi &lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt;<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div style="">Instead of removing it, please convert it here
-              for update-alternatives so it keeps working on this commit
-              and allow bisect in future if need.&nbsp;</div>
-          </div>
-          <div><br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    Hi Otavio,<br>
-    <br>
-    Thanks for your review and comments. <br>
-    Sorry but I don't understand it :(<br>
-    What do you mean by "convert it for update-alternatives"?<br>
-    Could you please give me a little more explanation?<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote
-cite="mid:CAP9ODKoSeooN+tpqVEvB5uEE2U7yyt5O1Jy1LZcPpyOYb7FV8A@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">-- <br>
-          Otavio Salvador &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; O.S. Systems<br>
-          <a moz-do-not-send="true" href="http://www.ossystems.com.br"
-            target="_blank">http://www.ossystems.com.br</a> &nbsp; &nbsp; &nbsp; &nbsp;<a
-            moz-do-not-send="true"
-            href="http://projetos.ossystems.com.br" target="_blank">http://projetos.ossystems.com.br</a><br>
-          Mobile: +55 (53) 9981-7854 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Mobile: +1 (347)
-          903-9750<br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
 
---------------020502040607080907080500--
+Seems they are not submitted to upstream,
+I will submit them to upstream, then send out to Oe-core.
+
+-Roy
+
+
+
+
+> Thanks
+>      Sau!
+>
+>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+>> ---
+>>   .../openssh-6.2p1/mac_compute-alignment.patch      |   39
+>> ++++++++++++++++++++
+>>   .../openssh-permit_empty_passwd.patch              |   33
+>> +++++++++++++++++
+>>   meta/recipes-connectivity/openssh/openssh_6.2p1.bb |    5 +++
+>>   3 files changed, 77 insertions(+)
+>>   create mode 100644
+>> meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch
+>>
+>>   create mode 100644
+>> meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch
+>>
+>>
+>> diff --git
+>> a/meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch
+>> b/meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch
+>>
+>> new file mode 100644
+>> index 0000000..ea8a31a
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-connectivity/openssh/openssh-6.2p1/mac_compute-alignment.patch
+>>
+>> @@ -0,0 +1,39 @@
+>> +Upstream-Status: Pending
+>> +
+>> +The mac_compute() function in openssh calls umac_final() to prepend a
+>> tag
+>> +to a buffer.  Umac_final() calls pdf_gen_xor() on the tag as its final
+>> +operation, and as implemented, pdf_gen_xor() assumes an appropriate
+>> +alignment for 64-bit operations on its buffer.  However, the buffer
+>> +is declared in mac_compute() as a static u_char array, and the linker
+>> +doesn't guarantee 64-bit alignment for such arrays.  On ARM v7 NEON
+>> +platforms with gcc, 64-bit values must be 64-bit aligned, and the
+>> +unaligned buffer declaration caused alignment faults when executing
+>> +certain openssh tests.
+>> +
+>> +Force the buffer in mac_compute() to be 64-bit aligned.
+>> +
+>> +Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
+>> +---
+>> + mac.c |    8 +++++---
+>> + 1 file changed, 5 insertions(+), 3 deletions(-)
+>> +
+>> +--- a/mac.c
+>> ++++ b/mac.c
+>> +@@ -132,12 +132,14 @@ mac_init(Mac *mac)
+>> + u_char *
+>> + mac_compute(Mac *mac, u_int32_t seqno, u_char *data, int datalen)
+>> + {
+>> +-    static u_char m[EVP_MAX_MD_SIZE];
+>> ++    static u_int64_t m_buf[(EVP_MAX_MD_SIZE + sizeof (u_int64_t) - 1)
+>> ++        / sizeof (u_int64_t)];
+>> ++    u_char *m = (u_char *)m_buf;
+>> +     u_char b[4], nonce[8];
+>> +
+>> +-    if (mac->mac_len > sizeof(m))
+>> ++    if (mac->mac_len > EVP_MAX_MD_SIZE)
+>> +         fatal("mac_compute: mac too long %u %lu",
+>> +-            mac->mac_len, (u_long)sizeof(m));
+>> ++            mac->mac_len, (u_long)EVP_MAX_MD_SIZE);
+>> +
+>> +     switch (mac->type) {
+>> +     case SSH_EVP:
+>> diff --git
+>> a/meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch
+>> b/meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch
+>>
+>> new file mode 100644
+>> index 0000000..c1d7f8e
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-connectivity/openssh/openssh-6.2p1/openssh-permit_empty_passwd.patch
+>>
+>> @@ -0,0 +1,33 @@
+>> +Subject: [PATCH] openssh: fix permit_empty_passwd
+>> +
+>> +Upstream-Status: pending
+>> +
+>> +When pam enabled, userauth_none calls auth_password("") -->
+>> +pam_authenticate("") will cause pam_auth process in the fail
+>> +status. This will block all login, even users with a correct
+>> +password.
+>> +
+>> +userauth_none should alway return false since sshd
+>> +would check passwords in userauth_passwd using pam* modules.
+>> +
+>> +Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
+>> +---
+>> + auth2-none.c |    2 ++
+>> + 1 file changed, 2 insertions(+)
+>> +
+>> +diff --git a/auth2-none.c b/auth2-none.c
+>> +index c8c6c74..560feef 100644
+>> +--- a/auth2-none.c
+>> ++++ b/auth2-none.c
+>> +@@ -61,6 +61,8 @@ userauth_none(Authctxt *authctxt)
+>> + {
+>> +     none_enabled = 0;
+>> +     packet_check_eom();
+>> ++    if (options.use_pam)
+>> ++        return 0;
+>> +     if (options.permit_empty_passwd && options.password_authentication)
+>> +         return (PRIVSEP(auth_password(authctxt, "")));
+>> +     return (0);
+>> +--
+>> +1.7.9.5
+>> +
+>> diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+>> b/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+>> index 20502c4..198c09d 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+>> +++ b/meta/recipes-connectivity/openssh/openssh_6.2p1.bb
+>> @@ -25,6 +25,8 @@ SRC_URI =
+>> "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+>>              file://ssh_config \
+>>              file://init \
+>>              file://openssh-CVE-2011-4327.patch \
+>> +           file://mac_compute-alignment.patch \
+>> +           file://openssh-permit_empty_passwd.patch \
+>>              ${@base_contains('DISTRO_FEATURES', 'pam',
+>> '${PAM_SRC_URI}', '', d)}"
+>>
+>>   PAM_SRC_URI = "file://sshd"
+>> @@ -45,6 +47,9 @@ inherit autotools
+>>   CFLAGS += "-D__FILE_OFFSET_BITS=64"
+>>   export LD = "${CC}"
+>>
+>> +PACKAGECONFIG ??= "tcp-wrappers"
+>> +PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
+>> +
+>>   EXTRA_OECONF = "--with-rand-helper=no \
+>>                   ${@base_contains('DISTRO_FEATURES', 'pam',
+>> '--with-pam', '--without-pam', d)} \
+>>                   --without-zlib-version-check \
+>>
+>
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
+
