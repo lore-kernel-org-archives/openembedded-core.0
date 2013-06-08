@@ -1,28 +1,38 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 778536A936
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2013 07:31:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r587VtME026002
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 8 Jun 2013 00:31:55 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Sat, 8 Jun 2013 00:31:53 -0700
-Message-ID: <51B2DDE9.20504@windriver.com>
-Date: Sat, 8 Jun 2013 15:31:53 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 430696A67B;
+	Sat,  8 Jun 2013 09:10:01 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id l15so2044907eak.9
+	for <multiple recipients>; Sat, 08 Jun 2013 02:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=elwra5M/lRur1JrRhD8D046HqsFE2AdlGXCCKHBBc9o=;
+	b=yymajoWtOHlfMepndXBgdcErDHe0JWERap9lECcXVnZPg7MxFS4K5Kv7hlpegk1NKJ
+	YtYmhX9bIszRPy7YOW7QK5piqW1HN2Y4qg/2/ogSRb4YOhcx1fziK2FrOKACwmploHZy
+	pdDQud3B3p1IZJZ3muXM5yI0QKQLhXBu7idIkRQtLOlAEHlZVO5l6a7iIcR1NfyYb96s
+	pRuw3Q5egse2uQ1dmySq/ajBp+6cLA7HuZ7hg+RDHDCyPQn7ZSUPPRwkdA6vQJ7i73D9
+	aVTwJ/hndd2Z2JXpt2NWv4gKlEMbrKpyZaOw3cTQO7JBLZ25JDo7mwl81CXiM7e7tALR
+	8pMw==
+X-Received: by 10.14.221.3 with SMTP id q3mr2263311eep.149.1370682601401;
+	Sat, 08 Jun 2013 02:10:01 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	b14sm4643000ees.16.2013.06.08.02.10.00 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 08 Jun 2013 02:10:00 -0700 (PDT)
+Date: Sat, 8 Jun 2013 11:10:20 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Andy Voltz <andy.voltz@timesys.com>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20130608091020.GO22710@jama>
+References: <20130607154357.606025038F@opal>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1370676050.git.rongqing.li@windriver.com>
-	<56f17a5de4a429a9b038ffc7f6ece798a6803cd3.1370676050.git.rongqing.li@windriver.com>
-In-Reply-To: <56f17a5de4a429a9b038ffc7f6ece798a6803cd3.1370676050.git.rongqing.li@windriver.com>
-Subject: Re: [PATCH 1/1] latencytop: Deprecate tracing_enabled for tracing_on
+In-Reply-To: <20130607154357.606025038F@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Andy Voltz : tune-cortexa.inc: create a common include for cortex-a armv7a tuning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,111 +45,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2013 07:31:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 08 Jun 2013 09:10:02 -0000
+X-Groupsio-MsgNum: 40351
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qjXtncIm5b3tWrFJ"
+Content-Disposition: inline
 
-I would like to send this patch to upstream, but the homelink of
-latencytop seems deprecated, and I can not access.
+--qjXtncIm5b3tWrFJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-These kernel commits can prove this patch is valid.
+On Fri, Jun 07, 2013 at 03:43:57PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 3e4f4a1cf07ff7cf4c71566492385f8fbf581789
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D3e4f4a1cf07ff7cf4c71566492385f8fbf581789
+>=20
+> Author: Andy Voltz <andy.voltz@timesys.com>
+> Date:   Wed Jun  5 11:52:29 2013 -0400
+>=20
+> tune-cortexa.inc: create a common include for cortex-a armv7a tuning
+>=20
+> The tuning files for the cortex-a* processors are mostly identical for
+> the A7,A8,A9,A15 processors. Rework these files to use a CORTEX_ID
+> variable to setup the tuning for each specific processor.
+>=20
+> Signed-off-by: Andy Voltz <andy.voltz@timesys.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-     Commit 6752ab4a9c30 "tracing: Deprecate tracing_enabled for tracing_on"
-     Commit 0fb9656d "tracing: Make tracing_enabled be equal to tracing_on"
-     Commit 02404baf1b47 "tracing: Remove deprecated tracing_enabled file"
+Something is wrong with this one:
 
-Thanks.
+ERROR:  OE-core's config sanity checker detected a potential misconfigurati=
+on.
+    Either fix the cause of this error or at your own risk disable the chec=
+ker (see sanity.conf).
+    Following is the list of potential problems / advisories:
 
--Roy
+    Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (${ARMP=
+KGARCH_tune-cortexa8t-neon}).Toolchain tunings invalid:
+Tuning 'cortexa8t-neon' has no defined features, and cannot be used.
 
+ERROR: Execution of event handler 'check_sanity_eventhandler' failed
 
-On 06/08/2013 03:22 PM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
->
-> tracing_enabled should not be used, it is heavy weight and does not
-> do much in helping lower the overhead. see commmit (Deprecate
-> tracing_enabled for tracing_on 6752ab4a9c30d5411b2dfdb251a3f1cb18aae48)
-> in kernel
->
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+Please use tests like
+http://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/tune2-=
+test
+to check that all tunes are still valid after such change.
+
+>=20
 > ---
->   .../latencytop-0.5/latencytop-fsync.patch          |   49 ++++++++++++++++++++
->   meta/recipes-kernel/latencytop/latencytop_0.5.bb   |    3 +-
->   2 files changed, 51 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync.patch
->
-> diff --git a/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync.patch b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync.patch
-> new file mode 100644
-> index 0000000..9720cdb
-> --- /dev/null
-> +++ b/meta/recipes-kernel/latencytop/latencytop-0.5/latencytop-fsync.patch
-> @@ -0,0 +1,49 @@
-> +linux: sysfs: use tracing_on as tracing_enabled is deprecated
-> +
-> +tracing_enabled use in the kernel is being deprecated as per commit
-> +6752ab4a9c30 [tracing: Deprecate tracing_enabled for tracing_on] in
-> +the linux mainline kernel. tracing_enabled use will generate a warning
-> +and may no longer function as expected, therefore move to use tracing_on.
-> +
-> +Upstream-status: Pending
-> +
-> +Signed-off-by: Dennis Hall <dennis.hall@windriver.com>
-> +
-> +Index: latencytop-0.5/fsync.c
-> +===================================================================
-> +--- latencytop-0.5.orig/fsync.c	2012-08-03 10:45:49.000000000 -0400
-> ++++ latencytop-0.5/fsync.c	2012-08-03 10:48:39.000000000 -0400
-> +@@ -149,19 +149,19 @@
-> +  * cd /sys/kernel/debug/tracing
-> +  * echo fsync > current_tracer
-> +  * echo ftrace_printk > iter_ctrl
-> +- * echo 1 > tracing_enabled
-> ++ * echo 1 > tracing_on
-> +  */
-> + 	ret = system("/bin/mount -t debugfs none /sys/kernel/debug/");
-> + 	if (!ret)
-> + 		return -1;
-> + 	write_to_file("/sys/kernel/debug/tracing/current_tracer", "fsync");	
-> + 	write_to_file("/sys/kernel/debug/tracing/iter_ctrl", "ftrace_printk");	
-> +-	write_to_file("/sys/kernel/debug/tracing/tracing_enabled", "1");
-> ++	write_to_file("/sys/kernel/debug/tracing/tracing_on", "1");
-> + }
-> +
-> + int disable_fsync_tracer(void)
-> + {
-> +-	write_to_file("/sys/kernel/debug/tracing/tracing_enabled", "0");
-> ++	write_to_file("/sys/kernel/debug/tracing/tracing_on", "0");
-> + }
-> +
-> +
-> +@@ -339,8 +339,8 @@
-> + 		if (curduration > 5)
-> + 			curduration = 5;
-> + 		/* clear the ftrace buffer */
-> +-		write_to_file("/sys/kernel/debug/tracing/tracing_enabled", "0");
-> +-		write_to_file("/sys/kernel/debug/tracing/tracing_enabled", "1");
-> ++		write_to_file("/sys/kernel/debug/tracing/tracing_on", "0");
-> ++		write_to_file("/sys/kernel/debug/tracing/tracing_on", "1");
-> + 		key = select(1, &rfds, NULL, NULL, &end);
-> + 		parse_ftrace();
-> + 		print_global_list();
-> diff --git a/meta/recipes-kernel/latencytop/latencytop_0.5.bb b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> index 3e35bf9..dad0588 100644
-> --- a/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> +++ b/meta/recipes-kernel/latencytop/latencytop_0.5.bb
-> @@ -10,7 +10,8 @@ DEPENDS = "virtual/libintl ncurses glib-2.0  ${@base_contains('DISTRO_FEATURES',
->   PR = "r3"
->
->   SRC_URI = "http://www.latencytop.org/download/latencytop-${PV}.tar.gz \
-> -            file://latencytop-makefile.patch"
-> +            file://latencytop-makefile.patch \
-> +            file://latencytop-fsync.patch"
->
->   SRC_URI[md5sum] = "73bb3371c6ee0b0e68e25289027e865c"
->   SRC_URI[sha256sum] = "9e7f72fbea7bd918e71212a1eabaad8488d2c602205d2e3c95d62cd57e9203ef"
->
+>=20
+>  meta/conf/machine/include/arm/README         |    3 ++
+>  meta/conf/machine/include/tune-cortexa.inc   |   35 ++++++++++++++++++++=
+++++++
+>  meta/conf/machine/include/tune-cortexa15.inc |   35 +-------------------=
+-----
+>  meta/conf/machine/include/tune-cortexa7.inc  |   35 +-------------------=
+-----
+>  meta/conf/machine/include/tune-cortexa8.inc  |   35 +-------------------=
+-----
+>  meta/conf/machine/include/tune-cortexa9.inc  |   35 +-------------------=
+-----
+>  6 files changed, 46 insertions(+), 132 deletions(-)
+>=20
+> Diff:   http://git.openembedded.org/?p=3Dopenembedded-core.git/?a=3Dcommi=
+tdiff;h=3D3e4f4a1cf07ff7cf4c71566492385f8fbf581789
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--qjXtncIm5b3tWrFJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlGy9PwACgkQN1Ujt2V2gBxYRgCfaCWHWh9MbEoj500/x3iVu+rq
+hHsAoLNYuXiAjVqEdvOlzTT/lXI1/C69
+=a0RN
+-----END PGP SIGNATURE-----
+
+--qjXtncIm5b3tWrFJ--
