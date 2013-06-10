@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 12C266A9C9
+Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
+	[209.85.219.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 17DF06A9D7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 20:47:43 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id k18so2018820oag.26
+	Mon, 10 Jun 2013 20:47:45 +0000 (UTC)
+Received: by mail-oa0-f41.google.com with SMTP id n10so27156oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 13:47:44 -0700 (PDT)
+	Mon, 10 Jun 2013 13:47:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=WA4VFzU55mCNzQq7y2qPe4XkaeepYX30pjrtux4OWmM=;
-	b=kHPEppBEwV4dFOnmM2KnKUSeJGPBNahY+FOudCX0APikU7psJ67q3TLfj28r5x0Dx3
-	HO7Z1eQQd0HjWOKsmzXsH8EXjEjeApLHB2uRJMZbc3J3ezAlo+iwFpPsz2qDHVcGjRT2
-	w4Y3j2kNlv0xKel63U9NhUBOCs9vaaEyUqlf33M5Vy17sxD3ooOtYb2T/a+dK78sibHR
-	mAV9tUq0hkMiaoU6hoyfSBMSbcYKf5FaulEyGrY8RsX4G4kOjrgfsk2sLRq2JnIQsMqm
-	ZoJ4AxnHavzIHh0lz8Nmb28D4OupcIZC25e4WBjamaSsY+XQwTrDTOzapEOf4utdSGUi
-	rB4w==
-X-Received: by 10.60.134.200 with SMTP id pm8mr8913018oeb.136.1370897264150;
-	Mon, 10 Jun 2013 13:47:44 -0700 (PDT)
+	bh=S6u9LjyrFAHTSMWMD0K1eprlP0ris5FGwdx8DiHG3VM=;
+	b=fWnTvWGKyhBJtCCcUH+eVxp6GqZW9gDXhWji2pT5773Ax2JiF/OSQu2T3jdDW/d5Wk
+	Q2kMYAMZgRdRvWPxJv4I/vQJpXxZvWNd8N84bzEJEb9t9zJmPTT1h5XqMhO6gKZbWDs8
+	ZOBsVRUWIITLlGPxhcv3JOUQcsPZJdSsB5EFEizLU/XrjVINzk5en1c49zd8RMZ064Ib
+	eNKRcIrpN1AA+Q1BzKTl2fprCbw6cmI9zwciZTWvLShMTucmChyJ/BDeZd437nk9oKCm
+	8pNYAxDfZqDpY8ix3EnTUNuznemjNsyAc76iFKEfHx/c/Bg86wyabVi5GSrqCDi7rLbd
+	hEUw==
+X-Received: by 10.60.97.34 with SMTP id dx2mr8828868oeb.9.1370897266118;
+	Mon, 10 Jun 2013 13:47:46 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id kz3sm24258712obb.6.2013.06.10.13.47.42
+	by mx.google.com with ESMTPSA id kz3sm24258712obb.6.2013.06.10.13.47.44
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 13:47:43 -0700 (PDT)
+	Mon, 10 Jun 2013 13:47:45 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 13:47:05 -0700
-Message-Id: <0face86bf815082f2080f84c0214a7835d0380dd.1370896990.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 13:47:06 -0700
+Message-Id: <25d34eb31411dbe5f5d050878591ce260d9bb240.1370896990.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
 In-Reply-To: <cover.1370896990.git.chris_larson@mentor.com>
 References: <cover.1370896990.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1370896990.git.chris_larson@mentor.com>
 References: <cover.1370896990.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/4] libnewt: split python module into libnewt-python
+Subject: [PATCH 3/4] packagegroup-base-vfat: include dosfsprogs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,97 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 20:47:43 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 20:47:45 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This is useful as it avoids pulling python into a build just to build
-chkconfig. The python recipe uses the libnewt installed in the sysroot by the
-main package, so there's little loss of build time, other than the additional
-unpack/patch.
+The ext2 group includes e2fsprogs, so this is consistent and should be
+appropriate, I think.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- .../newt/libnewt-python_0.52.14.bb                 | 26 ++++++++++++++++++++++
- meta/recipes-extended/newt/libnewt_0.52.14.bb      | 15 +++++--------
- 2 files changed, 31 insertions(+), 10 deletions(-)
- create mode 100644 meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+ meta/recipes-core/packagegroups/packagegroup-base.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-new file mode 100644
-index 0000000..9af2d5d
---- /dev/null
-+++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-@@ -0,0 +1,26 @@
-+require recipes-extended/newt/libnewt_${PV}.bb
-+
-+SUMMARY .= " - python"
-+DEPENDS = "libnewt python"
-+RDEPENDS_${PN} += "python-core"
-+
-+inherit pythonnative python-dir
-+
-+EXTRA_OECONF += "--with-python"
-+EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
-+
-+
-+do_compile () {
-+	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
-+	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
-+}
-+
-+do_install () {
-+	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
-+	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
-+	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
-+}
-+
-+
-+FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
-+FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-index 54da15d..ee8206e 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
-@@ -15,7 +15,7 @@ LICENSE = "LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index 799e12a..061c1a7 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -179,7 +179,8 @@ RRECOMMENDS_packagegroup-base-vfat = "\
+     kernel-module-msdos \
+     kernel-module-vfat \
+     kernel-module-nls-iso8859-1 \
+-    kernel-module-nls-cp437"
++    kernel-module-nls-cp437 \
++    dosfsprogs"
  
- # slang needs to be >= 2.2
--DEPENDS = "slang popt python"
-+DEPENDS = "slang popt"
- 
- PR = "r2"
- 
-@@ -30,11 +30,9 @@ SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b
- 
- S = "${WORKDIR}/newt-${PV}"
- 
--EXTRA_OECONF = "--without-tcl"
-+EXTRA_OECONF = "--without-tcl --without-python"
- 
--inherit autotools pythonnative python-dir
--
--EXTRA_OEMAKE = "PYTHONVERS=${PYTHON_DIR}"
-+inherit autotools
- 
- export STAGING_INCDIR
- export STAGING_LIBDIR
-@@ -42,13 +40,10 @@ export STAGING_LIBDIR
- export BUILD_SYS
- export HOST_SYS
- 
--PACKAGES_prepend = "whiptail ${PN}-python "
-+PACKAGES_prepend = "whiptail "
- 
- do_configure_prepend() {
--    ( cd ${S}; sh autogen.sh )
-+    sh autogen.sh
- }
- 
- FILES_whiptail = "${bindir}/whiptail"
--FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
--FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/*"
--FILES_${PN}-staticdev = "${libdir}/*.a"
+ SUMMARY_packagegroup-base-alsa = "ALSA sound support"
+ RDEPENDS_packagegroup-base-alsa = "\
 -- 
 1.8.3
 
