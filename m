@@ -1,35 +1,29 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA0761FB9
+Return-Path: <ap.john.stirling@gmail.com>
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B8F66204F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 07:46:13 +0000 (UTC)
-Received: by mail-pa0-f53.google.com with SMTP id tj12so2390187pac.26
+	Mon, 10 Jun 2013 10:31:26 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id n12so4781024wgh.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 00:46:14 -0700 (PDT)
+	Mon, 10 Jun 2013 03:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=mI2pyOd7g2SCoA05mPdRSqqidfFuI4+FsuK6+Ie8xe8=;
-	b=l2t5PfRGzhMYngj5ZIkSC6oVpXOhFWPVPtvY9JWigmVYGBzUYsNKEfEb8yFte0gaHD
-	+lFpkAMkZ8+iIhA3XMUP029Z1DGcZywcslDN77nZhegtxvMwgWYLTec8fZovWQOdHFf0
-	C4Q863RdGWMAs0ihK1qrznX/w8s57QY8QcLpp2zABuYdDbxjmoUUu0suHxR8McfWQ6Sa
-	GILnXhWFqZP0kajUBuzuUOtwAAjCeeSZDp8GdgfnV2ZBKeElqbWZhemqcGsAI9e+mzY2
-	NXUEWKnTJGNE9r1FheKwpbP1A23eQpwu4Mn/ePWHqZyj0Lx5g6y0g/nUlyUrMdU+dnBC
-	UYag==
-X-Received: by 10.66.88.105 with SMTP id bf9mr12838612pab.175.1370850374935;
-	Mon, 10 Jun 2013 00:46:14 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id iq6sm4131211pbc.1.2013.06.10.00.46.12
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 00:46:14 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=a4otr0P4i4Lezc3qU2OjqF+a+6Ccz11qocyOSybBgq0=;
+	b=BkxCJLp2DPw8VjGNmr8e1Js/g27uyJSrc0gyNsKzJ5A0np45iEW7NC9VIDUwtuPwi6
+	5IUSsVJcpXRQdXFsr8yRgIcEd8poqcTL13pFcGvtcVzsvttjalPrMj29gyM7UIn1koaq
+	q/pTImVfQBaFuBdwabHVs8fTTqBxpchlQ7iHDx32kWijdjvEDWZdC/ZTUxfJs0zj0tya
+	QR2HxGnNh4YeMKv1StM50FmmE7h6e0y4kyBEYXk43dD4eqNoM9POxSi51S6sft47UruG
+	qCgdZZNb75a3t29oc/Jh5SNbRhh7OA8NjLXWcIZq9azRf37pqsZHEOS5ulnGZIBFfWF+
+	eWaQ==
+MIME-Version: 1.0
+X-Received: by 10.194.174.38 with SMTP id bp6mr1107301wjc.83.1370860286932;
+	Mon, 10 Jun 2013 03:31:26 -0700 (PDT)
+Received: by 10.194.121.229 with HTTP; Mon, 10 Jun 2013 03:31:26 -0700 (PDT)
+Date: Mon, 10 Jun 2013 11:31:26 +0100
+Message-ID: <CABuzA3PAguwK=KW7xnoe6PJqASWZXktBLB5LTs7LHcw5mopXJQ@mail.gmail.com>
+From: John Stirling <ap.john.stirling@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 18:00:01 +1000
-Message-Id: <1370851201-30757-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.2.3
-Subject: [PATCH] mesa: remove unrecognized configure options
+Subject: qt4-embedded - image size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 07:46:13 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 10:31:27 -0000
+Content-Type: multipart/alternative; boundary=089e0141aa2a707d5904deca4854
 
---disable-glut and --disable-glw are not recognized since Mesa 8.0.
---disable-glu is not recognized since Mesa 9.0.
+--089e0141aa2a707d5904deca4854
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-graphics/mesa/mesa-common.inc | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+I've successfully built qt4-embedded (oe-core, denzil, beaglebone) and have
+got a Qt/QML application running (on a beaglebone)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
-index c37ad69..f9d7ced 100644
---- a/meta/recipes-graphics/mesa/mesa-common.inc
-+++ b/meta/recipes-graphics/mesa/mesa-common.inc
-@@ -20,10 +20,7 @@ PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
- 
- inherit autotools pkgconfig pythonnative
- 
--EXTRA_OECONF = "--disable-glu \
--                --disable-glw \
--                --disable-glut \
--                --enable-shared-glapi"
-+EXTRA_OECONF = "--enable-shared-glapi"
- 
- PACKAGECONFIG ??= "egl gles \
- 		${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}\
--- 
-1.8.2.3
+The image size is quite big however and I notice there a load of
+examples/demos etc that I don't need on the filesystem.
 
+I presume I am probably just building the wrong thing ? Can someone advise
+the recommended way to get Qt built without all the demos etc  ?
 
+This is what I added to our image -
+
+IMAGE_INSTALL += " \
+  qt4-embedded \
+  "
+
+Thanks
+John
+
+--089e0141aa2a707d5904deca4854
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:1=
+3px;background-color:rgb(255,255,255)">I&#39;ve successfully built qt4-embe=
+dded (oe-core, denzil, beaglebone) and have got a Qt/QML application runnin=
+g (on a beaglebone)</span><div style=3D"color:rgb(34,34,34);font-family:ari=
+al,sans-serif;font-size:13px;background-color:rgb(255,255,255)">
+<br></div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;fo=
+nt-size:13px;background-color:rgb(255,255,255)">The image size is quite big=
+ however and I notice there a load of examples/demos etc that I don&#39;t n=
+eed on the filesystem.</div>
+<div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13=
+px;background-color:rgb(255,255,255)"><br></div><div style=3D"color:rgb(34,=
+34,34);font-family:arial,sans-serif;font-size:13px;background-color:rgb(255=
+,255,255)">
+<div>I presume I am probably just building the wrong thing ? Can someone ad=
+vise the recommended way to get Qt built without all the demos etc =A0?</di=
+v><div><br></div><div>This is what I added to our image -</div><div><br></d=
+iv>
+<div>IMAGE_INSTALL +=3D &quot; \</div><div>=A0 qt4-embedded \</div><div>=A0=
+ &quot;</div></div><div style=3D"color:rgb(34,34,34);font-family:arial,sans=
+-serif;font-size:13px;background-color:rgb(255,255,255)"><br></div><div sty=
+le=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13px;backg=
+round-color:rgb(255,255,255)">
+Thanks</div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;=
+font-size:13px;background-color:rgb(255,255,255)">John</div>
+
+--089e0141aa2a707d5904deca4854--
