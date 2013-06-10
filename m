@@ -1,39 +1,26 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BD5FB619E2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 23EAA6A66B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 12:10:34 +0000 (UTC)
-Received: by mail-ob0-f181.google.com with SMTP id 16so9937288obc.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 05:10:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=87fkt42aD4UEzXWuSAhU+OLfOwT3EEJH9kG21ZSh2io=;
-	b=d3B3nVLVcz4q54/44GczD2u+lnzJRUUlmiMBqD8C66izDgoOONE/tpPsqnBx6k1D1+
-	6wEdpuFXRMzWiU9Od/mXki5L2ydFSBDo23XAV818BeqLPbuUZTxEefeGNAT5NxtB9lfr
-	QN02KHEXl4NCvin2cCR01Mnz8WkVuYCXAv3nla00ZRa4njwHtQdvLwr91c0CPdZZ8eL5
-	xqH9eVkMKWFKDWL6gB7WpCvNkpIS8NJnOPBVdMcBTZ3iYiIe30pJqRWN364Cwbdye+9S
-	rGDSp36AVKiTf+CAkdcwfAy0qDBuD2Q29gzrEPiPBG3cFamRJNddGBIp4l4Mult83VYC
-	EgAQ==
-X-Received: by 10.60.68.13 with SMTP id r13mr7871186oet.71.1370866235171; Mon,
-	10 Jun 2013 05:10:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.76.27.165 with HTTP; Mon, 10 Jun 2013 05:10:15 -0700 (PDT)
+	Mon, 10 Jun 2013 12:17:39 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 10 Jun 2013 05:17:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,836,1363158000"; d="scan'208";a="314755633"
+Received: from unknown (HELO helios.localnet) ([10.252.122.12])
+	by azsmga001.ch.intel.com with ESMTP; 10 Jun 2013 05:17:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: John Stirling <ap.john.stirling@gmail.com>
+Date: Mon, 10 Jun 2013 13:17:36 +0100
+Message-ID: <1442698.2y5IVPznBc@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.3 (Linux/3.8.0-23-generic; KDE/4.10.3; i686; ; )
 In-Reply-To: <CABuzA3N_Bk0_AnC3sF4TDqk08F2h2LHcv3ChkWJi4iX=dCKT_g@mail.gmail.com>
 References: <CABuzA3PAguwK=KW7xnoe6PJqASWZXktBLB5LTs7LHcw5mopXJQ@mail.gmail.com>
 	<2326207.iuBVrRrsbt@helios>
 	<CABuzA3N_Bk0_AnC3sF4TDqk08F2h2LHcv3ChkWJi4iX=dCKT_g@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 10 Jun 2013 14:10:15 +0200
-Message-ID: <CAP71WjxSiWcGu98VTY2z_Dsf+WgSEMKnCoPkoWUfrR7ch321dQ@mail.gmail.com>
-To: John Stirling <ap.john.stirling@gmail.com>
-X-Gm-Message-State: ALoCoQngwxi5MGNdYbx2AQJ7Z6OTlmyB5bY8iQdF9de3tEyIs8RWbrJI4VePPKEsJ/USwG08FsSz
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: qt4-embedded - image size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,71 +34,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 12:10:34 -0000
-Content-Type: multipart/alternative; boundary=001a11331a76fbc52b04decbaa96
+X-List-Received-Date: Mon, 10 Jun 2013 12:17:39 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a11331a76fbc52b04decbaa96
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Mon, Jun 10, 2013 at 1:19 PM, John Stirling
-<ap.john.stirling@gmail.com>wrote:
-
+On Monday 10 June 2013 12:19:48 John Stirling wrote:
+> The Qt application (qtui) is compiled and has some C++, some QML and needs
+> to use dbus. I am kicking it off via './qtui -qws'.
+> 
+> So basically if I had this -
+> 
+> IMAGE_INSTALL += " \
+> qt4-embedded \
+> qtui \
+> "
+> 
 > You suggest just cutting it down to
->
+> 
 > IMAGE_INSTALL += " \
 > qtui \
 > "
 > and it should work itself out ?
->
 
-hi, i have observed the same issue, and I used the following 'workaround':
+Apart from plugins and anything else that your application doesn't get 
+directly linked to, yes.
 
-BAD_RECOMMENDATIONS = " \
-    qt4-embedded-demos \
-    qt4-embedded-examples \
-    qt4-embedded-demos-doc \
-    qt4-embedded-tools \
-    qt4-embedded-assistant \
-    "
-which I added in my image recipe, that would ensure that the packages which
-are RECOMMENDS don't get installed in the final image.
+> I am not entirely sure on the 'inherit qt4e' line.
 
-I would be happy to use another (nicer?) method, too.
+You do want this here, yes.
 
---001a11331a76fbc52b04decbaa96
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+> SRC_URI = "git://${SOURCE_REPO}/git/${PN}.git;protocol=ssh;tag=${PV}"
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Jun 10, 2013 at 1:19 PM, John Stirling <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:ap.john.stirling@gmail.com" target=3D"_blank">ap.john.stirling@=
-gmail.com</a>&gt;</span> wrote:<br>
+I think you probably should specify SRCREV here, even if it's SRCREV = 
+"${AUTOREV}" to build the latest version on the specified branch. For tags that 
+won't change, typically we recommend that you specify the full sha1 hash in 
+SRCREV and then the system knows it doesn't need to query the git server to 
+get the current hash corresponding to the tag.
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div>You suggest just cutting it down to=A0</div><div><br>=
-</div>
+> PROVIDES = "${PN}_${PV}"
 
+This should not be necessary.
 
-<div><div>IMAGE_INSTALL +=3D &quot; \<br>qtui \<br>&quot;<br></div></div><d=
-iv>and it should work itself out ?</div><div></div></blockquote></div><br>h=
-i, i have observed the same issue, and I used the following &#39;workaround=
-&#39;:</div>
+> DEPENDS = "qt4-embedded"
 
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div class=
-=3D"gmail_extra">BAD_RECOMMENDATIONS =3D &quot; \<br></div><div class=3D"gm=
-ail_extra">=A0 =A0 qt4-embedded-demos \</div><div class=3D"gmail_extra">=A0=
- =A0 qt4-embedded-examples \</div>
+This is already done for you by inheriting qt4e.
 
-<div class=3D"gmail_extra">=A0 =A0 qt4-embedded-demos-doc \</div><div class=
-=3D"gmail_extra">=A0 =A0 qt4-embedded-tools \</div><div class=3D"gmail_extr=
-a">=A0 =A0 qt4-embedded-assistant \</div><div class=3D"gmail_extra">=A0 =A0=
- &quot;</div><div>which I added in my image recipe, that would ensure that =
-the packages which are RECOMMENDS don&#39;t get installed in the final imag=
-e.=A0<br>
+> RPROVIDES = "qtui_${PV}"
 
-</div><div><br></div><div>I would be happy to use another (nicer?) method, =
-too.</div><div><br></div><div style><br></div><div style><br></div></div></=
-div>
+This should not be necessary either.
 
---001a11331a76fbc52b04decbaa96--
+> PACKAGES="${PN}"
+
+Unless you have a good reason to do this I would recommend not doing so; the 
+standard package splitting should work for most situations and for those where 
+it needs to be tweaked slightly that can be done fairly easily.
+
+> FILES_${PN} += "/root/qtui /usr/share/reciva/qml/qtui
+> ${sysconfdir}/dbus-1/system.d/"
+
+Typically you would install binaries such as this to ${bindir} rather than 
+/root.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
