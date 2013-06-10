@@ -1,29 +1,25 @@
-Return-Path: <ap.john.stirling@gmail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B8F66204F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 75EE46A5DA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 10:31:26 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id n12so4781024wgh.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 03:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=a4otr0P4i4Lezc3qU2OjqF+a+6Ccz11qocyOSybBgq0=;
-	b=BkxCJLp2DPw8VjGNmr8e1Js/g27uyJSrc0gyNsKzJ5A0np45iEW7NC9VIDUwtuPwi6
-	5IUSsVJcpXRQdXFsr8yRgIcEd8poqcTL13pFcGvtcVzsvttjalPrMj29gyM7UIn1koaq
-	q/pTImVfQBaFuBdwabHVs8fTTqBxpchlQ7iHDx32kWijdjvEDWZdC/ZTUxfJs0zj0tya
-	QR2HxGnNh4YeMKv1StM50FmmE7h6e0y4kyBEYXk43dD4eqNoM9POxSi51S6sft47UruG
-	qCgdZZNb75a3t29oc/Jh5SNbRhh7OA8NjLXWcIZq9azRf37pqsZHEOS5ulnGZIBFfWF+
-	eWaQ==
+	Mon, 10 Jun 2013 10:55:31 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 10 Jun 2013 03:55:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,836,1363158000"; d="scan'208";a="252904240"
+Received: from unknown (HELO helios.localnet) ([10.252.122.12])
+	by AZSMGA002.ch.intel.com with ESMTP; 10 Jun 2013 03:55:30 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: John Stirling <ap.john.stirling@gmail.com>
+Date: Mon, 10 Jun 2013 11:55:29 +0100
+Message-ID: <2326207.iuBVrRrsbt@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.3 (Linux/3.8.0-23-generic; KDE/4.10.3; i686; ; )
+In-Reply-To: <CABuzA3PAguwK=KW7xnoe6PJqASWZXktBLB5LTs7LHcw5mopXJQ@mail.gmail.com>
+References: <CABuzA3PAguwK=KW7xnoe6PJqASWZXktBLB5LTs7LHcw5mopXJQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.194.174.38 with SMTP id bp6mr1107301wjc.83.1370860286932;
-	Mon, 10 Jun 2013 03:31:26 -0700 (PDT)
-Received: by 10.194.121.229 with HTTP; Mon, 10 Jun 2013 03:31:26 -0700 (PDT)
-Date: Mon, 10 Jun 2013 11:31:26 +0100
-Message-ID: <CABuzA3PAguwK=KW7xnoe6PJqASWZXktBLB5LTs7LHcw5mopXJQ@mail.gmail.com>
-From: John Stirling <ap.john.stirling@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: qt4-embedded - image size
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: qt4-embedded - image size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 10:31:27 -0000
-Content-Type: multipart/alternative; boundary=089e0141aa2a707d5904deca4854
+X-List-Received-Date: Mon, 10 Jun 2013 10:55:31 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---089e0141aa2a707d5904deca4854
-Content-Type: text/plain; charset=ISO-8859-1
+Hi John,
 
-I've successfully built qt4-embedded (oe-core, denzil, beaglebone) and have
-got a Qt/QML application running (on a beaglebone)
+On Monday 10 June 2013 11:31:26 John Stirling wrote:
+> I've successfully built qt4-embedded (oe-core, denzil, beaglebone) and have
+> got a Qt/QML application running (on a beaglebone)
+> 
+> The image size is quite big however and I notice there a load of
+> examples/demos etc that I don't need on the filesystem.
+> 
+> I presume I am probably just building the wrong thing ? Can someone advise
+> the recommended way to get Qt built without all the demos etc  ?
+> 
+> This is what I added to our image -
+> 
+> IMAGE_INSTALL += " \
+>   qt4-embedded \
+>   "
 
-The image size is quite big however and I notice there a load of
-examples/demos etc that I don't need on the filesystem.
+It's not what you're building that's the problem, but the package you're 
+selecting to go into the image. The "qt4-embedded" package will pull in all of 
+the Qt/Embedded packages, which probably isn't what you want. Assuming your Qt 
+application is compiled rather than pure QML, most of the time you can get 
+away with only installing your Qt application - the Qt libraries that it uses 
+will be installed automatically as dependencies. Then the only thing you will 
+need to install as far as Qt is concerned are any plugins (database, image, 
+etc.). You may also want qt4-embedded-qml-plugins and qt4-embedded-qmlviewer 
+depending on how you start your application.
 
-I presume I am probably just building the wrong thing ? Can someone advise
-the recommended way to get Qt built without all the demos etc  ?
+Cheers,
+Paul
 
-This is what I added to our image -
+-- 
 
-IMAGE_INSTALL += " \
-  qt4-embedded \
-  "
+Paul Eggleton
+Intel Open Source Technology Centre
 
-Thanks
-John
-
---089e0141aa2a707d5904deca4854
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<span style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:1=
-3px;background-color:rgb(255,255,255)">I&#39;ve successfully built qt4-embe=
-dded (oe-core, denzil, beaglebone) and have got a Qt/QML application runnin=
-g (on a beaglebone)</span><div style=3D"color:rgb(34,34,34);font-family:ari=
-al,sans-serif;font-size:13px;background-color:rgb(255,255,255)">
-<br></div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;fo=
-nt-size:13px;background-color:rgb(255,255,255)">The image size is quite big=
- however and I notice there a load of examples/demos etc that I don&#39;t n=
-eed on the filesystem.</div>
-<div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13=
-px;background-color:rgb(255,255,255)"><br></div><div style=3D"color:rgb(34,=
-34,34);font-family:arial,sans-serif;font-size:13px;background-color:rgb(255=
-,255,255)">
-<div>I presume I am probably just building the wrong thing ? Can someone ad=
-vise the recommended way to get Qt built without all the demos etc =A0?</di=
-v><div><br></div><div>This is what I added to our image -</div><div><br></d=
-iv>
-<div>IMAGE_INSTALL +=3D &quot; \</div><div>=A0 qt4-embedded \</div><div>=A0=
- &quot;</div></div><div style=3D"color:rgb(34,34,34);font-family:arial,sans=
--serif;font-size:13px;background-color:rgb(255,255,255)"><br></div><div sty=
-le=3D"color:rgb(34,34,34);font-family:arial,sans-serif;font-size:13px;backg=
-round-color:rgb(255,255,255)">
-Thanks</div><div style=3D"color:rgb(34,34,34);font-family:arial,sans-serif;=
-font-size:13px;background-color:rgb(255,255,255)">John</div>
-
---089e0141aa2a707d5904deca4854--
