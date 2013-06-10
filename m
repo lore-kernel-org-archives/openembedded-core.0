@@ -1,20 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BCAC6204F
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 300FE6A622
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 17:01:51 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Jun 2013 10:01:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,838,1363158000"; d="scan'208";a="347655793"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.171])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2013 10:02:18 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 10 Jun 2013 20:46:21 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id hz11so3951951pad.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jun 2013 13:46:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=4MdjFSEag+BeSImkSdp6vq4Tsk18VJmNjvSAreqieEk=;
+	b=mBFPtGDGWebs/fVVD8j3BdndVox5qguQptNMwrfjT40iZgbhlIcYUaosPmR+jGE0L1
+	KToahgULi7BV0hrAcf2yoRRhduiTuJ+Xqv66gh0hxbYU44j0F/c0ltpPqHQQFdit6qlI
+	tGdYuJfW03jtwIMGHiSawGnvMi1JCIT4ChNorBOF7K0tpJGFLpdwQ5I1Tx0tXKSjz3zn
+	QurqAW4p0Scuz4N52qiwNXwdMwYjO+0vCamHyKuskj4WUzdPA1YOjlBN3pdDtf9Zkzh3
+	oBRJLs9nGceDk6VivkekNUsfdPtOd1y+ipU/Ur5lgO8zoYQo40H84RgECPy7EHjMekA/
+	YORw==
+X-Received: by 10.68.228.161 with SMTP id sj1mr11729261pbc.151.1370897181761; 
+	Mon, 10 Jun 2013 13:46:21 -0700 (PDT)
+Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id
+	ix3sm11541082pbc.37.2013.06.10.13.46.19 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 10 Jun 2013 13:46:20 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 10:01:51 -0700
-Message-Id: <1370883711-23970-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] tar: don't mv tar for nativesdk
+Date: Mon, 10 Jun 2013 13:46:21 -0700
+Message-Id: <cover.1370896970.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 1.8.3
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/3] sstate fetch improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,29 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 17:01:51 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 20:46:21 -0000
 
-We move tar into /bin for target but it can stay in /usr/bin for nativesdk
-this will also mean the paths are correct for the buildtools-tarball environment
+From: Christopher Larson <chris_larson@mentor.com>
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-extended/tar/tar.inc | 1 +
- 1 file changed, 1 insertion(+)
+The following changes since commit b4f208f418d18f2a4e78a56bebacef481061d917:
 
-diff --git a/meta/recipes-extended/tar/tar.inc b/meta/recipes-extended/tar/tar.inc
-index abeb8c1..358384a 100644
---- a/meta/recipes-extended/tar/tar.inc
-+++ b/meta/recipes-extended/tar/tar.inc
-@@ -11,6 +11,7 @@ inherit autotools gettext
- EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
- 
- EXTRAINSTALL = "do_install_extra"
-+EXTRAINSTALL_class-nativesdk = ""
- 
- do_install () {
-     autotools_do_install
+  tar: don't mv tar for nativesdk (2013-06-10 18:06:33 +0100)
+
+are available in the git repository at:
+
+  https://github.com/kergoth/oe-core.git improve-sstate-fetch
+
+Christopher Larson (3):
+  sstate.bbclass: kill MIRRORS and FILESPATH to speed up fetching
+  sstate.bbclass: fetch archive+siginfo in a single pstaging_fetch
+  sstate.bbclass: brute force silence fetch errors
+
+ meta/classes/sstate.bbclass | 39 ++++++++++++++++++++++-----------------
+ 1 file changed, 22 insertions(+), 17 deletions(-)
+
 -- 
-1.8.1.4
+1.8.3
 
 
