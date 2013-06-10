@@ -1,39 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 186B66A622
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C94656A9C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 21:00:29 +0000 (UTC)
-Received: by mail-ob0-f171.google.com with SMTP id dn14so10775122obc.30
+	Mon, 10 Jun 2013 21:01:12 +0000 (UTC)
+Received: by mail-la0-f43.google.com with SMTP id gw10so6135901lab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 14:00:30 -0700 (PDT)
+	Mon, 10 Jun 2013 14:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=btrQnrSdaVxhNhxeUJLVyLUMXmYXb++0OS9UDEI7QFM=;
-	b=L692CoR2ymzUudz7ayxDRQ3z3phD3v0cpUvpGvaojApUwmY7gGjsTTQwAXy3YZq9NN
-	xHaIaBOaBoPTjeBBRrQ7axHHccFa0o63OqhNw0Q2BZtHebQbXitp/xnP1yLP1S+fvjt3
-	VsselXKLEuRwTUR5f5Fg9FqJ1SWElS5/W+EvzEfLMqtRZxDqnRvEsVuuISuc/K/hFxvD
-	FoCSGwgX6glTmfYqRba8NN+JFps7KIO+4BV05ScBqc+5MPED0d8cTVLmCeWT7tZcF6Za
-	6nwAdLToSEOmdg+Fx1n64tjrRUMAW6nLtpJbV+r+2C3toUmf1AcdIYF1kl//JrD9yL0s
-	w/Tg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Qg6+lSmqhIjRVil3CuB61eye9KPCzAu+47inPGts92M=;
+	b=RezqCntNIngLY8M/gEAALuRbOksDkNkentWUvrqDucN5yZccgigY6Bl+VI+y3apSdm
+	4+HYNlCOVd2gc6bSFfBfSDTEr+VV3swQ+IN8SlBRQo9GbtD8YATwO2oj4EReKOMKLgyj
+	pzLVIa6yFvOEnyUqI/XQ9CnJWWhQk7aEIV+vq4thgjDD8I3kbyLnstjQItqWN8VX6LU3
+	9/Y0N/9TcFG3R1M4ww1dB4zH3A+oHAvOYG6D9mcK4s9+vnTcDkTuFngLDZ97R7MPqgCk
+	e0KN/2V9wxegY8fZGOaPKE5LW+bjPn7sxgZftMvSV1TCBwAaMZdPdaDVHg2u/KNWXEDv
+	rUvA==
+X-Received: by 10.112.188.231 with SMTP id gd7mr7301077lbc.1.1370898072996;
+	Mon, 10 Jun 2013 14:01:12 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.60.134.236 with SMTP id pn12mr10037797oeb.4.1370898030068;
-	Mon, 10 Jun 2013 14:00:30 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.108.167 with HTTP; Mon, 10 Jun 2013 14:00:30 -0700 (PDT)
-In-Reply-To: <caed7f0fbb98ddfcb4af285909318efc22b90e3f.1370896985.git.chris_larson@mentor.com>
+Received: by 10.112.4.66 with HTTP; Mon, 10 Jun 2013 14:00:52 -0700 (PDT)
+In-Reply-To: <CAP9ODKo_XEzjM8cKUNi-mJ2v8SnEfEnusAaWYi1==gNGWwuY=Q@mail.gmail.com>
 References: <cover.1370896985.git.chris_larson@mentor.com>
-	<caed7f0fbb98ddfcb4af285909318efc22b90e3f.1370896985.git.chris_larson@mentor.com>
-Date: Mon, 10 Jun 2013 18:00:30 -0300
-X-Google-Sender-Auth: peVCgBIK4_Cm_0-z8xcV_Q7QysA
-Message-ID: <CAP9ODKp7h6o+vBYpKxz41Sy1MUR9fsL4poM=M-qu6uZg-rFAHw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	Patches and discussions about the oe-core layer
+	<4dcc39cc1fed7d398b97859ea281ab46e8ba8dbb.1370896985.git.chris_larson@mentor.com>
+	<CAP9ODKo_XEzjM8cKUNi-mJ2v8SnEfEnusAaWYi1==gNGWwuY=Q@mail.gmail.com>
+From: Chris Larson <kergoth@gmail.com>
+Date: Mon, 10 Jun 2013 14:00:52 -0700
+Message-ID: <CABcZANng6HLV+DFe3qJB9jXVS3M-T5rc4fDzBbAC1HwHouAy0Q@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] license.bbclass: include all licenses in the manifest
+Subject: Re: [PATCH 1/4] packagegroup-core-tools-profile: don't exclude mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,67 +44,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 21:00:29 -0000
-Content-Type: multipart/alternative; boundary=047d7b471f6a1b104e04ded31218
+X-List-Received-Date: Mon, 10 Jun 2013 21:01:13 -0000
+Content-Type: multipart/alternative; boundary=001a11c36e52aa12ae04ded314bf
 
---047d7b471f6a1b104e04ded31218
-Content-Type: text/plain; charset=ISO-8859-1
+--001a11c36e52aa12ae04ded314bf
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 10, 2013 at 5:46 PM, Christopher Larson <kergoth@gmail.com>wrote:
+On Mon, Jun 10, 2013 at 1:56 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-> From: Christopher Larson <chris_larson@mentor.com>
+> On Mon, Jun 10, 2013 at 5:46 PM, Christopher Larson <kergoth@gmail.com>wrote:
 >
-> When we don't have a generic license file for the license in question, we
-> can
-> warn, but we should still include it in the manifest, otherwise the
-> manifest
-> doesn't reflect reality. Failing to include a license listed in the recipe
-> in
-> the manifest can't be allowed.
+>> From: Christopher Larson <chris_larson@mentor.com>
+>>
+>> Now that liburcu supports mips, this packagegroup can pull in lttng
+>> software
+>> on that architecture.
+>>
+>> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 >
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
+> Your commit log say's nothing about babeltrace. I think it'd be good to
+> add it.
 >
 
-Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
-
+It's debatable whether babel trace is considered 'lttng software', as it's
+listed at http://lttng.org/download and http://lttng.org/babeltrace redirects
+to the official babeltrace project page also. If you think mentioning it
+separately would be beneficial, I'll send a v2. Thanks for reviewing these.
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---047d7b471f6a1b104e04ded31218
-Content-Type: text/html; charset=ISO-8859-1
+--001a11c36e52aa12ae04ded314bf
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Mon, Jun 10, 2013 at 5:46 PM, Christopher Larson <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail=
-.com</a>&gt;</span> wrote:<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
+on, Jun 10, 2013 at 1:56 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
+br</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div class=3D"im">On Mon, Jun 10, 2013 at 5:46 PM, Christo=
+pher Larson <span dir=3D"ltr">&lt;<a href=3D"mailto:kergoth@gmail.com" targ=
+et=3D"_blank">kergoth@gmail.com</a>&gt;</span> wrote:<br>
+
+
 <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
 left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
 adding-left:1ex">From: Christopher Larson &lt;<a href=3D"mailto:chris_larso=
-n@mentor.com">chris_larson@mentor.com</a>&gt;<br>
+n@mentor.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
+
 
 <br>
-When we don&#39;t have a generic license file for the license in question, =
-we can<br>
-warn, but we should still include it in the manifest, otherwise the manifes=
-t<br>
-doesn&#39;t reflect reality. Failing to include a license listed in the rec=
-ipe in<br>
-the manifest can&#39;t be allowed.<br>
+Now that liburcu supports mips, this packagegroup can pull in lttng softwar=
+e<br>
+on that architecture.<br>
 <br>
 Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;<br></blockquote><div><br></div><div>R=
-eviewed-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.br">=
-otavio@ossystems.com.br</a>&gt;</div>
-</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
-m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
-ref=3D"http://projetos.ossystems.com.br" target=3D"_blank">http://projetos.=
-ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;</blockquote><div><b=
+r></div></div><div>Your commit log say&#39;s nothing about babeltrace. I th=
+ink it&#39;d be good to add it.</div>
+
+</blockquote></div><br>It&#39;s debatable whether babel trace is considered=
+ &#39;lttng software&#39;, as it&#39;s listed at=C2=A0<a href=3D"http://ltt=
+ng.org/download">http://lttng.org/download</a>=C2=A0and=C2=A0<a href=3D"htt=
+p://lttng.org/babeltrace">http://lttng.org/babeltrace</a>=C2=A0redirects to=
+ the official babeltrace project page also. If you think mentioning it sepa=
+rately would be beneficial, I&#39;ll send a v2. Thanks for reviewing these.=
 <br>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
 </div></div>
 
---047d7b471f6a1b104e04ded31218--
+--001a11c36e52aa12ae04ded314bf--
