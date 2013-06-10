@@ -1,35 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 300FE6A622
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E7D46A98B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 20:46:21 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id hz11so3951951pad.30
+	Mon, 10 Jun 2013 20:46:22 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id q10so1917193pdj.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 13:46:21 -0700 (PDT)
+	Mon, 10 Jun 2013 13:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=4MdjFSEag+BeSImkSdp6vq4Tsk18VJmNjvSAreqieEk=;
-	b=mBFPtGDGWebs/fVVD8j3BdndVox5qguQptNMwrfjT40iZgbhlIcYUaosPmR+jGE0L1
-	KToahgULi7BV0hrAcf2yoRRhduiTuJ+Xqv66gh0hxbYU44j0F/c0ltpPqHQQFdit6qlI
-	tGdYuJfW03jtwIMGHiSawGnvMi1JCIT4ChNorBOF7K0tpJGFLpdwQ5I1Tx0tXKSjz3zn
-	QurqAW4p0Scuz4N52qiwNXwdMwYjO+0vCamHyKuskj4WUzdPA1YOjlBN3pdDtf9Zkzh3
-	oBRJLs9nGceDk6VivkekNUsfdPtOd1y+ipU/Ur5lgO8zoYQo40H84RgECPy7EHjMekA/
-	YORw==
-X-Received: by 10.68.228.161 with SMTP id sj1mr11729261pbc.151.1370897181761; 
-	Mon, 10 Jun 2013 13:46:21 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=S8W1338dLP4Rm1Hiq5+Ql6Ar3Wqrh7Ow9xvloYMDv3A=;
+	b=D9EXaGEu7QU0ldiLsdJO620SVrNyKthSwe2s01L7m1P8fppQU7KAD9UIpYN/S8scFp
+	OZZ8lvptqHTJPpKZUTEAI2l+rpIsVscMEYj50HjwaGY40fpSmpsu8CBjrd2+XAQeOz6V
+	HRznN8hjka3hYaQqbbCRSHCwXGWGKVUV20lucRG2Ktvq4blYGwNZzgPCxabP4QI+6f6V
+	AOtRmk2rgu4XAGZiN1vVLW9ycEAJsJAFzJMDkd3ISD+GuwZAvaryfUHIsc7J4qryizJb
+	/CZV5/L17HUMu/fvwPvegqXA1wB+qOK5odwyytY+LBDUROzZ1El9iFGAFK68ymGxIIjS
+	CPLg==
+X-Received: by 10.68.247.131 with SMTP id ye3mr11592796pbc.87.1370897184067;
+	Mon, 10 Jun 2013 13:46:24 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by mx.google.com with ESMTPSA id
-	ix3sm11541082pbc.37.2013.06.10.13.46.19 for <multiple recipients>
+	ix3sm11541082pbc.37.2013.06.10.13.46.21 for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 13:46:20 -0700 (PDT)
+	Mon, 10 Jun 2013 13:46:23 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 13:46:21 -0700
-Message-Id: <cover.1370896970.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 13:46:22 -0700
+Message-Id: <20c43ce563bb2645ae95b1795b0fe2248b9e1b43.1370896970.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
+In-Reply-To: <cover.1370896970.git.chris_larson@mentor.com>
+References: <cover.1370896970.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1370896970.git.chris_larson@mentor.com>
+References: <cover.1370896970.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/3] sstate fetch improvements
+Subject: [PATCH 1/3] sstate.bbclass: kill MIRRORS and FILESPATH to speed up fetching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,26 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 20:46:21 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 20:46:23 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-The following changes since commit b4f208f418d18f2a4e78a56bebacef481061d917:
+The default FILESPATH isn't really of use, as we don't expect to find sstate
+archives buried in layer recipe directories, and the default MIRRORS is
+intended for use for fetching SRC_URI, not sstate.
 
-  tar: don't mv tar for nativesdk (2013-06-10 18:06:33 +0100)
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/sstate.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-are available in the git repository at:
-
-  https://github.com/kergoth/oe-core.git improve-sstate-fetch
-
-Christopher Larson (3):
-  sstate.bbclass: kill MIRRORS and FILESPATH to speed up fetching
-  sstate.bbclass: fetch archive+siginfo in a single pstaging_fetch
-  sstate.bbclass: brute force silence fetch errors
-
- meta/classes/sstate.bbclass | 39 ++++++++++++++++++++++-----------------
- 1 file changed, 22 insertions(+), 17 deletions(-)
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index e74c642..3aa4371 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -508,6 +508,8 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
+ 
+     bb.mkdirhier(dldir)
+ 
++    localdata.delVar('MIRRORS')
++    localdata.delVar('FILESPATH')
+     localdata.setVar('DL_DIR', dldir)
+     localdata.setVar('PREMIRRORS', mirrors)
+     localdata.setVar('SRC_URI', srcuri)
 -- 
 1.8.3
 
