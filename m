@@ -1,22 +1,19 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id E83BF6A9E9
+Return-Path: <andy.voltz@timesys.com>
+Received: from exchange07.timesys.com (exchange07.timesys.com
+	[209.114.137.116])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A8986A8E9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 21:45:36 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 10 Jun 2013 14:45:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,840,1363158000"; d="scan'208";a="347788831"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.247])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2013 14:45:44 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 14:45:15 -0700
-Message-Id: <1370900715-29294-6-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <1370900715-29294-1-git-send-email-sgw@linux.intel.com>
-References: <1370900715-29294-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 5/5] librsvg: configure needs a native gdk-pixbuf binary
+	Mon, 10 Jun 2013 21:57:31 +0000 (UTC)
+Received: from bob-linux.timesys.com (192.168.3.27) by exchange07.timesys.com
+	(192.168.1.221) with Microsoft SMTP Server id 8.1.436.0;
+	Mon, 10 Jun 2013 17:57:31 -0400
+From: Andy Voltz <andy.voltz@timesys.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Jun 2013 17:57:47 -0400
+Message-ID: <1370901467-2201-1-git-send-email-andy.voltz@timesys.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH] tune-cortexa.inc: Use -mtune not -mcpu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,28 +26,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 21:45:37 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 21:57:32 -0000
+Content-Type: text/plain
 
-Build failure was seen on the autobuilder, so add gdk-pixbuf-native to depends list
+Using -mcpu was a mistake introduced in the creation commit for this file.
+This restores the previous default tuning for cortex a7,a8,a9,a15
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Andy Voltz <andy.voltz@timesys.com>
 ---
- meta/recipes-gnome/librsvg/librsvg_2.32.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/machine/include/tune-cortexa.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-index 9b1e0ec..4818422 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+diff --git a/meta/conf/machine/include/tune-cortexa.inc b/meta/conf/machine/include/tune-cortexa.inc
+index 987e4d9..b6427f7 100644
+--- a/meta/conf/machine/include/tune-cortexa.inc
++++ b/meta/conf/machine/include/tune-cortexa.inc
+@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv7a-neon"
  
- SECTION = "x11/utils"
- DEPENDS = "cairo glib-2.0 gdk-pixbuf fontconfig freetype libxml2 pango"
-+DEPENDS += "gdk-pixbuf-native"
- BBCLASSEXTEND = "native"
+ require conf/machine/include/arm/arch-armv7a.inc
  
- PR = "r12"
+-TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortex${CORTEX_ID}", " -mcpu=cortex-${CORTEX_ID}", "", d)}"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortex${CORTEX_ID}", " -mtune=cortex-${CORTEX_ID}", "", d)}"
+ 
+ # Little Endian base configs
+ AVAILTUNES += "cortex${CORTEX_ID} cortex${CORTEX_ID}t cortex${CORTEX_ID}-neon cortex${CORTEX_ID}t-neon"
 -- 
-1.8.1.4
+1.7.9.5
 
 
