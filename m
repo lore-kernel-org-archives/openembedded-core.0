@@ -1,26 +1,30 @@
 Return-Path: <eric@eukrea.com>
 Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 765886A2F4
+	by mail.openembedded.org (Postfix) with ESMTP id EE93B6A2F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 13:08:03 +0000 (UTC)
+	Mon, 10 Jun 2013 13:14:05 +0000 (UTC)
 Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
 	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id E1CD54B0200;
-	Mon, 10 Jun 2013 15:07:57 +0200 (CEST)
-Date: Mon, 10 Jun 2013 15:07:55 +0200
+	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 39E314B022A;
+	Mon, 10 Jun 2013 15:13:58 +0200 (CEST)
+Date: Mon, 10 Jun 2013 15:13:56 +0200
 From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Steve Sakoman <sakoman@gmail.com>
-Message-ID: <20130610150755.33deefce@e6520eb>
-In-Reply-To: <CAGDS+nmZVx2Jg3+DDhn_-zQytwzBOsKNREFNXF=GgFBn_7pnDg@mail.gmail.com>
-References: <CAGDS+nnQjF9P9s61--FW+_1gs_-qbcugmKt7-xd2i6gwkVFpRw@mail.gmail.com>
-	<20130610094536.36e83ecd@e6520eb>
-	<CAGDS+nmZVx2Jg3+DDhn_-zQytwzBOsKNREFNXF=GgFBn_7pnDg@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Message-ID: <20130610151356.16549ecd@e6520eb>
+In-Reply-To: <CAP71WjxNCrqyvu03V+qQY15y=2X7y_2m4Z9HOXFOJiH_VfbaJg@mail.gmail.com>
+References: <CABuzA3PAguwK=KW7xnoe6PJqASWZXktBLB5LTs7LHcw5mopXJQ@mail.gmail.com>
+	<2326207.iuBVrRrsbt@helios>
+	<CABuzA3N_Bk0_AnC3sF4TDqk08F2h2LHcv3ChkWJi4iX=dCKT_g@mail.gmail.com>
+	<CAP71WjxSiWcGu98VTY2z_Dsf+WgSEMKnCoPkoWUfrR7ch321dQ@mail.gmail.com>
+	<20130610145952.779c05a0@e6520eb>
+	<CAP71WjxNCrqyvu03V+qQY15y=2X7y_2m4Z9HOXFOJiH_VfbaJg@mail.gmail.com>
 Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
 X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: qt4e-demo-image with meta-fsl-arm: successful build?
+Subject: Re: qt4-embedded - image size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +37,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 13:08:06 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 13:14:07 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Le Mon, 10 Jun 2013 05:58:42 -0700,
-Steve Sakoman <sakoman@gmail.com> a =C3=A9crit :
+Le Mon, 10 Jun 2013 15:07:01 +0200,
+Nicolas Dechesne <nicolas.dechesne@linaro.org> a =C3=A9crit :
 
-> On Mon, Jun 10, 2013 at 12:45 AM, Eric B=C3=A9nard <eric@eukrea.com> wrot=
-e:
+> On Mon, Jun 10, 2013 at 2:59 PM, Eric B=C3=A9nard <eric@eukrea.com> wrote:
 >=20
-> > the strange thing is why do you get a X qtdemo when building
-> > qt4e-demo-image ?
+> > Hi Nicolas,
+> >
+> > Le Mon, 10 Jun 2013 14:10:15 +0200,
+> > Nicolas Dechesne <nicolas.dechesne@linaro.org> a =C3=A9crit :
+> >
+> > > On Mon, Jun 10, 2013 at 1:19 PM, John Stirling
+> > > <ap.john.stirling@gmail.com>wrote:
+> > >
+> > > > You suggest just cutting it down to
+> > > >
+> > > > IMAGE_INSTALL +=3D " \
+> > > > qtui \
+> > > > "
+> > > > and it should work itself out ?
+> > > >
+> >
+> > this will work but if you need plugins they will be missing as only the
+> > linked libraries will be automatically integrated.
+> >
+> > >
+> > > hi, i have observed the same issue, and I used the following
+> > 'workaround':
+> > >
+> > > BAD_RECOMMENDATIONS =3D " \
+> > >     qt4-embedded-demos \
+> > >     qt4-embedded-examples \
+> > >     qt4-embedded-demos-doc \
+> > >     qt4-embedded-tools \
+> > >     qt4-embedded-assistant \
+> > >     "
+> > > which I added in my image recipe, that would ensure that the packages
+> > which
+> > > are RECOMMENDS don't get installed in the final image.
+> > >
+> > > I would be happy to use another (nicer?) method, too.
+> >
+> >
+> > check packagegroup-core-qt4e.bb and remove :
+> >         qt4-embedded-demos \
+> >         qt4-embedded-examples \
+> >         qt-demo-init \
+> >         qt4-embedded-assistant \
+> >
+> > (and also the plugins & libs you may not need)
+> >
+> > FWIW I'm using this to build a quite full featured qt4e base image :
+> > RDEPENDS_append +=3D " \
+> >         qt4-embedded \
+> >         "
+> >
+> > QT_INSTALL =3D " \
+> >         libqt-embedded3support4 \
+> >         libqt-embeddedclucene4 \
+> >         libqt-embeddedcore4 \
+> >         libqt-embeddedgui4 \
+> >         libqt-embeddednetwork4 \
+> >         libqt-embeddedsvg4 \
+> >         libqt-embeddedsql4 \
+> >         libqt-embeddedxml4 \
+> >         libqt-embeddedxmlpatterns4 \
+> >         libqt-embeddedwebkit4 \
+> >         libqt-embeddedscripttools4 \
+> >         libqt-embeddedtest4 \
+> >         libqt-embeddedmultimedia4 \
+> >         libqt-embeddedhelp4 \
+> >         libqt-embeddeddeclarative4 \
+> >         libqt-embeddeddbus4 \
+> >         libqt-embeddedphonon4 \
+> >         \
+> >         qt4-embedded-fonts-ttf-vera \
+> >         qt4-embedded-fonts-ttf-dejavu \
+> >         qt4-embedded-plugin-mousedriver-tslib \
+> >         qt4-embedded-plugin-sqldriver-sqlite2 \
+> >         qt4-embedded-plugin-sqldriver-sqlite \
+> >         qt4-embedded-plugin-phonon-backend-gstreamer \
+> >         qt4-embedded-plugin-iconengine-svgicon \
+> >         qt4-embedded-plugin-imageformat-gif \
+> >         qt4-embedded-plugin-imageformat-ico \
+> >         qt4-embedded-plugin-imageformat-jpeg \
+> >         qt4-embedded-plugin-imageformat-mng \
+> >         qt4-embedded-plugin-imageformat-svg \
+> >         qt4-embedded-plugin-imageformat-tiff \
+> >         sqlite3 \
+> > "
+> >
+> > QWT_INSTALL =3D " \
+> >         qwt-e \
+> > "
+> >
+> > IMAGE_INSTALL +=3D "\
+> >         ${QT_INSTALL} \
+> >         ${QWT_INSTALL} \
+> > "
+> >
+> > and I add this when I want the examples :
+> > IMAGE_INSTALL +=3D "\
+> >         qt4-embedded-demos qt4-embedded-examples qt-demo-init \
+> >         qwt-e-examples \
+> > "
+> > (qt-demo-init is a homemade init script).
+> >
 >=20
-> I haven't begun debugging yet, but I had 2 initial thoughts as to why
-> the X error message:
+> hi Eric,
 >=20
-> 1. The qtdemo init seems to be written to support both x and x-free
-> setups, so perhaps the init is getting confused
-> 2. I had built the x11-free version of qt prior to the qte version, so
-> perhaps that causes the issue
->=20
-> I started a clean build just in case #2 is the cause.
->=20
-OK #2 is clearly a situation I avoid here as this created me some
-troubles in the past.
+> thanks for your answer. so, yes I kind of figured out I could do that. But
+> in fact I was hoping that re-using the existing packagegroup from oe-core
+> *should* be the right thing to do, instead of re-implementing another one.
+> and perhaps the packagegroup being called core-qt4e should be restricted =
+to
+> 'core' components, and we could have 1 (or more) additional packagegroups
+> that could be pulled into images, instead? otherwise what's the point of
+> having a 'core QT4e packagegroup' if it's not suitable for any real usage?
+
+true, I'll cook & test a split of the packagegroup to make the examples
+& demos optional
 
 Eric
 
