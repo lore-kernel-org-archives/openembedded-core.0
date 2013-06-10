@@ -1,37 +1,39 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C94656A9C8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
+	[209.85.219.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 4613C6A9E0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 21:01:12 +0000 (UTC)
-Received: by mail-la0-f43.google.com with SMTP id gw10so6135901lab.2
+	Mon, 10 Jun 2013 21:01:16 +0000 (UTC)
+Received: by mail-oa0-f46.google.com with SMTP id h2so6612694oag.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 14:01:13 -0700 (PDT)
+	Mon, 10 Jun 2013 14:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Qg6+lSmqhIjRVil3CuB61eye9KPCzAu+47inPGts92M=;
-	b=RezqCntNIngLY8M/gEAALuRbOksDkNkentWUvrqDucN5yZccgigY6Bl+VI+y3apSdm
-	4+HYNlCOVd2gc6bSFfBfSDTEr+VV3swQ+IN8SlBRQo9GbtD8YATwO2oj4EReKOMKLgyj
-	pzLVIa6yFvOEnyUqI/XQ9CnJWWhQk7aEIV+vq4thgjDD8I3kbyLnstjQItqWN8VX6LU3
-	9/Y0N/9TcFG3R1M4ww1dB4zH3A+oHAvOYG6D9mcK4s9+vnTcDkTuFngLDZ97R7MPqgCk
-	e0KN/2V9wxegY8fZGOaPKE5LW+bjPn7sxgZftMvSV1TCBwAaMZdPdaDVHg2u/KNWXEDv
-	rUvA==
-X-Received: by 10.112.188.231 with SMTP id gd7mr7301077lbc.1.1370898072996;
-	Mon, 10 Jun 2013 14:01:12 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=7o9Divi5PvLl4c1DPEyDUAPcI/deGAnIZ4pJEHlyIqA=;
+	b=h+NfQjij/ojy5WVrFTEuaCC5+DgIPbrWGhNDWgrFz8d9vKGsopciYbyi45ImZBA5Ez
+	mq1Sdqp74VHcAwRnsnFDFs2a3vjg1iywX6ntiYVBm3y4cXSKCZsDpo2mmL2TPy07byuZ
+	UilsK/C9OKdAy4NXpvaQJUY40K/NOiRPI/NOUX4e7+Y8B3MU41Bzu5GPyn4j8oxPs1F3
+	pCvHPCzYGoKuF7HYMtokYt2DHvVLqIDRFpvqAD2yaIbZygRTczYXIDEHo0Lr6gxq+src
+	ouaFtwaQ4PUXJe30UBkKtFh35XreRZebhjCzLzBXc9vF4eSJmN4FsZjXJ4fe/7GXHihl
+	NNOg==
 MIME-Version: 1.0
-Received: by 10.112.4.66 with HTTP; Mon, 10 Jun 2013 14:00:52 -0700 (PDT)
-In-Reply-To: <CAP9ODKo_XEzjM8cKUNi-mJ2v8SnEfEnusAaWYi1==gNGWwuY=Q@mail.gmail.com>
-References: <cover.1370896985.git.chris_larson@mentor.com>
-	<4dcc39cc1fed7d398b97859ea281ab46e8ba8dbb.1370896985.git.chris_larson@mentor.com>
-	<CAP9ODKo_XEzjM8cKUNi-mJ2v8SnEfEnusAaWYi1==gNGWwuY=Q@mail.gmail.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Mon, 10 Jun 2013 14:00:52 -0700
-Message-ID: <CABcZANng6HLV+DFe3qJB9jXVS3M-T5rc4fDzBbAC1HwHouAy0Q@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.182.236.104 with SMTP id ut8mr9600063obc.75.1370898077265;
+	Mon, 10 Jun 2013 14:01:17 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.108.167 with HTTP; Mon, 10 Jun 2013 14:01:17 -0700 (PDT)
+In-Reply-To: <25d34eb31411dbe5f5d050878591ce260d9bb240.1370896990.git.chris_larson@mentor.com>
+References: <cover.1370896990.git.chris_larson@mentor.com>
+	<25d34eb31411dbe5f5d050878591ce260d9bb240.1370896990.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 18:01:17 -0300
+X-Google-Sender-Auth: 7p4ngzMzlQFsxsZbA7O5VXDcZcA
+Message-ID: <CAP9ODKqUr5NN3vW15B3APsvptSt668rTppcXUVFdSq28z23OBQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] packagegroup-core-tools-profile: don't exclude mips
+Subject: Re: [PATCH 3/4] packagegroup-base-vfat: include dosfsprogs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,83 +46,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 21:01:13 -0000
-Content-Type: multipart/alternative; boundary=001a11c36e52aa12ae04ded314bf
+X-List-Received-Date: Mon, 10 Jun 2013 21:01:16 -0000
+Content-Type: multipart/alternative; boundary=001a11c31838eb380304ded31491
 
---001a11c36e52aa12ae04ded314bf
-Content-Type: text/plain; charset=UTF-8
+--001a11c31838eb380304ded31491
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Mon, Jun 10, 2013 at 1:56 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
+On Mon, Jun 10, 2013 at 5:47 PM, Christopher Larson <kergoth@gmail.com>wrote:
 
-> On Mon, Jun 10, 2013 at 5:46 PM, Christopher Larson <kergoth@gmail.com>wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
 >
->> From: Christopher Larson <chris_larson@mentor.com>
->>
->> Now that liburcu supports mips, this packagegroup can pull in lttng
->> software
->> on that architecture.
->>
->> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> The ext2 group includes e2fsprogs, so this is consistent and should be
+> appropriate, I think.
 >
->
-> Your commit log say's nothing about babeltrace. I think it'd be good to
-> add it.
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 >
 
-It's debatable whether babel trace is considered 'lttng software', as it's
-listed at http://lttng.org/download and http://lttng.org/babeltrace redirects
-to the official babeltrace project page also. If you think mentioning it
-separately would be beneficial, I'll send a v2. Thanks for reviewing these.
+
+Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
+
+
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---001a11c36e52aa12ae04ded314bf
-Content-Type: text/html; charset=UTF-8
+--001a11c31838eb380304ded31491
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On M=
-on, Jun 10, 2013 at 1:56 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
-br</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div class=3D"im">On Mon, Jun 10, 2013 at 5:46 PM, Christo=
-pher Larson <span dir=3D"ltr">&lt;<a href=3D"mailto:kergoth@gmail.com" targ=
-et=3D"_blank">kergoth@gmail.com</a>&gt;</span> wrote:<br>
-
-
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Mon, Jun 10, 2013 at 5:47 PM, Christopher Larson <span dir=3D"lt=
+r">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail=
+.com</a>&gt;</span> wrote:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
 left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
 adding-left:1ex">From: Christopher Larson &lt;<a href=3D"mailto:chris_larso=
-n@mentor.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
-
+n@mentor.com">chris_larson@mentor.com</a>&gt;<br>
 
 <br>
-Now that liburcu supports mips, this packagegroup can pull in lttng softwar=
-e<br>
-on that architecture.<br>
+The ext2 group includes e2fsprogs, so this is consistent and should be<br>
+appropriate, I think.<br>
 <br>
 Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;</blockquote><div><b=
-r></div></div><div>Your commit log say&#39;s nothing about babeltrace. I th=
-ink it&#39;d be good to add it.</div>
-
-</blockquote></div><br>It&#39;s debatable whether babel trace is considered=
- &#39;lttng software&#39;, as it&#39;s listed at=C2=A0<a href=3D"http://ltt=
-ng.org/download">http://lttng.org/download</a>=C2=A0and=C2=A0<a href=3D"htt=
-p://lttng.org/babeltrace">http://lttng.org/babeltrace</a>=C2=A0redirects to=
- the official babeltrace project page also. If you think mentioning it sepa=
-rately would be beneficial, I&#39;ll send a v2. Thanks for reviewing these.=
+.com">chris_larson@mentor.com</a>&gt;<br></blockquote><div><br></div><div><=
+br class=3D"">Reviewed-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@oss=
+ystems.com.br">otavio@ossystems.com.br</a>&gt;</div>
+<div><br></div></div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =
+=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://w=
+ww.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =
+=A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" target=3D"_blank">h=
+ttp://projetos.ossystems.com.br</a><br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
 <br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
 </div></div>
 
---001a11c36e52aa12ae04ded314bf--
+--001a11c31838eb380304ded31491--
