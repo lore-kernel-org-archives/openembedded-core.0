@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 23EAA6A66B
+Return-Path: <sakoman@gmail.com>
+Received: from mail-oa0-f50.google.com (mail-oa0-f50.google.com
+	[209.85.219.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CD04621CA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 12:17:39 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 10 Jun 2013 05:17:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,836,1363158000"; d="scan'208";a="314755633"
-Received: from unknown (HELO helios.localnet) ([10.252.122.12])
-	by azsmga001.ch.intel.com with ESMTP; 10 Jun 2013 05:17:37 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: John Stirling <ap.john.stirling@gmail.com>
-Date: Mon, 10 Jun 2013 13:17:36 +0100
-Message-ID: <1442698.2y5IVPznBc@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-23-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <CABuzA3N_Bk0_AnC3sF4TDqk08F2h2LHcv3ChkWJi4iX=dCKT_g@mail.gmail.com>
-References: <CABuzA3PAguwK=KW7xnoe6PJqASWZXktBLB5LTs7LHcw5mopXJQ@mail.gmail.com>
-	<2326207.iuBVrRrsbt@helios>
-	<CABuzA3N_Bk0_AnC3sF4TDqk08F2h2LHcv3ChkWJi4iX=dCKT_g@mail.gmail.com>
+	Mon, 10 Jun 2013 12:58:42 +0000 (UTC)
+Received: by mail-oa0-f50.google.com with SMTP id l20so5927769oag.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jun 2013 05:58:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=/AwC8W1u+I8sbnMI81N7B0PkJxNAi6tTI9OMvPpCFxA=;
+	b=I8DaCi4TncMIXSOK/q/crJMXRf6mmyxXDr3K/D9TQ/a4iAp4qgaw38cvkEXJTiZCWJ
+	ShQ2tiNXIBvio0FdlVk2rbZjNb8fkXUfpN9YS5nopa1uQgsZbyZVYklYdiPzka1YU/Qq
+	4+/QXSzyZz3IQorroBDwh3uC/9v8qMQImQVWlCN3/7vZJI6hpavghjDkFgMarS20WPCI
+	4K0pUfb26PTcw95knv//8BzFz2jd6T+uBApeqQLO+Wj4KdIsIj0ltvGe7szK7uc3dzNS
+	mCLiuaRGUggSxKEWh72UTNX7lqRUJDRj65665RAN8/HqJq1SDx1Fl/YG7OxuISG8Z1iA
+	xbmA==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt4-embedded - image size
+X-Received: by 10.60.51.234 with SMTP id n10mr7670464oeo.103.1370869122964;
+	Mon, 10 Jun 2013 05:58:42 -0700 (PDT)
+Received: by 10.182.213.130 with HTTP; Mon, 10 Jun 2013 05:58:42 -0700 (PDT)
+In-Reply-To: <20130610094536.36e83ecd@e6520eb>
+References: <CAGDS+nnQjF9P9s61--FW+_1gs_-qbcugmKt7-xd2i6gwkVFpRw@mail.gmail.com>
+	<20130610094536.36e83ecd@e6520eb>
+Date: Mon, 10 Jun 2013 05:58:42 -0700
+Message-ID: <CAGDS+nmZVx2Jg3+DDhn_-zQytwzBOsKNREFNXF=GgFBn_7pnDg@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: qt4e-demo-image with meta-fsl-arm: successful build?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,72 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 12:17:39 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 10 Jun 2013 12:58:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Monday 10 June 2013 12:19:48 John Stirling wrote:
-> The Qt application (qtui) is compiled and has some C++, some QML and needs
-> to use dbus. I am kicking it off via './qtui -qws'.
-> 
-> So basically if I had this -
-> 
-> IMAGE_INSTALL += " \
-> qt4-embedded \
-> qtui \
-> "
-> 
-> You suggest just cutting it down to
-> 
-> IMAGE_INSTALL += " \
-> qtui \
-> "
-> and it should work itself out ?
+On Mon, Jun 10, 2013 at 12:45 AM, Eric B=E9nard <eric@eukrea.com> wrote:
 
-Apart from plugins and anything else that your application doesn't get 
-directly linked to, yes.
+> the strange thing is why do you get a X qtdemo when building
+> qt4e-demo-image ?
 
-> I am not entirely sure on the 'inherit qt4e' line.
+I haven't begun debugging yet, but I had 2 initial thoughts as to why
+the X error message:
 
-You do want this here, yes.
+1. The qtdemo init seems to be written to support both x and x-free
+setups, so perhaps the init is getting confused
+2. I had built the x11-free version of qt prior to the qte version, so
+perhaps that causes the issue
 
-> SRC_URI = "git://${SOURCE_REPO}/git/${PN}.git;protocol=ssh;tag=${PV}"
+I started a clean build just in case #2 is the cause.
 
-I think you probably should specify SRCREV here, even if it's SRCREV = 
-"${AUTOREV}" to build the latest version on the specified branch. For tags that 
-won't change, typically we recommend that you specify the full sha1 hash in 
-SRCREV and then the system knows it doesn't need to query the git server to 
-get the current hash corresponding to the tag.
+Steve
 
-> PROVIDES = "${PN}_${PV}"
-
-This should not be necessary.
-
-> DEPENDS = "qt4-embedded"
-
-This is already done for you by inheriting qt4e.
-
-> RPROVIDES = "qtui_${PV}"
-
-This should not be necessary either.
-
-> PACKAGES="${PN}"
-
-Unless you have a good reason to do this I would recommend not doing so; the 
-standard package splitting should work for most situations and for those where 
-it needs to be tweaked slightly that can be done fairly easily.
-
-> FILES_${PN} += "/root/qtui /usr/share/reciva/qml/qtui
-> ${sysconfdir}/dbus-1/system.d/"
-
-Typically you would install binaries such as this to ${bindir} rather than 
-/root.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> I've launched a build and will test on my imx28evk asap.
+>
+> Eric
 
