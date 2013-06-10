@@ -1,39 +1,39 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f50.google.com (mail-oa0-f50.google.com
-	[209.85.219.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BDE5762062
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id AA6F460130
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 23:48:04 +0000 (UTC)
-Received: by mail-oa0-f50.google.com with SMTP id l20so6851205oag.9
+	Mon, 10 Jun 2013 23:56:42 +0000 (UTC)
+Received: by mail-ob0-f180.google.com with SMTP id eh20so11090823obb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 16:48:05 -0700 (PDT)
+	Mon, 10 Jun 2013 16:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=7HOzOrtN6fqkZ9QGy8Pb3k+kzQ5utmGoY39HU+qLza0=;
-	b=xinGsoBCsZSock0bX8WCJpUBZOTqbLfMuEfM2Y8i18opJNOs3ifwO/+gmRYDLSjfQ+
-	TYhuek/Y7+oMWY1eV+sD3DOQqs/sxTM7gUJLwvBnCZlaGbA/7gwHAe6qkaid7PuGK+/K
-	J7dSWLtAzDOHTXCPG4TB0AntZjikmaHKy+40H5hfDxec+t5XhrNMm7iUhHgO1wsUlrkD
-	UzYyO9oBFM946BoVmkxB8BOwQbAMIY0vGGnl7/YDcEziME33Hbvyslk94geMYfLKra5H
-	okpRgB17j2MxLsVMoxOQh9ComimrvurHrwM9SG283ubVacOLtIn832LyZHwCPFoyZUfj
-	xdzg==
+	bh=GnFq5FFKlkFUMaPrF/9Y3Z1bB/tfy764JIADi/qb+hY=;
+	b=pQNdad/FgVZ1XqCPwwnPsAdTLZfbeQGV8thr4FuGYoBgfbeK8463+7dKnGfMRyPsIb
+	dHBC/m8rmo3GaxO2bA61po3OqUW0xIcIBIGcxmOKoEOefEk4Ifjbczgbwb4AmN5Uq0WD
+	iA0UjuErb+ffNFLW2GTabqs0dGrSywWx1xEPMaMiXoNm3HpwatBrU/+yOLNGFrfZMmTA
+	IfFKMZ7SFNjmYYrBIqtDCC21EnCLbbo2P+iwsfj9qPfeV3LlImub06ccXi91F3D6duCJ
+	uWg0MezJEDxh3lqrYr13XU8N4hWs0Fc1Tc41vNB+qZS6y/Cns1igPQsk1Qa8Teo+Szpa
+	43uA==
 MIME-Version: 1.0
-X-Received: by 10.182.79.106 with SMTP id i10mr10270697obx.59.1370908085463;
-	Mon, 10 Jun 2013 16:48:05 -0700 (PDT)
+X-Received: by 10.60.143.41 with SMTP id sb9mr3137766oeb.102.1370908603402;
+	Mon, 10 Jun 2013 16:56:43 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.108.167 with HTTP; Mon, 10 Jun 2013 16:48:05 -0700 (PDT)
-In-Reply-To: <1103bc7c76faba1db73f4c4f4b8439aa03258c3d.1370906102.git.chris_larson@mentor.com>
+Received: by 10.182.108.167 with HTTP; Mon, 10 Jun 2013 16:56:43 -0700 (PDT)
+In-Reply-To: <03a26f0a33de866401325c100eae7baadf62e6c2.1370906102.git.chris_larson@mentor.com>
 References: <cover.1370906102.git.chris_larson@mentor.com>
-	<1103bc7c76faba1db73f4c4f4b8439aa03258c3d.1370906102.git.chris_larson@mentor.com>
-Date: Mon, 10 Jun 2013 20:48:05 -0300
-X-Google-Sender-Auth: Sest4l2DnmWRROeBMDIc69nsrF4
-Message-ID: <CAP9ODKqo2j8gjhKz2CNNa_2xkyt2WXjKBJQrv+Rz3PL=O8QdGg@mail.gmail.com>
+	<03a26f0a33de866401325c100eae7baadf62e6c2.1370906102.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 20:56:43 -0300
+X-Google-Sender-Auth: tvNW875vjZzCKvMBwaGXDemEVgY
+Message-ID: <CAP9ODKp7Qopi_pgXoLHCn_9emAy9+hf8=W4CQtJ4ZdtQYemj9Q@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: Christopher Larson <kergoth@gmail.com>
 Cc: Christopher Larson <chris_larson@mentor.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/4] packagegroup-core-tools-profile: don't exclude mips
+Subject: Re: [PATCH v2 4/4] license.bbclass: include all licenses in the manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,20 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 23:48:05 -0000
-Content-Type: multipart/alternative; boundary=047d7b2e3e107431b604ded569ea
+X-List-Received-Date: Mon, 10 Jun 2013 23:56:42 -0000
+Content-Type: multipart/alternative; boundary=047d7b3a89fc53535704ded5883b
 
---047d7b2e3e107431b604ded569ea
+--047d7b3a89fc53535704ded5883b
 Content-Type: text/plain; charset=ISO-8859-1
 
 On Mon, Jun 10, 2013 at 8:15 PM, Christopher Larson <kergoth@gmail.com>wrote:
 
 > From: Christopher Larson <chris_larson@mentor.com>
 >
-> Now that liburcu supports mips, this packagegroup can pull in lttng recipes
-> (lttng-ust, lttng-tools, lttng-modules, babeltrace) on that architecture
-> as it
-> does for the others.
+> When we don't have a generic license file for the license in question, we
+> can
+> warn, but we should still include it in the manifest, otherwise the
+> manifest
+> doesn't reflect reality. Failing to include a license listed in the recipe
+> in
+> the manifest can't be allowed.
 >
 > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 >
@@ -71,7 +74,7 @@ Otavio Salvador                             O.S. Systems
 http://www.ossystems.com.br        http://projetos.ossystems.com.br
 Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
---047d7b2e3e107431b604ded569ea
+--047d7b3a89fc53535704ded5883b
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
@@ -83,16 +86,18 @@ r">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail=
 x #ccc solid;padding-left:1ex">From: Christopher Larson &lt;<a href=3D"mail=
 to:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
 <br>
-Now that liburcu supports mips, this packagegroup can pull in lttng recipes=
+When we don&#39;t have a generic license file for the license in question, =
+we can<br>
+warn, but we should still include it in the manifest, otherwise the manifes=
+t<br>
+doesn&#39;t reflect reality. Failing to include a license listed in the rec=
+ipe in<br>
+the manifest can&#39;t be allowed.<br>
 <br>
-(lttng-ust, lttng-tools, lttng-modules, babeltrace) on that architecture as=
- it<br>
-does for the others.<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
 Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;<br></div></div></blockquote><div><br>=
-</div><div style>Reviewed-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@=
-ossystems.com.br">otavio@ossystems.com.br</a>&gt;</div>
+.com">chris_larson@mentor.com</a>&gt;<br></blockquote><div><br></div><div s=
+tyle>Reviewed-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.co=
+m.br">otavio@ossystems.com.br</a>&gt;</div>
 </div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
  =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
 m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
@@ -102,4 +107,4 @@ Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
 <br>
 </div></div>
 
---047d7b2e3e107431b604ded569ea--
+--047d7b3a89fc53535704ded5883b--
