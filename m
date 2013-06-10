@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
-	[209.85.160.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 649B66A8D9
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 83AB26A9A1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 23:15:48 +0000 (UTC)
-Received: by mail-pb0-f53.google.com with SMTP id xb12so7677154pbc.26
+	Mon, 10 Jun 2013 23:15:50 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id y14so5031153pdi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 16:15:49 -0700 (PDT)
+	Mon, 10 Jun 2013 16:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=973vt+G9K2NlFF7gSbbP9EPrhs5ZqeN3sttehYpEXNs=;
-	b=s8PQkUWaanJEkL6mU+/6qLkvjW97micWCK+58cKMUTPQAiPTvMnP8jgN3d+uU6haQI
-	GXuWEOLlehf+algsPYE3BwlfcCvPD+3A6bEmH3jNFMoGTl1pCEfE2VGzJ3Jsl4anjd7p
-	oJULM4GQlKV7PJdUwu2UrYFLXjuse9849hPGeehAu+kJx+NRPjK1ehO1XuYg8PSDKF+d
-	DyQVQOWHeqfWryEcUxRKo1qtpLx+L5u2sDcicCWaPMdRz5epo3AbrBXJbGfYXsRKGfyQ
-	cX5aCZcv+QjcS/PY060saA8bkK+FrM5BiQjXcmPU+CRXR6CgP4ZtckEV/iYNC+rapH5E
-	S3ng==
-X-Received: by 10.66.121.193 with SMTP id lm1mr15953904pab.138.1370906149453; 
-	Mon, 10 Jun 2013 16:15:49 -0700 (PDT)
+	bh=/9OF1mk3AaeTJkGQziWPDjGmh4Utp3T9YI0QEhZy7vc=;
+	b=MqWwh58eZKB1AyFqmB5nLzhqbaCyOqL8oFYnR0UWYgHlv2HrcgmlZ5AYjW3hV11Sfx
+	JBnrgS1U96XI8lNX4LnpR2MinSF29sszg3S8zJRSYWAHTAo48uWQQJVZ/ZozF8rdXsDD
+	3ipNoyO+5HraEGw9yZFpmICifpDNWye0gaiJQc++uILZhM46B3yRxfIH82zpArMCk1Ct
+	+Dj/EN/2F0Jh7eAHh+lzYI4QCdnVyApdEBBGqs52fou355DroXeCxG1PG7lnJoK9aCEd
+	EtYf7hYjx/IsikzhZV0qoIqGMBuLKZjsD+rvxKIfjTotnn924SyA1Sqa0fprPFjYXQ4Z
+	IZNA==
+X-Received: by 10.68.232.136 with SMTP id to8mr12042079pbc.9.1370906151721;
+	Mon, 10 Jun 2013 16:15:51 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by mx.google.com with ESMTPSA id
-	nz3sm11887957pbb.33.2013.06.10.16.15.47 for <multiple recipients>
+	nz3sm11887957pbb.33.2013.06.10.16.15.49 for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 16:15:48 -0700 (PDT)
+	Mon, 10 Jun 2013 16:15:50 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 16:15:48 -0700
-Message-Id: <8cb8319692b620e2c52751b89a691dd6966ec950.1370906102.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 16:15:49 -0700
+Message-Id: <0f019edce58d8226948dc7e7e9d4fe9ec04a8c5f.1370906102.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
 In-Reply-To: <cover.1370906102.git.chris_larson@mentor.com>
 References: <cover.1370906102.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1370906102.git.chris_larson@mentor.com>
 References: <cover.1370906102.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH v2 2/4] gconf: inherit gettext
+Subject: [PATCH v2 3/4] avahi: inherit python classes, use PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,28 +47,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 23:15:48 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 23:15:50 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
+Without using our python classes and having appropriate dependencies, the
+build is nondeterministic, and whether a python-avahi package is produced will
+vary depending on the host environment, yet avahi-discover is always produced,
+and it depends on python-avahi.
+
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-gnome/gnome/gconf_3.2.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/gnome/gconf_3.2.6.bb b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-index a1843d5..9b22d95 100644
---- a/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-+++ b/meta/recipes-gnome/gnome/gconf_3.2.6.bb
-@@ -8,7 +8,7 @@ DEPENDS_class-native = "glib-2.0-native dbus-native dbus-glib-native libxml2-nat
+diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb
+index 7d56dad..557c1c1 100644
+--- a/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb
++++ b/meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb
+@@ -6,6 +6,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
  
- PR = "r0"
+ require avahi.inc
  
--inherit gnomebase gtk-doc
-+inherit gnomebase gtk-doc gettext
++inherit python-dir pythonnative
++
++PACKAGECONFIG ??= "python"
++PACKAGECONFIG[python] = "--enable-python,--disable-python,python-native python"
++
+ PR = "${INC_PR}.0"
  
- SRC_URI = "${GNOME_MIRROR}/GConf/${@gnome_verdir("${PV}")}/GConf-${PV}.tar.xz;name=archive \
-            file://remove_plus_from_invalid_characters_list.patch \
+ SRC_URI[md5sum] = "2f22745b8f7368ad5a0a3fddac343f2d"
+@@ -26,7 +31,7 @@ FILES_${PN}-staticdev += "${libdir}/libavahi-ui.a"
+ 
+ FILES_${PN}-utils = "${bindir}/b* ${datadir}/applications/b*"
+ 
+-FILES_python-avahi = "${PYTHON_SITEPACKAGES_DIR}/avahi/*"
++FILES_python-avahi = "${PYTHON_SITEPACKAGES_DIR}/avahi ${PYTHON_SITEPACKAGES_DIR}/avahi_discover"
+ FILES_avahi-discover = "${bindir}/avahi-discover \
+                         ${datadir}/applications/avahi-discover.desktop \
+                         ${datadir}/avahi/interfaces/avahi-discover*"
+@@ -34,7 +39,7 @@ FILES_avahi-discover-standalone = "${bindir}/avahi-discover-standalone \
+                                    ${datadir}/avahi/interfaces/avahi-discover.glade"
+ 
+ RDEPENDS_avahi-discover = "python-avahi python-pygtk"
+-RDEPENDS_python-avahi = "python-dbus"
++RDEPENDS_python-avahi = "python-core python-dbus"
+ 
+ 
+ do_install_append () {
 -- 
 1.8.3
 
