@@ -1,40 +1,35 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
-	[209.85.160.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B3D06A9CB
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id C93576A5B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 20:46:39 +0000 (UTC)
-Received: by mail-pb0-f50.google.com with SMTP id wz7so2067595pbc.9
+	Mon, 10 Jun 2013 20:46:46 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id k18so2017518oag.26
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 13:46:40 -0700 (PDT)
+	Mon, 10 Jun 2013 13:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=AiKDbsWraUOLwQpjhyDZEmDk8mBO4l1A5yoK8QUNTTQ=;
-	b=WuRsHXcXnxbdZCBiIphFzWmsN1HZM4MsK53dSlUMMYEuHHE8E9P2wkZVHV2F0DhI4j
-	feyS3maOQ3gt/EPC8AqIhi/YtPaUtUvymkVaOy5NOVM05AYFQyZLXtNRXa6snnbWuYSb
-	Mp5if6XQwWwscTiQ8IUAe/h/dKHVt2ArC//plJK7QfeWlFbkj52KnYnAA2WJX7kMzVvZ
-	Xpx0YZGuWKr9awu0QLAsCYJsUpRUeHyOVKrs7rrRZBlHnbzqBNpxjF2H6rVY8izxbQde
-	BDJik6yRd3scCPGmBx5UjFLvv0h7ZmP7d4BcN/a0AD5iXhitlxPRNLiut5WVKkExpNJT
-	Z5Mw==
-X-Received: by 10.66.230.130 with SMTP id sy2mr15716242pac.75.1370897200639;
-	Mon, 10 Jun 2013 13:46:40 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=A7FSX10wCLSuBFPPsbyxs58xiEYwFQ0z8PMPArh1ZF4=;
+	b=gk5ntewD5vp6iw7OnB9aaAGcfoHHZVkiRXpycss7v+/uPJuR0fdUfFB81q4O5yZtSR
+	ibsK3F7fAnUXdX7Ap3/AirI7Viyj5H0ISQ2m70CIeqasxsAYs9Kg/NL1KLsvbBDcU0Dd
+	FkGb214bVuIHYx26XBK01hGoSsp3xbGGr/VaSIJ59ZlG4iNJiCo5yohT29ZNPLwXcO9e
+	1Udv8SEf4DwGuLP8/Iz5Qjrc7AveSRjPtR6bpJ7y+tKAAhsx9eQS6xZDbMvnG6wCtis2
+	EzkyS36R90lC2nieSebtFhAMjNjCrdGHwspUrckZFEP6q8yK+BrB1SoFl76HuyTwYWAM
+	rt3A==
+X-Received: by 10.60.174.83 with SMTP id bq19mr9449042oec.80.1370897207479;
+	Mon, 10 Jun 2013 13:46:47 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id
-	cp1sm11526369pbc.42.2013.06.10.13.46.38 for <multiple recipients>
+	by mx.google.com with ESMTPSA id z5sm24272820obw.4.2013.06.10.13.46.45
+	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 13:46:39 -0700 (PDT)
+	Mon, 10 Jun 2013 13:46:46 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 13:46:40 -0700
-Message-Id: <c3ed12567db9ac351e056b428db4ef2783181ecc.1370896976.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 13:46:48 -0700
+Message-Id: <cover.1370896985.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
-In-Reply-To: <cover.1370896976.git.chris_larson@mentor.com>
-References: <cover.1370896976.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1370896976.git.chris_larson@mentor.com>
-References: <cover.1370896976.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/2] copyleft_compliance: set 'dirs' flag on task
+Subject: [PATCH 0/4] A few miscellaneous fixes from Mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 20:46:39 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 20:46:47 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Without this, due to bitbake defaulting to ${B}, it's possible to get ${S}
-inadvertantly created before do_unpack, breaking the unpack of git sources,
-which expect the destination to not exist.
+The following changes since commit b4f208f418d18f2a4e78a56bebacef481061d917:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/copyleft_compliance.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+  tar: don't mv tar for nativesdk (2013-06-10 18:06:33 +0100)
 
-diff --git a/meta/classes/copyleft_compliance.bbclass b/meta/classes/copyleft_compliance.bbclass
-index adb48be..6b30b87 100644
---- a/meta/classes/copyleft_compliance.bbclass
-+++ b/meta/classes/copyleft_compliance.bbclass
-@@ -63,4 +63,5 @@ python do_prepare_copyleft_sources () {
- }
- 
- addtask prepare_copyleft_sources after do_fetch before do_build
-+do_prepare_copyleft_sources[dirs] = "${WORKDIR}"
- do_build[recrdeptask] += 'do_prepare_copyleft_sources'
+are available in the git repository at:
+
+  https://github.com/kergoth/oe-core.git misc-fixes
+
+Christopher Larson (4):
+  packagegroup-core-tools-profile: don't exclude mips
+  gconf: inherit gettext
+  avahi: inherit python classes, use PACKAGECONFIG
+  license.bbclass: include all licenses in the manifest
+
+ meta/classes/license.bbclass                                  |  7 +++----
+ meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb            |  9 +++++++--
+ .../packagegroups/packagegroup-core-tools-profile.bb          | 11 -----------
+ meta/recipes-gnome/gnome/gconf_3.2.6.bb                       |  2 +-
+ 4 files changed, 11 insertions(+), 18 deletions(-)
+
 -- 
 1.8.3
 
