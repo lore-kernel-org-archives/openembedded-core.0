@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id AAFD26A9BE
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 12C266A9C9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 20:47:40 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id xk17so10601014obc.24
+	Mon, 10 Jun 2013 20:47:43 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id k18so2018820oag.26
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 13:47:41 -0700 (PDT)
+	Mon, 10 Jun 2013 13:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=DtFZQTTIEK+GZYLgVzBmPrV+kMFzdsHYMv8JQbblrIc=;
-	b=rVtoqTG6U1rUYcL8Apyfbh/O3vjNDAcqrkqE82T9h9ySIO6Z6OeoRJmFVU2SmrgBVV
-	VJR4tFs+AiqnILSaciylHAA5Pt+YAaq7etIsL6KnO89qzZndkpWOI1X8EQT/qdKlVtUx
-	3vgJD5NlS4tC5lA4kghq5XBewt+dmrz5NejrAggaA8EtwOYSerWSN2XuTM8V2HlxPc1J
-	VHe27hdWCo87HIlSccOw6XClWiEatqER9BW3TOusZCYo5Ki0gv/TVpcafbPnDRZIdwN7
-	3s0Bg1m9FrrVQsryWeAiO1ldX3R1sEfsI/wvE+SpPeVBQKwbWxMNJbLNTEXZHS6BZjoo
-	QrZg==
-X-Received: by 10.60.98.134 with SMTP id ei6mr9973398oeb.21.1370897261779;
-	Mon, 10 Jun 2013 13:47:41 -0700 (PDT)
+	bh=WA4VFzU55mCNzQq7y2qPe4XkaeepYX30pjrtux4OWmM=;
+	b=kHPEppBEwV4dFOnmM2KnKUSeJGPBNahY+FOudCX0APikU7psJ67q3TLfj28r5x0Dx3
+	HO7Z1eQQd0HjWOKsmzXsH8EXjEjeApLHB2uRJMZbc3J3ezAlo+iwFpPsz2qDHVcGjRT2
+	w4Y3j2kNlv0xKel63U9NhUBOCs9vaaEyUqlf33M5Vy17sxD3ooOtYb2T/a+dK78sibHR
+	mAV9tUq0hkMiaoU6hoyfSBMSbcYKf5FaulEyGrY8RsX4G4kOjrgfsk2sLRq2JnIQsMqm
+	ZoJ4AxnHavzIHh0lz8Nmb28D4OupcIZC25e4WBjamaSsY+XQwTrDTOzapEOf4utdSGUi
+	rB4w==
+X-Received: by 10.60.134.200 with SMTP id pm8mr8913018oeb.136.1370897264150;
+	Mon, 10 Jun 2013 13:47:44 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id kz3sm24258712obb.6.2013.06.10.13.47.39
+	by mx.google.com with ESMTPSA id kz3sm24258712obb.6.2013.06.10.13.47.42
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 13:47:40 -0700 (PDT)
+	Mon, 10 Jun 2013 13:47:43 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 13:47:04 -0700
-Message-Id: <7f9158be5a4849dccea0ed848d29f963697c22e3.1370896990.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 13:47:05 -0700
+Message-Id: <0face86bf815082f2080f84c0214a7835d0380dd.1370896990.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
 In-Reply-To: <cover.1370896990.git.chris_larson@mentor.com>
 References: <cover.1370896990.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1370896990.git.chris_larson@mentor.com>
 References: <cover.1370896990.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/4] connman: use PACKAGECONFIG for WISPr support
+Subject: [PATCH 2/4] libnewt: split python module into libnewt-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,57 +47,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 20:47:41 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 20:47:43 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
+This is useful as it avoids pulling python into a build just to build
+chkconfig. The python recipe uses the libnewt installed in the sysroot by the
+main package, so there's little loss of build time, other than the additional
+unpack/patch.
+
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-connectivity/connman/connman.inc | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ .../newt/libnewt-python_0.52.14.bb                 | 26 ++++++++++++++++++++++
+ meta/recipes-extended/newt/libnewt_0.52.14.bb      | 15 +++++--------
+ 2 files changed, 31 insertions(+), 10 deletions(-)
+ create mode 100644 meta/recipes-extended/newt/libnewt-python_0.52.14.bb
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 0eb5865..f250d78 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -13,7 +13,7 @@ LICENSE  = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://src/main.c;beginline=1;endline=20;md5=d6a1ac98a6791c5294e8a7f176ecd66d"
+diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+new file mode 100644
+index 0000000..9af2d5d
+--- /dev/null
++++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+@@ -0,0 +1,26 @@
++require recipes-extended/newt/libnewt_${PV}.bb
++
++SUMMARY .= " - python"
++DEPENDS = "libnewt python"
++RDEPENDS_${PN} += "python-core"
++
++inherit pythonnative python-dir
++
++EXTRA_OECONF += "--with-python"
++EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
++
++
++do_compile () {
++	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
++	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
++}
++
++do_install () {
++	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
++	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
++	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
++}
++
++
++FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
++FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+index 54da15d..ee8206e 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+@@ -15,7 +15,7 @@ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
  
--DEPENDS  = "dbus glib-2.0 ppp iptables gnutls"
-+DEPENDS  = "dbus glib-2.0 ppp iptables"
+ # slang needs to be >= 2.2
+-DEPENDS = "slang popt python"
++DEPENDS = "slang popt"
  
- INC_PR = "r20"
+ PR = "r2"
  
-@@ -32,7 +32,7 @@ EXTRA_OECONF += "\
-     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
- "
+@@ -30,11 +30,9 @@ SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b
  
--PACKAGECONFIG ??= "\
-+PACKAGECONFIG ??= "wispr \
-                    ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', '3g','3g', '', d)} \
-@@ -50,6 +50,8 @@ PACKAGECONFIG[openvpn] = "--enable-openvpn,--disable-openvpn,,openvpn"
- PACKAGECONFIG[vpnc] = "--enable-vpnc,--disable-vpnc,,vpnc"
- PACKAGECONFIG[l2tp] = "--enable-l2tp,--disable-l2tp,,xl2tpd"
- PACKAGECONFIG[pptp] = "--enable-pptp,--disable-pptp,,pptp-linux"
-+# WISPr support for logging into hotspots, requires TLS
-+PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+ S = "${WORKDIR}/newt-${PV}"
  
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
-@@ -89,7 +91,9 @@ do_install_append() {
+-EXTRA_OECONF = "--without-tcl"
++EXTRA_OECONF = "--without-tcl --without-python"
  
- 	install -d ${D}${bindir}
- 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
--	install -m 0755 ${S}/tools/wispr ${D}${bindir}
-+	if [ -e ${S}/tools/wispr ]; then
-+		install -m 0755 ${S}/tools/wispr ${D}${bindir}
-+	fi
- 	install -m 0755 ${B}/client/connmanctl ${D}${bindir}
+-inherit autotools pythonnative python-dir
+-
+-EXTRA_OEMAKE = "PYTHONVERS=${PYTHON_DIR}"
++inherit autotools
  
- 	# We don't need to package an empty directory
+ export STAGING_INCDIR
+ export STAGING_LIBDIR
+@@ -42,13 +40,10 @@ export STAGING_LIBDIR
+ export BUILD_SYS
+ export HOST_SYS
+ 
+-PACKAGES_prepend = "whiptail ${PN}-python "
++PACKAGES_prepend = "whiptail "
+ 
+ do_configure_prepend() {
+-    ( cd ${S}; sh autogen.sh )
++    sh autogen.sh
+ }
+ 
+ FILES_whiptail = "${bindir}/whiptail"
+-FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
+-FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/*"
+-FILES_${PN}-staticdev = "${libdir}/*.a"
 -- 
 1.8.3
 
