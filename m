@@ -1,22 +1,35 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F0B461FB9
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id CBA0761FB9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 07:45:42 +0000 (UTC)
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 31E7D4B021E;
-	Mon, 10 Jun 2013 09:45:37 +0200 (CEST)
-Date: Mon, 10 Jun 2013 09:45:36 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
+	Mon, 10 Jun 2013 07:46:13 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id tj12so2390187pac.26
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jun 2013 00:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=mI2pyOd7g2SCoA05mPdRSqqidfFuI4+FsuK6+Ie8xe8=;
+	b=l2t5PfRGzhMYngj5ZIkSC6oVpXOhFWPVPtvY9JWigmVYGBzUYsNKEfEb8yFte0gaHD
+	+lFpkAMkZ8+iIhA3XMUP029Z1DGcZywcslDN77nZhegtxvMwgWYLTec8fZovWQOdHFf0
+	C4Q863RdGWMAs0ihK1qrznX/w8s57QY8QcLpp2zABuYdDbxjmoUUu0suHxR8McfWQ6Sa
+	GILnXhWFqZP0kajUBuzuUOtwAAjCeeSZDp8GdgfnV2ZBKeElqbWZhemqcGsAI9e+mzY2
+	NXUEWKnTJGNE9r1FheKwpbP1A23eQpwu4Mn/ePWHqZyj0Lx5g6y0g/nUlyUrMdU+dnBC
+	UYag==
+X-Received: by 10.66.88.105 with SMTP id bf9mr12838612pab.175.1370850374935;
+	Mon, 10 Jun 2013 00:46:14 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id iq6sm4131211pbc.1.2013.06.10.00.46.12
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 10 Jun 2013 00:46:14 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130610094536.36e83ecd@e6520eb>
-In-Reply-To: <CAGDS+nnQjF9P9s61--FW+_1gs_-qbcugmKt7-xd2i6gwkVFpRw@mail.gmail.com>
-References: <CAGDS+nnQjF9P9s61--FW+_1gs_-qbcugmKt7-xd2i6gwkVFpRw@mail.gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.0 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Subject: Re: qt4e-demo-image with meta-fsl-arm: successful build?
+Date: Mon, 10 Jun 2013 18:00:01 +1000
+Message-Id: <1370851201-30757-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.2.3
+Subject: [PATCH] mesa: remove unrecognized configure options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,31 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 07:45:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Jun 2013 07:46:13 -0000
 
-Le Sun, 9 Jun 2013 20:19:52 -0700,
-Steve Sakoman <sakoman@gmail.com> a =C3=A9crit :
+--disable-glut and --disable-glw are not recognized since Mesa 8.0.
+--disable-glu is not recognized since Mesa 9.0.
 
-> Has anyone successfully built (and run!) the qt4e-demo-image with meta-fs=
-l-arm?
->=20
-> I tried a build for a machine based on imx28evk and get a broken image
-> (i.e. demo fails to start at boot):
->=20
-> QIconvCodec::convertFromUnicode: using Latin-1 for conversion, iconv_open=
- failed
-> QIconvCodec::convertToUnicode: using Latin-1 for conversion, iconv_open f=
-ailed
-> Unable to load library icui18n "Cannot load library icui18n:
-> (libicui18n.so.36: cannot open shared object file: No such file or
-> directory)"
-> qtdemo: cannot connect to X server
->=20
-the strange thing is why do you get a X qtdemo when building
-qt4e-demo-image ?
-I've launched a build and will test on my imx28evk asap.
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-graphics/mesa/mesa-common.inc | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Eric
+diff --git a/meta/recipes-graphics/mesa/mesa-common.inc b/meta/recipes-graphics/mesa/mesa-common.inc
+index c37ad69..f9d7ced 100644
+--- a/meta/recipes-graphics/mesa/mesa-common.inc
++++ b/meta/recipes-graphics/mesa/mesa-common.inc
+@@ -20,10 +20,7 @@ PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
+ 
+ inherit autotools pkgconfig pythonnative
+ 
+-EXTRA_OECONF = "--disable-glu \
+-                --disable-glw \
+-                --disable-glut \
+-                --enable-shared-glapi"
++EXTRA_OECONF = "--enable-shared-glapi"
+ 
+ PACKAGECONFIG ??= "egl gles \
+ 		${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}\
+-- 
+1.8.2.3
+
 
