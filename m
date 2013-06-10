@@ -1,35 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C93576A5B4
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 570326A622
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 20:46:46 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id k18so2017518oag.26
+	Mon, 10 Jun 2013 20:46:48 +0000 (UTC)
+Received: by mail-ob0-f172.google.com with SMTP id wo10so10800214obc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 13:46:47 -0700 (PDT)
+	Mon, 10 Jun 2013 13:46:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=A7FSX10wCLSuBFPPsbyxs58xiEYwFQ0z8PMPArh1ZF4=;
-	b=gk5ntewD5vp6iw7OnB9aaAGcfoHHZVkiRXpycss7v+/uPJuR0fdUfFB81q4O5yZtSR
-	ibsK3F7fAnUXdX7Ap3/AirI7Viyj5H0ISQ2m70CIeqasxsAYs9Kg/NL1KLsvbBDcU0Dd
-	FkGb214bVuIHYx26XBK01hGoSsp3xbGGr/VaSIJ59ZlG4iNJiCo5yohT29ZNPLwXcO9e
-	1Udv8SEf4DwGuLP8/Iz5Qjrc7AveSRjPtR6bpJ7y+tKAAhsx9eQS6xZDbMvnG6wCtis2
-	EzkyS36R90lC2nieSebtFhAMjNjCrdGHwspUrckZFEP6q8yK+BrB1SoFl76HuyTwYWAM
-	rt3A==
-X-Received: by 10.60.174.83 with SMTP id bq19mr9449042oec.80.1370897207479;
-	Mon, 10 Jun 2013 13:46:47 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=78QL01Qsp1O05pBa5Ah3IcWdGvd2bDtChcmIFQ6somc=;
+	b=Q8d1EmrIKvdFCYh6ZW1HGd01ftCXHXWmoP3sO3ccCb0oc46fU70k2dTGWFGQooNZCt
+	3dt4Z2G7VShYHjczou8Q76uyYcELRJrInSzPHNRZWiW/tTrobjPMwTJ+qvZzYNcPgJ2f
+	ZShISc+DeRxjBKl6a3W+coyWCGv71kgWEn/sLFsDW+awTO+cXiiUNFaejZYulFdSqy1G
+	FS9GvzgHQjZMQkTxNM+MHpS70npnFXfqv3yqkmuG0iiifIs3qCFtgQwp0sLrtU3MAL6o
+	I1F7xatxTWes/232cCj4K7LjOW+eYkFRexU5ITDi7vdZOCzhNj77vUbRq4sGVFXTVDW8
+	4OLg==
+X-Received: by 10.182.108.230 with SMTP id hn6mr9713174obb.25.1370897209431;
+	Mon, 10 Jun 2013 13:46:49 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id z5sm24272820obw.4.2013.06.10.13.46.45
+	by mx.google.com with ESMTPSA id z5sm24272820obw.4.2013.06.10.13.46.47
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 13:46:46 -0700 (PDT)
+	Mon, 10 Jun 2013 13:46:48 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 13:46:48 -0700
-Message-Id: <cover.1370896985.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 13:46:49 -0700
+Message-Id: <4dcc39cc1fed7d398b97859ea281ab46e8ba8dbb.1370896985.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
+In-Reply-To: <cover.1370896985.git.chris_larson@mentor.com>
+References: <cover.1370896985.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1370896985.git.chris_larson@mentor.com>
+References: <cover.1370896985.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/4] A few miscellaneous fixes from Mentor
+Subject: [PATCH 1/4] packagegroup-core-tools-profile: don't exclude mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +47,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 20:46:47 -0000
+X-List-Received-Date: Mon, 10 Jun 2013 20:46:48 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-The following changes since commit b4f208f418d18f2a4e78a56bebacef481061d917:
+Now that liburcu supports mips, this packagegroup can pull in lttng software
+on that architecture.
 
-  tar: don't mv tar for nativesdk (2013-06-10 18:06:33 +0100)
-
-are available in the git repository at:
-
-  https://github.com/kergoth/oe-core.git misc-fixes
-
-Christopher Larson (4):
-  packagegroup-core-tools-profile: don't exclude mips
-  gconf: inherit gettext
-  avahi: inherit python classes, use PACKAGECONFIG
-  license.bbclass: include all licenses in the manifest
-
- meta/classes/license.bbclass                                  |  7 +++----
- meta/recipes-connectivity/avahi/avahi-ui_0.6.31.bb            |  9 +++++++--
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
  .../packagegroups/packagegroup-core-tools-profile.bb          | 11 -----------
- meta/recipes-gnome/gnome/gconf_3.2.6.bb                       |  2 +-
- 4 files changed, 11 insertions(+), 18 deletions(-)
+ 1 file changed, 11 deletions(-)
 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 8f40c4e..bb1b78b 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -48,22 +48,15 @@ SYSTEMTAP_aarch64 = ""
+ 
+ LTTNGUST = "lttng-ust"
+ LTTNGUST_libc-uclibc = ""
+-LTTNGUST_mips = ""
+ LTTNGUST_aarch64 = ""
+ 
+-# lttng-tools, lttng-modules and babeltrace all depend on liburcu
+-# which currentl doesn't build on mips
+-
+ LTTNGTOOLS = "lttng-tools"
+-LTTNGTOOLS_mips = ""
+ LTTNGTOOLS_aarch64 = ""
+ 
+ LTTNGMODULES = "lttng-modules"
+-LTTNGMODULES_mips = ""
+ LTTNGMODULES_aarch64 = ""
+ 
+ BABELTRACE = "babeltrace"
+-BABELTRACE_mips = ""
+ BABELTRACE_aarch64 = ""
+ 
+ # valgrind does not work on mips
+@@ -77,10 +70,6 @@ VALGRIND_aarch64 = ""
+ #    exmap-console
+ #    exmap-server
+ 
+-# At present we only build lttng-ust on
+-# qemux86/qemux86-64/qemuppc/qemuarm/emenlow/atom-pc since upstream liburcu
+-# (which is required by lttng-ust) may not build on other platforms, like
+-# MIPS.
+ RDEPENDS_${PN} = "\
+     ${PROFILETOOLS} \
+     ${LTTNGUST} \
 -- 
 1.8.3
 
