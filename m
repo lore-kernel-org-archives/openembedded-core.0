@@ -1,39 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id AA6F460130
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 249E66A5B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 23:56:42 +0000 (UTC)
-Received: by mail-ob0-f180.google.com with SMTP id eh20so11090823obb.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 16:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=GnFq5FFKlkFUMaPrF/9Y3Z1bB/tfy764JIADi/qb+hY=;
-	b=pQNdad/FgVZ1XqCPwwnPsAdTLZfbeQGV8thr4FuGYoBgfbeK8463+7dKnGfMRyPsIb
-	dHBC/m8rmo3GaxO2bA61po3OqUW0xIcIBIGcxmOKoEOefEk4Ifjbczgbwb4AmN5Uq0WD
-	iA0UjuErb+ffNFLW2GTabqs0dGrSywWx1xEPMaMiXoNm3HpwatBrU/+yOLNGFrfZMmTA
-	IfFKMZ7SFNjmYYrBIqtDCC21EnCLbbo2P+iwsfj9qPfeV3LlImub06ccXi91F3D6duCJ
-	uWg0MezJEDxh3lqrYr13XU8N4hWs0Fc1Tc41vNB+qZS6y/Cns1igPQsk1Qa8Teo+Szpa
-	43uA==
+	Tue, 11 Jun 2013 00:51:15 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 10 Jun 2013 17:51:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,841,1363158000"; d="scan'208";a="315054241"
+Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
+	by azsmga001.ch.intel.com with ESMTP; 10 Jun 2013 17:51:13 -0700
+Message-ID: <51B67480.5010400@linux.intel.com>
+Date: Mon, 10 Jun 2013 17:51:12 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-Received: by 10.60.143.41 with SMTP id sb9mr3137766oeb.102.1370908603402;
-	Mon, 10 Jun 2013 16:56:43 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.108.167 with HTTP; Mon, 10 Jun 2013 16:56:43 -0700 (PDT)
-In-Reply-To: <03a26f0a33de866401325c100eae7baadf62e6c2.1370906102.git.chris_larson@mentor.com>
-References: <cover.1370906102.git.chris_larson@mentor.com>
-	<03a26f0a33de866401325c100eae7baadf62e6c2.1370906102.git.chris_larson@mentor.com>
-Date: Mon, 10 Jun 2013 20:56:43 -0300
-X-Google-Sender-Auth: tvNW875vjZzCKvMBwaGXDemEVgY
-Message-ID: <CAP9ODKp7Qopi_pgXoLHCn_9emAy9+hf8=W4CQtJ4ZdtQYemj9Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
 To: Christopher Larson <kergoth@gmail.com>
+References: <cover.1370896990.git.chris_larson@mentor.com>
+	<0face86bf815082f2080f84c0214a7835d0380dd.1370896990.git.chris_larson@mentor.com>
+In-Reply-To: <0face86bf815082f2080f84c0214a7835d0380dd.1370896990.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 4/4] license.bbclass: include all licenses in the manifest
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] libnewt: split python module into libnewt-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +34,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2013 23:56:42 -0000
-Content-Type: multipart/alternative; boundary=047d7b3a89fc53535704ded5883b
+X-List-Received-Date: Tue, 11 Jun 2013 00:51:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7b3a89fc53535704ded5883b
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Mon, Jun 10, 2013 at 8:15 PM, Christopher Larson <kergoth@gmail.com>wrote:
-
+On 06/10/2013 01:47 PM, Christopher Larson wrote:
 > From: Christopher Larson <chris_larson@mentor.com>
 >
-> When we don't have a generic license file for the license in question, we
-> can
-> warn, but we should still include it in the manifest, otherwise the
-> manifest
-> doesn't reflect reality. Failing to include a license listed in the recipe
-> in
-> the manifest can't be allowed.
+> This is useful as it avoids pulling python into a build just to build
+> chkconfig. The python recipe uses the libnewt installed in the sysroot by the
+> main package, so there's little loss of build time, other than the additional
+> unpack/patch.
 >
+This one seems to introduce a new warning, this was from a populated 
+build dir with sstate available
+
+> WARNING: The recipe libnewt-python is trying to install files into a shared area when those files already exist.
+Those files and their manifest location are:
+ 
+/srv/ssd/sgw/builds/world/tmp/pkgdata/x86_64-poky-linux/runtime/whiptail 
+
+     Matched in manifest-x86_64-libnewt.packagedata 
+
+ 
+/srv/ssd/sgw/builds/world/tmp/pkgdata/x86_64-poky-linux/runtime-reverse/whiptail
+     Matched in manifest-x86_64-libnewt.packagedata 
+
+Please verify which package should provide the above files.
+
+
+
+Sau!
+
+
 > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> ---
+>   .../newt/libnewt-python_0.52.14.bb                 | 26 ++++++++++++++++++++++
+>   meta/recipes-extended/newt/libnewt_0.52.14.bb      | 15 +++++--------
+>   2 files changed, 31 insertions(+), 10 deletions(-)
+>   create mode 100644 meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+>
+> diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+> new file mode 100644
+> index 0000000..9af2d5d
+> --- /dev/null
+> +++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+> @@ -0,0 +1,26 @@
+> +require recipes-extended/newt/libnewt_${PV}.bb
+> +
+> +SUMMARY .= " - python"
+> +DEPENDS = "libnewt python"
+> +RDEPENDS_${PN} += "python-core"
+> +
+> +inherit pythonnative python-dir
+> +
+> +EXTRA_OECONF += "--with-python"
+> +EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
+> +
+> +
+> +do_compile () {
+> +	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
+> +	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
+> +}
+> +
+> +do_install () {
+> +	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+> +	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
+> +	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
+> +}
+> +
+> +
+> +FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
+> +FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
+> diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+> index 54da15d..ee8206e 100644
+> --- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
+> +++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+> @@ -15,7 +15,7 @@ LICENSE = "LGPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+>
+>   # slang needs to be >= 2.2
+> -DEPENDS = "slang popt python"
+> +DEPENDS = "slang popt"
+>
+>   PR = "r2"
+>
+> @@ -30,11 +30,9 @@ SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b
+>
+>   S = "${WORKDIR}/newt-${PV}"
+>
+> -EXTRA_OECONF = "--without-tcl"
+> +EXTRA_OECONF = "--without-tcl --without-python"
+>
+> -inherit autotools pythonnative python-dir
+> -
+> -EXTRA_OEMAKE = "PYTHONVERS=${PYTHON_DIR}"
+> +inherit autotools
+>
+>   export STAGING_INCDIR
+>   export STAGING_LIBDIR
+> @@ -42,13 +40,10 @@ export STAGING_LIBDIR
+>   export BUILD_SYS
+>   export HOST_SYS
+>
+> -PACKAGES_prepend = "whiptail ${PN}-python "
+> +PACKAGES_prepend = "whiptail "
+>
+>   do_configure_prepend() {
+> -    ( cd ${S}; sh autogen.sh )
+> +    sh autogen.sh
+>   }
+>
+>   FILES_whiptail = "${bindir}/whiptail"
+> -FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
+> -FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/*"
+> -FILES_${PN}-staticdev = "${libdir}/*.a"
 >
 
-Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-
---047d7b3a89fc53535704ded5883b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Mon, Jun 10, 2013 at 8:15 PM, Christopher Larson <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail=
-.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">From: Christopher Larson &lt;<a href=3D"mail=
-to:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
-<br>
-When we don&#39;t have a generic license file for the license in question, =
-we can<br>
-warn, but we should still include it in the manifest, otherwise the manifes=
-t<br>
-doesn&#39;t reflect reality. Failing to include a license listed in the rec=
-ipe in<br>
-the manifest can&#39;t be allowed.<br>
-<br>
-Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;<br></blockquote><div><br></div><div s=
-tyle>Reviewed-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.co=
-m.br">otavio@ossystems.com.br</a>&gt;</div>
-</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
-m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
-ref=3D"http://projetos.ossystems.com.br" target=3D"_blank">http://projetos.=
-ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</div></div>
-
---047d7b3a89fc53535704ded5883b--
