@@ -1,20 +1,31 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EF8A96A9D9
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id F07876A5DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 20:53:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Jun 2013 13:53:01 -0700
+	Tue, 11 Jun 2013 21:26:03 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 11 Jun 2013 14:26:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,847,1363158000"; d="scan'208";a="351677065"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.12.247])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Jun 2013 13:53:01 -0700
+X-IronPort-AV: E=Sophos;i="4.87,847,1363158000"; d="scan'208";a="327914800"
+Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2013 14:26:02 -0700
+Message-ID: <51B795E3.2020505@linux.intel.com>
+Date: Tue, 11 Jun 2013 14:25:55 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2013 13:53:01 -0700
-Message-Id: <1370983981-7905-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] buildtools-tarball: add difflib and pprint python modules
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Andrea Adami <andrea.adami@gmail.com>
+References: <1369524182-994-1-git-send-email-andrea.adami@gmail.com>
+	<CAAQYJAudR_UYhKXmb3Qxowm8_b8mnC7nyeB3kA-4MUeQ4QiGdw@mail.gmail.com>
+	<CAAQYJAv9GTpL=MgYRsc-idhS+M8LzvwJN9A4x0KMjmJ+rmbE=w@mail.gmail.com>
+	<CAAQYJAuWiym=7G_SY4QSO16+VBD4xRWAp5XroEKQd00dngaGCQ@mail.gmail.com>
+	<51B7329E.60101@linux.intel.com>
+	<CAAQYJAsqhGe6BhNPSivJnsDSQxz57qpkXcWXn44KXxSNgw+H6w@mail.gmail.com>
+In-Reply-To: <CAAQYJAsqhGe6BhNPSivJnsDSQxz57qpkXcWXn44KXxSNgw+H6w@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cramfs: import recipe from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,29 +38,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 20:53:01 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 21:26:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Needed for the unittest part of bitbake-selftest can work correctly.
+On 06/11/2013 08:41 AM, Andrea Adami wrote:
+> On Tue, Jun 11, 2013 at 4:22 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 06/11/2013 07:14 AM, Andrea Adami wrote:
+>>>
+>>> ping
+>>>
+>>> Maybe you want cramfs in recipes-devtools and not in recipes-support?
+>>> Feedback, please
+>>>
+>> Apologies, we will not accept this recipe being moved into oe-core, there is
+>> not a strong case to move it to oe-core, cramfs is a image
+>> type that is not heavily used, and the recipe is available in meta-oe.
+>>
+> Saul,
+>
+> See... the 'not heavily used'  is always relative: there are still
+> many devices out in the wild with cramfs 'firmwares'.
+>
+This along with other filesystem related items, such as the FUSE 
+discussion should be moved into a meta-filesystems layer within 
+meta-openembedded similar to the way that meta-networking is structured.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/meta/buildtools-tarball.bb | 2 ++
- 1 file changed, 2 insertions(+)
+> You're missing my first point: I/we aim to have as less layer
+> interdependency as possible (oe-core + BSP) so having to add meta-oe
+> is just an unneeded burden for most cases.
+> Oh, and it would be one recipe less in that meta-oe pot.
+>
+By refactoring it as a layer within meta-openembedded would also not 
+make it "one more recipe" in OE-Core. It will be not as heavy as the 
+meta-oe. OE-core can't test and maintain everything, again relative usage.
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 4744daf..00fc26f 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -30,6 +30,8 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-python-compression \
-     nativesdk-python-json \
-     nativesdk-python-unittest \
-+    nativesdk-python-difflib \
-+    nativesdk-python-pprint \
-     nativesdk-chrpath \
-     nativesdk-tar \
-     nativesdk-git \
--- 
-1.8.1.4
+Your right it should move someplace, but not into OE-Core.
 
+Sau!
+
+
+> Thx for your review
+>
+> Cheers
+> Andrea
+>
+>> Sau!
+>>
+>>> Andrea
+>>>
+>>> On Tue, Jun 4, 2013 at 1:51 PM, Andrea Adami <andrea.adami@gmail.com>
+>>> wrote:
+>>>>
+>>>> Note there would be also the possibility to use the mkfs.cramfs
+>>>> provided by util-linux implementing changes in image_types.bbclass and
+>>>> util-linux itself.
+>>>>
+>>>> Seems a bit overkill to me but still an option...
+>>>>
+>>>> Andrea
+>>>>
+>>>> On Tue, Jun 4, 2013 at 1:39 PM, Andrea Adami <andrea.adami@gmail.com>
+>>>> wrote:
+>>>>>
+>>>>> ping
+>>>>>
+>>>>> Recipe is rather stable (tarball of v.1.1 dated 2002) and cramfs can
+>>>>> be handy for read-only images on legacy devices.
+>>>>>
+>>>>> All the needed infrastructure is already present in
+>>>>> image_types.bbclass so I'd say this recipe has been mistakenly
+>>>>> forgotten when splitting out oe-core
+>>>>>
+>>>>>
+>>>>> Andrea
+>>>>>
+>>>>> On Sun, May 26, 2013 at 1:23 AM, Andrea Adami <andrea.adami@gmail.com>
+>>>>> wrote:
+>>>>>>
+>>>>>> * though listed in IMAGE_FSTYPES the helper is missing so
+>>>>>> * make oe-core autosufficient importing the recipe.
+>>>>>> * Fix PN -> BPN to avoid fetch errors with cramfs-native
+>>>>>>
+>>>>>> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
+>>>>>> ---
+>>>>>>    meta/recipes-support/cramfs/cramfs_1.1.bb | 29
+>>>>>> +++++++++++++++++++++++++++++
+>>>>>>    1 file changed, 29 insertions(+)
+>>>>>>    create mode 100644 meta/recipes-support/cramfs/cramfs_1.1.bb
+>>>>>>
+>>>>>> diff --git a/meta/recipes-support/cramfs/cramfs_1.1.bb
+>>>>>> b/meta/recipes-support/cramfs/cramfs_1.1.bb
+>>>>>> new file mode 100644
+>>>>>> index 0000000..0bca0e1
+>>>>>> --- /dev/null
+>>>>>> +++ b/meta/recipes-support/cramfs/cramfs_1.1.bb
+>>>>>> @@ -0,0 +1,29 @@
+>>>>>> +DESCRIPTION = "Builds cramfs filesystems for embedded systems"
+>>>>>> +LICENSE = "GPLv2"
+>>>>>> +LIC_FILES_CHKSUM =
+>>>>>> "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+>>>>>> +DEPENDS = "zlib"
+>>>>>> +
+>>>>>> +PE = "1"
+>>>>>> +
+>>>>>> +SRC_URI =
+>>>>>> "http://sourceforge.net/projects/cramfs/files/cramfs/1.1/${BPN}-${PV}.tar.gz"
+>>>>>> +
+>>>>>> +SRC_URI[md5sum] = "d3912b9f7bf745fbfea68f6a9b9de30f"
+>>>>>> +SRC_URI[sha256sum] =
+>>>>>> "133caca2c4e7c64106555154ee0ff693f5cf5beb9421ce2eb86baee997d22368"
+>>>>>> +
+>>>>>> +EXTRA_OEMAKE = "\
+>>>>>> +    'CC=${CC}' \
+>>>>>> +    'CFLAGS=${CFLAGS}' \
+>>>>>> +    'LDFLAGS=${LDFLAGS}' \
+>>>>>> +"
+>>>>>> +
+>>>>>> +do_compile_prepend() {
+>>>>>> +    ln -sf GNUmakefile Makefile
+>>>>>> +}
+>>>>>> +
+>>>>>> +do_install() {
+>>>>>> +    install -d ${D}${bindir}
+>>>>>> +    install mkcramfs ${D}${bindir}
+>>>>>> +    install cramfsck ${D}${bindir}
+>>>>>> +}
+>>>>>> +
+>>>>>> +BBCLASSEXTEND = "native"
+>>>>>> --
+>>>>>> 1.8.1.5
+>>>>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
