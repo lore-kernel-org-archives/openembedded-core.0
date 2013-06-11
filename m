@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 53E8E6A9EA
+	by mail.openembedded.org (Postfix) with ESMTP id 68B676A9ED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 13:39:44 +0000 (UTC)
+	Tue, 11 Jun 2013 13:39:45 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2013 06:37:31 -0700
+	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2013 06:37:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,845,1363158000"; d="scan'208";a="327680095"
+X-IronPort-AV: E=Sophos;i="4.87,845,1363158000"; d="scan'208";a="327680111"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2013 06:39:44 -0700
+	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2013 06:39:45 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2013 16:39:33 +0300
-Message-Id: <2616eebc2bf7b990b5e250d6b3e862dc480aa640.1370956136.git.laurentiu.palcu@intel.com>
+Date: Tue, 11 Jun 2013 16:39:34 +0300
+Message-Id: <f1ec30369a7950a6d66749b8620961c312f646ca.1370956136.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1370956136.git.laurentiu.palcu@intel.com>
 References: <cover.1370956136.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1370956136.git.laurentiu.palcu@intel.com>
 References: <cover.1370956136.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 6/7] libdrm: upgrade to 2.4.45
+Subject: [PATCH 7/7] libxt: upgrade to 1.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 13:39:44 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 13:39:45 -0000
+
+The following fragment has been added at the end of the licence file:
+
+Copyright (c) 1993, 1994  X Consortium
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the "Software"),
+to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software, and to permit persons to whom the
+Software furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF
+OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Except as contained in this notice, the name of the X Consortium shall not
+be used in advertising or otherwise to promote the sale, use or other
+dealing in this Software without prior written authorization from the
+X Consortium.
 
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- .../drm/{libdrm_2.4.44.bb => libdrm_2.4.45.bb}     |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.44.bb => libdrm_2.4.45.bb} (46%)
+ .../xorg-lib/{libxt_1.1.3.bb => libxt_1.1.4.bb}    |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxt_1.1.3.bb => libxt_1.1.4.bb} (85%)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.44.bb b/meta/recipes-graphics/drm/libdrm_2.4.45.bb
-similarity index 46%
-rename from meta/recipes-graphics/drm/libdrm_2.4.44.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.45.bb
-index b016958..52e6f65 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.44.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.45.bb
-@@ -3,6 +3,6 @@ require libdrm.inc
- SRC_URI += "file://installtests.patch \
-             file://GNU_SOURCE_definition.patch \
-            "
--SRC_URI[md5sum] = "b760b1f2ae4ec6452383164ec697cd5d"
--SRC_URI[sha256sum] = "42b45ad15bb1bc52630a4b37b7afcfaea27e01b3c0b4791ef25d0f7b2456f6a2"
-+SRC_URI[md5sum] = "92ce56e7533a9b2fcb5c8f32d305328b"
-+SRC_URI[sha256sum] = "3ef0a70c16080fb90c50e807b660b7353d82509c03647f6ecc00bbfa1caee208"
+diff --git a/meta/recipes-graphics/xorg-lib/libxt_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxt_1.1.4.bb
+similarity index 85%
+rename from meta/recipes-graphics/xorg-lib/libxt_1.1.3.bb
+rename to meta/recipes-graphics/xorg-lib/libxt_1.1.4.bb
+index 8249e78..c3373f4 100644
+--- a/meta/recipes-graphics/xorg-lib/libxt_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxt_1.1.4.bb
+@@ -13,13 +13,12 @@ independent of any particular user interface policy or style."
+ require xorg-lib-common.inc
  
+ LICENSE = "MIT & MIT-style"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3239170e81427c5948287df07691f03f"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6565b1e0094ea1caae0971cc4035f343"
+ 
+ 
+ DEPENDS += "util-linux libxcb libsm virtual/libx11 kbproto libxdmcp"
+ PROVIDES = "xt"
+ 
+-PR = "r0"
+ PE = "1"
+ 
+ XORG_PN = "libXt"
+@@ -41,5 +40,5 @@ do_compile() {
+ 	oe_runmake
+ }
+ 
+-SRC_URI[md5sum] = "a6f137ae100e74ebe3b71eb4a38c40b3"
+-SRC_URI[sha256sum] = "8db593c3fc5ffc4e9cd854ba50af1eac9b90d66521ba17802b8f1e0d2d7f05bd"
++SRC_URI[md5sum] = "03149823ae57bb02d0cec90d5b97d56c"
++SRC_URI[sha256sum] = "843a97a988f5654872682a4120486d987d853a71651515472f55519ffae2dd57"
 -- 
 1.7.9.5
 
