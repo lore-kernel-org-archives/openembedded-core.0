@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B72C6A9A1
+Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
+	[209.85.160.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D0E46A9A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 01:49:35 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id 4so8024618pdd.34
+	Tue, 11 Jun 2013 01:49:37 +0000 (UTC)
+Received: by mail-pb0-f46.google.com with SMTP id rq2so2867723pbb.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 18:49:36 -0700 (PDT)
+	Mon, 10 Jun 2013 18:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=+R3J1onsN/KrtKiX3Vjg4gWZefe5cD50dbk2uInuVao=;
-	b=V0vy7muuEeDKkmwnchAdESoPDWwavLPmJoLoIE85smq3J5xJwo1fzlKPflWvs1067v
-	DOCsagEA4dDfGUySy9Lq3Y+BScO2R3XR0RMP3u7Yc9D/PlcYWJcgemd6vM4ROJE6HFkx
-	eHojXz0UXiDcYOfE50kUM4SPxvMYF+MJpqU8Xbdt6Zi1Ra7jCqZ5AK5vB/pD1ImSv6XG
-	IrzjU+eUi7RXkXf2KyIqbBJa9slkdL7gVsCq95NrMxe+XqvFL2WC9j9NIi1+If5LZkxB
-	8uak/DzDt0E+9BFmNkyGNCIpUcX2ctFvQ0zyGgxs2ZCeQGBS43UKNiBwonfVwJJmW1q8
-	2bIA==
-X-Received: by 10.66.157.67 with SMTP id wk3mr16491692pab.88.1370915376662;
-	Mon, 10 Jun 2013 18:49:36 -0700 (PDT)
+	bh=2VWx4YnaC+vm2Kb4LSPUEnrjXNA3ZKNwnoVX4J0W/Tg=;
+	b=K3P//6Z21tByTNMgqUJxcrlBCixArZGoMZodZRhPc3PE3uD58sAPuO0NfqlDkf6Hik
+	rTmDfOAyrysqHdGLYI5Pb+oSeETWaG+KbLkROfRy5sIxTABE9K2k7nBLx5eXBgqMoUe3
+	VfEGaru/S0BG+erGb4bYCs2wDNmSaxAU5nI4i2v0zzc238LjYJr0au8Vw8529t4Chhoq
+	2QaZdWaiJaAygNO7iCC3axMht/7bcuig4+BHP8+9m4s1n7GF2BIC6tK6Yx+slSs1q1La
+	4Z71nX+iy+P45G5OMwiE5js1C9wkwpTXjJAw3Cyd6CsdvLgtFzHvjBHnkaFDDr463zWe
+	0p2Q==
+X-Received: by 10.68.75.49 with SMTP id z17mr8330748pbv.169.1370915379020;
+	Mon, 10 Jun 2013 18:49:39 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id z19sm3388361paf.12.2013.06.10.18.49.34
+	by mx.google.com with ESMTPSA id z19sm3388361paf.12.2013.06.10.18.49.36
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 18:49:35 -0700 (PDT)
+	Mon, 10 Jun 2013 18:49:38 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 18:49:33 -0700
-Message-Id: <66bc155394de2e9d2625f08bff8893d9a3b79b3f.1370915304.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 18:49:34 -0700
+Message-Id: <c0ba5fcaba4666698c7ba9469b77554e07c1248f.1370915304.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
 In-Reply-To: <cover.1370915304.git.chris_larson@mentor.com>
 References: <cover.1370915304.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1370915304.git.chris_larson@mentor.com>
 References: <cover.1370915304.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH v2 3/4] insane.bbclass: quiet package errors not in *_QA
+Subject: [PATCH v2 4/4] libnewt: split python module into libnewt-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,41 +47,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 01:49:35 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 01:49:37 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Currently, if a package QA type from package.bbclass is not listed in
-ERROR_QA, it gets shown, regardless of whether it's in WARN_QA. This differs
-from the behavior of the rest of the QA handling (which doesn't call
-package_qa_handle_error at all if it's in neither _QA variable), and is
-nonintuitive. Change this to use bb.note() if it's listed neither in ERROR_QA
-nor WARN_QA, so it ends up in the task logs, but doesn't clutter up the user's
-output.
+This is useful as it avoids pulling python into a build just to build
+chkconfig. The python recipe uses the libnewt installed in the sysroot by the
+main package, so there's little loss of build time, other than the additional
+unpack/patch.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/insane.bbclass | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-extended/newt/libnewt-0.52.14.inc     | 45 ++++++++++++++++++
+ .../newt/libnewt-python_0.52.14.bb                 | 26 +++++++++++
+ meta/recipes-extended/newt/libnewt_0.52.14.bb      | 54 +---------------------
+ 3 files changed, 73 insertions(+), 52 deletions(-)
+ create mode 100644 meta/recipes-extended/newt/libnewt-0.52.14.inc
+ create mode 100644 meta/recipes-extended/newt/libnewt-python_0.52.14.bb
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index c091005..2b30538 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -143,9 +143,11 @@ def package_qa_handle_error(error_class, error_msg, d):
-         bb.error("QA Issue: %s" % error_msg)
-         d.setVar("QA_SANE", False)
-         return False
--    else:
-+    elif error_class in (d.getVar("WARN_QA", True) or "").split():
-         bb.warn("QA Issue: %s" % error_msg)
--        return True
-+    else:
-+        bb.note("QA Issue: %s" % error_msg)
-+    return True
+diff --git a/meta/recipes-extended/newt/libnewt-0.52.14.inc b/meta/recipes-extended/newt/libnewt-0.52.14.inc
+new file mode 100644
+index 0000000..262610c
+--- /dev/null
++++ b/meta/recipes-extended/newt/libnewt-0.52.14.inc
+@@ -0,0 +1,45 @@
++SUMMARY = "A library for text mode user interfaces"
++
++DESCRIPTION = "Newt is a programming library for color text mode, widget based user \
++interfaces.  Newt can be used to add stacked windows, entry widgets, \
++checkboxes, radio buttons, labels, plain text fields, scrollbars, \
++etc., to text mode user interfaces.  This package also contains the \
++shared library needed by programs built with newt, as well as a \
++/usr/bin/dialog replacement called whiptail.  Newt is based on the \
++slang library."
++
++HOMEPAGE = "https://fedorahosted.org/newt/"
++SECTION = "libs"
++
++LICENSE = "LGPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
++
++# slang needs to be >= 2.2
++DEPENDS = "slang popt"
++
++PR = "r2"
++
++SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
++           file://remove_slang_include.patch \
++           file://fix_SHAREDDIR.patch \
++           file://cross_ar.patch \
++           file://fix_python_fpic.patch"
++
++SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
++SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
++
++S = "${WORKDIR}/newt-${PV}"
++
++EXTRA_OECONF = "--without-tcl --without-python"
++
++inherit autotools
++
++export STAGING_INCDIR
++export STAGING_LIBDIR
++
++export BUILD_SYS
++export HOST_SYS
++
++do_configure_prepend() {
++    sh autogen.sh
++}
+diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.14.bb b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+new file mode 100644
+index 0000000..dd3ac63
+--- /dev/null
++++ b/meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+@@ -0,0 +1,26 @@
++require recipes-extended/newt/libnewt-${PV}.inc
++
++SUMMARY .= " - python"
++DEPENDS = "libnewt python"
++RDEPENDS_${PN} += "python-core"
++
++inherit pythonnative python-dir
++
++EXTRA_OECONF += "--with-python"
++EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
++
++
++do_compile () {
++	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
++	oe_runmake "LIBNEWTSH=${STAGING_LIBDIR}/libnewt.so.$VERSION" _snackmodule.so
++}
++
++do_install () {
++	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
++	install -m 0755 ${PYTHON_DIR}/_snackmodule.so ${D}${PYTHON_SITEPACKAGES_DIR}/
++	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
++}
++
++
++FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
++FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.14.bb b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+index 54da15d..155114e 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.14.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.14.bb
+@@ -1,54 +1,4 @@
+-SUMMARY = "A library for text mode user interfaces"
+-
+-DESCRIPTION = "Newt is a programming library for color text mode, widget based user \
+-interfaces.  Newt can be used to add stacked windows, entry widgets, \
+-checkboxes, radio buttons, labels, plain text fields, scrollbars, \
+-etc., to text mode user interfaces.  This package also contains the \
+-shared library needed by programs built with newt, as well as a \
+-/usr/bin/dialog replacement called whiptail.  Newt is based on the \
+-slang library."
+-
+-HOMEPAGE = "https://fedorahosted.org/newt/"
+-SECTION = "libs"
+-
+-LICENSE = "LGPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
+-
+-# slang needs to be >= 2.2
+-DEPENDS = "slang popt python"
+-
+-PR = "r2"
+-
+-SRC_URI = "https://fedorahosted.org/releases/n/e/newt/newt-${PV}.tar.gz \
+-           file://remove_slang_include.patch \
+-           file://fix_SHAREDDIR.patch \
+-           file://cross_ar.patch \
+-           file://fix_python_fpic.patch"
+-
+-SRC_URI[md5sum] = "eb78c6bb658b92ec7198908b5b8d0e37"
+-SRC_URI[sha256sum] = "f70f4f58baa60388ddf2e39249ffb00898fb40f2b2767e42e2ab51fe4b40978e"
+-
+-S = "${WORKDIR}/newt-${PV}"
+-
+-EXTRA_OECONF = "--without-tcl"
+-
+-inherit autotools pythonnative python-dir
+-
+-EXTRA_OEMAKE = "PYTHONVERS=${PYTHON_DIR}"
+-
+-export STAGING_INCDIR
+-export STAGING_LIBDIR
+-
+-export BUILD_SYS
+-export HOST_SYS
+-
+-PACKAGES_prepend = "whiptail ${PN}-python "
+-
+-do_configure_prepend() {
+-    ( cd ${S}; sh autogen.sh )
+-}
++require recipes-extended/newt/${BPN}-${PV}.inc
  
- QAPATHTEST[libexec] = "package_qa_check_libexec"
- def package_qa_check_libexec(path,name, d, elf, messages):
++PACKAGES =+ "whiptail"
+ FILES_whiptail = "${bindir}/whiptail"
+-FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
+-FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/*"
+-FILES_${PN}-staticdev = "${libdir}/*.a"
 -- 
 1.8.3
 
