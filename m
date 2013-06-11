@@ -1,35 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 8264E6A8D9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 543D76A99A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 22:00:02 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id rp16so5451736pbb.0
+	Tue, 11 Jun 2013 22:30:58 +0000 (UTC)
+Received: by mail-ea0-f182.google.com with SMTP id d10so2744088eaj.41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 15:00:03 -0700 (PDT)
+	Tue, 11 Jun 2013 15:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=mURCdDab1Q8dD/IaAQzCJcKjrey9bUF/j7Q4UW+WcCU=;
-	b=RxGeiTYbi7xgrId9yaYzzAA1nFlMpHlOQOq7lfTIiaMTml1UOvvj3+SZEih2tSjQ83
-	3g262jKHNzZhjpXjxu7a+GwDX3rVPsojog8T5tWkq2BOhCzcAR+BUsYfiH5B7cSksJoj
-	bPkcaQFScSEMkbHj7wS0XQ9nOxjnjwvpgqfQXRoP6Jw8dSivSHj4G2XVKmxvFZ8y2KwA
-	m1s0XdwffINNLhsZP0CyZ49Do83soWMykhKdla3Y6UzO/Ym9Zn8witgY6k1bDjZO5QXf
-	MuhtlcR6K2wE5OkLOvRhEMqiGNz8B8JEeRLqZlMHCadoj6h7BpdsrBI69fCvkR7mPpf/
-	zl2w==
-X-Received: by 10.69.3.65 with SMTP id bu1mr16679471pbd.107.1370988003856;
-	Tue, 11 Jun 2013 15:00:03 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id vv6sm21755785pab.6.2013.06.11.15.00.02
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 11 Jun 2013 15:00:03 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=2Z9GZvJKXYMGrDsjjFhV8hFH2RSadyT+TKx/yf0SlHs=;
+	b=nTmsJefX6A6EQvea6yq6Ii1n81wqXs5yzYjoKSAdfZUh1Zo5RB1SIxK/vFsE5W1wZG
+	sZBEbaGRlCME7xroSxEFm1DxLDbb1z0XwdrFAUC8fctcigNK4ouZqFSns18mGZFP0Zcj
+	wQLb5G3//d30P4l6xwAP7Mlm9qoNuj2h5IdEx4NIcKP3LT5QDVoBuyuQzSu4usc/nEZA
+	qVZCyGFfoJrk6lG0T4i2es+xMnLhFFKrp2YjvCcW549k7VKiDHdpWd13ayT/MUN2Th7q
+	O32osEPBnaWjThg1DbodWdLS0y72cgK81nuffKRdUKX8Fa2gq8oRtx97fIEryVqS2f3n
+	9dlA==
+X-Received: by 10.14.99.71 with SMTP id w47mr18637010eef.140.1370989858413;
+	Tue, 11 Jun 2013 15:30:58 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	s43sm33056563eem.13.2013.06.11.15.30.57 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 11 Jun 2013 15:30:57 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2013 14:57:48 -0700
-Message-Id: <1370987869-19041-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] gcc: Upgrade to 4.8.1
+Date: Wed, 12 Jun 2013 00:31:16 +0200
+Message-Id: <1370989876-20531-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.2.1
+In-Reply-To: <1370987869-19041-1-git-send-email-raj.khem@gmail.com>
+References: <1370987869-19041-1-git-send-email-raj.khem@gmail.com>
+Subject: [RFC][PATCH] gcc-4.8: Backport fix for ICE triggered in pixman
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,47 +43,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 22:00:02 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 22:30:58 -0000
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+* http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57329
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 +
+ .../gcc/gcc-4.8/0036-PR-target-56102.patch         | 83 ++++++++++++++++++++++
+ 2 files changed, 84 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
 
 diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 80bd02c..6664f1c 100644
+index 6664f1c..bfdb766 100644
 --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
 +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -6,7 +6,7 @@ require gcc-common.inc
- # on branch then PV should be incremented to 4.7.2+svnr${SRCPV}
- # to reflect that change
- 
--PV = "4.8.0"
-+PV = "4.8.1"
- 
- # BINV should be incremented after updating to a revision
- # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
-@@ -14,7 +14,7 @@ PV = "4.8.0"
- # 4.7.1 then the value below will have 2 which will mean 4.7.2
- # which will be next minor release and so on.
- 
--BINV = "4.8.0"
-+BINV = "4.8.1"
- 
- FILESPATH = "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.8' ], d)}"
- 
-@@ -68,8 +68,8 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+@@ -65,6 +65,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
+ 	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
+ 	   file://0035-wcast-qual-PR-55383.patch \
++	   file://0036-PR-target-56102.patch \
  	   file://gcc-4.8-PR56797.patch \
  	   file://gcc-4.8-build-args.patch \
  	  "
--SRC_URI[md5sum] = "e6040024eb9e761c3bea348d1fa5abb0"
--SRC_URI[sha256sum] = "b037fe5132b71ecad2ea7141ec92292b5d32427bf90fd90cde432b1d5abacc2c"
-+SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
-+SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
- 
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
- B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
+new file mode 100644
+index 0000000..a9498fc
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
+@@ -0,0 +1,83 @@
++From fa049b3584a1cc36c250205e3d5841e6a40ff677 Mon Sep 17 00:00:00 2001
++From: amker <amker@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Wed, 27 Mar 2013 08:16:54 +0000
++Subject: [PATCH] PR target/56102
++
++* config/arm/arm.c (thumb1_rtx_costs, thumb1_size_rtx_costs): Fix rtx costs for SET/ASHIFT/ASHIFTRT/LSHIFTRT/ROTATERT patterns with mult-word mode.
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@197155 138bc75d-0d04-0410-961f-82ee72b054a4
++
++Upstream-Status: Backport
++http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57329
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ gcc/config/arm/arm.c | 17 ++++++++++++++---
++ 1 file changed, 14 insertions(+), 3 deletions(-)
++
++diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
++index 460d333..edf850d 100644
++--- a/gcc/config/arm/arm.c
+++++ b/gcc/config/arm/arm.c
++@@ -7094,7 +7094,7 @@ static inline int
++ thumb1_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
++ {
++   enum machine_mode mode = GET_MODE (x);
++-  int total;
+++  int total, words;
++ 
++   switch (code)
++     {
++@@ -7102,6 +7102,8 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
++     case ASHIFTRT:
++     case LSHIFTRT:
++     case ROTATERT:
+++      return (mode == SImode) ? COSTS_N_INSNS (1) : COSTS_N_INSNS (2);
+++
++     case PLUS:
++     case MINUS:
++     case COMPARE:
++@@ -7125,7 +7127,10 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
++       return COSTS_N_INSNS (1) + 16;
++ 
++     case SET:
++-      return (COSTS_N_INSNS (1)
+++      /* A SET doesn't have a mode, so let's look at the SET_DEST to get
+++	 the mode.  */
+++      words = ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST (x))));
+++      return (COSTS_N_INSNS (words)
++ 	      + 4 * ((MEM_P (SET_SRC (x)))
++ 		     + MEM_P (SET_DEST (x))));
++ 
++@@ -7822,6 +7827,7 @@ static inline int
++ thumb1_size_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
++ {
++   enum machine_mode mode = GET_MODE (x);
+++  int words;
++ 
++   switch (code)
++     {
++@@ -7829,6 +7835,8 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
++     case ASHIFTRT:
++     case LSHIFTRT:
++     case ROTATERT:
+++      return (mode == SImode) ? COSTS_N_INSNS (1) : COSTS_N_INSNS (2);
+++
++     case PLUS:
++     case MINUS:
++     case COMPARE:
++@@ -7847,7 +7855,10 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
++       return COSTS_N_INSNS (1);
++ 
++     case SET:
++-      return (COSTS_N_INSNS (1)
+++      /* A SET doesn't have a mode, so let's look at the SET_DEST to get
+++	 the mode.  */
+++      words = ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST (x))));
+++      return (COSTS_N_INSNS (words)
++               + 4 * ((MEM_P (SET_SRC (x)))
++                      + MEM_P (SET_DEST (x))));
++ 
++-- 
++1.8.2.1
++
 -- 
-1.7.9.5
+1.8.2.1
 
 
