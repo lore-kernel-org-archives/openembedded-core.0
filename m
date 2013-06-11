@@ -1,41 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C6526A9A1
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E61676A9BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 22:39:37 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id t12so4400722pdi.35
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 15:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=9t+bsoLaDnyaGmFmI4+29QkcCiz3oq5gkR+7XLMeZyQ=;
-	b=Gk5qewo/IGL+92tT+igeH8E/GKp5GuxpClBrJGJbKWo5Z99MON9HhHRMynUdt0tJ2F
-	0T25Sy660xJMdN0Vv5aL0dS9EJ88Y3BUNuVi+SO4+0b+gWctgFGjaHy1CgjaYwoP20qt
-	qfDL/e4K1HWkBnZbs16Sq+rwR/LejVXVxHLJqqNG9+3eA3Y6rGptR1BZPpXh3x8PmxF5
-	4p9IU2G3VPrZrhZrXbXqsv1UlEgD+iE6NwJSNHIxioL4aNZ61SWUAQCiN1GZfOLhpK4V
-	woVfuCPsGObCgQbNTaWZnRObGQa+zcCHhn8+bkLgIvITsrEWRF7PCFVY6FGEto9xf7U9
-	YLqw==
-X-Received: by 10.66.197.165 with SMTP id iv5mr21312847pac.67.1370990378920;
-	Tue, 11 Jun 2013 15:39:38 -0700 (PDT)
-Received: from sa-nc-common3-188.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	vu10sm16323661pbc.27.2013.06.11.15.39.37 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 11 Jun 2013 15:39:38 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20130611223524.GM3233@jama>
-Date: Tue, 11 Jun 2013 15:39:35 -0700
-Message-Id: <D18769ED-F695-463A-83D4-D20A1EB3AC2F@gmail.com>
-References: <1370987869-19041-1-git-send-email-raj.khem@gmail.com>
-	<1370989876-20531-1-git-send-email-Martin.Jansa@gmail.com>
-	<20130611223524.GM3233@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1508)
+	Tue, 11 Jun 2013 22:42:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5BMgjCT016727
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 11 Jun 2013 15:42:45 -0700 (PDT)
+Received: from e6410-2 (172.25.40.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 11 Jun 2013 15:42:44 -0700
+Date: Tue, 11 Jun 2013 17:42:36 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130611174236.758b403c@e6410-2>
+In-Reply-To: <2CF72E14-1BCC-4CCC-8F98-8818788D95DA@gmail.com>
+References: <1370015746-22465-1-git-send-email-mark.hatle@windriver.com>
+	<7FC71AE1-8B85-4A2C-8E5D-A8A29DF05193@gmail.com>
+	<51B74CAA.9060203@windriver.com>
+	<2CF72E14-1BCC-4CCC-8F98-8818788D95DA@gmail.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] gcc-4.8: Backport fix for ICE triggered in pixman
+Subject: Re: [PATCH v2] gcc: add build directory to include directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,166 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 22:39:37 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Jun 2013 22:42:46 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 11 Jun 2013 10:11:46 -0700
+Khem Raj <raj.khem@gmail.com> wrote:
 
-On Jun 11, 2013, at 3:35 PM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
+> On Jun 11, 2013, at 9:13 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> 
+> >> what happens if you use --disable-libunwind-exceptions  
+> > 
+> > As far as I know we have not tried that.  Doesn't this change some of the processing though for systems that use unwind as the only way to generate proper back traces?  
+> 
+> we already disable it for gcc-runtime and libgcc recipes where it would matter too.
 
-> On Wed, Jun 12, 2013 at 12:31:16AM +0200, Martin Jansa wrote:
->> * http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57329
->=20
-> Only RFC, because world build is still running to confirm that it
-> doesn't introduce new issues and that it indeed fixes pixman build for
-> xscalete.
+For what it's worth, --disable-libunwind-exceptions doesn't seem to prevent
+the failure.
 
-can you also test it with rebased on top of gcc 4.8.1 upgrade patch I =
-sent earlier today
+In file included from /home/seebs/tct/t00/bitbake_build/tmp/work-shared/gcc-4.8.
+0-r0/gcc-4.8.0/libstdc++-v3/libsupc++/eh_arm.cc:26:0:
+/home/seebs/tct/t00/bitbake_build/tmp/work-shared/gcc-4.8.0-r0/gcc-4.8.0/libstdc
+++-v3/libsupc++/unwind-cxx.h:92:3: error: '_Unwind_Ptr' does not name a type
+[... and many, many, more]
 
->=20
->>=20
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->> meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 +
->> .../gcc/gcc-4.8/0036-PR-target-56102.patch         | 83 =
-++++++++++++++++++++++
->> 2 files changed, 84 insertions(+)
->> create mode 100644 =
-meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
->>=20
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc =
-b/meta/recipes-devtools/gcc/gcc-4.8.inc
->> index 6664f1c..bfdb766 100644
->> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
->> @@ -65,6 +65,7 @@ SRC_URI =3D =
-"${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
->> 	   =
-file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
->> 	   =
-file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
->> 	   file://0035-wcast-qual-PR-55383.patch \
->> +	   file://0036-PR-target-56102.patch \
->> 	   file://gcc-4.8-PR56797.patch \
->> 	   file://gcc-4.8-build-args.patch \
->> 	  "
->> diff --git =
-a/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch =
-b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
->> new file mode 100644
->> index 0000000..a9498fc
->> --- /dev/null
->> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
->> @@ -0,0 +1,83 @@
->> +=46rom fa049b3584a1cc36c250205e3d5841e6a40ff677 Mon Sep 17 00:00:00 =
-2001
->> +From: amker <amker@138bc75d-0d04-0410-961f-82ee72b054a4>
->> +Date: Wed, 27 Mar 2013 08:16:54 +0000
->> +Subject: [PATCH] PR target/56102
->> +
->> +* config/arm/arm.c (thumb1_rtx_costs, thumb1_size_rtx_costs): Fix =
-rtx costs for SET/ASHIFT/ASHIFTRT/LSHIFTRT/ROTATERT patterns with =
-mult-word mode.
->> +
->> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@197155 =
-138bc75d-0d04-0410-961f-82ee72b054a4
->> +
->> +Upstream-Status: Backport
->> +http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57329
->> +
->> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> +---
->> + gcc/config/arm/arm.c | 17 ++++++++++++++---
->> + 1 file changed, 14 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
->> +index 460d333..edf850d 100644
->> +--- a/gcc/config/arm/arm.c
->> ++++ b/gcc/config/arm/arm.c
->> +@@ -7094,7 +7094,7 @@ static inline int
->> + thumb1_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
->> + {
->> +   enum machine_mode mode =3D GET_MODE (x);
->> +-  int total;
->> ++  int total, words;
->> +=20
->> +   switch (code)
->> +     {
->> +@@ -7102,6 +7102,8 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, =
-enum rtx_code outer)
->> +     case ASHIFTRT:
->> +     case LSHIFTRT:
->> +     case ROTATERT:
->> ++      return (mode =3D=3D SImode) ? COSTS_N_INSNS (1) : =
-COSTS_N_INSNS (2);
->> ++
->> +     case PLUS:
->> +     case MINUS:
->> +     case COMPARE:
->> +@@ -7125,7 +7127,10 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, =
-enum rtx_code outer)
->> +       return COSTS_N_INSNS (1) + 16;
->> +=20
->> +     case SET:
->> +-      return (COSTS_N_INSNS (1)
->> ++      /* A SET doesn't have a mode, so let's look at the SET_DEST =
-to get
->> ++	 the mode.  */
->> ++      words =3D ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST =
-(x))));
->> ++      return (COSTS_N_INSNS (words)
->> + 	      + 4 * ((MEM_P (SET_SRC (x)))
->> + 		     + MEM_P (SET_DEST (x))));
->> +=20
->> +@@ -7822,6 +7827,7 @@ static inline int
->> + thumb1_size_rtx_costs (rtx x, enum rtx_code code, enum rtx_code =
-outer)
->> + {
->> +   enum machine_mode mode =3D GET_MODE (x);
->> ++  int words;
->> +=20
->> +   switch (code)
->> +     {
->> +@@ -7829,6 +7835,8 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code =
-code, enum rtx_code outer)
->> +     case ASHIFTRT:
->> +     case LSHIFTRT:
->> +     case ROTATERT:
->> ++      return (mode =3D=3D SImode) ? COSTS_N_INSNS (1) : =
-COSTS_N_INSNS (2);
->> ++
->> +     case PLUS:
->> +     case MINUS:
->> +     case COMPARE:
->> +@@ -7847,7 +7855,10 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code =
-code, enum rtx_code outer)
->> +       return COSTS_N_INSNS (1);
->> +=20
->> +     case SET:
->> +-      return (COSTS_N_INSNS (1)
->> ++      /* A SET doesn't have a mode, so let's look at the SET_DEST =
-to get
->> ++	 the mode.  */
->> ++      words =3D ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST =
-(x))));
->> ++      return (COSTS_N_INSNS (words)
->> +               + 4 * ((MEM_P (SET_SRC (x)))
->> +                      + MEM_P (SET_DEST (x))));
->> +=20
->> +--=20
->> +1.8.2.1
->> +
->> --=20
->> 1.8.2.1
->>=20
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+This appears to be identical to what we get without
+--disable-libunwind-exceptions. It may be that that isn't fully implemented
+for libsupc++.
 
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
