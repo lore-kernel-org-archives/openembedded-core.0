@@ -1,29 +1,36 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 435AE6A9A1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
+	[209.85.160.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 80E996A9A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 15:43:44 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UmQjY-0000Mu-Lq; Tue, 11 Jun 2013 17:43:44 +0200
-Message-ID: <1370965423.27750.86.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Jun 2013 16:43:43 +0100
-In-Reply-To: <CAMKF1sp=uG4hOUrEgXjcni+e0e3+vXPwOqG9BExXigZBh0uRZA@mail.gmail.com>
-References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
-	<E947360C-AE06-42E4-AD51-2DA926D1448D@gmail.com>
-	<1370963003.27750.80.camel@phil-desktop.brightsign>
-	<CAMKF1srGhvZLyhEZbYbFepZADbAKF1kJM2ObBEjc8OevQ5CCqQ@mail.gmail.com>
-	<1370964404.27750.83.camel@phil-desktop.brightsign>
-	<CAMKF1sp=uG4hOUrEgXjcni+e0e3+vXPwOqG9BExXigZBh0uRZA@mail.gmail.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] get minimal rootfs to be even smaller
+	Tue, 11 Jun 2013 15:53:56 +0000 (UTC)
+Received: by mail-pb0-f54.google.com with SMTP id ro2so8643345pbb.27
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2013 08:53:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=1iRqzmM4QDtsMM+dzQurBH4hRmeO3lqcLDMveo3bqCo=;
+	b=gbqGsAgyGz+ZpBsY4dpptrBFCnxtBp+QZCdMpgDAN8fnT5NXvAD/xnEYGVkK1N+QUq
+	Mz94v2D6Iz3WiwPkTYn3BUw6FC4T0tBQEYtn2Wquf4fcLF0Hs8UmDaDNiCZ2UrXco7TU
+	rcSFFIP63C0fzmHqG2rJltrKrVGZ+iJJTZ8KxL5uAZQA54DxfJZQZ8iRDPdkSiazrST0
+	VZmlK5GE/oVj25n0RWCW1bNCtYKHNrOTkty43K3uABsDmcm6WPpk7D2O9FVVuCsbao98
+	b9NjV88++093SWRTh7EIIP1nPHJRsYC281WGvbjWZhMWpOAY36hU4H5oSX1DNPsQFgL5
+	w/vA==
+X-Received: by 10.66.160.101 with SMTP id xj5mr19479492pab.5.1370966037556;
+	Tue, 11 Jun 2013 08:53:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.66.252.98 with HTTP; Tue, 11 Jun 2013 08:53:37 -0700 (PDT)
+In-Reply-To: <1370426553-23428-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1370426553-23428-1-git-send-email-Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Jun 2013 16:53:37 +0100
+Message-ID: <CAJTo0LY2gBhpNMEtr+VtawCcw8J5VetQdU=FyFM4dfrtYR_ipw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQmI468EFKweVTLv7YfKcBCGE9DE3hNdAXvjTbAaNX32z0HpXJQV7htuuWHEl91Dnu5XI9Z8
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] site: add alignment values for at-spi2-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,17 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 15:43:45 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jun 2013 15:53:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2013-06-11 at 08:40 -0700, Khem Raj wrote:
-> yeah now I see the code build is going to build RRECOMMENDS automatically hmm.
-> Do BAD_RECOMMENDATIONS work with rpm ?
+On 5 June 2013 11:02, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * x86 and x86_64 values were added in
+>   8c46ec2edc0197b32d32e0f27d5b60271338b600
+>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-I think you mean "with smart", and as far as I know the answer is no.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-p.
+Anyone got PPC or MIPS hardware to hand?
 
-
+Ross
 
