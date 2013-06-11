@@ -1,36 +1,43 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 80E996A9A1
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E16A6AA0D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 15:53:56 +0000 (UTC)
-Received: by mail-pb0-f54.google.com with SMTP id ro2so8643345pbb.27
+	Tue, 11 Jun 2013 15:55:22 +0000 (UTC)
+Received: by mail-pa0-f41.google.com with SMTP id bj3so4465895pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 08:53:57 -0700 (PDT)
+	Tue, 11 Jun 2013 08:55:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=1iRqzmM4QDtsMM+dzQurBH4hRmeO3lqcLDMveo3bqCo=;
-	b=gbqGsAgyGz+ZpBsY4dpptrBFCnxtBp+QZCdMpgDAN8fnT5NXvAD/xnEYGVkK1N+QUq
-	Mz94v2D6Iz3WiwPkTYn3BUw6FC4T0tBQEYtn2Wquf4fcLF0Hs8UmDaDNiCZ2UrXco7TU
-	rcSFFIP63C0fzmHqG2rJltrKrVGZ+iJJTZ8KxL5uAZQA54DxfJZQZ8iRDPdkSiazrST0
-	VZmlK5GE/oVj25n0RWCW1bNCtYKHNrOTkty43K3uABsDmcm6WPpk7D2O9FVVuCsbao98
-	b9NjV88++093SWRTh7EIIP1nPHJRsYC281WGvbjWZhMWpOAY36hU4H5oSX1DNPsQFgL5
-	w/vA==
-X-Received: by 10.66.160.101 with SMTP id xj5mr19479492pab.5.1370966037556;
-	Tue, 11 Jun 2013 08:53:57 -0700 (PDT)
+	bh=lAgVAGtGk923t8/oTC3vUQKyo+hiYYQGzSgaWUMFssE=;
+	b=fjVL7jKcCTjmjWt/i3Qnz4FbGAl4NZ6kUPDj/0NVvzHu5dM524xwyAblx3++N3Mpu4
+	xrXD/KQaNtm3QlzzwPRGXBGIYigT3agHsYldR122YhtsJpsBsM0NOyagvNQJH/KZe3cF
+	LVyyJ/crxGbsl0h3BGGyp2cVgBNzWdAvOuyyYeBCfdZU/E8JHk/INQAtnueay6knAvyt
+	lCDBA/ZHXaoS0G+lkQ91yq2rohPV9Dppvv+Izgj/HjqZe0idMo3DwF4Lc6GY3aubyPbf
+	lV9pL33+qgn4GsQvSdZfsy2NNIchGoI90/zlJ2tNXKCr4DOvfGwkgMkU0rgToFV+wkvA
+	PY/Q==
+X-Received: by 10.68.28.232 with SMTP id e8mr12643228pbh.94.1370966123844;
+	Tue, 11 Jun 2013 08:55:23 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.66.252.98 with HTTP; Tue, 11 Jun 2013 08:53:37 -0700 (PDT)
-In-Reply-To: <1370426553-23428-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1370426553-23428-1-git-send-email-Martin.Jansa@gmail.com>
+Received: by 10.66.252.98 with HTTP; Tue, 11 Jun 2013 08:55:03 -0700 (PDT)
+In-Reply-To: <1370965423.27750.86.camel@phil-desktop.brightsign>
+References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
+	<E947360C-AE06-42E4-AD51-2DA926D1448D@gmail.com>
+	<1370963003.27750.80.camel@phil-desktop.brightsign>
+	<CAMKF1srGhvZLyhEZbYbFepZADbAKF1kJM2ObBEjc8OevQ5CCqQ@mail.gmail.com>
+	<1370964404.27750.83.camel@phil-desktop.brightsign>
+	<CAMKF1sp=uG4hOUrEgXjcni+e0e3+vXPwOqG9BExXigZBh0uRZA@mail.gmail.com>
+	<1370965423.27750.86.camel@phil-desktop.brightsign>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Jun 2013 16:53:37 +0100
-Message-ID: <CAJTo0LY2gBhpNMEtr+VtawCcw8J5VetQdU=FyFM4dfrtYR_ipw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQmI468EFKweVTLv7YfKcBCGE9DE3hNdAXvjTbAaNX32z0HpXJQV7htuuWHEl91Dnu5XI9Z8
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] site: add alignment values for at-spi2-core
+Date: Tue, 11 Jun 2013 16:55:03 +0100
+Message-ID: <CAJTo0Lar_K_5xRmcE7Zi0zZBd-44=uHLmaJJomfL-tHA3LMqxA@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQmts3SqCgHitxjRowx0IeVYv6xADMhFHN/KkZqS5P7KK1qJ6HvFadUkJ2Zm8eZyCjivqWlV
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] get minimal rootfs to be even smaller
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +50,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 15:53:57 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 15:55:22 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 5 June 2013 11:02, Martin Jansa <martin.jansa@gmail.com> wrote:
-> * x86 and x86_64 values were added in
->   8c46ec2edc0197b32d32e0f27d5b60271338b600
+On 11 June 2013 16:43, Phil Blundell <pb@pbcl.net> wrote:
+> On Tue, 2013-06-11 at 08:40 -0700, Khem Raj wrote:
+>> yeah now I see the code build is going to build RRECOMMENDS automatically hmm.
+>> Do BAD_RECOMMENDATIONS work with rpm ?
 >
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> I think you mean "with smart", and as far as I know the answer is no.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Only rootfs_ipkg respects BAD_RECOMMENDATIONS:
 
-Anyone got PPC or MIPS hardware to hand?
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3916 <-- bug for rpm
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4120 <-- bug for dpkg
 
 Ross
 
