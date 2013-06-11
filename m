@@ -1,35 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id DCED16A9CE
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 8713C6A9A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 11:22:11 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id k13so5733742wgh.17
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 04:22:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=OxMRqYYgCYY+321JaAsKwkJTRCrV2nIbAaEhfsZeKWs=;
-	b=RBoMm17F8/GXkMB9jdbAjkthlKvXfK4JPnOuSbo9MJ2IpuW9hl9+gCi4dnw8I45E7B
-	Vk+atTN9SIh5dLETldCW9BJExSxBp3QNvh/tA8OqS6JHYiF0cad9/M4p9BubA7aSgrbH
-	cyGQLGu4gOTOvoYF18aWmAXxun8tl7eGOcy2XuZxK5tUsxOhF+l4FUvrgS3/r1L/I2QX
-	I72sdJheoOZWSfilFseWIyhTG7aZ6mmy5MYFQUY73aOuxw/uE3RY3J7jSj9BNwlXEnhp
-	PAmr4MeVtlXY91uwCAr55Z17Hh8WK4Ge1f4a/cJ7dwqYJC8jAKmshJgKK9whjm/AZ0uJ
-	6uxw==
-X-Received: by 10.194.176.71 with SMTP id cg7mr8095596wjc.18.1370949731599;
-	Tue, 11 Jun 2013 04:22:11 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fb9sm17130405wid.2.2013.06.11.04.22.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 11 Jun 2013 04:22:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2013 12:18:48 +0100
-Message-Id: <1370949528-4946-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnOqI++LX9dCzpFobovuo2BCzP7Sx9Oeg7mkrGiWk9dIqcjwB7Ma4XAODz6/lQb7Dj8QbOJ
-Subject: [PATCH] glib-2.0: drop Makefile.in hunks from patch
+	Tue, 11 Jun 2013 12:43:52 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 11 Jun 2013 05:43:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,845,1363158000"; d="scan'208";a="253461078"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 11 Jun 2013 05:43:51 -0700
+Date: Tue, 11 Jun 2013 15:43:50 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Tasslehoff Kjappfot <tasskjapp@gmail.com>
+Message-ID: <20130611124350.GD7181@lpalcu-linux>
+References: <51B6EF5E.1020404@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <51B6EF5E.1020404@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: SDK relocation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 11:22:12 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 12:43:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Patching a generated file is prone to conflicts, and we'll be replacing this
-file anyway when configuring, so drop the Makefile.in hunks.
+Hi Tasslehoff,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch   |   34 --------------------
- 1 file changed, 34 deletions(-)
+On Tue, Jun 11, 2013 at 11:35:26AM +0200, Tasslehoff Kjappfot wrote:
+> I compiled an SDK and extracted/installed it to my source tree
+> instead of /usr/local/. I have made /usr/local/oecore-i686 a symlink
+> to the actual location. With the latest Dylan this broke.
+> 
+> Denzil:
+> ❯❯❯ ldd arm-angstrom-linux-gnueabi-gcc
+>     linux-gate.so.1 =>  (0xf771d000)
+>     libc.so.6 => /lib/i386-linux-gnu/libc.so.6 (0xf7544000) /usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/lib/ld-linux.so.2
+> => /lib/ld-linux.so.2 (0xf771e000)
+> 
+> Dylan:
+> Original location:
+> ❯❯❯ ldd arm-angstrom-linux-gnueabi-gcc
+>     linux-gate.so.1 =>  (0xf77c4000)
+>     libc.so.6 => /home/tasslehoff/src/pdrepos01/toolchains/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/armv7a-vfp-neon-angstrom-linux-gnueabi/./../../../lib/libc.so.6
+> (0xf7610000)
+> 
+> /home/tasslehoff/src/oe/toolchains/oecore-i686/sysroots/i686-angstromsdk-linux/lib/ld-linux.so.2
+> => /lib/ld-linux.so.2 (0xf77c5000)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
-index 2920e2f..0c243cd 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
-@@ -23,23 +23,6 @@ Index: glib-2.30.0/glib/Makefile.am
-  BUILT_SOURCES += glib_probes.h glib_probes.o
-  CLEANFILES += glib_probes.h glib_probes.h.tmp
-  libglib_2_0_la_LIBADD += glib_probes.o
--Index: glib-2.30.0/glib/Makefile.in
--===================================================================
----- glib-2.30.0.orig/glib/Makefile.in
--+++ glib-2.30.0/glib/Makefile.in
--@@ -1691,10 +1691,10 @@ uninstall-local: uninstall-ms-lib uninst
-- @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
-- 
-- @ENABLE_DTRACE_TRUE@glib_probes.h: glib_probes.d Makefile
---@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -C -h -s $< -o $@.tmp
--+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN)  CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-- @ENABLE_DTRACE_TRUE@	@$(SED) -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-- @ENABLE_DTRACE_TRUE@glib_probes.o: glib_probes.d Makefile
---@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -G -s $< -o $@
--+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN)  CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
-- 
-- gspawn-win32-helper-console.c:
-- 	echo '#define HELPER_CONSOLE' >$@
- Index: glib-2.30.0/gobject/Makefile.am
- ===================================================================
- --- glib-2.30.0.orig/gobject/Makefile.am
-@@ -57,20 +40,3 @@ Index: glib-2.30.0/gobject/Makefile.am
-  BUILT_SOURCES += gobject_probes.h gobject_probes.o
-  CLEANFILES += gobject_probes.h
-  libgobject_2_0_la_LIBADD += gobject_probes.o
--Index: glib-2.30.0/gobject/Makefile.in
--===================================================================
----- glib-2.30.0.orig/gobject/Makefile.in
--+++ glib-2.30.0/gobject/Makefile.in
--@@ -1581,10 +1581,10 @@ uninstall-ms-lib:
-- @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
-- 
-- @ENABLE_DTRACE_TRUE@gobject_probes.h: gobject_probes.d Makefile
---@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -C -h -s $< -o $@.tmp
--+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-- @ENABLE_DTRACE_TRUE@	@$(SED) -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-- @ENABLE_DTRACE_TRUE@gobject_probes.o: gobject_probes.d Makefile
---@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -G -s $< -o $@
--+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
-- 
-- # This is read by gobject-introspection/misc/ and gtk-doc
-- gobject-public-headers.txt: Makefile
--- 
-1.7.10.4
+A few things:
+ * Be careful when using ldd with SDK binaries. ldd it's just a wrapper script
+   around host's dynamic loader and it might give you wrong paths (usually to
+   the host's libraries). Luckily, in this case, the binary is relocatable and
+   has the RPATH linked in, hence the libc.so.6 location is correct. However,
+   the dynamic loader points to the host's. The correct way to print the
+   dependencies for SDK bianaries is this:
 
+   $ readelf -p .interp arm-poky-linux-gnueabi-gcc
+
+   String dump of section '.interp':
+     [     0]  /home/test/sdk_tests/sdk/sysroots/x86_64-pokysdk-linux/lib/ld-linux-x86-64.so.2
+
+   $ /home/test/sdk_tests/sdk/sysroots/x86_64-pokysdk-linux/lib/ld-linux-x86-64.so.2 --list ./arm-poky-linux-gnueabi-gcc
+        linux-vdso.so.1 (0x00007fff1a3f4000)
+        libc.so.6 => /home/test/sdk_tests/sdk/sysroots/x86_64-pokysdk-linux/usr/bin/armv5te-poky-linux-gnueabi/./../../../lib/libc.so.6 (0x00007fc102465000)
+        /home/test/sdk_tests/sdk/sysroots/x86_64-pokysdk-linux/lib/ld-linux-x86-64.so.2 (0x00007fc102868000)
+
+ * denzil did not support relocation and you could only install the sdk in /usr/local;
+ * AFAIK, the dynamic loader is always shipped with the SDK;
+
+> 
+> If I try to run the toolchain from Dylan on a system where /home/tasslehoff/src/oe/toolchains/oecore-i686/sysroots/i686-angstromsdk-linux/lib/ld-linux.so.2
+> does not exist, it fails.
+
+Again, the DL should be available in your toolchain sysroot. I'm not aware of
+a case when the dynamic loader is not shipped with the toolchain. Did this
+happen in your case?
+
+Thanks,
+Laurentiu
+
+> 
+> Regards,
+> Tasslehoff
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
