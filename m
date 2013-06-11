@@ -1,36 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AF096A998;
-	Tue, 11 Jun 2013 17:06:41 +0000 (UTC)
-Received: by mail-ee0-f43.google.com with SMTP id l10so3173179eei.2
-	for <multiple recipients>; Tue, 11 Jun 2013 10:06:42 -0700 (PDT)
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by mail.openembedded.org (Postfix) with ESMTP id ADD6D6A9C7;
+	Tue, 11 Jun 2013 17:09:03 +0000 (UTC)
+Received: by mail-lb0-f179.google.com with SMTP id w20so7717427lbh.38
+	for <multiple recipients>; Tue, 11 Jun 2013 10:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=2mInRkU95OUkLpPLqd0c0aPQvjuDKAZ+CO9P0iZfBqs=;
-	b=AIBuNr0KCvFOz+DWH7LfsGsb0H9/e1wukLKuxmshwoiOjPuT7Uz+74ZwS8di2Cuf+m
-	JLRjLLUtEkLsa4mTe6rQDrklhkTeeeOFz0n6UD73jXae1iDllJLUMHoqhagYcktphM1l
-	KRtTK/wwD97jcYqW0LGda+aphqF3+qOkIn5aqFz72VfTumVSlaD1AtJQ7Yf1RcglM77W
-	fKXgKqoQpIGpkrsYagoXI5kzdtRcAJ6RRU0OOCZqkbgjIkzTIatUatYqDg/fgO9BM4nY
-	XSvuJqGjGto4oNbN9Wc9FBOGEQc8sIsC7u7fdusMyoKYqf2Pl3iOnCLwB0IgRcjfsMnc
-	tl+Q==
-X-Received: by 10.14.178.134 with SMTP id f6mr17292660eem.91.1370970402066;
-	Tue, 11 Jun 2013 10:06:42 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	u11sm31570110eev.12.2013.06.11.10.06.41 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 11 Jun 2013 10:06:41 -0700 (PDT)
-Date: Tue, 11 Jun 2013 19:07:04 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Christopher Larson <chris_larson@mentor.com>
-Message-ID: <20130611170704.GK3233@jama>
-References: <20130611144932.08F545048D@opal>
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=2kP6sy+FIL+DfhuIVXce9SURRecx6YxhfBVmAAzYpfQ=;
+	b=NCqpPefQpTHLx7c5yaxUYzUQR/2HW3OmZGpZF+gRoSG6nHS800FpW8wKCsJR9v1SgM
+	EOfB3gEQZG/Tz7OadwZiKGuFiUlvdRVslhVw5X6NmqPEQ6m5AYMNlAd2SYKPFrjkMjFg
+	k9yYM5tyk6aOdWlSN+pNC9K4/nALS0hr/t9bXpP1g2BBNK2wTWCcEKnUvKLt6qxqmnQP
+	4hcI2uq5cuxJnl8IZMymRCEGzKigwsl3ydwHOHEH6VIFYDY4IJl3nRVvu3mg7PAEKjYa
+	BS7vSD+t+6nlY3zH81VWqlwh7hHgnGmZJjaJBrQY6B2036R+CAu0KkTcG+Op912rq/7/
+	igyA==
+X-Received: by 10.112.236.33 with SMTP id ur1mr9254646lbc.13.1370970543539;
+	Tue, 11 Jun 2013 10:09:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20130611144932.08F545048D@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
+Sender: kergoth@gmail.com
+Received: by 10.112.4.66 with HTTP; Tue, 11 Jun 2013 10:08:42 -0700 (PDT)
+In-Reply-To: <20130611170704.GK3233@jama>
+References: <20130611144932.08F545048D@opal> <20130611170704.GK3233@jama>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Tue, 11 Jun 2013 10:08:42 -0700
+X-Google-Sender-Auth: _1wnswUVJJ7SPB34VmKvrOc4QSY
+Message-ID: <CABcZANnZ4eqaSiO-aw5Gawtkbd-qiJiLN4bYq8RVGTZvxtPBOw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-commits@lists.openembedded.org,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [oe-commits] Christopher Larson : packagegroup-base-vfat: include dosfsprogs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,96 +43,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 17:06:42 -0000
-X-Groupsio-MsgNum: 40494
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NhBACjNc9vV+/oop"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Jun 2013 17:09:04 -0000
+Content-Type: multipart/alternative; boundary=001a11c31ca43ece9004dee3f4aa
 
---NhBACjNc9vV+/oop
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11c31ca43ece9004dee3f4aa
+Content-Type: text/plain; charset=UTF-8
+
+On Tue, Jun 11, 2013 at 10:07 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
+
+> On Tue, Jun 11, 2013 at 02:49:32PM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: 4ec66dc5f38913056942e1288c0b01a00ea0551f
+> > URL:
+> http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=4ec66dc5f38913056942e1288c0b01a00ea0551f
+> >
+> > Author: Christopher Larson <chris_larson@mentor.com>
+> > Date:   Mon Jun 10 13:47:06 2013 -0700
+> >
+> > packagegroup-base-vfat: include dosfsprogs
+> >
+> > The ext2 group includes e2fsprogs, so this is consistent and should be
+> > appropriate, I think.
+> >
+> > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> Isn't it called dosfstools?
+>
+> $ find openembedded-core/ -name dos\*
+> openembedded-core/meta/recipes-devtools/dosfstools
+> openembedded-core/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
+> openembedded-core/meta/recipes-devtools/dosfstools/dosfstools
+>
+> openembedded-core/meta/recipes-devtools/dosfstools/dosfstools/dosfstools-msdos_fs-types.patch
+>
+> and no RPROVIDES in dosfstools recipe ->
+>
+> ERROR: Nothing RPROVIDES 'dosfsprogs' (but
+> /OE/shr-core/openembedded-core/meta/recipes-core/packagegroups/
+> packagegroup-base.bb RDEPENDS on or otherwise requires it)
+> NOTE: Runtime target 'dosfsprogs' is unbuildable, removing...
+> Missing or unbuildable dependency chain was: ['dosfsprogs']
+> NOTE: Runtime target 'packagegroup-base-extended' is unbuildable,
+> removing...
+> Missing or unbuildable dependency chain was:
+> ['packagegroup-base-extended', 'dosfsprogs']
+>
+
+I swear I tested these series, I must have tested one and sent another or
+something. Ignore this for the time being. Sorry for the hassle.
+
+--001a11c31ca43ece9004dee3f4aa
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 11, 2013 at 02:49:32PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 4ec66dc5f38913056942e1288c0b01a00ea0551f
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D4ec66dc5f38913056942e1288c0b01a00ea0551f
->=20
-> Author: Christopher Larson <chris_larson@mentor.com>
-> Date:   Mon Jun 10 13:47:06 2013 -0700
->=20
-> packagegroup-base-vfat: include dosfsprogs
->=20
-> The ext2 group includes e2fsprogs, so this is consistent and should be
-> appropriate, I think.
->=20
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Jun 11, 2013 at 10:07 AM, Martin Jansa <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.co=
+m</a>&gt;</span> wrote:<br>
 
-Isn't it called dosfstools?
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":kz" style=3D"overflow:hidden">On=
+ Tue, Jun 11, 2013 at 02:49:32PM +0000, <a href=3D"mailto:git@git.openembed=
+ded.org">git@git.openembedded.org</a> wrote:<br>
 
-$ find openembedded-core/ -name dos\*
-openembedded-core/meta/recipes-devtools/dosfstools
-openembedded-core/meta/recipes-devtools/dosfstools/dosfstools_2.11.bb
-openembedded-core/meta/recipes-devtools/dosfstools/dosfstools
+
+&gt; Module: openembedded-core.git<br>
+&gt; Branch: master<br>
+&gt; Commit: 4ec66dc5f38913056942e1288c0b01a00ea0551f<br>
+&gt; URL: =C2=A0 =C2=A0<a href=3D"http://git.openembedded.org/?p=3Dopenembe=
+dded-core.git&amp;a=3Dcommit;h=3D4ec66dc5f38913056942e1288c0b01a00ea0551f" =
+target=3D"_blank">http://git.openembedded.org/?p=3Dopenembedded-core.git&am=
+p;a=3Dcommit;h=3D4ec66dc5f38913056942e1288c0b01a00ea0551f</a><br>
+
+
+&gt;<br>
+&gt; Author: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.c=
+om">chris_larson@mentor.com</a>&gt;<br>
+&gt; Date: =C2=A0 Mon Jun 10 13:47:06 2013 -0700<br>
+&gt;<br>
+&gt; packagegroup-base-vfat: include dosfsprogs<br>
+&gt;<br>
+&gt; The ext2 group includes e2fsprogs, so this is consistent and should be=
+<br>
+&gt; appropriate, I think.<br>
+&gt;<br>
+&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@m=
+entor.com">chris_larson@mentor.com</a>&gt;<br>
+&gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@lin=
+uxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt;<br>
+<br>
+Isn&#39;t it called dosfstools?<br>
+<br>
+$ find openembedded-core/ -name dos\*<br>
+openembedded-core/meta/recipes-devtools/dosfstools<br>
+openembedded-core/meta/recipes-devtools/dosfstools/<a href=3D"http://dosfst=
+ools_2.11.bb" target=3D"_blank">dosfstools_2.11.bb</a><br>
+openembedded-core/meta/recipes-devtools/dosfstools/dosfstools<br>
 openembedded-core/meta/recipes-devtools/dosfstools/dosfstools/dosfstools-ms=
-dos_fs-types.patch
+dos_fs-types.patch<br>
+<br>
+and no RPROVIDES in dosfstools recipe -&gt;<br>
+<br>
+ERROR: Nothing RPROVIDES &#39;dosfsprogs&#39; (but /OE/shr-core/openembedde=
+d-core/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-base.=
+bb" target=3D"_blank">packagegroup-base.bb</a> RDEPENDS on or otherwise req=
+uires it)<br>
 
-and no RPROVIDES in dosfstools recipe ->
 
-ERROR: Nothing RPROVIDES 'dosfsprogs' (but /OE/shr-core/openembedded-core/m=
-eta/recipes-core/packagegroups/packagegroup-base.bb RDEPENDS on or otherwis=
-e requires it)
-NOTE: Runtime target 'dosfsprogs' is unbuildable, removing...
-Missing or unbuildable dependency chain was: ['dosfsprogs']
-NOTE: Runtime target 'packagegroup-base-extended' is unbuildable, removing.=
-=2E.
-Missing or unbuildable dependency chain was: ['packagegroup-base-extended',=
- 'dosfsprogs']
+NOTE: Runtime target &#39;dosfsprogs&#39; is unbuildable, removing...<br>
+Missing or unbuildable dependency chain was: [&#39;dosfsprogs&#39;]<br>
+NOTE: Runtime target &#39;packagegroup-base-extended&#39; is unbuildable, r=
+emoving...<br>
+Missing or unbuildable dependency chain was: [&#39;packagegroup-base-extend=
+ed&#39;, &#39;dosfsprogs&#39;]</div></blockquote></div><br>I swear I tested=
+ these series, I must have tested one and sent another or something. Ignore=
+ this for the time being. Sorry for the hassle.</div>
 
->=20
-> ---
->=20
->  .../packagegroups/packagegroup-base.bb             |    3 ++-
->  1 files changed, 2 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/=
-recipes-core/packagegroups/packagegroup-base.bb
-> index 799e12a..061c1a7 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> @@ -179,7 +179,8 @@ RRECOMMENDS_packagegroup-base-vfat =3D "\
->      kernel-module-msdos \
->      kernel-module-vfat \
->      kernel-module-nls-iso8859-1 \
-> -    kernel-module-nls-cp437"
-> +    kernel-module-nls-cp437 \
-> +    dosfsprogs"
-> =20
->  SUMMARY_packagegroup-base-alsa =3D "ALSA sound support"
->  RDEPENDS_packagegroup-base-alsa =3D "\
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+</div>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---NhBACjNc9vV+/oop
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlG3WTgACgkQN1Ujt2V2gBzCdQCgsz77pUtFNee2c1QeKF/Zz8Jx
-24MAnRGIGM/zPBXAvf8AW7CfDRIuWdz9
-=rhy0
------END PGP SIGNATURE-----
-
---NhBACjNc9vV+/oop--
+--001a11c31ca43ece9004dee3f4aa--
