@@ -1,35 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 800B06A9A1
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C6526A9A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 22:36:38 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id hz11so5145671pad.30
+	Tue, 11 Jun 2013 22:39:37 +0000 (UTC)
+Received: by mail-pd0-f176.google.com with SMTP id t12so4400722pdi.35
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 15:36:39 -0700 (PDT)
+	Tue, 11 Jun 2013 15:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=DBlFDaeK1x8n4cq6elp28Y7FZRX2dm2pio6IeaPCWH4=;
-	b=nRq0WQnU9dea2frQHvmHyMyLbMlEPL2J4INTz2lqtAwy0+tjrbjt5Lr04XSWqE9NtT
-	h9XZwKwopqPwHcXArNM3ckYGbnTpMlhCQYwzB8mQoNOWSnaLBEA0Wh5EXefgHZkCnsCy
-	/dc6wDNA9iSiMDDt0QEgQszpu87rPD+2bPpUMDr5EEKZ5H0LMj5Yh69pPRKp/nbgRV7o
-	+D1VKBjRzq6XFyfknnKn9WovyKXC8IBqleLhef/0pmBhsca1Bekrg1OGHCpz8IBkgoWs
-	e5kdp63+C37ApAjno+aejgdOlarwR3CyKGnuUpFr9PXn6PoF4qA3ra8RC5jSxf9kC2Ue
-	s+hw==
-X-Received: by 10.68.226.5 with SMTP id ro5mr17121187pbc.36.1370990199482;
-	Tue, 11 Jun 2013 15:36:39 -0700 (PDT)
+	bh=9t+bsoLaDnyaGmFmI4+29QkcCiz3oq5gkR+7XLMeZyQ=;
+	b=Gk5qewo/IGL+92tT+igeH8E/GKp5GuxpClBrJGJbKWo5Z99MON9HhHRMynUdt0tJ2F
+	0T25Sy660xJMdN0Vv5aL0dS9EJ88Y3BUNuVi+SO4+0b+gWctgFGjaHy1CgjaYwoP20qt
+	qfDL/e4K1HWkBnZbs16Sq+rwR/LejVXVxHLJqqNG9+3eA3Y6rGptR1BZPpXh3x8PmxF5
+	4p9IU2G3VPrZrhZrXbXqsv1UlEgD+iE6NwJSNHIxioL4aNZ61SWUAQCiN1GZfOLhpK4V
+	woVfuCPsGObCgQbNTaWZnRObGQa+zcCHhn8+bkLgIvITsrEWRF7PCFVY6FGEto9xf7U9
+	YLqw==
+X-Received: by 10.66.197.165 with SMTP id iv5mr21312847pac.67.1370990378920;
+	Tue, 11 Jun 2013 15:39:38 -0700 (PDT)
 Received: from sa-nc-common3-188.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id 6sm16268934pbn.45.2013.06.11.15.36.36
-	for <multiple recipients>
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	vu10sm16323661pbc.27.2013.06.11.15.39.37 for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 11 Jun 2013 15:36:37 -0700 (PDT)
+	Tue, 11 Jun 2013 15:39:38 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
 From: Khem Raj <raj.khem@gmail.com>
 In-Reply-To: <20130611223524.GM3233@jama>
-Date: Tue, 11 Jun 2013 15:36:34 -0700
-Message-Id: <AF7C4285-3349-4DD3-AF3E-94EDDC564D42@gmail.com>
+Date: Tue, 11 Jun 2013 15:39:35 -0700
+Message-Id: <D18769ED-F695-463A-83D4-D20A1EB3AC2F@gmail.com>
 References: <1370987869-19041-1-git-send-email-raj.khem@gmail.com>
 	<1370989876-20531-1-git-send-email-Martin.Jansa@gmail.com>
 	<20130611223524.GM3233@jama>
@@ -49,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 22:36:38 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 22:39:37 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
@@ -63,12 +62,11 @@ wrote:
 > Only RFC, because world build is still running to confirm that it
 > doesn't introduce new issues and that it indeed fixes pixman build for
 > xscalete.
+
+can you also test it with rebased on top of gcc 4.8.1 upgrade patch I =
+sent earlier today
+
 >=20
-
-yes I would love more testing. For my own testing on all qemus it did =
-not make anything worse than it was with 4.8.0
-
-
 >>=20
 >> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 >> ---
