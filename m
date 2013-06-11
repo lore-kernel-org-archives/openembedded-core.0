@@ -1,37 +1,35 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DD2076A5B4
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 647966A5B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 01:27:41 +0000 (UTC)
-Received: by mail-la0-f47.google.com with SMTP id fe20so6330179lab.20
+	Tue, 11 Jun 2013 01:49:28 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id kl14so1675838pab.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 18:27:42 -0700 (PDT)
+	Mon, 10 Jun 2013 18:49:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=URP52+gGMK5or5IHuTGbKHnNfwkhoQhgvvPdJW8JA6w=;
-	b=e8/heUl6RzegGIopeXnVtB9yhXN+KoPnqkozmwIAwIMA3rFgjws+qYkDfZ/R4yEOK5
-	37/njXeJtWAetz9vwBlCs/1n92nm92SE5HkD8aNaFQBd4dqgbQ6dQW9HGmiRaLAKMIDn
-	yqbBRzKCCnTY4/WUe0gsdETZACDpzb//rrWDOVIp/Jo7+Jyo/VojHH9/jss8DrtR2RKJ
-	9AJiyNhph/ingi4n/Lz9VIrA0kC/s8InLzIUxY8dGmin3eXXmfhwWObi8lBVmvEOgRMH
-	HYbDbHI6dhmIKG22c2Ysgtjafi9GktgY1tPbLZCbucZ2V0JK3UeotIar4DpNeG07/cdg
-	oz0g==
-X-Received: by 10.152.7.39 with SMTP id g7mr6113856laa.72.1370914062278; Mon,
-	10 Jun 2013 18:27:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.112.4.66 with HTTP; Mon, 10 Jun 2013 18:27:22 -0700 (PDT)
-In-Reply-To: <51B67480.5010400@linux.intel.com>
-References: <cover.1370896990.git.chris_larson@mentor.com>
-	<0face86bf815082f2080f84c0214a7835d0380dd.1370896990.git.chris_larson@mentor.com>
-	<51B67480.5010400@linux.intel.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Mon, 10 Jun 2013 18:27:22 -0700
-Message-ID: <CABcZANkcJ4sOEECOhnhM0W=iYemVtWm70V7Hp4yD-EehY1c_TA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] libnewt: split python module into libnewt-python
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=8iwwEMdlWWmks79JQVW+5WwnHXk35OksSAt2rHXwCJQ=;
+	b=xhKq6vkertEASUzzjqltZh9NilevhGxWAhrJysZCqujbCtkLvZZS8RyGWK/BulRxej
+	jE8ADOm4Ltg8ex2MAZ8W2FE2QNJe7LcuzsxAC/XjfOUTApwZhIPFgueDR1PK49q4m3ij
+	1QsaroyURL3g0VTIEZQrzHpqoZ7nj40uwP2NcV2MYXk8OpPT9Pi3Uavcx3hBaBAfDmtq
+	skN/JKbUdaS0Papk7bzMoiNrfhaFjyw1N208JdroHZY+HwxaUKkvTJg43a/WHc8TxWQj
+	jKrQF/uGeF9cb2rSNFyUktpFyJpiEsjaYRahyZgSQz+ui1ERgRbQ6nkNZCc//dTNuoIf
+	VEiQ==
+X-Received: by 10.68.106.130 with SMTP id gu2mr12224053pbb.111.1370915369579; 
+	Mon, 10 Jun 2013 18:49:29 -0700 (PDT)
+Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id z19sm3388361paf.12.2013.06.10.18.49.27
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 10 Jun 2013 18:49:28 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Jun 2013 18:49:30 -0700
+Message-Id: <cover.1370915304.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 1.8.3
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH v2 0/4] A few miscellaneous improvements from Mentor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,101 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 01:27:42 -0000
-Content-Type: multipart/alternative; boundary=001a11c28514b3241504ded6cda8
+X-List-Received-Date: Tue, 11 Jun 2013 01:49:28 -0000
 
---001a11c28514b3241504ded6cda8
-Content-Type: text/plain; charset=UTF-8
+From: Christopher Larson <chris_larson@mentor.com>
 
-On Mon, Jun 10, 2013 at 5:51 PM, Saul Wold <sgw@linux.intel.com> wrote:
+The following changes since commit b4f208f418d18f2a4e78a56bebacef481061d917:
 
-> On 06/10/2013 01:47 PM, Christopher Larson wrote:
->
->> From: Christopher Larson <chris_larson@mentor.com>
->>
->> This is useful as it avoids pulling python into a build just to build
->> chkconfig. The python recipe uses the libnewt installed in the sysroot by
->> the
->> main package, so there's little loss of build time, other than the
->> additional
->> unpack/patch.
->>
->>  This one seems to introduce a new warning, this was from a populated
-> build dir with sstate available
->
->  WARNING: The recipe libnewt-python is trying to install files into a
->> shared area when those files already exist.
->>
-> Those files and their manifest location are:
->
-> /srv/ssd/sgw/builds/world/tmp/**pkgdata/x86_64-poky-linux/**runtime/whiptail
->
->     Matched in manifest-x86_64-libnewt.**packagedata
->
-> /srv/ssd/sgw/builds/world/tmp/**pkgdata/x86_64-poky-linux/**
-> runtime-reverse/whiptail
->     Matched in manifest-x86_64-libnewt.**packagedata
-> Please verify which package should provide the above files.
+  tar: don't mv tar for nativesdk (2013-06-10 18:06:33 +0100)
 
+are available in the git repository at:
 
-Oops, sorry about that. I'll submit a v2 patch series with this fixed.
-Thanks.
+  https://github.com/kergoth/oe-core.git misc-improvements
+
+Christopher Larson (4):
+  connman: use PACKAGECONFIG for WISPr support
+  packagegroup-base-vfat: include dosfsprogs
+  insane.bbclass: quiet package errors not in *_QA
+  libnewt: split python module into libnewt-python
+
+ meta/classes/insane.bbclass                        |  6 ++-
+ meta/recipes-connectivity/connman/connman.inc      | 10 ++--
+ .../packagegroups/packagegroup-base.bb             |  3 +-
+ meta/recipes-extended/newt/libnewt-0.52.14.inc     | 45 ++++++++++++++++++
+ .../newt/libnewt-python_0.52.14.bb                 | 26 +++++++++++
+ meta/recipes-extended/newt/libnewt_0.52.14.bb      | 54 +---------------------
+ 6 files changed, 86 insertions(+), 58 deletions(-)
+ create mode 100644 meta/recipes-extended/newt/libnewt-0.52.14.inc
+ create mode 100644 meta/recipes-extended/newt/libnewt-python_0.52.14.bb
+
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.8.3
 
---001a11c28514b3241504ded6cda8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Jun 10, 2013 at 5:51 PM, Saul Wold <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;<=
-/span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On 06/10/2013 01:47 PM, Ch=
-ristopher Larson wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com" tar=
-get=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
-<br>
-This is useful as it avoids pulling python into a build just to build<br>
-chkconfig. The python recipe uses the libnewt installed in the sysroot by t=
-he<br>
-main package, so there&#39;s little loss of build time, other than the addi=
-tional<br>
-unpack/patch.<br>
-<br>
-</blockquote></div>
-This one seems to introduce a new warning, this was from a populated build =
-dir with sstate available<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-WARNING: The recipe libnewt-python is trying to install files into a shared=
- area when those files already exist.<br>
-</blockquote>
-Those files and their manifest location are:<br>
-<br>
-/srv/ssd/sgw/builds/world/tmp/<u></u>pkgdata/x86_64-poky-linux/<u></u>runti=
-me/whiptail <br>
-=C2=A0 =C2=A0 Matched in manifest-x86_64-libnewt.<u></u>packagedata <br>
-<br>
-/srv/ssd/sgw/builds/world/tmp/<u></u>pkgdata/x86_64-poky-linux/<u></u>runti=
-me-reverse/whiptail<br>
-=C2=A0 =C2=A0 Matched in manifest-x86_64-libnewt.<u></u>packagedata <br>
-Please verify which package should provide the above files.</blockquote></d=
-iv><br>Oops, sorry about that. I&#39;ll submit a v2 patch series with this =
-fixed. Thanks.<br>-- <br>Christopher Larson<br>clarson at kergoth dot com<b=
-r>
-
-Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior=
- Software Engineer, Mentor Graphics
-</div></div>
-
---001a11c28514b3241504ded6cda8--
