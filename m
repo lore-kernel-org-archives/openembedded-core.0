@@ -1,36 +1,26 @@
-Return-Path: <sakoman@gmail.com>
-Received: from mail-oa0-f51.google.com (mail-oa0-f51.google.com
-	[209.85.219.51])
-	by mail.openembedded.org (Postfix) with ESMTP id B5DBE6A619
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CF326A885
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 04:22:53 +0000 (UTC)
-Received: by mail-oa0-f51.google.com with SMTP id i4so2872714oah.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 21:22:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Li78Q2sAx8guN56HHwWCSbrqFg9T4Zik/Y4F7Fah0xk=;
-	b=dp4uawvsL3NSJp+Iu+hF3/Yh0wUX7jpQbiZDwCBU5J98MlE2qB8+VYHZORtrA6iDdb
-	al8BV6qFGO5MTsjX+TUQyb9QjQ3XIicv2fDDc3uFK8GGyDo4N7F8bmr4nxbN4CKJRcBz
-	GeMI03b9vOn+xEkkiZbWQps28zeCtekNZVsKniRC6tYuVMrwC42DqprTdsTuhJf/MEAx
-	Z7yUmdRfh1efXy5JeeF7LKV4UkZBT5eb7aMjvpYivoUWZpI+4CeB3hfZyVfNhVmo4M2o
-	ANU1CB1j0yWP9yFsEbC9tEtcw6g/b3qkkCkAh7awuu9ya3TNUri77TnAPXLg4ygj/Chq
-	/EWw==
+	Tue, 11 Jun 2013 04:27:26 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Jun 2013 21:28:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,842,1363158000"; d="scan'208";a="351246233"
+Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Jun 2013 21:27:26 -0700
+Message-ID: <51B6A72E.5080008@linux.intel.com>
+Date: Mon, 10 Jun 2013 21:27:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-Received: by 10.182.101.131 with SMTP id fg3mr10157936obb.11.1370924574362; 
-	Mon, 10 Jun 2013 21:22:54 -0700 (PDT)
-Received: by 10.182.213.130 with HTTP; Mon, 10 Jun 2013 21:22:54 -0700 (PDT)
-In-Reply-To: <2342205.5KE7L6LC2a@helios>
-References: <CAGDS+nkQ1u=bzhgDGJjMw+U99eazLb_Na51qmVSa2AGUrZM_QQ@mail.gmail.com>
-	<2342205.5KE7L6LC2a@helios>
-Date: Mon, 10 Jun 2013 21:22:54 -0700
-Message-ID: <CAGDS+nntLyno2HmOWLdxFTOoTa+C7_Ko05_33Gv8z7yoekz5AQ@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Sample recipe for qt4e app?
+To: Khem Raj <raj.khem@gmail.com>
+References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
+	<E947360C-AE06-42E4-AD51-2DA926D1448D@gmail.com>
+In-Reply-To: <E947360C-AE06-42E4-AD51-2DA926D1448D@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC] get minimal rootfs to be even smaller
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 04:22:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 11 Jun 2013 04:27:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 10, 2013 at 4:06 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Monday 10 June 2013 15:45:42 Steve Sakoman wrote:
->> Does anyone have a recipe for a simple qt4e app that they would be
->> willing to share?
-
-> It's not really much different; you should only need to inherit qt4e instead of
-> qt4x11. As for an example, you could look at the qconnman-e recipe in meta-oe:
+On 06/10/2013 07:06 PM, Khem Raj wrote:
 >
-> http://cgit.openembedded.org/meta-openembedded/tree/meta-oe/recipes-qt/qconnman
+> On May 31, 2013, at 7:11 AM, Marcin Juszkiewicz <marcin@juszkiewicz.com.pl> wrote:
+>
+>> First hit: pci.ids.gz and usb.ids.gz ~350KB in total.
+>
+> udev just RRECOMMENDS  usbutils-ids pciutils-ids so how did it get into build time dependencies to begin with ?
+>
+I looked into this a while back and it's the fact that those packages 
+are built, so they are seen and get installed.  If the packages aren't 
+available they won't get installed.
 
-Thanks Paul, that helped a lot!
+Since pciutils and usbutils are both DEPENDS of udev, those get built 
+and the packages get deployed and then are available to be installed at 
+the behest of the RRECOMMENDS.
 
-Steve
+We could maybe have added BAD_RECOMMENDATIONS for core-image-minimal so 
+that on a larger system udev would still have the -id files available, I 
+just thought of this, not tested.
+
+Sau!
+
+
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
