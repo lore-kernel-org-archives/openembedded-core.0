@@ -1,25 +1,20 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 6088B6A9A2
+Return-Path: <andrei.adrianx.dinu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C75A6A9A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 13:24:19 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 11 Jun 2013 06:24:19 -0700
+	Tue, 11 Jun 2013 13:36:40 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2013 06:34:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,845,1363158000"; d="scan'208";a="253477492"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Jun 2013 06:24:18 -0700
-Date: Tue, 11 Jun 2013 16:24:17 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Tasslehoff Kjappfot <tasskjapp@gmail.com>
-Message-ID: <20130611132417.GE7181@lpalcu-linux>
-References: <51B6EF5E.1020404@gmail.com> <20130611124350.GD7181@lpalcu-linux>
-	<51B7219D.7070703@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <51B7219D.7070703@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: SDK relocation issues
+X-IronPort-AV: E=Sophos;i="4.87,845,1363158000"; d="scan'208";a="327677987"
+Received: from adinu-vostro-460.rb.intel.com ([10.237.105.42])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2013 06:36:40 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jun 2013 16:37:39 +0300
+Message-Id: <1370957859-28122-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] gzip : upgrade to 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 13:24:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Jun 2013 13:36:40 -0000
 
-On Tue, Jun 11, 2013 at 03:09:49PM +0200, Tasslehoff Kjappfot wrote:
-> 
-> I have time for one more :)
-> 
-> What does it mean that the SDK is relocatable? That I can choose
-> when I run the .sh where I want to install it? Is it then "bound" to
-> that directory, so that every dev that wants to use the SDK have to
-> run the installer on their machine?
+upgrade from 1.5 -> 1.6
 
-That's correct. Each developer can install the SDK wherever he/she wants
-to.
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../gzip/{gzip_1.5.bb => gzip_1.6.bb}              |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/gzip/{gzip_1.5.bb => gzip_1.6.bb} (51%)
 
-> Maybe my "I can copy it wherever
-> I want" interpretation of relocatable is the problem :)
-Indeed, that's causing the issue. :)
+diff --git a/meta/recipes-extended/gzip/gzip_1.5.bb b/meta/recipes-extended/gzip/gzip_1.6.bb
+similarity index 51%
+rename from meta/recipes-extended/gzip/gzip_1.5.bb
+rename to meta/recipes-extended/gzip/gzip_1.6.bb
+index f7b8593..bd1f70a 100644
+--- a/meta/recipes-extended/gzip/gzip_1.5.bb
++++ b/meta/recipes-extended/gzip/gzip_1.6.bb
+@@ -7,5 +7,5 @@ NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-SRC_URI[md5sum] = "11b76536941ee1c0221fe6eefbcb32cb"
+-SRC_URI[sha256sum] = "b5d56e8ffc9918e8c941fab56e04121194f9870adeeb859e09c09eac264035a3"
++SRC_URI[md5sum] = "38603cb2843bf5681ff41aab3bcd6a20"
++SRC_URI[sha256sum] = "97eb83b763d9e5ad35f351fe5517e6b71521d7aac7acf3e3cacdb6b1496d8f7e"
+-- 
+1.7.9.5
 
-> 
-> The DL is shipped with the toolchain, but is looked for in the path
-> I installed to when I run the .sh. If I move the entire folder, I
-> get the problems.
-When the relocation process takes place, it changes the path to the
-dynamic loader in all binaries. Moving the SDK to another location would
-imply re-running the installer again and choose the new location as
-destination.
-
-Thanks,
-Laurentiu
-
-> 
-> Regards,
-> Tasslehoff
-> 
-> 
-> 
-> 
 
