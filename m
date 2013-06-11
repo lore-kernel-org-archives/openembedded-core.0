@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
-	[209.85.160.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 507596A5B4
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 410E56A5B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 02:06:18 +0000 (UTC)
-Received: by mail-pb0-f51.google.com with SMTP id um15so7887372pbc.38
+	Tue, 11 Jun 2013 02:21:35 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id 4so8009466pdd.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 19:06:19 -0700 (PDT)
+	Mon, 10 Jun 2013 19:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=ffnfHZLaUK4fpHT1UuZK/Pvi0dQAZl1OKPpQNPZCphs=;
-	b=daAUCekS2DqXSqEQu0w+Zdyyd/gCw7QqtwV8Yu6O9PfKexxvwRhkBkZg6nlbRRYq35
-	/Bv/DIt3g8rdwDwf4dAVKUa7qUeSYqRTHzGKxy7XCx93KkiadRgGHcrVkwcaYNlloDTG
-	L0UqspcaWQk6IzMlh+fIqEzjoHKszu81irOOED8dIzJPT1ePNBlGKor1S/Yzv+tZdIpU
-	8vhssgGQACobAg49fWcYtN0aG60ZWCKz8mSh9HlJHsTniXUASo0KiHBCPxGYbWoc+AFn
-	8P8N9MDlsbn0WjvzkmUy5oc14fnnWf9Q2MIhB2ym9cQBmk4E6ON0zy9ENhxNDBdiKWsA
-	YNyQ==
-X-Received: by 10.68.101.34 with SMTP id fd2mr1335272pbb.137.1370916379238;
-	Mon, 10 Jun 2013 19:06:19 -0700 (PDT)
+	bh=4tRuo4YBbWtdRlAyTxmtrkBYsNqRcO5wZumjWQupaiI=;
+	b=djHRN+XdIyrw7evnGvc/CS/RIh+AcqRU6rDiyNDbTTYfTH3wxSz/3r+nLwiuTjqxtl
+	hHQqMcLUoNa61BTXUhjYPCPleGxARPdD6WtuzX78irj69r5LhO7G9dxpxpjJXIB2Ho4s
+	kb+7AdhguHjN/sWJkd+FC6AxcpzuPkMx9HtUDntCTnV0Amzk+W9qXCqiFcyZJFxWq01W
+	PMz3LnqimacQCGCw9P82jAx4KcYSthcpM2U/onjtaXiIFpuTZPHiLbnH4CJJ8hdSHAWF
+	HDqR+SWNKWhZXXMwSTJ88u6vZW8XoZS0Lo1iDVnfQU7dntLugmlKa0vyUh37bE0Uy8aI
+	Fscg==
+X-Received: by 10.68.222.74 with SMTP id qk10mr12439197pbc.58.1370917296253;
+	Mon, 10 Jun 2013 19:21:36 -0700 (PDT)
 Received: from [10.32.109.148] ([12.250.97.26])
-	by mx.google.com with ESMTPSA id v7sm12379495pbq.32.2013.06.10.19.06.18
+	by mx.google.com with ESMTPSA id l4sm12483707pbo.6.2013.06.10.19.21.35
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 19:06:18 -0700 (PDT)
+	Mon, 10 Jun 2013 19:21:35 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
-Date: Mon, 10 Jun 2013 19:06:17 -0700
-Message-Id: <E947360C-AE06-42E4-AD51-2DA926D1448D@gmail.com>
-References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
-To: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+In-Reply-To: <1370015746-22465-1-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 10 Jun 2013 19:21:34 -0700
+Message-Id: <7FC71AE1-8B85-4A2C-8E5D-A8A29DF05193@gmail.com>
+References: <1370015746-22465-1-git-send-email-mark.hatle@windriver.com>
+To: Mark Hatle <mark.hatle@windriver.com>
 X-Mailer: Apple Mail (2.1508)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] get minimal rootfs to be even smaller
+Subject: Re: [PATCH v2] gcc: add build directory to include directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,18 +46,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 02:06:19 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 02:21:35 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+what happens if you use --disable-libunwind-exceptions
 
-On May 31, 2013, at 7:11 AM, Marcin Juszkiewicz =
-<marcin@juszkiewicz.com.pl> wrote:
+On May 31, 2013, at 8:55 AM, Mark Hatle <mark.hatle@windriver.com> =
+wrote:
 
-> First hit: pci.ids.gz and usb.ids.gz ~350KB in total.
-
-udev just RRECOMMENDS  usbutils-ids pciutils-ids so how did it get into =
-build time dependencies to begin with ?
-
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>=20
+> Add build directory to include directories by -I${B}/include which =
+will
+> be searched before standard system include directories.
+>=20
+> Both libunwind and gcc supply unwind.h, once gcc use libunwind's =
+unwind.h,
+> the compiling will fail.
+>=20
+> This patch is generally not applicable to the upstream as they do not
+> use libunwind.
+>=20
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+> meta/recipes-devtools/gcc/gcc_4.7.bb | 2 +-
+> meta/recipes-devtools/gcc/gcc_4.8.bb | 2 +-
+> 2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc_4.7.bb =
+b/meta/recipes-devtools/gcc/gcc_4.7.bb
+> index 9954375..f68c67a 100644
+> --- a/meta/recipes-devtools/gcc/gcc_4.7.bb
+> +++ b/meta/recipes-devtools/gcc/gcc_4.7.bb
+> @@ -2,4 +2,4 @@ require recipes-devtools/gcc/gcc-${PV}.inc
+> require gcc-configure-target.inc
+> require gcc-package-target.inc
+>=20
+> -ARCH_FLAGS_FOR_TARGET +=3D "-isystem${STAGING_INCDIR}"
+> +ARCH_FLAGS_FOR_TARGET +=3D "-isystem${STAGING_INCDIR} =
+-I${B}/gcc/include/ "
+> diff --git a/meta/recipes-devtools/gcc/gcc_4.8.bb =
+b/meta/recipes-devtools/gcc/gcc_4.8.bb
+> index 9954375..f68c67a 100644
+> --- a/meta/recipes-devtools/gcc/gcc_4.8.bb
+> +++ b/meta/recipes-devtools/gcc/gcc_4.8.bb
+> @@ -2,4 +2,4 @@ require recipes-devtools/gcc/gcc-${PV}.inc
+> require gcc-configure-target.inc
+> require gcc-package-target.inc
+>=20
+> -ARCH_FLAGS_FOR_TARGET +=3D "-isystem${STAGING_INCDIR}"
+> +ARCH_FLAGS_FOR_TARGET +=3D "-isystem${STAGING_INCDIR} =
+-I${B}/gcc/include/ "
+> --=20
+> 1.8.3.rc1.25.g423ecb0
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
