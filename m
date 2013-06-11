@@ -1,35 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id CA0666A5FF
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob11.myregisteredsite.com
+	(atl4mhob11.myregisteredsite.com [209.17.115.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 836866A9C0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 08:32:40 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id f4so14334109iea.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 01:32:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=/LtRIgz0L7zSLYQrcI7Bi1BuZNwVEPNtxLNFdrMUez4=;
-	b=ZPH6D+PkbhyJoGHBBUokvHfnfZcv7xS+xtIdtL7aFNiAnebirlKZlbxFF+/t+ER/te
-	qn+l832KEkhoYkO/DhBpK4kpCc9cqjVMHETl+ZaA2waCiZYlregnXfX8Txq55B4b7iQD
-	KGYmKbRfV0SGUW7Q6TRXE8RH3yZmz5sY940LR2MMV15sqdsymB7N8YL639VGXYogcFbI
-	i7B3chuXjg0NJ40AEfrTMIgFzAXe3AdCvqL2fgmct0/NZo1DSWV1dbWQ8jeKiZamWosA
-	CjjhXEgu6vKgDOUTfFyofqDI4J1B16Hs8LPIjl1LuXXn7gi5v9MA4jREwP+uptCvOyoH
-	QUuA==
-X-Received: by 10.42.11.211 with SMTP id v19mr3431717icv.29.1370939562079;
-	Tue, 11 Jun 2013 01:32:42 -0700 (PDT)
+	Tue, 11 Jun 2013 09:12:19 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.204])
+	by atl4mhob11.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r5B9CKEe024107 for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2013 05:12:20 -0400
+Received: (qmail 5795 invoked by uid 0); 11 Jun 2013 09:12:20 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 11 Jun 2013 09:12:19 -0000
+Message-ID: <51B6E9F2.5000608@topic.nl>
+Date: Tue, 11 Jun 2013 11:12:18 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Received: by 10.50.79.137 with HTTP; Tue, 11 Jun 2013 01:32:11 -0700 (PDT)
-In-Reply-To: <51B05874.8000404@windriver.com>
-References: <51B05874.8000404@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 11 Jun 2013 01:32:11 -0700
-Message-ID: <CAMKF1spB4w3PQrXaxUZi98hT+bv44-BGdz0knMvGe1xBWg=zpA@mail.gmail.com>
-To: zhangxiao <xiao.zhang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Questions on nfs-utils package: Client and Server RPMs.
+To: openembedded-core@lists.openembedded.org
+References: <CAGDS+nkQ1u=bzhgDGJjMw+U99eazLb_Na51qmVSa2AGUrZM_QQ@mail.gmail.com>
+In-Reply-To: <CAGDS+nkQ1u=bzhgDGJjMw+U99eazLb_Na51qmVSa2AGUrZM_QQ@mail.gmail.com>
+Subject: Re: Sample recipe for qt4e app?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,42 +36,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 08:32:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 11 Jun 2013 09:12:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 6, 2013 at 2:37 AM, zhangxiao <xiao.zhang@windriver.com> wrote:
-> Hi Experts,
+On 06/11/2013 12:45 AM, Steve Sakoman wrote:
+> The qt-apps folder in oe-core only seems to have recipes for qt4-x11-free apps.
 >
-> Currently, YOCTO's nfs-utls is separated into two main packages(RPMs) client
-> and server.
-> They are not depend on each other. Client has only a mount.nfs user space
-> App. With both
-> client and server RPMs installed, all works fine. But if we just install
-> client RPM without
-> server one, we can only mount nfs server with "-o nolock" for lack of
-> rpcstatd.
+> Does anyone have a recipe for a simple qt4e app that they would be
+> willing to share?
 >
-> While in Debian system, it separate nfs-utils with a different way: one
-> "common" and the
-> other called server. Common contains mount.nfs and many other Apps including
-> rpcstatd.
-> This way the client side(without server RPM install) can mount remote NFS
-> server in
-> normal mode. But the side effect is the server RPM depends on the client
-> one(Debian
-> calls it as "common").
+> I'm looking to get an idea of just how small a qt4e image can be
+> without climbing the learning curve of writing a qt app and recipe :-)
 
-it seems a sane approach. Patches to restructure the packaging is appreciated.
+Here's my favorite:
 
->
-> On this topic, any opinions on both styles? YOCTO Vs Debian. And, any plan
-> to modify
-> YOCTO to align Debian?
->
-> Thanks
-> Xiao
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+DESCRIPTION = "QBall is a simple open source breakout style game"
+LICENSE = "GPLv2"
+LIC_FILES_CHKSUM = 
+"file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
+
+inherit qt4e
+
+SRCREV = "${AUTOREV}"
+PV = "0.1+${SRCPV}"
+PR = "r1"
+S = "${WORKDIR}/git"
+
+SRC_URI = "git://git.code.sf.net/p/q-ball/code"
+
+FILES_${PN} += "/opt/QBall"
+FILES_${PN}-dbg += "/opt/QBall/bin/.debug"
+
+do_install() {
+	export INSTALL_ROOT=${D}
+	make install
+}
+
 
