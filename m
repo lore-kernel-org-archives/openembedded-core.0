@@ -1,35 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 647966A5B4
+Received: from mail-pb0-f42.google.com (mail-pb0-f42.google.com
+	[209.85.160.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A58A6A5B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 01:49:28 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id kl14so1675838pab.20
+	Tue, 11 Jun 2013 01:49:30 +0000 (UTC)
+Received: by mail-pb0-f42.google.com with SMTP id un1so3739427pbc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 18:49:29 -0700 (PDT)
+	Mon, 10 Jun 2013 18:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=8iwwEMdlWWmks79JQVW+5WwnHXk35OksSAt2rHXwCJQ=;
-	b=xhKq6vkertEASUzzjqltZh9NilevhGxWAhrJysZCqujbCtkLvZZS8RyGWK/BulRxej
-	jE8ADOm4Ltg8ex2MAZ8W2FE2QNJe7LcuzsxAC/XjfOUTApwZhIPFgueDR1PK49q4m3ij
-	1QsaroyURL3g0VTIEZQrzHpqoZ7nj40uwP2NcV2MYXk8OpPT9Pi3Uavcx3hBaBAfDmtq
-	skN/JKbUdaS0Papk7bzMoiNrfhaFjyw1N208JdroHZY+HwxaUKkvTJg43a/WHc8TxWQj
-	jKrQF/uGeF9cb2rSNFyUktpFyJpiEsjaYRahyZgSQz+ui1ERgRbQ6nkNZCc//dTNuoIf
-	VEiQ==
-X-Received: by 10.68.106.130 with SMTP id gu2mr12224053pbb.111.1370915369579; 
-	Mon, 10 Jun 2013 18:49:29 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=DtFZQTTIEK+GZYLgVzBmPrV+kMFzdsHYMv8JQbblrIc=;
+	b=rxzIQm6SaE3/XzVE86nz+8SesonrQ+uhdgvWgNekB3ymUq4Ynpy+nyiq987LUuVwFJ
+	r3sDb0us1HeudgXM2rHDlJW1p3CN82wFnjAjjrWTUmbN1XSyGE8vVe4j9YkePUzYvwWT
+	cBqWuOdZ7h7R+3bctDnLB9R2tGUfx2dWht+U2OGAbyGGwf2ogE/WC4TqMdL4qdx3W4mv
+	VSGMyPEdeVnyJ5KrB6mLTDyaAc3JH42mQQDMMes7zD0VVUWxJynsWrI47ZEMnP5y+LKu
+	h0OItLNyXNLFA7QajzNG6ofNNs9oVZfHTNymJJYhoQ2OtV55aOgyhbtQ+Py/z04evKdm
+	EU6w==
+X-Received: by 10.68.108.163 with SMTP id hl3mr12095323pbb.160.1370915372009; 
+	Mon, 10 Jun 2013 18:49:32 -0700 (PDT)
 Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id z19sm3388361paf.12.2013.06.10.18.49.27
+	by mx.google.com with ESMTPSA id z19sm3388361paf.12.2013.06.10.18.49.29
 	for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Jun 2013 18:49:28 -0700 (PDT)
+	Mon, 10 Jun 2013 18:49:31 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2013 18:49:30 -0700
-Message-Id: <cover.1370915304.git.chris_larson@mentor.com>
+Date: Mon, 10 Jun 2013 18:49:31 -0700
+Message-Id: <7f9158be5a4849dccea0ed848d29f963697c22e3.1370915304.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 1.8.3
+In-Reply-To: <cover.1370915304.git.chris_larson@mentor.com>
+References: <cover.1370915304.git.chris_larson@mentor.com>
+In-Reply-To: <cover.1370915304.git.chris_larson@mentor.com>
+References: <cover.1370915304.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH v2 0/4] A few miscellaneous improvements from Mentor
+Subject: [PATCH v2 1/4] connman: use PACKAGECONFIG for WISPr support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +47,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 01:49:28 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 01:49:30 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-The following changes since commit b4f208f418d18f2a4e78a56bebacef481061d917:
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/recipes-connectivity/connman/connman.inc | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-  tar: don't mv tar for nativesdk (2013-06-10 18:06:33 +0100)
-
-are available in the git repository at:
-
-  https://github.com/kergoth/oe-core.git misc-improvements
-
-Christopher Larson (4):
-  connman: use PACKAGECONFIG for WISPr support
-  packagegroup-base-vfat: include dosfsprogs
-  insane.bbclass: quiet package errors not in *_QA
-  libnewt: split python module into libnewt-python
-
- meta/classes/insane.bbclass                        |  6 ++-
- meta/recipes-connectivity/connman/connman.inc      | 10 ++--
- .../packagegroups/packagegroup-base.bb             |  3 +-
- meta/recipes-extended/newt/libnewt-0.52.14.inc     | 45 ++++++++++++++++++
- .../newt/libnewt-python_0.52.14.bb                 | 26 +++++++++++
- meta/recipes-extended/newt/libnewt_0.52.14.bb      | 54 +---------------------
- 6 files changed, 86 insertions(+), 58 deletions(-)
- create mode 100644 meta/recipes-extended/newt/libnewt-0.52.14.inc
- create mode 100644 meta/recipes-extended/newt/libnewt-python_0.52.14.bb
-
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 0eb5865..f250d78 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -13,7 +13,7 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://src/main.c;beginline=1;endline=20;md5=d6a1ac98a6791c5294e8a7f176ecd66d"
+ 
+-DEPENDS  = "dbus glib-2.0 ppp iptables gnutls"
++DEPENDS  = "dbus glib-2.0 ppp iptables"
+ 
+ INC_PR = "r20"
+ 
+@@ -32,7 +32,7 @@ EXTRA_OECONF += "\
+     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
+ "
+ 
+-PACKAGECONFIG ??= "\
++PACKAGECONFIG ??= "wispr \
+                    ${@base_contains('DISTRO_FEATURES', 'wifi','wifi', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluetooth', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', '3g','3g', '', d)} \
+@@ -50,6 +50,8 @@ PACKAGECONFIG[openvpn] = "--enable-openvpn,--disable-openvpn,,openvpn"
+ PACKAGECONFIG[vpnc] = "--enable-vpnc,--disable-vpnc,,vpnc"
+ PACKAGECONFIG[l2tp] = "--enable-l2tp,--disable-l2tp,,xl2tpd"
+ PACKAGECONFIG[pptp] = "--enable-pptp,--disable-pptp,,pptp-linux"
++# WISPr support for logging into hotspots, requires TLS
++PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+ 
+ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+@@ -89,7 +91,9 @@ do_install_append() {
+ 
+ 	install -d ${D}${bindir}
+ 	install -m 0755 ${S}/tools/*-test ${D}${bindir}
+-	install -m 0755 ${S}/tools/wispr ${D}${bindir}
++	if [ -e ${S}/tools/wispr ]; then
++		install -m 0755 ${S}/tools/wispr ${D}${bindir}
++	fi
+ 	install -m 0755 ${B}/client/connmanctl ${D}${bindir}
+ 
+ 	# We don't need to package an empty directory
 -- 
 1.8.3
 
