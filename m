@@ -1,20 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DD786AA06
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 05CBD6A998
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 16:28:54 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 11 Jun 2013 09:28:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,846,1363158000"; d="scan'208";a="253553172"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.29])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Jun 2013 09:28:32 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue, 11 Jun 2013 17:03:26 +0000 (UTC)
+Received: by mail-we0-f174.google.com with SMTP id q58so5981142wes.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2013 10:03:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=IJ8bq0FxPJH/rINr4NVAUBvj2YuINAsQV4otJPWHo3I=;
+	b=mWt92f3+VErICvqmorjmieNoj/XAOI8Zbha/WK2hDFpK3w96bESfAuDTFZzk1sJhLs
+	fsRpjSXScAMz/xHe11iW1uY3CbFjOEJuYj1mT8O6U0pH+bNN5wmEA0XmL2ZMPDBQpPN8
+	sTNz8ALP8QuOGTJECI9TkLwcROIR7EAIluRyQD5FDxgPF5+M8erK0xbyCLaBtgnKdiNX
+	8ZvrLSGbdLCgGR3uk7wJsTwhBtl0C0AHdCDOwODsi5Q/58at1SaBQ1NlpeJoGH3R6v92
+	1QOJ7uXfCEZpnPa0DUhS76KYx2os26ZghZiqBW5rvl1mqPwxw53ElcpNEGMRX2INhLwh
+	PwOQ==
+X-Received: by 10.180.105.74 with SMTP id gk10mr2016141wib.3.1370970207162;
+	Tue, 11 Jun 2013 10:03:27 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fo10sm1528376wib.8.2013.06.11.10.03.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 11 Jun 2013 10:03:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2013 17:28:24 +0100
-Message-Id: <1370968104-25752-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [dylan][PATCH] menu-cache: Fix segmentation fault
+Date: Tue, 11 Jun 2013 18:00:03 +0100
+Message-Id: <1370970003-28809-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQmitc6fSXgAp2fz2QJafHFsBnAx9X6kff3SJin3MWxPjK/BT4JfYTpvAHjYoY3R5SCsU8QQ
+Subject: [PATCH] systemd: don't install quotaon.service twice
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,75 +43,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 16:28:55 -0000
+X-List-Received-Date: Tue, 11 Jun 2013 17:03:28 -0000
 
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+If the same file is installed twice there's a race which can lead to "make
+install" failing.  Remove the redundant installation of quotaon.service to
+eliminate the race.
 
-[YOCTO #4353]
-
-(From OE-Core rev: 8c9c6155e6d83675a94b4eaae4ffc6dfeca399ee)
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../menu-cache/files/Fix-segfault.patch            | 31 ++++++++++++++++++++++
- .../menu-cache/menu-cache_0.4.1.bb                 |  4 ++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+ .../systemd/systemd/install-quotaon-once.patch     |   32 ++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_204.bb           |    1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/install-quotaon-once.patch
 
-diff --git a/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch b/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
+diff --git a/meta/recipes-core/systemd/systemd/install-quotaon-once.patch b/meta/recipes-core/systemd/systemd/install-quotaon-once.patch
 new file mode 100644
-index 0000000..74a0407
+index 0000000..10280da
 --- /dev/null
-+++ b/meta/recipes-graphics/menu-cache/files/Fix-segfault.patch
-@@ -0,0 +1,31 @@
-+From a497ea6aae3994b7f6527ef7599dd95baf2ad841 Mon Sep 17 00:00:00 2001
-+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-+Date: Mon, 29 Apr 2013 12:04:20 +0300
-+Subject: [PATCH] Fix segfault
++++ b/meta/recipes-core/systemd/systemd/install-quotaon-once.patch
+@@ -0,0 +1,32 @@
++Upstream-Status: Submitted (https://bugs.freedesktop.org/show_bug.cgi?id=65659)
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+Apparently, g_io_channel_unref() was called twice: once in the
-+menu-cache's on_client_closed() callback and once from the finalize
-+function, g_io_unix_finalize()/g_io_win32_finalize(), which is called
-+anyway when the source is removed.
++From 44b7c4dc877984b5ea3f2c9fa09a93ee16dbe3b2 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Tue, 11 Jun 2013 17:16:37 +0100
++Subject: [PATCH] build-sys: don't install quotaon.service twice
 +
-+Upstream-Status: Pending
-+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
++quotaon.service is already installed through dist_systemunit_DATA, so it doesn't
++need to be added to nodist_systemunit_DATA.  Installing the same file twice
++results in a race condition where the install process can fail.
 +---
-+ menu-cache-daemon/menu-cached.c |    1 -
-+ 1 file changed, 1 deletion(-)
++ Makefile.am |    3 ---
++ 1 file changed, 3 deletions(-)
 +
-+diff --git a/menu-cache-daemon/menu-cached.c b/menu-cache-daemon/menu-cached.c
-+index e246bb4..a10b6db 100644
-+--- a/menu-cache-daemon/menu-cached.c
-++++ b/menu-cache-daemon/menu-cached.c
-+@@ -579,7 +579,6 @@ static void on_client_closed(gpointer user_data)
-+         }
-+     }
-+     /* DEBUG("client closed"); */
-+-    g_io_channel_unref(ch);
-+ }
++diff --git a/Makefile.am b/Makefile.am
++index 28ae7ed..197119e 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -3229,9 +3229,6 @@ endif
++ EXTRA_DIST += \
++ 	units/systemd-quotacheck.service.in
 + 
-+ static gboolean on_client_data_in(GIOChannel* ch, GIOCondition cond, gpointer user_data)
++-nodist_systemunit_DATA += \
++-	units/quotaon.service
++-
++ # ------------------------------------------------------------------------------
++ if ENABLE_RANDOMSEED
++ rootlibexec_PROGRAMS += \
 +-- 
-+1.7.9.5
++1.7.10.4
 +
-diff --git a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
-index d0c5340..2aabd4a 100644
---- a/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
-+++ b/meta/recipes-graphics/menu-cache/menu-cache_0.4.1.bb
-@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- SECTION = "x11/libs"
- DEPENDS = "glib-2.0 zlib"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.gz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/lxde/menu-cache-${PV}.tar.gz \
-+           file://Fix-segfault.patch \
-+          "
- 
- SRC_URI[md5sum] = "20fed982f5d8e6ec8a56a5b48894ecf0"
- SRC_URI[sha256sum] = "4fa9408e353fedba5b7314cbf6b6cd06d873a1424e281aa050d88bb9c0a0191e"
+diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
+index 5a63c7c..b8b1290 100644
+--- a/meta/recipes-core/systemd/systemd_204.bb
++++ b/meta/recipes-core/systemd/systemd_204.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+            file://modprobe.rules \
+            ${UCLIBCPATCHES} \
+            file://0001-utmp-turn-systemd-update-utmp-shutdown.service-into-.patch \
++           file://install-quotaon-once.patch \
+            file://00-create-volatile.conf \
+            file://init \
+           "
 -- 
-1.8.1.2
+1.7.10.4
 
 
