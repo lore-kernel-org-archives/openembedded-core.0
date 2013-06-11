@@ -1,36 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
-	[209.85.160.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 128086A9D3
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id DCED16A9CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 09:56:11 +0000 (UTC)
-Received: by mail-pb0-f49.google.com with SMTP id jt11so8199894pbb.8
+	Tue, 11 Jun 2013 11:22:11 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id k13so5733742wgh.17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 02:56:12 -0700 (PDT)
+	Tue, 11 Jun 2013 04:22:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=PfeYyLa0GbhmMr9KitjKrclWb08J5pPzUoEu7IDVbCM=;
-	b=HAZIhWX3N/vVQqScdR2gAu21qODIaAmAHVbiDQPMsLdIWfRPQu7VaCiSWnMrVZlesZ
-	CoC1u5Zw6tnpkR+G/enKV/cYnqN0xofLUoVaNAhljIww6z/MYeRgY3/MjSmBZA4uPjCG
-	Kgy+gGbl0FfwUMy8mBEIBdK9N7g02YWfEDG3x9PI3CqNMmb39y3fIrr4m9G9n63tYBxH
-	chiSYS5eY8CD03K9dmMi0ztgvUNrm+Jvv3hfDHDc1xis2hGPvo+BG9XWF7w8t4LN3nAL
-	gPsX5ORkyNjZz4FQqMRjOA9/xLn4ofrb4ssqQz09mI9M0bMtSb+dPMOAplaWO3kQykgq
-	Ll/A==
-X-Received: by 10.68.139.33 with SMTP id qv1mr13771399pbb.93.1370944572117;
-	Tue, 11 Jun 2013 02:56:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.66.252.98 with HTTP; Tue, 11 Jun 2013 02:55:52 -0700 (PDT)
-In-Reply-To: <1370851201-30757-1-git-send-email-net147@gmail.com>
-References: <1370851201-30757-1-git-send-email-net147@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Jun 2013 10:55:52 +0100
-Message-ID: <CAJTo0LZpELh4JirKqCka+ZG=UpGNS=xxCr=t5L-cyQrRy813Pg@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQmpi9M4BFORACOes1C20u1CzEo+65ELG/QTbvUhllzxpwKS5+H7elmRLFqfV2IAh3A2oFCs
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mesa: remove unrecognized configure options
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=OxMRqYYgCYY+321JaAsKwkJTRCrV2nIbAaEhfsZeKWs=;
+	b=RBoMm17F8/GXkMB9jdbAjkthlKvXfK4JPnOuSbo9MJ2IpuW9hl9+gCi4dnw8I45E7B
+	Vk+atTN9SIh5dLETldCW9BJExSxBp3QNvh/tA8OqS6JHYiF0cad9/M4p9BubA7aSgrbH
+	cyGQLGu4gOTOvoYF18aWmAXxun8tl7eGOcy2XuZxK5tUsxOhF+l4FUvrgS3/r1L/I2QX
+	I72sdJheoOZWSfilFseWIyhTG7aZ6mmy5MYFQUY73aOuxw/uE3RY3J7jSj9BNwlXEnhp
+	PAmr4MeVtlXY91uwCAr55Z17Hh8WK4Ge1f4a/cJ7dwqYJC8jAKmshJgKK9whjm/AZ0uJ
+	6uxw==
+X-Received: by 10.194.176.71 with SMTP id cg7mr8095596wjc.18.1370949731599;
+	Tue, 11 Jun 2013 04:22:11 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fb9sm17130405wid.2.2013.06.11.04.22.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 11 Jun 2013 04:22:10 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jun 2013 12:18:48 +0100
+Message-Id: <1370949528-4946-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQnOqI++LX9dCzpFobovuo2BCzP7Sx9Oeg7mkrGiWk9dIqcjwB7Ma4XAODz6/lQb7Dj8QbOJ
+Subject: [PATCH] glib-2.0: drop Makefile.in hunks from patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +42,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 09:56:11 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 11 Jun 2013 11:22:12 -0000
 
-On 10 June 2013 09:00, Jonathan Liu <net147@gmail.com> wrote:
-> --disable-glut and --disable-glw are not recognized since Mesa 8.0.
-> --disable-glu is not recognized since Mesa 9.0.
->
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
+Patching a generated file is prone to conflicts, and we'll be replacing this
+file anyway when configuring, so drop the Makefile.in hunks.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch   |   34 --------------------
+ 1 file changed, 34 deletions(-)
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
+index 2920e2f..0c243cd 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
++++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
+@@ -23,23 +23,6 @@ Index: glib-2.30.0/glib/Makefile.am
+  BUILT_SOURCES += glib_probes.h glib_probes.o
+  CLEANFILES += glib_probes.h glib_probes.h.tmp
+  libglib_2_0_la_LIBADD += glib_probes.o
+-Index: glib-2.30.0/glib/Makefile.in
+-===================================================================
+---- glib-2.30.0.orig/glib/Makefile.in
+-+++ glib-2.30.0/glib/Makefile.in
+-@@ -1691,10 +1691,10 @@ uninstall-local: uninstall-ms-lib uninst
+- @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
+- 
+- @ENABLE_DTRACE_TRUE@glib_probes.h: glib_probes.d Makefile
+--@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -C -h -s $< -o $@.tmp
+-+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN)  CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
+- @ENABLE_DTRACE_TRUE@	@$(SED) -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
+- @ENABLE_DTRACE_TRUE@glib_probes.o: glib_probes.d Makefile
+--@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -G -s $< -o $@
+-+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN)  CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
+- 
+- gspawn-win32-helper-console.c:
+- 	echo '#define HELPER_CONSOLE' >$@
+ Index: glib-2.30.0/gobject/Makefile.am
+ ===================================================================
+ --- glib-2.30.0.orig/gobject/Makefile.am
+@@ -57,20 +40,3 @@ Index: glib-2.30.0/gobject/Makefile.am
+  BUILT_SOURCES += gobject_probes.h gobject_probes.o
+  CLEANFILES += gobject_probes.h
+  libgobject_2_0_la_LIBADD += gobject_probes.o
+-Index: glib-2.30.0/gobject/Makefile.in
+-===================================================================
+---- glib-2.30.0.orig/gobject/Makefile.in
+-+++ glib-2.30.0/gobject/Makefile.in
+-@@ -1581,10 +1581,10 @@ uninstall-ms-lib:
+- @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
+- 
+- @ENABLE_DTRACE_TRUE@gobject_probes.h: gobject_probes.d Makefile
+--@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -C -h -s $< -o $@.tmp
+-+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
+- @ENABLE_DTRACE_TRUE@	@$(SED) -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
+- @ENABLE_DTRACE_TRUE@gobject_probes.o: gobject_probes.d Makefile
+--@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -G -s $< -o $@
+-+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
+- 
+- # This is read by gobject-introspection/misc/ and gtk-doc
+- gobject-public-headers.txt: Makefile
+-- 
+1.7.10.4
+
 
