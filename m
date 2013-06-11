@@ -1,23 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C6DE6A9BE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id CF8986A997
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 14:33:24 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 Jun 2013 07:33:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,845,1363158000"; d="scan'208";a="253504508"
-Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Jun 2013 07:33:25 -0700
-Message-ID: <51B73535.8000504@linux.intel.com>
-Date: Tue, 11 Jun 2013 07:33:25 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue, 11 Jun 2013 14:46:48 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id y14so5825389pdi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2013 07:46:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=TX+Cv2QiLNh9mP17bFpunLR1qQ45BeYP/zy8svqxGrw=;
+	b=UvmWaF0zEbUMrs54a8w1nOLWWc+sNoyMmexhNpMt4HOTSyey9C7mZ80vgQkfDYviOz
+	4fWgcxHcF/DMFQGuGpfHVDZjofdLL/XNnu10mfHCpMQucrJCwIthsaP9xdm3Meh8Z+ym
+	qMxJBkvjs1iz4kffbfWWykth69N0r0YkeqRxHIAcDB09PXpABe8uGM/5J64dRdOq6DzL
+	0vZsfFF5i5YnfK8mcqBggAmX/zxBSHZwjtlE5x/F7w1HlgHU+cd8abOzlYVugPqHGAsr
+	pOSGqz+Eob9/+RZfm60pQpweReQSeoJXwlI93oyX1dmWP09yEeGS77jpuB/SC6BK2pso
+	XPFg==
+X-Received: by 10.66.145.34 with SMTP id sr2mr12335060pab.94.1370962010106;
+	Tue, 11 Jun 2013 07:46:50 -0700 (PDT)
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
+Received: by 10.66.252.98 with HTTP; Tue, 11 Jun 2013 07:46:29 -0700 (PDT)
+In-Reply-To: <51B73535.8000504@linux.intel.com>
 References: <1370949528-4946-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1370949528-4946-1-git-send-email-ross.burton@intel.com>
+	<51B73535.8000504@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Jun 2013 15:46:29 +0100
+Message-ID: <CAJTo0Lb0+6CY835QED3LcJDL=iGy9J5pbjgznR36+XRa6Q+aYA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQncdt2wj0tiXDlrZPwc/6VF0yC92pWgioxiYuaq48rJd8pnSTVsFNa62H1EYj4d5GAh+C2Y
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] glib-2.0: drop Makefile.in hunks from patch
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -32,72 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 14:33:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jun 2013 14:46:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 06/11/2013 04:18 AM, Ross Burton wrote:
-> Patching a generated file is prone to conflicts, and we'll be replacing this
-> file anyway when configuring, so drop the Makefile.in hunks.
->
-Is there any replacement for  this patch, did you check that glib-2.0 
-will still build correctly for x32?
+On 11 June 2013 15:33, Saul Wold <sgw@linux.intel.com> wrote:
+>> Patching a generated file is prone to conflicts, and we'll be replacing
+>> this
+>> file anyway when configuring, so drop the Makefile.in hunks.
+>>
+> Is there any replacement for  this patch, did you check that glib-2.0 will
+> still build correctly for x32?
 
-Sau!
+The Makefile.am patches are still there, and as we run a full
+autoreconf the Makefile.in patches will be overwritten.  I didn't test
+x32 but if it breaks we've got bigger problems!
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   .../glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch   |   34 --------------------
->   1 file changed, 34 deletions(-)
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
-> index 2920e2f..0c243cd 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0_fix_for_x32.patch
-> @@ -23,23 +23,6 @@ Index: glib-2.30.0/glib/Makefile.am
->    BUILT_SOURCES += glib_probes.h glib_probes.o
->    CLEANFILES += glib_probes.h glib_probes.h.tmp
->    libglib_2_0_la_LIBADD += glib_probes.o
-> -Index: glib-2.30.0/glib/Makefile.in
-> -===================================================================
-> ---- glib-2.30.0.orig/glib/Makefile.in
-> -+++ glib-2.30.0/glib/Makefile.in
-> -@@ -1691,10 +1691,10 @@ uninstall-local: uninstall-ms-lib uninst
-> - @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
-> -
-> - @ENABLE_DTRACE_TRUE@glib_probes.h: glib_probes.d Makefile
-> --@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -C -h -s $< -o $@.tmp
-> -+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN)  CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-> - @ENABLE_DTRACE_TRUE@	@$(SED) -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-> - @ENABLE_DTRACE_TRUE@glib_probes.o: glib_probes.d Makefile
-> --@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -G -s $< -o $@
-> -+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN)  CC="$(CC)" CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
-> -
-> - gspawn-win32-helper-console.c:
-> - 	echo '#define HELPER_CONSOLE' >$@
->   Index: glib-2.30.0/gobject/Makefile.am
->   ===================================================================
->   --- glib-2.30.0.orig/gobject/Makefile.am
-> @@ -57,20 +40,3 @@ Index: glib-2.30.0/gobject/Makefile.am
->    BUILT_SOURCES += gobject_probes.h gobject_probes.o
->    CLEANFILES += gobject_probes.h
->    libgobject_2_0_la_LIBADD += gobject_probes.o
-> -Index: glib-2.30.0/gobject/Makefile.in
-> -===================================================================
-> ---- glib-2.30.0.orig/gobject/Makefile.in
-> -+++ glib-2.30.0/gobject/Makefile.in
-> -@@ -1581,10 +1581,10 @@ uninstall-ms-lib:
-> - @OS_WIN32_AND_DLL_COMPILATION_FALSE@uninstall-def-file:
-> -
-> - @ENABLE_DTRACE_TRUE@gobject_probes.h: gobject_probes.d Makefile
-> --@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -C -h -s $< -o $@.tmp
-> -+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) CFLAGS="$(CFLAGS)" $(DTRACE) -C -h -s $< -o $@.tmp
-> - @ENABLE_DTRACE_TRUE@	@$(SED) -e "s,define STAP_HAS_SEMAPHORES 1,undef STAP_HAS_SEMAPHORES," < $@.tmp > $@ && rm -f $@.tmp
-> - @ENABLE_DTRACE_TRUE@gobject_probes.o: gobject_probes.d Makefile
-> --@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) $(DTRACE) -G -s $< -o $@
-> -+@ENABLE_DTRACE_TRUE@	$(AM_V_GEN) CFLAGS="$(CFLAGS)" $(DTRACE) -G -s $< -o $@
-> -
-> - # This is read by gobject-introspection/misc/ and gtk-doc
-> - gobject-public-headers.txt: Makefile
->
+(I'll do a build now just to verify)
+
+Ross
 
