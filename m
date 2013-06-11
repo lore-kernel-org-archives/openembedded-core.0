@@ -1,29 +1,37 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob11.myregisteredsite.com
-	(atl4mhob11.myregisteredsite.com [209.17.115.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 836866A9C0
+Return-Path: <tasskjapp@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 194786A998
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 09:12:19 +0000 (UTC)
-Received: from mailpod.hostingplatform.com ([10.30.71.204])
-	by atl4mhob11.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	r5B9CKEe024107 for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 05:12:20 -0400
-Received: (qmail 5795 invoked by uid 0); 11 Jun 2013 09:12:20 -0000
-X-TCPREMOTEIP: 88.159.208.100
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO ?192.168.80.45?)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 11 Jun 2013 09:12:19 -0000
-Message-ID: <51B6E9F2.5000608@topic.nl>
-Date: Tue, 11 Jun 2013 11:12:18 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Tue, 11 Jun 2013 09:35:28 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id t13so2280807lbd.29
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2013 02:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=LbH3wwP5c2wrCwomXZJxQl/XDGdMp5OzsMpigNv2WEU=;
+	b=gd7Vt19kJKbL07lMMCK1RjiRk7CaleKO7mPtAf4gDHLqqpEy/yCvkVpco13jbe8VWp
+	ixQ/GhuqVd4/EsKBe/YhBx284f5K8tNynxpJcK70m3gj89ksbOzP7yvvCwjHIVKqVwcG
+	v7Px2x7JnNQMvrg0i2uk2000zC7LoXGFE0Xv625wS0ZOIYYFVCn79PIzkgA0wi8Vk4mn
+	8HCl+zzRSEBUS6ka6YcSCDhYVorsKOnUBnCkTP+GjOqUuHrCdXEMi+rhAz3fbey1vHrL
+	QM8u6nHBrYkxLJ/bNKIRN2rvBCMrwq97HlMhBKuI1p2VjhGk6Yx9S9y8dP0dpa5p3ETf
+	VEWA==
+X-Received: by 10.152.44.170 with SMTP id f10mr6841966lam.68.1370943329203;
+	Tue, 11 Jun 2013 02:35:29 -0700 (PDT)
+Received: from [192.168.0.209] ([77.40.182.98])
+	by mx.google.com with ESMTPSA id a3sm7102877lbg.2.2013.06.11.02.35.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 11 Jun 2013 02:35:28 -0700 (PDT)
+Message-ID: <51B6EF5E.1020404@gmail.com>
+Date: Tue, 11 Jun 2013 11:35:26 +0200
+From: Tasslehoff Kjappfot <tasskjapp@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <CAGDS+nkQ1u=bzhgDGJjMw+U99eazLb_Na51qmVSa2AGUrZM_QQ@mail.gmail.com>
-In-Reply-To: <CAGDS+nkQ1u=bzhgDGJjMw+U99eazLb_Na51qmVSa2AGUrZM_QQ@mail.gmail.com>
-Subject: Re: Sample recipe for qt4e app?
+Subject: SDK relocation issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 09:12:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jun 2013 09:35:29 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 06/11/2013 12:45 AM, Steve Sakoman wrote:
-> The qt-apps folder in oe-core only seems to have recipes for qt4-x11-free apps.
->
-> Does anyone have a recipe for a simple qt4e app that they would be
-> willing to share?
->
-> I'm looking to get an idea of just how small a qt4e image can be
-> without climbing the learning curve of writing a qt app and recipe :-)
+I compiled an SDK and extracted/installed it to my source tree instead 
+of /usr/local/. I have made /usr/local/oecore-i686 a symlink to the 
+actual location. With the latest Dylan this broke.
 
-Here's my favorite:
+Denzil:
+❯❯❯ ldd arm-angstrom-linux-gnueabi-gcc
+     linux-gate.so.1 =>  (0xf771d000)
+     libc.so.6 => /lib/i386-linux-gnu/libc.so.6 (0xf7544000) 
+/usr/local/oecore-i686/sysroots/i686-angstromsdk-linux/lib/ld-linux.so.2 
+=> /lib/ld-linux.so.2 (0xf771e000)
 
+Dylan:
+Original location:
+❯❯❯ ldd arm-angstrom-linux-gnueabi-gcc
+     linux-gate.so.1 =>  (0xf77c4000)
+     libc.so.6 => 
+/home/tasslehoff/src/pdrepos01/toolchains/oecore-i686/sysroots/i686-angstromsdk-linux/usr/bin/armv7a-vfp-neon-angstrom-linux-gnueabi/./../../../lib/libc.so.6 
+(0xf7610000)
+ 
+/home/tasslehoff/src/oe/toolchains/oecore-i686/sysroots/i686-angstromsdk-linux/lib/ld-linux.so.2 
+=> /lib/ld-linux.so.2 (0xf77c5000)
 
-DESCRIPTION = "QBall is a simple open source breakout style game"
-LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = 
-"file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58"
+If I try to run the toolchain from Dylan on a system where 
+/home/tasslehoff/src/oe/toolchains/oecore-i686/sysroots/i686-angstromsdk-linux/lib/ld-linux.so.2 
+does not exist, it fails.
 
-inherit qt4e
-
-SRCREV = "${AUTOREV}"
-PV = "0.1+${SRCPV}"
-PR = "r1"
-S = "${WORKDIR}/git"
-
-SRC_URI = "git://git.code.sf.net/p/q-ball/code"
-
-FILES_${PN} += "/opt/QBall"
-FILES_${PN}-dbg += "/opt/QBall/bin/.debug"
-
-do_install() {
-	export INSTALL_ROOT=${D}
-	make install
-}
-
+Regards,
+Tasslehoff
 
