@@ -1,26 +1,24 @@
-Return-Path: <andy.voltz@timesys.com>
-Received: from exchange07.timesys.com (exchange07.timesys.com
-	[209.114.137.116])
-	by mail.openembedded.org (Postfix) with ESMTP id 077116A9A2;
-	Tue, 11 Jun 2013 13:45:24 +0000 (UTC)
-Received: from timesys.com (192.168.3.27) by exchange07.timesys.com
-	(192.168.1.221) with Microsoft SMTP Server id 8.1.436.0;
-	Tue, 11 Jun 2013 09:45:24 -0400
-Date: Tue, 11 Jun 2013 09:45:43 -0400
-From: Andy Voltz <andy.voltz@timesys.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20130611134543.GZ17357@timesys.com>
-References: <20130607154357.606025038F@opal> <20130608091020.GO22710@jama>
-	<20130608091556.GP22710@jama> <20130610155044.GS17357@timesys.com>
-	<CAMKF1spvVOLu5uKFWXC=yqzHV73N61sOqUwj=gg1ZUVK=uN7OQ@mail.gmail.com>
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CF6B6A9D3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2013 13:50:08 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jun 2013 06:50:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,845,1363158000"; d="scan'208";a="348156548"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jun 2013 06:50:36 -0700
+Date: Tue, 11 Jun 2013 16:50:07 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Message-ID: <20130611135007.GF7181@lpalcu-linux>
+References: <1370957859-28122-1-git-send-email-andrei.adrianx.dinu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spvVOLu5uKFWXC=yqzHV73N61sOqUwj=gg1ZUVK=uN7OQ@mail.gmail.com>
+In-Reply-To: <1370957859-28122-1-git-send-email-andrei.adrianx.dinu@intel.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>
-Subject: Re: [oe-commits] Andy Voltz : tune-cortexa.inc: create a common include for cortex-a armv7a tuning
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gzip : upgrade to 1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 13:45:24 -0000
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 11 Jun 2013 13:50:08 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Khem,
-
-On Tue, Jun 11, 2013 at 12:12:47AM -0400, Khem Raj wrote:
-> On Mon, Jun 10, 2013 at 8:50 AM, Andy Voltz <andy.voltz@timesys.com> wrote:
-> >> > ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
-> >> >     Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
-> >> >     Following is the list of potential problems / advisories:
-> >> >
-> >> >     Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (${ARMPKGARCH_tune-cortexa8t-neon}).Toolchain tunings invalid:
-> >> > Tuning 'cortexa8t-neon' has no defined features, and cannot be used.
-> >> >
-> >> > ERROR: Execution of event handler 'check_sanity_eventhandler' failed
-> >> >
-> >> > Please use tests like
-> >> > http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune2-test
-> >> > to check that all tunes are still valid after such change.
-> >>
-> >
-> > I was not aware of this test. I'll look into this.
+On Tue, Jun 11, 2013 at 04:37:39PM +0300, Andrei Dinu wrote:
+> upgrade from 1.5 -> 1.6
 > 
-> This patch is not going to work. How did you test it ?
-> Its trying to substitute into overrides which then are not expanded
-> before being treated as overrides.
-> as a result overrides variable themselves are wrong.
-> We have to revert this patch please and I conur with Martin it did not
-> seem like a significant improvement either.
+> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+> ---
+>  .../gzip/{gzip_1.5.bb => gzip_1.6.bb}              |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-extended/gzip/{gzip_1.5.bb => gzip_1.6.bb} (51%)
+> 
+> diff --git a/meta/recipes-extended/gzip/gzip_1.5.bb b/meta/recipes-extended/gzip/gzip_1.6.bb
+> similarity index 51%
+> rename from meta/recipes-extended/gzip/gzip_1.5.bb
+> rename to meta/recipes-extended/gzip/gzip_1.6.bb
+> index f7b8593..bd1f70a 100644
+> --- a/meta/recipes-extended/gzip/gzip_1.5.bb
+> +++ b/meta/recipes-extended/gzip/gzip_1.6.bb
+> @@ -7,5 +7,5 @@ NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+>  
+>  BBCLASSEXTEND = "native"
+>  
+> -SRC_URI[md5sum] = "11b76536941ee1c0221fe6eefbcb32cb"
+> -SRC_URI[sha256sum] = "b5d56e8ffc9918e8c941fab56e04121194f9870adeeb859e09c09eac264035a3"
+> +SRC_URI[md5sum] = "38603cb2843bf5681ff41aab3bcd6a20"
+> +SRC_URI[sha256sum] = "97eb83b763d9e5ad35f351fe5517e6b71521d7aac7acf3e3cacdb6b1496d8f7e"
 
-I understand that. I sent an updated patch which reverts to mtune, but I'm getting
-acquainted with this tune test and it's still showing issues. I'm need to dig in more.
+I believe you can safely remove the PR too.
 
-I tested this originally by building for the cortex-a5. I'm going to revert
-locally and keep using this test to keep things consistent.
+Thanks,
+Laurentiu
 
-Regards
--- 
-Andy Voltz
-Timesys Corporation
+> -- 
+> 1.7.9.5
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
