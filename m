@@ -1,26 +1,17 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CF326A885
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DD646A9BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 04:27:26 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Jun 2013 21:28:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,842,1363158000"; d="scan'208";a="351246233"
-Received: from unknown (HELO [10.255.12.247]) ([10.255.12.247])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Jun 2013 21:27:26 -0700
-Message-ID: <51B6A72E.5080008@linux.intel.com>
-Date: Mon, 10 Jun 2013 21:27:26 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1370009480-32681-1-git-send-email-marcin@juszkiewicz.com.pl>
-	<E947360C-AE06-42E4-AD51-2DA926D1448D@gmail.com>
-In-Reply-To: <E947360C-AE06-42E4-AD51-2DA926D1448D@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] get minimal rootfs to be even smaller
+	Tue, 11 Jun 2013 07:15:21 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r5B7FIRI030238; 
+	Tue, 11 Jun 2013 02:15:20 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jun 2013 12:15:31 +0500
+Message-Id: <1370934931-20015-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] ofono: Add run time dependency for ofono test scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +24,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 04:27:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jun 2013 07:15:21 -0000
 
-On 06/10/2013 07:06 PM, Khem Raj wrote:
->
-> On May 31, 2013, at 7:11 AM, Marcin Juszkiewicz <marcin@juszkiewicz.com.pl> wrote:
->
->> First hit: pci.ids.gz and usb.ids.gz ~350KB in total.
->
-> udev just RRECOMMENDS  usbutils-ids pciutils-ids so how did it get into build time dependencies to begin with ?
->
-I looked into this a while back and it's the fact that those packages 
-are built, so they are seen and get installed.  If the packages aren't 
-available they won't get installed.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Since pciutils and usbutils are both DEPENDS of udev, those get built 
-and the packages get deployed and then are available to be installed at 
-the behest of the RRECOMMENDS.
+Some ofono test scripts i.e. enable-modem use python-dbus module
+and this must be installed along with ofono-tests package.
 
-We could maybe have added BAD_RECOMMENDATIONS for core-image-minimal so 
-that on a larger system udev would still have the -id files available, I 
-just thought of this, not tested.
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ meta/recipes-connectivity/ofono/ofono.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sau!
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index 48513b2..21e564c 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -23,4 +23,4 @@ RDEPENDS_${PN} += "dbus"
+ 
+ FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
+ FILES_${PN}-tests = "${libdir}/ofono"
+-RDEPENDS_${PN}-tests = "python python-pygobject"
++RDEPENDS_${PN}-tests = "python python-pygobject python-dbus"
+-- 
+1.7.9.5
 
-
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
