@@ -1,39 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 41A1E6A99A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 800B06A9A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 22:35:00 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id m14so6548355eaj.16
+	Tue, 11 Jun 2013 22:36:38 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id hz11so5145671pad.30
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 15:35:00 -0700 (PDT)
+	Tue, 11 Jun 2013 15:36:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0bMKSyFcjcep2L0engBtrCJ4/pboqGOWIUqAUCGzTd8=;
-	b=YhOKCVSpc4y32s8GwKoIA95aOKdrjU8beDTD99arSE2cW5i3rKuIJETMj5hkDehFvf
-	nGepWZavb/UaLwSUz+Him/k6qZbLoFw2VbMEaWztlgbdukXCfnC4uzxvHGk8Vyft1a+D
-	F4DXvKAwAKf9Mu/3K29nET9EX7aDUjp0IXB86wtRw6EmD+gcF0HYmDZmydSxCi4fThO7
-	9IocwX5Zp4iLRaKhgNcfK9N8xzABi6Gb844u7DCvHQk2+0XnrdzNgecw13ogIUyp9k/s
-	Iza+9tEkmuMuCenQwwrc4hhWKyZRcnFJHldbm74DL0cwz6cQceeqy7KWqR/EWfXKsrTY
-	693Q==
-X-Received: by 10.14.215.197 with SMTP id e45mr18299540eep.130.1370990100694; 
-	Tue, 11 Jun 2013 15:35:00 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	u7sm33068957eef.14.2013.06.11.15.34.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 11 Jun 2013 15:35:00 -0700 (PDT)
-Date: Wed, 12 Jun 2013 00:35:24 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130611223524.GM3233@jama>
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=DBlFDaeK1x8n4cq6elp28Y7FZRX2dm2pio6IeaPCWH4=;
+	b=nRq0WQnU9dea2frQHvmHyMyLbMlEPL2J4INTz2lqtAwy0+tjrbjt5Lr04XSWqE9NtT
+	h9XZwKwopqPwHcXArNM3ckYGbnTpMlhCQYwzB8mQoNOWSnaLBEA0Wh5EXefgHZkCnsCy
+	/dc6wDNA9iSiMDDt0QEgQszpu87rPD+2bPpUMDr5EEKZ5H0LMj5Yh69pPRKp/nbgRV7o
+	+D1VKBjRzq6XFyfknnKn9WovyKXC8IBqleLhef/0pmBhsca1Bekrg1OGHCpz8IBkgoWs
+	e5kdp63+C37ApAjno+aejgdOlarwR3CyKGnuUpFr9PXn6PoF4qA3ra8RC5jSxf9kC2Ue
+	s+hw==
+X-Received: by 10.68.226.5 with SMTP id ro5mr17121187pbc.36.1370990199482;
+	Tue, 11 Jun 2013 15:36:39 -0700 (PDT)
+Received: from sa-nc-common3-188.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id 6sm16268934pbn.45.2013.06.11.15.36.36
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 11 Jun 2013 15:36:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20130611223524.GM3233@jama>
+Date: Tue, 11 Jun 2013 15:36:34 -0700
+Message-Id: <AF7C4285-3349-4DD3-AF3E-94EDDC564D42@gmail.com>
 References: <1370987869-19041-1-git-send-email-raj.khem@gmail.com>
 	<1370989876-20531-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1370989876-20531-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	<20130611223524.GM3233@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [RFC][PATCH] gcc-4.8: Backport fix for ICE triggered in pixman
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,164 +49,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 22:35:00 -0000
-X-Groupsio-MsgNum: 40506
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pP0ycGQONqsnqIMP"
-Content-Disposition: inline
-
---pP0ycGQONqsnqIMP
+X-List-Received-Date: Tue, 11 Jun 2013 22:36:38 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 12, 2013 at 12:31:16AM +0200, Martin Jansa wrote:
-> * http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57329
 
-Only RFC, because world build is still running to confirm that it
-doesn't introduce new issues and that it indeed fixes pixman build for
-xscalete.
+On Jun 11, 2013, at 3:35 PM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
 
+> On Wed, Jun 12, 2013 at 12:31:16AM +0200, Martin Jansa wrote:
+>> * http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57329
 >=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 +
->  .../gcc/gcc-4.8/0036-PR-target-56102.patch         | 83 ++++++++++++++++=
-++++++
->  2 files changed, 84 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-5610=
-2.patch
+> Only RFC, because world build is still running to confirm that it
+> doesn't introduce new issues and that it indeed fixes pixman build for
+> xscalete.
 >=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtool=
-s/gcc/gcc-4.8.inc
-> index 6664f1c..bfdb766 100644
-> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-> @@ -65,6 +65,7 @@ SRC_URI =3D "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.=
-bz2 \
->  	   file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
->  	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.pat=
-ch \
->  	   file://0035-wcast-qual-PR-55383.patch \
-> +	   file://0036-PR-target-56102.patch \
->  	   file://gcc-4.8-PR56797.patch \
->  	   file://gcc-4.8-build-args.patch \
->  	  "
-> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch=
- b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
-> new file mode 100644
-> index 0000000..a9498fc
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
-> @@ -0,0 +1,83 @@
-> +From fa049b3584a1cc36c250205e3d5841e6a40ff677 Mon Sep 17 00:00:00 2001
-> +From: amker <amker@138bc75d-0d04-0410-961f-82ee72b054a4>
-> +Date: Wed, 27 Mar 2013 08:16:54 +0000
-> +Subject: [PATCH] PR target/56102
-> +
-> +* config/arm/arm.c (thumb1_rtx_costs, thumb1_size_rtx_costs): Fix rtx co=
-sts for SET/ASHIFT/ASHIFTRT/LSHIFTRT/ROTATERT patterns with mult-word mode.
-> +
-> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@197155 138bc75d-0d04-041=
-0-961f-82ee72b054a4
-> +
-> +Upstream-Status: Backport
-> +http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57329
-> +
-> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> +---
-> + gcc/config/arm/arm.c | 17 ++++++++++++++---
-> + 1 file changed, 14 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
-> +index 460d333..edf850d 100644
-> +--- a/gcc/config/arm/arm.c
-> ++++ b/gcc/config/arm/arm.c
-> +@@ -7094,7 +7094,7 @@ static inline int
-> + thumb1_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
-> + {
-> +   enum machine_mode mode =3D GET_MODE (x);
-> +-  int total;
-> ++  int total, words;
-> +=20
-> +   switch (code)
-> +     {
-> +@@ -7102,6 +7102,8 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, enum =
-rtx_code outer)
-> +     case ASHIFTRT:
-> +     case LSHIFTRT:
-> +     case ROTATERT:
-> ++      return (mode =3D=3D SImode) ? COSTS_N_INSNS (1) : COSTS_N_INSNS (=
-2);
-> ++
-> +     case PLUS:
-> +     case MINUS:
-> +     case COMPARE:
-> +@@ -7125,7 +7127,10 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, enum=
- rtx_code outer)
-> +       return COSTS_N_INSNS (1) + 16;
-> +=20
-> +     case SET:
-> +-      return (COSTS_N_INSNS (1)
-> ++      /* A SET doesn't have a mode, so let's look at the SET_DEST to get
-> ++	 the mode.  */
-> ++      words =3D ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST (x))));
-> ++      return (COSTS_N_INSNS (words)
-> + 	      + 4 * ((MEM_P (SET_SRC (x)))
-> + 		     + MEM_P (SET_DEST (x))));
-> +=20
-> +@@ -7822,6 +7827,7 @@ static inline int
-> + thumb1_size_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
-> + {
-> +   enum machine_mode mode =3D GET_MODE (x);
-> ++  int words;
-> +=20
-> +   switch (code)
-> +     {
-> +@@ -7829,6 +7835,8 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code code, =
+
+yes I would love more testing. For my own testing on all qemus it did =
+not make anything worse than it was with 4.8.0
+
+
+>>=20
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>> meta/recipes-devtools/gcc/gcc-4.8.inc              |  1 +
+>> .../gcc/gcc-4.8/0036-PR-target-56102.patch         | 83 =
+++++++++++++++++++++++
+>> 2 files changed, 84 insertions(+)
+>> create mode 100644 =
+meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
+>>=20
+>> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc =
+b/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> index 6664f1c..bfdb766 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> @@ -65,6 +65,7 @@ SRC_URI =3D =
+"${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+>> 	   =
+file://0033-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch \
+>> 	   =
+file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
+>> 	   file://0035-wcast-qual-PR-55383.patch \
+>> +	   file://0036-PR-target-56102.patch \
+>> 	   file://gcc-4.8-PR56797.patch \
+>> 	   file://gcc-4.8-build-args.patch \
+>> 	  "
+>> diff --git =
+a/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch =
+b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
+>> new file mode 100644
+>> index 0000000..a9498fc
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0036-PR-target-56102.patch
+>> @@ -0,0 +1,83 @@
+>> +=46rom fa049b3584a1cc36c250205e3d5841e6a40ff677 Mon Sep 17 00:00:00 =
+2001
+>> +From: amker <amker@138bc75d-0d04-0410-961f-82ee72b054a4>
+>> +Date: Wed, 27 Mar 2013 08:16:54 +0000
+>> +Subject: [PATCH] PR target/56102
+>> +
+>> +* config/arm/arm.c (thumb1_rtx_costs, thumb1_size_rtx_costs): Fix =
+rtx costs for SET/ASHIFT/ASHIFTRT/LSHIFTRT/ROTATERT patterns with =
+mult-word mode.
+>> +
+>> +git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@197155 =
+138bc75d-0d04-0410-961f-82ee72b054a4
+>> +
+>> +Upstream-Status: Backport
+>> +http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57329
+>> +
+>> +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> +---
+>> + gcc/config/arm/arm.c | 17 ++++++++++++++---
+>> + 1 file changed, 14 insertions(+), 3 deletions(-)
+>> +
+>> +diff --git a/gcc/config/arm/arm.c b/gcc/config/arm/arm.c
+>> +index 460d333..edf850d 100644
+>> +--- a/gcc/config/arm/arm.c
+>> ++++ b/gcc/config/arm/arm.c
+>> +@@ -7094,7 +7094,7 @@ static inline int
+>> + thumb1_rtx_costs (rtx x, enum rtx_code code, enum rtx_code outer)
+>> + {
+>> +   enum machine_mode mode =3D GET_MODE (x);
+>> +-  int total;
+>> ++  int total, words;
+>> +=20
+>> +   switch (code)
+>> +     {
+>> +@@ -7102,6 +7102,8 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, =
 enum rtx_code outer)
-> +     case ASHIFTRT:
-> +     case LSHIFTRT:
-> +     case ROTATERT:
-> ++      return (mode =3D=3D SImode) ? COSTS_N_INSNS (1) : COSTS_N_INSNS (=
-2);
-> ++
-> +     case PLUS:
-> +     case MINUS:
-> +     case COMPARE:
-> +@@ -7847,7 +7855,10 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code code,=
- enum rtx_code outer)
-> +       return COSTS_N_INSNS (1);
-> +=20
-> +     case SET:
-> +-      return (COSTS_N_INSNS (1)
-> ++      /* A SET doesn't have a mode, so let's look at the SET_DEST to get
-> ++	 the mode.  */
-> ++      words =3D ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST (x))));
-> ++      return (COSTS_N_INSNS (words)
-> +               + 4 * ((MEM_P (SET_SRC (x)))
-> +                      + MEM_P (SET_DEST (x))));
-> +=20
-> +--=20
-> +1.8.2.1
-> +
-> --=20
-> 1.8.2.1
+>> +     case ASHIFTRT:
+>> +     case LSHIFTRT:
+>> +     case ROTATERT:
+>> ++      return (mode =3D=3D SImode) ? COSTS_N_INSNS (1) : =
+COSTS_N_INSNS (2);
+>> ++
+>> +     case PLUS:
+>> +     case MINUS:
+>> +     case COMPARE:
+>> +@@ -7125,7 +7127,10 @@ thumb1_rtx_costs (rtx x, enum rtx_code code, =
+enum rtx_code outer)
+>> +       return COSTS_N_INSNS (1) + 16;
+>> +=20
+>> +     case SET:
+>> +-      return (COSTS_N_INSNS (1)
+>> ++      /* A SET doesn't have a mode, so let's look at the SET_DEST =
+to get
+>> ++	 the mode.  */
+>> ++      words =3D ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST =
+(x))));
+>> ++      return (COSTS_N_INSNS (words)
+>> + 	      + 4 * ((MEM_P (SET_SRC (x)))
+>> + 		     + MEM_P (SET_DEST (x))));
+>> +=20
+>> +@@ -7822,6 +7827,7 @@ static inline int
+>> + thumb1_size_rtx_costs (rtx x, enum rtx_code code, enum rtx_code =
+outer)
+>> + {
+>> +   enum machine_mode mode =3D GET_MODE (x);
+>> ++  int words;
+>> +=20
+>> +   switch (code)
+>> +     {
+>> +@@ -7829,6 +7835,8 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code =
+code, enum rtx_code outer)
+>> +     case ASHIFTRT:
+>> +     case LSHIFTRT:
+>> +     case ROTATERT:
+>> ++      return (mode =3D=3D SImode) ? COSTS_N_INSNS (1) : =
+COSTS_N_INSNS (2);
+>> ++
+>> +     case PLUS:
+>> +     case MINUS:
+>> +     case COMPARE:
+>> +@@ -7847,7 +7855,10 @@ thumb1_size_rtx_costs (rtx x, enum rtx_code =
+code, enum rtx_code outer)
+>> +       return COSTS_N_INSNS (1);
+>> +=20
+>> +     case SET:
+>> +-      return (COSTS_N_INSNS (1)
+>> ++      /* A SET doesn't have a mode, so let's look at the SET_DEST =
+to get
+>> ++	 the mode.  */
+>> ++      words =3D ARM_NUM_INTS (GET_MODE_SIZE (GET_MODE (SET_DEST =
+(x))));
+>> ++      return (COSTS_N_INSNS (words)
+>> +               + 4 * ((MEM_P (SET_SRC (x)))
+>> +                      + MEM_P (SET_DEST (x))));
+>> +=20
+>> +--=20
+>> +1.8.2.1
+>> +
+>> --=20
+>> 1.8.2.1
+>>=20
 >=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---pP0ycGQONqsnqIMP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlG3piwACgkQN1Ujt2V2gBwafACeLtx68W2zBo6vGxOgOH5/z46R
-ZnkAn07bKVxQOxw+N8SM7PRWLE12zQWt
-=Usd2
------END PGP SIGNATURE-----
-
---pP0ycGQONqsnqIMP--
