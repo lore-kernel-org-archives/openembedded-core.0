@@ -1,37 +1,36 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 900AE6A5B4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2013 02:48:54 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id y6so5489708lbh.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2013 19:48:55 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id BF1AE6A619;
+	Tue, 11 Jun 2013 04:13:16 +0000 (UTC)
+Received: by mail-ie0-f172.google.com with SMTP id 17so18851440iea.31
+	for <multiple recipients>; Mon, 10 Jun 2013 21:13:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=WPyabpl1IbmsHzFdyT1KMezXL2SmcphLTlMqTA5h6vs=;
-	b=mZwqeMlS78n+u6+KJFSEh3gg9LcQ13h4gFEW0r8aBw6/FLuwRfjAIXEaS0nIJgmcYZ
-	Yjprk2DPWvSLa6BtTag4JBY4QklGBluqQg1qWxJqWYmtovS+rbPND7a76fxwQfwTVWsm
-	l8rX6dbjVUDrRlDn7C3hr02tlEMF6GSCHMOhtm5xdCJaa/67vgH0a6+RstEs3zMeuJ5B
-	n9bFTIU1TrDxd90vM73nH/OT3Tl7pf1pjSAvjAgUEC5bQfg50fLQACNMHVrSmraejy6s
-	kUGJnW/e6e2Y8BduoADl5UZnpvJ7nVB4mLHwNvbA8ff1cbdn4X/FWVZi8Zb5APJvuHCr
-	qPEQ==
-X-Received: by 10.152.7.39 with SMTP id g7mr6209978laa.72.1370918934779; Mon,
-	10 Jun 2013 19:48:54 -0700 (PDT)
+	bh=aMiLFyGvsYvHEBBH/dkSBCwlu7kC2zBnC2eQpCzZsig=;
+	b=j/xGHYQp9/1YLk2JTWXASky9vvP2c8rPZtsx6LBAJW3Pc4XWFsHOr3PIFyVgouA1xt
+	NjdXa4R6PqtsT0Y70a+JlAsWCum2vkQh6HyMeIZ0yMiEt7e31EIDs8gwfX7bdEt1cyOH
+	eQ9uCwvDTH73LCfFaMvVCvzez5YtMqNRT+07KZtfO0o02jtwVKIEY2petZxo57HcyEXF
+	1OjI/NgIZW+BCwpVSdvqTyPXkPYBsNfdtCsenhzrcgEagQxKhfI3jsgDVX8LondhMZi1
+	HyFwKOaDfcNzR8QyLoOFAAa8UhnuT8Bkt5bISck7wlaPDoBn94Wm3OfBYq+0L6q1H4Zf
+	Dn9w==
+X-Received: by 10.50.111.38 with SMTP id if6mr25055igb.74.1370923997453; Mon,
+	10 Jun 2013 21:13:17 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.112.4.66 with HTTP; Mon, 10 Jun 2013 19:48:34 -0700 (PDT)
-In-Reply-To: <CDA933DF-D293-44E1-958E-55F51953C35F@gmail.com>
-References: <cover.1370906102.git.chris_larson@mentor.com>
-	<1103bc7c76faba1db73f4c4f4b8439aa03258c3d.1370906102.git.chris_larson@mentor.com>
-	<CDA933DF-D293-44E1-958E-55F51953C35F@gmail.com>
-From: Chris Larson <kergoth@gmail.com>
-Date: Mon, 10 Jun 2013 19:48:34 -0700
-Message-ID: <CABcZANnnrLYgE1Bh-1Q6Mu2SdtYNLtKtKopm_sY-x9090rKfsw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/4] packagegroup-core-tools-profile: don't exclude mips
+Received: by 10.50.79.137 with HTTP; Mon, 10 Jun 2013 21:12:47 -0700 (PDT)
+In-Reply-To: <20130610155044.GS17357@timesys.com>
+References: <20130607154357.606025038F@opal> <20130608091020.GO22710@jama>
+	<20130608091556.GP22710@jama> <20130610155044.GS17357@timesys.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 10 Jun 2013 21:12:47 -0700
+Message-ID: <CAMKF1spvVOLu5uKFWXC=yqzHV73N61sOqUwj=gg1ZUVK=uN7OQ@mail.gmail.com>
+To: Andy Voltz <andy.voltz@timesys.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
+Subject: Re: [oe-commits] Andy Voltz : tune-cortexa.inc: create a common include for cortex-a armv7a tuning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 02:48:55 -0000
-Content-Type: multipart/alternative; boundary=001a11c285141f9c2b04ded7f0a4
-
---001a11c285141f9c2b04ded7f0a4
+X-List-Received-Date: Tue, 11 Jun 2013 04:13:17 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 10, 2013 at 7:27 PM, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Jun 10, 2013, at 4:15 PM, Christopher Larson <kergoth@gmail.com> wrote:
+On Mon, Jun 10, 2013 at 8:50 AM, Andy Voltz <andy.voltz@timesys.com> wrote:
+>> > ERROR:  OE-core's config sanity checker detected a potential misconfiguration.
+>> >     Either fix the cause of this error or at your own risk disable the checker (see sanity.conf).
+>> >     Following is the list of potential problems / advisories:
+>> >
+>> >     Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (${ARMPKGARCH_tune-cortexa8t-neon}).Toolchain tunings invalid:
+>> > Tuning 'cortexa8t-neon' has no defined features, and cannot be used.
+>> >
+>> > ERROR: Execution of event handler 'check_sanity_eventhandler' failed
+>> >
+>> > Please use tests like
+>> > http://git.openembedded.org/openembedded-core-contrib/log/?h=jansa/tune2-test
+>> > to check that all tunes are still valid after such change.
+>>
 >
-> > From: Christopher Larson <chris_larson@mentor.com>
-> >
-> > Now that liburcu supports mips, this packagegroup can pull in lttng
-> recipes
-> > (lttng-ust, lttng-tools, lttng-modules, babeltrace) on that architecture
-> as it
-> > does for the others.
->
-> it still does not work on mips64 though. but thats another patch probably.
+> I was not aware of this test. I'll look into this.
 
+This patch is not going to work. How did you test it ?
+Its trying to substitute into overrides which then are not expanded
+before being treated as overrides.
+as a result overrides variable themselves are wrong.
+We have to revert this patch please and I conur with Martin it did not
+seem like a significant improvement either.
 
-Good point, indeed.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a11c285141f9c2b04ded7f0a4
-Content-Type: text/html; charset=UTF-8
-
-<div dir="ltr"><div class="gmail_extra"><br><div class="gmail_quote">On Mon, Jun 10, 2013 at 7:27 PM, Khem Raj <span dir="ltr">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br>
-
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="im">On Jun 10, 2013, at 4:15 PM, Christopher Larson &lt;<a href="mailto:kergoth@gmail.com">kergoth@gmail.com</a>&gt; wrote:<br>
-
-
-<br>
-&gt; From: Christopher Larson &lt;<a href="mailto:chris_larson@mentor.com">chris_larson@mentor.com</a>&gt;<br>
-&gt;<br>
-&gt; Now that liburcu supports mips, this packagegroup can pull in lttng recipes<br>
-&gt; (lttng-ust, lttng-tools, lttng-modules, babeltrace) on that architecture as it<br>
-&gt; does for the others.<br>
-<br>
-</div>it still does not work on mips64 though. but thats another patch probably.</blockquote></div><br>Good point, indeed.<br>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
-</div></div>
-
---001a11c285141f9c2b04ded7f0a4--
