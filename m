@@ -1,37 +1,37 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
-	[209.85.160.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 674D76A98A
+Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
+	[209.85.160.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 896B76A998
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 12 Jun 2013 01:07:04 +0000 (UTC)
-Received: by mail-pb0-f49.google.com with SMTP id jt11so9004548pbb.8
+Received: by mail-pb0-f47.google.com with SMTP id rr13so6458791pbb.20
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 11 Jun 2013 18:07:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=tJHsD+5bFSyuXKRcloHP62p6m6SCN+BB5c5TT5jSlK0=;
-	b=suNvTPPAKghlSKuMDNuQIv55xojLa7i6xErHOiz4Z5YWyAaF5kDgbAJfQMujg6ZEeR
-	9SC15Z6uCnYFrM3IMHOEpCj1LuBqfE4hVVovM3LbSilb5+BvIF0RLdjbB8glmhmpQq19
-	J1VZ1NO4QuFkhFdCXYoTHLyqjP9Cd7ziq9+ct+42p6uJ3siMRvo6HJNuugKfNNc/wPrG
-	59awVnrtMa0IqSxxreBy2KOvSWB+s95dVNOUbuowqHbQFLOFmcwf88sF8MCRhHf54Tab
-	v1BJ6VJpiAcSsckuNCFS0SnU0WdHi6VCImMsJ1DjrcaceXpTgrXfBCjgES89L9Y9b0KZ
-	APcw==
-X-Received: by 10.68.226.39 with SMTP id rp7mr17165257pbc.97.1370999224977;
-	Tue, 11 Jun 2013 18:07:04 -0700 (PDT)
+	bh=DRnKp8/8rzxI8N9Hr8HXbdBa5M6yHp/FdY0D4aMwVk8=;
+	b=xdQyCnol4cmFxWkd3ZWTo83PhYuC14s0BcDQeWrajkSs3ZQ/fYRD2kEZ3qS2X2AfIh
+	4bWYA1nXdI/RpDFBursia+OzX4JHkeBgQYBiRBeSq8rlWm/rYj0rWVOdmh50YyqP4SX7
+	zfoKmDBAzX8mTHYuWfHKjpQ9By3II7uuHdFH/TPRPR+OEMXZugMXkesoCJWOy0AxBwCs
+	NmRxnTWCa98yB3Pr/3XlbtrLvIhuTKlx/ZaRo8WF9DMP0syCE/YqxtmFn26vxdRsGn16
+	a27pBD79hdeab+UqNYAQSuAcpJ1kxCJFRoPFKgHjQairofHxoCXIpRhKJ57N2RcVzWnN
+	7iVg==
+X-Received: by 10.66.216.198 with SMTP id os6mr21046075pac.145.1370999225679; 
+	Tue, 11 Jun 2013 18:07:05 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
 	by mx.google.com with ESMTPSA id
-	pb5sm16756497pbc.29.2013.06.11.18.07.02 for <multiple recipients>
+	vb8sm16794597pbc.11.2013.06.11.18.07.02 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
 	Tue, 11 Jun 2013 18:07:04 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jun 2013 11:21:05 +1000
-Message-Id: <1371000065-23866-3-git-send-email-net147@gmail.com>
+Date: Wed, 12 Jun 2013 11:21:04 +1000
+Message-Id: <1371000065-23866-2-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.8.3
 In-Reply-To: <1371000065-23866-1-git-send-email-net147@gmail.com>
 References: <1371000065-23866-1-git-send-email-net147@gmail.com>
-Subject: [PATCH 2/2] classes/qmake_base: allow parallel make
+Subject: [PATCH 1/2] qt: update qmake2 class to export qconfig.pri mkspec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,26 +46,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 12 Jun 2013 01:07:05 -0000
 
-Remove MAKEFLAGS= from EXTRA_OEMAKE to allow parallel make.
+From: "Felipe F. Tonello" <eu@felipetonello.com>
 
+This is necessary when Qt applications want to know variables such as
+QT_MAJOR_VERSION, QT_VERSION, QT_MINOR_VERSION, GCC version, etc.
+
+Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/classes/qmake_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/qmake2.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/qmake_base.bbclass b/meta/classes/qmake_base.bbclass
-index 79040cd..86bbede 100644
---- a/meta/classes/qmake_base.bbclass
-+++ b/meta/classes/qmake_base.bbclass
-@@ -4,7 +4,7 @@ OE_QMAKE_PLATFORM = "${TARGET_OS}-oe-g++"
- QMAKESPEC := "${QMAKE_MKSPEC_PATH}/${OE_QMAKE_PLATFORM}"
+diff --git a/meta/classes/qmake2.bbclass b/meta/classes/qmake2.bbclass
+index 35aaebb..6e73ad2 100644
+--- a/meta/classes/qmake2.bbclass
++++ b/meta/classes/qmake2.bbclass
+@@ -6,6 +6,7 @@ inherit qmake_base
+ DEPENDS_prepend = "qt4-tools-native "
  
- # We override this completely to eliminate the -e normally passed in
--EXTRA_OEMAKE = ' MAKEFLAGS= '
-+EXTRA_OEMAKE = ""
- 
- export OE_QMAKE_CC="${CC}"
- export OE_QMAKE_CFLAGS="${CFLAGS}"
+ export QMAKESPEC = "${STAGING_DATADIR}/qt4/mkspecs/${TARGET_OS}-oe-g++"
++export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/qt4/mkspecs/qconfig.pri"
+ export OE_QMAKE_UIC = "${STAGING_BINDIR_NATIVE}/uic4"
+ export OE_QMAKE_UIC3 = "${STAGING_BINDIR_NATIVE}/uic34"
+ export OE_QMAKE_MOC = "${STAGING_BINDIR_NATIVE}/moc4"
 -- 
 1.8.3
 
