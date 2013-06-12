@@ -1,40 +1,24 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 966756A9E5;
-	Wed, 12 Jun 2013 17:08:26 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id ha12so2885829vcb.7
-	for <multiple recipients>; Wed, 12 Jun 2013 10:08:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=jnXRTDcU1xmU6YKAN0j43uZr4d3P7O1Qy70Kk/YFPPE=;
-	b=MdFCsRChMFO4ePOa2yqBjctmrJa97P0uZsIQv+JMZbv8bowe/0voeBtimiQMuJUYsK
-	M1a0AzDXlCw1FDMIDvknS1DyVTGoviB/HShlieF9MKp2qvzn45AmKiqkyvamOvK0c51O
-	SXmQVZ6XY/O/2ZFKfZ/TYaxJsExNLreQe403t8viAgMxqHIhXkuvoYxoCpu6a2Zd2dx+
-	62zVqMTDSZ3fBaACIdh89ygQwcWqs6zr9gul5p/BWyxseKWRSdwQNgnouTfhbLqq/FHc
-	gbJhnrY7FuqlaoXkQ/llYZ2XyO232f4METUrRXvYwDF/KJ3b3DbDJB9c81gi/CqBm4Vv
-	iotw==
-X-Received: by 10.58.37.165 with SMTP id z5mr10194043vej.12.1371056907187;
-	Wed, 12 Jun 2013 10:08:27 -0700 (PDT)
+Return-Path: <andy.voltz@timesys.com>
+Received: from exchange07.timesys.com (exchange07.timesys.com
+	[209.114.137.116])
+	by mail.openembedded.org (Postfix) with ESMTP id DCB5D6AA80
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jun 2013 17:13:33 +0000 (UTC)
+Received: from timesys.com (192.168.3.27) by exchange07.timesys.com
+	(192.168.1.221) with Microsoft SMTP Server id 8.1.436.0;
+	Wed, 12 Jun 2013 13:13:34 -0400
+Date: Wed, 12 Jun 2013 13:13:54 -0400
+From: Andy Voltz <andy.voltz@timesys.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20130612171354.GC12032@timesys.com>
+References: <1371055081-15301-1-git-send-email-andy.voltz@timesys.com>
+	<51B8A870.6040900@linux.intel.com>
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.195.201 with HTTP; Wed, 12 Jun 2013 10:07:47 -0700 (PDT)
-In-Reply-To: <20130611160434.GI3233@jama>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130611160434.GI3233@jama>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 12 Jun 2013 18:07:47 +0100
-X-Google-Sender-Auth: 96vK4Co5Vcd6YFhSkcLofQHs47c
-Message-ID: <CANyK_8faU-wx54fY+4EZdc1rLP-TSmwuuQc6660+guMVXzqWkQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world
+In-Reply-To: <51B8A870.6040900@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tune-cortexa*.inc: fix tunings for cortex a5, a7, a8, a9, a15 machines.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,22 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2013 17:08:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 12 Jun 2013 17:13:34 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-On 11 June 2013 17:04, Martin Jansa <martin.jansa@gmail.com> wrote:
-> common:
->   meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb, do_compile
+Hi Saul,
 
-I've got patches to pull this up to version 0.8.1 and then fix the
-compile error. A patch to fix the error has also been submitted
-upstream. Building for qemuarm, beagleboard and raspberrypi now (my
-main 3 test platforms) and will submit patches to openembedded-devel
-once it's confirmed to build.
+On Wed, Jun 12, 2013 at 12:57:20PM -0400, Saul Wold wrote:
+> On 06/12/2013 09:38 AM, Andy Voltz wrote:
+> > Using CORTEX_ID variable reference in the tuning overrides did not work.
+> > This reverts those changes, and adds a tuning file for the cortex-a5.
+> >
+> > Revert "tune-cortexa5.inc: Add tune file for cortex-a5"
+> > Revert "tune-cortexa.inc: create a common include for cortex-a armv7a tuning"
+> >
+> Andy, does this patch supersede your -mtune not -mcpu patch?  I seem to
+> have some trouble applying this patch.
+> 
 
---
-Paul Barker
+Yes. Sorry I thought that patch was NACK/dead.
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+> It might be best to provide a series that includes the reverts with
+> appropriate commit messages.
+> 
+
+Sure, I can send as a series.
+
+Regards
+-- 
+Andy Voltz
+Timesys Corporation
 
