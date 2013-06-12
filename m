@@ -1,38 +1,24 @@
-Return-Path: <sakoman@gmail.com>
-Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
-	[209.85.219.41])
-	by mail.openembedded.org (Postfix) with ESMTP id CD3896AAAF
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id F08FD6A9CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 13:30:24 +0000 (UTC)
-Received: by mail-oa0-f41.google.com with SMTP id n10so2583902oag.28
+	Wed, 12 Jun 2013 15:06:55 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 12 Jun 2013 08:06:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,853,1363158000"; d="scan'208";a="315907296"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 12 Jun 2013 08:06:55 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 7BF516A4091
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 06:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=GGzXA02xRupJp3Fz7RiqMlji9end8LXPX3t001lHBZc=;
-	b=aqS155xWWVm98b8zprJZYarmIZFWAri1p9UIAPBBVyxUvc0/WBCST1h/WbYsyE3v4M
-	vGN14tlpWt1vcGkx6EFo3D3I4RysggfzdWC/pqVzZ8AOo3FF+npq76lklV6SleoGRzjw
-	TYSz6cNyK3F/l0LT9x6FnpVmVppk9wWhgQKP2Nw9pOJNJmM860xqlRKwx3A/xuJfKn7o
-	qssyOAvVu6GIpv6ybmHLOV2/BbR/V64yZX2o3NHxRUy7pPphoeXyXYVgdZiMH+pMZ2fB
-	YZF+p7Jk3lMqUhlYFwBKgDyCoLmjOVcIoKa+3IkQ+TR1mSwb9Hg/sSG3VyXTTP+v5R6c
-	8zNA==
-MIME-Version: 1.0
-X-Received: by 10.182.227.133 with SMTP id sa5mr15018597obc.96.1371043825917; 
-	Wed, 12 Jun 2013 06:30:25 -0700 (PDT)
-Received: by 10.182.213.130 with HTTP; Wed, 12 Jun 2013 06:30:25 -0700 (PDT)
-In-Reply-To: <51B875C8.2080403@communistcode.co.uk>
-References: <CAGDS+nkMujRn-M+Oja==L+kMynx0-P0WxZWeVaSsAHJGGWPUUA@mail.gmail.com>
-	<51FB023E-F4EC-42A6-8230-D40DDD2542AE@dominion.thruhere.net>
-	<CAGDS+nnsT3TVesy=k6a0mqTtz1EFG68XGVQcGRqc-o_vbN4sjA@mail.gmail.com>
-	<51B875C8.2080403@communistcode.co.uk>
-Date: Wed, 12 Jun 2013 06:30:25 -0700
-Message-ID: <CAGDS+nk-6LCKPZJxWMocKk3QDrg0zPa2mPxuZtU7MpP7k0T1=A@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: ml@communistcode.co.uk, Koen Kooi <koen@dominion.thruhere.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Possible to fetch from private github repo?
+	Wed, 12 Jun 2013 08:06:44 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Jun 2013 18:07:18 +0300
+Message-Id: <cover.1371049273.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/2] Small fixes for the build perf script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,27 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2013 13:30:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 12 Jun 2013 15:06:56 -0000
 
-On Wed, Jun 12, 2013 at 6:21 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
+The following changes since commit b87429fdb45f82ebe4060fea8c4ecd6e4bc1ae52:
 
-> Ditto, I grab from a private repo's using validated ssh-keys without issue.
-> Just ensure that the machine you're running bitbake on is the machine that
-> has been validated, and you have set the protocol to ssh and you should be
-> fine!
+  bitbake: Add missing file that went out of sync (2013-06-12 13:13:21 +0100)
 
-It is working now.
+are available in the git repository at:
 
-My ssh keys were in order.  But as is often the case the problem was me :-)
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib stefans/perf-test3
 
-I cut and pasted the ssh address from the github web page for the
-repo, added the git://  in front and the ;protocol=ssh at the end, but
-neglected to convert the : in the supplied address to a /
+for you to fetch changes up to 18d3270bff2b2d28d879db0c9646a588d457b688:
 
-With that one character change all is well.
+  scripts/contrib/build-perf-test.sh: fix passing arguments (2013-06-12 18:00:17 +0300)
 
-Thanks!
+----------------------------------------------------------------
+Stefan Stanacar (2):
+      scripts/contrib/build-perf-test.sh: add branch name and sizes to results
+      scripts/contrib/build-perf-test.sh: fix passing arguments
 
-Steve
+ scripts/contrib/build-perf-test.sh | 60 +++++++++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 24 deletions(-)
+
+Stefan Stanacar (2):
+  scripts/contrib/build-perf-test.sh: add branch name and sizes to
+    results
+  scripts/contrib/build-perf-test.sh: fix passing arguments
+
+ scripts/contrib/build-perf-test.sh | 60 +++++++++++++++++++++++---------------
+ 1 file changed, 36 insertions(+), 24 deletions(-)
+
+-- 
+1.8.1.4
+
 
