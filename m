@@ -1,39 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 92ABF6AAA4
+Return-Path: <kevin.strasser@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 069DD6A9FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 17:22:22 +0000 (UTC)
-Received: by mail-ee0-f44.google.com with SMTP id c13so4578732eek.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 10:22:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=tEg7qHoUk3GW01JCYDQnxIneaw3oWI0aAxv2dlTTsy8=;
-	b=mCG95bi2T2qJ0lGO8ym/WR010pDmtZIlrWS0HLtsUW8RHL9lVn3jx8LKvizkwQQE7y
-	BGwR+oKyto8eNtrzfbfPUklmwbVkcimpCEBvOamK2r/kqWLQmETevlWb1QpJvbOLbI1N
-	RgiOegZTjpQOC3OX5zyny2NFlJRdOtuc8fQ0YUWt/Figg/sA4nAU8g8gwc+ajyVwB9yX
-	dYRDlVloyT2GDSnfE5mrAr2Elm8UrjmqagNE9o/ATB8ZnD+V7eD4Gi0hFdL8lYf8aBLp
-	TSPgjp1aSCEePy7u1LVdChn66u+9P9PHrHPwQYV8VlBfdu5Ve/Ayyiz4pwapGDXz/6pg
-	5upw==
-X-Received: by 10.15.42.72 with SMTP id t48mr22562609eev.105.1371057743251;
-	Wed, 12 Jun 2013 10:22:23 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	z52sm38260695eea.1.2013.06.12.10.22.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 12 Jun 2013 10:22:22 -0700 (PDT)
-Date: Wed, 12 Jun 2013 19:22:47 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 12 Jun 2013 17:47:20 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jun 2013 10:47:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,853,1363158000"; d="scan'208";a="352392154"
+Received: from wrk.jf.intel.com ([10.7.202.76])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2013 10:47:20 -0700
+From: Kevin Strasser <kevin.strasser@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130612172247.GT3233@jama>
-References: <1368952056-26629-1-git-send-email-Martin.Jansa@gmail.com>
-	<1368955997-22347-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1368955997-22347-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCHv2] pixman: temporary disable thumb
+Date: Wed, 12 Jun 2013 10:40:29 -0700
+Message-Id: <cover.1371058261.git.kevin.strasser@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/2] Drop unnecessary dhcp patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2013 17:22:23 -0000
-X-Groupsio-MsgNum: 40544
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="h1wVxq8aeHrvhZJz"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 12 Jun 2013 17:47:20 -0000
 
---h1wVxq8aeHrvhZJz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit fe744381e8844ad17dcc6e036650a442dbc9575d:
 
-On Sun, May 19, 2013 at 11:33:17AM +0200, Martin Jansa wrote:
-> * building with thumb triggers ICE with gcc-4.8
->   http://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D57329
+  buildtools-tarball: add difflib and pprint python modules (2013-06-11 21:53:47 +0100)
 
-This patch is superseded by
-http://patchwork.openembedded.org/patch/51567/
-which fixes this issue.
+are available in the git repository at:
 
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb b/meta/recip=
-es-graphics/xorg-lib/pixman_0.29.4.bb
-> index b1bd557..7cc5a74 100644
-> --- a/meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb
-> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.29.4.bb
-> @@ -23,6 +23,8 @@ NEON =3D " --disable-arm-neon "
->  NEON_armv7a =3D " "
->  NEON_armv7a-vfp-neon =3D " "
-> =20
-> +ARM_INSTRUCTION_SET =3D "arm"
-> +
->  EXTRA_OECONF =3D "--disable-gtk ${IWMMXT} ${LOONGSON_MMI} ${NEON}"
->  EXTRA_OECONF_class-native =3D "--disable-gtk"
-> =20
-> --=20
-> 1.8.2.1
->=20
+  git://git.yoctoproject.org/poky-contrib strassek/patch-cleanup
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=strassek/patch-cleanup
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Kevin Strasser (2):
+  dhcp: drop fixincludes.patch
+  dhcp: drop noattrmode.patch
 
---h1wVxq8aeHrvhZJz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+ .../dhcp/dhcp/fixincludes.patch                    |   12 -----------
+ .../dhcp/dhcp/noattrmode.patch                     |   21 --------------------
+ meta/recipes-connectivity/dhcp/dhcp_4.2.5-P1.bb    |    3 +--
+ 3 files changed, 1 insertion(+), 35 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/fixincludes.patch
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/noattrmode.patch
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
+-- 
+1.7.9.5
 
-iEYEARECAAYFAlG4rmcACgkQN1Ujt2V2gBw8pACgkkccx1nkQMgxIxp5V972k7/W
-8xYAoJBVvxzAqHPVXNReXZ5yjGFrJz7f
-=LlYx
------END PGP SIGNATURE-----
 
---h1wVxq8aeHrvhZJz--
