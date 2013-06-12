@@ -1,24 +1,28 @@
-Return-Path: <kevin.strasser@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 203256AAA4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A4056A687
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 17:47:20 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jun 2013 10:47:20 -0700
+	Wed, 12 Jun 2013 17:57:22 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jun 2013 10:58:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,853,1363158000"; d="scan'208";a="352392156"
-Received: from wrk.jf.intel.com ([10.7.202.76])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2013 10:47:20 -0700
-From: Kevin Strasser <kevin.strasser@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jun 2013 10:40:31 -0700
-Message-Id: <c6511306be675ada18061ce85bb1bad25cf1cee1.1371058261.git.kevin.strasser@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1371058261.git.kevin.strasser@linux.intel.com>
-References: <cover.1371058261.git.kevin.strasser@linux.intel.com>
-In-Reply-To: <cover.1371058261.git.kevin.strasser@linux.intel.com>
-References: <cover.1371058261.git.kevin.strasser@linux.intel.com>
-Subject: [PATCH 2/2] dhcp: drop noattrmode.patch
+X-IronPort-AV: E=Sophos;i="4.87,853,1363158000"; d="scan'208";a="352170153"
+Received: from unknown (HELO [10.255.13.2]) ([10.255.13.2])
+	by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2013 10:57:23 -0700
+Message-ID: <51B8B683.7020402@linux.intel.com>
+Date: Wed, 12 Jun 2013 10:57:23 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Andy Voltz <andy.voltz@timesys.com>
+References: <1371055081-15301-1-git-send-email-andy.voltz@timesys.com>
+	<51B8A870.6040900@linux.intel.com>
+	<20130612171354.GC12032@timesys.com>
+In-Reply-To: <20130612171354.GC12032@timesys.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tune-cortexa*.inc: fix tunings for cortex a5, a7, a8, a9, a15 machines.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2013 17:47:20 -0000
+X-List-Received-Date: Wed, 12 Jun 2013 17:57:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This change no longer needs to be backported now that a newer version
-of dhcp is being used. The patch isn't causing errors because it is not
-included in the dhcp recipe's SRC_URI.
+On 06/12/2013 10:13 AM, Andy Voltz wrote:
+> Hi Saul,
+>
+> On Wed, Jun 12, 2013 at 12:57:20PM -0400, Saul Wold wrote:
+>> On 06/12/2013 09:38 AM, Andy Voltz wrote:
+>>> Using CORTEX_ID variable reference in the tuning overrides did not work.
+>>> This reverts those changes, and adds a tuning file for the cortex-a5.
+>>>
+>>> Revert "tune-cortexa5.inc: Add tune file for cortex-a5"
+>>> Revert "tune-cortexa.inc: create a common include for cortex-a armv7a tuning"
+>>>
+>> Andy, does this patch supersede your -mtune not -mcpu patch?  I seem to
+>> have some trouble applying this patch.
+>>
+>
+> Yes. Sorry I thought that patch was NACK/dead.
+>
+>> It might be best to provide a series that includes the reverts with
+>> appropriate commit messages.
+>>
+>
+> Sure, I can send as a series.
+>
 
-Signed-off-by: Kevin Strasser <kevin.strasser@linux.intel.com>
----
- .../dhcp/dhcp/noattrmode.patch                     |   21 --------------------
- 1 file changed, 21 deletions(-)
- delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/noattrmode.patch
+Don't worry about it, seems RP already merged it into master, I must 
+have had too much junk in my Master_under_test branch and had not 
+reverted the right stuff.
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/noattrmode.patch b/meta/recipes-connectivity/dhcp/dhcp/noattrmode.patch
-deleted file mode 100644
-index 5c635e8..0000000
---- a/meta/recipes-connectivity/dhcp/dhcp/noattrmode.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--Upstream-Status: Backport
--
--#
--# Patch managed by http://www.holgerschurig.de/patcher.html
--#
--
----- dhcp-3.0.1/includes/dhcpd.h~compile
--+++ dhcp-3.0.1/includes/dhcpd.h
--@@ -306,9 +306,9 @@
-- #	define EPHEMERAL_FLAGS		(MS_NULL_TERMINATION | \
-- 					 UNICAST_BROADCAST_HACK)
-- 
---	binding_state_t __attribute__ ((mode (__byte__))) binding_state;
---	binding_state_t __attribute__ ((mode (__byte__))) next_binding_state;
---	binding_state_t __attribute__ ((mode (__byte__))) desired_binding_state;
--+	binding_state_t binding_state;
--+	binding_state_t next_binding_state;
--+	binding_state_t desired_binding_state;
-- 	
-- 	struct lease_state *state;
-- 
--- 
-1.7.9.5
+Sau!
 
+> Regards
+>
 
