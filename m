@@ -1,35 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id BE2906A9E5
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7306C6AB4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 16:53:06 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id e11so3051514wgh.30
+	Wed, 12 Jun 2013 16:53:08 +0000 (UTC)
+Received: by mail-we0-f181.google.com with SMTP id p58so7010677wes.40
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 09:53:07 -0700 (PDT)
+	Wed, 12 Jun 2013 09:53:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=MvrDKVL5960bEqv+Gkz08MQpWGrW0BvYJSQkopFJOKg=;
-	b=WdkXPdbZejL5yd34L2XlT2OFVSDDreDCmUMJy1KIgJpXkhtc4LJBq4eSU7eOMrbUDA
-	vp48rrdGoBXgOGbgp5TjybN338jRckZ1OSW+/g+9m/ahcFQ+k0eJ/zlz8vtaoRHffeVp
-	TddrtxC50VaWqnqbyRWKz9whLt3noPYXt8MBUcGYhQH99Qw4ACvcUxVJvoxLnxC0KZr7
-	SRlQH+s8/CHPBzI4rwTkeg2//XLOE7H3ap1VU0Rj/qITKnyfbcGfAjaaMefUjae522+b
-	9CkPlXQpRXAtuEmDvD1bqeTkGpYGUnG8ec2JUhDWbqw/u69CjjPprb+zeTH7LrZ+mBIn
-	lRTA==
-X-Received: by 10.180.105.231 with SMTP id gp7mr5041850wib.23.1371055987094;
-	Wed, 12 Jun 2013 09:53:07 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=PZ5EyWZy6iRpxSpnBpudO0fDWCHq4UESxYdo9kTSS3g=;
+	b=Meva+lmx0B1hSk+AvfGFy+vN80oM4McLWcWrkNXRbWM1J7k+aqeVuKrkqVAzKwtDc5
+	LFAQOigg7vfkxHLngmFHSjK8xUJG7R07zCfE37y7BDc04S+wTwExcfqkSazqRpsMtICM
+	/pxyHIEr+OpR+eMz3h49d3FFZkm6ipceiwoeqUaMFqHHPMaIfHyS95oiR6qA74yBPFHa
+	HStHfI7w+ika+8lVc3vMI9AwzaMKpv09fU6+Bj8T/dsPa653puOCtc24jpHx6gn5uhJY
+	1W4uYQuOuw/tn4HwtzWDGkbnMRpe/oax4eZlAdyG/ax1OfO1sd5RFye8/zjyKReV74Vs
+	srpw==
+X-Received: by 10.180.187.37 with SMTP id fp5mr5148276wic.5.1371055989091;
+	Wed, 12 Jun 2013 09:53:09 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id m3sm4624419wij.5.2013.06.12.09.53.05
+	by mx.google.com with ESMTPSA id m3sm4624419wij.5.2013.06.12.09.53.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 12 Jun 2013 09:53:06 -0700 (PDT)
+	Wed, 12 Jun 2013 09:53:07 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jun 2013 17:49:38 +0100
-Message-Id: <cover.1371055550.git.ross.burton@intel.com>
+Date: Wed, 12 Jun 2013 17:49:39 +0100
+Message-Id: <9e66219b516879afe77ec253b0dc767fb39b7e2f.1371055550.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQklbjIFX13tsafgePL6rnWMW3hVP94IBmoJnSxoczyYjDLBsh/WIuqzJv8C2Q7/RHJ53GgW
-Subject: [PATCH 0/4] Don't use create_wrapper to short-circuit interpretters
+In-Reply-To: <cover.1371055550.git.ross.burton@intel.com>
+References: <cover.1371055550.git.ross.burton@intel.com>
+In-Reply-To: <cover.1371055550.git.ross.burton@intel.com>
+References: <cover.1371055550.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQmEGhNpk8qnp4Ip4R0DekYsGHaIJPwgEPq3diqR56eSCbbcdch7SNqpj6k/XPENc3RnOk1C
+Subject: [PATCH 1/4] dpkg: drop the usage of create_wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +48,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2013 16:53:07 -0000
+X-List-Received-Date: Wed, 12 Jun 2013 16:53:08 -0000
 
-Hi,
+create_wrapper was previously abused to invoke the Perl interpretter directly
+instead of relying on #! parsing, which is read into a 128 byte buffer so breaks
+with deep build directories.
 
-create_wrapper was previously abused to invoke the Python/Perl interpretters
-directly instead of relying on #! parsing, which is read into a 128 byte buffer
-so breaks with deep build directories.
+However we already install a "nativeperl" binary into the native sysroot, so
+use sed to change the #! line to /usr/bin/env nativeperl.
 
-The new create_wrapper is stricter about it's input so this trick doesn't work
-anymore.  Luckily there's already a "nativeperl" binary in the sysroot's
-/usr/bin, so by adding a "nativepython" alongside it[1] recipes that used
-create_wrapper can be changed to munge the #! line to e.g. /usr/bin/env
-nativeperl.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/dpkg/dpkg.inc |   10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-(this series obsoletes 3 of the patches that Saul sent earlier involve
-create_wrapper)
-
-Ross
-
-[1] The existing nativeperl is a wrapper, the new nativepython is a
-symlink. Both seem to work and I can't see a good reason for a wrapper instead
-of a relative symlink.
-
-The following changes since commit b87429fdb45f82ebe4060fea8c4ecd6e4bc1ae52:
-
-  bitbake: Add missing file that went out of sync (2013-06-12 13:13:21 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/wrap
-
-for you to fetch changes up to 8237763ebcc3cfe4388690056a7c0fed8d65a6c2:
-
-  gnome-doc-utils: drop the usage of create_wrapper (2013-06-12 17:44:39 +0100)
-
-----------------------------------------------------------------
-Ross Burton (4):
-      dpkg: drop the usage of create_wrapper
-      python-native: add nativepython symlink
-      createrepo: drop the usage of create_wrapper
-      gnome-doc-utils: drop the usage of create_wrapper
-
- meta/recipes-devtools/dpkg/dpkg.inc                  |   10 +---------
- meta/recipes-devtools/python/python-native_2.7.3.bb  |    6 ++++++
- meta/recipes-gnome/gnome/gnome-doc-utils.inc         |    2 +-
- meta/recipes-support/createrepo/createrepo_0.4.11.bb |    2 +-
- 4 files changed, 9 insertions(+), 11 deletions(-)
-
-Ross Burton (4):
-  dpkg: drop the usage of create_wrapper
-  python-native: add nativepython symlink
-  createrepo: drop the usage of create_wrapper
-  gnome-doc-utils: drop the usage of create_wrapper
-
- meta/recipes-devtools/dpkg/dpkg.inc                  |   10 +---------
- meta/recipes-devtools/python/python-native_2.7.3.bb  |    6 ++++++
- meta/recipes-gnome/gnome/gnome-doc-utils.inc         |    2 +-
- meta/recipes-support/createrepo/createrepo_0.4.11.bb |    2 +-
- 4 files changed, 9 insertions(+), 11 deletions(-)
-
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 28c4f89..b9d4da1 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -45,21 +45,13 @@ do_install_append () {
+ 	if [ "${PN}" = "dpkg-native" ]; then
+ 		# update-alternatives doesn't have an offline mode
+ 		rm ${D}${bindir}/update-alternatives
++		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env nativeperl|' ${D}${bindir}/dpkg-*
+ 	else
+ 		mv ${D}${bindir}/update-alternatives ${D}${sbindir}
+ 		sed -i -e 's|^#!.*${bindir}/perl-native.*/perl|#!/usr/bin/env perl|' ${D}${bindir}/dpkg-*
+ 	fi
+ }
+ 
+-# Create a wrapper for the perl script to avoid the "bad interpreter"
+-# error when the tmpdir is longer than 150.
+-do_install_append_class-native () {
+-	tmp=`find ${D}${bindir} -type f -exec grep -m 1 -l '#!/.*/perl-native/perl' {} \;`
+-	for i in $tmp; do
+-		create_wrapper $i ${STAGING_BINDIR_NATIVE}/perl-native/perl
+-	done
+-}
+-
+ pkg_postinst_${PN} () {
+ #!/bin/sh
+ if [ "x$D" != "x" ] && [ -f $D/var/lib/dpkg/status ]; then
 -- 
 1.7.10.4
 
