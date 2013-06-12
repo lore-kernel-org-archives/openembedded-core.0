@@ -1,24 +1,41 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D347E6A96F
+Return-Path: <sakoman@gmail.com>
+Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
+	[209.85.219.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CD3896AAAF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2013 13:21:14 +0000 (UTC)
-Message-ID: <51B875C8.2080403@communistcode.co.uk>
-Date: Wed, 12 Jun 2013 14:21:12 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Wed, 12 Jun 2013 13:30:24 +0000 (UTC)
+Received: by mail-oa0-f41.google.com with SMTP id n10so2583902oag.28
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jun 2013 06:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=GGzXA02xRupJp3Fz7RiqMlji9end8LXPX3t001lHBZc=;
+	b=aqS155xWWVm98b8zprJZYarmIZFWAri1p9UIAPBBVyxUvc0/WBCST1h/WbYsyE3v4M
+	vGN14tlpWt1vcGkx6EFo3D3I4RysggfzdWC/pqVzZ8AOo3FF+npq76lklV6SleoGRzjw
+	TYSz6cNyK3F/l0LT9x6FnpVmVppk9wWhgQKP2Nw9pOJNJmM860xqlRKwx3A/xuJfKn7o
+	qssyOAvVu6GIpv6ybmHLOV2/BbR/V64yZX2o3NHxRUy7pPphoeXyXYVgdZiMH+pMZ2fB
+	YZF+p7Jk3lMqUhlYFwBKgDyCoLmjOVcIoKa+3IkQ+TR1mSwb9Hg/sSG3VyXTTP+v5R6c
+	8zNA==
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+X-Received: by 10.182.227.133 with SMTP id sa5mr15018597obc.96.1371043825917; 
+	Wed, 12 Jun 2013 06:30:25 -0700 (PDT)
+Received: by 10.182.213.130 with HTTP; Wed, 12 Jun 2013 06:30:25 -0700 (PDT)
+In-Reply-To: <51B875C8.2080403@communistcode.co.uk>
 References: <CAGDS+nkMujRn-M+Oja==L+kMynx0-P0WxZWeVaSsAHJGGWPUUA@mail.gmail.com>
 	<51FB023E-F4EC-42A6-8230-D40DDD2542AE@dominion.thruhere.net>
 	<CAGDS+nnsT3TVesy=k6a0mqTtz1EFG68XGVQcGRqc-o_vbN4sjA@mail.gmail.com>
-In-Reply-To: <CAGDS+nnsT3TVesy=k6a0mqTtz1EFG68XGVQcGRqc-o_vbN4sjA@mail.gmail.com>
+	<51B875C8.2080403@communistcode.co.uk>
+Date: Wed, 12 Jun 2013 06:30:25 -0700
+Message-ID: <CAGDS+nk-6LCKPZJxWMocKk3QDrg0zPa2mPxuZtU7MpP7k0T1=A@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: ml@communistcode.co.uk, Koen Kooi <koen@dominion.thruhere.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: Possible to fetch from private github repo?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -28,52 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2013 13:21:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Jun 2013 13:30:25 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 12/06/13 14:09, Steve Sakoman wrote:
-> On Wed, Jun 12, 2013 at 6:07 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>
->> Op 12 jun. 2013, om 15:04 heeft Steve Sakoman <sakoman@gmail.com> het volgende geschreven:
->>
->>> I have a client that keeps their app source code in a private github repository.
->>>
->>> I haven't managed to find a way to convince the git fetcher to grab
->>> the source code.
->>>
->>> Has anyone else managed to write a recipe that uses a github private repository?
->>
->> Yes: https://github.com/CircuitCo/meta-circuitco/blob/master/recipes-tester/beagleboneblack/bbbtester_git.bb
->>
->> You need to have your ssh keys in order before trying that, though.
->
-> Thanks Koen.
->
-> I tried that form, so clearly I must not have my ssh keys in order!
->
-> Thanks for confirmation that it can be made to work.
->
-> Steve
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+On Wed, Jun 12, 2013 at 6:21 AM, Jack Mitchell <ml@communistcode.co.uk> wrote:
 
-Ditto, I grab from a private repo's using validated ssh-keys without 
-issue. Just ensure that the machine you're running bitbake on is the 
-machine that has been validated, and you have set the protocol to ssh 
-and you should be fine!
+> Ditto, I grab from a private repo's using validated ssh-keys without issue.
+> Just ensure that the machine you're running bitbake on is the machine that
+> has been validated, and you have set the protocol to ssh and you should be
+> fine!
 
-Cheers,
+It is working now.
 
+My ssh keys were in order.  But as is often the case the problem was me :-)
 
--- 
+I cut and pasted the ssh address from the github web page for the
+repo, added the git://  in front and the ;protocol=ssh at the end, but
+neglected to convert the : in the supplied address to a /
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
+With that one character change all is well.
 
---
+Thanks!
+
+Steve
 
