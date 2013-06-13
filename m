@@ -1,35 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D25C8621CA
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id A97276A5DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2013 09:30:45 +0000 (UTC)
-Received: by mail-pb0-f44.google.com with SMTP id uo1so5407305pbc.17
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2013 02:30:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ixEIHdhqQ/+mY0/aMI0fl25kGQY6B8vpSwRQqeFmu34=;
-	b=Wx9u1GURSmycW73nbNG8WeEaXz5VoDiVvrEjOI+CRxe4UfcnNWsjcn2HQSjQ2da0Kl
-	AgDPT800Lv6s81cm2X28zfn3znmXhS9vBMz97Ry528/McDUIuMdH8tQTpF/3U+eK5hWh
-	O+6kvouB73FDAJYXO/ST89iC608qBOaTrKh2yZwc6MKnmR9s7Zi/Z6GBMGkaS1xsBJji
-	m4s6giPf1k2sKbQh7Nf/uiNwxklYLH8IHYX9/IfUCfsrOazQq+nw3Nf1QSTR1wRSSGOq
-	i+j+cKcOmm2Ara/ljJefVELBQK3PZyfDxmWggoAuB3GZCVxRGvFBgVhO7Ewyn/S4Z4BH
-	zkvA==
-X-Received: by 10.68.90.131 with SMTP id bw3mr33726pbb.59.1371115846866;
-	Thu, 13 Jun 2013 02:30:46 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id v20sm28598177paj.4.2013.06.13.02.30.45
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 13 Jun 2013 02:30:46 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Thu, 13 Jun 2013 11:16:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.87,858,1363132800"; d="scan'208";a="18269706"
+Received: from deneb.mcrowe.com ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 13 Jun 2013 12:16:02 +0100
+Received: from mac by deneb.mcrowe.com with local (Exim 4.80)
+	(envelope-from <mac@mcrowe.com>) id 1Un5VZ-0007gx-Od
+	for openembedded-core@lists.openembedded.org;
+	Thu, 13 Jun 2013 12:16:01 +0100
+Date: Thu, 13 Jun 2013 12:16:01 +0100
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2013 02:28:28 -0700
-Message-Id: <1371115708-24908-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] python: -Wformat is needed by gcc 4.8
+Message-ID: <20130613111601.GA27137@mcrowe.com>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: populate-sysroot files in sstate cache overwritten by "empty" ones
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +29,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2013 09:30:45 -0000
+X-List-Received-Date: Thu, 13 Jun 2013 11:16:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This fixes errors in packages using python( build with gcc 4.8)
+I've managed to find a relatively easy way to cause a perfectly valid
+sstate populate-sysroot file to be overwritten with a (virtually) empty
+one. The circumstances that provoke this in our layer are rather more
+complex but end up with the same situation.
 
-|
-/home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/usr/include/python2.7/modsupport.h:27:1:
-error: 'PyArg_ParseTuple' is an unrecognized format function type
-[-Werror=format=]
-|  PyAPI_FUNC(int) PyArg_ParseTuple(PyObject *, const char *, ...)
-Py_FORMAT_PARSETUPLE(PyArg_ParseTuple, 2, 3);
-|  ^
-| cc1: all warnings being treated as errors
-| cc1: all warnings being treated as errors
+The problem seems to be caused by having an ancillary task in recipe1 that
+depends on do_configure and the same ancillary task in recipe2 that depends
+on recipe1:populate-sysroot. The result is that recipe1:do_configure runs
+followed by recipe1:do_populate_sysroot without the intervening important
+tasks such as do_install.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../python/gcc-4.8-fix-configure-Wformat.patch     |   20 ++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.3.bb       |    1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/gcc-4.8-fix-configure-Wformat.patch
+To reproduce the problem, first apply this patch to oe-core to arrange for
+the required dependencies to exist:
 
-diff --git a/meta/recipes-devtools/python/python/gcc-4.8-fix-configure-Wformat.patch b/meta/recipes-devtools/python/python/gcc-4.8-fix-configure-Wformat.patch
+diff --git a/meta/recipes-core/mac-test/mac-test.bb b/meta/recipes-core/mac-test/mac-test.bb
 new file mode 100644
-index 0000000..b5d9d5d
+index 0000000..48d656a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python/gcc-4.8-fix-configure-Wformat.patch
-@@ -0,0 +1,20 @@
-+backport bug 17547 from http://hg.python.org/cpython/rev/9d50af4c482f/
++++ b/meta/recipes-core/mac-test/mac-test.bb
+@@ -0,0 +1,15 @@
++inherit module
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
++                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++DEPENDS = "virtual/kernel"
 +
-+-Wformat is needed by gcc 4.8
++do_extract_config() {
++}
++addtask extract_config after do_populate_sysroot
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++do_compile() {
++}
 +
-+Upstream-Status: Backport
-+Index: Python-2.7.3/configure.in
-+===================================================================
-+--- Python-2.7.3.orig/configure.in	2013-06-11 02:22:04.186529212 -0700
-++++ Python-2.7.3/configure.in	2013-06-13 02:17:06.324403327 -0700
-+@@ -1196,7 +1196,7 @@
-+ then
-+   AC_MSG_CHECKING(whether gcc supports ParseTuple __format__)
-+   save_CFLAGS=$CFLAGS
-+-  CFLAGS="$CFLAGS -Werror"
-++  CFLAGS="$CFLAGS -Werror -Wformat"
-+   AC_COMPILE_IFELSE([
-+     AC_LANG_PROGRAM([[void f(char*,...)__attribute((format(PyArg_ParseTuple, 1, 2)));]], [[]])
-+   ],[
-diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
-index 41862ab..b55d5df 100644
---- a/meta/recipes-devtools/python/python_2.7.3.bb
-+++ b/meta/recipes-devtools/python/python_2.7.3.bb
-@@ -27,6 +27,7 @@ SRC_URI += "\
-   file://python-2.7.3-remove-bsdb-rpath.patch \
-   file://builddir.patch \
-   file://python-2.7.3-CVE-2012-2135.patch \
-+  file://gcc-4.8-fix-configure-Wformat.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-1.7.9.5
++do_install() {
++}
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+index 1517f40..3f14603 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
+@@ -28,3 +28,9 @@ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+ KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+ KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+ KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
++
++do_extract_config() {
++		    cp ${B}/.config /tmp/somewhere-safe
++}
++
++addtask extract_config after do_configure
 
+
+Now do:
+
+ export BB_NUMBER_THREADS=8
+ bitbake kernel-yocto mac-test
+
+ # At this point kernel-yocto's populate-sysroot.tgz file in the sstate
+ # cache is correct.
+
+ bitbake -c clean kernel-yocto mac-test
+ bitbake -c extract_config kernel-yocto mac-test
+
+ # Now kernel-yocto's populate-sysroot.tgz file is virtually empty
+
+
+The log from the failing build looks like:
+
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Running setscene task 35 of 36 (/home/mac/nobackup/git/oe-core/meta/recipes-core/mac-test/mac-test.bb, do_populate_sysroot_setscene)
+NOTE: recipe mac-test-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe mac-test-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 36 of 36 (/home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_populate_sysroot_setscene)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_populate_sysroot_setscene: Succeeded
+NOTE: Executing RunQueue Tasks
+NOTE: Running task 175 of 269 (ID: 6, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_fetch)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_fetch: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_fetch: Succeeded
+NOTE: Running task 248 of 269 (ID: 2, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_unpack)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_unpack: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_unpack: Succeeded
+NOTE: Running task 249 of 269 (ID: 1, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_kernel_checkout)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_kernel_checkout: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_kernel_checkout: Succeeded
+NOTE: Running task 250 of 269 (ID: 0, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_validate_branches)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_validate_branches: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_validate_branches: Succeeded
+NOTE: Running task 251 of 269 (ID: 3, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_patch)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_patch: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_patch: Succeeded
+NOTE: Running task 252 of 269 (ID: 7, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_kernel_configme)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_kernel_configme: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_kernel_configme: Succeeded
+NOTE: Running task 253 of 269 (ID: 8, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_configure)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_configure: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_configure: Succeeded
+NOTE: Running task 262 of 269 (ID: 5, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_populate_sysroot)
+NOTE: Running task 263 of 269 (ID: 16, /home/mac/nobackup/git/oe-core/meta/recipes-kernel/linux/linux-yocto_3.8.bb, do_extract_config)
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_populate_sysroot: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_extract_config: Started
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_extract_config: Succeeded
+NOTE: recipe linux-yocto-3.8.13+gitedd6461602_AUTOINC+1f973c0fc8-r4.1: task do_populate_sysroot: Succeeded
+NOTE: Running task 269 of 269 (ID: 25, /home/mac/nobackup/git/oe-core/meta/recipes-core/mac-test/mac-test.bb, do_extract_config)
+NOTE: recipe mac-test-1.0-r0: task do_extract_config: Started
+NOTE: recipe mac-test-1.0-r0: task do_extract_config: Succeeded
+NOTE: Tasks Summary: Attempted 269 tasks of which 259 didn't need to be rerun and all succeeded.
+
+
+Thanks.
+
+Mike.
 
