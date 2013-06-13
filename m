@@ -1,31 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1433A6A5B4
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id BF45F61AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2013 15:00:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5DF6DQ4009993; Thu, 13 Jun 2013 16:06:14 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NoPw_sx2AePm; Thu, 13 Jun 2013 16:06:13 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5DF6BR7009989
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 13 Jun 2013 16:06:12 +0100
-Message-ID: <1371135625.20823.59.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>
-Date: Thu, 13 Jun 2013 16:00:25 +0100
-In-Reply-To: <1371132404-27250-1-git-send-email-mac@mcrowe.com>
-References: <20130521084102.GA31419@mcrowe.com>
-	<1371132404-27250-1-git-send-email-mac@mcrowe.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sstate.bbclass: binutils-cross is not a safe dependency
+	Thu, 13 Jun 2013 15:20:15 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 13 Jun 2013 08:20:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,859,1363158000"; d="scan'208";a="316518108"
+Received: from unknown (HELO [10.255.13.2]) ([10.255.13.2])
+	by azsmga001.ch.intel.com with ESMTP; 13 Jun 2013 08:20:15 -0700
+Message-ID: <51B9E32F.4080106@linux.intel.com>
+Date: Thu, 13 Jun 2013 08:20:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Jonathan Liu <net147@gmail.com>
+References: <1370422910-24366-1-git-send-email-net147@gmail.com>
+	<51AF6B79.3040506@linux.intel.com> <2054363.UxqkIOrzAJ@helios>
+	<2653566.bBSFCXsGIZ@helios> <51B7B6CE.8040301@gmail.com>
+In-Reply-To: <51B7B6CE.8040301@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qmake2.bbclass: export OE_QMAKE_QT_CONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,54 +35,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2013 15:00:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 13 Jun 2013 15:20:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-06-13 at 15:06 +0100, Mike Crowe wrote:
-> gcc always needs binutils in order to be useful. If binutils-cross is
-> considered to be a safe dependency then gcc-cross can be reconstructed into
-> the sysroot without binutils. Anyone who tries to use the compiler will end
-> up using the system binutils which is either a bad thing (relying on system
-> tools) or a very bad thing (it will be for the wrong architecture.)
-> 
-> In the absence of a better fix let's just stop binutils-cross being
-> considered a safe dependency. The downside of this is that any
-> reconstructing any other recipe that depends on binutils from the sstate
-> cache will also cause binutils to be reconstructed.
-> 
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> ---
->  meta/classes/sstate.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> I tried and failed to come up with a better fix for this problem. This
-> fix at least means that everything will build using the correct
-> version of binutils even if slightly more files are reconstructed from
-> the sstate cache than would be desirable.
+On 06/11/2013 04:46 PM, Jonathan Liu wrote:
+> On 6/06/2013 3:04 AM, Paul Eggleton wrote:
+>> On Wednesday 05 June 2013 17:57:32 Paul Eggleton wrote:
+>>> On Wednesday 05 June 2013 09:46:49 Saul Wold wrote:
+>>>> On 06/05/2013 02:30 AM, Martin Jansa wrote:
+>>>>> On Wed, Jun 05, 2013 at 07:01:50PM +1000, Jonathan Liu wrote:
+>>>>>> qconfig.pri was not being loaded by qmake properly. This means Qt
+>>>>>> qmake projects are unable to query QT_ARCH, QT_VERSION and other
+>>>>>> variables defined in qconfig.pri.
+>>>>>>
+>>>>>> Export OE_QMAKE_QT_CONFIG, setting it to the location of qconfig.pri
+>>>>>> so that it can be located by qmake.
+>>>>> There is such patch already:
+>>>>> http://lists.openembedded.org/pipermail/openembedded-core/2013-May/07831
+>>>>>
+>>>>> 4.
+>>>>> html
+>>>> Got lost in my queue, adding it for the next MUT.
+>>> FWIW I am still concerned by the assertion in the commit message
+>>> about it
+>>> causing undesirable behaviour. I'd want that checked out and the note
+>>> removed before we look at merging this.
+>> (I mean undesirable behaviour on rebuild after applying this patch; I
+>> should
+>> mention I'm testing this at the moment.)
+>>
+>> Cheers,
+>> Paul
+>>
+> Looks like this was missed in the last pull.
+>
 
-The correct fix for this is to whitelist the gcc depending on binutils
-case but leave this "safe" version in place.
+After some further local testing with this patch there was a problem 
+when I built world and it built qt-mobility-embedded, I got the 
+following error on multi-architectures
 
-Cheers,
-
-Richard
-
-
-> 
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index 28dc312..0de62d8 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -655,7 +655,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
->      def isNativeCross(x):
->          return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
->      def isSafeDep(x):
-> -        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
-> +        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "gcc-cross-initial"]:
->              return True
->          return False
->      def isPostInstDep(x):
+> ake[3]: Entering directory `/srv/ssd/sgw/builds/world/tmp/work/x86_64-poky-linux/qt-mobility-embedded/1.2.0-r8/qt-mobility-opensource-src-1.2.0/examples/sensors/cubehouse'
+> x86_64-poky-linux-g++  -m64 --sysroot=/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64 -c -pipe -pipe -pipe -O2 -pipe -g -feliminate-unused-debug-types -O2 -pipe -g -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden -g -g -g -Wall -W -Wall -W -Wall -W -D_REENTRANT -DQT_OPENGL_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_SHARED -I/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/share/qtopia/mkspecs/linux-g++ -I. -I/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/qtopia/QtCore -I/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/qtopia/QtGui -I/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/qtopia/QtOpenGL -I/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/qtopia -I../../../src/global -I../../../src/sensors -I../../../build/Debug/cubehouse/moc -o ../../../build/Debug/cubehouse/view.o view.cpp
+> In file included from view.cpp:41:0:
+> view.h:44:26: fatal error: QtOpenGL/qgl.h: No such file or directory
+>  #include <QtOpenGL/qgl.h>
+>                           ^
+> compilation terminated.
+> make[3]: *** [../../../build/Debug/cubehouse/view.o] Error 1
+> make[3]: Leaving directory `/srv/ssd/sgw/builds/world/tmp/work/x86_64-poky-linux/qt-mobility-embedded/1.2.0-r8/qt-mobility-opensource-src-1.2.0/examples/sensors/cubehouse'
+> make[2]: *** [sub-cubehouse-make_default] Error 2
+> make[2]: *** Waiting for unfinished jobs....
 
 
+So I have placed this on hold.
+
+SaU!
+
+> Regards,
+> Jonathan
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
