@@ -1,17 +1,25 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id EFC1D6A543
+Return-Path: <mcrowe@brightsign.biz>
+Received: from elite.brightsigndigital.co.uk
+	(cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com [86.30.57.232])
+	by mail.openembedded.org (Postfix) with ESMTP id 370D46A5DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2013 11:41:16 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r5DBfEP2004938; 
-	Thu, 13 Jun 2013 06:41:16 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+	Thu, 13 Jun 2013 14:07:19 +0000 (UTC)
+Received: from lander.brightsign ([172.30.1.6])
+	by elite.brightsigndigital.co.uk with esmtp (Exim 4.72)
+	(envelope-from <mcrowe@brightsign.biz>)
+	id 1Un8BK-0001TQ-Ne; Thu, 13 Jun 2013 15:07:18 +0100
+Received: from mac by lander.brightsign with local (Exim 4.72)
+	(envelope-from <mac@lander.brightsign>)
+	id 1Un8BK-0007GA-By; Thu, 13 Jun 2013 15:07:18 +0100
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2013 16:41:20 +0500
-Message-Id: <1371123680-19570-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] openssl: Add fix for cipher des-ede3-cfb1
+Date: Thu, 13 Jun 2013 15:06:44 +0100
+Message-Id: <1371132404-27250-1-git-send-email-mac@mcrowe.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <20130521084102.GA31419@mcrowe.com>
+References: <20130521084102.GA31419@mcrowe.com>
+Cc: Mike Crowe <mac@mcrowe.com>
+Subject: [PATCH] sstate.bbclass: binutils-cross is not a safe dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,61 +32,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2013 11:41:17 -0000
+X-List-Received-Date: Thu, 13 Jun 2013 14:07:20 -0000
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+gcc always needs binutils in order to be useful. If binutils-cross is
+considered to be a safe dependency then gcc-cross can be reconstructed into
+the sysroot without binutils. Anyone who tries to use the compiler will end
+up using the system binutils which is either a bad thing (relying on system
+tools) or a very bad thing (it will be for the wrong architecture.)
 
-Add patch file for one of the ciphers used in openssl, namely the cipher
-des-ede3-cfb1. Details of the bug, without this patch, can be found here.
-http://rt.openssl.org/Ticket/Display.html?id=2867
+In the absence of a better fix let's just stop binutils-cross being
+considered a safe dependency. The downside of this is that any
+reconstructing any other recipe that depends on binutils from the sstate
+cache will also cause binutils to be reconstructed.
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 ---
- .../openssl-1.0.1e/fix-cipher-des-ede3-cfb1.patch  |   22 ++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.1e.bb |    1 +
- 2 files changed, 23 insertions(+)
+ meta/classes/sstate.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/fix-cipher-des-ede3-cfb1.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/fix-cipher-des-ede3-cfb1.patch
-new file mode 100644
-index 0000000..cce20c6
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/fix-cipher-des-ede3-cfb1.patch
-@@ -0,0 +1,22 @@
-+Upstream-Status: Submitted
-+
-+This patch adds the fix for one of the ciphers used in openssl, namely
-+the cipher des-ede3-cfb1. Complete bug log and patch is present here:
-+http://rt.openssl.org/Ticket/Display.html?id=2867
-+
-+Signed-Off-By: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-+
-+diff --git a/crypto/evp/e_des3.c b/crypto/evp/e_des3.c
-+index 3232cfe..df84922 100644
-+===================================================================
-+--- a/crypto/evp/e_des3.c
-++++ b/crypto/evp/e_des3.c
-+@@ -173,7 +173,7 @@ static int des_ede3_cfb1_cipher(EVP_CIPHER_CTX *ctx, unsigned char *out,
-+     size_t n;
-+     unsigned char c[1],d[1];
-+ 
-+-    for(n=0 ; n < inl ; ++n)
-++    for(n=0 ; n < inl*8 ; ++n)
-+ 	{
-+ 	c[0]=(in[n/8]&(1 << (7-n%8))) ? 0x80 : 0;
-+ 	DES_ede3_cfb_encrypt(c,d,1,1,
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-index 47c13a4..47b104d 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-@@ -30,6 +30,7 @@ SRC_URI += "file://configure-targets.patch \
-             file://debian/debian-targets.patch \
-             file://openssl_fix_for_x32.patch \
-             file://find.pl \
-+            file://fix-cipher-des-ede3-cfb1.patch \
-            "
- 
- SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+I tried and failed to come up with a better fix for this problem. This
+fix at least means that everything will build using the correct
+version of binutils even if slightly more files are reconstructed from
+the sstate cache than would be desirable.
+
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 28dc312..0de62d8 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -655,7 +655,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+     def isNativeCross(x):
+         return x.endswith("-native") or x.endswith("-cross") or x.endswith("-cross-initial")
+     def isSafeDep(x):
+-        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "binutils-cross", "gcc-cross-initial"]:
++        if x in ["quilt-native", "autoconf-native", "automake-native", "gnu-config-native", "libtool-native", "pkgconfig-native", "gcc-cross", "gcc-cross-initial"]:
+             return True
+         return False
+     def isPostInstDep(x):
 -- 
-1.7.9.5
+1.7.10.4
 
 
