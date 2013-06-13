@@ -1,26 +1,42 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 502136AB2E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 50CC06AA9C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2013 17:44:32 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 13 Jun 2013 10:42:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,860,1363158000"; d="scan'208";a="328997115"
-Received: from unknown (HELO [10.255.13.2]) ([10.255.13.2])
-	by orsmga001.jf.intel.com with ESMTP; 13 Jun 2013 10:44:22 -0700
-Message-ID: <51BA04F5.3050105@linux.intel.com>
-Date: Thu, 13 Jun 2013 10:44:21 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: rongqing.li@windriver.com
-References: <cover.1371092329.git.rongqing.li@windriver.com>
-	<1371093070-29547-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1371093070-29547-1-git-send-email-rongqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssh: two fixes
+	Thu, 13 Jun 2013 19:43:39 +0000 (UTC)
+Received: by mail-pb0-f41.google.com with SMTP id rp16so7183524pbb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Jun 2013 12:43:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=BOPlXfLwZm5YHXB6/23raf2nkfNATwViD0vqLY3lbeg=;
+	b=ZDoYS72t65KNzk7BAoUCatPVC4KWFdN7YhZiin/li73GttBXpc35cqEWMaW5ezUboH
+	/Efl2bpCUxC9cKFYza6uzPQqs9d5yD3gSwbCmQMtYFVzAjrylapizvtWdhUDcr5niUvp
+	eELhSx2aiSseUr0p1Xs5HDFWJBBZwdhngpeSRSZ2qlPYjB3cJrbNHJrTV0GZdI9x7dyY
+	+Rm8MeGesORexH+yH17fxOy5EnBTX0CpcoBrcnj8adPD3DaO5+kV1ok5aYubERGmdVvv
+	fnbSEakMCkL+UFDsn9OupTSLaVr8arkF9IabGlZ88WbYF5VabuXSKN0ZBQ/ugzYzC2L+
+	3BOA==
+X-Received: by 10.66.83.7 with SMTP id m7mr4330337pay.150.1371152620391;
+	Thu, 13 Jun 2013 12:43:40 -0700 (PDT)
+Received: from sa-nc-common3-188.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id pl9sm24524586pbc.5.2013.06.13.12.43.38
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 13 Jun 2013 12:43:39 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51B9FD81.6030405@linux.intel.com>
+Date: Thu, 13 Jun 2013 12:43:36 -0700
+Message-Id: <A105E8F2-2564-4981-952A-BADC1C96F5BB@gmail.com>
+References: <1370987869-19041-1-git-send-email-raj.khem@gmail.com>
+	<51B9FD81.6030405@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc: Upgrade to 4.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,130 +49,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2013 17:44:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Jun 2013 19:43:39 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 06/12/2013 08:11 PM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
->
-> Backport patch to fix segment fault due to unaligned memory access
-> Enable tcp-wrappers by default
->
-This should really be in 2 independent patches.
 
-Sau!
+On Jun 13, 2013, at 10:12 AM, Saul Wold <sgw@linux.intel.com> wrote:
 
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> ---
->   .../openssh/openssh-6.2p2/mac.patch                |   76 ++++++++++++++++++++
->   meta/recipes-connectivity/openssh/openssh_6.2p2.bb |    4 ++
->   2 files changed, 80 insertions(+)
->   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.2p2/mac.patch
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/mac.patch b/meta/recipes-connectivity/openssh/openssh-6.2p2/mac.patch
-> new file mode 100644
-> index 0000000..69fb69d
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/mac.patch
-> @@ -0,0 +1,76 @@
-> +[PATCH] force the MAC output to be 64-bit aligned
-> +
-> +Upstream-Status: Backport[anoncvs.mindrot.org/index.cgi/openssh/mac.c?r1=1.27&r2=1.28]
-> +
-> +Backport patch to fix segment fault due to unaligned memory access
-> +
-> +Wed Jun 5 22:12:37 2013 UTC (7 days, 3 hours ago) by dtucker
-> +Branch: MAIN
-> +CVS Tags: HEAD
-> +Changes since 1.27: +11 -8 lines
-> +Diff to previous 1.27
-> +
-> +   - dtucker@cvs.openbsd.org 2013/06/03 00:03:18
-> +     [mac.c]
-> +     force the MAC output to be 64-bit aligned so umac won't see
-> +unaligned
-> +     accesses on strict-alignment architectures.  bz#2101, patch from
-> +     tomas.kuthan at oracle.com, ok djm@
-> +---
-> + mac.c |   18 +++++++++++-------
-> + 1 file changed, 11 insertions(+), 7 deletions(-)
-> +
-> +diff --git a/mac.c b/mac.c
-> +index 3f2dc6f..a5a80d3 100644
-> +--- a/mac.c
-> ++++ b/mac.c
-> +@@ -152,12 +152,16 @@ mac_init(Mac *mac)
-> + u_char *
-> + mac_compute(Mac *mac, u_int32_t seqno, u_char *data, int datalen)
-> + {
-> +-	static u_char m[EVP_MAX_MD_SIZE];
-> ++	static union {
-> ++		u_char m[EVP_MAX_MD_SIZE];
-> ++		u_int64_t for_align;
-> ++	} u;
-> ++
-> + 	u_char b[4], nonce[8];
-> +
-> +-	if (mac->mac_len > sizeof(m))
-> ++	if (mac->mac_len > sizeof(u))
-> + 		fatal("mac_compute: mac too long %u %lu",
-> +-		    mac->mac_len, (u_long)sizeof(m));
-> ++		    mac->mac_len, (u_long)sizeof(u));
-> +
-> + 	switch (mac->type) {
-> + 	case SSH_EVP:
-> +@@ -166,22 +170,22 @@ mac_compute(Mac *mac, u_int32_t seqno, u_char *data, int datalen)
-> + 		HMAC_Init(&mac->evp_ctx, NULL, 0, NULL);
-> + 		HMAC_Update(&mac->evp_ctx, b, sizeof(b));
-> + 		HMAC_Update(&mac->evp_ctx, data, datalen);
-> +-		HMAC_Final(&mac->evp_ctx, m, NULL);
-> ++		HMAC_Final(&mac->evp_ctx, u.m, NULL);
-> + 		break;
-> + 	case SSH_UMAC:
-> + 		put_u64(nonce, seqno);
-> + 		umac_update(mac->umac_ctx, data, datalen);
-> +-		umac_final(mac->umac_ctx, m, nonce);
-> ++		umac_final(mac->umac_ctx, u.m, nonce);
-> + 		break;
-> + 	case SSH_UMAC128:
-> + 		put_u64(nonce, seqno);
-> + 		umac128_update(mac->umac_ctx, data, datalen);
-> +-		umac128_final(mac->umac_ctx, m, nonce);
-> ++		umac128_final(mac->umac_ctx, u.m, nonce);
-> + 		break;
-> + 	default:
-> + 		fatal("mac_compute: unknown MAC type");
-> + 	}
-> +-	return (m);
-> ++	return (u.m);
-> + }
-> +
-> + void
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-> index 06297da..3ae4c27 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-> @@ -25,6 +25,7 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
->              file://ssh_config \
->              file://init \
->              file://openssh-CVE-2011-4327.patch \
-> +           file://mac.patch \
->              ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
->
->   PAM_SRC_URI = "file://sshd"
-> @@ -46,6 +47,9 @@ inherit autotools
->   CFLAGS += "-D__FILE_OFFSET_BITS=64"
->   export LD = "${CC}"
->
-> +PACKAGECONFIG ??= "tcp-wrappers"
-> +PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
-> +
->   EXTRA_OECONF = "--with-rand-helper=no \
->                   ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
->                   --without-zlib-version-check \
->
+> On 06/11/2013 02:57 PM, Khem Raj wrote:
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-devtools/gcc/gcc-4.8.inc |    8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc =
+b/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> index 80bd02c..6664f1c 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> @@ -6,7 +6,7 @@ require gcc-common.inc
+>>  # on branch then PV should be incremented to 4.7.2+svnr${SRCPV}
+>>  # to reflect that change
+>>=20
+>> -PV =3D "4.8.0"
+>> +PV =3D "4.8.1"
+>>=20
+>=20
+> Khem, Otavio:
+>=20
+> Not sure if it was this change or 4.8 in general, but there are a =
+number of failures in the FSL-ARM and FSL-PPC builds:
+>=20
+> PPC Issues (gettext / mfpr):
+> =
+http://autobuilder.yoctoproject.org:8011/builders/nightly-fsl-ppc/builds/1=
+41/steps/Building%20Images/logs/stdio
+> =
+http://autobuilder.yoctoproject.org:8011/builders/nightly-fsl-ppc-lsb/buil=
+ds/139/steps/Building%20Images/logs/stdio
+>=20
+
+both above seems same issue its a compiler ICE
+
+> ARM Issues (both in perf):
+> =
+http://autobuilder.yoctoproject.org:8011/builders/nightly-fsl-arm/builds/1=
+40/steps/Building%20Images/logs/stdio
+>=20
+
+its also a compiler ICE
+
+> Can one or both of you look into this.
+>=20
+> Thanks
+> 	Sau!
+>=20
+>=20
+>>  # BINV should be incremented after updating to a revision
+>>  # after a minor gcc release (e.g. 4.7.1 or 4.7.2) has been made
+>> @@ -14,7 +14,7 @@ PV =3D "4.8.0"
+>>  # 4.7.1 then the value below will have 2 which will mean 4.7.2
+>>  # which will be next minor release and so on.
+>>=20
+>> -BINV =3D "4.8.0"
+>> +BINV =3D "4.8.1"
+>>=20
+>>  FILESPATH =3D "${@base_set_filespath([ '${FILE_DIRNAME}/gcc-4.8' ], =
+d)}"
+>>=20
+>> @@ -68,8 +68,8 @@ SRC_URI =3D =
+"${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+>>  	   file://gcc-4.8-PR56797.patch \
+>>  	   file://gcc-4.8-build-args.patch \
+>>  	  "
+>> -SRC_URI[md5sum] =3D "e6040024eb9e761c3bea348d1fa5abb0"
+>> -SRC_URI[sha256sum] =3D =
+"b037fe5132b71ecad2ea7141ec92292b5d32427bf90fd90cde432b1d5abacc2c"
+>> +SRC_URI[md5sum] =3D "3b2386c114cd74185aa3754b58a79304"
+>> +SRC_URI[sha256sum] =3D =
+"545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+>>=20
+>>  S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+>>  B =3D "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+>>=20
+
 
