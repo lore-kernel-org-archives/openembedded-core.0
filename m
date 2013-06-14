@@ -1,24 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B6E86A4A9
+	by mail.openembedded.org (Postfix) with ESMTP id DCB7D6A4A9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2013 07:54:15 +0000 (UTC)
+	Fri, 14 Jun 2013 08:09:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5E7sGeC016325
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5E89JIc018590
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2013 00:54:16 -0700 (PDT)
+	Fri, 14 Jun 2013 01:09:19 -0700 (PDT)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 14 Jun 2013 00:54:16 -0700
+	14.2.342.3; Fri, 14 Jun 2013 01:09:19 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Jun 2013 15:54:14 +0800
-Message-ID: <1371196454-10206-1-git-send-email-jackie.huang@windriver.com>
+Date: Fri, 14 Jun 2013 16:09:17 +0800
+Message-ID: <1371197357-10706-1-git-send-email-jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Subject: [PATCH] consolekit: move libck-connector to base_libdir
+Subject: [PATCH] acl attr libcap: mark shared libraries executable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,58 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2013 07:54:15 -0000
+X-List-Received-Date: Fri, 14 Jun 2013 08:09:19 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-move libck-connector.so.* to base_libdir to kill two warnings:
+While it is not necessary that shared libraries be executable,
+if they are not marked as such bitbake will not examine them
+for debug information.  So, we make them executable at the end of
+installation.
 
-    WARNING: QA Issue: consolekit: /lib64/security/pam_ck_connector.so,
-    installed in the base_prefix, requires a shared library under
-    exec_prefix (/usr): libck-connector.so.0 => /usr/lib64/
-    libck-connector.so.0 (0x00000000dead300
-
-    WARNING: QA Issue: lib32-consolekit: Found a reference to /usr/ in
-     /buildarea1/jhuang0/t_multilib/p_x64_0217/bitbake_build/tmp/work/
-    x86-wrsmllib32-linux/lib32-consolekit-0.4.5-r10/packages-split/i
-    lib32-consolekit/lib/security/pam_ck_connector.la
-    WARNING: QA Issue: Shell scripts in base_bindir and base_sbindir
-    should not reference anything in exec_prefix
-
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- .../recipes-support/consolekit/consolekit_0.4.5.bb |   11 ++++++++++-
- 1 files changed, 10 insertions(+), 1 deletions(-)
+ meta/recipes-support/attr/acl.inc      |    4 ++++
+ meta/recipes-support/attr/attr.inc     |    4 ++++
+ meta/recipes-support/libcap/libcap.inc |    7 ++++++-
+ 3 files changed, 14 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-index 7d66b39..3d976d4 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
- HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
- BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
-
--PR = "r10"
-+PR = "r11"
-
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-@@ -41,4 +41,13 @@ RDEPENDS_pam-plugin-ck-connector += "${PN}"
- do_install_append() {
- 	# Remove /var/run from package as console-kit-daemon will populate it on startup
- 	rm -fr "${D}${localstatedir}/run"
-+	# Moving libck-connector to base_libdir
-+	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-+	        mkdir -p ${D}/${base_libdir}/
-+	        mv -f ${D}${libdir}/libck-connector.so.0* ${D}${base_libdir}/
-+	        mv -f ${D}${base_libdir}/security/pam_ck_connector.la ${D}${libdir}/
-+	        rel_lib_prefix=`echo ${libdir} | sed 's,\(^/\|\)[^/][^/]*,..,g'`
-+	        ln -sf ${rel_lib_prefix}${base_libdir}/libck-connector.so.0.0.0 ${D}${libdir}/libck-connector.so
-+	fi
-+
+diff --git a/meta/recipes-support/attr/acl.inc b/meta/recipes-support/attr/acl.inc
+index b504517..060d09b 100644
+--- a/meta/recipes-support/attr/acl.inc
++++ b/meta/recipes-support/attr/acl.inc
+@@ -20,7 +20,11 @@ do_configure_append() {
  }
+
+ # libdir should point to .la
++# install somehow leaves the actual shared library 644 instead of 755
++# this means it will be ignored for debug info extraction
++#
+ do_install_append() {
+ 	sed -i ${D}${libdir}/libacl.la -e \
+ 	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
++	chmod a+x ${D}${base_libdir}/*.so.*.*
+ }
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index eaed7af..375d2e9 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -18,7 +18,11 @@ SRC_URI = "http://download.savannah.gnu.org/releases/attr/${BP}.src.tar.gz \
+ require ea-acl.inc
+
+ # libdir should point to .la
++# install somehow leaves the actual shared library 644 instead of 755
++# this means it will be ignored for debug info extraction
++#
+ do_install_append() {
+ 	sed -i ${D}${libdir}/libattr.la -e \
+ 	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
++	chmod a+x ${D}${base_libdir}/*.so.*.*
+ }
+diff --git a/meta/recipes-support/libcap/libcap.inc b/meta/recipes-support/libcap/libcap.inc
+index 7f16a56..2fd5718 100644
+--- a/meta/recipes-support/libcap/libcap.inc
++++ b/meta/recipes-support/libcap/libcap.inc
+@@ -12,7 +12,7 @@ DEPENDS_class-native = "perl-native-runtime"
+
+ SRC_URI = "${DEBIAN_MIRROR}/main/libc/libcap2/${BPN}2_${PV}.orig.tar.gz"
+
+-PR = "r1"
++PR = "r2"
+
+ inherit lib_package
+
+@@ -51,6 +51,11 @@ do_install_append() {
+ 		mv ${D}${libdir}/* ${D}${base_libdir}
+ 		rmdir ${D}${libdir}
+ 	fi
++
++	# install somehow leaves the actual shared library 644 instead of 755
++	# this means it will be ignored for debug info extraction
++	#
++	chmod a+x ${D}${base_libdir}/*.so.*.*
+ }
+
+ FILES_${PN}-dev += "${base_libdir}/*.so"
 --
 1.7.4.1
 
