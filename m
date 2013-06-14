@@ -1,35 +1,35 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f52.google.com (mail-pb0-f52.google.com
-	[209.85.160.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 5452C61AD1
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FDA860897
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2013 13:01:04 +0000 (UTC)
-Received: by mail-pb0-f52.google.com with SMTP id xa12so546226pbc.25
+	Fri, 14 Jun 2013 13:01:15 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id q10so552351pdj.38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2013 06:01:05 -0700 (PDT)
+	Fri, 14 Jun 2013 06:01:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=6vc+gtYsIPb1lLLlEkdpO0EwImXseaQDoEufJJ0JbiM=;
-	b=AFjWeh6i2kWFwcAKiyT+/7R+fGbYAYpzx3/SKLnFF7MiHDiUQUmLPtRB4cbJUugoL4
-	Oxjb+42d1fYShsix9bnXbuw9G4RVua/pGMBUTXD2rwyakNRrqDI3n82DCua3BhFj9aYR
-	ndIHNpGu3HQxREaTdAXGQ77jgRU7XQHTbF1MQsSbQGj+9BMN6MFRSug9ULGytYfuvp4p
-	lhf2t3m3VeYHt7IUMxIX8B5cge5v4FXB/cHsyBG155phOjYkuPeo4W6A7Ww/Ek4e0B8w
-	xqBvRFBAw7FqDkh0cUVBWTItuDyFnol5YW+Q61WmHq6zucBfBbnNV17GM+LGLY/dW7gF
-	8Aww==
-X-Received: by 10.68.213.42 with SMTP id np10mr2451358pbc.37.1371214865301;
-	Fri, 14 Jun 2013 06:01:05 -0700 (PDT)
+	bh=G0d39MUejAndEFEhwZD59Ak6LdfUR7MBOZ/tixkRsNw=;
+	b=I+/LmLY1PNdNNm38yy8iAWDjmGmNHs6+PlIS3tLRYocJlH1GyYGZdviyXquSo06VeF
+	RJZo3CG9udvCUyBamVYptWRDnnL4KO51T/hhAn73aF5UADlrlI4vZjB28mq+sRe9AKH8
+	L0S1cfTWywekxbO8DOo5qBUhq+VKu4snYouuSZjeWUw1gBZ/eeACsKXMRnLJ2Yo8nWpO
+	cLHufZv3S+rpFvsz2lhHUnDh4a60GXc4j+l7GXgx9qWdkk3wJnofWXSMosCN+iChqcRc
+	LBNxLrz5xAoes0EeTSni5HdbRXqkIoEMxvRdWBoA65FUk1EwDFObXJsGcgF79RNJirIO
+	4aJw==
+X-Received: by 10.68.219.130 with SMTP id po2mr2492209pbc.68.1371214876633;
+	Fri, 14 Jun 2013 06:01:16 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id pm7sm2230211pbb.31.2013.06.14.06.01.02
+	by mx.google.com with ESMTPSA id tq8sm2231390pbc.30.2013.06.14.06.01.14
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 14 Jun 2013 06:01:04 -0700 (PDT)
+	Fri, 14 Jun 2013 06:01:15 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Jun 2013 23:15:17 +1000
-Message-Id: <1371215717-22843-1-git-send-email-net147@gmail.com>
+Date: Fri, 14 Jun 2013 23:15:37 +1000
+Message-Id: <1371215737-22887-1-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.8.3
-Subject: [PATCH] qt4: disable gdb_dwarf_index
+Subject: [PATCH] qt4: set QMAKE_COMPILER to gcc in mkspec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2013 13:01:04 -0000
+X-List-Received-Date: Fri, 14 Jun 2013 13:01:15 -0000
 
-* qmake is trying to call native gdb and we don't depend on gdb-native
-  (or even provide gdb-native)
-* fixes errors like this:
-  /bin/sh: gdb: command not found
-  /bin/sh: line 0: test: -gt: unary operator expected
+This avoids the following warning when running qmake:
+Project WARNING: qmake spec does not announce the compiler family.
+Guessed gcc.
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-qt/qt4/qt4-4.8.4/g++.conf | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-qt/qt4/qt4-4.8.4/g++.conf | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-qt/qt4/qt4-4.8.4/g++.conf b/meta/recipes-qt/qt4/qt4-4.8.4/g++.conf
-index e58fb15..d34c62c 100644
+index d34c62c..8755031 100644
 --- a/meta/recipes-qt/qt4/qt4-4.8.4/g++.conf
 +++ b/meta/recipes-qt/qt4/qt4-4.8.4/g++.conf
-@@ -49,6 +49,9 @@ QMAKE_PCH_OUTPUT_EXT    = .gch
- QMAKE_LFLAGS_BSYMBOLIC_FUNC = -Wl,-Bsymbolic-functions
- QMAKE_LFLAGS_DYNAMIC_LIST = -Wl,--dynamic-list,
+@@ -2,6 +2,8 @@
+ # qmake configuration for common gcc
+ #
  
-+# do not depend on gdb
-+CONFIG -= gdb_dwarf_index
++QMAKE_COMPILER = gcc
 +
- # some linking helper...
- CONFIG += rpath_libdirs
- 
+ QMAKE_CC       = $(OE_QMAKE_CC)
+ QMAKE_CFLAGS       += -pipe $(OE_QMAKE_CFLAGS)
+ QMAKE_CFLAGS_RELEASE_WITH_DEBUGINFO += $(OE_QMAKE_CFLAGS)
 -- 
 1.8.3
 
