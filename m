@@ -1,38 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8026361AC3
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 49CB761AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2013 16:42:16 +0000 (UTC)
-Received: by mail-ve0-f178.google.com with SMTP id pb11so657136veb.37
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2013 09:42:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:x-gm-message-state;
-	bh=wJFi+W3hpy904FIx8Dv8h20ocb3u8Gs/3OC9808jBpA=;
-	b=dJvyTv1gNoVon0OegU3rtp2SsBRti0gMDGDhrCGQ1v0pz/qWNxpIMH/6RlOj0jfSa3
-	Y4uOJ3tWyeCuAoBrU/tvjylFWv+jtb1esJ4c4W6iEtjwLsauX15K2K+EHoT4PoUNC16w
-	lkfZt8YQIyS8OnR/ASobiqoRi8J5ZO1S/dkgioTY+FtK7qy8q1KH4IdD8AWEUH6PLuVg
-	rtcP+Yf6KX4k/SjzaG3kE4jXFyfGTi/VtBNtc7wUZWgO3NY0liHCh2gs+w+M5F1PGPeV
-	zZ6EGdn0La9kmieNcpMWC+1Wx70ngopVDA+972PdjtYvlzDkTtl6tgKp8P3FUYSdnaFn
-	jE1w==
+	Fri, 14 Jun 2013 17:19:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 14 Jun 2013 10:19:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,867,1363158000"; d="scan'208";a="329577690"
+Received: from unknown (HELO [10.255.12.161]) ([10.255.12.161])
+	by orsmga001.jf.intel.com with ESMTP; 14 Jun 2013 10:19:39 -0700
+Message-ID: <51BB50AB.40304@linux.intel.com>
+Date: Fri, 14 Jun 2013 10:19:39 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-Received: by 10.220.78.212 with SMTP id m20mr1229300vck.46.1371228136936;
-	Fri, 14 Jun 2013 09:42:16 -0700 (PDT)
-Received: by 10.220.13.144 with HTTP; Fri, 14 Jun 2013 09:42:16 -0700 (PDT)
-In-Reply-To: <1371225044.20823.84.camel@ted>
-References: <1371224418-11163-1-git-send-email-ross.burton@intel.com>
-	<1371225044.20823.84.camel@ted>
-Date: Fri, 14 Jun 2013 17:42:16 +0100
-Message-ID: <CAJTo0LZ68nMg46O3dSEtd4oiwrNNNgQ5YQXQyq2qP8f_iuUt4A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Gm-Message-State: ALoCoQkBzZzQ19VtchstPvkNTFp997RrQ6vf0+dEBYA+Ibbeo0bSZtxqu9AfCi7h2SHX+7mjFT5T
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] atk: inherit gnomebase
+To: jackie.huang@windriver.com
+References: <1371196454-10206-1-git-send-email-jackie.huang@windriver.com>
+In-Reply-To: <1371196454-10206-1-git-send-email-jackie.huang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] consolekit: move libck-connector to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,116 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2013 16:42:16 -0000
-Content-Type: multipart/alternative; boundary=047d7b343d56022c3e04df1fee0d
+X-List-Received-Date: Fri, 14 Jun 2013 17:19:39 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7b343d56022c3e04df1fee0d
-Content-Type: text/plain; charset=UTF-8
-
-Gnar, sorry. I retract this, I inherited the wrong class.
-
-Ross
-
-On Friday, 14 June 2013, Richard Purdie wrote:
-
-> On Fri, 2013-06-14 at 16:40 +0100, Ross Burton wrote:
-> > This recipe was missing a dependency on gnome-common, so lets just
-> inherit
-> > gnomebase and get both it and GNOME SRC_URI handling for free.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@intel.com <javascript:;>>
-> > ---
-> >  meta/recipes-support/atk/atk_2.8.0.bb |    5 ++---
-> >  1 file changed, 2 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-support/atk/atk_2.8.0.bbb/meta/recipes-support/atk/
-> atk_2.8.0.bb
-> > index a190c0a..cfe2f58 100644
-> > --- a/meta/recipes-support/atk/atk_2.8.0.bb
-> > +++ b/meta/recipes-support/atk/atk_2.8.0.bb
-> > @@ -10,11 +10,10 @@ LIC_FILES_CHKSUM =
-> "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7 \
-> >
-> >  DEPENDS = "glib-2.0"
-> >
-> > -inherit autotools gtk-doc pkgconfig
-> > +inherit gnome gtk-doc
+On 06/14/2013 12:54 AM, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
 >
-> The above and the commit message don't match (gnome verses gnomebase) :/
+> move libck-connector.so.* to base_libdir to kill two warnings:
 >
-> Cheers,
+>      WARNING: QA Issue: consolekit: /lib64/security/pam_ck_connector.so,
+>      installed in the base_prefix, requires a shared library under
+>      exec_prefix (/usr): libck-connector.so.0 => /usr/lib64/
+>      libck-connector.so.0 (0x00000000dead300
 >
-> Richard
+>      WARNING: QA Issue: lib32-consolekit: Found a reference to /usr/ in
+>       /buildarea1/jhuang0/t_multilib/p_x64_0217/bitbake_build/tmp/work/
+>      x86-wrsmllib32-linux/lib32-consolekit-0.4.5-r10/packages-split/i
+>      lib32-consolekit/lib/security/pam_ck_connector.la
+>      WARNING: QA Issue: Shell scripts in base_bindir and base_sbindir
+>      should not reference anything in exec_prefix
 >
-> > -MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-> > +GNOME_COMPRESS_TYPE = "xz"
-> >
-> > -SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
-> >  SRC_URI[md5sum] = "c652bd25530825d604dae1c1ebd2da02"
-> >  SRC_URI[sha256sum] =
-> "b22519176226f3e07cf6d932b77852e6b6be4780977770704b32d0f4e0686df4"
-> >
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>   .../recipes-support/consolekit/consolekit_0.4.5.bb |   11 ++++++++++-
+>   1 files changed, 10 insertions(+), 1 deletions(-)
 >
+> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> index 7d66b39..3d976d4 100644
+> --- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> +++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+>   HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+>   BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
+>
+> -PR = "r10"
+> +PR = "r11"
+>
+>   LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+> @@ -41,4 +41,13 @@ RDEPENDS_pam-plugin-ck-connector += "${PN}"
+>   do_install_append() {
+>   	# Remove /var/run from package as console-kit-daemon will populate it on startup
+>   	rm -fr "${D}${localstatedir}/run"
+> +	# Moving libck-connector to base_libdir
+> +	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+> +	        mkdir -p ${D}/${base_libdir}/
+> +	        mv -f ${D}${libdir}/libck-connector.so.0* ${D}${base_libdir}/
+> +	        mv -f ${D}${base_libdir}/security/pam_ck_connector.la ${D}${libdir}/
+> +	        rel_lib_prefix=`echo ${libdir} | sed 's,\(^/\|\)[^/][^/]*,..,g'`
+> +	        ln -sf ${rel_lib_prefix}${base_libdir}/libck-connector.so.0.0.0 ${D}${libdir}/libck-connector.so
+> +	fi
+> +
+
+Something did not work out right here.
+
+> | make[1]: Leaving directory `/srv/ssd/sgw/builds/world/tmp/work/x86_64-poky-linux/consolekit/0.4.5-r11/build'
+> | mv: cannot stat `/srv/ssd/sgw/builds/world/tmp/work/x86_64-poky-linux/consolekit/0.4.5-r11/image/lib/security/pam_ck_connector.la': No such file or directory
+
+
+Sau!
+
+>   }
+> --
+> 1.7.4.1
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 >
 
---047d7b343d56022c3e04df1fee0d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-Gnar, sorry. I retract this, I inherited the wrong class.<div><br></div><di=
-v>Ross<span></span><br><br>On Friday, 14 June 2013, Richard Purdie  wrote:<=
-br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
-On Fri, 2013-06-14 at 16:40 +0100, Ross Burton wrote:<br>
-&gt; This recipe was missing a dependency on gnome-common, so lets just inh=
-erit<br>
-&gt; gnomebase and get both it and GNOME SRC_URI handling for free.<br>
-&gt;<br>
-&gt; Signed-off-by: Ross Burton &lt;<a href=3D"javascript:;" onclick=3D"_e(=
-event, &#39;cvml&#39;, &#39;ross.burton@intel.com&#39;)">ross.burton@intel.=
-com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/recipes-support/atk/<a href=3D"http://atk_2.8.0.bb" target=
-=3D"_blank">atk_2.8.0.bb</a> | =C2=A0 =C2=A05 ++---<br>
-&gt; =C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/atk/<a href=3D"http://atk_2.8.0.bb" =
-target=3D"_blank">atk_2.8.0.bb</a> b/meta/recipes-support/atk/<a href=3D"ht=
-tp://atk_2.8.0.bb" target=3D"_blank">atk_2.8.0.bb</a><br>
-&gt; index a190c0a..cfe2f58 100644<br>
-&gt; --- a/meta/recipes-support/atk/<a href=3D"http://atk_2.8.0.bb" target=
-=3D"_blank">atk_2.8.0.bb</a><br>
-&gt; +++ b/meta/recipes-support/atk/<a href=3D"http://atk_2.8.0.bb" target=
-=3D"_blank">atk_2.8.0.bb</a><br>
-&gt; @@ -10,11 +10,10 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D3b=
-f50002aefd002f49e7bb854063f7e7 \<br>
-&gt;<br>
-&gt; =C2=A0DEPENDS =3D &quot;glib-2.0&quot;<br>
-&gt;<br>
-&gt; -inherit autotools gtk-doc pkgconfig<br>
-&gt; +inherit gnome gtk-doc<br>
-<br>
-The above and the commit message don&#39;t match (gnome verses gnomebase) :=
-/<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-&gt; -MAJ_VER =3D &quot;${@oe.utils.trim_version(&quot;${PV}&quot;, 2)}&quo=
-t;<br>
-&gt; +GNOME_COMPRESS_TYPE =3D &quot;xz&quot;<br>
-&gt;<br>
-&gt; -SRC_URI =3D &quot;${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.=
-xz&quot;<br>
-&gt; =C2=A0SRC_URI[md5sum] =3D &quot;c652bd25530825d604dae1c1ebd2da02&quot;=
-<br>
-&gt; =C2=A0SRC_URI[sha256sum] =3D &quot;b22519176226f3e07cf6d932b77852e6b6b=
-e4780977770704b32d0f4e0686df4&quot;<br>
-&gt;<br>
-<br>
-<br>
-</blockquote></div>
-
---047d7b343d56022c3e04df1fee0d--
