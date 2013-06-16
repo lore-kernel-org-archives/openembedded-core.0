@@ -1,27 +1,37 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ADD26A660
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B3296080B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2013 14:17:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5GEHKGD018770
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sun, 16 Jun 2013 19:12:14 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id ta17so2364652obb.22
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2013 07:17:20 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Sun, 16 Jun 2013 07:17:20 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 16 Jun 2013 22:16:26 +0800
-Message-ID: <959281c96e2293454a6084d17a6f35f2a86129ac.1371392062.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1371392062.git.kai.kang@windriver.com>
-References: <cover.1371392062.git.kai.kang@windriver.com>
+	Sun, 16 Jun 2013 12:12:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=AdxIzJxZWk2COM0WhgMvOu+dMbfLSnUnwByFwK6skC4=;
+	b=EiP7LVKEvXbj/hWifqSJutv+0tx+oRzTW1OpECPdWaHznuj2G7B/R67OTt/pYmx2eZ
+	PVC5ARLDInAxYyQu+agw1AQDbFBjPisyW+KvsHseCDw3uDr1j0JNrK4MoPIMbeM6xROF
+	kvfWovb78Izn58kLoVBvtDcgY4hNcKtl2UEJzBgOF1+oHvyOToQPNp3y4P3CeXZxltyn
+	Es+pBup7vgZqh6X5Y6GP74pVtj4Irv1QYwSnOmLBbz1qLYgrkZ4Z024fDiEfUBznDffV
+	pyxQIca2yDAMwzS7bHYiw/uO5w/LICsid0qdV/Hgm4aF6iEtMy9gs5TOu29oYFV2u0Ap
+	e2Pw==
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Subject: [PATCH 2/2] Add needed libx11 library for sato applications
+X-Received: by 10.60.134.236 with SMTP id pn12mr7145898oeb.4.1371409934407;
+	Sun, 16 Jun 2013 12:12:14 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.108.167 with HTTP; Sun, 16 Jun 2013 12:12:14 -0700 (PDT)
+In-Reply-To: <1371242900-7066-1-git-send-email-sgw@linux.intel.com>
+References: <1371242900-7066-1-git-send-email-sgw@linux.intel.com>
+Date: Sun, 16 Jun 2013 16:12:14 -0300
+X-Google-Sender-Auth: aQqxba2pSrhPFEXNADmsRFcxZ9I
+Message-ID: <CAP9ODKqx7Fnsrxnfyuz4VaQCQNzomyAZsd_CqxVSx_tavS=HKw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe-buildenv-internal: Preserve/Unset and Restore TERM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,172 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Jun 2013 14:17:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 16 Jun 2013 19:12:14 -0000
+Content-Type: multipart/alternative; boundary=047d7b471f6afb607504df4a4165
 
-From binutils-2.22, --copy-dt-needed-entries option is no longer enabled
-by default. Instead, --no-copy-dt-needed-entries is now the default option.
+--047d7b471f6afb607504df4a4165
+Content-Type: text/plain; charset=ISO-8859-1
 
-When use other toolchain than default toolchain, some sato applications
-may compiled failed that they need libx11 but don't link to it directly.
-So we should add needed libraries to avoid build these sato applications
-fail.
+On Fri, Jun 14, 2013 at 5:48 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../files/link-with-new-binutils.patch             |   41 +++++++++++++
- .../matchbox-panel-2/matchbox-panel-2_git.bb       |    3 +-
- .../sato-screenshot/files/add-needed-libx11.patch  |   63 ++++++++++++++++++++
- .../sato-screenshot/sato-screenshot_git.bb         |    3 +-
- 4 files changed, 108 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-sato/matchbox-panel-2/files/link-with-new-binutils.patch
- create mode 100644 meta/recipes-sato/sato-screenshot/files/add-needed-libx11.patch
+> Having a value in TERM that is not recognized by the nativesdk can cause
+> potential escape sequences appearing in the output stream, the can be seen
+> on Ubuntu with TERM=xterm-256color. Unsetting TERM allows for consistent
+> results in the python output.
+>
+> Also, don't exit, use return, otherwise the shell exits and get no error
+> information.
+>
+> [YOCTO #4732]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>
 
-diff --git a/meta/recipes-sato/matchbox-panel-2/files/link-with-new-binutils.patch b/meta/recipes-sato/matchbox-panel-2/files/link-with-new-binutils.patch
-new file mode 100644
-index 0000000..b81d07c
---- /dev/null
-+++ b/meta/recipes-sato/matchbox-panel-2/files/link-with-new-binutils.patch
-@@ -0,0 +1,41 @@
-+Subject: [PATCH] matchbox-panel-2: FTBFS with new binutils
-+
-+This bug is same as:
-+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=555589
-+Port debian/patches/linking-fix to fix matchbox-panel-2.
-+
-+Upstream-Status: pending
-+
-+Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
-+
-+From binutils-2.22, --copy-dt-needed-entries option is no longer enabled by
-+default. Instead, --no-copy-dt-needed-entries is now the default option.
-+
-+For default toolchain, it includes tcmode-default.inc which requires as-needed.inc.
-+In as-needed.inc, ld option '--as-needed' is added to TARGET_LDFLAGS. That's why sato-screenshot
-+can be built successfully with default toolchain but failed with other toolchain.
-+
-+So we should add needed libraries to avoid build failed.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+---
-+ matchbox-panel/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/matchbox-panel/Makefile.am b/matchbox-panel/Makefile.am
-+index 81e62c5..8046cd7 100644
-+--- a/matchbox-panel/Makefile.am
-++++ b/matchbox-panel/Makefile.am
-+@@ -12,7 +12,7 @@ bin_PROGRAMS = matchbox-panel
-+ 
-+ matchbox_panel_SOURCES = mb-panel.c mb-panel-scaling-image.c
-+ 
-+-matchbox_panel_LDADD = $(MATCHBOX_PANEL_LIBS)
-++matchbox_panel_LDADD = $(MATCHBOX_PANEL_LIBS) -lX11
-+ # This is required as gmodule-export in Poky doesn't have it
-+ matchbox_panel_LDFLAGS = -Wl,--export-dynamic
-+ 
-+-- 
-+1.7.11
-+
-diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
-index 1160b87..37c1e7b 100644
---- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
-+++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_git.bb
-@@ -19,7 +19,8 @@ RPROVIDES_${PN} = "matchbox-panel"
- RREPLACES_${PN} = "matchbox-panel"
- RCONFLICTS_${PN} = "matchbox-panel"
- 
--SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git"
-+SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
-+           file://link-with-new-binutils.patch"
- 
- EXTRA_OECONF = "--enable-startup-notification --enable-dbus"
- EXTRA_OECONF += " ${@base_contains("MACHINE_FEATURES", "acpi", "--with-battery=acpi", "",d)}"
-diff --git a/meta/recipes-sato/sato-screenshot/files/add-needed-libx11.patch b/meta/recipes-sato/sato-screenshot/files/add-needed-libx11.patch
-new file mode 100644
-index 0000000..a679949
---- /dev/null
-+++ b/meta/recipes-sato/sato-screenshot/files/add-needed-libx11.patch
-@@ -0,0 +1,63 @@
-+Subject: [PATCH] sato-screenshot: add needed libx11
-+
-+Upstream-Status: pending
-+
-+From binutils-2.22, --copy-dt-needed-entries option is no longer enabled by
-+default. Instead, --no-copy-dt-needed-entries is now the default option.
-+
-+So we should add needed libraries to avoid build these failures.
-+
-+xxx/bin/ld: note: 'XQueryTree' is defined in DSO
-+  proj/bitbake_build/tmp/sysroots/qemumips/hard-float/usr/lib/libX11.so.6 so
-+  try adding it to the linker command line
-+proj/bitbake_build/tmp/sysroots/qemumips/hard-float/usr/lib/libX11.so.6:
-+  could not read symbols: Invalid operation
-+collect2: ld returned 1 exit status
-+
-+Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
-+
-+For default toolchain, it includes tcmode-default.inc which requires as-needed.inc.
-+In as-needed.inc, ld option '--as-needed' is added to TARGET_LDFLAGS. That's why sato-screenshot
-+can be built successfully with default toolchain but failed with other toolchain.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+---
-+ Makefile.am  | 4 ++--
-+ configure.ac | 1 +
-+ 2 files changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 3623b6e..f1e3ae9 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -13,7 +13,7 @@ appletdir = $(libdir)/matchbox-panel
-+ applet_LTLIBRARIES = libscreenshot.la
-+ libscreenshot_la_SOURCES = applet.c
-+ libscreenshot_la_LDFLAGS = -avoid-version
-+-libscreenshot_la_LIBADD = $(GTK_LIBS) $(MBAPP_LIBS) libshot.la
-++libscreenshot_la_LIBADD = $(GTK_LIBS) $(MBAPP_LIBS) libshot.la $(X11_LIBS)
-+ 
-+ # The icon for the panel applet.
-+ icondir = $(datadir)/pixmaps
-+@@ -23,4 +23,4 @@ endif
-+ # A standalone tool for running from a terminal and scripts
-+ bin_PROGRAMS = screenshot
-+ screenshot_SOURCES = main.c
-+-screenshot_LDADD = libshot.la $(GTK_LIBS)
-++screenshot_LDADD = libshot.la $(GTK_LIBS) $(X11_LIBS)
-+diff --git a/configure.ac b/configure.ac
-+index 9e084c1..868ca07 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -10,6 +10,7 @@ AC_PROG_CC
-+ AC_STDC_HEADERS
-+ AC_PROG_LIBTOOL
-+ 
-++PKG_CHECK_MODULES(X11, x11)
-+ PKG_CHECK_MODULES(GTK, gtk+-2.0)
-+ 
-+ MB_APPLET="yes"
-+-- 
-+1.7.11
-+
-diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb b/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb
-index ff92142..6c5861f 100644
---- a/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb
-+++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_git.bb
-@@ -13,7 +13,8 @@ PV = "0.1+git${SRCPV}"
- PR = "r2"
- 
- SRC_URI = "git://git.yoctoproject.org/screenshot;protocol=git \
--           file://fix_ldadd_order.patch"
-+           file://fix_ldadd_order.patch \
-+           file://add-needed-libx11.patch"
- 
- S = "${WORKDIR}/git"
- 
+Please split the fix and get the exit/return fix applied. While on that,
+ensure the errors are send to >&2 as done in other error messages.
+
 -- 
-1.7.5.4
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
+--047d7b471f6afb607504df4a4165
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Fri, Jun 14, 2013 at 5:48 PM, Saul Wold <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com<=
+/a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Having a value in TERM that is not recognize=
+d by the nativesdk can cause<br>
+potential escape sequences appearing in the output stream, the can be seen<=
+br>
+on Ubuntu with TERM=3Dxterm-256color. Unsetting TERM allows for consistent<=
+br>
+results in the python output.<br>
+<br>
+Also, don&#39;t exit, use return, otherwise the shell exits and get no erro=
+r information.<br>
+<br>
+[YOCTO #4732]<br>
+<br>
+Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@lin=
+ux.intel.com</a>&gt;<br></blockquote><div><br></div><div style>Please split=
+ the fix and get the exit/return fix applied. While on that, ensure the err=
+ors are send to &gt;&amp;2 as done in other error messages.=A0</div>
+</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
+m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
+ref=3D"http://projetos.ossystems.com.br" target=3D"_blank">http://projetos.=
+ossystems.com.br</a><br>
+Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
+<br>
+</div></div>
+
+--047d7b471f6afb607504df4a4165--
