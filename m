@@ -1,24 +1,30 @@
-Return-Path: <Sen.Zhang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 553E660667
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 66D2060912
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 08:47:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5H8l0YI018174
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 01:47:00 -0700 (PDT)
-Received: from jesse-wrs-desktop.corp.ad.wrs.com (128.224.162.230) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 17 Jun 2013 01:47:00 -0700
-From: Jesse Zhang <sen.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Jun 2013 16:49:13 +0800
-Message-ID: <1371458953-11658-1-git-send-email-sen.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.11.7
+	Mon, 17 Jun 2013 09:04:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5H94coa010395
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Jun 2013 02:04:39 -0700 (PDT)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Mon, 17 Jun 2013 02:04:38 -0700
+Message-ID: <51BED10C.7050609@windriver.com>
+Date: Mon, 17 Jun 2013 17:04:12 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH] rt-tests: fix error check in hackbench
+To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+References: <cover.1371392062.git.kai.kang@windriver.com>
+	<30a61ca7883e5f9d8858c7b89884874e74a972c5.1371392062.git.kai.kang@windriver.com>
+	<13f50fd5c00.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <13f50fd5c00.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+X-Originating-IP: [128.224.162.205]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] strace: update depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,79 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 08:47:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 17 Jun 2013 09:04:41 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Add a patch to fix when an unsigned number is taken as a negative error
-code.
+On 2013年06月17日 15:15, Bernhard Reutner-Fischer wrote:
+> On 16 June 2013 16:16:25 Kai Kang <kai.kang@windriver.com> wrote:
+>> Build strace with libaio and acl to support more features. Because no
+>> native libaio package, just add dependencies for target.
+>
+> Do you mind updating to 4.8 while you touch it?
+> Thanks,
+>
 
-Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
----
- .../rt-tests/files/hackbench-fix-error-check.patch | 41 ++++++++++++++++++++++
- meta/recipes-rt/rt-tests/rt-tests.inc              |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch
+OK, I'll check the new version of strace
 
-diff --git a/meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch b/meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch
-new file mode 100644
-index 0000000..d17fdff
---- /dev/null
-+++ b/meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch
-@@ -0,0 +1,41 @@
-+childinfo_t is a union that contains both signed (error) and unsigned
-+(threadid) members. Thus a large threadid could appear as a negative error
-+value, which will cause unexpected failures.
-+
-+childinfo_t should be changed to a struct, but it could potentially affect the
-+performance. So we keep it as a union but only check error against -1. There is
-+still a chance of false alarm but it's small.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Song.Li <Song.Li@windriver.com>
-+Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
-+---
-+ src/hackbench/hackbench.c |    4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/hackbench/hackbench.c b/src/hackbench/hackbench.c
-+index 8baeb23..dc0de8f 100644
-+--- a/src/hackbench/hackbench.c
-++++ b/src/hackbench/hackbench.c
-+@@ -317,7 +317,7 @@ static unsigned int group(childinfo_t *child,
-+ 		ctx->wakefd = wakefd;
-+ 
-+ 		child[tab_offset+i] = create_worker(ctx, (void *)(void *)receiver);
-+-		if( child[tab_offset+i].error < 0 ) {
-++		if( child[tab_offset+i].error == -1 ) {
-+ 			return (i > 0 ? i-1 : 0);
-+ 		}
-+ 		snd_ctx->out_fds[i] = fds[1];
-+@@ -332,7 +332,7 @@ static unsigned int group(childinfo_t *child,
-+ 		snd_ctx->num_fds = num_fds;
-+ 
-+ 		child[tab_offset+num_fds+i] = create_worker(snd_ctx, (void *)(void *)sender);
-+-		if( child[tab_offset+num_fds+i].error < 0 ) {
-++		if( child[tab_offset+num_fds+i].error == -1 ) {
-+ 			return (num_fds+i)-1;
-+ 		}
-+ 	}
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 3ae7602..91e5028 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -8,6 +8,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
-            file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
-            file://added-missing-dependencies.patch \
-            file://cyclictest-finish-removal-of-1-second-first-loops.patch \
-+           file://hackbench-fix-error-check.patch \
- "
- 
- INC_PR = "r2"
+>
+> Sent with AquaMail for Android
+> http://www.aqua-mail.com
+>
+>
+>
+>
+
+
 -- 
-1.7.11.7
+Regards,
+Neil | Kai Kang
 
 
