@@ -1,48 +1,24 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from va3outboundpool.messaging.microsoft.com
-	(va3ehsobe001.messaging.microsoft.com [216.32.180.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5552C6A8C4
+Return-Path: <Sen.Zhang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 553E660667
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 07:32:48 +0000 (UTC)
-Received: from mail211-va3-R.bigfish.com (10.7.14.234) by
-	VA3EHSOBE011.bigfish.com (10.7.40.61) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 17 Jun 2013 07:32:49 +0000
-Received: from mail211-va3 (localhost [127.0.0.1])	by
-	mail211-va3-R.bigfish.com (Postfix) with ESMTP id EAE0B52021F;
-	Mon, 17 Jun 2013 07:32:48 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: 1
-X-BigFish: VPS1(zzzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2fh95h668h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1e23h906i1155h192ch)
-Received-SPF: pass (mail211-va3: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail211-va3 (localhost.localdomain [127.0.0.1]) by mail211-va3
-	(MessageSwitch) id 1371454366513319_12762;
-	Mon, 17 Jun 2013 07:32:46 +0000 (UTC)
-Received: from VA3EHSMHS007.bigfish.com (unknown [10.7.14.252])	by
-	mail211-va3.bigfish.com (Postfix) with ESMTP id 6FDDD24009A;
-	Mon, 17 Jun 2013 07:32:46 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by VA3EHSMHS007.bigfish.com
-	(10.7.99.17) with Microsoft SMTP Server id 14.1.225.23; Mon, 17 Jun 2013
-	07:32:46 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]
-	helo=xsj-smtp1.xilinx.com)	by xsj-gw1 with esmtp (Exim
-	4.63)	(envelope-from <nathan.rossi@xilinx.com>)	id 1UoTvh-0003AP-R4;
-	Mon, 17 Jun 2013 00:32:45 -0700
-From: Nathan Rossi <nathan.rossi@xilinx.com>
+	Mon, 17 Jun 2013 08:47:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5H8l0YI018174
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 01:47:00 -0700 (PDT)
+Received: from jesse-wrs-desktop.corp.ad.wrs.com (128.224.162.230) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 17 Jun 2013 01:47:00 -0700
+From: Jesse Zhang <sen.zhang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Jun 2013 17:31:36 +1000
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <1371454297-32315-1-git-send-email-nathan.rossi@xilinx.com>
-References: <1371454297-32315-1-git-send-email-nathan.rossi@xilinx.com>
-X-RCIS-Action: ALLOW
+Date: Mon, 17 Jun 2013 16:49:13 +0800
+Message-ID: <1371458953-11658-1-git-send-email-sen.zhang@windriver.com>
+X-Mailer: git-send-email 1.7.11.7
 MIME-Version: 1.0
-Message-ID: <97a6af37-c446-4eeb-86d2-4352f0d37a0a@VA3EHSMHS007.ehs.local>
-X-OriginatorOrg: xilinx.com
-Cc: meta-xilinx@yoctoproject.org
-Subject: [RFC 1/2] scripts/runqemu: Add support for 'qemuzynq' machine
+Subject: [PATCH] rt-tests: fix error check in hackbench
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,86 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 07:32:48 -0000
+X-List-Received-Date: Mon, 17 Jun 2013 08:47:00 -0000
 Content-Type: text/plain
 
-* Add support to boot the 'qemuzynq' machine in qemu-system-arm
-* Use the specific machine model for Zynq 'xilinx-zynq-a9'
-* Use the DTB generated from the kernel build as the DTB for boot
-* Force use of initrd rootfs (either in ext or cpio formats)
+Add a patch to fix when an unsigned number is taken as a negative error
+code.
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
+Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
 ---
- scripts/runqemu          |    6 +++++-
- scripts/runqemu-internal |   15 +++++++++++++++
- 2 files changed, 20 insertions(+), 1 deletions(-)
+ .../rt-tests/files/hackbench-fix-error-check.patch | 41 ++++++++++++++++++++++
+ meta/recipes-rt/rt-tests/rt-tests.inc              |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index f2eb2e1..01ef741 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -107,7 +107,8 @@ KVM_ENABLED="no"
- while true; do
-     arg=${1}
-     case "$arg" in
--        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel" | "qemumips64" | "qemush4"  | "qemuppc")
-+        "qemux86" | "qemux86-64" | "qemuarm" | "qemumips" | "qemumipsel" | \
-+        "qemumips64" | "qemush4"  | "qemuppc" | "qemuzynq")
-             [ -z "$MACHINE" ] && MACHINE=$arg || \
-                 error "conflicting MACHINE types [$MACHINE] and [$arg]"
-             ;;
-@@ -308,6 +309,9 @@ QEMUSH4_DEFAULT_FSTYPE=ext3
- QEMUPPC_DEFAULT_KERNEL=vmlinux-qemuppc.bin
- QEMUPPC_DEFAULT_FSTYPE=ext3
- 
-+QEMUZYNQ_DEFAULT_KERNEL=uImage
-+QEMUZYNQ_DEFAULT_FSTYPE=cpio
+diff --git a/meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch b/meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch
+new file mode 100644
+index 0000000..d17fdff
+--- /dev/null
++++ b/meta/recipes-rt/rt-tests/files/hackbench-fix-error-check.patch
+@@ -0,0 +1,41 @@
++childinfo_t is a union that contains both signed (error) and unsigned
++(threadid) members. Thus a large threadid could appear as a negative error
++value, which will cause unexpected failures.
 +
- AKITA_DEFAULT_KERNEL=zImage-akita.bin
- AKITA_DEFAULT_FSTYPE=jffs2
- 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 4f3ba7b..f156c4d 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -59,6 +59,9 @@ else
-         "qemush4")
-             mem_size=1024
-             ;;
-+        "qemuzynq")
-+            mem_size=1024
-+            ;;
-         *)
-             mem_size=64
-             ;;
-@@ -270,6 +273,7 @@ case "$MACHINE" in
-     "qemuarmv7") ;;
-     "qemux86") ;;
-     "qemux86-64") ;;
-+    "qemuzynq") ;;
-     "akita") ;;
-     "spitz") ;;
-     *)
-@@ -492,6 +496,17 @@ if [ "$MACHINE" = "akita" ]; then
-     fi
- fi
- 
-+if [ "$MACHINE" = "qemuzynq" ]; then
-+    QEMU=qemu-system-arm
-+    QEMU_SYSTEM_OPTIONS="-M xilinx-zynq-a9 -serial null -serial mon:stdio -dtb $KERNEL-$MACHINE.dtb"
-+    # zynq serial ports are named 'ttyPS0' and 'ttyPS1', fixup the default values
-+    SCRIPT_KERNEL_OPT=$(echo "$SCRIPT_KERNEL_OPT" | sed 's/console=ttyS/console=ttyPS/g')
-+    if [ "${FSTYPE:0:3}" = "ext" -o "${FSTYPE:0:4}" = "cpio" ]; then
-+        KERNCMDLINE="earlyprintk root=/dev/ram rw"
-+        QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS -initrd $ROOTFS"
-+    fi
-+fi
++childinfo_t should be changed to a struct, but it could potentially affect the
++performance. So we keep it as a union but only check error against -1. There is
++still a chance of false alarm but it's small.
 +
- if [ "x$RAMFS" = "xtrue" ]; then
-     QEMUOPTIONS="-initrd $ROOTFS -nographic"
-     KERNCMDLINE="root=/dev/ram0 debugshell"
++Upstream-Status: Pending
++
++Signed-off-by: Song.Li <Song.Li@windriver.com>
++Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
++---
++ src/hackbench/hackbench.c |    4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/hackbench/hackbench.c b/src/hackbench/hackbench.c
++index 8baeb23..dc0de8f 100644
++--- a/src/hackbench/hackbench.c
+++++ b/src/hackbench/hackbench.c
++@@ -317,7 +317,7 @@ static unsigned int group(childinfo_t *child,
++ 		ctx->wakefd = wakefd;
++ 
++ 		child[tab_offset+i] = create_worker(ctx, (void *)(void *)receiver);
++-		if( child[tab_offset+i].error < 0 ) {
+++		if( child[tab_offset+i].error == -1 ) {
++ 			return (i > 0 ? i-1 : 0);
++ 		}
++ 		snd_ctx->out_fds[i] = fds[1];
++@@ -332,7 +332,7 @@ static unsigned int group(childinfo_t *child,
++ 		snd_ctx->num_fds = num_fds;
++ 
++ 		child[tab_offset+num_fds+i] = create_worker(snd_ctx, (void *)(void *)sender);
++-		if( child[tab_offset+num_fds+i].error < 0 ) {
+++		if( child[tab_offset+num_fds+i].error == -1 ) {
++ 			return (num_fds+i)-1;
++ 		}
++ 	}
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 3ae7602..91e5028 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -8,6 +8,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
+            file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
+            file://added-missing-dependencies.patch \
+            file://cyclictest-finish-removal-of-1-second-first-loops.patch \
++           file://hackbench-fix-error-check.patch \
+ "
+ 
+ INC_PR = "r2"
 -- 
-1.7.5.4
-
+1.7.11.7
 
 
