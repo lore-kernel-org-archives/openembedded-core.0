@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D24060821
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id EF04D60821
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 09:43:13 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5H9mZR1017733; Mon, 17 Jun 2013 10:48:35 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SpVVrZ6_gELg; Mon, 17 Jun 2013 10:48:35 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5H9m8MD017717
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 17 Jun 2013 10:48:30 +0100
-Message-ID: <1371462123.20823.94.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ml@communistcode.co.uk
-Date: Mon, 17 Jun 2013 10:42:03 +0100
-In-Reply-To: <51BED302.8020107@communistcode.co.uk>
-References: <51BED302.8020107@communistcode.co.uk>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+	Mon, 17 Jun 2013 10:17:14 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UoWUs-0002yL-KB; Mon, 17 Jun 2013 12:17:14 +0200
+Message-ID: <1371464233.6580.3.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Qi.Chen@windriver.com
+Date: Mon, 17 Jun 2013 11:17:13 +0100
+In-Reply-To: <fd86333f362b5ce34f7d2f2e60d03a4477ff8eeb.1371447869.git.Qi.Chen@windriver.com>
+References: <cover.1371447869.git.Qi.Chen@windriver.com>
+	<fd86333f362b5ce34f7d2f2e60d03a4477ff8eeb.1371447869.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: commit 07792e4a83ca breaks oe-init-build-env sourcing
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V2 9/9] tinylogin: remove recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,33 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 09:43:14 -0000
+X-List-Received-Date: Mon, 17 Jun 2013 10:17:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-06-17 at 10:12 +0100, Jack Mitchell wrote:
-> Pulled to the latest oe-core, bitbake and a few 3rd party layers this 
-> morning, to find that when I source oe-init-build-env the terminal I was 
-> sourcing in either crashes or exits.
-> 
-> I tested with both gnome-terminal and xterm, both produced the same 
-> behaviour.
-> 
-> Heading into a git bisect the apparent bad commit is: 
-> 07792e4a83ca4f1c8152c228813c7f795fa6a545 (scripts/oe-buildenv-internal 
-> bitbake: Migrate python version checks)
-> 
-> If it makes a difference the default python on my system is python3. My 
-> workflow is usually source oe-init-build-env, then I add a directory 
-> with a symlink to python2 at the beginning of my PATH, so the default 
-> python is python2.
-> 
-> Any help would be appreciated; holler if you need me to run any more tests.
+On Mon, 2013-06-17 at 13:49 +0800, Qi.Chen@windriver.com wrote:
+> tinylogin has been deprecated and the functionality ported into busybox.
+> We now use busybox as the login manager, so the tinylogin recipe could
+> be deleted.
 
-I pushed a fix for this, sorry about that.
+I'm not entirely sure who "we" is in this context, but the choice of
+login manager has, historically, been a distro decision.  
 
-Cheers,
+Reading between the lines I assume what you're actually saying here is
+that Poky has decided to switch from tinylogin to busybox, which
+obviously is fine.  It's not entirely obvious to me that this is a very
+compelling reason to remove tinylogin from oe-core, though equally I
+guess there is no reason it couldn't live in some other layer instead.
 
-Richard
+p.
+
 
 
