@@ -1,20 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 35B2F6098F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 95D296098F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 13:46:42 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Jun 2013 06:46:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,881,1363158000"; d="scan'208";a="354729765"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.47])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2013 06:46:41 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jun 2013 14:46:03 +0100
-Message-Id: <1371476763-31156-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] classes/externalsrc: enable global inherit and simplify usage
+	Mon, 17 Jun 2013 14:57:20 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5HF3IiN032761 for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 16:03:19 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vCpwklV78oUx
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 16:03:18 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5HF3CRK032757
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 16:03:13 +0100
+Message-ID: <1371481023.20823.105.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Jun 2013 15:57:03 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] utils.bbclass: Tweak create_wrapper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,94 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 13:46:42 -0000
+X-List-Received-Date: Mon, 17 Jun 2013 14:57:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This class can now be inherited globally using INHERIT += rather than
-needing to inherit it in the recipe itself. Additionally, instead of
-setting S (and optionally B), set EXTERNALSRC (and optionally
-EXTERNALSRC_BUILD) to point to the external source and build locations
-respectively.
+Currently the full path is specified to exec however this may incorporate a
+build path which in the nativesdk case, is not transformed to a target system
+path. This leads to failures due to incorrect paths.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+This patch ensures the full build path is not encoded into the wrapper script.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/externalsrc.bbclass | 51 ++++++++++++++++++++++++++--------------
- 1 file changed, 33 insertions(+), 18 deletions(-)
-
-diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
-index 7e00ef8..c759289 100644
---- a/meta/classes/externalsrc.bbclass
-+++ b/meta/classes/externalsrc.bbclass
-@@ -8,18 +8,23 @@
- # the build system to build a piece of software rather than the usual fetch/unpack/patch
- # process.
- #
--# To use, set S to point at the directory you want to use containing the sources
--# e.g. S = "/path/to/my/source/tree"
-+# To use, add externalsrc to the global inherit and set EXTERNALSRC to point at the
-+# directory you want to use containing the sources e.g. from local.conf for a recipe
-+# called "myrecipe" you would do:
- #
--# If the class is to work for both target and native versions (or with multilibs/
--# cross or other BBCLASSEXTEND variants), its expected that setting B to point to 
--# where to place the compiled binaries will work (split source and build directories).
--# This is the default but B can be set to S if circumstaces dictate.
-+# INHERIT += "externalsrc"
-+# EXTERNALSRC_pn-myrecipe = "/path/to/my/source/tree"
-+#
-+# In order to make this class work for both target and native versions (or with
-+# multilibs/cross or other BBCLASSEXTEND variants), B is set to point to a separate
-+# directory under the work directory (split source and build directories). This is
-+# the default, but the build directory can be set to the source directory if
-+# circumstances dictate by setting EXTERNALSRC_BUILD to the same value, e.g.:
-+#
-+# EXTERNALSRC_BUILD_pn-myrecipe = "/path/to/my/source/tree"
- #
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index cf8893f..e873c53 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -282,12 +282,12 @@ create_wrapper () {
+ 	echo "Generating wrapper script for $cmd"
  
--SRC_URI = ""
- SRCTREECOVEREDTASKS ?= "do_patch do_unpack do_fetch"
--B = "${WORKDIR}/${BPN}-${PV}/"
- 
- def remove_tasks(tasks, deltasks, d):
-     for task in tasks:
-@@ -37,17 +42,27 @@ def remove_tasks(tasks, deltasks, d):
-     d.setVar('__BBTASKS', tasklist)
- 
- python () {
--    tasks = filter(lambda k: d.getVarFlag(k, "task"), d.keys())
--    covered = d.getVar("SRCTREECOVEREDTASKS", True).split()
--
--    for task in tasks:
--        if task.endswith("_setscene"):
--            # sstate is never going to work for external source trees, disable it
--            covered.append(task)
-+    externalsrc = d.getVar('EXTERNALSRC', True)
-+    if externalsrc:
-+        d.setVar('S', externalsrc)
-+        externalsrcbuild = d.getVar('EXTERNALSRC_BUILD', True)
-+        if externalsrcbuild:
-+            d.setVar('B', externalsrcbuild)
-         else:
--            # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
--            d.appendVarFlag(task, "lockfiles", "${S}/singletask.lock")
-+            d.setVar('B', '${WORKDIR}/${BPN}-${PV}/')
-+        d.setVar('SRC_URI', '')
-+
-+        tasks = filter(lambda k: d.getVarFlag(k, "task"), d.keys())
-+        covered = d.getVar("SRCTREECOVEREDTASKS", True).split()
-+
-+        for task in tasks:
-+            if task.endswith("_setscene"):
-+                # sstate is never going to work for external source trees, disable it
-+                covered.append(task)
-+            else:
-+                # Since configure will likely touch ${S}, ensure only we lock so one task has access at a time
-+                d.appendVarFlag(task, "lockfiles", "${S}/singletask.lock")
- 
--    remove_tasks(tasks, covered, d)
-+        remove_tasks(tasks, covered, d)
+ 	mv $cmd $cmd.real
+-	cmdname=`basename $cmd`.real
++	cmdname=`basename $cmd`
+ 	cat <<END >$cmd
+ #!/bin/bash
+ realpath=\`readlink -fn \$0\`
+ export $@
+-exec -a $cmd \`dirname \$realpath\`/$cmdname "\$@"
++exec -a \`dirname \$realpath\`/$cmdname \`dirname \$realpath\`/$cmdname.real "\$@"
+ END
+ 	chmod +x $cmd
  }
- 
--- 
-1.8.1.2
+
 
 
