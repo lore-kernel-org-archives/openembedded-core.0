@@ -1,27 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B8D56A9C3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CA78E60812
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 05:49:42 +0000 (UTC)
+	Mon, 17 Jun 2013 05:49:43 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5H5njMN007977
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5H5nilh026245
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 16 Jun 2013 22:49:45 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 16 Jun 2013 22:49:42 -0700
+	14.2.342.3; Sun, 16 Jun 2013 22:49:44 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Jun 2013 13:49:34 +0800
-Message-ID: <c53ea9bf358a6167b9ea860f985c721030077c67.1371447869.git.Qi.Chen@windriver.com>
+Date: Mon, 17 Jun 2013 13:49:35 +0800
+Message-ID: <fd86333f362b5ce34f7d2f2e60d03a4477ff8eeb.1371447869.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1371447869.git.Qi.Chen@windriver.com>
 References: <cover.1371447869.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: qingtao.cao@windriver.com
-Subject: [PATCH V2 8/9] mingetty: lower the ALTERNATIVE_PRIORITY
+Subject: [PATCH V2 9/9] tinylogin: remove recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +34,1254 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 05:49:42 -0000
+X-List-Received-Date: Mon, 17 Jun 2013 05:49:44 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-mingetty doesn't work with serial consoles. Currently, it has the
-same ALTERNATIVE_PRIORITY with busybox. So if it is installed with
-busybox together, it's possible that the getty is linked to the
-mingetty, causing failures when we login to the serial consoles.
-
-Lower the its ALTERNATIVE_PRIORITY to solve this problem.
+tinylogin has been deprecated and the functionality ported into busybox.
+We now use busybox as the login manager, so the tinylogin recipe could
+be deleted.
 
 [YOCTO #4207]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-extended/mingetty/mingetty_1.08.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../tinylogin/tinylogin-1.4/add-system.patch       |  117 ---
+ .../tinylogin-1.4/adduser-empty_pwd.patch          |   45 --
+ .../tinylogin/tinylogin-1.4/avoid_static.patch     |   33 -
+ .../tinylogin/tinylogin-1.4/cvs-20040608.patch     |  823 --------------------
+ .../tinylogin/tinylogin-1.4/glibc_crypt_fix.patch  |   23 -
+ .../tinylogin-1.4/passwd_rotate_check.patch        |   41 -
+ .../tinylogin/tinylogin-1.4/remove-index.patch     |   13 -
+ .../tinylogin/tinylogin-1.4/use_O2_option.patch    |   21 -
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |   45 --
+ 9 files changed, 1161 deletions(-)
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/add-system.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/adduser-empty_pwd.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/cvs-20040608.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/glibc_crypt_fix.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/remove-index.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin_1.4.bb
 
-diff --git a/meta/recipes-extended/mingetty/mingetty_1.08.bb b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-index 6c53957..fbd9cb4 100644
---- a/meta/recipes-extended/mingetty/mingetty_1.08.bb
-+++ b/meta/recipes-extended/mingetty/mingetty_1.08.bb
-@@ -25,4 +25,4 @@ inherit update-alternatives
- ALTERNATIVE_${PN} = "getty"
- ALTERNATIVE_LINK_NAME[getty] = "${base_sbindir}/getty"
- ALTERNATIVE_TARGET[getty] = "${base_sbindir}/mingetty"
--ALTERNATIVE_PRIORITY = "50"
-+ALTERNATIVE_PRIORITY = "10"
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/add-system.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/add-system.patch
+deleted file mode 100644
+index 0a97974..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/add-system.patch
++++ /dev/null
+@@ -1,117 +0,0 @@
+-Upstream-Status: Backport
+-
+-? add-system.patch
+-? cvs-20040608.patch
+-? familiar
+-? pod2htmd.tmp
+-? pod2htmi.tmp
+-? system.diff
+-? tinylogin_1.4-20030620.1_arm.ipk
+-? tinylogin_1.4-20030620.1_arm.ipk.asc
+-? tinylogin_1.4-20030620.1_arm.ipk.upload.html
+-? tinylogin_1.4-20030620.2_arm.ipk
+-? tinylogin_1.4-20030620.2_arm.ipk.asc
+-? tinylogin_1.4-20030620.2_arm.ipk.upload.html
+-? tinylogin_1.4-20030620_arm.ipk
+-? tinylogin_1.4-20030620_arm.ipk.asc
+-? tinylogin_1.4-20030620_arm.ipk.upload.html
+-? tmp
+-Index: addgroup.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/addgroup.c,v
+-retrieving revision 1.23
+-diff -u -r1.23 addgroup.c
+---- a/addgroup.c	9 Jan 2003 18:43:29 -0000	1.23
+-+++ b/addgroup.c	8 Jun 2004 08:56:08 -0000
+-@@ -31,6 +31,7 @@
+- #include <sys/stat.h>
+- #include <sys/types.h>
+- #include <unistd.h>
+-+#include <getopt.h>
+- #include "tinylogin.h"
+- 
+- #define GROUP_FILE      "/etc/group"
+-@@ -124,6 +125,11 @@
+- 	return 0;
+- }
+- 
+-+static struct option long_options[] = {
+-+  { "system",		0, NULL, 'S' },
+-+  { 0,			0, 0, 0 }
+-+};
+-+
+- /*
+-  * addgroup will take a login_name as its first parameter.
+-  *
+-@@ -136,14 +142,19 @@
+- 	int opt;
+- 	char *group;
+- 	char *user;
+-+	int option_index = -1;
+- 	gid_t gid = 0;
+-+	int system = 0;
+- 
+- 	/* get remaining args */
+--	while ((opt = getopt (argc, argv, "g:")) != -1) {
+-+	while ((opt = getopt_long (argc, argv, "g:S", long_options, &option_index)) != -1) {
+- 		switch (opt) {
+- 			case 'g':
+- 				gid = strtol(optarg, NULL, 10);
+- 				break;
+-+			case 'S':
+-+				system = 1;
+-+				break;
+- 			default:
+- 				show_usage();
+- 				break;
+-Index: adduser.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/adduser.c,v
+-retrieving revision 1.38
+-diff -u -r1.38 adduser.c
+---- a/adduser.c	21 Jun 2003 19:35:42 -0000	1.38
+-+++ b/adduser.c	8 Jun 2004 08:56:09 -0000
+-@@ -66,13 +66,13 @@
+- 
+- /* remix */
+- /* EDR recoded such that the uid may be passed in *p */
+--static int passwd_study(const char *filename, struct passwd *p)
+-+static int passwd_study(const char *filename, struct passwd *p, int system)
+- {
+- 	struct passwd *pw;
+- 	FILE *passwd;
+- 
+--	const int min = 500;
+--	const int max = 65000;
+-+	const int min = system ? 10 : 500;
+-+	const int max = system ? 99 : 65000;
+- 
+- 	passwd = wfopen(filename, "r");
+- 	if (!passwd)
+-@@ -142,7 +142,7 @@
+- }
+- 
+- /* putpwent(3) remix */
+--static int adduser(const char *filename, struct passwd *p, int makehome, int setpass)
+-+static int adduser(const char *filename, struct passwd *p, int makehome, int setpass, int system)
+- {
+- 	FILE *passwd;
+- 	int r;
+-@@ -165,7 +165,7 @@
+- 	fseek(passwd, 0, SEEK_END);
+- 
+- 	/* if (passwd_study(filename, p) == 0) { */
+--	r = passwd_study(filename, p);
+-+	r = passwd_study(filename, p, system);
+- 	if (r) {
+- 		if (r == 1)
+- 			error_msg("%s: login already in use", p->pw_name);
+-@@ -357,7 +357,7 @@
+- 	}
+- 
+- 	/* grand finale */
+--	return adduser(PASSWD_FILE, &pw, makehome, setpass);
+-+	return adduser(PASSWD_FILE, &pw, makehome, setpass, system);
+- }
+- 
+- /* $Id: adduser.c,v 1.38 2003/06/21 19:35:42 andersen Exp $ */
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/adduser-empty_pwd.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/adduser-empty_pwd.patch
+deleted file mode 100644
+index 3a4c6d7..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/adduser-empty_pwd.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+---- tinylogin-1.4/adduser.c.orig	2004-09-30 18:01:46.000000000 +0200
+-+++ tinylogin-1.4/adduser.c	2004-09-30 18:07:01.000000000 +0200
+-@@ -249,6 +249,7 @@
+- struct option long_options[] = {
+-   { "home",		1, NULL, 'h' },
+-   { "disabled-password", 0, NULL, 'D' },
+-+  { "empty-password", 0, NULL, 'E' },
+-   { "system",		0, NULL, 'S' },
+-   { "ingroup",		1, NULL, 'G' },
+-   { "no-create-home",   0, NULL, 'H' },
+-@@ -287,7 +288,7 @@
+- 	shell = default_shell;
+- 
+- 	/* get args */
+--	while ((opt = getopt_long (argc, argv, "h:g:s:G:DSH", long_options, &option_index)) != -1) {
+-+	while ((opt = getopt_long (argc, argv, "h:g:s:G:DESH", long_options, &option_index)) != -1) {
+- 		switch (opt) {
+- 			case 'h':
+- 				home = optarg;
+-@@ -304,6 +305,9 @@
+- 			case 'D':
+- 				setpass = 0;
+- 				break;
+-+			case 'E':
+-+				setpass = -1;
+-+				break;
+- 			case 'S':
+- 				system = 1;
+- 				break;
+-@@ -338,7 +342,12 @@
+- 
+- 	/* create a passwd struct */
+- 	pw.pw_name = (char *)login;
+--	pw.pw_passwd = (char *)default_passwd;
+-+	if (setpass != -1)
+-+		pw.pw_passwd = (char *)default_passwd;
+-+	else {
+-+		pw.pw_passwd = (char *)"";
+-+		setpass = 0;
+-+	}
+- 	pw.pw_uid = 0;
+- 	pw.pw_gid = 0;
+- 	pw.pw_gecos = (char *)gecos;
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch
+deleted file mode 100644
+index 8a06af0..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-tinylogin: Do not link statically when building debug
+-
+-For some reason if DODEBUG was enabled (to prevent stripping) the binary was
+-also statically linked.  This patch prevents that behavior.
+-
+-Upstream-Status: Inappropriate [no upstream]
+-
+-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+-
+-diff -ur tinylogin-1.4.orig/Makefile tinylogin-1.4/Makefile
+---- tinylogin-1.4.orig/Makefile	2011-06-18 11:00:23.073927349 -0500
+-+++ tinylogin-1.4/Makefile	2011-06-18 11:03:26.394849372 -0500
+-@@ -123,20 +123,6 @@
+-     LDFLAGS += -s -Wl,-warn-common 
+-     STRIP    = $(STRIPTOOL) --remove-section=.note --remove-section=.comment $(PROG)
+- endif
+--ifeq ($(strip $(DODEBUG)),true)
+--    LDFLAGS += --static
+--    #
+--    #use '-ffunction-sections -fdata-sections' and '--gc-sections' (if they 
+--    # work) to try and strip out any unused junk.  Doesn't do much for me, 
+--    # but you may want to give it a shot...
+--    #
+--    #ifeq ($(shell $(CC) -ffunction-sections -fdata-sections -S \
+--    #	-o /dev/null -xc /dev/null 2>/dev/null && $(LD) \
+--    #			--gc-sections -v >/dev/null && echo 1),1)
+--    #	CFLAGS += -ffunction-sections -fdata-sections
+--    #	LDFLAGS += --gc-sections
+--    #endif
+--endif
+- ifeq ($(strip $(DOSTATIC)),true)
+-     LDFLAGS += --static
+-     #
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/cvs-20040608.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/cvs-20040608.patch
+deleted file mode 100644
+index 33bc301..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/cvs-20040608.patch
++++ /dev/null
+@@ -1,823 +0,0 @@
+-Upstream-Status: Backport
+-
+-Index: Config.h
+-===================================================================
+-RCS file: /var/cvs/tinylogin/Config.h,v
+-retrieving revision 1.10
+-retrieving revision 1.12
+-diff -u -r1.10 -r1.12
+---- a/Config.h	23 Jun 2002 03:09:07 -0000	1.10
+-+++ b/Config.h	17 Feb 2003 11:51:55 -0000	1.12
+-@@ -27,15 +27,11 @@
+- // Enable checking of /etc/securetty by login
+- #define CONFIG_FEATURE_SECURETTY
+- //
+--// Enable using sha passwords
+--#define CONFIG_FEATURE_SHA1_PASSWORDS
+--//
+- // Enable use of a wheel group
+- #define CONFIG_WHEEL_GROUP
+- //
+--// This compiles out everything but the most 
+--// trivial --help usage information (i.e. reduces binary size)
+--#define CONFIG_FEATURE_TRIVIAL_HELP
+-+// Show verbose usage messages
+-+//#define CONFIG_FEATURE_VERBOSE_USAGE
+- //
+- // Enable 'tinylogin --install [-s]' to allow tinylogin
+- // to create links (or symlinks) at runtime for all the 
+-@@ -48,10 +44,6 @@
+- // Nothing beyond this point should ever be touched by 
+- // mere mortals so leave this stuff alone.
+- //
+--#ifdef CONFIG_FEATURE_SHA1_PASSWORDS
+--#define CONFIG_SHA1
+--#endif
+--//
+- #ifdef CONFIG_FEATURE_SHADOWPASSWDS
+- #define CONFIG_SHADOW
+- #endif
+-Index: addgroup.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/addgroup.c,v
+-retrieving revision 1.22
+-retrieving revision 1.23
+-diff -u -r1.22 -r1.23
+---- a/addgroup.c	12 Dec 2002 08:46:03 -0000	1.22
+-+++ b/addgroup.c	9 Jan 2003 18:43:29 -0000	1.23
+-@@ -133,23 +133,33 @@
+-  * ________________________________________________________________________ */
+- int addgroup_main(int argc, char **argv)
+- {
+-+	int opt;
+- 	char *group;
+- 	char *user;
+- 	gid_t gid = 0;
+- 
+--	if (argc < 2) {
+--		show_usage();
+-+	/* get remaining args */
+-+	while ((opt = getopt (argc, argv, "g:")) != -1) {
+-+		switch (opt) {
+-+			case 'g':
+-+				gid = strtol(optarg, NULL, 10);
+-+				break;
+-+			default:
+-+				show_usage();
+-+				break;
+-+		}
+- 	}
+- 
+--	if (strncmp(argv[1], "-g", 2) == 0) {
+--		gid = strtol(argv[2], NULL, 10);
+--		group = argv[2];
+-+	if (optind < argc) {
+-+		group = argv[optind];
+-+		optind++;
+- 	} else {
+- 		show_usage();
+- 	}
+--	
+--	if (argc == 4) {
+--		user = argv[3];
+-+
+-+	if (optind < argc) {
+-+		user = argv[optind];
+-+		optind++;
+- 	} else {
+- 		user = "";
+- 	}
+-@@ -163,4 +173,4 @@
+- 	return addgroup(GROUP_FILE, group, gid, user);
+- }
+- 
+--/* $Id: addgroup.c,v 1.22 2002/12/12 08:46:03 andersen Exp $ */
+-+/* $Id: addgroup.c,v 1.23 2003/01/09 18:43:29 andersen Exp $ */
+-Index: adduser.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/adduser.c,v
+-retrieving revision 1.37
+-retrieving revision 1.38
+-diff -u -r1.37 -r1.38
+---- a/adduser.c	12 Dec 2002 08:46:03 -0000	1.37
+-+++ b/adduser.c	21 Jun 2003 19:35:42 -0000	1.38
+-@@ -21,6 +21,9 @@
+-  *
+-  */
+- 
+-+#ifndef _GNU_SOURCE
+-+#define _GNU_SOURCE
+-+#endif
+- #include <errno.h>
+- #include <fcntl.h>
+- #include <stdarg.h>
+-@@ -29,6 +32,7 @@
+- #include <string.h>
+- #include <time.h>
+- #include <unistd.h>
+-+#include <getopt.h>
+- #include <sys/param.h>
+- #include <sys/stat.h>
+- #include <sys/types.h>
+-@@ -93,21 +97,23 @@
+- 		}
+- 	}
+- 
+--	/* EDR check for an already existing gid */
+--	while (getgrgid(p->pw_uid) != NULL)
+--		p->pw_uid++;
+--
+--	/* EDR also check for an existing group definition */
+--	if (getgrnam(p->pw_name) != NULL)
+--		return 3;
+-+	if (p->pw_gid == 0) {
+-+		/* EDR check for an already existing gid */
+-+		while (getgrgid(p->pw_uid) != NULL)
+-+			p->pw_uid++;
+-+
+-+		/* EDR also check for an existing group definition */
+-+		if (getgrnam(p->pw_name) != NULL)
+-+			return 3;
+-+
+-+		/* EDR create new gid always = uid */
+-+		p->pw_gid = p->pw_uid;
+-+	}
+- 
+- 	/* EDR bounds check */
+- 	if ((p->pw_uid > max) || (p->pw_uid < min))
+- 		return 2;
+- 
+--	/* EDR create new gid always = uid */
+--	p->pw_gid = p->pw_uid;
+--
+- 	/* return 1; */
+- 	return 0;
+- }
+-@@ -136,7 +142,7 @@
+- }
+- 
+- /* putpwent(3) remix */
+--static int adduser(const char *filename, struct passwd *p)
+-+static int adduser(const char *filename, struct passwd *p, int makehome, int setpass)
+- {
+- 	FILE *passwd;
+- 	int r;
+-@@ -144,6 +150,11 @@
+- 	FILE *shadow;
+- 	struct spwd *sp;
+- #endif
+-+	int new_group = 1;
+-+
+-+	/* if using a pre-existing group, don't create one */
+-+	if (p->pw_gid != 0)
+-+		new_group = 0;
+- 
+- 	/* make sure everything is kosher and setup uid && gid */
+- 	passwd = wfopen(filename, "a");
+-@@ -194,29 +205,36 @@
+- 	}
+- #endif
+- 
+--	/* add to group */
+--	/* addgroup should be responsible for dealing w/ gshadow */
+--	addgroup_wrapper(p->pw_name, p->pw_gid);
+-+	if (new_group) {
+-+		/* add to group */
+-+		/* addgroup should be responsible for dealing w/ gshadow */
+-+		addgroup_wrapper(p->pw_name, p->pw_gid);
+-+	}
+- 
+- 	/* Clear the umask for this process so it doesn't
+- 	 * * screw up the permissions on the mkdir and chown. */
+- 	umask(0);
+- 
+--	/* mkdir */
+--	if (mkdir(p->pw_dir, 0755)) {
+--		perror_msg("%s", p->pw_dir);
+--	}
+--	/* Set the owner and group so it is owned by the new user. */
+--	if (chown(p->pw_dir, p->pw_uid, p->pw_gid)) {
+--		perror_msg("%s", p->pw_dir);
+--	}
+--	/* Now fix up the permissions to 2755. Can't do it before now
+--	 * since chown will clear the setgid bit */
+--	if (chmod(p->pw_dir, 02755)) {
+--		perror_msg("%s", p->pw_dir);
+-+	if (makehome) {
+-+		/* mkdir */
+-+		if (mkdir(p->pw_dir, 0755)) {
+-+			perror_msg("%s", p->pw_dir);
+-+		}
+-+		/* Set the owner and group so it is owned by the new user. */
+-+		if (chown(p->pw_dir, p->pw_uid, p->pw_gid)) {
+-+			perror_msg("%s", p->pw_dir);
+-+		}
+-+		/* Now fix up the permissions to 2755. Can't do it before now
+-+		 * since chown will clear the setgid bit */
+-+		if (chmod(p->pw_dir, 02755)) {
+-+			perror_msg("%s", p->pw_dir);
+-+		}
+-+	}
+-+
+-+	if (setpass) {
+-+		/* interactively set passwd */
+-+		passwd_wrapper(p->pw_name);
+- 	}
+--	/* interactively set passwd */
+--	passwd_wrapper(p->pw_name);
+- 
+- 	return 0;
+- }
+-@@ -228,6 +246,15 @@
+- 	return geteuid();
+- }
+- 
+-+struct option long_options[] = {
+-+  { "home",		1, NULL, 'h' },
+-+  { "disabled-password", 0, NULL, 'D' },
+-+  { "system",		0, NULL, 'S' },
+-+  { "ingroup",		1, NULL, 'G' },
+-+  { "no-create-home",   0, NULL, 'H' },
+-+  { 0,			0, 0, 0 }
+-+};
+-+
+- /*
+-  * adduser will take a login_name as its first parameter.
+-  *
+-@@ -244,6 +271,11 @@
+- 	const char *gecos;
+- 	const char *home = NULL;
+- 	const char *shell;
+-+	const char *usegroup = NULL;
+-+	int option_index = -1;
+-+	int setpass = 1;
+-+	int makehome = 1;
+-+	int system = 0;
+- 
+- 	struct passwd pw;
+- 
+-@@ -255,7 +287,7 @@
+- 	shell = default_shell;
+- 
+- 	/* get args */
+--	while ((opt = getopt (argc, argv, "h:g:s:")) != -1) {
+-+	while ((opt = getopt_long (argc, argv, "h:g:s:G:DSH", long_options, &option_index)) != -1) {
+- 		switch (opt) {
+- 			case 'h':
+- 				home = optarg;
+-@@ -266,6 +298,18 @@
+- 			case 's':
+- 				shell = optarg;
+- 				break;
+-+			case 'H':
+-+				makehome = 0;
+-+				break;
+-+			case 'D':
+-+				setpass = 0;
+-+				break;
+-+			case 'S':
+-+				system = 1;
+-+				break;
+-+			case 'G':
+-+				usegroup = optarg;
+-+				break;
+- 			default:
+- 				show_usage ();
+- 				break;
+-@@ -301,8 +345,19 @@
+- 	pw.pw_dir = (char *)home;
+- 	pw.pw_shell = (char *)shell;
+- 
+-+	if (usegroup) {
+-+		/* Add user to a group that already exists */
+-+		struct group *g;
+-+
+-+		g = getgrnam(usegroup);
+-+		if (g == NULL)
+-+			error_msg_and_die("group %s does not exist", usegroup);
+-+
+-+		pw.pw_gid = g->gr_gid;
+-+	}
+-+
+- 	/* grand finale */
+--	return adduser(PASSWD_FILE, &pw);
+-+	return adduser(PASSWD_FILE, &pw, makehome, setpass);
+- }
+- 
+--/* $Id: adduser.c,v 1.37 2002/12/12 08:46:03 andersen Exp $ */
+-+/* $Id: adduser.c,v 1.38 2003/06/21 19:35:42 andersen Exp $ */
+-Index: install.sh
+-===================================================================
+-RCS file: /var/cvs/tinylogin/install.sh,v
+-retrieving revision 1.10
+-retrieving revision 1.11
+-diff -u -r1.10 -r1.11
+---- a/install.sh	23 Jun 2002 03:09:07 -0000	1.10
+-+++ b/install.sh	6 Mar 2003 19:29:17 -0000	1.11
+-@@ -21,11 +21,11 @@
+- h=`sort tinylogin.links | uniq`
+- 
+- 
+--mkdir -p $prefix/bin || exit 1
+-+install -d -m 0755 $prefix/bin || exit 1
+- 
+- for i in $h ; do
+- 	appdir=`dirname $i`
+--	mkdir -p $prefix/$appdir || exit 1
+-+	install -d -m 0755 $prefix/$appdir || exit 1
+- 	if [ "$2" = "--hardlinks" ]; then
+- 	    bb_path="$prefix/bin/tinylogin"
+- 	else
+-Index: passwd.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/passwd.c,v
+-retrieving revision 1.19
+-retrieving revision 1.20
+-diff -u -r1.19 -r1.20
+---- a/passwd.c	7 Nov 2002 02:34:15 -0000	1.19
+-+++ b/passwd.c	17 Feb 2003 11:51:55 -0000	1.20
+-@@ -25,10 +25,6 @@
+- {
+- 	int x = 0;					/* standart: DES */
+- 
+--#ifdef CONFIG_FEATURE_SHA1_PASSWORDS
+--	if (strcasecmp(a, "sha1") == 0)
+--		x = 2;
+--#endif
+- 	if (strcasecmp(a, "md5") == 0)
+- 		x = 1;
+- 	return x;
+-@@ -394,11 +390,6 @@
+- 	bzero(cp, strlen(cp));
+- 	bzero(orig, sizeof(orig));
+- 
+--#ifdef CONFIG_FEATURE_SHA1_PASSWORDS
+--	if (algo == 2) {
+--		cp = pw_encrypt(pass, "$2$");
+--	} else
+--#endif
+- 	if (algo == 1) {
+- 		cp = pw_encrypt(pass, "$1$");
+- 	} else
+-Index: sha1.c
+-===================================================================
+-RCS file: sha1.c
+-diff -N sha1.c
+---- a/sha1.c	20 Dec 2000 21:54:28 -0000	1.2
+-+++ /dev/null	1 Jan 1970 00:00:00 -0000
+-@@ -1,187 +0,0 @@
+--/* vi: set sw=4 ts=4: */
+--/* 
+--   Implements the Secure Hash Algorithm (SHA1)
+--
+--   Copyright (C) 1999 Scott G. Miller
+--
+--   Released under the terms of the GNU General Public License v2
+--   see file COPYING for details
+--
+--   Credits: 
+--      Robert Klep <robert@ilse.nl>  -- Expansion function fix 
+--   ---
+--   FIXME: This source takes int to be a 32 bit integer.  This
+--   may vary from system to system.  I'd use autoconf if I was familiar
+--   with it.  Anyone want to help me out?
+--*/
+--
+--void sha_hash(int *, int *);
+--void sha_init(int *);
+--char *sprint_hash(int *);
+--void do_sha_hash(int *, int *);
+--
+--/*
+--  added 3 functions for sha passowrd stuff (mainly inspired from stuff seen in main.c from shasum-1.3 package)
+--*/
+--#include <stdio.h>
+--#include <string.h>
+--#include <stdlib.h>
+--
+--#include <endian.h>
+--/* On big endian machines, we need to reverse the input to process
+--   the blocks correctly */
+--
+--#define switch_endianness(x) (x<<24 & 0xff000000) | \
+--                             (x<<8  & 0x00ff0000) | \
+--                             (x>>8  & 0x0000ff00) | \
+--                             (x>>24 & 0x000000ff)
+--
+--/* Initial hash values */
+--#define Ai 0x67452301
+--#define Bi 0xefcdab89
+--#define Ci 0x98badcfe
+--#define Di 0x10325476
+--#define Ei 0xc3d2e1f0
+--
+--/* SHA1 round constants */
+--#define K1 0x5a827999
+--#define K2 0x6ed9eba1
+--#define K3 0x8f1bbcdc
+--#define K4 0xca62c1d6
+--
+--/* Round functions.  Note that f2() is used in both rounds 2 and 4 */
+--#define f1(B,C,D) ((B & C) | ((~B) & D))
+--#define f2(B,C,D) (B ^ C ^ D)
+--#define f3(B,C,D) ((B & C) | (B & D) | (C & D))
+--
+--/* left circular shift functions (rotate left) */
+--#define rol1(x) ((x<<1) | ((x>>31) & 1))
+--#define rol5(A) ((A<<5) | ((A>>27) & 0x1f))
+--#define rol30(B) ((B<<30) | ((B>>2) & 0x3fffffff))
+--
+--/*
+--  Hashes 'data', which should be a pointer to 512 bits of data (sixteen
+--  32 bit ints), into the ongoing 160 bit hash value (five 32 bit ints)
+--  'hash'
+--*/
+--void sha_hash(int *data, int *hash)
+--{
+--	int W[80];
+--	unsigned int A = hash[0], B = hash[1], C = hash[2], D = hash[3], E =
+--		hash[4];
+--	unsigned int t, x, TEMP;
+--
+--	for (t = 0; t < 16; t++) {
+--#ifdef BIG_ENDIAN
+--		W[t] = switch_endianness(data[t]);
+--#else
+--		W[t] = data[t];
+--#endif
+--	}
+--
+--
+--	/* SHA1 Data expansion */
+--	for (t = 16; t < 80; t++) {
+--		x = W[t - 3] ^ W[t - 8] ^ W[t - 14] ^ W[t - 16];
+--		W[t] = rol1(x);
+--	}
+--
+--	/* SHA1 main loop (t=0 to 79) 
+--	   This is broken down into four subloops in order to use
+--	   the correct round function and constant */
+--	for (t = 0; t < 20; t++) {
+--		TEMP = rol5(A) + f1(B, C, D) + E + W[t] + K1;
+--		E = D;
+--		D = C;
+--		C = rol30(B);
+--		B = A;
+--		A = TEMP;
+--	}
+--	for (; t < 40; t++) {
+--		TEMP = rol5(A) + f2(B, C, D) + E + W[t] + K2;
+--		E = D;
+--		D = C;
+--		C = rol30(B);
+--		B = A;
+--		A = TEMP;
+--	}
+--	for (; t < 60; t++) {
+--		TEMP = rol5(A) + f3(B, C, D) + E + W[t] + K3;
+--		E = D;
+--		D = C;
+--		C = rol30(B);
+--		B = A;
+--		A = TEMP;
+--	}
+--	for (; t < 80; t++) {
+--		TEMP = rol5(A) + f2(B, C, D) + E + W[t] + K4;
+--		E = D;
+--		D = C;
+--		C = rol30(B);
+--		B = A;
+--		A = TEMP;
+--	}
+--	hash[0] += A;
+--	hash[1] += B;
+--	hash[2] += C;
+--	hash[3] += D;
+--	hash[4] += E;
+--}
+--
+--/*
+--  Takes a pointer to a 160 bit block of data (five 32 bit ints) and
+--  intializes it to the start constants of the SHA1 algorithm.  This
+--  must be called before using hash in the call to sha_hash
+--*/
+--void sha_init(int *hash)
+--{
+--	hash[0] = Ai;
+--	hash[1] = Bi;
+--	hash[2] = Ci;
+--	hash[3] = Di;
+--	hash[4] = Ei;
+--}
+--
+--
+--/*
+-- * write the hash to a string
+-- */
+--char *sprint_sha1_hash(int *hashval)
+--{
+--	int x = 0;
+--	char *out = NULL;
+--
+--	if ((out = malloc(43)) == NULL)
+--		return NULL;
+--	memset(out, 0x00, 43);
+--	strcpy(out, "$2$");
+--	for (x = 0; x < 5; x++) {
+--		sprintf(out + (x * 8) + 3, "%08x", hashval[x]);
+--	}
+--	out[43] = 0;
+--	return out;
+--}
+--
+--
+--/*
+-- * hash the password
+-- */
+--void do_sha_hash(int *hashval, int *pw)
+--{
+--	sha_init(hashval);
+--	sha_hash(pw, hashval);
+--}
+--
+--
+--/*
+-- * hash a charakter string and return the 160bit integer in hex as a character string
+-- */
+--char *sha1_crypt(const char *pw)
+--{
+--	int hashval[20];
+--
+--	memset(hashval, 0x00, sizeof(hashval));
+--	do_sha_hash(hashval, (int *) ((char *) pw + 3));
+--
+--	return sprint_sha1_hash(hashval);
+--}
+-Index: vlock.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/vlock.c,v
+-retrieving revision 1.13
+-retrieving revision 1.14
+-diff -u -r1.13 -r1.14
+---- a/vlock.c	19 Sep 2002 03:50:31 -0000	1.13
+-+++ b/vlock.c	17 Feb 2003 11:51:56 -0000	1.14
+-@@ -26,7 +26,7 @@
+-  * minimalistic vlock.
+-  */
+- /* Fixed by Erik Andersen to do passwords the tinylogin way...
+-- * It now works with md5, sha1, etc passwords. */
+-+ * It now works with md5, etc passwords. */
+- 
+- #include "tinylogin.h"
+- #include <stdio.h>
+-Index: docs/tinylogin.busybox.net/index.html
+-===================================================================
+-RCS file: /var/cvs/tinylogin/docs/tinylogin.busybox.net/index.html,v
+-retrieving revision 1.23
+-retrieving revision 1.25
+-diff -u -r1.23 -r1.25
+---- a/docs/tinylogin.busybox.net/index.html	3 Jan 2003 10:56:32 -0000	1.23
+-+++ b/docs/tinylogin.busybox.net/index.html	3 Jan 2003 11:21:53 -0000	1.25
+-@@ -56,6 +56,9 @@
+- Erik Andersen</a>, and licensed under the 
+- <a href="http://www.gnu.org/copyleft/gpl.html">GNU GENERAL PUBLIC LICENSE</a>.
+- 
+-+<h3>Mailing List Information</h3>
+-+Here are the Tinylogin <a href="/lists/tinylogin/">mailing list archives</a><br>
+-+To subscribe, go and visit <a href= "/mailman/listinfo/tinylogin">this page</a>. 
+- 
+- <!-- Begin Download section -->
+- 
+-@@ -222,19 +225,19 @@
+- <ul> 
+-     <li>  <A HREF="http://freshmeat.net/projects/tinylogin/?highlight=tinylogin">
+-     Freshmeat AppIndex record for TinyLogin</A>
+-+    <p>
+- 
+-     <li><a href="http://www.busybox.net/">BusyBox</a>
+-     combines tiny versions of many common UNIX utilities into a single small 
+-     executable. It provides minimalist replacements for most of the utilities 
+-     you usually find on a standard Linux system.
+--
+-     <p>
+-+
+-     <li><a href="http://uclibc.org/uClibc.html">uClibc</a>
+- 	is a C library for embedded systems.  You can actually statically link
+- 	a "Hello World" application under x86 that only takes 4k (as opposed to
+- 	200k under GNU libc).  It can do dynamic linking too and works nicely with
+- 	BusyBox to create very small embedded systems.
+--
+-     <p>
+- 
+- </ul>
+-Index: include/libbb.h
+-===================================================================
+-RCS file: /var/cvs/tinylogin/include/libbb.h,v
+-retrieving revision 1.1
+-retrieving revision 1.2
+-diff -u -r1.1 -r1.2
+---- a/include/libbb.h	23 Jun 2002 03:09:10 -0000	1.1
+-+++ b/include/libbb.h	17 Feb 2003 11:51:57 -0000	1.2
+-@@ -39,9 +39,6 @@
+- #ifdef CONFIG_FEATURE_SHADOWPASSWDS
+- #include "shadow_.h"
+- #endif
+--#ifdef CONFIG_FEATURE_SHA1_PASSWORDS
+--# include "sha1.h"
+--#endif
+- 
+- #if (__GNU_LIBRARY__ < 5) && (!defined __dietlibc__)
+- /* libc5 doesn't define socklen_t */
+-Index: include/sha1.h
+-===================================================================
+-RCS file: include/sha1.h
+-diff -N include/sha1.h
+---- a/include/sha1.h	23 Jun 2002 03:09:10 -0000	1.1
+-+++ /dev/null	1 Jan 1970 00:00:00 -0000
+-@@ -1,3 +0,0 @@
+--/* SHA1.H - header file for SHA1.C */
+--
+--char *sha1_crypt(const char *pw);
+-Index: include/usage.h
+-===================================================================
+-RCS file: /var/cvs/tinylogin/include/usage.h,v
+-retrieving revision 1.2
+-retrieving revision 1.3
+-diff -u -r1.2 -r1.3
+---- a/include/usage.h	3 Jul 2002 05:57:00 -0000	1.2
+-+++ b/include/usage.h	17 Feb 2003 11:51:57 -0000	1.3
+-@@ -33,11 +33,6 @@
+- 	"\t-h\tName of the remote host for this login.\n" \
+- 	"\t-p\tPreserve environment."
+- 
+--#ifdef CONFIG_FEATURE_SHA1_PASSWORDS
+--  #define PASSWORD_ALG_TYPES(a) a
+--#else
+--  #define PASSWORD_ALG_TYPES(a)
+--#endif
+- #define passwd_trivial_usage \
+- 	"[OPTION] [name]"
+- #define passwd_full_usage \
+-@@ -46,7 +41,6 @@
+- 	"Options:\n" \
+- 	"\t-a\tDefine which algorithm shall be used for the password.\n" \
+- 	"\t\t\t(Choices: des, md5" \
+--	PASSWORD_ALG_TYPES(", sha1") \
+- 	")\n\t-d\tDelete the password for the specified user account.\n" \
+- 	"\t-l\tLocks (disables) the specified user account.\n" \
+- 	"\t-u\tUnlocks (re-enables) the specified user account."
+-Index: libbb/obscure.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/libbb/obscure.c,v
+-retrieving revision 1.2
+-retrieving revision 1.3
+-diff -u -r1.2 -r1.3
+---- a/libbb/obscure.c	23 Jun 2002 04:05:59 -0000	1.2
+-+++ b/libbb/obscure.c	30 Jul 2003 08:41:33 -0000	1.3
+-@@ -44,7 +44,7 @@
+-  * can't be a palindrome - like `R A D A R' or `M A D A M'
+-  */
+- 
+--static int palindrome(const char *old, const char *newval)
+-+static int palindrome(const char *newval)
+- {
+- 	int i, j;
+- 
+-@@ -79,24 +79,25 @@
+-  * a nice mix of characters.
+-  */
+- 
+--static int simple(const char *old, const char *newval)
+-+static int simple(const char *newval)
+- {
+- 	int digits = 0;
+- 	int uppers = 0;
+- 	int lowers = 0;
+- 	int others = 0;
+-+	int c;
+- 	int size;
+- 	int i;
+- 
+--	for (i = 0; newval[i]; i++) {
+--		if (isdigit(newval[i]))
+--			digits++;
+--		else if (isupper(newval[i]))
+--			uppers++;
+--		else if (islower(newval[i]))
+--			lowers++;
+-+	for (i = 0; (c = *newval++) != 0; i++) {
+-+		if (isdigit(c))
+-+			digits = c;
+-+		else if (isupper(c))
+-+			uppers = c;
+-+		else if (islower(c))
+-+			lowers = c;
+- 		else
+--			others++;
+-+			others = c;
+- 	}
+- 
+- 	/*
+-@@ -129,49 +130,53 @@
+- 	return string;
+- }
+- 
+--static char *password_check(const char *old, const char *newval, const struct passwd *pwdp)
+-+static const char *
+-+password_check(const char *old, const char *newval, const struct passwd *pwdp)
+- {
+--	char *msg = NULL;
+--	char *oldmono, *newmono, *wrapped;
+-+	const char *msg;
+-+	char *newmono, *wrapped;
+-+	int lenwrap;
+- 
+- 	if (strcmp(newval, old) == 0)
+- 		return "no change";
+-+	if (simple(newval))
+-+		return "too simple";
+- 
+-+	msg = NULL;
+- 	newmono = str_lower(xstrdup(newval));
+--	oldmono = str_lower(xstrdup(old));
+--	wrapped = (char *) xmalloc(strlen(oldmono) * 2 + 1);
+--	strcpy(wrapped, oldmono);
+--	strcat(wrapped, oldmono);
+-+	lenwrap = strlen(old) * 2 + 1;
+-+	wrapped = (char *) xmalloc(lenwrap);
+-+	str_lower(strcpy(wrapped, old));
+- 
+--	if (palindrome(oldmono, newmono))
+-+	if (palindrome(newmono))
+- 		msg = "a palindrome";
+- 
+--	if (!msg && strcmp(oldmono, newmono) == 0)
+-+	else if (strcmp(wrapped, newmono) == 0)
+- 		msg = "case changes only";
+- 
+--	if (!msg && similiar(oldmono, newmono))
+-+	else if (similiar(wrapped, newmono))
+- 		msg = "too similiar";
+- 
+--	if (!msg && simple(old, newval))
+--		msg = "too simple";
+--
+--	if (!msg && strstr(wrapped, newmono))
+--		msg = "rotated";
+-+	else {
+-+		safe_strncpy(wrapped + lenwrap, wrapped, lenwrap + 1);
+-+		if (strstr(wrapped, newmono))
+-+			msg = "rotated";
+-+	}
+- 
+- 	bzero(newmono, strlen(newmono));
+--	bzero(oldmono, strlen(oldmono));
+--	bzero(wrapped, strlen(wrapped));
+-+	bzero(wrapped, lenwrap);
+- 	free(newmono);
+--	free(oldmono);
+- 	free(wrapped);
+- 
+- 	return msg;
+- }
+- 
+--static char *obscure_msg(const char *old, const char *newval, const struct passwd *pwdp)
+-+static const char *
+-+obscure_msg(const char *old, const char *newval, const struct passwd *pwdp)
+- {
+- 	int maxlen, oldlen, newlen;
+--	char *new1, *old1, *msg;
+-+	char *new1, *old1;
+-+	const char *msg;
+- 
+- 	oldlen = strlen(old);
+- 	newlen = strlen(newval);
+-@@ -233,7 +238,7 @@
+- 
+- extern int obscure(const char *old, const char *newval, const struct passwd *pwdp)
+- {
+--	char *msg = obscure_msg(old, newval, pwdp);
+-+	const char *msg = obscure_msg(old, newval, pwdp);
+- 
+- 	/*  if (msg) { */
+- 	if (msg != NULL) {
+-Index: libbb/pw_encrypt.c
+-===================================================================
+-RCS file: /var/cvs/tinylogin/libbb/pw_encrypt.c,v
+-retrieving revision 1.1
+-retrieving revision 1.2
+-diff -u -r1.1 -r1.2
+---- a/libbb/pw_encrypt.c	23 Jun 2002 03:09:12 -0000	1.1
+-+++ b/libbb/pw_encrypt.c	17 Feb 2003 11:51:58 -0000	1.2
+-@@ -30,11 +30,6 @@
+- 	static char cipher[128];
+- 	char *cp;
+- 
+--#ifdef CONFIG_FEATURE_SHA1_PASSWORDS
+--	if (strncmp(salt, "$2$", 3) == 0) {
+--		return sha1_crypt(clear);
+--	}
+--#endif
+- 	cp = (char *) crypt(clear, salt);
+- 	/* if crypt (a nonstandard crypt) returns a string too large,
+- 	   truncate it so we don't overrun buffers and hope there is
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/glibc_crypt_fix.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/glibc_crypt_fix.patch
+deleted file mode 100644
+index 0a24656..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/glibc_crypt_fix.patch
++++ /dev/null
+@@ -1,23 +0,0 @@
+-
+-staring from glibc 2.17 the crypt() function will error out and return
+-NULL if the seed or "correct" is invalid. The failure case for this is
+-an unknown user which tinylogin assigns '!' for the password. crypt() 
+-now expects a minimum of 2 valid characters. If we get a NULL return
+-value from the crypt, assume we fail and return 0.
+-
+-Upstream-Status: Inappropriate [tinylogin depercated]
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: tinylogin-1.4/libbb/correct_password.c
+-===================================================================
+---- tinylogin-1.4.orig/libbb/correct_password.c
+-+++ tinylogin-1.4/libbb/correct_password.c
+-@@ -74,5 +74,8 @@ int correct_password ( const struct pass
+- 	}
+- 	encrypted = crypt ( unencrypted, correct );
+- 	memset ( unencrypted, 0, xstrlen ( unencrypted ));
+-+        if ( !encrypted )
+-+		return 0;
+-+
+- 	return ( strcmp ( encrypted, correct ) == 0 ) ? 1 : 0;
+- }
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch
+deleted file mode 100644
+index 513ee5e..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-Upstream-Status: Inappropriate [legacy version]
+-
+-Fix rotate check logic
+-
+-Rotate passwd checking code has logic error, which writes data into
+-un-allocated memory. This patch fixes the issue.
+-
+-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-diff --git a/libbb/obscure.c b/libbb/obscure.c
+-index 750b611..4a07b5f 100644
+---- a/libbb/obscure.c
+-+++ b/libbb/obscure.c
+-@@ -135,7 +135,7 @@ password_check(const char *old, const char *newval, const struct passwd *pwdp)
+- {
+- 	const char *msg;
+- 	char *newmono, *wrapped;
+--	int lenwrap;
+-+	int lenold, lenwrap;
+- 
+- 	if (strcmp(newval, old) == 0)
+- 		return "no change";
+-@@ -144,7 +144,8 @@ password_check(const char *old, const char *newval, const struct passwd *pwdp)
+- 
+- 	msg = NULL;
+- 	newmono = str_lower(xstrdup(newval));
+--	lenwrap = strlen(old) * 2 + 1;
+-+	lenold = strlen(old);
+-+	lenwrap = lenold * 2 + 1;
+- 	wrapped = (char *) xmalloc(lenwrap);
+- 	str_lower(strcpy(wrapped, old));
+- 
+-@@ -158,7 +159,7 @@ password_check(const char *old, const char *newval, const struct passwd *pwdp)
+- 		msg = "too similiar";
+- 
+- 	else {
+--		safe_strncpy(wrapped + lenwrap, wrapped, lenwrap + 1);
+-+		safe_strncpy(wrapped + lenold, wrapped, lenold + 1);
+- 		if (strstr(wrapped, newmono))
+- 			msg = "rotated";
+- 	}
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/remove-index.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/remove-index.patch
+deleted file mode 100644
+index 9d3c324..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/remove-index.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+-Upstream-Status: Inappropriate [legacy version]
+-
+---- /tmp/deluser.c	2007-05-13 10:38:19.000000000 +0200
+-+++ tinylogin-1.4/deluser.c	2007-05-13 10:38:50.185251000 +0200
+-@@ -60,7 +60,7 @@
+- 	}
+- 	start++;
+- 
+--	stop = index(start, '\n');	/* index is a BSD-ism */
+-+	stop = strchr(start, '\n');	/* index is a BSD-ism, strchr hopefully isn't */
+- 	b.start = start - buffer;
+- 	b.stop = stop - buffer;
+- 	return b;
+diff --git a/meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch b/meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch
+deleted file mode 100644
+index 5b88060..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch
++++ /dev/null
+@@ -1,21 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-tinylogin will meet segment fault if compiled by gcc-4.5.0 when enable both
+-frename-registers and Os options. Use O2 instead.
+-
+-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-diff -ruN tinylogin-1.4-orig/Makefile tinylogin-1.4/Makefile
+---- tinylogin-1.4-orig/Makefile	2010-09-16 13:02:06.302192295 +0800
+-+++ tinylogin-1.4/Makefile	2010-09-16 13:02:34.634167846 +0800
+-@@ -97,9 +97,7 @@
+- #--------------------------------------------------------
+- 
+- 
+--# use '-Os' optimization if available, else use -O2
+--OPTIMIZATION = $(shell if $(CC) -Os -S -o /dev/null -xc /dev/null >/dev/null 2>&1; \
+--    then echo "-Os"; else echo "-O2" ; fi)
+-+OPTIMIZATION = -O2
+- 
+- WARNINGS = -Wall
+- 
+diff --git a/meta/recipes-core/tinylogin/tinylogin_1.4.bb b/meta/recipes-core/tinylogin/tinylogin_1.4.bb
+deleted file mode 100644
+index d1da0e2..0000000
+--- a/meta/recipes-core/tinylogin/tinylogin_1.4.bb
++++ /dev/null
+@@ -1,45 +0,0 @@
+-SECTION = "base"
+-SUMMARY = "Tiny versions of many common login, authentication and related utilities."
+-DESCRIPTION = "TinyLogin is a suite of tiny UNIX \
+-utilities for handling logins, user authentication, \
+-changing passwords, and otherwise maintaining users \
+-and groups on an embedded system."
+-HOMEPAGE = "http://tinylogin.busybox.net/"
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM="file://LICENSE;md5=f1060fa3a366f098b5b1d8c2077ba269"
+-PR = "r9"
+-
+-inherit update-alternatives
+-
+-SRC_URI = "http://www.angstrom-distribution.org/unstable/sources/tinylogin-${PV}.tar.bz2 \
+-        file://cvs-20040608.patch \
+-        file://add-system.patch \
+-        file://adduser-empty_pwd.patch \
+-        file://remove-index.patch \
+-        file://use_O2_option.patch \
+-        file://passwd_rotate_check.patch \
+-        file://avoid_static.patch \
+-        file://glibc_crypt_fix.patch \
+-        "
+-
+-SRC_URI[md5sum] = "44da0ff2b727455669890b24305e351d"
+-SRC_URI[sha256sum] = "5e542e4b7825305a3678bf73136c392feb0d44b8bbf926e8eda5453eea7ddd6b"
+-
+-EXTRA_OEMAKE = ""
+-
+-do_compile () {
+-	oe_runmake 'CC=${CC}' 'CROSS=${HOST_PREFIX}' 'DODEBUG=true'
+-}
+-
+-do_install () {
+-	install -d ${D}${base_bindir}
+-	install -m 4755 tinylogin ${D}${base_bindir}/tinylogin
+-	for i in `cat tinylogin.links`; do
+-		mkdir -p ${D}/`dirname $i`
+-		ln -sf /bin/tinylogin ${D}$i
+-	done
+-}
+-
+-ALTERNATIVE_${PN} = "getty"
+-ALTERNATIVE_LINK_NAME[getty] = "${base_sbindir}/getty"
+-ALTERNATIVE_PRIORITY = "80"
 -- 
 1.7.9.5
 
