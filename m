@@ -1,37 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
-	[209.85.212.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BBABD6098F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DE2BF6098F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 15:16:17 +0000 (UTC)
-Received: by mail-vb0-f47.google.com with SMTP id x14so2013376vbb.20
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 08:16:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=PDe+SYx5VNUZcyhrybuwqStbbOjzQIUTNOPIIP2IkCU=;
-	b=I04XOB3UAOANbDmGWXCXRXBwju0D+jnBA8zHwU4BxHKXexCyCSAM13FK5IC9q3ptZN
-	m+gi93yISOUYGS4/PMagQxuA2APWV2dvW2L02LcfVQ1N5cY9C7DEzuluo+mKmLuxPl7p
-	D5RPVVauDrvhQ+0t4wBfSV6c5aPmeO7H0m2QRZ+umeuzgyyl8sv7YKlipz5m6FkT3/Gl
-	D1AgsNDIZxRLhSIo5y1qAkGnZgCK0FGYAbqa6ogyIo/u9QcZz3ytXPrOJZDu6B8hYjcz
-	yCA0j5EugbpqIjmG05AiyLgtIFsXOSQVuCsW6Ek0UhrrwMjo561PlWyI3jHGlvI2+SvM
-	vLHA==
-X-Received: by 10.52.21.232 with SMTP id y8mr341068vde.6.1371482178384; Mon,
-	17 Jun 2013 08:16:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Mon, 17 Jun 2013 08:15:58 -0700 (PDT)
-In-Reply-To: <6a4980046a3175ecdd4216cdd75c754b0b0ffa16.1371471166.git.laurentiu.palcu@intel.com>
-References: <cover.1371471166.git.laurentiu.palcu@intel.com>
-	<6a4980046a3175ecdd4216cdd75c754b0b0ffa16.1371471166.git.laurentiu.palcu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Jun 2013 16:15:58 +0100
-Message-ID: <CAJTo0LbPGDehVTaspjcZBCL2F0DRS-HondvaO-6K0ntZj_Zu6A@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQloQgzvD8hQSYnG0FRZI7MFMr64adVNIdmcId+ym1anEV80J7Kg5QOqbvCrELoc54olsszm
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] xinput-calibrator: move it from meta-oe to oe-core
+	Mon, 17 Jun 2013 15:51:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 17 Jun 2013 08:50:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,881,1363158000"; d="scan'208";a="330949551"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.47])
+	by orsmga001.jf.intel.com with ESMTP; 17 Jun 2013 08:50:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Jun 2013 16:50:51 +0100
+Message-Id: <1371484251-2328-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] pseudo: drop version 1.4.5 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 15:16:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Jun 2013 15:51:19 -0000
 
-On 17 June 2013 13:26, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> People using xserver-xorg that need to calibrate their touchscreen
-> devices would also need meta-oe. Bringing the recipes to oe-core will
-> make it easier for them.
->
-> Aditionaly, drop xterm RDEPENDS. Terminal is not needed to run the menu
-> item.
+We've been using 1.5.1 for a while now with success, so in line with the
+OE-Core policy of avoiding multiple versions of the same recipe let's
+drop this version.
 
-I don't really like how there's a xdg-autostart desktop file and a
-systemd service file for loading the calibration and performing
-calibration - a single xsession file as xtscal does will be sufficient
-and actually work in Sato as it can block the rest of the UI before
-continuing.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/recipes-devtools/pseudo/pseudo_1.4.5.bb | 8 --------
+ 1 file changed, 8 deletions(-)
+ delete mode 100644 meta/recipes-devtools/pseudo/pseudo_1.4.5.bb
 
-Also persistent calibration doesn't work with non-root X users, so
-maybe the tool should use ~/.pointercal.xinput if it can't write to
-/etc.
+diff --git a/meta/recipes-devtools/pseudo/pseudo_1.4.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.4.5.bb
+deleted file mode 100644
+index e99974f..0000000
+--- a/meta/recipes-devtools/pseudo/pseudo_1.4.5.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require pseudo.inc
+-
+-PR = "r0"
+-
+-SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "1b8677f7730bd4c51daab7727c35123e"
+-SRC_URI[sha256sum] = "e36360e4899467ac842fece894177cb50207671a90e0567ffc74c144fa377f51"
+-- 
+1.8.1.2
 
-Apart from that I've got a touchscreen that isn't X-axis-reversed now. :)
-
-Ross
 
