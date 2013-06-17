@@ -1,37 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
-	[209.85.212.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AC5D6098F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 1FC716007B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 16:01:33 +0000 (UTC)
-Received: by mail-vb0-f44.google.com with SMTP id e15so2109503vbg.3
+	Mon, 17 Jun 2013 17:49:40 +0000 (UTC)
+Received: by mail-ob0-f177.google.com with SMTP id ta17so3443275obb.22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 09:01:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=guVStMyVkQun+NkkbnftFVriX0Jz9tO5IzcXKpEQ0DA=;
-	b=FL7GyNjaOC7GaCTFb7ZLPXK7n8ktmwLf28uDzHwO1yx3tLEH6O7pAXQm9ilBMhCO5E
-	hfgN5iVQKk3jdZFwOrOVdR19sZ5doh14Nh5gLZaRKms7aORURePBpkFN+r7AWXso8pBt
-	9VqOhQlQs/XFATrSWfP6w1kTYVW1pqv692Yb5Vzo6YHHe1yfoWNM78Vfgleimb2Xdcgx
-	+vsiEWlcLKIzn1DTX2b4nGl1Kse5wlC/R61FE08VjdFpipJcbdRs+TqiAbW7I54Z8Ond
-	E591HCgtUiYlYKOfKE6EWzni59iRwQ0sguF5xykJ0cQ0RP9pFGyXvrTAzL/IVE2aH9CB
-	7A0w==
-X-Received: by 10.52.21.232 with SMTP id y8mr394694vde.6.1371484894172; Mon,
-	17 Jun 2013 09:01:34 -0700 (PDT)
+	Mon, 17 Jun 2013 10:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=p1rz1o3ZjE73TFw5+NAtXpMlqJxGLYfnbxrAfs6gVPI=;
+	b=ms7ybFrl+B+y5Y8P7Tb6oqSyhrBKHB1UxQtL2qOHYt+gd/jZo36cIo/BxXXnhFBTo+
+	cmtUHVQhbBDOVKZz9FTEQz2Zs2XZSB130F/XTBvw5aa1aHlouyVWhezx1i4LYLJTUUAn
+	8kcJ3GRLABQkrK9K/VGqLriqYZlNAa6x1f2kKxYk9gSndgfx36R1qFbGDrYO9g05Vuz/
+	G8yiH1fGax3e/QbH1Ex79U5hFljoyYjrAxGleGePNFgluIcVRGRnaX/YxXxAaUBQU9bZ
+	FJVZiCl6DyV6uxVe15DsUOntFsK/0EVsbYe4u6VQFhHm9KZA3RNWpB1lWJDb+ZMwsiXe
+	CR0Q==
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Mon, 17 Jun 2013 09:01:14 -0700 (PDT)
-In-Reply-To: <959281c96e2293454a6084d17a6f35f2a86129ac.1371392062.git.kai.kang@windriver.com>
-References: <cover.1371392062.git.kai.kang@windriver.com>
-	<959281c96e2293454a6084d17a6f35f2a86129ac.1371392062.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 17 Jun 2013 17:01:14 +0100
-Message-ID: <CAJTo0LaEW2x+LNgN0LaOnNMJLdsNpJTpgS54WNPrbS9Hs=gcjg@mail.gmail.com>
-To: Kai Kang <kai.kang@windriver.com>
-X-Gm-Message-State: ALoCoQn64CxyProIKUjzIq+Zk77cvBsToOfqZKRCLfENbZ5tZas1Vm69XifuNMs6wxql+twQ4+wA
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] Add needed libx11 library for sato applications
+X-Received: by 10.60.85.34 with SMTP id e2mr5464761oez.0.1371491380201; Mon,
+	17 Jun 2013 10:49:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.108.167 with HTTP; Mon, 17 Jun 2013 10:49:40 -0700 (PDT)
+In-Reply-To: <1371428523-21377-2-git-send-email-paul@paulbarker.me.uk>
+References: <1371428523-21377-1-git-send-email-paul@paulbarker.me.uk>
+	<1371428523-21377-2-git-send-email-paul@paulbarker.me.uk>
+Date: Mon, 17 Jun 2013 14:49:40 -0300
+X-Google-Sender-Auth: 6N2STXFj_7iL1kXdnXifE-FAROU
+Message-ID: <CAP9ODKq3qXML4fb8V-g3SCqtR9YcmjuSc5gNNwoHDW39vuKRYA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Barker <paul@paulbarker.me.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] opkg: put libopkg header files into libopkg-dev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 16:01:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Jun 2013 17:49:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 16 June 2013 15:16, Kai Kang <kai.kang@windriver.com> wrote:
-> From binutils-2.22, --copy-dt-needed-entries option is no longer enabled
-> by default. Instead, --no-copy-dt-needed-entries is now the default option.
+On Sun, Jun 16, 2013 at 9:22 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
+> The header files for libopkg belong in the package libopkg-dev rather than
+> opkg-dev where they are placed by default.
 >
-> When use other toolchain than default toolchain, some sato applications
-> may compiled failed that they need libx11 but don't link to it directly.
-> So we should add needed libraries to avoid build these sato applications
-> fail.
+> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 
-I've pushed both of these upstream (as they're maintained by Yocto),
-and after a build test will submit srcrev bumps instead.
+Reviewed-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Ross
+
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
