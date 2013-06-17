@@ -1,37 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 869DA6098F
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B50A6098F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 07:02:19 +0000 (UTC)
-Received: by mail-pa0-f48.google.com with SMTP id kp12so2530963pab.21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 00:02:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=K8BkRWdeIW476hmZpkCZzpwzWgoTGy3kaNRQc8d6+fw=;
-	b=FFJVK0dJHYtQLZ+ZxEtZIYxkq49zFOcpaH1kodSBvNY4r2KpwngW3/m1pkq7ltxyP7
-	8fvxynwFEuMsVoEOkvcEt2VyjB4lN7gdNZQw9zRY3F8EpzM2mz80B42F7ZL+TxDdY0Fj
-	4eFZQejqEwaD55IdJDYV0+mqDqfU7aCya5/J4o5f3phoLc2sQBC6a4eaaYwrIcjNvEF8
-	34Uucyu5Dl6Ja1lw6ER1CYKj2LbV1W0etciw5CZoC4MxnVPKoOLrbqol9U17y38TrKb8
-	Vtwzlx0l32y5FLZYd6tCITrRhib7ePTGEppK569SnH7SnGDuKRHPNSzNcKp+gOesJOlc
-	Dcvw==
-X-Received: by 10.66.165.97 with SMTP id yx1mr11485793pab.82.1371452540545;
-	Mon, 17 Jun 2013 00:02:20 -0700 (PDT)
-Received: from laurenf-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	qp4sm12672892pbc.41.2013.06.17.00.02.18 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 17 Jun 2013 00:02:19 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1371450622-3850-1-git-send-email-jackie.huang@windriver.com>
-Date: Mon, 17 Jun 2013 00:02:17 -0700
-Message-Id: <C5D1E420-8F11-410E-B763-C631248F2113@gmail.com>
+	Mon, 17 Jun 2013 07:11:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5H7B0GL005625
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Jun 2013 00:11:00 -0700 (PDT)
+Received: from [128.224.162.189] (128.224.162.189) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 17 Jun 2013 00:11:00 -0700
+Message-ID: <51BEB682.30702@windriver.com>
+Date: Mon, 17 Jun 2013 15:10:58 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
 References: <1371450622-3850-1-git-send-email-jackie.huang@windriver.com>
-To: jackie.huang@windriver.com
-X-Mailer: Apple Mail (2.1508)
+	<C5D1E420-8F11-410E-B763-C631248F2113@gmail.com>
+In-Reply-To: <C5D1E420-8F11-410E-B763-C631248F2113@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] libproxy_0.4.7 do_unpack failed of qemuppc_world
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,71 +35,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 07:02:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 17 Jun 2013 07:11:02 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On Jun 16, 2013, at 11:30 PM, jackie.huang@windriver.com wrote:
 
-> From: Jackie Huang <jackie.huang@windriver.com>
->=20
-> The tarball from upstream shows many lines of....
->=20
->   tar: Ignoring unknown extended header keyword
->      `LIBARCHIVE.xattr.security.selinux'
->   tar: Ignoring unknown extended header keyword `SCHILY.dev'
->   tar: Ignoring unknown extended header keyword `SCHILY.ino'
->   tar: Ignoring unknown extended header keyword `SCHILY.nlink'
->=20
-> Replacing it with the .zip file from upstream
+On 6/17/2013 3:02 PM, Khem Raj wrote:
+>
+> On Jun 16, 2013, at 11:30 PM, jackie.huang@windriver.com wrote:
+>
+>> From: Jackie Huang <jackie.huang@windriver.com>
+>>
+>> The tarball from upstream shows many lines of....
+>>
+>>    tar: Ignoring unknown extended header keyword
+>>       `LIBARCHIVE.xattr.security.selinux'
+>>    tar: Ignoring unknown extended header keyword `SCHILY.dev'
+>>    tar: Ignoring unknown extended header keyword `SCHILY.ino'
+>>    tar: Ignoring unknown extended header keyword `SCHILY.nlink'
+>>
+>> Replacing it with the .zip file from upstream
+>
+> maybe now it would better to add zip-native to DEPENDS ?
 
-maybe now it would better to add zip-native to DEPENDS ?
+I think the base.bbclass have added this:
 
->=20
-> Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
-> meta/recipes-support/libproxy/libproxy_0.4.7.bb |    8 ++++----
-> 1 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb =
-b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-> index 89f22b8..30abc27 100644
-> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
-> @@ -8,16 +8,16 @@ LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3D7d7044444a7b1b116e8783edcdb44ff4 \
->=20
-> DEPENDS =3D "gconf glib-2.0"
->=20
-> -PR =3D "r5"
-> +PR =3D "r6"
->=20
-> -SRC_URI =3D =
-"http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
-> +SRC_URI =3D "http://libproxy.googlecode.com/files/libproxy-${PV}.zip =
-\
->            file://g++-namepace.patch \
->            file://libproxy_fix_for_gcc4.7.patch \
->            file://libproxy-0.4.7-CVE-2012-4504.patch \
->           "
->=20
-> -SRC_URI[md5sum] =3D "509e03a488a61cd62bfbaf3ab6a2a7a5"
-> -SRC_URI[sha256sum] =3D =
-"8fe0a58810139ba3c2e186deccf3e68adcd127aa0e972b0862b30b3dde493797"
-> +SRC_URI[md5sum] =3D "62585570de17d10f03a5a63b701ffd52"
-> +SRC_URI[sha256sum] =3D =
-"429a19c57d9990349d622beecc805b23051caa62a478066bff5d9a312a8937be"
->=20
-> inherit cmake pkgconfig
->=20
-> --
-> 1.7.4.1
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+     # unzip-native should already be staged before unpacking ZIP recipes
+     if ".zip" in srcuri:
+         d.appendVarFlag('do_unpack', 'depends', ' 
+unzip-native:do_populate_sysroot')
 
+Thanks,
+Jackie
+
+>
+>>
+>> Signed-off-by: Amy Fong <amy.fong@windriver.com>
+>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>> ---
+>> meta/recipes-support/libproxy/libproxy_0.4.7.bb |    8 ++++----
+>> 1 files changed, 4 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.7.bb b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>> index 89f22b8..30abc27 100644
+>> --- a/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>> +++ b/meta/recipes-support/libproxy/libproxy_0.4.7.bb
+>> @@ -8,16 +8,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7d7044444a7b1b116e8783edcdb44ff4 \
+>>
+>> DEPENDS = "gconf glib-2.0"
+>>
+>> -PR = "r5"
+>> +PR = "r6"
+>>
+>> -SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.tar.gz \
+>> +SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.zip \
+>>             file://g++-namepace.patch \
+>>             file://libproxy_fix_for_gcc4.7.patch \
+>>             file://libproxy-0.4.7-CVE-2012-4504.patch \
+>>            "
+>>
+>> -SRC_URI[md5sum] = "509e03a488a61cd62bfbaf3ab6a2a7a5"
+>> -SRC_URI[sha256sum] = "8fe0a58810139ba3c2e186deccf3e68adcd127aa0e972b0862b30b3dde493797"
+>> +SRC_URI[md5sum] = "62585570de17d10f03a5a63b701ffd52"
+>> +SRC_URI[sha256sum] = "429a19c57d9990349d622beecc805b23051caa62a478066bff5d9a312a8937be"
+>>
+>> inherit cmake pkgconfig
+>>
+>> --
+>> 1.7.4.1
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+
+-- 
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
