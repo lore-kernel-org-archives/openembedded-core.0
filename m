@@ -1,28 +1,20 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BE3AE6A88D
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E4A8360667
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 11:27:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5HBR9WJ012484
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Jun 2013 04:27:09 -0700 (PDT)
-Received: from [128.224.162.207] (128.224.162.207) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 17 Jun 2013 04:27:09 -0700
-Message-ID: <51BEF28C.5020109@windriver.com>
-Date: Mon, 17 Jun 2013 19:27:08 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1371461969-16134-1-git-send-email-jackie.huang@windriver.com>
-	<1371466776.20823.101.camel@ted>
-In-Reply-To: <1371466776.20823.101.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dbus-wait: fix the help message typo
+	Mon, 17 Jun 2013 12:26:35 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 17 Jun 2013 05:26:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,880,1363158000"; d="scan'208";a="351041552"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2013 05:27:11 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Jun 2013 15:26:33 +0300
+Message-Id: <cover.1371471166.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] xinput-calibrator: move it from meta-oe to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 11:27:11 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Jun 2013 12:26:36 -0000
 
+The following changes since commit 7abcaf14ec9cd760fe94c777f0cd8426163de2c5:
 
+  oe-buildenv-internal: Fix exit verses return (2013-06-17 10:41:01 +0100)
 
-On 6/17/2013 6:59 PM, Richard Purdie wrote:
-> On Mon, 2013-06-17 at 17:39 +0800, jackie.huang@windriver.com wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
->>
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   .../dbus-wait/dbus-wait/fix-dbus-wait-typo.patch   |   31 ++++++++++++++++++++
->>   meta/recipes-core/dbus-wait/dbus-wait_git.bb       |    6 ++-
->>   2 files changed, 35 insertions(+), 2 deletions(-)
->>   create mode 100644 meta/recipes-core/dbus-wait/dbus-wait/fix-dbus-wait-typo.patch
->
-> I took this but since the Yocto Project is the upstream for this, I
-> merged that, then updated the SRCREV instead.
+are available in the git repository at:
 
-Ok, that's better, thanks!
+  git://git.yoctoproject.org/poky-contrib lpalcu/xinput-calibrator_oe-core
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/xinput-calibrator_oe-core
 
-Thanks,
-Jackie
+Laurentiu Palcu (1):
+  xinput-calibrator: move it from meta-oe to oe-core
 
->
-> Cheers,
->
-> Richard
->
->
+ .../pointercal-xinput/pointercal.xinput            |    1 +
+ .../xinput-calibrator/pointercal-xinput_0.0.bb     |   17 ++++++++
+ .../xinput-calibrator/xinput-calibrator.service    |   11 ++++++
+ .../xinput-calibrator/xinput-calibrator_git.bb     |   41 ++++++++++++++++++++
+ 4 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal.xinput
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator/xinput-calibrator.service
+ create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
 
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+1.7.9.5
+
 
