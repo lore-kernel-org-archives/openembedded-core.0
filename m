@@ -1,33 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 49AFE6A48E
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C3E7760821
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 09:15:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5H9FDl9022378
+	Mon, 17 Jun 2013 09:39:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5H9dX7q010758
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Jun 2013 02:15:13 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 17 Jun 2013 02:15:12 -0700
-Message-ID: <51BED371.8060309@windriver.com>
-Date: Mon, 17 Jun 2013 17:14:25 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Mon, 17 Jun 2013 02:39:33 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 17 Jun 2013 02:39:31 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Jun 2013 17:39:29 +0800
+Message-ID: <1371461969-16134-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-To: Mike Looijmans <mike.looijmans@topic.nl>
-References: <cover.1368002042.git.liezhi.yang@windriver.com>
-	<ee7a94478d58f0f43640cf9ae97018545a4ce6b6.1368002042.git.liezhi.yang@windriver.com>
-	<518A3EF8.20807@topic.nl> <518B06A2.6000708@windriver.com>
-	<CABcZANmKO+dpRti22tAuHP4bMbwyYDY6B52kDkUZqhdASGx1Rg@mail.gmail.com>
-	<518B1932.8070207@windriver.com> <51909544.4060506@topic.nl>
-In-Reply-To: <51909544.4060506@topic.nl>
-Cc: Chris Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bbclass: bb.fatal() clean up
+Subject: [PATCH] dbus-wait: fix the help message typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,141 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 09:15:21 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Jun 2013 09:39:32 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ .../dbus-wait/dbus-wait/fix-dbus-wait-typo.patch   |   31 ++++++++++++++++++++
+ meta/recipes-core/dbus-wait/dbus-wait_git.bb       |    6 ++-
+ 2 files changed, 35 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/dbus-wait/dbus-wait/fix-dbus-wait-typo.patch
 
-On 05/13/2013 03:24 PM, Mike Looijmans wrote:
-> On 05/09/2013 05:34 AM, Robert Yang wrote:
->>
->>
->> On 05/09/2013 10:23 AM, Chris Larson wrote:
->>> On Wed, May 8, 2013 at 7:14 PM, Robert Yang
->>> <liezhi.yang@windriver.com>wrote:
->>>
->>>> On 05/08/2013 08:03 PM, Mike Looijmans wrote:
->>>>
->>>>> On 05/08/2013 11:06 AM, Robert Yang wrote:
->>>>>
->>>>>> The bb.fatal() is defined as:
->>>>>>
->>>>>> def fatal(*args):
->>>>>>       logger.critical(''.join(args))
->>>>>>       sys.exit(1)
->>>>>>
->>>>>> So anything after bb.fatal() in the same code block doesn't have any
->>>>>> effect, e.g.:
->>>>>>
->>>>>>       bb.fatal("%s_%s: %s" % (var, pkg, e))
->>>>>>       raise e
->>>>>>
->>>>>> The "raise e" should be removed.
->>>>>>
->>>>>
->>>>> Just some random thoughts that occurred to me when I read this:
->>>>>
->>>>>
->>>> Hi Mike, thanks for your comments, but the "raise sys.exit(1)" doesn't
->>>> raise
->>>> anything, e.g.:
->>>>
->>>> import sys
->>>>
->>>> def fatal():
->>>>          sys.exit(1)
->>>>
->>>> try:
->>>>          raise fatal()
->>>> except Exception as e:
->>>>          raise e
->>>>
->>>> I think that the "raise fatal()" equals to "fatal()" here.
->>>
->>>
->>> He didn't say raise sys.exit(1), he said sys.exit(1) is equivalent to
->>> raise
->>> SystemExit(1), which it is.
->>>
->>
->> Hi Chris, thanks, if I understand correctly, what you mean is that
->> change the
->> definition of bb.fatal() to let it can raise the exception "e" (not only
->> change
->> the "sys.exit(1)" to "raise SystemExit(1)"), something like:
->>
->> def fatal(e, *args):
->>      logger.critical(''.join(args))
->>      try:
->>      if e:
->>          raise e # if there is e
->>      finally:
->>          # but this one will flush the previous "raise e"
->>          raise SystemExit(1)
->>
->> it seems that this doesn't work (or do we have other ways to make it
->> work that I
->> don't know?) or make much differences.
->>
->> and not all the bb.fatal() has an exception, e.g.:
->>
->> bb.fatal("No OUTSPECFILE")
->>
->> we need change all the current bb.fatal()'s usage, is it worth ?
->>
->> // Robert
->
-> I was actually more thinking like this (untested pseusocode follows):
->
-> class Fatal(SystemExit):
->      def __init__(self, *args):
->          SystemExit.__init__(self, 1, ''.join(*args)) # or so
->
->
-> def fatal(*args):
->      'For backward compatibility'
->      raise Fatal(*args)
->
+diff --git a/meta/recipes-core/dbus-wait/dbus-wait/fix-dbus-wait-typo.patch b/meta/recipes-core/dbus-wait/dbus-wait/fix-dbus-wait-typo.patch
+new file mode 100644
+index 0000000..d31a59e
+--- /dev/null
++++ b/meta/recipes-core/dbus-wait/dbus-wait/fix-dbus-wait-typo.patch
+@@ -0,0 +1,31 @@
++From ccba3bf3aa1d311e27a3ef0bd5cf1ce826a22cc9 Mon Sep 17 00:00:00 2001
++From: Song.Li <Song.Li@windriver.com>
++Date: Wed, 9 Jan 2013 17:29:48 +0800
++Subject: [PATCH] fix dbus-wait typo
++
++fix the help message typo
++
++Upstream-Status: Submitted [ross.burton@intel.com]
++
++Signed-off-by: Song.Li <Song.Li@windriver.com>
++Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++---
++ dbus-wait.c |    2 +-
++ 1 files changed, 1 insertions(+), 1 deletions(-)
++
++diff --git a/dbus-wait.c b/dbus-wait.c
++index b74c205..4d3e83a 100644
++--- a/dbus-wait.c
+++++ b/dbus-wait.c
++@@ -56,7 +56,7 @@ main (int argc, char **argv)
++   char *match = NULL;
++
++   if (argc < 3 || argc > 4) {
++-    fprintf (stderr, "$ dbus-watch <INTERFACE> <MEMBER> [PATH]\n");
+++    fprintf (stderr, "$ dbus-wait <INTERFACE> <MEMBER> [PATH]\n");
++     return EXIT_FAILURE;
++   }
++
++--
++1.7.1
++
+diff --git a/meta/recipes-core/dbus-wait/dbus-wait_git.bb b/meta/recipes-core/dbus-wait/dbus-wait_git.bb
+index fb31662..5e2b6e4 100644
+--- a/meta/recipes-core/dbus-wait/dbus-wait_git.bb
++++ b/meta/recipes-core/dbus-wait/dbus-wait_git.bb
+@@ -8,9 +8,11 @@ DEPENDS = "dbus"
 
-Hi Mike,
+ SRCREV = "1a3e1343761b30750bed70e0fd688f6d3c7b3717"
+ PV = "0.1+git${SRCPV}"
+-PR = "r2"
++PR = "r3"
 
-After more investigations, I'm sorry to say that I didn't see many benefits
-of this change, the only one that you mentioned we can use "except SystemExit"
-to handle the fatal error with the new code, but the "except SystemExit" also
-works with the old code, e.g.:
+-SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git"
++SRC_URI = "git://git.yoctoproject.org/${BPN};protocol=git \
++           file://fix-dbus-wait-typo.patch \
++"
 
-import sys
-try:
-     sys.exit(1)
-except SystemExit:
-     print "Catch SystemExit"
+ S = "${WORKDIR}/git"
 
-And the new code uses:
+--
+1.7.4.1
 
-SystemExit.__init__(self, 1, ''.join(*args))
-
-which can raise more messages, but I think that we need the logger.critical()
-here to log the messages in the log file, so we can only use
-SystemExit.__init__(self, 1), it seems that it equals to sys.exit(1).
-
-// Robert
-
->
-> New code should use "raise bb.Fatal(..)" instead of "fatal(..)". It has the
-> added advantage of being able to explicitly catch and handle the Fatal error.
-> Which could be useful in bitbake frontends.
->
-> Inheriting from SystemExit makes it behave exactly like the old code in all
-> ways, so it wouldn't break things.
->
-> It makes it clear what happens. bb.fatal() is a function that doesn't really
-> return. But it isn't as fatal as its name suggests, because it really just
-> raises an exception, so anyone doing a catch or finally may be surprised by its
-> implementation. Converting it into an exception makes it obvious to the world
-> what it does without the need for documentation...
->
-> Mike.
->
->
 
