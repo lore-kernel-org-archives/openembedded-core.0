@@ -1,41 +1,35 @@
 Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
-	[209.85.212.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A99286098F;
-	Mon, 17 Jun 2013 00:14:24 +0000 (UTC)
-Received: by mail-vb0-f54.google.com with SMTP id q12so1560994vbe.13
-	for <multiple recipients>; Sun, 16 Jun 2013 17:14:25 -0700 (PDT)
+Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 937776098F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 00:22:26 +0000 (UTC)
+Received: by mail-ee0-f45.google.com with SMTP id c1so1446355eek.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Jun 2013 17:22:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=M1JUyf1P4/xiFlvkAjrvtORfFJhAmnEjLMLziyUkxQI=;
-	b=BFo0f053cZ3T8N64KE/WH3bXt+Ueoj6kkkKssQ7kiYHudGt+06LJNqLqJ2llbsIhZU
-	zO9dMyqiF98+0G8PsiDJ3oD2UL3n+pHQhFs/AvnDXRH7pf3vPsNvewaidm/HUHlDSVu/
-	nxFNfLm/xMSJv+G0vJmD6pVzOz3mJwxhlBry1O14qxe/Kt+y9r4RCnQ29qB/u/CxUBtj
-	s6Vyc65ueIpgvboheHDXz7FfeQmnfdSTTFEM242e7e7IQNE72orgWhVu0Xb7vwDgqZ6H
-	RIT1fbAQUn1MRCJD8n+kOK/0CXvlIPBmorbZafmNugUNOm2IMRY9C932Y9EFbeH02BuD
-	yqCA==
-X-Received: by 10.220.162.200 with SMTP id w8mr2694675vcx.90.1371428065612;
-	Sun, 16 Jun 2013 17:14:25 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.195.201 with HTTP; Sun, 16 Jun 2013 17:13:45 -0700 (PDT)
-In-Reply-To: <CANyK_8dActF1_nuvK29WMdr-Kh1DONoRXB2YMXqVj89AKmEWYg@mail.gmail.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130611160434.GI3233@jama>
-	<CANyK_8dActF1_nuvK29WMdr-Kh1DONoRXB2YMXqVj89AKmEWYg@mail.gmail.com>
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=2m0sjzNsoJJ0CABCXELUpPpUbH1JGmv2fVsaR+R7FI0=;
+	b=SvQ2qLVa+l7RxFbwnDO4F2SxnUH0y8s7eh7mUmOBdaSvNIC9ZHoWRpN1NzRMwWSx29
+	i8LORt9EHT5I7BPzpuIBhDHmQugCCgpHDqjA4pPuNr1VOD7lLD+KUkMmL5Bvsn5d3pCc
+	7C5WHLyFza0b/8TheurIFgCRJBbffdnbfdIkEdhvAjQakRPHAN61OCC0aOsKrgZvZ2j+
+	r4ABjCNT+A+nS9DLn+N66ObeeSRWQKUDWz7hA3sFZXqW/elVO/is+uk8waCVYyF8El/P
+	m3/GL+Mt11uws/X/5szRH68ujmRtcSHJ/hw8cBVBLLkPAuEuKK4BEOYE//EFA3HLFwhH
+	ckMw==
+X-Received: by 10.15.73.197 with SMTP id h45mr13739282eey.146.1371428546900;
+	Sun, 16 Jun 2013 17:22:26 -0700 (PDT)
+Received: from vesta.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
+	[94.192.12.83])
+	by mx.google.com with ESMTPSA id b3sm2702254eev.10.2013.06.16.17.22.25
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 16 Jun 2013 17:22:26 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
 From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 17 Jun 2013 01:13:45 +0100
-X-Google-Sender-Auth: 4AtDQL2Oqm38tVsj03-y6D4M8eY
-Message-ID: <CANyK_8c6qZ2cS1MdoLocVw5rEyTyKjXY525Prfhcp4R5pnq4dQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Jun 2013 01:22:02 +0100
+Message-Id: <1371428523-21377-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.8.3
+Subject: [PATCH 1/2] opkg: fix header installation for libopkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,30 +42,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 00:14:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 17 Jun 2013 00:22:27 -0000
 
-On 17 June 2013 01:02, Paul Barker <paul@paulbarker.me.uk> wrote:
->
-> samba: builds for me, I'm not using gcc-4.8 though
-> packagekit, gypsy, omgps: Reference deprecated/removed functions in glib
-> tk: tcl is version 8.6 in openembedded-core so can't build tk 8.5 anymore
->
-> I'm currently playing around with upgrading packagekit to a more
-> recent version, will see how I get on. I'm busy with other work at the
-> minute and openembedded work is just a side project for me so it may
-> take a while...
->
+When opkg is built outside the source directory, libopkg headers aren't all
+installed as the search path for headers only includes the directory that make
+is being ran in, not the source directory. So we fix this by adding
+$(srcdir)/*.h to the list of header files to install.
 
-... and just saw that Khem has posted fixes to most of these,
-including packagekit, that just haven't been committed yet. Is it
-still worth me trying to update packagekit or is there somewhere else
-my effort would be better spent? I'm just looking for interesting bugs
-to shoot at the minute...
+Without this patch, "/usr/include/libopkg" will only include the file config.h.
+With this patch, other files such as "opkg.h" are present which are needed to
+compile software which uses libopkg.
 
---
-Paul Barker
+The new patch has also been submitted upstream as a fix to opkg itself.
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ .../0001-Fix-libopkg-header-installation.patch     | 32 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_svn.bb             |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch
+
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch b/meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch
+new file mode 100644
+index 0000000..c27fdb1
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch
+@@ -0,0 +1,32 @@
++From 79a40cc4c3b5d6f8a90d9dc0ac5d2c40983764f7 Mon Sep 17 00:00:00 2001
++From: Paul Barker <paul@paulbarker.me.uk>
++Date: Sun, 16 Jun 2013 23:27:27 +0100
++Subject: [PATCH] Fix libopkg header installation.
++
++When opkg is built outside the source directory, libopkg headers aren't all
++installed as the search path for headers only includes the directory that make
++is being ran in, not the source directory. So we fix this by adding
++$(srcdir)/*.h to the list of header files to install.
++
++Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
++Upstream-status: Submitted
++---
++ libopkg/Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/libopkg/Makefile.am b/libopkg/Makefile.am
++index 043c5c4..b6f4f7b 100644
++--- a/libopkg/Makefile.am
+++++ b/libopkg/Makefile.am
++@@ -2,7 +2,7 @@
++ AM_CFLAGS=-Wall -DHOST_CPU_STR=\"@host_cpu@\" -DBUILD_CPU=@build_cpu@ -DLIBDIR=\"@libdir@\" -DOPKGLIBDIR=\"@opkglibdir@\" -DOPKGETCDIR=\"@opkgetcdir@\" -DOPKGLOCKFILE=\"@opkglockfile@\" -DDATADIR=\"@datadir@\" -I$(top_srcdir) $(BIGENDIAN_CFLAGS) $(CURL_CFLAGS) $(GPGME_CFLAGS) $(PATHFINDER_CFLAGS)
++ 
++ libopkg_includedir=$(includedir)/libopkg
++-libopkg_include_HEADERS= *.h
+++libopkg_include_HEADERS= *.h $(srcdir)/*.h
++ 
++ 
++ opkg_libcore_sources = \
++-- 
++1.8.3
++
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 382bfdd..9f3512d 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -2,6 +2,7 @@ require opkg.inc
+ 
+ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+            file://obsolete_automake_macros.patch \
++	   file://0001-Fix-libopkg-header-installation.patch \
+ "
+ 
+ S = "${WORKDIR}/trunk"
+-- 
+1.8.3
+
 
