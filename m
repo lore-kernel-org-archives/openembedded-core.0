@@ -1,35 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 51FF26041E
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BF63760812
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2013 05:24:46 +0000 (UTC)
-Received: by mail-ie0-f182.google.com with SMTP id s9so5949910iec.13
+	Mon, 17 Jun 2013 05:49:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5H5nYFh007965
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2013 22:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=IIjxT6nh8/s/d6YaGy3+NryIVcg9ZJn6qDF0F8DG08A=;
-	b=MV9gvW5qfIgjyAHxQ36MGKiDAr0+vUwJo21YG3ZoJn893tm4W+vZEyovBy/Hbgahtz
-	TpMSZ0EV2sWuDFcXfQXaK0WFpviu33NUHW3ZLZmj0HDNYx/f7kIxwONLbLb6pSrtBFL9
-	HE3x0aFUIx9j86guX2PrZEStewjJQsoTt+4aTEmkvWR3PjB/aDTvSl3ytBaEBhoyrAdz
-	Vo8C0woX+mBwfr28Q9q51ZnoVErL/DqHNhJGzfcTbzcmh98qd6aC25cm7F7wHoTC4aBx
-	6IZDU2s4ribNFdmFepw64lnPk4r+u4z2imvvjqkhFqlZVolQdU1s10cRD1+1N8NAXmI4
-	d7tA==
-X-Received: by 10.50.70.101 with SMTP id l5mr3984305igu.104.1371446687470;
-	Sun, 16 Jun 2013 22:24:47 -0700 (PDT)
+	Sun, 16 Jun 2013 22:49:34 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 16 Jun 2013 22:49:31 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Jun 2013 13:49:26 +0800
+Message-ID: <cover.1371447869.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.50.4.168 with HTTP; Sun, 16 Jun 2013 22:24:17 -0700 (PDT)
-In-Reply-To: <1371428523-21377-1-git-send-email-paul@paulbarker.me.uk>
-References: <1371428523-21377-1-git-send-email-paul@paulbarker.me.uk>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 16 Jun 2013 22:24:17 -0700
-Message-ID: <CAMKF1sqnW_GsAX5paA2j7GeWQi7XbixidBtvSSQabH7DEHqUqQ@mail.gmail.com>
-To: Paul Barker <paul@paulbarker.me.uk>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] opkg: fix header installation for libopkg
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH V2 0/9] busybox miscellaneous fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,15 +32,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2013 05:24:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Jun 2013 05:49:31 -0000
+Content-Type: text/plain
 
-On Sun, Jun 16, 2013 at 5:22 PM, Paul Barker <paul@paulbarker.me.uk> wrote:
-> When opkg is built outside the source directory, libopkg headers aren't all
-> installed as the search path for headers only includes the directory that make
-> is being ran in, not the source directory. So we fix this by adding
-> $(srcdir)/*.h to the list of header files to install.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-do we need to export all headers like that or just the ones that
-contain interfaces e.g. opkg.h
+This patchset mainly serves two purposes.
+1) Switch to using busybox as the default login manager.
+2) Fix to support FEATURE_INDIVIDUAL in busybox.
+
+I'd really appreciate it if you could review it. And any comment or suggest is
+really welcome.
+
+In this cover letter, I'll describe why we switch to using busybox instead of
+tiny login, how we do it and the final result of this change.
+
+The reason is well explaned by Saul's comment in bug#4207.
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=4207)
+So I quote it here.
+'''
+tinylogin has been deprecated and the functionality ported into busybox, the
+size is smaller than tinybox. The issue to be concerned about is having busybox
+being setuid, a possibility is to use busybox as a separate binary.
+'''
+
+That's exactly what this patchset does.
+*) switch to using busybox as the default login manager
+*) remove tinylogin as it's deprecated
+*) add the ability to split the busybox binary into two parts, one with suid and the other not.
+
+Following's a brief design. You could also see it on the bugzilla.
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=4207)
+Design:
+1) Add a configuration fragment to the SRC_URI. The configuration fragment will
+   be called login-utilities.cfg, as its main purpose is to enable the login utility
+   of busybox.
+
+2) set the default login manager to 'busybox' instead of 'tinylogin'
+
+3) Add a variable, BUSYBOX_SPLIT_SUID, to control whether to split the busybox
+   binary into two parts, one with suid and the other not. We default it to "1"
+   to enable the splitting, but users could still override it to disable the
+   splitting. After all, busybox has no internal support for this suid apps splitting,
+   so there might be users out there who trust busybox and want just one busybox binary.
+
+4) Patch busybox to make it able to list configuration items of suid apps and non-suid
+   apps. These two lists are used to separate the busybox binary.
+
+5) Busybox supports building individual apps, so the change above should still
+   support this feature.
+
+Here's the final result of this change:
+1) FEATURE_INDIVIDUAL enabled
+   We'll have links on target like below.
+   /bin/ls -> /bin/ls.busybox
+   /bin/cat -> /bin/cat.busybox
+   /bin/su -> /bin/su.busybox
+2) FEATURE_INDIVIDUAL disabled (this is the default behavior) and BUSYBOX_SPLIT_SUID enabled
+   /bin/ls -> /bin/busybox.nosuid
+   /bin/cat -> /bin/busybox.nosuid
+   /bin/su -> /bin/busybox.suid
+3) FEATURE_INDIVIDUAL disabled and BUSYBOX_SPLIT_SUID disabled
+   /bin/ls -> /bin/busybox
+   /bin/cat -> /bin/busybox
+   /bin/su -> /bin/busybox
+
+//Chen Qi
+
+The following changes since commit a62aed41f2d8f874f7ae24d0e5be5dbc66ea2199:
+
+  lrzsz: check locale.h in configure (2013-06-04 15:55:46 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/busybox-fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/busybox-fixes
+
+Chen Qi (9):
+  busybox: remove the postinst part of the recipe
+  busybox: add support for CONFIG_FEATURE_INDIVIDUAL
+  busybox: add a config fragment to enable login utilities
+  busybox: enable to list suid and non-suid app configs
+  busybox: add the ability to split the busybox binary
+  packagegroup-core-boot: use busybox as the default login manager
+  packagegroup-core-basic: set the default login manager
+  mingetty: lower the ALTERNATIVE_PRIORITY
+  tinylogin: remove recipe
+
+ ...usybox-list-suid-and-non-suid-app-configs.patch |  179 +++++
+ .../busybox/busybox-1.20.2/login-utilities.cfg     |   13 +
+ meta/recipes-core/busybox/busybox.inc              |  105 ++-
+ meta/recipes-core/busybox/busybox_1.20.2.bb        |    4 +-
+ .../packagegroups/packagegroup-core-boot.bb        |    2 +-
+ .../tinylogin/tinylogin-1.4/add-system.patch       |  117 ---
+ .../tinylogin-1.4/adduser-empty_pwd.patch          |   45 --
+ .../tinylogin/tinylogin-1.4/avoid_static.patch     |   33 -
+ .../tinylogin/tinylogin-1.4/cvs-20040608.patch     |  823 --------------------
+ .../tinylogin/tinylogin-1.4/glibc_crypt_fix.patch  |   23 -
+ .../tinylogin-1.4/passwd_rotate_check.patch        |   41 -
+ .../tinylogin/tinylogin-1.4/remove-index.patch     |   13 -
+ .../tinylogin/tinylogin-1.4/use_O2_option.patch    |   21 -
+ meta/recipes-core/tinylogin/tinylogin_1.4.bb       |   45 --
+ meta/recipes-extended/mingetty/mingetty_1.08.bb    |    2 +-
+ .../packagegroups/packagegroup-core-basic.bb       |    3 +-
+ 16 files changed, 268 insertions(+), 1201 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/busybox-list-suid-and-non-suid-app-configs.patch
+ create mode 100644 meta/recipes-core/busybox/busybox-1.20.2/login-utilities.cfg
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/add-system.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/adduser-empty_pwd.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/avoid_static.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/cvs-20040608.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/glibc_crypt_fix.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/passwd_rotate_check.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/remove-index.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin-1.4/use_O2_option.patch
+ delete mode 100644 meta/recipes-core/tinylogin/tinylogin_1.4.bb
+
+-- 
+1.7.9.5
+
 
