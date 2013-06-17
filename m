@@ -1,37 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B3296080B
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2013 19:12:14 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id ta17so2364652obb.22
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2013 12:12:14 -0700 (PDT)
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 712E46098F;
+	Mon, 17 Jun 2013 00:02:43 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id id13so1575803vcb.13
+	for <multiple recipients>; Sun, 16 Jun 2013 17:02:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=AdxIzJxZWk2COM0WhgMvOu+dMbfLSnUnwByFwK6skC4=;
-	b=EiP7LVKEvXbj/hWifqSJutv+0tx+oRzTW1OpECPdWaHznuj2G7B/R67OTt/pYmx2eZ
-	PVC5ARLDInAxYyQu+agw1AQDbFBjPisyW+KvsHseCDw3uDr1j0JNrK4MoPIMbeM6xROF
-	kvfWovb78Izn58kLoVBvtDcgY4hNcKtl2UEJzBgOF1+oHvyOToQPNp3y4P3CeXZxltyn
-	Es+pBup7vgZqh6X5Y6GP74pVtj4Irv1QYwSnOmLBbz1qLYgrkZ4Z024fDiEfUBznDffV
-	pyxQIca2yDAMwzS7bHYiw/uO5w/LICsid0qdV/Hgm4aF6iEtMy9gs5TOu29oYFV2u0Ap
-	e2Pw==
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=GZfkm6sjxsQacIRGYp8U3IQRojRSOvqOzpQ7qSIAR98=;
+	b=am7TWuOkR7+NabB4rYTQsHTeJfDbhGMgW3l2DluEI4VsFh1AMWkz7p+Ot62aEqYvRX
+	52qClBmrJJjqGMvm37Vu7blXpilehiVq2v1xerVGGpmzwe5ZLmYmJGB2qugCrpOx3FuR
+	4LmlsGiV95Lr05msEQobg3fnoahehNUilYmJnHY2idmMKoVqcHd2DPan74niRhHMKZws
+	myuT4zhesBt2/gokBWEP0ZAu3O/XNUXrb1woilgQesAvRKU3h+08BQ6aFoQcgBHat119
+	vVqDRdO7oglYwzunkjwYU1k2CUMPtdTqHYdEMnbsc0YOcKcEmKcJFq/bhCn4+59q7uaL
+	z81Q==
+X-Received: by 10.52.0.130 with SMTP id 2mr2876408vde.97.1371427363953; Sun,
+	16 Jun 2013 17:02:43 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.60.134.236 with SMTP id pn12mr7145898oeb.4.1371409934407;
-	Sun, 16 Jun 2013 12:12:14 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.108.167 with HTTP; Sun, 16 Jun 2013 12:12:14 -0700 (PDT)
-In-Reply-To: <1371242900-7066-1-git-send-email-sgw@linux.intel.com>
-References: <1371242900-7066-1-git-send-email-sgw@linux.intel.com>
-Date: Sun, 16 Jun 2013 16:12:14 -0300
-X-Google-Sender-Auth: aQqxba2pSrhPFEXNADmsRFcxZ9I
-Message-ID: <CAP9ODKqx7Fnsrxnfyuz4VaQCQNzomyAZsd_CqxVSx_tavS=HKw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oe-buildenv-internal: Preserve/Unset and Restore TERM
+Sender: paul.betafive@gmail.com
+Received: by 10.220.195.201 with HTTP; Sun, 16 Jun 2013 17:02:03 -0700 (PDT)
+In-Reply-To: <20130611160434.GI3233@jama>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130611160434.GI3233@jama>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Mon, 17 Jun 2013 01:02:03 +0100
+X-Google-Sender-Auth: D4Px12JmMwCHVVteFD3z6N33PPI
+Message-ID: <CANyK_8dActF1_nuvK29WMdr-Kh1DONoRXB2YMXqVj89AKmEWYg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,68 +47,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Jun 2013 19:12:14 -0000
-Content-Type: multipart/alternative; boundary=047d7b471f6afb607504df4a4165
-
---047d7b471f6afb607504df4a4165
+X-List-Received-Date: Mon, 17 Jun 2013 00:02:44 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Jun 14, 2013 at 5:48 PM, Saul Wold <sgw@linux.intel.com> wrote:
-
-> Having a value in TERM that is not recognized by the nativesdk can cause
-> potential escape sequences appearing in the output stream, the can be seen
-> on Ubuntu with TERM=xterm-256color. Unsetting TERM allows for consistent
-> results in the python output.
+On 11 June 2013 17:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+> There weren't many (any) changes merged to meta-oe last week, I hope to
+> get better builds now (started few minutes ago).
 >
-> Also, don't exit, use return, otherwise the shell exits and get no error
-> information.
+> common:
+>   meta-openembedded/meta-oe/recipes-connectivity/samba/samba_3.6.8.bb, do_package
+>   meta-openembedded/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb, do_compile
+>   openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb, do_package
+>   meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.5.6.bb, do_compile
+>   meta-openembedded/meta-oe/recipes-navigation/omgps/omgps_svn.bb, do_compile
+>   meta-openembedded/meta-oe/recipes-navigation/gypsy/gypsy_0.9.bb, do_compile
+>   meta-openembedded/meta-gnome/recipes-gnome/gthumb/gthumb_2.12.4.bb, do_compile
+>   meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.5.8.bb, do_configure
+>   meta-openembedded/meta-networking/recipes-support/ipsec-tools/ipsec-tools_0.7.2.bb, do_compile
 >
-> [YOCTO #4732]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->
 
-Please split the fix and get the exit/return fix applied. While on that,
-ensure the errors are send to >&2 as done in other error messages.
+I decided to do some prodding around into these.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+samba: builds for me, I'm not using gcc-4.8 though
+packagekit, gypsy, omgps: Reference deprecated/removed functions in glib
+tk: tcl is version 8.6 in openembedded-core so can't build tk 8.5 anymore
 
---047d7b471f6afb607504df4a4165
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+I'm currently playing around with upgrading packagekit to a more
+recent version, will see how I get on. I'm busy with other work at the
+minute and openembedded work is just a side project for me so it may
+take a while...
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Fri, Jun 14, 2013 at 5:48 PM, Saul Wold <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com<=
-/a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">Having a value in TERM that is not recognize=
-d by the nativesdk can cause<br>
-potential escape sequences appearing in the output stream, the can be seen<=
-br>
-on Ubuntu with TERM=3Dxterm-256color. Unsetting TERM allows for consistent<=
-br>
-results in the python output.<br>
-<br>
-Also, don&#39;t exit, use return, otherwise the shell exits and get no erro=
-r information.<br>
-<br>
-[YOCTO #4732]<br>
-<br>
-Signed-off-by: Saul Wold &lt;<a href=3D"mailto:sgw@linux.intel.com">sgw@lin=
-ux.intel.com</a>&gt;<br></blockquote><div><br></div><div style>Please split=
- the fix and get the exit/return fix applied. While on that, ensure the err=
-ors are send to &gt;&amp;2 as done in other error messages.=A0</div>
-</div><div><br></div>-- <br>Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 O.S. Systems<br><a href=3D"http://www.ossystems.co=
-m.br" target=3D"_blank">http://www.ossystems.com.br</a> =A0 =A0 =A0 =A0<a h=
-ref=3D"http://projetos.ossystems.com.br" target=3D"_blank">http://projetos.=
-ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</div></div>
+--
+Paul Barker
 
---047d7b471f6afb607504df4a4165--
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
+
