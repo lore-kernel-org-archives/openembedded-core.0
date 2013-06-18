@@ -1,32 +1,33 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BD09605F3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
+	[209.85.128.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 81E3E601AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 14:19:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5IEJnO8012290
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 18 Jun 2013 14:31:22 +0000 (UTC)
+Received: by mail-ve0-f169.google.com with SMTP id m1so3218494ves.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 07:19:49 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 18 Jun 2013 07:19:48 -0700
-Message-ID: <51C06C83.7040809@windriver.com>
-Date: Tue, 18 Jun 2013 09:19:47 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Tue, 18 Jun 2013 07:31:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type
+	:x-gm-message-state;
+	bh=qtD0JYny2t2VQiUGDDk6wJiUsZ5YP07ZJ247c3LIuPg=;
+	b=hGNtejtUVyB8dqfgdSfNnwsWX3j+ScyqFXZfcnsWSxs4HQXbK5+PBkCkhiFnsZ5hzz
+	y74CHnie3NOHgUq0s1UOv7W3S4o1zWxn0cxnore3aPkft8Z+xAvDeZgORH8po7Re08v/
+	C2RYDx9Sg0H5TzS2/VDZgmYJL8+aIB4If/mqPU2d9deNptqO/COepgAeUlvW3tsyFcnx
+	ZaL/QPmTIVz6lQyvKknUczXSU5MnUg2ITmRQPEw8XN5FYBxL2du+ePYsV5oE3TSbOU0J
+	F7bsHM66XAgLptSpcX5aqaksNwC4l6B+1NEyOxURfRH2w3MFeHHN7vaMybBddGxShmuL
+	lPLg==
+X-Received: by 10.52.29.106 with SMTP id j10mr1568287vdh.77.1371565883361;
+	Tue, 18 Jun 2013 07:31:23 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1371539741.git.rongqing.li@windriver.com>
-	<b57b85f69322501fb617a01e625734cda1088b5e.1371539741.git.rongqing.li@windriver.com>
-	<1371542851.5066.1.camel@pb-ThinkPad-R50e>
-	<51C01D87.9080804@windriver.com>
-	<1371546729.5066.7.camel@pb-ThinkPad-R50e>
-In-Reply-To: <1371546729.5066.7.camel@pb-ThinkPad-R50e>
-Subject: Re: [PATCH 1/1] base-files: create /usr/lib/locale dir
+Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 07:31:03 -0700 (PDT)
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2013 15:31:03 +0100
+Message-ID: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+X-Gm-Message-State: ALoCoQmKqRcAyf5DjGF8u/LX/EBL8mCV0HjLEC5M8QGzTJMXCVXiOo0mCqtPFg/sEJ5pJgQTZHYg
+Subject: RFC: magic libtool .la removal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,48 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 14:19:48 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 14:31:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 6/18/13 4:12 AM, Phil Blundell wrote:
-> On Tue, 2013-06-18 at 16:42 +0800, Rongqing Li wrote:
->> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
->> b/meta/recipes-core/base-files/base-files_3.0.14.bb
->> index fa1cc58..84663e3 100644
->> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
->> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
->> @@ -139,6 +139,7 @@ do_install_append_linuxstdbase() {
->>           for d in ${dirs4775}; do
->>                    install -m 2755 -d ${D}$d
->>            done
->> +       install -m 755 -d ${D}/usr/lib/locale
->
-> Thanks, that looks better.  Could you not just add it to ${dirs3755}
-> though?  (Despite the confusing/misleading name, this variable appears
-> to be a list of LSB directories that should be created with mode 0755,
-> cf ${dirs4755} which is apparently directories to be created with mode
-> 2755.)
->
-> In a stylistic sense it might be better to use ${prefix}/lib/locale (or
-> whatever eglibc uses), but in practice LSB requires ${prefix}=="/usr",
-> and presumably lsbtest is looking for "/usr/lib/locale" specifically, so
-> I don't think it will actually make any functional difference in this
-> specific case.
+Hi,
 
-FYI, I agree  ${prefix}/lib/locale is likely the correct directory to reference. 
-  It preserves the semantics of the OE way of declaring paths, supports the move 
-of prefix to somewhere else, and will still work in an LSB compliant configuration.
+Looking at another recipe that deletes .la files reminded me that
+every six months or so I look at this and never actually get anything
+done.  Let's try attempt three!
 
---Mark
+My proposal is that we integrate .la-removal into a core class.
+autotools.bbclass should cover 99% of instances as libtool is normally
+used in conjunction with auto*.  Have a variable, REMOVE_LIBTOOL_LA,
+which controls the behaviour post-install.
 
-> p.
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+"none".  For this recipe, don't remove any .la files.
 
+"libdir".  For this recipe, remove .la files in $base_libdir and
+$libdir non-recursively, keeping the .la files in any subdirectories.
+This is for packages that use libltdt to load modules, which I believe
+needs .la files to work.
+
+"all".  For this recipe, remove all .la files.
+
+I've not written any code yet, but it shouldn't be hard.  Any thoughts?
+
+Ross
 
