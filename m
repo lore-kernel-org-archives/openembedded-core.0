@@ -1,23 +1,28 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 43021601AF
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FA636041F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 14:42:54 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Uox7W-0005Jv-Jn; Tue, 18 Jun 2013 16:42:54 +0200
-Message-ID: <1371566573.6580.59.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Jun 2013 15:42:53 +0100
-In-Reply-To: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
-References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: magic libtool .la removal
+	Tue, 18 Jun 2013 14:52:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jun 2013 07:52:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,889,1363158000"; d="scan'208";a="355457656"
+Received: from unknown (HELO helios.localnet) ([10.252.122.72])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jun 2013 07:52:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 18 Jun 2013 15:52:36 +0100
+Message-ID: <2128990.WGsIo4pG3K@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
+In-Reply-To: <CAP9ODKo+VwrLEOH7coCbGWqDCp8CYKVVS_XVtV8Wbw=9jpL6=w@mail.gmail.com>
+References: <cover.1370896990.git.chris_larson@mentor.com>
+	<7f9158be5a4849dccea0ed848d29f963697c22e3.1370896990.git.chris_larson@mentor.com>
+	<CAP9ODKo+VwrLEOH7coCbGWqDCp8CYKVVS_XVtV8Wbw=9jpL6=w@mail.gmail.com>
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] connman: use PACKAGECONFIG for WISPr support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,30 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 14:42:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 14:52:37 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2013-06-18 at 15:31 +0100, Burton, Ross wrote:
-> My proposal is that we integrate .la-removal into a core class.
-> autotools.bbclass should cover 99% of instances as libtool is normally
-> used in conjunction with auto*.  Have a variable, REMOVE_LIBTOOL_LA,
-> which controls the behaviour post-install.
+On Monday 10 June 2013 18:06:19 Otavio Salvador wrote:
+> This seems safe for backporting to 1.4.2 and would allow for more control
+> on connman build; Paul?
 
-FWIW, I still have the patch from:
+At the moment we don't seem to have the other PACKAGECONFIG options for 
+connman in dylan so this patch doesn't apply cleanly. If people are especially 
+keen to have them I can backport these options, but I'd rather not just take 
+them on a whim as these are more of an optimisation than a bug fix.
 
-http://lists.openembedded.org/pipermail/openembedded-core/2012-October/069912.html
+Cheers,
+Paul
 
-in my local tree and it seems to be working fine (although I don't have
-any particular interest in libltdt so it's conceivable that this might
-be broken).
+-- 
 
-Looking back at that old thread it seems that you asked me to split into
-two patches, I said "ok", but apparently I never did anything further
-about it.  It's possible I might have been put off by Paul not liking
-the name or something, I don't really recall.
-
-p.
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
