@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7901960130
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 22B2C605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 13:04:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5IDAW6a022576; Tue, 18 Jun 2013 14:10:32 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gCnUhTLjrRRf; Tue, 18 Jun 2013 14:10:32 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5IDAQPj022573
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 18 Jun 2013 14:10:28 +0100
-Message-ID: <1371560653.20823.113.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Zhenhua Luo <zhenhua.luo@freescale.com>, Randy MacLeod
-	<Randy.MacLeod@windriver.com>
-Date: Tue, 18 Jun 2013 14:04:13 +0100
-In-Reply-To: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
-References: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: b40527@freescale.com, openembedded-core@lists.openembedded.org
-Subject: Re: [patch v2] sanity.bbclass: correct the gcc_arch check logic
+	Tue, 18 Jun 2013 13:06:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5ID6NJI011280
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Jun 2013 06:06:23 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Tue, 18 Jun 2013 06:06:22 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 18 Jun 2013 21:05:44 +0800
+Message-ID: <cover.1371559431.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+X-Originating-IP: [128.224.162.205]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] Update strace and fix autogen-native build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,44 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 13:04:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 13:06:24 -0000
+Content-Type: text/plain
 
-On Tue, 2013-06-18 at 21:08 +0800, Zhenhua Luo wrote:
-> The gcc arch check result is incorrect when gcc version is older than 4.5.
-> Sanity checker requests user to add "-march=native" into BUILD_CFLAGS even if
-> the flag is not supported by host gcc.
-> 
-> The status is 0 when -march=native is supported by host gcc, so set result to
-> True, otherwise set result to False.
-> 
-> Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
-> ---
->  meta/classes/sanity.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 3b9934b..ee09679 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -325,7 +325,7 @@ def check_gcc_march(sanity_data):
->          if status != 0:
->              # Check if GCC could work with march
->              status,result = oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=native gcc_test.c -o gcc_test")
-> -            if status != 0: 
-> +            if status == 0: 
->                  result = True
->              else:
->                  result = False
+The following changes since commit 1dd643b142c69ac9035e29bff11d02201638dc65:
 
-Can you and Randy please sort out what the correct value is here please.
-This appears to directly revert
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ad276d7d89190c57a152867d7278ee18f784ff2c
+  licences: Add SGI license (2013-06-17 16:45:37 +0100)
 
-Cheers,
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/update-strace
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-strace
 
-Richard
+Kai Kang (2):
+  autogen-native: fix build failure on overloaded hosts
+  strace: update to 4.8
 
+ .../autogen/autogen-native_5.17.4.bb               |    3 +-
+ .../autogen/files/increase-timeout-limit.patch     |   33 +
+ ...ilding-when-glibc-has-a-stub-process_vm_r.patch |   54 -
+ .../strace-4.7/0014-x32-update-syscall-table.patch |   91 -
+ ...-x32-update-g-s-etsockopt-syscall-numbers.patch |   43 -
+ .../0024-x32-add-64bit-annotation-too.patch        |  231 --
+ .../0025-Add-e-trace-memory-option.patch           | 2898 --------------------
+ ...ew-errno-values-for-EPROBE_DEFER-and-EOPE.patch |   36 -
+ .../0027-Add-AArch64-support-to-strace.patch       |  542 ----
+ .../0028-Enhance-quotactl-decoding.patch           |  391 ---
+ ...029-Filter-out-redundant-32-ioctl-entries.patch |  145 -
+ ...neric-ioctl-definitions-to-linux-ioctlent.patch |  571 ----
+ ...-for-tracing-32-bit-ARM-EABI-binaries-on-.patch |  963 -------
+ .../0032-Fix-kernel-release-string-parsing.patch   |   38 -
+ .../strace/strace-4.8/git-version-gen              |  225 ++
+ meta/recipes-devtools/strace/strace_4.7.bb         |   34 -
+ meta/recipes-devtools/strace/strace_4.8.bb         |   32 +
+ 17 files changed, 292 insertions(+), 6038 deletions(-)
+ create mode 100644 meta/recipes-devtools/autogen/files/increase-timeout-limit.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0003-util-fix-building-when-glibc-has-a-stub-process_vm_r.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0014-x32-update-syscall-table.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0018-x32-update-g-s-etsockopt-syscall-numbers.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0024-x32-add-64bit-annotation-too.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0025-Add-e-trace-memory-option.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0026-linux-add-new-errno-values-for-EPROBE_DEFER-and-EOPE.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0027-Add-AArch64-support-to-strace.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0028-Enhance-quotactl-decoding.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0029-Filter-out-redundant-32-ioctl-entries.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0030-Move-asm-generic-ioctl-definitions-to-linux-ioctlent.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0031-Add-support-for-tracing-32-bit-ARM-EABI-binaries-on-.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0032-Fix-kernel-release-string-parsing.patch
+ create mode 100755 meta/recipes-devtools/strace/strace-4.8/git-version-gen
+ delete mode 100644 meta/recipes-devtools/strace/strace_4.7.bb
+ create mode 100644 meta/recipes-devtools/strace/strace_4.8.bb
+
+-- 
+1.7.5.4
 
 
