@@ -1,46 +1,39 @@
-Return-Path: <B19537@freescale.com>
-Received: from tx2outboundpool.messaging.microsoft.com
-	(tx2ehsobe003.messaging.microsoft.com [65.55.88.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 55515605F3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DC93A605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 13:01:02 +0000 (UTC)
-Received: from mail17-tx2-R.bigfish.com (10.9.14.233) by
-	TX2EHSOBE015.bigfish.com (10.9.40.35) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 18 Jun 2013 13:01:03 +0000
-Received: from mail17-tx2 (localhost [127.0.0.1])	by mail17-tx2-R.bigfish.com
-	(Postfix) with ESMTP id D3F7A360964	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 13:01:02 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
-Received: from mail17-tx2 (localhost.localdomain [127.0.0.1]) by mail17-tx2
-	(MessageSwitch) id 1371560461602110_25824;
-	Tue, 18 Jun 2013 13:01:01 +0000 (UTC)
-Received: from TX2EHSMHS006.bigfish.com (unknown [10.9.14.253])	by
-	mail17-tx2.bigfish.com (Postfix) with ESMTP id 7039B460067	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 13:01:01 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS006.bigfish.com
-	(10.9.99.106) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 18 Jun 2013 13:01:00 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Tue, 18 Jun 2013 13:01:00 +0000
-Received: from b19537-desktop.ap.freescale.net
-	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
-	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r5ID0uaD007676;
-	Tue, 18 Jun 2013 06:00:57 -0700
-From: Zhenhua Luo <zhenhua.luo@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Jun 2013 21:08:10 +0800
-Message-ID: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 18 Jun 2013 13:02:22 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id ht10so2888453vcb.18
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 06:02:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=9Ox7lNr5gg8jJFfJ8rhqQepa0O4IGch1rix2iVcvu3o=;
+	b=Ic/u5rDUFWsi0bccoZRNxNABUvLmJvgB/DBK1jkgN6aowcCdq+K9JvVFHTxYqTvl7W
+	ulSxLXNK5RYRpzlz8dr45wpMvzIDuPLT2DMwzFEV2EQt9fkGiXZvcMTDQVidWZLU/1pe
+	h9CO5iPdD/SQB/PvcP+EFSp8xDkRcmx5ptAQPiycO0zBj8aSU3/vc2iWj/Axd0qw8p+S
+	zdlktrxMo19p41T7eSW4gWTKbA02Xw/U20i6FPRalD4DdpcsVl16IIsgltvb+RLdrHV0
+	DT4ZTmbRFRrHpj3S+Ocge0W+02S5AyjDuM8z1TBQA/dmZMqDlhEqimWEmluKrm4WWISv
+	YSxA==
+X-Received: by 10.52.29.106 with SMTP id j10mr1462366vdh.77.1371560543501;
+	Tue, 18 Jun 2013 06:02:23 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Cc: Zhenhua Luo <zhenhua.luo@freescale.com>, b40527@freescale.com
-Subject: [patch v2] sanity.bbclass: correct the gcc_arch check logic
+Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 06:02:03 -0700 (PDT)
+In-Reply-To: <20130618105824.GF16785@lpalcu-linux>
+References: <cover.1371471166.git.laurentiu.palcu@intel.com>
+	<6a4980046a3175ecdd4216cdd75c754b0b0ffa16.1371471166.git.laurentiu.palcu@intel.com>
+	<CAJTo0LbPGDehVTaspjcZBCL2F0DRS-HondvaO-6K0ntZj_Zu6A@mail.gmail.com>
+	<20130618105824.GF16785@lpalcu-linux>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2013 14:02:03 +0100
+Message-ID: <CAJTo0Lb4bk6UReu4sEuaY-FekrzSbXhChsLX0M0VOU5YP1di8g@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQngWG9yA3b7hCxtDIj69jMJLnfx0mbzZ2HLZiwVfhAYtMFGOpwQIHhpqEOURPVXEKqPs6AL
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] xinput-calibrator: move it from meta-oe to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 13:01:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Jun 2013 13:02:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-The gcc arch check result is incorrect when gcc version is older than 4.5.
-Sanity checker requests user to add "-march=native" into BUILD_CFLAGS even if
-the flag is not supported by host gcc.
+On 18 June 2013 11:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> I'm not sure I understand what's wrong with using xdg-autostart.
+> Xsession parses each .desktop file in xdg/autostart and executes the
+> application listed in 'Exec'. Having a separate xsession file created
+> in /etc/X11/Xsession.d (like xtscal does) is, basically, the same thing.
+> Only the moment of execution differs. Or, maybe, I misunderstood your
+> point.
 
-The status is 0 when -march=native is supported by host gcc, so set result to
-True, otherwise set result to False.
+XDG autostart doesn't block the app, so the rest of the system starts
+up.  Really calibration should pause the startup and only when the
+input is calibrated, continue.
 
-Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
----
- meta/classes/sanity.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 3b9934b..ee09679 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -325,7 +325,7 @@ def check_gcc_march(sanity_data):
-         if status != 0:
-             # Check if GCC could work with march
-             status,result = oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=native gcc_test.c -o gcc_test")
--            if status != 0: 
-+            if status == 0: 
-                 result = True
-             else:
-                 result = False
--- 
-1.7.9.5
-
-
+Ross
 
