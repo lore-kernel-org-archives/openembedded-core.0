@@ -1,37 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C316F605F3
+Return-Path: <B19537@freescale.com>
+Received: from tx2outboundpool.messaging.microsoft.com
+	(tx2ehsobe003.messaging.microsoft.com [65.55.88.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 55515605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 12:55:14 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id oz10so3024573veb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 05:55:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=52RbCo7A/FTMb8JfRB7Lk5UADyUdNeHEuNG1BE969Ek=;
-	b=Mf2PhWjCBvzJWFtXc1ULXKH3mDSis0mhfRxwioS5qHz+SxZa4dSUVvjwcWM9v7vT75
-	wR2ffbu875idWVN8ggSS3B3WQvIgaccmqTAuxnATQjG+EKmqZ7ZjUbd0mQHup3NaLTN3
-	3y8l7GGkudOm231Jr91aPHwj7GejV5XzZ8o8wcf/bEkgsjdf4tnGGdNj2T9XtgsohPaM
-	p9w++duVKUD0K7phGddGSTaE9yO+4GIuxYrwe1BgTP2omPk9AkyKQHzFbOKwOEGaOHHr
-	5+DDP8lkUnwexyojpEzcSnFh3Iawe1qdqSBFNZuFRyabUmvap459LRqBm13e5XhDDNt4
-	B99w==
-X-Received: by 10.52.29.106 with SMTP id j10mr1454528vdh.77.1371560115186;
-	Tue, 18 Jun 2013 05:55:15 -0700 (PDT)
+	Tue, 18 Jun 2013 13:01:02 +0000 (UTC)
+Received: from mail17-tx2-R.bigfish.com (10.9.14.233) by
+	TX2EHSOBE015.bigfish.com (10.9.40.35) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 18 Jun 2013 13:01:03 +0000
+Received: from mail17-tx2 (localhost [127.0.0.1])	by mail17-tx2-R.bigfish.com
+	(Postfix) with ESMTP id D3F7A360964	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 13:01:02 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
+Received: from mail17-tx2 (localhost.localdomain [127.0.0.1]) by mail17-tx2
+	(MessageSwitch) id 1371560461602110_25824;
+	Tue, 18 Jun 2013 13:01:01 +0000 (UTC)
+Received: from TX2EHSMHS006.bigfish.com (unknown [10.9.14.253])	by
+	mail17-tx2.bigfish.com (Postfix) with ESMTP id 7039B460067	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 13:01:01 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS006.bigfish.com
+	(10.9.99.106) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 18 Jun 2013 13:01:00 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Tue, 18 Jun 2013 13:01:00 +0000
+Received: from b19537-desktop.ap.freescale.net
+	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r5ID0uaD007676;
+	Tue, 18 Jun 2013 06:00:57 -0700
+From: Zhenhua Luo <zhenhua.luo@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Jun 2013 21:08:10 +0800
+Message-ID: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 05:54:55 -0700 (PDT)
-In-Reply-To: <eac0003697c78bfc0dfe8f6ae322dad37f802b75.1371557553.git.hongxu.jia@windriver.com>
-References: <cover.1371557553.git.hongxu.jia@windriver.com>
-	<eac0003697c78bfc0dfe8f6ae322dad37f802b75.1371557553.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Jun 2013 13:54:55 +0100
-Message-ID: <CAJTo0LaqxRRNhZujVPJUVLYddRCt0DK=K_-QBh1SQYjbzrZD+g@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQn2F7VZlNh5/P/003WN8RU5fHICVmaRvi9hOYBS8ovI46p+gooAMXMerSYZBcwK7rah1MRM
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd-udevd: fix invoking init script failed
+X-OriginatorOrg: freescale.com
+Cc: Zhenhua Luo <zhenhua.luo@freescale.com>, b40527@freescale.com
+Subject: [patch v2] sanity.bbclass: correct the gcc_arch check logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,25 +53,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 12:55:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Jun 2013 13:01:03 -0000
+Content-Type: text/plain
 
-On 18 June 2013 13:25, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> root@emenlow-noemgd:~# /etc/init.d/systemd-udevd restart
-> Stopping udevd
-> Starting udev
-> corrupt queue file
-> root@emenlow-noemgd:~# /etc/init.d/systemd-udevd status
-> udevd is stopped
-> root@emenlow-noemgd:~# ps
-> 3805 root      8728 S    /lib/systemd/systemd-udevd
->
-> The process name is systemd-udevd rather than udev which is
-> used in systemd-udevd's init script.
->
-> [YOCTO #4746]
+The gcc arch check result is incorrect when gcc version is older than 4.5.
+Sanity checker requests user to add "-march=native" into BUILD_CFLAGS even if
+the flag is not supported by host gcc.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+The status is 0 when -march=native is supported by host gcc, so set result to
+True, otherwise set result to False.
 
-Ross
+Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+---
+ meta/classes/sanity.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 3b9934b..ee09679 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -325,7 +325,7 @@ def check_gcc_march(sanity_data):
+         if status != 0:
+             # Check if GCC could work with march
+             status,result = oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=native gcc_test.c -o gcc_test")
+-            if status != 0: 
++            if status == 0: 
+                 result = True
+             else:
+                 result = False
+-- 
+1.7.9.5
+
+
 
