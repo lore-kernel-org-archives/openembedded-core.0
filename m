@@ -1,37 +1,26 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vb0-f48.google.com (mail-vb0-f48.google.com
-	[209.85.212.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 45397606AD
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C944609AD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 10:57:13 +0000 (UTC)
-Received: by mail-vb0-f48.google.com with SMTP id w15so2765915vbf.35
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 03:57:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=vhJffnK5VpgAWogW0GvZV476cBN2IHA0bExKFgCO5UY=;
-	b=PirCBJHS6dALkQwl3msVDQVctvhsUaTPpjslgm2ZiYrS7Qk8ys0vZvXrVerP2HNc8V
-	LP8l9u41SmFRrJrAef82nliku63/0nKZ5rPsjMl8fpJpDL7E4RXAsAkpEQJ1owyDJ3UR
-	3Epbz1X7HPboaIPZPe2IqVCayCuX8EUYnEsH3g2vOPCSQRuBf8xdwfKNh22RHRklc2Jx
-	fHGeOcdKNrlI9Buy1uvERtwjIWNkfm44CjDeeRTSirZPC7pNgTJUqJt6/2aUdQ/boodt
-	nKhBhTEqqMR/YvcLG94Y+8dxWjBXEud4c6y7HJBBu+ybrUjvUkHObbkEXBetBKUkXmss
-	GKIw==
-X-Received: by 10.221.4.138 with SMTP id oc10mr2468903vcb.26.1371553033888;
-	Tue, 18 Jun 2013 03:57:13 -0700 (PDT)
+	Tue, 18 Jun 2013 10:58:26 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jun 2013 03:58:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,888,1363158000"; d="scan'208";a="331437930"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jun 2013 03:58:26 -0700
+Date: Tue, 18 Jun 2013 13:58:25 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130618105824.GF16785@lpalcu-linux>
+References: <cover.1371471166.git.laurentiu.palcu@intel.com>
+	<6a4980046a3175ecdd4216cdd75c754b0b0ffa16.1371471166.git.laurentiu.palcu@intel.com>
+	<CAJTo0LbPGDehVTaspjcZBCL2F0DRS-HondvaO-6K0ntZj_Zu6A@mail.gmail.com>
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.195.201 with HTTP; Tue, 18 Jun 2013 03:56:33 -0700 (PDT)
-In-Reply-To: <1371552925-25557-1-git-send-email-zhenhua.luo@freescale.com>
-References: <1371552925-25557-1-git-send-email-zhenhua.luo@freescale.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 18 Jun 2013 11:56:33 +0100
-X-Google-Sender-Auth: ww1VHrF-rk0ABnIc2yGFLxB9TNc
-Message-ID: <CANyK_8e39TGX9AHGhaBwTFJbkhP30nYzTf9+seXHrPr4nN+Eqw@mail.gmail.com>
-To: Zhenhua Luo <zhenhua.luo@freescale.com>
-Cc: b40527@freescale.com,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [patch] sanity.bbclass: correct the gcc_arch check logic
+In-Reply-To: <CAJTo0LbPGDehVTaspjcZBCL2F0DRS-HondvaO-6K0ntZj_Zu6A@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] xinput-calibrator: move it from meta-oe to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 10:57:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 18 Jun 2013 10:58:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 18 June 2013 11:55, Zhenhua Luo <zhenhua.luo@freescale.com> wrote:
-> -    if check_gcc_march(sanity_data):
-> +    if check_gcc_march(sanity_data) == True:
+On Mon, Jun 17, 2013 at 04:15:58PM +0100, Burton, Ross wrote:
+> On 17 June 2013 13:26, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> > People using xserver-xorg that need to calibrate their touchscreen
+> > devices would also need meta-oe. Bringing the recipes to oe-core will
+> > make it easier for them.
+> >
+> > Aditionaly, drop xterm RDEPENDS. Terminal is not needed to run the menu
+> > item.
+> 
+> I don't really like how there's a xdg-autostart desktop file and a
+> systemd service file for loading the calibration and performing
+> calibration - a single xsession file as xtscal does will be sufficient
+> and actually work in Sato as it can block the rest of the UI before
+> continuing.
 
-Unless there's something I've forgotten about Python, these two are
-exactly equivalent.
+I'm not sure I understand what's wrong with using xdg-autostart.
+Xsession parses each .desktop file in xdg/autostart and executes the
+application listed in 'Exec'. Having a separate xsession file created
+in /etc/X11/Xsession.d (like xtscal does) is, basically, the same thing.
+Only the moment of execution differs. Or, maybe, I misunderstood your
+point.
 
---
-Paul Barker
+> 
+> Also persistent calibration doesn't work with non-root X users, so
+> maybe the tool should use ~/.pointercal.xinput if it can't write to
+> /etc.
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+We could easily change xinput_calibrator_once.sh to save/read the calibration
+data either to/from /etc or ~.
+
+Laurentiu
+
+> 
+> Apart from that I've got a touchscreen that isn't X-axis-reversed now. :)
+> 
+> Ross
 
