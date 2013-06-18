@@ -1,42 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C9C54601DB
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E977E6041F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 15:19:06 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id kq13so4101116pab.39
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 08:19:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=references:mime-version:in-reply-to:content-type
-	:content-transfer-encoding:message-id:cc:x-mailer:from:subject:date
-	:to; bh=tTKrVTUDLA5h4H7VwSWcqON8Y821ZofJ9wLrV1KojTo=;
-	b=miORpRDaZkMdXJ3AB/Kh1EjXc5MSDRZLupWA6KeH57o7+RG/kRkvtLRe8yP6lAknmb
-	xC5o2yzCly+5wR9RzbuDWiqTSmO9Tta5BgB42BNmCL/iqMpLFg/904hRzyc0sBK+NOIg
-	bMZyonjirDvWnQQRkkWdrOjixZDwQvYYyJOgWiUkGOKF/YpDRJ9sRWiR9vkSx49xa9t8
-	urVZWNhvtlKf8yHCk/g0OB90A84ZGCHdN8PQD9MPltUCi2dFmZt73U2Rb0MRqi0uwTBc
-	0k3T4SLZ+FjME/IOlbTSgQV/2JgH7/lBwuIFTpC/1VrRkBLe9KWvwS79RDfF8KFL3dUi
-	DXIQ==
-X-Received: by 10.66.100.201 with SMTP id fa9mr2573296pab.120.1371568747562;
-	Tue, 18 Jun 2013 08:19:07 -0700 (PDT)
-Received: from [192.168.0.6] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209]) by mx.google.com with ESMTPSA id
-	re16sm20074392pac.16.2013.06.18.08.19.06 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 18 Jun 2013 08:19:06 -0700 (PDT)
-References: <cover.1371535277.git.rongqing.li@windriver.com>
-	<0a46b955bf906f9ce2c6a9045c740ac44a1b0959.1371535277.git.rongqing.li@windriver.com>
-	<51C06C13.3030104@windriver.com>
-Mime-Version: 1.0 (1.0)
-In-Reply-To: <51C06C13.3030104@windriver.com>
-Message-Id: <69CD9BED-59F0-4011-BB22-F234D0C03051@gmail.com>
-X-Mailer: iPad Mail (10B329)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Jun 2013 08:19:07 -0700
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: "<openembedded-core@lists.openembedded.org>"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] cairo: fix build error since toolchain has not get_feature command
+	Tue, 18 Jun 2013 15:20:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5IFK5Ye013355
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Jun 2013 08:20:05 -0700 (PDT)
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.143) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 18 Jun 2013 08:20:03 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 18 Jun 2013 11:20:00 -0400
+Message-ID: <cover.1371567827.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,112 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 15:19:07 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Jun 2013 15:20:05 -0000
+Content-Type: text/plain
 
+Richard/Saul,
 
+Here's the integration of a change from Khem to fix the gcc 4.8 ARM
+boot issues.
 
-On Jun 18, 2013, at 7:17 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+I'm still seeing some quasi random issues, but this definitely fixes
+the issue at hand, gets us up and running and is much better than 
+what we had before.
 
-> On 6/18/13 1:02 AM, rongqing.li@windriver.com wrote:
->> From: "Roy.Li" <rongqing.li@windriver.com>
->>=20
->> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
->> ---
->>  ...-check-stderr-when-test-compiling-in-conf.patch |   39 ++++++++++++++=
-++++++
->>  meta/recipes-graphics/cairo/cairo_1.12.14.bb       |    3 +-
->>  2 files changed, 41 insertions(+), 1 deletion(-)
->>  create mode 100644 meta/recipes-graphics/cairo/cairo/cairo-don-t-check-s=
-tderr-when-test-compiling-in-conf.patch
->>=20
->> diff --git a/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-w=
-hen-test-compiling-in-conf.patch b/meta/recipes-graphics/cairo/cairo/cairo-d=
-on-t-check-stderr-when-test-compiling-in-conf.patch
->> new file mode 100644
->> index 0000000..e04c3b2
->> --- /dev/null
->> +++ b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-tes=
-t-compiling-in-conf.patch
->> @@ -0,0 +1,39 @@
->> +=46rom 1581e5373c5917ed8ff6f7129c51160594c927d1 Mon Sep 17 00:00:00 2001=
+The patch pretty much says everything else:
 
->> +From: "Song.Li" <Song.Li@windriver.com>
->> +Date: Mon, 30 Jul 2012 16:38:02 +0800
->> +Subject: [PATCH] cairo:don't check stderr when test compiling in configu=
-re
->> +
->> +Upstream-Status: Pending
->> +
->> +cairo configure use a special macro to test compiling feature.
->> +It'll require no any warnings or errors in stderr.That is too strict.
->> +for example, when there is no get_feature in gcc,
->> +gcc will print "no get_feature" in stderr, but that is not a real error.=
+linux-yocto/3.8: fix gcc 4.8 ARM boot issues
 
->=20
-> FYI -- 'get_feature' is something specific to Wind River.  The patch is st=
-ill reasonable, but the commit description might need some cleanup for peopl=
-e not familiar with some of our internal tools.
->=20
+Updating the linux-yocto-3.8 SRCREVs to fix a boot issue with ARM boards
+when gcc 4.8 is used.
 
-I am still confused what does it fix in existing build
+Without the following mainline backports:
 
-> I'd suggest just removing the example part.
->=20
-> --Mark
->=20
->> +so let cairo don't check stderr,just check the return value of compiling=
+  f200475 ARM: 7670/1: fix the memset fix
+  8215b0e ARM: 7668/1: fix memset-related crashes caused by recent GCC (4.7.2) optimizations
 
->> +is enough.
->> +
->> +Signed-off-by: Song.Li <Song.Li@windriver.com>
->> +---
->> + build/aclocal.cairo.m4 |    6 +++---
->> + 1 file changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/build/aclocal.cairo.m4 b/build/aclocal.cairo.m4
->> +index 592e168..4de3b26 100644
->> +--- a/build/aclocal.cairo.m4
->> ++++ b/build/aclocal.cairo.m4
->> +@@ -106,9 +106,9 @@ AC_DEFUN([CAIRO_CC_TRY_LINK_WITH_ENV_SILENT],[dnl
->> +        [cairo_cc_stderr=3D`test -f conftest.err && cat conftest.err`
->> +         cairo_cc_flag=3Dno])
->> +
->> +-    if test "x$cairo_cc_stderr" !=3D "x"; then
->> +-        cairo_cc_flag=3Dno
->> +-    fi
->> ++dnl    if test "x$cairo_cc_stderr" !=3D "x"; then
->> ++dnl        cairo_cc_flag=3Dno
->> ++dnl    fi
->> +
->> +    if test "x$cairo_cc_flag" =3D "xyes"; then
->> +        ifelse([$3], , :, [$3])
->> +--
->> +1.7.9.5
->> +
->> diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb b/meta/recipes-=
-graphics/cairo/cairo_1.12.14.bb
->> index 40aa169..5c8c9cd 100644
->> --- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
->> +++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
->> @@ -5,7 +5,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De73e999e0c72b5=
-ac9012424fa157ad77"
->>  PR =3D "r0"
->>=20
->>  SRC_URI =3D "http://cairographics.org/releases/cairo-${PV}.tar.xz \
->> -           file://png.patch"
->> +           file://png.patch \
->> +           file://cairo-don-t-check-stderr-when-test-compiling-in-conf.p=
-atch"
->>=20
->>  SRC_URI[md5sum] =3D "27b634113d0f52152d60ae8e2ec7daa7"
->>  SRC_URI[sha256sum] =3D "96d0d1e3f9b74d2ca3469ff187c5e5f25649b1ad35cf06f4=
-f3a83847dff4ac13"
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The following trap will be seen on boot:
+
+    [<c00fc3b8>] (kmem_cache_alloc_trace+0x54/0x210) from [<c039f074>] (con_insert_unipair+0xcc/0x11c)
+    [<c039f074>] (con_insert_unipair+0xcc/0x11c) from [<c039fec8>] (con_set_default_unimap+0xfc/0x198)
+    [<c039fec8>] (con_set_default_unimap+0xfc/0x198) from [<c07ee258>] (console_map_init+0x44/0x58)
+    [<c07ee258>] (console_map_init+0x44/0x58) from [<c07ee738>] (vty_init+0x16c/0x1b0)
+    [<c07ee738>] (vty_init+0x16c/0x1b0) from [<c07edb68>] (tty_init+0x108/0x148)
+    [<c07edb68>] (tty_init+0x108/0x148) from [<c07eead0>] (chr_dev_init+0xb4/0xd8)
+    [<c07eead0>] (chr_dev_init+0xb4/0xd8) from [<c0008a18>] (do_one_initcall+0x11c/0x18c)
+    [<c0008a18>] (do_one_initcall+0x11c/0x18c) from [<c07d89d0>] (kernel_init_freeable+0x16c/0x254)
+    [<c07d89d0>] (kernel_init_freeable+0x16c/0x254) from [<c05a3810>] (kernel_init+0x18/0x160)
+    [<c05a3810>] (kernel_init+0x18/0x160) from [<c000e530>] (ret_from_fork+0x14/0x20)
+    Code: e593a000 e35a0000 0a000020 e5943014 (e79a1003)
+    ---[ end trace e6c62de166779f86 ]---
+    Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+
+Moderate stress and board testing shows the fix to hold, and it is good for
+broader testing.
+
+[YOCTO #4549]
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+Cheers,
+
+Bruce
+
+The following changes since commit 1dd643b142c69ac9035e29bff11d02201638dc65:
+
+  licences: Add SGI license (2013-06-17 16:45:37 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto/3.8: fix gcc 4.8 ARM boot issues
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb   |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb      |   14 +++++++-------
+ 3 files changed, 12 insertions(+), 12 deletions(-)
+
+-- 
+1.7.10.4
+
 
