@@ -1,27 +1,36 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 057CC6023E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id D338A60959
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 09:12:21 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.5])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Uorxc-00045S-DW; Tue, 18 Jun 2013 11:12:20 +0200
-Message-ID: <1371546729.5066.7.camel@pb-ThinkPad-R50e>
-From: Phil Blundell <pb@pbcl.net>
-To: Rongqing Li <rongqing.li@windriver.com>
-Date: Tue, 18 Jun 2013 10:12:09 +0100
-In-Reply-To: <51C01D87.9080804@windriver.com>
-References: <cover.1371539741.git.rongqing.li@windriver.com>
-	<b57b85f69322501fb617a01e625734cda1088b5e.1371539741.git.rongqing.li@windriver.com>
-	<1371542851.5066.1.camel@pb-ThinkPad-R50e>
-	<51C01D87.9080804@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] base-files: create /usr/lib/locale dir
+	Tue, 18 Jun 2013 09:16:16 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id z11so4415579wgg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 02:16:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=FEEZZsVWsiEoYgOhamdNQOkbHdwLniio5pBHiNRb6sk=;
+	b=dblE24vh2+V00pu2ajFJKUEqqDQlUAJIXAUom+YzbUSnLL1rzRWw4n1d8QyFcFryv1
+	fHlsw5IZRWCV8J1R4VzEoTIbe8SnJ5c50uV/n1JTlrce+jRMFr7nkEcOwECbHhd1ekju
+	OZgGWA+PF05NkKs0dlLtLmAHkeb1y7wX1PCNKQwQzUgBcRiIUzJ62F7AnXfpJ5axg3Hd
+	k5Prpy6nGegSdlfQzRw4W2p71gC20TdO3XnXRxKx+DeIDZHmldbEKIZV7AgQ8Dc2+jT0
+	TSa1S66yQqLIgpg+tjvKAHMM8tcmC0XnF2Z1DBdg4qItlf2zn8dA3ReE2ghaabVlF0vv
+	1D6A==
+X-Received: by 10.180.21.167 with SMTP id w7mr7237266wie.2.1371546977394;
+	Tue, 18 Jun 2013 02:16:17 -0700 (PDT)
+Received: from flashheart.burtonini.com (92.40.253.27.threembb.co.uk.
+	[92.40.253.27])
+	by mx.google.com with ESMTPSA id k10sm639202wia.4.2013.06.18.02.16.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 18 Jun 2013 02:16:16 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Jun 2013 10:16:10 +0100
+Message-Id: <1371546970-7034-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQmy76ByhKox/6W9qAj4B0gNjwWp0UbzNoUpVRBEql/vv34sx5Vu1dUlU69mJuzwMe51tYyc
+Subject: [PATCH] core-image-weston: add weston-examples to the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +43,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 09:12:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 09:16:17 -0000
 
-On Tue, 2013-06-18 at 16:42 +0800, Rongqing Li wrote:
-> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb 
-> b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> index fa1cc58..84663e3 100644
-> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
-> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
-> @@ -139,6 +139,7 @@ do_install_append_linuxstdbase() {
->          for d in ${dirs4775}; do
->                   install -m 2755 -d ${D}$d
->           done
-> +       install -m 755 -d ${D}/usr/lib/locale
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/images/core-image-weston.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks, that looks better.  Could you not just add it to ${dirs3755}
-though?  (Despite the confusing/misleading name, this variable appears
-to be a list of LSB directories that should be created with mode 0755,
-cf ${dirs4755} which is apparently directories to be created with mode
-2755.)
-
-In a stylistic sense it might be better to use ${prefix}/lib/locale (or
-whatever eglibc uses), but in practice LSB requires ${prefix}=="/usr",
-and presumably lsbtest is looking for "/usr/lib/locale" specifically, so
-I don't think it will actually make any functional difference in this
-specific case.
-
-p.
-
+diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
+index e49b205..cb9d7c7 100644
+--- a/meta/recipes-graphics/images/core-image-weston.bb
++++ b/meta/recipes-graphics/images/core-image-weston.bb
+@@ -6,4 +6,4 @@ LICENSE = "MIT"
+ 
+ inherit core-image
+ 
+-CORE_IMAGE_BASE_INSTALL += "weston weston-init gtk+3-demo"
++CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples gtk+3-demo"
+-- 
+1.7.10.4
 
 
