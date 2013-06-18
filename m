@@ -1,29 +1,32 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D61F605F3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BD09605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 14:17:57 +0000 (UTC)
+	Tue, 18 Jun 2013 14:19:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5IEHuNq026904
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5IEJnO8012290
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 07:17:57 -0700 (PDT)
+	Tue, 18 Jun 2013 07:19:49 -0700 (PDT)
 Received: from Marks-MacBook-Pro.local (172.25.36.227) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 18 Jun 2013 07:17:56 -0700
-Message-ID: <51C06C13.3030104@windriver.com>
-Date: Tue, 18 Jun 2013 09:17:55 -0500
+	14.2.342.3; Tue, 18 Jun 2013 07:19:48 -0700
+Message-ID: <51C06C83.7040809@windriver.com>
+Date: Tue, 18 Jun 2013 09:19:47 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1371535277.git.rongqing.li@windriver.com>
-	<0a46b955bf906f9ce2c6a9045c740ac44a1b0959.1371535277.git.rongqing.li@windriver.com>
-In-Reply-To: <0a46b955bf906f9ce2c6a9045c740ac44a1b0959.1371535277.git.rongqing.li@windriver.com>
-Subject: Re: [PATCH 1/1] cairo: fix build error since toolchain has not get_feature command
+References: <cover.1371539741.git.rongqing.li@windriver.com>
+	<b57b85f69322501fb617a01e625734cda1088b5e.1371539741.git.rongqing.li@windriver.com>
+	<1371542851.5066.1.camel@pb-ThinkPad-R50e>
+	<51C01D87.9080804@windriver.com>
+	<1371546729.5066.7.camel@pb-ThinkPad-R50e>
+In-Reply-To: <1371546729.5066.7.camel@pb-ThinkPad-R50e>
+Subject: Re: [PATCH 1/1] base-files: create /usr/lib/locale dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,88 +39,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 14:17:58 -0000
+X-List-Received-Date: Tue, 18 Jun 2013 14:19:48 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/18/13 1:02 AM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
+On 6/18/13 4:12 AM, Phil Blundell wrote:
+> On Tue, 2013-06-18 at 16:42 +0800, Rongqing Li wrote:
+>> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> b/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> index fa1cc58..84663e3 100644
+>> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> @@ -139,6 +139,7 @@ do_install_append_linuxstdbase() {
+>>           for d in ${dirs4775}; do
+>>                    install -m 2755 -d ${D}$d
+>>            done
+>> +       install -m 755 -d ${D}/usr/lib/locale
 >
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> ---
->   ...-check-stderr-when-test-compiling-in-conf.patch |   39 ++++++++++++++++++++
->   meta/recipes-graphics/cairo/cairo_1.12.14.bb       |    3 +-
->   2 files changed, 41 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+> Thanks, that looks better.  Could you not just add it to ${dirs3755}
+> though?  (Despite the confusing/misleading name, this variable appears
+> to be a list of LSB directories that should be created with mode 0755,
+> cf ${dirs4755} which is apparently directories to be created with mode
+> 2755.)
 >
-> diff --git a/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
-> new file mode 100644
-> index 0000000..e04c3b2
-> --- /dev/null
-> +++ b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
-> @@ -0,0 +1,39 @@
-> +From 1581e5373c5917ed8ff6f7129c51160594c927d1 Mon Sep 17 00:00:00 2001
-> +From: "Song.Li" <Song.Li@windriver.com>
-> +Date: Mon, 30 Jul 2012 16:38:02 +0800
-> +Subject: [PATCH] cairo:don't check stderr when test compiling in configure
-> +
-> +Upstream-Status: Pending
-> +
-> +cairo configure use a special macro to test compiling feature.
-> +It'll require no any warnings or errors in stderr.That is too strict.
-> +for example, when there is no get_feature in gcc,
-> +gcc will print "no get_feature" in stderr, but that is not a real error.
+> In a stylistic sense it might be better to use ${prefix}/lib/locale (or
+> whatever eglibc uses), but in practice LSB requires ${prefix}=="/usr",
+> and presumably lsbtest is looking for "/usr/lib/locale" specifically, so
+> I don't think it will actually make any functional difference in this
+> specific case.
 
-FYI -- 'get_feature' is something specific to Wind River.  The patch is still 
-reasonable, but the commit description might need some cleanup for people not 
-familiar with some of our internal tools.
-
-I'd suggest just removing the example part.
+FYI, I agree  ${prefix}/lib/locale is likely the correct directory to reference. 
+  It preserves the semantics of the OE way of declaring paths, supports the move 
+of prefix to somewhere else, and will still work in an LSB compliant configuration.
 
 --Mark
 
-> +so let cairo don't check stderr,just check the return value of compiling
-> +is enough.
-> +
-> +Signed-off-by: Song.Li <Song.Li@windriver.com>
-> +---
-> + build/aclocal.cairo.m4 |    6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/build/aclocal.cairo.m4 b/build/aclocal.cairo.m4
-> +index 592e168..4de3b26 100644
-> +--- a/build/aclocal.cairo.m4
-> ++++ b/build/aclocal.cairo.m4
-> +@@ -106,9 +106,9 @@ AC_DEFUN([CAIRO_CC_TRY_LINK_WITH_ENV_SILENT],[dnl
-> + 		[cairo_cc_stderr=`test -f conftest.err && cat conftest.err`
-> + 		 cairo_cc_flag=no])
-> +
-> +-	if test "x$cairo_cc_stderr" != "x"; then
-> +-		cairo_cc_flag=no
-> +-	fi
-> ++dnl	if test "x$cairo_cc_stderr" != "x"; then
-> ++dnl		cairo_cc_flag=no
-> ++dnl	fi
-> +
-> + 	if test "x$cairo_cc_flag" = "xyes"; then
-> + 		ifelse([$3], , :, [$3])
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-> index 40aa169..5c8c9cd 100644
-> --- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-> +++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
-> @@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
->   PR = "r0"
+> p.
 >
->   SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-> -           file://png.patch"
-> +           file://png.patch \
-> +           file://cairo-don-t-check-stderr-when-test-compiling-in-conf.patch"
 >
->   SRC_URI[md5sum] = "27b634113d0f52152d60ae8e2ec7daa7"
->   SRC_URI[sha256sum] = "96d0d1e3f9b74d2ca3469ff187c5e5f25649b1ad35cf06f4f3a83847dff4ac13"
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
 
