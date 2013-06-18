@@ -1,27 +1,17 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 807E66077F
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 882AE6077E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 15:52:21 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id hr11so3071087vcb.34
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 08:52:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=kSP4V3PENlzBQ7bDRgTzpL7UKcN2P3jurH/8+8foTZg=;
-	b=EfFIcdUCdtLRtS5ptRnaEyLdzFUiZqvbtgEWlHOn62+OLOfxG/dCRgiidYXMYYx1HZ
-	KTRLMNVgQZvGQk6vO/Qd4jHFbKupHVpL3A1GrG4Sl2p9lvtzR2QKeMPnH3PASk0T74NB
-	bLJ0mkheFZaKRZsHazf/CnPUdC7L17NPpNcHxHXMQORlekxey6IB0NYEuQbbt6faVlxK
-	FGeGZV5l0vFZeaSKLjMO4svhgsro/UCR562pbqGcNHOb7KifsJ+bWaPVHqJA8noH6Vzc
-	TXBwjqVjkND+lCkuDiH67TkC/Ofx/wXcmsmmVKwzs6TwqtTMnpLB6/hFR2jqLpPWeBmy
-	Qe8w==
-X-Received: by 10.58.181.225 with SMTP id dz1mr5555324vec.95.1371570742064;
-	Tue, 18 Jun 2013 08:52:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 08:52:02 -0700 (PDT)
+	Tue, 18 Jun 2013 15:54:56 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UoyFE-0005Ms-HX; Tue, 18 Jun 2013 17:54:56 +0200
+Message-ID: <1371570895.6580.65.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 18 Jun 2013 16:54:55 +0100
 In-Reply-To: <1371570476.20823.121.camel@ted>
 References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
 	<1371566573.6580.59.camel@phil-desktop.brightsign>
@@ -29,11 +19,8 @@ References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
 	<1371567621.3466.16.camel@localhost>
 	<CAJTo0LbT7ZbbmbibLCzOvv4a2939-Hr8uGEoUqg2sRVgEOCqmQ@mail.gmail.com>
 	<1371570476.20823.121.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Jun 2013 16:52:02 +0100
-Message-ID: <CAJTo0La15PruYdx+w6QKptep3EunCQRBF8AQO8Y3R9UjuY+H9g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Gm-Message-State: ALoCoQnrTjOrUQTpGfDspTtjK80H7SppZ8x3irL5vmpa54TyWWi0jKTlb0B1KVk8Czq9RyVN5zwq
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: magic libtool .la removal
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,21 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 15:52:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Jun 2013 15:54:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 18 June 2013 16:47, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> So I don't see the pressing need to set us off down a path on our own.
-> Yes the .la files are annoying but they're not that much of a problem,
-> are they?
+On Tue, 2013-06-18 at 16:47 +0100, Richard Purdie wrote:
+> We might as well throw away libtool
 
-Whilst the separate build directory work is a massive improvement,
-there's plenty of packages that don't do B!=S and use libtool.  We're
-not alone, at least Fedora and OSTree both wipe out all .la files.
+That sounds like an excellent plan to me.  I wonder how hard it would be
+to invent a libtool-dummy script which took the same arguments but
+basically just invoked the compiler and linker without any of the extra
+craziness.
 
-As B!=S should solve this problem and others I can see the argument
-for spending time making that work more comprehensively though.
+>Yes the .la files are annoying but they're not that much of a problem,
+>are they?
 
-Ross
+I do recall that I was moved to write my original patch because the .la
+files were causing me an actual problem rather than just being a
+nuisance.  I can't remember the details offhand unfortunately, though I
+guess I could try re-enabling them again locally and see what breaks.
+
+Also, the patch that I posted in the first place did use a
+DISTRO_FEATURE to control whether you get .la files or not (and the
+default was still to have them) so you would be welcome to keep them on
+for poky if you wanted.
+
+p.
+
+
 
