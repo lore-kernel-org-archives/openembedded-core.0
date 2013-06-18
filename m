@@ -1,28 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DA176077E;
-	Tue, 18 Jun 2013 16:23:21 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5IGTQOb003158; Tue, 18 Jun 2013 17:29:26 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9t518rRPogft; Tue, 18 Jun 2013 17:29:26 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5IGTNqh003152
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 18 Jun 2013 17:29:25 +0100
-Message-ID: <1371572589.20823.143.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-members <openembedded-members@lists.openembedded.org>
-Date: Tue, 18 Jun 2013 17:23:09 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+Return-Path: <walters@verbum.org>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+	[66.111.4.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 923EC605F3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 16:39:44 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id A566E209F6;
+	Tue, 18 Jun 2013 12:39:44 -0400 (EDT)
+Received: from frontend1.nyi.mail.srv.osa ([10.202.2.160])
+	by compute1.internal (MEProxy); Tue, 18 Jun 2013 12:39:44 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=Xe8RbSa08F8ymKP7hvAUPC
+	Dw/BA=; b=IsTejbdmR6ygsK0ykyrsKljerWDTfssR2aso/JEcLRaMLQ6z0fnIMZ
+	GkHkQVzEXP1lMl1MC2GGEI97bPPlvGjxQLd6Y06XL7fEW2lJJ4eN3R3ap6Fb+D7D
+	pMRnSldXH7EZwd7VMOBaybDN2zXIqtIlNwL/C+7uxDaF26H3fWFEs=
+X-Sasl-enc: V2/fOn5TaZIgUznoBcaPsuNJUZSL9jNYLp0XL5mv2nca 1371573584
+Received: from [10.193.22.97] (unknown [66.187.233.207])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 53E64C00E86;
+	Tue, 18 Jun 2013 12:39:44 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1371571538.3466.27.camel@localhost>
+References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
+	<1371566573.6580.59.camel@phil-desktop.brightsign>
+	<CAJTo0LZD46Gckm=PGRw2NdSBibREWUzJbG_zhVtcAAqtAunn+w@mail.gmail.com>
+	<1371567621.3466.16.camel@localhost>
+	<CAJTo0LbT7ZbbmbibLCzOvv4a2939-Hr8uGEoUqg2sRVgEOCqmQ@mail.gmail.com>
+	<1371570476.20823.121.camel@ted> <1371571538.3466.27.camel@localhost>
+Date: Tue, 18 Jun 2013 12:39:43 -0400
+Message-ID: <1371573583.3466.35.camel@localhost>
 Mime-Version: 1.0
-Cc: tsc <tsc@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: OE, the TSC and the future
+X-Mailer: Evolution 2.32.3 (2.32.3-1.el6) 
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: magic libtool .la removal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,64 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 16:23:22 -0000
+X-List-Received-Date: Tue, 18 Jun 2013 16:39:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-I think its fair to say that OpenEmbedded has changed quite a bit over
-the last few years. Prior to the Yocto Project, OE struggled to figure
-out how to engage with the commercial side of the ecosystem and how to
-scale and I think there have been many positive changes in the way
-everything works, not least with the layers approach and the pull model
-for changes.
+On Tue, 2013-06-18 at 12:05 -0400, Colin Walters wrote:
 
-Whilst the ecosystem has changed, the structures that make up OE such as
-the TSC have not changed that much. They were setup to address problems
-which in some cases no longer exist for example.
+> Yeah, I dunno...maybe someone needs to fork libtool.
 
-We're coming up to the next round of TSC elections, the board is aware
-of this but have asked that we figure out the TSC's role going forward
-before those elections.
+I should follow up to this; the thing is, libtool is at the intersection
+of so many cross-cutting issues:
 
-There has been limited discussion about this on the members list
-previously, it was met with a lot of silence but I do think the time is
-right to think about things a bit.
+* RPM-style multilib vs Debian-style multiarch
+* Supporting libraries that use pkg-config vs those that still
+  sadly don't
+* Windows vs Darwin vs GNU/Linux (in all its variations)
+* Cross vs native builds
+* "sysroot" support
+* Plugins: libltdl  (and how that interacts with other cross-platform
+  module loaders like e.g. GModule)
+* Component-internal build system vs external interaction; specifically
+  libtool makes it easy to run *uninstalled* binaries, which is
+  quite useful, and to do that inside the tree does require
+  extra metadata in .la files
 
-I should note that whilst I did take an action from the TSC to start a
-discussion and that the TSC does have some ideas in mind, I'm primarily
-expressing personal views here, not those of the TSC. Other TSC members
-are more than capable of expressing their own views!
+So when I say .la files are worthless and broken, I really mean just for
+GNU/Linux systems (generally native builds, but likely also cross), and
+where things I care about know how to find .so files instead of .la,
+and only for *external* build system interaction; having .la files
+*inside* the build tree for a single component is fine, etc.
 
-In brief summary the TSC has been doing two main things, acting as a
-task force and also being able to make a decision when needed. The
-latter has not happened much at all, the main work was as a task force
-on various issues, firstly engaging with the Yocto Project and figuring
-that out, more recently dealing with infrastructure issues and generally
-ensuring the health of OE.
+I can't say for sure myself that having libtool unilaterally stop
+installing .la files wouldn't break anything; maybe there's some library
+out there that doesn't use pkg-config and relies on consumers using
+dependency_libs.  But I do think it's at best unnecessary for the use
+case above; so maybe it should come down to an option, or something.
 
-I don't think the task force should be limited to the TSC members
-although it can be lead by them (or delegated). As such I think the TSC
-would like to see that element get opened up to a public IRC meeting,
-maybe monthly at a set time when people get together and discuss those
-topics. The TSC members could be responsible for giving that process and
-meeting some kind of structure but it would be open to all.
 
-The decision making element of the TSC would remain with them, likely
-done by calling a special meeting as needed (we haven't needed many
-official decisions).
 
-At this point I'll open that to discussion. Any objections or other
-proposals?
-
-Speaking of TSC elections, I know I'm due for re-election first. I'm
-also due to be away for a few weeks shortly so I'd like to make it known
-that I would like to stand for re-election. I've hopefully done some
-good for OE over what amounts to nearly a decade (scary when put like
-that!) and I'm not quite done yet! :)
-
-Cheers,
-
-Richard
 
 
 
