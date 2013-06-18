@@ -1,40 +1,28 @@
-Return-Path: <walters@verbum.org>
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 743846077E
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 16:05:40 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 7FC9F2175A;
-	Tue, 18 Jun 2013 12:05:40 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute5.internal (MEProxy); Tue, 18 Jun 2013 12:05:40 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
-	:content-type:date:message-id:mime-version
-	:content-transfer-encoding; s=smtpout; bh=c0ZmQVm3ONIdsSFu3nLZ32
-	J9gsc=; b=Y2pIUppi2tnN171lCOpxPZW6IeXf6HOaywT8UvcCRb3WlO0Pka8liZ
-	tnDilFM9YTqH4dn5J6LNss3k2/tQ9TH1BONI7WWWFJTIstHa/WbD9UNjGWOdmigc
-	S4AYuyKOTB0iwKfT+lYHbA5KvQn+nS9xVbuR4J6Iiw23SbdSHo+aE=
-X-Sasl-enc: kciG6JYWpl1bovcQmT/XF5CoAJ5dBNlIgB+5Or0tShBY 1371571539
-Received: from [10.193.22.97] (unknown [66.187.233.207])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 617446802AA;
-	Tue, 18 Jun 2013 12:05:39 -0400 (EDT)
-From: Colin Walters <walters@verbum.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1371570476.20823.121.camel@ted>
-References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
-	<1371566573.6580.59.camel@phil-desktop.brightsign>
-	<CAJTo0LZD46Gckm=PGRw2NdSBibREWUzJbG_zhVtcAAqtAunn+w@mail.gmail.com>
-	<1371567621.3466.16.camel@localhost>
-	<CAJTo0LbT7ZbbmbibLCzOvv4a2939-Hr8uGEoUqg2sRVgEOCqmQ@mail.gmail.com>
-	<1371570476.20823.121.camel@ted>
-Date: Tue, 18 Jun 2013 12:05:38 -0400
-Message-ID: <1371571538.3466.27.camel@localhost>
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DA176077E;
+	Tue, 18 Jun 2013 16:23:21 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5IGTQOb003158; Tue, 18 Jun 2013 17:29:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9t518rRPogft; Tue, 18 Jun 2013 17:29:26 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5IGTNqh003152
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 18 Jun 2013 17:29:25 +0100
+Message-ID: <1371572589.20823.143.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-members <openembedded-members@lists.openembedded.org>
+Date: Tue, 18 Jun 2013 17:23:09 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 (2.32.3-1.el6) 
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: magic libtool .la removal
+Cc: tsc <tsc@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: OE, the TSC and the future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,61 +35,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 16:05:41 -0000
+X-List-Received-Date: Tue, 18 Jun 2013 16:23:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-06-18 at 16:47 +0100, Richard Purdie wrote:
+I think its fair to say that OpenEmbedded has changed quite a bit over
+the last few years. Prior to the Yocto Project, OE struggled to figure
+out how to engage with the commercial side of the ecosystem and how to
+scale and I think there have been many positive changes in the way
+everything works, not least with the layers approach and the pull model
+for changes.
 
-> The thing which really worries me about this is that we'll start to
-> deviate quite massively with how upstream expect us to use autotools.
+Whilst the ecosystem has changed, the structures that make up OE such as
+the TSC have not changed that much. They were setup to address problems
+which in some cases no longer exist for example.
 
-I just consider upstream wrong, and so do others:
-http://wiki.debian.org/ReleaseGoals/LAFileRemoval
-http://fedoraproject.org/wiki/Packaging:Guidelines (search for .la)
-http://blog.flameeyes.eu/2008/04/what-about-those-la-files (the one mostly sane Gentoo guy)
+We're coming up to the next round of TSC elections, the board is aware
+of this but have asked that we figure out the TSC's role going forward
+before those elections.
 
-> As things stand, we have a number of sysroot fixes for the sysroot
-> support in libtool which is basically broken out the box. I have tried
-> discussing them with upstream and was ignored, mainly as we patch
-> libtool and we're supposed to use it unpatched. 
+There has been limited discussion about this on the members list
+previously, it was met with a lot of silence but I do think the time is
+right to think about things a bit.
 
-Yeah, I dunno...maybe someone needs to fork libtool.
+I should note that whilst I did take an action from the TSC to start a
+discussion and that the TSC does have some ideas in mind, I'm primarily
+expressing personal views here, not those of the TSC. Other TSC members
+are more than capable of expressing their own views!
 
-> I worry that if we go this route, the builds will stop working without
-> the .la file removal and that we'll lose any chance of being able to
-> resolve our patchset with libtool upstream. We might as well throw away
-> libtool at that point
+In brief summary the TSC has been doing two main things, acting as a
+task force and also being able to make a decision when needed. The
+latter has not happened much at all, the main work was as a task force
+on various issues, firstly engaging with the Yocto Project and figuring
+that out, more recently dealing with infrastructure issues and generally
+ensuring the health of OE.
 
-Or that...
+I don't think the task force should be limited to the TSC members
+although it can be lead by them (or delegated). As such I think the TSC
+would like to see that element get opened up to a public IRC meeting,
+maybe monthly at a set time when people get together and discuss those
+topics. The TSC members could be responsible for giving that process and
+meeting some kind of structure but it would be open to all.
 
->  and save the overhead. It also means we will have
-> bigger problems working on something like darwin (which I've had work in
-> the past).
+The decision making element of the TSC would remain with them, likely
+done by calling a special meeting as needed (we haven't needed many
+official decisions).
 
-I don't have any experience with Darwin myself.
+At this point I'll open that to discussion. Any objections or other
+proposals?
 
-> So I don't see the pressing need to set us off down a path on our own.
-> Yes the .la files are annoying but they're not that much of a problem,
-> are they?
+Speaking of TSC elections, I know I'm due for re-election first. I'm
+also due to be away for a few weeks shortly so I'd like to make it known
+that I would like to stand for re-election. I've hopefully done some
+good for OE over what amounts to nearly a decade (scary when put like
+that!) and I'm not quite done yet! :)
 
-Depends; I don't have a lot of first-hand experience with problems they
-cause in the OE context.  But .la files completely break jhbuild.
-Certainly, one could call jhbuild a hack, and it is.  But it's a tool
-with absolutely essential properties for people contributing to GNOME.  
+Cheers,
 
-Basically jhbuild allows one to e.g.:
-$ jhbuild buildone gtk+
-$ jhbuild run gedit
-
-Now you have your system version of /usr/bin/gedit linked against the
-latest gtk+ from git in /opt/gnome/lib/libgtk.so.  This "two layer"
-model is essential for allowing developers to test new code without
-risking their /.
-
-The root "feature" of .la files where it can say "if you link against
-me, also link against these other libraries" that causes this is much
-better implemented by pkg-config.
+Richard
 
 
 
