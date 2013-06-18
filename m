@@ -1,26 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 88DE26A5CC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C316F605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 12:25:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5ICPI1T007241
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 18 Jun 2013 12:55:14 +0000 (UTC)
+Received: by mail-ve0-f174.google.com with SMTP id oz10so3024573veb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 05:25:18 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.153) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 18 Jun 2013 05:25:18 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Jun 2013 20:25:14 +0800
-Message-ID: <eac0003697c78bfc0dfe8f6ae322dad37f802b75.1371557553.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1371557553.git.hongxu.jia@windriver.com>
-References: <cover.1371557553.git.hongxu.jia@windriver.com>
+	Tue, 18 Jun 2013 05:55:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=52RbCo7A/FTMb8JfRB7Lk5UADyUdNeHEuNG1BE969Ek=;
+	b=Mf2PhWjCBvzJWFtXc1ULXKH3mDSis0mhfRxwioS5qHz+SxZa4dSUVvjwcWM9v7vT75
+	wR2ffbu875idWVN8ggSS3B3WQvIgaccmqTAuxnATQjG+EKmqZ7ZjUbd0mQHup3NaLTN3
+	3y8l7GGkudOm231Jr91aPHwj7GejV5XzZ8o8wcf/bEkgsjdf4tnGGdNj2T9XtgsohPaM
+	p9w++duVKUD0K7phGddGSTaE9yO+4GIuxYrwe1BgTP2omPk9AkyKQHzFbOKwOEGaOHHr
+	5+DDP8lkUnwexyojpEzcSnFh3Iawe1qdqSBFNZuFRyabUmvap459LRqBm13e5XhDDNt4
+	B99w==
+X-Received: by 10.52.29.106 with SMTP id j10mr1454528vdh.77.1371560115186;
+	Tue, 18 Jun 2013 05:55:15 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] systemd-udevd: fix invoking init script failed
+Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 05:54:55 -0700 (PDT)
+In-Reply-To: <eac0003697c78bfc0dfe8f6ae322dad37f802b75.1371557553.git.hongxu.jia@windriver.com>
+References: <cover.1371557553.git.hongxu.jia@windriver.com>
+	<eac0003697c78bfc0dfe8f6ae322dad37f802b75.1371557553.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2013 13:54:55 +0100
+Message-ID: <CAJTo0LaqxRRNhZujVPJUVLYddRCt0DK=K_-QBh1SQYjbzrZD+g@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+X-Gm-Message-State: ALoCoQn2F7VZlNh5/P/003WN8RU5fHICVmaRvi9hOYBS8ovI46p+gooAMXMerSYZBcwK7rah1MRM
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd-udevd: fix invoking init script failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 12:25:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Jun 2013 12:55:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-root@emenlow-noemgd:~# /etc/init.d/systemd-udevd restart
-Stopping udevd
-Starting udev
-corrupt queue file
-root@emenlow-noemgd:~# /etc/init.d/systemd-udevd status
-udevd is stopped
-root@emenlow-noemgd:~# ps
-3805 root      8728 S    /lib/systemd/systemd-udevd
+On 18 June 2013 13:25, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> root@emenlow-noemgd:~# /etc/init.d/systemd-udevd restart
+> Stopping udevd
+> Starting udev
+> corrupt queue file
+> root@emenlow-noemgd:~# /etc/init.d/systemd-udevd status
+> udevd is stopped
+> root@emenlow-noemgd:~# ps
+> 3805 root      8728 S    /lib/systemd/systemd-udevd
+>
+> The process name is systemd-udevd rather than udev which is
+> used in systemd-udevd's init script.
+>
+> [YOCTO #4746]
 
-The process name is systemd-udevd rather than udev which is
-used in systemd-udevd's init script.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-[YOCTO #4746]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-core/systemd/systemd/init | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd/init b/meta/recipes-core/systemd/systemd/init
-index 7e67a50..41c4136 100644
---- a/meta/recipes-core/systemd/systemd/init
-+++ b/meta/recipes-core/systemd/systemd/init
-@@ -83,7 +83,7 @@ case "$1" in
-     ;;
-   stop)
-     echo "Stopping udevd"
--    start-stop-daemon --stop --name udevd --quiet
-+    start-stop-daemon --stop --name systemd-udevd --quiet
-     ;;
-   restart)
-     $0 stop
-@@ -91,7 +91,7 @@ case "$1" in
-     $0 start
-     ;;
-   status)
--    status udevd
-+    status systemd-udevd
-     ;;
-   *)
-     echo "Usage: $0 {start|stop|status|restart}"
--- 
-1.8.1.2
-
+Ross
 
