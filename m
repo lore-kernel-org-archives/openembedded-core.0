@@ -1,32 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 252A5601DB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 807E66077F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 15:48:18 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5IFsEbB000702; Tue, 18 Jun 2013 16:54:15 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id t4J4hjVJ6hYO; Tue, 18 Jun 2013 16:54:14 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5IFsAMg000695
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 18 Jun 2013 16:54:11 +0100
-Message-ID: <1371570476.20823.121.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Jun 2013 16:47:56 +0100
-In-Reply-To: <CAJTo0LbT7ZbbmbibLCzOvv4a2939-Hr8uGEoUqg2sRVgEOCqmQ@mail.gmail.com>
+	Tue, 18 Jun 2013 15:52:21 +0000 (UTC)
+Received: by mail-vc0-f175.google.com with SMTP id hr11so3071087vcb.34
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 08:52:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=kSP4V3PENlzBQ7bDRgTzpL7UKcN2P3jurH/8+8foTZg=;
+	b=EfFIcdUCdtLRtS5ptRnaEyLdzFUiZqvbtgEWlHOn62+OLOfxG/dCRgiidYXMYYx1HZ
+	KTRLMNVgQZvGQk6vO/Qd4jHFbKupHVpL3A1GrG4Sl2p9lvtzR2QKeMPnH3PASk0T74NB
+	bLJ0mkheFZaKRZsHazf/CnPUdC7L17NPpNcHxHXMQORlekxey6IB0NYEuQbbt6faVlxK
+	FGeGZV5l0vFZeaSKLjMO4svhgsro/UCR562pbqGcNHOb7KifsJ+bWaPVHqJA8noH6Vzc
+	TXBwjqVjkND+lCkuDiH67TkC/Ofx/wXcmsmmVKwzs6TwqtTMnpLB6/hFR2jqLpPWeBmy
+	Qe8w==
+X-Received: by 10.58.181.225 with SMTP id dz1mr5555324vec.95.1371570742064;
+	Tue, 18 Jun 2013 08:52:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 08:52:02 -0700 (PDT)
+In-Reply-To: <1371570476.20823.121.camel@ted>
 References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
 	<1371566573.6580.59.camel@phil-desktop.brightsign>
 	<CAJTo0LZD46Gckm=PGRw2NdSBibREWUzJbG_zhVtcAAqtAunn+w@mail.gmail.com>
 	<1371567621.3466.16.camel@localhost>
 	<CAJTo0LbT7ZbbmbibLCzOvv4a2939-Hr8uGEoUqg2sRVgEOCqmQ@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	<1371570476.20823.121.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2013 16:52:02 +0100
+Message-ID: <CAJTo0La15PruYdx+w6QKptep3EunCQRBF8AQO8Y3R9UjuY+H9g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQnrTjOrUQTpGfDspTtjK80H7SppZ8x3irL5vmpa54TyWWi0jKTlb0B1KVk8Czq9RyVN5zwq
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: magic libtool .la removal
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,49 +48,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 15:48:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 15:52:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2013-06-18 at 16:05 +0100, Burton, Ross wrote:
-> On 18 June 2013 16:00, Colin Walters <walters@verbum.org> wrote:
-> > The relevant data I have on hand are:
-> >
-> > https://bugzilla.gnome.org/show_bug.cgi?id=654013
-> > https://git.gnome.org/browse/jhbuild/commit/?id=965c8d5ceda9d1c5d6021ef2c534e0a7f68ca976
-> >
-> > I think the executive summary is that libltdl knows how to load .so
-> > files directly (at least currently), so there's no reason to have even
-> > ${libdir}/modulename/plugins/foo.la.
-> 
-> Thanks Colin.  Let's ignore the "libdir" option so this is a
-> per-package keep-or-wipe option.  I'd like to default it to removing
-> all by default after a verification that the build results are
-> identical.
+On 18 June 2013 16:47, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> So I don't see the pressing need to set us off down a path on our own.
+> Yes the .la files are annoying but they're not that much of a problem,
+> are they?
 
-The thing which really worries me about this is that we'll start to
-deviate quite massively with how upstream expect us to use autotools.
+Whilst the separate build directory work is a massive improvement,
+there's plenty of packages that don't do B!=S and use libtool.  We're
+not alone, at least Fedora and OSTree both wipe out all .la files.
 
-As things stand, we have a number of sysroot fixes for the sysroot
-support in libtool which is basically broken out the box. I have tried
-discussing them with upstream and was ignored, mainly as we patch
-libtool and we're supposed to use it unpatched. 
+As B!=S should solve this problem and others I can see the argument
+for spending time making that work more comprehensively though.
 
-I worry that if we go this route, the builds will stop working without
-the .la file removal and that we'll lose any chance of being able to
-resolve our patchset with libtool upstream. We might as well throw away
-libtool at that point and save the overhead. It also means we will have
-bigger problems working on something like darwin (which I've had work in
-the past).
-
-So I don't see the pressing need to set us off down a path on our own.
-Yes the .la files are annoying but they're not that much of a problem,
-are they?
-
-Cheers,
-
-Richard
-
-
-
+Ross
 
