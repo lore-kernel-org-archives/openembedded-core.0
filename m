@@ -1,30 +1,32 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 581ED60130
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 03:32:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5I3WwaY029782
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Jun 2013 20:32:58 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.22.77) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 17 Jun 2013 20:32:57 -0700
-Message-ID: <51BFD4E8.3020901@windriver.com>
-Date: Mon, 17 Jun 2013 23:32:56 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+Return-Path: <fcooper@ti.com>
+Received: from arroyo.ext.ti.com (arroyo.ext.ti.com [192.94.94.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D191601AF
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 04:05:30 +0000 (UTC)
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r5I45TYU003547
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 23:05:29 -0500
+Received: from DLEE71.ent.ti.com (dlee71.ent.ti.com [157.170.170.114])
+	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id r5I45TdW027689
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 23:05:29 -0500
+Received: from DFLE08.ent.ti.com ([fe80::187f:8c86:2b7:ef9f]) by
+	DLEE71.ent.ti.com ([fe80::4dce:5c82:1ad0:d462%28]) with mapi id
+	14.02.0342.003; Mon, 17 Jun 2013 23:05:29 -0500
+From: "Cooper Jr., Franklin" <fcooper@ti.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: SSTATE issue for a single machine.
+Thread-Index: Ac5r14CLgIOtjN4NTbS2+yQF6zam6Q==
+Date: Tue, 18 Jun 2013 04:05:28 +0000
+Message-ID: <8F29D6B095ED194EA1980491A5E029710C4D1601@DFLE08.ent.ti.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.247.5.50]
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <A6E8629E-ED47-4DD7-8C53-B0D467BADA39@gmail.com>
-In-Reply-To: <A6E8629E-ED47-4DD7-8C53-B0D467BADA39@gmail.com>
-Cc: "yocto@yoctoproject.org
-	\(yocto@yoctoproject.org\)" <yocto@yoctoproject.org>,
-	"<openembedded-core@lists.openembedded.org> oe-core layer"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: Fix for kernel 3.8/gcc-4.8 segfault on qemuarm
+Subject: SSTATE issue for a single machine.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,73 +39,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 03:32:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 04:05:30 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_8F29D6B095ED194EA1980491A5E029710C4D1601DFLE08entticom_"
 
-On 13-06-17 11:30 PM, Khem Raj wrote:
-> Hi Bruce and All
->
-> Finally after a long innings I have diagnosed the mystery behind the below segfault that we see on kernel 3.8 which compiled with gcc 4.8 but don't show when compiled with gcc 4.7
->
->
-> Unable to handle kernel paging request at virtual address ffffffff
-> pgd = c0004000
-> [ffffffff] *pgd=07ffe831, *pte=00000000, *ppte=00000000
-> Internal error: Oops: 17 [#1] PREEMPT ARM
-> Modules linked in:
-> CPU: 0    Not tainted  (3.8.0-yocto-standard+ #32)
-> PC is at kmem_cache_alloc+0x38/0x154
-> LR is at subsys_system_register+0x34/0xd8
-> pc : [<c00bd4d8>]    lr : [<c0327244>]    psr: a0000153
-> sp : c7835ef0  ip : c7904590  fp : 00000000
-> r10: c0688dc4  r9 : c06db900  r8 : c0327244
-> r7 : 00000000  r6 : 000080d0  r5 : c7801380  r4 : ffffffff
-> r3 : 00000000  r2 : 00000078  r1 : 000080d0  r0 : c7801380
-> Flags: NzCv  IRQs on  FIQs off  Mode SVC_32  ISA ARM  Segment kernel
-> Control: 00093177  Table: 00004000  DAC: 00000017
-> Process swapper (pid: 1, stack limit = 0xc78341b8)
-> Stack: (0xc7835ef0 to 0xc7836000)
-> 5ee0:                                     c06a5564 c06b8b8c c7834028 00000000
-> 5f00: c0680218 c0327244 c7835f28 c06a5564 00000006 c7834028 c06db900 c0688dd4
-> 5f20: c7835f28 c00089a0 c0657f44 00000006 c086e561 00000006 00000000 c06a5534
-> 5f40: c06a5564 00000006 c06db900 c0680218 c069fd68 0000008e c069fd5c c0680924
-> 5f60: 00000006 00000006 c0680218 00000000 00000000 00000000 00000000 00000000
-> 5f80: c04f5e68 00000000 00000000 00000000 00000000 00000000 00000000 c04f5e70
-> 5fa0: 00000000 00000000 c04f5e68 c000deb0 00000000 00000000 00000000 00000000
-> 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
-> 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
-> [<c00bd4d8>] (kmem_cache_alloc+0x38/0x154) from [<c0327244>] (subsys_system_register+0x34/0xd8)
-> [<c0327244>] (subsys_system_register+0x34/0xd8) from [<c0688dd4>] (init_clocksource_sysfs+0x10/0x54)
-> [<c0688dd4>] (init_clocksource_sysfs+0x10/0x54) from [<c00089a0>] (do_one_initcall+0x10c/0x17c)
-> [<c00089a0>] (do_one_initcall+0x10c/0x17c) from [<c0680924>] (kernel_init_freeable+0x164/0x224)
-> [<c0680924>] (kernel_init_freeable+0x164/0x224) from [<c04f5e70>] (kernel_init+0x8/0x150)
-> [<c04f5e70>] (kernel_init+0x8/0x150) from [<c000deb0>] (ret_from_fork+0x14/0x24)
-> Code: e5934000 e3540000 0a00001a e5953014 (e7941003)
-> ---[ end trace f4d187650e17fc5c ]---
-> Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
->
->
-> Please apply the patch below to linux-yocto-3.8
->
-> http://sakrah.dontexist.org/files/patches/0001-ARM-7668-1-fix-memset-related-crashes-caused-by-rece.patch
->
-> This is a back port from 3.9 therefore safe. The problem is not limited to linux-yocto it also impacts upstream 3.8 stable
-> but 3.8 stable is end of life so why bother. If linux-yocto upgrades to 3.9 or 3.10 and drops 3.8 in 1.5 then we are ok too.
->
+--_000_8F29D6B095ED194EA1980491A5E029710C4D1601DFLE08entticom_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-That's interesting. I got the same crash on linux-yocto-dev, so I kept
-debugging here.
+I have an issue with a particular custom recipe that attempts to rebuild it=
+self even though it was previously built. This recipe is a part of a file s=
+ystem image that is built without an issue the first time. But building tha=
+t image a second time results in a build error with this particular recipe.=
+ There are duplicate log and run files within the temp directory with diffe=
+rent hashes. Normally I would debug this problem using "sstate-diff-machine=
+s.sh" and "bitbake-diffsigs" but multiple sigdata files are not generated t=
+o run a comparison against.
 
-Did linux-yocto-dev boot out of the box for you with gcc 4.8 ?
+Is there any other method available to debug this type of issue?
 
-Bruce
-
-> Let me know how it goes
->
-> Thanks
->
-> -Khem
->
+Regards,
+Franklin Cooper Jr.
+Texas Instruments
+Application Engineer
+fcooper@ti.com<mailto:fcooper@ti.com>
 
 
+--_000_8F29D6B095ED194EA1980491A5E029710C4D1601DFLE08entticom_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">I have an issue with a particular custom recipe that=
+ attempts to rebuild itself even though it was previously built. This recip=
+e is a part of a file system image that is built without an issue the first=
+ time. But building that image a second
+ time results in a build error with this particular recipe. There are dupli=
+cate log and run files within the temp directory with different hashes. Nor=
+mally I would debug this problem using &#8220;sstate-diff-machines.sh&#8221=
+; and &#8220;bitbake-diffsigs&#8221; but multiple sigdata
+ files are not generated to run a comparison against.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Is there any other method available to debug this ty=
+pe of issue?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Regards,<o:p></o:p></p>
+<p class=3D"MsoNormal">Franklin Cooper Jr.<o:p></o:p></p>
+<p class=3D"MsoNormal">Texas Instruments<o:p></o:p></p>
+<p class=3D"MsoNormal">Application Engineer<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"mailto:fcooper@ti.com">fcooper@ti.com</a>=
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
+
+--_000_8F29D6B095ED194EA1980491A5E029710C4D1601DFLE08entticom_--
