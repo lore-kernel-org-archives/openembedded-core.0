@@ -1,25 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 22B2C605F3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E75760812
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 13:06:24 +0000 (UTC)
+	Tue, 18 Jun 2013 13:06:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5ID6NJI011280
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5ID6O7Z013823
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Jun 2013 06:06:23 -0700 (PDT)
+	Tue, 18 Jun 2013 06:06:24 -0700 (PDT)
 Received: from localhost.localdomain (128.224.162.205) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Tue, 18 Jun 2013 06:06:22 -0700
+	(TLS) id 14.2.342.3; Tue, 18 Jun 2013 06:06:23 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 18 Jun 2013 21:05:44 +0800
-Message-ID: <cover.1371559431.git.kai.kang@windriver.com>
+Date: Tue, 18 Jun 2013 21:05:45 +0800
+Message-ID: <b48977b03ebeec67c3c5ed0f09b96818805b6eb8.1371559431.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <cover.1371559431.git.kai.kang@windriver.com>
+References: <cover.1371559431.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.205]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] Update strace and fix autogen-native build failure
+Subject: [PATCH 1/2] autogen-native: fix build failure on overloaded hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,56 +34,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 13:06:24 -0000
+X-List-Received-Date: Tue, 18 Jun 2013 13:06:25 -0000
 Content-Type: text/plain
 
-The following changes since commit 1dd643b142c69ac9035e29bff11d02201638dc65:
+On some overloaded hosts, shell commands of autogen may can not
+finish in 5 secs. This has caused many build failures, so increase
+the timeout limit to fix this.
 
-  licences: Add SGI license (2013-06-17 16:45:37 +0100)
-
-are available in the git repository at:
-  git://git.pokylinux.org/poky-contrib kangkai/update-strace
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-strace
-
-Kai Kang (2):
-  autogen-native: fix build failure on overloaded hosts
-  strace: update to 4.8
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
  .../autogen/autogen-native_5.17.4.bb               |    3 +-
- .../autogen/files/increase-timeout-limit.patch     |   33 +
- ...ilding-when-glibc-has-a-stub-process_vm_r.patch |   54 -
- .../strace-4.7/0014-x32-update-syscall-table.patch |   91 -
- ...-x32-update-g-s-etsockopt-syscall-numbers.patch |   43 -
- .../0024-x32-add-64bit-annotation-too.patch        |  231 --
- .../0025-Add-e-trace-memory-option.patch           | 2898 --------------------
- ...ew-errno-values-for-EPROBE_DEFER-and-EOPE.patch |   36 -
- .../0027-Add-AArch64-support-to-strace.patch       |  542 ----
- .../0028-Enhance-quotactl-decoding.patch           |  391 ---
- ...029-Filter-out-redundant-32-ioctl-entries.patch |  145 -
- ...neric-ioctl-definitions-to-linux-ioctlent.patch |  571 ----
- ...-for-tracing-32-bit-ARM-EABI-binaries-on-.patch |  963 -------
- .../0032-Fix-kernel-release-string-parsing.patch   |   38 -
- .../strace/strace-4.8/git-version-gen              |  225 ++
- meta/recipes-devtools/strace/strace_4.7.bb         |   34 -
- meta/recipes-devtools/strace/strace_4.8.bb         |   32 +
- 17 files changed, 292 insertions(+), 6038 deletions(-)
+ .../autogen/files/increase-timeout-limit.patch     |   33 ++++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletions(-)
  create mode 100644 meta/recipes-devtools/autogen/files/increase-timeout-limit.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0003-util-fix-building-when-glibc-has-a-stub-process_vm_r.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0014-x32-update-syscall-table.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0018-x32-update-g-s-etsockopt-syscall-numbers.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0024-x32-add-64bit-annotation-too.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0025-Add-e-trace-memory-option.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0026-linux-add-new-errno-values-for-EPROBE_DEFER-and-EOPE.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0027-Add-AArch64-support-to-strace.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0028-Enhance-quotactl-decoding.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0029-Filter-out-redundant-32-ioctl-entries.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0030-Move-asm-generic-ioctl-definitions-to-linux-ioctlent.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0031-Add-support-for-tracing-32-bit-ARM-EABI-binaries-on-.patch
- delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0032-Fix-kernel-release-string-parsing.patch
- create mode 100755 meta/recipes-devtools/strace/strace-4.8/git-version-gen
- delete mode 100644 meta/recipes-devtools/strace/strace_4.7.bb
- create mode 100644 meta/recipes-devtools/strace/strace_4.8.bb
 
+diff --git a/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb b/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb
+index e5234c2..230c3a7 100644
+--- a/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb
++++ b/meta/recipes-devtools/autogen/autogen-native_5.17.4.bb
+@@ -9,7 +9,8 @@ LICENSE = "GPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504" 
+ 
+ SRC_URI = "${GNU_MIRROR}/autogen/rel${PV}/autogen-${PV}.tar.gz \
+-           file://guile.patch"
++           file://guile.patch \
++           file://increase-timeout-limit.patch"
+ 
+ SRC_URI[md5sum] = "09f074cba57610bf4ef1147e01c8ae90"
+ SRC_URI[sha256sum] = "cd2585f4794d0e9d7f2cb0b9af4f2bd429946e718473edf1cf8c49f081ca71ed"
+diff --git a/meta/recipes-devtools/autogen/files/increase-timeout-limit.patch b/meta/recipes-devtools/autogen/files/increase-timeout-limit.patch
+new file mode 100644
+index 0000000..3d4c1d6
+--- /dev/null
++++ b/meta/recipes-devtools/autogen/files/increase-timeout-limit.patch
+@@ -0,0 +1,33 @@
++Subject: [PATCH] autogen: increase timeout limit for shell commands
++
++On some overloaded hosts, shell commands of autogen may can not
++finish in 5 secs. This has caused many build failures, so increase
++the timeout limit to fix this.
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Xin Ouyang <Xin.Ouyang@windriver.com>
++---
++ configure.ac |    6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 0af7c18..5544f59 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -175,9 +175,9 @@ config_end_time=`date +%s 2>/dev/null`
++ time_delta=`expr ${config_end_time} - ${config_start_time} 2>/dev/null`
++ 
++ if test -z "${time_delta}"
++-then time_delta=10
++-elif test ${time_delta} -lt 5
++-then time_delta=5 ; fi
+++then time_delta=60
+++elif test ${time_delta} -lt 30
+++then time_delta=30 ; fi
++ 
++ AG_TIMEOUT=${time_delta}
++ ]
++-- 
++1.7.9.5
++
 -- 
 1.7.5.4
 
