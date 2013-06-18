@@ -1,53 +1,29 @@
-Return-Path: <B19537@freescale.com>
-Received: from db9outboundpool.messaging.microsoft.com
-	(mail-db9lp0249.outbound.messaging.microsoft.com [213.199.154.249])
-	by mail.openembedded.org (Postfix) with ESMTP id 46EA360130
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D61F605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 13:26:05 +0000 (UTC)
-Received: from mail30-db9-R.bigfish.com (10.174.16.251) by
-	DB9EHSOBE013.bigfish.com (10.174.14.76) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 18 Jun 2013 13:26:05 +0000
-Received: from mail30-db9 (localhost [127.0.0.1])	by mail30-db9-R.bigfish.com
-	(Postfix) with ESMTP id 20467402BA;
-	Tue, 18 Jun 2013 13:26:05 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -4
-X-BigFish: VS-4(zz98dI9371I936eI542I1432Izz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3h93fhd25hf0ah1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
-Received: from mail30-db9 (localhost.localdomain [127.0.0.1]) by mail30-db9
-	(MessageSwitch) id 1371561962375945_12305;
-	Tue, 18 Jun 2013 13:26:02 +0000 (UTC)
-Received: from DB9EHSMHS020.bigfish.com (unknown [10.174.16.239])	by
-	mail30-db9.bigfish.com (Postfix) with ESMTP id 56B802A0049;
-	Tue, 18 Jun 2013 13:26:02 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB9EHSMHS020.bigfish.com
-	(10.174.14.30) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Tue, 18 Jun 2013 13:26:02 +0000
-Received: from 039-SN2MPN1-022.039d.mgd.msft.net ([169.254.2.148]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0328.011; Tue, 18 Jun 2013 13:26:01 +0000
-From: Luo Zhenhua-B19537 <B19537@freescale.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Randy MacLeod
-	<Randy.MacLeod@windriver.com>
-Thread-Topic: [OE-core] [oe-core][patch v2] sanity.bbclass: correct the
-	gcc_arch check logic
-Thread-Index: AQHObCPhcVh5DMWA7kOdfuDONprAqZk7cGCAgAAEXQA=
-Date: Tue, 18 Jun 2013 13:26:00 +0000
-Message-ID: <CA452391058F6D4E9715FB2C29D9312A015B71D0@039-SN2MPN1-022.039d.mgd.msft.net>
-References: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
-	<1371560653.20823.113.camel@ted>
-In-Reply-To: <1371560653.20823.113.camel@ted>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.185.141]
+	Tue, 18 Jun 2013 14:17:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5IEHuNq026904
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 07:17:57 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 18 Jun 2013 07:17:56 -0700
+Message-ID: <51C06C13.3030104@windriver.com>
+Date: Tue, 18 Jun 2013 09:17:55 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: Yu Zongchun-B40527 <B40527@freescale.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [patch v2] sanity.bbclass: correct the gcc_arch check logic
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1371535277.git.rongqing.li@windriver.com>
+	<0a46b955bf906f9ce2c6a9045c740ac44a1b0959.1371535277.git.rongqing.li@windriver.com>
+In-Reply-To: <0a46b955bf906f9ce2c6a9045c740ac44a1b0959.1371535277.git.rongqing.li@windriver.com>
+Subject: Re: [PATCH 1/1] cairo: fix build error since toolchain has not get_feature command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +36,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 13:26:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 18 Jun 2013 14:17:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgUmFuZHksDQoNCkR1cmluZyB0aGUgdGVzdCBvbiBteSBtYWNoaW5lIHdpdGggZ2NjLTQuMS4y
-LCBpZiAtbWFyY2g9bmF0aXZlIGlzIG5vdCBzdXBwb3J0ZWQgYnkgaG9zdCBnY2MsIGEgbm9uLXpl
-cm8gdmFsdWUoMjU2KSByZXR1cm5zLCBvdGhlcndpc2UgMCByZXR1cm5zLiANCg0KW0xPR10NCnN0
-YXR1cyBpcyAyNTYNCnJlc3VsdCBpcyBnY2NfdGVzdC5jOjE6IGVycm9yOiBiYWQgdmFsdWUgKG5h
-dGl2ZSkgZm9yIC1tYXJjaD0gc3dpdGNoDQpnY2NfdGVzdC5jOjE6IGVycm9yOiBiYWQgdmFsdWUg
-KG5hdGl2ZSkgZm9yIC1tdHVuZT0gc3dpdGNoDQoNClBsZWFzZSBjb25maXJtIGlmIHRoaXMgaXMg
-c2FtZSBhcyB5b3VyIHJlc3VsdC4gDQoNCg0KQmVzdCBSZWdhcmRzLA0KDQpaaGVuaHVhDQoNCg0K
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFp
-bHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddDQo+IFNlbnQ6IFR1ZXNkYXks
-IEp1bmUgMTgsIDIwMTMgOTowNCBQTQ0KPiBUbzogTHVvIFpoZW5odWEtQjE5NTM3OyBSYW5keSBN
-YWNMZW9kDQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBZ
-dSBab25nY2h1bi1CNDA1MjcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbb2UtY29yZV1bcGF0
-Y2ggdjJdIHNhbml0eS5iYmNsYXNzOiBjb3JyZWN0IHRoZQ0KPiBnY2NfYXJjaCBjaGVjayBsb2dp
-Yw0KPiANCj4gT24gVHVlLCAyMDEzLTA2LTE4IGF0IDIxOjA4ICswODAwLCBaaGVuaHVhIEx1byB3
-cm90ZToNCj4gPiBUaGUgZ2NjIGFyY2ggY2hlY2sgcmVzdWx0IGlzIGluY29ycmVjdCB3aGVuIGdj
-YyB2ZXJzaW9uIGlzIG9sZGVyIHRoYW4NCj4gNC41Lg0KPiA+IFNhbml0eSBjaGVja2VyIHJlcXVl
-c3RzIHVzZXIgdG8gYWRkICItbWFyY2g9bmF0aXZlIiBpbnRvIEJVSUxEX0NGTEFHUw0KPiA+IGV2
-ZW4gaWYgdGhlIGZsYWcgaXMgbm90IHN1cHBvcnRlZCBieSBob3N0IGdjYy4NCj4gPg0KPiA+IFRo
-ZSBzdGF0dXMgaXMgMCB3aGVuIC1tYXJjaD1uYXRpdmUgaXMgc3VwcG9ydGVkIGJ5IGhvc3QgZ2Nj
-LCBzbyBzZXQNCj4gPiByZXN1bHQgdG8gVHJ1ZSwgb3RoZXJ3aXNlIHNldCByZXN1bHQgdG8gRmFs
-c2UuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBaaGVuaHVhIEx1byA8emhlbmh1YS5sdW9AZnJl
-ZXNjYWxlLmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9jbGFzc2VzL3Nhbml0eS5iYmNsYXNzIHwg
-ICAgMiArLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24o
-LSkNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvc2FuaXR5LmJiY2xhc3MgYi9t
-ZXRhL2NsYXNzZXMvc2FuaXR5LmJiY2xhc3MNCj4gPiBpbmRleCAzYjk5MzRiLi5lZTA5Njc5IDEw
-MDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy9zYW5pdHkuYmJjbGFzcw0KPiA+ICsrKyBiL21l
-dGEvY2xhc3Nlcy9zYW5pdHkuYmJjbGFzcw0KPiA+IEBAIC0zMjUsNyArMzI1LDcgQEAgZGVmIGNo
-ZWNrX2djY19tYXJjaChzYW5pdHlfZGF0YSk6DQo+ID4gICAgICAgICAgaWYgc3RhdHVzICE9IDA6
-DQo+ID4gICAgICAgICAgICAgICMgQ2hlY2sgaWYgR0NDIGNvdWxkIHdvcmsgd2l0aCBtYXJjaA0K
-PiA+ICAgICAgICAgICAgICBzdGF0dXMscmVzdWx0ID0NCj4gb2UudXRpbHMuZ2V0c3RhdHVzb3V0
-cHV0KCIke0JVSUxEX1BSRUZJWH1nY2MgLW1hcmNoPW5hdGl2ZSBnY2NfdGVzdC5jIC1vDQo+IGdj
-Y190ZXN0IikNCj4gPiAtICAgICAgICAgICAgaWYgc3RhdHVzICE9IDA6DQo+ID4gKyAgICAgICAg
-ICAgIGlmIHN0YXR1cyA9PSAwOg0KPiA+ICAgICAgICAgICAgICAgICAgcmVzdWx0ID0gVHJ1ZQ0K
-PiA+ICAgICAgICAgICAgICBlbHNlOg0KPiA+ICAgICAgICAgICAgICAgICAgcmVzdWx0ID0gRmFs
-c2UNCj4gDQo+IENhbiB5b3UgYW5kIFJhbmR5IHBsZWFzZSBzb3J0IG91dCB3aGF0IHRoZSBjb3Jy
-ZWN0IHZhbHVlIGlzIGhlcmUgcGxlYXNlLg0KPiBUaGlzIGFwcGVhcnMgdG8gZGlyZWN0bHkgcmV2
-ZXJ0DQo+IGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/
-aWQ9YWQyNzZkN2Q4OTE5MGM1N2ExNTINCj4gODY3ZDcyNzhlZTE4Zjc4NGZmMmMNCj4gDQo+IENo
-ZWVycywNCj4gDQo+IFJpY2hhcmQNCj4gDQo+IA0KDQo=
+On 6/18/13 1:02 AM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> ---
+>   ...-check-stderr-when-test-compiling-in-conf.patch |   39 ++++++++++++++++++++
+>   meta/recipes-graphics/cairo/cairo_1.12.14.bb       |    3 +-
+>   2 files changed, 41 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+>
+> diff --git a/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+> new file mode 100644
+> index 0000000..e04c3b2
+> --- /dev/null
+> +++ b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+> @@ -0,0 +1,39 @@
+> +From 1581e5373c5917ed8ff6f7129c51160594c927d1 Mon Sep 17 00:00:00 2001
+> +From: "Song.Li" <Song.Li@windriver.com>
+> +Date: Mon, 30 Jul 2012 16:38:02 +0800
+> +Subject: [PATCH] cairo:don't check stderr when test compiling in configure
+> +
+> +Upstream-Status: Pending
+> +
+> +cairo configure use a special macro to test compiling feature.
+> +It'll require no any warnings or errors in stderr.That is too strict.
+> +for example, when there is no get_feature in gcc,
+> +gcc will print "no get_feature" in stderr, but that is not a real error.
+
+FYI -- 'get_feature' is something specific to Wind River.  The patch is still 
+reasonable, but the commit description might need some cleanup for people not 
+familiar with some of our internal tools.
+
+I'd suggest just removing the example part.
+
+--Mark
+
+> +so let cairo don't check stderr,just check the return value of compiling
+> +is enough.
+> +
+> +Signed-off-by: Song.Li <Song.Li@windriver.com>
+> +---
+> + build/aclocal.cairo.m4 |    6 +++---
+> + 1 file changed, 3 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/build/aclocal.cairo.m4 b/build/aclocal.cairo.m4
+> +index 592e168..4de3b26 100644
+> +--- a/build/aclocal.cairo.m4
+> ++++ b/build/aclocal.cairo.m4
+> +@@ -106,9 +106,9 @@ AC_DEFUN([CAIRO_CC_TRY_LINK_WITH_ENV_SILENT],[dnl
+> + 		[cairo_cc_stderr=`test -f conftest.err && cat conftest.err`
+> + 		 cairo_cc_flag=no])
+> +
+> +-	if test "x$cairo_cc_stderr" != "x"; then
+> +-		cairo_cc_flag=no
+> +-	fi
+> ++dnl	if test "x$cairo_cc_stderr" != "x"; then
+> ++dnl		cairo_cc_flag=no
+> ++dnl	fi
+> +
+> + 	if test "x$cairo_cc_flag" = "xyes"; then
+> + 		ifelse([$3], , :, [$3])
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+> index 40aa169..5c8c9cd 100644
+> --- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+> +++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+> @@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+>   PR = "r0"
+>
+>   SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+> -           file://png.patch"
+> +           file://png.patch \
+> +           file://cairo-don-t-check-stderr-when-test-compiling-in-conf.patch"
+>
+>   SRC_URI[md5sum] = "27b634113d0f52152d60ae8e2ec7daa7"
+>   SRC_URI[sha256sum] = "96d0d1e3f9b74d2ca3469ff187c5e5f25649b1ad35cf06f4f3a83847dff4ac13"
+>
 
 
