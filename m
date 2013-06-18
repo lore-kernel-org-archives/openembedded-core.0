@@ -1,40 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
-	[209.85.212.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B19F601DB
+Return-Path: <walters@verbum.org>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+	[66.111.4.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 743846077E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 16:00:03 +0000 (UTC)
-Received: by mail-vb0-f42.google.com with SMTP id i3so3025747vbh.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 09:00:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=dOwMxaYks3jsFVr6gPEj813lOqAdf6vuV+W1i/kKN8U=;
-	b=gtcZ44hs8lQS9slsLH1y1VfQCVLTNZQYQ1dvkk0cARMjlMVyr5pLE4VB8zsH+2T6on
-	w+ipE0AZAKbpnvyubSWh8hvserGJ6fO1sl4Eoq23ZAGkXqXgQ6st1MEk/YcYYBjw0ykW
-	Jc1GdioQwlqUqgG7Jr9l/Sj03bRPllBUoAZqzquNAE30suIY8wjOUIIPFJ1v5/NVJTZ1
-	AjruiKTARlG2SWNpjC1Is0DUyfaMqiq8nOLeAZg6S1B/yrK6iBIffRTmUoZ44X4J7xRW
-	SNVvwA+q4aZ+xvWL4XedFnbjOjMmYKG2HvjE+t3IqWmWOcS4Gb09/G9nDGKcDDeZPuqF
-	KPuA==
-X-Received: by 10.58.171.4 with SMTP id aq4mr6448806vec.26.1371571204105; Tue,
-	18 Jun 2013 09:00:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 08:59:44 -0700 (PDT)
-In-Reply-To: <1371570895.6580.65.camel@phil-desktop.brightsign>
+	Tue, 18 Jun 2013 16:05:40 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.mail.srv.osa [10.202.2.45])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 7FC9F2175A;
+	Tue, 18 Jun 2013 12:05:40 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute5.internal (MEProxy); Tue, 18 Jun 2013 12:05:40 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=c0ZmQVm3ONIdsSFu3nLZ32
+	J9gsc=; b=Y2pIUppi2tnN171lCOpxPZW6IeXf6HOaywT8UvcCRb3WlO0Pka8liZ
+	tnDilFM9YTqH4dn5J6LNss3k2/tQ9TH1BONI7WWWFJTIstHa/WbD9UNjGWOdmigc
+	S4AYuyKOTB0iwKfT+lYHbA5KvQn+nS9xVbuR4J6Iiw23SbdSHo+aE=
+X-Sasl-enc: kciG6JYWpl1bovcQmT/XF5CoAJ5dBNlIgB+5Or0tShBY 1371571539
+Received: from [10.193.22.97] (unknown [66.187.233.207])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 617446802AA;
+	Tue, 18 Jun 2013 12:05:39 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1371570476.20823.121.camel@ted>
 References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
 	<1371566573.6580.59.camel@phil-desktop.brightsign>
 	<CAJTo0LZD46Gckm=PGRw2NdSBibREWUzJbG_zhVtcAAqtAunn+w@mail.gmail.com>
 	<1371567621.3466.16.camel@localhost>
 	<CAJTo0LbT7ZbbmbibLCzOvv4a2939-Hr8uGEoUqg2sRVgEOCqmQ@mail.gmail.com>
 	<1371570476.20823.121.camel@ted>
-	<1371570895.6580.65.camel@phil-desktop.brightsign>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Jun 2013 16:59:44 +0100
-Message-ID: <CAJTo0LbqXGC+qNet4QAahbbtMTOct-fa==P7U+aNd_KwkbHm3w@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-X-Gm-Message-State: ALoCoQn5WiiiHb2rJ0Zh9NQ5h54Sx+4ZMJ0lai64nzqe9PwmVkg4Ufw/JVsLbssb9Jx1F29JmjnY
+Date: Tue, 18 Jun 2013 12:05:38 -0400
+Message-ID: <1371571538.3466.27.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 (2.32.3-1.el6) 
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: magic libtool .la removal
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -49,30 +47,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 16:00:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Jun 2013 16:05:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 18 June 2013 16:54, Phil Blundell <pb@pbcl.net> wrote:
-> On Tue, 2013-06-18 at 16:47 +0100, Richard Purdie wrote:
->> We might as well throw away libtool
->
-> That sounds like an excellent plan to me.  I wonder how hard it would be
-> to invent a libtool-dummy script which took the same arguments but
-> basically just invoked the compiler and linker without any of the extra
-> craziness.
+On Tue, 2013-06-18 at 16:47 +0100, Richard Purdie wrote:
 
-That would be DOLT.
+> The thing which really worries me about this is that we'll start to
+> deviate quite massively with how upstream expect us to use autotools.
 
->>Yes the .la files are annoying but they're not that much of a problem,
->>are they?
->
-> I do recall that I was moved to write my original patch because the .la
-> files were causing me an actual problem rather than just being a
-> nuisance.  I can't remember the details offhand unfortunately, though I
-> guess I could try re-enabling them again locally and see what breaks.
+I just consider upstream wrong, and so do others:
+http://wiki.debian.org/ReleaseGoals/LAFileRemoval
+http://fedoraproject.org/wiki/Packaging:Guidelines (search for .la)
+http://blog.flameeyes.eu/2008/04/what-about-those-la-files (the one mostly sane Gentoo guy)
 
-FWIW, I've never seen a .la break anything where a clean doesn't solve
-it, the problems are always due to rebuilds.
+> As things stand, we have a number of sysroot fixes for the sysroot
+> support in libtool which is basically broken out the box. I have tried
+> discussing them with upstream and was ignored, mainly as we patch
+> libtool and we're supposed to use it unpatched. 
 
-Ross
+Yeah, I dunno...maybe someone needs to fork libtool.
+
+> I worry that if we go this route, the builds will stop working without
+> the .la file removal and that we'll lose any chance of being able to
+> resolve our patchset with libtool upstream. We might as well throw away
+> libtool at that point
+
+Or that...
+
+>  and save the overhead. It also means we will have
+> bigger problems working on something like darwin (which I've had work in
+> the past).
+
+I don't have any experience with Darwin myself.
+
+> So I don't see the pressing need to set us off down a path on our own.
+> Yes the .la files are annoying but they're not that much of a problem,
+> are they?
+
+Depends; I don't have a lot of first-hand experience with problems they
+cause in the OE context.  But .la files completely break jhbuild.
+Certainly, one could call jhbuild a hack, and it is.  But it's a tool
+with absolutely essential properties for people contributing to GNOME.  
+
+Basically jhbuild allows one to e.g.:
+$ jhbuild buildone gtk+
+$ jhbuild run gedit
+
+Now you have your system version of /usr/bin/gedit linked against the
+latest gtk+ from git in /opt/gnome/lib/libgtk.so.  This "two layer"
+model is essential for allowing developers to test new code without
+risking their /.
+
+The root "feature" of .la files where it can say "if you link against
+me, also link against these other libraries" that causes this is much
+better implemented by pkg-config.
+
+
 
