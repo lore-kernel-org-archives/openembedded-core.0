@@ -1,39 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DC93A605F3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 7901960130
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 13:02:22 +0000 (UTC)
-Received: by mail-vc0-f173.google.com with SMTP id ht10so2888453vcb.18
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 06:02:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=9Ox7lNr5gg8jJFfJ8rhqQepa0O4IGch1rix2iVcvu3o=;
-	b=Ic/u5rDUFWsi0bccoZRNxNABUvLmJvgB/DBK1jkgN6aowcCdq+K9JvVFHTxYqTvl7W
-	ulSxLXNK5RYRpzlz8dr45wpMvzIDuPLT2DMwzFEV2EQt9fkGiXZvcMTDQVidWZLU/1pe
-	h9CO5iPdD/SQB/PvcP+EFSp8xDkRcmx5ptAQPiycO0zBj8aSU3/vc2iWj/Axd0qw8p+S
-	zdlktrxMo19p41T7eSW4gWTKbA02Xw/U20i6FPRalD4DdpcsVl16IIsgltvb+RLdrHV0
-	DT4ZTmbRFRrHpj3S+Ocge0W+02S5AyjDuM8z1TBQA/dmZMqDlhEqimWEmluKrm4WWISv
-	YSxA==
-X-Received: by 10.52.29.106 with SMTP id j10mr1462366vdh.77.1371560543501;
-	Tue, 18 Jun 2013 06:02:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 06:02:03 -0700 (PDT)
-In-Reply-To: <20130618105824.GF16785@lpalcu-linux>
-References: <cover.1371471166.git.laurentiu.palcu@intel.com>
-	<6a4980046a3175ecdd4216cdd75c754b0b0ffa16.1371471166.git.laurentiu.palcu@intel.com>
-	<CAJTo0LbPGDehVTaspjcZBCL2F0DRS-HondvaO-6K0ntZj_Zu6A@mail.gmail.com>
-	<20130618105824.GF16785@lpalcu-linux>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Jun 2013 14:02:03 +0100
-Message-ID: <CAJTo0Lb4bk6UReu4sEuaY-FekrzSbXhChsLX0M0VOU5YP1di8g@mail.gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQngWG9yA3b7hCxtDIj69jMJLnfx0mbzZ2HLZiwVfhAYtMFGOpwQIHhpqEOURPVXEKqPs6AL
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] xinput-calibrator: move it from meta-oe to oe-core
+	Tue, 18 Jun 2013 13:04:37 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5IDAW6a022576; Tue, 18 Jun 2013 14:10:32 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gCnUhTLjrRRf; Tue, 18 Jun 2013 14:10:32 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5IDAQPj022573
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 18 Jun 2013 14:10:28 +0100
+Message-ID: <1371560653.20823.113.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zhenhua Luo <zhenhua.luo@freescale.com>, Randy MacLeod
+	<Randy.MacLeod@windriver.com>
+Date: Tue, 18 Jun 2013 14:04:13 +0100
+In-Reply-To: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
+References: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: b40527@freescale.com, openembedded-core@lists.openembedded.org
+Subject: Re: [patch v2] sanity.bbclass: correct the gcc_arch check logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,20 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 13:02:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 18 Jun 2013 13:04:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 18 June 2013 11:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> I'm not sure I understand what's wrong with using xdg-autostart.
-> Xsession parses each .desktop file in xdg/autostart and executes the
-> application listed in 'Exec'. Having a separate xsession file created
-> in /etc/X11/Xsession.d (like xtscal does) is, basically, the same thing.
-> Only the moment of execution differs. Or, maybe, I misunderstood your
-> point.
+On Tue, 2013-06-18 at 21:08 +0800, Zhenhua Luo wrote:
+> The gcc arch check result is incorrect when gcc version is older than 4.5.
+> Sanity checker requests user to add "-march=native" into BUILD_CFLAGS even if
+> the flag is not supported by host gcc.
+> 
+> The status is 0 when -march=native is supported by host gcc, so set result to
+> True, otherwise set result to False.
+> 
+> Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+> ---
+>  meta/classes/sanity.bbclass |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 3b9934b..ee09679 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -325,7 +325,7 @@ def check_gcc_march(sanity_data):
+>          if status != 0:
+>              # Check if GCC could work with march
+>              status,result = oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=native gcc_test.c -o gcc_test")
+> -            if status != 0: 
+> +            if status == 0: 
+>                  result = True
+>              else:
+>                  result = False
 
-XDG autostart doesn't block the app, so the rest of the system starts
-up.  Really calibration should pause the startup and only when the
-input is calibrated, continue.
+Can you and Randy please sort out what the correct value is here please.
+This appears to directly revert
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ad276d7d89190c57a152867d7278ee18f784ff2c
 
-Ross
+Cheers,
+
+Richard
+
+
 
