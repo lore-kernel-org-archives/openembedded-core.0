@@ -1,35 +1,37 @@
-Return-Path: <walters@verbum.org>
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 5216F6041F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 969CD6041F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 15:00:23 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.mail.srv.osa [10.202.2.44])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 35601216A6;
-	Tue, 18 Jun 2013 11:00:22 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute4.internal (MEProxy); Tue, 18 Jun 2013 11:00:23 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
-	:content-type:date:message-id:mime-version
-	:content-transfer-encoding; s=smtpout; bh=CtAcBbhsZsjA6ZYFsu3wlV
-	UDcTs=; b=gX9wWqYHoseDWkjFdH++kq4MZe4EaoP5NRK0KMVWzCNAcjEahaxjfO
-	zSFtZu3Np6wMlrATEU0ItMItXuSuA+YqDIFwFwRs55p67FmMSqT3ORt5WZpoD15m
-	VwqfP7jlcHkYDhihKoTiEEc+BKQ3Ym5DXm5+pQiY5PxtpBCQpuxf0=
-X-Sasl-enc: dnYuyWJ2O/g1L7r5EzxrQnHrThirE0Q2wraoDTrvRo6A 1371567622
-Received: from [10.193.22.97] (unknown [66.187.233.207])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 7B8CD6802B0;
-	Tue, 18 Jun 2013 11:00:22 -0400 (EDT)
-From: Colin Walters <walters@verbum.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <CAJTo0LZD46Gckm=PGRw2NdSBibREWUzJbG_zhVtcAAqtAunn+w@mail.gmail.com>
+	Tue, 18 Jun 2013 15:06:00 +0000 (UTC)
+Received: by mail-vc0-f178.google.com with SMTP id m17so3037556vca.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 08:06:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=S0YDAoYDEZIdRa2yJK9lHgMgmGOS8JK7qAdrWObJqPY=;
+	b=O6yTPrU0VpJ6Am95NukIJxgmFHkuumbsvenRSqUH0NNNRnHrTs1RCN14YvUhujpnHf
+	sIDZNvEJ1796Yl/5q/xcebyNMxIGHMqX68Z3nzXEYPD/lkSjj6jFoxGM+6aHXEqjg7Ji
+	UTSXkA/pPmDbA8T5FjkdoSladdAMgYLD+TohXggbDKEwpF4d14LkuwGIWWYDhQKfTXSl
+	tQsdQu1bIc6D+735ATBJDivNLOT/WX28E3rsJCgSibF646w+HFy1OwpH53pZYN5t2Hmj
+	eVmJQQOObbj/2oEReABH8VLbhPI4K5+yqDiRG8Aj+eOl7oN6N5Dva6glYVs3ZJlTcQak
+	VApQ==
+X-Received: by 10.52.29.106 with SMTP id j10mr1615787vdh.77.1371567961398;
+	Tue, 18 Jun 2013 08:06:01 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 08:05:41 -0700 (PDT)
+In-Reply-To: <1371567621.3466.16.camel@localhost>
 References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
 	<1371566573.6580.59.camel@phil-desktop.brightsign>
 	<CAJTo0LZD46Gckm=PGRw2NdSBibREWUzJbG_zhVtcAAqtAunn+w@mail.gmail.com>
-Date: Tue, 18 Jun 2013 11:00:21 -0400
-Message-ID: <1371567621.3466.16.camel@localhost>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 (2.32.3-1.el6) 
+	<1371567621.3466.16.camel@localhost>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2013 16:05:41 +0100
+Message-ID: <CAJTo0LbT7ZbbmbibLCzOvv4a2939-Hr8uGEoUqg2sRVgEOCqmQ@mail.gmail.com>
+To: Colin Walters <walters@verbum.org>
+X-Gm-Message-State: ALoCoQk+JZazjJBZ12u6CJ936R+FdQLlCPdF/l7Kf6VziQVSXkDGIqf1pCx0tdWWSMW3ftZ0gxc1
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: magic libtool .la removal
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,28 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 15:00:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 15:06:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2013-06-18 at 15:56 +0100, Burton, Ross wrote:
+On 18 June 2013 16:00, Colin Walters <walters@verbum.org> wrote:
+> The relevant data I have on hand are:
+>
+> https://bugzilla.gnome.org/show_bug.cgi?id=654013
+> https://git.gnome.org/browse/jhbuild/commit/?id=965c8d5ceda9d1c5d6021ef2c534e0a7f68ca976
+>
+> I think the executive summary is that libltdl knows how to load .so
+> files directly (at least currently), so there's no reason to have even
+> ${libdir}/modulename/plugins/foo.la.
 
-> I also remember discussion with Colin Walters about ostree, which at
-> one point only removed from $libdir itself (my "libdir" argument) but
-> now removes all .la files.  Colin, the commit that changed the la
-> killing to recurse didn't have a rationale - can you clarify this?  If
-> ostree can get away with removing all, them maybe we don't need the
-> "libdir" option at all.
+Thanks Colin.  Let's ignore the "libdir" option so this is a
+per-package keep-or-wipe option.  I'd like to default it to removing
+all by default after a verification that the build results are
+identical.
 
-The relevant data I have on hand are:
-
-https://bugzilla.gnome.org/show_bug.cgi?id=654013
-https://git.gnome.org/browse/jhbuild/commit/?id=965c8d5ceda9d1c5d6021ef2c534e0a7f68ca976
-
-I think the executive summary is that libltdl knows how to load .so
-files directly (at least currently), so there's no reason to have even
-${libdir}/modulename/plugins/foo.la.
-
-
-
+Ross
 
