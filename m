@@ -1,28 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA636041F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f53.google.com (mail-vb0-f53.google.com
+	[209.85.212.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A6C0E601DB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 14:52:37 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Jun 2013 07:52:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,889,1363158000"; d="scan'208";a="355457656"
-Received: from unknown (HELO helios.localnet) ([10.252.122.72])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jun 2013 07:52:37 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 18 Jun 2013 15:52:36 +0100
-Message-ID: <2128990.WGsIo4pG3K@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <CAP9ODKo+VwrLEOH7coCbGWqDCp8CYKVVS_XVtV8Wbw=9jpL6=w@mail.gmail.com>
-References: <cover.1370896990.git.chris_larson@mentor.com>
-	<7f9158be5a4849dccea0ed848d29f963697c22e3.1370896990.git.chris_larson@mentor.com>
-	<CAP9ODKo+VwrLEOH7coCbGWqDCp8CYKVVS_XVtV8Wbw=9jpL6=w@mail.gmail.com>
+	Tue, 18 Jun 2013 14:56:27 +0000 (UTC)
+Received: by mail-vb0-f53.google.com with SMTP id p12so2884916vbe.26
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2013 07:56:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=bvpe2XDrrUQcCAj5yaYLi+O8UFmKVDRSVlMzG+HoiF4=;
+	b=gu0AdGCbxLJsvgJa1c/nO9Tx9/61f74QG6tb79Tt+S2lEXTHeHcQoxN2OqIybm2YIx
+	5d7+lPx+hNdoonN+h6myaeyPqBI5PfmTbzNuJL0jVKsJ4C4Jb7+iPI0x7VphuErPlTHZ
+	X3/xQs866Yuj6qAKgXvamgPEPStHgi9fmyvnFcdXmMqAlVCTiRKoNClmuGd63GHz28Sa
+	oGVIuegB1rEm+kf0yK1YUfRvmt9dVY7L5D9Lh6sHc4IdZWF83AI60e201XtyhRSJAAFG
+	B8F9w9jJ8iKii61iUwG6CHLwUkTHSvEgH3VQp6TciqvcrrSugYiKd+YH8bfQYUOeZxps
+	qq2Q==
+X-Received: by 10.52.29.179 with SMTP id l19mr1696772vdh.51.1371567387964;
+	Tue, 18 Jun 2013 07:56:27 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] connman: use PACKAGECONFIG for WISPr support
+Received: by 10.220.13.144 with HTTP; Tue, 18 Jun 2013 07:56:06 -0700 (PDT)
+In-Reply-To: <1371566573.6580.59.camel@phil-desktop.brightsign>
+References: <CAJTo0LbHu=CyeCL=yvyBrUtc0i==ybVXQSXDVkVqMy4jsyoEfg@mail.gmail.com>
+	<1371566573.6580.59.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2013 15:56:06 +0100
+Message-ID: <CAJTo0LZD46Gckm=PGRw2NdSBibREWUzJbG_zhVtcAAqtAunn+w@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQnXRmeV5sG75cjV2hBpH0vyHLAWwkhb6bNZIsuAgDNv9uVSQ6NAdRNVU7SCVW0ca9B06T7C
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: magic libtool .la removal
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,24 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 14:52:37 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 18 Jun 2013 14:56:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Monday 10 June 2013 18:06:19 Otavio Salvador wrote:
-> This seems safe for backporting to 1.4.2 and would allow for more control
-> on connman build; Paul?
+On 18 June 2013 15:42, Phil Blundell <pb@pbcl.net> wrote:
+> FWIW, I still have the patch from:
+>
+> http://lists.openembedded.org/pipermail/openembedded-core/2012-October/069912.html
+>
+> in my local tree and it seems to be working fine (although I don't have
+> any particular interest in libltdt so it's conceivable that this might
+> be broken).
 
-At the moment we don't seem to have the other PACKAGECONFIG options for 
-connman in dylan so this patch doesn't apply cleanly. If people are especially 
-keen to have them I can backport these options, but I'd rather not just take 
-them on a whim as these are more of an optimisation than a bug fix.
+I also remember discussion with Colin Walters about ostree, which at
+one point only removed from $libdir itself (my "libdir" argument) but
+now removes all .la files.  Colin, the commit that changed the la
+killing to recurse didn't have a rationale - can you clarify this?  If
+ostree can get away with removing all, them maybe we don't need the
+"libdir" option at all.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
