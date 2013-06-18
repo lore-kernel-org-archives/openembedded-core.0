@@ -1,29 +1,42 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E891608BE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 612C7607F8
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 04:58:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5I4w3hV000467
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Jun 2013 21:58:03 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.22.77) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 17 Jun 2013 21:58:01 -0700
-Message-ID: <51BFE8D9.8010002@windriver.com>
-Date: Tue, 18 Jun 2013 00:58:01 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
+	Tue, 18 Jun 2013 05:25:50 +0000 (UTC)
+Received: by mail-pa0-f43.google.com with SMTP id hz11so3635730pad.16
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2013 22:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=1C7czysilFhXjg8HDQeCCAX+KaCXdTL0tz5/C7YlX9w=;
+	b=cF+inKyR2amkbOqzWEtnBuIg3TrrmJyeoPNV8kvj2d9szlRbzLIzrD+SQj9QyjC1f9
+	Li27z4vIR4jHwYyaBGEqAKqHZEHUxXtTDW64YZjhZBbIp5x6ZkLgw8zvJXu9yngFgkqn
+	3ES7z1GwymRIEMNfbs1rUC/CZQNEq2MEo/wdJADqX8zPsodpVbOUncKBNfxBAUgFnBPM
+	Ys+/iGZcyf/c8opGsGmP4TgTwzxkBC21Wi3ypkoH8Ouhx4lfcurmMvE1wNzFvK4tmNwL
+	6109mvsd0DkSqNzowh7tpEUCdXQYWkrx4MOvAKL7wV2dqqwVXnBu5SCH2KklJeG17MwA
+	XoVA==
+X-Received: by 10.68.137.195 with SMTP id qk3mr15912845pbb.100.1371533151633; 
+	Mon, 17 Jun 2013 22:25:51 -0700 (PDT)
+Received: from scoonan-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	fl2sm17876977pab.23.2013.06.17.22.25.48 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 17 Jun 2013 22:25:49 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51BFE8D9.8010002@windriver.com>
+Date: Mon, 17 Jun 2013 22:25:46 -0700
+Message-Id: <40EAB0BD-784A-4DBB-A8E1-8A4E81E0B41C@gmail.com>
 References: <A6E8629E-ED47-4DD7-8C53-B0D467BADA39@gmail.com>
 	<51BFE413.2020303@windriver.com>
 	<99677DAA-0C63-481C-9499-0E4F00188725@gmail.com>
-In-Reply-To: <99677DAA-0C63-481C-9499-0E4F00188725@gmail.com>
-Cc: "yocto@yoctoproject.org
-	\(yocto@yoctoproject.org\)" <yocto@yoctoproject.org>,
+	<51BFE8D9.8010002@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: "yocto@yoctoproject.org \(yocto@yoctoproject.org\)"
+	<yocto@yoctoproject.org>,
 	"<openembedded-core@lists.openembedded.org> oe-core layer"
 	<Openembedded-core@lists.openembedded.org>
 Subject: Re: Fix for kernel 3.8/gcc-4.8 segfault on qemuarm
@@ -39,135 +52,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 04:58:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Jun 2013 05:25:50 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 13-06-18 12:41 AM, Khem Raj wrote:
->
-> On Jun 17, 2013, at 9:37 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
->
->> On 13-06-17 11:30 PM, Khem Raj wrote:
->>> Hi Bruce and All
->>>
->>> Finally after a long innings I have diagnosed the mystery behind the below segfault that we see on kernel 3.8 which compiled with gcc 4.8 but don't show when compiled with gcc 4.7
->>>
->>>
->>
->> There also seems to be a follow up patch:
->>
->> commit 418df63adac56841ef6b0f1fcf435bc64d4ed177
->> Author: Nicolas Pitre <nicolas.pitre@linaro.org>
->> Date:   Tue Mar 12 13:00:42 2013 +0100
->>
->>     ARM: 7670/1: fix the memset fix
->>
->>     Commit 455bd4c430b0 ("ARM: 7668/1: fix memset-related crashes caused by
->>     recent GCC (4.7.2) optimizations") attempted to fix a compliance issue
->>     with the memset return value.  However the memset itself became broken
->>     by that patch for misaligned pointers.
->>
->>     This fixes the above by branching over the entry code from the
->>     misaligned fixup code to avoid reloading the original pointer.
->>
->>     Also, because the function entry alignment is wrong in the Thumb mode
->>     compilation, that fixup code is moved to the end.
->>
->>     While at it, the entry instructions are slightly reworked to help dual
->>     issue pipelines.
->>
->>     Signed-off-by: Nicolas Pitre <nico@linaro.org>
->>     Tested-by: Alexander Holler <holler@ahsoftware.de>
->>     Signed-off-by: Russell King <rmk+kernel@arm.linux.org.uk>
->>
->> :100644 100644 d912e73... 94b0650... M  arch/arm/lib/memset.S
->>
->> --------
->>
->> I've staged it as well, and will do a boot test in the morning once
->> my build has completed. Time to call it a night here.
->
-> I did not need anything other than the first patch to get over the segfault. but yes it completes the fix
-> so having both is better
 
-So very strange. I got one segfault, and then this:
+On Jun 17, 2013, at 9:58 PM, Bruce Ashfield =
+<bruce.ashfield@windriver.com> wrote:
 
-Linux version 3.8.13-yocto-standard (bruce@yow-bashfiel-d2) (gcc version 
-4.8.1 (GCC) ) #2 PREEMPT Tue Jun 18 00:36:55 EDT 2013
-
-<snip>
-
-qemuarm login: root
-root@qemuarm:~# uname -a
-Linux qemuarm 3.8.13-yocto-standard #2 PREEMPT Tue Jun 18 00:36:55 EDT 
+> On 13-06-18 12:41 AM, Khem Raj wrote:
+>>=20
+>> On Jun 17, 2013, at 9:37 PM, Bruce Ashfield =
+<bruce.ashfield@windriver.com> wrote:
+>>=20
+>>> On 13-06-17 11:30 PM, Khem Raj wrote:
+>>>> Hi Bruce and All
+>>>>=20
+>>>> Finally after a long innings I have diagnosed the mystery behind =
+the below segfault that we see on kernel 3.8 which compiled with gcc 4.8 =
+but don't show when compiled with gcc 4.7
+>>>>=20
+>>>>=20
+>>>=20
+>>> There also seems to be a follow up patch:
+>>>=20
+>>> commit 418df63adac56841ef6b0f1fcf435bc64d4ed177
+>>> Author: Nicolas Pitre <nicolas.pitre@linaro.org>
+>>> Date:   Tue Mar 12 13:00:42 2013 +0100
+>>>=20
+>>>    ARM: 7670/1: fix the memset fix
+>>>=20
+>>>    Commit 455bd4c430b0 ("ARM: 7668/1: fix memset-related crashes =
+caused by
+>>>    recent GCC (4.7.2) optimizations") attempted to fix a compliance =
+issue
+>>>    with the memset return value.  However the memset itself became =
+broken
+>>>    by that patch for misaligned pointers.
+>>>=20
+>>>    This fixes the above by branching over the entry code from the
+>>>    misaligned fixup code to avoid reloading the original pointer.
+>>>=20
+>>>    Also, because the function entry alignment is wrong in the Thumb =
+mode
+>>>    compilation, that fixup code is moved to the end.
+>>>=20
+>>>    While at it, the entry instructions are slightly reworked to help =
+dual
+>>>    issue pipelines.
+>>>=20
+>>>    Signed-off-by: Nicolas Pitre <nico@linaro.org>
+>>>    Tested-by: Alexander Holler <holler@ahsoftware.de>
+>>>    Signed-off-by: Russell King <rmk+kernel@arm.linux.org.uk>
+>>>=20
+>>> :100644 100644 d912e73... 94b0650... M  arch/arm/lib/memset.S
+>>>=20
+>>> --------
+>>>=20
+>>> I've staged it as well, and will do a boot test in the morning once
+>>> my build has completed. Time to call it a night here.
+>>=20
+>> I did not need anything other than the first patch to get over the =
+segfault. but yes it completes the fix
+>> so having both is better
+>=20
+> So very strange. I got one segfault, and then this:
+>=20
+> Linux version 3.8.13-yocto-standard (bruce@yow-bashfiel-d2) (gcc =
+version 4.8.1 (GCC) ) #2 PREEMPT Tue Jun 18 00:36:55 EDT 2013
+>=20
+> <snip>
+>=20
+> qemuarm login: root
+> root@qemuarm:~# uname -a
+> Linux qemuarm 3.8.13-yocto-standard #2 PREEMPT Tue Jun 18 00:36:55 EDT =
 2013 armv5tejl GNU/Linux
-
-----------------
-
-Which means I may have just been unlucky on my testing with 3.10, or 
+>=20
+> ----------------
+>=20
+> Which means I may have just been unlucky on my testing with 3.10, or =
 something
-else is going on.
+> else is going on.
 
-Regardless, this is progress and I'll do some stress testing here and
-get a pull request out to RP in the next day or so.
+Well I have been booting latest linus's (3.10-rc6) master compiled with =
+gcc 4.8 just one patch from linux-yocto see below
 
-Bruce
+=
+http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.8/commit/?h=3Dstan=
+dard/arm-versatile-926ejs&id=3D351d133943b50a9dfeee07661d44254722a19f04
 
->
->>
->> Bruce
->>
->>> Unable to handle kernel paging request at virtual address ffffffff
->>> pgd = c0004000
->>> [ffffffff] *pgd=07ffe831, *pte=00000000, *ppte=00000000
->>> Internal error: Oops: 17 [#1] PREEMPT ARM
->>> Modules linked in:
->>> CPU: 0    Not tainted  (3.8.0-yocto-standard+ #32)
->>> PC is at kmem_cache_alloc+0x38/0x154
->>> LR is at subsys_system_register+0x34/0xd8
->>> pc : [<c00bd4d8>]    lr : [<c0327244>]    psr: a0000153
->>> sp : c7835ef0  ip : c7904590  fp : 00000000
->>> r10: c0688dc4  r9 : c06db900  r8 : c0327244
->>> r7 : 00000000  r6 : 000080d0  r5 : c7801380  r4 : ffffffff
->>> r3 : 00000000  r2 : 00000078  r1 : 000080d0  r0 : c7801380
->>> Flags: NzCv  IRQs on  FIQs off  Mode SVC_32  ISA ARM  Segment kernel
->>> Control: 00093177  Table: 00004000  DAC: 00000017
->>> Process swapper (pid: 1, stack limit = 0xc78341b8)
->>> Stack: (0xc7835ef0 to 0xc7836000)
->>> 5ee0:                                     c06a5564 c06b8b8c c7834028 00000000
->>> 5f00: c0680218 c0327244 c7835f28 c06a5564 00000006 c7834028 c06db900 c0688dd4
->>> 5f20: c7835f28 c00089a0 c0657f44 00000006 c086e561 00000006 00000000 c06a5534
->>> 5f40: c06a5564 00000006 c06db900 c0680218 c069fd68 0000008e c069fd5c c0680924
->>> 5f60: 00000006 00000006 c0680218 00000000 00000000 00000000 00000000 00000000
->>> 5f80: c04f5e68 00000000 00000000 00000000 00000000 00000000 00000000 c04f5e70
->>> 5fa0: 00000000 00000000 c04f5e68 c000deb0 00000000 00000000 00000000 00000000
->>> 5fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
->>> 5fe0: 00000000 00000000 00000000 00000000 00000013 00000000 00000000 00000000
->>> [<c00bd4d8>] (kmem_cache_alloc+0x38/0x154) from [<c0327244>] (subsys_system_register+0x34/0xd8)
->>> [<c0327244>] (subsys_system_register+0x34/0xd8) from [<c0688dd4>] (init_clocksource_sysfs+0x10/0x54)
->>> [<c0688dd4>] (init_clocksource_sysfs+0x10/0x54) from [<c00089a0>] (do_one_initcall+0x10c/0x17c)
->>> [<c00089a0>] (do_one_initcall+0x10c/0x17c) from [<c0680924>] (kernel_init_freeable+0x164/0x224)
->>> [<c0680924>] (kernel_init_freeable+0x164/0x224) from [<c04f5e70>] (kernel_init+0x8/0x150)
->>> [<c04f5e70>] (kernel_init+0x8/0x150) from [<c000deb0>] (ret_from_fork+0x14/0x24)
->>> Code: e5934000 e3540000 0a00001a e5953014 (e7941003)
->>> ---[ end trace f4d187650e17fc5c ]---
->>> Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
->>>
->>>
->>> Please apply the patch below to linux-yocto-3.8
->>>
->>> http://sakrah.dontexist.org/files/patches/0001-ARM-7668-1-fix-memset-related-crashes-caused-by-rece.patch
->>>
->>> This is a back port from 3.9 therefore safe. The problem is not limited to linux-yocto it also impacts upstream 3.8 stable
->>> but 3.8 stable is end of life so why bother. If linux-yocto upgrades to 3.9 or 3.10 and drops 3.8 in 1.5 then we are ok too.
->>>
->>> Let me know how it goes
->>>
->>> Thanks
->>>
->>> -Khem
->>>
->>
->
+I wonder why this patch hasn't made upstream yet.
+
 
 
