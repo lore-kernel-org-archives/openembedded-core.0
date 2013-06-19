@@ -1,40 +1,31 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A0F8560071;
-	Wed, 19 Jun 2013 08:07:44 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id ha12so3522950vcb.21
-	for <multiple recipients>; Wed, 19 Jun 2013 01:07:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=cZF1x8BPKitDSzE9PD1XyoLUsh1ZnDp4d7nteQvAs6I=;
-	b=FBAVr8RfzsrdUzIhAytdC3gvauVvXH8/puikM0NM7NuBEzzztP+STuzmkaby/fJa+q
-	5w3C2BGfDSdaZ74hj7gBKEpoQ9OkbELsQ7llMMkENmcE+p1RB+BAl2l9PMkUgzK2yOsz
-	hIHw6U5hKqYIrsMMli6xOoM8LaaHmWPfCJSRh01eN3CX9RziJ4ElVUpZQVcArwSf+LFt
-	j5Zc0HT4eWu9TAUstx7xkwLzYO4/CQyWnQLi6f1erGtruV/GApaoRY5hf9PQhfWQDpUX
-	AWOkue1pRpXwSPUZqtCFiBUt+KS7hJk9QRban+Epaysdh86JJbKvys2qgQwq3cfZUEJz
-	E62w==
-X-Received: by 10.52.163.165 with SMTP id yj5mr461140vdb.104.1371629265138;
-	Wed, 19 Jun 2013 01:07:45 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.195.201 with HTTP; Wed, 19 Jun 2013 01:07:04 -0700 (PDT)
-In-Reply-To: <20130611160434.GI3233@jama>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130611160434.GI3233@jama>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 19 Jun 2013 09:07:04 +0100
-X-Google-Sender-Auth: Z5FfRuM9ew7kpP11VdaPKzPHKVI
-Message-ID: <CANyK_8fMj+=hDVMV+q7CJi7_G5HvztE+n_wcHDn0kTUB7dxFhA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id BBF786007B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2013 08:13:35 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5J8IiNV006628; Wed, 19 Jun 2013 09:19:42 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hGJoOO13sd9V; Wed, 19 Jun 2013 09:19:42 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5J8Jck4006670
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 19 Jun 2013 09:19:40 +0100
+Message-ID: <1371629601.20823.161.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Kai Kang <kai.kang@windriver.com>
+Date: Wed, 19 Jun 2013 09:13:21 +0100
+In-Reply-To: <d1dac9ed8f9cfe6b533e5676d766e2efeb12195a.1371619993.git.kai.kang@windriver.com>
+References: <cover.1371619993.git.kai.kang@windriver.com>
+	<d1dac9ed8f9cfe6b533e5676d766e2efeb12195a.1371619993.git.kai.kang@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] strace: update to 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,61 +38,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 08:07:46 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 19 Jun 2013 08:13:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 11 June 2013 17:04, Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> qemuarm Summary: 14 tasks failed:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130610_065148.log/
->
-> qemux86 Summary: 17 tasks failed:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130608_071258.log/
->
-> qemux86-64 Summary: 18 tasks failed:
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.20130609_081044.log/
->
+On Wed, 2013-06-19 at 13:34 +0800, Kai Kang wrote:
+> Update strace to 4.8.
+> 
+> * Update License file.
+> * Remove the backport patches which are already in version 4.8.
+> * Add file git-version-gen from git repo. Without this file configure
+>   fails.
+> * Add libaio and acl to PACKAGECONFIG for target package. Make libaio as a
+>   dependency by default which could be covered easily.
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
 
-Thought I'd post a summary of what fails for MACHINE=raspberrypi at the minute:
+[...]
 
-    meta-openembedded/meta-oe/recipes-qt/qcanobserver/qcanobserver_svn.bb,
-do_compile
-    openembedded-core/meta/recipes-qt/qt4/qt-mobility-embedded_1.2.0.bb,
-do_compile
-    openembedded-core/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb, do_compile
-    meta-openembedded/meta-oe/recipes-connectivity/gnuradio/gnuradio_git.bb,
-do_compile
-    openembedded-core/meta/recipes-graphics/wayland/weston_1.1.0.bb, do_compile
-    meta-openembedded/meta-oe/recipes-support/gperftools/gperftools_2.0.bb,
-do_compile
-    openembedded-core/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb,
-do_configure
-    meta-raspberrypi/recipes-multimedia/omxplayer/omxplayer_git.bb, do_compile
-    meta-openembedded/meta-oe/recipes-devtools/luajit/luajit_2.0.1.bb,
-do_compile
-    meta-openembedded/meta-oe/recipes-multimedia/mplayer/mplayer2_git.bb,
-do_compile
-    meta-openembedded/meta-oe/recipes-support/mg/mg_20110905.bb, do_configure
-    openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.0.7.bb,
-do_compile
+> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
+> new file mode 100644
+> index 0000000..eb9f660
+> --- /dev/null
+> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
+> @@ -0,0 +1,32 @@
+> +DESCRIPTION = "strace is a system call tracing tool."
+> +HOMEPAGE = "http://strace.sourceforge.net"
+> +SECTION = "console/utils"
+> +LICENSE = "BSD"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=124500c21e856f0912df29295ba104c7"
+> +PR = "r0"
+> +
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+> +           file://git-version-gen"
+> +
+> +SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
+> +SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
+> +inherit autotools
+> +
+> +PACKAGECONFIG_class-target ?= "libaio"
+> +PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+> +
+> +PACKAGECONFIG[libaio] = ",,libaio,"
+> +PACKAGECONFIG[acl] = ",,acl,"
 
-A lot of these are related to missing vcos_platform_types.h
-(https://github.com/raspberrypi/firmware/issues/34).
+Are there not --enable/--disable type options we can pass into configure
+here to ensure build are deterministic?
 
-luajit is rather a strange error, HOST_CC can't find <sys/types.h> or
-some other common headers.
+Please also send this with move detection enabled in git so we get a
+diff rather than a file removal/addition correctly shown (-M option to
+git format-patch for example).
 
-mplayer2 is failing to find <mad.h>, this needs the same sort of fix I
-made to vlc (http://git.openembedded.org/meta-openembedded/commit/?id=3d6369b7c39d78b0d424dbe5a97e736b694e3c48).
+Cheers,
 
-Full logs, conf files, etc: http://www.paulbarker.me.uk/yocto/20130617_poky/
+Richard
 
-Note that for the final build everything in "fixes/" has been applied,
-including Khem's patches for gypsy, omgps, packagekit and tk.
+> +
+> +export INCLUDES = "-I. -I./linux"
+> +
+> +do_configure_prepend() {
+> +	cp ${WORKDIR}/git-version-gen ${S}
+> +}
+> +
+> +do_install_append() {
+> +	# We don't ship strace-graph here because it needs perl
+> +	rm ${D}${bindir}/strace-graph
+> +}
+> +
+> +BBCLASSEXTEND = "native"
 
---
-Paul Barker
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
