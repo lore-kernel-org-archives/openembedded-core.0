@@ -1,51 +1,30 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id A763A601DB
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1AAED60130
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 10:33:27 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r5JAXO0q025910
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Wed, 19 Jun 2013 12:33:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1371638004;
-	bh=Qg522vYcvdTDTPrO0vJw5Sa94TGnjIK46o4SdvDboE8=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=JL8BU+LNlFB0p8Ry3EBycVsQJ2Vg2j3yxqqPhvBXp78s9jhQJxqvrNucHQU9IXGdn
-	95y7XA0crkKoAAhh4nKv92I/Pv0puYFMYSsKkHd3T2p6DaZ/aXyGhvb/Tj6FUTcfn6
-	qSRRJBzvRX2R+NFr51mtbgJAdVFRNepbK2i8NU74=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r5JAXK8Q000753
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 19 Jun 2013 12:33:20 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1UpFhX-0005mm-RD; Wed, 19 Jun 2013 12:33:19 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <cover.1371621343.git.liezhi.yang@windriver.com>
-	<5bc169404eddb0ec90ce82c6013432f295d0cdc3.1371621343.git.liezhi.yang@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 19 Jun 2013 12:33:19 +0200
-In-Reply-To: <5bc169404eddb0ec90ce82c6013432f295d0cdc3.1371621343.git.liezhi.yang@windriver.com>
-	(Robert Yang's message of "Wed, 19 Jun 2013 05:00:40 -0400")
-Message-ID: <lyy5a675lc.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Wed, 19 Jun 2013 11:19:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5JBJFmj019457
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Jun 2013 04:19:15 -0700 (PDT)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Wed, 19 Jun 2013 04:19:15 -0700
+Message-ID: <51C19398.9080401@windriver.com>
+Date: Wed, 19 Jun 2013 19:18:48 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.4
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Robert Yang <liezhi.yang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
-Subject: Re: [PATCH 2/3] package_ipk.bbclass: make DESCRIPTION support newline
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1371619993.git.kai.kang@windriver.com>
+	<d1dac9ed8f9cfe6b533e5676d766e2efeb12195a.1371619993.git.kai.kang@windriver.com>
+	<1371629601.20823.161.camel@ted>
+In-Reply-To: <1371629601.20823.161.camel@ted>
+X-Originating-IP: [128.224.162.205]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] strace: update to 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,28 +37,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 10:33:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Jun 2013 11:19:19 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Robert Yang <liezhi.yang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
-writes:
-
-> The recipe's DESCRIPTION is wrapped automatically by textwrap, make it
-> support newline ("\n") to let the user can wrap it manually, e.g.:
+On 2013年06月19日 16:13, Richard Purdie wrote:
+> On Wed, 2013-06-19 at 13:34 +0800, Kai Kang wrote:
+>> Update strace to 4.8.
+>>
+>> * Update License file.
+>> * Remove the backport patches which are already in version 4.8.
+>> * Add file git-version-gen from git repo. Without this file configure
+>>    fails.
+>> * Add libaio and acl to PACKAGECONFIG for target package. Make libaio as a
+>>    dependency by default which could be covered easily.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> [...]
 >
-> -                    ctrlfile.write('Description: %s\n' % summary)
-> -                    ctrlfile.write('%s\n' % textwrap.fill(description, width=74, initial_indent=' ', subsequent_indent=' '))
-> +                    for t in description.split('\\n'):
-> +                        ctrlfile.write('%s\n' % textwrap.fill(t, width=74, initial_indent=' ', subsequent_indent=' '))
+>> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
+>> new file mode 100644
+>> index 0000000..eb9f660
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
+>> @@ -0,0 +1,32 @@
+>> +DESCRIPTION = "strace is a system call tracing tool."
+>> +HOMEPAGE = "http://strace.sourceforge.net"
+>> +SECTION = "console/utils"
+>> +LICENSE = "BSD"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=124500c21e856f0912df29295ba104c7"
+>> +PR = "r0"
+>> +
+>> +SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+>> +           file://git-version-gen"
+>> +
+>> +SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
+>> +SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
+>> +inherit autotools
+>> +
+>> +PACKAGECONFIG_class-target ?= "libaio"
+>> +PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+>> +
+>> +PACKAGECONFIG[libaio] = ",,libaio,"
+>> +PACKAGECONFIG[acl] = ",,acl,"
+> Are there not --enable/--disable type options we can pass into configure
+> here to ensure build are deterministic?
 
-When user wrapped lines manually, why is textwrap.fill() called on the
-lines again?  E.g. when user wrapped manually at 78 columns, this will
-create long - short - long - short lines (in german, why call this
-effect "Kammquoting" (comb quoting)) .
+Configure just check headers, no such --enable/--disable  options.
 
-I suggest to avoid textwrap.fill() when text contains '\n'.
+>
+> Please also send this with move detection enabled in git so we get a
+> diff rather than a file removal/addition correctly shown (-M option to
+> git format-patch for example).
+
+It maybe changes too much that git doesn't take that as 'rename'.
+I will take 'git mv' as a seperate commit but that commit is not 
+buildable, I will say that in comment.
+
+Regards,
+Kai
+>
+> Cheers,
+>
+> Richard
+>
+>> +
+>> +export INCLUDES = "-I. -I./linux"
+>> +
+>> +do_configure_prepend() {
+>> +	cp ${WORKDIR}/git-version-gen ${S}
+>> +}
+>> +
+>> +do_install_append() {
+>> +	# We don't ship strace-graph here because it needs perl
+>> +	rm ${D}${bindir}/strace-graph
+>> +}
+>> +
+>> +BBCLASSEXTEND = "native"
+>
+>
+>
 
 
+-- 
+Regards,
+Neil | Kai Kang
 
-Enrico
 
