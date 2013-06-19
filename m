@@ -1,27 +1,37 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B6F276A5DA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DDD060668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 12:04:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5JC4p4f024981
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 19 Jun 2013 12:08:22 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id ia10so3696358vcb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 05:04:51 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 19 Jun 2013 05:04:50 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Jun 2013 19:57:17 +0800
-Message-ID: <4eb86c7d04788a85aa2c8c2244b9c69514decd92.1371642926.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1371642926.git.kai.kang@windriver.com>
-References: <cover.1371642926.git.kai.kang@windriver.com>
+	Wed, 19 Jun 2013 05:08:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=AkcREryjSfnPcByALjJnw7LEEGgcOCEE/OCkQyGumdI=;
+	b=SXqMxF4l8itGHVDIU1flch8TcLrHECBSReCsZ1S66KEEqbUYUMKnD+Pt1Y3pmKonZR
+	GgcsDucDe3Ru9v209H/Nq1lcmLlTvKgFtsGQzl7PoWwT7zi0b+LMbwtk405h3ntRszWq
+	Faf2jzoai/I9bs6FnLUlbUz6T+jquQf0o1u7TOOMUNNN4lTFdDAW4a4rZbKdugB+JY0P
+	0etjSHEmjJm8sUHmoKRn8s/yevLCRicA0pEvw9u+Bxi0V8HtDfpWIrWAEkLp95Rsr9A9
+	GW8xbISxQYAl6y6UXNQia8zGYXnhJYKSjLQXsHk72xIb2Ah6sfsFbm4BPSBHrAix4+3M
+	omSw==
+X-Received: by 10.58.181.225 with SMTP id dz1mr803436vec.95.1371643703538;
+	Wed, 19 Jun 2013 05:08:23 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Subject: [PATCH 3/3] python-pygtk: fix parallel compile issue
+Received: by 10.220.13.144 with HTTP; Wed, 19 Jun 2013 05:08:03 -0700 (PDT)
+In-Reply-To: <c30e02ff25c696da4c08bf8e66d0bd7b0858dea9.1371642926.git.kai.kang@windriver.com>
+References: <cover.1371642926.git.kai.kang@windriver.com>
+	<c30e02ff25c696da4c08bf8e66d0bd7b0858dea9.1371642926.git.kai.kang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Jun 2013 13:08:03 +0100
+Message-ID: <CAJTo0Ladh4xDOE5MRGOXkzN822-Uy_Hot+S-tei9MU59Rm6uyA@mail.gmail.com>
+To: Kai Kang <kai.kang@windriver.com>
+X-Gm-Message-State: ALoCoQlkEKUiwUMHbcvVVnwm9oQ17vEDnB7s0FiKlW9jmF2Rb5v51EsqEKpGcGqhYgVz9fXLl6We
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] python-pygobject: disable parallel install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,79 +44,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 12:04:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Jun 2013 12:08:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-defs.c dependes on gdk-types.defs and gtk-types.defs. When parallel
-compile, it may fails with:
-"IOError: [Errno 2] No such file or directory: 'gtk-types.defs'"
+On 19 June 2013 12:57, Kai Kang <kai.kang@windriver.com> wrote:
+> +sRALLEL_MAKEINST = ""
 
-Add them to dependences of defs.c to fix this issue.
+Typo :)
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../update-dependences-of-defs.c.patch             |   36 ++++++++++++++++++++
- .../recipes-devtools/python/python-pygtk_2.24.0.bb |    3 +-
- 2 files changed, 38 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch
-
-diff --git a/meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch b/meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch
-new file mode 100644
-index 0000000..5875d0d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch
-@@ -0,0 +1,36 @@
-+From dc024e9079bbffbb44436ba3e70a758ebad5520f Mon Sep 17 00:00:00 2001
-+From: "Song.Li" <Song.Li@windriver.com>
-+Date: Sat, 5 Jan 2013 14:55:59 +0800
-+Subject: [PATCH] update dependences of defs.c in Makefile.am
-+
-+In gtk/Makefile.am, defs.c dependes on
-+gdk-types.defs and gtk-types.defs, so
-+add them into dependences of defs.c.
-+otherwise there will be build error
-+sometimes when build with "make -j".
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Song.Li <Song.Li@windriver.com>
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+---
-+ gtk/Makefile.am |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gtk/Makefile.am b/gtk/Makefile.am
-+index 7bb5d0c..91826cb 100644
-+--- a/gtk/Makefile.am
-++++ b/gtk/Makefile.am
-+@@ -289,7 +289,7 @@ if HAVE_GIO_TYPES_DEFS
-+ extra_codegen_args += --register $(PYGOBJECT_DEFSDIR)/gio-types.defs
-+ endif
-+ 
-+-.defs.c: 
-++.defs.c: gdk-types.defs gtk-types.defs
-+ 	($(PYTHON) $(CODEGENDIR)/codegen.py \
-+ 	   $(PYGTK_CODEGEN_DEFINES) \
-+ 	    -I $(srcdir) \
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-index 0342f82..475ea17 100644
---- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-+++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-@@ -15,7 +15,8 @@ SRC_URI = "ftp://ftp.gnome.org/pub/gnome/sources/pygtk/2.24/${SRCNAME}-${PV}.tar
-            file://fix-gtkunixprint.patch \
-            file://prevent_to_get_display_during_import.patch \
-            file://nodocs.patch \
--           file://acinclude.m4"
-+           file://acinclude.m4 \
-+           file://update-dependences-of-defs.c.patch"
- 
- SRC_URI[md5sum] = "a1051d5794fd7696d3c1af6422d17a49"
- SRC_URI[sha256sum] = "cd1c1ea265bd63ff669e92a2d3c2a88eb26bcd9e5363e0f82c896e649f206912"
--- 
-1.7.5.4
-
+Ross
 
