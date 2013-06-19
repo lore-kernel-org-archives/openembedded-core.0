@@ -1,34 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 666AC608CC
+Return-Path: <Jate.Sujjavanich@myfuelmaster.com>
+Received: from stspspam.syntech.org (exchsrvr.syntech-fuelmaster.com
+	[199.44.250.2])
+	by mail.openembedded.org (Postfix) with ESMTP id E9BBB608CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 15:02:18 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5JF8Qfk028251; Wed, 19 Jun 2013 16:08:26 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id voRcGp-Mi8sj; Wed, 19 Jun 2013 16:08:26 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5JF8NjQ028236
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 19 Jun 2013 16:08:25 +0100
-Message-ID: <1371654124.20823.194.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joe MacDonald <joe@deserted.net>
-Date: Wed, 19 Jun 2013 16:02:04 +0100
-In-Reply-To: <CANBf+V2sThoGM4-U=XfeGgG3kOdZonXx=pgz61LX_83msLbjSg@mail.gmail.com>
-References: <1371650216-31735-1-git-send-email-joe@deserted.net>
-	<1371651046.20823.189.camel@ted>
-	<CANBf+V3L7MBU3U9vZTqVtgv8GYPfoV9aeqyNA6C2QjMpentXOQ@mail.gmail.com>
-	<1371652646.20823.192.camel@ted>
-	<CANBf+V2sThoGM4-U=XfeGgG3kOdZonXx=pgz61LX_83msLbjSg@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bdwgc: support configure on autoconf <2.69
+	Wed, 19 Jun 2013 15:08:09 +0000 (UTC)
+Received: from pps.filterd (stspspam [127.0.0.1])
+	by stspspam.syntech.org (8.14.5/8.14.5) with SMTP id r5JEoooc012231
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2013 11:08:10 -0400
+Received: from courier.syntech-fuelmaster.com (courier.syntech.org
+	[172.16.10.30]) by stspspam.syntech.org with ESMTP id 1cykfftews-1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2013 11:08:10 -0400
+Received: from Courier.syntech.org ([::1]) by Courier.syntech.org ([::1]) with
+	mapi; Wed, 19 Jun 2013 11:08:10 -0400
+From: Jate Sujjavanich <Jate.Sujjavanich@myfuelmaster.com>
+To: "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Jun 2013 11:08:10 -0400
+Thread-Topic: [PATCH] Checksums for local files now stored using partial
+	recipe path
+Thread-Index: Ac5s/Ugl+vXwzcvbRqeXjlcFBBvaTAAAWk+A
+Message-ID: <6C2434209962DC46B88345CA85C334A201C9F4A70BF2@Courier.syntech.org>
+References: <1371653832-2178-1-git-send-email-jate.sujjavanich@myfuelmaster.com>
+In-Reply-To: <1371653832-2178-1-git-send-email-jate.sujjavanich@myfuelmaster.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-vipre-scanned: 05354D400049A005354E8D
+acceptlanguage: en-US
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.10.8794, 1.0.431,
+	0.0.0000
+	definitions=2013-06-19_05:2013-06-19, 2013-06-19,
+	1970-01-01 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=0 phishscore=0
+	adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1
+	engine=7.0.1-1305240000 definitions=main-1306190114
+Subject: [PATCH] Checksums for local files now stored using partial recipe path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,153 +52,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 15:02:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Jun 2013 15:08:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2013-06-19 at 10:50 -0400, Joe MacDonald wrote:
-> Adding the oe-core list back to the cc list since I accidentally
-> dropped the list on my first response.
-> 
-> On Wed, Jun 19, 2013 at 10:37 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         On Wed, 2013-06-19 at 10:15 -0400, Joe MacDonald wrote:
->         >
->         >
->         
->         > On Wed, Jun 19, 2013 at 10:10 AM, Richard Purdie
->         > <richard.purdie@linuxfoundation.org> wrote:
->         >         On Wed, 2013-06-19 at 09:56 -0400, joe@deserted.net
->         wrote:
->         >         > From: Joe MacDonald <joe@deserted.net>
->         >         >
->         >         > Building bdwgc-native on systems with older
->         versions of
->         >         autoconf (earlier
->         >         > than 2.69) is known to have issues:
->         >         >
->         >         >       https://github.com/ivmai/bdwgc/issues/16
->         >         >
->         >         > An option is to simply mask the errors with
->         >         m4_pattern_allow(...) for each
->         >         > of the macros, but rerunning autoreconf produces a
->         >         functional configure
->         >         > script that builds a functional native version of
->         bdwgc.
->         >         >
->         >         > Signed-off-by: Joe MacDonald <joe@deserted.net>
->         >         > ---
->         >         >  meta/recipes-support/bdwgc/bdwgc_7.2d.bb | 9
->         +++++++++
->         >         >  1 file changed, 9 insertions(+)
->         >         >
->         >         > I tripped over this yesterday on one of my older
->         builders.
->         >          It happens to still
->         >         > be Ubuntu 12.04.2.  I don't know if it's unique to
->         my
->         >         configuration, but after
->         >         > doing some digging around on the web I can't see
->         any obvious
->         >         indications that
->         >         > I'm missing any autotools package and the general
->         consensus
->         >         seems to be that
->         >         > autoreconf is the best option when the failures
->         are
->         >         relatively beign as they
->         >         > are here.
->         >         >
->         >         > -J.
->         >         >
->         >         > diff --git
->         a/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
->         >         b/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
->         >         > index 46e5257..d8e2de5 100644
->         >         > --- a/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
->         >         > +++ b/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
->         >         > @@ -36,3 +36,12 @@ ARM_INSTRUCTION_SET = "arm"
->         >         >
->         >         >  inherit autotools
->         >         >  BBCLASSEXTEND = "native nativesdk"
->         >         > +
->         >         > +do_configure_prepend() {
->         >         > +     # Without this, on older installations of
->         autoconf
->         >         errors crop up during configure:
->         >         > +     # | configure.ac:70: error: possibly
->         undefined macro:
->         >         AC_MSG_ERROR
->         >         > +     # |       If this token and others are
->         legitimate,
->         >         please use m4_pattern_allow.
->         >         > +     # |       See the Autoconf documentation.
->         >         > +     # | configure.ac:358: error: possibly
->         undefined macro:
->         >         AS_IF
->         >         > +     ( cd ${S}; autoreconf -i )
->         >         > +}
->         >
->         >
->         >         This is timely since we're seeing this issue on some
->         of the
->         >         autobuilders. We should be autoreconfing by default
->         though,
->         >         any idea why
->         >         it doesn't in this case?
->         >
->         >
->         > No, I didn't actually dig into that, I didn't realize it
->         should be
->         > autoreconfing.  Is it explciit in the do_configure step, or
->         implicit?
->         >  Maybe it's a timestamp issue or something?  The only
->         machine I've got
->         > left that has this problem is pretty fast, so maybe on a
->         slower (or
->         > more heavily loaded) machine an implicit rule will fire
->         where a beefy,
->         > unloaded one won't?  Just a wild guess.
->         
->         
->         Reading the link you supplied further, it could be a missing
->         pkgconfig
->         dependency?
-> 
-> 
-> I thought so at first, but I couldn't find anything absent on my
-> builder that looked even remotely pkgconfig-related.  Then I started
-> digging into the autotools stuff, since the warning is clearly about
-> expanding autoconf macros and that's when I finally started paying
-> attention to the version numbers on the failing host versus the
-> builders I use that weren't complaining.
-> 
-> 
-> It could still be that there's something missing, but when I noticed
-> the comment just below the "closed" bar in the issue I linked:
-> 
-> 
->  ivmai commented10 months ago
-> I have tested the git sources from bdwgc and they only configure
-> properly with autoconf >= 2.69. [...]
-> It seemed like I'd found at least confirmation that what I was seeing
-> was expected.
-> 
-> 
-> I have no idea why the autotools.bbclass' autoreconf wouldn't do it,
-> though.  I'll go have a quick look to see if the tree is different
-> because I also passed it -i when I did the autoreconf.
-> 
+This allows sstate-cache to be shared between builds in different directori=
+es.
 
-I have a reproducer:
+Differences in the full path were triggering a false positive when there we=
+re actually no changes.
 
-bitbake bdwgc-native pkgconfig-native -c clean; bitbake bdwgc-native
+Signed-off-by: Jate Sujjavanich <jate.sujjavanich@myfuelmaster.com>
+---
+ bitbake/lib/bb/fetch2/__init__.py |   14 +++++++++-----
+ bitbake/lib/bb/siggen.py          |    3 ++-
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
-Pretty sure its a missing pkgconfig dependency.
-
-Cheers,
-
-Richard
-
+diff --git a/bitbake/lib/bb/fetch2/__init__.py b/bitbake/lib/bb/fetch2/__in=
+it__.py
+index dd1cc93..7ab44d7 100644
+--- a/bitbake/lib/bb/fetch2/__init__.py
++++ b/bitbake/lib/bb/fetch2/__init__.py
+@@ -900,8 +900,7 @@ def get_checksum_file_list(d):
+=20
+     return " ".join(filelist)
+=20
+-
+-def get_file_checksums(filelist, pn):
++def get_file_checksums(filelist, pn, topdir):
+     """Get a list of the checksums for a list of local files
+=20
+     Returns the checksums for a list of local files, caching the results a=
+s @@ -917,7 +916,12 @@ def get_file_checksums(filelist, pn):
+             bb.warn("Unable to get checksum for %s SRC_URI entry %s: %s" %=
+ (pn, os.path.basename(f), e))
+             return None
+         return checksum
++   =20
++    (recipe_root, _) =3D os.path.split(topdir)
+=20
++    def remove_recipe_parent(data):
++        return data.replace(recipe_root, '').strip('/')
++   =20
+     checksums =3D []
+     for pth in filelist.split():
+         checksum =3D None
+@@ -927,7 +931,7 @@ def get_file_checksums(filelist, pn):
+             for f in glob.glob(pth):
+                 checksum =3D checksum_file(f)
+                 if checksum:
+-                    checksums.append((f, checksum))
++                    checksums.append((remove_recipe_parent(f),=20
++ checksum))
+         elif os.path.isdir(pth):
+             # Handle directories
+             for root, dirs, files in os.walk(pth):
+@@ -935,12 +939,12 @@ def get_file_checksums(filelist, pn):
+                     fullpth =3D os.path.join(root, name)
+                     checksum =3D checksum_file(fullpth)
+                     if checksum:
+-                        checksums.append((fullpth, checksum))
++                       =20
++ checksums.append((remove_recipe_parent(fullpth), checksum))
+         else:
+             checksum =3D checksum_file(pth)
+=20
+         if checksum:
+-            checksums.append((pth, checksum))
++            checksums.append((remove_recipe_parent(pth), checksum))
+=20
+     checksums.sort(key=3Doperator.itemgetter(1))
+     return checksums
+diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py index 8861=
+337..c64acfe 100644
+--- a/bitbake/lib/bb/siggen.py
++++ b/bitbake/lib/bb/siggen.py
+@@ -74,6 +74,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
+         self.pkgnameextract =3D re.compile("(?P<fn>.*)\..*")
+         self.basewhitelist =3D set((data.getVar("BB_HASHBASE_WHITELIST", T=
+rue) or "").split())
+         self.taskwhitelist =3D None
++        self.topdir =3D data.getVar("TOPDIR", True)
+         self.init_rundepcheck(data)
+=20
+     def init_rundepcheck(self, data):
+@@ -187,7 +188,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
+             self.runtaskdeps[k].append(dep)
+=20
+         if task in dataCache.file_checksums[fn]:
+-            checksums =3D bb.fetch2.get_file_checksums(dataCache.file_chec=
+ksums[fn][task], recipename)
++            checksums =3D=20
++ bb.fetch2.get_file_checksums(dataCache.file_checksums[fn][task],=20
++ recipename, self.topdir)
+             for (f,cs) in checksums:
+                 self.file_checksum_values[k][f] =3D cs
+                 data =3D data + cs
+--
+1.7.0.4
 
 
