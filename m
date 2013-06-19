@@ -1,26 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E1406A8D1
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C322561E92
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 02:45:50 +0000 (UTC)
+	Wed, 19 Jun 2013 02:46:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5J2jocB009719
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5J2kg05023543
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 19:45:50 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.153) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 18 Jun 2013 19:45:50 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Jun 2013 10:45:45 +0800
-Message-ID: <d144145e87b9f15189080665ce91db537522935f.1371609581.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1371609581.git.hongxu.jia@windriver.com>
-References: <cover.1371609581.git.hongxu.jia@windriver.com>
+	Tue, 18 Jun 2013 19:46:42 -0700 (PDT)
+Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 18 Jun 2013 19:46:40 -0700
+Message-ID: <51C11B90.9000708@windriver.com>
+Date: Wed, 19 Jun 2013 10:46:40 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
 MIME-Version: 1.0
-Subject: [PATCH 1/1] wget:fix do_configure failed
+To: Mark Hatle <mark.hatle@windriver.com>
+References: <cover.1371535277.git.rongqing.li@windriver.com>
+	<0a46b955bf906f9ce2c6a9045c740ac44a1b0959.1371535277.git.rongqing.li@windriver.com>
+	<51C06C13.3030104@windriver.com>
+In-Reply-To: <51C06C13.3030104@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] cairo: fix build error since toolchain has not get_feature command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +37,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 02:45:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Jun 2013 02:46:39 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Create a new build enviroment, build wget failed
-...
-configure:34512: checking for libssl
-configure:34542: i586-poky-linux-gcc  -m32 -march=i586 --sysroot=/home/jiahongxu/yocto/build-20130613-qemu/tmp/sysroots/qemux86 -o conftest - O2 -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed conftest.c -ldl  -lssl /home/jiahongxu/yocto/build-  20130613-qemu/tmp/sysroots/qemux86/lib/libcrypto.so -lz >&5
-/home/jiahongxu/yocto/build-20130613-qemu/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld: cannot find -lz collect2: error: ld returned 1 exit status
-...
 
-From log as we known, the reason is link zlib failed, it isn't
-explicitly in wget's DEPENDS. Add zlib to wget's DEPENDS.
 
-[YOCTO #4749]
+On 06/18/2013 10:17 PM, Mark Hatle wrote:
+> On 6/18/13 1:02 AM, rongqing.li@windriver.com wrote:
+>> From: "Roy.Li" <rongqing.li@windriver.com>
+>>
+>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+>> ---
+>>   ...-check-stderr-when-test-compiling-in-conf.patch |   39
+>> ++++++++++++++++++++
+>>   meta/recipes-graphics/cairo/cairo_1.12.14.bb       |    3 +-
+>>   2 files changed, 41 insertions(+), 1 deletion(-)
+>>   create mode 100644
+>> meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+>>
+>>
+>> diff --git
+>> a/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+>> b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+>>
+>> new file mode 100644
+>> index 0000000..e04c3b2
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
+>>
+>> @@ -0,0 +1,39 @@
+>> +From 1581e5373c5917ed8ff6f7129c51160594c927d1 Mon Sep 17 00:00:00 2001
+>> +From: "Song.Li" <Song.Li@windriver.com>
+>> +Date: Mon, 30 Jul 2012 16:38:02 +0800
+>> +Subject: [PATCH] cairo:don't check stderr when test compiling in
+>> configure
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +cairo configure use a special macro to test compiling feature.
+>> +It'll require no any warnings or errors in stderr.That is too strict.
+>> +for example, when there is no get_feature in gcc,
+>> +gcc will print "no get_feature" in stderr, but that is not a real error.
+>
+> FYI -- 'get_feature' is something specific to Wind River.  The patch is
+> still reasonable, but the commit description might need some cleanup for
+> people not familiar with some of our internal tools.
+>
+> I'd suggest just removing the example part.
+>
+> --Mark
+>
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-extended/wget/wget.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I will drop this patch until the build failure happens on oe-core.
 
-diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
-index ba37a87..de9b620 100644
---- a/meta/recipes-extended/wget/wget.inc
-+++ b/meta/recipes-extended/wget/wget.inc
-@@ -2,7 +2,7 @@ DESCRIPTION = "A console URL download utility featuring HTTP, FTP, and more."
- SECTION = "console/network"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
--DEPENDS = "openssl"
-+DEPENDS = "openssl zlib"
- 
- INC_PR = "r16"
- 
+-Roy
+
+>> +so let cairo don't check stderr,just check the return value of compiling
+>> +is enough.
+>> +
+>> +Signed-off-by: Song.Li <Song.Li@windriver.com>
+>> +---
+>> + build/aclocal.cairo.m4 |    6 +++---
+>> + 1 file changed, 3 insertions(+), 3 deletions(-)
+>> +
+>> +diff --git a/build/aclocal.cairo.m4 b/build/aclocal.cairo.m4
+>> +index 592e168..4de3b26 100644
+>> +--- a/build/aclocal.cairo.m4
+>> ++++ b/build/aclocal.cairo.m4
+>> +@@ -106,9 +106,9 @@ AC_DEFUN([CAIRO_CC_TRY_LINK_WITH_ENV_SILENT],[dnl
+>> +         [cairo_cc_stderr=`test -f conftest.err && cat conftest.err`
+>> +          cairo_cc_flag=no])
+>> +
+>> +-    if test "x$cairo_cc_stderr" != "x"; then
+>> +-        cairo_cc_flag=no
+>> +-    fi
+>> ++dnl    if test "x$cairo_cc_stderr" != "x"; then
+>> ++dnl        cairo_cc_flag=no
+>> ++dnl    fi
+>> +
+>> +     if test "x$cairo_cc_flag" = "xyes"; then
+>> +         ifelse([$3], , :, [$3])
+>> +--
+>> +1.7.9.5
+>> +
+>> diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+>> b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+>> index 40aa169..5c8c9cd 100644
+>> --- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+>> +++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
+>> @@ -5,7 +5,8 @@ LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+>>   PR = "r0"
+>>
+>>   SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
+>> -           file://png.patch"
+>> +           file://png.patch \
+>> +
+>> file://cairo-don-t-check-stderr-when-test-compiling-in-conf.patch"
+>>
+>>   SRC_URI[md5sum] = "27b634113d0f52152d60ae8e2ec7daa7"
+>>   SRC_URI[sha256sum] =
+>> "96d0d1e3f9b74d2ca3469ff187c5e5f25649b1ad35cf06f4f3a83847dff4ac13"
+>>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
 -- 
-1.8.1.2
-
+Best Reagrds,
+Roy | RongQing Li
 
