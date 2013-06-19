@@ -1,29 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DB2F601DB
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 04286601DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 09:49:38 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5J9tjt3012288; Wed, 19 Jun 2013 10:55:45 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MuLmZruOfNZ4; Wed, 19 Jun 2013 10:55:45 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5J9tcR6012274
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 19 Jun 2013 10:55:39 +0100
-Message-ID: <1371635360.20823.167.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed, 19 Jun 2013 10:10:05 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UpFL2-0007Ho-Ff; Wed, 19 Jun 2013 12:10:04 +0200
+Message-ID: <1371636603.6580.79.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
 To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 19 Jun 2013 10:49:20 +0100
+Date: Wed, 19 Jun 2013 11:10:03 +0100
 In-Reply-To: <20130619092952.GF14021@jama>
 References: <cover.1371621343.git.liezhi.yang@windriver.com>
 	<5bc169404eddb0ec90ce82c6013432f295d0cdc3.1371621343.git.liezhi.yang@windriver.com>
 	<20130619092952.GF14021@jama>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/3] package_ipk.bbclass: make DESCRIPTION support newline
@@ -39,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 09:49:39 -0000
+X-List-Received-Date: Wed, 19 Jun 2013 10:10:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -84,20 +77,27 @@ On Wed, 2013-06-19 at 11:29 +0200, Martin Jansa wrote:
 > Isn't DESCRIPTION supposed to be short oneline and longer multiline only
 > in SUMMARY?
 
-No, SUMMARY is meant to be the short oneline and DESCRIPTION is the
-multiline one afaik...
-
-Cheers,
-
-Richard
+No, the reverse.  SUMMARY is (as the name suggests, and as the existing
+code implements) meant to be the short synopsis and DESCRIPTION is the
+longer text. 
 
 > is opkg-utils (package-index) working with this? Newlines in SUMMARY
 > were causing incorrect parsing and not using cache IIRC, not sure if the
 > fix for that was generic enough to cover DESCRIPTION.
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+Newlines in SUMMARY would indeed break opkg-utils because the text after
+the line break wouldn't be correctly indented.  It wouldn't be a bad
+thing for package_ipk to check for that, but this shouldn't be an issue
+with the patch above since it seems to be explicitly indenting all lines
+of the long description.
+
+I'm not entirely thrilled with Robert's patch because it seems rather
+ugly to have embedded "\n" sequences in the recipe DESCRIPTION fields,
+and also because package_ipk isn't the only consumer of that variable
+and it isn't entirely obvious that all the other users will know what to
+do.  But, absent a way to express string literals with embedded newlines
+in bitbake, perhaps this is indeed the best compromise.
+
+p.
 
 
