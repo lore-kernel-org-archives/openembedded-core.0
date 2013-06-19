@@ -1,20 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FF7261663
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A4FE601AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 13:16:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Jun 2013 06:15:57 -0700
+	Wed, 19 Jun 2013 13:54:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2013 06:54:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,896,1363158000"; d="scan'208";a="356057172"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.40])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Jun 2013 06:15:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2013 14:15:52 +0100
-Message-Id: <1371647752-29176-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] classes/package_tar: fix file ownership within tarballs
+X-IronPort-AV: E=Sophos;i="4.87,896,1363158000"; d="scan'208";a="352352007"
+Received: from unknown (HELO [10.255.13.131]) ([10.255.13.131])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2013 06:54:44 -0700
+Message-ID: <51C1B7FE.1020602@linux.intel.com>
+Date: Wed, 19 Jun 2013 06:54:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1371647117.20823.182.camel@ted>
+In-Reply-To: <1371647117.20823.182.camel@ted>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] utility-tasks: Add recideptask flag for fetchall/checkuriall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,31 +32,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 13:16:00 -0000
+X-List-Received-Date: Wed, 19 Jun 2013 13:54:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The fakeroot flag wasn't correctly set leading to files within the
-output tarballs having uid/gid values from the build host instead of the
-desired target permissions.
+On 06/19/2013 06:05 AM, Richard Purdie wrote:
+> See the bitbake commit adding the recideptask flag for details of the
+> problem but in summary, we weren't seeing the [depends] of tasks like
+> do_rootfs being taking into account for fetchall. This was leading
+> to not all sources being fetched and this is the OE-Core part of the
+> fix for this problem.
+>
+> BB_DEFAULT_TASK is the default task used since this is the one that
+> most commands would end up targeting and is how users expect the command
+> to behave.
+>
+> [YOCTO #4597]
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/classes/prexport.bbclass b/meta/classes/prexport.bbclass
+> index 16c4bf2..5a1cb33 100644
+> --- a/meta/classes/prexport.bbclass
+> +++ b/meta/classes/prexport.bbclass
+> @@ -55,4 +55,4 @@ python prexport_handler () {
+>   }
+>
+>   addhandler prexport_handler
+> -prexport_handler bb.event.RecipeParsed bb.event.ParseStarted bb.event.ParseCompleted"
+> +prexport_handler[eventmask] = "bb.event.RecipeParsed bb.event.ParseStarted bb.event.ParseCompleted"
+> diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
+> index bb26eb7..507e0f1 100644
+> --- a/meta/classes/utility-tasks.bbclass
+> +++ b/meta/classes/utility-tasks.bbclass
+> @@ -48,6 +48,7 @@ python do_checkuri() {
+>
+>   addtask checkuriall after do_checkuri
+>   do_checkuriall[recrdeptask] = "do_checkuriall do_checkuri"
+> +do_checkuriall[recideptask] = "do_${BB_DEFAULT_TASK}"
+>   do_checkuriall[nostamp] = "1"
+>   do_checkuriall() {
+>   	:
+> @@ -55,6 +56,7 @@ do_checkuriall() {
+>
+>   addtask fetchall after do_fetch
+>   do_fetchall[recrdeptask] = "do_fetchall do_fetch"
+> +do_fetchall[recideptask] = "do_${BB_DEFAULT_TASK}"
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/package_tar.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Would this change be needed in some of the distrodata tasks also? 
+Mostly they operate on world or universe and not images, but I could see 
+someone trying to get that info for a given image.
 
-diff --git a/meta/classes/package_tar.bbclass b/meta/classes/package_tar.bbclass
-index c4bb62f..2d6fc8f 100644
---- a/meta/classes/package_tar.bbclass
-+++ b/meta/classes/package_tar.bbclass
-@@ -56,7 +56,7 @@ python () {
-         deps.append('tar-native:do_populate_sysroot')
-         deps.append('virtual/fakeroot-native:do_populate_sysroot')
-         d.setVarFlag('do_package_write_tar', 'depends', " ".join(deps))
--        d.setVarFlag('do_package_write_ipk', 'fakeroot', "1")
-+        d.setVarFlag('do_package_write_tar', 'fakeroot', "1")
- }
- 
- 
--- 
-1.8.1.2
+Sau!
 
+>   do_fetchall() {
+>   	:
+>   }
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
