@@ -1,26 +1,25 @@
-Return-Path: <Wenzong.Fan@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AA836AD1B
+	by mail.openembedded.org (Postfix) with ESMTP id 3FBAE60810
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 03:21:32 +0000 (UTC)
+	Wed, 19 Jun 2013 05:35:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5J3LYeN023874
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 20:21:34 -0700 (PDT)
-Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 18 Jun 2013 20:21:33 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Jun 2013 23:21:29 -0400
-Message-ID: <d8c2c9099028827bd66f96bb4dcef1a0d539a83e.1371608997.git.wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1371608997.git.wenzong.fan@windriver.com>
-References: <cover.1371608997.git.wenzong.fan@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5J5ZX2F025359
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Jun 2013 22:35:33 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Tue, 18 Jun 2013 22:35:33 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 19 Jun 2013 13:34:56 +0800
+Message-ID: <cover.1371619993.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libpam: Fix for CVE-2010-4708
+X-Originating-IP: [128.224.162.205]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/2] V2: Update strace and fix autogen-native build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +32,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 03:21:32 -0000
+X-List-Received-Date: Wed, 19 Jun 2013 05:35:37 -0000
 Content-Type: text/plain
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+V2:
+update PACKAGECONFIG default definition of strace
 
-Change default for user_readenv to 0 and document the
-new default for user_readenv.
+The following changes since commit 1dd643b142c69ac9035e29bff11d02201638dc65:
 
-This fix from:
-http://pam.cvs.sourceforge.net/viewvc/pam/Linux-PAM/modules/pam_env
-/pam_env.c?r1=1.22&r2=1.23&view=patch
-http://pam.cvs.sourceforge.net/viewvc/pam/Linux-PAM/modules/pam_env
-/pam_env.8.xml?r1=1.7&r2=1.8&view=patch
+  licences: Add SGI license (2013-06-17 16:45:37 +0100)
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- .../pam/libpam/libpam-fix-for-CVE-2010-4708.patch  |   41 ++++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.1.6.bb          |    1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-extended/pam/libpam/libpam-fix-for-CVE-2010-4708.patch
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/update-strace
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/update-strace
 
-diff --git a/meta/recipes-extended/pam/libpam/libpam-fix-for-CVE-2010-4708.patch b/meta/recipes-extended/pam/libpam/libpam-fix-for-CVE-2010-4708.patch
-new file mode 100644
-index 0000000..5d2b69a
---- /dev/null
-+++ b/meta/recipes-extended/pam/libpam/libpam-fix-for-CVE-2010-4708.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Backport
-+
-+Fix for CVE-2010-4708
-+
-+Change default for user_readenv to 0 and document the 
-+new default for user_readenv.
-+
-+This fix is got from:
-+http://pam.cvs.sourceforge.net/viewvc/pam/Linux-PAM/modules/pam_env
-+/pam_env.c?r1=1.22&r2=1.23&view=patch
-+http://pam.cvs.sourceforge.net/viewvc/pam/Linux-PAM/modules/pam_env
-+/pam_env.8.xml?r1=1.7&r2=1.8&view=patch
-+
-+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-+
-+---
-+--- a/modules/pam_env/pam_env.c	2012-09-05 13:57:47.000000000 +0800
-++++ b/modules/pam_env/pam_env.c	2012-09-05 13:58:05.000000000 +0800
-+@@ -10,7 +10,7 @@
-+ #define DEFAULT_READ_ENVFILE    1
-+ 
-+ #define DEFAULT_USER_ENVFILE    ".pam_environment"
-+-#define DEFAULT_USER_READ_ENVFILE 1
-++#define DEFAULT_USER_READ_ENVFILE 0
-+ 
-+ #include "config.h"
-+ 
-+--- a/modules/pam_env/pam_env.8.xml	2012-09-05 13:58:24.000000000 +0800
-++++ b/modules/pam_env/pam_env.8.xml	2012-09-05 13:59:36.000000000 +0800
-+@@ -147,7 +147,10 @@
-+         <listitem>
-+           <para>
-+             Turns on or off the reading of the user specific environment
-+-            file. 0 is off, 1 is on. By default this option is on.
-++            file. 0 is off, 1 is on. By default this option is off as user
-++            supplied environment variables in the PAM environment could affect
-++            behavior of subsequent modules in the stack without the consent
-++            of the system administrator.
-+           </para>
-+         </listitem>
-+       </varlistentry>
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index 73a8f88..94101d4 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
-            file://fixsepbuild.patch \
-            file://reflect-the-enforce_for_root-semantics-change-in-pam.patch \
-            file://add-checks-for-crypt-returning-NULL.patch \
-+           file://libpam-fix-for-CVE-2010-4708.patch \
-           "
- SRC_URI[md5sum] = "7b73e58b7ce79ffa321d408de06db2c4"
- SRC_URI[sha256sum] = "bab887d6280f47fc3963df3b95735a27a16f0f663636163ddf3acab5f1149fc2"
+Kai Kang (2):
+  autogen-native: fix build failure on overloaded hosts
+  strace: update to 4.8
+
+ .../autogen/autogen-native_5.17.4.bb               |    3 +-
+ .../autogen/files/increase-timeout-limit.patch     |   33 +
+ ...ilding-when-glibc-has-a-stub-process_vm_r.patch |   54 -
+ .../strace-4.7/0014-x32-update-syscall-table.patch |   91 -
+ ...-x32-update-g-s-etsockopt-syscall-numbers.patch |   43 -
+ .../0024-x32-add-64bit-annotation-too.patch        |  231 --
+ .../0025-Add-e-trace-memory-option.patch           | 2898 --------------------
+ ...ew-errno-values-for-EPROBE_DEFER-and-EOPE.patch |   36 -
+ .../0027-Add-AArch64-support-to-strace.patch       |  542 ----
+ .../0028-Enhance-quotactl-decoding.patch           |  391 ---
+ ...029-Filter-out-redundant-32-ioctl-entries.patch |  145 -
+ ...neric-ioctl-definitions-to-linux-ioctlent.patch |  571 ----
+ ...-for-tracing-32-bit-ARM-EABI-binaries-on-.patch |  963 -------
+ .../0032-Fix-kernel-release-string-parsing.patch   |   38 -
+ .../strace/strace-4.8/git-version-gen              |  225 ++
+ meta/recipes-devtools/strace/strace_4.7.bb         |   34 -
+ meta/recipes-devtools/strace/strace_4.8.bb         |   32 +
+ 17 files changed, 292 insertions(+), 6038 deletions(-)
+ create mode 100644 meta/recipes-devtools/autogen/files/increase-timeout-limit.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0003-util-fix-building-when-glibc-has-a-stub-process_vm_r.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0014-x32-update-syscall-table.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0018-x32-update-g-s-etsockopt-syscall-numbers.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0024-x32-add-64bit-annotation-too.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0025-Add-e-trace-memory-option.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0026-linux-add-new-errno-values-for-EPROBE_DEFER-and-EOPE.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0027-Add-AArch64-support-to-strace.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0028-Enhance-quotactl-decoding.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0029-Filter-out-redundant-32-ioctl-entries.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0030-Move-asm-generic-ioctl-definitions-to-linux-ioctlent.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0031-Add-support-for-tracing-32-bit-ARM-EABI-binaries-on-.patch
+ delete mode 100644 meta/recipes-devtools/strace/strace-4.7/0032-Fix-kernel-release-string-parsing.patch
+ create mode 100755 meta/recipes-devtools/strace/strace-4.8/git-version-gen
+ delete mode 100644 meta/recipes-devtools/strace/strace_4.7.bb
+ create mode 100644 meta/recipes-devtools/strace/strace_4.8.bb
+
 -- 
-1.7.9.5
+1.7.5.4
 
 
