@@ -1,25 +1,19 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A4FE601AF
+Return-Path: <joe@deserted.net>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E509E608CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 13:54:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 19 Jun 2013 06:54:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,896,1363158000"; d="scan'208";a="352352007"
-Received: from unknown (HELO [10.255.13.131]) ([10.255.13.131])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2013 06:54:44 -0700
-Message-ID: <51C1B7FE.1020602@linux.intel.com>
-Date: Wed, 19 Jun 2013 06:54:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1371647117.20823.182.camel@ted>
-In-Reply-To: <1371647117.20823.182.camel@ted>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] utility-tasks: Add recideptask flag for fetchall/checkuriall
+	Wed, 19 Jun 2013 13:56:56 +0000 (UTC)
+Received: from yow-assmunch-03.corp.ad.wrs.com (yow-jmacdona-d3.wrs.com
+	[128.224.147.66])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5JDuvKr012949;
+	Wed, 19 Jun 2013 06:56:57 -0700 (PDT)
+From: joe@deserted.net
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jun 2013 09:56:56 -0400
+Message-Id: <1371650216-31735-1-git-send-email-joe@deserted.net>
+X-Mailer: git-send-email 1.8.2
+Cc: joe.macdonald@windriver.com
+Subject: [PATCH] bdwgc: support configure on autoconf <2.69
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,68 +26,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 13:54:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Jun 2013 13:56:57 -0000
 
-On 06/19/2013 06:05 AM, Richard Purdie wrote:
-> See the bitbake commit adding the recideptask flag for details of the
-> problem but in summary, we weren't seeing the [depends] of tasks like
-> do_rootfs being taking into account for fetchall. This was leading
-> to not all sources being fetched and this is the OE-Core part of the
-> fix for this problem.
->
-> BB_DEFAULT_TASK is the default task used since this is the one that
-> most commands would end up targeting and is how users expect the command
-> to behave.
->
-> [YOCTO #4597]
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/classes/prexport.bbclass b/meta/classes/prexport.bbclass
-> index 16c4bf2..5a1cb33 100644
-> --- a/meta/classes/prexport.bbclass
-> +++ b/meta/classes/prexport.bbclass
-> @@ -55,4 +55,4 @@ python prexport_handler () {
->   }
->
->   addhandler prexport_handler
-> -prexport_handler bb.event.RecipeParsed bb.event.ParseStarted bb.event.ParseCompleted"
-> +prexport_handler[eventmask] = "bb.event.RecipeParsed bb.event.ParseStarted bb.event.ParseCompleted"
-> diff --git a/meta/classes/utility-tasks.bbclass b/meta/classes/utility-tasks.bbclass
-> index bb26eb7..507e0f1 100644
-> --- a/meta/classes/utility-tasks.bbclass
-> +++ b/meta/classes/utility-tasks.bbclass
-> @@ -48,6 +48,7 @@ python do_checkuri() {
->
->   addtask checkuriall after do_checkuri
->   do_checkuriall[recrdeptask] = "do_checkuriall do_checkuri"
-> +do_checkuriall[recideptask] = "do_${BB_DEFAULT_TASK}"
->   do_checkuriall[nostamp] = "1"
->   do_checkuriall() {
->   	:
-> @@ -55,6 +56,7 @@ do_checkuriall() {
->
->   addtask fetchall after do_fetch
->   do_fetchall[recrdeptask] = "do_fetchall do_fetch"
-> +do_fetchall[recideptask] = "do_${BB_DEFAULT_TASK}"
+From: Joe MacDonald <joe@deserted.net>
 
-Would this change be needed in some of the distrodata tasks also? 
-Mostly they operate on world or universe and not images, but I could see 
-someone trying to get that info for a given image.
+Building bdwgc-native on systems with older versions of autoconf (earlier
+than 2.69) is known to have issues:
 
-Sau!
+	https://github.com/ivmai/bdwgc/issues/16
 
->   do_fetchall() {
->   	:
->   }
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+An option is to simply mask the errors with m4_pattern_allow(...) for each
+of the macros, but rerunning autoreconf produces a functional configure
+script that builds a functional native version of bdwgc.
+
+Signed-off-by: Joe MacDonald <joe@deserted.net>
+---
+ meta/recipes-support/bdwgc/bdwgc_7.2d.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+I tripped over this yesterday on one of my older builders.  It happens to still
+be Ubuntu 12.04.2.  I don't know if it's unique to my configuration, but after
+doing some digging around on the web I can't see any obvious indications that
+I'm missing any autotools package and the general consensus seems to be that
+autoreconf is the best option when the failures are relatively beign as they
+are here.
+
+-J.
+
+diff --git a/meta/recipes-support/bdwgc/bdwgc_7.2d.bb b/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
+index 46e5257..d8e2de5 100644
+--- a/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
++++ b/meta/recipes-support/bdwgc/bdwgc_7.2d.bb
+@@ -36,3 +36,12 @@ ARM_INSTRUCTION_SET = "arm"
+ 
+ inherit autotools
+ BBCLASSEXTEND = "native nativesdk"
++
++do_configure_prepend() {
++	# Without this, on older installations of autoconf errors crop up during configure:
++	# | configure.ac:70: error: possibly undefined macro: AC_MSG_ERROR
++	# |       If this token and others are legitimate, please use m4_pattern_allow.
++	# |       See the Autoconf documentation.
++	# | configure.ac:358: error: possibly undefined macro: AS_IF
++	( cd ${S}; autoreconf -i )
++}
+-- 
+1.8.2
+
 
