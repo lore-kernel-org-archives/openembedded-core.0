@@ -1,30 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C322561E92
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D6A60668
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 02:46:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5J2kg05023543
+	Wed, 19 Jun 2013 03:21:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5J3LD7U013397
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2013 19:46:42 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 18 Jun 2013 19:46:40 -0700
-Message-ID: <51C11B90.9000708@windriver.com>
-Date: Wed, 19 Jun 2013 10:46:40 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130221 Thunderbird/17.0.3
+	Tue, 18 Jun 2013 20:21:13 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 18 Jun 2013 20:21:12 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Jun 2013 23:21:10 -0400
+Message-ID: <cover.1371611649.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <cover.1371535277.git.rongqing.li@windriver.com>
-	<0a46b955bf906f9ce2c6a9045c740ac44a1b0959.1371535277.git.rongqing.li@windriver.com>
-	<51C06C13.3030104@windriver.com>
-In-Reply-To: <51C06C13.3030104@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] cairo: fix build error since toolchain has not get_feature command
+Subject: [PATCH 0/1] procps: fix that top will quit after cpu offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,119 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 02:46:39 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Jun 2013 03:21:12 -0000
+Content-Type: text/plain
 
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
+top utiliy fails to read /proc/stat after cpu offline, because Cpu_tot
+is still the original cpu numbers when calling cpus_refresh, in which
+it is trying to read and sscanf Cpu_tot times /proc/stat.
+ 
+The patch is from procps-3.2.8-2.fc12.src.rpm
 
-On 06/18/2013 10:17 PM, Mark Hatle wrote:
-> On 6/18/13 1:02 AM, rongqing.li@windriver.com wrote:
->> From: "Roy.Li" <rongqing.li@windriver.com>
->>
->> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
->> ---
->>   ...-check-stderr-when-test-compiling-in-conf.patch |   39
->> ++++++++++++++++++++
->>   meta/recipes-graphics/cairo/cairo_1.12.14.bb       |    3 +-
->>   2 files changed, 41 insertions(+), 1 deletion(-)
->>   create mode 100644
->> meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
->>
->>
->> diff --git
->> a/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
->> b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
->>
->> new file mode 100644
->> index 0000000..e04c3b2
->> --- /dev/null
->> +++
->> b/meta/recipes-graphics/cairo/cairo/cairo-don-t-check-stderr-when-test-compiling-in-conf.patch
->>
->> @@ -0,0 +1,39 @@
->> +From 1581e5373c5917ed8ff6f7129c51160594c927d1 Mon Sep 17 00:00:00 2001
->> +From: "Song.Li" <Song.Li@windriver.com>
->> +Date: Mon, 30 Jul 2012 16:38:02 +0800
->> +Subject: [PATCH] cairo:don't check stderr when test compiling in
->> configure
->> +
->> +Upstream-Status: Pending
->> +
->> +cairo configure use a special macro to test compiling feature.
->> +It'll require no any warnings or errors in stderr.That is too strict.
->> +for example, when there is no get_feature in gcc,
->> +gcc will print "no get_feature" in stderr, but that is not a real error.
->
-> FYI -- 'get_feature' is something specific to Wind River.  The patch is
-> still reasonable, but the commit description might need some cleanup for
-> people not familiar with some of our internal tools.
->
-> I'd suggest just removing the example part.
->
-> --Mark
->
+The following changes since commit 590010a6525b0e1bc1de73e794764e23404591df:
 
-I will drop this patch until the build failure happens on oe-core.
+  core-image-weston: add weston-examples to the image (2013-06-18 17:33:17 +0100)
 
--Roy
+are available in the git repository at:
 
->> +so let cairo don't check stderr,just check the return value of compiling
->> +is enough.
->> +
->> +Signed-off-by: Song.Li <Song.Li@windriver.com>
->> +---
->> + build/aclocal.cairo.m4 |    6 +++---
->> + 1 file changed, 3 insertions(+), 3 deletions(-)
->> +
->> +diff --git a/build/aclocal.cairo.m4 b/build/aclocal.cairo.m4
->> +index 592e168..4de3b26 100644
->> +--- a/build/aclocal.cairo.m4
->> ++++ b/build/aclocal.cairo.m4
->> +@@ -106,9 +106,9 @@ AC_DEFUN([CAIRO_CC_TRY_LINK_WITH_ENV_SILENT],[dnl
->> +         [cairo_cc_stderr=`test -f conftest.err && cat conftest.err`
->> +          cairo_cc_flag=no])
->> +
->> +-    if test "x$cairo_cc_stderr" != "x"; then
->> +-        cairo_cc_flag=no
->> +-    fi
->> ++dnl    if test "x$cairo_cc_stderr" != "x"; then
->> ++dnl        cairo_cc_flag=no
->> ++dnl    fi
->> +
->> +     if test "x$cairo_cc_flag" = "xyes"; then
->> +         ifelse([$3], , :, [$3])
->> +--
->> +1.7.9.5
->> +
->> diff --git a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
->> b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
->> index 40aa169..5c8c9cd 100644
->> --- a/meta/recipes-graphics/cairo/cairo_1.12.14.bb
->> +++ b/meta/recipes-graphics/cairo/cairo_1.12.14.bb
->> @@ -5,7 +5,8 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
->>   PR = "r0"
->>
->>   SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
->> -           file://png.patch"
->> +           file://png.patch \
->> +
->> file://cairo-don-t-check-stderr-when-test-compiling-in-conf.patch"
->>
->>   SRC_URI[md5sum] = "27b634113d0f52152d60ae8e2ec7daa7"
->>   SRC_URI[sha256sum] =
->> "96d0d1e3f9b74d2ca3469ff187c5e5f25649b1ad35cf06f4f3a83847dff4ac13"
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+  git://git.pokylinux.org/poky-contrib wenzong/procps
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/procps
+
+Wenzong Fan (1):
+  procps: fix that top will quit after cpu offline
+
+ .../procps-3.2.8/procps-3.2.7-top-remcpu.patch     |  111 ++++++++++++++++++++
+ meta/recipes-extended/procps/procps_3.2.8.bb       |    1 +
+ 2 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps-3.2.8/procps-3.2.7-top-remcpu.patch
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.7.9.5
+
 
