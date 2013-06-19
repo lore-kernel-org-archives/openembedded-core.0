@@ -1,20 +1,17 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DC74608CD
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AC18601DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 16:53:13 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 19 Jun 2013 09:53:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,898,1363158000"; d="scan'208";a="352447369"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.40])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2013 09:53:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed, 19 Jun 2013 17:05:19 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r5JH5HEW019579; 
+	Wed, 19 Jun 2013 12:05:19 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2013 17:53:06 +0100
-Message-Id: <1371660786-11419-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] classes/buildhistory: fix error when no packages are installed
+Date: Wed, 19 Jun 2013 22:05:42 +0500
+Message-Id: <1371661542-4958-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] [v2] [dylan] lighttpd: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,40 +24,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 16:53:14 -0000
+X-List-Received-Date: Wed, 19 Jun 2013 17:05:19 -0000
 
-"xargs -n1 basename" will execute basename even if there are no lines
-piped into it, causing a "basename: missing operand" error if no
-packages are installed, which will happen for the target portion of
-buildtools-tarball.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-(xargs' -r option could have been used here, but it is a GNU extension
-and I thought it best to avoid that for the sake of future
-interoperability).
+- Remove dependency on systemd layer
+- Use lighttpd service type 'simple' rather than 'oneshot'
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- meta/classes/buildhistory.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ .../lighttpd/files/lighttpd.service                |   12 ++++++++++++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   11 ++++++++++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index c8fd68c..36e7fe1 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -319,7 +319,11 @@ buildhistory_get_installed() {
- 	list_installed_packages file | sort > $pkgcache
+diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/files/lighttpd.service
+new file mode 100644
+index 0000000..a5333b6
+--- /dev/null
++++ b/meta/recipes-extended/lighttpd/files/lighttpd.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=Lightning Fast Webserver With Light System Requirements
++After=network.target
++
++[Service]
++ExecStartPre=/usr/sbin/lighttpd -t -f /etc/lighttpd.conf
++ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd.conf
++ExecReload=/bin/kill -HUP $MAINPID
++
++[Install]
++WantedBy=multi-user.target
++
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+index df6ce97..d73a76a 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+@@ -5,7 +5,6 @@ BUGTRACKER = "http://redmine.lighttpd.net/projects/lighttpd/issues"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4dac5c6ab169aa212feb5028853a579"
  
- 	cat $pkgcache | awk '{ print $1 }' > $1/installed-package-names.txt
--	cat $pkgcache | awk '{ print $2 }' | xargs -n1 basename > $1/installed-packages.txt
-+	if [ -s $pkgcache ] ; then
-+		cat $pkgcache | awk '{ print $2 }' | xargs -n1 basename > $1/installed-packages.txt
-+	else
-+		printf "" > $1/installed-packages.txt
-+	fi
+-
+ SECTION = "net"
+ DEPENDS = "zlib libpcre"
+ RDEPENDS_${PN} += " \
+@@ -18,10 +17,15 @@ RDEPENDS_${PN} += " \
  
- 	# Produce dependency graph
- 	# First, filter out characters that cause issues for dot
+ PR = "r0"
+ 
++inherit systemd
++
++SYSTEMD_SERVICE_${PN} = "lighttpd.service"
++
+ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.bz2 \
+         file://index.html.lighttpd \
+         file://lighttpd.conf \
+         file://lighttpd \
++        file://lighttpd.service \
+         "
+ 
+ SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
+@@ -49,6 +53,11 @@ do_install_append() {
+     install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
+     install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
+     install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
++
++    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++        install -d ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
++    fi
+ }
+ 
+ FILES_${PN} += "${sysconfdir} /www"
 -- 
-1.8.1.2
+1.7.9.5
 
 
