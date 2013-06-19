@@ -1,25 +1,24 @@
 Return-Path: <pb@pbcl.net>
 Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 04286601DB
+	by mail.openembedded.org (Postfix) with ESMTP id 2A689601DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 10:10:05 +0000 (UTC)
+	Wed, 19 Jun 2013 10:18:40 +0000 (UTC)
 Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
 	([86.30.57.232] helo=[172.30.1.45])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UpFL2-0007Ho-Ff; Wed, 19 Jun 2013 12:10:04 +0200
-Message-ID: <1371636603.6580.79.camel@phil-desktop.brightsign>
+	id 1UpFTM-0007IC-Bz; Wed, 19 Jun 2013 12:18:40 +0200
+Message-ID: <1371637119.6580.86.camel@phil-desktop.brightsign>
 From: Phil Blundell <pb@pbcl.net>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 19 Jun 2013 11:10:03 +0100
-In-Reply-To: <20130619092952.GF14021@jama>
-References: <cover.1371621343.git.liezhi.yang@windriver.com>
-	<5bc169404eddb0ec90ce82c6013432f295d0cdc3.1371621343.git.liezhi.yang@windriver.com>
-	<20130619092952.GF14021@jama>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 19 Jun 2013 11:18:39 +0100
+In-Reply-To: <51C0CA73.7090606@windriver.com>
+References: <51C0CA73.7090606@windriver.com>
 X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] package_ipk.bbclass: make DESCRIPTION support newline
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] eglibc / glibc and option-groups being deprecated?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 10:10:05 -0000
+X-List-Received-Date: Wed, 19 Jun 2013 10:18:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-06-19 at 11:29 +0200, Martin Jansa wrote:
-> On Wed, Jun 19, 2013 at 05:00:40AM -0400, Robert Yang wrote:
-> > The recipe's DESCRIPTION is wrapped automatically by textwrap, make it
-> > support newline ("\n") to let the user can wrap it manually, e.g.:
-> > 
-> > DESCRIPTION = "Foo1\nFoo2"
-> > 
-> > In the past, it would be:
-> > Foo1\nFoo2
-> > 
-> > Now:
-> > Foo1
-> > Foo2
-> > 
-> > [YOCTO #4348]
-> > 
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > ---
-> >  meta/classes/package_ipk.bbclass |    5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-> > index 55628e4..e67f641 100644
-> > --- a/meta/classes/package_ipk.bbclass
-> > +++ b/meta/classes/package_ipk.bbclass
-> > @@ -304,10 +304,11 @@ python do_package_ipk () {
-> >                  # Special behavior for description...
-> >                  if 'DESCRIPTION' in fs:
-> >                      summary = localdata.getVar('SUMMARY', True) or localdata.getVar('DESCRIPTION', True) or "."
-> > +                    ctrlfile.write('Description: %s\n' % summary)
-> >                      description = localdata.getVar('DESCRIPTION', True) or "."
-> >                      description = textwrap.dedent(description).strip()
-> > -                    ctrlfile.write('Description: %s\n' % summary)
-> > -                    ctrlfile.write('%s\n' % textwrap.fill(description, width=74, initial_indent=' ', subsequent_indent=' '))
-> > +                    for t in description.split('\\n'):
-> > +                        ctrlfile.write('%s\n' % textwrap.fill(t, width=74, initial_indent=' ', subsequent_indent=' '))
-> >                  else:
+On Tue, 2013-06-18 at 16:00 -0500, Mark Hatle wrote:
+> Recently on the eglibc mailing list there has been a discussion about removing 
+> the option groups.  See: http://www.eglibc.org/archives/patches/msg01268.html
 > 
-> Isn't DESCRIPTION supposed to be short oneline and longer multiline only
-> in SUMMARY?
+> For folks who don't know what option-groups are, it's a patch that went into 
+> eglibc a number of years ago that allows you to disable various components 
+> (effectively altering the API) in order to shrink the size of glibc.
 
-No, the reverse.  SUMMARY is (as the name suggests, and as the existing
-code implements) meant to be the short synopsis and DESCRIPTION is the
-longer text. 
-
-> is opkg-utils (package-index) working with this? Newlines in SUMMARY
-> were causing incorrect parsing and not using cache IIRC, not sure if the
-> fix for that was generic enough to cover DESCRIPTION.
-
-Newlines in SUMMARY would indeed break opkg-utils because the text after
-the line break wouldn't be correctly indented.  It wouldn't be a bad
-thing for package_ipk to check for that, but this shouldn't be an issue
-with the patch above since it seems to be explicitly indenting all lines
-of the long description.
-
-I'm not entirely thrilled with Robert's patch because it seems rather
-ugly to have embedded "\n" sequences in the recipe DESCRIPTION fields,
-and also because package_ipk isn't the only consumer of that variable
-and it isn't entirely obvious that all the other users will know what to
-do.  But, absent a way to express string literals with embedded newlines
-in bitbake, perhaps this is indeed the best compromise.
+I'd be quite happy to see that functionality go away.  It's never been
+very obvious to me that it solves any particularly important real-world
+problem, and it introduces a maintenance/complexity burden both for
+eglibc itself and for its users (who can no longer rely on given
+functionality being available; see our DISTRO_LIBC_FEATURES thing for
+example).
 
 p.
+
 
 
