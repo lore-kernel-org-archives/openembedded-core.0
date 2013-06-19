@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id BBF786007B
+	by mail.openembedded.org (Postfix) with ESMTP id 7975D608CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2013 08:13:35 +0000 (UTC)
+	Wed, 19 Jun 2013 08:15:30 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5J8IiNV006628; Wed, 19 Jun 2013 09:19:42 +0100
+	r5J8Lc8D006779; Wed, 19 Jun 2013 09:21:38 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hGJoOO13sd9V; Wed, 19 Jun 2013 09:19:42 +0100 (BST)
+	with LMTP id 25JddaXqHvvL; Wed, 19 Jun 2013 09:21:38 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5J8Jck4006670
+	r5J8LW4U006770
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 19 Jun 2013 09:19:40 +0100
-Message-ID: <1371629601.20823.161.camel@ted>
+	verify=NOT); Wed, 19 Jun 2013 09:21:34 +0100
+Message-ID: <1371629715.20823.163.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kai Kang <kai.kang@windriver.com>
-Date: Wed, 19 Jun 2013 09:13:21 +0100
-In-Reply-To: <d1dac9ed8f9cfe6b533e5676d766e2efeb12195a.1371619993.git.kai.kang@windriver.com>
-References: <cover.1371619993.git.kai.kang@windriver.com>
-	<d1dac9ed8f9cfe6b533e5676d766e2efeb12195a.1371619993.git.kai.kang@windriver.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Wed, 19 Jun 2013 09:15:15 +0100
+In-Reply-To: <d144145e87b9f15189080665ce91db537522935f.1371609581.git.hongxu.jia@windriver.com>
+References: <cover.1371609581.git.hongxu.jia@windriver.com>
+	<d144145e87b9f15189080665ce91db537522935f.1371609581.git.hongxu.jia@windriver.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] strace: update to 4.8
+Subject: Re: [PATCH 1/1] wget:fix do_configure failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,74 +38,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2013 08:13:36 -0000
+X-List-Received-Date: Wed, 19 Jun 2013 08:15:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-06-19 at 13:34 +0800, Kai Kang wrote:
-> Update strace to 4.8.
+On Wed, 2013-06-19 at 10:45 +0800, Hongxu Jia wrote:
+> Create a new build enviroment, build wget failed
+> ...
+> configure:34512: checking for libssl
+> configure:34542: i586-poky-linux-gcc  -m32 -march=i586 --sysroot=/home/jiahongxu/yocto/build-20130613-qemu/tmp/sysroots/qemux86 -o conftest - O2 -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed conftest.c -ldl  -lssl /home/jiahongxu/yocto/build-  20130613-qemu/tmp/sysroots/qemux86/lib/libcrypto.so -lz >&5
+> /home/jiahongxu/yocto/build-20130613-qemu/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld: cannot find -lz collect2: error: ld returned 1 exit status
+> ...
 > 
-> * Update License file.
-> * Remove the backport patches which are already in version 4.8.
-> * Add file git-version-gen from git repo. Without this file configure
->   fails.
-> * Add libaio and acl to PACKAGECONFIG for target package. Make libaio as a
->   dependency by default which could be covered easily.
+> From log as we known, the reason is link zlib failed, it isn't
+> explicitly in wget's DEPENDS. Add zlib to wget's DEPENDS.
 > 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> [YOCTO #4749]
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-extended/wget/wget.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-[...]
-
-> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
-> new file mode 100644
-> index 0000000..eb9f660
-> --- /dev/null
-> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
-> @@ -0,0 +1,32 @@
-> +DESCRIPTION = "strace is a system call tracing tool."
-> +HOMEPAGE = "http://strace.sourceforge.net"
-> +SECTION = "console/utils"
-> +LICENSE = "BSD"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=124500c21e856f0912df29295ba104c7"
-> +PR = "r0"
-> +
-> +SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
-> +           file://git-version-gen"
-> +
-> +SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
-> +SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
-> +inherit autotools
-> +
-> +PACKAGECONFIG_class-target ?= "libaio"
-> +PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
-> +
-> +PACKAGECONFIG[libaio] = ",,libaio,"
-> +PACKAGECONFIG[acl] = ",,acl,"
-
-Are there not --enable/--disable type options we can pass into configure
-here to ensure build are deterministic?
-
-Please also send this with move detection enabled in git so we get a
-diff rather than a file removal/addition correctly shown (-M option to
-git format-patch for example).
+I'll take this but the summary of this change should be something like
+"wget: Add missing DEPENDS on zlib" which explains more about what the
+change does. Fixing a configure failure doesn't tell us much when looked
+at in a history of changes. I'll tweak the summary this time.
 
 Cheers,
 
 Richard
 
-> +
-> +export INCLUDES = "-I. -I./linux"
-> +
-> +do_configure_prepend() {
-> +	cp ${WORKDIR}/git-version-gen ${S}
-> +}
-> +
-> +do_install_append() {
-> +	# We don't ship strace-graph here because it needs perl
-> +	rm ${D}${bindir}/strace-graph
-> +}
-> +
-> +BBCLASSEXTEND = "native"
+> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+> index ba37a87..de9b620 100644
+> --- a/meta/recipes-extended/wget/wget.inc
+> +++ b/meta/recipes-extended/wget/wget.inc
+> @@ -2,7 +2,7 @@ DESCRIPTION = "A console URL download utility featuring HTTP, FTP, and more."
+>  SECTION = "console/network"
+>  LICENSE = "GPLv3"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> -DEPENDS = "openssl"
+> +DEPENDS = "openssl zlib"
+>  
+>  INC_PR = "r16"
+>  
 
 
 
