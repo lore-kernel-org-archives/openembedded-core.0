@@ -1,26 +1,39 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C28D96AD47
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E04260071
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 11:18:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5KBIp17004893
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 20 Jun 2013 11:27:59 +0000 (UTC)
+Received: by mail-vc0-f179.google.com with SMTP id hz11so4618959vcb.24
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 04:18:51 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 20 Jun 2013 04:18:50 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Jun 2013 19:18:45 +0800
-Message-ID: <cca4cd08deeb925b7097989c54f05c9e61e724e5.1371726748.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1371726748.git.jackie.huang@windriver.com>
-References: <cover.1371726748.git.jackie.huang@windriver.com>
+	Thu, 20 Jun 2013 04:28:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=b9CRphY7+5h3I5mAz4T2czZeF6W/YKLE7kTTv+h+XtQ=;
+	b=W0npkKmuGS0h8kXwUAmNdEZMYW2R0vtFZ3mKa6ktQReNDKEA0UcvmqCV4gk71vcn7C
+	rCtr1jedHE5U+N+8cPSJ94dAde7/aE3ewawaJTr+9opbqKPLLpF9I65fY+quo1ScUWav
+	12ORJITUtctCGnhz5+z7aMuIQ5QEzyVtISn+v5FrsV5N5eW3aka6fSQvzOo+GQ/pGmWZ
+	AmPz6TgWY3Tq8GGQtGwVLFEbELIrrI3knWXdBeIgQu2S/vz8CMMzjR6ic2Pif0PyGa4I
+	ap5VmoKJ5LT02VTUlqjajGOx3rxiqV74rvpPVT4HsniPXUgouySwbWYzw1gDi9hPsU0p
+	DbSg==
+X-Received: by 10.220.73.66 with SMTP id p2mr898235vcj.94.1371727679990; Thu,
+	20 Jun 2013 04:27:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/2 v2] consolekit: move libck-connector to base_libdir
+Received: by 10.220.13.144 with HTTP; Thu, 20 Jun 2013 04:27:39 -0700 (PDT)
+In-Reply-To: <1371726864.20823.227.camel@ted>
+References: <cover.1371724384.git.jackie.huang@windriver.com>
+	<d3c4311cd7b6a3082fee8fe0fffb8dfadc061deb.1371724384.git.jackie.huang@windriver.com>
+	<CAJTo0LY5v4n-8NCJmGNWh11dLMi4uYv5TN4u_f7FnuQvxAS55Q@mail.gmail.com>
+	<1371726864.20823.227.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Jun 2013 12:27:39 +0100
+Message-ID: <CAJTo0LY=UNKzDafgo_fTqXrhirJs8F+R9U7TB93DFwHfNbff0A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQntWv/2u+R4QokZPTdahZK2yDRnrouJwUW6BicFBpJ+HNKaIw7hrQDSi6WDPLgIo5ATRwXF
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] dbus: move libdbus-1.so* to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +46,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 11:18:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Jun 2013 11:28:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On 20 June 2013 12:14, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I have to admit I'm not happy with the piece by piece approach this is
+> taking. We're going to end up with nearly everything moving to
+> base_libdir at this rate. If we're going to do this, I want someone to
+> come up with a definitive list of what needs to move before any more of
+> these merge.
 
-move libck-connector.so.* to base_libdir and move
-pam_ck_connector.la to libdir to kill two warnings:
+The "fun" is stuff like udev helpers, which can link to whatever they
+want. If the hardware is probed before /usr is mounted, they'll fail
+to run and the work they should have done won't have happened.
 
-    WARNING: QA Issue: consolekit: /lib64/security/pam_ck_connector.so,
-    installed in the base_prefix, requires a shared library under
-    exec_prefix (/usr): libck-connector.so.0 => /usr/lib64/
-    libck-connector.so.0 (0x00000000dead300
+Stock oe-core doesn't ship any interesting helpers, but on my Debian
+system there is mtp-probe linking to /usr/lib/libmtp.so, and
+udev-configure-printer (CUPS hotplug support) linking to (deep breath)
+libcups gnutls avahi kerberos p11-kit.  So, all of those (and their
+dependencies) probably have to move to /lib, or you put in the
+documentation that printers and cameras can't be attached at boot.
 
-    WARNING: QA Issue: lib32-consolekit: Found a reference to /usr/ in
-     /buildarea1/jhuang0/t_multilib/p_x64_0217/bitbake_build/tmp/work/
-    x86-wrsmllib32-linux/lib32-consolekit-0.4.5-r10/packages-split/i
-    lib32-consolekit/lib/security/pam_ck_connector.la
-    WARNING: QA Issue: Shell scripts in base_bindir and base_sbindir
-    should not reference anything in exec_prefix
-
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../recipes-support/consolekit/consolekit_0.4.5.bb |   14 +++++++++++++-
- 1 files changed, 13 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-index 7d66b39..fdeb0f5 100644
---- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
-@@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
- HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
- BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
- 
--PR = "r10"
-+PR = "r11"
- 
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-@@ -19,6 +19,7 @@ SRC_URI[md5sum] = "f2657f93761206922d558471a936fbc3"
- SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b223686b9c38"
- 
- 
-+DISTRO_FEATURES += 'pam'
- S = "${WORKDIR}/ConsoleKit-${PV}"
- 
- PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-@@ -41,4 +42,15 @@ RDEPENDS_pam-plugin-ck-connector += "${PN}"
- do_install_append() {
- 	# Remove /var/run from package as console-kit-daemon will populate it on startup
- 	rm -fr "${D}${localstatedir}/run"
-+	# Moving libck-connector to base_libdir
-+	# and moving pam_ck_connector.la to libdir
-+	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
-+	        mkdir -p ${D}/${base_libdir}/
-+	        mv -f ${D}${libdir}/libck-connector.so.0* ${D}${base_libdir}/
-+	        rel_lib_prefix=${@os.path.relpath(d.getVar('base_libdir', True), d.getVar('libdir', True))}
-+	        ln -sf ${rel_lib_prefix}/libck-connector.so.0.0.0 ${D}${libdir}/libck-connector.so
-+	        if [ -f ${D}${base_libdir}/security/pam_ck_connector.la ]; then
-+	                mv -f ${D}${base_libdir}/security/pam_ck_connector.la ${D}${libdir}/
-+	        fi
-+	fi
- }
--- 
-1.7.4.1
-
+Ross
 
