@@ -1,41 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C35696A96A
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CA356AD8F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 16:12:02 +0000 (UTC)
-Received: by mail-wi0-f174.google.com with SMTP id k10so2006066wiv.1
+	Thu, 20 Jun 2013 16:12:03 +0000 (UTC)
+Received: by mail-wi0-f169.google.com with SMTP id c10so2084920wiw.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 09:12:03 -0700 (PDT)
+	Thu, 20 Jun 2013 09:12:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references:x-gm-message-state;
-	bh=4qdwLi+pIhcHCyZRgsVLDYXQTqhBgaq6btqBnH+srhA=;
-	b=RXJbz2s/JJENDpwhVUepQVcwl7ArTK+3y8mY7SQwevbNSHZhCY1CWODcKkiNeJ8XH5
-	d1wZezz0ut6CZZS1x77ntWqxxdUt11i9ZXWkXOV4j/tGmjup7uOD2NrRkCGqXLRDBUSx
-	KQw+v1QjKW6takcxg8mFEZeB344c/jeJ5+v5GNOxj1i3yGWiVVntDZaXOynhiY4vMTVY
-	oF3TsHMvFyxTZ/5dL3kIqjsF9taPp7bn0EAQCUG7oYbWSp4BNWHzQwbJMThtUbfzLWLb
-	P4RwPCVL+tMRasUVJjma06ZXraPz+tV7lK8f0UfOJ7u8TyNKis1TeZ6OVRtVmop8MtKA
-	1b6Q==
-X-Received: by 10.180.100.35 with SMTP id ev3mr103687wib.12.1371744723481;
-	Thu, 20 Jun 2013 09:12:03 -0700 (PDT)
+	bh=YWkTNosKfoHD7ZyCg4z5ftcbtZAk+P087fKP4mi8nAU=;
+	b=dyvvlxMj70eM9WMXLiAKVlKkEZ+W2czd4DzEk2GYHHkVt91lpHl8OMlGOm1VwMKYWA
+	8RXutfBA9dR26ha0aEbgC1zkQZQMkjGeJ7dc14TP7b6vXHtA2OrecyYqokNuYUAMxcsn
+	fCPdvJ33bPJ3cwiwWn606/XoCbhx+NEF4NFg3pkaD1XI26AEvYhchMzxGyPCn30zwNfB
+	UTQvAncFH2Pb/yEuVGkfr4BLNg1V8qZpgFpxbNOF9qZhz02HWdEHgI2eeCRrcdZf2QnX
+	jHH7qyJn5iwFtwZOvlk+Tq6benLOF83bmCiN957HiNGpF7T41IkutuJLH/e9Bvh9/+Fz
+	KI5Q==
+X-Received: by 10.194.122.103 with SMTP id lr7mr6252939wjb.15.1371744724885;
+	Thu, 20 Jun 2013 09:12:04 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id k10sm1508166wia.4.2013.06.20.09.12.02
+	by mx.google.com with ESMTPSA id k10sm1508166wia.4.2013.06.20.09.12.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 20 Jun 2013 09:12:02 -0700 (PDT)
+	Thu, 20 Jun 2013 09:12:04 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jun 2013 17:08:26 +0100
-Message-Id: <88ef57b8f20c548e835fe1487843e6e8d1c4d99c.1371744428.git.ross.burton@intel.com>
+Date: Thu, 20 Jun 2013 17:08:27 +0100
+Message-Id: <c8d59db6d047aa86dfdb322ef8180b49e5a3c8ff.1371744428.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1371744428.git.ross.burton@intel.com>
 References: <cover.1371744428.git.ross.burton@intel.com>
 In-Reply-To: <cover.1371744428.git.ross.burton@intel.com>
 References: <cover.1371744428.git.ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmWYiw3YhFjCuVocYsZ/vZc4Z2eAHoMnvrXb1IJYWCPBZ9P9mDGgwDaDrVmla9jEddSU/T0
-Subject: [PATCH 4/7] weston: move mtdev dependency to the DRM backend, where it belongs
+X-Gm-Message-State: ALoCoQmsLlr8l40NLOgcT0l3PNbE1wuIQ0DOEPVIv7PxGS7MVPjkP/Uq0qHjydHVpaklhhOhXd8K
+Subject: [PATCH 5/7] cogl: add Wayland support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,35 +48,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 16:12:03 -0000
+X-List-Received-Date: Thu, 20 Jun 2013 16:12:04 -0000
+
+Add PACKAGECONFIG stanzas for Wayland client and server, and respect the x11 and
+wayland DISTRO_FEATURES to enable the relevant backends as appropriate by
+default.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/wayland/weston_1.1.0.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/cogl/cogl-1.0.inc |   24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes-graphics/wayland/weston_1.1.0.bb
-index ee33be6..7327b98 100644
---- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
-@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "e7715d2c731f77a729c994a599ffdaebac1307b2dd9336136706869fa5
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index c9c6165..55eb003 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -13,11 +13,12 @@ PACKAGES =+ "${PN}-examples"
+ AUTOTOOLS_AUXDIR = "${S}/build"
  
- inherit autotools pkgconfig useradd
+ # Extra DEPENDS for PACKAGECONFIG
+-EDEPENDS_GL    = "virtual/libgl libdrm"
++EDEPENDS_GL = "virtual/libgl libdrm"
+ EDEPENDS_GLES2 = "virtual/libgles2"
+-EDEPENDS_KMS   = "libdrm virtual/egl"
+-EDEPENDS_EGL   = "virtual/egl"
+-EDEPENDS_X11   = "virtual/libx11 libxcomposite libxfixes libxi libxrandr"
++EDEPENDS_KMS = "libdrm virtual/egl"
++EDEPENDS_EGL = "virtual/egl"
++EDEPENDS_X11 = "virtual/libx11 libxcomposite libxfixes libxi libxrandr"
++EDEPENDS_WAYLAND = "wayland"
  
--DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 mtdev jpeg"
-+DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
- DEPENDS += "wayland mesa virtual/egl"
+ # Extra RDEPENDS for PACKAGECONFIG
+ # This has to be explictly listed, because cogl dlopens the backends
+@@ -34,15 +35,22 @@ EXTRA_OECONF += "--disable-introspection	\
+ PACKAGECONFIG[gl] = "--enable-gl,--disable-gl,${EDEPENDS_GL},${ERDEPENDS_GL}"
+ PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,${EDEPENDS_GLES2}, ${ERDEPENDS_GLES2}"
  
- EXTRA_OECONF = "--disable-android-compositor \
-@@ -40,7 +40,7 @@ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland',
- # Compositor choices
- #
- # Weston on KMS
--PACKAGECONFIG[kms] = "--enable-drm-compositor --enable-weston-launch,--disable-drm-compositor --disable-weston-launch,drm udev mesa libpam"
-+PACKAGECONFIG[kms] = "--enable-drm-compositor --enable-weston-launch,--disable-drm-compositor --disable-weston-launch,drm udev mesa mtdev libpam"
- # Weston on Wayland (nested Weston)
- PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa"
- # Weston on X11
+-# egl backends
++# EGL backends
+ PACKAGECONFIG[egl-kms] = "--enable-kms-egl-platform,--disable-kms-egl-platform,${EDEPENDS_KMS}"
+ PACKAGECONFIG[egl-null] = "--enable-null-egl-platform,--disable-null-egl-platform"
+ PACKAGECONFIG[egl-x11] = "--enable-xlib-egl-platform,--disable-xlib-egl-platform,${EDEPENDS_X11}"
++PACKAGECONFIG[egl-wayland] = "--enable-wayland-egl-platform,--disable-wayland-egl-platform,${EDEPENDS_WAYLAND}"
+ 
+-# glx
++# GLX
+ PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11}"
+ 
+-# Default to GLX
+-PACKAGECONFIG ??= "gl glx"
++# Wayland server-side
++PACKAGECONFIG[wayland-server] = "--enable-wayland-egl-server,--disable-wayland-egl-server,${EDEPENDS_WAYLAND}"
++
++# Respect the DISTRO_FEATURES to pull in GLX or Wayland as appropriate by
++# default.
++PACKAGECONFIG ??= "gl \
++                   ${@base_contains('DISTRO_FEATURES', 'wayland', 'egl-wayland', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'x11', 'glx', '', d)}"
+ 
+ FILES_${PN}-examples = "${bindir}/* ${datadir}/cogl/examples-data/*"
 -- 
 1.7.10.4
 
