@@ -1,39 +1,31 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 86F2961A47
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F22961EB2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 15:46:58 +0000 (UTC)
-Received: by mail-ob0-f173.google.com with SMTP id wc20so7260343obb.4
+	Thu, 20 Jun 2013 15:48:39 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5KFsrEc016488 for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 16:54:53 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FT6Dfl4QxelT
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 08:46:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=2FmKOpWJjoEly/PLOe6AcbbM8ecMOeUiCXi5QY+iYfA=;
-	b=mMvTJ0ihuuGNQT/aeMLJFmD1bhkslMxnhhrQuRa6mToKQaida6ezfKMFOtkqOjr3aq
-	UypPk+aYjCUoVQUsoSHblJ4OZnRt2Lf1h6yM9BmZ/rTJfLNp58dnmtFiXrJ99VHU+ZM8
-	SD2d6rl4C+33knKBHOnv0MBDgv11JZN3kJSeod1HZszVJqcOLV1RGquYm+toyackIW34
-	sMpdcitpwbowDGK0Ih4C2TMId3Dt6fD9RNBJYSTU1Br22+i4J56QuGp/NpZd4j860Lv2
-	d7b8jiTn4ULvIyBRSJ0CNosQpAZyJqj7SnWpbLPXfMYNMsXObAIdtQ9tOHVWExqzyILd
-	lVOA==
-X-Received: by 10.182.230.198 with SMTP id ta6mr1782101obc.98.1371743219394;
-	Thu, 20 Jun 2013 08:46:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.76.27.165 with HTTP; Thu, 20 Jun 2013 08:46:38 -0700 (PDT)
-In-Reply-To: <1402287.LPEgl0HhT9@helios>
-References: <CAP71WjxJxpWwa5UV4PpN=f0rL00UpPJ_VKJ4LmEu=AVBRdVo2A@mail.gmail.com>
-	<CAP71WjzvRgqYtJdBVt_epRVZ5bb4aVbPiEq8z4fw-EfEsnVgGg@mail.gmail.com>
-	<1402287.LPEgl0HhT9@helios>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 20 Jun 2013 11:46:38 -0400
-Message-ID: <CAP71WjyCZvkwDuCM0DGJRBaeCySZkeiuhB6GxKGRBfemjHgQRA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQkUvnDo1FTEWjHA8Or3mrLxUW/6BRBm6HP4f/qg91I/h3LglWv0hn3XGmQ/AD0AnKRirHr7
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues with Qt5/mesa and eglfs
+	Thu, 20 Jun 2013 16:54:53 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5KFslPh016484
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 16:54:49 +0100
+Message-ID: <1371743303.20823.241.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jun 2013 16:48:23 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] base.bbclass: Ensure finalised data is displayed in build banner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,55 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 15:46:58 -0000
-Content-Type: multipart/alternative; boundary=001a11c3311250be3704df97db69
+X-List-Received-Date: Thu, 20 Jun 2013 15:48:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11c3311250be3704df97db69
-Content-Type: text/plain; charset=ISO-8859-1
+The build banner displayed at the start of builds can be misleading since
+the data store has not been finalised. As easy way to illustrate this is
+to use something like:
 
-On Thu, Jun 20, 2013 at 11:42 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
+DEFAULTTUNE = "i586"
+DEFAULTTUNE_<machineoverride> = "core2"
 
-> I wasn't watching closely but my impression is there were a large number of
-> changes associated with the mesa upgrade. Is the upgrade itself necessary
-> for
-> the fix?
->
+and the banner will display the i586 tune yet the core2 tune will be
+used. We can avoid this if we finalise a copy of the data before
+displaying it.
 
-no, i don't think so. I think we might be able to just update the patches
-that deal with the X11/no X11 support. but i haven't tested that yet. i
-just did a quick test by cherry picking the complete commit (e.g. mesa
-upgrade) to verify that it's actually fixing my problem. now that i know it
-does, i will try to just upgrade the patches without the mesa upgrade and
-report how it goes.
+[YOCTO #4225]
 
-nicolas
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 5e6ed1d..97b2a26 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -309,13 +309,15 @@ python base_eventhandler() {
+         oe.utils.features_backfill("MACHINE_FEATURES", e.data)
+ 
+     if isinstance(e, bb.event.BuildStarted):
++        localdata = bb.data.createCopy(e.data)
++        bb.data.update_data(localdata)
+         statuslines = []
+-        for func in oe.data.typed_value('BUILDCFG_FUNCS', e.data):
++        for func in oe.data.typed_value('BUILDCFG_FUNCS', localdata):
+             g = globals()
+             if func not in g:
+                 bb.warn("Build configuration function '%s' does not exist" % func)
+             else:
+-                flines = g[func](e.data)
++                flines = g[func](localdata)
+                 if flines:
+                     statuslines.extend(flines)
+ 
 
---001a11c3311250be3704df97db69
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Jun 20, 2013 at 11:42 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton=
-@linux.intel.com</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":206" style=3D"overflow:hidden">I=
- wasn&#39;t watching closely but my impression is there were a large number=
- of<br>
 
 
-changes associated with the mesa upgrade. Is the upgrade itself necessary f=
-or<br>
-the fix?</div></blockquote></div><br>no, i don&#39;t think so. I think we m=
-ight be able to just update the patches that deal with the X11/no X11 suppo=
-rt. but i haven&#39;t tested that yet. i just did a quick test by cherry pi=
-cking the complete commit (e.g. mesa upgrade) to verify that it&#39;s actua=
-lly fixing my problem. now that i know it does, i will try to just upgrade =
-the patches without the mesa upgrade and report how it goes.</div>
-
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">nicolas</di=
-v></div>
-
---001a11c3311250be3704df97db69--
