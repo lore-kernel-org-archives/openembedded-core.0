@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A4F960825;
-	Thu, 20 Jun 2013 10:25:47 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 Jun 2013 03:25:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,904,1363158000"; d="scan'208";a="356673808"
-Received: from unknown (HELO helios.localnet) ([10.252.122.59])
-	by orsmga002.jf.intel.com with ESMTP; 20 Jun 2013 03:25:47 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jun 2013 11:25:46 +0100
-Message-ID: <1886786.nfT3SfR8Pm@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <3004132.t7dk9348rv@helios>
-References: <20121213174202.GE3356@jama.jama.net>
-	<CANyK_8eXUptxF52CmcJftYZD+oht4gfkDfRsbY3gOnmTRwyzaQ@mail.gmail.com>
-	<3004132.t7dk9348rv@helios>
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 89ABA608BE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 10:36:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5KAaIh2022985
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 03:36:18 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 20 Jun 2013 03:36:17 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jun 2013 18:36:14 +0800
+Message-ID: <cover.1371724384.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: [oe] State of bitbake world
+Subject: [PATCH 0/2] consolekit: fix tow QA warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 10:25:47 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 20 Jun 2013 10:36:17 -0000
+Content-Type: text/plain
 
-On Thursday 20 June 2013 11:16:37 Paul Eggleton wrote:
-> To be honest I think ENTERPRISE_DISTRO needs to go. It's not even clear what
-> it should mean, and it's not consistently implemented. For things we want
-> to be optional we have PACKAGECONFIG; for items that have licensing
-> requirements that might be troublesome in certain deployments we have
-> LICENSE_FLAGS, and LICENSE_FLAGS
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Sorry, that should have read "and LICENSE_FLAGS already has a mechanism to 
-prevent a recipe being built based on the current settings and report why."
+Tested with:
+DISTRO_FEATURES += 'pam'
+WARN_QA = "unsafe-references-in-binaries unsafe-references-in-scripts"
 
-Cheers,
-Paul
+--
+The following changes since commit defa05f2085f78d9ec9ada7051c284e1fc72e6c1:
+
+  bdwgc-native: Add missing pkgconfig DEPENDS (2013-06-19 18:03:21 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/r_bbappend_consolekit_dbus_0620_1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_bbappend_consolekit_dbus_0620_1
+
+Jackie Huang (2):
+  consolekit: move libck-connector to base_libdir
+  dbus: move libdbus-1.so* to base_libdir
+
+ meta/recipes-core/dbus/dbus.inc                    |   10 +++++++++-
+ .../recipes-support/consolekit/consolekit_0.4.5.bb |   13 ++++++++++++-
+ 2 files changed, 21 insertions(+), 2 deletions(-)
 
 -- 
+1.7.4.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
