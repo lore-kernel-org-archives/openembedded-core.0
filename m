@@ -1,42 +1,37 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 320BA607F9;
-	Thu, 20 Jun 2013 09:39:53 +0000 (UTC)
-Received: by mail-ve0-f180.google.com with SMTP id pa12so4815796veb.25
-	for <multiple recipients>; Thu, 20 Jun 2013 02:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=vRxb5Xg1h/fjp8wWDjRZZbdUJD6q+SyWsserbdU5UPY=;
-	b=uriz3XeoAPXAJX6uKDq8dVDGebC+wbd39oTNaBNOfg3h+N2lBUe3AuJ0Qrbm3THcJk
-	3TkW0PeNkEfLpA4y0HqyiFYafbE5pnwbu4EQkubaca7KmTYNJtZ2QHsnz2obfW1sx8fc
-	1p1nlZQgBlWg1/is9aYDuGYgtK4TglLD92o+btqsbFTxvfzfZccJ0WpjBXFAw6HO69v5
-	T7Lep7/rXguMsFLDhTpU6sg6KXAIN7y16qsXbIoDDqPHAJI+kZU3TkQYILG0HHeI1hQi
-	A7p5kjvkzuQCZ7IemSCGhBK5kf7epJrPwyso2uetZolyiiEhTBeALEZXp0+1dbx/MElQ
-	qDQQ==
-X-Received: by 10.220.250.147 with SMTP id mo19mr2252453vcb.79.1371721194063; 
-	Thu, 20 Jun 2013 02:39:54 -0700 (PDT)
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EA376007C
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 09:54:22 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q12so4543247vbe.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 02:54:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=OCivlZdwYURdMi2m8N/R7f2Qm7pWGJMv818trres4dw=;
+	b=lTeFwbHevSPEoqUiUSUMyW4gSwFYD4kterqAe0PvybYTOnskiArhd8fglNQwu+oKHb
+	vMZmJ8QNSxGQtWkAOTCr+ABpoC7LBkyupQGOFmpPy4CKIZFJQRugy9BF9IxrSF4k5jTB
+	g69xt+Iu9pby6wAmgBwEgnRzTFkNtpjtujTyBqfVTmyEAMjWfi9xPanjSFaSIe9GGyj3
+	L1A8dlfKh3AzC5dfYhlUIvLaCsmVefKUbH1jSuY0JugA5E/6ktvyM4+nL/euMvpvvM/s
+	O1eaDWgPDNdN5M4IipNUISKDJ2NxomCQRpXJRoVKSBzv5eTFwBez1L6p6reOWGjZxoyp
+	QNRA==
+X-Received: by 10.58.181.225 with SMTP id dz1mr2588693vec.95.1371722062841;
+	Thu, 20 Jun 2013 02:54:22 -0700 (PDT)
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.195.201 with HTTP; Thu, 20 Jun 2013 02:39:13 -0700 (PDT)
-In-Reply-To: <FB95243C-761D-4268-96A1-B0893DA616AF@gmail.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130611160434.GI3233@jama>
-	<CANyK_8fMj+=hDVMV+q7CJi7_G5HvztE+n_wcHDn0kTUB7dxFhA@mail.gmail.com>
-	<FB95243C-761D-4268-96A1-B0893DA616AF@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 20 Jun 2013 10:39:13 +0100
-X-Google-Sender-Auth: gXmiGr6lVrM2h9m3_8Q5_-bJU3g
-Message-ID: <CANyK_8eXUptxF52CmcJftYZD+oht4gfkDfRsbY3gOnmTRwyzaQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+Received: by 10.220.13.144 with HTTP; Thu, 20 Jun 2013 02:54:02 -0700 (PDT)
+In-Reply-To: <1371710061.8611.26.camel@pb-ThinkPad-R50e>
+References: <1371693296-6834-1-git-send-email-net147@gmail.com>
+	<1371710061.8611.26.camel@pb-ThinkPad-R50e>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Jun 2013 10:54:02 +0100
+Message-ID: <CAJTo0Lauq-sL5=JQzqE=Nf2dvOZe+o8x1Kqb3B+dkPn0V5fA6Q@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQmlIApgvacoB2i0R5ziIWYWXhSZkzg0bqPRo5LDizeNfo8SbJxp0tOpTlc5fbm3GSktChrS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libx11: enable Xcms by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,50 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 09:39:54 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 20 Jun 2013 09:54:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 20 June 2013 03:28, Khem Raj <raj.khem@gmail.com> wrote:
+On 20 June 2013 07:34, Phil Blundell <pb@pbcl.net> wrote:
+> The comment that you are deleting suggests that this behaviour is by
+> design:
 >
->> luajit is rather a strange error, HOST_CC can't find <sys/types.h> or
->> some other common headers.
+>> -# Let people with incredibly archaic requirements enable Xcms, but disable it by
+>> -# default.
 >
-> hmmm luajit does not fail here for beaglebone/qemuarm so not much I can help.
->
+> Since there's already a PACKAGECONFIG option for this, can't you just
+> enable that in your distro configuration rather than changing the
+> default?  I don't think it's ever been the expectation that the default
+> settings will represent "maximum functionality".
 
-I'll throw a qemuarm build on today and see whether this is an issue
-with my build host or not.
+That comment is from me, but I'm actually coming around to enabling
+Xcms by default and letting people who care about the size increase
+turn it off.  As Jonathan discovered, it's entirely possible to use
+Xcms without knowing it - whilst the colour management bit is likely
+never used, the colour parsing code is.
 
->>
->> mplayer2 is failing to find <mad.h>, this needs the same sort of fix I
->> made to vlc (http://git.openembedded.org/meta-openembedded/commit/?id=3d6369b7c39d78b0d424dbe5a97e736b694e3c48).
->>
->> Full logs, conf files, etc: http://www.paulbarker.me.uk/yocto/20130617_poky/
->>
->
-> I think missing dependencies. Best is to turn this into PACKAGECONFIG
->
-
-The dependencies are enabled if ENTERPRISE_DISTRO=0 but I'm building
-with it set to 1. However mplayer2 is still looking for them, much
-like vlc did.
-
-I could remove the ENTERPRISE_DISTRO logic and replace it all with
-PACKAGECONFIG options but it would lead to a "Nothing PROVIDES" error
-if a PACKAGECONFIG option was set for a dependency which isn't built
-when ENTERPRISE_DISTRO=1. The error message doesn't even mention
-ENTERPRISE_DISTRO so it may be confusing for a user.
-
-Perhaps I could write a python function to check the combination and
-issue a better error if the combination is unbuildable. Is there any
-way to get such a function to run during recipe parsing and be able to
-produce output before the "Nothing PROVIDES" error?
-
-Thanks,
-
---
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Ross
 
