@@ -1,27 +1,37 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B3AA5607F9
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
+	[209.85.219.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B27D61A47
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 13:38:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5KDcvwx025893
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Jun 2013 06:38:57 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Thu, 20 Jun 2013 06:38:57 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Thu, 20 Jun 2013 21:38:25 +0800
-Message-ID: <2146d8ba9021eb536acc28011fde7825eaecb9e7.1371735435.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1371735435.git.kai.kang@windriver.com>
-References: <cover.1371735435.git.kai.kang@windriver.com>
+	Thu, 20 Jun 2013 13:46:56 +0000 (UTC)
+Received: by mail-oa0-f41.google.com with SMTP id n10so8078649oag.14
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 06:46:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:content-type:x-gm-message-state;
+	bh=WZbj6pm6WLkKWjpEbf+WNvh34AEkRLt+BJm5xKoDUjQ=;
+	b=AvOsFq2ioEhHbzpmdRJcXifUuZgQ6sGrgqqD28rwbO588RSI1JNtJXDlLED/BFCkJa
+	+ouM4Ds26GmA7M7hi2T1VlNOJkrpYau9FdFVrcI63EL/HKg2IT6WAq8t5yUb8sh+1DLw
+	4v/IeRz9S4ONV+IpcgihrfP9sPKGLYF4/mu3otGOnIBHZKXp1u/agbwSXBDwHvqP0GQ8
+	eipPyisrjoop0ob+UQsuODKE0YMR8zuY8CBPkbjjMhocmhGy63tUXenv2vrzci1LkX97
+	tjvtAWaaHgOBd1xL/BBxS4p7rlhzFEXHSgEavkBH8dXftZk+ETuW2zYl0KqMFbjxvPN+
+	lzEw==
+X-Received: by 10.182.79.165 with SMTP id k5mr1532656obx.31.1371736016759;
+	Thu, 20 Jun 2013 06:46:56 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] tcl: fix unit test boundary year issue
+Received: by 10.76.27.165 with HTTP; Thu, 20 Jun 2013 06:46:36 -0700 (PDT)
+In-Reply-To: <CAP71WjxJxpWwa5UV4PpN=f0rL00UpPJ_VKJ4LmEu=AVBRdVo2A@mail.gmail.com>
+References: <CAP71WjxJxpWwa5UV4PpN=f0rL00UpPJ_VKJ4LmEu=AVBRdVo2A@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 20 Jun 2013 09:46:36 -0400
+Message-ID: <CAP71WjzvRgqYtJdBVt_epRVZ5bb4aVbPiEq8z4fw-EfEsnVgGg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQljgyblVA3azL1L0rV37OLSt0eJWPEFZUc7NOSMWFkmFlSj23ino/pnLTv+zR/ki1+2l6wQ
+Subject: Re: Issues with Qt5/mesa and eglfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,75 +44,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 13:38:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Jun 2013 13:46:56 -0000
+Content-Type: multipart/alternative; boundary=089e01293f8601465304df962e93
 
-Unit test clock.test check the boundary year 2099 which is not
-inclusive. Include 2099 to be a valide year number.
+--089e01293f8601465304df962e93
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../tcltk/tcl/let-DST-include-year-2099.patch      |   35 ++++++++++++++++++++
- meta/recipes-devtools/tcltk/tcl_8.6.0.bb           |    3 +-
- 2 files changed, 37 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/tcltk/tcl/let-DST-include-year-2099.patch
-
-diff --git a/meta/recipes-devtools/tcltk/tcl/let-DST-include-year-2099.patch b/meta/recipes-devtools/tcltk/tcl/let-DST-include-year-2099.patch
-new file mode 100644
-index 0000000..eef1812
---- /dev/null
-+++ b/meta/recipes-devtools/tcltk/tcl/let-DST-include-year-2099.patch
-@@ -0,0 +1,35 @@
-+From f10135df3f4751d7c83a66561c988ae799b6372f Mon Sep 17 00:00:00 2001
-+From: "Song.Li" <Song.Li@windriver.com>
-+Date: Fri, 10 Aug 2012 13:07:20 +0800
-+Subject: [PATCH] let DST include year 2099
-+
-+tcl puts Daylight Saving Time in deffect from 1916 to 2099,
-+it should include the year 2099,becuase tcl
-+self-contained testing have a DST testcase on 2099.
-+so the condition statement "<2099" should be "<=2099"
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Song.Li <Song.Li@windriver.com>
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+---
-+ library/clock.tcl |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/library/clock.tcl b/library/clock.tcl
-+index 2e9cae7..e8efe4a 100644
-+--- a/library/clock.tcl
-++++ b/library/clock.tcl
-+@@ -3945,7 +3945,7 @@ proc ::tcl::clock::ProcessPosixTimeZone { z } {
-+ 
-+     # Put DST in effect in all years from 1916 to 2099.
-+ 
-+-    for { set y 1916 } { $y < 2099 } { incr y } {
-++    for { set y 1916 } { $y <= 2099 } { incr y } {
-+ 	set startTime [DeterminePosixDSTTime $z start $y]
-+ 	incr startTime [expr { - wide($stdOffset) }]
-+ 	set endTime [DeterminePosixDSTTime $z end $y]
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.0.bb b/meta/recipes-devtools/tcltk/tcl_8.6.0.bb
-index 95556e2..7273182 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.0.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.0.bb
-@@ -18,7 +18,8 @@ SRC_URI = "${BASE_SRC_URI} \
- 	   file://fix_non_native_build_issue.patch \
- 	   file://fix_issue_with_old_distro_glibc.patch \
- 	   file://no_packages.patch \
--	   file://tcl-remove-hardcoded-install-path.patch"
-+	   file://tcl-remove-hardcoded-install-path.patch \
-+	   file://let-DST-include-year-2099.patch;patchdir=.. "
- 
- SRC_URI[md5sum] = "573aa5fe678e9185ef2b3c56b24658d3"
- SRC_URI[sha256sum] = "354422b9c4791685499123b2dfe01faa98b555c08906c010cb4449ddc75dcade"
--- 
-1.7.5.4
+resending on proper mailling list, +cc Paul as it's dylan related.
 
 
+On Thu, Jun 20, 2013 at 9:15 AM, Nicolas Dechesne <
+nicolas.dechesne@linaro.org> wrote:
+
+> hi there,
+>
+> i am trying to build Qt5/meta-qt5 with dylan branch in a non X11 distro,
+> and i got failures during the Qt5 configure step (when auto-detecting EGL
+> feature). Looking into the issue, the good news is that it seems to be
+> fixed in oe-core/master with:
+>
+> d7033f4 mesa: upgrade to 9.1.3
+>
+> thanks to this :
+>
+>     Add EGL-Mutate-NativeDisplayType-depending-on-config.patch to build
+> correctly in
+>     a non-X11 environment.
+>
+>     Drop dont-fail-if-libX11-isnt-installed.patch and
+>     fix-egl-compilation-without-x11-headers.patch as they were backports.
+>
+>
+> Would you guys consider 'backporting' this patch onto dylan a viable
+> thing? I will make the backport, but it would be nice if you can confirm
+> that it can be merged in dylan.
+>
+> thanks
+>
+> nico
+>
+
+--089e01293f8601465304df962e93
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">resending on proper mailling list, +cc Paul as it&#39;s dy=
+lan related.<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quot=
+e">On Thu, Jun 20, 2013 at 9:15 AM, Nicolas Dechesne <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:nicolas.dechesne@linaro.org" target=3D"_blank">nicolas.de=
+chesne@linaro.org</a>&gt;</span> wrote:<br>
+
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr">hi there,<div><br></div><di=
+v>i am trying to build Qt5/meta-qt5 with dylan branch in a non X11 distro, =
+and i got failures during the Qt5 configure step (when auto-detecting EGL f=
+eature). Looking into the issue, the good news is that it seems to be fixed=
+ in oe-core/master with:</div>
+
+
+
+<div><br></div><div><div>d7033f4 mesa: upgrade to 9.1.3</div><div><br></div=
+><div>thanks to this :</div><div><br></div><div><div>=A0 =A0 Add EGL-Mutate=
+-NativeDisplayType-depending-on-config.patch to build correctly in</div>
+<div>=A0 =A0 a non-X11 environment.</div><div>=A0 =A0=A0</div><div>=A0 =A0 =
+Drop dont-fail-if-libX11-isnt-installed.patch and</div><div>=A0 =A0 fix-egl=
+-compilation-without-x11-headers.patch as they were backports.</div><div>=
+=A0</div><div><br>
+
+
+
+</div><div>Would you guys consider &#39;backporting&#39; this patch onto dy=
+lan a viable thing? I will make the backport, but it would be nice if you c=
+an confirm that it can be merged in dylan.</div><div><br></div>
+<div>thanks</div><div><br></div><div>nico</div></div></div></div>
+</blockquote></div><br></div></div>
+
+--089e01293f8601465304df962e93--
