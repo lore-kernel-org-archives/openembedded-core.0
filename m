@@ -1,29 +1,44 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 621B56A5DA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 02:04:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5K24Kbc021746
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Jun 2013 19:04:20 -0700 (PDT)
-Received: from [128.224.162.153] (128.224.162.153) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 19 Jun 2013 19:04:19 -0700
-Message-ID: <51C26322.1070902@windriver.com>
-Date: Thu, 20 Jun 2013 10:04:18 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1371609581.git.hongxu.jia@windriver.com>
-	<d144145e87b9f15189080665ce91db537522935f.1371609581.git.hongxu.jia@windriver.com>
-	<1371629715.20823.163.camel@ted>
-In-Reply-To: <1371629715.20823.163.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] wget:fix do_configure failed
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f52.google.com (mail-pb0-f52.google.com
+	[209.85.160.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B25D60071;
+	Thu, 20 Jun 2013 02:28:36 +0000 (UTC)
+Received: by mail-pb0-f52.google.com with SMTP id xa12so5702586pbc.11
+	for <multiple recipients>; Wed, 19 Jun 2013 19:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=psIKvUTZ1EoErpq9kfTksUoCGUnIkaW/Xp2IoqwpHGA=;
+	b=aDQ5TictYIxZ/f4iQ1j9TbsVx6Tagew6kb243v4hXZfFPy/bO89q9cXexvNEQLDm7H
+	SOXj8Mc73S9NP4dEf8ENW8JZTwPHqQmkXgT7SXrdxGjYgIT1qPtHRAkWdmZPJdhXkQ4V
+	wf5JMzf4bUQnkbWthMZ6/hEsgs1bz4RAtoRl6bJrx8Tzg03ysgbdwAZXV15VjtJySFlO
+	MuGEJUQz0Ei3zcolZ/CEgvRBQvSeVPdCXcqF2uLTMMZ3B+OB78RqNXaznI0Wo3hT9LW7
+	7ZguIusgTcvfZP9+hSXXHttPY7XqFfW7hXcc7JO+Zy5jatfWz0gOHMf8MLA2DGlz0t6J
+	jM9g==
+X-Received: by 10.66.219.1 with SMTP id pk1mr9299732pac.29.1371695317154;
+	Wed, 19 Jun 2013 19:28:37 -0700 (PDT)
+Received: from bjupudi-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id u6sm25502910pbb.46.2013.06.19.19.28.35
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 19 Jun 2013 19:28:36 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CANyK_8fMj+=hDVMV+q7CJi7_G5HvztE+n_wcHDn0kTUB7dxFhA@mail.gmail.com>
+Date: Wed, 19 Jun 2013 19:28:33 -0700
+Message-Id: <FB95243C-761D-4268-96A1-B0893DA616AF@gmail.com>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130611160434.GI3233@jama>
+	<CANyK_8fMj+=hDVMV+q7CJi7_G5HvztE+n_wcHDn0kTUB7dxFhA@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,55 +51,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 02:04:20 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Jun 2013 02:28:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your suggestion, I will correct this next time.
 
-Thanks,
-Hongxu
+> luajit is rather a strange error, HOST_CC can't find <sys/types.h> or
+> some other common headers.
 
-On 06/19/2013 04:15 PM, Richard Purdie wrote:
-> On Wed, 2013-06-19 at 10:45 +0800, Hongxu Jia wrote:
->> Create a new build enviroment, build wget failed
->> ...
->> configure:34512: checking for libssl
->> configure:34542: i586-poky-linux-gcc  -m32 -march=i586 --sysroot=/home/jiahongxu/yocto/build-20130613-qemu/tmp/sysroots/qemux86 -o conftest - O2 -pipe -g -feliminate-unused-debug-types  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed conftest.c -ldl  -lssl /home/jiahongxu/yocto/build-  20130613-qemu/tmp/sysroots/qemux86/lib/libcrypto.so -lz >&5
->> /home/jiahongxu/yocto/build-20130613-qemu/tmp/sysroots/x86_64-linux/usr/libexec/i586-poky-linux/gcc/i586-poky-linux/4.7.2/ld: cannot find -lz collect2: error: ld returned 1 exit status
->> ...
->>
->>  From log as we known, the reason is link zlib failed, it isn't
->> explicitly in wget's DEPENDS. Add zlib to wget's DEPENDS.
->>
->> [YOCTO #4749]
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/recipes-extended/wget/wget.inc | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
-> I'll take this but the summary of this change should be something like
-> "wget: Add missing DEPENDS on zlib" which explains more about what the
-> change does. Fixing a configure failure doesn't tell us much when looked
-> at in a history of changes. I'll tweak the summary this time.
->
-> Cheers,
->
-> Richard
->
->> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
->> index ba37a87..de9b620 100644
->> --- a/meta/recipes-extended/wget/wget.inc
->> +++ b/meta/recipes-extended/wget/wget.inc
->> @@ -2,7 +2,7 @@ DESCRIPTION = "A console URL download utility featuring HTTP, FTP, and more."
->>   SECTION = "console/network"
->>   LICENSE = "GPLv3"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->> -DEPENDS = "openssl"
->> +DEPENDS = "openssl zlib"
->>   
->>   INC_PR = "r16"
->>   
->
+hmmm luajit does not fail here for beaglebone/qemuarm so not much I can =
+help.
+
+>=20
+> mplayer2 is failing to find <mad.h>, this needs the same sort of fix I
+> made to vlc =
+(http://git.openembedded.org/meta-openembedded/commit/?id=3D3d6369b7c39d78=
+b0d424dbe5a97e736b694e3c48).
+>=20
+> Full logs, conf files, etc: =
+http://www.paulbarker.me.uk/yocto/20130617_poky/
+>=20
+
+I think missing dependencies. Best is to turn this into PACKAGECONFIG=20
+
+> Note that for the final build everything in "fixes/" has been applied,
+> including Khem's patches for gypsy, omgps, packagekit and tk.
+>=20
+> --
+> Paul Barker
+>=20
+> Email: paul@paulbarker.me.uk
+> http://www.paulbarker.me.uk
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
 
