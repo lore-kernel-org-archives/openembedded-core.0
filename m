@@ -1,24 +1,22 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FE966AD2B
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id D98356969C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 06:34:39 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.5])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UpYS6-0000Bg-Kr; Thu, 20 Jun 2013 08:34:39 +0200
-Message-ID: <1371710061.8611.26.camel@pb-ThinkPad-R50e>
-From: Phil Blundell <pb@pbcl.net>
-To: Jonathan Liu <net147@gmail.com>
-Date: Thu, 20 Jun 2013 07:34:21 +0100
-In-Reply-To: <1371693296-6834-1-git-send-email-net147@gmail.com>
-References: <1371693296-6834-1-git-send-email-net147@gmail.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libx11: enable Xcms by default
+	Thu, 20 Jun 2013 08:27:58 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 20 Jun 2013 10:27:57 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 2671)	id 5279B28838E;
+	Thu, 20 Jun 2013 10:27:57 +0200 (CEST)
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jun 2013 10:27:54 +0200
+Message-ID: <1371716874-42538-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] bash ptest: Sed away the Makefile dependency to remove error messages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 06:34:39 -0000
+X-List-Received-Date: Thu, 20 Jun 2013 08:27:59 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2013-06-20 at 11:54 +1000, Jonathan Liu wrote:
-> The following do not work if Xcms is not enabled in libx11:
-> - starting xterm and doing ls --color / fails to color code the
->   directories:
->   xterm: Cannot allocate color "rgb:5c/5c/ff"
-> - xsetroot -solid rgb:5c/5c/ff fails with the following error:
->   xsetroot:  unknown color "rgb:5c/5c/ff"
-> - xsetroot -solid rgbi:1.0/1.0/1.0 fails with the following error:
->   xsetroot:  unknown color "rgbi:1.0/1.0/1.0"
-> 
-> More specifically, applications that pass Xcms color names to
-> XParseColor do not work properly.
+From: Bj=C3=B6rn Stenberg <bjst@enea.com>
 
-The comment that you are deleting suggests that this behaviour is by
-design:
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ meta/recipes-extended/bash/bash-4.2/run-ptest |    2 +-
+ meta/recipes-extended/bash/bash.inc           |    1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-> -# Let people with incredibly archaic requirements enable Xcms, but disable it by
-> -# default.
-
-Since there's already a PACKAGECONFIG option for this, can't you just
-enable that in your distro configuration rather than changing the
-default?  I don't think it's ever been the expectation that the default
-settings will represent "maximum functionality".
-
-p.
-
+diff --git a/meta/recipes-extended/bash/bash-4.2/run-ptest b/meta/recipes-e=
+xtended/bash/bash-4.2/run-ptest
+index 66f1eee..8dd3b99 100644
+--- a/meta/recipes-extended/bash/bash-4.2/run-ptest
++++ b/meta/recipes-extended/bash/bash-4.2/run-ptest
+@@ -1,2 +1,2 @@
+ #!/bin/sh
+-echo Makefile: | make -f Makefile -f - -k THIS_SH=3D/bin/bash BUILD_DIR=3D=
+. runtest
++make -k THIS_SH=3D/bin/bash BUILD_DIR=3D. runtest
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/ba=
+sh/bash.inc
+index c619f82..2f4519c 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -40,6 +40,7 @@ do_install_append () {
+ do_install_ptest () {
+ 	make INSTALL_TEST_DIR=3D${D}${PTEST_PATH}/tests install-test
+ 	cp ${B}/Makefile ${D}${PTEST_PATH}
++        sed -i 's/^Makefile/_Makefile/' ${D}${PTEST_PATH}/Makefile
+ }
+=20
+ pkg_postinst_${PN} () {
+--=20
+1.7.10.4
 
 
