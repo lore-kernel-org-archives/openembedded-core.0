@@ -1,38 +1,28 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A1E016AD48;
-	Thu, 20 Jun 2013 10:53:10 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id oz10so4900976veb.19
-	for <multiple recipients>; Thu, 20 Jun 2013 03:53:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=M6ntFxpF8m6Pz4tvOOzkpmUae4jE8tENggGdmupL2+Q=;
-	b=gLdSZZdOr/t2u59F6jI90fqNYMSLbfUAf6AoDuK+kCffFclAa6APSuAtPUMkju12t5
-	Hf5YPYfrAhkBO/WRgBqKCtf6OCHkwdHXYIfzlq0gTzN2qNWkjQVSf4cIq9lhKnuIVE3I
-	AaUYuz1uiKblX7RIw6mi9zneBXMhqGOkrwkVzemz7RTwF5ub+iShB5f+aGljThoSdZOw
-	egKNhLDLqI0pkNr504DMKbbbIlqvVgOBi4mKaneYsig2kVQlCX/sqFGzpxhev9zkQvG7
-	xzgisPn7lyAyS13PTj9udKAOVF7zsv+6zyhhl1drwnl9TjOpt+Q9TwWdgkHArQL1VCPR
-	IeaA==
-X-Received: by 10.220.98.68 with SMTP id p4mr2390364vcn.28.1371725591556; Thu,
-	20 Jun 2013 03:53:11 -0700 (PDT)
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E0E56AD44
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 11:03:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5KB3P65023190
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2013 04:03:26 -0700 (PDT)
+Received: from [128.224.163.179] (128.224.163.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 20 Jun 2013 04:03:23 -0700
+Message-ID: <51C2E17A.1070204@windriver.com>
+Date: Thu, 20 Jun 2013 19:03:22 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.195.201 with HTTP; Thu, 20 Jun 2013 03:52:31 -0700 (PDT)
-In-Reply-To: <CANyK_8f+tsurm4_5GrdiXwEkak70YAhn3t51roeRydCTx9Mbcw@mail.gmail.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<CANyK_8eXUptxF52CmcJftYZD+oht4gfkDfRsbY3gOnmTRwyzaQ@mail.gmail.com>
-	<3004132.t7dk9348rv@helios> <1886786.nfT3SfR8Pm@helios>
-	<CANyK_8f+tsurm4_5GrdiXwEkak70YAhn3t51roeRydCTx9Mbcw@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 20 Jun 2013 11:52:31 +0100
-X-Google-Sender-Auth: Fpm0uwyKiyeg4PVFL1mJCwljAp8
-Message-ID: <CANyK_8eanLYLxAv48juZ7Vr0XVdnvafxbtwr2CYk7MVQt9XcXA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1371724384.git.jackie.huang@windriver.com>
+	<226763569aa069ac26b177edf674b1d695016d2c.1371724384.git.jackie.huang@windriver.com>
+In-Reply-To: <226763569aa069ac26b177edf674b1d695016d2c.1371724384.git.jackie.huang@windriver.com>
+Subject: Re: [PATCH 1/2] consolekit: move libck-connector to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 10:53:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 20 Jun 2013 11:03:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 20 June 2013 11:50, Paul Barker <paul@paulbarker.me.uk> wrote:
-> On 20 June 2013 11:25, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->> On Thursday 20 June 2013 11:16:37 Paul Eggleton wrote:
->>> To be honest I think ENTERPRISE_DISTRO needs to go. It's not even clear what
->>> it should mean, and it's not consistently implemented. For things we want
->>> to be optional we have PACKAGECONFIG; for items that have licensing
->>> requirements that might be troublesome in certain deployments we have
->>> LICENSE_FLAGS, and LICENSE_FLAGS
->>
->> Sorry, that should have read "and LICENSE_FLAGS already has a mechanism to
->> prevent a recipe being built based on the current settings and report why."
->>
+Sorry I accidently sent the not working one, drop it and I will re-send.
+
+Thanks,
+Jackie
+
+On 6/20/2013 6:36 PM, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
 >
-> I decided to do a quick grep. "ENTERPRISE_DISTRO" isn't found at all
-> in openembedded-core, and in meta-openembedded it's just in the
-> following places, after I've converted mplayer2 to using PACKAGECONFIG
-> instead.
+> move libck-connector.so.* to base_libdir and move
+> pam_ck_connector.la to libdir to kill two warnings:
+>
+>      WARNING: QA Issue: consolekit: /lib64/security/pam_ck_connector.so,
+>      installed in the base_prefix, requires a shared library under
+>      exec_prefix (/usr): libck-connector.so.0 => /usr/lib64/
+>      libck-connector.so.0 (0x00000000dead300
+>
+>      WARNING: QA Issue: lib32-consolekit: Found a reference to /usr/ in
+>       /buildarea1/jhuang0/t_multilib/p_x64_0217/bitbake_build/tmp/work/
+>      x86-wrsmllib32-linux/lib32-consolekit-0.4.5-r10/packages-split/i
+>      lib32-consolekit/lib/security/pam_ck_connector.la
+>      WARNING: QA Issue: Shell scripts in base_bindir and base_sbindir
+>      should not reference anything in exec_prefix
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+> ---
+>   .../recipes-support/consolekit/consolekit_0.4.5.bb |   13 ++++++++++++-
+>   1 files changed, 12 insertions(+), 1 deletions(-)
+>
+> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> index 7d66b39..095cb51 100644
+> --- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> +++ b/meta/recipes-support/consolekit/consolekit_0.4.5.bb
+> @@ -2,7 +2,7 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+>   HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+>   BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
+>
+> -PR = "r10"
+> +PR = "r11"
+>
+>   LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+> @@ -41,4 +41,15 @@ RDEPENDS_pam-plugin-ck-connector += "${PN}"
+>   do_install_append() {
+>   	# Remove /var/run from package as console-kit-daemon will populate it on startup
+>   	rm -fr "${D}${localstatedir}/run"
+> +	# Moving libck-connector to base_libdir
+> +	# and moving pam_ck_connector.la to libdir
+> +	if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+> +	        mkdir -p ${D}/${base_libdir}/
+> +	        mv -f ${D}${libdir}/libck-connector.so.0* ${D}${base_libdir}/
+> +	        rel_lib_prefix=${@os.path.relpath(d.getVar('base_libdir', True), d.getVar('libdir', True))}
+> +	        ln -sf ${rel_lib_prefix}${base_libdir}/libck-connector.so.0.0.0 ${D}${libdir}/libck-connector.so
+> +	        if [ -f ${D}${base_libdir}/security/pam_ck_connector.la ]; then
+> +	                mv -f ${D}${base_libdir}/security/pam_ck_connector.la ${D}${libdir}/
+> +	        fi
+> +	fi
+>   }
 >
 
-That got trashed by word wrapping. It's these files:
-
-./meta-oe/recipes-multimedia/libsdl-mixer/libsdl-mixer_1.2.12.bb
-./meta-oe/recipes-multimedia/libav/libav.inc
-./meta-multimedia/recipes-multimedia/vlc/vlc.inc
-./meta-multimedia/recipes-multimedia/musicpd/mpd_0.17.1.bb
-./meta-efl/recipes-efl/e17/enjoy_svn.bb
-
->
-> So if we do want to get rid of this, it shouldn't be too much work.
->
-
---
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+-- 
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
