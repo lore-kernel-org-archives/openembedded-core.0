@@ -1,30 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 078656ABCA
+	by mail.openembedded.org (Postfix) with ESMTP id 13933607F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 13:30:00 +0000 (UTC)
+	Thu, 20 Jun 2013 13:38:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5KDU3JC024976
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5KDcsLD025078
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Jun 2013 06:30:03 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 20 Jun 2013 06:30:01 -0700
-Message-ID: <51C303BF.2020404@windriver.com>
-Date: Thu, 20 Jun 2013 21:29:35 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	Thu, 20 Jun 2013 06:38:54 -0700 (PDT)
+Received: from localhost.localdomain (128.224.162.205) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Thu, 20 Jun 2013 06:38:54 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <ross.burton@intel.com>
+Date: Thu, 20 Jun 2013 21:38:23 +0800
+Message-ID: <cover.1371735435.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1371734594.git.kai.kang@windriver.com>
-	<91dd40249c4291e863bb94f9a97245f80e58c0fe.1371734594.git.kai.kang@windriver.com>
-	<CAJTo0LZPwsE-v+3rKfQ8q6wjh2fXvgmynqnXJobHhtbHqrRPxw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZPwsE-v+3rKfQ8q6wjh2fXvgmynqnXJobHhtbHqrRPxw@mail.gmail.com>
 X-Originating-IP: [128.224.162.205]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] tcl: remove hardcoded library install path
+Subject: [PATCH 0/2] Fixes for tcl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 13:30:01 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Jun 2013 13:38:54 -0000
+Content-Type: text/plain
 
-On 2013年06月20日 21:28, Burton, Ross wrote:
-> On 20 June 2013 14:24, Kai Kang <kai.kang@windriver.com> wrote:
->> Fix unit test clock.test fails with boundary year 2099.
->>
->> Remove hardcoded library install path and then install library to
->> ${libdir}.
-> Please split these into two patches, as the summary doesn't mention
-> the patch at all.
-OK, thanks.
+The following changes since commit e04e6dab0afa8f72bf001b0cc106cd13b7694a91:
 
->
-> Ross
->
->
+  bdwgc-native: Add missing pkgconfig DEPENDS (2013-06-19 18:03:35 +0100)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib kangkai/tcl
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/tcl
+
+Kai Kang (2):
+  tcl: remove hardcoded library install path
+  tcl: fix unit test boundary year issue
+
+ .../tcltk/tcl/let-DST-include-year-2099.patch      |   35 ++++++++++++++++++
+ .../tcl/tcl-remove-hardcoded-install-path.patch    |   37 ++++++++++++++++++++
+ meta/recipes-devtools/tcltk/tcl_8.6.0.bb           |    6 ++-
+ 3 files changed, 76 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/tcltk/tcl/let-DST-include-year-2099.patch
+ create mode 100644 meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
 
 -- 
-Regards,
-Neil | Kai Kang
+1.7.5.4
 
 
