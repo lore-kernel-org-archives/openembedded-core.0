@@ -1,27 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B66B66AD40
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FE966AD2B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 03:30:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5K3UJYX000357
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Jun 2013 20:30:19 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 19 Jun 2013 20:30:19 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Thu, 20 Jun 2013 11:29:43 +0800
-Message-ID: <91180868c552c9b0779145759d26bca81a2ad348.1371698863.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1371698863.git.kai.kang@windriver.com>
-References: <cover.1371698863.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
+	Thu, 20 Jun 2013 06:34:39 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UpYS6-0000Bg-Kr; Thu, 20 Jun 2013 08:34:39 +0200
+Message-ID: <1371710061.8611.26.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: Jonathan Liu <net147@gmail.com>
+Date: Thu, 20 Jun 2013 07:34:21 +0100
+In-Reply-To: <1371693296-6834-1-git-send-email-net147@gmail.com>
+References: <1371693296-6834-1-git-send-email-net147@gmail.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] python-pygtk: fix parallel compile issue
+Subject: Re: [PATCH] libx11: enable Xcms by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,81 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 03:30:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Jun 2013 06:34:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-defs.c dependes on gdk-types.defs and gtk-types.defs. When parallel
-compile, it may fails with:
-"IOError: [Errno 2] No such file or directory: 'gtk-types.defs'"
+On Thu, 2013-06-20 at 11:54 +1000, Jonathan Liu wrote:
+> The following do not work if Xcms is not enabled in libx11:
+> - starting xterm and doing ls --color / fails to color code the
+>   directories:
+>   xterm: Cannot allocate color "rgb:5c/5c/ff"
+> - xsetroot -solid rgb:5c/5c/ff fails with the following error:
+>   xsetroot:  unknown color "rgb:5c/5c/ff"
+> - xsetroot -solid rgbi:1.0/1.0/1.0 fails with the following error:
+>   xsetroot:  unknown color "rgbi:1.0/1.0/1.0"
+> 
+> More specifically, applications that pass Xcms color names to
+> XParseColor do not work properly.
 
-Add them to dependences of defs.c to fix this issue.
+The comment that you are deleting suggests that this behaviour is by
+design:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../update-dependences-of-defs.c.patch             |   38 ++++++++++++++++++++
- .../recipes-devtools/python/python-pygtk_2.24.0.bb |    3 +-
- 2 files changed, 40 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch
+> -# Let people with incredibly archaic requirements enable Xcms, but disable it by
+> -# default.
 
-diff --git a/meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch b/meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch
-new file mode 100644
-index 0000000..3ed954e
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-pygtk/update-dependences-of-defs.c.patch
-@@ -0,0 +1,38 @@
-+From dc024e9079bbffbb44436ba3e70a758ebad5520f Mon Sep 17 00:00:00 2001
-+From: "Song.Li" <Song.Li@windriver.com>
-+Date: Sat, 5 Jan 2013 14:55:59 +0800
-+Subject: [PATCH] update dependences of defs.c in Makefile.am
-+
-+In gtk/Makefile.am, defs.c should dependes on gdk-types.defs and
-+gtk-types.defs, otherwise it fails occasionally when parallel compile.
-+The error message:
-+"IOError: [Errno 2] No such file or directory: 'gtk-types.defs'"
-+
-+Add them to dependences of defs.c to fix this issue.
-+
-+Upstream-Status: Submitted
-+https://bugzilla.gnome.org/show_bug.cgi?id=702706
-+
-+Signed-off-by: Song.Li <Song.Li@windriver.com>
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+---
-+ gtk/Makefile.am |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gtk/Makefile.am b/gtk/Makefile.am
-+index 7bb5d0c..91826cb 100644
-+--- a/gtk/Makefile.am
-++++ b/gtk/Makefile.am
-+@@ -289,7 +289,7 @@ if HAVE_GIO_TYPES_DEFS
-+ extra_codegen_args += --register $(PYGOBJECT_DEFSDIR)/gio-types.defs
-+ endif
-+ 
-+-.defs.c: 
-++.defs.c: gdk-types.defs gtk-types.defs
-+ 	($(PYTHON) $(CODEGENDIR)/codegen.py \
-+ 	   $(PYGTK_CODEGEN_DEFINES) \
-+ 	    -I $(srcdir) \
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-index 0342f82..475ea17 100644
---- a/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-+++ b/meta/recipes-devtools/python/python-pygtk_2.24.0.bb
-@@ -15,7 +15,8 @@ SRC_URI = "ftp://ftp.gnome.org/pub/gnome/sources/pygtk/2.24/${SRCNAME}-${PV}.tar
-            file://fix-gtkunixprint.patch \
-            file://prevent_to_get_display_during_import.patch \
-            file://nodocs.patch \
--           file://acinclude.m4"
-+           file://acinclude.m4 \
-+           file://update-dependences-of-defs.c.patch"
- 
- SRC_URI[md5sum] = "a1051d5794fd7696d3c1af6422d17a49"
- SRC_URI[sha256sum] = "cd1c1ea265bd63ff669e92a2d3c2a88eb26bcd9e5363e0f82c896e649f206912"
--- 
-1.7.5.4
+Since there's already a PACKAGECONFIG option for this, can't you just
+enable that in your distro configuration rather than changing the
+default?  I don't think it's ever been the expectation that the default
+settings will represent "maximum functionality".
+
+p.
+
 
 
