@@ -1,37 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E04260071
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EA2C608CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 11:27:59 +0000 (UTC)
-Received: by mail-vc0-f179.google.com with SMTP id hz11so4618959vcb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2013 04:28:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=b9CRphY7+5h3I5mAz4T2czZeF6W/YKLE7kTTv+h+XtQ=;
-	b=W0npkKmuGS0h8kXwUAmNdEZMYW2R0vtFZ3mKa6ktQReNDKEA0UcvmqCV4gk71vcn7C
-	rCtr1jedHE5U+N+8cPSJ94dAde7/aE3ewawaJTr+9opbqKPLLpF9I65fY+quo1ScUWav
-	12ORJITUtctCGnhz5+z7aMuIQ5QEzyVtISn+v5FrsV5N5eW3aka6fSQvzOo+GQ/pGmWZ
-	AmPz6TgWY3Tq8GGQtGwVLFEbELIrrI3knWXdBeIgQu2S/vz8CMMzjR6ic2Pif0PyGa4I
-	ap5VmoKJ5LT02VTUlqjajGOx3rxiqV74rvpPVT4HsniPXUgouySwbWYzw1gDi9hPsU0p
-	DbSg==
-X-Received: by 10.220.73.66 with SMTP id p2mr898235vcj.94.1371727679990; Thu,
-	20 Jun 2013 04:27:59 -0700 (PDT)
+	Thu, 20 Jun 2013 11:46:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 20 Jun 2013 04:44:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,904,1363158000"; d="scan'208";a="352879793"
+Received: from unknown (HELO [10.255.13.131]) ([10.255.13.131])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2013 04:47:19 -0700
+Message-ID: <51C2EBA0.8070804@linux.intel.com>
+Date: Thu, 20 Jun 2013 04:46:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 20 Jun 2013 04:27:39 -0700 (PDT)
-In-Reply-To: <1371726864.20823.227.camel@ted>
+To: jackie.huang@windriver.com
 References: <cover.1371724384.git.jackie.huang@windriver.com>
 	<d3c4311cd7b6a3082fee8fe0fffb8dfadc061deb.1371724384.git.jackie.huang@windriver.com>
 	<CAJTo0LY5v4n-8NCJmGNWh11dLMi4uYv5TN4u_f7FnuQvxAS55Q@mail.gmail.com>
 	<1371726864.20823.227.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Jun 2013 12:27:39 +0100
-Message-ID: <CAJTo0LY=UNKzDafgo_fTqXrhirJs8F+R9U7TB93DFwHfNbff0A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Gm-Message-State: ALoCoQntWv/2u+R4QokZPTdahZK2yDRnrouJwUW6BicFBpJ+HNKaIw7hrQDSi6WDPLgIo5ATRwXF
+In-Reply-To: <1371726864.20823.227.camel@ted>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] dbus: move libdbus-1.so* to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,27 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 11:28:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Jun 2013 11:46:43 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 20 June 2013 12:14, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On 06/20/2013 04:14 AM, Richard Purdie wrote:
+> On Thu, 2013-06-20 at 11:39 +0100, Burton, Ross wrote:
+>> On 20 June 2013 11:36,  <jackie.huang@windriver.com> wrote:
+>>> From: Jackie Huang <jackie.huang@windriver.com>
+>>>
+>>> move libdbus-1.so* to base_libdir to kill a warning:
+>>>
+>>>      WARNING: QA Issue: lib32-consolekit: /lib/security/
+>>>      pam_ck_connector.so, installed in the base_prefix,
+>>>      requires a shared library under exec_prefix (/usr):
+>>>      libdbus-1.so.3 => /usr/lib/libdbus-1.so.3 (0xdead3000)
+>>>
+>>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>>
+>> More and more and more libraries move.  Do we *really* need to support
+>> split-usr?  Have you audited all of the udev helpers yet?
+>
 > I have to admit I'm not happy with the piece by piece approach this is
 > taking. We're going to end up with nearly everything moving to
 > base_libdir at this rate. If we're going to do this, I want someone to
 > come up with a definitive list of what needs to move before any more of
 > these merge.
+>
+And this should be checked with various DISTRO_FEATURES such as pam 
+(enabled/disabled) and systemd (enabled/disabled), not just one 
+variation, please be sure to list what your testing matrix is.
 
-The "fun" is stuff like udev helpers, which can link to whatever they
-want. If the hardware is probed before /usr is mounted, they'll fail
-to run and the work they should have done won't have happened.
+Thanks
+    Sau!
 
-Stock oe-core doesn't ship any interesting helpers, but on my Debian
-system there is mtp-probe linking to /usr/lib/libmtp.so, and
-udev-configure-printer (CUPS hotplug support) linking to (deep breath)
-libcups gnutls avahi kerberos p11-kit.  So, all of those (and their
-dependencies) probably have to move to /lib, or you put in the
-documentation that printers and cameras can't be attached at boot.
-
-Ross
+> Cheers,
+>
+> Richard
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
