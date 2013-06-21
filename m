@@ -1,31 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DA629608A6
+Return-Path: <holger@moiji-mobile.com>
+Received: from mail.sysmocom.de (mail.sysmocom.de [144.76.43.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ED82605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2013 08:14:00 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5L8Jafe014581; Fri, 21 Jun 2013 09:20:12 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yYsIf_ezWMwb; Fri, 21 Jun 2013 09:20:12 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5L8K73E014761
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 21 Jun 2013 09:20:08 +0100
-Message-ID: <1371802419.20823.288.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-Date: Fri, 21 Jun 2013 09:13:39 +0100
-In-Reply-To: <CAPhnLPBBK1=GohMDVCSGseg=DWn_Ac32p+UjjbGff585rWTG_w@mail.gmail.com>
-References: <CAPhnLPBBK1=GohMDVCSGseg=DWn_Ac32p+UjjbGff585rWTG_w@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC] Utilizing LAYERVERSION_ to identify breaking changes to a layer
+	Fri, 21 Jun 2013 09:53:21 +0000 (UTC)
+Received: from sangmingze-mail.local (91-65-247-193-dynip.superkabel.de
+	[91.65.247.193])
+	by mail.sysmocom.de (Postfix) with ESMTPSA id 1A4581DC2E;
+	Fri, 21 Jun 2013 09:53:09 +0000 (UTC)
+Received: from ich by sangmingze-mail.local with local (Exim 4.80)
+	(envelope-from <holger@moiji-mobile.com>)
+	id 1Upy1u-0000uI-NN; Fri, 21 Jun 2013 11:53:18 +0200
+Date: Fri, 21 Jun 2013 11:53:18 +0200
+From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20130621095318.GG15853@xiaoyu.lan>
+References: <20130621063103.GE15853@xiaoyu.lan>
+	<1371801843.20823.281.camel@ted>
+MIME-Version: 1.0
+In-Reply-To: <1371801843.20823.281.camel@ted>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: AUTOINC ending in filenames in tmp/deploy/images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,50 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2013 08:14:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Jun 2013 09:53:22 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 2013-06-20 at 15:56 -0700, Flanagan, Elizabeth wrote:
-> I know I've run into this issue and I'm going to bet that other folks
-> have as well.
+On Fri, Jun 21, 2013 at 09:04:03AM +0100, Richard Purdie wrote:
 > 
-> When running some sort of continuous integration system (in my case,
-> yocto-autobuilder), I need to build to at least two releases back. The
-> problem is, sometimes, local.conf and bblayers.conf requirements
-> change, for example, a layer needs a BBMASK for the prior release but
-> can't have it for the current one or a layer gets split so that I need
-> to add two directories to BBLAYERS as opposed to just the one that I
-> used a few commits back. I currently have no great way of figuring
-> that out and it has causes immense amounts of pain.
-> 
-> I'd like to propose extending LAYERVERSION (which is already utilized
-> in oe-core as LAYERVERSION_core) out to other layers.
-> 
-> meta-angstrom LAYERVERSION_angstrom
-> meta-baryon LAYERVERSION_baryon
-> meta-beagleboard LAYERVERSION_beagleboard
-> meta-browser LAYERVERSION_browser
-> meta-fsl-arm LAYERVERSION_fsl-arm
-> meta-fsl-ppc LAYERVERSION_fsl-ppc
-> meta-guacamayo LAYERVERSION_guacamayo
-> meta-intel LAYERVERSION_intel
-> meta-minnow LAYERVERSION_minnow
-> meta-ti LAYERVERSION_ti
-> meta-xilinx LAYERVERSION_xilinx
-> meta-yocto LAYERVERSION_yocto
-> 
-> For bsp layers with multiple machine layers, like meta-intel or
-> meta-xilinx, I'd suggest something like:
->
-> LAYERVERSION_layername_machinename
+> Use PKGV and PKGR instead of PV and PR and this should work better.
 
-Can we match the name that is added to BBFILE_COLLECTIONS please? This
-is then discoverable and matches existing data.
+This didn't change anything. I have reduced my u-boot bbappend to the
+one below and I have updated the poky u-boot recipe to use PKGV and
+PKGR in the filename. Any other idea?
 
-Cheers,
+kind regards
+  holger
 
-Richard
+
+
+
+
+bbappend:
+SRCREV = "40d74c99ac9d741857d1298617b186b1d4e148de"
+
+PRINC = "11"
+
+LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+                    file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
+
+UBOOT_MACHINE_sysmobts-v1 = "davinci_sysmobts_v2_config"
+COMPATIBLE_MACHINE = "(sysmobts-v1)"
+
 
 
 
