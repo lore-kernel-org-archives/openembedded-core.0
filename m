@@ -1,24 +1,24 @@
-Return-Path: <holger@moiji-mobile.com>
-Received: from mail.sysmocom.de (mail.sysmocom.de [144.76.43.93])
-	by mail.openembedded.org (Postfix) with ESMTP id CA0C8605F3
+Return-Path: <Sen.Zhang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C3DC609B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2013 06:31:06 +0000 (UTC)
-Received: from sangmingze-mail.local (91-65-247-193-dynip.superkabel.de
-	[91.65.247.193])
-	by mail.sysmocom.de (Postfix) with ESMTPSA id 920271DB3A
+	Fri, 21 Jun 2013 07:33:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5L7XJoh019607
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2013 06:30:55 +0000 (UTC)
-Received: from ich by sangmingze-mail.local with local (Exim 4.80)
-	(envelope-from <holger@moiji-mobile.com>) id 1UpusB-0005TH-TB
-	for openembedded-core@lists.openembedded.org;
-	Fri, 21 Jun 2013 08:31:03 +0200
-Date: Fri, 21 Jun 2013 08:31:03 +0200
-From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130621063103.GE15853@xiaoyu.lan>
+	Fri, 21 Jun 2013 00:33:20 -0700 (PDT)
+Received: from jesse-wrs-desktop.corp.ad.wrs.com (128.224.162.230) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 21 Jun 2013 00:33:19 -0700
+From: Jesse Zhang <sen.zhang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 21 Jun 2013 15:35:28 +0800
+Message-ID: <cover.1371800041.git.sen.zhang@windriver.com>
+X-Mailer: git-send-email 1.7.11.7
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: AUTOINC ending in filenames in tmp/deploy/images
+Subject: [PATCH 0/1] update ltp to MAY 2013 STABLE release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2013 06:31:07 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 21 Jun 2013 07:33:20 -0000
+Content-Type: text/plain
 
-Hi,
+The following changes since commit 78bcf871c65a87df8b40a0b09654d74434e4d01c:
 
-I am building an U-Boot from git and the file in tmp/deploy/images contains
-AUTOINC instead of the replaced git version.
+  bitbake: hob: save variables in conf/ directory (2013-06-20 16:26:22 +0100)
 
-$ ls images/u-boot-sysmobts-v2-v2011.12+gitAUTOINC+40d74c99ac-r17.bin
+are available in the git repository at:
 
-This is with Poky from yesterday, is this a known issue of the AUTOINC? The
-filename is set with 'u-boot-${MACHINE}-${PV}-${PR}' and the PV is like
-this 'v2011.12+git${SRCPV}'.
+  git://git.yoctoproject.org/poky-contrib szhang/ltp
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=szhang/ltp
 
+Jesse Zhang (1):
+  ltp: update to new release
 
-kind regards
-	holger
+ meta/recipes-extended/ltp/{ltp_20130109.bb => ltp_20130503.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/ltp/{ltp_20130109.bb => ltp_20130503.bb} (96%)
 
-
+-- 
+1.7.11.7
 
 
