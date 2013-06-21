@@ -1,34 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 36E4C605F3
+	by mail.openembedded.org (Postfix) with ESMTP id 2C2E7601D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2013 12:36:40 +0000 (UTC)
+	Fri, 21 Jun 2013 16:44:24 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5LCg2Ew025131; Fri, 21 Jun 2013 13:42:52 +0100
+	r5LGoaDA005337 for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Jun 2013 17:50:45 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HDQLCe58v1CE; Fri, 21 Jun 2013 13:42:52 +0100 (BST)
+	with LMTP id XgqUITJ5Qi7E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Jun 2013 17:50:45 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5LCgmJh025195
+	r5LGoc0n005332
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 21 Jun 2013 13:42:50 +0100
-Message-ID: <1371818179.20823.303.camel@ted>
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Jun 2013 17:50:40 +0100
+Message-ID: <1371833048.20823.304.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jhuang0 <jackie.huang@windriver.com>
-Date: Fri, 21 Jun 2013 13:36:19 +0100
-In-Reply-To: <51C3B43C.8040707@windriver.com>
-References: <cover.1371724384.git.jackie.huang@windriver.com>
-	<d3c4311cd7b6a3082fee8fe0fffb8dfadc061deb.1371724384.git.jackie.huang@windriver.com>
-	<CAJTo0LY5v4n-8NCJmGNWh11dLMi4uYv5TN4u_f7FnuQvxAS55Q@mail.gmail.com>
-	<1371726864.20823.227.camel@ted> <51C2EBA0.8070804@linux.intel.com>
-	<51C3B43C.8040707@windriver.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 21 Jun 2013 17:44:08 +0100
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] dbus: move libdbus-1.so* to base_libdir
+Subject: [PATCH] sanity.bbclass: Drop horrible obsolete minversion hack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,51 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2013 12:36:40 -0000
+X-List-Received-Date: Fri, 21 Jun 2013 16:44:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-06-21 at 10:02 +0800, jhuang0 wrote:
-> 
-> On 6/20/2013 7:46 PM, Saul Wold wrote:
-> > On 06/20/2013 04:14 AM, Richard Purdie wrote:
-> >> On Thu, 2013-06-20 at 11:39 +0100, Burton, Ross wrote:
-> >>> On 20 June 2013 11:36,  <jackie.huang@windriver.com> wrote:
-> >>>> From: Jackie Huang <jackie.huang@windriver.com>
-> >>>>
-> >>>> move libdbus-1.so* to base_libdir to kill a warning:
-> >>>>
-> >>>>      WARNING: QA Issue: lib32-consolekit: /lib/security/
-> >>>>      pam_ck_connector.so, installed in the base_prefix,
-> >>>>      requires a shared library under exec_prefix (/usr):
-> >>>>      libdbus-1.so.3 => /usr/lib/libdbus-1.so.3 (0xdead3000)
-> >>>>
-> >>>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> >>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> >>>
-> >>> More and more and more libraries move.  Do we *really* need to support
-> >>> split-usr?  Have you audited all of the udev helpers yet?
-> >>
-> >> I have to admit I'm not happy with the piece by piece approach this is
-> >> taking. We're going to end up with nearly everything moving to
-> >> base_libdir at this rate. If we're going to do this, I want someone to
-> >> come up with a definitive list of what needs to move before any more of
-> >> these merge.
-> >>
-> > And this should be checked with various DISTRO_FEATURES such as pam
-> > (enabled/disabled) and systemd (enabled/disabled), not just one
-> > variation, please be sure to list what your testing matrix is.
-> 
-> I tested with DISTRO_FEATURES 'pam' (enabled/disabled) and 'systemd' 
-> (enabled/disabled) and WARN_QA = "unsafe-references-in-binaries 
-> unsafe-references-in-scripts", and I have sent a v3. If you are agree to 
-> merge, please merge the v3 one, thanks!
+We once needed to do this, things seem to work fine without this now,
+thankfully.
 
-As I said, I'm not taking any more of these moves until there is a well
-thought out analysis/plan. Sorry.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 3b9934b..7e61daa 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -369,15 +369,8 @@ def check_sanity(sanity_data):
+             print("WARNING: sanity.bbclass can't compare versions without python-distutils")
+             return 1
+ 
+-    # Check the bitbake version meets minimum requirements
+-    minversion = sanity_data.getVar('BB_MIN_VERSION', True)
+-    if not minversion:
+-        # Hack: BB_MIN_VERSION hasn't been parsed yet so return 
+-        # and wait for the next call
+-        return
+-
+     if 0 == os.getuid():
+         raise_sanity_error("Do not use Bitbake as root.", sanity_data)
+ 
+     messages = ""
+ 
+@@ -392,6 +385,8 @@ def check_sanity(sanity_data):
+     except ImportError:
+         messages = messages + 'Your python is not a full install. Please install the module xml.parsers.expat (python-xml on openSUSE and SUSE Linux).\n'
+ 
++    # Check the bitbake version meets minimum requirements
++    minversion = sanity_data.getVar('BB_MIN_VERSION', True)
+     if (LooseVersion(bb.__version__) < LooseVersion(minversion)):
+         messages = messages + 'Bitbake version %s is required and version %s was found\n' % (minversion, bb.__version__)
+ 
 
-Cheers,
-
-Richard
 
 
