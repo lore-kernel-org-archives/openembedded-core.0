@@ -1,35 +1,26 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 93B276AD20
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EB416ABED
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2013 01:38:10 +0000 (UTC)
-Received: by mail-ea0-f182.google.com with SMTP id d10so5415905eaj.13
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jun 2013 18:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=V7Tt0hmHBPxhUIQoY0okupL4QLviaKKUVqT41xH8bdo=;
-	b=ajnim29XwUOe+wewpQ7T1WJaq7wXaShY4E+dVDVNGs1K8P7GC2dwKvXIImvIKKeDuk
-	OnrEJLG60G3z1P49gCP5F6qIFZfGRsf9L61nINX2BUN+gMcwytBdeuvvoDgCBDbGTlAp
-	/HvFy0VRgNFh2T9m8ZXpd41GKRWOsMC0aCaQ+JFfu9+lYr3rilwnN/De+KcXE4cQsIPB
-	gLAyqkhYiLv/dl8cI5kCeTEUnNQttclyy+wWuq3lZrhV1dn3z26O93am8lRi55pbyZBc
-	YyBAoAsMkY3/VhEtFfuXpXqXSjVwpZnq8Vuo2BhNQyh1Gog7tskeBFpA/ikU48KBl9j6
-	Yi2Q==
-X-Received: by 10.15.32.67 with SMTP id z43mr18911292eeu.24.1371951490711;
-	Sat, 22 Jun 2013 18:38:10 -0700 (PDT)
-Received: from ubuntu.datv.net ([213.174.0.226])
-	by mx.google.com with ESMTPSA id o5sm18044235eef.5.2013.06.22.18.38.09
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 22 Jun 2013 18:38:09 -0700 (PDT)
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2013 04:36:55 +0300
-Message-Id: <1371951415-52721-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH v6] systemd: added python-systemd package generation.
+	Sun, 23 Jun 2013 02:02:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 22 Jun 2013 19:00:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,921,1363158000"; d="scan'208";a="334014068"
+Received: from unknown (HELO [10.255.12.170]) ([10.255.12.170])
+	by orsmga001.jf.intel.com with ESMTP; 22 Jun 2013 19:02:42 -0700
+Message-ID: <51C65742.20506@linux.intel.com>
+Date: Sat, 22 Jun 2013 19:02:42 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: wenzong.fan@windriver.com
+References: <cover.1371519710.git.wenzong.fan@windriver.com>
+	<1fea294b2ea836672219aef14beecc67ed4cadef.1371519710.git.wenzong.fan@windriver.com>
+In-Reply-To: <1fea294b2ea836672219aef14beecc67ed4cadef.1371519710.git.wenzong.fan@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ghostscript: resolve the gconfig.h conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,88 +33,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Jun 2013 01:38:11 -0000
+X-List-Received-Date: Sun, 23 Jun 2013 02:02:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
----
- meta/recipes-core/systemd/systemd_204.bb |   20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+On 06/17/2013 07:02 PM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
+>
+> Both base/lib.mak and psi/int.mak will create file gconfig.h:
+>      lib.mak: $(CP_) $(gconfig_h) $(GLGEN)gconfig.h
+>      int.mak: $(CP_) $(gconfig_h) $(PSGEN)gconfig.h
+>
+> If $(GLGEN) is same with $(PSGEN), the $(GLGEN)gconfig.h will be
+> overridden by $(PSGEN)gconfig.h in a parallel build, and this
+> maybe cause build errors.
+>
+> Upstream has fixed this issue, just portback its fixes from:
+>      http://downloads.ghostscript.com/public/ghostscript-9.06.tar.gz
+>
+If ghostscript upstream has been updated, then why not just upgrade the 
+package instead of backporting a patch?
 
-diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
-index b8b1290..ea0cdd2 100644
---- a/meta/recipes-core/systemd/systemd_204.bb
-+++ b/meta/recipes-core/systemd/systemd_204.bb
-@@ -10,9 +10,15 @@ PROVIDES = "udev"
- 
- PE = "1"
- 
--DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
-+DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux pythonnative python-dir"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
-+# need to export these variables for python-config to work
-+export BUILD_SYS
-+export HOST_SYS
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
-+
- SECTION = "base/shell"
- 
- inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu
-@@ -51,6 +57,8 @@ DEPENDS += "libgcrypt"
- # Compress the journal
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
- PACKAGECONFIG[tcp-wrappers] = "--enable-tcpwrap,--disable-tcpwrap,tcp-wrappers"
-+# Use python-systemd
-+PACKAGECONFIG[python] = "--with-python,--without-python,python"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
-@@ -71,7 +79,6 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
-                  --disable-tcpwrap \
-                  --enable-split-usr \
-                  --disable-microhttpd \
--                 --without-python \
-                  --with-sysvrcnd-path=${sysconfdir} \
-                  --with-firmware-path=/lib/firmware \
-                  ac_cv_path_KILL=${base_bindir}/kill \
-@@ -93,6 +100,8 @@ do_install() {
- 	# Provided by a separate recipe
- 	rm ${D}${systemd_unitdir}/system/serial-getty* -f
- 
-+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/systemd/*.la
-+
- 	# Provide support for initramfs
- 	ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
- 	ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
-@@ -121,7 +130,7 @@ python populate_packages_prepend (){
- }
- PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
- 
--PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
-+PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN}"
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-@@ -131,6 +140,9 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
- FILES_${PN}-initramfs = "/init"
- RDEPENDS_${PN}-initramfs = "${PN}"
- 
-+FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
-+RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
-+
- FILES_${PN}-gui = "${bindir}/systemadm"
- 
- FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
-@@ -187,7 +199,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 /lib/udev/rules.d/99-systemd.rules \
-                "
- 
--FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
-+FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/ ${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
- 
- RDEPENDS_${PN} += "dbus util-linux-mount"
--- 
-1.7.9.5
+Sau!
 
+> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> ---
+>   .../resolve-the-gconfig.h-conflict.patch           |   84 ++++++++++++++++++++
+>   .../ghostscript/ghostscript_9.05.bb                |    1 +
+>   2 files changed, 85 insertions(+)
+>   create mode 100644 meta/recipes-extended/ghostscript/ghostscript/resolve-the-gconfig.h-conflict.patch
+>
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript/resolve-the-gconfig.h-conflict.patch b/meta/recipes-extended/ghostscript/ghostscript/resolve-the-gconfig.h-conflict.patch
+> new file mode 100644
+> index 0000000..9e030e3
+> --- /dev/null
+> +++ b/meta/recipes-extended/ghostscript/ghostscript/resolve-the-gconfig.h-conflict.patch
+> @@ -0,0 +1,84 @@
+> +Upstream-Status: Backport
+> +
+> +Resolve the gconfig.h conflict
+> +
+> +Both base/lib.mak and psi/int.mak will create file gconfig.h:
+> +    lib.mak: $(CP_) $(gconfig_h) $(GLGEN)gconfig.h
+> +    int.mak: $(CP_) $(gconfig_h) $(PSGEN)gconfig.h
+> +
+> +If $(GLGEN) is same with $(PSGEN), the $(GLGEN)gconfig.h will be
+> +overridden by $(PSGEN)gconfig.h in a parallel build, and this
+> +maybe cause build errors.
+> +
+> +Upstream has fixed this issue, just portback its fixes from:
+> +    http://downloads.ghostscript.com/public/ghostscript-9.06.tar.gz
+> +
+> +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> +
+> +---
+> + base/gs.mak  |   13 +++++++++----
+> + base/lib.mak |    1 -
+> + psi/int.mak  |    1 -
+> + 3 files changed, 9 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/base/gs.mak b/base/gs.mak
+> +index b59e948..e934657 100644
+> +--- a/base/gs.mak
+> ++++ b/base/gs.mak
+> +@@ -261,7 +261,8 @@ MKROMFS_XE=$(AUX)mkromfs$(XEAUX)
+> +
+> + # Define the names of the generated header files.
+> + # gconfig*.h and gconfx*.h are generated dynamically.
+> +-gconfig_h=$(GLGENDIR)$(D)gconfxx.h
+> ++gconfig_h=$(GLGENDIR)$(D)gconfig.h
+> ++gconfxx_h=$(GLGENDIR)$(D)gconfxx.h
+> + gconfigf_h=$(GLGENDIR)$(D)gconfxc.h
+> + gconfigd_h=$(GLGENDIR)$(D)gconfigd.h
+> +
+> +@@ -434,12 +435,16 @@ GCONFIG_EXTRAS=
+> + ld_tr=$(GLGENDIR)$(D)ld.tr
+> + $(ld_tr) : \
+> +   $(GS_MAK) $(TOP_MAKEFILES) $(GLSRCDIR)$(D)version.mak $(GENCONF_XE) $(ECHOGS_XE) $(devs_tr) $(DEVS_ALL) $(GLGENDIR)$(D)libcore.dev
+> +-	$(EXP)$(GENCONF_XE) $(devs_tr) -h $(gconfig_h) $(CONFILES) $(CONFLDTR) $(ld_tr)
+> +-	$(EXP)$(ECHOGS_XE) -a $(gconfig_h) $(GCONFIG_EXTRAS)
+> ++	$(EXP)$(GENCONF_XE) $(devs_tr) -h $(gconfxx_h) $(CONFILES) $(CONFLDTR) $(ld_tr)
+> ++	$(EXP)$(ECHOGS_XE) -a $(gconfxx_h) $(GCONFIG_EXTRAS)
+> +
+> +-$(gconfig_h) : $(ld_tr)
+> ++$(gconfxx_h) : $(ld_tr)
+> + 	$(NO_OP)
+> + 	
+> ++$(gconfig_h) : $(gconfxx_h)
+> ++	$(RM_) $(gconfig_h)
+> ++	$(CP_) $(gconfxx_h) $(gconfig_h)
+> ++
+> + # The line above is an empty command; don't delete.
+> +
+> + # save our set of makefile variables that are defined in every build (paths, etc.)
+> +diff --git a/base/lib.mak b/base/lib.mak
+> +index 35328cb..df02e37 100644
+> +--- a/base/lib.mak
+> ++++ b/base/lib.mak
+> +@@ -593,7 +593,6 @@ $(GLOBJ)gconfig.$(OBJ) : $(gconfig_h) $(GLSRC)gconf.c $(AK) $(gx_h)\
+> +  $(gscdefs_h) $(gconf_h)\
+> +  $(gxdevice_h) $(gxiclass_h) $(gxiodev_h) $(gxiparam_h) $(TOP_MAKEFILES)\
+> +  $(MAKEDDIRS)
+> +-	$(CP_) $(gconfig_h) $(GLGEN)gconfig.h || true
+> + 	$(CP_) $(GLSRC)gconf.c $(GLGEN)gconfig.c || true
+> + 	$(GLCC) $(GLO_)gconfig.$(OBJ) $(C_) $(GLGEN)gconfig.c
+> +
+> +diff --git a/psi/int.mak b/psi/int.mak
+> +index 1099c29..fab98e6 100644
+> +--- a/psi/int.mak
+> ++++ b/psi/int.mak
+> +@@ -272,7 +272,6 @@ $(PSOBJ)iconfig.$(OBJ) : $(gconfig_h) $(PSSRC)iconf.c $(stdio__h)\
+> +  $(gconf_h) $(gconfigd_h) $(gsmemory_h) $(gstypes_h)\
+> +  $(iminst_h) $(iref_h) $(ivmspace_h) $(opdef_h) $(iplugin_h)
+> + 	$(RM_) $(PSGEN)iconfig.c
+> +-	$(CP_) $(gconfig_h) $(PSGEN)gconfig.h || true
+> + 	$(CP_) $(PSSRC)iconf.c $(PSGEN)iconfig.c || true
+> + 	$(PSCC) $(PSO_)iconfig.$(OBJ) $(C_) $(PSGEN)iconfig.c
+> +
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
+> index 9ec5712..c0195c8 100644
+> --- a/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
+> +++ b/meta/recipes-extended/ghostscript/ghostscript_9.05.bb
+> @@ -28,6 +28,7 @@ SRC_URI = "${SRC_URI_BASE} \
+>              file://objarch.h \
+>              file://ghostscript-9.02-parallel-make.patch \
+>              file://ghostscript-9.05-NOT-check-endian.patch \
+> +           file://resolve-the-gconfig.h-conflict.patch \
+>              "
+>
+>   SRC_URI_class-native = "${SRC_URI_BASE} \
+>
 
