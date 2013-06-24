@@ -1,35 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 3360361485
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D2ED6ADC8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2013 10:29:58 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id k14so8102903wgh.17
+	Mon, 24 Jun 2013 10:29:59 +0000 (UTC)
+Received: by mail-wg0-f41.google.com with SMTP id y10so2285641wgg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2013 03:29:58 -0700 (PDT)
+	Mon, 24 Jun 2013 03:30:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=srdcwYE9jQ/3Wf6JwyQ+k8NsodMLmUPmhUoFOIGQ1Qk=;
-	b=ftoO2lCKoV3SYNjoQV5IJ4sxGLrznbLp18kojQ9g/SF1kYjWi/gn/JEORgDG0EMxbk
-	D6kSTeZbY2a3ZJDiz6uw/YlCBUgWlOE1FmU50oREKlALWIKvkSxmEqLZHHgA7K/V/gMR
-	lk+DeKBIFCC6NsJzTYUV8p+rsRmn0dHQot3TfNuNzWqLFyliFoiCCS9otRgLzjpaTEvy
-	U3EeOKWuvDyD0P3bBuW3vRDgpj6XNcPeec6GbAeby4xh850iGkoZPY/EtlDEG79eN/st
-	aDYIEH0PdCp9eCG+ib2ipT/KMx55FUmZqLCs7vg8RYTNEc79bBYNXqxgq9iRL5meq+Cd
-	wKtA==
-X-Received: by 10.194.170.168 with SMTP id an8mr7162410wjc.72.1372069798682;
-	Mon, 24 Jun 2013 03:29:58 -0700 (PDT)
+	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references:x-gm-message-state;
+	bh=skXNaFA1PZt0ASz5XCZGrj+hV0rOkaPJ3Y/kKAREm/Y=;
+	b=Q5CUmKEYe+4OT87Zl8Ox90+x5wv/F9qjY7dlU6JZFaoqSbU2QyX/YsN8Q8TqPRfj5k
+	PO1/XG9w/mWXlLOvRwsNiqEEO7rsYqdl/rchjgx4b6AuIPGlV4kTQ5mb6j9YDgqAoHVH
+	sChUuSJbmcQsYmg/HEOm7uGMLvKVO5D2v71xdTelTyR5m66pXmU89eS3mfd033PxPpO7
+	Qo6MJ3o0aLu4m2g0zEojR2au/gKZ5zMTk4/q50ODXBDaQ3TwyYBJ1BMvqTplAUq+9+ZJ
+	J6AqkURU9RzEsk1p/0wA/6FgPiR3VPZUjQTWI2ML+UFmV0p2IY77JHGoNFByqtmQ0JjA
+	XrPQ==
+X-Received: by 10.194.48.49 with SMTP id i17mr16582127wjn.55.1372069800024;
+	Mon, 24 Jun 2013 03:30:00 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fs8sm15570508wib.0.2013.06.24.03.29.57
+	by mx.google.com with ESMTPSA id fs8sm15570508wib.0.2013.06.24.03.29.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 24 Jun 2013 03:29:57 -0700 (PDT)
+	Mon, 24 Jun 2013 03:29:59 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Jun 2013 11:26:24 +0100
-Message-Id: <cover.1372069538.git.ross.burton@intel.com>
+Date: Mon, 24 Jun 2013 11:26:25 +0100
+Message-Id: <67384a7ecf6813d7fa18d3b4d8cfa8eb75f4b2d1.1372069538.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnhoWO7Z5j3wUK4XRARxgSaeYy9+yTBFnPersWsV2+BLAIQF/GUGrDtV6bLHpQQ4PkjCwFi
-Subject: [PATCH 0/4] GStreamer 0.10 improvements
+In-Reply-To: <cover.1372069538.git.ross.burton@intel.com>
+References: <cover.1372069538.git.ross.burton@intel.com>
+In-Reply-To: <cover.1372069538.git.ross.burton@intel.com>
+References: <cover.1372069538.git.ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQnVdY7a8Cx0Jdbu4M3op1I5WsUnlUKIwJWO3rOiS4LtqaquRbRzWVDKFfKxdh2qrgFV8iCh
+Subject: [PATCH 1/4] gst-plugins-bad: use correct option when enabling librsvg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2013 10:29:59 -0000
+X-List-Received-Date: Mon, 24 Jun 2013 10:30:00 -0000
 
-Hi,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Found these sitting in a branch that was never sent.  Two small fixes and then
-element selection cleanup to use PACKAGECONFIG.
-
-Ross
-
-The following changes since commit edcbb79583e1577cb64d368e3902915dea50a96e:
-
-  ref-manual: Added note about issues on supported distros (2013-06-21 14:26:31 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ross/gst
-
-for you to fetch changes up to f8e66c6a3d0ae67e780bfd2d8191ba3a729f2800:
-
-  gst-plugins-bad: element selection rationalisation (2013-06-24 09:51:01 +0100)
-
-----------------------------------------------------------------
-Ross Burton (4):
-      gst-plugins-bad: use correct option when enabling librsvg
-      gst-plugins-bad: tremor was moved from here to -base
-      gst-plugins-base: element selection rationalisation
-      gst-plugins-bad: element selection rationalisation
-
- .../gstreamer/gst-plugins-bad_0.10.23.bb             |   18 ++++++++++++------
- .../gstreamer/gst-plugins-base_0.10.36.bb            |   12 +++++++++---
- 2 files changed, 21 insertions(+), 9 deletions(-)
-
-Ross Burton (4):
-  gst-plugins-bad: use correct option when enabling librsvg
-  gst-plugins-bad: tremor was moved from here to -base
-  gst-plugins-base: element selection rationalisation
-  gst-plugins-bad: element selection rationalisation
-
- .../gstreamer/gst-plugins-bad_0.10.23.bb             |   18 ++++++++++++------
- .../gstreamer/gst-plugins-base_0.10.36.bb            |   12 +++++++++---
- 2 files changed, 21 insertions(+), 9 deletions(-)
-
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+index 80a8b04..3d86f00 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+@@ -17,7 +17,7 @@ EXTRA_OECONF += "--disable-examples --disable-experimental --disable-sdl --disab
+                  --disable-orc --disable-neon"
+ 
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'librsvg', '', d)}"
+-PACKAGECONFIG[librsvg] = "--enable-librsvg,--disable-librsvg,librsvg,"
++PACKAGECONFIG[librsvg] = "--enable-rsvg,--disable-rsvg,librsvg,"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+ 
 -- 
 1.7.10.4
 
