@@ -1,27 +1,25 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CB056AD8C
+	by mail.openembedded.org (Postfix) with ESMTP id 8E1E56AD3E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2013 14:35:39 +0000 (UTC)
+	Mon, 24 Jun 2013 14:36:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5OEZedS000389
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5OEauIX000595
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2013 07:35:40 -0700 (PDT)
+	Mon, 24 Jun 2013 07:36:56 -0700 (PDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 24 Jun 2013 07:35:40 -0700
+	(TLS) id 14.2.342.3; Mon, 24 Jun 2013 07:36:56 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Jun 2013 09:45:49 -0500
-Message-ID: <1372085149-30510-4-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 24 Jun 2013 09:47:15 -0500
+Message-ID: <1372085235-30550-1-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1372085149-30510-1-git-send-email-mark.hatle@windriver.com>
-References: <1372085149-30510-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 3/3] buildtools-tarball: Add nativesdk-make
+Subject: [PATCH] buildtools-tarball: Change the way the SDK is sanitized
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2013 14:35:40 -0000
+X-List-Received-Date: Mon, 24 Jun 2013 14:36:55 -0000
 Content-Type: text/plain
 
-Recently it was discovered that many Fedora hosts have a broken version of
-make 3.82.  Add make to the buildtools-tarball, as well ad modify make to
-support building a special nativesdk version.
+The previous method of shrinking down the scale of the environment-setup
+file would not work properly when the target is configured with multilibs.
+
+In addition, the configured machine name and similar settings could leak
+into the SDK naming.  This was resolved by clearing the SDK generated
+files and generating our own custom files.
+
+Note, the name of the environment-setup now is suffixed with the SDK_SYS.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 3 ++-
- meta/recipes-devtools/make/make_3.82.bb      | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-core/meta/buildtools-tarball.bb | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 7a91c6b..f8024f9 100644
+index f8024f9..8b68f71 100644
 --- a/meta/recipes-core/meta/buildtools-tarball.bb
 +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "SDK type target for building a standalone tarball containing python, chrpath, git and tar. The \
-+DESCRIPTION = "SDK type target for building a standalone tarball containing python, chrpath, make, git and tar. The \
-                tarball can be used to run bitbake builds on systems which don't meet the usual version requirements."
- SUMMARY = "Standalone tarball for running builds on systems with inadequate software"
- LICENSE = "MIT"
-@@ -36,6 +36,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-chrpath \
-     nativesdk-tar \
-     nativesdk-git \
-+    nativesdk-make \
-     "
+@@ -49,8 +49,15 @@ inherit meta
+ inherit populate_sdk
  
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-buildtools-nativesdk-standalone-${DISTRO_VERSION}"
-diff --git a/meta/recipes-devtools/make/make_3.82.bb b/meta/recipes-devtools/make/make_3.82.bb
-index 8a2f287..6cc467d 100644
---- a/meta/recipes-devtools/make/make_3.82.bb
-+++ b/meta/recipes-devtools/make/make_3.82.bb
-@@ -13,4 +13,4 @@ SRC_URI += "file://expand_MAKEFLAGS.patch \
- SRC_URI[md5sum] = "1a11100f3c63fcf5753818e59d63088f"
- SRC_URI[sha256sum] = "e2c1a73f179c40c71e2fe8abf8a8a0688b8499538512984da4a76958d0402966"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
+ create_sdk_files_append () {
+-	rm -f ${SDK_OUTPUT}/${SDKPATH}/site-config*
+-	
+-	cat ${SDK_OUTPUT}/${SDKPATH}/environment-setup* | grep " PATH=\|OECORE_NATIVE_SYSROOT" > ${WORKDIR}/envtmp
+-	mv ${WORKDIR}/envtmp ${SDK_OUTPUT}/${SDKPATH}/environment-setup*
++	rm -f ${SDK_OUTPUT}/${SDKPATH}/site-config-*
++	rm -f ${SDK_OUTPUT}/${SDKPATH}/environment-setup-*
++	rm -f ${SDK_OUTPUT}/${SDKPATH}/version-*
++
++	# Generate new (mini) sdk-environment-setup file
++	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
++	touch $script
++	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
++	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
++
++	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
+ }
 -- 
 1.8.3.1
 
