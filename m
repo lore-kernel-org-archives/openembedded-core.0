@@ -1,29 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D4CA61FB9
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id C3DAE6A961
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2013 16:10:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5OGAEqm015957
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 24 Jun 2013 09:10:14 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.1.195]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.02.0342.003;
-	Mon, 24 Jun 2013 09:10:14 -0700
-From: "Hatle, Mark" <mark.hatle@windriver.com>
-To: "'Paul Eggleton'" <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] buildtools-tarball: Change the way the SDK
-	is sanitized
-Thread-Index: AQHOcO/gbqxRvC/UkUmojJzD1im0NplFCL4v
-Date: Mon, 24 Jun 2013 16:10:14 +0000
-Message-ID: <154B64CD119D7843A9EC39EC45EE7CD88A8DA547@ALA-MBB.corp.ad.wrs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.82.131]
+	Mon, 24 Jun 2013 17:57:31 +0000 (UTC)
+Received: by mail-la0-f47.google.com with SMTP id fe20so10594999lab.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Jun 2013 10:57:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=+KzNcIZriZ/qVcmQfEbwP+x8O2Qdid/ppGZk54s6YAs=;
+	b=AhVvKkNqHvomf0TelSOA6bVy/uajGlWGEoQhdy2YXDxVxVGmT8EUKi/L35RmmCyeTd
+	plnCE3BGjq+2sKoH7yDhWgke6Dq/Ycuom7eAaPfYAOJ8NcXfBzVmdSpzl5Z71zIvV27h
+	7tSSq5aj7bWqRGrAMiCMPfDa3BHOBzg+15WvhEyYDkNG080i0KuvlfFO7O3SIIpcZJ2T
+	f1OtNbVa+hSDiBZgu6c5UO5vSAeX1X4Jq36rgNuvcRx77mkxsni7Y8ecwIFyQdj/GZMM
+	XpklwpHo/J/w6jwx08k6qNETw9nvRkhk+RnwQApCwzIqLhEJxN/6ZRcN5iM44d511rqG
+	R2Fg==
+X-Received: by 10.152.22.42 with SMTP id a10mr12072370laf.30.1372096651199;
+	Mon, 24 Jun 2013 10:57:31 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "'openembedded-core@lists.openembedded.org'"
+Sender: kergoth@gmail.com
+Received: by 10.112.3.5 with HTTP; Mon, 24 Jun 2013 10:57:11 -0700 (PDT)
+In-Reply-To: <154B64CD119D7843A9EC39EC45EE7CD88A8DA547@ALA-MBB.corp.ad.wrs.com>
+References: <154B64CD119D7843A9EC39EC45EE7CD88A8DA547@ALA-MBB.corp.ad.wrs.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Mon, 24 Jun 2013 10:57:11 -0700
+X-Google-Sender-Auth: xe_hfxT6OGnwEXaxPbP6toNA9JM
+Message-ID: <CABcZANngsmX7eqKihQh_rGhBvoDPL34ramJMOpJTyLr+PoLBkQ@mail.gmail.com>
+To: "Hatle, Mark" <mark.hatle@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] buildtools-tarball: Change the way the SDK is sanitized
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,57 +45,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2013 16:10:32 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_154B64CD119D7843A9EC39EC45EE7CD88A8DA547ALAMBBcorpadwrs_"
+X-List-Received-Date: Mon, 24 Jun 2013 17:57:32 -0000
+Content-Type: multipart/alternative; boundary=089e0158b7947e0adc04dfea2537
 
---_000_154B64CD119D7843A9EC39EC45EE7CD88A8DA547ALAMBBcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--089e0158b7947e0adc04dfea2537
+Content-Type: text/plain; charset=UTF-8
 
-U3R1cGlkIHBob25lIHdpbGwgb25seSBhbGxvdyBtZSB0byB0b3AgcG9zdC4gQW55d2F5LCB0aGF0
-IGxpbmUgd2FzIGNvcGllZCBvdXQgb2YgdGhlIHBvcHVsYXRlX3NkayBiYmNsYXNzLiBTbyBpZiBp
-dCBpcyBhIGJhc2gtaXNtIHRoZW4gaXQgbmVlZHMgdG8gYmUgZml4ZWQgdGhlcmUgYXMgd2VsbC4N
-Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFBhdWwgRWdnbGV0b24gW3BhdWwu
-ZWdnbGV0b25AbGludXguaW50ZWwuY29tPG1haWx0bzpwYXVsLmVnZ2xldG9uQGxpbnV4LmludGVs
-LmNvbT5dDQpTZW50OiBNb25kYXksIEp1bmUgMjQsIDIwMTMgMDg6MzEgQU0gUGFjaWZpYyBTdGFu
-ZGFyZCBUaW1lDQpUbzogSGF0bGUsIE1hcmsNCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gYnVpbGR0b29s
-cy10YXJiYWxsOiBDaGFuZ2UgdGhlIHdheSB0aGUgU0RLIGlzIHNhbml0aXplZA0KDQoNCk9uIE1v
-bmRheSAyNCBKdW5lIDIwMTMgMDk6NDc6MTUgTWFyayBIYXRsZSB3cm90ZToNCj4gKyAgICAgc2Ny
-aXB0PSR7MTotJHtTREtfT1VUUFVUfS8ke1NES1BBVEh9L2Vudmlyb25tZW50LXNldHVwLSR7U0RL
-X1NZU319DQoNCkkgY291bGQgYmUgd3JvbmcgYnV0IEkgdGhpbmsgdGhpcyBtYXkgYmUgYSBiYXNo
-aXNtLi4uDQoNCkNoZWVycywNClBhdWwNCg0KLS0NCg0KUGF1bCBFZ2dsZXRvbg0KSW50ZWwgT3Bl
-biBTb3VyY2UgVGVjaG5vbG9neSBDZW50cmUNCg==
+On Mon, Jun 24, 2013 at 9:10 AM, Hatle, Mark <mark.hatle@windriver.com>wrote:
 
---_000_154B64CD119D7843A9EC39EC45EE7CD88A8DA547ALAMBBcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> Stupid phone will only allow me to top post. Anyway, that line was copied
+> out of the populate_sdk bbclass. So if it is a bash-ism then it needs to be
+> fixed there as well.
+>
+>
+> -----Original Message-----
+> *From: *Paul Eggleton [paul.eggleton@linux.intel.com]
+> *Sent: *Monday, June 24, 2013 08:31 AM Pacific Standard Time
+> *To: *Hatle, Mark
+> *Cc: *openembedded-core@lists.openembedded.org
+> *Subject: *Re: [OE-core] [PATCH] buildtools-tarball: Change the way the
+> SDK is sanitized
+>
+> On Monday 24 June 2013 09:47:15 Mark Hatle wrote:
+> > +     script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
+>
+> I could be wrong but I think this may be a bashism...
+>
 
-PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9XM0MvL0RURCBIVE1MIDMuMi8vRU4iPg0KPGh0bWw+
-DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9o
-dG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTVMg
-RXhjaGFuZ2UgU2VydmVyIHZlcnNpb24gMTQuMDIuMDM0Mi4wMDEiPg0KPHRpdGxlPlJlOiBbT0Ut
-Y29yZV0gW1BBVENIXSBidWlsZHRvb2xzLXRhcmJhbGw6IENoYW5nZSB0aGUgd2F5IHRoZSBTREsg
-aXMgc2FuaXRpemVkPC90aXRsZT4NCjwvaGVhZD4NCjxib2R5Pg0KU3R1cGlkIHBob25lIHdpbGwg
-b25seSBhbGxvdyBtZSB0byB0b3AgcG9zdC4gQW55d2F5LCB0aGF0IGxpbmUgd2FzIGNvcGllZCBv
-dXQgb2YgdGhlIHBvcHVsYXRlX3NkayBiYmNsYXNzLiBTbyBpZiBpdCBpcyBhIGJhc2gtaXNtIHRo
-ZW4gaXQgbmVlZHMgdG8gYmUgZml4ZWQgdGhlcmUgYXMgd2VsbC48YnI+DQo8YnI+DQotLS0tLU9y
-aWdpbmFsIE1lc3NhZ2UtLS0tLTxicj4NCjxiPkZyb206Jm5ic3A7PC9iPlBhdWwgRWdnbGV0b24g
-WzxhIGhyZWY9Im1haWx0bzpwYXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNvbSI+cGF1bC5lZ2ds
-ZXRvbkBsaW51eC5pbnRlbC5jb208L2E+XTxicj4NCjxiPlNlbnQ6Jm5ic3A7PC9iPk1vbmRheSwg
-SnVuZSAyNCwgMjAxMyAwODozMSBBTSBQYWNpZmljIFN0YW5kYXJkIFRpbWU8YnI+DQo8Yj5Ubzom
-bmJzcDs8L2I+SGF0bGUsIE1hcms8YnI+DQo8Yj5DYzombmJzcDs8L2I+b3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxicj4NCjxiPlN1YmplY3Q6Jm5ic3A7PC9iPlJlOiBb
-T0UtY29yZV0gW1BBVENIXSBidWlsZHRvb2xzLXRhcmJhbGw6IENoYW5nZSB0aGUgd2F5IHRoZSBT
-REsgaXMgc2FuaXRpemVkPGJyPg0KPGJyPg0KPCEtLSBDb252ZXJ0ZWQgZnJvbSB0ZXh0L3BsYWlu
-IGZvcm1hdCAtLT4NCjxwPjxmb250IHNpemU9IjIiPk9uIE1vbmRheSAyNCBKdW5lIDIwMTMgMDk6
-NDc6MTUgTWFyayBIYXRsZSB3cm90ZTo8YnI+DQomZ3Q7ICYjNDM7Jm5ic3A7Jm5ic3A7Jm5ic3A7
-Jm5ic3A7IHNjcmlwdD0kezE6LSR7U0RLX09VVFBVVH0vJHtTREtQQVRIfS9lbnZpcm9ubWVudC1z
-ZXR1cC0ke1NES19TWVN9fTxicj4NCjxicj4NCkkgY291bGQgYmUgd3JvbmcgYnV0IEkgdGhpbmsg
-dGhpcyBtYXkgYmUgYSBiYXNoaXNtLi4uPGJyPg0KPGJyPg0KQ2hlZXJzLDxicj4NClBhdWw8YnI+
-DQo8YnI+DQotLTxicj4NCjxicj4NClBhdWwgRWdnbGV0b248YnI+DQpJbnRlbCBPcGVuIFNvdXJj
-ZSBUZWNobm9sb2d5IENlbnRyZTxicj4NCjwvZm9udD48L3A+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+It isn't, afaik. From SuSv4, Shell & Utilities->Shell Command
+Language->2.6.2 Parameter Expansion:
 
---_000_154B64CD119D7843A9EC39EC45EE7CD88A8DA547ALAMBBcorpadwrs_--
+${*parameter*:-*word*} *Use Default Values*. If *parameter* is unset or
+null, the expansion of *word* shall be substituted; otherwise, the value of
+*parameter* shall be substituted.--
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e0158b7947e0adc04dfea2537
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Jun 24, 2013 at 9:10 AM, Hatle, Mark <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver=
+.com</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div>Stupid phone will only allow me to top post. Anyway, =
+that line was copied out of the populate_sdk bbclass. So if it is a bash-is=
+m then it needs to be fixed there as well.<div class=3D"im">
+
+<br>
+<br>
+-----Original Message-----<br>
+<b>From:=C2=A0</b>Paul Eggleton [<a href=3D"mailto:paul.eggleton@linux.inte=
+l.com" target=3D"_blank">paul.eggleton@linux.intel.com</a>]<br>
+<b>Sent:=C2=A0</b>Monday, June 24, 2013 08:31 AM Pacific Standard Time<br>
+<b>To:=C2=A0</b>Hatle, Mark<br>
+<b>Cc:=C2=A0</b><a href=3D"mailto:openembedded-core@lists.openembedded.org"=
+ target=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+<b>Subject:=C2=A0</b>Re: [OE-core] [PATCH] <span class=3D"">buildtools</spa=
+n>-tarball: Change the way the SDK is sanitized<br>
+<br>
+
+</div><p><font></font></p><div class=3D"im"><font>On Monday 24 June 2013 09=
+:47:15 Mark Hatle wrote:<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0 script=3D${1:-${SDK_OUTPUT}/${SDKPATH}/envir=
+onment-setup-${SDK_SYS}}<br>
+<br>
+I could be wrong but I think this may be a bashism...<br></font></div></div=
+></blockquote></div><br>It isn&#39;t, afaik. From SuSv4, Shell &amp; Utilit=
+ies-&gt;Shell Command Language-&gt;2.6.2 Parameter Expansion:</div><div cla=
+ss=3D"gmail_extra">
+
+<br></div><div class=3D"gmail_extra"><dt style=3D"color:rgb(0,0,0);font-fam=
+ily:Verdana,Arial,Helvetica,sans-serif;font-size:13px">${<i>parameter</i>:-=
+<i>word</i>}</dt><dd style=3D"color:rgb(0,0,0);font-family:Verdana,Arial,He=
+lvetica,sans-serif;font-size:13px">
+
+<b>Use Default Values</b>. If=C2=A0<i>parameter</i>=C2=A0is unset or null, =
+the expansion of=C2=A0<i>word</i>=C2=A0shall be substituted; otherwise, the=
+ value of=C2=A0<i>parameter</i>=C2=A0shall be substituted.</dd>-- <br>Chris=
+topher Larson<br>clarson at kergoth dot com<br>
+
+Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior=
+ Software Engineer, Mentor Graphics
+</div></div>
+
+--089e0158b7947e0adc04dfea2537--
