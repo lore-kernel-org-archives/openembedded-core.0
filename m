@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 292416AD79
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A319C6AD31
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2013 03:10:23 +0000 (UTC)
-Received: by mail-pd0-f172.google.com with SMTP id z10so342397pdj.31
+	Mon, 24 Jun 2013 05:08:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5O581aA017539
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2013 20:10:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=KlpGfP8qOuJ0Lw4XapCAAJHa9hoTXJ1a51EVy3Lgap0=;
-	b=LNhDVfEdyKdgSNDv02JFpcZLTuD7Cw//eN02HThFKFoeJwvlEhv/PEIIGt9XhKVCSH
-	FlEycKQyke/uh27tYlQJScYkt5x6NLcWflUpk0XSr1OGLQ0nd5UcDwR5OzgldhyQUxCc
-	HgqIPolDKbJgwgEYQjY6H8GCsLZK1eSCZ5qmxojyBAvHtxJR7WHcNirs8O7BO95zawBh
-	MMT+nCMNXtqdb2fbB9iQoaj/l/lvMjhlsYte2h8fhG315AHVaLP+ZR4AOFSs0b52Mx+v
-	dAIH6IZzxcNuCSlVZFfuRdMMrFRSeHjXMXlZQNxQJDbsulYI7nMdlUnLi8v+ETLHeVnp
-	tK6w==
-X-Received: by 10.68.247.226 with SMTP id yh2mr21239463pbc.164.1372043424304; 
-	Sun, 23 Jun 2013 20:10:24 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id p2sm17422153pag.22.2013.06.23.20.10.23
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 23 Jun 2013 20:10:23 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2013 20:10:05 -0700
-Message-Id: <1372043405-22668-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] libbsd: Add recipes for libbsd - utility functions from BSD systems
+	Sun, 23 Jun 2013 22:08:01 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 23 Jun 2013 22:08:01 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Jun 2013 13:08:02 +0800
+Message-ID: <cover.1372040014.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] fix qt-mobility-x11 build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2013 03:10:23 -0000
+X-List-Received-Date: Mon, 24 Jun 2013 05:08:00 -0000
+Content-Type: text/plain
 
-When building BSD programs this library provides common
-BSD functions that are missing on other OSes e.g. Linux
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-This library is elemental for porting large set of BSD applications
-current consumer of this are in meta-networking/openbsd-netcat
-but once we have it in OE-Core more recipes depending on it in different layers
-can be added.
+The following changes since commit b2df9eef5a99e1d5a9dd262c1091b409a8c8174d:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-support/libbsd/libbsd_0.5.2.bb |   19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 meta/recipes-support/libbsd/libbsd_0.5.2.bb
+  psplash: Bump PR to allow removal of PRINC from meta-yocto (2013-06-21 14:23:16 +0100)
 
-diff --git a/meta/recipes-support/libbsd/libbsd_0.5.2.bb b/meta/recipes-support/libbsd/libbsd_0.5.2.bb
-new file mode 100644
-index 0000000..952f212
---- /dev/null
-+++ b/meta/recipes-support/libbsd/libbsd_0.5.2.bb
-@@ -0,0 +1,19 @@
-+# Copyright (C) 2013 Khem Raj <raj.khem@gmail.com>
-+# Released under the MIT license (see COPYING.MIT for the terms)
-+
-+DESCRIPTION = "This library provides useful functions commonly found on BSD systems, \
-+               and lacking on others like GNU systems, thus making it easier to port \
-+               projects with strong BSD origins, without needing to embed the same \
-+               code over and over again on each project."
-+
-+HOMEPAGE = "http://libbsd.freedesktop.org/wiki/"
-+LICENSE = "BSD-4-Clause & MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=98a015f07e71239b058398054f506f07"
-+SECTION = "libs"
-+DEPENDS = ""
-+
-+SRC_URI = "http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
-+SRC_URI[md5sum] = "be8b2e0dc4614699834c49693574fd1a"
-+SRC_URI[sha256sum] = "5340cf67555a8d92e7652d96540a47986a26eeafb9a0a3e22d3b3e5701ebe23f"
-+
-+inherit autotools pkgconfig
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/qt-mobility
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/qt-mobility
+
+Roy.Li (1):
+  qt-mobility: remove /usr/lib from ld rpath-link option
+
+ meta/recipes-qt/qt4/qt-mobility_1.2.0.inc |    6 ++++++
+ 1 file changed, 6 insertions(+)
+
 -- 
-1.7.9.5
+1.7.10.4
 
 
