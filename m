@@ -1,33 +1,27 @@
-Return-Path: <giuseppe.condorelli@gmail.com>
-Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
-	[209.85.219.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 09FA4605F3
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 52710605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 14:44:02 +0000 (UTC)
-Received: by mail-oa0-f46.google.com with SMTP id h1so13450083oag.19
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 07:44:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=Xo2X4TWyYiesvxpSn6zKe4JxztHJ45dQU/zYpHZwCt8=;
-	b=xIMdnbwEBVhOWS0pUr8MxEUdQnK7m6yMAQKlmaMqxlxKucULWKPN+q+I1fbI6XaKqr
-	bTwdCS3K495Kmep3G884ooE0uNxkXoh5dHI55dzc7a1j3Obo6F/ZYEIYnAO7BaTDciPT
-	gpJO/pN5gXAsOmbriFdkJjZZTq21l6G6/syeaeRsCzwMr8zXFxHeM0w4zsylHIxRjG/v
-	E8dOolnjsjcmW5v3EY1oK8/jCm+b74KAFGkdF8YtEkCf1NsogQ/9FOSO0qGnjssnLBZr
-	a5FWwRQqQ4b+cNRh1UZXL77BknLmwYx1Oa25gAzrE72cXVKQ69w6KIm1P18nsumV5jWb
-	QKuA==
+	Tue, 25 Jun 2013 15:19:21 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 25 Jun 2013 08:19:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,937,1363158000"; d="scan'208";a="335290424"
+Received: from unknown (HELO helios.localnet) ([10.252.122.97])
+	by orsmga001.jf.intel.com with ESMTP; 25 Jun 2013 08:19:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 25 Jun 2013 16:19:20 +0100
+Message-ID: <3374023.12gJcMyuIe@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
+In-Reply-To: <CAP71WjygMhCMdrbrj8uUKeJZuRu1_cjmhE4cLjsuhJ5wJpxnuQ@mail.gmail.com>
+References: <CAP71WjxJxpWwa5UV4PpN=f0rL00UpPJ_VKJ4LmEu=AVBRdVo2A@mail.gmail.com>
+	<CAP71Wjx-uL3CjmxtJwEhZJyDD5p5HWwEEKSEh-0h5aCmCxeGxA@mail.gmail.com>
+	<CAP71WjygMhCMdrbrj8uUKeJZuRu1_cjmhE4cLjsuhJ5wJpxnuQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.60.52.15 with SMTP id p15mr12861386oeo.87.1372171443168;
-	Tue, 25 Jun 2013 07:44:03 -0700 (PDT)
-Received: by 10.182.142.65 with HTTP; Tue, 25 Jun 2013 07:44:03 -0700 (PDT)
-In-Reply-To: <CAOHjBZuT=59w2VQRUtRfYyEvn7iO_hUuw_pova-jVRSGdgu1PA@mail.gmail.com>
-References: <CAOHjBZuT=59w2VQRUtRfYyEvn7iO_hUuw_pova-jVRSGdgu1PA@mail.gmail.com>
-Date: Tue, 25 Jun 2013 16:44:03 +0200
-Message-ID: <CAOHjBZvpKQ2+g5Zi+hQp=7OgNpxLpfiVtcCL7hcVwUNg1CQ9Pg@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: csl_versions issue on latest update
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Issues with Qt5/mesa and eglfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,76 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 14:44:03 -0000
-Content-Type: multipart/alternative; boundary=001a113309ce70ea1e04dffb8f1a
+X-List-Received-Date: Tue, 25 Jun 2013 15:19:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a113309ce70ea1e04dffb8f1a
-Content-Type: text/plain; charset=ISO-8859-1
+On Tuesday 25 June 2013 13:59:55 Nicolas Dechesne wrote:
+> On Thu, Jun 20, 2013 at 8:15 PM, Nicolas Dechesne <
+> nicolas.dechesne@linaro.org> wrote:
+> > On Thu, Jun 20, 2013 at 11:46 AM, Nicolas Dechesne <
+> > 
+> > nicolas.dechesne@linaro.org> wrote:
+> >> On Thu, Jun 20, 2013 at 11:42 AM, Paul Eggleton <
+> >> 
+> >> paul.eggleton@linux.intel.com> wrote:
+> >>> I wasn't watching closely but my impression is there were a large number
+> >>> of
+> >>> changes associated with the mesa upgrade. Is the upgrade itself
+> >>> necessary for
+> >>> the fix?
+> >> 
+> >> no, i don't think so. I think we might be able to just update the patches
+> >> that deal with the X11/no X11 support. but i haven't tested that yet. i
+> >> just did a quick test by cherry picking the complete commit (e.g. mesa
+> >> upgrade) to verify that it's actually fixing my problem. now that i know
+> >> it
+> >> does, i will try to just upgrade the patches without the mesa upgrade and
+> >> report how it goes.
+> > 
+> > ok, i was able to backport the mesa patch from 9.1.3 to 9.0.2
+> > (EGL-Mutate-NativeDisplayType-depending-on-config.patch) , the backport
+> > was
+> > more or less trivial. and then i did this in dylan branch:
+> > 
+> > --- a/meta/recipes-graphics/mesa/mesa-9.0.2.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa-9.0.2.inc
+> > @@ -2,7 +2,7 @@ SRC_URI = "
+> > ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+> > 
+> >             file://0002-cross-compile.patch \
+> >             file://cross-glsl.patch \
+> >             file://dont-fail-if-libX11-isnt-installed.patch \
+> > 
+> > -           file://fix-egl-compilation-without-x11-headers.patch \
+> > +           file://EGL-Mutate-NativeDisplayType-depending-on-config.patch
+> > \
+> > 
+> >             "
+> > 
+> > and it does fix the build issue i had (mesa/qt5/non X11 distro).
+> > should that be merged into dylan (since it's merged in master already) or
+> > do we need to wait for the 'final' patch in upstream to be ready?
+> 
+> Paul, Martin, what do you think about this? i have the (trivial) dylan
+> backport ready. Do you think it's the right time to get it merged?
 
-Solved, updating bitbake to commit
-3d8044bc79c482c5ea008ddf12a8128dcd1527ee<http://cgit.openembedded.org/bitbake/commit/?id=3d8044bc79c482c5ea008ddf12a8128dcd1527ee>
-solved
-the issue.
-Since now I've worked against the commit
-6acd444a557bba977ae1772371fdadf5f510e3b6<http://cgit.openembedded.org/bitbake/commit/?id=6acd444a557bba977ae1772371fdadf5f510e3b6>,
-which indicates the new 1.19.1 version.
+I'd say please send the patch to the mailing list (marked with [dylan]) and 
+then we can review it. By the sounds of things it should be OK.
 
-Thanks,
-Giuseppe
-2013/6/25 Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+Cheers,
+Paul
 
-> Hi All,
->
-> I'm working with the best so far master openembedded-core repository plus
-> the bitbake version 1.19.1
-> Using the external toolchain csl I'm in trouble because it seems the
-> latest modification in the csl-versions.inc
-> breaks the csl_get_version routine. I mean, it is not able to find the gcc
-> version due to wrong binary name:
-> it doesn't attach the TARGET_PREFIX so it finds for gcc only (failing).
-> The issue seems located to the csl_versions_handler routine, backporting
-> it solves the issue.
->
-> Please can you look at that routine and let me know if I'm wrong in
-> something?
->
-> Cheers,
-> Giuseppe
->
+-- 
 
---001a113309ce70ea1e04dffb8f1a
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Paul Eggleton
+Intel Open Source Technology Centre
 
-<div>Solved, updating bitbake to commit=A0 <a href=3D"http://cgit.openembed=
-ded.org/bitbake/commit/?id=3D3d8044bc79c482c5ea008ddf12a8128dcd1527ee">3d80=
-44bc79c482c5ea008ddf12a8128dcd1527ee</a>=A0solved the issue.</div><div>Sinc=
-e now I&#39;ve worked against the commit <a href=3D"http://cgit.openembedde=
-d.org/bitbake/commit/?id=3D6acd444a557bba977ae1772371fdadf5f510e3b6">6acd44=
-4a557bba977ae1772371fdadf5f510e3b6</a>, which indicates the new 1.19.1 vers=
-ion.</div>
-<div>=A0</div><div>Thanks,</div><div>Giuseppe<br></div><div class=3D"gmail_=
-quote">2013/6/25 Giuseppe Condorelli <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:giuseppe.condorelli@gmail.com" target=3D"_blank">giuseppe.condorelli@gmai=
-l.com</a>&gt;</span><br>
-<blockquote style=3D"margin:0px 0px 0px 0.8ex;padding-left:1ex;border-left-=
-color:rgb(204,204,204);border-left-width:1px;border-left-style:solid" class=
-=3D"gmail_quote"><div>Hi All,</div><div>=A0</div><div>I&#39;m working with =
-the best so far master openembedded-core repository plus the bitbake versio=
-n=A01.19.1</div>
-<div>Using the external toolchain csl I&#39;m in trouble because it seems t=
-he latest modification in the csl-versions.inc</div>
-
-<div>breaks the csl_get_version routine. I mean, it is not able to find the=
- gcc version due to wrong binary name:</div><div>it doesn&#39;t attach the =
-TARGET_PREFIX so it finds for gcc only (failing).</div><div>The issue seems=
- located to the csl_versions_handler routine, backporting it=A0solves the i=
-ssue.</div>
-
-
-<div>=A0</div><div>Please can you look at that routine and let me know if I=
-&#39;m wrong in something?</div><div>=A0</div><div>Cheers,</div><div>Giusep=
-pe</div>
-</blockquote></div><br>
-
---001a113309ce70ea1e04dffb8f1a--
