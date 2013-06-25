@@ -1,22 +1,42 @@
-Return-Path: <Adrian.Dudau@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id D7D95605F3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FD9E6A549
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 14:14:28 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Tue, 25 Jun 2013 16:14:24 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4451)	id 30C4E28838E;
-	Tue, 25 Jun 2013 16:14:24 +0200 (CEST)
-From: Adrian Dudau <adrian.dudau@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Jun 2013 16:14:17 +0200
-Message-ID: <1372169657-58393-1-git-send-email-adrian.dudau@enea.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 25 Jun 2013 14:25:51 +0000 (UTC)
+Received: by mail-ea0-f172.google.com with SMTP id q10so6795788eaj.17
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Jun 2013 07:25:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=732tG/cCK+8OCIdIEQb+/HEn38z6EmjdCSsiGiWxywk=;
+	b=DxABKE6sijP++4jKQwDYDO0+82s5zapbEGYUAwbKvQgmrEbNoeTXnAskU3p0CHN8Ep
+	/3Risi2jgr9IkcdW7ktXKSOF/Liwl3xVNjbJ62lWQu5hpWggig5W3yQx3BUvzANFhZSW
+	keLk0gWOEmO51AAWhb0MUStanz+uL8AuP9uYxLHT4DuhMmqJDKGbJZFUnagP8VbUfrbR
+	tocABSN1XQvB+p6LWpt0WCpnhByDBjRNL6BvjmDGEGgFsAgzJlnTGQJ2ucpi28vPfdGd
+	smeOngUm/URmG1VJuGSrXpQXgpaj4/TBvYGTEvsPFgNZrPQ2RiW80piCRMf8Mr1/g0pB
+	mwPw==
+X-Received: by 10.15.10.132 with SMTP id g4mr10809732eet.38.1372170351416;
+	Tue, 25 Jun 2013 07:25:51 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	i2sm36341222eeu.4.2013.06.25.07.25.50 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 25 Jun 2013 07:25:50 -0700 (PDT)
+Date: Tue, 25 Jun 2013 16:26:27 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20130625142627.GR14021@jama>
+References: <1372085149-30510-1-git-send-email-mark.hatle@windriver.com>
+	<1372085149-30510-2-git-send-email-mark.hatle@windriver.com>
+	<51C8C398.1070908@linux.intel.com> <51C8FB13.6020703@windriver.com>
+	<20130625112006.GO14021@jama> <51C9A548.8050800@windriver.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: adrian.dudau@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] dbus-ptest: Install missing files
+In-Reply-To: <51C9A548.8050800@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,86 +49,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 14:14:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Jun 2013 14:25:52 -0000
+X-Groupsio-MsgNum: 40965
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="phbq2bkSb+hZnunM"
+Content-Disposition: inline
 
-Install files from EXTRA_DIST needed for some tests.
-Add configure parameter with-dbus-test-dir to specify where the test
-tools are located.
+--phbq2bkSb+hZnunM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Adrian Dudau <adrian.dudau@enea.com>
----
- meta/recipes-core/dbus/dbus-1.6.8/ptest.patch |   20 +++++++++++++++-----
- meta/recipes-core/dbus/dbus-ptest_1.6.8.bb    |    1 +
- 2 files changed, 16 insertions(+), 5 deletions(-)
+On Tue, Jun 25, 2013 at 09:12:24AM -0500, Mark Hatle wrote:
+> On 6/25/13 6:20 AM, Martin Jansa wrote:
+> > On Mon, Jun 24, 2013 at 09:06:11PM -0500, Mark Hatle wrote:
+> >> On 6/24/13 5:09 PM, Saul Wold wrote:
+> >>> On 06/24/2013 07:45 AM, Mark Hatle wrote:
+> >>>> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
+> >>>>
+> >>>> A number of vendors are providing a modified version, so checking
+> >>>> for just the version string is not enough.  We also need to check
+> >>>> if the patch for the issue has been applied.  We use a modified
+> >>>> version of the reproduced to check for the issue.
+> >>>>
+> >>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> >>>> ---
+> >>>>     meta/classes/sanity.bbclass | 39 +++++++++++++++++++++++++++++++=
+++++++++
+> >>>>     1 file changed, 39 insertions(+)
+> >>>>
+> >>>
+> >>> Seems this needs a rebase since RP also changed sanity.bbclass recent=
+ly.
+> >>
+> >> This is from Friday morning.  I'll start a rebase and send new code wh=
+en I have
+> >> it ready.
+> >
+> > There is another issues with unpatched make-3.82, webkit and newer
+> > nodejs are failing for some people.
+> > https://savannah.gnu.org/bugs/?36451
+> >
+> > What about for cycle which generates some very long "ls" or something
+> > like that?
+> >
+> > On other hand so long commands arn't so common, so many people
+> > could be using "broken" make without seeing issues with their images.
+>=20
+> If you can point me to a reproducer, I'm happy to add it to the sanity ch=
+eck as=20
+> part of the rebase work.
+>=20
+> The current reproducer covers two cases (see the patch for the savannah b=
+ug=20
+> number).  These were the two cases that I knew had caused problems for ot=
+hers in=20
+> the past.
 
-diff --git a/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch b/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
-index 106bfb4..263d17e 100644
---- a/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
-+++ b/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
-@@ -76,7 +76,7 @@ diff -ur a/test/Makefile.am b/test/Makefile.am
-  	$(NULL)
-  
-  test_corrupt_SOURCES = corrupt.c
--@@ -325,3 +326,18 @@
-+@@ -325,3 +325,25 @@
-  data/valid-config-files/system.conf: $(top_builddir)/bus/system.conf
-  	$(AM_V_at)$(MKDIR_P) data/valid-config-files
-  	$(AM_V_GEN)cp $< $@
-@@ -91,26 +91,36 @@ diff -ur a/test/Makefile.am b/test/Makefile.am
- +
- +install-ptest-nonrecursive:
- +	@$(MKDIR_P) $(DESTDIR)/data/valid-config-files/session.d
--+	@for file in Makefile $(installable_tests) $(EXTRA_DIST) $(noinst_DATA); do \
--+		install -D $${file%.in} $(DESTDIR)/$${file%.in}; \
-++	@for file in Makefile $(installable_tests) $(noinst_PROGRAMS) $(noinst_DATA) ; do \
-++		if [ -f .libs/$$file ]; then \
-++			install .libs/$$file $(DESTDIR); \
-++		else \
-++			install -D $${file%.in} $(DESTDIR)/$${file%.in}; \
-++		fi; \
-++	done;
-++	@for file in $(EXTRA_DIST); do \
-++		install -D ${srcdir}/$${file%.in} $(DESTDIR)/$${file%.in}; \
- +	done;
- +endif
- diff -ur a/test/name-test/Makefile.am b/test/name-test/Makefile.am
- --- a/test/name-test/Makefile.am	2012-12-06 14:34:01.169413931 +0100
- +++ b/test/name-test/Makefile.am	2012-12-06 15:21:14.459112518 +0100
--@@ -36,4 +36,13 @@
-+@@ -36,4 +36,16 @@
-  test_privserver_client_LDADD=../libdbus-testutils.la
-  test_autolaunch_LDADD=../libdbus-testutils.la
-  
- +install-ptest:
- +	@$(MKDIR_P) $(DESTDIR)
--+	@for file in Makefile $(noinst_PROGRAMS) $(EXTRA_DIST); do \
-++	@for file in Makefile $(noinst_PROGRAMS); do \
- +		if [ -f .libs/$$file ]; then \
- +			install .libs/$$file $(DESTDIR); \
- +		else \
- +			install $$file $(DESTDIR); \
- +		fi \
- +	done;
-++	@for file in $(EXTRA_DIST); do \
-++		cp $(srcdir)/$$file $(DESTDIR); \
-++	done;
-  endif
- diff -ur a/tools/Makefile.am b/tools/Makefile.am
- --- a/tools/Makefile.am	2012-12-06 14:34:01.161414276 +0100
-diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
-index d00819a..8d21666 100644
---- a/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
-+++ b/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
-@@ -38,6 +38,7 @@ EXTRA_OECONF = "--enable-tests \
-                 --disable-libaudit \
-                 --with-xml=expat \
-                 --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
-+                --with-dbus-test-dir=${PTEST_PATH} \
-                 ${EXTRA_OECONF_X}"
- 
- do_install() {
--- 
-1.7.10.4
+I don't have simple reproducer, because it works fine in both make-3.82
+I'm using (from Gentoo and Ubuntu) and with my reasonable long TOPDIR.
 
+The problem is triggered in some webkit builds and also in nodejs-0.10.4
+http://patchwork.openembedded.org/patch/48253/
 
+Tasslehoff reported today that nodejs was failing for him with
+/home/tas/angstrom-setup-scripts and works fine with /home/tas/oe
+adding him to Cc, maybe he has better reproducer now.
+
+>=20
+> --Mark
+>=20
+> >>
+> >> --Mark
+> >>
+> >>> Sau!
+> >>>
+> >>>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbcla=
+ss
+> >>>> index 7f95f31..dc251a1 100644
+> >>>> --- a/meta/classes/sanity.bbclass
+> >>>> +++ b/meta/classes/sanity.bbclass
+> >>>> @@ -336,6 +336,41 @@ def check_gcc_march(sanity_data):
+> >>>>
+> >>>>         return result
+> >>>>
+> >>>> +# Unpatched versions of make 3.82 are known to be broken.  See GNU =
+Savannah Bug 30612.
+> >>>> +# Use a modified reproducer from http://savannah.gnu.org/bugs/?3061=
+2 to validate.
+> >>>> +def check_make_version(sanity_data, loosever):
+> >>>> +    status, result =3D oe.utils.getstatusoutput("make --version")
+> >>>> +    if status !=3D 0:
+> >>>> +        return "Unable to execute make --version, exit code %s\n" %=
+ status
+> >>>> +    version =3D result.split()[2]
+> >>>> +    if loosever(version) =3D=3D loosever("3.82"):
+> >>>> +        # Construct a test file
+> >>>> +        f =3D open("makefile_test", "w")
+> >>>> +        f.write("makefile_test.a: makefile_test_a.c makefile_test_b=
+=2Ec makefile_test.a( makefile_test_a.c makefile_test_b.c)\n")
+> >>>> +        f.write("\n")
+> >>>> +        f.write("makefile_test_a.c:\n")
+> >>>> +        f.write("	touch $@\n")
+> >>>> +        f.write("\n")
+> >>>> +        f.write("makefile_test_b.c:\n")
+> >>>> +        f.write("	touch $@\n")
+> >>>> +        f.close()
+> >>>> +
+> >>>> +        # Check if make 3.82 has been patched
+> >>>> +        status,result =3D oe.utils.getstatusoutput("make -f makefil=
+e_test")
+> >>>> +
+> >>>> +        os.remove("makefile_test")
+> >>>> +        if os.path.exists("makefile_test_a.c"):
+> >>>> +            os.remove("makefile_test_a.c")
+> >>>> +        if os.path.exists("makefile_test_b.c"):
+> >>>> +            os.remove("makefile_test_b.c")
+> >>>> +        if os.path.exists("makefile_test.a"):
+> >>>> +            os.remove("makefile_test.a")
+> >>>> +
+> >>>> +        if status !=3D 0:
+> >>>> +            return "Your version of make 3.82 is broken. Please rev=
+ert to 3.81 or install a patched version.\n"
+> >>>> +    return None
+> >>>> +
+> >>>> +
+> >>>>     # Tar version 1.24 and onwards handle overwriting symlinks corre=
+ctly
+> >>>>     # but earlier versions do not; this needs to work properly for s=
+state
+> >>>>     def check_tar_version(sanity_data, loosever):
+> >>>> @@ -407,6 +442,10 @@ def check_sanity(sanity_data):
+> >>>>             messages =3D messages + 'Please set a MACHINE in your lo=
+cal.conf or environment\n'
+> >>>>             machinevalid =3D False
+> >>>>
+> >>>> +    makemsg =3D check_make_version(sanity_data, LooseVersion)
+> >>>> +    if makemsg:
+> >>>> +        messages =3D messages + makemsg
+> >>>> +
+> >>>>         tarmsg =3D check_tar_version(sanity_data, LooseVersion)
+> >>>>         if tarmsg:
+> >>>>             messages =3D messages + tarmsg
+> >>>>
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--phbq2bkSb+hZnunM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHJqJMACgkQN1Ujt2V2gBxLewCfXqdlPsLeNTbKSi/vLEuWChrV
+gXIAoKMTTOUJWxzb9N/OywsWvnK2+S0r
+=9lEn
+-----END PGP SIGNATURE-----
+
+--phbq2bkSb+hZnunM--
