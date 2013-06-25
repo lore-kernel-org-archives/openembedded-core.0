@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
-	[209.85.212.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 81FE5605F3
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D0B26ABBB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 11:54:53 +0000 (UTC)
-Received: by mail-vb0-f43.google.com with SMTP id e12so9371004vbg.16
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 04:54:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=gfnW9jlnr4hEZGr6eehhms+x4nAexrZHCbj821GqDw0=;
-	b=Gzr3HkGcEr0dfIccgnwluVouYcGOZK0/Sh7AtsmwH+xwrv28ubic6zMbr/7ImWGFOM
-	3aLmNFskVy2mGPKbtDSlz/ZQrp8LzYu3ywTfrFRKDThk2RM8xtMDfAACrlpW6l46tIxZ
-	CmmwVb8lI//zUN50AAFMg1KdKWp7BCUiUHNEUU4mn+BcEAdru8MbQosge6GB7GbkMl6U
-	eDSmPX/kfyebMILhSsKWneodT4V1X5/+5EOYljfSbvzqEOOP4aHTi7sVcfsfC+AIiPfl
-	IqRPQVmX0kdXYE/LvxSVOeEWYZlb6XznLemqorFhoCCqRLgGVtKqJVwYb+fCp4citgxm
-	hvaA==
-X-Received: by 10.220.42.147 with SMTP id s19mr13619592vce.46.1372161294410;
-	Tue, 25 Jun 2013 04:54:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 25 Jun 2013 04:54:34 -0700 (PDT)
-In-Reply-To: <1372097947-27125-1-git-send-email-paul.eggleton@linux.intel.com>
-References: <1372097947-27125-1-git-send-email-paul.eggleton@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 25 Jun 2013 12:54:34 +0100
-Message-ID: <CAJTo0LYaEJ5LEZk1sfQai9NfxdKAppcXT-Pvb2cwdLLqWmvrTw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQnkNpixVQWResXInYnNwA6VFyle+IBg7vsDFHzNoO2U0gX3NFeRssAKiPh7C8kqZCpSlVAW
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [danny][PATCH] classes/package_rpm: avoid bash being pulled in unnecessarily
+	Tue, 25 Jun 2013 11:59:13 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jun 2013 05:00:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,936,1363158000"; d="scan'208";a="355422532"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2013 04:59:58 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jun 2013 14:59:04 +0300
+Message-Id: <cover.1372161097.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] populate_sdk_base, adt_installer: abort install if path contains spaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,20 +27,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 11:54:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 25 Jun 2013 11:59:14 -0000
 
-On 24 June 2013 19:19, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> The initial installation step for base-passwd, base-files and shadow
-> will pull in bash if any of these packages depend on /bin/sh and a bash
-> package has been built, which is undesirable if you are using busybox;
-> so force the early installation of one or the other depending on which
-> is going to be installed in the second step.
->
-> Note: this fix is not needed for 1.4 (dylan) and newer, since there we
-> use smart to construct the root filesystem without this initial step.
+The following changes since commit 87da29080429f1793845978901f5160701648c21:
 
-Merged to danny-next.
+  sanity.bbclass: Various improvements (2013-06-24 15:41:33 +0100)
 
-Ross
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/b4488_sdk_installer_handle_spaces
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4488_sdk_installer_handle_spaces
+
+Laurentiu Palcu (1):
+  populate_sdk_base, adt_installer: abort install if path contains
+    spaces
+
+ meta/classes/populate_sdk_base.bbclass             |   13 +++++++++----
+ .../installer/adt-installer/adt_installer          |   13 +++++++++----
+ 2 files changed, 18 insertions(+), 8 deletions(-)
+
+-- 
+1.7.9.5
+
 
