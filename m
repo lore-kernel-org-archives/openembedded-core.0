@@ -1,31 +1,22 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E611F6A49A
+Return-Path: <Adrian.Dudau@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id D7D95605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 14:12:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5PECLCr029047
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 25 Jun 2013 07:12:21 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 25 Jun 2013 07:12:20 -0700
-Message-ID: <51C9A548.8050800@windriver.com>
-Date: Tue, 25 Jun 2013 09:12:24 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+	Tue, 25 Jun 2013 14:14:28 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Tue, 25 Jun 2013 16:14:24 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4451)	id 30C4E28838E;
+	Tue, 25 Jun 2013 16:14:24 +0200 (CEST)
+From: Adrian Dudau <adrian.dudau@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Jun 2013 16:14:17 +0200
+Message-ID: <1372169657-58393-1-git-send-email-adrian.dudau@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1372085149-30510-1-git-send-email-mark.hatle@windriver.com>
-	<1372085149-30510-2-git-send-email-mark.hatle@windriver.com>
-	<51C8C398.1070908@linux.intel.com>
-	<51C8FB13.6020703@windriver.com> <20130625112006.GO14021@jama>
-In-Reply-To: <20130625112006.GO14021@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] sanity.bbclass: Check for the known broken version of make
+Received-SPF: None (SESTOEX08.enea.se: adrian.dudau@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] dbus-ptest: Install missing files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,119 +29,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 14:12:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Jun 2013 14:14:29 -0000
+Content-Type: text/plain
 
-On 6/25/13 6:20 AM, Martin Jansa wrote:
-> On Mon, Jun 24, 2013 at 09:06:11PM -0500, Mark Hatle wrote:
->> On 6/24/13 5:09 PM, Saul Wold wrote:
->>> On 06/24/2013 07:45 AM, Mark Hatle wrote:
->>>> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
->>>>
->>>> A number of vendors are providing a modified version, so checking
->>>> for just the version string is not enough.  We also need to check
->>>> if the patch for the issue has been applied.  We use a modified
->>>> version of the reproduced to check for the issue.
->>>>
->>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->>>> ---
->>>>     meta/classes/sanity.bbclass | 39 +++++++++++++++++++++++++++++++++++++++
->>>>     1 file changed, 39 insertions(+)
->>>>
->>>
->>> Seems this needs a rebase since RP also changed sanity.bbclass recently.
->>
->> This is from Friday morning.  I'll start a rebase and send new code when I have
->> it ready.
->
-> There is another issues with unpatched make-3.82, webkit and newer
-> nodejs are failing for some people.
-> https://savannah.gnu.org/bugs/?36451
->
-> What about for cycle which generates some very long "ls" or something
-> like that?
->
-> On other hand so long commands arn't so common, so many people
-> could be using "broken" make without seeing issues with their images.
+Install files from EXTRA_DIST needed for some tests.
+Add configure parameter with-dbus-test-dir to specify where the test
+tools are located.
 
-If you can point me to a reproducer, I'm happy to add it to the sanity check as 
-part of the rebase work.
+Signed-off-by: Adrian Dudau <adrian.dudau@enea.com>
+---
+ meta/recipes-core/dbus/dbus-1.6.8/ptest.patch |   20 +++++++++++++++-----
+ meta/recipes-core/dbus/dbus-ptest_1.6.8.bb    |    1 +
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-The current reproducer covers two cases (see the patch for the savannah bug 
-number).  These were the two cases that I knew had caused problems for others in 
-the past.
-
---Mark
-
->>
->> --Mark
->>
->>> Sau!
->>>
->>>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->>>> index 7f95f31..dc251a1 100644
->>>> --- a/meta/classes/sanity.bbclass
->>>> +++ b/meta/classes/sanity.bbclass
->>>> @@ -336,6 +336,41 @@ def check_gcc_march(sanity_data):
->>>>
->>>>         return result
->>>>
->>>> +# Unpatched versions of make 3.82 are known to be broken.  See GNU Savannah Bug 30612.
->>>> +# Use a modified reproducer from http://savannah.gnu.org/bugs/?30612 to validate.
->>>> +def check_make_version(sanity_data, loosever):
->>>> +    status, result = oe.utils.getstatusoutput("make --version")
->>>> +    if status != 0:
->>>> +        return "Unable to execute make --version, exit code %s\n" % status
->>>> +    version = result.split()[2]
->>>> +    if loosever(version) == loosever("3.82"):
->>>> +        # Construct a test file
->>>> +        f = open("makefile_test", "w")
->>>> +        f.write("makefile_test.a: makefile_test_a.c makefile_test_b.c makefile_test.a( makefile_test_a.c makefile_test_b.c)\n")
->>>> +        f.write("\n")
->>>> +        f.write("makefile_test_a.c:\n")
->>>> +        f.write("	touch $@\n")
->>>> +        f.write("\n")
->>>> +        f.write("makefile_test_b.c:\n")
->>>> +        f.write("	touch $@\n")
->>>> +        f.close()
->>>> +
->>>> +        # Check if make 3.82 has been patched
->>>> +        status,result = oe.utils.getstatusoutput("make -f makefile_test")
->>>> +
->>>> +        os.remove("makefile_test")
->>>> +        if os.path.exists("makefile_test_a.c"):
->>>> +            os.remove("makefile_test_a.c")
->>>> +        if os.path.exists("makefile_test_b.c"):
->>>> +            os.remove("makefile_test_b.c")
->>>> +        if os.path.exists("makefile_test.a"):
->>>> +            os.remove("makefile_test.a")
->>>> +
->>>> +        if status != 0:
->>>> +            return "Your version of make 3.82 is broken. Please revert to 3.81 or install a patched version.\n"
->>>> +    return None
->>>> +
->>>> +
->>>>     # Tar version 1.24 and onwards handle overwriting symlinks correctly
->>>>     # but earlier versions do not; this needs to work properly for sstate
->>>>     def check_tar_version(sanity_data, loosever):
->>>> @@ -407,6 +442,10 @@ def check_sanity(sanity_data):
->>>>             messages = messages + 'Please set a MACHINE in your local.conf or environment\n'
->>>>             machinevalid = False
->>>>
->>>> +    makemsg = check_make_version(sanity_data, LooseVersion)
->>>> +    if makemsg:
->>>> +        messages = messages + makemsg
->>>> +
->>>>         tarmsg = check_tar_version(sanity_data, LooseVersion)
->>>>         if tarmsg:
->>>>             messages = messages + tarmsg
->>>>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch b/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
+index 106bfb4..263d17e 100644
+--- a/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
++++ b/meta/recipes-core/dbus/dbus-1.6.8/ptest.patch
+@@ -76,7 +76,7 @@ diff -ur a/test/Makefile.am b/test/Makefile.am
+  	$(NULL)
+  
+  test_corrupt_SOURCES = corrupt.c
+-@@ -325,3 +326,18 @@
++@@ -325,3 +325,25 @@
+  data/valid-config-files/system.conf: $(top_builddir)/bus/system.conf
+  	$(AM_V_at)$(MKDIR_P) data/valid-config-files
+  	$(AM_V_GEN)cp $< $@
+@@ -91,26 +91,36 @@ diff -ur a/test/Makefile.am b/test/Makefile.am
+ +
+ +install-ptest-nonrecursive:
+ +	@$(MKDIR_P) $(DESTDIR)/data/valid-config-files/session.d
+-+	@for file in Makefile $(installable_tests) $(EXTRA_DIST) $(noinst_DATA); do \
+-+		install -D $${file%.in} $(DESTDIR)/$${file%.in}; \
+++	@for file in Makefile $(installable_tests) $(noinst_PROGRAMS) $(noinst_DATA) ; do \
+++		if [ -f .libs/$$file ]; then \
+++			install .libs/$$file $(DESTDIR); \
+++		else \
+++			install -D $${file%.in} $(DESTDIR)/$${file%.in}; \
+++		fi; \
+++	done;
+++	@for file in $(EXTRA_DIST); do \
+++		install -D ${srcdir}/$${file%.in} $(DESTDIR)/$${file%.in}; \
+ +	done;
+ +endif
+ diff -ur a/test/name-test/Makefile.am b/test/name-test/Makefile.am
+ --- a/test/name-test/Makefile.am	2012-12-06 14:34:01.169413931 +0100
+ +++ b/test/name-test/Makefile.am	2012-12-06 15:21:14.459112518 +0100
+-@@ -36,4 +36,13 @@
++@@ -36,4 +36,16 @@
+  test_privserver_client_LDADD=../libdbus-testutils.la
+  test_autolaunch_LDADD=../libdbus-testutils.la
+  
+ +install-ptest:
+ +	@$(MKDIR_P) $(DESTDIR)
+-+	@for file in Makefile $(noinst_PROGRAMS) $(EXTRA_DIST); do \
+++	@for file in Makefile $(noinst_PROGRAMS); do \
+ +		if [ -f .libs/$$file ]; then \
+ +			install .libs/$$file $(DESTDIR); \
+ +		else \
+ +			install $$file $(DESTDIR); \
+ +		fi \
+ +	done;
+++	@for file in $(EXTRA_DIST); do \
+++		cp $(srcdir)/$$file $(DESTDIR); \
+++	done;
+  endif
+ diff -ur a/tools/Makefile.am b/tools/Makefile.am
+ --- a/tools/Makefile.am	2012-12-06 14:34:01.161414276 +0100
+diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
+index d00819a..8d21666 100644
+--- a/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
++++ b/meta/recipes-core/dbus/dbus-ptest_1.6.8.bb
+@@ -38,6 +38,7 @@ EXTRA_OECONF = "--enable-tests \
+                 --disable-libaudit \
+                 --with-xml=expat \
+                 --with-systemdsystemunitdir=${systemd_unitdir}/system/ \
++                --with-dbus-test-dir=${PTEST_PATH} \
+                 ${EXTRA_OECONF_X}"
+ 
+ do_install() {
+-- 
+1.7.10.4
 
 
