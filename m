@@ -1,46 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 403D4605F3
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E611F6A49A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 12:22:14 +0000 (UTC)
-Received: by mail-ea0-f176.google.com with SMTP id z15so6689395ead.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 05:22:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=oEZMD71fjnZf6nG62rAO7AJmUmGhhkEIosQJHM+18tA=;
-	b=BOc0ghWmj9+xXZEmmzSQbJGrPSXNquFoltV+SjTALzVmPPboM914kMyXTjxRx2lX+l
-	9bLYDHpIWfZiRmMCH2ddPIY6n5sLZz7EX1FcJ6KpSUMtkRRTucgsYqc/i0PSZYkq4lU4
-	6NWI1R9Ej2bBzfwBUcoVXDu53w5u+0gRKOZCuj9Ohs1KRPtKMo3FyPaBm6Gh7vltn1bx
-	p45d4K/z8o996HbGISJ96an+BFV1oWTmAFxFWNaJpKq5mcF12QIdRuyReWLq+pp0770a
-	10I+rOqDAwryO4XNGlTS4OFDufEOWZsiw916UJRh81Xi3v9KSJpp1SduFrVpNEGzxH+h
-	gojA==
-X-Received: by 10.15.99.2 with SMTP id bk2mr29629496eeb.76.1372162934311;
-	Tue, 25 Jun 2013 05:22:14 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	y1sm30845872eew.3.2013.06.25.05.22.13 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 25 Jun 2013 05:22:13 -0700 (PDT)
-Date: Tue, 25 Jun 2013 14:22:50 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Message-ID: <20130625122250.GQ14021@jama>
-References: <CAP71WjxJxpWwa5UV4PpN=f0rL00UpPJ_VKJ4LmEu=AVBRdVo2A@mail.gmail.com>
-	<CAP71WjzvRgqYtJdBVt_epRVZ5bb4aVbPiEq8z4fw-EfEsnVgGg@mail.gmail.com>
-	<1402287.LPEgl0HhT9@helios>
-	<CAP71WjyCZvkwDuCM0DGJRBaeCySZkeiuhB6GxKGRBfemjHgQRA@mail.gmail.com>
-	<CAP71Wjx-uL3CjmxtJwEhZJyDD5p5HWwEEKSEh-0h5aCmCxeGxA@mail.gmail.com>
-	<CAP71WjygMhCMdrbrj8uUKeJZuRu1_cjmhE4cLjsuhJ5wJpxnuQ@mail.gmail.com>
+	Tue, 25 Jun 2013 14:12:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5PECLCr029047
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 25 Jun 2013 07:12:21 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 25 Jun 2013 07:12:20 -0700
+Message-ID: <51C9A548.8050800@windriver.com>
+Date: Tue, 25 Jun 2013 09:12:24 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-In-Reply-To: <CAP71WjygMhCMdrbrj8uUKeJZuRu1_cjmhE4cLjsuhJ5wJpxnuQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issues with Qt5/mesa and eglfs
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1372085149-30510-1-git-send-email-mark.hatle@windriver.com>
+	<1372085149-30510-2-git-send-email-mark.hatle@windriver.com>
+	<51C8C398.1070908@linux.intel.com>
+	<51C8FB13.6020703@windriver.com> <20130625112006.GO14021@jama>
+In-Reply-To: <20130625112006.GO14021@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,61 +38,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 12:22:14 -0000
-X-Groupsio-MsgNum: 40962
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="rUztinBX/EQDJOOk"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 25 Jun 2013 14:12:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---rUztinBX/EQDJOOk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/25/13 6:20 AM, Martin Jansa wrote:
+> On Mon, Jun 24, 2013 at 09:06:11PM -0500, Mark Hatle wrote:
+>> On 6/24/13 5:09 PM, Saul Wold wrote:
+>>> On 06/24/2013 07:45 AM, Mark Hatle wrote:
+>>>> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
+>>>>
+>>>> A number of vendors are providing a modified version, so checking
+>>>> for just the version string is not enough.  We also need to check
+>>>> if the patch for the issue has been applied.  We use a modified
+>>>> version of the reproduced to check for the issue.
+>>>>
+>>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>>>> ---
+>>>>     meta/classes/sanity.bbclass | 39 +++++++++++++++++++++++++++++++++++++++
+>>>>     1 file changed, 39 insertions(+)
+>>>>
+>>>
+>>> Seems this needs a rebase since RP also changed sanity.bbclass recently.
+>>
+>> This is from Friday morning.  I'll start a rebase and send new code when I have
+>> it ready.
+>
+> There is another issues with unpatched make-3.82, webkit and newer
+> nodejs are failing for some people.
+> https://savannah.gnu.org/bugs/?36451
+>
+> What about for cycle which generates some very long "ls" or something
+> like that?
+>
+> On other hand so long commands arn't so common, so many people
+> could be using "broken" make without seeing issues with their images.
 
-On Tue, Jun 25, 2013 at 01:59:55PM +0200, Nicolas Dechesne wrote:
-> On Thu, Jun 20, 2013 at 8:15 PM, Nicolas Dechesne <
-> nicolas.dechesne@linaro.org> wrote:
->=20
-> > @@ -2,7 +2,7 @@ SRC_URI =3D "
-> > ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
-> >             file://0002-cross-compile.patch \
-> >             file://cross-glsl.patch \
-> >             file://dont-fail-if-libX11-isnt-installed.patch \
-> > -           file://fix-egl-compilation-without-x11-headers.patch \
-> > +           file://EGL-Mutate-NativeDisplayType-depending-on-config.pat=
-ch \
-> >             "
-> >
-> > and it does fix the build issue i had (mesa/qt5/non X11 distro).
-> >
-> > should that be merged into dylan (since it's merged in master already) =
-or
-> > do we need to wait for the 'final' patch in upstream to be ready?
-> >
->=20
->=20
-> Paul, Martin, what do you think about this? i have the (trivial) dylan
-> backport ready. Do you think it's the right time to get it merged?
+If you can point me to a reproducer, I'm happy to add it to the sanity check as 
+part of the rebase work.
 
-I don't have strong opinion about this one, I'm already using that
-CFLAGS change in all recipes where it was needed (only few of them) so I
-don't mind waiting for upstream for final solution. On other hand this
-backport doesn't cause more work for me, so I don't mind if it gets
-merged.
+The current reproducer covers two cases (see the patch for the savannah bug 
+number).  These were the two cases that I knew had caused problems for others in 
+the past.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+--Mark
 
---rUztinBX/EQDJOOk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+>>
+>> --Mark
+>>
+>>> Sau!
+>>>
+>>>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+>>>> index 7f95f31..dc251a1 100644
+>>>> --- a/meta/classes/sanity.bbclass
+>>>> +++ b/meta/classes/sanity.bbclass
+>>>> @@ -336,6 +336,41 @@ def check_gcc_march(sanity_data):
+>>>>
+>>>>         return result
+>>>>
+>>>> +# Unpatched versions of make 3.82 are known to be broken.  See GNU Savannah Bug 30612.
+>>>> +# Use a modified reproducer from http://savannah.gnu.org/bugs/?30612 to validate.
+>>>> +def check_make_version(sanity_data, loosever):
+>>>> +    status, result = oe.utils.getstatusoutput("make --version")
+>>>> +    if status != 0:
+>>>> +        return "Unable to execute make --version, exit code %s\n" % status
+>>>> +    version = result.split()[2]
+>>>> +    if loosever(version) == loosever("3.82"):
+>>>> +        # Construct a test file
+>>>> +        f = open("makefile_test", "w")
+>>>> +        f.write("makefile_test.a: makefile_test_a.c makefile_test_b.c makefile_test.a( makefile_test_a.c makefile_test_b.c)\n")
+>>>> +        f.write("\n")
+>>>> +        f.write("makefile_test_a.c:\n")
+>>>> +        f.write("	touch $@\n")
+>>>> +        f.write("\n")
+>>>> +        f.write("makefile_test_b.c:\n")
+>>>> +        f.write("	touch $@\n")
+>>>> +        f.close()
+>>>> +
+>>>> +        # Check if make 3.82 has been patched
+>>>> +        status,result = oe.utils.getstatusoutput("make -f makefile_test")
+>>>> +
+>>>> +        os.remove("makefile_test")
+>>>> +        if os.path.exists("makefile_test_a.c"):
+>>>> +            os.remove("makefile_test_a.c")
+>>>> +        if os.path.exists("makefile_test_b.c"):
+>>>> +            os.remove("makefile_test_b.c")
+>>>> +        if os.path.exists("makefile_test.a"):
+>>>> +            os.remove("makefile_test.a")
+>>>> +
+>>>> +        if status != 0:
+>>>> +            return "Your version of make 3.82 is broken. Please revert to 3.81 or install a patched version.\n"
+>>>> +    return None
+>>>> +
+>>>> +
+>>>>     # Tar version 1.24 and onwards handle overwriting symlinks correctly
+>>>>     # but earlier versions do not; this needs to work properly for sstate
+>>>>     def check_tar_version(sanity_data, loosever):
+>>>> @@ -407,6 +442,10 @@ def check_sanity(sanity_data):
+>>>>             messages = messages + 'Please set a MACHINE in your local.conf or environment\n'
+>>>>             machinevalid = False
+>>>>
+>>>> +    makemsg = check_make_version(sanity_data, LooseVersion)
+>>>> +    if makemsg:
+>>>> +        messages = messages + makemsg
+>>>> +
+>>>>         tarmsg = check_tar_version(sanity_data, LooseVersion)
+>>>>         if tarmsg:
+>>>>             messages = messages + tarmsg
+>>>>
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlHJi5oACgkQN1Ujt2V2gBxIeQCfU7+69zeaqODUQYIcY8Zsel+D
-rSMAn3pPx2RL56r1k3/yx0/J/8JEQWCs
-=awKe
------END PGP SIGNATURE-----
-
---rUztinBX/EQDJOOk--
