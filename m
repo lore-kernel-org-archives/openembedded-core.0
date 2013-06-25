@@ -1,31 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id A6AAF600FB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F5EA6AE0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 17:08:18 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5PHF03L020941 for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 18:15:00 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id OIUhwhBZgM72
+	Tue, 25 Jun 2013 17:42:35 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id lj1so13008519pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 18:15:00 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r5PHErEp020938
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 18:14:55 +0100
-Message-ID: <1372180081.9930.91.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Jun 2013 18:08:01 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sanity.bbclass: Add check for @ character in build directory name
+	Tue, 25 Jun 2013 10:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=pJ4saPBdGnYTBvtDjJrF/d5Nazqmme4ShTHkvV89xck=;
+	b=oIGux5gwhYDsWQhQxkt/5NwqFgpC2xn0WQS+gFns9J2E1dQeBXF+91zXlQiz8u3syc
+	UgrT6UQ2UJLUmwW5VRxP2ivVyo/7WizGA6Yzw7zmcAoTFzSUiDu1g3jfEDxt0EMkN6TJ
+	XWK0ob9aaJy1o7AYufSQ+Vqd6LDpc/kMIhewhW3+ZVA1KlAUoJJVj0sLcNLfdDBuZWce
+	lb7s+Rnz1MVzsbUHZVkEb4NUarkZzXqvLsXJsw+rlHI8jR7wW8JxisZe118aoqIeBtMC
+	3gXw52qj67IYueKmLfaRlL/J2fF+rhABXC1at2/w+i0qAndc0Th5uPRCDqlEW63WLaq9
+	Ja/g==
+X-Received: by 10.66.21.37 with SMTP id s5mr884178pae.103.1372182156235;
+	Tue, 25 Jun 2013 10:42:36 -0700 (PDT)
+Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	eq5sm24182241pbc.15.2013.06.25.10.42.33 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 25 Jun 2013 10:42:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51C9CE42.8020207@linux.intel.com>
+Date: Tue, 25 Jun 2013 10:42:32 -0700
+Message-Id: <56275DFD-34FD-49BF-B17D-79DBB877418E@gmail.com>
+References: <51C9CE42.8020207@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Zhenhua Luo <zhenhua.luo@freescale.com>,
+	'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>,
+	Schmitt Richard-B43082 <B43082@freescale.com>,
+	richard.schmitt@freescale.com
+Subject: Re: GCC 4.8 Issues with fsl-ppc and fsl-arm (e5000)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +51,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 17:08:19 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Jun 2013 17:42:35 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The @ character is not escaped properly in too many places within the system
-to easily support it so add the character to the list of blacklisted characters.
 
-Also tweak the other messages and ensure that all appropriate error messages
-are disabled in one go.
+On Jun 25, 2013, at 10:07 AM, Saul Wold <sgw@linux.intel.com> wrote:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 622bb41..cf23982 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -589,10 +589,12 @@ def check_sanity_everybuild(status, d):
-             pass
- 
-     oeroot = d.getVar('COREBASE')
--    if oeroot.find ('+') != -1:
--        status.addresult("Error, you have an invalid character (+) in your COREBASE directory path. Please move the installation to a directory which doesn't include a +.")
--    elif oeroot.find (' ') != -1:
--        status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space.")
-+    if oeroot.find('+') != -1:
-+        status.addresult("Error, you have an invalid character (+) in your COREBASE directory path. Please move the installation to a directory which doesn't include any + characters.")
-+    if oeroot.find('@') != -1:
-+        status.addresult("Error, you have an invalid character (@) in your COREBASE directory path. Please move the installation to a directory which doesn't include any @ characters.")
-+    if oeroot.find(' ') != -1:
-+        status.addresult("Error, you have a space in your COREBASE directory path. Please move the installation to a directory which doesn't include a space since autotools doesn't support this.")
- 
-     # Check that TMPDIR hasn't changed location since the last time we were run
-     tmpdir = d.getVar('TMPDIR', True)
+>=20
+> Guys,
+>=20
+> There is a continuing failure on the auto-builder with the 4.8 version =
+of GCC for the fsl-ppc and fsl-arm BSPs.  This is currently holding =
+oe-core back from updating GCC to 4.8, which we want to do soon so that =
+we have get any other issues worked out that might come up.
 
+First of all these are not reference BSPs for OE-Core so this should not =
+be a hold off if its urgent and we still have 4.7 gcc in OE-Core But its =
+nicer if they worked.
+
+>=20
+> These seem to be ICE issues can get bee seen in the following log =
+files:
+>=20
+> =
+http://autobuilder.yoctoproject.org:8011/builders/nightly-fsl-arm/builds/1=
+48/steps/Building%20Images/logs/stdio
+>=20
+
+perf is tied to kernel, it works fine with linux-yocto, what kernel is =
+used for imx53qsb ? a preprocessed callchain.c will be helpful.
+
+
+> =
+http://autobuilder.yoctoproject.org:8011/builders/nightly-fsl-ppc/builds/1=
+49/steps/Building%20Images/logs/stdio
+>=20
+
+gcc crash in eglibc I will take a look at it probably 2.18 might fix it.
+
+> Has anyone investigated these?
+>=20
+> One possibility discussed during the tech call was to set the tune for =
+these BSPs to use GCC 4.7, but this is not preferred as it just defers =
+and hides the issue.
+>=20
+> Thanks
+>=20
+> --=20
+>    Sau!
+>=20
+> Saul Wold
+> Yocto Component Wrangler @ Intel
+> Yocto Project / Poky Build System
+>=20
 
 
