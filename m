@@ -1,26 +1,31 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1441D601D6
+Return-Path: <giuseppe.condorelli@gmail.com>
+Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
+	[209.85.219.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 31CF16041E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 09:33:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5P9XFbf018139
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 25 Jun 2013 02:33:15 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Tue, 25 Jun 2013 02:33:14 -0700
-Message-ID: <51C963C0.5020009@windriver.com>
-Date: Tue, 25 Jun 2013 17:32:48 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	Tue, 25 Jun 2013 09:46:32 +0000 (UTC)
+Received: by mail-oa0-f41.google.com with SMTP id n10so13250676oag.14
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Jun 2013 02:46:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=fpKa/GODNRBt0L3aXmCi2ZBPAMQZXiwr5kdy0NCotgc=;
+	b=WwEFJeHK37qpzsEBNlLNkZ0lqCNEIXwvgQqbFlDIQmQCgs+09D1KlwTI8v889FRz4y
+	mLP7zJtT2k9rXmavT5hlkVAl5/TUQFBYvcwuZ1B9ToOAcjUG66CK+XhwwaXRuIZfT99g
+	Fkn7FDdKTtAzCnKuh/BE6rVDKOJSehAlBTrDqWU/zmPeQXNvnpRdYEu2D8WWFYYyS06V
+	hooKAPkruWXbHhm2NrSWbBIn/MgJZB7YzvVlXSqPBz9KEcgosg9wM3bFztTh0TEHfq9J
+	ZWIjuHqHL7tzL/BKSY+C0FJYd4Nl3OIZjQPxKhJmAPkrhrmJgyRD1E1hgEXrR9w7oat/
+	XcZA==
 MIME-Version: 1.0
-To: oe-core <openembedded-core@lists.openembedded.org>
-X-Originating-IP: [128.224.162.205]
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Could qt4.8 build on mips 64 bits platform?
+X-Received: by 10.60.15.71 with SMTP id v7mr12303095oec.42.1372153592494; Tue,
+	25 Jun 2013 02:46:32 -0700 (PDT)
+Received: by 10.182.142.65 with HTTP; Tue, 25 Jun 2013 02:46:32 -0700 (PDT)
+Date: Tue, 25 Jun 2013 11:46:32 +0200
+Message-ID: <CAOHjBZuT=59w2VQRUtRfYyEvn7iO_hUuw_pova-jVRSGdgu1PA@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: csl_versions issue on latest update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,67 +38,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 09:33:17 -0000
-Content-Type: multipart/alternative;
-	boundary="------------090705040201090806020904"
+X-List-Received-Date: Tue, 25 Jun 2013 09:46:32 -0000
+Content-Type: multipart/alternative; boundary=089e013cc14a75417204dff767a8
 
---------------090705040201090806020904
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+--089e013cc14a75417204dff767a8
+Content-Type: text/plain; charset=ISO-8859-1
 
 Hi All,
 
-Could qt4.8 build on mips 64 bits platform?
+I'm working with the best so far master openembedded-core repository plus
+the bitbake version 1.19.1
+Using the external toolchain csl I'm in trouble because it seems the latest
+modification in the csl-versions.inc
+breaks the csl_get_version routine. I mean, it is not able to find the gcc
+version due to wrong binary name:
+it doesn't attach the TARGET_PREFIX so it finds for gcc only (failing).
+The issue seems located to the csl_versions_handler routine, backporting
+it solves the issue.
 
-I searched qt-project.org and no such related information.
-And then grep the source codethat no such mips64 keyword in file 
-qmake.conf under directory mkspecs. In contrast there are mips32 related 
-flags in mkspecs/qws/linux-mips-g++/qmake.conf.
+Please can you look at that routine and let me know if I'm wrong in
+something?
 
-Does that mean we still can't build qt 4.8 on mips64?
+Cheers,
+Giuseppe
 
-Thanks a lot.
+--089e013cc14a75417204dff767a8
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
--- 
-Regards,
-Neil | Kai Kang
+<div>Hi All,</div><div>=A0</div><div>I&#39;m working with the best so far m=
+aster openembedded-core repository plus the bitbake version=A01.19.1</div><=
+div>Using the external toolchain csl I&#39;m in trouble because it seems th=
+e latest modification in the csl-versions.inc</div>
 
+<div>breaks the csl_get_version routine. I mean, it is not able to find the=
+ gcc version due to wrong binary name:</div><div>it doesn&#39;t attach the =
+TARGET_PREFIX so it finds for gcc only (failing).</div><div>The issue seems=
+ located to the csl_versions_handler routine, backporting it=A0solves the i=
+ssue.</div>
 
---------------090705040201090806020904
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+<div>=A0</div><div>Please can you look at that routine and let me know if I=
+&#39;m wrong in something?</div><div>=A0</div><div>Cheers,</div><div>Giusep=
+pe</div>
 
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <font size="+1">Hi All,<br>
-      <br>
-      <font size="+1"><font size="+1"></font></font>Could qt4.8 build on
-      mips 64 bits platform?<br>
-      <br>
-      <font size="+1">I sear<font size="+1">ched qt-project.org <font
-            size="+1">and no such re<font size="+1">lated information. <br>
-              And then g<font size="+1">rep the source code<font
-                  size="+1"> that no such <font size="+1">mips<font
-                      size="+1">64 <font size="+1">keywor<font
-                          size="+1">d in file qmake.conf <font
-                            size="+1">under directory</font> mkspe</font></font></font></font></font></font></font></font></font></font>cs.
-      <font size="+1">In <font size="+1">contra<font size="+1">st there
-            are mips32 related flags in <font size="+1">m<font
-                size="+1">kspecs</font></font>/qws/linux-mips-g++/qmake.conf</font></font></font>.<br>
-      <br>
-      <font size="+1"><font size="+1">Does <font size="+1">that mean we
-            still can't build <font size="+1">qt 4.8 on mips64?<br>
-              <br>
-              <font size="+1">Than<font size="+1">ks a lot.</font></font><br>
-            </font></font></font></font></font>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------090705040201090806020904--
+--089e013cc14a75417204dff767a8--
