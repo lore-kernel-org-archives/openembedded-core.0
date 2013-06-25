@@ -1,27 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 52710605F3
+Return-Path: <marc.ferland@gmail.com>
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id EA4EA6A49A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 15:19:21 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jun 2013 08:19:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,937,1363158000"; d="scan'208";a="335290424"
-Received: from unknown (HELO helios.localnet) ([10.252.122.97])
-	by orsmga001.jf.intel.com with ESMTP; 25 Jun 2013 08:19:21 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Tue, 25 Jun 2013 16:19:20 +0100
-Message-ID: <3374023.12gJcMyuIe@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <CAP71WjygMhCMdrbrj8uUKeJZuRu1_cjmhE4cLjsuhJ5wJpxnuQ@mail.gmail.com>
-References: <CAP71WjxJxpWwa5UV4PpN=f0rL00UpPJ_VKJ4LmEu=AVBRdVo2A@mail.gmail.com>
-	<CAP71Wjx-uL3CjmxtJwEhZJyDD5p5HWwEEKSEh-0h5aCmCxeGxA@mail.gmail.com>
-	<CAP71WjygMhCMdrbrj8uUKeJZuRu1_cjmhE4cLjsuhJ5wJpxnuQ@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Issues with Qt5/mesa and eglfs
+	Tue, 25 Jun 2013 15:35:48 +0000 (UTC)
+Received: by mail-qc0-f178.google.com with SMTP id c11so7415499qcv.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Jun 2013 08:35:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id:x-mailer;
+	bh=1uIFnuDFrfa5GtgBN7KSrfBRiluMNoc2loJZ3Jz98dY=;
+	b=ZkBWPKHhDHr9fYbQRWDRSUqhqacsAYDKIGnFar3QJunjREdcpeGDwXTEcSor2eNIkR
+	BTkS5eWIbNNeMyanMpx6kivSxgMP9rB3DudyS4a2eMv5aYsTrBhH9OV3CcCKTGOv3y3F
+	OSuu1p0E+pMOieWwZ+7B63Q28ckRWhldNs7Lugs4CGRo0KhSJp+6yn/Pfz4DM/t0bJ/+
+	JS7WvttfLDPTnftcuAcquDbxgf/mASBT2XOYyui+Juf0XdeECBEMjqOYg5g7g7u3mBJ7
+	wHtTxC+kgkn+L/Y2ZRt+my4ubp4jUWzgsEwOvqz3yiWlOlWhWMOe7psJU1oD+R4UQIWT
+	OPjA==
+X-Received: by 10.224.57.82 with SMTP id b18mr493903qah.36.1372174549526;
+	Tue, 25 Jun 2013 08:35:49 -0700 (PDT)
+Received: from ferlandm@sonatest.com
+	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
+	by mx.google.com with ESMTPSA id l4sm21885051qay.0.2013.06.25.08.35.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=RC4-SHA bits=128/128);
+	Tue, 25 Jun 2013 08:35:48 -0700 (PDT)
+Sender: Marc Ferland <marc.ferland@gmail.com>
+Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
+	Tue, 25 Jun 2013 11:36:00 -0400
+From: Marc Ferland <ferlandm@sonatest.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jun 2013 11:35:39 -0400
+Message-Id: <1372174539-18297-1-git-send-email-ferlandm@sonatest.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [meta-oe][PATCH] lmsensors: fix fancontrol init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2013 15:19:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 25 Jun 2013 15:35:49 -0000
 
-On Tuesday 25 June 2013 13:59:55 Nicolas Dechesne wrote:
-> On Thu, Jun 20, 2013 at 8:15 PM, Nicolas Dechesne <
-> nicolas.dechesne@linaro.org> wrote:
-> > On Thu, Jun 20, 2013 at 11:46 AM, Nicolas Dechesne <
-> > 
-> > nicolas.dechesne@linaro.org> wrote:
-> >> On Thu, Jun 20, 2013 at 11:42 AM, Paul Eggleton <
-> >> 
-> >> paul.eggleton@linux.intel.com> wrote:
-> >>> I wasn't watching closely but my impression is there were a large number
-> >>> of
-> >>> changes associated with the mesa upgrade. Is the upgrade itself
-> >>> necessary for
-> >>> the fix?
-> >> 
-> >> no, i don't think so. I think we might be able to just update the patches
-> >> that deal with the X11/no X11 support. but i haven't tested that yet. i
-> >> just did a quick test by cherry picking the complete commit (e.g. mesa
-> >> upgrade) to verify that it's actually fixing my problem. now that i know
-> >> it
-> >> does, i will try to just upgrade the patches without the mesa upgrade and
-> >> report how it goes.
-> > 
-> > ok, i was able to backport the mesa patch from 9.1.3 to 9.0.2
-> > (EGL-Mutate-NativeDisplayType-depending-on-config.patch) , the backport
-> > was
-> > more or less trivial. and then i did this in dylan branch:
-> > 
-> > --- a/meta/recipes-graphics/mesa/mesa-9.0.2.inc
-> > +++ b/meta/recipes-graphics/mesa/mesa-9.0.2.inc
-> > @@ -2,7 +2,7 @@ SRC_URI = "
-> > ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
-> > 
-> >             file://0002-cross-compile.patch \
-> >             file://cross-glsl.patch \
-> >             file://dont-fail-if-libX11-isnt-installed.patch \
-> > 
-> > -           file://fix-egl-compilation-without-x11-headers.patch \
-> > +           file://EGL-Mutate-NativeDisplayType-depending-on-config.patch
-> > \
-> > 
-> >             "
-> > 
-> > and it does fix the build issue i had (mesa/qt5/non X11 distro).
-> > should that be merged into dylan (since it's merged in master already) or
-> > do we need to wait for the 'final' patch in upstream to be ready?
-> 
-> Paul, Martin, what do you think about this? i have the (trivial) dylan
-> backport ready. Do you think it's the right time to get it merged?
+Make the 'fancontrol stop' command work again by using the fancontrol
+pid file instead of matching the process by name. While at it, also do
+a bit of cleaning.
 
-I'd say please send the patch to the mailing list (marked with [dylan]) and 
-then we can review it. By the sounds of things it should be OK.
+Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
+---
+ meta-oe/recipes-support/lm_sensors/lmsensors/fancontrol.init | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta-oe/recipes-support/lm_sensors/lmsensors/fancontrol.init b/meta-oe/recipes-support/lm_sensors/lmsensors/fancontrol.init
+index f179310..4433020 100644
+--- a/meta-oe/recipes-support/lm_sensors/lmsensors/fancontrol.init
++++ b/meta-oe/recipes-support/lm_sensors/lmsensors/fancontrol.init
+@@ -1,4 +1,4 @@
+-#! /bin/sh
++#!/bin/sh
+ ### BEGIN INIT INFO
+ # Provides:          fancontrol
+ # Required-Start:    $local_fs
+@@ -16,8 +16,7 @@ PATH=/sbin:/usr/sbin:/bin:/usr/bin
+ DESC="fan control daemon"
+ NAME="fancontrol"
+ FANCONTROL=`which $NAME`
+-
+-. /etc/init.d/functions || exit 1
++PIDFILE="/var/run/fancontrol.pid"
+ 
+ # Exit if the package is not installed
+ [ -x "$FANCONTROL" ] || exit 0
+@@ -25,12 +24,12 @@ FANCONTROL=`which $NAME`
+ case "$1" in
+     start)
+         echo -n "Starting $DESC: $NAME... "
+-        /sbin/start-stop-daemon -S -x $FANCONTROL -b -- $FANCONTROL_ARGS
++        start-stop-daemon -S -p $PIDFILE -b -x $FANCONTROL
+         echo "done."
+         ;;
+     stop)
+         echo -n "Stopping $DESC: $NAME... "
+-        /sbin/start-stop-daemon -K -x $FANCONTROL
++        start-stop-daemon -K -p $PIDFILE
+         echo "done."
+         ;;
+     restart)
 -- 
+1.8.1.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
