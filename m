@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AEFBC6A8EF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B5A5B6AE79
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 02:30:51 +0000 (UTC)
+	Wed, 26 Jun 2013 02:30:52 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5Q2UqJr013084
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5Q2UsR2005501
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 19:30:53 -0700 (PDT)
+	Tue, 25 Jun 2013 19:30:54 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 25 Jun 2013 19:30:52 -0700
+	14.2.342.3; Tue, 25 Jun 2013 19:30:53 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Jun 2013 10:30:48 +0800
-Message-ID: <a1060761efe1f7eb6f02d12848c2b89c685f07e1.1372212772.git.hongxu.jia@windriver.com>
+Date: Wed, 26 Jun 2013 10:30:49 +0800
+Message-ID: <9331be978f20347418fd44382179a105280ed7d8.1372212772.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1372212772.git.hongxu.jia@windriver.com>
 References: <cover.1372212772.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libx11: move xcms enabling to PACKAGECONFIG for LSB Library Check
+Subject: [PATCH 2/2] lsbtest: sync test suite packages version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +33,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2013 02:30:51 -0000
+X-List-Received-Date: Wed, 26 Jun 2013 02:30:53 -0000
 Content-Type: text/plain
 
-When --disable-xcms is used, the LSB 4.1 Library Check will fail:
-...
-Checking library symbols (libX11.so.6)
-Did not find XcmsAddColorSpace (unversioned) in libX11.so.6
-Did not find XcmsAddFunctionSet (unversioned) in libX11.so.6
-Did not find XcmsAllocColor (unversioned) in libX11.so.6
-...
-
-[YOCTO #4016]
+Update file packages_list after sync test suite packages version with
+upstream.
+Check date: Jun 25, 2013
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-graphics/xorg-lib/libx11.inc | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/recipes-extended/lsb/lsbtest/packages_list | 38 ++++++++++++-------------
+ 1 file changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11.inc b/meta/recipes-graphics/xorg-lib/libx11.inc
-index e0fce3e..c9506b0 100644
---- a/meta/recipes-graphics/xorg-lib/libx11.inc
-+++ b/meta/recipes-graphics/xorg-lib/libx11.inc
-@@ -25,10 +25,9 @@ DEPENDS += "xproto-native"
- EXTRA_OECONF += "--with-keysymdefdir=${STAGING_INCDIR}/X11/ --disable-xf86bigfont"
- EXTRA_OEMAKE += 'CWARNFLAGS=""'
+diff --git a/meta/recipes-extended/lsb/lsbtest/packages_list b/meta/recipes-extended/lsb/lsbtest/packages_list
+index dc3c002..99f83c1 100644
+--- a/meta/recipes-extended/lsb/lsbtest/packages_list
++++ b/meta/recipes-extended/lsb/lsbtest/packages_list
+@@ -3,42 +3,42 @@ LSB_ARCH="lsbarch"
  
--# Let people with incredibly archaic requirements enable Xcms, but disable it by
--# default.
-+# LSB 4.1 Library Check requires enable Xcms, set enable as default.
- PACKAGECONFIG ??= ""
--PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
-+PACKAGECONFIG[xcms] = "--enable-xcms"
+ BASE_PACKAGES_LIST="lsb-setup-4.1.0-1.noarch.rpm"
  
- # src/util/makekeys is built natively but needs -D_GNU_SOURCE defined.
- CPPFLAGS_FOR_BUILD += "-D_GNU_SOURCE"
+-RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-4.1.0.11-1.targetarch.rpm \
++RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-4.1.0.12-1.targetarch.rpm \
+ 	lsb-tet3-lite-3.7-23.lsb4.targetarch.rpm \
+ 	lsb-tet3-lite-devel-3.7-23.lsb4.targetarch.rpm \
+ 	lsb-xvfb-1.2.0-21.targetarch.rpm \
+ 	"
+ 
+-RUNTIME_PACKAGES_LIST="lsb-cmdchk-4.1.4-3.targetarch.rpm \
+-	lsb-libchk-4.1.4-3.targetarch.rpm \
++RUNTIME_PACKAGES_LIST="lsb-cmdchk-4.1.4-5.targetarch.rpm \
++	lsb-libchk-4.1.4-5.targetarch.rpm \
+ 	lsb-qm-2.2-8.lsb4.targetarch.rpm \
+-	lsb-task-dist-testkit-4.1.3-1.noarch.rpm \
+-	lsb-test-core-4.1.12-2.targetarch.rpm \
++	lsb-task-dist-testkit-4.1.9-1.noarch.rpm \
++	lsb-test-core-4.1.15-1.targetarch.rpm \
+ 	lsb-test-cpp-t2c-4.1.0-1.targetarch.rpm \
+-	lsb-test-desktop-4.1.7-1.targetarch.rpm \
+-	lsb-test-desktop-t2c-4.1.2-2.targetarch.rpm \
++	lsb-test-desktop-4.1.9-1.targetarch.rpm \
++	lsb-test-desktop-t2c-4.1.3-3.targetarch.rpm \
+ 	lsb-test-libstdcpp-4.1.0-18.lsb4.targetarch.rpm \
+ 	lsb-test-olver-core-4.1.4-1.targetarch.rpm \
+-	lsb-test-perl-4.1.6-2.noarch.rpm \
++	lsb-test-perl-4.1.8-1.noarch.rpm \
+ 	lsb-test-printing-4.1.2-1.targetarch.rpm \
+ 	lsb-test-python-4.1.5-1.targetarch.rpm \
+ 	lsb-test-qt3-azov-4.1.1-3.targetarch.rpm \
+-	lsb-test-qt4-azov-4.1.2-1.targetarch.rpm \
+-	lsb-test-xts5-5.1.5-42.lsb4.targetarch.rpm \
++	lsb-test-qt4-azov-4.1.3-1.targetarch.rpm \
++	lsb-test-xts5-5.1.5-45.lsb4.targetarch.rpm \
+ 	lsb-test-alsa-t2c-4.1.0-1.targetarch.rpm \
+ 	lsb-test-core-t2c-4.1.2-3.targetarch.rpm \
+ 	lsb-test-xml2-azov-4.1.0-1.targetarch.rpm \
+ 	"
+ 
+-APP_PACKAGES_LIST="lsb-python-2.4.6-5.lsb4.targetarch.rpm \
+-	lsb-apache-2.2.14-5.lsb4.targetarch.rpm \
+-	lsb-tcl-8.5.7-6.lsb4.targetarch.rpm \
+-	lsb-expect-5.43.0-11.lsb4.targetarch.rpm \
+-	lsb-groff-1.20.1-5.lsb4.targetarch.rpm \
+-	lsb-raptor-1.4.19-3.lsb4.targetarch.rpm \
+-	lsb-xpdf-1.01-12.lsb4.targetarch.rpm \
+-	lsb-samba-3.4.3-7.lsb4.targetarch.rpm \
+-	lsb-rsync-3.0.6-4.lsb4.targetarch.rpm \
++APP_PACKAGES_LIST="lsb-python-2.4.6-7.lsb4.targetarch.rpm \
++	lsb-apache-2.2.14-8.lsb4.targetarch.rpm \
++	lsb-tcl-8.5.7-8.lsb4.targetarch.rpm \
++	lsb-expect-5.43.0-13.lsb4.targetarch.rpm \
++	lsb-groff-1.20.1-7.lsb4.targetarch.rpm \
++	lsb-raptor-1.4.19-5.lsb4.targetarch.rpm \
++	lsb-xpdf-1.01-14.lsb4.targetarch.rpm \
++	lsb-samba-3.4.3-9.lsb4.targetarch.rpm \
++	lsb-rsync-3.0.6-6.lsb4.targetarch.rpm \
+ 	"
+ 
+ APP_TESTFILES_LIST="expect-tests.tar \
 -- 
 1.8.1.2
 
