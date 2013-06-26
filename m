@@ -1,37 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
-	[209.85.212.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A2A2960780
+Return-Path: <erik.boto@pelagicore.com>
+Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id C15266A4E3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 08:19:33 +0000 (UTC)
-Received: by mail-vb0-f54.google.com with SMTP id q12so10511262vbe.13
+	Wed, 26 Jun 2013 09:33:16 +0000 (UTC)
+Received: by mail-ob0-f170.google.com with SMTP id ef5so13345694obb.29
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 01:19:34 -0700 (PDT)
+	Wed, 26 Jun 2013 02:33:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=3LLTg2TkYdxo2caRPomYVb6yWJJk9pVdYwBGktLPi6k=;
-	b=oRPQfR8nx2GTZNvwOdMLdhA/qmDPQqlm7G2uwSIJf7zGOT9a73JkxE26ozcWYC88o0
-	upPvTGQwNhlmy2OrpgiS9erOb5rgTmKj4bWPSsg2dU5jamyqOBpgy4ZwxUbPWvrSpVy1
-	eVjM9H6Z0kYKD1gW5iH32DxZhCBnS0jbl19bj4QbbNmVXbqWf9p2f+FAjHTE2VuDkpN0
-	sKzJm5wXZB7LOkuIwQ9WraJAvK0zF7xs1FrzON+4FoU1Mb6zp31AeeOc1+Jpu8NRpRf3
-	fFJon4nUGbQcyUG4IljrkDk7nSip8AhBpmAP9LfZuJ3GZVy5rZYUeFe7ypnMEEELSUSR
-	iHUw==
-X-Received: by 10.52.164.227 with SMTP id yt3mr1061868vdb.107.1372234773951;
-	Wed, 26 Jun 2013 01:19:33 -0700 (PDT)
+	h=mime-version:date:message-id:subject:from:to:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=p5jFmnfS0mW095QviaRmnxcmkkQtuDkwOE08z5M3SKc=;
+	b=PKgEnn0wQzksXyW5yR2HUBjtUq53kLgCi8iTpOhz8pRH9rxRNrBmVOukHTiB3Sxf55
+	CAjPcoyBN4m2thJPv2R65w7tNDU23EQRp61zB4zkJ1SeTBHahjEZcSC3gn1O4VTFV6UW
+	qVFTvT8EnzmlWb24m9bs/47v89Ry815CJ2PQsB9Nv5SfGcopp+v0EiSWlRbgIclsVuZJ
+	qzmucknNteud/8XHDAYRq5UMyH9x8oQy/b7RWcWKjPikPgXi+M8US7Y6LMCP8+YcIAkK
+	kUsivpw1GBtAK7H7pmA1QhcJxcF/mi9G+pD+UFIXpRL0ZTS48z0xRyFL+IRuZ3aDfwip
+	Qz0g==
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Wed, 26 Jun 2013 01:19:12 -0700 (PDT)
-In-Reply-To: <a1060761efe1f7eb6f02d12848c2b89c685f07e1.1372212772.git.hongxu.jia@windriver.com>
-References: <cover.1372212772.git.hongxu.jia@windriver.com>
-	<a1060761efe1f7eb6f02d12848c2b89c685f07e1.1372212772.git.hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 26 Jun 2013 09:19:12 +0100
-Message-ID: <CAJTo0LYDup8t0rdggAQwiJ_FDb9chwYEzabvOO32hev+PLP6NQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQmHop1ZrZ8V2BwNl8FCYOI3j6oEV7ysRYWIK1CEHWMszeg36o5rG1VouseE+A2tYxo1df7a
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] libx11: move xcms enabling to PACKAGECONFIG for LSB Library Check
+X-Received: by 10.182.50.200 with SMTP id e8mr1369404obo.35.1372239197331;
+	Wed, 26 Jun 2013 02:33:17 -0700 (PDT)
+Received: by 10.76.81.66 with HTTP; Wed, 26 Jun 2013 02:33:17 -0700 (PDT)
+Date: Wed, 26 Jun 2013 11:33:17 +0200
+Message-ID: <CA+AhUGwXGcp3w=j6d=tb4hn1SfGm1OnF86UGaDvMD6q005CA3w@mail.gmail.com>
+From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+X-Gm-Message-State: ALoCoQlV8cyta9xfyE6yocE/1FTixr8oA3AFZmigpuKrzeihTr9UUzsxWu6JyW0NV601Qz9SoAcG
+Subject: Issue with pseudo on 64-bit build host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +40,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2013 08:19:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 26 Jun 2013 09:33:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 26 June 2013 03:30, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> +# LSB 4.1 Library Check requires enable Xcms, set enable as default.
->  PACKAGECONFIG ??= ""
-> -PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
-> +PACKAGECONFIG[xcms] = "--enable-xcms"
+Hi,
 
-Whether to enable Xcms by default is something we're debating right
-now, and this is an interesting data point.
+In bitbake.conf FAKEROOTBASEENV is set to contain
+"PSEUDO_LIBDIR=3D${STAGING_BINDIR_NATIVE}/../lib/pseudo/lib" but on my
+buildhost libpseudo.so is in
+${STAGING_BINDIR_NATIVE}/../lib/pseudo/lib64.
 
-However, this is entirely the wrong way of doing what you want to
-achieve.  I suggest you read the documentation on PACKAGECONFIG, but
-the patch should have been:
+For me this causes rpm:s that use qemu_run_binary() to do stuff during
+do_rootfs() (using post-install scripts) to fail, since ld.so can't
+find libpseudo.so it gives an error that contains "ERR" which
+package_rpm.bbclass rpm_log_check() picks up.
 
-- PACKAGECONFIG ??= ""
-+ PACKAGECONFIG ??= "xcms"
+I git confused for a while since the command used in the post-install
+script worked ok in a devshell but not during do_rootfs(), but this is
+due to the fact that LD_LIBRARY_PATH in the devshell contains:
+<mybuilddir>/tmp/sysroots/x86_64-linux/usr/bin/../lib/pseudo/lib64 . I
+couldn't find where this was added to LD_LIBRARY_PATH for devshells
+though.
 
-NACKing for now as I plan to do a little more investigation on this
-today - it's conceivable we'll enable xcms in LSB builds specifically.
-
-Ross
+Cheers,
+Erik Bot=F6
 
