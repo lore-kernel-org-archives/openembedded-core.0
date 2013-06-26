@@ -1,33 +1,23 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id C15266A4E3
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 012346A4E3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 09:33:16 +0000 (UTC)
-Received: by mail-ob0-f170.google.com with SMTP id ef5so13345694obb.29
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 02:33:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=p5jFmnfS0mW095QviaRmnxcmkkQtuDkwOE08z5M3SKc=;
-	b=PKgEnn0wQzksXyW5yR2HUBjtUq53kLgCi8iTpOhz8pRH9rxRNrBmVOukHTiB3Sxf55
-	CAjPcoyBN4m2thJPv2R65w7tNDU23EQRp61zB4zkJ1SeTBHahjEZcSC3gn1O4VTFV6UW
-	qVFTvT8EnzmlWb24m9bs/47v89Ry815CJ2PQsB9Nv5SfGcopp+v0EiSWlRbgIclsVuZJ
-	qzmucknNteud/8XHDAYRq5UMyH9x8oQy/b7RWcWKjPikPgXi+M8US7Y6LMCP8+YcIAkK
-	kUsivpw1GBtAK7H7pmA1QhcJxcF/mi9G+pD+UFIXpRL0ZTS48z0xRyFL+IRuZ3aDfwip
-	Qz0g==
+	Wed, 26 Jun 2013 09:44:05 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Wed, 26 Jun 2013 11:44:01 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 2671)	id 5F0E1288FAC;
+	Wed, 26 Jun 2013 11:44:01 +0200 (CEST)
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Jun 2013 11:43:59 +0200
+Message-ID: <1372239839-24831-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Received: by 10.182.50.200 with SMTP id e8mr1369404obo.35.1372239197331;
-	Wed, 26 Jun 2013 02:33:17 -0700 (PDT)
-Received: by 10.76.81.66 with HTTP; Wed, 26 Jun 2013 02:33:17 -0700 (PDT)
-Date: Wed, 26 Jun 2013 11:33:17 +0200
-Message-ID: <CA+AhUGwXGcp3w=j6d=tb4hn1SfGm1OnF86UGaDvMD6q005CA3w@mail.gmail.com>
-From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
-To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQlV8cyta9xfyE6yocE/1FTixr8oA3AFZmigpuKrzeihTr9UUzsxWu6JyW0NV601Qz9SoAcG
-Subject: Issue with pseudo on 64-bit build host
+Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Cc: Anders Roxell <anders.roxell@enea.com>
+Subject: [PATCH] bzip2: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,29 +30,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2013 09:33:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Jun 2013 09:44:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+From: Bj=C3=B6rn Stenberg <bjst@enea.com>
 
-In bitbake.conf FAKEROOTBASEENV is set to contain
-"PSEUDO_LIBDIR=3D${STAGING_BINDIR_NATIVE}/../lib/pseudo/lib" but on my
-buildhost libpseudo.so is in
-${STAGING_BINDIR_NATIVE}/../lib/pseudo/lib64.
+The existing bzip2 tests in the upstream Makefile are copied to Makefile.am=
+=20
+(yocto's) and modified to adopt to the ptest format.
 
-For me this causes rpm:s that use qemu_run_binary() to do stuff during
-do_rootfs() (using post-install scripts) to fail, since ld.so can't
-find libpseudo.so it gives an error that contains "ERR" which
-package_rpm.bbclass rpm_log_check() picks up.
+Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../recipes-extended/bzip2/bzip2-1.0.6/Makefile.am |   30 ++++++++++++++++=
+++++
+ meta/recipes-extended/bzip2/bzip2-1.0.6/run-ptest  |    2 ++
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |    7 ++++-
+ 3 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/run-ptest
 
-I git confused for a while since the command used in the post-install
-script worked ok in a devshell but not during do_rootfs(), but this is
-due to the fact that LD_LIBRARY_PATH in the devshell contains:
-<mybuilddir>/tmp/sysroots/x86_64-linux/usr/bin/../lib/pseudo/lib64 . I
-couldn't find where this was added to LD_LIBRARY_PATH for devshells
-though.
+diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am b/meta/rec=
+ipes-extended/bzip2/bzip2-1.0.6/Makefile.am
+index 070d57b..1d163b6 100644
+--- a/meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am
++++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/Makefile.am
+@@ -26,6 +26,36 @@ bin_SCRIPTS =3D bzgrep bzmore bzdiff
+ man_MANS =3D bzip2.1 bzgrep.1 bzmore.1 bzdiff.1
+ EXTRA_DIST =3D $(man_MANS)
+=20
++runtest:
++	./bzip2 -1  < sample1.ref > sample1.rb2
++	./bzip2 -2  < sample2.ref > sample2.rb2
++	./bzip2 -3  < sample3.ref > sample3.rb2
++	./bzip2 -d  < sample1.bz2 > sample1.tst
++	./bzip2 -d  < sample2.bz2 > sample2.tst
++	./bzip2 -ds < sample3.bz2 > sample3.tst
++	@if cmp sample1.bz2 sample1.rb2; then echo "PASS: sample1 compress";\
++	else echo "FAIL: sample1 compress"; fi
++	@if cmp sample2.bz2 sample2.rb2; then echo "PASS: sample2 compress";\
++	else echo "FAIL: sample2 compress"; fi
++	@if cmp sample3.bz2 sample3.rb2; then echo "PASS: sample3 compress";\
++	else echo "FAIL: sample3 compress"; fi
++	@if cmp sample1.tst sample1.ref; then echo "PASS: sample1 decompress";\
++	else echo "FAIL: sample1 decompress"; fi
++	@if cmp sample2.tst sample2.ref; then echo "PASS: sample2 decompress";\
++	else echo "FAIL: sample2 decompress"; fi
++	@if cmp sample3.tst sample3.ref; then echo "PASS: sample3 decompress";\
++	else echo "FAIL: sample3 decompress"; fi
++
++install-ptest:
++	cp $(srcdir)/Makefile		$(DESTDIR)/
++	cp $(srcdir)/sample1.ref	$(DESTDIR)/
++	cp $(srcdir)/sample2.ref	$(DESTDIR)/
++	cp $(srcdir)/sample3.ref	$(DESTDIR)/
++	cp $(srcdir)/sample1.bz2	$(DESTDIR)/
++	cp $(srcdir)/sample2.bz2	$(DESTDIR)/
++	cp $(srcdir)/sample3.bz2	$(DESTDIR)/
++	ln -s $(bindir)/bzip2		$(DESTDIR)/bzip2
++
+ install-exec-hook:
+ 	ln -s $(bindir)/bzip2$(EXEEXT) $(DESTDIR)$(bindir)/bunzip2$(EXEEXT)
+ 	ln -s $(bindir)/bzip2$(EXEEXT) $(DESTDIR)$(bindir)/bzcat$(EXEEXT)
+diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/run-ptest b/meta/recip=
+es-extended/bzip2/bzip2-1.0.6/run-ptest
+new file mode 100644
+index 0000000..3b20fce
+--- /dev/null
++++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/run-ptest
+@@ -0,0 +1,2 @@
++#!/bin/sh
++make -k runtest
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-exte=
+nded/bzip2/bzip2_1.0.6.bb
+index 6e160cd..4189f78 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -10,6 +10,7 @@ PR =3D "r5"
+=20
+ SRC_URI =3D "http://www.bzip.org/${PV}/${BPN}-${PV}.tar.gz \
+            file://configure.ac \
++           file://run-ptest \
+ 	   file://Makefile.am"
+=20
+ SRC_URI[md5sum] =3D "00b516f4704d4a7cb50a1d97e6e8e15b"
+@@ -19,7 +20,7 @@ PACKAGES =3D+ "libbz2 libbz2-dev libbz2-staticdev"
+=20
+ CFLAGS_append =3D " -fPIC -fpic -Winline -fno-strength-reduce -D_FILE_OFFS=
+ET_BITS=3D64"
+=20
+-inherit autotools update-alternatives
++inherit autotools update-alternatives ptest
+=20
+ ALTERNATIVE_PRIORITY =3D "100"
+ ALTERNATIVE_${PN} =3D "bunzip2 bzcat"
+@@ -32,6 +33,10 @@ do_configure_prepend () {
+ 	cp ${STAGING_DATADIR_NATIVE}/automake*/install-sh ${S}/
+ }
+=20
++do_install_ptest () {
++	sed -i -e "s|^Makefile:|_Makefile:|" ${D}${PTEST_PATH}/Makefile
++}
++
+ FILES_libbz2 =3D "${libdir}/lib*${SOLIBS}"
+=20
+ FILES_libbz2-dev =3D "${includedir} ${libdir}/lib*${SOLIBSDEV}"
+--=20
+1.7.10.4
 
-Cheers,
-Erik Bot=F6
 
