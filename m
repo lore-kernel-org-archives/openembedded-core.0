@@ -1,26 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 640B06AD45
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A2A2960780
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 04:38:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5Q4cuMv006451
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 26 Jun 2013 08:19:33 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q12so10511262vbe.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2013 21:38:56 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 25 Jun 2013 21:38:54 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Jun 2013 12:38:48 +0800
-Message-ID: <0b1fb9cdba7112c18f686cafb277101f5f0bacf2.1372215660.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1372215660.git.hongxu.jia@windriver.com>
-References: <cover.1372215660.git.hongxu.jia@windriver.com>
+	Wed, 26 Jun 2013 01:19:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=3LLTg2TkYdxo2caRPomYVb6yWJJk9pVdYwBGktLPi6k=;
+	b=oRPQfR8nx2GTZNvwOdMLdhA/qmDPQqlm7G2uwSIJf7zGOT9a73JkxE26ozcWYC88o0
+	upPvTGQwNhlmy2OrpgiS9erOb5rgTmKj4bWPSsg2dU5jamyqOBpgy4ZwxUbPWvrSpVy1
+	eVjM9H6Z0kYKD1gW5iH32DxZhCBnS0jbl19bj4QbbNmVXbqWf9p2f+FAjHTE2VuDkpN0
+	sKzJm5wXZB7LOkuIwQ9WraJAvK0zF7xs1FrzON+4FoU1Mb6zp31AeeOc1+Jpu8NRpRf3
+	fFJon4nUGbQcyUG4IljrkDk7nSip8AhBpmAP9LfZuJ3GZVy5rZYUeFe7ypnMEEELSUSR
+	iHUw==
+X-Received: by 10.52.164.227 with SMTP id yt3mr1061868vdb.107.1372234773951;
+	Wed, 26 Jun 2013 01:19:33 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] adt_installer_internal:add sudo when permission deny on installation directory
+Received: by 10.220.13.144 with HTTP; Wed, 26 Jun 2013 01:19:12 -0700 (PDT)
+In-Reply-To: <a1060761efe1f7eb6f02d12848c2b89c685f07e1.1372212772.git.hongxu.jia@windriver.com>
+References: <cover.1372212772.git.hongxu.jia@windriver.com>
+	<a1060761efe1f7eb6f02d12848c2b89c685f07e1.1372212772.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 26 Jun 2013 09:19:12 +0100
+Message-ID: <CAJTo0LYDup8t0rdggAQwiJ_FDb9chwYEzabvOO32hev+PLP6NQ@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+X-Gm-Message-State: ALoCoQmHop1ZrZ8V2BwNl8FCYOI3j6oEV7ysRYWIK1CEHWMszeg36o5rG1VouseE+A2tYxo1df7a
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] libx11: move xcms enabling to PACKAGECONFIG for LSB Library Check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2013 04:38:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Jun 2013 08:19:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When the user doesn't have rights to access the installation directory,
-the sdk installation will fail, add sudo to fix this.
+On 26 June 2013 03:30, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> +# LSB 4.1 Library Check requires enable Xcms, set enable as default.
+>  PACKAGECONFIG ??= ""
+> -PACKAGECONFIG[xcms] = "--enable-xcms,--disable-xcms"
+> +PACKAGECONFIG[xcms] = "--enable-xcms"
 
-[YOCTO #4760]
+Whether to enable Xcms by default is something we're debating right
+now, and this is an interesting data point.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../installer/adt-installer/scripts/adt_installer_internal            | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+However, this is entirely the wrong way of doing what you want to
+achieve.  I suggest you read the documentation on PACKAGECONFIG, but
+the patch should have been:
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-index 16677e7..175d285 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-@@ -199,7 +199,7 @@ escaped_sdkpath=$(echo $DEFAULT_INSTALL_FOLDER |sed -e "s:[\+\.]:\\\\\\\\\0:g")
- 
- # We don't change the script in-place since we may want the user to re-run
- # adt-installer script
--$SUDO sed -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" scripts/relocate_sdk.py > scripts/relocate_sdk_tmp.py
-+$SUDO sh -c "sed -e '"s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:"' scripts/relocate_sdk.py > scripts/relocate_sdk_tmp.py"
- $SUDO chmod +x scripts/relocate_sdk_tmp.py
- 
- dl_path=$(find $OECORE_NATIVE_SYSROOT/lib -name "ld-linux*")
-@@ -258,7 +258,7 @@ qemu_type=`echo "$1" | sed -e 's/x86_64/x86-64/'`
- sysroot_image_name="core-image-$target_sysroot_image-qemu$qemu_type.tar.bz2"
-     #echo_info "Extracting rootfs: $sysroot_image_name, using pseudo..."
- 
--scripts/extract_rootfs $sysroot_image_name $target_sysroot $OECORE_NATIVE_SYSROOT $user_inst_type
-+$SUDO scripts/extract_rootfs $sysroot_image_name $target_sysroot $OECORE_NATIVE_SYSROOT $user_inst_type
- check_result
- 
- echo_info "Updating environment script with target sysroot location."
--- 
-1.8.1.2
+- PACKAGECONFIG ??= ""
++ PACKAGECONFIG ??= "xcms"
 
+NACKing for now as I plan to do a little more investigation on this
+today - it's conceivable we'll enable xcms in LSB builds specifically.
+
+Ross
 
