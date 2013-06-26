@@ -1,24 +1,24 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 167F86AC48
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BC87F6AC48
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 13:30:53 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Jun 2013 06:30:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,944,1363158000"; d="scan'208";a="322856366"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jun 2013 06:30:51 -0700
-Date: Wed, 26 Jun 2013 16:30:50 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Erik =?iso-8859-1?Q?Bot=F6?= <erik.boto@pelagicore.com>
-Message-ID: <20130626133049.GJ16785@lpalcu-linux>
-References: <CA+AhUGwXGcp3w=j6d=tb4hn1SfGm1OnF86UGaDvMD6q005CA3w@mail.gmail.com>
+	Wed, 26 Jun 2013 13:40:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5QDeVId004824
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Jun 2013 06:40:31 -0700 (PDT)
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.143) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 26 Jun 2013 06:40:31 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 26 Jun 2013 09:40:25 -0400
+Message-ID: <cover.1372253710.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-In-Reply-To: <CA+AhUGwXGcp3w=j6d=tb4hn1SfGm1OnF86UGaDvMD6q005CA3w@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Issue with pseudo on 64-bit build host
+Subject: [PATCH 0/4] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2013 13:30:53 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Jun 2013 13:40:32 -0000
+Content-Type: text/plain
 
-On Wed, Jun 26, 2013 at 11:33:17AM +0200, Erik Botö wrote:
-> Hi,
-> 
-> In bitbake.conf FAKEROOTBASEENV is set to contain
-> "PSEUDO_LIBDIR=${STAGING_BINDIR_NATIVE}/../lib/pseudo/lib" but on my
-> buildhost libpseudo.so is in
-> ${STAGING_BINDIR_NATIVE}/../lib/pseudo/lib64.
-> 
-> For me this causes rpm:s that use qemu_run_binary() to do stuff during
-> do_rootfs() (using post-install scripts) to fail, since ld.so can't
-> find libpseudo.so it gives an error that contains "ERR" which
-> package_rpm.bbclass rpm_log_check() picks up.
+Richard/Saul,
 
-What's the exact error you're seeing? Is it the one listed below?
+Here's a collection of four patches that I've queued in the
+past few days. My normal smoke testing passed here.
 
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
+These are a collection of version refreshes, and configuration
+changes. Nothing major. Once these are merged, the stage is 
+set for more 1.5 development items. 
 
-This error appears if we run qemu inside pseudo. That's why we use
-PSEUDO_UNLOAD=1 in front of the qemu command. However, qemu_run_binary()
-already does that...
+Everything is pretty self explanitory, or was discussed on
+the mailing list, so I'll keep it to a summary here. Let me
+know if there are any concerns.
 
-More info would be helpful.
+ [PATCH 1/4] linux-yocto/3.4: allow kernel feature _appends to be overriden
+ [PATCH 2/4] linux-yocto/3.8: add USB screen configuration and net sched options
+ [PATCH 3/4] linux-yocto/3.4: ltsi: sync to LTSI commit 5f05247ed
+ [PATCH 4/4] linux-yocto-dev: bump version to 3.10+
 
-Laurentiu
+Cheers,
 
-> 
-> I git confused for a while since the command used in the post-install
-> script worked ok in a devshell but not during do_rootfs(), but this is
-> due to the fact that LD_LIBRARY_PATH in the devshell contains:
-> <mybuilddir>/tmp/sysroots/x86_64-linux/usr/bin/../lib/pseudo/lib64 . I
-> couldn't find where this was added to LD_LIBRARY_PATH for devshells
-> though.
-> 
-> Cheers,
-> Erik Botö
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Bruce
+
+The following changes since commit 8e9501ffa8726d69412d669580d787ffedb88d34:
+
+  populate_sdk_base, adt_installer: abort install if path contains spaces (2013-06-25 17:59:17 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (4):
+  linux-yocto/3.4: allow kernel feature _appends to be overriden
+  linux-yocto/3.8: add USB screen configuration and net sched options
+  linux-yocto/3.4: ltsi: sync to LTSI commit 5f05247ed
+  linux-yocto-dev: bump version to 3.10+
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb      |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb   |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb      |   17 +++++++++--------
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb      |    2 +-
+ 7 files changed, 16 insertions(+), 15 deletions(-)
+
+-- 
+1.7.10.4
+
 
