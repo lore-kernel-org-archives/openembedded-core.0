@@ -1,28 +1,30 @@
 Return-Path: <Mikhail_Durnev@mentor.com>
 Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F7016A8EF
+	by mail.openembedded.org (Postfix) with ESMTP id B314F6ABED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 02:55:00 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	Wed, 26 Jun 2013 02:55:10 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
 	by relay1.mentorg.com with esmtp 
-	id 1Urfsq-0007nG-Pu from Mikhail_Durnev@mentor.com 
+	id 1Urft2-0007nr-2c from Mikhail_Durnev@mentor.com 
 	for openembedded-core@lists.openembedded.org;
-	Tue, 25 Jun 2013 19:55:00 -0700
+	Tue, 25 Jun 2013 19:55:12 -0700
 Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 25 Jun 2013 19:55:00 -0700
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Tue, 25 Jun 2013 19:55:12 -0700
 Received: from sb-u1004lts-64bit.alm.mentorg.com (147.34.91.1) by
 	svr-orw-fem-02.mgc.mentorg.com (147.34.96.168) with Microsoft SMTP
-	Server id 14.2.247.3; Tue, 25 Jun 2013 19:55:00 -0700
+	Server id 14.2.247.3; Tue, 25 Jun 2013 19:55:11 -0700
 From: <mikhail_durnev@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Jun 2013 21:54:35 -0500
-Message-ID: <1372215276-9080-1-git-send-email-mikhail_durnev@mentor.com>
+Date: Tue, 25 Jun 2013 21:54:36 -0500
+Message-ID: <1372215276-9080-2-git-send-email-mikhail_durnev@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1372215276-9080-1-git-send-email-mikhail_durnev@mentor.com>
+References: <1372215276-9080-1-git-send-email-mikhail_durnev@mentor.com>
 MIME-Version: 1.0
-X-OriginalArrivalTime: 26 Jun 2013 02:55:00.0461 (UTC)
-	FILETIME=[8CA331D0:01CE7218]
-Subject: [PATCH 1/2] shadow-native: Add --root option in groupmems
+X-OriginalArrivalTime: 26 Jun 2013 02:55:12.0387 (UTC)
+	FILETIME=[93BEF530:01CE7218]
+Subject: [PATCH 2/2] useradd.bbclass: Add members to a group
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,118 +37,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2013 02:55:00 -0000
+X-List-Received-Date: Wed, 26 Jun 2013 02:55:10 -0000
 Content-Type: text/plain
 
 From: Mikhail Durnev <mikhail_durnev@mentor.com>
 
-    Patch add_root_cmd_groupmems.patch that we apply to shadow-native
-    allows program groupmems from the shadow utility package to chroot()
-    so it can be used to modify etc/passwd and etc/group if they are
-    located in a sysroot.
+useradd.bbclass supports adding new users and new groups. But it does not
+support adding existing users to existing groups.
 
-    The --root option in groupmems is needed for class useradd.
+There is a need of adding users to some groups (e.g. audio). The class was
+extended to call groupmems utility with arguments passed via GROUPMEMS_PARAM.
 
 Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
 ---
- .../shadow/files/add_root_cmd_groupmems.patch      |   75 ++++++++++++++++++++
- .../shadow/shadow-native_4.1.4.3.bb                |    1 +
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/add_root_cmd_groupmems.patch
+ meta/classes/useradd.bbclass |   68 ++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 63 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/shadow/files/add_root_cmd_groupmems.patch b/meta/recipes-extended/shadow/files/add_root_cmd_groupmems.patch
-new file mode 100644
-index 0000000..4044496
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/add_root_cmd_groupmems.patch
-@@ -0,0 +1,75 @@
-+Add a --root command option to groupmems utility.
-+
-+This option allows the utility to be chrooted when run under pseudo.
-+
-+Signed-off-by: Mikhail Durnev <mikhail_durnev@mentor.com>
-+
-+diff -Naur old/src/groupmems.c new/src/groupmems.c
-+--- old/src/groupmems.c	2011-02-13 11:58:16.000000000 -0600
-++++ new/src/groupmems.c	2013-05-30 04:45:38.000000000 -0500
-+@@ -60,6 +60,7 @@
-+ #define EXIT_MEMBER_EXISTS	7	/* member of group already exists */
-+ #define EXIT_INVALID_USER	8	/* specified user does not exist */
-+ #define EXIT_INVALID_GROUP	9	/* specified group does not exist */
-++#define EXIT_BAD_ARG		10	/* invalid argument to option */
-+
-+ /*
-+  * Global variables
-+@@ -79,6 +80,7 @@
-+ static bool is_shadowgrp;
-+ static bool sgr_locked = false;
-+ #endif
-++static const char *newroot = "";
-+
-+ /* local function prototypes */
-+ static char *whoami (void);
-+@@ -368,6 +370,7 @@
-+	                "Options:\n"
-+	                "  -g, --group groupname         change groupname instead of the user's group\n"
-+	                "                                (root only)\n"
-++	                "  -R, --root CHROOT_DIR         directory to chroot into\n"
-+	                "\n"
-+	                "Actions:\n"
-+	                "  -a, --add username            add username to the members of the group\n"
-+@@ -391,10 +394,11 @@
-+		{"group", required_argument, NULL, 'g'},
-+		{"list", no_argument, NULL, 'l'},
-+		{"purge", no_argument, NULL, 'p'},
-++		{"root", required_argument, NULL, 'R'},
-+		{NULL, 0, NULL, '\0'}
-+	};
-+
-+-	while ((arg = getopt_long (argc, argv, "a:d:g:lp", long_options,
-++	while ((arg = getopt_long (argc, argv, "a:d:g:lpR:", long_options,
-+	                           &option_index)) != EOF) {
-+		switch (arg) {
-+		case 'a':
-+@@ -416,6 +420,28 @@
-+			purge = true;
-+			++exclusive;
-+			break;
-++		case 'R':
-++			if ('/' != optarg[0]) {
-++				fprintf (stderr,
-++					 _("%s: invalid chroot path '%s'\n"),
-++					Prog, optarg);
-++				exit (EXIT_BAD_ARG);
-++			}
-++			newroot = optarg;
-++
-++			if (access (newroot, F_OK) != 0) {
-++				fprintf(stderr,
-++					_("%s: chroot directory %s does not exist\n"),
-++					Prog, newroot);
-++				exit (EXIT_BAD_ARG);
-++			}
-++			if ( chroot(newroot) != 0 ) {
-++				fprintf(stderr,
-++					_("%s: unable to chroot to directory %s\n"),
-++					Prog, newroot);
-++				exit (EXIT_BAD_ARG);
-++			}
-++			break;
-+		default:
-+			usage ();
-+		}
-diff --git a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-index 2c4edbe..1ed5d4e 100644
---- a/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow-native_4.1.4.3.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://disable-syslog.patch \
-            file://useradd.patch \
-            file://shadow_fix_for_automake-1.12.patch \
-+           file://add_root_cmd_groupmems.patch \
-            "
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index e50c889..3fe011d 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -24,13 +24,15 @@ if test "x$D" != "x"; then
+ 	OPT="--root $D"
  
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
+ 	# Add groups and users defined for all recipe packages
+-	GROUPADD_PARAM="${@get_all_cmd_params(d, 'group')}"
+-	USERADD_PARAM="${@get_all_cmd_params(d, 'user')}"
++	GROUPADD_PARAM="${@get_all_cmd_params(d, 'groupadd')}"
++	USERADD_PARAM="${@get_all_cmd_params(d, 'useradd')}"
++	GROUPMEMS_PARAM="${@get_all_cmd_params(d, 'groupmems')}"
+ else
+ 	# Installing onto a target
+ 	# Add groups and users defined only for this package
+ 	GROUPADD_PARAM="${GROUPADD_PARAM}"
+ 	USERADD_PARAM="${USERADD_PARAM}"
++	GROUPMEMS_PARAM="${GROUPMEMS_PARAM}"
+ fi
+ 
+ # Perform group additions first, since user additions may depend
+@@ -114,6 +116,62 @@ if test "x$USERADD_PARAM" != "x"; then
+ 		remaining=`echo "$remaining" | cut -d ';' -f 2-`
+ 	done
+ fi
++
++if test "x$GROUPMEMS_PARAM" != "x"; then
++	echo "Running groupmems commands..."
++	# groupmems fails if /etc/gshadow does not exist
++	if [ -f $SYSROOT${sysconfdir}/gshadow ]; then
++		gshadow="yes"
++	else
++		gshadow="no"
++		touch $SYSROOT${sysconfdir}/gshadow
++	fi
++	# Invoke multiple instances of groupmems for parameter lists
++	# separated by ';'
++	opts=`echo "$GROUPMEMS_PARAM" | cut -d ';' -f 1`
++	remaining=`echo "$GROUPMEMS_PARAM" | cut -d ';' -f 2-`
++	while test "x$opts" != "x"; do
++		groupname=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-g" || $i == "--group") print $(i+1) }'`
++		username=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-a" || $i == "--add") print $(i+1) }'`
++		echo "$groupname $username"
++		mem_exists=`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $SYSROOT/etc/group || true`
++		if test "x$mem_exists" = "x"; then
++			count=1
++			while true; do
++				eval $PSEUDO groupmems $OPT $opts || true
++				mem_exists=`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $SYSROOT/etc/group || true`
++				if test "x$mem_exists" = "x"; then
++					# File locking issues can require us to retry the command
++					echo "WARNING: groupmems command did not succeed. Retrying..."
++					sleep 1
++				else
++					break
++				fi
++				count=`expr $count + 1`
++				if test $count = 11; then
++					echo "ERROR: tried running groupmems command 10 times without success, giving up"
++					if test "x$gshadow" = "xno"; then
++						rm -f $SYSROOT${sysconfdir}/gshadow
++						rm -f $SYSROOT${sysconfdir}/gshadow-
++					fi
++					exit 1
++				fi
++			done
++		else
++			echo "Note: group $groupname already contains $username, not re-adding it"
++		fi
++
++		if test "x$opts" = "x$remaining"; then
++			break
++		fi
++		opts=`echo "$remaining" | cut -d ';' -f 1`
++		remaining=`echo "$remaining" | cut -d ';' -f 2-`
++	done
++	if test "x$gshadow" = "xno"; then
++		rm -f $SYSROOT${sysconfdir}/gshadow
++		rm -f $SYSROOT${sysconfdir}/gshadow-
++	fi
++fi
+ }
+ 
+ useradd_sysroot () {
+@@ -160,8 +218,8 @@ def update_useradd_after_parse(d):
+         raise bb.build.FuncFailed("%s inherits useradd but doesn't set USERADD_PACKAGES" % d.getVar('FILE'))
+ 
+     for pkg in useradd_packages.split():
+-        if not d.getVar('USERADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPADD_PARAM_%s' % pkg, True):
+-            raise bb.build.FuncFailed("%s inherits useradd but doesn't set USERADD_PARAM or GROUPADD_PARAM for package %s" % (d.getVar('FILE'), pkg))
++        if not d.getVar('USERADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPMEMS_PARAM_%s' % pkg, True):
++            raise bb.build.FuncFailed("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
+ 
+ python __anonymous() {
+     update_useradd_after_parse(d)
+@@ -172,7 +230,7 @@ python __anonymous() {
+ def get_all_cmd_params(d, cmd_type):
+     import string
+     
+-    param_type = cmd_type.upper() + "ADD_PARAM_%s"
++    param_type = cmd_type.upper() + "_PARAM_%s"
+     params = []
+ 
+     useradd_packages = d.getVar('USERADD_PACKAGES', True) or ""
 -- 
 1.7.9.5
 
