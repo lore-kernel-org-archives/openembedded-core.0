@@ -1,32 +1,35 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BA46D6AE53
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 844906AE53
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 17:19:02 +0000 (UTC)
-Received: by mail-ee0-f47.google.com with SMTP id e49so7445673eek.6
+	Wed, 26 Jun 2013 17:19:06 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id j14so7569106eak.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2013 10:19:03 -0700 (PDT)
+	Wed, 26 Jun 2013 10:19:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
 	bh=YslO7NVfiZ30wcY7WjQCyv8j+sAQhAVnvY1IfT2XR4k=;
-	b=HJRt4i5q6bD39GhDWjQ7NZCZetJywLLZGpyibAc6/0oy50CK5bzuw9P3/wizaFwWjX
-	m+QlcebMiMLrzFTEniql1ReoXK6P+Mw1GCPwFzR5EPUf8W01DJPihT4zynTnyyiSDngb
-	kC0pKnkcmppR97mvLUgJW0LL+HT9fQqbx4tGYFg/49aSoZf/Rvvv0gAW2biQ+5AN7GL6
-	yYLfpbsWUp7Le/DQomZphluGf3fdtu88MbtqWWOHjCsV9CtuMeA4jG+jGnnvTElI6a5/
-	B8S4PrxicFSHOFnCXObZ3JWVqgcG77nn3rNI9twLoi1E93A++i0JZ0NHF4s0wPWXY8XY
-	bH+Q==
-X-Received: by 10.14.8.197 with SMTP id 45mr5055695eer.66.1372267143295;
-	Wed, 26 Jun 2013 10:19:03 -0700 (PDT)
+	b=vN8BcxCYqRFX8CvB/UadlPCfz5vMXT52dL7KtaDkAUWh8tMF4jGEpcyUPvPCBv3P35
+	KgFVuV5VVExwbzWe/tbaI20e3bpjutbne95/IE9FiK3yBYg/reFu77vUeerLMXAV6bR8
+	E3dgn3wG09jSQuNfRhDxllGtdYUwlCZHWkqrXMGtm3rY80FHhpozN75ZaZpjWNF5+McQ
+	JDcYoBkx8CHx5Qqn1hzWrtVAdq3CWht5j3KZJIdd9Y0KTiu+7X4v/PfKy6o8UaiRKMIP
+	a2HBATTn0rgnudsZz1EY50DV0tJZ6GfWx+bIPn/7zwjy7cFjJbdMdta971qgyLOnn7Ad
+	EVsQ==
+X-Received: by 10.14.178.8 with SMTP id e8mr5185176eem.20.1372267147293;
+	Wed, 26 Jun 2013 10:19:07 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	p49sm44136952eeu.2.2013.06.26.10.19.01 for <multiple recipients>
+	c44sm44110704eeb.8.2013.06.26.10.19.06 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 26 Jun 2013 10:19:02 -0700 (PDT)
+	Wed, 26 Jun 2013 10:19:06 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jun 2013 19:19:32 +0200
-Message-Id: <1372267173-2787-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Wed, 26 Jun 2013 19:19:33 +0200
+Message-Id: <1372267173-2787-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
+In-Reply-To: <1372267173-2787-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1372267173-2787-1-git-send-email-Martin.Jansa@gmail.com>
 Subject: [PATCH] boost: Limit PARALLEL_MAKE by -j 64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -40,7 +43,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2013 17:19:03 -0000
+X-List-Received-Date: Wed, 26 Jun 2013 17:19:06 -0000
 
 * greater paralelism isn't supported by bjam and causes segfault or ignoring -j
 * PARALLEL_MAKE was enabled for boost in
