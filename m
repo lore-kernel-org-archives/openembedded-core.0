@@ -1,28 +1,36 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E36EF6007C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
+	[209.85.212.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A72016041E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 14:11:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5REB1i1009317
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Jun 2013 07:11:01 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 27 Jun 2013 07:10:59 -0700
-Message-ID: <51CC47DA.8090905@windriver.com>
-Date: Thu, 27 Jun 2013 22:10:34 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	Thu, 27 Jun 2013 14:21:25 +0000 (UTC)
+Received: by mail-vb0-f47.google.com with SMTP id x14so676360vbb.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Jun 2013 07:21:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=xblbdJCUvr8eBdbZ7KPJskWH366pl6B1pws2yoEWKq8=;
+	b=Ous2H5DI7e4Uz4+5XnmVGEdYsz0a9SAMTgJv//l5kW8e3yv71mhmgGE1SWHEi0YMIa
+	uX6DtcvFMpMJIO+vltcuMX7DxwoKqa2NnMXa79HkCxffwGvdW6ScbgbH0H3MUL0ZgMrn
+	0gf2JB03OO9JHlP1IdUVaLQy9QhT7XJMjJ/3kRpjqQFVvHa8oAUfHS45y2mPp54tkOc0
+	1Ni12dNewdPXJciFF2UTc0ofM88tgQSEOb+HOe2HlFeTvmsso7dB+ZXWSDE8x6PEHxWX
+	6wpVARe6YetTMwIdT7TX76v6j56VhK8GOpV5KoLQEm3ZsUHd6KxCyYJCfS57uT+TogpG
+	MueA==
+X-Received: by 10.52.163.46 with SMTP id yf14mr2996289vdb.58.1372342886208;
+	Thu, 27 Jun 2013 07:21:26 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <51C963C0.5020009@windriver.com> <1810438.1YW5iENKFC@helios>
-In-Reply-To: <1810438.1YW5iENKFC@helios>
-X-Originating-IP: [128.224.162.205]
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Could qt4.8 build on mips 64 bits platform?
+Received: by 10.220.13.144 with HTTP; Thu, 27 Jun 2013 07:21:06 -0700 (PDT)
+In-Reply-To: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+References: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 27 Jun 2013 15:21:06 +0100
+Message-ID: <CAJTo0LY--AwQsoe8LKxdqFptoa7TXd2AhqexP6XvnC_Ua+v52Q@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Gm-Message-State: ALoCoQl0mZkn/tZ32eLsH61YK4uBU3nTo64UkEDXkC8gD2kIGg++UUDuczXpiGL/y4rmpKkw9cT6
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +43,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 14:11:02 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Jun 2013 14:21:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2013年06月25日 18:41, Paul Eggleton wrote:
-> On Tuesday 25 June 2013 17:32:48 Kang Kai wrote:
->> Could qt4.8 build on mips 64 bits platform?
->>
->> I searched qt-project.org and no such related information.
->> And then grep the source codethat no such mips64 keyword in file
->> qmake.conf under directory mkspecs. In contrast there are mips32 related
->> flags in mkspecs/qws/linux-mips-g++/qmake.conf.
->>
->> Does that mean we still can't build qt 4.8 on mips64?
-> I don't have any specific knowledge here; I'd suggest trying it. If additional
-> patches are needed the best thing would be to try and get those merged
-> upstream.
-
-Thanks a lot. I'll try to build it on mips 64.
-
-Regards,
-Kai
-
+On 27 June 2013 15:08, Mark Hatle <mark.hatle@windriver.com> wrote:
+> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
 >
-> Cheers,
-> Paul
+> A number of vendors are providing a modified version, so checking
+> for just the version string is not enough.  We also need to check
+> if the patch for the issue has been applied.  We use a modified
+> version of the reproduced to check for the issue.
 >
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 
+Verified that this detects the 3.82 in Debian's experimental
+repository that is well and truly broken.
 
--- 
-Regards,
-Neil | Kai Kang
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
+Ross
 
