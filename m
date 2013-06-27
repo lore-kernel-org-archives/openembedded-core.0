@@ -1,21 +1,33 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp2-g21.free.fr (smtp2-g21.free.fr [212.27.42.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 495B36A4E3
+Return-Path: <sakoman@gmail.com>
+Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BB266007C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 08:03:53 +0000 (UTC)
-Received: from e6520eb (pac33-2-82-240-38-71.fbx.proxad.net [82.240.38.71])
-	(Authenticated sender: eukrea)
-	by smtp2-g21.free.fr (Postfix) with ESMTPSA id 451BB4B0178;
-	Thu, 27 Jun 2013 10:03:48 +0200 (CEST)
-Date: Thu, 27 Jun 2013 10:03:46 +0200
-From: Eric =?UTF-8?B?QsOpbmFyZA==?= <eric@eukrea.com>
-To: Steve Sakoman <sakoman@gmail.com>
-Message-ID: <20130627100346.35932ab8@e6520eb>
-In-Reply-To: <CAGDS+nmpNmSwSV9qW3aQ22BBkss1PhCVtg7A-JzSx+bL-ngqCQ@mail.gmail.com>
+	Thu, 27 Jun 2013 12:56:57 +0000 (UTC)
+Received: by mail-ob0-f169.google.com with SMTP id up14so688569obb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Jun 2013 05:56:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=aLqLu2sPG3fES4ao3ZxpZ30FRY9Kciv4Z+2mzpEtgYs=;
+	b=NFRlxJKSP80xsfTirTFaTu96QZWW/30g04l4CAu6ZUhYqzmZd6w9ik79G38GI3K7Z8
+	uquWJEsFDNO325NZMEpCfLbOJqVRM1mTaoz13qY2b33lruXZfQsES99plGr3hOeMQ+qr
+	Uzc+oHukOS4dMsKUeAFlrn5NLAVOlU9ETM9SroZNrx4NTpiWX0hk/IeTPXJlR6VoyfOG
+	AYRs0dxGd+3W6EE490MSZA4PS21T0hpuzxODGwiH5TLbWAEBGv5V7kC3Li5jx1pgDxai
+	BZMOFqOaeeKEqpd/mNZN12/aqfTDVGWSB61KvwRGWcF3MzLN9BG+XXSyDZJagigDwzW+
+	sgAQ==
+MIME-Version: 1.0
+X-Received: by 10.60.142.103 with SMTP id rv7mr2751708oeb.13.1372337815692;
+	Thu, 27 Jun 2013 05:56:55 -0700 (PDT)
+Received: by 10.182.213.130 with HTTP; Thu, 27 Jun 2013 05:56:55 -0700 (PDT)
+In-Reply-To: <20130627100346.35932ab8@e6520eb>
 References: <CAGDS+nmpNmSwSV9qW3aQ22BBkss1PhCVtg7A-JzSx+bL-ngqCQ@mail.gmail.com>
-Organization: =?UTF-8?B?RXVrcsOpYQ==?= Electromatique
-X-Mailer: Claws Mail 3.9.1 (GTK+ 2.24.18; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
+	<20130627100346.35932ab8@e6520eb>
+Date: Thu, 27 Jun 2013 05:56:55 -0700
+Message-ID: <CAGDS+nnLHmxBTtJ4tqQEFPmkD-4Nz9HHvBxBB-RyfHOhQy5ebA@mail.gmail.com>
+From: Steve Sakoman <sakoman@gmail.com>
+To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Qt embedded, touchscreens, and cursors
@@ -31,52 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 08:03:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 27 Jun 2013 12:56:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Hi Steve,
+On Thu, Jun 27, 2013 at 1:03 AM, Eric B=E9nard <eric@eukrea.com> wrote:
 
-Le Tue, 25 Jun 2013 09:34:05 -0700,
-Steve Sakoman <sakoman@gmail.com> a =C3=A9crit :
+> IIRC you can hack this in
+> qwscursor_qws.cpp
+> around "// default cursor"
+> you change ArrowCursor to BlankCursor
+> (sorry no clean patch for that ATM).
 
-> I'm new to the Qt world, so perhaps this is a stupid question . . .
->=20
-> I'm helping a client create a custom layer for their touchscreen based
-> hardware and Qt applications.
->=20
-> They've decided to use Qt4e and we are including the stock danny qt4e
-> binaries in the image.
->=20
-> All works as desired with one exception:  the Qt cursor appears at app
-> launch time with a green 16x16 background, converts to the app
-> background shortly thereafter, and then stays on the screen until the
-> first time you touch the screen, then disappears and stays gone.
->=20
-> Some quick googling indicates this is a common problem with touchsceen
-> Qt implementations and that there are no satisfactory runtime
-> solutions.  The most often recommended solution is to disable the
-> cursor at build time with -no-feature-CURSOR added to the Qt config
-> options.  This option is also claimed to give a significant
-> performance boost.
->=20
-> I tried adding a bbappend to add this option, but as some of the above
-> mentioned sources indicated the Qt build will fail unless you disable
-> demos, examples, and a couple of other build features.  I started
-> going down this path but I suspect it will require changes to the base
-> Qte recipe.
->=20
-> Have others run into this issue?  I suspect that most target hardware
-> for Yocto builds are touchscreen based, so this will likely come up
-> over and over again.
->=20
-> Any suggestions?
+Hi Eric,
 
-IIRC you can hack this in=20
-qwscursor_qws.cpp
-around "// default cursor"
-you change ArrowCursor to BlankCursor
-(sorry no clean patch for that ATM).
+That is exactly what I ended up doing.  The -no-feature-CURSOR
+approach caused too many issues, i.e. breakage in demos, samples, and
+tools.
 
-Eric
+For the record, here is the patch I used:
+
+diff --git a/src/gui/embedded/qwscursor_qws.cpp
+b/src/gui/embedded/qwscursor_qws.cpp
+index 9e8c235..0ff0dc3 100644
+--- a/src/gui/embedded/qwscursor_qws.cpp
++++ b/src/gui/embedded/qwscursor_qws.cpp
+@@ -344,7 +344,7 @@ void QWSServerPrivate::initializeCursor()
+
+     // default cursor
+     cursor =3D 0;
+-    setCursor(QWSCursor::systemCursor(Qt::ArrowCursor));
++    setCursor(QWSCursor::systemCursor(Qt::BlankCursor));
+ #endif
+     q->sendMouseEvent(QPoint(swidth/2, sheight/2), 0);
+ }
 
