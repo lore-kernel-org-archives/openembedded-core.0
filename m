@@ -1,39 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 1632E6A8D1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id B2C866ABBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 16:44:31 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id t59so742345wes.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 09:44:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=irn3CxMmn6lGGeenQJFKaeIPvOb6YCUh/hALrR3NDXU=;
-	b=dd2s4YjMm0Dexid5xE6z5wGodtYTxhszn/iXfKV3RSzzMTrWOC800k+MvKOPLgV7tE
-	D57FGGs5dafMSLhMZhKX6S8dnrWX1xhCUa2b0Mvv1S28Hzaq4FJDHeruQBRmlHIBpLWi
-	DqcnHZh8qd0PmwApSlCUnJXeDRwC4177QwhlkE8TKVXtSk9tc/ZIK41fSHvEWVfrAJHB
-	YJOMsbjMTdk/PzTtuuMYesYGRipaHqycBeS6JL2v0Dq9lwp4PhCf3xvkXTAEXRx8EMIv
-	vHHXY2zeK9y73dtbF02FkoXF0/JkAOs4mz32nlTJP3rFK0Zj2nRxTxZzATKW24XbQ66D
-	itTg==
-X-Received: by 10.194.60.5 with SMTP id d5mr6973100wjr.26.1372351472363;
-	Thu, 27 Jun 2013 09:44:32 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id j20sm4719162wie.7.2013.06.27.09.44.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 27 Jun 2013 09:44:31 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2013 17:40:51 +0100
-Message-Id: <1372351251-13677-3-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1372351251-13677-1-git-send-email-ross.burton@intel.com>
-References: <1372351251-13677-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQlLRyITF7JERGmC+sgrOhwVe34C1N7lzg70nqeMJ7t4BiBmT4pnvnIBNzgwP5ohBCyPA4Ol
-Subject: [PATCH 3/3] seperatebuilddir: cogl and clutter build out of tree
+	Thu, 27 Jun 2013 16:47:38 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5RGrx1J027314; Thu, 27 Jun 2013 17:53:59 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9JQjyvTr9r6x; Thu, 27 Jun 2013 17:53:58 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r5RGrtxs027310
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 27 Jun 2013 17:53:56 +0100
+Message-ID: <1372351613.9930.225.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Date: Thu, 27 Jun 2013 17:46:53 +0100
+In-Reply-To: <51CC69DA.3010406@windriver.com>
+References: <51C963C0.5020009@windriver.com> <1810438.1YW5iENKFC@helios>
+	<51CC47DA.8090905@windriver.com> <51CC69DA.3010406@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Could qt4.8 build on mips 64 bits platform?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,35 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 16:44:32 -0000
+X-List-Received-Date: Thu, 27 Jun 2013 16:47:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/seperatebuilddir.inc |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On Thu, 2013-06-27 at 12:35 -0400, Randy MacLeod wrote:
+> We ended up with horrid bbapends such as:
+> ---
+> #Valid for all arches except mips64 with 64bit userspace
+> # mips64 with n32 has host: mips64-wrs-linux-gnun32
+> # mips64 with n64 has host: mips64-wrsmllib64-linux
+> # qemumips has host: mips-wrs-linux
+> # qemumips-64 has host: mips64-wrs-linux
+> COMPATIBLE_HOST = 
+> '((x86_64.*|i.86.*|powerpc.*|arm.*|mips-.*|mips32.*)-linux|mips64.*-linux-gnun32)'
+> ---
+> 
+> so we'll likely need a clue on how to declare a host as incompatible
+> or introduce an INCOMPATIBLE_HOST variable.
 
-diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-index d113f92..979f44b 100644
---- a/meta/conf/distro/include/seperatebuilddir.inc
-+++ b/meta/conf/distro/include/seperatebuilddir.inc
-@@ -68,12 +68,12 @@ B_pn-ccache = "${SEPB}"
- B_pn-ccache-native = "${SEPB}"
- B_pn-chrpath = "${SEPB}"
- B_pn-chrpath-native = "${SEPB}"
--B_pn-clutter-1.8 = "${SEPB}"
--B_pn-clutter-gst-1.8 = "${SEPB}"
--B_pn-clutter-gtk-1.8 = "${SEPB}"
-+B_pn-clutter-1.0 = "${SEPB}"
-+B_pn-clutter-gst-1.0 = "${SEPB}"
-+B_pn-clutter-gtk-1.0 = "${SEPB}"
- #B_pn-cmake = "${SEPB}"
- #B_pn-cmake-native = "${SEPB}"
--B_pn-cogl = "${SEPB}"
-+B_pn-cogl-1.0 = "${SEPB}"
- B_pn-compositeproto = "${SEPB}"
- B_pn-compositeproto-native = "${SEPB}"
- #B_pn-connman = "${SEPB}"
--- 
-1.7.10.4
+I suspect something like this should work:
+
+COMPATIBLE_HOST_mips64 = ""
+
+Cheers,
+
+Richard
 
 
