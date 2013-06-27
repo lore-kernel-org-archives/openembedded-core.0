@@ -1,36 +1,25 @@
-Return-Path: <sakoman@gmail.com>
-Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
-	[209.85.214.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BB266007C
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C5DB6A5DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 12:56:57 +0000 (UTC)
-Received: by mail-ob0-f169.google.com with SMTP id up14so688569obb.0
+	Thu, 27 Jun 2013 13:57:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5RDvlKB009085
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 05:56:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=aLqLu2sPG3fES4ao3ZxpZ30FRY9Kciv4Z+2mzpEtgYs=;
-	b=NFRlxJKSP80xsfTirTFaTu96QZWW/30g04l4CAu6ZUhYqzmZd6w9ik79G38GI3K7Z8
-	uquWJEsFDNO325NZMEpCfLbOJqVRM1mTaoz13qY2b33lruXZfQsES99plGr3hOeMQ+qr
-	Uzc+oHukOS4dMsKUeAFlrn5NLAVOlU9ETM9SroZNrx4NTpiWX0hk/IeTPXJlR6VoyfOG
-	AYRs0dxGd+3W6EE490MSZA4PS21T0hpuzxODGwiH5TLbWAEBGv5V7kC3Li5jx1pgDxai
-	BZMOFqOaeeKEqpd/mNZN12/aqfTDVGWSB61KvwRGWcF3MzLN9BG+XXSyDZJagigDwzW+
-	sgAQ==
+	Thu, 27 Jun 2013 06:57:47 -0700 (PDT)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Thu, 27 Jun 2013 06:57:46 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Jun 2013 09:08:33 -0500
+Message-ID: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 MIME-Version: 1.0
-X-Received: by 10.60.142.103 with SMTP id rv7mr2751708oeb.13.1372337815692;
-	Thu, 27 Jun 2013 05:56:55 -0700 (PDT)
-Received: by 10.182.213.130 with HTTP; Thu, 27 Jun 2013 05:56:55 -0700 (PDT)
-In-Reply-To: <20130627100346.35932ab8@e6520eb>
-References: <CAGDS+nmpNmSwSV9qW3aQ22BBkss1PhCVtg7A-JzSx+bL-ngqCQ@mail.gmail.com>
-	<20130627100346.35932ab8@e6520eb>
-Date: Thu, 27 Jun 2013 05:56:55 -0700
-Message-ID: <CAGDS+nnLHmxBTtJ4tqQEFPmkD-4Nz9HHvBxBB-RyfHOhQy5ebA@mail.gmail.com>
-From: Steve Sakoman <sakoman@gmail.com>
-To: =?ISO-8859-1?Q?Eric_B=E9nard?= <eric@eukrea.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Qt embedded, touchscreens, and cursors
+X-Originating-IP: [172.25.34.61]
+Subject: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,38 +32,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 12:56:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 27 Jun 2013 13:57:46 -0000
+Content-Type: text/plain
 
-On Thu, Jun 27, 2013 at 1:03 AM, Eric B=E9nard <eric@eukrea.com> wrote:
+See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
 
-> IIRC you can hack this in
-> qwscursor_qws.cpp
-> around "// default cursor"
-> you change ArrowCursor to BlankCursor
-> (sorry no clean patch for that ATM).
+A number of vendors are providing a modified version, so checking
+for just the version string is not enough.  We also need to check
+if the patch for the issue has been applied.  We use a modified
+version of the reproduced to check for the issue.
 
-Hi Eric,
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/classes/sanity.bbclass | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-That is exactly what I ended up doing.  The -no-feature-CURSOR
-approach caused too many issues, i.e. breakage in demos, samples, and
-tools.
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index e21cb6b..f2ed91e 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -306,6 +306,42 @@ def check_gcc_march(sanity_data):
+ 
+     return result
+ 
++# Unpatched versions of make 3.82 are known to be broken.  See GNU Savannah Bug 30612.
++# Use a modified reproducer from http://savannah.gnu.org/bugs/?30612 to validate.
++def check_make_version(sanity_data):
++    from distutils.version import LooseVersion
++    status, result = oe.utils.getstatusoutput("make --version")
++    if status != 0:
++        return "Unable to execute make --version, exit code %s\n" % status
++    version = result.split()[2]
++    if LooseVersion(version) == LooseVersion("3.82"):
++        # Construct a test file
++        f = open("makefile_test", "w")
++        f.write("makefile_test.a: makefile_test_a.c makefile_test_b.c makefile_test.a( makefile_test_a.c makefile_test_b.c)\n")
++        f.write("\n")
++        f.write("makefile_test_a.c:\n")
++        f.write("	touch $@\n")
++        f.write("\n")
++        f.write("makefile_test_b.c:\n")
++        f.write("	touch $@\n")
++        f.close()
++
++        # Check if make 3.82 has been patched
++        status,result = oe.utils.getstatusoutput("make -f makefile_test")
++
++        os.remove("makefile_test")
++        if os.path.exists("makefile_test_a.c"):
++            os.remove("makefile_test_a.c")
++        if os.path.exists("makefile_test_b.c"):
++            os.remove("makefile_test_b.c")
++        if os.path.exists("makefile_test.a"):
++            os.remove("makefile_test.a")
++
++        if status != 0:
++            return "Your version of make 3.82 is broken. Please revert to 3.81 or install a patched version.\n"
++    return None
++
++
+ # Tar version 1.24 and onwards handle overwriting symlinks correctly
+ # but earlier versions do not; this needs to work properly for sstate
+ def check_tar_version(sanity_data):
+@@ -436,6 +472,7 @@ def check_sanity_version_change(status, d):
+     except ImportError:
+         status.addresult('Your python is not a full install. Please install the module xml.parsers.expat (python-xml on openSUSE and SUSE Linux).\n')
+ 
++    status.addresult(check_make_version(d))
+     status.addresult(check_tar_version(d))
+     status.addresult(check_git_version(d))
+ 
+-- 
+1.8.3.1
 
-For the record, here is the patch I used:
-
-diff --git a/src/gui/embedded/qwscursor_qws.cpp
-b/src/gui/embedded/qwscursor_qws.cpp
-index 9e8c235..0ff0dc3 100644
---- a/src/gui/embedded/qwscursor_qws.cpp
-+++ b/src/gui/embedded/qwscursor_qws.cpp
-@@ -344,7 +344,7 @@ void QWSServerPrivate::initializeCursor()
-
-     // default cursor
-     cursor =3D 0;
--    setCursor(QWSCursor::systemCursor(Qt::ArrowCursor));
-+    setCursor(QWSCursor::systemCursor(Qt::BlankCursor));
- #endif
-     q->sendMouseEvent(QPoint(swidth/2, sheight/2), 0);
- }
 
