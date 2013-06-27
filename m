@@ -1,35 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D587619DE
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 15:38:50 +0000 (UTC)
-Received: by mail-pb0-f44.google.com with SMTP id uo1so1075669pbc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 08:38:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=P+vs96ef4YT42naZqj555dLrv2dL1sO7ROzW3Qqfs60=;
-	b=IAu50YAXJcKDJ5f33SBGmeilkWaQxT9USZMIAadAPngqWj3bDKkxbv9ciw2LIhi7zL
-	zQRXZbuWIusfPBv7J6ymd79wvgwjcoiRyj3QridAv+IJaO+x73nmbkR0iTCBz9BZRewM
-	WlMdEEoaV2Sg4T9MxdLdDcXOy5tdsHjQwGH6oxNDYjLSMXOeWlIskf7ogx0HpI2whnT6
-	foUaorcOZCmQMO2wMXboN0BG4Ca5A1VD61LDTuqfqdwEZMK2poCyZTN5Z6gofbH4/UJq
-	JypkGPGmTjttlV502HM2UzyUcvQAUMs/emsIKwvxQk3qJEqvzMM2Kg0R8rl8tLLvclK6
-	KBkQ==
-X-Received: by 10.68.114.36 with SMTP id jd4mr6720035pbb.12.1372347531708;
-	Thu, 27 Jun 2013 08:38:51 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id br1sm3686049pbb.4.2013.06.27.08.38.50
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 27 Jun 2013 08:38:51 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2013 08:38:37 -0700
-Message-Id: <1372347517-26868-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] gcc-4.8: Fix ICE on ppc/spe targets
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3EF76AB81;
+	Thu, 27 Jun 2013 16:08:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5RG8WKx024037
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 27 Jun 2013 09:08:32 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 27 Jun 2013 09:08:32 -0700
+Message-ID: <51CC637F.6010103@windriver.com>
+Date: Thu, 27 Jun 2013 11:08:31 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: <tsc@lists.openembedded.org>
+References: <1371572589.20823.143.camel@ted> <51CC50B4.6060703@balister.org>
+	<1372347506.9930.220.camel@ted>
+In-Reply-To: <1372347506.9930.220.camel@ted>
+Cc: openembedded-members@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE, the TSC and the future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,75 +36,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 15:38:50 -0000
+X-List-Received-Date: Thu, 27 Jun 2013 16:08:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Rename patches to make them easly to apply with git
+On 6/27/13 10:38 AM, Richard Purdie wrote:
+> On Thu, 2013-06-27 at 10:48 -0400, Philip Balister wrote:
+>> On 06/18/2013 12:23 PM, Richard Purdie wrote:
+>>> I should note that whilst I did take an action from the TSC to start a
+>>> discussion and that the TSC does have some ideas in mind, I'm primarily
+>>> expressing personal views here, not those of the TSC. Other TSC members
+>>> are more than capable of expressing their own views!
+>>
+>> OpenEmbedded still needs a group of people to provide technical
+>> leadership that are appointed/elected by the technical people active in
+>> the project. How the TSC provides this leadership is up to them.
+>
+> Agreed, I still think there is a role for the TSC there, the time is
+> just right to think about how it works and whether everything makes
+> sense.
+>
+>> I'd like to see the TSC interact more with the larger community and be
+>> less focused on meetings. As the OE board chair, I am fine with having
+>> us chase infrastructure issues and letting the TSC focus on improving
+>> OpenEmbedded.
+>>
+>> My challenge to the TSC is how can we improve the community of people
+>> working on OpenEmbedded. Engaging with the Yocto Project has brought in
+>> large numbers of new developers and I feel we have done a poor job
+>> integrating them into the larger OpenEmbedded community.
+>
+> Personally, I don't see a split between OE and YP communities. Anyone
+> submitting changes to OE-Core joins the OE-Core mailing list and becomes
+> part of the OE community.
+>
+> I do wonder/worry whether we do get people involved into any of the
+> projects as much as we could/should though. There aren't that many new
+> faces taking ownership of areas of the codebase for example. We have
+> gone to a lot of effort to try and make many things "just work", perhaps
+> this is partly a result of that? It would be both a good and bad thing
+> in that case!
+>
+>> I had hoped at one point we could use the Collab Summit for developer
+>> meetings, like the old OEDEM (Open Embedded Developer European Meeting)
+>> we had in the past. But the vibe there is all wrong and attendance is by
+>> invite. Also the US West coast location is very painful for people from
+>> Europe. (Mind you, Europe is painful for the US West Coast :)
+>>
+>> To give you an idea to kick around, we need to create some form of event
+>> that corporate types can convince their managers is valuable to attend,
+>> while avoiding the typical conference mode of people presenting to rooms
+>> of people. My goal for such an event is have developers and the user
+>> community exchanging ideas with high bandwidth channels. As opposed to
+>> IRC, EMail, and telecons we normally use. (We make good use of these
+>> tools, they each have limitations though)
+>>
+>> The word I have seen kicked around is "Unconference".
+>
+> I think the key here is to find someone interested in holding this event
+> and that person making it happen. There are people around who could help
+> but I think it would need someone from the OE community to step up and
+> own it.
+>
+>> Like I said earlier, how the TSC achieves its mission is up to them.
+>> Both of these suggestions looks sane. Having meetings for the sake of
+>> having a meeting is not good.
+>
+> Agreed, I don't think the TSC has reached that point however there is a
+> need for wider involvement of others in the community. I can only take
+> silence in reply to my email as agreement although that makes it hard to
+> tell :/.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-4.8.inc              |    5 +++--
- ....8-PR56797.patch => 0037-gcc-4.8-PR56797.patch} |    0
- ...ld-args.patch => 0038-gcc-4.8-build-args.patch} |    0
- .../gcc/gcc-4.8/0039-gcc-4.8-PR57717.patch         |   23 ++++++++++++++++++++
- 4 files changed, 26 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/gcc/gcc-4.8/{gcc-4.8-PR56797.patch => 0037-gcc-4.8-PR56797.patch} (100%)
- rename meta/recipes-devtools/gcc/gcc-4.8/{gcc-4.8-build-args.patch => 0038-gcc-4.8-build-args.patch} (100%)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0039-gcc-4.8-PR57717.patch
+In the last couple of years, I can only remember two or three meetings that we 
+have nothing to discuss and we simply adjourned the meeting...
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index bfdb766..3219e0c 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -66,8 +66,9 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0034-Use-the-multilib-config-files-from-B-instead-of-usin.patch \
- 	   file://0035-wcast-qual-PR-55383.patch \
- 	   file://0036-PR-target-56102.patch \
--	   file://gcc-4.8-PR56797.patch \
--	   file://gcc-4.8-build-args.patch \
-+	   file://0037-gcc-4.8-PR56797.patch \
-+	   file://0038-gcc-4.8-build-args.patch \
-+	   file://0039-gcc-4.8-PR57717.patch \
- 	  "
- SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
- SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-PR56797.patch b/meta/recipes-devtools/gcc/gcc-4.8/0037-gcc-4.8-PR56797.patch
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-PR56797.patch
-rename to meta/recipes-devtools/gcc/gcc-4.8/0037-gcc-4.8-PR56797.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-build-args.patch b/meta/recipes-devtools/gcc/gcc-4.8/0038-gcc-4.8-build-args.patch
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-4.8/gcc-4.8-build-args.patch
-rename to meta/recipes-devtools/gcc/gcc-4.8/0038-gcc-4.8-build-args.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0039-gcc-4.8-PR57717.patch b/meta/recipes-devtools/gcc/gcc-4.8/0039-gcc-4.8-PR57717.patch
-new file mode 100644
-index 0000000..f983f70
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/0039-gcc-4.8-PR57717.patch
-@@ -0,0 +1,23 @@
-+This backports fix from http://gcc.gnu.org/bugzilla/show_bug.cgi?id=57717
-+
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Index: gcc-4.8.1/gcc/config/rs6000/rs6000.c
-+===================================================================
-+--- gcc-4.8.1.orig/gcc/config/rs6000/rs6000.c	2013-05-09 18:54:06.000000000 -0700
-++++ gcc-4.8.1/gcc/config/rs6000/rs6000.c	2013-06-27 08:22:40.459021366 -0700
-+@@ -5431,11 +5431,12 @@
-+ 
-+     case TFmode:
-+     case TDmode:
-+-    case TImode:
-+       if (TARGET_E500_DOUBLE)
-+ 	return (SPE_CONST_OFFSET_OK (offset)
-+ 		&& SPE_CONST_OFFSET_OK (offset + 8));
-++        /* Fall through.  */
-+ 
-++    case TImode:
-+       extra = 8;
-+       if (!worst_case)
-+ 	break;
--- 
-1.7.9.5
+The key thing is that the roll of the TSC from technical body and necessary 
+"fix-it" specialists is changing.  And we need to figure out how to better to 
+get help when something is found to be in need of work.
+
+Some of this will no doubt turn out to be janitorial type work.. and some of it 
+may be new development.
+
+>> The TSC is free to call on people as they see fit, however I would
+>> expect any selection process to be very transparent and open to all
+>> interested participants. Maybe a good first step would be document who
+>> is doing what. It would be nice to have a web page on the wiki defining
+>> layer maintainers, branch maintainers, active autobuilders etc. I know
+>> all this is in readme;s etc, but having a central index of active people
+>> would be really helpful to show people the extent of the OpenEmbedded
+>> community.
+>
+> Who is going to do it? The information is all there, its perfectly
+> possible. I'd like to see new faces involved though, the existing TSC
+> members and board members do enough already. Much as I want to help with
+> many different things, I don't scale and the usual suspects aren't going
+> to either indefinitely :/.
+
+I'd propose that we hold an open IRC meeting (similar to what was discussed in 
+RP's original proposal) and attempt to gauge interest/self organize.  If a once 
+a month open IRC meeting makes sense, great.. if people want to do a once a week 
+sync-up, etc good as well.
+
+Somehow we need to get more communication going between the members, 
+contributors, TSC and general interested people.
+
+> Cheers,
+>
+> Richard
+>
+>
+> _______________________________________________
+> tsc mailing list
+> tsc@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/tsc
+>
 
 
