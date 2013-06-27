@@ -1,36 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 311C6618B5
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id B1D61618B5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 14:44:52 +0000 (UTC)
-Received: by mail-ee0-f54.google.com with SMTP id t10so450751eei.41
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 07:44:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=A9v7hJNpUOxczzXmXjOwqN4oqECbDnv05Exm+DPzCv0=;
-	b=WiWSNaVhmJpjMgvG8EQqsZIMJcejAzcwdOHTRWEUY/i/y5YXkVqR35wMglbBMzdubp
-	7vAJA9tmOMAJsajsRwJrgjpcRwvhLibhhEhUuWo8mZDgP0XakXg1wMvU/3aTW3nKTEaz
-	WyhPBsslOdoicn0OEOSYyzt9+CxX8CavvHW/JMgV01qtV++DjljQOE2dc9LliZhc1IRG
-	GvBRvTrh8PWeuuJlVa0nl0r4hZfh/R+U0GbVXZVU9x+KGHjEtLg5d31+Bcnntetnd9HN
-	Of+t+SFqu540HkJ12JFlCp/qnqYRJDW2dVCXnJyGgiL29p0wIyIjRx2h2GFl1+hiCdvK
-	mrCQ==
-X-Received: by 10.14.115.9 with SMTP id d9mr9395087eeh.87.1372344292140;
-	Thu, 27 Jun 2013 07:44:52 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id n5sm4262550eed.9.2013.06.27.07.44.51
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 27 Jun 2013 07:44:51 -0700 (PDT)
-Date: Thu, 27 Jun 2013 16:45:29 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20130627144529.GG3261@jama>
+	Thu, 27 Jun 2013 14:48:20 +0000 (UTC)
+Received: (qmail 5147 invoked by uid 1003); 27 Jun 2013 14:45:04 -0000
+Received: from unknown (HELO ?192.168.1.122?)
+	(philip@opensdr.com@96.240.165.115)
+	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
+	27 Jun 2013 14:45:04 -0000
+Message-ID: <51CC50B4.6060703@balister.org>
+Date: Thu, 27 Jun 2013 10:48:20 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: [dylan] 2 backports from master
+To: openembedded-members@lists.openembedded.org
+References: <1371572589.20823.143.camel@ted>
+In-Reply-To: <1371572589.20823.143.camel@ted>
+X-Enigmail-Version: 1.5.1
+Cc: tsc <tsc@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE, the TSC and the future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,130 +34,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 14:44:52 -0000
-X-Groupsio-MsgNum: 41036
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="PGNNI9BzQDUtgA2J"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 27 Jun 2013 14:48:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---PGNNI9BzQDUtgA2J
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 06/18/2013 12:23 PM, Richard Purdie wrote:
+> I think its fair to say that OpenEmbedded has changed quite a bit over
+> the last few years. Prior to the Yocto Project, OE struggled to figure
+> out how to engage with the commercial side of the ecosystem and how to
+> scale and I think there have been many positive changes in the way
+> everything works, not least with the layers approach and the pull model
+> for changes.
+> 
+> Whilst the ecosystem has changed, the structures that make up OE such as
+> the TSC have not changed that much. They were setup to address problems
+> which in some cases no longer exist for example.
+> 
+> We're coming up to the next round of TSC elections, the board is aware
+> of this but have asked that we figure out the TSC's role going forward
+> before those elections.
+> 
+> There has been limited discussion about this on the members list
+> previously, it was met with a lot of silence but I do think the time is
+> right to think about things a bit.
 
-Hi,
+In case people are not aware, this is a description if the TSC:
 
-we talked about this one on IRC already, now I've also discussed them
-with RP and he confirmed that the issue was there earlier, using it in
-more places just made it more visible.
+http://www.openembedded.org/wiki/TSC
 
-in this order:
-http://git.openembedded.org/openembedded-core/commit?id=3D5853e0f482b22258c=
-909268fe71673a29e31989b
-http://git.openembedded.org/openembedded-core/commit?id=3D2f954a9a6932f1e6c=
-564e7e7aacaac628a75eed7
+> 
+> I should note that whilst I did take an action from the TSC to start a
+> discussion and that the TSC does have some ideas in mind, I'm primarily
+> expressing personal views here, not those of the TSC. Other TSC members
+> are more than capable of expressing their own views!
+> 
 
-I did couple of clean builds with them and haven't found any issue.
-And with them backported I wasn't able to reproduce following issue anymore.
+OpenEmbedded still needs a group of people to provide technical
+leadership that are appointed/elected by the technical people active in
+the project. How the TSC provides this leadership is up to them.
 
-We're seeing it with Dylan release on host with very fast IO, so that's
-probably why we're reporting it first.
+I'd like to see the TSC interact more with the larger community and be
+less focused on meetings. As the OE board chair, I am fine with having
+us chase infrastructure issues and letting the TSC focus on improving
+OpenEmbedded.
 
-If you want to backport only 2nd patch without 1st one, let me know and I'll
-prepare and test such commit.
+My challenge to the TSC is how can we improve the community of people
+working on OpenEmbedded. Engaging with the Yocto Project has brought in
+large numbers of new developers and I feel we have done a poor job
+integrating them into the larger OpenEmbedded community.
 
-DEBUG: Executing python function sstate_task_prefunc
-DEBUG: Python function sstate_task_prefunc finished
-DEBUG: Executing python function do_populate_sysroot
-DEBUG: Executing shell function sysroot_stage_all
-DEBUG: Shell function sysroot_stage_all finished
-DEBUG: Python function do_populate_sysroot finished
-DEBUG: Executing python function do_qa_staging
-NOTE: QA checking staging
-DEBUG: Python function do_qa_staging finished
-DEBUG: Executing python function sstate_task_postfunc
-DEBUG: Staging files from /OE//work/armv7a-vfp-neon-oe-linux-gnueabi/sysvin=
-it/2.88dsf-r11/sysroot-destdir to /OE//sysroots/MACHINE
-DEBUG: Preparing tree /OE//work/armv7a-vfp-neon-oe-linux-gnueabi/sysvinit/2=
-=2E88dsf-r11/sysroot-destdir for packaging at /OE//work/armv7a-vfp-neon-oe-=
-linux-gnueabi/sysvinit/2.88dsf-r11/sstate-build-populate-sysroot/sysroot-de=
-stdir
-ERROR: Error executing a python function in /OE//oe-core/meta/recipes-core/=
-sysvinit/sysvinit_2.88dsf.bb:
-CalledProcessError: Command 'cp -al /OE//work/armv7a-vfp-neon-oe-linux-gnue=
-abi/sysvinit/2.88dsf-r11/sysroot-destdir/* /OE//work/armv7a-vfp-neon-oe-lin=
-ux-gnueabi/sysvinit/2.88dsf-r11/sstate-build-populate-sysroot/sysroot-destd=
-ir' returned non-zero exit status 1 with output cp: cannot create directory=
- `/OE//work/armv7a-vfp-neon-oe-linux-gnueabi/sysvinit/2.88dsf-r11/sstate-bu=
-ild-populate-sysroot/sysroot-destdir/usr/share': File exists
-cp: cannot create directory `/OE//work/armv7a-vfp-neon-oe-linux-gnueabi/sys=
-vinit/2.88dsf-r11/sstate-build-populate-sysroot/sysroot-destdir/usr/include=
-': File exists
-=20
-=20
-ERROR: The stack trace of python calls that resulted in this exception/fail=
-ure was:
-ERROR:   File "sstate_task_postfunc", line 10, in <module>
-ERROR:
-ERROR:   File "sstate_task_postfunc", line 7, in sstate_task_postfunc
-ERROR:
-ERROR:   File "sstate.bbclass", line 45, in sstate_package
-ERROR:
-ERROR:   File "/OE//oe-core/meta/lib/oe/path.py", line 94, in copyhardlinkt=
-ree
-ERROR:     check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STDOUT)
-ERROR:
-ERROR:   File "/OE//oe-core/meta/lib/oe/path.py", line 155, in check_output
-ERROR:     raise CalledProcessError(retcode, cmd, output=3Doutput)
-ERROR:
-ERROR: The code that was being executed was:
-ERROR:      0006:        bb.build.exec_func(intercept, d)
-ERROR:      0007:    sstate_package(shared_state, d)
-ERROR:      0008:
-ERROR:      0009:
-ERROR:  *** 0010:sstate_task_postfunc(d)
-ERROR:      0011:
-ERROR: [From file: 'sstate_task_postfunc', lineno: 10, function: <module>]
-ERROR:      0003:    shared_state =3D sstate_state_fromvars(d)
-ERROR:      0004:    sstate_install(shared_state, d)
-ERROR:      0005:    for intercept in shared_state['interceptfuncs']:
-ERROR:      0006:        bb.build.exec_func(intercept, d)
-ERROR:  *** 0007:    sstate_package(shared_state, d)
-ERROR:      0008:
-ERROR:      0009:
-ERROR:      0010:sstate_task_postfunc(d)
-ERROR:      0011:
-ERROR: [From file: 'sstate_task_postfunc', lineno: 7, function: sstate_task=
-_postfunc]
-ERROR:      0041:                srcpath =3D os.path.join(walkroot, dir)
-ERROR:      0042:                dstpath =3D srcpath.replace(state[1], ssta=
-tebuild + state[0])
-ERROR:      0043:                make_relative_symlink(srcpath, dstpath, d)
-ERROR:      0044:        bb.debug(2, "Preparing tree %s for packaging at %s=
-" % (state[1], sstatebuild + state[0]))
-ERROR:  *** 0045:        oe.path.copyhardlinktree(state[1], sstatebuild + s=
-tate[0])
-ERROR:      0046:
-ERROR:      0047:    workdir =3D d.getVar('WORKDIR', True)
-ERROR:      0048:    for plain in ss['plaindirs']:
-ERROR:      0049:        pdir =3D plain.replace(workdir, sstatebuild)
-ERROR: [From file: 'sstate.bbclass', lineno: 45, function: sstate_package]
-DEBUG: Python function sstate_task_postfunc finished
-ERROR: Function failed: sstate_task_postfunc
+I had hoped at one point we could use the Collab Summit for developer
+meetings, like the old OEDEM (Open Embedded Developer European Meeting)
+we had in the past. But the vibe there is all wrong and attendance is by
+invite. Also the US West coast location is very painful for people from
+Europe. (Mind you, Europe is painful for the US West Coast :)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+To give you an idea to kick around, we need to create some form of event
+that corporate types can convince their managers is valuable to attend,
+while avoiding the typical conference mode of people presenting to rooms
+of people. My goal for such an event is have developers and the user
+community exchanging ideas with high bandwidth channels. As opposed to
+IRC, EMail, and telecons we normally use. (We make good use of these
+tools, they each have limitations though)
 
---PGNNI9BzQDUtgA2J
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+The word I have seen kicked around is "Unconference".
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlHMUAkACgkQN1Ujt2V2gBx39wCfVwqakU/kZ94GOZ8snnGWJPCO
-lTQAn1kFbDJJCfSDYnuJjMt8OfLkvD6q
-=wTts
------END PGP SIGNATURE-----
+> In brief summary the TSC has been doing two main things, acting as a
+> task force and also being able to make a decision when needed. The
+> latter has not happened much at all, the main work was as a task force
+> on various issues, firstly engaging with the Yocto Project and figuring
+> that out, more recently dealing with infrastructure issues and generally
+> ensuring the health of OE.
+> 
+> I don't think the task force should be limited to the TSC members
+> although it can be lead by them (or delegated). As such I think the TSC
+> would like to see that element get opened up to a public IRC meeting,
+> maybe monthly at a set time when people get together and discuss those
+> topics. The TSC members could be responsible for giving that process and
+> meeting some kind of structure but it would be open to all.
+> 
+> The decision making element of the TSC would remain with them, likely
+> done by calling a special meeting as needed (we haven't needed many
+> official decisions).
+> 
+> At this point I'll open that to discussion. Any objections or other
+> proposals?
+> 
 
---PGNNI9BzQDUtgA2J--
+Like I said earlier, how the TSC achieves its mission is up to them.
+Both of these suggestions looks sane. Having meetings for the sake of
+having a meeting is not good.
+
+The TSC is free to call on people as they see fit, however I would
+expect any selection process to be very transparent and open to all
+interested participants. Maybe a good first step would be document who
+is doing what. It would be nice to have a web page on the wiki defining
+layer maintainers, branch maintainers, active autobuilders etc. I know
+all this is in readme;s etc, but having a central index of active people
+would be really helpful to show people the extent of the OpenEmbedded
+community.
+
+Philip
+
+> Speaking of TSC elections, I know I'm due for re-election first. I'm
+> also due to be away for a few weeks shortly so I'd like to make it known
+> that I would like to stand for re-election. I've hopefully done some
+> good for OE over what amounts to nearly a decade (scary when put like
+> that!) and I'm not quite done yet! :)
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> _______________________________________________
+> Openembedded-members mailing list
+> Openembedded-members@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-members
+> 
+
