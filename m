@@ -1,43 +1,32 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
-	[209.85.160.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 42ADD6AD3B;
-	Thu, 27 Jun 2013 02:49:12 +0000 (UTC)
-Received: by mail-pb0-f48.google.com with SMTP id ma3so258636pbc.35
-	for <multiple recipients>; Wed, 26 Jun 2013 19:49:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=exqXSJ2aeNfCi/TBXkpTMg28lZV8RU0HD0e5efPf5Fo=;
-	b=hFXypF3UOLVzVBvw/qaryKLACIi7jZesafpf/0g0tl8CTsrJ3lH9kDN4P/39EnXWU8
-	iceXPpIr+A7Sxb3Bbpcz+74OW/BmFStuzoUAQwjRjlYKL5Jovpn+Cn8LFvLpdO9ZKG5v
-	jsmZAIxNaixwilGidp3hbwUbk3gxmPg9dQuz4IKL5pUnXpKH1yyAy0v0hAzquBb2fr4Q
-	AUbt6mkyfvgEunQrzxYQTHMdpvE+c0rtB8ENPSMxuS2PjxXv1pKSHO0FwrMm79rtRTBN
-	JZifxTg7WAA7nvfgMIBZjZUD33ZLgXZrsVBN7qEu6ySngmUy4sedubAIWYYExrOWrUoG
-	uhkg==
-X-Received: by 10.68.36.230 with SMTP id t6mr3698960pbj.15.1372301353343;
-	Wed, 26 Jun 2013 19:49:13 -0700 (PDT)
-Received: from [172.23.5.122] (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPSA id kc8sm840689pbc.18.2013.06.26.19.49.11
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 26 Jun 2013 19:49:12 -0700 (PDT)
-Message-ID: <51CBA826.3070701@gmail.com>
-Date: Wed, 26 Jun 2013 19:49:10 -0700
-From: Khem Raj <raj.khem@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D1B9B619DE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Jun 2013 03:36:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5R3aUPJ028292
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Jun 2013 20:36:30 -0700 (PDT)
+Received: from [128.224.163.147] (128.224.163.147) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 26 Jun 2013 20:36:29 -0700
+Message-ID: <51CBB33B.1090202@windriver.com>
+Date: Thu, 27 Jun 2013 11:36:27 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1831F7C6-54BC-4E5F-BC00-1B8C17E8D1FD@gmail.com>
-	<CAP9ODKqVqLxQ8QNY_1DDJGjRSrW=6YsiHdwPjpzE9EKmybQ4+Q@mail.gmail.com>
-In-Reply-To: <CAP9ODKqVqLxQ8QNY_1DDJGjRSrW=6YsiHdwPjpzE9EKmybQ4+Q@mail.gmail.com>
-Cc: "yocto@yoctoproject.org \(yocto@yoctoproject.org\)"
-	<yocto@yoctoproject.org>, "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: eglibc (would be 2.18) recipes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Saul Wold
+	<sgw@linux.intel.com>
+References: <cover.1371724384.git.jackie.huang@windriver.com>
+	<d3c4311cd7b6a3082fee8fe0fffb8dfadc061deb.1371724384.git.jackie.huang@windriver.com>
+	<CAJTo0LY5v4n-8NCJmGNWh11dLMi4uYv5TN4u_f7FnuQvxAS55Q@mail.gmail.com>
+	<1371726864.20823.227.camel@ted> <51C2EBA0.8070804@linux.intel.com>
+	<51C3B43C.8040707@windriver.com> <1371818179.20823.303.camel@ted>
+In-Reply-To: <1371818179.20823.303.camel@ted>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] dbus: move libdbus-1.so* to base_libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,33 +39,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 02:49:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 27 Jun 2013 03:36:32 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/26/2013 06:46 PM, Otavio Salvador wrote:
-> On Wed, Jun 26, 2013 at 6:06 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> Hi All
->>
->> I have put together eglibc recipes for upcoming 2.18 release and pushed to a contrib tree here
->>
->> http://git.openembedded.org/openembedded-core-contrib/log/?h=kraj/eglibc-2.18
->>
->> They built angstrom/systemd-images fine and booted OK on all supported qemu machines
->> on OE-Core
->>
->> Please test them out in your configurations and machines and provide feedback, lets weed out
->> the issue early
-> 
-> Could you also make a tree based on poky?
 
-the patches should apply on top of poky as it is.
 
-> 
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://projetos.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
-> 
+On 6/21/2013 8:36 PM, Richard Purdie wrote:
+> On Fri, 2013-06-21 at 10:02 +0800, jhuang0 wrote:
+>>
+>> On 6/20/2013 7:46 PM, Saul Wold wrote:
+>>> On 06/20/2013 04:14 AM, Richard Purdie wrote:
+>>>> On Thu, 2013-06-20 at 11:39 +0100, Burton, Ross wrote:
+>>>>> On 20 June 2013 11:36,  <jackie.huang@windriver.com> wrote:
+>>>>>> From: Jackie Huang <jackie.huang@windriver.com>
+>>>>>>
+>>>>>> move libdbus-1.so* to base_libdir to kill a warning:
+>>>>>>
+>>>>>>       WARNING: QA Issue: lib32-consolekit: /lib/security/
+>>>>>>       pam_ck_connector.so, installed in the base_prefix,
+>>>>>>       requires a shared library under exec_prefix (/usr):
+>>>>>>       libdbus-1.so.3 => /usr/lib/libdbus-1.so.3 (0xdead3000)
+>>>>>>
+>>>>>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+>>>>>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>>>>>
+>>>>> More and more and more libraries move.  Do we *really* need to support
+>>>>> split-usr?  Have you audited all of the udev helpers yet?
+>>>>
+>>>> I have to admit I'm not happy with the piece by piece approach this is
+>>>> taking. We're going to end up with nearly everything moving to
+>>>> base_libdir at this rate. If we're going to do this, I want someone to
+>>>> come up with a definitive list of what needs to move before any more of
+>>>> these merge.
+>>>>
+>>> And this should be checked with various DISTRO_FEATURES such as pam
+>>> (enabled/disabled) and systemd (enabled/disabled), not just one
+>>> variation, please be sure to list what your testing matrix is.
+>>
+>> I tested with DISTRO_FEATURES 'pam' (enabled/disabled) and 'systemd'
+>> (enabled/disabled) and WARN_QA = "unsafe-references-in-binaries
+>> unsafe-references-in-scripts", and I have sent a v3. If you are agree to
+>> merge, please merge the v3 one, thanks!
+>
+> As I said, I'm not taking any more of these moves until there is a well
+> thought out analysis/plan. Sorry.
 
+Hi Richard/Saul,
+
+We sent these since we used bbappend approach to fix issues in our layer 
+and now we want to minimize the usage of bbappend files, I admit that 
+the piece by piece approach is not good so I undertand if it is not 
+taken, we will analyze the issue and come out a plan sometime later.
+
+Thanks,
+Jackie
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+-- 
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
