@@ -1,31 +1,30 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E10A60780
+	by mail.openembedded.org (Postfix) with ESMTP id 1D6A36AE9C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 02:53:06 +0000 (UTC)
+	Fri, 28 Jun 2013 03:22:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S2r4C8020626
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Jun 2013 19:53:04 -0700 (PDT)
-Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 27 Jun 2013 19:53:04 -0700
-Message-ID: <51CCFA77.4080506@windriver.com>
-Date: Fri, 28 Jun 2013 10:52:39 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S3MwSk023278
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Jun 2013 20:22:58 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 27 Jun 2013 20:22:57 -0700
+Message-ID: <51CD0154.9090108@windriver.com>
+Date: Fri, 28 Jun 2013 11:21:56 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <51C963C0.5020009@windriver.com> <1810438.1YW5iENKFC@helios>
-	<51CC47DA.8090905@windriver.com> <51CC69DA.3010406@windriver.com>
-	<1372351613.9930.225.camel@ted>
-In-Reply-To: <1372351613.9930.225.camel@ted>
-X-Originating-IP: [128.224.162.205]
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Could qt4.8 build on mips 64 bits platform?
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1371621343.git.liezhi.yang@windriver.com>
+	<5bc169404eddb0ec90ce82c6013432f295d0cdc3.1371621343.git.liezhi.yang@windriver.com>
+	<lyy5a675lc.fsf@ensc-virt.intern.sigma-chemnitz.de>
+In-Reply-To: <lyy5a675lc.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Subject: Re: [PATCH 2/3] package_ipk.bbclass: make DESCRIPTION support newline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +37,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 02:53:06 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Jun 2013 03:22:57 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2013年06月28日 00:46, Richard Purdie wrote:
-> On Thu, 2013-06-27 at 12:35 -0400, Randy MacLeod wrote:
->> We ended up with horrid bbapends such as:
->> ---
->> #Valid for all arches except mips64 with 64bit userspace
->> # mips64 with n32 has host: mips64-wrs-linux-gnun32
->> # mips64 with n64 has host: mips64-wrsmllib64-linux
->> # qemumips has host: mips-wrs-linux
->> # qemumips-64 has host: mips64-wrs-linux
->> COMPATIBLE_HOST =
->> '((x86_64.*|i.86.*|powerpc.*|arm.*|mips-.*|mips32.*)-linux|mips64.*-linux-gnun32)'
->> ---
+
+Sorry, it's only replied to Enrico, now, reply to the list ...
+
+On 06/19/2013 06:33 PM, Enrico Scholz wrote:
+>
+>
+> Robert Yang <liezhi.yang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
+> writes:
+>
+>> The recipe's DESCRIPTION is wrapped automatically by textwrap, make it
+>> support newline ("\n") to let the user can wrap it manually, e.g.:
 >>
->> so we'll likely need a clue on how to declare a host as incompatible
->> or introduce an INCOMPATIBLE_HOST variable.
-> I suspect something like this should work:
+>> -                    ctrlfile.write('Description: %s\n' % summary)
+>> -                    ctrlfile.write('%s\n' % textwrap.fill(description, width=74, initial_indent=' ', subsequent_indent=' '))
+>> +                    for t in description.split('\\n'):
+>> +                        ctrlfile.write('%s\n' % textwrap.fill(t, width=74, initial_indent=' ', subsequent_indent=' '))
 >
-> COMPATIBLE_HOST_mips64 = ""
-
-Thanks.
-
-We still need include such packages on mips64 with 32 bits filesystem.  
-So the following is needed:
-
-COMPATIBLE_HOST_mips64 = "mips64.*-linux-gnun32"
-
-I am little worried that "-gnun32" is a standard name then I'll figure it out.
-
-Regards,
-Kai
-
-
+> When user wrapped lines manually, why is textwrap.fill() called on the
+> lines again?  E.g. when user wrapped manually at 78 columns, this will
+> create long - short - long - short lines (in german, why call this
+> effect "Kammquoting" (comb quoting)) .
 >
-> Cheers,
->
-> Richard
->
+> I suggest to avoid textwrap.fill() when text contains '\n'.
 >
 
+Because I think that the "\n" is mainly used for splitting paragraph,
+so the auto wrap is still useful when there is a "\n", e.g.:
 
--- 
-Regards,
-Neil | Kai Kang
+DESCRIPTION = "FOO \n<Too many characters>"
 
+The ouput is:
+  FOO
+  <74 characters>
+  <74 characters>
+  [snip]
+
+I think that this is better than:
+  FOO
+  <Too many characters>
+
+// Robert
+
+>
+>
+> Enrico
+>
+>
+>
 
