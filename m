@@ -1,40 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 34DF46AF2E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
+	[209.85.219.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 13FFE6ADC8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 22:04:50 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id rp16so2767608pbb.0
+	Fri, 28 Jun 2013 22:06:04 +0000 (UTC)
+Received: by mail-oa0-f48.google.com with SMTP id f4so2913801oah.35
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 15:04:51 -0700 (PDT)
+	Fri, 28 Jun 2013 15:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=AbE/XxrT/88PaFXdgc5Plju8HBDTjweMimWEkMVACO0=;
-	b=FtmdVU72F/AoEHnqNGQlEzFOidl6ZRDqq7eb26wFSEApSu3r/HT6ThLqCPcsvCSkia
-	Oikm+uTKv9lOKG2sHKZDtcscdMwvy5zxEN3ZY/xaspiwzKI1xxZzcRZW8fLJXype6cPY
-	uIFWMtJ0CDEhbMSjpfxYmsr7sFv10ukawiY9ePhU6pWRkvPC3W0JIzvQNpY0NrthEefg
-	Xv9h4OxCNmD7A/sbavqntk4d2A5wTQHcKAzJNrBADQIu4NHWiNpdb+jyMLy1jq9XWtFv
-	Yb5FaETeg5MJ6gcsyMm2eSEp26tOb+WjdBwEx9rqupNf1lg4/WwwYYMBZslp4ih/Zegq
-	VEKw==
-X-Received: by 10.66.145.164 with SMTP id sv4mr13418401pab.46.1372457091537;
-	Fri, 28 Jun 2013 15:04:51 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id
-	re16sm10723745pac.16.2013.06.28.15.04.50 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 28 Jun 2013 15:04:51 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 15:04:09 -0700
-Message-Id: <cc37867a5345271cb75880228300543f4d9c6359.1372456294.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <4da336aceedb08e21f23fed08fede84eec15ad7b.1372456294.git.raj.khem@gmail.com>
-References: <4da336aceedb08e21f23fed08fede84eec15ad7b.1372456294.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1372456294.git.raj.khem@gmail.com>
-References: <cover.1372456294.git.raj.khem@gmail.com>
-Subject: [PATCH 24/24] python3: Upgrade to 3.3.2
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=ccSDNVnPm7PZz15SzU3m5trWC65H6zFdrZGKk8ds9Kg=;
+	b=WqALYTcmZMiBXH2bR8f6CeZLHr+QgJz2ZbmFbDWBZM/0A2ByDVUNNcwZ5aXFx4b+RO
+	FDAxNK0+bVTx3njSAqPYvKwAu27flPTYgkS7yymZVU7xXCQpE4CznCQGu+9WqwliHQCX
+	7olMsw0RMMTfKA8LWtO1W8nfge8xDPdJQrGVO5h2t2D7g9wDf40S4YroOd2PP/T0qt/m
+	vlHzYsYmY9Gjolov11Fr0sK+Dapi952IsTtZDy+Sxt9sP79Qf8BVAs7h+Gt81Vkv4u9c
+	xRFl5a2r4AlWHXa5RLS3nEV/YSY6y0FV+dqECqCdQpghh/a1ZtXfcczKhLgt2wcjTE9L
+	wC2A==
+MIME-Version: 1.0
+X-Received: by 10.182.205.138 with SMTP id lg10mr7288247obc.6.1372457164530;
+	Fri, 28 Jun 2013 15:06:04 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.98.133 with HTTP; Fri, 28 Jun 2013 15:06:04 -0700 (PDT)
+In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
+References: <cover.1372413711.git.stefanx.stanacar@intel.com>
+Date: Fri, 28 Jun 2013 19:06:04 -0300
+X-Google-Sender-Auth: SbWiJINwWp0VqkIrt4q93JcFMZ8
+Message-ID: <CAP9ODKqJuwRmyah=LU5zcTccQWZkdfFJvBbQ81VZpooCMbpHbA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/8] Proposed implementation of a new runtime tests framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,383 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 22:04:50 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 22:06:04 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-3.3.2 is latest bugfix release in 3.3 series
+On Fri, Jun 28, 2013 at 7:04 AM, Stefan Stanacar
+<stefanx.stanacar@intel.com> wrote:
+...
+> There are some areas for improvement/limitations right now:
+>  - a better way of getting the list of installed packages in a image
+>  - qemu is started with the -snapshot option, we should create a copy of the original rootfs instead.
+>  - when using TEST_SUITES = "auto" there is no dependency at all between tests (rpm would run before ssh test), so better use TEST_SUITES = "ping ssh auto"
+>  - better logging and error reporting for qemu problems (runqemu erros, qemu doesn't start, etc)
+>  - more helper methods for tests
+>  - others I can't think of right now :)
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...on3-native_3.3.0.bb => python3-native_3.3.2.bb} |    9 +-
- ...sue-13032-where-it-fails-with-UnicodeDeco.patch |   37 ++++
- .../python/python3/030-fixup-include-dirs.patch    |   21 +--
- .../python/python3/140-verbose-sharedmods.patch    |   10 --
- .../python/python3/h2py-pr13032.patch              |  185 --------------------
- .../python/{python3_3.3.0.bb => python3_3.3.2.bb}  |    9 +-
- 6 files changed, 51 insertions(+), 220 deletions(-)
- rename meta/recipes-devtools/python/{python3-native_3.3.0.bb => python3-native_3.3.2.bb} (87%)
- create mode 100644 meta/recipes-devtools/python/python3/0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch
- delete mode 100644 meta/recipes-devtools/python/python3/140-verbose-sharedmods.patch
- delete mode 100644 meta/recipes-devtools/python/python3/h2py-pr13032.patch
- rename meta/recipes-devtools/python/{python3_3.3.0.bb => python3_3.3.2.bb} (96%)
+Did you think about adding something like an overidable set of hooks
+which starts, setup image and shutdown the machine? This would allow
+same framework to be used for real hardware test.
 
-diff --git a/meta/recipes-devtools/python/python3-native_3.3.0.bb b/meta/recipes-devtools/python/python3-native_3.3.2.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-native_3.3.0.bb
-rename to meta/recipes-devtools/python/python3-native_3.3.2.bb
-index 3486ca0..f7221ed 100644
---- a/meta/recipes-devtools/python/python3-native_3.3.0.bb
-+++ b/meta/recipes-devtools/python/python3-native_3.3.2.bb
-@@ -12,20 +12,19 @@ file://070-dont-clean-ipkg-install.patch \
- file://080-distutils-dont_adjust_files.patch \
- file://110-enable-zlib.patch \
- file://130-readline-setup.patch \
--file://140-verbose-sharedmods.patch \
- file://150-fix-setupterm.patch \
--file://h2py-pr13032.patch \
- file://python-3.3-multilib.patch \
- file://03-fix-tkinter-detection.patch \
- file://avoid_warning_about_tkinter.patch \
- file://06-ctypes-libffi-fix-configure.patch \
- file://shutil-follow-symlink-fix.patch \
-+file://0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch \
- ${DISTRO_SRC_URI} \
- "
--SRC_URI[md5sum] = "b3b2524f72409d919a4137826a870a8f"
--SRC_URI[sha256sum] = "15c113fd6c058712f05d31b4eff149d4d823b8e39ef5e37228dc5dc4f8716df9"
-+SRC_URI[md5sum] = "7dffe775f3bea68a44f762a3490e5e28"
-+SRC_URI[sha256sum] = "f77202fe2bbc203205d7bd6e8452567fa1d9bc97f6957c9ef753d9a36cdcbe9a"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d214581529e343354f8e23025bdf582d"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a7e738bb078a33a825ce4a0282f8cb31"
- 
- S = "${WORKDIR}/Python-${PV}"
- 
-diff --git a/meta/recipes-devtools/python/python3/0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch b/meta/recipes-devtools/python/python3/0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch
-new file mode 100644
-index 0000000..dd6b24f
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch
-@@ -0,0 +1,37 @@
-+From 2f5a4c708d90fa8db21f446ae879cff79387448d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 20 May 2013 21:03:16 -0700
-+Subject: [PATCH] h2py: Fix issue 13032 where it fails with UnicodeDecodeError
-+
-+use utf-8 to open the files
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Upstream-Status: Pending
-+---
-+ Tools/scripts/h2py.py | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Tools/scripts/h2py.py b/Tools/scripts/h2py.py
-+index 4f871d9..a53fbe0 100755
-+--- a/Tools/scripts/h2py.py
-++++ b/Tools/scripts/h2py.py
-+@@ -69,13 +69,13 @@ def main():
-+             sys.stdout.write('# Generated by h2py from stdin\n')
-+             process(sys.stdin, sys.stdout)
-+         else:
-+-            fp = open(filename, 'r')
-++            fp = open(filename, 'r', encoding='utf-8')
-+             outfile = os.path.basename(filename)
-+             i = outfile.rfind('.')
-+             if i > 0: outfile = outfile[:i]
-+             modname = outfile.upper()
-+             outfile = modname + '.py'
-+-            outfp = open(outfile, 'w')
-++            outfp = open(outfile, 'w', encoding='utf-8')
-+             outfp.write('# Generated by h2py from %s\n' % filename)
-+             filedict = {}
-+             for dir in searchdirs:
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-devtools/python/python3/030-fixup-include-dirs.patch b/meta/recipes-devtools/python/python3/030-fixup-include-dirs.patch
-index 4882118..3e009c1 100644
---- a/meta/recipes-devtools/python/python3/030-fixup-include-dirs.patch
-+++ b/meta/recipes-devtools/python/python3/030-fixup-include-dirs.patch
-@@ -2,9 +2,11 @@
-  setup.py |   15 ++-------------
-  1 file changed, 2 insertions(+), 13 deletions(-)
- 
----- a/setup.py
--+++ b/setup.py
--@@ -464,7 +464,8 @@ class PyBuildExt(build_ext):
-+Index: Python-3.3.2/setup.py
-+===================================================================
-+--- Python-3.3.2.orig/setup.py
-++++ Python-3.3.2/setup.py
-+@@ -444,7 +444,8 @@ class PyBuildExt(build_ext):
-          # only change this for cross builds for 3.3, issues on Mageia
-          if cross_compiling:
-              self.add_gcc_paths()
-@@ -14,7 +16,7 @@
-  
-          # Add paths specified in the environment variables LDFLAGS and
-          # CPPFLAGS for header and library files.
--@@ -500,7 +501,7 @@ class PyBuildExt(build_ext):
-+@@ -480,7 +481,7 @@ class PyBuildExt(build_ext):
-                      for directory in reversed(options.dirs):
-                          add_dir_to_list(dir_list, directory)
-  
-@@ -23,14 +25,3 @@
-                  and not sysconfig.get_config_var('PYTHONFRAMEWORK'):
-              # OSX note: Don't add LIBDIR and INCLUDEDIR to building a framework
-              # (PYTHONFRAMEWORK is set) to avoid # linking problems when
--@@ -520,6 +521,10 @@ class PyBuildExt(build_ext):
--                 '/lib', '/usr/lib',
--                 ]
--             inc_dirs = self.compiler.include_dirs + ['/usr/include']
--+        if cross_compiling:
--+            lib_dirs = self.compiler.library_dirs
--+            inc_dirs = self.compiler.include_dirs
--+
--         exts = []
--         missing = []
-- 
-diff --git a/meta/recipes-devtools/python/python3/140-verbose-sharedmods.patch b/meta/recipes-devtools/python/python3/140-verbose-sharedmods.patch
-deleted file mode 100644
-index db3f124..0000000
---- a/meta/recipes-devtools/python/python3/140-verbose-sharedmods.patch
-+++ /dev/null
-@@ -1,10 +0,0 @@
----- a/Makefile.pre.in
--+++ b/Makefile.pre.in
--@@ -477,7 +477,6 @@ $(SYSCONFIGDATA): $(BUILDPYTHON)
-- 
-- # Build the shared modules
-- sharedmods: $(BUILDPYTHON) $(SYSCONFIGDATA)
---	case $$MAKEFLAGS in *s*) quiet=-q; esac; \
-- 	$(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' \
-- 		$(PYTHON_FOR_BUILD) $(srcdir)/setup.py $$quiet build
-- 
-diff --git a/meta/recipes-devtools/python/python3/h2py-pr13032.patch b/meta/recipes-devtools/python/python3/h2py-pr13032.patch
-deleted file mode 100644
-index 39b845b..0000000
---- a/meta/recipes-devtools/python/python3/h2py-pr13032.patch
-+++ /dev/null
-@@ -1,185 +0,0 @@
--This is backport of upstream bug
--
--http://bugs.python.org/issue13032
--
--Fixes issues like below
--
--|   File "/work/yocto/poky/build/tmp/work/x86_64-poky-linux/python3-3.3.0-r0.0/Python-3.3.0rc2/Tools/scripts/h2py.py", line 167, in <module>
--|     main()
--|   File "/work/yocto/poky/build/tmp/work/x86_64-poky-linux/python3-3.3.0-r0.0/Python-3.3.0rc2/Tools/scripts/h2py.py", line 81, in main
--|     process(fp, outfp)
--|   File "/work/yocto/poky/build/tmp/work/x86_64-poky-linux/python3-3.3.0-r0.0/Python-3.3.0rc2/Tools/scripts/h2py.py", line 108, in process
--|     line = fp.readline()
--|   File "/work/yocto/poky/build/tmp/sysroots/x86_64-linux/usr/lib/python3.3/encodings/ascii.py", line 26, in decode
--|     return codecs.ascii_decode(input, self.errors)[0]
--| UnicodeDecodeError: 'ascii' codec can't decode byte 0xc3 in position 175: ordinal not in range(128)
--
--Upstream-Status: Backport
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
----- a/Tools/scripts/h2py.py
--+++ b/Tools/scripts/h2py.py
--@@ -23,55 +23,56 @@
-- 
-- import sys, re, getopt, os
-- 
---p_define = re.compile('^[\t ]*#[\t ]*define[\t ]+([a-zA-Z0-9_]+)[\t ]+')
--+p_define = re.compile(b'^[\t ]*#[\t ]*define[\t ]+([a-zA-Z0-9_]+)[\t ]+')
-- 
-- p_macro = re.compile(
---  '^[\t ]*#[\t ]*define[\t ]+'
---  '([a-zA-Z0-9_]+)\(([_a-zA-Z][_a-zA-Z0-9]*)\)[\t ]+')
--+  b'^[\t ]*#[\t ]*define[\t ]+'
--+  b'([a-zA-Z0-9_]+)\(([_a-zA-Z][_a-zA-Z0-9]*)\)[\t ]+')
-- 
---p_include = re.compile('^[\t ]*#[\t ]*include[\t ]+<([a-zA-Z0-9_/\.]+)')
--+p_include = re.compile(b'^[\t ]*#[\t ]*include[\t ]+<([a-zA-Z0-9_/\.]+)')
-- 
---p_comment = re.compile(r'/\*([^*]+|\*+[^/])*(\*+/)?')
---p_cpp_comment = re.compile('//.*')
--+p_comment = re.compile(br'/\*([^*]+|\*+[^/])*(\*+/)?')
--+p_cpp_comment = re.compile(b'//.*')
-- 
-- ignores = [p_comment, p_cpp_comment]
-- 
---p_char = re.compile(r"'(\\.[^\\]*|[^\\])'")
--+p_char = re.compile(br"'(\\.[^\\]*|[^\\])'")
-- 
---p_hex = re.compile(r"0x([0-9a-fA-F]+)L?")
--+p_hex = re.compile(br"0x([0-9a-fA-F]+)L?")
-- 
-- filedict = {}
-- importable = {}
-- 
-- try:
---    searchdirs=os.environ['include'].split(';')
--+    searchdirs=os.environb[b'include'].split(b';')
-- except KeyError:
--     try:
---        searchdirs=os.environ['INCLUDE'].split(';')
--+        searchdirs=os.environb[b'INCLUDE'].split(b';')
--     except KeyError:
---        searchdirs=['/usr/include']
--+        searchdirs=[b'/usr/include']
-- 
-- def main():
--     global filedict
--     opts, args = getopt.getopt(sys.argv[1:], 'i:')
--     for o, a in opts:
--         if o == '-i':
---            ignores.append(re.compile(a))
--+            ignores.append(re.compile(a.encode()))
--     if not args:
--         args = ['-']
--     for filename in args:
--         if filename == '-':
--             sys.stdout.write('# Generated by h2py from stdin\n')
---            process(sys.stdin, sys.stdout)
--+            process(sys.stdin.buffer, sys.stdout.buffer)
--         else:
---            fp = open(filename, 'r')
--+            filename = filename.encode()
--+            fp = open(filename, 'rb')
--             outfile = os.path.basename(filename)
---            i = outfile.rfind('.')
--+            i = outfile.rfind(b'.')
--             if i > 0: outfile = outfile[:i]
--             modname = outfile.upper()
---            outfile = modname + '.py'
---            outfp = open(outfile, 'w')
---            outfp.write('# Generated by h2py from %s\n' % filename)
--+            outfile = modname + b'.py'
--+            outfp = open(outfile, 'wb')
--+            outfp.write(b'# Generated by h2py from ' + filename + b'\n')
--             filedict = {}
--             for dir in searchdirs:
--                 if filename[:len(dir)] == dir:
--@@ -85,9 +86,9 @@
-- def pytify(body):
--     # replace ignored patterns by spaces
--     for p in ignores:
---        body = p.sub(' ', body)
--+        body = p.sub(b' ', body)
--     # replace char literals by ord(...)
---    body = p_char.sub("ord('\\1')", body)
--+    body = p_char.sub(b"ord('\\1')", body)
--     # Compute negative hexadecimal constants
--     start = 0
--     UMAX = 2*(sys.maxsize+1)
--@@ -98,7 +99,7 @@
--         val = int(body[slice(*m.span(1))], 16)
--         if val > sys.maxsize:
--             val -= UMAX
---            body = body[:s] + "(" + str(val) + ")" + body[e:]
--+            body = body[:s] + b"(" + str(val).encode() + b")" + body[e:]
--         start = s + 1
--     return body
-- 
--@@ -111,7 +112,7 @@
--         match = p_define.match(line)
--         if match:
--             # gobble up continuation lines
---            while line[-2:] == '\\\n':
--+            while line[-2:] == b'\\\n':
--                 nextline = fp.readline()
--                 if not nextline: break
--                 lineno = lineno + 1
--@@ -120,11 +121,11 @@
--             body = line[match.end():]
--             body = pytify(body)
--             ok = 0
---            stmt = '%s = %s\n' % (name, body.strip())
--+            stmt = name + b' = ' + body.strip() + b'\n'
--             try:
--                 exec(stmt, env)
--             except:
---                sys.stderr.write('Skipping: %s' % stmt)
--+                sys.stderr.buffer.write(b'Skipping: ' + stmt)
--             else:
--                 outfp.write(stmt)
--         match = p_macro.match(line)
--@@ -132,11 +133,11 @@
--             macro, arg = match.group(1, 2)
--             body = line[match.end():]
--             body = pytify(body)
---            stmt = 'def %s(%s): return %s\n' % (macro, arg, body)
--+            stmt = b'def ' + macro + b'(' + arg + b'): return ' + body + b'\n'
--             try:
--                 exec(stmt, env)
--             except:
---                sys.stderr.write('Skipping: %s' % stmt)
--+                sys.stderr.buffer.write(b'Skipping: ' + stmt)
--             else:
--                 outfp.write(stmt)
--         match = p_include.match(line)
--@@ -145,23 +146,24 @@
--             a, b = regs[1]
--             filename = line[a:b]
--             if filename in importable:
---                outfp.write('from %s import *\n' % importable[filename])
--+                outfp.write(b'from ' + importable[filename] + b' import *\n')
--             elif filename not in filedict:
--                 filedict[filename] = None
--                 inclfp = None
--                 for dir in searchdirs:
--                     try:
---                        inclfp = open(dir + '/' + filename)
--+                        inclfp = open(dir + b'/' + filename, 'rb')
--                         break
--                     except IOError:
--                         pass
--                 if inclfp:
--                     outfp.write(
---                            '\n# Included from %s\n' % filename)
--+                            b'\n# Included from ' + filename + b'\n')
--                     process(inclfp, outfp, env)
--+                    inclfp.close()
--                 else:
---                    sys.stderr.write('Warning - could not find file %s\n' %
---                                     filename)
--+                    sys.stderr.buffer.write(b'Warning - could not find file ' +
--+                                            filename + b'\n')
-- 
-- if __name__ == '__main__':
--     main()
--
-diff --git a/meta/recipes-devtools/python/python3_3.3.0.bb b/meta/recipes-devtools/python/python3_3.3.2.bb
-similarity index 96%
-rename from meta/recipes-devtools/python/python3_3.3.0.bb
-rename to meta/recipes-devtools/python/python3_3.3.2.bb
-index 081586d..b92824e 100644
---- a/meta/recipes-devtools/python/python3_3.3.0.bb
-+++ b/meta/recipes-devtools/python/python3_3.3.2.bb
-@@ -14,9 +14,8 @@ file://070-dont-clean-ipkg-install.patch \
- file://080-distutils-dont_adjust_files.patch \
- file://110-enable-zlib.patch \
- file://130-readline-setup.patch \
--file://140-verbose-sharedmods.patch \
- file://150-fix-setupterm.patch \
--file://h2py-pr13032.patch \
-+file://0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch \
- ${DISTRO_SRC_URI} \
- "
- 
-@@ -31,10 +30,10 @@ SRC_URI += "\
-             file://python-3.3-multilib.patch \
-             file://shutil-follow-symlink-fix.patch \
-            "
--SRC_URI[md5sum] = "b3b2524f72409d919a4137826a870a8f"
--SRC_URI[sha256sum] = "15c113fd6c058712f05d31b4eff149d4d823b8e39ef5e37228dc5dc4f8716df9"
-+SRC_URI[md5sum] = "7dffe775f3bea68a44f762a3490e5e28"
-+SRC_URI[sha256sum] = "f77202fe2bbc203205d7bd6e8452567fa1d9bc97f6957c9ef753d9a36cdcbe9a"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d214581529e343354f8e23025bdf582d"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a7e738bb078a33a825ce4a0282f8cb31"
- 
- S = "${WORKDIR}/Python-${PV}"
- 
--- 
-1.7.9.5
+Regards,
 
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
