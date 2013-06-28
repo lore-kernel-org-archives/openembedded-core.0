@@ -1,30 +1,25 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D6A36AE9C
+	by mail.openembedded.org (Postfix) with ESMTP id 6162E601D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 03:22:57 +0000 (UTC)
+	Fri, 28 Jun 2013 05:00:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S3MwSk023278
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S50761001411
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 20:22:58 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 27 Jun 2013 20:22:57 -0700
-Message-ID: <51CD0154.9090108@windriver.com>
-Date: Fri, 28 Jun 2013 11:21:56 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Thu, 27 Jun 2013 22:00:07 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 27 Jun 2013 22:00:06 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Jun 2013 13:00:26 +0800
+Message-ID: <cover.1372389991.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1371621343.git.liezhi.yang@windriver.com>
-	<5bc169404eddb0ec90ce82c6013432f295d0cdc3.1371621343.git.liezhi.yang@windriver.com>
-	<lyy5a675lc.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lyy5a675lc.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Subject: Re: [PATCH 2/3] package_ipk.bbclass: make DESCRIPTION support newline
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH 0/1] udev-cache: take a read-only rootfs into consideration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,56 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 03:22:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jun 2013 05:00:06 -0000
+Content-Type: text/plain
 
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Sorry, it's only replied to Enrico, now, reply to the list ...
+The following changes since commit 042203531b10b37ac9a8201b376f5dec403e51d8:
 
-On 06/19/2013 06:33 PM, Enrico Scholz wrote:
->
->
-> Robert Yang <liezhi.yang-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org>
-> writes:
->
->> The recipe's DESCRIPTION is wrapped automatically by textwrap, make it
->> support newline ("\n") to let the user can wrap it manually, e.g.:
->>
->> -                    ctrlfile.write('Description: %s\n' % summary)
->> -                    ctrlfile.write('%s\n' % textwrap.fill(description, width=74, initial_indent=' ', subsequent_indent=' '))
->> +                    for t in description.split('\\n'):
->> +                        ctrlfile.write('%s\n' % textwrap.fill(t, width=74, initial_indent=' ', subsequent_indent=' '))
->
-> When user wrapped lines manually, why is textwrap.fill() called on the
-> lines again?  E.g. when user wrapped manually at 78 columns, this will
-> create long - short - long - short lines (in german, why call this
-> effect "Kammquoting" (comb quoting)) .
->
-> I suggest to avoid textwrap.fill() when text contains '\n'.
->
+  sanity.bbclass: Fix COREBASE sanity tests (2013-06-27 12:48:56 +0100)
 
-Because I think that the "\n" is mainly used for splitting paragraph,
-so the auto wrap is still useful when there is a "\n", e.g.:
+are available in the git repository at:
 
-DESCRIPTION = "FOO \n<Too many characters>"
+  git://git.pokylinux.org/poky-contrib ChenQi/udev-cache-readonly
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/udev-cache-readonly
 
-The ouput is:
-  FOO
-  <74 characters>
-  <74 characters>
-  [snip]
+Chen Qi (1):
+  udev-cache: take a read-only rootfs into consideration
 
-I think that this is better than:
-  FOO
-  <Too many characters>
+ meta/recipes-core/udev/udev/init       |    5 +++--
+ meta/recipes-core/udev/udev/udev-cache |    6 ++++++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
-// Robert
+-- 
+1.7.9.5
 
->
->
-> Enrico
->
->
->
 
