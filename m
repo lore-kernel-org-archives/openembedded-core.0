@@ -1,41 +1,20 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id BADCC608BF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EDE206AF00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 22:11:55 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id fb1so2895609pad.23
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 15:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=gdBPQxnDRKBqiSeZ4rhj5QQ7AJ3s1k9LBuH0tCKfQfA=;
-	b=GKBMKfpvXpROuhVZ0/biTw5TqQzIem35m6tG/pzKNrJyBqsOfO89puP+sIT5ZcO1m1
-	75wbDFZ/Z5xgey767qeDM2Nv8vA+fwp1CjvX95USwTEFbhjmwrrTWCF1j5Vu8BoUcQhO
-	JqN1I1VvC/XvULdUxdvLV7rw37YrnrVHq4+ZMaeSqOTdry5J28xTsfrlbucTASejqkSs
-	lupjS+Ws3wJSu11hjC81P9topkAwELilKWkrU4l5u4vcaluP6YZb5BDoyNC1ycsfFsoh
-	TDBEM8DbMB7U5enpf5/jL+XtU4meY2vBQuIgQCCrpS+pqsaFYsguLhRKb33mrI34AhSK
-	VHKg==
-X-Received: by 10.68.2.69 with SMTP id 5mr6374740pbs.124.1372457517097;
-	Fri, 28 Jun 2013 15:11:57 -0700 (PDT)
-Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id qe10sm9905990pbb.2.2013.06.28.15.11.55
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 28 Jun 2013 15:11:55 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1372447427-31750-2-git-send-email-sgw@linux.intel.com>
-Date: Fri, 28 Jun 2013 15:11:54 -0700
-Message-Id: <876ACD34-26AC-4670-8AAD-2FC9E52CBC81@gmail.com>
-References: <1372447427-31750-1-git-send-email-sgw@linux.intel.com>
-	<1372447427-31750-2-git-send-email-sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2 v2] security_flags: Add the compiler and linker flags that enhance security
+	Fri, 28 Jun 2013 22:13:18 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2013 15:14:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,962,1363158000"; d="scan'208";a="357504230"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.119])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2013 15:09:08 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jun 2013 15:08:19 -0700
+Message-Id: <1372457299-8340-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH v3] security_flags: Add the compiler and linker flags that enhance security
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,14 +27,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 22:11:56 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jun 2013 22:13:19 -0000
 
+These flags add addition checks at compile, link and runtime to prevent
+stack smashing, checking for buffer overflows, and link at program start
+to prevent call spoofing later.
 
-On Jun 28, 2013, at 12:23 PM, Saul Wold <sgw@linux.intel.com> wrote:
+This needs to be explicitly enabled by adding the following line to your
+local.conf:
 
-> +# These 2 have text relco errors with the pie options enabled
+require conf/distro/include/security_flags.inc
 
-typo
+[YOCTO #3868]
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/distro/include/security_flags.inc | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
+ create mode 100644 meta/conf/distro/include/security_flags.inc
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+new file mode 100644
+index 0000000..7a7ab52
+--- /dev/null
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -0,0 +1,26 @@
++SECURITY_CFLAGS = "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
++SECURITY_LDFLAGS = "-Wl,-z,relro,-z,now"
++
++# Curl seems to check for FORTIFY_SOURCE in CFLAGS, but even assigned
++# to CPPFLAGS it gets picked into CFLAGS in bitbake.
++#TARGET_CPPFLAGS_pn-curl += "-D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-curl = "-fstack-protector-all -pie -fpie"
++SECURITY_CFLAGS_pn-ppp = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-eglibc = ""
++SECURITY_CFLAGS_pn-eglibc-initial = ""
++SECURITY_CFLAGS_pn-zlib = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-gcc-runtime = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-libgcc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-tcl = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-libcap = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-python-smartpm = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-python-imaging = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-python-pycurl = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-kexec-tools = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++
++# These 2 have text relco errors with the pie options enabled
++SECURITY_CFLAGS_pn-pulseaudio = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-ltp = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++
++TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
++TARGET_LDFLAGS_append = " ${SECURITY_LDFLAGS}"
+-- 
+1.8.1.4
+
 
