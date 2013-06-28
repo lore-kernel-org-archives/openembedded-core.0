@@ -1,35 +1,37 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A3DC6A4E3
+Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
+	[209.85.160.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B3E56A4E3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 22:00:02 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id kx10so2920972pab.13
+	Fri, 28 Jun 2013 22:04:25 +0000 (UTC)
+Received: by mail-pb0-f47.google.com with SMTP id rr13so2751189pbb.34
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 15:00:03 -0700 (PDT)
+	Fri, 28 Jun 2013 15:04:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=lkAjrlZyMCI1gxcPNvVF5v5JyQma8ghoph73nceaLIE=;
-	b=LUSj0HEykWr/u4kvQA/06hPmgv9ljSYBcTlQyGsowakBVoo8M9ybOK/IFbEL1lM9k0
-	yH1vZyVBHCLQY1xpCdcLMX7SCFLpfk4/2QDalbl/jNghbdXvKrlyqXI1kS0GZof6ZVNa
-	uAug4gCT2vUZTVmz88WB98jeTeiMVxou9PKI0VMmRdvlarGkytMmg2oPu6zuAuZIFvE0
-	5yJwBWx5nUaWU+juAYVKOaVi8VJwbUqlu7AeN8Dzc6eKPPLxdOzcVLe03cnvez4kLAT3
-	RwnNJT/bYUnaPX7Fr8UzxZkzVCm9tq5o/udEjdMk8R15EE/sFGfHZwrctOR8fCfLYgZ1
-	EIHw==
-X-Received: by 10.66.136.49 with SMTP id px17mr13524467pab.133.1372456803866; 
-	Fri, 28 Jun 2013 15:00:03 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=3gyXWPYN7yVJ0daPxUuTJwByDFeiZuzgh8htu+lhXF8=;
+	b=pw4XypPEUFZNXqGzehaI0ThtotAyehboULLXzx6qIDKmedg9Fksdp+RFNcLGdZWxxj
+	dVcd4rr6vSAByGnyRlLi8pd3ENgkiU89vJ+p4trUXRsHw9vIADeZiVBCMTC7OG6ffBUf
+	P0Naf0m/0PfjJiA7pnGEVZTpN80W7zCtmFsuNIfJboBwlQwiwWJ5of0goBamOyKj7A0h
+	NKMP4+erjK70l2852VqrpdMNwJhE5GLA7uxQRxS6q6Bvl1kLix91VqOLvkm4oAO6pFgt
+	v5GS5LSHfa2b6mGjDmBcIt1yH1Uk3v/iHBGCBgDOriIbEsY7cn+LXz/eSXsPK9DCW8WX
+	2yJA==
+X-Received: by 10.68.97.229 with SMTP id ed5mr13437026pbb.37.1372457066398;
+	Fri, 28 Jun 2013 15:04:26 -0700 (PDT)
 Received: from isis.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id aj3sm10741739pad.8.2013.06.28.15.00.02
-	for <multiple recipients>
+	by mx.google.com with ESMTPSA id
+	re16sm10723745pac.16.2013.06.28.15.04.25 for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 28 Jun 2013 15:00:03 -0700 (PDT)
+	Fri, 28 Jun 2013 15:04:25 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 14:59:46 -0700
-Message-Id: <cover.1372456294.git.raj.khem@gmail.com>
+Date: Fri, 28 Jun 2013 15:03:46 -0700
+Message-Id: <4da336aceedb08e21f23fed08fede84eec15ad7b.1372456294.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 00/24] Add python3 recipes
+In-Reply-To: <cover.1372456294.git.raj.khem@gmail.com>
+References: <cover.1372456294.git.raj.khem@gmail.com>
+Subject: [PATCH 01/24] generate-manifest-3.3.py: Add script to generate python 3.3 manifests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,167 +44,398 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 22:00:02 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 22:04:25 -0000
 
+Bases on python 2.7.x generator
 
-This patchset adds python3 recipes to metadata in such a way
-that they can coexist with python2. The patchset has been
-tested quite well and I think is ready for review.
-
-At times it will adjust existing python2 recipes to make
-room for itself in a compatible way
-
-To add them to your images
-
-add
-       python3 
-       python3-modules 
-       python3-misc 
-
-to IMAGE_INSTALL
-
-
-The following changes since commit ff65497cd9a96d5ab49b16ba1f7e30a216ff4a42:
-
-  classes/insane: remove la2 check which no longer exists from ERROR_QA (2013-06-28 16:33:05 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib kraj/python3
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/python3
-
-Khem Raj (24):
-  generate-manifest-3.3.py: Add script to generate python 3.3 manifests
-  python3native.bbclass: Add python3 abstraction class
-  package_rpm.bbclass:Make the regexp less greedy
-  classes/distutils: Introduce PYTHON_PN
-  classes: Add distutils for python3
-  setuptools.bbclass: Use python-distribute instead of
-    python-setuptools
-  distutils3.bbclass: Port the distutils class fix to handle filenames
-    with spaces
-  setuptools3.bbclass: Remove useless multiline comment
-  distutils: Introduce PYTHON_ABI variable
-  distutils3: Do build_ext as separate step during compile
-  python-3.3-manifest: Add python3 manifest file
-  python3: Add recipes
-  python3: Add native recipe
-  python_2.7.3.bb: Inherit python-dir
-  ipython: Add recipes for ipython2 and ipython3
-  python-distribute: Add recipes for python2 and python3
-  zeromq: Add recipe
-  pyzmq: Add recipes using python3
-  python3-pycurl: Add recipe
-  python3-docutils: Add recipe
-  python3-jinja: Recipe for python3 templating system
-  python3-nose: Testing tools for python
-  python3-sphinx: New recipe for documentation system
-  python3: Upgrade to 3.3.2
-
- meta/classes/distutils-base.bbclass                |    5 +-
- meta/classes/distutils-native-base.bbclass         |    4 +-
- meta/classes/distutils-tools.bbclass               |   77 +++
- meta/classes/distutils.bbclass                     |   24 +-
- meta/classes/distutils3-base.bbclass               |    8 +
- meta/classes/distutils3-native-base.bbclass        |    4 +
- meta/classes/distutils3.bbclass                    |   82 +++
- meta/classes/package_rpm.bbclass                   |    2 +-
- meta/classes/python-dir.bbclass                    |    2 +
- meta/classes/python3native.bbclass                 |    7 +
- meta/classes/pythonnative.bbclass                  |    9 +-
- meta/classes/setuptools.bbclass                    |    3 +-
- meta/classes/setuptools3.bbclass                   |    8 +
- .../ipython/001-completer-across-raw-types.patch   |  562 ++++++++++++++++++++
- .../ipython3/001-completer-across-raw-types.patch  |  562 ++++++++++++++++++++
- meta/recipes-devtools/python/ipython3_0.13.1.bb    |   71 +++
- meta/recipes-devtools/python/ipython_0.13.1.bb     |   48 ++
- .../python/python-3.3-manifest.inc                 |  260 +++++++++
- .../python/python-distribute_0.6.32.bb             |   47 ++
- .../python/python3-distribute_0.6.32.bb            |   46 ++
- .../python/python3-docutils_0.10.bb                |   37 ++
- meta/recipes-devtools/python/python3-jinja_1.2.bb  |   37 ++
- .../python/python3-native_3.3.2.bb                 |   67 +++
- meta/recipes-devtools/python/python3-nose_1.2.1.bb |   34 ++
- .../python/python3-pycurl/no-static-link.patch     |   16 +
- .../python/python3-pycurl_7.19.0.bb                |   35 ++
- .../0001-Fixed-just-zmq-detection.patch            |   56 ++
- .../python/python3-pyzmq_13.0.0.bb                 |   46 ++
- .../python/python3-sphinx_1.1.3.bb                 |   39 ++
- .../python/python3/000-cross-compile.patch         |   76 +++
- ...sue-13032-where-it-fails-with-UnicodeDeco.patch |   37 ++
- .../python3/020-dont-compile-python-files.patch    |   31 ++
- .../python/python3/03-fix-tkinter-detection.patch  |   42 ++
- .../python/python3/030-fixup-include-dirs.patch    |   27 +
- .../python/python3/04-default-is-optimized.patch   |   58 ++
- .../python3/06-ctypes-libffi-fix-configure.patch   |   44 ++
- .../python3/070-dont-clean-ipkg-install.patch      |   30 ++
- .../python3/080-distutils-dont_adjust_files.patch  |   86 +++
- .../python/python3/110-enable-zlib.patch           |   15 +
- .../python/python3/130-readline-setup.patch        |   49 ++
- .../python/python3/150-fix-setupterm.patch         |   11 +
- .../python3/avoid_warning_about_tkinter.patch      |   25 +
- meta/recipes-devtools/python/python3/cgi_py.patch  |   23 +
- .../python3/fix_for_using_different_libdir.patch   |   54 ++
- .../python3/host_include_contamination.patch       |   28 +
- .../python/python3/python-3.3-multilib.patch       |  348 ++++++++++++
- .../python/python3/remove_sqlite_rpath.patch       |   19 +
- .../python/python3/setuptweaks.patch               |   57 ++
- .../python/python3/shutil-follow-symlink-fix.patch |   11 +
- .../python/python3/sitecustomize.py                |   37 ++
- .../sys_platform_is_now_always_linux2.patch        |   29 +
- meta/recipes-devtools/python/python3_3.3.2.bb      |  202 +++++++
- meta/recipes-devtools/python/python_2.7.3.bb       |    2 +-
- meta/recipes-devtools/python/zeromq_3.2.2.bb       |   24 +
- scripts/contrib/python/generate-manifest-3.3.py    |  376 +++++++++++++
- 55 files changed, 3916 insertions(+), 23 deletions(-)
- create mode 100644 meta/classes/distutils-tools.bbclass
- create mode 100644 meta/classes/distutils3-base.bbclass
- create mode 100644 meta/classes/distutils3-native-base.bbclass
- create mode 100644 meta/classes/distutils3.bbclass
- create mode 100644 meta/classes/python3native.bbclass
- create mode 100644 meta/classes/setuptools3.bbclass
- create mode 100644 meta/recipes-devtools/python/ipython/001-completer-across-raw-types.patch
- create mode 100644 meta/recipes-devtools/python/ipython3/001-completer-across-raw-types.patch
- create mode 100644 meta/recipes-devtools/python/ipython3_0.13.1.bb
- create mode 100644 meta/recipes-devtools/python/ipython_0.13.1.bb
- create mode 100644 meta/recipes-devtools/python/python-3.3-manifest.inc
- create mode 100644 meta/recipes-devtools/python/python-distribute_0.6.32.bb
- create mode 100644 meta/recipes-devtools/python/python3-distribute_0.6.32.bb
- create mode 100644 meta/recipes-devtools/python/python3-docutils_0.10.bb
- create mode 100644 meta/recipes-devtools/python/python3-jinja_1.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-native_3.3.2.bb
- create mode 100644 meta/recipes-devtools/python/python3-nose_1.2.1.bb
- create mode 100644 meta/recipes-devtools/python/python3-pycurl/no-static-link.patch
- create mode 100644 meta/recipes-devtools/python/python3-pycurl_7.19.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-pyzmq/0001-Fixed-just-zmq-detection.patch
- create mode 100644 meta/recipes-devtools/python/python3-pyzmq_13.0.0.bb
- create mode 100644 meta/recipes-devtools/python/python3-sphinx_1.1.3.bb
- create mode 100644 meta/recipes-devtools/python/python3/000-cross-compile.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-h2py-Fix-issue-13032-where-it-fails-with-UnicodeDeco.patch
- create mode 100644 meta/recipes-devtools/python/python3/020-dont-compile-python-files.patch
- create mode 100644 meta/recipes-devtools/python/python3/03-fix-tkinter-detection.patch
- create mode 100644 meta/recipes-devtools/python/python3/030-fixup-include-dirs.patch
- create mode 100644 meta/recipes-devtools/python/python3/04-default-is-optimized.patch
- create mode 100644 meta/recipes-devtools/python/python3/06-ctypes-libffi-fix-configure.patch
- create mode 100644 meta/recipes-devtools/python/python3/070-dont-clean-ipkg-install.patch
- create mode 100644 meta/recipes-devtools/python/python3/080-distutils-dont_adjust_files.patch
- create mode 100644 meta/recipes-devtools/python/python3/110-enable-zlib.patch
- create mode 100644 meta/recipes-devtools/python/python3/130-readline-setup.patch
- create mode 100644 meta/recipes-devtools/python/python3/150-fix-setupterm.patch
- create mode 100644 meta/recipes-devtools/python/python3/avoid_warning_about_tkinter.patch
- create mode 100644 meta/recipes-devtools/python/python3/cgi_py.patch
- create mode 100644 meta/recipes-devtools/python/python3/fix_for_using_different_libdir.patch
- create mode 100644 meta/recipes-devtools/python/python3/host_include_contamination.patch
- create mode 100644 meta/recipes-devtools/python/python3/python-3.3-multilib.patch
- create mode 100644 meta/recipes-devtools/python/python3/remove_sqlite_rpath.patch
- create mode 100644 meta/recipes-devtools/python/python3/setuptweaks.patch
- create mode 100644 meta/recipes-devtools/python/python3/shutil-follow-symlink-fix.patch
- create mode 100644 meta/recipes-devtools/python/python3/sitecustomize.py
- create mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patch
- create mode 100644 meta/recipes-devtools/python/python3_3.3.2.bb
- create mode 100644 meta/recipes-devtools/python/zeromq_3.2.2.bb
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ scripts/contrib/python/generate-manifest-3.3.py |  376 +++++++++++++++++++++++
+ 1 file changed, 376 insertions(+)
  create mode 100755 scripts/contrib/python/generate-manifest-3.3.py
 
+diff --git a/scripts/contrib/python/generate-manifest-3.3.py b/scripts/contrib/python/generate-manifest-3.3.py
+new file mode 100755
+index 0000000..b5ebb91
+--- /dev/null
++++ b/scripts/contrib/python/generate-manifest-3.3.py
+@@ -0,0 +1,376 @@
++#!/usr/bin/env python
++
++# generate Python Manifest for the OpenEmbedded build system
++# (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
++# (C) 2007 Jeremy Laine
++# licensed under MIT, see COPYING.MIT
++#
++# June 22, 2011 -- Mark Hatle <mark.hatle@windriver.com>
++#  * Updated to no longer generate special -dbg package, instead use the
++#    single system -dbg
++#  * Update version with ".1" to indicate this change
++
++import os
++import sys
++import time
++
++VERSION = "3.3.0"
++
++__author__ = "Michael 'Mickey' Lauer <mlauer@vanille-media.de>"
++__version__ = "20121010"
++
++class MakefileMaker:
++
++    def __init__( self, outfile ):
++        """initialize"""
++        self.packages = {}
++        self.targetPrefix = "${libdir}/python%s/" % VERSION[:3]
++        self.output = outfile
++        self.out( """
++# WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
++# Generator: '%s' Version %s (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
++# Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
++""" % ( sys.argv[0], __version__ ) )
++
++    #
++    # helper functions
++    #
++
++    def out( self, data ):
++        """print a line to the output file"""
++        self.output.write( "%s\n" % data )
++
++    def setPrefix( self, targetPrefix ):
++        """set a file prefix for addPackage files"""
++        self.targetPrefix = targetPrefix
++
++    def doProlog( self ):
++        self.out( """ """ )
++        self.out( "" )
++
++    def addPackage( self, name, description, dependencies, filenames ):
++        """add a package to the Makefile"""
++        if type( filenames ) == type( "" ):
++            filenames = filenames.split()
++        fullFilenames = []
++        for filename in filenames:
++            if filename[0] != "$":
++                fullFilenames.append( "%s%s" % ( self.targetPrefix, filename ) )
++            else:
++                fullFilenames.append( filename )
++        self.packages[name] = description, dependencies, fullFilenames
++
++    def doBody( self ):
++        """generate body of Makefile"""
++
++        global VERSION
++
++        #
++        # generate provides line
++        #
++
++        provideLine = 'PROVIDES+="'
++        for name in sorted(self.packages):
++            provideLine += "%s " % name
++        provideLine += '"'
++
++        self.out( provideLine )
++        self.out( "" )
++
++        #
++        # generate package line
++        #
++
++        packageLine = 'PACKAGES="${PN}-dbg '
++        for name in sorted(self.packages):
++            if name.startswith("${PN}-distutils"):
++                if name == "${PN}-distutils":
++                    packageLine += "%s-staticdev %s " % (name, name)
++            elif name != '${PN}-dbg':
++                packageLine += "%s " % name
++        packageLine += '${PN}-modules"'
++
++        self.out( packageLine )
++        self.out( "" )
++
++        #
++        # generate package variables
++        #
++
++        for name, data in sorted(self.packages.iteritems()):
++            desc, deps, files = data
++
++            #
++            # write out the description, revision and dependencies
++            #
++            self.out( 'DESCRIPTION_%s="%s"' % ( name, desc ) )
++            self.out( 'RDEPENDS_%s="%s"' % ( name, deps ) )
++
++            line = 'FILES_%s="' % name
++
++            #
++            # check which directories to make in the temporary directory
++            #
++
++            dirset = {} # if python had a set-datatype this would be sufficient. for now, we're using a dict instead.
++            for target in files:
++                dirset[os.path.dirname( target )] = True
++
++            #
++            # generate which files to copy for the target (-dfR because whole directories are also allowed)
++            #
++
++            for target in files:
++                line += "%s " % target
++
++            line += '"'
++            self.out( line )
++            self.out( "" )
++
++        self.out( 'DESCRIPTION_${PN}-modules="All Python modules"' )
++        line = 'RDEPENDS_${PN}-modules="'
++
++        for name, data in sorted(self.packages.iteritems()):
++            if name not in ['${PN}-dev', '${PN}-distutils-staticdev']:
++                line += "%s " % name
++
++        self.out( "%s \"" % line )
++        self.out( 'ALLOW_EMPTY_${PN}-modules = "1"' )
++
++    def doEpilog( self ):
++        self.out( """""" )
++        self.out( "" )
++
++    def make( self ):
++        self.doProlog()
++        self.doBody()
++        self.doEpilog()
++
++if __name__ == "__main__":
++
++    if len( sys.argv ) > 1:
++        try:
++            os.unlink(sys.argv[1])
++        except Exception:
++            sys.exc_clear()
++        outfile = file( sys.argv[1], "w" )
++    else:
++        outfile = sys.stdout
++
++    m = MakefileMaker( outfile )
++
++    # Add packages here. Only specify dlopen-style library dependencies here, no ldd-style dependencies!
++    # Parameters: revision, name, description, dependencies, filenames
++    #
++
++    m.addPackage( "${PN}-core", "Python Interpreter and core modules (needed!)", "${PN}-lang ${PN}-re",
++    "__future__.* _abcoll.* abc.* copy.* copy_reg.* ConfigParser.* " +
++    "genericpath.* getopt.* linecache.* new.* " +
++    "os.* posixpath.* struct.* " +
++    "warnings.* site.* stat.* " +
++    "UserDict.* UserList.* UserString.* " +
++    "lib-dynload/binascii.*.so lib-dynload/_struct.*.so lib-dynload/time.*.so " +
++    "lib-dynload/xreadlines.*.so types.* platform.* ${bindir}/python* "  + 
++    "_weakrefset.* sysconfig.* config/Makefile " +
++    "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h " +
++    "${libdir}/python${PYTHON_MAJMIN}/sitecustomize.py ")
++
++    m.addPackage( "${PN}-dev", "Python Development Package", "${PN}-core",
++    "${includedir} " +
++    "${libdir}/lib*${SOLIBSDEV} " +
++    "${libdir}/*.la " +
++    "${libdir}/*.a " +
++    "${libdir}/*.o " +
++    "${libdir}/pkgconfig " +
++    "${base_libdir}/*.a " +
++    "${base_libdir}/*.o " +
++    "${datadir}/aclocal " +
++    "${datadir}/pkgconfig " )
++
++    m.addPackage( "${PN}-2to3", "Python Automated Python 2 to 3 code translation", "${PN}-core",
++    "${bindir}/2to3 lib2to3" ) # package
++
++    m.addPackage( "${PN}-idle", "Python Integrated Development Environment", "${PN}-core ${PN}-tkinter",
++    "${bindir}/idle idlelib" ) # package
++
++    m.addPackage( "${PN}-pydoc", "Python Interactive Help Support", "${PN}-core ${PN}-lang ${PN}-stringold ${PN}-re",
++    "${bindir}/pydoc pydoc.* pydoc_data" )
++
++    m.addPackage( "${PN}-smtpd", "Python Simple Mail Transport Daemon", "${PN}-core ${PN}-netserver ${PN}-email ${PN}-mime",
++    "${bindir}/smtpd.* smtpd.*" )
++
++    m.addPackage( "${PN}-audio", "Python Audio Handling", "${PN}-core",
++    "wave.* chunk.* sndhdr.* lib-dynload/ossaudiodev.*.so lib-dynload/audioop.*.so audiodev.* sunaudio.* sunau.* toaiff.*" )
++
++    m.addPackage( "${PN}-codecs", "Python Codecs, Encodings & i18n Support", "${PN}-core ${PN}-lang",
++    "codecs.* encodings gettext.* locale.* lib-dynload/_locale.*.so lib-dynload/_codecs* lib-dynload/_multibytecodec.*.so lib-dynload/unicodedata.*.so stringprep.* xdrlib.*" )
++
++    m.addPackage( "${PN}-compile", "Python Bytecode Compilation Support", "${PN}-core",
++    "py_compile.* compileall.*" )
++
++    m.addPackage( "${PN}-compression", "Python High Level Compression Support", "${PN}-core ${PN}-codecs",
++    "gzip.* zipfile.* tarfile.* lib-dynload/bz2.*.so" )
++
++    m.addPackage( "${PN}-crypt", "Python Basic Cryptographic and Hashing Support", "${PN}-core",
++    "hashlib.* md5.* sha.* lib-dynload/crypt.*.so lib-dynload/_hashlib.*.so lib-dynload/_sha256.*.so lib-dynload/_sha512.*.so" )
++
++    m.addPackage( "${PN}-textutils", "Python Option Parsing, Text Wrapping and Comma-Separated-Value Support", "${PN}-core ${PN}-io ${PN}-re ${PN}-stringold",
++    "lib-dynload/_csv.*.so csv.* optparse.* textwrap.*" )
++
++    m.addPackage( "${PN}-curses", "Python Curses Support", "${PN}-core",
++    "curses lib-dynload/_curses.*.so lib-dynload/_curses_panel.*.so" ) # directory + low level module
++
++    m.addPackage( "${PN}-ctypes", "Python C Types Support", "${PN}-core",
++    "ctypes lib-dynload/_ctypes.*.so lib-dynload/_ctypes_test.*.so" ) # directory + low level module
++
++    m.addPackage( "${PN}-datetime", "Python Calendar and Time support", "${PN}-core ${PN}-codecs",
++    "_strptime.* calendar.* lib-dynload/datetime.*.so" )
++
++    m.addPackage( "${PN}-db", "Python File-Based Database Support", "${PN}-core",
++    "anydbm.* dumbdbm.* whichdb.* dbm lib-dynload/_dbm.*.so" )
++
++    m.addPackage( "${PN}-debugger", "Python Debugger", "${PN}-core ${PN}-io ${PN}-lang ${PN}-re ${PN}-stringold ${PN}-shell ${PN}-pprint",
++    "bdb.* pdb.*" )
++
++    m.addPackage( "${PN}-difflib", "Python helpers for computing deltas between objects.", "${PN}-lang ${PN}-re",
++    "difflib.*" )
++
++    m.addPackage( "${PN}-distutils-staticdev", "Python Distribution Utilities (Static Libraries)", "${PN}-distutils",
++    "config/lib*.a" ) # package
++
++    m.addPackage( "${PN}-distutils", "Python Distribution Utilities", "${PN}-core",
++    "config distutils" ) # package
++
++    m.addPackage( "${PN}-doctest", "Python framework for running examples in docstrings.", "${PN}-core ${PN}-lang ${PN}-io ${PN}-re ${PN}-unittest ${PN}-debugger ${PN}-difflib",
++    "doctest.*" )
++
++    # FIXME consider adding to some higher level package
++    m.addPackage( "${PN}-elementtree", "Python elementree", "${PN}-core",
++    "lib-dynload/_elementtree.*.so" )
++
++    m.addPackage( "${PN}-email", "Python Email Support", "${PN}-core ${PN}-io ${PN}-re ${PN}-mime ${PN}-audio ${PN}-image ${PN}-netclient",
++    "imaplib.* email" ) # package
++
++    m.addPackage( "${PN}-fcntl", "Python's fcntl Interface", "${PN}-core",
++    "lib-dynload/fcntl.*.so" )
++
++    m.addPackage( "${PN}-html", "Python HTML Processing", "${PN}-core",
++    "formatter.* htmlentitydefs.* htmllib.* markupbase.* sgmllib.* HTMLParser.* " )
++
++    m.addPackage( "${PN}-gdbm", "Python GNU Database Support", "${PN}-core",
++    "lib-dynload/_gdbm.*.so" )
++
++    m.addPackage( "${PN}-image", "Python Graphical Image Handling", "${PN}-core",
++    "colorsys.* imghdr.* lib-dynload/imageop.*.so lib-dynload/rgbimg.*.so" )
++
++    m.addPackage( "${PN}-io", "Python Low-Level I/O", "${PN}-core ${PN}-math",
++    "lib-dynload/_socket.*.so lib-dynload/_io.*.so lib-dynload/_ssl.*.so lib-dynload/select.*.so lib-dynload/termios.*.so lib-dynload/cStringIO.*.so " +
++    "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
++
++    m.addPackage( "${PN}-json", "Python JSON Support", "${PN}-core ${PN}-math ${PN}-re",
++    "json lib-dynload/_json.*.so" ) # package
++
++    m.addPackage( "${PN}-lang", "Python Low-Level Language Support", "${PN}-core",
++    "lib-dynload/_bisect.*.so lib-dynload/_collections.*.so lib-dynload/_heapq.*.so lib-dynload/_weakref.*.so lib-dynload/_functools.*.so " +
++    "lib-dynload/array.*.so lib-dynload/itertools.*.so lib-dynload/operator.*.so lib-dynload/parser.*.so " +
++    "atexit.* bisect.* code.* codeop.* collections.* dis.* functools.* heapq.* inspect.* keyword.* opcode.* symbol.* repr.* token.* " +
++    "tokenize.* traceback.* weakref.*" )
++
++    m.addPackage( "${PN}-logging", "Python Logging Support", "${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-stringold",
++    "logging" ) # package
++
++    m.addPackage( "${PN}-mailbox", "Python Mailbox Format Support", "${PN}-core ${PN}-mime",
++    "mailbox.*" )
++
++    m.addPackage( "${PN}-math", "Python Math Support", "${PN}-core",
++    "lib-dynload/cmath.*.so lib-dynload/math.*.so lib-dynload/_random.*.so random.* sets.*" )
++
++    m.addPackage( "${PN}-mime", "Python MIME Handling APIs", "${PN}-core ${PN}-io",
++    "mimetools.* uu.* quopri.* rfc822.* MimeWriter.*" )
++
++    m.addPackage( "${PN}-mmap", "Python Memory-Mapped-File Support", "${PN}-core ${PN}-io",
++    "lib-dynload/mmap.*.so " )
++
++    m.addPackage( "${PN}-multiprocessing", "Python Multiprocessing Support", "${PN}-core ${PN}-io ${PN}-lang",
++    "lib-dynload/_multiprocessing.*.so multiprocessing" ) # package
++
++    m.addPackage( "${PN}-netclient", "Python Internet Protocol Clients", "${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
++    "*Cookie*.* " +
++    "base64.* cookielib.* ftplib.* gopherlib.* hmac.* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib.* urllib2.* urlparse.* uuid.* rfc822.* mimetools.*" )
++
++    m.addPackage( "${PN}-netserver", "Python Internet Protocol Servers", "${PN}-core ${PN}-netclient",
++    "cgi.* *HTTPServer.* SocketServer.*" )
++
++    m.addPackage( "${PN}-numbers", "Python Number APIs", "${PN}-core ${PN}-lang ${PN}-re",
++    "decimal.* numbers.*" )
++
++    m.addPackage( "${PN}-pickle", "Python Persistence Support", "${PN}-core ${PN}-codecs ${PN}-io ${PN}-re",
++    "pickle.* shelve.* lib-dynload/cPickle.*.so pickletools.*" )
++
++    m.addPackage( "${PN}-pkgutil", "Python Package Extension Utility Support", "${PN}-core",
++    "pkgutil.*")
++
++    m.addPackage( "${PN}-pprint", "Python Pretty-Print Support", "${PN}-core",
++    "pprint.*" )
++
++    m.addPackage( "${PN}-profile", "Python Basic Profiling Support", "${PN}-core ${PN}-textutils",
++    "profile.* pstats.* cProfile.* lib-dynload/_lsprof.*.so" )
++
++    m.addPackage( "${PN}-re", "Python Regular Expression APIs", "${PN}-core",
++    "re.* sre.* sre_compile.* sre_constants* sre_parse.*" ) # _sre is builtin
++
++    m.addPackage( "${PN}-readline", "Python Readline Support", "${PN}-core",
++    "lib-dynload/readline.*.so rlcompleter.*" )
++
++    m.addPackage( "${PN}-resource", "Python Resource Control Interface", "${PN}-core",
++    "lib-dynload/resource.*.so" )
++
++    m.addPackage( "${PN}-shell", "Python Shell-Like Functionality", "${PN}-core ${PN}-re",
++    "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* shutil.*" )
++
++    m.addPackage( "${PN}-robotparser", "Python robots.txt parser", "${PN}-core ${PN}-netclient",
++    "urllib/robotparser.*")
++
++    m.addPackage( "${PN}-subprocess", "Python Subprocess Support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle",
++    "subprocess.*" )
++
++    m.addPackage( "${PN}-sqlite3", "Python Sqlite3 Database Support", "${PN}-core ${PN}-datetime ${PN}-lang ${PN}-crypt ${PN}-io ${PN}-threading",
++    "lib-dynload/_sqlite3.*.so sqlite3/dbapi2.* sqlite3/__init__.* sqlite3/dump.*" )
++
++    m.addPackage( "${PN}-sqlite3-tests", "Python Sqlite3 Database Support Tests", "${PN}-core ${PN}-sqlite3",
++    "sqlite3/test" )
++
++    m.addPackage( "${PN}-stringold", "Python String APIs [deprecated]", "${PN}-core ${PN}-re",
++    "lib-dynload/strop.*.so string.* stringold.*" )
++
++    m.addPackage( "${PN}-syslog", "Python Syslog Interface", "${PN}-core",
++    "lib-dynload/syslog.*.so" )
++
++    m.addPackage( "${PN}-terminal", "Python Terminal Controlling Support", "${PN}-core ${PN}-io",
++    "pty.* tty.*" )
++
++    m.addPackage( "${PN}-tests", "Python Tests", "${PN}-core",
++    "test" ) # package
++
++    m.addPackage( "${PN}-threading", "Python Threading & Synchronization Support", "${PN}-core ${PN}-lang",
++    "_threading_local.* dummy_thread.* dummy_threading.* mutex.* threading.* Queue.*" )
++
++    m.addPackage( "${PN}-tkinter", "Python Tcl/Tk Bindings", "${PN}-core",
++    "lib-dynload/_tkinter.*.so lib-tk tkinter" ) # package
++
++    m.addPackage( "${PN}-unittest", "Python Unit Testing Framework", "${PN}-core ${PN}-stringold ${PN}-lang",
++    "unittest/" )
++
++    m.addPackage( "${PN}-unixadmin", "Python Unix Administration Support", "${PN}-core",
++    "lib-dynload/nis.*.so lib-dynload/grp.*.so lib-dynload/pwd.*.so getpass.*" )
++
++    m.addPackage( "${PN}-xml", "Python basic XML support.", "${PN}-core ${PN}-elementtree ${PN}-re",
++    "lib-dynload/pyexpat.*.so xml xmllib.*" ) # package
++
++    m.addPackage( "${PN}-xmlrpc", "Python XMLRPC Support", "${PN}-core ${PN}-xml ${PN}-netserver ${PN}-lang",
++    "xmlrpclib.* SimpleXMLRPCServer.* DocXMLRPCServer.* xmlrpc" )
++
++    m.addPackage( "${PN}-mailbox", "Python Mailbox Format Support", "${PN}-core ${PN}-mime",
++    "mailbox.*" )
++
++    m.make()
 -- 
 1.7.9.5
 
