@@ -1,38 +1,24 @@
-Return-Path: <marc.ferland@gmail.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EB406AD81
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B054D6023E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 22:53:34 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id u12so923021qcx.40
+	Fri, 28 Jun 2013 01:11:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S1B57h010562
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 15:53:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:x-mailer;
-	bh=uXc7W0PglExpnBTd8fvJ7Rb542mJSHji+zJLoYY6kBc=;
-	b=U8A5wmwohuYOWutub2wmREQqSVnhVeY7/uogJMWHGAPVeRYMsb4jUF48NT/2rJv59V
-	HGGJ4l0Ls7wEc7osFYJRDLmHLeU/DWlO//ovyloYxzbMqH2Q8ATCz7Xhi58SZ+xzwHZS
-	4dfNvldqiSGopjoRiqo7vw2RIkLiGF6LSn2jkpjmM7oPvEKjaIGd7BysU+6CpvAfMgZL
-	iraJiUTNoNKtR7LAYsTZY4gUDAAJDVEic2LWHxVPJ3kvxTrdB0TUC3iowGEKDoRaZSXB
-	+wdjddgl6Ak4PYA3sQ8bCpggvMtRsUigdOxti5bZCdqdvgGCofAvasQJwBFn1pwPzlEX
-	/THg==
-X-Received: by 10.224.60.133 with SMTP id p5mr14197729qah.101.1372373614841;
-	Thu, 27 Jun 2013 15:53:34 -0700 (PDT)
-Received: from ferlandm@sonatest.com
-	(modemcable066.15-37-24.static.videotron.ca. [24.37.15.66])
-	by mx.google.com with ESMTPSA id m2sm7589684qat.2.2013.06.27.15.53.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=RC4-SHA bits=128/128);
-	Thu, 27 Jun 2013 15:53:34 -0700 (PDT)
-Sender: Marc Ferland <marc.ferland@gmail.com>
-Received: by ferlandm@sonatest.com (sSMTP sendmail emulation);
-	Thu, 27 Jun 2013 18:53:50 -0400
-From: Marc Ferland <ferlandm@sonatest.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2013 18:53:40 -0400
-Message-Id: <1372373620-14853-1-git-send-email-ferlandm@sonatest.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] openssh: fix initscript restart command
+	Thu, 27 Jun 2013 18:11:05 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 27 Jun 2013 18:11:05 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Jun 2013 09:11:04 +0800
+Message-ID: <cover.1372381458.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH 0/1] xf86-video-intel: backport a patch to fix a compile failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2013 22:53:35 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 01:11:04 -0000
+Content-Type: text/plain
 
-start-stop-daemon should be called with '--oknodo' instead of
-'-oknodo'.
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-Signed-off-by: Marc Ferland <ferlandm@sonatest.com>
----
- meta/recipes-connectivity/openssh/openssh-6.2p2/init | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 099063f353a7a18720c92d87400726a49eed432f:
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/init b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-index cde52ef..6beec84 100644
---- a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-@@ -76,7 +76,7 @@ case "$1" in
-   	check_keys
- 	check_config
-         echo -n "Restarting OpenBSD Secure Shell server: sshd"
--	start-stop-daemon -K -oknodo -x /usr/sbin/sshd
-+	start-stop-daemon -K --oknodo -x /usr/sbin/sshd
- 	check_for_no_start
- 	check_privsep_dir
- 	sleep 2
+  sanity.bbclass: Fix COREBASE sanity tests (2013-06-27 12:48:52 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/xf86-video-intel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/xf86-video-intel
+
+Roy.Li (1):
+  xf86-video-intel: backport a patch to fix a compile failure
+
+ ...-compilation-error-with-xorg-xserver-1.10.patch |   31 ++++++++++++++++++++
+ .../xorg-driver/xf86-video-intel_2.21.9.bb         |    2 ++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
+
 -- 
-1.8.1.2
+1.7.10.4
 
 
