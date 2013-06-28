@@ -1,26 +1,28 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E967E6023E
+	by mail.openembedded.org (Postfix) with ESMTP id 1DFDC618B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 01:11:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S1B6D0010565
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2013 18:11:06 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 27 Jun 2013 18:11:06 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Jun 2013 09:11:05 +0800
-Message-ID: <391d4b34129e491a4ee0c6737369e8470c3b98ca.1372381458.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1372381458.git.rongqing.li@windriver.com>
-References: <cover.1372381458.git.rongqing.li@windriver.com>
+	Fri, 28 Jun 2013 02:05:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S25VZi015998
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 27 Jun 2013 19:05:32 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 27 Jun 2013 19:05:31 -0700
+Message-ID: <51CCEF2E.6070800@windriver.com>
+Date: Fri, 28 Jun 2013 10:04:30 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH 1/1] xf86-video-intel: backport a patch to fix a compile failure
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1371621343.git.liezhi.yang@windriver.com>
+	<51CA5F8E.9070504@windriver.com> <51CB1145.4060009@linux.intel.com>
+In-Reply-To: <51CB1145.4060009@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] make DESCRIPTION support newline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 01:11:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Jun 2013 02:05:31 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Roy.Li" <rongqing.li@windriver.com>
 
-backport a patch to fix a compile failure when xorg-xserver's version
-is less than 1.10
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- ...-compilation-error-with-xorg-xserver-1.10.patch |   31 ++++++++++++++++++++
- .../xorg-driver/xf86-video-intel_2.21.9.bb         |    2 ++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
+On 06/27/2013 12:05 AM, Saul Wold wrote:
+> On 06/25/2013 08:27 PM, Robert Yang wrote:
+>>
+>> Ping for this one.
+>>
+> Robert,
+>
+> There were some comments on your patch set and I think an issue with the ipk one.
+>
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
-new file mode 100644
-index 0000000..0d0d99f
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
-@@ -0,0 +1,31 @@
-+From b5e85e495e55e2537d305b7bebacdf6f97b66199 Mon Sep 17 00:00:00 2001
-+From: "Roy.Li" <rongqing.li@windriver.com>
-+Date: Thu, 27 Jun 2013 14:10:14 +0800
-+Subject: [PATCH] uxa: fix the compilation error with xorg-xserver <= 1.10
-+
-+Upstream-Status: Backported
-+
-+struct _Screen has no canDoBGNoneRoot when ABI_VIDEODRV_VERSION is less than 10.0
-+
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+---
-+ src/intel_display.c |    2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/src/intel_display.c b/src/intel_display.c
-+index 17168e5..0acb86d 100644
-+--- a/src/intel_display.c
-++++ b/src/intel_display.c
-+@@ -2113,7 +2113,9 @@ void intel_copy_fb(ScrnInfoPtr scrn)
-+ 				0, 0,
-+ 				scrn->virtualX, scrn->virtualY);
-+ 	intel->uxa_driver->done_copy(dst);
-++#if ABI_VIDEODRV_VERSION >= SET_ABI_VERSION(10, 0)
-+ 	pScreen->canDoBGNoneRoot = TRUE;
-++#endif
-+ 
-+ cleanup_dst:
-+ 	(*pScreen->DestroyPixmap)(dst);
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
-index 6112089..01c767b 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
-@@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
- DEPENDS += "virtual/libx11 drm xf86driproto glproto \
- 	    virtual/libgl xineramaproto xf86driproto libpciaccess udev"
- 
-+SRC_URI += "file://0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch"
-+
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
- PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
--- 
-1.7.10.4
+Hi Saul,
 
+I think that you meant Martin's comment on the ipk one, Phil had explained to
+him, and it worked well with the opkg-utils.
+
+// Robert
+
+> Sau!
+>
+>> // Robert
+>>
+>> On 06/19/2013 05:00 PM, Robert Yang wrote:
+>>> The following changes since commit
+>>> 590010a6525b0e1bc1de73e794764e23404591df:
+>>>
+>>>    core-image-weston: add weston-examples to the image (2013-06-18
+>>> 17:33:17 +0100)
+>>>
+>>> are available in the git repository at:
+>>>
+>>>    git://git.pokylinux.org/poky-contrib robert/newline
+>>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/newline
+>>>
+>>> Robert Yang (3):
+>>>    package_rpm.bbclass: make DESCRIPTION support newline
+>>>    package_ipk.bbclass: make DESCRIPTION support newline
+>>>    package_deb.bbclass: make DESCRIPTION support newline
+>>>
+>>>   meta/classes/package_deb.bbclass |    5 +++--
+>>>   meta/classes/package_ipk.bbclass |    5 +++--
+>>>   meta/classes/package_rpm.bbclass |   19 ++++++++++++++-----
+>>>   3 files changed, 20 insertions(+), 9 deletions(-)
+>>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>
+>
 
