@@ -1,24 +1,24 @@
 Return-Path: <ionutx.radu@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A1EA060655
+	by mail.openembedded.org (Postfix) with ESMTP id 1173060655
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 16:00:32 +0000 (UTC)
+	Fri, 28 Jun 2013 16:01:53 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2013 08:59:38 -0700
+	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2013 09:01:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="323973379"
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="323973391"
 Received: from work.rb.intel.com ([10.237.105.51])
-	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2013 08:51:43 -0700
+	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2013 08:51:45 -0700
 From: Ionut Radu <ionutx.radu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 18:53:43 +0300
-Message-Id: <55f42776c7a2f09f2481984e287ae859148edb55.1372434126.git.ionutx.radu@intel.com>
+Date: Fri, 28 Jun 2013 18:53:44 +0300
+Message-Id: <cb6e6cc6bd68ce302acae8bbbfa06536c7bd2b7f.1372434126.git.ionutx.radu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1372434126.git.ionutx.radu@intel.com>
 References: <cover.1372434126.git.ionutx.radu@intel.com>
 In-Reply-To: <cover.1372434126.git.ionutx.radu@intel.com>
 References: <cover.1372434126.git.ionutx.radu@intel.com>
-Subject: [PATCH 11/12] apt: Updated from 0.9.8.1 to 0.9.8.2
+Subject: [PATCH 12/12] gpgme: Updated from 1.4.1 to 1.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,92 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 16:00:32 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 16:01:53 -0000
 
 Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
----
- .../disable-configure-in-makefile.patch                            |    0
- .../fix-gcc-4.6-null-not-defined.patch                             |    0
- .../apt/{apt-0.9.8.1 => apt-0.9.8.2}/makerace.patch                |    0
- .../apt/{apt-0.9.8.1 => apt-0.9.8.2}/no-ko-translation.patch       |    0
- .../apt/{apt-0.9.8.1 => apt-0.9.8.2}/no-nls-dpkg.patch             |    0
- .../apt/{apt-0.9.8.1 => apt-0.9.8.2}/noconfigure.patch             |    0
- meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/nodoc.patch |    0
- .../apt/{apt-0.9.8.1 => apt-0.9.8.2}/truncate-filename.patch       |    0
- .../apt/{apt-0.9.8.1 => apt-0.9.8.2}/use-host.patch                |    0
- .../apt/{apt-native_0.9.8.1.bb => apt-native_0.9.8.2.bb}           |    0
- meta/recipes-devtools/apt/{apt_0.9.8.1.bb => apt_0.9.8.2.bb}       |    4 ++--
- 11 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/disable-configure-in-makefile.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/fix-gcc-4.6-null-not-defined.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/makerace.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/no-ko-translation.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/no-nls-dpkg.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/noconfigure.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/nodoc.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/truncate-filename.patch (100%)
- rename meta/recipes-devtools/apt/{apt-0.9.8.1 => apt-0.9.8.2}/use-host.patch (100%)
- rename meta/recipes-devtools/apt/{apt-native_0.9.8.1.bb => apt-native_0.9.8.2.bb} (100%)
- rename meta/recipes-devtools/apt/{apt_0.9.8.1.bb => apt_0.9.8.2.bb} (74%)
 
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/disable-configure-in-makefile.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/disable-configure-in-makefile.patch
+License md5 was changed for src/gpgme.h.in:
+"File: @configure_input@  */" was replaced by "Generated from gpgme.h.in for @GPGME_CONFIG_HOST@.  */"
+---
+ .../{gpgme-1.4.1 => gpgme-1.4.2}/disable_gpgconf_check.patch     |    0
+ meta/recipes-support/gpgme/{gpgme_1.4.1.bb => gpgme_1.4.2.bb}    |    6 +++---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/gpgme/{gpgme-1.4.1 => gpgme-1.4.2}/disable_gpgconf_check.patch (100%)
+ rename meta/recipes-support/gpgme/{gpgme_1.4.1.bb => gpgme_1.4.2.bb} (83%)
+
+diff --git a/meta/recipes-support/gpgme/gpgme-1.4.1/disable_gpgconf_check.patch b/meta/recipes-support/gpgme/gpgme-1.4.2/disable_gpgconf_check.patch
 similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/disable-configure-in-makefile.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/disable-configure-in-makefile.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/fix-gcc-4.6-null-not-defined.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/fix-gcc-4.6-null-not-defined.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/fix-gcc-4.6-null-not-defined.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/makerace.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/makerace.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/makerace.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/makerace.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/no-ko-translation.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/no-ko-translation.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/no-ko-translation.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/no-ko-translation.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/no-nls-dpkg.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/no-nls-dpkg.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/no-nls-dpkg.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/no-nls-dpkg.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/noconfigure.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/noconfigure.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/noconfigure.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/noconfigure.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/nodoc.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/nodoc.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/nodoc.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/nodoc.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/truncate-filename.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/truncate-filename.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/truncate-filename.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/truncate-filename.patch
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.1/use-host.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/use-host.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-0.9.8.1/use-host.patch
-rename to meta/recipes-devtools/apt/apt-0.9.8.2/use-host.patch
-diff --git a/meta/recipes-devtools/apt/apt-native_0.9.8.1.bb b/meta/recipes-devtools/apt/apt-native_0.9.8.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-native_0.9.8.1.bb
-rename to meta/recipes-devtools/apt/apt-native_0.9.8.2.bb
-diff --git a/meta/recipes-devtools/apt/apt_0.9.8.1.bb b/meta/recipes-devtools/apt/apt_0.9.8.2.bb
-similarity index 74%
-rename from meta/recipes-devtools/apt/apt_0.9.8.1.bb
-rename to meta/recipes-devtools/apt/apt_0.9.8.2.bb
-index 445d14c..12952a9 100644
---- a/meta/recipes-devtools/apt/apt_0.9.8.1.bb
-+++ b/meta/recipes-devtools/apt/apt_0.9.8.2.bb
-@@ -3,8 +3,8 @@ RDEPENDS_${PN} = "dpkg"
- LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- require apt.inc
+rename from meta/recipes-support/gpgme/gpgme-1.4.1/disable_gpgconf_check.patch
+rename to meta/recipes-support/gpgme/gpgme-1.4.2/disable_gpgconf_check.patch
+diff --git a/meta/recipes-support/gpgme/gpgme_1.4.1.bb b/meta/recipes-support/gpgme/gpgme_1.4.2.bb
+similarity index 83%
+rename from meta/recipes-support/gpgme/gpgme_1.4.1.bb
+rename to meta/recipes-support/gpgme/gpgme_1.4.2.bb
+index 13bc508..040cdf4 100644
+--- a/meta/recipes-support/gpgme/gpgme_1.4.1.bb
++++ b/meta/recipes-support/gpgme/gpgme_1.4.2.bb
+@@ -6,14 +6,14 @@ BUGTRACKER = "https://bugs.g10code.com/gnupg/index"
+ LICENSE = "GPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://COPYING.LESSER;md5=bbb461211a33b134d42ed5ee802b37ff \
+-                    file://src/gpgme.h.in;endline=23;md5=a7b9706396e8e12c17be7d8d556ef7a5 \
++                    file://src/gpgme.h.in;endline=23;md5=dccb4bb624011e36513c61ef0422d054 \
+                     file://src/engine.h;endline=22;md5=4b6d8ba313d9b564cc4d4cfb1640af9d"
  
--SRC_URI[md5sum] = "85781bb39901d6fb79c37ca307929594"
--SRC_URI[sha256sum] = "dcef6fc33948d5e430d337ad6326bf7ac3d06b14d99ede176809461ac12b4c6f"
-+SRC_URI[md5sum] = "956bb906224a5662111d353ab11a0347"
-+SRC_URI[sha256sum] = "cb0360e218490d875dc1e9e15c4e0ba0b53c7f512a6c98253f2eb07877be5106"
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/gpgme/gpgme-${PV}.tar.bz2 \
+            file://disable_gpgconf_check.patch"
  
- require apt-package.inc
- 
+-SRC_URI[md5sum] = "07f1c0eb6596a94efa3ffb75e74bfbba"
+-SRC_URI[sha256sum] = "7ab63e5086ebe4cfe7f78face1bb059a7a60da586b1e5c6a77bedcd6d04019b8"
++SRC_URI[md5sum] = "c8cb345ba7c0353e47bdf3c5c05e49be"
++SRC_URI[sha256sum] = "2c4f2bf71e53e6fb7badf07801d4248777566a621c8c2339c02c289731df6856"
+ DEPENDS = "libgpg-error libassuan ${PTH}"
+ PTH_libc-uclibc = "npth"
+ PTH = "pth"
 -- 
 1.7.10.4
 
