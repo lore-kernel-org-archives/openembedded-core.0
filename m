@@ -1,24 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A89BF6AEC5
+	by mail.openembedded.org (Postfix) with ESMTP id 3CA4D6AED0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 10:07:02 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2013 03:04:20 -0700
+	Fri, 28 Jun 2013 10:07:07 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2013 03:04:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="360993579"
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="357176682"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2013 03:04:16 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2013 03:05:21 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 409836A4091
+	by linux.intel.com (Postfix) with ESMTP id 06E6D6A4091
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 03:04:09 -0700 (PDT)
+	Fri, 28 Jun 2013 03:04:31 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 13:04:35 +0300
-Message-Id: <cover.1372413711.git.stefanx.stanacar@intel.com>
+Date: Fri, 28 Jun 2013 13:04:40 +0300
+Message-Id: <3047815ee6268db95c3916960eb31508fb7729f6.1372413711.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
-Subject: [RFC PATCH 0/8] Proposed implementation of a new runtime tests framework
+In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
+References: <cover.1372413711.git.stefanx.stanacar@intel.com>
+In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
+References: <cover.1372413711.git.stefanx.stanacar@intel.com>
+Subject: [RFC PATCH 5/8] lib/oeqa/utils/qemurunner.py: class to handle qemu instance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,160 +35,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 10:07:02 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 10:07:07 -0000
 
+From: Radu Moisan <radu.moisan@intel.com>
 
-Hello,
+Handles qemu instances (launch, kill, restart, serial connection, logging)
+Launch is blocking until login prompt and returns to the task. A qemu
+serial connection is used to save the boot log and get the ip from the image.
+Changed runqemu script not to error out when using custom serial option.
 
-This is the proposed implementation of a new runtime tests framework based on python unittest. 
-It's mean to ease qemu image testing and encourage developers to add more tests similar to the example tests provided (all tests are basically commands ran over ssh)
-
-You can try it out like this:
- - first build a qemu core-image-sato (a minimal wouldn't be interesting at all)
- - add INHERIT += "testimage" in local.conf
- - then bitbake core-image-sato -c testimage. That will run a standard suite of tests.
-
-You can set TEST_SUITES = "ping ssh <test name>" in local.conf to force run only certain tests (order matters here, it's the order in which tests run). You can also append "auto" and it will also run whatever tests are suitable for the image (if that was a sato-sdk image and you set TEST_SUITE = "ping ssh rpm auto" you force run ping, ssh and rpm but you also get smart, connman and gcc tests).
-
-Check the task log (log.do_testimage) in WORKDIR to see the results. Also a ssh log (what command is running, output and return codes) and qemu boot log are kept in WORKDIR/testimage/
-
-There are some areas for improvement/limitations right now:
- - a better way of getting the list of installed packages in a image
- - qemu is started with the -snapshot option, we should create a copy of the original rootfs instead.
- - when using TEST_SUITES = "auto" there is no dependency at all between tests (rpm would run before ssh test), so better use TEST_SUITES = "ping ssh auto"
- - better logging and error reporting for qemu problems (runqemu erros, qemu doesn't start, etc)
- - more helper methods for tests
- - others I can't think of right now :)
-
-I hope this is going in the right direction and we could improve from here.
-Comments and feedback are most welcome!
-
-Regards,
-Stefan
-
-
-
-The following changes since commit 042203531b10b37ac9a8201b376f5dec403e51d8:
-
-  sanity.bbclass: Fix COREBASE sanity tests (2013-06-27 12:48:56 +0100)
-
-are available in the git repository at:
-
-  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib stefans/oeqa5
-
-for you to fetch changes up to e6e567982f4b28822afdc8ea55401513df7c9466:
-
-  lib/oeqa/runtime: add gcc test (2013-06-28 13:00:45 +0300)
-
-----------------------------------------------------------------
-Radu Moisan (2):
-      lib/oeqa/utils/qemurunner.py: class to handle qemu instance
-      lib/oeqa/utils/decorators.py: decorators for test methods
-
-Stefan Stanacar (6):
-      classes/testimage.bbclass: new class for image tests
-      lib/oeqa/oetest.py: base module for all runtime unittests
-      lib/oeqa/utils/sshcontrol.py: helper module for running remote commands
-      lib/oeqa/utils/oetelnetlib.py: override Telnet class to use Unix domain sockets
-      lib/oeqa/runtime: image sanity tests
-      lib/oeqa/runtime: add gcc test
-
- meta/classes/testimage.bbclass           |  95 ++++++++++++++++++
- meta/lib/oeqa/__init__.py                |   0
- meta/lib/oeqa/oetest.py                  |  94 ++++++++++++++++++
- meta/lib/oeqa/runtime/__init__.py        |   0
- meta/lib/oeqa/runtime/connman.py         |  34 +++++++
- meta/lib/oeqa/runtime/dmesg.py           |  10 ++
- meta/lib/oeqa/runtime/files/test.c       |  26 +++++
- meta/lib/oeqa/runtime/files/testmakefile |   5 +
- meta/lib/oeqa/runtime/gcc.py             |  36 +++++++
- meta/lib/oeqa/runtime/multilib.py        |  14 +++
- meta/lib/oeqa/runtime/ping.py            |  11 +++
- meta/lib/oeqa/runtime/rpm.py             |  25 +++++
- meta/lib/oeqa/runtime/smart.py           |  23 +++++
- meta/lib/oeqa/runtime/ssh.py             |  16 ++++
- meta/lib/oeqa/utils/__init__.py          |   0
- meta/lib/oeqa/utils/decorators.py        |  40 ++++++++
- meta/lib/oeqa/utils/oetelnetlib.py       |  49 ++++++++++
- meta/lib/oeqa/utils/qemurunner.py        | 160 +++++++++++++++++++++++++++++++
- meta/lib/oeqa/utils/sshcontrol.py        | 100 +++++++++++++++++++
- scripts/runqemu                          |   2 +-
- 20 files changed, 739 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/testimage.bbclass
- create mode 100644 meta/lib/oeqa/__init__.py
- create mode 100644 meta/lib/oeqa/oetest.py
- create mode 100644 meta/lib/oeqa/runtime/__init__.py
- create mode 100644 meta/lib/oeqa/runtime/connman.py
- create mode 100644 meta/lib/oeqa/runtime/dmesg.py
- create mode 100644 meta/lib/oeqa/runtime/files/test.c
- create mode 100644 meta/lib/oeqa/runtime/files/testmakefile
- create mode 100644 meta/lib/oeqa/runtime/gcc.py
- create mode 100644 meta/lib/oeqa/runtime/multilib.py
- create mode 100644 meta/lib/oeqa/runtime/ping.py
- create mode 100644 meta/lib/oeqa/runtime/rpm.py
- create mode 100644 meta/lib/oeqa/runtime/smart.py
- create mode 100644 meta/lib/oeqa/runtime/ssh.py
- create mode 100644 meta/lib/oeqa/utils/__init__.py
- create mode 100644 meta/lib/oeqa/utils/decorators.py
- create mode 100644 meta/lib/oeqa/utils/oetelnetlib.py
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 160 ++++++++++++++++++++++++++++++++++++++
+ scripts/runqemu                   |   2 +-
+ 2 files changed, 161 insertions(+), 1 deletion(-)
  create mode 100644 meta/lib/oeqa/utils/qemurunner.py
- create mode 100644 meta/lib/oeqa/utils/sshcontrol.py
 
-Radu Moisan (2):
-  lib/oeqa/utils/qemurunner.py: class to handle qemu instance
-  lib/oeqa/utils/decorators.py: decorators for test methods
-
-Stefan Stanacar (6):
-  classes/testimage.bbclass: new class for image tests
-  lib/oeqa/oetest.py: base module for all runtime unittests
-  lib/oeqa/utils/sshcontrol.py: helper module for running remote
-    commands
-  lib/oeqa/utils/oetelnetlib.py: override Telnet class to use Unix
-    domain sockets
-  lib/oeqa/runtime: image sanity tests
-  lib/oeqa/runtime: add gcc test
-
- meta/classes/testimage.bbclass           |  95 ++++++++++++++++++
- meta/lib/oeqa/__init__.py                |   0
- meta/lib/oeqa/oetest.py                  |  94 ++++++++++++++++++
- meta/lib/oeqa/runtime/__init__.py        |   0
- meta/lib/oeqa/runtime/connman.py         |  34 +++++++
- meta/lib/oeqa/runtime/dmesg.py           |  10 ++
- meta/lib/oeqa/runtime/files/test.c       |  26 +++++
- meta/lib/oeqa/runtime/files/testmakefile |   5 +
- meta/lib/oeqa/runtime/gcc.py             |  36 +++++++
- meta/lib/oeqa/runtime/multilib.py        |  14 +++
- meta/lib/oeqa/runtime/ping.py            |  11 +++
- meta/lib/oeqa/runtime/rpm.py             |  25 +++++
- meta/lib/oeqa/runtime/smart.py           |  23 +++++
- meta/lib/oeqa/runtime/ssh.py             |  16 ++++
- meta/lib/oeqa/utils/__init__.py          |   0
- meta/lib/oeqa/utils/decorators.py        |  40 ++++++++
- meta/lib/oeqa/utils/oetelnetlib.py       |  49 ++++++++++
- meta/lib/oeqa/utils/qemurunner.py        | 160 +++++++++++++++++++++++++++++++
- meta/lib/oeqa/utils/sshcontrol.py        | 100 +++++++++++++++++++
- scripts/runqemu                          |   2 +-
- 20 files changed, 739 insertions(+), 1 deletion(-)
- create mode 100644 meta/classes/testimage.bbclass
- create mode 100644 meta/lib/oeqa/__init__.py
- create mode 100644 meta/lib/oeqa/oetest.py
- create mode 100644 meta/lib/oeqa/runtime/__init__.py
- create mode 100644 meta/lib/oeqa/runtime/connman.py
- create mode 100644 meta/lib/oeqa/runtime/dmesg.py
- create mode 100644 meta/lib/oeqa/runtime/files/test.c
- create mode 100644 meta/lib/oeqa/runtime/files/testmakefile
- create mode 100644 meta/lib/oeqa/runtime/gcc.py
- create mode 100644 meta/lib/oeqa/runtime/multilib.py
- create mode 100644 meta/lib/oeqa/runtime/ping.py
- create mode 100644 meta/lib/oeqa/runtime/rpm.py
- create mode 100644 meta/lib/oeqa/runtime/smart.py
- create mode 100644 meta/lib/oeqa/runtime/ssh.py
- create mode 100644 meta/lib/oeqa/utils/__init__.py
- create mode 100644 meta/lib/oeqa/utils/decorators.py
- create mode 100644 meta/lib/oeqa/utils/oetelnetlib.py
- create mode 100644 meta/lib/oeqa/utils/qemurunner.py
- create mode 100644 meta/lib/oeqa/utils/sshcontrol.py
-
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+new file mode 100644
+index 0000000..e201e25
+--- /dev/null
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -0,0 +1,160 @@
++import subprocess
++import optparse
++import sys
++import os
++import time
++import signal
++import re
++import bb
++from oeqa.utils.oetelnetlib import oeTelnet
++
++class QemuRunner:
++
++    def __init__(self, machine, rootfs, display = None, tmpdir = None, logfile = None):
++        # Popen object
++        self.runqemu = None
++
++        self.machine = machine
++        self.rootfs = rootfs
++
++        self.streampath = '/tmp/qemuconnection.%s' % os.getpid()
++        self.qemuparams = 'bootparams="console=ttyS0" qemuparams="-snapshot -serial unix:%s,server,nowait"' % self.streampath
++        self.qemupid = None
++        self.ip = None
++
++        self.display = display
++        self.tmpdir = tmpdir
++        self.logfile = logfile
++
++    def launch(self, qemuparams = None):
++
++        if qemuparams:
++            self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
++
++        if self.display:
++            os.environ["DISPLAY"] = self.display
++        if not os.path.exists(self.rootfs):
++            bb.error("Invalid rootfs %s" % self.rootfs)
++            return False
++        if not os.path.exists(self.tmpdir):
++            bb.error("Invalid TMPDIR path %s" % self.tmpdir)
++            return False
++        else:
++            os.environ["OE_TMPDIR"] = self.tmpdir
++
++        launch_cmd = 'runqemu %s %s %s' % (self.machine, self.rootfs, self.qemuparams)
++        self.runqemu = subprocess.Popen(launch_cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,preexec_fn=os.setpgrp)
++
++        bb.note("runqemu started, pid is %s" % self.runqemu.pid)
++        # wait at most 30 seconds until qemu pid appears
++        bb.note("waiting at most 30 seconds for qemu pid")
++        endtime = time.time() + 30
++        while not self.is_alive() and time.time() < endtime:
++            time.sleep(0.5)
++
++        if self.is_alive():
++            bb.note("qemu started - qemu procces pid is %s" % self.qemupid)
++
++            console = oeTelnet(self.streampath, self.logfile)
++            bb.note("Waiting at most 120 seconds for login banner")
++            (match, text) = console.read_all_timeout("login:", 120)
++
++            if match:
++                bb.note("Reached login banner")
++                console.write("root\n")
++                (index, match, text) = console.expect([r"(root@[\w-]+:~#)"],10)
++                if not match:
++                    bb.note("Couldn't get prompt, all I got was:\n%s" % match.group(0))
++                    return False
++                console.write("ip addr show eth0 | sed -n '3p' | awk '{ print $2 }' | cut -f 1 -d \"/\"\n")
++                (index, match, text) = console.expect([r"((?:[0-9]{1,3}\.){3}[0-9]{1,3})"],10)
++                console.close()
++                if match:
++                    self.ip = match.group(0)
++                    bb.note("Ip found: %s" % self.ip)
++                else:
++                    bb.note("Couldn't determine ip, all I got was:\n%s" % text)
++                    return False
++            else:
++                console.close()
++                bb.note("Target didn't reached login boot in 120 seconds")
++                lines = "\n".join(text.splitlines()[-5:])
++                bb.note("Last 5 lines of text:\n%s" % lines)
++                bb.note("Check full boot log: %s" % self.logfile)
++                return False
++        else:
++            bb.note("Qemu pid didn't appeared in 30 seconds")
++            self.runqemu.terminate()
++            self.runqemu.kill()
++            bb.note("Output from runqemu: %s " % self.runqemu.stdout.read())
++            self.runqemu.stdout.close()
++            return False
++
++        return self.is_alive()
++
++
++    def kill(self):
++        if self.runqemu:
++            os.kill(-self.runqemu.pid,signal.SIGTERM)
++        self.qemupid = None
++        self.ip = None
++        if os.path.exists(self.streampath):
++            os.remove(self.streampath)
++
++    def restart(self, qemuparams = None):
++        if self.is_alive():
++            self.kill()
++        bb.note("Qemu Restart required...")
++        return self.launch(qemuparams)
++
++    def is_alive(self):
++        qemu_child = self.find_child(str(self.runqemu.pid))
++        if qemu_child:
++            self.qemupid = qemu_child[0]
++            return os.path.exists("/proc/" + str(self.qemupid))
++        return False
++
++    def find_child(self,parent_pid):
++        #
++        # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
++        #
++        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
++        processes = ps.split('\n')
++        nfields = len(processes[0].split()) - 1
++        pids = {}
++        commands = {}
++        for row in processes[1:]:
++            data = row.split(None, nfields)
++            if len(data) != 3:
++                continue
++            if data[1] not in pids:
++                pids[data[1]] = []
++
++            pids[data[1]].append(data[0])
++            commands[data[0]] = data[2]
++
++        if parent_pid not in pids:
++            sys.stderr.write("No children found matching %s\n" % parent_pid)
++            return []
++
++        parents = []
++        newparents = pids[parent_pid]
++        while newparents:
++            next = []
++            for p in newparents:
++                if p in pids:
++                    for n in pids[p]:
++                        if n not in parents and n not in next:
++                            next.append(n)
++                if p not in parents:
++                    parents.append(p)
++                    newparents = next
++        #print "Children matching %s:" % str(parents)
++        for p in parents:
++            # Need to be careful here since runqemu-internal runs "ldd qemu-system-xxxx"
++            # Also, old versions of ldd (2.11) run "LD_XXXX qemu-system-xxxx"
++            basecmd = commands[p].split()[0]
++            basecmd = os.path.basename(basecmd)
++            if "qemu-system" in basecmd and "192.168" in commands[p]:
++                return [int(p),commands[p]]
++
+diff --git a/scripts/runqemu b/scripts/runqemu
+index f2eb2e1..406092b 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -156,7 +156,7 @@ while true; do
+             serial_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-serial\)'`
+             kvm_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-enable-kvm\)'`
+             [ ! -z "$serial_option" -o ! -z "$kvm_option" ] && \
+-                error "Please use simplified serial or kvm options instead"
++                echo "Please use simplified serial or kvm options instead"
+             ;;
+         "bootparams="*)
+             SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT ${arg##bootparams=}"
 -- 
 1.8.1.4
 
