@@ -1,40 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f45.google.com (mail-pb0-f45.google.com
-	[209.85.160.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE63608BF
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 24F026ABF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 22:22:47 +0000 (UTC)
-Received: by mail-pb0-f45.google.com with SMTP id mc8so2755693pbc.32
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 15:22:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=KXFEbGL8ItoZRYkLW3pBApD3QY+Izo72pHUH8Agw+9g=;
-	b=kxXE7A91uPsgK6Cuw9dwsIczX8GEN4mENPl0bQYHgelvU/GngCMaaxyDuIMEvcBIyD
-	xMSduhWutiBTWutq841NP02lQbUBxiOEhjz88xMr043UfQZOSnq6gBHN3uZ+wqbbzaHS
-	kc2VmShVmeuXeIavY5dNIzVq5JeEuuWgYCI7RBLJS2/raCXCt48ps6iTBOAwCwwSOJpS
-	ZfSr+oV0th95iMwsp0bohqbUfolYW7PtFCJQ9GcQAiNbAOx1LiqWlZJAXWr6h4Ts7w/7
-	L81BMJrJ4PYokYrX8Ot6iOGySth0sXLh0JcpYTVgeZt1SeBxHKoM5Qa9PZpp8a0hHYFO
-	r5iA==
-X-Received: by 10.66.246.133 with SMTP id xw5mr13254616pac.114.1372458168502; 
-	Fri, 28 Jun 2013 15:22:48 -0700 (PDT)
-Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id p2sm10755519pag.22.2013.06.28.15.22.47
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 28 Jun 2013 15:22:47 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1372457299-8340-1-git-send-email-sgw@linux.intel.com>
-Date: Fri, 28 Jun 2013 15:22:45 -0700
-Message-Id: <0DD42095-18E6-42E9-A246-D465FE449B43@gmail.com>
-References: <1372457299-8340-1-git-send-email-sgw@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.1508)
+	Fri, 28 Jun 2013 22:29:55 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2013 15:29:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,962,1363158000"; d="scan'208";a="361350952"
+Received: from unknown (HELO helios.localnet) ([10.252.122.99])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2013 15:29:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Fri, 28 Jun 2013 23:29:54 +0100
+Message-ID: <2032984.e8lyiF9NsH@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
+In-Reply-To: <CAP9ODKqJuwRmyah=LU5zcTccQWZkdfFJvBbQ81VZpooCMbpHbA@mail.gmail.com>
+References: <cover.1372413711.git.stefanx.stanacar@intel.com>
+	<CAP9ODKqJuwRmyah=LU5zcTccQWZkdfFJvBbQ81VZpooCMbpHbA@mail.gmail.com>
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] security_flags: Add the compiler and linker flags that enhance security
+Subject: Re: [RFC PATCH 0/8] Proposed implementation of a new runtime tests framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,89 +33,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 22:22:47 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 28 Jun 2013 22:29:55 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+On Friday 28 June 2013 19:06:04 Otavio Salvador wrote:
+> Did you think about adding something like an overidable set of hooks
+> which starts, setup image and shutdown the machine? This would allow
+> same framework to be used for real hardware test.
 
-On Jun 28, 2013, at 3:08 PM, Saul Wold <sgw@linux.intel.com> wrote:
+Yes, we did think about this; the way this would be done would be to simply 
+swap out the QemuRunner instance at runtime with some other class that has the 
+same interface which would provision a real machine. However there is no 
+established framework for doing the latter, and at the moment we just want to 
+concentrate on getting runtime tests working. As long as the tests themselves 
+know as little as possible about the machine they are running in then 
+switching over to real hardware is pretty straightforward, and we've tried to 
+design things in that manner.
 
-> These flags add addition checks at compile, link and runtime to =
-prevent
-> stack smashing, checking for buffer overflows, and link at program =
-start
-> to prevent call spoofing later.
->=20
-> This needs to be explicitly enabled by adding the following line to =
-your
-> local.conf:
->=20
-> require conf/distro/include/security_flags.inc
->=20
-> [YOCTO #3868]
->=20
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
-> meta/conf/distro/include/security_flags.inc | 26 =
-++++++++++++++++++++++++++
-> 1 file changed, 26 insertions(+)
-> create mode 100644 meta/conf/distro/include/security_flags.inc
->=20
-> diff --git a/meta/conf/distro/include/security_flags.inc =
-b/meta/conf/distro/include/security_flags.inc
-> new file mode 100644
-> index 0000000..7a7ab52
-> --- /dev/null
-> +++ b/meta/conf/distro/include/security_flags.inc
-> @@ -0,0 +1,26 @@
-> +SECURITY_CFLAGS =3D "-fstack-protector-all -pie -fpie =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_LDFLAGS =3D "-Wl,-z,relro,-z,now"
+Cheers,
+Paul
 
-these should be weak assignments (?=3D) I think
+-- 
 
-> +
-> +# Curl seems to check for FORTIFY_SOURCE in CFLAGS, but even assigned
-> +# to CPPFLAGS it gets picked into CFLAGS in bitbake.
-> +#TARGET_CPPFLAGS_pn-curl +=3D "-D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-curl =3D "-fstack-protector-all -pie -fpie"
-> +SECURITY_CFLAGS_pn-ppp =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-eglibc =3D ""
-> +SECURITY_CFLAGS_pn-eglibc-initial =3D ""
-> +SECURITY_CFLAGS_pn-zlib =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-gcc-runtime =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-libgcc =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-tcl =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-libcap =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-python-smartpm =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-python-imaging =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-python-pycurl =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-kexec-tools =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +
-> +# These 2 have text relco errors with the pie options enabled
-> +SECURITY_CFLAGS_pn-pulseaudio =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +SECURITY_CFLAGS_pn-ltp =3D "-fstack-protector-all =
--D_FORTIFY_SOURCE=3D2"
-> +
-> +TARGET_CFLAGS_append =3D " ${SECURITY_CFLAGS}"
-> +TARGET_LDFLAGS_append =3D " ${SECURITY_LDFLAGS}"
-> --=20
-> 1.8.1.4
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
