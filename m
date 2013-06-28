@@ -1,26 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5663C6A4D2
+	by mail.openembedded.org (Postfix) with ESMTP id 2BE16618B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 17:41:31 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jun 2013 10:39:07 -0700
+	Fri, 28 Jun 2013 17:57:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Jun 2013 10:54:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,960,1363158000"; d="scan'208";a="337133834"
-Received: from unknown (HELO [10.255.13.119]) ([10.255.13.119])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jun 2013 10:41:27 -0700
-Message-ID: <51CDCAC7.50202@linux.intel.com>
-Date: Fri, 28 Jun 2013 10:41:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: rongqing.li@windriver.com
-References: <cover.1372381458.git.rongqing.li@windriver.com>
-	<391d4b34129e491a4ee0c6737369e8470c3b98ca.1372381458.git.rongqing.li@windriver.com>
-In-Reply-To: <391d4b34129e491a4ee0c6737369e8470c3b98ca.1372381458.git.rongqing.li@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] xf86-video-intel: backport a patch to fix a compile failure
+X-IronPort-AV: E=Sophos;i="4.87,960,1363158000"; d="scan'208";a="361241380"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.97])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2013 10:56:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jun 2013 18:56:46 +0100
+Message-Id: <cover.1372442170.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/2] linux-firmware fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 17:41:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jun 2013 17:57:02 -0000
 
-On 06/27/2013 06:11 PM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
->
-> backport a patch to fix a compile failure when xorg-xserver's version
-> is less than 1.10
->
-I am not understanding why we need this patch, our xorg-xserver version 
-is at 1.14, why would we need to have patch for an older version of the 
-server?
+The following changes since commit ff65497cd9a96d5ab49b16ba1f7e30a216ff4a42:
 
-Sau!
+  classes/insane: remove la2 check which no longer exists from ERROR_QA (2013-06-28 16:33:05 +0100)
 
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> ---
->   ...-compilation-error-with-xorg-xserver-1.10.patch |   31 ++++++++++++++++++++
->   .../xorg-driver/xf86-video-intel_2.21.9.bb         |    2 ++
->   2 files changed, 33 insertions(+)
->   create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
->
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
-> new file mode 100644
-> index 0000000..0d0d99f
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
-> @@ -0,0 +1,31 @@
-> +From b5e85e495e55e2537d305b7bebacdf6f97b66199 Mon Sep 17 00:00:00 2001
-> +From: "Roy.Li" <rongqing.li@windriver.com>
-> +Date: Thu, 27 Jun 2013 14:10:14 +0800
-> +Subject: [PATCH] uxa: fix the compilation error with xorg-xserver <= 1.10
-> +
-> +Upstream-Status: Backported
-> +
-> +struct _Screen has no canDoBGNoneRoot when ABI_VIDEODRV_VERSION is less than 10.0
-> +
-> +Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> +---
-> + src/intel_display.c |    2 ++
-> + 1 file changed, 2 insertions(+)
-> +
-> +diff --git a/src/intel_display.c b/src/intel_display.c
-> +index 17168e5..0acb86d 100644
-> +--- a/src/intel_display.c
-> ++++ b/src/intel_display.c
-> +@@ -2113,7 +2113,9 @@ void intel_copy_fb(ScrnInfoPtr scrn)
-> + 				0, 0,
-> + 				scrn->virtualX, scrn->virtualY);
-> + 	intel->uxa_driver->done_copy(dst);
-> ++#if ABI_VIDEODRV_VERSION >= SET_ABI_VERSION(10, 0)
-> + 	pScreen->canDoBGNoneRoot = TRUE;
-> ++#endif
-> +
-> + cleanup_dst:
-> + 	(*pScreen->DestroyPixmap)(dst);
-> +--
-> +1.7.10.4
-> +
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
-> index 6112089..01c767b 100644
-> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
-> @@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
->   DEPENDS += "virtual/libx11 drm xf86driproto glproto \
->   	    virtual/libgl xineramaproto xf86driproto libpciaccess udev"
->
-> +SRC_URI += "file://0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch"
-> +
->   PACKAGECONFIG ??= ""
->   PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
->   PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/linux-firmware
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/linux-firmware
+
+Paul Eggleton (2):
+  linux-firmware: be consistent with license package naming
+  linux-firmware: fix ralink license file name
+
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+-- 
+1.8.1.2
+
 
