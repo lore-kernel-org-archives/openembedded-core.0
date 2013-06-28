@@ -1,27 +1,39 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E43156AE9D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 489666AECB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 07:49:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S7nPI8019555
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 28 Jun 2013 00:49:25 -0700 (PDT)
-Received: from localhost.localdomain (128.224.162.205) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Fri, 28 Jun 2013 00:49:24 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 28 Jun 2013 15:48:47 +0800
-Message-ID: <0b6b3178a957a5f1719d6e7d3de74ef10e997266.1372403777.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <cover.1372403777.git.kai.kang@windriver.com>
-References: <cover.1372403777.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.205]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] Disable build qt related packagegroups on mips64 with 64 bits userspace
+	Fri, 28 Jun 2013 07:49:27 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id rl6so2136941pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jun 2013 00:49:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=g0tRZe98dPJEWI/+v+e+96+dLqEpcE0l7SDZtL5qG8Q=;
+	b=hw9TDymf3iUJcolQs1P8Z7XZhJ+j1ZDyASAjgDfNakTI3TqUiAmnJ7jzMz9uV9UWSs
+	35pLZCRfZGhRHytLnpLTo6Q0MbehKcb4DHzu6L88SGdsGS+qw1oUWv3042dy25JC9Il+
+	9VLe15o2rmHbb4W5TUOa2n4rUDnj11n+8b00ZbMmwLsQ7oHKw34U8AU4teFQBr9Zul2Q
+	fWADXZEB/XReKNX+VHRwE27DJ9dgvRXt37ra76P9Z0BD36wNJFW6ybJZYEO1ZP1qc5uW
+	9q5z4usa/KrS+pk1h1rExNI71V10gXXtqjpds+cBaVBjoanJDlC2lsBVz5E4aqol5IVv
+	8ScQ==
+X-Received: by 10.66.2.101 with SMTP id 5mr885571pat.82.1372405768276;
+	Fri, 28 Jun 2013 00:49:28 -0700 (PDT)
+Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id y9sm6887292pbb.46.2013.06.28.00.49.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 28 Jun 2013 00:49:27 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1372043405-22668-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 28 Jun 2013 00:49:25 -0700
+Message-Id: <9D7D34D4-8134-4B01-8C5A-B4C36C9FE734@gmail.com>
+References: <1372043405-22668-1-git-send-email-raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+X-Mailer: Apple Mail (2.1508)
+Subject: Re: [PATCH] libbsd: Add recipes for libbsd - utility functions from BSD systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +46,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 07:49:26 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Jun 2013 07:49:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Because qt could not be built on mips64 with 64 bits userspace, set
-COMPATIBLE_HOST for qt related packagegroups to disable them on mips64
-with 64 bit userspace too.
+ping ?
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../packagegroups/packagegroup-core-qt.bb          |    3 +++
- .../packagegroups/packagegroup-core-qt4e.bb        |    3 +++
- .../packagegroup-qt-toolchain-target.inc           |    3 +++
- 3 files changed, 9 insertions(+), 0 deletions(-)
+On Jun 23, 2013, at 8:10 PM, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb b/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
-index 315df33..c993242 100644
---- a/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
-+++ b/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
-@@ -6,6 +6,9 @@ DESCRIPTION = "Qt package groups"
- LICENSE = "MIT"
- PR = "r4"
- 
-+# Qt4 could NOT be built on MIPS64 with 64 bits userspace
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux-gnun32"
-+
- inherit packagegroup
- 
- PACKAGES = "${PN}-demoapps"
-diff --git a/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-index 9263828..6ef844f 100644
---- a/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-+++ b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-@@ -2,6 +2,9 @@ SUMMARY = "Qt for Embedded Linux (Qt without X11)"
- PR = "r2"
- LICENSE = "MIT"
- 
-+# Qt4 could NOT be built on MIPS64 with 64 bits userspace
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux-gnun32"
-+
- inherit packagegroup
- 
- # For backwards compatibility after rename
-diff --git a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-index 8413eec..fc1ccba 100644
---- a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-+++ b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target.inc
-@@ -1,5 +1,8 @@
- LICENSE = "MIT"
- 
-+# Qt4 could NOT be built on MIPS64 with 64 bits userspace
-+COMPATIBLE_HOST_mips64 = "mips64.*-linux-gnun32"
-+
- inherit packagegroup
- 
- PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
--- 
-1.7.5.4
+> When building BSD programs this library provides common
+> BSD functions that are missing on other OSes e.g. Linux
+>=20
+> This library is elemental for porting large set of BSD applications
+> current consumer of this are in meta-networking/openbsd-netcat
+> but once we have it in OE-Core more recipes depending on it in =
+different layers
+> can be added.
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> meta/recipes-support/libbsd/libbsd_0.5.2.bb |   19 +++++++++++++++++++
+> 1 file changed, 19 insertions(+)
+> create mode 100644 meta/recipes-support/libbsd/libbsd_0.5.2.bb
+>=20
+> diff --git a/meta/recipes-support/libbsd/libbsd_0.5.2.bb =
+b/meta/recipes-support/libbsd/libbsd_0.5.2.bb
+> new file mode 100644
+> index 0000000..952f212
+> --- /dev/null
+> +++ b/meta/recipes-support/libbsd/libbsd_0.5.2.bb
+> @@ -0,0 +1,19 @@
+> +# Copyright (C) 2013 Khem Raj <raj.khem@gmail.com>
+> +# Released under the MIT license (see COPYING.MIT for the terms)
+> +
+> +DESCRIPTION =3D "This library provides useful functions commonly =
+found on BSD systems, \
+> +               and lacking on others like GNU systems, thus making it =
+easier to port \
+> +               projects with strong BSD origins, without needing to =
+embed the same \
+> +               code over and over again on each project."
+> +
+> +HOMEPAGE =3D "http://libbsd.freedesktop.org/wiki/"
+> +LICENSE =3D "BSD-4-Clause & MIT"
+> +LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D98a015f07e71239b058398054f506f07"
+> +SECTION =3D "libs"
+> +DEPENDS =3D ""
+> +
+> +SRC_URI =3D =
+"http://libbsd.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
+> +SRC_URI[md5sum] =3D "be8b2e0dc4614699834c49693574fd1a"
+> +SRC_URI[sha256sum] =3D =
+"5340cf67555a8d92e7652d96540a47986a26eeafb9a0a3e22d3b3e5701ebe23f"
+> +
+> +inherit autotools pkgconfig
+> --=20
+> 1.7.9.5
+>=20
 
 
