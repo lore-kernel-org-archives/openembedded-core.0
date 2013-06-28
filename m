@@ -1,28 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DFDC618B5
+	by mail.openembedded.org (Postfix) with ESMTP id 5E10A60780
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 02:05:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S25VZi015998
+	Fri, 28 Jun 2013 02:53:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5S2r4C8020626
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Jun 2013 19:05:32 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 27 Jun 2013 19:05:31 -0700
-Message-ID: <51CCEF2E.6070800@windriver.com>
-Date: Fri, 28 Jun 2013 10:04:30 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Thu, 27 Jun 2013 19:53:04 -0700 (PDT)
+Received: from [128.224.162.205] (128.224.162.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Thu, 27 Jun 2013 19:53:04 -0700
+Message-ID: <51CCFA77.4080506@windriver.com>
+Date: Fri, 28 Jun 2013 10:52:39 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1371621343.git.liezhi.yang@windriver.com>
-	<51CA5F8E.9070504@windriver.com> <51CB1145.4060009@linux.intel.com>
-In-Reply-To: <51CB1145.4060009@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] make DESCRIPTION support newline
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <51C963C0.5020009@windriver.com> <1810438.1YW5iENKFC@helios>
+	<51CC47DA.8090905@windriver.com> <51CC69DA.3010406@windriver.com>
+	<1372351613.9930.225.camel@ted>
+In-Reply-To: <1372351613.9930.225.camel@ted>
+X-Originating-IP: [128.224.162.205]
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Could qt4.8 build on mips 64 bits platform?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 02:05:31 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jun 2013 02:53:06 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-
-On 06/27/2013 12:05 AM, Saul Wold wrote:
-> On 06/25/2013 08:27 PM, Robert Yang wrote:
+On 2013年06月28日 00:46, Richard Purdie wrote:
+> On Thu, 2013-06-27 at 12:35 -0400, Randy MacLeod wrote:
+>> We ended up with horrid bbapends such as:
+>> ---
+>> #Valid for all arches except mips64 with 64bit userspace
+>> # mips64 with n32 has host: mips64-wrs-linux-gnun32
+>> # mips64 with n64 has host: mips64-wrsmllib64-linux
+>> # qemumips has host: mips-wrs-linux
+>> # qemumips-64 has host: mips64-wrs-linux
+>> COMPATIBLE_HOST =
+>> '((x86_64.*|i.86.*|powerpc.*|arm.*|mips-.*|mips32.*)-linux|mips64.*-linux-gnun32)'
+>> ---
 >>
->> Ping for this one.
->>
-> Robert,
+>> so we'll likely need a clue on how to declare a host as incompatible
+>> or introduce an INCOMPATIBLE_HOST variable.
+> I suspect something like this should work:
 >
-> There were some comments on your patch set and I think an issue with the ipk one.
+> COMPATIBLE_HOST_mips64 = ""
+
+Thanks.
+
+We still need include such packages on mips64 with 32 bits filesystem.  
+So the following is needed:
+
+COMPATIBLE_HOST_mips64 = "mips64.*-linux-gnun32"
+
+I am little worried that "-gnun32" is a standard name then I'll figure it out.
+
+Regards,
+Kai
+
+
 >
-
-Hi Saul,
-
-I think that you meant Martin's comment on the ipk one, Phil had explained to
-him, and it worked well with the opkg-utils.
-
-// Robert
-
-> Sau!
+> Cheers,
 >
->> // Robert
->>
->> On 06/19/2013 05:00 PM, Robert Yang wrote:
->>> The following changes since commit
->>> 590010a6525b0e1bc1de73e794764e23404591df:
->>>
->>>    core-image-weston: add weston-examples to the image (2013-06-18
->>> 17:33:17 +0100)
->>>
->>> are available in the git repository at:
->>>
->>>    git://git.pokylinux.org/poky-contrib robert/newline
->>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/newline
->>>
->>> Robert Yang (3):
->>>    package_rpm.bbclass: make DESCRIPTION support newline
->>>    package_ipk.bbclass: make DESCRIPTION support newline
->>>    package_deb.bbclass: make DESCRIPTION support newline
->>>
->>>   meta/classes/package_deb.bbclass |    5 +++--
->>>   meta/classes/package_ipk.bbclass |    5 +++--
->>>   meta/classes/package_rpm.bbclass |   19 ++++++++++++++-----
->>>   3 files changed, 20 insertions(+), 9 deletions(-)
->>>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
+> Richard
 >
 >
+
+
+-- 
+Regards,
+Neil | Kai Kang
+
 
