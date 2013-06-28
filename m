@@ -1,23 +1,27 @@
-Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
-Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id DBC906AED0
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E3C4D6AEEE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 09:57:31 +0000 (UTC)
-Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
-	[192.168.101.25])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 06CD340084;
-	Fri, 28 Jun 2013 11:00:41 +0200 (CEST)
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 11:57:12 +0200
-Message-Id: <1372413432-30545-2-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1372413432-30545-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-References: <1372413432-30545-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-Subject: [PATCH 2/2] python-multiprocessing: adding runtime dependencies
+	Fri, 28 Jun 2013 09:58:18 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2013 02:55:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="357171517"
+Received: from unknown (HELO helios.localnet) ([10.252.122.97])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2013 02:54:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Kang Kai <Kai.Kang@windriver.com>
+Date: Fri, 28 Jun 2013 10:53:44 +0100
+Message-ID: <6864785.i8K3q4aBBb@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
+In-Reply-To: <1372412549.9930.248.camel@ted>
+References: <cover.1372403777.git.kai.kang@windriver.com>
+	<51CD5880.7000102@windriver.com> <1372412549.9930.248.camel@ted>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] Disable build qt related packagegroups on mips64 with 64 bits userspace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,75 +34,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 09:57:32 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 09:58:19 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-As python-multiprocessing requires python-threading and
-python-pickle, this commit adds them as runtime dependency.
+On Friday 28 June 2013 10:42:29 Richard Purdie wrote:
+> On Fri, 2013-06-28 at 17:33 +0800, Kang Kai wrote:
+> > On 2013=E5=B9=B406=E6=9C=8828=E6=97=A5 17:00, Paul Eggleton wrote:
+> > > Hi Kai,
+> > >=20
+> > > On Friday 28 June 2013 15:48:47 Kai Kang wrote:
+> > >> Because qt could not be built on mips64 with 64 bits userspace, =
+set
+> > >> COMPATIBLE_HOST for qt related packagegroups to disable them on =
+mips64
+> > >> with 64 bit userspace too.
+> > >>=20
+> > >> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > >> ---
+> > >>=20
+> > >>   .../packagegroups/packagegroup-core-qt.bb          |    3 +++
+> > >>   .../packagegroups/packagegroup-core-qt4e.bb        |    3 +++
+> > >>   .../packagegroup-qt-toolchain-target.inc           |    3 +++
+> > >>   3 files changed, 9 insertions(+), 0 deletions(-)
+> > >>=20
+> > >> diff --git a/meta/recipes-qt/packagegroups/packagegroup-core-qt.=
+bb
+> > >> b/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb index
+> > >> 315df33..c993242 100644
+> > >> --- a/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
+> > >> +++ b/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
+> > >> @@ -6,6 +6,9 @@ DESCRIPTION =3D "Qt package groups"
+> > >>=20
+> > >>   LICENSE =3D "MIT"
+> > >>   PR =3D "r4"
+> > >>=20
+> > >> +# Qt4 could NOT be built on MIPS64 with 64 bits userspace
+> > >> +COMPATIBLE_HOST_mips64 =3D "mips64.*-linux-gnun32"
+> > >> +
+> > >>=20
+> > >>   inherit packagegroup
+> > >>  =20
+> > >>   PACKAGES =3D "${PN}-demoapps"
+> > >>=20
+> > >> diff --git a/meta/recipes-qt/packagegroups/packagegroup-core-qt4=
+e.bb
+> > >> b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb index
+> > >> 9263828..6ef844f 100644
+> > >> --- a/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
+> > >> +++ b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
+> > >> @@ -2,6 +2,9 @@ SUMMARY =3D "Qt for Embedded Linux (Qt without X=
+11)"
+> > >>=20
+> > >>   PR =3D "r2"
+> > >>   LICENSE =3D "MIT"
+> > >>=20
+> > >> +# Qt4 could NOT be built on MIPS64 with 64 bits userspace
+> > >> +COMPATIBLE_HOST_mips64 =3D "mips64.*-linux-gnun32"
+> > >> +
+> > >>=20
+> > >>   inherit packagegroup
+> > >>  =20
+> > >>   # For backwards compatibility after rename
+> > >>=20
+> > >> diff --git
+> > >> a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
+.inc
+> > >> b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
+.inc
+> > >> index
+> > >> 8413eec..fc1ccba 100644
+> > >> ---
+> > >> a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
+.inc
+> > >> +++
+> > >> b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
+.inc
+> > >> @@ -1,5 +1,8 @@
+> > >>=20
+> > >>   LICENSE =3D "MIT"
+> > >>=20
+> > >> +# Qt4 could NOT be built on MIPS64 with 64 bits userspace
+> > >> +COMPATIBLE_HOST_mips64 =3D "mips64.*-linux-gnun32"
+> > >> +
+> > >>=20
+> > >>   inherit packagegroup
+> > >>  =20
+> > >>   PACKAGEGROUP_DISABLE_COMPLEMENTARY =3D "1"
+> > >=20
+> > > I'm fine with the other change; the question is is this one neede=
+d in
+> > > addition? Since the packagegroup-*qt* recipes reference packages =
+from
+> > > Qt which itself inherits qt4x11/qt4e bbclasses, surely trying to =
+build
+> > > these will immediately fail for mips64 anyway?
+> >=20
+> > Yes, it will fail immediately. What I want to do is to underline th=
+ese
+> > packagegroups' build platform.
+> > If you believe that they are redundant, I retrieve the patch 2/2.
+>=20
+> At a guess the one advantage of this is to clean up what "bitbake wor=
+ld"
+> would show?
 
-The observed behavior was:
+OK, I don't have any strong objections if it does help in some way.
 
-When typing 'import multiprocessing' in the python shell on a
-minimal image with only the python-multiprocessing recipe installed,
-python reports at first:
+Cheers,
+Paul
 
-Python 2.7.3 (default, Jun 27 2013, 08:26:25)
-[GCC 4.7.2] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
->>> import multiprocessing;
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/usr/lib/python2.7/multiprocessing/__init__.py", line 65, in <module>
-    from multiprocessing.util import SUBDEBUG, SUBWARNING
-  File "/usr/lib/python2.7/multiprocessing/util.py", line 38, in <module>
-    import threading        # we want threading to install it's
-ImportError: No module named threading
+--=20
 
-After adding python-threading as runtime dependency and rebuilding
-the image, python reports:
-
-Python 2.7.3 (default, Jun 27 2013, 08:26:25)
-[GCC 4.7.2] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
->>> import multiprocessing;
-Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-  File "/usr/lib/python2.7/multiprocessing/__init__.py", line 84, in <module>
-    import _multiprocessing
-ImportError: No module named cPickle
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
----
- .../python/python-2.7-manifest.inc                 |    2 +-
- scripts/contrib/python/generate-manifest-2.7.py    |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index fb44905..ca5d282 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -151,7 +151,7 @@ RDEPENDS_${PN}-mmap="${PN}-core ${PN}-io"
- FILES_${PN}-mmap="${libdir}/python2.7/lib-dynload/mmap.so "
- 
- DESCRIPTION_${PN}-multiprocessing="Python Multiprocessing Support"
--RDEPENDS_${PN}-multiprocessing="${PN}-core ${PN}-io ${PN}-lang"
-+RDEPENDS_${PN}-multiprocessing="${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-threading"
- FILES_${PN}-multiprocessing="${libdir}/python2.7/lib-dynload/_multiprocessing.so ${libdir}/python2.7/multiprocessing "
- 
- DESCRIPTION_${PN}-netclient="Python Internet Protocol Clients"
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 61a068c..b884432 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -300,7 +300,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-mmap", "Python Memory-Mapped-File Support", "${PN}-core ${PN}-io",
-     "lib-dynload/mmap.so " )
- 
--    m.addPackage( "${PN}-multiprocessing", "Python Multiprocessing Support", "${PN}-core ${PN}-io ${PN}-lang",
-+    m.addPackage( "${PN}-multiprocessing", "Python Multiprocessing Support", "${PN}-core ${PN}-io ${PN}-lang ${PN}-pickle ${PN}-threading",
-     "lib-dynload/_multiprocessing.so multiprocessing" ) # package
- 
-     m.addPackage( "${PN}-netclient", "Python Internet Protocol Clients", "${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-lang ${PN}-logging ${PN}-mime",
--- 
-1.7.9.5
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
