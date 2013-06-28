@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CA4D6AED0
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 792866AEC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 10:07:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2013 03:04:33 -0700
+	Fri, 28 Jun 2013 10:07:31 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2013 03:04:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="357176682"
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="261338627"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2013 03:05:21 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 28 Jun 2013 03:04:16 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 06E6D6A4091
+	by linux.intel.com (Postfix) with ESMTP id 5ADF66A4092
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 03:04:31 -0700 (PDT)
+	Fri, 28 Jun 2013 03:04:15 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 13:04:40 +0300
-Message-Id: <3047815ee6268db95c3916960eb31508fb7729f6.1372413711.git.stefanx.stanacar@intel.com>
+Date: Fri, 28 Jun 2013 13:04:36 +0300
+Message-Id: <930fa344649f35a278842c94601b7e07bc82a103.1372413711.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
 References: <cover.1372413711.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
 References: <cover.1372413711.git.stefanx.stanacar@intel.com>
-Subject: [RFC PATCH 5/8] lib/oeqa/utils/qemurunner.py: class to handle qemu instance
+Subject: [RFC PATCH 1/8] classes/testimage.bbclass: new class for image tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,202 +35,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 10:07:07 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 10:07:32 -0000
 
-From: Radu Moisan <radu.moisan@intel.com>
+Replacement class for imagetest-qemu.bbclass. It launches a qemu instance and
+runs test modules defined in TEST_SUITES.
 
-Handles qemu instances (launch, kill, restart, serial connection, logging)
-Launch is blocking until login prompt and returns to the task. A qemu
-serial connection is used to save the boot log and get the ip from the image.
-Changed runqemu script not to error out when using custom serial option.
-
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 160 ++++++++++++++++++++++++++++++++++++++
- scripts/runqemu                   |   2 +-
- 2 files changed, 161 insertions(+), 1 deletion(-)
- create mode 100644 meta/lib/oeqa/utils/qemurunner.py
+ meta/classes/testimage.bbclass | 95 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
+ create mode 100644 meta/classes/testimage.bbclass
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
 new file mode 100644
-index 0000000..e201e25
+index 0000000..82d0491
 --- /dev/null
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -0,0 +1,160 @@
-+import subprocess
-+import optparse
-+import sys
-+import os
-+import time
-+import signal
-+import re
-+import bb
-+from oeqa.utils.oetelnetlib import oeTelnet
++++ b/meta/classes/testimage.bbclass
+@@ -0,0 +1,95 @@
++TEST_LOG_DIR ?= "${WORKDIR}/testimage"
 +
-+class QemuRunner:
++DEFAULT_TEST_SUITES = "ping ssh auto"
++DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
++DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman rpm smart dmesg"
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman rpm smart gcc dmesg"
 +
-+    def __init__(self, machine, rootfs, display = None, tmpdir = None, logfile = None):
-+        # Popen object
-+        self.runqemu = None
++TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
 +
-+        self.machine = machine
-+        self.rootfs = rootfs
++python do_testimage() {
++    testimage_main(d)
++}
++addtask testimage
++do_testimage[nostamp] = "1"
++do_testimage[depends] += "qemu-native:do_populate_sysroot"
++do_testimage[depends] += "qemu-helper-native:do_populate_sysroot"
 +
-+        self.streampath = '/tmp/qemuconnection.%s' % os.getpid()
-+        self.qemuparams = 'bootparams="console=ttyS0" qemuparams="-snapshot -serial unix:%s,server,nowait"' % self.streampath
-+        self.qemupid = None
-+        self.ip = None
++def testimage_main(d):
++    import unittest
++    import os
++    import oeqa.runtime
++    import re
++    from oeqa.oetest import createTestContext
++    from oeqa.utils.sshcontrol import SSHControl
++    from oeqa.utils.qemurunner import QemuRunner
 +
-+        self.display = display
-+        self.tmpdir = tmpdir
-+        self.logfile = logfile
++    testdir = d.getVar("TEST_LOG_DIR", True)
++    bb.utils.mkdirhier(testdir)
++    sshlog = os.path.join(testdir, "ssh_target_log.%s" % d.getVar('DATETIME', True))
++    sshloglink = os.path.join(testdir, "ssh_target_log")
++    if os.path.islink(sshloglink):
++        os.unlink(sshloglink)
++    os.symlink(sshlog, sshloglink)
 +
-+    def launch(self, qemuparams = None):
++    # testsuite are modules - they are what the user wants (required tests)
++    testsuites = d.getVar("TEST_SUITES", True)
++    # testslist is what we'll run - order matters
++    # perhaps let the user decide if it wants the ssh test or not - it should be the first one though
++    #testslist = [ "ssh" ]
++    testslist = [ x for x in testsuites.split() if x != "auto" ]
++    # if we have auto search for other modules
++    if "auto" in testsuites:
++        for f in os.listdir(os.path.dirname(os.path.abspath(oeqa.runtime.__file__))):
++            if f.endswith('.py') and not f.startswith('_')  and f[:-3] not in testslist:
++                testslist.append(f[:-3])
 +
-+        if qemuparams:
-+            self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
++    testslist = [ "oeqa.runtime." + x for x in testslist ]
 +
-+        if self.display:
-+            os.environ["DISPLAY"] = self.display
-+        if not os.path.exists(self.rootfs):
-+            bb.error("Invalid rootfs %s" % self.rootfs)
-+            return False
-+        if not os.path.exists(self.tmpdir):
-+            bb.error("Invalid TMPDIR path %s" % self.tmpdir)
-+            return False
-+        else:
-+            os.environ["OE_TMPDIR"] = self.tmpdir
++    bb.note("Test modules  %s" % testslist)
 +
-+        launch_cmd = 'runqemu %s %s %s' % (self.machine, self.rootfs, self.qemuparams)
-+        self.runqemu = subprocess.Popen(launch_cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,preexec_fn=os.setpgrp)
++    class TestContext:
++        def __init__(self):
++            self.d = d
++            self.testslist = testslist
++            self.testsrequired = testsuites.split()
++            self.filesdir = os.path.join(os.path.dirname(os.path.abspath(oeqa.runtime.__file__)),"files")
 +
-+        bb.note("runqemu started, pid is %s" % self.runqemu.pid)
-+        # wait at most 30 seconds until qemu pid appears
-+        bb.note("waiting at most 30 seconds for qemu pid")
-+        endtime = time.time() + 30
-+        while not self.is_alive() and time.time() < endtime:
-+            time.sleep(0.5)
++    # test context
++    tc = TestContext()
 +
-+        if self.is_alive():
-+            bb.note("qemu started - qemu procces pid is %s" % self.qemupid)
++    # prepare qemu instance
++    # and boot each supported fs type
++    machine=d.getVar("MACHINE", True)
++    #will handle fs type eventually, stick with ext3 for now
++    rootfs=d.getVar("DEPLOY_DIR_IMAGE", True) + '/' + d.getVar("IMAGE_BASENAME",True) + '-' + machine + '.ext3'
 +
-+            console = oeTelnet(self.streampath, self.logfile)
-+            bb.note("Waiting at most 120 seconds for login banner")
-+            (match, text) = console.read_all_timeout("login:", 120)
++    qemu = QemuRunner(machine, rootfs)
++    qemu.tmpdir = d.getVar("TMPDIR", True)
++    qemu.display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
++    qemu.logfile = os.path.join(testdir, "qemu_boot_log.%s" % d.getVar('DATETIME', True))
 +
-+            if match:
-+                bb.note("Reached login banner")
-+                console.write("root\n")
-+                (index, match, text) = console.expect([r"(root@[\w-]+:~#)"],10)
-+                if not match:
-+                    bb.note("Couldn't get prompt, all I got was:\n%s" % match.group(0))
-+                    return False
-+                console.write("ip addr show eth0 | sed -n '3p' | awk '{ print $2 }' | cut -f 1 -d \"/\"\n")
-+                (index, match, text) = console.expect([r"((?:[0-9]{1,3}\.){3}[0-9]{1,3})"],10)
-+                console.close()
-+                if match:
-+                    self.ip = match.group(0)
-+                    bb.note("Ip found: %s" % self.ip)
-+                else:
-+                    bb.note("Couldn't determine ip, all I got was:\n%s" % text)
-+                    return False
++    #catch exceptions when loading or running tests (mostly our own errors)
++    try:
++        if qemu.launch():
++
++            # prepare test suite, loader and runner
++            suite = unittest.TestSuite()
++            runner = unittest.TextTestRunner(verbosity=2)
++            # set more context - ssh instance and qemu - we do this here because we needed the qemu ip
++            tc.qemu = qemu
++            tc.target = SSHControl(host=qemu.ip,logfile=sshlog)
++            # create suite
++            suite = createTestContext(tc)
++            bb.note("Found %s tests" % suite.countTestCases())
++            result = runner.run(suite)
++
++            if result.wasSuccessful():
++                bb.note("All required tests passed")
 +            else:
-+                console.close()
-+                bb.note("Target didn't reached login boot in 120 seconds")
-+                lines = "\n".join(text.splitlines()[-5:])
-+                bb.note("Last 5 lines of text:\n%s" % lines)
-+                bb.note("Check full boot log: %s" % self.logfile)
-+                return False
++                raise bb.build.FuncFailed("Some tests failed. You should check the task log and the ssh log. (ssh log is %s" % sshlog)
++
 +        else:
-+            bb.note("Qemu pid didn't appeared in 30 seconds")
-+            self.runqemu.terminate()
-+            self.runqemu.kill()
-+            bb.note("Output from runqemu: %s " % self.runqemu.stdout.read())
-+            self.runqemu.stdout.close()
-+            return False
-+
-+        return self.is_alive()
-+
-+
-+    def kill(self):
-+        if self.runqemu:
-+            os.kill(-self.runqemu.pid,signal.SIGTERM)
-+        self.qemupid = None
-+        self.ip = None
-+        if os.path.exists(self.streampath):
-+            os.remove(self.streampath)
-+
-+    def restart(self, qemuparams = None):
-+        if self.is_alive():
-+            self.kill()
-+        bb.note("Qemu Restart required...")
-+        return self.launch(qemuparams)
-+
-+    def is_alive(self):
-+        qemu_child = self.find_child(str(self.runqemu.pid))
-+        if qemu_child:
-+            self.qemupid = qemu_child[0]
-+            return os.path.exists("/proc/" + str(self.qemupid))
-+        return False
-+
-+    def find_child(self,parent_pid):
-+        #
-+        # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
-+        #
-+        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
-+        processes = ps.split('\n')
-+        nfields = len(processes[0].split()) - 1
-+        pids = {}
-+        commands = {}
-+        for row in processes[1:]:
-+            data = row.split(None, nfields)
-+            if len(data) != 3:
-+                continue
-+            if data[1] not in pids:
-+                pids[data[1]] = []
-+
-+            pids[data[1]].append(data[0])
-+            commands[data[0]] = data[2]
-+
-+        if parent_pid not in pids:
-+            sys.stderr.write("No children found matching %s\n" % parent_pid)
-+            return []
-+
-+        parents = []
-+        newparents = pids[parent_pid]
-+        while newparents:
-+            next = []
-+            for p in newparents:
-+                if p in pids:
-+                    for n in pids[p]:
-+                        if n not in parents and n not in next:
-+                            next.append(n)
-+                if p not in parents:
-+                    parents.append(p)
-+                    newparents = next
-+        #print "Children matching %s:" % str(parents)
-+        for p in parents:
-+            # Need to be careful here since runqemu-internal runs "ldd qemu-system-xxxx"
-+            # Also, old versions of ldd (2.11) run "LD_XXXX qemu-system-xxxx"
-+            basecmd = commands[p].split()[0]
-+            basecmd = os.path.basename(basecmd)
-+            if "qemu-system" in basecmd and "192.168" in commands[p]:
-+                return [int(p),commands[p]]
-+
-diff --git a/scripts/runqemu b/scripts/runqemu
-index f2eb2e1..406092b 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -156,7 +156,7 @@ while true; do
-             serial_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-serial\)'`
-             kvm_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-enable-kvm\)'`
-             [ ! -z "$serial_option" -o ! -z "$kvm_option" ] && \
--                error "Please use simplified serial or kvm options instead"
-+                echo "Please use simplified serial or kvm options instead"
-             ;;
-         "bootparams="*)
-             SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT ${arg##bootparams=}"
++            raise bb.build.FuncFailed("Failed to start qemu. You should check the task log and the qemu boot log (qemu log is %s)" % qemu.logfile)
++    finally:
++        qemu.kill()
 -- 
 1.8.1.4
 
