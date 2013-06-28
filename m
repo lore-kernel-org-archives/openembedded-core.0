@@ -1,26 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 19A8E6023E
+	by mail.openembedded.org (Postfix) with ESMTP id 5663C6A4D2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 17:17:41 +0000 (UTC)
+	Fri, 28 Jun 2013 17:41:31 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 28 Jun 2013 10:14:08 -0700
+	by orsmga102.jf.intel.com with ESMTP; 28 Jun 2013 10:39:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,960,1363158000"; d="scan'208";a="337123950"
-Received: from unknown (HELO helios.localnet) ([10.252.122.97])
-	by orsmga001.jf.intel.com with ESMTP; 28 Jun 2013 10:16:30 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Kai Kang <kai.kang@windriver.com>
-Date: Fri, 28 Jun 2013 18:16:29 +0100
-Message-ID: <5322253.NAOJVtts1F@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <7a0305f34aa1f986856e699b69242e353986b6dc.1371802236.git.kai.kang@windriver.com>
-References: <cover.1371802236.git.kai.kang@windriver.com>
-	<7a0305f34aa1f986856e699b69242e353986b6dc.1371802236.git.kai.kang@windriver.com>
+X-IronPort-AV: E=Sophos;i="4.87,960,1363158000"; d="scan'208";a="337133834"
+Received: from unknown (HELO [10.255.13.119]) ([10.255.13.119])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jun 2013 10:41:27 -0700
+Message-ID: <51CDCAC7.50202@linux.intel.com>
+Date: Fri, 28 Jun 2013 10:41:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
+To: rongqing.li@windriver.com
+References: <cover.1372381458.git.rongqing.li@windriver.com>
+	<391d4b34129e491a4ee0c6737369e8470c3b98ca.1372381458.git.rongqing.li@windriver.com>
+In-Reply-To: <391d4b34129e491a4ee0c6737369e8470c3b98ca.1372381458.git.rongqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] strace: add configure options libaio and acl
+Subject: Re: [PATCH 1/1] xf86-video-intel: backport a patch to fix a compile failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 17:17:41 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 28 Jun 2013 17:41:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Friday 21 June 2013 16:12:21 Kai Kang wrote:
-> Add strace configure options libaio and acl to enable or disable build
-> with them. Then PACKAGECONFIG can be used to handle dependency.
-> 
-> Set "libaio" as a default feature of PACKAGECONFIG.
->...
-> 
-> +PACKAGECONFIG_class-target ?= "libaio"
-> +PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl',
-> 'acl', '', d)}"
+On 06/27/2013 06:11 PM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> backport a patch to fix a compile failure when xorg-xserver's version
+> is less than 1.10
+>
+I am not understanding why we need this patch, our xorg-xserver version 
+is at 1.14, why would we need to have patch for an older version of the 
+server?
 
-I realise this has already been merged, but I think there are a couple of issues
-with the above. Firstly, for consistency, I think the first option should be
-called "aio" and not "libaio". Secondly, although this seems to work the use
-of overrides, += and ?= together is a little bit confusing. Perhaps the following
-would be a bit clearer:
+Sau!
 
-PACKAGECONFIG_class-target ?= "aio \
-                               ${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> ---
+>   ...-compilation-error-with-xorg-xserver-1.10.patch |   31 ++++++++++++++++++++
+>   .../xorg-driver/xf86-video-intel_2.21.9.bb         |    2 ++
+>   2 files changed, 33 insertions(+)
+>   create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
+>
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
+> new file mode 100644
+> index 0000000..0d0d99f
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch
+> @@ -0,0 +1,31 @@
+> +From b5e85e495e55e2537d305b7bebacdf6f97b66199 Mon Sep 17 00:00:00 2001
+> +From: "Roy.Li" <rongqing.li@windriver.com>
+> +Date: Thu, 27 Jun 2013 14:10:14 +0800
+> +Subject: [PATCH] uxa: fix the compilation error with xorg-xserver <= 1.10
+> +
+> +Upstream-Status: Backported
+> +
+> +struct _Screen has no canDoBGNoneRoot when ABI_VIDEODRV_VERSION is less than 10.0
+> +
+> +Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> +---
+> + src/intel_display.c |    2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/src/intel_display.c b/src/intel_display.c
+> +index 17168e5..0acb86d 100644
+> +--- a/src/intel_display.c
+> ++++ b/src/intel_display.c
+> +@@ -2113,7 +2113,9 @@ void intel_copy_fb(ScrnInfoPtr scrn)
+> + 				0, 0,
+> + 				scrn->virtualX, scrn->virtualY);
+> + 	intel->uxa_driver->done_copy(dst);
+> ++#if ABI_VIDEODRV_VERSION >= SET_ABI_VERSION(10, 0)
+> + 	pScreen->canDoBGNoneRoot = TRUE;
+> ++#endif
+> +
+> + cleanup_dst:
+> + 	(*pScreen->DestroyPixmap)(dst);
+> +--
+> +1.7.10.4
+> +
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
+> index 6112089..01c767b 100644
+> --- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
+> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
+> @@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
+>   DEPENDS += "virtual/libx11 drm xf86driproto glproto \
+>   	    virtual/libgl xineramaproto xf86driproto libpciaccess udev"
+>
+> +SRC_URI += "file://0001-uxa-fix-the-compilation-error-with-xorg-xserver-1.10.patch"
+> +
+>   PACKAGECONFIG ??= ""
+>   PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
+>   PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+>
 
