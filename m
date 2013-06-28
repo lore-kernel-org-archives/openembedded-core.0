@@ -1,26 +1,20 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3843D61A45
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id F2F3961A45
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 19:14:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2013 12:14:24 -0700
+	Fri, 28 Jun 2013 19:25:34 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2013 12:24:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,961,1363158000"; d="scan'208";a="361277175"
-Received: from unknown (HELO [10.255.13.119]) ([10.255.13.119])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2013 12:14:23 -0700
-Message-ID: <51CDE08F.6090108@linux.intel.com>
-Date: Fri, 28 Jun 2013 12:14:23 -0700
+X-IronPort-AV: E=Sophos;i="4.87,961,1363158000"; d="scan'208";a="261518939"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.119])
+	by AZSMGA002.ch.intel.com with ESMTP; 28 Jun 2013 12:23:47 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <1372445217-28739-1-git-send-email-sgw@linux.intel.com>
-	<51CDDE85.8040801@windriver.com>
-In-Reply-To: <51CDDE85.8040801@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] security_flags: Add the compiler and linker flags that enhance security
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jun 2013 12:23:46 -0700
+Message-Id: <1372447427-31750-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 1/2 v2] bitbake.conf: Add SECURITY_*FLAGS overridable definition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 19:14:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jun 2013 19:25:35 -0000
 
-On 06/28/2013 12:05 PM, Mark Hatle wrote:
-> On 6/28/13 1:46 PM, Saul Wold wrote:
->> These flags add addition checks at compile, link and runtime to prevent
->> stack smashing, checking for buffer overflows, and link at program start
->> to prevent call spoofing later.
->>
->> This needs to be explicitly enabled by adding the following line to your
->> local.conf:
->>
->> require conf/distro/include/security_flags.inc
->>
->> [YOCTO #3868]
->>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>   meta/conf/distro/include/security_flags.inc | 21 +++++++++++++++++++++
->>   1 file changed, 21 insertions(+)
->>   create mode 100644 meta/conf/distro/include/security_flags.inc
->>
->> diff --git a/meta/conf/distro/include/security_flags.inc
->> b/meta/conf/distro/include/security_flags.inc
->> new file mode 100644
->> index 0000000..dc231e2
->> --- /dev/null
->> +++ b/meta/conf/distro/include/security_flags.inc
->> @@ -0,0 +1,21 @@
->> +SECURITY_CFLAGS = "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
->> +SECURITY_LDFLAGS = "-Wl,-z,relro,-z,now"
->
-> Where do the flags get introduced into the actual CFLAGS and LDFLAGS?
-> Would it make sense to add this to the existing BUILD_OPTIMIZATION
-> settings..  So they would always be available, and someone could just
-> flip a switch to enable it?
->
-Opps, sorry forgot to send part 2!
+This will allow for SECURITY_CFLAGS and SECURITY_LDFLAGS to be
+defined in the security_flags.inc and override the empty default.
 
-Sau!
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/bitbake.conf | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
->> +
->> +#TARGET_CPPFLAGS_pn-curl += "-D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-curl = "-fstack-protector-all -pie -fpie"
->> +SECURITY_CFLAGS_pn-ppp = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-eglibc = ""
->> +SECURITY_CFLAGS_pn-eglibc-initial = ""
->
-> I know why you don't use them on -initial, but any reason to not enable
-> this on 'eglibc'?  If it doesn't work, it would be good to enhance
-> eglibc's recipe to spit out a warning and sanitize the build like it
-> does for -O0.
->
-> --Mark
->
->> +SECURITY_CFLAGS_pn-zlib = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-gcc-runtime = "-fstack-protector-all
->> -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-libgcc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-tcl = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-libcap = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-python-smartpm = "-fstack-protector-all
->> -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-python-imaging = "-fstack-protector-all
->> -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-python-pycurl = "-fstack-protector-all
->> -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-kexec-tools = "-fstack-protector-all
->> -D_FORTIFY_SOURCE=2"
->> +
->> +# These flags seem to
->> +SECURITY_CFLAGS_pn-pulseaudio = "-fstack-protector-all
->> -D_FORTIFY_SOURCE=2"
->> +SECURITY_CFLAGS_pn-ltp = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
->>
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 62a3936..72e1a78 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -493,7 +493,8 @@ export TARGET_CPPFLAGS = ""
+ 
+ export BUILD_CFLAGS = "${BUILD_CPPFLAGS} ${BUILD_OPTIMIZATION}"
+ BUILDSDK_CFLAGS = "${BUILDSDK_CPPFLAGS} ${BUILD_OPTIMIZATION}"
+-export CFLAGS = "${TARGET_CFLAGS}"
++SECURITY_CFLAGS ?= ""
++export CFLAGS = "${TARGET_CFLAGS} ${SECURITY_CFLAGS}"
+ export TARGET_CFLAGS = "${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION}"
+ 
+ export BUILD_CXXFLAGS = "${BUILD_CFLAGS} -fpermissive"
+@@ -523,7 +524,8 @@ LINKER_HASH_STYLE_mips64 = "sysv"
+ LINKER_HASH_STYLE_mips64el = "sysv"
+ TARGET_LINK_HASH_STYLE ?= "${@['-Wl,--hash-style=gnu',''][d.getVar('LINKER_HASH_STYLE', True) != 'gnu']}"
+ 
+-export LDFLAGS = "${TARGET_LDFLAGS}"
++SECURITY_LDFLAGS ?= ""
++export LDFLAGS = "${TARGET_LDFLAGS} ${SECURITY_LDFLAGS}"
+ export TARGET_LDFLAGS = "-Wl,-O1 ${TARGET_LINK_HASH_STYLE}"
+ #export TARGET_LDFLAGS = "-L${STAGING_DIR_TARGET}${libdir} \
+ #                         -Wl,-rpath-link,${STAGING_DIR_TARGET}${libdir} \
+-- 
+1.8.1.4
+
 
