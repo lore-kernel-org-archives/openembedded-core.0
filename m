@@ -1,37 +1,41 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
-	[209.85.219.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 13FFE6ADC8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id BADCC608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 22:06:04 +0000 (UTC)
-Received: by mail-oa0-f48.google.com with SMTP id f4so2913801oah.35
+	Fri, 28 Jun 2013 22:11:55 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id fb1so2895609pad.23
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 15:06:04 -0700 (PDT)
+	Fri, 28 Jun 2013 15:11:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=ccSDNVnPm7PZz15SzU3m5trWC65H6zFdrZGKk8ds9Kg=;
-	b=WqALYTcmZMiBXH2bR8f6CeZLHr+QgJz2ZbmFbDWBZM/0A2ByDVUNNcwZ5aXFx4b+RO
-	FDAxNK0+bVTx3njSAqPYvKwAu27flPTYgkS7yymZVU7xXCQpE4CznCQGu+9WqwliHQCX
-	7olMsw0RMMTfKA8LWtO1W8nfge8xDPdJQrGVO5h2t2D7g9wDf40S4YroOd2PP/T0qt/m
-	vlHzYsYmY9Gjolov11Fr0sK+Dapi952IsTtZDy+Sxt9sP79Qf8BVAs7h+Gt81Vkv4u9c
-	xRFl5a2r4AlWHXa5RLS3nEV/YSY6y0FV+dqECqCdQpghh/a1ZtXfcczKhLgt2wcjTE9L
-	wC2A==
-MIME-Version: 1.0
-X-Received: by 10.182.205.138 with SMTP id lg10mr7288247obc.6.1372457164530;
-	Fri, 28 Jun 2013 15:06:04 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.98.133 with HTTP; Fri, 28 Jun 2013 15:06:04 -0700 (PDT)
-In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
-References: <cover.1372413711.git.stefanx.stanacar@intel.com>
-Date: Fri, 28 Jun 2013 19:06:04 -0300
-X-Google-Sender-Auth: SbWiJINwWp0VqkIrt4q93JcFMZ8
-Message-ID: <CAP9ODKqJuwRmyah=LU5zcTccQWZkdfFJvBbQ81VZpooCMbpHbA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Stefan Stanacar <stefanx.stanacar@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 0/8] Proposed implementation of a new runtime tests framework
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=gdBPQxnDRKBqiSeZ4rhj5QQ7AJ3s1k9LBuH0tCKfQfA=;
+	b=GKBMKfpvXpROuhVZ0/biTw5TqQzIem35m6tG/pzKNrJyBqsOfO89puP+sIT5ZcO1m1
+	75wbDFZ/Z5xgey767qeDM2Nv8vA+fwp1CjvX95USwTEFbhjmwrrTWCF1j5Vu8BoUcQhO
+	JqN1I1VvC/XvULdUxdvLV7rw37YrnrVHq4+ZMaeSqOTdry5J28xTsfrlbucTASejqkSs
+	lupjS+Ws3wJSu11hjC81P9topkAwELilKWkrU4l5u4vcaluP6YZb5BDoyNC1ycsfFsoh
+	TDBEM8DbMB7U5enpf5/jL+XtU4meY2vBQuIgQCCrpS+pqsaFYsguLhRKb33mrI34AhSK
+	VHKg==
+X-Received: by 10.68.2.69 with SMTP id 5mr6374740pbs.124.1372457517097;
+	Fri, 28 Jun 2013 15:11:57 -0700 (PDT)
+Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id qe10sm9905990pbb.2.2013.06.28.15.11.55
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 28 Jun 2013 15:11:55 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1372447427-31750-2-git-send-email-sgw@linux.intel.com>
+Date: Fri, 28 Jun 2013 15:11:54 -0700
+Message-Id: <876ACD34-26AC-4670-8AAD-2FC9E52CBC81@gmail.com>
+References: <1372447427-31750-1-git-send-email-sgw@linux.intel.com>
+	<1372447427-31750-2-git-send-email-sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2 v2] security_flags: Add the compiler and linker flags that enhance security
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +48,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 22:06:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 28 Jun 2013 22:11:56 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jun 28, 2013 at 7:04 AM, Stefan Stanacar
-<stefanx.stanacar@intel.com> wrote:
-...
-> There are some areas for improvement/limitations right now:
->  - a better way of getting the list of installed packages in a image
->  - qemu is started with the -snapshot option, we should create a copy of the original rootfs instead.
->  - when using TEST_SUITES = "auto" there is no dependency at all between tests (rpm would run before ssh test), so better use TEST_SUITES = "ping ssh auto"
->  - better logging and error reporting for qemu problems (runqemu erros, qemu doesn't start, etc)
->  - more helper methods for tests
->  - others I can't think of right now :)
 
-Did you think about adding something like an overidable set of hooks
-which starts, setup image and shutdown the machine? This would allow
-same framework to be used for real hardware test.
+On Jun 28, 2013, at 12:23 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
-Regards,
+> +# These 2 have text relco errors with the pie options enabled
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+typo
 
