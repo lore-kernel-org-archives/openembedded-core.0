@@ -1,27 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C4D6AEEE
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A89BF6AEC5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 09:58:18 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Jun 2013 02:55:02 -0700
+	Fri, 28 Jun 2013 10:07:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jun 2013 03:04:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="357171517"
-Received: from unknown (HELO helios.localnet) ([10.252.122.97])
-	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2013 02:54:34 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Kang Kai <Kai.Kang@windriver.com>
-Date: Fri, 28 Jun 2013 10:53:44 +0100
-Message-ID: <6864785.i8K3q4aBBb@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <1372412549.9930.248.camel@ted>
-References: <cover.1372403777.git.kai.kang@windriver.com>
-	<51CD5880.7000102@windriver.com> <1372412549.9930.248.camel@ted>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] Disable build qt related packagegroups on mips64 with 64 bits userspace
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="360993579"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jun 2013 03:04:16 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 409836A4091
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jun 2013 03:04:09 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jun 2013 13:04:35 +0300
+Message-Id: <cover.1372413711.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [RFC PATCH 0/8] Proposed implementation of a new runtime tests framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,118 +31,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 09:58:19 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 28 Jun 2013 10:07:02 -0000
 
-On Friday 28 June 2013 10:42:29 Richard Purdie wrote:
-> On Fri, 2013-06-28 at 17:33 +0800, Kang Kai wrote:
-> > On 2013=E5=B9=B406=E6=9C=8828=E6=97=A5 17:00, Paul Eggleton wrote:
-> > > Hi Kai,
-> > >=20
-> > > On Friday 28 June 2013 15:48:47 Kai Kang wrote:
-> > >> Because qt could not be built on mips64 with 64 bits userspace, =
-set
-> > >> COMPATIBLE_HOST for qt related packagegroups to disable them on =
-mips64
-> > >> with 64 bit userspace too.
-> > >>=20
-> > >> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > >> ---
-> > >>=20
-> > >>   .../packagegroups/packagegroup-core-qt.bb          |    3 +++
-> > >>   .../packagegroups/packagegroup-core-qt4e.bb        |    3 +++
-> > >>   .../packagegroup-qt-toolchain-target.inc           |    3 +++
-> > >>   3 files changed, 9 insertions(+), 0 deletions(-)
-> > >>=20
-> > >> diff --git a/meta/recipes-qt/packagegroups/packagegroup-core-qt.=
-bb
-> > >> b/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb index
-> > >> 315df33..c993242 100644
-> > >> --- a/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
-> > >> +++ b/meta/recipes-qt/packagegroups/packagegroup-core-qt.bb
-> > >> @@ -6,6 +6,9 @@ DESCRIPTION =3D "Qt package groups"
-> > >>=20
-> > >>   LICENSE =3D "MIT"
-> > >>   PR =3D "r4"
-> > >>=20
-> > >> +# Qt4 could NOT be built on MIPS64 with 64 bits userspace
-> > >> +COMPATIBLE_HOST_mips64 =3D "mips64.*-linux-gnun32"
-> > >> +
-> > >>=20
-> > >>   inherit packagegroup
-> > >>  =20
-> > >>   PACKAGES =3D "${PN}-demoapps"
-> > >>=20
-> > >> diff --git a/meta/recipes-qt/packagegroups/packagegroup-core-qt4=
-e.bb
-> > >> b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb index
-> > >> 9263828..6ef844f 100644
-> > >> --- a/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-> > >> +++ b/meta/recipes-qt/packagegroups/packagegroup-core-qt4e.bb
-> > >> @@ -2,6 +2,9 @@ SUMMARY =3D "Qt for Embedded Linux (Qt without X=
-11)"
-> > >>=20
-> > >>   PR =3D "r2"
-> > >>   LICENSE =3D "MIT"
-> > >>=20
-> > >> +# Qt4 could NOT be built on MIPS64 with 64 bits userspace
-> > >> +COMPATIBLE_HOST_mips64 =3D "mips64.*-linux-gnun32"
-> > >> +
-> > >>=20
-> > >>   inherit packagegroup
-> > >>  =20
-> > >>   # For backwards compatibility after rename
-> > >>=20
-> > >> diff --git
-> > >> a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
-.inc
-> > >> b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
-.inc
-> > >> index
-> > >> 8413eec..fc1ccba 100644
-> > >> ---
-> > >> a/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
-.inc
-> > >> +++
-> > >> b/meta/recipes-qt/packagegroups/packagegroup-qt-toolchain-target=
-.inc
-> > >> @@ -1,5 +1,8 @@
-> > >>=20
-> > >>   LICENSE =3D "MIT"
-> > >>=20
-> > >> +# Qt4 could NOT be built on MIPS64 with 64 bits userspace
-> > >> +COMPATIBLE_HOST_mips64 =3D "mips64.*-linux-gnun32"
-> > >> +
-> > >>=20
-> > >>   inherit packagegroup
-> > >>  =20
-> > >>   PACKAGEGROUP_DISABLE_COMPLEMENTARY =3D "1"
-> > >=20
-> > > I'm fine with the other change; the question is is this one neede=
-d in
-> > > addition? Since the packagegroup-*qt* recipes reference packages =
-from
-> > > Qt which itself inherits qt4x11/qt4e bbclasses, surely trying to =
-build
-> > > these will immediately fail for mips64 anyway?
-> >=20
-> > Yes, it will fail immediately. What I want to do is to underline th=
-ese
-> > packagegroups' build platform.
-> > If you believe that they are redundant, I retrieve the patch 2/2.
->=20
-> At a guess the one advantage of this is to clean up what "bitbake wor=
-ld"
-> would show?
 
-OK, I don't have any strong objections if it does help in some way.
+Hello,
 
-Cheers,
-Paul
+This is the proposed implementation of a new runtime tests framework based on python unittest. 
+It's mean to ease qemu image testing and encourage developers to add more tests similar to the example tests provided (all tests are basically commands ran over ssh)
 
---=20
+You can try it out like this:
+ - first build a qemu core-image-sato (a minimal wouldn't be interesting at all)
+ - add INHERIT += "testimage" in local.conf
+ - then bitbake core-image-sato -c testimage. That will run a standard suite of tests.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+You can set TEST_SUITES = "ping ssh <test name>" in local.conf to force run only certain tests (order matters here, it's the order in which tests run). You can also append "auto" and it will also run whatever tests are suitable for the image (if that was a sato-sdk image and you set TEST_SUITE = "ping ssh rpm auto" you force run ping, ssh and rpm but you also get smart, connman and gcc tests).
+
+Check the task log (log.do_testimage) in WORKDIR to see the results. Also a ssh log (what command is running, output and return codes) and qemu boot log are kept in WORKDIR/testimage/
+
+There are some areas for improvement/limitations right now:
+ - a better way of getting the list of installed packages in a image
+ - qemu is started with the -snapshot option, we should create a copy of the original rootfs instead.
+ - when using TEST_SUITES = "auto" there is no dependency at all between tests (rpm would run before ssh test), so better use TEST_SUITES = "ping ssh auto"
+ - better logging and error reporting for qemu problems (runqemu erros, qemu doesn't start, etc)
+ - more helper methods for tests
+ - others I can't think of right now :)
+
+I hope this is going in the right direction and we could improve from here.
+Comments and feedback are most welcome!
+
+Regards,
+Stefan
+
+
+
+The following changes since commit 042203531b10b37ac9a8201b376f5dec403e51d8:
+
+  sanity.bbclass: Fix COREBASE sanity tests (2013-06-27 12:48:56 +0100)
+
+are available in the git repository at:
+
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib stefans/oeqa5
+
+for you to fetch changes up to e6e567982f4b28822afdc8ea55401513df7c9466:
+
+  lib/oeqa/runtime: add gcc test (2013-06-28 13:00:45 +0300)
+
+----------------------------------------------------------------
+Radu Moisan (2):
+      lib/oeqa/utils/qemurunner.py: class to handle qemu instance
+      lib/oeqa/utils/decorators.py: decorators for test methods
+
+Stefan Stanacar (6):
+      classes/testimage.bbclass: new class for image tests
+      lib/oeqa/oetest.py: base module for all runtime unittests
+      lib/oeqa/utils/sshcontrol.py: helper module for running remote commands
+      lib/oeqa/utils/oetelnetlib.py: override Telnet class to use Unix domain sockets
+      lib/oeqa/runtime: image sanity tests
+      lib/oeqa/runtime: add gcc test
+
+ meta/classes/testimage.bbclass           |  95 ++++++++++++++++++
+ meta/lib/oeqa/__init__.py                |   0
+ meta/lib/oeqa/oetest.py                  |  94 ++++++++++++++++++
+ meta/lib/oeqa/runtime/__init__.py        |   0
+ meta/lib/oeqa/runtime/connman.py         |  34 +++++++
+ meta/lib/oeqa/runtime/dmesg.py           |  10 ++
+ meta/lib/oeqa/runtime/files/test.c       |  26 +++++
+ meta/lib/oeqa/runtime/files/testmakefile |   5 +
+ meta/lib/oeqa/runtime/gcc.py             |  36 +++++++
+ meta/lib/oeqa/runtime/multilib.py        |  14 +++
+ meta/lib/oeqa/runtime/ping.py            |  11 +++
+ meta/lib/oeqa/runtime/rpm.py             |  25 +++++
+ meta/lib/oeqa/runtime/smart.py           |  23 +++++
+ meta/lib/oeqa/runtime/ssh.py             |  16 ++++
+ meta/lib/oeqa/utils/__init__.py          |   0
+ meta/lib/oeqa/utils/decorators.py        |  40 ++++++++
+ meta/lib/oeqa/utils/oetelnetlib.py       |  49 ++++++++++
+ meta/lib/oeqa/utils/qemurunner.py        | 160 +++++++++++++++++++++++++++++++
+ meta/lib/oeqa/utils/sshcontrol.py        | 100 +++++++++++++++++++
+ scripts/runqemu                          |   2 +-
+ 20 files changed, 739 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes/testimage.bbclass
+ create mode 100644 meta/lib/oeqa/__init__.py
+ create mode 100644 meta/lib/oeqa/oetest.py
+ create mode 100644 meta/lib/oeqa/runtime/__init__.py
+ create mode 100644 meta/lib/oeqa/runtime/connman.py
+ create mode 100644 meta/lib/oeqa/runtime/dmesg.py
+ create mode 100644 meta/lib/oeqa/runtime/files/test.c
+ create mode 100644 meta/lib/oeqa/runtime/files/testmakefile
+ create mode 100644 meta/lib/oeqa/runtime/gcc.py
+ create mode 100644 meta/lib/oeqa/runtime/multilib.py
+ create mode 100644 meta/lib/oeqa/runtime/ping.py
+ create mode 100644 meta/lib/oeqa/runtime/rpm.py
+ create mode 100644 meta/lib/oeqa/runtime/smart.py
+ create mode 100644 meta/lib/oeqa/runtime/ssh.py
+ create mode 100644 meta/lib/oeqa/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/utils/decorators.py
+ create mode 100644 meta/lib/oeqa/utils/oetelnetlib.py
+ create mode 100644 meta/lib/oeqa/utils/qemurunner.py
+ create mode 100644 meta/lib/oeqa/utils/sshcontrol.py
+
+Radu Moisan (2):
+  lib/oeqa/utils/qemurunner.py: class to handle qemu instance
+  lib/oeqa/utils/decorators.py: decorators for test methods
+
+Stefan Stanacar (6):
+  classes/testimage.bbclass: new class for image tests
+  lib/oeqa/oetest.py: base module for all runtime unittests
+  lib/oeqa/utils/sshcontrol.py: helper module for running remote
+    commands
+  lib/oeqa/utils/oetelnetlib.py: override Telnet class to use Unix
+    domain sockets
+  lib/oeqa/runtime: image sanity tests
+  lib/oeqa/runtime: add gcc test
+
+ meta/classes/testimage.bbclass           |  95 ++++++++++++++++++
+ meta/lib/oeqa/__init__.py                |   0
+ meta/lib/oeqa/oetest.py                  |  94 ++++++++++++++++++
+ meta/lib/oeqa/runtime/__init__.py        |   0
+ meta/lib/oeqa/runtime/connman.py         |  34 +++++++
+ meta/lib/oeqa/runtime/dmesg.py           |  10 ++
+ meta/lib/oeqa/runtime/files/test.c       |  26 +++++
+ meta/lib/oeqa/runtime/files/testmakefile |   5 +
+ meta/lib/oeqa/runtime/gcc.py             |  36 +++++++
+ meta/lib/oeqa/runtime/multilib.py        |  14 +++
+ meta/lib/oeqa/runtime/ping.py            |  11 +++
+ meta/lib/oeqa/runtime/rpm.py             |  25 +++++
+ meta/lib/oeqa/runtime/smart.py           |  23 +++++
+ meta/lib/oeqa/runtime/ssh.py             |  16 ++++
+ meta/lib/oeqa/utils/__init__.py          |   0
+ meta/lib/oeqa/utils/decorators.py        |  40 ++++++++
+ meta/lib/oeqa/utils/oetelnetlib.py       |  49 ++++++++++
+ meta/lib/oeqa/utils/qemurunner.py        | 160 +++++++++++++++++++++++++++++++
+ meta/lib/oeqa/utils/sshcontrol.py        | 100 +++++++++++++++++++
+ scripts/runqemu                          |   2 +-
+ 20 files changed, 739 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes/testimage.bbclass
+ create mode 100644 meta/lib/oeqa/__init__.py
+ create mode 100644 meta/lib/oeqa/oetest.py
+ create mode 100644 meta/lib/oeqa/runtime/__init__.py
+ create mode 100644 meta/lib/oeqa/runtime/connman.py
+ create mode 100644 meta/lib/oeqa/runtime/dmesg.py
+ create mode 100644 meta/lib/oeqa/runtime/files/test.c
+ create mode 100644 meta/lib/oeqa/runtime/files/testmakefile
+ create mode 100644 meta/lib/oeqa/runtime/gcc.py
+ create mode 100644 meta/lib/oeqa/runtime/multilib.py
+ create mode 100644 meta/lib/oeqa/runtime/ping.py
+ create mode 100644 meta/lib/oeqa/runtime/rpm.py
+ create mode 100644 meta/lib/oeqa/runtime/smart.py
+ create mode 100644 meta/lib/oeqa/runtime/ssh.py
+ create mode 100644 meta/lib/oeqa/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/utils/decorators.py
+ create mode 100644 meta/lib/oeqa/utils/oetelnetlib.py
+ create mode 100644 meta/lib/oeqa/utils/qemurunner.py
+ create mode 100644 meta/lib/oeqa/utils/sshcontrol.py
+
+-- 
+1.8.1.4
+
 
