@@ -1,26 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <stefanx.stanacar@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E9BF66AD42
+	by mail.openembedded.org (Postfix) with ESMTP id 4BDBB6AEC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 10:21:22 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Jun 2013 03:03:48 -0700
+	Fri, 28 Jun 2013 10:21:46 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 28 Jun 2013 03:04:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="361943133"
-Received: from unknown (HELO helios.localnet) ([10.252.122.97])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Jun 2013 03:02:54 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 28 Jun 2013 11:02:53 +0100
-Message-ID: <2393683.pgSWLXlTRj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <1372372997-1604-5-git-send-email-sgw@linux.intel.com>
-References: <1372372997-1604-1-git-send-email-sgw@linux.intel.com>
-	<1372372997-1604-5-git-send-email-sgw@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] packagegroup-core-boot: used udev-cache for sysvinit
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="357176661"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 28 Jun 2013 03:05:14 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 671616A4091
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jun 2013 03:04:25 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jun 2013 13:04:38 +0300
+Message-Id: <b32a303bff5d557e9810099e181e05806d3cba28.1372413711.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
+References: <cover.1372413711.git.stefanx.stanacar@intel.com>
+In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
+References: <cover.1372413711.git.stefanx.stanacar@intel.com>
+Subject: [RFC PATCH 3/8] lib/oeqa/utils/sshcontrol.py: helper module for running remote commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,47 +35,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 10:21:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 28 Jun 2013 10:21:46 -0000
 
-On Thursday 27 June 2013 15:43:17 Saul Wold wrote:
-> Enabling this by default since it does improve boot time when using sysvinit
-> udev
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb index
-> d69c41d..1e1ee8e 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-> @@ -43,6 +43,7 @@ RDEPENDS_${PN} = "\
->      ${VIRTUAL-RUNTIME_init_manager} \
->      ${VIRTUAL-RUNTIME_initscripts} \
->      ${VIRTUAL-RUNTIME_dev_manager} \
-> +    ${@base_contains("DISTRO_FEATURES", "systemd", "", "udev-cache", d)} \
->      ${VIRTUAL-RUNTIME_update-alternatives} \
->      ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS}"
+Provides a class for setting up ssh connections,
+running commands and copying files to/from a target.
 
-I appreciate the intention here but I'm not sure if this is really the 
-appropriate place to put this; packagegroup-core-boot is supposed to only 
-directly pull in the essentials required for booting. This will cause problems 
-for those people using alternative device managers (e.g. busybox mdev) as 
-well.
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/utils/__init__.py   |   0
+ meta/lib/oeqa/utils/sshcontrol.py | 100 ++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 100 insertions(+)
+ create mode 100644 meta/lib/oeqa/utils/__init__.py
+ create mode 100644 meta/lib/oeqa/utils/sshcontrol.py
 
-I'm not sure where this should go, but adding it to VIRTUAL-
-RUNTIME_dev_manager (in the distro config?) could work. Anyone else have any 
-better suggestion?
-
-Cheers,
-Paul
-
+diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
+new file mode 100644
+index 0000000..e69de29
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+new file mode 100644
+index 0000000..ebdf7e8
+--- /dev/null
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -0,0 +1,100 @@
++import subprocess
++import time
++import os
++import shlex
++
++class SSHControl(object):
++
++    def __init__(self, host=None, timeout=120, logfile=None):
++        self.host = host
++        self.timeout = timeout
++        self._out = ''
++        self._ret = 126
++        self.logfile = logfile
++
++    def log(self, msg):
++        if self.logfile:
++            with open(self.logfile, "a") as f:
++                f.write("%s\n" % msg)
++
++    def _internal_run(self, cmd):
++        # ssh hangs without os.setsid
++        proc = subprocess.Popen(shlex.split(cmd), shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
++        return proc
++
++    def run(self, cmd, timeout=None):
++        """Run cmd and get it's return code and output.
++        Let it run for timeout seconds and then terminate/kill it,
++        if time is 0 will let cmd run until it finishes.
++        Time can be passed to here or can be set per class instance."""
++
++
++
++        actualcmd = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l root %s '%s'" % (self.host, cmd)
++        if self.host:
++            sshconn = self._internal_run(actualcmd)
++        else:
++            raise Exception("Remote IP hasn't been set: '%s'" % actualcmd)
++
++        if timeout == 0:
++            self.log("[SSH run without timeout]$ %s" % actualcmd)
++            self.log("  # %s" % cmd)
++            self._out = sshconn.communicate()[0]
++            self._ret = sshconn.poll()
++        else:
++            if timeout is None:
++                endtime = time.time() + self.timeout
++            else:
++                endtime = time.time() + timeout
++            while sshconn.poll() is None and time.time() < endtime:
++                time.sleep(0.5)
++            self.log("[SSH run with timeout]$ %s" % actualcmd)
++            self.log("  # %s" % cmd)
++            # process hasn't returned yet
++            if sshconn.poll() is None:
++                self._ret = 255
++                sshconn.terminate()
++                sshconn.kill()
++                self._out = sshconn.stdout.read()
++                sshconn.stdout.close()
++                self.log("[!!! process killed]")
++            else:
++                self._out = sshconn.stdout.read()
++                self._ret = sshconn.poll()
++        # remove first line from output which is always smth like (unless return code is 255 - which is a ssh error):
++        # Warning: Permanently added '192.168.7.2' (RSA) to the list of known hosts.
++        if self._ret != 255:
++            self._out = '\n'.join(self._out.splitlines()[1:])
++        self.log("%s" % self._out)
++        self.log("[SSH command returned]: %s" % self._ret)
++        return (self._ret, self._out)
++
++    def _internal_scp(self, cmd):
++        self.log("[SCP]$ %s" % cmd)
++        scpconn = self._internal_run(cmd)
++        try:
++            self._out = scpconn.communicate()[0]
++            self._ret = scpconn.poll()
++            if self._ret != 0:
++                self.log("%s" % self._out)
++                raise Exception("Error copying file")
++        except Exception as e:
++            print("Execution failed: %s :" % cmd)
++            print e
++        self.log("%s" % self._out)
++        return (self._ret, self._out)
++
++    def copy_to(self, localpath, remotepath):
++        actualcmd = "scp -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no %s root@%s:%s" % (localpath, self.host, remotepath)
++        return self._internal_scp(actualcmd)
++
++
++    def copy_from(self, remotepath, localpath):
++        actualcmd = "scp -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no root@%s:%s %s" % (self.host, remotepath, localpath)
++        return self._internal_scp(actualcmd)
++
++    def get_status(self):
++        return self._ret
++
++    def get_output(self):
++        return self._out
 -- 
+1.8.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
