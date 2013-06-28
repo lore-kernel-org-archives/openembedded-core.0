@@ -1,27 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id D75B160655
+	by mail.openembedded.org (Postfix) with ESMTP id 81673619DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 16:02:25 +0000 (UTC)
+	Fri, 28 Jun 2013 16:12:00 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2013 09:01:32 -0700
+	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2013 09:11:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="323977611"
-Received: from unknown (HELO [10.255.13.119]) ([10.255.13.119])
-	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2013 09:00:27 -0700
-Message-ID: <51CDB31A.8050100@linux.intel.com>
-Date: Fri, 28 Jun 2013 09:00:26 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
-References: <1371660580-4754-1-git-send-email-muhammad_shakeel@mentor.com>
-	<A8A2F4C5E3D3D0468DDA3544476725F8AE1F5519@EU-MBX-04.mgc.mentorg.com>
-In-Reply-To: <A8A2F4C5E3D3D0468DDA3544476725F8AE1F5519@EU-MBX-04.mgc.mentorg.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [dylan] lighttpd: Enabling with systemd
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="323981975"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.97])
+	by azsmga001.ch.intel.com with ESMTP; 28 Jun 2013 09:09:51 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jun 2013 17:09:46 +0100
+Message-Id: <1372435786-15915-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] lib/oe/lsb.py: fall back to /etc/os-release for host distro ID
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,84 +27,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 16:02:29 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jun 2013 16:12:01 -0000
 
-On 06/28/2013 06:01 AM, Shakeel, Muhammad wrote:
-> Hi Saul,
->
-> Can you please comment on the status of this patch? Can it be merged to master branch only?
->
-I am sorry, I thought this was a dylan only patch, if it's bound for 
-both, please don't tag it as a dylan patch.
+The new standard for host distribution identification [1] is
+/etc/os-release, and a number of newer distributions provide this file,
+so add support for this in order to pick up more distributions.
+Additionally, handle "rolling release" style distributions that don't
+report a version number, e.g. Arch Linux.
 
-I will review this today.
+With this change we can identify the most common distributions, so this
+should satisfy [YOCTO #4271]. Note that this doesn't imply support for
+these distros as build hosts, just that we can identify them.
 
-Sau!
+[1] http://www.freedesktop.org/software/systemd/man/os-release.html
 
-> I guess Martin is also working to move systemd-layer related changes into oe-core for 1.5 release and he has already updated some recipes. Should I consult him regarding this kind of changes?
->
-> Best Regards,
-> Shakeel
-> ________________________________________
-> From: Shakeel, Muhammad
-> Sent: Wednesday, June 19, 2013 9:49 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Shakeel, Muhammad
-> Subject: [PATCH] [dylan] lighttpd: Enabling with systemd
->
-> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
->
-> - Remove dependency on systemd layer
-> - Use lighttpd service type 'simple' rather than 'oneshot'
->
-> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> ---
->   meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb |   11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-> index df6ce97..d73a76a 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-> @@ -5,7 +5,6 @@ BUGTRACKER = "http://redmine.lighttpd.net/projects/lighttpd/issues"
->   LICENSE = "BSD"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=e4dac5c6ab169aa212feb5028853a579"
->
-> -
->   SECTION = "net"
->   DEPENDS = "zlib libpcre"
->   RDEPENDS_${PN} += " \
-> @@ -18,10 +17,15 @@ RDEPENDS_${PN} += " \
->
->   PR = "r0"
->
-> +inherit systemd
-> +
-> +SYSTEMD_SERVICE_${PN} = "lighttpd.service"
-> +
->   SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.tar.bz2 \
->           file://index.html.lighttpd \
->           file://lighttpd.conf \
->           file://lighttpd \
-> +        file://lighttpd.service \
->           "
->
->   SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
-> @@ -49,6 +53,11 @@ do_install_append() {
->       install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
->       install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
->       install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
-> +
-> +    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> +        install -d ${D}${systemd_unitdir}/system
-> +        install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
-> +    fi
->   }
->
->   FILES_${PN} += "${sysconfdir} /www"
-> --
-> 1.7.9.5
->
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/lib/oe/lsb.py | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oe/lsb.py b/meta/lib/oe/lsb.py
+index fed1204..b53f361 100644
+--- a/meta/lib/oe/lsb.py
++++ b/meta/lib/oe/lsb.py
+@@ -44,6 +44,14 @@ def release_dict_file():
+                     if line.startswith('VERSION = '):
+                         data['DISTRIB_RELEASE'] = line[10:].rstrip()
+                         break
++        elif os.path.exists('/etc/os-release'):
++            data = {}
++            with open('/etc/os-release') as f:
++                for line in f:
++                    if line.startswith('NAME='):
++                        data['DISTRIB_ID'] = line[5:].rstrip().strip('"')
++                    if line.startswith('VERSION_ID='):
++                        data['DISTRIB_RELEASE'] = line[11:].rstrip().strip('"')
+     except IOError:
+         return None
+     return data
+@@ -58,7 +66,7 @@ def distro_identifier(adjust_hook=None):
+     else:
+         lsb_data_file = release_dict_file()
+         if lsb_data_file:
+-            distro_id, release = lsb_data_file['DISTRIB_ID'], lsb_data_file['DISTRIB_RELEASE']
++            distro_id, release = lsb_data_file['DISTRIB_ID'], lsb_data_file.get('DISTRIB_RELEASE', None)
+         else:
+             distro_id, release = None, None
+ 
+@@ -66,4 +74,8 @@ def distro_identifier(adjust_hook=None):
+         distro_id, release = adjust_hook(distro_id, release)
+     if not distro_id:
+         return "Unknown"
+-    return '{0}-{1}'.format(distro_id, release).replace(' ','-').replace('/','-')
++    if release:
++        id_str = '{0}-{1}'.format(distro_id, release)
++    else:
++        id_str = distro_id
++    return id_str.replace(' ','-').replace('/','-')
+-- 
+1.8.1.2
+
 
