@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 792866AEC9
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D9A6D6AEC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 10:07:31 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 28 Jun 2013 03:04:32 -0700
+	Fri, 28 Jun 2013 10:07:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 Jun 2013 03:01:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="261338627"
+X-IronPort-AV: E=Sophos;i="4.87,958,1363158000"; d="scan'208";a="336914805"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 Jun 2013 03:04:16 -0700
+	by orsmga001.jf.intel.com with ESMTP; 28 Jun 2013 03:04:21 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 5ADF66A4092
+	by linux.intel.com (Postfix) with ESMTP id 2EF706A4091
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 03:04:15 -0700 (PDT)
+	Fri, 28 Jun 2013 03:04:19 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 13:04:36 +0300
-Message-Id: <930fa344649f35a278842c94601b7e07bc82a103.1372413711.git.stefanx.stanacar@intel.com>
+Date: Fri, 28 Jun 2013 13:04:37 +0300
+Message-Id: <57ea899e59bf1f0c2bfc4f88255464415e9c0412.1372413711.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
 References: <cover.1372413711.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1372413711.git.stefanx.stanacar@intel.com>
 References: <cover.1372413711.git.stefanx.stanacar@intel.com>
-Subject: [RFC PATCH 1/8] classes/testimage.bbclass: new class for image tests
+Subject: [RFC PATCH 2/8] lib/oeqa/oetest.py: base module for all runtime unittests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,119 +35,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 10:07:32 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 10:07:53 -0000
 
-Replacement class for imagetest-qemu.bbclass. It launches a qemu instance and
-runs test modules defined in TEST_SUITES.
+This module contains the base class for all runtime tests
+and some helper methods.
 
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 ---
- meta/classes/testimage.bbclass | 95 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
- create mode 100644 meta/classes/testimage.bbclass
+ meta/lib/oeqa/__init__.py |  0
+ meta/lib/oeqa/oetest.py   | 94 +++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/lib/oeqa/__init__.py
+ create mode 100644 meta/lib/oeqa/oetest.py
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+diff --git a/meta/lib/oeqa/__init__.py b/meta/lib/oeqa/__init__.py
 new file mode 100644
-index 0000000..82d0491
+index 0000000..e69de29
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+new file mode 100644
+index 0000000..d59109e
 --- /dev/null
-+++ b/meta/classes/testimage.bbclass
-@@ -0,0 +1,95 @@
-+TEST_LOG_DIR ?= "${WORKDIR}/testimage"
++++ b/meta/lib/oeqa/oetest.py
+@@ -0,0 +1,94 @@
++import os, re, mmap
++import unittest
++import inspect
++import bb
++from oeqa.utils.sshcontrol import SSHControl
 +
-+DEFAULT_TEST_SUITES = "ping ssh auto"
-+DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
-+DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman rpm smart dmesg"
-+DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman rpm smart gcc dmesg"
 +
-+TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
++def createTestContext(tc):
 +
-+python do_testimage() {
-+    testimage_main(d)
-+}
-+addtask testimage
-+do_testimage[nostamp] = "1"
-+do_testimage[depends] += "qemu-native:do_populate_sysroot"
-+do_testimage[depends] += "qemu-helper-native:do_populate_sysroot"
++    # set the context object passed from the test class
++    setattr(oeRuntimeTest, "tc", tc)
 +
-+def testimage_main(d):
-+    import unittest
-+    import os
-+    import oeqa.runtime
-+    import re
-+    from oeqa.oetest import createTestContext
-+    from oeqa.utils.sshcontrol import SSHControl
-+    from oeqa.utils.qemurunner import QemuRunner
++    # load the tests and return the suite to the runner
++    testloader = unittest.TestLoader()
++    testloader.sortTestMethodsUsing = None
++    suite = unittest.TestSuite()
++    suite = testloader.loadTestsFromNames(tc.testslist)
 +
-+    testdir = d.getVar("TEST_LOG_DIR", True)
-+    bb.utils.mkdirhier(testdir)
-+    sshlog = os.path.join(testdir, "ssh_target_log.%s" % d.getVar('DATETIME', True))
-+    sshloglink = os.path.join(testdir, "ssh_target_log")
-+    if os.path.islink(sshloglink):
-+        os.unlink(sshloglink)
-+    os.symlink(sshlog, sshloglink)
++    return suite
 +
-+    # testsuite are modules - they are what the user wants (required tests)
-+    testsuites = d.getVar("TEST_SUITES", True)
-+    # testslist is what we'll run - order matters
-+    # perhaps let the user decide if it wants the ssh test or not - it should be the first one though
-+    #testslist = [ "ssh" ]
-+    testslist = [ x for x in testsuites.split() if x != "auto" ]
-+    # if we have auto search for other modules
-+    if "auto" in testsuites:
-+        for f in os.listdir(os.path.dirname(os.path.abspath(oeqa.runtime.__file__))):
-+            if f.endswith('.py') and not f.startswith('_')  and f[:-3] not in testslist:
-+                testslist.append(f[:-3])
 +
-+    testslist = [ "oeqa.runtime." + x for x in testslist ]
 +
-+    bb.note("Test modules  %s" % testslist)
++class oeRuntimeTest(unittest.TestCase):
++    testFailures = []
++    testSkipped = []
++    testErrors = []
++    pscmd = "ps"
 +
-+    class TestContext:
-+        def __init__(self):
-+            self.d = d
-+            self.testslist = testslist
-+            self.testsrequired = testsuites.split()
-+            self.filesdir = os.path.join(os.path.dirname(os.path.abspath(oeqa.runtime.__file__)),"files")
++    def __init__(self, methodName='runTest'):
++        self.target = oeRuntimeTest.tc.target
++        super(oeRuntimeTest, self).__init__(methodName)
 +
-+    # test context
-+    tc = TestContext()
 +
-+    # prepare qemu instance
-+    # and boot each supported fs type
-+    machine=d.getVar("MACHINE", True)
-+    #will handle fs type eventually, stick with ext3 for now
-+    rootfs=d.getVar("DEPLOY_DIR_IMAGE", True) + '/' + d.getVar("IMAGE_BASENAME",True) + '-' + machine + '.ext3'
++    def run(self, result=None):
++        super(oeRuntimeTest, self).run(result)
 +
-+    qemu = QemuRunner(machine, rootfs)
-+    qemu.tmpdir = d.getVar("TMPDIR", True)
-+    qemu.display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
-+    qemu.logfile = os.path.join(testdir, "qemu_boot_log.%s" % d.getVar('DATETIME', True))
++        # we add to our own lists the results, we use those for decorators
++        if len(result.failures) > len(oeRuntimeTest.testFailures):
++            oeRuntimeTest.testFailures.append(str(result.failures[-1][0]).split()[0])
++        if len(result.skipped) > len(oeRuntimeTest.testSkipped):
++            oeRuntimeTest.testSkipped.append(str(result.skipped[-1][0]).split()[0])
++        if len(result.errors) > len(oeRuntimeTest.testErrors):
++            oeRuntimeTest.testErrors.append(str(result.errors[-1][0]).split()[0])
 +
-+    #catch exceptions when loading or running tests (mostly our own errors)
-+    try:
-+        if qemu.launch():
++    @classmethod
++    def hasPackage(self, pkg):
 +
-+            # prepare test suite, loader and runner
-+            suite = unittest.TestSuite()
-+            runner = unittest.TextTestRunner(verbosity=2)
-+            # set more context - ssh instance and qemu - we do this here because we needed the qemu ip
-+            tc.qemu = qemu
-+            tc.target = SSHControl(host=qemu.ip,logfile=sshlog)
-+            # create suite
-+            suite = createTestContext(tc)
-+            bb.note("Found %s tests" % suite.countTestCases())
-+            result = runner.run(suite)
++        pkgfile = os.path.join(oeRuntimeTest.tc.d.getVar("WORKDIR", True), "installed_pkgs.txt")
 +
-+            if result.wasSuccessful():
-+                bb.note("All required tests passed")
-+            else:
-+                raise bb.build.FuncFailed("Some tests failed. You should check the task log and the ssh log. (ssh log is %s" % sshlog)
++        with open(pkgfile) as f:
++            data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
++            match = re.search(pkg, data)
++            data.close()
 +
++        if match:
++            return True
++
++        return False
++
++    @classmethod
++    def hasFeature(self,feature):
++
++        if feature in oeRuntimeTest.tc.d.getVar("IMAGE_FEATURES", True).split():
++            return True
 +        else:
-+            raise bb.build.FuncFailed("Failed to start qemu. You should check the task log and the qemu boot log (qemu log is %s)" % qemu.logfile)
-+    finally:
-+        qemu.kill()
++            return False
++
++
++
++
++def getmodule(pos=2):
++    # stack returns a list of tuples containg frame information
++    # First element of the list the is current frame, caller is 1
++    frameinfo = inspect.stack()[pos]
++    modname = inspect.getmodulename(frameinfo[1])
++    #modname = inspect.getmodule(frameinfo[0]).__name__
++    return modname
++
++def skipModule(reason, pos=2):
++    modname = getmodule(pos)
++    if modname not in oeRuntimeTest.tc.testsrequired:
++        raise unittest.SkipTest("%s: %s" % (modname, reason))
++    else:
++        bb.warn("Test %s is required, not skipping" % modname)
++
++def skipModuleIf(cond, reason):
++
++    if cond:
++        skipModule(reason, 3)
++
++def skipModuleUnless(cond, reason):
++
++    if not cond:
++        skipModule(reason, 3)
 -- 
 1.8.1.4
 
