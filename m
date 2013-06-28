@@ -1,40 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id DC94E6AF41
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id C26AE6AF62
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 22:04:41 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id bi5so2913380pad.4
+	Fri, 28 Jun 2013 22:04:42 +0000 (UTC)
+Received: by mail-pd0-f169.google.com with SMTP id y10so1286303pdj.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2013 15:04:43 -0700 (PDT)
+	Fri, 28 Jun 2013 15:04:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=nJuArMB2jCbmyLLfYP3zKMqSKMqCCzS6u7jHJIBwsK8=;
-	b=swMnnqoZQ64TYSiP6/vtZEuAhcpWrc/Q6vk1HZuhu2yJibSNTguGU8A9xDpJcU+K38
-	q7rakoy9egYU2pHtT1p70Es9AX+kWuRuZF0Ag1nLoFsrbh2AG6TdJxXacgQBZYUqsNcl
-	HE5aeY7trBZVEZH3x8D3J54CGDKdGlTwxET7XWLgHfwC9jH1+R+n0o6ypHHUbR+QPGMU
-	A28Hz1Io5Y3fbtu7gEqGRUIwWxnfJkMbp7w69NqtPuKKtwFsPOCLTbwG/LMZC0dP+3iX
-	jzsMRCH87Mea+zeehcNjzlzaujENfzVOBr0PLEoer98eIQvNixgXUbBeI3ucFG4EL0AX
-	4exQ==
-X-Received: by 10.68.211.228 with SMTP id nf4mr13538977pbc.26.1372457083124;
-	Fri, 28 Jun 2013 15:04:43 -0700 (PDT)
+	bh=Ch7PTw71jOMuFMR0iRVLqRWUi6okjPJyKCawPCrLK5A=;
+	b=IYGc14OUEBOiYLkGTCZG6FutNAIeEIYfPgPf7LedV+FmRmAhca9EqtozmDHdtLZAcK
+	ZOakXSv9agqWxlghLiNzHlsBNpdPP93d02/XSsvxgw+n494i0hgSq+VyVr9p3o5ujImb
+	tVlEVUcsPvHIzJwJSgo+EoielJQCaVmU7/7iVZDd4MmO9sHO1mJtfC2X3Ut34eMwbTkZ
+	McnsRxqE8TWpHexSYKAhMz2O1y3QtnZtPQ8pzH3RU3Y7HzeepMzQOP9DtreYte3qKN7Y
+	N1/7yjFI+96xLjK7lSpG5WUQWb9JRI3aFpvW3E/k0wP466g+9/VwGvHT6Nc11N8jJ4ea
+	DtlA==
+X-Received: by 10.66.122.41 with SMTP id lp9mr11130908pab.6.1372457084134;
+	Fri, 28 Jun 2013 15:04:44 -0700 (PDT)
 Received: from isis.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
 	by mx.google.com with ESMTPSA id
-	re16sm10723745pac.16.2013.06.28.15.04.41 for <multiple recipients>
+	re16sm10723745pac.16.2013.06.28.15.04.43 for <multiple recipients>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 28 Jun 2013 15:04:42 -0700 (PDT)
+	Fri, 28 Jun 2013 15:04:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2013 15:04:01 -0700
-Message-Id: <7f4986d3104e324f6fcbb4134cfe38870194866f.1372456294.git.raj.khem@gmail.com>
+Date: Fri, 28 Jun 2013 15:04:02 -0700
+Message-Id: <524b7a39b1196d93b0383c86912fc508e68f6cf6.1372456294.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <4da336aceedb08e21f23fed08fede84eec15ad7b.1372456294.git.raj.khem@gmail.com>
 References: <4da336aceedb08e21f23fed08fede84eec15ad7b.1372456294.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1372456294.git.raj.khem@gmail.com>
 References: <cover.1372456294.git.raj.khem@gmail.com>
-Subject: [PATCH 16/24] python-distribute: Add recipes for python2 and python3
+Subject: [PATCH 17/24] zeromq: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,121 +47,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2013 22:04:42 -0000
+X-List-Received-Date: Fri, 28 Jun 2013 22:04:43 -0000
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python/python-distribute_0.6.32.bb             |   47 ++++++++++++++++++++
- .../python/python3-distribute_0.6.32.bb            |   46 +++++++++++++++++++
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-distribute_0.6.32.bb
- create mode 100644 meta/recipes-devtools/python/python3-distribute_0.6.32.bb
+ meta/recipes-devtools/python/zeromq_3.2.2.bb |   24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/zeromq_3.2.2.bb
 
-diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
+diff --git a/meta/recipes-devtools/python/zeromq_3.2.2.bb b/meta/recipes-devtools/python/zeromq_3.2.2.bb
 new file mode 100644
-index 0000000..86ac871
+index 0000000..4929bba
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-@@ -0,0 +1,47 @@
-+DESCRIPTION = "Download, build, install, upgrade, and uninstall Python packages"
-+HOMEPAGE = "http://packages.python.org/distribute"
++++ b/meta/recipes-devtools/python/zeromq_3.2.2.bb
+@@ -0,0 +1,24 @@
++DESCRIPTION = "ZeroMQ - Intelligent Transport Layer"
++HOMEPAGE = " http://github.com/zeromq/pyzmq/"
 +SECTION = "devel/python"
-+LICENSE = "PSF"
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=234;endline=234;md5=26f6b02022b737126d3c88838782dddb"
++LICENSE = "LGPL-3.0 + EXCEPTION"
++LIC_FILES_CHKSUM = " \
++                    file://COPYING.LESSER;md5=ad8c3bd15d88ea9d4509fc89bebc915c \
++                   "
++#
++# libpthread  --  libc
++# libuuid     --  util-linux
++#
++DEPENDS = "util-linux "
++RDEPENDS_${PN} = "util-linux "
 +
-+SRCNAME = "distribute"
-+PR = "ml5"
-+DEPENDS += "python"
-+DEPENDS_virtclass-native += "python-native"
++PR = "r1"
 +
 +SRC_URI = " \
-+  http://pypi.python.org/packages/source/d/distribute/${SRCNAME}-${PV}.tar.gz \
++  http://download.zeromq.org/${PN}-${PV}.tar.gz \
 +"
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
++SRC_URI[md5sum] = "df68431d9300da84a1a5f9a2784e33de"
++SRC_URI[sha256sum] = "2b4eeda60fe47a9fa0804d53d76f656665c5f84dab7e63a1d496d9430b554f99"
 +
-+#  http://python-distribute.org/distribute_setup.py 
++inherit autotools binconfig pkgconfig
 +
-+# force the selection of python3
-+#PYTHON_BASEVERSION = "3.3"
-+#PYTHON_MAJMIN = "3.3"
-+
-+inherit distutils
-+
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+
-+do_install_prepend() {
-+    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+}
-+
-+#
-+#  The installer puts the wrong path in the setuptools.pth file.  Correct it.
-+#
-+do_install_append() {
-+    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+}
-+
-+RDEPENDS_${PN} = "\
-+  python-distutils \
-+  python-compression \
-+"
-+
-+SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
-+SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-new file mode 100644
-index 0000000..e0415d5
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-@@ -0,0 +1,46 @@
-+DESCRIPTION = "Download, build, install, upgrade, and uninstall Python packages"
-+HOMEPAGE = "http://packages.python.org/distribute"
-+SECTION = "devel/python"
-+LICENSE = "PSF"
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=234;endline=234;md5=26f6b02022b737126d3c88838782dddb"
-+
-+SRCNAME = "distribute"
-+PR = "ml5"
-+DEPENDS += "python3"
-+DEPENDS_virtclass-native += "python3-native"
-+
-+SRC_URI = " \
-+  http://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-+"
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+#  http://python-distribute.org/distribute_setup.py 
-+
-+# force the selection of python3
-+#PYTHON_BASEVERSION = "3.3"
-+#PYTHON_MAJMIN = "3.3"
-+
-+inherit distutils3
-+
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+
-+do_install_prepend() {
-+    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+}
-+#
-+#  The installer puts the wrong path in the setuptools.pth file.  Correct it.
-+#
-+do_install_append() {
-+    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+}
-+
-+RDEPENDS_${PN} = "\
-+  python3-distutils \
-+  python3-compression \
-+"
-+
-+SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
-+SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
-+
-+BBCLASSEXTEND = "native"
 -- 
 1.7.9.5
 
