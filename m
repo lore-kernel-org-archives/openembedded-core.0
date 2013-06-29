@@ -1,39 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BA71F6ABF3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-we0-f169.google.com (mail-we0-f169.google.com
+	[74.125.82.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 950DA6A413
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 14:11:33 +0000 (UTC)
-Received: by mail-pd0-f177.google.com with SMTP id p10so1560588pdj.8
+	Sat, 29 Jun 2013 15:30:21 +0000 (UTC)
+Received: by mail-we0-f169.google.com with SMTP id n57so2100828wev.14
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 07:11:35 -0700 (PDT)
+	Sat, 29 Jun 2013 08:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=8bdFW4MTVQbIR44Eh4S2FUjNxq0qreGJ8aiJ29uTXKk=;
-	b=LNe+7aFi+BtY/feT2KcwNo1T10NqAtKwVmLf5yKBedAVGFs6BcaosJkzCIZssTMP+b
-	iCtzlAWqDNY5s2OyVv9aDSvl7aPtXepghM3GQxN6FMPkyS1WJMrOc2Ro/MdnK3rLTFu9
-	3PmxhidwiwkHijcQK4wWziemJf71OwHP9DNwc4EKCDiVbtOpXtyGKB/BqaQ8t3IO+Olo
-	BbzY8bhY/AGKC3NSRXS6wxHRMXpcbfafvVEj88ElLgfjfVZRqnFX5R4ESqSHFToZbY8S
-	8PO6XyJAGzTZb5F/YtBW2yBz2vu9wh6k0gRcobYw+8IOyGxOL8qIZhiynWqZYmNhYTdy
-	nszA==
-X-Received: by 10.66.224.237 with SMTP id rf13mr16231240pac.26.1372515095160; 
-	Sat, 29 Jun 2013 07:11:35 -0700 (PDT)
-Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id y6sm7697308pbl.23.2013.06.29.07.11.33
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 29 Jun 2013 07:11:34 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20130629053844.GQ3261@jama>
-Date: Sat, 29 Jun 2013 07:11:35 -0700
-Message-Id: <408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=/mUF7k2TNCKhKddEWyb3JqX6Poa9P39QAPRtn8c58tQ=;
+	b=JWYtR4WXUZ42H6ED/FngYoE85AmwvsT08ViK03BdQxTOlNUnetT5FwESu1PLYqitMS
+	GrJwEgIQJnREa4OGa9QZWyBmGzlK7ZOdRpMXRrb9TrlIUESW1g9iF7P8BAjXWY1n3vVG
+	+lzwWZ7Q9WiLvTkp7gFaxUrjozIy5T6mdaRpIjfIO5kpumecsdXgCAfeTsyz1KVD99SF
+	zB6PPnagtz3UGyPIupBfWQbUZPg+HB2zKpj/ZbK67r5QgbjiDjWohJAPn5mZ77Y3/O65
+	YCA/eAGtivTEwf++SZphvz/nE0jClf0rxPe1Hgh6LPAD0QHYG3H72oaM9atwqCmLPISu
+	9d8w==
+X-Received: by 10.180.185.84 with SMTP id fa20mr6851183wic.49.1372519821604;
+	Sat, 29 Jun 2013 08:30:21 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	o5sm17531648eef.5.2013.06.29.08.30.20 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 29 Jun 2013 08:30:21 -0700 (PDT)
+Date: Sat, 29 Jun 2013 17:31:01 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130629153101.GV3261@jama>
 References: <cover.1372456294.git.raj.khem@gmail.com>
 	<20130629053844.GQ3261@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1508)
+	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/24] Add python3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,42 +48,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jun 2013 14:11:33 -0000
+X-List-Received-Date: Sat, 29 Jun 2013 15:30:21 -0000
+X-Groupsio-MsgNum: 41199
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NQqDiQVflaif2hna"
+Content-Disposition: inline
+
+--NQqDiQVflaif2hna
 Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-On Jun 28, 2013, at 10:38 PM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
-
-> On Fri, Jun 28, 2013 at 03:03:39PM -0700, Khem Raj wrote:
->>=20
->>  generate-manifest-3.3.py: Add script to generate python 3.3 =
-manifests
->>  python-3.3-manifest: Add python3 manifest file
+On Sat, Jun 29, 2013 at 07:11:35AM -0700, Khem Raj wrote:
 >=20
->>  classes: Add distutils for python3
->>  setuptools.bbclass: Use python-distribute instead of
->>    python-setuptools
->>  distutils3.bbclass: Port the distutils class fix to handle filenames
->>    with spaces
->>  setuptools3.bbclass: Remove useless multiline comment
->>  distutils: Introduce PYTHON_ABI variable
->>  distutils3: Do build_ext as separate step during compile
+> On Jun 28, 2013, at 10:38 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
 >=20
-
-> I think these 2 groups could be squashed together for easier review, =
-but
-
-do you mean create just two patches out of those ?
-
-> otherwise great work, thanks for doing it!
+> > On Fri, Jun 28, 2013 at 03:03:39PM -0700, Khem Raj wrote:
+> >>=20
+> >>  generate-manifest-3.3.py: Add script to generate python 3.3 manifests
+> >>  python-3.3-manifest: Add python3 manifest file
+> >=20
+> >>  classes: Add distutils for python3
+> >>  setuptools.bbclass: Use python-distribute instead of
+> >>    python-setuptools
+> >>  distutils3.bbclass: Port the distutils class fix to handle filenames
+> >>    with spaces
+> >>  setuptools3.bbclass: Remove useless multiline comment
+> >>  distutils: Introduce PYTHON_ABI variable
+> >>  distutils3: Do build_ext as separate step during compile
+> >=20
 >=20
-> I'll add them to jenkins a bit later when I get some better build that
-> what we have now.
+> > I think these 2 groups could be squashed together for easier review, but
+>=20
+> do you mean create just two patches out of those ?
 
-They were added in order that the build keeps working with every commit =
-for helping bisects on tree later
+Yes
 
+> > otherwise great work, thanks for doing it!
+> >=20
+> > I'll add them to jenkins a bit later when I get some better build that
+> > what we have now.
+>=20
+> They were added in order that the build keeps working with every commit f=
+or helping bisects on tree later
 
+I meant that e.g.=20
+  classes: Add distutils for python3
+introduces setuptools3.bbclass and
+  setuptools3.bbclass: Remove useless multiline comment
+just 3 commits later fixes that, the same with the left-over commit I
+mentined in other thread which was also resolved by some follow up
+commit, with all new .bbclasses together I would read them just once.
 
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--NQqDiQVflaif2hna
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHO/bUACgkQN1Ujt2V2gBzf5QCcDt5tw+Lfs4KPE+m0zANSQEz/
+ey8AoK71TYXnQPWQJ1YJTvbMg2yaan8O
+=psui
+-----END PGP SIGNATURE-----
+
+--NQqDiQVflaif2hna--
