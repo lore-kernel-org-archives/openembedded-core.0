@@ -1,36 +1,42 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id EA72A6AD1C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F2666ABF3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 12:18:38 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id p58so2001684wes.12
+	Sat, 29 Jun 2013 14:07:26 +0000 (UTC)
+Received: by mail-pa0-f52.google.com with SMTP id kq13so3415144pab.39
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 05:18:39 -0700 (PDT)
+	Sat, 29 Jun 2013 07:07:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=srPbDkUQUPOI3RS/PPPYrkgMfceBq0OAad3z7z1CYc4=;
-	b=ER91jwaT8FrTfDjwT69l4xinbC09/QOQoQbu3PLcNnHhUh/uj3SY1nPHzL/KpzS/zv
-	fd0jvaYjNeiZROFS62qdcVjBbNYnd6sCI+l4mxJkgOrte56IIakgg2UCNisax41GeCIl
-	Z8GIlY23UMdcLqzrXBzCxvP0sSB2MzsWGDynKQ/t4IL1OZ66A9kACdWADz3F5HT+hqRz
-	Pj0ASoq+yGG/AimlpiVBQxMz/XtLjG84SmJVsC336Gqt5UQbaj5QRTnpj2WDCwK8wNdi
-	qN0XPjDEVmf1mDJf0rfetUPPxNl7q8I+kKsyb5/1iMtiByTmVzYCalu6dKHnQOcHdaUe
-	LsfA==
-X-Received: by 10.180.183.202 with SMTP id eo10mr6286738wic.2.1372508319047;
-	Sat, 29 Jun 2013 05:18:39 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	b3sm16684931eev.10.2013.06.29.05.18.38 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 29 Jun 2013 05:18:38 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Jun 2013 14:19:18 +0200
-Message-Id: <1372508358-1839-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <CAC6FaqyHsqMPbvZa=gO4S8E+_ZyckNAvqe+X_O5cdJH5uYxexg@mail.gmail.com>
-References: <CAC6FaqyHsqMPbvZa=gO4S8E+_ZyckNAvqe+X_O5cdJH5uYxexg@mail.gmail.com>
-Subject: [PATCHv2] qt4e: override variables OE_QMAKE_QT_CONFIG
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=h3HecRrt9P8gFJf6bsCUphuNmWa2NEixzUxbgAxaxno=;
+	b=cyrgFKvLcgnmND2OZj1xBn9E+UPbrsNKuywriarddJ1Z7ITjMH00fc/bTBzMZzM2o3
+	orE1C1H7G1juvPsVvDgMOdB3+rR2XplDVwUZwP6Av3I2BNAS414DP04/ZjxDsvQC2q6y
+	GBtxrjVkU5SguSJb+0ngSQHNCD9d0Vpw5jC7pocNcdJqhbu7RXkck7iGkQ6132YysImT
+	TyvpmYNHU1VnKlMovjg2KiHnA0UQfTCHBQQM0kHL5E5+P+TqFBBl9QAZDEe/42GXua/m
+	Z17SUiJMQXJdA7MTS8QP4lV+zXVdPT6SQoJh5pDJVhRaOKErmA4Ki27njtDILe+/59yb
+	jHQg==
+X-Received: by 10.68.179.99 with SMTP id df3mr16117374pbc.198.1372514847154;
+	Sat, 29 Jun 2013 07:07:27 -0700 (PDT)
+Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id b4sm13010437pba.45.2013.06.29.07.07.25
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 29 Jun 2013 07:07:25 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20130629052911.GP3261@jama>
+Date: Sat, 29 Jun 2013 07:07:26 -0700
+Message-Id: <567DDFA0-3AD6-42DA-9850-C3FCA0F4C3EF@gmail.com>
+References: <cover.1372456294.git.raj.khem@gmail.com>
+	<984ceb9c26e5fc05dcad1046f8ebf396a9034e10.1372456294.git.raj.khem@gmail.com>
+	<20130629052911.GP3261@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 04/24] classes/distutils: Introduce PYTHON_PN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +49,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jun 2013 12:18:39 -0000
+X-List-Received-Date: Sat, 29 Jun 2013 14:07:26 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-From: Wills Wang <wills.wang.open@gmail.com>
 
-override variables OE_QMAKE_QT_CONFIG to compile Qt/Embedded apps
+On Jun 28, 2013, at 10:29 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Signed-off-by: Wills Wang <wills.wang.open@gmail.com>
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/qt4e.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+>> inherit distutils-base
+>> +#distutils-tools
+> 
+> ^^ do we need this?
 
-diff --git a/meta/classes/qt4e.bbclass b/meta/classes/qt4e.bbclass
-index d7f5df8..850bb6a 100644
---- a/meta/classes/qt4e.bbclass
-+++ b/meta/classes/qt4e.bbclass
-@@ -9,6 +9,7 @@ QT_LIBINFIX = "E"
- # override variables set by qmake-base to compile Qt/Embedded apps
- #
- export QMAKESPEC = "${STAGING_DATADIR}/${QT_DIR_NAME}/mkspecs/${TARGET_OS}-oe-g++"
-+export OE_QMAKE_QT_CONFIG = "${STAGING_DATADIR}/${QT_DIR_NAME}/mkspecs/qconfig.pri"
- export OE_QMAKE_INCDIR_QT = "${STAGING_INCDIR}/${QT_DIR_NAME}"
- export OE_QMAKE_LIBDIR_QT = "${STAGING_LIBDIR}"
- export OE_QMAKE_LIBS_QT = "qt"
--- 
-1.8.2.1
-
+No, update the pull branch with fix
 
