@@ -1,31 +1,37 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
-	[209.85.216.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BF53262240
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 19:02:05 +0000 (UTC)
-Received: by mail-qa0-f43.google.com with SMTP id d13so1288674qak.16
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 12:02:06 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 36E3C62240;
+	Sat, 29 Jun 2013 19:03:56 +0000 (UTC)
+Received: by mail-wi0-f174.google.com with SMTP id k10so1867883wiv.7
+	for <multiple recipients>; Sat, 29 Jun 2013 12:03:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=meFxc8EA6IW3Wa8w/ATMSj3sQTHXt1Gn3V4X9tl0vzA=;
-	b=Z1ZLOStnQxGh+LDrWofXgJFSJDjDd0F9kGEpZ8sVjUJ/SDs6/FbNaLHTGr3MwySfEb
-	fWq5P2jBABa2h3lGYvYd8k3nBzVWIIQf3V+/wQC2WWHIE0U4rbOB9ounRK2KaZnqDPtQ
-	E27l6pxv/1c6iHUxhwynPAh/CL1Alm980zdmKveiXaGZE+/U1uE1OtcBmSfjxbZDsHGW
-	sTx4IDy5GlFAKTdnWgKDTvqHq0cuTgj9jeimb9R9DOv2nu+/mkh+4XTPnr4PXX+xvayZ
-	c+cDjpSo24s6KZ2pz9rr8zxqJ1D9Q5v9QHsrC8IbWVGd2wmwys00WWDWPUp7pkaeLDuh
-	Wqmg==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=RCEv7visEeqYxHGpDwfWcacCkUY1/4NrnV1WxPGPpa0=;
+	b=MxAlpE5Yg0CCqGF5pep+knwT5haEQPiCYdTB8iCurv79Z1cTmpUVfOLIi9LRL3Ci9n
+	IXkAwkB6jMGKV2AjMhiyiXgIP6fr1ajGZVr+ihXTS+3/iX8dF5viFiMUXMbUDpf2x2Rf
+	EdoUH9IZsmKm8Nkk23AzXnLXqtV6Pk2qTgX3dKBdZxpTNxus7f9mE6lpaGOkdMjJQIje
+	/FmhjXUSzTVLvo8Cx+vkktARZlqVQi0YKWBYb2bNi9iIBKiMjGTJ7toi0hHsVsh7U+LL
+	b6iVCMdo/39IYA0K74tusgxos4z/cepsC/PhAEHCpd6F9jiHwCshZ4tr9qsh5jJ4h4lZ
+	fDLQ==
+X-Received: by 10.194.174.4 with SMTP id bo4mr15153180wjc.40.1372532636852;
+	Sat, 29 Jun 2013 12:03:56 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	b7sm18469733eef.16.2013.06.29.12.03.55 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 29 Jun 2013 12:03:56 -0700 (PDT)
+Date: Sat, 29 Jun 2013 21:04:37 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130629190437.GY3261@jama>
+References: <20130503151507.1737A504ED@opal>
 MIME-Version: 1.0
-X-Received: by 10.224.78.11 with SMTP id i11mr24769831qak.29.1372532526253;
-	Sat, 29 Jun 2013 12:02:06 -0700 (PDT)
-Received: by 10.49.59.3 with HTTP; Sat, 29 Jun 2013 12:02:06 -0700 (PDT)
-Date: Sat, 29 Jun 2013 22:02:06 +0300
-Message-ID: <CADV-EXHJWMyfKZtEkZ64svZ=yH7aX2U7afDgJBFefU68CVMaCQ@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Check if environment variable is empty
+In-Reply-To: <20130503151507.1737A504ED@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Phil Blundell : image.bbclass: Don't mark do_rootfs and do_build as nostamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,26 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jun 2013 19:02:06 -0000
-Content-Type: multipart/alternative; boundary=20cf3074d22aab8be704e04fa1be
+X-List-Received-Date: Sat, 29 Jun 2013 19:03:56 -0000
+X-Groupsio-MsgNum: 41202
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Er97KPJOrxRt+yKZ"
+Content-Disposition: inline
 
---20cf3074d22aab8be704e04fa1be
-Content-Type: text/plain; charset=ISO-8859-1
-
-Hi!
-
-How do I check if environment variable is empty or not in *.bbclass.
-
-Best regards,
-Yevhen
-
---20cf3074d22aab8be704e04fa1be
-Content-Type: text/html; charset=ISO-8859-1
+--Er97KPJOrxRt+yKZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi!<div><br></div><div>How do I check if=A0environment var=
-iable is empty or not in *.bbclass.</div><div><br clear=3D"all"><div>Best r=
-egards,<br>Yevhen</div>
-</div></div>
+On Fri, May 03, 2013 at 03:15:07PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 8505008c115efb54d18e5f25441c7a938a32ffaf
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D8505008c115efb54d18e5f25441c7a938a32ffaf
+>=20
+> Author: Phil Blundell <pb@pbcl.net>
+> Date:   Fri May  3 13:38:22 2013 +0100
+>=20
+> image.bbclass: Don't mark do_rootfs and do_build as nostamp
 
---20cf3074d22aab8be704e04fa1be--
+FWIW with OEBasic signature handle one needs to call
+bitbake -c clean *image
+now in order to recreate it with new versions available, but that's fine
+for me (probably last OEBasic user), I've updated my bash aliases to do
+clean.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Er97KPJOrxRt+yKZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHPL8UACgkQN1Ujt2V2gBzQUQCfSDSQ9GlUw9hQfVQ+/cK0jxVJ
+qhsAoLhbV8d0UeA3nutofYw71wR8al/B
+=9mcc
+-----END PGP SIGNATURE-----
+
+--Er97KPJOrxRt+yKZ--
