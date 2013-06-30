@@ -1,40 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AE186A8E4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 233C7612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 19:08:11 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id 4so1662370pdd.34
+	Sun, 30 Jun 2013 01:35:36 +0000 (UTC)
+Received: by mail-wg0-f44.google.com with SMTP id m15so2717963wgh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2013 12:08:12 -0700 (PDT)
+	Sat, 29 Jun 2013 18:35:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=n2sa9BH4CAHThDroQoMQKcURIzguae4q/nAKnSRAUaA=;
-	b=LVJOc32WzDbNbfVYuruoIh6refTEI5TRsUvFMHXKyKqXQl9SUSqFuIOfmDUJigs+8Y
-	SRrP4fx8+fZgJFitGHAQDf/oZV7GT8dm5VJvme/rEaWobuRMRQ70jldqU7rt00Eedy48
-	QX2ABlg8rp8AsvwReifQlzItaEk/5OaZ5wHuuAEtUVnL1pOqDQFC992+88rzC3mEJocA
-	cJDvxCUIUKxNbnwY+ohiwb5Klxkb2V32Lg8cA5acl7tDG2V5HwAisrshPSlto5tbpLmf
-	Zh4XEdL59A1BNCiTgjrwRX7fMlykWmFGPqQl74jr6SzcNCgxxCWgC1pMd3YK8LaArjBQ
-	JF8w==
-X-Received: by 10.66.231.103 with SMTP id tf7mr17191012pac.154.1372532892444; 
-	Sat, 29 Jun 2013 12:08:12 -0700 (PDT)
-Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	fp2sm13983779pbb.36.2013.06.29.12.08.11 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 29 Jun 2013 12:08:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CADV-EXHJWMyfKZtEkZ64svZ=yH7aX2U7afDgJBFefU68CVMaCQ@mail.gmail.com>
-Date: Sat, 29 Jun 2013 12:08:10 -0700
-Message-Id: <AF1FA948-0EE6-467A-901A-31CC86167144@gmail.com>
-References: <CADV-EXHJWMyfKZtEkZ64svZ=yH7aX2U7afDgJBFefU68CVMaCQ@mail.gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Check if environment variable is empty
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=Mg57fyz6OmJcjQp7lZe+B0wC4fi9ilc1rU9XITYoox0=;
+	b=p+ycbH8GGUEoUbiF2VL2aV+AogES4quWACfsN1DjQgkcKSZGAE+icKCmUOwsMpceaj
+	xRzjV7T6bJz1wbXO9DinDCRpu2SZpg2gBHqM4tsGnopgUbN033FbXFaYGG4YCiW4pJpr
+	tDD3PPbi6D/5RfwtpaQOZ3xJDopN01cbCdQR7Gd7gvFFo2mYAKpuydaMPS9v2dcPMdu1
+	C7vSsPYDc/ySzTdk8GEhU5yWOFyYH/Hqvu7Z9dnzbupBXDZByJTIp+WLA2H7kM2MZn5E
+	Rl17SVDL13xz/izx2HyNQ7YYn2WPjo5FSt2KiXzj/iWjsmOBeu/NBDoRqrdzd3CdY8oT
+	ekTw==
+X-Received: by 10.180.37.48 with SMTP id v16mr8325496wij.35.1372556137429;
+	Sat, 29 Jun 2013 18:35:37 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	o5sm20206548eef.5.2013.06.29.18.35.36 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 29 Jun 2013 18:35:36 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 30 Jun 2013 03:36:16 +0200
+Message-Id: <1372556176-25711-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.2.1
+Subject: [RFC] buildhistory: Record size of installed package not compressed archive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,34 +40,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jun 2013 19:08:11 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 30 Jun 2013 01:35:37 -0000
 
+* usually it's more important to know how much space will each
+  package take on target device then size of compressed package
 
-On Jun 29, 2013, at 12:02 PM, Yevhen Kyriukha <kirgene@gmail.com> wrote:
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/buildhistory.bbclass | 11 ++++----
+ scripts/oe-pkgdata-util           | 59 ++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 61 insertions(+), 9 deletions(-)
 
-> Hi!
-> 
-> How do I check if environment variable is empty or not in *.bbclass.
-> 
-
-
-bitbake -e <recipe>  | grep -e "^VARIABLE="
-e.g.
-
-bitbake -e gcc  | grep -e "^CFLAGS="
-
-will show CFLAGS
-
-might help
-
-
-> Best regards,
-> Yevhen
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 36e7fe1..1ebe68e 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -317,6 +317,8 @@ buildhistory_get_installed() {
+ 	# Get list of installed packages
+ 	pkgcache="$1/installed-packages.tmp"
+ 	list_installed_packages file | sort > $pkgcache
++	pkgcachearch="$1/installed-packages-arch.tmp"
++	list_installed_packages arch | sort > $pkgcachearch
+ 
+ 	cat $pkgcache | awk '{ print $1 }' > $1/installed-package-names.txt
+ 	if [ -s $pkgcache ] ; then
+@@ -338,18 +340,17 @@ buildhistory_get_installed() {
+ 
+ 	# Produce installed package sizes list
+ 	printf "" > $1/installed-package-sizes.tmp
+-	cat $pkgcache | while read pkg pkgfile
++	cat $pkgcachearch | while read pkg arch
+ 	do
+-		if [ -f $pkgfile ] ; then
+-			pkgsize=`du -k $pkgfile | head -n1 | awk '{ print $1 }'`
+-			echo $pkgsize $pkg >> $1/installed-package-sizes.tmp
+-		fi
++		size=`oe-pkgdata-util read_values ${TMPDIR}/pkgdata ${TARGET_VENDOR}-${TARGET_OS} "PKGSIZE" ${pkg}_${arch}`
++		echo "$size $pkg" >> $1/installed-package-sizes.tmp
+ 	done
+ 	cat $1/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > $1/installed-package-sizes.txt
+ 	rm $1/installed-package-sizes.tmp
+ 
+ 	# We're now done with the cache, delete it
+ 	rm $pkgcache
++	rm $pkgcachearch
+ 
+ 	if [ "$2" != "sdk" ] ; then
+ 		# Produce some cut-down graphs (for readability)
+diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
+index 629b2d5..88b8122 100755
+--- a/scripts/oe-pkgdata-util
++++ b/scripts/oe-pkgdata-util
+@@ -20,9 +20,12 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ #
+ #
+-# Currently only has one function - mapping of packages to their dev/dbg/doc/locale etc. 
+-# counterparts ("glob" command). Could be extended in future to perform other useful querying
+-# functions on the pkgdata though.
++# Currently only has two functions 
++# 1) glob - mapping of packages to their dev/dbg/doc/locale etc. counterparts.
++# 2) read_values - mapping of packagenames to their location in
++#    pkgdata and then returns value of selected variable (e.g. PKGSIZE)
++# Could be extended in future to perform other useful querying functions on the
++# pkgdata though.
+ #
+ 
+ import sys
+@@ -32,7 +35,8 @@ import fnmatch
+ import re
+ 
+ def usage():
+-    print("syntax: pkgdata-util glob [-d] <pkgdatadir> <vendor-os> <pkglist> \"<globs>\"");
++    print("syntax: pkgdata-util glob [-d] <pkgdatadir> <vendor-os> <pkglist> \"<globs>\"\n \
++                    read_values [-d] <pkgdatadir> <vendor-os> <variable-name> \"<ipk filenames>\"");
+ 
+ 
+ 
+@@ -151,7 +155,52 @@ def glob(args):
+ 
+     print("\n".join(mappedpkgs))
+ 
++def read_values(args):
++    if len(args) < 4:
++        usage()
++        sys.exit(1)
++
++    pkgdata_dir = args[0]
++    target_suffix = args[1]
++    var = args[2]
++    packages = args[3].split()
+ 
++    if target_suffix.startswith("-"):
++        target_suffix = target_suffix[1:]
++
++    def readvar(pkgdata_file, var):
++        val = ""
++        with open(pkgdata_file, 'r') as f:
++            for line in f:
++                if line.startswith(var + ":"):
++                    val = line.split(': ')[1].rstrip()
++        return val
++
++    if debug:
++        print "read_values('%s', '%s', '%s' '%s'" % (pkgdata_dir, target_suffix, var, packages)
++    for package in packages:
++        pkg_split = package.split('_')
++        pkg_name = pkg_split[0]
++        pkg_arch = '_'.join(pkg_split[1:])
++        if debug:
++            print "package: name: '%s', arch: '%s'" % (pkg_name, pkg_arch)
++        multimach_target_sys = "%s-%s" % (pkg_arch, target_suffix)
++        revlink = os.path.join(pkgdata_dir, multimach_target_sys, "runtime-reverse", pkg_name)
++        if debug:
++            print(revlink)
++        if not os.path.exists(revlink):
++            # [YOCTO #4227] try to drop -gnueabi from TARGET_OS
++            multimach_target_sys = '-'.join(multimach_target_sys.split('-')[:-1])
++            revlink = os.path.join(pkgdata_dir, multimach_target_sys, "runtime-reverse", pkg_name)
++            if debug:
++                print(revlink)
++        if os.path.exists(revlink):
++            mappedpkg = os.path.basename(os.readlink(revlink))
++            qvar = var
++            if qvar == "PKGSIZE":
++                # append packagename
++                qvar = "%s_%s" % (var, mappedpkg)
++            print(readvar(revlink, qvar))
+ 
+ # Too lazy to use getopt
+ debug = False
+@@ -173,6 +222,8 @@ if len(args) < 1:
+ 
+ if args[0] == "glob":
+     glob(args[1:])
++if args[0] == "read_values":
++    read_values(args[1:])
+ else:
+     usage()
+     sys.exit(1)
+-- 
+1.8.2.1
 
 
