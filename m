@@ -1,26 +1,35 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id D62D86A468
+Return-Path: <tylerwhall@gmail.com>
+Received: from mail-qe0-f52.google.com (mail-qe0-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FB846AA78
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2013 16:02:34 +0000 (UTC)
-Received: (qmail 21432 invoked by uid 1003); 30 Jun 2013 16:02:35 -0000
-Received: from unknown (HELO ?192.168.1.122?)
-	(philip@opensdr.com@96.240.165.115)
-	by mail.geekisp.com with (DHE-RSA-AES256-SHA encrypted) SMTP;
-	30 Jun 2013 16:02:35 -0000
-Message-ID: <51D0569A.7050705@balister.org>
-Date: Sun, 30 Jun 2013 12:02:34 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Trevor Woerner <trevor.woerner@linaro.org>
-References: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
-	<CALmOhgk+NG_aqEwbtKXm0KTWGEim9z5bCpCE8sHiovsaDiTPew@mail.gmail.com>
-In-Reply-To: <CALmOhgk+NG_aqEwbtKXm0KTWGEim9z5bCpCE8sHiovsaDiTPew@mail.gmail.com>
-X-Enigmail-Version: 1.5.1
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
+	Sun, 30 Jun 2013 19:51:56 +0000 (UTC)
+Received: by mail-qe0-f52.google.com with SMTP id i11so1358341qej.25
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Jun 2013 12:51:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=+a2ZaiQyu8DkUiNoHh71ur+tFrOI2hw8s/5IOuIobhc=;
+	b=VjdgwvNSKwipNkQmjuaKAs1Y32PO94GJUG+UskGIBXLnYGjLetQoDAd5Ie1O/UhhTX
+	Nk8wD14VYECUEUKeMkFi4JEJ30eMNy43DQEVW0pPgga2K94SVYbvzd/VIzbdC87luFra
+	L0LAJ3pNRvxOXCjJ5Q5Itx7WDLIjLHfVwNfqs/sJYKQek+muvEtfPLDCz5EpG8Wg7Rjx
+	HYkJV5AsiPgQRbl3LyD4o5SebhwZWFdlvCXHGd5IK/SZpv7IPMN2iIpMCKLtgXilMv8e
+	6rYGVkcFLu4cPby9ihfi4mu2pQjQRQ3kYKhtt1+mEggmYyrgRD1sKudpaGKkOuHpotk3
+	jliQ==
+X-Received: by 10.49.35.65 with SMTP id f1mr28710976qej.72.1372621916796;
+	Sun, 30 Jun 2013 12:51:56 -0700 (PDT)
+Received: from localhost.localdomain (74-134-75-179.dhcp.insightbb.com.
+	[74.134.75.179])
+	by mx.google.com with ESMTPSA id 11sm24865893qek.1.2013.06.30.12.51.55
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 30 Jun 2013 12:51:55 -0700 (PDT)
+From: Tyler Hall <tylerwhall@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 30 Jun 2013 15:51:53 -0400
+Message-Id: <1372621913-13545-1-git-send-email-tyhall@lexmark.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] TmuxRunning: handle multi-word commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jun 2013 16:02:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 30 Jun 2013 19:51:56 -0000
 
-On 06/30/2013 11:56 AM, Trevor Woerner wrote:
-> On 27 June 2013 10:08, Mark Hatle <mark.hatle@windriver.com> wrote:
->> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
->>
->> A number of vendors are providing a modified version, so checking
->> for just the version string is not enough.  We also need to check
->> if the patch for the issue has been applied.  We use a modified
->> version of the reproduced to check for the issue.
->>
->> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->> ---
->> +
->> +        if status != 0:
->> +            return "Your version of make 3.82 is broken. Please revert to 3.81 or install a patched version.\n"
-> 
-> 
-> Instead of returning an error and asking the user to manually update
-> their own 'make', wouldn't it be better if bitbake simply built its
-> own known-to-be-working -native version instead? In this way a good,
-> working version of 'make' could be installed in a potential SDK's
-> sysroot as well?
+From: Tyler Hall <tylerwhall@gmail.com>
 
-Is the broken version good enough to build a working version?
+Just as in f8ed7446755eeb88191e16749350efa1e7e6197c, tmux wants a single
+argument for its command. This applies to the "split-window" command as
+well as "new."
 
-Philip
+Note that this alone is not enough to fix the TmuxRunning devshell when
+using pseudo because tmux does not preserve the environment that pseudo
+requires.
 
+Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+---
+ meta/lib/oe/terminal.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index 25f8004..4502f34 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -108,7 +108,7 @@ class Screen(Terminal):
+ class TmuxRunning(Terminal):
+     """Open a new pane in the current running tmux window"""
+     name = 'tmux-running'
+-    command = 'tmux split-window {command}'
++    command = 'tmux split-window "{command}"'
+     priority = 2.75
+ 
+     def __init__(self, sh_cmd, title=None, env=None, d=None):
+-- 
+1.8.3.2
+
 
