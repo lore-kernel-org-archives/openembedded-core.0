@@ -1,26 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E786D6A465
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ea0-f179.google.com (mail-ea0-f179.google.com
+	[209.85.215.179])
+	by mail.openembedded.org (Postfix) with ESMTP id EC7066A465
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2013 11:49:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2013 04:46:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,968,1363158000"; d="scan'208";a="358068752"
-Received: from unknown (HELO helios.localnet) ([10.252.121.210])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Jun 2013 04:45:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 30 Jun 2013 12:44:20 +0100
-Message-ID: <13328827.HgqEOfqNcC@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <20130630103422.GA3261@jama>
-References: <1371254791-8168-1-git-send-email-net147@gmail.com>
-	<51CD8650.7050806@windriver.com> <20130630103422.GA3261@jama>
+	Sun, 30 Jun 2013 15:56:34 +0000 (UTC)
+Received: by mail-ea0-f179.google.com with SMTP id b15so1588599eae.38
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Jun 2013 08:56:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=A4JL1QTH5kHbxza7W/hMqmaICUbCH9JUap8cU9Z3ktU=;
+	b=MZ0SLCU0RallObdIhYeXMyx338x1pLlgjwmhFK6uQ22KDC2EL39xwCfC2v41lZWopP
+	FdoZZUth1jDj+BAk+KqORKBaEj3JgqRDnynODY6pjwR1iySAGH7bW65SFX9pW/blJFPc
+	5IFdzSBD2M8L1QvA+RIoE8xcBSVq7uNYW4iqv9kftTOSZyQr4PmmQ/6NVu95NQpofOsa
+	tDc6j7MTTZ0mVUBzee2rzj4hrdKT85EmeOPktOHKcveTDtyMGkYslDJqMcXJs0vJZMaB
+	Lw9c7LIK42AJ6HE+fRRX0Nm1UzxKYZP3oOdO9PLHh3pBpzr2evg/eRwOAUT7uPrdghK5
+	8Xfg==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qt4e.bbclass: export OE_QMAKE_QT_CONFIG
+X-Received: by 10.14.0.4 with SMTP id 4mr17478086eea.68.1372607795251; Sun, 30
+	Jun 2013 08:56:35 -0700 (PDT)
+Received: by 10.14.117.65 with HTTP; Sun, 30 Jun 2013 08:56:35 -0700 (PDT)
+In-Reply-To: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+References: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+Date: Sun, 30 Jun 2013 11:56:35 -0400
+Message-ID: <CALmOhgk+NG_aqEwbtKXm0KTWGEim9z5bCpCE8sHiovsaDiTPew@mail.gmail.com>
+From: Trevor Woerner <trevor.woerner@linaro.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Gm-Message-State: ALoCoQlS1aTcplX+hq4AnbMHhdm/oJGgtxAOiBK2YKmWruWh0U1TVJCma7OmTe9dfe/l29LKHNgJ
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,109 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jun 2013 11:49:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 30 Jun 2013 15:56:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Sunday 30 June 2013 12:34:22 Martin Jansa wrote:
-> There is another qt4 issue which causes cmake-native to fail or was
-> cmake changed to require qt4 installed on host?
+On 27 June 2013 10:08, Mark Hatle <mark.hatle@windriver.com> wrote:
+> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
+>
+> A number of vendors are providing a modified version, so checking
+> for just the version string is not enough.  We also need to check
+> if the patch for the issue has been applied.  We use a modified
+> version of the reproduced to check for the issue.
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+> +
+> +        if status != 0:
+> +            return "Your version of make 3.82 is broken. Please revert to 3.81 or install a patched version.\n"
 
-Certainly not. I had a report of this issue but wasn't able to reproduce it:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4565
-
-Are you able to help me do that?
- 
-> | CMake Warning at Modules/FindQt4.cmake:657 (message):
-> |   /usr/bin/qmake reported QT_INSTALL_LIBS as "/usr/lib/x86_64-linux-gnu"
-> |   but
-> |   QtCore could not be found there.  Qt is NOT installed correctly for the
-> |   target build environment.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/RunCMake/CMakeLists.txt:79 (find_package)
-> | 
-> | -- Looking for Q_WS_X11
-> | -- Looking for Q_WS_X11 - not found
-> | -- Looking for Q_WS_WIN
-> | -- Looking for Q_WS_WIN - not found
-> | -- Looking for Q_WS_QWS
-> | -- Looking for Q_WS_QWS - not found
-> | -- Looking for Q_WS_MAC
-> | -- Looking for Q_WS_MAC - not found
-> | 
-> | CMake Error at Modules/FindQt4.cmake:1032 (set_property):
-> |   set_property could not find TARGET Qt4::QtCore.  Perhaps it has not yet
-> |   been created.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/RunCMake/CMakeLists.txt:79 (find_package)
-> | 
-> | CMake Error at Modules/FindQt4.cmake:1037 (set_property):
-> |   set_property could not find TARGET Qt4::QtCore.  Perhaps it has not yet
-> |   been created.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/RunCMake/CMakeLists.txt:79 (find_package)
-> | 
-> | CMake Error at Modules/FindQt4.cmake:1040 (set_property):
-> |   set_property could not find TARGET Qt4::QtCore.  Perhaps it has not yet
-> |   been created.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/RunCMake/CMakeLists.txt:79 (find_package)
-> | 
-> | CMake Warning at Modules/FindQt4.cmake:657 (message):
-> |   /usr/bin/qmake reported QT_INSTALL_LIBS as "/usr/lib/x86_64-linux-gnu"
-> |   but
-> |   QtCore could not be found there.  Qt is NOT installed correctly for the
-> |   target build environment.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/CMakeLists.txt:263 (find_package)
-> | 
-> | CMake Error at Modules/FindQt4.cmake:1032 (set_property):
-> |   set_property could not find TARGET Qt4::QtCore.  Perhaps it has not yet
-> |   been created.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/CMakeLists.txt:263 (find_package)
-> | 
-> | CMake Error at Modules/FindQt4.cmake:1037 (set_property):
-> |   set_property could not find TARGET Qt4::QtCore.  Perhaps it has not yet
-> |   been created.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/CMakeLists.txt:263 (find_package)
-> | 
-> | CMake Error at Modules/FindQt4.cmake:1040 (set_property):
-> |   set_property could not find TARGET Qt4::QtCore.  Perhaps it has not yet
-> |   been created.
-> | 
-> | Call Stack (most recent call first):
-> |   Tests/CMakeLists.txt:263 (find_package)
-> | 
-> | -- Could NOT find Qt4 (missing:  QT_MOC_EXECUTABLE QT_RCC_EXECUTABLE
-> | QT_UIC_EXECUTABLE QT_INCLUDE_DIR QT_LIBRARY_DIR QT_QTCORE_LIBRARY) (found
-> | version "4.8.1") -- Performing Test run_pic_test
-> | -- Performing Test run_pic_test - Success
-> | -- Configuring incomplete, errors occurred!
-> | ---------------------------------------------
-> | Error when bootstrapping CMake:
-> | Problem while running initial CMake
-> | ---------------------------------------------
-> | ERROR: Function failed: do_configure (log file is located at
-> | /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/work/x86_64-linux/
-> | cmake-native/2.8.11.1-r0/temp/log.do_configure.19730)
-> NOTE: recipe cmake-native-2.8.11.1-r0: task do_configure: Failed
-> 
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Instead of returning an error and asking the user to manually update
+their own 'make', wouldn't it be better if bitbake simply built its
+own known-to-be-working -native version instead? In this way a good,
+working version of 'make' could be installed in a potential SDK's
+sysroot as well?
 
