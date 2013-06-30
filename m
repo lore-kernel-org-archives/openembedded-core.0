@@ -1,35 +1,38 @@
-Return-Path: <tylerwhall@gmail.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 67AC96AA78
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2957C6AF3C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2013 20:17:04 +0000 (UTC)
-Received: by mail-qc0-f173.google.com with SMTP id l10so2432580qcy.32
+	Sun, 30 Jun 2013 22:55:42 +0000 (UTC)
+Received: by mail-ea0-f174.google.com with SMTP id o10so1712681eaj.33
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2013 13:17:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=/DjxgPE0nA4rNBaGaW66eAjfiF1A/f1hFgEguf0HKb4=;
-	b=LYAiB7nwmllTf7H9g3qpaWR8EhvClzWC3LZKhL8w5MSHc8sNniie9JYsnDDpKuVcox
-	o13VN7G2gX1GPjkPZncEb472uefGSSdwuzVAVnW9wTW1Yc/1myKJurNwqcUFEducP2++
-	YxskHE16UXga+Gj/ZJCP2ATCll2mkorq9FH/RXNlvvuqlCUUs6s2Fx0BZk3YZr+e286w
-	knrP/OTecIMih/ehAQJiWgefMTpPY0VaxK8YudzajP89WcDV/7m+4WEZ1VCx4BHVwcuT
-	yJUX0LXHWs9piW3DKIBMR+0klgotcdMzBXON44L3qbWqhgug8bI+ife5Nr3exL2qDcsH
-	bMFg==
-X-Received: by 10.49.71.14 with SMTP id q14mr27949393qeu.90.1372623424017;
-	Sun, 30 Jun 2013 13:17:04 -0700 (PDT)
-Received: from localhost.localdomain (74-134-75-179.dhcp.insightbb.com.
-	[74.134.75.179])
-	by mx.google.com with ESMTPSA id 4sm885207qaq.6.2013.06.30.13.17.02
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 30 Jun 2013 13:17:03 -0700 (PDT)
-From: Tyler Hall <tylerwhall@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Jun 2013 16:16:19 -0400
-Message-Id: <1372623379-13963-1-git-send-email-tylerwhall@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [RFC PATCH] terminal: Run command using a wrapper script
+	Sun, 30 Jun 2013 15:55:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=uUTHU9x5gMF4mbP1EF0Lyvfs8H6Zs9k0lPxHUdKZuRM=;
+	b=LZ1h1vjlnc8C2I6DSzGHtnE6doPIEO4o9WcbTRwIhmzpBSjXZCN2mgeffHlmqgDNxc
+	0V7hYD+jgBNLCE2dGic/Gt1JjWbuyl/7bTpPZIoa4M9yTgDR3XeX9TET+lQ5aLfaa7jJ
+	sKVXyOrVtT0Dx7RabY0adQOY328NskRCuRjOAOOeZ7L45REFuq09yu/4zqEVJvQDZEyG
+	TNl9ok8KF+qL67ckvZnzEz6q+fHBM9f6ZI0u1YxGVN7FMk2H2/a4tdJebEA0PNQUhcs6
+	VI5NAyff4LQNxvct8uml33XEYenqCGnvKgeAWl3DByQeNnqsk+siysqc3nZzkedY5DkG
+	jQOg==
+MIME-Version: 1.0
+X-Received: by 10.14.199.134 with SMTP id x6mr18623532een.114.1372632942042;
+	Sun, 30 Jun 2013 15:55:42 -0700 (PDT)
+Received: by 10.14.117.65 with HTTP; Sun, 30 Jun 2013 15:55:41 -0700 (PDT)
+In-Reply-To: <51D0569A.7050705@balister.org>
+References: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+	<CALmOhgk+NG_aqEwbtKXm0KTWGEim9z5bCpCE8sHiovsaDiTPew@mail.gmail.com>
+	<51D0569A.7050705@balister.org>
+Date: Sun, 30 Jun 2013 18:55:41 -0400
+Message-ID: <CALmOhgnm7_D0U845bJyxWx=NvrhX-TAYugxwSUt9R8MSM7BB6w@mail.gmail.com>
+From: Trevor Woerner <trevor.woerner@linaro.org>
+To: Philip Balister <philip@balister.org>
+X-Gm-Message-State: ALoCoQmUaNjtvsmTvmavsgvWi5ZLPEAFbw7ZAIc/CgEGTRjQzZh6kKECh33MOH2JX1J5wwUg3uud
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,149 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jun 2013 20:17:04 -0000
+X-List-Received-Date: Sun, 30 Jun 2013 22:55:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Some terminals may not pass the environment into the child process. This
-is true when using "tmux split-window." If tmux is already running, it
-will start the command with the tmux session environment, ignoring the
-environment where the command was issued.
+On 30 June 2013 12:02, Philip Balister <philip@balister.org> wrote:
+> On 06/30/2013 11:56 AM, Trevor Woerner wrote:
+>> On 27 June 2013 10:08, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
+>>>
+>>> A number of vendors are providing a modified version, so checking
+>>> for just the version string is not enough.  We also need to check
+>>> if the patch for the issue has been applied.  We use a modified
+>>> version of the reproduced to check for the issue.
+>>>
+>>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>>> ---
+>>> +
+>>> +        if status != 0:
+>>> +            return "Your version of make 3.82 is broken. Please revert to 3.81 or install a patched version.\n"
+>>
+>>
+>> Instead of returning an error and asking the user to manually update
+>> their own 'make', wouldn't it be better if bitbake simply built its
+>> own known-to-be-working -native version instead? In this way a good,
+>> working version of 'make' could be installed in a potential SDK's
+>> sysroot as well?
+>
+> Is the broken version good enough to build a working version?
 
-This could possibly be worked around when launching tmux by injecting
-variables into the user's session environment or adding the variables to
-the "update-environment" tmux setting. However, both methods would
-permanently alter the user's session, which is undesirable.
 
-By using a wrapper script, we have full control over the final
-environment. Replace the env dictionary with an empty data smart that
-will contain the exported variables and a wrapper function that execs
-the original command.
-
-Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
----
-
-Currently the devshell command fails when run from tmux, because tmux doesn't
-pass the environment necessary for pseudo. Tmux starts new shells using the
-session environment and ignores the environment that invoked the command.
-
-I can think of three tmux-specifc ways to fix this, but they are all
-suboptimal.
-
-1. Modify the user's session environment before spawning the shell
-    - This is a global operation that can't be done atomically and may be
-    destructive to the user's session environment
-2. Add variables to tmux's "update-environment" variable
-    - Has the same problem as 1.
-3. A multi-step process:
-    A. Make a new session containing a dummy shell (with the wrong env)
-    B. Set the session's environment, one variable at a time
-    C. Launch the command in that session
-    D. Move the window to the current session
-    E. Destroy the temporary session containing the dummy shell
-
-    - This feels too complicated and fragile
-
-My current solution is to run the command via a wrapper script that takes the
-form of a standard task run script. This achieves the desired environment
-without relying on the terminal's behavior.
-
-It also may be convenient to have the task script in the temp directory so
-one can enter the devshell environment without running bitbake.
-
-There is some code duplication with bitbake's exec_func(), particularly when
-getting the script file name from BB_RUNFMT, though it is only a few lines.
-
- meta/classes/terminal.bbclass | 41 ++++++++++++++++++++++++++++++++---------
- 1 file changed, 32 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index 8cebad4..ae338e9 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -11,43 +11,66 @@ XAUTHORITY ?= "${HOME}/.Xauthority"
- SHELL ?= "bash"
- 
- 
-+def emit_terminal_func(command, envdata, d):
-+    cmd_func = 'do_terminal'
-+
-+    envdata.setVar(cmd_func, 'exec ' + command)
-+    envdata.setVarFlag(cmd_func, 'func', 1)
-+
-+    runfmt = d.getVar('BB_RUNFMT', True) or "run.{func}.{pid}"
-+    runfile = runfmt.format(func=cmd_func, pid=os.getpid())
-+    runfile = os.path.join(d.getVar('T', True), runfile)
-+    with open(runfile, 'w') as script:
-+        script.write('#!/bin/sh -e\n')
-+        bb.data.emit_func(cmd_func, script, envdata)
-+        script.write(cmd_func)
-+        script.write("\n")
-+    os.chmod(runfile, 0755)
-+
-+    return runfile
-+
- def oe_terminal(command, title, d):
-     import oe.data
-     import oe.terminal
- 
--    env = dict()
-+    envdata = bb.data.init()
- 
-     for v in os.environ:
--        env[v] = os.environ[v]
-+        envdata.setVar(v, os.environ[v])
-+        envdata.setVarFlag(v, 'export', 1)
- 
-     for export in oe.data.typed_value('OE_TERMINAL_EXPORTS', d):
-         value = d.getVar(export, True)
-         if value is not None:
-             os.environ[export] = str(value)
--            env[export] = str(value)
-+            envdata.setVar(export, str(value))
-+            envdata.setVarFlag(export, 'export', 1)
-         if export == "PSEUDO_DISABLED":
-             if "PSEUDO_UNLOAD" in os.environ:
-                 del os.environ["PSEUDO_UNLOAD"]
--            if "PSEUDO_UNLOAD" in env:
--                del env["PSEUDO_UNLOAD"]
-+            envdata.delVar("PSEUDO_UNLOAD")
- 
-     # Add in all variables from the user's original environment which
-     # haven't subsequntly been set/changed
-     origbbenv = d.getVar("BB_ORIGENV", False) or {}
-     for key in origbbenv:
--        if key in env:
-+        if key in envdata:
-             continue
-         value = origbbenv.getVar(key, True)
-         if value is not None:
-             os.environ[key] = str(value)
--            env[key] = str(value)
-+            envdata.setVar(key, str(value))
-+            envdata.setVarFlag(key, 'export', 1)
-+
-+    # Replace command with an executable wrapper script
-+    command = emit_terminal_func(command, envdata, d)
- 
-     terminal = oe.data.typed_value('OE_TERMINAL', d).lower()
-     if terminal == 'none':
-         bb.fatal('Devshell usage disabled with OE_TERMINAL')
-     elif terminal != 'auto':
-         try:
--            oe.terminal.spawn(terminal, command, title, env, d)
-+            oe.terminal.spawn(terminal, command, title, None, d)
-             return
-         except oe.terminal.UnsupportedTerminal:
-             bb.warn('Unsupported terminal "%s", defaulting to "auto"' %
-@@ -56,7 +79,7 @@ def oe_terminal(command, title, d):
-             bb.fatal('Unable to spawn terminal %s: %s' % (terminal, exc))
- 
-     try:
--        oe.terminal.spawn_preferred(command, title, env, d)
-+        oe.terminal.spawn_preferred(command, title, None, d)
-     except oe.terminal.NoSupportedTerminals:
-         bb.fatal('No valid terminal found, unable to open devshell')
-     except oe.terminal.ExecutionError as exc:
--- 
-1.8.3.2
-
+In my case that's what I did (i.e. I used make-3.82 to build and
+install early in my $PATH make-3.81). I was then able to bitbake again
+which went to completion successfully.
 
