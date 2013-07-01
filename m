@@ -1,30 +1,32 @@
 Return-Path: <v.mayoralv@gmail.com>
-Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9544662062
+Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
+	[209.85.212.42])
+	by mail.openembedded.org (Postfix) with ESMTP id B35EF6A468
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 13:12:30 +0000 (UTC)
-Received: by mail-ve0-f178.google.com with SMTP id pb11so3706932veb.37
+	Mon,  1 Jul 2013 13:40:29 +0000 (UTC)
+Received: by mail-vb0-f42.google.com with SMTP id i3so3594000vbh.15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2013 06:12:31 -0700 (PDT)
+	Mon, 01 Jul 2013 06:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=v7VX5JuJ2VXpbVeW8f3cadyxu5iUHvfvR/s4gsfva78=;
-	b=lL76GJibfBdEXRXGSkn+8gottR2yF1YbeRIqbiDGsfjy2gUo0mZDCe8dyxeiX1R4zj
-	C08VwPi9Rhqm75dtvZ8vD9cp6JhPZTpP2PHWHptXUI5Kit1iRWkO7rGnUuojEqJbLTO5
-	cv47sYrJjWG2A8yuavCP7siGTHCJRSUn+G7wUYSpJcTc6WWCQqkO+2ErZcaLv7EH8nkv
-	sO9Y5G48cmRkTN2Kk6eg9QHOfNQqiNDqQHgqz5m0vsK05tOoTm3tsOS4bqkbTBoAeBZg
-	lRVF11tpiS5Bd/n4B+w6GbmElZWJDz32hZpperkyp6uzcA665COl+lTLRN5AmpbPg5xE
-	1TnA==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=jVSSeNG2C4oXf77pFARuX+d5GI8lMvyF0IyZGCqKsp4=;
+	b=zzoU6f347dskLKvYfKxtef7MdVpmZW09E7KCq+gXGnca8N4q73gRARI0kDjPDCUO5w
+	uaLhHSs6RE7Gq2L4SUp5YFRfimnotT+0lseid02Jmf/5zZVbRB8sDaqGpky0VLOpBh/r
+	BF173c3RZ3FFrPm6rVt4wZ0qWssCTGQ9aOnVR0YB6tUDgClHfcNBCAjBOngUI/5mNoHD
+	J1No1OEU8dQaiWgmn8OIiEOrNnps16StrqXUDaAiAX4HGNVQxCrg6St8YRq2MMMNHICn
+	vpl8hW7TFnwzInG4hScO+ckJnQWTKJOizUfwp96jtMnWch/7/1hSS+PMVHn8hQA+I2Aj
+	Qp3g==
 MIME-Version: 1.0
-X-Received: by 10.220.10.193 with SMTP id q1mr9477826vcq.2.1372684350902; Mon,
-	01 Jul 2013 06:12:30 -0700 (PDT)
-Received: by 10.58.210.42 with HTTP; Mon, 1 Jul 2013 06:12:30 -0700 (PDT)
-Date: Mon, 1 Jul 2013 15:12:30 +0200
-Message-ID: <CAKpQ200meOQcEu+vwbWBQpVC+FtvJw1uXLVV2qufvLud5aEvLg@mail.gmail.com>
+X-Received: by 10.52.34.40 with SMTP id w8mr8050550vdi.7.1372686030297; Mon,
+	01 Jul 2013 06:40:30 -0700 (PDT)
+Received: by 10.58.210.42 with HTTP; Mon, 1 Jul 2013 06:40:30 -0700 (PDT)
+In-Reply-To: <CAKpQ200meOQcEu+vwbWBQpVC+FtvJw1uXLVV2qufvLud5aEvLg@mail.gmail.com>
+References: <CAKpQ200meOQcEu+vwbWBQpVC+FtvJw1uXLVV2qufvLud5aEvLg@mail.gmail.com>
+Date: Mon, 1 Jul 2013 15:40:30 +0200
+Message-ID: <CAKpQ2036MNwGmDOxGFxYc6WmQoiLam7_L3h8LkQZZSOjcMHHgg@mail.gmail.com>
 From: =?ISO-8859-1?Q?V=EDctor_MV?= <v.mayoralv@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: apr: Add EXTRA_OECONF += "apr_cv_mutex_recursive=yes"
+Subject: Re: apr: Add EXTRA_OECONF += "apr_cv_mutex_recursive=yes"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,77 +39,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 13:12:31 -0000
-X-Groupsio-MsgNum: 41234
-Content-Type: multipart/mixed; boundary=001a11c3aba61fdab204e072fb4d
+X-List-Received-Date: Mon, 01 Jul 2013 13:40:29 -0000
+X-Groupsio-MsgNum: 41235
+Content-Type: multipart/mixed; boundary=20cf307cfec03966c604e0735f33
 
---001a11c3aba61fdab204e072fb4d
-Content-Type: multipart/alternative; boundary=001a11c3aba61fdaae04e072fb4b
+--20cf307cfec03966c604e0735f33
+Content-Type: multipart/alternative; boundary=20cf307cfec03966c304e0735f31
 
---001a11c3aba61fdaae04e072fb4b
+--20cf307cfec03966c304e0735f31
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Working with the meta-ros project we detected that the ROS nodes didn't
-launch properly the reason was that by default apr_cv_mutex_recursive in
-apr is set to no and this leads to the APRENOTIMPL return value of
-apr_thread_mutex_create in thread_mutex.c when APR_THREAD_MUTEX_NESTED is
-requested via flags. Added EXTRA_OECONF +=3D "apr_cv_mutex_recursive=3Dyes"=
- to
-sources/openembedded-core/meta/recipes-support/apr/apr_1.4.6.bb to fix this
-issue.
+Updated the commit message and patch.
 
-Regards,
 
-V=EDctor.
+2013/7/1 V=EDctor MV <v.mayoralv@gmail.com>
 
---001a11c3aba61fdaae04e072fb4b
+> Working with the meta-ros project we detected that the ROS nodes didn't
+> launch properly the reason was that by default apr_cv_mutex_recursive in
+> apr is set to no and this leads to the APRENOTIMPL return value of
+> apr_thread_mutex_create in thread_mutex.c when APR_THREAD_MUTEX_NESTED is
+> requested via flags. Added EXTRA_OECONF +=3D "apr_cv_mutex_recursive=3Dye=
+s" to
+> sources/openembedded-core/meta/recipes-support/apr/apr_1.4.6.bb to fix
+> this issue.
+>
+> Regards,
+>
+> V=EDctor.
+>
+>
+
+--20cf307cfec03966c304e0735f31
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div style>Working with the meta-ros project we detected t=
-hat the ROS nodes didn&#39;t launch properly the reason was that by default=
- apr_cv_mutex_recursive in apr is set to no and this leads to the APRENOTIM=
-PL return value of apr_thread_mutex_create in thread_mutex.c when APR_THREA=
-D_MUTEX_NESTED is requested via flags. Added EXTRA_OECONF +=3D &quot;apr_cv=
-_mutex_recursive=3Dyes&quot; to sources/openembedded-core/meta/recipes-supp=
-ort/apr/<a href=3D"http://apr_1.4.6.bb">apr_1.4.6.bb</a> to fix this issue.=
-</div>
-<div style><br></div><div style>Regards,</div><div style><br></div><div sty=
-le>V=EDctor.</div><div><br></div></div>
+<div dir=3D"ltr">Updated the commit message and patch.</div><div class=3D"g=
+mail_extra"><br><br><div class=3D"gmail_quote">2013/7/1 V=EDctor MV <span d=
+ir=3D"ltr">&lt;<a href=3D"mailto:v.mayoralv@gmail.com" target=3D"_blank">v.=
+mayoralv@gmail.com</a>&gt;</span><br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>Working with the meta-=
+ros project we detected that the ROS nodes didn&#39;t launch properly the r=
+eason was that by default apr_cv_mutex_recursive in apr is set to no and th=
+is leads to the APRENOTIMPL return value of apr_thread_mutex_create in thre=
+ad_mutex.c when APR_THREAD_MUTEX_NESTED is requested via flags. Added EXTRA=
+_OECONF +=3D &quot;apr_cv_mutex_recursive=3Dyes&quot; to sources/openembedd=
+ed-core/meta/recipes-support/apr/<a href=3D"http://apr_1.4.6.bb" target=3D"=
+_blank">apr_1.4.6.bb</a> to fix this issue.</div>
 
---001a11c3aba61fdaae04e072fb4b--
+<div><br></div><div>Regards,</div><div><br></div><div>V=EDctor.</div><div><=
+br></div></div>
+</blockquote></div><br></div>
 
---001a11c3aba61fdab204e072fb4d
+--20cf307cfec03966c304e0735f31--
+
+--20cf307cfec03966c604e0735f33
 Content-Type: application/octet-stream; 
 	name="0001-Patch-to-apr_1.4.6.bb-to-make-rosnodes-work.patch"
 Content-Disposition: attachment; 
 	filename="0001-Patch-to-apr_1.4.6.bb-to-make-rosnodes-work.patch"
 Content-Transfer-Encoding: base64
-X-Attachment-Id: f_hilot39e0
+X-Attachment-Id: f_hilptf9t1
 
 RnJvbSAxY2NmYzEwYzBhZmVjN2M2ZmQ3MzgwNGUxYWM0OGNjNDZmZDMxZWIwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiB2aWN0b3IgPHYubWF5b3JhbHZAZ21haWwuY29tPgpEYXRlOiBN
-b24sIDEgSnVsIDIwMTMgMTQ6NDY6NDIgKzAyMDAKU3ViamVjdDogW1BBVENIXSBQYXRjaCB0byBh
-cHJfMS40LjYuYmIgdG8gbWFrZSByb3Nub2RlcyB3b3JrCgpCeSBkZWZhdWx0IGFwcl9jdl9tdXRl
-eF9yZWN1cnNpdmUgaW4gYXByIGlzIHNldCB0byBubyBhbmQgdGhpcyBsZWFkcyB0byB0aGUgQVBS
-RU5PVElNUEwgcmV0dXJuIHZhbHVlIG9mIGFwcl90aHJlYWRfbXV0ZXhfY3JlYXRlIGluIHRocmVh
-ZF9tdXRleC5jIHdoZW4gQVBSX1RIUkVBRF9NVVRFWF9ORVNURUQgaXMgcmVxdWVzdGVkIHZpYSBm
-bGFncy4gQWRkZWQgRVhUUkFfT0VDT05GICs9ICJhcHJfY3ZfbXV0ZXhfcmVjdXJzaXZlPXllcyIg
-dG8gc291cmNlcy9vcGVuZW1iZWRkZWQtY29yZS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHIvYXBy
-XzEuNC42LmJiLgoKU2lnbmVkLW9mZi1ieTogVsOtY3RvciBNYXlvcmFsIFZpbGNoZXMgPHYubWF5
-b3JhbHZAZ21haWwuY29tPgotLS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2Fwci9hcHJfMS40LjYu
-YmIgfCAgICAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Fwci9hcHJfMS40LjYuYmIgYi9tZXRhL3JlY2lwZXMt
-c3VwcG9ydC9hcHIvYXByXzEuNC42LmJiCmluZGV4IDg5NmY3OWYuLjkyMDBkY2MgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Fwci9hcHJfMS40LjYuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvYXByL2Fwcl8xLjQuNi5iYgpAQCAtMjMsNiArMjMsOSBAQCBpbmhlcml0IGF1
-dG90b29scyBsaWJfcGFja2FnZSBiaW5jb25maWcgbXVsdGlsaWJfaGVhZGVyCiAKIE9FX0JJTkNP
-TkZJR19FWFRSQV9NQU5HTEUgPSAiIC1lICdzOmxvY2F0aW9uPXNvdXJjZTpsb2NhdGlvbj1pbnN0
-YWxsZWQ6JyIKIAorIyBBZGRlZCB0byBmaXggc29tZSBpc3N1ZXMgd2l0aCBjbWFrZS4gUmVmZXIg
-dG8gaHR0cHM6Ly9naXRodWIuY29tL2Jtd2Nhcml0L21ldGEtcm9zL2lzc3Vlcy82OCNpc3N1ZWNv
-bW1lbnQtMTk4OTY5MjgKK0VYVFJBX09FQ09ORiArPSAiYXByX2N2X211dGV4X3JlY3Vyc2l2ZT15
-ZXMiCisKIGRvX2NvbmZpZ3VyZV9wcmVwZW5kKCkgewogCWNkICR7U30KIAkuL2J1aWxkY29uZgot
-LSAKMS43LjkuNQoK
+b24sIDEgSnVsIDIwMTMgMTQ6NDY6NDIgKzAyMDAKU3ViamVjdDogW1BBVENIXSBhcHIgdXNlIGEg
+QUNfVFJZX1JVTiB0byBjaGVjayBpZiBQVEhSRUFEX01VVEVYX1JFQ1VSU0lWRSBpcyBzdXBwb3J0
+ZWQgYW5kIHRoaXMgZG9uJ3Qgd29yayBvbiBjcm9zcyBjb21waWxlLgoKQnkgZGVmYXVsdCBhcHJf
+Y3ZfbXV0ZXhfcmVjdXJzaXZlIGluIGFwciBpcyBzZXQgdG8gbm8gYW5kIHRoaXMgbGVhZHMgdG8g
+dGhlIEFQUkVOT1RJTVBMIHJldHVybiB2YWx1ZSBvZiBhcHJfdGhyZWFkX211dGV4X2NyZWF0ZSBp
+biB0aHJlYWRfbXV0ZXguYyB3aGVuIEFQUl9USFJFQURfTVVURVhfTkVTVEVEIGlzIHJlcXUgICAg
+ZXN0ZWQgdmlhIGZsYWdzLiBBZGRlZCBFWFRSQV9PRUNPTkYgKz0gImFwcl9jdl9tdXRleF9yZWN1
+cnNpdmU9eWVzIiB0byBzb3VyY2VzL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2Fwci9hcHJfMS40LjYuYmIuCgpTaWduZWQtb2ZmLWJ5OiBWw61jdG9yIE1heW9yYWwgVmls
+Y2hlcyA8di5tYXlvcmFsdkBnbWFpbC5jb20+Ci0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXBy
+L2Fwcl8xLjQuNi5iYiB8ICAgIDMgKysrCiAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCsp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXByL2Fwcl8xLjQuNi5iYiBiL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L2Fwci9hcHJfMS40LjYuYmIKaW5kZXggODk2Zjc5Zi4uOTIwMGRj
+YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXByL2Fwcl8xLjQuNi5iYgorKysg
+Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hcHIvYXByXzEuNC42LmJiCkBAIC0yMyw2ICsyMyw5IEBA
+IGluaGVyaXQgYXV0b3Rvb2xzIGxpYl9wYWNrYWdlIGJpbmNvbmZpZyBtdWx0aWxpYl9oZWFkZXIK
+IAogT0VfQklOQ09ORklHX0VYVFJBX01BTkdMRSA9ICIgLWUgJ3M6bG9jYXRpb249c291cmNlOmxv
+Y2F0aW9uPWluc3RhbGxlZDonIgogCisjIEFkZGVkIHRvIGZpeCByb3Nub2RlIGlzc3Vlcy4gUmVm
+ZXIgdG8gaHR0cHM6Ly9naXRodWIuY29tL2Jtd2Nhcml0L21ldGEtcm9zL2lzc3Vlcy82OCNpc3N1
+ZWNvbW1lbnQtMTk4OTY5MjgKK0VYVFJBX09FQ09ORiArPSAiYXByX2N2X211dGV4X3JlY3Vyc2l2
+ZT15ZXMiCisKIGRvX2NvbmZpZ3VyZV9wcmVwZW5kKCkgewogCWNkICR7U30KIAkuL2J1aWxkY29u
+ZgotLSAKMS43LjkuNQoK
 
---001a11c3aba61fdab204e072fb4d--
+--20cf307cfec03966c604e0735f33--
