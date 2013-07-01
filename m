@@ -1,38 +1,41 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
-	[209.85.212.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 011586ADA3
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F18AD6AF53
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 15:39:39 +0000 (UTC)
-Received: by mail-vb0-f52.google.com with SMTP id f12so3704656vbg.39
+	Mon,  1 Jul 2013 16:12:03 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q12so3702558vbe.41
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2013 08:39:40 -0700 (PDT)
+	Mon, 01 Jul 2013 09:12:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=Uvip12ydiW/8BnEpa7noVnh3zt7CLRMbE7I71WP/cw8=;
-	b=DVnNsmlVkDGqnVeNxOoPwd0eA4dZ8agGWsfLQ7e8zoQ70xpWaSwF0PmtVCLz7HTrSz
-	Q1PBDglx+RQ4k9ANgbaum2o2JSDQUL65SGimnwZcZ8UsKJAHKvnFVG4Khbb8Gu+Np++n
-	SlOpP9vFiPaifmWfhb3AjpQWCLZ2lILRsFIzJUhEve8yrW1s7NTtg3ebx0kxFb+NzcRn
-	CUOTkDHmcle7OdQYuGaSmSuyfd9AICVwIYdHDOn+WCQUSJp5r8ihQXmuHFp0FaYbN/Qr
-	zA27tb1e22J/f02vKFqOwMaFX58QgUsN1e8vEfeU1lxcWY3JNLrrvpS9uAGrua3v/bWo
-	SZcg==
-X-Received: by 10.52.21.232 with SMTP id y8mr7952153vde.6.1372693180632; Mon,
-	01 Jul 2013 08:39:40 -0700 (PDT)
+	bh=B+3exutoObgqVZQuJz+06xRCSKQHj1LGiXhH0AI7zGI=;
+	b=LObMBzM3v6/PjWpbPmZgkb9vlOoaoHuOSBMc5rSoBLfasxaWhTnUp2Y6eBY8zJVjWS
+	cLNWbFpiSYR2fXcGXHwKpAEGvUrbBv7oJNNlJRWIr9NpIMs1obDC59xwECmC0Di2LIuJ
+	Iv3UnQo1nIfu1NTnj42+hYGQ7lyAKK2QjBTdJl17x2OWzh/i2DiATQLIN+BDNPdPpsQp
+	ejWdsC2V3wk+Dwf0fGOyVr4EK/amRkbOFA6i4IOqOfwjnT4rQp/bwiJTo3IVqQ6Jg0Jl
+	Rj8jRxpST72aEG09kKiPNZNyGaMDb7fAPGbVeDR1Mzjtbdv9jjEEOITmrMmlkmAX6aNR
+	mDRw==
+X-Received: by 10.52.29.106 with SMTP id j10mr7995456vdh.77.1372695124894;
+	Mon, 01 Jul 2013 09:12:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Mon, 1 Jul 2013 08:39:20 -0700 (PDT)
-In-Reply-To: <137271775.y6VAVELV8v@helios>
-References: <1372688477-27863-1-git-send-email-paul.eggleton@linux.intel.com>
-	<CAJTo0Laa1Y4NtDbQsGEJRaP+K31y_CF9Hmk=drvFs1GOArPBzw@mail.gmail.com>
-	<137271775.y6VAVELV8v@helios>
+Received: by 10.220.13.144 with HTTP; Mon, 1 Jul 2013 09:11:44 -0700 (PDT)
+In-Reply-To: <A8A2F4C5E3D3D0468DDA3544476725F8AE1F720C@EU-MBX-04.mgc.mentorg.com>
+References: <1371660580-4754-1-git-send-email-muhammad_shakeel@mentor.com>
+	<A8A2F4C5E3D3D0468DDA3544476725F8AE1F5519@EU-MBX-04.mgc.mentorg.com>
+	<19067624.GhNbuypGS2@helios>
+	<A8A2F4C5E3D3D0468DDA3544476725F8AE1F720C@EU-MBX-04.mgc.mentorg.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Jul 2013 16:39:20 +0100
-Message-ID: <CAJTo0LbhmTyspfdQJaEXVWpZYyFSW-bWtP_Q8AJBkgTRqDiB6Q@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQmbf/rl6wI3lidfUNkfV3r0/+DlCzn4RY6ghe6rgfpR7pryPjOCYwQyA6f0dndhlYFLHkZo
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lttng-modules: allow building without tracepoints enabled in kernel
+Date: Mon, 1 Jul 2013 17:11:44 +0100
+Message-ID: <CAJTo0LabwWqQP4dmRgwyp40HbGF6biY9p+dpDTuGYiOt5f0tMg@mail.gmail.com>
+To: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
+X-Gm-Message-State: ALoCoQnLIvUwnpUA0uRNjgIEIGrGrf0IQSYVk6dFkqhdNtAVcUnB/9nM0tyyF1MVLO5UDrbaVaqy
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [dylan] lighttpd: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,17 +48,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 15:39:40 -0000
+X-List-Received-Date: Mon, 01 Jul 2013 16:12:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 1 July 2013 15:55, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> Right, I did check the find manpage but it only mentioned that -delete deletes
-> files. Testing here I see that it does work though. I'll wait for further
-> reviews before sending a v2.
+On 1 July 2013 15:49, Shakeel, Muhammad <Muhammad_Shakeel@mentor.com> wrote:
+> That's what I realized right after sending this patch. I have already sent a v2.
+> Please ignore this and see: http://patches.openembedded.org/patch/52027/
 
-Actually, http://pubs.opengroup.org/onlinepubs/009696699/utilities/find.html
-doesn't mention -delete, so it's possible/likely this is a GNUism.  I
-retract my comment.
+I missed that too, stupid mail client. :)
+
+Can you run the service file through sed to remove the absolute paths,
+so they respect ${sbindir} etc.
 
 Ross
 
