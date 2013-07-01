@@ -1,47 +1,52 @@
 Return-Path: <B19537@freescale.com>
 Received: from db8outboundpool.messaging.microsoft.com
-	(mail-db8lp0187.outbound.messaging.microsoft.com [213.199.154.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DCA386AF05
+	(mail-db8lp0189.outbound.messaging.microsoft.com [213.199.154.189])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C7E26AD22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 05:43:19 +0000 (UTC)
-Received: from mail21-db8-R.bigfish.com (10.174.8.234) by
-	DB8EHSOBE002.bigfish.com (10.174.4.65) with Microsoft SMTP Server id
-	14.1.225.23; Mon, 1 Jul 2013 05:43:19 +0000
-Received: from mail21-db8 (localhost [127.0.0.1])	by mail21-db8-R.bigfish.com
-	(Postfix) with ESMTP id CA9FC10C016F	for
+	Mon,  1 Jul 2013 05:44:10 +0000 (UTC)
+Received: from mail60-db8-R.bigfish.com (10.174.8.235) by
+	DB8EHSOBE025.bigfish.com (10.174.4.88) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 1 Jul 2013 05:44:11 +0000
+Received: from mail60-db8 (localhost [127.0.0.1])	by mail60-db8-R.bigfish.com
+	(Postfix) with ESMTP id E9DA8300241	for
 	<openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 05:43:19 +0000 (UTC)
+	Mon,  1 Jul 2013 05:44:10 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -5
-X-BigFish: VS-5(z3e12hzc89bh444eMzz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz17326ah8275bh8275dhz2dh2a8h668h839h93fhd24he5bhf0ah1288h12a5h12a9h12bdh137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
-Received: from mail21-db8 (localhost.localdomain [127.0.0.1]) by mail21-db8
-	(MessageSwitch) id 1372657393599719_25335;
-	Mon,  1 Jul 2013 05:43:13 +0000 (UTC)
-Received: from DB8EHSMHS030.bigfish.com (unknown [10.174.8.243])	by
-	mail21-db8.bigfish.com (Postfix) with ESMTP id 851101E80046	for
+X-SpamScore: -7
+X-BigFish: VS-7(zz9371Ic89bh542I1432I444eMzz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz17326ah8275bh8275dhz2dh2a8h668h839h8e2h8e3h93fhd25hf0ah1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
+Received: from mail60-db8 (localhost.localdomain [127.0.0.1]) by mail60-db8
+	(MessageSwitch) id 1372657448472278_6238;
+	Mon,  1 Jul 2013 05:44:08 +0000 (UTC)
+Received: from DB8EHSMHS029.bigfish.com (unknown [10.174.8.248])	by
+	mail60-db8.bigfish.com (Postfix) with ESMTP id 44557B80046	for
 	<openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 05:43:13 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS030.bigfish.com
-	(10.174.4.40) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Mon, 1 Jul 2013 05:43:13 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Mon, 1 Jul 2013 05:43:11 +0000
-Received: from b19537-desktop.ap.freescale.net
-	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
-	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r615h6vo011570;
-	Sun, 30 Jun 2013 22:43:07 -0700
-From: Zhenhua Luo <zhenhua.luo@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Jul 2013 13:51:19 +0800
-Message-ID: <1372657879-11813-1-git-send-email-zhenhua.luo@freescale.com>
-X-Mailer: git-send-email 1.7.9.5
+	Mon,  1 Jul 2013 05:44:08 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS029.bigfish.com
+	(10.174.4.39) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Mon, 1 Jul 2013 05:44:07 +0000
+Received: from 039-SN2MPN1-022.039d.mgd.msft.net ([169.254.2.148]) by
+	039-SN1MMR1-002.039d.mgd.msft.net ([10.84.1.15]) with mapi id
+	14.02.0328.011; Mon, 1 Jul 2013 05:44:05 +0000
+From: Luo Zhenhua-B19537 <B19537@freescale.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [meta-fsl-ppc][PATCH v3] linux-qoriq-sdk(-headers): upgrade to
+	the version of sdk-1.4
+Thread-Index: AQHOdh3f7nZuFT65DkSPu6MCm6kt9plPT5AA
+Date: Mon, 1 Jul 2013 05:44:05 +0000
+Message-ID: <CA452391058F6D4E9715FB2C29D9312A015CFF19@039-SN2MPN1-022.039d.mgd.msft.net>
+References: <1372657879-11813-1-git-send-email-zhenhua.luo@freescale.com>
+In-Reply-To: <1372657879-11813-1-git-send-email-zhenhua.luo@freescale.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.134]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
 X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: Zhenhua Luo <zhenhua.luo@freescale.com>, b40527@freescale.com
-Subject: [meta-fsl-ppc][PATCH v3] linux-qoriq-sdk(-headers): upgrade to the version of sdk-1.4
+Cc: Yu Zongchun-B40527 <B40527@freescale.com>
+Subject: Re: [meta-fsl-ppc][PATCH v3] linux-qoriq-sdk(-headers): upgrade to the version of sdk-1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,414 +59,292 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 05:43:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 01 Jul 2013 05:44:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-1.Update kernel version to 3.8.
-
-2.add DEPENDS libgcc and append TOOLCHAIN_OPTIONS to KERNEL_{CC,LD}.
-kernel in sdk 1.4 need run-time support libraries 'libgcc.a', added
-in file arch/powerpc/Makefile:
-LIBGCC :=3D $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
-Without passing the TOOLCHAIN_OPTIONS (define --sysroot parameter),
-it will fail to find the libgcc.a.
-
-3.Also remove the patches which were already merged on git tree.
-
-Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
-Signed-off-by: Ting Liu <b28495@freescale.com>
----
- ...option-Automount-devtmpfs-at-dev-in-kerne.patch |   78 --------------=
-------
- ...Undef-before-redefining-__attribute_const.patch |   28 -------
- ...-build-dependencies-for-c-files-requiring.patch |   44 -----------
- .../linux/files/fix_getrusage_for_perf.patch       |   33 ---------
- ...efile.headersinst-install-headers-from-sc.patch |   46 ++++++++++++
- recipes-kernel/linux/linux-qoriq-sdk-headers.bb    |    4 +
- recipes-kernel/linux/linux-qoriq-sdk.bb            |    8 +-
- recipes-kernel/linux/linux-qoriq-sdk.inc           |    7 +-
- 8 files changed, 57 insertions(+), 191 deletions(-)
- delete mode 100644 recipes-kernel/linux/files/0001-Enable-the-option-Aut=
-omount-devtmpfs-at-dev-in-kerne.patch
- delete mode 100644 recipes-kernel/linux/files/0001-compiler.h-Undef-befo=
-re-redefining-__attribute_const.patch
- delete mode 100644 recipes-kernel/linux/files/0001-powerpc-Fix-build-dep=
-endencies-for-c-files-requiring.patch
- delete mode 100644 recipes-kernel/linux/files/fix_getrusage_for_perf.pat=
-ch
- create mode 100644 recipes-kernel/linux/files/scripts-Makefile.headersin=
-st-install-headers-from-sc.patch
-
-diff --git a/recipes-kernel/linux/files/0001-Enable-the-option-Automount-=
-devtmpfs-at-dev-in-kerne.patch b/recipes-kernel/linux/files/0001-Enable-t=
-he-option-Automount-devtmpfs-at-dev-in-kerne.patch
-deleted file mode 100644
-index 39783ef..0000000
---- a/recipes-kernel/linux/files/0001-Enable-the-option-Automount-devtmpf=
-s-at-dev-in-kerne.patch
-+++ /dev/null
-@@ -1,78 +0,0 @@
--From 3179602e581b6fe8797a5677d5ac4ecfab065cc6 Mon Sep 17 00:00:00 2001
--From: Chunrong Guo <B40290@freescale.com>
--Date: Thu, 11 Apr 2013 01:52:48 -0500
--Subject: [PATCH] Enable "the option Automount devtmpfs at /dev" in kerne=
-l
--
--Upstream-Status:Pending
--Signed-off-by: Chunrong Guo <b40290@freescale.com>
-----
-- arch/powerpc/configs/85xx/e6500rev1_defconfig |    1 +
-- arch/powerpc/configs/corenet32_smp_defconfig  |    1 +
-- arch/powerpc/configs/corenet64_smp_defconfig  |    1 +
-- arch/powerpc/configs/mpc85xx_defconfig        |    1 +
-- arch/powerpc/configs/mpc85xx_smp_defconfig    |    1 +
-- 5 files changed, 5 insertions(+)
--
--diff --git a/arch/powerpc/configs/85xx/e6500rev1_defconfig b/arch/powerp=
-c/configs/85xx/e6500rev1_defconfig
--index 4b5866d..32ebb50 100644
----- a/arch/powerpc/configs/85xx/e6500rev1_defconfig
--+++ b/arch/powerpc/configs/85xx/e6500rev1_defconfig
--@@ -72,6 +72,7 @@ CONFIG_IPV6=3Dy
-- CONFIG_IP_SCTP=3Dm
-- CONFIG_UEVENT_HELPER_PATH=3D"/sbin/hotplug"
-- CONFIG_DEVTMPFS=3Dy
--+CONFIG_DEVTMPFS_MOUNT=3Dy
-- CONFIG_MTD=3Dy
-- CONFIG_MTD_CMDLINE_PARTS=3Dy
-- CONFIG_MTD_CHAR=3Dy
--diff --git a/arch/powerpc/configs/corenet32_smp_defconfig b/arch/powerpc=
-/configs/corenet32_smp_defconfig
--index b43d4b6..3fe10e5 100644
----- a/arch/powerpc/configs/corenet32_smp_defconfig
--+++ b/arch/powerpc/configs/corenet32_smp_defconfig
--@@ -71,6 +71,7 @@ CONFIG_IPV6=3Dy
-- CONFIG_IP_SCTP=3Dm
-- CONFIG_UEVENT_HELPER_PATH=3D"/sbin/hotplug"
-- CONFIG_DEVTMPFS=3Dy
--+CONFIG_DEVTMPFS_MOUNT=3Dy
-- CONFIG_MTD=3Dy
-- CONFIG_MTD_CMDLINE_PARTS=3Dy
-- CONFIG_MTD_CHAR=3Dy
--diff --git a/arch/powerpc/configs/corenet64_smp_defconfig b/arch/powerpc=
-/configs/corenet64_smp_defconfig
--index 13b032b..74cc46a 100644
----- a/arch/powerpc/configs/corenet64_smp_defconfig
--+++ b/arch/powerpc/configs/corenet64_smp_defconfig
--@@ -66,6 +66,7 @@ CONFIG_IPV6=3Dy
-- CONFIG_IP_SCTP=3Dm
-- CONFIG_UEVENT_HELPER_PATH=3D"/sbin/hotplug"
-- CONFIG_DEVTMPFS=3Dy
--+CONFIG_DEVTMPFS_MOUNT=3Dy
-- CONFIG_MTD=3Dy
-- CONFIG_MTD_CMDLINE_PARTS=3Dy
-- CONFIG_MTD_CHAR=3Dy
--diff --git a/arch/powerpc/configs/mpc85xx_defconfig b/arch/powerpc/confi=
-gs/mpc85xx_defconfig
--index 8fb742d..f353a6e 100644
----- a/arch/powerpc/configs/mpc85xx_defconfig
--+++ b/arch/powerpc/configs/mpc85xx_defconfig
--@@ -75,6 +75,7 @@ CONFIG_IPV6=3Dy
-- CONFIG_IP_SCTP=3Dm
-- CONFIG_UEVENT_HELPER_PATH=3D"/sbin/hotplug"
-- CONFIG_DEVTMPFS=3Dy
--+CONFIG_DEVTMPFS_MOUNT=3Dy
-- CONFIG_MTD=3Dy
-- CONFIG_MTD_CHAR=3Dy
-- CONFIG_MTD_BLOCK=3Dy
--diff --git a/arch/powerpc/configs/mpc85xx_smp_defconfig b/arch/powerpc/c=
-onfigs/mpc85xx_smp_defconfig
--index b31c8ac..cdc2c87 100644
----- a/arch/powerpc/configs/mpc85xx_smp_defconfig
--+++ b/arch/powerpc/configs/mpc85xx_smp_defconfig
--@@ -77,6 +77,7 @@ CONFIG_IPV6=3Dy
-- CONFIG_IP_SCTP=3Dm
-- CONFIG_UEVENT_HELPER_PATH=3D"/sbin/hotplug"
-- CONFIG_DEVTMPFS=3Dy
--+CONFIG_DEVTMPFS_MOUNT=3Dy
-- CONFIG_MTD=3Dy
-- CONFIG_MTD_CHAR=3Dy
-- CONFIG_MTD_BLOCK=3Dy
----=20
--1.7.9.7
--
-diff --git a/recipes-kernel/linux/files/0001-compiler.h-Undef-before-rede=
-fining-__attribute_const.patch b/recipes-kernel/linux/files/0001-compiler=
-.h-Undef-before-redefining-__attribute_const.patch
-deleted file mode 100644
-index 597fd3b..0000000
---- a/recipes-kernel/linux/files/0001-compiler.h-Undef-before-redefining-=
-__attribute_const.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 6f92ab6de9d8daeb575949bbbcbc7bcdcebc60af Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem at gmail.com>
--Date: Thu, 5 Jan 2012 11:42:35 -0800
--Subject: [PATCH] compiler.h: Undef before redefining __attribute_const__
--
--This is required to avoid warnings like
--util/include/linux/compiler.h:8:0: error: "__attribute_const__" redefine=
-d [-Werror]
--
--Signed-off-by: Khem Raj <raj.khem at gmail.com>
-----
-- tools/perf/util/include/linux/compiler.h |    4 +++-
-- 1 files changed, 3 insertions(+), 1 deletions(-)
--
----- a/tools/perf/util/include/linux/compiler.h
--+++ b/tools/perf/util/include/linux/compiler.h
--@@ -4,9 +4,11 @@
-- #ifndef __always_inline
-- #define __always_inline	inline
-- #endif
--+#undef __user
-- #define __user
--+#undef __attribute_const__
-- #define __attribute_const__
---
--+#undef __used
-- #define __used		__attribute__((__unused__))
--=20
-- #endif
-diff --git a/recipes-kernel/linux/files/0001-powerpc-Fix-build-dependenci=
-es-for-c-files-requiring.patch b/recipes-kernel/linux/files/0001-powerpc-=
-Fix-build-dependencies-for-c-files-requiring.patch
-deleted file mode 100644
-index d3464fb..0000000
---- a/recipes-kernel/linux/files/0001-powerpc-Fix-build-dependencies-for-=
-c-files-requiring.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--Upstream-Status: Pending
--
--From 2e7ffea0c0c09c6d9219d604e0351423f43844f4 Mon Sep 17 00:00:00 2001
--From: Matthew McClintock <msm@freescale.com>
--Date: Thu, 6 Sep 2012 13:45:21 -0500
--Subject: powerpc: Fix build dependencies for c files requiring libfdt.h
--
--Several files in obj-plat depend on libfdt header file. Sometimes
--when building one can see the following issue. This patch adds
--libfdt as dependency to those object files
--
--| In file included from arch/powerpc/boot/treeboot-iss4xx.c:33:0:
--| arch/powerpc/boot/libfdt.h:854:1: error: unterminated comment
--| In file included from arch/powerpc/boot/treeboot-iss4xx.c:33:0:
--| arch/powerpc/boot/libfdt.h:1:0: error: unterminated #ifndef
--|   BOOTCC  arch/powerpc/boot/inffast.o
--| make[1]: *** [arch/powerpc/boot/treeboot-iss4xx.o] Error 1
--| make[1]: *** Waiting for unfinished jobs....
--|   BOOTCC  arch/powerpc/boot/inflate.o
--| make: *** [uImage] Error 2
--| ERROR: oe_runmake failed
--| ERROR: Function failed: do_compile (see /srv/home/pokybuild/yocto-auto=
-builder/yocto-slave/p1022ds/build/build/tmp/work/p1022ds-poky-linux-gnusp=
-e/linux-qoriq-sdk-3.0.34-r5/temp/log.do_compile.2167 for further informat=
-ion)
--NOTE: recipe linux-qoriq-sdk-3.0.34-r5: task do_compile: Failed
--
--Signed-off-by: Matthew McClintock <msm@freescale.com>
-----
-- arch/powerpc/boot/Makefile |    1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/arch/powerpc/boot/Makefile b/arch/powerpc/boot/Makefile
--index b7d8333..6a15c96 100644
----- a/arch/powerpc/boot/Makefile
--+++ b/arch/powerpc/boot/Makefile
--@@ -107,6 +107,7 @@ src-boot :=3D $(addprefix $(obj)/, $(src-boot))
-- obj-boot :=3D $(addsuffix .o, $(basename $(src-boot)))
-- obj-wlib :=3D $(addsuffix .o, $(basename $(addprefix $(obj)/, $(src-wli=
-b))))
-- obj-plat :=3D $(addsuffix .o, $(basename $(addprefix $(obj)/, $(src-pla=
-t))))
--+obj-plat: $(libfdt)
--=20
-- quiet_cmd_copy_zlib =3D COPY    $@
--       cmd_copy_zlib =3D sed "s@__used@@;s@<linux/\([^>]*\).*@\"\1\"@" $=
-< > $@
----=20
--1.7.9.7
--
-diff --git a/recipes-kernel/linux/files/fix_getrusage_for_perf.patch b/re=
-cipes-kernel/linux/files/fix_getrusage_for_perf.patch
-deleted file mode 100644
-index 0029fdc..0000000
---- a/recipes-kernel/linux/files/fix_getrusage_for_perf.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--commit 7b78f13603c6fcb64e020a0bbe31a651ea2b657b
--Author: Markus Trippelsdorf <markus@trippelsdorf.de>
--Date: Wed Apr 4 10:45:27 2012 +0200
--
--    perf tools: Fix getrusage() related build failure on glibc trunk
--   =20
--    On a system running glibc trunk perf doesn't build:
--   =20
--        CC builtin-sched.o
--    builtin-sched.c: In function =E2=80=98get_cpu_usage_nsec_parent=E2=80=
-=99: builtin-sched.c:399:16: error: storage size of =E2=80=98ru=E2=80=99 =
-isn=E2=80=99t known builtin-sched.c:403:2: error: implicit declaration of=
- function =E2=80=98getrusage=E2=80=99 [-Werror=3Dimplicit-function-declar=
-ation]
--        [...]
--   =20
--    Fix it by including sys/resource.h.
--   =20
--    Signed-off-by: Markus Trippelsdorf <markus@trippelsdorf.de>
--    Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
--    Link: http://lkml.kernel.org/r/20120404084527.GA294@x4
--    Signed-off-by: Ingo Molnar <mingo@kernel.org>
--
--Upstream-Status: Backport [3.4]
--
--diff --git a/tools/perf/builtin-sched.c b/tools/perf/builtin-sched.c
--index fb8b5f8..1cad3af 100644
----- a/tools/perf/builtin-sched.c
--+++ b/tools/perf/builtin-sched.c
--@@ -17,6 +17,7 @@
-- #include "util/debug.h"
--=20
-- #include <sys/prctl.h>
--+#include <sys/resource.h>
--=20
-- #include <semaphore.h>
-- #include <pthread.h>
-diff --git a/recipes-kernel/linux/files/scripts-Makefile.headersinst-inst=
-all-headers-from-sc.patch b/recipes-kernel/linux/files/scripts-Makefile.h=
-eadersinst-install-headers-from-sc.patch
-new file mode 100644
-index 0000000..0f28d3d
---- /dev/null
-+++ b/recipes-kernel/linux/files/scripts-Makefile.headersinst-install-hea=
-ders-from-sc.patch
-@@ -0,0 +1,46 @@
-+From e60cc1b011bf0f1acdb7e5168b7bed4ebb78c91f Mon Sep 17 00:00:00 2001
-+From: Bruce Ashfield <bruce.ashfield@windriver.com>
-+Date: Wed, 9 Jan 2013 16:24:39 -0500
-+Subject: [PATCH] scripts/Makefile.headersinst: install headers from scra=
-tch file
-+
-+If headers_install is executed from a deep/long directory structure, the
-+shell's maximum argument length can be execeeded, which breaks the opera=
-tion
-+with:
-+
-+| make[2]: execvp: /bin/sh: Argument list too long
-+| make[2]: ***
-+
-+By dumping the input files to a scratch file and using xargs to read the
-+input list from the scratch file, we can avoid blowing out the maximum
-+argument size and install headers in a long path name environment.
-+
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-+---
-+ scripts/Makefile.headersinst |    4 +++-
-+ 1 files changed, 3 insertions(+), 1 deletions(-)
-+
-+diff --git a/scripts/Makefile.headersinst b/scripts/Makefile.headersinst
-+index 06ba4a7..536d722 100644
-+--- a/scripts/Makefile.headersinst
-++++ b/scripts/Makefile.headersinst
-+@@ -71,7 +71,7 @@ printdir =3D $(patsubst $(INSTALL_HDR_PATH)/%/,%,$(dir=
- $@))
-+ quiet_cmd_install =3D INSTALL $(printdir) ($(words $(all-files))\
-+                             file$(if $(word 2, $(all-files)),s))
-+       cmd_install =3D \
-+-        $(PERL) $< $(installdir) $(SRCARCH) $(input-files); \
-++        xargs $(PERL) $< $(installdir) $(SRCARCH) < $(INSTALL_HDR_PATH)=
-/.input-files; \
-+         for F in $(wrapper-files); do                                  =
- \
-+                 echo "\#include <asm-generic/$$F>" > $(installdir)/$$F;=
-    \
-+         done;                                                          =
- \
-+@@ -100,7 +100,9 @@ targets +=3D $(install-file)
-+ $(install-file): scripts/headers_install.pl $(input-files) FORCE
-+ 	$(if $(unwanted),$(call cmd,remove),)
-+ 	$(if $(wildcard $(dir $@)),,$(shell mkdir -p $(dir $@)))
-++	@echo $(input-files) > $(INSTALL_HDR_PATH)/.input-files
-+ 	$(call if_changed,install)
-++	@rm $(INSTALL_HDR_PATH)/.input-files
-+=20
-+ else
-+ __headerscheck: $(subdirs) $(check-file)
-+--=20
-+1.7.0.4
-diff --git a/recipes-kernel/linux/linux-qoriq-sdk-headers.bb b/recipes-ke=
-rnel/linux/linux-qoriq-sdk-headers.bb
-index b1cbb8d..0ee4fc1 100644
---- a/recipes-kernel/linux/linux-qoriq-sdk-headers.bb
-+++ b/recipes-kernel/linux/linux-qoriq-sdk-headers.bb
-@@ -2,6 +2,8 @@ DESCRIPTION =3D "Linux kernel headers for Freescale platf=
-orms"
- SECTION =3D "devel"
- LICENSE =3D "GPLv2"
-=20
-+PR =3D "${INC_PR}.1"
-+
- INHIBIT_DEFAULT_DEPS =3D "1"
- PROVIDES =3D "linux-libc-headers ${PN}"
- RPROVIDES_${PN}-dev +=3D "linux-libc-headers-dev"
-@@ -11,6 +13,8 @@ RRECOMMENDS_${PN}-dbg =3D "linux-libc-headers-dev (=3D =
-${EXTENDPKGV})"
-=20
- require recipes-kernel/linux/linux-qoriq-sdk.inc
-=20
-+SRC_URI_append +=3D " file://scripts-Makefile.headersinst-install-header=
-s-from-sc.patch"
-+
- inherit kernel-arch
-=20
- do_configure() {
-diff --git a/recipes-kernel/linux/linux-qoriq-sdk.bb b/recipes-kernel/lin=
-ux/linux-qoriq-sdk.bb
-index a015e49..502132f 100644
---- a/recipes-kernel/linux/linux-qoriq-sdk.bb
-+++ b/recipes-kernel/linux/linux-qoriq-sdk.bb
-@@ -7,11 +7,11 @@ LICENSE =3D "GPLv2"
-=20
- require recipes-kernel/linux/linux-qoriq-sdk.inc
-=20
--PR =3D "r11"
-+PR =3D "${INC_PR}.1"
-=20
--SRC_URI +=3D "file://fix_getrusage_for_perf.patch \
--            file://0001-Enable-the-option-Automount-devtmpfs-at-dev-in-k=
-erne.patch \
--           "
-+DEPENDS_append =3D " libgcc"
-+KERNEL_CC_append =3D " ${TOOLCHAIN_OPTIONS}"
-+KERNEL_LD_append =3D " ${TOOLCHAIN_OPTIONS}"
-=20
- do_configure_prepend() {
- 	# copy desired defconfig so we pick it up for the real kernel_do_config=
-ure
-diff --git a/recipes-kernel/linux/linux-qoriq-sdk.inc b/recipes-kernel/li=
-nux/linux-qoriq-sdk.inc
-index f77543e..1c66f9b 100644
---- a/recipes-kernel/linux/linux-qoriq-sdk.inc
-+++ b/recipes-kernel/linux/linux-qoriq-sdk.inc
-@@ -1,11 +1,10 @@
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd7810fab7487fb0aad327b76f1be7=
-cd7"
-=20
--PV =3D "3.0.51"
--PR =3D "r11"
-+PV =3D "3.8"
-+INC_PR =3D "r11"
-=20
--SRCREV =3D "faac5211f398f25e2be44ac996895335d5218516"
-+SRCREV =3D "4b66366af2d77de68f4bd6548d07421e13d3df05"
- SRC_URI =3D "git://git.freescale.com/ppc/sdk/linux.git \
--           file://0001-compiler.h-Undef-before-redefining-__attribute_co=
-nst.patch \
- 	  "
-=20
- KSRC ?=3D ""
---=20
-1.7.9.5
-
+U29ycnkgZm9yIHNlbmRpbmcgdG8gdGhlIHdyb25nIG1haWxpbmcgbGlzdC4gDQoNClBsZWFzZSBp
+Z25vcmUuIA0KDQoNCkJlc3QgUmVnYXJkcywNCg0KWmhlbmh1YQ0KDQoNCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTHVvIFpoZW5odWEtQjE5NTM3DQo+IFNlbnQ6IE1vbmRh
+eSwgSnVseSAwMSwgMjAxMyAxOjUxIFBNDQo+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+IENjOiBMaXUgVGluZy1CMjg0OTU7IEd1byBDaHVucm9uZy1CNDAy
+OTA7IFl1IFpvbmdjaHVuLUI0MDUyNzsgTHVvDQo+IFpoZW5odWEtQjE5NTM3DQo+IFN1YmplY3Q6
+IFttZXRhLWZzbC1wcGNdW1BBVENIIHYzXSBsaW51eC1xb3JpcS1zZGsoLWhlYWRlcnMpOiB1cGdy
+YWRlIHRvDQo+IHRoZSB2ZXJzaW9uIG9mIHNkay0xLjQNCj4gDQo+IDEuVXBkYXRlIGtlcm5lbCB2
+ZXJzaW9uIHRvIDMuOC4NCj4gDQo+IDIuYWRkIERFUEVORFMgbGliZ2NjIGFuZCBhcHBlbmQgVE9P
+TENIQUlOX09QVElPTlMgdG8gS0VSTkVMX3tDQyxMRH0uDQo+IGtlcm5lbCBpbiBzZGsgMS40IG5l
+ZWQgcnVuLXRpbWUgc3VwcG9ydCBsaWJyYXJpZXMgJ2xpYmdjYy5hJywgYWRkZWQgaW4NCj4gZmls
+ZSBhcmNoL3Bvd2VycGMvTWFrZWZpbGU6DQo+IExJQkdDQyA6PSAkKHNoZWxsICQoQ0MpICQoS0JV
+SUxEX0NGTEFHUykgLXByaW50LWxpYmdjYy1maWxlLW5hbWUpIFdpdGhvdXQNCj4gcGFzc2luZyB0
+aGUgVE9PTENIQUlOX09QVElPTlMgKGRlZmluZSAtLXN5c3Jvb3QgcGFyYW1ldGVyKSwgaXQgd2ls
+bCBmYWlsDQo+IHRvIGZpbmQgdGhlIGxpYmdjYy5hLg0KPiANCj4gMy5BbHNvIHJlbW92ZSB0aGUg
+cGF0Y2hlcyB3aGljaCB3ZXJlIGFscmVhZHkgbWVyZ2VkIG9uIGdpdCB0cmVlLg0KPiANCj4gU2ln
+bmVkLW9mZi1ieTogWmhlbmh1YSBMdW8gPHpoZW5odWEubHVvQGZyZWVzY2FsZS5jb20+DQo+IFNp
+Z25lZC1vZmYtYnk6IFRpbmcgTGl1IDxiMjg0OTVAZnJlZXNjYWxlLmNvbT4NCj4gLS0tDQo+ICAu
+Li5vcHRpb24tQXV0b21vdW50LWRldnRtcGZzLWF0LWRldi1pbi1rZXJuZS5wYXRjaCB8ICAgNzgg
+LS0tLS0tLS0tLS0tLS0NCj4gLS0tLS0tDQo+ICAuLi5VbmRlZi1iZWZvcmUtcmVkZWZpbmluZy1f
+X2F0dHJpYnV0ZV9jb25zdC5wYXRjaCB8ICAgMjggLS0tLS0tLQ0KPiAgLi4uLWJ1aWxkLWRlcGVu
+ZGVuY2llcy1mb3ItYy1maWxlcy1yZXF1aXJpbmcucGF0Y2ggfCAgIDQ0IC0tLS0tLS0tLS0tDQo+
+ICAuLi4vbGludXgvZmlsZXMvZml4X2dldHJ1c2FnZV9mb3JfcGVyZi5wYXRjaCAgICAgICB8ICAg
+MzMgLS0tLS0tLS0tDQo+ICAuLi5lZmlsZS5oZWFkZXJzaW5zdC1pbnN0YWxsLWhlYWRlcnMtZnJv
+bS1zYy5wYXRjaCB8ICAgNDYgKysrKysrKysrKysrDQo+ICByZWNpcGVzLWtlcm5lbC9saW51eC9s
+aW51eC1xb3JpcS1zZGstaGVhZGVycy5iYiAgICB8ICAgIDQgKw0KPiAgcmVjaXBlcy1rZXJuZWwv
+bGludXgvbGludXgtcW9yaXEtc2RrLmJiICAgICAgICAgICAgfCAgICA4ICstDQo+ICByZWNpcGVz
+LWtlcm5lbC9saW51eC9saW51eC1xb3JpcS1zZGsuaW5jICAgICAgICAgICB8ICAgIDcgKy0NCj4g
+IDggZmlsZXMgY2hhbmdlZCwgNTcgaW5zZXJ0aW9ucygrKSwgMTkxIGRlbGV0aW9ucygtKSAgZGVs
+ZXRlIG1vZGUgMTAwNjQ0DQo+IHJlY2lwZXMta2VybmVsL2xpbnV4L2ZpbGVzLzAwMDEtRW5hYmxl
+LXRoZS1vcHRpb24tQXV0b21vdW50LWRldnRtcGZzLWF0LQ0KPiBkZXYtaW4ta2VybmUucGF0Y2gN
+Cj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWtlcm5lbC9saW51eC9maWxlcy8wMDAxLWNv
+bXBpbGVyLmgtVW5kZWYtDQo+IGJlZm9yZS1yZWRlZmluaW5nLV9fYXR0cmlidXRlX2NvbnN0LnBh
+dGNoDQo+ICBkZWxldGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1rZXJuZWwvbGludXgvZmlsZXMvMDAw
+MS1wb3dlcnBjLUZpeC1idWlsZC0NCj4gZGVwZW5kZW5jaWVzLWZvci1jLWZpbGVzLXJlcXVpcmlu
+Zy5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMtDQo+IGtlcm5lbC9saW51eC9m
+aWxlcy9maXhfZ2V0cnVzYWdlX2Zvcl9wZXJmLnBhdGNoDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQg
+cmVjaXBlcy1rZXJuZWwvbGludXgvZmlsZXMvc2NyaXB0cy0NCj4gTWFrZWZpbGUuaGVhZGVyc2lu
+c3QtaW5zdGFsbC1oZWFkZXJzLWZyb20tc2MucGF0Y2gNCj4gDQo+IGRpZmYgLS1naXQgYS9yZWNp
+cGVzLWtlcm5lbC9saW51eC9maWxlcy8wMDAxLUVuYWJsZS10aGUtb3B0aW9uLUF1dG9tb3VudC0N
+Cj4gZGV2dG1wZnMtYXQtZGV2LWluLWtlcm5lLnBhdGNoIGIvcmVjaXBlcy1rZXJuZWwvbGludXgv
+ZmlsZXMvMDAwMS1FbmFibGUtDQo+IHRoZS1vcHRpb24tQXV0b21vdW50LWRldnRtcGZzLWF0LWRl
+di1pbi1rZXJuZS5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMzk3
+ODNlZi4uMDAwMDAwMA0KPiAtLS0gYS9yZWNpcGVzLWtlcm5lbC9saW51eC9maWxlcy8wMDAxLUVu
+YWJsZS10aGUtb3B0aW9uLUF1dG9tb3VudC0NCj4gZGV2dG1wZnMtYXQtZGV2LWluLWtlcm5lLnBh
+dGNoDQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsNzggKzAsMCBAQA0KPiAtRnJvbSAzMTc5NjAy
+ZTU4MWI2ZmU4Nzk3YTU2NzdkNWFjNGVjZmFiMDY1Y2M2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQ0KPiAtRnJvbTogQ2h1bnJvbmcgR3VvIDxCNDAyOTBAZnJlZXNjYWxlLmNvbT4NCj4gLURhdGU6
+IFRodSwgMTEgQXByIDIwMTMgMDE6NTI6NDggLTA1MDANCj4gLVN1YmplY3Q6IFtQQVRDSF0gRW5h
+YmxlICJ0aGUgb3B0aW9uIEF1dG9tb3VudCBkZXZ0bXBmcyBhdCAvZGV2IiBpbg0KPiBrZXJuZWwN
+Cj4gLQ0KPiAtVXBzdHJlYW0tU3RhdHVzOlBlbmRpbmcNCj4gLVNpZ25lZC1vZmYtYnk6IENodW5y
+b25nIEd1byA8YjQwMjkwQGZyZWVzY2FsZS5jb20+DQo+IC0tLS0NCj4gLSBhcmNoL3Bvd2VycGMv
+Y29uZmlncy84NXh4L2U2NTAwcmV2MV9kZWZjb25maWcgfCAgICAxICsNCj4gLSBhcmNoL3Bvd2Vy
+cGMvY29uZmlncy9jb3JlbmV0MzJfc21wX2RlZmNvbmZpZyAgfCAgICAxICsNCj4gLSBhcmNoL3Bv
+d2VycGMvY29uZmlncy9jb3JlbmV0NjRfc21wX2RlZmNvbmZpZyAgfCAgICAxICsNCj4gLSBhcmNo
+L3Bvd2VycGMvY29uZmlncy9tcGM4NXh4X2RlZmNvbmZpZyAgICAgICAgfCAgICAxICsNCj4gLSBh
+cmNoL3Bvd2VycGMvY29uZmlncy9tcGM4NXh4X3NtcF9kZWZjb25maWcgICAgfCAgICAxICsNCj4g
+LSA1IGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQ0KPiAtDQo+IC1kaWZmIC0tZ2l0IGEv
+YXJjaC9wb3dlcnBjL2NvbmZpZ3MvODV4eC9lNjUwMHJldjFfZGVmY29uZmlnDQo+IGIvYXJjaC9w
+b3dlcnBjL2NvbmZpZ3MvODV4eC9lNjUwMHJldjFfZGVmY29uZmlnDQo+IC1pbmRleCA0YjU4NjZk
+Li4zMmViYjUwIDEwMDY0NA0KPiAtLS0tIGEvYXJjaC9wb3dlcnBjL2NvbmZpZ3MvODV4eC9lNjUw
+MHJldjFfZGVmY29uZmlnDQo+IC0rKysgYi9hcmNoL3Bvd2VycGMvY29uZmlncy84NXh4L2U2NTAw
+cmV2MV9kZWZjb25maWcNCj4gLUBAIC03Miw2ICs3Miw3IEBAIENPTkZJR19JUFY2PXkNCj4gLSBD
+T05GSUdfSVBfU0NUUD1tDQo+IC0gQ09ORklHX1VFVkVOVF9IRUxQRVJfUEFUSD0iL3NiaW4vaG90
+cGx1ZyINCj4gLSBDT05GSUdfREVWVE1QRlM9eQ0KPiAtK0NPTkZJR19ERVZUTVBGU19NT1VOVD15
+DQo+IC0gQ09ORklHX01URD15DQo+IC0gQ09ORklHX01URF9DTURMSU5FX1BBUlRTPXkNCj4gLSBD
+T05GSUdfTVREX0NIQVI9eQ0KPiAtZGlmZiAtLWdpdCBhL2FyY2gvcG93ZXJwYy9jb25maWdzL2Nv
+cmVuZXQzMl9zbXBfZGVmY29uZmlnDQo+IGIvYXJjaC9wb3dlcnBjL2NvbmZpZ3MvY29yZW5ldDMy
+X3NtcF9kZWZjb25maWcNCj4gLWluZGV4IGI0M2Q0YjYuLjNmZTEwZTUgMTAwNjQ0DQo+IC0tLS0g
+YS9hcmNoL3Bvd2VycGMvY29uZmlncy9jb3JlbmV0MzJfc21wX2RlZmNvbmZpZw0KPiAtKysrIGIv
+YXJjaC9wb3dlcnBjL2NvbmZpZ3MvY29yZW5ldDMyX3NtcF9kZWZjb25maWcNCj4gLUBAIC03MSw2
+ICs3MSw3IEBAIENPTkZJR19JUFY2PXkNCj4gLSBDT05GSUdfSVBfU0NUUD1tDQo+IC0gQ09ORklH
+X1VFVkVOVF9IRUxQRVJfUEFUSD0iL3NiaW4vaG90cGx1ZyINCj4gLSBDT05GSUdfREVWVE1QRlM9
+eQ0KPiAtK0NPTkZJR19ERVZUTVBGU19NT1VOVD15DQo+IC0gQ09ORklHX01URD15DQo+IC0gQ09O
+RklHX01URF9DTURMSU5FX1BBUlRTPXkNCj4gLSBDT05GSUdfTVREX0NIQVI9eQ0KPiAtZGlmZiAt
+LWdpdCBhL2FyY2gvcG93ZXJwYy9jb25maWdzL2NvcmVuZXQ2NF9zbXBfZGVmY29uZmlnDQo+IGIv
+YXJjaC9wb3dlcnBjL2NvbmZpZ3MvY29yZW5ldDY0X3NtcF9kZWZjb25maWcNCj4gLWluZGV4IDEz
+YjAzMmIuLjc0Y2M0NmEgMTAwNjQ0DQo+IC0tLS0gYS9hcmNoL3Bvd2VycGMvY29uZmlncy9jb3Jl
+bmV0NjRfc21wX2RlZmNvbmZpZw0KPiAtKysrIGIvYXJjaC9wb3dlcnBjL2NvbmZpZ3MvY29yZW5l
+dDY0X3NtcF9kZWZjb25maWcNCj4gLUBAIC02Niw2ICs2Niw3IEBAIENPTkZJR19JUFY2PXkNCj4g
+LSBDT05GSUdfSVBfU0NUUD1tDQo+IC0gQ09ORklHX1VFVkVOVF9IRUxQRVJfUEFUSD0iL3NiaW4v
+aG90cGx1ZyINCj4gLSBDT05GSUdfREVWVE1QRlM9eQ0KPiAtK0NPTkZJR19ERVZUTVBGU19NT1VO
+VD15DQo+IC0gQ09ORklHX01URD15DQo+IC0gQ09ORklHX01URF9DTURMSU5FX1BBUlRTPXkNCj4g
+LSBDT05GSUdfTVREX0NIQVI9eQ0KPiAtZGlmZiAtLWdpdCBhL2FyY2gvcG93ZXJwYy9jb25maWdz
+L21wYzg1eHhfZGVmY29uZmlnDQo+IGIvYXJjaC9wb3dlcnBjL2NvbmZpZ3MvbXBjODV4eF9kZWZj
+b25maWcNCj4gLWluZGV4IDhmYjc0MmQuLmYzNTNhNmUgMTAwNjQ0DQo+IC0tLS0gYS9hcmNoL3Bv
+d2VycGMvY29uZmlncy9tcGM4NXh4X2RlZmNvbmZpZw0KPiAtKysrIGIvYXJjaC9wb3dlcnBjL2Nv
+bmZpZ3MvbXBjODV4eF9kZWZjb25maWcNCj4gLUBAIC03NSw2ICs3NSw3IEBAIENPTkZJR19JUFY2
+PXkNCj4gLSBDT05GSUdfSVBfU0NUUD1tDQo+IC0gQ09ORklHX1VFVkVOVF9IRUxQRVJfUEFUSD0i
+L3NiaW4vaG90cGx1ZyINCj4gLSBDT05GSUdfREVWVE1QRlM9eQ0KPiAtK0NPTkZJR19ERVZUTVBG
+U19NT1VOVD15DQo+IC0gQ09ORklHX01URD15DQo+IC0gQ09ORklHX01URF9DSEFSPXkNCj4gLSBD
+T05GSUdfTVREX0JMT0NLPXkNCj4gLWRpZmYgLS1naXQgYS9hcmNoL3Bvd2VycGMvY29uZmlncy9t
+cGM4NXh4X3NtcF9kZWZjb25maWcNCj4gYi9hcmNoL3Bvd2VycGMvY29uZmlncy9tcGM4NXh4X3Nt
+cF9kZWZjb25maWcNCj4gLWluZGV4IGIzMWM4YWMuLmNkYzJjODcgMTAwNjQ0DQo+IC0tLS0gYS9h
+cmNoL3Bvd2VycGMvY29uZmlncy9tcGM4NXh4X3NtcF9kZWZjb25maWcNCj4gLSsrKyBiL2FyY2gv
+cG93ZXJwYy9jb25maWdzL21wYzg1eHhfc21wX2RlZmNvbmZpZw0KPiAtQEAgLTc3LDYgKzc3LDcg
+QEAgQ09ORklHX0lQVjY9eQ0KPiAtIENPTkZJR19JUF9TQ1RQPW0NCj4gLSBDT05GSUdfVUVWRU5U
+X0hFTFBFUl9QQVRIPSIvc2Jpbi9ob3RwbHVnIg0KPiAtIENPTkZJR19ERVZUTVBGUz15DQo+IC0r
+Q09ORklHX0RFVlRNUEZTX01PVU5UPXkNCj4gLSBDT05GSUdfTVREPXkNCj4gLSBDT05GSUdfTVRE
+X0NIQVI9eQ0KPiAtIENPTkZJR19NVERfQkxPQ0s9eQ0KPiAtLS0NCj4gLTEuNy45LjcNCj4gLQ0K
+PiBkaWZmIC0tZ2l0IGEvcmVjaXBlcy1rZXJuZWwvbGludXgvZmlsZXMvMDAwMS1jb21waWxlci5o
+LVVuZGVmLWJlZm9yZS0NCj4gcmVkZWZpbmluZy1fX2F0dHJpYnV0ZV9jb25zdC5wYXRjaCBiL3Jl
+Y2lwZXMta2VybmVsL2xpbnV4L2ZpbGVzLzAwMDEtDQo+IGNvbXBpbGVyLmgtVW5kZWYtYmVmb3Jl
+LXJlZGVmaW5pbmctX19hdHRyaWJ1dGVfY29uc3QucGF0Y2gNCj4gZGVsZXRlZCBmaWxlIG1vZGUg
+MTAwNjQ0DQo+IGluZGV4IDU5N2ZkM2IuLjAwMDAwMDANCj4gLS0tIGEvcmVjaXBlcy1rZXJuZWwv
+bGludXgvZmlsZXMvMDAwMS1jb21waWxlci5oLVVuZGVmLWJlZm9yZS1yZWRlZmluaW5nLQ0KPiBf
+X2F0dHJpYnV0ZV9jb25zdC5wYXRjaA0KPiArKysgL2Rldi9udWxsDQo+IEBAIC0xLDI4ICswLDAg
+QEANCj4gLUZyb20gNmY5MmFiNmRlOWQ4ZGFlYjU3NTk0OWJiYmNiYzdiY2RjZWJjNjBhZiBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gLUZyb206IEtoZW0gUmFqIDxyYWoua2hlbSBhdCBnbWFp
+bC5jb20+DQo+IC1EYXRlOiBUaHUsIDUgSmFuIDIwMTIgMTE6NDI6MzUgLTA4MDANCj4gLVN1Ympl
+Y3Q6IFtQQVRDSF0gY29tcGlsZXIuaDogVW5kZWYgYmVmb3JlIHJlZGVmaW5pbmcgX19hdHRyaWJ1
+dGVfY29uc3RfXw0KPiAtDQo+IC1UaGlzIGlzIHJlcXVpcmVkIHRvIGF2b2lkIHdhcm5pbmdzIGxp
+a2UNCj4gLXV0aWwvaW5jbHVkZS9saW51eC9jb21waWxlci5oOjg6MDogZXJyb3I6ICJfX2F0dHJp
+YnV0ZV9jb25zdF9fIg0KPiByZWRlZmluZWQgWy1XZXJyb3JdDQo+IC0NCj4gLVNpZ25lZC1vZmYt
+Ynk6IEtoZW0gUmFqIDxyYWoua2hlbSBhdCBnbWFpbC5jb20+DQo+IC0tLS0NCj4gLSB0b29scy9w
+ZXJmL3V0aWwvaW5jbHVkZS9saW51eC9jb21waWxlci5oIHwgICAgNCArKystDQo+IC0gMSBmaWxl
+cyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb25zKC0pDQo+IC0NCj4gLS0tLSBh
+L3Rvb2xzL3BlcmYvdXRpbC9pbmNsdWRlL2xpbnV4L2NvbXBpbGVyLmgNCj4gLSsrKyBiL3Rvb2xz
+L3BlcmYvdXRpbC9pbmNsdWRlL2xpbnV4L2NvbXBpbGVyLmgNCj4gLUBAIC00LDkgKzQsMTEgQEAN
+Cj4gLSAjaWZuZGVmIF9fYWx3YXlzX2lubGluZQ0KPiAtICNkZWZpbmUgX19hbHdheXNfaW5saW5l
+CWlubGluZQ0KPiAtICNlbmRpZg0KPiAtKyN1bmRlZiBfX3VzZXINCj4gLSAjZGVmaW5lIF9fdXNl
+cg0KPiAtKyN1bmRlZiBfX2F0dHJpYnV0ZV9jb25zdF9fDQo+IC0gI2RlZmluZSBfX2F0dHJpYnV0
+ZV9jb25zdF9fDQo+IC0tDQo+IC0rI3VuZGVmIF9fdXNlZA0KPiAtICNkZWZpbmUgX191c2VkCQlf
+X2F0dHJpYnV0ZV9fKChfX3VudXNlZF9fKSkNCj4gLQ0KPiAtICNlbmRpZg0KPiBkaWZmIC0tZ2l0
+IGEvcmVjaXBlcy1rZXJuZWwvbGludXgvZmlsZXMvMDAwMS1wb3dlcnBjLUZpeC1idWlsZC0NCj4g
+ZGVwZW5kZW5jaWVzLWZvci1jLWZpbGVzLXJlcXVpcmluZy5wYXRjaCBiL3JlY2lwZXMtDQo+IGtl
+cm5lbC9saW51eC9maWxlcy8wMDAxLXBvd2VycGMtRml4LWJ1aWxkLWRlcGVuZGVuY2llcy1mb3It
+Yy1maWxlcy0NCj4gcmVxdWlyaW5nLnBhdGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0K
+PiBpbmRleCBkMzQ2NGZiLi4wMDAwMDAwDQo+IC0tLSBhL3JlY2lwZXMta2VybmVsL2xpbnV4L2Zp
+bGVzLzAwMDEtcG93ZXJwYy1GaXgtYnVpbGQtZGVwZW5kZW5jaWVzLWZvci0NCj4gYy1maWxlcy1y
+ZXF1aXJpbmcucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBAQCAtMSw0NCArMCwwIEBADQo+IC1V
+cHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcNCj4gLQ0KPiAtRnJvbSAyZTdmZmVhMGMwYzA5YzZkOTIx
+OWQ2MDRlMDM1MTQyM2Y0Mzg0NGY0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiAtRnJvbTog
+TWF0dGhldyBNY0NsaW50b2NrIDxtc21AZnJlZXNjYWxlLmNvbT4NCj4gLURhdGU6IFRodSwgNiBT
+ZXAgMjAxMiAxMzo0NToyMSAtMDUwMA0KPiAtU3ViamVjdDogcG93ZXJwYzogRml4IGJ1aWxkIGRl
+cGVuZGVuY2llcyBmb3IgYyBmaWxlcyByZXF1aXJpbmcgbGliZmR0LmgNCj4gLQ0KPiAtU2V2ZXJh
+bCBmaWxlcyBpbiBvYmotcGxhdCBkZXBlbmQgb24gbGliZmR0IGhlYWRlciBmaWxlLiBTb21ldGlt
+ZXMgLXdoZW4NCj4gYnVpbGRpbmcgb25lIGNhbiBzZWUgdGhlIGZvbGxvd2luZyBpc3N1ZS4gVGhp
+cyBwYXRjaCBhZGRzIC1saWJmZHQgYXMNCj4gZGVwZW5kZW5jeSB0byB0aG9zZSBvYmplY3QgZmls
+ZXMNCj4gLQ0KPiAtfCBJbiBmaWxlIGluY2x1ZGVkIGZyb20gYXJjaC9wb3dlcnBjL2Jvb3QvdHJl
+ZWJvb3QtaXNzNHh4LmM6MzM6MDoNCj4gLXwgYXJjaC9wb3dlcnBjL2Jvb3QvbGliZmR0Lmg6ODU0
+OjE6IGVycm9yOiB1bnRlcm1pbmF0ZWQgY29tbWVudCBJbiBmaWxlDQo+IC18IGluY2x1ZGVkIGZy
+b20gYXJjaC9wb3dlcnBjL2Jvb3QvdHJlZWJvb3QtaXNzNHh4LmM6MzM6MDoNCj4gLXwgYXJjaC9w
+b3dlcnBjL2Jvb3QvbGliZmR0Lmg6MTowOiBlcnJvcjogdW50ZXJtaW5hdGVkICNpZm5kZWYNCj4g
+LXwgICBCT09UQ0MgIGFyY2gvcG93ZXJwYy9ib290L2luZmZhc3Qubw0KPiAtfCBtYWtlWzFdOiAq
+KiogW2FyY2gvcG93ZXJwYy9ib290L3RyZWVib290LWlzczR4eC5vXSBFcnJvciAxDQo+IC18IG1h
+a2VbMV06ICoqKiBXYWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uDQo+IC18ICAgQk9PVEND
+ICBhcmNoL3Bvd2VycGMvYm9vdC9pbmZsYXRlLm8NCj4gLXwgbWFrZTogKioqIFt1SW1hZ2VdIEVy
+cm9yIDINCj4gLXwgRVJST1I6IG9lX3J1bm1ha2UgZmFpbGVkDQo+IC18IEVSUk9SOiBGdW5jdGlv
+biBmYWlsZWQ6IGRvX2NvbXBpbGUgKHNlZQ0KPiAtfCAvc3J2L2hvbWUvcG9reWJ1aWxkL3lvY3Rv
+LWF1dG9idWlsZGVyL3lvY3RvLXNsYXZlL3AxMDIyZHMvYnVpbGQvYnVpbGQNCj4gLXwgL3RtcC93
+b3JrL3AxMDIyZHMtcG9reS1saW51eC1nbnVzcGUvbGludXgtcW9yaXEtc2RrLTMuMC4zNC1yNS90
+ZW1wL2xvDQo+IC18IGcuZG9fY29tcGlsZS4yMTY3IGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uKQ0K
+PiAtTk9URTogcmVjaXBlIGxpbnV4LXFvcmlxLXNkay0zLjAuMzQtcjU6IHRhc2sgZG9fY29tcGls
+ZTogRmFpbGVkDQo+IC0NCj4gLVNpZ25lZC1vZmYtYnk6IE1hdHRoZXcgTWNDbGludG9jayA8bXNt
+QGZyZWVzY2FsZS5jb20+DQo+IC0tLS0NCj4gLSBhcmNoL3Bvd2VycGMvYm9vdC9NYWtlZmlsZSB8
+ICAgIDEgKw0KPiAtIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPiAtDQo+IC1kaWZm
+IC0tZ2l0IGEvYXJjaC9wb3dlcnBjL2Jvb3QvTWFrZWZpbGUgYi9hcmNoL3Bvd2VycGMvYm9vdC9N
+YWtlZmlsZSAtDQo+IGluZGV4IGI3ZDgzMzMuLjZhMTVjOTYgMTAwNjQ0DQo+IC0tLS0gYS9hcmNo
+L3Bvd2VycGMvYm9vdC9NYWtlZmlsZQ0KPiAtKysrIGIvYXJjaC9wb3dlcnBjL2Jvb3QvTWFrZWZp
+bGUNCj4gLUBAIC0xMDcsNiArMTA3LDcgQEAgc3JjLWJvb3QgOj0gJChhZGRwcmVmaXggJChvYmop
+LywgJChzcmMtYm9vdCkpDQo+IC0gb2JqLWJvb3QgOj0gJChhZGRzdWZmaXggLm8sICQoYmFzZW5h
+bWUgJChzcmMtYm9vdCkpKQ0KPiAtIG9iai13bGliIDo9ICQoYWRkc3VmZml4IC5vLCAkKGJhc2Vu
+YW1lICQoYWRkcHJlZml4ICQob2JqKS8sICQoc3JjLQ0KPiB3bGliKSkpKQ0KPiAtIG9iai1wbGF0
+IDo9ICQoYWRkc3VmZml4IC5vLCAkKGJhc2VuYW1lICQoYWRkcHJlZml4ICQob2JqKS8sICQoc3Jj
+LQ0KPiBwbGF0KSkpKQ0KPiAtK29iai1wbGF0OiAkKGxpYmZkdCkNCj4gLQ0KPiAtIHF1aWV0X2Nt
+ZF9jb3B5X3psaWIgPSBDT1BZICAgICRADQo+IC0gICAgICAgY21kX2NvcHlfemxpYiA9IHNlZCAi
+c0BfX3VzZWRAQDtzQDxsaW51eC9cKFtePl0qXCkuKkBcIlwxXCJAIiAkPCA+DQo+ICRADQo+IC0t
+LQ0KPiAtMS43LjkuNw0KPiAtDQo+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWtlcm5lbC9saW51eC9m
+aWxlcy9maXhfZ2V0cnVzYWdlX2Zvcl9wZXJmLnBhdGNoDQo+IGIvcmVjaXBlcy1rZXJuZWwvbGlu
+dXgvZmlsZXMvZml4X2dldHJ1c2FnZV9mb3JfcGVyZi5wYXRjaA0KPiBkZWxldGVkIGZpbGUgbW9k
+ZSAxMDA2NDQNCj4gaW5kZXggMDAyOWZkYy4uMDAwMDAwMA0KPiAtLS0gYS9yZWNpcGVzLWtlcm5l
+bC9saW51eC9maWxlcy9maXhfZ2V0cnVzYWdlX2Zvcl9wZXJmLnBhdGNoDQo+ICsrKyAvZGV2L251
+bGwNCj4gQEAgLTEsMzMgKzAsMCBAQA0KPiAtY29tbWl0IDdiNzhmMTM2MDNjNmZjYjY0ZTAyMGEw
+YmJlMzFhNjUxZWEyYjY1N2INCj4gLUF1dGhvcjogTWFya3VzIFRyaXBwZWxzZG9yZiA8bWFya3Vz
+QHRyaXBwZWxzZG9yZi5kZT4NCj4gLURhdGU6IFdlZCBBcHIgNCAxMDo0NToyNyAyMDEyICswMjAw
+DQo+IC0NCj4gLSAgICBwZXJmIHRvb2xzOiBGaXggZ2V0cnVzYWdlKCkgcmVsYXRlZCBidWlsZCBm
+YWlsdXJlIG9uIGdsaWJjIHRydW5rDQo+IC0NCj4gLSAgICBPbiBhIHN5c3RlbSBydW5uaW5nIGds
+aWJjIHRydW5rIHBlcmYgZG9lc24ndCBidWlsZDoNCj4gLQ0KPiAtICAgICAgICBDQyBidWlsdGlu
+LXNjaGVkLm8NCj4gLSAgICBidWlsdGluLXNjaGVkLmM6IEluIGZ1bmN0aW9uIOKAmGdldF9jcHVf
+dXNhZ2VfbnNlY19wYXJlbnTigJk6IGJ1aWx0aW4tDQo+IHNjaGVkLmM6Mzk5OjE2OiBlcnJvcjog
+c3RvcmFnZSBzaXplIG9mIOKAmHJ14oCZIGlzbuKAmXQga25vd24gYnVpbHRpbi0NCj4gc2NoZWQu
+Yzo0MDM6MjogZXJyb3I6IGltcGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uIOKAmGdldHJ1
+c2FnZeKAmSBbLQ0KPiBXZXJyb3I9aW1wbGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dDQo+IC0g
+ICAgICAgIFsuLi5dDQo+IC0NCj4gLSAgICBGaXggaXQgYnkgaW5jbHVkaW5nIHN5cy9yZXNvdXJj
+ZS5oLg0KPiAtDQo+IC0gICAgU2lnbmVkLW9mZi1ieTogTWFya3VzIFRyaXBwZWxzZG9yZiA8bWFy
+a3VzQHRyaXBwZWxzZG9yZi5kZT4NCj4gLSAgICBDYzogUGV0ZXIgWmlqbHN0cmEgPGEucC56aWps
+c3RyYUBjaGVsbG8ubmw+DQo+IC0gICAgTGluazogaHR0cDovL2xrbWwua2VybmVsLm9yZy9yLzIw
+MTIwNDA0MDg0NTI3LkdBMjk0QHg0DQo+IC0gICAgU2lnbmVkLW9mZi1ieTogSW5nbyBNb2xuYXIg
+PG1pbmdvQGtlcm5lbC5vcmc+DQo+IC0NCj4gLVVwc3RyZWFtLVN0YXR1czogQmFja3BvcnQgWzMu
+NF0NCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL3Rvb2xzL3BlcmYvYnVpbHRpbi1zY2hlZC5jIGIvdG9v
+bHMvcGVyZi9idWlsdGluLXNjaGVkLmMgLQ0KPiBpbmRleCBmYjhiNWY4Li4xY2FkM2FmIDEwMDY0
+NA0KPiAtLS0tIGEvdG9vbHMvcGVyZi9idWlsdGluLXNjaGVkLmMNCj4gLSsrKyBiL3Rvb2xzL3Bl
+cmYvYnVpbHRpbi1zY2hlZC5jDQo+IC1AQCAtMTcsNiArMTcsNyBAQA0KPiAtICNpbmNsdWRlICJ1
+dGlsL2RlYnVnLmgiDQo+IC0NCj4gLSAjaW5jbHVkZSA8c3lzL3ByY3RsLmg+DQo+IC0rI2luY2x1
+ZGUgPHN5cy9yZXNvdXJjZS5oPg0KPiAtDQo+IC0gI2luY2x1ZGUgPHNlbWFwaG9yZS5oPg0KPiAt
+ICNpbmNsdWRlIDxwdGhyZWFkLmg+DQo+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWtlcm5lbC9saW51
+eC9maWxlcy9zY3JpcHRzLU1ha2VmaWxlLmhlYWRlcnNpbnN0LQ0KPiBpbnN0YWxsLWhlYWRlcnMt
+ZnJvbS1zYy5wYXRjaCBiL3JlY2lwZXMta2VybmVsL2xpbnV4L2ZpbGVzL3NjcmlwdHMtDQo+IE1h
+a2VmaWxlLmhlYWRlcnNpbnN0LWluc3RhbGwtaGVhZGVycy1mcm9tLXNjLnBhdGNoDQo+IG5ldyBm
+aWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAuLjBmMjhkM2QNCj4gLS0tIC9kZXYvbnVs
+bA0KPiArKysgYi9yZWNpcGVzLWtlcm5lbC9saW51eC9maWxlcy9zY3JpcHRzLU1ha2VmaWxlLmhl
+YWRlcnNpbnN0LWluc3RhbGwtaGUNCj4gKysrIGFkZXJzLWZyb20tc2MucGF0Y2gNCj4gQEAgLTAs
+MCArMSw0NiBAQA0KPiArRnJvbSBlNjBjYzFiMDExYmYwZjFhY2RiN2U1MTY4YjdiZWQ0ZWJiNzhj
+OTFmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiArRnJvbTogQnJ1Y2UgQXNoZmllbGQgPGJy
+dWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb20+DQo+ICtEYXRlOiBXZWQsIDkgSmFuIDIwMTMgMTY6
+MjQ6MzkgLTA1MDANCj4gK1N1YmplY3Q6IFtQQVRDSF0gc2NyaXB0cy9NYWtlZmlsZS5oZWFkZXJz
+aW5zdDogaW5zdGFsbCBoZWFkZXJzIGZyb20NCj4gK3NjcmF0Y2ggZmlsZQ0KPiArDQo+ICtJZiBo
+ZWFkZXJzX2luc3RhbGwgaXMgZXhlY3V0ZWQgZnJvbSBhIGRlZXAvbG9uZyBkaXJlY3Rvcnkgc3Ry
+dWN0dXJlLA0KPiArdGhlIHNoZWxsJ3MgbWF4aW11bSBhcmd1bWVudCBsZW5ndGggY2FuIGJlIGV4
+ZWNlZWRlZCwgd2hpY2ggYnJlYWtzIHRoZQ0KPiArb3BlcmF0aW9uDQo+ICt3aXRoOg0KPiArDQo+
+ICt8IG1ha2VbMl06IGV4ZWN2cDogL2Jpbi9zaDogQXJndW1lbnQgbGlzdCB0b28gbG9uZw0KPiAr
+fCBtYWtlWzJdOiAqKioNCj4gKw0KPiArQnkgZHVtcGluZyB0aGUgaW5wdXQgZmlsZXMgdG8gYSBz
+Y3JhdGNoIGZpbGUgYW5kIHVzaW5nIHhhcmdzIHRvIHJlYWQNCj4gK3RoZSBpbnB1dCBsaXN0IGZy
+b20gdGhlIHNjcmF0Y2ggZmlsZSwgd2UgY2FuIGF2b2lkIGJsb3dpbmcgb3V0IHRoZQ0KPiArbWF4
+aW11bSBhcmd1bWVudCBzaXplIGFuZCBpbnN0YWxsIGhlYWRlcnMgaW4gYSBsb25nIHBhdGggbmFt
+ZQ0KPiBlbnZpcm9ubWVudC4NCj4gKw0KPiArU2lnbmVkLW9mZi1ieTogQnJ1Y2UgQXNoZmllbGQg
+PGJydWNlLmFzaGZpZWxkQHdpbmRyaXZlci5jb20+DQo+ICstLS0NCj4gKyBzY3JpcHRzL01ha2Vm
+aWxlLmhlYWRlcnNpbnN0IHwgICAgNCArKystDQo+ICsgMSBmaWxlcyBjaGFuZ2VkLCAzIGluc2Vy
+dGlvbnMoKyksIDEgZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9zY3JpcHRzL01h
+a2VmaWxlLmhlYWRlcnNpbnN0DQo+ICtiL3NjcmlwdHMvTWFrZWZpbGUuaGVhZGVyc2luc3QgaW5k
+ZXggMDZiYTRhNy4uNTM2ZDcyMiAxMDA2NDQNCj4gKy0tLSBhL3NjcmlwdHMvTWFrZWZpbGUuaGVh
+ZGVyc2luc3QNCj4gKysrKyBiL3NjcmlwdHMvTWFrZWZpbGUuaGVhZGVyc2luc3QNCj4gK0BAIC03
+MSw3ICs3MSw3IEBAIHByaW50ZGlyID0gJChwYXRzdWJzdCAkKElOU1RBTExfSERSX1BBVEgpLyUv
+LCUsJChkaXINCj4gKyRAKSkgIHF1aWV0X2NtZF9pbnN0YWxsID0gSU5TVEFMTCAkKHByaW50ZGly
+KSAoJCh3b3JkcyAkKGFsbC1maWxlcykpXA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBmaWxlJChpZiAkKHdvcmQgMiwgJChhbGwtZmlsZXMpKSxzKSkNCj4gKyAgICAgICBjbWRfaW5z
+dGFsbCA9IFwNCj4gKy0gICAgICAgICQoUEVSTCkgJDwgJChpbnN0YWxsZGlyKSAkKFNSQ0FSQ0gp
+ICQoaW5wdXQtZmlsZXMpOyBcDQo+ICsrICAgICAgICB4YXJncyAkKFBFUkwpICQ8ICQoaW5zdGFs
+bGRpcikgJChTUkNBUkNIKSA8DQo+ICsrICQoSU5TVEFMTF9IRFJfUEFUSCkvLmlucHV0LWZpbGVz
+OyBcDQo+ICsgICAgICAgICBmb3IgRiBpbiAkKHdyYXBwZXItZmlsZXMpOyBkbw0KPiBcDQo+ICsg
+ICAgICAgICAgICAgICAgIGVjaG8gIlwjaW5jbHVkZSA8YXNtLWdlbmVyaWMvJCRGPiIgPiAkKGlu
+c3RhbGxkaXIpLyQkRjsNCj4gXA0KPiArICAgICAgICAgZG9uZTsNCj4gXA0KPiArQEAgLTEwMCw3
+ICsxMDAsOSBAQCB0YXJnZXRzICs9ICQoaW5zdGFsbC1maWxlKQ0KPiArICQoaW5zdGFsbC1maWxl
+KTogc2NyaXB0cy9oZWFkZXJzX2luc3RhbGwucGwgJChpbnB1dC1maWxlcykgRk9SQ0UNCj4gKyAJ
+JChpZiAkKHVud2FudGVkKSwkKGNhbGwgY21kLHJlbW92ZSksKQ0KPiArIAkkKGlmICQod2lsZGNh
+cmQgJChkaXIgJEApKSwsJChzaGVsbCBta2RpciAtcCAkKGRpciAkQCkpKQ0KPiArKwlAZWNobyAk
+KGlucHV0LWZpbGVzKSA+ICQoSU5TVEFMTF9IRFJfUEFUSCkvLmlucHV0LWZpbGVzDQo+ICsgCSQo
+Y2FsbCBpZl9jaGFuZ2VkLGluc3RhbGwpDQo+ICsrCUBybSAkKElOU1RBTExfSERSX1BBVEgpLy5p
+bnB1dC1maWxlcw0KPiArDQo+ICsgZWxzZQ0KPiArIF9faGVhZGVyc2NoZWNrOiAkKHN1YmRpcnMp
+ICQoY2hlY2stZmlsZSkNCj4gKy0tDQo+ICsxLjcuMC40DQo+IGRpZmYgLS1naXQgYS9yZWNpcGVz
+LWtlcm5lbC9saW51eC9saW51eC1xb3JpcS1zZGstaGVhZGVycy5iYiBiL3JlY2lwZXMtDQo+IGtl
+cm5lbC9saW51eC9saW51eC1xb3JpcS1zZGstaGVhZGVycy5iYg0KPiBpbmRleCBiMWNiYjhkLi4w
+ZWU0ZmMxIDEwMDY0NA0KPiAtLS0gYS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC1xb3JpcS1z
+ZGstaGVhZGVycy5iYg0KPiArKysgYi9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC1xb3JpcS1z
+ZGstaGVhZGVycy5iYg0KPiBAQCAtMiw2ICsyLDggQEAgREVTQ1JJUFRJT04gPSAiTGludXgga2Vy
+bmVsIGhlYWRlcnMgZm9yIEZyZWVzY2FsZQ0KPiBwbGF0Zm9ybXMiDQo+ICBTRUNUSU9OID0gImRl
+dmVsIg0KPiAgTElDRU5TRSA9ICJHUEx2MiINCj4gDQo+ICtQUiA9ICIke0lOQ19QUn0uMSINCj4g
+Kw0KPiAgSU5ISUJJVF9ERUZBVUxUX0RFUFMgPSAiMSINCj4gIFBST1ZJREVTID0gImxpbnV4LWxp
+YmMtaGVhZGVycyAke1BOfSINCj4gIFJQUk9WSURFU18ke1BOfS1kZXYgKz0gImxpbnV4LWxpYmMt
+aGVhZGVycy1kZXYiDQo+IEBAIC0xMSw2ICsxMyw4IEBAIFJSRUNPTU1FTkRTXyR7UE59LWRiZyA9
+ICJsaW51eC1saWJjLWhlYWRlcnMtZGV2ICg9DQo+ICR7RVhURU5EUEtHVn0pIg0KPiANCj4gIHJl
+cXVpcmUgcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgtcW9yaXEtc2RrLmluYw0KPiANCj4gK1NS
+Q19VUklfYXBwZW5kICs9ICIgZmlsZTovL3NjcmlwdHMtTWFrZWZpbGUuaGVhZGVyc2luc3QtaW5z
+dGFsbC1oZWFkZXJzLQ0KPiBmcm9tLXNjLnBhdGNoIg0KPiArDQo+ICBpbmhlcml0IGtlcm5lbC1h
+cmNoDQo+IA0KPiAgZG9fY29uZmlndXJlKCkgew0KPiBkaWZmIC0tZ2l0IGEvcmVjaXBlcy1rZXJu
+ZWwvbGludXgvbGludXgtcW9yaXEtc2RrLmJiIGIvcmVjaXBlcy0NCj4ga2VybmVsL2xpbnV4L2xp
+bnV4LXFvcmlxLXNkay5iYg0KPiBpbmRleCBhMDE1ZTQ5Li41MDIxMzJmIDEwMDY0NA0KPiAtLS0g
+YS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC1xb3JpcS1zZGsuYmINCj4gKysrIGIvcmVjaXBl
+cy1rZXJuZWwvbGludXgvbGludXgtcW9yaXEtc2RrLmJiDQo+IEBAIC03LDExICs3LDExIEBAIExJ
+Q0VOU0UgPSAiR1BMdjIiDQo+IA0KPiAgcmVxdWlyZSByZWNpcGVzLWtlcm5lbC9saW51eC9saW51
+eC1xb3JpcS1zZGsuaW5jDQo+IA0KPiAtUFIgPSAicjExIg0KPiArUFIgPSAiJHtJTkNfUFJ9LjEi
+DQo+IA0KPiAtU1JDX1VSSSArPSAiZmlsZTovL2ZpeF9nZXRydXNhZ2VfZm9yX3BlcmYucGF0Y2gg
+XA0KPiAtICAgICAgICAgICAgZmlsZTovLzAwMDEtRW5hYmxlLXRoZS1vcHRpb24tQXV0b21vdW50
+LWRldnRtcGZzLWF0LWRldi1pbi0NCj4ga2VybmUucGF0Y2ggXA0KPiAtICAgICAgICAgICAiDQo+
+ICtERVBFTkRTX2FwcGVuZCA9ICIgbGliZ2NjIg0KPiArS0VSTkVMX0NDX2FwcGVuZCA9ICIgJHtU
+T09MQ0hBSU5fT1BUSU9OU30iDQo+ICtLRVJORUxfTERfYXBwZW5kID0gIiAke1RPT0xDSEFJTl9P
+UFRJT05TfSINCj4gDQo+ICBkb19jb25maWd1cmVfcHJlcGVuZCgpIHsNCj4gIAkjIGNvcHkgZGVz
+aXJlZCBkZWZjb25maWcgc28gd2UgcGljayBpdCB1cCBmb3IgdGhlIHJlYWwNCj4ga2VybmVsX2Rv
+X2NvbmZpZ3VyZSBkaWZmIC0tZ2l0IGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgtcW9yaXEt
+c2RrLmluYw0KPiBiL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXFvcmlxLXNkay5pbmMNCj4g
+aW5kZXggZjc3NTQzZS4uMWM2NmY5YiAxMDA2NDQNCj4gLS0tIGEvcmVjaXBlcy1rZXJuZWwvbGlu
+dXgvbGludXgtcW9yaXEtc2RrLmluYw0KPiArKysgYi9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51
+eC1xb3JpcS1zZGsuaW5jDQo+IEBAIC0xLDExICsxLDEwIEBADQo+ICBMSUNfRklMRVNfQ0hLU1VN
+ID0gImZpbGU6Ly9DT1BZSU5HO21kNT1kNzgxMGZhYjc0ODdmYjBhYWQzMjdiNzZmMWJlN2NkNyIN
+Cj4gDQo+IC1QViA9ICIzLjAuNTEiDQo+IC1QUiA9ICJyMTEiDQo+ICtQViA9ICIzLjgiDQo+ICtJ
+TkNfUFIgPSAicjExIg0KPiANCj4gLVNSQ1JFViA9ICJmYWFjNTIxMWYzOThmMjVlMmJlNDRhYzk5
+Njg5NTMzNWQ1MjE4NTE2Ig0KPiArU1JDUkVWID0gIjRiNjYzNjZhZjJkNzdkZTY4ZjRiZDY1NDhk
+MDc0MjFlMTNkM2RmMDUiDQo+ICBTUkNfVVJJID0gImdpdDovL2dpdC5mcmVlc2NhbGUuY29tL3Bw
+Yy9zZGsvbGludXguZ2l0IFwNCj4gLSAgICAgICAgICAgZmlsZTovLzAwMDEtY29tcGlsZXIuaC1V
+bmRlZi1iZWZvcmUtcmVkZWZpbmluZy0NCj4gX19hdHRyaWJ1dGVfY29uc3QucGF0Y2ggXA0KPiAg
+CSAgIg0KPiANCj4gIEtTUkMgPz0gIiINCj4gLS0NCj4gMS43LjkuNQ0KDQo=
 
 
