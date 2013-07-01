@@ -1,39 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id A6DBF6AFAD
+Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 229496AFAF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 19:36:28 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id a15so2324099eae.12
+	Mon,  1 Jul 2013 19:36:29 +0000 (UTC)
+Received: by mail-ee0-f53.google.com with SMTP id c41so2286373eek.40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2013 12:36:29 -0700 (PDT)
+	Mon, 01 Jul 2013 12:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=gU7Mtr8asl7ZUVuGeYRIc7v0uMc0/3RAA8knUV1zSYo=;
-	b=ne/0wE9IOW8V4nDhm1TACEWdDDLqfxoiAkBFUXrQpuF93WQklm6TUUu3RkcSCSKMur
-	fvZOuHIonS5IntQewiXKd2iu9wx3EZ7AEp833JTRqvHFXL2qP01IpjRJZobsdVxomDS4
-	uGkccsqbFnJDpoGdpVhL7BrWNz839qvtfH19rfLrj7HvQRXeHdYDGVWNcX93sai/0rV2
-	Jcv79y9er4cnyVUx4faEYICD+DhmPlY2VrVkGROpf5MCRYRRkU+x9oizAXdD3N7+HANf
-	0IJVMzBPEs1qYf+Lr2+Leos+I2buImREBwFq+VIZaPA9IYeB3q+v/y7qYV4DyxA2E0i+
-	ZmQg==
-X-Received: by 10.14.241.136 with SMTP id g8mr22706007eer.104.1372707389331;
-	Mon, 01 Jul 2013 12:36:29 -0700 (PDT)
+	:in-reply-to:references:mime-version:content-type
+	:content-transfer-encoding;
+	bh=iz7P4+O9pRWJWPEkJ5W2DgyRwXBEPLwf1cDuClWDczY=;
+	b=amJlyGY8hxsFD53UgMX5lMYrWY9GUsFuiaKj0YjoXf7tzvh7geM/Fjmme+W0YHtF/+
+	RXAKInHc/lKTJTM0GFfhEIQrLsW/otcUzK5vqaJIjMri1RsvOZodz7A3ICA/EJKtyI/5
+	EN6kV0N5uPfBnprUMcFdRwqNf7l6Dijzb6UtFjqkRXH66GJLTyMzuiWJikeJ6TjXxdtc
+	8rwBP4MVmp5qXFfU3YeaJngPhW2Q08EPU48uOZqaXwi9bRzU79ih8qgnNv7vx9TqnfPI
+	RSajT02jQbPQjN9Hk7HKsqLurgWGYQv61Mtbc8gbsevchxz51k6faXeBsgHwzyCInIJC
+	bhtg==
+X-Received: by 10.14.218.8 with SMTP id j8mr22699042eep.129.1372707390754;
+	Mon, 01 Jul 2013 12:36:30 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	i2sm31722490eeu.4.2013.07.01.12.36.28 for <multiple recipients>
+	c44sm31712769eeb.8.2013.07.01.12.36.29 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 01 Jul 2013 12:36:28 -0700 (PDT)
+	Mon, 01 Jul 2013 12:36:30 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Jul 2013 21:36:25 +0200
-Message-Id: <4251b618a76523e6f46d090b904ab36f614e6452.1372707180.git.Martin.Jansa@gmail.com>
+Date: Mon,  1 Jul 2013 21:36:26 +0200
+Message-Id: <5fe62449a23d73dcdae54d7e8f37f2a178ad0751.1372707180.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
 In-Reply-To: <814d1612d36ac296ec0e5b522722b4a10f57ea16.1372707180.git.Martin.Jansa@gmail.com>
 References: <814d1612d36ac296ec0e5b522722b4a10f57ea16.1372707180.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1372707180.git.Martin.Jansa@gmail.com>
 References: <cover.1372707180.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 2/4] mesa: fix pipe_loader_sw build without libx11
+MIME-Version: 1.0
+Subject: [PATCH 3/4] mesa: bump SRCREV in git recipe, refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,100 +47,629 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 19:36:29 -0000
+X-List-Received-Date: Mon, 01 Jul 2013 19:36:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* this is needed to fix pipe_loader_sw build without libx11,
-  but building with HAVE_PIPE_LOADER_XLIB enabled still doesn't
-  work (nobody is using this and it was removed in newer SRCREV).
-  See https://bugs.freedesktop.org/show_bug.cgi?id=66357 for details.
+* 0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+  needs to be rebased so move old version for 9.1.3 to
+  mesa-9.1.3/ and update the version in meta/
+* add git headers
+* 0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+  is already applied in new SRCREV, move it to mesa-9.1.3/
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- ..._sw-include-xlib_sw_winsys.h-only-when-HA.patch | 52 ++++++++++++++++++++++
- meta/recipes-graphics/mesa/mesa_9.1.3.bb           |  1 +
- meta/recipes-graphics/mesa/mesa_git.bb             |  1 +
- 3 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/mesa/0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch
+ ...te-NativeDisplayType-depending-on-config.patch} |  21 +-
+ ...ove-the-power-of-two-sizeof-struct-cmd_b.patch} |  15 +-
+ ...void-use-of-AC_CHECK_FILE-for-cross-compi.patch |  14 +-
+ ...ate-NativeDisplayType-depending-on-config.patch | 356 +++++++++++++++++++++
+ ...l-fix-builtin_compiler-cross-compilation.patch} |  13 +-
+ meta/recipes-graphics/mesa/mesa_9.1.3.bb           |   6 +-
+ meta/recipes-graphics/mesa/mesa_git.bb             |   8 +-
+ 7 files changed, 399 insertions(+), 34 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch => mesa-9.1.3/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch} (96%)
+ rename meta/recipes-graphics/mesa/{mesa/0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch => mesa-9.1.3/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch} (86%)
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+ rename meta/recipes-graphics/mesa/mesa/{fix-glsl-cross.patch => 0004-glsl-fix-builtin_compiler-cross-compilation.patch} (76%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa/0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch b/meta/recipes-graphics/mesa/mesa/0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch
+diff --git a/meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch b/meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+similarity index 96%
+rename from meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch
+rename to meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+index 47ba167..7e82b6a 100644
+--- a/meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch
++++ b/meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+@@ -1,26 +1,27 @@
+-From d52a7ec5dcdf3936bd727b854831efb90acfd2ba Mon Sep 17 00:00:00 2001
++From 06c1ba29de8a26fffb73ee99f0fc54c704e9fee4 Mon Sep 17 00:00:00 2001
+ From: Daniel Stone <daniel@fooishbar.org>
+ Date: Fri, 24 May 2013 17:20:27 +0100
+-Subject: [PATCH] EGL: Mutate NativeDisplayType depending on config
++Subject: [PATCH 3/5] EGL: Mutate NativeDisplayType depending on config
+ 
+ If we go through ./configure without enabling X11 anywhere, then set the
+ fallback types for EGL NativeDisplay and friends, rather than assuming
+ X11/Xlib.
+ 
+ Signed-off-by: Daniel Stone <daniel@fooishbar.org>
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+ ---
+- configure.ac                 |    9 +++
+- include/EGL/eglplatform.h    |  146 ------------------------------------------
+- include/EGL/eglplatform.h.in |  146 ++++++++++++++++++++++++++++++++++++++++++
++ configure.ac                 |   9 +++
++ include/EGL/eglplatform.h    | 146 -------------------------------------------
++ include/EGL/eglplatform.h.in | 146 +++++++++++++++++++++++++++++++++++++++++++
+  3 files changed, 155 insertions(+), 146 deletions(-)
+  delete mode 100644 include/EGL/eglplatform.h
+  create mode 100644 include/EGL/eglplatform.h.in
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 4a98996..6fa77da 100644
++index 2b4a374..d4c7a95 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1576,12 +1576,20 @@ fi
++@@ -1565,12 +1565,20 @@ fi
+  
+  EGL_PLATFORMS="$egl_platforms"
+  
+@@ -41,11 +42,11 @@ index 4a98996..6fa77da 100644
+  AM_CONDITIONAL(HAVE_EGL_DRIVER_DRI2, test "x$HAVE_EGL_DRIVER_DRI2" != "x")
+  AM_CONDITIONAL(HAVE_EGL_DRIVER_GLX, test "x$HAVE_EGL_DRIVER_GLX" != "x")
+  
+-@@ -2053,6 +2061,7 @@ CXXFLAGS="$CXXFLAGS $USER_CXXFLAGS"
++@@ -2042,6 +2050,7 @@ CXXFLAGS="$CXXFLAGS $USER_CXXFLAGS"
+  
+  dnl Substitute the config
+  AC_CONFIG_FILES([Makefile
+-+                include/EGL/eglplatform.h
+++		include/EGL/eglplatform.h
+  		src/Makefile
+  		src/egl/Makefile
+  		src/egl/drivers/Makefile
+@@ -354,5 +355,5 @@ index 0000000..5126c92
+ +
+ +#endif /* __eglplatform_h */
+ -- 
+-1.7.10.4
++1.8.2.1
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa/0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch b/meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+similarity index 86%
+rename from meta/recipes-graphics/mesa/mesa/0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+rename to meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+index b74fddc..d86421b 100644
+--- a/meta/recipes-graphics/mesa/mesa/0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
++++ b/meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+@@ -1,8 +1,8 @@
+-From 9915636fb8afe75ee2e8e013e4f495a4cb937afb Mon Sep 17 00:00:00 2001
++From 33098ef45e6035f3348040a25641f95c95266103 Mon Sep 17 00:00:00 2001
+ From: Brian Paul <brianp@vmware.com>
+ Date: Wed, 6 Mar 2013 16:57:20 -0700
+-Subject: [PATCH] llvmpipe: remove the power of two sizeof(struct cmd_block)
+- assertion
++Subject: [PATCH 5/5] llvmpipe: remove the power of two sizeof(struct
++ cmd_block) assertion
+ MIME-Version: 1.0
+ Content-Type: text/plain; charset=UTF-8
+ Content-Transfer-Encoding: 8bit
+@@ -14,13 +14,12 @@ Reviewed-by: José Fonseca <jfonseca@vmware.com>
+ 
+ Upstream-Status: Backport
+ http://cgit.freedesktop.org/mesa/mesa/commit/?id=9915636fb8afe75ee2e8e013e4f495a4cb937afb
+-
+ ---
+  src/gallium/drivers/llvmpipe/lp_scene.c | 7 -------
+  1 file changed, 7 deletions(-)
+ 
+ diff --git a/src/gallium/drivers/llvmpipe/lp_scene.c b/src/gallium/drivers/llvmpipe/lp_scene.c
+-index dd0943e..a0912eb 100644
++index e145391..c88bc95 100644
+ --- a/src/gallium/drivers/llvmpipe/lp_scene.c
+ +++ b/src/gallium/drivers/llvmpipe/lp_scene.c
+ @@ -76,13 +76,6 @@ lp_scene_create( struct pipe_context *pipe )
+@@ -36,7 +35,7 @@ index dd0943e..a0912eb 100644
+ -             util_next_power_of_two(sizeof(struct cmd_block)));
+     }
+  #endif
+-
+---
+-1.8.3
++ 
++-- 
++1.8.2.1
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch b/meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch
+index 9f7002a..76b5a18 100644
+--- a/meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch
++++ b/meta/recipes-graphics/mesa/mesa/0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch
+@@ -1,7 +1,7 @@
+-From 877b8ea9a79d1d51f8e6b032801731538590d39e Mon Sep 17 00:00:00 2001
++From e21ce89f7ae6964f196086ff325d79e4a3b5acd8 Mon Sep 17 00:00:00 2001
+ From: Jonathan Liu <net147@gmail.com>
+ Date: Tue, 4 Jun 2013 06:04:44 -0700
+-Subject: [PATCH] configure: Avoid use of AC_CHECK_FILE for cross compiling
++Subject: [PATCH 1/4] configure: Avoid use of AC_CHECK_FILE for cross compiling
+ 
+ The AC_CHECK_FILE macro can't be used for cross compiling as it will
+ result in "error: cannot check for file existence when cross compiling".
+@@ -17,10 +17,10 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+  1 file changed, 6 insertions(+), 6 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 36065f1..2b4a374 100644
++index 70c598e..67b8c40 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1694,8 +1694,8 @@ if test "x$enable_gallium_llvm" = xyes; then
++@@ -1630,8 +1630,8 @@ if test "x$enable_gallium_llvm" = xyes; then
+                  CLANG_LIBDIR=${LLVM_LIBDIR}
+              fi
+              CLANG_RESOURCE_DIR=$CLANG_LIBDIR/clang/${LLVM_VERSION}
+@@ -31,7 +31,7 @@ index 36065f1..2b4a374 100644
+          fi
+      else
+  	MESA_LLVM=0
+-@@ -1912,7 +1912,7 @@ if test "x$MESA_LLVM" != x0; then
++@@ -1861,7 +1861,7 @@ if test "x$MESA_LLVM" != x0; then
+      if test "x$with_llvm_shared_libs" = xyes; then
+          dnl We can't use $LLVM_VERSION because it has 'svn' stripped out,
+          LLVM_SO_NAME=LLVM-`$LLVM_CONFIG --version`
+@@ -40,7 +40,7 @@ index 36065f1..2b4a374 100644
+  
+          if test "x$llvm_have_one_so" = xyes; then
+              dnl LLVM was built using auto*, so there is only one shared object.
+-@@ -1920,8 +1920,8 @@ if test "x$MESA_LLVM" != x0; then
++@@ -1869,8 +1869,8 @@ if test "x$MESA_LLVM" != x0; then
+          else
+              dnl If LLVM was built with CMake, there will be one shared object per
+              dnl component.
+@@ -51,7 +51,7 @@ index 36065f1..2b4a374 100644
+  	Please make sure you have built llvm with the --enable-shared option
+  	and that your llvm libraries are installed in $LLVM_LIBDIR
+  	If you have installed your llvm libraries to a different directory you
+-@@ -1932,7 +1932,7 @@ if test "x$MESA_LLVM" != x0; then
++@@ -1881,7 +1881,7 @@ if test "x$MESA_LLVM" != x0; then
+  		--enable-opencl
+  	If you do not want to build with llvm shared libraries and instead want to
+  	use llvm static libraries then remove these options from your configure
+diff --git a/meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch b/meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
 new file mode 100644
-index 0000000..2df5e61
+index 0000000..d6ddd9a
 --- /dev/null
-+++ b/meta/recipes-graphics/mesa/mesa/0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch
-@@ -0,0 +1,52 @@
-+From debac5531f7107d239530ff6e29eeda72b9ec1e9 Mon Sep 17 00:00:00 2001
-+From: Martin Jansa <Martin.Jansa@gmail.com>
-+Date: Sat, 29 Jun 2013 11:20:51 +0200
-+Subject: [PATCH 2/4] pipe_loader_sw: include xlib_sw_winsys.h only when
-+ HAVE_PIPE_LOADER_XLIB
++++ b/meta/recipes-graphics/mesa/mesa/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+@@ -0,0 +1,356 @@
++From 8d31ae23683394617c49301b039b3a069b9ea436 Mon Sep 17 00:00:00 2001
++From: Daniel Stone <daniel@fooishbar.org>
++Date: Fri, 24 May 2013 17:20:27 +0100
++Subject: [PATCH 3/4] EGL: Mutate NativeDisplayType depending on config
 +
-+* HAVE_WINSYS_XLIB was removed in
-+  commit b3f1f665b0fef178ae193e6b111f14c9a5ad3b25
-+  Author: Matt Turner <mattst88@gmail.com>
-+  Date:   Sun Jan 20 15:32:08 2013 -0800
-+  build: Get rid of GALLIUM_WINSYS_DIRS
++If we go through ./configure without enabling X11 anywhere, then set the
++fallback types for EGL NativeDisplay and friends, rather than assuming
++X11/Xlib.
 +
-+* HAVE_PIPE_LOADER_XLIB is set correctly:
-+  if test "x$NEED_WINSYS_XLIB" = xyes; then
-+      GALLIUM_PIPE_LOADER_DEFINES="$GALLIUM_PIPE_LOADER_DEFINES -DHAVE_PIPE_LOADER_XLIB"
-+      GALLIUM_PIPE_LOADER_LIBS="$GALLIUM_PIPE_LOADER_LIBS \$(top_builddir)/src/gallium/winsys/sw/xlib/libws_xlib.la"
-+  fi
-+
-+* fixes build of pipe_loader_sw without libx11 headers available
-+
-+Upstream-Status: Submitted https://bugs.freedesktop.org/show_bug.cgi?id=66357
++Signed-off-by: Daniel Stone <daniel@fooishbar.org>
 +Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 +---
-+ src/gallium/auxiliary/pipe-loader/pipe_loader_sw.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
++ configure.ac                 |   5 ++
++ include/EGL/eglplatform.h    | 146 -------------------------------------------
++ include/EGL/eglplatform.h.in | 146 +++++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 151 insertions(+), 146 deletions(-)
++ delete mode 100644 include/EGL/eglplatform.h
++ create mode 100644 include/EGL/eglplatform.h.in
 +
-+diff --git a/src/gallium/auxiliary/pipe-loader/pipe_loader_sw.c b/src/gallium/auxiliary/pipe-loader/pipe_loader_sw.c
-+index c2b78c6..0da3f4d 100644
-+--- a/src/gallium/auxiliary/pipe-loader/pipe_loader_sw.c
-++++ b/src/gallium/auxiliary/pipe-loader/pipe_loader_sw.c
-+@@ -31,7 +31,9 @@
-+ #include "util/u_dl.h"
-+ #include "sw/null/null_sw_winsys.h"
-+ #include "target-helpers/inline_sw_helper.h"
-++#ifdef HAVE_PIPE_LOADER_XLIB
-+ #include "state_tracker/xlib_sw_winsys.h"
++diff --git a/configure.ac b/configure.ac
++index 67b8c40..afc3217 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1499,6 +1499,9 @@ EGL_PLATFORMS="$egl_platforms"
++ 
++ if echo "$egl_platforms" | grep 'x11' >/dev/null 2>&1; then
++     NEED_WINSYS_XLIB=yes
+++    MESA_EGL_NO_X11_HEADERS=0
+++else
+++    MESA_EGL_NO_X11_HEADERS=1
++ fi
++ AM_CONDITIONAL(HAVE_EGL_PLATFORM_X11, echo "$egl_platforms" | grep 'x11' >/dev/null 2>&1)
++ AM_CONDITIONAL(HAVE_EGL_PLATFORM_WAYLAND, echo "$egl_platforms" | grep 'wayland' >/dev/null 2>&1)
++@@ -1512,6 +1515,7 @@ AM_CONDITIONAL(HAVE_EGL_DRIVER_GLX, test "x$HAVE_EGL_DRIVER_GLX" != "x")
++ AC_SUBST([EGL_NATIVE_PLATFORM])
++ AC_SUBST([EGL_PLATFORMS])
++ AC_SUBST([EGL_CFLAGS])
+++AC_SUBST([MESA_EGL_NO_X11_HEADERS])
++ 
++ AC_ARG_WITH([egl-driver-dir],
++     [AS_HELP_STRING([--with-egl-driver-dir=DIR],
++@@ -1991,6 +1995,7 @@ CXXFLAGS="$CXXFLAGS $USER_CXXFLAGS"
++ 
++ dnl Substitute the config
++ AC_CONFIG_FILES([Makefile
+++		include/EGL/eglplatform.h
++ 		src/Makefile
++ 		src/egl/Makefile
++ 		src/egl/drivers/Makefile
++diff --git a/include/EGL/eglplatform.h b/include/EGL/eglplatform.h
++deleted file mode 100644
++index 17fdc61..0000000
++--- a/include/EGL/eglplatform.h
+++++ /dev/null
++@@ -1,146 +0,0 @@
++-#ifndef __eglplatform_h_
++-#define __eglplatform_h_
++-
++-/*
++-** Copyright (c) 2007-2009 The Khronos Group Inc.
++-**
++-** Permission is hereby granted, free of charge, to any person obtaining a
++-** copy of this software and/or associated documentation files (the
++-** "Materials"), to deal in the Materials without restriction, including
++-** without limitation the rights to use, copy, modify, merge, publish,
++-** distribute, sublicense, and/or sell copies of the Materials, and to
++-** permit persons to whom the Materials are furnished to do so, subject to
++-** the following conditions:
++-**
++-** The above copyright notice and this permission notice shall be included
++-** in all copies or substantial portions of the Materials.
++-**
++-** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++-** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++-** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
++-** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
++-** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
++-** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
++-** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
++-*/
++-
++-/* Platform-specific types and definitions for egl.h
++- * $Revision: 12306 $ on $Date: 2010-08-25 09:51:28 -0700 (Wed, 25 Aug 2010) $
++- *
++- * Adopters may modify khrplatform.h and this file to suit their platform.
++- * You are encouraged to submit all modifications to the Khronos group so that
++- * they can be included in future versions of this file.  Please submit changes
++- * by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
++- * by filing a bug against product "EGL" component "Registry".
++- */
++-
++-#include <KHR/khrplatform.h>
++-
++-/* Macros used in EGL function prototype declarations.
++- *
++- * EGL functions should be prototyped as:
++- *
++- * EGLAPI return-type EGLAPIENTRY eglFunction(arguments);
++- * typedef return-type (EXPAPIENTRYP PFNEGLFUNCTIONPROC) (arguments);
++- *
++- * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
++- */
++-
++-#ifndef EGLAPI
++-#define EGLAPI KHRONOS_APICALL
++-#endif
++-
++-#ifndef EGLAPIENTRY
++-#define EGLAPIENTRY  KHRONOS_APIENTRY
++-#endif
++-#define EGLAPIENTRYP EGLAPIENTRY*
++-
++-/* The types NativeDisplayType, NativeWindowType, and NativePixmapType
++- * are aliases of window-system-dependent types, such as X Display * or
++- * Windows Device Context. They must be defined in platform-specific
++- * code below. The EGL-prefixed versions of Native*Type are the same
++- * types, renamed in EGL 1.3 so all types in the API start with "EGL".
++- *
++- * Khronos STRONGLY RECOMMENDS that you use the default definitions
++- * provided below, since these changes affect both binary and source
++- * portability of applications using EGL running on different EGL
++- * implementations.
++- */
++-
++-#if defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
++-#ifndef WIN32_LEAN_AND_MEAN
++-#define WIN32_LEAN_AND_MEAN 1
++-#endif
++-#include <windows.h>
++-
++-typedef HDC     EGLNativeDisplayType;
++-typedef HBITMAP EGLNativePixmapType;
++-typedef HWND    EGLNativeWindowType;
++-
++-#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
++-
++-typedef int   EGLNativeDisplayType;
++-typedef void *EGLNativeWindowType;
++-typedef void *EGLNativePixmapType;
++-
++-#elif defined(WL_EGL_PLATFORM)
++-
++-typedef struct wl_display     *EGLNativeDisplayType;
++-typedef struct wl_egl_pixmap  *EGLNativePixmapType;
++-typedef struct wl_egl_window  *EGLNativeWindowType;
++-
++-#elif defined(__GBM__)
++-
++-typedef struct gbm_device  *EGLNativeDisplayType;
++-typedef struct gbm_bo      *EGLNativePixmapType;
++-typedef void               *EGLNativeWindowType;
++-
++-#elif defined(ANDROID) /* Android */
++-
++-struct ANativeWindow;
++-struct egl_native_pixmap_t;
++-
++-typedef struct ANativeWindow        *EGLNativeWindowType;
++-typedef struct egl_native_pixmap_t  *EGLNativePixmapType;
++-typedef void                        *EGLNativeDisplayType;
++-
++-#elif defined(__unix__)
++-
++-#ifdef MESA_EGL_NO_X11_HEADERS
++-
++-typedef void            *EGLNativeDisplayType;
++-typedef khronos_uint32_t EGLNativePixmapType;
++-typedef khronos_uint32_t EGLNativeWindowType;
++-
++-#else
++-
++-/* X11 (tentative)  */
++-#include <X11/Xlib.h>
++-#include <X11/Xutil.h>
++-
++-typedef Display *EGLNativeDisplayType;
++-typedef Pixmap   EGLNativePixmapType;
++-typedef Window   EGLNativeWindowType;
++-
++-#endif /* MESA_EGL_NO_X11_HEADERS */
++-
++-#else
++-#error "Platform not recognized"
++-#endif
++-
++-/* EGL 1.2 types, renamed for consistency in EGL 1.3 */
++-typedef EGLNativeDisplayType NativeDisplayType;
++-typedef EGLNativePixmapType  NativePixmapType;
++-typedef EGLNativeWindowType  NativeWindowType;
++-
++-
++-/* Define EGLint. This must be a signed integral type large enough to contain
++- * all legal attribute names and values passed into and out of EGL, whether
++- * their type is boolean, bitmask, enumerant (symbolic constant), integer,
++- * handle, or other.  While in general a 32-bit integer will suffice, if
++- * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
++- * integer type.
++- */
++-typedef khronos_int32_t EGLint;
++-
++-#endif /* __eglplatform_h */
++diff --git a/include/EGL/eglplatform.h.in b/include/EGL/eglplatform.h.in
++new file mode 100644
++index 0000000..5126c92
++--- /dev/null
+++++ b/include/EGL/eglplatform.h.in
++@@ -0,0 +1,146 @@
+++#ifndef __eglplatform_h_
+++#define __eglplatform_h_
+++
+++/*
+++** Copyright (c) 2007-2009 The Khronos Group Inc.
+++**
+++** Permission is hereby granted, free of charge, to any person obtaining a
+++** copy of this software and/or associated documentation files (the
+++** "Materials"), to deal in the Materials without restriction, including
+++** without limitation the rights to use, copy, modify, merge, publish,
+++** distribute, sublicense, and/or sell copies of the Materials, and to
+++** permit persons to whom the Materials are furnished to do so, subject to
+++** the following conditions:
+++**
+++** The above copyright notice and this permission notice shall be included
+++** in all copies or substantial portions of the Materials.
+++**
+++** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+++** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+++** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+++** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+++** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
+++*/
+++
+++/* Platform-specific types and definitions for egl.h
+++ * $Revision: 12306 $ on $Date: 2010-08-25 09:51:28 -0700 (Wed, 25 Aug 2010) $
+++ *
+++ * Adopters may modify khrplatform.h and this file to suit their platform.
+++ * You are encouraged to submit all modifications to the Khronos group so that
+++ * they can be included in future versions of this file.  Please submit changes
+++ * by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
+++ * by filing a bug against product "EGL" component "Registry".
+++ */
+++
+++#include <KHR/khrplatform.h>
+++
+++/* Macros used in EGL function prototype declarations.
+++ *
+++ * EGL functions should be prototyped as:
+++ *
+++ * EGLAPI return-type EGLAPIENTRY eglFunction(arguments);
+++ * typedef return-type (EXPAPIENTRYP PFNEGLFUNCTIONPROC) (arguments);
+++ *
+++ * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
+++ */
+++
+++#ifndef EGLAPI
+++#define EGLAPI KHRONOS_APICALL
 ++#endif
-+ 
-+ struct pipe_loader_sw_device {
-+    struct pipe_loader_device base;
-+@@ -44,7 +46,7 @@ struct pipe_loader_sw_device {
-+ static struct pipe_loader_ops pipe_loader_sw_ops;
-+ 
-+ static struct sw_winsys *(*backends[])() = {
-+-#ifdef HAVE_WINSYS_XLIB
-++#ifdef HAVE_PIPE_LOADER_XLIB
-+    x11_sw_create,
-+ #endif
-+    null_sw_create
+++
+++#ifndef EGLAPIENTRY
+++#define EGLAPIENTRY  KHRONOS_APIENTRY
+++#endif
+++#define EGLAPIENTRYP EGLAPIENTRY*
+++
+++/* The types NativeDisplayType, NativeWindowType, and NativePixmapType
+++ * are aliases of window-system-dependent types, such as X Display * or
+++ * Windows Device Context. They must be defined in platform-specific
+++ * code below. The EGL-prefixed versions of Native*Type are the same
+++ * types, renamed in EGL 1.3 so all types in the API start with "EGL".
+++ *
+++ * Khronos STRONGLY RECOMMENDS that you use the default definitions
+++ * provided below, since these changes affect both binary and source
+++ * portability of applications using EGL running on different EGL
+++ * implementations.
+++ */
+++
+++#if defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
+++#ifndef WIN32_LEAN_AND_MEAN
+++#define WIN32_LEAN_AND_MEAN 1
+++#endif
+++#include <windows.h>
+++
+++typedef HDC     EGLNativeDisplayType;
+++typedef HBITMAP EGLNativePixmapType;
+++typedef HWND    EGLNativeWindowType;
+++
+++#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
+++
+++typedef int   EGLNativeDisplayType;
+++typedef void *EGLNativeWindowType;
+++typedef void *EGLNativePixmapType;
+++
+++#elif defined(WL_EGL_PLATFORM)
+++
+++typedef struct wl_display     *EGLNativeDisplayType;
+++typedef struct wl_egl_pixmap  *EGLNativePixmapType;
+++typedef struct wl_egl_window  *EGLNativeWindowType;
+++
+++#elif defined(__GBM__)
+++
+++typedef struct gbm_device  *EGLNativeDisplayType;
+++typedef struct gbm_bo      *EGLNativePixmapType;
+++typedef void               *EGLNativeWindowType;
+++
+++#elif defined(ANDROID) /* Android */
+++
+++struct ANativeWindow;
+++struct egl_native_pixmap_t;
+++
+++typedef struct ANativeWindow        *EGLNativeWindowType;
+++typedef struct egl_native_pixmap_t  *EGLNativePixmapType;
+++typedef void                        *EGLNativeDisplayType;
+++
+++#elif defined(__unix__)
+++
+++#if @MESA_EGL_NO_X11_HEADERS@
+++
+++typedef void            *EGLNativeDisplayType;
+++typedef khronos_uint32_t EGLNativePixmapType;
+++typedef khronos_uint32_t EGLNativeWindowType;
+++
+++#else
+++
+++/* X11 (tentative)  */
+++#include <X11/Xlib.h>
+++#include <X11/Xutil.h>
+++
+++typedef Display *EGLNativeDisplayType;
+++typedef Pixmap   EGLNativePixmapType;
+++typedef Window   EGLNativeWindowType;
+++
+++#endif /* MESA_EGL_NO_X11_HEADERS */
+++
+++#else
+++#error "Platform not recognized"
+++#endif
+++
+++/* EGL 1.2 types, renamed for consistency in EGL 1.3 */
+++typedef EGLNativeDisplayType NativeDisplayType;
+++typedef EGLNativePixmapType  NativePixmapType;
+++typedef EGLNativeWindowType  NativeWindowType;
+++
+++
+++/* Define EGLint. This must be a signed integral type large enough to contain
+++ * all legal attribute names and values passed into and out of EGL, whether
+++ * their type is boolean, bitmask, enumerant (symbolic constant), integer,
+++ * handle, or other.  While in general a 32-bit integer will suffice, if
+++ * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
+++ * integer type.
+++ */
+++typedef khronos_int32_t EGLint;
+++
+++#endif /* __eglplatform_h */
++-- 
++1.8.2.1
++
+diff --git a/meta/recipes-graphics/mesa/mesa/fix-glsl-cross.patch b/meta/recipes-graphics/mesa/mesa/0004-glsl-fix-builtin_compiler-cross-compilation.patch
+similarity index 76%
+rename from meta/recipes-graphics/mesa/mesa/fix-glsl-cross.patch
+rename to meta/recipes-graphics/mesa/mesa/0004-glsl-fix-builtin_compiler-cross-compilation.patch
+index 34226ea..460a274 100644
+--- a/meta/recipes-graphics/mesa/mesa/fix-glsl-cross.patch
++++ b/meta/recipes-graphics/mesa/mesa/0004-glsl-fix-builtin_compiler-cross-compilation.patch
+@@ -1,9 +1,17 @@
++From ab38c97f057f739533a4e1fc9de51ea5f4e6242d Mon Sep 17 00:00:00 2001
++From: Jonathan Liu <net147@gmail.com>
++Date: Sat, 29 Jun 2013 11:37:20 +0200
++Subject: [PATCH 4/4] glsl: fix builtin_compiler cross-compilation
++
+ The target libtool is used when building host binaries, which predictably
+ doesn't work.
+ 
+-Upstream-Status: Submitted (https://bugs.freedesktop.org/show_bug.cgi?id=44618)
++Upstream-Status: Submitted https://bugs.freedesktop.org/show_bug.cgi?id=44618
+ Signed-off-by: Jonathan Liu <net147@gmail.com>
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ src/glsl/builtin_compiler/Makefile.am | 13 +++++++++++++
++ 1 file changed, 13 insertions(+)
+ 
+ diff --git a/src/glsl/builtin_compiler/Makefile.am b/src/glsl/builtin_compiler/Makefile.am
+ index e11a17f..8ebe0a2 100644
+@@ -41,3 +49,6 @@ index e11a17f..8ebe0a2 100644
+ +else
+  builtin_compiler_LDADD = libglslcore.la libglcpp.la
+ +endif
 +-- 
 +1.8.2.1
 +
 diff --git a/meta/recipes-graphics/mesa/mesa_9.1.3.bb b/meta/recipes-graphics/mesa/mesa_9.1.3.bb
-index ec95c10..bbeacd3 100644
+index bbeacd3..a7ccbe6 100644
 --- a/meta/recipes-graphics/mesa/mesa_9.1.3.bb
 +++ b/meta/recipes-graphics/mesa/mesa_9.1.3.bb
-@@ -5,6 +5,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
-            file://fix-glsl-cross.patch \
+@@ -1,11 +1,11 @@
+ require ${BPN}.inc
+ 
+ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+-           file://EGL-Mutate-NativeDisplayType-depending-on-config.patch \
+-           file://fix-glsl-cross.patch \
             file://0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch \
-            file://0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
-+           file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
+-           file://0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
+            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
++           file://0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch \
++           file://0004-glsl-fix-builtin_compiler-cross-compilation.patch \
++           file://0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
             "
  
  SRC_URI[md5sum] = "952ccd03547ed72333b64e1746cf8ada"
 diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index 5e252af..09a9531 100644
+index 09a9531..55fafa9 100644
 --- a/meta/recipes-graphics/mesa/mesa_git.bb
 +++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
-            file://fix-glsl-cross.patch \
+@@ -3,16 +3,14 @@ require ${BPN}.inc
+ DEFAULT_PREFERENCE = "-1"
+ 
+ PR = "${INC_PR}.0"
+-# 9.1.3 commit
+-SRCREV = "f32ec82a8cfcabc5b7596796f36afe7986651f02"
++SRCREV = "5a925cc5504575c22dbb7d29842d7fc5babcb5c7"
+ PV = "9.1.3+git${SRCPV}"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/git/mesa/mesa;protocol=git \
+-           file://EGL-Mutate-NativeDisplayType-depending-on-config.patch \
+-           file://fix-glsl-cross.patch \
             file://0001-configure-Avoid-use-of-AC_CHECK_FILE-for-cross-compi.patch \
-            file://0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
-+           file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
+-           file://0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
+            file://0002-pipe_loader_sw-include-xlib_sw_winsys.h-only-when-HA.patch \
++           file://0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch \
++           file://0004-glsl-fix-builtin_compiler-cross-compilation.patch \
             "
  
  S = "${WORKDIR}/git"
