@@ -1,28 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E7AA86AD22;
-	Mon,  1 Jul 2013 02:13:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r612Deoq025934
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 30 Jun 2013 19:13:40 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Sun, 30 Jun 2013 19:13:40 -0700
-Message-ID: <51D0E5EC.3050903@windriver.com>
-Date: Mon, 1 Jul 2013 10:14:04 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20130625163758.7F04650176@opal> <20130628115633.GL3261@jama>
-In-Reply-To: <20130628115633.GL3261@jama>
-X-Originating-IP: [128.224.162.233]
-Cc: openembedded-core@lists.openembedded.org,
-	openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Chen Qi : busybox: add the ability to split the busybox binary
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A0246A463
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Jul 2013 04:02:39 +0000 (UTC)
+Received: by mail-pa0-f46.google.com with SMTP id fa11so4493332pad.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Jun 2013 21:02:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=UeHCSo/qclgU6oeWnZuVxmyLUsQOJfJqr1LHYmj0f7M=;
+	b=tp755olbr5AvDuDKM/e2tZnv0vZiLQ3D+6SxLL4UqM8AR8GBDOGAw5hxfKwJa9R6gt
+	uwCNT/utu2UrOxozOWzpQY9tkASEV0NZtypKedWeRBoAMvqGGKHzD6je6l8Vtqoeg1Yg
+	ApGhBZFfzjmIe4mOZPKBAID2Ox7YCPokJDXfO9Y8cQvbx3XnklgMlUKg6aPsj+sExkK+
+	fNi2xZqVwc1bYCHrqRr78jruDVGLYFaOucQZ+HATPU+D7uu9QR693BQcslaCTu+hxNjX
+	nd073JdfR9ehqeI+TiLfdCk2lBLP8IAqN1iJO6ACLXr1fFKzuy1PhO0ti9N785I/TjEX
+	gQNg==
+X-Received: by 10.66.20.129 with SMTP id n1mr15529486pae.93.1372651359980;
+	Sun, 30 Jun 2013 21:02:39 -0700 (PDT)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id
+	kc8sm20017191pbc.18.2013.06.30.21.02.38 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 30 Jun 2013 21:02:39 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 30 Jun 2013 21:02:21 -0700
+Message-Id: <cover.1372651136.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/3] Update uclibc to latest git and drop 0.9.33
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +42,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 02:13:42 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Jul 2013 04:02:39 -0000
 
-On 06/28/2013 07:56 PM, Martin Jansa wrote:
-> On Tue, Jun 25, 2013 at 04:37:58PM +0000, git@git.openembedded.org wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: e5a1442819dfb74e86a6f69da008ba6908c8bbc7
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=e5a1442819dfb74e86a6f69da008ba6908c8bbc7
->>
->> Author: Chen Qi <Qi.Chen@windriver.com>
->> Date:   Mon Jun 17 12:47:20 2013 +0800
->>
->> busybox: add the ability to split the busybox binary
->>
->> This patch enables us to split the busybox into two binaries, one
->> containing suid applications, and the other containing nosuid apps.
->>
->> Add a variable, BUSYBOX_SPLIT_SUID, to control whether to split the
->> busybox binary into two parts. We default it to "1" to enable the
->> splitting, but users could still override it to disable the splitting.
->> After all, busybox has no internal support for this suid apps splitting,
->> so there might be users out there who want just one busybox binary.
->>
->> The basic idea here is to build the busybox twice, each with the correct
->> configuration items. We extract the non-app part of the original .config
->> file, and merge this part with the suid-app part to form a .config which
->> contains only suid apps. The same strategy applies to the non-suid apps.
-> Hi,
->
-> have you tried to do on-device upgrade with this change?
-> It looks very broken, description follows:
->
-> 13:48:33 < JaMa> was sed applet removed from busybox or something like that? upgrade path seems to be broken
-> 13:48:34 < JaMa> Configuring busybox-syslog.
-> 13:48:34 < JaMa> /usr/bin/update-alternatives: line 186: sed: not found
-> 13:48:58 < JaMa> and then all applets in main busybox package fail to set u-a because of missing sed..
-> 13:49:27 < JaMa> and then fixing that is more complicated because wget symlink is gone too, so opkg update opkg upgrade wont work
-> 13:49:40 < zecke> JaMa: IIRC the specific postinst was removed from busybox?!
-> 13:50:55 < JaMa> /var/lib/opkg/info/busybox.postinst is still there
-> 13:51:02 < JaMa> with a lot of u-a calls
-> 13:51:34 < zecke> JaMa: generated by the bbclass and not the one that was in the busybox.inc (but i only read the digest and skip stuff)
-> 13:51:37 < JaMa> that commit says it removes redundant u-a
-> 13:52:11 < JaMa> SHR root@gjama ~ $ grep sed /var/lib/opkg/info/busybox.postinst   update-alternatives --install /bin/sed sed /bin/busybox.nosuid 50
-> 13:52:23 < zecke> JaMa: Do you know if they/he tested on device upgrade?
-> 13:52:56 < zecke> i am obviously just guessing
-> 13:54:05 < JaMa> all u-a are still pointing to /bin/busybox, but that one is gone replaced by /bin/busybox.(no)suid
-> 13:54:44 < JaMa> we should install /bin/busybox -> /bin/busybox.nosuid to fix upgrade path..
-Hi Martin,
+Tested booting on all supported qemu machines
+uclibc git is needed for supporting systemd reliably
 
-Could you please provide me more information about how to reproduce this 
-problem?
+The following changes since commit ff65497cd9a96d5ab49b16ba1f7e30a216ff4a42:
 
-Thanks,
-Chen Qi
+  classes/insane: remove la2 check which no longer exists from ERROR_QA (2013-06-28 16:33:05 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/uclibc-update
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/uclibc-update
+
+Khem Raj (3):
+  uclibc: Update to latest git/master version
+  uclibc: Remove 0.9.33 recipes
+  bison: Delete unused patch
+
+ meta/recipes-core/uclibc/uclibc-0.9.33.inc         |   23 -
+ .../uclibc/uclibc-0.9.33/argp-headers.patch        |  583 ---
+ .../uclibc/uclibc-0.9.33/argp-support.patch        | 5192 --------------------
+ .../uclibc-0.9.33/compile-arm-fork-with-O2.patch   |   21 -
+ .../uclibc-0.9.33/define-MSG_CMSG_CLOEXEC.patch    |   25 -
+ meta/recipes-core/uclibc/uclibc-0.9.33/dup3.patch  |   37 -
+ ...so_use_arm_dl_linux_resolve_in_thumb_mode.patch |   27 -
+ .../libc_symbols_include_bits_uclibc_config.patch  |   23 -
+ .../uclibc/uclibc-0.9.33/mount.h-update.patch      |   83 -
+ .../uclibc/uclibc-0.9.33/orign_path.patch          |  185 -
+ .../uclibc/uclibc-0.9.33/posix_fallocate.patch     |  407 --
+ .../uclibc/uclibc-0.9.33/powerpc_copysignl.patch   |  113 -
+ .../remove_attribute_optimize_Os.patch             |  179 -
+ .../uclibc/uclibc-0.9.33/uClibc.distro             |  190 -
+ .../uclibc/uclibc-0.9.33/uClibc.machine            |   14 -
+ .../uclibc/uclibc-0.9.33/uclibc-execvpe.patch      |  163 -
+ .../uclibc-0.9.33/uclibc_enable_log2_test.patch    |   35 -
+ meta/recipes-core/uclibc/uclibc-config.inc         |   12 +
+ meta/recipes-core/uclibc/uclibc-git.inc            |    8 +-
+ .../0001-add-posix_fadvise-for-arm.patch           |   68 +
+ .../0001-i386-sysdep.h-Remove-STABS_-macros.patch  |   71 -
+ ...-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch |    9 +-
+ meta/recipes-core/uclibc/uclibc-git/locale.cfg     |    3 +
+ meta/recipes-core/uclibc/uclibc-git/obstack.cfg    |    1 +
+ .../uclibc/uclibc-git/powerpc_copysignl.patch      |   10 +-
+ meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb  |   36 -
+ meta/recipes-core/uclibc/uclibc.inc                |    6 +-
+ meta/recipes-core/uclibc/uclibc_0.9.33.bb          |   22 -
+ .../recipes-devtools/bison/bison/remove-gets.patch |   20 -
+ 29 files changed, 102 insertions(+), 7464 deletions(-)
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33.inc
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/argp-headers.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/argp-support.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/compile-arm-fork-with-O2.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/define-MSG_CMSG_CLOEXEC.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/dup3.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/ldso_use_arm_dl_linux_resolve_in_thumb_mode.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/libc_symbols_include_bits_uclibc_config.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/mount.h-update.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/orign_path.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/posix_fallocate.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/powerpc_copysignl.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/remove_attribute_optimize_Os.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/uClibc.distro
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/uClibc.machine
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/uclibc-execvpe.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-0.9.33/uclibc_enable_log2_test.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-add-posix_fadvise-for-arm.patch
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-i386-sysdep.h-Remove-STABS_-macros.patch
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/locale.cfg
+ create mode 100644 meta/recipes-core/uclibc/uclibc-git/obstack.cfg
+ delete mode 100644 meta/recipes-core/uclibc/uclibc-initial_0.9.33.bb
+ delete mode 100644 meta/recipes-core/uclibc/uclibc_0.9.33.bb
+ delete mode 100644 meta/recipes-devtools/bison/bison/remove-gets.patch
+
+-- 
+1.7.9.5
+
 
