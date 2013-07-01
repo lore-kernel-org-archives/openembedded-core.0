@@ -1,38 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F44A6A5AF
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id F08126A5AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 14:49:19 +0000 (UTC)
-Received: by mail-ve0-f180.google.com with SMTP id pa12so3826527veb.39
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2013 07:49:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=qN/7C21D190RRncUZ5aVh9GNDuhqneoXah5vBIKE9SQ=;
-	b=L1o5bMXF/lrDxoSaku0cpnUdml3I/lRHKJm/x5w3QIpoAoLYdaSPVbfsRhRxDJWQbD
-	hUC11i580T9wOYR8wbKW6kf/wKqO6yIc1scGzK/ACUhEuQxO76HH8PxYKF0+k2FxuwE3
-	rNAVbcMIMgTulJY0RE/U2QZC8+tJlUdNtShdGcG+d2Hi0+dKUjmlMEUVeeQ3T0IjvGke
-	L1VyWGMBWlf7JEsXb9R0vPC9iCOyj7NahocdX2dcmSSdUOD6kQyNLJmbE7NvQxOzGMfu
-	9sSfZ/AMiKReIGr8oBOwSLhm2qwYpU+FbH4BeyAh7kHx+fZSUyoT5Z8nEFGIvoir96SH
-	pHiA==
-X-Received: by 10.52.29.106 with SMTP id j10mr7885840vdh.77.1372690160429;
-	Mon, 01 Jul 2013 07:49:20 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Mon, 1 Jul 2013 07:49:00 -0700 (PDT)
-In-Reply-To: <2393683.pgSWLXlTRj@helios>
-References: <1372372997-1604-1-git-send-email-sgw@linux.intel.com>
-	<1372372997-1604-5-git-send-email-sgw@linux.intel.com>
-	<2393683.pgSWLXlTRj@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Jul 2013 15:49:00 +0100
-Message-ID: <CAJTo0LbtyiNhLKvfnn7dE-mUckef7c10wdpj2OKjb5UfrAek5Q@mail.gmail.com>
+	Mon,  1 Jul 2013 14:50:32 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1UtfR3-0001aL-Mn from Muhammad_Shakeel@mentor.com ;
+	Mon, 01 Jul 2013 07:50:33 -0700
+Received: from SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 1 Jul 2013 07:50:33 -0700
+Received: from EU-MBX-04.mgc.mentorg.com ([169.254.4.127]) by
+	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
+	14.02.0247.003; Mon, 1 Jul 2013 15:50:32 +0100
+From: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
 To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQm5tWDIIZ77nD9kPBFdTI/C56JJf4G18iqKJHQwDGfXtyE9hh/fz8eU7w8743jUAKTYwXG7
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] packagegroup-core-boot: used udev-cache for sysvinit
+Thread-Topic: [OE-core] [PATCH] [dylan] lighttpd: Enabling with systemd
+Thread-Index: AQHObQz69f1+gqygI06i3jpA/8F5Q5lLI4kUgAR1yQCAAF/K6Q==
+Date: Mon, 1 Jul 2013 14:49:51 +0000
+Message-ID: <A8A2F4C5E3D3D0468DDA3544476725F8AE1F720C@EU-MBX-04.mgc.mentorg.com>
+References: <1371660580-4754-1-git-send-email-muhammad_shakeel@mentor.com>
+	<A8A2F4C5E3D3D0468DDA3544476725F8AE1F5519@EU-MBX-04.mgc.mentorg.com>,
+	<19067624.GhNbuypGS2@helios>
+In-Reply-To: <19067624.GhNbuypGS2@helios>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.68]
+MIME-Version: 1.0
+X-OriginalArrivalTime: 01 Jul 2013 14:50:33.0708 (UTC)
+	FILETIME=[56E98AC0:01CE766A]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [dylan] lighttpd: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,21 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 14:49:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 01 Jul 2013 14:50:33 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 28 June 2013 11:02, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> I appreciate the intention here but I'm not sure if this is really the
-> appropriate place to put this; packagegroup-core-boot is supposed to only
-> directly pull in the essentials required for booting. This will cause problems
-> for those people using alternative device managers (e.g. busybox mdev) as
-> well.
->
-> I'm not sure where this should go, but adding it to VIRTUAL-
-> RUNTIME_dev_manager (in the distro config?) could work. Anyone else have any
-> better suggestion?
-
-How about making udev RRECOMMEND udev-cache?
-
-Ross
+=0A=
+________________________________________=0A=
+From: Paul Eggleton [paul.eggleton@linux.intel.com]=0A=
+Sent: Monday, July 01, 2013 3:02 PM=0A=
+To: Shakeel, Muhammad=0A=
+Cc: Saul Wold; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] [dylan] lighttpd: Enabling with systemd=0A=
+=0A=
+On Friday 28 June 2013 13:01:15 Shakeel, Muhammad wrote:=0A=
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>=0A=
+>=0A=
+> +        file://lighttpd.service \=0A=
+=0A=
+> You've added a reference to lighttpd.service, but the patch does not add =
+it.=0A=
+=0A=
+That's what I realized right after sending this patch. I have already sent =
+a v2.=0A=
+Please ignore this and see: http://patches.openembedded.org/patch/52027/=0A=
+=0A=
+Best Regards,=0A=
+Shakeel=0A=
+=0A=
 
