@@ -1,38 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 946C16AFA6
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B18E06AF4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 19:36:41 +0000 (UTC)
-Received: by mail-ee0-f43.google.com with SMTP id l10so2244452eei.16
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2013 12:36:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=B7qVPnbwUcf2ts41MV7KAg9CogYMHwATmyZueq7QvR4=;
-	b=zTQ7MVCVF9VAs7QntOHx9yDuxaZpqs2LaY65y6OrTOp1GfEEOv3kilHEFfQaMZ51Mh
-	OnKEsLwLKlbGNLzcqXKuAbTgEtKNg/By/tbWVCpqQBUoP3jZq8XaC3PZW06bu3ylHfw8
-	hQSfjatIzgxUa6UszAWoZ9Sr+5fQbFWmDTa0HwksdE2u4aEB83w6oWWIWprSt9ZFDPlO
-	HVZZNVtbaXR5kwg4gwJM2BLMUYIlwYSbEJjJ7ykNesjLsYN6qn5kpCRI/CP2/6M+aahn
-	P16uw+vbMdsN71/lGAfkYZKnNPD4D9ge3da04k1kMq/4D8bV45U7Q9JqUCn4R1XAWeTD
-	j8+Q==
-X-Received: by 10.14.178.8 with SMTP id e8mr22894874eem.20.1372707402302;
-	Mon, 01 Jul 2013 12:36:42 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	l42sm31731860eeo.14.2013.07.01.12.36.31 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 01 Jul 2013 12:36:41 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Mon,  1 Jul 2013 20:48:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 01 Jul 2013 13:46:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,975,1363158000"; d="scan'208";a="363055839"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.91])
+	by orsmga002.jf.intel.com with ESMTP; 01 Jul 2013 13:48:45 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Jul 2013 21:36:27 +0200
-Message-Id: <99e982c0de5ace514f2d1eeaf4b4d6dc9c4d40da.1372707180.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <814d1612d36ac296ec0e5b522722b4a10f57ea16.1372707180.git.Martin.Jansa@gmail.com>
-References: <814d1612d36ac296ec0e5b522722b4a10f57ea16.1372707180.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1372707180.git.Martin.Jansa@gmail.com>
-References: <cover.1372707180.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 4/4] mesa: remove drirc file
+Date: Mon,  1 Jul 2013 13:48:41 -0700
+Message-Id: <cover.1372711267.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/4 v2] mc packaging fixes & udev cache fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 19:36:41 -0000
+X-List-Received-Date: Mon, 01 Jul 2013 20:48:49 -0000
 
-* it's packaged in libdricore package and prevents upgrading it
-  when debian.bbclass is enabled
-  * check_data_file_clashes: Package libdricore9.1.3-1 wants to install file /etc/drirc
-        But that file is already provided by package  * libdricore9.0.2-1
-* we can move it to separate packages, but it isn't very useful now, there
-  aren't many gamers using mesa on embedded devices
+This set contains some packaging changes for mc (both gplv2 and v3)
+and enables udev-cache via an RRECOMMENDS
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 3 +++
- 1 file changed, 3 insertions(+)
+Sau!
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 599ec7e..ada1170 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -86,6 +86,9 @@ do_install_append () {
-     rm -f ${D}${libdir}/egl/*.la
-     rm -f ${D}${libdir}/gallium-pipe/*.la
-     rm -f ${D}${libdir}/gbm/*.la
-+    
-+    # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used 
-+    rm -f ${D}${sysconfdir}/drirc
- }
- 
- # For the packages that make up the OpenGL interfaces, inject variables so that
+The following changes since commit ff65497cd9a96d5ab49b16ba1f7e30a216ff4a42:
+
+  classes/insane: remove la2 check which no longer exists from ERROR_QA (2013-06-28 16:33:05 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (4):
+  mc: Don't remove libdir and split helpers into packages
+  packagegroups: Update for split mc packages
+  packagegroup-core-basic: remove hardcode udev
+  udev: Add RRECOMMENDS for udev-cache to enable the cache
+
+ .../packagegroups/packagegroup-self-hosted.bb      |  4 ++++
+ meta/recipes-core/udev/udev.inc                    |  2 +-
+ meta/recipes-extended/mc/mc_4.7.5.2.bb             | 22 ++++++++++++++++++++++
+ meta/recipes-extended/mc/mc_4.8.8.bb               | 22 +++++++++++++++++++++-
+ .../packagegroups/packagegroup-core-basic.bb       |  5 ++++-
+ .../packagegroups/packagegroup-core-lsb.bb         |  4 ++++
+ 6 files changed, 56 insertions(+), 3 deletions(-)
+
 -- 
-1.8.2.1
+1.8.1.4
 
 
