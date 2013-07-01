@@ -1,30 +1,28 @@
-Return-Path: <Kai.Kang@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 66D996AF21
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 01:53:16 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id E7AA86AD22;
+	Mon,  1 Jul 2013 02:13:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r611rG5F024130
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r612Deoq025934
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 30 Jun 2013 18:53:16 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	Sun, 30 Jun 2013 19:13:40 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Sun, 30 Jun 2013 18:53:14 -0700
-Message-ID: <51D0E0EA.5040902@windriver.com>
-Date: Mon, 1 Jul 2013 09:52:42 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
+	Sun, 30 Jun 2013 19:13:40 -0700
+Message-ID: <51D0E5EC.3050903@windriver.com>
+Date: Mon, 1 Jul 2013 10:14:04 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1371802236.git.kai.kang@windriver.com>
-	<7a0305f34aa1f986856e699b69242e353986b6dc.1371802236.git.kai.kang@windriver.com>
-	<5322253.NAOJVtts1F@helios>
-In-Reply-To: <5322253.NAOJVtts1F@helios>
-X-Originating-IP: [128.224.162.231]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] strace: add configure options libaio and acl
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20130625163758.7F04650176@opal> <20130628115633.GL3261@jama>
+In-Reply-To: <20130628115633.GL3261@jama>
+X-Originating-IP: [128.224.162.233]
+Cc: openembedded-core@lists.openembedded.org,
+	openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Chen Qi : busybox: add the ability to split the busybox binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 01:53:18 -0000
-Content-Type: text/plain; charset="GB2312"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 01 Jul 2013 02:13:42 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2013Äê06ÔÂ29ÈÕ 01:16, Paul Eggleton wrote:
-> On Friday 21 June 2013 16:12:21 Kai Kang wrote:
->> Add strace configure options libaio and acl to enable or disable build
->> with them. Then PACKAGECONFIG can be used to handle dependency.
+On 06/28/2013 07:56 PM, Martin Jansa wrote:
+> On Tue, Jun 25, 2013 at 04:37:58PM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: e5a1442819dfb74e86a6f69da008ba6908c8bbc7
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=e5a1442819dfb74e86a6f69da008ba6908c8bbc7
 >>
->> Set "libaio" as a default feature of PACKAGECONFIG.
->> ...
+>> Author: Chen Qi <Qi.Chen@windriver.com>
+>> Date:   Mon Jun 17 12:47:20 2013 +0800
 >>
->> +PACKAGECONFIG_class-target ?= "libaio"
->> +PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl',
->> 'acl', '', d)}"
-
-Hi Paul,
-
-> I realise this has already been merged, but I think there are a couple of issues
-> with the above. Firstly, for consistency, I think the first option should be
-> called "aio" and not "libaio". 
-OK, I'll update it.
-
-> Secondly, although this seems to work the use
-> of overrides, += and ?= together is a little bit confusing. Perhaps the following
-> would be a bit clearer:
+>> busybox: add the ability to split the busybox binary
+>>
+>> This patch enables us to split the busybox into two binaries, one
+>> containing suid applications, and the other containing nosuid apps.
+>>
+>> Add a variable, BUSYBOX_SPLIT_SUID, to control whether to split the
+>> busybox binary into two parts. We default it to "1" to enable the
+>> splitting, but users could still override it to disable the splitting.
+>> After all, busybox has no internal support for this suid apps splitting,
+>> so there might be users out there who want just one busybox binary.
+>>
+>> The basic idea here is to build the busybox twice, each with the correct
+>> configuration items. We extract the non-app part of the original .config
+>> file, and merge this part with the suid-app part to form a .config which
+>> contains only suid apps. The same strategy applies to the non-suid apps.
+> Hi,
 >
-> PACKAGECONFIG_class-target ?= "aio \
->                                ${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
-I considered this way.
-When 'acl' in distro feature, I want strace enable acl support. But
-PACKAGECONFIG could be overwritten that even 'acl' in distro feature but
-not in 'PACKAGECONFIG'.
+> have you tried to do on-device upgrade with this change?
+> It looks very broken, description follows:
+>
+> 13:48:33 < JaMa> was sed applet removed from busybox or something like that? upgrade path seems to be broken
+> 13:48:34 < JaMa> Configuring busybox-syslog.
+> 13:48:34 < JaMa> /usr/bin/update-alternatives: line 186: sed: not found
+> 13:48:58 < JaMa> and then all applets in main busybox package fail to set u-a because of missing sed..
+> 13:49:27 < JaMa> and then fixing that is more complicated because wget symlink is gone too, so opkg update opkg upgrade wont work
+> 13:49:40 < zecke> JaMa: IIRC the specific postinst was removed from busybox?!
+> 13:50:55 < JaMa> /var/lib/opkg/info/busybox.postinst is still there
+> 13:51:02 < JaMa> with a lot of u-a calls
+> 13:51:34 < zecke> JaMa: generated by the bbclass and not the one that was in the busybox.inc (but i only read the digest and skip stuff)
+> 13:51:37 < JaMa> that commit says it removes redundant u-a
+> 13:52:11 < JaMa> SHR root@gjama ~ $ grep sed /var/lib/opkg/info/busybox.postinst   update-alternatives --install /bin/sed sed /bin/busybox.nosuid 50
+> 13:52:23 < zecke> JaMa: Do you know if they/he tested on device upgrade?
+> 13:52:56 < zecke> i am obviously just guessing
+> 13:54:05 < JaMa> all u-a are still pointing to /bin/busybox, but that one is gone replaced by /bin/busybox.(no)suid
+> 13:54:44 < JaMa> we should install /bin/busybox -> /bin/busybox.nosuid to fix upgrade path..
+Hi Martin,
+
+Could you please provide me more information about how to reproduce this 
+problem?
 
 Thanks,
-Kai
-
->
-> Cheers,
-> Paul
->
-
-
--- 
-Regards,
-Neil | Kai Kang
-
+Chen Qi
 
