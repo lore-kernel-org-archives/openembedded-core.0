@@ -1,37 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
-	[209.85.212.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F0086A5AF
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 625EF6A5AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 14:51:45 +0000 (UTC)
-Received: by mail-vb0-f42.google.com with SMTP id i3so3676568vbh.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2013 07:51:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=KNpea2xtWICqE3LIT45AlguoQC63yp25evtsVr6gV88=;
-	b=GlOI56Bmrbe/AqLA8rizxbievR/uOr3VTHJNoWF1WnFwcXKohOWmFoyXgIACtQWsrF
-	cXTFBnAvQsiq2iUZBAV+DuYZhtgIHd17PNqFhnNkle/6wotqoxKMO4rnndjEFj3JT6cd
-	bw7LpUlusKfE8qlrkGnZu243rJ3OKDQsyiG2ggKCWTbplombFHZVBF4cmeP91IFrIdO2
-	Z0lwdpA5fZ+5KP8u6GW2RAhuwASYnYB5jeS8fZDq51v0kRPAT34fbUGCDQ0BRPljLavW
-	/LgB7jSAXrD8PxTMQQ48S5c2nY3mxykehV+9PoSqjg0dEG9aHGbz99FjGLcyput/bTyb
-	bPhg==
-X-Received: by 10.58.219.232 with SMTP id pr8mr9735991vec.80.1372690306659;
-	Mon, 01 Jul 2013 07:51:46 -0700 (PDT)
+	Mon,  1 Jul 2013 14:55:36 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 01 Jul 2013 07:55:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,974,1363158000"; d="scan'208";a="338716724"
+Received: from unknown (HELO helios.localnet) ([10.252.121.225])
+	by orsmga001.jf.intel.com with ESMTP; 01 Jul 2013 07:55:36 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 01 Jul 2013 15:55:35 +0100
+Message-ID: <137271775.y6VAVELV8v@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
+In-Reply-To: <CAJTo0Laa1Y4NtDbQsGEJRaP+K31y_CF9Hmk=drvFs1GOArPBzw@mail.gmail.com>
+References: <1372688477-27863-1-git-send-email-paul.eggleton@linux.intel.com>
+	<CAJTo0Laa1Y4NtDbQsGEJRaP+K31y_CF9Hmk=drvFs1GOArPBzw@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Mon, 1 Jul 2013 07:51:26 -0700 (PDT)
-In-Reply-To: <2ee8976b4ad482eafb186deba9a14fc52f6dc8cf.1372674367.git.mihai.prica@intel.com>
-References: <cover.1372674367.git.mihai.prica@intel.com>
-	<2ee8976b4ad482eafb186deba9a14fc52f6dc8cf.1372674367.git.mihai.prica@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Jul 2013 15:51:26 +0100
-Message-ID: <CAJTo0LbWDHqUoaks86RrGMSnKyN+fw-cxShpFpr=DT-sOGbvxQ@mail.gmail.com>
-To: Mihai Prica <mihai.prica@intel.com>
-X-Gm-Message-State: ALoCoQmiv8emht9mp/09sRuu38rcmkP1HyC1olvEQaP9BHvUL1POHwWeK4Z5lDh4byoO6VoJbF7/
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] insane.bbclass: Added QA warning for shipping /usr/share/info/dir
+Subject: Re: [PATCH] lttng-modules: allow building without tracepoints enabled in kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 14:51:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 01 Jul 2013 14:55:36 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 1 July 2013 11:31, Mihai Prica <mihai.prica@intel.com> wrote:
-> /usr/share/info/dir should be generated at install time in a postinst.
-> Added QA warning to check at build time for this file. The warning
-> is disabled by default.
+On Monday 01 July 2013 15:44:10 Burton, Ross wrote:
+> On 1 July 2013 15:21, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> > +       find ${D}/lib -depth -type d -empty -exec rmdir {} \;
+> 
+> A slightly cleaner form of this:
+> 
+> $ find ${D}/lib -type d -empty -delete
 
-Patch is good but why don't we enable this by default?
+Right, I did check the find manpage but it only mentioned that -delete deletes 
+files. Testing here I see that it does work though. I'll wait for further 
+reviews before sending a v2.
 
-Ross
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
