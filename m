@@ -1,26 +1,30 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AF246A468
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 66D996AF21
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 00:32:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r610Wgw8004324
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2013 17:32:42 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 30 Jun 2013 17:32:41 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Jul 2013 08:32:43 +0800
-Message-ID: <367511c226fe8bc2ee8773db5322017d30ab69fd.1372638415.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1372638415.git.rongqing.li@windriver.com>
-References: <cover.1372638415.git.rongqing.li@windriver.com>
+	Mon,  1 Jul 2013 01:53:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r611rG5F024130
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 30 Jun 2013 18:53:16 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Sun, 30 Jun 2013 18:53:14 -0700
+Message-ID: <51D0E0EA.5040902@windriver.com>
+Date: Mon, 1 Jul 2013 09:52:42 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130329 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sysstat: backport a patch to fix a parallel building error
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1371802236.git.kai.kang@windriver.com>
+	<7a0305f34aa1f986856e699b69242e353986b6dc.1371802236.git.kai.kang@windriver.com>
+	<5322253.NAOJVtts1F@helios>
+In-Reply-To: <5322253.NAOJVtts1F@helios>
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] strace: add configure options libaio and acl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 00:32:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 01 Jul 2013 01:53:18 -0000
+Content-Type: text/plain; charset="GB2312"
+Content-Transfer-Encoding: 8bit
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+On 2013Äê06ÔÂ29ÈÕ 01:16, Paul Eggleton wrote:
+> On Friday 21 June 2013 16:12:21 Kai Kang wrote:
+>> Add strace configure options libaio and acl to enable or disable build
+>> with them. Then PACKAGECONFIG can be used to handle dependency.
+>>
+>> Set "libaio" as a default feature of PACKAGECONFIG.
+>> ...
+>>
+>> +PACKAGECONFIG_class-target ?= "libaio"
+>> +PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl',
+>> 'acl', '', d)}"
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- ...-Makefile-to-allow-for-parallel-execution.patch |   33 ++++++++++++++++++++
- meta/recipes-extended/sysstat/sysstat.inc          |    3 +-
- 2 files changed, 35 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch
+Hi Paul,
 
-diff --git a/meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch b/meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch
-new file mode 100644
-index 0000000..d744002
---- /dev/null
-+++ b/meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch
-@@ -0,0 +1,33 @@
-+From eb44730094a68f4d37d95ddc3480a5972619b43f Mon Sep 17 00:00:00 2001
-+From: Sebastien GODARD <sysstat@orange.fr.fake>
-+Date: Sat, 22 Jun 2013 14:08:40 +0200
-+Subject: [PATCH] Update Makefile to allow for parallel execution
-+
-+Upstream-status: backport
-+
-+Rewrite rule for librdstats.a in Makefile to prevent possible file
-+corruption when using make -j.
-+
-+Signed-off-by: Sebastien GODARD <sysstat@orange.fr.fake>
-+---
-+ Makefile.in |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index f8e6159..159cacf 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -202,7 +202,9 @@ sadf_misc.o: sadf_misc.c sadf.h sa.h
-+ libsyscom.a: common.o ioconf.o
-+ 	$(AR) rvs $@ $?
-+ 
-+-librdstats.a: librdstats.a(rd_stats.o count.o)
-++# Ditto
-++librdstats.a: rd_stats.o count.o
-++	$(AR) rvs $@ $?
-+ 
-+ librdsensors.a: librdsensors.a(rd_sensors.o)
-+ 
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 263cbd2..ac3c89b 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -5,7 +5,8 @@ LICENSE = "GPLv2+"
- SECTION = "console/utils"
- 
- SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.gz \
--		   file://99_sysstat"
-+		   file://99_sysstat \
-+		   file://0001-Update-Makefile-to-allow-for-parallel-execution.patch "
- 
- inherit autotools gettext
- 
+> I realise this has already been merged, but I think there are a couple of issues
+> with the above. Firstly, for consistency, I think the first option should be
+> called "aio" and not "libaio". 
+OK, I'll update it.
+
+> Secondly, although this seems to work the use
+> of overrides, += and ?= together is a little bit confusing. Perhaps the following
+> would be a bit clearer:
+>
+> PACKAGECONFIG_class-target ?= "aio \
+>                                ${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+I considered this way.
+When 'acl' in distro feature, I want strace enable acl support. But
+PACKAGECONFIG could be overwritten that even 'acl' in distro feature but
+not in 'PACKAGECONFIG'.
+
+Thanks,
+Kai
+
+>
+> Cheers,
+> Paul
+>
+
+
 -- 
-1.7.10.4
+Regards,
+Neil | Kai Kang
 
 
