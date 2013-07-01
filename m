@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 19A5F6007B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
+	[209.85.128.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 98B1F6007B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 14:58:10 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 01 Jul 2013 07:58:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,974,1363158000"; d="scan'208";a="325244910"
-Received: from unknown (HELO helios.localnet) ([10.252.121.225])
-	by azsmga001.ch.intel.com with ESMTP; 01 Jul 2013 07:58:09 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 01 Jul 2013 15:58:08 +0100
-Message-ID: <6242225.xYeWPdnF8o@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.3 (Linux/3.8.0-25-generic; KDE/4.10.3; i686; ; )
-In-Reply-To: <CAJTo0LbtyiNhLKvfnn7dE-mUckef7c10wdpj2OKjb5UfrAek5Q@mail.gmail.com>
-References: <1372372997-1604-1-git-send-email-sgw@linux.intel.com>
-	<2393683.pgSWLXlTRj@helios>
-	<CAJTo0LbtyiNhLKvfnn7dE-mUckef7c10wdpj2OKjb5UfrAek5Q@mail.gmail.com>
+	Mon,  1 Jul 2013 15:01:39 +0000 (UTC)
+Received: by mail-ve0-f182.google.com with SMTP id ox1so3799510veb.41
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Jul 2013 08:01:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=FkDVp4LVCLnWP3nRreDG9z3/D1nyHmqx+nJHdKK9nVU=;
+	b=bs6qGsCkXBrg7nTQOWA318qW4z5M6NiFIWSOsq8gvoJoejECSu7aOS6Vmr3riSm13W
+	Hi391gUgsU1k2G1Q8CgqTRebfpn4qRD95hzzCkaa2sxEoL/Mi7sfB/OpPpNR0+YP4/Rz
+	akH+Eq0O7od+zEPcyf56JFUUmYmjH0Pgc98e4gxdrIDy3JyRfEUPYj6yko9bFlVmBajZ
+	1IgaAmyGdACeK/3BUnj4skbHvIJ1FFqp7O4DYdgIqA9fsNeV94PsNedLVH19bhdUOq0N
+	UItUQbTZdPLE0s95gjiDbZs/CZTbR3CmconmFtfIFM5hHNmfSOJG0niroa7jwPwH6Sbg
+	34dg==
+X-Received: by 10.220.42.147 with SMTP id s19mr9688238vce.46.1372690900461;
+	Mon, 01 Jul 2013 08:01:40 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Mon, 1 Jul 2013 08:01:20 -0700 (PDT)
+In-Reply-To: <1372686325-12412-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1372686325-12412-1-git-send-email-muhammad_shakeel@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 1 Jul 2013 16:01:20 +0100
+Message-ID: <CAJTo0LY+cR+FEhYmnahvbjDR6sp5RRFdKE=76H6ZJq43q=r0Ew@mail.gmail.com>
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+X-Gm-Message-State: ALoCoQn4x2m4Q0eD2HDqct+edllrIMR2L3dSg5v9UTfwFliCRNJEth0aEtyL1k2svxP7IUXxgkGF
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] packagegroup-core-boot: used udev-cache for sysvinit
+Subject: Re: [PATCH] openssh: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 14:58:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 01 Jul 2013 15:01:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Monday 01 July 2013 15:49:00 Burton, Ross wrote:
-> On 28 June 2013 11:02, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> > I appreciate the intention here but I'm not sure if this is really the
-> > appropriate place to put this; packagegroup-core-boot is supposed to only
-> > directly pull in the essentials required for booting. This will cause
-> > problems for those people using alternative device managers (e.g. busybox
-> > mdev) as well.
-> > 
-> > I'm not sure where this should go, but adding it to VIRTUAL-
-> > RUNTIME_dev_manager (in the distro config?) could work. Anyone else have
-> > any better suggestion?
-> 
-> How about making udev RRECOMMEND udev-cache?
+On 1 July 2013 14:45, Shakeel, Muhammad <muhammad_shakeel@mentor.com> wrote:
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+> @@ -0,0 +1,11 @@
+> +[Unit]
+> +Conflicts=sshd.service
 
-It's not that udev-cache might not be available, rather that packagegroup-
-core-boot shouldn't have any kind of reference to it. In any case unless udev 
-is skipped somehow, an RRECOMMENDS on udev-cache will end up building udev 
-even if you haven't selected it in VIRTUAL-RUNTIME_dev_manager so that won't 
-help.
+What's this conflicts for?
 
-Cheers,
-Paul
+> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
+> new file mode 100644
+> index 0000000..d118490
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
+> @@ -0,0 +1,9 @@
+> +[Unit]
+> +Description=OpenSSH Per-Connection Daemon
+> +After=sshdgenkeys.service
+> +
+> +[Service]
+> +ExecStart=-/usr/sbin/sshd -i
 
--- 
+Please run this through sed to respect $sbindir.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
+> new file mode 100644
+> index 0000000..c717214
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
+> @@ -0,0 +1,10 @@
+> +[Unit]
+> +Description=SSH Key Generation
+> +
+> +[Service]
+> +ExecStart=/usr/bin/ssh-keygen -A
+
+Ditto.
+
+> -PR = "r0"
+> +PR = "r1"
+
+No need to bump PR in oe-core.
+
+Ross
 
