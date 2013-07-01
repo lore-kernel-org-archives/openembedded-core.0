@@ -1,42 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C88E361086
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
+	[209.85.212.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 011586ADA3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 15:22:17 +0000 (UTC)
-Received: by mail-pa0-f47.google.com with SMTP id kl14so5144646pab.34
+	Mon,  1 Jul 2013 15:39:39 +0000 (UTC)
+Received: by mail-vb0-f52.google.com with SMTP id f12so3704656vbg.39
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2013 08:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=7XBqS319RyKWdFJYPV1MofINvt38bQBJVam4Mcj0rB8=;
-	b=XQJ6QBwi5AquRVscCtUqmQGw7mAeeu96Z7Ow8Avlu78dHeTz3XXhrOSpbwyNLxd6ho
-	qhLKpsjNvfp6ZEOyq74DriePA4qhSKDcRE8hYmQiTu5r6dEwKJZTsVQh3Lkmz3n+LIox
-	J2EeOKEjiuiIkV7l5rkrGOxpe0bx6skN6fGTXHDZJLxg8tgGz3rLzHU53y3qp8HsJwOw
-	2xwKfvz3PJvaqj3oic0SKdSMrzUQ3eBzC3LqJvENhYW7i8r1ERaRumo9p7g9ZkH8Spgy
-	9TSIgnTCOSN8iYTpfAINrFLXD3KapiM0dN0+dSlVnEnkz/CiHvoriD0cmzNx0wQmytJy
-	xBMg==
-X-Received: by 10.66.169.42 with SMTP id ab10mr24621341pac.14.1372692138973;
-	Mon, 01 Jul 2013 08:22:18 -0700 (PDT)
-Received: from kosborne-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	qp4sm22748153pbc.41.2013.07.01.08.22.06 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 01 Jul 2013 08:22:07 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LZT=jktkc4+MURMzO1Vn9BcyzaaHcZTz_LmAHb5fpF27A@mail.gmail.com>
-Date: Mon, 1 Jul 2013 08:22:05 -0700
-Message-Id: <3010645D-C618-4642-BF4B-27CD8988B4E4@gmail.com>
-References: <CAKpQ200meOQcEu+vwbWBQpVC+FtvJw1uXLVV2qufvLud5aEvLg@mail.gmail.com>
-	<C234ACE8-19BD-4AA8-A45C-C2F712BFA4ED@gmail.com>
-	<CAJTo0LZT=jktkc4+MURMzO1Vn9BcyzaaHcZTz_LmAHb5fpF27A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: =?iso-8859-1?Q?V=EDctor_MV?= <v.mayoralv@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: apr: Add EXTRA_OECONF += "apr_cv_mutex_recursive=yes"
+	Mon, 01 Jul 2013 08:39:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=Uvip12ydiW/8BnEpa7noVnh3zt7CLRMbE7I71WP/cw8=;
+	b=DVnNsmlVkDGqnVeNxOoPwd0eA4dZ8agGWsfLQ7e8zoQ70xpWaSwF0PmtVCLz7HTrSz
+	Q1PBDglx+RQ4k9ANgbaum2o2JSDQUL65SGimnwZcZ8UsKJAHKvnFVG4Khbb8Gu+Np++n
+	SlOpP9vFiPaifmWfhb3AjpQWCLZ2lILRsFIzJUhEve8yrW1s7NTtg3ebx0kxFb+NzcRn
+	CUOTkDHmcle7OdQYuGaSmSuyfd9AICVwIYdHDOn+WCQUSJp5r8ihQXmuHFp0FaYbN/Qr
+	zA27tb1e22J/f02vKFqOwMaFX58QgUsN1e8vEfeU1lxcWY3JNLrrvpS9uAGrua3v/bWo
+	SZcg==
+X-Received: by 10.52.21.232 with SMTP id y8mr7952153vde.6.1372693180632; Mon,
+	01 Jul 2013 08:39:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Mon, 1 Jul 2013 08:39:20 -0700 (PDT)
+In-Reply-To: <137271775.y6VAVELV8v@helios>
+References: <1372688477-27863-1-git-send-email-paul.eggleton@linux.intel.com>
+	<CAJTo0Laa1Y4NtDbQsGEJRaP+K31y_CF9Hmk=drvFs1GOArPBzw@mail.gmail.com>
+	<137271775.y6VAVELV8v@helios>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 1 Jul 2013 16:39:20 +0100
+Message-ID: <CAJTo0LbhmTyspfdQJaEXVWpZYyFSW-bWtP_Q8AJBkgTRqDiB6Q@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQmbf/rl6wI3lidfUNkfV3r0/+DlCzn4RY6ghe6rgfpR7pryPjOCYwQyA6f0dndhlYFLHkZo
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lttng-modules: allow building without tracepoints enabled in kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,31 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 15:22:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 01 Jul 2013 15:39:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 1 July 2013 15:55, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> Right, I did check the find manpage but it only mentioned that -delete deletes
+> files. Testing here I see that it does work though. I'll wait for further
+> reviews before sending a v2.
 
-On Jul 1, 2013, at 7:46 AM, "Burton, Ross" <ross.burton@intel.com> =
-wrote:
+Actually, http://pubs.opengroup.org/onlinepubs/009696699/utilities/find.html
+doesn't mention -delete, so it's possible/likely this is a GNUism.  I
+retract my comment.
 
-> On 1 July 2013 15:30, Khem Raj <raj.khem@gmail.com> wrote:
->> to prepate the patch for review and instead of putting it in =
-EXTRA_OECONF
->> add it to CACHED_CONFIGUREVARS
->=20
-> If it's going to do to CACHED_CONFIGUREVARS then the same series
-> should also remove the mention of this variable in
-> meta/site/powerpc32-linux too...
->=20
-> (one day I'll start a big prune of the site values, moving the
-> non-architecture-specific values to generic files)
-
-that will be a good work. many a times these values in common files step =
-on each other when building different packages
-containing those contentious ones in recipes would be good.
-
->=20
-> Ross
-
+Ross
 
