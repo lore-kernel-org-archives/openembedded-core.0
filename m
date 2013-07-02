@@ -1,36 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f53.google.com (mail-vb0-f53.google.com
-	[209.85.212.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 207F1612D1
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 78FF762062
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 15:14:45 +0000 (UTC)
-Received: by mail-vb0-f53.google.com with SMTP id p12so4629168vbe.26
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 08:14:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=AhVuv/ng8HSAU0COdTPDV2QGUplJ7n2B/HQEhoN6M2k=;
-	b=MzPR/Be9ZVy3okmfjmPw5F27xkWfwPDhedAitmvzyTdL3/s5Wp12xNB4idK9lxzgB7
-	HTN034TCz6RdQo9aIXnYVKgXtinPrlhTepGlaARD+l0nHiNLfRGDIswwYyeymwsHmrtk
-	cWRbM4QdWFRjd+fFSD0HBWUViW77H8Rt1gJkXpGihWFU+mt77lCDGCamKLzH34ZDVRwv
-	wIZDIdZO/9ddXkB/OrDlDssvQIdcBV12Bcrf68JcJ6LA4PhN9qqu1NxP+XRFZJP6dNNu
-	VqpG8Y4Z0ASy+FCXhUREdwprciuPrd94Td9mAhaVh7XC3Dmu5JBxfitwS+gNYK0i8eyX
-	CpXQ==
-X-Received: by 10.220.73.66 with SMTP id p2mr11396378vcj.94.1372778085481;
-	Tue, 02 Jul 2013 08:14:45 -0700 (PDT)
+	Tue,  2 Jul 2013 15:15:09 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 02 Jul 2013 08:15:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,980,1363158000"; d="scan'208";a="263125469"
+Received: from lpalcu-linux.rb.intel.com (HELO [10.237.105.165])
+	([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Jul 2013 08:15:04 -0700
+Message-ID: <51D2EE77.1070004@intel.com>
+Date: Tue, 02 Jul 2013 18:15:03 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 2 Jul 2013 08:14:25 -0700 (PDT)
-In-Reply-To: <1372769121-3111-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-References: <1372769121-3111-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Jul 2013 16:14:25 +0100
-Message-ID: <CAJTo0La4UFeV2Ew0rs5Jw2AQog7-JJuaG4QZNBeW4yBxXN27yg@mail.gmail.com>
-To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-X-Gm-Message-State: ALoCoQn6+PO3ME5NjoMHZQYM+FeSiy7SSU1bxReqwNpzIZzfPRA38LdvUow/t2dpORjdHJxWDZ83
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1372749046.git.sgw@linux.intel.com>
+	<CAJTo0LYhCJOiS8=7NHvggv5ZedS5GbG6SJtwEGjqiT9qGaCMgw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYhCJOiS8=7NHvggv5ZedS5GbG6SJtwEGjqiT9qGaCMgw@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mkelfimage: switch to git repository
+Subject: Re: [PREVIEW CONSOLIDATED PATCH 00/42] M2 Final Pull - Preview
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +34,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 15:14:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Jul 2013 15:15:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On 2 July 2013 13:45, Emilia Ciobanu
-<emilia.maria.silvia.ciobanu@intel.com> wrote:
-> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 
-Can you explain why you're switching to git (unreleased features you
-need, I presume?) in the commit message please.
 
-Ross
+On 07/02/2013 01:21 PM, Burton, Ross wrote:
+> On 2 July 2013 08:14, Saul Wold <sgw@linux.intel.com> wrote:
+>> > Laurentiu Palcu (1):
+>> >   xinput-calibrator: move it from meta-oe to oe-core
+> Drop, about to mail a review.
+> 
+I didn't see any reasonable reason for dropping this. Or, maybe, there
+was and I missed it...
+
+Laurentiu
 
