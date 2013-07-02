@@ -1,36 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id ACA65621E6
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7B162062
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 10:36:31 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id hv10so2644964vcb.36
+	Tue,  2 Jul 2013 10:39:43 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q12so4391482vbe.41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 03:36:32 -0700 (PDT)
+	Tue, 02 Jul 2013 03:39:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=THlSUEyZN3jWY7aAPB6a7Xvh3CFEzePGY3JwczQQ4ZE=;
-	b=ioY75xvZD6b6GLKcosfWEimS7zQUZUZ4YbeAxgRu++eXYmQ9gru57bRo7xzMMzCTOp
-	dHWL2CyJEkBiAuzSoIdg/zWKzNpDD+2kwfoZvEwECDQbCAGbUr3FggeXtzwDNOEC8h6f
-	FAYR4QEdqXr7S/GtVaD8HnoWX4woCpt8FP79ddEBaYrXvmPf7EzqEfQVRb29aUMcUa3m
-	PIYmDDDjdNFHiO7vufa/X36MdiCCzW5+oJw0JMEJm93ptesrfzoWEDAzoVEd2u8tDSvb
-	+2BOoccRa4fBjZx88pIe0MINz9BpFxDyaG54VX62OJ+feEjT79w2665Do/fAGzGpqyBN
-	YOuw==
-X-Received: by 10.52.163.46 with SMTP id yf14mr9208079vdb.58.1372761392451;
-	Tue, 02 Jul 2013 03:36:32 -0700 (PDT)
+	bh=AhbN9729QJXObM/0cWevypTQxZZmLn+5bopfEfVxrKY=;
+	b=mgaNFONrn9KJUcx8alSAc9/OLwLsZ0PLvZ72WWFUC/oMGXY2yHbp20CKAAAfTDRFCT
+	gGWrq1W3Ko8BP9sJk7KU04tJCFVu3eldYMNZxGGildr2cRIHkd5gjIP9BtflEbfELfGw
+	lQlLVaH4zGGgp225bqAid0+WBjEb5esNyD/rhyN+mP2DsrfJN6PvpowZ0JrG2wrwLbh7
+	v1wJ49Q3ATxvNgTqr2g4rBSv5i2g1z8sFB1rWaztXdyean0cAyWmT7bNW/fPgsg8+3br
+	xbbXyJXcm7zE8oW0/OwCCDvs/IWRrUOYxypcEPGsXTBOtuMlzRR8arUT97ARudc+mIBb
+	BpQg==
+X-Received: by 10.220.58.195 with SMTP id i3mr11057295vch.38.1372761584949;
+	Tue, 02 Jul 2013 03:39:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 2 Jul 2013 03:36:12 -0700 (PDT)
-In-Reply-To: <1372457299-8340-1-git-send-email-sgw@linux.intel.com>
-References: <1372457299-8340-1-git-send-email-sgw@linux.intel.com>
+Received: by 10.220.13.144 with HTTP; Tue, 2 Jul 2013 03:39:24 -0700 (PDT)
+In-Reply-To: <5fe62449a23d73dcdae54d7e8f37f2a178ad0751.1372707180.git.Martin.Jansa@gmail.com>
+References: <cover.1372707180.git.Martin.Jansa@gmail.com>
+	<5fe62449a23d73dcdae54d7e8f37f2a178ad0751.1372707180.git.Martin.Jansa@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Jul 2013 11:36:12 +0100
-Message-ID: <CAJTo0LYvUMKyKqLBFEHXavjgRmwAxnPY6rfwFTux2ZAdSGX0Lw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQkXiib1bAYujquyDYWh0ept2snVpxNW5BZeFybdSXEgmo83xpNxf68wqOm3mYzujFnGVdrK
+Date: Tue, 2 Jul 2013 11:39:24 +0100
+Message-ID: <CAJTo0Lah0em7+be56wFOAHP+eCZy7NJqN=BY+T1SN47bXdKbwQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQmia9P5Pa0lG2oKFlZi4JBVJqkR2YnYhQq7bQ/UF+7D7HLYruDz+3z7T7csjHP8bmFnHeG2
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] security_flags: Add the compiler and linker flags that enhance security
+Subject: Re: [PATCH 3/4] mesa: bump SRCREV in git recipe, refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,20 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 10:36:32 -0000
+X-List-Received-Date: Tue, 02 Jul 2013 10:39:44 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 28 June 2013 23:08, Saul Wold <sgw@linux.intel.com> wrote:
-> These flags add addition checks at compile, link and runtime to prevent
-> stack smashing, checking for buffer overflows, and link at program start
-> to prevent call spoofing later.
->
-> This needs to be explicitly enabled by adding the following line to your
-> local.conf:
->
-> require conf/distro/include/security_flags.inc
+On 1 July 2013 20:36, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * 0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+>   needs to be rebased so move old version for 9.1.3 to
+>   mesa-9.1.3/ and update the version in meta/
 
-Will we be enabling this in Poky?
+Typo "meta/".
+
+> -# 9.1.3 commit
+> -SRCREV = "f32ec82a8cfcabc5b7596796f36afe7986651f02"
+> +SRCREV = "5a925cc5504575c22dbb7d29842d7fc5babcb5c7"
+>  PV = "9.1.3+git${SRCPV}"
+
+git describe doesn't call this a descendent of 9.1.x so I presume this
+is a master commit.  Can you change PV to reflect that somehow?
+
+That said I've discovered that our rpm doesn't support ~, so calling
+it "9.2.0~git" isn't going to work.
 
 Ross
 
