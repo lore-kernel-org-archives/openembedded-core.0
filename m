@@ -1,26 +1,37 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 980206AC48
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-pb0-f43.google.com (mail-pb0-f43.google.com
+	[209.85.160.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 22E9A6AB93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 01:35:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r621ZD45015197
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  2 Jul 2013 01:39:59 +0000 (UTC)
+Received: by mail-pb0-f43.google.com with SMTP id md12so5478562pbc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Jul 2013 18:35:13 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 1 Jul 2013 18:35:13 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Jul 2013 09:35:11 +0800
-Message-ID: <8a9a790c7b1ad1c392c524482a4ecb293b093c6f.1372727248.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1372727248.git.rongqing.li@windriver.com>
-References: <cover.1372727248.git.rongqing.li@windriver.com>
+	Mon, 01 Jul 2013 18:40:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:user-agent:mime-version
+	:content-transfer-encoding:content-type;
+	bh=qVL3txkF2on4uEHA5jlwc6Yyc4FNOEK/k0WFabJiq2k=;
+	b=Z+DY5IWdQSnq1/CBiTxXGh6XW+nijF0pB5iE2Y1rWAnD7R5XIjjbUQu8Gtss7R4Dfj
+	ZBnDN3ogFWOoMUXnJEn+ySQfYxlal6s/iAq2p+Mnum3DYY3HlPoVvfb9Ss5Os1HRc+UD
+	aaq7EuYQMx0rM4UpmA2j24FDXckLuK2wF/jCdgCSDa0fd+3Ne9vba1wJedTy5/M5RJHJ
+	foJ43EDnFi+NR5znwPwKFjPOj63gPYJbNCPtBbJ58tO6Gzwmm2GdXVxx69MK5ynWq/LI
+	LDVwzVTOOPfUjzZDcd4pBRzKBL9tImAXBPHOvUm7p3hFESidAetXgnIptoOEb3swwaFY
+	IKFg==
+X-Received: by 10.68.178.129 with SMTP id cy1mr26652066pbc.73.1372729200334;
+	Mon, 01 Jul 2013 18:40:00 -0700 (PDT)
+Received: from yiqingliang-pc.localnet ([58.212.12.45])
+	by mx.google.com with ESMTPSA id
+	fl2sm26472695pab.23.2013.07.01.18.39.57
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 01 Jul 2013 18:39:59 -0700 (PDT)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 02 Jul 2013 09:35:20 +0800
+Message-ID: <4783685.hnM3VA9Ozj@yiqingliang-pc>
+User-Agent: KMail/4.10.4 (Linux/3.9.6-1-ARCH; KDE/4.10.4; x86_64; ; )
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sysstat: backport a patch to fix a parallel building error
+Subject: systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 01:35:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Jul 2013 01:39:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+Hi, All:
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- ...-Makefile-to-allow-for-parallel-execution.patch |   34 ++++++++++++++++++++
- meta/recipes-extended/sysstat/sysstat.inc          |    3 +-
- 2 files changed, 36 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch
+I want use systemd, add following into my own distro.conf
+     DISTRO_FEATURES_append = " systemd"
+     VIRTUAL-RUNTIME_init_manager = "systemd"
+     DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 
-diff --git a/meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch b/meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch
-new file mode 100644
-index 0000000..c82b19c
---- /dev/null
-+++ b/meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch
-@@ -0,0 +1,34 @@
-+Upstream-Status: Backport
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+
-+From eb44730094a68f4d37d95ddc3480a5972619b43f Mon Sep 17 00:00:00 2001
-+From: Sebastien GODARD <sysstat@orange.fr.fake>
-+Date: Sat, 22 Jun 2013 14:08:40 +0200
-+Subject: [PATCH] Update Makefile to allow for parallel execution
-+
-+Rewrite rule for librdstats.a in Makefile to prevent possible file
-+corruption when using make -j.
-+
-+Signed-off-by: Sebastien GODARD <sysstat@orange.fr.fake>
-+---
-+ Makefile.in |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index f8e6159..159cacf 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -202,7 +202,9 @@ sadf_misc.o: sadf_misc.c sadf.h sa.h
-+ libsyscom.a: common.o ioconf.o
-+ 	$(AR) rvs $@ $?
-+ 
-+-librdstats.a: librdstats.a(rd_stats.o count.o)
-++# Ditto
-++librdstats.a: rd_stats.o count.o
-++	$(AR) rvs $@ $?
-+ 
-+ librdsensors.a: librdsensors.a(rd_sensors.o)
-+ 
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 263cbd2..ac3c89b 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -5,7 +5,8 @@ LICENSE = "GPLv2+"
- SECTION = "console/utils"
- 
- SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.gz \
--		   file://99_sysstat"
-+		   file://99_sysstat \
-+		   file://0001-Update-Makefile-to-allow-for-parallel-execution.patch "
- 
- inherit autotools gettext
- 
+but when do_rootfs for my own image, I got error:
+     error: package update-rc.d is not installed
+     error: package base-passwd is not installed
+     error: package run-postinsts is not installed
+
+Any idea? Thanks!
+
 -- 
-1.7.10.4
-
+Nanjing Jilong
+Yi Qingliang
+niqingliang2003@gmail.com
 
