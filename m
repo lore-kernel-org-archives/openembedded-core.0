@@ -1,39 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
-	[209.85.212.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FFBF605A0
+Return-Path: <joe@deserted.net>
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C0ED607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 13:05:38 +0000 (UTC)
-Received: by mail-vb0-f42.google.com with SMTP id i3so4573862vbh.1
+	Tue,  2 Jul 2013 13:18:47 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id l15so2788442eak.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 06:05:39 -0700 (PDT)
+	Tue, 02 Jul 2013 06:18:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=uTnz9Qv8CuXgVK4Zw1hP2BLvQBOQEf8vZM+rjJXzFyw=;
-	b=TmMeE1oy3GygTd43ckC6lLDKc9s5z5BTD3N0hqm4qRz0I0P0nC2OIIcLbdxMRNCS/0
-	JXZn2H4HyI+julc3vPIp5FHS/roE50hDj7a06i49AiQirOglJ1Uh3gZzW6eWfpZ432V7
-	O2geWHld2IDx0Ad6rjWbhpVjITwD3NzJqirJIX4G1j6+ZEQ8cljaW9KcUifYfvmQnifb
-	yXwwQYrNQAjyYHD3h7czeQiZXU9ZaEmb9v59jn0ju7kGtxxwuFfUf6NF1VBAMoKny9RM
-	rZJ910p8i8mQ+YGObxvFFN+gH+UkpUynUPKSP/tz8M+B7kwjs1hMmfpsCgg0804BY6nN
-	OHLQ==
-X-Received: by 10.58.171.4 with SMTP id aq4mr11170536vec.26.1372770339117;
-	Tue, 02 Jul 2013 06:05:39 -0700 (PDT)
+	h=date:from:to:subject:message-id:mime-version:content-type
+	:content-disposition:x-mailer:x-editor:user-agent:x-gm-message-state;
+	bh=rhBwFMHILEY6P5bc1IVregFCuZ53qqe6wFi2bED/xbA=;
+	b=gZ+vRqdrqTrOVxtxl+2xTFbjWoSI/R/Ga5BeO7nfB8Lid5qorzX2P3dOGtLz2D2NC5
+	H8q5g4INi8lrd7KQ7KJXZiHPscl7AjbTH3UFDoc6e5Ztn4/5eQflM4kVEonMjCj2Gj/u
+	4MEpYFJsOy64KzygcANDuv5am/kpGert2CxL7Lkwed1vROsZh8Rwt4LyRZtZ1JlMblMp
+	wDok3np4G7n7dXETZlwEW4iwxZFmgArKOuOUtmnPh1jgNU1wgz5fGFAqb98Lry/K085t
+	W/NhAuaQcLrACr6LOhwQnt/X/b/dFEq7kYUupgr2u2Y//LmzQdAySiRvGTIzKPjqDk2p
+	PnEQ==
+X-Received: by 10.15.36.133 with SMTP id i5mr26431803eev.52.1372771127420;
+	Tue, 02 Jul 2013 06:18:47 -0700 (PDT)
+Received: from burninator ([128.224.252.2]) by mx.google.com with ESMTPSA id
+	ci50sm36555774eeb.12.2013.07.02.06.18.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 02 Jul 2013 06:18:46 -0700 (PDT)
+Date: Tue, 2 Jul 2013 09:18:41 -0400
+From: Joe MacDonald <joe@deserted.net>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130702131840.GA7855@burninator>
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 2 Jul 2013 06:05:19 -0700 (PDT)
-In-Reply-To: <20130702114403.GA3285@jama>
-References: <cover.1372707180.git.Martin.Jansa@gmail.com>
-	<5fe62449a23d73dcdae54d7e8f37f2a178ad0751.1372707180.git.Martin.Jansa@gmail.com>
-	<CAJTo0Lah0em7+be56wFOAHP+eCZy7NJqN=BY+T1SN47bXdKbwQ@mail.gmail.com>
-	<20130702114403.GA3285@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Jul 2013 14:05:19 +0100
-Message-ID: <CAJTo0LZ9r00qQFj2o8c65bEYyyPWzYmPG4m4aZ4+KkfF5P-orw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Gm-Message-State: ALoCoQlRlu1Mp7QIf4tO5qAZoK25P8bbrnGft1f6Imd27ArEU48fSlpPPswX7wnm14kWU5Vpyy0W
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] mesa: bump SRCREV in git recipe, refresh patches
+X-Mailer: git-send-email 1.7.10.4
+X-Editor: Vim-703 http://www.vim.org
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Gm-Message-State: ALoCoQndUa/tdCvwGo2rmhm7+3deY0cC0CwmZRFdGoTzvkOaxWW8gi7Khuwc4liMmBAnnklpOOxT
+Subject: [RFC PATCH v2] Allow remote sstate cache fetches when BB_NO_NETWORK set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,29 +47,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 13:05:38 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 02 Jul 2013 13:18:47 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2 July 2013 12:44, Martin Jansa <martin.jansa@gmail.com> wrote:
->> > -# 9.1.3 commit
->> > -SRCREV = "f32ec82a8cfcabc5b7596796f36afe7986651f02"
->> > +SRCREV = "5a925cc5504575c22dbb7d29842d7fc5babcb5c7"
->> >  PV = "9.1.3+git${SRCPV}"
->>
->> git describe doesn't call this a descendent of 9.1.x so I presume this
->> is a master commit.  Can you change PV to reflect that somehow?
->>
->> That said I've discovered that our rpm doesn't support ~, so calling
->> it "9.2.0~git" isn't going to work.
->
-> yes it's from master and I think that we always used this syntax
-> ${OLD_RELEASED_VERSION}+git${SRCPV}
->
-> IIRC "9.2.0~git" isn't supported in opkg too.
+Originally I had two changes, on to oe-core's sstate.bbclass and one in
+bitbake's fetcher.  Following on from the feedback on the bitbake-devel list,
+here's version two, isolated to sstate.bbclass.
 
-dpkg and opkg supports it, and the other fork of rpm does too - it's
-just our chosen fork of rpm that apparently doesn't (or our tooling
-around it doesn't, I didn't investigate much).
+My objective here is to support a very specific scenario.  I have a well-fed
+sstate cache on my internal network.  I want to use it for accelerating builds
+across a variety of machines where NFS is not really an option.  I don't want
+bitbake to ever attempt to fetch sources for packages, though, so I'm always
+using BB_NO_NETWORK.
 
-Ross
+The proposal I have is adding a new local.conf variable that will allow cache
+fetches only to be exempt from BB_NO_NETWORK restrictions.  If it is set and
+BB_NO_NETWORK is not set, there's no change in behaviour.  If it is not set and
+BB_NO_NETWORK is set, again, no change in today's behaviour.  If both are set,
+however, for sstate mirror fetch attempts we will temporarily mask off
+BB_NO_NETWORK, allowing the fetch to complete for the sstate object, but still
+disable network access for remote sources.
+
+-- 
+-Joe MacDonald.
+:wq
 
