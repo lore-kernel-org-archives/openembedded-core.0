@@ -1,40 +1,42 @@
 Return-Path: <joe@deserted.net>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C0ED607F8
+Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0674562062
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 13:18:47 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id l15so2788442eak.9
+	Tue,  2 Jul 2013 13:19:11 +0000 (UTC)
+Received: by mail-ee0-f53.google.com with SMTP id c41so2757321eek.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 06:18:47 -0700 (PDT)
+	Tue, 02 Jul 2013 06:19:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=date:from:to:subject:message-id:mime-version:content-type
-	:content-disposition:x-mailer:x-editor:user-agent:x-gm-message-state;
-	bh=rhBwFMHILEY6P5bc1IVregFCuZ53qqe6wFi2bED/xbA=;
-	b=gZ+vRqdrqTrOVxtxl+2xTFbjWoSI/R/Ga5BeO7nfB8Lid5qorzX2P3dOGtLz2D2NC5
-	H8q5g4INi8lrd7KQ7KJXZiHPscl7AjbTH3UFDoc6e5Ztn4/5eQflM4kVEonMjCj2Gj/u
-	4MEpYFJsOy64KzygcANDuv5am/kpGert2CxL7Lkwed1vROsZh8Rwt4LyRZtZ1JlMblMp
-	wDok3np4G7n7dXETZlwEW4iwxZFmgArKOuOUtmnPh1jgNU1wgz5fGFAqb98Lry/K085t
-	W/NhAuaQcLrACr6LOhwQnt/X/b/dFEq7kYUupgr2u2Y//LmzQdAySiRvGTIzKPjqDk2p
-	PnEQ==
-X-Received: by 10.15.36.133 with SMTP id i5mr26431803eev.52.1372771127420;
-	Tue, 02 Jul 2013 06:18:47 -0700 (PDT)
-Received: from burninator ([128.224.252.2]) by mx.google.com with ESMTPSA id
-	ci50sm36555774eeb.12.2013.07.02.06.18.45
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:x-mailer:x-editor
+	:user-agent:x-gm-message-state;
+	bh=NCo05bqa7qE1ak1fh+uM8SpJqGCEzicq6TBeUqL2SZA=;
+	b=Hd3oTH3w3FShilmStU6p8LDN0RdU71bu4mobPx5gzeTTqUaGxUv07CFEflG7SsDZ4d
+	kfcFcoGW5OsFz5Cs9qbZGxs6U7HxYyRl29dNNmHAtH0l2hmY37waU35b/dDkgiIdceqi
+	NY1pXaB7vOju6+qF9DUzX73TNXERGAziItuG0iGPTTtP+npCVdJpW6jJdiEM4wvFnHOb
+	TeGIci7VXXcXg1+AOaTtScl5MJyc9lSQYorM8vei/VFBIrzIuLBSn5IwXptlBxTlkWRf
+	b311vWMf6f454/Z70/nDLPeRQ6rY3c2txhsEP+IvC5paaXMAhmVDs9cL96aaMjS2D661
+	XWdw==
+X-Received: by 10.15.32.67 with SMTP id z43mr26489648eeu.24.1372771152701;
+	Tue, 02 Jul 2013 06:19:12 -0700 (PDT)
+Received: from burninator ([128.224.252.2])
+	by mx.google.com with ESMTPSA id o5sm36551403eef.5.2013.07.02.06.19.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 02 Jul 2013 06:18:46 -0700 (PDT)
-Date: Tue, 2 Jul 2013 09:18:41 -0400
+	Tue, 02 Jul 2013 06:19:11 -0700 (PDT)
+Date: Tue, 2 Jul 2013 09:19:07 -0400
 From: Joe MacDonald <joe@deserted.net>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20130702131840.GA7855@burninator>
+Message-ID: <20130702131906.GB7855@burninator>
+References: <1372447783-24719-1-git-send-email-joe.macdonald@windriver.com>
 MIME-Version: 1.0
+In-Reply-To: <1372447783-24719-1-git-send-email-joe.macdonald@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 X-Editor: Vim-703 http://www.vim.org
 User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Gm-Message-State: ALoCoQndUa/tdCvwGo2rmhm7+3deY0cC0CwmZRFdGoTzvkOaxWW8gi7Khuwc4liMmBAnnklpOOxT
-Subject: [RFC PATCH v2] Allow remote sstate cache fetches when BB_NO_NETWORK set
+X-Gm-Message-State: ALoCoQkU8Nz5rnfKg/My9KaWKDP5A711q9bFAC92ABfVf5cVz7Nv7A5rCHtw2Pq/osGhCpihzwKE
+Subject: [RFC PATCH] sstate.bbclass: Add an extra check for sstate_mirrors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +49,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 13:18:47 -0000
+X-List-Received-Date: Tue, 02 Jul 2013 13:19:12 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Originally I had two changes, on to oe-core's sstate.bbclass and one in
-bitbake's fetcher.  Following on from the feedback on the bitbake-devel list,
-here's version two, isolated to sstate.bbclass.
+BB_NO_NETWORK disables any fetching, however if we're using an external
+sstate cache, we may want to be able to fetch those objects even if we are
+not fetching the upstream sources.  Denote this situation by setting
+SSTATE_MIRROR_ALLOW_NETWORK in local.conf.  When it is found, for sstate
+cache fetches, mask off BB_NO_NETWORK for the local function.
 
-My objective here is to support a very specific scenario.  I have a well-fed
-sstate cache on my internal network.  I want to use it for accelerating builds
-across a variety of machines where NFS is not really an option.  I don't want
-bitbake to ever attempt to fetch sources for packages, though, so I'm always
-using BB_NO_NETWORK.
+Signed-off-by: Joe MacDonald <joe.macdonald@windriver.com>
+---
+ meta/classes/sstate.bbclass |   10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-The proposal I have is adding a new local.conf variable that will allow cache
-fetches only to be exempt from BB_NO_NETWORK restrictions.  If it is set and
-BB_NO_NETWORK is not set, there's no change in behaviour.  If it is not set and
-BB_NO_NETWORK is set, again, no change in today's behaviour.  If both are set,
-however, for sstate mirror fetch attempts we will temporarily mask off
-BB_NO_NETWORK, allowing the fetch to complete for the sstate object, but still
-disable network access for remote sources.
-
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 28dc312..c1ca54b 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -509,6 +509,11 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
+     localdata.setVar('DL_DIR', dldir)
+     localdata.setVar('PREMIRRORS', mirrors)
+ 
++    # if BB_NO_NETWORK is set but we also have SSTATE_MIRROR_ALLOW_NETWORK,
++    # we'll want to allow network access for the current set of fetches.
++    if localdata.getVar('BB_NO_NETWORK', True) == "1" and localdata.getVar('SSTATE_MIRROR_ALLOW_NETWORK', True) == "1":
++        localdata.delVar('BB_NO_NETWORK')
++
+     # Try a fetch from the sstate mirror, if it fails just return and
+     # we will build the package
+     for srcuri in ['file://{0}'.format(sstatefetch),
+@@ -619,6 +624,11 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d):
+ 
+         bb.debug(2, "SState using premirror of: %s" % mirrors)
+ 
++        # if BB_NO_NETWORK is set but we also have SSTATE_MIRROR_ALLOW_NETWORK,
++        # we'll want to allow network access for the current set of fetches.
++        if localdata.getVar('BB_NO_NETWORK', True) == "1" and localdata.getVar('SSTATE_MIRROR_ALLOW_NETWORK', True) == "1":
++            localdata.delVar('BB_NO_NETWORK')
++
+         for task in range(len(sq_fn)):
+             if task in ret:
+                 continue
 -- 
--Joe MacDonald.
-:wq
+1.7.10.4
+
 
