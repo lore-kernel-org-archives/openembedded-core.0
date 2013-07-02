@@ -1,24 +1,38 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A67816AEC3
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 04AF66A642
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 23:36:19 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 02 Jul 2013 16:36:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,983,1363158000"; d="scan'208";a="363843256"
-Received: from unknown (HELO [10.255.13.91]) ([10.255.13.91])
-	by orsmga002.jf.intel.com with ESMTP; 02 Jul 2013 16:36:20 -0700
-Message-ID: <51D363F4.3020103@linux.intel.com>
-Date: Tue, 02 Jul 2013 16:36:20 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue,  2 Jul 2013 23:53:09 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id eb20so6208448lab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Jul 2013 16:53:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=OiV/M6PMXML3N8JpbKfnD8jMJITuOviv1FYKgs7de6w=;
+	b=CDqRHUCbnYa/PzD2yxZammnWVLjdoh3F6wgWmBNGNL0GCGiIS5jzmvZNBcsmHy02le
+	1v6GpK0p1e1DEbb5Er5ZX8fGqzY2yl1h8+f0jbn4Jbiv+anLqcoQKDHoXjnSAfXGIFbm
+	mOJ+hY6AXP4v0eLntLBX8+6SrqHZHfJrwBKtkyn0YvLXSUr9930WQVXrGQOtHq7jP0Wy
+	nRmE6yjc6/UxcH4+3n+zyHoIQViX4SZrMBHAygpHKPdbqXPnzjhZFL03Ktz07pX4NXmk
+	8OSMDG1drpqICIVbkufVTkg4JdEpjQEyqH7NIWkrFHK34OSryOonukYIcFlJHFIXyXD8
+	VbiQ==
+X-Received: by 10.112.143.162 with SMTP id sf2mr96982lbb.1.1372809190003; Tue,
+	02 Jul 2013 16:53:10 -0700 (PDT)
 MIME-Version: 1.0
-To: Yevhen Kyriukha <kirgene@gmail.com>
+Sender: kergoth@gmail.com
+Received: by 10.112.3.5 with HTTP; Tue, 2 Jul 2013 16:52:49 -0700 (PDT)
+In-Reply-To: <51D363F4.3020103@linux.intel.com>
 References: <1372248906-2554-1-git-send-email-kirgene@gmail.com>
-In-Reply-To: <1372248906-2554-1-git-send-email-kirgene@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+	<51D363F4.3020103@linux.intel.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Tue, 2 Jul 2013 16:52:49 -0700
+X-Google-Sender-Auth: DK4rlP2oPQ1moBHfO7PWfD9INhU
+Message-ID: <CABcZANncqRZqdEvFCm7NsMcKEh=Cz=hgFpLNx3Bg1voPo22L1w@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Yevhen Kyriukha <kirgene@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v7] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,99 +46,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 23:36:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Jul 2013 23:53:10 -0000
+Content-Type: multipart/alternative; boundary=089e011830381d5aa704e0900caa
 
-On 06/26/2013 05:15 AM, Yevhen Kyriukha wrote:
-> ---
->   meta/recipes-core/systemd/systemd_204.bb |   20 ++++++++++++++++----
->   1 file changed, 16 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
-> index b8b1290..a12c6c9 100644
-> --- a/meta/recipes-core/systemd/systemd_204.bb
-> +++ b/meta/recipes-core/systemd/systemd_204.bb
-> @@ -13,9 +13,15 @@ PE = "1"
->   DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
->   DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
->
-> +# need to export these variables for python-config to work
-> +export BUILD_SYS
-> +export HOST_SYS
-> +export STAGING_INCDIR
-> +export STAGING_LIBDIR
-> +
->   SECTION = "base/shell"
->
-> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu
-> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu pythonnative python-dir
->
+--089e011830381d5aa704e0900caa
+Content-Type: text/plain; charset=UTF-8
 
-There is still a problem with that, that systemd will no bring in python 
-native unconditionally even if the PACKAGECONFIG is disabled, we will 
-need a way to wrap the inherit some how using variables.
+On Tue, Jul 2, 2013 at 4:36 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
-See image.bbclass usage of it around line 100.
-
-Thanks
-	Sau!
-
->   SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
->              file://touchscreen.rules \
-> @@ -51,6 +57,8 @@ DEPENDS += "libgcrypt"
->   # Compress the journal
->   PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
->   PACKAGECONFIG[tcp-wrappers] = "--enable-tcpwrap,--disable-tcpwrap,tcp-wrappers"
-> +# Use python-systemd
-> +PACKAGECONFIG[python] = "--with-python,--without-python,python"
+> On 06/26/2013 05:15 AM, Yevhen Kyriukha wrote:
 >
->   CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
->
-> @@ -71,7 +79,6 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
->                    --disable-tcpwrap \
->                    --enable-split-usr \
->                    --disable-microhttpd \
-> -                 --without-python \
->                    --with-sysvrcnd-path=${sysconfdir} \
->                    --with-firmware-path=/lib/firmware \
->                    ac_cv_path_KILL=${base_bindir}/kill \
-> @@ -93,6 +100,8 @@ do_install() {
->   	# Provided by a separate recipe
->   	rm ${D}${systemd_unitdir}/system/serial-getty* -f
->
-> +	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/systemd/*.la
-> +
->   	# Provide support for initramfs
->   	ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
->   	ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
-> @@ -121,7 +130,7 @@ python populate_packages_prepend (){
->   }
->   PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
->
-> -PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
-> +PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN}"
->
->   USERADD_PACKAGES = "${PN}"
->   GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-> @@ -131,6 +140,9 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
->   FILES_${PN}-initramfs = "/init"
->   RDEPENDS_${PN}-initramfs = "${PN}"
->
-> +FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
-> +RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
-> +
->   FILES_${PN}-gui = "${bindir}/systemadm"
->
->   FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
-> @@ -187,7 +199,7 @@ FILES_${PN} = " ${base_bindir}/* \
->                   /lib/udev/rules.d/99-systemd.rules \
->                  "
->
-> -FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
-> +FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/ ${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
->   FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
->
->   RDEPENDS_${PN} += "dbus util-linux-mount"
+>> ---
+>>   meta/recipes-core/systemd/syst**emd_204.bb <http://systemd_204.bb> |
+>> 20 ++++++++++++++++----
+>>   1 file changed, 16 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/sy**stemd_204.bb<http://systemd_204.bb>b/meta/recipes-core/systemd/
+>> sy**stemd_204.bb <http://systemd_204.bb>
+>> index b8b1290..a12c6c9 100644
+>> --- a/meta/recipes-core/systemd/sy**stemd_204.bb <http://systemd_204.bb>
+>> +++ b/meta/recipes-core/systemd/sy**stemd_204.bb <http://systemd_204.bb>
+>> @@ -13,9 +13,15 @@ PE = "1"
+>>   DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native
+>> gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native
+>> util-linux"
+>>   DEPENDS += "${@base_contains('DISTRO_**FEATURES', 'pam', 'libpam', '',
+>> d)}"
+>>
+>> +# need to export these variables for python-config to work
+>> +export BUILD_SYS
+>> +export HOST_SYS
+>> +export STAGING_INCDIR
+>> +export STAGING_LIBDIR
+>> +
+>>   SECTION = "base/shell"
+>>
+>> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
+>> update-alternatives qemu
+>> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d
+>> update-alternatives qemu pythonnative python-dir
+>>
+>>
+> There is still a problem with that, that systemd will no bring in python
+> native unconditionally even if the PACKAGECONFIG is disabled, we will need
+> a way to wrap the inherit some how using variables.
 >
 
+One possibility might be to split out the python support into a separate
+recipe, if you can point it at bits in the sysroot from the main recipe.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e011830381d5aa704e0900caa
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Jul 2, 2013 at 4:36 PM, Saul Wold <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&gt;</=
+span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On 06/26/2013 05:15 AM, Ye=
+vhen Kyriukha wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+---<br>
+=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_204.bb" target=
+=3D"_blank">syst<u></u>emd_204.bb</a> | =C2=A0 20 ++++++++++++++++----<br>
+=C2=A0 1 file changed, 16 insertions(+), 4 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_204.bb" ta=
+rget=3D"_blank">sy<u></u>stemd_204.bb</a> b/meta/recipes-core/systemd/<a hr=
+ef=3D"http://systemd_204.bb" target=3D"_blank">sy<u></u>stemd_204.bb</a><br=
+>
+index b8b1290..a12c6c9 100644<br>
+--- a/meta/recipes-core/systemd/<a href=3D"http://systemd_204.bb" target=3D=
+"_blank">sy<u></u>stemd_204.bb</a><br>
++++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_204.bb" target=3D=
+"_blank">sy<u></u>stemd_204.bb</a><br>
+@@ -13,9 +13,15 @@ PE =3D &quot;1&quot;<br>
+=C2=A0 DEPENDS =3D &quot;kmod docbook-sgml-dtd-4.1-native intltool-native g=
+perf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-li=
+nux&quot;<br>
+=C2=A0 DEPENDS +=3D &quot;${@base_contains(&#39;DISTRO_<u></u>FEATURES&#39;=
+, &#39;pam&#39;, &#39;libpam&#39;, &#39;&#39;, d)}&quot;<br>
+<br>
++# need to export these variables for python-config to work<br>
++export BUILD_SYS<br>
++export HOST_SYS<br>
++export STAGING_INCDIR<br>
++export STAGING_LIBDIR<br>
++<br>
+=C2=A0 SECTION =3D &quot;base/shell&quot;<br>
+<br>
+-inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-=
+alternatives qemu<br>
++inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-=
+alternatives qemu pythonnative python-dir<br>
+<br>
+</blockquote>
+<br></div>
+There is still a problem with that, that systemd will no bring in python na=
+tive unconditionally even if the PACKAGECONFIG is disabled, we will need a =
+way to wrap the inherit some how using variables.<br></blockquote><div>
+
+<br></div><div style>One possibility might be to split out the python suppo=
+rt into a separate recipe, if you can point it at bits in the sysroot from =
+the main recipe.</div></div>-- <br>Christopher Larson<br>clarson at kergoth=
+ dot com<br>
+
+Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior=
+ Software Engineer, Mentor Graphics
+</div></div>
+
+--089e011830381d5aa704e0900caa--
