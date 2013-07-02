@@ -1,26 +1,44 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 21D1161FB9
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4742F61FB9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 14:38:11 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 02 Jul 2013 07:38:11 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,980,1363158000"; d="scan'208";a="263104634"
-Received: from unknown (HELO [10.255.13.91]) ([10.255.13.91])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Jul 2013 07:38:10 -0700
-Message-ID: <51D2E5D2.8050608@linux.intel.com>
-Date: Tue, 02 Jul 2013 07:38:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue,  2 Jul 2013 14:47:01 +0000 (UTC)
+Received: by mail-ob0-f173.google.com with SMTP id wc20so5592560obb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Jul 2013 07:47:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=1JOKXQEyJs0Pv1UZr919XPZesyrmT/DzPkr1LRU6fUs=;
+	b=qoCFuOT3+HOzh7jvMycvklw9vLbOSby8oB75fYcURDDgRWKxooz8soc4D6qUaY+OeG
+	aJNr0u8U/TPTUKSvSU3ih5SPWddMoiFo6Dm+AnpC/kf4d7oK7PYlPyEpEMEO9bVy3k0P
+	Gp3teKrKXigQN/49/5VZbWC3bZpS4JxkHBaZpDaEK/ZkDEziRs+kSuliUCthG6PZzrEC
+	4avRJ8c1+XvFZ0idQuQwWEumTIe48zfnUUFYey6gz93Ic33uw0b9C+8W7oCVMsVKzcwj
+	urN+DkQRwjqqgJeXoovZfjjgam1b2DSVc/4RRbH8ygBqR0pN8Ya9mmihi5/WvdJXp6bJ
+	Ki/w==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1372457299-8340-1-git-send-email-sgw@linux.intel.com>
-	<CAJTo0LYvUMKyKqLBFEHXavjgRmwAxnPY6rfwFTux2ZAdSGX0Lw@mail.gmail.com>
-In-Reply-To: <CAJTo0LYvUMKyKqLBFEHXavjgRmwAxnPY6rfwFTux2ZAdSGX0Lw@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] security_flags: Add the compiler and linker flags that enhance security
+X-Received: by 10.182.72.170 with SMTP id e10mr13444687obv.62.1372776421304;
+	Tue, 02 Jul 2013 07:47:01 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.108.167 with HTTP; Tue, 2 Jul 2013 07:47:01 -0700 (PDT)
+In-Reply-To: <51D2E395.3000300@linux.intel.com>
+References: <51C9CE42.8020207@linux.intel.com>
+	<56275DFD-34FD-49BF-B17D-79DBB877418E@gmail.com>
+	<CAP9ODKoEGMAwf-kL8HO1rH0scxAQFtbWz2bfF5=VQHGDvW=n+Q@mail.gmail.com>
+	<F59505EA-0C28-444B-B818-21A015E76B58@gmail.com>
+	<51CB2164.5090102@linux.intel.com>
+	<51D2E395.3000300@linux.intel.com>
+Date: Tue, 2 Jul 2013 11:47:01 -0300
+X-Google-Sender-Auth: CA_0QXlQ1eVUSNJBbmYD-VR_ISU
+Message-ID: <CAP9ODKoCt6Gjd3s8wcGy8v0xy3kTQxYdKu1-gjeymN5Ruy59dQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Zhenhua Luo <zhenhua.luo@freescale.com>,
+	Schmitt Richard-B43082 <B43082@freescale.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, richard.schmitt@freescale.com
+Subject: Re: GCC 4.8 Issues with fsl-ppc and fsl-arm (e5000)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +51,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 14:38:13 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Jul 2013 14:47:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 07/02/2013 03:36 AM, Burton, Ross wrote:
-> On 28 June 2013 23:08, Saul Wold <sgw@linux.intel.com> wrote:
->> These flags add addition checks at compile, link and runtime to prevent
->> stack smashing, checking for buffer overflows, and link at program start
->> to prevent call spoofing later.
->>
->> This needs to be explicitly enabled by adding the following line to your
->> local.conf:
->>
->> require conf/distro/include/security_flags.inc
+On Tue, Jul 2, 2013 at 11:28 AM, Saul Wold <sgw@linux.intel.com> wrote:
 >
-> Will we be enabling this in Poky?
->
-No we will not enable by default, but we will do builds with them 
-enabled regularly to test for build failures.  They add overhead both in 
-binary size and performance.
+> Any updates on this issue?
 
-Sau!
+This is outside my skills :-) Khem did you have time to look at Saul file?
 
-> Ross
->
->
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
