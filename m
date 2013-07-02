@@ -1,37 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id AA8EA62062
+Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
+	[209.85.215.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 905B26A464
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 11:44:59 +0000 (UTC)
-Received: by mail-ee0-f51.google.com with SMTP id e52so2625346eek.38
+	Tue,  2 Jul 2013 11:49:19 +0000 (UTC)
+Received: by mail-ea0-f175.google.com with SMTP id z7so2656602eaf.20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 04:45:00 -0700 (PDT)
+	Tue, 02 Jul 2013 04:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding;
-	bh=GFNROSsl0M0/F5x4ZAuNf62KFp2dyDSa4vdS5b1eU0U=;
-	b=gP+JDag1z1wNtdRsrOUmvO0pNQYJIyqmwUXLS77QVZwDGLobLZifNbxBMnHCj4aOke
-	Lo23LNqha+qco9BEU++T0mCThRAkjQJHJsFHk5xziTtLgDAcxH/tag8sOU++KjGOPItv
-	pTUyTf9b4RkdFangq9Y+n01966I64etzRVQzZ/8Y0Pd2N4Yv6G68GwkSnmhyOmpaMCY4
-	FxBuBXBtsekUAOia67buxoz2HvexZJBxgVhFQ7Y9nxwH6y1HiM4nbWi/+gDDPyE+i6Ej
-	gD1WlsaxQ7zWEpymcIrIwO1kj8sKpgFUHbm4MMH+bf5QywUy9RgJPJRDp3ES0w8to+ym
-	XcIA==
-X-Received: by 10.15.31.198 with SMTP id y46mr25895050eeu.135.1372765500100;
-	Tue, 02 Jul 2013 04:45:00 -0700 (PDT)
+	bh=EJ73n3PKxt5OonY/v3lK59Hi1Iyd0UHCneISGf4K1Dw=;
+	b=Xr74orutQoK+LW5MZbBsbIVMIItEhuft8qpQuZCbehuEIdPKvvT4gyp2HpDWO49nvP
+	3Ef03asQm86a6lf8sTz0cF9jhMn3rbNsmtrbCJ2MZpE6y7uhdA7YriDay6ILfKEYmuky
+	LKFdFwgZsJu5CVvQ1Y5YOreQxog3Hi3ApL/RgrMnhxIVLTyy3Nlgrpup8jGQkWPX9Spf
+	mACkH0NgJ8pJxCDpEpsfZl6gKU+rxoIuufoMNN06RuY1O3JUeA5/BLyjN/PPJ0u6xmn0
+	wDa0J11xi5R+DAXing5BfXl6FFQq25UbHmDJbEDpkiF67VhdRI734k9wLDOdPIYIfsry
+	zl0Q==
+X-Received: by 10.15.31.198 with SMTP id y46mr25912384eeu.135.1372765759819;
+	Tue, 02 Jul 2013 04:49:19 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	ci50sm36043016eeb.12.2013.07.02.04.44.58 for <multiple recipients>
+	n5sm36058392eed.9.2013.07.02.04.49.18 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 02 Jul 2013 04:44:59 -0700 (PDT)
+	Tue, 02 Jul 2013 04:49:19 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jul 2013 13:44:59 +0200
-Message-Id: <1372765499-12166-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Tue,  2 Jul 2013 13:49:19 +0200
+Message-Id: <1372765759-19565-1-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
 In-Reply-To: <20130702114403.GA3285@jama>
 References: <20130702114403.GA3285@jama>
 MIME-Version: 1.0
-Subject: [PATCHv2] mesa: bump SRCREV in git recipe, refresh patches
+Subject: [PATCHv3] mesa: bump SRCREV in git recipe, refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,7 +45,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 11:45:00 -0000
+X-List-Received-Date: Tue, 02 Jul 2013 11:49:20 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -54,6 +55,17 @@ Content-Transfer-Encoding: 8bit
 * add git headers
 * 0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
   is already applied in new SRCREV, move it to mesa-9.1.3/
+* formal change in license.html with new SRCREV:
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+  -BRIAN PAUL BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN
+  -AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+  -CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+  +THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  +LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  +OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  +SOFTWARE.
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
@@ -66,8 +78,8 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
  ...ate-NativeDisplayType-depending-on-config.patch | 358 --------------------
  .../mesa/mesa/fix-glsl-cross.patch                 |  43 ---
  meta/recipes-graphics/mesa/mesa_9.1.3.bb           |   6 +-
- meta/recipes-graphics/mesa/mesa_git.bb             |   8 +-
- 10 files changed, 823 insertions(+), 458 deletions(-)
+ meta/recipes-graphics/mesa/mesa_git.bb             |  10 +-
+ 10 files changed, 825 insertions(+), 458 deletions(-)
  create mode 100644 meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
  create mode 100644 meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
  delete mode 100644 meta/recipes-graphics/mesa/mesa/0001-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
@@ -1445,12 +1457,15 @@ index bbeacd3..a7ccbe6 100644
  
  SRC_URI[md5sum] = "952ccd03547ed72333b64e1746cf8ada"
 diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
-index 09a9531..55fafa9 100644
+index 09a9531..52d3d81 100644
 --- a/meta/recipes-graphics/mesa/mesa_git.bb
 +++ b/meta/recipes-graphics/mesa/mesa_git.bb
-@@ -3,16 +3,14 @@ require ${BPN}.inc
+@@ -2,17 +2,17 @@ require ${BPN}.inc
+ 
  DEFAULT_PREFERENCE = "-1"
  
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=f69a4626e9efc40fa0d3cc3b02c9eacf"
++
  PR = "${INC_PR}.0"
 -# 9.1.3 commit
 -SRCREV = "f32ec82a8cfcabc5b7596796f36afe7986651f02"
