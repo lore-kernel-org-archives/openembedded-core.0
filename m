@@ -1,22 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CF106ADA3
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D285F6AC48
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2013 23:31:49 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 01 Jul 2013 16:31:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,976,1363158000"; d="scan'208";a="325445761"
-Received: from unknown (HELO [10.255.13.91]) ([10.255.13.91])
-	by azsmga001.ch.intel.com with ESMTP; 01 Jul 2013 16:31:49 -0700
-Message-ID: <51D21165.90305@linux.intel.com>
-Date: Mon, 01 Jul 2013 16:31:49 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue,  2 Jul 2013 01:35:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r621ZCVO006469
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 1 Jul 2013 18:35:12 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 1 Jul 2013 18:35:11 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 2 Jul 2013 09:35:10 +0800
+Message-ID: <cover.1372727248.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Andreas Oberritter <obi@opendreambox.org>
-Subject: Re: [PATCH v2][RFC] chrpath.bbclass: strip common parent directories from rpath
+Subject: [PATCH 0/1 v2] sysstat: backport a patch to fix a parallel building error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,84 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2013 23:31:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Jul 2013 01:35:12 -0000
+Content-Type: text/plain
 
-On 03/05/2013 04:32 PM, Andreas Oberritter wrote:
->
-> Allows to use shorter TMPDIRs in corner cases, e.g. with native
-> perl modules, having a deep directory structure.
->
-> The problem is that the original absolute rpath may be shorter
-> than the newly generated relative rpath.
->
-> The failing rpaths were '/ab/cde/tmp/sysroots/x86_64-linux/usr/lib'
-> (old) and '$ORIGIN/../../../../../../../../../usr/lib' (new) for
-> '/ab/cde/tmp/sysroots/x86_64-linux/usr/lib/perl-native/perl/5.14.3/auto/XML/Parser/Expat/Expat.so'
->
-> The new rpath is '$ORIGIN/../../../../../../..'.
->
-> The new code doesn't just compare libdir, because I guess it
-> should also work if only parts of libdir share a parent directory
-> with the binary.
->
-> This patch also adds a check for len(basedir) > 0, because I think
-> basedir is empty in the cross-compile case, in which case
-> rpath.find(basedir) would always return 0, but I'm unsure whether
-> I understood that part of the code correctly or not.
->
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-This seems to introduce a problem in slipt_and_strip_files
+The following changes since commit ff65497cd9a96d5ab49b16ba1f7e30a216ff4a42:
 
-> ERROR: debugedit failed with exit code 127 (cmd was '/srv/ssd/sgw/builds/sec_flags/build/tmp/sysroots/x86_64-linux/usr/lib/rpm/bin/debugedit' -b '/srv/ssd/sgw/builds/sec_flags/build/tmp/work/i586-poky-linux' -d '/usr/src/debug' -i -l '/srv/ssd/sgw/builds/sec_flags/build/tmp/work/i586-poky-linux/eglibc/2.17-r3/debugsources.list' '/srv/ssd/sgw/builds/sec_flags/build/tmp/work/i586-poky-linux/eglibc/2.17-r3/package/usr/bin/locale')
-> ERROR: Function failed: split_and_strip_files
-> ERROR: Logfile of failure stored in: /srv/ssd/sgw/builds/sec_flags/build/tmp/work/i586-poky-linux/eglibc/2.17-r3/temp/log.do_package.26019
-> ERROR: Task 27 (/srv/ssd/sgw/builds/sec_flags/meta/recipes-core/eglibc/eglibc_2.17.bb, do_package) failed with exit code '1'
+  classes/insane: remove la2 check which no longer exists from ERROR_QA (2013-06-28 16:33:05 +0100)
 
+are available in the git repository at:
 
-That was seen with a clean build, no sstate.
+  git://git.pokylinux.org/poky-contrib roy/sysstat-1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/sysstat-1
 
-Sau!
+Roy.Li (1):
+  sysstat: backport a patch to fix a parallel building error
 
+ ...-Makefile-to-allow-for-parallel-execution.patch |   34 ++++++++++++++++++++
+ meta/recipes-extended/sysstat/sysstat.inc          |    3 +-
+ 2 files changed, 36 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/sysstat/files/0001-Update-Makefile-to-allow-for-parallel-execution.patch
 
-> [YOCTO #3989]
->
-> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
-> ---
-> v2: Fixed reassembly of libpath
->
->   meta/classes/chrpath.bbclass |   17 +++++++++++++++--
->   1 file changed, 15 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-> index 0c7ab77..454b587 100644
-> --- a/meta/classes/chrpath.bbclass
-> +++ b/meta/classes/chrpath.bbclass
-> @@ -55,9 +55,22 @@ def process_dir (directory, d):
->                   rpath =  os.path.normpath(rpath)
->                   # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
->                   # base_prefix shared root
-> -                if rpath.find(basedir) != -1:
-> -                    depth = fpath.partition(basedir)[2].count('/')
-> +                if len(basedir) > 0 and rpath.find(basedir) != -1:
-> +                    relfpath = fpath.partition(basedir)[2].strip()
->                       libpath = rpath.partition(basedir)[2].strip()
-> +                    depth = relfpath.count('/')
-> +                    # Compare common parent directories to reduce the length of the new rpath.
-> +                    # Ignore the first (empty) element.
-> +                    libdirs = libpath.split('/')
-> +                    relfdirs = relfpath.split('/')
-> +                    nparents = 0
-> +                    for i in range(1, min(len(libdirs), len(relfdirs))):
-> +                        if libdirs[i] != relfdirs[i]:
-> +                            break
-> +                        nparents += 1
-> +                    if nparents > 0:
-> +                        libpath = '/' + '/'.join(libdirs[i:])
-> +                        depth -= nparents
->                   # otherwise (i.e. cross packages) determine a shared root based on the TMPDIR
->                   # NOTE: This will not work reliably for cross packages, particularly in the case
->                   # where your TMPDIR is a short path (i.e. /usr/poky) as chrpath cannot insert an
->
+-- 
+1.7.10.4
+
 
