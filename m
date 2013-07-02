@@ -1,35 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BC7F61AD1
+Received: from mail-ve0-f181.google.com (mail-ve0-f181.google.com
+	[209.85.128.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 8739E61883
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 15:25:39 +0000 (UTC)
-Received: by mail-ve0-f182.google.com with SMTP id ox1so4890854veb.41
+	Tue,  2 Jul 2013 16:32:04 +0000 (UTC)
+Received: by mail-ve0-f181.google.com with SMTP id db10so5050942veb.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 08:25:40 -0700 (PDT)
+	Tue, 02 Jul 2013 09:32:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=Et7Hs2LEyMC1xqXDrSIzk/Yz/63AFz1WCThniEa5myc=;
-	b=fepNAglUpXd0cI/IBfWM910PZH8KUBypDFAlJQMFdDfuDSSA/NZF7ETw5T6meBH1zk
-	zDN4dfa6tLc1eq7XoFByROV7aMB+La8FXZLUUdNG+Fh19Wxe+jfI0pdDOFpTf6XfDDRN
-	bEerOkr2r42H8mW/fSWPWlMLUCPJ4InCbMDiUbE1pLE17/VCctxj6HgSZOXryHL0r7e/
-	gwZeqWaD2mO71x9TIWutcgfyzAR4eTX6tzi7d+0gq73KKs17AeuRfsD8YJ+PFC10WI0H
-	xjjUrQo6VYzxpfLE/XrbdzSrYXJcs4GuE1MYmoGzQMUTSw2p9t4f3SKBmZ1fs4QzdItt
-	1KCg==
-X-Received: by 10.58.219.232 with SMTP id pr8mr11539699vec.80.1372778739976;
-	Tue, 02 Jul 2013 08:25:39 -0700 (PDT)
+	bh=zEK1i/nXjduAIJajLDsYCEGbD8icr8olMRh5csrC+FI=;
+	b=VdtMkTUn0IanKdpHrO5nlRoK8W+/VE5YS33SbS5kMfu4ycLVlUpO3IZrhlPh13sNB5
+	bjA+gaiWUMzHIbr1VY80ddrlUHmYU9lcycruypzXdm+sItlT4Q57mNLa7178mL8Vp7tI
+	GWabDBYBJp3c7LLfmyPb1ra301O6k/TdTlqbOiB5NnBhV0eBaWnWUTBOErNd66NlbOYI
+	SsLgidSZw8Xn2+gP9OlVSZXHnWdRgDVkHu3EzG8bquGakWKKUozXbhdHJKYSPYQErFH5
+	yKf0HyGw0/jcncu/lFNTHdcui+BJPIyF6VmDojwRwgOjL/OIqZsD+wEtA47ZsAu3mTXV
+	fD+g==
+X-Received: by 10.58.24.41 with SMTP id r9mr673937vef.44.1372782725055; Tue,
+	02 Jul 2013 09:32:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 2 Jul 2013 08:25:19 -0700 (PDT)
-In-Reply-To: <b2b193d7632393d1a1ac091ce01eb9d93d44886b.1372686507.git.laurentiu.palcu@intel.com>
+Received: by 10.220.13.144 with HTTP; Tue, 2 Jul 2013 09:31:44 -0700 (PDT)
+In-Reply-To: <51D2FDFB.8040408@intel.com>
 References: <cover.1372686507.git.laurentiu.palcu@intel.com>
 	<b2b193d7632393d1a1ac091ce01eb9d93d44886b.1372686507.git.laurentiu.palcu@intel.com>
+	<CAJTo0LZ=m=no=aiTcBqgGM_J0b5t429xkztCO1gkf-z2hC7UPg@mail.gmail.com>
+	<51D2FDFB.8040408@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Jul 2013 16:25:19 +0100
-Message-ID: <CAJTo0LZ=m=no=aiTcBqgGM_J0b5t429xkztCO1gkf-z2hC7UPg@mail.gmail.com>
+Date: Tue, 2 Jul 2013 17:31:44 +0100
+Message-ID: <CAJTo0La0MRgWjfEqGjOw6epMqHvPzH8s0rhq38v4EM5+pF7s4g@mail.gmail.com>
 To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQnxGU4o5nCHstPJr1K6wBAGSOojzrkYH+7E1RKnETUWv74m0UOsURUgxKExgA/M+BGHwWoS
+X-Gm-Message-State: ALoCoQk82Jiy/qho8J8R52iXgd6qKhUrTqXQkQjPt3glV6VuloSBCcM4qBVx6fxPAwhgaB9vi5Rf
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v2 1/1] xinput-calibrator: move it from meta-oe to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,39 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 15:25:39 -0000
+X-List-Received-Date: Tue, 02 Jul 2013 16:32:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 1 July 2013 14:57, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> +do_install() {
-> +    # Only install file if it has a contents
-> +    if [ -s ${S}/pointercal.xinput ]; then
-> +        install -d ${D}${sysconfdir}/
-> +        install -m 0644 ${S}/pointercal.xinput ${D}${sysconfdir}/
-> +    fi
-> +}
+On 2 July 2013 17:21, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+>> The file always has content because the file in the main recipe has a
+>> comment in.  Personally I think not installing a useless file is the
+>> right thing to do, so we should change the default pointercal.xinput
+>> to be empty.
+> Then why install it at all if it's empty? I believe a zero sized file in
+> /etc it's even worse.
 
-The file always has content because the file in the main recipe has a
-comment in.  Personally I think not installing a useless file is the
-right thing to do, so we should change the default pointercal.xinput
-to be empty.
+Exactly, this test will spot the empty file and not install it.
 
-Relatedly, interestingly Weston has a different approach and attaches
-the calibration to the device using udev properties, which means
-systems where touch devices can be hotplugged actually work.  I'm
-incredibly tempted to extend xinput-calibrator to write out udev
-fragments and make Xi respect them if they exist...
+>> Relatedly, interestingly Weston has a different approach and attaches
+>> the calibration to the device using udev properties, which means
+>> systems where touch devices can be hotplugged actually work.  I'm
+>> incredibly tempted to extend xinput-calibrator to write out udev
+>> fragments and make Xi respect them if they exist...
+>
+> Ross, you requested (according to the description in bugzilla:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4416#c0 ) to just move
+> xinput-calibrator to oe-core from meta-oe. Technically, the first
+> patchset did just that. It would have been easier for me, from the
+> planning point of view at least, if I had known in advance the
+> additional changes you needed for this package. I admit I don't know how
+> all packages in oe-core or meta-oe should or shouldn't work... I'm
+> working on improving that though. ;)
 
-> +++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-> +inherit autotools systemd
+My talk of udev properties is just talk, I should have made that
+clear: it's nothing I expect you to do.  Once the systemd bits are
+purged entirely, I'm happy to see this merged.
 
-systemd?
-
-> +RPROVIDES_${PN} += "${PN}-systemd"
-> +RREPLACES_${PN} += "${PN}-systemd"
-> +RCONFLICTS_${PN} += "${PN}-systemd"
-
-It doesn't anymore, so these can be dropped.
-
+Cheers,
 Ross
 
