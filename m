@@ -1,28 +1,25 @@
-Return-Path: <eflanagan@envy.jf.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F5806007C
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A67816AEC3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 22:31:00 +0000 (UTC)
+	Tue,  2 Jul 2013 23:36:19 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Jul 2013 15:28:22 -0700
+	by orsmga101.jf.intel.com with ESMTP; 02 Jul 2013 16:36:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,983,1363158000"; d="scan'208";a="363807901"
-Received: from envy.jf.intel.com (HELO envy) ([10.7.201.159])
-	by orsmga002.jf.intel.com with ESMTP; 02 Jul 2013 15:30:47 -0700
-Received: from envy.jf.intel.com (localhost [127.0.0.1])
-	by envy (8.14.4/8.14.4/Debian-2ubuntu2) with ESMTP id r62MTYPa029305
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Jul 2013 15:29:34 -0700
-Received: (from eflanagan@localhost)
-	by envy.jf.intel.com (8.14.4/8.14.4/Submit) id r62MTX9T029304
-	for openembedded-core@lists.openembedded.org;
-	Tue, 2 Jul 2013 15:29:33 -0700
-From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jul 2013 15:29:29 -0700
-Message-Id: <1372804169-29269-1-git-send-email-elizabeth.flanagan@intel.com>
-X-Mailer: git-send-email 1.7.5.4
-Subject: [PATCH v2] layer.conf: Bumping LAYERVERSION_core
+X-IronPort-AV: E=Sophos;i="4.87,983,1363158000"; d="scan'208";a="363843256"
+Received: from unknown (HELO [10.255.13.91]) ([10.255.13.91])
+	by orsmga002.jf.intel.com with ESMTP; 02 Jul 2013 16:36:20 -0700
+Message-ID: <51D363F4.3020103@linux.intel.com>
+Date: Tue, 02 Jul 2013 16:36:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Yevhen Kyriukha <kirgene@gmail.com>
+References: <1372248906-2554-1-git-send-email-kirgene@gmail.com>
+In-Reply-To: <1372248906-2554-1-git-send-email-kirgene@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v7] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +32,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 22:31:02 -0000
+X-List-Received-Date: Tue, 02 Jul 2013 23:36:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Bumping LAYERVERSION_core to denote where meta-toolchain* is being
-depreciated.
+On 06/26/2013 05:15 AM, Yevhen Kyriukha wrote:
+> ---
+>   meta/recipes-core/systemd/systemd_204.bb |   20 ++++++++++++++++----
+>   1 file changed, 16 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
+> index b8b1290..a12c6c9 100644
+> --- a/meta/recipes-core/systemd/systemd_204.bb
+> +++ b/meta/recipes-core/systemd/systemd_204.bb
+> @@ -13,9 +13,15 @@ PE = "1"
+>   DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
+>   DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+>
+> +# need to export these variables for python-config to work
+> +export BUILD_SYS
+> +export HOST_SYS
+> +export STAGING_INCDIR
+> +export STAGING_LIBDIR
+> +
+>   SECTION = "base/shell"
+>
+> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu
+> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu pythonnative python-dir
+>
 
-This goes back to my RFC:
+There is still a problem with that, that systemd will no bring in python 
+native unconditionally even if the PACKAGECONFIG is disabled, we will 
+need a way to wrap the inherit some how using variables.
 
-http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/39016
+See image.bbclass usage of it around line 100.
 
-As we are removing meta-toolchain* and replacing it with bitbake
-<imagename> -c populate_sdk this causes issues with those of us who
-need to do automated builds both on the current development branch and
-on prior development branches.
+Thanks
+	Sau!
 
-Example: For prior releases, I need to build meta-toolchain*. Without
-having a simple way to figure out where this is no longer the case, I
-(and other folks who run automated builds) end up having to jump
-through a lot of hoops trying to figure out where this layer changed.
-
-Utilizing LAYERVERSION_* to do it makes sense as there is a
-significant change that would cause issues for build engineers.
-
-Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
----
- meta/conf/layer.conf |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index a112e86..a834765 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -9,7 +9,7 @@ BBFILE_PRIORITY_core = "5"
- 
- # This should only be incremented on significant changes that will
- # cause compatibility issues with other layers
--LAYERVERSION_core = "1"
-+LAYERVERSION_core = "2"
- 
- # Set a variable to get to the top of the metadata location
- COREBASE = '${@os.path.normpath("${LAYERDIR}/../")}'
--- 
-1.7.5.4
-
+>   SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+>              file://touchscreen.rules \
+> @@ -51,6 +57,8 @@ DEPENDS += "libgcrypt"
+>   # Compress the journal
+>   PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
+>   PACKAGECONFIG[tcp-wrappers] = "--enable-tcpwrap,--disable-tcpwrap,tcp-wrappers"
+> +# Use python-systemd
+> +PACKAGECONFIG[python] = "--with-python,--without-python,python"
+>
+>   CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
+>
+> @@ -71,7 +79,6 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+>                    --disable-tcpwrap \
+>                    --enable-split-usr \
+>                    --disable-microhttpd \
+> -                 --without-python \
+>                    --with-sysvrcnd-path=${sysconfdir} \
+>                    --with-firmware-path=/lib/firmware \
+>                    ac_cv_path_KILL=${base_bindir}/kill \
+> @@ -93,6 +100,8 @@ do_install() {
+>   	# Provided by a separate recipe
+>   	rm ${D}${systemd_unitdir}/system/serial-getty* -f
+>
+> +	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/systemd/*.la
+> +
+>   	# Provide support for initramfs
+>   	ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
+>   	ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
+> @@ -121,7 +130,7 @@ python populate_packages_prepend (){
+>   }
+>   PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
+>
+> -PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
+> +PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN}"
+>
+>   USERADD_PACKAGES = "${PN}"
+>   GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
+> @@ -131,6 +140,9 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+>   FILES_${PN}-initramfs = "/init"
+>   RDEPENDS_${PN}-initramfs = "${PN}"
+>
+> +FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
+> +RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
+> +
+>   FILES_${PN}-gui = "${bindir}/systemadm"
+>
+>   FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
+> @@ -187,7 +199,7 @@ FILES_${PN} = " ${base_bindir}/* \
+>                   /lib/udev/rules.d/99-systemd.rules \
+>                  "
+>
+> -FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
+> +FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/ ${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
+>   FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
+>
+>   RDEPENDS_${PN} += "dbus util-linux-mount"
+>
 
