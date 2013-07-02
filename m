@@ -1,39 +1,40 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C22662062
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f45.google.com (mail-ee0-f45.google.com [74.125.83.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 59D3E62062
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2013 11:36:48 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id ld11so6190556pab.22
+	Tue,  2 Jul 2013 11:44:27 +0000 (UTC)
+Received: by mail-ee0-f45.google.com with SMTP id c1so2659569eek.32
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 04:36:49 -0700 (PDT)
+	Tue, 02 Jul 2013 04:44:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type;
-	bh=dx1rp886bMYjafwOPi1fgthcnVb0SmYKAh3oOLAvfy0=;
-	b=mPNRTB3lGKD3QpE60H9U+wZWJEIqOr45gET6OlsLD6c7B9gOSEyjzR4dhyJxGVhxEd
-	fJGBCljxaC3EHWl1FRbiCS7kVpYEboX3kq4qZaIffSYqoXdwoUNJU/tfbCBgCM8rAIVw
-	Oz5zg22D9PKhSs+aj6Ts0VX+la8vUTAkcT4Ztfni2mdnxs2HGXkMVCv81qBaDgvgtGR9
-	xv0VIUCnj868a3KT4NUWxsotYHog7tFd2khUJGXDxU2SuEGdOFK2MJC4YwtqzPG+4Xdx
-	x66g+QUkm17zyxOI6SM9+vUY3Woa7ddC7ncdiCJDqMbFlqj5p8GI2My6m6VsjxonnsJQ
-	IjjA==
-X-Received: by 10.68.209.196 with SMTP id mo4mr1432209pbc.114.1372765009205;
-	Tue, 02 Jul 2013 04:36:49 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([121.229.144.129])
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ZfbsgeXO4mM3VffAnq3K9cTDMlZv5EMwARxwX6kO/mI=;
+	b=Ie7J//JJLvOFDTggk2uPEC0s6kCQ7MYenvialE1+kRICUfk3mNhyOHnwyDQ1H6mE/e
+	+OX2AeAHN50g5XsgJnS73zMrJYsP4cqJcKkWC8VVemllEooXiip7U4OR86cj1aU6Sj+P
+	G6YXa1Y6uJh3C6LanZMtMJAPRmprGQMYAVDwAu9lObfyrdo8PWduF2NiBh1+Vby/ujgp
+	jyE6oUf4JSevzOV3DlMbuC0C7J3kp3AndUfppU7o+LV78zJg6RejXqpxy3g3qU/4lQN2
+	3IO+jhHcxkd2wx55PX5rKZyG3NkfPCzO2Ez7HJu+reIy09foPrTPi/BKdK5CCR+p/C+P
+	2A5w==
+X-Received: by 10.14.2.137 with SMTP id 9mr25536948eef.64.1372765467240;
+	Tue, 02 Jul 2013 04:44:27 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	tq8sm27036184pbc.30.2013.07.02.04.36.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 02 Jul 2013 04:36:48 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 02 Jul 2013 19:32:11 +0800
-Message-ID: <76265365.T9HIcf7Yx3@yiqingliang-pc>
-User-Agent: KMail/4.10.4 (Linux/3.9.6-1-ARCH; KDE/4.10.4; x86_64; ; )
-In-Reply-To: <4783685.hnM3VA9Ozj@yiqingliang-pc>
-References: <4783685.hnM3VA9Ozj@yiqingliang-pc>
+	n5sm36030145eed.9.2013.07.02.04.44.25 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 02 Jul 2013 04:44:26 -0700 (PDT)
+Date: Tue, 2 Jul 2013 13:44:27 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130702114403.GA3285@jama>
+References: <cover.1372707180.git.Martin.Jansa@gmail.com>
+	<5fe62449a23d73dcdae54d7e8f37f2a178ad0751.1372707180.git.Martin.Jansa@gmail.com>
+	<CAJTo0Lah0em7+be56wFOAHP+eCZy7NJqN=BY+T1SN47bXdKbwQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: systemd
+In-Reply-To: <CAJTo0Lah0em7+be56wFOAHP+eCZy7NJqN=BY+T1SN47bXdKbwQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] mesa: bump SRCREV in git recipe, refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +47,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2013 11:36:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 02 Jul 2013 11:44:27 -0000
+X-Groupsio-MsgNum: 41286
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
+Content-Disposition: inline
 
-On Tuesday, July 02, 2013 09:35:20 AM Yi Qingliang wrote:
-> Hi, All:
-> 
-> I want use systemd, add following into my own distro.conf
->      DISTRO_FEATURES_append = " systemd"
->      VIRTUAL-RUNTIME_init_manager = "systemd"
->      DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
-> 
-> but when do_rootfs for my own image, I got error:
->      error: package update-rc.d is not installed
->      error: package base-passwd is not installed
->      error: package run-postinsts is not installed
-> 
-> Any idea? Thanks!
+--NDin8bjvE/0mNLFQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have restored to use default sysvinit, but got the same error!
+On Tue, Jul 02, 2013 at 11:39:24AM +0100, Burton, Ross wrote:
+> On 1 July 2013 20:36, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > * 0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+> >   needs to be rebased so move old version for 9.1.3 to
+> >   mesa-9.1.3/ and update the version in meta/
+>=20
+> Typo "meta/".
 
+Updated in branch.
 
--- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+>=20
+> > -# 9.1.3 commit
+> > -SRCREV =3D "f32ec82a8cfcabc5b7596796f36afe7986651f02"
+> > +SRCREV =3D "5a925cc5504575c22dbb7d29842d7fc5babcb5c7"
+> >  PV =3D "9.1.3+git${SRCPV}"
+>=20
+> git describe doesn't call this a descendent of 9.1.x so I presume this
+> is a master commit.  Can you change PV to reflect that somehow?
+>=20
+> That said I've discovered that our rpm doesn't support ~, so calling
+> it "9.2.0~git" isn't going to work.
 
+yes it's from master and I think that we always used this syntax
+${OLD_RELEASED_VERSION}+git${SRCPV}
+
+IIRC "9.2.0~git" isn't supported in opkg too.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--NDin8bjvE/0mNLFQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHSvRsACgkQN1Ujt2V2gByX1QCfR8OMdh22fINnOtzvwAoVSz4Z
+QwoAnRWpc8n/e9K4phOh4076Djot6Y4u
+=Zzle
+-----END PGP SIGNATURE-----
+
+--NDin8bjvE/0mNLFQ--
