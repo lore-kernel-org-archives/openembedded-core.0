@@ -1,30 +1,24 @@
-Return-Path: <radu.moisan@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A799621E2
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FF58612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 08:32:51 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2013 01:30:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,987,1363158000"; d="scan'208";a="339784736"
-Received: from ubuntu.rb.intel.com (HELO [10.237.105.59]) ([10.237.105.59])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2013 01:32:46 -0700
-Message-ID: <51D3E21D.8040306@intel.com>
-Date: Wed, 03 Jul 2013 11:34:37 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Wed,  3 Jul 2013 09:10:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r639AHAW008395
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Jul 2013 02:10:17 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 3 Jul 2013 02:10:14 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 3 Jul 2013 17:10:12 +0800
+Message-ID: <cover.1372842406.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-To: Marko Lindqvist <cazfi74@gmail.com>
-References: <cover.1369298825.git.cazfi74@gmail.com>
-	<519EA042.1@linux.intel.com>
-	<CAF6bG8c7v4eFuw+QfjaE3HDsooYm9XOexx2wXQuaAM2W0OzM_Q@mail.gmail.com>
-	<51D3DDED.7060804@intel.com>
-	<CAF6bG8fVNGr+odjBEYhkgVRS+O=J9T9entPYikGz_uT53Y2g+Q@mail.gmail.com>
-In-Reply-To: <CAF6bG8fVNGr+odjBEYhkgVRS+O=J9T9entPYikGz_uT53Y2g+Q@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] Update automake to version 1.13.2
+Subject: [PATCH 0/1] udev-extraconf: blacklist /dev/dm-*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 08:32:51 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Jul 2013 09:10:16 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
-On 07/03/2013 11:19 AM, Marko Lindqvist wrote:
-> On 3 July 2013 11:16, Radu Moisan <radu.moisan@intel.com> wrote:
->> On 05/25/2013 01:21 AM, Marko Lindqvist wrote:
->>
->>
->>   Confirmed. Automake update to (any) 1.13.x version breaks gtk-engines
->> build. I don't know yet if it's automake or gtk-engines bug.
->>
->>
->> Any updates on this? Do we have a bug filled addressing this problem? I
->> found several package which require automake 1.13.x for upgrade and this
->> automake issue is blocking them.
->   Sorry I have had no time to work on this. I did file automake bug
-> report, for which the response is
-> http://lists.gnu.org/archive/html/bug-automake/2013-06/msg00014.html
-> meaning we need to patch gtk-engines.
->
+The following changes since commit 3e1dbabbf33a2e461abc92ff10cd970fe604ee38:
 
-Thanks Marko, I'll take a look over this.
+  sysstat: backport a patch to fix a parallel building error (2013-07-02 07:58:10 -0700)
 
-Radu
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/r_bbappend_udev-extraconf_0703_1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_bbappend_udev-extraconf_0703_1
+
+Jackie Huang (1):
+  udev-extraconf: blacklist /dev/dm-*
+
+ .../udev/udev-extraconf/mount.blacklist            |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+-- 
+1.7.4.1
+
 
