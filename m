@@ -1,20 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 947EE61883
+Return-Path: <gchoc-openembedded-core@m.gmane.org>
+Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BEC661485
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 13:41:02 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Jul 2013 06:42:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364743370"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.238])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2013 06:40:49 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Wed,  3 Jul 2013 14:10:04 +0000 (UTC)
+Received: from list by plane.gmane.org with local (Exim 4.69)
+	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
+	id 1UuNkx-00063L-G5 for openembedded-core@lists.openembedded.org;
+	Wed, 03 Jul 2013 16:10:03 +0200
+Received: from 2-227-90-218.ip185.fastwebnet.it ([2.227.90.218])
+	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
+	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Jul 2013 16:10:03 +0200
+Received: from f.deldegan by 2-227-90-218.ip185.fastwebnet.it with local
+	(Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Jul 2013 16:10:03 +0200
+X-Injected-Via-Gmane: http://gmane.org/
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jul 2013 14:40:38 +0100
-Message-Id: <1372858838-17887-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] classes/insane: fix libdir check regexes
+From: Francesco Del Degan <f.deldegan@endian.com>
+Date: Wed, 03 Jul 2013 16:09:04 +0200
+Message-ID: <87r4ffenwf.fsf@endian.com>
+Mime-Version: 1.0
+X-Complaints-To: usenet@ger.gmane.org
+X-Gmane-NNTP-Posting-Host: 2-227-90-218.ip185.fastwebnet.it
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
+Cancel-Lock: sha1:cmBTUm4eE3s8N/1cNEHViythYUo=
+Subject: [PATCH] openssl: fix init.d restart function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 13:41:03 -0000
+X-List-Received-Date: Wed, 03 Jul 2013 14:10:05 -0000
+Content-Type: text/plain
 
-* Ensure these do not pick up e.g. /lib/systemd/system/uuidd.socket
-* Fix broken exec_re regex (lib*. -> lib.*)
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Adds a missing dash in the oknodo option function.
+
+Signed-off-by: Francesco Del Degan <f.deldegan@endian.com>
 ---
- meta/classes/insane.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/openssh/openssh-6.1p1/init | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 27c225f..af419f1 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -265,8 +265,8 @@ def package_qa_check_libdir(d):
-             full_path = os.path.join(root,file)
-             my_files.append(full_path[len(pkgd):])
- 
--    lib_re = re.compile("^/lib.*\.so")
--    exec_re = re.compile("^%s.*/lib*.\.so" % exec_prefix)
-+    lib_re = re.compile("^/lib.*\.so[0-9.]*$")
-+    exec_re = re.compile("^%s.*/lib.*\.so[0-9.]*$" % exec_prefix)
- 
-     for file in my_files:
-         if lib_re.match(file):
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+index cde52ef..6beec84 100644
+--- a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
++++ b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+@@ -76,7 +76,7 @@ case "$1" in
+         check_keys
+         check_config
+         echo -n "Restarting OpenBSD Secure Shell server: sshd"
+-        start-stop-daemon -K -oknodo -x /usr/sbin/sshd
++        start-stop-daemon -K --oknodo -x /usr/sbin/sshd
+         check_for_no_start
+         check_privsep_dir
+         sleep 2
 -- 
 1.8.1.2
+
 
 
