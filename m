@@ -1,24 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FE3E6B00B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D568618B5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 22:26:31 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2013 15:24:06 -0700
+	Wed,  3 Jul 2013 22:38:13 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 03 Jul 2013 15:38:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,991,1363158000"; d="scan'208";a="340154934"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.183])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2013 15:26:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jul 2013 15:26:25 -0700
-Message-Id: <c07480fee89e9a8e1e450702711826c676a75ba3.1372890071.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <cover.1372890071.git.sgw@linux.intel.com>
-References: <cover.1372890071.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1372890071.git.sgw@linux.intel.com>
-References: <cover.1372890071.git.sgw@linux.intel.com>
-Subject: [PATCH 4/8] boost: Update to 1.54
+X-IronPort-AV: E=Sophos;i="4.87,991,1363158000"; d="scan'208";a="263834825"
+Received: from unknown (HELO helios.localnet) ([10.252.121.252])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Jul 2013 15:38:12 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>
+Date: Wed, 03 Jul 2013 23:38:11 +0100
+Message-ID: <2012865.euj9qQ5pa7@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-25-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <36e54d3b192d38100cdb795da0ff7b53ee2ad63c.1372413711.git.stefanx.stanacar@intel.com>
+References: <cover.1372413711.git.stefanx.stanacar@intel.com>
+	<36e54d3b192d38100cdb795da0ff7b53ee2ad63c.1372413711.git.stefanx.stanacar@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 4/8] lib/oeqa/utils/oetelnetlib.py: override Telnet class to use Unix domain sockets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,58 +33,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 22:26:31 -0000
+X-List-Received-Date: Wed, 03 Jul 2013 22:38:14 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../boost/{bjam-native_1.53.0.bb => bjam-native_1.54.0.bb}          | 0
- meta/recipes-support/boost/{boost-1.53.0.inc => boost-1.54.0.inc}   | 6 +++---
- meta/recipes-support/boost/{boost_1.53.0.bb => boost_1.54.0.bb}     | 2 --
- 3 files changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-support/boost/{bjam-native_1.53.0.bb => bjam-native_1.54.0.bb} (100%)
- rename meta/recipes-support/boost/{boost-1.53.0.inc => boost-1.54.0.inc} (76%)
- rename meta/recipes-support/boost/{boost_1.53.0.bb => boost_1.54.0.bb} (89%)
+On Friday 28 June 2013 13:04:39 Stefan Stanacar wrote:
+> Python's telnetlib Telnet class connects only to AF_INET sockets, but we
+> want to use Unix domain socket for the qemu serial connection.
+> Also add a new read_all_timeout method similar to Telnet's read_all
+> 
+> Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+> ---
+>  meta/lib/oeqa/utils/oetelnetlib.py | 49
+> ++++++++++++++++++++++++++++++++++++++ 1 file changed, 49 insertions(+)
+>  create mode 100644 meta/lib/oeqa/utils/oetelnetlib.py
+> 
+> diff --git a/meta/lib/oeqa/utils/oetelnetlib.py
+> b/meta/lib/oeqa/utils/oetelnetlib.py new file mode 100644
+> index 0000000..cdebac1
+> --- /dev/null
+> +++ b/meta/lib/oeqa/utils/oetelnetlib.py
+> @@ -0,0 +1,49 @@
+> +import socket
+> +import time
+> +import re
+> +from telnetlib import Telnet
+> +
+> +class oeTelnet(Telnet):
+> +
+> +    """
+> +    Override Telnet class to use unix domain sockets,
+> +    Telnet uses AF_INET for socket, we don't want that.
+> +    Also, provide a read_all variant with timeout, that
+> +    returns whatever output there is.
+> +    """
+> +
+> +    def __init__(self, stream=None, logfile=None):
+> +
+> +        Telnet.__init__(self, host=None)
+> +        self.stream = stream
+> +        self.logfile = logfile
+> +        if stream is not None:
+> +            self.open(stream)
+> +
+> +    def log(self, msg):
+> +        if self.logfile:
+> +            with open(self.logfile, "a") as f:
+> +                f.write("%s\n" % msg)
+> +
+> +    def open(self, stream):
+> +
+> +        self.eof = 0
+> +        self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+> +        self.sock.connect(stream)
+> +
+> +    def read_all_timeout(self, match, timeout=120):
+> +        """Read until EOF or until timeout or until match.
+> +        """
+> +        ret = False
+> +        self.process_rawq()
+> +        endtime = time.time() + timeout
+> +        while not self.eof and time.time() < endtime:
+> +            self.fill_rawq()
+> +            self.process_rawq()
+> +            if re.search(match, self.cookedq):
+> +                ret = True
+> +                break
+> +        buf = self.cookedq
+> +        self.cookedq = ''
+> +        self.log(buf)
+> +        return (ret, buf)
 
-diff --git a/meta/recipes-support/boost/bjam-native_1.53.0.bb b/meta/recipes-support/boost/bjam-native_1.54.0.bb
-similarity index 100%
-rename from meta/recipes-support/boost/bjam-native_1.53.0.bb
-rename to meta/recipes-support/boost/bjam-native_1.54.0.bb
-diff --git a/meta/recipes-support/boost/boost-1.53.0.inc b/meta/recipes-support/boost/boost-1.54.0.inc
-similarity index 76%
-rename from meta/recipes-support/boost/boost-1.53.0.inc
-rename to meta/recipes-support/boost/boost-1.54.0.inc
-index dbcaabc..9113c82 100644
---- a/meta/recipes-support/boost/boost-1.53.0.inc
-+++ b/meta/recipes-support/boost/boost-1.54.0.inc
-@@ -11,9 +11,9 @@ BOOST_VER = "${@"_".join(d.getVar("PV",1).split("."))}"
- BOOST_MAJ = "${@"_".join(d.getVar("PV",1).split(".")[0:2])}"
- BOOST_P = "boost_${BOOST_VER}"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BOOST_P}.tar.bz2"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/boost/${BOOST_P}.tar.bz2"
- 
--SRC_URI[md5sum] = "a00d22605d5dbcfb4c9936a9b35bc4c2"
--SRC_URI[sha256sum] = "f88a041b01882b0c9c5c05b39603ec8383fb881f772f6f9e6e6fd0e0cddb9196"
-+SRC_URI[md5sum] = "15cb8c0803064faef0c4ddf5bc5ca279"
-+SRC_URI[sha256sum] = "047e927de336af106a24bceba30069980c191529fd76b8dff8eb9a328b48ae1d"
- 
- S = "${WORKDIR}/${BOOST_P}"
-diff --git a/meta/recipes-support/boost/boost_1.53.0.bb b/meta/recipes-support/boost/boost_1.54.0.bb
-similarity index 89%
-rename from meta/recipes-support/boost/boost_1.53.0.bb
-rename to meta/recipes-support/boost/boost_1.54.0.bb
-index 3a5a6cc..68f483c 100644
---- a/meta/recipes-support/boost/boost_1.53.0.bb
-+++ b/meta/recipes-support/boost/boost_1.54.0.bb
-@@ -1,7 +1,5 @@
- include boost-${PV}.inc
- include boost.inc
- 
--PR = "r1"
--
- SRC_URI += "file://arm-intrinsics.patch \
-            "
+Just a minor bit of feedback about this; I think it's probably best not to 
+call it something relating to "telnet" since it's no longer really telnet when 
+using unix domain sockets.
+
+Cheers,
+Paul
+
 -- 
-1.8.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
