@@ -1,24 +1,36 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CA7D61485
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id C036261485
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 14:34:30 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 07:34:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364215839"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 07:34:30 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jul 2013 17:34:24 +0300
-Message-Id: <6e25853547047169deceef0d58123e70d4b54839.1372861799.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1372861799.git.laurentiu.palcu@intel.com>
-References: <cover.1372861799.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1372861799.git.laurentiu.palcu@intel.com>
-References: <cover.1372861799.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 4/4] shutdown-desktop: give entire path in Exec field
+	Wed,  3 Jul 2013 14:35:34 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id ia10so156742vcb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Jul 2013 07:35:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=oHziwW5hH1d833kaIBnVwP1r1qLEHFFYlhUWnLkXyG0=;
+	b=RTU/l8vs+Tgy8O5s+MslLV8PplplL0RmFd6BMcf16qMUzBLSbHDQARJPmjTZ3Sugjz
+	5DmUxpsHMlG4j2aGaPVBraoLR3QVUftkBLYskuIIwND4PLi56MZYmBotvPLRTpA5w5mU
+	2pUH+lHIkoAvgcQFRVQdhAAxOt/1UuzKTVe4iQxA1ls+MLT146JEDtZ1EgQY63aNYypg
+	gMw6oMEMeDEIXIxm6m0gi8HW3d8yRyrOEbvHvN8ivqzVX6rO6m8WsVrpspru1SK51jbp
+	/9rVkTpUFt9v1PgRXLwajrV5orvBmRdxAGPo9HBJuoiEuuxRX9vT9RS8wiKlANkLA8ws
+	AQFQ==
+X-Received: by 10.220.42.147 with SMTP id s19mr363474vce.46.1372862135616;
+	Wed, 03 Jul 2013 07:35:35 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Wed, 3 Jul 2013 07:35:15 -0700 (PDT)
+In-Reply-To: <1372858838-17887-1-git-send-email-paul.eggleton@linux.intel.com>
+References: <1372858838-17887-1-git-send-email-paul.eggleton@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Jul 2013 15:35:15 +0100
+Message-ID: <CAJTo0LaoRo3urg=M8n5+V0zD9y8RzJ=dRZPjYBupz8mR_HiWQQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQlHOo3pxKdfEEUGJc3kvZR2eA+3335KXkv7L4v1KZuqYR1uKgcNV98/vQ24OD2IYZWPWGQl
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] classes/insane: fix libdir check regexes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 14:34:30 -0000
+X-List-Received-Date: Wed, 03 Jul 2013 14:35:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-A normal user does not have /sbin in its PATH, by default, so having the
-entire path here allows the correct execution when run as regular user.
+On 3 July 2013 14:40, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> +    lib_re = re.compile("^/lib.*\.so[0-9.]*$")
+> +    exec_re = re.compile("^%s.*/lib.*\.so[0-9.]*$" % exec_prefix)
 
-[YOCTO #4345]
+I'd been meaning to double-check this assumption since the discussion
+yesterday, and I'm glad I did.  My Debian machine has these files in
+/usr/lib that don't match that regex:
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../shutdown-desktop/shutdown-desktop.bb           |    2 +-
- .../shutdown-desktop/shutdown.desktop              |    4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+libatlas.so.3gf
+libblas.so.3gf
+libcblas.so.3gf
+libf77blas.so.3gf
+liblapack_atlas.so.3gf
+liblapack.so.3gf
+libmozjs.so.10d
+libnspr4.so.0d
+libnss3.so.1d
+libnssutil3.so.1d
+libplc4.so.0d
+libplds4.so.0d
+libsmime3.so.1d
+libssl3.so.1d
 
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-index c5096c1..8287813 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop.bb
-@@ -16,7 +16,7 @@ do_install() {
- 
- pkg_postinst_${PN} () {
-     grep -q qemuarm $D${sysconfdir}/hostname && \
--        sed -i $D${datadir}/applications/shutdown.desktop -e 's/^Exec=halt/Exec=reboot/' \
-+        sed -i $D${datadir}/applications/shutdown.desktop -e 's#^Exec=/sbin/halt#Exec=/sbin/reboot#' \
-         || true
- }
- 
-diff --git a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-index 2726889..23bd0f7 100644
---- a/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-+++ b/meta/recipes-sato/shutdown-desktop/shutdown-desktop/shutdown.desktop
-@@ -3,8 +3,8 @@ Encoding=UTF-8
- Type=Application
- Name=Shutdown
- Comment=Close down the machine safely
--Exec=halt
-+Exec=/sbin/halt
- Icon=system-shutdown
- Terminal=false
- Categories=Utility;
--StartupNotify=true
-\ No newline at end of file
-+StartupNotify=true
--- 
-1.7.9.5
+How about ^lib.+\.so(\..+)?$ to match a library filename?
 
+Ross
 
