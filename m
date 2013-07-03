@@ -1,25 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 290A06AD4F
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D45661485
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 14:15:09 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 03 Jul 2013 07:15:10 -0700
+	Wed,  3 Jul 2013 14:34:26 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 07:34:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="326306936"
-Received: from unknown (HELO [10.255.13.183]) ([10.255.13.183])
-	by azsmga001.ch.intel.com with ESMTP; 03 Jul 2013 07:15:09 -0700
-Message-ID: <51D431ED.1080901@linux.intel.com>
-Date: Wed, 03 Jul 2013 07:15:09 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Francesco Del Degan <f.deldegan@endian.com>
-References: <87r4ffenwf.fsf@endian.com>
-In-Reply-To: <87r4ffenwf.fsf@endian.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: fix init.d restart function
+X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364215796"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 07:34:26 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Jul 2013 17:34:20 +0300
+Message-Id: <cover.1372861799.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/4] Allow xuser to shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 14:15:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Jul 2013 14:34:26 -0000
 
-On 07/03/2013 07:09 AM, Francesco Del Degan wrote:
->
-> Adds a missing dash in the oknodo option function.
->
-This was recently submitted by Marc Frerland also and is now in master.
+The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
 
-Sau!
+  bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
 
-> Signed-off-by: Francesco Del Degan <f.deldegan@endian.com>
-> ---
->   meta/recipes-connectivity/openssh/openssh-6.1p1/init | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-> b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-> index cde52ef..6beec84 100644
-> --- a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-> +++ b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-> @@ -76,7 +76,7 @@ case "$1" in
->           check_keys
->           check_config
->           echo -n "Restarting OpenBSD Secure Shell server: sshd"
-> -        start-stop-daemon -K -oknodo -x /usr/sbin/sshd
-> +        start-stop-daemon -K --oknodo -x /usr/sbin/sshd
->           check_for_no_start
->           check_privsep_dir
->           sleep 2
->
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/b4345_shutdown_icon_rootless_x
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4345_shutdown_icon_rootless_x
+
+Laurentiu Palcu (4):
+  sysvinit: allow users in shutdown group to perform halt/reboot
+  connman: make xuser a member of 'shutdown' group
+  xserver-nodm-init: make xuser a member of 'shutdown' group
+  shutdown-desktop: give entire path in Exec field
+
+ meta/recipes-connectivity/connman/connman.inc      |    2 +-
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   12 +++++++++---
+ .../x11-common/xserver-nodm-init.bb                |    2 +-
+ .../shutdown-desktop/shutdown-desktop.bb           |    2 +-
+ .../shutdown-desktop/shutdown.desktop              |    4 ++--
+ 5 files changed, 14 insertions(+), 8 deletions(-)
+
+-- 
+1.7.9.5
+
 
