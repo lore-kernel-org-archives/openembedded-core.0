@@ -1,31 +1,25 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BEC661485
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 290A06AD4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 14:10:04 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1UuNkx-00063L-G5 for openembedded-core@lists.openembedded.org;
-	Wed, 03 Jul 2013 16:10:03 +0200
-Received: from 2-227-90-218.ip185.fastwebnet.it ([2.227.90.218])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2013 16:10:03 +0200
-Received: from f.deldegan by 2-227-90-218.ip185.fastwebnet.it with local
-	(Gmexim 0.1 (Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2013 16:10:03 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Francesco Del Degan <f.deldegan@endian.com>
-Date: Wed, 03 Jul 2013 16:09:04 +0200
-Message-ID: <87r4ffenwf.fsf@endian.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: 2-227-90-218.ip185.fastwebnet.it
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.2 (gnu/linux)
-Cancel-Lock: sha1:cmBTUm4eE3s8N/1cNEHViythYUo=
-Subject: [PATCH] openssl: fix init.d restart function
+	Wed,  3 Jul 2013 14:15:09 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 03 Jul 2013 07:15:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="326306936"
+Received: from unknown (HELO [10.255.13.183]) ([10.255.13.183])
+	by azsmga001.ch.intel.com with ESMTP; 03 Jul 2013 07:15:09 -0700
+Message-ID: <51D431ED.1080901@linux.intel.com>
+Date: Wed, 03 Jul 2013 07:15:09 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Francesco Del Degan <f.deldegan@endian.com>
+References: <87r4ffenwf.fsf@endian.com>
+In-Reply-To: <87r4ffenwf.fsf@endian.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: fix init.d restart function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,33 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 14:10:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Jul 2013 14:15:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/03/2013 07:09 AM, Francesco Del Degan wrote:
+>
+> Adds a missing dash in the oknodo option function.
+>
+This was recently submitted by Marc Frerland also and is now in master.
 
-Adds a missing dash in the oknodo option function.
+Sau!
 
-Signed-off-by: Francesco Del Degan <f.deldegan@endian.com>
----
- meta/recipes-connectivity/openssh/openssh-6.1p1/init | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-index cde52ef..6beec84 100644
---- a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-+++ b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
-@@ -76,7 +76,7 @@ case "$1" in
-         check_keys
-         check_config
-         echo -n "Restarting OpenBSD Secure Shell server: sshd"
--        start-stop-daemon -K -oknodo -x /usr/sbin/sshd
-+        start-stop-daemon -K --oknodo -x /usr/sbin/sshd
-         check_for_no_start
-         check_privsep_dir
-         sleep 2
--- 
-1.8.1.2
-
-
+> Signed-off-by: Francesco Del Degan <f.deldegan@endian.com>
+> ---
+>   meta/recipes-connectivity/openssh/openssh-6.1p1/init | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+> b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+> index cde52ef..6beec84 100644
+> --- a/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.1p1/init
+> @@ -76,7 +76,7 @@ case "$1" in
+>           check_keys
+>           check_config
+>           echo -n "Restarting OpenBSD Secure Shell server: sshd"
+> -        start-stop-daemon -K -oknodo -x /usr/sbin/sshd
+> +        start-stop-daemon -K --oknodo -x /usr/sbin/sshd
+>           check_for_no_start
+>           check_privsep_dir
+>           sleep 2
+>
 
