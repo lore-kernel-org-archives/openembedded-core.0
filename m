@@ -1,20 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D45661485
+	by mail.openembedded.org (Postfix) with ESMTP id 111FF6AF9C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 14:34:26 +0000 (UTC)
+	Wed,  3 Jul 2013 14:34:27 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 07:34:27 -0700
+	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 07:34:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364215796"
+X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364215809"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 07:34:26 -0700
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 07:34:27 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jul 2013 17:34:20 +0300
-Message-Id: <cover.1372861799.git.laurentiu.palcu@intel.com>
+Date: Wed,  3 Jul 2013 17:34:21 +0300
+Message-Id: <9b803f18c25bc5b0bcab26f6bea6caacb6784d47.1372861799.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/4] Allow xuser to shutdown
+In-Reply-To: <cover.1372861799.git.laurentiu.palcu@intel.com>
+References: <cover.1372861799.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1372861799.git.laurentiu.palcu@intel.com>
+References: <cover.1372861799.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/4] sysvinit: allow users in shutdown group to perform halt/reboot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,30 +31,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 14:34:26 -0000
+X-List-Received-Date: Wed, 03 Jul 2013 14:34:27 -0000
 
-The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
+For this to happen:
+ * 'shutdown' group has been created;
+ * changed ownership group for /sbin/halt and /sbin/shutdown to 'shutdown';
+ * deny execution rights to other users except 'root' and those belonging
+   to 'shutdown' group;
+ * set setuid bit to both apps;
 
-  bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
+So, basically, in order for a normal user to be able to shutdown/reboot
+the machine, it must be a member of 'shutdown' group.
 
-are available in the git repository at:
+Other changes:
+ * fixed identetion for 2 lines that used spaces instead of tabs;
 
-  git://git.yoctoproject.org/poky-contrib lpalcu/b4345_shutdown_icon_rootless_x
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4345_shutdown_icon_rootless_x
+[YOCTO #4345]
 
-Laurentiu Palcu (4):
-  sysvinit: allow users in shutdown group to perform halt/reboot
-  connman: make xuser a member of 'shutdown' group
-  xserver-nodm-init: make xuser a member of 'shutdown' group
-  shutdown-desktop: give entire path in Exec field
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb |   12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
- meta/recipes-connectivity/connman/connman.inc      |    2 +-
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   12 +++++++++---
- .../x11-common/xserver-nodm-init.bb                |    2 +-
- .../shutdown-desktop/shutdown-desktop.bb           |    2 +-
- .../shutdown-desktop/shutdown.desktop              |    4 ++--
- 5 files changed, 14 insertions(+), 8 deletions(-)
-
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index e64b67a..784d538 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -25,7 +25,7 @@ SRC_URI[sha256sum] = "60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5
+ S = "${WORKDIR}/sysvinit-${PV}"
+ B = "${S}/src"
+ 
+-inherit update-alternatives
++inherit update-alternatives useradd
+ DEPENDS_append = " update-rc.d-native"
+ 
+ ALTERNATIVE_${PN} = "init mountpoint halt reboot runlevel shutdown poweroff last mesg utmpdump wall"
+@@ -54,6 +54,9 @@ ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
+ ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
+ ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
+ 
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM_${PN} = "--system shutdown"
++
+ PACKAGES =+ "sysvinit-pidof sysvinit-sulogin"
+ FILES_${PN} += "${base_sbindir}/* ${base_bindir}/*"
+ FILES_sysvinit-pidof = "${base_bindir}/pidof.sysvinit ${base_sbindir}/killall5"
+@@ -87,6 +90,9 @@ do_install () {
+ 	install -m 0755    ${WORKDIR}/bootlogd.init     ${D}${sysconfdir}/init.d/bootlogd
+ 	ln -sf bootlogd ${D}${sysconfdir}/init.d/stop-bootlogd
+ 
+-        update-rc.d -r ${D} bootlogd start 07 S .
+-        update-rc.d -r ${D} stop-bootlogd start 99 2 3 4 5 .
++	update-rc.d -r ${D} bootlogd start 07 S .
++	update-rc.d -r ${D} stop-bootlogd start 99 2 3 4 5 .
++
++	chown root.shutdown ${D}${base_sbindir}/halt ${D}${base_sbindir}/shutdown
++	chmod o-x,u+s ${D}${base_sbindir}/halt ${D}${base_sbindir}/shutdown
+ }
 -- 
 1.7.9.5
 
