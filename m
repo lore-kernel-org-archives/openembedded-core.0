@@ -1,36 +1,27 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 12F0161883
+Return-Path: <radu.moisan@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 53FC561A45
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 06:57:57 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id fa11so7161293pad.19
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2013 23:57:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=wVsEWPSTs2vLuaDUTFkXAuCdVVjbiQy52OkjiO+5/3o=;
-	b=MHZrOl8uwrEbBWJ2qbPKsAiOiR6ys1TNM8+jdXtJ4CPLI7ZkwAm1goa6HMoC48RNQq
-	puOUs2DtvOb5l38A4jOUDHIEwYCl4rnm1fZjqVhlJfafatDSBDx2McyMpe6xPycp+bG9
-	xWISr37lM2AWKaowyMxGnBZ5DedOKgDGvZAZ1IohWlROnNg9qc5me+2TaLeTfa2m2ISR
-	irzBEs/uJKlPEN0G3VShCC5Ym+8Pg92ddwD8o7vHD1qpo/GIYsYL6CGjghycUIrTClm6
-	acNVYKKS1nArpm11V0hkHBRBlbW0maGyRp9E3+mziRLffNa3Nj315lO+/z3JeumL5Jqq
-	E6Gw==
-X-Received: by 10.68.202.41 with SMTP id kf9mr32624384pbc.80.1372834678172;
-	Tue, 02 Jul 2013 23:57:58 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([121.229.144.129])
-	by mx.google.com with ESMTPSA id jb2sm30537767pbc.8.2013.07.02.23.57.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 02 Jul 2013 23:57:57 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 03 Jul 2013 14:53:24 +0800
-Message-ID: <3934280.MhQAtor7HF@yiqingliang-pc>
-User-Agent: KMail/4.10.4 (Linux/3.9.6-1-ARCH; KDE/4.10.4; x86_64; ; )
+	Wed,  3 Jul 2013 08:14:55 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 01:14:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,986,1363158000"; 
+	d="scan'208,217";a="364037739"
+Received: from ubuntu.rb.intel.com (HELO [10.237.105.59]) ([10.237.105.59])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 01:14:55 -0700
+Message-ID: <51D3DDED.7060804@intel.com>
+Date: Wed, 03 Jul 2013 11:16:45 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: nativesdk-dbus do_package error
+To: openembedded-core@lists.openembedded.org
+References: <cover.1369298825.git.cazfi74@gmail.com>
+	<519EA042.1@linux.intel.com>
+	<CAF6bG8c7v4eFuw+QfjaE3HDsooYm9XOexx2wXQuaAM2W0OzM_Q@mail.gmail.com>
+In-Reply-To: <CAF6bG8c7v4eFuw+QfjaE3HDsooYm9XOexx2wXQuaAM2W0OzM_Q@mail.gmail.com>
+Subject: Re: [PATCH 0/1] Update automake to version 1.13.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,38 +34,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 06:57:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 03 Jul 2013 08:14:55 -0000
+Content-Type: multipart/alternative;
+	boundary="------------040000090808070806010206"
 
-I'm using 'systemd'
-when building 'meta-toolchain-qte', got following error:
-
-ERROR: QA Issue: nativesdk-dbus: Files/directories were installed but not 
-shipped
-  /run
-  /run/dbus
-ERROR: QA Issue: Found library in wrong location: 
-/lib/systemd/system/dbus.socket
-Found library in wrong location: 
-/lib/systemd/system/dbus.target.wants/dbus.socket
-Found library in wrong location: 
-/lib/systemd/system/sockets.target.wants/dbus.socket
-ERROR: QA run found fatal errors. Please consider fixing them.
-ERROR: Function failed: do_package_qa
-ERROR: Logfile of failure stored in: /media/datum/repo/arm9plf-
-build/tmp/work/x86_64-nativesdk-optimussdk-linux/nativesdk-dbus/1.6.8-
-r6.0/temp/log.do_package.10490
-ERROR: Task 1658 
-(virtual:nativesdk:/media/datum/repo/optimus/poky/meta/recipes-
-core/dbus/dbus_1.6.8.bb, do_package) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 4092 tasks of which 3232 didn't need to be 
-rerun and 1 failed.
+--------------040000090808070806010206
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+On 05/25/2013 01:21 AM, Marko Lindqvist wrote:
+>
+>  Confirmed. Automake update to (any) 1.13.x version breaks gtk-engines 
+> build. I don't know yet if it's automake or gtk-engines bug.
+>
 
--- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+Any updates on this? Do we have a bug filled addressing this problem? I 
+found several package which require automake 1.13.x for upgrade and this 
+automake issue is blocking them.
 
+Radu
+
+--------------040000090808070806010206
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <br>
+    <div class="moz-cite-prefix">On 05/25/2013 01:21 AM, Marko Lindqvist
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAF6bG8c7v4eFuw+QfjaE3HDsooYm9XOexx2wXQuaAM2W0OzM_Q@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <div dir="ltr">
+        <div><br>
+        </div>
+        &nbsp;Confirmed. Automake update to (any) 1.13.x version breaks
+        gtk-engines build. I don't know yet if it's automake or
+        gtk-engines bug.<br>
+        <div>
+          <div><br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <br>
+    Any updates on this? Do we have a bug filled addressing this
+    problem? I found several package which require automake 1.13.x for
+    upgrade and this automake issue is blocking them.<br>
+    <br>
+    Radu<br>
+  </body>
+</html>
+
+--------------040000090808070806010206--
