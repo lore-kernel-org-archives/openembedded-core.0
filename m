@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EF4761485
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E59E16AD4F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 15:22:42 +0000 (UTC)
-Received: by mail-ve0-f173.google.com with SMTP id jw11so237265veb.32
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2013 08:22:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=KjUxFEB9oNRRCfs5HF+EPfRaI4zo4JhTzTDp7p5/Ujw=;
-	b=JZZtoSyOReQUDJKNRslkDUg10+OLNKLzE2xKN+oyqDGoGCwY206Sdz2s6yZ8M3Zg4s
-	mphPBlZ6HBm0f57Ffv94qv2F6ehCHbl3PGF4ZigGAKoELXvWNK357evf9mU/wJe1qqSz
-	fE6IlPaxfqz0o/v913Aj5qJP8/TuGY6i2sM6eV7WTPfxxV0NWjUQvEFjoUJxIR9/zjGx
-	z8aKUsz++dPCIxGM50LEYWlsxzudh1EzsZZ2Yz5JvR8fbZLlxSAqjMK8KiMpVzyVPCZZ
-	0ebC7Ui0NIvPENjkAyyqxKt4203Enn2LhRcSdCf14vwI/PVpPCepGUTjdbYPRGa7ZfBV
-	UIuA==
-X-Received: by 10.52.164.227 with SMTP id yt3mr339053vdb.107.1372864962878;
-	Wed, 03 Jul 2013 08:22:42 -0700 (PDT)
+	Wed,  3 Jul 2013 15:41:20 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2013 08:38:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364247570"
+Received: from lpalcu-linux.rb.intel.com (HELO [10.237.105.165])
+	([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 08:40:56 -0700
+Message-ID: <51D44607.5070604@intel.com>
+Date: Wed, 03 Jul 2013 18:40:55 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Wed, 3 Jul 2013 08:22:22 -0700 (PDT)
-In-Reply-To: <1372831460-6435-2-git-send-email-net147@gmail.com>
-References: <1372831460-6435-1-git-send-email-net147@gmail.com>
-	<1372831460-6435-2-git-send-email-net147@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Jul 2013 16:22:22 +0100
-Message-ID: <CAJTo0LZ-B1kr4GLp_gJkJOcX23ua+LAq7KrW+sTdbz-r2eb3fw@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQn2r0QilIj9m61pV2NekP/wXZSdEY3MD9kfTjvX38/1LMfyfeIBgDYlCEoRd1WQeIBTFWeR
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] xf86-video-modesetting: upgrade to 0.8.0
+To: openembedded-core@lists.openembedded.org
+References: <cover.1372861799.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1372861799.git.laurentiu.palcu@intel.com>
+Subject: Re: [PATCH 0/4] Allow xuser to shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,12 +32,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 15:22:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Jul 2013 15:41:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Saul spotted an issue with the 4/4 regarding the usage of /sbin directly
+in the .desktop file and I'm going to send a v2 to address that.
 
-In the future, please use -M so that the diff is clearer than delete/add.
+Laurentiu
 
-Ross
+On 07/03/2013 05:34 PM, Laurentiu Palcu wrote:
+> The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
+> 
+>   bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib lpalcu/b4345_shutdown_icon_rootless_x
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4345_shutdown_icon_rootless_x
+> 
+> Laurentiu Palcu (4):
+>   sysvinit: allow users in shutdown group to perform halt/reboot
+>   connman: make xuser a member of 'shutdown' group
+>   xserver-nodm-init: make xuser a member of 'shutdown' group
+>   shutdown-desktop: give entire path in Exec field
+> 
+>  meta/recipes-connectivity/connman/connman.inc      |    2 +-
+>  meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   12 +++++++++---
+>  .../x11-common/xserver-nodm-init.bb                |    2 +-
+>  .../shutdown-desktop/shutdown-desktop.bb           |    2 +-
+>  .../shutdown-desktop/shutdown.desktop              |    4 ++--
+>  5 files changed, 14 insertions(+), 8 deletions(-)
+> 
 
