@@ -1,24 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EC7C6AFD4
+	by mail.openembedded.org (Postfix) with ESMTP id 8F5616AFD4
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  3 Jul 2013 22:26:29 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2013 15:24:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,991,1363158000"; d="scan'208";a="340154931"
+X-IronPort-AV: E=Sophos;i="4.87,991,1363158000"; d="scan'208";a="340154933"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.183])
 	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2013 15:26:30 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jul 2013 15:26:23 -0700
-Message-Id: <c9b8490c65d03e9bc3f603d2a3a20ea680c089aa.1372890071.git.sgw@linux.intel.com>
+Date: Wed,  3 Jul 2013 15:26:24 -0700
+Message-Id: <db7bc951b9616f8c39871d73d7904557d571cf31.1372890071.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1372890071.git.sgw@linux.intel.com>
 References: <cover.1372890071.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1372890071.git.sgw@linux.intel.com>
 References: <cover.1372890071.git.sgw@linux.intel.com>
-Subject: [PATCH 2/8] util-linux: disable runuser by default since it depends on PAM
+Subject: [PATCH 3/8] help2man: Update to 1.43.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 03 Jul 2013 22:26:29 -0000
 
-util-linux's configure checks for pam_misc.h and if it finds it will
-enable runuser, there was a case where it was found via shared state
-and then got rebuilt. This makes the build more deterministic.
-
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../help2man/{help2man-native_1.43.2.bb => help2man-native_1.43.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/help2man/{help2man-native_1.43.2.bb => help2man-native_1.43.3.bb} (80%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 0ada1a5..5bae370 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -45,6 +45,7 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
-                 --disable-vipw --disable-newgrp --disable-chfn-chsh --disable-su \
-                 --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
-                 --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
-+                --disable-runuser \
- 		usrsbin_execdir='${sbindir}' \
- "
+diff --git a/meta/recipes-devtools/help2man/help2man-native_1.43.2.bb b/meta/recipes-devtools/help2man/help2man-native_1.43.3.bb
+similarity index 80%
+rename from meta/recipes-devtools/help2man/help2man-native_1.43.2.bb
+rename to meta/recipes-devtools/help2man/help2man-native_1.43.3.bb
+index 22b235e..d20cee1 100644
+--- a/meta/recipes-devtools/help2man/help2man-native_1.43.2.bb
++++ b/meta/recipes-devtools/help2man/help2man-native_1.43.3.bb
+@@ -6,8 +6,8 @@ DEPENDS = "autoconf-native automake-native"
  
-@@ -52,7 +53,7 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
- EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--enable-socket-activation', '--disable-socket-activation', d)}"
- EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', d)}"
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
  
--EXTRA_OECONF_append_class-native = " --disable-login --disable-su"
-+EXTRA_OECONF_append_class-native = " --disable-login --disable-su --disable-runuser"
+-SRC_URI[md5sum] = "bd816983f068ebcf8ca7a20463f7337d"
+-SRC_URI[sha256sum] = "ec43eb74669e02cb61af142f1398bb882ff1dbbc9a8cc4f8cd70098fe425e4a9"
++SRC_URI[md5sum] = "a84868db7c139238df8add5d86a0b54f"
++SRC_URI[sha256sum] = "67978d118980ebd9f0c60be5db129527900a7b997b9568fc795ba9bdb341d303"
  
- FILES_${PN}-bash-completion += "${datadir}/bash-completion"
- FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+ inherit autotools native
+ 
 -- 
 1.8.1.4
 
