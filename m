@@ -1,26 +1,35 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D8DF6AFCC
+Return-Path: <373466062@qq.com>
+Received: from smtpbg52.qq.com (smtpbg52.qq.com [64.71.138.43])
+	by mail.openembedded.org (Postfix) with SMTP id 6AFC06AEA2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 03:36:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r633aRI8004004
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Jul 2013 20:36:27 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 2 Jul 2013 20:36:26 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Jul 2013 11:36:23 +0800
-Message-ID: <bfa207a7e48a5d71cea1307a24fb4ebee19deb83.1372822287.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1372822287.git.jackie.huang@windriver.com>
-References: <cover.1372822287.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] init-ifupdown: set kernel parameters firstly
+	Wed,  3 Jul 2013 03:55:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s0907;
+	t=1372823722; bh=s1Hx9fihgS+1W0yo6KZrlaBW6sEW+ZkzPmjS96u5lTs=;
+	h=X-QQ-SSF:X-HAS-ATTACH:X-QQ-BUSINESS-ORIGIN:X-Originating-IP:
+	X-QQ-STYLE:X-QQ-mid:From:To:Subject:Mime-Version:Content-Type:
+	Content-Transfer-Encoding:Date:X-Priority:Message-ID:X-QQ-MIME:
+	X-Mailer:X-QQ-Mailer:X-QQ-FName:X-QQ-LocalIP;
+	b=J6gv3FMceUDa7E7oeHCy1mC6pMqAnnr7nEjiRV+3oauocslQg2AZRQ5y9fDseU8W4
+	3LJA9u1aLC6ej5Kd3dbsuwYuT6bScsIOyywWC//4J08yEnWXEXCQrWsRoCT7ML1
+X-QQ-SSF: 000000000000005000000000000000Z
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 210.22.130.90
+X-QQ-STYLE: 
+X-QQ-mid: webmail381t1372823719t4239790
+From: "=?gb18030?B?us66zA==?=" <373466062@qq.com>
+To: "=?gb18030?B?b3BlbmVtYmVkZGVkLWNvcmU=?="
+	<openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0
+Date: Wed, 3 Jul 2013 11:55:19 +0800
+X-Priority: 3
+Message-ID: <tencent_2B635D5449F619A5533C8210@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-FName: E55FB0496F8A44609001C4E4E79D0582
+X-QQ-LocalIP: 58.250.132.20
+Subject: [HELP]How Can I make the uImage contain dtb?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 03:36:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 03 Jul 2013 03:55:24 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_51D3A0A7_09A0A848_4DD4BECC"
+Content-Transfer-Encoding: 8Bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+------=_NextPart_51D3A0A7_09A0A848_4DD4BECC
+Content-Type: text/plain;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
 
-When do ipv6 ready test, some DAD (duplicate address detect) tests failed
-since it expect IPV6 will be disabled, but not. even accept_dad has been
-set to correct value 2. Further investigation shows the root cause is that
-setting the kernel parameter happens after the NIC is upped.
+SSdtIHVzaW5nIHRoZSB5b2N0byBwcm9qZWN0IHRvIGJ1aWxkIHRoZSBrZXJuZWwgYW5kIHJv
+b3Rmcy4gQWZ0ZXIgdGhlIHlvY3RvIGJpdGJha2UgZmluaXNoIGJ1aWxkaW5nIHRoZSBrZXJu
+ZWwsIGl0IHdpbGwgcHJvZHVjdCBhIGR0YiBmaWxlIGFuZCB1SW1hZ2UrZHRiIGZpbGUuIA0K
+Tm93IEkgcGljayB1cCB0aGUga2VybmVsIHNvdXJjZSBjb2RlIGZyb20gdGhlIHlvY3RvLCBh
+bmQgd29uZGVyaW5nIGhvdyB0byBwcm9kdWN0IHRoZSB1SW1hZ2UrZHRiIGZpbGUuIFNpbmNl
+IG15IHVib290IGlzIGxhY2sgb2Ygc3VwcG9ydGluZyB0aGUgZmR0IGNvbW1hbmQuIFVzaW5n
+IHRoZSB1SW1hZ2UgaXMgYSBtdXN0LiANCkluIHRoZSBwb3dlcnBjIE1ha2VmaWxlIEkgY2F0
+Y2ggYGR0YkltYWdlYCx3aGljaCBpcyBhIHpJbWFnZSBjb250YWlucyBkdGIgZmlsZS4gIEJ1
+dCBteSBTb0MgaXMgQVJNLiBJdCBoYXMgbm8gdGFyZ2V0IG5hbWVkIGR0YkltYWdlLg==
 
-Make kernel parameters be configured before the interfaces is upped, and
-duplicate setting the kernel parameters does not have negative effect.
+------=_NextPart_51D3A0A7_09A0A848_4DD4BECC
+Content-Type: text/html;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../init-ifupdown/init-ifupdown-1.0/init           |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+PGRpdj5JJ20gdXNpbmcgdGhlIHlvY3RvIHByb2plY3QgdG8gYnVpbGQgdGhlIGtlcm5lbCBh
+bmQgcm9vdGZzLiBBZnRlciB0aGUgeW9jdG8gYml0YmFrZSBmaW5pc2ggYnVpbGRpbmcgdGhl
+IGtlcm5lbCwgaXQgd2lsbCBwcm9kdWN0IGEgZHRiIGZpbGUgYW5kIHVJbWFnZStkdGIgZmls
+ZS4mbmJzcDs8L2Rpdj48ZGl2Pk5vdyBJIHBpY2sgdXAgdGhlIGtlcm5lbCBzb3VyY2UgY29k
+ZSBmcm9tIHRoZSB5b2N0bywgYW5kIHdvbmRlcmluZyBob3cgdG8gcHJvZHVjdCB0aGUgdUlt
+YWdlK2R0YiBmaWxlLiBTaW5jZSBteSB1Ym9vdCBpcyBsYWNrIG9mIHN1cHBvcnRpbmcgdGhl
+IGZkdCBjb21tYW5kLiBVc2luZyB0aGUgdUltYWdlIGlzIGEgbXVzdC4mbmJzcDs8L2Rpdj48
+ZGl2PkluIHRoZSBwb3dlcnBjIE1ha2VmaWxlIEkgY2F0Y2ggYGR0YkltYWdlYCx3aGljaCBp
+cyBhIHpJbWFnZSBjb250YWlucyBkdGIgZmlsZS4gJm5ic3A7QnV0IG15IFNvQyBpcyBBUk0u
+IEl0IGhhcyBubyB0YXJnZXQgbmFtZWQgZHRiSW1hZ2UuPC9kaXY+
 
-diff --git a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-index bace9df..fb31c63 100644
---- a/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-+++ b/meta/recipes-core/init-ifupdown/init-ifupdown-1.0/init
-@@ -58,6 +58,7 @@ check_network_swap() {
- case "$1" in
- start)
- 	echo -n "Configuring network interfaces... "
-+	sysctl -e -p /etc/sysctl.conf >/dev/null 2>&1
- 	ifup -a
- 	echo "done."
- 	;;
--- 
-1.7.4.1
-
-
+------=_NextPart_51D3A0A7_09A0A848_4DD4BECC--
