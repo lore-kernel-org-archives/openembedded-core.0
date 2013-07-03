@@ -1,26 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 777A361EEB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EF4761485
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 15:09:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 08:09:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="339948501"
-Received: from unknown (HELO helios.localnet) ([10.252.121.227])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2013 08:09:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 03 Jul 2013 16:09:55 +0100
-Message-ID: <3743526.ioJ26RjPsj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-25-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <CAJTo0LaoRo3urg=M8n5+V0zD9y8RzJ=dRZPjYBupz8mR_HiWQQ@mail.gmail.com>
-References: <1372858838-17887-1-git-send-email-paul.eggleton@linux.intel.com>
-	<CAJTo0LaoRo3urg=M8n5+V0zD9y8RzJ=dRZPjYBupz8mR_HiWQQ@mail.gmail.com>
+	Wed,  3 Jul 2013 15:22:42 +0000 (UTC)
+Received: by mail-ve0-f173.google.com with SMTP id jw11so237265veb.32
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Jul 2013 08:22:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=KjUxFEB9oNRRCfs5HF+EPfRaI4zo4JhTzTDp7p5/Ujw=;
+	b=JZZtoSyOReQUDJKNRslkDUg10+OLNKLzE2xKN+oyqDGoGCwY206Sdz2s6yZ8M3Zg4s
+	mphPBlZ6HBm0f57Ffv94qv2F6ehCHbl3PGF4ZigGAKoELXvWNK357evf9mU/wJe1qqSz
+	fE6IlPaxfqz0o/v913Aj5qJP8/TuGY6i2sM6eV7WTPfxxV0NWjUQvEFjoUJxIR9/zjGx
+	z8aKUsz++dPCIxGM50LEYWlsxzudh1EzsZZ2Yz5JvR8fbZLlxSAqjMK8KiMpVzyVPCZZ
+	0ebC7Ui0NIvPENjkAyyqxKt4203Enn2LhRcSdCf14vwI/PVpPCepGUTjdbYPRGa7ZfBV
+	UIuA==
+X-Received: by 10.52.164.227 with SMTP id yt3mr339053vdb.107.1372864962878;
+	Wed, 03 Jul 2013 08:22:42 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Wed, 3 Jul 2013 08:22:22 -0700 (PDT)
+In-Reply-To: <1372831460-6435-2-git-send-email-net147@gmail.com>
+References: <1372831460-6435-1-git-send-email-net147@gmail.com>
+	<1372831460-6435-2-git-send-email-net147@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Jul 2013 16:22:22 +0100
+Message-ID: <CAJTo0LZ-B1kr4GLp_gJkJOcX23ua+LAq7KrW+sTdbz-r2eb3fw@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+X-Gm-Message-State: ALoCoQn2r0QilIj9m61pV2NekP/wXZSdEY3MD9kfTjvX38/1LMfyfeIBgDYlCEoRd1WQeIBTFWeR
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/insane: fix libdir check regexes
+Subject: Re: [PATCH 1/1] xf86-video-modesetting: upgrade to 0.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +44,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 15:09:56 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 03 Jul 2013 15:22:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday 03 July 2013 15:35:15 Burton, Ross wrote:
-> On 3 July 2013 14:40, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> > +    lib_re = re.compile("^/lib.*\.so[0-9.]*$")
-> > +    exec_re = re.compile("^%s.*/lib.*\.so[0-9.]*$" % exec_prefix)
-> 
-> I'd been meaning to double-check this assumption since the discussion
-> yesterday, and I'm glad I did.  My Debian machine has these files in
-> /usr/lib that don't match that regex:
-> 
-> libatlas.so.3gf
-> libblas.so.3gf
-> libcblas.so.3gf
-> libf77blas.so.3gf
-> liblapack_atlas.so.3gf
-> liblapack.so.3gf
-> libmozjs.so.10d
-> libnspr4.so.0d
-> libnss3.so.1d
-> libnssutil3.so.1d
-> libplc4.so.0d
-> libplds4.so.0d
-> libsmime3.so.1d
-> libssl3.so.1d
-> 
-> How about ^lib.+\.so(\..+)?$ to match a library filename?
+Hi,
 
-Hmm, right. That looks reasonable. v2 sent.
+In the future, please use -M so that the diff is clearer than delete/add.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
