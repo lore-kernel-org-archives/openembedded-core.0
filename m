@@ -1,20 +1,20 @@
-Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id B0B3E61485
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 3678F61EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 14:55:35 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Jul 2013 07:55:35 -0700
+	Wed,  3 Jul 2013 15:09:34 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 08:09:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="263647296"
-Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Jul 2013 07:55:30 -0700
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364232364"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.227])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 08:09:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jul 2013 18:02:49 +0300
-Message-Id: <1372863769-17706-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v3] mkelfimage: switch to git repository
+Date: Wed,  3 Jul 2013 16:09:32 +0100
+Message-Id: <1372864172-5346-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH v2] classes/insane: fix libdir check regexes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,54 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 14:55:35 -0000
+X-List-Received-Date: Wed, 03 Jul 2013 15:09:34 -0000
 
-The project has switched to using git for version control.
+Ensure these do not pick up e.g. /lib/systemd/system/uuidd.socket, but
+ensure we pickup e.g. /usr/lib/libnss3.so.1d (example from Debian). This
+also fixes the broken exec_re regex (lib*.).
 
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- .../{mkelfimage_svn.bb => mkelfimage_git.bb}       |   16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/mkelfimage/{mkelfimage_svn.bb => mkelfimage_git.bb} (56%)
+ meta/classes/insane.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-similarity index 56%
-rename from meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-rename to meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-index b53f7a7..8d232bb 100644
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -1,21 +1,21 @@
--DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
-+DESCRIPTION = "A utility to create ELF boot images for ELF-based Linux kernel images"
- HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
- SECTION = "devel"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 27c225f..938c84e 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -265,8 +265,8 @@ def package_qa_check_libdir(d):
+             full_path = os.path.join(root,file)
+             my_files.append(full_path[len(pkgd):])
  
--SRCREV = "6637"
--PV = "1.0.0+svn${SRCPV}"
--PR = "r2"
-+SRCREV = "686a48a339b3200184c27e7f98d4c03180b2be6c"
-+PV = "4.0+git${SRCPV}"
-+PR = "r0"
+-    lib_re = re.compile("^/lib.*\.so")
+-    exec_re = re.compile("^%s.*/lib*.\.so" % exec_prefix)
++    lib_re = re.compile("^lib.+\.so(\..+)?$")
++    exec_re = re.compile("^%s.*/lib.+\.so(\..+)?$" % exec_prefix)
  
- DEPENDS += "zlib"
- 
--SRC_URI = "svn://coreboot.org/coreboot/trunk/util;module=mkelfImage;protocol=svn \
--           file://cross-compile.patch \
--           file://fix-makefile-to-find-libz.patch \
-+SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
-+           file://cross-compile.patch   \
-+           file://fix-makefile-to-find-libz.patch   \
-           "
- 
--S = "${WORKDIR}/mkelfImage"
-+S = "${WORKDIR}/git/util/mkelfImage"
- 
- CFLAGS += "-fno-stack-protector"
- CACHED_CONFIGUREVARS += "HOST_CC='${BUILD_CC}'"
+     for file in my_files:
+         if lib_re.match(file):
 -- 
-1.7.9.5
+1.8.1.2
 
 
