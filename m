@@ -1,20 +1,37 @@
 Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id D421161883
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4283061485
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 13:29:43 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 03 Jul 2013 06:29:44 -0700
+	Wed,  3 Jul 2013 13:30:29 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 03 Jul 2013 06:30:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="263610646"
-Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Jul 2013 06:29:43 -0700
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jul 2013 16:37:03 +0300
-Message-Id: <1372858623-16505-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2] mkelfimage: switch to git repository
+X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="364185242"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by orsmga002.jf.intel.com with ESMTP; 03 Jul 2013 06:30:29 -0700
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Wed, 3 Jul 2013 14:30:26 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.52]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.125]) with mapi id
+	14.03.0123.003; Wed, 3 Jul 2013 14:30:26 +0100
+From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] mkelfimage: switch to git repository
+Thread-Index: AQHOdyEMA4ybVabpzkWa/ghFVMyhD5lRbqeAgAGF548=
+Date: Wed, 3 Jul 2013 13:30:25 +0000
+Message-ID: <985E5BBDA0968D48ABDF343456A521B3022C77A5@IRSMSX105.ger.corp.intel.com>
+References: <1372769121-3111-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>,
+	<CAJTo0La4UFeV2Ew0rs5Jw2AQog7-JJuaG4QZNBeW4yBxXN27yg@mail.gmail.com>
+In-Reply-To: <CAJTo0La4UFeV2Ew0rs5Jw2AQog7-JJuaG4QZNBeW4yBxXN27yg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.137]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mkelfimage: switch to git repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,93 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 13:29:44 -0000
+X-List-Received-Date: Wed, 03 Jul 2013 13:30:29 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The project has switched to using git for version control.
-
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
----
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   31 ++++++++++++++++++++
- meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb |   31 --------------------
- 2 files changed, 31 insertions(+), 31 deletions(-)
- create mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
- delete mode 100644 meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-new file mode 100644
-index 0000000..b81ce2f
---- /dev/null
-+++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
-@@ -0,0 +1,31 @@
-+DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
-+HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
-+SECTION = "devel"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
-+
-+SRCREV = "686a48a339b3200184c27e7f98d4c03180b2be6c"
-+PV = "4.0+git${SRCPV}"
-+PR = "r0"
-+
-+DEPENDS += "zlib"
-+
-+SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
-+           file://cross-compile.patch   \
-+           file://fix-makefile-to-find-libz.patch   \
-+          "
-+
-+S = "${WORKDIR}/git/util/mkelfImage"
-+
-+CFLAGS += "-fno-stack-protector"
-+CACHED_CONFIGUREVARS += "HOST_CC='${BUILD_CC}'"
-+EXTRA_OEMAKE += "HOST_CPPFLAGS='${BUILD_CPPFLAGS}'"
-+
-+inherit autotools
-+
-+do_install_append() {
-+	rmdir ${D}${datadir}/mkelfImage/elf32-i386
-+	rmdir ${D}${datadir}/mkelfImage
-+}
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-deleted file mode 100644
-index b53f7a7..0000000
---- a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
-+++ /dev/null
-@@ -1,31 +0,0 @@
--DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
--HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
--SECTION = "devel"
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
--
--SRCREV = "6637"
--PV = "1.0.0+svn${SRCPV}"
--PR = "r2"
--
--DEPENDS += "zlib"
--
--SRC_URI = "svn://coreboot.org/coreboot/trunk/util;module=mkelfImage;protocol=svn \
--           file://cross-compile.patch \
--           file://fix-makefile-to-find-libz.patch \
--          "
--
--S = "${WORKDIR}/mkelfImage"
--
--CFLAGS += "-fno-stack-protector"
--CACHED_CONFIGUREVARS += "HOST_CC='${BUILD_CC}'"
--EXTRA_OEMAKE += "HOST_CPPFLAGS='${BUILD_CPPFLAGS}'"
--
--inherit autotools
--
--do_install_append() {
--	rmdir ${D}${datadir}/mkelfImage/elf32-i386
--	rmdir ${D}${datadir}/mkelfImage
--}
--
--BBCLASSEXTEND = "native"
--- 
-1.7.9.5
-
+Resent patch.=0A=
+=0A=
+Thanks,=0A=
+Ema=0A=
+________________________________________=0A=
+From: Burton, Ross [ross.burton@intel.com]=0A=
+Sent: Tuesday, July 02, 2013 6:14 PM=0A=
+To: Ciobanu, Emilia Maria Silvia=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH] mkelfimage: switch to git repository=0A=
+=0A=
+On 2 July 2013 13:45, Emilia Ciobanu=0A=
+<emilia.maria.silvia.ciobanu@intel.com> wrote:=0A=
+> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>=0A=
+=0A=
+Can you explain why you're switching to git (unreleased features you=0A=
+need, I presume?) in the commit message please.=0A=
+=0A=
+Ross=0A=
 
