@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id C036261485
+Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id B0B3E61485
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 14:35:34 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id ia10so156742vcb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2013 07:35:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=oHziwW5hH1d833kaIBnVwP1r1qLEHFFYlhUWnLkXyG0=;
-	b=RTU/l8vs+Tgy8O5s+MslLV8PplplL0RmFd6BMcf16qMUzBLSbHDQARJPmjTZ3Sugjz
-	5DmUxpsHMlG4j2aGaPVBraoLR3QVUftkBLYskuIIwND4PLi56MZYmBotvPLRTpA5w5mU
-	2pUH+lHIkoAvgcQFRVQdhAAxOt/1UuzKTVe4iQxA1ls+MLT146JEDtZ1EgQY63aNYypg
-	gMw6oMEMeDEIXIxm6m0gi8HW3d8yRyrOEbvHvN8ivqzVX6rO6m8WsVrpspru1SK51jbp
-	/9rVkTpUFt9v1PgRXLwajrV5orvBmRdxAGPo9HBJuoiEuuxRX9vT9RS8wiKlANkLA8ws
-	AQFQ==
-X-Received: by 10.220.42.147 with SMTP id s19mr363474vce.46.1372862135616;
-	Wed, 03 Jul 2013 07:35:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Wed, 3 Jul 2013 07:35:15 -0700 (PDT)
-In-Reply-To: <1372858838-17887-1-git-send-email-paul.eggleton@linux.intel.com>
-References: <1372858838-17887-1-git-send-email-paul.eggleton@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 3 Jul 2013 15:35:15 +0100
-Message-ID: <CAJTo0LaoRo3urg=M8n5+V0zD9y8RzJ=dRZPjYBupz8mR_HiWQQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQlHOo3pxKdfEEUGJc3kvZR2eA+3335KXkv7L4v1KZuqYR1uKgcNV98/vQ24OD2IYZWPWGQl
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/insane: fix libdir check regexes
+	Wed,  3 Jul 2013 14:55:35 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 03 Jul 2013 07:55:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,988,1363158000"; d="scan'208";a="263647296"
+Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
+	by AZSMGA002.ch.intel.com with ESMTP; 03 Jul 2013 07:55:30 -0700
+From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Jul 2013 18:02:49 +0300
+Message-Id: <1372863769-17706-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v3] mkelfimage: switch to git repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +27,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 14:35:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Jul 2013 14:55:35 -0000
 
-On 3 July 2013 14:40, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> +    lib_re = re.compile("^/lib.*\.so[0-9.]*$")
-> +    exec_re = re.compile("^%s.*/lib.*\.so[0-9.]*$" % exec_prefix)
+The project has switched to using git for version control.
 
-I'd been meaning to double-check this assumption since the discussion
-yesterday, and I'm glad I did.  My Debian machine has these files in
-/usr/lib that don't match that regex:
+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+---
+ .../{mkelfimage_svn.bb => mkelfimage_git.bb}       |   16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/mkelfimage/{mkelfimage_svn.bb => mkelfimage_git.bb} (56%)
 
-libatlas.so.3gf
-libblas.so.3gf
-libcblas.so.3gf
-libf77blas.so.3gf
-liblapack_atlas.so.3gf
-liblapack.so.3gf
-libmozjs.so.10d
-libnspr4.so.0d
-libnss3.so.1d
-libnssutil3.so.1d
-libplc4.so.0d
-libplds4.so.0d
-libsmime3.so.1d
-libssl3.so.1d
+diff --git a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+similarity index 56%
+rename from meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
+rename to meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+index b53f7a7..8d232bb 100644
+--- a/meta/recipes-devtools/mkelfimage/mkelfimage_svn.bb
++++ b/meta/recipes-devtools/mkelfimage/mkelfimage_git.bb
+@@ -1,21 +1,21 @@
+-DESCRIPTION = "A utility to create ELF boot images from Linux kernel images"
++DESCRIPTION = "A utility to create ELF boot images for ELF-based Linux kernel images"
+ HOMEPAGE = "http://www.coreboot.org/Mkelfimage"
+ SECTION = "devel"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a"
+ 
+-SRCREV = "6637"
+-PV = "1.0.0+svn${SRCPV}"
+-PR = "r2"
++SRCREV = "686a48a339b3200184c27e7f98d4c03180b2be6c"
++PV = "4.0+git${SRCPV}"
++PR = "r0"
+ 
+ DEPENDS += "zlib"
+ 
+-SRC_URI = "svn://coreboot.org/coreboot/trunk/util;module=mkelfImage;protocol=svn \
+-           file://cross-compile.patch \
+-           file://fix-makefile-to-find-libz.patch \
++SRC_URI = "git://review.coreboot.org/p/coreboot;protocol=http \
++           file://cross-compile.patch   \
++           file://fix-makefile-to-find-libz.patch   \
+           "
+ 
+-S = "${WORKDIR}/mkelfImage"
++S = "${WORKDIR}/git/util/mkelfImage"
+ 
+ CFLAGS += "-fno-stack-protector"
+ CACHED_CONFIGUREVARS += "HOST_CC='${BUILD_CC}'"
+-- 
+1.7.9.5
 
-How about ^lib.+\.so(\..+)?$ to match a library filename?
-
-Ross
 
