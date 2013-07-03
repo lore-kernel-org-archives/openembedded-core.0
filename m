@@ -1,26 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 51C31618B5
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 453E0618B5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2013 22:13:35 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Jul 2013 15:13:29 -0700
+	Wed,  3 Jul 2013 22:26:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2013 15:24:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,991,1363158000"; d="scan'208";a="263826029"
-Received: from unknown (HELO helios.localnet) ([10.252.121.252])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Jul 2013 15:13:27 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 03 Jul 2013 23:13:26 +0100
-Message-ID: <23272091.y20nHRCnfc@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-25-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <51D49B7A.1070906@linux.intel.com>
-References: <1372845322-12862-1-git-send-email-net147@gmail.com>
-	<51D49B7A.1070906@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qt4: upgrade to 4.8.5
+X-IronPort-AV: E=Sophos;i="4.87,991,1363158000"; d="scan'208";a="340154926"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.183])
+	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2013 15:26:29 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Jul 2013 15:26:21 -0700
+Message-Id: <cover.1372890071.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/8] Updates and util-linux fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,79 +27,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2013 22:13:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 03 Jul 2013 22:26:29 -0000
 
-On Wednesday 03 July 2013 14:45:30 Saul Wold wrote:
-> On 07/03/2013 02:55 AM, Jonathan Liu wrote:
-> > Removed patches integrated upstream.
-> 
-> Jonathan,
-> 
-> I am seeing the following failures on a world build:
-> > Found library in wrong location:
-> > /usr/bin/qtopia/examples/declarative/cppextensions/plugins/.debug/libqmlq
-> > widgetsplugin.so Found library in wrong location:
-> > /usr/bin/qtopia/examples/declarative/cppextensions/plugins/com/nokia/Time
-> > Example/libqmlqtimeexampleplugin.so Found library in wrong location:
-> > /usr/bin/qtopia/examples/declarative/cppextensions/plugins/com/nokia/Time
-> > Example/.debug/libqmlqtimeexampleplugin.so ERROR: QA run found fatal
-> > errors. Please consider fixing them.
-> > ERROR: Function failed: do_package_qa
-> > ERROR: Logfile of failure stored in:
-> > /srv/hdd/builds/world/tmp/work/mips32-poky-linux/qt4-embedded/4.8.5-r52.4
-> > /temp/log.do_package.29418 ERROR: Task 1259
-> > (/srv/hdd/poky/meta/recipes-qt/qt4/qt4-embedded_4.8.5.bb, do_package)
-> > failed with exit code '1' ERROR: QA Issue: Found library in wrong
-> > location:
-> > /usr/bin/qt4/examples/tools/styleplugin/styles/libsimplestyleplugin.so
-> > Found library in wrong location:
-> > /usr/bin/qt4/examples/tools/styleplugin/styles/.debug/libsimplestyleplugi
-> > n.so Found library in wrong location:
-> > /usr/bin/qt4/examples/tools/echoplugin/plugin/libechoplugin.so Found
-> > library in wrong location:
-> > /usr/bin/qt4/examples/tools/echoplugin/plugin/.debug/libechoplugin.so
-> > Found library in wrong location:
-> > /usr/bin/qt4/examples/tools/plugandpaint/plugins/libpnp_extrafilters.so
-> > Found library in wrong location:
-> > /usr/bin/qt4/examples/tools/plugandpaint/plugins/.debug/libpnp_extrafilte
-> > rs.so Found library in wrong location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/imageprovider/ImageProvid
-> > erCore/libqmlimageproviderplugin.so Found library in wrong location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/imageprovider/ImageProvid
-> > erCore/.debug/libqmlimageproviderplugin.so Found library in wrong
-> > location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/qwidgets/QWidgets/libqmlq
-> > widgetsplugin.so Found library in wrong location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/qwidgets/QWidgets/.debug/
-> > libqmlqwidgetsplugin.so Found library in wrong location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/plugins/libqmlqwidgetsplu
-> > gin.so Found library in wrong location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/plugins/.debug/libqmlqwid
-> > getsplugin.so Found library in wrong location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/plugins/com/nokia/TimeExa
-> > mple/libqmlqtimeexampleplugin.so Found library in wrong location:
-> > /usr/bin/qt4/examples/declarative/cppextensions/plugins/com/nokia/TimeExa
-> > mple/.debug/libqmlqtimeexampleplugin.so ERROR: QA run found fatal errors.
-> > Please consider fixing them.
-> > ERROR: Function failed: do_package_qa
-> > ERROR: Logfile of failure stored in:
-> > /srv/hdd/builds/world/tmp/work/mips32-poky-linux/qt4-x11-free/4.8.5-r50.4
-> > /temp/log.do_package.29597 ERROR: Task 2733
-> > (/srv/hdd/poky/meta/recipes-qt/qt4/qt4-x11-free_4.8.5.bb, do_package)
-> > failed with exit code '1' NOTE: Tasks Summary: Attempted 11487 tasks of
-> > which 6160 didn't need to be rerun and 3 failed. No currently running
-> > tasks (11487 of 11561)
+The util-linux configure was finding pam in the 
+core-image-basic image and there was a timing issue with 
+and rebuild.
 
-I wonder if this check is being a little bit overzealous... perhaps we should 
-switch it back to WARN_QA for now.
+Other are standard updates
 
-Cheers,
-Paul
+Sau!
+
+The following changes since commit 3e1dbabbf33a2e461abc92ff10cd970fe604ee38:
+
+  sysstat: backport a patch to fix a parallel building error (2013-07-02 07:58:10 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/fix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/fix
+
+Saul Wold (8):
+  packagegroup-core-basic: Only build libpam if it's enabled
+  util-linux: disable runuser by default since it depends on PAM
+  help2man: Update to 1.43.3
+  boost: Update to 1.54
+  dtc: Update to  1.4.0 Git Tag
+  swabber: Update to latest head
+  remake: Update to latest 3.82_dbg-0.9 Tag
+  resolvconf: Update to 1.72
+
+ .../resolvconf/{resolvconf_1.72.bb => resolvconf_1.73.bb}           | 4 ++--
+ meta/recipes-core/util-linux/util-linux.inc                         | 3 ++-
+ .../{help2man-native_1.43.2.bb => help2man-native_1.43.3.bb}        | 4 ++--
+ meta/recipes-devtools/remake/remake_git.bb                          | 4 ++--
+ meta/recipes-devtools/swabber/swabber-native_git.bb                 | 3 +--
+ meta/recipes-extended/packagegroups/packagegroup-core-basic.bb      | 2 +-
+ meta/recipes-kernel/dtc/dtc.inc                                     | 1 -
+ meta/recipes-kernel/dtc/dtc_git.bb                                  | 5 ++---
+ .../boost/{bjam-native_1.53.0.bb => bjam-native_1.54.0.bb}          | 0
+ meta/recipes-support/boost/{boost-1.53.0.inc => boost-1.54.0.inc}   | 6 +++---
+ meta/recipes-support/boost/{boost_1.53.0.bb => boost_1.54.0.bb}     | 2 --
+ 11 files changed, 15 insertions(+), 19 deletions(-)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.72.bb => resolvconf_1.73.bb} (92%)
+ rename meta/recipes-devtools/help2man/{help2man-native_1.43.2.bb => help2man-native_1.43.3.bb} (80%)
+ rename meta/recipes-support/boost/{bjam-native_1.53.0.bb => bjam-native_1.54.0.bb} (100%)
+ rename meta/recipes-support/boost/{boost-1.53.0.inc => boost-1.54.0.inc} (76%)
+ rename meta/recipes-support/boost/{boost_1.53.0.bb => boost_1.54.0.bb} (89%)
 
 -- 
+1.8.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
