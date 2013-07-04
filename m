@@ -1,24 +1,37 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 13B196AFD4
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
+	[209.85.219.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6EE8A6AA07
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 12:53:59 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Jul 2013 05:54:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,995,1363158000"; d="scan'208";a="340465025"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2013 05:53:59 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jul 2013 15:53:55 +0300
-Message-Id: <62b7cc36eab494ea6c7ece141b580132cb86e89a.1372942368.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1372942368.git.laurentiu.palcu@intel.com>
-References: <cover.1372942368.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1372942368.git.laurentiu.palcu@intel.com>
-References: <cover.1372942368.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/1] populate_sdk_base: fix bashism
+	Thu,  4 Jul 2013 13:10:52 +0000 (UTC)
+Received: by mail-oa0-f47.google.com with SMTP id m1so1904427oag.6
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Jul 2013 06:10:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=A198QyAhNA/+4khvs6WjsIL1xxDqjMpK+Bbue9Fg8nw=;
+	b=ZkGtUhxP5DDDl1Dt8Dr7Ev20nUda2r5zrc47r61pUROzTfpgV7kQmCNZozVdnqRwKT
+	seGnRvb+QMbBvVcuxAedLGD/V/PcNS2Gnwts6EkbQlL9y7rwAG74p0Hd8SDBWeqv/dx4
+	RPemQFwrJPTqV6ipSyubID0wfKSdj0YpPlEExLMh/r280TjFNWhKJp4Ndzmso3bjuF4M
+	TkRuvrlIBB+vd/BwTkVCt932qa0Km06zGWHv4Jupu/V77Xnirsu2/K3zN5fTpTTc1zQj
+	7nPcEBxO5SqYjnHXyShk6bpiW/tzxQi5KBYW9m3riWO71aqo7PlMLfongvop48wOHZma
+	dnLw==
+MIME-Version: 1.0
+X-Received: by 10.60.115.199 with SMTP id jq7mr6021814oeb.19.1372943453002;
+	Thu, 04 Jul 2013 06:10:53 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.98.133 with HTTP; Thu, 4 Jul 2013 06:10:52 -0700 (PDT)
+In-Reply-To: <1372871077-6363-1-git-send-email-paul.eggleton@linux.intel.com>
+References: <1372871077-6363-1-git-send-email-paul.eggleton@linux.intel.com>
+Date: Thu, 4 Jul 2013 10:10:52 -0300
+X-Google-Sender-Auth: 4N-QGk09sIrIs3zhDBC4SmOUqb4
+Message-ID: <CAP9ODKrXD9MzMTdqXTWNFiShCPv9TsRXFPcP9AEwQcSPuQjmCQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qt4: disable qmeegographicssystemhelper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 12:53:59 -0000
+X-List-Received-Date: Thu, 04 Jul 2013 13:10:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Only the printf bash builtin knows about %q format option for escaping
-spaces. The coreutils version doesn't. Unfortunately, neither dash nor
-sh have a printf builtin. So, escape the spaces using sed.
+On Wed, Jul 3, 2013 at 2:04 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> We don't want this enabled just because we have EGL and OpenGL ES 2.0
+> enabled.
+>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-[YOCTO #4811]
+Agreed; maybe this could be considered for dylan as well?
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- meta/classes/populate_sdk_base.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 31e848d..6378af9 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -181,7 +181,7 @@ else
- 	echo "$target_sdk_dir"
- fi
- 
--eval target_sdk_dir=$(printf "%q" "$target_sdk_dir")
-+eval target_sdk_dir=$(echo "$target_sdk_dir"|sed 's/ /\\ /g')
- if [ -d "$target_sdk_dir" ]; then
- 	target_sdk_dir=$(cd "$target_sdk_dir"; pwd)
- else
--- 
-1.7.9.5
-
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
