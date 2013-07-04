@@ -1,24 +1,25 @@
-Return-Path: <holger@moiji-mobile.com>
-Received: from mail.sysmocom.de (mail.sysmocom.de [144.76.43.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 996A361663
+Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
+Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 979196103C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 05:34:06 +0000 (UTC)
-Received: from sangmingze-mail.local (91-65-247-193-dynip.superkabel.de
-	[91.65.247.193])
-	by mail.sysmocom.de (Postfix) with ESMTPSA id CBBF91F28D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 05:33:22 +0000 (UTC)
-Received: from ich by sangmingze-mail.local with local (Exim 4.80)
-	(envelope-from <holger@moiji-mobile.com>) id 1UucB7-0002AR-SO
-	for openembedded-core@lists.openembedded.org;
-	Thu, 04 Jul 2013 07:34:01 +0200
-Date: Thu, 4 Jul 2013 07:34:01 +0200
-From: Holger Hans Peter Freyther <holger@moiji-mobile.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130704053401.GA25335@xiaoyu.lan>
+	Thu,  4 Jul 2013 06:23:52 +0000 (UTC)
+Received: from [192.168.101.25] (afplatform.bmw-carit.intra [192.168.101.25])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 4C06B40059;
+	Thu,  4 Jul 2013 07:26:35 +0200 (CEST)
+Message-ID: <51D514F5.4080304@oss.bmw-carit.de>
+Date: Thu, 04 Jul 2013 08:23:49 +0200
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Using OpenEmbedded for customized builds
+To: vmayoral <v.mayoralv@gmail.com>
+References: <1372856665-29178-1-git-send-email-v.mayoralv@gmail.com>
+In-Reply-To: <1372856665-29178-1-git-send-email-v.mayoralv@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] apr_cv_mutex_recursive=yes added to apr_1.4.6.bb to make rosnodes work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +32,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 05:34:07 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 04 Jul 2013 06:23:53 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Good Morning,
+Hi Victor,
 
-we have a basic product and build the images for it using
-OpenEmbedded. Some customers require the installation of
-additional packages, or even the modification of some of
-the installed ones. The current approach would be to build
-one VM per customer but that doesn't really scale.
+just some comments on your commit message:
 
-I think somehow I want to end up with having my base/generic
-buuld and a way to put additional ipk's into a customer 
-directory. So something likes this:
+On 07/03/2013 03:04 PM, vmayoral wrote:
+> From: victor <v.mayoralv@gmail.com>
+>
+> Working with the meta-ros project we detected that the ROS nodes didn't launch properly
+This very specific meta-ros problem should not be the first line, but if 
+at all, the last one in the commit message.
 
-  base-build/tmp/deploy/ipk/
-                            armv5te/
-                            machine/
-                            customer1/
-                                      armv5te/
-				      ...
-                            customer2/
-                                      armv5te/
-                            customer3/
+> the reason was that by default apr_cv_mutex_recursive in apr is set to no and this leads
+> to the APRENOTIMPL return value of apr_thread_mutex_create in thread_mutex.c when
+> APR_THREAD_MUTEX_NESTED is requested via flags.
+instead of mentioning meta-ros, be more specific what happens in general:
+... This then leads to a deadlock in applications using apr, as observed 
+in an application with log4cxx.
 
-or
+> Added CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes" to sources/openembedded-core/meta/recipes-support/apr/apr_1.4.6.bb
+> to fix this issue. It has also been removed the mention of this variable in
+> meta/site/powerpc32-linux.
+Maybe, complete sentences are better as well:
+This commit adds CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes" to 
+apr_1.4.6.bb and removes this variable in powerpc32-linux to address 
+this issue.
 
-  base-build/tmp/...
- 
-  customer1-build/tmp/deploy/ipk/...
+(Use short file names: The exact location of the files is directly 
+visible in the commit anyway.)
+(Do not use "fix": It might happen that we have to look at this issue 
+again at some point in the future, and then addressing an issue again 
+after a "fix", seems inconsistent in retrospective. Better just say, we 
+addressed it now.)
 
-In both cases the customer should only include the packages
-that were built for the customer. All the 'base' packages should
-be taken/used from the base built. I could indicate for which
-customer I build by setting an environment variable?
+In the very end, you can refer to meta-ros, but then mention the url of 
+the github repository and/or the url of the concrete issue where we 
+discussed the problem. The meta-ros project and the issue you refer to 
+is not globally well-known.
 
-For a corner case, e.g. if I change the SRCREV and re-build with
-a customer flag set, this package should still go to the customer
-directory.
+Just my two cents,
 
-Can this be already modeled? Do you have any idea how this could
-be done?
+Lukas
 
-
-holger
+P.S.: Thanks a lot for taking the initiative to carry the issue from our 
+meta-ros project to the OpenEmbedded community.
 
