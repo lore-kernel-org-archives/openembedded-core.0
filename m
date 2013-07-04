@@ -1,24 +1,37 @@
-Return-Path: <radu.moisan@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E6876AD81
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f181.google.com (mail-ve0-f181.google.com
+	[209.85.128.181])
+	by mail.openembedded.org (Postfix) with ESMTP id EDE4F6AEEF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 14:56:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 04 Jul 2013 07:56:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,995,1363158000"; d="scan'208";a="360532340"
-Received: from ubuntu.rb.intel.com ([10.237.105.59])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Jul 2013 07:57:13 -0700
-From: Radu Moisan <radu.moisan@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jul 2013 17:57:54 +0300
-Message-Id: <2f1212207c4b1b2a4a9214001e0500a69fd8b83c.1372947733.git.radu.moisan@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1372947733.git.radu.moisan@intel.com>
-References: <cover.1372947733.git.radu.moisan@intel.com>
-In-Reply-To: <cover.1372947733.git.radu.moisan@intel.com>
-References: <cover.1372947733.git.radu.moisan@intel.com>
-Subject: [PATCH 11/11] usbutils: Upgrade to v007
+	Thu,  4 Jul 2013 14:59:05 +0000 (UTC)
+Received: by mail-ve0-f181.google.com with SMTP id db10so1062671veb.40
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Jul 2013 07:59:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=J3f3KDtGEGDQ9DyPKrwpYnCd+wVrn40cAVgVE4Qhwuk=;
+	b=BgA2b8iMyZFnH7SPamfUZIChims+i8h7wZ7v40UnDDEapHGCF1+a3CRSdWp0HdZrpA
+	v97Dw+ZQlln8JKzFVljhUg8sFEti6S26Fc6R/4Jc/lUGruDax/kCSLDuQkXsfE9xWI1E
+	9YJC49C7DmGH5iblxwocrw5a4NZ6YxvE9bU+JjIW5JZ92EAfhYfOQtoCiaYMz0SBpkj1
+	693X+iMgyMvJlzSu9uf+aMeSKXCTccclnT9gfQWdcpwRxMO+ath2CqrQQsbQeHTdiszi
+	bUBWWSGlRBabiGCID8FHIWIh4LRvOyXcYFjXZ77cd/UVi2oLzuD1/+Be2YzPtVckkRy7
+	Fr+Q==
+X-Received: by 10.52.163.46 with SMTP id yf14mr2766283vdb.58.1372949946704;
+	Thu, 04 Jul 2013 07:59:06 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Thu, 4 Jul 2013 07:58:46 -0700 (PDT)
+In-Reply-To: <11aefd86a570528092c6f4f5de1371204b1f30ec.1372933905.git.laurentiu.palcu@intel.com>
+References: <cover.1372933905.git.laurentiu.palcu@intel.com>
+	<11aefd86a570528092c6f4f5de1371204b1f30ec.1372933905.git.laurentiu.palcu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Jul 2013 15:58:46 +0100
+Message-ID: <CAJTo0LbxsXLXfHZa91nUuWYBWTLUeqBzrfZENV910io98MnMZQ@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQkHTjhKc6yd+/9p/b48g3H09sF1EDoawLYsaA6U3WmkqEnkpal+UoNoHyxXQQSrId6iwKEx
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 5/5] shutdown-desktop: give entire path in Exec field
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 14:56:17 -0000
+X-List-Received-Date: Thu, 04 Jul 2013 14:59:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Radu Moisan <radu.moisan@intel.com>
----
- .../usbutils/{usbutils_006.bb => usbutils_007.bb}  |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/usbutils/{usbutils_006.bb => usbutils_007.bb} (83%)
+On 4 July 2013 11:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> +    sed -i $D${datadir}/applications/shutdown.desktop -e 's#^Exec=\(.*\)#Exec=${base_sbindir}/\1#'
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils_006.bb b/meta/recipes-bsp/usbutils/usbutils_007.bb
-similarity index 83%
-rename from meta/recipes-bsp/usbutils/usbutils_006.bb
-rename to meta/recipes-bsp/usbutils/usbutils_007.bb
-index c1c9fc0..45f829f 100644
---- a/meta/recipes-bsp/usbutils/usbutils_006.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_007.bb
-@@ -7,14 +7,13 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- DEPENDS = "libusb zlib"
--PR = "r0"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
-            file://usb-devices-avoid-dependency-on-bash.patch \
-            file://Fix-NULL-pointer-crash.patch"
- 
--SRC_URI[md5sum] = "850790442f5eb487cdc7e35f8ee03e11"
--SRC_URI[sha256sum] = "553270b4030f0844cb70aed57e61c7f10a7ed6641c3bed20249201cec9bcf122"
-+SRC_URI[md5sum] = "be6c42294be5c940f208190d3479d50c"
-+SRC_URI[sha256sum] = "e65c234cadf7c81b6b1567c440e3b9b31b44f51c27df3e45741b88848d8b37d3"
- 
- inherit autotools
- 
--- 
-1.7.9.5
+Doing this in postinst is pretty nasty, instead change the desktop
+file to contain something like @SBIN@ and run it through sed in
+do_install.
 
+Ross
 
