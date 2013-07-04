@@ -1,25 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 737D0600FA
+Return-Path: <andrei.adrianx.dinu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A916C6ABED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 06:53:17 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 03 Jul 2013 23:53:06 -0700
+	Thu,  4 Jul 2013 07:04:34 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Jul 2013 00:04:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,992,1363158000"; d="scan'208";a="263964381"
-Received: from unknown (HELO [10.255.13.183]) ([10.255.13.183])
-	by AZSMGA002.ch.intel.com with ESMTP; 03 Jul 2013 23:53:06 -0700
-Message-ID: <51D51BD2.20505@linux.intel.com>
-Date: Wed, 03 Jul 2013 23:53:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1372556176-25711-1-git-send-email-Martin.Jansa@gmail.com>
-In-Reply-To: <1372556176-25711-1-git-send-email-Martin.Jansa@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] buildhistory: Record size of installed package not compressed archive
+X-IronPort-AV: E=Sophos;i="4.87,992,1363158000"; d="scan'208";a="365154961"
+Received: from adinu-vostro-460.rb.intel.com ([10.237.105.44])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2013 00:04:27 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Jul 2013 10:05:04 +0300
+Message-Id: <1372921504-26839-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] e2fsprogs: upgrade to 1.42.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,158 +27,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 06:53:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Jul 2013 07:04:34 -0000
 
-On 06/29/2013 06:36 PM, Martin Jansa wrote:
-> * usually it's more important to know how much space will each
->    package take on target device then size of compressed package
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->   meta/classes/buildhistory.bbclass | 11 ++++----
->   scripts/oe-pkgdata-util           | 59 ++++++++++++++++++++++++++++++++++++---
->   2 files changed, 61 insertions(+), 9 deletions(-)
->
+upgrade from 1.42.7 -> 1.42.8
 
-I am not sure how, but this patch is causing some failures in poky with
-core-image-sato build, it seems that that the args coming from the 
-rootfs_install_complementary get goofed up somehow, not sure but I 
-bisected down to this patch.
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../acinclude.m4                                   |    0
+ .../fallocate.patch                                |    0
+ .../mkdir.patch                                    |    0
+ .../remove.ldconfig.call.patch                     |    0
+ .../{e2fsprogs_1.42.7.bb => e2fsprogs_1.42.8.bb}   |    5 ++---
+ 5 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.7 => e2fsprogs-1.42.8}/acinclude.m4 (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.7 => e2fsprogs-1.42.8}/fallocate.patch (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.7 => e2fsprogs-1.42.8}/mkdir.patch (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs-1.42.7 => e2fsprogs-1.42.8}/remove.ldconfig.call.patch (100%)
+ rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.42.7.bb => e2fsprogs_1.42.8.bb} (93%)
 
-the -poky seems to have a space added so it gets -poky -linux on the 
-command line for oe-pkgdata-utils.
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/acinclude.m4 b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/acinclude.m4
+similarity index 100%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/acinclude.m4
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/acinclude.m4
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/fallocate.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/fallocate.patch
+similarity index 100%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/fallocate.patch
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/fallocate.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/mkdir.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/mkdir.patch
+similarity index 100%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/mkdir.patch
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/mkdir.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/remove.ldconfig.call.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/remove.ldconfig.call.patch
+similarity index 100%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.7/remove.ldconfig.call.patch
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/remove.ldconfig.call.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+similarity index 93%
+rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
+rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+index 3a4f5a8..d231268 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.7.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+@@ -1,13 +1,12 @@
+ require e2fsprogs.inc
+ 
+-PR = "r0"
+ 
+ SRC_URI += "file://acinclude.m4 \
+             file://remove.ldconfig.call.patch \
+ "
+ 
+-SRC_URI[md5sum] = "a1ec22ef003688dae9f76c74881b22b9"
+-SRC_URI[sha256sum] = "dc6501b2e75d205e425196d753d92b129c568525d8aad08085c0aa69ee9e7345"
++SRC_URI[md5sum] = "8ef664b6eb698aa6b733df59b17b9ed4"
++SRC_URI[sha256sum] = "b984aaf1fe888d6a4cf8c2e8d397207879599b5368f1d33232c1ec9d68d00c97"
+ 
+ EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-elf-shlibs --disable-libuuid --disable-uuidd"
+ EXTRA_OECONF_darwin = "--libdir=${base_libdir} --sbindir=${base_sbindir} --enable-bsd-shlibs"
+-- 
+1.7.9.5
 
-Sau!
-
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index 36e7fe1..1ebe68e 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -317,6 +317,8 @@ buildhistory_get_installed() {
->   	# Get list of installed packages
->   	pkgcache="$1/installed-packages.tmp"
->   	list_installed_packages file | sort > $pkgcache
-> +	pkgcachearch="$1/installed-packages-arch.tmp"
-> +	list_installed_packages arch | sort > $pkgcachearch
->
->   	cat $pkgcache | awk '{ print $1 }' > $1/installed-package-names.txt
->   	if [ -s $pkgcache ] ; then
-> @@ -338,18 +340,17 @@ buildhistory_get_installed() {
->
->   	# Produce installed package sizes list
->   	printf "" > $1/installed-package-sizes.tmp
-> -	cat $pkgcache | while read pkg pkgfile
-> +	cat $pkgcachearch | while read pkg arch
->   	do
-> -		if [ -f $pkgfile ] ; then
-> -			pkgsize=`du -k $pkgfile | head -n1 | awk '{ print $1 }'`
-> -			echo $pkgsize $pkg >> $1/installed-package-sizes.tmp
-> -		fi
-> +		size=`oe-pkgdata-util read_values ${TMPDIR}/pkgdata ${TARGET_VENDOR}-${TARGET_OS} "PKGSIZE" ${pkg}_${arch}`
-> +		echo "$size $pkg" >> $1/installed-package-sizes.tmp
->   	done
->   	cat $1/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > $1/installed-package-sizes.txt
->   	rm $1/installed-package-sizes.tmp
->
->   	# We're now done with the cache, delete it
->   	rm $pkgcache
-> +	rm $pkgcachearch
->
->   	if [ "$2" != "sdk" ] ; then
->   		# Produce some cut-down graphs (for readability)
-> diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-> index 629b2d5..88b8122 100755
-> --- a/scripts/oe-pkgdata-util
-> +++ b/scripts/oe-pkgdata-util
-> @@ -20,9 +20,12 @@
->   # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
->   #
->   #
-> -# Currently only has one function - mapping of packages to their dev/dbg/doc/locale etc.
-> -# counterparts ("glob" command). Could be extended in future to perform other useful querying
-> -# functions on the pkgdata though.
-> +# Currently only has two functions
-> +# 1) glob - mapping of packages to their dev/dbg/doc/locale etc. counterparts.
-> +# 2) read_values - mapping of packagenames to their location in
-> +#    pkgdata and then returns value of selected variable (e.g. PKGSIZE)
-> +# Could be extended in future to perform other useful querying functions on the
-> +# pkgdata though.
->   #
->
->   import sys
-> @@ -32,7 +35,8 @@ import fnmatch
->   import re
->
->   def usage():
-> -    print("syntax: pkgdata-util glob [-d] <pkgdatadir> <vendor-os> <pkglist> \"<globs>\"");
-> +    print("syntax: pkgdata-util glob [-d] <pkgdatadir> <vendor-os> <pkglist> \"<globs>\"\n \
-> +                    read_values [-d] <pkgdatadir> <vendor-os> <variable-name> \"<ipk filenames>\"");
->
->
->
-> @@ -151,7 +155,52 @@ def glob(args):
->
->       print("\n".join(mappedpkgs))
->
-> +def read_values(args):
-> +    if len(args) < 4:
-> +        usage()
-> +        sys.exit(1)
-> +
-> +    pkgdata_dir = args[0]
-> +    target_suffix = args[1]
-> +    var = args[2]
-> +    packages = args[3].split()
->
-> +    if target_suffix.startswith("-"):
-> +        target_suffix = target_suffix[1:]
-> +
-> +    def readvar(pkgdata_file, var):
-> +        val = ""
-> +        with open(pkgdata_file, 'r') as f:
-> +            for line in f:
-> +                if line.startswith(var + ":"):
-> +                    val = line.split(': ')[1].rstrip()
-> +        return val
-> +
-> +    if debug:
-> +        print "read_values('%s', '%s', '%s' '%s'" % (pkgdata_dir, target_suffix, var, packages)
-> +    for package in packages:
-> +        pkg_split = package.split('_')
-> +        pkg_name = pkg_split[0]
-> +        pkg_arch = '_'.join(pkg_split[1:])
-> +        if debug:
-> +            print "package: name: '%s', arch: '%s'" % (pkg_name, pkg_arch)
-> +        multimach_target_sys = "%s-%s" % (pkg_arch, target_suffix)
-> +        revlink = os.path.join(pkgdata_dir, multimach_target_sys, "runtime-reverse", pkg_name)
-> +        if debug:
-> +            print(revlink)
-> +        if not os.path.exists(revlink):
-> +            # [YOCTO #4227] try to drop -gnueabi from TARGET_OS
-> +            multimach_target_sys = '-'.join(multimach_target_sys.split('-')[:-1])
-> +            revlink = os.path.join(pkgdata_dir, multimach_target_sys, "runtime-reverse", pkg_name)
-> +            if debug:
-> +                print(revlink)
-> +        if os.path.exists(revlink):
-> +            mappedpkg = os.path.basename(os.readlink(revlink))
-> +            qvar = var
-> +            if qvar == "PKGSIZE":
-> +                # append packagename
-> +                qvar = "%s_%s" % (var, mappedpkg)
-> +            print(readvar(revlink, qvar))
->
->   # Too lazy to use getopt
->   debug = False
-> @@ -173,6 +222,8 @@ if len(args) < 1:
->
->   if args[0] == "glob":
->       glob(args[1:])
-> +if args[0] == "read_values":
-> +    read_values(args[1:])
->   else:
->       usage()
->       sys.exit(1)
->
 
