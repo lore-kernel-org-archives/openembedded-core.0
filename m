@@ -1,37 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D31C6AFB6
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id E2EF16AFE7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 10:41:09 +0000 (UTC)
-Received: by mail-ob0-f182.google.com with SMTP id va7so1436018obc.41
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 03:41:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=ZHcoREnyVlv7gSLgJTBGKPa4WZMdS178wVQSsUWymRQ=;
-	b=Ww0qDjENwv8tgepMjJM12uROtY2KBoGiiMtct1YJWwJ2QItfJ5gcxxq1H0Ro4r40cP
-	Dh4ZLsL4F1DJxfsyP0iLqs57y2/denlfxs2VTBmTMRhBwUhKJXjeA65kQf7N4zzz1ZnT
-	4LUBXkhuvAbwe1TbuQJJ2/VhtMz5/Nl1oP1nDJVunfLEXZTZ/7HJw/1mdUp7FBv9HLJY
-	tf3vmnRY3J9MgMWWEZ+ywRxSaf822inFcK+EQ2mbUhJhMjLzEgo8tM67roYeaTQg4eie
-	WH6G4YXahZL6Xuba5yjVqYzS0gVBHjAF/dZmDEsHRh4f8MZ1eEuzrNi6M/ag8aDbSAHF
-	4zhQ==
-X-Received: by 10.60.41.37 with SMTP id c5mr5335596oel.43.1372934470242; Thu,
-	04 Jul 2013 03:41:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.182.160.41 with HTTP; Thu, 4 Jul 2013 03:40:50 -0700 (PDT)
-In-Reply-To: <ed593cb9b242356b10ebd4ced3b1d9b8f5f37134.1372890071.git.sgw@linux.intel.com>
-References: <cover.1372890071.git.sgw@linux.intel.com>
-	<ed593cb9b242356b10ebd4ced3b1d9b8f5f37134.1372890071.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Jul 2013 11:40:50 +0100
-Message-ID: <CAJTo0LYgjCu7Ooz_cVKKi+aCxQT2GrSKDvV9B054iNOWNYOHxg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQn3YBgBoR/Ax+EI7+MQfsD4As9f5kmRCrPumragEFSp6Kx6nHgM/VfC0ITvlXlTo6YgBVvW
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/8] resolvconf: Update to 1.72
+	Thu,  4 Jul 2013 10:57:56 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 04 Jul 2013 03:57:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,994,1363158000"; d="scan'208";a="326735999"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 04 Jul 2013 03:57:56 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Jul 2013 13:56:40 +0300
+Message-Id: <cover.1372933905.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2 0/5] Allow xuser to shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 10:41:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Jul 2013 10:57:57 -0000
 
-On 3 July 2013 23:26, Saul Wold <sgw@linux.intel.com> wrote:
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  .../resolvconf/{resolvconf_1.72.bb => resolvconf_1.73.bb}             | 4 ++--
+Changes in v2:
+ * created a separate recipe for xuser creation, located in
+   meta/recipes-support/user-creation/. If there are other users we might need
+   to add in the future, we can put the recipes here;
+ * removed xuser creation from connman and xserver-noadm-init and added the
+   new 'xuser-account' recipe in RDEPENDS;
 
-Typo in commit message.
+Laurentiu
 
-Ross
+CC: sgw@linux.intel.com
+CC: martin.jansa@gmail.com
+
+The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
+
+  bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/b4345_shutdown_icon_rootless_x_v2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4345_shutdown_icon_rootless_x_v2
+
+Laurentiu Palcu (5):
+  sysvinit: allow users in shutdown group to perform halt/reboot
+  xuser-account: create separate recipe for xuser creation
+  connman: remove xuser creation, RDEPEND on xuser-account
+  xserver-nodm-init: remove xuser creation, RDEPEND on xuser-account
+  shutdown-desktop: give entire path in Exec field
+
+ meta/recipes-connectivity/connman/connman.inc      |   10 ++------
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   12 ++++++---
+ .../x11-common/xserver-nodm-init.bb                |   13 ++--------
+ .../shutdown-desktop/shutdown-desktop.bb           |    2 ++
+ .../user-creation/xuser-account_0.1.bb             |   27 ++++++++++++++++++++
+ 5 files changed, 42 insertions(+), 22 deletions(-)
+ create mode 100644 meta/recipes-support/user-creation/xuser-account_0.1.bb
+
+-- 
+1.7.9.5
+
 
