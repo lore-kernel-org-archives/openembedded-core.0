@@ -1,20 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B6F16AFBE
+	by mail.openembedded.org (Postfix) with ESMTP id 13B196AFD4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 12:53:58 +0000 (UTC)
+	Thu,  4 Jul 2013 12:53:59 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Jul 2013 05:53:59 -0700
+	by orsmga101.jf.intel.com with ESMTP; 04 Jul 2013 05:54:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,995,1363158000"; d="scan'208";a="340465022"
+X-IronPort-AV: E=Sophos;i="4.87,995,1363158000"; d="scan'208";a="340465025"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2013 05:53:58 -0700
+	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2013 05:53:59 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jul 2013 15:53:54 +0300
-Message-Id: <cover.1372942368.git.laurentiu.palcu@intel.com>
+Date: Thu,  4 Jul 2013 15:53:55 +0300
+Message-Id: <62b7cc36eab494ea6c7ece141b580132cb86e89a.1372942368.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/1] populate_sdk_base: fix bashism
+In-Reply-To: <cover.1372942368.git.laurentiu.palcu@intel.com>
+References: <cover.1372942368.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1372942368.git.laurentiu.palcu@intel.com>
+References: <cover.1372942368.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/1] populate_sdk_base: fix bashism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,21 +33,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Jul 2013 12:53:59 -0000
 
-The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
+Only the printf bash builtin knows about %q format option for escaping
+spaces. The coreutils version doesn't. Unfortunately, neither dash nor
+sh have a printf builtin. So, escape the spaces using sed.
 
-  bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
+[YOCTO #4811]
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/b4811_printf_issue_in_sh
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4811_printf_issue_in_sh
-
-Laurentiu Palcu (1):
-  populate_sdk_base: fix bashism
-
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
  meta/classes/populate_sdk_base.bbclass |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 31e848d..6378af9 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -181,7 +181,7 @@ else
+ 	echo "$target_sdk_dir"
+ fi
+ 
+-eval target_sdk_dir=$(printf "%q" "$target_sdk_dir")
++eval target_sdk_dir=$(echo "$target_sdk_dir"|sed 's/ /\\ /g')
+ if [ -d "$target_sdk_dir" ]; then
+ 	target_sdk_dir=$(cd "$target_sdk_dir"; pwd)
+ else
 -- 
 1.7.9.5
 
