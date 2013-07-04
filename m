@@ -1,30 +1,25 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id BDBFE61663
+Return-Path: <tf+lists.yocto@r-finger.com>
+Received: from r-finger.com (r-finger.com [178.79.160.5])
+	by mail.openembedded.org (Postfix) with ESMTP id E2AAC61663
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 08:40:25 +0000 (UTC)
-Received: by mail-wg0-f45.google.com with SMTP id j13so890230wgh.0
+	Thu,  4 Jul 2013 08:54:32 +0000 (UTC)
+Received: from [192.168.0.2] (host86-137-86-109.range86-137.btcentralplus.com
+	[86.137.86.109]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 76121952D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 01:40:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:cc:content-type;
-	bh=RtMe6lr+oSr4O/PA44F3g9wVoF9viaOiitTeydvbtxs=;
-	b=dTL/eA+OqfY8zqpiZqvyRRbgFiP/OZ09P6PO9CvCIAAhCaUcfXDFQ3wOpxVVFRZ5Xq
-	ooK03XYVbHd75nm8SE0+XYGv/BdgkebKnf/7Im33wiMKxHfwICaN9b0fpMiB0zVZqqZQ
-	GxPHrcDqq2IaR4sYKdkkWi2ZjatqfkB4PZx7JVcf3VAN27TGhLZmwxc6LJ8RYftsKF2F
-	SDjQORBd7k4X/uBOYzOy9z8/s3ePTMJyD1gqw42N37x2F/C5NLRl9pWIQA3lVOTaPp8U
-	5YZAXzUeCGvu2rPJQu+2xhRq0FDzDkbiwQBldJyOVGXuRNvAXcujDoPgA/TZIJx2/duE
-	rBlA==
+	Thu,  4 Jul 2013 09:54:33 +0100 (BST)
+Message-ID: <51D53848.3060209@r-finger.com>
+Date: Thu, 04 Jul 2013 09:54:32 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
 MIME-Version: 1.0
-X-Received: by 10.181.12.80 with SMTP id eo16mr15191519wid.44.1372927225959;
-	Thu, 04 Jul 2013 01:40:25 -0700 (PDT)
-Received: by 10.216.93.70 with HTTP; Thu, 4 Jul 2013 01:40:25 -0700 (PDT)
-Date: Thu, 4 Jul 2013 10:40:25 +0200
-Message-ID: <CALbNGRTa3kzF+m5PGsivVqA6E3FmBMfNkY_BupaY5zcNfdiDdw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: (lib)gcc fails with dbg-pkgs in IMAGE_FEATURES
+References: <cover.1372861799.git.laurentiu.palcu@intel.com>
+	<20130703161921.GB3452@jama>
+In-Reply-To: <20130703161921.GB3452@jama>
+Subject: Re: [PATCH 0/4] Allow xuser to shutdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +32,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 08:40:26 -0000
+X-List-Received-Date: Thu, 04 Jul 2013 08:54:33 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On 03/07/13 17:19, Martin Jansa wrote:
+> Shouldn't we create separate recipe for xuser or any other default user
+> and add it to connman and xserver-nodm-init RDEPENDS?
+> 
+> I know there is some overhead from having one more package installed on
+> image, but it would be a bit easier if we later decide that xuser also
+> needs some file to be installed in his home or something like that.
 
-since gcc 4.8.x I get  with dbg-pkgs in IMAGE_FEATURES
+Yes, please; the current situation makes it rather awkward if you need
+to tweak some of the xuser parameters in a distro specific way. But
+perhaps it should be called something other than xuser?
 
-|  * check_data_file_clashes: Package gcc-dbg wants to install file
-/home/andreas/tmp/oe-core-eglibc/work/overo-angstrom-linux-gnueabi/xfce4-dev-image/1.0-r0/rootfs/usr/src/debug/libgcc/4.8.1-r0/gcc-4.8.1/build.arm-angstrom-linux-gnueabi.arm-angstrom-linux-gnueabi/libgcc/unwind.h
-| 	But that file is already provided by package  * libgcc-s-dbg
-|  * opkg_install_cmd: Cannot install package gcc-dbg.
-| ERROR: Function failed: do_rootfs (see
-/home/andreas/tmp/oe-core-eglibc/work/overo-angstrom-linux-gnueabi/xfce4-dev-image/1.0-r0/temp/log.do_rootfs.12650
-for further information)
-
-could somebody look into that please because from time to time I need
-some remote debugging capable image.
-
-Andreas
+Tomas
 
