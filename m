@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id BAAA0619DD
+Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 16924607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 16:13:18 +0000 (UTC)
-Received: by mail-ve0-f180.google.com with SMTP id pa12so1124274veb.25
+	Thu,  4 Jul 2013 16:19:49 +0000 (UTC)
+Received: by mail-ve0-f174.google.com with SMTP id oz10so1153035veb.33
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 09:13:19 -0700 (PDT)
+	Thu, 04 Jul 2013 09:19:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=NmDS8t080TEvKJm/mYRa40+ao89OwTHVtx6HovSXSf4=;
-	b=MjuYIpmwzbeE9Vipk25XkDv1+q87HC6H5LJQ3r+4ljJj3AgGcJ4l2hiSHk38oravwd
-	XSMsqinlj3UxqOnNlJh3dOwRXylO6Uegwy25P0XdIC1KEKqfL3/XHJEMNRgbGdgYIy+b
-	N4N/w+PjFYno8uk2czZW/g5fJ4HjVZLUmZL9tKXmpFH6iCDP2YT4ag91pYGsKuOi7DNw
-	qYFQq3mkuwqRsQDbBVNAYt3Ci60trsFQrfceM2sivX+3WgmfD2C0Nk1GQ7J7oMDgekSn
-	/AH0ZR3RDCm3OpoM/hcRH/DskYYHAlLkmaJQHzxoTCLrQI5/ALQAeF5dQ6OJrfbCcSfk
-	zMxw==
-X-Received: by 10.52.163.46 with SMTP id yf14mr2964510vdb.58.1372954399739;
-	Thu, 04 Jul 2013 09:13:19 -0700 (PDT)
+	bh=qiF8MdlnoV+SAZ6N7YfoRt33cBlIRrhMJhrdHBqnQ4I=;
+	b=B/dU0bpO7gVHYcSF3jmAgPnv+moPCbrxB+0ig9YOhEQQb2c42xuf11NE5jZ9Wr7U6J
+	hwuDrTfKXU2PYQYNkNCI6oM1dpt5aAsCjlLJhT/MMOC4MgyQEKHgo84B34I0dNIh1w9x
+	mFTb//5knBu3ET5NgexxRuBhz5NRzLKONbWl4k7bMfTyq7aAkE6Zjc0XsO8mG2BTO2pD
+	vOhIZ00C/1XFt5bzT0Y5+0f1MczA85ivTXkn873ICBR5HDlYC1xK/xOZWopzBqQ/+DU2
+	NPFRDjBoaT+fuFOUYBfkjxn3zns5SDIWAfZGy4rXmNiEfJ2qTbNRq6fNt6UhuLkbSMTD
+	v9QA==
+X-Received: by 10.220.58.195 with SMTP id i3mr3633913vch.38.1372954789644;
+	Thu, 04 Jul 2013 09:19:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 4 Jul 2013 09:12:59 -0700 (PDT)
-In-Reply-To: <84abd44bc70ed4b13ca44a8ad32a8a91d708163b.1372950678.git.radu.moisan@intel.com>
+Received: by 10.220.13.144 with HTTP; Thu, 4 Jul 2013 09:19:29 -0700 (PDT)
+In-Reply-To: <7f29d9fb091f4cdf71626dfdf5bec69579096a67.1372950678.git.radu.moisan@intel.com>
 References: <cover.1372950678.git.radu.moisan@intel.com>
-	<84abd44bc70ed4b13ca44a8ad32a8a91d708163b.1372950678.git.radu.moisan@intel.com>
+	<7f29d9fb091f4cdf71626dfdf5bec69579096a67.1372950678.git.radu.moisan@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Jul 2013 17:12:59 +0100
-Message-ID: <CAJTo0LYK3=YTgHq39=g-m+CYLGx=+52xA=uvrzF=Ch_36VfSow@mail.gmail.com>
+Date: Thu, 4 Jul 2013 17:19:29 +0100
+Message-ID: <CAJTo0LbPFKsKUJfaVOK5K=1wEfeNYEK4Uxh5DTMDdPqc6xg2Bw@mail.gmail.com>
 To: Radu Moisan <radu.moisan@intel.com>
-X-Gm-Message-State: ALoCoQn0pQURz4165O817RXaqDnyV84E9UXVsK2AN9/IGc2rspH8fAo7Obnd+ora0ltQrMH24kZr
+X-Gm-Message-State: ALoCoQn70dvjMc3dR/FOTDzNRd28BHTjRHwpyd/NKQchNbsr6xeJ2dA3pt+4bGVJYVUMin02KKRH
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/10] iputils: Upgrade to v20121221
+Subject: Re: [PATCH 04/10] rxvt-unicode: Upgrade to v9.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,17 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 16:13:19 -0000
+X-List-Received-Date: Thu, 04 Jul 2013 16:19:49 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 4 July 2013 16:13, Radu Moisan <radu.moisan@intel.com> wrote:
-> -DEPENDS = "openssl docbook-utils-native sgmlspl-native"
-> +DEPENDS = "gnutls docbook-utils-native sgmlspl-native"
+>  do_configure_prepend () {
+> -       cp aclocal.m4 acinclude.m4
+> +       cp ${S}/aclocal.m4 ${S}/acinclude.m4
+>  }
 
-Please say why this change is happening.  Also is there a configure
-option to force the use of gnutls over openssl, or what happens if
-openssl was already installed when iptuils builds?  Vague dependencies
-cause sstate problems.
+That's the right fix.  The rationale for this pattern is that
+aclocal.m4 is a generated file, created by the aclocal binary, which
+contains all of the macros used by rxvt from /usr/share/aclocal (i.e.
+the X macros).  Thus, it will be destroyed at configure time.
+acinclude.m4 is for local macros and is a source file.
+
+Typically you see this pattern in packages which ship a non-pristine
+aclocal.m4, so when we re-generate it macros are lost.  That normally
+means that the package won't build though.
 
 Ross
 
