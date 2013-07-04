@@ -1,39 +1,39 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
-	[209.85.214.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C1E7B6AFF3
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 523CC607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 13:22:21 +0000 (UTC)
-Received: by mail-ob0-f175.google.com with SMTP id xn12so1622785obc.6
+	Thu,  4 Jul 2013 13:59:44 +0000 (UTC)
+Received: by mail-ob0-f172.google.com with SMTP id wo10so1645338obc.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 06:22:22 -0700 (PDT)
+	Thu, 04 Jul 2013 06:59:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=D7haW+dTo8XDDFSZAMW2/VTEioHIL4LPmua1bEgvgyw=;
-	b=malHnMQcOFxA3vN7qUvcxhTVowrEglw7qZEAqEhioTfvXjHIWCFQYjNDitQb9+rX/i
-	eTHBpKzWnua0nRpCsWPzWxWATPZiUQdnRTX4mE+oGYIgnQAb3GDnlkbnLvCpl+1sUzhL
-	JpA4PRLwuPYNnKC/M6qapMLss/u8Wbptwqj0Ei+u80H5eo6zGPXc1j1E99oidMYhTFwg
-	AP6dpshkjaweQszni+1d6RK2a+/Fhm8fjNoaO4pwoC97jlpsXztJjR1VtJvJbAiA+r+U
-	u3TCD6PT+BijRdCU7i3cII8EtyFMtS5I7oBMiQWXSkpXfrDCZMi3Y58XSXXPivdtRH6y
-	Lmhg==
+	bh=SzXLGU3+YRSWcxYGypzzs7Zn+/L+t92mb9nBVNHg3fo=;
+	b=dP/CdQIhu/IGVlO2GtIHpdqEXMPMM6L3Ya1yHxkULVxBWjGDRRfRt+B573qyCx3g5h
+	pvNUqc0fkQRuXNn5uX5Aw8Ecb9Y2dHHf5Y/un7mKlrN5g+3tVEBpl1XL9DY0Gnm3r7lB
+	f2MJN4oPT3N6f/ZCtzXwthqX4j7RnYZj0x5V3nbe9MScq+Z1pGA1m4B0ttXymbDO5Rup
+	IfS4UWfupvBCakREltA4tPp8P8ZnOGoXxh/Vti9VLuu4RiwwmbyVHdTyBeVfOKkRkPG9
+	jkaYtRQ5JU6pxXV8diNaABrZMyNV9avZUaJnjrOkUrImhEVgHdfQYic7w5+5ikff/tnw
+	jkYw==
 MIME-Version: 1.0
-X-Received: by 10.60.103.211 with SMTP id fy19mr5957369oeb.103.1372944142635; 
-	Thu, 04 Jul 2013 06:22:22 -0700 (PDT)
+X-Received: by 10.60.43.226 with SMTP id z2mr6294894oel.76.1372946384523; Thu,
+	04 Jul 2013 06:59:44 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.98.133 with HTTP; Thu, 4 Jul 2013 06:22:22 -0700 (PDT)
-In-Reply-To: <CAJTo0LayixMzPK3sQUgxn-6XdsEFdeHk_hOuFkLF3CJUfufrUw@mail.gmail.com>
-References: <cover.1372890071.git.sgw@linux.intel.com>
-	<00bec2da9d29234cce3b6c97076812ea400370fe.1372890071.git.sgw@linux.intel.com>
-	<CAJTo0LayixMzPK3sQUgxn-6XdsEFdeHk_hOuFkLF3CJUfufrUw@mail.gmail.com>
-Date: Thu, 4 Jul 2013 10:22:22 -0300
-X-Google-Sender-Auth: CSnsTEAhSrPSS8GJErfwfb48USg
-Message-ID: <CAP9ODKrBaLLXMRaAj7VmzDQisEQNcVr1dEdZv9qTdWgryaRw9g@mail.gmail.com>
+Received: by 10.182.98.133 with HTTP; Thu, 4 Jul 2013 06:59:44 -0700 (PDT)
+In-Reply-To: <1511482.DTA2BPqVAC@helios>
+References: <1372871077-6363-1-git-send-email-paul.eggleton@linux.intel.com>
+	<CAP9ODKrXD9MzMTdqXTWNFiShCPv9TsRXFPcP9AEwQcSPuQjmCQ@mail.gmail.com>
+	<1511482.DTA2BPqVAC@helios>
+Date: Thu, 4 Jul 2013 10:59:44 -0300
+X-Google-Sender-Auth: czW1buWpr-wIEwqT1UU6LNF6ztQ
+Message-ID: <CAP9ODKraFbANk_TBJf0riyPq+NY9kSCjK8a-3Ur54W1o-OHhAA@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/8] packagegroup-core-basic: Only build libpam if it's enabled
+Subject: Re: [PATCH] qt4: disable qmeegographicssystemhelper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,37 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 13:22:21 -0000
+X-List-Received-Date: Thu, 04 Jul 2013 13:59:44 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Jul 4, 2013 at 7:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 3 July 2013 23:26, Saul Wold <sgw@linux.intel.com> wrote:
->> util-linux will check for the exisitance of pam header files and change what is
->> built, so only build libpam when pam is enabled for DISTRO_FEATURES
+On Thu, Jul 4, 2013 at 10:20 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Thursday 04 July 2013 10:10:52 Otavio Salvador wrote:
+>> On Wed, Jul 3, 2013 at 2:04 PM, Paul Eggleton
 >>
->> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> ---
->>  meta/recipes-extended/packagegroups/packagegroup-core-basic.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> <paul.eggleton@linux.intel.com> wrote:
+>> > We don't want this enabled just because we have EGL and OpenGL ES 2.0
+>> > enabled.
+>> >
+>> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 >>
->> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
->> index c73d173..03dabbf 100644
->> --- a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
->> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
->> @@ -104,7 +104,7 @@ RDEPENDS_packagegroup-core-multiuser = "\
->>      cracklib \
->>      gzip \
->>      libuser \
->> -    libpam \
->> +    ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
->>      shadow \
->>      sudo \
->>      "
+>> Agreed; maybe this could be considered for dylan as well?
 >
-> Do we even need to mention libpam in here?  If pam is enabled, shadow
-> will have a runtime dependency on it.
+> Sounds reasonable to me; once it's merged to master I will include it in my
+> queue for dylan.
+>
+> To be honest it would be nice if it were fixed properly upstream; building it
+> based on the conditional given seems wrong.
 
-Agreed :-)
+I fully agree but until it is fixed (if it is ever fixed) your patch
+seems the way to go! :-)
 
 --
 Otavio Salvador                             O.S. Systems
