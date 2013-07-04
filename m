@@ -1,38 +1,39 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BA426AFF3
+Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
+	[209.85.214.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C1E7B6AFF3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 13:21:28 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id j1so1900572oag.4
+	Thu,  4 Jul 2013 13:22:21 +0000 (UTC)
+Received: by mail-ob0-f175.google.com with SMTP id xn12so1622785obc.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 06:21:29 -0700 (PDT)
+	Thu, 04 Jul 2013 06:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=6hdsQxOUMQmT4S3vUV25Ao7TXuq/Pn2B5JkKiLV1isc=;
-	b=SzmTbNbO3IUFVmBrvypX1rv1KIcSpo+GV462ZE2NwXF/8HaBsnKqh+tnar78IzPsTC
-	VoXNCLQEnBjBgBCxS9b9ealSMJgdpUPMteKiWakuFNcdY7YWfkScfNs4sYEIbmikVnT0
-	0H7ro/aV21QqlZHRu9jBUYptZSZYu91UYEyvqysz3FpT3lbmP+H/KjldMGfzw+AaVMGD
-	KMquBIcyX+De9C189Tna1PrhBzfBi07CR082CyFd7NyL6QWRUzOlQfRx4fcFk48S5eq/
-	nIAau2RoPXyUwVxE58TFVaT34O0wsHof5PQc6JedJoQfdaly7n2Uml7NZxSSVLtvrBGU
-	BWFg==
+	bh=D7haW+dTo8XDDFSZAMW2/VTEioHIL4LPmua1bEgvgyw=;
+	b=malHnMQcOFxA3vN7qUvcxhTVowrEglw7qZEAqEhioTfvXjHIWCFQYjNDitQb9+rX/i
+	eTHBpKzWnua0nRpCsWPzWxWATPZiUQdnRTX4mE+oGYIgnQAb3GDnlkbnLvCpl+1sUzhL
+	JpA4PRLwuPYNnKC/M6qapMLss/u8Wbptwqj0Ei+u80H5eo6zGPXc1j1E99oidMYhTFwg
+	AP6dpshkjaweQszni+1d6RK2a+/Fhm8fjNoaO4pwoC97jlpsXztJjR1VtJvJbAiA+r+U
+	u3TCD6PT+BijRdCU7i3cII8EtyFMtS5I7oBMiQWXSkpXfrDCZMi3Y58XSXXPivdtRH6y
+	Lmhg==
 MIME-Version: 1.0
-X-Received: by 10.60.55.196 with SMTP id u4mr6009548oep.57.1372944088975; Thu,
-	04 Jul 2013 06:21:28 -0700 (PDT)
+X-Received: by 10.60.103.211 with SMTP id fy19mr5957369oeb.103.1372944142635; 
+	Thu, 04 Jul 2013 06:22:22 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.98.133 with HTTP; Thu, 4 Jul 2013 06:21:28 -0700 (PDT)
-In-Reply-To: <c9b8490c65d03e9bc3f603d2a3a20ea680c089aa.1372890071.git.sgw@linux.intel.com>
+Received: by 10.182.98.133 with HTTP; Thu, 4 Jul 2013 06:22:22 -0700 (PDT)
+In-Reply-To: <CAJTo0LayixMzPK3sQUgxn-6XdsEFdeHk_hOuFkLF3CJUfufrUw@mail.gmail.com>
 References: <cover.1372890071.git.sgw@linux.intel.com>
-	<c9b8490c65d03e9bc3f603d2a3a20ea680c089aa.1372890071.git.sgw@linux.intel.com>
-Date: Thu, 4 Jul 2013 10:21:28 -0300
-X-Google-Sender-Auth: aNSPDo2Hipp3K6gGdt4uk-uzN64
-Message-ID: <CAP9ODKoDZBGsS2LzX==aa_2V-FVzhE6X91xkcEec8+VDy0Tu9A@mail.gmail.com>
+	<00bec2da9d29234cce3b6c97076812ea400370fe.1372890071.git.sgw@linux.intel.com>
+	<CAJTo0LayixMzPK3sQUgxn-6XdsEFdeHk_hOuFkLF3CJUfufrUw@mail.gmail.com>
+Date: Thu, 4 Jul 2013 10:22:22 -0300
+X-Google-Sender-Auth: CSnsTEAhSrPSS8GJErfwfb48USg
+Message-ID: <CAP9ODKrBaLLXMRaAj7VmzDQisEQNcVr1dEdZv9qTdWgryaRw9g@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/8] util-linux: disable runuser by default since it depends on PAM
+Subject: Re: [PATCH 1/8] packagegroup-core-basic: Only build libpam if it's enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,17 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 13:21:28 -0000
+X-List-Received-Date: Thu, 04 Jul 2013 13:22:21 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, Jul 3, 2013 at 7:26 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> util-linux's configure checks for pam_misc.h and if it finds it will
-> enable runuser, there was a case where it was found via shared state
-> and then got rebuilt. This makes the build more deterministic.
+On Thu, Jul 4, 2013 at 7:37 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 3 July 2013 23:26, Saul Wold <sgw@linux.intel.com> wrote:
+>> util-linux will check for the exisitance of pam header files and change what is
+>> built, so only build libpam when pam is enabled for DISTRO_FEATURES
+>>
+>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+>> ---
+>>  meta/recipes-extended/packagegroups/packagegroup-core-basic.bb | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
+>> index c73d173..03dabbf 100644
+>> --- a/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
+>> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-basic.bb
+>> @@ -104,7 +104,7 @@ RDEPENDS_packagegroup-core-multiuser = "\
+>>      cracklib \
+>>      gzip \
+>>      libuser \
+>> -    libpam \
+>> +    ${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
+>>      shadow \
+>>      sudo \
+>>      "
 >
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Do we even need to mention libpam in here?  If pam is enabled, shadow
+> will have a runtime dependency on it.
 
-Please make this as a PACKAGECONFIG and add it if pam feature is enabled.
+Agreed :-)
 
 --
 Otavio Salvador                             O.S. Systems
