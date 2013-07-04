@@ -1,27 +1,46 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D7BB6077F
+Return-Path: <nathan.rossi@xilinx.com>
+Received: from ch1outboundpool.messaging.microsoft.com
+	(ch1ehsobe004.messaging.microsoft.com [216.32.181.184])
+	by mail.openembedded.org (Postfix) with ESMTP id ABC4F6077F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 07:24:16 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 04 Jul 2013 00:24:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,993,1363158000"; d="scan'208";a="326661473"
-Received: from lpalcu-linux.rb.intel.com (HELO [10.237.105.165])
-	([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 04 Jul 2013 00:24:10 -0700
-Message-ID: <51D52319.7030302@intel.com>
-Date: Thu, 04 Jul 2013 10:24:09 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu,  4 Jul 2013 07:43:25 +0000 (UTC)
+Received: from mail122-ch1-R.bigfish.com (10.43.68.243) by
+	CH1EHSOBE005.bigfish.com (10.43.70.55) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 4 Jul 2013 07:43:25 +0000
+Received: from mail122-ch1 (localhost [127.0.0.1])	by
+	mail122-ch1-R.bigfish.com (Postfix) with ESMTP id ECA373201B4;
+	Thu,  4 Jul 2013 07:43:24 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: 1
+X-BigFish: VPS1(zzzz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzzz2fh95h668h839hd24hf0ah119dh1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h14ddh1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e1dh1e23h906i1155h192ch)
+Received-SPF: pass (mail122-ch1: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail122-ch1 (localhost.localdomain [127.0.0.1]) by mail122-ch1
+	(MessageSwitch) id 1372923776844910_348;
+	Thu,  4 Jul 2013 07:42:56 +0000 (UTC)
+Received: from CH1EHSMHS029.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.244])	by mail122-ch1.bigfish.com (Postfix) with ESMTP id
+	C18684A0093;	Thu,  4 Jul 2013 07:42:56 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by CH1EHSMHS029.bigfish.com
+	(10.43.70.29) with Microsoft SMTP Server id 14.1.225.23; Thu, 4 Jul 2013
+	07:42:56 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]
+	helo=xsj-smtp1.xilinx.com)	by xsj-gw1 with esmtp (Exim
+	4.63)	(envelope-from <nathan.rossi@xilinx.com>)	id 1UueBs-00011h-CN;
+	Thu, 04 Jul 2013 00:42:56 -0700
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Jul 2013 17:42:26 +1000
+X-Mailer: git-send-email 1.7.5.4
+X-RCIS-Action: ALLOW
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1372861799.git.laurentiu.palcu@intel.com>
-	<20130703161921.GB3452@jama>
-In-Reply-To: <20130703161921.GB3452@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Allow xuser to shutdown
+Message-ID: <044c6bc4-86ca-4c96-bb24-50183cdf65b3@CH1EHSMHS029.ehs.local>
+X-OriginatorOrg: xilinx.com
+Cc: meta-xilinx@yoctoproject.org
+Subject: [PATCH 0/2] scripts/runqemu: 'qemuzynq' and 'qemumicroblaze'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +53,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 07:24:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Jul 2013 07:43:25 -0000
+Content-Type: text/plain
+
+The following patches add support to the runqemu scripts to allow for
+the machines named 'qemuzynq' and 'qemumicroblaze' to be booted within
+qemu. These target machines reside in the 'meta-xilinx' layer.
+
+Regards,
+Nathan
+
+Nathan Rossi (2):
+  scripts/runqemu: Add support for 'qemuzynq' machine
+  scripts/runqemu: Add support for 'qemumicroblaze' machine
+
+ scripts/runqemu          |    9 ++++++++-
+ scripts/runqemu-internal |   28 ++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 1 deletions(-)
+
+-- 
+1.7.5.4
 
 
-
-On 07/03/2013 07:19 PM, Martin Jansa wrote:
-> On Wed, Jul 03, 2013 at 05:34:20PM +0300, Laurentiu Palcu wrote:
->> The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
->>
->>   bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
->>
->> are available in the git repository at:
->>
->>   git://git.yoctoproject.org/poky-contrib lpalcu/b4345_shutdown_icon_rootless_x
->>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4345_shutdown_icon_rootless_x
->>
->> Laurentiu Palcu (4):
->>   sysvinit: allow users in shutdown group to perform halt/reboot
->>   connman: make xuser a member of 'shutdown' group
->>   xserver-nodm-init: make xuser a member of 'shutdown' group
->>   shutdown-desktop: give entire path in Exec field
-> 
-> Shouldn't we create separate recipe for xuser or any other default user
-> and add it to connman and xserver-nodm-init RDEPENDS?
-> 
-> I know there is some overhead from having one more package installed on
-> image, but it would be a bit easier if we later decide that xuser also
-> needs some file to be installed in his home or something like that.
-I can see one advantage of having a separate recipe for xuser: the user
-creation would be done in one place and we souldn't have to change in
-two places if we want to add the user to another group (for example).
-
-It sounds a good change to me.
-
-Laurentiu
-> 
->>  meta/recipes-connectivity/connman/connman.inc      |    2 +-
->>  meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   12 +++++++++---
->>  .../x11-common/xserver-nodm-init.bb                |    2 +-
->>  .../shutdown-desktop/shutdown-desktop.bb           |    2 +-
->>  .../shutdown-desktop/shutdown.desktop              |    4 ++--
->>  5 files changed, 14 insertions(+), 8 deletions(-)
->>
->> -- 
->> 1.7.9.5
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
 
