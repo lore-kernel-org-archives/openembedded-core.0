@@ -1,37 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DFD5607F8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 728F7607F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 13:19:21 +0000 (UTC)
-Received: by mail-ob0-f173.google.com with SMTP id wc20so1620625obb.18
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 06:19:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=ykpXg+PycRv9a6yvMbmrmZAmNzb1B6NawAc4tQU3/uA=;
-	b=ZEyQ1ddiOFXgbi/up5FhqDS5Flzuqe6aRf4dFU5pctoo2iY/IHK3L9TKla7PDqtXR+
-	VWr4oLKrw5kmWZiW4SLCRgdKv+T5ThJRf4GbfphHsEf/rYMuVEg3PnAnmQDEqbuVdEVB
-	nuqRMqi4JovQL8NNDPHxdlhDI3afNnBACqcMRZVLs7TfV5uNFWuyfp9pmS4bjwbI+Hby
-	rrOtnjdqlxlPqJZSV/p6xt7zTKuxq/5eFZRh23JXSSbgUwCHFKIHD0JDq4/flnVXShzd
-	F7VPcr0qTHkj5caNRSfCkMKAgn+rC84lpJTuV6+FP5RR2tQAeGx1ha2Ss68KykemMpjS
-	QdQA==
+	Thu,  4 Jul 2013 13:20:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Jul 2013 06:20:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,995,1363158000"; d="scan'208";a="365284467"
+Received: from unknown (HELO helios.localnet) ([10.252.121.242])
+	by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2013 06:20:04 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Thu, 04 Jul 2013 14:20:03 +0100
+Message-ID: <1511482.DTA2BPqVAC@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-25-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <CAP9ODKrXD9MzMTdqXTWNFiShCPv9TsRXFPcP9AEwQcSPuQjmCQ@mail.gmail.com>
+References: <1372871077-6363-1-git-send-email-paul.eggleton@linux.intel.com>
+	<CAP9ODKrXD9MzMTdqXTWNFiShCPv9TsRXFPcP9AEwQcSPuQjmCQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.182.105.99 with SMTP id gl3mr6052354obb.94.1372943961866;
-	Thu, 04 Jul 2013 06:19:21 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.98.133 with HTTP; Thu, 4 Jul 2013 06:19:21 -0700 (PDT)
-In-Reply-To: <20130704053401.GA25335@xiaoyu.lan>
-References: <20130704053401.GA25335@xiaoyu.lan>
-Date: Thu, 4 Jul 2013 10:19:21 -0300
-X-Google-Sender-Auth: RXy7PslTSOVDRyynt4iCwcl16Yk
-Message-ID: <CAP9ODKor5N3QHkf6N748=mjbyA9gv26RTfNZCHX9Wq0bZVhUag@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Holger Hans Peter Freyther <holger@moiji-mobile.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Using OpenEmbedded for customized builds
+Subject: Re: [PATCH] qt4: disable qmeegographicssystemhelper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,58 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 13:19:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 04 Jul 2013 13:20:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Jul 4, 2013 at 2:34 AM, Holger Hans Peter Freyther
-<holger@moiji-mobile.com> wrote:
-> Good Morning,
->
-> we have a basic product and build the images for it using
-> OpenEmbedded. Some customers require the installation of
-> additional packages, or even the modification of some of
-> the installed ones. The current approach would be to build
-> one VM per customer but that doesn't really scale.
->
-> I think somehow I want to end up with having my base/generic
-> buuld and a way to put additional ipk's into a customer
-> directory. So something likes this:
->
->   base-build/tmp/deploy/ipk/
->                             armv5te/
->                             machine/
->                             customer1/
->                                       armv5te/
->                                       ...
->                             customer2/
->                                       armv5te/
->                             customer3/
->
-> or
->
->   base-build/tmp/...
->
->   customer1-build/tmp/deploy/ipk/...
->
-> In both cases the customer should only include the packages
-> that were built for the customer. All the 'base' packages should
-> be taken/used from the base built. I could indicate for which
-> customer I build by setting an environment variable?
->
-> For a corner case, e.g. if I change the SRCREV and re-build with
-> a customer flag set, this package should still go to the customer
-> directory.
->
-> Can this be already modeled? Do you have any idea how this could
-> be done?
+On Thursday 04 July 2013 10:10:52 Otavio Salvador wrote:
+> On Wed, Jul 3, 2013 at 2:04 PM, Paul Eggleton
+> 
+> <paul.eggleton@linux.intel.com> wrote:
+> > We don't want this enabled just because we have EGL and OpenGL ES 2.0
+> > enabled.
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> 
+> Agreed; maybe this could be considered for dylan as well?
 
-Currently I did this using MACHINEOVERRIDE and I made a machine which
-is reused for each customer. So I have a single kernel and machine
-setup but customer aliases which I can use to control the system in
-the image and like.
+Sounds reasonable to me; once it's merged to master I will include it in my 
+queue for dylan. 
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+To be honest it would be nice if it were fixed properly upstream; building it 
+based on the conditional given seems wrong.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
