@@ -1,26 +1,20 @@
-Return-Path: <tf+lists.yocto@r-finger.com>
-Received: from r-finger.com (r-finger.com [178.79.160.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 623006AA07
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B6F16AFBE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 11:58:30 +0000 (UTC)
-Received: from [192.168.0.2] (host86-137-86-109.range86-137.btcentralplus.com
-	[86.137.86.109]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 4090E952D
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 12:58:31 +0100 (BST)
-Message-ID: <51D56366.1080906@r-finger.com>
-Date: Thu, 04 Jul 2013 12:58:30 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:10.0.5) Gecko/20120624 Icedove/10.0.5
-MIME-Version: 1.0
+	Thu,  4 Jul 2013 12:53:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 04 Jul 2013 05:53:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,995,1363158000"; d="scan'208";a="340465022"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2013 05:53:58 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1372933905.git.laurentiu.palcu@intel.com>
-	<4e815a29c0d069823211ba33645f3b08ae968bfd.1372933905.git.laurentiu.palcu@intel.com>
-	<CAJTo0LYa+ncg4fkiNewX2-Syo-7Lui2GDXpFuqLWOeyHBPk=MQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYa+ncg4fkiNewX2-Syo-7Lui2GDXpFuqLWOeyHBPk=MQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/5] xuser-account: create separate recipe for xuser creation
+Date: Thu,  4 Jul 2013 15:53:54 +0300
+Message-Id: <cover.1372942368.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] populate_sdk_base: fix bashism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 11:58:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Jul 2013 12:53:59 -0000
 
-On 04/07/13 12:29, Burton, Ross wrote:
-> On 4 July 2013 11:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
->> +USERADD_PARAM_${PN} = "--create-home \
->> +                       --groups video,tty,audio,input,shutdown \
->> +                       --user-group xuser"
-> 
-> I'm not liking the name "xuser" but unless someone has a much better
-> idea right now we can change that later.
+The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
 
-oeuser?
+  bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
 
-> Thinking about places where the xuser is used in other recipes (i.e.
-> connman for ACLs), can anyone see a problem with adding xuser to the
-> "users" group so those ACLS can use group membership instead of user
-> name?
+are available in the git repository at:
 
-Yes, I think group would be preferred option.
+  git://git.yoctoproject.org/poky-contrib lpalcu/b4811_printf_issue_in_sh
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4811_printf_issue_in_sh
 
-Tomas
+Laurentiu Palcu (1):
+  populate_sdk_base: fix bashism
+
+ meta/classes/populate_sdk_base.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
-http://sleepfive.com
+1.7.9.5
+
 
