@@ -1,20 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5329C6AA07
+Return-Path: <ross.burton@intel.com>
+Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
+	[209.85.219.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 4619E6AD81
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 11:26:06 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Jul 2013 04:27:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,994,1363158000"; d="scan'208";a="365247798"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.121.242])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Jul 2013 04:26:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jul 2013 12:26:04 +0100
-Message-Id: <1372937164-14095-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] cmake: fix configure error if system Qt installation is broken
+	Thu,  4 Jul 2013 11:29:43 +0000 (UTC)
+Received: by mail-oa0-f52.google.com with SMTP id g12so1790487oah.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Jul 2013 04:29:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=K5TJ/MIrAM/VY/8Qt5nzAR/coeaU+zT4HOWzojsVphU=;
+	b=K5njqMOBTwQDGz57cC2rzLSqo7C4zXpecG4gky3VBRuvOAhF9pHD5P6gD9CKhvyec6
+	/FrdDCL6IJomU+WAFTUxfCWIhSY7qEimQbThfNTXS/COxBaIExvPsTDaf1tztW/kiV15
+	62rkolEl/TokziR18VMU+6fTBDLOVCAsjPoMBWBNcPwsJp85F/QGstK/bW2O5UP4rZ8F
+	r7ud0rRiGnP5lXuJXLu1ZMGjBbmv9+bpWSQkneEqFSInZrlDZYkqcmJO4UlGtI+qy0SF
+	Me1zSfPTp5ugTqESnCrRKTXPIUbDuodv+cUf5kjDPZPHsG/9iZX9lDDLXhs0PQUUAQka
+	LeWw==
+X-Received: by 10.182.95.71 with SMTP id di7mr5542850obb.12.1372937383614;
+	Thu, 04 Jul 2013 04:29:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.182.160.41 with HTTP; Thu, 4 Jul 2013 04:29:23 -0700 (PDT)
+In-Reply-To: <4e815a29c0d069823211ba33645f3b08ae968bfd.1372933905.git.laurentiu.palcu@intel.com>
+References: <cover.1372933905.git.laurentiu.palcu@intel.com>
+	<4e815a29c0d069823211ba33645f3b08ae968bfd.1372933905.git.laurentiu.palcu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Jul 2013 12:29:23 +0100
+Message-ID: <CAJTo0LYa+ncg4fkiNewX2-Syo-7Lui2GDXpFuqLWOeyHBPk=MQ@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+X-Gm-Message-State: ALoCoQk0dNxrO3p3w5YKVfaOF5d61uvFA+XrFX8AjIzYdIwTIsGrZ0gwIur4jPatyJjMHuzRYuK+
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/5] xuser-account: create separate recipe for xuser creation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,96 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 11:26:06 -0000
+X-List-Received-Date: Thu, 04 Jul 2013 11:29:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If the host Qt installation exists but is incomplete or the installed
-qmake architecture doesn't match that of the Qt libraries, cmake was
-failing at do_configure. cmake 2.8.10 failed silently here so we should
-make 2.8.11 do the same.
+On 4 July 2013 11:58, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> +USERADD_PARAM_${PN} = "--create-home \
+> +                       --groups video,tty,audio,input,shutdown \
+> +                       --user-group xuser"
 
-Fixes [YOCTO #4565].
+I'm not liking the name "xuser" but unless someone has a much better
+idea right now we can change that later.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-devtools/cmake/cmake.inc              |  1 +
- .../cmake/cmake/qt4-fail-silent.patch              | 55 ++++++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch
+Thinking about places where the xuser is used in other recipes (i.e.
+connman for ACLs), can anyone see a problem with adding xuser to the
+"users" group so those ACLS can use group membership instead of user
+name?
 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 6144d51..014ff5a 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -15,6 +15,7 @@ SRC_URI = "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz
-            file://support-oe-qt4-tools-names.patch \
-            file://aarch64-cmake.patch \
-            file://aarch64-kwsys.patch \
-+           file://qt4-fail-silent.patch \
-            "
- 
- inherit autotools
-diff --git a/meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch b/meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch
-new file mode 100644
-index 0000000..fd39f3f
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch
-@@ -0,0 +1,55 @@
-+Fail silently if system Qt installation is broken
-+
-+Fixes a regression in behaviour from 2.8.10 to 2.8.11 resulting in the
-+following error if the system Qt installation is broken:
-+
-+CMake Error at Modules/FindQt4.cmake:1028 (set_property):
-+  set_property could not find TARGET Qt4::QtCore.  Perhaps it has not yet
-+  been created.
-+Call Stack (most recent call first):
-+  Tests/RunCMake/CMakeLists.txt:79 (find_package)
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+--- cmake-2.8.11/Modules/FindQt4.cmake	2013-07-04 10:20:42.092848274 +0100
-++++ cmake-2.8.11/Modules/FindQt4.cmake	2013-07-04 10:52:15.693380555 +0100
-+@@ -1025,21 +1025,22 @@
-+     set(_configs)
-+   endmacro()
-+ 
-+-
-+-  # Set QT_xyz_LIBRARY variable and add
-+-  # library include path to QT_INCLUDES
-+-  _QT4_ADJUST_LIB_VARS(QtCore)
-+-  set_property(TARGET Qt4::QtCore APPEND PROPERTY
-+-    INTERFACE_INCLUDE_DIRECTORIES
-+-      "${QT_MKSPECS_DIR}/default"
-+-      ${QT_INCLUDE_DIR}
-+-  )
-+-  set_property(TARGET Qt4::QtCore PROPERTY
-+-    INTERFACE_QT_MAJOR_VERSION 4
-+-  )
-+-  set_property(TARGET Qt4::QtCore APPEND PROPERTY
-+-    COMPATIBLE_INTERFACE_STRING QT_MAJOR_VERSION
-+-  )
-++  if(QT_QTCORE_FOUND)
-++    # Set QT_xyz_LIBRARY variable and add
-++    # library include path to QT_INCLUDES
-++    _QT4_ADJUST_LIB_VARS(QtCore)
-++    set_property(TARGET Qt4::QtCore APPEND PROPERTY
-++      INTERFACE_INCLUDE_DIRECTORIES
-++        "${QT_MKSPECS_DIR}/default"
-++        ${QT_INCLUDE_DIR}
-++    )
-++    set_property(TARGET Qt4::QtCore PROPERTY
-++      INTERFACE_QT_MAJOR_VERSION 4
-++    )
-++    set_property(TARGET Qt4::QtCore APPEND PROPERTY
-++      COMPATIBLE_INTERFACE_STRING QT_MAJOR_VERSION
-++    )
-++  endif()
-+ 
-+   foreach(QT_MODULE ${QT_MODULES})
-+     _QT4_ADJUST_LIB_VARS(${QT_MODULE})
--- 
-1.8.1.2
-
+Ross
 
