@@ -1,39 +1,22 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 523CC607F8
+Return-Path: <misn@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 23E106AFF3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 13:59:44 +0000 (UTC)
-Received: by mail-ob0-f172.google.com with SMTP id wo10so1645338obc.17
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 06:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=SzXLGU3+YRSWcxYGypzzs7Zn+/L+t92mb9nBVNHg3fo=;
-	b=dP/CdQIhu/IGVlO2GtIHpdqEXMPMM6L3Ya1yHxkULVxBWjGDRRfRt+B573qyCx3g5h
-	pvNUqc0fkQRuXNn5uX5Aw8Ecb9Y2dHHf5Y/un7mKlrN5g+3tVEBpl1XL9DY0Gnm3r7lB
-	f2MJN4oPT3N6f/ZCtzXwthqX4j7RnYZj0x5V3nbe9MScq+Z1pGA1m4B0ttXymbDO5Rup
-	IfS4UWfupvBCakREltA4tPp8P8ZnOGoXxh/Vti9VLuu4RiwwmbyVHdTyBeVfOKkRkPG9
-	jkaYtRQ5JU6pxXV8diNaABrZMyNV9avZUaJnjrOkUrImhEVgHdfQYic7w5+5ikff/tnw
-	jkYw==
+	Thu,  4 Jul 2013 14:24:15 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1; Thu, 4 Jul 2013
+	16:24:12 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4351)	id 7D15A288C5A;
+	Thu,  4 Jul 2013 16:24:12 +0200 (CEST)
+From: Mihaela Sendrea <mihaela.sendrea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Jul 2013 16:23:43 +0200
+Message-ID: <1372947823-11074-1-git-send-email-mihaela.sendrea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Received: by 10.60.43.226 with SMTP id z2mr6294894oel.76.1372946384523; Thu,
-	04 Jul 2013 06:59:44 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.98.133 with HTTP; Thu, 4 Jul 2013 06:59:44 -0700 (PDT)
-In-Reply-To: <1511482.DTA2BPqVAC@helios>
-References: <1372871077-6363-1-git-send-email-paul.eggleton@linux.intel.com>
-	<CAP9ODKrXD9MzMTdqXTWNFiShCPv9TsRXFPcP9AEwQcSPuQjmCQ@mail.gmail.com>
-	<1511482.DTA2BPqVAC@helios>
-Date: Thu, 4 Jul 2013 10:59:44 -0300
-X-Google-Sender-Auth: czW1buWpr-wIEwqT1UU6LNF6ztQ
-Message-ID: <CAP9ODKraFbANk_TBJf0riyPq+NY9kSCjK8a-3Ur54W1o-OHhAA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: disable qmeegographicssystemhelper
+Received-SPF: None (SESTOEX03.enea.se: mihaela.sendrea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] libxml2: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +29,907 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 13:59:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 04 Jul 2013 14:24:17 -0000
+Content-Type: text/plain
 
-On Thu, Jul 4, 2013 at 10:20 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Thursday 04 July 2013 10:10:52 Otavio Salvador wrote:
->> On Wed, Jul 3, 2013 at 2:04 PM, Paul Eggleton
->>
->> <paul.eggleton@linux.intel.com> wrote:
->> > We don't want this enabled just because we have EGL and OpenGL ES 2.0
->> > enabled.
->> >
->> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->>
->> Agreed; maybe this could be considered for dylan as well?
->
-> Sounds reasonable to me; once it's merged to master I will include it in my
-> queue for dylan.
->
-> To be honest it would be nice if it were fixed properly upstream; building it
-> based on the conditional given seems wrong.
+Install libxml2 test suite and run it as ptest.
 
-I fully agree but until it is fixed (if it is ever fixed) your patch
-seems the way to go! :-)
+Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
+---
+ meta/recipes-core/libxml/libxml2.inc           |   14 +-
+ meta/recipes-core/libxml/libxml2/run-ptest     |    3 +
+ meta/recipes-core/libxml/libxml2/runtest.patch |  820 ++++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.1.bb      |    7 +-
+ 4 files changed, 839 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/run-ptest
+ create mode 100644 meta/recipes-core/libxml/libxml2/runtest.patch
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 9b2af0f..7fb2644 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -13,12 +13,16 @@ DEPENDS_class-nativesdk = "nativesdk-python"
+ DEPENDS_class-native = "python-native"
+ DEPENDS =+ "zlib"
+ 
+-SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz \
++SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-64bit.patch \
+-           file://ansidecl.patch"
++           file://ansidecl.patch \
++           file://runtest.patch \
++           file://run-ptest \
++          "
+ 
++inherit autotools pkgconfig binconfig pythonnative ptest
+ 
+-inherit autotools pkgconfig binconfig pythonnative
++RDEPENDS_${PN}-ptest_append_libc-glibc += "eglibc-gconv-ebcdic-us eglibc-gconv-ibm1141"
+ 
+ # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
+ do_configure_prepend () {
+@@ -49,4 +53,8 @@ PACKAGES += "${PN}-utils"
+ FILES_${PN}-dev += "${libdir}/xml2Conf.sh"
+ FILES_${PN}-utils += "${bindir}/*"
+ 
++do_install_ptest () {
++  cp -r ${WORKDIR}/xmlconf ${D}${PTEST_PATH}
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/libxml/libxml2/run-ptest b/meta/recipes-core/libxml/libxml2/run-ptest
+new file mode 100644
+index 0000000..473d0b6
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/sh
++
++make -k runtests
+diff --git a/meta/recipes-core/libxml/libxml2/runtest.patch b/meta/recipes-core/libxml/libxml2/runtest.patch
+new file mode 100644
+index 0000000..fce69d9
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/runtest.patch
+@@ -0,0 +1,820 @@
++Add 'install-ptest' rule.
++Print a standard result line for each test.
++
++Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
++Upstream-status: Pending
++
++diff -uNr a/Makefile.am b/Makefile.am
++--- a/Makefile.am	2013-04-17 14:51:42.633386477 +0200
+++++ b/Makefile.am	2013-04-19 14:47:51.544720568 +0200
++@@ -202,10 +202,19 @@
++ #testOOM_DEPENDENCIES = $(DEPS)
++ #testOOM_LDADD= $(LDADDS)
++ 
+++install-ptest:
+++	@(if [ -d .libs ] ; then cd .libs; fi; \
+++	install $(noinst_PROGRAMS) $(DESTDIR))
+++	cp -r $(srcdir)/test $(DESTDIR)
+++	cp -r $(srcdir)/result $(DESTDIR)
+++	cp -r $(srcdir)/python $(DESTDIR)
+++	cp Makefile $(DESTDIR)
+++	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
+++
++ runtests:
++ 	[ -d test   ] || $(LN_S) $(srcdir)/test   .
++ 	[ -d result ] || $(LN_S) $(srcdir)/result .
++-	$(CHECKER) ./runtest$(EXEEXT) && $(CHECKER) ./testrecurse$(EXEEXT) &&$(CHECKER) ./testapi$(EXEEXT) && $(CHECKER) ./testchar$(EXEEXT)&& $(CHECKER) ./testdict$(EXEEXT) && $(CHECKER) ./runxmlconf$(EXEEXT)
+++	./runtest$(EXEEXT) ; ./testrecurse$(EXEEXT) ; ./testapi$(EXEEXT) ; ./testchar$(EXEEXT) ; ./testdict$(EXEEXT) ; ./runxmlconf$(EXEEXT)
++ 	@(if [ "$(PYTHON_SUBDIR)" != "" ] ; then cd python ; \
++ 	    $(MAKE) tests ; fi)
++ 
++diff -uNr a/runsuite.c b/runsuite.c
++--- a/runsuite.c	2013-04-12 16:17:11.462823238 +0200
+++++ b/runsuite.c	2013-04-17 14:07:24.352693211 +0200
++@@ -1162,6 +1162,7 @@
++ 
++     if (logfile != NULL)
++         fclose(logfile);
+++    printf("%s: runsuite\n\n", (ret == 0) ? "PASS" : "FAIL");
++     return(ret);
++ }
++ #else /* !SCHEMAS */
++diff -uNr a/runtest.c b/runtest.c
++--- a/runtest.c	2013-04-16 13:19:15.087997290 +0200
+++++ b/runtest.c	2013-04-17 14:08:29.529949655 +0200
++@@ -4386,6 +4386,7 @@
++ 	    err++;
++ 	}
++     }
+++    printf("%s: %s\n", (err == 0) ? "PASS" : "FAIL", tst->desc);
++     return(err);
++ }
++ 
++@@ -4455,6 +4456,7 @@
++     xmlCleanupParser();
++     xmlMemoryDump();
++ 
+++    printf("%s: runtest\n\n", (ret == 0) ? "PASS" : "FAIL");
++     return(ret);
++ }
++ 
++diff -uNr a/runxmlconf.c b/runxmlconf.c
++--- a/runxmlconf.c	2013-04-16 12:53:49.900982990 +0200
+++++ b/runxmlconf.c	2013-04-17 14:09:21.111778104 +0200
++@@ -595,6 +595,7 @@
++ 
++     if (logfile != NULL)
++         fclose(logfile);
+++    printf("%s: runxmlconf\n", (ret == 0) ? "PASS" : "FAIL");
++     return(ret);
++ }
++ 
++diff -uNr a/testapi.c b/testapi.c
++--- a/testapi.c	2013-04-12 16:16:57.763417659 +0200
+++++ b/testapi.c	2013-04-17 14:10:28.876924881 +0200
++@@ -1245,49 +1245,91 @@
++ testlibxml2(void)
++ {
++     int test_ret = 0;
+++    int ret = 0;
++ 
++-    test_ret += test_HTMLparser();
++-    test_ret += test_HTMLtree();
++-    test_ret += test_SAX2();
++-    test_ret += test_c14n();
++-    test_ret += test_catalog();
++-    test_ret += test_chvalid();
++-    test_ret += test_debugXML();
++-    test_ret += test_dict();
++-    test_ret += test_encoding();
++-    test_ret += test_entities();
++-    test_ret += test_hash();
++-    test_ret += test_list();
++-    test_ret += test_nanoftp();
++-    test_ret += test_nanohttp();
++-    test_ret += test_parser();
++-    test_ret += test_parserInternals();
++-    test_ret += test_pattern();
++-    test_ret += test_relaxng();
++-    test_ret += test_schemasInternals();
++-    test_ret += test_schematron();
++-    test_ret += test_tree();
++-    test_ret += test_uri();
++-    test_ret += test_valid();
++-    test_ret += test_xinclude();
++-    test_ret += test_xmlIO();
++-    test_ret += test_xmlautomata();
++-    test_ret += test_xmlerror();
++-    test_ret += test_xmlmodule();
++-    test_ret += test_xmlreader();
++-    test_ret += test_xmlregexp();
++-    test_ret += test_xmlsave();
++-    test_ret += test_xmlschemas();
++-    test_ret += test_xmlschemastypes();
++-    test_ret += test_xmlstring();
++-    test_ret += test_xmlunicode();
++-    test_ret += test_xmlwriter();
++-    test_ret += test_xpath();
++-    test_ret += test_xpathInternals();
++-    test_ret += test_xpointer();
+++    test_ret += (ret = test_HTMLparser());
+++    printf("%s: HTMLparser\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_HTMLtree());
+++    printf("%s: HTMLtree\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_SAX2());
+++    printf("%s: SAX2\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_c14n());
+++    printf("%s: c14n\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_catalog());
+++    printf("%s: catalog\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_chvalid());
+++    printf("%s: chvalid\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_debugXML());
+++    printf("%s: debugXML\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_dict());
+++    printf("%s: dict\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_encoding());
+++    printf("%s: encoding\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_entities());
+++    printf("%s: entities\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_hash());
+++    printf("%s: hash\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_list());
+++    printf("%s: list\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_nanoftp());
+++    printf("%s: nanoftp\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_nanohttp());
+++    printf("%s: nanohttp\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_parser());
+++    printf("%s: parser\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_parserInternals());
+++    printf("%s: parserInternals\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_pattern());
+++    printf("%s: pattern\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_relaxng());
+++    printf("%s: relaxng\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_schemasInternals());
+++    printf("%s: schemasInternals\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_schematron());
+++    printf("%s: schematron\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_tree());
+++    printf("%s: tree\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_uri());
+++    printf("%s: uri\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_valid());
+++    printf("%s: valid\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xinclude());
+++    printf("%s: xinclude\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlIO());
+++    printf("%s: xmlIO\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlautomata());
+++    printf("%s: xmlautomata\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlerror());
+++    printf("%s: xmlerror\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlmodule());
+++    printf("%s: xmlmodule\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlreader());
+++    printf("%s: xmlreader\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlregexp());
+++    printf("%s: xmlregexp\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlsave());
+++    printf("%s: xmlsave\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlschemas());
+++    printf("%s: xmlschemas\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlschemastypes());
+++    printf("%s: xmlschemastypes\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlstring());
+++    printf("%s: xmlstring\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlunicode());
+++    printf("%s: xmlunicode\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xmlwriter());
+++    printf("%s: xmlwriter\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xpath());
+++    printf("%s: xpath\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xpathInternals());
+++    printf("%s: xpathInternals\n", (ret == 0) ? "PASS" : "FAIL");
+++    test_ret += (ret = test_xpointer());
+++    printf("%s: xpointer\n", (ret == 0) ? "PASS" : "FAIL");
++ 
++     printf("Total: %d functions, %d tests, %d errors\n",
++            function_tests, call_tests, test_ret);
+++
+++    printf("%s: testapi\n\n", (test_ret == 0) ? "PASS" : "FAIL");
++     return(test_ret);
++ }
++ 
++diff -uNr a/testchar.c b/testchar.c
++--- a/testchar.c	2013-04-17 10:50:30.250147418 +0200
+++++ b/testchar.c	2013-04-18 16:11:28.455733800 +0200
++@@ -23,7 +23,7 @@
++ char document1[100] = "<doc>XXXX</doc>";
++ char document2[100] = "<doc foo='XXXX'/>";
++ 
++-static void testDocumentRangeByte1(xmlParserCtxtPtr ctxt, char *document,
+++static int testDocumentRangeByte1(xmlParserCtxtPtr ctxt, char *document,
++                   int len,  char *data, int forbid1, int forbid2) {
++     int i;
++     xmlDocPtr res;
++@@ -37,33 +37,41 @@
++ 	res = xmlReadMemory(document, len, "test", NULL, 0);
++ 
++ 	if ((i == forbid1) || (i == forbid2)) {
++-	    if ((lastError == 0) || (res != NULL))
+++	    if ((lastError == 0) || (res != NULL)) {
++ 	        fprintf(stderr,
++ 		    "Failed to detect invalid char for Byte 0x%02X: %c\n",
++ 		        i, i);
+++		return(1);
+++		}
++ 	}
++ 
++ 	else if ((i == '<') || (i == '&')) {
++-	    if ((lastError == 0) || (res != NULL))
+++	    if ((lastError == 0) || (res != NULL)) {
++ 	        fprintf(stderr,
++ 		    "Failed to detect illegal char %c for Byte 0x%02X\n", i, i);
+++			return(1);
+++		}
++ 	}
++ 	else if (((i < 0x20) || (i >= 0x80)) &&
++ 	    (i != 0x9) && (i != 0xA) && (i != 0xD)) {
++-	    if ((lastError != XML_ERR_INVALID_CHAR) && (res != NULL))
+++	    if ((lastError != XML_ERR_INVALID_CHAR) && (res != NULL)) {
++ 	        fprintf(stderr,
++ 		    "Failed to detect invalid char for Byte 0x%02X\n", i);
+++			return(1);
+++		}
++ 	}
++ 	else if (res == NULL) {
++ 	    fprintf(stderr,
++ 		"Failed to parse valid char for Byte 0x%02X : %c\n", i, i);
+++		return(1);
++ 	}
++ 	if (res != NULL)
++ 	    xmlFreeDoc(res);
++     }
+++	return(0);
++ }
++ 
++-static void testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
+++static int testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
++                   int len,  char *data) {
++     int i, j;
++     xmlDocPtr res;
++@@ -80,10 +88,12 @@
++ 
++ 	/* if first bit of first char is set, then second bit must too */
++ 	if ((i & 0x80) && ((i & 0x40) == 0)) {
++-	    if ((lastError == 0) || (res != NULL))
+++	    if ((lastError == 0) || (res != NULL)) {
++ 		fprintf(stderr,
++ 		"Failed to detect invalid char for Bytes 0x%02X 0x%02X\n",
++ 			i, j);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -91,10 +101,12 @@
++ 	 * bits must be 10
++ 	 */
++ 	else if ((i & 0x80) && ((j & 0xC0) != 0x80)) {
++-	    if ((lastError == 0) || (res != NULL))
+++	    if ((lastError == 0) || (res != NULL)) {
++ 		fprintf(stderr,
++ 	    "Failed to detect invalid char for Bytes 0x%02X 0x%02X\n",
++ 			i, j);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -102,10 +114,12 @@
++ 	 * than 0x80, i.e. one of bits 5 to 1 of i must be set
++ 	 */
++ 	else if ((i & 0x80) && ((i & 0x1E) == 0)) {
++-	    if ((lastError == 0) || (res != NULL))
+++	    if ((lastError == 0) || (res != NULL)) {
++ 		fprintf(stderr,
++ 	    "Failed to detect invalid char for Bytes 0x%02X 0x%02X\n",
++ 			i, j);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -113,10 +127,12 @@
++ 	 * at least 3 bytes, but we give only 2 !
++ 	 */
++ 	else if ((i & 0xE0) == 0xE0) {
++-	    if ((lastError == 0) || (res != NULL))
+++	    if ((lastError == 0) || (res != NULL)) {
++ 		fprintf(stderr,
++ 	    "Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x00\n",
++ 			i, j);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -125,11 +141,13 @@
++ 	else if ((lastError != 0) || (res == NULL)) {
++ 	    fprintf(stderr,
++ 		"Failed to parse document for Bytes 0x%02X 0x%02X\n", i, j);
+++		return(1);
++ 	}
++ 	if (res != NULL)
++ 	    xmlFreeDoc(res);
++     }
++     }
+++	return(0);
++ }
++ 
++ /**
++@@ -141,9 +159,10 @@
++  * CDATA in text or in attribute values.
++  */
++ 
++-static void testDocumentRanges(void) {
+++static int testDocumentRanges(void) {
++     xmlParserCtxtPtr ctxt;
++     char *data;
+++    int test_ret = 0;
++ 
++     /*
++      * Set up a parsing context using the first document as
++@@ -152,7 +171,7 @@
++     ctxt = xmlNewParserCtxt();
++     if (ctxt == NULL) {
++         fprintf(stderr, "Failed to allocate parser context\n");
++-	return;
+++	return(1);
++     }
++ 
++     printf("testing 1 byte char in document: 1");
++@@ -163,7 +182,7 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 1 byte injection at beginning of area */
++-    testDocumentRangeByte1(ctxt, &document1[0], strlen(document1),
+++    test_ret += testDocumentRangeByte1(ctxt, &document1[0], strlen(document1),
++                            data, -1, -1);
++     printf(" 2");
++     fflush(stdout);
++@@ -172,7 +191,7 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 1 byte injection at end of area */
++-    testDocumentRangeByte1(ctxt, &document1[0], strlen(document1),
+++    test_ret += testDocumentRangeByte1(ctxt, &document1[0], strlen(document1),
++                            data + 3, -1, -1);
++ 
++     printf(" 3");
++@@ -183,7 +202,7 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 1 byte injection at beginning of area */
++-    testDocumentRangeByte1(ctxt, &document2[0], strlen(document2),
+++    test_ret += testDocumentRangeByte1(ctxt, &document2[0], strlen(document2),
++                            data, '\'', -1);
++     printf(" 4");
++     fflush(stdout);
++@@ -192,7 +211,7 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 1 byte injection at end of area */
++-    testDocumentRangeByte1(ctxt, &document2[0], strlen(document2),
+++    test_ret += testDocumentRangeByte1(ctxt, &document2[0], strlen(document2),
++                            data + 3, '\'', -1);
++     printf(" done\n");
++ 
++@@ -204,7 +223,7 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 2 byte injection at beginning of area */
++-    testDocumentRangeByte2(ctxt, &document1[0], strlen(document1),
+++    test_ret += testDocumentRangeByte2(ctxt, &document1[0], strlen(document1),
++                            data);
++     printf(" 2");
++     fflush(stdout);
++@@ -213,7 +232,7 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 2 byte injection at end of area */
++-    testDocumentRangeByte2(ctxt, &document1[0], strlen(document1),
+++    test_ret += testDocumentRangeByte2(ctxt, &document1[0], strlen(document1),
++                            data + 2);
++ 
++     printf(" 3");
++@@ -224,7 +243,7 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 2 byte injection at beginning of area */
++-    testDocumentRangeByte2(ctxt, &document2[0], strlen(document2),
+++    test_ret += testDocumentRangeByte2(ctxt, &document2[0], strlen(document2),
++                            data);
++     printf(" 4");
++     fflush(stdout);
++@@ -233,14 +252,15 @@
++     data[2] = ' ';
++     data[3] = ' ';
++     /* test 2 byte injection at end of area */
++-    testDocumentRangeByte2(ctxt, &document2[0], strlen(document2),
+++    test_ret += testDocumentRangeByte2(ctxt, &document2[0], strlen(document2),
++                            data + 2);
++     printf(" done\n");
++ 
++     xmlFreeParserCtxt(ctxt);
+++    return(test_ret);
++ }
++ 
++-static void testCharRangeByte1(xmlParserCtxtPtr ctxt, char *data) {
+++static int testCharRangeByte1(xmlParserCtxtPtr ctxt, char *data) {
++     int i = 0;
++     int len, c;
++ 
++@@ -255,19 +275,25 @@
++         c = xmlCurrentChar(ctxt, &len);
++ 	if ((i == 0) || (i >= 0x80)) {
++ 	    /* we must see an error there */
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 	        fprintf(stderr,
++ 		    "Failed to detect invalid char for Byte 0x%02X\n", i);
+++			return(1);
+++		}
++ 	} else if (i == 0xD) {
++-	    if ((c != 0xA) || (len != 1))
+++	    if ((c != 0xA) || (len != 1)) {
++ 		fprintf(stderr, "Failed to convert char for Byte 0x%02X\n", i);
+++		return(1);
+++		}
++ 	} else if ((c != i) || (len != 1)) {
++ 	    fprintf(stderr, "Failed to parse char for Byte 0x%02X\n", i);
+++		return(1);
++ 	}
++     }
+++	return(0);
++ }
++ 
++-static void testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
+++static int testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
++     int i, j;
++     int len, c;
++ 
++@@ -284,10 +310,12 @@
++ 
++ 	    /* if first bit of first char is set, then second bit must too */
++ 	    if ((i & 0x80) && ((i & 0x40) == 0)) {
++-		if (lastError != XML_ERR_INVALID_CHAR)
+++		if (lastError != XML_ERR_INVALID_CHAR) {
++ 		    fprintf(stderr,
++ 		    "Failed to detect invalid char for Bytes 0x%02X 0x%02X\n",
++ 		            i, j);
+++			return(1);
+++			}
++ 	    }
++ 
++ 	    /*
++@@ -295,10 +323,12 @@
++ 	     * bits must be 10
++ 	     */
++ 	    else if ((i & 0x80) && ((j & 0xC0) != 0x80)) {
++-		if (lastError != XML_ERR_INVALID_CHAR)
+++		if (lastError != XML_ERR_INVALID_CHAR) {
++ 		    fprintf(stderr,
++ 		"Failed to detect invalid char for Bytes 0x%02X 0x%02X: %d\n",
++ 		            i, j, c);
+++			return(1);
+++			}
++ 	    }
++ 
++ 	    /*
++@@ -306,10 +336,12 @@
++ 	     * than 0x80, i.e. one of bits 5 to 1 of i must be set
++ 	     */
++ 	    else if ((i & 0x80) && ((i & 0x1E) == 0)) {
++-		if (lastError != XML_ERR_INVALID_CHAR)
+++		if (lastError != XML_ERR_INVALID_CHAR) {
++ 		    fprintf(stderr,
++ 		"Failed to detect invalid char for Bytes 0x%02X 0x%02X: %d\n",
++ 		            i, j, c);
+++			return(1);
+++			}
++ 	    }
++ 
++ 	    /*
++@@ -317,10 +349,12 @@
++ 	     * at least 3 bytes, but we give only 2 !
++ 	     */
++ 	    else if ((i & 0xE0) == 0xE0) {
++-		if (lastError != XML_ERR_INVALID_CHAR)
+++		if (lastError != XML_ERR_INVALID_CHAR) {
++ 		    fprintf(stderr,
++ 		"Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x00\n",
++ 		            i, j);
+++			return(1);
+++			}
++ 	    }
++ 
++             /*
++@@ -329,6 +363,7 @@
++ 	    else if ((lastError != 0) || (len != 2)) {
++ 		fprintf(stderr,
++ 		    "Failed to parse char for Bytes 0x%02X 0x%02X\n", i, j);
+++		return(1);
++ 	    }
++ 
++             /*
++@@ -338,12 +373,14 @@
++ 		fprintf(stderr,
++ 	"Failed to parse char for Bytes 0x%02X 0x%02X: expect %d got %d\n",
++ 	                i, j, ((j & 0x3F) + ((i & 0x1F) << 6)), c);
+++		return(1);
++ 	    }
++         }
++     }
+++	return(0);
++ }
++ 
++-static void testCharRangeByte3(xmlParserCtxtPtr ctxt, char *data) {
+++static int testCharRangeByte3(xmlParserCtxtPtr ctxt, char *data) {
++     int i, j, k, K;
++     int len, c;
++     unsigned char lows[6] = {0, 0x80, 0x81, 0xC1, 0xFF, 0xBF};
++@@ -368,20 +405,24 @@
++ 	 * at least 4 bytes, but we give only 3 !
++ 	 */
++ 	if ((i & 0xF0) == 0xF0) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++ 	"Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x%02X 0x%02X\n",
++ 			i, j, K, data[3]);
+++		return(1);
+++		}
++ 	}
++ 
++         /*
++ 	 * The second and the third bytes must start with 10
++ 	 */
++ 	else if (((j & 0xC0) != 0x80) || ((K & 0xC0) != 0x80)) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++ 	"Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x%02X\n",
++ 			i, j, K);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -390,10 +431,12 @@
++ 	 * the 6th byte of data[1] must be set
++ 	 */
++ 	else if (((i & 0xF) == 0) && ((j & 0x20) == 0)) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++ 	    "Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x%02X\n",
++ 			i, j, K);
+++		return(1);
+++		}
++ 	}
++ 
++         /*
++@@ -401,10 +444,12 @@
++ 	 */
++ 	else if (((value > 0xD7FF) && (value <0xE000)) ||
++ 	         ((value > 0xFFFD) && (value <0x10000))) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++ 	"Failed to detect invalid char 0x%04X for Bytes 0x%02X 0x%02X 0x%02X\n",
++ 			value, i, j, K);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -414,6 +459,7 @@
++ 	    fprintf(stderr,
++ 		"Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X\n",
++ 		    i, j, K);
+++		return(1);
++ 	}
++ 
++ 	/*
++@@ -423,13 +469,15 @@
++ 	    fprintf(stderr,
++     "Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X: expect %d got %d\n",
++ 		i, j, data[2], value, c);
+++		return(1);
++ 	}
++     }
++     }
++     }
+++	return(0);
++ }
++ 
++-static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
+++static int testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
++     int i, j, k, K, l, L;
++     int len, c;
++     unsigned char lows[6] = {0, 0x80, 0x81, 0xC1, 0xFF, 0xBF};
++@@ -458,10 +506,12 @@
++ 	 * at least 5 bytes, but we give only 4 !
++ 	 */
++ 	if ((i & 0xF8) == 0xF8) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++   "Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x%02X 0x%02X\n",
++ 			i, j, K, data[3]);
+++		return(1);
+++		}
++ 	}
++ 
++         /*
++@@ -469,10 +519,12 @@
++ 	 */
++ 	else if (((j & 0xC0) != 0x80) || ((K & 0xC0) != 0x80) ||
++ 	         ((L & 0xC0) != 0x80)) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++ 	"Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x%02X 0x%02X\n",
++ 			i, j, K, L);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -481,10 +533,12 @@
++ 	 * the 6 or 5th byte of j must be set
++ 	 */
++ 	else if (((i & 0x7) == 0) && ((j & 0x30) == 0)) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++ 	"Failed to detect invalid char for Bytes 0x%02X 0x%02X 0x%02X 0x%02X\n",
++ 			i, j, K, L);
+++		return(1);
+++		}
++ 	}
++ 
++         /*
++@@ -493,10 +547,12 @@
++ 	else if (((value > 0xD7FF) && (value <0xE000)) ||
++ 	         ((value > 0xFFFD) && (value <0x10000)) ||
++ 		 (value > 0x10FFFF)) {
++-	    if (lastError != XML_ERR_INVALID_CHAR)
+++	    if (lastError != XML_ERR_INVALID_CHAR) {
++ 		fprintf(stderr,
++ "Failed to detect invalid char 0x%04X for Bytes 0x%02X 0x%02X 0x%02X 0x%02X\n",
++ 			value, i, j, K, L);
+++		return(1);
+++		}
++ 	}
++ 
++ 	/*
++@@ -506,6 +562,7 @@
++ 	    fprintf(stderr,
++ 		"Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X\n",
++ 		    i, j, K);
+++		return(1);
++ 	}
++ 
++ 	/*
++@@ -515,11 +572,13 @@
++ 	    fprintf(stderr,
++     "Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X: expect %d got %d\n",
++ 		i, j, data[2], value, c);
+++		return(1);
++ 	}
++     }
++     }
++     }
++     }
+++	return(0);
++ }
++ 
++ /**
++@@ -530,11 +589,12 @@
++  * cover the full range of UTF-8 chars accepted by XML-1.0
++  */
++ 
++-static void testCharRanges(void) {
+++static int testCharRanges(void) {
++     char data[5];
++     xmlParserCtxtPtr ctxt;
++     xmlParserInputBufferPtr buf;
++     xmlParserInputPtr input;
+++    int test_ret = 0;
++ 
++     memset(data, 0, 5);
++ 
++@@ -545,17 +605,19 @@
++     ctxt = xmlNewParserCtxt();
++     if (ctxt == NULL) {
++         fprintf(stderr, "Failed to allocate parser context\n");
++-	return;
+++	return(1);
++     }
++     buf = xmlParserInputBufferCreateStatic(data, sizeof(data),
++                                            XML_CHAR_ENCODING_NONE);
++     if (buf == NULL) {
++         fprintf(stderr, "Failed to allocate input buffer\n");
+++        test_ret = 1;
++ 	goto error;
++     }
++     input = xmlNewInputStream(ctxt);
++     if (input == NULL) {
++         xmlFreeParserInputBuffer(buf);
+++        test_ret = 1;
++ 	goto error;
++     }
++     input->filename = NULL;
++@@ -567,25 +629,28 @@
++ 
++     printf("testing char range: 1");
++     fflush(stdout);
++-    testCharRangeByte1(ctxt, data);
+++    test_ret += testCharRangeByte1(ctxt, data);
++     printf(" 2");
++     fflush(stdout);
++-    testCharRangeByte2(ctxt, data);
+++    test_ret += testCharRangeByte2(ctxt, data);
++     printf(" 3");
++     fflush(stdout);
++-    testCharRangeByte3(ctxt, data);
+++    test_ret += testCharRangeByte3(ctxt, data);
++     printf(" 4");
++     fflush(stdout);
++-    testCharRangeByte4(ctxt, data);
+++    test_ret += testCharRangeByte4(ctxt, data);
++     printf(" done\n");
++     fflush(stdout);
++ 
++ error:
++     xmlFreeParserCtxt(ctxt);
+++    return(test_ret);
++ }
++ 
++ int main(void) {
++ 
+++    int ret = 0;
+++
++     /*
++      * this initialize the library and check potential ABI mismatches
++      * between the version it was compiled for and the actual shared
++@@ -602,8 +667,9 @@
++     /*
++      * Run the tests
++      */
++-    testCharRanges();
++-    testDocumentRanges();
+++    ret += testCharRanges();
+++    ret += testDocumentRanges();
+++    printf("%s: testchar\n\n", (ret == 0) ? "PASS" : "FAIL");
++ 
++     /*
++      * Cleanup function for the XML library.
++diff -uNr a/testdict.c b/testdict.c
++--- a/testdict.c	2013-04-16 15:08:42.971177193 +0200
+++++ b/testdict.c	2013-04-18 15:59:00.699482439 +0200
++@@ -440,5 +440,6 @@
++     clean_strings();
++     xmlCleanupParser();
++     xmlMemoryDump();
+++    printf("%s: testdict\n\n", (ret == 0) ? "PASS" : "FAIL");
++     return(ret);
++ }
++diff -uNr a/testlimits.c b/testlimits.c
++--- a/testlimits.c	2013-04-12 16:16:36.180354177 +0200
+++++ b/testlimits.c	2013-04-17 14:03:17.203092987 +0200
++@@ -1630,5 +1630,6 @@
++     xmlCleanupParser();
++     xmlMemoryDump();
++ 
+++    printf("%s: testlimits\n", (ret == 0) ? "PASS" : "FAIL");
++     return(ret);
++ }
++diff -uNr a/testrecurse.c b/testrecurse.c
++--- a/testrecurse.c	2013-04-16 13:19:49.366536295 +0200
+++++ b/testrecurse.c	2013-04-17 14:06:27.367091622 +0200
++@@ -892,6 +892,7 @@
++ 	    err++;
++ 	}
++     }
+++    printf("%s: %s\n", (err == 0) ? "PASS" : "FAIL", tst->desc);
++     return(err);
++ }
++ 
++@@ -961,5 +962,6 @@
++     xmlCleanupParser();
++     xmlMemoryDump();
++ 
+++    printf("%s: testrecurse\n\n", (ret == 0) ? "PASS" : "FAIL");
++     return(ret);
++ }
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+index a1093ed..fa9c657 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+@@ -1,7 +1,10 @@
+ require libxml2.inc
+ 
+ SRC_URI += "file://libxml2-CVE-2012-2871.patch \
++            http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
+ 	   "
+ 
+-SRC_URI[md5sum] = "9c0cfef285d5c4a5c80d00904ddab380"
+-SRC_URI[sha256sum] = "fd3c64cb66f2c4ea27e934d275904d92cec494a8e8405613780cbc8a71680fdb"
++SRC_URI[libtar.md5sum] = "9c0cfef285d5c4a5c80d00904ddab380"
++SRC_URI[libtar.sha256sum] = "fd3c64cb66f2c4ea27e934d275904d92cec494a8e8405613780cbc8a71680fdb"
++SRC_URI[testtar.md5sum] = "ae3d1ebe000a3972afa104ca7f0e1b4a"
++SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
+-- 
+1.7.10.4
+
 
