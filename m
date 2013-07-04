@@ -1,36 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 19FF76AF00
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 19B426AF53
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 16:21:45 +0000 (UTC)
-Received: by mail-ve0-f178.google.com with SMTP id pb11so1160346veb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 09:21:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=6LAJA2iC+kVMqse3oOsFmVDkLZdtk8tb7nxIZvvPZzE=;
-	b=nLKOV6vgLWkr1taCitmeoydWGzNkOi1T87rPS9lasN/UrnP2iWaeTdccO5CkIbd6lO
-	pe/j7b6QnFP8HDWHAW7kP8k4BE3tpkUxEvnZQ0Iv4LpRihj9gNSVPA9R22GqXWJuU9rG
-	JHI2gsOGFVNGew46kBkGMsxSWa+tLoM4+Q51ZfO0LP3ZWzim8I6XdLxCjJpAA0aut/3P
-	WCtY29nn4JAZWX7ylN5dNCAZd5r5IWfShCQi1CvceX3pJdMOJnLfAc+E04AkOYZpTPQ0
-	tX5Nc1SGNrejSVYwKbDw9mP6JgrgLIPQooKF/9+sdMkUclDVGRZOWD9Z4x5YjuCGekZ0
-	1dBA==
-X-Received: by 10.58.118.70 with SMTP id kk6mr3641632veb.1.1372954906018; Thu,
-	04 Jul 2013 09:21:46 -0700 (PDT)
+	Thu,  4 Jul 2013 17:53:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 04 Jul 2013 10:50:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,996,1363158000"; d="scan'208";a="340569803"
+Received: from unknown (HELO [10.255.13.183]) ([10.255.13.183])
+	by orsmga001.jf.intel.com with ESMTP; 04 Jul 2013 10:53:17 -0700
+Message-ID: <51D5B68D.40809@linux.intel.com>
+Date: Thu, 04 Jul 2013 10:53:17 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 4 Jul 2013 09:21:25 -0700 (PDT)
-In-Reply-To: <3934280.MhQAtor7HF@yiqingliang-pc>
-References: <3934280.MhQAtor7HF@yiqingliang-pc>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Jul 2013 17:21:25 +0100
-Message-ID: <CAJTo0LZnO28pTm_Y=Nzse9c-vu6PNPT3TKd1CtCWYC__+gOLgQ@mail.gmail.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-X-Gm-Message-State: ALoCoQlug9Zok/Q3qSeELfHca9oYsuaEjQc1P9Ay1a4zh0oMtqPEMzs3cl05HQNrnEAxscajips8
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1372950678.git.radu.moisan@intel.com>
+	<CAJTo0LaQGPWUCjJ5=Lnm5DAhdjsA9rSoM0tx2Dp141UKfq7WcA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaQGPWUCjJ5=Lnm5DAhdjsA9rSoM0tx2Dp141UKfq7WcA@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: nativesdk-dbus do_package error
+Subject: Re: [PATCH v2 00/10] Package Upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,25 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 16:21:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Jul 2013 17:53:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 3 July 2013 07:53, Yi Qingliang <niqingliang2003@gmail.com> wrote:
-> ERROR: QA Issue: nativesdk-dbus: Files/directories were installed but not
-> shipped
->   /run
->   /run/dbus
+On 07/04/2013 09:11 AM, Burton, Ross wrote:
+> On 4 July 2013 16:13, Radu Moisan <radu.moisan@intel.com> wrote:
+>> * elfutils: license changed to GPLv3
+>
+> Humpf.  As elfutils disappearing in a no-GPLv3 build will have
+> effects, I expect we'll either want to a) hold back on this or b) have
+> both versions.
+>
+Typically we keep the older version for the non-GPLv3 builds.
 
-I thought we'd deleted that, I'll check later.
+Sau!
 
-> ERROR: QA Issue: Found library in wrong location:
-> /lib/systemd/system/dbus.socket
-> Found library in wrong location:
-> /lib/systemd/system/dbus.target.wants/dbus.socket
-> Found library in wrong location:
-> /lib/systemd/system/sockets.target.wants/dbus.socket
-
-There's a patch on the list for this from Paul, should be merged soon.
-
-Ross
+> Ross
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
