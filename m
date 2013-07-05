@@ -1,30 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A3496AF13
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C57F606AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 02:17:37 +0000 (UTC)
+	Fri,  5 Jul 2013 02:28:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r652HYwp013288
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Jul 2013 19:17:34 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 4 Jul 2013 19:17:33 -0700
-Message-ID: <51D62CDB.3090105@windriver.com>
-Date: Fri, 5 Jul 2013 10:18:03 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r652Sw1T016595
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 4 Jul 2013 19:28:59 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 4 Jul 2013 19:28:58 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 5 Jul 2013 10:29:28 +0800
+Message-ID: <cover.1372991258.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1372819132.git.Qi.Chen@windriver.com>
-	<940ededa8463ccd87790197f33f330d602772f7d.1372819132.git.Qi.Chen@windriver.com>
-	<51D5FE3B.5070306@linux.intel.com>
-In-Reply-To: <51D5FE3B.5070306@linux.intel.com>
-X-Originating-IP: [128.224.162.233]
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] busybox: upgrade to stable 1.21.1
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH V2 0/1] busybox: upgrade to stable 1.21.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 02:17:37 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Jul 2013 02:28:58 -0000
+Content-Type: text/plain
 
-On 07/05/2013 06:59 AM, Saul Wold wrote:
-> On 07/02/2013 07:39 PM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Merged or backported patches are dropped.
->> The wget_dl_dir_fix.patch was submitted more than 1 year ago, it's
->> about the -P option behavior, and it's not accepted, so I dropped
->> this patch too.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   .../poky-tiny/defconfig                            |    0
->>   ...box_1.20.2.bbappend => busybox_1.21.1.bbappend} |    0
-> These two need to go to the meta-yocto (poky@yoctoproject.org).
->
-> Thanks
->    Sau!
-Got it.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-I'll split this patch and send out a V2.
+The following changes since commit 80b263430453896189b704d0997943642eec6fef:
 
-Thanks,
-Chen Qi
+  classes/insane: remove la2 check which no longer exists from ERROR_QA (2013-06-28 16:33:08 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/busybox-upgrade-1.21.1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/busybox-upgrade-1.21.1
+
+Chen Qi (1):
+  busybox: upgrade to stable 1.21.1
+
+ .../busybox/busybox-1.20.2/B921600.patch           |   24 -----
+ .../busybox-1.20.2/busybox-1.20.2-kernel_ver.patch |   28 ------
+ .../busybox-mkfs-minix-tests_bigendian.patch       |   34 -------
+ .../fix-for-spurious-testsuite-failure.patch       |   27 ------
+ .../busybox/busybox-1.20.2/strict-atime.patch      |   49 ----------
+ .../busybox/busybox-1.20.2/sys_resource.patch      |   99 --------------------
+ .../busybox/busybox-1.20.2/wget_dl_dir_fix.patch   |   30 ------
+ .../busybox-appletlib-dependency.patch             |    0
+ ...usybox-list-suid-and-non-suid-app-configs.patch |    0
+ .../busybox-sulogin-empty-root-password.patch      |    0
+ .../busybox-udhcpc-no_deconfig.patch               |    0
+ .../{busybox-1.20.2 => busybox-1.21.1}/defconfig   |    0
+ .../fail_on_no_media.patch                         |    0
+ .../get_header_tar.patch                           |    0
+ .../login-utilities.cfg                            |    0
+ .../run-parts.in.usr-bin.patch                     |    4 +-
+ .../stat-usr-bin.patch                             |    0
+ ...estsuite-du-du-k-works-fix-false-positive.patch |    0
+ .../watch.in.usr-bin.patch                         |    0
+ .../{busybox_1.20.2.bb => busybox_1.21.1.bb}       |   13 +--
+ 20 files changed, 5 insertions(+), 303 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/B921600.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/busybox-1.20.2-kernel_ver.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/busybox-mkfs-minix-tests_bigendian.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/fix-for-spurious-testsuite-failure.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/strict-atime.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/sys_resource.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.20.2/wget_dl_dir_fix.patch
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/busybox-appletlib-dependency.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/busybox-list-suid-and-non-suid-app-configs.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/busybox-sulogin-empty-root-password.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/busybox-udhcpc-no_deconfig.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/defconfig (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/fail_on_no_media.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/get_header_tar.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/login-utilities.cfg (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/run-parts.in.usr-bin.patch (94%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/stat-usr-bin.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/testsuite-du-du-k-works-fix-false-positive.patch (100%)
+ rename meta/recipes-core/busybox/{busybox-1.20.2 => busybox-1.21.1}/watch.in.usr-bin.patch (100%)
+ rename meta/recipes-core/busybox/{busybox_1.20.2.bb => busybox_1.21.1.bb} (75%)
+
+-- 
+1.7.9.5
+
 
