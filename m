@@ -1,19 +1,37 @@
-Return-Path: <"victor@v.mayoralv"@gmail.com>
-Received: from victor-desktop (121.197.217.87.dynamic.jazztel.es
-	[87.217.197.121])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D1426AC48
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f49.google.com (mail-vb0-f49.google.com
+	[209.85.212.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 338FC6AE2A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 12:38:03 +0000 (UTC)
-Received: by victor-desktop (Postfix, from userid 1000)
-	id 1B1A28C073B; Fri,  5 Jul 2013 14:38:03 +0200 (CEST)
-From: vmayoral <v.mayoralv@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 14:38:01 +0200
-Message-Id: <1373027881-3518-1-git-send-email-v.mayoralv@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
+	Fri,  5 Jul 2013 13:07:21 +0000 (UTC)
+Received: by mail-vb0-f49.google.com with SMTP id 12so1662797vbf.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Jul 2013 06:07:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=ZjFx8m7tqw4tVMHabZYfk0uLLXyM7byVxsz+bgjH1QE=;
+	b=a3/oTO3SiVLBpoeACVrtLmnO6P32gTTZrTUSSkSnYK4aP2njAQ0N2O8FhmCr3Aboi+
+	Uk9JSprbdBLuF1Ch8+8J5NqOqjn3kT/6AN6DkTbWO56N8TGpIUTuuiUcflVCUFSIFDcK
+	p9z0dyhhgZxA57GNreYrINS1sQyTZ1cAd/UoD160bemGiSozT4KCGvR6SiKfL1Y4ObBn
+	FAj36LX/NsgV0IKIlmvYxouGeSrGX9Q4APvQIdfvwe8XtflHl2EyoSqUxeRJzHLY/iF3
+	p9kw8jRW3el1kwyufJ51KSNHDk0nH+ed02FleniBn/aJVxGant/EAtI+KEM1iAEeIPBy
+	tIzg==
+X-Received: by 10.220.58.195 with SMTP id i3mr6726718vch.38.1373029642064;
+	Fri, 05 Jul 2013 06:07:22 -0700 (PDT)
 MIME-Version: 1.0
-Cc: victor <v.mayoralv@gmail.com>
-Subject: [PATCH] apr: add apr_cv_mutex_recursive=yes to support meta-ros
+Received: by 10.220.13.144 with HTTP; Fri, 5 Jul 2013 06:07:01 -0700 (PDT)
+In-Reply-To: <320805d249fc97b23828981e8606c2ed0745a66e.1372952884.git.ionutx.radu@intel.com>
+References: <cover.1372952884.git.ionutx.radu@intel.com>
+	<320805d249fc97b23828981e8606c2ed0745a66e.1372952884.git.ionutx.radu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Jul 2013 14:07:01 +0100
+Message-ID: <CAJTo0LaxCqsFZsuDOHTWERapVN_FCfOt=jcCi9xWav4pWAAKWg@mail.gmail.com>
+To: Ionut Radu <ionutx.radu@intel.com>
+X-Gm-Message-State: ALoCoQl9RujWrMAWaeUC0vQ3FPUD5fW2iz0hHMBwnbBl5Q9UT+DoYNn844zb/s6iZacPEz8hY9nQ
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 05/10] libsoup-2.4: Updated from 2.42.1 to 2.43.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,56 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 12:38:03 -0000
+X-List-Received-Date: Fri, 05 Jul 2013 13:07:22 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: victor <v.mayoralv@gmail.com>
+On 5 July 2013 08:10, Ionut Radu <ionutx.radu@intel.com> wrote:
+> Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
+> ---
+>  .../libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.2.bb}       |    4 ++--
 
-By default apr_cv_mutex_recursive in apr is set to "no" and this leads
-to the APRENOTIMPL return value of apr_thread_mutex_create in thread_mutex.c when
-APR_THREAD_MUTEX_NESTED is requested via flags which leads to a deadlock in applications
-using apr, as observed in an application with log4cxx.
+NAK.
 
-This commit adds CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes" to apr_1.4.6.bb
-and removes this variable in powerpc32-linux to address this issue.
+libsoup is GNOME so this is a development release.
 
-We detected this issue while working at the meta-ros project https://github.com/bmwcarit/meta-ros
-(https://github.com/bmwcarit/meta-ros/issues/68)
-
-Signed-off-by: Víctor Mayoral Vilches <v.mayoralv@gmail.com>
----
- meta/recipes-support/apr/apr_1.4.6.bb |    3 +++
- meta/site/powerpc32-linux             |    1 -
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-support/apr/apr_1.4.6.bb
-index 896f79f..ba59639 100644
---- a/meta/recipes-support/apr/apr_1.4.6.bb
-+++ b/meta/recipes-support/apr/apr_1.4.6.bb
-@@ -23,6 +23,9 @@ inherit autotools lib_package binconfig multilib_header
- 
- OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
- 
-+# Added to fix some issues with cmake. Refer to https://github.com/bmwcarit/meta-ros/issues/68#issuecomment-19896928
-+CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
-+
- do_configure_prepend() {
- 	cd ${S}
- 	./buildconf
-diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index 4550df3..b3973c9 100644
---- a/meta/site/powerpc32-linux
-+++ b/meta/site/powerpc32-linux
-@@ -203,7 +203,6 @@ apr_cv_use_lfs64=${apr_cv_use_lfs64=yes}
- apr_cv_epoll=${apr_cv_epoll=yes}
- apr_cv_pthreads_cflags=${apr_cv_pthreads_cflags=-pthread}
- apr_cv_pthreads_lib=${apr_cv_pthreads_lib=-lpthread}
--apr_cv_mutex_recursive=${apr_cv_mutex_recursive=yes}
- ac_cv_func_mmap=${ac_cv_func_mmap=yes}
- ac_cv_file__dev_zero=${ac_cv_file__dev_zero=yes}
- ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
--- 
-1.7.9.5
-
+Ross
 
