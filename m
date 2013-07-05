@@ -1,34 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 85AFC62240
+Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E7E016B011
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 01:28:19 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id m14so1157052eaj.30
+	Fri,  5 Jul 2013 01:28:56 +0000 (UTC)
+Received: by mail-ea0-f173.google.com with SMTP id g15so1152688eak.18
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 18:28:20 -0700 (PDT)
+	Thu, 04 Jul 2013 18:28:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ORy1vJOeLQXepbh/gldAoBtD6s1f+c9SVWOA+lKfI2A=;
-	b=VhSYNwTKR9nFkb9KjCZk0QuJsPLLV+bKN2gVlnnRBZN+UkREKnwxbOgtqo5tYJpydo
-	xgztWslZ7CB7p+CgN90trzWs7G5776qvskhZY2EpM6IP4I4mAFRt+Bml3eBa1nPG+XPm
-	XS/6YMJBIh8TvVhfvrklasFqULsZGO+aXrdYcUz/aVb2dWkMMjgVyu2WN28wdPB47Y6t
-	6aK9UL7uFo6gbkfA6nya59+PmWJj77BtWHCikGFWGY0/KokN/tT5Q75KxUOldMDNTgZa
-	WpPsq4BIsEhMWI3dqcWxEgLt2UtNarGFzrkhEx9ad0YrAD7/yT4hgvbua1kPY9kTshVB
-	K42g==
-X-Received: by 10.14.48.77 with SMTP id u53mr9118718eeb.154.1372987700028;
-	Thu, 04 Jul 2013 18:28:20 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=NzO+PyygBvypfZ03XNsq53sCMONHLPRt9aX0SZQ2yTY=;
+	b=DqCr9GKkqkeazqFX/UqFEzGDZtjhVYffmsp546Ap4BHBQ3knIa+2ofdbiFhKPZKFi2
+	JkWCEfPx6sw7V5MO8oVjXrWYm2jF1ntmTgwwwD2+HBQjb+VPpYM6oyDp04MkJKnjeUb9
+	j+aoP1KYwCxst90IwGOvtOBE6RRprWFe4xq0v+FchA6/YNuH2GO8lQy4WIshHTnMjrVI
+	phHuVMdfpsdoOMyNmiB+8vkJHYHdr4vniz/avEQiL+NlOYcqlH8Fgdug0IPBxZxC+iWU
+	NQZxK1AGEwm6xGAD0akGTR6PctAK1crUmx+moQkNeZBvV2VM29rm6GjWfDYNQ8f+eiXi
+	ZKuA==
+X-Received: by 10.14.29.69 with SMTP id h45mr9344290eea.127.1372987737490;
+	Thu, 04 Jul 2013 18:28:57 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	n42sm9597067eeh.15.2013.07.04.18.28.18 for <multiple recipients>
+	m1sm9577441eex.17.2013.07.04.18.28.56 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Jul 2013 18:28:19 -0700 (PDT)
+	Thu, 04 Jul 2013 18:28:56 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 03:28:21 +0200
-Message-Id: <cover.1372987648.git.Martin.Jansa@gmail.com>
+Date: Fri,  5 Jul 2013 03:28:53 +0200
+Message-Id: <ccac3e9b6e275858355dff498555a1bdbbfb1052.1372987648.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
-Subject: [PATCH 0/8] Missing deps discovered in per-recipe builds
+In-Reply-To: <cover.1372987648.git.Martin.Jansa@gmail.com>
+References: <cover.1372987648.git.Martin.Jansa@gmail.com>
+Subject: [PATCH 1/8] (lib)telepathy*: add missing dependency on libxslt-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,66 +43,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 01:28:19 -0000
+X-List-Received-Date: Fri, 05 Jul 2013 01:28:57 -0000
 
-I was using simple script to build each component alone:
+* do_configure fails without:
+  | configure:13590: error: xsltproc (from the libxslt source package) is required
 
-#!/bin/bash
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-connectivity/telepathy/libtelepathy_0.3.3.bb             | 2 +-
+ meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb          | 3 +--
+ meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb          | 3 +--
+ .../telepathy/telepathy-mission-control_5.14.0.bb                     | 4 +---
+ meta/recipes-connectivity/telepathy/telepathy-python_0.15.19.bb       | 1 +
+ 5 files changed, 5 insertions(+), 8 deletions(-)
 
-rm -rf tmp-eglibc/abi_version tmp-eglibc/buildstats tmp-eglibc/cache tmp-eglibc/deploy tmp-eglibc/log tmp-eglibc/pkgdata pseudodone tmp-eglibc/saved_tmpdir tmp-eglibc/sstate-control tmp-eglibc/stamps tmp-eglibc/sysroots tmp-eglibc/work-shared tmp-eglibc/work/*
-rm -rf log.*
-
-ls -d buildhistory/packages/*/* | xargs -n 1 basename | sort -u > component.list
-ncomponents=`cat component.list | wc -l`
-i=1
-for component in `cat component.list`; do
-  echo "Building component: ${component} ($i/$ncomponents)"
-  bitbake -c cleansstate ${component} | tee log.${component};
-  bitbake ${component} | tee -a log.${component};
-  rm -rf tmp-eglibc/abi_version tmp-eglibc/buildstats tmp-eglibc/cache tmp-eglibc/deploy tmp-eglibc/log tmp-eglibc/pkgdata pseudodone tmp-eglibc/saved_tmpdir tmp-eglibc/sstate-control tmp-eglibc/stamps tmp-eglibc/sysroots tmp-eglibc/work-shared tmp-eglibc/work/*
-  i=`expr $i + 1`
-done
-grep "NOTE: Tasks Summary: Attempted.*failed.$" log.*
-
-That should cover missing mandatory dependencies.
-Comparing depends.dot files in buildhistory between incremental build and this per-component build should detect at least some autodetected dependencies. In per-component builds it can find only libraries already included in dependency tree, so dependencies lost in buildhistory aren't deterministic.
-Even better would be to run per-component build once after building world without removing tmp-eglibc, that will allow components to autodetect all possible libraries and then run another per-component build with removing tmp-eglibc which allows to detect libraries from dependency-tree.
-
-
-The following changes since commit 3e1dbabbf33a2e461abc92ff10cd970fe604ee38:
-
-  sysstat: backport a patch to fix a parallel building error (2013-07-02 07:58:10 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib jansa/deps
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/deps
-
-Martin Jansa (8):
-  (lib)telepathy*: add missing dependency on libxslt-native
-  gst-plugins-bad: inherit gsettings
-  gst-plugins-base: add missing dependency on glib-2.0-native
-  taglib: add missing dependency on zlib
-  quota: inherit pkgconfig
-  libpam: inherit pkgconfig
-  systemtap: inherit pkgconfig
-  eglibc-locale: add missing dependency on
-    virtual/${TARGET_PREFIX}binutils
-
- meta/recipes-connectivity/telepathy/libtelepathy_0.3.3.bb            | 2 +-
- meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb         | 3 +--
- meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb         | 3 +--
- .../telepathy/telepathy-mission-control_5.14.0.bb                    | 4 +---
- meta/recipes-connectivity/telepathy/telepathy-python_0.15.19.bb      | 1 +
- meta/recipes-core/eglibc/eglibc-locale.inc                           | 5 +++++
- meta/recipes-extended/pam/libpam_1.1.6.bb                            | 2 +-
- meta/recipes-extended/quota/quota_4.01.bb                            | 2 +-
- meta/recipes-kernel/systemtap/systemtap_git.bb                       | 2 +-
- meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb         | 2 +-
- meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb        | 2 +-
- meta/recipes-support/taglib/taglib_1.8.bb                            | 2 ++
- 12 files changed, 17 insertions(+), 13 deletions(-)
-
+diff --git a/meta/recipes-connectivity/telepathy/libtelepathy_0.3.3.bb b/meta/recipes-connectivity/telepathy/libtelepathy_0.3.3.bb
+index 7d0ef79..f13e709 100644
+--- a/meta/recipes-connectivity/telepathy/libtelepathy_0.3.3.bb
++++ b/meta/recipes-connectivity/telepathy/libtelepathy_0.3.3.bb
+@@ -4,7 +4,7 @@ communication, including instant messaging, voice calls and video calls.  It \
+ abstracts differences between protocols to provide a unified interface for \
+ applications."
+ HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
+-DEPENDS = "glib-2.0 dbus dbus-glib telepathy-glib"
++DEPENDS = "glib-2.0 dbus dbus-glib telepathy-glib libxslt-native"
+ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://src/tp-conn.c;beginline=1;endline=19;md5=4c58069f77d601cc59200bce5396c7cb"
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb b/meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb
+index a0c3103..85071c0 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb
+@@ -1,9 +1,8 @@
+ SUMMARY = "Telepathy Framework glib-base helper library"
+ DESCRIPTION = "Telepathy Framework: GLib-based helper library for connection managers"
+ HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
+-DEPENDS = "glib-2.0 dbus python-native-runtime dbus-native dbus-glib"
++DEPENDS = "glib-2.0 dbus python-native-runtime dbus-native dbus-glib libxslt-native"
+ LICENSE = "LGPLv2.1+"
+-PR = "r0"
+ 
+ SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-glib/${BPN}-${PV}.tar.gz \
+            file://pkgconfig.patch"
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb b/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb
+index 02250ea..4edcb3b 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb
+@@ -1,11 +1,10 @@
+ SUMMARY = "Telepathy IRC connection manager"
+ DESCRIPTION = "Telepathy implementation of the Internet Relay Chat protocols."
+ HOMEPAGE = "http://telepathy.freedesktop.org/wiki/"
+-DEPENDS = "glib-2.0 dbus telepathy-glib openssl"
++DEPENDS = "glib-2.0 dbus telepathy-glib openssl libxslt-native"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://src/idle.c;beginline=1;endline=19;md5=b06b1e2594423111a1a7910b0eefc7f9"
+-PR = "r0"
+ 
+ SRC_URI = "http://telepathy.freedesktop.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
+            file://fix-svc-gtk-doc.h-target.patch"
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+index b758dd9..23e4c97 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.14.0.bb
+@@ -4,12 +4,10 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499 \
+                     file://src/request.h;beginline=1;endline=21;md5=f80534d9af1c33291b3b79609f196eb2"
+ SECTION = "libs"
+-DEPENDS = "libtelepathy dbus-glib gconf"
++DEPENDS = "libtelepathy dbus-glib gconf libxslt-native"
+ 
+ SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
+ 
+-PR = "r0"
+-
+ inherit autotools pkgconfig pythonnative
+ 
+ PACKAGES =+ " \
+diff --git a/meta/recipes-connectivity/telepathy/telepathy-python_0.15.19.bb b/meta/recipes-connectivity/telepathy/telepathy-python_0.15.19.bb
+index f83bb2c..5a02d81 100644
+--- a/meta/recipes-connectivity/telepathy/telepathy-python_0.15.19.bb
++++ b/meta/recipes-connectivity/telepathy/telepathy-python_0.15.19.bb
+@@ -4,6 +4,7 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://src/utils.py;beginline=1;endline=17;md5=9a07d1a9791a7429a14e7b25c6c86822"
+ 
++DEPENDS = "libxslt-native"
+ RDEPENDS_${PN} += "python-dbus"
+ 
+ SRC_URI = "http://telepathy.freedesktop.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
 -- 
 1.8.2.1
 
