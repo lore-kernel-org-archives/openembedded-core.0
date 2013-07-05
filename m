@@ -1,37 +1,17 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6563B6AF97
+Return-Path: <noor_ahsan@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id C5E866AD81
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 13:13:52 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id ha12so1643271vcb.35
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jul 2013 06:13:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=hU6ekpjwb19tGQg1wHVdiejhdR27X57GJDsaMOKu74A=;
-	b=QxTLoneIfOzk8+exCjmoUpD0FP+8cyc+PCCs9A2zxFiuyDyli1IguZInFbTfeTGgCa
-	N6bsXGM93cshWyPem6yC5a3UISiyIz6nyYMpx+q66TE7gc0eIduttkCI7Atdg62IX0nS
-	AUY+VyqNtho3AbE2uAvvmfNovuhye9iRp0czQ69bxwjvSJhhlQrOluzpNeTOjSBw2VbY
-	5zAZMEfe8ES8DB7wPDCkNZ4uq/644MphuXESaKTuIZxvlDG82pqBPSkpS2Hf/1OFlFl4
-	HfNwdgLhD/v8G6l7khqVMulhlDf0Lz1DtLKKxcfy7tbxySZRasAhja+KmkLdVOaqCXTW
-	GTOQ==
-X-Received: by 10.58.181.225 with SMTP id dz1mr6669916vec.95.1373030032178;
-	Fri, 05 Jul 2013 06:13:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Fri, 5 Jul 2013 06:13:32 -0700 (PDT)
-In-Reply-To: <680c48c97e528b9e76c739ef5d9fb6147cbdc645.1372952884.git.ionutx.radu@intel.com>
-References: <cover.1372952884.git.ionutx.radu@intel.com>
-	<680c48c97e528b9e76c739ef5d9fb6147cbdc645.1372952884.git.ionutx.radu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Jul 2013 14:13:32 +0100
-Message-ID: <CAJTo0Laoc1HviNY=kMpKFr4Do3iHB2F30tHy7+q49KRC-Fn7ug@mail.gmail.com>
-To: Ionut Radu <ionutx.radu@intel.com>
-X-Gm-Message-State: ALoCoQmSOTGx9MTEzQmm2PE/0aKASM+F5lzBSs37b44SAiwKZIPqTdlZYPw/EWlZo18bFqmdgFUU
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 09/10] freetype: Updated from 2.4.12 to 2.5.0
+	Fri,  5 Jul 2013 14:03:44 +0000 (UTC)
+Received: from pkl-ahsann-ubuntu.mgc.mentorg.com ([137.202.157.70])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r65E3gH4008064; 
+	Fri, 5 Jul 2013 09:03:43 -0500
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Jul 2013 19:03:38 +0500
+Message-Id: <1373033018-20615-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] lighttpd: Add systemd support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,18 +24,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 13:13:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Jul 2013 14:03:45 -0000
 
-On 5 July 2013 08:10, Ionut Radu <ionutx.radu@intel.com> wrote:
->  .../freetype/{freetype_2.4.12.bb => freetype_2.5.0.bb}           |    6 ++----
+From: Noor <noor_ahsan@mentor.com>
 
-Upstream says:
+* Enable lighttpd with systemd support.
+* Replace the hardcoded paths with sbindir, sysconfdir and base_bindir
 
-"Please download the 2.5.0.1 bundle of the FreeType library which
-fixes a packaging error."
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+---
+ .../lighttpd/files/lighttpd.service                |   12 ++++++++++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   24 ++++++++++++++++----
+ 2 files changed, 32 insertions(+), 4 deletions(-)
 
-So please update this for 2.5.0.1.
+diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/files/lighttpd.service
+new file mode 100644
+index 0000000..a5333b6
+--- /dev/null
++++ b/meta/recipes-extended/lighttpd/files/lighttpd.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=Lightning Fast Webserver With Light System Requirements
++After=network.target
++
++[Service]
++ExecStartPre=/usr/sbin/lighttpd -t -f /etc/lighttpd.conf
++ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd.conf
++ExecReload=/bin/kill -HUP $MAINPID
++
++[Install]
++WantedBy=multi-user.target
++
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+index df6ce97..3c03938 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://index.html.lighttpd \
+         file://lighttpd.conf \
+         file://lighttpd \
++        file://lighttpd.service \
+         "
+ 
+ SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
+@@ -39,19 +40,34 @@ EXTRA_OECONF = " \
+              --disable-static \
+ "
+ 
+-inherit autotools pkgconfig update-rc.d gettext
++inherit autotools pkgconfig update-rc.d gettext systemd
+ 
+ INITSCRIPT_NAME = "lighttpd"
+ INITSCRIPT_PARAMS = "defaults 70"
+ 
++SYSTEMD_SERVICE_${PN} = "lighttpd.service"
++SYSTEMD_AUTO_ENABLE = "disable"
++
++
+ do_install_append() {
+-    install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
+-    install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
++    
++    install -d ${D}${sysconfdir} ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
+     install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
+     install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
++    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
++        install -d ${D}${sysconfdir}/init.d
++        install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
++    else
++        install -d ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
++        sed -i 's!/usr/sbin!${sbindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
++        sed -i 's!/etc!${sysconfdir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
++        sed -i 's!/bin!${base_bindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
++    fi
++
+ }
+ 
+-FILES_${PN} += "${sysconfdir} /www"
++FILES_${PN} += "${sysconfdir} /www ${systemd_unitdir}"
+ 
+ CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
+ 
+-- 
+1.7.9.5
 
-Ross
 
