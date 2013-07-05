@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 56BAB6B046
+Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 627556AFF4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 01:29:09 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id m14so1135955eaj.16
+	Fri,  5 Jul 2013 01:29:11 +0000 (UTC)
+Received: by mail-ea0-f181.google.com with SMTP id a15so1162264eae.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 18:29:10 -0700 (PDT)
+	Thu, 04 Jul 2013 18:29:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=Bb4r2+1Fas6fFprTVlPFg+N798g9R6qgoCIa+T7xlos=;
-	b=SqozPqjY7t900LRXcB9URfq3oSgViQ3rXhO02mqXEjooxbp6yuWdj6I4iv01m/Pq2J
-	ZfcNH0NyJmBstHpaREwIGiIDNt5mqeuTw4ICctW+SuqWUMt9kA2wDSmwrKf6ErJRO+Ng
-	/Jnyo7yGcl4N/MIUJBGK9r72nR8Fq6lqPsWuAEztqSpLvApHcAVC/XVbG1a6Gdfjiwtw
-	vgiNmBoaFIjiUqRVI8anAnhTOQAWpjBCj9fY8EqMd7LjVC+3w4oqCVhlHWqb1dTmBQ1+
-	RpIpFYdAtvROdnQzytvYEzkfkH2Osmb1eoSiWW0pLMbqper8qa5q6m6bdYXSkUHiRHs8
-	x4bg==
-X-Received: by 10.14.100.2 with SMTP id y2mr9448433eef.75.1372987750006;
-	Thu, 04 Jul 2013 18:29:10 -0700 (PDT)
+	bh=9EsG7kTtjXjq59/47Uh1Kvob1B1oxYxWfZPzKf2oAqQ=;
+	b=jFHGUdnx8Bad5pq7RMJSAME1tS316LwfAs3u2/Q+ETEvIrFTFRIb6cgCZH+j/jW1uD
+	JkOtWCDk38ZQ94Posa/0M+RAL72wXPujRbRIs/MNVXSjsf73W2Rm9JHenk/sDK0a6Nzh
+	6nmatZ0M9+HZKWiN2W6hQYacBzjJV7I9EnDYvkJqxI6i/nS///leh75vtXDGwOxyna23
+	vW+oJXckQ7fRp76nlyP2Ftp05aeXjkMhePjR400pWOdqAYAWgZFxlyod8dUGHLJsa0hj
+	lzWuKKqDI/EFpReXaEy1kraXIFPvF9GXPO/10j3+1hZXVw9yFf2XHB4GOh7cN04O/Zu1
+	FEIA==
+X-Received: by 10.15.31.9 with SMTP id x9mr9332794eeu.103.1372987752175;
+	Thu, 04 Jul 2013 18:29:12 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	c44sm9696420eeb.8.2013.07.04.18.29.08 for <multiple recipients>
+	e44sm9654587eeh.11.2013.07.04.18.29.10 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Jul 2013 18:29:09 -0700 (PDT)
+	Thu, 04 Jul 2013 18:29:11 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 03:28:59 +0200
-Message-Id: <0d3edd636b75d8348d7c59334a0afdce5efe13fd.1372987648.git.Martin.Jansa@gmail.com>
+Date: Fri,  5 Jul 2013 03:29:00 +0200
+Message-Id: <f74731158fdfcc9399a32a4e1616652fad1a512d.1372987648.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
 In-Reply-To: <ccac3e9b6e275858355dff498555a1bdbbfb1052.1372987648.git.Martin.Jansa@gmail.com>
 References: <ccac3e9b6e275858355dff498555a1bdbbfb1052.1372987648.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1372987648.git.Martin.Jansa@gmail.com>
 References: <cover.1372987648.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 7/8] systemtap: inherit pkgconfig
+Subject: [PATCH 8/8] eglibc-locale: add missing dependency on virtual/${TARGET_PREFIX}binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 01:29:09 -0000
+X-List-Received-Date: Fri, 05 Jul 2013 01:29:11 -0000
 
-* systemtap-native was failing with undefined AC_DEFINE
-  configure.ac:56: error: possibly undefined macro: AC_DEFINE
-      If this token and others are legitimate, please use m4_pattern_allow.
-      See the Autoconf documentation.
+* eglibc-collateral.inc inhibits all default deps, but do_package needs
+  objcopy:
+  ERROR: objcopy failed with exit code 127 (cmd was
+  'i586-webos-linux-objcopy' --only-keep-debug
+  'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so'
+  'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
+  ERROR: Function failed: split_and_strip_files
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/eglibc/eglibc-locale.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 22f8959..9bba5a9 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -20,7 +20,7 @@ STAP_DOCS ?= "--disable-docs --disable-publican --disable-refdocs"
+diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-core/eglibc/eglibc-locale.inc
+index f4cb814..fc51022 100644
+--- a/meta/recipes-core/eglibc/eglibc-locale.inc
++++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+@@ -5,6 +5,11 @@ SUMMARY = "Locale data from eglibc"
+ BPN = "eglibc"
+ LOCALEBASEPN = "${MLPREFIX}eglibc"
  
- EXTRA_OECONF += "${STAP_DOCS} "
- 
--inherit autotools gettext
-+inherit autotools gettext pkgconfig
- 
- BBCLASSEXTEND = "native nativesdk"
- 
++# eglibc-collateral.inc inhibits all default deps, but do_package needs objcopy
++# ERROR: objcopy failed with exit code 127 (cmd was 'i586-webos-linux-objcopy' --only-keep-debug 'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so' 'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
++# ERROR: Function failed: split_and_strip_files
++DEPENDS = "virtual/${TARGET_PREFIX}binutils"
++
+ # Binary locales are generated at build time if ENABLE_BINARY_LOCALE_GENERATION
+ # is set. The idea is to avoid running localedef on the target (at first boot)
+ # to decrease initial boot time and avoid localedef being killed by the OOM
 -- 
 1.8.2.1
 
