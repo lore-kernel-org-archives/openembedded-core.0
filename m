@@ -1,34 +1,34 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id DA3B06077D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 85AFC62240
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2013 23:33:21 +0000 (UTC)
-Received: by mail-ee0-f48.google.com with SMTP id b47so1019759eek.7
+	Fri,  5 Jul 2013 01:28:19 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id m14so1157052eaj.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2013 16:33:22 -0700 (PDT)
+	Thu, 04 Jul 2013 18:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=QbHKpVlyF936IOlRWcUDXRE+bee7njWzv0jCgZU0Ros=;
-	b=NSn2s6eph8w1JATOmcbhhQo1PbkenpAes04uM3DbgmpeNnDfl9RvYhhhvxO1swTLvG
-	YDPFka3l98pvXxO50YAEx43kUPiXVU/RcAfLEgGL3r065MKC8vnbNR5Tnpca79dotOrm
-	UCv4Jp+3FfUUVAVqEc3V/Ci6mvMI3pNAjc+kdQdUVv2si8bOpDHuHpmx87o0UNEUuy5I
-	1FyN0o7TFjTZRlAzViB2OmP8TUdYOuU2utxwQ3z0Sz9vlyMdgdWboq1Yb3k2oOaEz2Oj
-	BAjjM5lvflJ8e15bXtZZGvCoylplqz/AW7MtA8Mp9aBgLnNr4Hnv8kF80DHTM2650aum
-	9V6A==
-X-Received: by 10.14.211.67 with SMTP id v43mr9211352eeo.55.1372980801846;
-	Thu, 04 Jul 2013 16:33:21 -0700 (PDT)
-Received: from ubuntu.datv.net ([213.174.0.226])
-	by mx.google.com with ESMTPSA id a4sm9202000eez.0.2013.07.04.16.33.20
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 04 Jul 2013 16:33:21 -0700 (PDT)
-From: Yevhen Kyriukha <kirgene@gmail.com>
+	bh=ORy1vJOeLQXepbh/gldAoBtD6s1f+c9SVWOA+lKfI2A=;
+	b=VhSYNwTKR9nFkb9KjCZk0QuJsPLLV+bKN2gVlnnRBZN+UkREKnwxbOgtqo5tYJpydo
+	xgztWslZ7CB7p+CgN90trzWs7G5776qvskhZY2EpM6IP4I4mAFRt+Bml3eBa1nPG+XPm
+	XS/6YMJBIh8TvVhfvrklasFqULsZGO+aXrdYcUz/aVb2dWkMMjgVyu2WN28wdPB47Y6t
+	6aK9UL7uFo6gbkfA6nya59+PmWJj77BtWHCikGFWGY0/KokN/tT5Q75KxUOldMDNTgZa
+	WpPsq4BIsEhMWI3dqcWxEgLt2UtNarGFzrkhEx9ad0YrAD7/yT4hgvbua1kPY9kTshVB
+	K42g==
+X-Received: by 10.14.48.77 with SMTP id u53mr9118718eeb.154.1372987700028;
+	Thu, 04 Jul 2013 18:28:20 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	n42sm9597067eeh.15.2013.07.04.18.28.18 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 04 Jul 2013 18:28:19 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 02:31:14 +0300
-Message-Id: <1372980674-42981-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH v8] systemd: added python-systemd package generation.
+Date: Fri,  5 Jul 2013 03:28:21 +0200
+Message-Id: <cover.1372987648.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.2.1
+Subject: [PATCH 0/8] Missing deps discovered in per-recipe builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,99 +41,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2013 23:33:22 -0000
+X-List-Received-Date: Fri, 05 Jul 2013 01:28:19 -0000
 
----
- meta/recipes-core/systemd/systemd_204.bb |   24 +++++++++++++++++++-----
- 1 file changed, 19 insertions(+), 5 deletions(-)
+I was using simple script to build each component alone:
 
-diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
-index b8b1290..2a6ed0c 100644
---- a/meta/recipes-core/systemd/systemd_204.bb
-+++ b/meta/recipes-core/systemd/systemd_204.bb
-@@ -13,9 +13,16 @@ PE = "1"
- DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl readline dbus libcap libcgroup glib-2.0 qemu-native util-linux"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
-+# need to export these variables for python-config to work
-+export BUILD_SYS
-+export HOST_SYS
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
-+
- SECTION = "base/shell"
- 
--inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu
-+inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu \
-+        ${@base_contains('DISTRO_FEATURES', 'python', 'pythonnative python-dir', '', d)}
- 
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://touchscreen.rules \
-@@ -42,7 +49,8 @@ LDFLAGS_libc-uclibc_append = " -lrt"
- 
- GTKDOC_DOCDIR = "${S}/docs/"
- 
--PACKAGECONFIG ??= "xz tcp-wrappers"
-+PACKAGECONFIG ??= "xz tcp-wrappers \
-+                   ${@base_contains('DISTRO_FEATURES', 'python', 'python', '', d)}"
- # Sign the journal for anti-tampering
- PACKAGECONFIG[gcrypt] = "--enable-gcrypt,--disable-gcrypt,libgcrypt"
- # regardless of PACKAGECONFIG, libgcrypt is always required to expand
-@@ -51,6 +59,8 @@ DEPENDS += "libgcrypt"
- # Compress the journal
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
- PACKAGECONFIG[tcp-wrappers] = "--enable-tcpwrap,--disable-tcpwrap,tcp-wrappers"
-+# Use python-systemd
-+PACKAGECONFIG[python] = "--with-python,--without-python,python"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
-@@ -71,7 +81,6 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
-                  --disable-tcpwrap \
-                  --enable-split-usr \
-                  --disable-microhttpd \
--                 --without-python \
-                  --with-sysvrcnd-path=${sysconfdir} \
-                  --with-firmware-path=/lib/firmware \
-                  ac_cv_path_KILL=${base_bindir}/kill \
-@@ -93,6 +102,8 @@ do_install() {
- 	# Provided by a separate recipe
- 	rm ${D}${systemd_unitdir}/system/serial-getty* -f
- 
-+	rm -f ${D}${PYTHON_SITEPACKAGES_DIR}/systemd/*.la
-+
- 	# Provide support for initramfs
- 	ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
- 	ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
-@@ -121,7 +132,7 @@ python populate_packages_prepend (){
- }
- PACKAGES_DYNAMIC += "^lib(udev|gudev|systemd).*"
- 
--PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install"
-+PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install python-${PN}"
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "-r lock; -r systemd-journal"
-@@ -131,6 +142,9 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
- FILES_${PN}-initramfs = "/init"
- RDEPENDS_${PN}-initramfs = "${PN}"
- 
-+FILES_python-${PN} = "${PYTHON_SITEPACKAGES_DIR}/systemd/*.py* ${PYTHON_SITEPACKAGES_DIR}/systemd/*.so"
-+RDEPENDS_python-${PN} = "python-core python-datetime python-logging python-syslog"
-+
- FILES_${PN}-gui = "${bindir}/systemadm"
- 
- FILES_${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
-@@ -187,7 +201,7 @@ FILES_${PN} = " ${base_bindir}/* \
-                 /lib/udev/rules.d/99-systemd.rules \
-                "
- 
--FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
-+FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/ ${PYTHON_SITEPACKAGES_DIR}/systemd/.debug"
- FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ ${sysconfdir}/rpm/macros.systemd"
- 
- RDEPENDS_${PN} += "dbus util-linux-mount"
+#!/bin/bash
+
+rm -rf tmp-eglibc/abi_version tmp-eglibc/buildstats tmp-eglibc/cache tmp-eglibc/deploy tmp-eglibc/log tmp-eglibc/pkgdata pseudodone tmp-eglibc/saved_tmpdir tmp-eglibc/sstate-control tmp-eglibc/stamps tmp-eglibc/sysroots tmp-eglibc/work-shared tmp-eglibc/work/*
+rm -rf log.*
+
+ls -d buildhistory/packages/*/* | xargs -n 1 basename | sort -u > component.list
+ncomponents=`cat component.list | wc -l`
+i=1
+for component in `cat component.list`; do
+  echo "Building component: ${component} ($i/$ncomponents)"
+  bitbake -c cleansstate ${component} | tee log.${component};
+  bitbake ${component} | tee -a log.${component};
+  rm -rf tmp-eglibc/abi_version tmp-eglibc/buildstats tmp-eglibc/cache tmp-eglibc/deploy tmp-eglibc/log tmp-eglibc/pkgdata pseudodone tmp-eglibc/saved_tmpdir tmp-eglibc/sstate-control tmp-eglibc/stamps tmp-eglibc/sysroots tmp-eglibc/work-shared tmp-eglibc/work/*
+  i=`expr $i + 1`
+done
+grep "NOTE: Tasks Summary: Attempted.*failed.$" log.*
+
+That should cover missing mandatory dependencies.
+Comparing depends.dot files in buildhistory between incremental build and this per-component build should detect at least some autodetected dependencies. In per-component builds it can find only libraries already included in dependency tree, so dependencies lost in buildhistory aren't deterministic.
+Even better would be to run per-component build once after building world without removing tmp-eglibc, that will allow components to autodetect all possible libraries and then run another per-component build with removing tmp-eglibc which allows to detect libraries from dependency-tree.
+
+
+The following changes since commit 3e1dbabbf33a2e461abc92ff10cd970fe604ee38:
+
+  sysstat: backport a patch to fix a parallel building error (2013-07-02 07:58:10 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/deps
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/deps
+
+Martin Jansa (8):
+  (lib)telepathy*: add missing dependency on libxslt-native
+  gst-plugins-bad: inherit gsettings
+  gst-plugins-base: add missing dependency on glib-2.0-native
+  taglib: add missing dependency on zlib
+  quota: inherit pkgconfig
+  libpam: inherit pkgconfig
+  systemtap: inherit pkgconfig
+  eglibc-locale: add missing dependency on
+    virtual/${TARGET_PREFIX}binutils
+
+ meta/recipes-connectivity/telepathy/libtelepathy_0.3.3.bb            | 2 +-
+ meta/recipes-connectivity/telepathy/telepathy-glib_0.20.1.bb         | 3 +--
+ meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb         | 3 +--
+ .../telepathy/telepathy-mission-control_5.14.0.bb                    | 4 +---
+ meta/recipes-connectivity/telepathy/telepathy-python_0.15.19.bb      | 1 +
+ meta/recipes-core/eglibc/eglibc-locale.inc                           | 5 +++++
+ meta/recipes-extended/pam/libpam_1.1.6.bb                            | 2 +-
+ meta/recipes-extended/quota/quota_4.01.bb                            | 2 +-
+ meta/recipes-kernel/systemtap/systemtap_git.bb                       | 2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb         | 2 +-
+ meta/recipes-multimedia/gstreamer/gst-plugins-base_0.10.36.bb        | 2 +-
+ meta/recipes-support/taglib/taglib_1.8.bb                            | 2 ++
+ 12 files changed, 17 insertions(+), 13 deletions(-)
+
 -- 
-1.7.9.5
+1.8.2.1
 
 
