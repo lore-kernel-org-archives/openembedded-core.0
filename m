@@ -1,40 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B6AF6AF9A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 22:43:06 +0000 (UTC)
-Received: by mail-ea0-f174.google.com with SMTP id o10so1726020eaj.33
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jul 2013 15:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=NOPDm1qobgO3y5adhe+/fJdyZwEqV0hJOQwJFlU0Rqg=;
-	b=hMHu8mmasZ2mllO7rwNxYl3hkBfLyjnh7PZLxpSGX0UVWqhwTelw/O1gMqKFBGlUI6
-	QZvqVgeXUWou0MPHyqwF4uUX+rwKDKmIHPY54QkAbFF309s2x+dKXRkBtXdB+XJTtE8D
-	UBbd10MOFJ1iEryNFHgThvim42/9mpa87+rfLFkPUuCdDOQCL/HzDxF++cvnE3B5U6+X
-	sQgQbMy99KsT7Rhc5+yTbiigJ65Y7sUPEEtJs2Wb/JnFcy+yBE0EQbVqmcFjW2GZQ1+i
-	b+xNHgHOWLxsdXxAEZgs5TAmdfLeMIyRVwfJ6OxkU0RETZ80nYQzdH0ILBG0XbcRSSB1
-	TDXA==
-X-Received: by 10.14.172.194 with SMTP id t42mr14365160eel.78.1373064186431;
-	Fri, 05 Jul 2013 15:43:06 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	e44sm17939217eeh.11.2013.07.05.15.43.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 05 Jul 2013 15:43:05 -0700 (PDT)
-Date: Sat, 6 Jul 2013 00:43:11 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130705224311.GA3288@jama>
-References: <cover.1372987648.git.Martin.Jansa@gmail.com>
-	<f74731158fdfcc9399a32a4e1616652fad1a512d.1372987648.git.Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <f74731158fdfcc9399a32a4e1616652fad1a512d.1372987648.git.Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [PATCH 8/8] eglibc-locale: add missing dependency on virtual/${TARGET_PREFIX}binutils
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E6D26A465;
+	Fri,  5 Jul 2013 23:47:04 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UvFiR-0005rl-8z; Sat, 06 Jul 2013 01:47:03 +0200
+Message-ID: <1373068016.2074.72.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-members@lists.openembedded.org
+Date: Sat, 06 Jul 2013 00:46:56 +0100
+In-Reply-To: <1371572589.20823.143.camel@ted>
+References: <1371572589.20823.143.camel@ted>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: tsc <tsc@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE, the TSC and the future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,87 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 22:43:06 -0000
-X-Groupsio-MsgNum: 41541
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="7JfCtLOvnd9MIVvH"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 05 Jul 2013 23:47:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---7JfCtLOvnd9MIVvH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2013-06-18 at 17:23 +0100, Richard Purdie wrote:
+> In brief summary the TSC has been doing two main things, acting as a
+> task force and also being able to make a decision when needed. The
+> latter has not happened much at all, the main work was as a task force
+> on various issues, firstly engaging with the Yocto Project and figuring
+> that out, more recently dealing with infrastructure issues and generally
+> ensuring the health of OE.
 
-On Fri, Jul 05, 2013 at 03:29:00AM +0200, Martin Jansa wrote:
-> * eglibc-collateral.inc inhibits all default deps, but do_package needs
->   objcopy:
->   ERROR: objcopy failed with exit code 127 (cmd was
->   'i586-webos-linux-objcopy' --only-keep-debug
->   'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so'
->   'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
->   ERROR: Function failed: split_and_strip_files
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-core/eglibc/eglibc-locale.inc | 5 +++++
->  1 file changed, 5 insertions(+)
->=20
-> diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc b/meta/recipes-co=
-re/eglibc/eglibc-locale.inc
-> index f4cb814..fc51022 100644
-> --- a/meta/recipes-core/eglibc/eglibc-locale.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-locale.inc
-> @@ -5,6 +5,11 @@ SUMMARY =3D "Locale data from eglibc"
->  BPN =3D "eglibc"
->  LOCALEBASEPN =3D "${MLPREFIX}eglibc"
-> =20
-> +# eglibc-collateral.inc inhibits all default deps, but do_package needs =
-objcopy
-> +# ERROR: objcopy failed with exit code 127 (cmd was 'i586-webos-linux-ob=
-jcopy' --only-keep-debug 'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM11=
-66.so' 'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
-> +# ERROR: Function failed: split_and_strip_files
-> +DEPENDS =3D "virtual/${TARGET_PREFIX}binutils"
-> +
+It's certainly true that most of the current TSC members have been doing
+a fine job on the "task force" front and I think we'd all be glad to see
+them continue with that.  What's rather less obvious to me is whether
+they actually need to be an elected body in order to do so; any group of
+individuals who wish to form a task force are obviously free and welcome
+to do so at any time.
 
-This one doesn't work with nativesdk:
+As you note, the requirement for the TSC to actually make decisions has
+been minimal/nonexistent of late and, again, it's not totally obvious
+that having an elected body of experts on perpetual standby just in case
+a decision might be needed is entirely necessary. 
 
-ERROR: Nothing PROVIDES 'virtual/nativesdk-x86_64-oesdk-linux-binutils'
-(but
-virtual:nativesdk:/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/e=
-glibc-locale_2.18.bb
-DEPENDS on or otherwise requires it)
-ERROR: Nothing RPROVIDES 'nativesdk-eglibc-charmaps' (but
-virtual:nativesdk:/OE/shr-core/openembedded-core/meta/recipes-core/eglibc/e=
-glibc-locale_2.18.bb
-RDEPENDS on or otherwise requires it)
-ERROR: No eligible RPROVIDERs exist for 'nativesdk-eglibc-charmaps'
+In the many-layered world that we now inhabit, it seems reasonable to
+let the individual layer maintainers (in consultation with their peers
+when necessary) make the decisions that they think best for their own
+trees.  Recent experience seems to suggest that, practically speaking,
+this is already what's happening and when it comes to a contest of wills
+the TSC have not shown any interest in overruling layer maintainers who
+disagree with their stated position.
 
-I'll send v2 when I have a fix.
+Plus, of course, we already have two bodies who are empowered by the OE
+e.V. statutes to make decisions, namely the board and the GA.   Both of
+these have wide discretion to do what they think best, and of course
+they can convene a panel of expert advisers if they feel that any
+particular issue needs specialist knowledge that they don't have.
 
->  # Binary locales are generated at build time if ENABLE_BINARY_LOCALE_GEN=
-ERATION
->  # is set. The idea is to avoid running localedef on the target (at first=
- boot)
->  # to decrease initial boot time and avoid localedef being killed by the =
-OOM
-> --=20
-> 1.8.2.1
->=20
+So, all in all, I feel that we've come to the point where the TSC (as an
+organisation) is no longer providing us with any particular benefits and
+could be disbanded without causing any real hardship.  This would avoid
+the administrative overhead of running elections for each of its seats,
+which have recently been uncontested in any case, and would also avoid a
+certain amount of potential ambiguity over where the TSC's jurisdiction
+ends and the board's starts.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+p.
 
---7JfCtLOvnd9MIVvH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlHXS/8ACgkQN1Ujt2V2gBxPmgCgtNMcByqdX5t1aICwIYIm3oNj
-v7QAn2Mf8wZIjIFNZWsUFhOxOOKcy83V
-=3XNI
------END PGP SIGNATURE-----
-
---7JfCtLOvnd9MIVvH--
