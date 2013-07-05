@@ -1,18 +1,40 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id BE7656AF13
+Return-Path: <iwamatsu@nigauri.org>
+Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
+	[209.85.160.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 64D4D6AFF4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 07:23:06 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r657N4WW020384; 
-	Fri, 5 Jul 2013 02:23:06 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+	Fri,  5 Jul 2013 07:40:48 +0000 (UTC)
+Received: by mail-pb0-f51.google.com with SMTP id um15so1909622pbc.24
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Jul 2013 00:40:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=XH5t7S/gz428MBRHiwY2MuCybK4r24YLPX3oG5Lmyo8=;
+	b=DBH2i8I/Px6n5Ae1C4eYzNeOVnRDMsdlVrhcDYpYFx/90KAxbRnkkDVWJ/OhzZ7rl3
+	F7tBGCxTlfTFUvGRQ8k1ViUSZ2yoKJxfgAXsr/dQBq+ZbAKU6LFuVaNnqAvsNTmoG8PC
+	z1Ycssww3DtNN0hGG8Evr+MknW8uigC9TDobwKbfN19scDqvhA+s2epVzpQKnYeSHYDd
+	Bu3hu1kwP7M6kPWtocTtcCrdrOLuvFcBSOSCQDQWo+Og9F/hjuMjukNxvKBnKb0ovMRA
+	HFFY/xUq2R2R0dZvW/0bmlp4/DZIWPDytPCssQX3vI6kpnXlY4Xf186RlBoIENpyGY2p
+	ifLg==
+X-Received: by 10.68.164.225 with SMTP id yt1mr8379779pbb.195.1373010049274;
+	Fri, 05 Jul 2013 00:40:49 -0700 (PDT)
+Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
+	[202.32.14.49])
+	by mx.google.com with ESMTPSA id p2sm6968818pag.22.2013.07.05.00.40.46
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 05 Jul 2013 00:40:48 -0700 (PDT)
+Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 12:23:18 +0500
-Message-Id: <1373008998-24899-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] bash: Add ptest
+Date: Fri,  5 Jul 2013 16:40:30 +0900
+Message-Id: <1373010030-16034-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQkkobnQbgg3eZlSThUwHKMsqNtSXpYua+wmayvr54MHZX0WveXoxPu6sU1iygJwtTrpzfZJ
+Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+Subject: [PATCH] gstreamer1.0-plugins: Fix method of specifying URI of the package source to SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,126 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 07:23:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Jul 2013 07:40:48 -0000
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+The present method overwrites all the data included in SRC_URL by URI of package source.
+This adds URI of package source to original SRC_URI.
 
-ptest support was already added for v4.2 but for the distros
-using GPLv2 version of bash (3.2.48) this update is required.
-
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
 ---
- .../bash/bash-3.2.48/build-tests.patch             |   44 ++++++++++++++++++++
- meta/recipes-extended/bash/bash-3.2.48/run-ptest   |    2 +
- .../bash/bash-3.2.48/test-output.patch             |   25 +++++++++++
- meta/recipes-extended/bash/bash_3.2.48.bb          |    3 ++
- 4 files changed, 74 insertions(+)
+ .../gstreamer/gstreamer1.0-plugins.inc             |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/build-tests.patch b/meta/recipes-extended/bash/bash-3.2.48/build-tests.patch
-new file mode 100644
-index 0000000..91341ee
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/build-tests.patch
-@@ -0,0 +1,44 @@
-+Add 'ptest' target to Makefile, to run tests without checking dependencies.
-+
-+Signed-off-by: Anders Roxell <anders.roxell@enea.com>
-+Upstream-Status: Pending
-+---
-+diff -dNaur bash-3.2.48/Makefile.in.orig bash-3.2.48/Makefile.in
-+--- bash-3.2.48/Makefile.in.orig	2006-08-17 23:03:35.000000000 +0500
-++++ bash-3.2.48/Makefile.in	2013-07-02 20:20:07.512709327 +0500
-+@@ -803,17 +803,31 @@
-+ 	fi
-+ 
-+ recho$(EXEEXT):		$(SUPPORT_SRC)recho.c
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)recho.c ${LIBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) -o $@ $<
-+ 
-+ zecho$(EXEEXT):		$(SUPPORT_SRC)zecho.c
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)zecho.c ${LIBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) -o $@ $<
-+ 
-+ printenv$(EXEEXT):	$(SUPPORT_SRC)printenv.c
-+-	@$(CC_FOR_BUILD) $(CCFLAGS_FOR_BUILD) -o $@ $(SUPPORT_SRC)printenv.c ${LIBS_FOR_BUILD}
-++	@$(CC) $(CCFLAGS) -o $@ $<
-+ 
-+-test tests check:	force $(Program) $(TESTS_SUPPORT)
-++test tests check:
-++	@$(MAKE) install-test
-++	@$(MAKE) runtest
-++
-++install-test: buildtest
-++ifeq ($(origin INSTALL_TEST_DIR), undefined)
-+ 	@-test -d tests || mkdir tests
-+ 	@cp $(TESTS_SUPPORT) tests
-++else
-++	@-test -d $(INSTALL_TEST_DIR) || mkdir -p $(INSTALL_TEST_DIR)
-++	@cp -r $(srcdir)/tests/* $(INSTALL_TEST_DIR)/
-++	@cp $(TESTS_SUPPORT) $(INSTALL_TEST_DIR)
-++endif
-++
-++buildtest: force $(Program) $(TESTS_SUPPORT)
-++
-++runtest:
-+ 	@( cd $(srcdir)/tests && \
-+ 		PATH=$(BUILD_DIR)/tests:$$PATH THIS_SH=$(THIS_SH) $(SHELL) ${TESTSCRIPT} )
-+ 
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/run-ptest b/meta/recipes-extended/bash/bash-3.2.48/run-ptest
-new file mode 100644
-index 0000000..8dd3b99
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/run-ptest
-@@ -0,0 +1,2 @@
-+#!/bin/sh
-+make -k THIS_SH=/bin/bash BUILD_DIR=. runtest
-diff --git a/meta/recipes-extended/bash/bash-3.2.48/test-output.patch b/meta/recipes-extended/bash/bash-3.2.48/test-output.patch
-new file mode 100644
-index 0000000..2b09b7d
---- /dev/null
-+++ b/meta/recipes-extended/bash/bash-3.2.48/test-output.patch
-@@ -0,0 +1,25 @@
-+Add FAIL/PASS output to test output.
-+
-+Signed-off-by: Björn Stenberg <bjst@enea.com>
-+Upstream-Status: Pending
-+---
-+diff -uNr a/tests/run-all b/tests/run-all
-+--- a/tests/run-all	1999-10-08 17:07:46.000000000 +0200
-++++ b/tests/run-all	2012-10-27 21:04:18.663331887 +0200
-+@@ -22,7 +22,15 @@
-+ 	case $x in
-+ 	$0|run-minimal|run-gprof)	;;
-+ 	*.orig|*~) ;;
-+-	*)	echo $x ; sh $x ;;
-++    *)  echo $x
-++         output=`sh $x`
-++         if [ -n "$output" ]; then
-++             echo "$output"
-++             echo "FAIL: $x"
-++         else
-++             echo "PASS: $x"
-++         fi
-++         ;;
-+ 	esac
-+ done
-+ 
-diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
-index 4e6f0f3..fe04b28 100644
---- a/meta/recipes-extended/bash/bash_3.2.48.bb
-+++ b/meta/recipes-extended/bash/bash_3.2.48.bb
-@@ -10,6 +10,9 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-050;apply=yes;striplevel=0;name=patch002 \
-            ${GNU_MIRROR}/bash/bash-3.2-patches/bash32-051;apply=yes;striplevel=0;name=patch003 \
-            file://mkbuiltins_have_stringize.patch \
-+           file://build-tests.patch \
-+           file://test-output.patch \
-+           file://run-ptest \
-           "
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+index 9484b20..89c21c4 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+@@ -43,9 +43,9 @@ python __anonymous () {
+     branch = d.getVar("GSTREAMER_1_0_GIT_BRANCH", True)
  
- SRC_URI[tarball.md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
+     if pv == "git":
+-        d.setVar("SRC_URI", "git://anongit.freedesktop.org/gstreamer/%s;branch=%s;protocol=git" % (gstpkg_basename, branch))
++        d.setVar("SRC_URI", d.getVar("SRC_URI") + " git://anongit.freedesktop.org/gstreamer/%s;branch=%s;protocol=git" % (gstpkg_basename, branch))
+     else:
+-        d.setVar("SRC_URI", "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv))
++        d.setVar("SRC_URI", d.getVar("SRC_URI") + " http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv))
+ }
+ 
+ delete_liblink_m4_file() {
 -- 
 1.7.9.5
 
