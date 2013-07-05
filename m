@@ -1,20 +1,24 @@
 Return-Path: <ionutx.radu@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 158A46AE2A
+	by mail.openembedded.org (Postfix) with ESMTP id 2C3F56AE2A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 07:08:12 +0000 (UTC)
+	Fri,  5 Jul 2013 07:08:14 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jul 2013 00:08:12 -0700
+	by azsmga102.ch.intel.com with ESMTP; 05 Jul 2013 00:08:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1000,1363158000"; d="scan'208";a="327059366"
+X-IronPort-AV: E=Sophos;i="4.87,1000,1363158000"; d="scan'208";a="327059386"
 Received: from work.rb.intel.com ([10.237.105.51])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jul 2013 00:08:11 -0700
+	by azsmga001.ch.intel.com with ESMTP; 05 Jul 2013 00:08:14 -0700
 From: Ionut Radu <ionutx.radu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 10:10:17 +0300
-Message-Id: <cover.1372952884.git.ionutx.radu@intel.com>
+Date: Fri,  5 Jul 2013 10:10:18 +0300
+Message-Id: <afc92666ddeb5ba774f8d2c97bdb7f80bb107c53.1372952884.git.ionutx.radu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 00/10] Package upgrades
+In-Reply-To: <cover.1372952884.git.ionutx.radu@intel.com>
+References: <cover.1372952884.git.ionutx.radu@intel.com>
+In-Reply-To: <cover.1372952884.git.ionutx.radu@intel.com>
+References: <cover.1372952884.git.ionutx.radu@intel.com>
+Subject: [PATCH 01/10] libassuan: Updated from 2.1.0 to 2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,57 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 07:08:12 -0000
+X-List-Received-Date: Fri, 05 Jul 2013 07:08:14 -0000
 
-Tested on core-image-sato on all architectures (pcc, x86, x86-64, ppc, arm)
-
-The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
-
-  bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ionutx/work
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
-
-Ionut Radu (10):
-  libassuan: Updated from 2.1.0 to 2.1.1
-  augeas: Update from 1.0.0 to 1.1.0
-  libxvmc: Update from 1.0.7 to 1.0.8
-  libxi: Update from 1.7.1 to 1.7.2
-  libsoup-2.4: Updated from 2.42.1 to 2.43.2
-  libgpg-error: Updated from 1.11 to 1.12
-  libxrender: Updated from 0.9.7 to 0.9.8
-  libxv: Updated from 1.0.8 to 1.0.9
-  freetype: Updated from 2.4.12 to 2.5.0
-  ethtool: Updated from 3.9 to 3.10
-
- meta/recipes-extended/augeas/augeas_1.0.0.bb                     |    6 ------
- meta/recipes-extended/augeas/augeas_1.1.0.bb                     |    6 ++++++
- .../recipes-extended/ethtool/{ethtool_3.9.bb => ethtool_3.10.bb} |    4 ++--
- .../freetype/{freetype_2.4.12.bb => freetype_2.5.0.bb}           |    6 ++----
- .../recipes-graphics/xorg-lib/{libxi_1.7.1.bb => libxi_1.7.2.bb} |    5 ++---
- .../xorg-lib/{libxrender_0.9.7.bb => libxrender_0.9.8.bb}        |    5 ++---
- .../recipes-graphics/xorg-lib/{libxv_1.0.8.bb => libxv_1.0.9.bb} |    6 ++----
- .../xorg-lib/{libxvmc_1.0.7.bb => libxvmc_1.0.8.bb}              |    5 ++---
- .../libassuan/{libassuan_2.1.0.bb => libassuan_2.1.1.bb}         |    4 ++--
- .../{libgpg-error-1.11 => libgpg-error-1.12}/pkgconfig.patch     |    0
- .../libgpg-error/{libgpg-error_1.11.bb => libgpg-error_1.12.bb}  |    5 ++---
- .../libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.2.bb}     |    4 ++--
- 12 files changed, 24 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-extended/augeas/augeas_1.0.0.bb
- create mode 100644 meta/recipes-extended/augeas/augeas_1.1.0.bb
- rename meta/recipes-extended/ethtool/{ethtool_3.9.bb => ethtool_3.10.bb} (79%)
- rename meta/recipes-graphics/freetype/{freetype_2.4.12.bb => freetype_2.5.0.bb} (90%)
- rename meta/recipes-graphics/xorg-lib/{libxi_1.7.1.bb => libxi_1.7.2.bb} (80%)
- rename meta/recipes-graphics/xorg-lib/{libxrender_0.9.7.bb => libxrender_0.9.8.bb} (81%)
- rename meta/recipes-graphics/xorg-lib/{libxv_1.0.8.bb => libxv_1.0.9.bb} (76%)
- rename meta/recipes-graphics/xorg-lib/{libxvmc_1.0.7.bb => libxvmc_1.0.8.bb} (75%)
+Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
+---
+ .../libassuan/{libassuan_2.1.0.bb => libassuan_2.1.1.bb}           |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-support/libassuan/{libassuan_2.1.0.bb => libassuan_2.1.1.bb} (83%)
- rename meta/recipes-support/libgpg-error/{libgpg-error-1.11 => libgpg-error-1.12}/pkgconfig.patch (100%)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.11.bb => libgpg-error_1.12.bb} (85%)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.42.1.bb => libsoup-2.4_2.43.2.bb} (85%)
 
+diff --git a/meta/recipes-support/libassuan/libassuan_2.1.0.bb b/meta/recipes-support/libassuan/libassuan_2.1.1.bb
+similarity index 83%
+rename from meta/recipes-support/libassuan/libassuan_2.1.0.bb
+rename to meta/recipes-support/libassuan/libassuan_2.1.1.bb
+index 0483560..91784ea 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.1.0.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.1.1.bb
+@@ -13,7 +13,7 @@ DEPENDS = "libgpg-error"
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libassuan/libassuan-${PV}.tar.bz2 \
+ 	   file://libassuan-add-pkgconfig-support.patch"
+ 
+-SRC_URI[md5sum] = "b3231eec8e567f4f9294474a387378f5"
+-SRC_URI[sha256sum] = "a4c5bd3a0c2726e8bcc2ea8a3b15f7aae3bd92d4f85968f315fd3a75d101c267"
++SRC_URI[md5sum] = "757243cc4a71b30ed8d8dbe784035d36"
++SRC_URI[sha256sum] = "23e2d67779b88e90d29fe1df6b157109f1c2a647d0f1b2a0f4295bb3c0b2039d"
+ 
+ inherit autotools binconfig pkgconfig
 -- 
 1.7.10.4
 
