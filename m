@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F63F6AE2A
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 059AC6AFF5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 09:27:50 +0000 (UTC)
+	Fri,  5 Jul 2013 09:27:55 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Jul 2013 02:29:18 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jul 2013 02:27:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1000,1363158000"; d="scan'208";a="365651842"
+X-IronPort-AV: E=Sophos;i="4.87,1000,1363158000"; d="scan'208";a="365651864"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jul 2013 02:27:50 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 05 Jul 2013 02:27:56 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 24BC26A4091
+	by linux.intel.com (Postfix) with ESMTP id 1AAAA6A4091
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 02:27:49 -0700 (PDT)
+	Fri,  5 Jul 2013 02:27:55 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 12:27:46 +0300
-Message-Id: <c573a10042ecfdfde573b4cafa9b6f4f75149e91.1373013888.git.stefanx.stanacar@intel.com>
+Date: Fri,  5 Jul 2013 12:27:47 +0300
+Message-Id: <6bab97172315930332065b0b5611c1f0ae4679e0.1373013888.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1373013888.git.stefanx.stanacar@intel.com>
 References: <cover.1373013888.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1373013888.git.stefanx.stanacar@intel.com>
 References: <cover.1373013888.git.stefanx.stanacar@intel.com>
-Subject: [RFC PATCH v2 5/8] lib/oeqa/utils/qemurunner.py: class to handle qemu instance
+Subject: [RFC PATCH v2 6/8] lib/oeqa/utils/decorators.py: decorators for test methods
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,206 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 09:27:50 -0000
+X-List-Received-Date: Fri, 05 Jul 2013 09:27:56 -0000
 
 From: Radu Moisan <radu.moisan@intel.com>
 
-Handles qemu instances (launch, kill, restart, serial connection, logging)
-Launch is blocking until login prompt and returns to the task. A qemu
-serial connection is used to save the boot log and get the ip from the image.
-Changed runqemu script not to error out when using custom serial option.
+Some skip decorators meant only for test methods, providing
+some kind of test methods dependency.
+They are used together with a test method name not a condition.
+These are complementary to python's unittest skip decorators.
 
 Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 164 ++++++++++++++++++++++++++++++++++++++
- scripts/runqemu                   |   2 +-
- 2 files changed, 165 insertions(+), 1 deletion(-)
- create mode 100644 meta/lib/oeqa/utils/qemurunner.py
+ meta/lib/oeqa/utils/decorators.py | 40 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+ create mode 100644 meta/lib/oeqa/utils/decorators.py
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
 new file mode 100644
-index 0000000..3132b68
+index 0000000..21e6b22
 --- /dev/null
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -0,0 +1,164 @@
-+import subprocess
-+import optparse
-+import sys
-+import os
-+import time
-+import signal
-+import re
-+import bb
-+from oeqa.utils.oeqemuconsole import oeQemuConsole
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -0,0 +1,40 @@
++from oeqa.oetest import *
 +
-+class QemuRunner:
++class skipIfFailure(object):
 +
-+    def __init__(self, machine, rootfs, display = None, tmpdir = None, logfile = None):
-+        # Popen object
-+        self.runqemu = None
++    def __init__(self,testcase):
++        self.testcase = testcase
 +
-+        self.machine = machine
-+        self.rootfs = rootfs
++    def __call__(self,f):
++        def wrapped_f(*args):
++            if self.testcase in (oeRuntimeTest.testFailures or oeRuntimeTest.testErrors):
++                raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
++            f(*args)
++        wrapped_f.__name__ = f.__name__
++        return wrapped_f
 +
-+        self.streampath = '/tmp/qemuconnection.%s' % os.getpid()
-+        self.qemuparams = 'bootparams="console=ttyS0" qemuparams="-snapshot -serial unix:%s,server,nowait"' % self.streampath
-+        self.qemupid = None
-+        self.ip = None
++class skipIfSkipped(object):
 +
-+        self.display = display
-+        self.tmpdir = tmpdir
-+        self.logfile = logfile
++    def __init__(self,testcase):
++        self.testcase = testcase
 +
-+    def launch(self, qemuparams = None):
++    def __call__(self,f):
++        def wrapped_f(*args):
++            if self.testcase in oeRuntimeTest.testSkipped:
++                raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
++            f(*args)
++        wrapped_f.__name__ = f.__name__
++        return wrapped_f
 +
-+        if qemuparams:
-+            self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
++class skipUnlessPassed(object):
 +
-+        if self.display:
-+            os.environ["DISPLAY"] = self.display
-+        else:
-+            bb.error("To start qemu I need a X desktop, please set DISPLAY correctly (e.g. DISPLAY=:1)")
-+            return False
-+        if not os.path.exists(self.rootfs):
-+            bb.error("Invalid rootfs %s" % self.rootfs)
-+            return False
-+        if not os.path.exists(self.tmpdir):
-+            bb.error("Invalid TMPDIR path %s" % self.tmpdir)
-+            return False
-+        else:
-+            os.environ["OE_TMPDIR"] = self.tmpdir
++    def __init__(self,testcase):
++        self.testcase = testcase
 +
-+        launch_cmd = 'runqemu %s %s %s' % (self.machine, self.rootfs, self.qemuparams)
-+        self.runqemu = subprocess.Popen(launch_cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,preexec_fn=os.setpgrp)
-+
-+        bb.note("runqemu started, pid is %s" % self.runqemu.pid)
-+        # wait at most 30 seconds until qemu pid appears
-+        bb.note("waiting at most 60 seconds for qemu pid")
-+        endtime = time.time() + 60
-+        while not self.is_alive() and time.time() < endtime:
-+            time.sleep(1)
-+
-+        if self.is_alive():
-+            bb.note("qemu started - qemu procces pid is %s" % self.qemupid)
-+
-+            console = oeQemuConsole(self.streampath, self.logfile)
-+            bb.note("Waiting at most 200 seconds for login banner")
-+            (match, text) = console.read_all_timeout("login:", 200)
-+
-+            if match:
-+                bb.note("Reached login banner")
-+                console.write("root\n")
-+                (index, match, text) = console.expect([r"(root@[\w-]+:~#)"],10)
-+                if not match:
-+                    bb.note("Couldn't get prompt, all I got was:\n%s" % match.group(0))
-+                    return False
-+                console.write("ip addr show eth0 | sed -n '3p' | awk '{ print $2 }' | cut -f 1 -d \"/\"\n")
-+                (index, match, text) = console.expect([r"((?:[0-9]{1,3}\.){3}[0-9]{1,3})"],10)
-+                console.close()
-+                if match:
-+                    self.ip = match.group(0)
-+                    bb.note("Ip found: %s" % self.ip)
-+                else:
-+                    bb.note("Couldn't determine ip, all I got was:\n%s" % text)
-+                    return False
-+            else:
-+                console.close()
-+                bb.note("Target didn't reached login boot in 120 seconds")
-+                lines = "\n".join(text.splitlines()[-5:])
-+                bb.note("Last 5 lines of text:\n%s" % lines)
-+                bb.note("Check full boot log: %s" % self.logfile)
-+                return False
-+        else:
-+            bb.note("Qemu pid didn't appeared in 30 seconds")
-+            self.runqemu.terminate()
-+            self.runqemu.kill()
-+            bb.note("Output from runqemu: %s " % self.runqemu.stdout.read())
-+            self.runqemu.stdout.close()
-+            return False
-+
-+        return self.is_alive()
-+
-+
-+    def kill(self):
-+        if self.runqemu:
-+            os.kill(-self.runqemu.pid,signal.SIGTERM)
-+        self.qemupid = None
-+        self.ip = None
-+        if os.path.exists(self.streampath):
-+            os.remove(self.streampath)
-+
-+    def restart(self, qemuparams = None):
-+        if self.is_alive():
-+            self.kill()
-+        bb.note("Qemu Restart required...")
-+        return self.launch(qemuparams)
-+
-+    def is_alive(self):
-+        qemu_child = self.find_child(str(self.runqemu.pid))
-+        if qemu_child:
-+            self.qemupid = qemu_child[0]
-+            if os.path.exists("/proc/" + str(self.qemupid)) and os.path.exists(self.streampath):
-+                return True
-+        return False
-+
-+    def find_child(self,parent_pid):
-+        #
-+        # Walk the process tree from the process specified looking for a qemu-system. Return its [pid'cmd]
-+        #
-+        ps = subprocess.Popen(['ps', 'axww', '-o', 'pid,ppid,command'], stdout=subprocess.PIPE).communicate()[0]
-+        processes = ps.split('\n')
-+        nfields = len(processes[0].split()) - 1
-+        pids = {}
-+        commands = {}
-+        for row in processes[1:]:
-+            data = row.split(None, nfields)
-+            if len(data) != 3:
-+                continue
-+            if data[1] not in pids:
-+                pids[data[1]] = []
-+
-+            pids[data[1]].append(data[0])
-+            commands[data[0]] = data[2]
-+
-+        if parent_pid not in pids:
-+            sys.stderr.write("No children found matching %s\n" % parent_pid)
-+            return []
-+
-+        parents = []
-+        newparents = pids[parent_pid]
-+        while newparents:
-+            next = []
-+            for p in newparents:
-+                if p in pids:
-+                    for n in pids[p]:
-+                        if n not in parents and n not in next:
-+                            next.append(n)
-+                if p not in parents:
-+                    parents.append(p)
-+                    newparents = next
-+        #print "Children matching %s:" % str(parents)
-+        for p in parents:
-+            # Need to be careful here since runqemu-internal runs "ldd qemu-system-xxxx"
-+            # Also, old versions of ldd (2.11) run "LD_XXXX qemu-system-xxxx"
-+            basecmd = commands[p].split()[0]
-+            basecmd = os.path.basename(basecmd)
-+            if "qemu-system" in basecmd and "-serial unix" in commands[p]:
-+                return [int(p),commands[p]]
-+
-diff --git a/scripts/runqemu b/scripts/runqemu
-index f2eb2e1..406092b 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -156,7 +156,7 @@ while true; do
-             serial_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-serial\)'`
-             kvm_option=`expr "$SCRIPT_QEMU_EXTRA_OPT" : '.*\(-enable-kvm\)'`
-             [ ! -z "$serial_option" -o ! -z "$kvm_option" ] && \
--                error "Please use simplified serial or kvm options instead"
-+                echo "Please use simplified serial or kvm options instead"
-             ;;
-         "bootparams="*)
-             SCRIPT_KERNEL_OPT="$SCRIPT_KERNEL_OPT ${arg##bootparams=}"
++    def __call__(self,f):
++        def wrapped_f(*args):
++            if self.testcase in (oeRuntimeTest.testSkipped, oeRuntimeTest.testFailures, oeRuntimeTest.testErrors):
++                raise unittest.SkipTest("Testcase dependency not met: %s" % self.testcase)
++            f(*args)
++        wrapped_f.__name__ = f.__name__
++        return wrapped_f
 -- 
 1.8.1.4
 
