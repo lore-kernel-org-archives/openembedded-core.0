@@ -1,27 +1,19 @@
-Return-Path: <radu.moisan@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 363406AEA2
+Return-Path: <"victor@v.mayoralv"@gmail.com>
+Received: from victor-desktop (121.197.217.87.dynamic.jazztel.es
+	[87.217.197.121])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D1426AC48
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 12:11:48 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Jul 2013 05:11:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1001,1363158000"; d="scan'208";a="264440153"
-Received: from ubuntu.rb.intel.com (HELO [10.237.105.59]) ([10.237.105.59])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Jul 2013 05:11:47 -0700
-Message-ID: <51D6B875.6020005@intel.com>
-Date: Fri, 05 Jul 2013 15:13:41 +0300
-From: Radu Moisan <radu.moisan@intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Fri,  5 Jul 2013 12:38:03 +0000 (UTC)
+Received: by victor-desktop (Postfix, from userid 1000)
+	id 1B1A28C073B; Fri,  5 Jul 2013 14:38:03 +0200 (CEST)
+From: vmayoral <v.mayoralv@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Jul 2013 14:38:01 +0200
+Message-Id: <1373027881-3518-1-git-send-email-v.mayoralv@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1372950678.git.radu.moisan@intel.com>
-	<84abd44bc70ed4b13ca44a8ad32a8a91d708163b.1372950678.git.radu.moisan@intel.com>
-	<CAJTo0LYK3=YTgHq39=g-m+CYLGx=+52xA=uvrzF=Ch_36VfSow@mail.gmail.com>
-In-Reply-To: <CAJTo0LYK3=YTgHq39=g-m+CYLGx=+52xA=uvrzF=Ch_36VfSow@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/10] iputils: Upgrade to v20121221
+Cc: victor <v.mayoralv@gmail.com>
+Subject: [PATCH] apr: add apr_cv_mutex_recursive=yes to support meta-ros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,22 +26,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 12:11:48 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Jul 2013 12:38:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+From: victor <v.mayoralv@gmail.com>
 
-On 07/04/2013 07:12 PM, Burton, Ross wrote:
-> On 4 July 2013 16:13, Radu Moisan <radu.moisan@intel.com> wrote:
->> -DEPENDS = "openssl docbook-utils-native sgmlspl-native"
->> +DEPENDS = "gnutls docbook-utils-native sgmlspl-native"
-> Please say why this change is happening.  Also is there a configure
-> option to force the use of gnutls over openssl, or what happens if
-> openssl was already installed when iptuils builds?  Vague dependencies
-> cause sstate problems.
+By default apr_cv_mutex_recursive in apr is set to "no" and this leads
+to the APRENOTIMPL return value of apr_thread_mutex_create in thread_mutex.c when
+APR_THREAD_MUTEX_NESTED is requested via flags which leads to a deadlock in applications
+using apr, as observed in an application with log4cxx.
 
-Sadly I don't remember the reason. I'll drop this and fallback to openssl.
-v3 patchest folowing.
+This commit adds CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes" to apr_1.4.6.bb
+and removes this variable in powerpc32-linux to address this issue.
 
-Radu
+We detected this issue while working at the meta-ros project https://github.com/bmwcarit/meta-ros
+(https://github.com/bmwcarit/meta-ros/issues/68)
+
+Signed-off-by: Víctor Mayoral Vilches <v.mayoralv@gmail.com>
+---
+ meta/recipes-support/apr/apr_1.4.6.bb |    3 +++
+ meta/site/powerpc32-linux             |    1 -
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/apr/apr_1.4.6.bb b/meta/recipes-support/apr/apr_1.4.6.bb
+index 896f79f..ba59639 100644
+--- a/meta/recipes-support/apr/apr_1.4.6.bb
++++ b/meta/recipes-support/apr/apr_1.4.6.bb
+@@ -23,6 +23,9 @@ inherit autotools lib_package binconfig multilib_header
+ 
+ OE_BINCONFIG_EXTRA_MANGLE = " -e 's:location=source:location=installed:'"
+ 
++# Added to fix some issues with cmake. Refer to https://github.com/bmwcarit/meta-ros/issues/68#issuecomment-19896928
++CACHED_CONFIGUREVARS += "apr_cv_mutex_recursive=yes"
++
+ do_configure_prepend() {
+ 	cd ${S}
+ 	./buildconf
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 4550df3..b3973c9 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -203,7 +203,6 @@ apr_cv_use_lfs64=${apr_cv_use_lfs64=yes}
+ apr_cv_epoll=${apr_cv_epoll=yes}
+ apr_cv_pthreads_cflags=${apr_cv_pthreads_cflags=-pthread}
+ apr_cv_pthreads_lib=${apr_cv_pthreads_lib=-lpthread}
+-apr_cv_mutex_recursive=${apr_cv_mutex_recursive=yes}
+ ac_cv_func_mmap=${ac_cv_func_mmap=yes}
+ ac_cv_file__dev_zero=${ac_cv_file__dev_zero=yes}
+ ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
+-- 
+1.7.9.5
+
 
