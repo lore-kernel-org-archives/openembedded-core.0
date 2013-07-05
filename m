@@ -1,24 +1,22 @@
-Return-Path: <ionutx.radu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id B26AA6B043
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E22256AF13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2013 07:08:30 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Jul 2013 00:08:32 -0700
+	Fri,  5 Jul 2013 07:22:48 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 05 Jul 2013 00:20:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1000,1363158000"; d="scan'208";a="327059518"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by azsmga001.ch.intel.com with ESMTP; 05 Jul 2013 00:08:31 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.87,1000,1363158000"; d="scan'208";a="365137181"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 05 Jul 2013 00:22:33 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jul 2013 10:10:27 +0300
-Message-Id: <1aa086480334aca057e85fd714e30c9fada8a2a8.1372952884.git.ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1372952884.git.ionutx.radu@intel.com>
-References: <cover.1372952884.git.ionutx.radu@intel.com>
-In-Reply-To: <cover.1372952884.git.ionutx.radu@intel.com>
-References: <cover.1372952884.git.ionutx.radu@intel.com>
-Subject: [PATCH 10/10] ethtool: Updated from 3.9 to 3.10
+Date: Fri,  5 Jul 2013 10:22:32 +0300
+Message-Id: <cover.1373005640.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1372933905.git.laurentiu.palcu@intel.com>
+References: <cover.1372933905.git.laurentiu.palcu@intel.com>
+Subject: [PATCH v3 0/5] Allow xuser to shutdown (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2013 07:08:30 -0000
+X-List-Received-Date: Fri, 05 Jul 2013 07:22:49 -0000
 
-Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
----
- meta/recipes-extended/ethtool/{ethtool_3.9.bb => ethtool_3.10.bb} |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_3.9.bb => ethtool_3.10.bb} (79%)
+Changes in v3:
+ * made xuser-account inherit allarch;
+ * moved the sed in do_install();
 
-diff --git a/meta/recipes-extended/ethtool/ethtool_3.9.bb b/meta/recipes-extended/ethtool/ethtool_3.10.bb
-similarity index 79%
-rename from meta/recipes-extended/ethtool/ethtool_3.9.bb
-rename to meta/recipes-extended/ethtool/ethtool_3.10.bb
-index 4e18ea4..aa8b129 100644
---- a/meta/recipes-extended/ethtool/ethtool_3.9.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_3.10.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "e5942ca785b3893f53bed421260d9534"
--SRC_URI[sha256sum] = "5680005481820ba77bad8be62c0ec60bc108088f39b57448b39956bd3169f163"
-+SRC_URI[md5sum] = "b41deb37143dfb86934a8f52cea853d2"
-+SRC_URI[sha256sum] = "62f0a9cea954c32a2bdc2d2ece295fda5b915cfea56f5de97b997d8ebaae0381"
- 
- inherit autotools
+Changes in v2:
+ * created a separate recipe for xuser creation, located in
+   meta/recipes-support/user-creation/. If there are other users we might need
+   to add in the future, we can put the recipes here;
+ * removed xuser creation from connman and xserver-noadm-init and added the
+   new 'xuser-account' recipe in RDEPENDS;
+
+Laurentiu
+
+The following changes since commit 8a186a6b3853fc1a7dcf342d421c8926c38949c9:
+
+  bitbake: hob: save button from settings called a nonexisting method (2013-07-03 08:13:35 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/b4345_shutdown_icon_rootless_x_v3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4345_shutdown_icon_rootless_x_v3
+
+Laurentiu Palcu (5):
+  sysvinit: allow users in shutdown group to perform halt/reboot
+  xuser-account: create separate recipe for xuser creation
+  connman: remove xuser creation, RDEPEND on xuser-account
+  xserver-nodm-init: remove xuser creation, RDEPEND on xuser-account
+  shutdown-desktop: give entire path in Exec field
+
+ meta/recipes-connectivity/connman/connman.inc      |   10 ++------
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |   12 ++++++---
+ .../x11-common/xserver-nodm-init.bb                |   13 ++--------
+ .../shutdown-desktop/shutdown-desktop.bb           |    4 ++-
+ .../user-creation/xuser-account_0.1.bb             |   27 ++++++++++++++++++++
+ 5 files changed, 43 insertions(+), 23 deletions(-)
+ create mode 100644 meta/recipes-support/user-creation/xuser-account_0.1.bb
+
 -- 
-1.7.10.4
+1.7.9.5
 
 
