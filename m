@@ -1,36 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D511D6AF5D
+Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id EBC9C6ABED
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2013 10:03:59 +0000 (UTC)
-Received: by mail-ea0-f169.google.com with SMTP id h15so1930669eak.0
+	Sat,  6 Jul 2013 10:27:22 +0000 (UTC)
+Received: by mail-ee0-f43.google.com with SMTP id l10so1806869eei.16
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Jul 2013 03:04:00 -0700 (PDT)
+	Sat, 06 Jul 2013 03:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=prflAXObTyJvXMqS39sFveSxJzrtjpLNdAv2aEzifyU=;
-	b=iJhlTI0pVR15JprwiPCdjYwgqjgzmkVM4Wp/LK5/wagvS1DGCKVs7yEG1IArtsky9U
-	6TtozJ6lAPQaEi8G/YWTk+z6RYF15nQxc+XbBqvABvOVuQ+7h5m2WfXHcSsYf/Wqq6xD
-	PvJU2sBu8lQwSZgU4kbKZoTGepxAMQN4r/+j9cJS41zp+OMH8hAhTvn1l7EN3uwQpDoU
-	s+QfEPjwN/nrKjE+eyBlNoXTRvMQEnkmsCIXguvJIMt45cpWKi9I2hUKUe61H/6HlT+7
-	us6jFOkAMOeJKzy9yun5C3EXhoAjvu5vOBdfA1fjwqCoyAwTreVVGUieFqS/IGj5IVTf
-	o0lQ==
-X-Received: by 10.14.149.141 with SMTP id x13mr16211612eej.77.1373105040004;
-	Sat, 06 Jul 2013 03:04:00 -0700 (PDT)
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=DlnKUkLiZj3yyFVIq3TYlwtb/Rzhx7I1Lf5l5B++D/g=;
+	b=H7ySvg4tXYVbt79nEwtr+sIMMUPp8Mi3bNlYxxCchsyK5DA8JVX9qvj4gHY5Y0GMgm
+	Vf7p7sN9taMdODyddCoZcnLSVV5B4YYPLiKfvAZyxANQWy44tUL+ftJ8XUtaTJ32NbyX
+	GdS69yKC3fAzBrU1FYax7gwW86lqqD9QDIzMgGn5g8nxZKVi39OjO/UMYtoOOWVzH76Y
+	3N/W6/PuwLPCeBVOIA+B03xM/zXkCzsieytvrdFCvdsUdyVMZvBlHDsxoPyvkQTxnPx8
+	GwWUEnQdTTRTvgxq5/X5GN/jFGinEmx3ul0H6IGEIRS1XO2bf8qIYLd4vLW9VOvRA6E3
+	NhrQ==
+X-Received: by 10.14.98.6 with SMTP id u6mr15590803eef.62.1373106442628;
+	Sat, 06 Jul 2013 03:27:22 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	ci50sm22012650eeb.12.2013.07.06.03.03.59 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 06 Jul 2013 03:03:59 -0700 (PDT)
+	y1sm22304910eew.3.2013.07.06.03.27.21 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Sat, 06 Jul 2013 03:27:21 -0700 (PDT)
+Date: Sat, 6 Jul 2013 12:27:28 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Jul 2013 12:04:04 +0200
-Message-Id: <1373105044-30014-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.2.1
-In-Reply-To: <20130704083054.GA3259@jama>
-References: <20130704083054.GA3259@jama>
-Subject: [PATCHv2] buildhistory: Record size of installed package not compressed archive
+To: Qi.Chen@windriver.com
+Message-ID: <20130706102728.GA30517@jama>
+References: <cover.1372826827.git.Qi.Chen@windriver.com>
+	<61d58e6bfc00142957a77a3a1747c9848710917a.1372826827.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <61d58e6bfc00142957a77a3a1747c9848710917a.1372826827.git.Qi.Chen@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] busybox: fix the on-target upgrade problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,162 +46,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2013 10:04:00 -0000
+X-List-Received-Date: Sat, 06 Jul 2013 10:27:23 -0000
+X-Groupsio-MsgNum: 41547
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0OAP2g/MAC+5xKAE"
+Content-Disposition: inline
 
-* usually it's more important to know how much space will each
-  package take on target device then size of compressed package
-* example for libewebkit0 with 4 different architectures, interesting
-  that om_gta02 .ipk is bigger but it's smaller when installed
+--0OAP2g/MAC+5xKAE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  before:
-  MACHINE     DEFAULTTUNE       SIZE (.ipk file)
-  om_gta04    cortexa8t-neon    15996 KiB libewebkit0
-  qemux86_64  x86-64            16992 KiB libewebkit0
-  spitz       xscale            16148 KiB libewebkit0
-  om_gta02    arm920t           16260 KiB libewebkit0
+On Wed, Jul 03, 2013 at 12:48:12PM +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> We now can have a 'one-binary' version of busybox, or 'two-binary'
+> version of busybox, controlled by the 'BUSYBOX_SPLIT_SUID' variable.
+> This makes on-target upgrade a problem, as we have to support the
+> following four upgrading paths.
+>=20
+> For convenience, in the following context, A is used to denote a
+> 'two-binary' version of busybox while B is used to denote a 'one-binary'
+> version of busybox.
+>=20
+> A --(upgrade)--> B
+> B --(upgrade)--> A
+> A --(upgrade)--> A
+> B --(upgrade)--> B
+>=20
+> This patch makes effort to support the above four situations.
 
-  after:
-  MACHINE     DEFAULTTUNE       SIZE (installed)
-  om_gta04    cortexa8t-neon    60544 KiB libewebkit0
-  qemux86_64  x86-64            63720 KiB libewebkit0
-  spitz       xscale            60588 KiB libewebkit0
-  om_gta02    arm920t           56268 KiB libewebkit0
+Thanks for looking into it (it's more complicated then I've first
+expected) and it looks like there is more issues probably caused
+by applet path moved in latest busybox upgrade (but ip looks weird) :/
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/buildhistory.bbclass | 11 ++++----
- scripts/oe-pkgdata-util           | 59 ++++++++++++++++++++++++++++++++++++---
- 2 files changed, 61 insertions(+), 9 deletions(-)
+update-alternatives: Error: cannot register alternative addgroup to
+/usr/sbin/addgroup since it is already registered to /bin/addgroup
+update-alternatives: Error: cannot register alternative adduser to
+/usr/sbin/adduser since it is already registered to /bin/adduser
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 36e7fe1..1ebe68e 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -317,6 +317,8 @@ buildhistory_get_installed() {
- 	# Get list of installed packages
- 	pkgcache="$1/installed-packages.tmp"
- 	list_installed_packages file | sort > $pkgcache
-+	pkgcachearch="$1/installed-packages-arch.tmp"
-+	list_installed_packages arch | sort > $pkgcachearch
- 
- 	cat $pkgcache | awk '{ print $1 }' > $1/installed-package-names.txt
- 	if [ -s $pkgcache ] ; then
-@@ -338,18 +340,17 @@ buildhistory_get_installed() {
- 
- 	# Produce installed package sizes list
- 	printf "" > $1/installed-package-sizes.tmp
--	cat $pkgcache | while read pkg pkgfile
-+	cat $pkgcachearch | while read pkg arch
- 	do
--		if [ -f $pkgfile ] ; then
--			pkgsize=`du -k $pkgfile | head -n1 | awk '{ print $1 }'`
--			echo $pkgsize $pkg >> $1/installed-package-sizes.tmp
--		fi
-+		size=`oe-pkgdata-util read_values ${TMPDIR}/pkgdata ${TARGET_VENDOR}-${TARGET_OS} "PKGSIZE" ${pkg}_${arch}`
-+		echo "$size $pkg" >> $1/installed-package-sizes.tmp
- 	done
- 	cat $1/installed-package-sizes.tmp | sort -n -r | awk '{print $1 "\tKiB " $2}' > $1/installed-package-sizes.txt
- 	rm $1/installed-package-sizes.tmp
- 
- 	# We're now done with the cache, delete it
- 	rm $pkgcache
-+	rm $pkgcachearch
- 
- 	if [ "$2" != "sdk" ] ; then
- 		# Produce some cut-down graphs (for readability)
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index 629b2d5..731e269 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -20,9 +20,12 @@
- # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- #
- #
--# Currently only has one function - mapping of packages to their dev/dbg/doc/locale etc. 
--# counterparts ("glob" command). Could be extended in future to perform other useful querying
--# functions on the pkgdata though.
-+# Currently only has two functions 
-+# 1) glob - mapping of packages to their dev/dbg/doc/locale etc. counterparts.
-+# 2) read_values - mapping of packagenames to their location in
-+#    pkgdata and then returns value of selected variable (e.g. PKGSIZE)
-+# Could be extended in future to perform other useful querying functions on the
-+# pkgdata though.
- #
- 
- import sys
-@@ -32,7 +35,8 @@ import fnmatch
- import re
- 
- def usage():
--    print("syntax: pkgdata-util glob [-d] <pkgdatadir> <vendor-os> <pkglist> \"<globs>\"");
-+    print("syntax: pkgdata-util glob [-d] <pkgdatadir> <vendor-os> <pkglist> \"<globs>\"\n \
-+                    read_values [-d] <pkgdatadir> <vendor-os> <variable-name> \"<package-name>_<package_architecture>\"");
- 
- 
- 
-@@ -151,7 +155,52 @@ def glob(args):
- 
-     print("\n".join(mappedpkgs))
- 
-+def read_values(args):
-+    if len(args) < 4:
-+        usage()
-+        sys.exit(1)
-+
-+    pkgdata_dir = args[0]
-+    target_suffix = args[1]
-+    var = args[2]
-+    packages = args[3].split()
- 
-+    if target_suffix.startswith("-"):
-+        target_suffix = target_suffix[1:]
-+
-+    def readvar(pkgdata_file, var):
-+        val = ""
-+        with open(pkgdata_file, 'r') as f:
-+            for line in f:
-+                if line.startswith(var + ":"):
-+                    val = line.split(': ')[1].rstrip()
-+        return val
-+
-+    if debug:
-+        print "read_values('%s', '%s', '%s' '%s'" % (pkgdata_dir, target_suffix, var, packages)
-+    for package in packages:
-+        pkg_split = package.split('_')
-+        pkg_name = pkg_split[0]
-+        pkg_arch = '_'.join(pkg_split[1:])
-+        if debug:
-+            print "package: name: '%s', arch: '%s'" % (pkg_name, pkg_arch)
-+        multimach_target_sys = "%s-%s" % (pkg_arch, target_suffix)
-+        revlink = os.path.join(pkgdata_dir, multimach_target_sys, "runtime-reverse", pkg_name)
-+        if debug:
-+            print(revlink)
-+        if not os.path.exists(revlink):
-+            # [YOCTO #4227] try to drop -gnueabi from TARGET_OS
-+            multimach_target_sys = '-'.join(multimach_target_sys.split('-')[:-1])
-+            revlink = os.path.join(pkgdata_dir, multimach_target_sys, "runtime-reverse", pkg_name)
-+            if debug:
-+                print(revlink)
-+        if os.path.exists(revlink):
-+            mappedpkg = os.path.basename(os.readlink(revlink))
-+            qvar = var
-+            if qvar == "PKGSIZE":
-+                # append packagename
-+                qvar = "%s_%s" % (var, mappedpkg)
-+            print(readvar(revlink, qvar))
- 
- # Too lazy to use getopt
- debug = False
-@@ -173,6 +222,8 @@ if len(args) < 1:
- 
- if args[0] == "glob":
-     glob(args[1:])
-+elif args[0] == "read_values":
-+    read_values(args[1:])
- else:
-     usage()
-     sys.exit(1)
--- 
-1.8.2.1
+update-alternatives: Error: cannot register alternative delgroup to
+/usr/sbin/delgroup since it is already registered to /bin/delgroup
+update-alternatives: Error: cannot register alternative deluser to
+/usr/sbin/deluser since it is already registered to /bin/deluser
 
+update-alternatives: Error: cannot register alternative ip to /sbin/ip
+since it is already registered to /bin/ip
 
+SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/ip
+/bin/ip
+busybox 50
+/bin/busybox 50
+/bin/busybox.nosuid 50
+SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/adduser
+/bin/adduser
+/bin/busybox.nosuid 50
+SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/addgroup
+/bin/addgroup
+/bin/busybox.nosuid 50
+SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/delgroup
+/bin/delgroup
+/bin/busybox.nosuid 50
+SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/deluser
+/bin/deluser
+/bin/busybox.nosuid 50
+
+> [YOCTO #4802]
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/recipes-core/busybox/busybox.inc |   48 +++++++++++++++++++++++++++=
+++++++
+>  1 file changed, 48 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/bu=
+sybox/busybox.inc
+> index 8567d64..acd2bfb 100644
+> --- a/meta/recipes-core/busybox/busybox.inc
+> +++ b/meta/recipes-core/busybox/busybox.inc
+> @@ -190,6 +190,10 @@ do_install () {
+>  			install -m 0644 ${S}/busybox.links.suid ${D}${sysconfdir}
+>  			install -m 0644 ${S}/busybox.links.nosuid ${D}${sysconfdir}
+>  			ln -sf busybox.nosuid ${D}${base_bindir}/sh
+> +			# Keep a default busybox for people who want to invoke busybox direct=
+ly.
+> +			# This is also useful for the on device upgrade. Because we want
+> +			# to use the busybox command in postinst.
+> +			ln -sf busybox.nosuid ${D}${base_bindir}/busybox
+>  		else
+>  			if grep -q "CONFIG_FEATURE_SUID=3Dy" ${B}/.config; then
+>  				install -m 4755 ${B}/busybox ${D}${base_bindir}
+> @@ -198,6 +202,12 @@ do_install () {
+>  			fi
+>  			install -m 0644 ${S}/busybox.links ${D}${sysconfdir}
+>  			ln -sf busybox ${D}${base_bindir}/sh
+> +			# We make this symlink here to eliminate the error when upgrading tog=
+ether
+> +			# with busybox-syslog. Without this symlink, the opkg may think of the
+> +			# busybox.nosuid as obsolete and remove it, resulting in dead links l=
+ike
+> +			# /bin/sed -> /bin/busybox.nosuid. This will make upgrading busybox-s=
+yslog fail.
+> +			# This symlink will be safely deleted in postinst, thus no negative e=
+ffect.
+> +			ln -sf busybox ${D}${base_bindir}/busybox.nosuid
+>  		fi
+>  	else
+>  		install -d ${D}${base_bindir} ${D}${base_sbindir}
+> @@ -306,6 +316,44 @@ python do_package_prepend () {
+>          set_alternative_vars("/etc/busybox.links.suid", "/bin/busybox.su=
+id")
+>  }
+> =20
+> +pkg_postinst_${PN} () {
+> +	# This part of code is dedicated to the on target upgrade problem.
+> +	# It's known that if we don't make appropriate symlinks before update-a=
+lternatives calls,
+> +	# there will be errors indicating missing commands such as 'sed'.
+> +	# These symlinks will later be updated by update-alternatives calls.
+> +	test -n 2 > /dev/null || alias test=3D'busybox test'
+> +	if test "x$D" =3D "x"; then
+> +		# Remove busybox.nosuid if it's a symlink, because this situation indi=
+cates
+> +		# that we're installing or upgrading to a one-binary busybox.
+> +		if test -h /bin/busybox.nosuid; then
+> +			rm -f /bin/busybox.nosuid
+> +		fi
+> +		for suffix in "" ".nosuid" ".suid"; do
+> +			if test -e /etc/busybox.links$suffix; then
+> +				while read link; do
+> +					if test ! -e "$link"; then
+> +						case "$link" in
+> +							/*/*/*)
+> +								to=3D"../../bin/busybox$suffix"
+> +								;;
+> +							/bin/*)
+> +								to=3D"busybox$suffix"
+> +								;;
+> +							/*/*)
+> +								to=3D"../bin/busybox$suffix"
+> +								;;
+> +						esac
+> +						# we can use busybox here because even if we are using splitted bu=
+sybox
+> +						# we've made a symlink from /bin/busybox to /bin/busybox.nosuid.
+> +						busybox rm -f $link
+> +						busybox ln -s $to $link
+> +					fi
+> +				done < /etc/busybox.links$suffix
+> +			fi
+> +		done
+> +	fi
+> +}
+> +
+>  pkg_prerm_${PN} () {
+>  	# This is so you can make busybox commit suicide - removing busybox wit=
+h no other packages
+>  	# providing its files, this will make update-alternatives work, but the=
+ update-rc.d part
+> --=20
+> 1.7.9.5
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--0OAP2g/MAC+5xKAE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHX8RAACgkQN1Ujt2V2gBy/eACgqin5qgrTPiL0Zfli0vIC3oK1
+A+cAoJHvBAFv2yzAZI0tpO0rxbh6C4Do
+=1Qo6
+-----END PGP SIGNATURE-----
+
+--0OAP2g/MAC+5xKAE--
