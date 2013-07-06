@@ -1,33 +1,36 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E841E6B090
+Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id A48006B0EE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2013 23:13:01 +0000 (UTC)
-Received: by mail-ee0-f53.google.com with SMTP id c41so2070310eek.26
+	Sat,  6 Jul 2013 23:13:03 +0000 (UTC)
+Received: by mail-ea0-f181.google.com with SMTP id a15so2189818eae.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Jul 2013 16:13:02 -0700 (PDT)
+	Sat, 06 Jul 2013 16:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=g5Ue9MJr04r1hsi9ZdD/Y4IBtu76Ylv8+zfQKWNfN1s=;
-	b=Q6FAJZRV/nK6TG57W123V/vl5dB8kU1V6hGw72qKgHFmynWNRXGAo84hqJTzVTM7XK
-	0g7gDpgeY8x1b6T2ndsSkFe62clurErN8JYfeybgGgwl859NvlN9me3BpvMvYCrkOoEX
-	PFVJKYCDG/icybJT/LRPRXpYVuGOuoJlknGVBMWMwxfVAzJpwZ+z1F2jIbVEwJcSPQ/s
-	QoW/grd54CtT6gkfXu8zwHEY3bk6x91pmG/hgpmFSyNeaOXv50w+Qi9hiBCSeIKvusIP
-	JTTTWPZFHNogwKK5mzeemwexfyILQZ3iSk9Za9rMFgD/CUFTi12yZWlK4uFphEohwWkU
-	v4Fg==
-X-Received: by 10.15.101.13 with SMTP id bo13mr18325193eeb.141.1373152382697; 
-	Sat, 06 Jul 2013 16:13:02 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
+	bh=HhrOVox+A+9aWadFD7K7eAQACmleOjsVo126FmftLMY=;
+	b=A5q4bH+PoFMGp9zB4mJd8hxt5dYrEl3NOog/Rts8yUKODtElvnrDiGxBvTvY2GQxH0
+	f7Yro4yUkEj6g8le71JVwbptMaAjlSlL1LJxUqcjk+wQ5pRYd2NJK0Ug7XW/NmteRbeb
+	El/hHugxEhd+SHvhTGAwSCk6nb3qvA85YcqFqUeOT2PPMwOkk48W3GAUhDLMploMTVK2
+	R/5GyShvPJNUh9zv2j1SQ7lvUcnEDVA8G1U2+ZGhHr1PEVEJTP9e07uQsF/ftx0rDPUc
+	zkt2aJ7K1rKnxEIr9l47JBdVEtJEpv6iqiphws9T9q7HGR/NkZEkaD7lR+d/F2N3sgf8
+	FI0w==
+X-Received: by 10.14.101.13 with SMTP id a13mr18420200eeg.86.1373152384211;
+	Sat, 06 Jul 2013 16:13:04 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	l42sm27719102eeo.14.2013.07.06.16.13.01 for <multiple recipients>
+	m1sm27701275eex.17.2013.07.06.16.13.03 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 06 Jul 2013 16:13:01 -0700 (PDT)
+	Sat, 06 Jul 2013 16:13:03 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Jul 2013 01:13:04 +0200
-Message-Id: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Sun,  7 Jul 2013 01:13:05 +0200
+Message-Id: <1373152387-19393-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.2.1
-Subject: [RFC][PATCH 1/4] package.bbclass: move reading shlibs providers to separate function
+In-Reply-To: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [RFC][PATCH 2/4] package.bbclass: show warning when package is trying to provide already provided shlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,79 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2013 23:13:02 -0000
+X-List-Received-Date: Sat, 06 Jul 2013 23:13:04 -0000
 
-* prepare for reading shlibs providers only from dependency tree of
-  current recipe
+* move read_shlib_providers before registering package as provider
+  and don't change provider if it already exists, show warning instead
 
 [YOCTO #4628]
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/package.bbclass | 43 +++++++++++++++++++++++--------------------
- 1 file changed, 23 insertions(+), 20 deletions(-)
+ meta/classes/package.bbclass | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 5c2d1c6..d80535d 100644
+index d80535d..6c3ca56 100644
 --- a/meta/classes/package.bbclass
 +++ b/meta/classes/package.bbclass
-@@ -1337,6 +1337,28 @@ python package_do_shlibs() {
-     # Take shared lock since we're only reading, not writing
-     lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"))
+@@ -1341,6 +1341,7 @@ python package_do_shlibs() {
+         list_re = re.compile('^(.*)\.list$')
+         # Go from least to most specific since the last one found wins
+         for dir in reversed(shlibs_dirs):
++            bb.debug(2, "Reading shlib providers in %s" % (dir))
+             if not os.path.exists(dir):
+                 continue
+             for file in os.listdir(dir):
+@@ -1456,6 +1457,8 @@ python package_do_shlibs() {
  
-+    def read_shlib_providers:
-+        list_re = re.compile('^(.*)\.list$')
-+        # Go from least to most specific since the last one found wins
-+        for dir in reversed(shlibs_dirs):
-+            if not os.path.exists(dir):
-+                continue
-+            for file in os.listdir(dir):
-+                m = list_re.match(file)
-+                if m:
-+                    dep_pkg = m.group(1)
-+                    fd = open(os.path.join(dir, file))
-+                    lines = fd.readlines()
-+                    fd.close()
-+                    ver_file = os.path.join(dir, dep_pkg + '.ver')
-+                    lib_ver = None
-+                    if os.path.exists(ver_file):
-+                        fd = open(ver_file)
-+                        lib_ver = fd.readline().rstrip()
-+                        fd.close()
-+                    for l in lines:
-+                        shlib_provider[l.rstrip()] = (dep_pkg, lib_ver)
+     needed = {}
+     shlib_provider = {}
++    read_shlib_providers()
 +
-     def linux_so(file):
+     for pkg in packages.split():
+         private_libs = d.getVar('PRIVATE_LIBS_' + pkg, True) or d.getVar('PRIVATE_LIBS', True)
          needs_ldconfig = False
-         cmd = d.getVar('OBJDUMP', True) + " -p " + pipes.quote(file) + " 2>/dev/null"
-@@ -1479,26 +1501,7 @@ python package_do_shlibs() {
+@@ -1487,6 +1490,12 @@ python package_do_shlibs() {
+         if len(sonames):
+             fd = open(shlibs_file, 'w')
+             for s in sonames:
++                if s in shlib_provider:
++                    (old_pkg, old_pkgver) = shlib_provider[s]
++                    if old_pkg != pkg:
++                        bb.warn('%s-%s is already registered as shlib provider for %s, ignoring %s-%s trying to register the same' % (old_pkg, old_pkgver, s, pkg, pkgver))
++                        continue
++                bb.debug(1, 'registering %s-%s as shlib provider for %s' % (pkg, pkgver, s))
+                 fd.write(s + '\n')
+                 shlib_provider[s] = (pkg, pkgver)
+             fd.close()
+@@ -1501,8 +1510,6 @@ python package_do_shlibs() {
              postinst += d.getVar('ldconfig_postinst_fragment', True)
              d.setVar('pkg_postinst_%s' % pkg, postinst)
  
--    list_re = re.compile('^(.*)\.list$')
--    # Go from least to most specific since the last one found wins
--    for dir in reversed(shlibs_dirs):
--        if not os.path.exists(dir):
--            continue
--        for file in os.listdir(dir):
--            m = list_re.match(file)
--            if m:
--                dep_pkg = m.group(1)
--                fd = open(os.path.join(dir, file))
--                lines = fd.readlines()
--                fd.close()
--                ver_file = os.path.join(dir, dep_pkg + '.ver')
--                lib_ver = None
--                if os.path.exists(ver_file):
--                    fd = open(ver_file)
--                    lib_ver = fd.readline().rstrip()
--                    fd.close()
--                for l in lines:
--                    shlib_provider[l.rstrip()] = (dep_pkg, lib_ver)
-+    read_shlib_providers()
- 
+-    read_shlib_providers()
+-
      bb.utils.unlockfile(lf)
  
+     assumed_libs = d.getVar('ASSUME_SHLIBS', True)
 -- 
 1.8.2.1
 
