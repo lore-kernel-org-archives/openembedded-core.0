@@ -1,37 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f180.google.com (mail-ea0-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id A8C6869692;
-	Sat,  6 Jul 2013 10:51:28 +0000 (UTC)
-Received: by mail-ea0-f180.google.com with SMTP id k10so1943028eaj.25
-	for <multiple recipients>; Sat, 06 Jul 2013 03:51:28 -0700 (PDT)
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id CFC326AE18
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  6 Jul 2013 12:29:28 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id c4so1917535eek.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Jul 2013 05:29:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=q48ELXelF+7TVH97/b6SkOO+GSdSPYjKPLZ/UVrkmiU=;
-	b=DUrermqHmnaM+zhprR94QAxv2q/DuOpY9+W5/5GUK9JgckilS8UmJj9mw421EYr0zP
-	lIs+vJyN85iSSqfbbvuNE/gnImWHPahTb0U4ukwY6L8XrKzTd+CqlkEAgO4+2b/eIrRs
-	PQfMcpNDoHR4CTJ80KKtsGDKQ6g95NRfh+d5ULM64oZz2wjQUNba6ImXmz8zX8Qo9eHU
-	2Pz56fdlFNq+HK6i0us0KXg6VM4UogJwLXRNA8G6uT2PgPYmKLtWyzYRc8qMFq56HjLH
-	NWojg6w9kMYs1DHURkhr6su850w6ldo+IXdUcH1MOaTY25aSw85EfAlgnacu6ZzOl+u1
-	RJSg==
-X-Received: by 10.14.103.196 with SMTP id f44mr16234761eeg.37.1373107888331;
-	Sat, 06 Jul 2013 03:51:28 -0700 (PDT)
+	bh=bXhv0B8PVVaUp9psiNFNT/ElGDmIHiMm8NEsmAoCFRU=;
+	b=B1qVYDup7Jj1w2+u71p2dxzmCUQbU8a6xtP1/sqzcP79SU1YI0tnnWPB+wHLMSnBCF
+	QyBMgHThQ57LSnPiNxvWgz+NB83YMjoP5DpzZywVewWvMhYy/98tcItDCxRevm5ZG+oP
+	yvLirl+Jjp7DZ9q7Vhdv4Pa2pUTg1seqkXYDinWTRWxs5tgO+/F2L1BhEqdfy8loa76V
+	HR3o8ZWoRAgxje4FSFZZtdp73qhir6ejGmErogQwQk2SbbRWEUE9GmUFFM50z7vZgJ8H
+	Qko7V4OT6+fbJ6FqDTxjMm8AVypTK0ihYphlh5PpNAkE0Hfc9gCeQiqTcpQXQ5e2rWlO
+	O4qQ==
+X-Received: by 10.14.8.197 with SMTP id 45mr16459698eer.66.1373113768656;
+	Sat, 06 Jul 2013 05:29:28 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	n42sm22342898eeh.15.2013.07.06.03.51.26 for <multiple recipients>
+	e44sm23129218eeh.11.2013.07.06.05.29.27 for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sat, 06 Jul 2013 03:51:27 -0700 (PDT)
-Date: Sat, 6 Jul 2013 12:51:33 +0200
+	Sat, 06 Jul 2013 05:29:28 -0700 (PDT)
+Date: Sat, 6 Jul 2013 14:29:34 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20130706105133.GB3288@jama>
-References: <20130524130925.B37DE5030A@opal>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20130706122934.GC3288@jama>
+References: <cover.1372987648.git.Martin.Jansa@gmail.com>
+	<1458807.Cif2MtSWk2@helios>
 MIME-Version: 1.0
-In-Reply-To: <20130524130925.B37DE5030A@opal>
+In-Reply-To: <1458807.Cif2MtSWk2@helios>
 User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Missing binutils-cross dependency Was: [oe-commits] Mike Crowe : kernel.bbclass: Add dependency on binutils
+Subject: Re: [PATCH 0/8] Missing deps discovered in per-recipe builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,109 +46,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2013 10:51:29 -0000
-X-Groupsio-MsgNum: 41548
+X-List-Received-Date: Sat, 06 Jul 2013 12:29:29 -0000
+X-Groupsio-MsgNum: 41549
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QKdGvSO+nmPlgiQ/"
+	protocol="application/pgp-signature"; boundary="IpbVkmxF4tDyP/Kb"
 Content-Disposition: inline
 
---QKdGvSO+nmPlgiQ/
+--IpbVkmxF4tDyP/Kb
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 24, 2013 at 01:09:25PM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 37beb7bdab78de5253a894f35afafa34c13a00f5
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D37beb7bdab78de5253a894f35afafa34c13a00f5
+On Fri, Jul 05, 2013 at 04:28:24PM +0100, Paul Eggleton wrote:
+> On Friday 05 July 2013 03:28:21 Martin Jansa wrote:
+> > I was using simple script to build each component alone:
+> >=20
+> > #!/bin/bash
+> >=20
+> > rm -rf tmp-eglibc/abi_version tmp-eglibc/buildstats tmp-eglibc/cache
+> > tmp-eglibc/deploy tmp-eglibc/log tmp-eglibc/pkgdata pseudodone
+> > tmp-eglibc/saved_tmpdir tmp-eglibc/sstate-control tmp-eglibc/stamps
+> > tmp-eglibc/sysroots tmp-eglibc/work-shared tmp-eglibc/work/* rm -rf log=
+=2E*
+> >=20
+> > ls -d buildhistory/packages/*/* | xargs -n 1 basename | sort -u >
+> > component.list ncomponents=3D`cat component.list | wc -l`
+> > i=3D1
+> > for component in `cat component.list`; do
+> >   echo "Building component: ${component} ($i/$ncomponents)"
+> >   bitbake -c cleansstate ${component} | tee log.${component};
+> >   bitbake ${component} | tee -a log.${component};
+> >   rm -rf tmp-eglibc/abi_version tmp-eglibc/buildstats tmp-eglibc/cache
+> > tmp-eglibc/deploy tmp-eglibc/log tmp-eglibc/pkgdata pseudodone
+> > tmp-eglibc/saved_tmpdir tmp-eglibc/sstate-control tmp-eglibc/stamps
+> > tmp-eglibc/sysroots tmp-eglibc/work-shared tmp-eglibc/work/* i=3D`expr =
+$i +
+> > 1`
+> > done
 >=20
-> Author: Mike Crowe <mac@mcrowe.com>
-> Date:   Mon May 20 13:22:45 2013 +0100
->=20
-> kernel.bbclass: Add dependency on binutils
->=20
-> Compiling the Linux kernel requires binutils; kernel.bbclass uses
-> INHIBIT_DEFAULT_DEPS so it had better depend on binutils explicitly.
->=20
-> (The lack of this dependency isn't always a problem because binutils
-> is required to build gcc-cross but if gcc-cross is reconstructed from
-> the sstate cache then gcc-cross's dependency on binutils-cross is
-> ignored due to being in the safe dependency list in
-> setscene_depvalid.)
+> A cleaned up form of this would be a great addition to the scripts/contri=
+b=20
+> directory if you have time...
 
-Isn't this problem in other kinds for recipes as well?
+I'm working on improved version of this script which will detect
+automagically enabled dependencies. Once I get it working I'll clean it
+and send patch with script.
 
-Shouldn't we add virtual/${TARGET_PREFIX}binutils to base.bbclass BASEDEPEN=
-DS?
-
-I have recipe where do_compile is failing with
-i586-oe-linux-g++ .....
-collect2: fatal error: cannot find 'ld'
-because binutils-cross.do_populate_sysroot wasn't executed yet
-
-DEPENDS of that package looks correct in bitbake -e:
-DEPENDS=3D"pkgconfig-native  virtual/i586-webos-linux-gcc
-virtual/i586-webos-linux-compilerlibs virtual/libc  qt4-webos glib-2.0
-luna-prefs luna-service2 cjson nyx-lib libpbnjson luna-webkit-api
-luna-sysmgr-ipc luna-sysmgr-ipc-messages sqlite3 pmloglib librolegen
-serviceinstaller qmake-webos-native"
-
-$ grep "> \"binutils-cross.do_populate_sysroot" task-depends.dot
-"gcc-cross.do_configure" -> "binutils-cross.do_populate_sysroot"
-"gcc-cross-initial.do_configure" -> "binutils-cross.do_populate_sysroot"
-"binutils-cross.do_build" -> "binutils-cross.do_populate_sysroot"
-
-binutils-cross.do_populate_sysroot is executed before first recipe calls
-do_package, so this failure isn't very common, but still something we
-should fix properly IMHO.
-
-Regards,
-
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> Acked-by: Phil Blundell <philb@gnu.org>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
->=20
-> ---
->=20
->  meta/classes/kernel.bbclass |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->=20
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 3320747..0407423 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -1,7 +1,7 @@
->  inherit linux-kernel-base module_strip kernel-module-split
-> =20
->  PROVIDES +=3D "virtual/kernel"
-> -DEPENDS +=3D "virtual/${TARGET_PREFIX}gcc kmod-native depmodwrapper-cros=
-s"
-> +DEPENDS +=3D "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}g=
-cc kmod-native depmodwrapper-cross"
-> =20
->  # we include gcc above, we dont need virtual/libc
->  INHIBIT_DEFAULT_DEPS =3D "1"
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+Unfortunately running it takes very long time (even on fast server),
+normal "bitbake world" is done in +- 24 hours, but with repopulating
+tmp-eglibc so many times (even from sstate-cache) it's almost 48 hours.
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---QKdGvSO+nmPlgiQ/
+--IpbVkmxF4tDyP/Kb
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlHX9rUACgkQN1Ujt2V2gByV2gCguTUo5Sv7Qsi/XfVPGJScA4u0
-TmoAoLBNUBAokEkqrwT+TnwT/bnrzpMB
-=hI1H
+iEYEARECAAYFAlHYDa4ACgkQN1Ujt2V2gBxYqwCffv3MBoo3mNQMDGPDmMikblE0
+8fUAn20Dl89M6XrMEyIy9S3DZYwLvTQB
+=yXc8
 -----END PGP SIGNATURE-----
 
---QKdGvSO+nmPlgiQ/--
+--IpbVkmxF4tDyP/Kb--
