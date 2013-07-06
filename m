@@ -1,42 +1,33 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id DAAD76AF03
+Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E841E6B090
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2013 23:08:33 +0000 (UTC)
-Received: by mail-ea0-f177.google.com with SMTP id j14so2153103eak.22
+	Sat,  6 Jul 2013 23:13:01 +0000 (UTC)
+Received: by mail-ee0-f53.google.com with SMTP id c41so2070310eek.26
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Jul 2013 16:08:34 -0700 (PDT)
+	Sat, 06 Jul 2013 16:13:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=vb7qeuYGv/+ZyFMSofe70HSjbkjHDneLVJVRM4hSGOo=;
-	b=okf3iCHI40f0P8vnMz9CibmeI/9O0ALCZUZfqTRPjmtwKcr7P+Vii2gsc4rEYTz0j2
-	N2EXp2m5sziIvhZwBlhV8Cfz8XFQcz13D1N+RTyai7SH0w6BIaGKcL8v118q6HkFtsfK
-	myCvOquKFd6Hpxr7lzhtWZJxcqOvY2aBzRwEuu4k3sORdUsHJu4CM5NwSGn6ehIwKXwj
-	rKTwCWwlR+x6Bl2Z/eLrau1O3iRuemV0kqJcbJZiEgkMRhUD9HOv0LlNx7Qo/eW6mRkY
-	qiegrU8xCuVl/blJ19/vlsMi85eNSB+xWdmsjp6/Wv9dDUJK3Wf2FFFYcmcJW48iME8P
-	J8cQ==
-X-Received: by 10.14.6.198 with SMTP id 46mr6935824een.121.1373152113708;
-	Sat, 06 Jul 2013 16:08:33 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=g5Ue9MJr04r1hsi9ZdD/Y4IBtu76Ylv8+zfQKWNfN1s=;
+	b=Q6FAJZRV/nK6TG57W123V/vl5dB8kU1V6hGw72qKgHFmynWNRXGAo84hqJTzVTM7XK
+	0g7gDpgeY8x1b6T2ndsSkFe62clurErN8JYfeybgGgwl859NvlN9me3BpvMvYCrkOoEX
+	PFVJKYCDG/icybJT/LRPRXpYVuGOuoJlknGVBMWMwxfVAzJpwZ+z1F2jIbVEwJcSPQ/s
+	QoW/grd54CtT6gkfXu8zwHEY3bk6x91pmG/hgpmFSyNeaOXv50w+Qi9hiBCSeIKvusIP
+	JTTTWPZFHNogwKK5mzeemwexfyILQZ3iSk9Za9rMFgD/CUFTi12yZWlK4uFphEohwWkU
+	v4Fg==
+X-Received: by 10.15.101.13 with SMTP id bo13mr18325193eeb.141.1373152382697; 
+	Sat, 06 Jul 2013 16:13:02 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	i2sm27818603eeu.4.2013.07.06.16.08.32 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sat, 06 Jul 2013 16:08:33 -0700 (PDT)
-Date: Sun, 7 Jul 2013 01:08:40 +0200
+	l42sm27719102eeo.14.2013.07.06.16.13.01 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 06 Jul 2013 16:13:01 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Chris Larson <clarson@kergoth.com>
-Message-ID: <20130706230840.GE3288@jama>
-References: <20130705224311.GA3288@jama>
-	<1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
-	<CABcZANmrjid3veZXwq_jh24qDaXBjhf3MvNV5yY+6eCg+Gr5Aw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CABcZANmrjid3veZXwq_jh24qDaXBjhf3MvNV5yY+6eCg+Gr5Aw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/2] eglibc-locale: add missing dependency on virtual/${TARGET_PREFIX}binutils
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Jul 2013 01:13:04 +0200
+Message-Id: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.2.1
+Subject: [RFC][PATCH 1/4] package.bbclass: move reading shlibs providers to separate function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,59 +40,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2013 23:08:34 -0000
-X-Groupsio-MsgNum: 41555
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="X3gaHHMYHkYqP6yf"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 06 Jul 2013 23:13:02 -0000
 
---X3gaHHMYHkYqP6yf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* prepare for reading shlibs providers only from dependency tree of
+  current recipe
 
-On Sat, Jul 06, 2013 at 03:56:59PM -0700, Chris Larson wrote:
-> On Sat, Jul 6, 2013 at 1:39 AM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
->=20
-> > * eglibc-collateral.inc inhibits all default deps, but do_package needs
-> >   objcopy:
-> >   ERROR: objcopy failed with exit code 127 (cmd was
-> >   'i586-webos-linux-objcopy' --only-keep-debug
-> >   'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so'
-> >   'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
-> >   ERROR: Function failed: split_and_strip_files
-> >
->=20
-> Wouldn't it be better to add the necessary dep to the do_package[depends]
-> in package.bbclass?
+[YOCTO #4628]
 
-In this case yes, but what about allarch recipes, creating
-binutils-cross dependency in their do_package task would probably make
-their stamps depending on architecture.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/package.bbclass | 43 +++++++++++++++++++++++--------------------
+ 1 file changed, 23 insertions(+), 20 deletions(-)
 
-I have similar patch adding virtual/${TARGET_PREFIX}binutils in
-BASEDEPENDS, that won't fix this eglibc-locale (because it has
-INHIBIT_DEFAULT_DEPS), but it's needed in cases where
-gcc-cross.do_configure -> binutils-cross.do_populate_sysroot is skipped
-when gcc-cross is reused from sstate.
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 5c2d1c6..d80535d 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1337,6 +1337,28 @@ python package_do_shlibs() {
+     # Take shared lock since we're only reading, not writing
+     lf = bb.utils.lockfile(d.expand("${PACKAGELOCK}"))
+ 
++    def read_shlib_providers:
++        list_re = re.compile('^(.*)\.list$')
++        # Go from least to most specific since the last one found wins
++        for dir in reversed(shlibs_dirs):
++            if not os.path.exists(dir):
++                continue
++            for file in os.listdir(dir):
++                m = list_re.match(file)
++                if m:
++                    dep_pkg = m.group(1)
++                    fd = open(os.path.join(dir, file))
++                    lines = fd.readlines()
++                    fd.close()
++                    ver_file = os.path.join(dir, dep_pkg + '.ver')
++                    lib_ver = None
++                    if os.path.exists(ver_file):
++                        fd = open(ver_file)
++                        lib_ver = fd.readline().rstrip()
++                        fd.close()
++                    for l in lines:
++                        shlib_provider[l.rstrip()] = (dep_pkg, lib_ver)
++
+     def linux_so(file):
+         needs_ldconfig = False
+         cmd = d.getVar('OBJDUMP', True) + " -p " + pipes.quote(file) + " 2>/dev/null"
+@@ -1479,26 +1501,7 @@ python package_do_shlibs() {
+             postinst += d.getVar('ldconfig_postinst_fragment', True)
+             d.setVar('pkg_postinst_%s' % pkg, postinst)
+ 
+-    list_re = re.compile('^(.*)\.list$')
+-    # Go from least to most specific since the last one found wins
+-    for dir in reversed(shlibs_dirs):
+-        if not os.path.exists(dir):
+-            continue
+-        for file in os.listdir(dir):
+-            m = list_re.match(file)
+-            if m:
+-                dep_pkg = m.group(1)
+-                fd = open(os.path.join(dir, file))
+-                lines = fd.readlines()
+-                fd.close()
+-                ver_file = os.path.join(dir, dep_pkg + '.ver')
+-                lib_ver = None
+-                if os.path.exists(ver_file):
+-                    fd = open(ver_file)
+-                    lib_ver = fd.readline().rstrip()
+-                    fd.close()
+-                for l in lines:
+-                    shlib_provider[l.rstrip()] = (dep_pkg, lib_ver)
++    read_shlib_providers()
+ 
+     bb.utils.unlockfile(lf)
+ 
+-- 
+1.8.2.1
 
-I'll send RFC for that one now (I was trying to debug why it also brings
-dependency on do_package_setscene)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---X3gaHHMYHkYqP6yf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlHYo3gACgkQN1Ujt2V2gBwASQCfSGKTjM3pxLhVbg0h6PjXHFIR
-jw8AnjRUCZxJJWf++q8TgCUbuT9ycZeZ
-=XFCs
------END PGP SIGNATURE-----
-
---X3gaHHMYHkYqP6yf--
