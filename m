@@ -1,39 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 92C5C6AF1D
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
+	[209.85.217.174])
+	by mail.openembedded.org (Postfix) with ESMTP id EEE296B090
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2013 21:39:24 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id c4so2019853eek.15
+	Sat,  6 Jul 2013 22:57:19 +0000 (UTC)
+Received: by mail-lb0-f174.google.com with SMTP id x10so2856962lbi.19
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Jul 2013 14:39:25 -0700 (PDT)
+	Sat, 06 Jul 2013 15:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=3a65CbdvMHy89iOul+XeoAO+dcWgWiRqAT3PC/a6w+U=;
-	b=zhhqqxyA5QX+nPG+U8AqRoeTjRSnXnKBM72BVhDKMjAYFajiHlXSi65PxFphOUzvqP
-	kC1Hd91y43s60njl/xMsuzpJq8WLIAmbgDPhPouFWX1UqTj5+cgKUmGQgSc4wXEnJ4sV
-	Nx8+ndTinyrRktAci5Qy0tjbo6F8Ikg/hnsv6K6YdKcYkB6ROE2UpAKrbvr8xYjfP5Jo
-	keXTr5wnI1icN5I0GsgUEAayiNblVkBrgidgBj3d253kSWirJ4b8mt/LwFi8aPPue/hY
-	JXbLygiQbKR2bLweVBhuMuNr18kb/Uv4Kg/57BaQH06HWqJyxgG5rzsLHOzGYsBR1iEl
-	q6tg==
-X-Received: by 10.14.3.73 with SMTP id 49mr18076897eeg.72.1373146765052;
-	Sat, 06 Jul 2013 14:39:25 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	l42sm27123357eeo.14.2013.07.06.14.39.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sat, 06 Jul 2013 14:39:24 -0700 (PDT)
-Date: Sat, 6 Jul 2013 23:39:31 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130706213931.GD3288@jama>
-References: <20130706122934.GC3288@jama>
-	<1373145886-26565-1-git-send-email-Martin.Jansa@gmail.com>
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=rMaOq598WMBUJ2zbtSCJ6VqOI+1PGAA4WTFIdWGfdFY=;
+	b=VDh2jxmUPRiR+Ic5NMdl6Q1kxb01chE1CCtUJWotQrrmf8+7M/ibBzGFJItvuAlSR/
+	cEjb96sTqvrbGtjtHKYYY4QRjNAFQmzZOktdiQi/hZeN0O13SLMIcNnfSRoZkCVIFEWr
+	SW/SvJzGlYW3bVfKkgUtu5tupWbak5824mdyz/79ITCbzDFh9fs6guPUc1jh/XvTq2Bd
+	jcc/eS87MEnehyigeLM4M11i97IN30RCGww6Qn1QHHSoyvjY2RDCftSK2kHx9p0F/q8H
+	CaUmROJsI6hUm0oVg9C5xl2AeWKwjCE0pdpECaQObuN/EUOvegDmvGVuDqEY4rVFeMkW
+	p4eg==
+X-Received: by 10.152.28.34 with SMTP id y2mr7712369lag.0.1373151439328; Sat,
+	06 Jul 2013 15:57:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1373145886-26565-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: Re: [RFC][PATCH] test-dependencies: add simple script to detect missing or autoenabled dependencies
+Sender: kergoth@gmail.com
+Received: by 10.112.3.5 with HTTP; Sat, 6 Jul 2013 15:56:59 -0700 (PDT)
+In-Reply-To: <1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
+References: <20130705224311.GA3288@jama>
+	<1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sat, 6 Jul 2013 15:56:59 -0700
+X-Google-Sender-Auth: PwXv5pZWJgKR9X2yeFVRFZer_Vw
+Message-ID: <CABcZANmrjid3veZXwq_jh24qDaXBjhf3MvNV5yY+6eCg+Gr5Aw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 1/2] eglibc-locale: add missing dependency on virtual/${TARGET_PREFIX}binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +45,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2013 21:39:25 -0000
-X-Groupsio-MsgNum: 41553
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="osDK9TLjxFScVI/L"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 06 Jul 2013 22:57:20 -0000
+Content-Type: multipart/alternative; boundary=089e0158c57ac39aff04e0dfbbcc
 
---osDK9TLjxFScVI/L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--089e0158c57ac39aff04e0dfbbcc
+Content-Type: text/plain; charset=UTF-8
+
+On Sat, Jul 6, 2013 at 1:39 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> * eglibc-collateral.inc inhibits all default deps, but do_package needs
+>   objcopy:
+>   ERROR: objcopy failed with exit code 127 (cmd was
+>   'i586-webos-linux-objcopy' --only-keep-debug
+>   'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so'
+>   'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
+>   ERROR: Function failed: split_and_strip_files
+>
+
+Wouldn't it be better to add the necessary dep to the do_package[depends]
+in package.bbclass?
+-- 
+Christopher Larson
+
+--089e0158c57ac39aff04e0dfbbcc
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 06, 2013 at 11:24:46PM +0200, Martin Jansa wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  scripts/test-dependencies.sh | 250 +++++++++++++++++++++++++++++++++++++=
-++++++
->  1 file changed, 250 insertions(+)
->  create mode 100755 scripts/test-dependencies.sh
->=20
-> +build_all() {
-> +  echo "=3D=3D=3D=3D=3D 1st build to populate sstate-cache directory and=
- sysroot =3D=3D=3D=3D=3D"
-> +  OUTPUT1=3D${OUTPUT_BASE}/${TYPE}_all
-> +  mkdir -p ${OUTPUT1}
-> +  echo "Logs will be stored in ${OUTPUT1} directory"
-> +  bitbake $targets | tee -a ${OUTPUT1}/complete.log
-> +}
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On S=
+at, Jul 6, 2013 at 1:39 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
+gt;</span> wrote:<br>
 
-I've just added "-k" here to bitbake call, more improvements are expected,=
-=20
-that's why it's only RFC, but I wanted to share it soon in case someone
-else also have access to some builder which is idle during weekends..
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">* eglibc-collateral.inc in=
+hibits all default deps, but do_package needs<br>
+=C2=A0 objcopy:<br>
+=C2=A0 ERROR: objcopy failed with exit code 127 (cmd was<br>
+=C2=A0 &#39;i586-webos-linux-objcopy&#39; --only-keep-debug<br>
+=C2=A0 &#39;eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so&#39;<br>
+=C2=A0 &#39;eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so&#=
+39;)<br>
+=C2=A0 ERROR: Function failed: split_and_strip_files</div></blockquote></di=
+v><br>Wouldn&#39;t it be better to add the necessary dep to the do_package[=
+depends] in package.bbclass?</div><div class=3D"gmail_extra">-- <br>Christo=
+pher Larson</div>
 
-It would be nice to test and fix oe-core recipes first, but because my
-target is to run this in dylan I'm running this with more layers
-included already.
+</div>
 
-I'm sending patches for master + blacklisting broken recipes in dylan,
-maybe we should backport them later as missing deps and autodetected
-deps are relatively safe fixes.
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---osDK9TLjxFScVI/L
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEUEARECAAYFAlHYjpMACgkQN1Ujt2V2gBxkSwCYvPdCWdgLdqvIliVrvSIvlLU/
-JgCcC/5YGM4ZsD+XQL0lbgsSFPT9y2c=
-=to7S
------END PGP SIGNATURE-----
-
---osDK9TLjxFScVI/L--
+--089e0158c57ac39aff04e0dfbbcc--
