@@ -1,44 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E0806B0EC
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id DD4056B0EB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2013 23:32:19 +0000 (UTC)
-Received: by mail-ea0-f182.google.com with SMTP id d10so2180599eaj.13
+	Sun,  7 Jul 2013 02:07:13 +0000 (UTC)
+Received: by mail-ob0-f173.google.com with SMTP id wc20so4283782obb.32
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Jul 2013 16:32:20 -0700 (PDT)
+	Sat, 06 Jul 2013 19:07:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=nMvoSVOxXwn4W9psHGudFEAFd5C3xACRB3wFppMsVQM=;
-	b=N3GlKOVJ7t/civQ+Yr2K0ANjrFvC/jmUniviLQhbOGjNaHO+0HMU/IwMId6MajTRHU
-	QLzE95/78GDsp7n6kZ//MCzlWY3fQEZK4xFQdcJAb8pBZFXGGb2eePsPFRlmj7KibTOo
-	JloXHrTUk0xd4tCk18i0zJ9kLRYmSllGrenN7PW35dJwVjHYBxghe/pFAwHsHDiAyIkq
-	PNrnPWLVt6g/DHINU34sdUtmZyyNPxCl3oYaylzozKgNxU/xhm8DmG2G9jOMim4AV4ZH
-	TyIaRA20Wsx2OutAduoSp4iZF7OKnY5Bjw09fPRXr09P6yEpfiYwM86Fas7XF1qZK1vQ
-	Or+A==
-X-Received: by 10.15.100.195 with SMTP id bn43mr17780579eeb.153.1373153540257; 
-	Sat, 06 Jul 2013 16:32:20 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=FGwfeZe8quj2DGDmcajqX2Km5GQTfofMxBPxl+JFMpM=;
+	b=H7uHdIcV3AXgTa9efGaAwHCBUAyZ9hrdlSjYpWB7derGdWhAngfQgpJh041QOsRQ1Z
+	bW8UihCh0rTS9Vp+hOSxeQSXoQL2FMTXmwR8p1gHaxlta4gzvoR6bL7x8tIPTrvEXaOL
+	YmIYSLzaNDvvZ0NmM++Vmot8YcgYI9wAUMXrXwfZBwJ/LFvf+n8fiZns6E7Im3xPoku3
+	JdIDbatCP24L9tNuyzUJRelEaQ1N12Ke7CJFW3JCvM/7s4r0PWGnjRQGvp50j4tZ7Vnf
+	FC34tJqYGQmB6UUGaPQcUBJal/N3DIQNa8R6YZIVqRrak8VRrIBPJLAb74iSbJh9qDEf
+	0tfA==
+X-Received: by 10.60.155.169 with SMTP id vx9mr16192994oeb.93.1373162834437;
+	Sat, 06 Jul 2013 19:07:14 -0700 (PDT)
+Received: from localhost.localdomain ([96.44.77.72])
 	by mx.google.com with ESMTPSA id
-	p49sm27981371eeu.2.2013.07.06.16.32.19 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sat, 06 Jul 2013 16:32:19 -0700 (PDT)
-Date: Sun, 7 Jul 2013 01:32:26 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Chris Larson <clarson@kergoth.com>
-Message-ID: <20130706233226.GG3288@jama>
-References: <20130705224311.GA3288@jama>
-	<1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
-	<CABcZANmrjid3veZXwq_jh24qDaXBjhf3MvNV5yY+6eCg+Gr5Aw@mail.gmail.com>
-	<20130706230840.GE3288@jama>
-	<CABcZAN=oJ5JVRUma+N2V+8xxNZuD+WwOJqmHkEnfcY1EVGa2sA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CABcZAN=oJ5JVRUma+N2V+8xxNZuD+WwOJqmHkEnfcY1EVGa2sA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/2] eglibc-locale: add missing dependency on virtual/${TARGET_PREFIX}binutils
+	mq1sm25398536obb.14.2013.07.06.19.07.11 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 06 Jul 2013 19:07:12 -0700 (PDT)
+Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: richard.purdie@linuxfoundation.org
+Date: Sat,  6 Jul 2013 22:07:05 -0400
+Message-Id: <cover.1373162626.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto: update 3.4 to latest -stable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,61 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2013 23:32:20 -0000
-X-Groupsio-MsgNum: 41564
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="aYDVKSzuImP48n7V"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 07 Jul 2013 02:07:15 -0000
 
---aYDVKSzuImP48n7V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Saul/<patch collectors>,
 
-On Sat, Jul 06, 2013 at 04:20:00PM -0700, Chris Larson wrote:
-> On Sat, Jul 6, 2013 at 4:08 PM, Martin Jansa <martin.jansa@gmail.com> wro=
-te:
->=20
-> > In this case yes, but what about allarch recipes, creating
-> > binutils-cross dependency in their do_package task would probably make
-> > their stamps depending on architecture.
-> >
->=20
-> def get_binutils_dep(d):
->     if 'target' in d.getVar('OVERRIDES', True).split():
->         return d.expand('virtual/${TARGET_PREFIX}binutils')
->     else:
->         return ''
->=20
-> do_package[depends] +=3D "${@get_binutils_dep(d)}"
+Here's an update of the 3.4 SRCREVs for the latest 3.4.52 -stable
+version. Build and boot tested here for linux-yocto and linux-yocto-rt.
 
-class-target will be in recipes which inherits allarch
+Cheers,
 
-that code should also respect
-EXCLUDE_FROM_SHLIBS
-INHIBIT_PACKAGE_DEBUG_SPLIT
-INHIBIT_PACKAGE_STRIP
-flags
+Bruce 
 
-I think objcopy is needed only with some combination of these.
+The following changes since commit dc86293f0444384e8ae5131fdd10b6cb077164b0:
 
-With binutils-cross in BASEDEPENDS I don't know how many recipes will
-need do_package -> binutils-cross.do_populate_sysroot, maybe just this
-one eglibc-locale...
+  bitbake: HOB:Proper handle of SIGINT (2013-07-05 15:52:48 +0100)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+are available in the git repository at:
 
---aYDVKSzuImP48n7V
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
+Bruce Ashfield (1):
+  linux-yocto/3.4: update to v3.4.52
 
-iEYEARECAAYFAlHYqQoACgkQN1Ujt2V2gBxujQCgg0R0YweE0R2uhbPEuPBzuY6e
-L6oAn3kuRAPLbAVAn/KN7HQlBWZIQ4ZD
-=Q3M1
------END PGP SIGNATURE-----
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb      |   16 ++++++++--------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
---aYDVKSzuImP48n7V--
+-- 
+1.7.10.4
+
+
