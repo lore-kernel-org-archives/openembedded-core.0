@@ -1,41 +1,32 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-oa0-f46.google.com (mail-oa0-f46.google.com
-	[209.85.219.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A73236B0EB
+Return-Path: <v.mayoralv@gmail.com>
+Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
+	[209.85.212.43])
+	by mail.openembedded.org (Postfix) with ESMTP id F321C619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jul 2013 02:07:15 +0000 (UTC)
-Received: by mail-oa0-f46.google.com with SMTP id h1so4957434oag.33
+	Sun,  7 Jul 2013 10:09:33 +0000 (UTC)
+Received: by mail-vb0-f43.google.com with SMTP id e12so2705681vbg.16
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Jul 2013 19:07:16 -0700 (PDT)
+	Sun, 07 Jul 2013 03:09:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:in-reply-to:references;
-	bh=fNvqYlSMPxg0lnbKBmr36Ys1Xd75Jw19h2/aBSWCFN0=;
-	b=KPubX3MyK68CBT3cMUuAc3+rmwNALt4oMHgioSD5EvGGWcCNxAZ1ZjB2vou2SEFHe9
-	dxOeVfbYHxtMKP3OdxHp58zy4JhLI5CILVoCwh1ORECrgV/tW/GkTcIg6sb+0Wi1tqDv
-	zRkMU/gCS4//01b8N2wAw4FRsfzg34pgIxpT/UNEYlBCNpuexnbKtaG5NAtQl1IGKjy2
-	6Rz2hp1q6h3C0Gj3oia2fTq22pUItJqVW36NUOqSRx0RENwd0OqoEzgCQjKnfwL3mkgQ
-	I6TAlOMKUgwqsSTAR8d8ij9v5aNt7/dCgY5p0YItOBX5AqKRwSQQ81mPTOiUUq3w4/vH
-	qXWw==
-X-Received: by 10.182.32.4 with SMTP id e4mr16465384obi.16.1373162836550;
-	Sat, 06 Jul 2013 19:07:16 -0700 (PDT)
-Received: from localhost.localdomain ([96.44.77.72])
-	by mx.google.com with ESMTPSA id
-	mq1sm25398536obb.14.2013.07.06.19.07.14 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 06 Jul 2013 19:07:15 -0700 (PDT)
-Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: richard.purdie@linuxfoundation.org
-Date: Sat,  6 Jul 2013 22:07:06 -0400
-Message-Id: <dd626321f93b7d145b05bedd54eba9d1947a1d6c.1373162626.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1373162626.git.bruce.ashfield@windriver.com>
-References: <cover.1373162626.git.bruce.ashfield@windriver.com>
-In-Reply-To: <cover.1373162626.git.bruce.ashfield@windriver.com>
-References: <cover.1373162626.git.bruce.ashfield@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] linux-yocto/3.4: update to v3.4.52
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=GjV+sPbffnfgSp4SrRhk3kNyMmRU9CZcvcvfFHSaCyU=;
+	b=ecOqc7KXLEGX1PhcvkxpWeTo27A0JI7qsfG8j+p6t+N8MqyYjN5Y8KEv6vBCf5fupE
+	lp4lKO3Q7aerXXWpIbloA76eNzr+BSD4+8lr18M084XWq1mR2lX/MYJkOqpC19VGi+a+
+	j1u4A9CHGGRMq08ZMpTUNAzVBAZGP6HvQ3YNJkRRNOD5vvtgx/qjqhy2lG+vw5a6I/EG
+	hLFDSEfpq9b1QKE9mZ5C3yZqbLGJIOwQTPLtc7sjkUIY4ZaKHKDhR+aeU5zHwfspv7UR
+	23AXqsG3whuao+k/7xhwBFnW8l4XnwwoLpKGqOhJ973dt+EYtaF6dJ9Bl4PiyO8lFsPY
+	Hikg==
+MIME-Version: 1.0
+X-Received: by 10.58.237.105 with SMTP id vb9mr11676322vec.2.1373191774057;
+	Sun, 07 Jul 2013 03:09:34 -0700 (PDT)
+Received: by 10.58.210.42 with HTTP; Sun, 7 Jul 2013 03:09:34 -0700 (PDT)
+In-Reply-To: <1373027799-3470-1-git-send-email-v.mayoralv@gmail.com>
+References: <1373027799-3470-1-git-send-email-v.mayoralv@gmail.com>
+Date: Sun, 7 Jul 2013 12:09:34 +0200
+Message-ID: <CAKpQ202PRTQm4TwzVt_rOPmOo30FfG_tSe9sw4QUQ-cLz-UhHg@mail.gmail.com>
+From: =?ISO-8859-1?Q?V=EDctor_MV?= <v.mayoralv@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] apr: add apr_cv_mutex_recursive=yes to support meta-ros
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,91 +39,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jul 2013 02:07:15 -0000
+X-List-Received-Date: Sun, 07 Jul 2013 10:09:34 -0000
+Content-Type: multipart/alternative; boundary=089e01294a50e6ba3d04e0e91f24
 
-Updating the 3.4 kernel to the latest korg -stable release.
+--089e01294a50e6ba3d04e0e91f24
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Hi,
+
+I sent this patch to the list a couple of days ago following the
+instructions given previously. What's the state of the patch?
+There were some discussions regarding wether it should be separated in two
+commits or not.
+
+Could anybody inform me if the patch has been accepted?
+
+Regards,
+
+V=EDctor.
+
+
+
+From: victor <v.mayoralv@gmail.com>
+
+By default apr_cv_mutex_recursive in apr is set to "no" and this leads
+to the APRENOTIMPL return value of apr_thread_mutex_create in
+thread_mutex.c when
+APR_THREAD_MUTEX_NESTED is requested via flags which leads to a deadlock in
+applications
+using apr, as observed in an application with log4cxx.
+
+This commit adds CACHED_CONFIGUREVARS +=3D "apr_cv_mutex_recursive=3Dyes" t=
+o
+apr_1.4.6.bb
+and removes this variable in powerpc32-linux to address this issue.
+
+We detected this issue while working at the meta-ros project
+https://github.com/bmwcarit/meta-ros
+(https://github.com/bmwcarit/meta-ros/issues/68)
+
+Signed-off-by: V=EDctor Mayoral Vilches <v.mayoralv@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |    8 ++++----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |    6 +++---
- meta/recipes-kernel/linux/linux-yocto_3.4.bb      |   16 ++++++++--------
- 3 files changed, 15 insertions(+), 15 deletions(-)
+ meta/recipes-support/apr/apr_1.4.6.bb |    3 +++
+ meta/site/powerpc32-linux             |    1 -
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-index 1655da8..5e50cde 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb
-@@ -3,14 +3,14 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
--LINUX_VERSION ?= "3.4.46"
-+LINUX_VERSION ?= "3.4.52"
- LINUX_KERNEL_TYPE = "preempt-rt"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "2a1d3b50a2889587d0fed92ccb09051a9e300735"
--SRCREV_machine_qemuppc ?= "0168221d2c818898b69890624e1aacbb8ec1aea9"
--SRCREV_meta ?= "9473a39c59bf9c07a316486d272652bacb9ad3ac"
-+SRCREV_machine ?= "1a7a6b495dd6f68e3e2a8a716ceabd283da7f480"
-+SRCREV_machine_qemuppc ?= "0ce0666df1e29a74ccfd65bbcf8286b2e632cc3f"
-+SRCREV_meta ?= "7250de4d4afc2558082cd42b8a0d151903436e8f"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-index b69d9d5..a61fe70 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb
-@@ -8,12 +8,12 @@ KBRANCH = "${KBRANCH_DEFAULT}"
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
- 
--LINUX_VERSION ?= "3.4.46"
-+LINUX_VERSION ?= "3.4.52"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "778950f1e0b5c5af7e92c43220c3c4f4e3324cb5"
--SRCREV_meta ?= "9473a39c59bf9c07a316486d272652bacb9ad3ac"
-+SRCREV_machine ?= "cdd7a546922ca1c46c94adeec3b9c90dc9aaad2d"
-+SRCREV_meta ?= "7250de4d4afc2558082cd42b8a0d151903436e8f"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.4.bb b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-index ae10448..beb67ee 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.4.bb
-@@ -3,17 +3,17 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH_DEFAULT = "standard/base"
- KBRANCH = "${KBRANCH_DEFAULT}"
- 
--SRCREV_machine_qemuarm ?= "ccc8f93d42a56511b8867ff3eeba76290309bc2c"
--SRCREV_machine_qemumips  ?= "23607b7f3ca690d62a43c58b8358fa5b75c55b2a"
--SRCREV_machine_qemuppc ?= "d48004092883cfdee8a5092b375ac635742c39cb"
--SRCREV_machine_qemux86 ?= "778950f1e0b5c5af7e92c43220c3c4f4e3324cb5"
--SRCREV_machine_qemux86-64 ?= "778950f1e0b5c5af7e92c43220c3c4f4e3324cb5"
--SRCREV_machine ?= "778950f1e0b5c5af7e92c43220c3c4f4e3324cb5"
--SRCREV_meta ?= "9473a39c59bf9c07a316486d272652bacb9ad3ac"
-+SRCREV_machine_qemuarm ?= "89c1e24271fba1c235959cb96c91dba98c542821"
-+SRCREV_machine_qemumips  ?= "99e87eb8b1e985eb6addf7590c4e837ff7c7e873"
-+SRCREV_machine_qemuppc ?= "62f5c50609c93c5b70736a4374cee8075ab82566"
-+SRCREV_machine_qemux86 ?= "cdd7a546922ca1c46c94adeec3b9c90dc9aaad2d"
-+SRCREV_machine_qemux86-64 ?= "cdd7a546922ca1c46c94adeec3b9c90dc9aaad2d"
-+SRCREV_machine ?= "cdd7a546922ca1c46c94adeec3b9c90dc9aaad2d"
-+SRCREV_meta ?= "7250de4d4afc2558082cd42b8a0d151903436e8f"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.4.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
--LINUX_VERSION ?= "3.4.46"
-+LINUX_VERSION ?= "3.4.52"
- 
- PR = "${INC_PR}.5"
- PV = "${LINUX_VERSION}+git${SRCPV}"
--- 
-1.7.10.4
+diff --git a/meta/recipes-support/apr/apr_1.4.6.bbb/meta/recipes-support/ap=
+r/
+apr_1.4.6.bb
+index 896f79f..ba59639 100644
+--- a/meta/recipes-support/apr/apr_1.4.6.bb
++++ b/meta/recipes-support/apr/apr_1.4.6.bb
+@@ -23,6 +23,9 @@ inherit autotools lib_package binconfig multilib_header
 
+ OE_BINCONFIG_EXTRA_MANGLE =3D " -e 's:location=3Dsource:location=3Dinstall=
+ed:'"
 
++# Added to fix some issues with cmake. Refer to
+https://github.com/bmwcarit/meta-ros/issues/68#issuecomment-19896928
++CACHED_CONFIGUREVARS +=3D "apr_cv_mutex_recursive=3Dyes"
++
+ do_configure_prepend() {
+        cd ${S}
+        ./buildconf
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
+index 4550df3..b3973c9 100644
+--- a/meta/site/powerpc32-linux
++++ b/meta/site/powerpc32-linux
+@@ -203,7 +203,6 @@ apr_cv_use_lfs64=3D${apr_cv_use_lfs64=3Dyes}
+ apr_cv_epoll=3D${apr_cv_epoll=3Dyes}
+ apr_cv_pthreads_cflags=3D${apr_cv_pthreads_cflags=3D-pthread}
+ apr_cv_pthreads_lib=3D${apr_cv_pthreads_lib=3D-lpthread}
+-apr_cv_mutex_recursive=3D${apr_cv_mutex_recursive=3Dyes}
+ ac_cv_func_mmap=3D${ac_cv_func_mmap=3Dyes}
+ ac_cv_file__dev_zero=3D${ac_cv_file__dev_zero=3Dyes}
+ ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}
+--
+1.7.9.5
+
+--089e01294a50e6ba3d04e0e91f24
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br>Hi,<div><br></div><div>I sent this patch to the list a=
+ couple of days ago following the instructions given previously. What&#39;s=
+ the state of the patch?</div><div>There were some discussions regarding we=
+ther it should be separated in two commits or not.</div>
+<div><br></div><div>Could anybody inform me if the patch has been accepted?=
+</div><div><br></div><div>Regards,</div><div><br></div><div>V=EDctor.<br><d=
+iv class=3D"gmail_quote"><br></div><div class=3D"gmail_quote"><br><br>From:=
+ victor &lt;<a href=3D"mailto:v.mayoralv@gmail.com">v.mayoralv@gmail.com</a=
+>&gt;<br>
+
+<br>
+By default apr_cv_mutex_recursive in apr is set to &quot;no&quot; and this =
+leads<br>
+to the APRENOTIMPL return value of apr_thread_mutex_create in thread_mutex.=
+c when<br>
+APR_THREAD_MUTEX_NESTED is requested via flags which leads to a deadlock in=
+ applications<br>
+using apr, as observed in an application with log4cxx.<br>
+<br>
+This commit adds CACHED_CONFIGUREVARS +=3D &quot;apr_cv_mutex_recursive=3Dy=
+es&quot; to <a href=3D"http://apr_1.4.6.bb" target=3D"_blank">apr_1.4.6.bb<=
+/a><br>
+and removes this variable in powerpc32-linux to address this issue.<br>
+<br>
+We detected this issue while working at the meta-ros project <a href=3D"htt=
+ps://github.com/bmwcarit/meta-ros" target=3D"_blank">https://github.com/bmw=
+carit/meta-ros</a><br>
+(<a href=3D"https://github.com/bmwcarit/meta-ros/issues/68" target=3D"_blan=
+k">https://github.com/bmwcarit/meta-ros/issues/68</a>)<br>
+<br>
+Signed-off-by: V=EDctor Mayoral Vilches &lt;<a href=3D"mailto:v.mayoralv@gm=
+ail.com">v.mayoralv@gmail.com</a>&gt;<br>
+---<br>
+=A0meta/recipes-support/apr/<a href=3D"http://apr_1.4.6.bb" target=3D"_blan=
+k">apr_1.4.6.bb</a> | =A0 =A03 +++<br>
+=A0meta/site/powerpc32-linux =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A01 -<br>
+=A02 files changed, 3 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/apr/<a href=3D"http://apr_1.4.6.bb" targe=
+t=3D"_blank">apr_1.4.6.bb</a> b/meta/recipes-support/apr/<a href=3D"http://=
+apr_1.4.6.bb" target=3D"_blank">apr_1.4.6.bb</a><br>
+index 896f79f..ba59639 100644<br>
+--- a/meta/recipes-support/apr/<a href=3D"http://apr_1.4.6.bb" target=3D"_b=
+lank">apr_1.4.6.bb</a><br>
++++ b/meta/recipes-support/apr/<a href=3D"http://apr_1.4.6.bb" target=3D"_b=
+lank">apr_1.4.6.bb</a><br>
+@@ -23,6 +23,9 @@ inherit autotools lib_package binconfig multilib_header<b=
+r>
+<br>
+=A0OE_BINCONFIG_EXTRA_MANGLE =3D &quot; -e &#39;s:location=3Dsource:locatio=
+n=3Dinstalled:&#39;&quot;<br>
+<br>
++# Added to fix some issues with cmake. Refer to <a href=3D"https://github.=
+com/bmwcarit/meta-ros/issues/68#issuecomment-19896928" target=3D"_blank">ht=
+tps://github.com/bmwcarit/meta-ros/issues/68#issuecomment-19896928</a><br>
+
++CACHED_CONFIGUREVARS +=3D &quot;apr_cv_mutex_recursive=3Dyes&quot;<br>
++<br>
+=A0do_configure_prepend() {<br>
+=A0 =A0 =A0 =A0 cd ${S}<br>
+=A0 =A0 =A0 =A0 ./buildconf<br>
+diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux<br>
+index 4550df3..b3973c9 100644<br>
+--- a/meta/site/powerpc32-linux<br>
++++ b/meta/site/powerpc32-linux<br>
+@@ -203,7 +203,6 @@ apr_cv_use_lfs64=3D${apr_cv_use_lfs64=3Dyes}<br>
+=A0apr_cv_epoll=3D${apr_cv_epoll=3Dyes}<br>
+=A0apr_cv_pthreads_cflags=3D${apr_cv_pthreads_cflags=3D-pthread}<br>
+=A0apr_cv_pthreads_lib=3D${apr_cv_pthreads_lib=3D-lpthread}<br>
+-apr_cv_mutex_recursive=3D${apr_cv_mutex_recursive=3Dyes}<br>
+=A0ac_cv_func_mmap=3D${ac_cv_func_mmap=3Dyes}<br>
+=A0ac_cv_file__dev_zero=3D${ac_cv_file__dev_zero=3Dyes}<br>
+=A0ac_cv_sizeof_off_t=3D${ac_cv_sizeof_off_t=3D4}<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.7.9.5<br>
+<br>
+</font></span></div><br></div></div>
+
+--089e01294a50e6ba3d04e0e91f24--
