@@ -1,43 +1,36 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f181.google.com (mail-ve0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 82CA36AF25;
-	Sun,  7 Jul 2013 10:52:25 +0000 (UTC)
-Received: by mail-ve0-f181.google.com with SMTP id db10so2746931veb.26
-	for <multiple recipients>; Sun, 07 Jul 2013 03:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=n2DqozGi7nHvUIfBbMhtNtUFzMXQ3g6mvGgGfS2Nyh4=;
-	b=x+W18qlat9f5QyrtjAQA4CM9zmTaH+bzR7sT8be++qhzfNpbsqEOS8eo+FFLCixJrt
-	B+1mqBNepQutibDBAn5GJjHO/sUod7dGF7eI7W0n+iyA9aY4qWIAHe/ITUVKewlFGNBZ
-	OSPWLj1GA2YpM3xuAwvWDA4BD5qbN9kySlJ9cXTW+wvQdsrqf2SbagIWz8IuI1Zj037a
-	tDYucUcP807hYUiGPXnTwHjYTh7DaOjqup6mXxo30Rh9P11qhQ1/RZoXpZlvP+mXX51u
-	MVj6CgfSRqE54sXhiiHxFWDIpN5iTdKcEVgoK7Vd5AKARbQbZuRcQH/2FHilIIqGdDsL
-	5+EQ==
-X-Received: by 10.220.162.200 with SMTP id w8mr11482824vcx.90.1373194345976;
-	Sun, 07 Jul 2013 03:52:25 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.195.201 with HTTP; Sun, 7 Jul 2013 03:51:45 -0700 (PDT)
-In-Reply-To: <CANyK_8eXUptxF52CmcJftYZD+oht4gfkDfRsbY3gOnmTRwyzaQ@mail.gmail.com>
-References: <20121213174202.GE3356@jama.jama.net>
-	<20130415141253.GC10628@jama.dyndns-home.com>
-	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
-	<20130516075215.GA24809@jama.dyndns-home.com>
-	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
-	<20130611160434.GI3233@jama>
-	<CANyK_8fMj+=hDVMV+q7CJi7_G5HvztE+n_wcHDn0kTUB7dxFhA@mail.gmail.com>
-	<FB95243C-761D-4268-96A1-B0893DA616AF@gmail.com>
-	<CANyK_8eXUptxF52CmcJftYZD+oht4gfkDfRsbY3gOnmTRwyzaQ@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Sun, 7 Jul 2013 11:51:45 +0100
-X-Google-Sender-Auth: rU0mg2L4AWc7JoulfucJiC9ZNEw
-Message-ID: <CANyK_8eXMAzspaXLDBQ=KwDDuOwhqFr4gPQ1LH1guzu9fYBYiQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] State of bitbake world
+Return-Path: <walters@verbum.org>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id F3B556AD4F
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  7 Jul 2013 21:55:33 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 5E03D2095D;
+	Sun,  7 Jul 2013 17:55:34 -0400 (EDT)
+Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
+	by compute1.internal (MEProxy); Sun, 07 Jul 2013 17:55:34 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=/CEk0BoYutxwxYG9sUi+pU
+	zbAzI=; b=naVacQdMGjJNgy7Suci6GICrToBiLChrD9BfHFZnbbnfnQnxgkNxsC
+	kaMWFdeyj6HipyTeBFPO9enKxyGaEQaqQGU6SO4SunTbIk4eB603bqwEuOdrNAKm
+	jzscRixn8D1Vm56KynloixiPTcPUCDSZrnijnroa9x2C5+vCNxGBc=
+X-Sasl-enc: A7wuVNOSL59+YYQGl+DIZMpzIMI4RSLKd2ccrV1m8fd3 1373234134
+Received: from [192.168.1.2] (unknown [66.31.18.51])
+	by mail.messagingengine.com (Postfix) with ESMTPA id E7BC8680279;
+	Sun,  7 Jul 2013 17:55:33 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Stefan Stanacar <stefanx.stanacar@intel.com>
+In-Reply-To: <a29e7a16581e848d017a56de42e4ee751639d529.1373013888.git.stefanx.stanacar@intel.com>
+References: <cover.1373013888.git.stefanx.stanacar@intel.com>
+	<a29e7a16581e848d017a56de42e4ee751639d529.1373013888.git.stefanx.stanacar@intel.com>
+Date: Sun, 07 Jul 2013 17:55:31 -0400
+Message-ID: <1373234131.5334.17.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 (2.32.3-11.el6) 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH v2 3/8] lib/oeqa/utils/sshcontrol.py: helper module for running remote commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,33 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jul 2013 10:52:25 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 07 Jul 2013 21:55:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 20 June 2013 10:39, Paul Barker <paul@paulbarker.me.uk> wrote:
-> On 20 June 2013 03:28, Khem Raj <raj.khem@gmail.com> wrote:
->>
->>> luajit is rather a strange error, HOST_CC can't find <sys/types.h> or
->>> some other common headers.
->>
->> hmmm luajit does not fail here for beaglebone/qemuarm so not much I can help.
->>
->
-> I'll throw a qemuarm build on today and see whether this is an issue
-> with my build host or not.
->
+On Fri, 2013-07-05 at 12:27 +0300, Stefan Stanacar wrote:
 
-Finally got round to solving this.
+> +        actualcmd = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l root %s '%s'" % (self.host, cmd)
 
-It uses HOST_CC="gcc -m32" as it needs pointer sizes to match between
-host and target. On Ubuntu Server 12.04 I needed to run "sudo apt-get
-install gcc-multilib libc6-i386 libc6-dev-i386" to get the correct
-headers in place for the 32-bit host compile to work. So not an
-OpenEmbedded bug.
+This is going to fail if cmd contains a single quote.  Personally, I
+*always* pass around subprocess arguments as an array.  Anything else is
+going to lead to quoting problems.
 
---
-Paul Barker
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+
 
