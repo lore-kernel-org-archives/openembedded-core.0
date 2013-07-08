@@ -1,26 +1,26 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id F33726A59E
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BE7EA6A5A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 23:20:31 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 08 Jul 2013 16:20:33 -0700
+	Mon,  8 Jul 2013 23:36:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Jul 2013 16:38:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1023,1363158000"; d="scan'208";a="265639002"
+X-IronPort-AV: E=Sophos;i="4.87,1023,1363158000"; d="scan'208";a="367122230"
 Received: from unknown (HELO [10.255.13.85]) ([10.255.13.85])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Jul 2013 16:20:32 -0700
-Message-ID: <51DB4940.2000606@linux.intel.com>
-Date: Mon, 08 Jul 2013 16:20:32 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2013 16:36:49 -0700
+Message-ID: <51DB4D11.5020208@linux.intel.com>
+Date: Mon, 08 Jul 2013 16:36:49 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1373003615.git.Qi.Chen@windriver.com>
-	<341a64b50c13dec0bf01feb5c74d5b32815a7191.1373003615.git.Qi.Chen@windriver.com>
-In-Reply-To: <341a64b50c13dec0bf01feb5c74d5b32815a7191.1373003615.git.Qi.Chen@windriver.com>
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: add a method to add/delete/modify user/group settings
+To: Radu Moisan <radu.moisan@intel.com>
+References: <cover.1373278823.git.radu.moisan@intel.com>
+	<e8fa6be5b318d10720fa8df55a800ac3aacd56e3.1373278823.git.radu.moisan@intel.com>
+In-Reply-To: <e8fa6be5b318d10720fa8df55a800ac3aacd56e3.1373278823.git.radu.moisan@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 8/9] diffutils: Upgrade to v3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,111 +33,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 23:20:32 -0000
+X-List-Received-Date: Mon, 08 Jul 2013 23:36:49 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/04/2013 11:07 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> We may want to add a user or group which does not logically belong to
-> any specific package. For example, we may want to add a user with the
-> name 'tester' to our image. Besides, we may want to delete or modify
-> user/group in our image.
->
-> This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
-> to these tasks. The configuration format is detailed in the local.conf.
-> sample.extended file.
->
-> This patch also adds a function, set_user_group, which happens at
-> the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
-> in the USER_GROUP_SETTINGS variable.
->
-> [YOCTO #4074]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+On 07/08/2013 03:22 AM, Radu Moisan wrote:
+> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
 > ---
->   meta/classes/image.bbclass |   48 ++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 48 insertions(+)
+>   .../diffutils-3.2/obsolete_automake_macros.patch   |   14 -------------
+>   .../diffutils/diffutils-3.2/remove-gets.patch      |   22 --------------------
+>   meta/recipes-extended/diffutils/diffutils.inc      |    2 +-
+>   .../{diffutils_3.2.bb => diffutils_3.3.bb}         |   10 ++-------
+>   4 files changed, 3 insertions(+), 45 deletions(-)
+>   delete mode 100644 meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch
+>   delete mode 100644 meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
+>   rename meta/recipes-extended/diffutils/{diffutils_3.2.bb => diffutils_3.3.bb} (59%)
 >
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 380ed8e..8ce97be 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -179,6 +179,8 @@ ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks"
->   ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "postinst_enable_logging; ", "",d)}'
->   # Set default postinst log file
->   POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
-> +# Image level user / group settings
-> +ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
+> diff --git a/meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch b/meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch
+> deleted file mode 100644
+> index f47cc79..0000000
+> --- a/meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -Upstream-Status: Backport
+> -
+> -Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+> -diff -Nurd diffutils-3.2/configure.ac diffutils-3.2/configure.ac
+> ---- diffutils-3.2/configure.ac	2011-08-11 18:17:54.000000000 +0300
+> -+++ diffutils-3.2/configure.ac	2013-02-08 08:13:28.271427213 +0200
+> -@@ -33,7 +33,6 @@
+> -
+> - AC_PROG_AWK
+> - AC_PROG_CC
+> --AM_PROG_CC_STDC
+> - AM_MISSING_PROG([HELP2MAN], [help2man])
+> - AC_PROG_RANLIB
+> - gl_EARLY
+> diff --git a/meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch b/meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
+> deleted file mode 100644
+> index 58ed62d..0000000
+> --- a/meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -check for gets before using it
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Upstream-Status: Pending
+> -Index: diffutils-3.2/lib/stdio.in.h
+> -===================================================================
+> ---- diffutils-3.2.orig/lib/stdio.in.h	2011-08-28 04:57:28.000000000 -0700
+> -+++ diffutils-3.2/lib/stdio.in.h	2012-07-03 10:45:07.518322117 -0700
+> -@@ -693,11 +693,13 @@
+> - _GL_CXXALIAS_SYS (gets, char *, (char *s));
+> - #  undef gets
+> - # endif
+> -+# if defined gets
+> - _GL_CXXALIASWARN (gets);
+> - /* It is very rare that the developer ever has full control of stdin,
+> -    so any use of gets warrants an unconditional warning.  Assume it is
+> -    always declared, since it is required by C89.  */
+> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
+> -+# endif
+> - #endif
+> -
+> -
+> diff --git a/meta/recipes-extended/diffutils/diffutils.inc b/meta/recipes-extended/diffutils/diffutils.inc
+> index c90a3c9..8286569 100644
+> --- a/meta/recipes-extended/diffutils/diffutils.inc
+> +++ b/meta/recipes-extended/diffutils/diffutils.inc
+> @@ -6,7 +6,7 @@ SECTION = "base"
 >
->   # some default locales
->   IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
-> @@ -528,6 +530,52 @@ postinst_enable_logging () {
->   	echo "LOGFILE=${POSTINST_LOGFILE}" >> ${IMAGE_ROOTFS}${sysconfdir}/default/postinst
->   }
+>   INC_PR = "r7"
 >
-> +# Image level user / group settings
-> +set_user_group () {
-> +	user_group_settings="${USER_GROUP_SETTINGS}"
-> +	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
-> +	# login.def may no be present in rootfs, if so, we use that one in sysroot as a default
-> +	if [ ! -e ${IMAGE_ROOTFS}${sysconfdir}/login.defs ]; then
-> +		cp ${STAGING_DIR_TARGET}/${sysconfdir}/login.defs ${IMAGE_ROOTFS}${sysconfdir}/login.defs
-> +		target_login_def="no"
-> +	fi
-Since this gets run every time for image creation, we can be sure an 
-image won't be using someform of login, so finding login.defs might not 
-be the best thing to do.
+I guess we need to keep this since it's used by the gplv2 version still, 
+but you could move it there and have the recipe file maintain a PR of 
+r7.0? ??
 
-take the poky.tiny example and failures:
-> cp: cannot stat '/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/poky-tiny/build/build/tmp/sysroots/qemux86//etc/login.defs': No such file or directory
-> ERROR: Function failed: do_rootfs (log file is located at /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/poky-tiny/build/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0-r0/temp/log.do_rootfs.24531)
-> NOTE: recipe core-image-minimal-1.0-r0: task do_rootfs: Failed
+> -SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.gz"
+> +SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz"
+>
+This change causes problems for the gplv2 version, so SRC_URI should 
+move to the versioned bb files.
 
 Sau!
 
-
-
-> +	setting=`echo $user_group_settings | cut -d ';' -f1`
-> +	remaining=`echo $user_group_settings | cut -d ';' -f2-`
-> +	while test "x$setting" != "x"; do
-> +		user_group=`echo $setting | cut -d ',' -f1`
-> +		action=`echo $setting | cut -d ',' -f2`
-> +		opts=`echo $setting | cut -d ',' -f3`
-> +		# determine the command according to user_group and action
-> +		if [ "$user_group" = "USER" ]; then
-> +			cmd_prefix="user"
-> +		elif [ "$user_group" = "GROUP" ]; then
-> +			cmd_prefix="group"
-> +		else
-> +			echo "Error: invalid setting of $user_group in the USER_GROUP_SETTINGS"
-> +			exit 1
-> +		fi
-> +		if [ "$action" = "ADD" ]; then
-> +			cmd_suffix="add"
-> +		elif [ "$action" = "DEL" ]; then
-> +			cmd_suffix="del"
-> +		elif [ "$action" = "MOD" ]; then
-> +			cmd_suffix="mod"
-> +		else
-> +			echo "Error: invalid setting of $user_group in the USER_GROUP_SETTINGS"
-> +			exit 1
-> +		fi
-> +		cmd=$cmd_prefix$cmd_suffix
-> +		echo "using commond <$cmd> for setting <$setting> ..."
-> +		eval $PSEUDO $cmd -R ${IMAGE_ROOTFS} $opts
-> +		# iterate to the next setting
-> +		setting=`echo $remaining | cut -d ';' -f1`
-> +		remaining=`echo $remaining | cut -d ';' -f2-`
-> +	done
-> +	if [ "$target_login_def" = "no" ]; then
-> +		rm -f ${IMAGE_ROOTFS}${sysconfdir}/login.defs
-> +	fi
-> +}
-> +
->   # Turn any symbolic /sbin/init link into a file
->   remove_init_link () {
->   	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
+>   inherit autotools update-alternatives gettext
+>
+> diff --git a/meta/recipes-extended/diffutils/diffutils_3.2.bb b/meta/recipes-extended/diffutils/diffutils_3.3.bb
+> similarity index 59%
+> rename from meta/recipes-extended/diffutils/diffutils_3.2.bb
+> rename to meta/recipes-extended/diffutils/diffutils_3.3.bb
+> index ef400ef..1b72a4b 100644
+> --- a/meta/recipes-extended/diffutils/diffutils_3.2.bb
+> +++ b/meta/recipes-extended/diffutils/diffutils_3.3.bb
+> @@ -10,11 +10,5 @@ do_configure_prepend () {
+>   	done
+>   }
+>
+> -PR = "${INC_PR}.1"
+> -
+> -SRC_URI += "file://remove-gets.patch \
+> -            file://obsolete_automake_macros.patch \
+> -"
+> -
+> -SRC_URI[md5sum] = "22e4deef5d8949a727b159d6bc65c1cc"
+> -SRC_URI[sha256sum] = "2aaaebef615be7dc365306a14caa5d273a4fc174f9f10abca8b60e082c054ed3"
+> +SRC_URI[md5sum] = "99180208ec2a82ce71f55b0d7389f1b3"
+> +SRC_URI[sha256sum] = "a25e89a8ab65fded1731e4186be1bb25cda967834b6df973599cdcd5abdfc19c"
 >
 
