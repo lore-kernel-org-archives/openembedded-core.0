@@ -1,31 +1,32 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C09B6B005
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 18:01:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r68I1o7c012245
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jul 2013 11:01:50 -0700 (PDT)
-Received: from msp-dhcp27.wrs.com (172.25.34.27) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 8 Jul 2013 11:01:49 -0700
-Message-ID: <51DAFE8C.8000506@windriver.com>
-Date: Mon, 8 Jul 2013 13:01:48 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+Return-Path: <Sean_Hudson@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id C2F286AF13;
+	Mon,  8 Jul 2013 18:51:04 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1UwGWe-0002tY-RD from Sean_Hudson@mentor.com ;
+	Mon, 08 Jul 2013 11:51:04 -0700
+Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Mon, 8 Jul 2013 11:51:04 -0700
+Received: from king.local (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
+	(147.34.97.43) with Microsoft SMTP Server id 14.2.247.3; Mon, 8 Jul 2013
+	11:51:03 -0700
+Message-ID: <51DB0A16.7090103@mentor.com>
+Date: Mon, 8 Jul 2013 13:51:02 -0500
+From: Sean Hudson <sean_hudson@mentor.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
 	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1373003615.git.Qi.Chen@windriver.com>
-	<341a64b50c13dec0bf01feb5c74d5b32815a7191.1373003615.git.Qi.Chen@windriver.com>
-	<20130705083905.GD3259@jama> <51DAF3BC.60107@windriver.com>
-	<20130708172715.GO3288@jama>
-In-Reply-To: <20130708172715.GO3288@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: add a method to add/delete/modify user/group settings
+To: <openembedded-members@lists.openembedded.org>
+References: <1371572589.20823.143.camel@ted>
+	<1373068016.2074.72.camel@pb-ThinkPad-R50e>
+In-Reply-To: <1373068016.2074.72.camel@pb-ThinkPad-R50e>
+X-OriginalArrivalTime: 08 Jul 2013 18:51:04.0677 (UTC)
+	FILETIME=[1954E950:01CE7C0C]
+Cc: tsc <tsc@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE, the TSC and the future
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,75 +39,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 18:01:51 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Jul 2013 18:51:05 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 7/8/13 12:27 PM, Martin Jansa wrote:
-> On Mon, Jul 08, 2013 at 12:15:40PM -0500, Mark Hatle wrote:
->> On 7/5/13 3:39 AM, Martin Jansa wrote:
->>> On Fri, Jul 05, 2013 at 02:07:28PM +0800, Qi.Chen@windriver.com wrote:
->>>> From: Chen Qi <Qi.Chen@windriver.com>
->>>>
->>>> We may want to add a user or group which does not logically belong to
->>>> any specific package. For example, we may want to add a user with the
->>>> name 'tester' to our image. Besides, we may want to delete or modify
->>>> user/group in our image.
->>>>
->>>> This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
->>>> to these tasks. The configuration format is detailed in the local.conf.
->>>> sample.extended file.
->>>>
->>>> This patch also adds a function, set_user_group, which happens at
->>>> the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
->>>> in the USER_GROUP_SETTINGS variable.
->>>
->>> Why not use extra package just with user?
->>>
->>> See "[PATCH v3 0/5] Allow xuser to shutdown (cover letter only)"
->>
->> The issue is that the users don't want extra (empty) packages to just add
->> standard users/groups.  What they want is a post image-generation
->> "configuration" mechanism.
->>
->> Adding users/groups is one of the basic items that they want/need.  This really
->> has to be considered to be an administrative activity vs a distribution
->> activity.  (I.e. difference between creating a package and performing some kind
->> of post-image action.)
->>
->> The other issue with a package based approach is it then mandates changes occur
->> by having to rebuild/reinstall packages.  This is onerous in my experience, for
->> something basic like this.  It's really outside of the package manager's control.
+On 7/5/13 6:46 PM, Phil Blundell wrote:
+> On Tue, 2013-06-18 at 17:23 +0100, Richard Purdie wrote:
+>> In brief summary the TSC has been doing two main things, acting as a
+>> task force and also being able to make a decision when needed. The
+>> latter has not happened much at all, the main work was as a task force
+>> on various issues, firstly engaging with the Yocto Project and figuring
+>> that out, more recently dealing with infrastructure issues and generally
+>> ensuring the health of OE.
+> It's certainly true that most of the current TSC members have been doing
+> a fine job on the "task force" front and I think we'd all be glad to see
+> them continue with that.  What's rather less obvious to me is whether
+> they actually need to be an elected body in order to do so; any group of
+> individuals who wish to form a task force are obviously free and welcome
+> to do so at any time.
 >
-> We can have all users in one package
-> base-users (like we have base-files)
+> As you note, the requirement for the TSC to actually make decisions has
+> been minimal/nonexistent of late and, again, it's not totally obvious
+> that having an elected body of experts on perpetual standby just in case
+> a decision might be needed is entirely necessary.
 >
-> It can allow someone to just define DEFAULT_USERS = "a b c" in
-> local.conf and let base-users recipe to create all 3 automatically.
+> In the many-layered world that we now inhabit, it seems reasonable to
+> let the individual layer maintainers (in consultation with their peers
+> when necessary) make the decisions that they think best for their own
+> trees.  Recent experience seems to suggest that, practically speaking,
+> this is already what's happening and when it comes to a contest of wills
+> the TSC have not shown any interest in overruling layer maintainers who
+> disagree with their stated position.
 >
-> Post image-generation mechanism doesn't allow to add new required users
-> in "upgrade" or installing packages from binary feed with all required
-> users accounts.
+> Plus, of course, we already have two bodies who are empowered by the OE
+> e.V. statutes to make decisions, namely the board and the GA.   Both of
+> these have wide discretion to do what they think best, and of course
+> they can convene a panel of expert advisers if they feel that any
+> particular issue needs specialist knowledge that they don't have.
 >
+> So, all in all, I feel that we've come to the point where the TSC (as an
+> organisation) is no longer providing us with any particular benefits and
+> could be disbanded without causing any real hardship.  This would avoid
+> the administrative overhead of running elections for each of its seats,
+> which have recently been uncontested in any case, and would also avoid a
+> certain amount of potential ambiguity over where the TSC's jurisdiction
+> ends and the board's starts.
+>
+I believe that Phil Blundell raises a valid question about the continuing
+need for the TSC. However, it seems to me that the need for a group to
+arbitrate on technical matters is valuable enough, by itself, to keep 
+the TSC.
+This applies even if that function is utilized infrequently.
 
-That is exactly it..  these are not users that will -ever- be upgraded or worked 
-on via packages.
+In considering the future of the TSC, I offer the opinion that in the 
+future,
+tactical concerns shouldn't be the primary business for the TSC. Rather, I'd
+like to see the TSC become more strategically focused. In particular, 
+I'd like
+to have the TSC produce a vision for OE in the 2-3 year time frame. As 
+another
+OE board member, I support Phil Balister's offer to have the 
+non-technical matters
+fall to the board to handle, with the caveat that the TSC becomes more 
+focused on
+the long term evolution and improvement of OE as a whole
 
-This is equivalent to saying "I'd like users bob, tracy and alice on this image 
-I'm generating."
+Regards,
+      Sean
+  
+Sean Hudson | Embedded Linux Architect
+Mentor Embedded™
+Nucleus® | Linux® | Android™ | Services | UI | Multi-OS
 
-It's NOT saying, all systems generated with this package feed will include bob, 
-tracy and alice.
-
-If the user wants to add john, after the initial image is generated, they would 
-do so using the adduser functionality of the system (or modifying the 
-passwd/group files.)
-
-The fundamental problem is that the package feeds and district from the image 
-itself.  The image is nothing more then an installer that happens to be running 
-on the build machine itself.  Things that are part of the distribution belong in 
-the feed, things that are instance/image specific belong as part of the 
-installation process.
-
---Mark
 
