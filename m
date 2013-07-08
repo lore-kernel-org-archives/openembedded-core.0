@@ -1,32 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6604661883
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 61EC6618B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 20:10:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r68KAkNB014728
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jul 2013 13:10:46 -0700 (PDT)
-Received: from msp-dhcp27.wrs.com (172.25.34.27) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 8 Jul 2013 13:10:45 -0700
-Message-ID: <51DB1CC5.9070908@windriver.com>
-Date: Mon, 8 Jul 2013 15:10:45 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1373003615.git.Qi.Chen@windriver.com>
-	<341a64b50c13dec0bf01feb5c74d5b32815a7191.1373003615.git.Qi.Chen@windriver.com>
-	<20130705083905.GD3259@jama> <51DAF3BC.60107@windriver.com>
-	<20130708172715.GO3288@jama> <51DAFE8C.8000506@windriver.com>
-	<20130708193131.GP3288@jama>
-In-Reply-To: <20130708193131.GP3288@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: add a method to add/delete/modify user/group settings
+	Mon,  8 Jul 2013 23:10:35 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 08 Jul 2013 16:10:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1023,1363158000"; d="scan'208";a="265635899"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.85])
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Jul 2013 16:10:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Jul 2013 16:10:35 -0700
+Message-Id: <1373325035-29814-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH v2] util-linux: Use PACKAGECONFIG to control pam and system config options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,95 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 20:10:47 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Jul 2013 23:10:35 -0000
 
-On 7/8/13 2:31 PM, Martin Jansa wrote:
-> On Mon, Jul 08, 2013 at 01:01:48PM -0500, Mark Hatle wrote:
->> On 7/8/13 12:27 PM, Martin Jansa wrote:
->>> On Mon, Jul 08, 2013 at 12:15:40PM -0500, Mark Hatle wrote:
->>>> On 7/5/13 3:39 AM, Martin Jansa wrote:
->>>>> On Fri, Jul 05, 2013 at 02:07:28PM +0800, Qi.Chen@windriver.com wrote:
->>>>>> From: Chen Qi <Qi.Chen@windriver.com>
->>>>>>
->>>>>> We may want to add a user or group which does not logically belong to
->>>>>> any specific package. For example, we may want to add a user with the
->>>>>> name 'tester' to our image. Besides, we may want to delete or modify
->>>>>> user/group in our image.
->>>>>>
->>>>>> This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
->>>>>> to these tasks. The configuration format is detailed in the local.conf.
->>>>>> sample.extended file.
->>>>>>
->>>>>> This patch also adds a function, set_user_group, which happens at
->>>>>> the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
->>>>>> in the USER_GROUP_SETTINGS variable.
->>>>>
->>>>> Why not use extra package just with user?
->>>>>
->>>>> See "[PATCH v3 0/5] Allow xuser to shutdown (cover letter only)"
->>>>
->>>> The issue is that the users don't want extra (empty) packages to just add
->>>> standard users/groups.  What they want is a post image-generation
->>>> "configuration" mechanism.
->>>>
->>>> Adding users/groups is one of the basic items that they want/need.  This really
->>>> has to be considered to be an administrative activity vs a distribution
->>>> activity.  (I.e. difference between creating a package and performing some kind
->>>> of post-image action.)
->>>>
->>>> The other issue with a package based approach is it then mandates changes occur
->>>> by having to rebuild/reinstall packages.  This is onerous in my experience, for
->>>> something basic like this.  It's really outside of the package manager's control.
->>>
->>> We can have all users in one package
->>> base-users (like we have base-files)
->>>
->>> It can allow someone to just define DEFAULT_USERS = "a b c" in
->>> local.conf and let base-users recipe to create all 3 automatically.
->>>
->>> Post image-generation mechanism doesn't allow to add new required users
->>> in "upgrade" or installing packages from binary feed with all required
->>> users accounts.
->>>
->>
->> That is exactly it..  these are not users that will -ever- be upgraded or worked
->> on via packages.
->>
->> This is equivalent to saying "I'd like users bob, tracy and alice on this image
->> I'm generating."
->>
->> It's NOT saying, all systems generated with this package feed will include bob,
->> tracy and alice.
->
-> IMAGE_INSTALL += "base-user-bob base-user-tracy base-user-alice"
->
->> If the user wants to add john, after the initial image is generated, they would
->> do so using the adduser functionality of the system (or modifying the
->> passwd/group files.)
->
-> And what if john-the-ripper package in the feed needs john as system
-> user and the same system user is also used by thc-hydra package?
+The PACKAGECONFIG will ensure consistent enabling and disabling of the pam and systemd related
+options for configure and the correct dependencies
 
-These are not system users.. these are -actual- users, people who are going to 
-log into this instance and do "something".
+v2: fixed PACKAGECONFIG line continuation grammar
+    added _class-target for PACKAGECONFIG to work on target only
 
-> Should both include addusers/addgroup postinsts (like connman,
-> xserver-nodm-init do without latest patchset)?
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-Each package that requires a non-standard system user should add it themselves 
-via the existing postinst scripts.
-
---Mark
-
->> The fundamental problem is that the package feeds and district from the image
->> itself.  The image is nothing more then an installer that happens to be running
->> on the build machine itself.  Things that are part of the distribution belong in
->> the feed, things that are instance/image specific belong as part of the
->> installation process.
->>
->> --Mark
->
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 5bae370..7d50856 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -42,18 +42,17 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
+                 --disable-makeinstall-chown --enable-elvtune --enable-init \
+                 --enable-kill --enable-last --enable-mesg --enable-partx \
+                 --enable-raw --enable-rdev --enable-reset --disable-login \
+-                --disable-vipw --disable-newgrp --disable-chfn-chsh --disable-su \
++                --disable-vipw --disable-newgrp --disable-chfn-chsh \
+                 --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
+                 --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
+-                --disable-runuser \
+ 		usrsbin_execdir='${sbindir}' \
+ "
++PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
++                                ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
++PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, pam,"
+ 
+ # Respect the systemd feature for uuidd
+-EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--enable-socket-activation', '--disable-socket-activation', d)}"
+-EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', d)}"
+-
+-EXTRA_OECONF_append_class-native = " --disable-login --disable-su --disable-runuser"
++PACKAGECONFIG[systemd] = "--enable-socket-activation --with-systemdsystemunitdir=${systemd_unitdir}/system/, --disable-socket-activation --without-systemdsystemunitdir"
+ 
+ FILES_${PN}-bash-completion += "${datadir}/bash-completion"
+ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
+-- 
+1.8.1.4
 
 
