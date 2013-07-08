@@ -1,25 +1,42 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 259766A5A5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D18D36AF25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 19:22:38 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2013 12:20:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1021,1363158000"; d="scan'208";a="366678013"
-Received: from unknown (HELO [10.255.13.85]) ([10.255.13.85])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2013 12:22:27 -0700
-Message-ID: <51DB1173.3080804@linux.intel.com>
-Date: Mon, 08 Jul 2013 12:22:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Mon,  8 Jul 2013 19:31:23 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id j14so3165294eak.22
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Jul 2013 12:31:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=UshvCWxHHiqRbgPEJQSEAon8tBUkM4LndU4j1Ls+5nQ=;
+	b=YiBNl4oMoFvBthrpzjKcBruFgmETs6U0+qQEYLVvvDic7aOcj/PbMGP174yz2vicVN
+	DYkDU66vZQhfXV8YI2P9yiHdQNHtoC8Rb3QN3sJ6KFdnpY9eWLe5sbyYvoFyT4/hdELM
+	aB32fssfJNMVZjwmMmDDLn9OYBb0i/aNcKCf/We0A6qZPiO9CkeZB1oVgpDSYQJNdamn
+	FatrtmUaoAPMJk5xn7zEPfWgUNIf3LtlAuwfJUa7aPm1MLKE+q9r962d7namehtb6BpN
+	P39qbEKr/PenKrtECqLV65lEW1/bVVh+M6xYo0hMA8CoVN1zCddCucuvuBhGP050c5cC
+	oYpQ==
+X-Received: by 10.14.148.133 with SMTP id v5mr26791656eej.81.1373311883960;
+	Mon, 08 Jul 2013 12:31:23 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	b7sm44602927eef.16.2013.07.08.12.31.22 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 08 Jul 2013 12:31:23 -0700 (PDT)
+Date: Mon, 8 Jul 2013 21:31:31 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20130708193131.GP3288@jama>
+References: <cover.1373003615.git.Qi.Chen@windriver.com>
+	<341a64b50c13dec0bf01feb5c74d5b32815a7191.1373003615.git.Qi.Chen@windriver.com>
+	<20130705083905.GD3259@jama> <51DAF3BC.60107@windriver.com>
+	<20130708172715.GO3288@jama> <51DAFE8C.8000506@windriver.com>
 MIME-Version: 1.0
-To: "Noor, Ahsan" <noor_ahsan@mentor.com>
-References: <1373033018-20615-1-git-send-email-noor_ahsan@mentor.com>
-In-Reply-To: <1373033018-20615-1-git-send-email-noor_ahsan@mentor.com>
+In-Reply-To: <51DAFE8C.8000506@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] lighttpd: Add systemd support.
+Subject: Re: [PATCH 1/1] image.bbclass: add a method to add/delete/modify user/group settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,96 +49,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 19:22:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Jul 2013 19:31:24 -0000
+X-Groupsio-MsgNum: 41624
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="LpcCHpaCAbC4X43d"
+Content-Disposition: inline
 
-On 07/05/2013 07:03 AM, Noor, Ahsan wrote:
-> From: Noor <noor_ahsan@mentor.com>
->
-> * Enable lighttpd with systemd support.
-> * Replace the hardcoded paths with sbindir, sysconfdir and base_bindir
->
-> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-> ---
->   .../lighttpd/files/lighttpd.service                |   12 ++++++++++
->   meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   24 ++++++++++++++++----
->   2 files changed, 32 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/files/lighttpd.service
-> new file mode 100644
-> index 0000000..a5333b6
-> --- /dev/null
-> +++ b/meta/recipes-extended/lighttpd/files/lighttpd.service
-> @@ -0,0 +1,12 @@
-> +[Unit]
-> +Description=Lightning Fast Webserver With Light System Requirements
-> +After=network.target
-> +
-> +[Service]
-> +ExecStartPre=/usr/sbin/lighttpd -t -f /etc/lighttpd.conf
-> +ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd.conf
-> +ExecReload=/bin/kill -HUP $MAINPID
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> +
-> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-> index df6ce97..3c03938 100644
-> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-> @@ -22,6 +22,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
->           file://index.html.lighttpd \
->           file://lighttpd.conf \
->           file://lighttpd \
-> +        file://lighttpd.service \
->           "
->
->   SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
-> @@ -39,19 +40,34 @@ EXTRA_OECONF = " \
->                --disable-static \
->   "
->
-> -inherit autotools pkgconfig update-rc.d gettext
-> +inherit autotools pkgconfig update-rc.d gettext systemd
->
->   INITSCRIPT_NAME = "lighttpd"
->   INITSCRIPT_PARAMS = "defaults 70"
->
-> +SYSTEMD_SERVICE_${PN} = "lighttpd.service"
-> +SYSTEMD_AUTO_ENABLE = "disable"
-> +
-> +
->   do_install_append() {
-> -    install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
-> -    install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
-> +
-> +    install -d ${D}${sysconfdir} ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
->       install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
->       install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
-> +    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-I am not sure this is the best way as it may be possible to have both 
-sysvinit and systemd in DISTRO_FEATURES.  I think it would be better to 
-test for each individually and install based on that.
+--LpcCHpaCAbC4X43d
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sau!
+On Mon, Jul 08, 2013 at 01:01:48PM -0500, Mark Hatle wrote:
+> On 7/8/13 12:27 PM, Martin Jansa wrote:
+> > On Mon, Jul 08, 2013 at 12:15:40PM -0500, Mark Hatle wrote:
+> >> On 7/5/13 3:39 AM, Martin Jansa wrote:
+> >>> On Fri, Jul 05, 2013 at 02:07:28PM +0800, Qi.Chen@windriver.com wrote:
+> >>>> From: Chen Qi <Qi.Chen@windriver.com>
+> >>>>
+> >>>> We may want to add a user or group which does not logically belong to
+> >>>> any specific package. For example, we may want to add a user with the
+> >>>> name 'tester' to our image. Besides, we may want to delete or modify
+> >>>> user/group in our image.
+> >>>>
+> >>>> This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
+> >>>> to these tasks. The configuration format is detailed in the local.co=
+nf.
+> >>>> sample.extended file.
+> >>>>
+> >>>> This patch also adds a function, set_user_group, which happens at
+> >>>> the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
+> >>>> in the USER_GROUP_SETTINGS variable.
+> >>>
+> >>> Why not use extra package just with user?
+> >>>
+> >>> See "[PATCH v3 0/5] Allow xuser to shutdown (cover letter only)"
+> >>
+> >> The issue is that the users don't want extra (empty) packages to just =
+add
+> >> standard users/groups.  What they want is a post image-generation
+> >> "configuration" mechanism.
+> >>
+> >> Adding users/groups is one of the basic items that they want/need.  Th=
+is really
+> >> has to be considered to be an administrative activity vs a distribution
+> >> activity.  (I.e. difference between creating a package and performing =
+some kind
+> >> of post-image action.)
+> >>
+> >> The other issue with a package based approach is it then mandates chan=
+ges occur
+> >> by having to rebuild/reinstall packages.  This is onerous in my experi=
+ence, for
+> >> something basic like this.  It's really outside of the package manager=
+'s control.
+> >
+> > We can have all users in one package
+> > base-users (like we have base-files)
+> >
+> > It can allow someone to just define DEFAULT_USERS =3D "a b c" in
+> > local.conf and let base-users recipe to create all 3 automatically.
+> >
+> > Post image-generation mechanism doesn't allow to add new required users
+> > in "upgrade" or installing packages from binary feed with all required
+> > users accounts.
+> >
+>=20
+> That is exactly it..  these are not users that will -ever- be upgraded or=
+ worked=20
+> on via packages.
+>=20
+> This is equivalent to saying "I'd like users bob, tracy and alice on this=
+ image=20
+> I'm generating."
+>=20
+> It's NOT saying, all systems generated with this package feed will includ=
+e bob,=20
+> tracy and alice.
 
-> +        install -d ${D}${sysconfdir}/init.d
-> +        install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
-> +    else
-> +        install -d ${D}${systemd_unitdir}/system
-> +        install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
-> +        sed -i 's!/usr/sbin!${sbindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
-> +        sed -i 's!/etc!${sysconfdir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
-> +        sed -i 's!/bin!${base_bindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
-> +    fi
-> +
->   }
->
-> -FILES_${PN} += "${sysconfdir} /www"
-> +FILES_${PN} += "${sysconfdir} /www ${systemd_unitdir}"
->
->   CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
->
->
+IMAGE_INSTALL +=3D "base-user-bob base-user-tracy base-user-alice"
 
+> If the user wants to add john, after the initial image is generated, they=
+ would=20
+> do so using the adduser functionality of the system (or modifying the=20
+> passwd/group files.)
+
+And what if john-the-ripper package in the feed needs john as system
+user and the same system user is also used by thc-hydra package?
+
+Should both include addusers/addgroup postinsts (like connman,
+xserver-nodm-init do without latest patchset)?
+
+> The fundamental problem is that the package feeds and district from the i=
+mage=20
+> itself.  The image is nothing more then an installer that happens to be r=
+unning=20
+> on the build machine itself.  Things that are part of the distribution be=
+long in=20
+> the feed, things that are instance/image specific belong as part of the=
+=20
+> installation process.
+>=20
+> --Mark
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--LpcCHpaCAbC4X43d
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHbE5MACgkQN1Ujt2V2gBw6HgCglq/5+/+PqfbNpOY4ca8aj24b
+JR4AoLjpWLAl7ycFzCTwn0M/XYGNSzcy
+=gk5j
+-----END PGP SIGNATURE-----
+
+--LpcCHpaCAbC4X43d--
