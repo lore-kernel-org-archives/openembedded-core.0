@@ -1,26 +1,41 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 27EEE6B122
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 803D06B0D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 03:30:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r683U8pQ025197
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  8 Jul 2013 03:30:36 +0000 (UTC)
+Received: by mail-pb0-f41.google.com with SMTP id rp16so3840697pbb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Jul 2013 20:30:08 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 7 Jul 2013 20:30:07 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Jul 2013 11:30:04 +0800
-Message-ID: <e2fa93a52c32522d4831e3d29f87bae4c6625f27.1373253998.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1373253998.git.jackie.huang@windriver.com>
-References: <cover.1373253998.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] glib: fix the python script munging for cross compile
+	Sun, 07 Jul 2013 20:30:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=xeSMWtOSDMf0xJbowOl3xw6mFd6ec+zIrIZQPef2oag=;
+	b=H6LqxedUDwB+XMtIIpFwZ4ZfmKUYOxE/c4WnfevprVGj5Vfth0UPGwebpGP+jHLZvw
+	hn2bB/UqKUqlz+cQuK3tY2f7oh3QVHo0u4Bxd0BMfJKkD5eyqLCt3jIUUgXgdjn25L1N
+	teIqXFdkuQmcMREf6JIGKcqJepjENppdTjp7cw09ui9UmD4+v2ffgQbo/rg62Hht/A1z
+	9P9P4jWT9w2tx9WvEcAaD5mD5PCVXJe5l8wACsdDikIm2K871clXNuXYqLDpOYBebDur
+	dLXUwuAv0CFx/qNUojOZjswVRoh2ib06flTFAsKPuor0RKDvKG/iMsHp674rg24RoBOz
+	12ZA==
+X-Received: by 10.66.190.101 with SMTP id gp5mr20659167pac.19.1373254237647;
+	Sun, 07 Jul 2013 20:30:37 -0700 (PDT)
+Received: from sa-nc-spg-194.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id iq6sm19825454pbc.1.2013.07.07.20.30.36
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 07 Jul 2013 20:30:36 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Sun, 7 Jul 2013 20:30:34 -0700
+Message-Id: <0BA68180-92E5-4FCA-B3DF-CB3570BAE29C@gmail.com>
+References: <20130705224311.GA3288@jama>
+	<1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 1/2] eglibc-locale: add missing dependency on virtual/${TARGET_PREFIX}binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,76 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 03:30:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 08 Jul 2013 03:30:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Jackie Huang <jackie.huang@windriver.com>
 
-Fix the munging of python scripts so that they'll work
-on the target, we don't want ${PYTHON}, because that is
-the path on the host, not the target.
+On Jul 6, 2013, at 1:39 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Signed-off-by: David Borman <david.borman@windriver.com>
-Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- .../glib-2.0/glib-2.0/glib2-python-ref.patch       |   33 ++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb      |    1 +
- 2 files changed, 34 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/glib2-python-ref.patch
+> * eglibc-collateral.inc inhibits all default deps, but do_package =
+needs
+>  objcopy:
+>  ERROR: objcopy failed with exit code 127 (cmd was
+>  'i586-webos-linux-objcopy' --only-keep-debug
+>  'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so'
+>  'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
+>  ERROR: Function failed: split_and_strip_files
+>=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+> meta/recipes-core/eglibc/eglibc-locale.inc | 5 +++++
+> 1 file changed, 5 insertions(+)
+>=20
+> diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc =
+b/meta/recipes-core/eglibc/eglibc-locale.inc
+> index f4cb814..c3fcc6d 100644
+> --- a/meta/recipes-core/eglibc/eglibc-locale.inc
+> +++ b/meta/recipes-core/eglibc/eglibc-locale.inc
+> @@ -5,6 +5,11 @@ SUMMARY =3D "Locale data from eglibc"
+> BPN =3D "eglibc"
+> LOCALEBASEPN =3D "${MLPREFIX}eglibc"
+>=20
+> +# eglibc-collateral.inc inhibits all default deps, but do_package =
+needs objcopy
+> +# ERROR: objcopy failed with exit code 127 (cmd was =
+'i586-webos-linux-objcopy' --only-keep-debug =
+'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so' =
+'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
+> +# ERROR: Function failed: split_and_strip_files
+> +DEPENDS_class-target =3D "virtual/${TARGET_PREFIX}binutils"
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib2-python-ref.patch b/meta/recipes-core/glib-2.0/glib-2.0/glib2-python-ref.patch
-new file mode 100644
-index 0000000..d2f8d44
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/glib2-python-ref.patch
-@@ -0,0 +1,33 @@
-+glib: fix the python script munging for cross compile
-+
-+Fix the munging of python scripts so that they'll work
-+on the target, we don't want ${PYTHON}, because that is
-+the path on the host, not the target.
-+
-+Upstream-status: Inappropriate [ embedded specific ]
-+
-+Signed-off-by: David Borman <david.borman@windriver.com>
-+Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
-+
-+--- glib-2.26.0/glib/Makefile.am
-++++ glib-2.26.0/glib/Makefile.am
-+@@ -413,7 +413,7 @@
-+ 	  mv -f "$(DESTDIR)$(bindir)/$$sf" "$(DESTDIR)$(bindir)/$$sf".tmp \
-+ 	  && sed < "$(DESTDIR)$(bindir)/$$sf".tmp > "$(DESTDIR)$(bindir)/$$sf" \
-+ 	    -e '1,24s|^ *#@PKGINSTALL_CONFIGVARS_IN24LINES@|  ${CONFIGVARS}|' \
-+-	    -e '1,1s|#! /usr/bin/env python\([0-9]\+\(\.[0-9]\+\)\?\)\?|#!${PYTHON}|' \
-++	    -e '1,1s|#! /usr/bin/env python\([0-9]\+\(\.[0-9]\+\)\?\)\?|#!/usr/bin/python|' \
-+ 	  || exit $$? ; \
-+ 	  chmod a+x $(DESTDIR)$(bindir)/$$sf ; \
-+ 	  rm -f "$(DESTDIR)$(bindir)/$$sf".tmp ; \
-+--- glib-2.26.0/glib/Makefile.in
-++++ glib-2.26.0/glib/Makefile.in
-+@@ -1759,7 +1759,7 @@
-+ @OS_UNIX_TRUE@	  mv -f "$(DESTDIR)$(bindir)/$$sf" "$(DESTDIR)$(bindir)/$$sf".tmp \
-+ @OS_UNIX_TRUE@	  && sed < "$(DESTDIR)$(bindir)/$$sf".tmp > "$(DESTDIR)$(bindir)/$$sf" \
-+ @OS_UNIX_TRUE@	    -e '1,24s|^ *#@PKGINSTALL_CONFIGVARS_IN24LINES@|  ${CONFIGVARS}|' \
-+-@OS_UNIX_TRUE@	    -e '1,1s|#! /usr/bin/env python\([0-9]\+\(\.[0-9]\+\)\?\)\?|#!${PYTHON}|' \
-++@OS_UNIX_TRUE@	    -e '1,1s|#! /usr/bin/env python\([0-9]\+\(\.[0-9]\+\)\?\)\?|#!/usr/bin/python|' \
-+ @OS_UNIX_TRUE@	  || exit $$? ; \
-+ @OS_UNIX_TRUE@	  chmod a+x $(DESTDIR)$(bindir)/$$sf ; \
-+ @OS_UNIX_TRUE@	  rm -f "$(DESTDIR)$(bindir)/$$sf".tmp ; \
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb
-index d9d8932..ffe34ac 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://fix-conflicting-rand.patch \
-            file://Makefile-ptest.patch \
-            file://add-march-i486-into-CFLAGS-automatically.patch \
-+           file://glib2-python-ref.patch \
-            file://run-ptest \
-           "
- 
--- 
-1.7.4.1
+
+Looks good.
 
 
