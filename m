@@ -1,36 +1,24 @@
-Return-Path: <walters@verbum.org>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id F3B556AD4F
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 39E456AC48
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Jul 2013 21:55:33 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.mail.srv.osa [10.202.2.41])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 5E03D2095D;
-	Sun,  7 Jul 2013 17:55:34 -0400 (EDT)
-Received: from frontend2.nyi.mail.srv.osa ([10.202.2.161])
-	by compute1.internal (MEProxy); Sun, 07 Jul 2013 17:55:34 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
-	:content-type:date:message-id:mime-version
-	:content-transfer-encoding; s=smtpout; bh=/CEk0BoYutxwxYG9sUi+pU
-	zbAzI=; b=naVacQdMGjJNgy7Suci6GICrToBiLChrD9BfHFZnbbnfnQnxgkNxsC
-	kaMWFdeyj6HipyTeBFPO9enKxyGaEQaqQGU6SO4SunTbIk4eB603bqwEuOdrNAKm
-	jzscRixn8D1Vm56KynloixiPTcPUCDSZrnijnroa9x2C5+vCNxGBc=
-X-Sasl-enc: A7wuVNOSL59+YYQGl+DIZMpzIMI4RSLKd2ccrV1m8fd3 1373234134
-Received: from [192.168.1.2] (unknown [66.31.18.51])
-	by mail.messagingengine.com (Postfix) with ESMTPA id E7BC8680279;
-	Sun,  7 Jul 2013 17:55:33 -0400 (EDT)
-From: Colin Walters <walters@verbum.org>
-To: Stefan Stanacar <stefanx.stanacar@intel.com>
-In-Reply-To: <a29e7a16581e848d017a56de42e4ee751639d529.1373013888.git.stefanx.stanacar@intel.com>
-References: <cover.1373013888.git.stefanx.stanacar@intel.com>
-	<a29e7a16581e848d017a56de42e4ee751639d529.1373013888.git.stefanx.stanacar@intel.com>
-Date: Sun, 07 Jul 2013 17:55:31 -0400
-Message-ID: <1373234131.5334.17.camel@localhost>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 (2.32.3-11.el6) 
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH v2 3/8] lib/oeqa/utils/sshcontrol.py: helper module for running remote commands
+	Mon,  8 Jul 2013 02:45:10 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r682jCUs027356
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Jul 2013 19:45:12 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 7 Jul 2013 19:45:10 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Jul 2013 10:45:08 +0800
+Message-ID: <cover.1373251397.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] glib-2.0: add -march=i486 into CFLAGS automatically when needed.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Jul 2013 21:55:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Jul 2013 02:45:10 -0000
+Content-Type: text/plain
 
-On Fri, 2013-07-05 at 12:27 +0300, Stefan Stanacar wrote:
+From: Jackie Huang <jackie.huang@windriver.com>
 
-> +        actualcmd = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l root %s '%s'" % (self.host, cmd)
+The following changes since commit 3e1dbabbf33a2e461abc92ff10cd970fe604ee38:
 
-This is going to fail if cmd contains a single quote.  Personally, I
-*always* pass around subprocess arguments as an array.  Anything else is
-going to lead to quoting problems.
+  sysstat: backport a patch to fix a parallel building error (2013-07-02 07:58:10 -0700)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/r_bbappend_glib_0708_2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_bbappend_glib_0708_2
 
+Jackie Huang (1):
+  glib-2.0: add -march=i486 into CFLAGS automatically when needed.
+
+ .../add-march-i486-into-CFLAGS-automatically.patch |   39 ++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb      |    1 +
+ 2 files changed, 40 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/add-march-i486-into-CFLAGS-automatically.patch
+
+-- 
+1.7.4.1
 
 
