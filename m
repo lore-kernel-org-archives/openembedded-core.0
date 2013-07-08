@@ -1,28 +1,30 @@
-Return-Path: <mihaix.lindner@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 523816AEA2
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BD5E66007C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 17:33:30 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Jul 2013 10:35:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1021,1363158000"; d="scan'208";a="362143220"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Jul 2013 10:34:31 -0700
-Received: from [10.237.105.37] (unknown [10.237.105.37])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 82E086A4093
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 10:33:29 -0700 (PDT)
-Message-ID: <1373304800.2546.57.camel@mlindnex-mobl1.ger.corp.intel.com>
-From: Mihai Lindner <mihaix.lindner@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 08 Jul 2013 20:33:20 +0300
-Organization: Intel OTC
-X-Mailer: Evolution 3.6.4 
-Mime-Version: 1.0
-Subject: RFC: oe-selftest script to run automated tests against bitbake tools
+	Mon,  8 Jul 2013 18:00:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r68I0PNu012226
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 8 Jul 2013 11:00:25 -0700 (PDT)
+Received: from [128.224.23.67] (128.224.23.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 8 Jul 2013 11:00:24 -0700
+Message-ID: <51DAFE34.3080505@windriver.com>
+Date: Mon, 8 Jul 2013 14:00:20 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20130706122934.GC3288@jama>
+	<1373145886-26565-1-git-send-email-Martin.Jansa@gmail.com>
+	<20130706213931.GD3288@jama>
+In-Reply-To: <20130706213931.GD3288@jama>
+X-Originating-IP: [128.224.23.67]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH] test-dependencies: add simple script to detect missing or autoenabled dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 17:33:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 08 Jul 2013 18:00:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hello all,
+On 13-07-06 05:39 PM, Martin Jansa wrote:
+> On Sat, Jul 06, 2013 at 11:24:46PM +0200, Martin Jansa wrote:
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>   scripts/test-dependencies.sh | 250 +++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 250 insertions(+)
+>>   create mode 100755 scripts/test-dependencies.sh
+>>
+>> +build_all() {
+>> +  echo "===== 1st build to populate sstate-cache directory and sysroot ====="
+>> +  OUTPUT1=${OUTPUT_BASE}/${TYPE}_all
+>> +  mkdir -p ${OUTPUT1}
+>> +  echo "Logs will be stored in ${OUTPUT1} directory"
+>> +  bitbake $targets | tee -a ${OUTPUT1}/complete.log
+>> +}
+>
+> I've just added "-k" here to bitbake call, more improvements are expected,
+> that's why it's only RFC, but I wanted to share it soon in case someone
+> else also have access to some builder which is idle during weekends..
+>
+> It would be nice to test and fix oe-core recipes first, but because my
+> target is to run this in dylan I'm running this with more layers
+> included already.
 
-The idea of "oe-selftest" would be to have an extra method of testing to
-cover what's not addressed by sanity tests, bitbake-selftest or image
-run-time testing. More information and some example tests are posted in
-the related bug, here:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4740
+Martin,
 
-Before starting any work on this, maybe we can gather some thoughts,
-comments, here or in the bugzilla entry, something in the lines of what
-kind of tests should it run or not, what would be the usage scenario,
-etc.
+Such a per-recipe dependency test has been on our to do list!
+Once your script is in master, we can run it at least once a week.
 
-Thanks,
-Mihai
+// Randy
+
+>
+> I'm sending patches for master + blacklisting broken recipes in dylan,
+> maybe we should backport them later as missing deps and autodetected
+> deps are relatively safe fixes.
+>
+> Regards,
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
