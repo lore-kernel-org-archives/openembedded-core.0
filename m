@@ -1,30 +1,30 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CF0BA6A5A2
+	by mail.openembedded.org (Postfix) with ESMTP id 0D6A06A5A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 16:55:14 +0000 (UTC)
+	Mon,  8 Jul 2013 17:15:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r68Gt6dg000950
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jul 2013 09:55:07 -0700 (PDT)
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r68HFgHO004138
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Jul 2013 10:15:42 -0700 (PDT)
 Received: from msp-dhcp27.wrs.com (172.25.34.27) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 8 Jul 2013 09:55:06 -0700
-Message-ID: <51DAEEE9.6000203@windriver.com>
-Date: Mon, 8 Jul 2013 11:55:05 -0500
+	Mon, 8 Jul 2013 10:15:42 -0700
+Message-ID: <51DAF3BC.60107@windriver.com>
+Date: Mon, 8 Jul 2013 12:15:40 -0500
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
 	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Philip Balister <philip@balister.org>
-References: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
-	<CALmOhgk+NG_aqEwbtKXm0KTWGEim9z5bCpCE8sHiovsaDiTPew@mail.gmail.com>
-	<51D0569A.7050705@balister.org>
-In-Reply-To: <51D0569A.7050705@balister.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1373003615.git.Qi.Chen@windriver.com>
+	<341a64b50c13dec0bf01feb5c74d5b32815a7191.1373003615.git.Qi.Chen@windriver.com>
+	<20130705083905.GD3259@jama>
+In-Reply-To: <20130705083905.GD3259@jama>
+Subject: Re: [PATCH 1/1] image.bbclass: add a method to add/delete/modify user/group settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,60 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 16:55:15 -0000
+X-List-Received-Date: Mon, 08 Jul 2013 17:15:41 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/30/13 11:02 AM, Philip Balister wrote:
-> On 06/30/2013 11:56 AM, Trevor Woerner wrote:
->> On 27 June 2013 10:08, Mark Hatle <mark.hatle@windriver.com> wrote:
->>> See GNU Savannah bug 30612 -- make 3.82 is known to be broken.
->>>
->>> A number of vendors are providing a modified version, so checking
->>> for just the version string is not enough.  We also need to check
->>> if the patch for the issue has been applied.  We use a modified
->>> version of the reproduced to check for the issue.
->>>
->>> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->>> ---
->>> +
->>> +        if status != 0:
->>> +            return "Your version of make 3.82 is broken. Please revert to 3.81 or install a patched version.\n"
+On 7/5/13 3:39 AM, Martin Jansa wrote:
+> On Fri, Jul 05, 2013 at 02:07:28PM +0800, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
 >>
+>> We may want to add a user or group which does not logically belong to
+>> any specific package. For example, we may want to add a user with the
+>> name 'tester' to our image. Besides, we may want to delete or modify
+>> user/group in our image.
 >>
->> Instead of returning an error and asking the user to manually update
->> their own 'make', wouldn't it be better if bitbake simply built its
->> own known-to-be-working -native version instead? In this way a good,
->> working version of 'make' could be installed in a potential SDK's
->> sysroot as well?
+>> This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
+>> to these tasks. The configuration format is detailed in the local.conf.
+>> sample.extended file.
+>>
+>> This patch also adds a function, set_user_group, which happens at
+>> the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
+>> in the USER_GROUP_SETTINGS variable.
 >
-> Is the broken version good enough to build a working version?
+> Why not use extra package just with user?
+>
+> See "[PATCH v3 0/5] Allow xuser to shutdown (cover letter only)"
 
-(Catching up on email after my vacation...)
+The issue is that the users don't want extra (empty) packages to just add 
+standard users/groups.  What they want is a post image-generation 
+"configuration" mechanism.
 
-That is the primary issue, can we even trust the host system to work well enough 
-to build a working version.
+Adding users/groups is one of the basic items that they want/need.  This really 
+has to be considered to be an administrative activity vs a distribution 
+activity.  (I.e. difference between creating a package and performing some kind 
+of post-image action.)
 
-Second, there was recently a change to oe-core that got rid of all of the 
-"bootstrap" builds, in favor of the 'buildtools'.  For anyone with an old or 
-broken system, they will need to download (or build) the buildtools.. install it 
-and have it in their path prior to running oe-core.
+The other issue with a package based approach is it then mandates changes occur 
+by having to rebuild/reinstall packages.  This is onerous in my experience, for 
+something basic like this.  It's really outside of the package manager's control.
 
-This will provide the basic set of python, tar, git, and make that is needed for 
-the build system.
-
-On a "working" host, you can use bitbake buildtools-tarball to generate it.
-
---Mark
-
-> Philip
 >
 >
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
