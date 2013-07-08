@@ -1,26 +1,22 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B337608C6
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 2857E6A5A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 15:48:02 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2013 08:45:31 -0700
+	Mon,  8 Jul 2013 15:52:23 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 08 Jul 2013 08:52:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1021,1363158000"; d="scan'208";a="342199515"
-Received: from unknown (HELO helios.localnet) ([10.252.122.28])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jul 2013 08:47:58 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 08 Jul 2013 16:47:57 +0100
-Message-ID: <5517861.pGMakEMcrE@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <1373105044-30014-1-git-send-email-Martin.Jansa@gmail.com>
-References: <20130704083054.GA3259@jama>
-	<1373105044-30014-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] buildhistory: Record size of installed package not compressed archive
+X-IronPort-AV: E=Sophos;i="4.87,1021,1363158000"; d="scan'208";a="362092579"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.85])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Jul 2013 08:53:05 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Jul 2013 08:52:03 -0700
+Message-Id: <1373298723-12460-2-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+In-Reply-To: <1373298723-12460-1-git-send-email-sgw@linux.intel.com>
+References: <1373298723-12460-1-git-send-email-sgw@linux.intel.com>
+Subject: [PATCH 2/2] util-linux: Use PACKAGECONFIG to control pam and system config options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +29,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 15:48:03 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 08 Jul 2013 15:52:23 -0000
 
-On Saturday 06 July 2013 12:04:04 Martin Jansa wrote:
-> * usually it's more important to know how much space will each
->   package take on target device then size of compressed package
-> * example for libewebkit0 with 4 different architectures, interesting
->   that om_gta02 .ipk is bigger but it's smaller when installed
-> 
->   before:
->   MACHINE     DEFAULTTUNE       SIZE (.ipk file)
->   om_gta04    cortexa8t-neon    15996 KiB libewebkit0
->   qemux86_64  x86-64            16992 KiB libewebkit0
->   spitz       xscale            16148 KiB libewebkit0
->   om_gta02    arm920t           16260 KiB libewebkit0
-> 
->   after:
->   MACHINE     DEFAULTTUNE       SIZE (installed)
->   om_gta04    cortexa8t-neon    60544 KiB libewebkit0
->   qemux86_64  x86-64            63720 KiB libewebkit0
->   spitz       xscale            60588 KiB libewebkit0
->   om_gta02    arm920t           56268 KiB libewebkit0
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/buildhistory.bbclass | 11 ++++----
->  scripts/oe-pkgdata-util           | 59
-> ++++++++++++++++++++++++++++++++++++--- 2 files changed, 61 insertions(+),
-> 9 deletions(-)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass
-> b/meta/classes/buildhistory.bbclass index 36e7fe1..1ebe68e 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -317,6 +317,8 @@ buildhistory_get_installed() {
->  	# Get list of installed packages
->  	pkgcache="$1/installed-packages.tmp"
->  	list_installed_packages file | sort > $pkgcache
-> +	pkgcachearch="$1/installed-packages-arch.tmp"
-> +	list_installed_packages arch | sort > $pkgcachearch
+The PACKAGECONFIG will ensure consistent enabling and disabling of the pam and systemd related
+options for configure and the correct dependencies
 
-If possible I would prefer to avoid having to query the installed package list 
-twice; I know that would mean changing every backend. I can look at this if 
-you're short on time.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 5bae370..c7da4ed 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -42,18 +42,17 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
+                 --disable-makeinstall-chown --enable-elvtune --enable-init \
+                 --enable-kill --enable-last --enable-mesg --enable-partx \
+                 --enable-raw --enable-rdev --enable-reset --disable-login \
+-                --disable-vipw --disable-newgrp --disable-chfn-chsh --disable-su \
++                --disable-vipw --disable-newgrp --disable-chfn-chsh \
+                 --enable-write --enable-arch --enable-mount --with-fsprobe=builtin \
+                 --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
+-                --disable-runuser \
+ 		usrsbin_execdir='${sbindir}' \
+ "
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \"
++                   ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \"
++PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, pam,"
+ 
+ # Respect the systemd feature for uuidd
+-EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--enable-socket-activation', '--disable-socket-activation', d)}"
+-EXTRA_OECONF += "${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdsystemunitdir=${systemd_unitdir}/system/', '--without-systemdsystemunitdir', d)}"
+-
+-EXTRA_OECONF_append_class-native = " --disable-login --disable-su --disable-runuser"
++PACKAGECONFIG[systemd] = "--enable-socket-activation --with-systemdsystemunitdir=${systemd_unitdir}/system/, --disable-socket-activation --without-systemdsystemunitdir"
+ 
+ FILES_${PN}-bash-completion += "${datadir}/bash-completion"
+ FILES_${PN}-doc += "${datadir}/getopt/getopt-*.*"
 -- 
+1.8.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
