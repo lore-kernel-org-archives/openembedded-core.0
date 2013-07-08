@@ -1,24 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A20126A5A2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B826F6AEA2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 10:37:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Jul 2013 03:37:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1019,1363158000"; d="scan'208";a="366778645"
-Received: from unknown (HELO helios.localnet) ([10.252.122.28])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2013 03:37:35 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 08 Jul 2013 11:37:34 +0100
-Message-ID: <2669169.qPHMrcrodV@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <cover.1372456294.git.raj.khem@gmail.com>
+	Mon,  8 Jul 2013 10:43:54 +0000 (UTC)
+Received: by mail-ee0-f43.google.com with SMTP id l10so2703398eei.16
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 08 Jul 2013 03:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=2rxhffCO6bmfBD9XCIcmalBdRkQeNrkKE6qqY0U/XM4=;
+	b=m07GQX9TSg7P5FZqlW0YAE9NSMrfGfLxMrfsouYoSAguaRx5JnDvBPNNV7THwJw2of
+	rD0pkbWH5T9FGYb/jZMjr4PyvygVOC87aqGdAuYopttrnAcNCbzT4r8HCh2GmzUFw8cI
+	5M9Xf6Xc0TrYEipwNdDo3QI0kX7+Bj++mepfydDx998eZ+C8c/uZHDFT4N12h0n38iMk
+	op0wtP5Mi3Ie4buTj1aXEr94XtX2GJzhIFSJIVPxhynJterVJ+YDdoi8EnPq/gTX1ddL
+	gFvuAgRKbCdfSI38I3hyfctKbusBFX4w6VfE+9OQ+gpa1dCFftQlI7C39yvFRIlwJoFv
+	lZ8Q==
+X-Received: by 10.15.67.140 with SMTP id u12mr24285410eex.90.1373280234748;
+	Mon, 08 Jul 2013 03:43:54 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	e44sm41099782eeh.11.2013.07.08.03.43.53 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 08 Jul 2013 03:43:54 -0700 (PDT)
+Date: Mon, 8 Jul 2013 12:44:02 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130708104402.GI3288@jama>
 References: <cover.1372456294.git.raj.khem@gmail.com>
+	<4b305736d4226c770324950a1efca903800fbc9c.1372456294.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 00/24] Add python3 recipes
+In-Reply-To: <4b305736d4226c770324950a1efca903800fbc9c.1372456294.git.raj.khem@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 19/24] python3-pycurl: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,207 +46,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 10:37:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 08 Jul 2013 10:43:55 -0000
+X-Groupsio-MsgNum: 41601
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="HuXIgs6JvY9hJs5C"
+Content-Disposition: inline
 
-Hi Khem,
+--HuXIgs6JvY9hJs5C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Friday 28 June 2013 14:59:46 Khem Raj wrote:
-> This patchset adds python3 recipes to metadata in such a way
-> that they can coexist with python2. The patchset has been
-> tested quite well and I think is ready for review.
-> 
-> At times it will adjust existing python2 recipes to make
-> room for itself in a compatible way
-> 
-> To add them to your images
-> 
-> add
->        python3
->        python3-modules
->        python3-misc
-> 
-> to IMAGE_INSTALL
-> 
-> 
-> The following changes since commit ff65497cd9a96d5ab49b16ba1f7e30a216ff4a42:
-> 
->   classes/insane: remove la2 check which no longer exists from ERROR_QA
-> (2013-06-28 16:33:05 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib kraj/python3
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj
-> /python3
-> 
-> Khem Raj (24):
->   generate-manifest-3.3.py: Add script to generate python 3.3 manifests
->   python3native.bbclass: Add python3 abstraction class
->   package_rpm.bbclass:Make the regexp less greedy
->   classes/distutils: Introduce PYTHON_PN
->   classes: Add distutils for python3
->   setuptools.bbclass: Use python-distribute instead of
->     python-setuptools
->   distutils3.bbclass: Port the distutils class fix to handle filenames
->     with spaces
->   setuptools3.bbclass: Remove useless multiline comment
->   distutils: Introduce PYTHON_ABI variable
->   distutils3: Do build_ext as separate step during compile
->   python-3.3-manifest: Add python3 manifest file
->   python3: Add recipes
->   python3: Add native recipe
->   python_2.7.3.bb: Inherit python-dir
->   ipython: Add recipes for ipython2 and ipython3
->   python-distribute: Add recipes for python2 and python3
->   zeromq: Add recipe
->   pyzmq: Add recipes using python3
->   python3-pycurl: Add recipe
->   python3-docutils: Add recipe
->   python3-jinja: Recipe for python3 templating system
->   python3-nose: Testing tools for python
->   python3-sphinx: New recipe for documentation system
->   python3: Upgrade to 3.3.2
-> 
->  meta/classes/distutils-base.bbclass                |    5 +-
->  meta/classes/distutils-native-base.bbclass         |    4 +-
->  meta/classes/distutils-tools.bbclass               |   77 +++
->  meta/classes/distutils.bbclass                     |   24 +-
->  meta/classes/distutils3-base.bbclass               |    8 +
->  meta/classes/distutils3-native-base.bbclass        |    4 +
->  meta/classes/distutils3.bbclass                    |   82 +++
->  meta/classes/package_rpm.bbclass                   |    2 +-
->  meta/classes/python-dir.bbclass                    |    2 +
->  meta/classes/python3native.bbclass                 |    7 +
->  meta/classes/pythonnative.bbclass                  |    9 +-
->  meta/classes/setuptools.bbclass                    |    3 +-
->  meta/classes/setuptools3.bbclass                   |    8 +
->  .../ipython/001-completer-across-raw-types.patch   |  562
-> ++++++++++++++++++++ .../ipython3/001-completer-across-raw-types.patch  | 
-> 562 ++++++++++++++++++++ meta/recipes-devtools/python/ipython3_0.13.1.bb   
-> |   71 +++
->  meta/recipes-devtools/python/ipython_0.13.1.bb     |   48 ++
->  .../python/python-3.3-manifest.inc                 |  260 +++++++++
->  .../python/python-distribute_0.6.32.bb             |   47 ++
->  .../python/python3-distribute_0.6.32.bb            |   46 ++
->  .../python/python3-docutils_0.10.bb                |   37 ++
->  meta/recipes-devtools/python/python3-jinja_1.2.bb  |   37 ++
->  .../python/python3-native_3.3.2.bb                 |   67 +++
->  meta/recipes-devtools/python/python3-nose_1.2.1.bb |   34 ++
->  .../python/python3-pycurl/no-static-link.patch     |   16 +
->  .../python/python3-pycurl_7.19.0.bb                |   35 ++
->  .../0001-Fixed-just-zmq-detection.patch            |   56 ++
->  .../python/python3-pyzmq_13.0.0.bb                 |   46 ++
->  .../python/python3-sphinx_1.1.3.bb                 |   39 ++
->  .../python/python3/000-cross-compile.patch         |   76 +++
->  ...sue-13032-where-it-fails-with-UnicodeDeco.patch |   37 ++
->  .../python3/020-dont-compile-python-files.patch    |   31 ++
->  .../python/python3/03-fix-tkinter-detection.patch  |   42 ++
->  .../python/python3/030-fixup-include-dirs.patch    |   27 +
->  .../python/python3/04-default-is-optimized.patch   |   58 ++
->  .../python3/06-ctypes-libffi-fix-configure.patch   |   44 ++
->  .../python3/070-dont-clean-ipkg-install.patch      |   30 ++
->  .../python3/080-distutils-dont_adjust_files.patch  |   86 +++
->  .../python/python3/110-enable-zlib.patch           |   15 +
->  .../python/python3/130-readline-setup.patch        |   49 ++
->  .../python/python3/150-fix-setupterm.patch         |   11 +
->  .../python3/avoid_warning_about_tkinter.patch      |   25 +
->  meta/recipes-devtools/python/python3/cgi_py.patch  |   23 +
->  .../python3/fix_for_using_different_libdir.patch   |   54 ++
->  .../python3/host_include_contamination.patch       |   28 +
->  .../python/python3/python-3.3-multilib.patch       |  348 ++++++++++++
->  .../python/python3/remove_sqlite_rpath.patch       |   19 +
->  .../python/python3/setuptweaks.patch               |   57 ++
->  .../python/python3/shutil-follow-symlink-fix.patch |   11 +
->  .../python/python3/sitecustomize.py                |   37 ++
->  .../sys_platform_is_now_always_linux2.patch        |   29 +
->  meta/recipes-devtools/python/python3_3.3.2.bb      |  202 +++++++
->  meta/recipes-devtools/python/python_2.7.3.bb       |    2 +-
->  meta/recipes-devtools/python/zeromq_3.2.2.bb       |   24 +
->  scripts/contrib/python/generate-manifest-3.3.py    |  376 +++++++++++++
->  55 files changed, 3916 insertions(+), 23 deletions(-)
->  create mode 100644 meta/classes/distutils-tools.bbclass
->  create mode 100644 meta/classes/distutils3-base.bbclass
->  create mode 100644 meta/classes/distutils3-native-base.bbclass
->  create mode 100644 meta/classes/distutils3.bbclass
->  create mode 100644 meta/classes/python3native.bbclass
->  create mode 100644 meta/classes/setuptools3.bbclass
->  create mode 100644
-> meta/recipes-devtools/python/ipython/001-completer-across-raw-types.patch
-> create mode 100644
-> meta/recipes-devtools/python/ipython3/001-completer-across-raw-types.patch
-> create mode 100644 meta/recipes-devtools/python/ipython3_0.13.1.bb create
-> mode 100644 meta/recipes-devtools/python/ipython_0.13.1.bb create mode
-> 100644 meta/recipes-devtools/python/python-3.3-manifest.inc create mode
-> 100644 meta/recipes-devtools/python/python-distribute_0.6.32.bb create mode
-> 100644 meta/recipes-devtools/python/python3-distribute_0.6.32.bb create
-> mode 100644 meta/recipes-devtools/python/python3-docutils_0.10.bb create
-> mode 100644 meta/recipes-devtools/python/python3-jinja_1.2.bb create mode
-> 100644 meta/recipes-devtools/python/python3-native_3.3.2.bb create mode
-> 100644 meta/recipes-devtools/python/python3-nose_1.2.1.bb create mode
-> 100644 meta/recipes-devtools/python/python3-pycurl/no-static-link.patch
-> create mode 100644 meta/recipes-devtools/python/python3-pycurl_7.19.0.bb
-> create mode 100644
-> meta/recipes-devtools/python/python3-pyzmq/0001-Fixed-just-zmq-detection.pa
-> tch create mode 100644 meta/recipes-devtools/python/python3-pyzmq_13.0.0.bb
-> create mode 100644 meta/recipes-devtools/python/python3-sphinx_1.1.3.bb
-> create mode 100644
-> meta/recipes-devtools/python/python3/000-cross-compile.patch create mode
-> 100644
-> meta/recipes-devtools/python/python3/0001-h2py-Fix-issue-13032-where-it-fai
-> ls-with-UnicodeDeco.patch create mode 100644
-> meta/recipes-devtools/python/python3/020-dont-compile-python-files.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/03-fix-tkinter-detection.patch create
-> mode 100644
-> meta/recipes-devtools/python/python3/030-fixup-include-dirs.patch create
-> mode 100644
-> meta/recipes-devtools/python/python3/04-default-is-optimized.patch create
-> mode 100644
-> meta/recipes-devtools/python/python3/06-ctypes-libffi-fix-configure.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/070-dont-clean-ipkg-install.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/080-distutils-dont_adjust_files.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/110-enable-zlib.patch create mode
-> 100644 meta/recipes-devtools/python/python3/130-readline-setup.patch create
-> mode 100644 meta/recipes-devtools/python/python3/150-fix-setupterm.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/avoid_warning_about_tkinter.patch
-> create mode 100644 meta/recipes-devtools/python/python3/cgi_py.patch create
-> mode 100644
-> meta/recipes-devtools/python/python3/fix_for_using_different_libdir.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/host_include_contamination.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/python-3.3-multilib.patch create mode
-> 100644 meta/recipes-devtools/python/python3/remove_sqlite_rpath.patch
-> create mode 100644 meta/recipes-devtools/python/python3/setuptweaks.patch
-> create mode 100644
-> meta/recipes-devtools/python/python3/shutil-follow-symlink-fix.patch create
-> mode 100644 meta/recipes-devtools/python/python3/sitecustomize.py create
-> mode 100644
-> meta/recipes-devtools/python/python3/sys_platform_is_now_always_linux2.patc
-> h create mode 100644 meta/recipes-devtools/python/python3_3.3.2.bb
->  create mode 100644 meta/recipes-devtools/python/zeromq_3.2.2.bb
->  create mode 100755 scripts/contrib/python/generate-manifest-3.3.py
+On Fri, Jun 28, 2013 at 03:04:04PM -0700, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../python/python3-pycurl/no-static-link.patch     |   16 +++++++++
+>  .../python/python3-pycurl_7.19.0.bb                |   35 ++++++++++++++=
+++++++
+>  2 files changed, 51 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-pycurl/no-static=
+-link.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-pycurl_7.19.0.bb
 
-Thanks for this. Some minor concerns though:
+There is some overlap with python-curl:
 
-* In the commit messages for each of the supplementary recipes that are added 
-could you please mention why they are needed e.g. python3-pyzmq, zeromq, 
-python3-sphinx, python3-jinja, etc.
+WARNING: The recipe python-pycurl is trying to install files into a
+shared area when those files already exist. Those files and their
+manifest location are:
+   /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/=
+usr/lib/python2.7/site-packages/pycurl.so
+   Matched in manifest-qemuarm-python3-pycurl
+   /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/=
+usr/lib/python2.7/site-packages/pycurl-7.19.0-py2.7.egg-info
+   Matched in manifest-qemuarm-python3-pycurl
+   /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/=
+usr/lib/python2.7/site-packages/curl/__init__.py
+   Matched in manifest-qemuarm-python3-pycurl
+   /home/jenkins/oe/shr-core-branches/shr-core/tmp-eglibc/sysroots/qemuarm/=
+usr/lib/python2.7/site-packages/curl/__init__.pyc
+   Matched in manifest-qemuarm-python3-pycurl
+Please verify which package should provide the above files.
 
-* Please use SUMMARY for short descriptions
+Should python3-curl install also in python2.7 libdir?
 
-Thanks,
-Paul
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
--- 
+--HuXIgs6JvY9hJs5C
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Paul Eggleton
-Intel Open Source Technology Centre
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
 
+iEYEARECAAYFAlHal/IACgkQN1Ujt2V2gBzN1QCcDDWOLv/4rAd16wU+c+Pa17fJ
+/kIAn2DAVTM1rqT+DBnpue1RIWvnvKzP
+=8jJL
+-----END PGP SIGNATURE-----
+
+--HuXIgs6JvY9hJs5C--
