@@ -1,24 +1,23 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C84BE6B0D8
+Return-Path: <andy.ross@windriver.com>
+Received: from plausible.org (li44-10.members.linode.com [72.14.181.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 40FA76AF25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 19:35:42 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2013 12:33:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1021,1363158000"; d="scan'208";a="342304719"
-Received: from unknown (HELO [10.255.13.85]) ([10.255.13.85])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jul 2013 12:35:43 -0700
-Message-ID: <51DB148F.9020702@linux.intel.com>
-Date: Mon, 08 Jul 2013 12:35:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Mon,  8 Jul 2013 19:47:38 +0000 (UTC)
+Received: from [0.0.0.0] (c-67-171-188-207.hsd1.or.comcast.net
+	[67.171.188.207]) (Authenticated sender: andy)
+	by plausible.org (Postfix) with ESMTPSA id B523B218FB2;
+	Mon,  8 Jul 2013 12:47:37 -0700 (PDT)
+Message-ID: <51DB1755.8070309@windriver.com>
+Date: Mon, 08 Jul 2013 12:47:33 -0700
+From: Andy Ross <andy.ross@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: jackie.huang@windriver.com
+To: Saul Wold <sgw@linux.intel.com>
 References: <cover.1373267292.git.jackie.huang@windriver.com>
 	<f3947aac42370ea5f114852fd677ff1689a9b7ca.1373267292.git.jackie.huang@windriver.com>
-In-Reply-To: <f3947aac42370ea5f114852fd677ff1689a9b7ca.1373267292.git.jackie.huang@windriver.com>
+	<51DB148F.9020702@linux.intel.com>
+In-Reply-To: <51DB148F.9020702@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] udev: add runtime dependency on blkid
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -33,44 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 19:35:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 08 Jul 2013 19:47:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-On 07/08/2013 12:10 AM, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> udev requires blkid, but this wasn't explicit.  Note that the
-> dependency is on util-linux specifically, the one from e2fsprogs
-> won't work.
->
-Doesn't udev use an internal builtin-blkid?  Or is the configure finding 
-that we have util-linux and using it instead of the built-in?
+On 07/08/2013 12:35 PM, Saul Wold wrote:
+> On 07/08/2013 12:10 AM, jackie.huang@windriver.com wrote:
+>> From: Jackie Huang <jackie.huang@windriver.com>
+>>
+>> udev requires blkid, but this wasn't explicit.  Note that the
+>> dependency is on util-linux specifically, the one from e2fsprogs
+>> won't work.
+>>
+> Doesn't udev use an internal builtin-blkid?  Or is the configure finding 
+> that we have util-linux and using it instead of the built-in?
 
-If it's a configure test, then it might need to be a DEPENDS, not RDEPENDS.
+I think (I'm really stale here) I wrote that patch against a udev
+version prior to the addition of the builtin.  And in any case didn't
+I see that blkid got yanked from the e2fsprogs package at some point
+anyway?  Pretty sure this is not needed in upstream oe-core.  Not sure
+if it ever was.
 
-Sau!
+Andy
 
-
-> Signed-off-by: Andy Ross <andy.ross@windriver.com>
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->   meta/recipes-core/udev/udev_182.bb |    4 ++++
->   1 files changed, 4 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/recipes-core/udev/udev_182.bb b/meta/recipes-core/udev/udev_182.bb
-> index d66292e..114a557 100644
-> --- a/meta/recipes-core/udev/udev_182.bb
-> +++ b/meta/recipes-core/udev/udev_182.bb
-> @@ -5,5 +5,9 @@ PR = "r7"
->   # module-init-tools from kmod_git will provide libkmod runtime
->   DEPENDS += "module-init-tools"
->
-> +# Needs blkid from this particular package. The one in e2fsprogs is
-> +# old and incompatible.
-> +RDEPENDS_${PN} += "util-linux-blkid"
-> +
->   SRC_URI[md5sum] = "1b964456177fbf48023dfee7db3a708d"
->   SRC_URI[sha256sum] = "7857ed19fafd8f3ca8de410194e8c7336e9eb8a20626ea8a4ba6449b017faba4"
->
 
