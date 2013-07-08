@@ -1,41 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 803D06B0D0
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 925866B118
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 03:30:36 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id rp16so3840697pbb.14
+	Mon,  8 Jul 2013 04:11:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r684BnKS028126
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Jul 2013 20:30:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=xeSMWtOSDMf0xJbowOl3xw6mFd6ec+zIrIZQPef2oag=;
-	b=H6LqxedUDwB+XMtIIpFwZ4ZfmKUYOxE/c4WnfevprVGj5Vfth0UPGwebpGP+jHLZvw
-	hn2bB/UqKUqlz+cQuK3tY2f7oh3QVHo0u4Bxd0BMfJKkD5eyqLCt3jIUUgXgdjn25L1N
-	teIqXFdkuQmcMREf6JIGKcqJepjENppdTjp7cw09ui9UmD4+v2ffgQbo/rg62Hht/A1z
-	9P9P4jWT9w2tx9WvEcAaD5mD5PCVXJe5l8wACsdDikIm2K871clXNuXYqLDpOYBebDur
-	dLXUwuAv0CFx/qNUojOZjswVRoh2ib06flTFAsKPuor0RKDvKG/iMsHp674rg24RoBOz
-	12ZA==
-X-Received: by 10.66.190.101 with SMTP id gp5mr20659167pac.19.1373254237647;
-	Sun, 07 Jul 2013 20:30:37 -0700 (PDT)
-Received: from sa-nc-spg-194.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id iq6sm19825454pbc.1.2013.07.07.20.30.36
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 07 Jul 2013 20:30:36 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
-Date: Sun, 7 Jul 2013 20:30:34 -0700
-Message-Id: <0BA68180-92E5-4FCA-B3DF-CB3570BAE29C@gmail.com>
-References: <20130705224311.GA3288@jama>
-	<1373099962-19854-1-git-send-email-Martin.Jansa@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2 1/2] eglibc-locale: add missing dependency on virtual/${TARGET_PREFIX}binutils
+	Sun, 7 Jul 2013 21:11:50 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 7 Jul 2013 21:11:47 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Jul 2013 12:11:45 +0800
+Message-ID: <cover.1373254421.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] nativesdk-glib-2.0: cannot build on hosts without libffi.so.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,46 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 03:30:36 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Jul 2013 04:11:48 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
-On Jul 6, 2013, at 1:39 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+The following changes since commit e2fa93a52c32522d4831e3d29f87bae4c6625f27:
 
-> * eglibc-collateral.inc inhibits all default deps, but do_package =
-needs
->  objcopy:
->  ERROR: objcopy failed with exit code 127 (cmd was
->  'i586-webos-linux-objcopy' --only-keep-debug
->  'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so'
->  'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
->  ERROR: Function failed: split_and_strip_files
->=20
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
-> meta/recipes-core/eglibc/eglibc-locale.inc | 5 +++++
-> 1 file changed, 5 insertions(+)
->=20
-> diff --git a/meta/recipes-core/eglibc/eglibc-locale.inc =
-b/meta/recipes-core/eglibc/eglibc-locale.inc
-> index f4cb814..c3fcc6d 100644
-> --- a/meta/recipes-core/eglibc/eglibc-locale.inc
-> +++ b/meta/recipes-core/eglibc/eglibc-locale.inc
-> @@ -5,6 +5,11 @@ SUMMARY =3D "Locale data from eglibc"
-> BPN =3D "eglibc"
-> LOCALEBASEPN =3D "${MLPREFIX}eglibc"
->=20
-> +# eglibc-collateral.inc inhibits all default deps, but do_package =
-needs objcopy
-> +# ERROR: objcopy failed with exit code 127 (cmd was =
-'i586-webos-linux-objcopy' --only-keep-debug =
-'eglibc-locale/2.17-r0/package/usr/lib/gconv/IBM1166.so' =
-'eglibc-locale/2.17-r0/package/usr/lib/gconv/.debug/IBM1166.so')
-> +# ERROR: Function failed: split_and_strip_files
-> +DEPENDS_class-target =3D "virtual/${TARGET_PREFIX}binutils"
+  glib: fix the python script munging for cross compile (2013-07-08 11:25:29 +0800)
 
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/r_bbappend_glib_0708_5
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_bbappend_glib_0708_5
 
-Looks good.
+Jackie Huang (1):
+  nativesdk-glib-2.0: cannot build on hosts without libffi.so.5
+
+ meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
+
+-- 
+1.7.4.1
 
 
