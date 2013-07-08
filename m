@@ -1,32 +1,25 @@
-Return-Path: <Sean_Hudson@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C2F286AF13;
-	Mon,  8 Jul 2013 18:51:04 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1UwGWe-0002tY-RD from Sean_Hudson@mentor.com ;
-	Mon, 08 Jul 2013 11:51:04 -0700
-Received: from SVR-ORW-FEM-05.mgc.mentorg.com ([147.34.97.43]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Mon, 8 Jul 2013 11:51:04 -0700
-Received: from king.local (147.34.91.1) by svr-orw-fem-05.mgc.mentorg.com
-	(147.34.97.43) with Microsoft SMTP Server id 14.2.247.3; Mon, 8 Jul 2013
-	11:51:03 -0700
-Message-ID: <51DB0A16.7090103@mentor.com>
-Date: Mon, 8 Jul 2013 13:51:02 -0500
-From: Sean Hudson <sean_hudson@mentor.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 259766A5A5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Jul 2013 19:22:38 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2013 12:20:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1021,1363158000"; d="scan'208";a="366678013"
+Received: from unknown (HELO [10.255.13.85]) ([10.255.13.85])
+	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2013 12:22:27 -0700
+Message-ID: <51DB1173.3080804@linux.intel.com>
+Date: Mon, 08 Jul 2013 12:22:27 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: <openembedded-members@lists.openembedded.org>
-References: <1371572589.20823.143.camel@ted>
-	<1373068016.2074.72.camel@pb-ThinkPad-R50e>
-In-Reply-To: <1373068016.2074.72.camel@pb-ThinkPad-R50e>
-X-OriginalArrivalTime: 08 Jul 2013 18:51:04.0677 (UTC)
-	FILETIME=[1954E950:01CE7C0C]
-Cc: tsc <tsc@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OE, the TSC and the future
+To: "Noor, Ahsan" <noor_ahsan@mentor.com>
+References: <1373033018-20615-1-git-send-email-noor_ahsan@mentor.com>
+In-Reply-To: <1373033018-20615-1-git-send-email-noor_ahsan@mentor.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] lighttpd: Add systemd support.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,76 +32,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 18:51:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 08 Jul 2013 19:22:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 7/5/13 6:46 PM, Phil Blundell wrote:
-> On Tue, 2013-06-18 at 17:23 +0100, Richard Purdie wrote:
->> In brief summary the TSC has been doing two main things, acting as a
->> task force and also being able to make a decision when needed. The
->> latter has not happened much at all, the main work was as a task force
->> on various issues, firstly engaging with the Yocto Project and figuring
->> that out, more recently dealing with infrastructure issues and generally
->> ensuring the health of OE.
-> It's certainly true that most of the current TSC members have been doing
-> a fine job on the "task force" front and I think we'd all be glad to see
-> them continue with that.  What's rather less obvious to me is whether
-> they actually need to be an elected body in order to do so; any group of
-> individuals who wish to form a task force are obviously free and welcome
-> to do so at any time.
+On 07/05/2013 07:03 AM, Noor, Ahsan wrote:
+> From: Noor <noor_ahsan@mentor.com>
 >
-> As you note, the requirement for the TSC to actually make decisions has
-> been minimal/nonexistent of late and, again, it's not totally obvious
-> that having an elected body of experts on perpetual standby just in case
-> a decision might be needed is entirely necessary.
+> * Enable lighttpd with systemd support.
+> * Replace the hardcoded paths with sbindir, sysconfdir and base_bindir
 >
-> In the many-layered world that we now inhabit, it seems reasonable to
-> let the individual layer maintainers (in consultation with their peers
-> when necessary) make the decisions that they think best for their own
-> trees.  Recent experience seems to suggest that, practically speaking,
-> this is already what's happening and when it comes to a contest of wills
-> the TSC have not shown any interest in overruling layer maintainers who
-> disagree with their stated position.
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> ---
+>   .../lighttpd/files/lighttpd.service                |   12 ++++++++++
+>   meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   24 ++++++++++++++++----
+>   2 files changed, 32 insertions(+), 4 deletions(-)
 >
-> Plus, of course, we already have two bodies who are empowered by the OE
-> e.V. statutes to make decisions, namely the board and the GA.   Both of
-> these have wide discretion to do what they think best, and of course
-> they can convene a panel of expert advisers if they feel that any
-> particular issue needs specialist knowledge that they don't have.
+> diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/files/lighttpd.service
+> new file mode 100644
+> index 0000000..a5333b6
+> --- /dev/null
+> +++ b/meta/recipes-extended/lighttpd/files/lighttpd.service
+> @@ -0,0 +1,12 @@
+> +[Unit]
+> +Description=Lightning Fast Webserver With Light System Requirements
+> +After=network.target
+> +
+> +[Service]
+> +ExecStartPre=/usr/sbin/lighttpd -t -f /etc/lighttpd.conf
+> +ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd.conf
+> +ExecReload=/bin/kill -HUP $MAINPID
+> +
+> +[Install]
+> +WantedBy=multi-user.target
+> +
+> diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+> index df6ce97..3c03938 100644
+> --- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+> +++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+> @@ -22,6 +22,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+>           file://index.html.lighttpd \
+>           file://lighttpd.conf \
+>           file://lighttpd \
+> +        file://lighttpd.service \
+>           "
 >
-> So, all in all, I feel that we've come to the point where the TSC (as an
-> organisation) is no longer providing us with any particular benefits and
-> could be disbanded without causing any real hardship.  This would avoid
-> the administrative overhead of running elections for each of its seats,
-> which have recently been uncontested in any case, and would also avoid a
-> certain amount of potential ambiguity over where the TSC's jurisdiction
-> ends and the board's starts.
+>   SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
+> @@ -39,19 +40,34 @@ EXTRA_OECONF = " \
+>                --disable-static \
+>   "
 >
-I believe that Phil Blundell raises a valid question about the continuing
-need for the TSC. However, it seems to me that the need for a group to
-arbitrate on technical matters is valuable enough, by itself, to keep 
-the TSC.
-This applies even if that function is utilized infrequently.
+> -inherit autotools pkgconfig update-rc.d gettext
+> +inherit autotools pkgconfig update-rc.d gettext systemd
+>
+>   INITSCRIPT_NAME = "lighttpd"
+>   INITSCRIPT_PARAMS = "defaults 70"
+>
+> +SYSTEMD_SERVICE_${PN} = "lighttpd.service"
+> +SYSTEMD_AUTO_ENABLE = "disable"
+> +
+> +
+>   do_install_append() {
+> -    install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
+> -    install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
+> +
+> +    install -d ${D}${sysconfdir} ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
+>       install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
+>       install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
+> +    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+I am not sure this is the best way as it may be possible to have both 
+sysvinit and systemd in DISTRO_FEATURES.  I think it would be better to 
+test for each individually and install based on that.
 
-In considering the future of the TSC, I offer the opinion that in the 
-future,
-tactical concerns shouldn't be the primary business for the TSC. Rather, I'd
-like to see the TSC become more strategically focused. In particular, 
-I'd like
-to have the TSC produce a vision for OE in the 2-3 year time frame. As 
-another
-OE board member, I support Phil Balister's offer to have the 
-non-technical matters
-fall to the board to handle, with the caveat that the TSC becomes more 
-focused on
-the long term evolution and improvement of OE as a whole
+Sau!
 
-Regards,
-      Sean
-  
-Sean Hudson | Embedded Linux Architect
-Mentor Embedded™
-Nucleus® | Linux® | Android™ | Services | UI | Multi-OS
-
+> +        install -d ${D}${sysconfdir}/init.d
+> +        install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
+> +    else
+> +        install -d ${D}${systemd_unitdir}/system
+> +        install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
+> +        sed -i 's!/usr/sbin!${sbindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
+> +        sed -i 's!/etc!${sysconfdir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
+> +        sed -i 's!/bin!${base_bindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
+> +    fi
+> +
+>   }
+>
+> -FILES_${PN} += "${sysconfdir} /www"
+> +FILES_${PN} += "${sysconfdir} /www ${systemd_unitdir}"
+>
+>   CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
+>
+>
 
