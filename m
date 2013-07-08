@@ -1,26 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 48E2561883
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 907376AF56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 15:29:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 08 Jul 2013 08:29:28 -0700
+	Mon,  8 Jul 2013 15:31:57 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Jul 2013 08:31:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1020,1363158000"; d="scan'208";a="366555278"
-Received: from unknown (HELO [10.255.13.85]) ([10.255.13.85])
-	by orsmga002.jf.intel.com with ESMTP; 08 Jul 2013 08:29:20 -0700
-Message-ID: <51DADAC8.7020208@linux.intel.com>
-Date: Mon, 08 Jul 2013 08:29:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+X-IronPort-AV: E=Sophos;i="4.87,1020,1363158000"; d="scan'208";a="328252844"
+Received: from unknown (HELO helios.localnet) ([10.252.122.28])
+	by azsmga001.ch.intel.com with ESMTP; 08 Jul 2013 08:31:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 08 Jul 2013 16:31:33 +0100
+Message-ID: <9037458.Ckpan3sGJ4@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <20130708105739.GA12906@lpalcu-linux>
+References: <cover.1373275874.git.paul.eggleton@linux.intel.com>
+	<20130708105739.GA12906@lpalcu-linux>
 MIME-Version: 1.0
-To: jackie.huang@windriver.com, Amy Fong <amy.fong@windriver.com>
-References: <cover.1373254421.git.jackie.huang@windriver.com>
-	<45395363a744785f10811752669eac4a7c43f52a.1373254421.git.jackie.huang@windriver.com>
-In-Reply-To: <45395363a744785f10811752669eac4a7c43f52a.1373254421.git.jackie.huang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] nativesdk-glib-2.0: cannot build on hosts without libffi.so.5
+Subject: Re: [dylan][PATCH 00/44] Backports from master (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 15:29:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Jul 2013 15:31:57 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 07/07/2013 09:11 PM, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> The compile phase of nativesdk-glib-2.0 tries to run some binaries built
-> and since the -Wl,rpath doesn't specify the sysroot libraries with libffi.so.5,
-> attempts to run the binrary on hosts without libffi.so.5 results in an error
-> message complaining that it cannot find libffi.so.5, to fix this, specify
-> -Wl,rpath == -Wl,rpath-link
+On Monday 08 July 2013 13:57:40 Laurentiu Palcu wrote:
+> On Mon, Jul 08, 2013 at 10:32:18AM +0100, Paul Eggleton wrote:
+> > Laurentiu Palcu (2):
+> >   populate_sdk_base, adt_installer: abort install if path contains
+> >   
+> >     spaces
+> 
+> The previous patch introduces a bashism which is fixed by this patch
+> (not merged yet in master):
+> http://patches.openembedded.org/patch/52979/
+> 
+> So, both patches should go in dylan or, if this is not possible, leave
+> this one out for now.
 
-I am not sure this makes sense, we have relocation code already, and 
-glib-2.0 DEPENDS on libffi, so it should be available.  What binary is 
-being run?  That same binary might be built for the target and would 
-have to be run native, so I think this is not correct.
+OK, I've pushed the branch again with this patch dropped for the moment.
 
-Sau!
+Thanks,
+Paul
 
->
-> Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->   meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb |    7 +++++++
->   1 files changed, 7 insertions(+), 0 deletions(-)
->
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb
-> index ffe34ac..bd4f526 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.36.2.bb
-> @@ -46,6 +46,13 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
->               eglibc-localedata-translit-cjk-variants \
->              "
->
-> +BUILDSDK_LDFLAGS = "-L${STAGING_LIBDIR} \
-> +                    -Wl,-rpath-link,${STAGING_LIBDIR} \
-> +                    -Wl,-rpath,${STAGING_LIBDIR} -Wl,-O1 \
-> +                    -L${STAGING_DIR_HOST}${base_libdir} \
-> +                    -Wl,-rpath-link,${STAGING_DIR_HOST}${base_libdir} \
-> +                    -Wl,-rpath,${STAGING_DIR_HOST}${base_libdir} -Wl,-O1"
-> +
->   do_configure_prepend() {
->   	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
->   }
->
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
