@@ -1,30 +1,31 @@
-Return-Path: <Randy.MacLeod@windriver.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BD5E66007C
+	by mail.openembedded.org (Postfix) with ESMTP id 6C09B6B005
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 18:00:25 +0000 (UTC)
+	Mon,  8 Jul 2013 18:01:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r68I0PNu012226
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r68I1o7c012245
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jul 2013 11:00:25 -0700 (PDT)
-Received: from [128.224.23.67] (128.224.23.67) by ALA-HCA.corp.ad.wrs.com
+	Mon, 8 Jul 2013 11:01:50 -0700 (PDT)
+Received: from msp-dhcp27.wrs.com (172.25.34.27) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 8 Jul 2013 11:00:24 -0700
-Message-ID: <51DAFE34.3080505@windriver.com>
-Date: Mon, 8 Jul 2013 14:00:20 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Mon, 8 Jul 2013 11:01:49 -0700
+Message-ID: <51DAFE8C.8000506@windriver.com>
+Date: Mon, 8 Jul 2013 13:01:48 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
 To: Martin Jansa <martin.jansa@gmail.com>
-References: <20130706122934.GC3288@jama>
-	<1373145886-26565-1-git-send-email-Martin.Jansa@gmail.com>
-	<20130706213931.GD3288@jama>
-In-Reply-To: <20130706213931.GD3288@jama>
-X-Originating-IP: [128.224.23.67]
+References: <cover.1373003615.git.Qi.Chen@windriver.com>
+	<341a64b50c13dec0bf01feb5c74d5b32815a7191.1373003615.git.Qi.Chen@windriver.com>
+	<20130705083905.GD3259@jama> <51DAF3BC.60107@windriver.com>
+	<20130708172715.GO3288@jama>
+In-Reply-To: <20130708172715.GO3288@jama>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] test-dependencies: add simple script to detect missing or autoenabled dependencies
+Subject: Re: [PATCH 1/1] image.bbclass: add a method to add/delete/modify user/group settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,58 +38,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 18:00:25 -0000
+X-List-Received-Date: Mon, 08 Jul 2013 18:01:51 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 13-07-06 05:39 PM, Martin Jansa wrote:
-> On Sat, Jul 06, 2013 at 11:24:46PM +0200, Martin Jansa wrote:
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->>   scripts/test-dependencies.sh | 250 +++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 250 insertions(+)
->>   create mode 100755 scripts/test-dependencies.sh
+On 7/8/13 12:27 PM, Martin Jansa wrote:
+> On Mon, Jul 08, 2013 at 12:15:40PM -0500, Mark Hatle wrote:
+>> On 7/5/13 3:39 AM, Martin Jansa wrote:
+>>> On Fri, Jul 05, 2013 at 02:07:28PM +0800, Qi.Chen@windriver.com wrote:
+>>>> From: Chen Qi <Qi.Chen@windriver.com>
+>>>>
+>>>> We may want to add a user or group which does not logically belong to
+>>>> any specific package. For example, we may want to add a user with the
+>>>> name 'tester' to our image. Besides, we may want to delete or modify
+>>>> user/group in our image.
+>>>>
+>>>> This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
+>>>> to these tasks. The configuration format is detailed in the local.conf.
+>>>> sample.extended file.
+>>>>
+>>>> This patch also adds a function, set_user_group, which happens at
+>>>> the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
+>>>> in the USER_GROUP_SETTINGS variable.
+>>>
+>>> Why not use extra package just with user?
+>>>
+>>> See "[PATCH v3 0/5] Allow xuser to shutdown (cover letter only)"
 >>
->> +build_all() {
->> +  echo "===== 1st build to populate sstate-cache directory and sysroot ====="
->> +  OUTPUT1=${OUTPUT_BASE}/${TYPE}_all
->> +  mkdir -p ${OUTPUT1}
->> +  echo "Logs will be stored in ${OUTPUT1} directory"
->> +  bitbake $targets | tee -a ${OUTPUT1}/complete.log
->> +}
+>> The issue is that the users don't want extra (empty) packages to just add
+>> standard users/groups.  What they want is a post image-generation
+>> "configuration" mechanism.
+>>
+>> Adding users/groups is one of the basic items that they want/need.  This really
+>> has to be considered to be an administrative activity vs a distribution
+>> activity.  (I.e. difference between creating a package and performing some kind
+>> of post-image action.)
+>>
+>> The other issue with a package based approach is it then mandates changes occur
+>> by having to rebuild/reinstall packages.  This is onerous in my experience, for
+>> something basic like this.  It's really outside of the package manager's control.
 >
-> I've just added "-k" here to bitbake call, more improvements are expected,
-> that's why it's only RFC, but I wanted to share it soon in case someone
-> else also have access to some builder which is idle during weekends..
+> We can have all users in one package
+> base-users (like we have base-files)
 >
-> It would be nice to test and fix oe-core recipes first, but because my
-> target is to run this in dylan I'm running this with more layers
-> included already.
-
-Martin,
-
-Such a per-recipe dependency test has been on our to do list!
-Once your script is in master, we can run it at least once a week.
-
-// Randy
-
+> It can allow someone to just define DEFAULT_USERS = "a b c" in
+> local.conf and let base-users recipe to create all 3 automatically.
 >
-> I'm sending patches for master + blacklisting broken recipes in dylan,
-> maybe we should backport them later as missing deps and autodetected
-> deps are relatively safe fixes.
->
-> Regards,
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Post image-generation mechanism doesn't allow to add new required users
+> in "upgrade" or installing packages from binary feed with all required
+> users accounts.
 >
 
+That is exactly it..  these are not users that will -ever- be upgraded or worked 
+on via packages.
 
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350
+This is equivalent to saying "I'd like users bob, tracy and alice on this image 
+I'm generating."
+
+It's NOT saying, all systems generated with this package feed will include bob, 
+tracy and alice.
+
+If the user wants to add john, after the initial image is generated, they would 
+do so using the adduser functionality of the system (or modifying the 
+passwd/group files.)
+
+The fundamental problem is that the package feeds and district from the image 
+itself.  The image is nothing more then an installer that happens to be running 
+on the build machine itself.  Things that are part of the distribution belong in 
+the feed, things that are instance/image specific belong as part of the 
+installation process.
+
+--Mark
 
