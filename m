@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
-	[209.85.212.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D1C96AF6D
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1136B159
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 15:15:27 +0000 (UTC)
-Received: by mail-vb0-f50.google.com with SMTP id w16so4480545vbb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2013 08:15:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=9gCaWfXEYO4tZBYxLsGeBPMUGeB8LoeF1bNC9rm39/M=;
-	b=FX66l8p8Jv+eVslk11QFrPG2SuolawFjzcO3T5zzYA5NpwEigGBohrQGtQiHoGyZp8
-	4fmLf3U941kjxFquxE/mCigmeLftf2kX7JnIAKS/4qt7UFTaWnpy1TGPfXgeo5BOHn/u
-	4w9LI1JGi6Zk+VSiH/OvfqDmMPcD4PXqqWrnM4C7Vz19Z1nvj/bo3Gda8h6uW5arhyWH
-	5rGFAEUs5yaAIu+AuONoNEN+BBFRd4wmAPGz/YlIWGM3w0iHv4r2Fuwr/ppip4m6/xYy
-	RzOTpt65icymWqYxmbOdPYzkyMWpAE70K6g3FuW6YiVdz3J/cwirvBC/cAVYKsbfiRIf
-	vzIA==
-X-Received: by 10.52.18.196 with SMTP id y4mr6020978vdd.51.1373382928085; Tue,
-	09 Jul 2013 08:15:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 9 Jul 2013 08:15:07 -0700 (PDT)
-In-Reply-To: <1373290301-16657-1-git-send-email-net147@gmail.com>
-References: <1373290301-16657-1-git-send-email-net147@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Jul 2013 16:15:07 +0100
-Message-ID: <CAJTo0LbqshnJ__S-zWNHqNHeG3YaddZXitKkoatqnFoKEMGr8g@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQn9GcxqIAY0J5Bb+m7CC/y3th5RnMWErLJQ1qJStIr61EEFgwBtVNLqZYsD+YQ4+Y7WqfGr
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] resolvconf: check if running systemd in postinst
+	Tue,  9 Jul 2013 15:23:04 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 Jul 2013 08:23:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1028,1363158000"; d="scan'208";a="328787198"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.85])
+	by azsmga001.ch.intel.com with ESMTP; 09 Jul 2013 08:23:05 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jul 2013 08:23:05 -0700
+Message-Id: <1373383385-14099-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH v2] security_flags: Add addition recipes to the non pie list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +27,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 15:15:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Jul 2013 15:23:05 -0000
 
-On 8 July 2013 14:31, Jonathan Liu <net147@gmail.com> wrote:
-> Check if running systemd in postinst by testing for existence of
-> /sys/fs/cgroup/systemd instead of checking if systemd-tmpfiles
-> exists in PATH. This is so populate-volatile.sh update is called
-> instead of systemd-tmpfiles --create if the system has
-> systemd-tmpfiles installed but was booted using sysvinit.
+Create a local SECURITY_NO_PIE_CFLAGS to cover the recipes that have
+issues with with pic and pie cflags set.
 
-So this says to me that having two ways of creating files in volatile
-locations is stupid.  Should we just split out populate-volatiles from
-initscripts into it's own package so it can be used by pure systemd
-images, and split out systemd-tmpfiles so it isn't enabled by default?
- This patch solves the issue for resolvconf but there are plenty of
-other recipes that don't install files/postinst for both
-populate-volatile and systemd-tmpfiles.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/distro/include/security_flags.inc | 45 +++++++++++++++++++++--------
+ 1 file changed, 33 insertions(+), 12 deletions(-)
 
-Ross
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 72dd1ad..2858e46 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -1,26 +1,47 @@
+ SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
++SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+ SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
+ 
++SECURITY_CFLAGS_pn-aspell = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-beecrypt = "${SECURITY_NO_PIE_CFLAGS}"
+ # Curl seems to check for FORTIFY_SOURCE in CFLAGS, but even assigned
+ # to CPPFLAGS it gets picked into CFLAGS in bitbake.
+ #TARGET_CPPFLAGS_pn-curl += "-D_FORTIFY_SOURCE=2"
+ SECURITY_CFLAGS_pn-curl = "-fstack-protector-all -pie -fpie"
+-SECURITY_CFLAGS_pn-ppp = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-directfb = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-eglibc = ""
+ SECURITY_CFLAGS_pn-eglibc-initial = ""
+-SECURITY_CFLAGS_pn-zlib = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-gcc-runtime = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-libgcc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-tcl = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-libcap = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-python-smartpm = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-python-imaging = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-python-pycurl = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-kexec-tools = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-enchant = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-flac = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-gcc-runtime = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-gdb = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-gmp = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-gnutls = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-grub = ""
++SECURITY_CFLAGS_pn-gst-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-gst-plugins-gl = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-gstreamer1.0-plugins-good = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-harfbuzz = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-kexec-tools = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libcap = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-python-imaging = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-webkit-gtk = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
+ 
+ # These 2 have text relco errors with the pie options enabled
+-SECURITY_CFLAGS_pn-pulseaudio = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
+-SECURITY_CFLAGS_pn-ltp = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-pulseaudio = "${SECURITY_NO_PIE_CFLAGS}"
+ 
+ TARGET_CFLAGS_append = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append = " ${SECURITY_LDFLAGS}"
+-- 
+1.8.1.4
+
 
