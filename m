@@ -1,29 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 70D5E6ABED
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BF3B6AFF9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 02:06:23 +0000 (UTC)
+	Tue,  9 Jul 2013 02:34:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6926Ofw019940
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jul 2013 19:06:24 -0700 (PDT)
-Received: from [128.224.163.134] (128.224.163.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 8 Jul 2013 19:06:23 -0700
-Message-ID: <51DB701D.70904@windriver.com>
-Date: Tue, 9 Jul 2013 10:06:21 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r692Y148006463
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 8 Jul 2013 19:34:01 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 8 Jul 2013 19:34:00 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Jul 2013 10:33:58 +0800
+Message-ID: <cover.1373337192.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Andy Ross <andy.ross@windriver.com>
-References: <cover.1373267292.git.jackie.huang@windriver.com>
-	<f3947aac42370ea5f114852fd677ff1689a9b7ca.1373267292.git.jackie.huang@windriver.com>
-	<51DB148F.9020702@linux.intel.com> <51DB1755.8070309@windriver.com>
-In-Reply-To: <51DB1755.8070309@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] udev: add runtime dependency on blkid
+Subject: [PATCH 0/1] pango: remove pango-module-basic-x RRECOMMENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,47 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 02:06:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jul 2013 02:34:00 -0000
+Content-Type: text/plain
 
+From: "Roy.Li" <rongqing.li@windriver.com>
 
+The following changes since commit b97570c66737a6c404b49459cd95184abb855399:
 
-On 7/9/2013 3:47 AM, Andy Ross wrote:
-> On 07/08/2013 12:35 PM, Saul Wold wrote:
->> On 07/08/2013 12:10 AM, jackie.huang@windriver.com wrote:
->>> From: Jackie Huang <jackie.huang@windriver.com>
->>>
->>> udev requires blkid, but this wasn't explicit.  Note that the
->>> dependency is on util-linux specifically, the one from e2fsprogs
->>> won't work.
->>>
->> Doesn't udev use an internal builtin-blkid?  Or is the configure finding
->> that we have util-linux and using it instead of the built-in?
->
-> I think (I'm really stale here) I wrote that patch against a udev
-> version prior to the addition of the builtin.  And in any case didn't
-> I see that blkid got yanked from the e2fsprogs package at some point
-> anyway?  Pretty sure this is not needed in upstream oe-core.  Not sure
+  qt4: Take PV increase opportunity to drop PR (2013-07-05 15:49:51 +0100)
 
-Thanks for clarifying this, I think it it not needed in our layer's 
-bbappend file as well since we had sync up with upstream oe-core, I will 
-check that and clean up the bbappend.
+are available in the git repository at:
 
-Thanks,
-Jackie
+  git://git.pokylinux.org/poky-contrib roy/pango
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/pango
 
+Roy.Li (1):
+  pango: remove pango-module-basic-x RRECOMMENDS
 
-> if it ever was.
->
-> Andy
->
->
+ meta/recipes-graphics/pango/pango.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+1.7.10.4
+
 
