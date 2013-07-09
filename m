@@ -1,26 +1,24 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BE7EA6A5A3
+	by mail.openembedded.org (Postfix) with ESMTP id 323AD6B09C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2013 23:36:48 +0000 (UTC)
+	Tue,  9 Jul 2013 00:32:09 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Jul 2013 16:38:23 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 08 Jul 2013 17:33:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1023,1363158000"; d="scan'208";a="367122230"
-Received: from unknown (HELO [10.255.13.85]) ([10.255.13.85])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2013 16:36:49 -0700
-Message-ID: <51DB4D11.5020208@linux.intel.com>
-Date: Mon, 08 Jul 2013 16:36:49 -0700
+X-IronPort-AV: E=Sophos;i="4.87,1023,1363158000"; d="scan'208";a="367139945"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.85])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Jul 2013 17:32:09 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Radu Moisan <radu.moisan@intel.com>
-References: <cover.1373278823.git.radu.moisan@intel.com>
-	<e8fa6be5b318d10720fa8df55a800ac3aacd56e3.1373278823.git.radu.moisan@intel.com>
-In-Reply-To: <e8fa6be5b318d10720fa8df55a800ac3aacd56e3.1373278823.git.radu.moisan@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/9] diffutils: Upgrade to v3.3
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Jul 2013 17:32:04 -0700
+Message-Id: <fa6b09a3403f83b03d8aa71b290199bf93944e41.1373329833.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+In-Reply-To: <cover.1373329833.git.sgw@linux.intel.com>
+References: <cover.1373329833.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1373329833.git.sgw@linux.intel.com>
+References: <cover.1373329833.git.sgw@linux.intel.com>
+Subject: [PATCH 1/4] man-pages: Update to 3.52
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,112 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2013 23:36:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jul 2013 00:32:09 -0000
 
-On 07/08/2013 03:22 AM, Radu Moisan wrote:
-> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
-> ---
->   .../diffutils-3.2/obsolete_automake_macros.patch   |   14 -------------
->   .../diffutils/diffutils-3.2/remove-gets.patch      |   22 --------------------
->   meta/recipes-extended/diffutils/diffutils.inc      |    2 +-
->   .../{diffutils_3.2.bb => diffutils_3.3.bb}         |   10 ++-------
->   4 files changed, 3 insertions(+), 45 deletions(-)
->   delete mode 100644 meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch
->   delete mode 100644 meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
->   rename meta/recipes-extended/diffutils/{diffutils_3.2.bb => diffutils_3.3.bb} (59%)
->
-> diff --git a/meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch b/meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch
-> deleted file mode 100644
-> index f47cc79..0000000
-> --- a/meta/recipes-extended/diffutils/diffutils-3.2/obsolete_automake_macros.patch
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -Upstream-Status: Backport
-> -
-> -Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-> -diff -Nurd diffutils-3.2/configure.ac diffutils-3.2/configure.ac
-> ---- diffutils-3.2/configure.ac	2011-08-11 18:17:54.000000000 +0300
-> -+++ diffutils-3.2/configure.ac	2013-02-08 08:13:28.271427213 +0200
-> -@@ -33,7 +33,6 @@
-> -
-> - AC_PROG_AWK
-> - AC_PROG_CC
-> --AM_PROG_CC_STDC
-> - AM_MISSING_PROG([HELP2MAN], [help2man])
-> - AC_PROG_RANLIB
-> - gl_EARLY
-> diff --git a/meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch b/meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
-> deleted file mode 100644
-> index 58ed62d..0000000
-> --- a/meta/recipes-extended/diffutils/diffutils-3.2/remove-gets.patch
-> +++ /dev/null
-> @@ -1,22 +0,0 @@
-> -check for gets before using it
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -Upstream-Status: Pending
-> -Index: diffutils-3.2/lib/stdio.in.h
-> -===================================================================
-> ---- diffutils-3.2.orig/lib/stdio.in.h	2011-08-28 04:57:28.000000000 -0700
-> -+++ diffutils-3.2/lib/stdio.in.h	2012-07-03 10:45:07.518322117 -0700
-> -@@ -693,11 +693,13 @@
-> - _GL_CXXALIAS_SYS (gets, char *, (char *s));
-> - #  undef gets
-> - # endif
-> -+# if defined gets
-> - _GL_CXXALIASWARN (gets);
-> - /* It is very rare that the developer ever has full control of stdin,
-> -    so any use of gets warrants an unconditional warning.  Assume it is
-> -    always declared, since it is required by C89.  */
-> - _GL_WARN_ON_USE (gets, "gets is a security hole - use fgets instead");
-> -+# endif
-> - #endif
-> -
-> -
-> diff --git a/meta/recipes-extended/diffutils/diffutils.inc b/meta/recipes-extended/diffutils/diffutils.inc
-> index c90a3c9..8286569 100644
-> --- a/meta/recipes-extended/diffutils/diffutils.inc
-> +++ b/meta/recipes-extended/diffutils/diffutils.inc
-> @@ -6,7 +6,7 @@ SECTION = "base"
->
->   INC_PR = "r7"
->
-I guess we need to keep this since it's used by the gplv2 version still, 
-but you could move it there and have the recipe file maintain a PR of 
-r7.0? ??
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../man-pages/{man-pages_3.50.bb => man-pages_3.52.bb}               | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_3.50.bb => man-pages_3.52.bb} (81%)
 
-> -SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.gz"
-> +SRC_URI = "${GNU_MIRROR}/diffutils/diffutils-${PV}.tar.xz"
->
-This change causes problems for the gplv2 version, so SRC_URI should 
-move to the versioned bb files.
+diff --git a/meta/recipes-extended/man-pages/man-pages_3.50.bb b/meta/recipes-extended/man-pages/man-pages_3.52.bb
+similarity index 81%
+rename from meta/recipes-extended/man-pages/man-pages_3.50.bb
+rename to meta/recipes-extended/man-pages/man-pages_3.52.bb
+index 8e48edb..1bf5868 100644
+--- a/meta/recipes-extended/man-pages/man-pages_3.50.bb
++++ b/meta/recipes-extended/man-pages/man-pages_3.52.bb
+@@ -3,13 +3,12 @@ DESCRIPTION = "The Linux man-pages project documents the Linux kernel and C libr
+ SECTION = "console/utils"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
+ LICENSE = "GPLv2+"
+-PR = "r0"
+ 
+ LIC_FILES_CHKSUM = "file://README;md5=0422377a748010b2b738342e24f141c1"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "076a0c2df9b0e14c5485b2800383007c"
+-SRC_URI[sha256sum] = "024a98cac9972a2328b8d7840bcfee43d7e5a752fed50d55e64d4029165fee83"
++SRC_URI[md5sum] = "1565a7aadd13bd8eea3bde4f1b60e65b"
++SRC_URI[sha256sum] = "6c0bd93dbee7bb6193be2096f5d81f11c976268bb87b0587b739722cecf186d7"
+ 
+ RDEPENDS_${PN} = "man"
+ 
+-- 
+1.8.1.4
 
-Sau!
-
->   inherit autotools update-alternatives gettext
->
-> diff --git a/meta/recipes-extended/diffutils/diffutils_3.2.bb b/meta/recipes-extended/diffutils/diffutils_3.3.bb
-> similarity index 59%
-> rename from meta/recipes-extended/diffutils/diffutils_3.2.bb
-> rename to meta/recipes-extended/diffutils/diffutils_3.3.bb
-> index ef400ef..1b72a4b 100644
-> --- a/meta/recipes-extended/diffutils/diffutils_3.2.bb
-> +++ b/meta/recipes-extended/diffutils/diffutils_3.3.bb
-> @@ -10,11 +10,5 @@ do_configure_prepend () {
->   	done
->   }
->
-> -PR = "${INC_PR}.1"
-> -
-> -SRC_URI += "file://remove-gets.patch \
-> -            file://obsolete_automake_macros.patch \
-> -"
-> -
-> -SRC_URI[md5sum] = "22e4deef5d8949a727b159d6bc65c1cc"
-> -SRC_URI[sha256sum] = "2aaaebef615be7dc365306a14caa5d273a4fc174f9f10abca8b60e082c054ed3"
-> +SRC_URI[md5sum] = "99180208ec2a82ce71f55b0d7389f1b3"
-> +SRC_URI[sha256sum] = "a25e89a8ab65fded1731e4186be1bb25cda967834b6df973599cdcd5abdfc19c"
->
 
