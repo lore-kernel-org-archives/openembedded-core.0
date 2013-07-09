@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f181.google.com (mail-ve0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 819246A5AC
+Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EB0A6A5AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 14:28:57 +0000 (UTC)
-Received: by mail-ve0-f181.google.com with SMTP id db10so4577652veb.40
+	Tue,  9 Jul 2013 14:48:03 +0000 (UTC)
+Received: by mail-vc0-f176.google.com with SMTP id ha12so4339141vcb.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2013 07:28:56 -0700 (PDT)
+	Tue, 09 Jul 2013 07:48:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=hDAgBlF7XKz1hMmBWediqszzln6zcjyfwOq+I60fFK8=;
-	b=AqwygD4DxLDlP3EOD1LcuEG9KhpIzCgxDIstXB7qAeTgZdoi++PreIwl8HcE/cMdJ4
-	DQXFM5BMATQGaYi9zulwBekS5yTMlsXHU46hJ4mhBWehn7q4vh5d3+RRmUwsS6q3Lfd1
-	TyFnzxkDgEeAAAyXSeulgAQgZK4KnvqtOYcO0a3MiOt9wPPjNarf/WfzULkTIAA6U9Ax
-	OJrjM881d295a7SqFQVJ1TqMmbn/JIY/3F1ooClmPGcF2vy6Bh5WB9pQ22RxClWZWcu6
-	PP7StvPg9gpRGLStCH7QaPGzFUdtjzUnqNfstKJgi6TZUVLSlgy03RE16rBrv8vOz/oV
-	sH3g==
-X-Received: by 10.220.42.147 with SMTP id s19mr16471579vce.46.1373380136810;
-	Tue, 09 Jul 2013 07:28:56 -0700 (PDT)
+	bh=WoxKoYxgfoTzlZX93lLIkzkkWwh41NNiZGdjNKc3h98=;
+	b=FvR/ZNvOltY65jfGbnuhIE0rYqXeS8GWShqOHNL3frJo6bxLsanBvUZ5EncQMkgbbN
+	5CidpA4GlSddPfjiM+J5jSq9GAaf6PCgqG4hwiIFD7oXNidi4BJ5lRBmGmRarvkoVpOg
+	VVFlP8tDMk0kTPoZ9LLsmkBRO9qjjE2xvnJUV3FaF7/2K/2jpyCXPdN8SsOdoxMkxSIx
+	9Attd5LUWZLfwrtTRxX/ySi429VuUNcfahkL8291zGh5cUeXMgsWqWA18QXN/2DVfOwn
+	AiE3v7cuVMiUHXkzQ79OSO3YLSlYxhaUyc+auy+PqjBDld5RxsR+uMaJog3R2XIekmMb
+	sJqg==
+X-Received: by 10.58.24.41 with SMTP id r9mr16370469vef.44.1373381283930; Tue,
+	09 Jul 2013 07:48:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 9 Jul 2013 07:28:36 -0700 (PDT)
-In-Reply-To: <4fe4ce970df0fa607fb3325b88b247be1ebbb93a.1372483117.git.hongxu.jia@windriver.com>
-References: <cover.1372483117.git.hongxu.jia@windriver.com>
-	<4fe4ce970df0fa607fb3325b88b247be1ebbb93a.1372483117.git.hongxu.jia@windriver.com>
+Received: by 10.220.13.144 with HTTP; Tue, 9 Jul 2013 07:47:43 -0700 (PDT)
+In-Reply-To: <1372980674-42981-1-git-send-email-kirgene@gmail.com>
+References: <1372980674-42981-1-git-send-email-kirgene@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Jul 2013 15:28:36 +0100
-Message-ID: <CAJTo0LaKmUY3=Am0=eUVAkrmB0pD0_=iFPxhwu1APQSYHEzsjg@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQmXRZWmyj6JJ/M+uycts+CZ05WEU2QdtXpLUu1aY0tMaeBdVOf6sM6HDhinpZqi6Ut9HpED
+Date: Tue, 9 Jul 2013 15:47:43 +0100
+Message-ID: <CAJTo0LYa07yvkw=5tCvN9kapckOF-XPecWeVQny1qacLncp_=g@mail.gmail.com>
+To: Yevhen Kyriukha <kirgene@gmail.com>
+X-Gm-Message-State: ALoCoQmqsgvUIA0Y+VQmEIAvsLYxELxjvKtRlI00Jvdk/MFkv3Ygz78n4tY49j8G4mQGJXtiJBOy
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] qt-mobility: fix build in the absence of xvideo
+Subject: Re: [PATCH v8] systemd: added python-systemd package generation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,18 +43,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 14:28:58 -0000
+X-List-Received-Date: Tue, 09 Jul 2013 14:48:04 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 2 July 2013 03:16, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> QMake pro files don't explicitly define QT_NO_XVIDEO if the
-> configuration lacks xvideo, but plugins code relies on this define.
+On 5 July 2013 00:31, Yevhen Kyriukha <kirgene@gmail.com> wrote:
+> +inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu \
+> +        ${@base_contains('DISTRO_FEATURES', 'python', 'pythonnative python-dir', '', d)}
 
-You just described a clear and obvious bug in the build system...
+You've just invented a new DISTRO_FEATURE, right?  I don't think we
+should invent these without due thought.  There's a good discussion to
+be had around a distro feature to enable all Pythonic integration
+where possible, but it hasn't been had yet.
 
-> +Upstream-Status: Inappropriate [configuration]
+I see two options here:
 
-...so why is this inappropriate to send upstream?
+1) systemd doesn't enable Python, and we add another recipe
+systemd-python that only builds and ships the Python bindings.
+
+2) Decide as a project that we need a new DISTRO_FEATURE "python" that
+means "has full support for Python", meaning that every package that
+had Python integration should enable it.
+
+I'm currently leaning towards (1) as it's less intrusive on the OE
+environment as a whole.
 
 Ross
 
