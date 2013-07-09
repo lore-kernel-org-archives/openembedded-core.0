@@ -1,28 +1,35 @@
-Return-Path: <Sergey_Matyukevich@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id C6149619DD
+Return-Path: <net147@gmail.com>
+Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id B5336619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 13:47:25 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1UwYGM-0001NE-8H from Sergey_Matyukevich@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Tue, 09 Jul 2013 06:47:26 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 9 Jul 2013 06:47:25 -0700
-Received: from bars.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server id 14.2.247.3; Tue, 9 Jul 2013 14:47:24 +0100
-From: Sergey Matyukevich <sergey_matyukevich@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jul 2013 17:47:22 +0400
-Message-ID: <1373377642-11032-1-git-send-email-sergey_matyukevich@mentor.com>
-X-Mailer: git-send-email 1.7.2.5
-MIME-Version: 1.0
-X-OriginalArrivalTime: 09 Jul 2013 13:47:25.0610 (UTC)
-	FILETIME=[D855A8A0:01CE7CAA]
-Subject: [PATCH] powertop: fix update-alternatives link
+	Tue,  9 Jul 2013 13:57:07 +0000 (UTC)
+Received: by mail-pb0-f50.google.com with SMTP id wz7so5558845pbc.37
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Jul 2013 06:57:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=tE3d6H5Sdgd7qRrvPhTdjzlChdprAZSEpvvQz9fIhcw=;
+	b=Xa0TvnafL3dTaBol3Y5EkIbnYAMXphPqR10nstqJA/396bZss3vkIqNli/zcQ4KNAa
+	GyMWgs6bxIWYGEDZzfPMA47th3ETfs6w/SiJLm2VYyAC5F23P1l/zgtHqgBZyzudIaza
+	gNvDxtHNpWha/lrAkrrcq+S/sCgFQaHauZaso5EtscyoHovJfekofq2kvPydJjGXNG9b
+	WrPjPjrdxfnPDgk3jr2bv7YSepiiTBDfKMXIBdkt7DdQiuMPGTwW2O05LzfvyjJcjISw
+	kUf927oPu+1L4sZUwlqz0j8cs3vM5NeObrsm9RgEBUjh0kUVXVf1nkc94oT24+5dpO7H
+	zwvA==
+X-Received: by 10.68.107.98 with SMTP id hb2mr26332163pbb.99.1373378228850;
+	Tue, 09 Jul 2013 06:57:08 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	rb1sm15947454pbb.29.2013.07.09.06.57.06 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 09 Jul 2013 06:57:07 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jul 2013 00:12:41 +1000
+Message-Id: <1373379161-25047-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH v3] boot-directdisk: mount root by MBR disk signature for Linux 3.8+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +42,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 13:47:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jul 2013 13:57:07 -0000
 
-In the new stable busybox_1.21.1 default location of symbolic link for
-powertop has been changed: /usr/sbin instead of /bin. This update breaks
-creation of alternative links when both busybox and powertop packages are
-installed on the system.
+The root device is currently set as /dev/hda2. However, this is
+only correct if it's the first IDE drive. If booting off the first SATA
+drive instead, it would be /dev/sda2. It's not the first drive, neither
+/dev/hda2 or /dev/sda2 would be correct.
 
-Fix: modification of ALTERNATIVE_LINK_NAME in powertop recipe.
+The solution to this has typically been to use the filesystem UUID to
+specify the root device but this requires extra support in the initrd.
+Linux 3.8 introduces the ability to specify the root device using the
+MBR disk signature and the partition number which is much simpler to
+use and avoids the extra overhead of an initrd.
 
-Signed-off-by: Sergey Matyukevich <sergey_matyukevich@mentor.com>
+This change uses the MBR disk signature to specify the root device when
+using Linux 3.8+ and CONFIG_BLOCK (required for root=PARTUUID=)
+is enabled in the kernel.
+
+This has been tested with QEMU x86 and Intel Desktop Board D2500HN using
+an image recipe inheriting boot-directdisk and core-image.
+
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-kernel/powertop/powertop_2.3.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+ meta/classes/boot-directdisk.bbclass | 30 +++++++++++++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/powertop/powertop_2.3.bb b/meta/recipes-kernel/powertop/powertop_2.3.bb
-index 8ee349c..5dae1b6 100644
---- a/meta/recipes-kernel/powertop/powertop_2.3.bb
-+++ b/meta/recipes-kernel/powertop/powertop_2.3.bb
-@@ -26,5 +26,5 @@ do_configure_prepend() {
- inherit update-alternatives
- ALTERNATIVE_${PN} = "powertop"
- ALTERNATIVE_TARGET[powertop] = "${sbindir}/powertop"
--ALTERNATIVE_LINK_NAME[powertop] = "${base_bindir}/powertop"
-+ALTERNATIVE_LINK_NAME[powertop] = "${sbindir}/powertop"
- ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index efeadab..f97060f 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -35,7 +35,9 @@ BOOTDD_EXTRA_SPACE ?= "16384"
+ # Get the build_syslinux_cfg() function from the syslinux class
+ 
+ AUTO_SYSLINUXCFG = "1"
+-SYSLINUX_ROOT ?= "root=/dev/sda2"
++SYSLINUX_FIXED_ROOT = "root=/dev/sda2"
++SYSLINUX_UUID_ROOT = "root=PARTUUID=${DISK_SIGNATURE}-02"
++SYSLINUX_ROOT ?= "${@'${SYSLINUX_UUID_ROOT}' if has_kernel_mbr_partuuid_support(d) else '${SYSLINUX_FIXED_ROOT}'}"
+ SYSLINUX_TIMEOUT ?= "10"
+ 
+ inherit syslinux
+@@ -98,6 +100,10 @@ build_boot_dd() {
+ 	parted $IMAGE set 1 boot on 
+ 	parted $IMAGE print
+ 
++	# Disk signature generated by parted isn't really random, so use our own generated signature
++	echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
++		dd of=$IMAGE bs=1 seek=440 conv=notrunc
++
+ 	OFFSET=`expr $END2 / 512`
+ 	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+ 	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
+@@ -113,4 +119,26 @@ python do_bootdirectdisk() {
+     bb.build.exec_func('build_boot_dd', d)
+ }
+ 
++def generate_disk_signature():
++    import uuid
++    return str(uuid.uuid4())[:8]
++
++def get_kernel_version(d):
++    import subprocess
++    version_cmd = r"grep '^VERSION\s*=' '%s/Makefile' | grep -o '[0-9]*$'" % (d.getVar("STAGING_KERNEL_DIR", True))
++    version = int(subprocess.Popen(version_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0])
++    patchlevel_cmd = r"grep '^PATCHLEVEL\s*=' '%s/Makefile' | grep -o '[0-9]*$'" % (d.getVar("STAGING_KERNEL_DIR", True))
++    patchlevel = int(subprocess.Popen(patchlevel_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0])
++    return (version, patchlevel)
++
++def has_kernel_config_option(option, d):
++    import subprocess
++    grep_cmd = r"grep '^CONFIG_%s=y$' '%s/.config'" % (option, d.getVar("STAGING_KERNEL_DIR", True))
++    return subprocess.call(grep_cmd, shell=True, stdout=subprocess.PIPE) == 0
++
++def has_kernel_mbr_partuuid_support(d):
++    return get_kernel_version(d) >= (3, 8) and has_kernel_config_option("BLOCK", d)
++
++DISK_SIGNATURE := "${@generate_disk_signature()}"
++
+ addtask bootdirectdisk before do_build
 -- 
-1.7.2.5
+1.8.3.2
 
 
