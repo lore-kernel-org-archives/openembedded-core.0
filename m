@@ -1,17 +1,24 @@
-Return-Path: <noor_ahsan@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 241E16AF6D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F030A612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 11:56:13 +0000 (UTC)
-Received: from pkl-ahsann-ubuntu.mgc.mentorg.com ([137.202.157.70])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r69Bu9OV009201; 
-	Tue, 9 Jul 2013 06:56:11 -0500
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jul 2013 16:56:02 +0500
-Message-Id: <1373370962-28889-1-git-send-email-noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [Patch V4] lighttpd: Add systemd support.
+	Tue,  9 Jul 2013 12:30:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r69CUhST029802
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Jul 2013 05:30:43 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 9 Jul 2013 05:30:42 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 9 Jul 2013 20:30:35 +0800
+Message-ID: <cover.1373372649.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/5]add nss for LSB library check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,90 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 11:56:13 -0000
+X-List-Received-Date: Tue, 09 Jul 2013 12:30:42 -0000
+Content-Type: text/plain
 
-From: Noor <noor_ahsan@mentor.com>
+http://refspecs.linuxfoundation.org/LSB_4.1.0/LSB-Core-generic/LSB-Core-generic/libnss3.html
+https://developer.mozilla.org/en-US/docs/NSS
+//Hongxu
 
-* Enable lighttpd with systemd support.
-* Replace the hardcoded paths with sbindir, sysconfdir and base_bindir
+The following changes since commit dc86293f0444384e8ae5131fdd10b6cb077164b0:
 
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
----
- .../lighttpd/files/lighttpd.service                |   12 ++++++++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   25 ++++++++++++++++----
- 2 files changed, 33 insertions(+), 4 deletions(-)
+  bitbake: HOB:Proper handle of SIGINT (2013-07-05 15:52:48 +0100)
 
-diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/files/lighttpd.service
-new file mode 100644
-index 0000000..a5333b6
---- /dev/null
-+++ b/meta/recipes-extended/lighttpd/files/lighttpd.service
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=Lightning Fast Webserver With Light System Requirements
-+After=network.target
-+
-+[Service]
-+ExecStartPre=/usr/sbin/lighttpd -t -f /etc/lighttpd.conf
-+ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd.conf
-+ExecReload=/bin/kill -HUP $MAINPID
-+
-+[Install]
-+WantedBy=multi-user.target
-+
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-index df6ce97..4e36772 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://index.html.lighttpd \
-         file://lighttpd.conf \
-         file://lighttpd \
-+        file://lighttpd.service \
-         "
- 
- SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
-@@ -39,19 +40,35 @@ EXTRA_OECONF = " \
-              --disable-static \
- "
- 
--inherit autotools pkgconfig update-rc.d gettext
-+inherit autotools pkgconfig update-rc.d gettext systemd
- 
- INITSCRIPT_NAME = "lighttpd"
- INITSCRIPT_PARAMS = "defaults 70"
- 
-+SYSTEMD_SERVICE_${PN} = "lighttpd.service"
-+SYSTEMD_AUTO_ENABLE = "disable"
-+
-+
- do_install_append() {
--    install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
--    install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
-+    
-+    install -d ${D}${sysconfdir} ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
-     install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
-     install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
-+    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-+        install -d ${D}${sysconfdir}/init.d
-+        install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
-+    fi
-+    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+        install -d ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
-+        sed -i 's!/usr/sbin!${sbindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
-+        sed -i 's!/etc!${sysconfdir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
-+        sed -i 's!/bin!${base_bindir}!g' ${D}${systemd_unitdir}/system/lighttpd.service
-+    fi
-+
- }
- 
--FILES_${PN} += "${sysconfdir} /www"
-+FILES_${PN} += "${sysconfdir} /www ${systemd_unitdir}"
- 
- CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
- 
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-nss
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss
+
+Hongxu Jia (5):
+  nspr-native: add version 4.10
+  packagegroup-core-lsb: add nss for LSB library check
+  nss: add version 3.15.1
+  nss: Create checksum files for the NSS libraries
+  nss: fix incorrect shebang of perl
+
+ .../packagegroups/packagegroup-core-lsb.bb         |   1 +
+ meta/recipes-support/nspr/nspr_4.10.bb             |   2 +
+ .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 ++++++++++++
+ .../files/nss-fix-support-cross-compiling.patch    |  71 ++++++++
+ .../files/nss-no-rpath-for-cross-compiling.patch   |  26 +++
+ meta/recipes-support/nss/files/nss.pc.in           |  11 ++
+ meta/recipes-support/nss/files/signlibs.sh         |  20 +++
+ meta/recipes-support/nss/nss.inc                   | 187 +++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.15.1.bb             |   9 +
+ 9 files changed, 437 insertions(+)
+ create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
+ create mode 100644 meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch
+ create mode 100644 meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
+ create mode 100644 meta/recipes-support/nss/files/nss.pc.in
+ create mode 100644 meta/recipes-support/nss/files/signlibs.sh
+ create mode 100644 meta/recipes-support/nss/nss.inc
+ create mode 100644 meta/recipes-support/nss/nss_3.15.1.bb
+
 -- 
-1.7.9.5
+1.8.1.2
 
 
