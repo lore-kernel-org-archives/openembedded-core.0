@@ -1,40 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B165619DD
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D7FC619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 12:41:55 +0000 (UTC)
-Received: by mail-ea0-f172.google.com with SMTP id q10so3724828eaj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2013 05:41:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=U+DFCmhT7hty1BsnFcf35Va6n+fWsE2zgTndQCnAI4w=;
-	b=tdFx9wCnbfjLVIOZOM7mhMCP+oEW2sbnYxIFY29ulaY2EBA3Bz9b6gLqikNpGFnMBQ
-	lpWfxYMEZ42OKiXa/EfvaNac5fd8xwx2lFlRhzFL7VBxZ5NdrTBmaIDBw/FQe1OPfbjB
-	5AHbFhBPq7uHo6djxse4tgYCSUhOUyv2hnWihF1XDP69tlkySmT31Pc/YKPFLIdzqofK
-	KGaZmhBT/Q+wd4GDw8T5kb9SHuNrcvEIXuESpyCWNVHZrL1KOXhwfNVPz8wROqmZan/u
-	i/yiPAnOTi+GgRksbXr8Gm0YJqCkaCNhxmI3MhAbbn9L7rwzsnBqjvlQ24sBP1uqO1sX
-	hbZg==
-X-Received: by 10.15.51.202 with SMTP id n50mr30126009eew.39.1373373716064;
-	Tue, 09 Jul 2013 05:41:56 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	n45sm50856216eew.1.2013.07.09.05.41.55 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 09 Jul 2013 05:41:55 -0700 (PDT)
-Date: Tue, 9 Jul 2013 14:42:05 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
+	Tue,  9 Jul 2013 12:44:05 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 09 Jul 2013 05:44:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1028,1363158000"; d="scan'208";a="265866808"
+Received: from unknown (HELO helios.localnet) ([10.252.121.245])
+	by AZSMGA002.ch.intel.com with ESMTP; 09 Jul 2013 05:44:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20130709124205.GU3288@jama>
+Date: Tue, 09 Jul 2013 13:44:04 +0100
+Message-ID: <4535187.OqzhIf4Y4R@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <327d5b48c01febfaa4bd883b851a7640c81a7311.1373372649.git.hongxu.jia@windriver.com>
 References: <cover.1373372649.git.hongxu.jia@windriver.com>
-	<626ac2f7b8f351240a6eae4a75a632914eb28207.1373372649.git.hongxu.jia@windriver.com>
+	<327d5b48c01febfaa4bd883b851a7640c81a7311.1373372649.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <626ac2f7b8f351240a6eae4a75a632914eb28207.1373372649.git.hongxu.jia@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] nspr-native: add version 4.10
+Subject: Re: [PATCH 3/5] nss: add version 3.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,65 +33,376 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 12:41:56 -0000
-X-Groupsio-MsgNum: 41667
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="UC+RhZhEc8lcmajv"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 09 Jul 2013 12:44:05 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---UC+RhZhEc8lcmajv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Hongxu,
 
-On Tue, Jul 09, 2013 at 08:30:36PM +0800, Hongxu Jia wrote:
-> It is required by nss-native.
-
-Shouldn't the subject say something like
-nspr: add native version
-or is there some other version of nspr-native?
-
->=20
+On Tuesday 09 July 2013 20:30:38 Hongxu Jia wrote:
+> Network Security Services (NSS) is a set of libraries designed to support
+> cross-platform development of security-enabled client and server
+> applications. Applications built with NSS can support SSL v2 and v3, TLS,
+> PKCS 5, PKCS 7, PKCS 11, PKCS 12, S/MIME, X.509 v3 certificates, and other
+> security standards.
+> 
 > [YOCTO #4096]
->=20
+> 
 > Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  meta/recipes-support/nspr/nspr_4.10.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-support/nspr/nspr_4.10.bb b/meta/recipes-suppor=
-t/nspr/nspr_4.10.bb
-> index 3936d67..fcecb95 100644
-> --- a/meta/recipes-support/nspr/nspr_4.10.bb
-> +++ b/meta/recipes-support/nspr/nspr_4.10.bb
-> @@ -173,3 +173,5 @@ FILES_${PN} =3D "${libdir}/lib*.so"
->  FILES_${PN}-dev =3D "${bindir}/* ${libdir}/nspr/tests/* ${libdir}/pkgcon=
-fig \
->                  ${includedir}/* ${datadir}/aclocal/* "
->  FILES_${PN}-dbg +=3D "${libdir}/nspr/tests/.debug/*"
+>  .../files/nss-fix-support-cross-compiling.patch    |  71 +++++++++
+>  .../files/nss-no-rpath-for-cross-compiling.patch   |  26 ++++
+>  meta/recipes-support/nss/files/nss.pc.in           |  11 ++
+>  meta/recipes-support/nss/nss.inc                   | 169
+> +++++++++++++++++++++ meta/recipes-support/nss/nss_3.15.1.bb             | 
+>  9 ++
+>  5 files changed, 286 insertions(+)
+>  create mode 100644
+> meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch create
+> mode 100644
+> meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
+> create mode 100644 meta/recipes-support/nss/files/nss.pc.in
+>  create mode 100644 meta/recipes-support/nss/nss.inc
+>  create mode 100644 meta/recipes-support/nss/nss_3.15.1.bb
+> 
+> diff --git
+> a/meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch
+> b/meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch new
+> file mode 100644
+> index 0000000..f0b3550
+> --- /dev/null
+> +++ b/meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch
+> @@ -0,0 +1,71 @@
+> +nss: fix support cross compiling
 > +
-> +BBCLASSEXTEND =3D "native"
-> --=20
-> 1.8.1.2
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> +Let some make variables be assigned from outside makefile.
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +Upstream-Status: Inappropriate [configuration]
+> +---
+> + nss/coreconf/Linux.mk   | 12 +++++++++++-
+> + nss/coreconf/arch.mk    |  2 +-
+> + nss/lib/freebl/Makefile |  6 ++++++
+> + 3 files changed, 18 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/nss/coreconf/Linux.mk b/nss/coreconf/Linux.mk
+> +--- a/nss/coreconf/Linux.mk
+> ++++ b/nss/coreconf/Linux.mk
+> +@@ -16,11 +16,21 @@ ifeq ($(USE_PTHREADS),1)
+> + 	IMPL_STRATEGY = _PTH
+> + endif
+> +
+> ++ifndef CC
+> + CC			= gcc
+> ++endif
+> ++
+> ++ifdef CXX
+> ++CCC			= $(CXX)
+> ++else
+> + CCC			= g++
+> ++endif
+> ++
+> ++ifndef RANLIB
+> + RANLIB			= ranlib
+> ++endif
+> +
+> +-DEFAULT_COMPILER = gcc
+> ++DEFAULT_COMPILER = $(CC)
+> +
+> + ifeq ($(OS_TARGET),Android)
+> + ifndef ANDROID_NDK
+> +diff --git a/nss/coreconf/arch.mk b/nss/coreconf/arch.mk
+> +index 6557348..b722412 100644
+> +--- a/nss/coreconf/arch.mk
+> ++++ b/nss/coreconf/arch.mk
+> +@@ -37,7 +37,7 @@ OS_TEST := $(shell uname -m)
+> + ifeq ($(OS_TEST),i86pc)
+> +     OS_RELEASE := $(shell uname -r)_$(OS_TEST)
+> + else
+> +-    OS_RELEASE := $(shell uname -r)
+> ++    OS_RELEASE ?= $(shell uname -r)
+> + endif
+> +
+> + #
+> +diff --git a/nss/lib/freebl/Makefile b/nss/lib/freebl/Makefile
+> +index 0d293f1..678f506 100644
+> +--- a/nss/lib/freebl/Makefile
+> ++++ b/nss/lib/freebl/Makefile
+> +@@ -36,6 +36,12 @@ ifdef USE_64
+> + 	DEFINES += -DNSS_USE_64
+> + endif
+> +
+> ++ifeq ($(OS_TEST),mips)
+> ++ifndef USE_64
+> ++	DEFINES += -DNS_PTR_LE_32
+> ++endif
+> ++endif
+> ++
+> + ifdef USE_ABI32_FPU
+> + 	DEFINES += -DNSS_USE_ABI32_FPU
+> + endif
+> +--
+> +1.8.1.2
+> +
+> diff --git
+> a/meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
+> b/meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch new
+> file mode 100644
+> index 0000000..7661dc9
+> --- /dev/null
+> +++ b/meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
+> @@ -0,0 +1,26 @@
+> +nss:no rpath for cross compiling
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +Upstream-Status: Inappropriate [configuration]
+> +---
+> + nss/cmd/platlibs.mk | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/nss/cmd/platlibs.mk b/nss/cmd/platlibs.mk
+> +--- a/nss/cmd/platlibs.mk
+> ++++ b/nss/cmd/platlibs.mk
+> +@@ -18,9 +18,9 @@ endif
+> +
+> + ifeq ($(OS_ARCH), Linux)
+> + ifeq ($(USE_64), 1)
+> +-EXTRA_SHARED_LIBS +=
+> -Wl,-rpath,'$$ORIGIN/../lib64:/opt/sun/private/lib64:$$ORIGIN/../lib'
+> ++#EXTRA_SHARED_LIBS +=
+> -Wl,-rpath,'$$ORIGIN/../lib64:/opt/sun/private/lib64:$$ORIGIN/../lib' +
+> else
+> +-EXTRA_SHARED_LIBS += -Wl,-rpath,'$$ORIGIN/../lib:/opt/sun/private/lib'
+> ++#EXTRA_SHARED_LIBS += -Wl,-rpath,'$$ORIGIN/../lib:/opt/sun/private/lib'
+> + endif
+> + endif
+> +
+> +--
+> +1.8.1.2
+> +
+> diff --git a/meta/recipes-support/nss/files/nss.pc.in
+> b/meta/recipes-support/nss/files/nss.pc.in new file mode 100644
+> index 0000000..200f635
+> --- /dev/null
+> +++ b/meta/recipes-support/nss/files/nss.pc.in
+> @@ -0,0 +1,11 @@
+> +prefix=OEPREFIX
+> +exec_prefix=OEEXECPREFIX
+> +libdir=OELIBDIR
+> +includedir=OEINCDIR
+> +
+> +Name: NSS
+> +Description: Network Security Services
+> +Version: %NSS_VERSION%
+> +Requires: nspr >= %NSPR_VERSION%
+> +Libs: -lssl3 -lsmime3 -lnss3 -lsoftokn3 -lnssutil3
+> +Cflags: -IOEINCDIR
+> diff --git a/meta/recipes-support/nss/nss.inc
+> b/meta/recipes-support/nss/nss.inc new file mode 100644
+> index 0000000..71b7250
+> --- /dev/null
+> +++ b/meta/recipes-support/nss/nss.inc
+> @@ -0,0 +1,169 @@
+> +SUMMARY = "Mozilla's SSL and TLS implementation"
+> +DESCRIPTION = "Network Security Services (NSS) is a set of libraries \
+> +designed to support cross-platform development of \
+> +security-enabled client and server applications. \
+> +Applications built with NSS can support SSL v2 and v3, \
+> +TLS, PKCS 5, PKCS 7, PKCS 11, PKCS 12, S/MIME, X.509 \
+> +v3 certificates, and other security standards."
+> +HOMEPAGE = "http://www.mozilla.org/projects/security/pki/nss/"
+> +SECTION = "libs"
+> +
+> +LICENSE = "MPL-1.1 GPL-2.0 LGPL-2.1"
+> +
+> +LIC_FILES_CHKSUM =
+> "file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f
+> \ +                   
+> file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=6bf96825e3d7ce4de25621ae886cc
+> 859" +SRC_URI = "\
+> +    file://nss-fix-support-cross-compiling.patch \
+> +    file://nss-no-rpath-for-cross-compiling.patch \
+> +"
+> +SRC_URI_append_class-target += "\
+> +    file://nss.pc.in \
+> +"
+> +inherit siteinfo
+> +PR = "r0"
+> +DEPENDS = "sqlite3 nspr zlib nss-native"
+> +DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
+> +
+> +TD = "${S}/tentative-dist"
+> +TDS = "${S}/tentative-dist-staging"
+> +
+> +TARGET_CC_ARCH += "${LDFLAGS}"
+> +
+> +do_compile_prepend_class-native() {
+> +    export NSPR_INCLUDE_DIR=${STAGING_INCDIR_NATIVE}
+> +    export NSPR_LIB_DIR=${STAGING_LIBDIR_NATIVE}
+> +}
+> +
+> +do_compile() {
+> +    export CROSS_COMPILE=1
+> +    export NATIVE_CC="gcc"
+> +    export BUILD_OPT=1
+> +
+> +    export FREEBL_NO_DEPEND=1
+> +    export FREEBL_LOWHASH=1
+> +
+> +    export LIBDIR=${base_libdir}
+> +    export MOZILLA_CLIENT=1
+> +    export NS_USE_GCC=1
+> +    export NSS_USE_SYSTEM_SQLITE=1
+> +    export NSS_ENABLE_ECC=1
+> +
+> +    export OS_RELEASE=3.4
+> +    export OS_TARGET=Linux
+> +    export OS_ARCH=Linux
+> +
+> +    if [ "${TARGET_ARCH}" = "powerpc" ]; then
+> +        OS_TEST=ppc
+> +    elif [ "${TARGET_ARCH}" = "powerpc64" ]; then
+> +        OS_TEST=ppc64
+> +    elif [ "${TARGET_ARCH}" = "mips" -o "${TARGET_ARCH}" = "mipsel" -o
+> "${TARGET_ARCH}" = "mips64" -o "${TARGET_ARCH}" = "mips64el" ]; then +     
+>   OS_TEST=mips
+> +    else
+> +        OS_TEST="${TARGET_ARCH}"
+> +    fi
+> +
+> +    if [ "${SITEINFO_BITS}" = "64" ]; then
+> +        export USE_64=1
+> +    fi
+> +
+> +    make -C ./nss CCC="${CXX}" \
+> +        OS_TEST=${OS_TEST} \
+> +}
+> +
+> +do_install() {
+> +    export CROSS_COMPILE=1
+> +    export NATIVE_CC="gcc"
+> +    export BUILD_OPT=1
+> +
+> +    export FREEBL_NO_DEPEND=1
+> +
+> +    export LIBDIR=${base_libdir}
+> +    export MOZILLA_CLIENT=1
+> +    export NS_USE_GCC=1
+> +    export NSS_USE_SYSTEM_SQLITE=1
+> +    export NSS_ENABLE_ECC=1
+> +
+> +    export OS_RELEASE=3.4
+> +    export OS_TARGET=Linux
+> +    export OS_ARCH=Linux
+> +
+> +    if [ "${TARGET_ARCH}" = "powerpc" ]; then
+> +        OS_TEST=ppc
+> +    elif [ "${TARGET_ARCH}" = "powerpc64" ]; then
+> +        OS_TEST=ppc64
+> +    elif [ "${TARGET_ARCH}" = "mips" -o "${TARGET_ARCH}" = "mipsel" -o
+> "${TARGET_ARCH}" = "mips64" -o "${TARGET_ARCH}" = "mips64el" ]; then +     
+>   OS_TEST=mips
+> +    else
+> +        OS_TEST="${TARGET_ARCH}"
+> +    fi
+> +    if [ "${SITEINFO_BITS}" = "64" ]; then
+> +        export USE_64=1
+> +    fi
+> +
+> +    make -C ./nss \
+> +        CCC="${CXX}" \
+> +        OS_TEST=${OS_TEST} \
+> +        SOURCE_LIB_DIR="${TD}/${libdir}" \
+> +        SOURCE_BIN_DIR="${TD}/${bindir}" \
+> +        install
+> +
+> +    install -d ${D}/${base_libdir}/
+> +    for file in ${S}/dist/*.OBJ/lib/*.so; do
+> +        echo "Installing `basename $file`..."
+> +        cp $file  ${D}/${base_libdir}/
+> +    done
+> +
+> +    for shared_lib in ${TD}/${libdir}/*.so.*; do
+> +        if [ -f $shared_lib ]; then
+> +            cp $shared_lib ${D}/${base_libdir}
+> +            ln -sf $(basename $shared_lib) ${D}/${base_libdir}/$(basename
+> $shared_lib .1oe) +        fi
+> +    done
+> +    for shared_lib in ${TD}/${libdir}/*.so; do
+> +        if [ -f $shared_lib -a ! -e ${D}/${base_libdir}/$shared_lib ]; then
+> +            cp $shared_lib ${D}/${base_libdir}
+> +        fi
+> +    done
+> +
+> +    install -d ${D}/${includedir}/nss3
+> +    install -m 644 -t ${D}/${includedir}/nss3 dist/public/nss/*
+> +
+> +    install -d ${D}/${bindir}
+> +    for binary in ${TD}/${bindir}/*; do
+> +        install -m 755 -t ${D}/${bindir} $binary
+> +    done
+> +}
+> +
+> +do_install_append_class-target() {
+> +    install -d ${D}${libdir}/pkgconfig/
+> +    sed 's/%NSS_VERSION%/${PV}/' ${WORKDIR}/nss.pc.in | sed
+> 's/%NSPR_VERSION%/4.9.2/' > ${D}${libdir}/pkgconfig/nss.pc +    sed -i
+> s:OEPREFIX:${prefix}:g ${D}${libdir}/pkgconfig/nss.pc
+> +    sed -i s:OEEXECPREFIX:${exec_prefix}:g ${D}${libdir}/pkgconfig/nss.pc
+> +    sed -i s:OELIBDIR:${base_libdir}:g ${D}${libdir}/pkgconfig/nss.pc
+> +    sed -i s:OEINCDIR:${includedir}/nss3:g ${D}${libdir}/pkgconfig/nss.pc
+> +
+> +    # Create a blank certificate
+> +    mkdir -p ${D}/etc/pki/nssdb/
+> +    touch ./empty_password
+> +    certutil -N -d ${D}/etc/pki/nssdb/ -f ./empty_password
+> +    chmod 644 ${D}/etc/pki/nssdb/*.db
+> +    rm ./empty_password
+> +}
+> +
+> +FILES_${PN} = "\
+> +    ${sysconfdir} \
+> +    ${bindir} \
+> +    ${base_libdir}/lib*.chk \
+> +    ${base_libdir}/lib*.so \
+> +    "
+> +FILES_${PN}-dev = "\
+> +    ${base_libdir}/nss \
+> +    ${libdir}/pkgconfig/* \
+> +    ${includedir}/* \
+> +    "
+> +FILES_${PN}-dbg = "\
+> +    ${bindir}/.debug/* \
+> +    ${base_libdir}/.debug/* \
+> +    "
+> +
+> +BBCLASSEXTEND = "native"
+> diff --git a/meta/recipes-support/nss/nss_3.15.1.bb
+> b/meta/recipes-support/nss/nss_3.15.1.bb new file mode 100644
+> index 0000000..7b06f00
+> --- /dev/null
+> +++ b/meta/recipes-support/nss/nss_3.15.1.bb
+> @@ -0,0 +1,9 @@
+> +require nss.inc
+> +
+> +SRC_URI += "\
+> +   
+> http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_15_1_RTM
+> /src/${BPN}-${PV}.tar.gz \ +"
+> +
+> +SRC_URI[md5sum] = "fb68f4d210ac9397dd0d3c39c4f938eb"
+> +SRC_URI[sha256sum] =
+> "f994106a33d1f3210f4151bbb3419a1c28fd1cb545caa7dc9afdebd6da626284" +
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+How does this compare to the nss recipe in meta-browser?
 
---UC+RhZhEc8lcmajv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+https://github.com/OSSystems/meta-browser/blob/master/recipes-support/nss/nss_3.13.3.bb
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
+Cheers,
+Paul
 
-iEYEARECAAYFAlHcBR0ACgkQN1Ujt2V2gBzgKwCgnjB2irdSDIiWJTFfyYG8NhCX
-+AQAmgP+SBsacP/TO6QnY0mP9nP0sfvw
-=JUUr
------END PGP SIGNATURE-----
+-- 
 
---UC+RhZhEc8lcmajv--
+Paul Eggleton
+Intel Open Source Technology Centre
+
