@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 887156AD71
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id F2CE66A8E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 16:05:30 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id oz10so4787318veb.19
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2013 09:05:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=ZEvoA9jV2SQJdO5JbEa0A56MGobWybJGZiPKrQSDDHM=;
-	b=BEkFjWXp9Ywdu53O1txGWCL+oVytwVZOMoMnGhWygQWyQIAlPuIb93YC/TAJqkiGSq
-	dO/OsYBJu5Gle8ObmE/Cb64gjJx//UqFODGuV8T1VJuqTqEwR4ncdB9Ad8QwEOqFJJsC
-	JSUUbSgcYX1dunxOJNx49NkfIldRniVIGYADQoGj3/CWfT5Gz+xI+v/iZPdPnSwF9E3A
-	CpOVE8WH+0Vf5Zlf76vO9f7fH7fBdR9fo7Kv6rAtX89KezTwsb/BsRImJaylmx5X7lUo
-	lI1kh2OYjXAo5bXUGDNXgfwWIr0FuDYtS1aJd7SPMRtoUq8oUBtpwtAvFPZACcsB215v
-	mJvA==
-X-Received: by 10.52.29.106 with SMTP id j10mr13655644vdh.77.1373385931199;
-	Tue, 09 Jul 2013 09:05:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 9 Jul 2013 09:05:10 -0700 (PDT)
-In-Reply-To: <3588463.kQicxHoPbN@helios>
-References: <044c6bc4-86ca-4c96-bb24-50183cdf65b3@CH1EHSMHS029.ehs.local>
-	<3588463.kQicxHoPbN@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Jul 2013 17:05:10 +0100
-Message-ID: <CAJTo0LbP1EqKtxmULRhG8Pt_Am_nDSuopTyNv5URHuxXW2VdMw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQnhxSE5JReh9VC8joVCMw2Asa+IAuWhoojCGItNiwXMOVTgxyQidx3qlRmA8Byf0Pjx1R0k
-Cc: meta-xilinx@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] scripts/runqemu: 'qemuzynq' and 'qemumicroblaze'
+	Tue,  9 Jul 2013 16:47:53 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 09 Jul 2013 09:45:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1029,1363158000"; d="scan'208";a="367245534"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 09 Jul 2013 09:47:53 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id F3D946A4091;
+	Tue,  9 Jul 2013 09:47:51 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jul 2013 19:48:35 +0300
+Message-Id: <1373388515-21851-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net interface name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +30,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 16:05:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 09 Jul 2013 16:47:54 -0000
 
-On 9 July 2013 16:54, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> Since this is unlikely to happen immediately I've acked these patches going
-> in, but I think we'll need to look at doing this some time soon.
+Messages such as:
+"systemd-udevd[79]: error changing net interface name eth0 to enp0s3: Device or resource busy"
+are harmless as systemd can't rename interfaces in qemu (the interface is already active).
+Alternatively, passing net.ifnames=0 to the kernel will stop systemd renaming the interfaces.
 
-Agreed.  To make sure this doesn't get forgotten, I filed #4827 yesterday.
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/runtime/dmesg.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/lib/oeqa/runtime/dmesg.py b/meta/lib/oeqa/runtime/dmesg.py
+index b0e2175..48370fb 100644
+--- a/meta/lib/oeqa/runtime/dmesg.py
++++ b/meta/lib/oeqa/runtime/dmesg.py
+@@ -9,5 +9,5 @@ class DmesgTest(oeRuntimeTest):
+ 
+     @skipUnlessPassed('test_ssh')
+     def test_dmesg(self):
+-        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -i error')
++        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -v "error changing net interface name" | grep -i error')
+         self.assertEqual(status, 1, msg = "Error messages in dmesg log: %s" % output)
+-- 
+1.8.1.4
+
 
