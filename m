@@ -1,26 +1,40 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 477896AFF9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B165619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 12:30:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r69CUmjK022359
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  9 Jul 2013 12:41:55 +0000 (UTC)
+Received: by mail-ea0-f172.google.com with SMTP id q10so3724828eaj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Jul 2013 05:30:48 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 9 Jul 2013 05:30:48 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jul 2013 20:30:40 +0800
-Message-ID: <d02fa0c512a2df9de058c0679cb9aa346aa331a8.1373372649.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1373372649.git.hongxu.jia@windriver.com>
+	Tue, 09 Jul 2013 05:41:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=U+DFCmhT7hty1BsnFcf35Va6n+fWsE2zgTndQCnAI4w=;
+	b=tdFx9wCnbfjLVIOZOM7mhMCP+oEW2sbnYxIFY29ulaY2EBA3Bz9b6gLqikNpGFnMBQ
+	lpWfxYMEZ42OKiXa/EfvaNac5fd8xwx2lFlRhzFL7VBxZ5NdrTBmaIDBw/FQe1OPfbjB
+	5AHbFhBPq7uHo6djxse4tgYCSUhOUyv2hnWihF1XDP69tlkySmT31Pc/YKPFLIdzqofK
+	KGaZmhBT/Q+wd4GDw8T5kb9SHuNrcvEIXuESpyCWNVHZrL1KOXhwfNVPz8wROqmZan/u
+	i/yiPAnOTi+GgRksbXr8Gm0YJqCkaCNhxmI3MhAbbn9L7rwzsnBqjvlQ24sBP1uqO1sX
+	hbZg==
+X-Received: by 10.15.51.202 with SMTP id n50mr30126009eew.39.1373373716064;
+	Tue, 09 Jul 2013 05:41:56 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	n45sm50856216eew.1.2013.07.09.05.41.55 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 09 Jul 2013 05:41:55 -0700 (PDT)
+Date: Tue, 9 Jul 2013 14:42:05 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20130709124205.GU3288@jama>
 References: <cover.1373372649.git.hongxu.jia@windriver.com>
+	<626ac2f7b8f351240a6eae4a75a632914eb28207.1373372649.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/5] nss: fix incorrect shebang of perl
+In-Reply-To: <626ac2f7b8f351240a6eae4a75a632914eb28207.1373372649.git.hongxu.jia@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/5] nspr-native: add version 4.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,155 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 12:30:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jul 2013 12:41:56 -0000
+X-Groupsio-MsgNum: 41667
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UC+RhZhEc8lcmajv"
+Content-Disposition: inline
 
-Replace incorrect shebang of perl with `#! /usr/bin/perl'.
+--UC+RhZhEc8lcmajv
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 +++++++++++++++++++++
- meta/recipes-support/nss/nss.inc                   |   2 +
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
+On Tue, Jul 09, 2013 at 08:30:36PM +0800, Hongxu Jia wrote:
+> It is required by nss-native.
 
-diff --git a/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch b/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
-new file mode 100644
-index 0000000..ae2a6e5
---- /dev/null
-+++ b/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
-@@ -0,0 +1,110 @@
-+nss: fix incorrect shebang of perl
-+
-+Replace incorrect shebang of perl with `#!/usr/bin/perl'.
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+Upstream-Status: Pending
-+---
-+ nss/cmd/smimetools/smime  | 2 +-
-+ nss/coreconf/cpdist.pl    | 2 +-
-+ nss/coreconf/import.pl    | 2 +-
-+ nss/coreconf/jniregen.pl  | 2 +-
-+ nss/coreconf/outofdate.pl | 2 +-
-+ nss/coreconf/release.pl   | 2 +-
-+ nss/coreconf/version.pl   | 2 +-
-+ nss/tests/clean_tbx       | 2 +-
-+ nss/tests/path_uniq       | 2 +-
-+ 9 files changed, 9 insertions(+), 9 deletions(-)
-+
-+diff --git a/nss/cmd/smimetools/smime b/nss/cmd/smimetools/smime
-+--- a/nss/cmd/smimetools/smime
-++++ b/nss/cmd/smimetools/smime
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/perl
-++#!/usr/bin/perl
-+ 
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/cpdist.pl b/nss/coreconf/cpdist.pl
-+index 800edfb..652187f 100755
-+--- a/nss/coreconf/cpdist.pl
-++++ b/nss/coreconf/cpdist.pl
-+@@ -1,4 +1,4 @@
-+-#! /usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/import.pl b/nss/coreconf/import.pl
-+index dd2d177..428eaa5 100755
-+--- a/nss/coreconf/import.pl
-++++ b/nss/coreconf/import.pl
-+@@ -1,4 +1,4 @@
-+-#! /usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/jniregen.pl b/nss/coreconf/jniregen.pl
-+index 2039180..5f4f69c 100755
-+--- a/nss/coreconf/jniregen.pl
-++++ b/nss/coreconf/jniregen.pl
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/outofdate.pl b/nss/coreconf/outofdate.pl
-+index 33d80bb..01fc097 100755
-+--- a/nss/coreconf/outofdate.pl
-++++ b/nss/coreconf/outofdate.pl
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/release.pl b/nss/coreconf/release.pl
-+index 7cde19d..b5df2f6 100755
-+--- a/nss/coreconf/release.pl
-++++ b/nss/coreconf/release.pl
-+@@ -1,4 +1,4 @@
-+-#! /usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/version.pl b/nss/coreconf/version.pl
-+index d2a4942..79359fe 100644
-+--- a/nss/coreconf/version.pl
-++++ b/nss/coreconf/version.pl
-+@@ -1,4 +1,4 @@
-+-#!/usr/sbin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/tests/clean_tbx b/nss/tests/clean_tbx
-+index 4de9555..a7def9f 100755
-+--- a/nss/tests/clean_tbx
-++++ b/nss/tests/clean_tbx
-+@@ -1,4 +1,4 @@
-+-#! /bin/perl
-++#!/usr/bin/perl
-+ 
-+ #######################################################################
-+ #
-+diff --git a/nss/tests/path_uniq b/nss/tests/path_uniq
-+index f29f60a..08fbffa 100755
-+--- a/nss/tests/path_uniq
-++++ b/nss/tests/path_uniq
-+@@ -1,4 +1,4 @@
-+-#! /bin/perl
-++#!/usr/bin/perl
-+ 
-+ ########################################################################
-+ #
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index a0ea374..22382bc 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466a
- SRC_URI = "\
-     file://nss-fix-support-cross-compiling.patch \
-     file://nss-no-rpath-for-cross-compiling.patch \
-+    file://nss-fix-incorrect-shebang-of-perl.patch \
- "
- SRC_URI_append_class-target += "\
-     file://nss.pc.in \
-@@ -24,6 +25,7 @@ inherit siteinfo
- PR = "r0"
- DEPENDS = "sqlite3 nspr zlib nss-native"
- DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
-+RDEPENDS_${PN} = "perl"
- 
- TD = "${S}/tentative-dist"
- TDS = "${S}/tentative-dist-staging"
--- 
-1.8.1.2
+Shouldn't the subject say something like
+nspr: add native version
+or is there some other version of nspr-native?
 
+>=20
+> [YOCTO #4096]
+>=20
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/recipes-support/nspr/nspr_4.10.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-support/nspr/nspr_4.10.bb b/meta/recipes-suppor=
+t/nspr/nspr_4.10.bb
+> index 3936d67..fcecb95 100644
+> --- a/meta/recipes-support/nspr/nspr_4.10.bb
+> +++ b/meta/recipes-support/nspr/nspr_4.10.bb
+> @@ -173,3 +173,5 @@ FILES_${PN} =3D "${libdir}/lib*.so"
+>  FILES_${PN}-dev =3D "${bindir}/* ${libdir}/nspr/tests/* ${libdir}/pkgcon=
+fig \
+>                  ${includedir}/* ${datadir}/aclocal/* "
+>  FILES_${PN}-dbg +=3D "${libdir}/nspr/tests/.debug/*"
+> +
+> +BBCLASSEXTEND =3D "native"
+> --=20
+> 1.8.1.2
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--UC+RhZhEc8lcmajv
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHcBR0ACgkQN1Ujt2V2gBzgKwCgnjB2irdSDIiWJTFfyYG8NhCX
++AQAmgP+SBsacP/TO6QnY0mP9nP0sfvw
+=JUUr
+-----END PGP SIGNATURE-----
+
+--UC+RhZhEc8lcmajv--
