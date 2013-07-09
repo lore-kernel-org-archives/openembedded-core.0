@@ -1,27 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E98E6AF6D
+Return-Path: <radu.moisan@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 03F8E6AF6D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 11:14:31 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 09 Jul 2013 04:14:31 -0700
+	Tue,  9 Jul 2013 11:44:22 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2013 04:45:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1027,1363158000"; d="scan'208";a="265836154"
-Received: from unknown (HELO helios.localnet) ([10.252.121.245])
-	by AZSMGA002.ch.intel.com with ESMTP; 09 Jul 2013 04:14:29 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Liu Ting-B28495 <B28495@freescale.com>,
-	Guo Chunrong-B40290 <B40290@freescale.com>
-Date: Tue, 09 Jul 2013 12:14:28 +0100
-Message-ID: <1899518.lrLlCUV9nm@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <AF604684617F454390621992F367F1690BA97FAF@039-SN2MPN1-011.039d.mgd.msft.net>
-References: <1373356003-20356-1-git-send-email-B40290@freescale.com>
-	<AF604684617F454390621992F367F1690BA97FAF@039-SN2MPN1-011.039d.mgd.msft.net>
+X-IronPort-AV: E=Sophos;i="4.87,1028,1363158000"; d="scan'208";a="367375863"
+Received: from ubuntu.rb.intel.com (HELO [10.237.105.59]) ([10.237.105.59])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2013 04:44:06 -0700
+Message-ID: <51DBF7FC.7090208@intel.com>
+Date: Tue, 09 Jul 2013 14:46:04 +0300
+From: Radu Moisan <radu.moisan@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <cover.1373278823.git.radu.moisan@intel.com>
+	<6ed8bd57e597ae0c8fea947602b62fc6b3d818c9.1373278823.git.radu.moisan@intel.com>
+	<51DB610A.40306@linux.intel.com>
+In-Reply-To: <51DB610A.40306@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] common-licenses: Adding netperf
+Subject: Re: [PATCH 1/9] iputils: Upgrade to v20121221
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,107 +34,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 11:14:31 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 09 Jul 2013 11:44:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 09 July 2013 08:01:58 Liu Ting-B28495 wrote:
-> Netperf is restricted license. I don't think oe-core will accept it.
-> 
-> We add below line in fsl-setup-poky:
-> echo "# whiteliste restricted license" >> conf/local.conf
-> echo "LICENSE_FLAGS_WHITELIST = \"non-commercial_netperf\"" >>
-> conf/local.conf
-> 
-> -Ting
-> 
-> > -----Original Message-----
-> > From: Guo Chunrong-B40290
-> > Sent: Tuesday, July 09, 2013 3:47 PM
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Liu Ting-B28495; Luo Zhenhua-B19537; Guo Chunrong-B40290; Guo
-> > Chunrong-B40290
-> > Subject: [OE-core][PATCH] common-licenses: Adding netperf
-> > 
-> >        *netperf requires it's own specific license when
-> >        add meta-openembedded layer
-> > 
-> > Signed-off-by: Chunrong Guo <B40290@freescale.com>
-> > ---
-> > 
-> >  meta/files/common-licenses/netperf |   43
-> > 
-> > ++++++++++++++++++++++++++++++++++++
-> > 
-> >  1 files changed, 43 insertions(+), 0 deletions(-)  create mode 100644
-> > 
-> > meta/files/common-licenses/netperf
-> > 
-> > diff --git a/meta/files/common-licenses/netperf b/meta/files/common-
-> > licenses/netperf
-> > new file mode 100644
-> > index 0000000..3f3ceb2
-> > --- /dev/null
-> > +++ b/meta/files/common-licenses/netperf
-> > @@ -0,0 +1,43 @@
-> > +
-> > +
-> > +              Copyright (C) 1993 Hewlett-Packard Company
-> > +                         ALL RIGHTS RESERVED.
-> > +
-> > +  The enclosed software and documentation includes copyrighted works
-> > + of Hewlett-Packard Co. For as long as you comply with the following
-> > + limitations, you are hereby authorized to (i) use, reproduce, and
-> > + modify the software and documentation, and to (ii) distribute the
-> > + software and documentation, including modifications, for
-> > + non-commercial purposes only.
-> > +
-> > +  1.  The enclosed software and documentation is made available at no
-> > +      charge in order to advance the general development of
-> > +      high-performance networking products.
-> > +
-> > +  2.  You may not delete any copyright notices contained in the
-> > +      software or documentation. All hard copies, and copies in
-> > +      source code or object code form, of the software or
-> > +      documentation (including modifications) must contain at least
-> > +      one of the copyright notices.
-> > +
-> > +  3.  The enclosed software and documentation has not been subjected
-> > +      to testing and quality control and is not a Hewlett-Packard Co.
-> > +      product. At a future time, Hewlett-Packard Co. may or may not
-> > +      offer a version of the software and documentation as a product.
-> > +
-> > +  4.  THE SOFTWARE AND DOCUMENTATION IS PROVIDED "AS IS".
-> > +      HEWLETT-PACKARD COMPANY DOES NOT WARRANT THAT THE USE,
-> > +      REPRODUCTION, MODIFICATION OR DISTRIBUTION OF THE SOFTWARE OR
-> > +      DOCUMENTATION WILL NOT INFRINGE A THIRD PARTY'S INTELLECTUAL
-> > +      PROPERTY RIGHTS. HP DOES NOT WARRANT THAT THE SOFTWARE OR
-> > +      DOCUMENTATION IS ERROR FREE. HP DISCLAIMS ALL WARRANTIES,
-> > +      EXPRESS AND IMPLIED, WITH REGARD TO THE SOFTWARE AND THE
-> > +      DOCUMENTATION. HP SPECIFICALLY DISCLAIMS ALL WARRANTIES OF
-> > +      MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-> > +
-> > +  5.  HEWLETT-PACKARD COMPANY WILL NOT IN ANY EVENT BE LIABLE FOR ANY
-> > +      DIRECT, INDIRECT, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES
-> > +      (INCLUDING LOST PROFITS) RELATED TO ANY USE, REPRODUCTION,
-> > +      MODIFICATION, OR DISTRIBUTION OF THE SOFTWARE OR DOCUMENTATION.
-> > +
-> > +
-> > --
 
-The answer here may be that the layer that adds the recipe (meta-networking in 
-this case) should add the license rather than it being added to OE-Core. To do 
-this, add the following to the layer's conf/layer.conf:
+On 07/09/2013 04:02 AM, Saul Wold wrote:
+> On 07/08/2013 03:21 AM, Radu Moisan wrote:
+>> Removed obsolete patches
+>> Header for arping changed. New author added.
+>>
+>> Signed-off-by: Radu Moisan <radu.moisan@intel.com>
+>> ---
+>>   .../files/debian/add-icmp-return-codes.diff        |   43 
+>> --------------------
+>>   .../iputils/files/debian/fix-arping-timeouts.diff  |   26 ------------
+>>   .../files/debian/fix-dead-host-ping-stats.diff     |   16 --------
+>>   .../iputils/files/debian/targets.diff              |   14 +++----
+>>   .../iputils/files/debian/use_gethostbyname2.diff   |   36 
+>> ++++++++--------
+>>   .../{iputils_s20101006.bb => iputils_s20121221.bb} |   12 ++----
+>>   6 files changed, 29 insertions(+), 118 deletions(-)
+>>   delete mode 100644 
+>> meta/recipes-extended/iputils/files/debian/add-icmp-return-codes.diff
+>>   delete mode 100644 
+>> meta/recipes-extended/iputils/files/debian/fix-arping-timeouts.diff
+>>   delete mode 100644 
+>> meta/recipes-extended/iputils/files/debian/fix-dead-host-ping-stats.diff
+>>   rename meta/recipes-extended/iputils/{iputils_s20101006.bb => 
+>> iputils_s20121221.bb} (82%)
+>>
+>
+> This seems to fail for lib64 multilib build:
 
-LICENSE_PATH += "${LAYERDIR}/licenses"
+Ok, found the problem, with this version they've enabled capability 
+support (with libcap) by default, so libcap must be added in DEPENDS, 
+unless we want to patch it not to use capability support by default. (??)
+Speaking of things enabled by default, they also enabled GNUTLS, that's 
+why initially I submitted the patch with GNUTLS. Do we want to use 
+default (upstream) configuration with gnutls?
 
-Then put the netperf file in a "licenses" subdirectory within the layer.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Radu
 
