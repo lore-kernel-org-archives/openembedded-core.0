@@ -1,24 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9041E6AF22
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 882786AFB6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 13:38:15 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jul 2013 06:39:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1028,1363158000"; d="scan'208";a="367427343"
-Received: from unknown (HELO helios.localnet) ([10.252.121.245])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2013 06:38:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Tue, 09 Jul 2013 14:38:14 +0100
-Message-ID: <1402577.4PhkADxV84@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <51DC1027.9030801@windriver.com>
+	Tue,  9 Jul 2013 13:41:54 +0000 (UTC)
+Received: by mail-pd0-f175.google.com with SMTP id 4so5199488pdd.20
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Jul 2013 06:41:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=FmOgtL84Xkwu9cO8pFBQcYj0FkUl7EkAJawXRRaELZY=;
+	b=yv+9OxfILIU9xq12OF+ZhJJjbnDxXFk0Jm6OJ1weFK9jsiyJZzeOLWpp7bYTREaV3D
+	6u8t4OIIFEk88YYARX80rUoaaMBubCwMnpKHOHNOT1jWEdp7Je9kMqYwM441McaI0EBo
+	AOhI8P4moLy/4PmJU8oZuorS5DVfZLFSjmt3WKjn5JixDpMwy5JVUKzULYOUH8wXqXUJ
+	8VqNG7ylxhaLV40kkVwnCirNn5Z1d+/QJlJvcMZyalurQ7usVYZlfl4e9FA07CWO8cxh
+	adAB4k9lsGPEUuf4KS8NXgixxsOYaKaDBTG0SeiRfGwP87s1ok8kn6IOC/3cAoEoOOir
+	TMIw==
+X-Received: by 10.66.144.199 with SMTP id so7mr27745352pab.99.1373377315314;
+	Tue, 09 Jul 2013 06:41:55 -0700 (PDT)
+Received: from sa-nc-spg-194.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	wi6sm28358500pbc.22.2013.07.09.06.41.53 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 09 Jul 2013 06:41:54 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1402577.4PhkADxV84@helios>
+Date: Tue, 9 Jul 2013 06:41:52 -0700
+Message-Id: <BA60025F-25B9-4A09-A54E-9419C57B427E@gmail.com>
 References: <cover.1373372649.git.hongxu.jia@windriver.com>
 	<4535187.OqzhIf4Y4R@helios> <51DC1027.9030801@windriver.com>
-MIME-Version: 1.0
+	<1402577.4PhkADxV84@helios>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 3/5] nss: add version 3.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -33,31 +48,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 13:38:15 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 09 Jul 2013 13:41:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 09 July 2013 21:29:11 Hongxu Jia wrote:
-> 1, 3.15.1 is the newest version, and file structure has more change than
-> previous version.
-> 
-> 2, 3.13.3 just skip signing, and cheksum file doesn't be generated.
-> 
-> 3, 3.13.3 doesn't completely fix incorrect shebang of perl (PATCH 5/5)
-> 
-> 4, 3.13.3's package doesn't contain ${D}${bindir}/  and ${D}${sysconfdir}
-> 
-> I think 3.15.1 is better.
 
-The reason I ask is that if merged this will effectively replace the one in 
-meta-browser, so as long as it handles everything that the meta-browser recipe 
-does it should be OK.
+On Jul 9, 2013, at 6:38 AM, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
 
-Cheers,
-Paul
+> On Tuesday 09 July 2013 21:29:11 Hongxu Jia wrote:
+>> 1, 3.15.1 is the newest version, and file structure has more change =
+than
+>> previous version.
+>>=20
+>> 2, 3.13.3 just skip signing, and cheksum file doesn't be generated.
+>>=20
+>> 3, 3.13.3 doesn't completely fix incorrect shebang of perl (PATCH =
+5/5)
+>>=20
+>> 4, 3.13.3's package doesn't contain ${D}${bindir}/  and =
+${D}${sysconfdir}
+>>=20
+>> I think 3.15.1 is better.
+>=20
+> The reason I ask is that if merged this will effectively replace the =
+one in=20
+> meta-browser, so as long as it handles everything that the =
+meta-browser recipe=20
+> does it should be OK.
 
--- 
+meta-browser has deleted the dependency on mss-native since the recipes =
+needing it meta-browser(chromium) got updated
+and does not need it. So for meta-browser it doesn't matter anymore.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+>=20
+> Cheers,
+> Paul
+>=20
+> --=20
+>=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
