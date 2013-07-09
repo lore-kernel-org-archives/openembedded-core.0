@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A97E3612D1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C48016A59E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 12:30:42 +0000 (UTC)
+	Tue,  9 Jul 2013 12:30:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r69CUhtn022346
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r69CUj1R029805
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Jul 2013 05:30:43 -0700 (PDT)
+	Tue, 9 Jul 2013 05:30:45 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 9 Jul 2013 05:30:43 -0700
+	14.2.342.3; Tue, 9 Jul 2013 05:30:44 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jul 2013 20:30:36 +0800
-Message-ID: <626ac2f7b8f351240a6eae4a75a632914eb28207.1373372649.git.hongxu.jia@windriver.com>
+Date: Tue, 9 Jul 2013 20:30:37 +0800
+Message-ID: <1143a93690abae68e8fbdcbdd6505321654a8f1a.1373372649.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1373372649.git.hongxu.jia@windriver.com>
 References: <cover.1373372649.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] nspr-native: add version 4.10
+Subject: [PATCH 2/5] packagegroup-core-lsb: add nss for LSB library check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 12:30:42 -0000
+X-List-Received-Date: Tue, 09 Jul 2013 12:30:43 -0000
 Content-Type: text/plain
 
-It is required by nss-native.
+Add nss for LSB library check.
+...
+Unable to find library libnss3.so
+Unable to find library libssl3.so
+...
 
-[YOCTO #4096]
+[YOCTO 4096]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-support/nspr/nspr_4.10.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/nspr/nspr_4.10.bb b/meta/recipes-support/nspr/nspr_4.10.bb
-index 3936d67..fcecb95 100644
---- a/meta/recipes-support/nspr/nspr_4.10.bb
-+++ b/meta/recipes-support/nspr/nspr_4.10.bb
-@@ -173,3 +173,5 @@ FILES_${PN} = "${libdir}/lib*.so"
- FILES_${PN}-dev = "${bindir}/* ${libdir}/nspr/tests/* ${libdir}/pkgconfig \
-                 ${includedir}/* ${datadir}/aclocal/* "
- FILES_${PN}-dbg += "${libdir}/nspr/tests/.debug/*"
-+
-+BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+index d71db26..4d79592 100644
+--- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
++++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
+@@ -167,6 +167,7 @@ RDEPENDS_packagegroup-core-lsb-core = "\
+     zlib \
+     nspr \
+     libpng12 \
++    nss \
+ "
+ 
+ SUMMARY_packagegroup-core-lsb-perl = "LSB Runtime Languages (Perl)"
 -- 
 1.8.1.2
 
