@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B8A46A464
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 41A926B0D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 09:43:30 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jul 2013 02:41:03 -0700
+	Tue,  9 Jul 2013 10:37:45 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 09 Jul 2013 03:37:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1027,1363158000"; d="scan'208";a="342635308"
+X-IronPort-AV: E=Sophos;i="4.87,1027,1363158000"; d="scan'208";a="362501432"
 Received: from unknown (HELO helios.localnet) ([10.252.121.245])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jul 2013 02:43:21 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2013 03:38:47 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-Date: Tue, 09 Jul 2013 10:43:20 +0100
-Message-ID: <7987269.Ko1Y7S2dO1@helios>
+To: Mihai Lindner <mihaix.lindner@linux.intel.com>
+Date: Tue, 09 Jul 2013 11:37:44 +0100
+Message-ID: <1631742.S4HDYdM6UZ@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <cover.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <cover.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
+In-Reply-To: <1373304800.2546.57.camel@mlindnex-mobl1.ger.corp.intel.com>
+References: <1373304800.2546.57.camel@mlindnex-mobl1.ger.corp.intel.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Fix typos
+Subject: Re: RFC: oe-selftest script to run automated tests against bitbake tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 09:43:30 -0000
+X-List-Received-Date: Tue, 09 Jul 2013 10:37:45 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Emilia,
+Hi Mihai,
 
-On Tuesday 09 July 2013 11:57:37 Emilia Ciobanu wrote:
-> The following changes since commit dc86293f0444384e8ae5131fdd10b6cb077164b0:
+On Monday 08 July 2013 20:33:20 Mihai Lindner wrote:
+> The idea of "oe-selftest" would be to have an extra method of testing to
+> cover what's not addressed by sanity tests, bitbake-selftest or image
+> run-time testing. More information and some example tests are posted in
+> the related bug, here:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4740
 > 
->   bitbake: HOB:Proper handle of SIGINT (2013-07-05 15:52:48 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib emac/typo_fixes
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=emac/typo_fixes
-> 
-> Emilia Ciobanu (4):
->   chkconfig-alternatives-native: add git token in package version
->   lttng-modules: rename recipe
->   unzip: rename recipe
->   zip: rename recipe
-> 
->  .../chkconfig-alternatives-native_1.3.59.bb        |    2 +-
->  .../unzip/{unzip_6.0.bb => unzip_60.bb}            |    0
->  .../recipes-extended/zip/{zip_3.0.bb => zip_30.bb} |    0
->  ...lttng-modules_2.2.0.bb => lttng-modules_git.bb} |    2 +-
->  4 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-extended/unzip/{unzip_6.0.bb => unzip_60.bb} (100%)
->  rename meta/recipes-extended/zip/{zip_3.0.bb => zip_30.bb} (100%)
->  rename meta/recipes-kernel/lttng/{lttng-modules_2.2.0.bb =>
-> lttng-modules_git.bb} (97%)
+> Before starting any work on this, maybe we can gather some thoughts,
+> comments, here or in the bugzilla entry, something in the lines of what
+> kind of tests should it run or not, what would be the usage scenario,
 
-Unfortunately the unzip and zip version changes are not correct - the upstream 
-versions are 6.0 and 3.0 respectively, and these are the versions we want to 
-be going into the final packages. However, if it would help with the package 
-reporting system, the recipes could be changed to convert PV of "6.0" into 
-"60" in SRC_URI using some inline python.
+Some of the kinds of tests I would expect this tool to be able to handle:
+
+* Tests that require configuration changes or addition/modification of testing 
+recipes. One issue here is that if the script did modify existing 
+configuration/metadata you could potentially break user's environments if they 
+run this script without realising what it does. Maybe it should set up its own 
+temporary build directory to avoid this, and add additional recipes via a 
+temporary layer? This could help keep the test environment sane in any case.
+
+* As an extension to the above, tests that verify failure output. We often 
+don't notice when something breaks in the error handling code, and this leads 
+to regressions where we get python tracebacks instead of a proper error 
+message.
+
+* yocto-bsp/yocto-layer (although these are not in OE-Core - perhaps this is a 
+chance to engineer the oe-selftest script so it can be extended by additional 
+layers? I think this is something we want to allow for anyway)
+
+* buildhistory (by running builds and then comparing using buildhistory-diff)
+
+* create-recipe
+
+* runqemu?
 
 Cheers,
 Paul
