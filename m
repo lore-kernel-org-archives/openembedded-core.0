@@ -1,50 +1,39 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 2643E61FE1
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id CA92661FE1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 16:26:28 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r6AGQS62000790
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Wed, 10 Jul 2013 18:26:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1373473589;
-	bh=p6MiqeosYkQrd87zvznZKsHQLt4SeT3GL0aav+lVyAg=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=i3W2gqpzcXlb1fonhrZrQoFIx/KopO0V1yYlqzKiCWNDK9YzHCQbLTB499fn9XTY1
-	bhD+BFgpZXfRU7Ip0ZN3RNv9TIa4En/rTNcH1AdYtfigjXtePHTSra57Q0EqQW64tK
-	HUFAZEd/e54qzbca61dhfWSFk7oIusazCAYBDI2A=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r6AGQOJr006774
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 10 Jul 2013 18:26:25 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1UwxDi-0008AL-9t; Wed, 10 Jul 2013 18:26:23 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1373325035-29814-1-git-send-email-sgw@linux.intel.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 10 Jul 2013 18:26:22 +0200
-In-Reply-To: <1373325035-29814-1-git-send-email-sgw@linux.intel.com> (Saul
-	Wold's message of "Mon, 8 Jul 2013 16:10:35 -0700")
-Message-ID: <lysizmmle9.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Wed, 10 Jul 2013 16:35:32 +0000 (UTC)
+Received: by mail-lb0-f169.google.com with SMTP id d10so5902806lbj.14
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Jul 2013 09:35:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=vtZh6kwhuGUM39h1CBoubF8dijFv7JgsZBHJJ/UZSjk=;
+	b=GlHYnObH+hF6ISnexAwqU23TB0MWHfU1bRQpPGqOu3hnldrpQE+DGIMZD7UCWIRQ2j
+	UVNf7zIWcbDqBodbX6vyzP+jm6L7Gi1cFOeHOiKUTyjNN5kW0fctiVXyDcYhXFbp4RL/
+	5FWGl4YEkKVsy7IjcX2EBijKDXzC9y4PbXCMYxXHiPhiVfmkizJUF01BfHg0s7C1IRfY
+	TdfZp8JtdTiL6sp0OfP3XURldmudv6E4HXjMUW+28VZepFo0EFhzND35B18Oae8g3BTq
+	U0iD/UYqndplt5FW7DTGpqGEmpxsEX4HzfWc6vqn+ojjFwqXHvVriHqCY6mAlIAcDUVG
+	OkqQ==
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 0.83
-X-Spam-Score: -5.0
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
-Subject: Re: [PATCH v2] util-linux: Use PACKAGECONFIG to control pam and system config options
+X-Received: by 10.152.27.40 with SMTP id q8mr15272573lag.75.1373474132320;
+	Wed, 10 Jul 2013 09:35:32 -0700 (PDT)
+Received: by 10.112.133.234 with HTTP; Wed, 10 Jul 2013 09:35:32 -0700 (PDT)
+In-Reply-To: <lywqoymqrk.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <ly8v1etzn5.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<ly4nc2twyk.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<CADkTA4OgktutnmLz87ps4paqanUZM1P4hYz-eu580-rWZBsZzg@mail.gmail.com>
+	<lywqoymqrk.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Date: Wed, 10 Jul 2013 13:35:32 -0300
+Message-ID: <CADkTA4NYAWK0qVrr_yR-fydU-wndopJ9oSkiBku_HmK1nkX1+w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: Bruce Ashfield <bruce.ashfield-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: kernel miscompilation with gcc 4.8 for ARMv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +46,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 16:26:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Jul 2013 16:35:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> writes:
-
-> The PACKAGECONFIG will ensure consistent enabling and disabling of the pam and systemd related
-> options for configure and the correct dependencies
+On Wed, Jul 10, 2013 at 11:30 AM, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+> Bruce Ashfield <bruce.ashfield-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
+> writes:
 >
-> v2: fixed PACKAGECONFIG line continuation grammar
->     added _class-target for PACKAGECONFIG to work on target only
-> ...
-> +PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
-> +                                ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
+>>> Applying two upstream kernel commits
+>>> 455bd4c430b0c0a361f38e8658a0d6cb469942b5 (ARM: 7668/1: fix
+>>> memset-related crashes caused by recent GCC (4.7.2) optimizations) and
+>>> 418df63adac56841ef6b0f1fcf435bc64d4ed177 (ARM: 7670/1: fix the memset
+>>> fix) seem to fix the problem for me.
+>>
+>> Correct. Those are the same commits you'll see on linux-yocto-3.8,
+>> we've been soaking them for a while. I was waiting for LTSI and -stable
+>> to pick up the changes before updating linux-yocto-3.4, but that hasn't
+>> happened yet.
+>>
+>> If you are using linux-yocto-3.4 and can confirm that it boots for you
+>> with those patches,
+>
+> Sorry, I am using a more or less vanilla 3.4 kernel.  Patches fix
+> the problem there (device boots) and (after knowing about them) the
+> problematic code is easy to spot:
 
-This does not work here. d.getVar('PACKAGECONFIG', True) evaluates to 'None'
-in the anonymous python function in base.bbclass so that non-systemd options
-are selected in systemd distributions and packaging fails in a sanity check.
+No worries. I can spot the fix, since we already did this for the 3.8 kernel. I
+was just no where near my targets at the moment .. and if I had an independent
+report that things boot, I'd go ahead and push my 3.8 fixes (ported to
+3.4) .. which
+I may do anyway, since I can drop them when they cycle through -stable and
+LTSI.
 
-Using the less weak '?=' operator makes thing work as expected.
+Cheers,
+
+Bruce
+
+>
+> $ arm-linux-gnueabi-objdump  -d mm/slub.o
+>
+> 000014c4 <init_object>:
+>     ...
+>     14fc:       e1a00001        mov     r0, r1
+>     1500:       e3a0106b        mov     r1, #107        ; 0x6b
+>     1504:       ebfffffe        bl      0 <memset>
+>     1508:       e1a03000        mov     r3, r0          <<<<<<<
+>     150c:       e5942010        ldr     r2, [r4, #16]
+>     1510:       e3e0105a        mvn     r1, #90 ; 0x5a
+>     1514:       e0832002        add     r2, r3, r2
+>     1518:       e5421001        strb    r1, [r2, #-1]
+>
+> With unpatched memset, 'r0' points to end of buffer.
+>
+>
+> Enrico
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
-Enrico
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
