@@ -1,25 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 100E86AE86
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 34275605A0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 17:17:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2013 10:17:08 -0700
+	Wed, 10 Jul 2013 17:39:33 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Jul 2013 10:41:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1037,1363158000"; d="scan'208";a="363241634"
-Received: from unknown (HELO [10.255.13.73]) ([10.255.13.73])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jul 2013 10:18:10 -0700
-Message-ID: <51DD9712.90006@linux.intel.com>
-Date: Wed, 10 Jul 2013 10:17:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+X-IronPort-AV: E=Sophos;i="4.87,1037,1363158000"; d="scan'208";a="368164362"
+Received: from unknown (HELO helios.localnet) ([10.252.122.30])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Jul 2013 10:39:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Wed, 10 Jul 2013 18:39:20 +0100
+Message-ID: <2537500.7dBumEqH9t@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <51DD5C13.1040701@topic.nl>
+References: <20130706213931.GD3288@jama>
+	<1373459893-23611-1-git-send-email-Martin.Jansa@gmail.com>
+	<51DD5C13.1040701@topic.nl>
 MIME-Version: 1.0
-To: jackie.huang@windriver.com
-References: <1373450165-15022-1-git-send-email-jackie.huang@windriver.com>
-In-Reply-To: <1373450165-15022-1-git-send-email-jackie.huang@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] matchbox-wm: correct the SRC_URI and add checksums
+Subject: Re: sstate-cache and making a package "host-dependent"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,45 +34,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 17:17:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Jul 2013 17:39:33 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 07/10/2013 02:56 AM, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> ---
->   .../matchbox-wm/matchbox-wm_1.2.bb                 |    7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-> index 2628326..bc43167 100644
-> --- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-> +++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.bb
-> @@ -2,13 +2,16 @@ SECTION = "x11/wm"
->   DESCRIPTION = "Matchbox window manager"
->   LICENSE = "GPLv2.0+"
->   DEPENDS = "libmatchbox virtual/libx11 libxext libxcomposite libxfixes xdamage libxrender startup-notification expat"
-> -PR = "r5"
-> +PR = "r6"
->
-No PR Bump needed
+Hi Mike,
 
+On Wednesday 10 July 2013 15:05:23 Mike Looijmans wrote:
+> I added a buildserver that also exports its "sstate-cache" directory, so
+> that other build machines can grab their stuff from it. This works fine,
+> but I have one problem. Some packages are meant to be dependent on the
+> system that built it. I want to enforce that each build machine creates
+> its own package, and does not grab it from the sstate-cache of the
+> central server.
+> 
+> For example,
+> 
+> $ cat recipes-core/meta/distro-feed-configs.bbappend
+> PRINC="1"
+> DISTRO_HOST_NAME ?= "${@os.uname()[1]}"
+> DISTRO_FEED_NAME ?= "feed"
+> DISTRO_FEED_PREFIX = "topic"
+> DISTRO_FEED_URI =
+> "http://${DISTRO_HOST_NAME}/${DISTRO_FEED_NAME}/${MACHINE}"
+> 
+> 
+> The purpose being that the host name of the machien that built the image
+> ends up in the opkg config files. This works just fine.
+> Now that we have a central server, all images on all build hosts grab
+> the package from the sstate-cache server, resulting in the feed pointing
+> to the central server instead of the private one, which is not what I
+> wanted to happen.
+> 
+> After reading the documentation, I added the following line to the recipe:
+> 
+> PACKAGE_ARCHS[vardeps] = "DISTRO_FEED_URI"
+> 
+> This did not have the desired effect. The package is still retrieved
+> from the cache, and not rebuilt locally. Even if I clean and force a
+> rebuild of the distro-feed-configs package, the package that ends up in
+> the image is still the one from the central server.
+> 
+> What am I missing here?
 
-Sau!
+I think distro-feed-configs (from meta-oe, not OE-Core) is for package 
+installation on the target, and has nothing to do with shared state.
 
-> -SRC_URI = "http://matchbox-project.org/sources/matchbox-window-manager/1.2/matchbox-window-manager-${PV}.tar.bz2 \
-> +SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/matchbox-window-manager/${PV}/matchbox-window-manager-${PV}.tar.bz2 \
->              file://configure_fix.patch \
->              file://kbdconfig \
->              file://gconf-2.m4"
->
-> +SRC_URI[md5sum] = "3e158dcf57823b55c926d95b245500fb"
-> +SRC_URI[sha256sum] = "81a23a4af797cf350759fd5ac738797015a66dd5dba2f3d9f3c6908506c1ceff"
-> +
->   S = "${WORKDIR}/matchbox-window-manager-${PV}"
->
->   inherit autotools pkgconfig
->
+I'm not sure if it's entirely appropriate, but you could take a similar 
+approach to the one we use for preventing native sstate packages from mixing 
+across different distributions (mostly to sidestep host glibc version 
+dependency problems) - set SSTATE_EXTRAPATH to some value for the recipes you 
+don't want to share and then the packages will go into a subdirectory named 
+with that value; you could then delete these automatically from the server.
+
+Cheers,
+Paul
+
+PS if you could please avoid replying to an existing thread for a new 
+discussion, that would be great.
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
