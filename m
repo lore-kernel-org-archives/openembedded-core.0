@@ -1,34 +1,35 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id BC903608BF
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CC0A608C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 02:56:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.87,1032,1363104000"; d="scan'208";a="7843037"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 10 Jul 2013 10:53:44 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r6A2ufUv026766
+	Wed, 10 Jul 2013 03:04:09 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id lf11so6172975pab.38
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 10:56:41 +0800
-Received: from [127.0.0.1] ([10.167.226.190])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013071010550237-2818596 ;
-	Wed, 10 Jul 2013 10:55:02 +0800 
-Message-ID: <51DCCD6D.5050807@cn.fujitsu.com>
-Date: Wed, 10 Jul 2013 10:56:45 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
-	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
-MIME-Version: 1.0
+	Tue, 09 Jul 2013 20:04:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=GyCO/HFsHdwVRAGwrZpJCV4wb5qZayx7HqtI5nqb6lA=;
+	b=DqWMg0dy3g4VrGs3OZcVv2oic8CfCRibLa1p++AaUeO9AeZzUtioYiS9CbRf9AYN3d
+	vht8c3pP+STHOEeaUQldmD0qgLxjnJqttiSwO3KLcdmSPdRZanLEKjmJoU04UcR6cxQW
+	KCFUNm0ptNmc1I1wEvaxiOWCayzykLWJV+Og83wxYp/Vqbfwrdo1RJKLWcuErFpKJZ+z
+	R4BX1nS7GoraEevPkD0R+e/wBZjJuQQ5ZZOsoaCFEmU3FdVRp/zjVUmDrXdpyvAf8IPy
+	f01dJ4O0xCLltiew8L/kvNrBKgzuqU3q5hWw6H0nK6SaVNrLrRa4TR28ni/y+guMEqxM
+	bgmw==
+X-Received: by 10.66.178.229 with SMTP id db5mr20848181pac.105.1373425450310; 
+	Tue, 09 Jul 2013 20:04:10 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id b4sm31196642pba.45.2013.07.09.20.04.08
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 09 Jul 2013 20:04:09 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-References: <51DBC97F.1090606@cn.fujitsu.com>
-In-Reply-To: <51DBC97F.1090606@cn.fujitsu.com>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/07/10 10:55:02,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/07/10 10:55:02,
-	Serialize complete at 2013/07/10 10:55:02
-Subject: Re: [PATCH 0/1]package_rpm.bbclass: remove xx.spec before doing rpmbuild xx.src.rpm
+Date: Wed, 10 Jul 2013 13:19:45 +1000
+Message-Id: <1373426385-14516-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] boot-directdisk: allow specifying custom MBR disk signature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,43 +42,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 02:56:49 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 10 Jul 2013 03:04:09 -0000
 
-Hi all
+This introduces a DISK_SIGNATURE variable that allows controlling the
+32-bit MBR disk signature. By default it is set to an automatically
+generated disk signature but it may by overridden in the image recipe
+by setting DISK_SIGNATURE to a 8 digit hex string.
 
-Sorry, it looks like i should post this patch to poky. please ignore this
+This DISK_SIGNATURE variable can also be used in the image recipe to
+specify the root by UUID using:
+SYSLINUX_ROOT = "root=PARTUUID=${DISK_SIGNATURE}-02"
 
-Thanks
- Bian
+Specifying the root by UUID allows the kernel to locate the root
+filesystem even if the device name changes (e.g. /dev/hda2, /dev/hdb2 or
+/dev/sdb2 instead of /dev/sda2) due to differences in hardware
+configuration.
 
-said the following on 2013-7-9 16:27:, Bian Naimeng wrote:
-> If the spec file already exist, and has not been stored into pseudo's files.db,
-> it maybe cause rpmbuild src.rpm fail, so remove it before doing rpmbuild src.rpm.
-> 
-> Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
-> 
-> ---
->  meta/classes/package_rpm.bbclass |    5 +++++
->  1 files changed, 5 insertions(+), 0 deletions(-)
-> 
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index c654cdb..217ddcb 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -1069,8 +1069,13 @@ python do_package_rpm () {
->          return
->  
->      # Construct the spec file...
-> +    # If the spec file already exist, and has not been stored into 
-> +    # pseudo's files.db, it maybe cause rpmbuild src.rpm fail,
-> +    # so remove it before doing rpmbuild src.rpm.
->      srcname    = strip_multilib(d.getVar('PN', True), d)
->      outspecfile = workdir + "/" + srcname + ".spec"
-> +    if os.path.isfile(outspecfile):
-> +        os.remove(outspecfile)
->      d.setVar('OUTSPECFILE', outspecfile)
->      bb.build.exec_func('write_specfile', d)
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/boot-directdisk.bbclass | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 3169043..182957b 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -34,6 +34,7 @@ BOOTDD_EXTRA_SPACE ?= "16384"
+ # Get the build_syslinux_cfg() function from the syslinux class
+ 
+ AUTO_SYSLINUXCFG = "1"
++DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+ SYSLINUX_ROOT ?= "root=/dev/sda2"
+ SYSLINUX_TIMEOUT ?= "10"
+ 
+@@ -80,6 +81,9 @@ build_boot_dd() {
+ 	parted $IMAGE set 1 boot on 
+ 	parted $IMAGE print
+ 
++	echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
++		dd of=$IMAGE bs=1 seek=440 conv=notrunc
++
+ 	OFFSET=`expr $END2 / 512`
+ 	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+ 	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
+@@ -91,8 +95,24 @@ build_boot_dd() {
+ } 
+ 
+ python do_bootdirectdisk() {
++    validate_disk_signature(d)
+     bb.build.exec_func('build_syslinux_cfg', d)
+     bb.build.exec_func('build_boot_dd', d)
+ }
+ 
++def generate_disk_signature():
++    import uuid
++
++    return str(uuid.uuid4())[:8]
++
++def validate_disk_signature(d):
++    import re
++
++    disk_signature = d.getVar("DISK_SIGNATURE", True)
++
++    if not re.match(r'^[0-9a-fA-F]{8}$', disk_signature):
++        bb.fatal("DISK_SIGNATURE '%s' must be an 8 digit hex string" % disk_signature)
++
++DISK_SIGNATURE_GENERATED := "${@generate_disk_signature()}"
++
+ addtask bootdirectdisk before do_build
+-- 
+1.8.3.2
 
 
