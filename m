@@ -1,58 +1,27 @@
-Return-Path: <nathan.rossi@xilinx.com>
-Received: from db9outboundpool.messaging.microsoft.com
-	(mail-db9lp0253.outbound.messaging.microsoft.com [213.199.154.253])
-	by mail.openembedded.org (Postfix) with ESMTP id A60EC6A59F
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A5E15608CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 04:07:43 +0000 (UTC)
-Received: from mail64-db9-R.bigfish.com (10.174.16.241) by
-	DB9EHSOBE002.bigfish.com (10.174.14.65) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 10 Jul 2013 04:07:43 +0000
-Received: from mail64-db9 (localhost [127.0.0.1])	by mail64-db9-R.bigfish.com
-	(Postfix) with ESMTP id 9C062A8005C;
-	Wed, 10 Jul 2013 04:07:43 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
-	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VPS-3(zz98dI9371I542I1432Izz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz17326ah8275bh8275dhz2fh95h668h839h944hd24hf0ah119dh1220h1288h12a5h12a9h12bdh137ah13b6h1441h14ddh1504h1537h153bh162dh1631h1758h18e1h1946h19b5h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dh906i1155h192ch)
-Received-SPF: pass (mail64-db9: domain of xilinx.com designates 149.199.60.83
-	as permitted sender) client-ip=149.199.60.83;
-	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
-	helo=xsj-gw1 ; 
-Received: from mail64-db9 (localhost.localdomain [127.0.0.1]) by mail64-db9
-	(MessageSwitch) id 137342926117027_31975;
-	Wed, 10 Jul 2013 04:07:41 +0000 (UTC)
-Received: from DB9EHSMHS030.bigfish.com (unknown [10.174.16.235])	by
-	mail64-db9.bigfish.com (Postfix) with ESMTP id E6376B00049;
-	Wed, 10 Jul 2013 04:07:40 +0000 (UTC)
-Received: from xsj-gw1 (149.199.60.83) by DB9EHSMHS030.bigfish.com
-	(10.174.14.40) with Microsoft SMTP Server id 14.16.227.3;
-	Wed, 10 Jul 2013 04:07:40 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]
-	helo=xsj-smtp1.xilinx.com)	by xsj-gw1 with esmtp (Exim
-	4.63)	(envelope-from <nathan.rossi@xilinx.com>)	id 1Uwlgp-0005Oo-Hw;
-	Tue, 09 Jul 2013 21:07:39 -0700
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2] scripts/runqemu: 'qemuzynq' and
-	'qemumicroblaze'
-Thread-Index: AQHOfLyTiJ5pQUCExUqzb1fQFANULZldO3Ag
-Date: Wed, 10 Jul 2013 04:07:37 +0000
-References: <044c6bc4-86ca-4c96-bb24-50183cdf65b3@CH1EHSMHS029.ehs.local>
-	<3588463.kQicxHoPbN@helios>
-In-Reply-To: <3588463.kQicxHoPbN@helios>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.164.13]
+	Wed, 10 Jul 2013 06:28:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6A6Srmt014054
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 9 Jul 2013 23:28:53 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 9 Jul 2013 23:28:53 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Jul 2013 14:28:51 +0800
+Message-ID: <d076b1371417dcdb46fddbc6dd12685148832d0c.1373437638.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1373437638.git.Qi.Chen@windriver.com>
+References: <cover.1373437638.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-RCIS-Action: ALLOW
-Message-ID: <7b841934-81b8-4902-8c63-d9b350aaa2ef@DB9EHSMHS030.ehs.local>
-X-OriginatorOrg: xilinx.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: "meta-xilinx@yoctoproject.org" <meta-xilinx@yoctoproject.org>
-Subject: Re: [PATCH 0/2] scripts/runqemu: 'qemuzynq' and 'qemumicroblaze'
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH V2 1/1] image.bbclass: add a method to add/delete/modify user/group settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,87 +34,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 04:07:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Jul 2013 06:28:53 -0000
+Content-Type: text/plain
 
-> -----Original Message-----
-> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> Sent: Wednesday, July 10, 2013 1:54 AM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Nathan Rossi; meta-xilinx@yoctoproject.org
-> Subject: Re: [OE-core] [PATCH 0/2] scripts/runqemu: 'qemuzynq' and
-> 'qemumicroblaze'
->
-> Hi Nathan/all,
->
-> On Thursday 04 July 2013 17:42:26 Nathan Rossi wrote:
-> > The following patches add support to the runqemu scripts to allow for
-> > the machines named 'qemuzynq' and 'qemumicroblaze' to be booted within
-> > qemu. These target machines reside in the 'meta-xilinx' layer.
->
-> I think we should look at changing runqemu so that it can be extended to
-> support additional machines in the layers that add support for the
-> machines
-> themselves. I'm not entirely sure how we would implement this, but it
-> should
-> be possible assuming runqemu can know the path to all layers that are
-> enabled
-> (just query bitbake for BBLAYERS?) and there was some standard mechanism
-> within the layer to add the machine-specific parts for the runqemu script=
-.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Here are some ideas I had when I was initially looking at implementing the =
-addition of the zynq and microblaze QEMU machines.
+We may want to add a user or group which does not logically belong to
+any specific package. For example, we may want to add a user with the
+name 'tester' to our image. Besides, we may want to delete or modify
+user/group in our image.
 
-In the same way the Kernel, U-boot, etc have variables set in machine.conf'=
-s it might be worth looking at defining certain options for QEMU. This coul=
-d even allow users to runqemu for the machine they are building, which is n=
-ot a qemu* machine (these variables could be retrieved via a similar mechan=
-ism to bitbake -e?). This might be beneficial as opposed to allowing some s=
-ort of cross-layer sub-script execution?
+This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
+to these tasks. The configuration format is detailed in the local.conf.
+sample.extended file.
 
-e.g.
-# qemuarm
-MACHINE_QEMU =3D "qemu-system-arm"
-MACHINE_QEMU_MODEL =3D "versatilepb"
+This patch also adds a function, set_user_group, which happens at
+the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
+in the USER_GROUP_SETTINGS variable.
 
+This logic here is quite similar to that of useradd.bbclass. If we
+need to add or modify user/group settings, base-passwd and shadow
+are pulled into the RDEPENDS and thus installed on target.
 
-There is interest (for meta-xilinx) to support Device-Tree driven QEMU mode=
-ls (of which the feature hasn't made it into upstream QEMU yet). This might=
- be interesting for those that want to test/simulate on systems that more c=
-losely resemble their target device, which could also allow for QA on machi=
-nes that are outside of the oe-core layer.
+[YOCTO #4074]
 
-microblaze_generic_fdt : http://lists.nongnu.org/archive/html/qemu-devel/20=
-12-09/msg02437.html
-arm_generic_fdt (still in development) : https://github.com/Xilinx/qemu/blo=
-b/xilinx-master/hw/arm/arm_generic_fdt.c
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/image.bbclass |   42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-Regards,
-Nathan
-
->
-> Since this is unlikely to happen immediately I've acked these patches
-> going
-> in, but I think we'll need to look at doing this some time soon.
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
-
-
-
-This email and any attachments are intended for the sole use of the named r=
-ecipient(s) and contain(s) confidential information that may be proprietary=
-, privileged or copyrighted under applicable law. If you are not the intend=
-ed recipient, do not read, copy, or forward this email message or any attac=
-hments. Delete this email message and any attachments immediately.
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 380ed8e..a76289c 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -12,6 +12,8 @@ LICENSE = "MIT"
+ PACKAGES = ""
+ DEPENDS += "${MLPREFIX}qemuwrapper-cross ${MLPREFIX}depmodwrapper-cross"
+ RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
++# Add to IMAGE_INSTALL base-passwd and shadow if USER_GROUP_SETTINGS is set
++IMAGE_INSTALL_append += "${@['', 'base-passwd shadow'][bool(d.getVar('USER_GROUP_SETTINGS', True))]}"
+ RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+@@ -179,6 +181,8 @@ ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks"
+ ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", "debug-tweaks", "postinst_enable_logging; ", "",d)}'
+ # Set default postinst log file
+ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
++# Image level user / group settings
++ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
+ 
+ # some default locales
+ IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
+@@ -528,6 +532,44 @@ postinst_enable_logging () {
+ 	echo "LOGFILE=${POSTINST_LOGFILE}" >> ${IMAGE_ROOTFS}${sysconfdir}/default/postinst
+ }
+ 
++# Image level user / group settings
++set_user_group () {
++	user_group_settings="${USER_GROUP_SETTINGS}"
++	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
++	setting=`echo $user_group_settings | cut -d ';' -f1`
++	remaining=`echo $user_group_settings | cut -d ';' -f2-`
++	while test "x$setting" != "x"; do
++		user_group=`echo $setting | cut -d ',' -f1`
++		action=`echo $setting | cut -d ',' -f2`
++		opts=`echo $setting | cut -d ',' -f3`
++		# determine the command according to user_group and action
++		if [ "$user_group" = "USER" ]; then
++			cmd_prefix="user"
++		elif [ "$user_group" = "GROUP" ]; then
++			cmd_prefix="group"
++		else
++			echo "Error: invalid setting of $user_group in the USER_GROUP_SETTINGS"
++			exit 1
++		fi
++		if [ "$action" = "ADD" ]; then
++			cmd_suffix="add"
++		elif [ "$action" = "DEL" ]; then
++			cmd_suffix="del"
++		elif [ "$action" = "MOD" ]; then
++			cmd_suffix="mod"
++		else
++			echo "Error: invalid setting of $user_group in the USER_GROUP_SETTINGS"
++			exit 1
++		fi
++		cmd=$cmd_prefix$cmd_suffix
++		echo "using commond <$cmd> for setting <$setting> ..."
++		eval $PSEUDO $cmd -R ${IMAGE_ROOTFS} $opts
++		# iterate to the next setting
++		setting=`echo $remaining | cut -d ';' -f1`
++		remaining=`echo $remaining | cut -d ';' -f2-`
++	done
++}
++
+ # Turn any symbolic /sbin/init link into a file
+ remove_init_link () {
+ 	if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
+-- 
+1.7.9.5
 
 
