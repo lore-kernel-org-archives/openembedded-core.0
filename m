@@ -1,37 +1,25 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
-	[209.85.192.170])
-	by mail.openembedded.org (Postfix) with ESMTP id F240D621D9
+Return-Path: <tf+lists.yocto@r-finger.com>
+Received: from r-finger.com (r-finger.com [178.79.160.5])
+	by mail.openembedded.org (Postfix) with ESMTP id CE59B60845
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 08:25:45 +0000 (UTC)
-Received: by mail-pd0-f170.google.com with SMTP id x11so6171571pdj.15
+	Wed, 10 Jul 2013 08:32:08 +0000 (UTC)
+Received: from [192.168.0.2] (host86-137-86-109.range86-137.btcentralplus.com
+	[86.137.86.109]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by r-finger.com (Postfix) with ESMTPSA id 11BC39530
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 01:25:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:mime-version
-	:content-transfer-encoding:content-type;
-	bh=cLILHMT5Hn0BbQ7gdrwZ71zot7ozENWIhBMSW0bG3aE=;
-	b=ACvx+vodCzmMtmt8+pdhB8NLhRANViiB9UOZjWwBXgP3DGJ9WGFOf3yCv/atMrlL86
-	/s1kIdW/XoVZzTSP1WV5ifBSUk62B8risC0tdqK5aY1W5jWTzol+zcs/PFh+OOaRuRwG
-	MilcU6FPC8/23DGt5AvuViEKuwvIiOWEymY8DaIVBgmF6Wc43oYOdelm3gC3G7zB/Kvn
-	mWqyenwHj0atec8kysprIjhPLNF0qdzvd72e+xs7H6UFEzQMEbKuUfy44tA+MnlBRLsJ
-	SXJ0rU+oRuHWzAietK90jX6ra5ErJOvnsBCrNPXdH183SzMmdMXSsKxneaoazzS677KJ
-	LDKw==
-X-Received: by 10.68.180.34 with SMTP id dl2mr30703543pbc.57.1373444746366;
-	Wed, 10 Jul 2013 01:25:46 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([222.94.225.252])
-	by mx.google.com with ESMTPSA id
-	ib9sm32701578pbc.43.2013.07.10.01.25.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 10 Jul 2013 01:25:45 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2013 16:21:02 +0800
-Message-ID: <2457726.ZAE80f4V8O@yiqingliang-pc>
-User-Agent: KMail/4.10.4 (Linux/3.9.8-1-ARCH; KDE/4.10.4; x86_64; ; )
+	Wed, 10 Jul 2013 09:32:08 +0100 (BST)
+Message-ID: <51DD1C08.5020905@r-finger.com>
+Date: Wed, 10 Jul 2013 09:32:08 +0100
+From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130630 Icedove/17.0.7
 MIME-Version: 1.0
-Subject: boost 1.54 compile fail
+To: openembedded-core@lists.openembedded.org
+References: <cover.1373440331.git.Qi.Chen@windriver.com>
+	<afc49ee69b585666f57d826e2e5f526335f62835.1373440331.git.Qi.Chen@windriver.com>
+In-Reply-To: <afc49ee69b585666f57d826e2e5f526335f62835.1373440331.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] init-live.sh: allow users to choose the boot action
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 08:25:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 10 Jul 2013 08:32:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello!
+Hi,
 
-after update poky to latest git version, I got failure when compiling boost:
+On 10/07/13 08:12, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> Previously, the boot action for live images was totally determined
+> by the LABEL value in the boot parameters (/proc/cmdline).
+> 
+> This behavior is not very convenient for users. The user may just want
+> to drop to a shell for troubleshooting the live image, or the user may
+> want to try to install the live image while the LABEL value is 'boot'.
+> 
+> We should provide the users a chance to choose the boot action when
+> the live image starts up.
 
-the main error is: (indeed, and too many warning!)
+I am not entirely clear on why this is needed, the LABEL kernel cmdline
+parameter is set up by syslinux, and its value can be specified by the
+user from the syslinux prompt. If what you want is a more user friendly
+menu, then I think the correct solution would be to tweak the syslinux
+config, rather than to create a duplicate boot menu in the init script.
 
-| ./boost/atomic/atomic.hpp:202:16: error: 'uintptr_t' was not declared in 
-this scope
-|  typedef atomic<uintptr_t> atomic_uintptr_t;
-|                 ^
-| ./boost/atomic/atomic.hpp:202:25: error: template argument 1 is invalid
-|  typedef atomic<uintptr_t> atomic_uintptr_t;
-|                          ^
-| ./boost/atomic/atomic.hpp:202:43: error: invalid type in declaration before 
-';' token
-|  typedef atomic<uintptr_t> atomic_uintptr_t;
-|                                            ^
-| In file included from ./boost/system/system_error.hpp:14:0,
-|                  from ./boost/thread/exceptions.hpp:22,
-|                  from ./boost/thread/pthread/thread_data.hpp:10,
-|                  from ./boost/thread/thread_only.hpp:17,
-|                  from libs/thread/src/pthread/thread.cpp:11:
-
+Tomas
 
 
 -- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+http://sleepfive.com
 
