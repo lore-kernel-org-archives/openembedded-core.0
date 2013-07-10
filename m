@@ -1,36 +1,58 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id ED83C62009
+Return-Path: <nathan.rossi@xilinx.com>
+Received: from db9outboundpool.messaging.microsoft.com
+	(mail-db9lp0253.outbound.messaging.microsoft.com [213.199.154.253])
+	by mail.openembedded.org (Postfix) with ESMTP id A60EC6A59F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 03:08:29 +0000 (UTC)
-Received: by mail-pb0-f44.google.com with SMTP id uo1so6179077pbc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2013 20:08:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Xyxk9YhrRNupvrTJ9zoXmvAg+42xn4q9Wt5CicLPiD8=;
-	b=ZJev5vlYpjKDhqvDY9QyYdnr0Bu7HQX36xJidT4HAtiSCQv3nUofwK5Nh40wl6/sIx
-	+u6/rdvTautrDTFJSs5ZcAn4Bq0lKw/4LHQt8vtoEkAdy4vupIbVPueMqt/R/OghWEqN
-	/HfBQrO5g0QIQvkRHNVuAAFYoP+2LlEjq3m5BKEzmssqRM85JaImCcsxIvsKfIutHc0j
-	/TSbXd8hBOpG1F/zQiomD93gh77z90+eXFerUNIXwNboDtPH8bO7PxmiorDjyhQ0Sm/V
-	3BpNpWbeqKpfEbtUCZeshNA3Km4N5S9LmZ4j8LDtEpFjxLgN/6z0UOoejNrkjcUHAy+1
-	jawA==
-MIME-Version: 1.0
-X-Received: by 10.68.103.131 with SMTP id fw3mr3013898pbb.65.1373425710876;
-	Tue, 09 Jul 2013 20:08:30 -0700 (PDT)
-Received: by 10.70.103.166 with HTTP; Tue, 9 Jul 2013 20:08:30 -0700 (PDT)
-In-Reply-To: <1373406532.3429.5.camel@envy.home>
-References: <1373379161-25047-1-git-send-email-net147@gmail.com>
-	<1373406532.3429.5.camel@envy.home>
-Date: Wed, 10 Jul 2013 13:08:30 +1000
-Message-ID: <CANwerB2Dwp=BGmeFb=YQcY4pbvotqMWSyUkXNG35sLZVDhfAZw@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
+	Wed, 10 Jul 2013 04:07:43 +0000 (UTC)
+Received: from mail64-db9-R.bigfish.com (10.174.16.241) by
+	DB9EHSOBE002.bigfish.com (10.174.14.65) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 10 Jul 2013 04:07:43 +0000
+Received: from mail64-db9 (localhost [127.0.0.1])	by mail64-db9-R.bigfish.com
+	(Postfix) with ESMTP id 9C062A8005C;
+	Wed, 10 Jul 2013 04:07:43 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:149.199.60.83; KIP:(null); UIP:(null); IPV:NLI;
+	H:xsj-gw1; RD:unknown-60-83.xilinx.com; EFVD:NLI
+X-SpamScore: -3
+X-BigFish: VPS-3(zz98dI9371I542I1432Izz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz17326ah8275bh8275dhz2fh95h668h839h944hd24hf0ah119dh1220h1288h12a5h12a9h12bdh137ah13b6h1441h14ddh1504h1537h153bh162dh1631h1758h18e1h1946h19b5h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dh906i1155h192ch)
+Received-SPF: pass (mail64-db9: domain of xilinx.com designates 149.199.60.83
+	as permitted sender) client-ip=149.199.60.83;
+	envelope-from=nathan.rossi@xilinx.com; helo=xsj-gw1 ;
+	helo=xsj-gw1 ; 
+Received: from mail64-db9 (localhost.localdomain [127.0.0.1]) by mail64-db9
+	(MessageSwitch) id 137342926117027_31975;
+	Wed, 10 Jul 2013 04:07:41 +0000 (UTC)
+Received: from DB9EHSMHS030.bigfish.com (unknown [10.174.16.235])	by
+	mail64-db9.bigfish.com (Postfix) with ESMTP id E6376B00049;
+	Wed, 10 Jul 2013 04:07:40 +0000 (UTC)
+Received: from xsj-gw1 (149.199.60.83) by DB9EHSMHS030.bigfish.com
+	(10.174.14.40) with Microsoft SMTP Server id 14.16.227.3;
+	Wed, 10 Jul 2013 04:07:40 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]
+	helo=xsj-smtp1.xilinx.com)	by xsj-gw1 with esmtp (Exim
+	4.63)	(envelope-from <nathan.rossi@xilinx.com>)	id 1Uwlgp-0005Oo-Hw;
+	Tue, 09 Jul 2013 21:07:39 -0700
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] boot-directdisk: mount root by MBR disk signature for Linux 3.8+
+Thread-Topic: [OE-core] [PATCH 0/2] scripts/runqemu: 'qemuzynq' and
+	'qemumicroblaze'
+Thread-Index: AQHOfLyTiJ5pQUCExUqzb1fQFANULZldO3Ag
+Date: Wed, 10 Jul 2013 04:07:37 +0000
+References: <044c6bc4-86ca-4c96-bb24-50183cdf65b3@CH1EHSMHS029.ehs.local>
+	<3588463.kQicxHoPbN@helios>
+In-Reply-To: <3588463.kQicxHoPbN@helios>
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.164.13]
+MIME-Version: 1.0
+X-RCIS-Action: ALLOW
+Message-ID: <7b841934-81b8-4902-8c63-d9b350aaa2ef@DB9EHSMHS030.ehs.local>
+X-OriginatorOrg: xilinx.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: "meta-xilinx@yoctoproject.org" <meta-xilinx@yoctoproject.org>
+Subject: Re: [PATCH 0/2] scripts/runqemu: 'qemuzynq' and 'qemumicroblaze'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,127 +65,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 03:08:30 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 10 Jul 2013 04:07:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 10 July 2013 07:48, Darren Hart <dvhart@linux.intel.com> wrote:
-> On Wed, 2013-07-10 at 00:12 +1000, Jonathan Liu wrote:
->> The root device is currently set as /dev/hda2. However, this is
->> only correct if it's the first IDE drive. If booting off the first SATA
->> drive instead, it would be /dev/sda2. It's not the first drive, neither
->> /dev/hda2 or /dev/sda2 would be correct.
->>
->> The solution to this has typically been to use the filesystem UUID to
->> specify the root device but this requires extra support in the initrd.
->> Linux 3.8 introduces the ability to specify the root device using the
->> MBR disk signature and the partition number which is much simpler to
->> use and avoids the extra overhead of an initrd.
->>
->> This change uses the MBR disk signature to specify the root device when
->> using Linux 3.8+ and CONFIG_BLOCK (required for root=PARTUUID=)
->> is enabled in the kernel.
->>
->> This has been tested with QEMU x86 and Intel Desktop Board D2500HN using
->> an image recipe inheriting boot-directdisk and core-image.
->>
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
->> ---
->>  meta/classes/boot-directdisk.bbclass | 30 +++++++++++++++++++++++++++++-
->>  1 file changed, 29 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
->> index efeadab..f97060f 100644
->> --- a/meta/classes/boot-directdisk.bbclass
->> +++ b/meta/classes/boot-directdisk.bbclass
->> @@ -35,7 +35,9 @@ BOOTDD_EXTRA_SPACE ?= "16384"
->>  # Get the build_syslinux_cfg() function from the syslinux class
->>
->>  AUTO_SYSLINUXCFG = "1"
->> -SYSLINUX_ROOT ?= "root=/dev/sda2"
->> +SYSLINUX_FIXED_ROOT = "root=/dev/sda2"
->> +SYSLINUX_UUID_ROOT = "root=PARTUUID=${DISK_SIGNATURE}-02"
+> -----Original Message-----
+> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
+> Sent: Wednesday, July 10, 2013 1:54 AM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Nathan Rossi; meta-xilinx@yoctoproject.org
+> Subject: Re: [OE-core] [PATCH 0/2] scripts/runqemu: 'qemuzynq' and
+> 'qemumicroblaze'
 >
-> Why  '=' and not '?=' for the above? Shouldn't the user be able to
-> override these?
+> Hi Nathan/all,
 >
->> +SYSLINUX_ROOT ?= "${@'${SYSLINUX_UUID_ROOT}' if has_kernel_mbr_partuuid_support(d) else '${SYSLINUX_FIXED_ROOT}'}"
->>  SYSLINUX_TIMEOUT ?= "10"
->>
->>  inherit syslinux
->> @@ -98,6 +100,10 @@ build_boot_dd() {
->>       parted $IMAGE set 1 boot on
->>       parted $IMAGE print
->>
->> +     # Disk signature generated by parted isn't really random, so use our own generated signature
->> +     echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
->> +             dd of=$IMAGE bs=1 seek=440 conv=notrunc
+> On Thursday 04 July 2013 17:42:26 Nathan Rossi wrote:
+> > The following patches add support to the runqemu scripts to allow for
+> > the machines named 'qemuzynq' and 'qemumicroblaze' to be booted within
+> > qemu. These target machines reside in the 'meta-xilinx' layer.
 >
-> Oi! So, can "fold -w 2 | tac | paste -sd '' be replaced with "rev" from
-> the standard util-linux package?
+> I think we should look at changing runqemu so that it can be extended to
+> support additional machines in the layers that add support for the
+> machines
+> themselves. I'm not entirely sure how we would implement this, but it
+> should
+> be possible assuming runqemu can know the path to all layers that are
+> enabled
+> (just query bitbake for BBLAYERS?) and there was some standard mechanism
+> within the layer to add the machine-specific parts for the runqemu script=
+.
 
-The rev command doesn't handle binary data correctly:
-$ echo -ne '\xb8\xe1\x0e\x5d' | rev
-rev: stdin: Invalid or incomplete multibyte or wide character
+Here are some ideas I had when I was initially looking at implementing the =
+addition of the zynq and microblaze QEMU machines.
 
->
-> And the sed command... just insert "\x" every two characters? That
-> doesn't seem to add any more randomness.... maybe I'm missing the point
-> here?
+In the same way the Kernel, U-boot, etc have variables set in machine.conf'=
+s it might be worth looking at defining certain options for QEMU. This coul=
+d even allow users to runqemu for the machine they are building, which is n=
+ot a qemu* machine (these variables could be retrieved via a similar mechan=
+ism to bitbake -e?). This might be beneficial as opposed to allowing some s=
+ort of cross-layer sub-script execution?
 
-That's to convert hex string to binary data by adding \x before each
-pair of hex digits and passing to echo -ne.
+e.g.
+# qemuarm
+MACHINE_QEMU =3D "qemu-system-arm"
+MACHINE_QEMU_MODEL =3D "versatilepb"
 
->
->
->> +
->>       OFFSET=`expr $END2 / 512`
->>       dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
->>       dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
->> @@ -113,4 +119,26 @@ python do_bootdirectdisk() {
->>      bb.build.exec_func('build_boot_dd', d)
->>  }
->>
->> +def generate_disk_signature():
->> +    import uuid
->> +    return str(uuid.uuid4())[:8]
->> +
->> +def get_kernel_version(d):
->> +    import subprocess
->> +    version_cmd = r"grep '^VERSION\s*=' '%s/Makefile' | grep -o '[0-9]*$'" % (d.getVar("STAGING_KERNEL_DIR", True))
->> +    version = int(subprocess.Popen(version_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0])
->> +    patchlevel_cmd = r"grep '^PATCHLEVEL\s*=' '%s/Makefile' | grep -o '[0-9]*$'" % (d.getVar("STAGING_KERNEL_DIR", True))
->> +    patchlevel = int(subprocess.Popen(patchlevel_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0])
->> +    return (version, patchlevel)
->> +
->> +def has_kernel_config_option(option, d):
->> +    import subprocess
->> +    grep_cmd = r"grep '^CONFIG_%s=y$' '%s/.config'" % (option, d.getVar("STAGING_KERNEL_DIR", True))
->> +    return subprocess.call(grep_cmd, shell=True, stdout=subprocess.PIPE) == 0
->
-> Is there a specific kernel option to test for the MBR disk signature
-> support or is that inherent in the block drivers now? It would be nice
-> if we could skip the kernel version check, that code looks dangerously
-> fragile (no fault of yours).
 
-I have submitted a new patch that is simpler and more flexible. It
-does not rely on kernel checks.
-This patch is no longer relevant now.
+There is interest (for meta-xilinx) to support Device-Tree driven QEMU mode=
+ls (of which the feature hasn't made it into upstream QEMU yet). This might=
+ be interesting for those that want to test/simulate on systems that more c=
+losely resemble their target device, which could also allow for QA on machi=
+nes that are outside of the oe-core layer.
 
->
->> +
->> +def has_kernel_mbr_partuuid_support(d):
->> +    return get_kernel_version(d) >= (3, 8) and has_kernel_config_option("BLOCK", d)
->> +
->> +DISK_SIGNATURE := "${@generate_disk_signature()}"
->> +
->>  addtask bootdirectdisk before do_build
->
-> --
-> Darren Hart
-> Intel Open Source Technology Center
-> Yocto Project - Technical Lead - Linux Kernel
->
+microblaze_generic_fdt : http://lists.nongnu.org/archive/html/qemu-devel/20=
+12-09/msg02437.html
+arm_generic_fdt (still in development) : https://github.com/Xilinx/qemu/blo=
+b/xilinx-master/hw/arm/arm_generic_fdt.c
 
 Regards,
-Jonathan
+Nathan
+
+>
+> Since this is unlikely to happen immediately I've acked these patches
+> going
+> in, but I think we'll need to look at doing this some time soon.
+>
+> Cheers,
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel Open Source Technology Centre
+
+
+
+This email and any attachments are intended for the sole use of the named r=
+ecipient(s) and contain(s) confidential information that may be proprietary=
+, privileged or copyrighted under applicable law. If you are not the intend=
+ed recipient, do not read, copy, or forward this email message or any attac=
+hments. Delete this email message and any attachments immediately.
+
+
 
