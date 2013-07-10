@@ -1,29 +1,34 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F3C261FE1
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id BC903608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 02:12:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6A2CnxF011593
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 9 Jul 2013 19:12:49 -0700 (PDT)
-Received: from [128.224.163.134] (128.224.163.134) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 9 Jul 2013 19:12:48 -0700
-Message-ID: <51DCC31E.4020505@windriver.com>
-Date: Wed, 10 Jul 2013 10:12:46 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	Wed, 10 Jul 2013 02:56:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.87,1032,1363104000"; d="scan'208";a="7843037"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 10 Jul 2013 10:53:44 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r6A2ufUv026766
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Jul 2013 10:56:41 +0800
+Received: from [127.0.0.1] ([10.167.226.190])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013071010550237-2818596 ;
+	Wed, 10 Jul 2013 10:55:02 +0800 
+Message-ID: <51DCCD6D.5050807@cn.fujitsu.com>
+Date: Wed, 10 Jul 2013 10:56:45 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
+	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1373253853.git.jackie.huang@windriver.com>
-	<226f2074b7530a82f4cf0e614eecd58f1fd2c22b.1373253853.git.jackie.huang@windriver.com>
-	<CAJTo0LbLGKEea1vfcQH19JU++mTViDeZ2CSyLu3Cof2wqEYcMQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LbLGKEea1vfcQH19JU++mTViDeZ2CSyLu3Cof2wqEYcMQ@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] glib-2.0: inherit pythonnative
+To: openembedded-core@lists.openembedded.org
+References: <51DBC97F.1090606@cn.fujitsu.com>
+In-Reply-To: <51DBC97F.1090606@cn.fujitsu.com>
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/07/10 10:55:02,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/07/10 10:55:02,
+	Serialize complete at 2013/07/10 10:55:02
+Subject: Re: [PATCH 0/1]package_rpm.bbclass: remove xx.spec before doing rpmbuild xx.src.rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,50 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 02:12:48 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 10 Jul 2013 02:56:49 -0000
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 
+Hi all
 
+Sorry, it looks like i should post this patch to poky. please ignore this
 
-On 7/9/2013 10:56 PM, Burton, Ross wrote:
-> On 8 July 2013 04:25,  <jackie.huang@windriver.com> wrote:
->> glib-2.0 needs to inherit pythonnative because it depends on
->> python-native. This has caused problems on SLED11.2 if no
->> python-xml installed.
->
-> I just built glib-2.0 from scratch without python-native being
-> present, so can you justify this please?
+Thanks
+ Bian
 
-The problem happened on a SUSE host without python-xml installed, Robert 
-just told me that it has been taken care of by:
+said the following on 2013-7-9 16:27:, Bian Naimeng wrote:
+> If the spec file already exist, and has not been stored into pseudo's files.db,
+> it maybe cause rpmbuild src.rpm fail, so remove it before doing rpmbuild src.rpm.
+> 
+> Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+> 
+> ---
+>  meta/classes/package_rpm.bbclass |    5 +++++
+>  1 files changed, 5 insertions(+), 0 deletions(-)
+> 
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index c654cdb..217ddcb 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -1069,8 +1069,13 @@ python do_package_rpm () {
+>          return
+>  
+>      # Construct the spec file...
+> +    # If the spec file already exist, and has not been stored into 
+> +    # pseudo's files.db, it maybe cause rpmbuild src.rpm fail,
+> +    # so remove it before doing rpmbuild src.rpm.
+>      srcname    = strip_multilib(d.getVar('PN', True), d)
+>      outspecfile = workdir + "/" + srcname + ".spec"
+> +    if os.path.isfile(outspecfile):
+> +        os.remove(outspecfile)
+>      d.setVar('OUTSPECFILE', outspecfile)
+>      bb.build.exec_func('write_specfile', d)
 
-commit bb027a332f2f2927a6bcbc4c035b42a012d0579e
-Author: Jesse Zhang <sen.zhang@windriver.com>
-Date:   Mon Jun 3 07:37:48 2013 +0000
-
-     sanity.bbclass: make sure python is a full install
-
-     Components of the Standard Library should be available. Add a sanity
-     check for xml.parsers.expat; we might add more in the future.
-
-     [YOCTO #4424]
-
-     Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
-     Signed-off-by: Saul Wold <sgw@linux.intel.com>
-     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Thanks,
-Jackie
-
->
-> Ross
->
-
--- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
 
