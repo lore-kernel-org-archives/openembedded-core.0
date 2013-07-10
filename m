@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E2696A4D2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A320B6AF4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 08:03:51 +0000 (UTC)
+	Wed, 10 Jul 2013 08:03:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6A83qoS011510
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6A83rQx015316
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 01:03:52 -0700 (PDT)
+	Wed, 10 Jul 2013 01:03:54 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 10 Jul 2013 01:03:52 -0700
+	14.2.342.3; Wed, 10 Jul 2013 01:03:53 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jul 2013 16:03:41 +0800
-Message-ID: <fb33ec7730da4eec3aeb2a73295a851ed15af941.1373443071.git.hongxu.jia@windriver.com>
+Date: Wed, 10 Jul 2013 16:03:42 +0800
+Message-ID: <5891c95b244f3b0ad5e54bcb7595fc401c1727f3.1373443071.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1373443071.git.hongxu.jia@windriver.com>
 References: <cover.1373443071.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] nss: create checksum files for the nss libraries
+Subject: [PATCH 5/5] nss: fix incorrect shebang line of perl script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,93 +33,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 08:03:51 -0000
+X-List-Received-Date: Wed, 10 Jul 2013 08:03:54 -0000
 Content-Type: text/plain
 
-Add checksum files required for the NSS softoken to operate in FIPS 140 mode.
-The shlibsign is invoked to sign the libraries, and it is built for the target
-architecture and doesn't support cross-compiling so far.
-
-Invoke shlibsign at target's first boot time to generate checksum files.
-
-https://developer.mozilla.org/en-US/docs/NSS/NSS_Tech_Notes/nss_tech_note6
-http://en.wikipedia.org/wiki/FIPS_140
-https://bugzilla.mozilla.org/show_bug.cgi?id=681624
+Replace incorrect shebang line with `#!/usr/bin/perl'.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-support/nss/files/signlibs.sh | 20 ++++++++++++++++++++
- meta/recipes-support/nss/nss.inc           | 16 ++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/signlibs.sh
+ .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 +++++++++++++++++++++
+ meta/recipes-support/nss/nss.inc                   |   1 +
+ 2 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
 
-diff --git a/meta/recipes-support/nss/files/signlibs.sh b/meta/recipes-support/nss/files/signlibs.sh
+diff --git a/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch b/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
 new file mode 100644
-index 0000000..1ec79f4
+index 0000000..ae2a6e5
 --- /dev/null
-+++ b/meta/recipes-support/nss/files/signlibs.sh
-@@ -0,0 +1,20 @@
-+#!/bin/sh
++++ b/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
+@@ -0,0 +1,110 @@
++nss: fix incorrect shebang of perl
 +
-+# signlibs.sh
-+#
-+# (c)2010 Wind River Systems, Inc.
-+#
-+# regenerates the .chk files for the NSS libraries that require it
-+# since the ones that are built have incorrect checksums that were
-+# calculated on the host where they really need to be done on the
-+# target
++Replace incorrect shebang of perl with `#!/usr/bin/perl'.
 +
-+CHK_FILES=`find /lib* /usr/lib* -name "*.chk"`
-+SIGN_BINARY=`which shlibsign`
-+for I in $CHK_FILES
-+do
-+       DN=`dirname $I`
-+       BN=`basename $I .chk`
-+       FN=$DN/$BN.so
-+       $SIGN_BINARY -i $FN
-+done
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Upstream-Status: Pending
++---
++ nss/cmd/smimetools/smime  | 2 +-
++ nss/coreconf/cpdist.pl    | 2 +-
++ nss/coreconf/import.pl    | 2 +-
++ nss/coreconf/jniregen.pl  | 2 +-
++ nss/coreconf/outofdate.pl | 2 +-
++ nss/coreconf/release.pl   | 2 +-
++ nss/coreconf/version.pl   | 2 +-
++ nss/tests/clean_tbx       | 2 +-
++ nss/tests/path_uniq       | 2 +-
++ 9 files changed, 9 insertions(+), 9 deletions(-)
++
++diff --git a/nss/cmd/smimetools/smime b/nss/cmd/smimetools/smime
++--- a/nss/cmd/smimetools/smime
+++++ b/nss/cmd/smimetools/smime
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/perl
+++#!/usr/bin/perl
++ 
++ # This Source Code Form is subject to the terms of the Mozilla Public
++ # License, v. 2.0. If a copy of the MPL was not distributed with this
++diff --git a/nss/coreconf/cpdist.pl b/nss/coreconf/cpdist.pl
++index 800edfb..652187f 100755
++--- a/nss/coreconf/cpdist.pl
+++++ b/nss/coreconf/cpdist.pl
++@@ -1,4 +1,4 @@
++-#! /usr/local/bin/perl
+++#!/usr/bin/perl
++ #
++ # This Source Code Form is subject to the terms of the Mozilla Public
++ # License, v. 2.0. If a copy of the MPL was not distributed with this
++diff --git a/nss/coreconf/import.pl b/nss/coreconf/import.pl
++index dd2d177..428eaa5 100755
++--- a/nss/coreconf/import.pl
+++++ b/nss/coreconf/import.pl
++@@ -1,4 +1,4 @@
++-#! /usr/local/bin/perl
+++#!/usr/bin/perl
++ #
++ # This Source Code Form is subject to the terms of the Mozilla Public
++ # License, v. 2.0. If a copy of the MPL was not distributed with this
++diff --git a/nss/coreconf/jniregen.pl b/nss/coreconf/jniregen.pl
++index 2039180..5f4f69c 100755
++--- a/nss/coreconf/jniregen.pl
+++++ b/nss/coreconf/jniregen.pl
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/perl
+++#!/usr/bin/perl
++ #
++ # This Source Code Form is subject to the terms of the Mozilla Public
++ # License, v. 2.0. If a copy of the MPL was not distributed with this
++diff --git a/nss/coreconf/outofdate.pl b/nss/coreconf/outofdate.pl
++index 33d80bb..01fc097 100755
++--- a/nss/coreconf/outofdate.pl
+++++ b/nss/coreconf/outofdate.pl
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/perl
+++#!/usr/bin/perl
++ #
++ # This Source Code Form is subject to the terms of the Mozilla Public
++ # License, v. 2.0. If a copy of the MPL was not distributed with this
++diff --git a/nss/coreconf/release.pl b/nss/coreconf/release.pl
++index 7cde19d..b5df2f6 100755
++--- a/nss/coreconf/release.pl
+++++ b/nss/coreconf/release.pl
++@@ -1,4 +1,4 @@
++-#! /usr/local/bin/perl
+++#!/usr/bin/perl
++ #
++ # This Source Code Form is subject to the terms of the Mozilla Public
++ # License, v. 2.0. If a copy of the MPL was not distributed with this
++diff --git a/nss/coreconf/version.pl b/nss/coreconf/version.pl
++index d2a4942..79359fe 100644
++--- a/nss/coreconf/version.pl
+++++ b/nss/coreconf/version.pl
++@@ -1,4 +1,4 @@
++-#!/usr/sbin/perl
+++#!/usr/bin/perl
++ #
++ # This Source Code Form is subject to the terms of the Mozilla Public
++ # License, v. 2.0. If a copy of the MPL was not distributed with this
++diff --git a/nss/tests/clean_tbx b/nss/tests/clean_tbx
++index 4de9555..a7def9f 100755
++--- a/nss/tests/clean_tbx
+++++ b/nss/tests/clean_tbx
++@@ -1,4 +1,4 @@
++-#! /bin/perl
+++#!/usr/bin/perl
++ 
++ #######################################################################
++ #
++diff --git a/nss/tests/path_uniq b/nss/tests/path_uniq
++index f29f60a..08fbffa 100755
++--- a/nss/tests/path_uniq
+++++ b/nss/tests/path_uniq
++@@ -1,4 +1,4 @@
++-#! /bin/perl
+++#!/usr/bin/perl
++ 
++ ########################################################################
++ #
++-- 
++1.8.1.2
++
 diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index 87cba38..4270743 100644
+index 4270743..e2f3891 100644
 --- a/meta/recipes-support/nss/nss.inc
 +++ b/meta/recipes-support/nss/nss.inc
-@@ -18,6 +18,7 @@ SRC_URI = "\
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466a
+ SRC_URI = "\
+     file://nss-fix-support-cross-compiling.patch \
+     file://nss-no-rpath-for-cross-compiling.patch \
++    file://nss-fix-incorrect-shebang-of-perl.patch \
  "
  SRC_URI_append_class-target += "\
      file://nss.pc.in \
-+    file://signlibs.sh \
- "
- inherit siteinfo
- PR = "r0"
-@@ -136,6 +137,14 @@ do_install() {
- }
- 
- do_install_append_class-target() {
-+    # Create empty .chk files for the NSS libraries at build time. They could
-+    # be regenerated at target's boot time.
-+    for file in libsoftokn3.chk libfreebl3.chk libnssdbm3.chk; do
-+        touch ${D}/${libdir}/$file
-+        chmod 755 ${D}/${libdir}/$file
-+    done
-+    install -D -m 755 ${WORKDIR}/signlibs.sh ${D}/${bindir}/signlibs.sh
-+
-     install -d ${D}${libdir}/pkgconfig/
-     sed 's/%NSS_VERSION%/${PV}/' ${WORKDIR}/nss.pc.in | sed 's/%NSPR_VERSION%/4.9.2/' > ${D}${libdir}/pkgconfig/nss.pc
-     sed -i s:OEPREFIX:${prefix}:g ${D}${libdir}/pkgconfig/nss.pc
-@@ -151,6 +160,13 @@ do_install_append_class-target() {
-     rm ./empty_password
- }
- 
-+pkg_postinst_${PN} () {
-+    if [ -n "$D" ]; then
-+        exit 1
-+    fi
-+    signlibs.sh
-+}
-+
- FILES_${PN} = "\
-     ${sysconfdir} \
-     ${bindir} \
 -- 
 1.8.1.2
 
