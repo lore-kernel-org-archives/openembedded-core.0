@@ -1,41 +1,17 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 077936204F
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id E8CF361038
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 11:43:56 +0000 (UTC)
-Received: by mail-ea0-f173.google.com with SMTP id g15so4883925eak.32
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 04:43:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=EGIyreWVEyR6sstwfG8BDEUhh7vDZ/8AUxXYcpWIE0s=;
-	b=sZ14+jychrUQv7hXrpi+XMymciRKzE0HUcn4Urn5+lJ/Gv3AGCSRArEvXKE1mr+Efc
-	OfYh5Y3r1yseSpcUlqY2HLs0h/E7H0oJxbEtU7tvg9QKdnD3ROm1v3+YuxUREy0CZKcg
-	VvjXNc1vvrmx11LplKj53ZLI3UGQkv/n2+h7bVD7fclf1PVmts8hJRS2JMz+rWI4KW/n
-	wnwe/4CANZE2W2wM3zRP7nt8C9+UD9BSRitPw2f46J8g2JMQBAmOwJIiH0M7ymfDLdYh
-	jhICRcXUelHQBZtCc9fjekz4qYG+niAPHWSuRWSTkzMEyJ/NLpwqtR+OIvPvnbv5rZU2
-	pOYA==
-X-Received: by 10.14.176.68 with SMTP id a44mr35989854eem.31.1373456636661;
-	Wed, 10 Jul 2013 04:43:56 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	w43sm59320092eez.6.2013.07.10.04.43.55 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 10 Jul 2013 04:43:55 -0700 (PDT)
-Date: Wed, 10 Jul 2013 13:44:05 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130710114405.GZ3288@jama>
-References: <cover.1372674367.git.mihai.prica@intel.com>
-	<2ee8976b4ad482eafb186deba9a14fc52f6dc8cf.1372674367.git.mihai.prica@intel.com>
-	<CAJTo0LbWDHqUoaks86RrGMSnKyN+fw-cxShpFpr=DT-sOGbvxQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LbWDHqUoaks86RrGMSnKyN+fw-cxShpFpr=DT-sOGbvxQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] insane.bbclass: Added QA warning for shipping /usr/share/info/dir
+	Wed, 10 Jul 2013 11:47:30 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6ABlSuK010613; 
+	Wed, 10 Jul 2013 06:47:30 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jul 2013 16:48:07 +0500
+Message-Id: <1373456887-17817-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] nfs-utils: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +24,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 11:43:57 -0000
-X-Groupsio-MsgNum: 41726
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="abYdCjSRCBwcb+dP"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 10 Jul 2013 11:47:31 -0000
 
---abYdCjSRCBwcb+dP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-On Mon, Jul 01, 2013 at 03:51:26PM +0100, Burton, Ross wrote:
-> On 1 July 2013 11:31, Mihai Prica <mihai.prica@intel.com> wrote:
-> > /usr/share/info/dir should be generated at install time in a postinst.
-> > Added QA warning to check at build time for this file. The warning
-> > is disabled by default.
->=20
-> Patch is good but why don't we enable this by default?
+- Adds systemd support in nfs-utils
+- Install 'sysv' related files only if distro has this feature
 
-FWIW: this is list of QA issues found with this check in my world builds:
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../nfs-utils/nfs-utils/nfs-utils.service          |   16 +++++++++++++++
+ .../nfs-utils/nfs-utils_1.2.8.bb                   |   21 ++++++++++++++++----
+ 2 files changed, 33 insertions(+), 4 deletions(-)
 
-gcc-4.8.1: The /usr/share/info/dir file is not meant to be shipped in a par=
-ticular package.
-ed-1.7: The /usr/share/info/dir file is not meant to be shipped in a partic=
-ular package.
-emacs-23.4: The /usr/share/info/dir file is not meant to be shipped in a pa=
-rticular package.
-quagga-0.99.21: The /usr/share/info/dir file is not meant to be shipped in =
-a particular package.
-lzip-1.14: The /usr/share/info/dir file is not meant to be shipped in a par=
-ticular package.
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.service
+new file mode 100644
+index 0000000..e480cc8
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.service
+@@ -0,0 +1,16 @@
++[Unit]
++Description=NFS Server
++Requires=rpcbind.service
++After=rpcbind.service
++
++[Service]
++Type=oneshot
++ExecStart=/usr/sbin/rpc.nfsd
++ExecStart=/usr/sbin/rpc.mountd
++ExecStart=/usr/sbin/rpc.statd
++ExecStart=/usr/sbin/exportfs -a
++RemainAfterExit=yes
++
++[Install]
++WantedBy=multi-user.target
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
+index 40b897b..508b4b1 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
+@@ -15,7 +15,8 @@ RRECOMMENDS_${PN} = "kernel-module-nfsd"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.bz2 \
+            file://nfs-utils-1.0.6-uclibc.patch \
+            file://nfs-utils-1.2.3-sm-notify-res_init.patch \
+-           file://nfsserver"
++           file://nfsserver \
++           file://nfs-utils.service "
+ 
+ SRC_URI[md5sum] = "6e7d97de51e428a0b8698c16ca23db77"
+ SRC_URI[sha256sum] = "1cc8f02a633eddbf0a1d93421f331479c4cdab4c5ab33b8bf8c7c369f9156ac6"
+@@ -31,7 +32,10 @@ INITSCRIPT_NAME = "nfsserver"
+ # in the shutdown levels, but that works fine.
+ INITSCRIPT_PARAMS = "defaults"
+ 
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
++
++SYSTEMD_SERVICE_${PN} = "nfs-utils.service"
++SYSTEMD_AUTO_ENABLE = "disable"
+ 
+ # --enable-uuid is need for cross-compiling
+ EXTRA_OECONF = "--with-statduser=nobody \
+@@ -62,12 +66,21 @@ do_compile_prepend() {
+ }
+ 
+ do_install_append () {
+-	install -d ${D}${sysconfdir}/init.d
+ 	install -d ${D}${localstatedir}/lib/nfs/statd
+-	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
+ 	# kernel code as of 3.8 hard-codes this path as a default
+ 	install -d ${D}/var/lib/nfs/v4recovery
+ 
++    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
++	    install -d ${D}${sysconfdir}/init.d
++	    install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
++    fi
++
++    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++        install -d ${D}${systemd_unitdir}/system
++        install ${WORKDIR}/nfs-utils.service ${D}${systemd_unitdir}/system/
++        sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/nfs-utils.service
++    fi
++
+ 	# the following are built by CC_FOR_BUILD
+ 	rm -f ${D}${sbindir}/rpcdebug
+ 	rm -f ${D}${sbindir}/rpcgen
+-- 
+1.7.9.5
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---abYdCjSRCBwcb+dP
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlHdSQUACgkQN1Ujt2V2gByuSgCfRQ93LPY5+VCpOflXD51ySMTj
-A1EAoJh8qWBgbg0vv29wnVF/Ic1Wy1z1
-=bGz5
------END PGP SIGNATURE-----
-
---abYdCjSRCBwcb+dP--
