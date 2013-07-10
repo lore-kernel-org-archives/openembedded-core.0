@@ -1,52 +1,38 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FA5F61883
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f175.google.com (mail-ve0-f175.google.com
+	[209.85.128.175])
+	by mail.openembedded.org (Postfix) with ESMTP id BA37B608C6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 14:30:38 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r6AEUbkS032492
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Wed, 10 Jul 2013 16:30:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1373466638;
-	bh=bXLtRTdL6griJnA7cfddq86EiTnetA/5f3wpIenMxBk=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=jFbH4LsBBoI/BHevx0KsDuhCxo6q8r49PgnpX69Bn3MTWJ0jp38ZahXK32Hg18pZe
-	f6dxBvHY42g63Uym2yqBXVgaVFIF+16up+M2ruz2MX8JpdPRK735l5vOAQ1naI4ZEU
-	hXVN2P4IQU/P+ajVIt0q0qwNbaG02+oprdFubTY0=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r6AEUOVS025831
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Wed, 10 Jul 2013 16:30:25 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1UwvPT-0006o2-R1; Wed, 10 Jul 2013 16:30:23 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <ly8v1etzn5.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<ly4nc2twyk.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CADkTA4OgktutnmLz87ps4paqanUZM1P4hYz-eu580-rWZBsZzg@mail.gmail.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 10 Jul 2013 16:30:23 +0200
-In-Reply-To: <CADkTA4OgktutnmLz87ps4paqanUZM1P4hYz-eu580-rWZBsZzg@mail.gmail.com>
-	(Bruce Ashfield's message of "Wed, 10 Jul 2013 10:57:02 -0300")
-Message-ID: <lywqoymqrk.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Wed, 10 Jul 2013 14:35:18 +0000 (UTC)
+Received: by mail-ve0-f175.google.com with SMTP id da11so5992319veb.34
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Jul 2013 07:35:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=mD70v4A/N/kZ7tuTJlgxfKboa57kj3VcySIUV1rxHMU=;
+	b=WfObjF5Tr+bsvLQDcRlObAn+pJSCQ+4GUuD6EtpxGBWB78ZcZmxHwJu/BaoPB9XWYl
+	ImTbdV7nz2LGFtAa5Xpkka0dHhRcNeETth/S2180cGfr3TNai7pjosnAPmbPORVvSJhn
+	q2SqRUJ2AN3lmDwEyU7QrI6R1+wFHivPck+hSq7Wi7erqMeK3gC88uu9dJq+ZcoPjBl4
+	5XUfGZfm0st9QQ1M07dBl+3RgtccyzMfL0E9vYSfodDn7Ix8JCzQ/J+5yEADIzywznHb
+	5HZtBD8KEQIyJSReCgHpFYT7p3chYXpaNzaqc3lt9nAfmIeX7Yy4HsdA/kF4vJj54gMf
+	j2PQ==
+X-Received: by 10.220.1.9 with SMTP id 9mr19332814vcd.37.1373466918832; Wed,
+	10 Jul 2013 07:35:18 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.0
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Bruce Ashfield <bruce.ashfield-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-Subject: Re: kernel miscompilation with gcc 4.8 for ARMv5
+Received: by 10.220.13.144 with HTTP; Wed, 10 Jul 2013 07:34:58 -0700 (PDT)
+In-Reply-To: <20130710124115.GB3288@jama>
+References: <20130706213931.GD3288@jama>
+	<1373459893-23611-1-git-send-email-Martin.Jansa@gmail.com>
+	<20130710124115.GB3288@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Jul 2013 15:34:58 +0100
+Message-ID: <CAJTo0LZiDgWj+Ezz201tUA-QkGEtb=NKZ4xhNWFzJLcgfiJtow@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQkCkDCxNhSF9+nCeLmT9ESO2jIDq6vKCkSfVa9pk/h2SesdrDP6kRwc1UXNAC1snKRWxGxs
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] test-dependencies: add simple script to detect missing or autoenabled dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,45 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 14:30:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Jul 2013 14:35:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Bruce Ashfield <bruce.ashfield-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-writes:
+On 10 July 2013 13:41, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Build with last version of this script is still running (after 37 hours)
+> Building recipe: gnome-desktop (485/1848)
+> but I've tested it in smaller builds and I'm happy with current
+> functionality, I'll send found issues in tomorrow or day after that when
+> the build is complete.
 
->> Applying two upstream kernel commits
->> 455bd4c430b0c0a361f38e8658a0d6cb469942b5 (ARM: 7668/1: fix
->> memset-related crashes caused by recent GCC (4.7.2) optimizations) and
->> 418df63adac56841ef6b0f1fcf435bc64d4ed177 (ARM: 7670/1: fix the memset
->> fix) seem to fix the problem for me.
->
-> Correct. Those are the same commits you'll see on linux-yocto-3.8,
-> we've been soaking them for a while. I was waiting for LTSI and -stable
-> to pick up the changes before updating linux-yocto-3.4, but that hasn't
-> happened yet.
->
-> If you are using linux-yocto-3.4 and can confirm that it boots for you
-> with those patches,
+As this has been on my todo list for a while now, come to ELC-E and
+I'll get you a beer. :)
 
-Sorry, I am using a more or less vanilla 3.4 kernel.  Patches fix
-the problem there (device boots) and (after knowing about them) the
-problematic code is easy to spot:
+Anyone volunteering to run this on oe-core master this weekend?
 
-$ arm-linux-gnueabi-objdump  -d mm/slub.o
-
-000014c4 <init_object>:
-    ...
-    14fc:       e1a00001        mov     r0, r1
-    1500:       e3a0106b        mov     r1, #107        ; 0x6b
-    1504:       ebfffffe        bl      0 <memset>
-    1508:       e1a03000        mov     r3, r0          <<<<<<<
-    150c:       e5942010        ldr     r2, [r4, #16]
-    1510:       e3e0105a        mvn     r1, #90 ; 0x5a
-    1514:       e0832002        add     r2, r3, r2
-    1518:       e5421001        strb    r1, [r2, #-1]
-
-With unpatched memset, 'r0' points to end of buffer.
-
-
-Enrico
+Ross
 
