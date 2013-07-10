@@ -1,26 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A320B6AF4A
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id F240D621D9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 08:03:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6A83rQx015316
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 10 Jul 2013 08:25:45 +0000 (UTC)
+Received: by mail-pd0-f170.google.com with SMTP id x11so6171571pdj.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 01:03:54 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 10 Jul 2013 01:03:53 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jul 2013 16:03:42 +0800
-Message-ID: <5891c95b244f3b0ad5e54bcb7595fc401c1727f3.1373443071.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1373443071.git.hongxu.jia@windriver.com>
-References: <cover.1373443071.git.hongxu.jia@windriver.com>
+	Wed, 10 Jul 2013 01:25:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id:user-agent:mime-version
+	:content-transfer-encoding:content-type;
+	bh=cLILHMT5Hn0BbQ7gdrwZ71zot7ozENWIhBMSW0bG3aE=;
+	b=ACvx+vodCzmMtmt8+pdhB8NLhRANViiB9UOZjWwBXgP3DGJ9WGFOf3yCv/atMrlL86
+	/s1kIdW/XoVZzTSP1WV5ifBSUk62B8risC0tdqK5aY1W5jWTzol+zcs/PFh+OOaRuRwG
+	MilcU6FPC8/23DGt5AvuViEKuwvIiOWEymY8DaIVBgmF6Wc43oYOdelm3gC3G7zB/Kvn
+	mWqyenwHj0atec8kysprIjhPLNF0qdzvd72e+xs7H6UFEzQMEbKuUfy44tA+MnlBRLsJ
+	SXJ0rU+oRuHWzAietK90jX6ra5ErJOvnsBCrNPXdH183SzMmdMXSsKxneaoazzS677KJ
+	LDKw==
+X-Received: by 10.68.180.34 with SMTP id dl2mr30703543pbc.57.1373444746366;
+	Wed, 10 Jul 2013 01:25:46 -0700 (PDT)
+Received: from yiqingliang-pc.localnet ([222.94.225.252])
+	by mx.google.com with ESMTPSA id
+	ib9sm32701578pbc.43.2013.07.10.01.25.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 10 Jul 2013 01:25:45 -0700 (PDT)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jul 2013 16:21:02 +0800
+Message-ID: <2457726.ZAE80f4V8O@yiqingliang-pc>
+User-Agent: KMail/4.10.4 (Linux/3.9.8-1-ARCH; KDE/4.10.4; x86_64; ; )
 MIME-Version: 1.0
-Subject: [PATCH 5/5] nss: fix incorrect shebang line of perl script
+Subject: boost 1.54 compile fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,147 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 08:03:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Jul 2013 08:25:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Replace incorrect shebang line with `#!/usr/bin/perl'.
+Hello!
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 +++++++++++++++++++++
- meta/recipes-support/nss/nss.inc                   |   1 +
- 2 files changed, 111 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
+after update poky to latest git version, I got failure when compiling boost:
 
-diff --git a/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch b/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
-new file mode 100644
-index 0000000..ae2a6e5
---- /dev/null
-+++ b/meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
-@@ -0,0 +1,110 @@
-+nss: fix incorrect shebang of perl
-+
-+Replace incorrect shebang of perl with `#!/usr/bin/perl'.
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+Upstream-Status: Pending
-+---
-+ nss/cmd/smimetools/smime  | 2 +-
-+ nss/coreconf/cpdist.pl    | 2 +-
-+ nss/coreconf/import.pl    | 2 +-
-+ nss/coreconf/jniregen.pl  | 2 +-
-+ nss/coreconf/outofdate.pl | 2 +-
-+ nss/coreconf/release.pl   | 2 +-
-+ nss/coreconf/version.pl   | 2 +-
-+ nss/tests/clean_tbx       | 2 +-
-+ nss/tests/path_uniq       | 2 +-
-+ 9 files changed, 9 insertions(+), 9 deletions(-)
-+
-+diff --git a/nss/cmd/smimetools/smime b/nss/cmd/smimetools/smime
-+--- a/nss/cmd/smimetools/smime
-++++ b/nss/cmd/smimetools/smime
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/perl
-++#!/usr/bin/perl
-+ 
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/cpdist.pl b/nss/coreconf/cpdist.pl
-+index 800edfb..652187f 100755
-+--- a/nss/coreconf/cpdist.pl
-++++ b/nss/coreconf/cpdist.pl
-+@@ -1,4 +1,4 @@
-+-#! /usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/import.pl b/nss/coreconf/import.pl
-+index dd2d177..428eaa5 100755
-+--- a/nss/coreconf/import.pl
-++++ b/nss/coreconf/import.pl
-+@@ -1,4 +1,4 @@
-+-#! /usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/jniregen.pl b/nss/coreconf/jniregen.pl
-+index 2039180..5f4f69c 100755
-+--- a/nss/coreconf/jniregen.pl
-++++ b/nss/coreconf/jniregen.pl
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/outofdate.pl b/nss/coreconf/outofdate.pl
-+index 33d80bb..01fc097 100755
-+--- a/nss/coreconf/outofdate.pl
-++++ b/nss/coreconf/outofdate.pl
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/release.pl b/nss/coreconf/release.pl
-+index 7cde19d..b5df2f6 100755
-+--- a/nss/coreconf/release.pl
-++++ b/nss/coreconf/release.pl
-+@@ -1,4 +1,4 @@
-+-#! /usr/local/bin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/coreconf/version.pl b/nss/coreconf/version.pl
-+index d2a4942..79359fe 100644
-+--- a/nss/coreconf/version.pl
-++++ b/nss/coreconf/version.pl
-+@@ -1,4 +1,4 @@
-+-#!/usr/sbin/perl
-++#!/usr/bin/perl
-+ #
-+ # This Source Code Form is subject to the terms of the Mozilla Public
-+ # License, v. 2.0. If a copy of the MPL was not distributed with this
-+diff --git a/nss/tests/clean_tbx b/nss/tests/clean_tbx
-+index 4de9555..a7def9f 100755
-+--- a/nss/tests/clean_tbx
-++++ b/nss/tests/clean_tbx
-+@@ -1,4 +1,4 @@
-+-#! /bin/perl
-++#!/usr/bin/perl
-+ 
-+ #######################################################################
-+ #
-+diff --git a/nss/tests/path_uniq b/nss/tests/path_uniq
-+index f29f60a..08fbffa 100755
-+--- a/nss/tests/path_uniq
-++++ b/nss/tests/path_uniq
-+@@ -1,4 +1,4 @@
-+-#! /bin/perl
-++#!/usr/bin/perl
-+ 
-+ ########################################################################
-+ #
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index 4270743..e2f3891 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466a
- SRC_URI = "\
-     file://nss-fix-support-cross-compiling.patch \
-     file://nss-no-rpath-for-cross-compiling.patch \
-+    file://nss-fix-incorrect-shebang-of-perl.patch \
- "
- SRC_URI_append_class-target += "\
-     file://nss.pc.in \
+the main error is: (indeed, and too many warning!)
+
+| ./boost/atomic/atomic.hpp:202:16: error: 'uintptr_t' was not declared in 
+this scope
+|  typedef atomic<uintptr_t> atomic_uintptr_t;
+|                 ^
+| ./boost/atomic/atomic.hpp:202:25: error: template argument 1 is invalid
+|  typedef atomic<uintptr_t> atomic_uintptr_t;
+|                          ^
+| ./boost/atomic/atomic.hpp:202:43: error: invalid type in declaration before 
+';' token
+|  typedef atomic<uintptr_t> atomic_uintptr_t;
+|                                            ^
+| In file included from ./boost/system/system_error.hpp:14:0,
+|                  from ./boost/thread/exceptions.hpp:22,
+|                  from ./boost/thread/pthread/thread_data.hpp:10,
+|                  from ./boost/thread/thread_only.hpp:17,
+|                  from libs/thread/src/pthread/thread.cpp:11:
+
+
+
 -- 
-1.8.1.2
-
+Nanjing Jilong
+Yi Qingliang
+niqingliang2003@gmail.com
 
