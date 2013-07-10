@@ -1,35 +1,36 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CC0A608C6
+Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
+	[209.85.160.44])
+	by mail.openembedded.org (Postfix) with ESMTP id ED83C62009
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 03:04:09 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id lf11so6172975pab.38
+	Wed, 10 Jul 2013 03:08:29 +0000 (UTC)
+Received: by mail-pb0-f44.google.com with SMTP id uo1so6179077pbc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2013 20:04:10 -0700 (PDT)
+	Tue, 09 Jul 2013 20:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=GyCO/HFsHdwVRAGwrZpJCV4wb5qZayx7HqtI5nqb6lA=;
-	b=DqWMg0dy3g4VrGs3OZcVv2oic8CfCRibLa1p++AaUeO9AeZzUtioYiS9CbRf9AYN3d
-	vht8c3pP+STHOEeaUQldmD0qgLxjnJqttiSwO3KLcdmSPdRZanLEKjmJoU04UcR6cxQW
-	KCFUNm0ptNmc1I1wEvaxiOWCayzykLWJV+Og83wxYp/Vqbfwrdo1RJKLWcuErFpKJZ+z
-	R4BX1nS7GoraEevPkD0R+e/wBZjJuQQ5ZZOsoaCFEmU3FdVRp/zjVUmDrXdpyvAf8IPy
-	f01dJ4O0xCLltiew8L/kvNrBKgzuqU3q5hWw6H0nK6SaVNrLrRa4TR28ni/y+guMEqxM
-	bgmw==
-X-Received: by 10.66.178.229 with SMTP id db5mr20848181pac.105.1373425450310; 
-	Tue, 09 Jul 2013 20:04:10 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id b4sm31196642pba.45.2013.07.09.20.04.08
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 09 Jul 2013 20:04:09 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Xyxk9YhrRNupvrTJ9zoXmvAg+42xn4q9Wt5CicLPiD8=;
+	b=ZJev5vlYpjKDhqvDY9QyYdnr0Bu7HQX36xJidT4HAtiSCQv3nUofwK5Nh40wl6/sIx
+	+u6/rdvTautrDTFJSs5ZcAn4Bq0lKw/4LHQt8vtoEkAdy4vupIbVPueMqt/R/OghWEqN
+	/HfBQrO5g0QIQvkRHNVuAAFYoP+2LlEjq3m5BKEzmssqRM85JaImCcsxIvsKfIutHc0j
+	/TSbXd8hBOpG1F/zQiomD93gh77z90+eXFerUNIXwNboDtPH8bO7PxmiorDjyhQ0Sm/V
+	3BpNpWbeqKpfEbtUCZeshNA3Km4N5S9LmZ4j8LDtEpFjxLgN/6z0UOoejNrkjcUHAy+1
+	jawA==
+MIME-Version: 1.0
+X-Received: by 10.68.103.131 with SMTP id fw3mr3013898pbb.65.1373425710876;
+	Tue, 09 Jul 2013 20:08:30 -0700 (PDT)
+Received: by 10.70.103.166 with HTTP; Tue, 9 Jul 2013 20:08:30 -0700 (PDT)
+In-Reply-To: <1373406532.3429.5.camel@envy.home>
+References: <1373379161-25047-1-git-send-email-net147@gmail.com>
+	<1373406532.3429.5.camel@envy.home>
+Date: Wed, 10 Jul 2013 13:08:30 +1000
+Message-ID: <CANwerB2Dwp=BGmeFb=YQcY4pbvotqMWSyUkXNG35sLZVDhfAZw@mail.gmail.com>
 From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2013 13:19:45 +1000
-Message-Id: <1373426385-14516-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] boot-directdisk: allow specifying custom MBR disk signature
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] boot-directdisk: mount root by MBR disk signature for Linux 3.8+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,75 +43,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 03:04:09 -0000
+X-List-Received-Date: Wed, 10 Jul 2013 03:08:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This introduces a DISK_SIGNATURE variable that allows controlling the
-32-bit MBR disk signature. By default it is set to an automatically
-generated disk signature but it may by overridden in the image recipe
-by setting DISK_SIGNATURE to a 8 digit hex string.
+On 10 July 2013 07:48, Darren Hart <dvhart@linux.intel.com> wrote:
+> On Wed, 2013-07-10 at 00:12 +1000, Jonathan Liu wrote:
+>> The root device is currently set as /dev/hda2. However, this is
+>> only correct if it's the first IDE drive. If booting off the first SATA
+>> drive instead, it would be /dev/sda2. It's not the first drive, neither
+>> /dev/hda2 or /dev/sda2 would be correct.
+>>
+>> The solution to this has typically been to use the filesystem UUID to
+>> specify the root device but this requires extra support in the initrd.
+>> Linux 3.8 introduces the ability to specify the root device using the
+>> MBR disk signature and the partition number which is much simpler to
+>> use and avoids the extra overhead of an initrd.
+>>
+>> This change uses the MBR disk signature to specify the root device when
+>> using Linux 3.8+ and CONFIG_BLOCK (required for root=PARTUUID=)
+>> is enabled in the kernel.
+>>
+>> This has been tested with QEMU x86 and Intel Desktop Board D2500HN using
+>> an image recipe inheriting boot-directdisk and core-image.
+>>
+>> Signed-off-by: Jonathan Liu <net147@gmail.com>
+>> ---
+>>  meta/classes/boot-directdisk.bbclass | 30 +++++++++++++++++++++++++++++-
+>>  1 file changed, 29 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+>> index efeadab..f97060f 100644
+>> --- a/meta/classes/boot-directdisk.bbclass
+>> +++ b/meta/classes/boot-directdisk.bbclass
+>> @@ -35,7 +35,9 @@ BOOTDD_EXTRA_SPACE ?= "16384"
+>>  # Get the build_syslinux_cfg() function from the syslinux class
+>>
+>>  AUTO_SYSLINUXCFG = "1"
+>> -SYSLINUX_ROOT ?= "root=/dev/sda2"
+>> +SYSLINUX_FIXED_ROOT = "root=/dev/sda2"
+>> +SYSLINUX_UUID_ROOT = "root=PARTUUID=${DISK_SIGNATURE}-02"
+>
+> Why  '=' and not '?=' for the above? Shouldn't the user be able to
+> override these?
+>
+>> +SYSLINUX_ROOT ?= "${@'${SYSLINUX_UUID_ROOT}' if has_kernel_mbr_partuuid_support(d) else '${SYSLINUX_FIXED_ROOT}'}"
+>>  SYSLINUX_TIMEOUT ?= "10"
+>>
+>>  inherit syslinux
+>> @@ -98,6 +100,10 @@ build_boot_dd() {
+>>       parted $IMAGE set 1 boot on
+>>       parted $IMAGE print
+>>
+>> +     # Disk signature generated by parted isn't really random, so use our own generated signature
+>> +     echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
+>> +             dd of=$IMAGE bs=1 seek=440 conv=notrunc
+>
+> Oi! So, can "fold -w 2 | tac | paste -sd '' be replaced with "rev" from
+> the standard util-linux package?
 
-This DISK_SIGNATURE variable can also be used in the image recipe to
-specify the root by UUID using:
-SYSLINUX_ROOT = "root=PARTUUID=${DISK_SIGNATURE}-02"
+The rev command doesn't handle binary data correctly:
+$ echo -ne '\xb8\xe1\x0e\x5d' | rev
+rev: stdin: Invalid or incomplete multibyte or wide character
 
-Specifying the root by UUID allows the kernel to locate the root
-filesystem even if the device name changes (e.g. /dev/hda2, /dev/hdb2 or
-/dev/sdb2 instead of /dev/sda2) due to differences in hardware
-configuration.
+>
+> And the sed command... just insert "\x" every two characters? That
+> doesn't seem to add any more randomness.... maybe I'm missing the point
+> here?
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/boot-directdisk.bbclass | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+That's to convert hex string to binary data by adding \x before each
+pair of hex digits and passing to echo -ne.
 
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index 3169043..182957b 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -34,6 +34,7 @@ BOOTDD_EXTRA_SPACE ?= "16384"
- # Get the build_syslinux_cfg() function from the syslinux class
- 
- AUTO_SYSLINUXCFG = "1"
-+DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
- SYSLINUX_ROOT ?= "root=/dev/sda2"
- SYSLINUX_TIMEOUT ?= "10"
- 
-@@ -80,6 +81,9 @@ build_boot_dd() {
- 	parted $IMAGE set 1 boot on 
- 	parted $IMAGE print
- 
-+	echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
-+		dd of=$IMAGE bs=1 seek=440 conv=notrunc
-+
- 	OFFSET=`expr $END2 / 512`
- 	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
- 	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
-@@ -91,8 +95,24 @@ build_boot_dd() {
- } 
- 
- python do_bootdirectdisk() {
-+    validate_disk_signature(d)
-     bb.build.exec_func('build_syslinux_cfg', d)
-     bb.build.exec_func('build_boot_dd', d)
- }
- 
-+def generate_disk_signature():
-+    import uuid
-+
-+    return str(uuid.uuid4())[:8]
-+
-+def validate_disk_signature(d):
-+    import re
-+
-+    disk_signature = d.getVar("DISK_SIGNATURE", True)
-+
-+    if not re.match(r'^[0-9a-fA-F]{8}$', disk_signature):
-+        bb.fatal("DISK_SIGNATURE '%s' must be an 8 digit hex string" % disk_signature)
-+
-+DISK_SIGNATURE_GENERATED := "${@generate_disk_signature()}"
-+
- addtask bootdirectdisk before do_build
--- 
-1.8.3.2
+>
+>
+>> +
+>>       OFFSET=`expr $END2 / 512`
+>>       dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+>>       dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
+>> @@ -113,4 +119,26 @@ python do_bootdirectdisk() {
+>>      bb.build.exec_func('build_boot_dd', d)
+>>  }
+>>
+>> +def generate_disk_signature():
+>> +    import uuid
+>> +    return str(uuid.uuid4())[:8]
+>> +
+>> +def get_kernel_version(d):
+>> +    import subprocess
+>> +    version_cmd = r"grep '^VERSION\s*=' '%s/Makefile' | grep -o '[0-9]*$'" % (d.getVar("STAGING_KERNEL_DIR", True))
+>> +    version = int(subprocess.Popen(version_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0])
+>> +    patchlevel_cmd = r"grep '^PATCHLEVEL\s*=' '%s/Makefile' | grep -o '[0-9]*$'" % (d.getVar("STAGING_KERNEL_DIR", True))
+>> +    patchlevel = int(subprocess.Popen(patchlevel_cmd, shell=True, stdout=subprocess.PIPE).communicate()[0])
+>> +    return (version, patchlevel)
+>> +
+>> +def has_kernel_config_option(option, d):
+>> +    import subprocess
+>> +    grep_cmd = r"grep '^CONFIG_%s=y$' '%s/.config'" % (option, d.getVar("STAGING_KERNEL_DIR", True))
+>> +    return subprocess.call(grep_cmd, shell=True, stdout=subprocess.PIPE) == 0
+>
+> Is there a specific kernel option to test for the MBR disk signature
+> support or is that inherent in the block drivers now? It would be nice
+> if we could skip the kernel version check, that code looks dangerously
+> fragile (no fault of yours).
 
+I have submitted a new patch that is simpler and more flexible. It
+does not rely on kernel checks.
+This patch is no longer relevant now.
+
+>
+>> +
+>> +def has_kernel_mbr_partuuid_support(d):
+>> +    return get_kernel_version(d) >= (3, 8) and has_kernel_config_option("BLOCK", d)
+>> +
+>> +DISK_SIGNATURE := "${@generate_disk_signature()}"
+>> +
+>>  addtask bootdirectdisk before do_build
+>
+> --
+> Darren Hart
+> Intel Open Source Technology Center
+> Yocto Project - Technical Lead - Linux Kernel
+>
+
+Regards,
+Jonathan
 
