@@ -1,28 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E268C61FE1
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DAAB86A59E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2013 23:32:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jul 2013 16:32:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1031,1363158000"; d="scan'208";a="362835036"
-Received: from unknown (HELO [10.255.13.73]) ([10.255.13.73])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jul 2013 16:33:25 -0700
-Message-ID: <51DC9D87.1000604@linux.intel.com>
-Date: Tue, 09 Jul 2013 16:32:23 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Wed, 10 Jul 2013 01:26:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6A1QHs5010999
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Jul 2013 18:26:17 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 9 Jul 2013 18:26:15 -0700
+Message-ID: <51DCB835.4070507@windriver.com>
+Date: Wed, 10 Jul 2013 09:26:13 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <e01e4656b562f087f270dc1134e7501c8f6b169b.1373408128.git.dvhart@linux.intel.com>
-	<51DC920E.1040305@linux.intel.com>
-	<1373410775.3429.19.camel@envy.home>
-In-Reply-To: <1373410775.3429.19.camel@envy.home>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] alsa-state: Provide an empty asound.conf by default
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1373372649.git.hongxu.jia@windriver.com>
+	<4535187.OqzhIf4Y4R@helios> <51DC1027.9030801@windriver.com>
+	<1402577.4PhkADxV84@helios>
+In-Reply-To: <1402577.4PhkADxV84@helios>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/5] nss: add version 3.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,80 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2013 23:32:24 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Wed, 10 Jul 2013 01:26:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/09/2013 03:59 PM, Darren Hart wrote:
-> On Tue, 2013-07-09 at 15:43 -0700, Saul Wold wrote:
->> On 07/09/2013 03:15 PM, Darren Hart wrote:
->>> An empty asound.conf should work for most cases. The existing asound.conf
->>> uses plug dmix which causes arecord to fail without a special -D device
->>> specification on the command line (as no capture device is defined).
->>>
->>> Clear asound.conf for the default case. Any needed changes should be
->>> made in the BSP layers.
->>>
->> Does there need to be any corresponding change for the meta-yocto-bsps?
->
-> I don't believe so, but I have not built and tested every one. The old
-> one setup an alias "mixer0" to hardware card 0, which isn't necessary
-> for alsamixer to work and should be the default anyway.
->
-> I don't know what the motivation was to use dmix for the default pcm.
-> This was pulled in from open-embedded, which has a minimal commit
-> message:
->
-> commit bbc2776c0d955da7ec774ae934c541f33133f876
-> Author: Michael Lauer <mickey@vanille-media.de>
-> Date:   Thu Sep 13 01:10:23 2007 +0000
->
-Given it's 5 years old, it might be that alsa now "does the right thing" 
-and your change is valid.
+Got it, I will check the one in meta-browser again to make sure everything
+is handled, and resend the patch.
 
-Thanks
-	Sau!
+Thanks,
+Hongxu
 
->      alsa-state: ship standard asoundrc (simple dmix configuration)
->      that should be a reasonable default for most devices
->
-> According to the alsa wiki, the asound.conf should not be required for
-> basic functionality:
->
-> http://www.alsa-project.org/main/index.php/Asoundrc
->
-> --
-> Darren
->
+On 07/09/2013 09:38 PM, Paul Eggleton wrote:
+> On Tuesday 09 July 2013 21:29:11 Hongxu Jia wrote:
+>> 1, 3.15.1 is the newest version, and file structure has more change than
+>> previous version.
 >>
+>> 2, 3.13.3 just skip signing, and cheksum file doesn't be generated.
 >>
->> Sau!
+>> 3, 3.13.3 doesn't completely fix incorrect shebang of perl (PATCH 5/5)
 >>
+>> 4, 3.13.3's package doesn't contain ${D}${bindir}/  and ${D}${sysconfdir}
 >>
->>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->>> Cc: Koen Kooi <koen@dominion.thruhere.net>
->>> ---
->>>    meta/recipes-bsp/alsa-state/alsa-state/asound.conf | 13 +------------
->>>    1 file changed, 1 insertion(+), 12 deletions(-)
->>>
->>> diff --git a/meta/recipes-bsp/alsa-state/alsa-state/asound.conf b/meta/recipes-bsp/alsa-state/alsa-state/asound.conf
->>> index 6be0242..03653cf 100644
->>> --- a/meta/recipes-bsp/alsa-state/alsa-state/asound.conf
->>> +++ b/meta/recipes-bsp/alsa-state/alsa-state/asound.conf
->>> @@ -1,12 +1 @@
->>> -# default dmix configuration
->>> -
->>> -pcm.!default {
->>> -    type plug
->>> -    slave.pcm "dmix"
->>> -}
->>> -
->>> -ctl.mixer0 {
->>> -    type hw
->>> -    card 0
->>> -}
->>> -
->>> +# Global alsa-lib configuration
->>>
+>> I think 3.15.1 is better.
+> The reason I ask is that if merged this will effectively replace the one in
+> meta-browser, so as long as it handles everything that the meta-browser recipe
+> does it should be OK.
 >
+> Cheers,
+> Paul
+>
+
 
