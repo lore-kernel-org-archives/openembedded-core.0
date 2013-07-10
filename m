@@ -1,26 +1,25 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 767C36204F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 77629608CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 17:04:01 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Jul 2013 10:01:33 -0700
+	Wed, 10 Jul 2013 17:14:56 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 10 Jul 2013 10:14:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1037,1363158000"; d="scan'208";a="343463363"
-Received: from envy.jf.intel.com (HELO [10.7.199.52]) ([10.7.199.52])
-	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2013 10:04:01 -0700
-Message-ID: <1373475837.3028.28.camel@envy.home>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Jonathan Liu <net147@gmail.com>
-Date: Wed, 10 Jul 2013 10:03:57 -0700
-In-Reply-To: <1373426385-14516-1-git-send-email-net147@gmail.com>
-References: <1373426385-14516-1-git-send-email-net147@gmail.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.3 (3.8.3-2.fc19) 
-Mime-Version: 1.0
-Cc: Scott Rifenbark <scott.m.rifenbark@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] boot-directdisk: allow specifying custom MBR disk signature
+X-IronPort-AV: E=Sophos;i="4.87,1037,1363158000"; d="scan'208";a="363240145"
+Received: from unknown (HELO [10.255.13.73]) ([10.255.13.73])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Jul 2013 10:15:59 -0700
+Message-ID: <51DD9690.7080201@linux.intel.com>
+Date: Wed, 10 Jul 2013 10:14:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+References: <1373453593-13957-1-git-send-email-muhammad_shakeel@mentor.com>
+In-Reply-To: <1373453593-13957-1-git-send-email-muhammad_shakeel@mentor.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] rpcbind: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,103 +32,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 17:04:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 10 Jul 2013 17:14:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-07-10 at 13:19 +1000, Jonathan Liu wrote:
-
-Thanks for your patience with this Jonathan.
-
-> This introduces a DISK_SIGNATURE variable that allows controlling the
-> 32-bit MBR disk signature. By default it is set to an automatically
-> generated disk signature but it may by overridden in the image recipe
-> by setting DISK_SIGNATURE to a 8 digit hex string.
-> 
-> This DISK_SIGNATURE variable can also be used in the image recipe to
-> specify the root by UUID using:
-> SYSLINUX_ROOT = "root=PARTUUID=${DISK_SIGNATURE}-02"
-
-This DISK_SIGNATURE variable needs to be documented, Scott R on Cc for
-that.
-
-> 
-> Specifying the root by UUID allows the kernel to locate the root
-> filesystem even if the device name changes (e.g. /dev/hda2, /dev/hdb2 or
-> /dev/sdb2 instead of /dev/sda2) due to differences in hardware
-> configuration.
-> 
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-
-In the future, please Cc the people you are collaborating with and use
-a tool like git send-email to automatically parse that and Cc them on
-the patch submission. You can also use the create-pull-request and
-send-pull-request scripts which automate this process (these should
-probably be updated to allow for just sending the email without a pull
-repo though):
-
-Cc: Darren Hart <dvhart@linux.intel.com>
-
-Then they will respond with their review:
-
-Acked-by: Darren hart <dvhart@linux.intel.com>
-
-
+On 07/10/2013 03:53 AM, Shakeel, Muhammad wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>
+> - Adds systemd support in rpcbind
+> - Install 'sysv' related files only if distro has this feature
+> - Set PR to 'r0'
+>
+> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 > ---
->  meta/classes/boot-directdisk.bbclass | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
-> 
-> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-> index 3169043..182957b 100644
-> --- a/meta/classes/boot-directdisk.bbclass
-> +++ b/meta/classes/boot-directdisk.bbclass
-> @@ -34,6 +34,7 @@ BOOTDD_EXTRA_SPACE ?= "16384"
->  # Get the build_syslinux_cfg() function from the syslinux class
->  
->  AUTO_SYSLINUXCFG = "1"
-> +DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
->  SYSLINUX_ROOT ?= "root=/dev/sda2"
->  SYSLINUX_TIMEOUT ?= "10"
->  
-> @@ -80,6 +81,9 @@ build_boot_dd() {
->  	parted $IMAGE set 1 boot on 
->  	parted $IMAGE print
->  
-> +	echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
-> +		dd of=$IMAGE bs=1 seek=440 conv=notrunc
+>   .../rpcbind/rpcbind/rpcbind.service                |   13 ++++++++++
+>   meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |   26 ++++++++++++++------
+>   2 files changed, 32 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+> new file mode 100644
+> index 0000000..a028ace
+> --- /dev/null
+> +++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+> @@ -0,0 +1,13 @@
+> +[Unit]
+> +Description=RPC Bind
+> +After=network.target
+> +Wants=rpcbind.target
+> +Before=rpcbind.target
 > +
->  	OFFSET=`expr $END2 / 512`
->  	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
->  	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
-> @@ -91,8 +95,24 @@ build_boot_dd() {
->  } 
->  
->  python do_bootdirectdisk() {
-> +    validate_disk_signature(d)
->      bb.build.exec_func('build_syslinux_cfg', d)
->      bb.build.exec_func('build_boot_dd', d)
->  }
->  
-> +def generate_disk_signature():
-> +    import uuid
+> +[Service]
+> +Type=forking
+> +ExecStart=/usr/sbin/rpcbind
+> +Restart=always
 > +
-> +    return str(uuid.uuid4())[:8]
-> +
-> +def validate_disk_signature(d):
-> +    import re
-> +
-> +    disk_signature = d.getVar("DISK_SIGNATURE", True)
-> +
-> +    if not re.match(r'^[0-9a-fA-F]{8}$', disk_signature):
-> +        bb.fatal("DISK_SIGNATURE '%s' must be an 8 digit hex string" % disk_signature)
-> +
-> +DISK_SIGNATURE_GENERATED := "${@generate_disk_signature()}"
-> +
->  addtask bootdirectdisk before do_build
+> +[Install]
+> +WantedBy=multi-user.target
+> diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+> index f4a0367..ab25edf 100644
+> --- a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+> +++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+> @@ -15,6 +15,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+>              file://fix_host_path.patch \
+>              file://obsolete_automake_macros.patch \
+>              ${UCLIBCPATCHES} \
+> +           file://rpcbind.service \
+>             "
+>
+>   UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
+> @@ -25,9 +26,9 @@ UCLIBCPATCHES ?= ""
+>   SRC_URI[md5sum] = "1a77ddb1aaea8099ab19c351eeb26316"
+>   SRC_URI[sha256sum] = "c92f263e0353887f16379d7708ef1fb4c7eedcf20448bc1e4838f59497a00de3"
+>
+> -PR = "r4"
+> +PR = "r0"
+>
+Since your not changing the version, you need to keep the PR as is, 
+there is no need to do a PR bump though. Next time this recipe is 
+updated, the PR entry can be removed.
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Technical Lead - Linux Kernel
+Sau!
 
+> -inherit autotools update-rc.d
+> +inherit autotools update-rc.d systemd
+>
+>   PACKAGECONFIG ??= "tcp-wrappers"
+>   PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+> @@ -35,12 +36,23 @@ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+>   INITSCRIPT_NAME = "rpcbind"
+>   INITSCRIPT_PARAMS = "start 43 S . start 32 0 6 . stop 81 1 ."
+>
+> +SYSTEMD_SERVICE_${PN} = "rpcbind.service"
+> +SYSTEMD_AUTO_ENABLE = "disable"
+> +
+>   do_install_append () {
+>       mv ${D}${bindir} ${D}${sbindir}
+>
+> -    install -d ${D}${sysconfdir}/init.d
+> -    sed -e 's,/etc/,${sysconfdir}/,g' \
+> -        -e 's,/sbin/,${sbindir}/,g' \
+> -        ${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
+> -    chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
+> +    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+> +        install -d ${D}${sysconfdir}/init.d
+> +        sed -e 's,/etc/,${sysconfdir}/,g' \
+> +            -e 's,/sbin/,${sbindir}/,g' \
+> +            ${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
+> +        chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
+> +    fi
+> +
+> +    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> +        install -d ${D}${systemd_unitdir}/system
+> +        install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
+> +        sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/rpcbind.service
+> +    fi
+>   }
+>
 
