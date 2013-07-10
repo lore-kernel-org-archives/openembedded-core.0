@@ -1,39 +1,28 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id CA92661FE1
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 069EC6204F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 16:35:32 +0000 (UTC)
-Received: by mail-lb0-f169.google.com with SMTP id d10so5902806lbj.14
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 09:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=vtZh6kwhuGUM39h1CBoubF8dijFv7JgsZBHJJ/UZSjk=;
-	b=GlHYnObH+hF6ISnexAwqU23TB0MWHfU1bRQpPGqOu3hnldrpQE+DGIMZD7UCWIRQ2j
-	UVNf7zIWcbDqBodbX6vyzP+jm6L7Gi1cFOeHOiKUTyjNN5kW0fctiVXyDcYhXFbp4RL/
-	5FWGl4YEkKVsy7IjcX2EBijKDXzC9y4PbXCMYxXHiPhiVfmkizJUF01BfHg0s7C1IRfY
-	TdfZp8JtdTiL6sp0OfP3XURldmudv6E4HXjMUW+28VZepFo0EFhzND35B18Oae8g3BTq
-	U0iD/UYqndplt5FW7DTGpqGEmpxsEX4HzfWc6vqn+ojjFwqXHvVriHqCY6mAlIAcDUVG
-	OkqQ==
-MIME-Version: 1.0
-X-Received: by 10.152.27.40 with SMTP id q8mr15272573lag.75.1373474132320;
-	Wed, 10 Jul 2013 09:35:32 -0700 (PDT)
-Received: by 10.112.133.234 with HTTP; Wed, 10 Jul 2013 09:35:32 -0700 (PDT)
-In-Reply-To: <lywqoymqrk.fsf@ensc-virt.intern.sigma-chemnitz.de>
-References: <ly8v1etzn5.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<ly4nc2twyk.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CADkTA4OgktutnmLz87ps4paqanUZM1P4hYz-eu580-rWZBsZzg@mail.gmail.com>
-	<lywqoymqrk.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Wed, 10 Jul 2013 13:35:32 -0300
-Message-ID: <CADkTA4NYAWK0qVrr_yR-fydU-wndopJ9oSkiBku_HmK1nkX1+w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: Bruce Ashfield <bruce.ashfield-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: kernel miscompilation with gcc 4.8 for ARMv5
+	Wed, 10 Jul 2013 16:52:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jul 2013 09:52:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1037,1363158000"; d="scan'208";a="343455435"
+Received: from envy.jf.intel.com (HELO [10.7.199.52]) ([10.7.199.52])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2013 09:52:04 -0700
+Message-ID: <1373475121.3028.23.camel@envy.home>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 10 Jul 2013 09:52:01 -0700
+In-Reply-To: <51DC9D87.1000604@linux.intel.com>
+References: <e01e4656b562f087f270dc1134e7501c8f6b169b.1373408128.git.dvhart@linux.intel.com>
+	<51DC920E.1040305@linux.intel.com> <1373410775.3429.19.camel@envy.home>
+	<51DC9D87.1000604@linux.intel.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.3 (3.8.3-2.fc19) 
+Mime-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] alsa-state: Provide an empty asound.conf by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,69 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2013 16:35:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 10 Jul 2013 16:52:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 10, 2013 at 11:30 AM, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> Bruce Ashfield <bruce.ashfield-Re5JQEeQqe8AvxtiuMwx3w@public.gmane.org>
-> writes:
->
->>> Applying two upstream kernel commits
->>> 455bd4c430b0c0a361f38e8658a0d6cb469942b5 (ARM: 7668/1: fix
->>> memset-related crashes caused by recent GCC (4.7.2) optimizations) and
->>> 418df63adac56841ef6b0f1fcf435bc64d4ed177 (ARM: 7670/1: fix the memset
->>> fix) seem to fix the problem for me.
->>
->> Correct. Those are the same commits you'll see on linux-yocto-3.8,
->> we've been soaking them for a while. I was waiting for LTSI and -stable
->> to pick up the changes before updating linux-yocto-3.4, but that hasn't
->> happened yet.
->>
->> If you are using linux-yocto-3.4 and can confirm that it boots for you
->> with those patches,
->
-> Sorry, I am using a more or less vanilla 3.4 kernel.  Patches fix
-> the problem there (device boots) and (after knowing about them) the
-> problematic code is easy to spot:
+On Tue, 2013-07-09 at 16:32 -0700, Saul Wold wrote:
+> On 07/09/2013 03:59 PM, Darren Hart wrote:
+> > On Tue, 2013-07-09 at 15:43 -0700, Saul Wold wrote:
+> >> On 07/09/2013 03:15 PM, Darren Hart wrote:
+> >>> An empty asound.conf should work for most cases. The existing asound.conf
+> >>> uses plug dmix which causes arecord to fail without a special -D device
+> >>> specification on the command line (as no capture device is defined).
+> >>>
+> >>> Clear asound.conf for the default case. Any needed changes should be
+> >>> made in the BSP layers.
+> >>>
+> >> Does there need to be any corresponding change for the meta-yocto-bsps?
+> >
+> > I don't believe so, but I have not built and tested every one. The old
+> > one setup an alias "mixer0" to hardware card 0, which isn't necessary
+> > for alsamixer to work and should be the default anyway.
+> >
+> > I don't know what the motivation was to use dmix for the default pcm.
+> > This was pulled in from open-embedded, which has a minimal commit
+> > message:
+> >
+> > commit bbc2776c0d955da7ec774ae934c541f33133f876
+> > Author: Michael Lauer <mickey@vanille-media.de>
+> > Date:   Thu Sep 13 01:10:23 2007 +0000
+> >
+> Given it's 5 years old, it might be that alsa now "does the right thing" 
+> and your change is valid.
 
-No worries. I can spot the fix, since we already did this for the 3.8 kernel. I
-was just no where near my targets at the moment .. and if I had an independent
-report that things boot, I'd go ahead and push my 3.8 fixes (ported to
-3.4) .. which
-I may do anyway, since I can drop them when they cycle through -stable and
-LTSI.
+Apparently Angstrom has been doing this for a while now. Koen, do you
+agree this is the right thing for oe-core?
 
-Cheers,
-
-Bruce
-
->
-> $ arm-linux-gnueabi-objdump  -d mm/slub.o
->
-> 000014c4 <init_object>:
->     ...
->     14fc:       e1a00001        mov     r0, r1
->     1500:       e3a0106b        mov     r1, #107        ; 0x6b
->     1504:       ebfffffe        bl      0 <memset>
->     1508:       e1a03000        mov     r3, r0          <<<<<<<
->     150c:       e5942010        ldr     r2, [r4, #16]
->     1510:       e3e0105a        mvn     r1, #90 ; 0x5a
->     1514:       e0832002        add     r2, r3, r2
->     1518:       e5421001        strb    r1, [r2, #-1]
->
-> With unpatched memset, 'r0' points to end of buffer.
->
->
-> Enrico
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+I missed the PR bump... I can't remember, do we do that anymore?
 
 --
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Darren
+
+> 
+> Thanks
+> 	Sau!
+> 
+> >      alsa-state: ship standard asoundrc (simple dmix configuration)
+> >      that should be a reasonable default for most devices
+> >
+> > According to the alsa wiki, the asound.conf should not be required for
+> > basic functionality:
+> >
+> > http://www.alsa-project.org/main/index.php/Asoundrc
+> >
+> > --
+> > Darren
+> >
+> >>
+> >>
+> >> Sau!
+> >>
+> >>
+> >>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> >>> Cc: Koen Kooi <koen@dominion.thruhere.net>
+> >>> ---
+> >>>    meta/recipes-bsp/alsa-state/alsa-state/asound.conf | 13 +------------
+> >>>    1 file changed, 1 insertion(+), 12 deletions(-)
+> >>>
+> >>> diff --git a/meta/recipes-bsp/alsa-state/alsa-state/asound.conf b/meta/recipes-bsp/alsa-state/alsa-state/asound.conf
+> >>> index 6be0242..03653cf 100644
+> >>> --- a/meta/recipes-bsp/alsa-state/alsa-state/asound.conf
+> >>> +++ b/meta/recipes-bsp/alsa-state/alsa-state/asound.conf
+> >>> @@ -1,12 +1 @@
+> >>> -# default dmix configuration
+> >>> -
+> >>> -pcm.!default {
+> >>> -    type plug
+> >>> -    slave.pcm "dmix"
+> >>> -}
+> >>> -
+> >>> -ctl.mixer0 {
+> >>> -    type hw
+> >>> -    card 0
+> >>> -}
+> >>> -
+> >>> +# Global alsa-lib configuration
+> >>>
+> >
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Technical Lead - Linux Kernel
+
 
