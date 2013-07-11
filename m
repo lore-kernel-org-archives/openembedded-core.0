@@ -1,35 +1,36 @@
-Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E44F6AECA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
+	[209.85.212.52])
+	by mail.openembedded.org (Postfix) with ESMTP id AA80B6AECA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:32:57 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jul 2013 03:30:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="343875253"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2013 03:32:57 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.52]) by
-	IRSMSX104.ger.corp.intel.com ([169.254.5.127]) with mapi id
-	14.03.0123.003; Thu, 11 Jul 2013 11:31:19 +0100
-From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 4/4] zip: rename recipe
-Thread-Index: AQHOfIEz3qmzfSPXQ0K23x5nPNGEuJlfNx2AgAATHcc=
-Date: Thu, 11 Jul 2013 10:31:18 +0000
-Message-ID: <985E5BBDA0968D48ABDF343456A521B3022C9956@IRSMSX105.ger.corp.intel.com>
-References: <cover.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
-	<c100a9e3184984c52b4c8743039537711123b5fb.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>,
-	<CAJTo0La0gTguJVoZNY57B4XfDKHY8y4BjBrozA3ChNwkCHmeiA@mail.gmail.com>
-In-Reply-To: <CAJTo0La0gTguJVoZNY57B4XfDKHY8y4BjBrozA3ChNwkCHmeiA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.137]
+	Thu, 11 Jul 2013 10:35:33 +0000 (UTC)
+Received: by mail-vb0-f52.google.com with SMTP id f12so396955vbg.39
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 03:35:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=6HUHH/Irqpk75fpkP7wSegNsON9jTW91F9pDPDjJFuM=;
+	b=B3OBmQLALRQ8J6qoDoM4KyVkrkxAlVPo8iq+MvMRVZPosQr41xZVpOzuu59+pCpFhg
+	fE967ai677G/nqZGFfDHmKIh6/q1WlWaJq3xJl5FAEUo7yNqSpbDrpaWtjDuZjrbwKLC
+	kFN38OQM7JBRrd5yFCfd9HbyCzpRaYaXn+CtJw7W1JLxghPcWbO9nyj0jY68tjQ8UeT+
+	UeqElIHFPOa69b2tFeTLx6h6g9VcDTd7gvVf+sKoiHKOmAHH2LdyWaPL50ugBv02kXy/
+	wvQmstClmPhcwUAoig4HZNmbamYVd4obqWJGzGbtA/KR7vylM1JnKykSIu3XjXPpUdze
+	Jcfw==
+X-Received: by 10.52.164.227 with SMTP id yt3mr17941870vdb.107.1373538934306; 
+	Thu, 11 Jul 2013 03:35:34 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] zip: rename recipe
+Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 03:35:14 -0700 (PDT)
+In-Reply-To: <1373401795-11886-1-git-send-email-sgw@linux.intel.com>
+References: <1373401795-11886-1-git-send-email-sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Jul 2013 11:35:14 +0100
+Message-ID: <CAJTo0LavtWda_fxY-VnKKMi+r+q9StdsO41mwWh9dZe=LQ9+_A@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQnPxQl8HrcBDrqSeR4aQVJ5ZKaK09fs11cmQM29m5DpjXeRySrJiibPQ+5kDMXeBOt6ZjRz
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pciutils: Add kmod dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,37 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:32:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Jul 2013 10:35:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Ross,=0A=
-=0A=
-I'm looking at an alternative solution.=0A=
-=0A=
-Thanks,=0A=
-Ema=0A=
-________________________________________=0A=
-From: Burton, Ross [ross.burton@intel.com]=0A=
-Sent: Thursday, July 11, 2013 1:21 PM=0A=
-To: Ciobanu, Emilia Maria Silvia=0A=
-Cc: openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH 4/4] zip: rename recipe=0A=
-=0A=
-On 9 July 2013 09:57, Emilia Ciobanu=0A=
-<emilia.maria.silvia.ciobanu@intel.com> wrote:=0A=
-> Current local version is 30.=0A=
-=0A=
-Explaining why this has to happen would be useful.  I presume the=0A=
-situation is that the package report system is reporting updates=0A=
-because upstream is at version "30" but we're at "3.0", when the=0A=
-reality is that upstream is sticking to 8+3 filenames so drops the=0A=
-dots in the version number.=0A=
-=0A=
-I'm not sure making our packages have the wrong version just because=0A=
-upstream tarballs versions are mangled is wise.  Can we extend the PRS=0A=
-so that it can transform the PV before comparing it to upstream?=0A=
-=0A=
-Ross=0A=
+On 9 July 2013 21:29, Saul Wold <sgw@linux.intel.com> wrote:
+>  DEPENDS = "zlib"
+> -RDEPENDS_${PN} = "${PN}-ids"
+> +RDEPENDS_${PN} = "${PN}-ids kmod"
+
+Did you mean to add this to DEPENDS?
+
+Ross
 
