@@ -1,38 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EC0C6A465
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1916161883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 11:14:58 +0000 (UTC)
-Received: by mail-vc0-f171.google.com with SMTP id gd11so6550825vcb.30
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 04:14:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=SYhm0TJuq2NNq+8b03hjGveCUuHyZ/VqZezK3lWM4Ck=;
-	b=MAkBDXPCq0GyBY/FZ0UJ28+O9hvsgmUY5jFqlGhJpV1ifrMsoF7/ZMWt+e5L6a/zFu
-	S3GvtS1DDz9ILxG136/vYpQ+Gj17v7zpY5s6GCc6sJQlKxwN39DV4EqM6UXcEP6pXE0m
-	EkbCzD3S6vOJwCGEJsKAJ7GtDczqGuo4fFHRxgoR81wkt4UR+yqUU7YkQXxfPfFWYSyX
-	eVBXeV+sowt5y5NPmxZx629YkJTIBFZndDKcm6W/HfwyD3bHxMV3fjADVfnu7GDnpxq0
-	kXPq1qAFYONos0MU8OVJFTcEbpQlaMDdNb9felYWi4CEFP7Ax0VjeFBIUx+lwYGMLxq1
-	re5Q==
-X-Received: by 10.52.163.46 with SMTP id yf14mr17680943vdb.58.1373541298484;
-	Thu, 11 Jul 2013 04:14:58 -0700 (PDT)
+	Thu, 11 Jul 2013 11:27:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6BBRd2m018429
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Jul 2013 04:27:39 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 11 Jul 2013 04:27:38 -0700
+Message-ID: <51DE96A8.7020106@windriver.com>
+Date: Thu, 11 Jul 2013 19:27:36 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 04:14:38 -0700 (PDT)
-In-Reply-To: <1373539530.2389.320.camel@phil-desktop.brightsign>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1373443071.git.hongxu.jia@windriver.com>
 	<a546f2c5f8ecec522cb8087015359f433fb5c998.1373443071.git.hongxu.jia@windriver.com>
 	<CAJTo0LZTHz5hE8jx+6qNtePXj-LcMpsXEJ3zbwN4jS9npDHpLg@mail.gmail.com>
 	<CAJTo0LbGRLcbb_9J1AdDM1ZFX18SYQi_h6VPwxN3SESDdnN0gA@mail.gmail.com>
 	<1373539530.2389.320.camel@phil-desktop.brightsign>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2013 12:14:38 +0100
-Message-ID: <CAJTo0La1Npg5YwJ8ihzfbZvepOvg2HdjkbK_ir6WOvBVHBBkcQ@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-X-Gm-Message-State: ALoCoQm9sAax4+9rpLbzsqrodrAZ+M51CHDGdCwLT4xpczDMwCMFLlbGaP4cbBVr/DQ0fAucQkRS
+	<CAJTo0La1Npg5YwJ8ihzfbZvepOvg2HdjkbK_ir6WOvBVHBBkcQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La1Npg5YwJ8ihzfbZvepOvg2HdjkbK_ir6WOvBVHBBkcQ@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 3/5] nss: add version 3.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,15 +39,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 11:14:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Jul 2013 11:27:39 -0000
+Content-Type: multipart/alternative;
+	boundary="------------020706090600080704090809"
 
-On 11 July 2013 11:45, Phil Blundell <pb@pbcl.net> wrote:
-> I think you could still legitimately question whether having recipes in
-> oe-core that are "just for LSB" is sensible and/or desirable, not least
-> because dangling libraries that don't have any users are hard to test.
+--------------020706090600080704090809
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I was just pondering the idea of a "meta-lsb"...
+On 07/11/2013 07:14 PM, Burton, Ross wrote:
+> On 11 July 2013 11:45, Phil Blundell <pb@pbcl.net> wrote:
+>> I think you could still legitimately question whether having recipes in
+>> oe-core that are "just for LSB" is sensible and/or desirable, not least
+>> because dangling libraries that don't have any users are hard to test.
+> I was just pondering the idea of a "meta-lsb"...
+The reason why I choose to put nss into oe-core is I found  nspr in oe-core.
+They both used for lsb-test and come from mozilla.
+
+Anyone has a better idea about where to put?
+
+https://developer.mozilla.org/en-US/docs/NSS
+https://developer.mozilla.org/en-US/docs/NSPR
+
+//Hongxu
+>
+> Ross
+
+
+--------------020706090600080704090809
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 07/11/2013 07:14 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0La1Npg5YwJ8ihzfbZvepOvg2HdjkbK_ir6WOvBVHBBkcQ@mail.gmail.com"
+      type="cite">
+      <pre wrap="">On 11 July 2013 11:45, Phil Blundell <a class="moz-txt-link-rfc2396E" href="mailto:pb@pbcl.net">&lt;pb@pbcl.net&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">I think you could still legitimately question whether having recipes in
+oe-core that are "just for LSB" is sensible and/or desirable, not least
+because dangling libraries that don't have any users are hard to test.
+</pre>
+      </blockquote>
+      <pre wrap="">
+I was just pondering the idea of a "meta-lsb"...</pre>
+    </blockquote>
+    The reason why I choose to put nss into oe-core is I found  nspr in
+    oe-core.<br>
+    They both used for lsb-test and come from mozilla.<br>
+    <br>
+    Anyone has a better idea about where to put?<br>
+    <br>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <a href="https://developer.mozilla.org/en-US/docs/NSS">https://developer.mozilla.org/en-US/docs/NSS</a><br>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <a href="https://developer.mozilla.org/en-US/docs/NSPR">https://developer.mozilla.org/en-US/docs/NSPR</a><br>
+    <br>
+    //Hongxu<br>
+    <blockquote
+cite="mid:CAJTo0La1Npg5YwJ8ihzfbZvepOvg2HdjkbK_ir6WOvBVHBBkcQ@mail.gmail.com"
+      type="cite">
+      <pre wrap="">
 
 Ross
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------020706090600080704090809--
