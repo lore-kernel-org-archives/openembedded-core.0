@@ -1,39 +1,25 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D073D600FA
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B659762009
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 01:59:10 +0000 (UTC)
-Received: by mail-pb0-f44.google.com with SMTP id uo1so7303069pbc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2013 18:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:user-agent:in-reply-to:references
-	:mime-version:content-transfer-encoding:content-type;
-	bh=IdZTgZ4CC+hQZUtvHr3N/Nh5+53dmUtBm0vZhQpDV5g=;
-	b=mHN5CLgenK5U/fSgS8zFzglU9j/Pwsl/NdbdA1W/c16Ts4TqLF7TelHi6/O8fUy8w0
-	4qDtNHx36itFfsbBBbUShOfH1jllGbUetxF7qMKht0xm1XNQ5JnG7BA8LIy01Oh6pkpM
-	NkmWu3fR60nB11z/LujhEVYomRy8uY/S7vaKmHUH1+eajmJP/wAPI1h2VewXaunI20RO
-	EOLsaHrSYe/UwJ1I9zwDwYPgB58J6OYFYUdKAn8wxg6Ev/Tyv4LEs/TGpBLpNfGywRNO
-	HDa9Pkqe9NezqCUSrZHidbyyqs4A1D1UC4HAH2H5z9TdIRozDgHlFzvQUMd7jNIfddei
-	83Rw==
-X-Received: by 10.66.229.106 with SMTP id sp10mr19039556pac.117.1373507951704; 
-	Wed, 10 Jul 2013 18:59:11 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([180.109.90.85])
-	by mx.google.com with ESMTPSA id
-	zv11sm39056568pab.3.2013.07.10.18.59.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 10 Jul 2013 18:59:10 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jul 2013 09:54:28 +0800
-Message-ID: <4753381.i1zt9jKOiD@yiqingliang-pc>
-User-Agent: KMail/4.10.4 (Linux/3.9.8-1-ARCH; KDE/4.10.4; x86_64; ; )
-In-Reply-To: <2457726.ZAE80f4V8O@yiqingliang-pc>
-References: <2457726.ZAE80f4V8O@yiqingliang-pc>
+	Thu, 11 Jul 2013 02:49:13 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6B2nDc0003091
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Jul 2013 19:49:14 -0700 (PDT)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Wed, 10 Jul 2013 19:49:13 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <sgw@linux.intel.com>
+Date: Thu, 11 Jul 2013 10:48:57 +0800
+Message-ID: <cover.1373510675.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: Re: boost 1.54 compile fail
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] exclude pkgs for mips64 from packagegroup-core-tools-profile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,53 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 01:59:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 11 Jul 2013 02:49:13 -0000
+Content-Type: text/plain
 
-maybe it is the gcc's fault (recently it is updated to 4.8.x in poky)
+Exclude systemtap and valgrind for mips64 from packagegroup-core-tools-profile.
 
-I can found uintptr_t in cstdint, but it is wrapped by a c99 related macro.
+The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
 
+  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
 
-On Wednesday, July 10, 2013 04:21:02 PM Yi Qingliang wrote:
-> Hello!
-> 
-> after update poky to latest git version, I got failure when compiling boost:
-> 
-> the main error is: (indeed, and too many warning!)
-> 
-> | ./boost/atomic/atomic.hpp:202:16: error: 'uintptr_t' was not declared in
-> 
-> this scope
-> 
-> |  typedef atomic<uintptr_t> atomic_uintptr_t;
-> |  
-> |                 ^
-> | 
-> | ./boost/atomic/atomic.hpp:202:25: error: template argument 1 is invalid
-> | 
-> |  typedef atomic<uintptr_t> atomic_uintptr_t;
-> |  
-> |                          ^
-> | 
-> | ./boost/atomic/atomic.hpp:202:43: error: invalid type in declaration
-> | before
-> 
-> ';' token
-> 
-> |  typedef atomic<uintptr_t> atomic_uintptr_t;
-> |  
-> |                                            ^
-> | 
-> | In file included from ./boost/system/system_error.hpp:14:0,
-> | 
-> |                  from ./boost/thread/exceptions.hpp:22,
-> |                  from ./boost/thread/pthread/thread_data.hpp:10,
-> |                  from ./boost/thread/thread_only.hpp:17,
-> |                  from libs/thread/src/pthread/thread.cpp:11:
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/packagegroup-core-tools-profile
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/packagegroup-core-tools-profile
+
+Kai Kang (1):
+  packagegroup-core-tools-profile: exclude systemtap and valgrind for
+    mips64
+
+ meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
 -- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+1.8.1.2
+
 
