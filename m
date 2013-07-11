@@ -1,27 +1,39 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 46C6C60687
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 8931160289
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 13:10:58 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2013 06:10:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="368445449"
-Received: from unknown (HELO helios.localnet) ([10.252.122.35])
-	by orsmga002.jf.intel.com with ESMTP; 11 Jul 2013 06:07:25 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Qi.Chen@windriver.com
-Date: Thu, 11 Jul 2013 14:07:24 +0100
-Message-ID: <3506531.RcxvtcqNz1@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <6939690.qrXmoo12No@helios>
-References: <cover.1373540849.git.Qi.Chen@windriver.com>
-	<f54b840a6d0b07950b01024e511292f8e4483fad.1373540849.git.Qi.Chen@windriver.com>
-	<6939690.qrXmoo12No@helios>
+	Thu, 11 Jul 2013 13:28:24 +0000 (UTC)
+Received: by mail-la0-f48.google.com with SMTP id lx15so6643790lab.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 06:28:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=WgPCvd9+xj12ZLcoLg7+HJND4GxKN/jHCRtZAdC2GvY=;
+	b=xe+jFW/8FnyP+vPNmJB0B5kZE5xupY9YPRq5ZHoyrs7zswur59Ft+/SAIs87LbzWg6
+	Zq+PO1yEQLJIup8y7ZPtoDvUZFWVhHc7cK2masnEPHu4DTAOQXM8O+gT7bY72jkChcAX
+	PwfD1GDfp7f2yatxynYuY0hFycZfZ+q/TzzWVpW7X//mHiL3MzHb8onJI4kZJgRAf+k8
+	oJrXhPjSQR9PzUAf4sXjzso7RudFsUnWr3Pj3JBLVjrkxaCYAA9Qbw8EnAcEWnSW7pv6
+	MgG/CpCaDlh+9wPL1ORmrXpT4I0MjbEh6eJ7j75LxA+qJlq2125u1Ti1G9eT9m3qjhKj
+	7ANw==
+X-Received: by 10.112.140.231 with SMTP id rj7mr17622190lbb.16.1373549304574; 
+	Thu, 11 Jul 2013 06:28:24 -0700 (PDT)
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 3/3] usersettings.bbclass: add a new bbclass
+Sender: kergoth@gmail.com
+Received: by 10.112.3.5 with HTTP; Thu, 11 Jul 2013 06:28:04 -0700 (PDT)
+In-Reply-To: <20130711123810.GJ3288@jama>
+References: <20130706213931.GD3288@jama>
+	<1373459893-23611-1-git-send-email-Martin.Jansa@gmail.com>
+	<20130711123810.GJ3288@jama>
+From: Chris Larson <clarson@kergoth.com>
+Date: Thu, 11 Jul 2013 06:28:04 -0700
+X-Google-Sender-Auth: CEUjPzgwZyWNKYduNG_xknGb5gw
+Message-ID: <CABcZANmtvgEeJNoXe_E1CrmoCVn2CZ_kto6CE5UAXix05=Vchg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] test-dependencies: add simple script to detect missing or autoenabled dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +46,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 13:10:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 11 Jul 2013 13:28:25 -0000
+Content-Type: multipart/alternative; boundary=001a11c26a30617c2504e13c5e7d
 
-On Thursday 11 July 2013 13:58:17 Paul Eggleton wrote:
-> On Thursday 11 July 2013 19:11:39 Qi.Chen@windriver.com wrote:
-> > +IMAGE_INSTALL_append += "${@['', 'base-passwd
-> > shadow'][bool(d.getVar('USER_GROUP_SETTINGS', True))]}"
+--001a11c26a30617c2504e13c5e7d
+Content-Type: text/plain; charset=UTF-8
+
+On Thu, Jul 11, 2013 at 5:38 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
+
+> On Wed, Jul 10, 2013 at 02:38:13PM +0200, Martin Jansa wrote:
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  scripts/test-dependencies.sh | 253
+> +++++++++++++++++++++++++++++++++++++++++++
+> >  1 file changed, 253 insertions(+)
+> >  create mode 100755 scripts/test-dependencies.sh
+> >
+> > +    echo "!!!Removing tmpdir \"$tmpdir\"!!!"
+> > +    rm -rf $tmpdir/cache $tmpdir/deploy $tmpdir/pkgdata
+> $tmpdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work
+> $tmpdir/work-shared 2>/dev/null
 >
-> This is a bit ugly. We should avoid using _append += since it is confusing,
-> and we have base_conditional for things like this. I'd suggest:
-> 
-> IMAGE_INSTALL_append = "${@base_conditional('USER_GROUP_SETTINGS', '1', '
-> base-passwd shadow', '', d)}"
+> I'll send v3 which doesn't remove $tmpdir/cache between the builds, it
+> takes too long already without reparsing all recipes every time.
+>
+> Originally I was removing it as work around for
+> http://lists.openembedded.org/pipermail/bitbake-devel/2013-July/003624.html
+> but that's not needed for master and people probably won't be changing
+> PNBLACKLIST while this script is running.
+>
 
-Actually reading this again I've misinterpreted what it's supposed to be 
-doing. Unfortunately I don't think we have a neat base_ifset() or similar so 
-perhaps this will need to be left as-is. I still think we should avoid _append 
-+= however.
+This is quite an interesting script. It looks quite similar to my
+greedy-deps-tests[1] script, though you've taken it a step further in
+adding builds #3 and #4.
 
-Cheers,
-Paul
-
+1. https://github.com/kergoth/oe-test-scripts#oe-test-scripts
 -- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--001a11c26a30617c2504e13c5e7d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Jul 11, 2013 at 5:38 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div class=3D"im">On Wed, Jul 10, 2013 at 02:38:13PM +0200=
+, Martin Jansa wrote:<br>
+
+
+</div><div class=3D"im">&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mai=
+lto:Martin.Jansa@gmail.com">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0scripts/test-dependencies.sh | 253 +++++++++++++++++++++++++++++=
+++++++++++++++<br>
+&gt; =C2=A01 file changed, 253 insertions(+)<br>
+&gt; =C2=A0create mode 100755 scripts/test-dependencies.sh<br>
+&gt;<br>
+</div><div class=3D"im">&gt; + =C2=A0 =C2=A0echo &quot;!!!Removing tmpdir \=
+&quot;$tmpdir\&quot;!!!&quot;<br>
+&gt; + =C2=A0 =C2=A0rm -rf $tmpdir/cache $tmpdir/deploy $tmpdir/pkgdata $tm=
+pdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work $tmpdir/wo=
+rk-shared 2&gt;/dev/null<br>
+<br>
+</div>I&#39;ll send v3 which doesn&#39;t remove $tmpdir/cache between the b=
+uilds, it<br>
+takes too long already without reparsing all recipes every time.<br>
+<br>
+Originally I was removing it as work around for<br>
+<a href=3D"http://lists.openembedded.org/pipermail/bitbake-devel/2013-July/=
+003624.html" target=3D"_blank">http://lists.openembedded.org/pipermail/bitb=
+ake-devel/2013-July/003624.html</a><br>
+but that&#39;s not needed for master and people probably won&#39;t be chang=
+ing<br>
+PNBLACKLIST while this script is running.<br>
+<div class=3D""></div></blockquote></div><br>This is quite an interesting s=
+cript. It looks quite similar to my greedy-deps-tests[1] script, though you=
+&#39;ve taken it a step further in adding builds #3 and #4.<br><br clear=3D=
+"all">
+
+<div>1.=C2=A0<a href=3D"https://github.com/kergoth/oe-test-scripts#oe-test-=
+scripts">https://github.com/kergoth/oe-test-scripts#oe-test-scripts</a></di=
+v>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitB=
+ake, OpenEmbedded, OpenZaurus<br>
+
+Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
+</div></div>
+
+--001a11c26a30617c2504e13c5e7d--
