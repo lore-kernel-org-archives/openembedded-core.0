@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 853CA60592
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 544E6608C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:54:54 +0000 (UTC)
-Received: by mail-vc0-f180.google.com with SMTP id gf11so6508573vcb.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 03:54:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=pgBOoanpTKzu1QxQLDMcWont7BSfzxFQHi2DOsJjr6g=;
-	b=F2vAoj1NxwyuCjYhDOOIRJp1Kw+JECGB+ROSydfA9T94dLGom3IbWGrrw5bs46DZ6p
-	GbYlEseeVvhqLQPjDlxgbTY5OMDmrF9Ybl5t02zGh59az3wHeLiek4AKlK6z/GO2BhLc
-	5Sp2w2PedIqVjopoCkKTw05F03rLIa40MFWQaPTpD0MidwBiKoes8yVBfEmvZ6vqFOfx
-	+US1hbnF3ZkidU2A43OgfxSi+M1g41hINo0S4UXQ3qbnzzSd6O76lUj1oC7cgh804gXW
-	m/y9XkA62v/bL/Uc1iBtcn8lJC/3FMBXV/FeKyWRiqn9TvDHDIWDJ9bzCYq3TrtDkVMJ
-	mqJQ==
-X-Received: by 10.220.192.4 with SMTP id do4mr21386649vcb.91.1373540095093;
-	Thu, 11 Jul 2013 03:54:55 -0700 (PDT)
+	Thu, 11 Jul 2013 10:59:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id A46C13144293;
+	Thu, 11 Jul 2013 12:59:47 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id JJyd6rMq-ehy; Thu, 11 Jul 2013 12:59:38 +0200 (CEST)
+Received: from [172.22.22.61] (unknown [212.255.18.206])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id AFBD4314428A;
+	Thu, 11 Jul 2013 12:59:38 +0200 (CEST)
+Message-ID: <51DE901A.6090900@opendreambox.org>
+Date: Thu, 11 Jul 2013 12:59:38 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 03:54:35 -0700 (PDT)
-In-Reply-To: <51DCCD6D.5050807@cn.fujitsu.com>
-References: <51DBC97F.1090606@cn.fujitsu.com> <51DCCD6D.5050807@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2013 11:54:35 +0100
-Message-ID: <CAJTo0LYQ4MJ3CUDZaVfDexcaO=MATWj0syDTpY5Veb3m1TNiMQ@mail.gmail.com>
-To: Bian Naimeng <biannm@cn.fujitsu.com>
-X-Gm-Message-State: ALoCoQm/sVABHAbXPNTa+lz4PwGQyPQDhHXszIZJCHi/rjsCcfHt6hqQJ03c2lz+D52Aii3uiKiG
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1373504197-9550-1-git-send-email-obi@opendreambox.org>
+	<1373504197-9550-2-git-send-email-obi@opendreambox.org>
+	<CAJTo0LZoTFBJ2LmbhxhNxPBd=FjhG6-BVYRw3L4mqNbemfz3og@mail.gmail.com>
+In-Reply-To: <CAJTo0LZoTFBJ2LmbhxhNxPBd=FjhG6-BVYRw3L4mqNbemfz3og@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1]package_rpm.bbclass: remove xx.spec before doing rpmbuild xx.src.rpm
+Subject: Re: [PATCH 2/3] cogl-1.0: make building cogl-pango optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,13 +42,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:54:54 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 10:59:47 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 10 July 2013 03:56, Bian Naimeng <biannm@cn.fujitsu.com> wrote:
-> Sorry, it looks like i should post this patch to poky. please ignore this
+On 11.07.2013 10:56, Burton, Ross wrote:
+> On 11 July 2013 01:56, Andreas Oberritter <obi@opendreambox.org> wrote:
+>> Add a 'cogl-pango' PACKAGECONFIG option and enable it by default.
+> 
+> Really picky, but can we call this just "pango"?
 
-You were right the first time, meta/ is oe-core. :)
+I prefer cogl-pango, because I think it's more useful to derive the name
+from the configure option rather than from the dependency. This way it
+won't conflict with a future option --enable-pango or
+--enable-something-else-which-depends-on-pango. If you look at
+--enable-gles2 vs. --enable-cogl-gles2, this just seems to be the right
+thing to do.
 
-Ross
+Regards,
+Andreas
+
 
