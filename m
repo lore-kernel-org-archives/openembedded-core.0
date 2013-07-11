@@ -1,26 +1,35 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B02B60289
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C06F60592
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:45:34 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UxENP-0002pj-JV; Thu, 11 Jul 2013 12:45:31 +0200
-Message-ID: <1373539530.2389.320.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
+	Thu, 11 Jul 2013 10:53:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 3DCBF3144291;
+	Thu, 11 Jul 2013 12:53:54 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id uc3edKyF5ybZ; Thu, 11 Jul 2013 12:53:45 +0200 (CEST)
+Received: from [172.22.22.61] (unknown [212.255.18.206])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 26E9D3144290;
+	Thu, 11 Jul 2013 12:53:45 +0200 (CEST)
+Message-ID: <51DE8EB8.60908@opendreambox.org>
+Date: Thu, 11 Jul 2013 12:53:44 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
 To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2013 11:45:30 +0100
-In-Reply-To: <CAJTo0LbGRLcbb_9J1AdDM1ZFX18SYQi_h6VPwxN3SESDdnN0gA@mail.gmail.com>
-References: <cover.1373443071.git.hongxu.jia@windriver.com>
-	<a546f2c5f8ecec522cb8087015359f433fb5c998.1373443071.git.hongxu.jia@windriver.com>
-	<CAJTo0LZTHz5hE8jx+6qNtePXj-LcMpsXEJ3zbwN4jS9npDHpLg@mail.gmail.com>
-	<CAJTo0LbGRLcbb_9J1AdDM1ZFX18SYQi_h6VPwxN3SESDdnN0gA@mail.gmail.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
+References: <1373504197-9550-1-git-send-email-obi@opendreambox.org>
+	<1373504197-9550-3-git-send-email-obi@opendreambox.org>
+	<CAJTo0Laa7if2poYd_8AeLYDq8obefuw5F7ygSi+uz4LYpWrOkg@mail.gmail.com>
+In-Reply-To: <CAJTo0Laa7if2poYd_8AeLYDq8obefuw5F7ygSi+uz4LYpWrOkg@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/5] nss: add version 3.15.1
+Subject: Re: [PATCH 3/3] cogl-1.0: add option to enable GLES1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +42,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:45:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 11 Jul 2013 10:53:55 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-07-11 at 11:41 +0100, Burton, Ross wrote:
-> On 11 July 2013 11:40, Burton, Ross <ross.burton@intel.com> wrote:
-> > On 10 July 2013 09:03, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> >> Network Security Services (NSS) is a set of libraries designed to support
-> >> cross-platform development of security-enabled client and server applications.
-> >> Applications built with NSS can support SSL v2 and v3, TLS, PKCS 5, PKCS 7,
-> >> PKCS 11, PKCS 12, S/MIME, X.509 v3 certificates, and other security standards.
-> >
-> > What's the rationale for putting this into oe-core instead of updating
-> > the recipe in meta-browser?
+On 11.07.2013 10:52, Burton, Ross wrote:
+> On 11 July 2013 01:56, Andreas Oberritter <obi@opendreambox.org> wrote:
+>> Only PACKAGECONFIG options for GL and GLES2 were available before.
 > 
-> Of course if I actually read the other mails I'd see it was for LSB.
+> The rationale behind this was that the GLES1 support isn't tested,
+> mainly as there's not a lot of hardware that can't also do GLESv2.
+> Was this enabled for completeness or are you actually restricted to
+> GLESv1?
 
-I think you could still legitimately question whether having recipes in
-oe-core that are "just for LSB" is sensible and/or desirable, not least
-because dangling libraries that don't have any users are hard to test.
+It's for completeness, so if you have libraries for both GLES1 and
+GLES2, you can compare them easily and then choose the one that works
+better for your application. If nothing else, then this may improve test
+coverage. Because it's disabled by default, introducing this option
+doesn't have any bad side effects. On the good side, it explicitly
+disables GLES1, so if a later version of cogl switches to
+auto-detection, the behaviour of the build won't change.
 
-p.
-
-
+Regards,
+Andreas
 
