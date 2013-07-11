@@ -1,30 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CF066AE7C
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob04.myregisteredsite.com
+	(atl4mhob04.myregisteredsite.com [209.17.115.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E6796AECA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 02:56:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6B2u9WK026386
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 10 Jul 2013 19:56:09 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Wed, 10 Jul 2013 19:56:09 -0700
-Message-ID: <51DE1EC8.2090902@windriver.com>
-Date: Thu, 11 Jul 2013 10:56:08 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	Thu, 11 Jul 2013 05:38:50 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.204])
+	by atl4mhob04.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r6B5coAr006705 for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 01:38:50 -0400
+Received: (qmail 9896 invoked by uid 0); 11 Jul 2013 05:38:50 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO ?192.168.80.45?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 11 Jul 2013 05:38:50 -0000
+Message-ID: <51DE44E9.9080209@topic.nl>
+Date: Thu, 11 Jul 2013 07:38:49 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1373437638.git.Qi.Chen@windriver.com>
-	<d076b1371417dcdb46fddbc6dd12685148832d0c.1373437638.git.Qi.Chen@windriver.com>
-	<51DDBDDB.8080604@linux.intel.com>
-In-Reply-To: <51DDBDDB.8080604@linux.intel.com>
-X-Originating-IP: [128.224.162.233]
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/1] image.bbclass: add a method to add/delete/modify user/group settings
+To: openembedded-core@lists.openembedded.org
+References: <ly8v1etzn5.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<ly4nc2twyk.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51DD5E6A.5080301@topic.nl> <51DD60BF.9000302@windriver.com>
+In-Reply-To: <51DD60BF.9000302@windriver.com>
+Subject: Re: kernel miscompilation with gcc 4.8 for ARMv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,142 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 02:56:09 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 11 Jul 2013 05:38:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/11/2013 04:02 AM, Saul Wold wrote:
-> On 07/09/2013 11:28 PM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
+On 07/10/2013 03:25 PM, Mark Hatle wrote:
+> On 7/10/13 8:15 AM, Mike Looijmans wrote:
+>> On 07/10/2013 02:34 PM, Enrico Scholz wrote:
+>>> Enrico Scholz
+>>> <enrico.scholz-wttK6gPy29v+Hn7q9Vec/7NAH6kLmebB@public.gmane.org>
+>>> writes:
+>>>
+>>>> is it expected that recent gcc 4.8[1] compiles the kernel correctly?
+>>>> Kernels for ARMv5 platforms (PXA168 -> 3.4.52, MX28 -> 3.8.13) fail
+>>>> here
+>>>> 100% at early boot with
+>>>
+>>> Applying two upstream kernel commits
+>>> 455bd4c430b0c0a361f38e8658a0d6cb469942b5 (ARM: 7668/1: fix
+>>> memset-related crashes caused by recent GCC (4.7.2) optimizations) and
+>>> 418df63adac56841ef6b0f1fcf435bc64d4ed177 (ARM: 7670/1: fix the memset
+>>> fix) seem to fix the problem for me.
+>>>
 >>
->> We may want to add a user or group which does not logically belong to
->> any specific package. For example, we may want to add a user with the
->> name 'tester' to our image. Besides, we may want to delete or modify
->> user/group in our image.
+>> I encountered a compilation problem for MIPS kernels (version 3.3 and
+>> below) with the new GCC compiler:
 >>
->> This patch adds a variable, USER_GROUP_SETTINGS, which is dedicated
->> to these tasks. The configuration format is detailed in the local.conf.
->> sample.extended file.
 >>
->> This patch also adds a function, set_user_group, which happens at
->> the end of the ROOTFS_POSTPROCESS_COMMAND. It handles the settings
->> in the USER_GROUP_SETTINGS variable.
+>>    arch/mips/mm/page.c:89:6: error: 'clear_page' alias in between
+>> function and variable is not supported
+>> void clear_page(void *page) __attribute__((alias("clear_page_array")));
+>>          ^
+>> arch/mips/mm/page.c:84:12: error: 'clear_page_array' aliased declaration
+>> [-Werror]
+>> static u32 clear_page_array[0x120 / 4];
+>>                ^
+>> arch/mips/mm/page.c:108:6: error: 'copy_page' alias in between function
+>> and variable is not supported
+>> void copy_page(void *to, void *from)
+>> __attribute__((alias("copy_page_array")));
+>>         ^
+>> arch/mips/mm/page.c:102:12: error: 'copy_page_array' aliased declaration
+>> [-Werror]
+>> static u32 copy_page_array[0x540 / 4];
 >>
-> After seeing the poky-tiny changes, which I will NAK, I am going to 
-> recommend that we need to share a common base between this and the 
-> existing useradd bbclass since you are both doing the same work.
+>>
+>> So I'll probably have to go and look for backports to apply here. Anyone
+>> happen to come across this one already?
+>> (Looking in the git history for that file suggests applying
+>> c022630633624a75b3b58f43dd3c6cc896a56cff from upstream)
+>>
+>> A 3.8 kernel is running just fine with gcc 4.8.
 >
-> Also, I think what ever the top level looks like, it should be in a 
-> class of it's own that can be inherited, such that it won't affect 
-> other images, like a tiny or other distros that don't include login 
-> support.
+> The following commit fixed the issue in 3.4.  I assume it'll work in
+> other versions.
 >
-> I understand the difference and usage of useradd is targeting packages 
-> and feeds, while this work is targeted towards customizing a final 
-> image that is not truly part of the package feed.
+> kernel.org commit: c022630633624a75b3b58f43dd3c6cc896a56cff
 >
-> Sau!
->
+> http://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=c022630633624a75b3b58f43dd3c6cc896a56cff
 
-Thanks for your suggestion. That's definitely a better approach.
-I'll rework on this feature.
+Indeed, patching that into the kernels fixed it.
 
-Best Regards,
-Chen Qi
-
->> This logic here is quite similar to that of useradd.bbclass. If we
->> need to add or modify user/group settings, base-passwd and shadow
->> are pulled into the RDEPENDS and thus installed on target.
->>
->
->
->> [YOCTO #4074]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/image.bbclass |   42 
->> ++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 42 insertions(+)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index 380ed8e..a76289c 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -12,6 +12,8 @@ LICENSE = "MIT"
->>   PACKAGES = ""
->>   DEPENDS += "${MLPREFIX}qemuwrapper-cross 
->> ${MLPREFIX}depmodwrapper-cross"
->>   RDEPENDS += "${IMAGE_INSTALL} ${LINGUAS_INSTALL} 
->> ${NORMAL_FEATURE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL}"
->> +# Add to IMAGE_INSTALL base-passwd and shadow if USER_GROUP_SETTINGS 
->> is set
->> +IMAGE_INSTALL_append += "${@['', 'base-passwd 
->> shadow'][bool(d.getVar('USER_GROUP_SETTINGS', True))]}"
->>   RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
->>
->>   INHIBIT_DEFAULT_DEPS = "1"
->> @@ -179,6 +181,8 @@ ROOTFS_POSTPROCESS_COMMAND += 
->> '${@base_contains("IMAGE_FEATURES", "debug-tweaks"
->>   ROOTFS_POSTPROCESS_COMMAND += '${@base_contains("IMAGE_FEATURES", 
->> "debug-tweaks", "postinst_enable_logging; ", "",d)}'
->>   # Set default postinst log file
->>   POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
->> +# Image level user / group settings
->> +ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
->>
->>   # some default locales
->>   IMAGE_LINGUAS ?= "de-de fr-fr en-gb"
->> @@ -528,6 +532,44 @@ postinst_enable_logging () {
->>       echo "LOGFILE=${POSTINST_LOGFILE}" >> 
->> ${IMAGE_ROOTFS}${sysconfdir}/default/postinst
->>   }
->>
->> +# Image level user / group settings
->> +set_user_group () {
->> +    user_group_settings="${USER_GROUP_SETTINGS}"
->> +    export PSEUDO="${FAKEROOTENV} 
->> ${STAGING_DIR_NATIVE}${bindir}/pseudo"
->> +    setting=`echo $user_group_settings | cut -d ';' -f1`
->> +    remaining=`echo $user_group_settings | cut -d ';' -f2-`
->> +    while test "x$setting" != "x"; do
->> +        user_group=`echo $setting | cut -d ',' -f1`
->> +        action=`echo $setting | cut -d ',' -f2`
->> +        opts=`echo $setting | cut -d ',' -f3`
->> +        # determine the command according to user_group and action
->> +        if [ "$user_group" = "USER" ]; then
->> +            cmd_prefix="user"
->> +        elif [ "$user_group" = "GROUP" ]; then
->> +            cmd_prefix="group"
->> +        else
->> +            echo "Error: invalid setting of $user_group in the 
->> USER_GROUP_SETTINGS"
->> +            exit 1
->> +        fi
->> +        if [ "$action" = "ADD" ]; then
->> +            cmd_suffix="add"
->> +        elif [ "$action" = "DEL" ]; then
->> +            cmd_suffix="del"
->> +        elif [ "$action" = "MOD" ]; then
->> +            cmd_suffix="mod"
->> +        else
->> +            echo "Error: invalid setting of $user_group in the 
->> USER_GROUP_SETTINGS"
->> +            exit 1
->> +        fi
->> +        cmd=$cmd_prefix$cmd_suffix
->> +        echo "using commond <$cmd> for setting <$setting> ..."
->> +        eval $PSEUDO $cmd -R ${IMAGE_ROOTFS} $opts
->> +        # iterate to the next setting
->> +        setting=`echo $remaining | cut -d ';' -f1`
->> +        remaining=`echo $remaining | cut -d ';' -f2-`
->> +    done
->> +}
->> +
->>   # Turn any symbolic /sbin/init link into a file
->>   remove_init_link () {
->>       if [ -h ${IMAGE_ROOTFS}/sbin/init ]; then
->>
->
->
+Mike.
 
 
