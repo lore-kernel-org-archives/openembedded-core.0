@@ -1,44 +1,32 @@
-Return-Path: <B40290@freescale.com>
-Received: from co1outboundpool.messaging.microsoft.com
-	(co1ehsobe005.messaging.microsoft.com [216.32.180.188])
-	by mail.openembedded.org (Postfix) with ESMTP id D89CB6AB93
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C43C60592
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 07:59:31 +0000 (UTC)
-Received: from mail165-co1-R.bigfish.com (10.243.78.244) by
-	CO1EHSOBE039.bigfish.com (10.243.66.104) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 11 Jul 2013 07:59:32 +0000
-Received: from mail165-co1 (localhost [127.0.0.1])	by
-	mail165-co1-R.bigfish.com (Postfix) with ESMTP id EEC4E9804D4	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 07:59:31 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zzbb2dI936eIzz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
-Received: from mail165-co1 (localhost.localdomain [127.0.0.1]) by mail165-co1
-	(MessageSwitch) id 1373529531239083_9121;
-	Thu, 11 Jul 2013 07:58:51 +0000 (UTC)
-Received: from CO1EHSMHS013.bigfish.com (unknown [10.243.78.245])	by
-	mail165-co1.bigfish.com (Postfix) with ESMTP id 2ECEB38008F	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 07:58:51 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS013.bigfish.com
-	(10.243.66.23) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 11 Jul 2013 07:58:50 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
-	Server (TLS) id 14.3.136.1; Thu, 11 Jul 2013 08:01:03 +0000
-Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
-	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
-	ESMTP id r6B7wkur027695;	Thu, 11 Jul 2013 00:58:48 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jul 2013 15:58:41 +0800
-Message-ID: <1373529521-31010-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.7.5.4
+	Thu, 11 Jul 2013 08:03:48 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1UxBqv-0001uA-5x from Muhammad_Shakeel@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 11 Jul 2013 01:03:49 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 11 Jul 2013 01:03:48 -0700
+Received: from [137.202.157.119] (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Thu, 11 Jul 2013 09:03:46 +0100
+Message-ID: <51DE670A.4010003@mentor.com>
+Date: Thu, 11 Jul 2013 13:04:26 +0500
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] pseudo: pseudo-native breaks native builds for symver.patch
+To: <openembedded-core@lists.openembedded.org>
+References: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>
+In-Reply-To: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 11 Jul 2013 08:03:48.0733 (UTC)
+	FILETIME=[2C8B62D0:01CE7E0D]
+Subject: Re: [PATCH] [v2] openssh: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,70 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 07:59:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Jul 2013 08:03:48 -0000
+Content-Type: multipart/alternative;
+	boundary="------------010706050707050201050105"
 
-      *symver.patch causes failure if the host glibc does not provide the glibc-2.0 version of the symbol.
-      *fix the below error log:
-      |tmp/work/ppc64-linux/pseudo-native/1.5.1-r3/pseudo-1.5.1/pseudo_ipc.c:153: more
-      |undefined references to `memcpy@GLIBC_2.0' follow
-      |/pseudo_db.ccollect2: error: ld returned 1 exit status
+--------------010706050707050201050105
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- meta/recipes-devtools/pseudo/files/symver.patch |   26 -----------------------
- meta/recipes-devtools/pseudo/pseudo.inc         |    2 -
- 2 files changed, 0 insertions(+), 28 deletions(-)
- delete mode 100644 meta/recipes-devtools/pseudo/files/symver.patch
+On 07/11/2013 12:45 PM, Shakeel, Muhammad wrote:
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+> @@ -0,0 +1,11 @@
+> +[Unit]
+> +Conflicts=sshd.service
+|sshd.service is the ||service file for running a single SSH server for 
+all incoming connections, suitable only for systems with a large amount 
+of SSH traffic. ||In almost all other cases it is a better idea to use 
+sshd.socket + sshd@.service (i.e. the on-demand spawning version for one 
+instance per connection). In case these both are present, there will be 
+a conflict and systemd should be aware of it.
+|
 
-diff --git a/meta/recipes-devtools/pseudo/files/symver.patch b/meta/recipes-devtools/pseudo/files/symver.patch
-deleted file mode 100644
-index 8d1b377..0000000
---- a/meta/recipes-devtools/pseudo/files/symver.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--When running as pseudo-nativesdk, we might need to run host binaries 
--linked against the host libc. Having a 2.14 libc dependency from memcpy is
--problematic so instruct the linker to use older symbols.
--
--Upstream-Status: Pending
--
--RP 2012/4/22
--
--Index: pseudo-1.3/pseudo.h
--===================================================================
----- pseudo-1.3.orig/pseudo.h	2012-04-22 12:17:59.078909060 +0000
--+++ pseudo-1.3/pseudo.h	2012-04-22 12:32:42.954888587 +0000
--@@ -29,6 +29,13 @@
-- int pseudo_set_value(const char *key, const char *value);
-- char *pseudo_get_value(const char *key);
-- 
--+#ifdef __amd64__   
--+#define GLIBC_COMPAT_SYMBOL(SYM) __asm__(".symver " #SYM "," #SYM "@GLIBC_2.2.5")
--+#else   
--+#define GLIBC_COMPAT_SYMBOL(SYM) __asm__(".symver " #SYM "," #SYM "@GLIBC_2.0")
--+#endif
--+GLIBC_COMPAT_SYMBOL(memcpy);
--+
-- #include "pseudo_tables.h"
-- 
-- extern void pseudo_debug_verbose(void);
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 3baf3af..f5d0608 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -9,9 +9,7 @@ SECTION = "base"
- LICENSE = "LGPL2.1"
- DEPENDS = "sqlite3"
- 
--SRC_URI_append_class-nativesdk = " file://symver.patch"
- 
--SRC_URI_append_class-native = " file://symver.patch"
- 
- FILES_${PN} = "${libdir}/pseudo/lib*/libpseudo.so ${bindir}/* ${localstatedir}/pseudo ${prefix}/var/pseudo"
- FILES_${PN}-dbg += "${libdir}/pseudo/lib*/.debug"
--- 
-1.7.5.4
+--------------010706050707050201050105
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 07/11/2013 12:45 PM, Shakeel,
+      Muhammad wrote:<br>
+    </div>
+    <blockquote
+      cite="mid:1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com"
+      type="cite">
+      <pre wrap="">+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+@@ -0,0 +1,11 @@
++[Unit]
++Conflicts=sshd.service
+</pre>
+    </blockquote>
+    <code>sshd.service is the </code><code>service file for running a
+      single SSH server for all incoming connections, suitable only for
+      systems with a large amount of SSH traffic. </code><code>In
+      almost all other cases it is a better idea to use sshd.socket +
+      <a class="moz-txt-link-abbreviated" href="mailto:sshd@.service">sshd@.service</a> (i.e. the on-demand spawning version for one
+      instance per connection). In case these both are present, there
+      will be a conflict and systemd should be aware of it.<br>
+    </code>
+  </body>
+</html>
 
-
+--------------010706050707050201050105--
