@@ -1,26 +1,27 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 56E4C6AEA3
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DDCCA6012D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 11:51:25 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UxFPA-0002ro-1Z; Thu, 11 Jul 2013 13:51:24 +0200
-Message-ID: <1373543483.2389.331.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Thu, 11 Jul 2013 12:51:23 +0100
-In-Reply-To: <51DE8EB8.60908@opendreambox.org>
-References: <1373504197-9550-1-git-send-email-obi@opendreambox.org>
-	<1373504197-9550-3-git-send-email-obi@opendreambox.org>
-	<CAJTo0Laa7if2poYd_8AeLYDq8obefuw5F7ygSi+uz4LYpWrOkg@mail.gmail.com>
-	<51DE8EB8.60908@opendreambox.org>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] cogl-1.0: add option to enable GLES1
+	Thu, 11 Jul 2013 12:04:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6BC4dBU011945
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 05:04:39 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 11 Jul 2013 05:04:37 -0700
+Message-ID: <51DE9F53.4080608@windriver.com>
+Date: Thu, 11 Jul 2013 20:04:35 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1373443071.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1373443071.git.hongxu.jia@windriver.com>
+Subject: [PATCH V3 0/5] add nss for LSB library check (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +34,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 11:51:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 11 Jul 2013 12:04:37 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080009010107010203040100"
+
+--------------080009010107010203040100
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-07-11 at 12:53 +0200, Andreas Oberritter wrote:
-> On 11.07.2013 10:52, Burton, Ross wrote:
-> > On 11 July 2013 01:56, Andreas Oberritter <obi@opendreambox.org> wrote:
-> >> Only PACKAGECONFIG options for GL and GLES2 were available before.
-> > 
-> > The rationale behind this was that the GLES1 support isn't tested,
-> > mainly as there's not a lot of hardware that can't also do GLESv2.
-> > Was this enabled for completeness or are you actually restricted to
-> > GLESv1?
-> 
-> It's for completeness, so if you have libraries for both GLES1 and
-> GLES2, you can compare them easily and then choose the one that works
-> better for your application. 
+Change in V3:
+1) Replace incorrect shebang line with `#!/usr/bin/env perl'.
 
-If your hardware supports GLESv2 then it seems very unlikely that the
-GLESv1 backend is going to work better for any application.  I suppose
-it's just about conceivable that there might be some or other bug in the
-GLESv2 driver which you could work around by using the GLESv1 API, but
-I've never heard of this happening in practice and it doesn't sound very
-likely.
-
-I wouldn't be surprised if Cogl's GLESv1 backend went away altogether in
-the not-too-distant future.  The gap in capabilities between GLESv1 and
-either GLESv2 or big GL is quite significant.
-
-All that said, if there is genuine (even if possibly misguided) interest
-in experimenting with GLESv1 then I don't have any real objection to
-adding a PACKAGECONFIG option for it.
-
-p.
+Change in V2:
+1) Rename the title of patch 1/5
+2) Use ${libdir} rather than ${base_libdir} as the lib location
+    which references the nss in meta-browser.
 
 
+The following changes since commit dc86293f0444384e8ae5131fdd10b6cb077164b0:
 
+   bitbake: HOB:Proper handle of SIGINT (2013-07-05 15:52:48 +0100)
+
+are available in the git repository at:
+
+   git://git.pokylinux.org/poky-contrib hongxu/fix-nss
+   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss
+
+Hongxu Jia (5):
+   nspr: add native version
+   packagegroup-core-lsb: add nss for LSB library check
+   nss: add version 3.15.1
+   nss: create checksum files for the nss libraries
+   nss: fix incorrect shebang line of perl script
+
+  .../packagegroups/packagegroup-core-lsb.bb         |   1 +
+  meta/recipes-support/nspr/nspr_4.10.bb             |   2 +
+  .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 ++++++++++++
+  .../files/nss-fix-support-cross-compiling.patch    |  71 ++++++++
+  .../files/nss-no-rpath-for-cross-compiling.patch   |  26 +++
+  meta/recipes-support/nss/files/nss.pc.in           |  11 ++
+  meta/recipes-support/nss/files/signlibs.sh         |  20 +++
+  meta/recipes-support/nss/nss.inc                   | 187 +++++++++++++++++++++
+  meta/recipes-support/nss/nss_3.15.1.bb             |   9 +
+  9 files changed, 437 insertions(+)
+  create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
+  create mode 100644 meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch
+  create mode 100644 meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
+  create mode 100644 meta/recipes-support/nss/files/nss.pc.in
+  create mode 100644 meta/recipes-support/nss/files/signlibs.sh
+  create mode 100644 meta/recipes-support/nss/nss.inc
+  create mode 100644 meta/recipes-support/nss/nss_3.15.1.bb
+
+-- 1.8.1.2
+
+
+--------------080009010107010203040100
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-text-plain" wrap="true" graphical-quote="true"
+      style="font-family: -moz-fixed; font-size: 12px;" lang="x-western">
+      <pre wrap="">Change in V3: 
+1) Replace incorrect shebang line with `#!/usr/bin/env perl'.
+
+Change in V2:
+1) Rename the title of patch 1/5
+2) Use ${libdir} rather than ${base_libdir} as the lib location
+   which references the nss in meta-browser.
+
+
+The following changes since commit dc86293f0444384e8ae5131fdd10b6cb077164b0:
+
+  bitbake: HOB:Proper handle of SIGINT (2013-07-05 15:52:48 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-nss
+  <a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss</a>
+
+Hongxu Jia (5):
+  nspr: add native version
+  packagegroup-core-lsb: add nss for LSB library check
+  nss: add version 3.15.1
+  nss: create checksum files for the nss libraries
+  nss: fix incorrect shebang line of perl script
+
+ .../packagegroups/packagegroup-core-lsb.bb         |   1 +
+ meta/recipes-support/nspr/nspr_4.10.bb             |   2 +
+ .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 ++++++++++++
+ .../files/nss-fix-support-cross-compiling.patch    |  71 ++++++++
+ .../files/nss-no-rpath-for-cross-compiling.patch   |  26 +++
+ meta/recipes-support/nss/files/nss.pc.in           |  11 ++
+ meta/recipes-support/nss/files/signlibs.sh         |  20 +++
+ meta/recipes-support/nss/nss.inc                   | 187 +++++++++++++++++++++
+ meta/recipes-support/nss/nss_3.15.1.bb             |   9 +
+ 9 files changed, 437 insertions(+)
+ create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
+ create mode 100644 meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch
+ create mode 100644 meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
+ create mode 100644 meta/recipes-support/nss/files/nss.pc.in
+ create mode 100644 meta/recipes-support/nss/files/signlibs.sh
+ create mode 100644 meta/recipes-support/nss/nss.inc
+ create mode 100644 meta/recipes-support/nss/nss_3.15.1.bb
+
+<div class="moz-txt-sig">-- 
+1.8.1.2
+
+</div></pre>
+    </div>
+  </body>
+</html>
+
+--------------080009010107010203040100--
