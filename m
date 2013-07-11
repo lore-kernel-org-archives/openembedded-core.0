@@ -1,25 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 554BD61883
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 392BE61883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 11:11:37 +0000 (UTC)
+	Thu, 11 Jul 2013 11:11:38 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6BBBdeZ011329
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6BBBd3Q017044
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 11 Jul 2013 04:11:39 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 11 Jul 2013 04:11:37 -0700
+	14.2.342.3; Thu, 11 Jul 2013 04:11:38 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jul 2013 19:11:36 +0800
-Message-ID: <cover.1373540849.git.Qi.Chen@windriver.com>
+Date: Thu, 11 Jul 2013 19:11:37 +0800
+Message-ID: <ff209ae6d351447d2e4b22cb1ab518c9cf730cec.1373540849.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1373540849.git.Qi.Chen@windriver.com>
+References: <cover.1373540849.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: qingtao.cao@windriver.com
-Subject: [PATCH V3 0/3] Add a method for image level user/group configuration
+Subject: [PATCH V3 1/3] userbase.bbclass: add a new bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,36 +34,261 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 11:11:37 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 11:11:38 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-This patchset mainly does two things:
-1. code refactor to avoid code duplication
-2. add a method for image level user/group configuration
+This class is mainly a collection of basic functions for user/group
+settings.
 
-The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
+This class is intended to be inherited by useradd.bbclass and the
+usersettings.bbclass.
 
-  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
+[YOCTO #4074]
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/user_group_settings
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/user_group_settings
-
-Chen Qi (3):
-  userbase.bbclass: add a new bbclass
-  useradd.bbclass: code refactor
-  usersettings.bbclass: add a new bbclass
-
- meta/classes/useradd.bbclass      |  103 ++---------------
- meta/classes/userbase.bbclass     |  230 +++++++++++++++++++++++++++++++++++++
- meta/classes/usersettings.bbclass |   48 ++++++++
- 3 files changed, 290 insertions(+), 91 deletions(-)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/userbase.bbclass |  230 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 230 insertions(+)
  create mode 100644 meta/classes/userbase.bbclass
- create mode 100644 meta/classes/usersettings.bbclass
 
+diff --git a/meta/classes/userbase.bbclass b/meta/classes/userbase.bbclass
+new file mode 100644
+index 0000000..3de309c
+--- /dev/null
++++ b/meta/classes/userbase.bbclass
+@@ -0,0 +1,230 @@
++# This bbclass provides basic functionality for user/group settings.
++# This bbclass is intended to be inherited by useradd.bbclass and
++# usersettings.bbclass.
++
++# The following functions basically have similar logic.
++# *) Perform necessary checks before invoking the actual command
++# *) Invoke the actual command, make retries if necessary
++# *) Error out if an error occurs.
++
++# Note that before invoking these functions, make sure the global variable
++# PSEUDO is set up correctly.
++
++perform_groupadd () {
++	local rootdir="$1"
++	local opts="$2"
++	local retries="$3"
++	bbnote "Performing groupadd with [$opts] and $retries times of retry"
++	local groupname=`echo "$opts" | awk '{ print $NF }'`
++	local group_exists=`grep "^$groupname:" $rootdir/etc/group || true`
++	if test "x$group_exists" = "x"; then
++		local count=0
++		while true; do
++			eval $PSEUDO groupadd $opts || true
++			group_exists=`grep "^$groupname:" $rootdir/etc/group || true`
++			if test "x$group_exists" = "x"; then
++				bbwarn "groupadd command did not succeed. Retrying..."
++				sleep 1
++			else
++				break
++			fi
++			count=`expr $count + 1`
++			if test $count = $retries; then
++				bbfatal "Tried running groupadd command $retries times without scucess, giving up"
++			fi
++		done
++	else
++		bbwarn "group $groupname already exists, not re-creating it"
++	fi
++}
++
++perform_useradd () {
++	local rootdir="$1"
++	local opts="$2"
++	local retries="$3"
++	bbnote "Performing useradd with [$opts] and $retries times of retry"
++	local username=`echo "$opts" | awk '{ print $NF }'`
++	local user_exists=`grep "^$username:" $rootdir/etc/passwd || true`
++	if test "x$user_exists" = "x"; then
++	       local count=0
++	       while true; do
++		       eval $PSEUDO useradd $opts || true
++		       user_exists=`grep "^$username:" $rootdir/etc/passwd || true`
++		       if test "x$user_exists" = "x"; then
++			       bbwarn "useradd command did not succeed. Retrying..."
++			       sleep 1
++		       else
++			       break
++		       fi
++		       count=`expr $count + 1`
++		       if test $count = $retries; then
++				bbfatal "Tried running useradd command $retries times without scucess, giving up"
++		       fi
++	       done
++	else
++		bbwarn "user $username already exists, not re-creating it"
++	fi
++}
++
++perform_groupmems () {
++	local rootdir="$1"
++	local opts="$2"
++	local retries="$3"
++	bbnote "Performing groupmems with [$opts] and $retries times of retry"
++	local groupname=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-g" || $i == "--group") print $(i+1) }'`
++	local username=`echo "$opts" | awk '{ for (i = 1; i < NF; i++) if ($i == "-a" || $i == "--add") print $(i+1) }'`
++	bbnote "Running groupmems command with group $groupname and user $username"
++	# groupmems fails if /etc/gshadow does not exist
++	local gshadow=""
++	if [ -f $rootdir${sysconfdir}/gshadow ]; then
++		gshadow="yes"
++	else
++		gshadow="no"
++		touch $rootdir${sysconfdir}/gshadow
++	fi
++	local mem_exists=`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $rootdir/etc/group || true`
++	if test "x$mem_exists" = "x"; then
++		local count=0
++		while true; do
++			eval $PSEUDO groupmems $opts || true
++			mem_exists=`grep "^$groupname:[^:]*:[^:]*:\([^,]*,\)*$username\(,[^,]*\)*" $rootdir/etc/group || true`
++			if test "x$mem_exists" = "x"; then
++				bbwarn "groupmems command did not succeed. Retrying..."
++				sleep 1
++			else
++				break
++			fi
++			count=`expr $count + 1`
++			if test $count = $retries; then
++				if test "x$gshadow" = "xno"; then
++					rm -f $rootdir${sysconfdir}/gshadow
++					rm -f $rootdir${sysconfdir}/gshadow-
++				fi
++				bbfatal "Tried running groupmems command $retries times without scucess, giving up"
++			fi
++		done
++	else
++		bbwarn "group $groupname already contains $username, not re-adding it"
++	fi
++	if test "x$gshadow" = "xno"; then
++		rm -f $rootdir${sysconfdir}/gshadow
++		rm -f $rootdir${sysconfdir}/gshadow-
++	fi
++}
++
++perform_groupdel () {
++	local rootdir="$1"
++	local opts="$2"
++	local retries="$3"
++	bbnote "Performing groupdel with [$opts] and $retries times of retry"
++	local groupname=`echo "$opts" | awk '{ print $NF }'`
++	local group_exists=`grep "^$groupname:" $rootdir/etc/group || true`
++	if test "x$group_exists" != "x"; then
++		local count=0
++		while true; do
++			eval $PSEUDO groupdel $opts || true
++			group_exists=`grep "^$groupname:" $rootdir/etc/group || true`
++			if test "x$group_exists" != "x"; then
++				bbwarn "groupdel command did not succeed. Retrying..."
++				sleep 1
++			else
++				break
++			fi
++			count=`expr $count + 1`
++			if test $count = $retries; then
++				bbfatal "Tried running groupdel command $retries times without scucess, giving up"
++			fi
++		done
++	else
++		bbwarn "group $groupname doesn't exist, not removing it"
++	fi
++}
++
++perform_userdel () {
++	local rootdir="$1"
++	local opts="$2"
++	local retries="$3"
++	bbnote "Performing userdel with [$opts] and $retries times of retry"
++	local username=`echo "$opts" | awk '{ print $NF }'`
++	local user_exists=`grep "^$username:" $rootdir/etc/passwd || true`
++	if test "x$user_exists" != "x"; then
++	       local count=0
++	       while true; do
++		       eval $PSEUDO userdel $opts || true
++		       user_exists=`grep "^$username:" $rootdir/etc/passwd || true`
++		       if test "x$user_exists" != "x"; then
++			       bbwarn "userdel command did not succeed. Retrying..."
++			       sleep 1
++		       else
++			       break
++		       fi
++		       count=`expr $count + 1`
++		       if test $count = $retries; then
++				bbfatal "Tried running userdel command $retries times without scucess, giving up"
++		       fi
++	       done
++	else
++		bbwarn "user $username doesn't exist, not removing it"
++	fi
++}
++
++perform_groupmod () {
++	# Other than the return value of groupmod, there's no simple way to judge whether the command
++	# succeeds, so we disable -e option temporarily
++	set +e
++	local rootdir="$1"
++	local opts="$2"
++	local retries="$3"
++	bbnote "Performing groupmod with [$opts] and $retries times of retry"
++	local groupname=`echo "$opts" | awk '{ print $NF }'`
++	local group_exists=`grep "^$groupname:" $rootdir/etc/group || true`
++	if test "x$group_exists" != "x"; then
++		local count=0
++		while true; do
++			eval $PSEUDO groupmod $opts
++			if test $? != 0; then
++				bbwarn "groupmod command did not succeed. Retrying..."
++				sleep 1
++			else
++				break
++			fi
++			count=`expr $count + 1`
++			if test $count = $retries; then
++				bbfatal "Tried running groupmod command $retries times without scucess, giving up"
++			fi
++		done
++	else
++		bbfatal "group $groupname doesn't exist, unable to modify it"
++	fi
++	set -e
++}
++
++perform_usermod () {
++	# Same reason with groupmod, temporarily disable -e option
++	set +e
++	local rootdir="$1"
++	local opts="$2"
++	local retries="$3"
++	bbnote "Performing usermod with [$opts] and $retries times of retry"
++	local username=`echo "$opts" | awk '{ print $NF }'`
++	local user_exists=`grep "^$username:" $rootdir/etc/passwd || true`
++	if test "x$user_exists" != "x"; then
++	       local count=0
++	       while true; do
++		       eval $PSEUDO usermod $opts
++		       if test $? != 0; then
++			       bbwarn "usermod command did not succeed. Retrying..."
++			       sleep 1
++		       else
++			       break
++		       fi
++		       count=`expr $count + 1`
++		       if test $count = $retries; then
++				bbfatal "Tried running usermod command $retries times without scucess, giving up"
++		       fi
++	       done
++	else
++		bbfatal "user $username doesn't exist, unable to modify it"
++	fi
++	set -e
++}
 -- 
 1.7.9.5
 
