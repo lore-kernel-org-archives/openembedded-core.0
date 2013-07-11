@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 114D3608C6
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B02B60289
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:41:52 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id ha12so6628203vcb.35
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 03:41:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=xSWjlmz+qavzDnV8maVBgQBymPlXKii6wMvBgKJWHgw=;
-	b=AfoBVMF+YFZd+QPzNhK9SSir7HJuGe6Qk4fkAt1Ecg9PSVcdvwL6Lhk7vaouCZB+/M
-	Rm4FhS1g7uTFYpGuEnVfHPpPCYuvEoN2ARbDSW1SaiQfLBcqrpoiC+/+wtVc45Tb+joF
-	dY4aque5tCODWR2ndSY0vSxUZnYe0lRe0fjobiV3gFE89evEQU7Fpqlkneh+DEjtDbhL
-	fEgesOkWywnKDk4rGcCud9efuXOpsK5h7cD9W6yWfEtVUZdpo7BFvuvNoFDQMijCPZaR
-	mpFxQ0Z5GPDi63/Wn9rNCnST8Xdf7WH9l+CKQgrKh9gy746Ymlth60abNvtUqwvI3j81
-	M+kA==
-X-Received: by 10.52.18.196 with SMTP id y4mr10048031vdd.51.1373539313619;
-	Thu, 11 Jul 2013 03:41:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 03:41:33 -0700 (PDT)
-In-Reply-To: <CAJTo0LZTHz5hE8jx+6qNtePXj-LcMpsXEJ3zbwN4jS9npDHpLg@mail.gmail.com>
+	Thu, 11 Jul 2013 10:45:34 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UxENP-0002pj-JV; Thu, 11 Jul 2013 12:45:31 +0200
+Message-ID: <1373539530.2389.320.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Jul 2013 11:45:30 +0100
+In-Reply-To: <CAJTo0LbGRLcbb_9J1AdDM1ZFX18SYQi_h6VPwxN3SESDdnN0gA@mail.gmail.com>
 References: <cover.1373443071.git.hongxu.jia@windriver.com>
 	<a546f2c5f8ecec522cb8087015359f433fb5c998.1373443071.git.hongxu.jia@windriver.com>
 	<CAJTo0LZTHz5hE8jx+6qNtePXj-LcMpsXEJ3zbwN4jS9npDHpLg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2013 11:41:33 +0100
-Message-ID: <CAJTo0LbGRLcbb_9J1AdDM1ZFX18SYQi_h6VPwxN3SESDdnN0gA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Gm-Message-State: ALoCoQkxgSU5FW5nnP8lesN/gGsMTOICgYe2un1zcLRxaISI9BKVDbND8+CUEnBjba5zxli3ggso
+	<CAJTo0LbGRLcbb_9J1AdDM1ZFX18SYQi_h6VPwxN3SESDdnN0gA@mail.gmail.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 3/5] nss: add version 3.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,20 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:41:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Jul 2013 10:45:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 11 July 2013 11:40, Burton, Ross <ross.burton@intel.com> wrote:
-> On 10 July 2013 09:03, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> Network Security Services (NSS) is a set of libraries designed to support
->> cross-platform development of security-enabled client and server applications.
->> Applications built with NSS can support SSL v2 and v3, TLS, PKCS 5, PKCS 7,
->> PKCS 11, PKCS 12, S/MIME, X.509 v3 certificates, and other security standards.
->
-> What's the rationale for putting this into oe-core instead of updating
-> the recipe in meta-browser?
+On Thu, 2013-07-11 at 11:41 +0100, Burton, Ross wrote:
+> On 11 July 2013 11:40, Burton, Ross <ross.burton@intel.com> wrote:
+> > On 10 July 2013 09:03, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> >> Network Security Services (NSS) is a set of libraries designed to support
+> >> cross-platform development of security-enabled client and server applications.
+> >> Applications built with NSS can support SSL v2 and v3, TLS, PKCS 5, PKCS 7,
+> >> PKCS 11, PKCS 12, S/MIME, X.509 v3 certificates, and other security standards.
+> >
+> > What's the rationale for putting this into oe-core instead of updating
+> > the recipe in meta-browser?
+> 
+> Of course if I actually read the other mails I'd see it was for LSB.
 
-Of course if I actually read the other mails I'd see it was for LSB.
+I think you could still legitimately question whether having recipes in
+oe-core that are "just for LSB" is sensible and/or desirable, not least
+because dangling libraries that don't have any users are hard to test.
 
-Ross
+p.
+
+
 
