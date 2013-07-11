@@ -1,39 +1,17 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C52F56AECA
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 20D066AECA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 09:57:59 +0000 (UTC)
-Received: by mail-ee0-f48.google.com with SMTP id b47so5324446eek.21
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 02:57:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:x-gm-message-state;
-	bh=Hk2MhkzuAb/olYZCmwrzA7niX2oHDo/HTdtN8X9uG/s=;
-	b=biVpE12/YwcZcc11Hpj1uwBY//Ess0rOWv9pgM9i/RSKGaqi9YrVRB4eb+BvErfkG4
-	SHshxOls1OeUmbsSg3R463QSlQw7/JT/G1rmRlMra3BweLn3PM8kpsmQXZRaAaZe8iC1
-	IJkJEyOcsbJD3ANf3F7pcKN3mkAt6bzvakmeVFIjzsD66A+g9ZB8jIcyuEWPOf1HFGEm
-	AqSrhPan7jn7LR/8hWOTX4ndlidD95J3aLTNLGn6aOB/INPP9BXwD8oY8+ggERGwnUam
-	IPwVnSZ/JKl0hrEfHnL8Y6w5IEPJh2QuQKou0Rp+9YOzymcpCsK+fv6aeJz6WLBqM8V8
-	o9cA==
-MIME-Version: 1.0
-X-Received: by 10.15.102.68 with SMTP id bq44mr41030734eeb.89.1373536679643;
-	Thu, 11 Jul 2013 02:57:59 -0700 (PDT)
-Received: by 10.14.117.65 with HTTP; Thu, 11 Jul 2013 02:57:59 -0700 (PDT)
-In-Reply-To: <985E5BBDA0968D48ABDF343456A521B3022C98DE@IRSMSX105.ger.corp.intel.com>
-References: <cover.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-	<a9d90af766913d932c03bc57e395bab720cfbe3c.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-	<bf65f77f194b7e5a9047a2196e87a2d59f8e0e6b.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-	<CALmOhgnPu5RGZ4iC+C3XjdbD6rT1OKwfy0Q_ATPLqH2o0uVZhg@mail.gmail.com>
-	<985E5BBDA0968D48ABDF343456A521B3022C98DE@IRSMSX105.ger.corp.intel.com>
-Date: Thu, 11 Jul 2013 10:57:59 +0100
-Message-ID: <CALmOhg=HxXkk+22wRYr_+PPWs0RyyUP2RbNdjo5bBSm_YaK3Yw@mail.gmail.com>
-From: Trevor Woerner <trevor.woerner@linaro.org>
-To: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-X-Gm-Message-State: ALoCoQm/50/zjt0FPO0CpK+L4hqlDlvJVN/vGB57EOYJZ/YOP8zUzF2aPruNX3eWG1PsuZJVpZ17
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] docbook-sgml-dtd-3.1-native.bb: Add real PV inside the recipe
+	Thu, 11 Jul 2013 10:06:08 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6BA65nM017194; 
+	Thu, 11 Jul 2013 05:06:07 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jul 2013 15:06:39 +0500
+Message-Id: <1373537199-4863-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] ofono: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,15 +24,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 09:58:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 11 Jul 2013 10:06:08 -0000
 
-On 11 July 2013 10:55, Ciobanu, Emilia Maria Silvia
-<emilia.maria.silvia.ciobanu@intel.com> wrote:
-> I think this is a misunderstanding. We are currently using the autoincrementation
-> mechanism for the PR of the packages and not for the PV.  In this case the PV variable
-> was missing from the recipe.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
+- Remove dependency on systemd layer
+- Install 'sysv' related files only if distro has this feature
 
-Whoops! Yes I see. Sorry about that :-)
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ meta/recipes-connectivity/ofono/ofono.inc     |   15 ++++++++++++---
+ meta/recipes-connectivity/ofono/ofono_1.12.bb |    1 +
+ meta/recipes-connectivity/ofono/ofono_git.bb  |    1 +
+ 3 files changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+index 21e564c..0804105 100644
+--- a/meta/recipes-connectivity/ofono/ofono.inc
++++ b/meta/recipes-connectivity/ofono/ofono.inc
+@@ -5,16 +5,25 @@ LICENSE  = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
+                     file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
+ 
+-inherit autotools pkgconfig update-rc.d
++inherit autotools pkgconfig update-rc.d systemd
+ 
+ DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
+ 
+ INITSCRIPT_NAME = "ofono"
+ INITSCRIPT_PARAMS = "defaults 22"
+ 
++SYSTEMD_SERVICE_${PN} = "ofono.service"
++SYSTEMD_AUTO_ENABLE = "enable"
++
+ do_install_append() {
+-  install -d ${D}${sysconfdir}/init.d/
+-  install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
++    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
++        install -d ${D}${sysconfdir}/init.d/
++        install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
++    fi
++
++    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++        sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/ofono.service
++    fi
+ }
+ 
+ PACKAGES =+ "${PN}-tests"
+diff --git a/meta/recipes-connectivity/ofono/ofono_1.12.bb b/meta/recipes-connectivity/ofono/ofono_1.12.bb
+index 44ab0a6..85ef792 100644
+--- a/meta/recipes-connectivity/ofono/ofono_1.12.bb
++++ b/meta/recipes-connectivity/ofono/ofono_1.12.bb
+@@ -15,5 +15,6 @@ SRC_URI[sha256sum] = "733b75bfd1b2a1925b6de532989c496b8ae17a746691120ef64cceb00b
+ EXTRA_OECONF += "\
+     --enable-test \
+     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
++    ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
+ "
+ CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
+index f79f34f..dc063e8 100644
+--- a/meta/recipes-connectivity/ofono/ofono_git.bb
++++ b/meta/recipes-connectivity/ofono/ofono_git.bb
+@@ -10,6 +10,7 @@ SRC_URI  = "git://git.kernel.org/pub/scm/network/ofono/ofono.git;protocol=git \
+ 
+ EXTRA_OECONF += "\
+     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
++    ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
+ "
+ 
+ do_configure_prepend () {
+-- 
+1.7.9.5
+
 
