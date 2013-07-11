@@ -1,37 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id DDCCD6ADB5
+Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E44F6AECA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:32:33 +0000 (UTC)
-Received: by mail-ve0-f170.google.com with SMTP id 14so7072561vea.15
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 03:32:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=OcPZPxaXzCQFBSq15Cp+vJS1gwyviBrmvKWrtTHDPlk=;
-	b=T4QTbCwNsRaoBrgh/zwFhlzZOYvR1yfSTD+0NiqRSWnGSkBA8iIgcVeSEuU2U24nga
-	ranREUv0SCUeN9Tvhu6mnzG8Ml1wQM1lWVwI2Wdi8OjO3xW3voPEgkIqHKAoljmBban9
-	RMUHlFySLArUewR4+PK84c8LXohpn4Ag4qVK7owmzgt1nHeP+CrdHswUc28s5clPbMio
-	k0zysuoJpN7LmVBC8sEXVKknVvn5kWnBoNDTQTWnjGMnITN16rp3+OLx0sXzOL77yE2X
-	rt95weG6XDiUQkfz5rzN1VYAd3OdeNTZK+i7UAe6GBSPhI9s61QTUA5URzAWwfXVIcOm
-	YIxg==
-X-Received: by 10.58.118.70 with SMTP id kk6mr21291637veb.1.1373538754285;
-	Thu, 11 Jul 2013 03:32:34 -0700 (PDT)
+	Thu, 11 Jul 2013 10:32:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jul 2013 03:30:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="343875253"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2013 03:32:57 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.52]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.127]) with mapi id
+	14.03.0123.003; Thu, 11 Jul 2013 11:31:19 +0100
+From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 4/4] zip: rename recipe
+Thread-Index: AQHOfIEz3qmzfSPXQ0K23x5nPNGEuJlfNx2AgAATHcc=
+Date: Thu, 11 Jul 2013 10:31:18 +0000
+Message-ID: <985E5BBDA0968D48ABDF343456A521B3022C9956@IRSMSX105.ger.corp.intel.com>
+References: <cover.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
+	<c100a9e3184984c52b4c8743039537711123b5fb.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>,
+	<CAJTo0La0gTguJVoZNY57B4XfDKHY8y4BjBrozA3ChNwkCHmeiA@mail.gmail.com>
+In-Reply-To: <CAJTo0La0gTguJVoZNY57B4XfDKHY8y4BjBrozA3ChNwkCHmeiA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.137]
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 03:32:14 -0700 (PDT)
-In-Reply-To: <51DDACEA.1080503@linux.intel.com>
-References: <1373303785-8508-1-git-send-email-eu@felipetonello.com>
-	<51DDACEA.1080503@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2013 11:32:14 +0100
-Message-ID: <CAJTo0LZ7POY-i61qz8hUE=JXbc0=0uoNo_i1aTmgi-ma_cc8hw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQlFagwvVwRhfURN+tsVf8M5POFVLBqDhliVG/3olsEjFuYjvP2ILPpVgrzyAjsdYor5x5/W
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pulseaudio: Added consolekit dependency for pulseaudio-module-console-kit package
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] zip: rename recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,16 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:32:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Jul 2013 10:32:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 10 July 2013 19:50, Saul Wold <sgw@linux.intel.com> wrote:
-> Is this really a build-time dependency or a runtime dependency specific to
-> the pulseaudio-module?
-
-It's a runtime dependency, but from memory bitbake doesn't manage to
-piece the chain together enough to actually build consolekit (probably
-because the packages are dynamically created).
-
-Ross
+Hi Ross,=0A=
+=0A=
+I'm looking at an alternative solution.=0A=
+=0A=
+Thanks,=0A=
+Ema=0A=
+________________________________________=0A=
+From: Burton, Ross [ross.burton@intel.com]=0A=
+Sent: Thursday, July 11, 2013 1:21 PM=0A=
+To: Ciobanu, Emilia Maria Silvia=0A=
+Cc: openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH 4/4] zip: rename recipe=0A=
+=0A=
+On 9 July 2013 09:57, Emilia Ciobanu=0A=
+<emilia.maria.silvia.ciobanu@intel.com> wrote:=0A=
+> Current local version is 30.=0A=
+=0A=
+Explaining why this has to happen would be useful.  I presume the=0A=
+situation is that the package report system is reporting updates=0A=
+because upstream is at version "30" but we're at "3.0", when the=0A=
+reality is that upstream is sticking to 8+3 filenames so drops the=0A=
+dots in the version number.=0A=
+=0A=
+I'm not sure making our packages have the wrong version just because=0A=
+upstream tarballs versions are mangled is wise.  Can we extend the PRS=0A=
+so that it can transform the PV before comparing it to upstream?=0A=
+=0A=
+Ross=0A=
 
