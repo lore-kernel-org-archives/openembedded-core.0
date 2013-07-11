@@ -1,28 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 22DFE6A880
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 64F0E6AE9E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 16:00:50 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Jul 2013 09:00:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="344023125"
-Received: from unknown (HELO [10.255.13.73]) ([10.255.13.73])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2013 09:00:37 -0700
-Message-ID: <51DED6A4.60007@linux.intel.com>
-Date: Thu, 11 Jul 2013 09:00:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Thu, 11 Jul 2013 16:12:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6BGCTPY026887
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Jul 2013 09:12:29 -0700 (PDT)
+Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 11 Jul 2013 09:12:28 -0700
+Date: Thu, 11 Jul 2013 11:12:23 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: Chunrong Guo <B40290@freescale.com>
+Message-ID: <20130711111223.06985e9f@e6410-2>
+In-Reply-To: <1373529521-31010-1-git-send-email-B40290@freescale.com>
+References: <1373529521-31010-1-git-send-email-B40290@freescale.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1373540849.git.Qi.Chen@windriver.com>
-	<6391172.XjBtrIKksh@helios>
-In-Reply-To: <6391172.XjBtrIKksh@helios>
-Cc: qingtao.cao@windriver.com, Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"Rifenbark, Scott M" <scott.m.rifenbark@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 0/3] Add a method for image level user/group configuration
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pseudo: pseudo-native breaks native builds for symver.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +33,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 16:00:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 11 Jul 2013 16:12:32 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-On 07/11/2013 05:49 AM, Paul Eggleton wrote:
-> Hi Qi,
->
-> On Thursday 11 July 2013 19:11:36 Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> This patchset mainly does two things:
->> 1. code refactor to avoid code duplication
->> 2. add a method for image level user/group configuration
->>
->> The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
->>
->>    meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib ChenQi/user_group_settings
->>
->> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/user_group_set
->> tings
->>
->> Chen Qi (3):
->>    userbase.bbclass: add a new bbclass
->>    useradd.bbclass: code refactor
->>    usersettings.bbclass: add a new bbclass
->>
->>   meta/classes/useradd.bbclass      |  103 ++---------------
->>   meta/classes/userbase.bbclass     |  230
->> +++++++++++++++++++++++++++++++++++++ meta/classes/usersettings.bbclass |
->> 48 ++++++++
->>   3 files changed, 290 insertions(+), 91 deletions(-)
->>   create mode 100644 meta/classes/userbase.bbclass
->>   create mode 100644 meta/classes/usersettings.bbclass
->
-> In terms of naming I'd rather see the base class be called useradd_base to
-> match the naming of similar existing classes. For the new class, I'm not sure
-> usersettings is really an appropriate name, perhaps something like
-> "useradd_real" or "useraccount" or something else that more accurately reflects
-> what it is for?
->
+On Thu, 11 Jul 2013 15:58:41 +0800
+Chunrong Guo <B40290@freescale.com> wrote:
 
-I think this is a better approach than what you had orignally.
+>       *symver.patch causes failure if the host glibc does not provide the glibc-2.0 version of the symbol.
 
-I agree the naming is not correct currently, useraccount or maybe 
-extrausers, also when you rename the class the USER_GROUP_SETTING should 
-also be renamed to reflect that, something like EXTRA_USERS_PARAMS or 
-USER_ACCOUNT_PARAMS to match the class name.
+I don't think we should take this out unconditionally, because it was added
+to address a (different) problem -- we were ending up with the pseudo-native
+libraries being used with host glibc that might be too old, and not have
+newer versions.
 
-You also need to provide full documentation on this new variable, please 
-send details to Scott Rifenbark.
+I was under the impression that glibc tried to maintain binary compatibility
+a fairly long way back; which hosts are omitting this symbol? What
+architecture are you on?
 
-
-> Cheers,
-> Paul
->
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
