@@ -1,14 +1,14 @@
 Return-Path: <obi@opendreambox.org>
 Received: from mail.saftware.de (mail.saftware.de [83.141.3.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C9F8E6B00A
+	by mail.openembedded.org (Postfix) with ESMTP id 1020460687
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 00:56:44 +0000 (UTC)
+	Thu, 11 Jul 2013 01:04:20 +0000 (UTC)
 From: Andreas Oberritter <obi@opendreambox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jul 2013 02:56:35 +0200
-Message-Id: <1373504197-9550-1-git-send-email-obi@opendreambox.org>
+Date: Thu, 11 Jul 2013 03:04:17 +0200
+Message-Id: <1373504657-10575-1-git-send-email-obi@opendreambox.org>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 1/3] cogl-1.0: put each library into its own package
+Subject: [PATCH] qt4-x11-free: fix post-processing of QtWebKit.pc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -21,59 +21,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 00:56:45 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 01:04:20 -0000
 
-This allows to install cogl-gles2 and cogl-pango only when needed and
-enables Debian package renaming. This stops cogl-pango from dragging
-in unwanted runtime dependencies, if cogl-pango isn't used.
+Previously it worked for qt4-embedded only. qt4-x11-free has X11
+libs between -lwebcore and -ljscore.
 
 Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
 ---
- meta/recipes-graphics/cogl/cogl-1.0.inc | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ meta/recipes-qt/qt4/qt4.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 55eb003..8400668 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -9,7 +9,10 @@ SRC_URI += "file://cogl_fixed_mul-constraint.patch \
- inherit clutter
+diff --git a/meta/recipes-qt/qt4/qt4.inc b/meta/recipes-qt/qt4/qt4.inc
+index 81866ea..6adc404 100644
+--- a/meta/recipes-qt/qt4/qt4.inc
++++ b/meta/recipes-qt/qt4/qt4.inc
+@@ -345,7 +345,8 @@ do_install() {
+ 			-e 's#" -Wl,-rpath-link,${S}/lib/\?"##g' \
+ 			-e 's#" -Wl,-rpath-link,${libdir}/\?"##g' \
+ 			-e 's#Iin#I${in#g' \
+-			-e 's#-L\.\./\.\./WebCore/release\s\+-L\.\./\.\./JavaScriptCore/release\s\+-lwebcore\s\+-ljscore##g' \
++			-e 's#-L\.\./\.\./WebCore/release\s\+-L\.\./\.\./JavaScriptCore/release\s\+-lwebcore##g' \
++			-e 's#-ljscore##g' \
+ 			${D}${libdir}/*.la ${D}${libdir}/*.prl ${D}${libdir}/pkgconfig/*.pc
  
- DEPENDS = "pango glib-2.0 gdk-pixbuf"
--PACKAGES =+ "${PN}-examples"
-+PACKAGES =+ "${PN}-examples \
-+             libcogl libcogl-dev \
-+             libcogl-gles2 libcogl-gles2-dev \
-+             libcogl-pango libcogl-pango-dev"
- AUTOTOOLS_AUXDIR = "${S}/build"
- 
- # Extra DEPENDS for PACKAGECONFIG
-@@ -54,3 +57,25 @@ PACKAGECONFIG ??= "gl \
-                    ${@base_contains('DISTRO_FEATURES', 'x11', 'glx', '', d)}"
- 
- FILES_${PN}-examples = "${bindir}/* ${datadir}/cogl/examples-data/*"
-+FILES_libcogl = "${libdir}/libcogl${SOLIBS}"
-+FILES_libcogl-dev = "${includedir}/cogl/cogl \
-+                     ${libdir}/libcogl${SOLIBSDEV} \
-+                     ${libdir}/libcogl.la \
-+                     ${libdir}/pkgconfig/cogl-1.0.pc \
-+                     ${libdir}/pkgconfig/cogl-2.0-experimental.pc \
-+                     ${libdir}/pkgconfig/cogl-gl-1.0.pc"
-+FILES_libcogl-gles2 = "${libdir}/libcogl-gles2${SOLIBS}"
-+FILES_libcogl-gles2-dev = "${includedir}/cogl/cogl-gles2 \
-+                           ${libdir}/libcogl-gles2${SOLIBSDEV} \
-+                           ${libdir}/libcogl-gles2.la \
-+                           ${libdir}/pkgconfig/cogl-gles2-experimental.pc"
-+FILES_libcogl-pango = "${libdir}/libcogl-pango${SOLIBS}"
-+FILES_libcogl-pango-dev = "${includedir}/cogl/cogl-pango \
-+                           ${libdir}/libcogl-pango${SOLIBSDEV} \
-+                           ${libdir}/libcogl-pango.la \
-+                           ${libdir}/pkgconfig/cogl-pango-1.0.pc"
-+
-+# For backwards compatibility after Debian-renaming
-+RPROVIDES_libcogl = "cogl-1.0"
-+RCONFLICTS_libcogl = "cogl-1.0"
-+RREPLACES_libcogl = "cogl-1.0"
+ 	sed -i -e s#" -Wl,-rpath-link,${S}/lib"##g \
 -- 
 1.8.1.2
 
