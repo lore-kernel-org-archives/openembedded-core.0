@@ -1,26 +1,27 @@
-Return-Path: <tf+lists.yocto@r-finger.com>
-Received: from r-finger.com (r-finger.com [178.79.160.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B14460687
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 056C2601DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 09:18:37 +0000 (UTC)
-Received: from [192.168.0.2] (host86-137-86-109.range86-137.btcentralplus.com
-	[86.137.86.109]) (using TLSv1 with cipher AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by r-finger.com (Postfix) with ESMTPSA id 9E5999530
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:18:37 +0100 (BST)
-Message-ID: <51DE786C.8070802@r-finger.com>
-Date: Thu, 11 Jul 2013 10:18:36 +0100
-From: Tomas Frydrych <tf+lists.yocto@r-finger.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130630 Icedove/17.0.7
+	Thu, 11 Jul 2013 09:23:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jul 2013 02:20:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1042,1363158000"; d="scan'208";a="343849905"
+Received: from unknown (HELO helios.localnet) ([10.252.122.35])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2013 02:23:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Thu, 11 Jul 2013 10:23:16 +0100
+Message-ID: <2090020.yKL4kvvByo@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <51DE73A7.1070400@windriver.com>
+References: <cover.1373443071.git.hongxu.jia@windriver.com>
+	<CALmOhgnqd_AEmtzgJ_4gCAJXiXYW=tHryRJVGwN-rUw5TXR5MQ@mail.gmail.com>
+	<51DE73A7.1070400@windriver.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1373504197-9550-1-git-send-email-obi@opendreambox.org>
-	<1373504197-9550-2-git-send-email-obi@opendreambox.org>
-	<CAJTo0LZoTFBJ2LmbhxhNxPBd=FjhG6-BVYRw3L4mqNbemfz3og@mail.gmail.com>
-In-Reply-To: <CAJTo0LZoTFBJ2LmbhxhNxPBd=FjhG6-BVYRw3L4mqNbemfz3og@mail.gmail.com>
-Subject: Re: [PATCH 2/3] cogl-1.0: make building cogl-pango optional
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] nss: fix incorrect shebang line of perl script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,20 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 09:18:37 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jul 2013 09:23:18 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 11/07/13 09:56, Burton, Ross wrote:
-> On 11 July 2013 01:56, Andreas Oberritter <obi@opendreambox.org> wrote:
->> Add a 'cogl-pango' PACKAGECONFIG option and enable it by default.
+On Thursday 11 July 2013 16:58:15 Hongxu Jia wrote:
+> On 07/11/2013 04:39 PM, Trevor Woerner wrote:
+> > On 10 July 2013 09:03, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> >> Replace incorrect shebang line with `#!/usr/bin/perl'.
+> > 
+> > I thought using 'env' was the preferred method?
 > 
-> Really picky, but can we call this just "pango"?
+> If use 'env', should we add 'coreutils' on nss's DEPENDS?
+> The coreutils provides env.
 
-+1 for that; otherwise, these patches makes good sense to me.
+Our busybox configuration enables its version of env as well. I think it's 
+pretty safe to assume this is available without the need for additional 
+dependencies.
 
-Tomas
+Cheers,
+Paul
 
 -- 
-http://sleepfive.com
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
