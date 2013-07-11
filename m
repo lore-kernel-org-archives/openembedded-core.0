@@ -1,31 +1,38 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C43C60592
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C0B1260289
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 08:03:48 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1UxBqv-0001uA-5x from Muhammad_Shakeel@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 11 Jul 2013 01:03:49 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Thu, 11 Jul 2013 01:03:48 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Thu, 11 Jul 2013 09:03:46 +0100
-Message-ID: <51DE670A.4010003@mentor.com>
-Date: Thu, 11 Jul 2013 13:04:26 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Thu, 11 Jul 2013 08:23:22 +0000 (UTC)
+Received: by mail-ea0-f181.google.com with SMTP id a15so5511386eae.26
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 01:23:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=YMSerCdW9ndCH4b5dg2NyfUQCL6rR1/+JvjhYz153eQ=;
+	b=LS5bHaphmFuUXu2JxGKdZM7G0lZYqGzFjocJtkk6FZtD05wJknmQH719CX2l4aYSSa
+	oRzWF5ME6Ao0uc6OeouuvMTyXDxinOMV+FZZFygWXKLriBWvNhsDGCAHCb6xGqNZR5Uw
+	c5jUaTVZL9r92f0ugBE7mMX7GiFs5tBTpCs8jIWKi7UiM/1SD1ag64GsBhH0KvRa3Y10
+	R5lLVJM/t6HEfO24PmGQp3oMkuqbe5GN69q2oaRdDju7ekyUxpeZx5gKcyKK2TvfQfgD
+	IN+pTra+bXB27nMYog5oSwr7yp/ga7/3rI68DJkxaiko8Nf6k2TsBJaCvQTaaNt+3yHj
+	PkuQ==
+X-Received: by 10.14.115.9 with SMTP id d9mr40307091eeh.87.1373531002216;
+	Thu, 11 Jul 2013 01:23:22 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	n5sm67085014eed.9.2013.07.11.01.23.20 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 11 Jul 2013 01:23:21 -0700 (PDT)
+Date: Thu, 11 Jul 2013 10:23:32 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+Message-ID: <20130711082332.GG3288@jama>
 References: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>
+MIME-Version: 1.0
 In-Reply-To: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 11 Jul 2013 08:03:48.0733 (UTC)
-	FILETIME=[2C8B62D0:01CE7E0D]
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] [v2] openssh: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -39,58 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 08:03:48 -0000
-Content-Type: multipart/alternative;
-	boundary="------------010706050707050201050105"
+X-List-Received-Date: Thu, 11 Jul 2013 08:23:23 -0000
+X-Groupsio-MsgNum: 41777
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bfHXWC0AWsk5KHuB"
+Content-Disposition: inline
 
---------------010706050707050201050105
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+--bfHXWC0AWsk5KHuB
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 07/11/2013 12:45 PM, Shakeel, Muhammad wrote:
-> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
-> @@ -0,0 +1,11 @@
-> +[Unit]
-> +Conflicts=sshd.service
-|sshd.service is the ||service file for running a single SSH server for 
-all incoming connections, suitable only for systems with a large amount 
-of SSH traffic. ||In almost all other cases it is a better idea to use 
-sshd.socket + sshd@.service (i.e. the on-demand spawning version for one 
-instance per connection). In case these both are present, there will be 
-a conflict and systemd should be aware of it.
-|
+On Thu, Jul 11, 2013 at 12:45:28PM +0500, Shakeel, Muhammad wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>=20
+> - Remove dependency on systemd layer
+> - Install 'sysv' related files only if distro has this feature
 
---------------010706050707050201050105
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
+Will you please send .bbappend removal patches for meta-systemd layer
+when your changes in oe-core are applied? That way I don't need to keep
+track of what was moved already. Thanks
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 07/11/2013 12:45 PM, Shakeel,
-      Muhammad wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com"
-      type="cite">
-      <pre wrap="">+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
-@@ -0,0 +1,11 @@
-+[Unit]
-+Conflicts=sshd.service
-</pre>
-    </blockquote>
-    <code>sshd.service is the </code><code>service file for running a
-      single SSH server for all incoming connections, suitable only for
-      systems with a large amount of SSH traffic. </code><code>In
-      almost all other cases it is a better idea to use sshd.socket +
-      <a class="moz-txt-link-abbreviated" href="mailto:sshd@.service">sshd@.service</a> (i.e. the on-demand spawning version for one
-      instance per connection). In case these both are present, there
-      will be a conflict and systemd should be aware of it.<br>
-    </code>
-  </body>
-</html>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---------------010706050707050201050105--
+--bfHXWC0AWsk5KHuB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHea4QACgkQN1Ujt2V2gBzDFQCfaYO37+NDCf3O36a5M9jbL9K8
+W3MAn32lkX6Sq94V5QqWF7oFiugZ2kKm
+=4sKQ
+-----END PGP SIGNATURE-----
+
+--bfHXWC0AWsk5KHuB--
