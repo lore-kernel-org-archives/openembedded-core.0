@@ -1,29 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DB14B60687
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 2114B6AB93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 09:28:55 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6B9Stuc007386
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Jul 2013 02:28:55 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 11 Jul 2013 02:28:53 -0700
-Message-ID: <51DE7AD3.1040709@windriver.com>
-Date: Thu, 11 Jul 2013 17:28:51 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu, 11 Jul 2013 09:55:31 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1UxDb0-0004FD-8C from Muhammad_Shakeel@mentor.com ;
+	Thu, 11 Jul 2013 02:55:30 -0700
+Received: from SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 11 Jul 2013 02:55:30 -0700
+Received: from EU-MBX-04.mgc.mentorg.com ([169.254.4.127]) by
+	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
+	14.02.0247.003; Thu, 11 Jul 2013 10:55:28 +0100
+From: "Shakeel, Muhammad" <Muhammad_Shakeel@mentor.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH] [v2] openssh: Enabling with systemd
+Thread-Index: AQHOfgqWa6b8ZtVdKkGJ695TZB+cP5lfEwIAgAAppjE=
+Date: Thu, 11 Jul 2013 09:55:12 +0000
+Message-ID: <A8A2F4C5E3D3D0468DDA3544476725F8AE1FA907@EU-MBX-04.mgc.mentorg.com>
+References: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>,
+	<20130711082332.GG3288@jama>
+In-Reply-To: <20130711082332.GG3288@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.68]
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1373443071.git.hongxu.jia@windriver.com>
-	<CALmOhgnqd_AEmtzgJ_4gCAJXiXYW=tHryRJVGwN-rUw5TXR5MQ@mail.gmail.com>
-	<51DE73A7.1070400@windriver.com> <2090020.yKL4kvvByo@helios>
-In-Reply-To: <2090020.yKL4kvvByo@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/5] nss: fix incorrect shebang line of perl script
+X-OriginalArrivalTime: 11 Jul 2013 09:55:30.0851 (UTC)
+	FILETIME=[C7516F30:01CE7E1C]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [v2] openssh: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 09:28:56 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jul 2013 09:55:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 07/11/2013 05:23 PM, Paul Eggleton wrote:
-> On Thursday 11 July 2013 16:58:15 Hongxu Jia wrote:
->> On 07/11/2013 04:39 PM, Trevor Woerner wrote:
->>> On 10 July 2013 09:03, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->>>> Replace incorrect shebang line with `#!/usr/bin/perl'.
->>> I thought using 'env' was the preferred method?
->> If use 'env', should we add 'coreutils' on nss's DEPENDS?
->> The coreutils provides env.
-> Our busybox configuration enables its version of env as well. I think it's
-> pretty safe to assume this is available without the need for additional
-> dependencies.
-Got it, use 'env' and without additional dependencies, I will fix this.
-
-Thanks
-Hongxu
-> Cheers,
-> Paul
->
-
+> Will you please send .bbappend removal patches for meta-systemd layer=0A=
+> when your changes in oe-core are applied? That way I don't need to keep=
+=0A=
+> track of what was moved already. Thanks=0A=
+=0A=
+Yes, if this patch gets merged into oe-core, I'll send another patch for me=
+ta-systemd to remove respective bbappend.=0A=
+=0A=
+Regards,=0A=
+Shakeel=0A=
 
