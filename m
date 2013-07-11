@@ -1,39 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
-	[209.85.212.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3726D6AED1
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 554BD61883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 11:01:47 +0000 (UTC)
-Received: by mail-vb0-f43.google.com with SMTP id e12so415084vbg.2
+	Thu, 11 Jul 2013 11:11:37 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6BBBdeZ011329
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 04:01:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=6TFfcK5YuDumyuFk/odbIAECZQXDHyI1FYyK/r07uEM=;
-	b=PlsrvNDOlqxtMeYJ40G3IQ3442WRUJmheroIqTgMj9uWGulPiKXeTllYCgnT8JlIE0
-	lnDAF5nl+vqYEKzuEMpQ1MimjEVqsxktB/9BfzP+Tf7mLB4dxanKtYkhcAljfnc3f+++
-	Ei57Hmate0R+8ngqQeTDl+WXdxetHXbYgJCBgdWLyBQNZ/JHnA7FbwOnk33/GSo48ejV
-	jODNRq/ob7lOs9ZVH/VunKqDfiD6IaRAMcASNWP1vzt25ItgzQhgkAn7BTKyP1WLTdm0
-	AD41SbeZp9CEUQP2ymvvNPeWhhYa8llyJkzMvAvJaKMwj/5nSKnHm7H0c1uPzSyak4ZU
-	yZhA==
-X-Received: by 10.220.192.4 with SMTP id do4mr21398474vcb.91.1373540507844;
-	Thu, 11 Jul 2013 04:01:47 -0700 (PDT)
+	Thu, 11 Jul 2013 04:11:39 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 11 Jul 2013 04:11:37 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Jul 2013 19:11:36 +0800
+Message-ID: <cover.1373540849.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 04:01:27 -0700 (PDT)
-In-Reply-To: <51DE8EB8.60908@opendreambox.org>
-References: <1373504197-9550-1-git-send-email-obi@opendreambox.org>
-	<1373504197-9550-3-git-send-email-obi@opendreambox.org>
-	<CAJTo0Laa7if2poYd_8AeLYDq8obefuw5F7ygSi+uz4LYpWrOkg@mail.gmail.com>
-	<51DE8EB8.60908@opendreambox.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2013 12:01:27 +0100
-Message-ID: <CAJTo0LbWOX7v7o1-0CVEbs66yAg0d4rG2nYRCZbD9AXm3YBJDg@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-X-Gm-Message-State: ALoCoQk1ruYpNvxnbDZ6XT2Tp2LMy7jRfJNi1M9hl+r1LlYblGAG0eU8h5ePk2CdzEA0riRwsOeU
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] cogl-1.0: add option to enable GLES1
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH V3 0/3] Add a method for image level user/group configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 11:01:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 11 Jul 2013 11:11:37 -0000
+Content-Type: text/plain
 
-On 11 July 2013 11:53, Andreas Oberritter <obi@opendreambox.org> wrote:
->> The rationale behind this was that the GLES1 support isn't tested,
->> mainly as there's not a lot of hardware that can't also do GLESv2.
->> Was this enabled for completeness or are you actually restricted to
->> GLESv1?
->
-> It's for completeness, so if you have libraries for both GLES1 and
-> GLES2, you can compare them easily and then choose the one that works
-> better for your application. If nothing else, then this may improve test
-> coverage. Because it's disabled by default, introducing this option
-> doesn't have any bad side effects. On the good side, it explicitly
-> disables GLES1, so if a later version of cogl switches to
-> auto-detection, the behaviour of the build won't change.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-The GLESv2 backend will work best, because the v1 backend is crippled
-by v1's limitations and lack of testing.  And GLESv1 is already
-disabled explicitly in EXTRA_OECONF (that this patch should remove).
+This patchset mainly does two things:
+1. code refactor to avoid code duplication
+2. add a method for image level user/group configuration
 
-I'm leaning towards rejecting this as it doesn't serve a purpose,
-unless someone can say that they're actually using the GLESv1 backend
-(that upstream admits isn't tested).
+The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
 
-Ross
+  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/user_group_settings
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/user_group_settings
+
+Chen Qi (3):
+  userbase.bbclass: add a new bbclass
+  useradd.bbclass: code refactor
+  usersettings.bbclass: add a new bbclass
+
+ meta/classes/useradd.bbclass      |  103 ++---------------
+ meta/classes/userbase.bbclass     |  230 +++++++++++++++++++++++++++++++++++++
+ meta/classes/usersettings.bbclass |   48 ++++++++
+ 3 files changed, 290 insertions(+), 91 deletions(-)
+ create mode 100644 meta/classes/userbase.bbclass
+ create mode 100644 meta/classes/usersettings.bbclass
+
+-- 
+1.7.9.5
+
 
