@@ -1,39 +1,37 @@
-Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id ACE506AB93
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D58646AECA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:11:57 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 11 Jul 2013 03:13:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="368551875"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2013 03:11:56 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 11 Jul 2013 11:09:27 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.52]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.214]) with mapi id
-	14.03.0123.003; Thu, 11 Jul 2013 11:08:22 +0100
-From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH 2/3] docbook-sgml-dtd-4.1-native.bb: Add real
-	PV inside the recipe
-Thread-Index: AQHOfX4q4lcvSqd6UEKaC7K7Uowkf5ld9TCAgAAv94CAARokYA==
-Date: Thu, 11 Jul 2013 10:08:22 +0000
-Message-ID: <985E5BBDA0968D48ABDF343456A521B3022C9918@IRSMSX105.ger.corp.intel.com>
-References: <cover.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-	<6c15f39c5d3d9c6d7d8788d1c76758078b446fbd.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-	<20130710151637.GD3288@jama> <51DDA311.10908@linux.intel.com>
-In-Reply-To: <51DDA311.10908@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Thu, 11 Jul 2013 10:22:04 +0000 (UTC)
+Received: by mail-ve0-f176.google.com with SMTP id c13so7021308vea.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 03:22:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=S59MfTYjbMoqhF7ro4prVJRAHSAWPThEg1VyxnMBNoQ=;
+	b=M1RuNV8xlX/KwjMS/DxT3B9dgyoF4oF6IZ+/wfsFTrFA20BXd+oNfPMASo/q1ErwCR
+	Ox/+9IEmk/ucEvT2ULuY84AWHNy5+jSFoT7sY8PTnh1g6p41wkF2VqoHuesPzja9gUBP
+	x8CGOI2kcM5Cd8glmVc0FIvDjWvLGSE31AO7AIxYXYx6rkCUuqLqDSKGO/xBx94mCs4x
+	GsH0tv+dPpuwwbF1cOyiuPibmwpEq6nWTlxlUn0UID/cs0YTSgeAeeo+Z2tSzZvTpfVO
+	TcoOno9ItdF0+QavVc6YEKpQD1pgaa3JFZIk+owATMge3Lx1mtrOzcQ4oqBI7kDcsXzG
+	p/sw==
+X-Received: by 10.220.42.147 with SMTP id s19mr21221009vce.46.1373538125249;
+	Thu, 11 Jul 2013 03:22:05 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] docbook-sgml-dtd-4.1-native.bb: Add real PV inside the recipe
+Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 03:21:45 -0700 (PDT)
+In-Reply-To: <c100a9e3184984c52b4c8743039537711123b5fb.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
+References: <cover.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
+	<c100a9e3184984c52b4c8743039537711123b5fb.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Jul 2013 11:21:45 +0100
+Message-ID: <CAJTo0La0gTguJVoZNY57B4XfDKHY8y4BjBrozA3ChNwkCHmeiA@mail.gmail.com>
+To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+X-Gm-Message-State: ALoCoQnmSpE5o3dEEh6gPOBq2XnkeG/ijZ1xSOfV4tZMSR/xH52u2BHUmnphkoiutzvdzvMPg59l
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] zip: rename recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,87 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:11:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Jul 2013 10:22:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Saul,
+On 9 July 2013 09:57, Emilia Ciobanu
+<emilia.maria.silvia.ciobanu@intel.com> wrote:
+> Current local version is 30.
 
-> -----Original Message-----
-> From: Saul Wold [mailto:sgw@linux.intel.com]
-> Sent: Wednesday, July 10, 2013 9:08 PM
-> To: Martin Jansa
-> Cc: Ciobanu, Emilia Maria Silvia; openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 2/3] docbook-sgml-dtd-4.1-native.bb: Add
-> real PV inside the recipe
->=20
-> On 07/10/2013 08:16 AM, Martin Jansa wrote:
-> > On Wed, Jul 10, 2013 at 06:07:08PM +0300, Emilia Ciobanu wrote:
-> >> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-> >> ---
-> >>   .../docbook-sgml-dtd-4.1-native.bb                 |    1 +
-> >>   1 file changed, 1 insertion(+)
-> >>
-> >> diff --git
-> >> a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
-> native.
-> >> bb
-> >> b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
-> native.
-> >> bb
-> >> index 88c9396..1f338fd 100644
-> >> ---
-> >> a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
-> native.
-> >> bb
-> >> +++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
-> nat
-> >> +++ ive.bb
-> >> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE-
-> OASIS;md5=3Dc608985dd5f7f215e669e7639a0b1d2e"
-> >>   DTD_VERSION =3D "4.1"
-> >>
-> >>   PR =3D "${INC_PR}.0"
-> >> +PV =3D "41"
-> >
-> > Why not 4.1?
-> >
-> It seems that the older version (3.1 and 4.1) have their tarballs named w=
-ith 31
-> and 41.
->=20
-> Ema, can you use the regex to handle this correctly?
+Explaining why this has to happen would be useful.  I presume the
+situation is that the package report system is reporting updates
+because upstream is at version "30" but we're at "3.0", when the
+reality is that upstream is sticking to 8+3 filenames so drops the
+dots in the version number.
 
-The regexes cannot handle this case, but I'm considering an alternative sol=
-ution.
+I'm not sure making our packages have the wrong version just because
+upstream tarballs versions are mangled is wise.  Can we extend the PRS
+so that it can transform the PV before comparing it to upstream?
 
-Thanks,
-Ema
-
->=20
-> Sau!
->=20
->=20
->=20
-> >>
-> >>   # Note: the upstream sources are not distributed with a license file=
-.
-> >>   # LICENSE-OASIS is included as a "patch" to workaround this. When
-> >> --
-> >> 1.7.9.5
-> >>
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> >
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
+Ross
 
