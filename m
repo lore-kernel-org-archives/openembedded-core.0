@@ -1,27 +1,17 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DDCCA6012D
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 743FA6A5A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 12:04:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6BC4dBU011945
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 05:04:39 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 11 Jul 2013 05:04:37 -0700
-Message-ID: <51DE9F53.4080608@windriver.com>
-Date: Thu, 11 Jul 2013 20:04:35 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1373443071.git.hongxu.jia@windriver.com>
-In-Reply-To: <cover.1373443071.git.hongxu.jia@windriver.com>
-Subject: [PATCH V3 0/5] add nss for LSB library check (cover letter only)
+	Thu, 11 Jul 2013 12:11:38 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6BCBZAs023582; 
+	Thu, 11 Jul 2013 07:11:37 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jul 2013 17:12:08 +0500
+Message-Id: <1373544728-10591-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] [v2] rpcbind: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,121 +24,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 12:04:37 -0000
-Content-Type: multipart/alternative;
-	boundary="------------080009010107010203040100"
+X-List-Received-Date: Thu, 11 Jul 2013 12:11:41 -0000
 
---------------080009010107010203040100
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Change in V3:
-1) Replace incorrect shebang line with `#!/usr/bin/env perl'.
+- Adds systemd support in rpcbind
+- Install 'sysv' related files only if distro has this feature
 
-Change in V2:
-1) Rename the title of patch 1/5
-2) Use ${libdir} rather than ${base_libdir} as the lib location
-    which references the nss in meta-browser.
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../rpcbind/rpcbind/rpcbind.service                |   13 +++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |   24 +++++++++++++++-----
+ 2 files changed, 31 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+new file mode 100644
+index 0000000..a028ace
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+@@ -0,0 +1,13 @@
++[Unit]
++Description=RPC Bind
++After=network.target
++Wants=rpcbind.target
++Before=rpcbind.target
++
++[Service]
++Type=forking
++ExecStart=/usr/sbin/rpcbind
++Restart=always
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+index f4a0367..01cdbe0 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://fix_host_path.patch \
+            file://obsolete_automake_macros.patch \
+            ${UCLIBCPATCHES} \
++           file://rpcbind.service \
+           "
+ 
+ UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
+@@ -27,7 +28,7 @@ SRC_URI[sha256sum] = "c92f263e0353887f16379d7708ef1fb4c7eedcf20448bc1e4838f59497
+ 
+ PR = "r4"
+ 
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
+ 
+ PACKAGECONFIG ??= "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+@@ -35,12 +36,23 @@ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+ INITSCRIPT_NAME = "rpcbind"
+ INITSCRIPT_PARAMS = "start 43 S . start 32 0 6 . stop 81 1 ."
+ 
++SYSTEMD_SERVICE_${PN} = "rpcbind.service"
++SYSTEMD_AUTO_ENABLE = "disable"
++
+ do_install_append () {
+     mv ${D}${bindir} ${D}${sbindir}
+ 
+-    install -d ${D}${sysconfdir}/init.d
+-    sed -e 's,/etc/,${sysconfdir}/,g' \
+-        -e 's,/sbin/,${sbindir}/,g' \
+-        ${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
+-    chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
++    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
++        install -d ${D}${sysconfdir}/init.d
++        sed -e 's,/etc/,${sysconfdir}/,g' \
++            -e 's,/sbin/,${sbindir}/,g' \
++            ${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
++        chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
++    fi
++
++    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++        install -d ${D}${systemd_unitdir}/system
++        install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
++        sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/rpcbind.service
++    fi
+ }
+-- 
+1.7.9.5
 
 
-The following changes since commit dc86293f0444384e8ae5131fdd10b6cb077164b0:
-
-   bitbake: HOB:Proper handle of SIGINT (2013-07-05 15:52:48 +0100)
-
-are available in the git repository at:
-
-   git://git.pokylinux.org/poky-contrib hongxu/fix-nss
-   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss
-
-Hongxu Jia (5):
-   nspr: add native version
-   packagegroup-core-lsb: add nss for LSB library check
-   nss: add version 3.15.1
-   nss: create checksum files for the nss libraries
-   nss: fix incorrect shebang line of perl script
-
-  .../packagegroups/packagegroup-core-lsb.bb         |   1 +
-  meta/recipes-support/nspr/nspr_4.10.bb             |   2 +
-  .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 ++++++++++++
-  .../files/nss-fix-support-cross-compiling.patch    |  71 ++++++++
-  .../files/nss-no-rpath-for-cross-compiling.patch   |  26 +++
-  meta/recipes-support/nss/files/nss.pc.in           |  11 ++
-  meta/recipes-support/nss/files/signlibs.sh         |  20 +++
-  meta/recipes-support/nss/nss.inc                   | 187 +++++++++++++++++++++
-  meta/recipes-support/nss/nss_3.15.1.bb             |   9 +
-  9 files changed, 437 insertions(+)
-  create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
-  create mode 100644 meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch
-  create mode 100644 meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
-  create mode 100644 meta/recipes-support/nss/files/nss.pc.in
-  create mode 100644 meta/recipes-support/nss/files/signlibs.sh
-  create mode 100644 meta/recipes-support/nss/nss.inc
-  create mode 100644 meta/recipes-support/nss/nss_3.15.1.bb
-
--- 1.8.1.2
-
-
---------------080009010107010203040100
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-text-plain" wrap="true" graphical-quote="true"
-      style="font-family: -moz-fixed; font-size: 12px;" lang="x-western">
-      <pre wrap="">Change in V3: 
-1) Replace incorrect shebang line with `#!/usr/bin/env perl'.
-
-Change in V2:
-1) Rename the title of patch 1/5
-2) Use ${libdir} rather than ${base_libdir} as the lib location
-   which references the nss in meta-browser.
-
-
-The following changes since commit dc86293f0444384e8ae5131fdd10b6cb077164b0:
-
-  bitbake: HOB:Proper handle of SIGINT (2013-07-05 15:52:48 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-nss
-  <a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss</a>
-
-Hongxu Jia (5):
-  nspr: add native version
-  packagegroup-core-lsb: add nss for LSB library check
-  nss: add version 3.15.1
-  nss: create checksum files for the nss libraries
-  nss: fix incorrect shebang line of perl script
-
- .../packagegroups/packagegroup-core-lsb.bb         |   1 +
- meta/recipes-support/nspr/nspr_4.10.bb             |   2 +
- .../files/nss-fix-incorrect-shebang-of-perl.patch  | 110 ++++++++++++
- .../files/nss-fix-support-cross-compiling.patch    |  71 ++++++++
- .../files/nss-no-rpath-for-cross-compiling.patch   |  26 +++
- meta/recipes-support/nss/files/nss.pc.in           |  11 ++
- meta/recipes-support/nss/files/signlibs.sh         |  20 +++
- meta/recipes-support/nss/nss.inc                   | 187 +++++++++++++++++++++
- meta/recipes-support/nss/nss_3.15.1.bb             |   9 +
- 9 files changed, 437 insertions(+)
- create mode 100644 meta/recipes-support/nss/files/nss-fix-incorrect-shebang-of-perl.patch
- create mode 100644 meta/recipes-support/nss/files/nss-fix-support-cross-compiling.patch
- create mode 100644 meta/recipes-support/nss/files/nss-no-rpath-for-cross-compiling.patch
- create mode 100644 meta/recipes-support/nss/files/nss.pc.in
- create mode 100644 meta/recipes-support/nss/files/signlibs.sh
- create mode 100644 meta/recipes-support/nss/nss.inc
- create mode 100644 meta/recipes-support/nss/nss_3.15.1.bb
-
-<div class="moz-txt-sig">-- 
-1.8.1.2
-
-</div></pre>
-    </div>
-  </body>
-</html>
-
---------------080009010107010203040100--
