@@ -1,17 +1,40 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 532F96AB93
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 652FC6A45E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 07:45:03 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6B7j0pD007181; 
-	Thu, 11 Jul 2013 02:45:02 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jul 2013 12:45:28 +0500
-Message-Id: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] [v2] openssh: Enabling with systemd
+	Thu, 11 Jul 2013 07:58:09 +0000 (UTC)
+Received: by mail-pd0-f173.google.com with SMTP id v14so7230603pde.32
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 00:58:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
+	:references:mime-version:content-transfer-encoding:content-type;
+	bh=xQpeNrIBgc6J8GB9z8b9FHMO3AgwbS9xCypf96IXy5Q=;
+	b=cOzeJStFDNRqLd0Wpp9ZyUa4s/r9m1i5+mCjDSOt/ZLkIBep9C0SkoBJA3LzBGcBTR
+	kpP+ppZNZ5SfJLWEk9quNiRJoGzzNN+4Sn5LYkdSK7Y1rnfTuDUDXjGcxNB/rNpWShhZ
+	lq+VTPsApD3VaBtfMABJodVkkdl9KJx/+p50rdYdAACE9I0G3mAGz9oHogXu2s46MsLF
+	YV/A/+5q4xcmYE5XnWDbzLYiWfAikVVlGqtR9TpSn4Db1y5sTRtu5OdPEJnHPfxkaa3z
+	vn/zoyf9o6POFm2jTYMbglaZuMAULzK9BAh37h7btaBsQVUbqCaETTPDpgq3+9h0jI4G
+	hRKw==
+X-Received: by 10.68.131.168 with SMTP id on8mr35296540pbb.97.1373529489708;
+	Thu, 11 Jul 2013 00:58:09 -0700 (PDT)
+Received: from yiqingliang-pc.localnet ([117.89.77.62])
+	by mx.google.com with ESMTPSA id iv4sm38330804pbc.9.2013.07.11.00.58.06
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 11 Jul 2013 00:58:08 -0700 (PDT)
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 11 Jul 2013 15:53:27 +0800
+Message-ID: <4040551.kht3okHjSo@yiqingliang-pc>
+User-Agent: KMail/4.10.4 (Linux/3.9.8-1-ARCH; KDE/4.10.4; x86_64; ; )
+In-Reply-To: <20130711073030.GF3288@jama>
+References: <2457726.ZAE80f4V8O@yiqingliang-pc>
+	<4753381.i1zt9jKOiD@yiqingliang-pc> <20130711073030.GF3288@jama>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: boost 1.54 compile fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,137 +47,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 07:45:03 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 07:58:09 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On Thursday, July 11, 2013 09:30:30 AM Martin Jansa wrote:
+> On Thu, Jul 11, 2013 at 09:54:28AM +0800, Yi Qingliang wrote:
+> > maybe it is the gcc's fault (recently it is updated to 4.8.x in poky)
+> > 
+> > I can found uintptr_t in cstdint, but it is wrapped by a c99 related
+> > macro.
+> 
+> See
+> http://lists.openembedded.org/pipermail/openembedded-devel/2013-July/091331.
+> html https://lists.yoctoproject.org/pipermail/yocto/2013-July/017159.html
+> threads
 
-- Remove dependency on systemd layer
-- Install 'sysv' related files only if distro has this feature
+thanks! I have checked that, but the answer is not obvious,
+what is the reason? gcc ? eglibc ? or boost ?
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- .../openssh/openssh-6.2p2/sshd.socket              |   11 ++++++++
- .../openssh/openssh-6.2p2/sshd@.service            |    9 ++++++
- .../openssh/openssh-6.2p2/sshdgenkeys.service      |   10 +++++++
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   29 +++++++++++++++++---
- 4 files changed, 55 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
-new file mode 100644
-index 0000000..753a33b
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
-@@ -0,0 +1,11 @@
-+[Unit]
-+Conflicts=sshd.service
-+
-+[Socket]
-+ExecStartPre=/bin/mkdir -p /var/run/sshd
-+ListenStream=22
-+Accept=yes
-+
-+[Install]
-+WantedBy=sockets.target
-+Also=sshdgenkeys.service
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
-new file mode 100644
-index 0000000..d118490
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
-@@ -0,0 +1,9 @@
-+[Unit]
-+Description=OpenSSH Per-Connection Daemon
-+After=sshdgenkeys.service
-+
-+[Service]
-+ExecStart=-/usr/sbin/sshd -i
-+ExecReload=/bin/kill -HUP $MAINPID
-+StandardInput=socket
-+StandardError=syslog
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
-new file mode 100644
-index 0000000..c717214
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=SSH Key Generation
-+
-+[Service]
-+ExecStart=/usr/bin/ssh-keygen -A
-+Type=oneshot
-+RemainAfterExit=yes
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index ab2eefb..b9657d5 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -26,14 +26,17 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://init \
-            file://openssh-CVE-2011-4327.patch \
-            file://mac.patch \
--           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
-+           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-+           file://sshd.socket \
-+           file://sshd@.service \
-+           file://sshdgenkeys.service "
- 
- PAM_SRC_URI = "file://sshd"
- 
- SRC_URI[md5sum] = "be46174dcbb77ebb4ea88ef140685de1"
- SRC_URI[sha256sum] = "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90c766432e32161b842313b"
- 
--inherit useradd update-rc.d update-alternatives
-+inherit useradd update-rc.d update-alternatives systemd
- 
- USERADD_PACKAGES = "${PN}-sshd"
- USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
-@@ -41,6 +44,10 @@ INITSCRIPT_PACKAGES = "${PN}-sshd"
- INITSCRIPT_NAME_${PN}-sshd = "sshd"
- INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
- 
-+SYSTEMD_PACKAGES = "${PN}-sshd"
-+SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
-+SYSTEMD_AUTO_ENABLE = "enable"
-+
- PACKAGECONFIG ??= "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
- 
-@@ -82,8 +89,21 @@ do_install_append () {
- 			install -m 0755 ${WORKDIR}/sshd ${D}${sysconfdir}/pam.d/sshd
- 		fi
- 	done
--	install -d ${D}${sysconfdir}/init.d
--	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
-+
-+    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-+	    install -d ${D}${sysconfdir}/init.d
-+	    install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
-+    fi
-+
-+    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+        install -d ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
-+        sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/sshd@.service
-+        sed -i 's,/usr/bin/,${bindir}/,g' ${D}${systemd_unitdir}/system/sshdgenkeys.service
-+    fi
-+
- 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
- 	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
- }
-@@ -95,6 +115,7 @@ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
- FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config"
-+FILES_${PN}-sshd += "${systemd_unitdir}"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+> 
+> > On Wednesday, July 10, 2013 04:21:02 PM Yi Qingliang wrote:
+> > > Hello!
+> > > 
+> > > after update poky to latest git version, I got failure when compiling
+> > > boost:
+> > > 
+> > > the main error is: (indeed, and too many warning!)
+> > > 
+> > > | ./boost/atomic/atomic.hpp:202:16: error: 'uintptr_t' was not declared
+> > > | in
+> > > 
+> > > this scope
+> > > 
+> > > |  typedef atomic<uintptr_t> atomic_uintptr_t;
+> > > |  
+> > > |                 ^
+> > > | 
+> > > | ./boost/atomic/atomic.hpp:202:25: error: template argument 1 is
+> > > | invalid
+> > > | 
+> > > |  typedef atomic<uintptr_t> atomic_uintptr_t;
+> > > |  
+> > > |                          ^
+> > > | 
+> > > | ./boost/atomic/atomic.hpp:202:43: error: invalid type in declaration
+> > > | before
+> > > 
+> > > ';' token
+> > > 
+> > > |  typedef atomic<uintptr_t> atomic_uintptr_t;
+> > > |  
+> > > |                                            ^
+> > > | 
+> > > | In file included from ./boost/system/system_error.hpp:14:0,
+> > > | 
+> > > |                  from ./boost/thread/exceptions.hpp:22,
+> > > |                  from ./boost/thread/pthread/thread_data.hpp:10,
+> > > |                  from ./boost/thread/thread_only.hpp:17,
+> > > |                  from libs/thread/src/pthread/thread.cpp:11:
 -- 
-1.7.9.5
-
+Nanjing Jilong
+Yi Qingliang
+niqingliang2003@gmail.com
 
