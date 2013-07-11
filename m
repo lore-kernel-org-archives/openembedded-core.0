@@ -1,41 +1,40 @@
-Return-Path: <mihai.prica@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E1C8C6AF46
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 86C73608C6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 07:16:42 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 11 Jul 2013 00:14:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1042,1363158000"; d="scan'208";a="343794767"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jul 2013 00:16:42 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 11 Jul 2013 08:15:20 +0100
-Received: from irsmsx101.ger.corp.intel.com ([169.254.1.204]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.147]) with mapi id
-	14.03.0123.003; Thu, 11 Jul 2013 08:15:19 +0100
-From: "Prica, Mihai" <mihai.prica@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] insane.bbclass: Added QA warning for
-	shipping /usr/share/info/dir
-Thread-Index: AQHOdkYfPA+iMFQ9M0ONUA7gG/gRkZlP15wAgA3wo4CAAVRdMA==
-Date: Thu, 11 Jul 2013 07:15:18 +0000
-Message-ID: <97BD068FB200C44AA73C2B641F162ECF15E6687B@IRSMSX101.ger.corp.intel.com>
-References: <cover.1372674367.git.mihai.prica@intel.com>
-	<2ee8976b4ad482eafb186deba9a14fc52f6dc8cf.1372674367.git.mihai.prica@intel.com>
-	<CAJTo0LbWDHqUoaks86RrGMSnKyN+fw-cxShpFpr=DT-sOGbvxQ@mail.gmail.com>
-	<20130710114405.GZ3288@jama>
-In-Reply-To: <20130710114405.GZ3288@jama>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Thu, 11 Jul 2013 07:30:20 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id m14so5504968eaj.30
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 00:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=WdglE2J3HU3nEJGGZiVLJuAqACZJ99u8Q4wV1uH4wJA=;
+	b=i98omwK2HqxILn+dbp0Paeo3FPxLsfUwvybzMskhJJ0XSMhb8d+R9JVPp3M2CBLHZD
+	91vOyOoQr/84ceD32nosRUs2fC1hj4YLOikwTb0yw5TD5ruzW/pL29mY8SZytP3WNYo3
+	4m3tcCbVwhmD1MZWe+rRzG7Bt/7Zgw63jXfcjQmGewdMT1yz6cNFRwqyDfseXJnItYY+
+	Biv1wo83/VHPsRW4P3DQqh3VO/uPirO/jPmP0rySDycARfMnTm3Iq8My8blFfTER9+WR
+	dUqo9ooBXq3JrvxAi6DGB7BPyHt0yzLz/j4C0ayVcaqDcsEUnB1L8AhOaNUu/aPqA6kQ
+	nCAA==
+X-Received: by 10.15.52.5 with SMTP id o5mr40525908eew.58.1373527820533;
+	Thu, 11 Jul 2013 00:30:20 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	m1sm66695090eex.17.2013.07.11.00.30.19 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 11 Jul 2013 00:30:19 -0700 (PDT)
+Date: Thu, 11 Jul 2013 09:30:30 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Yi Qingliang <niqingliang2003@gmail.com>
+Message-ID: <20130711073030.GF3288@jama>
+References: <2457726.ZAE80f4V8O@yiqingliang-pc>
+	<4753381.i1zt9jKOiD@yiqingliang-pc>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] insane.bbclass: Added QA warning for shipping /usr/share/info/dir
+In-Reply-To: <4753381.i1zt9jKOiD@yiqingliang-pc>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: boost 1.54 compile fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,49 +47,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 07:16:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 11 Jul 2013 07:30:20 -0000
+X-Groupsio-MsgNum: 41772
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="/Q7FmPuhIbtiu4EM"
+Content-Disposition: inline
+
+--/Q7FmPuhIbtiu4EM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Ross,
-
-> -----Original Message-----
+On Thu, Jul 11, 2013 at 09:54:28AM +0800, Yi Qingliang wrote:
+> maybe it is the gcc's fault (recently it is updated to 4.8.x in poky)
 >=20
-> On Mon, Jul 01, 2013 at 03:51:26PM +0100, Burton, Ross wrote:
-> > On 1 July 2013 11:31, Mihai Prica <mihai.prica@intel.com> wrote:
-> > > /usr/share/info/dir should be generated at install time in a postinst=
-.
-> > > Added QA warning to check at build time for this file. The warning
-> > > is disabled by default.
-> >
-> > Patch is good but why don't we enable this by default?
+> I can found uintptr_t in cstdint, but it is wrapped by a c99 related macr=
+o.
 
-Sorry for the responding so late but I've missed this mail. I've looked at
-master and Paul already enabled this check.
-
-Thanks,
-Mihai
+See
+http://lists.openembedded.org/pipermail/openembedded-devel/2013-July/091331=
+=2Ehtml
+https://lists.yoctoproject.org/pipermail/yocto/2013-July/017159.html
+threads
 
 >=20
-> FWIW: this is list of QA issues found with this check in my world builds:
 >=20
-> gcc-4.8.1: The /usr/share/info/dir file is not meant to be shipped in a p=
-articular
-> package.
-> ed-1.7: The /usr/share/info/dir file is not meant to be shipped in a part=
-icular
-> package.
-> emacs-23.4: The /usr/share/info/dir file is not meant to be shipped in a =
-particular
-> package.
-> quagga-0.99.21: The /usr/share/info/dir file is not meant to be shipped i=
-n a
-> particular package.
-> lzip-1.14: The /usr/share/info/dir file is not meant to be shipped in a p=
-articular
-> package.
->=20
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> On Wednesday, July 10, 2013 04:21:02 PM Yi Qingliang wrote:
+> > Hello!
+> >=20
+> > after update poky to latest git version, I got failure when compiling b=
+oost:
+> >=20
+> > the main error is: (indeed, and too many warning!)
+> >=20
+> > | ./boost/atomic/atomic.hpp:202:16: error: 'uintptr_t' was not declared=
+ in
+> >=20
+> > this scope
+> >=20
+> > |  typedef atomic<uintptr_t> atomic_uintptr_t;
+> > | =20
+> > |                 ^
+> > |=20
+> > | ./boost/atomic/atomic.hpp:202:25: error: template argument 1 is inval=
+id
+> > |=20
+> > |  typedef atomic<uintptr_t> atomic_uintptr_t;
+> > | =20
+> > |                          ^
+> > |=20
+> > | ./boost/atomic/atomic.hpp:202:43: error: invalid type in declaration
+> > | before
+> >=20
+> > ';' token
+> >=20
+> > |  typedef atomic<uintptr_t> atomic_uintptr_t;
+> > | =20
+> > |                                            ^
+> > |=20
+> > | In file included from ./boost/system/system_error.hpp:14:0,
+> > |=20
+> > |                  from ./boost/thread/exceptions.hpp:22,
+> > |                  from ./boost/thread/pthread/thread_data.hpp:10,
+> > |                  from ./boost/thread/thread_only.hpp:17,
+> > |                  from libs/thread/src/pthread/thread.cpp:11:
+> --=20
+> Nanjing Jilong
+> Yi Qingliang
+> niqingliang2003@gmail.com
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--/Q7FmPuhIbtiu4EM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHeXxYACgkQN1Ujt2V2gBzLPQCeMZ+jpr16zQ7fX1d3oUFDXypz
+coAAn2tj1DvWt8crNH/IQ00aeaqnSMmz
+=5Yk9
+-----END PGP SIGNATURE-----
+
+--/Q7FmPuhIbtiu4EM--
