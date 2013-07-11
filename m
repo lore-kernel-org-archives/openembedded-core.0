@@ -1,27 +1,40 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D5AAB6A465
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EC0C6A465
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 11:11:40 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6BBBfS3017069
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 11 Jul 2013 11:14:58 +0000 (UTC)
+Received: by mail-vc0-f171.google.com with SMTP id gd11so6550825vcb.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 04:11:41 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 11 Jul 2013 04:11:41 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jul 2013 19:11:39 +0800
-Message-ID: <f54b840a6d0b07950b01024e511292f8e4483fad.1373540849.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1373540849.git.Qi.Chen@windriver.com>
-References: <cover.1373540849.git.Qi.Chen@windriver.com>
+	Thu, 11 Jul 2013 04:14:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=SYhm0TJuq2NNq+8b03hjGveCUuHyZ/VqZezK3lWM4Ck=;
+	b=MAkBDXPCq0GyBY/FZ0UJ28+O9hvsgmUY5jFqlGhJpV1ifrMsoF7/ZMWt+e5L6a/zFu
+	S3GvtS1DDz9ILxG136/vYpQ+Gj17v7zpY5s6GCc6sJQlKxwN39DV4EqM6UXcEP6pXE0m
+	EkbCzD3S6vOJwCGEJsKAJ7GtDczqGuo4fFHRxgoR81wkt4UR+yqUU7YkQXxfPfFWYSyX
+	eVBXeV+sowt5y5NPmxZx629YkJTIBFZndDKcm6W/HfwyD3bHxMV3fjADVfnu7GDnpxq0
+	kXPq1qAFYONos0MU8OVJFTcEbpQlaMDdNb9felYWi4CEFP7Ax0VjeFBIUx+lwYGMLxq1
+	re5Q==
+X-Received: by 10.52.163.46 with SMTP id yf14mr17680943vdb.58.1373541298484;
+	Thu, 11 Jul 2013 04:14:58 -0700 (PDT)
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH V3 3/3] usersettings.bbclass: add a new bbclass
+Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 04:14:38 -0700 (PDT)
+In-Reply-To: <1373539530.2389.320.camel@phil-desktop.brightsign>
+References: <cover.1373443071.git.hongxu.jia@windriver.com>
+	<a546f2c5f8ecec522cb8087015359f433fb5c998.1373443071.git.hongxu.jia@windriver.com>
+	<CAJTo0LZTHz5hE8jx+6qNtePXj-LcMpsXEJ3zbwN4jS9npDHpLg@mail.gmail.com>
+	<CAJTo0LbGRLcbb_9J1AdDM1ZFX18SYQi_h6VPwxN3SESDdnN0gA@mail.gmail.com>
+	<1373539530.2389.320.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Jul 2013 12:14:38 +0100
+Message-ID: <CAJTo0La1Npg5YwJ8ihzfbZvepOvg2HdjkbK_ir6WOvBVHBBkcQ@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQm9sAax4+9rpLbzsqrodrAZ+M51CHDGdCwLT4xpczDMwCMFLlbGaP4cbBVr/DQ0fAucQkRS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/5] nss: add version 3.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,83 +47,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 11:11:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Jul 2013 11:14:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 11 July 2013 11:45, Phil Blundell <pb@pbcl.net> wrote:
+> I think you could still legitimately question whether having recipes in
+> oe-core that are "just for LSB" is sensible and/or desirable, not least
+> because dangling libraries that don't have any users are hard to test.
 
-This class is dedicated to image level user/group configuration.
-It inherits userbase.bbclass.
+I was just pondering the idea of a "meta-lsb"...
 
-Users need to inherit this class in their layers or local.conf to
-make the setting of USER_GROUP_SETTINGS effective.
-
-For detailed configuration format of USER_GROUP_SETTINGS, please
-refer to local.conf.sample.extended.
-
-[YOCTO #4074]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/usersettings.bbclass |   48 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
- create mode 100644 meta/classes/usersettings.bbclass
-
-diff --git a/meta/classes/usersettings.bbclass b/meta/classes/usersettings.bbclass
-new file mode 100644
-index 0000000..e5a5156
---- /dev/null
-+++ b/meta/classes/usersettings.bbclass
-@@ -0,0 +1,48 @@
-+# This bbclass is mainly used for image level user/group configuration.
-+# Inherit this class if you want to make USER_GROUP_SETTINGS effective.
-+inherit userbase
-+
-+IMAGE_INSTALL_append += "${@['', 'base-passwd shadow'][bool(d.getVar('USER_GROUP_SETTINGS', True))]}"
-+
-+# Image level user / group settings
-+ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
-+
-+# Image level user / group settings
-+set_user_group () {
-+	user_group_settings="${USER_GROUP_SETTINGS}"
-+	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
-+	setting=`echo $user_group_settings | cut -d ';' -f1`
-+	remaining=`echo $user_group_settings | cut -d ';' -f2-`
-+	while test "x$setting" != "x"; do
-+		action=`echo $setting | cut -d ',' -f1`
-+		opts=`echo $setting | cut -d ',' -f2`
-+		# Different from useradd.bbclass, there's no file locking issue here, as
-+		# this setting is actually a serial process. So we only retry once.
-+		case $action in
-+			useradd)
-+				perform_useradd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			groupadd)
-+				perform_groupadd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			userdel)
-+				perform_userdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			groupdel)
-+				perform_groupdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			usermod)
-+				perform_usermod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			groupmod)
-+				perform_groupmod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			*)
-+				bbfatal "Incorrect setting for USER_GROUP_SETTINGS"
-+				;;
-+		esac
-+		# iterate to the next setting
-+		setting=`echo $remaining | cut -d ';' -f1`
-+		remaining=`echo $remaining | cut -d ';' -f2-`
-+	done
-+}
--- 
-1.7.9.5
-
+Ross
 
