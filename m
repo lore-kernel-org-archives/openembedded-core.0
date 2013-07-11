@@ -1,38 +1,29 @@
-Return-Path: <trevor.woerner@linaro.org>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D97986AE90
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ADFC2600FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 08:57:33 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id a15so5557461eae.40
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 01:57:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:x-gm-message-state;
-	bh=YFd6LFTS81l9bj97AaWUnI5XICTuqgCHLTub90/n4Fg=;
-	b=dsbkkiunuFZ76E9VYlL+s7C7/OE14r8a+q78ZjLB9qHeg/Y5H/P2KrEK+IdFs7mxIT
-	PVFDaPcsN+By2Fk3FaZbDzR2lzpu3Ppc+5NhSZOuQmqefg4qy9QFqamZLxEyd3hgPzI7
-	TJLfp9OHDp7c71NiyntHq4fQnlZwvtqXn7UfqWtWGxfe1WqZj/bhSLWvah/Ue82NLLo6
-	tbvlVKEvCWpgFxZbHzfPBo/S1iqK+DKJAzqUSvgPYbbWid+VCq07cLDFkilWh7QxW33I
-	N19WcmNVBCrk4uedLs3PrnXHaTsBsGOT4mr+svPGtD4KaeUKLNT4CgSvtCTcBqxTQxae
-	mghA==
+	Thu, 11 Jul 2013 08:58:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6B8wJER007053
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Jul 2013 01:58:19 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 11 Jul 2013 01:58:16 -0700
+Message-ID: <51DE73A7.1070400@windriver.com>
+Date: Thu, 11 Jul 2013 16:58:15 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-X-Received: by 10.15.102.68 with SMTP id bq44mr40746774eeb.89.1373533053814;
-	Thu, 11 Jul 2013 01:57:33 -0700 (PDT)
-Received: by 10.14.117.65 with HTTP; Thu, 11 Jul 2013 01:57:33 -0700 (PDT)
-In-Reply-To: <bf65f77f194b7e5a9047a2196e87a2d59f8e0e6b.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <cover.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-	<a9d90af766913d932c03bc57e395bab720cfbe3c.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-	<bf65f77f194b7e5a9047a2196e87a2d59f8e0e6b.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
-Date: Thu, 11 Jul 2013 09:57:33 +0100
-Message-ID: <CALmOhgnPu5RGZ4iC+C3XjdbD6rT1OKwfy0Q_ATPLqH2o0uVZhg@mail.gmail.com>
-From: Trevor Woerner <trevor.woerner@linaro.org>
-To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-X-Gm-Message-State: ALoCoQk4hZI1YUoCkjkQ/R6T3M2hWJbDxSyRcUCh+Y/4yevw5hQEX6Q7OL4KGdGvtD6a7Llynjlv
+To: Trevor Woerner <trevor.woerner@linaro.org>
+References: <cover.1373443071.git.hongxu.jia@windriver.com>
+	<5891c95b244f3b0ad5e54bcb7595fc401c1727f3.1373443071.git.hongxu.jia@windriver.com>
+	<CALmOhgnqd_AEmtzgJ_4gCAJXiXYW=tHryRJVGwN-rUw5TXR5MQ@mail.gmail.com>
+In-Reply-To: <CALmOhgnqd_AEmtzgJ_4gCAJXiXYW=tHryRJVGwN-rUw5TXR5MQ@mail.gmail.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] docbook-sgml-dtd-3.1-native.bb: Add real PV inside the recipe
+Subject: Re: [PATCH 5/5] nss: fix incorrect shebang line of perl script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,16 +36,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 08:57:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 11 Jul 2013 08:58:18 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 10 July 2013 16:07, Emilia Ciobanu
-<emilia.maria.silvia.ciobanu@intel.com> wrote:
->  PR = "${INC_PR}.0"
-> +PV = "31"
+On 07/11/2013 04:39 PM, Trevor Woerner wrote:
+> On 10 July 2013 09:03, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> Replace incorrect shebang line with `#!/usr/bin/perl'.
+>
+> I thought using 'env' was the preferred method?
+If use 'env', should we add 'coreutils' on nss's DEPENDS?
+The coreutils provides env.
 
-
-I thought the general trend was to move away from real PVs to the
-autoincrementer? I'm just curious to know what issue prompted the move
-back to real PVs?
+//Hongxu
 
