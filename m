@@ -1,20 +1,26 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 71D436226A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 1298661663
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 12:50:14 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 Jul 2013 05:50:15 -0700
+	Thu, 11 Jul 2013 12:58:33 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 11 Jul 2013 05:58:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="266924129"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Jul 2013 05:50:13 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jul 2013 15:51:50 +0300
-Message-Id: <1373547110-11539-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] xdg-utils: upgrade to 1.1.0-rc1
+X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="329849393"
+Received: from unknown (HELO helios.localnet) ([10.252.122.35])
+	by azsmga001.ch.intel.com with ESMTP; 11 Jul 2013 05:58:18 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Qi.Chen@windriver.com
+Date: Thu, 11 Jul 2013 13:58:17 +0100
+Message-ID: <6939690.qrXmoo12No@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <f54b840a6d0b07950b01024e511292f8e4483fad.1373540849.git.Qi.Chen@windriver.com>
+References: <cover.1373540849.git.Qi.Chen@windriver.com>
+	<f54b840a6d0b07950b01024e511292f8e4483fad.1373540849.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 3/3] usersettings.bbclass: add a new bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,53 +33,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 12:50:14 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 12:58:33 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This version of xdg-utils is needed by BA in order
-to associate correctly types of files with PCManFM
-file manager.
-The release cycle of xdg-utils is very slow, so this
-is the best shot of a stable version available for
-YP 1.5 release.
-As a reference, the previous stable version was released in 2007.
-Also, desktop Linux distros use this release candidate as a stable
-version, for example, Ubuntu 12.04.
+On Thursday 11 July 2013 19:11:39 Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+> 
+> This class is dedicated to image level user/group configuration.
+> It inherits userbase.bbclass.
+> 
+> Users need to inherit this class in their layers or local.conf to
+> make the setting of USER_GROUP_SETTINGS effective.
+> 
+> For detailed configuration format of USER_GROUP_SETTINGS, please
+> refer to local.conf.sample.extended.
+> 
+> [YOCTO #4074]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/usersettings.bbclass |   48
+> +++++++++++++++++++++++++++++++++++++ 1 file changed, 48 insertions(+)
+>  create mode 100644 meta/classes/usersettings.bbclass
+> 
+> diff --git a/meta/classes/usersettings.bbclass
+> b/meta/classes/usersettings.bbclass new file mode 100644
+> index 0000000..e5a5156
+> --- /dev/null
+> +++ b/meta/classes/usersettings.bbclass
+> @@ -0,0 +1,48 @@
+> +# This bbclass is mainly used for image level user/group configuration.
+> +# Inherit this class if you want to make USER_GROUP_SETTINGS effective.
+> +inherit userbase
+> +
+> +IMAGE_INSTALL_append += "${@['', 'base-passwd shadow'][bool(d.getVar('USER_GROUP_SETTINGS', True))]}"
 
-Part of the implementation of [YOCTO #2370].
+This is a bit ugly. We should avoid using _append += since it is confusing,
+and we have base_conditional for things like this. I'd suggest:
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../xdg-utils/{xdg-utils_1.0.2.bb => xdg-utils_1.1.0-rc1.bb}  |    9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/xdg-utils/{xdg-utils_1.0.2.bb => xdg-utils_1.1.0-rc1.bb} (80%)
+IMAGE_INSTALL_append = "${@base_conditional('USER_GROUP_SETTINGS', '1', ' base-passwd shadow', '', d)}"
 
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb
-similarity index 80%
-rename from meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb
-rename to meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb
-index f54d591..d5c7aa3 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils_1.0.2.bb
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb
-@@ -13,14 +13,13 @@ xdg-open \
- xdg-screensaver \ 
- "
- 
--PR="r0"
--
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=a5367a90934098d6b05af3b746405014"
- 
--SRC_URI = "http://portland.freedesktop.org/download/${BPN}-${PV}.tgz"
-+SRC_URI = "http://portland.freedesktop.org/download/${BPN}-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "fadf5e7a08e0526fc60dbe3e5b7ef8d6"
-+SRC_URI[sha256sum] = "7b05558ae4bb8ede356863cae8c42e3e012aa421bf9d45130a570fd209d79102"
- 
- inherit autotools
- 
--SRC_URI[md5sum] = "348a5b91dc66426505022c74a64b2940"
--SRC_URI[sha256sum] = "21aeb7d16b2529b8d3975118f59eec09953e09f9a68d718159e98c90474b01ac"
+> +# Image level user / group settings
+> +ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
+> +
+> +# Image level user / group settings
+> +set_user_group () {
+> +	user_group_settings="${USER_GROUP_SETTINGS}"
+> +	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
+> +	setting=`echo $user_group_settings | cut -d ';' -f1`
+> +	remaining=`echo $user_group_settings | cut -d ';' -f2-`
+> +	while test "x$setting" != "x"; do
+> +		action=`echo $setting | cut -d ',' -f1`
+> +		opts=`echo $setting | cut -d ',' -f2`
+> +		# Different from useradd.bbclass, there's no file locking issue here, as
+> +		# this setting is actually a serial process. So we only retry once.
+> +		case $action in
+> +			useradd)
+> +				perform_useradd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			groupadd)
+> +				perform_groupadd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			userdel)
+> +				perform_userdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			groupdel)
+> +				perform_groupdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			usermod)
+> +				perform_usermod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			groupmod)
+> +				perform_groupmod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			*)
+> +				bbfatal "Incorrect setting for USER_GROUP_SETTINGS"
+
+Could you please make it report $action in the error so it's clear which
+value is invalid?
+
+> +				;;
+> +		esac
+> +		# iterate to the next setting
+> +		setting=`echo $remaining | cut -d ';' -f1`
+> +		remaining=`echo $remaining | cut -d ';' -f2-`
+> +	done
+> +}
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
