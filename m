@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f48.google.com (mail-vb0-f48.google.com
-	[209.85.212.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B3F76AECA
+Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id DDCCD6ADB5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:23:05 +0000 (UTC)
-Received: by mail-vb0-f48.google.com with SMTP id w15so395076vbf.35
+	Thu, 11 Jul 2013 10:32:33 +0000 (UTC)
+Received: by mail-ve0-f170.google.com with SMTP id 14so7072561vea.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 03:23:06 -0700 (PDT)
+	Thu, 11 Jul 2013 03:32:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=9cN4VaVG1Z5wWjuBENTyVvE/rEtuQU4fvYdSHbr9Hpc=;
-	b=iAj0B9ftu19rdZFVXil2N4Fkno+uCfrrbwf7cCJ4N7nxFPwvRLYfjOr1uf3oZp9hO7
-	HmwAlu30sexmiyExHU3NLgcWDUzLo4q+mxQNxXXvDPRaiTtk3moj5ybmOffpMz2AW1CB
-	Wa63RsztImjkODK//MWtzTPZqvrgi6nlLGDxkhZ0Z2e8f4o30lXLuW8KHbRpeFesZL8r
-	/rea5IKelfJCNa070KdtRGZ3Icj5t1d9xdSsKpSq70hvkEbUmFkT6WiAhtInPHoTF7yB
-	Fwl0Vh1+ufHAY7rOkcfB/9MvA/vu/C889lA2GLF1DCyrcYMjD5xFZJMYp72e1VmYhUCt
-	40+w==
-X-Received: by 10.58.24.41 with SMTP id r9mr21028165vef.44.1373538185953; Thu,
-	11 Jul 2013 03:23:05 -0700 (PDT)
+	bh=OcPZPxaXzCQFBSq15Cp+vJS1gwyviBrmvKWrtTHDPlk=;
+	b=T4QTbCwNsRaoBrgh/zwFhlzZOYvR1yfSTD+0NiqRSWnGSkBA8iIgcVeSEuU2U24nga
+	ranREUv0SCUeN9Tvhu6mnzG8Ml1wQM1lWVwI2Wdi8OjO3xW3voPEgkIqHKAoljmBban9
+	RMUHlFySLArUewR4+PK84c8LXohpn4Ag4qVK7owmzgt1nHeP+CrdHswUc28s5clPbMio
+	k0zysuoJpN7LmVBC8sEXVKknVvn5kWnBoNDTQTWnjGMnITN16rp3+OLx0sXzOL77yE2X
+	rt95weG6XDiUQkfz5rzN1VYAd3OdeNTZK+i7UAe6GBSPhI9s61QTUA5URzAWwfXVIcOm
+	YIxg==
+X-Received: by 10.58.118.70 with SMTP id kk6mr21291637veb.1.1373538754285;
+	Thu, 11 Jul 2013 03:32:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 03:22:44 -0700 (PDT)
-In-Reply-To: <7987269.Ko1Y7S2dO1@helios>
-References: <cover.1373359791.git.emilia.maria.silvia.ciobanu@intel.com>
-	<7987269.Ko1Y7S2dO1@helios>
+Received: by 10.220.13.144 with HTTP; Thu, 11 Jul 2013 03:32:14 -0700 (PDT)
+In-Reply-To: <51DDACEA.1080503@linux.intel.com>
+References: <1373303785-8508-1-git-send-email-eu@felipetonello.com>
+	<51DDACEA.1080503@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2013 11:22:44 +0100
-Message-ID: <CAJTo0LYZ9i7f-orQ7z0ZybGwmkmvT2G7n1xY-SAwP=sj5bqMpw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQlsSmYE/my5ixtpzF2fomDvwvjphJjXkiTB2o7FG0B5EU5a+uyHIsExr3GWLofL0rzhLB4e
+Date: Thu, 11 Jul 2013 11:32:14 +0100
+Message-ID: <CAJTo0LZ7POY-i61qz8hUE=JXbc0=0uoNo_i1aTmgi-ma_cc8hw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQlFagwvVwRhfURN+tsVf8M5POFVLBqDhliVG/3olsEjFuYjvP2ILPpVgrzyAjsdYor5x5/W
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Fix typos
+Subject: Re: [PATCH] pulseaudio: Added consolekit dependency for pulseaudio-module-console-kit package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:23:05 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 10:32:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 9 July 2013 10:43, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> However, if it would help with the package
-> reporting system, the recipes could be changed to convert PV of "6.0" into
-> "60" in SRC_URI using some inline python.
+On 10 July 2013 19:50, Saul Wold <sgw@linux.intel.com> wrote:
+> Is this really a build-time dependency or a runtime dependency specific to
+> the pulseaudio-module?
 
-Oh, somehow I didn't see Paul's reply.
-
-This is basically what happens already:
-
-SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.',
-'')}.tgz"
+It's a runtime dependency, but from memory bitbake doesn't manage to
+piece the chain together enough to actually build consolekit (probably
+because the packages are dynamically created).
 
 Ross
 
