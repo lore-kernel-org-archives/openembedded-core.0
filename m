@@ -1,17 +1,27 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 743FA6A5A1
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C89A60289
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 12:11:38 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6BCBZAs023582; 
-	Thu, 11 Jul 2013 07:11:37 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jul 2013 17:12:08 +0500
-Message-Id: <1373544728-10591-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] [v2] rpcbind: Add systemd support
+	Thu, 11 Jul 2013 12:20:15 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jul 2013 05:20:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="368593283"
+Received: from unknown (HELO helios.localnet) ([10.252.122.35])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2013 05:20:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Jul 2013 13:20:10 +0100
+Message-ID: <2680058.xDZ0dG4UEH@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <CAJTo0LZ7POY-i61qz8hUE=JXbc0=0uoNo_i1aTmgi-ma_cc8hw@mail.gmail.com>
+References: <1373303785-8508-1-git-send-email-eu@felipetonello.com>
+	<51DDACEA.1080503@linux.intel.com>
+	<CAJTo0LZ7POY-i61qz8hUE=JXbc0=0uoNo_i1aTmgi-ma_cc8hw@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pulseaudio: Added consolekit dependency for pulseaudio-module-console-kit package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,89 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 12:11:41 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 12:20:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On Thursday 11 July 2013 11:32:14 Burton, Ross wrote:
+> On 10 July 2013 19:50, Saul Wold <sgw@linux.intel.com> wrote:
+> > Is this really a build-time dependency or a runtime dependency specific to
+> > the pulseaudio-module?
+> 
+> It's a runtime dependency, but from memory bitbake doesn't manage to
+> piece the chain together enough to actually build consolekit (probably
+> because the packages are dynamically created).
 
-- Adds systemd support in rpcbind
-- Install 'sysv' related files only if distro has this feature
+If it's a stated RDEPENDS in the recipe it must be, and pulseaudio.inc already 
+has RDEPENDS_pulseaudio-module-console-kit =+ "consolekit" so unless the 
+module package doesn't actually end up being "pulseaudio-module-console-kit" 
+I'm not sure why anything else should be needed. It's usually only when the 
+dependencies get added dynamically at package time that bitbake not building a 
+dependency can be a problem (we've seen this with recipes containing perl 
+scripts for example).
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- .../rpcbind/rpcbind/rpcbind.service                |   13 +++++++++++
- meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |   24 +++++++++++++++-----
- 2 files changed, 31 insertions(+), 6 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
-new file mode 100644
-index 0000000..a028ace
---- /dev/null
-+++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
-@@ -0,0 +1,13 @@
-+[Unit]
-+Description=RPC Bind
-+After=network.target
-+Wants=rpcbind.target
-+Before=rpcbind.target
-+
-+[Service]
-+Type=forking
-+ExecStart=/usr/sbin/rpcbind
-+Restart=always
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
-index f4a0367..01cdbe0 100644
---- a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
-+++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-            file://fix_host_path.patch \
-            file://obsolete_automake_macros.patch \
-            ${UCLIBCPATCHES} \
-+           file://rpcbind.service \
-           "
- 
- UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
-@@ -27,7 +28,7 @@ SRC_URI[sha256sum] = "c92f263e0353887f16379d7708ef1fb4c7eedcf20448bc1e4838f59497
- 
- PR = "r4"
- 
--inherit autotools update-rc.d
-+inherit autotools update-rc.d systemd
- 
- PACKAGECONFIG ??= "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
-@@ -35,12 +36,23 @@ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
- INITSCRIPT_NAME = "rpcbind"
- INITSCRIPT_PARAMS = "start 43 S . start 32 0 6 . stop 81 1 ."
- 
-+SYSTEMD_SERVICE_${PN} = "rpcbind.service"
-+SYSTEMD_AUTO_ENABLE = "disable"
-+
- do_install_append () {
-     mv ${D}${bindir} ${D}${sbindir}
- 
--    install -d ${D}${sysconfdir}/init.d
--    sed -e 's,/etc/,${sysconfdir}/,g' \
--        -e 's,/sbin/,${sbindir}/,g' \
--        ${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
--    chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
-+    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-+        install -d ${D}${sysconfdir}/init.d
-+        sed -e 's,/etc/,${sysconfdir}/,g' \
-+            -e 's,/sbin/,${sbindir}/,g' \
-+            ${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
-+        chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
-+    fi
-+
-+    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+        install -d ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
-+        sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/rpcbind.service
-+    fi
- }
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
