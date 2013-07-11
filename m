@@ -1,17 +1,39 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 20D066AECA
+Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id ACE506AB93
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 10:06:08 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6BA65nM017194; 
-	Thu, 11 Jul 2013 05:06:07 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jul 2013 15:06:39 +0500
-Message-Id: <1373537199-4863-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] ofono: Enabling with systemd
+	Thu, 11 Jul 2013 10:11:57 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Jul 2013 03:13:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,1043,1363158000"; d="scan'208";a="368551875"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2013 03:11:56 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 11 Jul 2013 11:09:27 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.52]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.214]) with mapi id
+	14.03.0123.003; Thu, 11 Jul 2013 11:08:22 +0100
+From: "Ciobanu, Emilia Maria Silvia" <emilia.maria.silvia.ciobanu@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH 2/3] docbook-sgml-dtd-4.1-native.bb: Add real
+	PV inside the recipe
+Thread-Index: AQHOfX4q4lcvSqd6UEKaC7K7Uowkf5ld9TCAgAAv94CAARokYA==
+Date: Thu, 11 Jul 2013 10:08:22 +0000
+Message-ID: <985E5BBDA0968D48ABDF343456A521B3022C9918@IRSMSX105.ger.corp.intel.com>
+References: <cover.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
+	<6c15f39c5d3d9c6d7d8788d1c76758078b446fbd.1373468672.git.emilia.maria.silvia.ciobanu@intel.com>
+	<20130710151637.GD3288@jama> <51DDA311.10908@linux.intel.com>
+In-Reply-To: <51DDA311.10908@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] docbook-sgml-dtd-4.1-native.bb: Add real PV inside the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,77 +46,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2013 10:06:08 -0000
+X-List-Received-Date: Thu, 11 Jul 2013 10:11:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Hi Saul,
 
-- Remove dependency on systemd layer
-- Install 'sysv' related files only if distro has this feature
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Wednesday, July 10, 2013 9:08 PM
+> To: Martin Jansa
+> Cc: Ciobanu, Emilia Maria Silvia; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 2/3] docbook-sgml-dtd-4.1-native.bb: Add
+> real PV inside the recipe
+>=20
+> On 07/10/2013 08:16 AM, Martin Jansa wrote:
+> > On Wed, Jul 10, 2013 at 06:07:08PM +0300, Emilia Ciobanu wrote:
+> >> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+> >> ---
+> >>   .../docbook-sgml-dtd-4.1-native.bb                 |    1 +
+> >>   1 file changed, 1 insertion(+)
+> >>
+> >> diff --git
+> >> a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
+> native.
+> >> bb
+> >> b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
+> native.
+> >> bb
+> >> index 88c9396..1f338fd 100644
+> >> ---
+> >> a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
+> native.
+> >> bb
+> >> +++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.1-
+> nat
+> >> +++ ive.bb
+> >> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE-
+> OASIS;md5=3Dc608985dd5f7f215e669e7639a0b1d2e"
+> >>   DTD_VERSION =3D "4.1"
+> >>
+> >>   PR =3D "${INC_PR}.0"
+> >> +PV =3D "41"
+> >
+> > Why not 4.1?
+> >
+> It seems that the older version (3.1 and 4.1) have their tarballs named w=
+ith 31
+> and 41.
+>=20
+> Ema, can you use the regex to handle this correctly?
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/recipes-connectivity/ofono/ofono.inc     |   15 ++++++++++++---
- meta/recipes-connectivity/ofono/ofono_1.12.bb |    1 +
- meta/recipes-connectivity/ofono/ofono_git.bb  |    1 +
- 3 files changed, 14 insertions(+), 3 deletions(-)
+The regexes cannot handle this case, but I'm considering an alternative sol=
+ution.
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index 21e564c..0804105 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -5,16 +5,25 @@ LICENSE  = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://src/ofono.h;beginline=1;endline=20;md5=3ce17d5978ef3445def265b98899c2ee"
- 
--inherit autotools pkgconfig update-rc.d
-+inherit autotools pkgconfig update-rc.d systemd
- 
- DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ${@base_contains('DISTRO_FEATURES', 'bluetooth','bluez4', '', d)}"
- 
- INITSCRIPT_NAME = "ofono"
- INITSCRIPT_PARAMS = "defaults 22"
- 
-+SYSTEMD_SERVICE_${PN} = "ofono.service"
-+SYSTEMD_AUTO_ENABLE = "enable"
-+
- do_install_append() {
--  install -d ${D}${sysconfdir}/init.d/
--  install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
-+    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-+        install -d ${D}${sysconfdir}/init.d/
-+        install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
-+    fi
-+
-+    if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+        sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/ofono.service
-+    fi
- }
- 
- PACKAGES =+ "${PN}-tests"
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.12.bb b/meta/recipes-connectivity/ofono/ofono_1.12.bb
-index 44ab0a6..85ef792 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.12.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.12.bb
-@@ -15,5 +15,6 @@ SRC_URI[sha256sum] = "733b75bfd1b2a1925b6de532989c496b8ae17a746691120ef64cceb00b
- EXTRA_OECONF += "\
-     --enable-test \
-     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
-+    ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
- "
- CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
-diff --git a/meta/recipes-connectivity/ofono/ofono_git.bb b/meta/recipes-connectivity/ofono/ofono_git.bb
-index f79f34f..dc063e8 100644
---- a/meta/recipes-connectivity/ofono/ofono_git.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_git.bb
-@@ -10,6 +10,7 @@ SRC_URI  = "git://git.kernel.org/pub/scm/network/ofono/ofono.git;protocol=git \
- 
- EXTRA_OECONF += "\
-     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
-+    ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
- "
- 
- do_configure_prepend () {
--- 
-1.7.9.5
+Thanks,
+Ema
 
+>=20
+> Sau!
+>=20
+>=20
+>=20
+> >>
+> >>   # Note: the upstream sources are not distributed with a license file=
+.
+> >>   # LICENSE-OASIS is included as a "patch" to workaround this. When
+> >> --
+> >> 1.7.9.5
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
