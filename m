@@ -1,36 +1,51 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F0176A45E
+Return-Path: <B40290@freescale.com>
+Received: from db8outboundpool.messaging.microsoft.com
+	(mail-db8lp0189.outbound.messaging.microsoft.com [213.199.154.189])
+	by mail.openembedded.org (Postfix) with ESMTP id E3C086AB93
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 02:05:03 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,649,1367942400"; 
-   d="scan'208";a="7868745"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 12 Jul 2013 10:02:01 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r6C24vQo015435;
-	Fri, 12 Jul 2013 10:04:58 +0800
-Received: from [127.0.0.1] ([10.167.226.190])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013071210031596-2881407 ;
-	Fri, 12 Jul 2013 10:03:15 +0800 
-Message-ID: <51DF6448.5010906@cn.fujitsu.com>
-Date: Fri, 12 Jul 2013 10:04:56 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
-	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
+	Fri, 12 Jul 2013 02:11:19 +0000 (UTC)
+Received: from mail138-db8-R.bigfish.com (10.174.8.243) by
+	DB8EHSOBE014.bigfish.com (10.174.4.77) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 12 Jul 2013 02:11:18 +0000
+Received: from mail138-db8 (localhost [127.0.0.1])	by
+	mail138-db8-R.bigfish.com (Postfix) with ESMTP id 8D39C2A0275;
+	Fri, 12 Jul 2013 02:11:18 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -2
+X-BigFish: VS-2(zz98dI9371I542Izz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
+Received: from mail138-db8 (localhost.localdomain [127.0.0.1]) by mail138-db8
+	(MessageSwitch) id 1373595077456023_2137;
+	Fri, 12 Jul 2013 02:11:17 +0000 (UTC)
+Received: from DB8EHSMHS003.bigfish.com (unknown [10.174.8.225])	by
+	mail138-db8.bigfish.com (Postfix) with ESMTP id 6AA60120047;
+	Fri, 12 Jul 2013 02:11:17 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS003.bigfish.com
+	(10.174.4.13) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Fri, 12 Jul 2013 02:11:17 +0000
+Received: from 039-SN2MPN1-022.039d.mgd.msft.net ([169.254.2.105]) by
+	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.03.0136.001;
+	Fri, 12 Jul 2013 02:13:29 +0000
+From: Guo Chunrong-B40290 <B40290@freescale.com>
+To: Peter Seebach <peter.seebach@windriver.com>
+Thread-Topic: [OE-core] [PATCH] pseudo: pseudo-native breaks native builds
+	for symver.patch
+Thread-Index: AQHOflHGhd/B/ChFMES3Clz1WEIUlplgSWPQ
+Date: Fri, 12 Jul 2013 02:10:21 +0000
+Message-ID: <B21730BB6DA1D24B83348D9301EA417E104187A5@039-SN2MPN1-022.039d.mgd.msft.net>
+References: <1373529521-31010-1-git-send-email-B40290@freescale.com>
+	<20130711111223.06985e9f@e6410-2>
+In-Reply-To: <20130711111223.06985e9f@e6410-2>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.206]
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <51DBC97F.1090606@cn.fujitsu.com> <51DCCD6D.5050807@cn.fujitsu.com>
-	<CAJTo0LYQ4MJ3CUDZaVfDexcaO=MATWj0syDTpY5Veb3m1TNiMQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYQ4MJ3CUDZaVfDexcaO=MATWj0syDTpY5Veb3m1TNiMQ@mail.gmail.com>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/07/12 10:03:15,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/07/12 10:03:16,
-	Serialize complete at 2013/07/12 10:03:16
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1]package_rpm.bbclass: remove xx.spec before doing rpmbuild xx.src.rpm
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: pseudo-native breaks native builds for symver.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 02:05:04 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 12 Jul 2013 02:11:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Powerpc architecture and ppc64 hosts.
 
 
+-----Original Message-----
+From: Peter Seebach [mailto:peter.seebach@windriver.com]=20
+Sent: Friday, July 12, 2013 12:12 AM
+To: Guo Chunrong-B40290
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] pseudo: pseudo-native breaks native builds f=
+or symver.patch
 
-said the following on 2013-7-11 18:54:, Burton, Ross wrote:
-> On 10 July 2013 03:56, Bian Naimeng <biannm@cn.fujitsu.com> wrote:
->> Sorry, it looks like i should post this patch to poky. please ignore this
-> 
-> You were right the first time, meta/ is oe-core. :)
-> 
+On Thu, 11 Jul 2013 15:58:41 +0800
+Chunrong Guo <B40290@freescale.com> wrote:
 
-Thanks for your reminding.
+>       *symver.patch causes failure if the host glibc does not provide the=
+ glibc-2.0 version of the symbol.
 
-In this case, the following error will be caught.
+I don't think we should take this out unconditionally, because it was added=
+ to address a (different) problem -- we were ending up with the pseudo-nati=
+ve libraries being used with host glibc that might be too old, and not have=
+ newer versions.
 
-   | error: Bad owner/group:  .../tmp/work/i586-poky-linux/.../xxx.spec
-   | Building target platforms: i586-poky-linux
-   |
-   |
-   | RPM build errors:
-   |     Bad owner/group: .../tmp/work/i586-poky-linux/.../xxx.spec
+I was under the impression that glibc tried to maintain binary compatibilit=
+y a fairly long way back; which hosts are omitting this symbol? What archit=
+ecture are you on?
 
-The following bb file can cause this error.
-# cat xxx.bb
-  SRC_URI="..../xxx.src.rpm"
+-s
+--
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
-  do_unpack2 () {
-          cd ${WORKDIR}
-          tar zxvf xxx.tar.gz
-  }
-  addtask do_unpack2 after do_unpack before do_configure
-
-Of course, we can walk around it by append "extract=xxx.tar.gz" to SRC_URI,
-but it's not good way when the xxx.src.rpm containing lots of necessary files.
-
-Thanks
- Bian
-
-> Ross
-> 
 
 
