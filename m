@@ -1,28 +1,29 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B15B26077F
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id C27C46077F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 16:46:58 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2013 09:44:30 -0700
+	Fri, 12 Jul 2013 16:47:00 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Jul 2013 09:47:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="364366319"
+X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="267494776"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2013 09:48:05 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 09:47:01 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 27A2A6A4092
+	by linux.intel.com (Postfix) with ESMTP id E926E6A4092
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:46:57 -0700 (PDT)
+	Fri, 12 Jul 2013 09:46:59 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 19:46:55 +0300
-Message-Id: <b5952ed01ccab3b8826f2c46d2ed7c7c3d9a1aa0.1373647359.git.stefanx.stanacar@intel.com>
+Date: Fri, 12 Jul 2013 19:46:56 +0300
+Message-Id: <1dad9f83f59020db8c50a7b0ae6fb2af75496194.1373647359.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
 References: <cover.1373647359.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
 References: <cover.1373647359.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 7/8] classes/testimage.bbclass: use a copy of rootfs for tests
+MIME-Version: 1.0
+Subject: [PATCH 8/8] testimage.bbclass, lib/oeqa: add headers and comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,57 +36,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 16:46:58 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 16:47:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Make a copy of the rootfs and test that.
-We can now drop the snapshot option.
+Adds some comments to testimage.bbclass and the files it calls,
+just to give an ideea of what it does.
 
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/classes/testimage.bbclass    | 9 ++++++++-
- meta/lib/oeqa/utils/qemurunner.py | 2 +-
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ meta/classes/testimage.bbclass    | 24 ++++++++++++++++++++++++
+ meta/lib/oeqa/oetest.py           |  9 +++++++++
+ meta/lib/oeqa/utils/decorators.py |  8 ++++++++
+ meta/lib/oeqa/utils/sshcontrol.py |  9 +++++++++
+ 4 files changed, 50 insertions(+)
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 22f0a92..940520f 100644
+index 940520f..903849d 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -22,6 +22,7 @@ def testimage_main(d):
-     import os
-     import oeqa.runtime
-     import re
-+    import shutil
-     from oeqa.oetest import runTests
-     from oeqa.utils.sshcontrol import SSHControl
-     from oeqa.utils.qemurunner import QemuRunner
-@@ -61,7 +62,13 @@ def testimage_main(d):
-     # and boot each supported fs type
-     machine=d.getVar("MACHINE", True)
-     #will handle fs type eventually, stick with ext3 for now
--    rootfs=d.getVar("DEPLOY_DIR_IMAGE", True) + '/' + d.getVar("IMAGE_BASENAME",True) + '-' + machine + '.ext3'
-+    #make a copy of the original rootfs and use that for tests
-+    origrootfs=os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME",True) + '.ext3')
-+    rootfs=os.path.join(testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.ext3')
-+    try:
-+        shutil.copyfile(origrootfs, rootfs)
-+    except Exception as e:
-+        bb.fatal("Error copying rootfs: %s" % e)
+@@ -1,3 +1,27 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++
++
++# testimage.bbclass enables testing of qemu images using python unittests.
++# Most of the tests are commands run on target image over ssh.
++# To use it add testimage to global inherit and call your target image with -c testimage
++# You can try it out like this:
++# - first build a qemu core-image-sato
++# - add INHERIT += "testimage" in local.conf
++# - then bitbake core-image-sato -c testimage. That will run a standard suite of tests.
++
++# You can set (or append to) TEST_SUITES in local.conf to select the tests
++# which you want to run for your target.
++# The test names are the module names in meta/lib/oeqa/runtime.
++# Each name in TEST_SUITES represents a required test for the image. (no skipping allowed)
++# Appending "auto" means that it will try to run all tests that are suitable for the image (each test decides that on it's own).
++# Note that order in TEST_SUITES is important (it's the order tests run) and it influences tests dependencies.
++
++# TEST_LOG_DIR contains a ssh log (what command is running, output and return codes) and a qemu boot log till login
++# Booting is handled by this class, and it's not a test in itself.
++# TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
++
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
  
-     qemu = QemuRunner(machine, rootfs)
-     qemu.tmpdir = d.getVar("TMPDIR", True)
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index ec92988..1051b2b 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -18,7 +18,7 @@ class QemuRunner:
-         self.rootfs = rootfs
+ DEFAULT_TEST_SUITES = "ping auto"
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 5777ff8..7f6baa4 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -1,3 +1,12 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++
++# Main unittest module used by testimage.bbclass
++# This provides the oeRuntimeTest base class which is inherited by all tests in meta/lib/oeqa/runtime.
++
++# It also has some helper functions and it's responsible for actually starting the tests
++
+ import os, re, mmap
+ import unittest
+ import inspect
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index 21e6b22..adec65e 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -1,3 +1,11 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++
++# Some custom decorators that can be used by unittests
++# Most useful is skipUnlessPassed which can be used for
++# creating dependecies between two test methods.
++
+ from oeqa.oetest import *
  
-         self.streampath = '/tmp/qemuconnection.%s' % os.getpid()
--        self.qemuparams = 'bootparams="console=ttyS0" qemuparams="-snapshot -serial unix:%s,server,nowait"' % self.streampath
-+        self.qemuparams = 'bootparams="console=ttyS0" qemuparams="-serial unix:%s,server,nowait"' % self.streampath
-         self.qemupid = None
-         self.ip = None
- 
+ class skipIfFailure(object):
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 6c61caa..8f98c45 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -1,3 +1,12 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++
++# Provides a class for setting up ssh connections,
++# running commands and copying files to/from a target.
++# It's used by testimage.bbclass and tests in lib/oeqa/runtime.
++
++
+ import subprocess
+ import time
+ import os
 -- 
 1.8.1.4
 
