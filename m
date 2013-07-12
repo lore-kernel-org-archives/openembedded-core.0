@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA306B217
+	by mail.openembedded.org (Postfix) with ESMTP id A88996B217
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 14:42:36 +0000 (UTC)
+	Fri, 12 Jul 2013 14:42:37 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 12 Jul 2013 07:42:37 -0700
+	by azsmga101.ch.intel.com with ESMTP; 12 Jul 2013 07:42:38 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,653,1367996400"; d="scan'208";a="267448337"
+X-IronPort-AV: E=Sophos;i="4.89,653,1367996400"; d="scan'208";a="267448347"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 07:42:36 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 07:42:37 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 17:44:07 +0300
-Message-Id: <d02e53b377181d72352b34f5dd20437a720becda.1373640113.git.cristian.iorga@intel.com>
+Date: Fri, 12 Jul 2013 17:44:08 +0300
+Message-Id: <a35029da43fde2043f93a8708ce63bddf141b852.1373640113.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1373640113.git.cristian.iorga@intel.com>
 References: <cover.1373640113.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1373640113.git.cristian.iorga@intel.com>
 References: <cover.1373640113.git.cristian.iorga@intel.com>
-Subject: [PATCH 4/5] bluez5: add readline dependency
+Subject: [PATCH 5/5] bluez5: Set udev variables using pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,30 +33,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 12 Jul 2013 14:42:37 -0000
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
-
-    bluez5 uses readline to be build, but the dependency is not listed
-    This is listed in the configuration log.
-    So we add it.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc    |    4 ++--
+ meta/recipes-connectivity/bluez5/bluez5_5.7.bb |    2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index db9c766..86a9bbe 100644
+index 86a9bbe..240e13d 100644
 --- a/meta/recipes-connectivity/bluez5/bluez5.inc
 +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
--DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck libical"
-+DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck libical readline"
+@@ -37,8 +37,8 @@ EXTRA_OECONF = "\
+   --disable-cups \
+   --enable-test \
+   --enable-datafiles \
+-  --with-udevdir=${base_libdir}/udev \
+-  --with-udevrulesdir=${nonarch_base_libdir}/udev/rules.d \
++  --with-udevdir=`pkg-config --variable=udevdir udev` \
++  --with-udevrulesdir=`pkg-config --variable=udevdir udev`/rules.d \
+   ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--disable-systemd', d)} \
+ "
  
- PACKAGECONFIG ??= "\
-     ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}\
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.7.bb b/meta/recipes-connectivity/bluez5/bluez5_5.7.bb
+index 824800b..0160f61 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.7.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.7.bb
+@@ -34,5 +34,5 @@ FILES_${PN}-dbg += "\
+   ${libdir}/${PN}/bluetooth/.debug \
+   ${libdir}/bluetooth/plugins/.debug \
+   ${libdir}/*/.debug \
+-  ${base_libdir}/udev/.debug \
++  */udev/.debug \
+   "
 -- 
 1.7.10.4
 
