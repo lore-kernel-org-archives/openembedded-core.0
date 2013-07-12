@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BE0FC6B18D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EA1896B1A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:29:36 +0000 (UTC)
+	Fri, 12 Jul 2013 09:29:37 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6C9TbIp004733
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6C9TdvJ028206
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 02:29:37 -0700 (PDT)
+	Fri, 12 Jul 2013 02:29:39 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 12 Jul 2013 02:29:37 -0700
+	14.2.342.3; Fri, 12 Jul 2013 02:29:38 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Jul 2013 17:29:28 +0800
-Message-ID: <158a039e2de8e6e5053891aa64c6e864cae0b34b.1373599041.git.hongxu.jia@windriver.com>
+Date: Fri, 12 Jul 2013 17:29:29 +0800
+Message-ID: <fdaa714fb7981b448aaa21855b6aad2bb5160526.1373599041.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1373599041.git.hongxu.jia@windriver.com>
 References: <cover.1373599041.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] udev: fix invoking pmount failed based on sysvinit
+Subject: [PATCH 5/6] pmount: allow users in disk group to perform pmount/pumount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 09:29:36 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 09:29:38 -0000
 Content-Type: text/plain
 
-The pmount is invoked in the udev's mount.sh script, and it needs the
-existence of `/var/lock', `/var/lock' is symlinked to `/run/lock'.
+* changed ownership group for /usr/bin/pmount and /usr/bin/pumount to 'disk';
+* deny execution rights to other users except 'root' and those belonging
+  to 'disk' group;
+* set setuid bit to both apps;
 
-When the system is based on sysvinit, `/run/lock' is created by populate-
-volatile.sh, if the udev service starts before populate-volatile.sh starts,
-`/var/lock' will be a invalid link.
-
-Create `/run/lock' directory at udev startup to avoid this invalid link problem.
+So, basically, in order for a normal user to be able to pmount/pumount
+the device, it must be a member of 'disk' group.
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-core/udev/udev/init | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/pmount/pmount_0.9.23.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index d90d446..8e9f3f8 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -53,6 +53,7 @@ case "$1" in
-     [ -e /dev/shm ] || mkdir -m 1777 /dev/shm
-     mount -a -t tmpfs 2>/dev/null
-     mkdir -p /var/volatile/tmp
-+    mkdir -p /run/lock
+diff --git a/meta/recipes-extended/pmount/pmount_0.9.23.bb b/meta/recipes-extended/pmount/pmount_0.9.23.bb
+index 0d357b9..54504c7 100644
+--- a/meta/recipes-extended/pmount/pmount_0.9.23.bb
++++ b/meta/recipes-extended/pmount/pmount_0.9.23.bb
+@@ -27,3 +27,8 @@ inherit autotools
  
-     # Cache handling.
-     # A list of files which are used as a criteria to judge whether the udev cache could be reused.
+ SRC_URI[md5sum] = "db19f5bf3151b1b41705ec7bafa439d3"
+ SRC_URI[sha256sum] = "db38fc290b710e8e9e9d442da2fb627d41e13b3ee80326c15cc2595ba00ea036"
++
++do_install_append() {
++    chown root.disk ${D}/${bindir}/pmount ${D}/${bindir}/pumount
++    chmod o-x,u+s ${D}/${bindir}/pmount ${D}/${bindir}/pumount
++}
 -- 
 1.8.1.2
 
