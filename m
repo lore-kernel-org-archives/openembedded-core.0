@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E8506077F
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id C67A36B208
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 16:46:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2013 09:44:23 -0700
+	Fri, 12 Jul 2013 16:46:57 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Jul 2013 09:46:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="369245234"
+X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="267494747"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jul 2013 09:46:53 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 09:46:57 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 358D16A4092
+	by linux.intel.com (Postfix) with ESMTP id 432586A4092
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:46:51 -0700 (PDT)
+	Fri, 12 Jul 2013 09:46:56 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 19:46:53 +0300
-Message-Id: <9ecb14de37a2164c3e4c2ba4f3f7a389741325b4.1373647359.git.stefanx.stanacar@intel.com>
+Date: Fri, 12 Jul 2013 19:46:54 +0300
+Message-Id: <b6123bdbc995f1815f567e6eb3902f4d9e735316.1373647359.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
 References: <cover.1373647359.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
 References: <cover.1373647359.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 5/8] lib/oeqa/oetest.py: provide a ps command for all tests
+Subject: [PATCH 6/8] lib/oeqa/runtime: add tests for syslog and df
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,64 +35,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 16:46:52 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 16:46:58 -0000
 
-Many tests will use 'ps' but we need to know if it's busybox
-or standard ps.
-Drop the existing check from the connman test.
+From: Alexandru Palalau <alexandru.palalau@intel.com>
 
+Signed-off-by: Alexandru Palalau <alexandru.palalau@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/oetest.py          | 5 ++---
- meta/lib/oeqa/runtime/connman.py | 5 -----
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ meta/classes/testimage.bbclass  |  4 ++--
+ meta/lib/oeqa/runtime/df.py     | 13 +++++++++++++
+ meta/lib/oeqa/runtime/syslog.py | 34 ++++++++++++++++++++++++++++++++++
+ 3 files changed, 49 insertions(+), 2 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/df.py
+ create mode 100644 meta/lib/oeqa/runtime/syslog.py
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 24548e9..5777ff8 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -9,7 +9,8 @@ def runTests(tc):
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index f66f514..22f0a92 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -2,8 +2,8 @@ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
  
-     # set the context object passed from the test class
-     setattr(oeRuntimeTest, "tc", tc)
--
-+    # set ps command to use
-+    setattr(oeRuntimeTest, "pscmd", "ps -ef" if oeRuntimeTest.hasPackage("procps") else "ps")
-     # prepare test suite, loader and runner
-     suite = unittest.TestSuite()
-     testloader = unittest.TestLoader()
-@@ -30,7 +31,6 @@ class oeRuntimeTest(unittest.TestCase):
-     testFailures = []
-     testSkipped = []
-     testErrors = []
--    pscmd = "ps"
+ DEFAULT_TEST_SUITES = "ping auto"
+ DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+-DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman rpm smart xorg dmesg"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman rpm smart gcc xorg dmesg"
++DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman df rpm smart xorg syslog dmesg"
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman df rpm smart gcc xorg syslog dmesg"
  
-     def __init__(self, methodName='runTest'):
-         self.target = oeRuntimeTest.tc.target
-@@ -74,7 +74,6 @@ class oeRuntimeTest(unittest.TestCase):
+ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
  
- 
- 
--
- def getmodule(pos=2):
-     # stack returns a list of tuples containg frame information
-     # First element of the list the is current frame, caller is 1
-diff --git a/meta/lib/oeqa/runtime/connman.py b/meta/lib/oeqa/runtime/connman.py
-index 835e135..5ef96f6 100644
---- a/meta/lib/oeqa/runtime/connman.py
-+++ b/meta/lib/oeqa/runtime/connman.py
-@@ -17,11 +17,6 @@ class ConnmanTest(oeRuntimeTest):
- 
-     @skipUnlessPassed('test_connmand_help')
-     def test_connmand_running(self):
--        status = self.target.run('ls -l `which ps` | grep busybox')[0]
--        if status == 0:
--            oeRuntimeTest.pscmd = 'ps'
--        else:
--            oeRuntimeTest.pscmd = 'ps -ef'
-         (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand')
-         self.assertEqual(status, 0, msg="no connmand process, ps output: %s" % self.target.run(oeRuntimeTest.pscmd)[1])
- 
+diff --git a/meta/lib/oeqa/runtime/df.py b/meta/lib/oeqa/runtime/df.py
+new file mode 100644
+index 0000000..a781ea4
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/df.py
+@@ -0,0 +1,13 @@
++import unittest
++from oeqa.oetest import oeRuntimeTest
++from oeqa.utils.decorators import *
++
++def setUpModule():
++    skipModuleUnless(oeRuntimeTest.tc.target.run('which df')[0] == 0, "No df in image or no connection")
++
++class DfTest(oeRuntimeTest):
++
++    @skipUnlessPassed("test_ssh")
++    def test_df(self):
++        (status,output) = self.target.run("df | awk '{if($1 == \"/dev/root\") print $4}'")
++        self.assertTrue(int(output)>5120, msg="Not enough space on image. Current size is %s" % output)
+diff --git a/meta/lib/oeqa/runtime/syslog.py b/meta/lib/oeqa/runtime/syslog.py
+new file mode 100644
+index 0000000..9259349
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/syslog.py
+@@ -0,0 +1,34 @@
++import unittest
++from oeqa.oetest import oeRuntimeTest, skipModule
++from oeqa.utils.decorators import *
++
++def setUpModule():
++    if not oeRuntimeTest.hasPackage("syslog"):
++        skipModule("No syslog package in image")
++
++class SyslogTest(oeRuntimeTest):
++
++    @skipUnlessPassed("test_ssh")
++    def test_syslog_help(self):
++        (status,output) = self.target.run('/sbin/syslogd --help')
++        self.assertEqual(status, 1, msg="status and output: %s and %s" % (status,output))
++
++    @skipUnlessPassed("test_syslog_help")
++    def test_syslogd_running(self):
++        (status,output) = self.target.run(oeRuntimeTest.pscmd + ' | grep -i [s]yslogd')
++        self.assertEqual(status, 0, msg="no syslogd process, ps output: %s" % self.target.run(oeRuntimeTest.pscmd)[1])
++
++class SyslogTestConfig(oeRuntimeTest):
++
++    def setUp(self):
++        self.target.run('echo "LOGFILE=/var/log/test" >> /etc/syslog-startup.conf')
++
++    @skipUnlessPassed("test_syslogd_running")
++    def test_syslogd_configurable(self):
++        (status,output) = self.target.run('/etc/init.d/syslog restart')
++        self.assertEqual(status, 0, msg="Could not restart syslog service. Status and output: %s and %s" % (status,output))
++        (status,output) = self.target.run('logger foobar && grep foobar /var/log/test')
++        self.assertEqual(status, 0, msg="Test log string not found. Output: %s " % output)
++
++    def tearDown(self):
++        self.target.run("sed -i 's#LOGFILE=/var/log/test##' /etc/syslog-startup.conf")
 -- 
 1.8.1.4
 
