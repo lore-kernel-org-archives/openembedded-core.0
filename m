@@ -1,25 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 25A916AEEF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 07D3060686
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 00:47:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6C0l43X023208
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 17:47:05 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Thu, 11 Jul 2013 17:47:04 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jul 2013 20:00:04 -0500
-Message-ID: <1373590804-13276-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH] qemu: QEMU fix libtool usage
+	Fri, 12 Jul 2013 00:53:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Jul 2013 17:53:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,649,1367996400"; d="scan'208";a="368915642"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.73])
+	by fmsmga002.fm.intel.com with ESMTP; 11 Jul 2013 17:53:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jul 2013 17:53:31 -0700
+Message-Id: <1373590411-6276-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] ncurses: add xterm-256color to terminfo-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +27,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 00:47:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 12 Jul 2013 00:53:31 -0000
 
-QEMU uses the environment variable LIBTOOL by default.  We want to ensure
-we set it to the proper libtool version, instead of letting it default to
-the host system version.
+This is to address the buildtools-tarball still having problems with certain
+xterms
 
-This corrects target building, and ensures we're linking properly for
-native and nativesdk versions.
+[YOCTO #4835]
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/ncurses/ncurses.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7caef6e..d8afd37 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -38,6 +38,8 @@ EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disa
- 				--disable-curl \
- 				"
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 2ed1bba..671daf8 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -174,7 +174,7 @@ shell_do_install() {
  
-+export LIBTOOL="${HOST_SYS}-libtool"
-+
- do_configure_prepend_class-native() {
- 	# Undo the -lX11 added by linker-flags.patch, don't assume that host has libX11 installed
- 	sed -i 's/-lX11//g' Makefile.target
+         # include some basic terminfo files
+         # stolen ;) from gentoo and modified a bit
+-        for x in ansi console dumb linux rxvt screen sun vt{52,100,102,200,220} xterm-color xterm-xfree86
++        for x in ansi console dumb linux rxvt screen sun vt{52,100,102,200,220} xterm-color xterm-xfree86 xterm-256color
+         do
+                 local termfile="$(find "${D}${datadir}/terminfo/" -name "${x}" 2>/dev/null)"
+                 local basedir="$(basename $(dirname "${termfile}"))"
 -- 
-1.8.3
+1.7.10.4
 
 
