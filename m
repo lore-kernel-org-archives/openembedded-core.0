@@ -1,51 +1,25 @@
-Return-Path: <B40290@freescale.com>
-Received: from db8outboundpool.messaging.microsoft.com
-	(mail-db8lp0189.outbound.messaging.microsoft.com [213.199.154.189])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C086AB93
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 972B96ADA3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 02:11:19 +0000 (UTC)
-Received: from mail138-db8-R.bigfish.com (10.174.8.243) by
-	DB8EHSOBE014.bigfish.com (10.174.4.77) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 12 Jul 2013 02:11:18 +0000
-Received: from mail138-db8 (localhost [127.0.0.1])	by
-	mail138-db8-R.bigfish.com (Postfix) with ESMTP id 8D39C2A0275;
-	Fri, 12 Jul 2013 02:11:18 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz98dI9371I542Izz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
-Received: from mail138-db8 (localhost.localdomain [127.0.0.1]) by mail138-db8
-	(MessageSwitch) id 1373595077456023_2137;
-	Fri, 12 Jul 2013 02:11:17 +0000 (UTC)
-Received: from DB8EHSMHS003.bigfish.com (unknown [10.174.8.225])	by
-	mail138-db8.bigfish.com (Postfix) with ESMTP id 6AA60120047;
-	Fri, 12 Jul 2013 02:11:17 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS003.bigfish.com
-	(10.174.4.13) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Fri, 12 Jul 2013 02:11:17 +0000
-Received: from 039-SN2MPN1-022.039d.mgd.msft.net ([169.254.2.105]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.03.0136.001;
-	Fri, 12 Jul 2013 02:13:29 +0000
-From: Guo Chunrong-B40290 <B40290@freescale.com>
-To: Peter Seebach <peter.seebach@windriver.com>
-Thread-Topic: [OE-core] [PATCH] pseudo: pseudo-native breaks native builds
-	for symver.patch
-Thread-Index: AQHOflHGhd/B/ChFMES3Clz1WEIUlplgSWPQ
-Date: Fri, 12 Jul 2013 02:10:21 +0000
-Message-ID: <B21730BB6DA1D24B83348D9301EA417E104187A5@039-SN2MPN1-022.039d.mgd.msft.net>
-References: <1373529521-31010-1-git-send-email-B40290@freescale.com>
-	<20130711111223.06985e9f@e6410-2>
-In-Reply-To: <20130711111223.06985e9f@e6410-2>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.206]
+	Fri, 12 Jul 2013 03:10:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6C3AZjI024425
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2013 20:10:35 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 11 Jul 2013 20:10:34 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Jul 2013 11:10:34 +0800
+Message-ID: <cover.1373598236.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: pseudo-native breaks native builds for symver.patch
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH V4 0/3] Add a method for image level user/group configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 02:11:20 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Jul 2013 03:10:35 -0000
+Content-Type: text/plain
 
-Powerpc architecture and ppc64 hosts.
+From: Chen Qi <Qi.Chen@windriver.com>
 
+Changes from V3:
+1. naming changes
+   rename userbase.bbclass to useradd_base.bbclass
+   rename usersettings.bbclass to extrausers.bbclass
+   rename USER_GROUP_SETTINGS to EXTRA_USERS_PARAMS
+2. Add an example in the extrauser.bbclass to show how to use this bbclass
+3. Report the incorrect setting in EXTRA_USERS_PARAMS.
 
------Original Message-----
-From: Peter Seebach [mailto:peter.seebach@windriver.com]=20
-Sent: Friday, July 12, 2013 12:12 AM
-To: Guo Chunrong-B40290
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] pseudo: pseudo-native breaks native builds f=
-or symver.patch
+Note the branch has also changed from ChenQi/user_group_settings to ChenQi/extrausers.
 
-On Thu, 11 Jul 2013 15:58:41 +0800
-Chunrong Guo <B40290@freescale.com> wrote:
+The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
 
->       *symver.patch causes failure if the host glibc does not provide the=
- glibc-2.0 version of the symbol.
+  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
 
-I don't think we should take this out unconditionally, because it was added=
- to address a (different) problem -- we were ending up with the pseudo-nati=
-ve libraries being used with host glibc that might be too old, and not have=
- newer versions.
+are available in the git repository at:
 
-I was under the impression that glibc tried to maintain binary compatibilit=
-y a fairly long way back; which hosts are omitting this symbol? What archit=
-ecture are you on?
+  git://git.pokylinux.org/poky-contrib ChenQi/extrausers
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/extrausers
 
--s
---
-Listen, get this.  Nobody with a good compiler needs to be justified.
+Chen Qi (3):
+  useradd_base.bbclass: add a new bbclass
+  useradd.bbclass: code refactor
+  extrausers.bbclass: add a new bbclass
 
+ meta/classes/extrausers.bbclass   |   61 ++++++++++
+ meta/classes/useradd.bbclass      |   99 ++--------------
+ meta/classes/useradd_base.bbclass |  230 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 299 insertions(+), 91 deletions(-)
+ create mode 100644 meta/classes/extrausers.bbclass
+ create mode 100644 meta/classes/useradd_base.bbclass
+
+-- 
+1.7.9.5
 
 
