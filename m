@@ -1,26 +1,25 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 39D296AF67
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 015F06A467
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 05:42:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6C5g9Ae025704
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 22:42:09 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 11 Jul 2013 22:42:07 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Jul 2013 13:42:04 +0800
-Message-ID: <3393c80c31d82ac23afcddd39b1b24a9b5c1e696.1373607104.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1373607104.git.jackie.huang@windriver.com>
+	Fri, 12 Jul 2013 08:34:48 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1UxYoR-0003jm-3N; Fri, 12 Jul 2013 10:34:47 +0200
+Message-ID: <1373618076.21102.48.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: jackie.huang@windriver.com
+Date: Fri, 12 Jul 2013 09:34:36 +0100
+In-Reply-To: <3393c80c31d82ac23afcddd39b1b24a9b5c1e696.1373607104.git.jackie.huang@windriver.com>
 References: <cover.1373607104.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1 v2] kbd: Limit the kbdrate application to x86, mips and sparc
+	<3393c80c31d82ac23afcddd39b1b24a9b5c1e696.1373607104.git.jackie.huang@windriver.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1 v2] kbd: Limit the kbdrate application to x86, mips and sparc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,42 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 05:42:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 12 Jul 2013 08:34:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Fri, 2013-07-12 at 13:42 +0800, jackie.huang@windriver.com wrote:
+> The code relies on hardware specific memory locations to access
+> and modify the keyboard repeat rate.  It also requires read/write
+> access to /dev/port which doesn't exist on every architecture's
+> root fs. The defect was raised for Qemu PowerPC but it also fails on
+> ARM.  The keyboard emulation in qemuppc is for an ADB (Apple Desktop
+> Bus) device and not compatible with an Intel driver.  There's also no
+> indication in the documentation that the code should work on anything
+> other than Intel architecture but it also works on MIPS.
 
-The code relies on hardware specific memory locations to access
-and modify the keyboard repeat rate.  It also requires read/write
-access to /dev/port which doesn't exist on every architecture's
-root fs. The defect was raised for Qemu PowerPC but it also fails on
-ARM.  The keyboard emulation in qemuppc is for an ADB (Apple Desktop
-Bus) device and not compatible with an Intel driver.  There's also no
-indication in the documentation that the code should work on anything
-other than Intel architecture but it also works on MIPS.
+This reasoning seems slightly spurious.  There do exist ARM and PPC
+machines where kbdrate works, it's just that the hardware emulated by
+qemuarm and qemuppc doesn't happen to fall into that category.  Equally,
+there are certainly mips machines (and might conceivably be some
+x86/sparc ones) where it doesn't work.  So I don't think you can make
+any sensible determination about the supportedness or not of kbdrate
+based on TARGET_ARCH alone.  
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-core/kbd/kbd_1.15.2.bb |    8 ++++++++
- 1 files changed, 8 insertions(+), 0 deletions(-)
+Of course, the right answer really is for rate setting to go through the
+kernel driver (which knows what sort of hardware it is using) rather
+than for kbdrate to go poking at random I/O ports.
 
-diff --git a/meta/recipes-core/kbd/kbd_1.15.2.bb b/meta/recipes-core/kbd/kbd_1.15.2.bb
-index 79ea468..25ca8be 100644
---- a/meta/recipes-core/kbd/kbd_1.15.2.bb
-+++ b/meta/recipes-core/kbd/kbd_1.15.2.bb
-@@ -28,3 +28,11 @@ inherit update-alternatives
- 
- ALTERNATIVE_${PN} = "chvt deallocvt fgconsole openvt"
- ALTERNATIVE_PRIORITY = "100"
-+
-+do_install_append() {
-+        # Limit the kbdrate application to x86, mips and sparc.
-+        if [ ${TARGET_ARCH} != "i586" -a ${TARGET_ARCH} != "x86_64" -a ${TARGET_ARCH} != "mips" \
-+             -a ${TARGET_ARCH} != "mips64" -a ${TARGET_ARCH} != "sparc" ]; then
-+                rm ${D}/${bindir}/kbdrate
-+        fi
-+}
--- 
-1.7.4.1
+p.
+
 
 
