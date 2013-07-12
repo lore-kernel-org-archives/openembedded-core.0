@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FF3C6B1F6
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id CBA306B217
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 14:42:33 +0000 (UTC)
+	Fri, 12 Jul 2013 14:42:36 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 12 Jul 2013 07:42:34 -0700
+	by azsmga101.ch.intel.com with ESMTP; 12 Jul 2013 07:42:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,653,1367996400"; d="scan'208";a="267448334"
+X-IronPort-AV: E=Sophos;i="4.89,653,1367996400"; d="scan'208";a="267448337"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 07:42:33 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 07:42:36 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 17:44:05 +0300
-Message-Id: <a05bb98e398d4a5f8bc4fa9940759007cc4f305d.1373640113.git.cristian.iorga@intel.com>
+Date: Fri, 12 Jul 2013 17:44:07 +0300
+Message-Id: <d02e53b377181d72352b34f5dd20437a720becda.1373640113.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1373640113.git.cristian.iorga@intel.com>
 References: <cover.1373640113.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1373640113.git.cristian.iorga@intel.com>
 References: <cover.1373640113.git.cristian.iorga@intel.com>
-Subject: [PATCH 2/5] bluez4: conflicts with/replaces bluez5
+Subject: [PATCH 4/5] bluez5: add readline dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 14:42:33 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 14:42:37 -0000
 
-- RCONFLICTS/RREPLACES bluez5
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
+
+    bluez5 uses readline to be build, but the dependency is not listed
+    This is listed in the configuration log.
+    So we add it.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/bluez/bluez4_4.101.bb |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/bluez5/bluez5.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index f48adfd..91ebc63 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -1,6 +1,6 @@
- require bluez4.inc
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index db9c766..86a9bbe 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
+-DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck libical"
++DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck libical readline"
  
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch \
-@@ -11,6 +11,9 @@ SRC_URI += "file://bluetooth.conf \
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
- SRC_URI[sha256sum] = "59738410ade9f0e61a13c0f77d9aaffaafe49ba9418107e4ad75fe52846f7487"
- 
-+RCONFLICTS_${PN} = "bluez5"
-+RREPLACES_${PN} = "bluez5"
-+
- do_install_append() {
- 	install -m 0644 ${S}/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
- 	install -m 0644 ${S}/network/network.conf ${D}/${sysconfdir}/bluetooth/
+ PACKAGECONFIG ??= "\
+     ${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}\
 -- 
 1.7.10.4
 
