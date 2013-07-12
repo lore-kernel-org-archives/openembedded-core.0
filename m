@@ -1,33 +1,27 @@
-Return-Path: <stefanx.stanacar@intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id AD4F660289
+	by mail.openembedded.org (Postfix) with ESMTP id A0E2E6B0DD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 16:50:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 12 Jul 2013 09:50:21 -0700
+	Fri, 12 Jul 2013 17:08:04 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 12 Jul 2013 10:08:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="364367791"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2013 09:51:26 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.52]) by
-	IRSMSX101.ger.corp.intel.com ([169.254.1.153]) with mapi id
-	14.03.0123.003; Fri, 12 Jul 2013 17:50:20 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [CONSOLIDATED PULL 00/30] PENDING FINAL REVIEW
-Thread-Index: AQHOfp59rXaQhI/O5EuKlifysHOHgZlhMf6A
-Date: Fri, 12 Jul 2013 16:50:19 +0000
-Message-ID: <1373647865.13950.5.camel@firebird.rb.intel.com>
-References: <cover.1373591508.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1373591508.git.sgw@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.73]
+X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="267503648"
+Received: from unknown (HELO helios.localnet) ([10.252.122.54])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 10:08:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Bian Naimeng <biannm@cn.fujitsu.com>
+Date: Fri, 12 Jul 2013 18:07:58 +0100
+Message-ID: <7309265.hkedPcPrsU@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <51DF6448.5010906@cn.fujitsu.com>
+References: <51DBC97F.1090606@cn.fujitsu.com>
+	<CAJTo0LYQ4MJ3CUDZaVfDexcaO=MATWj0syDTpY5Veb3m1TNiMQ@mail.gmail.com>
+	<51DF6448.5010906@cn.fujitsu.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/30] PENDING FINAL REVIEW
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1]package_rpm.bbclass: remove xx.spec before doing rpmbuild xx.src.rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,18 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 16:50:20 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BC770B1A39A2094BA604A49A25CDAC80@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 12 Jul 2013 17:08:04 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-DQoNCk9uIFRodSwgMjAxMy0wNy0xMSBhdCAxODoyMyAtMDcwMCwgU2F1bCBXb2xkIHdyb3RlOg0K
-DQo+IA0KPiBTdGFuYWNhciwgU3RlZmFuWCAoMik6DQo+ICAgbGliL29lcWEvcnVudGltZS9kbWVz
-Zy5weTogd2hpdGVsaXN0IGRtZXNnIG1lc3NhZ2UgZm9yIHN5c3RlbWQgbmV0DQo+ICAgICBpbnRl
-cmZhY2UgbmFtZQ0KPiAgIGxpYi9vZXFhL3V0aWxzL3FlbXVydW5uZXIucHk6IGluY3JlYXNlIGJv
-b3QgdGltZW91dA0KPiANCj4gU3RlZmFuIFN0YW5hY2FyICgxKToNCj4gICBsaWIvb2VxYS91dGls
-cy9zc2hjb250cm9sLnB5OiBmaXggcGFzc2luZyBjb21tYW5kIHRvIHN1YnByb2Nlc3MNCj4gDQoN
-ClRoZXNlIGFyZSBvYnNvbGV0ZWQgYnkgdGhlIHB1bGwgcmVxdWVzdCBJJ3ZlIGp1c3Qgc2VudC4N
-Cih0aG91Z2ggdHdvIG9mIHRoZXNlIGFyZSB0aGUgc2FtZSB0aGVyZSkuDQo=
+Hi Bian,
+
+On Friday 12 July 2013 10:04:56 Bian Naimeng wrote:
+> said the following on 2013-7-11 18:54:, Burton, Ross wrote:
+> > On 10 July 2013 03:56, Bian Naimeng <biannm@cn.fujitsu.com> wrote:
+> >> Sorry, it looks like i should post this patch to poky. please ignore this
+> > 
+> > You were right the first time, meta/ is oe-core. :)
+> 
+> Thanks for your reminding.
+> 
+> In this case, the following error will be caught.
+> 
+>    | error: Bad owner/group:  .../tmp/work/i586-poky-linux/.../xxx.spec
+>    | Building target platforms: i586-poky-linux
+>    | 
+>    | RPM build errors:
+>    |     Bad owner/group: .../tmp/work/i586-poky-linux/.../xxx.spec
+> 
+> The following bb file can cause this error.
+> # cat xxx.bb
+>   SRC_URI="..../xxx.src.rpm"
+> 
+>   do_unpack2 () {
+>           cd ${WORKDIR}
+>           tar zxvf xxx.tar.gz
+>   }
+>   addtask do_unpack2 after do_unpack before do_configure
+> 
+> Of course, we can walk around it by append "extract=xxx.tar.gz" to SRC_URI,
+> but it's not good way when the xxx.src.rpm containing lots of necessary
+> files.
+
+Wouldn't using subdir=xyz in the SRC_URI entry put the contents of the rpm 
+into a subdirectory and thus avoid this problem?
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
