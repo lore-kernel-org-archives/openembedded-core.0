@@ -1,22 +1,20 @@
-Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
+Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id F0934608CC
+	by mail.openembedded.org (Postfix) with ESMTP id 3E0966B1FF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 14:36:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 12 Jul 2013 07:36:21 -0700
+	Fri, 12 Jul 2013 14:42:31 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Jul 2013 07:42:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,653,1367996400"; d="scan'208";a="364298066"
-Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2013 07:37:12 -0700
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.89,653,1367996400"; d="scan'208";a="267448324"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 07:42:30 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 17:43:33 +0300
-Message-Id: <dd934334ea56b3d625abfebe2b2d6e8aa67cc03a.1373640025.git.emilia.maria.silvia.ciobanu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1373640025.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <cover.1373640025.git.emilia.maria.silvia.ciobanu@intel.com>
-Subject: [PATCH v3 1/1] distrodata.bbaclass: change in git and svn package reporting
+Date: Fri, 12 Jul 2013 17:44:03 +0300
+Message-Id: <cover.1373640113.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/5] bluez: v5.7 experimental packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,144 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 14:36:22 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 14:42:31 -0000
 
-For git packages the Package Reporting System should always report the
-latest HEAD.
-For svn packages the new version reporting has the following format:
-	version+svn[r|-]revision
+This sets of patches adds bluez5 recipes as experimental packages.
+BlueZ 5.X is not an upgrade for Bluez 4.x, as such, no upgrade is
+provided/possible.
+The two versions of the BT stack also conflicts each other.
 
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
----
- meta/classes/distrodata.bbclass |   79 +++++++++++++++++++++++++--------------
- 1 file changed, 51 insertions(+), 28 deletions(-)
+The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index be95b1c..204612c 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -663,15 +663,25 @@ python do_checkpkg() {
-                         gitproto = parm['protocol']
-                 else:
-                         gitproto = "git"
--                gitcmd = "git ls-remote %s://%s%s%s *tag* 2>&1" % (gitproto, gituser, host, path)
-+
-+                # Get all tags and HEAD
-+                if d.getVar('GIT_REGEX', True):
-+                        gitcmd = "git ls-remote %s://%s%s%s %s 2>&1" % (gitproto, gituser, host, path, d.getVar('GIT_REGEX', True))
-+                else:
-+                        gitcmd = "git ls-remote %s://%s%s%s *tag* 2>&1" % (gitproto, gituser, host, path)
-                 gitcmd2 = "git ls-remote %s://%s%s%s HEAD 2>&1" % (gitproto, gituser, host, path)
-+
-                 tmp = os.popen(gitcmd).read()
-+                if 'unable to connect' in tmp:
-+                        tmp = None
-                 tmp2 = os.popen(gitcmd2).read()
--                #This is for those repo have tag like: refs/tags/1.2.2
-+                if 'unable to connect' in tmp2:
-+                        tmp2 = None
-+                #This is for those repos have tag like: refs/tags/1.2.2
-+                phash = pversion.rsplit("+")[-1]
-                 if tmp:
-                         tmpline = tmp.split("\n")
-                         verflag = 0
--                        phash = tmpline[0].rsplit("\t")[0]
-                         pupver = pversion
-                         for line in tmpline:
-                                 if len(line)==0:
-@@ -681,46 +691,52 @@ python do_checkpkg() {
-                                 if upstr_regex:
-                                         puptag = re.search(upstr_regex, puptag)
-                                 else:
--                                        puptag = re.search("([0-9][\.|_]?)+", puptag)
-+                                        puptag = re.search("(?P<pver>([0-9][\.|_]?)+)", puptag)
-                                 if puptag == None:
--                                        continue;
--                                puptag = puptag.group()
-+                                        continue
-+                                puptag = puptag.group('pver')
-                                 puptag = re.sub("_",".",puptag)
-                                 plocaltag = pupver.split("+git")[0]
-                                 if "git" in plocaltag:
-                                         plocaltag = plocaltag.split("-")[0]
-                                 result = bb.utils.vercmp(("0", puptag, ""), ("0", plocaltag, ""))
-+
-                                 if result > 0:
--                                        verflag = 1
--                                        pstatus = "UPDATE"
--                                        pupver = puptag
--                                        phash = line.split("\t")[0]
-+                                         verflag = 1
-+                                         pupver = puptag
-                                 elif verflag == 0 :
--                                        pupver = plocaltag
--                                        pstatus = "MATCH"
-+                                         pupver = plocaltag
-                 #This is for those no tag repo
-                 elif tmp2:
--                        pupver = tmp2.split("\t")[0]
-+                        pupver = pversion.rsplit("+")[0]
-                         phash = pupver
--                        if pupver in pversion:
--                                pstatus = "MATCH"
--                        else:
--                                pstatus = "UPDATE"
-                 else:
-                         pstatus = "ErrGitAccess"
--
--                tmp3 = re.search('(?P<git_ver>(\d+[\.-]?)+)(?P<git_prefix>(\+git[r|\-|]?)AUTOINC\+)(?P<head_md5>(.+))', pversion)
--                if tmp3:
--                        pversion = tmp3.group('git_ver') + tmp3.group('git_prefix') + tmp3.group('head_md5')[:7]
--                        git_prefix = tmp3.group('git_prefix')
--                        if not (git_prefix in pupver):
--                                if len(pupver) < 40:
--                                        """This is not the HEAD of the repository"""
--                                        pupver = pupver + tmp3.group('git_prefix') + phash[:7]
-+                if not ('ErrGitAccess' in pstatus):
-+
-+                        latest_head = tmp2.rsplit("\t")[0][:7]
-+                        tmp3 = re.search('(?P<git_ver>(\d+[\.-]?)+)(?P<git_prefix>(\+git[r|\-|]?)AUTOINC\+)(?P<head_md5>([\w|_]+))', pversion)
-+                        tmp4 = re.search('(?P<git_ver>(\d+[\.-]?)+)(?P<git_prefix>(\+git[r|\-|]?)AUTOINC\+)(?P<head_md5>([\w|_]+))', pupver)
-+                        if not tmp4:
-+                                tmp4 = re.search('(?P<git_ver>(\d+[\.-]?)+)', pupver)
-+
-+                        if tmp3:
-+                                # Get status of the package - MATCH/UPDATE
-+                                result = bb.utils.vercmp(("0", tmp3.group('git_ver'), ""), ("0",tmp3.group('git_ver') , ""))
-+                                # Get the latest tag
-+                                pstatus = 'MATCH'
-+                                if result < 0:
-+                                        latest_pv = tmp3.group('git_ver')
-                                 else:
--                                        """This is the HEAD of the repository"""
--                                        pupver = tmp3.group('git_ver') + tmp3.group('git_prefix') + phash[:7]
-+                                        latest_pv = pupver
-+                                        if not(tmp3.group('head_md5')[:7] in latest_head) or not(latest_head in tmp3.group('head_md5')[:7]):
-+                                                pstatus = 'UPDATE'
- 
-+                                git_prefix = tmp3.group('git_prefix')
-+                                pupver = latest_pv + tmp3.group('git_prefix') + latest_head
-+                        else:
-+                                if not tmp3:
-+                                        bb.plain("#DEBUG# Current version (%s) doesn't match the usual pattern" %pversion)
-         elif type == 'svn':
-                 options = []
-                 if user:
-@@ -750,6 +766,13 @@ python do_checkpkg() {
- 
-                 if re.match("Err", pstatus):
-                         pstatus = "ErrSvnAccess"
-+
-+                if pstatus != "ErrSvnAccess":
-+                        tag = pversion.rsplit("+svn")[0]
-+                        svn_prefix = re.search('(\+svn[r|\-]?)', pversion)
-+                        if tag and svn_prefix:
-+                                pupver = tag + svn_prefix.group() + pupver
-+
-         elif type == 'cvs':
-                 pupver = "HEAD"
-                 pstatus = "UPDATE"
+  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/bluez57
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/bluez57
+
+Alexandru DAMIAN (1):
+  bluez5: add readline dependency
+
+Cristian Iorga (3):
+  bluez5: new package for v5.3
+  bluez4: conflicts with/replaces bluez5
+  bluez5: upgrade to v5.7
+
+Richard Purdie (1):
+  bluez5: Set udev variables using pkg-config
+
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    5 ++-
+ .../bluez5/bluez5-5.7/bluetooth.conf               |   16 +++++++
+ .../bluez5/bluez5-5.7/fix-udev-paths.patch         |   35 +++++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5.inc        |   45 ++++++++++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5_5.7.bb     |   38 +++++++++++++++++
+ 5 files changed, 138 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5-5.7/bluetooth.conf
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5-5.7/fix-udev-paths.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5.inc
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.7.bb
+
 -- 
-1.7.9.5
+1.7.10.4
 
 
