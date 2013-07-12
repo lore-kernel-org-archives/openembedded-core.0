@@ -1,28 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E1ECE6ADA3
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F0176A45E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 01:29:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6C1T80G023577
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2013 18:29:09 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 11 Jul 2013 18:29:08 -0700
-Message-ID: <51DF5BE3.8090803@windriver.com>
-Date: Thu, 11 Jul 2013 20:29:07 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	Fri, 12 Jul 2013 02:05:03 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.89,649,1367942400"; 
+   d="scan'208";a="7868745"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 12 Jul 2013 10:02:01 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r6C24vQo015435;
+	Fri, 12 Jul 2013 10:04:58 +0800
+Received: from [127.0.0.1] ([10.167.226.190])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013071210031596-2881407 ;
+	Fri, 12 Jul 2013 10:03:15 +0800 
+Message-ID: <51DF6448.5010906@cn.fujitsu.com>
+Date: Fri, 12 Jul 2013 10:04:56 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
+	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1373590411-6276-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1373590411-6276-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH] ncurses: add xterm-256color to terminfo-base
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <51DBC97F.1090606@cn.fujitsu.com> <51DCCD6D.5050807@cn.fujitsu.com>
+	<CAJTo0LYQ4MJ3CUDZaVfDexcaO=MATWj0syDTpY5Veb3m1TNiMQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYQ4MJ3CUDZaVfDexcaO=MATWj0syDTpY5Veb3m1TNiMQ@mail.gmail.com>
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/07/12 10:03:15,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/07/12 10:03:16,
+	Serialize complete at 2013/07/12 10:03:16
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1]package_rpm.bbclass: remove xx.spec before doing rpmbuild xx.src.rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 01:29:08 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 12 Jul 2013 02:05:04 -0000
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 
-On 7/11/13 7:53 PM, Saul Wold wrote:
-> This is to address the buildtools-tarball still having problems with certain
-> xterms
->
-> [YOCTO #4835]
 
-This is a reasonable workaround, but the real problem seems to be that nativesdk 
-python/ncurses return crap (strings with embedded control codes) when they don't 
-know what the TERM is.  I think this is the real underlying problem that needs 
-to be fixed, unfortunately I have no idea what the cause is.
 
-The alternative is to somehow enforce terminal settings when using the 
-buildtools-tarball are one of the known terminals.
+said the following on 2013-7-11 18:54:, Burton, Ross wrote:
+> On 10 July 2013 03:56, Bian Naimeng <biannm@cn.fujitsu.com> wrote:
+>> Sorry, it looks like i should post this patch to poky. please ignore this
+> 
+> You were right the first time, meta/ is oe-core. :)
+> 
 
---Mark
+Thanks for your reminding.
 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta/recipes-core/ncurses/ncurses.inc |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-> index 2ed1bba..671daf8 100644
-> --- a/meta/recipes-core/ncurses/ncurses.inc
-> +++ b/meta/recipes-core/ncurses/ncurses.inc
-> @@ -174,7 +174,7 @@ shell_do_install() {
->
->           # include some basic terminfo files
->           # stolen ;) from gentoo and modified a bit
-> -        for x in ansi console dumb linux rxvt screen sun vt{52,100,102,200,220} xterm-color xterm-xfree86
-> +        for x in ansi console dumb linux rxvt screen sun vt{52,100,102,200,220} xterm-color xterm-xfree86 xterm-256color
->           do
->                   local termfile="$(find "${D}${datadir}/terminfo/" -name "${x}" 2>/dev/null)"
->                   local basedir="$(basename $(dirname "${termfile}"))"
->
+In this case, the following error will be caught.
+
+   | error: Bad owner/group:  .../tmp/work/i586-poky-linux/.../xxx.spec
+   | Building target platforms: i586-poky-linux
+   |
+   |
+   | RPM build errors:
+   |     Bad owner/group: .../tmp/work/i586-poky-linux/.../xxx.spec
+
+The following bb file can cause this error.
+# cat xxx.bb
+  SRC_URI="..../xxx.src.rpm"
+
+  do_unpack2 () {
+          cd ${WORKDIR}
+          tar zxvf xxx.tar.gz
+  }
+  addtask do_unpack2 after do_unpack before do_configure
+
+Of course, we can walk around it by append "extract=xxx.tar.gz" to SRC_URI,
+but it's not good way when the xxx.src.rpm containing lots of necessary files.
+
+Thanks
+ Bian
+
+> Ross
+> 
 
 
