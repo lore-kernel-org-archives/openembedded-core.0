@@ -1,37 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C8D26B03A
+Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
+	[209.85.212.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FCDB6B03A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 16:01:56 +0000 (UTC)
-Received: by mail-vc0-f180.google.com with SMTP id gf11so7853425vcb.11
+	Fri, 12 Jul 2013 16:03:33 +0000 (UTC)
+Received: by mail-vb0-f41.google.com with SMTP id p13so1691436vbe.28
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:01:57 -0700 (PDT)
+	Fri, 12 Jul 2013 09:03:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=QtvNEkf+71eUz+eoCG4Kq7bwUt+zUl/p9RSlRu3XvJs=;
-	b=oo+KeeeO1SkRPGmxgmtwqn2sFmi5VUhCcNbYqSlb474aKAOJLAc8Errk67nEd7yVYj
-	hqO90fc9+c7eynE+sLxDKQZzLntYSfl25uFMN0QOy5RhKpj1GDWwsWIijMkOrfn0eo5D
-	qNnQ1NKAAbw4QFWkqrfJUtedG6hzdzO0UhoRHBknwPfl9sg8M4t78HUIn4tD6EwTj+Ri
-	c11g/ChLqh4TDRinTENMrU6BugBz40oiBE0Oa81rAIfM9x9RT51g+U7L4yQE2e2xZwM/
-	Sh11e7iGdu/gZfpd9sf5OSY5UC0De3Otptv41MihvSpXKpJzKX1sgPsZoF6pJpFxVTK9
-	XzOQ==
-X-Received: by 10.52.164.227 with SMTP id yt3mr20921055vdb.107.1373644917203; 
-	Fri, 12 Jul 2013 09:01:57 -0700 (PDT)
+	bh=7moReTRbsnOSBdtImF3tSO2L2CwXx1fQ3rV35IUjifg=;
+	b=N1qSs1Sl1+EgAxzCpelCPxjLbVVBIhAoDVQpJz00+v2PJqdbzwyFcjeDZNn1mjhFu2
+	ujvNQqQWNIOfGt6vxg48cSTfc+O0913mwhwIGfwOUTzIUiLBu98dIkW1HpvsFgrG/3g/
+	lP1v1Y1ovnDGx85T8eD7eVIwbwmjWsFQMYqfV/j59yeJV21XYtG0wAIMHedU61L9OSFX
+	h9BfYe09pqVVMud6ynIvQhPZlUk1w2BVNvgrG6YTgduR4d+SFHN6wIzgKUdpNY5fHgyo
+	NNMkJI0+PA5uEN/syE9xTBMcN0WWTYr0vz9wYVsFh0q+zZLJByKWzoBNIQ5LR+5k1wo6
+	bTvg==
+X-Received: by 10.58.24.41 with SMTP id r9mr407712vef.44.1373645013867; Fri,
+	12 Jul 2013 09:03:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Fri, 12 Jul 2013 09:01:37 -0700 (PDT)
-In-Reply-To: <64f5905504694f462895e22594ff4321ca49097b.1373640113.git.cristian.iorga@intel.com>
-References: <cover.1373640113.git.cristian.iorga@intel.com>
-	<64f5905504694f462895e22594ff4321ca49097b.1373640113.git.cristian.iorga@intel.com>
+Received: by 10.220.13.144 with HTTP; Fri, 12 Jul 2013 09:03:13 -0700 (PDT)
+In-Reply-To: <1373637989-24991-5-git-send-email-cristian.iorga@intel.com>
+References: <1373637989-24991-1-git-send-email-cristian.iorga@intel.com>
+	<1373637989-24991-5-git-send-email-cristian.iorga@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Jul 2013 17:01:37 +0100
-Message-ID: <CAJTo0LaxB6CFTdYgsye5Rkp9L_B4hybjavKzagn_y97+6WOVOg@mail.gmail.com>
+Date: Fri, 12 Jul 2013 17:03:13 +0100
+Message-ID: <CAJTo0Lb8w6T7Ygip=6hDEE3o8zRv-5SjcaKbv=b6sVAMOXQ_dA@mail.gmail.com>
 To: Cristian Iorga <cristian.iorga@intel.com>
-X-Gm-Message-State: ALoCoQmivrN5yX0OQIbnUPa/r+s2i/hAgXP6Ru+2TzzKWY8JNzEy0eUcFhWyXJVzuk3ilKEw14zm
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/5] bluez5: upgrade to v5.7
+X-Gm-Message-State: ALoCoQnvvXa3/O08cO1sTyYvpWQHc86rTVYSsIlDUqaJ/7WxsNX8uoZK+JA0QRZjRJn990Mkrfs7
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/5] bluez5: add readline dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,10 +45,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 16:01:57 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 16:03:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Please squash this into the commit that introduces bluez5.
+On 12 July 2013 15:06, Cristian Iorga <cristian.iorga@intel.com> wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>
+>     bluez5 uses readline to be build, but the dependency is not listed
+>     This is listed in the configuration log.
+>     So we add it.
+>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+
+Squash this too.
 
 Ross
 
