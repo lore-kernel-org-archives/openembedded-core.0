@@ -1,28 +1,24 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BE45C6077F
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F1E96AF53
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 16:46:43 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Jul 2013 09:48:24 -0700
+	Fri, 12 Jul 2013 16:46:45 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Jul 2013 09:46:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="369348838"
+X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="369245177"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jul 2013 09:46:43 -0700
+	by orsmga002.jf.intel.com with ESMTP; 12 Jul 2013 09:46:42 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id D3DE66A4092
+	by linux.intel.com (Postfix) with ESMTP id EA0716A4092
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:46:42 -0700 (PDT)
+	Fri, 12 Jul 2013 09:46:40 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 19:46:49 +0300
-Message-Id: <a6d8026e8c473fca95200f5687dc6b41b2b553ee.1373647359.git.stefanx.stanacar@intel.com>
+Date: Fri, 12 Jul 2013 19:46:48 +0300
+Message-Id: <cover.1373647359.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
-References: <cover.1373647359.git.stefanx.stanacar@intel.com>
-In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
-References: <cover.1373647359.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 1/8] lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net interface name
+Subject: [PATCH 0/8] Some fixes for the testimage class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +31,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 16:46:43 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 16:46:45 -0000
 
-Messages such as:
-"systemd-udevd[79]: error changing net interface name eth0 to enp0s3: Device or resource busy"
-are harmless as systemd can't rename interfaces in qemu (the interface is already active).
-Alternatively, passing net.ifnames=0 to the kernel will stop systemd renaming the interfaces.
+Hello,
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/runtime/dmesg.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Some fixes for the testimage.bbclass and tests.
+Also two new tests.
 
-diff --git a/meta/lib/oeqa/runtime/dmesg.py b/meta/lib/oeqa/runtime/dmesg.py
-index b0e2175..48370fb 100644
---- a/meta/lib/oeqa/runtime/dmesg.py
-+++ b/meta/lib/oeqa/runtime/dmesg.py
-@@ -9,5 +9,5 @@ class DmesgTest(oeRuntimeTest):
- 
-     @skipUnlessPassed('test_ssh')
-     def test_dmesg(self):
--        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -i error')
-+        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -v "error changing net interface name" | grep -i error')
-         self.assertEqual(status, 1, msg = "Error messages in dmesg log: %s" % output)
+First two patches in the series have already been sent to ML, these are the same.
+The third one is a modified version of a patch already sent.
+The rest of them are new and the should be safe :).
+
+Cheers,
+Stefan
+
+
+The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
+
+  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
+
+are available in the git repository at:
+
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib stefans/oeqa9
+
+for you to fetch changes up to 1dad9f83f59020db8c50a7b0ae6fb2af75496194:
+
+  testimage.bbclass, lib/oeqa: add headers and comments (2013-07-12 19:33:52 +0300)
+
+----------------------------------------------------------------
+Alexandru Palalau (1):
+      lib/oeqa/runtime: add tests for syslog and df
+
+Stefan Stanacar (7):
+      lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net interface name
+      lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
+      testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout configurable and increase it
+      lib/oeqa/runtime/multilib.py: use readelf instead of file
+      lib/oeqa/oetest.py: provide a ps command for all tests
+      classes/testimage.bbclass: use a copy of rootfs for tests
+      testimage.bbclass, lib/oeqa: add headers and comments
+
+ meta/classes/testimage.bbclass    | 43 +++++++++++++++++++++++++++++++---
+ meta/lib/oeqa/oetest.py           | 14 ++++++++---
+ meta/lib/oeqa/runtime/connman.py  |  5 ----
+ meta/lib/oeqa/runtime/df.py       | 13 +++++++++++
+ meta/lib/oeqa/runtime/dmesg.py    |  2 +-
+ meta/lib/oeqa/runtime/multilib.py |  9 ++++---
+ meta/lib/oeqa/runtime/syslog.py   | 34 +++++++++++++++++++++++++++
+ meta/lib/oeqa/utils/decorators.py |  8 +++++++
+ meta/lib/oeqa/utils/qemurunner.py | 12 +++++-----
+ meta/lib/oeqa/utils/sshcontrol.py | 49 +++++++++++++++++++++------------------
+ 10 files changed, 145 insertions(+), 44 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/df.py
+ create mode 100644 meta/lib/oeqa/runtime/syslog.py
+
+Alexandru Palalau (1):
+  lib/oeqa/runtime: add tests for syslog and df
+
+Stefan Stanacar (7):
+  lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net
+    interface name
+  lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
+  testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout
+    configurable and increase it
+  lib/oeqa/runtime/multilib.py: use readelf instead of file
+  lib/oeqa/oetest.py: provide a ps command for all tests
+  classes/testimage.bbclass: use a copy of rootfs for tests
+  testimage.bbclass, lib/oeqa: add headers and comments
+
+ meta/classes/testimage.bbclass    | 43 +++++++++++++++++++++++++++++++---
+ meta/lib/oeqa/oetest.py           | 14 ++++++++---
+ meta/lib/oeqa/runtime/connman.py  |  5 ----
+ meta/lib/oeqa/runtime/df.py       | 13 +++++++++++
+ meta/lib/oeqa/runtime/dmesg.py    |  2 +-
+ meta/lib/oeqa/runtime/multilib.py |  9 ++++---
+ meta/lib/oeqa/runtime/syslog.py   | 34 +++++++++++++++++++++++++++
+ meta/lib/oeqa/utils/decorators.py |  8 +++++++
+ meta/lib/oeqa/utils/qemurunner.py | 12 +++++-----
+ meta/lib/oeqa/utils/sshcontrol.py | 49 +++++++++++++++++++++------------------
+ 10 files changed, 145 insertions(+), 44 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/df.py
+ create mode 100644 meta/lib/oeqa/runtime/syslog.py
+
 -- 
 1.8.1.4
 
