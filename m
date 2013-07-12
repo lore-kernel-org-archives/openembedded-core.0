@@ -1,24 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F1E96AF53
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BF486B208
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 12 Jul 2013 16:46:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 12 Jul 2013 09:46:42 -0700
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jul 2013 09:48:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="369245177"
+X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="369348876"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 12 Jul 2013 09:46:42 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 12 Jul 2013 09:46:46 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id EA0716A4092
+	by linux.intel.com (Postfix) with ESMTP id 0E52B6A4092
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:46:40 -0700 (PDT)
+	Fri, 12 Jul 2013 09:46:44 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 19:46:48 +0300
-Message-Id: <cover.1373647359.git.stefanx.stanacar@intel.com>
+Date: Fri, 12 Jul 2013 19:46:50 +0300
+Message-Id: <671dc0d8f738843aa00b050f7f35dd260ddd969d.1373647359.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH 0/8] Some fixes for the testimage class
+In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
+References: <cover.1373647359.git.stefanx.stanacar@intel.com>
+In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
+References: <cover.1373647359.git.stefanx.stanacar@intel.com>
+Subject: [PATCH 2/8] lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,86 +37,109 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 12 Jul 2013 16:46:45 -0000
 
-Hello,
+Don't use shlex.split in subprocess call and also prepend
+. /etc/profile, because PATH over ssh is always
+/usr/bin:/bin which isn't what many tests expect.
 
-Some fixes for the testimage.bbclass and tests.
-Also two new tests.
+Changed in v2:
+ We now need to use a separate call for scp command.
 
-First two patches in the series have already been sent to ML, these are the same.
-The third one is a modified version of a patch already sent.
-The rest of them are new and the should be safe :).
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/utils/sshcontrol.py | 40 +++++++++++++++++----------------------
+ 1 file changed, 17 insertions(+), 23 deletions(-)
 
-Cheers,
-Stefan
-
-
-The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
-
-  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
-
-are available in the git repository at:
-
-  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib stefans/oeqa9
-
-for you to fetch changes up to 1dad9f83f59020db8c50a7b0ae6fb2af75496194:
-
-  testimage.bbclass, lib/oeqa: add headers and comments (2013-07-12 19:33:52 +0300)
-
-----------------------------------------------------------------
-Alexandru Palalau (1):
-      lib/oeqa/runtime: add tests for syslog and df
-
-Stefan Stanacar (7):
-      lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net interface name
-      lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
-      testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout configurable and increase it
-      lib/oeqa/runtime/multilib.py: use readelf instead of file
-      lib/oeqa/oetest.py: provide a ps command for all tests
-      classes/testimage.bbclass: use a copy of rootfs for tests
-      testimage.bbclass, lib/oeqa: add headers and comments
-
- meta/classes/testimage.bbclass    | 43 +++++++++++++++++++++++++++++++---
- meta/lib/oeqa/oetest.py           | 14 ++++++++---
- meta/lib/oeqa/runtime/connman.py  |  5 ----
- meta/lib/oeqa/runtime/df.py       | 13 +++++++++++
- meta/lib/oeqa/runtime/dmesg.py    |  2 +-
- meta/lib/oeqa/runtime/multilib.py |  9 ++++---
- meta/lib/oeqa/runtime/syslog.py   | 34 +++++++++++++++++++++++++++
- meta/lib/oeqa/utils/decorators.py |  8 +++++++
- meta/lib/oeqa/utils/qemurunner.py | 12 +++++-----
- meta/lib/oeqa/utils/sshcontrol.py | 49 +++++++++++++++++++++------------------
- 10 files changed, 145 insertions(+), 44 deletions(-)
- create mode 100644 meta/lib/oeqa/runtime/df.py
- create mode 100644 meta/lib/oeqa/runtime/syslog.py
-
-Alexandru Palalau (1):
-  lib/oeqa/runtime: add tests for syslog and df
-
-Stefan Stanacar (7):
-  lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net
-    interface name
-  lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
-  testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout
-    configurable and increase it
-  lib/oeqa/runtime/multilib.py: use readelf instead of file
-  lib/oeqa/oetest.py: provide a ps command for all tests
-  classes/testimage.bbclass: use a copy of rootfs for tests
-  testimage.bbclass, lib/oeqa: add headers and comments
-
- meta/classes/testimage.bbclass    | 43 +++++++++++++++++++++++++++++++---
- meta/lib/oeqa/oetest.py           | 14 ++++++++---
- meta/lib/oeqa/runtime/connman.py  |  5 ----
- meta/lib/oeqa/runtime/df.py       | 13 +++++++++++
- meta/lib/oeqa/runtime/dmesg.py    |  2 +-
- meta/lib/oeqa/runtime/multilib.py |  9 ++++---
- meta/lib/oeqa/runtime/syslog.py   | 34 +++++++++++++++++++++++++++
- meta/lib/oeqa/utils/decorators.py |  8 +++++++
- meta/lib/oeqa/utils/qemurunner.py | 12 +++++-----
- meta/lib/oeqa/utils/sshcontrol.py | 49 +++++++++++++++++++++------------------
- 10 files changed, 145 insertions(+), 44 deletions(-)
- create mode 100644 meta/lib/oeqa/runtime/df.py
- create mode 100644 meta/lib/oeqa/runtime/syslog.py
-
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 85a09a0..6c61caa 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -1,7 +1,6 @@
+ import subprocess
+ import time
+ import os
+-import shlex
+ 
+ class SSHControl(object):
+ 
+@@ -18,8 +17,12 @@ class SSHControl(object):
+                 f.write("%s\n" % msg)
+ 
+     def _internal_run(self, cmd):
++        # We need this for a proper PATH
++        cmd = ". /etc/profile; " + cmd
++        command = ['ssh', '-o', 'UserKnownHostsFile=/dev/null', '-o', 'StrictHostKeyChecking=no', '-l', 'root', self.host, cmd ]
++        self.log("[Running]$ %s" % " ".join(command))
+         # ssh hangs without os.setsid
+-        proc = subprocess.Popen(shlex.split(cmd), shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
++        proc = subprocess.Popen(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
+         return proc
+ 
+     def run(self, cmd, timeout=None):
+@@ -30,15 +33,12 @@ class SSHControl(object):
+ 
+ 
+ 
+-        actualcmd = "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -l root %s '%s'" % (self.host, cmd)
+         if self.host:
+-            sshconn = self._internal_run(actualcmd)
++            sshconn = self._internal_run(cmd)
+         else:
+             raise Exception("Remote IP hasn't been set: '%s'" % actualcmd)
+ 
+         if timeout == 0:
+-            self.log("[SSH run without timeout]$ %s" % actualcmd)
+-            self.log("  # %s" % cmd)
+             self._out = sshconn.communicate()[0]
+             self._ret = sshconn.poll()
+         else:
+@@ -48,8 +48,6 @@ class SSHControl(object):
+                 endtime = time.time() + timeout
+             while sshconn.poll() is None and time.time() < endtime:
+                 time.sleep(1)
+-            self.log("[SSH run with timeout]$ %s" % actualcmd)
+-            self.log("  # %s" % cmd)
+             # process hasn't returned yet
+             if sshconn.poll() is None:
+                 self._ret = 255
+@@ -70,27 +68,23 @@ class SSHControl(object):
+         return (self._ret, self._out)
+ 
+     def _internal_scp(self, cmd):
+-        self.log("[SCP]$ %s" % cmd)
+-        scpconn = self._internal_run(cmd)
+-        try:
+-            self._out = scpconn.communicate()[0]
+-            self._ret = scpconn.poll()
+-            if self._ret != 0:
+-                self.log("%s" % self._out)
+-                raise Exception("Error copying file")
+-        except Exception as e:
+-            print("Execution failed: %s :" % cmd)
+-            print e
+-        self.log("%s" % self._out)
+-        return (self._ret, self._out)
++        self.log("[Running SCP]$ %s" % " ".join(cmd))
++        scpconn = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
++        out = scpconn.communicate()[0]
++        ret = scpconn.poll()
++        self.log("%s" % out)
++        if ret != 0:
++            # we raise an exception so that tests fail in setUp and setUpClass without a need for an assert
++            raise Exception("Error running %s, output: %s" % ( " ".join(cmd), out))
++        return (ret, out)
+ 
+     def copy_to(self, localpath, remotepath):
+-        actualcmd = "scp -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no %s root@%s:%s" % (localpath, self.host, remotepath)
++        actualcmd = ['scp', '-o', 'UserKnownHostsFile=/dev/null', '-o', 'StrictHostKeyChecking=no', localpath, 'root@%s:%s' % (self.host, remotepath)]
+         return self._internal_scp(actualcmd)
+ 
+ 
+     def copy_from(self, remotepath, localpath):
+-        actualcmd = "scp -o UserKnownHostsFile=/dev/null  -o StrictHostKeyChecking=no root@%s:%s %s" % (self.host, remotepath, localpath)
++        actualcmd = ['scp', '-o', 'UserKnownHostsFile=/dev/null', '-o', 'StrictHostKeyChecking=no', 'root@%s:%s' % (self.host, remotepath), localpath]
+         return self._internal_scp(actualcmd)
+ 
+     def get_status(self):
 -- 
 1.8.1.4
 
