@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id D99566B03A
+Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DC49F6A465
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 16:05:26 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id hv10so7679951vcb.8
+	Fri, 12 Jul 2013 16:32:21 +0000 (UTC)
+Received: by mail-ve0-f180.google.com with SMTP id pa12so8317824veb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:05:27 -0700 (PDT)
+	Fri, 12 Jul 2013 09:32:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=+KGh7JrGxtkXegb6ArR1H9wDumZRBfW1TdbwewneSBQ=;
-	b=kbKj+Vvalw6EbeYtec0exQJ/j6XVuVmCEwygYDovo6wJNK2GUYyxL4LOOjTfvLLYh+
-	c8y9qU9KDWfX2gxVde7IsoE/9dOD874DdsebY8FB485lhftd5y4wJXFNKHUAsPBK7v25
-	xgP176TsqOA8LplraK3NWyHoMlU0vkbDyGq/xfNRTqtMbU87YxssLBraPTBCirp3SAj2
-	2uJvvTFyMYHHx4PQEHykNlsSLmI+OcDYF5j1NKY+LQh5oKAJk0xjluVN8sobFMBtmxok
-	EPnKO/Po5xzSt2Vqzk8JQ+weZ3+HeYk7cYgjWHcBq1JnU2chVSl21gRlYUupqBz4YzoB
-	p7sA==
-X-Received: by 10.220.42.147 with SMTP id s19mr24788448vce.46.1373645127498;
-	Fri, 12 Jul 2013 09:05:27 -0700 (PDT)
+	bh=cJtwrFBe3BzLz3P2RxsEMn2D3aMI7fah+1R30sY10a8=;
+	b=IcFC0JHGR4GQiq4dIQyRALglFaeyrWApDAPt9qB2HN5IE91ZOPZAPhd1SAR9+qPQw9
+	9jhnbeAzlYp8wl6ZU4ISSVNpKYvesRX0AEuaSulDWl/8MveJ33Ca36C7U4yrtGXTFl0t
+	z72CKeyVisDPC+BG55rTM60t7aINsE7qhXP4ILOkvxXI6ofhTw+MBR/er5hhaqvmnQFu
+	+8+reJzjj1H3LHVt+2GYUUSqZeD1m0tj4gBzKbC8bdv+PPuL2HrSx0JTquiqsjRBMVQY
+	26fJloMak2WKOS93SXXqkxxQOwUtqkQ+04BVSlqwQSc2v4Z+j8Ax899YesIekz9+L2OM
+	c56Q==
+X-Received: by 10.220.73.66 with SMTP id p2mr24998208vcj.94.1373646742426;
+	Fri, 12 Jul 2013 09:32:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Fri, 12 Jul 2013 09:05:07 -0700 (PDT)
-In-Reply-To: <1373637989-24991-6-git-send-email-cristian.iorga@intel.com>
-References: <1373637989-24991-1-git-send-email-cristian.iorga@intel.com>
-	<1373637989-24991-6-git-send-email-cristian.iorga@intel.com>
+Received: by 10.220.13.144 with HTTP; Fri, 12 Jul 2013 09:32:01 -0700 (PDT)
+In-Reply-To: <51DEFA34.70405@linux.intel.com>
+References: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>
+	<51DEF360.8030509@linux.intel.com>
+	<53609789-437E-429A-997E-7A1BECF21A48@mentor.com>
+	<51DEFA34.70405@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Jul 2013 17:05:07 +0100
-Message-ID: <CAJTo0LZK81Nr7NJDJ13sms4vuZh=Kqcf5-UuodoWwuVRomiPfA@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-X-Gm-Message-State: ALoCoQkz7D5e5navF6d2qaAzroGKgDB5hl5uA4S2I/VZNVtGUk5hE7/hlzcTyPNNCtn09qkSGINH
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/5] bluez5: Set udev variables using pkg-config
+Date: Fri, 12 Jul 2013 17:32:01 +0100
+Message-ID: <CAJTo0LYmH8sDrpfYOhSd8WXKeoKGd-JiVu1EHMuj5vRLYBcxtQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQlpZD2lmgaKrrWQbFkHoely17kW24oJwBDk2Bzcxkke0O+pytnkDIWqrshUZS/S+Az3FVwd
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [v2] openssh: Enabling with systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +47,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 16:05:27 -0000
+X-List-Received-Date: Fri, 12 Jul 2013 16:32:22 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 12 July 2013 15:06, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> +  --with-udevrulesdir=`pkg-config --variable=udevdir udev`/rules.d \
+On 11 July 2013 19:32, Saul Wold <sgw@linux.intel.com> wrote:
+>> We are seeing different checks for different recipes. Do you guys think
+>> that it is possible to handle them in bbclass.
+>>
+> How different are they, there is the DISTRO_FEATURE check and then typically
+> the service file or the init file is sed'ed and installed.
 
-Again this commit should be squashed, but if we're doing this line in
-particular then we're negating the point of fix-udev-paths.patch
-introduced in 1/5.  Drop the patch and this argument.
+My initial thoughts were to keep it simple and have a
+do_install_append() that deleted the sysvinit or systemd files
+depending on DISTRO_FEATURES, leaving installing the files themselves
+(from upstream, from a file, whatever) up to the recipe because that's
+where the complications are.
 
 Ross
 
