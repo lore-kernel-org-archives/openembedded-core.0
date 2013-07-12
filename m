@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id C67A36B208
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B15B26077F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 16:46:57 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 12 Jul 2013 09:46:58 -0700
+	Fri, 12 Jul 2013 16:46:58 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jul 2013 09:44:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="267494747"
+X-IronPort-AV: E=Sophos;i="4.89,654,1367996400"; d="scan'208";a="364366319"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Jul 2013 09:46:57 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 12 Jul 2013 09:48:05 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 432586A4092
+	by linux.intel.com (Postfix) with ESMTP id 27A2A6A4092
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 09:46:56 -0700 (PDT)
+	Fri, 12 Jul 2013 09:46:57 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2013 19:46:54 +0300
-Message-Id: <b6123bdbc995f1815f567e6eb3902f4d9e735316.1373647359.git.stefanx.stanacar@intel.com>
+Date: Fri, 12 Jul 2013 19:46:55 +0300
+Message-Id: <b5952ed01ccab3b8826f2c46d2ed7c7c3d9a1aa0.1373647359.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
 References: <cover.1373647359.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1373647359.git.stefanx.stanacar@intel.com>
 References: <cover.1373647359.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 6/8] lib/oeqa/runtime: add tests for syslog and df
+Subject: [PATCH 7/8] classes/testimage.bbclass: use a copy of rootfs for tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,92 +37,55 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 12 Jul 2013 16:46:58 -0000
 
-From: Alexandru Palalau <alexandru.palalau@intel.com>
+Make a copy of the rootfs and test that.
+We can now drop the snapshot option.
 
-Signed-off-by: Alexandru Palalau <alexandru.palalau@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/classes/testimage.bbclass  |  4 ++--
- meta/lib/oeqa/runtime/df.py     | 13 +++++++++++++
- meta/lib/oeqa/runtime/syslog.py | 34 ++++++++++++++++++++++++++++++++++
- 3 files changed, 49 insertions(+), 2 deletions(-)
- create mode 100644 meta/lib/oeqa/runtime/df.py
- create mode 100644 meta/lib/oeqa/runtime/syslog.py
+ meta/classes/testimage.bbclass    | 9 ++++++++-
+ meta/lib/oeqa/utils/qemurunner.py | 2 +-
+ 2 files changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index f66f514..22f0a92 100644
+index 22f0a92..940520f 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -2,8 +2,8 @@ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+@@ -22,6 +22,7 @@ def testimage_main(d):
+     import os
+     import oeqa.runtime
+     import re
++    import shutil
+     from oeqa.oetest import runTests
+     from oeqa.utils.sshcontrol import SSHControl
+     from oeqa.utils.qemurunner import QemuRunner
+@@ -61,7 +62,13 @@ def testimage_main(d):
+     # and boot each supported fs type
+     machine=d.getVar("MACHINE", True)
+     #will handle fs type eventually, stick with ext3 for now
+-    rootfs=d.getVar("DEPLOY_DIR_IMAGE", True) + '/' + d.getVar("IMAGE_BASENAME",True) + '-' + machine + '.ext3'
++    #make a copy of the original rootfs and use that for tests
++    origrootfs=os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME",True) + '.ext3')
++    rootfs=os.path.join(testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.ext3')
++    try:
++        shutil.copyfile(origrootfs, rootfs)
++    except Exception as e:
++        bb.fatal("Error copying rootfs: %s" % e)
  
- DEFAULT_TEST_SUITES = "ping auto"
- DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
--DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman rpm smart xorg dmesg"
--DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman rpm smart gcc xorg dmesg"
-+DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman df rpm smart xorg syslog dmesg"
-+DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman df rpm smart gcc xorg syslog dmesg"
+     qemu = QemuRunner(machine, rootfs)
+     qemu.tmpdir = d.getVar("TMPDIR", True)
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index ec92988..1051b2b 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -18,7 +18,7 @@ class QemuRunner:
+         self.rootfs = rootfs
  
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+         self.streampath = '/tmp/qemuconnection.%s' % os.getpid()
+-        self.qemuparams = 'bootparams="console=ttyS0" qemuparams="-snapshot -serial unix:%s,server,nowait"' % self.streampath
++        self.qemuparams = 'bootparams="console=ttyS0" qemuparams="-serial unix:%s,server,nowait"' % self.streampath
+         self.qemupid = None
+         self.ip = None
  
-diff --git a/meta/lib/oeqa/runtime/df.py b/meta/lib/oeqa/runtime/df.py
-new file mode 100644
-index 0000000..a781ea4
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/df.py
-@@ -0,0 +1,13 @@
-+import unittest
-+from oeqa.oetest import oeRuntimeTest
-+from oeqa.utils.decorators import *
-+
-+def setUpModule():
-+    skipModuleUnless(oeRuntimeTest.tc.target.run('which df')[0] == 0, "No df in image or no connection")
-+
-+class DfTest(oeRuntimeTest):
-+
-+    @skipUnlessPassed("test_ssh")
-+    def test_df(self):
-+        (status,output) = self.target.run("df | awk '{if($1 == \"/dev/root\") print $4}'")
-+        self.assertTrue(int(output)>5120, msg="Not enough space on image. Current size is %s" % output)
-diff --git a/meta/lib/oeqa/runtime/syslog.py b/meta/lib/oeqa/runtime/syslog.py
-new file mode 100644
-index 0000000..9259349
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/syslog.py
-@@ -0,0 +1,34 @@
-+import unittest
-+from oeqa.oetest import oeRuntimeTest, skipModule
-+from oeqa.utils.decorators import *
-+
-+def setUpModule():
-+    if not oeRuntimeTest.hasPackage("syslog"):
-+        skipModule("No syslog package in image")
-+
-+class SyslogTest(oeRuntimeTest):
-+
-+    @skipUnlessPassed("test_ssh")
-+    def test_syslog_help(self):
-+        (status,output) = self.target.run('/sbin/syslogd --help')
-+        self.assertEqual(status, 1, msg="status and output: %s and %s" % (status,output))
-+
-+    @skipUnlessPassed("test_syslog_help")
-+    def test_syslogd_running(self):
-+        (status,output) = self.target.run(oeRuntimeTest.pscmd + ' | grep -i [s]yslogd')
-+        self.assertEqual(status, 0, msg="no syslogd process, ps output: %s" % self.target.run(oeRuntimeTest.pscmd)[1])
-+
-+class SyslogTestConfig(oeRuntimeTest):
-+
-+    def setUp(self):
-+        self.target.run('echo "LOGFILE=/var/log/test" >> /etc/syslog-startup.conf')
-+
-+    @skipUnlessPassed("test_syslogd_running")
-+    def test_syslogd_configurable(self):
-+        (status,output) = self.target.run('/etc/init.d/syslog restart')
-+        self.assertEqual(status, 0, msg="Could not restart syslog service. Status and output: %s and %s" % (status,output))
-+        (status,output) = self.target.run('logger foobar && grep foobar /var/log/test')
-+        self.assertEqual(status, 0, msg="Test log string not found. Output: %s " % output)
-+
-+    def tearDown(self):
-+        self.target.run("sed -i 's#LOGFILE=/var/log/test##' /etc/syslog-startup.conf")
 -- 
 1.8.1.4
 
