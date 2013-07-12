@@ -1,25 +1,24 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 015F06A467
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A05086B03A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2013 08:34:48 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.5])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1UxYoR-0003jm-3N; Fri, 12 Jul 2013 10:34:47 +0200
-Message-ID: <1373618076.21102.48.camel@pb-ThinkPad-R50e>
-From: Phil Blundell <pb@pbcl.net>
-To: jackie.huang@windriver.com
-Date: Fri, 12 Jul 2013 09:34:36 +0100
-In-Reply-To: <3393c80c31d82ac23afcddd39b1b24a9b5c1e696.1373607104.git.jackie.huang@windriver.com>
-References: <cover.1373607104.git.jackie.huang@windriver.com>
-	<3393c80c31d82ac23afcddd39b1b24a9b5c1e696.1373607104.git.jackie.huang@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1 v2] kbd: Limit the kbdrate application to x86, mips and sparc
+	Fri, 12 Jul 2013 09:29:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6C9TXDE004725
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2013 02:29:33 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 12 Jul 2013 02:29:32 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Jul 2013 17:29:24 +0800
+Message-ID: <cover.1373599041.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/6] fix xuser write to usb storage failed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +31,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2013 08:34:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Jul 2013 09:29:32 -0000
+Content-Type: text/plain
 
-On Fri, 2013-07-12 at 13:42 +0800, jackie.huang@windriver.com wrote:
-> The code relies on hardware specific memory locations to access
-> and modify the keyboard repeat rate.  It also requires read/write
-> access to /dev/port which doesn't exist on every architecture's
-> root fs. The defect was raised for Qemu PowerPC but it also fails on
-> ARM.  The keyboard emulation in qemuppc is for an ADB (Apple Desktop
-> Bus) device and not compatible with an Intel driver.  There's also no
-> indication in the documentation that the code should work on anything
-> other than Intel architecture but it also works on MIPS.
+Test Case
 
-This reasoning seems slightly spurious.  There do exist ARM and PPC
-machines where kbdrate works, it's just that the hardware emulated by
-qemuarm and qemuppc doesn't happen to fall into that category.  Equally,
-there are certainly mips machines (and might conceivably be some
-x86/sparc ones) where it doesn't work.  So I don't think you can make
-any sensible determination about the supportedness or not of kbdrate
-based on TARGET_ARCH alone.  
+* Steps
+1) preparation
+...
+one target: atom-pc
+two usb sticks: one for boot and install, another for plug test, they are both vfat filesystem.
+...
 
-Of course, the right answer really is for rate setting to go through the
-kernel driver (which knows what sort of hardware it is using) rather
-than for kbdrate to go poking at random I/O ports.
+2) config 
+conf/local.conf:
+...
+MACHINE ?= "atom-pc"
+...
 
-p.
+3) build image
+bitbake core-image-sato
 
+4) load image to atom-pc
+Test Case TC-2927: boot and install from usb 
+
+5) open a terminal/ssh of atom-pc
+Test Case TC-2955: remote access by ssh 
+
+6) hotplug test: usb stick with vfat filesystem is accessible
+Test Case TC-2947: usb mount
+Test Case TC-2950: usb write files
+Test Case TC-2948: usb read files
+Test Case TC-2949: usb umount
+
+7) coldplug test: usb stick with vfat filesystem is accessible
+plug usb stick
+boot system
+create files in usb
+view files in usb by file browser
+
+8) use systemd for the main image and use sysvinit for the rescue image
+Modify conf/local.conf, and repeat step 3 to 7;
+...
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+...
+
+9) use systemd exclusively
+Modify conf/local.conf, and repeat step 3 to 7;
+...
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+...
+
+* Expected Results:
+1) build image success
+
+2) the owner of plugin usb stick is `xuser', it will be automatically
+mount/umount, and xuser could read files from usb and write files to it.
+
+root@emenlow-noemgd:~# mount
+/dev/sdc1 on /media/sdc1 type vfat (rw,nosuid,nodev,noexec,relatime,uid=1000,gid=1000,fmask=0177,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,quiet,errors=remount-ro,user)
+/dev/sdb on /media/realroot type vfat (rw,nosuid,nodev,noexec,relatime,uid=1000,gid=1000,fmask=0177,dmask=0077,codepage=437,iocharset=iso8859-1,shortname=mixed,quiet,errors=remount-ro)
+
+root@emenlow-noemgd:~# ls /media/ -al
+drwxr-xr-x    2 root     root         16384 Jan  1  1970 realroot
+drwx------    3 xuser    xuser         1024 Jun  9 12:08 sdc1
+
+root@emenlow-noemgd:~# su xuser
+xuser@emenlow-noemgd:~$ echo "hello world" > /media/sdc1/test
+xuser@emenlow-noemgd:~$ cat /media/sdc1/test 
+hello world
+
+//Hongxu
+
+
+The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
+
+  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-udev-xuser
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-udev-xuser
+
+Hongxu Jia (6):
+  pmount: add version 0.9.23
+  atom-pc:fix xuser write to usb storage failed
+  udev-extraconf:fix xuser write to usb storage failed
+  udev: fix invoking pmount failed based on sysvinit
+  pmount: allow users in disk group to perform pmount/pumount
+  xuser-account: add xuser to disk group
+
+ meta-yocto-bsp/conf/machine/atom-pc.conf           |   1 +
+ meta/recipes-core/udev/udev-extraconf/mount.sh     |  31 +++++-
+ meta/recipes-core/udev/udev/init                   |   1 +
+ ...-option-f-to-mount-already-mounted-device.patch | 115 +++++++++++++++++++++
+ meta/recipes-extended/pmount/pmount_0.9.23.bb      |  34 ++++++
+ .../user-creation/xuser-account_0.1.bb             |   2 +-
+ 6 files changed, 181 insertions(+), 3 deletions(-)
+ mode change 100644 => 100755 meta/recipes-core/udev/udev-extraconf/mount.sh
+ create mode 100644 meta/recipes-extended/pmount/files/pmount-add-option-f-to-mount-already-mounted-device.patch
+ create mode 100644 meta/recipes-extended/pmount/pmount_0.9.23.bb
+
+-- 
+1.8.1.2
 
 
