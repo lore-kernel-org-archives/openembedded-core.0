@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D81D36A975
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 72721619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 14:42:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2013 07:43:54 -0700
+	Mon, 15 Jul 2013 14:42:10 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 15 Jul 2013 07:42:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="370460042"
+X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="370521010"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 07:42:08 -0700
+	by orsmga002.jf.intel.com with ESMTP; 15 Jul 2013 07:42:11 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 66D256A4091
+	by linux.intel.com (Postfix) with ESMTP id D23496A4091
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 07:42:07 -0700 (PDT)
+	Mon, 15 Jul 2013 07:42:09 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2013 17:42:24 +0300
-Message-Id: <6d70cbd61249566ab47a30b9e185e4808474f1ab.1373899189.git.stefanx.stanacar@intel.com>
+Date: Mon, 15 Jul 2013 17:42:25 +0300
+Message-Id: <ef8b91e47dc21d0dc6046978d7f75c67f4af82d8.1373899189.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1373899189.git.stefanx.stanacar@intel.com>
 References: <cover.1373899189.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1373899189.git.stefanx.stanacar@intel.com>
 References: <cover.1373899189.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 3/9] testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout configurable and increase it
+Subject: [PATCH v2 4/9] lib/oeqa/runtime/multilib.py: use readelf instead of file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,91 +35,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 14:42:08 -0000
+X-List-Received-Date: Mon, 15 Jul 2013 14:42:10 -0000
 
-On a loaded host (such as an AB setup where multiple builds run)
-the 200 seconds timeout might not be enough to reach the login prompt.
-Also make it configurable so we can set it from local.conf/auto.conf
+file was pulled by rpm in sato images, readelf comes with binutils
+so it's in ipk/deb too.
+Also the test was looking at connmand instead of connman-applet
+(which is what the testcase says and the AB nightly-multilib target installs)
 
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/classes/testimage.bbclass    |  6 ++++++
- meta/lib/oeqa/utils/qemurunner.py | 10 +++++-----
- 2 files changed, 11 insertions(+), 5 deletions(-)
+ meta/lib/oeqa/runtime/multilib.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 35c6811..f66f514 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -7,6 +7,8 @@ DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman rpm smart gcc xor
+diff --git a/meta/lib/oeqa/runtime/multilib.py b/meta/lib/oeqa/runtime/multilib.py
+index 397d075..2d952aa 100644
+--- a/meta/lib/oeqa/runtime/multilib.py
++++ b/meta/lib/oeqa/runtime/multilib.py
+@@ -1,5 +1,6 @@
+ import unittest
+ from oeqa.oetest import oeRuntimeTest, skipModule
++from oeqa.utils.decorators import *
  
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+ def setUpModule():
+     multilibs = oeRuntimeTest.tc.d.getVar("MULTILIBS", True) or ""
+@@ -7,8 +8,10 @@ def setUpModule():
+         skipModule("this isn't a multilib:lib32 image")
  
-+TEST_QEMUBOOT_TIMEOUT ?= "500"
-+
- python do_testimage() {
-     testimage_main(d)
- }
-@@ -65,6 +67,10 @@ def testimage_main(d):
-     qemu.tmpdir = d.getVar("TMPDIR", True)
-     qemu.display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
-     qemu.logfile = os.path.join(testdir, "qemu_boot_log.%s" % d.getVar('DATETIME', True))
-+    try:
-+        qemu.boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT", True))
-+    except ValueError:
-+        qemu.boottime = 500
  
-     bb.note("DISPLAY value: %s" % qemu.display)
-     bb.note("rootfs file: %s" %  rootfs)
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 3132b68..ec92988 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -10,7 +10,7 @@ from oeqa.utils.oeqemuconsole import oeQemuConsole
+-class MultilibFileTest(oeRuntimeTest):
++class MultilibTest(oeRuntimeTest):
  
- class QemuRunner:
- 
--    def __init__(self, machine, rootfs, display = None, tmpdir = None, logfile = None):
-+    def __init__(self, machine, rootfs, display = None, tmpdir = None, logfile = None, boottime = 400):
-         # Popen object
-         self.runqemu = None
- 
-@@ -25,6 +25,7 @@ class QemuRunner:
-         self.display = display
-         self.tmpdir = tmpdir
-         self.logfile = logfile
-+        self.boottime = boottime
- 
-     def launch(self, qemuparams = None):
- 
-@@ -49,7 +50,6 @@ class QemuRunner:
-         self.runqemu = subprocess.Popen(launch_cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,preexec_fn=os.setpgrp)
- 
-         bb.note("runqemu started, pid is %s" % self.runqemu.pid)
--        # wait at most 30 seconds until qemu pid appears
-         bb.note("waiting at most 60 seconds for qemu pid")
-         endtime = time.time() + 60
-         while not self.is_alive() and time.time() < endtime:
-@@ -59,8 +59,8 @@ class QemuRunner:
-             bb.note("qemu started - qemu procces pid is %s" % self.qemupid)
- 
-             console = oeQemuConsole(self.streampath, self.logfile)
--            bb.note("Waiting at most 200 seconds for login banner")
--            (match, text) = console.read_all_timeout("login:", 200)
-+            bb.note("Waiting at most %d seconds for login banner" % self.boottime )
-+            (match, text) = console.read_all_timeout("login:", self.boottime)
- 
-             if match:
-                 bb.note("Reached login banner")
-@@ -80,7 +80,7 @@ class QemuRunner:
-                     return False
-             else:
-                 console.close()
--                bb.note("Target didn't reached login boot in 120 seconds")
-+                bb.note("Target didn't reached login boot in %d seconds" % self.boottime)
-                 lines = "\n".join(text.splitlines()[-5:])
-                 bb.note("Last 5 lines of text:\n%s" % lines)
-                 bb.note("Check full boot log: %s" % self.logfile)
++    @skipUnlessPassed('test_ssh')
+     def test_file_connman(self):
+-        (status, output) = self.target.run('file -L /usr/sbin/connmand | grep "ELF 32-bit LSB executable"')
+-        self.assertEqual(status, 0, msg="status and output : %s and %s" % (status,output))
++        self.assertTrue(oeRuntimeTest.hasPackage('connman-gnome'), msg="This test assumes connman-gnome is installed")
++        (status, output) = self.target.run("readelf -h /usr/bin/connman-applet | sed -n '3p' | awk '{print $2}'")
++        self.assertEqual(output, "ELF32", msg="connman-applet isn't an ELF32 binary. readelf says: %s" % self.target.run("readelf -h /usr/bin/connman-applet")[1])
 -- 
 1.8.3.1
 
