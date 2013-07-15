@@ -1,28 +1,29 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 9743D6AA6F
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 769A461663
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 14:43:07 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 15 Jul 2013 07:42:18 -0700
+	Mon, 15 Jul 2013 14:44:05 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 15 Jul 2013 07:44:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="331579561"
+X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="365459539"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 15 Jul 2013 07:42:15 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 15 Jul 2013 07:43:28 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 08FA96A4091
+	by linux.intel.com (Postfix) with ESMTP id 477C66A4091
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 07:42:13 -0700 (PDT)
+	Mon, 15 Jul 2013 07:42:18 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2013 17:42:27 +0300
-Message-Id: <1e624bed4ce5d2355fddf960eba7a7408e6f3496.1373899189.git.stefanx.stanacar@intel.com>
+Date: Mon, 15 Jul 2013 17:42:29 +0300
+Message-Id: <daf3e08cb5dedd551bc1fdeeb27477d96107b090.1373899189.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1373899189.git.stefanx.stanacar@intel.com>
 References: <cover.1373899189.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1373899189.git.stefanx.stanacar@intel.com>
 References: <cover.1373899189.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 6/9] lib/oeqa/runtime: add tests for syslog and df
+MIME-Version: 1.0
+Subject: [PATCH v2 8/9] testimage.bbclass, lib/oeqa: add headers and comments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,103 +36,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 14:43:40 -0000
+X-List-Received-Date: Mon, 15 Jul 2013 14:44:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Alexandru Palalau <alexandru.palalau@intel.com>
+Adds some comments to testimage.bbclass and the files it calls,
+just to give an ideea of what it does.
 
-Add tests for free space and syslog.
-
-Changed in v2:
-    - limit df's output to /
-    - syslog: fix restart in case of systemd
-
-Signed-off-by: Alexandru Palalau <alexandru.palalau@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/classes/testimage.bbclass  |  4 ++--
- meta/lib/oeqa/runtime/df.py     | 13 +++++++++++++
- meta/lib/oeqa/runtime/syslog.py | 37 +++++++++++++++++++++++++++++++++++++
- 3 files changed, 52 insertions(+), 2 deletions(-)
- create mode 100644 meta/lib/oeqa/runtime/df.py
- create mode 100644 meta/lib/oeqa/runtime/syslog.py
+ meta/classes/testimage.bbclass    | 24 ++++++++++++++++++++++++
+ meta/lib/oeqa/oetest.py           |  9 +++++++++
+ meta/lib/oeqa/utils/decorators.py |  8 ++++++++
+ meta/lib/oeqa/utils/sshcontrol.py |  9 +++++++++
+ 4 files changed, 50 insertions(+)
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index f66f514..22f0a92 100644
+index 940520f..903849d 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -2,8 +2,8 @@ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+@@ -1,3 +1,27 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++
++
++# testimage.bbclass enables testing of qemu images using python unittests.
++# Most of the tests are commands run on target image over ssh.
++# To use it add testimage to global inherit and call your target image with -c testimage
++# You can try it out like this:
++# - first build a qemu core-image-sato
++# - add INHERIT += "testimage" in local.conf
++# - then bitbake core-image-sato -c testimage. That will run a standard suite of tests.
++
++# You can set (or append to) TEST_SUITES in local.conf to select the tests
++# which you want to run for your target.
++# The test names are the module names in meta/lib/oeqa/runtime.
++# Each name in TEST_SUITES represents a required test for the image. (no skipping allowed)
++# Appending "auto" means that it will try to run all tests that are suitable for the image (each test decides that on it's own).
++# Note that order in TEST_SUITES is important (it's the order tests run) and it influences tests dependencies.
++
++# TEST_LOG_DIR contains a ssh log (what command is running, output and return codes) and a qemu boot log till login
++# Booting is handled by this class, and it's not a test in itself.
++# TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
++
+ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
  
  DEFAULT_TEST_SUITES = "ping auto"
- DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
--DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman rpm smart xorg dmesg"
--DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman rpm smart gcc xorg dmesg"
-+DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh connman df rpm smart xorg syslog dmesg"
-+DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh connman df rpm smart gcc xorg syslog dmesg"
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 5777ff8..7f6baa4 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -1,3 +1,12 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++
++# Main unittest module used by testimage.bbclass
++# This provides the oeRuntimeTest base class which is inherited by all tests in meta/lib/oeqa/runtime.
++
++# It also has some helper functions and it's responsible for actually starting the tests
++
+ import os, re, mmap
+ import unittest
+ import inspect
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index 21e6b22..adec65e 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -1,3 +1,11 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
++
++# Some custom decorators that can be used by unittests
++# Most useful is skipUnlessPassed which can be used for
++# creating dependecies between two test methods.
++
+ from oeqa.oetest import *
  
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- 
-diff --git a/meta/lib/oeqa/runtime/df.py b/meta/lib/oeqa/runtime/df.py
-new file mode 100644
-index 0000000..c911989
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/df.py
-@@ -0,0 +1,13 @@
-+import unittest
-+from oeqa.oetest import oeRuntimeTest
-+from oeqa.utils.decorators import *
+ class skipIfFailure(object):
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 6c61caa..8f98c45 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -1,3 +1,12 @@
++# Copyright (C) 2013 Intel Corporation
++#
++# Released under the MIT license (see COPYING.MIT)
 +
-+def setUpModule():
-+    skipModuleUnless(oeRuntimeTest.tc.target.run('which df')[0] == 0, "No df in image or no connection")
++# Provides a class for setting up ssh connections,
++# running commands and copying files to/from a target.
++# It's used by testimage.bbclass and tests in lib/oeqa/runtime.
 +
-+class DfTest(oeRuntimeTest):
 +
-+    @skipUnlessPassed("test_ssh")
-+    def test_df(self):
-+        (status,output) = self.target.run("df / | sed -n '2p' | awk '{print $4}'")
-+        self.assertTrue(int(output)>5120, msg="Not enough space on image. Current size is %s" % output)
-diff --git a/meta/lib/oeqa/runtime/syslog.py b/meta/lib/oeqa/runtime/syslog.py
-new file mode 100644
-index 0000000..cec4f97
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/syslog.py
-@@ -0,0 +1,37 @@
-+import unittest
-+from oeqa.oetest import oeRuntimeTest, skipModule
-+from oeqa.utils.decorators import *
-+
-+def setUpModule():
-+    if not oeRuntimeTest.hasPackage("syslog"):
-+        skipModule("No syslog package in image")
-+
-+class SyslogTest(oeRuntimeTest):
-+
-+    @skipUnlessPassed("test_ssh")
-+    def test_syslog_help(self):
-+        (status,output) = self.target.run('/sbin/syslogd --help')
-+        self.assertEqual(status, 1, msg="status and output: %s and %s" % (status,output))
-+
-+    @skipUnlessPassed("test_syslog_help")
-+    def test_syslogd_running(self):
-+        (status,output) = self.target.run(oeRuntimeTest.pscmd + ' | grep -i [s]yslogd')
-+        self.assertEqual(status, 0, msg="no syslogd process, ps output: %s" % self.target.run(oeRuntimeTest.pscmd)[1])
-+
-+class SyslogTestConfig(oeRuntimeTest):
-+
-+    def setUp(self):
-+        self.target.run('echo "LOGFILE=/var/log/test" >> /etc/syslog-startup.conf')
-+
-+    @skipUnlessPassed("test_syslogd_running")
-+    def test_syslogd_configurable(self):
-+        if "systemd" != oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager"):
-+            (status,output) = self.target.run('/etc/init.d/syslog restart')
-+        else:
-+            (status,output) = self.target.run('systemctl restart syslog.service')
-+        self.assertEqual(status, 0, msg="Could not restart syslog service. Status and output: %s and %s" % (status,output))
-+        (status,output) = self.target.run('logger foobar && grep foobar /var/log/test')
-+        self.assertEqual(status, 0, msg="Test log string not found. Output: %s " % output)
-+
-+    def tearDown(self):
-+        self.target.run("sed -i 's#LOGFILE=/var/log/test##' /etc/syslog-startup.conf")
+ import subprocess
+ import time
+ import os
 -- 
 1.8.3.1
 
