@@ -1,37 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BEF8061663
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7748961663
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 14:55:32 +0000 (UTC)
-Received: by mail-ve0-f177.google.com with SMTP id cz10so9786238veb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 07:55:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=LuIYguditzCviOqRsqyqG91rnbTppVBP3jiI4s5CNGo=;
-	b=iVH7XaamUIqkMAUzF/iFn0cFmpnUbgUVqGfMkPr0K3GLBYnRhoqhLpWDSc7nBjX7O2
-	KrerIUziBWrx+gXUWQhrUmH6X10xArFhh/CvYEoaBKAWLigAjYMs+0Cqqh9LgBDndjao
-	zpSAnC362n8km+sGHXjk4T/M+FA1HLJ0i9YOnVAd2hBi3ZqslLit/TLO0qmcfbqtd7zQ
-	yRdkMf43yjq/DAssI0PUxNqVVxTx9aQdV5VeC1r4Y2gDBJlnRkI7SKsJu8d7q5XkKsII
-	5NRWN62f1Ly7EsjK+Y6jVJ2SNQf4ysmCQvXaVR0yvjDce1VdMHzFkd2L2iNkJuBVGqYS
-	pwbQ==
-X-Received: by 10.220.73.66 with SMTP id p2mr28712613vcj.94.1373900133222;
-	Mon, 15 Jul 2013 07:55:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Mon, 15 Jul 2013 07:55:13 -0700 (PDT)
-In-Reply-To: <1373895869-25256-2-git-send-email-cristian.iorga@intel.com>
-References: <1373895869-25256-1-git-send-email-cristian.iorga@intel.com>
-	<1373895869-25256-2-git-send-email-cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Jul 2013 15:55:13 +0100
-Message-ID: <CAJTo0LYHNwSaBE+mHq=YzUvwq9JywXQ7ii=xXeopL_CmWh6qaA@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-X-Gm-Message-State: ALoCoQmbTMOJiDa4Qxm9A4/L+POLhR37ajPmpxVmHeNumW+lv5JjKS5CLvHp0IPt/6jvVtjMtdLR
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 1/2] bluez5: new package for v5.7
+	Mon, 15 Jul 2013 15:12:13 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jul 2013 08:12:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="370478041"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.97])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 08:12:12 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jul 2013 08:12:12 -0700
+Message-Id: <cover.1373900913.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [CONSOLIDATED PULL 00/15] Ready to Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +27,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 14:55:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Jul 2013 15:12:14 -0000
 
-On 15 July 2013 14:44, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> +PACKAGECONFIG ??= "\
-> +    ${@base_contains('DISTRO_FEATURES', 'pie', 'pie', '', d)}\
-> +"
-> +PACKAGECONFIG[pie] = "--enable-pie,--disable-pie,"
 
-Just noticed this "pie" thing.  There is no defined "pie"
-DISTRO_FEATURE.  PIE is generally a good thing, so just enable this.
+Richard,
 
-> +ASNEEDED = ""
+Here is a set of changes, mostly OE-QA change with a a few
+package updates and a LSB fix.
 
-Was this actually needed, or copied from bluez4?
+Thanks
+	Sau!
 
-> +  --with-udevrulesdir=`pkg-config --variable=udevdir udev`/rules.d \
+The following changes since commit 43c28375f97161e618fa54349c65be2058c33c53:
 
-The patch that adds this has been removed, so drop this.
+  distrodata.bbaclass: change in git and svn package reporting (2013-07-12 10:12:13 -0700)
 
-> +++ b/meta/recipes-connectivity/bluez5/bluez5_5.7.bb
-> @@ -0,0 +1,37 @@
-> +require bluez5.inc
-> +
-> +SRC_URI += "file://bluetooth.conf"
-> +
-> +SRC_URI[md5sum] = "ce0ef43938e8bfc230f3f06d6ad02d7e"
-> +SRC_URI[sha256sum] = "902299204b7139c913765603c7054a604570aea9e9fddb30454bd1b5e5997860"
-> +
-> +RCONFLICTS_${PN} = "bluez4"
-> +RREPLACES_${PN} = "bluez4"
-> ...
+are available in the git repository at:
 
-Didn't notice this before.  :(  The bulk of this isn't specific to 5.7
-but general to 5.x, so it should be in the .inc file.
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-Ross
+Alexandru Palalau (1):
+  lib/oeqa/runtime: add tests for syslog and df
+
+Chen Qi (1):
+  core-image-lsb.bb: add 'package-management' to IMAGE_FEATURES
+
+Saul Wold (3):
+  libidn: upgrade to 1.28
+  mc: upgrade to 4.8.9
+  initscripts: Update to 9.48
+
+Stefan Stanacar (10):
+  lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net
+    interface name
+  lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
+  testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout
+    configurable and increase it
+  lib/oeqa/runtime/multilib.py: use readelf instead of file
+  lib/oeqa/oetest.py: provide a ps command for all tests
+  classes/testimage.bbclass: use a copy of rootfs for tests
+  testimage.bbclass, lib/oeqa: add headers and comments
+  lib/oeqa: fix dependecy check
+  lib/oeqa/runtime/df.py: limit output to /
+  lib/oeqa/runtime/syslog.py: fix restart in case of systemd
+
+ meta/classes/testimage.bbclass                     | 43 +++++++++++++++++--
+ meta/lib/oeqa/oetest.py                            | 14 +++++--
+ meta/lib/oeqa/runtime/connman.py                   |  5 ---
+ meta/lib/oeqa/runtime/df.py                        | 13 ++++++
+ meta/lib/oeqa/runtime/dmesg.py                     |  2 +-
+ meta/lib/oeqa/runtime/multilib.py                  |  9 ++--
+ meta/lib/oeqa/runtime/smart.py                     |  1 +
+ meta/lib/oeqa/runtime/syslog.py                    | 37 ++++++++++++++++
+ meta/lib/oeqa/utils/decorators.py                  | 12 +++++-
+ meta/lib/oeqa/utils/qemurunner.py                  | 12 +++---
+ meta/lib/oeqa/utils/sshcontrol.py                  | 49 ++++++++++++----------
+ meta/recipes-extended/images/core-image-lsb.bb     |  2 +-
+ .../libidn/{libidn_1.27.bb => libidn_1.28.bb}      |  4 +-
+ ...binitscripts_9.47.bb => lsbinitscripts_9.48.bb} |  6 +--
+ .../mc/{mc_4.8.8.bb => mc_4.8.9.bb}                |  4 +-
+ 15 files changed, 160 insertions(+), 53 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/df.py
+ create mode 100644 meta/lib/oeqa/runtime/syslog.py
+ rename meta/recipes-extended/libidn/{libidn_1.27.bb => libidn_1.28.bb} (91%)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.47.bb => lsbinitscripts_9.48.bb} (78%)
+ rename meta/recipes-extended/mc/{mc_4.8.8.bb => mc_4.8.9.bb} (93%)
+
+-- 
+1.8.1.4
+
 
