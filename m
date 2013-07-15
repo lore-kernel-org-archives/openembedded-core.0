@@ -1,28 +1,20 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 43EBF6A463
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C8FA61663
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 11:43:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6FBh5jZ029309
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Jul 2013 04:43:05 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 15 Jul 2013 04:43:04 -0700
-Message-ID: <51E3E043.40907@windriver.com>
-Date: Mon, 15 Jul 2013 19:42:59 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1373872671.git.sgw@linux.intel.com>
-	<1510613.ezlYfIjzn1@helios>
-In-Reply-To: <1510613.ezlYfIjzn1@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/18] Final Review Pending
+	Mon, 15 Jul 2013 13:42:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jul 2013 06:40:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,668,1367996400"; d="scan'208";a="345810025"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by orsmga001.jf.intel.com with ESMTP; 15 Jul 2013 06:42:51 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jul 2013 16:44:27 +0300
+Message-Id: <1373895869-25256-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH V2 0/2] BlueZ 5 experimental recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,81 +27,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 11:43:04 -0000
-Content-Type: multipart/alternative;
-	boundary="------------080709030409060404050009"
+X-List-Received-Date: Mon, 15 Jul 2013 13:42:53 -0000
 
---------------080709030409060404050009
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+This sets of patches adds bluez5 recipes as experimental packages.
+BlueZ 5.X is not an upgrade for Bluez 4.x, as such, no upgrade is
+provided/possible.
+The two versions of the BT stack also conflicts each other.
 
-On 07/15/2013 05:24 PM, Paul Eggleton wrote:
-> I have some reservations about these changes. pmount is obsolete
-> according to its author:
->
-> https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html
->
-> I appreciate it may solve the problem we're trying to solve but we need
-> to be pretty confident about pulling this in before we do so since we'll
-> likely be supporting it ourselves.
-Agree, if we choose pmount, we will maintain it ourselves.
+Cristian Iorga (2):
+  bluez5: new package for v5.7
+  bluez4: conflicts with/replaces bluez5
 
-But if not use this, we have to investigate the udev rules to finish the
-similar job, it's filesystem type dependency, and this makes the udev
-script more complicated and frequently modified with more and more
-filesystems supported.
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    3 ++
+ .../bluez5/bluez5-5.7/bluetooth.conf               |   16 +++++++
+ meta/recipes-connectivity/bluez5/bluez5.inc        |   45 ++++++++++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5_5.7.bb     |   37 ++++++++++++++++
+ 4 files changed, 101 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5-5.7/bluetooth.conf
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5.inc
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.7.bb
 
-The pmount is an easy way to handle this, and it has supported to
-process udf, iso9660, vfat, ntfs, hfsplus, hfs, ext3, ext2, ext4, reiserfs,
-reiser4, xfs, jfs, omfs, ntfs-fuse, ntfs-3g; and it also easy to maintain
-for us to support other filesystem in future (such as exfat).
+-- 
+1.7.10.4
 
-//Hongxu
 
---------------080709030409060404050009
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 07/15/2013 05:24 PM, Paul Eggleton
-      wrote:<br>
-    </div>
-    <blockquote cite="mid:1510613.ezlYfIjzn1@helios" type="cite">
-      <pre wrap="">I have some reservations about these changes. pmount is obsolete
-according to its author:
-
-<a moz-do-not-send="true" class="moz-txt-link-freetext" href="https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html">https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html</a>
-
-I appreciate it may solve the problem we're trying to solve but we need
-to be pretty confident about pulling this in before we do so since we'll
-likely be supporting it ourselves.
-</pre>
-    </blockquote>
-    Agree, if we choose pmount, we will maintain it ourselves. <br>
-    <br>
-    But if not use this, we have to investigate the udev rules to finish
-    the<br>
-    similar job, it's filesystem type dependency, and this makes the
-    udev<br>
-    script more complicated and frequently modified with more and more<br>
-    filesystems supported.<br>
-    <br>
-    The pmount is an easy way to handle this, and it has supported to<br>
-    process udf, iso9660, vfat, ntfs, hfsplus, hfs, ext3, ext2, ext4,
-    reiserfs,<br>
-    reiser4, xfs, jfs, omfs, ntfs-fuse, ntfs-3g; and it also easy to
-    maintain<br>
-    for us to support other filesystem in future (such as exfat).<br>
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    <br>
-    //Hongxu<br>
-  </body>
-</html>
-
---------------080709030409060404050009--
