@@ -1,25 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DFD9D60666
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0220B619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 08:48:39 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2013 01:50:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,667,1367996400"; d="scan'208";a="370325554"
-Received: from unknown (HELO helios.localnet) ([10.252.122.64])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 01:48:18 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-Date: Mon, 15 Jul 2013 09:48:15 +0100
-Message-ID: <3096832.OcaoZJbLJn@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <1494076.GQbbvjWTEm@yiqingliang-pc>
-References: <1494076.GQbbvjWTEm@yiqingliang-pc>
+	Mon, 15 Jul 2013 08:59:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6F8x5e5028609
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jul 2013 01:59:05 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 15 Jul 2013 01:59:05 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jul 2013 16:59:05 +0800
+Message-ID: <cover.1373877005.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt 4.8.5 package error
+Subject: [PATCH 0/1] dpkg: backport a patch to support mipsn32el and mips64el
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,52 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 08:48:40 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 15 Jul 2013 08:59:05 -0000
+Content-Type: text/plain
 
-On Monday 15 July 2013 09:12:23 Yi Qingliang wrote:
-> hello,
-> 	I'm using latest poky, when packaging qte, got following error, any idea?
-> 
-> ERROR: QA Issue: Found library in wrong location:
-> /usr/bin/qtopia/examples/tools/styleplugin/styles/libsimplestyleplugin.so
-> Found library in wrong location:
-> /usr/bin/qtopia/examples/tools/styleplugin/styles/.debug/libsimplestyleplugi
-> n.so Found library in wrong location:
-> /usr/bin/qtopia/examples/tools/echoplugin/plugin/libechoplugin.so
-> Found library in wrong location:
-> /usr/bin/qtopia/examples/tools/echoplugin/plugin/.debug/libechoplugin.so
-> Found library in wrong location:
-> /usr/bin/qtopia/examples/tools/plugandpaint/plugins/libpnp_extrafilters.so
-> Found library in wrong location:
-> /usr/bin/qtopia/examples/tools/plugandpaint/plugins/.debug/libpnp_extrafilte
-> rs.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/imageprovider/ImageProvid
-> erCore/libqmlimageproviderplugin.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/imageprovider/ImageProvid
-> erCore/.debug/libqmlimageproviderplugin.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/qwidgets/QWidgets/libqmlq
-> widgetsplugin.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/qwidgets/QWidgets/.debug/
-> libqmlqwidgetsplugin.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/plugins/libqmlqwidgetsplu
-> gin.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/plugins/com/nokia/TimeExa
-> mple/libqmlqtimeexampleplugin.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/plugins/com/nokia/TimeExa
-> mple/.debug/libqmlqtimeexampleplugin.so Found library in wrong location:
-> /usr/bin/qtopia/examples/declarative/cppextensions/plugins/.debug/libqmlqwid
-> getsplugin.so ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-Please pull the latest changes, this has been switched back to a warning.
+The following changes since commit e683f1ce730dcdbf0acb280ebe53673c415e1454:
 
-Cheers,
-Paul
+  pango: remove pango-module-basic-x RRECOMMENDS (2013-07-09 10:25:54 +0800)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/dpkg
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/dpkg
+
+Roy.Li (1):
+  dpkg: backport a patch to support mipsn32el and mips64el
+
+ ...-for-mipsn32-el-and-mips64-el-to-arch-tab.patch |   78 ++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.16.10.bb         |    3 +-
+ 2 files changed, 80 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/Add-support-for-mipsn32-el-and-mips64-el-to-arch-tab.patch
 
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
