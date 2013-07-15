@@ -1,25 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D3FD66A463
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 95D24619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 10:15:47 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jul 2013 03:13:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,668,1367996400"; d="scan'208";a="345734111"
-Received: from unknown (HELO helios.localnet) ([10.252.122.64])
-	by orsmga001.jf.intel.com with ESMTP; 15 Jul 2013 03:15:47 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Jul 2013 11:15:46 +0100
-Message-ID: <2367199.H1kLtvBBbA@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <CAJTo0LZcqo1ND1CTE91MU4jr0ovBggdhE2iXab1faCC+C1fROA@mail.gmail.com>
+	Mon, 15 Jul 2013 11:24:15 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id gf11so9111877vcb.39
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jul 2013 04:24:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=bCz9BKbpcad+CqPLqM192tsLO9QJ5X9HtDQYNKNloxw=;
+	b=PXzrT86EOMWymGX/0IujwJaU8pu+MOJquii7S+lHMHBrCHu7YSGxC3AnZ5cpn503zl
+	iVQfff0bVHIoXDW4YfRf2H+TYfOXW8S35xHK+vwVGVAVUA1uizj4JPRwj5/cUThO7WW6
+	oJgswCjlfRTqBuy9x0qgnLgr0oCvGd1IY100V6zlSRd1Ct+XOLktV64I9hODgkgFs6mb
+	6OthYV02TLHw1i9fmuv+vMCXDYvL4/f2qa1rrcTnm776E46s//0HnvajwIqlPDylQmg0
+	stSUxX66CF+VYkzi7WvlnkFo8EM9kI6Jd6BDpUXu1ohwWaRh4Fn7vB/fiRg++Ce5lj5G
+	bhGA==
+X-Received: by 10.220.1.9 with SMTP id 9mr28659105vcd.37.1373887455962; Mon,
+	15 Jul 2013 04:24:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Mon, 15 Jul 2013 04:23:55 -0700 (PDT)
+In-Reply-To: <2367199.H1kLtvBBbA@helios>
 References: <cover.1373872671.git.sgw@linux.intel.com>
 	<1510613.ezlYfIjzn1@helios>
 	<CAJTo0LZcqo1ND1CTE91MU4jr0ovBggdhE2iXab1faCC+C1fROA@mail.gmail.com>
-MIME-Version: 1.0
+	<2367199.H1kLtvBBbA@helios>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Jul 2013 12:23:55 +0100
+Message-ID: <CAJTo0Lbv+JC8fNd3y4JQymyX9qHsF5uOcOVOAK4gquK+2vqizQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQnDA7ipOtgolptcxxoM+wngrBW8hA9gj6xrYaRWkdRyF+9HBoZbFb//7NKEayeI5RZt87ON
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [CONSOLIDATED PULL 00/18] Final Review Pending
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -34,41 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 10:15:47 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 15 Jul 2013 11:24:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Monday 15 July 2013 10:57:23 Burton, Ross wrote:
-> On 15 July 2013 10:24, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> >> Hongxu Jia (5):
-> >>   pmount: add version 0.9.23
-> >>   udev-extraconf:fix xuser write to usb storage failed
-> >>   udev: fix invoking pmount failed based on sysvinit
-> >>   pmount: allow users in disk group to perform pmount/pumount
-> >>   xuser-account: add xuser to disk group
-> > 
-> > I have some reservations about these changes. pmount is obsolete
-> > according to its author:
-> > 
-> > https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/01242
-> > 1.html
-> > 
-> > I appreciate it may solve the problem we're trying to solve but we need
-> > to be pretty confident about pulling this in before we do so since we'll
-> > likely be supporting it ourselves.
-> 
-> Agreed.  pmount solves a problem but it's unmaintained and going
-> forwards we need to sort out our at_console/polkit/etc story, and this
-> is part of it.  I'd been meaning to take a good look at this series
-> today, can we pull it for now?
+On 15 July 2013 11:15, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+>> is part of it.  I'd been meaning to take a good look at this series
+>> today, can we pull it for now?
+>
+> Depends what you mean by "pull"... ?
 
-Depends what you mean by "pull"... ?
+Good point!
 
-Cheers,
-Paul
+"Drop".
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
