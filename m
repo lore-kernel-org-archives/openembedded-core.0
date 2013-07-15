@@ -1,27 +1,31 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CA8C36B19D
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 0273D6AE6C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 19:56:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6FJv2IZ019570
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 15 Jul 2013 21:10:37 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id gf11so9571309vcb.39
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 12:57:02 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 15 Jul 2013 12:57:00 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jul 2013 15:10:29 -0500
-Message-ID: <1373919029-19108-5-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-In-Reply-To: <1373919029-19108-1-git-send-email-mark.hatle@windriver.com>
-References: <1373919029-19108-1-git-send-email-mark.hatle@windriver.com>
+	Mon, 15 Jul 2013 14:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=HdUr0TlCKJcJ8uqMk3mNRDPSAaaKOT4+tBlNvPuRc5U=;
+	b=ezTofBJOYt6AUfZm9g0DEwPZlYOhWOzPNxnS17NyuCVxCRfJA82Tqx+KxPdixHcJCB
+	g77+YKCu6r9c6/pdTCn1QlAmea6kKcPIGmyLGwg86HghxGYykly2RArvwjxBz2MO9lzx
+	Aaitv93EULZhgdeK5neLPjbNgwD2NUJCHkmew0bU64sF7DGKQ3+HQecQj6cYBjfFALSB
+	OOqtLqU4rZdA3os0zUzkBU2NlZlOQXT/7PfjsG6C0kGXnLI83XhGJQ3bjf3rDIyVmUGB
+	EZxFKliEH6Ipl1FdorTt9ON2sw5srnICHnZQQR+8akGonfi0E/jAvvB+sTBZOzWMAkyp
+	u5FQ==
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 4/4] dbus-ptest: Disable python module check
+X-Received: by 10.220.79.73 with SMTP id o9mr29086449vck.78.1373922638604;
+	Mon, 15 Jul 2013 14:10:38 -0700 (PDT)
+Received: by 10.52.236.136 with HTTP; Mon, 15 Jul 2013 14:10:38 -0700 (PDT)
+Date: Mon, 15 Jul 2013 23:10:38 +0200
+Message-ID: <CALbNGRQZe5Qso_hK3BPUi3qEbRaq+1t-as_E1LsGSf8exUnV5Q@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: gdk-pixbuff-xlib missing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,63 +38,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 19:57:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Jul 2013 21:10:38 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Disable the python module check, as the host python modules are
-not needed for generating the target tests.
+Hi
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- .../dbus/dbus-1.6.8/python-config.patch            | 25 ++++++++++++++++++++++
- meta/recipes-core/dbus/dbus-ptest_1.6.10.bb        |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-core/dbus/dbus-1.6.8/python-config.patch
+while playing around with libreoffice, configure complains for missing
+gdk-pixbuff-xlib.
 
-diff --git a/meta/recipes-core/dbus/dbus-1.6.8/python-config.patch b/meta/recipes-core/dbus/dbus-1.6.8/python-config.patch
-new file mode 100644
-index 0000000..2944002
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus-1.6.8/python-config.patch
-@@ -0,0 +1,25 @@
-+When building the dbus-ptest package, we have to enable python.  However
-+checking if the host-system python has the necessary library isn't useful.
-+
-+Disable the python module check for cross compiling.
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-+
-+--- dbus-1.6.8/configure.ac.orig	2013-07-11 14:15:58.834554799 -0500
-++++ dbus-1.6.8/configure.ac	2013-07-11 14:14:40.969554848 -0500
-+@@ -257,13 +257,6 @@
-+   # full test coverage is required, Python is a hard dependency
-+   AC_MSG_NOTICE([Full test coverage (--enable-tests=yes) requires Python, dbus-python, pygobject])
-+   AM_PATH_PYTHON([2.6])
-+-  AC_MSG_CHECKING([for Python modules for full test coverage])
-+-  if "$PYTHON" -c "import dbus, gobject, dbus.mainloop.glib"; then
-+-    AC_MSG_RESULT([yes])
-+-  else
-+-    AC_MSG_RESULT([no])
-+-    AC_MSG_ERROR([cannot import dbus, gobject, dbus.mainloop.glib Python modules])
-+-  fi
-+ else
-+   # --enable-tests not given: do not abort if Python is missing
-+   AM_PATH_PYTHON([2.6], [], [:])
-diff --git a/meta/recipes-core/dbus/dbus-ptest_1.6.10.bb b/meta/recipes-core/dbus/dbus-ptest_1.6.10.bb
-index 6c0f404..a8e82ef 100644
---- a/meta/recipes-core/dbus/dbus-ptest_1.6.10.bb
-+++ b/meta/recipes-core/dbus/dbus-ptest_1.6.10.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://ptest.patch \
-            file://dbus-1.init  \
-            file://run-ptest \
-+           file://python-config.patch \
-            "
- 
- SRC_URI[md5sum] = "de4970c20629aeb958a12132415b3630"
--- 
-1.8.3
+I checked: although I have 'x11' in 'DISTRO_FEATURE', gdk-pixbuff-xlib
+is an empty package.
 
+The responsible lines in gdk-pixbuf_xx.bb are:
+
+X11DEPENDS = "--without-x11"
+X11DEPENDS_linuxstdbase = "${@base_contains('DISTRO_FEATURES', 'x11',
+'--with-x11', '--without-x11', d)}"
+X11DEPENDS_class-native = "--without-x11"
+
+I got two questions:
+
+1. why not
+X11DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '--with-x11',
+'--without-x11', d)}"
+X11DEPENDS_class-native = "--without-x11"
+
+2. (maybe this answers also 1. - but I would like to understand): what
+is linuxstdbase (image) about
+
+enlightenment appreciated
+
+Andreas
 
