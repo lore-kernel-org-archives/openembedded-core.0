@@ -1,25 +1,20 @@
-Return-Path: <morphis@gravedo.de>
-Received: from gravedo.de (gravedo.de [85.214.79.159])
-	by mail.openembedded.org (Postfix) with ESMTP id BCB346AF6D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 210426B19F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 18:11:53 +0000 (UTC)
-Received: by gravedo.de (Postfix, from userid 5001)
-	id 369483B3465A; Mon, 15 Jul 2013 20:11:52 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	h1108419.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00,
-	URIBL_BLOCKED autolearn=ham version=3.3.1
-Received: from localhost (dslb-088-070-152-175.pools.arcor-ip.net
-	[88.70.152.175])
-	by gravedo.de (Postfix) with ESMTPSA id 3AFAF3B34553;
-	Mon, 15 Jul 2013 20:11:49 +0200 (CEST)
-From: Simon Busch <morphis@gravedo.de>
+	Mon, 15 Jul 2013 18:17:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2013 11:19:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,670,1367996400"; d="scan'208";a="370607294"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.64])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 11:17:48 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2013 18:11:44 +0000
-Message-Id: <1373911904-6573-1-git-send-email-morphis@gravedo.de>
+Date: Mon, 15 Jul 2013 19:17:42 +0100
+Message-Id: <cover.1373912179.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH v3] wpa-supplicant: backport patch to fix dbus interface for autoscan functionality
+Subject: [PATCH 0/2] A couple more fixes for the libdir QA check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,90 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 18:11:54 -0000
+X-List-Received-Date: Mon, 15 Jul 2013 18:17:52 -0000
 
-See https://lists.connman.net/pipermail/connman/2013-July/014871.html for details about
-the issue with connman and http://lists.shmoo.com/pipermail/hostap/2013-July/028167.html
-about the upstream submission of the patch.
 
-Signed-off-by: Simon Busch <morphis@gravedo.de>
----
- .../wpa-supplicant/wpa-supplicant-2.0.inc          |  3 +-
- .../register-autoscan-correctly.patch              | 51 ++++++++++++++++++++++
- 2 files changed, 53 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/register-autoscan-correctly.patch
+The following changes since commit 43c28375f97161e618fa54349c65be2058c33c53:
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-index 8d7233a..ce669a1 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant-2.0.inc
-@@ -20,7 +20,8 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
-            file://wpa_supplicant.conf \
-            file://wpa_supplicant.conf-sane \
-            file://99_wpa_supplicant \
--           file://fix-libnl3-host-contamination.patch"
-+           file://fix-libnl3-host-contamination.patch \
-+           file://register-autoscan-correctly.patch"
- 
- S = "${WORKDIR}/wpa_supplicant-${PV}"
- 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/register-autoscan-correctly.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/register-autoscan-correctly.patch
-new file mode 100644
-index 0000000..453240f
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/register-autoscan-correctly.patch
-@@ -0,0 +1,51 @@
-+From f157b78166baff2c32ed3983b4e787417505b343 Mon Sep 17 00:00:00 2001
-+From: Tomasz Bursztyka <tomasz.bursztyka@linux.intel.com>
-+Date: Mon, 1 Jul 2013 19:11:34 +0300
-+Subject: [PATCH] dbus: Register the AutoScan method call at the right place
-+
-+Upstream-Status: Accepted [hostap@lists.shmoo.com]
-+
-+Signed-hostap: Tomasz Bursztyka <tomasz.bursztyka@linux.intel.com>
-+---
-+ wpa_supplicant/dbus/dbus_new.c | 18 +++++++++---------
-+ 1 file changed, 9 insertions(+), 9 deletions(-)
-+
-+diff --git a/wpa_supplicant/dbus/dbus_new.c b/wpa_supplicant/dbus/dbus_new.c
-+index 8bc6618..d076d2d 100644
-+--- a/wpa_supplicant/dbus/dbus_new.c
-++++ b/wpa_supplicant/dbus/dbus_new.c
-+@@ -1917,15 +1917,6 @@ static const struct wpa_dbus_method_desc wpas_dbus_global_methods[] = {
-+ 		  END_ARGS
-+ 	  }
-+ 	},
-+-#ifdef CONFIG_AUTOSCAN
-+-	{ "AutoScan", WPAS_DBUS_NEW_IFACE_INTERFACE,
-+-	  (WPADBusMethodHandler) &wpas_dbus_handler_autoscan,
-+-	  {
-+-		  { "arg", "s", ARG_IN },
-+-		  END_ARGS
-+-	  }
-+-	},
-+-#endif /* CONFIG_AUTOSCAN */
-+ 	{ NULL, NULL, NULL, { END_ARGS } }
-+ };
-+ 
-+@@ -2649,6 +2640,15 @@ static const struct wpa_dbus_method_desc wpas_dbus_interface_methods[] = {
-+ 	  }
-+ 	},
-+ #endif /* CONFIG_AP */
-++#ifdef CONFIG_AUTOSCAN
-++	{ "AutoScan", WPAS_DBUS_NEW_IFACE_INTERFACE,
-++	  (WPADBusMethodHandler) &wpas_dbus_handler_autoscan,
-++	  {
-++		  { "arg", "s", ARG_IN },
-++		  END_ARGS
-++	  }
-++	},
-++#endif /* CONFIG_AUTOSCAN */
-+ 	{ NULL, NULL, NULL, { END_ARGS } }
-+ };
-+ 
-+-- 
-+1.8.1.2
-+
+  distrodata.bbaclass: change in git and svn package reporting (2013-07-12 10:12:13 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/libdir2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/libdir2
+
+Paul Eggleton (2):
+  classes/insane: fix regression in libdir QA regex
+  classes/insane: allow libdir QA check to be skipped using INSANE_SKIP
+
+ meta/classes/insane.bbclass | 40 +++++++++++++++++++++++++---------------
+ 1 file changed, 25 insertions(+), 15 deletions(-)
+
 -- 
 1.8.1.2
 
