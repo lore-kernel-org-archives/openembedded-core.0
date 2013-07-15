@@ -1,20 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 210426B19F
+	by mail.openembedded.org (Postfix) with ESMTP id 3EB296B1A0
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 Jul 2013 18:17:52 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2013 11:19:35 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2013 11:19:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,670,1367996400"; d="scan'208";a="370607294"
+X-IronPort-AV: E=Sophos;i="4.89,670,1367996400"; d="scan'208";a="370607301"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.64])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 11:17:48 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 11:17:49 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2013 19:17:42 +0100
-Message-Id: <cover.1373912179.git.paul.eggleton@linux.intel.com>
+Date: Mon, 15 Jul 2013 19:17:43 +0100
+Message-Id: <04ff4f22a900cff90b51d55e383edae1385384da.1373912179.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 0/2] A couple more fixes for the libdir QA check
+In-Reply-To: <cover.1373912179.git.paul.eggleton@linux.intel.com>
+References: <cover.1373912179.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1373912179.git.paul.eggleton@linux.intel.com>
+References: <cover.1373912179.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/2] classes/insane: fix regression in libdir QA regex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,23 +33,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 15 Jul 2013 18:17:52 -0000
 
+There was a slight mistake in the recent change to the lib_re regex -
+it still needs to begin with a /.
 
-The following changes since commit 43c28375f97161e618fa54349c65be2058c33c53:
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  distrodata.bbaclass: change in git and svn package reporting (2013-07-12 10:12:13 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/libdir2
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/libdir2
-
-Paul Eggleton (2):
-  classes/insane: fix regression in libdir QA regex
-  classes/insane: allow libdir QA check to be skipped using INSANE_SKIP
-
- meta/classes/insane.bbclass | 40 +++++++++++++++++++++++++---------------
- 1 file changed, 25 insertions(+), 15 deletions(-)
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 1023092..b875ac0 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -265,7 +265,7 @@ def package_qa_check_libdir(d):
+             full_path = os.path.join(root,file)
+             my_files.append(full_path[len(pkgd):])
+ 
+-    lib_re = re.compile("^lib.+\.so(\..+)?$")
++    lib_re = re.compile("^/lib.+\.so(\..+)?$")
+     exec_re = re.compile("^%s.*/lib.+\.so(\..+)?$" % exec_prefix)
+ 
+     for file in my_files:
 -- 
 1.8.1.2
 
