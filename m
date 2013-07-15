@@ -1,26 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E04561663
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DF8D3619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 14:36:30 +0000 (UTC)
+	Mon, 15 Jul 2013 14:42:03 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Jul 2013 07:36:30 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2013 07:43:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="370457046"
-Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 07:36:30 -0700
-Message-ID: <51E408EE.8080709@linux.intel.com>
-Date: Mon, 15 Jul 2013 07:36:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1373872671.git.sgw@linux.intel.com>
-	<1510613.ezlYfIjzn1@helios>
-In-Reply-To: <1510613.ezlYfIjzn1@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/18] Final Review Pending
+X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="370459981"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jul 2013 07:42:03 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 7E4EF6A4091
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jul 2013 07:42:02 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jul 2013 17:42:22 +0300
+Message-Id: <e2fb4a71fa343df445648f16a305dc825e2ee558.1373899189.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <cover.1373899189.git.stefanx.stanacar@intel.com>
+References: <cover.1373899189.git.stefanx.stanacar@intel.com>
+In-Reply-To: <cover.1373899189.git.stefanx.stanacar@intel.com>
+References: <cover.1373899189.git.stefanx.stanacar@intel.com>
+Subject: [PATCH v2 1/9] lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net interface name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,100 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 14:36:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Jul 2013 14:42:04 -0000
 
-On 07/15/2013 02:24 AM, Paul Eggleton wrote:
-> On Monday 15 July 2013 00:23:38 Saul Wold wrote:
->> Ross, Paul:
->>
->> Please do a review of this set from over the weekend.
->>
->> Hongxu's patch set includes an atom-pc patch that should have
->> been on poky, I removed it from here.
->>
->> I have reviewed the 2 package from the Auto Package Update (my
->> recipes) and they are correct.
->>
->> Thanks
->> 	Sau!
->>
->>
->> The following changes since commit 43c28375f97161e618fa54349c65be2058c33c53:
->>
->>    distrodata.bbaclass: change in git and svn package reporting (2013-07-12
->> 10:12:13 -0700)
->>
->> are available in the git repository at:
->>
->>    git://git.openembedded.org/openembedded-core-contrib sgw/stage
->>
->> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
->> stage
->>
->> Alexandru Palalau (1):
->>    lib/oeqa/runtime: add tests for syslog and df
->>
->> Auto Package Upgrade (2):
->>    libidn: upgrade to 1.28
->>    mc: upgrade to 4.8.9
->
-> The author field for these isn't set correctly.
->
-Fixed.
+Messages such as:
+"systemd-udevd[79]: error changing net interface name eth0 to enp0s3: Device or resource busy"
+are harmless as systemd can't rename interfaces in qemu (the interface is already active).
+Alternatively, passing net.ifnames=0 to the kernel will stop systemd renaming the interfaces.
 
->> Chen Qi (1):
->>    core-image-lsb.bb: add 'package-management' to IMAGE_FEATURES
->>
->> Hongxu Jia (5):
->>    pmount: add version 0.9.23
->>    udev-extraconf:fix xuser write to usb storage failed
->>    udev: fix invoking pmount failed based on sysvinit
->>    pmount: allow users in disk group to perform pmount/pumount
->>    xuser-account: add xuser to disk group
->
-> I have some reservations about these changes. pmount is obsolete
-> according to its author:
->
-> https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html
->
-> I appreciate it may solve the problem we're trying to solve but we need
-> to be pretty confident about pulling this in before we do so since we'll
-> likely be supporting it ourselves.
->
-I was unsure at first about this one, and noone had commented on that 
-the last 2 times it was posted, so I took them.
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/runtime/dmesg.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->> Laurentiu Palcu (1):
->>    xinput-calibrator: move it from meta-oe to oe-core
->
-> I've just noticed this drops PR (previous value was "r6"). I know it seems
-> trivial but we're not increasing PV so if we hope to supersede the recipe
-> from meta-oe, this will have to be preserved. Same goes for
-> pointercal-xinput which had a PR value of "r4".
->
-Dropped for now, I missed that PR change
+diff --git a/meta/lib/oeqa/runtime/dmesg.py b/meta/lib/oeqa/runtime/dmesg.py
+index b0e2175..48370fb 100644
+--- a/meta/lib/oeqa/runtime/dmesg.py
++++ b/meta/lib/oeqa/runtime/dmesg.py
+@@ -9,5 +9,5 @@ class DmesgTest(oeRuntimeTest):
+ 
+     @skipUnlessPassed('test_ssh')
+     def test_dmesg(self):
+-        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -i error')
++        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -v "error changing net interface name" | grep -i error')
+         self.assertEqual(status, 1, msg = "Error messages in dmesg log: %s" % output)
+-- 
+1.8.3.1
 
->> Saul Wold (1):
->>    initscripts: Update to 9.48
->>
->> Stefan Stanacar (7):
->>    lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net
->>      interface name
->>    lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
->>    testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout
->>      configurable and increase it
->>    lib/oeqa/runtime/multilib.py: use readelf instead of file
->>    lib/oeqa/oetest.py: provide a ps command for all tests
->>    classes/testimage.bbclass: use a copy of rootfs for tests
->>    testimage.bbclass, lib/oeqa: add headers and comments
->
-Stefan has a new set that I will pull and put into the Pull request.
-
-Sau!
-
-> Cheers,
-> Paul
->
 
