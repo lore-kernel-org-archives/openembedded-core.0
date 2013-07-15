@@ -1,29 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6630D6A464
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D446C6A465
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 03:02:28 +0000 (UTC)
+	Mon, 15 Jul 2013 06:09:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6F32SJQ028345
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 14 Jul 2013 20:02:28 -0700 (PDT)
-Received: from [128.224.162.225] (128.224.162.225) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Sun, 14 Jul 2013 20:02:28 -0700
-Message-ID: <51E36642.4060208@windriver.com>
-Date: Mon, 15 Jul 2013 11:02:26 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6F69m3v014866
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 14 Jul 2013 23:09:48 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 14 Jul 2013 23:09:47 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jul 2013 14:09:45 +0800
+Message-ID: <cover.1373868174.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <cover.1373607104.git.jackie.huang@windriver.com>
-	<3393c80c31d82ac23afcddd39b1b24a9b5c1e696.1373607104.git.jackie.huang@windriver.com>
-	<1373618076.21102.48.camel@pb-ThinkPad-R50e>
-In-Reply-To: <1373618076.21102.48.camel@pb-ThinkPad-R50e>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1 v2] kbd: Limit the kbdrate application to x86, mips and sparc
+Subject: [PATCH 0/1] msmtp: add GPLv2 compatiable version 1.4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 03:02:28 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Jul 2013 06:09:48 -0000
+Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
 
+We are using the GPLv2 compatiable version msmtp in our layer, I'm sending here
+just to see if you are interested and take it, thanks!
 
-On 7/12/2013 4:34 PM, Phil Blundell wrote:
-> On Fri, 2013-07-12 at 13:42 +0800, jackie.huang@windriver.com wrote:
->> The code relies on hardware specific memory locations to access
->> and modify the keyboard repeat rate.  It also requires read/write
->> access to /dev/port which doesn't exist on every architecture's
->> root fs. The defect was raised for Qemu PowerPC but it also fails on
->> ARM.  The keyboard emulation in qemuppc is for an ADB (Apple Desktop
->> Bus) device and not compatible with an Intel driver.  There's also no
->> indication in the documentation that the code should work on anything
->> other than Intel architecture but it also works on MIPS.
->
-> This reasoning seems slightly spurious.  There do exist ARM and PPC
-> machines where kbdrate works, it's just that the hardware emulated by
-> qemuarm and qemuppc doesn't happen to fall into that category.  Equally,
-> there are certainly mips machines (and might conceivably be some
-> x86/sparc ones) where it doesn't work.  So I don't think you can make
-> any sensible determination about the supportedness or not of kbdrate
-> based on TARGET_ARCH alone.
->
-> Of course, the right answer really is for rate setting to go through the
-> kernel driver (which knows what sort of hardware it is using) rather
-> than for kbdrate to go poking at random I/O ports.
+--
+The following changes since commit 4f5009dcbbeb27bdf5dcaebb3b457fecef410ebe:
 
-Thanks Phil, I will re-work and do more anaysis on it.
+  security_flags: Add addition recipes to the non pie list (2013-07-10 09:40:42 +0100)
 
-Thanks,
-Jackie
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/r_msmtp_0715_3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_msmtp_0715_3
 
->
-> p.
->
->
->
->
+Jackie Huang (1):
+  msmtp: add GPLv2 compatiable version 1.4.12
+
+ .../msmtp-fixup-api-and-compiler-warning.patch     |  239 ++++++++++++++++++++
+ meta/recipes-extended/msmtp/msmtp_1.4.12.bb        |   33 +++
+ 2 files changed, 272 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/msmtp/msmtp-1.4.12/msmtp-fixup-api-and-compiler-warning.patch
+ create mode 100644 meta/recipes-extended/msmtp/msmtp_1.4.12.bb
 
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+1.7.4.1
+
 
