@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CBC5619DD
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7324D6A975
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 09:57:43 +0000 (UTC)
-Received: by mail-ve0-f177.google.com with SMTP id cz10so9753380veb.36
+	Mon, 15 Jul 2013 10:01:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6FA1hbk019887
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 02:57:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=nga8ZDK+YIz/xrwNm95dmqYrQjumJL8+CINS/l4bF+A=;
-	b=UA+mrX7BVfTFsRoa4Ooajmd+YLixEDnqz+yAG+oyBRh9vy+WgdhPtfhlrr+RIW/Myh
-	FXkES8wKHTmtGyG5B3283DvnkWc217aCHWm1S5tioe9ZbkEnV7wmzm66W9RX8Oydl7Px
-	swd5qyHHDOHxFMbCDoWMCW6cHcvQERuQEpB6xPMduWJvcwnKZx+hKAoHh87CW2YqKOib
-	sayg6ZMn0ljrN5EMWZB/8nc5uoERMK/+5xB6kc3aEkktOob5Pbj6a3hpLO/2/uUSGnNb
-	AO4wwdUtObo8PTlW2IpTacHpCT1izMYU0tW+6Y+VbYvqgYqLJpU/JkSdfQGM+8wsywYF
-	m7aw==
-X-Received: by 10.58.171.4 with SMTP id aq4mr27838966vec.26.1373882263446;
-	Mon, 15 Jul 2013 02:57:43 -0700 (PDT)
+	Mon, 15 Jul 2013 03:01:43 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 15 Jul 2013 03:01:24 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jul 2013 18:01:21 +0800
+Message-ID: <cover.1373881980.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Mon, 15 Jul 2013 02:57:23 -0700 (PDT)
-In-Reply-To: <1510613.ezlYfIjzn1@helios>
-References: <cover.1373872671.git.sgw@linux.intel.com>
-	<1510613.ezlYfIjzn1@helios>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Jul 2013 10:57:23 +0100
-Message-ID: <CAJTo0LZcqo1ND1CTE91MU4jr0ovBggdhE2iXab1faCC+C1fROA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Gm-Message-State: ALoCoQm18dTAOrw5fnSmpV8xOaHLCUYPhM6oGBeg/hmDrr1tM3/odoJ7VtBewC49dzdv6nBtnkrP
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/18] Final Review Pending
+Subject: [PATCH 0/1] acl: fix the acl self contained test cases issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,30 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 09:57:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 15 Jul 2013 10:01:51 -0000
+Content-Type: text/plain
 
-On 15 July 2013 10:24, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->> Hongxu Jia (5):
->>   pmount: add version 0.9.23
->>   udev-extraconf:fix xuser write to usb storage failed
->>   udev: fix invoking pmount failed based on sysvinit
->>   pmount: allow users in disk group to perform pmount/pumount
->>   xuser-account: add xuser to disk group
->
-> I have some reservations about these changes. pmount is obsolete
-> according to its author:
->
-> https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html
->
-> I appreciate it may solve the problem we're trying to solve but we need
-> to be pretty confident about pulling this in before we do so since we'll
-> likely be supporting it ourselves.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Agreed.  pmount solves a problem but it's unmaintained and going
-forwards we need to sort out our at_console/polkit/etc story, and this
-is part of it.  I'd been meaning to take a good look at this series
-today, can we pull it for now?
+We added the acl self contained test cases in our testing layer and found
+failures, this patch fixed the test scripts that cause the issues.
 
-Ross
+--
+The following changes since commit 4f5009dcbbeb27bdf5dcaebb3b457fecef410ebe:
+
+  security_flags: Add addition recipes to the non pie list (2013-07-10 09:40:42 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/d_acl_0715_2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_acl_0715_2
+
+Jackie Huang (1):
+  acl: fix the acl self contained test cases issue
+
+ meta/recipes-support/attr/acl.inc                  |    4 +-
+ .../attr/files/fix-acl-test-cases.patch            |  210 ++++++++++++++++++++
+ 2 files changed, 213 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-support/attr/files/fix-acl-test-cases.patch
+
+-- 
+1.7.4.1
+
 
