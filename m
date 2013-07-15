@@ -1,23 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 89F6761663
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f175.google.com (mail-ve0-f175.google.com
+	[209.85.128.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B22E619DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 15:15:37 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 15 Jul 2013 08:15:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,669,1367996400"; d="scan'208";a="268501742"
-Received: from unknown (HELO helios.localnet) ([10.252.122.64])
-	by AZSMGA002.ch.intel.com with ESMTP; 15 Jul 2013 08:15:13 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jul 2013 16:15:12 +0100
-Message-ID: <15615026.ItR7X5Z2oF@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+	Mon, 15 Jul 2013 15:16:04 +0000 (UTC)
+Received: by mail-ve0-f175.google.com with SMTP id da11so9798270veb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jul 2013 08:16:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=LNfMjB/h2i1kkydOKX/2t325ZW++MPwzhSyTYLkzvRY=;
+	b=Yxb3CSTKjJnW6ONdXPz3vvaAc8V+41Zf4htlu1i83XCZHsbmUxh5rIM3TmlCDPJHQN
+	0TDREbEDnxPWRCobybIAZIUdBufVVap8oMEoS1BtwkN3XUyUVraxb74RCHaDc3eowd7+
+	ItK3SKqIcYckT+FcdZ0EKJredltdyganWmHBpQPtopi56LkPaQNQuwI6YIItJBbNAog1
+	f4Fg0HLb38H7uVS7ge2TBI9qTxw4/zMynwHCz1b8v1aVkNQdFwMzHfIQnkMdJjzBc26s
+	N1xSGgIEersqeCoqoBOmtJtvpmLKstb+KpppyHYWYJbHU7qZYDVY+PRYK1Pi+7PAJfVP
+	2XJA==
+X-Received: by 10.52.18.196 with SMTP id y4mr16352375vdd.51.1373901364901;
+	Mon, 15 Jul 2013 08:16:04 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Mon, 15 Jul 2013 08:15:44 -0700 (PDT)
 In-Reply-To: <cover.1373900913.git.sgw@linux.intel.com>
 References: <cover.1373900913.git.sgw@linux.intel.com>
-MIME-Version: 1.0
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Jul 2013 16:15:44 +0100
+Message-ID: <CAJTo0LZiWB4Yx5sRMPkRv5jWgmGdUDmT23wO1ax4=o4NZ4SNBg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQmj7J1iDj63MUxuvyZSneJkj9bCFKUKswsmLXe7kqfyEY5BPhA5PusAO7kV/H1Ggb7NSCY9
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [CONSOLIDATED PULL 00/15] Ready to Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -31,63 +43,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 15:15:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 15 Jul 2013 15:16:04 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Monday 15 July 2013 08:12:12 Saul Wold wrote:
-> Richard,
-> 
-> Here is a set of changes, mostly OE-QA change with a a few
-> package updates and a LSB fix.
-> 
-> Thanks
-> 	Sau!
-> 
+On 15 July 2013 16:12, Saul Wold <sgw@linux.intel.com> wrote:
 > The following changes since commit 43c28375f97161e618fa54349c65be2058c33c53:
-> 
->   distrodata.bbaclass: change in git and svn package reporting (2013-07-12
-> 10:12:13 -0700)
-> 
+>
+>   distrodata.bbaclass: change in git and svn package reporting (2013-07-12 10:12:13 -0700)
+>
 > are available in the git repository at:
-> 
+>
 >   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage
-> 
-> Alexandru Palalau (1):
->   lib/oeqa/runtime: add tests for syslog and df
-> 
-> Chen Qi (1):
->   core-image-lsb.bb: add 'package-management' to IMAGE_FEATURES
-> 
-> Saul Wold (3):
->   libidn: upgrade to 1.28
->   mc: upgrade to 4.8.9
->   initscripts: Update to 9.48
-> 
-> Stefan Stanacar (10):
->   lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net
->     interface name
->   lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
->   testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout
->     configurable and increase it
->   lib/oeqa/runtime/multilib.py: use readelf instead of file
->   lib/oeqa/oetest.py: provide a ps command for all tests
->   classes/testimage.bbclass: use a copy of rootfs for tests
->   testimage.bbclass, lib/oeqa: add headers and comments
->   lib/oeqa: fix dependecy check
->   lib/oeqa/runtime/df.py: limit output to /
->   lib/oeqa/runtime/syslog.py: fix restart in case of systemd
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Acked-By: Ross Burton <ross.burton@intel.com>
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
