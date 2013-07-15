@@ -1,37 +1,28 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E662619DD
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 43EBF6A463
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 11:41:43 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1Uyh9z-00027V-Dj from Muhammad_Shakeel@mentor.com ;
-	Mon, 15 Jul 2013 04:41:43 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 15 Jul 2013 04:41:43 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Mon, 15 Jul 2013 12:41:40 +0100
-Message-ID: <51E3E01D.9050905@mentor.com>
-Date: Mon, 15 Jul 2013 16:42:21 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
+	Mon, 15 Jul 2013 11:43:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6FBh5jZ029309
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Jul 2013 04:43:05 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 15 Jul 2013 04:43:04 -0700
+Message-ID: <51E3E043.40907@windriver.com>
+Date: Mon, 15 Jul 2013 19:42:59 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1373528728-27268-1-git-send-email-muhammad_shakeel@mentor.com>
-	<51DEF360.8030509@linux.intel.com>
-	<53609789-437E-429A-997E-7A1BECF21A48@mentor.com>
-	<51DEFA34.70405@linux.intel.com>
-	<CAJTo0LYmH8sDrpfYOhSd8WXKeoKGd-JiVu1EHMuj5vRLYBcxtQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYmH8sDrpfYOhSd8WXKeoKGd-JiVu1EHMuj5vRLYBcxtQ@mail.gmail.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 15 Jul 2013 11:41:43.0038 (UTC)
-	FILETIME=[471701E0:01CE8150]
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [v2] openssh: Enabling with systemd
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1373872671.git.sgw@linux.intel.com>
+	<1510613.ezlYfIjzn1@helios>
+In-Reply-To: <1510613.ezlYfIjzn1@helios>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/18] Final Review Pending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,65 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 11:41:43 -0000
+X-List-Received-Date: Mon, 15 Jul 2013 11:43:04 -0000
 Content-Type: multipart/alternative;
-	boundary="------------010708000201040200040905"
+	boundary="------------080709030409060404050009"
 
---------------010708000201040200040905
+--------------080709030409060404050009
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/12/2013 09:32 PM, Burton, Ross wrote:
-> On 11 July 2013 19:32, Saul  Wold <sgw@linux.intel.com> wrote:
- >>> We are seeing different checks for different recipes. Do you
- >>> guys think that it is possible to handle them in bbclass.
- >>>
- >> How different are they, there is the DISTRO_FEATURE check and then
- >> typically the service file or the init file is sed'ed and
- >> installed.
- >
- > My initial thoughts were to keep it simple and have a
- > do_install_append() that deleted the sysvinit or systemd files
- > depending on DISTRO_FEATURES, leaving installing the files themselves
- > (from upstream, from a file, whatever) up to the recipe because
- > that's where the complications are.
+On 07/15/2013 05:24 PM, Paul Eggleton wrote:
+> I have some reservations about these changes. pmount is obsolete
+> according to its author:
+>
+> https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html
+>
+> I appreciate it may solve the problem we're trying to solve but we need
+> to be pretty confident about pulling this in before we do so since we'll
+> likely be supporting it ourselves.
+Agree, if we choose pmount, we will maintain it ourselves.
 
-We can also easily move 'sed' part to systemd class because we will only be
-looking for all the service files in ${systemd_unitdir}, irrespective of
-how these got installed.
+But if not use this, we have to investigate the udev rules to finish the
+similar job, it's filesystem type dependency, and this makes the udev
+script more complicated and frequently modified with more and more
+filesystems supported.
 
-I gave a little thought to move the installation part into the class and 
-there
-can be a solution but probably little complicated. The neatest solution 
-would
-be to define an another variable say 'SYSTEMD_SERVICE_FILES_{PN}'
-which will hold the name of all the service files, need to be installed, 
-along
-with their relative path from WORKDIR. We can check in systemd class 
-that if
-${systemd_unitdir} is not present, means upstream hasn't installed 
-anything,
-then install whatever is in 'SYSTEMD_SERVICE_FILES_{PN}'.
+The pmount is an easy way to handle this, and it has supported to
+process udf, iso9660, vfat, ntfs, hfsplus, hfs, ext3, ext2, ext4, reiserfs,
+reiser4, xfs, jfs, omfs, ntfs-fuse, ntfs-3g; and it also easy to maintain
+for us to support other filesystem in future (such as exfat).
 
-Other option is to reuse current 'SYSTEMD_SERVICE_${PN}' that lists the 
-service
-files in the package but doesn't include the path of service files. If 
-we do not
-want a new variable, which seems like a duplication, then we can add the 
-path
-with the service files in this variable and tweak systemd class to 
-handle this in
-current implementation. We will add the path only if service file to be 
-installed is
-not present in WORKDIR but buried somewhere in the package source.
+//Hongxu
 
-Please let me know of your thoughts about installation part.
-
-Best Regards,
-Shakeel
-
-
---------------010708000201040200040905
+--------------080709030409060404050009
 Content-Type: text/html; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
@@ -112,66 +76,40 @@ Content-Transfer-Encoding: 7bit
       http-equiv="Content-Type">
   </head>
   <body bgcolor="#FFFFFF" text="#000000">
-    On 07/12/2013 09:32 PM, Burton, Ross wrote:<br>
-    <span style="white-space: pre;">&gt; On 11 July 2013 19:32, Saul
-      Wold <a class="moz-txt-link-rfc2396E" href="mailto:sgw@linux.intel.com">&lt;sgw@linux.intel.com&gt;</a> wrote:<br>
-      &gt;&gt;&gt; We are seeing different checks for different recipes.
-      Do you<br>
-      &gt;&gt;&gt; guys think that it is possible to handle them in
-      bbclass.<br>
-      &gt;&gt;&gt; <br>
-      &gt;&gt; How different are they, there is the DISTRO_FEATURE check
-      and then <br>
-      &gt;&gt; typically the service file or the init file is sed'ed and
-      <br>
-      &gt;&gt; installed.<br>
-      &gt; <br>
-      &gt; My initial thoughts were to keep it simple and have a <br>
-      &gt; do_install_append() that deleted the sysvinit or systemd
-      files <br>
-      &gt; depending on DISTRO_FEATURES, leaving installing the files
-      themselves<br>
-      &gt; (from upstream, from a file, whatever) up to the recipe
-      because<br>
-      &gt; that's where the complications are.</span><br>
+    <div class="moz-cite-prefix">On 07/15/2013 05:24 PM, Paul Eggleton
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:1510613.ezlYfIjzn1@helios" type="cite">
+      <pre wrap="">I have some reservations about these changes. pmount is obsolete
+according to its author:
+
+<a moz-do-not-send="true" class="moz-txt-link-freetext" href="https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html">https://lists.ubuntu.com/archives/ubuntu-devel-discuss/2011-February/012421.html</a>
+
+I appreciate it may solve the problem we're trying to solve but we need
+to be pretty confident about pulling this in before we do so since we'll
+likely be supporting it ourselves.
+</pre>
+    </blockquote>
+    Agree, if we choose pmount, we will maintain it ourselves. <br>
     <br>
-    We can also easily move 'sed' part to systemd class because we will
-    only be <br>
-    looking for all the service files in ${systemd_unitdir},
-    irrespective of <br>
-    how these got installed.<br>
+    But if not use this, we have to investigate the udev rules to finish
+    the<br>
+    similar job, it's filesystem type dependency, and this makes the
+    udev<br>
+    script more complicated and frequently modified with more and more<br>
+    filesystems supported.<br>
     <br>
-    I gave a little thought to move the installation part into the class
-    and there <br>
-    can be a solution but probably little complicated. The neatest
-    solution would <br>
-    be to define an another variable say 'SYSTEMD_SERVICE_FILES_{PN}' <br>
-    which will hold the name of all the service files, need to be
-    installed, along <br>
-    with their relative path from WORKDIR. We can check in systemd class
-    that if <br>
-    ${systemd_unitdir} is not present, means upstream hasn't installed
-    anything, <br>
-    then install whatever is in 'SYSTEMD_SERVICE_FILES_{PN}'.<br>
+    The pmount is an easy way to handle this, and it has supported to<br>
+    process udf, iso9660, vfat, ntfs, hfsplus, hfs, ext3, ext2, ext4,
+    reiserfs,<br>
+    reiser4, xfs, jfs, omfs, ntfs-fuse, ntfs-3g; and it also easy to
+    maintain<br>
+    for us to support other filesystem in future (such as exfat).<br>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
     <br>
-    Other option is to reuse current 'SYSTEMD_SERVICE_${PN}' that lists
-    the service <br>
-    files in the package but doesn't include the path of service files.
-    If we do not <br>
-    want a new variable, which seems like a duplication, then we can add
-    the path <br>
-    with the service files in this variable and tweak systemd class to
-    handle this in <br>
-    current implementation. We will add the path only if service file to
-    be installed is <br>
-    not present in WORKDIR but buried somewhere in the package source.<br>
-    <br>
-    Please let me know of your thoughts about installation part.<br>
-    <br>
-    Best Regards,<br>
-    Shakeel<br>
-    <br>
+    //Hongxu<br>
   </body>
 </html>
 
---------------010708000201040200040905--
+--------------080709030409060404050009--
