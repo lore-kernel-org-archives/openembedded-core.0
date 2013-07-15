@@ -1,11 +1,11 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 22C2A6B0DA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F0ABA6B1C3
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 Jul 2013 19:56:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6FJv0I6019567
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6FJux9q024726
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 Jul 2013 12:57:00 -0700 (PDT)
@@ -14,14 +14,14 @@ Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	(TLS) id 14.2.342.3; Mon, 15 Jul 2013 12:56:59 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jul 2013 15:10:27 -0500
-Message-ID: <1373919029-19108-3-git-send-email-mark.hatle@windriver.com>
+Date: Mon, 15 Jul 2013 15:10:28 -0500
+Message-ID: <1373919029-19108-4-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1373919029-19108-1-git-send-email-mark.hatle@windriver.com>
 References: <1373919029-19108-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 2/4] terminal.bbclass: Fix BB_RUNFMT processing
+Subject: [PATCH 3/4] busybox: fix ip reference in simple.script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +34,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jul 2013 19:56:58 -0000
+X-List-Received-Date: Mon, 15 Jul 2013 19:56:59 -0000
 Content-Type: text/plain
 
-BB_RUNFMT can include task and taskfunc, as well as func and pid.  Add the
-two missing items toe the runfmt processing.
-
-Also BB_RUNFMT can include arbitrary directory structure.
+The ip is being installed into /sbin as of the latest busybox.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/terminal.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-core/busybox/files/simple.script | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
-index ae338e9..591b4ac 100644
---- a/meta/classes/terminal.bbclass
-+++ b/meta/classes/terminal.bbclass
-@@ -18,8 +18,10 @@ def emit_terminal_func(command, envdata, d):
-     envdata.setVarFlag(cmd_func, 'func', 1)
+diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
+index 6973985..78ac424 100644
+--- a/meta/recipes-core/busybox/files/simple.script
++++ b/meta/recipes-core/busybox/files/simple.script
+@@ -15,7 +15,7 @@ root_is_nfs() {
+ }
  
-     runfmt = d.getVar('BB_RUNFMT', True) or "run.{func}.{pid}"
--    runfile = runfmt.format(func=cmd_func, pid=os.getpid())
-+    runfile = runfmt.format(func=cmd_func, task=cmd_func, taskfunc=cmd_func, pid=os.getpid())
-     runfile = os.path.join(d.getVar('T', True), runfile)
-+    bb.mkdirhier(os.path.dirname(runfile))
-+
-     with open(runfile, 'w') as script:
-         script.write('#!/bin/sh -e\n')
-         bb.data.emit_func(cmd_func, script, envdata)
+ have_bin_ip=0
+-if [ -x /bin/ip ]; then
++if [ -x /sbin/ip ]; then
+   have_bin_ip=1
+ fi
+ 
 -- 
 1.8.3
 
