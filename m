@@ -1,39 +1,25 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 776BD6B1C6
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 32C046B0D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 05:29:19 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id 4so282291pdd.20
+	Tue, 16 Jul 2013 06:27:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6G6RJBZ020337
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jul 2013 22:29:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:user-agent:in-reply-to
-	:references:mime-version:content-transfer-encoding:content-type;
-	bh=l5XKqSoLb3MigN8MbKZWE61FZP1Oz+zJWyW9fYY67Ac=;
-	b=LlnErLAB8GOTgjw29zLu4HrRoKAiBxLbFOoP049U72TLLMd7ffDigjR7wR13Vh03kd
-	82Ax+KFAE2NfSYjZay8LWTpxohlvtIVt8BFbKDKrULzVj9QeSILbmmleWP3WiI+08ktY
-	2kExR9QaHCWnnlxvKCR85qBwFLHavVPE5F2q4Hv/ix3YxPlIxdI6qt44duaidEU5T8oM
-	UiMY4cavKrrvGvqA2f2jBBR24tyNmWL5fex80+ODt/dBc9vb0TeNoNrJSj9M/yJK8W0y
-	1Xn/Wtac5tH2ZlC1K70O0TXkx0E+lUD32Xb8hG8MOKoct1BcGsfS0z32z5QoHjgv42go
-	mWWg==
-X-Received: by 10.68.201.163 with SMTP id kb3mr7049040pbc.22.1373952559701;
-	Mon, 15 Jul 2013 22:29:19 -0700 (PDT)
-Received: from yiqingliang-pc.localnet ([180.109.91.249])
-	by mx.google.com with ESMTPSA id eg3sm2047654pac.1.2013.07.15.22.29.16
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 15 Jul 2013 22:29:18 -0700 (PDT)
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Tue, 16 Jul 2013 13:24:34 +0800
-Message-ID: <1583654.sNKEILZnlI@yiqingliang-pc>
-User-Agent: KMail/4.10.4 (Linux/3.9.8-1-ARCH; KDE/4.10.4; x86_64; ; )
-In-Reply-To: <3096832.OcaoZJbLJn@helios>
-References: <1494076.GQbbvjWTEm@yiqingliang-pc> <3096832.OcaoZJbLJn@helios>
+	Mon, 15 Jul 2013 23:27:19 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 15 Jul 2013 23:27:19 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Jul 2013 14:27:25 +0800
+Message-ID: <cover.1373953711.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt 4.8.5 package error
+Cc: qingtao.cao@windriver.com
+Subject: [PATCH V5 0/3] Add a method for image level user/group configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,29 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 05:29:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 16 Jul 2013 06:27:19 -0000
+Content-Type: text/plain
 
-On Monday, July 15, 2013 09:48:15 AM Paul Eggleton wrote:
-> On Monday 15 July 2013 09:12:23 Yi Qingliang wrote:
-> > hello,
-> > 
-> > 	I'm using latest poky, when packaging qte, got following error, any idea?
-> > 
-> 
-> Please pull the latest changes, this has been switched back to a warning.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-it was latest already, two days before.
-I just updated it , no new commit.
-maybe you can tell me which commit switched it back to warning?
-thanks!
+Changes from V4:
+1. Take into consideration the possibility of whitespaces in /etc/passwd and /etc/group
+2. Change bbfatal in perform_usermod and perform_groupmod to bbwarn. Please see detailed reason below.
 
-> 
-> Cheers,
-> Paul
+PackageA pulls in userA.
+Now we want userA to map to a fixed user ID without having to worry whether PackageA is installed.
+We can now use the following configuration to achieve this requirement.
+EXTRA_USERS_PARAMS += "
+usermod, -u 2013 userA; \
+"
+After this configuration, if PacakgeA is installed in our image, the user ID is modified to 2013;
+otherwise, there's no change in /etc/passwd, i.e., userA will not be added to /etc/passwd silently.
+
+Hope this information will be useful.
+
+//Chen Qi
+
+
+The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
+
+  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/extrausers
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/extrausers
+
+Chen Qi (3):
+  useradd_base.bbclass: add a new bbclass
+  useradd.bbclass: code refactor
+  extrausers.bbclass: add a new bbclass
+
+ meta/classes/extrausers.bbclass   |   61 ++++++++++
+ meta/classes/useradd.bbclass      |   99 ++--------------
+ meta/classes/useradd_base.bbclass |  230 +++++++++++++++++++++++++++++++++++++
+ 3 files changed, 299 insertions(+), 91 deletions(-)
+ create mode 100644 meta/classes/extrausers.bbclass
+ create mode 100644 meta/classes/useradd_base.bbclass
+
 -- 
-Nanjing Jilong
-Yi Qingliang
-niqingliang2003@gmail.com
+1.7.9.5
+
 
