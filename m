@@ -1,39 +1,26 @@
-Return-Path: <eu@felipetonello.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id CAAF26B23A
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D5426B18D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 23:09:03 +0000 (UTC)
-Received: by mail-wi0-f175.google.com with SMTP id m6so4733670wiv.14
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 16:09:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:x-gm-message-state;
-	bh=hVXe8t2XNE/X32F6EUhLdQcnNUDYW7+1Is0/QrulLzI=;
-	b=f/7T8anr0hxS3pcdZghaX1iCf0Z5f+f12ZvGV92xxqrBe9RjvaQcDrYceOZ5DsN90b
-	WQf4uY9ggJvOaXSsFYolraOYH+wqr3pl2X2mj5DZF1Ix9xOypklkUFd7pSuN4jNwwtDI
-	Jw7CmJkfhAlHY/9CqSXrwebg/IrZN+wV/53tSr4ofuwXHm6OV1hff7lAbHvfb87Cs/0C
-	kdV/+4rzS6US8PJS08oW/3ITDdOj3Gbc70OHtp9l2u5vuTF6lvH0z65MPQ8FZZq5cVPU
-	v2CKhdaowId0KjMkX8pSWtKz73+9MXV/1hh7yKR80KThSKFDvzXXwTSjhznTxnJ3sAit
-	JIzw==
+	Tue, 16 Jul 2013 23:48:06 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Jul 2013 16:47:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,680,1367996400"; d="scan'208";a="371364109"
+Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2013 16:47:50 -0700
+Message-ID: <51E5DBA6.4030300@linux.intel.com>
+Date: Tue, 16 Jul 2013 16:47:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-Received: by 10.194.103.226 with SMTP id fz2mr2817382wjb.75.1374016144014;
-	Tue, 16 Jul 2013 16:09:04 -0700 (PDT)
-Received: by 10.194.59.203 with HTTP; Tue, 16 Jul 2013 16:09:03 -0700 (PDT)
-In-Reply-To: <51E5CF13.4090405@linux.intel.com>
-References: <1370626502-5233-1-git-send-email-eu@felipetonello.com>
-	<1374012965-4556-1-git-send-email-eu@felipetonello.com>
-	<51E5CF13.4090405@linux.intel.com>
-Date: Tue, 16 Jul 2013 16:09:03 -0700
-Message-ID: <CAGrhNMzURuresy3p3sCND6J1XUOSSJePYNof2OKGu99wdXww0g@mail.gmail.com>
-From: Felipe Tonello <eu@felipetonello.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQnM6VfDzRxJ09ukSFRNRxjOaQ6fWby4FyB4vqjXOx0tQrU65j5GqXE5ttHPK00DSMV8JGd+
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] valgrind: added perl dependency
+To: Qi.Chen@windriver.com
+References: <cover.1373953711.git.Qi.Chen@windriver.com>
+	<bef360c7ce9093d4f5856eaac88928766e6eac7a.1373953711.git.Qi.Chen@windriver.com>
+In-Reply-To: <bef360c7ce9093d4f5856eaac88928766e6eac7a.1373953711.git.Qi.Chen@windriver.com>
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V5 3/3] extrausers.bbclass: add a new bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,58 +33,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 23:09:04 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 16 Jul 2013 23:48:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hum, I didn't noticed. Sorry.
-
-I will send another patch.
-
-On Tue, Jul 16, 2013 at 3:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 07/16/2013 03:16 PM, eu@felipetonello.com wrote:
->>
->> From: "Felipe F. Tonello" <eu@felipetonello.com>
->>
->> This is necessary since the valgrind package depends on /usr/bin/perl.
->>
->> This patch will fix this error while installing into rootfs:
->> Computing transaction...error: Can't install
->> valgrind-3.8.1-r8@armv7a_vfp_neon: no package provides /usr/bin/perl
->>
->> Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
->> ---
->>   meta/recipes-devtools/valgrind/valgrind_3.8.1.bb | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
->> b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
->> index 3520d49..4ee1b64 100644
->> --- a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
->> +++ b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
->> @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=c46082167a314d785d012a244748d803 \
->>
->>   X11DEPENDS = "virtual/libx11"
->>   DEPENDS = "${@base_contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}',
->> '', d)}"
->> -PR = "r8"
->> +PR = "r9"
->>
-> PR Bump is not needed, mentioned this in past reviews.
+On 07/15/2013 11:27 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> Sau!
+> This class is dedicated to image level user/group configuration.
+> It inherits useradd_base.bbclass.
 >
->>   SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->>            file://fix_issue_caused_by_ccache.patch \
->> @@ -37,6 +37,8 @@ do_install_append () {
->>       install -m 644 ${B}/default.supp ${D}/${libdir}/valgrind/
->>   }
->>
->> +RDEPENDS_${PN} += "perl"
->> +
->>   FILES_${PN}-dbg += "${libdir}/${PN}/*/.debug/*"
->>   RRECOMMENDS_${PN}_powerpc += "${TCLIBC}-dbg"
->>   RRECOMMENDS_${PN}_powerpc64 += "${TCLIBC}-dbg"
->>
+> Users need to inherit this class in their layers or local.conf to
+> make the setting of EXTRA_USERS_PARAMS effective.
+>
+> For detailed configuration format of EXTRA_USERS_PARAMS, please
+> refer to local.conf.sample.extended.
+>
+> [YOCTO #4074]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/classes/extrausers.bbclass |   61 +++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 61 insertions(+)
+>   create mode 100644 meta/classes/extrausers.bbclass
+>
+> diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
+> new file mode 100644
+> index 0000000..ec66913
+> --- /dev/null
+> +++ b/meta/classes/extrausers.bbclass
+> @@ -0,0 +1,61 @@
+> +# This bbclass is mainly used for image level user/group configuration.
+> +# Inherit this class if you want to make EXTRA_USERS_PARAMS effective.
+> +
+> +# Below is an example showing how to use this functionality.
+> +# INHERIT += "extrausers"
+> +# EXTRA_USERS_PARAMS = "\
+> +# useradd,-p '' tester; \
+> +# groupadd,developers; \
+> +# userdel,nobody; \
+> +# groupdel,-g video; \
+> +# groupmod,-g 1020 developers; \
+> +# usermod,-s /bin/sh tester; \
+> +# "
+> +
+Why use a , here to separate the command from the parameters, you 
+already have the ; to separate commands while not use the first item for 
+the command and the rest for the parameters.
+
+Sau!
+
+> +
+> +inherit useradd_base
+> +
+> +IMAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS', True))]}"
+> +
+> +# Image level user / group settings
+> +ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
+> +
+> +# Image level user / group settings
+> +set_user_group () {
+> +	user_group_settings="${EXTRA_USERS_PARAMS}"
+> +	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
+> +	setting=`echo $user_group_settings | cut -d ';' -f1`
+> +	remaining=`echo $user_group_settings | cut -d ';' -f2-`
+> +	while test "x$setting" != "x"; do
+> +		cmd=`echo $setting | cut -d ',' -f1`
+> +		opts=`echo $setting | cut -d ',' -f2`
+> +		# Different from useradd.bbclass, there's no file locking issue here, as
+> +		# this setting is actually a serial process. So we only retry once.
+> +		case $cmd in
+> +			useradd)
+> +				perform_useradd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			groupadd)
+> +				perform_groupadd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			userdel)
+> +				perform_userdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			groupdel)
+> +				perform_groupdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			usermod)
+> +				perform_usermod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			groupmod)
+> +				perform_groupmod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
+> +				;;
+> +			*)
+> +				bbfatal "Invalid command in EXTRA_USERS_PARAMS: $cmd"
+> +				;;
+> +		esac
+> +		# iterate to the next setting
+> +		setting=`echo $remaining | cut -d ';' -f1`
+> +		remaining=`echo $remaining | cut -d ';' -f2-`
+> +	done
+> +}
 >
 
