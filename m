@@ -1,26 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 66B486A464
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 0469B6B082
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 08:41:00 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jul 2013 01:38:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,676,1367996400"; d="scan'208";a="371015075"
-Received: from unknown (HELO helios.localnet) ([10.252.122.80])
-	by orsmga002.jf.intel.com with ESMTP; 16 Jul 2013 01:40:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Yi Qingliang <niqingliang2003@gmail.com>
-Date: Tue, 16 Jul 2013 09:40:49 +0100
-Message-ID: <5751388.cD6vFYynDJ@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <1583654.sNKEILZnlI@yiqingliang-pc>
-References: <1494076.GQbbvjWTEm@yiqingliang-pc> <3096832.OcaoZJbLJn@helios>
-	<1583654.sNKEILZnlI@yiqingliang-pc>
-MIME-Version: 1.0
+	Tue, 16 Jul 2013 09:06:44 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6G9Ei92032334; Tue, 16 Jul 2013 10:15:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NHCGb2VWT-C5; Tue, 16 Jul 2013 10:15:10 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6G9F3Ng032446
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 16 Jul 2013 10:15:05 +0100
+Message-ID: <1373965583.29233.68.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 16 Jul 2013 10:06:23 +0100
+In-Reply-To: <cover.1373900913.git.sgw@linux.intel.com>
+References: <cover.1373900913.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt 4.8.5 package error
+Subject: Re: [CONSOLIDATED PULL 00/15] Ready to Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +37,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 08:41:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 16 Jul 2013 09:06:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 16 July 2013 13:24:34 Yi Qingliang wrote:
-> On Monday, July 15, 2013 09:48:15 AM Paul Eggleton wrote:
-> > On Monday 15 July 2013 09:12:23 Yi Qingliang wrote:
-> > > hello,
-> > > 
-> > > 	I'm using latest poky, when packaging qte, got following error, any
-> > > 	idea?
-> > 
-> > Please pull the latest changes, this has been switched back to a warning.
+On Mon, 2013-07-15 at 08:12 -0700, Saul Wold wrote:
+> Richard,
 > 
-> it was latest already, two days before.
-> I just updated it , no new commit.
-> maybe you can tell me which commit switched it back to warning?
+> Here is a set of changes, mostly OE-QA change with a a few
+> package updates and a LSB fix.
+> 
+> Thanks
+> 	Sau!
+> 
+> The following changes since commit 43c28375f97161e618fa54349c65be2058c33c53:
+> 
+>   distrodata.bbaclass: change in git and svn package reporting (2013-07-12 10:12:13 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Alexandru Palalau (1):
+>   lib/oeqa/runtime: add tests for syslog and df
+> 
+> Chen Qi (1):
+>   core-image-lsb.bb: add 'package-management' to IMAGE_FEATURES
+> 
+> Saul Wold (3):
+>   libidn: upgrade to 1.28
+>   mc: upgrade to 4.8.9
+>   initscripts: Update to 9.48
+> 
+> Stefan Stanacar (10):
+>   lib/oeqa/runtime/dmesg.py: whitelist dmesg message for systemd net
+>     interface name
+>   lib/oeqa/utils/sshcontrol.py: fix passing command to subprocess
+>   testimage.bbclass, lib/oeqa/utils/qemurunner.py: make boot timeout
+>     configurable and increase it
+>   lib/oeqa/runtime/multilib.py: use readelf instead of file
+>   lib/oeqa/oetest.py: provide a ps command for all tests
+>   classes/testimage.bbclass: use a copy of rootfs for tests
+>   testimage.bbclass, lib/oeqa: add headers and comments
+>   lib/oeqa: fix dependecy check
+>   lib/oeqa/runtime/df.py: limit output to /
+>   lib/oeqa/runtime/syslog.py: fix restart in case of systemd
 
-Sure:
-
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=cb6ce45e1f73f42ab24e5abf7e1efbb54b1b83f3
+I pulled this but the numbers don't add up, there are only 13 commits in
+the branch, not 15.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
