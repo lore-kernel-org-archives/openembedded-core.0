@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 231386B21A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f43.google.com (mail-vb0-f43.google.com
+	[209.85.212.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 85DAF6B201
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 10:25:27 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r6GAXrf9003391; Tue, 16 Jul 2013 11:33:53 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TJcAlKc8Au2J; Tue, 16 Jul 2013 11:33:53 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r6GAXn7S003387
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 16 Jul 2013 11:33:50 +0100
-Message-ID: <1373970309.29233.72.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ml@communistcode.co.uk
-Date: Tue, 16 Jul 2013 11:25:09 +0100
-In-Reply-To: <51E5027D.6050003@communistcode.co.uk>
-References: <51E5027D.6050003@communistcode.co.uk>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Toolchain Issues
+	Tue, 16 Jul 2013 10:30:01 +0000 (UTC)
+Received: by mail-vb0-f43.google.com with SMTP id e12so325360vbg.30
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jul 2013 03:30:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=jMlqLQuFW2m8PVuu+pSQeR+6XY0tb0bfFLWhcYiFKAY=;
+	b=XPUBjdqP+zyXwGvF/a3aaH9QOkLdNXi5FAzTV3XJ2fz/6B8HA5/aM7TAmXih44UGqy
+	4atfG9253jIlqrgVFzT2lVBEuEDh2tCIIow7mi+inKhDYksIa6MDJgeCM1IG38VZTwFz
+	2NenL4QvkyICsj77tnvtWq53IxgmC3tP7qFTx//4OUFSIzq4EWyXyrRHo1DExtB1wk9O
+	OF1C1Ho0YN4wM9cpvxjWGaTvyH+WYWjGcQQB2IhLwOdKNkNExGED1q0WFN9fKXoBzyUA
+	caU/ki9newHT6g5pPmmrV5S3jd4Yb5vj1dHDHjtkky7WnN3cP464fdNqNtP4llaP8x2U
+	wCPw==
+X-Received: by 10.220.58.195 with SMTP id i3mr248642vch.38.1373970602140; Tue,
+	16 Jul 2013 03:30:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.13.144 with HTTP; Tue, 16 Jul 2013 03:29:41 -0700 (PDT)
+In-Reply-To: <cover.1373958076.git.sgw@linux.intel.com>
+References: <cover.1373958076.git.sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 16 Jul 2013 11:29:41 +0100
+Message-ID: <CAJTo0LZqDrcpSKVm1qXyzebRX9wOC_urTHaaeGWPJA=h-GLpZg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQlJnUGUFeMv8FY0wgl3l1ymdXPRMhYDYIDP0JeDtQ7zToamoNMhC+SxIY54SyQkXiLZyUM0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/28] Updated C-Pull needs review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 10:25:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jul 2013 10:30:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2013-07-16 at 09:21 +0100, Jack Mitchell wrote:
-> Morning everyone,
-> 
-> I'm trying to create a custom toolchain and sdk for a development board 
-> and I'm having some issues.
-> 
-> I create my toolchain with the following method:
-> 
-> bitbake image -c populate_sdk
-> 
-> When I try to compile u-boot with the sdk, I recieve the following error:
-> 
->      Configuring for socfpga_cyclone5 board...
->      make[1]: *** [/mnt/SSD/socfpga/u-boot-socfpga.git/spl/u-boot-spl] 
-> Error 1
->      make: *** [spl/u-boot-spl.bin] Error 2
->      make: *** [u-boot] Error 1
->      arm-oecore-linux-gnueabi-size: './u-boot': No such file
->      arm-oecore-linux-gnueabi-ld.bfd: cannot find -lgcc
->      make[1]: *** [/mnt/SSD/socfpga/u-boot-socfpga.git/spl/u-boot-spl] 
-> Error 1
->      make: *** [spl/u-boot-spl.bin] Error 2
->      make: *** Waiting for unfinished jobs....
->      arm-oecore-linux-gnueabi-ld.bfd: cannot find -lgcc
->      make: *** [u-boot] Error 1
+On 16 July 2013 08:14, Saul Wold <sgw@linux.intel.com> wrote:
+> The following changes since commit 43c28375f97161e618fa54349c65be2058c33c53:
+>
+>   distrodata.bbaclass: change in git and svn package reporting (2013-07-12 10:12:13 -0700)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage2
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage2
 
-The toolchain environment script requires some --sysroot options to be
-passed to the compiler/linker. I'm guessing uboot isn't getting these.
-See the uboot recipes for how to pass in those options.
-
-Cheers,
-
-Richard
-
+Acked-By: Ross Burton <ross.burton@intel.com>
 
