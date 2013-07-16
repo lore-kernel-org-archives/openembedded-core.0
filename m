@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
-	[209.85.212.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 043B76B231
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 747FA6B231
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 18:16:59 +0000 (UTC)
-Received: by mail-vb0-f44.google.com with SMTP id e15so703805vbg.3
+	Tue, 16 Jul 2013 18:22:27 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q12so691853vbe.41
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 11:17:00 -0700 (PDT)
+	Tue, 16 Jul 2013 11:22:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=VkB5QVH6oVwkR6Gi3S4f8xWw54HvDgp6cR2J+yL2f8s=;
-	b=iKYTGiKwoulrAFJQv/PDjPlW5hFne5hRDvtiGp//UGxG9b72rpfdp0C70XOPAIK4Pl
-	R4RAMQBqE4jyeWicM/V0jO+j9k8nnfVYEttgIoSaBa3U4u6acD7hbROXRHZZQGsNOApw
-	fC5n1nFmtSYdtB6lsjyWWth6DVIMi7PDlyY3EsEG2bv+gZ6Cu+1v/gNAMRZVMrQIkvZv
-	kfhm+scM/cMhtJp7eBX/3T+Sxg1/w5pWSb+KWq9Evxx3KhXFb8uBpMlem5pHhZJHVK5k
-	Ir7vMmX8IwCAHJV3mei2bGOSYcHRCrM/cpnuYOXI/KYdmKI8gdIWUDANkEGVEthSIpAK
-	Wcpw==
-X-Received: by 10.58.181.225 with SMTP id dz1mr806701vec.95.1373998620204;
-	Tue, 16 Jul 2013 11:17:00 -0700 (PDT)
+	bh=WNnMa87qGxBbN1Ir0LM2jJMq4RYyWeIlkudga72DETA=;
+	b=KAGvY0pO7wBmDeo4efvl6UVRcA1RpYsVNwiv8dR+7ieOPv9l20n2kteO1/HllRrzo1
+	U9WeeaU1yY9HmA16kEynZxvEm9Y3j6ECJV1COMDHPLfefZ3twWZQjuCQZWDIGHql9Yg2
+	ESHPXW78j4hEN0Q1DwuHf926OMl1aee3ZIu75yBnk30SeqvlzaXd7kn9gLQ2IP1ezVP6
+	nXP8UzI9A3iP39U9YcltNcEa41RBgVEae5bTE1xFdP1nbTjfOvA90vYUdGSXIY5mk22d
+	pLS2sRWTSfFsCATiUOIkMAHlfXbE6A1QRJJ8S9sOATlakRvM4Pq2swn3y6C2BuzntAnd
+	6tqw==
+X-Received: by 10.58.219.232 with SMTP id pr8mr810536vec.80.1373998947739;
+	Tue, 16 Jul 2013 11:22:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Tue, 16 Jul 2013 11:16:40 -0700 (PDT)
-In-Reply-To: <cover.1373985134.git.sgw@linux.intel.com>
-References: <cover.1373985134.git.sgw@linux.intel.com>
+Received: by 10.220.13.144 with HTTP; Tue, 16 Jul 2013 11:22:07 -0700 (PDT)
+In-Reply-To: <1373988362-10097-1-git-send-email-cristian.iorga@intel.com>
+References: <1373988362-10097-1-git-send-email-cristian.iorga@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 16 Jul 2013 19:16:40 +0100
-Message-ID: <CAJTo0Lb3JCmvWvWw9YPDqYa3px2Yd1-pv3TQLgQ71oMmE-wNJA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQkgzS9FQMCIc8As5TPsZa6JGLire0YAbfrAVLJrGu8yFIzFBzpqHhYAqWzUGUusAiCYNo9o
+Date: Tue, 16 Jul 2013 19:22:07 +0100
+Message-ID: <CAJTo0LbYg9miLMgAOSf1ZMs1nD-BboGjmKqjXyCSbtwGytHAJg@mail.gmail.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+X-Gm-Message-State: ALoCoQl61QZmBf0sj4/7ia/8kChO9tam129SqWNEfgBJ6kkQNQrIGafD9qfAeZVCbFLCKnChJyUR
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/17] Rebased C-Pull, needs review
+Subject: Re: [PATCH V4 0/2] BlueZ 5 experimental recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,17 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 18:17:00 -0000
+X-List-Received-Date: Tue, 16 Jul 2013 18:22:27 -0000
 Content-Type: text/plain; charset=UTF-8
 
-> The following changes since commit cf1790d992f067be8d5f9894458f55f6f1bdc61f:
+On 16 July 2013 16:26, Cristian Iorga <cristian.iorga@intel.com> wrote:
+> This sets of patches adds bluez5 recipes as experimental packages.
+> BlueZ 5.X is not an upgrade for Bluez 4.x, as such, no upgrade is
+> provided/possible.
+> The two versions of the BT stack also conflicts each other.
 >
->   lib/oeqa: fix dependecy check (2013-07-15 10:29:27 -0700)
+> In V4 RREPLACES is removed from the recipes.
 >
-> are available in the git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> Cristian Iorga (2):
+>   bluez5: new package for v5.7
+>   bluez4: conflicts with bluez5
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+Looks good to me, thanks Cristian.
+
+Ross
 
