@@ -1,26 +1,20 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EB5C6B218
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B9F36B220
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 14:55:11 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1Uz6el-0007JM-Il; Tue, 16 Jul 2013 16:55:11 +0200
-Message-ID: <1373986510.2651.87.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-Date: Tue, 16 Jul 2013 15:55:10 +0100
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16C05A76@IRSMSX105.ger.corp.intel.com>
-References: <1373984927-21039-1-git-send-email-cristian.iorga@intel.com>
-	<1373985229.2651.84.camel@phil-desktop.brightsign>
-	<969F26A8BAB325438E7EB80D3C3134FB16C05A76@IRSMSX105.ger.corp.intel.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 0/2] BlueZ 5 experimental recipes
+	Tue, 16 Jul 2013 15:24:23 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jul 2013 08:21:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,677,1367996400"; d="scan'208";a="366112128"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jul 2013 08:25:32 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jul 2013 18:26:00 +0300
+Message-Id: <1373988362-10097-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH V4 0/2] BlueZ 5 experimental recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 14:55:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jul 2013 15:24:23 -0000
 
-On Tue, 2013-07-16 at 14:36 +0000, Iorga, Cristian wrote:
-> " why having it be so is not a very good thing."
-> 
-> Sorry, I did not understood this part.
-> 
-> Judging by my investigation, is RREPLACES needed or not?
+This sets of patches adds bluez5 recipes as experimental packages.
+BlueZ 5.X is not an upgrade for Bluez 4.x, as such, no upgrade is
+provided/possible.
+The two versions of the BT stack also conflicts each other.
 
-I don't believe there is any justification for making bluez4 Replace:
-bluez5.
+In V4 RREPLACES is removed from the recipes.
 
-I think you could possibly make an argument that having bluez5 Replace:
-bluez4 might be a good thing, although given the way opkg behaves with
-them I'm not entirely convinced.  Personally I would say that there
-should be no replacing here.
+Cristian Iorga (2):
+  bluez5: new package for v5.7
+  bluez4: conflicts with bluez5
 
-p.
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    2 +
+ .../bluez5/bluez5-5.7/bluetooth.conf               |   16 +++++
+ meta/recipes-connectivity/bluez5/bluez5.inc        |   68 ++++++++++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5_5.7.bb     |    5 ++
+ 4 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5-5.7/bluetooth.conf
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5.inc
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.7.bb
 
+-- 
+1.7.10.4
 
 
