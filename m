@@ -1,20 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4867A6B22C
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id EB5DB6B215
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 19:33:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jul 2013 12:30:36 -0700
+	Tue, 16 Jul 2013 21:40:34 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 16 Jul 2013 14:40:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,679,1367996400"; d="scan'208";a="371335559"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.97])
-	by orsmga002.jf.intel.com with ESMTP; 16 Jul 2013 12:32:47 -0700
+X-IronPort-AV: E=Sophos;i="4.89,679,1367996400"; d="scan'208";a="332333235"
+Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
+	by azsmga001.ch.intel.com with ESMTP; 16 Jul 2013 14:40:30 -0700
+Message-ID: <51E5BDCE.8040107@linux.intel.com>
+Date: Tue, 16 Jul 2013 14:40:30 -0700
 From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jul 2013 12:32:47 -0700
-Message-Id: <1374003167-16691-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] buildtools: testimage needs the mmap python
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Qi.Chen@windriver.com
+References: <cover.1373953711.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1373953711.git.Qi.Chen@windriver.com>
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V5 0/3] Add a method for image level user/group configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,26 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 19:33:08 -0000
+X-List-Received-Date: Tue, 16 Jul 2013 21:40:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-core/meta/buildtools-tarball.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 07/15/2013 11:27 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Changes from V4:
+> 1. Take into consideration the possibility of whitespaces in /etc/passwd and /etc/group
+> 2. Change bbfatal in perform_usermod and perform_groupmod to bbwarn. Please see detailed reason below.
+>
+> PackageA pulls in userA.
+> Now we want userA to map to a fixed user ID without having to worry whether PackageA is installed.
+> We can now use the following configuration to achieve this requirement.
+> EXTRA_USERS_PARAMS += "
+> usermod, -u 2013 userA; \
+> "
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index e8abc06..9771497 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -30,6 +30,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-python-compression \
-     nativesdk-python-json \
-     nativesdk-python-unittest \
-+    nativesdk-python-mmap \
-     nativesdk-python-difflib \
-     nativesdk-python-pprint \
-     nativesdk-python-git \
--- 
-1.8.1.4
+What happens files that userA might have already created outside the 
+home directory? I know that usermod will fixup the home directory and 
+some mail related files.
 
+Sau!
+
+
+> After this configuration, if PacakgeA is installed in our image, the user ID is modified to 2013;
+> otherwise, there's no change in /etc/passwd, i.e., userA will not be added to /etc/passwd silently.
+>
+> Hope this information will be useful.
+>
+> //Chen Qi
+>
+>
+> The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
+>
+>    meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib ChenQi/extrausers
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/extrausers
+>
+> Chen Qi (3):
+>    useradd_base.bbclass: add a new bbclass
+>    useradd.bbclass: code refactor
+>    extrausers.bbclass: add a new bbclass
+>
+>   meta/classes/extrausers.bbclass   |   61 ++++++++++
+>   meta/classes/useradd.bbclass      |   99 ++--------------
+>   meta/classes/useradd_base.bbclass |  230 +++++++++++++++++++++++++++++++++++++
+>   3 files changed, 299 insertions(+), 91 deletions(-)
+>   create mode 100644 meta/classes/extrausers.bbclass
+>   create mode 100644 meta/classes/useradd_base.bbclass
+>
 
