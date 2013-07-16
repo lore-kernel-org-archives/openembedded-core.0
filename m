@@ -1,23 +1,23 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 256166B216
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CB156B216
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 13:51:14 +0000 (UTC)
-Message-ID: <51E54FD1.10306@communistcode.co.uk>
-Date: Tue, 16 Jul 2013 14:51:13 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
-MIME-Version: 1.0
+	Tue, 16 Jul 2013 14:27:16 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 16 Jul 2013 07:27:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,677,1367996400"; d="scan'208";a="366079976"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jul 2013 07:28:25 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <51E5027D.6050003@communistcode.co.uk>
-	<51E54B0E.2070701@windriver.com>
-In-Reply-To: <51E54B0E.2070701@windriver.com>
-Subject: Re: Toolchain Issues
+Date: Tue, 16 Jul 2013 17:28:45 +0300
+Message-Id: <1373984927-21039-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH V3 0/2] BlueZ 5 experimental recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -27,159 +27,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 13:51:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jul 2013 14:27:16 -0000
 
-On 16/07/13 14:30, Mark Hatle wrote:
-> On 7/16/13 3:21 AM, Jack Mitchell wrote:
->> Morning everyone,
->>
->> I'm trying to create a custom toolchain and sdk for a development board
->> and I'm having some issues.
->>
->> I create my toolchain with the following method:
->>
->> bitbake image -c populate_sdk
->>
->> When I try to compile u-boot with the sdk, I recieve the following error:
->>
->
-> How are you compiling/linking uboot, what options are you using?
->
-> When you load the SDK, you need to source the environment file, and then
-> you should be using $CC/$LD from the environment as the compiler.
-> Calling the arm-... directly may lead to failures as the --sysroot
-> parameter is not passed to the compiler.
->
-> --Mark
->
->>       Configuring for socfpga_cyclone5 board...
->>       make[1]: *** [/mnt/SSD/socfpga/u-boot-socfpga.git/spl/u-boot-spl]
->> Error 1
->>       make: *** [spl/u-boot-spl.bin] Error 2
->>       make: *** [u-boot] Error 1
->>       arm-oecore-linux-gnueabi-size: './u-boot': No such file
->>       arm-oecore-linux-gnueabi-ld.bfd: cannot find -lgcc
->>       make[1]: *** [/mnt/SSD/socfpga/u-boot-socfpga.git/spl/u-boot-spl]
->> Error 1
->>       make: *** [spl/u-boot-spl.bin] Error 2
->>       make: *** Waiting for unfinished jobs....
->>       arm-oecore-linux-gnueabi-ld.bfd: cannot find -lgcc
->>       make: *** [u-boot] Error 1
->>
->> So I took a look at the gcc -v and it gives me:
->>
->> [09:14:40 jack u-boot-socfpga.git]$ arm-oecore-linux-gnueabi-gcc -v |
->> grep custom
->> Using built-in specs.
->> COLLECT_GCC=arm-oecore-linux-gnueabi-gcc
->> COLLECT_LTO_WRAPPER=/mnt/SSD/socfpga/custom-sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/bin/cortexa9hf-vfp-neon-oecore-linux-gnueabi/../../libexec/cortexa9hf-vfp-neon-oecore-linux-gnueabi/gcc/arm-oecore-linux-gnueabi/4.8.1/lto-wrapper
->>
->> Target: arm-oecore-linux-gnueabi
->> Configured with:
->> /mnt/SSD/oe-r0005/altera-r0005/tmp/work-shared/gcc-4.8.1-r0/gcc-4.8.1/configure
->>
->> --build=x86_64-linux --host=x86_64-oecore-linux
->> --target=arm-oecore-linux-gnueabi
->> --prefix=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr
->> --exec_prefix=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr
->>
->> --bindir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/bin/cortexa9hf-vfp-neon-oecore-linux-gnueabi
->>
->> --sbindir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/bin/cortexa9hf-vfp-neon-oecore-linux-gnueabi
->>
->> --libexecdir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/libexec/cortexa9hf-vfp-neon-oecore-linux-gnueabi
->>
->> --datadir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/share
->>
->> --sysconfdir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/etc
->>
->> --sharedstatedir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/com
->>
->> --localstatedir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/var
->>
->> --libdir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/lib/cortexa9hf-vfp-neon-oecore-linux-gnueabi
->>
->> --includedir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/include
->>
->> --oldincludedir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/include
->>
->> --infodir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/share/info
->>
->> --mandir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/x86_64-oecore-linux/usr/share/man
->>
->> --disable-silent-rules --disable-dependency-tracking
->> --with-libtool-sysroot=/mnt/SSD/oe-r0005/altera-r0005/tmp/sysroots/x86_64-nativesdk-oecore-linux
->>
->> --with-gnu-ld --enable-shared --enable-languages=c,c++
->> --enable-threads=posix --enable-multilib --enable-c99 --enable-long-long
->> --enable-symvers=gnu --enable-libstdcxx-pch
->> --program-prefix=arm-oecore-linux-gnueabi- --without-local-prefix
->> --enable-target-optspace --enable-lto --enable-libssp
->> --disable-bootstrap --disable-libmudflap --with-system-zlib
->> --with-linker-hash-style=gnu --enable-linker-build-id --with-ppl=no
->> --with-cloog=no --enable-checking=release --enable-cheaders=c_global
->> --with-float=hard
->> --with-gxx-include-dir=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/cortexa9hf-vfp-neon-oecore-linux-gnueabi/usr/include/c++
->>
->> --with-build-time-tools=/mnt/SSD/oe-r0005/altera-r0005/tmp/sysroots/x86_64-linux/usr/arm-oecore-linux-gnueabi/bin
->>
->> --with-sysroot=/mnt/SSD/r0005sdk/1.0-20130715/sysroots/cortexa9hf-vfp-neon-oecore-linux-gnueabi
->>
->> --with-build-sysroot=/mnt/SSD/oe-r0005/altera-r0005/tmp/sysroots/socfpga_cyclone5
->>
->> --disable-libunwind-exceptions --disable-libssp --disable-libgomp
->> --disable-libmudflap
->> --with-mpfr=/mnt/SSD/oe-r0005/altera-r0005/tmp/sysroots/x86_64-nativesdk-oecore-linux
->>
->> --with-mpc=/mnt/SSD/oe-r0005/altera-r0005/tmp/sysroots/x86_64-nativesdk-oecore-linux
->>
->> --enable-nls
->> Thread model: posix
->> gcc version 4.8.1 (GCC)
->>
->> Now, my toolchain is located in the directory:
->>
->> /mnt/SSD/socfpga/custom-sdk/1.0-20130715
->>
->> So, why does most of the GCC version info mention the default
->> directory of:
->>
->> /mnt/SSD/r0005sdk/1.0-20130715
->>
->> Is this a bug, or just a quirk? If it's a quirk then why can't u-boot
->> find -lgcc on compile?
->>
->> Cheers,
->>
+This sets of patches adds bluez5 recipes as experimental packages.
+BlueZ 5.X is not an upgrade for Bluez 4.x, as such, no upgrade is
+provided/possible.
+The two versions of the BT stack also conflicts each other.
 
-I managed to fix this. In order to get it built I needed to unset the 
-LDFLAGS as this specifies options when using gcc to link, instead of 
-using ld directly.
+Observe my investigation below in order to decide if RREPLACES is needed.
+Conclusion: BlueZ 5.x will be eventually an upgrade path for an already installed
+embedded device. As such, RREPLACES is needed for a system-wide upgrade.
 
-I also needed to export:
+Case 1: bluez4 and bluez5: reciprocal RREPLACES and RCONFLICTS
+root@qemux86:~# opkg update
+Downloading http://192.168.7.1/upg-ipk/all/Packages.gz.
+Inflating http://192.168.7.1/upg-ipk/all/Packages.gz.
+Updated list of available packages in /var/lib/opkg/local_repo_all.
+Downloading http://192.168.7.1/upg-ipk/i586/Packages.gz.
+Inflating http://192.168.7.1/upg-ipk/i586/Packages.gz.
+Updated list of available packages in /var/lib/opkg/local_repo_i586.
+Downloading http://192.168.7.1/upg-ipk/qemux86/Packages.gz.
+Inflating http://192.168.7.1/upg-ipk/qemux86/Packages.gz.
+Updated list of available packages in /var/lib/opkg/local_repo_qemux86.
+root@qemux86:~# opkg list-installed | grep bluez
+bluez4 - 4.101-r6.0
+libasound-module-bluez - 4.101-r6.0
+root@qemux86:~# opkg list-upgradable | grep bluez
+libasound-module-bluez - 4.101-r6.0 - 5.3-r0.0
+bluez4 - 4.101-r6.0 - 5.3-r0.0
+root@qemux86:~# opkg install bluez5
+Multiple replacers for bluez5, using first one (bluez4).
+Package bluez4 is already installed on root.
+root@qemux86:~# opkg list-installed | grep bluez
+bluez4 - 4.101-r6.0
+libasound-module-bluez - 4.101-r6.0
+root@qemux86:~# opkg upgrade
+Upgrading libasound-module-bluez on root from 4.101-r6.0 to 5.3-r0.0...
+Downloading http://192.168.7.1/upg-ipk/i586/libasound-module-bluez_5.3-r0.0_i586.ipk.
+Removing obsolete file /usr/share/alsa/bluetooth.conf.
+Removing obsolete file /usr/lib/alsa-lib/libasound_module_ctl_bluetooth.so.
+Removing obsolete file /usr/lib/alsa-lib/libasound_module_pcm_bluetooth.so.
+Upgrading bluez5 (5.3-r0.0) to root...
+Downloading http://192.168.7.1/upg-ipk/i586/bluez5_5.3-r0.0_i586.ipk.
+Installing libical (0.48-r0.0) to root...
+Downloading http://192.168.7.1/upg-ipk/i586/libical_0.48-r0.0_i586.ipk.
+Removing package bluez4 from root...
+Configuring libical.
+Configuring libasound-module-bluez.
+Configuring bluez5.
+root@qemux86:~# opkg list-installed | grep bluez
+bluez5 - 5.3-r0.0
+libasound-module-bluez - 5.3-r0.0
+root@qemux86:~# 
 
-USE_PRIVATE_LIBGCC=/mnt/SSD/socfpga/custom-sdk/1.0-20130716/sysroots/cortexa9hf-vfp-neon-oecore-linux-gnueabi/usr/lib/arm-oecore-linux-gnueabi/4.8.1
+Case 2: bluez4 and bluez5: reciprocal RCONFLICTS
+root@qemux86:~# opkg list-upgradable
+libasound-module-bluez - 4.101-r6.0 - 5.3-r0.0
+root@qemux86:~# opkg install bluez5
+Installing bluez5 (5.3-r0.0) to root...
+Collected errors:
+ * check_conflicts_for: The following packages conflict with bluez5:
+ * check_conflicts_for: 	bluez4 * 
+ * opkg_install_cmd: Cannot install package bluez5.
+root@qemux86:~# opkg upgrade bluez5
+Installing bluez5 (5.3-r0.0) to root...
+Collected errors:
+ * check_conflicts_for: The following packages conflict with bluez5:
+ * check_conflicts_for: 	bluez4 * 
+root@qemux86:~# opkg list-installed | grep bluez
+bluez4 - 4.101-r6.0
+libasound-module-bluez - 4.101-r6.0
+root@qemux86:~# opkg remove bluez4
+No packages removed.
+Collected errors:
+ * print_dependents_warning: Package bluez4 is depended upon by packages:
+ * print_dependents_warning: 	ofono
+ * print_dependents_warning: 	packagegroup-base-bluetooth
+ * print_dependents_warning: 	connman
+ * print_dependents_warning: These might cease to work if package bluez4 is removed.
 
-to allow u-boot to pick up libgcc.a. This then involved crafting a patch 
-to support specifying a private libgcc in the standalone examples 
-Makefile which I have submitted upstream.
+ * print_dependents_warning: Force removal of this package with --force-depends.
+ * print_dependents_warning: Force removal of this package and its dependents
+ * print_dependents_warning: with --force-removal-of-dependent-packages.
+root@qemux86:~# opkg remove --force-depends bluez4
+Removing package bluez4 from root...
+root@qemux86:~# opkg list-installed | grep bluez
+libasound-module-bluez - 4.101-r6.0
+root@qemux86:~# opkg install bluez5
+Installing bluez5 (5.3-r0.0) to root...
+Downloading http://192.168.7.1/upg-ipk/i586/bluez5_5.3-r0.0_i586.ipk.
+Installing libical (0.48-r0.0) to root...
+Downloading http://192.168.7.1/upg-ipk/i586/libical_0.48-r0.0_i586.ipk.
+Configuring libical.
+Configuring bluez5.
+root@qemux86:~# opkg list-installed | grep bluez
+bluez5 - 5.3-r0.0
+libasound-module-bluez - 4.101-r6.0
+root@qemux86:~# 
 
-A bit of a slog, but I got there in the end!
+Cristian Iorga (2):
+  bluez5: new package for v5.7
+  bluez4: conflicts with/replaces bluez5
 
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    3 +
+ .../bluez5/bluez5-5.7/bluetooth.conf               |   16 +++++
+ meta/recipes-connectivity/bluez5/bluez5.inc        |   69 ++++++++++++++++++++
+ meta/recipes-connectivity/bluez5/bluez5_5.7.bb     |    5 ++
+ 4 files changed, 93 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5-5.7/bluetooth.conf
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5.inc
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5_5.7.bb
 
 -- 
+1.7.10.4
 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   http://www.embed.me.uk
-
---
 
