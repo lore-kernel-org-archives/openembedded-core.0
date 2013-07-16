@@ -1,29 +1,46 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 80D6A6AEFA
+Return-Path: <B19537@freescale.com>
+Received: from va3outboundpool.messaging.microsoft.com
+	(va3ehsobe002.messaging.microsoft.com [216.32.180.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 1167E6B173
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 02:55:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6G2ttPQ005485
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Jul 2013 19:55:56 -0700 (PDT)
-Received: from [128.224.162.225] (128.224.162.225) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 15 Jul 2013 19:55:55 -0700
-Message-ID: <51E4B639.40209@windriver.com>
-Date: Tue, 16 Jul 2013 10:55:53 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	Tue, 16 Jul 2013 03:36:43 +0000 (UTC)
+Received: from mail11-va3-R.bigfish.com (10.7.14.240) by
+	VA3EHSOBE003.bigfish.com (10.7.40.23) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 16 Jul 2013 03:36:42 +0000
+Received: from mail11-va3 (localhost [127.0.0.1])	by mail11-va3-R.bigfish.com
+	(Postfix) with ESMTP id 900022E00F3	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jul 2013 03:36:42 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
+Received: from mail11-va3 (localhost.localdomain [127.0.0.1]) by mail11-va3
+	(MessageSwitch) id 1373945799528035_6400;
+	Tue, 16 Jul 2013 03:36:39 +0000 (UTC)
+Received: from VA3EHSMHS018.bigfish.com (unknown [10.7.14.248])	by
+	mail11-va3.bigfish.com (Postfix) with ESMTP id 72AB42400DF	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jul 2013 03:36:39 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS018.bigfish.com
+	(10.7.99.28) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 16 Jul 2013 03:36:39 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.3.136.1; Tue, 16 Jul 2013 03:35:41 +0000
+Received: from b19537-desktop.ap.freescale.net
+	(b19537-desktop.ap.freescale.net [10.192.208.197])	by
+	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r6G3aZSa019694;
+	Mon, 15 Jul 2013 20:36:37 -0700
+From: Zhenhua Luo <zhenhua.luo@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Jul 2013 11:45:57 +0800
+Message-ID: <1373946357-8447-1-git-send-email-zhenhua.luo@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1373868174.git.jackie.huang@windriver.com>
-	<7908e2a1a7faa8f8b09c5e682c9ed44a1b18a5ff.1373868174.git.jackie.huang@windriver.com>
-	<51E4327D.70901@linux.intel.com>
-In-Reply-To: <51E4327D.70901@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] msmtp: add GPLv2 compatiable version 1.4.12
+X-OriginatorOrg: freescale.com
+Cc: Zhenhua Luo <zhenhua.luo@freescale.com>
+Subject: [PATCH] oprofile: add Upstream-Status for several patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,349 +53,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 02:55:55 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jul 2013 03:36:43 -0000
+Content-Type: text/plain
 
+Add "Upstream-Status: Accepted" for below patches:
+* meta/recipes-kernel/oprofile/oprofile/0001-Allow-ppc64-events-to-be-specified-with-or-without-_.patch
+* meta/recipes-kernel/oprofile/oprofile/0001-Fix-PPC64-specific-libpfm-usage-so-it-doesn-t-break-.patch
+* meta/recipes-kernel/oprofile/oprofile/0001-ophelp-lists-events-Fix-doc-URL-for-ppc64-arch.patch
 
+Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+---
+ ...-events-to-be-specified-with-or-without-_.patch |    2 ++
+ ...pecific-libpfm-usage-so-it-doesn-t-break-.patch |    2 ++
+ ...p-lists-events-Fix-doc-URL-for-ppc64-arch.patch |    2 ++
+ 3 files changed, 6 insertions(+)
 
-On 7/16/2013 1:33 AM, Saul Wold wrote:
-> On 07/14/2013 11:09 PM, jackie.huang@windriver.com wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
->>
->> Take existing recipe from oe-core and downrev for GPLv2 compatiable
->> version. Add patch to deal with issues when building in bitbake.
->>
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   .../msmtp-fixup-api-and-compiler-warning.patch     |  239
->> ++++++++++++++++++++
->>   meta/recipes-extended/msmtp/msmtp_1.4.12.bb        |   33 +++
->>   2 files changed, 272 insertions(+), 0 deletions(-)
->>   create mode 100644
->> meta/recipes-extended/msmtp/msmtp-1.4.12/msmtp-fixup-api-and-compiler-warning.patch
->>
->>   create mode 100644 meta/recipes-extended/msmtp/msmtp_1.4.12.bb
->>
->> diff --git
->> a/meta/recipes-extended/msmtp/msmtp-1.4.12/msmtp-fixup-api-and-compiler-warning.patch
->> b/meta/recipes-extended/msmtp/msmtp-1.4.12/msmtp-fixup-api-and-compiler-warning.patch
->>
->> new file mode 100644
->> index 0000000..cbe0c40
->> --- /dev/null
->> +++
->> b/meta/recipes-extended/msmtp/msmtp-1.4.12/msmtp-fixup-api-and-compiler-warning.patch
->>
->> @@ -0,0 +1,239 @@
->> +Upstream-Status: Pending
->> +
-> Need a patch file Signed-off-by: here and more details about why all the
-> changes needed, it almost seems like there are a couple of different
-> things this patch is trying to do.
-
-Sorry that the original author of this patch left and I can't find clear 
-info of what it is trying to fix, I will try to figure it out.
-
-Thanks,
-Jackie
-
->
-> Are all these changes really needed?
->
-> Sau!
->
->> +diff -Naur msmtp-1.4.12/configure.ac msmtp-1.4.12-wrs/configure.ac
->> +--- msmtp-1.4.12/configure.ac
->> ++++ msmtp-1.4.12-wrs/configure.ac
->> +@@ -40,8 +40,8 @@
->> + dnl System
->> + case "${target}" in *-*-mingw32*) windows=yes ;; *) windows=no ;; esac
->> +
->> +-dnl gnulib
->> +-gl_INIT
->> ++#dnl gnulib
->> ++#gl_INIT
->> +
->> + dnl Gettext
->> + AM_GNU_GETTEXT([external])
->> +diff -Naur msmtp-1.4.12/gnulib/base64.c msmtp-1.4.12-wrs/gnulib/base64.c
->> +--- msmtp-1.4.12/gnulib/base64.c
->> ++++ msmtp-1.4.12-wrs/gnulib/base64.c
->> +@@ -64,8 +64,8 @@
->> +    possible.  If OUTLEN is larger than BASE64_LENGTH(INLEN), also zero
->> +    terminate the output buffer. */
->> + void
->> +-base64_encode (const char *restrict in, size_t inlen,
->> +-           char *restrict out, size_t outlen)
->> ++base64_encode (const char *in, size_t inlen,
->> ++           char *out, size_t outlen)
->> + {
->> +   static const char b64str[64] =
->> +     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
->> +@@ -310,8 +310,8 @@
->> +    that, when applicable, you must remove any line terminators that is
->> +    part of the data stream before calling this function.  */
->> + bool
->> +-base64_decode (const char *restrict in, size_t inlen,
->> +-           char *restrict out, size_t *outlen)
->> ++base64_decode (const char *in, size_t inlen,
->> ++           char *out, size_t *outlen)
->> + {
->> +   size_t outleft = *outlen;
->> +
->> +diff -Naur msmtp-1.4.12/gnulib/base64.h msmtp-1.4.12-wrs/gnulib/base64.h
->> +--- msmtp-1.4.12/gnulib/base64.h
->> ++++ msmtp-1.4.12-wrs/gnulib/base64.h
->> +@@ -31,13 +31,13 @@
->> +
->> + extern bool isbase64 (char ch);
->> +
->> +-extern void base64_encode (const char *restrict in, size_t inlen,
->> +-               char *restrict out, size_t outlen);
->> ++extern void base64_encode (const char *in, size_t inlen,
->> ++               char *out, size_t outlen);
->> +
->> + extern size_t base64_encode_alloc (const char *in, size_t inlen,
->> char **out);
->> +
->> +-extern bool base64_decode (const char *restrict in, size_t inlen,
->> +-               char *restrict out, size_t *outlen);
->> ++extern bool base64_decode (const char *in, size_t inlen,
->> ++               char *out, size_t *outlen);
->> +
->> + extern bool base64_decode_alloc (const char *in, size_t inlen,
->> +                  char **out, size_t *outlen);
->> +diff -Naur msmtp-1.4.12/gnulib/Makefile.am
->> msmtp-1.4.12-wrs/gnulib/Makefile.am
->> +--- msmtp-1.4.12/gnulib/Makefile.am
->> ++++ msmtp-1.4.12-wrs/gnulib/Makefile.am
->> +@@ -59,20 +59,18 @@
->> +
->> + ## begin gnulib module crypto/hmac-md5
->> +
->> ++libgnu_a_SOURCES += hmac-md5.c
->> +
->> + EXTRA_DIST += hmac-md5.c hmac.h
->> +
->> +-EXTRA_libgnu_a_SOURCES += hmac-md5.c
->> +-
->> + ## end   gnulib module crypto/hmac-md5
->> +
->> + ## begin gnulib module crypto/md5
->> +
->> ++libgnu_a_SOURCES += md5.c
->> +
->> + EXTRA_DIST += md5.c md5.h
->> +
->> +-EXTRA_libgnu_a_SOURCES += md5.c
->> +-
->> + ## end   gnulib module crypto/md5
->> +
->> + ## begin gnulib module getdelim
->> +@@ -149,11 +147,10 @@
->> +
->> + ## begin gnulib module memxor
->> +
->> ++libgnu_a_SOURCES += memxor.c
->> +
->> + EXTRA_DIST += memxor.c memxor.h
->> +
->> +-EXTRA_libgnu_a_SOURCES += memxor.c
->> +-
->> + ## end   gnulib module memxor
->> +
->> + ## begin gnulib module size_max
->> +@@ -219,47 +216,6 @@
->> +
->> + ## end   gnulib module stdint
->> +
->> +-## begin gnulib module stdio
->> +-
->> +-BUILT_SOURCES += stdio.h
->> +-
->> +-# We need the following in order to create <stdio.h> when the system
->> +-# doesn't have one that works with the given compiler.
->> +-stdio.h: stdio_.h
->> +-    rm -f $@-t $@
->> +-    { echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */' && \
->> +-      sed -e 's|@''ABSOLUTE_STDIO_H''@|$(ABSOLUTE_STDIO_H)|g' \
->> +-          -e 's|@''GNULIB_FPRINTF_POSIX''@|$(GNULIB_FPRINTF_POSIX)|g' \
->> +-          -e 's|@''GNULIB_PRINTF_POSIX''@|$(GNULIB_PRINTF_POSIX)|g' \
->> +-          -e 's|@''GNULIB_SNPRINTF''@|$(GNULIB_SNPRINTF)|g' \
->> +-          -e 's|@''GNULIB_SPRINTF_POSIX''@|$(GNULIB_SPRINTF_POSIX)|g' \
->> +-          -e
->> 's|@''GNULIB_VFPRINTF_POSIX''@|$(GNULIB_VFPRINTF_POSIX)|g' \
->> +-          -e 's|@''GNULIB_VPRINTF_POSIX''@|$(GNULIB_VPRINTF_POSIX)|g' \
->> +-          -e 's|@''GNULIB_VSNPRINTF''@|$(GNULIB_VSNPRINTF)|g' \
->> +-          -e
->> 's|@''GNULIB_VSPRINTF_POSIX''@|$(GNULIB_VSPRINTF_POSIX)|g' \
->> +-          -e 's|@''GNULIB_VASPRINTF''@|$(GNULIB_VASPRINTF)|g' \
->> +-          -e 's|@''REPLACE_FPRINTF''@|$(REPLACE_FPRINTF)|g' \
->> +-          -e 's|@''REPLACE_VFPRINTF''@|$(REPLACE_VFPRINTF)|g' \
->> +-          -e 's|@''REPLACE_PRINTF''@|$(REPLACE_PRINTF)|g' \
->> +-          -e 's|@''REPLACE_VPRINTF''@|$(REPLACE_VPRINTF)|g' \
->> +-          -e 's|@''REPLACE_SNPRINTF''@|$(REPLACE_SNPRINTF)|g' \
->> +-          -e 's|@''HAVE_DECL_SNPRINTF''@|$(HAVE_DECL_SNPRINTF)|g' \
->> +-          -e 's|@''REPLACE_VSNPRINTF''@|$(REPLACE_VSNPRINTF)|g' \
->> +-          -e 's|@''HAVE_DECL_VSNPRINTF''@|$(HAVE_DECL_VSNPRINTF)|g' \
->> +-          -e 's|@''REPLACE_SPRINTF''@|$(REPLACE_SPRINTF)|g' \
->> +-          -e 's|@''REPLACE_VSPRINTF''@|$(REPLACE_VSPRINTF)|g' \
->> +-          -e 's|@''HAVE_VASPRINTF''@|$(HAVE_VASPRINTF)|g' \
->> +-          -e 's|@''REPLACE_VASPRINTF''@|$(REPLACE_VASPRINTF)|g' \
->> +-          -e '/definition of GL_LINK_WARNING/r $(LINK_WARNING_H)' \
->> +-          < $(srcdir)/stdio_.h; \
->> +-    } > $@-t
->> +-    mv $@-t $@
->> +-MOSTLYCLEANFILES += stdio.h stdio.h-t
->> +-
->> +-EXTRA_DIST += stdio_.h
->> +-
->> +-## end   gnulib module stdio
->> +-
->> + ## begin gnulib module sys_socket
->> +
->> + BUILT_SOURCES += $(SYS_SOCKET_H)
->> +@@ -302,40 +258,6 @@
->> +
->> + ## end   gnulib module sysexits
->> +
->> +-## begin gnulib module unistd
->> +-
->> +-BUILT_SOURCES += unistd.h
->> +-
->> +-# We need the following in order to create an empty placeholder for
->> +-# <unistd.h> when the system doesn't have one.
->> +-unistd.h: unistd_.h
->> +-    rm -f $@-t $@
->> +-    { echo '/* DO NOT EDIT! GENERATED AUTOMATICALLY! */'; \
->> +-      sed -e 's|@''HAVE_UNISTD_H''@|$(HAVE_UNISTD_H)|g' \
->> +-          -e 's|@''ABSOLUTE_UNISTD_H''@|$(ABSOLUTE_UNISTD_H)|g' \
->> +-          -e 's|@''GNULIB_CHOWN''@|$(GNULIB_CHOWN)|g' \
->> +-          -e 's|@''GNULIB_DUP2''@|$(GNULIB_DUP2)|g' \
->> +-          -e 's|@''GNULIB_FCHDIR''@|$(GNULIB_FCHDIR)|g' \
->> +-          -e 's|@''GNULIB_FTRUNCATE''@|$(GNULIB_FTRUNCATE)|g' \
->> +-          -e 's|@''GNULIB_GETCWD''@|$(GNULIB_GETCWD)|g' \
->> +-          -e 's|@''GNULIB_GETLOGIN_R''@|$(GNULIB_GETLOGIN_R)|g' \
->> +-          -e 's|@''GNULIB_READLINK''@|$(GNULIB_READLINK)|g' \
->> +-          -e 's|@''HAVE_DUP2''@|$(HAVE_DUP2)|g' \
->> +-          -e 's|@''HAVE_FTRUNCATE''@|$(HAVE_FTRUNCATE)|g' \
->> +-          -e 's|@''HAVE_READLINK''@|$(HAVE_READLINK)|g' \
->> +-          -e 's|@''HAVE_DECL_GETLOGIN_R''@|$(HAVE_DECL_GETLOGIN_R)|g' \
->> +-          -e 's|@''REPLACE_CHOWN''@|$(REPLACE_CHOWN)|g' \
->> +-          -e 's|@''REPLACE_FCHDIR''@|$(REPLACE_FCHDIR)|g' \
->> +-          -e 's|@''REPLACE_GETCWD''@|$(REPLACE_GETCWD)|g' \
->> +-          < $(srcdir)/unistd_.h; \
->> +-    } > $@-t
->> +-    mv $@-t $@
->> +-MOSTLYCLEANFILES += unistd.h unistd.h-t
->> +-
->> +-EXTRA_DIST += unistd_.h
->> +-
->> +-## end   gnulib module unistd
->> +-
->> + ## begin gnulib module vasnprintf
->> +
->> +
->> +@@ -375,11 +297,10 @@
->> +
->> + ## begin gnulib module xalloc
->> +
->> ++libgnu_a_SOURCES += xmalloc.c
->> +
->> + EXTRA_DIST += xalloc.h xmalloc.c
->> +
->> +-EXTRA_libgnu_a_SOURCES += xmalloc.c
->> +-
->> + ## end   gnulib module xalloc
->> +
->> + ## begin gnulib module xsize
->> +diff -Naur msmtp-1.4.12/gnulib/memxor.c msmtp-1.4.12-wrs/gnulib/memxor.c
->> +--- msmtp-1.4.12/gnulib/memxor.c
->> ++++ msmtp-1.4.12-wrs/gnulib/memxor.c
->> +@@ -23,7 +23,7 @@
->> + #include "memxor.h"
->> +
->> + void *
->> +-memxor (void *restrict dest, const void *restrict src, size_t n)
->> ++memxor (void *dest, const void *src, size_t n)
->> + {
->> +   char const *s = src;
->> +   char *d = dest;
->> +diff -Naur msmtp-1.4.12/gnulib/memxor.h msmtp-1.4.12-wrs/gnulib/memxor.h
->> +--- msmtp-1.4.12/gnulib/memxor.h
->> ++++ msmtp-1.4.12-wrs/gnulib/memxor.h
->> +@@ -26,6 +26,6 @@
->> + /* Compute binary exclusive OR of memory areas DEST and SRC, putting
->> +    the result in DEST, of length N bytes.  Returns a pointer to
->> +    DEST. */
->> +-void *memxor (void *restrict dest, const void *restrict src, size_t n);
->> ++void *memxor (void *dest, const void *src, size_t n);
->> +
->> + #endif /* MEMXOR_H */
->> +diff -Naur msmtp-1.4.12/gnulib/xsize.h msmtp-1.4.12-wrs/gnulib/xsize.h
->> +--- msmtp-1.4.12/gnulib/xsize.h
->> ++++ msmtp-1.4.12-wrs/gnulib/xsize.h
->> +@@ -24,9 +24,7 @@
->> +
->> + /* Get SIZE_MAX.  */
->> + #include <limits.h>
->> +-#if HAVE_STDINT_H
->> + # include <stdint.h>
->> +-#endif
->> +
->> + /* The size of memory objects is often computed through expressions of
->> +    type size_t. Example:
->> diff --git a/meta/recipes-extended/msmtp/msmtp_1.4.12.bb
->> b/meta/recipes-extended/msmtp/msmtp_1.4.12.bb
->> new file mode 100644
->> index 0000000..86b2731
->> --- /dev/null
->> +++ b/meta/recipes-extended/msmtp/msmtp_1.4.12.bb
->> @@ -0,0 +1,33 @@
->> +#
->> +# Copyright (C) 2012 Wind River Systems, Inc.
->> +#
->> +SUMMARY = "msmtp is an SMTP client."
->> +DESCRIPTION = "A sendmail replacement for use in MTAs like mutt"
->> +HOMEPAGE = "http://msmtp.sourceforge.net/"
->> +SECTION = "console/network"
->> +
->> +LICENSE = "GPLv2"
->> +
->> +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
->> +
->> +DEPENDS = "zlib gnutls"
->> +PR = "r1"
->> +
->> +#Recipe modified from recipe in oe-core msmtp_1.4.28.bb
->> +#sha1=45941880bc903c87c1810e82016ff9853414009c
->> +
->> +SRC_URI =
->> "http://sourceforge.net/projects/msmtp/files/msmtp/${PV}/${BPN}-${PV}.tar.bz2
->> \
->> +           file://msmtp-fixup-api-and-compiler-warning.patch \
->> +           "
->> +
->> +SRC_URI[md5sum] = "ba5b61d5f7667d288f1cfadccfff8ac5"
->> +SRC_URI[sha256sum] =
->> "ab794bb014cdaeae0a1460a7aca1869dab8c93383bf01f41aca41b3d99b69509"
->> +
->> +EXTRA_OECONF += "--with-libgnutls-prefix=${STAGING_DIR}/${HOST_SYS}"
->> +
->> +inherit gettext autotools update-alternatives
->> +
->> +ALTERNATIVE_${PN} = "sendmail"
->> +ALTERNATIVE_TARGET[sendmail] = "${bindir}/msmtp"
->> +ALTERNATIVE_LINK_NAME[sendmail] = "${sbindir}/sendmail"
->> +ALTERNATIVE_PRIORITY = "100"
->>
->
-
+diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-Allow-ppc64-events-to-be-specified-with-or-without-_.patch b/meta/recipes-kernel/oprofile/oprofile/0001-Allow-ppc64-events-to-be-specified-with-or-without-_.patch
+index 5eb8b8f..d19948a 100644
+--- a/meta/recipes-kernel/oprofile/oprofile/0001-Allow-ppc64-events-to-be-specified-with-or-without-_.patch
++++ b/meta/recipes-kernel/oprofile/oprofile/0001-Allow-ppc64-events-to-be-specified-with-or-without-_.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Accepted
++
+ From 36028035555297695f52e856f21920012fd64f79 Mon Sep 17 00:00:00 2001
+ From: Maynard Johnson <maynardj@us.ibm.com>
+ Date: Fri, 11 Jan 2013 13:29:57 -0600
+diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-Fix-PPC64-specific-libpfm-usage-so-it-doesn-t-break-.patch b/meta/recipes-kernel/oprofile/oprofile/0001-Fix-PPC64-specific-libpfm-usage-so-it-doesn-t-break-.patch
+index ead6e25..6f5b1c0 100644
+--- a/meta/recipes-kernel/oprofile/oprofile/0001-Fix-PPC64-specific-libpfm-usage-so-it-doesn-t-break-.patch
++++ b/meta/recipes-kernel/oprofile/oprofile/0001-Fix-PPC64-specific-libpfm-usage-so-it-doesn-t-break-.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Accepted
++
+ From 8e36ad01ceb1257d05773b684dbe9358aecd3f71 Mon Sep 17 00:00:00 2001
+ From: Maynard Johnson <maynardj@us.ibm.com>
+ Date: Tue, 26 Feb 2013 13:41:27 -0600
+diff --git a/meta/recipes-kernel/oprofile/oprofile/0001-ophelp-lists-events-Fix-doc-URL-for-ppc64-arch.patch b/meta/recipes-kernel/oprofile/oprofile/0001-ophelp-lists-events-Fix-doc-URL-for-ppc64-arch.patch
+index 5a50b90..b155cac 100644
+--- a/meta/recipes-kernel/oprofile/oprofile/0001-ophelp-lists-events-Fix-doc-URL-for-ppc64-arch.patch
++++ b/meta/recipes-kernel/oprofile/oprofile/0001-ophelp-lists-events-Fix-doc-URL-for-ppc64-arch.patch
+@@ -1,3 +1,5 @@
++Upstream-Status: Accepted
++
+ From 735d9eb0322b34b3d26302a1dac173100d718d35 Mon Sep 17 00:00:00 2001
+ From: Maynard Johnson <maynardj@us.ibm.com>
+ Date: Thu, 10 Jan 2013 14:24:26 -0600
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+1.7.9.5
+
+
 
