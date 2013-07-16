@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 727E36B201
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C0CE46B204
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 07:33:37 +0000 (UTC)
+	Tue, 16 Jul 2013 07:33:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6G7XcWG027364
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6G7XeNh019968
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 00:33:38 -0700 (PDT)
+	Tue, 16 Jul 2013 00:33:40 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 16 Jul 2013 00:33:37 -0700
+	14.2.342.3; Tue, 16 Jul 2013 00:33:38 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Jul 2013 15:33:34 +0800
-Message-ID: <cover.1373954600.git.hongxu.jia@windriver.com>
+Date: Tue, 16 Jul 2013 15:33:35 +0800
+Message-ID: <2701823185a01c8b6e652ae6c28ba43ca2fb89db.1373954600.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1373954600.git.hongxu.jia@windriver.com>
+References: <cover.1373954600.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/2] fix rootless X write to usb storage failed
+Subject: [PATCH 1/2] udev-extraconf: allow users in disk group to write vfat filesystem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +33,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 07:33:38 -0000
+X-List-Received-Date: Tue, 16 Jul 2013 07:33:39 -0000
 Content-Type: text/plain
 
-Change from V1:
-* Drop pmount, and investigate udev script to fix this problem.
+If filesystem type is vfat, change the ownership group to 'disk', and grant it
+with  w/r/x permissions.
 
-Hi Paul and Ross,
+The user which belongs to 'disk' group could write the storage.
 
-Thanks for your valuable suggestions, I send another solution to you
-for reviewing and would you please give me your advise.
+[YOCTO #4004]
 
-If you have a better idea, would you please share with us.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-core/udev/udev-extraconf/mount.sh | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-By the way, I also try another solution which is to modify util-mount
-to allow normal user (non root) to invoke mount/umount to mount a
-filesystem, but I think it's not good because it has security issue.
-
-Thanks,
-Hongxu
-
-The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
-
-  meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-fat
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-fat
-
-Hongxu Jia (2):
-  udev-extraconf: allow users in disk group to write vfat filesystem
-  xuser-account: add xuser to disk group
-
- meta/recipes-core/udev/udev-extraconf/mount.sh          | 11 +++++++++++
- meta/recipes-support/user-creation/xuser-account_0.1.bb |  2 +-
- 2 files changed, 12 insertions(+), 1 deletion(-)
-
+diff --git a/meta/recipes-core/udev/udev-extraconf/mount.sh b/meta/recipes-core/udev/udev-extraconf/mount.sh
+index d1419ed..327cfc6 100644
+--- a/meta/recipes-core/udev/udev-extraconf/mount.sh
++++ b/meta/recipes-core/udev/udev-extraconf/mount.sh
+@@ -27,6 +27,17 @@ automount() {
+ 		MOUNT="$MOUNT -o silent"
+ 	fi
+ 	
++	# If filesystem type is vfat, change the ownership group to 'disk', and
++	# grant it with  w/r/x permissions.
++	case $ID_FS_TYPE in
++	vfat|fat)
++		MOUNT="$MOUNT -o umask=007,gid=`awk -F':' '/^disk/{print $3}' /etc/group`"
++		;;
++	# TODO
++	*)
++		;;
++	esac
++
+ 	if ! $MOUNT -t auto $DEVNAME "/media/$name"
+ 	then
+ 		#logger "mount.sh/automount" "$MOUNT -t auto $DEVNAME \"/media/$name\" failed!"
 -- 
 1.8.1.2
 
