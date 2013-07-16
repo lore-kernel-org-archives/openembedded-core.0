@@ -1,25 +1,40 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id EB5DB6B215
+Return-Path: <eu@felipetonello.com>
+Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
+	[74.125.82.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BCB66B23E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 21:40:34 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 Jul 2013 14:40:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,679,1367996400"; d="scan'208";a="332333235"
-Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
-	by azsmga001.ch.intel.com with ESMTP; 16 Jul 2013 14:40:30 -0700
-Message-ID: <51E5BDCE.8040107@linux.intel.com>
-Date: Tue, 16 Jul 2013 14:40:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue, 16 Jul 2013 22:07:59 +0000 (UTC)
+Received: by mail-we0-f180.google.com with SMTP id w56so1103050wes.25
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jul 2013 15:07:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=9Wo+4ws0f9NNsY9rrnMSiIvQr2ksh5utK21iY5Oj5i4=;
+	b=ps90XIbW91SUKGdHFPo20GiAYiAxaFY3PHq/1Hq8BtwsmwoIHkesg+72zRkYN1Wrse
+	VUd8bo7vC1tZue9PFK4nOr9fWA3nyr5CIy9WzT6/t++uX1w/kG7Dwx6ZIn5dxj1+lacU
+	i2oGFmYF3iZ0/lhKPst84wHIs73XdRGIoEbLj8Mfy29N48qo7jcIV3pQZ5lBdjCiHeyN
+	QkKEuOe74IKS8zDIg14Pw4IrkW6OOwsNQEVN6OwJWb5ABUOYsn5F+DnG9dDm1PqCrIu5
+	wsmXc2P9P+NoFk0s0Cw9dPq9Q8Cv17v5U8C1XRhmjTM2nH1pgra49wE+pcc/n2Dd7e80
+	/ekw==
 MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1373953711.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1373953711.git.Qi.Chen@windriver.com>
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V5 0/3] Add a method for image level user/group configuration
+X-Received: by 10.180.184.12 with SMTP id eq12mr2605892wic.8.1374012479495;
+	Tue, 16 Jul 2013 15:07:59 -0700 (PDT)
+Received: by 10.194.59.203 with HTTP; Tue, 16 Jul 2013 15:07:59 -0700 (PDT)
+In-Reply-To: <20130711122619.GH3288@jama>
+References: <1373303785-8508-1-git-send-email-eu@felipetonello.com>
+	<51DDACEA.1080503@linux.intel.com>
+	<CAJTo0LZ7POY-i61qz8hUE=JXbc0=0uoNo_i1aTmgi-ma_cc8hw@mail.gmail.com>
+	<20130711122619.GH3288@jama>
+Date: Tue, 16 Jul 2013 15:07:59 -0700
+Message-ID: <CAGrhNMxBrhvRm9aTf_fwWDCjJES4r-tt-yanZpOERkS-Weyhjg@mail.gmail.com>
+From: Felipe Tonello <eu@felipetonello.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQkhNRajIU71HHi/J5no7HdflZRByl0rQHlJhk0sy+Kzen7NTCxI93N5vn3mcwfbaHLPOGJg
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pulseaudio: Added consolekit dependency for pulseaudio-module-console-kit package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 21:40:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jul 2013 22:07:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 07/15/2013 11:27 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Changes from V4:
-> 1. Take into consideration the possibility of whitespaces in /etc/passwd and /etc/group
-> 2. Change bbfatal in perform_usermod and perform_groupmod to bbwarn. Please see detailed reason below.
->
-> PackageA pulls in userA.
-> Now we want userA to map to a fixed user ID without having to worry whether PackageA is installed.
-> We can now use the following configuration to achieve this requirement.
-> EXTRA_USERS_PARAMS += "
-> usermod, -u 2013 userA; \
-> "
+Hi Martin,
 
-What happens files that userA might have already created outside the 
-home directory? I know that usermod will fixup the home directory and 
-some mail related files.
+On Thu, Jul 11, 2013 at 5:26 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Thu, Jul 11, 2013 at 11:32:14AM +0100, Burton, Ross wrote:
+>> On 10 July 2013 19:50, Saul Wold <sgw@linux.intel.com> wrote:
+>> > Is this really a build-time dependency or a runtime dependency specific to
+>> > the pulseaudio-module?
+>>
+>> It's a runtime dependency, but from memory bitbake doesn't manage to
+>> piece the chain together enough to actually build consolekit (probably
+>> because the packages are dynamically created).
+>
+> The problem is that RDEPENDS_<dynamic_package> = "foo"
+> doesn't enforce foo to be built before <dynamic_package> is used in
+> image:
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3498
+>
+> So if <dynamic_package> is the only thing pulling "foo" into the image
+> you can get do_rootfs error about missing "foo".
+>
+> Cheers,
+>
 
-Sau!
+Yes, that's exactly what happens. I added this dep in my bbappend for
+a temporary fix, but I would like to see a final fix for it.
 
-
-> After this configuration, if PacakgeA is installed in our image, the user ID is modified to 2013;
-> otherwise, there's no change in /etc/passwd, i.e., userA will not be added to /etc/passwd silently.
->
-> Hope this information will be useful.
->
-> //Chen Qi
->
->
-> The following changes since commit a63229917a5708de2d161aba0d67168ce0da6365:
->
->    meta-yocto-bsp: update reference board SRCREVs (2013-07-10 09:45:51 +0100)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib ChenQi/extrausers
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/extrausers
->
-> Chen Qi (3):
->    useradd_base.bbclass: add a new bbclass
->    useradd.bbclass: code refactor
->    extrausers.bbclass: add a new bbclass
->
->   meta/classes/extrausers.bbclass   |   61 ++++++++++
->   meta/classes/useradd.bbclass      |   99 ++--------------
->   meta/classes/useradd_base.bbclass |  230 +++++++++++++++++++++++++++++++++++++
->   3 files changed, 299 insertions(+), 91 deletions(-)
->   create mode 100644 meta/classes/extrausers.bbclass
->   create mode 100644 meta/classes/useradd_base.bbclass
->
+Regards,
+Felipe
 
