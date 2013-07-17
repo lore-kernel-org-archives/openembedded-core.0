@@ -1,25 +1,22 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id C948B6B1C1
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd19416.kasserver.com (dd19416.kasserver.com [85.13.139.185])
+	by mail.openembedded.org (Postfix) with ESMTP id 037536B1C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 06:51:05 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 Jul 2013 23:51:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,682,1367996400"; d="scan'208";a="332506608"
-Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
-	by azsmga001.ch.intel.com with ESMTP; 16 Jul 2013 23:51:05 -0700
-Message-ID: <51E63ED9.2000600@linux.intel.com>
-Date: Tue, 16 Jul 2013 23:51:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Wed, 17 Jul 2013 07:46:10 +0000 (UTC)
+Received: from [129.70.144.11] (hooge.TechFak.Uni-Bielefeld.DE [129.70.144.11])
+	by dd19416.kasserver.com (Postfix) with ESMTPSA id 813AB1840E9E;
+	Wed, 17 Jul 2013 09:46:09 +0200 (CEST)
+Message-ID: <51E64BBF.5030900@herbrechtsmeier.net>
+Date: Wed, 17 Jul 2013 09:46:07 +0200
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Ming Liu <ming.liu@windriver.com>
-References: <1374037784-7904-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1374037784-7904-1-git-send-email-ming.liu@windriver.com>
+To: Jonathan Liu <net147@gmail.com>
+References: <1374042411-1193-1-git-send-email-net147@gmail.com>
+In-Reply-To: <1374042411-1193-1-git-send-email-net147@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: replace += with _append to EXTRA_OECONF_virtclass-native
+Subject: Re: [PATCH v2] cmake.bbclass: allow searching host paths for non-target builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 06:51:06 -0000
+X-List-Received-Date: Wed, 17 Jul 2013 07:46:10 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/16/2013 10:09 PM, Ming Liu wrote:
-> The native/nativesdk overrides of EXTRA_OECONF should take effect before
-> append operator, otherwise, it will cause EXTRA_OECONF be overridden instead
-> of be appended at native/nativesdk build time.
+Am 17.07.2013 08:26, schrieb Jonathan Liu:
+> This allows /usr/bin/{ld,ar,objcopy,objdump,ranlib,strip} to be found
+> and the CMAKE_{LINKER,AR,OBJCOPY,OBJDUMP,RANLIB,STRIP} cmake variables
+> to be properly set for native cmake recipes.
 >
-
-I am not sure I understand this one.  If what you are saying then all 
-the overrides in recipes need to be changed, that does not seem correct 
-to me.
-
-Please confirm the overrides using += is correct.
-
-Thanks
-	Sau!
-
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
 > ---
->   meta/recipes-core/util-linux/util-linux_2.23.1.bb |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
+>   meta/classes/cmake.bbclass | 15 ++++++++++-----
+>   1 file changed, 10 insertions(+), 5 deletions(-)
 >
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.23.1.bb b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-> index 12f5021..e597c41 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-> @@ -18,5 +18,5 @@ SRC_URI[md5sum] = "6741eeaff93ff5a6bacdd3816bdd87c4"
->   SRC_URI[sha256sum] = "ad4a7831d7b27d0172996fd343e809716c2403b32a94e15194d8ea797223c4af"
->
->   CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
-> -EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
-> -EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
-> +EXTRA_OECONF_append_virtclass-native = "--disable-fallocate --disable-use-tty-group"
-> +EXTRA_OECONF_append_virtclass-nativesdk = "--disable-fallocate --disable-use-tty-group"
->
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index 310242e..2040147 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -46,12 +46,7 @@ set( CMAKE_CXX_FLAGS_RELEASE "${OECMAKE_CXX_FLAGS_RELEASE}" CACHE STRING "CXXFLA
+>   set( CMAKE_C_LINK_FLAGS "${OECMAKE_C_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+>   set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+>   
+> -# only search in the paths provided so cmake doesnt pick
+> -# up libraries and tools from the native build machine
+>   set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
+> -set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
+> -set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+> -set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
+This changes the whole find behaviour and allows cmake to find *all* 
+software from the native build machine.  You should add 
+NO_CMAKE_FIND_ROOT_PATH to the find_xxx calls or you could manual set 
+the variables and bypass the find calls.
+
 
