@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
-	[209.85.212.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 590F86B271
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd19416.kasserver.com (dd19416.kasserver.com [85.13.139.185])
+	by mail.openembedded.org (Postfix) with ESMTP id 72F9C6B271
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 12:07:51 +0000 (UTC)
-Received: by mail-vb0-f54.google.com with SMTP id q12so1310788vbe.13
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 05:07:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=EThDl+9PnIWF1wb9blhFNRd4UZ8kNJ6AQ2tRy/z6bqw=;
-	b=pKn7/yj7o1ABQ9pXW08S8+lLv3eZP26MJgELOR2alqFBF7vNdn+HUhHsB2/AUET2NE
-	FNdZfHI7BI64TYjjaAWgAKFI7qBv9E5A2ErWGliiBopwPXuabbzZSyIQWYEl+xLr15e9
-	kS/RIg73rvxjoEjcKlt3z1CVtk1m/TC9VToQKaeU/Cks9+4BSdecGt9pXa5R88ekhHj7
-	nx17eZpxj1Zxqa++XfRDIeZ3eiDheBnz/uBnl70b8fhA6+nd+VIedNmGgOZiizbLJSi5
-	vK+dr7fqwZqc/Klz9k15vSTvFpF26VbAHTxcV7YjbW0mlEQSBZ80GY1OVP34ZtuKAu2w
-	YVYg==
-X-Received: by 10.58.233.8 with SMTP id ts8mr1943805vec.44.1374062871846; Wed,
-	17 Jul 2013 05:07:51 -0700 (PDT)
+	Wed, 17 Jul 2013 12:12:56 +0000 (UTC)
+Received: from [129.70.144.11] (hooge.TechFak.Uni-Bielefeld.DE [129.70.144.11])
+	by dd19416.kasserver.com (Postfix) with ESMTPSA id 360531840DE8;
+	Wed, 17 Jul 2013 14:12:56 +0200 (CEST)
+Message-ID: <51E68A45.7090001@herbrechtsmeier.net>
+Date: Wed, 17 Jul 2013 14:12:53 +0200
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.13.144 with HTTP; Wed, 17 Jul 2013 05:07:31 -0700 (PDT)
-In-Reply-To: <1374050497-20809-1-git-send-email-ming.liu@windriver.com>
-References: <1374050497-20809-1-git-send-email-ming.liu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 17 Jul 2013 13:07:31 +0100
-Message-ID: <CAJTo0LZ+FnMvQ+b0orzchp2Aez4TB6_DYgCgr3wugc5ZDM4P7g@mail.gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-X-Gm-Message-State: ALoCoQnVtmfCJ+ZwQmeep4+NiN//FfxR1ZG53tVBt8Q8gYCSAZ+DRoHv0pZpucf22CHwF1pRcE6H
+To: Jonathan Liu <net147@gmail.com>
+References: <1374050422-5056-1-git-send-email-net147@gmail.com>
+	<51E66038.8000109@herbrechtsmeier.net>
+	<51E6689B.8060400@gmail.com> <51E678AF.2010001@gmail.com>
+In-Reply-To: <51E678AF.2010001@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2] util-linux: replace += with _append to EXTRA_OECONF_class-native
+Subject: Re: [PATCH] cmake.bbclass: set ar/ld/nm/objcopy/objdump/ranlib/strip native paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 12:07:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Jul 2013 12:12:56 -0000
+Content-Type: text/plain; charset=ISO-8859-15; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 17 July 2013 09:41, Ming Liu <ming.liu@windriver.com> wrote:
-> +EXTRA_OECONF_append_class-native = "--disable-fallocate --disable-use-tty-group"
-> +EXTRA_OECONF_append_class-nativesdk = "--disable-fallocate --disable-use-tty-group"
+Am 17.07.2013 12:57, schrieb Jonathan Liu:
+> On 17/07/2013 7:49 PM, Jonathan Liu wrote:
+>> On 17/07/2013 7:13 PM, Stefan Herbrechtsmeier wrote:
+>>> Am 17.07.2013 10:40, schrieb Jonathan Liu:
+>>>> The CMAKE_{AR,LINKER,NM,OBJCOPY,OBJDUMP,RANLIB,STRIP} cmake variables
+>>>> are currently set to values like CMAKE_LINKER-NOTFOUND for native
+>>>> recipes because the host paths are not searched. This is because the
+>>>> CMAKE_FIND_ROOT_PATH_MODE_PROGRAM cmake variable is set to ONLY.
+>>>>
+>>>> To resolve this, explicitly set the variables using FIND_PROGRAM and
+>>>> pass the CMAKE_FIND_ROOT_PATH_BOTH option so the host paths are also
+>>>> searched.
+>>> Can you please debug the issue. Regarding my current check the 
+>>> variables are set in CMakeFindBinUtils.cmake and this is included by 
+>>> CMakeDetermineCCompiler.cmake. The later set 
+>>> _CMAKE_TOOLCHAIN_LOCATION based on the CMAKE_C_COMPILER variable and 
+>>> this is used as search location for the find_program calls. Can you 
+>>> check the value of _CMAKE_TOOLCHAIN_LOCATION?
+>>>
+>> Within the context of the CMakeLists.txt file:
+>> CMAKE_C_COMPILER is /usr/bin/gcc.
+>> _CMAKE_TOOLCHAIN_LOCATION is not set to anything.
+>>
+>> If I add message(test) to 
+>> build/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/CMakeDetermineCCompiler.cmake, 
+>> it doesn't get printed out when running cmake on CMakeLists.txt 
+>> (cmake is build/tmp/sysroots/x86_64-linux/usr/bin/cmake).
+>>
+>> Regards,
+>> Jonathan
+> For:
+> find_program(CMAKE_AR NAMES 
+> ${_CMAKE_TOOLCHAIN_PREFIX}ar${_CMAKE_TOOLCHAIN_SUFFIX} HINTS 
+> ${_CMAKE_TOOLCHAIN_LOCATION})
+>
+> It seems the ${_CMAKE_TOOLCHAIN_LOCATION} hint is not used when 
+> CMAKE_FIND_ROOT_PATH_MODE_PROGRAM is set to ONLY.
+You are right. The CMAKE_FIND_ROOT_PATH is used also as base for the 
+HINTS paths.
 
-_append won't add a leading space so you're making a massive
-assumption here, please add a leading space for safety.
+You can use _CMAKE_TOOLCHAIN_LOCATION to pass NO_CMAKE_FIND_ROOT_PATH to 
+the find_program calls:
+set(_CMAKE_TOOLCHAIN_LOCATION "" NO_CMAKE_FIND_ROOT_PATH)
 
-Ross
+This should work but I am not sure if it is a good solution.
+
 
