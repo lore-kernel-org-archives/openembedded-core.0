@@ -1,25 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CDC96A5A5
+Return-Path: <heinold@inf.fu-berlin.de>
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
+	[130.133.4.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 663F16B26A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 12:40:05 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2013 05:40:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,684,1367996400"; d="scan'208";a="371626808"
-Received: from unknown (HELO helios.localnet) ([10.252.122.65])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2013 05:40:05 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2013 13:40:04 +0100
-Message-ID: <4310192.sd3ZMDPNbq@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <cover.1373630218.git.laurentiu.palcu@intel.com>
-References: <cover.1372686507.git.laurentiu.palcu@intel.com>
-	<cover.1373630218.git.laurentiu.palcu@intel.com>
+	Wed, 17 Jul 2013 14:53:34 +0000 (UTC)
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+	by outpost1.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtp
+	(envelope-from <heinold@inf.fu-berlin.de>)
+	id <1UzT6i-001biI-Ks>; Wed, 17 Jul 2013 16:53:32 +0200
+Received: from g225147203.adsl.alicedsl.de ([92.225.147.203]
+	helo=mail.zedat.fu-berlin.de)
+	by inpost2.zedat.fu-berlin.de (Exim 4.80.1)
+	for openembedded-core@lists.openembedded.org with esmtpsa
+	(envelope-from <heinold@inf.fu-berlin.de>)
+	id <1UzT6h-001MUe-54>; Wed, 17 Jul 2013 16:53:32 +0200
+Date: Wed, 17 Jul 2013 16:53:21 +0200
+From: Henning Heinold <heinold@inf.fu-berlin.de>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Message-ID: <20130717145321.GA24542@mail.zedat.fu-berlin.de>
+References: <cover.1374050133.git.sen.zhang@windriver.com>
+	<c95d46b97c8167bddcffb4495438227b668e87cb.1374050133.git.sen.zhang@windriver.com>
+	<1374057911.2651.118.camel@phil-desktop.brightsign>
+	<CANyK_8fG5LJRBVzRQZG6BVbn-AjTgY0CMwStL47qgu0eVvMcig@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3 0/1] xinput-calibrator: move it from meta-oe to oe-core (cover letter only)
+In-Reply-To: <CANyK_8fG5LJRBVzRQZG6BVbn-AjTgY0CMwStL47qgu0eVvMcig@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Originating-IP: 92.225.147.203
+Subject: Re: [PATCH 2/2] libatomics-ops: force omit frame pointer for x86 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 12:40:07 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 17 Jul 2013 14:53:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Laurentiu,
-
-On Friday 12 July 2013 15:04:02 Laurentiu Palcu wrote:
-> Changes in v3:
->  * do not install pointercal.xinput if it's the default one;
+On Wed, Jul 17, 2013 at 12:08:51PM +0100, Paul Barker wrote:
+> On 17 July 2013 11:45, Phil Blundell <pb@pbcl.net> wrote:
+> > On Wed, 2013-07-17 at 16:40 +0800, Jesse Zhang wrote:
+> >> Fix failures when building with -fno-omit-frame-pointer (and without
+> >> optimization, i.e. -O0):
+> >>
+> >>     In file included from atomic_ops.h:212:0,
+> >>                      from atomic_ops_stack.h:32,
+> >>                      from atomic_ops_stack.c:23:
+> >>     atomic_ops/sysdeps/gcc/x86.h: In function 'AO_compare_double_and_swap_double_full':
+> >>     atomic_ops/sysdeps/gcc/x86.h:148:3: error: 'asm' operand has impossible constraints
+> >>        __asm__ __volatile__("xchg %%ebx,%6;" /* swap GOT ptr and new_val1 */
+> >
+> > This seems like it must be a bug in either GCC or the libatomic-ops
+> > source code, and whichever one has the bug ought to be fixed.  Forcing
+> > -fomit-frame-pointer might be ok as a temporary measure but it doesn't
+> > seem like a very good long-term solution.
+> >
 > 
-> Changes in v2:
->  * run calibration through xsession file;
->  * allow normal user to write his calibration data to
-> ~/.pointercal/pointercal.xinput and then use it when system boots;
+> If this is on x86, standard Linux desktop/server distros may have ran
+> into the same problem. Maybe worth having a look if/how they handle
+> this.
 
-I'm not sure if you saw, but I noticed when this was in Saul's consolidated 
-pull that this drops PR (previous value was "r6"). I know it seems trivial but 
-we're not increasing PV so if we hope to supersede the recipe from meta-oe, 
-this will have to be preserved. Same goes for pointercal-xinput which had a PR 
-value of "r4". Thus, this patch hasn't yet been merged.
+This makes we wonder which software on x86 relies on libatomic-ops anymore?
+gcc buildins should be good enough now.
 
-Could you send a v4 which restores these?
-
-Thanks,
-Paul 
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Bye Henning
 
