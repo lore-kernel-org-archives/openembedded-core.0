@@ -1,21 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9402E6B205
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A5736B205
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 17:29:45 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Jul 2013 10:29:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,686,1367996400"; d="scan'208";a="371802266"
-Received: from timevans-mobl.ger.corp.intel.com (HELO
-	helios.ger.corp.intel.com) ([10.252.122.55])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jul 2013 10:29:40 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jul 2013 18:29:37 +0100
-Message-Id: <1374082177-6873-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] scripts/contrib/*: fix arithmetic bashism
+	Wed, 17 Jul 2013 17:54:02 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6HHs3pt006648
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2013 10:54:03 -0700 (PDT)
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.143) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 17 Jul 2013 10:54:02 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jul 2013 13:53:57 -0400
+Message-ID: <cover.1374083411.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH 0/2] linux-yocto: mips changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,44 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 17:29:45 -0000
+X-List-Received-Date: Wed, 17 Jul 2013 17:54:03 -0000
+Content-Type: text/plain
 
-Apparently $[...] isn't valid in dash, so use $((...)) instead for
-mkefidisk.sh and ddimage that both start with $!/bin/sh.
+This 2 patch series fixes gcc 4.8 compilation of mips in 
+the 3.4 kernel, and corrects a mistake I made when updating
+the 3.8 kernel that inadvertently dropped the qemumips64
+SRCREV. 
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/contrib/ddimage      | 2 +-
- scripts/contrib/mkefidisk.sh | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/scripts/contrib/ddimage b/scripts/contrib/ddimage
-index ab1d4c7..93ebeaf 100755
---- a/scripts/contrib/ddimage
-+++ b/scripts/contrib/ddimage
-@@ -39,7 +39,7 @@ device_details() {
- 		echo "   model: UNKNOWN"
- 	fi
- 	if [ -f "/sys/class/block/$DEV/size" ]; then
--		echo "    size: $[$(cat /sys/class/block/$DEV/size)*BLOCK_SIZE] bytes"
-+		echo "    size: $(($(cat /sys/class/block/$DEV/size) * $BLOCK_SIZE)) bytes"
- 	else
- 		echo "    size: UNKNOWN"
- 	fi
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index 0c15104..bcc2411 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -64,7 +64,7 @@ function device_details() {
- 		echo "   model: UNKNOWN"
- 	fi
- 	if [ -f "/sys/class/block/$DEV/size" ]; then
--		echo "    size: $[$(cat /sys/class/block/$DEV/size)*BLOCK_SIZE] bytes"
-+		echo "    size: $(($(cat /sys/class/block/$DEV/size) * $BLOCK_SIZE)) bytes"
- 	else
- 		echo "    size: UNKNOWN"
- 	fi
+Bruce
+
+The following changes since commit fd9d1042d2984aadaf59178648f0484c98250237:
+
+  linux-yocto/3.8: update META srcrev (2013-07-17 13:00:19 -0400)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (2):
+  linux-yocto/3.4: mips: fix gcc 4.8 compilation
+  linux-yocto/3.8: restore qemumips64 SRCREV
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.4.bb   |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.4.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.4.bb      |   12 ++++++------
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb      |    1 +
+ 4 files changed, 10 insertions(+), 9 deletions(-)
+
 -- 
-1.8.1.2
+1.7.10.4
 
 
