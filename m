@@ -1,26 +1,38 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ACD146B207
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
+	[209.85.219.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 005916B205
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 18:07:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6HI7mPO006867
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 17 Jul 2013 18:20:39 +0000 (UTC)
+Received: by mail-oa0-f48.google.com with SMTP id f4so3006277oah.35
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 11:07:48 -0700 (PDT)
-Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.143) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 17 Jul 2013 11:07:46 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jul 2013 14:07:41 -0400
-Message-ID: <09b2c1e483e066fa97fdb928b9efb968ef84ce85.1374084357.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1374084357.git.bruce.ashfield@windriver.com>
-References: <cover.1374084357.git.bruce.ashfield@windriver.com>
+	Wed, 17 Jul 2013 11:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=ugjOO7OL6tJOOOm+Kh7VpQsGqpKhNLQYCat+JC30kR0=;
+	b=WpbIPGB6NwY6vDa20nBGIWUS7Mc7Tnbglr4HIWj04vKOXiKeODWiVmaIt4LeFRb179
+	okccacSfYgrLM36ER07dClLQY01qzZq1zqpR0u9LgO79W3O4KxMzV9r4ZjXZ+B/vq0j7
+	qxNX6VrjJeHTz4qtzA7fXD4yTC1GrDuc7cpbrztclx6u9msyg0qWFDFYAs1zKzspyzfF
+	9zdbveaPn8MDuHw8U8UW/SqViIEefwGAQ4fRnWrwO/W4pwocxl1JHguSbRcaABd7gzeB
+	/o5XLXol3ktH+mE6UQZLW4NRbKqsPKT3FyV2yiymVMFUbr2ZXHxpmVKUmM/YGNOA/XFN
+	j38A==
 MIME-Version: 1.0
-Subject: [PATCH 3/3] linux-yocto/3.8: restore qemumips64 SRCREV
+X-Received: by 10.182.232.225 with SMTP id tr1mr3863893obc.69.1374085240105;
+	Wed, 17 Jul 2013 11:20:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.60.166 with HTTP; Wed, 17 Jul 2013 11:20:40 -0700 (PDT)
+In-Reply-To: <cc86685b4cc9374f7d80fcfd092a740671b0f3e2.1374041180.git.Qi.Chen@windriver.com>
+References: <cover.1374041180.git.Qi.Chen@windriver.com>
+	<cc86685b4cc9374f7d80fcfd092a740671b0f3e2.1374041180.git.Qi.Chen@windriver.com>
+Date: Wed, 17 Jul 2013 15:20:40 -0300
+X-Google-Sender-Auth: uzcpgCNaybN7S0Jy8GUGrjyLt90
+Message-ID: <CAP9ODKpty452wpeLU+Z5KmTbXhncygJjydoOMojAWTdshKWagw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: qingtao.cao@windriver.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V6 2/3] useradd.bbclass: code refactor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +45,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 18:07:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Jul 2013 18:20:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-In commit 00e0ec6c [linux-yocto: v3.8.13 and v3.4.46], the qemumips64 SRCREV
-was inadvertently dropped. This patch restores the SRCREV and a booting
-qemumips64.
+On Wed, Jul 17, 2013 at 3:08 AM,  <Qi.Chen@windriver.com> wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> The basic functions have moved to useradd_base.bbclass. So this class
+> only needs to inherit useradd_base.bbclass and use the functions defined
+> there. The reason is to avoid code duplication with extrausers.bbclass.
+>
+> [YOCTO #4074]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto_3.8.bb |    1 +
- 1 file changed, 1 insertion(+)
+I think this patch (2) should be squashed onto patch 1; so it easy git
+bisect in case we're trying to figure out a regression.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-index 03f6949..f71af05 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-@@ -5,6 +5,7 @@ KBRANCH = "${KBRANCH_DEFAULT}"
- 
- SRCREV_machine_qemuarm ?= "aa76cc28408376814752bd36fb0dcf0e25aa5ba3"
- SRCREV_machine_qemumips  ?= "aa0affda03c955678b26b2fb586f1d9505127871"
-+SRCREV_machine_qemumips64 ?= "077bff22c9951db6b35470ba17b1df2f2a91fefb"
- SRCREV_machine_qemuppc ?= "698eada61d9385b42dd117858b943655b565084b"
- SRCREV_machine_qemux86 ?= "f20047520a57322f05d95a18a5fbd082fb15cb87"
- SRCREV_machine_qemux86-64 ?= "f20047520a57322f05d95a18a5fbd082fb15cb87"
--- 
-1.7.10.4
-
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
