@@ -1,29 +1,24 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EFC5C6B203
+Return-Path: <Sen.Zhang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D6A6F6B215
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 08:36:56 +0000 (UTC)
+	Wed, 17 Jul 2013 08:38:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6H8au2o014360
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 17 Jul 2013 01:36:56 -0700 (PDT)
-Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Wed, 17 Jul 2013 01:36:55 -0700
-Message-ID: <51E657A4.7050008@windriver.com>
-Date: Wed, 17 Jul 2013 16:36:52 +0800
-From: Ming Liu <ming.liu@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6H8cAZ5021259
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2013 01:38:10 -0700 (PDT)
+Received: from jesse-wrs-desktop.corp.ad.wrs.com (128.224.162.230) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 17 Jul 2013 01:38:08 -0700
+From: Jesse Zhang <sen.zhang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jul 2013 16:40:45 +0800
+Message-ID: <cover.1374050133.git.sen.zhang@windriver.com>
+X-Mailer: git-send-email 1.7.11.7
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1374049179-19107-1-git-send-email-ming.liu@windriver.com>
-	<20130717083403.GB9527@jama>
-In-Reply-To: <20130717083403.GB9527@jama>
-X-Originating-IP: [128.224.162.145]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V1] util-linux: replace += with _append to EXTRA_OECONF_virtclass-native
+Subject: [PATCH 0/2] two bug fixes for tremor and libatomics-ops
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,39 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 08:36:57 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Jul 2013 08:38:08 -0000
+Content-Type: text/plain
 
-On 07/17/2013 04:34 PM, Martin Jansa wrote:
-> On Wed, Jul 17, 2013 at 04:19:39PM +0800, Ming Liu wrote:
->> The native/nativesdk overrides of EXTRA_OECONF should take effect before
->> append operator, otherwise, it will cause EXTRA_OECONF be overridden instead
->> of be appended at native/nativesdk build time.
->>
->> Signed-off-by: Ming Liu <ming.liu@windriver.com>
->> ---
->>   meta/recipes-core/util-linux/util-linux_2.23.1.bb |    4 ++--
->>   1 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/util-linux/util-linux_2.23.1.bb b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
->> index 12f5021..ae80450 100644
->> --- a/meta/recipes-core/util-linux/util-linux_2.23.1.bb
->> +++ b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
->> @@ -18,5 +18,5 @@ SRC_URI[md5sum] = "6741eeaff93ff5a6bacdd3816bdd87c4"
->>   SRC_URI[sha256sum] = "ad4a7831d7b27d0172996fd343e809716c2403b32a94e15194d8ea797223c4af"
->>   
->>   CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
->> -EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
->> -EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
->> +EXTRA_OECONF_append_class-native += "--disable-fallocate --disable-use-tty-group"
->> +EXTRA_OECONF_append_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
-> You should change += to =, because append + += is confusing.
+The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
 
-Yes, thanks for pointing this, it's my mistake.
+  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
 
-the best,
-thank you
->
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib szhang/bugs
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=szhang/bugs
+
+Jesse Zhang (2):
+  tremor: add a patch to build with arm thumb
+  libatomics-ops: force omit frame pointer for x86 builds
+
+ .../pulseaudio/libatomics-ops_7.2.bb               |   4 +
+ .../tremor/tremor-20120314/tremor-arm-thumb2.patch | 104 +++++++++++++++++++++
+ meta/recipes-multimedia/tremor/tremor_20120314.bb  |   1 +
+ 3 files changed, 109 insertions(+)
+ create mode 100644 meta/recipes-multimedia/tremor/tremor-20120314/tremor-arm-thumb2.patch
+
+-- 
+1.7.11.7
 
 
