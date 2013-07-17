@@ -1,24 +1,24 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B39276B221
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 38F6D6B0A6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 08:41:39 +0000 (UTC)
+	Wed, 17 Jul 2013 09:07:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6H8feEF014697
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 01:41:40 -0700 (PDT)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 17 Jul 2013 01:41:40 -0700
-From: Ming Liu <ming.liu@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6H971RU021602
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 17 Jul 2013 02:07:01 -0700 (PDT)
+Received: from localhost (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Wed, 17 Jul 2013 02:07:00 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jul 2013 16:41:37 +0800
-Message-ID: <1374050497-20809-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.1
+Date: Wed, 17 Jul 2013 17:06:56 +0800
+Message-ID: <cover.1374050202.git.yi.zhao@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH V2] util-linux: replace += with _append to EXTRA_OECONF_class-native
+X-Originating-IP: [128.224.162.215]
+Subject: [PATCH 0/1] iproute2: Fix alternative link for ip command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 08:41:40 -0000
+X-List-Received-Date: Wed, 17 Jul 2013 09:07:00 -0000
 Content-Type: text/plain
 
-The native/nativesdk overrides of EXTRA_OECONF should take effect before
-append operator, otherwise, it will cause EXTRA_OECONF be overridden instead
-of be appended at native/nativesdk build time.
+The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-core/util-linux/util-linux_2.23.1.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.23.1.bb b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-index 12f5021..cc11977 100644
---- a/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-@@ -18,5 +18,5 @@ SRC_URI[md5sum] = "6741eeaff93ff5a6bacdd3816bdd87c4"
- SRC_URI[sha256sum] = "ad4a7831d7b27d0172996fd343e809716c2403b32a94e15194d8ea797223c4af"
- 
- CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
--EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
--EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
-+EXTRA_OECONF_append_class-native = "--disable-fallocate --disable-use-tty-group"
-+EXTRA_OECONF_append_class-nativesdk = "--disable-fallocate --disable-use-tty-group"
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib yizhao/bug4855v3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=yizhao/bug4855v3
+
+Yi Zhao (1):
+  iproute2: Fix alternative link for ip command
+
+ meta/recipes-connectivity/iproute2/iproute2.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-1.7.1
+1.7.9.5
 
 
