@@ -1,26 +1,22 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D5426B18D
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id C42546B00C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 23:48:06 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Jul 2013 16:47:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,680,1367996400"; d="scan'208";a="371364109"
-Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jul 2013 16:47:50 -0700
-Message-ID: <51E5DBA6.4030300@linux.intel.com>
-Date: Tue, 16 Jul 2013 16:47:50 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Wed, 17 Jul 2013 00:10:23 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Wed, 17 Jul 2013 02:10:18 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 376F3288C5A;
+	Wed, 17 Jul 2013 02:10:18 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jul 2013 02:09:32 +0200
+Message-ID: <1374019772-63941-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1373953711.git.Qi.Chen@windriver.com>
-	<bef360c7ce9093d4f5856eaac88928766e6eac7a.1373953711.git.Qi.Chen@windriver.com>
-In-Reply-To: <bef360c7ce9093d4f5856eaac88928766e6eac7a.1373953711.git.Qi.Chen@windriver.com>
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V5 3/3] extrausers.bbclass: add a new bbclass
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] Install Python test suite and run it as ptest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,102 +29,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2013 23:48:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Jul 2013 00:10:24 -0000
+Content-Type: text/plain
 
-On 07/15/2013 11:27 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> This class is dedicated to image level user/group configuration.
-> It inherits useradd_base.bbclass.
->
-> Users need to inherit this class in their layers or local.conf to
-> make the setting of EXTRA_USERS_PARAMS effective.
->
-> For detailed configuration format of EXTRA_USERS_PARAMS, please
-> refer to local.conf.sample.extended.
->
-> [YOCTO #4074]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/classes/extrausers.bbclass |   61 +++++++++++++++++++++++++++++++++++++++
->   1 file changed, 61 insertions(+)
->   create mode 100644 meta/classes/extrausers.bbclass
->
-> diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
-> new file mode 100644
-> index 0000000..ec66913
-> --- /dev/null
-> +++ b/meta/classes/extrausers.bbclass
-> @@ -0,0 +1,61 @@
-> +# This bbclass is mainly used for image level user/group configuration.
-> +# Inherit this class if you want to make EXTRA_USERS_PARAMS effective.
-> +
-> +# Below is an example showing how to use this functionality.
-> +# INHERIT += "extrausers"
-> +# EXTRA_USERS_PARAMS = "\
-> +# useradd,-p '' tester; \
-> +# groupadd,developers; \
-> +# userdel,nobody; \
-> +# groupdel,-g video; \
-> +# groupmod,-g 1020 developers; \
-> +# usermod,-s /bin/sh tester; \
-> +# "
-> +
-Why use a , here to separate the command from the parameters, you 
-already have the ; to separate commands while not use the first item for 
-the command and the rest for the parameters.
 
-Sau!
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ .../python/python/fix-makefile-for-ptest.patch     |   33 ++++++++++++++++++++
+ meta/recipes-devtools/python/python/run-ptest      |    5 +++
+ meta/recipes-devtools/python/python_2.7.3.bb       |   10 ++++++
+ 3 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
+ create mode 100644 meta/recipes-devtools/python/python/run-ptest
 
-> +
-> +inherit useradd_base
-> +
-> +IMAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS', True))]}"
-> +
-> +# Image level user / group settings
-> +ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
-> +
-> +# Image level user / group settings
-> +set_user_group () {
-> +	user_group_settings="${EXTRA_USERS_PARAMS}"
-> +	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
-> +	setting=`echo $user_group_settings | cut -d ';' -f1`
-> +	remaining=`echo $user_group_settings | cut -d ';' -f2-`
-> +	while test "x$setting" != "x"; do
-> +		cmd=`echo $setting | cut -d ',' -f1`
-> +		opts=`echo $setting | cut -d ',' -f2`
-> +		# Different from useradd.bbclass, there's no file locking issue here, as
-> +		# this setting is actually a serial process. So we only retry once.
-> +		case $cmd in
-> +			useradd)
-> +				perform_useradd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-> +				;;
-> +			groupadd)
-> +				perform_groupadd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-> +				;;
-> +			userdel)
-> +				perform_userdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-> +				;;
-> +			groupdel)
-> +				perform_groupdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-> +				;;
-> +			usermod)
-> +				perform_usermod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-> +				;;
-> +			groupmod)
-> +				perform_groupmod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-> +				;;
-> +			*)
-> +				bbfatal "Invalid command in EXTRA_USERS_PARAMS: $cmd"
-> +				;;
-> +		esac
-> +		# iterate to the next setting
-> +		setting=`echo $remaining | cut -d ';' -f1`
-> +		remaining=`echo $remaining | cut -d ';' -f2-`
-> +	done
-> +}
->
+diff --git a/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
+new file mode 100644
+index 0000000..c349e74
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
+@@ -0,0 +1,33 @@
++Add 'buildtest' and 'runtest' targets to Makefile, to build and run tests
++cross-compiled.
++
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
++Upstream-Status: Pending
++---
++diff -ruN a/Makefile.pre.in b/Makefile.pre.in
++--- a/Makefile.pre.in	2013-06-27 10:44:11.033840532 +0200
+++++ b/Makefile.pre.in	2013-06-27 10:44:39.572635273 +0200
++@@ -709,14 +709,19 @@
++ # generated bytecode.  This is sometimes a very shy bug needing a lot of
++ # sample data.
++ 
++-TESTOPTS=	-l $(EXTRATESTOPTS)
+++TESTOPTS=	-l -v $(EXTRATESTOPTS)
++ TESTPROG=	$(srcdir)/Lib/test/regrtest.py
++-TESTPYTHON=	$(RUNSHARED) ./$(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
++-test:		all platform
++-		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
+++TESTPYTHON=	$(RUNSHARED) $(BUILDPYTHON) -Wd -3 -E -tt $(TESTPYTHONOPTS)
+++test:		build-test
+++		$(MAKE) runtest-TESTS
+++
+++runtest-TESTS:
+++		-find $(srcdir) -name '*.py[co]' -print | xargs rm -f
++ 		-$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
++ 		$(TESTPYTHON) $(TESTPROG) $(TESTOPTS)
++ 
+++build-test:	all platform
+++
++ testall:	all platform
++ 		-find $(srcdir)/Lib -name '*.py[co]' -print | xargs rm -f
++ 		$(TESTPYTHON) $(srcdir)/Lib/compileall.py
+diff --git a/meta/recipes-devtools/python/python/run-ptest b/meta/recipes-devtools/python/python/run-ptest
+new file mode 100644
+index 0000000..89a769f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/run-ptest
+@@ -0,0 +1,5 @@
++#!/bin/sh
++#
++#This script is used to run python test suites
++
++make -f /usr/lib/python/ptest/Makefile -k runtest-TESTS srcdir=/usr/lib/python2.7 TESTPROG=/usr/lib/python2.7/test/regrtest.py | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 59d189d..7d8cb43 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -28,6 +28,8 @@ SRC_URI += "\
+   file://builddir.patch \
+   file://python-2.7.3-CVE-2012-2135.patch \
+   file://gcc-4.8-fix-configure-Wformat.patch \
++  file://fix-makefile-for-ptest.patch \
++  file://run-ptest \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
+@@ -119,6 +121,10 @@ do_install_append_class-nativesdk () {
+ 	create_wrapper ${D}${bindir}/python2.7 TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo'
+ }
+ 
++do_install_ptest() {
++	cp ${B}/Makefile ${D}${PTEST_PATH}
++}
++
+ SSTATE_SCAN_FILES += "Makefile"
+ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+ 
+@@ -149,6 +155,10 @@ FILES_${PN}-dbg += "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/.debug"
+ PACKAGES += "${PN}-misc"
+ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
+ 
++RDEPENDS_${PN}-ptest = "${PN}-json ${PN}-crypt ${PN}-unittest ${PN}-difflib ${PN}-pprint ${PN}-shell ${PN}-tests ${PN}-misc ${PN}-netclient ${PN}-mailbox ${PN}-pkgutil ${PN}-profile ${PN}-compile ${PN}-pydoc ${PN}-robotparser ${PN}-netserver ${PN}-datetime ${PN}-compression ${PN}-mime ${PN}-audio ${PN}-db ${PN}-resource ${PN}-image ${PN}-subprocess ${PN}-doctest ${PN}-numbers ${PN}-html ${PN}-email ${PN}-distutils ${PN}-hotshot ${PN}-2to3 ${PN}-mmap ${PN}-terminal ${PN}-xmlrpc ${PN}-smtpd ${PN}-unixadmin ${PN}-compiler"
++#inherit ptest after "require python-${PYTHON_MAJMIN}-manifest.inc" so PACKAGES doesn't get overwritten
++inherit ptest
++
+ # catch manpage
+ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
+-- 
+1.7.10.4
+
 
