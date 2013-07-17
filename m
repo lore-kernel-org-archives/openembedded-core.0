@@ -1,47 +1,22 @@
-Return-Path: <Jate.Sujjavanich@myfuelmaster.com>
-Received: from stspspam.syntech.org (exchsrvr.syntech-fuelmaster.com
-	[199.44.250.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A6556B205
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 6B31C6B1EC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 23:19:02 +0000 (UTC)
-Received: from pps.filterd (stspspam [127.0.0.1])
-	by stspspam.syntech.org (8.14.5/8.14.5) with SMTP id r6HNFQ9W006231;
-	Wed, 17 Jul 2013 19:18:49 -0400
-Received: from courier.syntech-fuelmaster.com (courier.syntech.org
-	[172.16.10.30]) by stspspam.syntech.org with ESMTP id 1cykfg5u67-1;
-	Wed, 17 Jul 2013 19:18:49 -0400
-Received: from Courier.syntech.org ([::1]) by Courier.syntech.org ([::1]) with
-	mapi; Wed, 17 Jul 2013 19:18:49 -0400
-From: Jate Sujjavanich <Jate.Sujjavanich@myfuelmaster.com>
-To: "'Paul Eggleton'" <paul.eggleton@linux.intel.com>
-Date: Wed, 17 Jul 2013 19:18:48 -0400
-Thread-Topic: [OE-core] [PATCH] Checksums for local files now stored using
-	partial recipe path
-Thread-Index: Ac6CQZMmZALNs15mTAiaAtLHkuoR7AAuFvGA
-Message-ID: <6C2434209962DC46B88345CA85C334A201CAA7D10C5A@Courier.syntech.org>
-References: <1371653832-2178-1-git-send-email-jate.sujjavanich@myfuelmaster.com>
-	<1409263.tPA0GAOlPL@helios>
-	<6C2434209962DC46B88345CA85C334A201C9F4A6EBE9@Courier.syntech.org>
-	<5246829.WLtotMrLQF@helios>
-In-Reply-To: <5246829.WLtotMrLQF@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-vipre-scanned: 05AFA6C7004CD005AFA814
-acceptlanguage: en-US
+	Wed, 17 Jul 2013 23:56:18 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 18 Jul 2013 01:56:17 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id ED04A288C5A;
+	Thu, 18 Jul 2013 01:56:16 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jul 2013 01:56:11 +0200
+Message-ID: <1374105371-28913-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=0 phishscore=0
-	adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1
-	engine=7.0.1-1305240000 definitions=main-1307170194
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.10.8794, 1.0.431,
-	0.0.0000
-	definitions=2013-07-17_10:2013-07-17, 2013-07-17,
-	1970-01-01 signatures=0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Checksums for local files now stored using partial recipe path
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] kmod: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,43 +29,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 23:19:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 17 Jul 2013 23:56:19 -0000
+Content-Type: text/plain
 
-> As far as I can tell though that won't actually fix the issue triggering
-> rebuilds in your case. Something else must be changing. It would be
-> interesting if you could dig into what that might be as I can't
-> reproduce the rebuilding issue here.
+Install kmod test suite and run it as ptest.
 
-I discovered that different versions of Dylan from git and the tarball were=
- causing the rebuilds to occur. Once I had the exact same version of dylan,=
- the entire build was pulled from sstate-cache.
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ meta/recipes-kernel/kmod/kmod.inc         |    4 +++-
+ meta/recipes-kernel/kmod/kmod/ptest.patch |   20 ++++++++++++++++++++
+ meta/recipes-kernel/kmod/kmod/run-ptest   |    5 +++++
+ meta/recipes-kernel/kmod/kmod_git.bb      |    9 +++++++++
+ 4 files changed, 37 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/ptest.patch
+ create mode 100755 meta/recipes-kernel/kmod/kmod/run-ptest
 
-My understanding now is that the recipe file dependencies changed for some =
-recipes. Therefore the sorted checksums were modified triggering a rebuild.
-
-> As I said earlier, if you look at the code only the checksum value goes
-> into the task checksum and not the filename, so the path to the base of
-> the metadata changing cannot influence the task checksum. However, I
-> think I can see how you would think that the paths changing influenced
-> the checksum, since the data that we put into the siginfo file *does*
-> contain the full path, and thus bitbake-diffsigs will report that as
-> having changed even though that difference didn't change the task
-> checksum. That is a bug and we should fix how we store paths either in
-> the cache or in the siginfo file, but that fix will have to take into
-> account different layer paths. I'd suggest a simpler and more reliable
-> approach would be to just get the relative path to os.path.dirname of
-> the recipe rather than TOPDIR.
-
-The full paths were a little confusing. I bet that the checksum differences=
- (or other changes) were at the bottom of the diffsigs output.
-
-I have not had a chance to look at this again closely. When I do, I'll chec=
-k out your suggestions.
-
-
-- Jate S.
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index 3cd963f..a780b6c 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -15,11 +15,13 @@ DEPENDS += "pkgconfig-native"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                    "
+-inherit autotools gtk-doc
++inherit autotools gtk-doc ptest
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+            file://depmod-search.conf \
+            file://0001-man-disable-man-page-generation-because-we-don-t-hav.patch \
++           file://run-ptest \
++           file://ptest.patch \
+           "
+ 
+ SRCREV = "62081c0f68905b22f375156d4532fd37fa5c8d33"
+diff --git a/meta/recipes-kernel/kmod/kmod/ptest.patch b/meta/recipes-kernel/kmod/kmod/ptest.patch
+new file mode 100644
+index 0000000..8f3355f
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/ptest.patch
+@@ -0,0 +1,20 @@
++diff -ruN a/Makefile.am b/Makefile.am
++--- a/Makefile.am	2013-07-12 17:11:05.278331557 +0200
+++++ b/Makefile.am	2013-07-12 17:14:27.033788016 +0200
++@@ -204,6 +204,16 @@
++ 
++ distclean-local: $(DISTCLEAN_LOCAL_HOOKS)
++ 
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)/testsuite
+++	@for file in $(TESTSUITE); do \
+++		install $$file $(DESTDIR)/testsuite; \
+++	done;
+++	@cp Makefile $(DESTDIR)
+++	@sed -i 's/^Makefile/_Makefile/'  ${DESTDIR}/Makefile
+++	@tar -czf $(DESTDIR)/tools.tgz $(noinst_SCRIPTS) $(noinst_PROGRAMS)
+++	@tar -C testsuite -czf $(DESTDIR)/testsuite.tgz rootfs-pristine .libs
+++
++ # ------------------------------------------------------------------------------
++ # custom release helpers
++ # ------------------------------------------------------------------------------
+diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/kmod/kmod/run-ptest
+new file mode 100755
+index 0000000..fac24fd
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/run-ptest
+@@ -0,0 +1,5 @@
++#!/bin/sh
++tar -xzf tools.tgz
++tar -C testsuite -xzf testsuite.tgz
++make rootfs
++make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index ca6b004..cb7a131 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -36,6 +36,15 @@ do_install_append () {
+         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
+ }
+ 
++do_compile_prepend() {
++            sed -i 's/ac_pwd=/#ac_pwd=/' config.status ; sed -i "/#ac_pwd=/a\ac_pwd='.'" config.status
++}
++
++do_compile_ptest () {
++        oe_runmake buildtest-TESTS
++        oe_runmake rootfs
++}
++
+ inherit update-alternatives
+ 
+ ALTERNATIVE_PRIORITY = "60"
+-- 
+1.7.10.4
 
 
