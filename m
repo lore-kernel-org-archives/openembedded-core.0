@@ -1,24 +1,24 @@
 Return-Path: <Ming.Liu@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 605B86AFC2
+	by mail.openembedded.org (Postfix) with ESMTP id 893BD6B1C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 05:09:47 +0000 (UTC)
+	Wed, 17 Jul 2013 05:15:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6H59nZL018480
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6H5FmwJ018538
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 22:09:49 -0700 (PDT)
+	Tue, 16 Jul 2013 22:15:48 -0700 (PDT)
 Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 16 Jul 2013 22:09:47 -0700
+	14.2.342.3; Tue, 16 Jul 2013 22:15:46 -0700
 From: Ming Liu <ming.liu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jul 2013 13:09:44 +0800
-Message-ID: <1374037784-7904-1-git-send-email-ming.liu@windriver.com>
+Date: Wed, 17 Jul 2013 13:15:43 +0800
+Message-ID: <1374038143-5807-1-git-send-email-ming.liu@windriver.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Subject: [PATCH] util-linux: replace += with _append to EXTRA_OECONF_virtclass-native
+Subject: [PATCH] openssl: Fix multilib header conflict - opensslconf.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 05:09:47 -0000
+X-List-Received-Date: Wed, 17 Jul 2013 05:15:46 -0000
 Content-Type: text/plain
 
-The native/nativesdk overrides of EXTRA_OECONF should take effect before
-append operator, otherwise, it will cause EXTRA_OECONF be overridden instead
-of be appended at native/nativesdk build time.
+opensslconf.h conflicts between 32-bit and 64-bit versions.
 
 Signed-off-by: Ming Liu <ming.liu@windriver.com>
 ---
- meta/recipes-core/util-linux/util-linux_2.23.1.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-connectivity/openssl/openssl.inc |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.23.1.bb b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-index 12f5021..e597c41 100644
---- a/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-@@ -18,5 +18,5 @@ SRC_URI[md5sum] = "6741eeaff93ff5a6bacdd3816bdd87c4"
- SRC_URI[sha256sum] = "ad4a7831d7b27d0172996fd343e809716c2403b32a94e15194d8ea797223c4af"
+diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+index f5b2432..267eb89 100644
+--- a/meta/recipes-connectivity/openssl/openssl.inc
++++ b/meta/recipes-connectivity/openssl/openssl.inc
+@@ -5,7 +5,7 @@ BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
+ SECTION = "libs/network"
  
- CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
--EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
--EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
-+EXTRA_OECONF_append_virtclass-native = "--disable-fallocate --disable-use-tty-group"
-+EXTRA_OECONF_append_virtclass-nativesdk = "--disable-fallocate --disable-use-tty-group"
+ # Big Jump for OpenSSL 1.0 support with meta-oe
+-INC_PR = "r15"
++INC_PR = "r16"
+ 
+ # "openssl | SSLeay" dual license
+ LICENSE = "openssl"
+@@ -31,7 +31,7 @@ export DIRS = "crypto ssl apps"
+ export EX_LIBS = "-lgcc -ldl"
+ export AS = "${CC} -c"
+ 
+-inherit pkgconfig siteinfo
++inherit pkgconfig siteinfo multilib_header
+ 
+ PACKAGES =+ "libcrypto libssl ${PN}-misc"
+ FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
+@@ -145,6 +145,7 @@ do_install () {
+ 	cp --dereference -R include/openssl ${D}${includedir}
+ 	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
+ 
++	oe_multilib_header openssl/opensslconf.h
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 1.7.1
 
