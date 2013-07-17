@@ -1,33 +1,35 @@
-Return-Path: <heinold@inf.fu-berlin.de>
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de
-	[130.133.4.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 663F16B26A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D9C86AF13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 14:53:34 +0000 (UTC)
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-	by outpost1.zedat.fu-berlin.de (Exim 4.80.1)
-	for openembedded-core@lists.openembedded.org with esmtp
-	(envelope-from <heinold@inf.fu-berlin.de>)
-	id <1UzT6i-001biI-Ks>; Wed, 17 Jul 2013 16:53:32 +0200
-Received: from g225147203.adsl.alicedsl.de ([92.225.147.203]
-	helo=mail.zedat.fu-berlin.de)
-	by inpost2.zedat.fu-berlin.de (Exim 4.80.1)
-	for openembedded-core@lists.openembedded.org with esmtpsa
-	(envelope-from <heinold@inf.fu-berlin.de>)
-	id <1UzT6h-001MUe-54>; Wed, 17 Jul 2013 16:53:32 +0200
-Date: Wed, 17 Jul 2013 16:53:21 +0200
-From: Henning Heinold <heinold@inf.fu-berlin.de>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Message-ID: <20130717145321.GA24542@mail.zedat.fu-berlin.de>
-References: <cover.1374050133.git.sen.zhang@windriver.com>
-	<c95d46b97c8167bddcffb4495438227b668e87cb.1374050133.git.sen.zhang@windriver.com>
-	<1374057911.2651.118.camel@phil-desktop.brightsign>
-	<CANyK_8fG5LJRBVzRQZG6BVbn-AjTgY0CMwStL47qgu0eVvMcig@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CANyK_8fG5LJRBVzRQZG6BVbn-AjTgY0CMwStL47qgu0eVvMcig@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Originating-IP: 92.225.147.203
-Subject: Re: [PATCH 2/2] libatomics-ops: force omit frame pointer for x86 builds
+	Wed, 17 Jul 2013 15:17:51 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id fb1so2077397pad.37
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2013 08:17:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=6TqRLOj946Xj8xHjOs3uLaFu9mymnuGFzdOhcP4Ob10=;
+	b=Ffm4ty/eKgR9/9Pcpb2Cwc3sLAe6XWqVLpWGSHQIjIR22JwVFK1tj6DLGt7ZBzoCnO
+	xsyXaOMq5557HILcR3XUgOkXQGxnP+EdAhFf50oYdpOZFGWndFmPa5y6ydd6Y/Y5LqpH
+	qVscyAvEGPfUrTzvx6ojUYa1OY/9qyvSkstbF9GWKOcav72JnzVsrLxS/O+5QzagC+CI
+	sJel6ON7mbSHpxlYxWZTjAXo9uJ4yJz5UDVLFJbj3EzxO8ExZvVrKY/8q5O34+YPCQH4
+	B9RwHg4sF+3ZPDaEUxnK7MBTJ5y4hjiWIzjK6MCuV40RHPq/q9G7QbAVkblvGktZ5Ojw
+	e3Zw==
+X-Received: by 10.68.223.225 with SMTP id qx1mr7250597pbc.157.1374074271985;
+	Wed, 17 Jul 2013 08:17:51 -0700 (PDT)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id cx3sm8377016pbb.30.2013.07.17.08.17.50
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 17 Jul 2013 08:17:51 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jul 2013 08:17:42 -0700
+Message-Id: <1374074262-3614-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] uclibc: Build ldd/ldcondif/iconv for main uclibc recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,35 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 14:53:35 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 17 Jul 2013 15:17:51 -0000
 
-On Wed, Jul 17, 2013 at 12:08:51PM +0100, Paul Barker wrote:
-> On 17 July 2013 11:45, Phil Blundell <pb@pbcl.net> wrote:
-> > On Wed, 2013-07-17 at 16:40 +0800, Jesse Zhang wrote:
-> >> Fix failures when building with -fno-omit-frame-pointer (and without
-> >> optimization, i.e. -O0):
-> >>
-> >>     In file included from atomic_ops.h:212:0,
-> >>                      from atomic_ops_stack.h:32,
-> >>                      from atomic_ops_stack.c:23:
-> >>     atomic_ops/sysdeps/gcc/x86.h: In function 'AO_compare_double_and_swap_double_full':
-> >>     atomic_ops/sysdeps/gcc/x86.h:148:3: error: 'asm' operand has impossible constraints
-> >>        __asm__ __volatile__("xchg %%ebx,%6;" /* swap GOT ptr and new_val1 */
-> >
-> > This seems like it must be a bug in either GCC or the libatomic-ops
-> > source code, and whichever one has the bug ought to be fixed.  Forcing
-> > -fomit-frame-pointer might be ok as a temporary measure but it doesn't
-> > seem like a very good long-term solution.
-> >
-> 
-> If this is on x86, standard Linux desktop/server distros may have ran
-> into the same problem. Maybe worth having a look if/how they handle
-> this.
+Currently these were not building as a result
+uclibc based systems were missing ldd and any package
+depending on ldd package were broken since the package
+was empty.
 
-This makes we wonder which software on x86 relies on libatomic-ops anymore?
-gcc buildins should be good enough now.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/uclibc/uclibc.inc |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Bye Henning
+diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+index 86a7417..29bc62b 100644
+--- a/meta/recipes-core/uclibc/uclibc.inc
++++ b/meta/recipes-core/uclibc/uclibc.inc
+@@ -156,5 +156,10 @@ do_configure() {
+ 
+ do_install() {
+         oe_runmake PREFIX=${D} install
+-        oe_runmake PREFIX=${D} "SSP_ALL_CFLAGS=${TARGET_LINK_HASH_STYLE}" install_utils
+ }
++
++# build ldd, ldconfig and friends but only for full uclibc
++do_install_append_pn-uclibc () {
++        oe_runmake PREFIX=${D} "SSP_ALL_CFLAGS=${TARGET_LINK_HASH_STYLE}" -C utils utils_install
++}
++
+-- 
+1.7.9.5
+
 
