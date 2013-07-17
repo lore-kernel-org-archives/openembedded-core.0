@@ -1,26 +1,24 @@
-Return-Path: <Sen.Zhang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FCBD6B278
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B39276B221
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 08:38:10 +0000 (UTC)
+	Wed, 17 Jul 2013 08:41:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6H8cCpq021262
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6H8feEF014697
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 01:38:12 -0700 (PDT)
-Received: from jesse-wrs-desktop.corp.ad.wrs.com (128.224.162.230) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 17 Jul 2013 01:38:11 -0700
-From: Jesse Zhang <sen.zhang@windriver.com>
+	Wed, 17 Jul 2013 01:41:40 -0700 (PDT)
+Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 17 Jul 2013 01:41:40 -0700
+From: Ming Liu <ming.liu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jul 2013 16:40:47 +0800
-Message-ID: <c95d46b97c8167bddcffb4495438227b668e87cb.1374050133.git.sen.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <cover.1374050133.git.sen.zhang@windriver.com>
-References: <cover.1374050133.git.sen.zhang@windriver.com>
+Date: Wed, 17 Jul 2013 16:41:37 +0800
+Message-ID: <1374050497-20809-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] libatomics-ops: force omit frame pointer for x86 builds
+Subject: [PATCH V2] util-linux: replace += with _append to EXTRA_OECONF_class-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 08:38:10 -0000
+X-List-Received-Date: Wed, 17 Jul 2013 08:41:40 -0000
 Content-Type: text/plain
 
-Fix failures when building with -fno-omit-frame-pointer (and without
-optimization, i.e. -O0):
+The native/nativesdk overrides of EXTRA_OECONF should take effect before
+append operator, otherwise, it will cause EXTRA_OECONF be overridden instead
+of be appended at native/nativesdk build time.
 
-    In file included from atomic_ops.h:212:0,
-                     from atomic_ops_stack.h:32,
-                     from atomic_ops_stack.c:23:
-    atomic_ops/sysdeps/gcc/x86.h: In function 'AO_compare_double_and_swap_double_full':
-    atomic_ops/sysdeps/gcc/x86.h:148:3: error: 'asm' operand has impossible constraints
-       __asm__ __volatile__("xchg %%ebx,%6;" /* swap GOT ptr and new_val1 */
-       ^
-
-Signed-off-by: Jesse Zhang <sen.zhang@windriver.com>
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
 ---
- meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-core/util-linux/util-linux_2.23.1.bb |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb b/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb
-index f31f983..98e4e0d 100644
---- a/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.2.bb
-@@ -20,6 +20,10 @@ ALLOW_EMPTY_${PN} = "1"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.23.1.bb b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
+index 12f5021..cc11977 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.23.1.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
+@@ -18,5 +18,5 @@ SRC_URI[md5sum] = "6741eeaff93ff5a6bacdd3816bdd87c4"
+ SRC_URI[sha256sum] = "ad4a7831d7b27d0172996fd343e809716c2403b32a94e15194d8ea797223c4af"
  
- ARM_INSTRUCTION_SET = "arm"
- 
-+# the assembly in src/atomic_ops/sysdeps/gcc/x86.h:AO_compare_double_and_swap_double_full
-+# doesn't work with -fno-omit-frame-pointer on x86
-+TARGET_CFLAGS_x86 := "${TARGET_CFLAGS} -fomit-frame-pointer"
-+
- inherit autotools pkgconfig
- 
- do_install_append() {
+ CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
+-EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
+-EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
++EXTRA_OECONF_append_class-native = "--disable-fallocate --disable-use-tty-group"
++EXTRA_OECONF_append_class-nativesdk = "--disable-fallocate --disable-use-tty-group"
 -- 
-1.7.11.7
+1.7.1
 
 
