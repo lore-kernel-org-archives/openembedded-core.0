@@ -1,40 +1,37 @@
 Return-Path: <eu@felipetonello.com>
-Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id E93646B270
+Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
+	[209.85.219.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 25EA06AFC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 01:04:01 +0000 (UTC)
-Received: by mail-ob0-f182.google.com with SMTP id va7so1574526obc.13
+	Wed, 17 Jul 2013 01:06:37 +0000 (UTC)
+Received: by mail-oa0-f47.google.com with SMTP id m1so1757031oag.34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jul 2013 18:04:02 -0700 (PDT)
+	Tue, 16 Jul 2013 18:06:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=gVqLDUDLGEvFh0zTE3vtdz89bbKE/h3HU9aq4NSbbgo=;
-	b=XRS1Dw1gfGPXzcdSv2o65KRcuYZKjcD8LLXoHJZenegLsZxITlJH9ng3nhU3YFwv3r
-	mBf4gCj3sDgu5hJ+xQqcebGFv/hrTSXU3SNEqdk3v8JHCKkB4fTJ5QpUBY8mM+sLlMvW
-	XHemypLV0onnen1aDJdbUc8aEdUg+6rIozHivT9BzMwl4N/A3knXPFB0p5Him4PR7j+5
-	g5xK8EW59i378ptpKj2/EOr5ZF54hy89R8qPE+rRsJY5yUsoG534kel2cUo6m678vEQ6
-	Rk255UNJc2GSrUCbBW5HrE8NBdeq45oRPWy7uO3UIfjEj9ceUwZEooBMvtOuqi9p28Au
-	Olqg==
-X-Received: by 10.60.92.165 with SMTP id cn5mr5330466oeb.53.1374023042566;
-	Tue, 16 Jul 2013 18:04:02 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=jyLsLsyr7VDSCxbxY0tqzOO2H6iz9VEwtC76zno9QN0=;
+	b=JL4G+ficLAlNjf8eDy7ZFPPYCrewPfR10gsStxRJtmNXbvlxzu7Snc5xMVHXvUiQZI
+	nDD4rMQ+HHMCyjg7oKi49zWgxEz41Mj94IW7sA7kKAPBZeX7idPx+koCL+IDXdZMmf77
+	8HA7fshE5r6Oflv4jP4wczfDPuvT+5DrbgCzRkRll0AqCA/PZlGOaPRB13JP5i701wSR
+	UcUSmrowFFes0AzsjubNQ2XZfeyJ2RPehMfjn0q5PMgN6i3lXFAVZRC3GrIAY0ZIRNif
+	vJ2uqFDx7d02TI4SWQrCr6yC9bxtjotsCAGQ4dgzHC/7YCtkwdTG+N5xJHPflf5wdE4m
+	abYQ==
+X-Received: by 10.60.95.198 with SMTP id dm6mr5366529oeb.44.1374023197591;
+	Tue, 16 Jul 2013 18:06:37 -0700 (PDT)
 Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
 	[70.183.20.162])
-	by mx.google.com with ESMTPSA id qa4sm4084548oeb.5.2013.07.16.18.04.01
+	by mx.google.com with ESMTPSA id et8sm81625obb.6.2013.07.16.18.06.36
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 16 Jul 2013 18:04:01 -0700 (PDT)
+	Tue, 16 Jul 2013 18:06:36 -0700 (PDT)
 From: eu@felipetonello.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jul 2013 18:03:48 -0700
-Message-Id: <1374023028-25980-2-git-send-email-eu@felipetonello.com>
+Date: Tue, 16 Jul 2013 18:06:33 -0700
+Message-Id: <1374023193-12221-1-git-send-email-eu@felipetonello.com>
 X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <1374023028-25980-1-git-send-email-eu@felipetonello.com>
-References: <1374023028-25980-1-git-send-email-eu@felipetonello.com>
-X-Gm-Message-State: ALoCoQl/1XKerTgdeHa2IMdmKllY80fSFxWcRwZiIrz+8UFxL12IlBmz8hdJzSrXREzVJGurOqXP
-Subject: [PATCH 2/2] pulseaudio: Added cli-protocol-unix to pulseaudio-misc
+X-Gm-Message-State: ALoCoQlLYSVhEyRwRAm1yFdPioqKPrEcQ7xkCOEcKMqKGOKrjTwZP+vyVzI2+QGXWkIJpGMSlMno
+Subject: [PATCH v3] valgrind: added perl dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,29 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 01:04:02 -0000
+X-List-Received-Date: Wed, 17 Jul 2013 01:06:37 -0000
 
 From: "Felipe F. Tonello" <eu@felipetonello.com>
 
-This is necessary since pacmd uses this module.
+This is necessary since the valgrind package depends on /usr/bin/perl.
+
+This patch will fix this error while installing into rootfs:
+Computing transaction...error: Can't install valgrind-3.8.1-r8@armv7a_vfp_neon: no package provides /usr/bin/perl
 
 Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/valgrind/valgrind_3.8.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index dd65f65..ec435c5 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -146,6 +146,7 @@ RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-switch-on-port-available"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
+index 3520d49..33f178c 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
+@@ -37,6 +37,8 @@ do_install_append () {
+     install -m 644 ${B}/default.supp ${D}/${libdir}/valgrind/
+ }
  
- RDEPENDS_pulseaudio-module-console-kit =+ "consolekit"
-+RDEPENDS_pulseaudio-misc += "pulseaudio-module-cli-protocol-unix"
- 
- FILES_pulseaudio-module-gconf += "${libexecdir}/pulse/gconf-helper"
- FILES_pulseaudio-module-bluetooth-proximity += "${libexecdir}/pulse/proximity-helper"
++RDEPENDS_${PN} += "perl"
++
+ FILES_${PN}-dbg += "${libdir}/${PN}/*/.debug/*"
+ RRECOMMENDS_${PN}_powerpc += "${TCLIBC}-dbg"
+ RRECOMMENDS_${PN}_powerpc64 += "${TCLIBC}-dbg"
 -- 
 1.8.1.4
 
