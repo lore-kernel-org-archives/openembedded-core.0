@@ -1,24 +1,20 @@
 Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DA816B2CB
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id E19276B244
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 15:58:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 18 Jul 2013 08:55:50 -0700
+	Thu, 18 Jul 2013 15:58:25 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 18 Jul 2013 08:58:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,694,1367996400"; d="scan'208";a="367399827"
+X-IronPort-AV: E=Sophos;i="4.89,694,1367996400"; d="scan'208";a="270154025"
 Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2013 08:58:21 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Jul 2013 08:57:54 -0700
 From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2013 19:05:39 +0300
-Message-Id: <e56fe1753c97c2cedeeaa3556a775ff9fcc33cd1.1374162581.git.emilia.maria.silvia.ciobanu@intel.com>
+Date: Thu, 18 Jul 2013 19:05:33 +0300
+Message-Id: <cover.1374162581.git.emilia.maria.silvia.ciobanu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <07012a0b109ff8a20ad219351cc6a0e4c54d1dcb.1374162581.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <07012a0b109ff8a20ad219351cc6a0e4c54d1dcb.1374162581.git.emilia.maria.silvia.ciobanu@intel.com>
-In-Reply-To: <cover.1374162581.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <cover.1374162581.git.emilia.maria.silvia.ciobanu@intel.com>
-Subject: [PATCH v2 11/11] docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
+Subject: [PATCH v2 00/11] Add/Update PV variable into recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 15:58:21 -0000
+X-List-Received-Date: Thu, 18 Jul 2013 15:58:26 -0000
 
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
----
+Tested against backwards packages using buildhistory class.
+
+The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
+
+  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib emac/add_pv_to_recipes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=emac/add_pv_to_recipes
+
+Emilia Ciobanu (11):
+  rt-tests: add GIT revision to PV variable
+  kmod:add GIT revision to PV variable
+  hwlatdetect: add GIT revision to PV variable
+  lttng-ust:add GIT revision to PV variable
+  connman-gnome: add GIT revision to PV variable
+  mtd-utils: add GIT revision to PV variable
+  update-rc.d: add GIT revision to PV variable
+  build-appliance-image: add GIT revision to PV variable
+  lttng-modules: Append _git to recipe name and add GIT revision to PV 
+       variable
+  chkconfig-alternatives-native: add GIT revision to PV variable
+  docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
+
+ .../connman/connman-gnome_0.7.bb                   |    2 ++
+ .../images/build-appliance-image_8.0.bb            |    2 ++
+ meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |    1 +
  .../docbook-sgml-dtd-4.5-native.bb                 |    1 +
- 1 file changed, 1 insertion(+)
+ .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
+ ...t-cleanmarker-with-flash_erase--j-command.patch |    0
+ meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb       |    2 +-
+ .../chkconfig-alternatives-native_1.3.59.bb        |    2 +-
+ meta/recipes-kernel/kmod/kmod_git.bb               |    1 +
+ ...lttng-modules_2.2.0.bb => lttng-modules_git.bb} |    2 +-
+ meta/recipes-kernel/lttng/lttng-ust_2.2.0.bb       |    2 +-
+ meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb       |    1 +
+ meta/recipes-rt/rt-tests/rt-tests_0.85.bb          |    1 +
+ 13 files changed, 13 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/mtd/{mtd-utils-1.5.0 => mtd-utils}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
+ rename meta/recipes-devtools/mtd/{mtd-utils-1.5.0 => mtd-utils}/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch (100%)
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.2.0.bb => lttng-modules_git.bb} (97%)
 
-diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.5-native.bb b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.5-native.bb
-index 6c464f4..ae723c7 100644
---- a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.5-native.bb
-+++ b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-4.5-native.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
- DTD_VERSION = "4.5"
- 
- PR = "${INC_PR}.0"
-+PV = "4.5"
- 
- SRC_URI[md5sum] = "07c581f4bbcba6d3aac85360a19f95f7"
- SRC_URI[sha256sum] = "8043e514e80c6c19cb146b5d37937d1305bf3abf9b0097c36df7f70f611cdf43"
 -- 
 1.7.9.5
 
