@@ -1,37 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ie0-f182.google.com (mail-ie0-f182.google.com
-	[209.85.223.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D108A6A463
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D14C6AF69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 12:04:54 +0000 (UTC)
-Received: by mail-ie0-f182.google.com with SMTP id s9so6740683iec.41
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 05:04:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=VguJYeJzXfryetyxJGYzXGBjOr1UAInF5mqfxnWdQb4=;
-	b=oxRfAg/89drd0pvLyOy3wX+XWw95CTpHhanNvxSGD+gyYq0Jnky8HkB2faMuzgOWHj
-	GdpjCDxsAQEMULgi/CuO9cT5jqgdp+bpBGx3ioz0v7lIlbW78wmKyuqmfxzWaQ7Ukkj7
-	KAzRt+X1C/OHPc+x/P3EbqlUShBwam+2wtkWO3uhvixcMd7vsstm62X6/eiac9k42R0n
-	01L5MPbz1pnVLJxICzC+u5wuaG4g6V8qEM6IxfAAORHLzpBTN08GJZhYT7Dh3KEYzzHN
-	Kp9OvlJp0tN+tRRHv+ko1sMLsVOU0TnEutFYcHEXX7JYlze/xHey7KaSBamwnfmle1tI
-	K6TA==
-MIME-Version: 1.0
-X-Received: by 10.50.119.42 with SMTP id kr10mr322448igb.20.1374149095294;
-	Thu, 18 Jul 2013 05:04:55 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.64.9.113 with HTTP; Thu, 18 Jul 2013 05:04:55 -0700 (PDT)
-In-Reply-To: <3464105.VeimZdSK2P@helios>
+	Thu, 18 Jul 2013 12:16:46 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jul 2013 05:16:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,692,1367996400"; d="scan'208";a="347745505"
+Received: from unknown (HELO helios.localnet) ([10.252.122.61])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jul 2013 05:16:32 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2013 13:16:31 +0100
+Message-ID: <2691932.dGi55gTP8y@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <CAJTo0La1=YTa2rXasY2LhRkA0O4-uV0UDUUGUc-0kNrLasX83A@mail.gmail.com>
 References: <cover.1374128654.git.sgw@linux.intel.com>
-	<3464105.VeimZdSK2P@helios>
-Date: Thu, 18 Jul 2013 09:04:55 -0300
-X-Google-Sender-Auth: RFoy2BKsCqMWjrR7SGc48OXNdmk
-Message-ID: <CAP9ODKrfU6qeRCNkJGoCyXf_wfimuM6DpjcrCOH4pmycpLTAmQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<1374146123.6324.5.camel@phil-desktop.brightsign>
+	<CAJTo0La1=YTa2rXasY2LhRkA0O4-uV0UDUUGUc-0kNrLasX83A@mail.gmail.com>
+MIME-Version: 1.0
 Subject: Re: [CONSOLIDATED PULL 00/40] Review and ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,23 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 12:04:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 18 Jul 2013 12:16:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Jul 18, 2013 at 6:43 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Wednesday 17 July 2013 23:34:31 Saul Wold wrote:
-..
->> Roy.Li (1):
->>   dpkg: backport a patch to support mipsn32el and mips64el
->
-> Not sure if case is a big issue for Upstream-Status values but this one has
-> "Upstream-Status: BackPort".
+On Thursday 18 July 2013 12:35:04 Burton, Ross wrote:
+> On 18 July 2013 12:15, Phil Blundell <pb@pbcl.net> wrote:
+> > Seeing this discussion makes me wonder: if the target perl hasn't
+> > actually been built at this point, how does rpmdeps know what package to
+> > add a dependency on in the first place?  Does it just have some random
+> > hard-coded list somewhere?
+> 
+> It adds a dependency on /usr/bin/perl as a file, not perl itself, as
+> the error is "no package provides /usr/bin/perl".
 
-Please fix it otherwise automatic tracking of this will be harder in future.
+Right, and at the moment this only works for RPM; I'm not sure if any of the 
+others natively support file-based dependencies like this.
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
