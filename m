@@ -1,20 +1,26 @@
-Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D25356077D
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 532E56A59F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 16:01:13 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 18 Jul 2013 09:01:14 -0700
+	Thu, 18 Jul 2013 16:36:18 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2013 09:36:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,694,1367996400"; d="scan'208";a="372454053"
-Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2013 09:00:59 -0700
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2013 19:08:38 +0300
-Message-Id: <1374163718-26829-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] distrodata.bbclass: Include PRSPV variable in upstream version checking
+X-IronPort-AV: E=Sophos;i="4.89,695,1367996400"; d="scan'208";a="367420268"
+Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2013 09:36:06 -0700
+Message-ID: <51E81976.4010509@linux.intel.com>
+Date: Thu, 18 Jul 2013 09:36:06 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Hongxu Jia <hongxu.jia@windriver.com>
+References: <cover.1374140808.git.hongxu.jia@windriver.com>
+	<6cb2efa600f580748a228b8e8577479c76140368.1374140808.git.hongxu.jia@windriver.com>
+In-Reply-To: <6cb2efa600f580748a228b8e8577479c76140368.1374140808.git.hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] python: fix importing readline with probably escape sequence output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,143 +33,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 16:01:14 -0000
+X-List-Received-Date: Thu, 18 Jul 2013 16:36:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The PRSPV variable is used for the packages that have different
-representation for a same upstream and local version (e.g 2.0 vs 20).
-In this case, the system is using PRSPV instead of PV when comparing
-the local and upstream versions.
+On 07/18/2013 03:55 AM, Hongxu Jia wrote:
+> While imports readline in python, if the term in terminfo is available and
+> it contains the variable 'km' and 'smm', the readline initialization will
+> output the value of 'smm' which is the escape sequence '\E[?1034h'.
+>
+> 'km' means the terminal has a meta key which is a special key on MIT keyboards,
+> 'smm' means turn on the meta key if this terminal has one. They don't exist in
+> term 'dumb'.
+>
+> Explicitly use dumb as default terminal to avoid probably escape sequence
+> output. The dumb is used to label tty lines when you don't know what kind
+> of terminal is on it. The characteristics of an unknown terminal are the
+> lowest common denominator.
+>
+> [YOCTO #4835]
+> [YOCTO #4732]
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-devtools/python/python.inc            |  4 ++-
+>   ...e-explicitly-use-dumb-as-default-terminal.patch | 35 ++++++++++++++++++++++
+>   2 files changed, 38 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
+>
+> diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+> index 80609a8..2fc894d 100644
+> --- a/meta/recipes-devtools/python/python.inc
+> +++ b/meta/recipes-devtools/python/python.inc
+> @@ -7,7 +7,9 @@ INC_PR = "r0"
+>
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
+>
+> -SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
+> +SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
+> +           file://readline-explicitly-use-dumb-as-default-terminal.patch \
+> +"
+>
+>   SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
+>   SRC_URI[sha256sum] = "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
+> diff --git a/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
+> new file mode 100644
+> index 0000000..11928d1
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
+> @@ -0,0 +1,35 @@
+> +readline: explicitly use dumb as default terminal
+> +
+> +Explicitly use dumb as default terminal to avoid probably
+> +escape sequence output. The dumb is used to label tty lines
+> +when you don't know what kind of terminal is on it. The
+> +characteristics of an unknown terminal are the lowest common
+> +denominator.
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +Upstream-Status: inappropriate [oe specific]
+> +---
+> + Modules/readline.c | 8 ++++++++
+> + 1 file changed, 8 insertions(+)
+> +
+> +diff --git a/Modules/readline.c b/Modules/readline.c
+> +--- a/Modules/readline.c
+> ++++ b/Modules/readline.c
+> +@@ -882,6 +882,14 @@ setup_readline(void)
+> + #endif
+> +     /* Force rebind of TAB to insert-tab */
+> +     rl_bind_key('\t', rl_insert);
+> ++
+> ++    /* Explicitly use dumb as default terminal to avoid probably
+> ++     * escape sequence output. The dumb is used to label tty lines
+> ++     * when you don't know what kind of terminal is on it. The
+> ++     * characteristics of an unknown terminal are the lowest common
+> ++     * denominator.
+> ++     */
+> ++    rl_terminal_name = "dumb";
+I don't think this will work, since it will force all terminal 
+interactions that use python to be dumb, how will the bitbake knotty 
+interface behave with dumb terminal.
 
-The packages that are using this modification are the following:
-	* zip
-	* unzip
-	* docbook-sgml-dtd-3.1-native
-	* docbook-sgml-dtd-4.1-native
+Sau!
 
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
----
- meta/classes/distrodata.bbclass |   39 ++++++++++++++++++++++++++-------------
- 1 file changed, 26 insertions(+), 13 deletions(-)
-
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 204612c..af52dd5 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -71,7 +71,7 @@ python do_distrodata_np() {
-         rstatus = localdata.getVar('RECIPE_COLOR', True)
-         if rstatus is not None:
-                 rstatus = rstatus.replace(',','')
--                
-+
-         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
-         if pcurver == pupver:
-                 vermatch="1"
-@@ -157,7 +157,7 @@ python do_distrodata() {
-         rstatus = localdata.getVar('RECIPE_COLOR', True)
-         if rstatus is not None:
-                 rstatus = rstatus.replace(',','')
--                
-+
-         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
-         if pcurver == pupver:
-                 vermatch="1"
-@@ -408,7 +408,7 @@ python do_checkpkg() {
-                                 s = "%s[^\d\"]*?(\d+[\.\-_])+\d+/?" % m.group()
-                         else:
-                                 s = "(\d+[\.\-_])+\d+/?"
--                                
-+
-                         searchstr = "[hH][rR][eE][fF]=\"%s\">" % s
- 
-                         reg = re.compile(searchstr)
-@@ -563,7 +563,10 @@ python do_checkpkg() {
-                chk_uri = src_uri
-         pdesc = localdata.getVar('DESCRIPTION', True)
-         pgrp = localdata.getVar('SECTION', True)
--        pversion = localdata.getVar('PV', True)
-+        if localdata.getVar('PRSPV', True):
-+                pversion = localdata.getVar('PRSPV', True)
-+        else:
-+                pversion = localdata.getVar('PV', True)
-         plicense = localdata.getVar('LICENSE', True)
-         psection = localdata.getVar('SECTION', True)
-         phome = localdata.getVar('HOMEPAGE', True)
-@@ -590,31 +593,41 @@ python do_checkpkg() {
- 
-         (type, host, path, user, pswd, parm) = bb.decodeurl(uri)
-         if type in ['http', 'https', 'ftp']:
--                pcurver = d.getVar('PV', True)
-+                if d.getVar('PRSPV', True):
-+                    pcurver = d.getVar('PRSPV', True)
-+                else:
-+                    pcurver = d.getVar('PV', True)
-         else:
--                pcurver = d.getVar("SRCREV", True)
-+                if d.getVar('PRSPV', True):
-+                    pcurver = d.getVar('PRSPV', True)
-+                else:
-+                    pcurver = d.getVar("SRCREV", True)
-+
- 
-         if type in ['http', 'https', 'ftp']:
-                 newver = pcurver
-                 altpath = path
-                 dirver = "-"
-                 curname = "-"
--        
-+
-                 """
-                 match version number amid the path, such as "5.7" in:
--                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz        
-+                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz
-                 N.B. how about sth. like "../5.7/5.8/..."? Not find such example so far :-P
-                 """
-                 m = re.search(r"[^/]*(\d+\.)+\d+([\-_]r\d+)*/", path)
-                 if m:
-                         altpath = path.split(m.group())[0]
-                         dirver = m.group().strip("/")
--        
-+
-                         """use new path and remove param. for wget only param is md5sum"""
-                         alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
-                         my_uri = d.getVar('REGEX_URI', True)
-                         if my_uri:
--                            newver = d.getVar('PV', True)
-+                            if d.getVar('PRSPV', True):
-+                                    newver = d.getVar('PRSPV', True)
-+                            else:
-+                                    newver = d.getVar('PV', True)
-                         else:
-                             newver = check_new_dir(alturi, dirver, d)
-                         altpath = path
-@@ -624,7 +637,7 @@ python do_checkpkg() {
-                 """Now try to acquire all remote files in current directory"""
-                 if not re.match("Err", newver):
-                         curname = altpath.split("/")[-1]
--        
-+
-                         """get remote name by skipping pacakge name"""
-                         m = re.search(r"/.*/", altpath)
-                         if not m:
-@@ -650,7 +663,7 @@ python do_checkpkg() {
-                                 pstatus = "UPDATE"
-                         else:
-                                 pstatus = "MATCH"
--        
-+
-                 if re.match("Err", newver):
-                         pstatus = newver + ":" + altpath + ":" + dirver + ":" + curname
-         elif type == 'git':
-@@ -796,7 +809,7 @@ python do_checkpkg() {
-                         pmstatus = "MATCH"
-                 else:
-                         pmstatus = "UPDATE"
--        
-+
-         psrcuri = psrcuri.split()[0]
-         pdepends = "".join(pdepends.split("\t"))
-         pdesc = "".join(pdesc.split("\t"))
--- 
-1.7.9.5
-
+> +     /* Bind both ESC-TAB and ESC-ESC to the completion function */
+> +     rl_bind_key_in_map ('\t', rl_complete, emacs_meta_keymap);
+> +     rl_bind_key_in_map ('\033', rl_complete, emacs_meta_keymap);
+> +--
+> +1.8.1.2
+> +
+>
 
