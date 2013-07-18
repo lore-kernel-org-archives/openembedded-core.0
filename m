@@ -1,44 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f45.google.com (mail-vb0-f45.google.com
-	[209.85.212.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E4AC6B118
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 397A46B118
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 15:29:09 +0000 (UTC)
-Received: by mail-vb0-f45.google.com with SMTP id p14so2455917vbm.32
+	Thu, 18 Jul 2013 15:29:45 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id fb1so3312943pad.23
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 08:29:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=3eFqPdGD0n+YUVFsna4ahq8iEuIY8QnphcxAV1lLurU=;
-	b=TRfctH3+OXptJoTCVDS5UE9qDjQDBPoh9bV4814ArnMRtpr6CXexazPrpl85WJykmg
-	mHbRhw8Ckwue+97QtbHIXwonhrlynnTydF8LuZazJyxb7r+LGbkohveJCVNs54WQpfa/
-	HQt3W48fwMwp/MZwojDSbW3I2F2anjwqvwrIpgrB3Rcb2Ctxtac2h/pMIy6Eg/aWB/W7
-	eB29X//UfS99arPdbONyLi1Fb+ipU+2bxAes0M38YOFIS41zEf4J5UNLCoBRoaplM0Od
-	xxLupX4DuSSgcyzsGwqM0MPfx+twZeVhJuj1DaNvXGllVFXgd4fk56fBF1h2gMdWeFXR
-	uIcw==
-X-Received: by 10.220.70.145 with SMTP id d17mr1119908vcj.46.1374161349161;
-	Thu, 18 Jul 2013 08:29:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 18 Jul 2013 08:28:49 -0700 (PDT)
-In-Reply-To: <CA+jg_OUuZvJa4_GfvPKnt-2uwbE08J2SAYeEuv_RTvWoyEBTHw@mail.gmail.com>
-References: <CA+jg_OV-i-dRAw92j2dXsodfi5=EmXSnFuA-GVvRCJYbEbS=gg@mail.gmail.com>
-	<CAJTo0LaDbFWTXQ0NPtjQ-LMt+B+ZABRG17Ed3BW1=mH2Bv3jgQ@mail.gmail.com>
-	<CAP9ODKqDSUs8gx1tKbSGT89Ap_hPX6xeD4DKteXKhxNO681Ymw@mail.gmail.com>
-	<CAJTo0La40j24AqhFxuZMmjHe9cF6Ssr-jV2D7hhRCMKbLeyLnA@mail.gmail.com>
-	<CA+jg_OXXS4UAojhcgZ3vO5ZeMoHsHEQ=0LCz1GVyGDbcTJJKUQ@mail.gmail.com>
-	<CAJTo0LYtBmmNzEAdhBYqRAcBVefQnx=-n3c5OvYFXAKd=fsK_w@mail.gmail.com>
-	<CA+jg_OUuZvJa4_GfvPKnt-2uwbE08J2SAYeEuv_RTvWoyEBTHw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Jul 2013 16:28:49 +0100
-Message-ID: <CAJTo0LaZLhQ6U3Mu74H6CHDYdMiHUM+BpVrvHycwpqoKyMGZXg@mail.gmail.com>
-To: Daiane Angolini <daiane.list@gmail.com>
-X-Gm-Message-State: ALoCoQnTm2WdqgdIRK3od8HEpEFcBc+LjsU3+eneRrqo9WBEhP+A2+quGl0J/yVIMkL9mIzQb6Gw
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: No package 'cairo' found for GTK+
+	Thu, 18 Jul 2013 08:29:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=rtcJo/q2m79ShTJDoPoR4P2MLVOtAbm2uOHnGpDDwOo=;
+	b=KXjcdIH730MelsZgg6SLqWm/TjfINTS0ty1RHemOcyaiEhCAuN/2HVhGkge9ZeebfJ
+	je8IcrFpFXXN9/3ObxzyxNermOv/oGggYBEfxkvZ5xg/qBmqLeMZOW5/ZnPGXRzYOhKl
+	0t1HXum6Ark7pAZtwFeGKYlN2S0PR30akz/j+AafRJinRIWm0ROjBfcXHe8sPqle2aUh
+	4zocUzw1J6MNlkE3tJCEaKHptbSCazDb0Kf0+bcHWeum5lq3ZoqruvPx1R7mmqH/1stw
+	sduulCIxDSe0IeyeIXOuuYCnmr0x+VtBBeghqlRV+ZrgNjRy16ZSKRVfAtaSwHhhtZv2
+	MZDQ==
+X-Received: by 10.68.178.129 with SMTP id cy1mr12699403pbc.73.1374161386126;
+	Thu, 18 Jul 2013 08:29:46 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id s5sm14330891pbo.38.2013.07.18.08.29.44
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 18 Jul 2013 08:29:45 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jul 2013 01:45:28 +1000
+Message-Id: <1374162328-23522-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH v2] mesa: upgrade to 9.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,19 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 15:29:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Jul 2013 15:29:45 -0000
 
-On 18 July 2013 16:20, Daiane Angolini <daiane.list@gmail.com> wrote:
-> Please, see attached file.
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ .../0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch       | 0
+ .../0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch   | 0
+ meta/recipes-graphics/mesa/{mesa_9.1.3.bb => mesa_9.1.5.bb}           | 4 ++--
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-9.1.3 => mesa-9.1.5}/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch (100%)
+ rename meta/recipes-graphics/mesa/{mesa-9.1.3 => mesa-9.1.5}/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch (100%)
+ rename meta/recipes-graphics/mesa/{mesa_9.1.3.bb => mesa_9.1.5.bb} (79%)
 
-Okay, that's not saying anything useful.  Does your sysroot have the
-cairo.pc file in (should be in something like
-/home/daiane/gerrit/build/tmp/sysroots/imx53qsb/usr/lib/pkgconfig)?
+diff --git a/meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch b/meta/recipes-graphics/mesa/mesa-9.1.5/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+rename to meta/recipes-graphics/mesa/mesa-9.1.5/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+diff --git a/meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch b/meta/recipes-graphics/mesa/mesa-9.1.5/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+rename to meta/recipes-graphics/mesa/mesa-9.1.5/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+diff --git a/meta/recipes-graphics/mesa/mesa_9.1.3.bb b/meta/recipes-graphics/mesa/mesa_9.1.5.bb
+similarity index 79%
+rename from meta/recipes-graphics/mesa/mesa_9.1.3.bb
+rename to meta/recipes-graphics/mesa/mesa_9.1.5.bb
+index a7ccbe6..49fa5dd 100644
+--- a/meta/recipes-graphics/mesa/mesa_9.1.3.bb
++++ b/meta/recipes-graphics/mesa/mesa_9.1.5.bb
+@@ -8,7 +8,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+            file://0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
+            "
+ 
+-SRC_URI[md5sum] = "952ccd03547ed72333b64e1746cf8ada"
+-SRC_URI[sha256sum] = "8d5dac2202d0355bff5cfd183582ec8167d1d1227b7bb7a669acecbeaa52d766"
++SRC_URI[md5sum] = "4ed2af5943141a85a21869053a2fc2eb"
++SRC_URI[sha256sum] = "89ea0d1afd90a87dab253777bfe414820c4aa3890add1487ca2b49f6b3e194fd"
+ 
+ S = "${WORKDIR}/Mesa-${PV}"
+-- 
+1.8.3.2
 
-I suspect your sysroot is corrupted, so rebuilding cairo might be a
-wise idea (bitbake -ccleanstate cairo; bitbake cairo) and try gtk+
-again.
-
-Ross
 
