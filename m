@@ -1,28 +1,26 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 5BA846B260
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 66AD36B22D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 22:20:38 +0000 (UTC)
-Received: from SESTOEX05.enea.se ([fe80::41cb:8d2e:2e90:a183]) by
-	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
-	14.02.0318.001; Fri, 19 Jul 2013 00:20:32 +0200
-From: Tudor Florea <Tudor.Florea@enea.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] Install Python test suite and run it as ptest.
-Thread-Index: AQHOgoIFcOVfd44B0UqQYpJWluhdKJlqEioAgADyATA=
-Date: Thu, 18 Jul 2013 22:20:31 +0000
-Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A4289005CB@sestoex05.enea.se>
-References: <1374019772-63941-1-git-send-email-tudor.florea@enea.com>
-	<3508255.N7Chy3QYdi@helios>
-In-Reply-To: <3508255.N7Chy3QYdi@helios>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.21.1.188]
+	Thu, 18 Jul 2013 22:47:20 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jul 2013 15:47:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,697,1367996400"; d="scan'208";a="372641437"
+Received: from unknown (HELO [10.255.14.14]) ([10.255.14.14])
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2013 15:47:20 -0700
+Message-ID: <51E87078.3090102@linux.intel.com>
+Date: Thu, 18 Jul 2013 15:47:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Install Python test suite and run it as ptest.
+To: Ionut Radu <ionutx.radu@intel.com>
+References: <cover.1374151585.git.ionutx.radu@intel.com>
+	<f0a9a68c227e86bd6239936a06d27129bf1e82f1.1374151585.git.ionutx.radu@intel.com>
+In-Reply-To: <f0a9a68c227e86bd6239936a06d27129bf1e82f1.1374151585.git.ionutx.radu@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] fix traceback when inheriting useradd but not setting USERADD_PARAM or GROUPADD_PARAM (FuncFailed replaced by bb.fatal)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,74 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 22:20:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 18 Jul 2013 22:47:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Paul,
-Thank you for review and tip.
-I'll come up with V2 patch soon.
-Regards,
-  Tudor.
 
------Original Message-----
-From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
-Sent: Thursday, July 18, 2013 10:51
-To: Tudor Florea
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] Install Python test suite and run it as ptes=
-t.
+Please fix the commit message to follow the guildlines:
 
-Hi Tudor,
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
-On Wednesday 17 July 2013 02:09:32 Tudor Florea wrote:
->...
-> +++ b/meta/recipes-devtools/python/python/run-ptest
-> @@ -0,0 +1,5 @@
-> +#!/bin/sh
-> +#
-> +#This script is used to run python test suites
-> +
-> +make -f /usr/lib/python/ptest/Makefile -k runtest-TESTS
-> srcdir=3D/usr/lib/python2.7 TESTPROG=3D/usr/lib/python2.7/test/regrtest.p=
-y |
-> sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g'
-> -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\.
-> ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'=20
+Thanks
+	Sau!
 
-The run-ptest script here has hardcoded /usr/lib/ for ${libdir} (which can =
-and=20
-is changed in some distro configurations), we should ideally avoid this e.g=
-.=20
-through use of sed in do_install after installing the file.
-
->...
-> +RDEPENDS_${PN}-ptest =3D "${PN}-json ${PN}-crypt ${PN}-unittest ${PN}-di=
-fflib
-> ${PN}-pprint ${PN}-shell ${PN}-tests ${PN}-misc ${PN}-netclient
-> ${PN}-mailbox ${PN}-pkgutil ${PN}-profile ${PN}-compile ${PN}-pydoc
-> ${PN}-robotparser ${PN}-netserver ${PN}-datetime ${PN}-compression
-> ${PN}-mime ${PN}-audio ${PN}-db ${PN}-resource ${PN}-image ${PN}-subproce=
-ss
-> ${PN}-doctest ${PN}-numbers ${PN}-html ${PN}-email ${PN}-distutils
-> ${PN}-hotshot ${PN}-2to3 ${PN}-mmap ${PN}-terminal ${PN}-xmlrpc ${PN}-smt=
-pd
-> ${PN}-unixadmin ${PN}-compiler"=20
-
-Could the ptest package simply depend on ${PN}-modules rather than having a=
-n=20
-additional hardcoded list of modules packages? It looks like this could be=
-=20
-replaced by:
-
-RDEPENDS_${PN}-ptest =3D "${PN}-modules ${PN}-misc"
-
-Cheers,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
+On 07/18/2013 05:54 AM, Ionut Radu wrote:
+> Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
+> ---
+>   meta/classes/useradd.bbclass |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+> index 3fe011d..a68b6fd 100644
+> --- a/meta/classes/useradd.bbclass
+> +++ b/meta/classes/useradd.bbclass
+> @@ -219,7 +219,7 @@ def update_useradd_after_parse(d):
+>
+>       for pkg in useradd_packages.split():
+>           if not d.getVar('USERADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPMEMS_PARAM_%s' % pkg, True):
+> -            raise bb.build.FuncFailed("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
+> +            bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
+>
+>   python __anonymous() {
+>       update_useradd_after_parse(d)
+>
 
