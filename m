@@ -1,26 +1,43 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 532E56A59F
+Return-Path: <daiane.list@gmail.com>
+Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
+	[209.85.160.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C8156A59F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 16:36:18 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2013 09:36:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,695,1367996400"; d="scan'208";a="367420268"
-Received: from unknown (HELO [10.255.13.97]) ([10.255.13.97])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2013 09:36:06 -0700
-Message-ID: <51E81976.4010509@linux.intel.com>
-Date: Thu, 18 Jul 2013 09:36:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Thu, 18 Jul 2013 16:55:51 +0000 (UTC)
+Received: by mail-pb0-f54.google.com with SMTP id ro2so3396977pbb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jul 2013 09:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=hMSxQKB0ijAoQikIcdzAkFHyFVSPuZ84HgMKb12zW1c=;
+	b=dLRdgOn61vdXizNJDxsdvq4263365iOmw3toNObZY/K+H1rKYTAcM4bfK5CEOoYa5a
+	9Gc+BwDrtecBRHYQlRd2utjvo6FKiCE+3uG9KyFhvdY/nSKNoL2SzRCZNYaggIBZ09ci
+	tFympXr3wtHePadSMBi5rYsi/ilIK65uYsq68zG9rnG8o1CtDHxDI5ATUWuypRXoQ/rl
+	X6ShdFBB3N8DoCmk8fMK51r4Qrq4epPlm0iiiyI0lmuPTwt260WtFbzIYcAXraZBqdt9
+	qH85Q+l/xiNzTAPlgTbGci0J5K68CuHBeZpho3rcabVJKAUdd1JH32HUeGvaSvzX6o1l
+	x18g==
 MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>
-References: <cover.1374140808.git.hongxu.jia@windriver.com>
-	<6cb2efa600f580748a228b8e8577479c76140368.1374140808.git.hongxu.jia@windriver.com>
-In-Reply-To: <6cb2efa600f580748a228b8e8577479c76140368.1374140808.git.hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] python: fix importing readline with probably escape sequence output
+X-Received: by 10.68.52.200 with SMTP id v8mr13112446pbo.48.1374166552345;
+	Thu, 18 Jul 2013 09:55:52 -0700 (PDT)
+Received: by 10.70.20.225 with HTTP; Thu, 18 Jul 2013 09:55:52 -0700 (PDT)
+In-Reply-To: <CAJTo0LaZLhQ6U3Mu74H6CHDYdMiHUM+BpVrvHycwpqoKyMGZXg@mail.gmail.com>
+References: <CA+jg_OV-i-dRAw92j2dXsodfi5=EmXSnFuA-GVvRCJYbEbS=gg@mail.gmail.com>
+	<CAJTo0LaDbFWTXQ0NPtjQ-LMt+B+ZABRG17Ed3BW1=mH2Bv3jgQ@mail.gmail.com>
+	<CAP9ODKqDSUs8gx1tKbSGT89Ap_hPX6xeD4DKteXKhxNO681Ymw@mail.gmail.com>
+	<CAJTo0La40j24AqhFxuZMmjHe9cF6Ssr-jV2D7hhRCMKbLeyLnA@mail.gmail.com>
+	<CA+jg_OXXS4UAojhcgZ3vO5ZeMoHsHEQ=0LCz1GVyGDbcTJJKUQ@mail.gmail.com>
+	<CAJTo0LYtBmmNzEAdhBYqRAcBVefQnx=-n3c5OvYFXAKd=fsK_w@mail.gmail.com>
+	<CA+jg_OUuZvJa4_GfvPKnt-2uwbE08J2SAYeEuv_RTvWoyEBTHw@mail.gmail.com>
+	<CAJTo0LaZLhQ6U3Mu74H6CHDYdMiHUM+BpVrvHycwpqoKyMGZXg@mail.gmail.com>
+Date: Thu, 18 Jul 2013 13:55:52 -0300
+Message-ID: <CA+jg_OXaYXVPbTypA6gQLYTOjW3u+OG=5ZvukURERc39ice4dQ@mail.gmail.com>
+From: Daiane Angolini <daiane.list@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: No package 'cairo' found for GTK+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +50,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 16:36:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Jul 2013 16:55:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 07/18/2013 03:55 AM, Hongxu Jia wrote:
-> While imports readline in python, if the term in terminfo is available and
-> it contains the variable 'km' and 'smm', the readline initialization will
-> output the value of 'smm' which is the escape sequence '\E[?1034h'.
+On Thu, Jul 18, 2013 at 12:28 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 18 July 2013 16:20, Daiane Angolini <daiane.list@gmail.com> wrote:
+>> Please, see attached file.
 >
-> 'km' means the terminal has a meta key which is a special key on MIT keyboards,
-> 'smm' means turn on the meta key if this terminal has one. They don't exist in
-> term 'dumb'.
+> Okay, that's not saying anything useful.  Does your sysroot have the
+> cairo.pc file in (should be in something like
+> /home/daiane/gerrit/build/tmp/sysroots/imx53qsb/usr/lib/pkgconfig)?
 >
-> Explicitly use dumb as default terminal to avoid probably escape sequence
-> output. The dumb is used to label tty lines when you don't know what kind
-> of terminal is on it. The characteristics of an unknown terminal are the
-> lowest common denominator.
->
-> [YOCTO #4835]
-> [YOCTO #4732]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-devtools/python/python.inc            |  4 ++-
->   ...e-explicitly-use-dumb-as-default-terminal.patch | 35 ++++++++++++++++++++++
->   2 files changed, 38 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
->
-> diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-> index 80609a8..2fc894d 100644
-> --- a/meta/recipes-devtools/python/python.inc
-> +++ b/meta/recipes-devtools/python/python.inc
-> @@ -7,7 +7,9 @@ INC_PR = "r0"
->
->   LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
->
-> -SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
-> +SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
-> +           file://readline-explicitly-use-dumb-as-default-terminal.patch \
-> +"
->
->   SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
->   SRC_URI[sha256sum] = "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
-> diff --git a/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
-> new file mode 100644
-> index 0000000..11928d1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
-> @@ -0,0 +1,35 @@
-> +readline: explicitly use dumb as default terminal
-> +
-> +Explicitly use dumb as default terminal to avoid probably
-> +escape sequence output. The dumb is used to label tty lines
-> +when you don't know what kind of terminal is on it. The
-> +characteristics of an unknown terminal are the lowest common
-> +denominator.
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +Upstream-Status: inappropriate [oe specific]
-> +---
-> + Modules/readline.c | 8 ++++++++
-> + 1 file changed, 8 insertions(+)
-> +
-> +diff --git a/Modules/readline.c b/Modules/readline.c
-> +--- a/Modules/readline.c
-> ++++ b/Modules/readline.c
-> +@@ -882,6 +882,14 @@ setup_readline(void)
-> + #endif
-> +     /* Force rebind of TAB to insert-tab */
-> +     rl_bind_key('\t', rl_insert);
-> ++
-> ++    /* Explicitly use dumb as default terminal to avoid probably
-> ++     * escape sequence output. The dumb is used to label tty lines
-> ++     * when you don't know what kind of terminal is on it. The
-> ++     * characteristics of an unknown terminal are the lowest common
-> ++     * denominator.
-> ++     */
-> ++    rl_terminal_name = "dumb";
-I don't think this will work, since it will force all terminal 
-interactions that use python to be dumb, how will the bitbake knotty 
-interface behave with dumb terminal.
+> I suspect your sysroot is corrupted, so rebuilding cairo might be a
+> wise idea (bitbake -ccleanstate cairo; bitbake cairo) and try gtk+
+> again.
 
-Sau!
+I think you're right.
 
-> +     /* Bind both ESC-TAB and ESC-ESC to the completion function */
-> +     rl_bind_key_in_map ('\t', rl_complete, emacs_meta_keymap);
-> +     rl_bind_key_in_map ('\033', rl_complete, emacs_meta_keymap);
-> +--
-> +1.8.1.2
-> +
+Now I got this error:
+
+| checking X11/extensions/XShm.h... yes
+| checking Pango flags... configure: error:
+| *** Pango not found. Pango built with Cairo support is required
+| *** to build GTK+. See http://www.pango.org for Pango information.
+|
+
+
+I will keep cleaning all packages until the complete dependency chain is clean.
+
+When I first faced this error I had just rm -rf tmp folder. I did
+think it would redo anything needed....
+
+
+Thanks a lot for your time ;-)
+
+Daiane
+
 >
+> Ross
 
