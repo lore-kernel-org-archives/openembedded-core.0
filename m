@@ -1,38 +1,36 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AE166B19D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 52A836B1EC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 14:25:09 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id k14so4266437oag.12
+	Thu, 18 Jul 2013 14:26:03 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q12so2413090vbe.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 07:25:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=jVmzCqeXUdUgEmJ4Tdv5YOI4XuS31NkE75ax1YFtDsw=;
-	b=SXNFpYhHCCVPl2EHIUo6yncDbY74q9DkRTItc37DYnaIZ4CdWwTVOII9hAhSpOQafv
-	WHS0xk/cKVxxHgb4QyeVjK9kk9zrVb8bL5ShwustMmByR0+Zc/97uMIn5XqAyIN57FaB
-	0F40MVIQizuSz2oyMs0DRJZfvKayijpJOdzxYBGg6E74k+qtPdA2DEaBnnIofydsiJfm
-	hu6MBVpqOsoK9oK4F/mPZpwhMXwW86oLDQwqGpUA3JS5GvYjqjpZybtMCRNUnbF0fCNH
-	SMjdw46zjk8SgaUQKQRT3hRTOSCGWzRa800LH0yqGfsXoOPhuwfZGbSoxZx089rjTkv0
-	1UbQ==
+	Thu, 18 Jul 2013 07:26:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=cjq5AUTAoJtyaLVFSfE1ho2CGIjtkiJ5urFkLVfSrK8=;
+	b=LkC4GxHi2V6iE1uvCZO/KTw7SZSpmEvPx/RFpAyZhJVpvuLl0LwtxxZAp4njZUnABw
+	wYWaRiAnU5Bw7OyuJ8GYkvSPYblaofoCrpwHycsQR9NQun8KeTByUOovT6ONYeO9Hna/
+	Y1GrK5A8OEDzZOSikZVhjSDT9S3rd11sh8p/iOwHl/nf24tZA6RJaDmXetxm86MvJ4Ij
+	oW0iZStszeXkAv/ZJOclhgev3Z7vRpdIu6Pz6A2IygiQPBAbkrcq5BcShDnNynZV5Zqn
+	Ngir7r523pEMF5FqlifG/yHLimeXT/fDzuu1uuFHh8kx+9NeLx2Dq33iZS1xQdJmYgAe
+	Q3JQ==
+X-Received: by 10.220.1.9 with SMTP id 9mr4169569vcd.37.1374157563723; Thu, 18
+	Jul 2013 07:26:03 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.182.205.138 with SMTP id lg10mr7754849obc.6.1374157509794;
-	Thu, 18 Jul 2013 07:25:09 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.60.166 with HTTP; Thu, 18 Jul 2013 07:25:09 -0700 (PDT)
-In-Reply-To: <a6f5cb59348a434d4b03599b69f101cd0d5177fe.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <cover.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-	<a6f5cb59348a434d4b03599b69f101cd0d5177fe.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-Date: Thu, 18 Jul 2013 11:25:09 -0300
-X-Google-Sender-Auth: O7bHkoplwz7HjLrBJbbx7ssst64
-Message-ID: <CAP9ODKop8KSgS93MAPvFPQx+i6m9QVbeeYk+5CVdCVO-MoO38w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/11] rt-tests: add PV variable into recipe
+Received: by 10.220.71.201 with HTTP; Thu, 18 Jul 2013 07:25:43 -0700 (PDT)
+In-Reply-To: <cover.1374157000.git.sgw@linux.intel.com>
+References: <cover.1374157000.git.sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 Jul 2013 15:25:43 +0100
+Message-ID: <CAJTo0LYVy6ogJsHhRfxp8gH=ys8y2qo6SB3+e_Bzb-YwODb=SA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQk3PmSNJxKzHX3kX6fiaKhmIakjvuq/GvjkdF0jxT4htSoUmbEmzCNp15SXpjlB1ht8QMT3
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/36] Updated and Ready
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,21 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 14:25:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 18 Jul 2013 14:26:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jul 18, 2013 at 11:16 AM, Emilia Ciobanu
-<emilia.maria.silvia.ciobanu@intel.com> wrote:
-> Git packages should include git token inside the PV variable.
+On 18 July 2013 15:24, Saul Wold <sgw@linux.intel.com> wrote:
+> The following changes since commit cf1790d992f067be8d5f9894458f55f6f1bdc61f:
 >
-> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+>   lib/oeqa: fix dependecy check (2013-07-15 10:29:27 -0700)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-I agree with the fix but it'd be better if you made it  clear you're
-including Git revision into PV; the PV variable addition is just a
-consequence, not the goal.
-
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Acked-By: Ross Burton <ross.burton@intel.com>
 
