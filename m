@@ -1,24 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EE4C6B118
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 056606B10E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 15:01:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 18 Jul 2013 08:01:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,694,1367996400"; d="scan'208";a="367373588"
-Received: from unknown (HELO helios.localnet) ([10.252.122.61])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2013 08:01:53 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2013 16:01:52 +0100
-Message-ID: <8433221.2Gzg6I6cQz@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <cover.1374157000.git.sgw@linux.intel.com>
-References: <cover.1374157000.git.sgw@linux.intel.com>
+	Thu, 18 Jul 2013 15:14:20 +0000 (UTC)
+Received: by mail-ee0-f44.google.com with SMTP id c13so1822857eek.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jul 2013 08:14:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=rZW9Qaw1ekjcWbB9uSfaaGex0IkHfHgNwF3Qeoj2fUQ=;
+	b=tlhFp04IkCfqnhJRiNvnsBl65tfx2P7p/OVYQ6uy1AijjtkN+4nJpiqb1IWhfnB8MO
+	CL6vfmUm2KSSmRQ0pPnrgw2ODFmr0r2X2BsmzozSozH1MxH9fKyLxoGQ7jnwBiLf07HG
+	1u41lSBtPPVYK8T7iFk3JI8EDt0JCpXlPOI/E69D6rDvQchrecrgdGtIwwszZ3yX+eym
+	645rr5Mnd69BpVKAxM/9FCvoGj8JswAbKHq1ziBhPrkO03Gtg/ihIRr9BvV25qFux5+m
+	0maTsIlijuMkvBUC0V9jAF92dE2lYvjMWeNNGzY+abKZk6R2VmNvCgoTczMm8luFHgYj
+	XH5Q==
+X-Received: by 10.15.34.129 with SMTP id e1mr11824781eev.80.1374160461056;
+	Thu, 18 Jul 2013 08:14:21 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	c3sm20068911eev.3.2013.07.18.08.14.20 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 18 Jul 2013 08:14:20 -0700 (PDT)
+Date: Thu, 18 Jul 2013 17:14:38 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+Message-ID: <20130718151438.GE9527@jama>
+References: <1374157082-20897-1-git-send-email-net147@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 00/36] Updated and Ready
+In-Reply-To: <1374157082-20897-1-git-send-email-net147@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: upgrade to 9.1.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,108 +45,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 15:01:55 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 18 Jul 2013 15:14:21 -0000
+X-Groupsio-MsgNum: 42162
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="84ND8YJRMFlzkrP4"
+Content-Disposition: inline
 
-On Thursday 18 July 2013 07:24:45 Saul Wold wrote:
-> Richard,
-> 
-> Please pull after final ACKs by Paul and Ross.
-> 
-> Additinally there is a poky-tiny.conf patch on poky list from Cristiana that
-> can be pulled also.
-> 
-> Thanks
-> 	Sau!
-> 
-> 
-> The following changes since commit cf1790d992f067be8d5f9894458f55f6f1bdc61f:
-> 
->   lib/oeqa: fix dependecy check (2013-07-15 10:29:27 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage
-> 
-> Bruce Ashfield (3):
->   linux-yocto/3.8: update META srcrev
->   linux-yocto/3.4: mips: fix gcc 4.8 compilation
->   linux-yocto/3.8: restore qemumips64 SRCREV
-> 
-> Chen Qi (2):
->   tar: remove an erroneous patch
->   local.conf.sample.extended: add example for EXTRA_USERS_PARAMS
-> 
-> Cristian Iorga (2):
->   bluez4: conflicts with bluez5
->   bluez5: new package for v5.7
-> 
-> Felipe F. Tonello (3):
->   pulseaudio: Added cli-protocol-unix to pulseaudio-misc
->   valgrind: added perl dependency
->   pulseaudio: Removed avahi forced dependency
-> 
-> Hongxu Jia (2):
->   udev-extraconf: allow users in disk group to write vfat filesystem
->   xuser-account: add xuser to disk group
-> 
-> Joe Slater (1):
->   curl: add upstream status to patch
-> 
-> Jonathan Liu (1):
->   gdb: add PACKAGECONFIG for Python support
-> 
-> Kai Kang (1):
->   tcl: fix typo of upstream status in patch file
-> 
-> Khem Raj (4):
->   gcc-4.8: Fix on-device SDK C++ runtime issue
->   uclibc: Build ldd/ldcondif/iconv for main uclibc recipe
->   eglibc-2.18: Remove unused patches
->   eglibc-2.18: Update to latest snapshot
-> 
-> Mark Hatle (4):
->   sanity.bbclass: Update gcc sanity check
->   terminal.bbclass: Fix BB_RUNFMT processing
->   busybox: fix ip reference in simple.script
->   dbus-ptest: Disable python module check
-> 
-> Paul Eggleton (4):
->   qt-mobility: tighten up config generation and use PACKAGECONFIG
->   classes/insane: fix regression in libdir QA regex
->   classes/insane: allow libdir QA check to be skipped using INSANE_SKIP
->   scripts/contrib/*: fix arithmetic bashism
-> 
-> Roy.Li (1):
->   dpkg: backport a patch to support mipsn32el and mips64el
-> 
-> Saul Wold (2):
->   Upstream-Status: Correct capitalization
->   buildtools-tarball: testimage needs the mmap python-module
-> 
-> Simon Busch (1):
->   wpa-supplicant: backport patch to fix dbus interface for autoscan
->     functionality
-> 
-> Stefan Stanacar (1):
->   populate_sdk_base.bbclass: use new perm option for find
-> 
-> Yi Zhao (3):
->   iproute2: Fix alternative link for ip command
->   run-postinsts: Fix typo
->   rpm-postinsts.bb: Fix typo
-> 
-> Zhenhua Luo (1):
->   oprofile: add Upstream-Status for several patches
+--84ND8YJRMFlzkrP4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+On Fri, Jul 19, 2013 at 12:18:02AM +1000, Jonathan Liu wrote:
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  .../0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch       | 0
+>  .../0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch   | 0
+>  meta/recipes-graphics/mesa/mesa.inc                                   | =
+2 +-
+>  meta/recipes-graphics/mesa/{mesa_9.1.3.bb =3D> mesa_9.1.5.bb}           =
+| 4 ++--
+>  4 files changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-graphics/mesa/{mesa-9.1.3 =3D> mesa-9.1.5}/0003-EGL-=
+Mutate-NativeDisplayType-depending-on-config.patch (100%)
+>  rename meta/recipes-graphics/mesa/{mesa-9.1.3 =3D> mesa-9.1.5}/0005-llvm=
+pipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch (100%)
+>  rename meta/recipes-graphics/mesa/{mesa_9.1.3.bb =3D> mesa_9.1.5.bb} (79=
+%)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-Native=
+DisplayType-depending-on-config.patch b/meta/recipes-graphics/mesa/mesa-9.1=
+=2E5/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-9.1.3/0003-EGL-Mutate-NativeD=
+isplayType-depending-on-config.patch
+> rename to meta/recipes-graphics/mesa/mesa-9.1.5/0003-EGL-Mutate-NativeDis=
+playType-depending-on-config.patch
+> diff --git a/meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-t=
+he-power-of-two-sizeof-struct-cmd_b.patch b/meta/recipes-graphics/mesa/mesa=
+-9.1.5/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-9.1.3/0005-llvmpipe-remove-th=
+e-power-of-two-sizeof-struct-cmd_b.patch
+> rename to meta/recipes-graphics/mesa/mesa-9.1.5/0005-llvmpipe-remove-the-=
+power-of-two-sizeof-struct-cmd_b.patch
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+> index ada1170..4f93b90 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -87,7 +87,7 @@ do_install_append () {
+>      rm -f ${D}${libdir}/gallium-pipe/*.la
+>      rm -f ${D}${libdir}/gbm/*.la
+>     =20
+> -    # it was packaged in libdricore9.1.3-1 and preventing upgrades when =
+debian.bbclass was used=20
+> +    # it was packaged in libdricore and preventing upgrades when debian.=
+bbclass was used=20
 
--- 
+It's not so important, but the old comment was more correct, the package
+is called libdricore${VERSION} when debian.bbclass is used and that's
+the reason why it was conflicting (when packagemanager was trying to
+install libdricore9.1.2-1 next to libdricore9.1.3-1..
 
-Paul Eggleton
-Intel Open Source Technology Centre
+>      rm -f ${D}${sysconfdir}/drirc
+>  }
+> =20
+> diff --git a/meta/recipes-graphics/mesa/mesa_9.1.3.bb b/meta/recipes-grap=
+hics/mesa/mesa_9.1.5.bb
+> similarity index 79%
+> rename from meta/recipes-graphics/mesa/mesa_9.1.3.bb
+> rename to meta/recipes-graphics/mesa/mesa_9.1.5.bb
+> index a7ccbe6..49fa5dd 100644
+> --- a/meta/recipes-graphics/mesa/mesa_9.1.3.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_9.1.5.bb
+> @@ -8,7 +8,7 @@ SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/Mes=
+aLib-${PV}.tar.bz2 \
+>             file://0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cm=
+d_b.patch \
+>             "
+> =20
+> -SRC_URI[md5sum] =3D "952ccd03547ed72333b64e1746cf8ada"
+> -SRC_URI[sha256sum] =3D "8d5dac2202d0355bff5cfd183582ec8167d1d1227b7bb7a6=
+69acecbeaa52d766"
+> +SRC_URI[md5sum] =3D "4ed2af5943141a85a21869053a2fc2eb"
+> +SRC_URI[sha256sum] =3D "89ea0d1afd90a87dab253777bfe414820c4aa3890add1487=
+ca2b49f6b3e194fd"
+> =20
+>  S =3D "${WORKDIR}/Mesa-${PV}"
+> --=20
+> 1.8.3.2
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--84ND8YJRMFlzkrP4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHoBl4ACgkQN1Ujt2V2gByYvACgh1W+9wrdGva9XV6S5a4ItPIZ
+0xoAnjCyOPTrqaVddSY49zg/ok4UO6SY
+=YTx2
+-----END PGP SIGNATURE-----
+
+--84ND8YJRMFlzkrP4--
