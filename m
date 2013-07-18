@@ -1,38 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 276156B19D
+Received: from mail-ve0-f172.google.com (mail-ve0-f172.google.com
+	[209.85.128.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C191D6B19D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 14:04:58 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id z11so2926781wgg.10
+	Thu, 18 Jul 2013 14:06:50 +0000 (UTC)
+Received: by mail-ve0-f172.google.com with SMTP id jz10so2544717veb.31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 07:04:59 -0700 (PDT)
+	Thu, 18 Jul 2013 07:06:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:in-reply-to:references
-	:x-gm-message-state;
-	bh=0QAVrl35KAAzYYnLYvoxVOE26fbCFU93FNbh39BxXsQ=;
-	b=GdnilHqJb4nORkU+5bqT/TUpRY2+mZju8fhJtzSyMl4ul2FRrSQNdr9pAIPhCj4YtV
-	KYSduJ7R8yP5YW2XjLls2M/rNFEMBDVh5mTISoRD/XRS+jtxU5yZJxtjcoHTY9UIM+Kr
-	PrqUNd6wBMA9wLrF4UWPN2obyq7phwxj8oKndlMuDVC7SIcfz8Kt+wq4u4hVlmfqswBZ
-	GcPhkVF3XtaIAIeUq6mIdxFBmCISNW1f8w66uig2ETXGXqoVLvALhwqxliodQSODlBPa
-	dWW/MU1ewf84SJGcI/NzOxL2XUzMeb7xHB+QTOsh/a1n49iwIn3EjnXQrdR44tH88ohp
-	9pmg==
-X-Received: by 10.180.208.17 with SMTP id ma17mr8243376wic.7.1374156299236;
-	Thu, 18 Jul 2013 07:04:59 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id b20sm16805749wiw.4.2013.07.18.07.04.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 18 Jul 2013 07:04:58 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2013 14:59:42 +0100
-Message-Id: <1374155982-23797-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1374155982-23797-1-git-send-email-ross.burton@intel.com>
-References: <1374155982-23797-1-git-send-email-ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQkGMqZdgM9iFzFyBVSFkIEcIAKdcYcUCIB+2qOpS2HK2G6TsK4PJU8i0padEX/Qng9CvGkF
-Subject: [PATCH] initrdscripts: mount / as read-only when live-booting
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=krtpay58kE20oFrZS0UuOsUlWbHT0OkziJfp0wWFEQQ=;
+	b=ATnroCdHbWwccD4vT+VoB9WEn8YMgEbA/sHhnVb7VuIYPfv+1SzUP0wsB/1J8SAboR
+	9rURf6ZKRVrZbUm5A2DG8DV3UdYUaj4VisVbOyB1qe87Y9CaomqhfNjIlJpy/6vUdOGj
+	khrUvqvXhteDJgaomQAYwb2R3GC0XNIhlex5EoAq7Op/AXuCA+1LMb0DA7D9QvvB1VKa
+	73w4wpGL8eUa1gJE3bpg8CFm9RdIoQ851EI3DMUp/cUMwFDEM8ZvYw+CKEApxqeRVQWe
+	3Ol+P1hEITWg7WtTwbwfTJ+drKgOc98Y0sTcMjo5Pnt8o3R4j4TB0tgNuKU+HLHoAHVM
+	8NAg==
+X-Received: by 10.52.164.227 with SMTP id yt3mr3400613vdb.107.1374156411353;
+	Thu, 18 Jul 2013 07:06:51 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Thu, 18 Jul 2013 07:06:31 -0700 (PDT)
+In-Reply-To: <1374157097-20939-1-git-send-email-net147@gmail.com>
+References: <1374157097-20939-1-git-send-email-net147@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 18 Jul 2013 15:06:31 +0100
+Message-ID: <CAJTo0LY1toVb25hCGB2_1FeFCdSbQjOYc9Q6TAP3svDZsRqYoQ@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+X-Gm-Message-State: ALoCoQkrOeHlJKm+kf8iT628W2V6HrWjNvt9PZsCOGceqYR++QTVctYJfmLumo0z0j6C4jQ5igdT
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: update git recipe to 9.1.5 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 14:04:59 -0000
+X-List-Received-Date: Thu, 18 Jul 2013 14:06:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-So that the root filesystem can be fsck'd properly, mount it read only.  Either
-initscripts or systemd will re-mount as read-write in early boot.
+On 18 July 2013 15:18, Jonathan Liu <net147@gmail.com> wrote:
+> +           file://0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch \
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-live.sh |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+According to Martin when he upgraded mesa_git to
+5a925cc5504575c22dbb7d29842d7fc5babcb5c7 that patch was merged
+upstream, and as it is only available in mesa-9.1.3/ even if it
+applied it won't be found.
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index 890c562..c56c79a 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -157,7 +157,7 @@ mount_and_boot() {
-     case $union_fs_type in
- 	"overlayfs")
- 	    mkdir -p /rootfs.ro /rootfs.rw
--	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
-+	    if ! mount -o ro,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
- 		rm -rf /rootfs.ro /rootfs.rw
- 		fatal "Could not mount rootfs image"
- 	    else
-@@ -170,7 +170,7 @@ mount_and_boot() {
- 	    ;;
- 	"aufs")
- 	    mkdir -p /rootfs.ro /rootfs.rw
--	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
-+	    if ! mount -o ro,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
- 		rm -rf /rootfs.ro /rootfs.rw
- 		fatal "Could not mount rootfs image"
- 	    else
-@@ -182,7 +182,7 @@ mount_and_boot() {
- 	    fi
- 	    ;;
- 	"")
--	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
-+	    if ! mount -o ro,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
- 		fatal "Could not mount rootfs image"
- 	    fi
- 	    ;;
--- 
-1.7.10.4
-
+Ross
 
