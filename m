@@ -1,22 +1,37 @@
-Return-Path: <Tudor.Florea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 6B31C6B1EC
+Return-Path: <net147@gmail.com>
+Received: from mail-ve0-f175.google.com (mail-ve0-f175.google.com
+	[209.85.128.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A25E96B1B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jul 2013 23:56:18 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Thu, 18 Jul 2013 01:56:17 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4200)	id ED04A288C5A;
-	Thu, 18 Jul 2013 01:56:16 +0200 (CEST)
-From: Tudor Florea <tudor.florea@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Jul 2013 01:56:11 +0200
-Message-ID: <1374105371-28913-1-git-send-email-tudor.florea@enea.com>
-X-Mailer: git-send-email 1.7.10.4
+	Thu, 18 Jul 2013 00:47:35 +0000 (UTC)
+Received: by mail-ve0-f175.google.com with SMTP id da11so1989694veb.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jul 2013 17:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=CQfuPjd0GtvMXx5ZmhzOv1OtbQiZk6NqNMEx7Zhg1fc=;
+	b=EETfJ4Je87qwkkpk++W7hldGVfYJVe1TfqSBCnJf7txtqkXe9e70YpoC+K8DHBYX/h
+	kaUEgC4ZelNV7qQ143flFgiyEwUELFfHMXlE2FA6UE2Wf2dFJTac0v7UN00HJwtPRDYI
+	EHmojXyZAKTcBPysB5la7Yb6iG+ds9x44BdR5i+dcIz2HRdHa1HaUcMHp3+fONmPY6RZ
+	YhFtpOImB2Ms7qaQal7rlVE4nnJntXFTr/Xn/6E370DmB7emPX0PlJs2QXS0a9Mo2qB0
+	MzLQ/CkXbRqaZaeVp2dRB2jt0yzvT9FDMNWlaFtIhhz4RKXZIHawssbOBJo/gbmSO+rA
+	cCmg==
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] kmod: add ptest
+X-Received: by 10.52.21.196 with SMTP id x4mr2538074vde.65.1374108455690; Wed,
+	17 Jul 2013 17:47:35 -0700 (PDT)
+Received: by 10.58.68.170 with HTTP; Wed, 17 Jul 2013 17:47:35 -0700 (PDT)
+In-Reply-To: <51E68A45.7090001@herbrechtsmeier.net>
+References: <1374050422-5056-1-git-send-email-net147@gmail.com>
+	<51E66038.8000109@herbrechtsmeier.net> <51E6689B.8060400@gmail.com>
+	<51E678AF.2010001@gmail.com> <51E68A45.7090001@herbrechtsmeier.net>
+Date: Thu, 18 Jul 2013 10:47:35 +1000
+Message-ID: <CANwerB3M3p7q1iMHUcjdNdL68ozr0VDcDwor0afiSjZdx+24AQ@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cmake.bbclass: set ar/ld/nm/objcopy/objdump/ranlib/strip native paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,98 +44,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2013 23:56:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Jul 2013 00:47:35 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Install kmod test suite and run it as ptest.
+On 17 July 2013 22:12, Stefan Herbrechtsmeier
+<stefan@herbrechtsmeier.net> wrote:
+> Am 17.07.2013 12:57, schrieb Jonathan Liu:
+>
+>> On 17/07/2013 7:49 PM, Jonathan Liu wrote:
+>>>
+>>> On 17/07/2013 7:13 PM, Stefan Herbrechtsmeier wrote:
+>>>>
+>>>> Am 17.07.2013 10:40, schrieb Jonathan Liu:
+>>>>>
+>>>>> The CMAKE_{AR,LINKER,NM,OBJCOPY,OBJDUMP,RANLIB,STRIP} cmake variables
+>>>>> are currently set to values like CMAKE_LINKER-NOTFOUND for native
+>>>>> recipes because the host paths are not searched. This is because the
+>>>>> CMAKE_FIND_ROOT_PATH_MODE_PROGRAM cmake variable is set to ONLY.
+>>>>>
+>>>>> To resolve this, explicitly set the variables using FIND_PROGRAM and
+>>>>> pass the CMAKE_FIND_ROOT_PATH_BOTH option so the host paths are also
+>>>>> searched.
+>>>>
+>>>> Can you please debug the issue. Regarding my current check the variables
+>>>> are set in CMakeFindBinUtils.cmake and this is included by
+>>>> CMakeDetermineCCompiler.cmake. The later set _CMAKE_TOOLCHAIN_LOCATION based
+>>>> on the CMAKE_C_COMPILER variable and this is used as search location for the
+>>>> find_program calls. Can you check the value of _CMAKE_TOOLCHAIN_LOCATION?
+>>>>
+>>> Within the context of the CMakeLists.txt file:
+>>> CMAKE_C_COMPILER is /usr/bin/gcc.
+>>> _CMAKE_TOOLCHAIN_LOCATION is not set to anything.
+>>>
+>>> If I add message(test) to
+>>> build/tmp/sysroots/x86_64-linux/usr/share/cmake-2.8/Modules/CMakeDetermineCCompiler.cmake,
+>>> it doesn't get printed out when running cmake on CMakeLists.txt (cmake is
+>>> build/tmp/sysroots/x86_64-linux/usr/bin/cmake).
+>>>
+>>> Regards,
+>>> Jonathan
+>>
+>> For:
+>> find_program(CMAKE_AR NAMES
+>> ${_CMAKE_TOOLCHAIN_PREFIX}ar${_CMAKE_TOOLCHAIN_SUFFIX} HINTS
+>> ${_CMAKE_TOOLCHAIN_LOCATION})
+>>
+>> It seems the ${_CMAKE_TOOLCHAIN_LOCATION} hint is not used when
+>> CMAKE_FIND_ROOT_PATH_MODE_PROGRAM is set to ONLY.
+>
+> You are right. The CMAKE_FIND_ROOT_PATH is used also as base for the HINTS
+> paths.
+>
+> You can use _CMAKE_TOOLCHAIN_LOCATION to pass NO_CMAKE_FIND_ROOT_PATH to the
+> find_program calls:
+> set(_CMAKE_TOOLCHAIN_LOCATION "" NO_CMAKE_FIND_ROOT_PATH)
+>
+> This should work but I am not sure if it is a good solution.
+>
 
-Signed-off-by: Tudor Florea <tudor.florea@enea.com>
----
- meta/recipes-kernel/kmod/kmod.inc         |    4 +++-
- meta/recipes-kernel/kmod/kmod/ptest.patch |   20 ++++++++++++++++++++
- meta/recipes-kernel/kmod/kmod/run-ptest   |    5 +++++
- meta/recipes-kernel/kmod/kmod_git.bb      |    9 +++++++++
- 4 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/kmod/kmod/ptest.patch
- create mode 100755 meta/recipes-kernel/kmod/kmod/run-ptest
+I prefer setting documented variables rather than hacking the
+undocumented _CMAKE_TOOLCHAIN_LOCATION variable to add the
+NO_CMAKE_FIND_ROOT_PATH flag for FIND_PROGRAM.
 
-diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-index 3cd963f..a780b6c 100644
---- a/meta/recipes-kernel/kmod/kmod.inc
-+++ b/meta/recipes-kernel/kmod/kmod.inc
-@@ -15,11 +15,13 @@ DEPENDS += "pkgconfig-native"
- LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
-                     file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                    "
--inherit autotools gtk-doc
-+inherit autotools gtk-doc ptest
- 
- SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
-            file://depmod-search.conf \
-            file://0001-man-disable-man-page-generation-because-we-don-t-hav.patch \
-+           file://run-ptest \
-+           file://ptest.patch \
-           "
- 
- SRCREV = "62081c0f68905b22f375156d4532fd37fa5c8d33"
-diff --git a/meta/recipes-kernel/kmod/kmod/ptest.patch b/meta/recipes-kernel/kmod/kmod/ptest.patch
-new file mode 100644
-index 0000000..8f3355f
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod/ptest.patch
-@@ -0,0 +1,20 @@
-+diff -ruN a/Makefile.am b/Makefile.am
-+--- a/Makefile.am	2013-07-12 17:11:05.278331557 +0200
-++++ b/Makefile.am	2013-07-12 17:14:27.033788016 +0200
-+@@ -204,6 +204,16 @@
-+ 
-+ distclean-local: $(DISTCLEAN_LOCAL_HOOKS)
-+ 
-++install-ptest:
-++	@$(MKDIR_P) $(DESTDIR)/testsuite
-++	@for file in $(TESTSUITE); do \
-++		install $$file $(DESTDIR)/testsuite; \
-++	done;
-++	@cp Makefile $(DESTDIR)
-++	@sed -i 's/^Makefile/_Makefile/'  ${DESTDIR}/Makefile
-++	@tar -czf $(DESTDIR)/tools.tgz $(noinst_SCRIPTS) $(noinst_PROGRAMS)
-++	@tar -C testsuite -czf $(DESTDIR)/testsuite.tgz rootfs-pristine .libs
-++
-+ # ------------------------------------------------------------------------------
-+ # custom release helpers
-+ # ------------------------------------------------------------------------------
-diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/kmod/kmod/run-ptest
-new file mode 100755
-index 0000000..fac24fd
---- /dev/null
-+++ b/meta/recipes-kernel/kmod/kmod/run-ptest
-@@ -0,0 +1,5 @@
-+#!/bin/sh
-+tar -xzf tools.tgz
-+tar -C testsuite -xzf testsuite.tgz
-+make rootfs
-+make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index ca6b004..cb7a131 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -36,6 +36,15 @@ do_install_append () {
-         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
- }
- 
-+do_compile_prepend() {
-+            sed -i 's/ac_pwd=/#ac_pwd=/' config.status ; sed -i "/#ac_pwd=/a\ac_pwd='.'" config.status
-+}
-+
-+do_compile_ptest () {
-+        oe_runmake buildtest-TESTS
-+        oe_runmake rootfs
-+}
-+
- inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "60"
--- 
-1.7.10.4
-
+Regards,
+Jonathan
 
