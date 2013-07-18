@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
-	[209.85.128.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 868F56B19D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BB626B19D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 10:52:42 +0000 (UTC)
-Received: by mail-ve0-f177.google.com with SMTP id cz10so2328076veb.8
+	Thu, 18 Jul 2013 10:55:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6IAt2sY023204
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 03:52:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=dcc+nMye3fZ9OECYYhyJIlJLv85f0OZUp9L4eZUbpDs=;
-	b=GzEvuPQJetOIMFLA5yfzVHzkEL1CK+ALRsaJ0avanEfO1OihnlEAzizL2lBJdAsiU2
-	whdLej0nC0FB+NZyVkIXgRO705lW8gTvN/D4MSeaHeK2D11cMSQRiJqQbvDHHpovVOXh
-	pSdLiNt1w4xzNBKNU+ivDdrMLVp42iOf6gxjXxbWs2xtrPA/W/cBznLuwj0UBOe9XhWu
-	3k/VkVsS/O3NHSAkikTY+W7xTJjUv9QPkmTtk6rdVN7KIosnctkfAl72xno8ZA9wNnNu
-	QR9YEfA2/z5qYeAB1F4Vxd0zz8yVfMW/OVMLtzOiOOVGFQoy2LF8DhOcch0ZYqezFLfx
-	aK8g==
-X-Received: by 10.58.171.4 with SMTP id aq4mr3734885vec.26.1374144762683; Thu,
-	18 Jul 2013 03:52:42 -0700 (PDT)
+	Thu, 18 Jul 2013 03:55:02 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 18 Jul 2013 03:55:01 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jul 2013 18:54:59 +0800
+Message-ID: <cover.1374140808.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 18 Jul 2013 03:52:22 -0700 (PDT)
-In-Reply-To: <cover.1374128654.git.sgw@linux.intel.com>
-References: <cover.1374128654.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 18 Jul 2013 11:52:22 +0100
-Message-ID: <CAJTo0LbSnT2ejbJCjCBUoxVEhjoCPtKMrzt8NMHFEVYb9LGHYw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQkK3pCSPOxFwA6lxd1ZhmBb0L7hGWh59QNHtYjyVXwd3kF/3dTaD7aEjHZRP+awh98P2h2G
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/40] Review and ACK
+Subject: [PATCH 0/1] python: fix importing readline with probably escape sequence output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 10:52:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 18 Jul 2013 10:55:01 -0000
+Content-Type: text/plain
 
-Hi,
+While imports readline in python, if TERM in terminfo is available and 
+it contains the variable 'km' and 'smm', the readline initialization will
+output the value of 'smm' which is the escape sequence '\E[?1034h'.
 
-What Paul said, I can't see any other issues.
+'km' means the terminal has a meta key which is a special key on MIT keyboards,
+'smm' means turn on the meta key if this terminal has one.
 
-On 18 July 2013 07:34, Saul Wold <sgw@linux.intel.com> wrote:
->   valgrind: added perl dependency
+There are 4 solutions to fix this issue:
 
-I presume the situation here is that a target perl wasn't actually
-built, so adding an explicit runtime dependency causes it to be built
-and therefore available in the feed for rpm to find.
+1) Preserving TERM and unsetting TERM, or setting TERM with a terminal
+   without 'smm' (such as terminal 'dumb'). This is the most common 
+   approach. But the effect is global even we don't import readline.
+   https://bugzilla.redhat.com/show_bug.cgi?id=304181
+   http://bugs.python.org/issue11390
+   http://lists.gnu.org/archive/html/bug-readline/2013-06/msg00000.html
 
-To me this says that the #!-to-dependency magic from rpmdeps isn't
-really useful, as we then have to go and put explicit dependencies
-back in to ensure the requirements are actually built.
+2) Modify readline.c in python, mandatory let readline use a term
+   without 'smm' as terminal (such as 'dumb'), it is similar to the
+   above solution, but it localizes the effect in readline. The reason
+   why choose 'dumb' is GNU Readline library use 'dumb' as default term
+   when TERM is unset.
 
-Ross
+3) Modify terminfo.src in ncurses, let terminfo database doesn't
+   contian 'smm', but the number of terms we supported is limited.
+
+4) Modify terminal.c and readline.c in GNU Readline library to explicitly
+   disable meta key, or just comment out the outputting code.
+   
+This patch implements solution 2, I think it has the least side effect.
+
+Thanks
+Hongxu
+
+The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
+
+  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-python-readlne
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-python-readlne
+
+Hongxu Jia (1):
+  python: fix importing readline with probably escape sequence output
+
+ meta/recipes-devtools/python/python.inc            |  4 ++-
+ ...e-explicitly-use-dumb-as-default-terminal.patch | 35 ++++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
+
+-- 
+1.8.1.2
+
 
