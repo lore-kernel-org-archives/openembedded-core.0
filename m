@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BB626B19D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C8BC06B2C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 10:55:01 +0000 (UTC)
+	Thu, 18 Jul 2013 10:55:02 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6IAt2sY023204
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6IAt3hr012986
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 03:55:02 -0700 (PDT)
+	Thu, 18 Jul 2013 03:55:03 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 18 Jul 2013 03:55:01 -0700
+	14.2.342.3; Thu, 18 Jul 2013 03:55:03 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Jul 2013 18:54:59 +0800
-Message-ID: <cover.1374140808.git.hongxu.jia@windriver.com>
+Date: Thu, 18 Jul 2013 18:55:00 +0800
+Message-ID: <6cb2efa600f580748a228b8e8577479c76140368.1374140808.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1374140808.git.hongxu.jia@windriver.com>
+References: <cover.1374140808.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] python: fix importing readline with probably escape sequence output
+Subject: [PATCH 1/1] python: fix importing readline with probably escape sequence output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,59 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 10:55:01 -0000
+X-List-Received-Date: Thu, 18 Jul 2013 10:55:03 -0000
 Content-Type: text/plain
 
-While imports readline in python, if TERM in terminfo is available and 
+While imports readline in python, if the term in terminfo is available and
 it contains the variable 'km' and 'smm', the readline initialization will
 output the value of 'smm' which is the escape sequence '\E[?1034h'.
 
 'km' means the terminal has a meta key which is a special key on MIT keyboards,
-'smm' means turn on the meta key if this terminal has one.
+'smm' means turn on the meta key if this terminal has one. They don't exist in
+term 'dumb'.
 
-There are 4 solutions to fix this issue:
+Explicitly use dumb as default terminal to avoid probably escape sequence
+output. The dumb is used to label tty lines when you don't know what kind
+of terminal is on it. The characteristics of an unknown terminal are the
+lowest common denominator.
 
-1) Preserving TERM and unsetting TERM, or setting TERM with a terminal
-   without 'smm' (such as terminal 'dumb'). This is the most common 
-   approach. But the effect is global even we don't import readline.
-   https://bugzilla.redhat.com/show_bug.cgi?id=304181
-   http://bugs.python.org/issue11390
-   http://lists.gnu.org/archive/html/bug-readline/2013-06/msg00000.html
+[YOCTO #4835]
+[YOCTO #4732]
 
-2) Modify readline.c in python, mandatory let readline use a term
-   without 'smm' as terminal (such as 'dumb'), it is similar to the
-   above solution, but it localizes the effect in readline. The reason
-   why choose 'dumb' is GNU Readline library use 'dumb' as default term
-   when TERM is unset.
-
-3) Modify terminfo.src in ncurses, let terminfo database doesn't
-   contian 'smm', but the number of terms we supported is limited.
-
-4) Modify terminal.c and readline.c in GNU Readline library to explicitly
-   disable meta key, or just comment out the outputting code.
-   
-This patch implements solution 2, I think it has the least side effect.
-
-Thanks
-Hongxu
-
-The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
-
-  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-python-readlne
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-python-readlne
-
-Hongxu Jia (1):
-  python: fix importing readline with probably escape sequence output
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/recipes-devtools/python/python.inc            |  4 ++-
  ...e-explicitly-use-dumb-as-default-terminal.patch | 35 ++++++++++++++++++++++
  2 files changed, 38 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
 
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 80609a8..2fc894d 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -7,7 +7,9 @@ INC_PR = "r0"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
+ 
+-SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
++SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
++           file://readline-explicitly-use-dumb-as-default-terminal.patch \
++"
+  
+ SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
+ SRC_URI[sha256sum] = "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
+diff --git a/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
+new file mode 100644
+index 0000000..11928d1
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
+@@ -0,0 +1,35 @@
++readline: explicitly use dumb as default terminal
++
++Explicitly use dumb as default terminal to avoid probably
++escape sequence output. The dumb is used to label tty lines
++when you don't know what kind of terminal is on it. The
++characteristics of an unknown terminal are the lowest common
++denominator.
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Upstream-Status: inappropriate [oe specific] 
++---
++ Modules/readline.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/Modules/readline.c b/Modules/readline.c
++--- a/Modules/readline.c
+++++ b/Modules/readline.c
++@@ -882,6 +882,14 @@ setup_readline(void)
++ #endif
++     /* Force rebind of TAB to insert-tab */
++     rl_bind_key('\t', rl_insert);
+++
+++    /* Explicitly use dumb as default terminal to avoid probably
+++     * escape sequence output. The dumb is used to label tty lines
+++     * when you don't know what kind of terminal is on it. The
+++     * characteristics of an unknown terminal are the lowest common
+++     * denominator.
+++     */
+++    rl_terminal_name = "dumb";
++     /* Bind both ESC-TAB and ESC-ESC to the completion function */
++     rl_bind_key_in_map ('\t', rl_complete, emacs_meta_keymap);
++     rl_bind_key_in_map ('\033', rl_complete, emacs_meta_keymap);
++-- 
++1.8.1.2
++
 -- 
 1.8.1.2
 
