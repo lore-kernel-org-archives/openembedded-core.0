@@ -1,26 +1,25 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C8BC06B2C1
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 733546B1C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 10:55:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6IAt3hr012986
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 03:55:03 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 18 Jul 2013 03:55:03 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 18 Jul 2013 18:55:00 +0800
-Message-ID: <6cb2efa600f580748a228b8e8577479c76140368.1374140808.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1374140808.git.hongxu.jia@windriver.com>
-References: <cover.1374140808.git.hongxu.jia@windriver.com>
+	Thu, 18 Jul 2013 11:01:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jul 2013 04:01:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,692,1367996400"; d="scan'208";a="347709379"
+Received: from unknown (HELO helios.localnet) ([10.252.122.61])
+	by orsmga001.jf.intel.com with ESMTP; 18 Jul 2013 04:01:58 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2013 12:01:57 +0100
+Message-ID: <1400703.GdJurTDMZr@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <CAJTo0LbSnT2ejbJCjCBUoxVEhjoCPtKMrzt8NMHFEVYb9LGHYw@mail.gmail.com>
+References: <cover.1374128654.git.sgw@linux.intel.com>
+	<CAJTo0LbSnT2ejbJCjCBUoxVEhjoCPtKMrzt8NMHFEVYb9LGHYw@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] python: fix importing readline with probably escape sequence output
+Subject: Re: [CONSOLIDATED PULL 00/40] Review and ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 10:55:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Jul 2013 11:01:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-While imports readline in python, if the term in terminfo is available and
-it contains the variable 'km' and 'smm', the readline initialization will
-output the value of 'smm' which is the escape sequence '\E[?1034h'.
+On Thursday 18 July 2013 11:52:22 Burton, Ross wrote:
+> On 18 July 2013 07:34, Saul Wold <sgw@linux.intel.com> wrote:
+> >   valgrind: added perl dependency
+> 
+> I presume the situation here is that a target perl wasn't actually
+> built, so adding an explicit runtime dependency causes it to be built
+> and therefore available in the feed for rpm to find.
+> 
+> To me this says that the #!-to-dependency magic from rpmdeps isn't
+> really useful, as we then have to go and put explicit dependencies
+> back in to ensure the requirements are actually built.
 
-'km' means the terminal has a meta key which is a special key on MIT keyboards,
-'smm' means turn on the meta key if this terminal has one. They don't exist in
-term 'dumb'.
+I have to say I too have wondered this. Perhaps these would be better 
+implemented as QA warnings (that could be defaulted to errors) rather than 
+just silently adding the dependencies.
 
-Explicitly use dumb as default terminal to avoid probably escape sequence
-output. The dumb is used to label tty lines when you don't know what kind
-of terminal is on it. The characteristics of an unknown terminal are the
-lowest common denominator.
+Cheers,
+Paul
 
-[YOCTO #4835]
-[YOCTO #4732]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-devtools/python/python.inc            |  4 ++-
- ...e-explicitly-use-dumb-as-default-terminal.patch | 35 ++++++++++++++++++++++
- 2 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
-
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index 80609a8..2fc894d 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -7,7 +7,9 @@ INC_PR = "r0"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
- 
--SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
-+SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
-+           file://readline-explicitly-use-dumb-as-default-terminal.patch \
-+"
-  
- SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
- SRC_URI[sha256sum] = "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
-diff --git a/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
-new file mode 100644
-index 0000000..11928d1
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/readline-explicitly-use-dumb-as-default-terminal.patch
-@@ -0,0 +1,35 @@
-+readline: explicitly use dumb as default terminal
-+
-+Explicitly use dumb as default terminal to avoid probably
-+escape sequence output. The dumb is used to label tty lines
-+when you don't know what kind of terminal is on it. The
-+characteristics of an unknown terminal are the lowest common
-+denominator.
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+Upstream-Status: inappropriate [oe specific] 
-+---
-+ Modules/readline.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/Modules/readline.c b/Modules/readline.c
-+--- a/Modules/readline.c
-++++ b/Modules/readline.c
-+@@ -882,6 +882,14 @@ setup_readline(void)
-+ #endif
-+     /* Force rebind of TAB to insert-tab */
-+     rl_bind_key('\t', rl_insert);
-++
-++    /* Explicitly use dumb as default terminal to avoid probably
-++     * escape sequence output. The dumb is used to label tty lines
-++     * when you don't know what kind of terminal is on it. The
-++     * characteristics of an unknown terminal are the lowest common
-++     * denominator.
-++     */
-++    rl_terminal_name = "dumb";
-+     /* Bind both ESC-TAB and ESC-ESC to the completion function */
-+     rl_bind_key_in_map ('\t', rl_complete, emacs_meta_keymap);
-+     rl_bind_key_in_map ('\033', rl_complete, emacs_meta_keymap);
-+-- 
-+1.8.1.2
-+
 -- 
-1.8.1.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
