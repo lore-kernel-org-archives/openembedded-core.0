@@ -1,20 +1,20 @@
 Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id E19276B244
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D25356077D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 15:58:25 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 18 Jul 2013 08:58:06 -0700
+	Thu, 18 Jul 2013 16:01:13 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 18 Jul 2013 09:01:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,694,1367996400"; d="scan'208";a="270154025"
+X-IronPort-AV: E=Sophos;i="4.89,694,1367996400"; d="scan'208";a="372454053"
 Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by AZSMGA002.ch.intel.com with ESMTP; 18 Jul 2013 08:57:54 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jul 2013 09:00:59 -0700
 From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2013 19:05:33 +0300
-Message-Id: <cover.1374162581.git.emilia.maria.silvia.ciobanu@intel.com>
+Date: Thu, 18 Jul 2013 19:08:38 +0300
+Message-Id: <1374163718-26829-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2 00/11] Add/Update PV variable into recipes
+Subject: [PATCH] distrodata.bbclass: Include PRSPV variable in upstream version checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,51 +27,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 15:58:26 -0000
+X-List-Received-Date: Thu, 18 Jul 2013 16:01:14 -0000
 
-Tested against backwards packages using buildhistory class.
+The PRSPV variable is used for the packages that have different
+representation for a same upstream and local version (e.g 2.0 vs 20).
+In this case, the system is using PRSPV instead of PV when comparing
+the local and upstream versions.
 
-The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
+The packages that are using this modification are the following:
+	* zip
+	* unzip
+	* docbook-sgml-dtd-3.1-native
+	* docbook-sgml-dtd-4.1-native
 
-  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+---
+ meta/classes/distrodata.bbclass |   39 ++++++++++++++++++++++++++-------------
+ 1 file changed, 26 insertions(+), 13 deletions(-)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib emac/add_pv_to_recipes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=emac/add_pv_to_recipes
-
-Emilia Ciobanu (11):
-  rt-tests: add GIT revision to PV variable
-  kmod:add GIT revision to PV variable
-  hwlatdetect: add GIT revision to PV variable
-  lttng-ust:add GIT revision to PV variable
-  connman-gnome: add GIT revision to PV variable
-  mtd-utils: add GIT revision to PV variable
-  update-rc.d: add GIT revision to PV variable
-  build-appliance-image: add GIT revision to PV variable
-  lttng-modules: Append _git to recipe name and add GIT revision to PV 
-       variable
-  chkconfig-alternatives-native: add GIT revision to PV variable
-  docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
-
- .../connman/connman-gnome_0.7.bb                   |    2 ++
- .../images/build-appliance-image_8.0.bb            |    2 ++
- meta/recipes-core/update-rc.d/update-rc.d_0.7.bb   |    1 +
- .../docbook-sgml-dtd-4.5-native.bb                 |    1 +
- .../add-exclusion-to-mkfs-jffs2-git-2.patch        |    0
- ...t-cleanmarker-with-flash_erase--j-command.patch |    0
- meta/recipes-devtools/mtd/mtd-utils_1.5.0.bb       |    2 +-
- .../chkconfig-alternatives-native_1.3.59.bb        |    2 +-
- meta/recipes-kernel/kmod/kmod_git.bb               |    1 +
- ...lttng-modules_2.2.0.bb => lttng-modules_git.bb} |    2 +-
- meta/recipes-kernel/lttng/lttng-ust_2.2.0.bb       |    2 +-
- meta/recipes-rt/rt-tests/hwlatdetect_0.85.bb       |    1 +
- meta/recipes-rt/rt-tests/rt-tests_0.85.bb          |    1 +
- 13 files changed, 13 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.5.0 => mtd-utils}/add-exclusion-to-mkfs-jffs2-git-2.patch (100%)
- rename meta/recipes-devtools/mtd/{mtd-utils-1.5.0 => mtd-utils}/mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch (100%)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.2.0.bb => lttng-modules_git.bb} (97%)
-
+diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+index 204612c..af52dd5 100644
+--- a/meta/classes/distrodata.bbclass
++++ b/meta/classes/distrodata.bbclass
+@@ -71,7 +71,7 @@ python do_distrodata_np() {
+         rstatus = localdata.getVar('RECIPE_COLOR', True)
+         if rstatus is not None:
+                 rstatus = rstatus.replace(',','')
+-                
++
+         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
+         if pcurver == pupver:
+                 vermatch="1"
+@@ -157,7 +157,7 @@ python do_distrodata() {
+         rstatus = localdata.getVar('RECIPE_COLOR', True)
+         if rstatus is not None:
+                 rstatus = rstatus.replace(',','')
+-                
++
+         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
+         if pcurver == pupver:
+                 vermatch="1"
+@@ -408,7 +408,7 @@ python do_checkpkg() {
+                                 s = "%s[^\d\"]*?(\d+[\.\-_])+\d+/?" % m.group()
+                         else:
+                                 s = "(\d+[\.\-_])+\d+/?"
+-                                
++
+                         searchstr = "[hH][rR][eE][fF]=\"%s\">" % s
+ 
+                         reg = re.compile(searchstr)
+@@ -563,7 +563,10 @@ python do_checkpkg() {
+                chk_uri = src_uri
+         pdesc = localdata.getVar('DESCRIPTION', True)
+         pgrp = localdata.getVar('SECTION', True)
+-        pversion = localdata.getVar('PV', True)
++        if localdata.getVar('PRSPV', True):
++                pversion = localdata.getVar('PRSPV', True)
++        else:
++                pversion = localdata.getVar('PV', True)
+         plicense = localdata.getVar('LICENSE', True)
+         psection = localdata.getVar('SECTION', True)
+         phome = localdata.getVar('HOMEPAGE', True)
+@@ -590,31 +593,41 @@ python do_checkpkg() {
+ 
+         (type, host, path, user, pswd, parm) = bb.decodeurl(uri)
+         if type in ['http', 'https', 'ftp']:
+-                pcurver = d.getVar('PV', True)
++                if d.getVar('PRSPV', True):
++                    pcurver = d.getVar('PRSPV', True)
++                else:
++                    pcurver = d.getVar('PV', True)
+         else:
+-                pcurver = d.getVar("SRCREV", True)
++                if d.getVar('PRSPV', True):
++                    pcurver = d.getVar('PRSPV', True)
++                else:
++                    pcurver = d.getVar("SRCREV", True)
++
+ 
+         if type in ['http', 'https', 'ftp']:
+                 newver = pcurver
+                 altpath = path
+                 dirver = "-"
+                 curname = "-"
+-        
++
+                 """
+                 match version number amid the path, such as "5.7" in:
+-                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz        
++                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz
+                 N.B. how about sth. like "../5.7/5.8/..."? Not find such example so far :-P
+                 """
+                 m = re.search(r"[^/]*(\d+\.)+\d+([\-_]r\d+)*/", path)
+                 if m:
+                         altpath = path.split(m.group())[0]
+                         dirver = m.group().strip("/")
+-        
++
+                         """use new path and remove param. for wget only param is md5sum"""
+                         alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
+                         my_uri = d.getVar('REGEX_URI', True)
+                         if my_uri:
+-                            newver = d.getVar('PV', True)
++                            if d.getVar('PRSPV', True):
++                                    newver = d.getVar('PRSPV', True)
++                            else:
++                                    newver = d.getVar('PV', True)
+                         else:
+                             newver = check_new_dir(alturi, dirver, d)
+                         altpath = path
+@@ -624,7 +637,7 @@ python do_checkpkg() {
+                 """Now try to acquire all remote files in current directory"""
+                 if not re.match("Err", newver):
+                         curname = altpath.split("/")[-1]
+-        
++
+                         """get remote name by skipping pacakge name"""
+                         m = re.search(r"/.*/", altpath)
+                         if not m:
+@@ -650,7 +663,7 @@ python do_checkpkg() {
+                                 pstatus = "UPDATE"
+                         else:
+                                 pstatus = "MATCH"
+-        
++
+                 if re.match("Err", newver):
+                         pstatus = newver + ":" + altpath + ":" + dirver + ":" + curname
+         elif type == 'git':
+@@ -796,7 +809,7 @@ python do_checkpkg() {
+                         pmstatus = "MATCH"
+                 else:
+                         pmstatus = "UPDATE"
+-        
++
+         psrcuri = psrcuri.split()[0]
+         pdepends = "".join(pdepends.split("\t"))
+         pdesc = "".join(pdesc.split("\t"))
 -- 
 1.7.9.5
 
