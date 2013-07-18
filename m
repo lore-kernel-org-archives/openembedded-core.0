@@ -1,39 +1,28 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
-	[209.85.217.176])
-	by mail.openembedded.org (Postfix) with ESMTP id A47AB6B26D
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 5BA846B260
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 22:06:17 +0000 (UTC)
-Received: by mail-lb0-f176.google.com with SMTP id z5so2898745lbh.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 15:06:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=ucXlw0mjEejYDkGpkUnkAeOj7WptAnAd91EDMP96RFA=;
-	b=bnsCYKmHnrM2Iw4JC1Z4jUoiBKUB++RSG0w+U55YOhnNyHoknocWgq5hutjNMrwyPV
-	/UftjY7IONhIUcFRDB4OjlmNmfVcAP5JjUx+cnejXc7j+YZkB8wYqiykktYTjNi9hPod
-	RqVTD3TCYXaBAlr5PYcijRpkeLL/NEUqq9cEXvBW4YO6TxeGyztDfRwU64wdzfbSOVWD
-	5j40XkufX0UPx6ahxk86FquOCvHdoTMBIVwvHW8xcQFc0g5rg3J8QdI/qiqCNsTdD4sK
-	TpdxNC4xSqGVgrilqCZKN2TRlQrxdAp1QkipLZMRToUvvMO38xTC1xQ9wkN+rGSCscxz
-	llEw==
-X-Received: by 10.112.144.97 with SMTP id sl1mr6211626lbb.56.1374185177240;
-	Thu, 18 Jul 2013 15:06:17 -0700 (PDT)
+	Thu, 18 Jul 2013 22:20:38 +0000 (UTC)
+Received: from SESTOEX05.enea.se ([fe80::41cb:8d2e:2e90:a183]) by
+	SESTOEX08.enea.se ([fe80::1c3:4003:dc47:23c0%11]) with mapi id
+	14.02.0318.001; Fri, 19 Jul 2013 00:20:32 +0200
+From: Tudor Florea <Tudor.Florea@enea.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH] Install Python test suite and run it as ptest.
+Thread-Index: AQHOgoIFcOVfd44B0UqQYpJWluhdKJlqEioAgADyATA=
+Date: Thu, 18 Jul 2013 22:20:31 +0000
+Message-ID: <26724FB0BFCB3D4C91BDE184751AA3A4289005CB@sestoex05.enea.se>
+References: <1374019772-63941-1-git-send-email-tudor.florea@enea.com>
+	<3508255.N7Chy3QYdi@helios>
+In-Reply-To: <3508255.N7Chy3QYdi@helios>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.21.1.188]
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.18.100 with HTTP; Thu, 18 Jul 2013 15:05:57 -0700 (PDT)
-In-Reply-To: <64f18573660b81394357d27a13ca89856fa94536.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <cover.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-	<a6f5cb59348a434d4b03599b69f101cd0d5177fe.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-	<64f18573660b81394357d27a13ca89856fa94536.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 18 Jul 2013 15:05:57 -0700
-X-Google-Sender-Auth: 2RyJaGZBaGTUTHwqXnKe1iLha74
-Message-ID: <CABcZAN=hPQ4Q+wT0JNkVQ6Pa93sZ_AsLEoy5HFyh_2gTbErt8w@mail.gmail.com>
-To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/11] chkconfig-alternatives-native: add git token in package version
+Subject: Re: [PATCH] Install Python test suite and run it as ptest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,54 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 22:06:18 -0000
-Content-Type: multipart/alternative; boundary=047d7b34419a5859f904e1d06bc1
-
---047d7b34419a5859f904e1d06bc1
-Content-Type: text/plain; charset=UTF-8
-
-On Thu, Jul 18, 2013 at 7:16 AM, Emilia Ciobanu <
-emilia.maria.silvia.ciobanu@intel.com> wrote:
-
-> Git packages should have the following format:
->     version+gitAUTOINC[r|-]+revision
->
-> Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
->
-
-Just as an FYI, in case you didn't consider it, this may well result in
-package versions going backwards. Not in this case, but the general one,
-depending on the SRCREV.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---047d7b34419a5859f904e1d06bc1
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Thu, 18 Jul 2013 22:20:39 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-hu, Jul 18, 2013 at 7:16 AM, Emilia Ciobanu <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:emilia.maria.silvia.ciobanu@intel.com" target=3D"_blank">emilia.=
-maria.silvia.ciobanu@intel.com</a>&gt;</span> wrote:<br>
+Hi Paul,
+Thank you for review and tip.
+I'll come up with V2 patch soon.
+Regards,
+  Tudor.
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":gx" style=3D"overflow:hidden">Gi=
-t packages should have the following format:<br>
-=C2=A0 =C2=A0 version+gitAUTOINC[r|-]+revision<br>
-<br>
-Signed-off-by: Emilia Ciobanu &lt;<a href=3D"mailto:emilia.maria.silvia.cio=
-banu@intel.com">emilia.maria.silvia.ciobanu@intel.com</a>&gt;</div></blockq=
-uote></div><br>Just as an FYI, in case you didn&#39;t consider it, this may=
- well result in package versions going backwards. Not in this case, but the=
- general one, depending on the SRCREV.<br>
+-----Original Message-----
+From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
+Sent: Thursday, July 18, 2013 10:51
+To: Tudor Florea
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] Install Python test suite and run it as ptes=
+t.
 
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
+Hi Tudor,
 
---047d7b34419a5859f904e1d06bc1--
+On Wednesday 17 July 2013 02:09:32 Tudor Florea wrote:
+>...
+> +++ b/meta/recipes-devtools/python/python/run-ptest
+> @@ -0,0 +1,5 @@
+> +#!/bin/sh
+> +#
+> +#This script is used to run python test suites
+> +
+> +make -f /usr/lib/python/ptest/Makefile -k runtest-TESTS
+> srcdir=3D/usr/lib/python2.7 TESTPROG=3D/usr/lib/python2.7/test/regrtest.p=
+y |
+> sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g'
+> -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\.
+> ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'=20
+
+The run-ptest script here has hardcoded /usr/lib/ for ${libdir} (which can =
+and=20
+is changed in some distro configurations), we should ideally avoid this e.g=
+.=20
+through use of sed in do_install after installing the file.
+
+>...
+> +RDEPENDS_${PN}-ptest =3D "${PN}-json ${PN}-crypt ${PN}-unittest ${PN}-di=
+fflib
+> ${PN}-pprint ${PN}-shell ${PN}-tests ${PN}-misc ${PN}-netclient
+> ${PN}-mailbox ${PN}-pkgutil ${PN}-profile ${PN}-compile ${PN}-pydoc
+> ${PN}-robotparser ${PN}-netserver ${PN}-datetime ${PN}-compression
+> ${PN}-mime ${PN}-audio ${PN}-db ${PN}-resource ${PN}-image ${PN}-subproce=
+ss
+> ${PN}-doctest ${PN}-numbers ${PN}-html ${PN}-email ${PN}-distutils
+> ${PN}-hotshot ${PN}-2to3 ${PN}-mmap ${PN}-terminal ${PN}-xmlrpc ${PN}-smt=
+pd
+> ${PN}-unixadmin ${PN}-compiler"=20
+
+Could the ptest package simply depend on ${PN}-modules rather than having a=
+n=20
+additional hardcoded list of modules packages? It looks like this could be=
+=20
+replaced by:
+
+RDEPENDS_${PN}-ptest =3D "${PN}-modules ${PN}-misc"
+
+Cheers,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
