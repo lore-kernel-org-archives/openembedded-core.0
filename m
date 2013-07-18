@@ -1,21 +1,20 @@
 Return-Path: <eflanagan@qana.jf.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 62DAA6B26D
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 25D8D6041E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 21:53:23 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jul 2013 14:53:23 -0700
+	Thu, 18 Jul 2013 21:54:50 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 18 Jul 2013 14:54:35 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,696,1367996400"; d="scan'208";a="367564779"
+X-IronPort-AV: E=Sophos;i="4.89,696,1367996400"; d="scan'208";a="270293699"
 Received: from qana.jf.intel.com ([10.7.201.146])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Jul 2013 14:53:23 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 18 Jul 2013 14:54:35 -0700
 Received: by qana.jf.intel.com (Postfix, from userid 1000)
-	id 3552C5F82581; Thu, 18 Jul 2013 14:51:57 -0700 (PDT)
+	id 44D315F82581; Thu, 18 Jul 2013 14:53:09 -0700 (PDT)
 From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
-To: elizabeth.flanagan@intel.com,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jul 2013 14:51:55 -0700
-Message-Id: <1374184315-15946-1-git-send-email-elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jul 2013 14:53:06 -0700
+Message-Id: <1374184386-15999-1-git-send-email-elizabeth.flanagan@intel.com>
 X-Mailer: git-send-email 1.8.1.2
 Subject: [PATCH] adt_installer_internal: fix spelling error
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -30,7 +29,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jul 2013 21:53:23 -0000
+X-List-Received-Date: Thu, 18 Jul 2013 21:54:50 -0000
 
 From: Beth Flanagan <elizabeth.flanagan@intel.com>
 
