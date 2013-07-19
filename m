@@ -1,25 +1,17 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CD396B262
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 9960F6B260
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 11:24:51 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1V08nr-0001Q0-3H; Fri, 19 Jul 2013 13:24:51 +0200
-Message-ID: <1374233090.6324.26.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Holger Freyther <holger@freyther.de>
-Date: Fri, 19 Jul 2013 12:24:50 +0100
-In-Reply-To: <loom.20130719T072922-639@post.gmane.org>
-References: <ly8v1etzn5.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<ly4nc2twyk.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<loom.20130719T072922-639@post.gmane.org>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: kernel miscompilation with gcc 4.8 for ARMv5
+	Fri, 19 Jul 2013 11:52:46 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6JBqicB026969; 
+	Fri, 19 Jul 2013 06:52:45 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jul 2013 16:53:25 +0500
+Message-Id: <1374234806-31680-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] systemd: Remove systemd_unitdir if systemd is not in distro features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,21 +24,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2013 11:24:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Jul 2013 11:52:46 -0000
 
-On Fri, 2013-07-19 at 05:39 +0000, Holger Freyther wrote:
-> will crash on the above line. Compiling tcp_ipv4.c with GCC4.6.3
-> and re-linking doesn't appear to fix the problem but maybe I made
-> another mistake.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-If your analysis of the path that leads up to the crash is correct then
-it sounds like the bug is probably in inet_hashtables.c not tcp_ipv4.c.
-Does it help if you recompile that one file with the older GCC and
-re-link?
+If systemd is not supported DISTRO_FEATURE than there is no need to
+package related service files.
 
-p.
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ meta/classes/systemd.bbclass |    9 +++++++++
+ 1 file changed, 9 insertions(+)
 
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 0447e53..9763faa 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -161,3 +161,12 @@ python systemd_populate_packages() {
+ }
+ 
+ PACKAGESPLITFUNCS_prepend = "systemd_populate_packages "
++
++python rm_systemd_unitdir (){
++    import shutil
++    if "systemd" not in d.getVar("DISTRO_FEATURES", True).split():
++        systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True))
++        if os.path.exists(systemd_unitdir):
++            shutil.rmtree(systemd_unitdir)
++}
++do_install[postfuncs] += "rm_systemd_unitdir "
+-- 
+1.7.9.5
 
 
