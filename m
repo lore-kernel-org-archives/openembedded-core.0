@@ -1,40 +1,26 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B742B6B0A6
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 9ABB66AF56
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 17:52:00 +0000 (UTC)
-Received: by mail-ob0-f172.google.com with SMTP id wo10so5673862obc.17
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 10:52:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:content-transfer-encoding;
-	bh=/LsAxZ2cVjEfIYHaU2ZMaZVNwlIQqioJ4XzbcANdW58=;
-	b=NM9ljXp9Osi1be0pvvBhNcMhGFihLXNt+UYtbKb+jG6iRhEJe5AfGnfA5xMo9fVs5O
-	DvU0sgj9+F7OlogWz7sP0UD97NZc5dJDIJP+/B4PhFZJy7lvS3MtqTYsgECB61jtoSUz
-	UoZKLXMS1bMmK1xNtxNBDLkAQfH8+jnr6aYl2VYOl+ecoecGPHVVgVk/k6oywTCOzxXO
-	SpKDhfyG0Rl0Wyz4LuBqFM2CVoVeb+5Ss/EZ0y+YWntpvYexR1SvO+Ttgs9O6cwijl3w
-	Yv6a3XlgGZsEsmtjHfdarnvBxRzFhYsxkhE36zPt0vOAcm7jo5vJK7sc+oC6MGk1uYRo
-	Hzpg==
+	Fri, 19 Jul 2013 18:26:42 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 19 Jul 2013 11:26:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,703,1367996400"; d="scan'208";a="270684466"
+Received: from unknown (HELO [10.255.14.14]) ([10.255.14.14])
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Jul 2013 11:26:42 -0700
+Message-ID: <51E984DF.2030207@linux.intel.com>
+Date: Fri, 19 Jul 2013 11:26:39 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-Received: by 10.60.55.196 with SMTP id u4mr18692448oep.57.1374256320338;
-	Fri, 19 Jul 2013 10:52:00 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.60.166 with HTTP; Fri, 19 Jul 2013 10:52:00 -0700 (PDT)
-In-Reply-To: <CAP71WjyRkp0TM9vLfX6jFG-E6TWZuUjZeUTSnEefvJA1VOb5yA@mail.gmail.com>
-References: <1374223150-16033-1-git-send-email-andre.draszik@linaro.org>
-	<CAP71WjyRkp0TM9vLfX6jFG-E6TWZuUjZeUTSnEefvJA1VOb5yA@mail.gmail.com>
-Date: Fri, 19 Jul 2013 14:52:00 -0300
-X-Google-Sender-Auth: -WQxdzeqmHOI-u7p0hZ39jfR-e4
-Message-ID: <CAP9ODKrysra+zBOTmpYiMMoaoM2gfXqJDRKE1PNa2YNzWpPRxg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>, 
-	"Eggleton, Paul" <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] directfb: don't patch pkg-config files
+To: Hongxu Jia <hongxu.jia@windriver.com>
+References: <cover.1374224424.git.hongxu.jia@windriver.com>
+	<dce62f416d4a1d8f0acb0f18545868932aff45c9.1374224424.git.hongxu.jia@windriver.com>
+In-Reply-To: <dce62f416d4a1d8f0acb0f18545868932aff45c9.1374224424.git.hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] python: fix importing readline with probably escape sequence output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,58 +33,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2013 17:52:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 19 Jul 2013 18:26:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 19, 2013 at 11:46 AM, Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
+On 07/19/2013 02:13 AM, Hongxu Jia wrote:
+> While imports readline in python, if TERM in terminfo is available and
+> it contains the variable 'km' and 'smm', the readline initialization will
+> output the value of 'smm' which is the escape sequence '\E[?1034h'.
 >
-> On Fri, Jul 19, 2013 at 10:39 AM, Andr=E9 Draszik <andre.draszik@linaro.o=
-rg>
-> wrote:
->>
->> We are currently getting build failures of projects that rely on
->> being able to access DirectFB's internal include directories, as
->> returned via pkg-config, since the include paths returned by
->> pkg-config are incomplete.
->>
->> The reason for that is the patch that is being removed with this
->> change. It modified the cflags returned by pkg-config in an
->> incorrect way, causing us to miss important include paths:
->>
->> For reference, pkg-config output with incorrect patch applied:
->>   ad@bril0118 #513 ~> pkg-config --cflags directfb-internal
->> -D_GNU_SOURCE -D_REENTRANT
->> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb
->> -I<builddir>/tmp/sysroots/<machine>/usr/include
->>
->> Now, with the incorrect patch removed, the output is as expected:
->>   ad@bril0118 #514 ~> pkg-config --cflags directfb-internal
->> -D_GNU_SOURCE -D_REENTRANT
->> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb-internal
->> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb
->>
->> Overall, the removed patch is not needed - pkg-config does the right
->> thing these days and we can simply use the correctly working upstream
->> versions of all DirectFB .pc files.
->>
->> Signed-off-by: Andr=E9 Draszik <andre.draszik@linaro.org>
+> 'km' means the terminal has a meta key which is a special key on MIT keyboards
+> such as the space-cadet keyboard, and on Sun Microsystems keyboards, marked
+> as a solid diamond. It almost doesn't exist in our keyboard, so it has no side
+> effect to disable it.
+> 'smm' means turn on the meta key if this terminal has one.
 >
+> Explicitly set meta key off to avoid probable escape sequence output
+> while gnu readline library initialization.
 >
-> i reviewed and tested this patch against a QT4e image build. it looks goo=
-d
-> to me, and that offending patch being removed seems to come from quite
-> ancient stuff.
->
-> Tested-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
->
-> any chance this can get into 'dylan', too?
+I am still not sure about this change, there was some discussion that 
+the readline library would do be making a similar change and we should 
+back port that change.  I contacted the readline maintainer to find out 
+about that.
 
-Paul, I think it is your business ;-)
+I am going to hold off until I hear from him.
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Sau!
+
+> [YOCTO #4835]
+> [YOCTO #4732]
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-devtools/python/python.inc            |  4 +-
+>   ...-to-avoid-probable-escape-sequence-output.patch | 43 ++++++++++++++++++++++
+>   2 files changed, 46 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+>
+> diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+> index 80609a8..9f787c9 100644
+> --- a/meta/recipes-devtools/python/python.inc
+> +++ b/meta/recipes-devtools/python/python.inc
+> @@ -7,7 +7,9 @@ INC_PR = "r0"
+>
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
+>
+> -SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
+> +SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
+> +           file://readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch \
+> +"
+>
+>   SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
+>   SRC_URI[sha256sum] = "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
+> diff --git a/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+> new file mode 100644
+> index 0000000..104fc36
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+> @@ -0,0 +1,43 @@
+> +readline:explicitly set meta key off to avoid probable escape sequence output
+> +
+> +While imports readline in python, if TERM in terminfo is available and
+> +it contains the variable 'km' and 'smm', the readline initialization will
+> +output the value of 'smm' which is the escape sequence '\E[?1034h'.
+> +
+> +'km' means the terminal has a meta key which is a special key on MIT keyboards
+> +such as the space-cadet keyboard, and on Sun Microsystems keyboards, marked
+> +as a solid diamond. It almost doesn't exist in our keyboard, so it has no side
+> +effect to disable it.
+> +'smm' means turn on the meta key if this terminal has one.
+> +
+> +Explicitly set meta key off to avoid probable escape sequence output
+> +while gnu readline library initialization.
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +Upstream-Status: inappropriate [oe specific]
+> +---
+> + Modules/readline.c | 9 +++++++++
+> + 1 file changed, 9 insertions(+)
+> +
+> +diff --git a/Modules/readline.c b/Modules/readline.c
+> +--- a/Modules/readline.c
+> ++++ b/Modules/readline.c
+> +@@ -909,6 +909,15 @@ setup_readline(void)
+> + 	rl_read_init_file(NULL);
+> +     else
+> + #endif /* __APPLE__ */
+> ++
+> ++    /* Explicitly set meta key off to avoid probable escape sequence output
+> ++     * while gnu readline library initialization. The meta key is a special
+> ++     * key in MIT keyboards such as the space-cadet keyboard, and on Sun
+> ++     * Microsystems keyboards, marked as a solid diamond. It almost doesn't
+> ++     * exist in our keyboards, so it has no side effect to disable it.
+> ++     */
+> ++    rl_variable_bind("enable-meta-key", "off");
+> ++
+> +         rl_initialize();
+> +
+> +     RESTORE_LOCALE(saved_locale)
+> +--
+> +1.8.1.2
+> +
+>
 
