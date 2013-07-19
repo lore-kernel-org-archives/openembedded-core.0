@@ -1,28 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 714016B26D
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 1D18D6AF69
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 15:13:17 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 Jul 2013 08:13:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,702,1367996400"; d="scan'208";a="333903511"
-Received: from unknown (HELO helios.localnet) ([10.252.122.96])
-	by azsmga001.ch.intel.com with ESMTP; 19 Jul 2013 08:13:16 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chris Larson <clarson@kergoth.com>, "Shakeel,
-	Muhammad" <muhammad_shakeel@mentor.com>
-Date: Fri, 19 Jul 2013 16:13:15 +0100
-Message-ID: <76349842.krt1SjzMLB@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
-In-Reply-To: <CABcZAN=z2JMb9XzkCfwFSYwezY7otMGxbYfQr_RboUxkSHcNPg@mail.gmail.com>
-References: <1374234806-31680-1-git-send-email-muhammad_shakeel@mentor.com>
-	<1374234806-31680-2-git-send-email-muhammad_shakeel@mentor.com>
-	<CABcZAN=z2JMb9XzkCfwFSYwezY7otMGxbYfQr_RboUxkSHcNPg@mail.gmail.com>
+	Fri, 19 Jul 2013 17:31:38 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Fri, 19 Jul 2013 19:31:36 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 31ABD288FCE;
+	Fri, 19 Jul 2013 19:31:36 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Jul 2013 19:31:34 +0200
+Message-ID: <1374255094-62482-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1374105371-28913-1-git-send-email-tudor.florea@enea.com>
+References: <1374105371-28913-1-git-send-email-tudor.florea@enea.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] update-rc.d: Remove init.d dir if sysvinit is not in distro features
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH v2] kmod: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +31,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2013 15:13:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 19 Jul 2013 17:31:40 -0000
+Content-Type: text/plain
 
-On Friday 19 July 2013 08:02:32 Chris Larson wrote:
-> On Fri, Jul 19, 2013 at 4:53 AM, Shakeel, Muhammad 
-> <muhammad_shakeel@mentor.com> wrote:
-> > From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> > 
-> > If sysvinit is not supported DISTRO_FEATURE than there is no need to
-> > package related initialization scripts.
-> > 
-> > Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> 
-> If we stop shipping init.d for non-sysvinit distros, which makes sense, we
-> should also consider automatically enabling/disabling sysv compat support
-> in the systems build based on that distro feature also. So, I support this
-> commit, but am proposing adding another for consistency :)
+Install kmod test suite and run it as ptest.
 
-Yes, actually at the moment I think we cannot delete the sysvinit initscripts 
-unless the recipe also inherits systemd, otherwise there will be no fallback 
-to sysvinit compatibility and the daemon will no longer be started.
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ meta/recipes-kernel/kmod/kmod.inc         |    4 +++-
+ meta/recipes-kernel/kmod/kmod/ptest.patch |   25 +++++++++++++++++++++++++
+ meta/recipes-kernel/kmod/kmod/run-ptest   |    5 +++++
+ meta/recipes-kernel/kmod/kmod_git.bb      |    9 +++++++++
+ 4 files changed, 42 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/ptest.patch
+ create mode 100755 meta/recipes-kernel/kmod/kmod/run-ptest
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index 3cd963f..a780b6c 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -15,11 +15,13 @@ DEPENDS += "pkgconfig-native"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://libkmod/COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                    "
+-inherit autotools gtk-doc
++inherit autotools gtk-doc ptest
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+            file://depmod-search.conf \
+            file://0001-man-disable-man-page-generation-because-we-don-t-hav.patch \
++           file://run-ptest \
++           file://ptest.patch \
+           "
+ 
+ SRCREV = "62081c0f68905b22f375156d4532fd37fa5c8d33"
+diff --git a/meta/recipes-kernel/kmod/kmod/ptest.patch b/meta/recipes-kernel/kmod/kmod/ptest.patch
+new file mode 100644
+index 0000000..839d2a6
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/ptest.patch
+@@ -0,0 +1,25 @@
++Add 'install-ptest' rule.
++
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
++Upstream-status: Pending
++
++diff -ruN a/Makefile.am b/Makefile.am
++--- a/Makefile.am	2013-07-12 17:11:05.278331557 +0200
+++++ b/Makefile.am	2013-07-12 17:14:27.033788016 +0200
++@@ -204,6 +204,16 @@
++ 
++ distclean-local: $(DISTCLEAN_LOCAL_HOOKS)
++ 
+++install-ptest:
+++	@$(MKDIR_P) $(DESTDIR)/testsuite
+++	@for file in $(TESTSUITE); do \
+++		install $$file $(DESTDIR)/testsuite; \
+++	done;
+++	@cp Makefile $(DESTDIR)
+++	@sed -i 's/^Makefile/_Makefile/'  ${DESTDIR}/Makefile
+++	@tar -czf $(DESTDIR)/tools.tgz $(noinst_SCRIPTS) $(noinst_PROGRAMS)
+++	@tar -C testsuite -czf $(DESTDIR)/testsuite.tgz rootfs-pristine .libs
+++
++ # ------------------------------------------------------------------------------
++ # custom release helpers
++ # ------------------------------------------------------------------------------
+diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/kmod/kmod/run-ptest
+new file mode 100755
+index 0000000..fac24fd
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/run-ptest
+@@ -0,0 +1,5 @@
++#!/bin/sh
++tar -xzf tools.tgz
++tar -C testsuite -xzf testsuite.tgz
++make rootfs
++make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index ca6b004..cb7a131 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -36,6 +36,15 @@ do_install_append () {
+         install -Dm644 "${WORKDIR}/depmod-search.conf" "${D}${base_libdir}/depmod.d/search.conf"
+ }
+ 
++do_compile_prepend() {
++            sed -i 's/ac_pwd=/#ac_pwd=/' config.status ; sed -i "/#ac_pwd=/a\ac_pwd='.'" config.status
++}
++
++do_compile_ptest () {
++        oe_runmake buildtest-TESTS
++        oe_runmake rootfs
++}
++
+ inherit update-alternatives
+ 
+ ALTERNATIVE_PRIORITY = "60"
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
