@@ -1,27 +1,30 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 258EE6B2D2
+	by mail.openembedded.org (Postfix) with ESMTP id 3777B6B262
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 01:52:16 +0000 (UTC)
+	Fri, 19 Jul 2013 01:59:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6J1qHxB025808
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jul 2013 18:52:17 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 18 Jul 2013 18:52:16 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jul 2013 09:52:26 +0800
-Message-ID: <cd2a145faed0704ce9561a54a46a2d153d10071c.1374198646.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1374198646.git.Qi.Chen@windriver.com>
-References: <cover.1374198646.git.Qi.Chen@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6J1x4aS026220
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 18 Jul 2013 18:59:04 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Thu, 18 Jul 2013 18:59:04 -0700
+Message-ID: <51E89D72.3050101@windriver.com>
+Date: Fri, 19 Jul 2013 09:59:14 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH V7 2/2] extrausers.bbclass: add a new bbclass
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1374116641.git.Qi.Chen@windriver.com>
+	<7a265612fe08a636afc61a659ac5fadd22b0a7bd.1374116641.git.Qi.Chen@windriver.com>
+	<CAJTo0LZDaf+dFDYk0gt-nf0dO1K5YG6nn7RnHbibDpo51_v8kA@mail.gmail.com>
+In-Reply-To: <CAJTo0LZDaf+dFDYk0gt-nf0dO1K5YG6nn7RnHbibDpo51_v8kA@mail.gmail.com>
+X-Originating-IP: [128.224.162.233]
+Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] busybox-syslog: respect /etc/syslog-startup.conf in systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,96 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2013 01:52:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Jul 2013 01:59:04 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 07/19/2013 01:07 AM, Burton, Ross wrote:
+> On 18 July 2013 08:05,  <Qi.Chen@windriver.com> wrote:
+>> 1. The configuration file, /etc/syslog-startup.conf, is ignored.
+>>     This is really confusing, as we are used to the behaviour of
+>>     changing the configuration in /etc/syslog-startup.conf for the
+>>     syslog service. This is actually a weekly test case.
+>> 2. The /etc/init.d/syslog is installed, but it has no real usage in
+>>     systemd based systems.
+>>
+>> This patch solves the above two problems by changing the busybox-syslog.
+>> service file to let the /etc/init.d/syslog script start syslog service.
+>> The /etc/init.d/syslog file is actually a wrapper in this situation.
+> (2) can be solved by not installing it (and there's work on-going to
+> make the init classes delete scripts that are installed as
+> appropriate).
+Great. Thanks.
 
-This class is dedicated to image level user/group configuration.
-It inherits useradd_base.bbclass.
+>    I don't like this solution for (1) to be honest - I'd
+> prefer to see the logic in a central wrapper that the service (and
+> probably the init script) could invoke.
 
-Users need to inherit this class in their layers or local.conf to
-make the setting of EXTRA_USERS_PARAMS effective.
+Yes, that makes more sense. I'll rework on this patch.
+Thanks for you review.
 
-For detailed configuration format of EXTRA_USERS_PARAMS, please
-refer to local.conf.sample.extended.
-
-[YOCTO #4074]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/extrausers.bbclass |   61 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
- create mode 100644 meta/classes/extrausers.bbclass
-
-diff --git a/meta/classes/extrausers.bbclass b/meta/classes/extrausers.bbclass
-new file mode 100644
-index 0000000..8670a2a
---- /dev/null
-+++ b/meta/classes/extrausers.bbclass
-@@ -0,0 +1,61 @@
-+# This bbclass is mainly used for image level user/group configuration.
-+# Inherit this class if you want to make EXTRA_USERS_PARAMS effective.
-+
-+# Below is an example showing how to use this functionality.
-+# INHERIT += "extrausers"
-+# EXTRA_USERS_PARAMS = "\
-+# useradd -p '' tester; \
-+# groupadd developers; \
-+# userdel nobody; \
-+# groupdel -g video; \
-+# groupmod -g 1020 developers; \
-+# usermod -s /bin/sh tester; \
-+# "
-+
-+
-+inherit useradd_base
-+
-+IMAGE_INSTALL_append = " ${@['', 'base-passwd shadow'][bool(d.getVar('EXTRA_USERS_PARAMS', True))]}"
-+
-+# Image level user / group settings
-+ROOTFS_POSTPROCESS_COMMAND_append = " set_user_group;"
-+
-+# Image level user / group settings
-+set_user_group () {
-+	user_group_settings="${EXTRA_USERS_PARAMS}"
-+	export PSEUDO="${FAKEROOTENV} ${STAGING_DIR_NATIVE}${bindir}/pseudo"
-+	setting=`echo $user_group_settings | cut -d ';' -f1`
-+	remaining=`echo $user_group_settings | cut -d ';' -f2-`
-+	while test "x$setting" != "x"; do
-+		cmd=`echo $setting | cut -d ' ' -f1`
-+		opts=`echo $setting | cut -d ' ' -f2-`
-+		# Different from useradd.bbclass, there's no file locking issue here, as
-+		# this setting is actually a serial process. So we only retry once.
-+		case $cmd in
-+			useradd)
-+				perform_useradd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			groupadd)
-+				perform_groupadd "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			userdel)
-+				perform_userdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			groupdel)
-+				perform_groupdel "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			usermod)
-+				perform_usermod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			groupmod)
-+				perform_groupmod "${IMAGE_ROOTFS}" "-R ${IMAGE_ROOTFS} $opts" 1
-+				;;
-+			*)
-+				bbfatal "Invalid command in EXTRA_USERS_PARAMS: $cmd"
-+				;;
-+		esac
-+		# iterate to the next setting
-+		setting=`echo $remaining | cut -d ';' -f1`
-+		remaining=`echo $remaining | cut -d ';' -f2-`
-+	done
-+}
--- 
-1.7.9.5
+Best Regards,
+Chen Qi
+>
+> Ross
+>
+>
 
 
