@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 507A96B260
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C37C6B260
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 09:13:43 +0000 (UTC)
+	Fri, 19 Jul 2013 09:13:44 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6J9DjJv020308
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6J9Di8Y005121
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 19 Jul 2013 02:13:45 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 19 Jul 2013 02:13:43 -0700
+	14.2.342.3; Fri, 19 Jul 2013 02:13:44 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jul 2013 17:13:39 +0800
-Message-ID: <cover.1374224424.git.hongxu.jia@windriver.com>
+Date: Fri, 19 Jul 2013 17:13:40 +0800
+Message-ID: <dce62f416d4a1d8f0acb0f18545868932aff45c9.1374224424.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1374224424.git.hongxu.jia@windriver.com>
+References: <cover.1374224424.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/2] python: fix importing readline with probably escape sequence output
+Subject: [PATCH 1/2] python: fix importing readline with probably escape sequence output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +36,93 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 19 Jul 2013 09:13:44 -0000
 Content-Type: text/plain
 
-Change from V1: explicitly set meta key off rather than hardcore the terminal to 'dumb'.
+While imports readline in python, if TERM in terminfo is available and
+it contains the variable 'km' and 'smm', the readline initialization will
+output the value of 'smm' which is the escape sequence '\E[?1034h'.
 
-Also remove the duplicated sitecustomize.py in python-native.
+'km' means the terminal has a meta key which is a special key on MIT keyboards
+such as the space-cadet keyboard, and on Sun Microsystems keyboards, marked
+as a solid diamond. It almost doesn't exist in our keyboard, so it has no side
+effect to disable it.
+'smm' means turn on the meta key if this terminal has one.
 
-//Hongxu
+Explicitly set meta key off to avoid probable escape sequence output
+while gnu readline library initialization.
 
-The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
+[YOCTO #4835]
+[YOCTO #4732]
 
-  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/fix-python-readlne
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-python-readlne
-
-Hongxu Jia (2):
-  python: fix importing readline with probably escape sequence output
-  python-native: remove unused and duplicated sitecustomize.py
-
- .../python/python-native/sitecustomize.py          | 45 ----------------------
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/recipes-devtools/python/python.inc            |  4 +-
- ...-to-avoid-probable-escape-sequence-output.patch | 43 +++++++++++++++++++++
- 3 files changed, 46 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python-native/sitecustomize.py
+ ...-to-avoid-probable-escape-sequence-output.patch | 43 ++++++++++++++++++++++
+ 2 files changed, 46 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
 
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 80609a8..9f787c9 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -7,7 +7,9 @@ INC_PR = "r0"
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
+ 
+-SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
++SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
++           file://readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch \
++"
+  
+ SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
+ SRC_URI[sha256sum] = "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
+diff --git a/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+new file mode 100644
+index 0000000..104fc36
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+@@ -0,0 +1,43 @@
++readline:explicitly set meta key off to avoid probable escape sequence output
++
++While imports readline in python, if TERM in terminfo is available and
++it contains the variable 'km' and 'smm', the readline initialization will
++output the value of 'smm' which is the escape sequence '\E[?1034h'.
++
++'km' means the terminal has a meta key which is a special key on MIT keyboards
++such as the space-cadet keyboard, and on Sun Microsystems keyboards, marked
++as a solid diamond. It almost doesn't exist in our keyboard, so it has no side
++effect to disable it.
++'smm' means turn on the meta key if this terminal has one.
++
++Explicitly set meta key off to avoid probable escape sequence output
++while gnu readline library initialization.
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Upstream-Status: inappropriate [oe specific]
++---
++ Modules/readline.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/Modules/readline.c b/Modules/readline.c
++--- a/Modules/readline.c
+++++ b/Modules/readline.c
++@@ -909,6 +909,15 @@ setup_readline(void)
++ 	rl_read_init_file(NULL);
++     else
++ #endif /* __APPLE__ */
+++
+++    /* Explicitly set meta key off to avoid probable escape sequence output
+++     * while gnu readline library initialization. The meta key is a special
+++     * key in MIT keyboards such as the space-cadet keyboard, and on Sun
+++     * Microsystems keyboards, marked as a solid diamond. It almost doesn't
+++     * exist in our keyboards, so it has no side effect to disable it.
+++     */
+++    rl_variable_bind("enable-meta-key", "off");
+++
++         rl_initialize();
++     
++     RESTORE_LOCALE(saved_locale)
++-- 
++1.8.1.2
++
 -- 
 1.8.1.2
 
