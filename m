@@ -1,35 +1,37 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id E749E6B095
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id AB8556A976
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 14:16:25 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id kq12so1135829pab.39
+	Fri, 19 Jul 2013 14:46:37 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id k14so6023759oag.26
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 07:16:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=ffYr/8VXFNf3UbtS1qO9vIJOoFBKT5avLl1uWKkgUFg=;
-	b=hEIRQou7KtBCXdE8hrrVBAy69RyGR1u8NJuiyfexoKJutySaRREZ1SfVGlipFLNlmC
-	hCAfjmh6LaqgJeSMUVhJc69SdWOw+1+aqR1Oq7v4YVebv6T63aUXMoCTEEvff40b6z98
-	xuAfvGs+6Hv+NhfGvIloELwqm+eysVA5hjE10TCMrzPTc63lGgd9SKPYEzVRvy93tpgP
-	JhMnZtm2rqysucbntA/GSQpJ3ciqrE+/HqsrKreHRJYV+LWCszFBiUYLZwetHpeAbMCd
-	1xribOU+wq7LMLEy+W2gyz+qHF0QtmNx9ZX/YDpRV4pcsIlUS1dKdU/9vwFOrYACsRsg
-	FV3A==
-X-Received: by 10.66.155.67 with SMTP id vu3mr18725520pab.42.1374243386497;
-	Fri, 19 Jul 2013 07:16:26 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	kc8sm19880203pbc.18.2013.07.19.07.16.24 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 19 Jul 2013 07:16:25 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2013 00:31:59 +1000
-Message-Id: <1374244319-31123-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] wget: backport fixes for documentation build errors
+	Fri, 19 Jul 2013 07:46:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=e1MpS1zRXpZV/0xq4HviEv2G7kdzaeLrhLgcmNdNBzk=;
+	b=ajjbIqJgRE+GX7LS7cEod78U20riC+bdj80hvZTnUjZA2zG8b/8h+kwKE59U08Yvpz
+	v8JkP9uFT1a92Jo0mgZybeTpK463/4LDvBZ5xBVFtlfQiDlfKzrmVDz7YLfZ+glCHrU/
+	y5gqL8AbVgMgxSC4MXGLoW0ez968tjTw2EYNmhjsQr+S+k8tbTrOwte16zh7YPBDHrhn
+	W34SGjEwxVfhvP3T3N+OHzfLblhnEjdoBwZ8GnF3ac9sWgJLMiNrx4ytvIh1+p3ARBlS
+	kd9RNJrsCT8o034eIsPBiG3pUBL8vxrcxWBMdDgThypIV9DfuIYnRtWRA4RigGXUhezi
+	4vGg==
+X-Received: by 10.182.66.46 with SMTP id c14mr12601923obt.33.1374245198070;
+	Fri, 19 Jul 2013 07:46:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.76.126.144 with HTTP; Fri, 19 Jul 2013 07:46:17 -0700 (PDT)
+In-Reply-To: <1374223150-16033-1-git-send-email-andre.draszik@linaro.org>
+References: <1374223150-16033-1-git-send-email-andre.draszik@linaro.org>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 19 Jul 2013 16:46:17 +0200
+Message-ID: <CAP71WjyRkp0TM9vLfX6jFG-E6TWZuUjZeUTSnEefvJA1VOb5yA@mail.gmail.com>
+To: =?ISO-8859-1?Q?Andr=E9_Draszik?= <andre.draszik@linaro.org>
+X-Gm-Message-State: ALoCoQnXtnH+a5Vi2rTmRrJLoNdVksU4UA0EvjVpiFRMN/x/KvNlYPwlS9suv4uOxHNcTuLaRqws
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] directfb: don't patch pkg-config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,105 +44,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2013 14:16:26 -0000
+X-List-Received-Date: Fri, 19 Jul 2013 14:46:37 -0000
+Content-Type: multipart/alternative; boundary=e89a8fb200e6dd953904e1de64b9
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-extended/wget/wget-1.14/fix_doc.patch | 71 ++++++++++++++++++++++
- meta/recipes-extended/wget/wget_1.14.bb            |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget-1.14/fix_doc.patch
+--e89a8fb200e6dd953904e1de64b9
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-extended/wget/wget-1.14/fix_doc.patch b/meta/recipes-extended/wget/wget-1.14/fix_doc.patch
-new file mode 100644
-index 0000000..91a5ff7
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget-1.14/fix_doc.patch
-@@ -0,0 +1,71 @@
-+Fix documentation build errors with Texinfo 5 and Perl 5.18
-+
-+wget.pod around line 2105: Expected text after =item, not a number
-+wget.pod around line 2110: Expected text after =item, not a number
-+wget.pod around line 2116: Expected text after =item, not a number
-+wget.pod around line 2121: Expected text after =item, not a number
-+wget.pod around line 2126: Expected text after =item, not a number
-+wget.pod around line 2131: Expected text after =item, not a number
-+wget.pod around line 2136: Expected text after =item, not a number
-+wget.pod around line 2141: Expected text after =item, not a number
-+wget.texi:879: @itemx must follow @item
-+wget.texi:980: @itemx must follow @item
-+wget.texi:3097: @itemx must follow @item
-+wget.texi:3608: warning: @itemx should not begin @table
-+
-+Upstream-Status: Backport
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
-+
-+diff --git a/doc/texi2pod.pl b/doc/texi2pod.pl
-+index 86c4b18..9db6de1 100755
-+--- a/doc/texi2pod.pl
-++++ b/doc/texi2pod.pl
-+@@ -291,7 +291,7 @@ while(<$inf>) {
-+ 	if (defined $1) {
-+             my $thing = $1;
-+             if ($ic =~ /\@asis/) {
-+-                $_ = "\n=item $thing\n";
-++                $_ = "\n=item C<$thing>\n";
-+             } else {
-+                 # Entity escapes prevent munging by the <> processing below.
-+                 $_ = "\n=item $ic\&LT;$thing\&GT;\n";
-+diff --git a/doc/wget.texi b/doc/wget.texi
-+index 7efdc72..2b045fd 100644
-+--- a/doc/wget.texi
-++++ b/doc/wget.texi
-+@@ -876,7 +876,7 @@ recommendation to block many unrelated users from a web site due to the
-+ actions of one.
-+ 
-+ @cindex proxy
-+-@itemx --no-proxy
-++@item --no-proxy
-+ Don't use proxies, even if the appropriate @code{*_proxy} environment
-+ variable is defined.
-+ 
-+@@ -977,7 +977,7 @@ are outside the range of @sc{ascii} characters (that is, greater than
-+ whose encoding does not match the one used locally.
-+ 
-+ @cindex IPv6
-+-@itemx -4
-++@item -4
-+ @itemx --inet4-only
-+ @itemx -6
-+ @itemx --inet6-only
-+@@ -3094,7 +3094,7 @@ display properly---the same as @samp{-p}.
-+ Change setting of passive @sc{ftp}, equivalent to the
-+ @samp{--passive-ftp} option.
-+ 
-+-@itemx password = @var{string}
-++@item password = @var{string}
-+ Specify password @var{string} for both @sc{ftp} and @sc{http} file retrieval. 
-+ This command can be overridden using the @samp{ftp_password} and 
-+ @samp{http_password} command for @sc{ftp} and @sc{http} respectively.
-+@@ -3605,7 +3605,7 @@ In addition to the environment variables, proxy location and settings
-+ may be specified from within Wget itself.
-+ 
-+ @table @samp
-+-@itemx --no-proxy
-++@item --no-proxy
-+ @itemx proxy = on/off
-+ This option and the corresponding command may be used to suppress the
-+ use of proxy, even if the appropriate environment variables are set.
-diff --git a/meta/recipes-extended/wget/wget_1.14.bb b/meta/recipes-extended/wget/wget_1.14.bb
-index f26b884..b12c147 100644
---- a/meta/recipes-extended/wget/wget_1.14.bb
-+++ b/meta/recipes-extended/wget/wget_1.14.bb
-@@ -2,6 +2,7 @@ PR = "${INC_PR}.0"
- 
- SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://fix_makefile.patch \
-+           file://fix_doc.patch \
-           "
- SRC_URI[md5sum] = "12edc291dba8127f2e9696e69f36299e"
- SRC_URI[sha256sum] = "f3a6898e3a765bb94435b04a6668db9e5d19b3e90e0c69a503a2773ae936c269"
--- 
-1.8.3.2
+On Fri, Jul 19, 2013 at 10:39 AM, Andr=E9 Draszik <andre.draszik@linaro.org=
+>wrote:
+
+> We are currently getting build failures of projects that rely on
+> being able to access DirectFB's internal include directories, as
+> returned via pkg-config, since the include paths returned by
+> pkg-config are incomplete.
+>
+> The reason for that is the patch that is being removed with this
+> change. It modified the cflags returned by pkg-config in an
+> incorrect way, causing us to miss important include paths:
+>
+> For reference, pkg-config output with incorrect patch applied:
+>   ad@bril0118 #513 ~> pkg-config --cflags directfb-internal
+> -D_GNU_SOURCE -D_REENTRANT
+> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb
+> -I<builddir>/tmp/sysroots/<machine>/usr/include
+>
+> Now, with the incorrect patch removed, the output is as expected:
+>   ad@bril0118 #514 ~> pkg-config --cflags directfb-internal
+> -D_GNU_SOURCE -D_REENTRANT
+> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb-internal
+> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb
+>
+> Overall, the removed patch is not needed - pkg-config does the right
+> thing these days and we can simply use the correctly working upstream
+> versions of all DirectFB .pc files.
+>
+> Signed-off-by: Andr=E9 Draszik <andre.draszik@linaro.org>
+>
+
+i reviewed and tested this patch against a QT4e image build. it looks good
+to me, and that offending patch being removed seems to come from quite
+ancient stuff.
+
+Tested-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+
+any chance this can get into 'dylan', too?
+
+--e89a8fb200e6dd953904e1de64b9
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Jul 19, 2013 at 10:39 AM, Andr=E9 Draszik <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:andre.draszik@linaro.org" target=3D"_blank">andre.draszik@li=
+naro.org</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex"><div id=3D":1fq" style=3D"overflow:hidden">We are currentl=
+y getting build failures of projects that rely on<br>
 
 
+being able to access DirectFB&#39;s internal include directories, as<br>
+returned via pkg-config, since the include paths returned by<br>
+pkg-config are incomplete.<br>
+<br>
+The reason for that is the patch that is being removed with this<br>
+change. It modified the cflags returned by pkg-config in an<br>
+incorrect way, causing us to miss important include paths:<br>
+<br>
+For reference, pkg-config output with incorrect patch applied:<br>
+=A0 ad@bril0118 #513 ~&gt; pkg-config --cflags directfb-internal<br>
+-D_GNU_SOURCE -D_REENTRANT -I&lt;builddir&gt;/tmp/sysroots/&lt;machine&gt;/=
+usr/include/directfb -I&lt;builddir&gt;/tmp/sysroots/&lt;machine&gt;/usr/in=
+clude<br>
+<br>
+Now, with the incorrect patch removed, the output is as expected:<br>
+=A0 ad@bril0118 #514 ~&gt; pkg-config --cflags directfb-internal<br>
+-D_GNU_SOURCE -D_REENTRANT -I&lt;builddir&gt;/tmp/sysroots/&lt;machine&gt;/=
+usr/include/directfb-internal -I&lt;builddir&gt;/tmp/sysroots/&lt;machine&g=
+t;/usr/include/directfb<br>
+<br>
+Overall, the removed patch is not needed - pkg-config does the right<br>
+thing these days and we can simply use the correctly working upstream<br>
+versions of all DirectFB .pc files.<br>
+<br>
+Signed-off-by: Andr=E9 Draszik &lt;<a href=3D"mailto:andre.draszik@linaro.o=
+rg">andre.draszik@linaro.org</a>&gt;<br></div></blockquote></div><br>i revi=
+ewed and tested this patch against a QT4e image build. it looks good to me,=
+ and that offending patch being removed seems to come from quite ancient st=
+uff.=A0</div>
+
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Tested-by: =
+Nicolas Dechesne &lt;<a href=3D"mailto:nicolas.dechesne@linaro.org">nicolas=
+.dechesne@linaro.org</a>&gt;<br></div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra">
+
+any chance this can get into &#39;dylan&#39;, too?</div><div class=3D"gmail=
+_extra"><br></div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
+extra"><br></div></div>
+
+--e89a8fb200e6dd953904e1de64b9--
