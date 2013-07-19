@@ -1,27 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 26BE96B264
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BB64A6B264
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 09:39:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6J9dIAR022486
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 02:39:19 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 19 Jul 2013 02:39:17 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jul 2013 17:39:27 +0800
-Message-ID: <6c88ed5994aec47f5882e3a410f0884a37939e6b.1374226651.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1374226651.git.Qi.Chen@windriver.com>
-References: <cover.1374226651.git.Qi.Chen@windriver.com>
+	Fri, 19 Jul 2013 09:41:21 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 19 Jul 2013 02:38:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,700,1367996400"; d="scan'208";a="348306970"
+Received: from unknown (HELO helios.localnet) ([10.252.122.96])
+	by orsmga001.jf.intel.com with ESMTP; 19 Jul 2013 02:41:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Trevor Woerner <trevor.woerner@linaro.org>
+Date: Fri, 19 Jul 2013 10:41:20 +0100
+Message-ID: <2871747.3HkfyQL6od@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.4 (Linux/3.8.0-26-generic; KDE/4.10.4; i686; ; )
+In-Reply-To: <CALmOhgkONNQgOjYsosWAk2avLr2nEukjRW=kFuAzLMyyvjEuGA@mail.gmail.com>
+References: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+	<51DAEEE9.6000203@windriver.com>
+	<CALmOhgkONNQgOjYsosWAk2avLr2nEukjRW=kFuAzLMyyvjEuGA@mail.gmail.com>
 MIME-Version: 1.0
-Cc: qingtao.cao@windriver.com
-Subject: [PATCH 3/3] run-postinsts: add more logging to the log file to make things clearer
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2013 09:39:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Jul 2013 09:41:22 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Tuesday 09 July 2013 16:14:55 Trevor Woerner wrote:
+> On 8 July 2013 17:55, Mark Hatle <mark.hatle@windriver.com> wrote:
+> > For anyone with an old or broken system, they will need to download (or
+> > build) the buildtools..
+> > install it and have it in their path prior to running oe-core.
+> 
+> Does a download location already exist with downloads available for
+> people who receive this error when building? If so, could it be made
+> part of the error message? Or maybe instead of asking people to use a
+> working version of "make" the error message could instruct them to use
+> one of these buildtools-tarball SDKs (and provide instructions for
+> doing so)?
 
-When all postinsts scripts succeed at system startup, it's very possible
-that the log file /var/log/postinstall.log is empty. This is kind of
-confusing, as that file is supposed to hold information about the postinsts.
+According to Beth, the current (nightly build) can be found here:
 
-Add more logging to the log file to make things clearer.
+ http://autobuilder.yoctoproject.org/pub/nightly/CURRENT/buildtools/
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../run-postinsts/run-postinsts/run-postinsts      |    2 ++
- 1 file changed, 2 insertions(+)
+Location for the upcoming 1.5 release when that is available:
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-index 2a8d1d6..c94c3e9 100755
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-@@ -24,6 +24,7 @@ remove_pi_dir=1
- for i in `ls $pi_dir`; do
- 	i=$pi_dir/$i
- 	echo "Running postinst $i..."
-+	[ "$POSTINST_LOGGING" = "1" ] && echo "Running postinst $i..." >> $LOGFILE
- 	if [ -x $i ]; then
- 		if [ "$POSTINST_LOGGING" = "1" ]; then
- 			sh -c $i >>$LOGFILE 2>&1
-@@ -33,6 +34,7 @@ for i in `ls $pi_dir`; do
- 		rm $i
- 	else
- 		echo "ERROR: postinst $i failed."
-+		[ "$POSTINST_LOGGING" = "1" ] && echo "ERROR: postinst $i failed." >> $LOGFILE
- 		remove_pi_dir=0
- 	fi
- done
+ http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/buildtools/
+
+The tricky part is we don't have a solid location yet, only one being built 
+from master. Perhaps we could link to an intermediary page with explanatory 
+text that can link to the appropriate location.
+
+Cheers,
+Paul
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
