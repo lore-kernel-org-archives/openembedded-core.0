@@ -1,35 +1,34 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id BE32661663
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 13F5461663
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 11:55:44 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id kq12so2025908pab.11
+	Sat, 20 Jul 2013 14:57:04 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id m14so2961155eaj.30
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 04:55:45 -0700 (PDT)
+	Sat, 20 Jul 2013 07:57:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=a5Vx9XmhtoM+MYXahVzwiqcQwRUlLRR6tmXYCNFJEX4=;
-	b=oEKPqWEYXkBSKUXsIszrLZY0S3deIMesQerJjWBzyXsxm9r9E6p+czFRS88Fe21nbJ
-	DdQ5U6vWMoQqpfxEgoyd1OnSEfnGDw27PgsbLyhRJKBzawdpp/M0QL/aQWonvJOWFgGV
-	vXAdYlnuLHOVK/upyUVX0rXQlpcRcjYLRIEoMOv2e24u8oW7EJnr4cAZ408ZJT+4nIwn
-	pygoTO8e8vFYIBrvV8P7cUZgaW0uY0G3rGZfE+5F5ypRXXTqawyKjT2Ene7hvOSEmvaS
-	tzbml3LRsyDL3eWnJad19UnNYi6pB4gIlNmwO6U6cCVIil2CMzUmHukii8f6pG3PTepK
-	FbWg==
-X-Received: by 10.68.247.226 with SMTP id yh2mr21516295pbc.164.1374321345664; 
-	Sat, 20 Jul 2013 04:55:45 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id iq6sm24893273pbc.1.2013.07.20.04.55.44
-	for <multiple recipients>
+	bh=fJLns2wK9nQgxle+F/CSh+fLLF8/Uq4TVhbcHIf1uXA=;
+	b=xb+te7kTd/eYdB6jMSLkeTkgpRyPfqVjWdkMyIgGb1O+9vB1ugKOOZtcmDoQroPPZ3
+	amYmOR+c1HlRY7RCyOrMsXVkUcvzDdVmAwvgNkWbDpuaOrndES68VlWTEDiUYf8q/1jM
+	Rp4lFeYiwVxxAwYTjcjdiorB9KACdg8uoXWOzyY4lNnRIRxhwAC7DKPJaRp6aUDp7VCW
+	hheOVkqfPSAvbWn6mXbL21KJjY9o9CUyjHz4hJk4zURczBZeRrS3jqN95n7S0wlBqTgI
+	95RkPHNaQbyUS/tnXs0hV3k61C2GLjhAKnEc24PE8/4G4vPhvdOj0U89itZ6YvhFOrqg
+	Pu7A==
+X-Received: by 10.15.31.9 with SMTP id x9mr20426953eeu.103.1374332224806;
+	Sat, 20 Jul 2013 07:57:04 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	n5sm35847645eed.9.2013.07.20.07.57.03 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 20 Jul 2013 04:55:45 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
+	Sat, 20 Jul 2013 07:57:04 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2013 22:11:20 +1000
-Message-Id: <1374322280-1792-1-git-send-email-net147@gmail.com>
+Date: Sat, 20 Jul 2013 16:57:21 +0200
+Message-Id: <cover.1374332196.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] boot-directdisk: use awk instead of echo -ne for dash compatibility
+Subject: [PATCH 0/8] autodetected dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +41,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2013 11:55:44 -0000
+X-List-Received-Date: Sat, 20 Jul 2013 14:57:05 -0000
 
-The echo command is a dash shell built-in and does not support the
--n and -e options so use awk instead.
+The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
 
-This fixes the partition table being corrupted when writing the MBR
-disk signature into the image.
+  curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
 
-[YOCTO #4859]
+are available in the git repository at:
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/boot-directdisk.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  git://git.openembedded.org/openembedded-core-contrib jansa/deps
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/deps
 
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index 182957b..8a55aae 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -81,7 +81,7 @@ build_boot_dd() {
- 	parted $IMAGE set 1 boot on 
- 	parted $IMAGE print
- 
--	echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
-+	awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')\" }" | \
- 		dd of=$IMAGE bs=1 seek=440 conv=notrunc
- 
- 	OFFSET=`expr $END2 / 512`
+Martin Jansa (8):
+  test-dependencies: add simple script to detect missing or autoenabled
+    dependencies
+  gst-plugins-good: add PACKAGECONFIG for jack
+  gst-plugins-ugly: add PACKAGECONFIG for x264, cdio, dvdread
+  pulseaudio: add PACKAGECONFIG for jack
+  subversion: add PACKAGECONFIG for sasl
+  gst-plugins-bad: add few more PACKAGECONFIGs
+  cups: add PACKAGECONFIG for avahi
+  mesa: add Upstream-Status
+
+ .../subversion/subversion_1.6.15.bb                |   2 +
+ .../subversion/subversion_1.7.10.bb                |   2 +
+ meta/recipes-extended/cups/cups16.inc              |   3 +
+ ...ate-NativeDisplayType-depending-on-config.patch |   3 +
+ ...ate-NativeDisplayType-depending-on-config.patch |   3 +
+ .../gstreamer/gst-plugins-bad_0.10.23.bb           |   8 +
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |   1 +
+ .../gstreamer/gst-plugins-ugly_0.10.19.bb          |   5 +
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   1 +
+ scripts/test-dependencies.sh                       | 256 +++++++++++++++++++++
+ 10 files changed, 284 insertions(+)
+ create mode 100755 scripts/test-dependencies.sh
+
 -- 
 1.8.3.2
 
