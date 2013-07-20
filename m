@@ -1,26 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ABB66AF56
+Return-Path: <petter@technux.se>
+Received: from vsp-authed-03-02.binero.net (vsp-authed02.binero.net
+	[195.74.38.226])
+	by mail.openembedded.org (Postfix) with SMTP id BDE5061485
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jul 2013 18:26:42 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 19 Jul 2013 11:26:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,703,1367996400"; d="scan'208";a="270684466"
-Received: from unknown (HELO [10.255.14.14]) ([10.255.14.14])
-	by AZSMGA002.ch.intel.com with ESMTP; 19 Jul 2013 11:26:42 -0700
-Message-ID: <51E984DF.2030207@linux.intel.com>
-Date: Fri, 19 Jul 2013 11:26:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Sat, 20 Jul 2013 07:51:59 +0000 (UTC)
+Received: from smtp01.binero.se (unknown [195.74.38.28])
+	by vsp-authed-03-02.binero.net (Halon Mail Gateway) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 20 Jul 2013 09:51:56 +0200 (CEST)
+Received: from eldbvzzwp1-7x.lan (90-224-44-236-no67.tbcn.telia.com
+	[90.224.44.236]) (Authenticated sender: petter@technux.se)
+	by smtp-01-01.atm.binero.net (Postfix) with ESMTPSA id EFEF63A1E1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 20 Jul 2013 09:51:54 +0200 (CEST)
+From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 20 Jul 2013 09:51:34 +0200
+Message-Id: <62624fce3e37336563e6a83727a26e4c96e456aa.1374305690.git.petter@technux.se>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1374305690.git.petter@technux.se>
+References: <cover.1374305690.git.petter@technux.se>
+In-Reply-To: <cover.1374305690.git.petter@technux.se>
+References: <cover.1374305690.git.petter@technux.se>
 MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>
-References: <cover.1374224424.git.hongxu.jia@windriver.com>
-	<dce62f416d4a1d8f0acb0f18545868932aff45c9.1374224424.git.hongxu.jia@windriver.com>
-In-Reply-To: <dce62f416d4a1d8f0acb0f18545868932aff45c9.1374224424.git.hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] python: fix importing readline with probably escape sequence output
+Subject: [PATCH 1/1] remake: fix insufficient gettext dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,106 +36,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jul 2013 18:26:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 20 Jul 2013 07:52:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 07/19/2013 02:13 AM, Hongxu Jia wrote:
-> While imports readline in python, if TERM in terminfo is available and
-> it contains the variable 'km' and 'smm', the readline initialization will
-> output the value of 'smm' which is the escape sequence '\E[?1034h'.
->
-> 'km' means the terminal has a meta key which is a special key on MIT keyboards
-> such as the space-cadet keyboard, and on Sun Microsystems keyboards, marked
-> as a solid diamond. It almost doesn't exist in our keyboard, so it has no side
-> effect to disable it.
-> 'smm' means turn on the meta key if this terminal has one.
->
-> Explicitly set meta key off to avoid probable escape sequence output
-> while gnu readline library initialization.
->
-I am still not sure about this change, there was some discussion that 
-the readline library would do be making a similar change and we should 
-back port that change.  I contacted the readline maintainer to find out 
-about that.
+By default when inheriting gettext, "gettext-minimal-native" is added as
+a dependency for native. The bb-file for remake use 'autopoint' (not
+included in gettext-minimal-native). When building remake-native it
+will result in a failure in do_configure for all cases when gettext (or
+gettext-native) is not build from some other recipes, before building
+'remake-native'.
 
-I am going to hold off until I hear from him.
+This is solved by adding a build-dependency to gettext-native in
+remake-native.
 
-Sau!
+Fixes [YOCTO #4385]
 
-> [YOCTO #4835]
-> [YOCTO #4732]
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-devtools/python/python.inc            |  4 +-
->   ...-to-avoid-probable-escape-sequence-output.patch | 43 ++++++++++++++++++++++
->   2 files changed, 46 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
->
-> diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-> index 80609a8..9f787c9 100644
-> --- a/meta/recipes-devtools/python/python.inc
-> +++ b/meta/recipes-devtools/python/python.inc
-> @@ -7,7 +7,9 @@ INC_PR = "r0"
->
->   LIC_FILES_CHKSUM = "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
->
-> -SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
-> +SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
-> +           file://readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch \
-> +"
->
->   SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
->   SRC_URI[sha256sum] = "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
-> diff --git a/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
-> new file mode 100644
-> index 0000000..104fc36
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
-> @@ -0,0 +1,43 @@
-> +readline:explicitly set meta key off to avoid probable escape sequence output
-> +
-> +While imports readline in python, if TERM in terminfo is available and
-> +it contains the variable 'km' and 'smm', the readline initialization will
-> +output the value of 'smm' which is the escape sequence '\E[?1034h'.
-> +
-> +'km' means the terminal has a meta key which is a special key on MIT keyboards
-> +such as the space-cadet keyboard, and on Sun Microsystems keyboards, marked
-> +as a solid diamond. It almost doesn't exist in our keyboard, so it has no side
-> +effect to disable it.
-> +'smm' means turn on the meta key if this terminal has one.
-> +
-> +Explicitly set meta key off to avoid probable escape sequence output
-> +while gnu readline library initialization.
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +Upstream-Status: inappropriate [oe specific]
-> +---
-> + Modules/readline.c | 9 +++++++++
-> + 1 file changed, 9 insertions(+)
-> +
-> +diff --git a/Modules/readline.c b/Modules/readline.c
-> +--- a/Modules/readline.c
-> ++++ b/Modules/readline.c
-> +@@ -909,6 +909,15 @@ setup_readline(void)
-> + 	rl_read_init_file(NULL);
-> +     else
-> + #endif /* __APPLE__ */
-> ++
-> ++    /* Explicitly set meta key off to avoid probable escape sequence output
-> ++     * while gnu readline library initialization. The meta key is a special
-> ++     * key in MIT keyboards such as the space-cadet keyboard, and on Sun
-> ++     * Microsystems keyboards, marked as a solid diamond. It almost doesn't
-> ++     * exist in our keyboards, so it has no side effect to disable it.
-> ++     */
-> ++    rl_variable_bind("enable-meta-key", "off");
-> ++
-> +         rl_initialize();
-> +
-> +     RESTORE_LOCALE(saved_locale)
-> +--
-> +1.8.1.2
-> +
->
+Signed-off-by: Petter Mabäcker <petter@technux.se>
+---
+ meta/recipes-devtools/remake/remake_git.bb |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/remake/remake_git.bb b/meta/recipes-devtools/remake/remake_git.bb
+index 13d8ce9..405c69f 100644
+--- a/meta/recipes-devtools/remake/remake_git.bb
++++ b/meta/recipes-devtools/remake/remake_git.bb
+@@ -1,4 +1,4 @@
+-PR = "r0"
++PR = "r1"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+                     file://tests/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+@@ -12,6 +12,10 @@ S = "${WORKDIR}/git"
+ PV = "3.82+dbg-0.9+git${SRCPV}"
+ 
+ DEPENDS += "readline"
++# Need to add "gettext-native" dependency to remake-native.
++# By default only "gettext-minimal-native" is added
++# when inherit gettext.
++DEPENDS_class-native += "gettext-native"
+ PROVIDES += "make"
+ 
+ do_configure_prepend() {
+-- 
+1.7.9.5
+
 
