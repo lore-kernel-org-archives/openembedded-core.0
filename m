@@ -1,25 +1,35 @@
-Return-Path: <petter@technux.se>
-Received: from vsp-authed-01-02.binero.net (vsp-authed02.binero.net
-	[195.74.38.226])
-	by mail.openembedded.org (Postfix) with SMTP id 8B68961642
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id BE32661663
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 07:52:52 +0000 (UTC)
-Received: from smtp01.binero.se (unknown [195.74.38.28])
-	by vsp-authed-01-02.binero.net (Halon Mail Gateway) with ESMTP
+	Sat, 20 Jul 2013 11:55:44 +0000 (UTC)
+Received: by mail-pa0-f52.google.com with SMTP id kq12so2025908pab.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 09:51:49 +0200 (CEST)
-Received: from eldbvzzwp1-7x.lan (90-224-44-236-no67.tbcn.telia.com
-	[90.224.44.236]) (Authenticated sender: petter@technux.se)
-	by smtp-01-01.atm.binero.net (Postfix) with ESMTPSA id 20DAD3A1E3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 09:51:49 +0200 (CEST)
-From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
+	Sat, 20 Jul 2013 04:55:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=a5Vx9XmhtoM+MYXahVzwiqcQwRUlLRR6tmXYCNFJEX4=;
+	b=oEKPqWEYXkBSKUXsIszrLZY0S3deIMesQerJjWBzyXsxm9r9E6p+czFRS88Fe21nbJ
+	DdQ5U6vWMoQqpfxEgoyd1OnSEfnGDw27PgsbLyhRJKBzawdpp/M0QL/aQWonvJOWFgGV
+	vXAdYlnuLHOVK/upyUVX0rXQlpcRcjYLRIEoMOv2e24u8oW7EJnr4cAZ408ZJT+4nIwn
+	pygoTO8e8vFYIBrvV8P7cUZgaW0uY0G3rGZfE+5F5ypRXXTqawyKjT2Ene7hvOSEmvaS
+	tzbml3LRsyDL3eWnJad19UnNYi6pB4gIlNmwO6U6cCVIil2CMzUmHukii8f6pG3PTepK
+	FbWg==
+X-Received: by 10.68.247.226 with SMTP id yh2mr21516295pbc.164.1374321345664; 
+	Sat, 20 Jul 2013 04:55:45 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id iq6sm24893273pbc.1.2013.07.20.04.55.44
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 20 Jul 2013 04:55:45 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2013 09:51:33 +0200
-Message-Id: <cover.1374305690.git.petter@technux.se>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH 0/1] remake: fix insufficient gettext dependency
+Date: Sat, 20 Jul 2013 22:11:20 +1000
+Message-Id: <1374322280-1792-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] boot-directdisk: use awk instead of echo -ne for dash compatibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,26 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2013 07:52:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 20 Jul 2013 11:55:44 -0000
 
-The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
+The echo command is a dash shell built-in and does not support the
+-n and -e options so use awk instead.
 
-  lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
+This fixes the partition table being corrupted when writing the MBR
+disk signature into the image.
 
-are available in the git repository at:
+[YOCTO #4859]
 
-  git://git.yoctoproject.org/poky-contrib petmab/bug/4385
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/bug/4385
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/classes/boot-directdisk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Petter Mabäcker (1):
-  remake: fix insufficient gettext dependency
-
- meta/recipes-devtools/remake/remake_git.bb |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 182957b..8a55aae 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -81,7 +81,7 @@ build_boot_dd() {
+ 	parted $IMAGE set 1 boot on 
+ 	parted $IMAGE print
+ 
+-	echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')" | \
++	awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed 's/\(..\)/\\x&/g')\" }" | \
+ 		dd of=$IMAGE bs=1 seek=440 conv=notrunc
+ 
+ 	OFFSET=`expr $END2 / 512`
 -- 
-1.7.9.5
+1.8.3.2
 
 
