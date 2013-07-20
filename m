@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
-	[209.85.215.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 4931D6ABB0
+Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 7ED8B6AD33
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 14:57:11 +0000 (UTC)
-Received: by mail-ea0-f175.google.com with SMTP id z7so2899052eaf.20
+	Sat, 20 Jul 2013 14:57:12 +0000 (UTC)
+Received: by mail-ea0-f174.google.com with SMTP id o10so2891367eaj.19
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 07:57:11 -0700 (PDT)
+	Sat, 20 Jul 2013 07:57:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=qFVkItsWOy2jwIXmoWq6AKedwjg5o6h3VPfmp4Tu5Rc=;
-	b=oFgJ85bwJ0t3u8PKmyT+wj3OdLTAwMdDhhA5HzyfNW+fHkO6Rk6rRkaZwbJentSNaS
-	+QlJHhOX1SqDWsokiDF9UwyjnGA+Liy39PreLHX5zR1ASMN+gFXqkFwkci/s+kmsnubh
-	FKVdx4ZdsrF3hrlEU5ApFWv9JQQNAkqKBP/fQHGzq5g3hltn+H6VpLN7U4HCMhofJa61
-	vjVQi4EjKjzxS8bA1xKG4gsZkm+42zmyodi0rGJMNC85GNa4mmD0e9myAKNUcalwvTO5
-	Tu2UXD6p+El7BLcvWo9SQEplLKSs1OyoJctJ5++9kFBhqv9Ue+QOJ8iv/83TUzym/7k2
-	iJPg==
-X-Received: by 10.15.31.198 with SMTP id y46mr20553307eeu.135.1374332231325;
-	Sat, 20 Jul 2013 07:57:11 -0700 (PDT)
+	bh=34RDJ3wkNvxysAVm/Y1Z4S9ygfQHQH8DZxCdEYUect8=;
+	b=YxRV+heK3Bg9q/mYJ60lTg+O6ASd06yu2Ax1YmmoXPxRp2KF24kOX8XnAEN5zmZmI9
+	zbgBKm7xWzk+87x+PTvCTS4Sfm6YzE+P48J7iIyiDK9UBQKH1AfiJ8jnzhXMIPo3eH+M
+	ETxUn+r0wWUPRU18zg24pCQd3qsA32Ua1jGmFpQh26s2upjRPyfIJCavpYOcbeToXcpe
+	TlKPR7pDFHvllHprlypQAzwQ4dC7CFYso4O0uLA84RnP4EsBvimuOjH2Y33j++IA4fBJ
+	aXJ1gPxFX0bpalsNwj/0UAsYr53EfEw/1iRmGeHqZsTgLd0tQ4PW1k1HYCQ1G3SECSK0
+	FyUg==
+X-Received: by 10.15.73.197 with SMTP id h45mr20132231eey.146.1374332232719;
+	Sat, 20 Jul 2013 07:57:12 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	n5sm35848469eed.9.2013.07.20.07.57.10 for <multiple recipients>
+	p49sm35925052eeu.2.2013.07.20.07.57.11 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 20 Jul 2013 07:57:10 -0700 (PDT)
+	Sat, 20 Jul 2013 07:57:12 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 20 Jul 2013 16:57:20 +0200
-Message-Id: <f7a1fd6fe5a970a8047a13e980651bb058092bc8.1374332196.git.Martin.Jansa@gmail.com>
+Date: Sat, 20 Jul 2013 16:57:21 +0200
+Message-Id: <ae7403b0379ce48fccaba39841b82527176e87dd.1374332196.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <f9f54ff35b3525909ee1986053c8d6a687858a21.1374332196.git.Martin.Jansa@gmail.com>
 References: <f9f54ff35b3525909ee1986053c8d6a687858a21.1374332196.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1374332196.git.Martin.Jansa@gmail.com>
 References: <cover.1374332196.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 3/8] gst-plugins-ugly: add PACKAGECONFIG for x264, cdio, dvdread
+Subject: [PATCH 4/8] pulseaudio: add PACKAGECONFIG for jack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2013 14:57:11 -0000
-
-* they are autodetected from sysroot
+X-List-Received-Date: Sat, 20 Jul 2013 14:57:13 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.19.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.19.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.19.bb
-index 9fd71fc..2fdf03f 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.19.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-ugly_0.10.19.bb
-@@ -15,6 +15,11 @@ inherit gettext
- EXTRA_OECONF += "--with-plugins=a52dec,lame,id3tag,mad,mpeg2dec,mpegstream,mpegaudioparse,asfdemux,realmedia \
-                  --disable-orc"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index d4f66e6..0158f41 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -50,6 +50,7 @@ PACKAGECONFIG[gtk] = "--enable-gtk2,--disable-gtk2,gtk+"
+ PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
+ PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
+ PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
++PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
  
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[x264] = "--enable-x264,--disable-x264,x264"
-+PACKAGECONFIG[cdio] = "--enable-cdio,--disable-cdio,libcdio"
-+PACKAGECONFIG[dvdread] = "--enable-dvdread,--disable-dvdread,libdvdread"
-+
- do_configure_prepend() {
- 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
- 	rm ${S}/m4/lib-link.m4 || true
+ EXTRA_OECONF_append_arm += "${@bb.utils.contains("TUNE_FEATURES", "neon", "", "--enable-neon-opt=no", d)}"
+ 
 -- 
 1.8.3.2
 
