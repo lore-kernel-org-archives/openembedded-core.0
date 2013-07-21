@@ -1,38 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
-	[209.85.219.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 78B376ABB2
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id EB514606AC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 16:22:12 +0000 (UTC)
-Received: by mail-oa0-f42.google.com with SMTP id j6so7428065oag.1
+	Sun, 21 Jul 2013 09:52:49 +0000 (UTC)
+Received: by mail-pa0-f49.google.com with SMTP id bi5so1954994pad.22
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jul 2013 09:22:12 -0700 (PDT)
+	Sun, 21 Jul 2013 02:52:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=OdN7Yt2PDdNoqkblozgblCzDC5lbjVBkIko7TMbPSzE=;
-	b=yuozMDmZpXbdteyUpTu21QVA7K5FS94hCCeHCelESRP4YJKE2QiMgmzIILFIpLfHx0
-	Jy4CKKjae69p9Uty2giDXuOIArRgSwZPE91ipPYKPWyGJIYEixSj0qNsdDsmSjXkWuRm
-	XYT4a9bqi1bC4h1xNwyZ0gItiwaNBxXZRZcC4SmbQCm6KG0w8hH7DRRBCicpctJ45WVg
-	XDAxTi+8VEfhT+QUIVfeyzadsBqGnmgPEkgfqO6nkUx3T6+ah1dh1CuQosQP8DvDyaCs
-	wqorRVlGdNGJpDmDPY8XD3T6HmuB0/CxSX/g/ZiPkOGQWtBPjMvst5BRp3Zj8Sn+l6xt
-	JTJw==
-MIME-Version: 1.0
-X-Received: by 10.182.205.138 with SMTP id lg10mr15682677obc.6.1374337332698; 
-	Sat, 20 Jul 2013 09:22:12 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.60.166 with HTTP; Sat, 20 Jul 2013 09:22:12 -0700 (PDT)
-In-Reply-To: <51EAA660.7080905@linux.intel.com>
-References: <51EAA660.7080905@linux.intel.com>
-Date: Sat, 20 Jul 2013 13:22:12 -0300
-X-Google-Sender-Auth: dfr-89P2acInW3y_tPCLpgvZwFw
-Message-ID: <CAP9ODKpvuVXxNMK0KysV-beFy1KxypHVRK2TXq+c5GvsBTj6jw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Mesa issues in Freescale ARM Builds
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=NWHt1vDvo3GAac2bwm4ZLz3F9IN7QXpujtkuEvMo+0g=;
+	b=zULJx1CaOp/3ufjBMWTatoqcZUuTGLdz52nA1kbGzMoEEuW42Df20XLZM1cHY8Xryl
+	PA+kpMdlxtJU8/5x9V4llRpKSqmuk2Lw/81izmg+J5a8CwBO4zVMiwF1LSucFyAfJx1i
+	ZzUmmHEvYOxULku47dWC40AfN1hKkVwo0GWSMVjb3amHVlcd7eezB6ASOxh+RTD1Ejj/
+	YXL1u+CxSiWXUkz/rZZE9o7FLpiUKfkDtAPbfSSfeOgc5XwM7QBxcL8Zd6N8Z9HOtq0R
+	245r/5wL1gtqqAsJCxkovt0ET/qDsmPsK8IQ5R9+Zwon6ep7KvrX39oReEoo39b7Bngd
+	D23Q==
+X-Received: by 10.66.240.2 with SMTP id vw2mr26960367pac.137.1374400370435;
+	Sun, 21 Jul 2013 02:52:50 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id r7sm9364510pao.18.2013.07.21.02.52.48
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 21 Jul 2013 02:52:49 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 21 Jul 2013 20:07:42 +1000
+Message-Id: <1374401262-6077-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] gcc-4.8: fix compiling GCC when /usr/lib/libstdc++.so is present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,83 +42,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jul 2013 16:22:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 21 Jul 2013 09:52:50 -0000
 
-On Sat, Jul 20, 2013 at 12:01 PM, Saul Wold <sgw@linux.intel.com> wrote:
->
-> Hi Jonathan, Martin, Freescale Folks:
->
-> You both have been recently modifying the mesa recipes, it seems to have
-> triggered some build failures on the nightly-fsl-arm  builds in master.  I
-> am going to build MUT today with Jonathan's change, so we might have
-> failures there also.
->
->> ERROR: Multiple .bb files are due to be built which each provide mesa
->> (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_git.bb
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_9.1.3.bb).
->>  This usually means one provides something the other doesn't and should.
->> ERROR: Multiple .bb files are due to be built which each provide
->> virtual/libgles1
->> (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_git.bb
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta-fsl-arm/recipes-graphics/amd-gpu-x11-bin/amd-gpu-x11-bin-mx51_11.09.01.bb).
->>  This usually means one provides something the other doesn't and should.
->> ERROR: Multiple .bb files are due to be built which each provide
->> virtual/libgles2
->> (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_git.bb
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta-fsl-arm/recipes-graphics/amd-gpu-x11-bin/amd-gpu-x11-bin-mx51_11.09.01.bb).
->>  This usually means one provides something the other doesn't and should.
->> ERROR: Multiple .bb files are due to be built which each provide
->> virtual/egl
->> (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_git.bb
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta-fsl-arm/recipes-graphics/amd-gpu-x11-bin/amd-gpu-x11-bin-mx51_11.09.01.bb).
->>  This usually means one provides something the other doesn't and should.
->
->
-> and
->
->> NOTE: recipe mesa-2_9.1.3-r0: task do_package_write_ipk: Started
->> NOTE: recipe mesa-2_9.1.3-r0: task do_package_write_rpm: Started
->> NOTE: recipe mesa-2_9.1.3-r0: task do_package_write_deb: Started
->> ERROR: Recipe mesa is trying to change PR from 'r0' to 'r9.0'. This will
->> cause do_package_write_* failures since the incorrect data will be used and
->> they will be unable to find the right workdir.
->> ERROR: Function failed: read_subpackage_metadata
->> ERROR: Recipe mesa is trying to change PR from 'r0' to 'r9.0'. This will
->> cause do_package_write_* failures since the incorrect data will be used and
->> they will be unable to find the right workdir.
->> ERROR: Function failed: read_subpackage_metadata
->> ERROR: Logfile of failure stored in:
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/build/tmp/work/imx53qsb-poky-linux-gnueabi/mesa/2_9.1.3-r0/temp/log.do_package_write_ipk.14976
->> NOTE: recipe mesa-2_9.1.3-r0: task do_package_write_ipk: Failed
->> ERROR: Recipe mesa is trying to change PR from 'r0' to 'r9.0'. This will
->> cause do_package_write_* failures since the incorrect data will be used and
->> they will be unable to find the right workdir.
->> ERROR: Function failed: read_subpackage_metadata
->> ERROR: Logfile of failure stored in:
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/build/tmp/work/imx53qsb-poky-linux-gnueabi/mesa/2_9.1.3-r0/temp/log.do_package_write_rpm.14930
->> NOTE: recipe mesa-2_9.1.3-r0: task do_package_write_rpm: Failed
->> ERROR: Task 3724
->> (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_9.1.3.bb,
->> do_package_write_rpm) failed with exit code '1'
->> ERROR: Task 3722
->> (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_9.1.3.bb,
->> do_package_write_ipk) failed with exit code '1'
->> ERROR: Logfile of failure stored in:
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/build/tmp/work/imx53qsb-poky-linux-gnueabi/mesa/2_9.1.3-r0/temp/log.do_package_write_deb.14949
->> NOTE: recipe mesa-2_9.1.3-r0: task do_package_write_deb: Failed
->> ERROR: Task 3723
->> (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-fsl-arm/build/meta/recipes-graphics/mesa/mesa_9.1.3.bb,
->> do_package_write_deb) failed with exit code '1'
->
->
-> This is strange since it seems to be picking up the git recipe and the
-> version one, maybe due to the above error.
+libtool is picking up libstdc++.so from /usr/lib when trying to link
+libasan due to libstdc++.la containing libdir="/usr/lib". If compiling
+for x86 and the host has 64-bit /usr/lib/libstdc++.so, the compilation
+fails linking libasan with:
+/usr/lib/libstdc++.so: could not read symbols: File in wrong format
 
-I think I know what is going on.  I will give a try in a fix here and send.
+To resolve this, patch libtool to look for the library in the path the
+.la is contained in rather than use the libdir which usually points to
+a host path.
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+[YOCTO #4879]
+
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-devtools/gcc/gcc-4.8.inc                 |  1 +
+ .../gcc/gcc-4.8/0041-libtool-avoid-libdir.patch       | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index dafa241..42355f2 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -70,6 +70,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0038-gcc-4.8-build-args.patch \
+ 	   file://0039-gcc-4.8-PR57717.patch \
+ 	   file://0040-fix-g++-sysroot.patch \
++	   file://0041-libtool-avoid-libdir.patch \
+ 	  "
+ SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+ SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
+new file mode 100644
+index 0000000..2dd9610
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
+@@ -0,0 +1,19 @@
++Avoid using libdir from .la which usually points to a host path
++
++Upstream-Status: Inappropriate [embedded specific]
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++
++diff --git a/ltmain.sh b/ltmain.sh
++index a03433f..1902a90 100644
++--- a/ltmain.sh
+++++ b/ltmain.sh
++@@ -5628,6 +5628,9 @@ func_mode_link ()
++ 	    absdir="$abs_ladir"
++ 	    libdir="$abs_ladir"
++ 	  else
+++	    # Instead of using libdir from .la which usually points to a host path,
+++	    # use the path the .la is contained in.
+++	    libdir="$abs_ladir"
++ 	    dir="$libdir"
++ 	    absdir="$libdir"
++ 	  fi
+-- 
+1.8.3.2
+
 
