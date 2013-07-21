@@ -1,35 +1,38 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EB514606AC
+Return-Path: <trevor.woerner@linaro.org>
+Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id B3EDB606AC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2013 09:52:49 +0000 (UTC)
-Received: by mail-pa0-f49.google.com with SMTP id bi5so1954994pad.22
+	Sun, 21 Jul 2013 13:27:00 +0000 (UTC)
+Received: by mail-ee0-f41.google.com with SMTP id d17so3296828eek.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2013 02:52:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=NWHt1vDvo3GAac2bwm4ZLz3F9IN7QXpujtkuEvMo+0g=;
-	b=zULJx1CaOp/3ufjBMWTatoqcZUuTGLdz52nA1kbGzMoEEuW42Df20XLZM1cHY8Xryl
-	PA+kpMdlxtJU8/5x9V4llRpKSqmuk2Lw/81izmg+J5a8CwBO4zVMiwF1LSucFyAfJx1i
-	ZzUmmHEvYOxULku47dWC40AfN1hKkVwo0GWSMVjb3amHVlcd7eezB6ASOxh+RTD1Ejj/
-	YXL1u+CxSiWXUkz/rZZE9o7FLpiUKfkDtAPbfSSfeOgc5XwM7QBxcL8Zd6N8Z9HOtq0R
-	245r/5wL1gtqqAsJCxkovt0ET/qDsmPsK8IQ5R9+Zwon6ep7KvrX39oReEoo39b7Bngd
-	D23Q==
-X-Received: by 10.66.240.2 with SMTP id vw2mr26960367pac.137.1374400370435;
-	Sun, 21 Jul 2013 02:52:50 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id r7sm9364510pao.18.2013.07.21.02.52.48
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 21 Jul 2013 02:52:49 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Jul 2013 20:07:42 +1000
-Message-Id: <1374401262-6077-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] gcc-4.8: fix compiling GCC when /usr/lib/libstdc++.so is present
+	Sun, 21 Jul 2013 06:27:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:x-gm-message-state;
+	bh=tLOp5dGGtgbpyrDRXbIsDQc1Tgn5Sa+UKTQAV+YA5q0=;
+	b=lH9X+gwlIziP572Mpnk0Cs/9RmCaauAQXHfkYB6/2pG0pJO8MLNjPloKm2PuUOpgsn
+	v8LjgymliYQqV65P4aCymSc/W/Pvz8lKKC9MlBAk6MIR+vJSk2HZuoacbnzDfPyfjpiD
+	IA3nn00fWalUNssYmIaZFSmjzzHqF2vM1aOHmOIQSlJ6WDDJYuWQTg0KUAmdq72PZhg1
+	J+ZAyybK0aIqg9dR3kKVChlg07R26zHjODVOuW/CFy870/1JhzNaqhtE53UQWScNjk9D
+	X0FEPWe9o9zntaMeynMiu17wkRe3xnN6IR714IUtSzYrx7Ok1Af+b4bBd5Bn2Ad0wp6P
+	oVyg==
+MIME-Version: 1.0
+X-Received: by 10.14.173.70 with SMTP id u46mr23125194eel.92.1374413220592;
+	Sun, 21 Jul 2013 06:27:00 -0700 (PDT)
+Received: by 10.14.117.65 with HTTP; Sun, 21 Jul 2013 06:27:00 -0700 (PDT)
+In-Reply-To: <2871747.3HkfyQL6od@helios>
+References: <1372342113-32763-1-git-send-email-mark.hatle@windriver.com>
+	<51DAEEE9.6000203@windriver.com>
+	<CALmOhgkONNQgOjYsosWAk2avLr2nEukjRW=kFuAzLMyyvjEuGA@mail.gmail.com>
+	<2871747.3HkfyQL6od@helios>
+Date: Sun, 21 Jul 2013 09:27:00 -0400
+Message-ID: <CALmOhgk=B3ZJGs_XsVMutwc+=GRaAwVAM5=CdLf9HmsUAyvO-Q@mail.gmail.com>
+From: Trevor Woerner <trevor.woerner@linaro.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQlDe7kvBf0Oc5laHxMFbgkUYoZlJTvMJYaU0hSds6NXB31E2tHl+W/YhDfOm3uc4vrT6VLx
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3 v2] sanity.bbclass: Check for the known broken version of make
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,65 +45,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Jul 2013 09:52:50 -0000
+X-List-Received-Date: Sun, 21 Jul 2013 13:27:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-libtool is picking up libstdc++.so from /usr/lib when trying to link
-libasan due to libstdc++.la containing libdir="/usr/lib". If compiling
-for x86 and the host has 64-bit /usr/lib/libstdc++.so, the compilation
-fails linking libasan with:
-/usr/lib/libstdc++.so: could not read symbols: File in wrong format
+On 19 July 2013 05:41, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> On Tuesday 09 July 2013 16:14:55 Trevor Woerner wrote:
+>> On 8 July 2013 17:55, Mark Hatle <mark.hatle@windriver.com> wrote:
+>> > For anyone with an old or broken system, they will need to download (or
+>> > build) the buildtools..
+>> > install it and have it in their path prior to running oe-core.
+>>
+>> Does a download location already exist with downloads available for
+>> people who receive this error when building? If so, could it be made
+>> part of the error message? Or maybe instead of asking people to use a
+>> working version of "make" the error message could instruct them to use
+>> one of these buildtools-tarball SDKs (and provide instructions for
+>> doing so)?
+>
+> According to Beth, the current (nightly build) can be found here:
+>
+>  http://autobuilder.yoctoproject.org/pub/nightly/CURRENT/buildtools/
+>
+> Location for the upcoming 1.5 release when that is available:
+>
+>  http://downloads.yoctoproject.org/releases/yocto/yocto-1.5/buildtools/
+>
+> The tricky part is we don't have a solid location yet, only one being built
+> from master. Perhaps we could link to an intermediary page with explanatory
+> text that can link to the appropriate location.
 
-To resolve this, patch libtool to look for the library in the path the
-.la is contained in rather than use the libdir which usually points to
-a host path.
 
-[YOCTO #4879]
-
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-4.8.inc                 |  1 +
- .../gcc/gcc-4.8/0041-libtool-avoid-libdir.patch       | 19 +++++++++++++++++++
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index dafa241..42355f2 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -70,6 +70,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0038-gcc-4.8-build-args.patch \
- 	   file://0039-gcc-4.8-PR57717.patch \
- 	   file://0040-fix-g++-sysroot.patch \
-+	   file://0041-libtool-avoid-libdir.patch \
- 	  "
- SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
- SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
-new file mode 100644
-index 0000000..2dd9610
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
-@@ -0,0 +1,19 @@
-+Avoid using libdir from .la which usually points to a host path
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
-+
-+diff --git a/ltmain.sh b/ltmain.sh
-+index a03433f..1902a90 100644
-+--- a/ltmain.sh
-++++ b/ltmain.sh
-+@@ -5628,6 +5628,9 @@ func_mode_link ()
-+ 	    absdir="$abs_ladir"
-+ 	    libdir="$abs_ladir"
-+ 	  else
-++	    # Instead of using libdir from .la which usually points to a host path,
-++	    # use the path the .la is contained in.
-++	    libdir="$abs_ladir"
-+ 	    dir="$libdir"
-+ 	    absdir="$libdir"
-+ 	  fi
--- 
-1.8.3.2
-
+That would be quite helpful, and maybe even help people to help
+themselves should they come across this problem when trying to build.
 
