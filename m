@@ -1,23 +1,40 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 890F46B1FB
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 983B861EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 17:12:20 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 22 Jul 2013 10:12:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,720,1367996400"; d="scan'208";a="335110952"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.5])
-	by azsmga001.ch.intel.com with ESMTP; 22 Jul 2013 10:12:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: paul.eggleton@linux.intel.com, ross.burton@intel.com,
-	openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jul 2013 10:12:19 -0700
-Message-Id: <cover.1374511663.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
+	Mon, 22 Jul 2013 17:17:06 +0000 (UTC)
+Received: by mail-ob0-f181.google.com with SMTP id 16so8293690obc.26
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 10:17:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=5CHq+SUfQSwgEGjnFg6bu9p9uEU/Iwm7Rye0znR4dOg=;
+	b=cKWGRDSicd3oSP1/zQMHDAbskgszxG+pO7bu4TP/B+ldU4xg4u3+gCPwSxiWZlCLF8
+	Ui5U59yKUuUyEUzog1rNKGEyaChqJ0iOuA1MiUqh+DMKOVGVEdAAf65jxxXpU3JffV6l
+	vNI02MZTMq4rha3ZhZgBU9IS6vm8TX7bFcdD0mhsZAHJLCR4NyVgEbdVfOO7u9pRpuFs
+	xUj9SzEOZ1Ar2JEWZzJoikbdUEF/v9wfzktKsFPUZnF0+FgMu2ekMVgpmJMaE3CDiCYj
+	c3Wdgc9TOOHH52CWHYZ65grYEePu3tSoAu/Dt+7sByKx5R3BVkmeZ3DqwoMf+FCK8vvH
+	Ijuw==
 MIME-Version: 1.0
-Cc: dvhart@linux.intel.com, otavio@ossystems.com.br, zhenhua.luo@freescale.com
-Subject: [CONSOLIDATED PULL 00/27] Ready for Pull after final ACK
+X-Received: by 10.182.118.129 with SMTP id km1mr21464510obb.15.1374513426868; 
+	Mon, 22 Jul 2013 10:17:06 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.60.166 with HTTP; Mon, 22 Jul 2013 10:17:06 -0700 (PDT)
+In-Reply-To: <cover.1374511663.git.sgw@linux.intel.com>
+References: <cover.1374511663.git.sgw@linux.intel.com>
+Date: Mon, 22 Jul 2013 14:17:06 -0300
+X-Google-Sender-Auth: K6KTQ7Pa4OLMSEbOhxbkFqbZa_8
+Message-ID: <CAP9ODKrgfGdO7uBhS1LoqmkpTHpLb+YkbvfeoqZ5OjZ6kHtRtg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: "Eggleton, Paul" <paul.eggleton@linux.intel.com>,
+	Darren Hart <dvhart@linux.intel.com>,
+	Zhenhua Luo <zhenhua.luo@freescale.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 00/27] Ready for Pull after final ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,147 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 17:12:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 22 Jul 2013 17:17:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Richard,
+On Mon, Jul 22, 2013 at 2:12 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> Richard,
+>
+> This has been trimmed and reviewed, please wait for Paul and Ross (traveling)
+> final ACKs.
+>
+> ** Reminder to BSP Maintainers - Please update your mesa .bbappends ***
+> ** I will send email when RP has pulled, please keep me posted on your branches **
+>
+> Thanks
+>         Sau!
 
-This has been trimmed and reviewed, please wait for Paul and Ross (traveling)
-final ACKs.
+Once it is merged I update meta-fsl-arm.
 
-** Reminder to BSP Maintainers - Please update your mesa .bbappends *** 
-** I will send email when RP has pulled, please keep me posted on your branches **
+Thanks for letting me know about it.
 
-Thanks
-	Sau!
-
-
-The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
-
-  curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-André Draszik (1):
-  directfb: don't patch pkg-config files
-
-Beth Flanagan (1):
-  adt_installer_internal: fix spelling error
-
-Chen Qi (2):
-  useradd.bbclass: add a new base class and code refactor
-  extrausers.bbclass: add a new bbclass
-
-Daniel Nilsson (1):
-  glew: Update GLEW version number in autotools patch
-
-Emilia Ciobanu (3):
-  kmod:add GIT revision to PV variable
-  lttng-modules: Append _git to recipe name and add GIT revision to PV  
-      variable
-  docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
-
-Jesse Zhang (1):
-  tremor: add a patch to build with arm thumb
-
-Jonathan Liu (5):
-  systemd: remove unneeded modprobe.rules
-  mesa: upgrade to 9.1.5
-  wget: backport fixes for documentation build errors
-  mesa: use LLVM 3.3 by default
-  boot-directdisk: use awk instead of echo -ne for dash compatibility
-
-Martin Jansa (6):
-  gst-plugins-good: add PACKAGECONFIG for jack
-  gst-plugins-ugly: add PACKAGECONFIG for x264, cdio, dvdread
-  pulseaudio: add PACKAGECONFIG for jack
-  subversion: add PACKAGECONFIG for sasl
-  cups: add PACKAGECONFIG for avahi
-  mesa: add Upstream-Status
-
-Ming Liu (1):
-  libpam: add a new 'nullok_secure' option support to pam_unix
-
-Muhammad Shakeel (1):
-  systemd: Remove systemd_unitdir if systemd is not in distro features
-
-Petter Mabäcker (1):
-  remake: fix insufficient gettext dependency
-
-Ross Burton (1):
-  initrdscripts: mount / as read-only when live-booting
-
-Saul Wold (1):
-  pigz: Fix typo in ALTERNATIVES line
-
-Tudor Florea (2):
-  python: Add ptest
-  kmod: Add ptest
-
- meta/classes/boot-directdisk.bbclass               |   2 +-
- meta/classes/extrausers.bbclass                    |  61 ++++++
- meta/classes/systemd.bbclass                       |   9 +
- meta/classes/useradd.bbclass                       |  99 +--------
- meta/classes/useradd_base.bbclass                  | 230 +++++++++++++++++++++
- meta/recipes-core/initrdscripts/files/init-live.sh |   6 +-
- meta/recipes-core/systemd/systemd/modprobe.rules   |  17 --
- meta/recipes-core/systemd/systemd_204.bb           |   1 -
- .../docbook-sgml-dtd-4.5-native.bb                 |   1 +
- .../adt-installer/scripts/adt_installer_internal   |   2 +-
- .../python/python/fix-makefile-for-ptest.patch     |  33 +++
- meta/recipes-devtools/python/python/run-ptest      |   5 +
- meta/recipes-devtools/python/python_2.7.3.bb       |  10 +
- meta/recipes-devtools/remake/remake_git.bb         |   6 +-
- .../subversion/subversion_1.6.15.bb                |   2 +
- .../subversion/subversion_1.7.10.bb                |   2 +
- meta/recipes-extended/cups/cups16.inc              |   3 +
- .../pam-security-abstract-securetty-handling.patch | 200 ++++++++++++++++++
- .../pam/libpam/pam-unix-nullok-secure.patch        | 222 ++++++++++++++++++++
- meta/recipes-extended/pam/libpam_1.1.6.bb          |   4 +-
- meta/recipes-extended/pigz/pigz.inc                |   2 +-
- meta/recipes-extended/wget/wget-1.14/fix_doc.patch |  71 +++++++
- meta/recipes-extended/wget/wget_1.14.bb            |   1 +
- meta/recipes-graphics/directfb/directfb.inc        |   1 -
- .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |  48 -----
- meta/recipes-graphics/glew/files/autotools.patch   |   4 +-
- ...ate-NativeDisplayType-depending-on-config.patch |   3 +
- ...move-the-power-of-two-sizeof-struct-cmd_b.patch |   0
- meta/recipes-graphics/mesa/mesa.inc                |   2 +-
- ...ate-NativeDisplayType-depending-on-config.patch |   3 +
- .../mesa/{mesa_9.1.3.bb => mesa_9.1.5.bb}          |   4 +-
- meta/recipes-kernel/kmod/kmod.inc                  |   4 +-
- meta/recipes-kernel/kmod/kmod/ptest.patch          |  25 +++
- meta/recipes-kernel/kmod/kmod/run-ptest            |   5 +
- meta/recipes-kernel/kmod/kmod_git.bb               |  10 +
- ...lttng-modules_2.2.0.bb => lttng-modules_git.bb} |   2 +-
- .../gstreamer/gst-plugins-good_0.10.31.bb          |   1 +
- .../gstreamer/gst-plugins-ugly_0.10.19.bb          |   5 +
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   1 +
- .../tremor/tremor-20120314/tremor-arm-thumb2.patch | 104 ++++++++++
- meta/recipes-multimedia/tremor/tremor_20120314.bb  |   1 +
- 41 files changed, 1039 insertions(+), 173 deletions(-)
- create mode 100644 meta/classes/extrausers.bbclass
- create mode 100644 meta/classes/useradd_base.bbclass
- delete mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
- create mode 100644 meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
- create mode 100644 meta/recipes-devtools/python/python/run-ptest
- create mode 100644 meta/recipes-extended/pam/libpam/pam-security-abstract-securetty-handling.patch
- create mode 100644 meta/recipes-extended/pam/libpam/pam-unix-nullok-secure.patch
- create mode 100644 meta/recipes-extended/wget/wget-1.14/fix_doc.patch
- delete mode 100644 meta/recipes-graphics/directfb/directfb/directfb-1.2.x-fix-pkgconfig-cflags.patch
- rename meta/recipes-graphics/mesa/{mesa-9.1.3 => mesa-9.1.5}/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch (98%)
- rename meta/recipes-graphics/mesa/{mesa-9.1.3 => mesa-9.1.5}/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch (100%)
- rename meta/recipes-graphics/mesa/{mesa_9.1.3.bb => mesa_9.1.5.bb} (79%)
- create mode 100644 meta/recipes-kernel/kmod/kmod/ptest.patch
- create mode 100755 meta/recipes-kernel/kmod/kmod/run-ptest
- rename meta/recipes-kernel/lttng/{lttng-modules_2.2.0.bb => lttng-modules_git.bb} (97%)
- create mode 100644 meta/recipes-multimedia/tremor/tremor-20120314/tremor-arm-thumb2.patch
-
--- 
-1.8.1.4
-
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
