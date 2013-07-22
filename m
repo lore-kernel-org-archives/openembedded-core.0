@@ -1,42 +1,42 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
-	[209.85.160.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE13608CC
+Return-Path: <andre.draszik@linaro.org>
+Received: from mail-qc0-f170.google.com (mail-qc0-f170.google.com
+	[209.85.216.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 77243608CC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 14:01:55 +0000 (UTC)
-Received: by mail-pb0-f44.google.com with SMTP id uo1so7076429pbc.31
+	Mon, 22 Jul 2013 14:02:32 +0000 (UTC)
+Received: by mail-qc0-f170.google.com with SMTP id s1so3646503qcw.15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 07:01:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=NErLEonwuIpy5plzxuUxHj0In7lleDMNRn+NMsqmxjk=;
-	b=O7dT4o7bO4ME/sqkU8PQ0A1XBIvvqdo+A6BHNMW/zmCstz8k/0NYzi4tFErcSkAsZr
-	n8hIj1E1t/D6hx+Dxp+pXYLmgMIW2w00erPERb42xuDcJvJ3gcD7Nk5XeD9DOB56GU9+
-	e6aik4O2oPXUNcsGCTvynCjebrFEVRlS43zF/db0P5lh9DmZbqUP+X760OEEarN3F+5e
-	8JcjxQpaCwHd1v34qwsNxT2gBMFAR/SLZ9T0fBGI0w0V6LfhYmCIrW8Gdr19ynG8cneC
-	TkQw0Vo5FI3Avb2ObjHDxPCki+OIZaiEtFjbEe/yEQ2rl9HMXh9PzXfQTqPkwCUfahS7
-	B9JA==
-X-Received: by 10.66.2.164 with SMTP id 4mr32471745pav.55.1374501715930;
-	Mon, 22 Jul 2013 07:01:55 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id x8sm35988849pbb.39.2013.07.22.07.01.53
+	Mon, 22 Jul 2013 07:02:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=v1Osk9JjpNW+Dle5gFSJq+tBkNf1q6s5RN3kW0/WxzU=;
+	b=RoSth1uhxOowRAhU7UyHCe4CffIPZPg6M9Ok7sfiqRwuEiyFMnH5lUzzIV91FLMqXw
+	C0ph/mmsDtWmhkOhurXJ4DqyEREg0VWWGSj7hS4N4KaLSRTC8l9UfqadZIxBLeqUzopj
+	VpGAploSJNzDaIvxhIoFSFHAd5exkoIfzvtD8TLsfbrzPA7RTVTqr9Di+u5DF96K0QS/
+	kDDX9JSAHlrMD1aMXQ5HOqOysAOTm/Ipw+93uxT9f8dsvWF8VyshCCE+Krk/mzH9o0no
+	4nVG2Dj0abGuVvwXR8aFPJ8qE+OHxCLKreLdaxlp2QlHXl2E5kM/+Zm4up9pFw4e1qVR
+	fu2g==
+X-Received: by 10.49.12.145 with SMTP id y17mr32729444qeb.7.1374501752775;
+	Mon, 22 Jul 2013 07:02:32 -0700 (PDT)
+Received: from bril0118.bri.st.com (git.linaro.org. [54.235.93.228])
+	by mx.google.com with ESMTPSA id g4sm18429454qez.0.2013.07.22.07.02.30
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 22 Jul 2013 07:01:55 -0700 (PDT)
-Message-ID: <51ED3A29.3050601@gmail.com>
-Date: Mon, 22 Jul 2013 23:56:57 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Jul 2013 07:02:32 -0700 (PDT)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jul 2013 15:02:26 +0100
+Message-Id: <1374501746-23540-1-git-send-email-andre.draszik@linaro.org>
+X-Mailer: git-send-email 1.8.2
+In-Reply-To: <CAPaOLoJa1UjGaPqVeSmJavm0rMzNoFE6+KzfDO3ALOjRJeJ3Hg@mail.gmail.com>
+References: <CAPaOLoJa1UjGaPqVeSmJavm0rMzNoFE6+KzfDO3ALOjRJeJ3Hg@mail.gmail.com>
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1374401262-6077-1-git-send-email-net147@gmail.com>
-	<23B07C65-4D10-4A79-9139-6AAB23D34491@gmail.com>
-In-Reply-To: <23B07C65-4D10-4A79-9139-6AAB23D34491@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gcc-4.8: fix compiling GCC when /usr/lib/libstdc++.so is present
+X-Gm-Message-State: ALoCoQkD8xHXozybcUcIce0jmbTlvD2/24PqpdMp6OpmiVu+CPH373UVeQixS6+8pcVkd61TLbw3
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] linux-dtb: allow to build dtb using support from kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,91 +49,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 14:01:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Jul 2013 14:02:32 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 22/07/2013 2:12 AM, Khem Raj wrote:
-> On Jul 21, 2013, at 3:07 AM, Jonathan Liu <net147@gmail.com> wrote:
->
->> libtool is picking up libstdc++.so from /usr/lib when trying to link
->> libasan due to libstdc++.la containing libdir="/usr/lib". If compiling
-> Can you also see if this change works on target and SDK environments ?
-I have build the Yocto Build Appliance (qemux86_64) successfully using 
-poky master 31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9 with this patch.
-Also, I have built gcc (for qemux86) successfully from the Yocto Build 
-Appliance (qemux86_64) by manually cloning poky master 
-31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9 with this patch and building 
-GCC 4.8.1 through Hob (usually the build appliance uses an older git 
-clone of poky that uses GCC 4.7).
-Interestingly the build appliance has /usr/lib/libstdc++.so present so 
-perhaps this libasan linking issue also affects the build appliance.
+Currently, OE is unable to use the linux kernel's built-in
+support to generate a device tree blob (dtb). This is an
+issue for device tree source (dts) files that need to be run
+through CPP (dtsp).
 
-The patch only modifies the libtool (2.2) script included with GCC 
-sources used for building GCC and not the libtool (2.4) that is used 
-elsewhere so its effect should only be limited to building GCC.
-I am not sure how to test this change in SDK environment. Could you 
-elaborate?
+The kernel build system has built-in support for device tree
+source files that /include/ additional files and it also
+supports the source file to be pre-processed using CPP.
 
-Regards,
-Jonathan
->
->> for x86 and the host has 64-bit /usr/lib/libstdc++.so, the compilation
->> fails linking libasan with:
->> /usr/lib/libstdc++.so: could not read symbols: File in wrong format
->>
->> To resolve this, patch libtool to look for the library in the path the
->> .la is contained in rather than use the libdir which usually points to
->> a host path.
->>
->> [YOCTO #4879]
->>
->> Signed-off-by: Jonathan Liu <net147@gmail.com>
->> ---
->> meta/recipes-devtools/gcc/gcc-4.8.inc                 |  1 +
->> .../gcc/gcc-4.8/0041-libtool-avoid-libdir.patch       | 19 +++++++++++++++++++
->> 2 files changed, 20 insertions(+)
->> create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
->>
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
->> index dafa241..42355f2 100644
->> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
->> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
->> @@ -70,6 +70,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
->> 	   file://0038-gcc-4.8-build-args.patch \
->> 	   file://0039-gcc-4.8-PR57717.patch \
->> 	   file://0040-fix-g++-sysroot.patch \
->> +	   file://0041-libtool-avoid-libdir.patch \
->> 	  "
->> SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
->> SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
->> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
->> new file mode 100644
->> index 0000000..2dd9610
->> --- /dev/null
->> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
->> @@ -0,0 +1,19 @@
->> +Avoid using libdir from .la which usually points to a host path
->> +
->> +Upstream-Status: Inappropriate [embedded specific]
->> +Signed-off-by: Jonathan Liu <net147@gmail.com>
->> +
->> +diff --git a/ltmain.sh b/ltmain.sh
->> +index a03433f..1902a90 100644
->> +--- a/ltmain.sh
->> ++++ b/ltmain.sh
->> +@@ -5628,6 +5628,9 @@ func_mode_link ()
->> + 	    absdir="$abs_ladir"
->> + 	    libdir="$abs_ladir"
->> + 	  else
->> ++	    # Instead of using libdir from .la which usually points to a host path,
->> ++	    # use the path the .la is contained in.
->> ++	    libdir="$abs_ladir"
->> + 	    dir="$libdir"
->> + 	    absdir="$libdir"
->> + 	  fi
->> -- 
->> 1.8.3.2
->>
+This commits lets OE use kbuild if $KERNEL_DEVICETREE points
+to file(s) that are located in arch/${ARCH}/boot/dts/, e.g.
+KERNEL_DEVICETREE = "<machine>.dts". In this case, no
+dependency is added on dtc-native, as that is not needed any
+more.
+
+The previous way of handling dts files, i.e. compilation via
+the stand-alone dtc-native, is still supported - it is triggered
+by specifying the full path to the dts file, as before, e.g.
+KERNEL_DEVICETREE = "arch/${ARCH}/boot/dts/<machine>.dts"
+
+Signed-off-by: André Draszik <andre.draszik@linaro.org>
+---
+ meta/recipes-kernel/linux/linux-dtb.inc | 75 +++++++++++++++++++++++++++------
+ 1 file changed, 63 insertions(+), 12 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 7747718..75b8b76 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -1,28 +1,66 @@
++inherit kernel-arch
++
+ # Support for device tree generation
+ FILES_kernel-devicetree = "/boot/devicetree*"
+ KERNEL_DEVICETREE_FLAGS ?= "-R 8 -p 0x3000"
+ 
+ python __anonymous () {
++    from os import path
++
+     devicetree = d.getVar("KERNEL_DEVICETREE", True) or ''
+     if devicetree:
+-        depends = d.getVar("DEPENDS", True)
+-        d.setVar("DEPENDS", "%s dtc-native" % depends)
++        S = d.getVar("S", True)
++        for DTS_FILE in devicetree.split():
++            DTS_FILE = S + "/" + DTS_FILE
++            if os.path.exists(DTS_FILE):
++                # full path given, use dtc-native
++                print "old style KERNEL_DEVICETREE, adding depend on dtc-native"
++                depends = d.getVar("DEPENDS", True)
++                d.setVar("DEPENDS", "%s dtc-native" % depends)
++            else:
++                # new style - it's just a file name, under arch/${ARCH}/boot/dts
++                # we don't need dtc-native, as we use the kernel's compiler
++                print "new style KERNEL_DEVICETREE"
+         packages = d.getVar("PACKAGES", True)
+         d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
+ }
+ 
+-do_install_append() {
++do_compile_append() {
+ 	if test -n "${KERNEL_DEVICETREE}"; then
+ 		for DTS_FILE in ${KERNEL_DEVICETREE}; do
+ 			if [ ! -f ${DTS_FILE} ]; then
+-				echo "Warning: ${DTS_FILE} is not available!"
+-				continue
++				if [ ! -f arch/${ARCH}/boot/dts/${DTS_FILE} ]; then
++					echo "Warning: ${DTS_FILE} is not available!"
++					continue
++				fi
++
++				# standard build using kbuild
++				echo "Info: standard kbuild for device tree blob"
++				DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++
++				unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
++				oe_runmake ${DTS_BASE_NAME}.dtb CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
+ 			fi
++		done
++	fi
++}
++
++do_install_append() {
++	if test -n "${KERNEL_DEVICETREE}"; then
++		for DTS_FILE in ${KERNEL_DEVICETREE}; do
+ 			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+-			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+ 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+-			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
+-			install -m 0644 ${DTS_BASE_NAME} ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
++			if [ ! -f ${DTS_FILE} ]; then
++				if [ ! -f arch/${ARCH}/boot/dts/${DTS_FILE} ]; then
++					echo "Warning: ${DTS_FILE} is not available!"
++					continue
++				fi
++
++				install -m 0644 arch/${ARCH}/boot/${DTS_BASE_NAME}.dtb ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
++				continue
++			fi
++			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME}.dtb ${DTS_FILE}
++			install -m 0644 ${DTS_BASE_NAME}.dtb ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
+ 		done
+ 	fi
+ }
+@@ -30,15 +68,28 @@ do_install_append() {
+ do_deploy_append() {
+ 	if test -n "${KERNEL_DEVICETREE}"; then
+ 		for DTS_FILE in ${KERNEL_DEVICETREE}; do
++			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+ 			if [ ! -f ${DTS_FILE} ]; then
+-				echo "Warning: ${DTS_FILE} is not available!"
+-				continue
++				if [ ! -f arch/${ARCH}/boot/dts/${DTS_FILE} ]; then
++					echo "Warning: ${DTS_FILE} is not available!"
++					continue
++				fi
++
++				# standard build using kbuild
++				echo "Info: standard kbuild for device tree blob"
+ 			fi
+-			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
++
+ 			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+ 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
++
+ 			install -d ${DEPLOYDIR}
+-			install -m 0644 ${B}/${DTS_BASE_NAME} ${DEPLOYDIR}/${DTB_NAME}.dtb
++
++			if [ -f arch/${ARCH}/boot/dts/${DTS_FILE} ]; then
++				install -m 0644 ${B}/arch/${ARCH}/boot/${DTS_BASE_NAME}.dtb ${DEPLOYDIR}/${DTB_NAME}.dtb
++			else
++				install -m 0644 ${B}/${DTS_BASE_NAME}.dtb ${DEPLOYDIR}/${DTB_NAME}.dtb
++			fi
++
+ 			cd ${DEPLOYDIR}
+ 			ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
+ 			cd -
+-- 
+1.8.2
 
 
