@@ -1,26 +1,41 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B71DF6B1D2
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 761CA60666
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 05:45:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6M5jcT3019884
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 22 Jul 2013 06:21:20 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id d49so3521490eek.37
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Jul 2013 22:45:38 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 21 Jul 2013 22:45:36 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Jul 2013 13:45:33 +0800
-Message-ID: <ddc5bcdf8e55f13d76e2b0b256a4599912074496.1374470729.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1374470729.git.hongxu.jia@windriver.com>
-References: <cover.1374470729.git.hongxu.jia@windriver.com>
+	Sun, 21 Jul 2013 23:21:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:x-enigmail-version:content-type:content-transfer-encoding
+	:x-gm-message-state;
+	bh=dQPzYHaIiqugdZQnYuboyQd5ESfC/ROzFinmq+mYy9s=;
+	b=YcUJ7M6wYxxNNX/ILYP06xUCpQJPMhHy6xke7F72O/PYl9V9PBmebXR7yIndZFpHg/
+	ClXnQWr11ojd35NyXqtPBHopUxUYYxfZbs9U//g+VXv+58ST3D1/x7o6TQBkOaopswJ5
+	FY7zh3qsuUDi0NPSPbLYsqhqPj48rB8JtX6NhDwbm4ZXZ5DhKSOfIKOep/XsUyccEITW
+	CUF9f+WbVJx6dY6XrHoiRTEGOSbNjST6o1mDVByMtdCryZwPNORfZ3aD/NjzXrq1PGNt
+	tKIacJuuKYjJdzPqFjamSiuuLrpzebIQ5yyK3rKJ6Mu4Y3xpBRIi1qDzHfsg5uuBcQlM
+	oMCw==
+X-Received: by 10.14.204.137 with SMTP id h9mr26387362eeo.13.1374474080435;
+	Sun, 21 Jul 2013 23:21:20 -0700 (PDT)
+Received: from fensuse.internal.dresearch-fe.de (zk223.dresearch-fe.de.
+	[217.92.177.116])
+	by mx.google.com with ESMTPSA id n5sm48208784eed.9.2013.07.21.23.21.18
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 21 Jul 2013 23:21:19 -0700 (PDT)
+Message-ID: <51ECCF5C.2020505@dresearch-fe.de>
+Date: Mon, 22 Jul 2013 08:21:16 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: [PATCH 1/1] nss:fix postinst failed at rootfs time
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+X-Enigmail-Version: 1.5.1
+X-Gm-Message-State: ALoCoQkN2Hoz+c7pee5Vluum3IWTfJ4ze35OgixWTPTgbRb5eYEUImyLl0PciG8HbFJUWJPnszyl
+Subject: SRC_URI and latest HEAD revision with git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 05:45:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Jul 2013 06:21:20 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Create checksum file at rootfs time to support read-only rootfs.
+After being OE abstinent for some months i'd like to ask what is the current suggested method for recipes building from the HEAD revision of a git repository (we need this for continuous integration).
 
-[YOCTO #4879]
+I read some RFC's in the ml about PKGV/PKGR stuff, but i miss a final decision, documentation and a good example.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-support/nss/nss.inc | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Cheers,
+Steffen
 
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss.inc
-index e2f3891..11f1b7f 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss.inc
-@@ -163,7 +163,13 @@ do_install_append_class-target() {
- 
- pkg_postinst_${PN} () {
-     if [ -n "$D" ]; then
--        exit 1
-+        for I in $D/${libdir}/lib*.chk; do
-+            DN=`dirname $I`
-+            BN=`basename $I .chk`
-+            FN=$DN/$BN.so
-+            shlibsign -i $FN
-+        done
-+        exit 0
-     fi
-     signlibs.sh
- }
 -- 
-1.8.1.2
-
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
