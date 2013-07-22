@@ -1,46 +1,37 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from anubis.se.axis.com (anubis.se.axis.com [195.60.68.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B8C961EEB
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 448C26B102
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 09:35:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by anubis.se.axis.com (Postfix) with ESMTP id 0883119D84
+	Mon, 22 Jul 2013 09:36:12 +0000 (UTC)
+Received: by mail-lb0-f177.google.com with SMTP id 10so4996993lbf.22
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 11:35:52 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
-Received: from anubis.se.axis.com ([127.0.0.1])
-	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vqSY7Ffejg6P
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 11:35:50 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by anubis.se.axis.com (Postfix) with ESMTP id 5AC5619DC3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 4195F4E0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 36AF932F
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by thoth.se.axis.com (Postfix) with ESMTP id 348173404E
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.2.255.0; Mon, 22 Jul 2013
-	11:35:47 +0200
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id CC6999C078; 
-	Mon, 22 Jul 2013 11:35:47 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Jul 2013 11:35:47 +0200
-Message-ID: <1374485747-8334-1-git-send-email-olof.johansson@axis.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [PATCH] cpan.bbclass: Fail unless Makefile.PL generates Makefile
+	Mon, 22 Jul 2013 02:36:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=ta8SD5IpEDWTRIVCqqOxnjJOF2hkCaJC2KzOpbjtZVo=;
+	b=LRFtg5yQvIM8hzNqdLW/CtpCmRdGSvWbSzOYbNRmR9Mh9/8d0EX4hL1bg3ZgECtQR7
+	KTM95ck+F8VcP03X/vRkc2LuG1C1mh3UmUt0Ro7c2dZOqMj3GVlw5gKQkSOSywCT1qGk
+	+enOHL3+VQ31VJDQz9TuxgwBMmq5S+RhBeguAJMJtjBIiHl5sDMUtRNKVcepb3ioG6pM
+	BpWsPHjrQg9m54oV2X3ApTeux9xbRnEvlkZFBTze8rZ51VpkpWmbFtcpfpHGbUjzAEIt
+	QRBcFiXTD8N5y8EwFQYq+yyvEGCoAm73JVjOErstQbEP/zdIiVe2ROCxVEznJEPFCA4K
+	Nmqw==
+X-Received: by 10.112.51.16 with SMTP id g16mr11841597lbo.0.1374485772315;
+	Mon, 22 Jul 2013 02:36:12 -0700 (PDT)
+Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
+	[91.152.78.194])
+	by mx.google.com with ESMTPSA id i9sm10800637lai.4.2013.07.22.02.36.11
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Jul 2013 02:36:11 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jul 2013 12:35:50 +0300
+Message-Id: <1374485750-5711-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+X-Gm-Message-State: ALoCoQkWQ7wWJEtliYp7xJdHTga8D/RKqU+AkDnw8+qEQkbA3V7v2BNEEjY1UaKlFsBJUX9Ofg7h
+Subject: [PATCH] dmidecode: add aarch64 and arm to compatible host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,42 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 09:35:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 22 Jul 2013 09:36:12 -0000
 
-Makefile.PLs can exit with success without generating a Makefile,
-e.g. in cases of missing configure time dependencies. This is
-considered a best practice by cpantesters.org. See:
-
- * http://wiki.cpantesters.org/wiki/CPANAuthorNotes
- * http://www.nntp.perl.org/group/perl.qa/2008/08/msg11236.html
-
-Signed-off-by: Olof Johansson <olof.johansson@axis.com>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- meta/classes/cpan.bbclass |    9 +++++++++
- 1 file changed, 9 insertions(+)
+ meta/recipes-devtools/dmidecode/dmidecode_2.12.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
-index bef9e82..7088039 100644
---- a/meta/classes/cpan.bbclass
-+++ b/meta/classes/cpan.bbclass
-@@ -18,6 +18,15 @@ export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_vers
- cpan_do_configure () {
- 	export PERL5LIB="${PERL_ARCHLIB}"
- 	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL ${EXTRA_CPANFLAGS}
-+
-+	# Makefile.PLs can exit with success without generating a
-+	# Makefile, e.g. in cases of missing configure time
-+	# dependencies. This is considered a best practice by
-+	# cpantesters.org. See:
-+	#  * http://wiki.cpantesters.org/wiki/CPANAuthorNotes
-+	#  * http://www.nntp.perl.org/group/perl.qa/2008/08/msg11236.html
-+	[ -e Makefile ] || bbfatal "No Makefile was generated by Makefile.PL"
-+
- 	if [ "${BUILD_SYS}" != "${HOST_SYS}" ]; then
- 		. ${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/config.sh
- 		# Use find since there can be a Makefile generated for each Makefile.PL
+diff --git a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
+index 000d2cd..fb2c62a 100644
+--- a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
++++ b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
+@@ -6,7 +6,7 @@ PR = "r0"
+ 
+ SRC_URI = "http://savannah.nongnu.org/download/dmidecode/${BP}.tar.bz2"
+ 
+-COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
++COMPATIBLE_HOST = "(i.86|x86_64|aarch64|arm).*-linux"
+ 
+ do_install() {
+ 	oe_runmake DESTDIR="${D}" install
 -- 
-1.7.10.4
+1.8.1.2
 
 
