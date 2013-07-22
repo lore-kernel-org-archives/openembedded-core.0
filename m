@@ -1,24 +1,46 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DD3B61FE1
+Return-Path: <olof.johansson@axis.com>
+Received: from anubis.se.axis.com (anubis.se.axis.com [195.60.68.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B8C961EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 09:22:25 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2013 02:22:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,718,1367996400"; d="scan'208";a="374030033"
-Received: from unknown (HELO helios.localnet) ([10.252.122.69])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2013 02:22:24 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jul 2013 10:22:23 +0100
-Message-ID: <1790143.ZLrHWRrgzY@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1374470774.git.sgw@linux.intel.com>
-References: <cover.1374470774.git.sgw@linux.intel.com>
+	Mon, 22 Jul 2013 09:35:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by anubis.se.axis.com (Postfix) with ESMTP id 0883119D84
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 11:35:52 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
+Received: from anubis.se.axis.com ([127.0.0.1])
+	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vqSY7Ffejg6P
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 11:35:50 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by anubis.se.axis.com (Postfix) with ESMTP id 5AC5619DC3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 4195F4E0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 36AF932F
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id 348173404E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 11:35:48 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.2.255.0; Mon, 22 Jul 2013
+	11:35:47 +0200
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id CC6999C078; 
+	Mon, 22 Jul 2013 11:35:47 +0200 (CEST)
+From: Olof Johansson <olof.johansson@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 22 Jul 2013 11:35:47 +0200
+Message-ID: <1374485747-8334-1-git-send-email-olof.johansson@axis.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL 00/36] Please review and ACK
+Subject: [PATCH] cpan.bbclass: Fail unless Makefile.PL generates Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,133 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 09:22:25 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Mon, 22 Jul 2013 09:35:51 -0000
+Content-Type: text/plain
 
-On Sunday 21 July 2013 22:28:08 Saul Wold wrote:
-> Paul, Ross:
->=20
-> Please review this set, I know Ross might be travelling today,
-> so this may be delayed until the end of the day or tomorrow.
->=20
-> **** NOTE TO BSP Maintainers: This will require a mesa bbappend sync =
-when
-> pulled ***** **** I will send email when that happens, so please prep=
-are
-> your branches        *****
->=20
-> I verified that Ema's changes do not cause any backward revs.
->=20
-> I tested this set twice on the AB, the first set failed with the util=
--linux
-> patch, then I built master again, and rebuilt this set without the
-> util-linux change and it built great (execpt for the missing Mesa upd=
-ates
-> to BSP).
->=20
-> There appears to be one testimage failure with Mips and SMART, I will=
+Makefile.PLs can exit with success without generating a Makefile,
+e.g. in cases of missing configure time dependencies. This is
+considered a best practice by cpantesters.org. See:
 
-> forward that to Stephan as it might be a test case issue.
->=20
->=20
-> Thanks
->         Sau!
->=20
-> The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb3=
-3b50aa:
->=20
->   curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
->=20
-> are available in the git repository at:
->=20
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
-> =20
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?=
-h=3Dsgw/
-> stage
->=20
-> Andr=E9 Draszik (1):
->   directfb: don't patch pkg-config files
->=20
-> Beth Flanagan (1):
->   adt_installer_internal: fix spelling error
->=20
-> Chen Qi (2):
->   useradd.bbclass: add a new base class and code refactor
->   extrausers.bbclass: add a new bbclass
->=20
-> Daniel Nilsson (1):
->   glew: Update GLEW version number in autotools patch
->=20
-> Emilia Ciobanu (11):
->   rt-tests: add GIT revision to PV variable
->   kmod:add GIT revision to PV variable
->   hwlatdetect: add GIT revision to PV variable
->   lttng-ust:add GIT revision to PV variable
->   connman-gnome: add GIT revision to PV variable
->   mtd-utils: add GIT revision to PV variable
->   update-rc.d: add GIT revision to PV variable
->   build-appliance-image: add GIT revision to PV variable
->   lttng-modules: Append _git to recipe name and add GIT revision to P=
-V
->       variable
->   chkconfig-alternatives-native: add GIT revision to PV variable
->   docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
+ * http://wiki.cpantesters.org/wiki/CPANAuthorNotes
+ * http://www.nntp.perl.org/group/perl.qa/2008/08/msg11236.html
 
-I'm concerned about inconsistencies with this set - e.g. lttng-modules =
-has=20
-been renamed to _git, lttng-ust hasn't; similarly for build-appliance-i=
-mage=20
-and a few of the others.
+Signed-off-by: Olof Johansson <olof.johansson@axis.com>
+---
+ meta/classes/cpan.bbclass |    9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> Jesse Zhang (1):
->   tremor: add a patch to build with arm thumb
->=20
-> Jonathan Liu (5):
->   systemd: remove unneeded modprobe.rules
->   mesa: upgrade to 9.1.5
->   wget: backport fixes for documentation build errors
->   mesa: use LLVM 3.3 by default
->   boot-directdisk: use awk instead of echo -ne for dash compatibility=
+diff --git a/meta/classes/cpan.bbclass b/meta/classes/cpan.bbclass
+index bef9e82..7088039 100644
+--- a/meta/classes/cpan.bbclass
++++ b/meta/classes/cpan.bbclass
+@@ -18,6 +18,15 @@ export PERLHOSTLIB = "${STAGING_LIBDIR_NATIVE}/perl-native/perl/${@get_perl_vers
+ cpan_do_configure () {
+ 	export PERL5LIB="${PERL_ARCHLIB}"
+ 	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL ${EXTRA_CPANFLAGS}
++
++	# Makefile.PLs can exit with success without generating a
++	# Makefile, e.g. in cases of missing configure time
++	# dependencies. This is considered a best practice by
++	# cpantesters.org. See:
++	#  * http://wiki.cpantesters.org/wiki/CPANAuthorNotes
++	#  * http://www.nntp.perl.org/group/perl.qa/2008/08/msg11236.html
++	[ -e Makefile ] || bbfatal "No Makefile was generated by Makefile.PL"
++
+ 	if [ "${BUILD_SYS}" != "${HOST_SYS}" ]; then
+ 		. ${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/config.sh
+ 		# Use find since there can be a Makefile generated for each Makefile.PL
+-- 
+1.7.10.4
 
->=20
-> Martin Jansa (7):
->   gst-plugins-good: add PACKAGECONFIG for jack
->   gst-plugins-ugly: add PACKAGECONFIG for x264, cdio, dvdread
->   pulseaudio: add PACKAGECONFIG for jack
->   subversion: add PACKAGECONFIG for sasl
->   gst-plugins-bad: add few more PACKAGECONFIGs
->   cups: add PACKAGECONFIG for avahi
->   mesa: add Upstream-Status
->=20
-> Ming Liu (1):
->   libpam: add a new 'nullok_secure' option support to pam_unix
->=20
-> Muhammad Shakeel (1):
->   systemd: Remove systemd_unitdir if systemd is not in distro feature=
-s
->=20
-> Petter Mab=E4cker (1):
->   remake: fix insufficient gettext dependency
->=20
-> Ross Burton (1):
->   initrdscripts: mount / as read-only when live-booting
->=20
-> Saul Wold (1):
->   pigz: Fix typo in ALTERNATIVES line
->=20
-> Tudor Florea (2):
->   python: Add ptest
->   kmod: Add ptest
-
-All the rest of the changes look OK.
-
-Cheers,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
