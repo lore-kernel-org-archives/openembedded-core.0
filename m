@@ -1,36 +1,47 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C23861EEB
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-bk0-f49.google.com (mail-bk0-f49.google.com
+	[209.85.214.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A5C5261EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 10:17:07 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2013 03:17:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,718,1367996400"; d="scan'208";a="374046730"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2013 03:17:07 -0700
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 22 Jul 2013 11:17:05 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.52]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.10]) with mapi id
-	14.03.0123.003; Mon, 22 Jul 2013 11:17:04 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Jonathan Liu <net147@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] boot-directdisk: use awk instead of echo -ne
-	for	dash compatibility
-Thread-Index: AQHOhUC1iiaxBBiJCU+HU2HFBnuR7ZlwfqkQ
-Date: Mon, 22 Jul 2013 10:17:04 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C0733E@IRSMSX105.ger.corp.intel.com>
-References: <1374322280-1792-1-git-send-email-net147@gmail.com>
-In-Reply-To: <1374322280-1792-1-git-send-email-net147@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Mon, 22 Jul 2013 10:30:55 +0000 (UTC)
+Received: by mail-bk0-f49.google.com with SMTP id mz10so2413739bkb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 03:30:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=rXClpOGCOrdoQSvN/CIEnQKq3zpssZ9FPtp5pCe9MXo=;
+	b=TNbx5f/UDXXbOvC6aIuqycbiSe9KlkynR2hmtp6eSpUaxyLWh4OUKO26qHfzTR2upo
+	0WWoqG17hQIma8L6NFClc6vVRx22w6kTs5NEf4CYBoifIOzi1tVynnrsEz4UfSe5sjZX
+	cJWX4BTMt4qWvC+2RQuilckd4q5NaYT6cxaVlvKuj9J1EmVPN0QWGQ746d72smISlzNK
+	iir+z+Kf8Fhg1vDEHDARLGzuDUbamb/yxBylf4oHwdLUTzv9s7FeM+itxi0geqAYHsLz
+	4PFNkqgFWq4HpwsDZzn+wphCsWeiHWGSjsfgrbbqhqD3tC9KpvcUpeLgskcbKqOV0q+i
+	AXxw==
+X-Received: by 10.205.116.137 with SMTP id fi9mr3824718bkc.149.1374489055604; 
+	Mon, 22 Jul 2013 03:30:55 -0700 (PDT)
+Received: from fensuse.internal.dresearch-fe.de (zk223.dresearch-fe.de.
+	[217.92.177.116])
+	by mx.google.com with ESMTPSA id l11sm6727401bkk.13.2013.07.22.03.30.54
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Jul 2013 03:30:54 -0700 (PDT)
+Message-ID: <51ED09DD.7040008@dresearch-fe.de>
+Date: Mon, 22 Jul 2013 12:30:53 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: Re: [PATCH] boot-directdisk: use awk instead of echo -ne for	dash compatibility
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <51ECCF5C.2020505@dresearch-fe.de>
+	<CAP71Wjz6vU5iiSoc9LqDczGo_SJ02ppRJizQui_MLYKPK_61Wg@mail.gmail.com>
+	<51ECFF6F.60601@dresearch-fe.de> <6366141.Q5aULPr4OG@helios>
+In-Reply-To: <6366141.Q5aULPr4OG@helios>
+X-Enigmail-Version: 1.5.1
+X-Gm-Message-State: ALoCoQmXyltpkauadusn5xixYTtPhQVe63c3QDPXTMyXUUTEP8xCl6IoSNeMlJAR7PpA5Ba581yP
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: SRC_URI and latest HEAD revision with git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,55 +54,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 10:17:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 22 Jul 2013 10:30:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-ACK.
+On 22.07.2013 11:51, Paul Eggleton wrote:
+> On Monday 22 July 2013 11:46:23 Steffen Sledz wrote:
+>> On 22.07.2013 11:01, Nicolas Dechesne wrote:
+>>> On Mon, Jul 22, 2013 at 8:21 AM, Steffen Sledz <sledz@dresearch-fe.de
+>>> <mailto:sledz@dresearch-fe.de>> wrote:
+>>>> After being OE abstinent for some months i'd like to ask what is the
+>>>> current suggested method for recipes building from the HEAD revision of
+>>>> a git repository (we need this for continuous integration).
+>>>>
+>>>> I read some RFC's in the ml about PKGV/PKGR stuff, but i miss a final
+>>>> decision, documentation and a good example.> 
+>>> you can use ${AUTOREV} for this purpose. You can look at poky-bleeding
+>>> distro config for such an example.
+>>>
+>>> e.g.
+>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf/distr
+>>> o/include/poky-floating-revisions.inc
+>> Hmmmm? This doesn't seem the work.
+>>
+>> Here's what i tried in my recipe:
+>>
+>> ------------> snip <------------
+>> PR = "r3"
+>>
+>> SRCREV="${AUTOREV}"
+>> PV = "gitr${SRCPV}"
+>> ------------> snip <------------
+>>
+>> But i get package versions like
+>>
+>>   gitr0+53b64e717404d282d0c58b7fa4a4e74ab2ca81ba-r3
+>>
+>> where SRCPB is always 0. :(
+>>
+>> A bit more description and/or a complete example would be very helpful.
+> 
+> If you want these to increment now AIUI you need to be using the PR server:
+> 
+> https://wiki.yoctoproject.org/wiki/PR_Service
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Jonathan Liu
-Sent: Saturday, July 20, 2013 3:11 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH] boot-directdisk: use awk instead of echo -ne for=
- dash compatibility
+This seems to be the thing we need.
 
-The echo command is a dash shell built-in and does not support the
--n and -e options so use awk instead.
+But the description is not very helpful from the view of a recipe maintainer. It describes mostly the server part.
 
-This fixes the partition table being corrupted when writing the MBR
-disk signature into the image.
+* What do i have to write in my recipe?
+* What modifications in bitbake.conf, local.conf, ... are necessary?
 
-[YOCTO #4859]
+Regards,
+Steffen
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/classes/boot-directdisk.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-direc=
-tdisk.bbclass
-index 182957b..8a55aae 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -81,7 +81,7 @@ build_boot_dd() {
- 	parted $IMAGE set 1 boot on=20
- 	parted $IMAGE print
-=20
--	echo -ne "$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste -sd '' | sed=
- 's/\(..\)/\\x&/g')" | \
-+	awk "BEGIN { printf \"$(echo ${DISK_SIGNATURE} | fold -w 2 | tac | paste =
--sd '' | sed 's/\(..\)/\\x&/g')\" }" | \
- 		dd of=3D$IMAGE bs=3D1 seek=3D440 conv=3Dnotrunc
-=20
- 	OFFSET=3D`expr $END2 / 512`
---=20
-1.8.3.2
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
