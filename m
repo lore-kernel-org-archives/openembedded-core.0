@@ -1,25 +1,27 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 84D6360686
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A4E7260667
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 03:48:09 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 21 Jul 2013 20:48:09 -0700
+	Mon, 22 Jul 2013 05:18:29 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Jul 2013 22:18:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,716,1367996400"; d="scan'208";a="271387213"
+X-IronPort-AV: E=Sophos;i="4.89,717,1367996400"; d="scan'208";a="373946116"
 Received: from unknown (HELO [10.255.14.5]) ([10.255.14.5])
-	by AZSMGA002.ch.intel.com with ESMTP; 21 Jul 2013 20:48:08 -0700
-Message-ID: <51ECAB78.5070002@linux.intel.com>
-Date: Sun, 21 Jul 2013 20:48:08 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 21 Jul 2013 22:18:29 -0700
+Message-ID: <51ECC0A5.9060800@linux.intel.com>
+Date: Sun, 21 Jul 2013 22:18:29 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Ming Liu <ming.liu@windriver.com>
-References: <1374112474-13597-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1374112474-13597-1-git-send-email-ming.liu@windriver.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+References: <cover.1374224424.git.hongxu.jia@windriver.com>
+	<dce62f416d4a1d8f0acb0f18545868932aff45c9.1374224424.git.hongxu.jia@windriver.com>
+	<51E984DF.2030207@linux.intel.com>
+In-Reply-To: <51E984DF.2030207@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3] util-linux: replace += with _append to EXTRA_OECONF_class-native
+Subject: Re: [PATCH 1/2] python: fix importing readline with probably escape sequence output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +34,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 03:48:09 -0000
+X-List-Received-Date: Mon, 22 Jul 2013 05:18:30 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/17/2013 06:54 PM, Ming Liu wrote:
-> The native/nativesdk overrides of EXTRA_OECONF should take effect before
-> append operator, otherwise, it will cause EXTRA_OECONF be overridden instead
-> of be appended at native/nativesdk build time.
+On 07/19/2013 11:26 AM, Saul Wold wrote:
+> On 07/19/2013 02:13 AM, Hongxu Jia wrote:
+>> While imports readline in python, if TERM in terminfo is available and
+>> it contains the variable 'km' and 'smm', the readline initialization will
+>> output the value of 'smm' which is the escape sequence '\E[?1034h'.
+>>
+>> 'km' means the terminal has a meta key which is a special key on MIT
+>> keyboards
+>> such as the space-cadet keyboard, and on Sun Microsystems keyboards,
+>> marked
+>> as a solid diamond. It almost doesn't exist in our keyboard, so it has
+>> no side
+>> effect to disable it.
+>> 'smm' means turn on the meta key if this terminal has one.
+>>
+>> Explicitly set meta key off to avoid probable escape sequence output
+>> while gnu readline library initialization.
+>>
+> I am still not sure about this change, there was some discussion that
+> the readline library would do be making a similar change and we should
+> back port that change.  I contacted the readline maintainer to find out
+> about that.
 >
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->   meta/recipes-core/util-linux/util-linux_2.23.1.bb |    4 ++--
->   1 files changed, 2 insertions(+), 2 deletions(-)
+> I am going to hold off until I hear from him.
 >
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.23.1.bb b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-> index 12f5021..3040476 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.23.1.bb
-> @@ -18,5 +18,5 @@ SRC_URI[md5sum] = "6741eeaff93ff5a6bacdd3816bdd87c4"
->   SRC_URI[sha256sum] = "ad4a7831d7b27d0172996fd343e809716c2403b32a94e15194d8ea797223c4af"
->
->   CACHED_CONFIGUREVARS += "scanf_cv_alloc_modifier=as"
-> -EXTRA_OECONF_class-native += "--disable-fallocate --disable-use-tty-group"
-> -EXTRA_OECONF_class-nativesdk += "--disable-fallocate --disable-use-tty-group"
-> +EXTRA_OECONF_append_class-native = " --disable-fallocate --disable-use-tty-group"
-> +EXTRA_OECONF_append_class-nativesdk = " --disable-fallocate --disable-use-tty-group"
->
+Hongxu, please look at the "Bash" Git for readline library and see if 
+you can find the changes that Chet made to back port.
 
-While this seems correct, it is causing some down stream issues with 
-e2fsprogs-native and not finding the uuid library
 
->  Enabling testio debugging by default
-> | checking for x86_64-linux-pkg-config... no
-> | checking for pkg-config... /srv/ssd/sgw/builds/world/tmp/sysroots/x86_64-linux/usr/bin/pkg-config
-> | checking pkg-config is at least version 0.9.0... yes
-> | checking for uuid_generate in -luuid... no
-> | configure: error: external uuid library not found
-> | Configure failed. The contents of all config.log files follows to aid debugging
-> | ERROR: oe_runconf failed
-
-Can you please research this further.
+http://git.savannah.gnu.org/cgit/bash.git/?h=devel
 
 Thanks
-	Sau!
-
-
+> Sau!
+>
+>> [YOCTO #4835]
+>> [YOCTO #4732]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/recipes-devtools/python/python.inc            |  4 +-
+>>   ...-to-avoid-probable-escape-sequence-output.patch | 43
+>> ++++++++++++++++++++++
+>>   2 files changed, 46 insertions(+), 1 deletion(-)
+>>   create mode 100644
+>> meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+>>
+>>
+>> diff --git a/meta/recipes-devtools/python/python.inc
+>> b/meta/recipes-devtools/python/python.inc
+>> index 80609a8..9f787c9 100644
+>> --- a/meta/recipes-devtools/python/python.inc
+>> +++ b/meta/recipes-devtools/python/python.inc
+>> @@ -7,7 +7,9 @@ INC_PR = "r0"
+>>
+>>   LIC_FILES_CHKSUM =
+>> "file://LICENSE;md5=ed3abfd1059e2d3a36a8cff3986f9bb6"
+>>
+>> -SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2"
+>> +SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
+>> +
+>> file://readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+>> \
+>> +"
+>>
+>>   SRC_URI[md5sum] = "c57477edd6d18bd9eeca2f21add73919"
+>>   SRC_URI[sha256sum] =
+>> "726457e11cb153adc3f428aaf1901fc561a374c30e5e7da6742c0742a338663c"
+>> diff --git
+>> a/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+>> b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+>>
+>> new file mode 100644
+>> index 0000000..104fc36
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-devtools/python/python/readline-set-meta-key-off-to-avoid-probable-escape-sequence-output.patch
+>>
+>> @@ -0,0 +1,43 @@
+>> +readline:explicitly set meta key off to avoid probable escape
+>> sequence output
+>> +
+>> +While imports readline in python, if TERM in terminfo is available and
+>> +it contains the variable 'km' and 'smm', the readline initialization
+>> will
+>> +output the value of 'smm' which is the escape sequence '\E[?1034h'.
+>> +
+>> +'km' means the terminal has a meta key which is a special key on MIT
+>> keyboards
+>> +such as the space-cadet keyboard, and on Sun Microsystems keyboards,
+>> marked
+>> +as a solid diamond. It almost doesn't exist in our keyboard, so it
+>> has no side
+>> +effect to disable it.
+>> +'smm' means turn on the meta key if this terminal has one.
+>> +
+>> +Explicitly set meta key off to avoid probable escape sequence output
+>> +while gnu readline library initialization.
+>> +
+>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> +Upstream-Status: inappropriate [oe specific]
+>> +---
+>> + Modules/readline.c | 9 +++++++++
+>> + 1 file changed, 9 insertions(+)
+>> +
+>> +diff --git a/Modules/readline.c b/Modules/readline.c
+>> +--- a/Modules/readline.c
+>> ++++ b/Modules/readline.c
+>> +@@ -909,6 +909,15 @@ setup_readline(void)
+>> +     rl_read_init_file(NULL);
+>> +     else
+>> + #endif /* __APPLE__ */
+>> ++
+>> ++    /* Explicitly set meta key off to avoid probable escape sequence
+>> output
+>> ++     * while gnu readline library initialization. The meta key is a
+>> special
+>> ++     * key in MIT keyboards such as the space-cadet keyboard, and on
+>> Sun
+>> ++     * Microsystems keyboards, marked as a solid diamond. It almost
+>> doesn't
+>> ++     * exist in our keyboards, so it has no side effect to disable it.
+>> ++     */
+>> ++    rl_variable_bind("enable-meta-key", "off");
+>> ++
+>> +         rl_initialize();
+>> +
+>> +     RESTORE_LOCALE(saved_locale)
+>> +--
+>> +1.8.1.2
+>> +
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
