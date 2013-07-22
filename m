@@ -1,22 +1,36 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DEAD461EEB
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id F250C6AFB6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 14:13:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2013 07:13:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,719,1367996400"; d="scan'208";a="374133977"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2013 07:13:53 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+	Mon, 22 Jul 2013 14:19:59 +0000 (UTC)
+Received: by mail-wg0-f41.google.com with SMTP id y10so2509798wgg.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 07:19:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=B6E03Ua3qfu6SvTksNUc8FHBkz0dLbZlsRqK4PZIqfs=;
+	b=YUUZtWuvHAnklvhCOhyWLRUkE28rsqA3545sY/hZVYOCCzfDY1s2WkrG8jDir0Eibk
+	1utMVd7fEelkBixBkh68FJprofsbz0c6ynJGZbT+nNiCTn7KotanRlpd9gD/Y146fFkI
+	ufWlb+M/Vmdvfpe8Zv8fWS05m5sdUvyXm+TONM8cYbKiCwwNaCWxTFBtl86wRCp7A1vs
+	MJ1cwr1jQNLdGn8WT++zHLgae+LSSWDSXNYd/teZQXfOGNz7DkTpbKlnZbD3QgfuqGtj
+	JKO6aqE1FdagpdXCNU+FniOdJtsSsxKMI9VhSUM4WoM8BA/bcSApnVZZjj4EzdIPXcZh
+	l0Mg==
+X-Received: by 10.180.187.47 with SMTP id fp15mr18580974wic.27.1374502799531; 
+	Mon, 22 Jul 2013 07:19:59 -0700 (PDT)
+Received: from localhost.localdomain (gau06-1-78-243-126-63.fbx.proxad.net.
+	[78.243.126.63]) by mx.google.com with ESMTPSA id
+	fd3sm66417052wic.10.2013.07.22.07.19.57 for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Jul 2013 07:19:58 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jul 2013 17:13:52 +0300
-Message-Id: <cover.1374502165.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1373630218.git.laurentiu.palcu@intel.com>
-References: <cover.1373630218.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v4 0/1] xinput-calibrator: move it from meta-oe to oe-core (cover letter only)
+Date: Mon, 22 Jul 2013 16:19:41 +0200
+Message-Id: <1374502781-23303-1-git-send-email-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+X-Gm-Message-State: ALoCoQml3sN7UhAubw3pE131bc02jXyKhhKcrM0rjs4PKXebMwWt1N36SAK+BrrK943ZqJ+Ca4NY
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>, patches@linaro.org
+Subject: [dylan][PATCH v2] mesa: fix EGL compilation without X11 headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,46 +43,447 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 14:13:54 -0000
+X-List-Received-Date: Mon, 22 Jul 2013 14:20:01 -0000
 
-Changes in v4:
- * restore original PR for both recipes;
+Extracted from "d7033f4 mesa: upgrade to 9.1.3", already merged in master.
 
-Changes in v3:
- * do not install pointercal.xinput if it's the default one;
+Add EGL-Mutate-NativeDisplayType-depending-on-config.patch to build correctly in
+a non-X11 environment, it replaces fix-egl-compilation-without-x11-headers.patch.
 
-Changes in v2:
- * run calibration through xsession file;
- * allow normal user to write his calibration data to ~/.pointercal/pointercal.xinput
-   and then use it when system boots;
+The new patch fixes compilation issues for components that include
+EGL/eglplatform.h file. With the original patch it was required to use
+-DMESA_EGL_NO_X11_HEADERS when using mesa .h files to get proper C definitions.
 
-Laurentiu
+The new patch was backported (trivial) to mesa 9.0.2 which is in dylan.
 
-The following changes since commit 31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9:
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+---
+ meta/recipes-graphics/mesa/mesa-9.0.2.inc          |   2 +-
+ ...ate-NativeDisplayType-depending-on-config.patch | 361 +++++++++++++++++++++
+ .../fix-egl-compilation-without-x11-headers.patch  |  32 --
+ 3 files changed, 362 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch
+ delete mode 100644 meta/recipes-graphics/mesa/mesa/fix-egl-compilation-without-x11-headers.patch
 
-  poky-tiny.conf: blacklist core-image-weston option (2013-07-18 21:26:58 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/xinput-calibrator_oe-core_v4
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/xinput-calibrator_oe-core_v4
-
-Laurentiu Palcu (1):
-  xinput-calibrator: move it from meta-oe to oe-core
-
- .../pointercal-xinput/pointercal.xinput            |    1 +
- .../xinput-calibrator/pointercal-xinput_0.0.bb     |   20 ++++++
- .../xinput-calibrator/30xinput_calibrate.sh        |    7 +++
- ...t_calibrator_pointercal.sh-to-be-run-as-n.patch |   66 ++++++++++++++++++++
- .../xinput-calibrator/xinput-calibrator_git.bb     |   31 +++++++++
- 5 files changed, 125 insertions(+)
- create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal.xinput
- create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
- create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator/30xinput_calibrate.sh
- create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator/Allow-xinput_calibrator_pointercal.sh-to-be-run-as-n.patch
- create mode 100644 meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-
+diff --git a/meta/recipes-graphics/mesa/mesa-9.0.2.inc b/meta/recipes-graphics/mesa/mesa-9.0.2.inc
+index b88bc42..e2dcfdb 100644
+--- a/meta/recipes-graphics/mesa/mesa-9.0.2.inc
++++ b/meta/recipes-graphics/mesa/mesa-9.0.2.inc
+@@ -2,7 +2,7 @@ SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/MesaLib-${PV}.tar.bz2 \
+            file://0002-cross-compile.patch \
+            file://cross-glsl.patch \
+            file://dont-fail-if-libX11-isnt-installed.patch \
+-           file://fix-egl-compilation-without-x11-headers.patch \
++           file://EGL-Mutate-NativeDisplayType-depending-on-config.patch \
+            "
+ 
+ SRC_URI[md5sum] = "dc45d1192203e418163e0017640e1cfc"
+diff --git a/meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch b/meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch
+new file mode 100644
+index 0000000..98c4095
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa/EGL-Mutate-NativeDisplayType-depending-on-config.patch
+@@ -0,0 +1,361 @@
++From 7e5846aa52c7cb00b0db9fa393975880371d2620 Mon Sep 17 00:00:00 2001
++From: Daniel Stone <daniel@fooishbar.org>
++Date: Fri, 24 May 2013 17:20:27 +0100
++Subject: [PATCH] EGL: Mutate NativeDisplayType depending on config
++
++If we go through ./configure without enabling X11 anywhere, then set the
++fallback types for EGL NativeDisplay and friends, rather than assuming
++X11/Xlib.
++
++Signed-off-by: Daniel Stone <daniel@fooishbar.org>
++
++Conflicts:
++	configure.ac
++---
++ configure.ac                 |   9 +++
++ include/EGL/eglplatform.h    | 146 -------------------------------------------
++ include/EGL/eglplatform.h.in | 146 +++++++++++++++++++++++++++++++++++++++++++
++ 3 files changed, 155 insertions(+), 146 deletions(-)
++ delete mode 100644 include/EGL/eglplatform.h
++ create mode 100644 include/EGL/eglplatform.h.in
++
++diff --git a/configure.ac b/configure.ac
++index 682e0a5..a8a485d 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1577,12 +1577,20 @@ fi
++ 
++ EGL_PLATFORMS="$egl_platforms"
++ 
+++if echo "$egl_platforms" | grep 'x11' >/dev/null 2>&1; then
+++    MESA_EGL_NO_X11_HEADERS=0
+++else
+++    MESA_EGL_NO_X11_HEADERS=1
+++fi
+++
++ AM_CONDITIONAL(HAVE_EGL_PLATFORM_X11, echo "$egl_platforms" | grep 'x11' >/dev/null 2>&1)
++ AM_CONDITIONAL(HAVE_EGL_PLATFORM_WAYLAND, echo "$egl_platforms" | grep 'wayland' >/dev/null 2>&1)
++ AM_CONDITIONAL(HAVE_EGL_PLATFORM_DRM, echo "$egl_platforms" | grep 'drm' >/dev/null 2>&1)
++ AM_CONDITIONAL(HAVE_EGL_PLATFORM_FBDEV, echo "$egl_platforms" | grep 'fbdev' >/dev/null 2>&1)
++ AM_CONDITIONAL(HAVE_EGL_PLATFORM_NULL, echo "$egl_platforms" | grep 'null' >/dev/null 2>&1)
++ 
+++AC_SUBST([MESA_EGL_NO_X11_HEADERS])
+++
++ AM_CONDITIONAL(HAVE_EGL_DRIVER_DRI2, test "x$HAVE_EGL_DRIVER_DRI2" != "x")
++ AM_CONDITIONAL(HAVE_EGL_DRIVER_GLX, test "x$HAVE_EGL_DRIVER_GLX" != "x")
++ 
++@@ -1953,6 +1961,7 @@ CXXFLAGS="$CXXFLAGS $USER_CXXFLAGS"
++ dnl Substitute the config
++ AC_CONFIG_FILES([configs/current
++ 		Makefile
+++		include/EGL/eglplatform.h
++ 		src/egl/Makefile
++ 		src/egl/drivers/Makefile
++ 		src/egl/drivers/dri2/Makefile
++diff --git a/include/EGL/eglplatform.h b/include/EGL/eglplatform.h
++deleted file mode 100644
++index 17fdc61..0000000
++--- a/include/EGL/eglplatform.h
+++++ /dev/null
++@@ -1,146 +0,0 @@
++-#ifndef __eglplatform_h_
++-#define __eglplatform_h_
++-
++-/*
++-** Copyright (c) 2007-2009 The Khronos Group Inc.
++-**
++-** Permission is hereby granted, free of charge, to any person obtaining a
++-** copy of this software and/or associated documentation files (the
++-** "Materials"), to deal in the Materials without restriction, including
++-** without limitation the rights to use, copy, modify, merge, publish,
++-** distribute, sublicense, and/or sell copies of the Materials, and to
++-** permit persons to whom the Materials are furnished to do so, subject to
++-** the following conditions:
++-**
++-** The above copyright notice and this permission notice shall be included
++-** in all copies or substantial portions of the Materials.
++-**
++-** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++-** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++-** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
++-** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
++-** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
++-** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
++-** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
++-*/
++-
++-/* Platform-specific types and definitions for egl.h
++- * $Revision: 12306 $ on $Date: 2010-08-25 09:51:28 -0700 (Wed, 25 Aug 2010) $
++- *
++- * Adopters may modify khrplatform.h and this file to suit their platform.
++- * You are encouraged to submit all modifications to the Khronos group so that
++- * they can be included in future versions of this file.  Please submit changes
++- * by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
++- * by filing a bug against product "EGL" component "Registry".
++- */
++-
++-#include <KHR/khrplatform.h>
++-
++-/* Macros used in EGL function prototype declarations.
++- *
++- * EGL functions should be prototyped as:
++- *
++- * EGLAPI return-type EGLAPIENTRY eglFunction(arguments);
++- * typedef return-type (EXPAPIENTRYP PFNEGLFUNCTIONPROC) (arguments);
++- *
++- * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
++- */
++-
++-#ifndef EGLAPI
++-#define EGLAPI KHRONOS_APICALL
++-#endif
++-
++-#ifndef EGLAPIENTRY
++-#define EGLAPIENTRY  KHRONOS_APIENTRY
++-#endif
++-#define EGLAPIENTRYP EGLAPIENTRY*
++-
++-/* The types NativeDisplayType, NativeWindowType, and NativePixmapType
++- * are aliases of window-system-dependent types, such as X Display * or
++- * Windows Device Context. They must be defined in platform-specific
++- * code below. The EGL-prefixed versions of Native*Type are the same
++- * types, renamed in EGL 1.3 so all types in the API start with "EGL".
++- *
++- * Khronos STRONGLY RECOMMENDS that you use the default definitions
++- * provided below, since these changes affect both binary and source
++- * portability of applications using EGL running on different EGL
++- * implementations.
++- */
++-
++-#if defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
++-#ifndef WIN32_LEAN_AND_MEAN
++-#define WIN32_LEAN_AND_MEAN 1
++-#endif
++-#include <windows.h>
++-
++-typedef HDC     EGLNativeDisplayType;
++-typedef HBITMAP EGLNativePixmapType;
++-typedef HWND    EGLNativeWindowType;
++-
++-#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
++-
++-typedef int   EGLNativeDisplayType;
++-typedef void *EGLNativeWindowType;
++-typedef void *EGLNativePixmapType;
++-
++-#elif defined(WL_EGL_PLATFORM)
++-
++-typedef struct wl_display     *EGLNativeDisplayType;
++-typedef struct wl_egl_pixmap  *EGLNativePixmapType;
++-typedef struct wl_egl_window  *EGLNativeWindowType;
++-
++-#elif defined(__GBM__)
++-
++-typedef struct gbm_device  *EGLNativeDisplayType;
++-typedef struct gbm_bo      *EGLNativePixmapType;
++-typedef void               *EGLNativeWindowType;
++-
++-#elif defined(ANDROID) /* Android */
++-
++-struct ANativeWindow;
++-struct egl_native_pixmap_t;
++-
++-typedef struct ANativeWindow        *EGLNativeWindowType;
++-typedef struct egl_native_pixmap_t  *EGLNativePixmapType;
++-typedef void                        *EGLNativeDisplayType;
++-
++-#elif defined(__unix__)
++-
++-#ifdef MESA_EGL_NO_X11_HEADERS
++-
++-typedef void            *EGLNativeDisplayType;
++-typedef khronos_uint32_t EGLNativePixmapType;
++-typedef khronos_uint32_t EGLNativeWindowType;
++-
++-#else
++-
++-/* X11 (tentative)  */
++-#include <X11/Xlib.h>
++-#include <X11/Xutil.h>
++-
++-typedef Display *EGLNativeDisplayType;
++-typedef Pixmap   EGLNativePixmapType;
++-typedef Window   EGLNativeWindowType;
++-
++-#endif /* MESA_EGL_NO_X11_HEADERS */
++-
++-#else
++-#error "Platform not recognized"
++-#endif
++-
++-/* EGL 1.2 types, renamed for consistency in EGL 1.3 */
++-typedef EGLNativeDisplayType NativeDisplayType;
++-typedef EGLNativePixmapType  NativePixmapType;
++-typedef EGLNativeWindowType  NativeWindowType;
++-
++-
++-/* Define EGLint. This must be a signed integral type large enough to contain
++- * all legal attribute names and values passed into and out of EGL, whether
++- * their type is boolean, bitmask, enumerant (symbolic constant), integer,
++- * handle, or other.  While in general a 32-bit integer will suffice, if
++- * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
++- * integer type.
++- */
++-typedef khronos_int32_t EGLint;
++-
++-#endif /* __eglplatform_h */
++diff --git a/include/EGL/eglplatform.h.in b/include/EGL/eglplatform.h.in
++new file mode 100644
++index 0000000..5126c92
++--- /dev/null
+++++ b/include/EGL/eglplatform.h.in
++@@ -0,0 +1,146 @@
+++#ifndef __eglplatform_h_
+++#define __eglplatform_h_
+++
+++/*
+++** Copyright (c) 2007-2009 The Khronos Group Inc.
+++**
+++** Permission is hereby granted, free of charge, to any person obtaining a
+++** copy of this software and/or associated documentation files (the
+++** "Materials"), to deal in the Materials without restriction, including
+++** without limitation the rights to use, copy, modify, merge, publish,
+++** distribute, sublicense, and/or sell copies of the Materials, and to
+++** permit persons to whom the Materials are furnished to do so, subject to
+++** the following conditions:
+++**
+++** The above copyright notice and this permission notice shall be included
+++** in all copies or substantial portions of the Materials.
+++**
+++** THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+++** EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+++** MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+++** IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+++** CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+++** TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+++** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.
+++*/
+++
+++/* Platform-specific types and definitions for egl.h
+++ * $Revision: 12306 $ on $Date: 2010-08-25 09:51:28 -0700 (Wed, 25 Aug 2010) $
+++ *
+++ * Adopters may modify khrplatform.h and this file to suit their platform.
+++ * You are encouraged to submit all modifications to the Khronos group so that
+++ * they can be included in future versions of this file.  Please submit changes
+++ * by sending them to the public Khronos Bugzilla (http://khronos.org/bugzilla)
+++ * by filing a bug against product "EGL" component "Registry".
+++ */
+++
+++#include <KHR/khrplatform.h>
+++
+++/* Macros used in EGL function prototype declarations.
+++ *
+++ * EGL functions should be prototyped as:
+++ *
+++ * EGLAPI return-type EGLAPIENTRY eglFunction(arguments);
+++ * typedef return-type (EXPAPIENTRYP PFNEGLFUNCTIONPROC) (arguments);
+++ *
+++ * KHRONOS_APICALL and KHRONOS_APIENTRY are defined in KHR/khrplatform.h
+++ */
+++
+++#ifndef EGLAPI
+++#define EGLAPI KHRONOS_APICALL
+++#endif
+++
+++#ifndef EGLAPIENTRY
+++#define EGLAPIENTRY  KHRONOS_APIENTRY
+++#endif
+++#define EGLAPIENTRYP EGLAPIENTRY*
+++
+++/* The types NativeDisplayType, NativeWindowType, and NativePixmapType
+++ * are aliases of window-system-dependent types, such as X Display * or
+++ * Windows Device Context. They must be defined in platform-specific
+++ * code below. The EGL-prefixed versions of Native*Type are the same
+++ * types, renamed in EGL 1.3 so all types in the API start with "EGL".
+++ *
+++ * Khronos STRONGLY RECOMMENDS that you use the default definitions
+++ * provided below, since these changes affect both binary and source
+++ * portability of applications using EGL running on different EGL
+++ * implementations.
+++ */
+++
+++#if defined(_WIN32) || defined(__VC32__) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__) /* Win32 and WinCE */
+++#ifndef WIN32_LEAN_AND_MEAN
+++#define WIN32_LEAN_AND_MEAN 1
+++#endif
+++#include <windows.h>
+++
+++typedef HDC     EGLNativeDisplayType;
+++typedef HBITMAP EGLNativePixmapType;
+++typedef HWND    EGLNativeWindowType;
+++
+++#elif defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
+++
+++typedef int   EGLNativeDisplayType;
+++typedef void *EGLNativeWindowType;
+++typedef void *EGLNativePixmapType;
+++
+++#elif defined(WL_EGL_PLATFORM)
+++
+++typedef struct wl_display     *EGLNativeDisplayType;
+++typedef struct wl_egl_pixmap  *EGLNativePixmapType;
+++typedef struct wl_egl_window  *EGLNativeWindowType;
+++
+++#elif defined(__GBM__)
+++
+++typedef struct gbm_device  *EGLNativeDisplayType;
+++typedef struct gbm_bo      *EGLNativePixmapType;
+++typedef void               *EGLNativeWindowType;
+++
+++#elif defined(ANDROID) /* Android */
+++
+++struct ANativeWindow;
+++struct egl_native_pixmap_t;
+++
+++typedef struct ANativeWindow        *EGLNativeWindowType;
+++typedef struct egl_native_pixmap_t  *EGLNativePixmapType;
+++typedef void                        *EGLNativeDisplayType;
+++
+++#elif defined(__unix__)
+++
+++#if @MESA_EGL_NO_X11_HEADERS@
+++
+++typedef void            *EGLNativeDisplayType;
+++typedef khronos_uint32_t EGLNativePixmapType;
+++typedef khronos_uint32_t EGLNativeWindowType;
+++
+++#else
+++
+++/* X11 (tentative)  */
+++#include <X11/Xlib.h>
+++#include <X11/Xutil.h>
+++
+++typedef Display *EGLNativeDisplayType;
+++typedef Pixmap   EGLNativePixmapType;
+++typedef Window   EGLNativeWindowType;
+++
+++#endif /* MESA_EGL_NO_X11_HEADERS */
+++
+++#else
+++#error "Platform not recognized"
+++#endif
+++
+++/* EGL 1.2 types, renamed for consistency in EGL 1.3 */
+++typedef EGLNativeDisplayType NativeDisplayType;
+++typedef EGLNativePixmapType  NativePixmapType;
+++typedef EGLNativeWindowType  NativeWindowType;
+++
+++
+++/* Define EGLint. This must be a signed integral type large enough to contain
+++ * all legal attribute names and values passed into and out of EGL, whether
+++ * their type is boolean, bitmask, enumerant (symbolic constant), integer,
+++ * handle, or other.  While in general a 32-bit integer will suffice, if
+++ * handles are 64 bit types, then EGLint should be defined as a signed 64-bit
+++ * integer type.
+++ */
+++typedef khronos_int32_t EGLint;
+++
+++#endif /* __eglplatform_h */
++-- 
++1.8.1.2
++
+diff --git a/meta/recipes-graphics/mesa/mesa/fix-egl-compilation-without-x11-headers.patch b/meta/recipes-graphics/mesa/mesa/fix-egl-compilation-without-x11-headers.patch
+deleted file mode 100644
+index 6436b59..0000000
+--- a/meta/recipes-graphics/mesa/mesa/fix-egl-compilation-without-x11-headers.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Upstream-Status: Submitted
+-
+-Picked from mesa-dev mailing list: http://marc.info/?l=mesa3d-dev&m=133053004130468
+-
+-From: Benjamin Franzke <benjaminfranzke@googlemail.com>
+-Date: Wed, 29 Feb 2012 15:36:23 +0100
+-Subject: [PATCH] configure: Fix egl compilation without x11 headers
+-
+-We dont want eglplatform.h to typedef egl native types
+-to x11 types, when x11 headers are not available.
+----
+- configure.ac |    4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index b384b44..8eb8459 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1262,6 +1262,10 @@ if test "x$enable_egl" = xyes; then
+- 
+-     AC_CHECK_FUNC(mincore, [DEFINES="$DEFINES -DHAVE_MINCORE"])
+- 
+-+    if test "$have_x" != yes; then
+-+        DEFINES="$DEFINES -DMESA_EGL_NO_X11_HEADERS"
+-+    fi
+-+
+-     if test "$enable_static" != yes; then
+-         # build egl_glx when libGL is built
+-         if test "x$enable_glx" = xyes; then
+--- 
+-1.7.10.4
+-
 -- 
-1.7.9.5
+1.8.1.2
 
 
