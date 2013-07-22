@@ -1,24 +1,42 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 77C7C608CC
+Return-Path: <net147@gmail.com>
+Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
+	[209.85.160.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BE13608CC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 13:58:36 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jul 2013 06:56:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,719,1367996400"; d="scan'208";a="369134474"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Jul 2013 06:58:36 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jul 2013 16:58:32 +0300
-Message-Id: <78ccb04fc526be5eb9c8a6e06b848bc7180856af.1374501371.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1374501371.git.laurentiu.palcu@intel.com>
-References: <cover.1374501371.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1374501371.git.laurentiu.palcu@intel.com>
-References: <cover.1374501371.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/1] elfutils: fix backends' Makefile.am
+	Mon, 22 Jul 2013 14:01:55 +0000 (UTC)
+Received: by mail-pb0-f44.google.com with SMTP id uo1so7076429pbc.31
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 07:01:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=NErLEonwuIpy5plzxuUxHj0In7lleDMNRn+NMsqmxjk=;
+	b=O7dT4o7bO4ME/sqkU8PQ0A1XBIvvqdo+A6BHNMW/zmCstz8k/0NYzi4tFErcSkAsZr
+	n8hIj1E1t/D6hx+Dxp+pXYLmgMIW2w00erPERb42xuDcJvJ3gcD7Nk5XeD9DOB56GU9+
+	e6aik4O2oPXUNcsGCTvynCjebrFEVRlS43zF/db0P5lh9DmZbqUP+X760OEEarN3F+5e
+	8JcjxQpaCwHd1v34qwsNxT2gBMFAR/SLZ9T0fBGI0w0V6LfhYmCIrW8Gdr19ynG8cneC
+	TkQw0Vo5FI3Avb2ObjHDxPCki+OIZaiEtFjbEe/yEQ2rl9HMXh9PzXfQTqPkwCUfahS7
+	B9JA==
+X-Received: by 10.66.2.164 with SMTP id 4mr32471745pav.55.1374501715930;
+	Mon, 22 Jul 2013 07:01:55 -0700 (PDT)
+Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
+	[60.242.179.244])
+	by mx.google.com with ESMTPSA id x8sm35988849pbb.39.2013.07.22.07.01.53
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Jul 2013 07:01:55 -0700 (PDT)
+Message-ID: <51ED3A29.3050601@gmail.com>
+Date: Mon, 22 Jul 2013 23:56:57 +1000
+From: Jonathan Liu <net147@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <1374401262-6077-1-git-send-email-net147@gmail.com>
+	<23B07C65-4D10-4A79-9139-6AAB23D34491@gmail.com>
+In-Reply-To: <23B07C65-4D10-4A79-9139-6AAB23D34491@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-4.8: fix compiling GCC when /usr/lib/libstdc++.so is present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,167 +49,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 13:58:36 -0000
+X-List-Received-Date: Mon, 22 Jul 2013 14:01:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The mips, m68k and parisc backend libraries were not generated. This
-patch fixes that.
+On 22/07/2013 2:12 AM, Khem Raj wrote:
+> On Jul 21, 2013, at 3:07 AM, Jonathan Liu <net147@gmail.com> wrote:
+>
+>> libtool is picking up libstdc++.so from /usr/lib when trying to link
+>> libasan due to libstdc++.la containing libdir="/usr/lib". If compiling
+> Can you also see if this change works on target and SDK environments ?
+I have build the Yocto Build Appliance (qemux86_64) successfully using 
+poky master 31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9 with this patch.
+Also, I have built gcc (for qemux86) successfully from the Yocto Build 
+Appliance (qemux86_64) by manually cloning poky master 
+31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9 with this patch and building 
+GCC 4.8.1 through Hob (usually the build appliance uses an older git 
+clone of poky that uses GCC 4.7).
+Interestingly the build appliance has /usr/lib/libstdc++.so present so 
+perhaps this libasan linking issue also affects the build appliance.
 
-[YOCTO #4849]
+The patch only modifies the libtool (2.2) script included with GCC 
+sources used for building GCC and not the libtool (2.4) that is used 
+elsewhere so its effect should only be limited to building GCC.
+I am not sure how to test this change in SDK environment. Could you 
+elaborate?
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../elfutils/elfutils-0.155/hppa_backend.diff      |   15 ++++++++++-----
- .../elfutils/elfutils-0.155/m68k_backend.diff      |   12 +++++++++---
- .../elfutils/elfutils-0.155/mips_backend.diff      |   16 +++++++++++-----
- 3 files changed, 30 insertions(+), 13 deletions(-)
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.155/hppa_backend.diff b/meta/recipes-devtools/elfutils/elfutils-0.155/hppa_backend.diff
-index e8d8df5..3fb2523 100644
---- a/meta/recipes-devtools/elfutils/elfutils-0.155/hppa_backend.diff
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.155/hppa_backend.diff
-@@ -729,7 +729,7 @@ Index: elfutils-0.155/backends/Makefile.am
- ===================================================================
- --- elfutils-0.155.orig/backends/Makefile.am
- +++ elfutils-0.155/backends/Makefile.am
--@@ -32,7 +32,7 @@ INCLUDES += -I$(top_srcdir)/libebl -I$(t
-+@@ -32,11 +32,11 @@
-  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw
-  
-  
-@@ -738,7 +738,12 @@ Index: elfutils-0.155/backends/Makefile.am
-  libebl_pic = libebl_i386_pic.a libebl_sh_pic.a libebl_x86_64_pic.a \
-  	     libebl_ia64_pic.a libebl_alpha_pic.a libebl_arm_pic.a \
-  	     libebl_sparc_pic.a libebl_ppc_pic.a libebl_ppc64_pic.a \
--@@ -103,6 +103,9 @@ tilegx_SRCS = tilegx_init.c tilegx_symbo
-+-	     libebl_s390_pic.a libebl_tilegx_pic.a
-++	     libebl_s390_pic.a libebl_tilegx_pic.a libebl_parisc_pic.a
-+ noinst_LIBRARIES = $(libebl_pic)
-+ noinst_DATA = $(libebl_pic:_pic.a=.so)
-+ 
-+@@ -103,6 +103,9 @@
-  libebl_tilegx_pic_a_SOURCES = $(tilegx_SRCS)
-  am_libebl_tilegx_pic_a_OBJECTS = $(tilegx_SRCS:.c=.os)
-  
-@@ -752,7 +757,7 @@ Index: elfutils-0.155/libelf/elf.h
- ===================================================================
- --- elfutils-0.155.orig/libelf/elf.h
- +++ elfutils-0.155/libelf/elf.h
--@@ -1780,16 +1780,24 @@ typedef Elf32_Addr Elf32_Conflict;
-+@@ -1780,16 +1780,24 @@
-  #define R_PARISC_PCREL17F	12	/* 17 bits of rel. address.  */
-  #define R_PARISC_PCREL14R	14	/* Right 14 bits of rel. address.  */
-  #define R_PARISC_DPREL21L	18	/* Left 21 bits of rel. address.  */
-@@ -777,7 +782,7 @@ Index: elfutils-0.155/libelf/elf.h
-  #define R_PARISC_LTOFF_FPTR32	57	/* 32 bits LT-rel. function pointer. */
-  #define R_PARISC_LTOFF_FPTR21L	58	/* LT-rel. fct ptr, left 21 bits. */
-  #define R_PARISC_LTOFF_FPTR14R	62	/* LT-rel. fct ptr, right 14 bits. */
--@@ -1798,6 +1806,7 @@ typedef Elf32_Addr Elf32_Conflict;
-+@@ -1798,6 +1806,7 @@
-  #define R_PARISC_PLABEL21L	66	/* Left 21 bits of fdesc address.  */
-  #define R_PARISC_PLABEL14R	70	/* Right 14 bits of fdesc address.  */
-  #define R_PARISC_PCREL64	72	/* 64 bits PC-rel. address.  */
-@@ -785,7 +790,7 @@ Index: elfutils-0.155/libelf/elf.h
-  #define R_PARISC_PCREL22F	74	/* 22 bits PC-rel. address.  */
-  #define R_PARISC_PCREL14WR	75	/* PC-rel. address, right 14 bits.  */
-  #define R_PARISC_PCREL14DR	76	/* PC rel. address, right 14 bits.  */
--@@ -1823,6 +1832,8 @@ typedef Elf32_Addr Elf32_Conflict;
-+@@ -1823,6 +1832,8 @@
-  #define R_PARISC_LTOFF16WF	102	/* 16 bits LT-rel. address.  */
-  #define R_PARISC_LTOFF16DF	103	/* 16 bits LT-rel. address.  */
-  #define R_PARISC_SECREL64	104	/* 64 bits section rel. address.  */
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.155/m68k_backend.diff b/meta/recipes-devtools/elfutils/elfutils-0.155/m68k_backend.diff
-index e9b5c40..79a8f0e 100644
---- a/meta/recipes-devtools/elfutils/elfutils-0.155/m68k_backend.diff
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.155/m68k_backend.diff
-@@ -219,7 +219,7 @@ Index: elfutils-0.155/libelf/elf.h
- ===================================================================
- --- elfutils-0.155.orig/libelf/elf.h
- +++ elfutils-0.155/libelf/elf.h
--@@ -1126,6 +1126,9 @@ typedef struct
-+@@ -1126,6 +1126,9 @@
-  #define R_68K_GLOB_DAT	20		/* Create GOT entry */
-  #define R_68K_JMP_SLOT	21		/* Create PLT entry */
-  #define R_68K_RELATIVE	22		/* Adjust by program base */
-@@ -233,7 +233,7 @@ Index: elfutils-0.155/backends/Makefile.am
- ===================================================================
- --- elfutils-0.155.orig/backends/Makefile.am
- +++ elfutils-0.155/backends/Makefile.am
--@@ -32,7 +32,7 @@ INCLUDES += -I$(top_srcdir)/libebl -I$(t
-+@@ -32,12 +32,12 @@
-  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw
-  
-  
-@@ -242,7 +242,13 @@ Index: elfutils-0.155/backends/Makefile.am
-  libebl_pic = libebl_i386_pic.a libebl_sh_pic.a libebl_x86_64_pic.a \
-  	     libebl_ia64_pic.a libebl_alpha_pic.a libebl_arm_pic.a \
-  	     libebl_sparc_pic.a libebl_ppc_pic.a libebl_ppc64_pic.a \
--@@ -111,6 +111,10 @@ mips_SRCS = mips_init.c mips_symbol.c mi
-+ 	     libebl_s390_pic.a libebl_tilegx_pic.a libebl_parisc_pic.a \
-+-	     libebl_mips_pic.a
-++	     libebl_mips_pic.a libebl_m68k_pic.a
-+ noinst_LIBRARIES = $(libebl_pic)
-+ noinst_DATA = $(libebl_pic:_pic.a=.so)
-+ 
-+@@ -112,6 +112,10 @@
-  libebl_mips_pic_a_SOURCES = $(mips_SRCS)
-  am_libebl_mips_pic_a_OBJECTS = $(mips_SRCS:.c=.os)
-  
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.155/mips_backend.diff b/meta/recipes-devtools/elfutils/elfutils-0.155/mips_backend.diff
-index 8e07c33..8fc06c5 100644
---- a/meta/recipes-devtools/elfutils/elfutils-0.155/mips_backend.diff
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.155/mips_backend.diff
-@@ -645,7 +645,7 @@ Index: elfutils-0.155/libebl/eblopenbackend.c
- ===================================================================
- --- elfutils-0.155.orig/libebl/eblopenbackend.c
- +++ elfutils-0.155/libebl/eblopenbackend.c
--@@ -71,6 +71,8 @@ static const struct
-+@@ -71,6 +71,8 @@
-    { "sparc", "elf_sparc", "sparc", 5, EM_SPARC, 0, 0 },
-    { "sparc", "elf_sparcv8plus", "sparc", 5, EM_SPARC32PLUS, 0, 0 },
-    { "s390", "ebl_s390", "s390", 4, EM_S390, 0, 0 },
-@@ -658,7 +658,7 @@ Index: elfutils-0.155/backends/common-reloc.c
- ===================================================================
- --- elfutils-0.155.orig/backends/common-reloc.c
- +++ elfutils-0.155/backends/common-reloc.c
--@@ -112,11 +112,13 @@ EBLHOOK(reloc_valid_use) (Elf *elf, int
-+@@ -112,11 +112,13 @@
-  }
-  
-  
-@@ -672,7 +672,7 @@ Index: elfutils-0.155/backends/common-reloc.c
-  
-  bool
-  EBLHOOK(none_reloc_p) (int reloc)
--@@ -138,7 +140,9 @@ EBLHOOK(init_reloc) (Ebl *ebl)
-+@@ -138,7 +140,9 @@
-    ebl->reloc_type_name = EBLHOOK(reloc_type_name);
-    ebl->reloc_type_check = EBLHOOK(reloc_type_check);
-    ebl->reloc_valid_use = EBLHOOK(reloc_valid_use);
-@@ -686,7 +686,7 @@ Index: elfutils-0.155/backends/Makefile.am
- ===================================================================
- --- elfutils-0.155.orig/backends/Makefile.am
- +++ elfutils-0.155/backends/Makefile.am
--@@ -32,7 +32,7 @@ INCLUDES += -I$(top_srcdir)/libebl -I$(t
-+@@ -32,11 +32,12 @@
-  	   -I$(top_srcdir)/libelf -I$(top_srcdir)/libdw
-  
-  
-@@ -695,7 +695,13 @@ Index: elfutils-0.155/backends/Makefile.am
-  libebl_pic = libebl_i386_pic.a libebl_sh_pic.a libebl_x86_64_pic.a \
-  	     libebl_ia64_pic.a libebl_alpha_pic.a libebl_arm_pic.a \
-  	     libebl_sparc_pic.a libebl_ppc_pic.a libebl_ppc64_pic.a \
--@@ -107,6 +107,10 @@ parisc_SRCS = parisc_init.c parisc_symbo
-+-	     libebl_s390_pic.a libebl_tilegx_pic.a libebl_parisc_pic.a
-++	     libebl_s390_pic.a libebl_tilegx_pic.a libebl_parisc_pic.a \
-++	     libebl_mips_pic.a
-+ noinst_LIBRARIES = $(libebl_pic)
-+ noinst_DATA = $(libebl_pic:_pic.a=.so)
-+ 
-+@@ -107,6 +108,10 @@
-  libebl_parisc_pic_a_SOURCES = $(parisc_SRCS)
-  am_libebl_parisc_pic_a_OBJECTS = $(parisc_SRCS:.c=.os)
-  
--- 
-1.7.9.5
+Regards,
+Jonathan
+>
+>> for x86 and the host has 64-bit /usr/lib/libstdc++.so, the compilation
+>> fails linking libasan with:
+>> /usr/lib/libstdc++.so: could not read symbols: File in wrong format
+>>
+>> To resolve this, patch libtool to look for the library in the path the
+>> .la is contained in rather than use the libdir which usually points to
+>> a host path.
+>>
+>> [YOCTO #4879]
+>>
+>> Signed-off-by: Jonathan Liu <net147@gmail.com>
+>> ---
+>> meta/recipes-devtools/gcc/gcc-4.8.inc                 |  1 +
+>> .../gcc/gcc-4.8/0041-libtool-avoid-libdir.patch       | 19 +++++++++++++++++++
+>> 2 files changed, 20 insertions(+)
+>> create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> index dafa241..42355f2 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+>> @@ -70,6 +70,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+>> 	   file://0038-gcc-4.8-build-args.patch \
+>> 	   file://0039-gcc-4.8-PR57717.patch \
+>> 	   file://0040-fix-g++-sysroot.patch \
+>> +	   file://0041-libtool-avoid-libdir.patch \
+>> 	  "
+>> SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+>> SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+>> diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
+>> new file mode 100644
+>> index 0000000..2dd9610
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.8/0041-libtool-avoid-libdir.patch
+>> @@ -0,0 +1,19 @@
+>> +Avoid using libdir from .la which usually points to a host path
+>> +
+>> +Upstream-Status: Inappropriate [embedded specific]
+>> +Signed-off-by: Jonathan Liu <net147@gmail.com>
+>> +
+>> +diff --git a/ltmain.sh b/ltmain.sh
+>> +index a03433f..1902a90 100644
+>> +--- a/ltmain.sh
+>> ++++ b/ltmain.sh
+>> +@@ -5628,6 +5628,9 @@ func_mode_link ()
+>> + 	    absdir="$abs_ladir"
+>> + 	    libdir="$abs_ladir"
+>> + 	  else
+>> ++	    # Instead of using libdir from .la which usually points to a host path,
+>> ++	    # use the path the .la is contained in.
+>> ++	    libdir="$abs_ladir"
+>> + 	    dir="$libdir"
+>> + 	    absdir="$libdir"
+>> + 	  fi
+>> -- 
+>> 1.8.3.2
+>>
 
 
