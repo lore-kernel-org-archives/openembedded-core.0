@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E36E60592
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6844A6B1FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 08:14:58 +0000 (UTC)
+	Mon, 22 Jul 2013 08:14:59 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6M8ExqM022161
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6M8F0PU027840
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 01:14:59 -0700 (PDT)
+	Mon, 22 Jul 2013 01:15:00 -0700 (PDT)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 22 Jul 2013 01:14:58 -0700
+	14.2.342.3; Mon, 22 Jul 2013 01:14:59 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Jul 2013 16:14:54 +0800
-Message-ID: <f3bb321c76f2ed9b0b09cb283e4fdd7b0b37847a.1374480160.git.jackie.huang@windriver.com>
+Date: Mon, 22 Jul 2013 16:14:55 +0800
+Message-ID: <799e99cf845e29f2bcac04cee403f89cf600fa82.1374480160.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1374480160.git.jackie.huang@windriver.com>
 References: <cover.1374480160.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] dbus: remove build host test in configure script
+Subject: [PATCH 2/2] dbus: add -o option into start-stop-daemon arguments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 08:14:58 -0000
+X-List-Received-Date: Mon, 22 Jul 2013 08:15:00 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-The dbus build tests the build host to detect what initscript
-environment it expects.  Remove the test and set it to "redhat"
-unconditionally as the oe-core initscript has a redhat-style pid file
-path.
+/etc/init.d/dbus-1 use "set -e" to let the script exit when any command failes.
+This will cause "dbus-1 restart" command can't start dbus when dbus is stopped.
+so add --oknodo option to let start-stop-daemon exit with friendly return value.
+Then commands will work well.
 
-Signed-off-by: Andy Ross <andy.ross@windriver.com
+Signed-off-by: Song.Li <Song.Li@windriver.com>
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-core/dbus/dbus-1.6.8/os-test.patch |   35 +++++++++++++++++++++++
- meta/recipes-core/dbus/dbus.inc                 |    4 ++-
- 2 files changed, 38 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
+ meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch b/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
-new file mode 100644
-index 0000000..79554b1
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
-@@ -0,0 +1,35 @@
-+dbus: remove build host test in configure script
-+
-+The dbus build tests the build host to detect what initscript
-+environment it expects.  Remove the test and set it to "redhat"
-+unconditionally as the oe-core initscript has a redhat-style pid file
-+path.
-+
-+Signed-off-by: Andy Ross <andy.ross@windriver.com>
-+Upstream-Status: innappropriate [embedded]
-+
-+diff -u a/configure.ac b/configure.ac
-+--- a/configure.ac	2012-08-28 11:23:43.040609874 -0700
-++++ b/configure.ac	2012-08-28 11:54:25.602913945 -0700
-+@@ -1348,19 +1348,8 @@
-+ AS_AC_EXPAND(EXPANDED_LIBEXECDIR, "$libexecdir")
-+ AS_AC_EXPAND(EXPANDED_DATADIR, "$datadir")
-+ 
-+-#### Check our operating system
-+-operating_system=unknown
-+-if test -f /etc/redhat-release || test -f $EXPANDED_SYSCONFDIR/redhat-release ; then
-+-   operating_system=redhat
-+-fi
-+-
-+-if test -f /etc/slackware-version || test -f $EXPANDED_SYSCONFDIR/slackware-version ; then
-+-   operating_system=slackware
-+-fi
-+-
-+-if test -f /usr/bin/cygwin1.dll || test -f $EXPANDED_BINDIR/cygwin1.dll ; then
-+-   operating_system=cygwin
-+-fi
-++#### Build host test removed from upstream code, openembedded initscript is redhat-like:
-++operating_system=redhat
-+ 
-+ #### Sort out init scripts
-+ 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index b07aefa..580a936 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -16,7 +16,9 @@ INC_PR = "r6"
+diff --git a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
+index 64f2170..0351190 100644
+--- a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
++++ b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
+@@ -57,7 +57,7 @@ start_it_up()
+   dbus-uuidgen --ensure  
  
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://tmpdir.patch; \
--           file://dbus-1.init"
-+           file://dbus-1.init \
-+           file://os-test.patch \
-+"
- 
- inherit useradd autotools pkgconfig gettext update-rc.d
- 
+   echo -n "Starting $DESC: "
+-  start-stop-daemon --start --quiet --pidfile $PIDFILE \
++  start-stop-daemon -o --start --quiet --pidfile $PIDFILE \
+     --user $DAEMONUSER --exec $DAEMON -- --system $PARAMS
+   echo "$NAME."
+   if [ -d $EVENTDIR ]; then
+@@ -72,7 +72,7 @@ shut_it_down()
+       run-parts --arg=stop $EVENTDIR
+   fi
+   echo -n "Stopping $DESC: "
+-  start-stop-daemon --stop  --quiet --pidfile $PIDFILE \
++  start-stop-daemon -o --stop  --quiet --pidfile $PIDFILE \
+     --user $DAEMONUSER
+   # We no longer include these arguments so that start-stop-daemon
+   # can do its job even given that we may have been upgraded.
 -- 
 1.7.4.1
 
