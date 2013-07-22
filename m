@@ -1,36 +1,24 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BF9361959
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DD3B61FE1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 09:02:07 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id j1so8622565oag.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jul 2013 02:02:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=PMbhoNq6guTxkm1eejmcpp9GB+9nhQIJBPqe3szfVEk=;
-	b=ZnGtsAmsBRf2i2mkqCDv0nXlsZJYUYKp94rTKTSvoeDVtg//CkIHItfXagAW4hxxta
-	d4+X9PMmtBjrWBwalsNJ4DWrtbzQe7HxBv53tzORad3ViThlqGluuGweEBbFAFh/goOs
-	a1cW4jK7nhjiG9QrI3/7pec4aqEGNBZ9Oirmh3n0CJPj/2UojuSFM3C13T+FfrQB4moq
-	Nxht5WbMHv+sZWxCx1QKXE0YedWH/XEe9U9HnFDgIyfDARBw27OQ3ih85XYf1A/mkboi
-	3RE3JHzLGr4M7hgoJm3y5dEoussvE4S0/i/rjEajezW+rGd1bDbU1Df8HhD9xZBDa0rD
-	HeRg==
-X-Received: by 10.60.99.42 with SMTP id en10mr25668438oeb.85.1374483727548;
-	Mon, 22 Jul 2013 02:02:07 -0700 (PDT)
+	Mon, 22 Jul 2013 09:22:25 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2013 02:22:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,718,1367996400"; d="scan'208";a="374030033"
+Received: from unknown (HELO helios.localnet) ([10.252.122.69])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2013 02:22:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Jul 2013 10:22:23 +0100
+Message-ID: <1790143.ZLrHWRrgzY@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <cover.1374470774.git.sgw@linux.intel.com>
+References: <cover.1374470774.git.sgw@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.76.126.144 with HTTP; Mon, 22 Jul 2013 02:01:47 -0700 (PDT)
-In-Reply-To: <51ECCF5C.2020505@dresearch-fe.de>
-References: <51ECCF5C.2020505@dresearch-fe.de>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 22 Jul 2013 11:01:47 +0200
-Message-ID: <CAP71Wjz6vU5iiSoc9LqDczGo_SJ02ppRJizQui_MLYKPK_61Wg@mail.gmail.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-X-Gm-Message-State: ALoCoQnvEadHMuAJqcpb0Q/RMKVy++q10sQ49OPygm578+FQRO036tv1WtFiFJOM8PCYakG2NEYH
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: SRC_URI and latest HEAD revision with git
+Subject: Re: [CONSOLIDATED PULL 00/36] Please review and ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,57 +31,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jul 2013 09:02:07 -0000
-Content-Type: multipart/alternative; boundary=047d7b33d26a54942804e215ee7f
-
---047d7b33d26a54942804e215ee7f
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Mon, Jul 22, 2013 at 8:21 AM, Steffen Sledz <sledz@dresearch-fe.de>wrote:
-
-> After being OE abstinent for some months i'd like to ask what is the
-> current suggested method for recipes building from the HEAD revision of a
-> git repository (we need this for continuous integration).
->
-> I read some RFC's in the ml about PKGV/PKGR stuff, but i miss a final
-> decision, documentation and a good example.
->
-
-you can use ${AUTOREV} for this purpose. You can look at poky-bleeding
-distro config for such an example.
-
-e.g.
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf/distro/include/poky-floating-revisions.inc
-
---047d7b33d26a54942804e215ee7f
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Mon, 22 Jul 2013 09:22:25 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Jul 22, 2013 at 8:21 AM, Steffen Sledz <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:sledz@dresearch-fe.de" target=3D"_blank">sledz@dresearch-fe.de<=
-/a>&gt;</span> wrote:<br>
+On Sunday 21 July 2013 22:28:08 Saul Wold wrote:
+> Paul, Ross:
+>=20
+> Please review this set, I know Ross might be travelling today,
+> so this may be delayed until the end of the day or tomorrow.
+>=20
+> **** NOTE TO BSP Maintainers: This will require a mesa bbappend sync =
+when
+> pulled ***** **** I will send email when that happens, so please prep=
+are
+> your branches        *****
+>=20
+> I verified that Ema's changes do not cause any backward revs.
+>=20
+> I tested this set twice on the AB, the first set failed with the util=
+-linux
+> patch, then I built master again, and rebuilt this set without the
+> util-linux change and it built great (execpt for the missing Mesa upd=
+ates
+> to BSP).
+>=20
+> There appears to be one testimage failure with Mips and SMART, I will=
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div id=3D":5o" style=3D"overflow:hidden">After being OE a=
-bstinent for some months i&#39;d like to ask what is the current suggested =
-method for recipes building from the HEAD revision of a git repository (we =
-need this for continuous integration).<br>
+> forward that to Stephan as it might be a test case issue.
+>=20
+>=20
+> Thanks
+>         Sau!
+>=20
+> The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb3=
+3b50aa:
+>=20
+>   curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+> =20
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?=
+h=3Dsgw/
+> stage
+>=20
+> Andr=E9 Draszik (1):
+>   directfb: don't patch pkg-config files
+>=20
+> Beth Flanagan (1):
+>   adt_installer_internal: fix spelling error
+>=20
+> Chen Qi (2):
+>   useradd.bbclass: add a new base class and code refactor
+>   extrausers.bbclass: add a new bbclass
+>=20
+> Daniel Nilsson (1):
+>   glew: Update GLEW version number in autotools patch
+>=20
+> Emilia Ciobanu (11):
+>   rt-tests: add GIT revision to PV variable
+>   kmod:add GIT revision to PV variable
+>   hwlatdetect: add GIT revision to PV variable
+>   lttng-ust:add GIT revision to PV variable
+>   connman-gnome: add GIT revision to PV variable
+>   mtd-utils: add GIT revision to PV variable
+>   update-rc.d: add GIT revision to PV variable
+>   build-appliance-image: add GIT revision to PV variable
+>   lttng-modules: Append _git to recipe name and add GIT revision to P=
+V
+>       variable
+>   chkconfig-alternatives-native: add GIT revision to PV variable
+>   docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
 
+I'm concerned about inconsistencies with this set - e.g. lttng-modules =
+has=20
+been renamed to _git, lttng-ust hasn't; similarly for build-appliance-i=
+mage=20
+and a few of the others.
 
-<br>
-I read some RFC&#39;s in the ml about PKGV/PKGR stuff, but i miss a final d=
-ecision, documentation and a good example.<br></div></blockquote></div><br>=
-you can use ${AUTOREV} for this purpose. You can look at poky-bleeding dist=
-ro config for such an example.=A0</div>
+> Jesse Zhang (1):
+>   tremor: add a patch to build with arm thumb
+>=20
+> Jonathan Liu (5):
+>   systemd: remove unneeded modprobe.rules
+>   mesa: upgrade to 9.1.5
+>   wget: backport fixes for documentation build errors
+>   mesa: use LLVM 3.3 by default
+>   boot-directdisk: use awk instead of echo -ne for dash compatibility=
 
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">e.g.=A0<a h=
-ref=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf/=
-distro/include/poky-floating-revisions.inc">http://git.yoctoproject.org/cgi=
-t/cgit.cgi/poky/tree/meta-yocto/conf/distro/include/poky-floating-revisions=
-.inc</a></div>
+>=20
+> Martin Jansa (7):
+>   gst-plugins-good: add PACKAGECONFIG for jack
+>   gst-plugins-ugly: add PACKAGECONFIG for x264, cdio, dvdread
+>   pulseaudio: add PACKAGECONFIG for jack
+>   subversion: add PACKAGECONFIG for sasl
+>   gst-plugins-bad: add few more PACKAGECONFIGs
+>   cups: add PACKAGECONFIG for avahi
+>   mesa: add Upstream-Status
+>=20
+> Ming Liu (1):
+>   libpam: add a new 'nullok_secure' option support to pam_unix
+>=20
+> Muhammad Shakeel (1):
+>   systemd: Remove systemd_unitdir if systemd is not in distro feature=
+s
+>=20
+> Petter Mab=E4cker (1):
+>   remake: fix insufficient gettext dependency
+>=20
+> Ross Burton (1):
+>   initrdscripts: mount / as read-only when live-booting
+>=20
+> Saul Wold (1):
+>   pigz: Fix typo in ALTERNATIVES line
+>=20
+> Tudor Florea (2):
+>   python: Add ptest
+>   kmod: Add ptest
 
-<div class=3D"gmail_extra"><br></div></div>
+All the rest of the changes look OK.
 
---047d7b33d26a54942804e215ee7f--
+Cheers,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
+
