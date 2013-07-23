@@ -1,40 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 7737A6AFFD
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 018DF6AFFD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 10:37:34 +0000 (UTC)
-Received: by mail-ve0-f179.google.com with SMTP id d10so5880264vea.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 03:37:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=AI40fSXZE47ea2fsmiAnnnGTXKRcsOla4WleDLkM/Fk=;
-	b=RWA/dIppaPPKEMFT3EmbBgtOBzUI11dvErrO4m/8tDIXi3QDo2SYKhLPcql0rSUS5C
-	eLiYldjtqxrOOeu1zRnKGlbigboXiP8EGgUiLJ0fXcQ5RFpxC1R455sr83l8Gp1uE1dr
-	2IJhOtb+4ChNWqwO/qqYY9U0BIqEkY5GB9J6ZxxSXtsQGwtI9aWc+rAiqxWiqDXNn7B/
-	SddHHs0iBgQla/iuwl70xHzrUU1rvfo22fI+ewgJ+gZ9CnZl/w3pfhYMputw6GqCsQYf
-	H/+7g1YgTts3Hgm/veJz6RsZejEqIdTdjSSQgduD8usiQqEjBtCbhnSrE3QjuWbcEsxF
-	wsCQ==
-X-Received: by 10.58.171.4 with SMTP id aq4mr10830659vec.26.1374575854623;
-	Tue, 23 Jul 2013 03:37:34 -0700 (PDT)
+	Tue, 23 Jul 2013 10:46:54 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	r6NAkrEO030357
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Tue, 23 Jul 2013 12:46:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1374576414;
+	bh=dc6JUUXe0k9p4sj1FoZb1nTafIB/d0tT8ah7OQ6KPjo=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=K+3EaW94D6xBHOOoXDSlRmjQjrVPZRwKJtfi5UPhL2N8OjdEN7HLpBpN6KVEYy2+b
+	ukMkccCkD5jtmPRAeTgVjVkyu5RDRD2K2DGQcP9b0zGrlpTaXIBotP1jsdsqUWJ5Px
+	v4CnufysRU/JJQqV2cIB6lXwgnbaUjyQVyVwD93I=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r6NAknqC003778
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 23 Jul 2013 12:46:50 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1V1a7F-0003Lo-7l; Tue, 23 Jul 2013 12:46:49 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1374573823-27458-1-git-send-email-muhammad_shakeel@mentor.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Tue, 23 Jul 2013 12:46:49 +0200
+In-Reply-To: <1374573823-27458-1-git-send-email-muhammad_shakeel@mentor.com>
+	(Muhammad Shakeel's message of "Tue, 23 Jul 2013 15:03:43 +0500")
+Message-ID: <ly4nblpn8m.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 03:37:14 -0700 (PDT)
-In-Reply-To: <CANwerB1WKKZAWVFR=-iaJOG9spud2_x04AueQGwEJiokL4RsRw@mail.gmail.com>
-References: <20130702114403.GA3285@jama>
-	<1372765759-19565-1-git-send-email-Martin.Jansa@gmail.com>
-	<CANwerB1s6_wAd8camgyQEGmXSO1TDQJozPbVLrzwfqtHazzHFw@mail.gmail.com>
-	<CANwerB1WKKZAWVFR=-iaJOG9spud2_x04AueQGwEJiokL4RsRw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jul 2013 11:37:14 +0100
-Message-ID: <CAJTo0LZT2rZJ=Dv9qrL04O9NYTXoKse7pkVw7L5RCx1TeMLtsA@mail.gmail.com>
-To: Jonathan Liu <net147@gmail.com>
-X-Gm-Message-State: ALoCoQkJT7SslvRxaZc9+urfwAqlLxaXPIyxu65ckgnwYmudK2FJnkFpcpJtz1p0OSNFk/i0mZ/f
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3] mesa: bump SRCREV in git recipe, refresh patches
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.5
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: "Shakeel,
+	Muhammad" <muhammad_shakeel-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org>
+Subject: Re: [PATCH] systemd: Remove init.d dir if systemd unit file is present and sysvinit not a distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +58,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 10:37:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Jul 2013 10:46:55 -0000
+Content-Type: text/plain
 
-On 19 July 2013 05:42, Jonathan Liu <net147@gmail.com> wrote:
-> On 19 July 2013 13:14, Jonathan Liu <net147@gmail.com> wrote:
->> I get the following with PACKAGECONFIG_append_pn-mesa = " gallium
->> gallium-llvmpipe":
->> WARNING: QA Issue: mesa: Files/directories were installed but not shipped
->>   /usr/lib/libXvMCsoftpipe.so
->>   /usr/lib/libXvMCsoftpipe.la
->
-> I wonder if the PV should be 9.2.0+git${SRCPV} instead of
-> 9.1.3+git${SRCPV} since the OpenGL version string (as reported by
-> glxinfo) is 2.1 Mesa 9.2.0-devel (git-5a925cc).
+"Shakeel, Muhammad"
+<muhammad_shakeel-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org> writes:
 
-No, because then it would be newer than the real 9.2.0. This is what ~
-is for, the correct version string would be 9.2.0~git${SRCPV} but
-sadly our rpm doesn't support ~ for some reason:
+> If systemd is supported DISTRO_FEATURE and sysvinit is not and also if
+> systemd_unitdir contains a service file(s) then no need to keep init.d scripts
+> for sysvinit compatibility.
+> ...
+> +            for filename in os.listdir(systemd_unitdir):
+> +                if filename.endswith(".service"):
 
-| error: line 3: invalid tag value("^[A-Za-z0-9+._]+$") Version:
-Version: 3.0~git0+f5678b4bb0
+why only .service?  Other systemd files (.socket, .mount, .path, ...)
+can also replace initscripts.
 
-I'm pretty sure RPM supports this upstream and there's a bug for this
-already: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3976.  If
-anyone who knows RPM well wants to fix this it would be much
-appreciated!
 
-Ross
+Enrico
 
