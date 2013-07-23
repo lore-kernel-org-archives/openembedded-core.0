@@ -1,35 +1,24 @@
-Return-Path: <djszapi@archlinux.us>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DAC46077D
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 101FF60842
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 22:45:27 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id fa1so3568089pad.19
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 15:45:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:sender:date:x-google-sender-auth:message-id:subject
-	:from:to:content-type:x-gm-message-state;
-	bh=49DK6hcpUBJ8DOibs/oAFFY6lTTwQP/Fn5n40/B0HrQ=;
-	b=M9nVppnPD+wDUQPFMy0Ak+IXCWAbfFu6rZaCQGTm9sOkR2CNpoR+d/YIHsl3SYE4y7
-	Le+1lM1W0ttVgO54Y7M080UcCfM45xupYPTl2DkG3SzbYQmp8Ya34WQ2p2dTaCJytuJe
-	C98VJhTcp2f+hrNCod0vCKb3vEg84OoNXSWcTGQZpjYuswuXh6nB0pl6158UhIUqInJE
-	O8OSjvBKK+Dx89wM7cANiO3mXExGpUajHn8C0iDP87vfP+VfOU36BlO/uyp6FBfHCONL
-	b5fAk9/u3koJgwMEYoaCbeL3MLhBN0nOgK9yt2/WCzRz/XSVWGTKlxTFFYhs8XxOT8Um
-	xMpg==
-MIME-Version: 1.0
-X-Received: by 10.66.119.35 with SMTP id kr3mr40351522pab.149.1374619528113;
-	Tue, 23 Jul 2013 15:45:28 -0700 (PDT)
-Sender: djszapi@archlinux.us
-Received: by 10.70.37.237 with HTTP; Tue, 23 Jul 2013 15:45:28 -0700 (PDT)
-Date: Tue, 23 Jul 2013 23:45:28 +0100
-X-Google-Sender-Auth: Cg3O9ytCevTEzoux-HWuFWbESaA
-Message-ID: <CAOMwXhN0nCYe3UZccDpCYZPLHJ1sQiq5cMF=Wb8WSOCq3Pmdiw@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
+	Tue, 23 Jul 2013 23:54:00 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 23 Jul 2013 16:53:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,731,1367996400"; d="scan'208";a="335789704"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.5])
+	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2013 16:53:59 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-X-Gm-Message-State: ALoCoQmLPcSPZ+xarTZxwsgLau73FD4bSXq1sgA/ouRlCJ1AcCDfZIzKS1v4sW+/1ivOLLyorGf4
-Subject: Doc: external toolchain
+Date: Tue, 23 Jul 2013 16:53:55 -0700
+Message-Id: <d2054859a16da94477f560a7aaa295de9d9cd8aa.1374622196.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+In-Reply-To: <cover.1374622196.git.sgw@linux.intel.com>
+References: <cover.1374622196.git.sgw@linux.intel.com>
+In-Reply-To: <cover.1374622196.git.sgw@linux.intel.com>
+References: <cover.1374622196.git.sgw@linux.intel.com>
+Subject: [PATCH 1/3] consolekit: Update to 0.4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,52 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 22:45:27 -0000
-Content-Type: multipart/alternative; boundary=047d7b0721caacc2c304e2358c30
+X-List-Received-Date: Tue, 23 Jul 2013 23:54:00 -0000
 
---047d7b0721caacc2c304e2358c30
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ .../consolekit/{consolekit_0.4.5.bb => consolekit_0.4.6.bb}       | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/consolekit/{consolekit_0.4.5.bb => consolekit_0.4.6.bb} (90%)
 
-Dear gents and ladies,
+diff --git a/meta/recipes-support/consolekit/consolekit_0.4.5.bb b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+similarity index 90%
+rename from meta/recipes-support/consolekit/consolekit_0.4.5.bb
+rename to meta/recipes-support/consolekit/consolekit_0.4.6.bb
+index 7d66b39..63da028 100644
+--- a/meta/recipes-support/consolekit/consolekit_0.4.5.bb
++++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
+@@ -2,8 +2,6 @@ DESCRIPTION = "ConsoleKit is a framework for defining and tracking users, login
+ HOMEPAGE="http://www.freedesktop.org/wiki/Software/ConsoleKit"
+ BUGTRACKER="https://bugs.freedesktop.org/buglist.cgi?query_format=specific&product=ConsoleKit"
+ 
+-PR = "r10"
+-
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://src/main.c;endline=21;md5=0a994e09769780220163255d8f9071c3"
+@@ -13,11 +11,11 @@ RDEPENDS_${PN} += "base-files"
+ 
+ inherit autotools pkgconfig
+ 
+-SRC_URI = "http://www.freedesktop.org/software/ConsoleKit/dist/ConsoleKit-${PV}.tar.bz2 \
++SRC_URI = "http://www.freedesktop.org/software/ConsoleKit/dist/ConsoleKit-${PV}.tar.xz \
+            file://sepbuildfix.patch"
+-SRC_URI[md5sum] = "f2657f93761206922d558471a936fbc3"
+-SRC_URI[sha256sum] = "43e0780c53078e125efcec3f847e484dc3533e49b408ce6a0ab1b223686b9c38"
+ 
++SRC_URI[md5sum] = "611792b4d616253a5bdec9175f8b7678"
++SRC_URI[sha256sum] = "b41d17e06f80059589fbeefe96ad07bcc564c49e65516da1caf975146475565c"
+ 
+ S = "${WORKDIR}/ConsoleKit-${PV}"
+ 
+-- 
+1.8.1.4
 
-it would be nice to get some documentation about this subject. There is
-only one presentation with only a few short slides about the topic:
-http://events.linuxfoundation.org/images/stories/slides/elc2013_denys.pdf
 
-I am now having some issues currently, and hard time to figure out what is
-going on. Note, this thread is not about getting help with that particular
-issue, but encouraging you to document this, for me, fundamental feature
-more thoroughly.
-
-Thank you for your understanding.
-
-Many thanks,
-Laszlo
-
---047d7b0721caacc2c304e2358c30
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Dear gents and ladies,<div><br></div><div>it would be nice=
- to get some documentation about this subject. There is only one presentati=
-on with only a few short slides about the topic:=A0<a href=3D"http://events=
-.linuxfoundation.org/images/stories/slides/elc2013_denys.pdf" style=3D"font=
--size:13px;font-family:arial,sans-serif;color:rgb(0,0,204)">http://events.l=
-inuxfoundation.org/images/stories/slides/elc2013_denys.pdf</a></div>
-<div><br></div><div><font color=3D"#000000" face=3D"arial, sans-serif">I am=
- now having some issues currently, and hard time to figure out what is goin=
-g on. Note, this thread is not about getting help with that particular issu=
-e, but encouraging you to document this, for me, fundamental feature more t=
-horoughly.</font></div>
-<div><font color=3D"#000000" face=3D"arial, sans-serif"><br></font></div><d=
-iv><font color=3D"#000000" face=3D"arial, sans-serif">Thank you for your un=
-derstanding.</font></div><div><font color=3D"#000000" face=3D"arial, sans-s=
-erif"><br>
-</font></div><div><font color=3D"#000000" face=3D"arial, sans-serif">Many t=
-hanks,</font></div><div><font color=3D"#000000" face=3D"arial, sans-serif">=
-Laszlo</font></div><div><span style=3D"color:rgb(102,102,102);font-family:a=
-rial,sans-serif;line-height:15px;white-space:nowrap"><br>
-</span></div><div><span style=3D"color:rgb(102,102,102);font-family:arial,s=
-ans-serif;line-height:15px;white-space:nowrap"><br></span></div></div>
-
---047d7b0721caacc2c304e2358c30--
