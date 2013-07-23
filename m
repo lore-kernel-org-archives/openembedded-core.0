@@ -1,37 +1,38 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 054F16A886
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C717B6A549
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 11:26:13 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 23 Jul 2013 04:26:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,727,1367996400"; d="scan'208";a="369619961"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2013 04:26:12 -0700
-Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 23 Jul 2013 12:24:43 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.233]) with mapi id
-	14.03.0123.003; Tue, 23 Jul 2013 12:24:42 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] connman: upgrade to v1.16
-Thread-Index: AQHOhuTUHyV0mDaVhE6LOItHwPOb2plyDPGAgAATmmA=
-Date: Tue, 23 Jul 2013 11:24:41 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C0D0B0@IRSMSX105.ger.corp.intel.com>
-References: <1374502085-16914-1-git-send-email-cristian.iorga@intel.com>
-	<CAJTo0LaP8syHY_LMCcdFopi61T0XT7xZ_oUa6EO+VqNdHnD0TQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LaP8syHY_LMCcdFopi61T0XT7xZ_oUa6EO+VqNdHnD0TQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Tue, 23 Jul 2013 12:43:56 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id b57so4449150eek.22
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jul 2013 05:43:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=X9+VC3VPHvvVSrWSOvzuNtrYMNdcUHhLJtk1BFj4DIs=;
+	b=1DqjmMdciSunS3h2xkD3MreyCKRa39FJGVRQp3eZPGpL1JkGXAunYVo6T+RA237M1Q
+	Gav45NB5av1cshTrSJD+p4ZaBVr6aMFpvtHXhGfH9XOv23fvbqzMhsVTd7bNMyaDIF1i
+	OIrgwTPLYwsdsx0rKxxPEF3CL82VCVpd8ZLs7lnVpZvJevO0FSdZnR3JLXPSHohloCuc
+	qmSoUQMe0k9BZ89c3EXz6+VAc6E7SdB0y+8j1C5a/GSrgLIm0ns9qPn5gjZKbEKQeHCc
+	X4uzDJEioenooWgcwRtGRE0jnCC6KSmrMyC1Vyi0fXAE6dnn80PQDHmRmkhzLhqzSNsY
+	rObg==
+X-Received: by 10.14.99.71 with SMTP id w47mr32707651eef.140.1374583437076;
+	Tue, 23 Jul 2013 05:43:57 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	n42sm58368176eeh.15.2013.07.23.05.43.55 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 23 Jul 2013 05:43:56 -0700 (PDT)
+Date: Tue, 23 Jul 2013 14:44:18 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Alex DAMIAN <alexandru.damian@intel.com>
+Message-ID: <20130723124418.GL9527@jama>
+References: <1374577279-21342-1-git-send-email-alexandru.damian@intel.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: upgrade to v1.16
+In-Reply-To: <1374577279-21342-1-git-send-email-alexandru.damian@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] weston: add harfbuzz dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,19 +45,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 11:26:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 23 Jul 2013 12:43:57 -0000
+X-Groupsio-MsgNum: 42311
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="CgTrtGVSVGoxAIFj"
+Content-Disposition: inline
 
-cWVtdXg4Ni02NCBjb3JlLWltYWdlLXNhdG8uDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dIA0KU2Vu
-dDogVHVlc2RheSwgSnVseSAyMywgMjAxMyAyOjE0IFBNDQpUbzogSW9yZ2EsIENyaXN0aWFuDQpD
-Yzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6
-IFtPRS1jb3JlXSBbUEFUQ0hdIGNvbm5tYW46IHVwZ3JhZGUgdG8gdjEuMTYNCg0KT24gMjIgSnVs
-eSAyMDEzIDE1OjA4LCBDcmlzdGlhbiBJb3JnYSA8Y3Jpc3RpYW4uaW9yZ2FAaW50ZWwuY29tPiB3
-cm90ZToNCj4gaW5ldC1maXgtaXAtY2xlYW51cC1mdW5jdGlvbnMucGF0Y2ggbm8gbG9uZ2VyIG5l
-ZGRlZDsgaW5jbHVkZWQgaW4gDQo+IHVwc3RyZWFtLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBDcmlz
-dGlhbiBJb3JnYSA8Y3Jpc3RpYW4uaW9yZ2FAaW50ZWwuY29tPg0KDQpJbiB3aGF0IEJTUHMgd2Fz
-IHRoaXMgdGVzdGVkIGluPw0KDQpSb3NzDQo=
+--CgTrtGVSVGoxAIFj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Jul 23, 2013 at 12:01:19PM +0100, Alex DAMIAN wrote:
+> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+>=20
+> Weston 1.1.0 has a build time dependency on libharfbuzz,
+> so we add it.
+
+I don't see that dependency in weston/master repo, are you sure it isn't
+pulled by cairo/pango?
+
+>=20
+> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
+> ---
+>  meta/recipes-graphics/wayland/weston_1.1.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes=
+-graphics/wayland/weston_1.1.0.bb
+> index 7327b98..e324134 100644
+> --- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
+> +++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
+> @@ -18,7 +18,7 @@ SRC_URI[sha256sum] =3D "e7715d2c731f77a729c994a599ffdae=
+bac1307b2dd9336136706869fa5
+>  inherit autotools pkgconfig useradd
+> =20
+>  DEPENDS =3D "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+> -DEPENDS +=3D "wayland mesa virtual/egl"
+> +DEPENDS +=3D "wayland mesa virtual/egl harfbuzz"
+> =20
+>  EXTRA_OECONF =3D "--disable-android-compositor \
+>                  --enable-setuid-install \
+> --=20
+> 1.8.1.2
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--CgTrtGVSVGoxAIFj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlHueqIACgkQN1Ujt2V2gBw0JQCffSKTYRhPhHQLve2F5lbkXY/M
+GvMAn00meenC7mP09J5ZRZPoz4Z2Fmxb
+=EJxU
+-----END PGP SIGNATURE-----
+
+--CgTrtGVSVGoxAIFj--
