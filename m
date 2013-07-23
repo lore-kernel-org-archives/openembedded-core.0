@@ -1,29 +1,46 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B6B60FEE
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id A20DB6077D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 05:27:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6N5RARC014863
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Jul 2013 22:27:11 -0700 (PDT)
-Received: from [128.224.162.250] (128.224.162.250) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 22 Jul 2013 22:27:09 -0700
-Message-ID: <51EE142C.9090701@windriver.com>
-Date: Tue, 23 Jul 2013 13:27:08 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	Tue, 23 Jul 2013 06:23:57 +0000 (UTC)
+Received: by mail-ea0-f176.google.com with SMTP id z15so4256117ead.35
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jul 2013 23:23:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=TuF+czmU3qoeORlsX/+CU2bT+Bq65pjPUMdE5qjLafk=;
+	b=BbPtKRcGXFo6Utmhn5wH49hhKDX4rJub8zm5pDE//YS+HLH9NYYLtbdeOYX0lhrJpw
+	i9kmmMyiL5HHdLCWtcPuIYd2xameFlWc1LEoGQ1pckrTk7r8S8wb14SzIKjhRljU4VLm
+	IY8C0Oth3l4D9kz0zJA1sdRLAIaBd5WN7fkArRN/FXKEQzE1ztcmZmjAZBw9Zp/p21/x
+	X43FKuvg0id/9+17vwBExdw0MKnti4FTMl/Lc6rFXXBkOO7p2bSPXvefu3nl3bzOXBPd
+	7NAePQLziQuLF3H0EGNhMSFTRZRmN2A4OUmQQzIx7/5aBV18qK6RvlvN9k78RaoH44Rx
+	JXIA==
+X-Received: by 10.15.35.129 with SMTP id g1mr31229717eev.2.1374560637519;
+	Mon, 22 Jul 2013 23:23:57 -0700 (PDT)
+Received: from fensuse.internal.dresearch-fe.de (zk223.dresearch-fe.de.
+	[217.92.177.116])
+	by mx.google.com with ESMTPSA id o5sm56253858eef.5.2013.07.22.23.23.55
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 22 Jul 2013 23:23:56 -0700 (PDT)
+Message-ID: <51EE217A.4040709@dresearch-fe.de>
+Date: Tue, 23 Jul 2013 08:23:54 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1374480160.git.jackie.huang@windriver.com>
-	<f3bb321c76f2ed9b0b09cb283e4fdd7b0b37847a.1374480160.git.jackie.huang@windriver.com>
-	<51ED7362.4080507@linux.intel.com>
-In-Reply-To: <51ED7362.4080507@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] dbus: remove build host test in configure script
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <51ECCF5C.2020505@dresearch-fe.de> <6366141.Q5aULPr4OG@helios>
+	<51ED09DD.7040008@dresearch-fe.de> <3148065.skdr24gULv@helios>
+In-Reply-To: <3148065.skdr24gULv@helios>
+X-Enigmail-Version: 1.5.1
+X-Gm-Message-State: ALoCoQldkBmQhcPWeS0RE3KTLJ0gQd/ddIYTIFOJ31SPPuu+aTEtQ4XuFxAVNC5YZp1cozMh4amj
+Subject: Re: SRC_URI and latest HEAD revision with git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,133 +53,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 05:27:12 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Jul 2013 06:23:58 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
-
-
-On 7/23/2013 2:01 AM, Saul Wold wrote:
-> On 07/22/2013 01:14 AM, jackie.huang@windriver.com wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
+On 22.07.2013 13:08, Paul Eggleton wrote:
+> On Monday 22 July 2013 12:30:53 Steffen Sledz wrote:
+>> On 22.07.2013 11:51, Paul Eggleton wrote:
+>>> On Monday 22 July 2013 11:46:23 Steffen Sledz wrote:
+>>>> On 22.07.2013 11:01, Nicolas Dechesne wrote:
+>>>>> On Mon, Jul 22, 2013 at 8:21 AM, Steffen Sledz <sledz@dresearch-fe.de
+>>>>>
+>>>>> <mailto:sledz@dresearch-fe.de>> wrote:
+>>>>>> After being OE abstinent for some months i'd like to ask what is the
+>>>>>> current suggested method for recipes building from the HEAD revision of
+>>>>>> a git repository (we need this for continuous integration).
+>>>>>>
+>>>>>> I read some RFC's in the ml about PKGV/PKGR stuff, but i miss a final
+>>>>>> decision, documentation and a good example.>
+>>>>>
+>>>>> you can use ${AUTOREV} for this purpose. You can look at poky-bleeding
+>>>>> distro config for such an example.
+>>>>>
+>>>>> e.g.
+>>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf/dist
+>>>>> r
+>>>>> o/include/poky-floating-revisions.inc
+>>>>
+>>>> Hmmmm? This doesn't seem the work.
+>>>>
+>>>> Here's what i tried in my recipe:
+>>>>
+>>>> ------------> snip <------------
+>>>> PR = "r3"
+>>>>
+>>>> SRCREV="${AUTOREV}"
+>>>> PV = "gitr${SRCPV}"
+>>>> ------------> snip <------------
+>>>>
+>>>> But i get package versions like
+>>>>
+>>>>   gitr0+53b64e717404d282d0c58b7fa4a4e74ab2ca81ba-r3
+>>>>
+>>>> where SRCPB is always 0. :(
+>>>>
+>>>> A bit more description and/or a complete example would be very helpful.
+>>>
+>>> If you want these to increment now AIUI you need to be using the PR
+>>> server:
+>>>
+>>> https://wiki.yoctoproject.org/wiki/PR_Service
 >>
->> The dbus build tests the build host to detect what initscript
->> environment it expects.  Remove the test and set it to "redhat"
->> unconditionally as the oe-core initscript has a redhat-style pid file
->> path.
+>> This seems to be the thing we need.
 >>
->> Signed-off-by: Andy Ross <andy.ross@windriver.com
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   meta/recipes-core/dbus/dbus-1.6.8/os-test.patch |   35
->> +++++++++++++++++++++++
->
-> This file should be in dbus-1.6.10, please rebase against master.
-
-rebased:
-
-The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
-
-   curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
-
-are available in the git repository at:
-   git://git.pokylinux.org/poky-contrib jhuang0/r_bbappend_dbus_0723_0
- 
-http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_bbappend_dbus_0723_0
-
-Jackie Huang (2):
-   dbus: remove build host test in configure script
-   dbus: add -o option into start-stop-daemon arguments
-
-  meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init   |    4 +-
-  meta/recipes-core/dbus/dbus-1.6.10/os-test.patch |   35 
-++++++++++++++++++++++
-  meta/recipes-core/dbus/dbus.inc                  |    4 ++-
-  3 files changed, 40 insertions(+), 3 deletions(-)
-  create mode 100644 meta/recipes-core/dbus/dbus-1.6.10/os-test.patch
-
-
-Thanks,
-Jackie
-
->
-> Thanks
->      Sau!
->
->>   meta/recipes-core/dbus/dbus.inc                 |    4 ++-
->>   2 files changed, 38 insertions(+), 1 deletions(-)
->>   create mode 100644 meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
+>> But the description is not very helpful from the view of a recipe
+>> maintainer. It describes mostly the server part.
 >>
->> diff --git a/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
->> b/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
->> new file mode 100644
->> index 0000000..79554b1
->> --- /dev/null
->> +++ b/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
->> @@ -0,0 +1,35 @@
->> +dbus: remove build host test in configure script
->> +
->> +The dbus build tests the build host to detect what initscript
->> +environment it expects.  Remove the test and set it to "redhat"
->> +unconditionally as the oe-core initscript has a redhat-style pid file
->> +path.
->> +
->> +Signed-off-by: Andy Ross <andy.ross@windriver.com>
->> +Upstream-Status: innappropriate [embedded]
->> +
->> +diff -u a/configure.ac b/configure.ac
->> +--- a/configure.ac    2012-08-28 11:23:43.040609874 -0700
->> ++++ b/configure.ac    2012-08-28 11:54:25.602913945 -0700
->> +@@ -1348,19 +1348,8 @@
->> + AS_AC_EXPAND(EXPANDED_LIBEXECDIR, "$libexecdir")
->> + AS_AC_EXPAND(EXPANDED_DATADIR, "$datadir")
->> +
->> +-#### Check our operating system
->> +-operating_system=unknown
->> +-if test -f /etc/redhat-release || test -f
->> $EXPANDED_SYSCONFDIR/redhat-release ; then
->> +-   operating_system=redhat
->> +-fi
->> +-
->> +-if test -f /etc/slackware-version || test -f
->> $EXPANDED_SYSCONFDIR/slackware-version ; then
->> +-   operating_system=slackware
->> +-fi
->> +-
->> +-if test -f /usr/bin/cygwin1.dll || test -f
->> $EXPANDED_BINDIR/cygwin1.dll ; then
->> +-   operating_system=cygwin
->> +-fi
->> ++#### Build host test removed from upstream code, openembedded
->> initscript is redhat-like:
->> ++operating_system=redhat
->> +
->> + #### Sort out init scripts
->> +
->> diff --git a/meta/recipes-core/dbus/dbus.inc
->> b/meta/recipes-core/dbus/dbus.inc
->> index b07aefa..580a936 100644
->> --- a/meta/recipes-core/dbus/dbus.inc
->> +++ b/meta/recipes-core/dbus/dbus.inc
->> @@ -16,7 +16,9 @@ INC_PR = "r6"
->>
->>   SRC_URI =
->> "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
->>              file://tmpdir.patch; \
->> -           file://dbus-1.init"
->> +           file://dbus-1.init \
->> +           file://os-test.patch \
->> +"
->>
->>   inherit useradd autotools pkgconfig gettext update-rc.d
->>
->>
->
+>> * What do i have to write in my recipe?
+> 
+> Nothing special. If you used SRCPV in PV where you are using an SCM in 
+> SRC_URI, that should be enough. The integer at the start of SRCREV will be 
+> incremented automatically if the revision changes, and if it doesn't but other 
+> values within the recipe change then PR will automatically be incremented 
+> above the initial value set in the recipe.
+> 
+>> * What modifications in bitbake.conf, local.conf, ... are necessary?
+> 
+> I believe as described in the page I linked above you should only need to set 
+> PRSERV_HOST.
+
+You're right. This works. ;-)
+
+I've two points more:
+* The Wiki-Page mentions the bitbake-prserv-tool. Where can this be found? It does not seem to be part of the bitbake repo.
+* Does anyone have systemd configs or sysvinit scripts for handling the bitbake-prserv?
+
+Cheers,
+Steffen
 
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
