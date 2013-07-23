@@ -1,20 +1,26 @@
-Return-Path: <ionutx.radu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8089661EEB
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 58B526A464
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 08:03:38 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2013 01:01:04 -0700
+	Tue, 23 Jul 2013 08:20:18 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 23 Jul 2013 01:20:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,725,1367996400"; d="scan'208";a="369551305"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2013 01:03:37 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jul 2013 11:06:04 +0300
-Message-Id: <cover.1374566570.git.ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [[PATCH v2] 0/1] fix traceback when inheriting useradd but not setting USERADD_PARAM or GROUPADD_PARAM
+X-IronPort-AV: E=Sophos;i="4.89,725,1367996400"; d="scan'208";a="335422939"
+Received: from unknown (HELO helios.localnet) ([10.252.122.115])
+	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2013 01:20:17 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Date: Tue, 23 Jul 2013 09:20:16 +0100
+Message-ID: <6740877.OeitjjUtks@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <51EE217A.4040709@dresearch-fe.de>
+References: <51ECCF5C.2020505@dresearch-fe.de> <3148065.skdr24gULv@helios>
+	<51EE217A.4040709@dresearch-fe.de>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: SRC_URI and latest HEAD revision with git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,27 +33,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 08:03:39 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 08:20:18 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Changes in V2: Commit message has been changed
+On Tuesday 23 July 2013 08:23:54 Steffen Sledz wrote:
+> On 22.07.2013 13:08, Paul Eggleton wrote:
+> > On Monday 22 July 2013 12:30:53 Steffen Sledz wrote:
+> >> On 22.07.2013 11:51, Paul Eggleton wrote:
+> >>> If you want these to increment now AIUI you need to be using the PR
+> >>> server:
+> >>> 
+> >>> https://wiki.yoctoproject.org/wiki/PR_Service
+> >> 
+> >> This seems to be the thing we need.
+> >> 
+> >> But the description is not very helpful from the view of a recipe
+> >> maintainer. It describes mostly the server part.
+> >> 
+> >> * What do i have to write in my recipe?
+> > 
+> > Nothing special. If you used SRCPV in PV where you are using an SCM in
+> > SRC_URI, that should be enough. The integer at the start of SRCREV will be
+> > incremented automatically if the revision changes, and if it doesn't but
+> > other values within the recipe change then PR will automatically be
+> > incremented above the initial value set in the recipe.
+> > 
+> >> * What modifications in bitbake.conf, local.conf, ... are necessary?
+> > 
+> > I believe as described in the page I linked above you should only need to
+> > set PRSERV_HOST.
+> 
+> You're right. This works. ;-)
+> 
+> I've two points more:
+> * The Wiki-Page mentions the bitbake-prserv-tool. Where can this be found?
 
-The following changes since commit 31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9:
+Perhaps confusingly it's part of OE-Core. I haven't looked at it to see if 
+there's anything OE-specific about it that meant it had to be there rather than 
+supplied with bitbake.
 
-  poky-tiny.conf: blacklist core-image-weston option (2013-07-18 21:26:58 +0100)
+> * Does anyone have systemd configs or sysvinit scripts for handling the
+> bitbake-prserv?
 
-are available in the git repository at:
+I don't, but perhaps others do.
 
-  git://git.yoctoproject.org/poky-contrib ionutx/work
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
-
-Ionut Radu (1):
-  useradd.bbclass: fix traceback when inheriting useradd but not
-    setting USERADD_PARAM or GROUPADD_PARAM
-
- meta/classes/useradd.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Cheers,
+Paul
 
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
