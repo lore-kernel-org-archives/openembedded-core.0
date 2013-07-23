@@ -1,38 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id F29786A886
+Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 7737A6AFFD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 10:13:57 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id ib11so3877199vcb.0
+	Tue, 23 Jul 2013 10:37:34 +0000 (UTC)
+Received: by mail-ve0-f179.google.com with SMTP id d10so5880264vea.24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 03:13:58 -0700 (PDT)
+	Tue, 23 Jul 2013 03:37:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=sdJJQhsZgN7AFFPK9SOUk8XsC+CVdnzXwHRKRHepTcU=;
-	b=N2yNfRGoNrj65cQrsJix8fjb0FSme6N5Qqu1xsRon1NdUdZzByyA3N+ZL5zlpRWE2s
-	mgmIddd6zwkrQYODXcqdpVRuIkZiuai3YMncBAZsQoKjG/rqhWSiH3TdbmwdRNkJwmrI
-	t9tbX+yv/kBz4FJQXrBR3YeNpJ81nrUo6elao0NztHfYjF4y609rKlTKj5OZQAiyDdI4
-	lw/R64nxLRHSngmTcQTRuqNmLaOoV1d9aORreB5u6UgXBR6jFUOsLh3p3BPnh91296Zf
-	5I452SqGzrEJKROtk7I/CV0HVpKpWWwT/xNz9orqOAjXEbWN3PNQ7ZiH/7uidQoXscfi
-	fvBg==
-X-Received: by 10.58.67.9 with SMTP id j9mr11103692vet.22.1374574438477; Tue,
-	23 Jul 2013 03:13:58 -0700 (PDT)
+	bh=AI40fSXZE47ea2fsmiAnnnGTXKRcsOla4WleDLkM/Fk=;
+	b=RWA/dIppaPPKEMFT3EmbBgtOBzUI11dvErrO4m/8tDIXi3QDo2SYKhLPcql0rSUS5C
+	eLiYldjtqxrOOeu1zRnKGlbigboXiP8EGgUiLJ0fXcQ5RFpxC1R455sr83l8Gp1uE1dr
+	2IJhOtb+4ChNWqwO/qqYY9U0BIqEkY5GB9J6ZxxSXtsQGwtI9aWc+rAiqxWiqDXNn7B/
+	SddHHs0iBgQla/iuwl70xHzrUU1rvfo22fI+ewgJ+gZ9CnZl/w3pfhYMputw6GqCsQYf
+	H/+7g1YgTts3Hgm/veJz6RsZejEqIdTdjSSQgduD8usiQqEjBtCbhnSrE3QjuWbcEsxF
+	wsCQ==
+X-Received: by 10.58.171.4 with SMTP id aq4mr10830659vec.26.1374575854623;
+	Tue, 23 Jul 2013 03:37:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 03:13:38 -0700 (PDT)
-In-Reply-To: <CAHt75b53sON+j4b5RfNEaZUgSj6-7MYjjkkFCF1wYVDOFCoLcA@mail.gmail.com>
-References: <cover.1374511663.git.sgw@linux.intel.com>
-	<CAJTo0LakgfLTuXy_9w+QuHo6cvafd3qaw4=EgCwyYKKTepkyeA@mail.gmail.com>
-	<CAHt75b53sON+j4b5RfNEaZUgSj6-7MYjjkkFCF1wYVDOFCoLcA@mail.gmail.com>
+Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 03:37:14 -0700 (PDT)
+In-Reply-To: <CANwerB1WKKZAWVFR=-iaJOG9spud2_x04AueQGwEJiokL4RsRw@mail.gmail.com>
+References: <20130702114403.GA3285@jama>
+	<1372765759-19565-1-git-send-email-Martin.Jansa@gmail.com>
+	<CANwerB1s6_wAd8camgyQEGmXSO1TDQJozPbVLrzwfqtHazzHFw@mail.gmail.com>
+	<CANwerB1WKKZAWVFR=-iaJOG9spud2_x04AueQGwEJiokL4RsRw@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jul 2013 11:13:38 +0100
-Message-ID: <CAJTo0LZKHymuhuoPOqz+m-p0BprZhSocH_HOtKd+g2b+pEJWYQ@mail.gmail.com>
-To: Daniel Nilsson <daniel@dnil.se>
-X-Gm-Message-State: ALoCoQkAeZ7VA3h735PdmvsFLET4UNul0ZiEhsUeA/yXkZTO0iXhIBxfxdOgO9CptOemT9tcifmW
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/27] Ready for Pull after final ACK
+Date: Tue, 23 Jul 2013 11:37:14 +0100
+Message-ID: <CAJTo0LZT2rZJ=Dv9qrL04O9NYTXoKse7pkVw7L5RCx1TeMLtsA@mail.gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+X-Gm-Message-State: ALoCoQkJT7SslvRxaZc9+urfwAqlLxaXPIyxu65ckgnwYmudK2FJnkFpcpJtz1p0OSNFk/i0mZ/f
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv3] mesa: bump SRCREV in git recipe, refresh patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,29 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 10:13:58 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 10:37:35 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 23 July 2013 11:07, Daniel Nilsson <daniel@dnil.se> wrote:
->> This is just going to hit us every time we upgrade the package, so if
->> we're going to maintain a non-upstreamed build system then can we a)
->> squash our patches to our patches and b) use a do_configure_prepend()
->> to inject PV into configure.ac?
+On 19 July 2013 05:42, Jonathan Liu <net147@gmail.com> wrote:
+> On 19 July 2013 13:14, Jonathan Liu <net147@gmail.com> wrote:
+>> I get the following with PACKAGECONFIG_append_pn-mesa = " gallium
+>> gallium-llvmpipe":
+>> WARNING: QA Issue: mesa: Files/directories were installed but not shipped
+>>   /usr/lib/libXvMCsoftpipe.so
+>>   /usr/lib/libXvMCsoftpipe.la
 >
-> Agreed, maintaining this in multiple places is not ideal. While still
-> learning in the area of OE-core I was not sure what a correct solution
-> to the problem would be, hence a "quick fix".
+> I wonder if the PV should be 9.2.0+git${SRCPV} instead of
+> 9.1.3+git${SRCPV} since the OpenGL version string (as reported by
+> glxinfo) is 2.1 Mesa 9.2.0-devel (git-5a925cc).
 
-If the patch has symbols such as #VERSION# and #LIBVERSION# then a
-do_configure_prepend() function can use sed to change those to the
-real numbers based on PV.
+No, because then it would be newer than the real 9.2.0. This is what ~
+is for, the correct version string would be 9.2.0~git${SRCPV} but
+sadly our rpm doesn't support ~ for some reason:
 
->> (oddly I can't see this patch on the oe-core list)
->
-> My bad, realized too late that the oe-core list was subscriber only so
-> my mail bounded.
+| error: line 3: invalid tag value("^[A-Za-z0-9+._]+$") Version:
+Version: 3.0~git0+f5678b4bb0
 
-Fair enough, glad that mystery was easily solved!
+I'm pretty sure RPM supports this upstream and there's a bug for this
+already: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3976.  If
+anyone who knows RPM well wants to fix this it would be much
+appreciated!
 
 Ross
 
