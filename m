@@ -1,25 +1,36 @@
-Return-Path: <ddalex@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C6266A9C4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
+	[209.85.212.42])
+	by mail.openembedded.org (Postfix) with ESMTP id BA4A26B1B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 11:01:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 23 Jul 2013 04:01:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,726,1367996400"; d="scan'208";a="369610291"
-Received: from adamian-desktop.isw.intel.com (HELO
-	adamian-desktop.rb.intel.com) ([10.237.224.34])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2013 04:01:21 -0700
-Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
-	id BF757560A52; Tue, 23 Jul 2013 12:01:20 +0100 (BST)
-From: Alex DAMIAN <alexandru.damian@intel.com>
-To: ross.burton@intel.com, sgw@linux.intel.com,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jul 2013 12:01:19 +0100
-Message-Id: <1374577279-21342-1-git-send-email-alexandru.damian@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
-Subject: [PATCH] weston: add harfbuzz dependency
+	Tue, 23 Jul 2013 11:14:27 +0000 (UTC)
+Received: by mail-vb0-f42.google.com with SMTP id i3so5469299vbh.29
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jul 2013 04:14:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=KMwaWpG3h49NtK6/zH2wcOlbns8sh98taeHn2/n1XB0=;
+	b=YBIwxcy4ZSTswTqgwB7tc955ItBRSAagPH46HzEktUvKcJNIIGZPErvnzsl9fjxk67
+	Mv7AlN1svq/nLQm5DQUsLT4DMXXwif+aWRhXkZkG+mXMVfm65UMDwRHS/1vabjU4qgwn
+	Wef3L8BQj513Oa5ipj8tv2HUDVpIDyjJNCRmmDQDjZe9HY5oq04Gzk5dDaBPUIxrA6dB
+	dOsL+uWu1lJwrQrTs24gGudcap9PPVemxdfYvLQGx3bmHy2AhpkvcKSDg7Y7YGX4OXBQ
+	cZI7EvkkTy2V1JUwZtA4YVJ9gHzd+6xq8A1+Csiz1sES0RQj3GwD+531iANwSDXKo1eZ
+	kQkw==
+X-Received: by 10.58.76.130 with SMTP id k2mr10866873vew.24.1374578067791;
+	Tue, 23 Jul 2013 04:14:27 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 04:14:07 -0700 (PDT)
+In-Reply-To: <1374502085-16914-1-git-send-email-cristian.iorga@intel.com>
+References: <1374502085-16914-1-git-send-email-cristian.iorga@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Jul 2013 12:14:07 +0100
+Message-ID: <CAJTo0LaP8syHY_LMCcdFopi61T0XT7xZ_oUa6EO+VqNdHnD0TQ@mail.gmail.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+X-Gm-Message-State: ALoCoQlGsWy0KCv0uLRPksi4UM/mu+P4Oax8q/sG8qSoM0BDrksQSVx5QZd35GdmAcGrtVAshLVh
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: upgrade to v1.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,32 +43,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 11:01:22 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 11:14:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On 22 July 2013 15:08, Cristian Iorga <cristian.iorga@intel.com> wrote:
+> inet-fix-ip-cleanup-functions.patch no longer nedded;
+> included in upstream.
+>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 
-Weston 1.1.0 has a build time dependency on libharfbuzz,
-so we add it.
+In what BSPs was this tested in?
 
-Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
----
- meta/recipes-graphics/wayland/weston_1.1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes-graphics/wayland/weston_1.1.0.bb
-index 7327b98..e324134 100644
---- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
-@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "e7715d2c731f77a729c994a599ffdaebac1307b2dd9336136706869fa5
- inherit autotools pkgconfig useradd
- 
- DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
--DEPENDS += "wayland mesa virtual/egl"
-+DEPENDS += "wayland mesa virtual/egl harfbuzz"
- 
- EXTRA_OECONF = "--disable-android-compositor \
-                 --enable-setuid-install \
--- 
-1.8.1.2
-
+Ross
 
