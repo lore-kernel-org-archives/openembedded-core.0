@@ -1,25 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 42BBE61EEB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6DC0361EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 09:33:12 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 Jul 2013 02:33:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,726,1367996400"; d="scan'208";a="335449780"
-Received: from unknown (HELO helios.localnet) ([10.252.122.115])
-	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2013 02:33:11 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-Date: Tue, 23 Jul 2013 10:33:10 +0100
-Message-ID: <4759105.uFzpf2uN4o@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
-References: <cover.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
+	Tue, 23 Jul 2013 09:45:51 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id hz10so1841554vcb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jul 2013 02:45:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=zOyQMoIR4JmWsvHnsDqF7F0g0WUPgI/25Sb9tIjJnr0=;
+	b=EyT5oo3dSJOxYYJxfMWwvVc7syADm8NMeFQ1vDCQltqB5eyHavIR8XQ3c/0KAs7Cul
+	8e1SUl1vAVDJQ41cCiBkPygeWL7/YXs6hCItWdRwhTLBg1jmWUIXK5pPqybz1OgNKtCR
+	D60/A857/zhioqVfiqgwALfwv1gpmWr7dsU+r35rGmYNABT6o6tfDuadjxa2x1LxiJpR
+	52xxS5kk3DLhWxRg0yTLBHG3ytug7L4Z4xWl6MJudgtlTfoH0UmCvGpWNxgXDXkN4vjY
+	1iqNNfBcshl2eQjDd27a+woPKCKRYJRLmA3zUYQm4dWnMtsaRFCsxkZqrZ0GHXGJNtt9
+	Q2Og==
+X-Received: by 10.52.158.136 with SMTP id wu8mr9044356vdb.33.1374572751813;
+	Tue, 23 Jul 2013 02:45:51 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/11] Add read PV into recipes
+Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 02:45:31 -0700 (PDT)
+In-Reply-To: <cover.1374511663.git.sgw@linux.intel.com>
+References: <cover.1374511663.git.sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Jul 2013 10:45:31 +0100
+Message-ID: <CAJTo0LakgfLTuXy_9w+QuHo6cvafd3qaw4=EgCwyYKKTepkyeA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQmBsFzPhD4OFgNob5lOlASpBion6TxwjnBXjnf7t69ZpHoDwvuZMY2AlZmd35MMBfTA6gYg
+Cc: Daniel Nilsson <daniel@dnil.se>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 00/27] Ready for Pull after final ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 09:33:12 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 23 Jul 2013 09:45:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Emilia,
+On 22 July 2013 18:12, Saul Wold <sgw@linux.intel.com> wrote:
+>   glew: Update GLEW version number in autotools patch
 
-On Thursday 18 July 2013 17:16:24 Emilia Ciobanu wrote:
-> Tested for backwards packages.
-> 
-> The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
-> 
->   lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib emac/pv_fixes
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=emac/pv_fixes
-> 
-> Emilia Ciobanu (11):
->   rt-tests: add PV variable into recipe
->   kmod: add PV variable into recipe
->   hwlatdetect: add PV variable into recipe
->   lttng-ust: add PV variable into recipe
->   connman-gnome: add PV variable into recipe
->   mtd-utils: add PV variable into recipe
->   update-rc.d: add PV variable into recipe
->   build-appliance-image: add PV variable into recipe
->   lttng-modules: Append _git to recipe name and update PV with git
->     token
->   chkconfig-alternatives-native: add git token in package version
->   docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
+This is just going to hit us every time we upgrade the package, so if
+we're going to maintain a non-upstreamed build system then can we a)
+squash our patches to our patches and b) use a do_configure_prepend()
+to inject PV into configure.ac?
 
-Reviewing these for the consolidated pull I noticed that one or two change the 
-filename to _git (or that's already the filename) whereas others don't. 
+(oddly I can't see this patch on the oe-core list)
 
-For recipes that do point to a git repository but are fetching the revision 
-tagged for a release, it is correct to say they have a fixed PV without 
-+git${SRCPV}, which is why we have done this. However, perhaps for consistency 
-and avoidance of future confusion if SRCREV is changed we should ignore this.
+Apart from that, Acked-By: Ross Burton <ross.burton@intel.com>
 
-When the recipe does set PV, it is probably best that the recipe's filename 
-doesn't contain a specific version otherwise it could be that it gets upgraded 
-later and the version in the filename no longer matches the new PV value. 
-Therefore I'd suggest If PV is being set and the recipe is fetching from a git 
-repository, we should rename the recipe to use _git.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
