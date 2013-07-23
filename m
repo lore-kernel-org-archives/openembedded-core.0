@@ -1,20 +1,34 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C32C76077D
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2946F6077D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 15:58:44 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2013 08:55:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,728,1367996400"; d="scan'208";a="350243412"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jul 2013 08:58:25 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jul 2013 19:00:08 +0300
-Message-Id: <1374595208-17628-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] pulseaudio: upgrade to v4.0
+	Tue, 23 Jul 2013 17:24:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6NHOeDj016840
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 23 Jul 2013 10:24:40 -0700 (PDT)
+Received: from [128.224.147.221] (128.224.147.221) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 23 Jul 2013 10:24:40 -0700
+Message-ID: <51EEBC54.1070907@windriver.com>
+Date: Tue, 23 Jul 2013 13:24:36 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Luo Zhenhua-B19537 <B19537@freescale.com>
+References: <1371560890-26412-1-git-send-email-zhenhua.luo@freescale.com>
+	<1371560653.20823.113.camel@ted>
+	<CA452391058F6D4E9715FB2C29D9312A015BA748@039-SN2MPN1-022.039d.mgd.msft.net>
+	<51CB6846.5020202@windriver.com>
+	<CA452391058F6D4E9715FB2C29D9312A015D31C8@039-SN2MPN1-022.039d.mgd.msft.net>
+In-Reply-To: <CA452391058F6D4E9715FB2C29D9312A015D31C8@039-SN2MPN1-022.039d.mgd.msft.net>
+X-Originating-IP: [128.224.147.221]
+Cc: Yu Zongchun-B40527 <B40527@freescale.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [patch v2] sanity.bbclass: correct the gcc_arch check logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,328 +41,369 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 15:58:45 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 17:24:43 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-pulseaudio_fix_for_x32.patch removed;
-included in upstream.
-general recipe clean-up (multiple src URI removed,
-inheritance grouping, dependency grouping).
-parallel make is now active (was disabled in version 0.9).
+On 13-07-05 04:23 AM, Luo Zhenhua-B19537 wrote:
+> Hi Randy,
+>
+> Any update? Can this patch be applied?
+>
+> Now "sed -e 's/if status != 0/if status == 0/' sanity.bbclass" is needed in my test script to ensure Yocto can work on our build server.
+>
+>
+> Best Regards,
+>
+> Zhenhua
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    9 +-
- .../pulseaudio/pulseaudio_fix_for_x32.patch        |  238 --------------------
- .../{pulseaudio_3.0.bb => pulseaudio_4.0.bb}       |   11 +-
- 3 files changed, 5 insertions(+), 253 deletions(-)
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch
- rename meta/recipes-multimedia/pulseaudio/{pulseaudio_3.0.bb => pulseaudio_4.0.bb} (51%)
+Zhenhua,
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index d4f66e6..d3f6d17 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -7,15 +7,13 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
-                     file://LGPL;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://src/modules/bluetooth/proximity-helper.c;beginline=1;endline=25;md5=e4cc710e40a4d900c2c294167bc58270 \
-                     file://src/pulsecore/resampler.h;beginline=4;endline=23;md5=c3d539b93f8c82a1780bfa3cfa544a95"
-+
- DEPENDS = "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
-+DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
- 
--SRC_URI = "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz \
--           file://gcc4-compile-fix.patch \
--           file://volatiles.04_pulse"
--
--inherit autotools pkgconfig useradd
-+inherit autotools pkgconfig useradd gettext perlnative
- 
- # *.desktop rules wont be generated during configure and build will fail
- # if using --disable-nls
-@@ -53,7 +51,6 @@ PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
- 
- EXTRA_OECONF_append_arm += "${@bb.utils.contains("TUNE_FEATURES", "neon", "", "--enable-neon-opt=no", d)}"
- 
--PARALLEL_MAKE = ""
- 
- export TARGET_PFPU = "${TARGET_FPU}"
- 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch
-deleted file mode 100644
-index b68ac5b..0000000
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.patch
-+++ /dev/null
-@@ -1,238 +0,0 @@
--Upstream-Status: Pending
--
--This patch makes assembly syntax compatible to the x32 toolchain.
--
--This fixes these kinds of compilations errors with x32 gcc.
--| pulsecore/svolume_mmx.c: Assembler messages:
--| pulsecore/svolume_mmx.c:107: Error: `(%esi,%rdi,4)' is not a valid base/index expression
--| pulsecore/svolume_mmx.c:135: Error: `(%esi,%rdi,4)' is not a valid base/index expression
--| pulsecore/svolume_mmx.c:161: Error: `(%esi,%rdi,4)' is not a valid base/index expression
--| pulsecore/svolume_mmx.c:162: Error: `8(%esi,%rdi,4)' is not a valid base/index expression
--| pulsecore/svolume_mmx.c:180: Error: `(%esi,%rdi,4)' is not a valid base/index expression
--| pulsecore/svolume_mmx.c:210: Error: `(%esi,%rdi,4)' is not a valid base/index expression
--| pulsecore/svolume_mmx.c:244: Error: `(%esi,%rdi,4)' is not a valid base/index expression
--| pulsecore/svolume_mmx.c:245: Error: `8(%esi,%rdi,4)' is not a valid base/index expression
--| make[3]: *** [libpulsecore_1.1_la-svolume_mmx.lo] Error 1
--
--Orignally these assembly lines are written for x86_64 ABI, now they are also compatible with
--X32 ABI.
--
--Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/03
--Index: pulseaudio-1.1/src/pulsecore/svolume_mmx.c
--===================================================================
----- pulseaudio-1.1.orig/src/pulsecore/svolume_mmx.c
--+++ pulseaudio-1.1/src/pulsecore/svolume_mmx.c
--@@ -107,7 +107,7 @@ static void pa_volume_s16ne_mmx(int16_t 
--         " test $1, %2                   \n\t" /* check for odd samples */
--         " je 2f                         \n\t"
-- 
---        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
--+        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
--         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
--         " movd %4, %%mm1                \n\t"
--         VOLUME_32x16 (%%mm1, %%mm0)
--@@ -122,7 +122,7 @@ static void pa_volume_s16ne_mmx(int16_t 
--         " je 4f                         \n\t"
-- 
--         "3:                             \n\t" /* do samples in groups of 2 */
---        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
--         VOLUME_32x16 (%%mm1, %%mm0)
--         " movd %%mm0, (%0)              \n\t" /*              .. | p1*v1 | p0*v0 | */
--@@ -135,8 +135,8 @@ static void pa_volume_s16ne_mmx(int16_t 
--         " je 6f                         \n\t"
-- 
--         "5:                             \n\t" /* do samples in groups of 4 */
---        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
---        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
--+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--+        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
--         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
--         " movd 4(%0), %%mm3             \n\t" /*              .. |   p3  |  p2   | */
--         VOLUME_32x16 (%%mm1, %%mm0)
--@@ -180,7 +180,7 @@ static void pa_volume_s16re_mmx(int16_t 
--         " test $1, %2                   \n\t" /* check for odd samples */
--         " je 2f                         \n\t"
-- 
---        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
--+        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
--         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
--         " rorw $8, %w4                  \n\t"
--         " movd %4, %%mm1                \n\t"
--@@ -197,7 +197,7 @@ static void pa_volume_s16re_mmx(int16_t 
--         " je 4f                         \n\t"
-- 
--         "3:                             \n\t" /* do samples in groups of 2 */
---        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
--         SWAP_16 (%%mm1)
--         VOLUME_32x16 (%%mm1, %%mm0)
--@@ -212,8 +212,8 @@ static void pa_volume_s16re_mmx(int16_t 
--         " je 6f                         \n\t"
-- 
--         "5:                             \n\t" /* do samples in groups of 4 */
---        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
---        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
--+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--+        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |  v2h  |  v2l  | */
--         " movd (%0), %%mm1              \n\t" /*              .. |   p1  |  p0   | */
--         " movd 4(%0), %%mm3             \n\t" /*              .. |   p3  |  p2   | */
--         SWAP_16_2 (%%mm1, %%mm3)
--Index: pulseaudio-1.1/src/pulsecore/svolume_sse.c
--===================================================================
----- pulseaudio-1.1.orig/src/pulsecore/svolume_sse.c
--+++ pulseaudio-1.1/src/pulsecore/svolume_sse.c
--@@ -92,7 +92,7 @@ static void pa_volume_s16ne_sse2(int16_t
--         " test $1, %2                   \n\t" /* check for odd samples */
--         " je 2f                         \n\t"
-- 
---        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
--+        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
--         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
--         " movd %4, %%xmm1               \n\t"
--         VOLUME_32x16 (%%xmm1, %%xmm0)
--@@ -107,7 +107,7 @@ static void pa_volume_s16ne_sse2(int16_t
--         " je 4f                         \n\t"
-- 
--         "3:                             \n\t" /* do samples in groups of 2 */
---        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--+        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--         " movd (%0), %%xmm1             \n\t" /*              .. |   p1  |  p0   | */
--         VOLUME_32x16 (%%xmm1, %%xmm0)
--         " movd %%xmm0, (%0)             \n\t" /*              .. | p1*v1 | p0*v0 | */
--@@ -123,7 +123,7 @@ static void pa_volume_s16ne_sse2(int16_t
--          * that the array is 16 bytes aligned, we probably have to do the odd values
--          * after this then. */
--         "5:                             \n\t" /* do samples in groups of 4 */
---        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
--+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
--         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
--         VOLUME_32x16 (%%xmm1, %%xmm0)
--         " movq %%xmm0, (%0)             \n\t" /*              .. | p3*v3 .. p0*v0 | */
--@@ -136,8 +136,8 @@ static void pa_volume_s16ne_sse2(int16_t
--         " je 8f                         \n\t"
-- 
--         "7:                             \n\t" /* do samples in groups of 8 */
---        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
---        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
--+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
--+        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
--         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
--         " movq 8(%0), %%xmm3            \n\t" /*              .. |   p7  ..  p4   | */
--         VOLUME_32x16 (%%xmm1, %%xmm0)
--@@ -176,7 +176,7 @@ static void pa_volume_s16re_sse2(int16_t
--         " test $1, %2                   \n\t" /* check for odd samples */
--         " je 2f                         \n\t"
-- 
---        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
--+        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
--         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
--         " rorw $8, %w4                  \n\t"
--         " movd %4, %%xmm1               \n\t"
--@@ -193,7 +193,7 @@ static void pa_volume_s16re_sse2(int16_t
--         " je 4f                         \n\t"
-- 
--         "3:                             \n\t" /* do samples in groups of 2 */
---        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--+        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |  v0h  |  v0l  | */
--         " movd (%0), %%xmm1             \n\t" /*              .. |   p1  |  p0   | */
--         SWAP_16 (%%xmm1)
--         VOLUME_32x16 (%%xmm1, %%xmm0)
--@@ -211,7 +211,7 @@ static void pa_volume_s16re_sse2(int16_t
--          * that the array is 16 bytes aligned, we probably have to do the odd values
--          * after this then. */
--         "5:                             \n\t" /* do samples in groups of 4 */
---        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
--+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
--         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
--         SWAP_16 (%%xmm1)
--         VOLUME_32x16 (%%xmm1, %%xmm0)
--@@ -226,8 +226,8 @@ static void pa_volume_s16re_sse2(int16_t
--         " je 8f                         \n\t"
-- 
--         "7:                             \n\t" /* do samples in groups of 8 */
---        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
---        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
--+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..  v0h  |  v0l  | */
--+        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..  v4h  |  v4l  | */
--         " movq (%0), %%xmm1             \n\t" /*              .. |   p3  ..  p0   | */
--         " movq 8(%0), %%xmm3            \n\t" /*              .. |   p7  ..  p4   | */
--         SWAP_16_2 (%%xmm1, %%xmm3)
--Index: pulseaudio-1.1/src/pulsecore/sconv_sse.c
--===================================================================
----- pulseaudio-1.1.orig/src/pulsecore/sconv_sse.c
--+++ pulseaudio-1.1/src/pulsecore/sconv_sse.c
--@@ -54,8 +54,8 @@ static void pa_sconv_s16le_from_f32ne_ss
--         " je 2f                         \n\t"
-- 
--         "1:                             \n\t"
---        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
---        " movups 16(%2, %0, 2), %%xmm2  \n\t"
--+        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
--+        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
--         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
--         " minps  %%xmm5, %%xmm2         \n\t"
--         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
--@@ -72,8 +72,8 @@ static void pa_sconv_s16le_from_f32ne_ss
-- 
--         " packssdw %%mm1, %%mm0         \n\t" /* pack parts */
--         " packssdw %%mm3, %%mm2         \n\t"
---        " movq     %%mm0, (%3, %0)      \n\t"
---        " movq    %%mm2, 8(%3, %0)     \n\t"
--+        " movq     %%mm0, (%q3, %0)      \n\t"
--+        " movq    %%mm2, 8(%q3, %0)     \n\t"
-- 
--         " add $16, %0                   \n\t"
--         " dec %1                        \n\t"
--@@ -85,12 +85,12 @@ static void pa_sconv_s16le_from_f32ne_ss
--         " je 4f                         \n\t"
-- 
--         "3:                             \n\t"
---        " movss (%2, %0, 2), %%xmm0     \n\t"
--+        " movss (%q2, %0, 2), %%xmm0     \n\t"
--         " minss  %%xmm5, %%xmm0         \n\t"
--         " maxss  %%xmm6, %%xmm0         \n\t"
--         " mulss  %%xmm7, %%xmm0         \n\t"
--         " cvtss2si %%xmm0, %4           \n\t"
---        " movw  %w4, (%3, %0)           \n\t"
--+        " movw  %w4, (%q3, %0)           \n\t"
--         " add $2, %0                    \n\t"
--         " dec %1                        \n\t"
--         " jne 3b                        \n\t"
--@@ -119,8 +119,8 @@ static void pa_sconv_s16le_from_f32ne_ss
--         " je 2f                         \n\t"
-- 
--         "1:                             \n\t"
---        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
---        " movups 16(%2, %0, 2), %%xmm2  \n\t"
--+        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
--+        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
--         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
--         " minps  %%xmm5, %%xmm2         \n\t"
--         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
--@@ -132,7 +132,7 @@ static void pa_sconv_s16le_from_f32ne_ss
--         " cvtps2dq %%xmm2, %%xmm2       \n\t"
-- 
--         " packssdw %%xmm2, %%xmm0       \n\t"
---        " movdqu   %%xmm0, (%3, %0)     \n\t"
--+        " movdqu   %%xmm0, (%q3, %0)     \n\t"
-- 
--         " add $16, %0                   \n\t"
--         " dec %1                        \n\t"
--@@ -144,12 +144,12 @@ static void pa_sconv_s16le_from_f32ne_ss
--         " je 4f                         \n\t"
-- 
--         "3:                             \n\t"
---        " movss (%2, %0, 2), %%xmm0     \n\t"
--+        " movss (%q2, %0, 2), %%xmm0     \n\t"
--         " minss  %%xmm5, %%xmm0         \n\t"
--         " maxss  %%xmm6, %%xmm0         \n\t"
--         " mulss  %%xmm7, %%xmm0         \n\t"
--         " cvtss2si %%xmm0, %4           \n\t"
---        " movw  %w4, (%3, %0)           \n\t"
--+        " movw  %w4, (%q3, %0)           \n\t"
--         " add $2, %0                    \n\t"
--         " dec %1                        \n\t"
--         " jne 3b                        \n\t"
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-similarity index 51%
-rename from meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
-rename to meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-index 3621452..b419c54 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
-@@ -1,19 +1,12 @@
- require pulseaudio.inc
- 
--PR = "r0"
--
--DEPENDS += "libjson gdbm speex libxml-parser-perl-native"
--
--inherit gettext perlnative
--
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}.tar.xz \
-            file://volatiles.04_pulse"
- 
--SRC_URI[md5sum] = "47fd7eca8479c757822bee68a1feef25"
--SRC_URI[sha256sum] = "c90bfda29605942d08e3e218ef10e3c660506a06651a616bfbb6a6df8392836d"
-+SRC_URI[md5sum] = "591f211db2790a7e4d222f2dc6858db3"
-+SRC_URI[sha256sum] = "35ceb36bb1822fe54f0b5e4863b4f486769fdfb8ff2111f01fd8778928f9cdae"
- 
- do_compile_prepend() {
-     mkdir -p ${S}/libltdl
-     cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
- }
--
+I apologize for the huge delay (vacation, day job, ...).
+
+Mark and I worked on this and he sent:
+
+    commit c126729b29822d3602c9c4fd9016cc79b6057fc5
+    Author: Mark Hatle <mark.hatle@windriver.com>
+    Date:   Mon Jul 15 15:10:26 2013 -0500
+
+        sanity.bbclass: Update gcc sanity check
+
+which seems like the right solution.
+
+// Randy
+>
+>
+>> -----Original Message-----
+>> From: Luo Zhenhua-B19537
+>> Sent: Thursday, June 27, 2013 12:04 PM
+>> To: 'Randy MacLeod'
+>> Cc: openembedded-core@lists.openembedded.org; Yu Zongchun-B40527; Hatle,
+>> Mark
+>> Subject: RE: [OE-core] [oe-core][patch v2] sanity.bbclass: correct the
+>> gcc_arch check logic
+>>
+>> Randy,
+>>
+>> Thanks for the details.
+>>
+>> Following is my trial result, FYI.
+>>
+>> [b19537@busy ~]$ lsb_release -a
+>> LSB Version:	:core-4.0-amd64:core-4.0-ia32:core-4.0-noarch:graphics-
+>> 4.0-amd64:graphics-4.0-ia32:graphics-4.0-noarch:printing-4.0-
+>> amd64:printing-4.0-ia32:printing-4.0-noarch
+>> Distributor ID:	CentOS
+>> Description:	CentOS release 5.9 (Final)
+>> Release:	5.9
+>> Codename:	Final
+>> [b19537@busy ~]$
+>> [b19537@busy ~]$ gcc -v
+>> Using built-in specs.
+>> Target: x86_64-redhat-linux
+>> Configured with: ../configure --prefix=/usr --mandir=/usr/share/man --
+>> infodir=/usr/share/info --enable-shared --enable-threads=posix --enable-
+>> checking=release --with-system-zlib --enable-__cxa_atexit --disable-
+>> libunwind-exceptions --enable-libgcj-multifile --enable-
+>> languages=c,c++,objc,obj-c++,java,fortran,ada --enable-java-awt=gtk --
+>> disable-dssi --disable-plugin --with-java-home=/usr/lib/jvm/java-1.4.2-
+>> gcj-1.4.2.0/jre --with-cpu=generic --host=x86_64-redhat-linux Thread
+>> model: posix gcc version 4.1.2 20080704 (Red Hat 4.1.2-54) [b19537@busy
+>> ~]$ [b19537@busy ~]$ cat gcc_test_new.c int main (){ volatile int atomic
+>> = 2; __sync_bool_compare_and_swap (&atomic, 2, 3); return 0;}
+>> [b19537@busy ~]$ [b19537@busy ~]$ gcc -o gcc_test_new gcc_test_new.c
+>> [b19537@busy ~]$ echo $?
+>> 0
+>> [b19537@busy ~]$ gcc -march=native  -o gcc_test_new gcc_test_new.c
+>> gcc_test_new.c:1: error: bad value (native) for -march= switch
+>> gcc_test_new.c:1: error: bad value (native) for -mtune= switch
+>> [b19537@busy ~]$ echo $?
+>> 1
+>> [b19537@busy ~]$
+>> [b19537@busy ~]$ gcc -march=x86-64  -o gcc_test_new gcc_test_new.c
+>> [b19537@busy ~]$ echo $?
+>> 0
+>> [b19537@busy ~]$
+>>
+>>
+>> Best Regards,
+>>
+>> Zhenhua
+>>
+>>
+>>> -----Original Message-----
+>>> From: Randy MacLeod [mailto:randy.macleod@windriver.com]
+>>> Sent: Thursday, June 27, 2013 6:17 AM
+>>> To: Luo Zhenhua-B19537
+>>> Cc: openembedded-core@lists.openembedded.org; Yu Zongchun-B40527;
+>>> Hatle, Mark
+>>> Subject: Re: [OE-core] [oe-core][patch v2] sanity.bbclass: correct the
+>>> gcc_arch check logic
+>>>
+>>> On 13-06-19 11:28 PM, Luo Zhenhua-B19537 wrote:
+>>>> Ping.
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: Luo Zhenhua-B19537
+>>>>> Sent: Tuesday, June 18, 2013 9:26 PM
+>>>>> To: 'Richard Purdie'; Randy MacLeod
+>>>>> Cc: openembedded-core@lists.openembedded.org; Yu Zongchun-B40527
+>>>>> Subject: RE: [OE-core] [oe-core][patch v2] sanity.bbclass: correct
+>>>>> the gcc_arch check logic
+>>>>>
+>>>>> Hi Randy,
+>>>>>
+>>>>> During the test on my machine with gcc-4.1.2, if -march=native is
+>>>>> not supported by host gcc, a non-zero value(256) returns, otherwise
+>>>>> 0
+>>> returns.
+>>>>>
+>>>>> [LOG]
+>>>>> status is 256
+>>>>> result is gcc_test.c:1: error: bad value (native) for -march=
+>>>>> switch
+>>>>> gcc_test.c:1: error: bad value (native) for -mtune= switch
+>>>>>
+>>>>> Please confirm if this is same as your result.
+>>>
+>>> Yes it's essentially the same.
+>>>
+>>> Mark decided that the previous test program that checked for the
+>>> existence of:
+>>>      __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4
+>>> would be better done as a check for:
+>>>      __sync_bool_compare_and_swap
+>>> I believe he got the idea from looking at glib's configure script.
+>>>
+>>> I'm working on properly checking on which value to give to march:
+>>> native,i686,x86-64. More tomorrow.
+>>>
+>>> // Randy
+>>>
+>>> Test results and prelim code if you are interested.
+>>>
+>>>
+>>> Here's how that test behaves with the old toolchain:
+>>>
+>>> ### What's the host setup?
+>>>
+>>> $ gcc --version
+>>> gcc (GCC) 4.1.2 20080704 (Red Hat 4.1.2-54) Copyright (C) 2006 Free
+>>> Software Foundation, Inc.
+>>> This is free software; see the source for copying conditions.  There
+>>> is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A
+>>> PARTICULAR PURPOSE.
+>>>
+>>> $ head -1 /etc/issue
+>>> CentOS release 5.9 (Final)
+>>>
+>>>
+>>> ### Old test and results: All options fail, returning a status of 1.
+>>>
+>>> $ gcc  -o /tmp/jj /tmp/gcc-jj.c
+>>> /tmp/gcc-jj.c: In function ‘main’:
+>>> /tmp/gcc-jj.c:1: error: ‘__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4’
+>>> undeclared (first use in this function)
+>>> /tmp/gcc-jj.c:1: error: (Each undeclared identifier is reported only
+>>> once
+>>> /tmp/gcc-jj.c:1: error: for each function it appears in.)
+>>>
+>>> $ echo $?
+>>> 1
+>>>
+>>>
+>>> $ gcc -march=native -o /tmp/jj /tmp/gcc-jj.c
+>>> /tmp/gcc-jj.c:1: error: bad value (native) for -march= switch
+>>> /tmp/gcc-jj.c:1: error: bad value (native) for -mtune= switch $ echo $?
+>>> 1
+>>>
+>>> $ gcc -march=i686 -o /tmp/jj /tmp/gcc-jj.c
+>>> /tmp/gcc-jj.c: In function ‘main’:
+>>> /tmp/gcc-jj.c:1: error: ‘__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4’
+>>> undeclared (first use in this function)
+>>> /tmp/gcc-jj.c:1: error: (Each undeclared identifier is reported only
+>>> once
+>>> /tmp/gcc-jj.c:1: error: for each function it appears in.) $ echo $?
+>>> 1
+>>>
+>>>
+>>>
+>>>
+>>> ### New test and results: -march=`mangle uname -m` works.
+>>>
+>>> $ cat /tmp/gcc_test.c
+>>> int main (){ volatile int atomic = 2; __sync_bool_compare_and_swap
+>>> (&atomic, 2, 3); return 0;}
+>>>
+>>>
+>>> $ gcc -o /tmp/jj /tmp/gcc_test.c
+>>> /tmp/ccEVX7IX.o: In function `main':
+>>> gcc_test.c:(.text+0x2f): undefined reference to
+>>> `__sync_bool_compare_and_swap_4'
+>>> collect2: ld returned 1 exit status
+>>> $ echo $?
+>>> 1
+>>>
+>>> $ gcc -march=native -o /tmp/jj /tmp/gcc_test.c
+>>> /tmp/gcc_test.c:1: error: bad value (native) for -march= switch
+>>> /tmp/gcc_test.c:1: error: bad value (native) for -mtune= switch $ echo
+>>> $?
+>>> 1
+>>>
+>>> $ uname -m
+>>> i686
+>>>
+>>> $ gcc -march=i686 -o /tmp/jj /tmp/gcc_test.c
+>>> rmacleod@yow-lpggp1 .../wrs/b/snty  $ echo $?
+>>> 0
+>>>
+>>> So you see that -march=native isn't useful for gcc-4.1.2 but
+>>> -march=`munged uname -m` is.
+>>>
+>>>
+>>> I'm in the middle of writing a more complete test but my lack of
+>>> python development is showing:
+>>>
+>>>
+>>> -# Checks if necessary to add option march to host gcc
+>>> +# Checks if necessary to add march option to host gcc
+>>>    def check_gcc_march(sanity_data):
+>>> -    result = False
+>>> +    result = ""
+>>>
+>>>        # Check if -march not in BUILD_CFLAGS
+>>>        if sanity_data.getVar("BUILD_CFLAGS",True).find("-march") < 0:
+>>> @@ -293,12 +293,22 @@ def check_gcc_march(sanity_data):
+>>>            # Check if GCC could work without march
+>>>            status,result = oe.utils.getstatusoutput("${BUILD_PREFIX}gcc
+>>> gcc_test.c -o gcc_test")
+>>>            if status != 0:
+>>> -            # Check if GCC could work with march
+>>> +            # Check if GCC could work with march=native
+>>>                status,result =
+>>> oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=native gcc_test.c
+>>> -o
+>>> gcc_test")
+>>> -            if status != 0:
+>>> -                result = True
+>>> +            if status == 0:
+>>> +                result = "native"
+>>>                else:
+>>> -                result = False
+>>> +                # Check if GCC could work with march=i686
+>>> +                status,result =
+>>> oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=x86-64 gcc_test.c
+>>> -o
+>>> gcc_test")
+>>> +                if status == 0:
+>>> +                    result = "x86-64"
+>>> +                else:
+>>> +                    # Check if GCC could work with march=i686
+>>> +                    status,result =
+>>> oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=i686 gcc_test.c -o
+>>> gcc_test")
+>>> +                    if status == 0:
+>>> +                        result = "i686"
+>>> +                    else:
+>>> +                        result = "none"
+>>>
+>>>
+>>> ...
+>>>
+>>> -    if check_gcc_march(d):
+>>> -        status.addresult("Your gcc version is older than 4.5, please
+>>> add the following param to local.conf\n \
+>>> -        BUILD_CFLAGS_append = \" -march=native\"\n")
+>>> +    gcc_march_option = check_gcc_march(d)
+>>> +    if gcc_march_option != "":
+>>> +        if gcc_march_option == "none":
+>>> +            status.addresult("Your gcc version is too old.\n \
+>>> +        else:
+>>> +            status.addresult("Your gcc version is older than 4.5,
+>>> please add the following param to local.conf\n \
+>>> +                   BUILD_CFLAGS_append = \" -march=%s\"\n",
+>>> gcc_march_option)
+>>>
+>>>
+>>>
+>>> I'll clean this up to actually work and probably use ${BUILD_ARCH}
+>>> instead of i686/x86-64.
+>>>
+>>> More tomorrow.
+>>>
+>>> // Randy
+>>>
+>>>>>
+>>>>>
+>>>>> Best Regards,
+>>>>>
+>>>>> Zhenhua
+>>>>>
+>>>>>
+>>>>>> -----Original Message-----
+>>>>>> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+>>>>>> Sent: Tuesday, June 18, 2013 9:04 PM
+>>>>>> To: Luo Zhenhua-B19537; Randy MacLeod
+>>>>>> Cc: openembedded-core@lists.openembedded.org; Yu Zongchun-B40527
+>>>>>> Subject: Re: [OE-core] [oe-core][patch v2] sanity.bbclass: correct
+>>> the
+>>>>>> gcc_arch check logic
+>>>>>>
+>>>>>> On Tue, 2013-06-18 at 21:08 +0800, Zhenhua Luo wrote:
+>>>>>>> The gcc arch check result is incorrect when gcc version is older
+>>>>>>> than
+>>>>>> 4.5.
+>>>>>>> Sanity checker requests user to add "-march=native" into
+>>>>>>> BUILD_CFLAGS even if the flag is not supported by host gcc.
+>>>>>>>
+>>>>>>> The status is 0 when -march=native is supported by host gcc, so
+>>>>>>> set result to True, otherwise set result to False.
+>>>>>>>
+>>>>>>> Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
+>>>>>>> ---
+>>>>>>>    meta/classes/sanity.bbclass |    2 +-
+>>>>>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>>
+>>>>>>> diff --git a/meta/classes/sanity.bbclass
+>>>>>>> b/meta/classes/sanity.bbclass index 3b9934b..ee09679 100644
+>>>>>>> --- a/meta/classes/sanity.bbclass
+>>>>>>> +++ b/meta/classes/sanity.bbclass
+>>>>>>> @@ -325,7 +325,7 @@ def check_gcc_march(sanity_data):
+>>>>>>>            if status != 0:
+>>>>>>>                # Check if GCC could work with march
+>>>>>>>                status,result =
+>>>>>> oe.utils.getstatusoutput("${BUILD_PREFIX}gcc -march=native
+>>>>>> gcc_test.c -o
+>>>>>> gcc_test")
+>>>>>>> -            if status != 0:
+>>>>>>> +            if status == 0:
+>>>>>>>                    result = True
+>>>>>>>                else:
+>>>>>>>                    result = False
+>>>>>>
+>>>>>> Can you and Randy please sort out what the correct value is here
+>>> please.
+>>>>>> This appears to directly revert
+>>>>>>
+>>> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ad276d7d89190c57a
+>>>>>> 152
+>>>>>> 867d7278ee18f784ff2c
+>>>>>>
+>>>>>> Cheers,
+>>>>>>
+>>>>>> Richard
+>>>>>>
+>>>>>>
+>>>>
+>>>
+>>>
+>>> --
+>>> # Randy MacLeod. SMTS, Linux, Wind River
+>>> Direct: 613.963.1350
+>
+
+
 -- 
-1.7.10.4
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
