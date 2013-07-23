@@ -1,36 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
-	[209.85.212.42])
-	by mail.openembedded.org (Postfix) with ESMTP id BA4A26B1B2
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 223496A464
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 11:14:27 +0000 (UTC)
-Received: by mail-vb0-f42.google.com with SMTP id i3so5469299vbh.29
+	Tue, 23 Jul 2013 11:24:07 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6NBO6eU028529
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 04:14:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=KMwaWpG3h49NtK6/zH2wcOlbns8sh98taeHn2/n1XB0=;
-	b=YBIwxcy4ZSTswTqgwB7tc955ItBRSAagPH46HzEktUvKcJNIIGZPErvnzsl9fjxk67
-	Mv7AlN1svq/nLQm5DQUsLT4DMXXwif+aWRhXkZkG+mXMVfm65UMDwRHS/1vabjU4qgwn
-	Wef3L8BQj513Oa5ipj8tv2HUDVpIDyjJNCRmmDQDjZe9HY5oq04Gzk5dDaBPUIxrA6dB
-	dOsL+uWu1lJwrQrTs24gGudcap9PPVemxdfYvLQGx3bmHy2AhpkvcKSDg7Y7YGX4OXBQ
-	cZI7EvkkTy2V1JUwZtA4YVJ9gHzd+6xq8A1+Csiz1sES0RQj3GwD+531iANwSDXKo1eZ
-	kQkw==
-X-Received: by 10.58.76.130 with SMTP id k2mr10866873vew.24.1374578067791;
-	Tue, 23 Jul 2013 04:14:27 -0700 (PDT)
+	Tue, 23 Jul 2013 04:24:07 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 23 Jul 2013 04:24:06 -0700
+Message-ID: <51EE67D5.9010709@windriver.com>
+Date: Tue, 23 Jul 2013 19:24:05 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 04:14:07 -0700 (PDT)
-In-Reply-To: <1374502085-16914-1-git-send-email-cristian.iorga@intel.com>
-References: <1374502085-16914-1-git-send-email-cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jul 2013 12:14:07 +0100
-Message-ID: <CAJTo0LaP8syHY_LMCcdFopi61T0XT7xZ_oUa6EO+VqNdHnD0TQ@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-X-Gm-Message-State: ALoCoQlGsWy0KCv0uLRPksi4UM/mu+P4Oax8q/sG8qSoM0BDrksQSVx5QZd35GdmAcGrtVAshLVh
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: upgrade to v1.16
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1374470729.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1374470729.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH 0/1] nss:fix postinst failed at rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,16 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 11:14:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Jul 2013 11:24:07 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 22 July 2013 15:08, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> inet-fix-ip-cleanup-functions.patch no longer nedded;
-> included in upstream.
+On 07/22/2013 01:45 PM, Hongxu Jia wrote:
+> Test Case:
 >
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> *On host:
+> 1) In local.conf
+>      IMAGE_INSTALL_append = " nss"
+> 2) Build core-image-sato
+>
+> *On target:
+> 1) Search checksum file
+> root@qemuarm:~# find /usr/lib/ -name "*.chk"
+> /usr/lib/libfreebl3.chk
+> /usr/lib/libnssdbm3.chk
+> /usr/lib/libsoftokn3.chk
+>
+> 2) Test for valid checksum files.
+> root@qemuarm:~# chktest /usr/lib/libfreebl3.so
+> SUCCESS
+> root@qemuarm:~# chktest /usr/lib/libnssdbm3.so
+> SUCCESS
+> root@qemuarm:~# chktest /usr/lib/libsoftokn3.so
+> SUCCESS
+>
+> //Hongxu
+>
+> The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
+>
+>    lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib hongxu/fix-nss-postinst
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-python-readlne
+Fix typo:
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-nss-postinst
 
-In what BSPs was this tested in?
+//Hongxu
+>
+> Hongxu Jia (1):
+>    nss:fix postinst failed at rootfs time
+>
+>   meta/recipes-support/nss/nss.inc | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+>
 
-Ross
 
