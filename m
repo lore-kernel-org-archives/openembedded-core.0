@@ -1,37 +1,17 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DC0361EEB
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 43FE461A45
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 09:45:51 +0000 (UTC)
-Received: by mail-vc0-f173.google.com with SMTP id hz10so1841554vcb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 02:45:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=zOyQMoIR4JmWsvHnsDqF7F0g0WUPgI/25Sb9tIjJnr0=;
-	b=EyT5oo3dSJOxYYJxfMWwvVc7syADm8NMeFQ1vDCQltqB5eyHavIR8XQ3c/0KAs7Cul
-	8e1SUl1vAVDJQ41cCiBkPygeWL7/YXs6hCItWdRwhTLBg1jmWUIXK5pPqybz1OgNKtCR
-	D60/A857/zhioqVfiqgwALfwv1gpmWr7dsU+r35rGmYNABT6o6tfDuadjxa2x1LxiJpR
-	52xxS5kk3DLhWxRg0yTLBHG3ytug7L4Z4xWl6MJudgtlTfoH0UmCvGpWNxgXDXkN4vjY
-	1iqNNfBcshl2eQjDd27a+woPKCKRYJRLmA3zUYQm4dWnMtsaRFCsxkZqrZ0GHXGJNtt9
-	Q2Og==
-X-Received: by 10.52.158.136 with SMTP id wu8mr9044356vdb.33.1374572751813;
-	Tue, 23 Jul 2013 02:45:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 02:45:31 -0700 (PDT)
-In-Reply-To: <cover.1374511663.git.sgw@linux.intel.com>
-References: <cover.1374511663.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jul 2013 10:45:31 +0100
-Message-ID: <CAJTo0LakgfLTuXy_9w+QuHo6cvafd3qaw4=EgCwyYKKTepkyeA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQmBsFzPhD4OFgNob5lOlASpBion6TxwjnBXjnf7t69ZpHoDwvuZMY2AlZmd35MMBfTA6gYg
-Cc: Daniel Nilsson <daniel@dnil.se>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/27] Ready for Pull after final ACK
+	Tue, 23 Jul 2013 10:03:01 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6NA2wGo007342; 
+	Tue, 23 Jul 2013 05:03:00 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jul 2013 15:03:43 +0500
+Message-Id: <1374573823-27458-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] systemd: Remove init.d dir if systemd unit file is present and sysvinit not a distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +24,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 09:45:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 23 Jul 2013 10:03:01 -0000
 
-On 22 July 2013 18:12, Saul Wold <sgw@linux.intel.com> wrote:
->   glew: Update GLEW version number in autotools patch
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-This is just going to hit us every time we upgrade the package, so if
-we're going to maintain a non-upstreamed build system then can we a)
-squash our patches to our patches and b) use a do_configure_prepend()
-to inject PV into configure.ac?
+If systemd is supported DISTRO_FEATURE and sysvinit is not and also if
+systemd_unitdir contains a service file(s) then no need to keep init.d scripts
+for sysvinit compatibility.
 
-(oddly I can't see this patch on the oe-core list)
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ meta/classes/systemd.bbclass |   19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-Apart from that, Acked-By: Ross Burton <ross.burton@intel.com>
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 9763faa..55f378e 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -170,3 +170,22 @@ python rm_systemd_unitdir (){
+             shutil.rmtree(systemd_unitdir)
+ }
+ do_install[postfuncs] += "rm_systemd_unitdir "
++
++python rm_sysvinit_initddir (){
++    import shutil
++    if ("systemd" in d.getVar("DISTRO_FEATURES", True).split() and
++        "sysvinit" not in d.getVar("DISTRO_FEATURES", True).split()):
++        service_file_exists = False
++        systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True), "system")
++        if os.path.exists(systemd_unitdir):
++            for filename in os.listdir(systemd_unitdir):
++                if filename.endswith(".service"):
++                    service_file_exists = True
++                    break
++
++        if service_file_exists:
++            sysv_initddir = oe.path.join(d.getVar("D", True), d.getVar('INIT_D_DIR', True))
++            if os.path.exists(sysv_initddir):
++                shutil.rmtree(sysv_initddir)
++}
++do_install[postfuncs] += "rm_sysvinit_initddir "
+-- 
+1.7.9.5
 
-Ross
 
