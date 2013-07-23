@@ -1,26 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 58B526A464
+	by mail.openembedded.org (Postfix) with ESMTP id 42BBE61EEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 08:20:18 +0000 (UTC)
+	Tue, 23 Jul 2013 09:33:12 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 Jul 2013 01:20:18 -0700
+	by azsmga102.ch.intel.com with ESMTP; 23 Jul 2013 02:33:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,725,1367996400"; d="scan'208";a="335422939"
+X-IronPort-AV: E=Sophos;i="4.89,726,1367996400"; d="scan'208";a="335449780"
 Received: from unknown (HELO helios.localnet) ([10.252.122.115])
-	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2013 01:20:17 -0700
+	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2013 02:33:11 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Date: Tue, 23 Jul 2013 09:20:16 +0100
-Message-ID: <6740877.OeitjjUtks@helios>
+To: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+Date: Tue, 23 Jul 2013 10:33:10 +0100
+Message-ID: <4759105.uFzpf2uN4o@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <51EE217A.4040709@dresearch-fe.de>
-References: <51ECCF5C.2020505@dresearch-fe.de> <3148065.skdr24gULv@helios>
-	<51EE217A.4040709@dresearch-fe.de>
+In-Reply-To: <cover.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
+References: <cover.1374141084.git.emilia.maria.silvia.ciobanu@intel.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: SRC_URI and latest HEAD revision with git
+Subject: Re: [PATCH 00/11] Add read PV into recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 08:20:18 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 09:33:12 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-On Tuesday 23 July 2013 08:23:54 Steffen Sledz wrote:
-> On 22.07.2013 13:08, Paul Eggleton wrote:
-> > On Monday 22 July 2013 12:30:53 Steffen Sledz wrote:
-> >> On 22.07.2013 11:51, Paul Eggleton wrote:
-> >>> If you want these to increment now AIUI you need to be using the PR
-> >>> server:
-> >>> 
-> >>> https://wiki.yoctoproject.org/wiki/PR_Service
-> >> 
-> >> This seems to be the thing we need.
-> >> 
-> >> But the description is not very helpful from the view of a recipe
-> >> maintainer. It describes mostly the server part.
-> >> 
-> >> * What do i have to write in my recipe?
-> > 
-> > Nothing special. If you used SRCPV in PV where you are using an SCM in
-> > SRC_URI, that should be enough. The integer at the start of SRCREV will be
-> > incremented automatically if the revision changes, and if it doesn't but
-> > other values within the recipe change then PR will automatically be
-> > incremented above the initial value set in the recipe.
-> > 
-> >> * What modifications in bitbake.conf, local.conf, ... are necessary?
-> > 
-> > I believe as described in the page I linked above you should only need to
-> > set PRSERV_HOST.
+Hi Emilia,
+
+On Thursday 18 July 2013 17:16:24 Emilia Ciobanu wrote:
+> Tested for backwards packages.
 > 
-> You're right. This works. ;-)
+> The following changes since commit 3dee534f1e25109e0bdb681de0746c336f4b8840:
 > 
-> I've two points more:
-> * The Wiki-Page mentions the bitbake-prserv-tool. Where can this be found?
+>   lib/oeqa: fix dependecy check (2013-07-16 10:04:17 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib emac/pv_fixes
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=emac/pv_fixes
+> 
+> Emilia Ciobanu (11):
+>   rt-tests: add PV variable into recipe
+>   kmod: add PV variable into recipe
+>   hwlatdetect: add PV variable into recipe
+>   lttng-ust: add PV variable into recipe
+>   connman-gnome: add PV variable into recipe
+>   mtd-utils: add PV variable into recipe
+>   update-rc.d: add PV variable into recipe
+>   build-appliance-image: add PV variable into recipe
+>   lttng-modules: Append _git to recipe name and update PV with git
+>     token
+>   chkconfig-alternatives-native: add git token in package version
+>   docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
 
-Perhaps confusingly it's part of OE-Core. I haven't looked at it to see if 
-there's anything OE-specific about it that meant it had to be there rather than 
-supplied with bitbake.
+Reviewing these for the consolidated pull I noticed that one or two change the 
+filename to _git (or that's already the filename) whereas others don't. 
 
-> * Does anyone have systemd configs or sysvinit scripts for handling the
-> bitbake-prserv?
+For recipes that do point to a git repository but are fetching the revision 
+tagged for a release, it is correct to say they have a fixed PV without 
++git${SRCPV}, which is why we have done this. However, perhaps for consistency 
+and avoidance of future confusion if SRCREV is changed we should ignore this.
 
-I don't, but perhaps others do.
+When the recipe does set PV, it is probably best that the recipe's filename 
+doesn't contain a specific version otherwise it could be that it gets upgraded 
+later and the version in the filename no longer matches the new PV value. 
+Therefore I'd suggest If PV is being set and the recipe is fetching from a git 
+repository, we should rename the recipe to use _git.
 
 Cheers,
 Paul
