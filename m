@@ -1,30 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 85DD16B216
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 76B6B60FEE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 02:04:23 +0000 (UTC)
+	Tue, 23 Jul 2013 05:27:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6N24OOd000271
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6N5RARC014863
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 22 Jul 2013 19:04:24 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Mon, 22 Jul 2013 19:04:24 -0700
-Message-ID: <51EDE4A4.7060805@windriver.com>
-Date: Tue, 23 Jul 2013 10:04:20 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Mon, 22 Jul 2013 22:27:11 -0700 (PDT)
+Received: from [128.224.162.250] (128.224.162.250) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 22 Jul 2013 22:27:09 -0700
+Message-ID: <51EE142C.9090701@windriver.com>
+Date: Tue, 23 Jul 2013 13:27:08 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
 To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1374226651.git.Qi.Chen@windriver.com>
-	<9d5689b2a901728c1695d0889e27d2507c5c61a4.1374226651.git.Qi.Chen@windriver.com>
-	<51EDC50D.3050503@linux.intel.com>
-In-Reply-To: <51EDC50D.3050503@linux.intel.com>
-X-Originating-IP: [128.224.162.233]
-Cc: qingtao.cao@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] rpm: remove the obsolete rpm-postinsts.bb
+References: <cover.1374480160.git.jackie.huang@windriver.com>
+	<f3bb321c76f2ed9b0b09cb283e4fdd7b0b37847a.1374480160.git.jackie.huang@windriver.com>
+	<51ED7362.4080507@linux.intel.com>
+In-Reply-To: <51ED7362.4080507@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] dbus: remove build host test in configure script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,116 +36,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 02:04:23 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 05:27:12 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/23/2013 07:49 AM, Saul Wold wrote:
-> On 07/19/2013 02:39 AM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
+
+
+On 7/23/2013 2:01 AM, Saul Wold wrote:
+> On 07/22/2013 01:14 AM, jackie.huang@windriver.com wrote:
+>> From: Jackie Huang <jackie.huang@windriver.com>
 >>
->> Now that the postinsts of rpm, deb and ipk are all handled in the one
->> central place, run-postinsts.bb, the rpm-postinsts.bb recipe is actually
->> obsolete now. Remove this recipe to avoid confusion.
+>> The dbus build tests the build host to detect what initscript
+>> environment it expects.  Remove the test and set it to "redhat"
+>> unconditionally as the oe-core initscript has a redhat-style pid file
+>> path.
 >>
-> There still seems to be references to rpm-postinsts in the rootfs_rpm, 
-> package_rpm and image.bb, while these seem unused, we should clean 
-> these all up at the same time.
->
-Hi Saul,
-
-I checked these classes, no reference to the rpm-postinsts recipe.
-
-And we can see that the ROOTFS_PKGMANAGE_BOOTSTRAP has been changed to 
-'run-postinsts'.
-meta/classes/rootfs_rpm.bbclass:ROOTFS_PKGMANAGE_BOOTSTRAP = "run-postinsts"
-
-There are references to the /etc/rpm-postinsts directory which is 
-actually handled by run-postinsts.bb recipe now.
-
-Best Regards,
-Chen Qi
-
->
-> Sau!
->
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> Signed-off-by: Andy Ross <andy.ross@windriver.com
+>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 >> ---
->>   meta/recipes-devtools/rpm/rpm-postinsts.bb |   54 
->> ----------------------------
->>   1 file changed, 54 deletions(-)
->>   delete mode 100644 meta/recipes-devtools/rpm/rpm-postinsts.bb
->>
->> diff --git a/meta/recipes-devtools/rpm/rpm-postinsts.bb 
->> b/meta/recipes-devtools/rpm/rpm-postinsts.bb
->> deleted file mode 100644
->> index ba58cd4..0000000
->> --- a/meta/recipes-devtools/rpm/rpm-postinsts.bb
->> +++ /dev/null
->> @@ -1,54 +0,0 @@
->> -DESCRIPTION = "RPM postinstall script"
->> -SECTION = "core"
->> -LICENSE = "LGPLv2.1"
->> -LIC_FILES_CHKSUM = 
->> "file://${COREBASE}/meta/files/common-licenses/LGPL-2.1;md5=1a6d268fd218675ffea8be556788b780"
->> -
->> -inherit allarch
->> -#
->> -# Allow distributions to alter when [postponed] package install 
->> scripts are run
->> -#
->> -POSTINSTALL_INITPOSITION ?= "98"
->> -
->> -do_fetch() {
->> -    :
->> -}
->> -
->> -do_configure() {
->> -    :
->> -}
->> -
->> -do_compile() {
->> -    :
->> -}
->> -
->> -do_install() {
->> -    :
->> -}
->> -
->> -pkg_postinst_${PN} () {
->> -if [ "x$D" != "x" ] && [ -f $D/var/lib/rpm/Packages ]; then
->> -    install -d $D/${sysconfdir}/rcS.d
->> -    cat > 
->> $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts << "EOF"
->> -#!/bin/sh
->> -[ -e ${sysconfdir}/default/postinst ] && . 
->> ${sysconfdir}/default/postinst
->> -[ -d ${sysconfdir}/rpm-postinsts ] && for i in `ls 
->> ${sysconfdir}/rpm-postinsts/`; do
->> -    i=${sysconfdir}/rpm-postinsts/$i
->> -    echo "Running postinst $i..."
->> -    if [ -x $i ]; then
->> -        if [ "$POSTINST_LOGGING" = "1" ]; then
->> -            $i >>$LOGFILE 2>&1
->> -        else
->> -            $i
->> -        fi
->> -        rm $i
->> -    else
->> -        echo "ERROR: postinst $i failed."
->> -    fi
->> -done
->> -rm -f ${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts 
->> 2>/dev/null
->> -EOF
->> -    chmod 0755 
->> $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
->> -fi
->> -}
->> -
->> -ALLOW_EMPTY_${PN} = "1"
->>
+>>   meta/recipes-core/dbus/dbus-1.6.8/os-test.patch |   35
+>> +++++++++++++++++++++++
 >
+> This file should be in dbus-1.6.10, please rebase against master.
+
+rebased:
+
+The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
+
+   curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
+
+are available in the git repository at:
+   git://git.pokylinux.org/poky-contrib jhuang0/r_bbappend_dbus_0723_0
+ 
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_bbappend_dbus_0723_0
+
+Jackie Huang (2):
+   dbus: remove build host test in configure script
+   dbus: add -o option into start-stop-daemon arguments
+
+  meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init   |    4 +-
+  meta/recipes-core/dbus/dbus-1.6.10/os-test.patch |   35 
+++++++++++++++++++++++
+  meta/recipes-core/dbus/dbus.inc                  |    4 ++-
+  3 files changed, 40 insertions(+), 3 deletions(-)
+  create mode 100644 meta/recipes-core/dbus/dbus-1.6.10/os-test.patch
+
+
+Thanks,
+Jackie
+
+>
+> Thanks
+>      Sau!
+>
+>>   meta/recipes-core/dbus/dbus.inc                 |    4 ++-
+>>   2 files changed, 38 insertions(+), 1 deletions(-)
+>>   create mode 100644 meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
+>>
+>> diff --git a/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
+>> b/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
+>> new file mode 100644
+>> index 0000000..79554b1
+>> --- /dev/null
+>> +++ b/meta/recipes-core/dbus/dbus-1.6.8/os-test.patch
+>> @@ -0,0 +1,35 @@
+>> +dbus: remove build host test in configure script
+>> +
+>> +The dbus build tests the build host to detect what initscript
+>> +environment it expects.  Remove the test and set it to "redhat"
+>> +unconditionally as the oe-core initscript has a redhat-style pid file
+>> +path.
+>> +
+>> +Signed-off-by: Andy Ross <andy.ross@windriver.com>
+>> +Upstream-Status: innappropriate [embedded]
+>> +
+>> +diff -u a/configure.ac b/configure.ac
+>> +--- a/configure.ac    2012-08-28 11:23:43.040609874 -0700
+>> ++++ b/configure.ac    2012-08-28 11:54:25.602913945 -0700
+>> +@@ -1348,19 +1348,8 @@
+>> + AS_AC_EXPAND(EXPANDED_LIBEXECDIR, "$libexecdir")
+>> + AS_AC_EXPAND(EXPANDED_DATADIR, "$datadir")
+>> +
+>> +-#### Check our operating system
+>> +-operating_system=unknown
+>> +-if test -f /etc/redhat-release || test -f
+>> $EXPANDED_SYSCONFDIR/redhat-release ; then
+>> +-   operating_system=redhat
+>> +-fi
+>> +-
+>> +-if test -f /etc/slackware-version || test -f
+>> $EXPANDED_SYSCONFDIR/slackware-version ; then
+>> +-   operating_system=slackware
+>> +-fi
+>> +-
+>> +-if test -f /usr/bin/cygwin1.dll || test -f
+>> $EXPANDED_BINDIR/cygwin1.dll ; then
+>> +-   operating_system=cygwin
+>> +-fi
+>> ++#### Build host test removed from upstream code, openembedded
+>> initscript is redhat-like:
+>> ++operating_system=redhat
+>> +
+>> + #### Sort out init scripts
+>> +
+>> diff --git a/meta/recipes-core/dbus/dbus.inc
+>> b/meta/recipes-core/dbus/dbus.inc
+>> index b07aefa..580a936 100644
+>> --- a/meta/recipes-core/dbus/dbus.inc
+>> +++ b/meta/recipes-core/dbus/dbus.inc
+>> @@ -16,7 +16,9 @@ INC_PR = "r6"
+>>
+>>   SRC_URI =
+>> "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+>>              file://tmpdir.patch; \
+>> -           file://dbus-1.init"
+>> +           file://dbus-1.init \
+>> +           file://os-test.patch \
+>> +"
+>>
+>>   inherit useradd autotools pkgconfig gettext update-rc.d
+>>
+>>
 >
 
+-- 
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
