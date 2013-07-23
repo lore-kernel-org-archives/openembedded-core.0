@@ -1,22 +1,37 @@
-Return-Path: <ionutx.radu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 841006A9C4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id E59FE6077D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 15:05:38 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 Jul 2013 08:05:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,728,1367996400"; d="scan'208";a="335573330"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by azsmga001.ch.intel.com with ESMTP; 23 Jul 2013 08:05:20 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jul 2013 18:07:48 +0300
-Message-Id: <603cb9d8408f91f364c6a8f3e8625ead75a2128b.1374591776.git.ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1374591776.git.ionutx.radu@intel.com>
-References: <cover.1374591776.git.ionutx.radu@intel.com>
-Subject: [PATCH 1/1] useradd.bbclass: fix traceback when inheriting useradd but not setting USERADD_PARAM or GROUPADD_PARAM
+	Tue, 23 Jul 2013 15:21:33 +0000 (UTC)
+Received: by mail-vc0-f174.google.com with SMTP id gd11so316750vcb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jul 2013 08:21:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=aQCS5g4ihWXs3gkXwgr69nYLN1T+TBstP9Kj5XQU28k=;
+	b=pLk/nsjHIwFuGlLqemqLwZRWog/2B1gjmdjli2UthD3/FkOUaOjgblmpJgeKlCPZPW
+	xOhTfRP+D25FITqeznYnGwEfU8hbFdQFPSub9w6HMygp+rOxYvlSxnyZCH56huPxXeHx
+	gWIJ57hLA49oSMczxkyRbjGHNF6LSRLR9HYkNcNzHJ7IzxAQmu+c+ymQ8aDd+U6kBDwt
+	RWh9zFzdogrcKvpycbLKcMscHzka46l4/xRxC/EqSrsoNJjDUg15xSXzk10xIttUePPm
+	Ke5m3//hrHpwPY6bVgbH84+qXqmfQHBS/JwTrND7HcweCwrHNOG8yaqVpCBrm7HOM51n
+	9Bdw==
+X-Received: by 10.52.185.101 with SMTP id fb5mr379299vdc.1.1374592894246; Tue,
+	23 Jul 2013 08:21:34 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 08:21:14 -0700 (PDT)
+In-Reply-To: <51E840B5.2080106@linux.intel.com>
+References: <1374163718-26829-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+	<51E840B5.2080106@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Jul 2013 16:21:14 +0100
+Message-ID: <CAJTo0LbmYyr76=72_o4Jris60Gm8gH2LqpJ+1=1dhSA-m+bA9Q@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQm930pxBbRq7w7z7jf/9tYFRJDi+3urrNptyltM4rfWs1pHCYm9TsSMiZEld8RaUN9N5a7V
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] distrodata.bbclass: Include PRSPV variable in upstream version checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,31 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 15:05:38 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 15:21:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Replaced bb.build.FuncFailed with bb.fatal
+On 18 July 2013 20:23, Saul Wold <sgw@linux.intel.com> wrote:
+> I thought we were going to look into use regex instead of adding a new
+> variable.
 
-[YOCTO #4486]
+Specifically, I was thinking something like this would work:
 
-Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
----
- meta/classes/useradd.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+package_regex.inc has an optional new variable, REGEX_PV_FILTER.  If
+set, this will be used with re.sub to filter the PV extracted by
+REGEX. Something cloning the syntax of Perl's s/// operator maybe,
+using / to split the input RE and the replacement string.
 
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 3fe011d..a68b6fd 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -219,7 +219,7 @@ def update_useradd_after_parse(d):
- 
-     for pkg in useradd_packages.split():
-         if not d.getVar('USERADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPADD_PARAM_%s' % pkg, True) and not d.getVar('GROUPMEMS_PARAM_%s' % pkg, True):
--            raise bb.build.FuncFailed("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
-+            bb.fatal("%s inherits useradd but doesn't set USERADD_PARAM, GROUPADD_PARAM or GROUPMEMS_PARAM for package %s" % (d.getVar('FILE'), pkg))
- 
- python __anonymous() {
-     update_useradd_after_parse(d)
--- 
-1.7.10.4
+i.e. REGEX_PV_FILTER_pn-docbook = "\./" would replace all dots with
+the empty string, thus changing 1.2.3 into 123.
 
+Ross
 
