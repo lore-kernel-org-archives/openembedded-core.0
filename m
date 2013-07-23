@@ -1,39 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B3B246A549
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C5006A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 13:25:04 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id ha11so235958vcb.7
+	Tue, 23 Jul 2013 13:37:25 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q12so5558197vbe.27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 06:25:05 -0700 (PDT)
+	Tue, 23 Jul 2013 06:37:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=Dk8Y3wK3c5J2gZ1t0kIyyaEF0sgw9ISsa9iXdHTWLuE=;
-	b=C6ykyp/SYopF9u9F3O9zjvDTIIa+Do/zGVR7rGEkCrv7qfv/Wtb7q8o84cXPfLQGa1
-	LEw9NfSfUPMk3Q/8qSnWkF3oKz7BTGCzLFhq6TnqAzLbpYRuUZMFWekd/qnopF7p/hVH
-	vftkBi0HRO2BPNlq/QA+inlGjMIHG7jsVGvJ/FiVcCZObdGHyj688HrHHKkTJ33hrUQx
-	oxMZAncqYpfvcYPt1adDVsJ3T8DWGGRW8GUlQ0/rTRt94bdANLvUzZYjXKRRziANTW/a
-	OTXSvJ9Ra4HSbExgoUr+rV5a320n0dSUMzMtrI5f8dMSPwjKWpzC4WqIChfbzu1eQiae
-	9sXg==
-X-Received: by 10.220.162.200 with SMTP id w8mr11331603vcx.90.1374585905124;
-	Tue, 23 Jul 2013 06:25:05 -0700 (PDT)
+	:cc:content-type:content-transfer-encoding:x-gm-message-state;
+	bh=kV/uzaSDhpUUU8lCHtn5gDRSArtSffSn6lSYc4C8xHY=;
+	b=axXHexOlXHAt6rqpsWptN/hbo/6hytK7rQHQA2CaOjqLAXgVfi7FK1/KJw4G673/o/
+	vzhVDRlcksXmwuY6tezpxi2CrbXfCojoy2raO2tGTCcSN9lWJF+WYuT2i9WCyKhCrnHh
+	jPskme6OlKLvxuKxIUM3zBh9Udoy6N3sV2O5qepSPp+PYx3uSUcnViG2+4cFFUE5A5fF
+	nTa2nRfRqqvTPcFeeY/gCdzIsBL70KrPGeobrtOeKztEJNVCZLnVIAVAO0OpiSY7dpyj
+	XgLa5uqB6J5sM8PXYuIEpg3J12RsGt5toR9EHiWfs5A+1jq05BoGDoU0lfWfZIk+l9tW
+	Tkpw==
+X-Received: by 10.220.45.132 with SMTP id e4mr11508744vcf.56.1374586645730;
+	Tue, 23 Jul 2013 06:37:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 06:24:43 -0700 (PDT)
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16C0D0B0@IRSMSX105.ger.corp.intel.com>
-References: <1374502085-16914-1-git-send-email-cristian.iorga@intel.com>
-	<CAJTo0LaP8syHY_LMCcdFopi61T0XT7xZ_oUa6EO+VqNdHnD0TQ@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16C0D0B0@IRSMSX105.ger.corp.intel.com>
+Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 06:37:05 -0700 (PDT)
+In-Reply-To: <1373354955-16500-3-git-send-email-eric@eukrea.com>
+References: <1373354955-16500-1-git-send-email-eric@eukrea.com>
+	<1373354955-16500-3-git-send-email-eric@eukrea.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jul 2013 14:24:43 +0100
-Message-ID: <CAJTo0LZ5_WBLNVpfTNfwo2NJ9YHba+nnO7hh2==-Eor3Qdkv_Q@mail.gmail.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-X-Gm-Message-State: ALoCoQl1wcppNx586pacdvFNbib/EIBwXEkWdbxxdyxnSpqDWEsPNb/MafmJboynHx96hj2dQgvq
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] connman: upgrade to v1.16
+Date: Tue, 23 Jul 2013 14:37:05 +0100
+Message-ID: <CAJTo0La3zAhojZD6sSW=GXRuU+s4KCQQQjBYHTsT3=kFebPPYw@mail.gmail.com>
+To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
+X-Gm-Message-State: ALoCoQkl00JVKzKHEWN5SMB6GvdkQBIYrpS7V5h0D7MhsluM8iunXV/xxXiDfkoRGOP4dmV8mM0F
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [danny][PATCH 3/3] binutils: fix build with recent texinfo (5.1)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,14 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 13:25:04 -0000
+X-List-Received-Date: Tue, 23 Jul 2013 13:37:25 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 23 July 2013 12:24, Iorga, Cristian <cristian.iorga@intel.com> wrote:
-> qemux86-64 core-image-sato.
+On 9 July 2013 08:29, Eric B=C3=A9nard <eric@eukrea.com> wrote:
+> Signed-off-by: Eric B=C3=A9nard <eric@eukrea.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils-2.22.inc   |    1 +
+>  .../binutils/binutils/texinfo.patch                |  294 ++++++++++++++=
+++++++
+>  2 files changed, 295 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/texinfo.patch
 
-I'm always paranoid of connman breaking something.  Can we test this
-on something real and not-Intel, and something that uses wifi?
+Sorry for the delay, this series is now in ross/danny-next.
 
 Ross
 
