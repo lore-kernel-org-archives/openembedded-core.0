@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f51.google.com (mail-vb0-f51.google.com
-	[209.85.212.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 80E206077D
+Return-Path: <ionutx.radu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 36E9F6A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 15:00:44 +0000 (UTC)
-Received: by mail-vb0-f51.google.com with SMTP id x17so5617070vbf.38
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 08:00:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding:x-gm-message-state;
-	bh=noH6uGFmRSy/2GX7KbeiUqdAHJ/DqDeZICWCu7UOSCA=;
-	b=fnc2B4TCzDZ+K0Z41NGJg6BVlYl1cmJeURm7eDgJ9o9pDnpkcQnEtaSKBp6PeaCXnj
-	q7XrTQzjH3VdX8MP/J7EikRl4+lN6ben16SYk3GcdHj8hu/61ibxbXkIHwxfz5X4rGSk
-	qMHTpokPPXeagE0mYvvzH65NFp3yPhYfFh7Hu1RFhWim+dTXanVGMtkImzpJb1bls9A/
-	mzx+WdOIWGVA06NGUK2tV/P47qFjr4XHgv2qfVosTUUb9EaF/14pAv6ShPjgMrHDeEI6
-	gaP3tCg6oeVsAN2B6nAlPbQrkrCBSMlu2EiD2klnmiKnuhm6hcJNWaXu3QmTYR5vurJ0
-	nXyA==
-X-Received: by 10.220.45.132 with SMTP id e4mr11727589vcf.56.1374591644242;
-	Tue, 23 Jul 2013 08:00:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.30.15 with HTTP; Tue, 23 Jul 2013 08:00:24 -0700 (PDT)
-In-Reply-To: <20130605143619.GE20636@sestofb10.enea.se>
-References: <20130605143619.GE20636@sestofb10.enea.se>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jul 2013 16:00:24 +0100
-Message-ID: <CAJTo0LZNeJZO-=6YwnANqtNE3Q3t55+X49n0W_iJc2nUiG=cYQ@mail.gmail.com>
-To: =?UTF-8?Q?Bj=C3=B6rn_Stenberg?= <bjst@enea.com>
-X-Gm-Message-State: ALoCoQkd/fu5yX/nDu26xmtiMnGTbaphfumMFf5GNFOTCiybs0vWZuTxv0X5U++JunIH8PKeYwzR
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: ptest recipes in progress
+	Tue, 23 Jul 2013 15:05:29 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2013 08:02:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,728,1367996400"; d="scan'208";a="369707567"
+Received: from work.rb.intel.com ([10.237.105.51])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2013 08:05:12 -0700
+From: Ionut Radu <ionutx.radu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jul 2013 18:07:35 +0300
+Message-Id: <cover.1374591776.git.ionutx.radu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/1] Traceback when inheriting useradd but not setting USERADD_PARAM or GROUPADD_PARAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +27,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jul 2013 15:00:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Jul 2013 15:05:29 -0000
 
-Hi Bjorn,
+The following changes since commit 31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9:
 
-On 5 June 2013 15:36, Bj=C3=B6rn Stenberg <bjst@enea.com> wrote:
-> In the interest of avoiding duplication of work, here is a list of recipe=
-s for which we (Enea)
-> have already enabled ptest but have not yet submitted patches:
+  poky-tiny.conf: blacklist core-image-weston option (2013-07-18 21:26:58 +0100)
 
-Do you plan on adding GStreamer to that list?
+are available in the git repository at:
 
-Ross
+  git://git.yoctoproject.org/poky-contrib ionut/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
+
+Ionut Radu (1):
+  useradd.bbclass: fix traceback when inheriting useradd but not
+    setting USERADD_PARAM or GROUPADD_PARAM
+
+ meta/classes/useradd.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.7.10.4
+
 
