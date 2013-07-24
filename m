@@ -1,31 +1,36 @@
-Return-Path: <giuseppe.condorelli@gmail.com>
-Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A5814605F3
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id D3670605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 07:33:33 +0000 (UTC)
-Received: by mail-ob0-f170.google.com with SMTP id ef5so12473514obb.29
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 00:33:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=oRxkFQscYpMM/n0SLf2Q7dG5nKxuHNAsEVs8UFPNEkM=;
-	b=ugOj+OjwuN6udTpxarm8gpnJulVIAwWLkxDDfiPUNsMh7VapKyCkVYnYf/qeRx3VGW
-	AQqH2k8ZcCKZZDWkW438Nx7c6N6ovgOLl9o4SB5cI+pUEkCnbDcDQsyX+gk5bHQ4EDV1
-	H6ErCg9b3QKr84XSCqjEUi5yi7ha13gt8rESrql1DMXNktTD12yLwuXp6cSlnQSr5YJR
-	zY0gIZ66NgBQ9nz56YJ8ikPUlxMkSo1mueijE10vpmRMCW/EIGZtjVQDiLinLzg7avUQ
-	s6J6I4uo6IGMQtyCQbKa4pJd7dpSWy7bbegI2VFQlU/kBV8s6Nij7l3GJ7sGmeAaVqCK
-	uTKA==
+	Wed, 24 Jul 2013 07:47:41 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 24 Jul 2013 00:47:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,733,1367996400"; d="scan'208";a="272444949"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Jul 2013 00:47:41 -0700
+Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Wed, 24 Jul 2013 08:47:40 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.33]) with mapi id
+	14.03.0123.003; Wed, 24 Jul 2013 08:47:39 +0100
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+Thread-Topic: [OE-core] How to solve the make 3.82 issue at sanity check time?
+Thread-Index: AQHOiEBR5J1d4yr5vEWgItXFGIJpDJlzYxoA
+Date: Wed, 24 Jul 2013 07:47:39 +0000
+Message-ID: <1374652108.28370.6.camel@firebird.rb.intel.com>
+References: <CAOHjBZuDPPjk9dySzOTtGjXzy5yisjdumag=22qV5U-aW2hj4A@mail.gmail.com>
+In-Reply-To: <CAOHjBZuDPPjk9dySzOTtGjXzy5yisjdumag=22qV5U-aW2hj4A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.105.73]
 MIME-Version: 1.0
-X-Received: by 10.60.132.230 with SMTP id ox6mr34785742oeb.66.1374651213309;
-	Wed, 24 Jul 2013 00:33:33 -0700 (PDT)
-Received: by 10.182.142.65 with HTTP; Wed, 24 Jul 2013 00:33:33 -0700 (PDT)
-Date: Wed, 24 Jul 2013 09:33:33 +0200
-Message-ID: <CAOHjBZuDPPjk9dySzOTtGjXzy5yisjdumag=22qV5U-aW2hj4A@mail.gmail.com>
-From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-To: Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: How to solve the make 3.82 issue at sanity check time?
+Subject: Re: How to solve the make 3.82 issue at sanity check time?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,34 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 07:33:34 -0000
-Content-Type: multipart/alternative; boundary=047d7b41cbb8426db304e23ced5f
+X-List-Received-Date: Wed, 24 Jul 2013 07:47:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <26B8AE28BBBEB4499E6EB57471C4F9AE@intel.com>
+Content-Transfer-Encoding: base64
 
---047d7b41cbb8426db304e23ced5f
-Content-Type: text/plain; charset=ISO-8859-1
+DQoNCk9uIFdlZCwgMjAxMy0wNy0yNCBhdCAwOTozMyArMDIwMCwgR2l1c2VwcGUgQ29uZG9yZWxs
+aSB3cm90ZToNCj4gSGkgQWxsLA0KPiAgDQo+IGdpdmVuIHRoYXQgdGhlIG1ha2Ugdi4gMy44MiBp
+cyBicm9rZW4sIGFzIHRoZSBzYW5pdHkgY2hlY2sgaGlnaGxpZ2h0cywNCj4gd2hpY2ggaXMgdGhl
+IGJlc3Qgc29sdXRpb24NCj4gdG8gYWxsb3cgRmVkb3JhIHVzZXJzIChhcyBJIGFtKSB0byBnbyBh
+aGVhZCB3aXRoIHRoZSBidWlsZD8NCj4gSSBkb24ndCBsaWtlIHRvIGF2b2lkIHNhbml0eSBjaGVj
+a3Mgb3IgdG8gdXNlIGFuIG9sZGVyIHZlcnNpb24gb2YNCj4gc2FuaXR5LmJiY2xhc3MuDQo+IFBs
+ZWFzZSBsZXQgbWUga25vdywgY3VycmVudGx5IHRoaXMgaXNzdWUgaXMgYmxvY2tpbmcgZm9yIG1l
+Lg0KPiAgDQoNCg0KRmVkb3JhIHB1c2hlZCB1cGRhdGVzIGZvciBtYWtlIGluIEYxNyAmIDE4ICgx
+OSB3YXNuJ3QgYnJva2VuIGFmYWlrKSBzbw0KeW91IHNob3VsZCBqdXN0IHVwZGF0ZSB5b3VyIHN5
+c3RlbS4gKHl1bSB1cGRhdGUgbWFrZSBzaG91bGQgZG8gdGhlDQp0cmljaykuDQoNCkFsdGVybmF0
+aXZlbHkgeW91IGNhbiBiaXRiYWtlIGJ1aWxkdG9vbHMtdGFyYmFsbCBvbiBhbiB3b3JraW5nIHN5
+c3RlbQ0KKG9yIGRpc2FibGUgdGhlIHNhbml0eSBjaGVjayBiZWZvcmUsIHRvdWNoIGNvbmYvc2Fu
+aXR5LmNvbmYpIGFuZCBpbnN0YWxsDQp0aGF0IG9uIHlvdXIgc3lzdGVtIChpZiB5b3UgYXJlIG9u
+IEYxNiB3aGljaCBpc24ndCB1cGRhdGVkIGFueW1vcmUpDQoNCkNoZWVycywNClN0ZWZhbg0KDQoN
+Cj4gQ2hlZXJzLA0KPiBHaXVzZXBwZQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg==
 
-Hi All,
-
-given that the make v. 3.82 is broken, as the sanity check highlights,
-which is the best solution
-to allow Fedora users (as I am) to go ahead with the build?
-I don't like to avoid sanity checks or to use an older version of
-sanity.bbclass.
-Please let me know, currently this issue is blocking for me.
-
-Cheers,
-Giuseppe
-
---047d7b41cbb8426db304e23ced5f
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi All,</div><div>=A0</div><div>given that the make v. 3.82 is broken,=
- as the sanity check highlights, which is the best solution</div><div>to al=
-low Fedora users (as I am) to go ahead with the build?</div><div>I don&#39;=
-t like to avoid sanity checks or to use an older version of sanity.bbclass.=
-</div>
-<div>Please let me know, currently this issue is blocking for me.</div><div=
->=A0</div><div>Cheers,</div><div>Giuseppe</div>
-
---047d7b41cbb8426db304e23ced5f--
