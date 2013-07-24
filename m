@@ -1,37 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f54.google.com (mail-oa0-f54.google.com
-	[209.85.219.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 5905F6028B
+Return-Path: <morphis@gravedo.de>
+Received: from gravedo.de (gravedo.de [85.214.79.159])
+	by mail.openembedded.org (Postfix) with ESMTP id E49546028B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 21:51:05 +0000 (UTC)
-Received: by mail-oa0-f54.google.com with SMTP id o6so2379695oag.41
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 14:51:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=p57Eu98tUofTPgcUJfu8qlvVKSxbKpiWq5uUT9AxkDs=;
-	b=yElA45xJxD5y6SPXU/C20i4coGzz83absVtKbFP8+bzoCXsjUaIgIJFde/kXWEByYa
-	UdsqgABoJoj9AW+cUgOssRMAN3Vq8CGPfc/IPTaJpa+Z2JZ4fvi1yCsGrVAtq9JXy4Re
-	gaDwP3jYduN7hMzEem0fAKvDipZGyj1+ovwBDl6GQ1f3GgxNA1zFJAjsxf7Qg9/87MKu
-	38xx81gHAhuhNOmAWhlh5RB5zfohL1bMEtjoeC1G+C2UUkJj8VpD6g3juftHLKERh8OD
-	1szd/LpcvTF09AYPxZz5b6ih/fD26A7OMQDtdRlOsmO8AkbhePVDMTJZGoWR/kgCTB1h
-	osYw==
+	Wed, 24 Jul 2013 22:29:37 +0000 (UTC)
+Received: by gravedo.de (Postfix, from userid 5001)
+	id 4DA923B3465B; Thu, 25 Jul 2013 00:29:35 +0200 (CEST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	h1108419.serverkompetenz.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00,
+	URIBL_BLOCKED autolearn=unavailable version=3.3.1
+Received: from localhost (dslb-088-070-147-061.pools.arcor-ip.net
+	[88.70.147.61]) by gravedo.de (Postfix) with ESMTPSA id 1BC9C3B3465A;
+	Thu, 25 Jul 2013 00:29:32 +0200 (CEST)
+From: Simon Busch <morphis@gravedo.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Jul 2013 22:29:25 +0000
+Message-Id: <1374704965-23479-1-git-send-email-morphis@gravedo.de>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-X-Received: by 10.182.27.74 with SMTP id r10mr32884701obg.63.1374702665391;
-	Wed, 24 Jul 2013 14:51:05 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.60.166 with HTTP; Wed, 24 Jul 2013 14:51:05 -0700 (PDT)
-In-Reply-To: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-Date: Wed, 24 Jul 2013 18:51:05 -0300
-X-Google-Sender-Auth: I61TrGNukLlwsdRxLHzPJK-aMNE
-Message-ID: <CAP9ODKouv4sp08h5dnm4M=4bfhewoqSSqgPiTiQm=VyN7=gZCQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Chris Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
+Subject: [PATCH] wpa-supplicant: enable required configuration options for connman
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +32,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 21:51:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 24 Jul 2013 22:29:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello Chris,
+Details can be found in the connman documentation:
+https://git.kernel.org/cgit/network/connman/connman.git/tree/README#n280
 
-It is always good when you come with a 'RFC' thread ;-)
+Signed-off-by: Simon Busch <morphis@gravedo.de>
+---
+ .../wpa-supplicant/wpa-supplicant/defconfig-gnutls  | 21 ++++++++++++++++++++-
+ 1 file changed, 20 insertions(+), 1 deletion(-)
 
-On Wed, Jul 24, 2013 at 3:54 PM, Chris Larson <clarson@kergoth.com> wrote:
-...
-> The standalone systemd-tmpfiles recipe I've created has a fairly small set
-> of dependencies: intltool-native, dbus, libcap. Given this, I'd like to
-> propose transitioning away from populate-volatiles to systemd-tmpfiles, even
-> for non-systemd images. I think that the update-tmpfiles shell script may be
-> of use in a transition, but before we even begin discussing a transition
-> path, I'd like to request comments on the notion of moving to it at all.
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
+index e041b4d..8be4107 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/defconfig-gnutls
+@@ -190,7 +190,7 @@ CONFIG_EAP_LEAP=y
+ #CONFIG_EAP_TNC=y
+ 
+ # Wi-Fi Protected Setup (WPS)
+-#CONFIG_WPS=y
++CONFIG_WPS=y
+ 
+ # EAP-IKEv2
+ #CONFIG_EAP_IKEV2=y
+@@ -407,3 +407,22 @@ CONFIG_TLS = gnutls
+ #CONFIG_GNUTLS_EXTRA=y
+ CONFIG_CTRL_IFACE_DBUS=y
+ CONFIG_CTRL_IFACE_DBUS_NEW=y
++
++# AP mode operations with wpa_supplicant
++# This can be used for controlling AP mode operations with wpa_supplicant. It
++# should be noted that this is mainly aimed at simple cases like
++# WPA2-Personal while more complex configurations like WPA2-Enterprise with an
++# external RADIUS server can be supported with hostapd.
++CONFIG_AP=y
++
++CONFIG_BGSCAN_SIMPLE=y
++
++# Autoscan
++# This can be used to enable automatic scan support in wpa_supplicant.
++# See wpa_supplicant.conf for more information on autoscan usage.
++#
++# Enabling directly a module will enable autoscan support.
++# For exponential module:
++CONFIG_AUTOSCAN_EXPONENTIAL=y
++# For periodic module:
++#CONFIG_AUTOSCAN_PERIODIC=y
+-- 
+1.8.1.2
 
-I think it shouldn't be hard to make an C app or script which could
-parse systemd-tmpfiles and use this for non-systemd systems. What do
-you think?
-
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
