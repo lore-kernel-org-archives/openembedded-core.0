@@ -1,36 +1,39 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id D3670605F3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
+	[209.85.212.52])
+	by mail.openembedded.org (Postfix) with ESMTP id C1C59605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 07:47:41 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 24 Jul 2013 00:47:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,733,1367996400"; d="scan'208";a="272444949"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Jul 2013 00:47:41 -0700
-Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Wed, 24 Jul 2013 08:47:40 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.33]) with mapi id
-	14.03.0123.003; Wed, 24 Jul 2013 08:47:39 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
-Thread-Topic: [OE-core] How to solve the make 3.82 issue at sanity check time?
-Thread-Index: AQHOiEBR5J1d4yr5vEWgItXFGIJpDJlzYxoA
-Date: Wed, 24 Jul 2013 07:47:39 +0000
-Message-ID: <1374652108.28370.6.camel@firebird.rb.intel.com>
-References: <CAOHjBZuDPPjk9dySzOTtGjXzy5yisjdumag=22qV5U-aW2hj4A@mail.gmail.com>
-In-Reply-To: <CAOHjBZuDPPjk9dySzOTtGjXzy5yisjdumag=22qV5U-aW2hj4A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.73]
+	Wed, 24 Jul 2013 07:50:00 +0000 (UTC)
+Received: by mail-vb0-f52.google.com with SMTP id f12so6134427vbg.39
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jul 2013 00:50:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=MEFg3cZkImQDLt9tvpZwgpR7is0BvbDD5WI+NL2bXs4=;
+	b=BQrFjRWB8xY712WJIRC+tGuzkBUNYz659fqqlceeBXTXl7O6Y5DwK5zlMUOCxeQjsF
+	/stZ1ubjt0TZ/Rn20dBiO53CfSaXlkBEiUxguKtIzKGT/0bqq2NobJdSFC7QxkuRULnE
+	HjitGXg/LYuxyi4oSoH0DbjcS+E1JVTM0zQ8i2aGyXgAp73BGcrU0C/omCYlWsn3rGDG
+	GkmUDvrQXPV7YY5BT5LxMTUhTjVjUJc2gUNhlriAyim0Y7nIC5fQP4SsZZM0j3Iv9aBl
+	mbEjX4pOwtrzlMc4kmkqhTQSKy+p24PwlTt+l0Xg8HPEbtOgUnXuEpXA8w8EhjqgHaQh
+	fhnw==
+X-Received: by 10.58.67.9 with SMTP id j9mr13602246vet.22.1374652200777; Wed,
+	24 Jul 2013 00:50:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to solve the make 3.82 issue at sanity check time?
+Received: by 10.58.30.15 with HTTP; Wed, 24 Jul 2013 00:49:40 -0700 (PDT)
+In-Reply-To: <51EF39C7.2060703@windriver.com>
+References: <cover.1374479372.git.kai.kang@windriver.com>
+	<3185bfa72aaa8acd02d32f67ee51de79a24c7c19.1374479372.git.kai.kang@windriver.com>
+	<1374481350.6719.83.camel@bril0118.bri.st.com>
+	<51EF39C7.2060703@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 Jul 2013 08:49:40 +0100
+Message-ID: <CAJTo0LYcYUVxJ0pyMDKTSA_=ezGnn++nSh-MuFsFC40LBwydWw@mail.gmail.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+X-Gm-Message-State: ALoCoQki4MZd2Lkv3HQ5EJrYn4KjqEDxQmUrOF7s3wBtn5rqusVuDBOnnUzx4AR3YGV7Y0BhDVov
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] webkit-gtk: fix 'Memory exhausted' error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,28 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 07:47:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <26B8AE28BBBEB4499E6EB57471C4F9AE@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 24 Jul 2013 07:50:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-DQoNCk9uIFdlZCwgMjAxMy0wNy0yNCBhdCAwOTozMyArMDIwMCwgR2l1c2VwcGUgQ29uZG9yZWxs
-aSB3cm90ZToNCj4gSGkgQWxsLA0KPiAgDQo+IGdpdmVuIHRoYXQgdGhlIG1ha2Ugdi4gMy44MiBp
-cyBicm9rZW4sIGFzIHRoZSBzYW5pdHkgY2hlY2sgaGlnaGxpZ2h0cywNCj4gd2hpY2ggaXMgdGhl
-IGJlc3Qgc29sdXRpb24NCj4gdG8gYWxsb3cgRmVkb3JhIHVzZXJzIChhcyBJIGFtKSB0byBnbyBh
-aGVhZCB3aXRoIHRoZSBidWlsZD8NCj4gSSBkb24ndCBsaWtlIHRvIGF2b2lkIHNhbml0eSBjaGVj
-a3Mgb3IgdG8gdXNlIGFuIG9sZGVyIHZlcnNpb24gb2YNCj4gc2FuaXR5LmJiY2xhc3MuDQo+IFBs
-ZWFzZSBsZXQgbWUga25vdywgY3VycmVudGx5IHRoaXMgaXNzdWUgaXMgYmxvY2tpbmcgZm9yIG1l
-Lg0KPiAgDQoNCg0KRmVkb3JhIHB1c2hlZCB1cGRhdGVzIGZvciBtYWtlIGluIEYxNyAmIDE4ICgx
-OSB3YXNuJ3QgYnJva2VuIGFmYWlrKSBzbw0KeW91IHNob3VsZCBqdXN0IHVwZGF0ZSB5b3VyIHN5
-c3RlbS4gKHl1bSB1cGRhdGUgbWFrZSBzaG91bGQgZG8gdGhlDQp0cmljaykuDQoNCkFsdGVybmF0
-aXZlbHkgeW91IGNhbiBiaXRiYWtlIGJ1aWxkdG9vbHMtdGFyYmFsbCBvbiBhbiB3b3JraW5nIHN5
-c3RlbQ0KKG9yIGRpc2FibGUgdGhlIHNhbml0eSBjaGVjayBiZWZvcmUsIHRvdWNoIGNvbmYvc2Fu
-aXR5LmNvbmYpIGFuZCBpbnN0YWxsDQp0aGF0IG9uIHlvdXIgc3lzdGVtIChpZiB5b3UgYXJlIG9u
-IEYxNiB3aGljaCBpc24ndCB1cGRhdGVkIGFueW1vcmUpDQoNCkNoZWVycywNClN0ZWZhbg0KDQoN
-Cj4gQ2hlZXJzLA0KPiBHaXVzZXBwZQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3Bl
-bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg==
+On 24 July 2013 03:19, Kang Kai <Kai.Kang@windriver.com> wrote:
+>> Instead of penalising everybody, would it be possible to make this
+>> change dependent on the build machine (ram + swap)? Or to only add
+>> -Wl,--no-keep-memory if the build failed without it?
+>
+> Yes, it doesn't fail on every build machine. But it seems that build fails
+> randomly on different build machines.
+
+I'm in agreement with the others - this is how individual build
+machine admins make a webkit-gtk build work on their machine if it
+doesn't have enough memory available.  We should probably document how
+to do this in local.conf in the recipe for reference, but not make it
+a default.
+
+Ross
 
