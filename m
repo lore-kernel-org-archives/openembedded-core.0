@@ -1,40 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f179.google.com (mail-ea0-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1033660629
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F09061619
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 10:25:40 +0000 (UTC)
-Received: by mail-ea0-f179.google.com with SMTP id b15so141133eae.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 03:25:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7wqIIQQeoMynNnbdRlHXoPC6+GLreF/TRCfj0AYZoqo=;
-	b=Hyowuwu0v9gCx5DMuhFXcSVPr9tTQKAIa2s49hoO5yVlum3GhfNaTSoe1CMERYP78Z
-	61kIzF1vyf0JQxP2dYbM9DWKFlgvWMDnrQC/CZCZp0JDEB7WVnUyMtzLYv17kZSdv6KS
-	B+d6jRMpGI7vhLH6qmY6XIQESGNeRb+i5GoJrXn6X1Jd8tubEQnnxRzFNbvISDykBQll
-	XKEbzXs3CQjsRnmyZYYS7s56G6rYeju5JkDg+BNx0NL2L38ZJGV9lf5qJsPR+RweP6Bq
-	L4jkEttN43dc+UwpEtOUIHxv6+J5IzK9XFUbuo0eW2AhTsaQi1SQyoWUsj0lO4gREWW5
-	mrqQ==
-X-Received: by 10.14.0.4 with SMTP id 4mr36387784eea.68.1374661540578;
-	Wed, 24 Jul 2013 03:25:40 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	n5sm65014170eed.9.2013.07.24.03.25.38 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 24 Jul 2013 03:25:39 -0700 (PDT)
-Date: Wed, 24 Jul 2013 12:26:02 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Alex DAMIAN <alexandru.damian@intel.com>
-Message-ID: <20130724102602.GD4136@jama>
-References: <1374577279-21342-1-git-send-email-alexandru.damian@intel.com>
-	<1374656368-12517-1-git-send-email-alexandru.damian@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1374656368-12517-1-git-send-email-alexandru.damian@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] weston: add harfbuzz dependency
+	Wed, 24 Jul 2013 10:35:50 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6OAihuH015564; Wed, 24 Jul 2013 11:44:43 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id IFpovVkQDszJ; Wed, 24 Jul 2013 11:44:43 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6OAibiH015536
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 24 Jul 2013 11:44:39 +0100
+Message-ID: <1374662115.23294.126.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 24 Jul 2013 11:35:15 +0100
+In-Reply-To: <cover.1374511663.git.sgw@linux.intel.com>
+References: <cover.1374511663.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: otavio@ossystems.com.br, paul.eggleton@linux.intel.com,
+	dvhart@linux.intel.com, zhenhua.luo@freescale.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/27] Ready for Pull after final ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,67 +39,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 10:25:41 -0000
-X-Groupsio-MsgNum: 42359
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="jCrbxBqMcLqd4mOl"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 24 Jul 2013 10:35:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---jCrbxBqMcLqd4mOl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2013-07-22 at 10:12 -0700, Saul Wold wrote:
+> Richard,
+> 
+> This has been trimmed and reviewed, please wait for Paul and Ross (traveling)
+> final ACKs.
+> 
+> ** Reminder to BSP Maintainers - Please update your mesa .bbappends *** 
+> ** I will send email when RP has pulled, please keep me posted on your branches **
+> 
+> Thanks
+> 	Sau!
+> 
+> 
+> The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
+> 
+>   curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> André Draszik (1):
+>   directfb: don't patch pkg-config files
+> 
+> Beth Flanagan (1):
+>   adt_installer_internal: fix spelling error
+> 
+> Chen Qi (2):
+>   useradd.bbclass: add a new base class and code refactor
+>   extrausers.bbclass: add a new bbclass
+> 
+> Daniel Nilsson (1):
+>   glew: Update GLEW version number in autotools patch
+> 
+> Emilia Ciobanu (3):
+>   kmod:add GIT revision to PV variable
+>   lttng-modules: Append _git to recipe name and add GIT revision to PV  
+>       variable
+>   docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
 
-On Wed, Jul 24, 2013 at 09:59:28AM +0100, Alex DAMIAN wrote:
-> From: Alexandru DAMIAN <alexandru.damian@intel.com>
->=20
-> Weston 1.1.0 has a build time dependency on pango,
-> so we add it.
+I merged this but with this last one, why not rename the recipe to the
+standard naming and then we don't need to set PV?
 
-Subject doesn't match with what commit does now.
+Cheers,
 
->=20
-> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
-> ---
->  meta/recipes-graphics/wayland/weston_1.1.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes=
--graphics/wayland/weston_1.1.0.bb
-> index 7327b98..c7c64ad 100644
-> --- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
-> +++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
-> @@ -18,7 +18,7 @@ SRC_URI[sha256sum] =3D "e7715d2c731f77a729c994a599ffdae=
-bac1307b2dd9336136706869fa5
->  inherit autotools pkgconfig useradd
-> =20
->  DEPENDS =3D "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
-> -DEPENDS +=3D "wayland mesa virtual/egl"
-> +DEPENDS +=3D "wayland mesa virtual/egl pango"
-> =20
->  EXTRA_OECONF =3D "--disable-android-compositor \
->                  --enable-setuid-install \
-> --=20
-> 1.8.1.2
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Richard
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---jCrbxBqMcLqd4mOl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlHvq7oACgkQN1Ujt2V2gBxI5QCffpLpbEBrbwKoViYQV5R4G6sl
-jn8An00iygyw4Bij5v9VkjRX+Y1Vi4rw
-=pGXQ
------END PGP SIGNATURE-----
-
---jCrbxBqMcLqd4mOl--
