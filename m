@@ -1,37 +1,34 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
-	[209.85.217.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DAAFC6065F;
-	Wed, 24 Jul 2013 18:27:09 +0000 (UTC)
-Received: by mail-lb0-f176.google.com with SMTP id z5so748734lbh.7
-	for <multiple recipients>; Wed, 24 Jul 2013 11:27:10 -0700 (PDT)
+Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
+	[209.85.217.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 603D26A9C4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jul 2013 18:54:56 +0000 (UTC)
+Received: by mail-lb0-f175.google.com with SMTP id r10so786395lbi.20
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jul 2013 11:54:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=cwLhyCJZ8NjjZQQ2h/073izA5zr8fCKrlfNOw0XLG/8=;
-	b=TNkiD+Gfj/lH9ImT32+EfPcb0md5dLA34F5Vp+6PU7yzLnAXeQavbjQubJRxP6dfzg
-	nviePCbd9X0moURIinlxHetvTJY0tkJZqaQrU9Zld4fkmeNET9tg1ySnSpUr6BNli0an
-	4wE1DDqeoz8ERrqEr9r7Q8JVPb/LRdSfzwwbywXxljWClvmaSf8Z3bwlRQk23pO2e7dH
-	+Z8wYXSTZHxvyeQJUsZDBxWUCs4nS5t/pwogNHEGp2b1nCEYm1W0UNdb0Rsm6q4oyHPL
-	pV5e8sVP9+vjtrZeRqOgTQAkih85qiBwC+w1JczzEiJgUI/2X7c/JRdR5yFEQP1jSdwA
-	1Tew==
-X-Received: by 10.152.44.197 with SMTP id g5mr17341692lam.0.1374690429703;
-	Wed, 24 Jul 2013 11:27:09 -0700 (PDT)
+	h=mime-version:sender:from:date:x-google-sender-auth:message-id
+	:subject:to:content-type;
+	bh=E2fUAZL/I6/aHLzKBp2wPPz4eSj3E2NQQ4Y/zr2WorY=;
+	b=JEBVBvW80nvYAEjFA33xIGge18Vy6Kl36G19gSP4djPzH2ETef0Gbbd2JLv6JcwoIC
+	Rv4YCKWKfygvCEEByZqw1UZh7OvgcSt/PuRfl20DbpcEasNhKmaxiftuEGBzgqU3nylx
+	7NOXNnZPRt6toyrrRTDzakqOYoNg7ahxUe785mzokJ/rvvHyOTooT1FmBodcHWRqrlpB
+	PsOggyWnslJt+NJfHH7ZuoXmGNod5B4DaBPpUCufIStjlBGspHj8UtEOGBQ2gBpz8V5p
+	cg9f532kXUG0+6JRJ//8kLSTJKxU0KBXSBRvMxX9atLl3hfWP2R2wVZGzovGpbmhn8HC
+	RXoQ==
+X-Received: by 10.112.143.162 with SMTP id sf2mr16438973lbb.1.1374692096343;
+	Wed, 24 Jul 2013 11:54:56 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.112.17.67 with HTTP; Wed, 24 Jul 2013 11:26:49 -0700 (PDT)
-In-Reply-To: <20130724165022.GA17913@jama>
-References: <cover.1374667312.git.Martin.Jansa@gmail.com>
-	<20130724165022.GA17913@jama>
+Received: by 10.112.17.67 with HTTP; Wed, 24 Jul 2013 11:54:36 -0700 (PDT)
 From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 24 Jul 2013 11:26:49 -0700
-X-Google-Sender-Auth: cn5bqJxiaF_F7c0UlaOWaFFlvQ8
-Message-ID: <CABcZAN=2BvqECx5pLXdrt-fwpwifUsv9FA5_v4ssz3teLiEu7A@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Date: Wed, 24 Jul 2013 11:54:36 -0700
+X-Google-Sender-Auth: ni1CVAItrWKOmRBrU--p3fEQ_tY
+Message-ID: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: test-dependencies.sh results from big world build
+Subject: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +41,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 18:27:11 -0000
-Content-Type: multipart/alternative; boundary=089e0158cae8bd1c3a04e2460e4e
+X-List-Received-Date: Wed, 24 Jul 2013 18:54:57 -0000
+Content-Type: multipart/alternative; boundary=089e011830381405bb04e2467201
 
---089e0158cae8bd1c3a04e2460e4e
+--089e011830381405bb04e2467201
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jul 24, 2013 at 9:50 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
+Greetings all,
 
-> My biggest build with 20+ layers included finally finished today (after
-> many days because there was hw issue on server where it was running, so
-> it was slower then it should be).
->
-> The results are a bit messy because:
-> 1) It had only some fixes from my last "autodetected dependencies"
->    patchsets for oe-core and meta-oe
-> 2) It was started when oe-core/master had broken boost, so many packages
->    failed because of boost
-> 3) It was started when oe-core/master had issues with qt-mobility (not
-> sure if
->    all were fixed already)
-> 4) It wasn't using latest version of test-dependencies script
-> 5) It was using complete buildhistory repo which had many stalled
->    packages like task-* and couple of architectures.
->
-> But at least it will allow me to restrict recipes to rebuild from 1900 to
-> only 256 which were failing in this build.
->
-> It was tested only for qemuarm.
->
-> Complete logs are here:
->
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/test-dependencies-2013-07-24/
->
-> Interesting parts
-> 11 recipes failed in world build:
->
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/test-dependencies-2013-07-24/failed.world
->
-> 101 recipes failed in minimal build (8 caused by boost):
->
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/test-dependencies-2013-07-24/failed.min
->
-> 216 packages (160 recipes) doesn't have deterministic dependencies
->
-> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/test-dependencies-2013-07-24/failed.dependencies
->
-> Next results should be more interesting, because many issues are already
-> fixed by change I've sent today to oe-core and oe-devel ML, but not all,
-> because they were detected in build without x11 in DISTRO_FEATURES and
-> without some layers (like meta-browser meta-efl meta-gnome meta-gpe
-> meta-initramfs meta-webserver meta-xfce).
->
+I've recently been doing some work at Mentor Graphics on read-only-rootfs,
+for our purposes, and have done some things which I think may be of use.
+I'm looking for comments/thoughts on the approach and potential use of a
+pattern generally, and also wish to discuss the volatiles vs tmp files.d
+situation.
 
-I just wanted to say, this is some impressive work, nicely done. I'm amazed
-at how many recipes still don't have deterministic dependencies, even after
-all these years :)
+I have recently created a `meta-ro-rootfs` layer to hold work in this
+direction which is not yet in or-core. As is fairly usual, it's a staging
+area between us and upstream, not a place for anything to live permanently.
+What follows is a summation of the work done there thus far:
+
+- Created a 'systemd-tmpfiles' recipe for non-systemd builds, and also for
+native
+
+  - Patched in --sysroot= support for systemd-tmpfiles, to facilitate
+running it up front against the filesystem at do_rootfs time the way
+read_only_rootfs_hook does with populate-volatiles
+
+  - Added an 'update-tmpfiles' script, which iterates over all files in
+/etc/default/volatiles/, converting them to tmpfiles.d config files,
+writing them into /usr/lib/tmpfiles.d/, and removing the volatile config
+files
+
+  - Reduced the dependencies, via patches and EXTRA_OECONF, as much as
+seemed to be viable
+
+- Split out 'systemd-tmpfiles' from 'systemd' package in the main systemd
+recipe, equivalent to the standalone one, for builds with `systemd` in
+DISTRO_FEATURES
+
+- Created a 'read-only-rootfs-systemd' bbclass, which appends the bits to
+run both update-tmpfiles and systemd-tmpfiles against the filesystem at
+do_rootfs time for systemd distros. This will need to be altered to not
+remove the volatiles config files for non-systemd *images*. I realize there
+are many use cases to consider in the sysvinit vs systemd realm, and I
+haven't verified that all are satisfied just yet, as systemd is our current
+priority for r/o rootfs.
+
+- Added a COMPLEMENTARY_GLOBS config (in the layer.conf for now, though I
+may move it into the bbclass) which adds `pkg-volatile` for each `pkg` to
+the rootfs if read-only-rootfs is enabled.
+
+- Implemented a prototype configuration for dbus which uses this to support
+read-only-rootfs. In the main package, we install a dbus.conf into
+/usr/lib/tmpfiles.d/ which ensures /var/lib/dbus exists for the non-r/o
+case, without including the path in the package (as including paths within
+volatile paths in a binary package will break things). In the dbus-volatile
+package, I install a different dbus.conf to /etc/tmpfiles.d/, which
+overrides the one in /usr/lib/tmpfiles.d/ (yes, update-alternatives would
+have been an option too, and has a certain amount of merit, as
+/etc/tmpfiles.d/ is supposed to be reserved for use by the administrator),
+and this config ensures that /var/volatile/lib/dbus is created and that
+/var/lib/dbus is a symlink which points to it.
+
+I have confirmed that I can create a systemd image with read-only-rootfs
+and read-only-rootfs-systemd inherited, and dbus is able to write to the
+volatile /var/lib/dbus/ path.
+
+I think this is a step in the right direction, though clearly more needs to
+be worked out, but this pattern of using override volatile/tmpfiles
+configurations with an additional complementary package should let us
+cleanly share binary packages between r/o and non-r/o images.
+
+Now, regarding tmpfiles.d vs volatiles. This is a rather unpleasant
+situation currently, as for a recipe to cleanly support both sysvinit and
+systemd images, it needs not only both sysv init script and systemd
+services (though admittedly the latter is optional with sysv compat), it
+also needs to provide both a volatiles config and a tmpfiles.d config if it
+needs volatile paths.
+
+The standalone systemd-tmpfiles recipe I've created has a fairly small set
+of dependencies: intltool-native, dbus, libcap. Given this, I'd like to
+propose transitioning away from populate-volatiles to systemd-tmpfiles,
+even for non-systemd images. I think that the update-tmpfiles shell script
+may be of use in a transition, but before we even begin discussing a
+transition path, I'd like to request comments on the notion of moving to it
+at all. Thoughts? Objections?
+
+Thanks,
 -- 
 Christopher Larson
 clarson at kergoth dot com
@@ -107,85 +135,93 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---089e0158cae8bd1c3a04e2460e4e
+--089e011830381405bb04e2467201
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Jul 24, 2013 at 9:50 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>=
-&gt;</span> wrote:<br>
+<div dir=3D"ltr"><div style>Greetings all,</div><div style><br></div><div s=
+tyle>I&#39;ve recently been doing some work at Mentor Graphics on read-only=
+-rootfs, for our purposes, and have done some things which I think may be o=
+f use. I&#39;m looking for comments/thoughts on the approach and potential =
+use of a pattern generally, and also wish to discuss the volatiles vs tmp f=
+iles.d situation.</div>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":bi" style=3D"overflow:hidden">My=
- biggest build with 20+ layers included finally finished today (after<br>
-many days because there was hw issue on server where it was running, so<br>
-it was slower then it should be).<br>
-<br>
-The results are a bit messy because:<br>
-1) It had only some fixes from my last &quot;autodetected dependencies&quot=
-;<br>
-=C2=A0 =C2=A0patchsets for oe-core and meta-oe<br>
-2) It was started when oe-core/master had broken boost, so many packages<br=
->
-=C2=A0 =C2=A0failed because of boost<br>
-3) It was started when oe-core/master had issues with qt-mobility (not sure=
- if<br>
-=C2=A0 =C2=A0all were fixed already)<br>
-4) It wasn&#39;t using latest version of test-dependencies script<br>
-5) It was using complete buildhistory repo which had many stalled<br>
-=C2=A0 =C2=A0packages like task-* and couple of architectures.<br>
-<br>
-But at least it will allow me to restrict recipes to rebuild from 1900 to<b=
-r>
-only 256 which were failing in this build.<br>
-<br>
-It was tested only for qemuarm.<br>
-<br>
-Complete logs are here:<br>
-<a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/te=
-st-dependencies-2013-07-24/" target=3D"_blank">http://logs.nslu2-linux.org/=
-buildlogs/oe/oe-shr-core-branches/test-dependencies-2013-07-24/</a><br>
-<br>
-Interesting parts<br>
-11 recipes failed in world build:<br>
-<a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/te=
-st-dependencies-2013-07-24/failed.world" target=3D"_blank">http://logs.nslu=
-2-linux.org/buildlogs/oe/oe-shr-core-branches/test-dependencies-2013-07-24/=
-failed.world</a><br>
+<div style><br></div><div style>I have recently created a `meta-ro-rootfs` =
+layer to hold work in this direction which is not yet in or-core. As is fai=
+rly usual, it&#39;s a staging area between us and upstream, not a place for=
+ anything to live permanently. What follows is a summation of the work done=
+ there thus far:</div>
 
+<div style><br></div><div style>- Created a &#39;systemd-tmpfiles&#39; reci=
+pe for non-systemd builds, and also for native<br></div><div style><br></di=
+v><div style>=C2=A0 - Patched in --sysroot=3D support for systemd-tmpfiles,=
+ to facilitate running it up front against the filesystem at do_rootfs time=
+ the way read_only_rootfs_hook does with populate-volatiles</div>
 
-<br>
-101 recipes failed in minimal build (8 caused by boost):<br>
-<a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/te=
-st-dependencies-2013-07-24/failed.min" target=3D"_blank">http://logs.nslu2-=
-linux.org/buildlogs/oe/oe-shr-core-branches/test-dependencies-2013-07-24/fa=
-iled.min</a><br>
+<div style><br></div><div style>=C2=A0 - Added an &#39;update-tmpfiles&#39;=
+ script, which iterates over all files in /etc/default/volatiles/, converti=
+ng them to tmpfiles.d config files, writing them into /usr/lib/tmpfiles.d/,=
+ and removing the volatile config files</div>
 
+<div style><br></div><div style>=C2=A0 - Reduced the dependencies, via patc=
+hes and EXTRA_OECONF, as much as seemed to be viable</div><div style><br></=
+div><div style><div>- Split out &#39;systemd-tmpfiles&#39; from &#39;system=
+d&#39; package in the main systemd recipe, equivalent to the standalone one=
+, for builds with `systemd` in DISTRO_FEATURES</div>
 
-<br>
-216 packages (160 recipes) doesn&#39;t have deterministic dependencies<br>
-<a href=3D"http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/te=
-st-dependencies-2013-07-24/failed.dependencies" target=3D"_blank">http://lo=
-gs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/test-dependencies-2013=
--07-24/failed.dependencies</a><br>
+<div><br></div><div style>- Created a &#39;read-only-rootfs-systemd&#39; bb=
+class, which appends the bits to run both update-tmpfiles and systemd-tmpfi=
+les against the filesystem at do_rootfs time for systemd distros. This will=
+ need to be altered to not remove the volatiles config files for non-system=
+d *images*. I realize there are many use cases to consider in the sysvinit =
+vs systemd realm, and I haven&#39;t verified that all are satisfied just ye=
+t, as systemd is our current priority for r/o rootfs.</div>
 
+<div style><br></div><div style>- Added a COMPLEMENTARY_GLOBS config (in th=
+e layer.conf for now, though I may move it into the bbclass) which adds `pk=
+g-volatile` for each `pkg` to the rootfs if read-only-rootfs is enabled.</d=
+iv>
 
-<br>
-Next results should be more interesting, because many issues are already<br=
->
-fixed by change I&#39;ve sent today to oe-core and oe-devel ML, but not all=
-,<br>
-because they were detected in build without x11 in DISTRO_FEATURES and<br>
-without some layers (like meta-browser meta-efl meta-gnome meta-gpe<br>
-meta-initramfs meta-webserver meta-xfce).</div></blockquote></div><br>I jus=
-t wanted to say, this is some impressive work, nicely done. I&#39;m amazed =
-at how many recipes still don&#39;t have deterministic dependencies, even a=
-fter all these years :)<br>
+<div style><br></div><div style>- Implemented a prototype configuration for=
+ dbus which uses this to support read-only-rootfs. In the main package, we =
+install a dbus.conf into /usr/lib/tmpfiles.d/ which ensures /var/lib/dbus e=
+xists for the non-r/o case, without including the path in the package (as i=
+ncluding paths within volatile paths in a binary package will break things)=
+. In the dbus-volatile package, I install a different dbus.conf to /etc/tmp=
+files.d/, which overrides the one in /usr/lib/tmpfiles.d/ (yes, update-alte=
+rnatives would have been an option too, and has a certain amount of merit, =
+as /etc/tmpfiles.d/ is supposed to be reserved for use by the administrator=
+), and this config ensures that /var/volatile/lib/dbus is created and that =
+/var/lib/dbus is a symlink which points to it.</div>
 
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
+<div style><br></div><div style>I have confirmed that I can create a system=
+d image with read-only-rootfs and read-only-rootfs-systemd inherited, and d=
+bus is able to write to the volatile /var/lib/dbus/ path.</div><div style>
 
---089e0158cae8bd1c3a04e2460e4e--
+<br></div><div style>I think this is a step in the right direction, though =
+clearly more needs to be worked out, but this pattern of using override vol=
+atile/tmpfiles configurations with an additional complementary package shou=
+ld let us cleanly share binary packages between r/o and non-r/o images.</di=
+v>
+
+<div style><br></div><div style>Now, regarding tmpfiles.d vs volatiles. Thi=
+s is a rather unpleasant situation currently, as for a recipe to cleanly su=
+pport both sysvinit and systemd images, it needs not only both sysv init sc=
+ript and systemd services (though admittedly the latter is optional with sy=
+sv compat), it also needs to provide both a volatiles config and a tmpfiles=
+.d config if it needs volatile paths.</div>
+
+<div style><br></div><div style>The standalone systemd-tmpfiles recipe I&#3=
+9;ve created has a fairly small set of dependencies: intltool-native, dbus,=
+ libcap. Given this, I&#39;d like to propose transitioning away from popula=
+te-volatiles to systemd-tmpfiles, even for non-systemd images. I think that=
+ the update-tmpfiles shell script may be of use in a transition, but before=
+ we even begin discussing a transition path, I&#39;d like to request commen=
+ts on the notion of moving to it at all. Thoughts? Objections?</div>
+
+<div style><br></div><div style>Thanks,</div></div>-- <br>Christopher Larso=
+n<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZau=
+rus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
+</div>
+
+--089e011830381405bb04e2467201--
