@@ -1,33 +1,31 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id AD579605F3
+Return-Path: <giuseppe.condorelli@gmail.com>
+Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A5814605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 06:56:51 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1V1t0G-00047K-0E from Muhammad_Shakeel@mentor.com ;
-	Tue, 23 Jul 2013 23:56:52 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 23 Jul 2013 23:56:51 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Wed, 24 Jul 2013 07:56:49 +0100
-Message-ID: <51EF7AE2.5080908@mentor.com>
-Date: Wed, 24 Jul 2013 11:57:38 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Wed, 24 Jul 2013 07:33:33 +0000 (UTC)
+Received: by mail-ob0-f170.google.com with SMTP id ef5so12473514obb.29
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jul 2013 00:33:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=oRxkFQscYpMM/n0SLf2Q7dG5nKxuHNAsEVs8UFPNEkM=;
+	b=ugOj+OjwuN6udTpxarm8gpnJulVIAwWLkxDDfiPUNsMh7VapKyCkVYnYf/qeRx3VGW
+	AQqH2k8ZcCKZZDWkW438Nx7c6N6ovgOLl9o4SB5cI+pUEkCnbDcDQsyX+gk5bHQ4EDV1
+	H6ErCg9b3QKr84XSCqjEUi5yi7ha13gt8rESrql1DMXNktTD12yLwuXp6cSlnQSr5YJR
+	zY0gIZ66NgBQ9nz56YJ8ikPUlxMkSo1mueijE10vpmRMCW/EIGZtjVQDiLinLzg7avUQ
+	s6J6I4uo6IGMQtyCQbKa4pJd7dpSWy7bbegI2VFQlU/kBV8s6Nij7l3GJ7sGmeAaVqCK
+	uTKA==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1374234806-31680-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CAJTo0LYwTk-eP9CCY_TR27Xq_tHUPZ4wVVw9DPObJP04dOSGwA@mail.gmail.com>
-In-Reply-To: <CAJTo0LYwTk-eP9CCY_TR27Xq_tHUPZ4wVVw9DPObJP04dOSGwA@mail.gmail.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 24 Jul 2013 06:56:51.0469 (UTC)
-	FILETIME=[F9704BD0:01CE883A]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] systemd: Remove systemd_unitdir if systemd is not in distro features
+X-Received: by 10.60.132.230 with SMTP id ox6mr34785742oeb.66.1374651213309;
+	Wed, 24 Jul 2013 00:33:33 -0700 (PDT)
+Received: by 10.182.142.65 with HTTP; Wed, 24 Jul 2013 00:33:33 -0700 (PDT)
+Date: Wed, 24 Jul 2013 09:33:33 +0200
+Message-ID: <CAOHjBZuDPPjk9dySzOTtGjXzy5yisjdumag=22qV5U-aW2hj4A@mail.gmail.com>
+From: Giuseppe Condorelli <giuseppe.condorelli@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: How to solve the make 3.82 issue at sanity check time?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,22 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 06:56:51 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Jul 2013 07:33:34 -0000
+Content-Type: multipart/alternative; boundary=047d7b41cbb8426db304e23ced5f
 
-On 07/23/2013 06:59 PM, Burton, Ross wrote:
-> On 19 July 2013 12:53, Shakeel, Muhammad <muhammad_shakeel@mentor.com> wrote:
->> If systemd is not supported DISTRO_FEATURE than there is no need to
->> package related service files.
-> When this is merged can you follow this up with a series to remove all
-> of the conditional installations in oe-core?
->
-> Cheers,
-> Ross
-Yes, I intend to follow this up with removal of conditional check for 
-service file installation.
+--047d7b41cbb8426db304e23ced5f
+Content-Type: text/plain; charset=ISO-8859-1
 
-Thanks,
-Shakeel
+Hi All,
 
+given that the make v. 3.82 is broken, as the sanity check highlights,
+which is the best solution
+to allow Fedora users (as I am) to go ahead with the build?
+I don't like to avoid sanity checks or to use an older version of
+sanity.bbclass.
+Please let me know, currently this issue is blocking for me.
+
+Cheers,
+Giuseppe
+
+--047d7b41cbb8426db304e23ced5f
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi All,</div><div>=A0</div><div>given that the make v. 3.82 is broken,=
+ as the sanity check highlights, which is the best solution</div><div>to al=
+low Fedora users (as I am) to go ahead with the build?</div><div>I don&#39;=
+t like to avoid sanity checks or to use an older version of sanity.bbclass.=
+</div>
+<div>Please let me know, currently this issue is blocking for me.</div><div=
+>=A0</div><div>Cheers,</div><div>Giuseppe</div>
+
+--047d7b41cbb8426db304e23ced5f--
