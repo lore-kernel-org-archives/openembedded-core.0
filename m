@@ -1,29 +1,33 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7781C605F3
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id AD579605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 06:15:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6O6FFAX029495
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Jul 2013 23:15:15 -0700 (PDT)
-Received: from [128.224.162.159] (128.224.162.159) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 23 Jul 2013 23:15:15 -0700
-Message-ID: <51EF70F6.6060800@windriver.com>
-Date: Wed, 24 Jul 2013 14:15:18 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Wed, 24 Jul 2013 06:56:51 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1V1t0G-00047K-0E from Muhammad_Shakeel@mentor.com ;
+	Tue, 23 Jul 2013 23:56:52 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Tue, 23 Jul 2013 23:56:51 -0700
+Received: from [137.202.157.119] (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Wed, 24 Jul 2013 07:56:49 +0100
+Message-ID: <51EF7AE2.5080908@mentor.com>
+Date: Wed, 24 Jul 2013 11:57:38 +0500
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1374643300.git.rongqing.li@windriver.com>
-	<947336a1ef2b936328ba6fcf519d55a4eda7085d.1374643300.git.rongqing.li@windriver.com>
-	<8651FFE5-8500-4151-A4DF-BE780516C6CC@gmail.com>
-In-Reply-To: <8651FFE5-8500-4151-A4DF-BE780516C6CC@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1374234806-31680-1-git-send-email-muhammad_shakeel@mentor.com>
+	<CAJTo0LYwTk-eP9CCY_TR27Xq_tHUPZ4wVVw9DPObJP04dOSGwA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYwTk-eP9CCY_TR27Xq_tHUPZ4wVVw9DPObJP04dOSGwA@mail.gmail.com>
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 24 Jul 2013 06:56:51.0469 (UTC)
+	FILETIME=[F9704BD0:01CE883A]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: ignore qemu output, and check its return code
+Subject: Re: [PATCH 1/2] systemd: Remove systemd_unitdir if systemd is not in distro features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +40,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 06:15:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 24 Jul 2013 06:56:51 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 07/23/2013 06:59 PM, Burton, Ross wrote:
+> On 19 July 2013 12:53, Shakeel, Muhammad <muhammad_shakeel@mentor.com> wrote:
+>> If systemd is not supported DISTRO_FEATURE than there is no need to
+>> package related service files.
+> When this is merged can you follow this up with a series to remove all
+> of the conditional installations in oe-core?
+>
+> Cheers,
+> Ross
+Yes, I intend to follow this up with removal of conditional check for 
+service file installation.
 
-
-On 07/24/2013 01:34 PM, Khem Raj wrote:
->
-> On Jul 23, 2013, at 10:24 PM, <rongqing.li@windriver.com> wrote:
->
->> From: "Roy.Li" <rongqing.li@windriver.com>
->>
->> qemu prints errors sometime, but it works well, the error information
->> can be captured by rpm, and lead to rpm failure. like:
->>
->> 	$export D=/tmp/rootfs;.../usr/bin/qemu-i386 -L $D \
->> 		-E LD_LIBRARY_PATH=$D/usr/lib:$D/lib $D/bin/udevadm hwdb --update --root $D
->> 	qemu: Unsupported syscall: 240
->
->
-> hmm this is a qemu issue and I bet qemu is segfaulting
-> This should be fixed. Can you try porting
->
-
-qemu is not segfaulting, except error message, it returns 0,
-and udevadm hwdb finished its task.
-
-> http://lists.gnu.org/archive/html/qemu-devel/2010-02/msg00870.html
->
-
-why was this patch be not merged, it was submitted on 02/2010
-
-
--Roy
-> To qemu please ?
->
-> Then you won't need this patch.
->
->
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
+Thanks,
+Shakeel
 
