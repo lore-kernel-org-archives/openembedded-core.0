@@ -1,26 +1,40 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A11F60629
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-oa0-f50.google.com (mail-oa0-f50.google.com
+	[209.85.219.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 402EB605F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 08:02:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6O82iOt010613
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 24 Jul 2013 08:31:56 +0000 (UTC)
+Received: by mail-oa0-f50.google.com with SMTP id k7so280361oag.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 01:02:44 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 24 Jul 2013 01:02:43 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Jul 2013 16:02:46 +0800
-Message-ID: <c71e648eb322ca4f57b7bb1c666382b8b5a05666.1374652867.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1374652867.git.rongqing.li@windriver.com>
-References: <cover.1374652867.git.rongqing.li@windriver.com>
+	Wed, 24 Jul 2013 01:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=mdyY8/LbPw+fpApRMCfrhenN5UbQwKnPxJn0JDkLdEs=;
+	b=DUaMN0SE/rW4jFPjtEplTz809ozPsKRSW9Vls9WNlmJWT/w6UZX/kv0FeEvNLq2l3F
+	k7EIinSWPx9/GK4DYWVI+4k9sSWgDsBtLiNtmuh8+OZ11PBZva1UxjfN4hjVQpUU0ZVQ
+	Cf74OOLlLrnR3wbVfD5zIHFF9W/+sC48riaXbT6qe3F8JDnnOswxZ3pp1Nat28GfPJ+Y
+	3LM3AMDSb3OaygYeuDQgXbfKCSLZTFhx3Rkut+WindZ/lJ9/xRzUGBzXRedLjjhTyTK8
+	Sy/yGf/RPV/+7UbcRJXU016OqprZIl4c5HvAJ0HGZ0hb5BlwykYUT8WDmE+CcWQvbx6y
+	su/w==
+X-Received: by 10.182.153.200 with SMTP id vi8mr26724777obb.27.1374654716497; 
+	Wed, 24 Jul 2013 01:31:56 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] qemu: block to build it on mips64 arch
+Sender: paul.betafive@gmail.com
+Received: by 10.76.102.11 with HTTP; Wed, 24 Jul 2013 01:31:16 -0700 (PDT)
+In-Reply-To: <CAJTo0LYcYUVxJ0pyMDKTSA_=ezGnn++nSh-MuFsFC40LBwydWw@mail.gmail.com>
+References: <cover.1374479372.git.kai.kang@windriver.com>
+	<3185bfa72aaa8acd02d32f67ee51de79a24c7c19.1374479372.git.kai.kang@windriver.com>
+	<1374481350.6719.83.camel@bril0118.bri.st.com>
+	<51EF39C7.2060703@windriver.com>
+	<CAJTo0LYcYUVxJ0pyMDKTSA_=ezGnn++nSh-MuFsFC40LBwydWw@mail.gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 24 Jul 2013 09:31:16 +0100
+X-Google-Sender-Auth: 60NkW76sVOqJAmVonCIT1Nei6UQ
+Message-ID: <CANyK_8difMKU96M-DeL2XHrdR+RV9TFEXvgJDeVey6zktjXprQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] webkit-gtk: fix 'Memory exhausted' error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +47,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 08:02:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Jul 2013 08:31:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+On 24 July 2013 08:49, Burton, Ross <ross.burton@intel.com> wrote:
+> On 24 July 2013 03:19, Kang Kai <Kai.Kang@windriver.com> wrote:
+>>> Instead of penalising everybody, would it be possible to make this
+>>> change dependent on the build machine (ram + swap)? Or to only add
+>>> -Wl,--no-keep-memory if the build failed without it?
+>>
+>> Yes, it doesn't fail on every build machine. But it seems that build fails
+>> randomly on different build machines.
+>
+> I'm in agreement with the others - this is how individual build
+> machine admins make a webkit-gtk build work on their machine if it
+> doesn't have enough memory available.  We should probably document how
+> to do this in local.conf in the recipe for reference, but not make it
+> a default.
+>
 
-qemu packages can NOT be built for mips64, Set COMPATIBLE_HOST to null to
-block build them for such platform.
+Perhaps create a bbclass for this that can be globally inherited in
+local.conf? I ran into a similar thing with gnuradio and had to drop
+PARALLEL_MAKE to get the build to complete with my amount of RAM+swap.
+Something like "lean-build.bbclass" that handles known issues for
+systems with limited memory.
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- meta/recipes-devtools/qemu/qemu_1.5.0.bb |    2 ++
- meta/recipes-devtools/qemu/qemu_git.bb   |    2 ++
- 2 files changed, 4 insertions(+)
+Would variables like LDFLAGS_webkit-gtk and PARALLEL_MAKE_gnuradio be
+applied to the appropriate recipes if they were set in local.conf or a
+globally inherited bbclass, or am I misunderstanding how bitbake
+parses variables?
 
-diff --git a/meta/recipes-devtools/qemu/qemu_1.5.0.bb b/meta/recipes-devtools/qemu/qemu_1.5.0.bb
-index 9b9d0d7..ed6cd2c 100644
---- a/meta/recipes-devtools/qemu/qemu_1.5.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.5.0.bb
-@@ -9,3 +9,5 @@ SRC_URI += "file://fdt_header.patch \
- SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
- SRC_URI[md5sum] = "b6f3265b8ed39d77e8f354f35cc26e16"
- SRC_URI[sha256sum] = "b22b30ee9712568dfb4eedf76783f4a76546e1cbc41659b909646bcf0b4867bb"
-+
-+COMPATIBLE_HOST_mips64 = "null"
-diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
-index 328e3bf..f061dc9 100644
---- a/meta/recipes-devtools/qemu/qemu_git.bb
-+++ b/meta/recipes-devtools/qemu/qemu_git.bb
-@@ -12,3 +12,5 @@ SRC_URI_prepend = "git://git.qemu.org/qemu.git;protocol=git"
- S = "${WORKDIR}/git"
- 
- DEFAULT_PREFERENCE = "-1"
-+
-+COMPATIBLE_HOST_mips64 = "null"
--- 
-1.7.10.4
+--
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
