@@ -1,28 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F09061619
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
+	[209.85.212.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D796860842
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 10:35:50 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r6OAihuH015564; Wed, 24 Jul 2013 11:44:43 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id IFpovVkQDszJ; Wed, 24 Jul 2013 11:44:43 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r6OAibiH015536
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 24 Jul 2013 11:44:39 +0100
-Message-ID: <1374662115.23294.126.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Wed, 24 Jul 2013 11:35:15 +0100
-In-Reply-To: <cover.1374511663.git.sgw@linux.intel.com>
+	Wed, 24 Jul 2013 10:40:27 +0000 (UTC)
+Received: by mail-vb0-f50.google.com with SMTP id w16so6229481vbb.37
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jul 2013 03:40:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=0/Of+GVTqQNm5tFBoXaFPiez0OR5J/lCRfdu/TpJuZg=;
+	b=IIkWTuF6aqnMD6fWIFxgvRw29L5C1eJ0a6smfcNlW8w1BFkjBhts8K8aA0lyszPch9
+	Jnvo4wc+APqsmH7METtoUH+yEbhx+xnXwrJuvQaFVL54RGaIKYmbEp7lgCJiFXTDtlbB
+	8P6EQ4QXjWT6gJ4FvNirUY/ExOLFphAHg4gIucc5s3nPG010GDdOSTJtJ0JXkwiolJrs
+	NGr2+aT++8rWDGwPbHkYS1c+h96EZUGmuOq4YTaTTaIc3fd5x8uQ8luKdsFB3umyfMnO
+	g0As9lANxWCSXVodv86ukr0VVx3pVS3cuaG07NJ+DRhSOQTuQB1tcpYK/MLE3zrRZRBG
+	1Flw==
+X-Received: by 10.52.31.230 with SMTP id d6mr11067233vdi.43.1374662426717;
+	Wed, 24 Jul 2013 03:40:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.58.30.15 with HTTP; Wed, 24 Jul 2013 03:40:06 -0700 (PDT)
+In-Reply-To: <1374662115.23294.126.camel@ted>
 References: <cover.1374511663.git.sgw@linux.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	<1374662115.23294.126.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 Jul 2013 11:40:06 +0100
+Message-ID: <CAJTo0LZ6yT8nGNrGoK2qNFBHu8t4k5C0cbEO6beC0OcnwQeB2Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Gm-Message-State: ALoCoQn72hUL3RQuSYnhgO39ED1j5yTPxuYLfkJTc9/HWvYyocleWHm8SKFzdT8xczVJxeKX+1gx
 Cc: otavio@ossystems.com.br, paul.eggleton@linux.intel.com,
 	dvhart@linux.intel.com, zhenhua.luo@freescale.com,
 	openembedded-core@lists.openembedded.org
@@ -39,56 +46,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 10:35:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 24 Jul 2013 10:40:28 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Mon, 2013-07-22 at 10:12 -0700, Saul Wold wrote:
-> Richard,
-> 
-> This has been trimmed and reviewed, please wait for Paul and Ross (traveling)
-> final ACKs.
-> 
-> ** Reminder to BSP Maintainers - Please update your mesa .bbappends *** 
-> ** I will send email when RP has pulled, please keep me posted on your branches **
-> 
-> Thanks
-> 	Sau!
-> 
-> 
-> The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
-> 
->   curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-> 
-> André Draszik (1):
->   directfb: don't patch pkg-config files
-> 
-> Beth Flanagan (1):
->   adt_installer_internal: fix spelling error
-> 
-> Chen Qi (2):
->   useradd.bbclass: add a new base class and code refactor
->   extrausers.bbclass: add a new bbclass
-> 
-> Daniel Nilsson (1):
->   glew: Update GLEW version number in autotools patch
-> 
-> Emilia Ciobanu (3):
->   kmod:add GIT revision to PV variable
->   lttng-modules: Append _git to recipe name and add GIT revision to PV  
->       variable
->   docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
+On 24 July 2013 11:35, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>>   docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
+>
+> I merged this but with this last one, why not rename the recipe to the
+> standard naming and then we don't need to set PV?
 
-I merged this but with this last one, why not rename the recipe to the
-standard naming and then we don't need to set PV?
+It's likely/possible to install multiple versions of this package at
+once so we can't just replace the -4.5 with _4.5, but renaming it to
+docbook-sgml-dtd-4.5-native_4.5.bb should solve the problem.
 
-Cheers,
-
-Richard
-
+Ross
 
