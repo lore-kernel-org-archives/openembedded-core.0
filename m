@@ -1,23 +1,29 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 10939605F3
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 31F3960656
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 05:24:13 +0000 (UTC)
+	Wed, 24 Jul 2013 05:32:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6O5OBrb010551
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6O5W0Bf025995
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Jul 2013 22:24:11 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.159) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 23 Jul 2013 22:24:11 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Jul 2013 13:24:12 +0800
-Message-ID: <cover.1374643300.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 23 Jul 2013 22:32:00 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 23 Jul 2013 22:32:00 -0700
+Message-ID: <51EF66CD.5030503@windriver.com>
+Date: Wed, 24 Jul 2013 13:31:57 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: [PATCH 0/1] systemd: ignore qemu output, and check its return code
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1374470729.git.hongxu.jia@windriver.com>
+	<ddc5bcdf8e55f13d76e2b0b256a4599912074496.1374470729.git.hongxu.jia@windriver.com>
+	<CAJTo0LaLCLNXT5hEjTW6HNq+S++VvC+JjRoLtszYfMJ+HNJkQQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LaLCLNXT5hEjTW6HNq+S++VvC+JjRoLtszYfMJ+HNJkQQ@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] nss:fix postinst failed at rootfs time
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,27 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 05:24:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Jul 2013 05:32:00 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+On 07/23/2013 10:48 PM, Burton, Ross wrote:
+> On 22 July 2013 06:45, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> Create checksum file at rootfs time to support read-only rootfs.
+> Have you verified that the checksum files don't change depending on
+> the host architecture (big/little endian, 32/64 bit)?
+Yes, I have verified.
 
-The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
+*host
+BUILD_SYS         = "x86_64-linux"
 
-  curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
+*target
+TARGET_SYS        = "mips-poky-linux"
+MACHINE           = "qemumips"
+or
+TARGET_SYS        = "i586-poky-linux"
+MACHINE           = "qemux86"
 
-are available in the git repository at:
+Everything is ok.
 
-  git://git.pokylinux.org/poky-contrib roy/systemd
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/systemd
+Thanks,
+Hongxu
 
-Roy.Li (1):
-  systemd: ignore qemu output, and check its return code
-
- meta/recipes-core/systemd/systemd_204.bb |    4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
--- 
-1.7.10.4
+> Ross
 
 
