@@ -1,33 +1,34 @@
-Return-Path: <walters@verbum.org>
-Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
-	[66.111.4.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AF416028B
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f54.google.com (mail-oa0-f54.google.com
+	[209.85.219.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5905F6028B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 21:47:07 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.mail.srv.osa [10.202.2.44])
-	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 182CB211D6;
-	Wed, 24 Jul 2013 17:47:07 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute4.internal (MEProxy); Wed, 24 Jul 2013 17:47:07 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
-	:content-type:date:message-id:mime-version
-	:content-transfer-encoding; s=smtpout; bh=c077/SGQ4mLpTF+IhRJNEh
-	KicP4=; b=K5u4RAr19UEXuX1JzQNOkGa7yP3upwLHMv2A+xjlyFlziX4fV3nZvY
-	XFyUhriGqYjjY9c3UPhXQW0KJSEa034OGmNxTUYTATpFZ5hBng78fpOy2Fq9NVQf
-	VkCg/7t7uc/bDPbjFuhwlnuJXeCVm3t7I+MUGIQpNuT9BVb+xNjkc=
-X-Sasl-enc: +QjImM3AtwxdlSNkVIanbjT15Iz/upsj1umDx5+RZqLI 1374702426
-Received: from [192.168.1.2] (unknown [66.31.18.51])
-	by mail.messagingengine.com (Postfix) with ESMTPA id A4D2768013A;
-	Wed, 24 Jul 2013 17:47:06 -0400 (EDT)
-From: Colin Walters <walters@verbum.org>
-To: Chris Larson <clarson@kergoth.com>
+	Wed, 24 Jul 2013 21:51:05 +0000 (UTC)
+Received: by mail-oa0-f54.google.com with SMTP id o6so2379695oag.41
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jul 2013 14:51:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=p57Eu98tUofTPgcUJfu8qlvVKSxbKpiWq5uUT9AxkDs=;
+	b=yElA45xJxD5y6SPXU/C20i4coGzz83absVtKbFP8+bzoCXsjUaIgIJFde/kXWEByYa
+	UdsqgABoJoj9AW+cUgOssRMAN3Vq8CGPfc/IPTaJpa+Z2JZ4fvi1yCsGrVAtq9JXy4Re
+	gaDwP3jYduN7hMzEem0fAKvDipZGyj1+ovwBDl6GQ1f3GgxNA1zFJAjsxf7Qg9/87MKu
+	38xx81gHAhuhNOmAWhlh5RB5zfohL1bMEtjoeC1G+C2UUkJj8VpD6g3juftHLKERh8OD
+	1szd/LpcvTF09AYPxZz5b6ih/fD26A7OMQDtdRlOsmO8AkbhePVDMTJZGoWR/kgCTB1h
+	osYw==
+MIME-Version: 1.0
+X-Received: by 10.182.27.74 with SMTP id r10mr32884701obg.63.1374702665391;
+	Wed, 24 Jul 2013 14:51:05 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.60.166 with HTTP; Wed, 24 Jul 2013 14:51:05 -0700 (PDT)
 In-Reply-To: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
 References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-Date: Wed, 24 Jul 2013 17:47:05 -0400
-Message-ID: <1374702425.15230.29.camel@localhost>
-Mime-Version: 1.0
-X-Mailer: Evolution 2.32.3 (2.32.3-13.el6) 
+Date: Wed, 24 Jul 2013 18:51:05 -0300
+X-Google-Sender-Auth: I61TrGNukLlwsdRxLHzPJK-aMNE
+Message-ID: <CAP9ODKouv4sp08h5dnm4M=4bfhewoqSSqgPiTiQm=VyN7=gZCQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Chris Larson <clarson@kergoth.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
@@ -43,41 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 21:47:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Jul 2013 21:51:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, 2013-07-24 at 11:54 -0700, Chris Larson wrote:
+Hello Chris,
 
->   - Patched in --sysroot= support for systemd-tmpfiles, to facilitate
-> running it up front against the filesystem at do_rootfs time the way
-> read_only_rootfs_hook does with populate-volatiles
+It is always good when you come with a 'RFC' thread ;-)
 
-How are you handling /run?  Is it still a tmpfs in your model?  If so
-are you excluding tmpfiles.d snippets which reference /run at rootfs
-time?
+On Wed, Jul 24, 2013 at 3:54 PM, Chris Larson <clarson@kergoth.com> wrote:
+...
+> The standalone systemd-tmpfiles recipe I've created has a fairly small set
+> of dependencies: intltool-native, dbus, libcap. Given this, I'd like to
+> propose transitioning away from populate-volatiles to systemd-tmpfiles, even
+> for non-systemd images. I think that the update-tmpfiles shell script may be
+> of use in a transition, but before we even begin discussing a transition
+> path, I'd like to request comments on the notion of moving to it at all.
 
-It strikes me that a less invasive way to achieve readonly rootfs is
-to symlink /var -> /run/var.  Or are you doing that already?
+I think it shouldn't be hard to make an C app or script which could
+parse systemd-tmpfiles and use this for non-systemd systems. What do
+you think?
 
-Then you'd probably want to just run through any tmpfiles which
-reference /etc and /usr.
-
-> 
-> - Implemented a prototype configuration for dbus which uses this to
-> support read-only-rootfs. 
-
-Err...for what?  /var/run/dbus/system_bus_socket?  You should just
-have /var/run -> /run, and that's solved.
-
-If it's for /var/lib/dbus/machine-id, likewise that should on modern
-systems just be a symlink to /etc/machine-id.
-
-Though you do need to figure out whether you want a statically
-configured machine ID, or to have one generated dynamically at boot.
-These both have tradeoffs; basically, whatever you're doing for the
-random seed you should probably also do for the machine ID.
-
-
-
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
