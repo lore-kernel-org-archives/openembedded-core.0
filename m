@@ -1,35 +1,37 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 70FE160664
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 361C86A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 22:44:10 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id t13so968395lbd.11
+	Wed, 24 Jul 2013 22:55:33 +0000 (UTC)
+Received: by mail-lb0-f171.google.com with SMTP id 13so987274lba.30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 15:44:10 -0700 (PDT)
+	Wed, 24 Jul 2013 15:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date
 	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=YBf9eIRQPNKLoOHmW+6n/l82tnlhigyvk8m8xM2psis=;
-	b=tVXVR7wA74tfy728t4bFctveDJktSoWI5563MA5tonB0bi7FqB1gbAVUe2kyCmepUp
-	Cmr1gr5HQTe762nqL8w4kAQ5l2Kmn6clkOZ8VzdoCdIn4yqg7XwwOKElFMugJJdkcDP8
-	jmswmS/EeNdraMX5uP97lHgq0ki4bP/o5PrFIhe7uWqovRdncE0Ro6RgsnwhKWqmU/VU
-	STJnbijrsnYgB22DJVOUm3VqZyXdfkDf62HlJAp6k1PnKcpr/xiLX2Q2VaKmnGvFknnN
-	qUHqwuQrylSR90cL9FHxouBye/3L+fS0UTcK6ISNOoBPVUJara6xZdDr8YZrLKOm1avz
-	OKsg==
-X-Received: by 10.152.1.134 with SMTP id 6mr18026975lam.16.1374705850429; Wed,
-	24 Jul 2013 15:44:10 -0700 (PDT)
+	bh=Guo2dDpejPXAbIDXJzTu37j7TkAlwEl684sMUM5gHXk=;
+	b=diEHAeXr7zGQNBuaQ3V6Htu69XZaWETBob24UmOxUxCD5Pv3e6jLpoiVoWcs1+NUQ9
+	H2xp50ZUB1Nilk9Ss/bWp1itQit7jYFzN9IMuxnXXNXqjpDA73VPBjW+G1DBLuQGkVk6
+	a2VNgSQafnOoKtJsd3q3JI1uIWXErl4Cpvawa2OxxX2fgs0l4heakaOElYNC0LGUrUIO
+	AjlSQsKSWwC7gqBAlAdGJGXHQ9gtWnAXhfNqqIDkZJ45Ba1hCtqBC5LYH05r7Y5ZZsLG
+	7aYk2lvfynpIo9BR9LRPihB3drQ3AbDqhDe/9saMN/NeNrtEmJT7NfIQMwR6eIP+gQg7
+	S4CQ==
+X-Received: by 10.152.18.129 with SMTP id w1mr17876996lad.10.1374706532233;
+	Wed, 24 Jul 2013 15:55:32 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.112.17.67 with HTTP; Wed, 24 Jul 2013 15:43:50 -0700 (PDT)
-In-Reply-To: <1374702425.15230.29.camel@localhost>
+Received: by 10.112.17.67 with HTTP; Wed, 24 Jul 2013 15:55:12 -0700 (PDT)
+In-Reply-To: <CAP9ODKrwQfK9=mArwGbJk1E2-8G+_QvFZ3ehU+fKqYvPY5xLjg@mail.gmail.com>
 References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-	<1374702425.15230.29.camel@localhost>
+	<CAP9ODKouv4sp08h5dnm4M=4bfhewoqSSqgPiTiQm=VyN7=gZCQ@mail.gmail.com>
+	<CABcZAN=Kn_V82JE3e=781cHBd6WwH9=96wZx=o=u_z6X89Vg=w@mail.gmail.com>
+	<CAP9ODKrwQfK9=mArwGbJk1E2-8G+_QvFZ3ehU+fKqYvPY5xLjg@mail.gmail.com>
 From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 24 Jul 2013 15:43:50 -0700
-X-Google-Sender-Auth: afQLmJLZTA9n1KMmUp3etGl5swg
-Message-ID: <CABcZANn_kL0vk1dyRQ1dmLDAACkx5WAq_zWN06bgF=zqRag8bA@mail.gmail.com>
-To: Colin Walters <walters@verbum.org>
+Date: Wed, 24 Jul 2013 15:55:12 -0700
+X-Google-Sender-Auth: AvAf2e_nEtqtTUx70X5FyDDHw4s
+Message-ID: <CABcZANnTy3Mg91oeu0U57Y1YADM+Jr-gK8phf9P0SuQcLy5YNw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
@@ -45,79 +47,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 22:44:10 -0000
-Content-Type: multipart/alternative; boundary=e89a8f234e85e2b68d04e249a56c
+X-List-Received-Date: Wed, 24 Jul 2013 22:55:33 -0000
+Content-Type: multipart/alternative; boundary=089e014939688638e404e249cebc
 
---e89a8f234e85e2b68d04e249a56c
+--089e014939688638e404e249cebc
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jul 24, 2013 at 2:47 PM, Colin Walters <walters@verbum.org> wrote:
+On Wed, Jul 24, 2013 at 3:40 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-> On Wed, 2013-07-24 at 11:54 -0700, Chris Larson wrote:
+> On Wed, Jul 24, 2013 at 7:34 PM, Chris Larson <clarson@kergoth.com> wrote:
+> >
+> > On Wed, Jul 24, 2013 at 2:51 PM, Otavio Salvador <
+> otavio@ossystems.com.br>
+> > wrote:
+> >>
+> >> On Wed, Jul 24, 2013 at 3:54 PM, Chris Larson <clarson@kergoth.com>
+> wrote:
+> >> ...
+> >> > The standalone systemd-tmpfiles recipe I've created has a fairly small
+> >> > set
+> >> > of dependencies: intltool-native, dbus, libcap. Given this, I'd like
+> to
+> >> > propose transitioning away from populate-volatiles to
+> systemd-tmpfiles,
+> >> > even
+> >> > for non-systemd images. I think that the update-tmpfiles shell script
+> >> > may be
+> >> > of use in a transition, but before we even begin discussing a
+> transition
+> >> > path, I'd like to request comments on the notion of moving to it at
+> all.
+> >>
+> >> I think it shouldn't be hard to make an C app or script which could
+> >> parse systemd-tmpfiles and use this for non-systemd systems. What do
+> >> you think?
+> >
+> >
+> > I considered this too, but systemd-tmpfiles supports quite a lot more
+> than
+> > volatiles, for example restoring selinux labels. Maybe that sounds fun to
+> > you, but it sounded like more trouble than it was worth to me, given
+> > systemd-tmpfiles can be used without systemd :) But yes, it's definitely
+> > another option to consider.
 >
-> >   - Patched in --sysroot= support for systemd-tmpfiles, to facilitate
-> > running it up front against the filesystem at do_rootfs time the way
-> > read_only_rootfs_hook does with populate-volatiles
+> Sorry, pressed the send button too fast ...
 >
-> How are you handling /run?  Is it still a tmpfs in your model?  If so
-> are you excluding tmpfiles.d snippets which reference /run at rootfs
-> time?
->
-
-Still a tmpfs, yes. I haven't excluded them at this time, which means right
-now it ends up with the tmpfs paths populated with content that won't be
-seen at runtime, due to being under the tmpfs mount. I'm not certain
-whether that's a problem or not, but it's absolutely something to think
-about.
-
-It strikes me that a less invasive way to achieve readonly rootfs is
-> to symlink /var -> /run/var.  Or are you doing that already?
->
-> Then you'd probably want to just run through any tmpfiles which
-> reference /etc and /usr.
->
-
-That's not a bad idea, and I haven't tried that yet myself. One concern
-with this is, with the current setup, retaining existing regenerated bits
-in the filesystem would be just a matter of tweaking the tmpfiles
-configuration, whereas doing so if you link the entirety could be more
-troublesome. One example of a file that lives in /var but isn't volatile is
-the asound.state file shipped by alsa-state for some machines. Another is
-the package management database, which while r/o if the rootfs is r/o, can
-still have value.
-
->
-> > - Implemented a prototype configuration for dbus which uses this to
-> > support read-only-rootfs.
->
-> Err...for what?  /var/run/dbus/system_bus_socket?  You should just
-> have /var/run -> /run, and that's solved.
->
-
-or-core already has /var/run -> /run, so indeed, that's not an issue.
+> I understand but I think we could solve the tmp files issue only;
+> people using sysv are expected to solve all those other issues in
+> another way so it is not a regression for them.
 
 
-> If it's for /var/lib/dbus/machine-id, likewise that should on modern
-> systems just be a symlink to /etc/machine-id.
->
-> Though you do need to figure out whether you want a statically
-> configured machine ID, or to have one generated dynamically at boot.
-> These both have tradeoffs; basically, whatever you're doing for the
-> random seed you should probably also do for the machine ID.
+I think those other issues still apply to tmpfiles, just not about their
+creation alone :)
 
+Assuming others have other ways of handling that, it does bother me a
+little still duplicating that information between tmpfiles config and
+whatever that 'another way' was, but it would definitely be a step in the
+right direction.
 
-It was indeed for the machine-id. I didn't really look closely at exactly
-what was being dealt with, as I just wanted an example to show that the
-approach with the additional -volatile package with the override config was
-going to pan out. :)
-
-Personally, I think that the best approach is for such things to generate
-on boot every time, and treat shipping pre-generated content (possibly just
-to improve boot time) as a separate task which a distro could take on. That
-way everything works, and isn't exposed to any downsides of using
-pregenerated content which is the same for all devices by default, unless
-opted in. Another example of this would be the ssh host keys. I'm certainly
-open to discussing the tradeoffs of the alternatives, though.
+Using a single config file but different implementations would absolutely
+be an improvement over the current handling, and would be less invasive,
+and wouldn't add the potential additional deps brought in by
+systemd-tmpfiles. It's a good idea, and I'd be curious to hear what others
+think about this option vs using systemd-tmpfiles itself.
 -- 
 Christopher Larson
 clarson at kergoth dot com
@@ -125,90 +117,83 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---e89a8f234e85e2b68d04e249a56c
+--089e014939688638e404e249cebc
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jul 24, 2013 at 2:47 PM, Colin Walters <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:walters@verbum.org" target=3D"_blank">walters@verbum.org</a>&gt=
-;</span> wrote:<br>
+On Wed, Jul 24, 2013 at 3:40 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.c=
+om.br</a>&gt;</span> wrote:<br>
 
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, 2013-07-24 at 11:5=
-4 -0700, Chris Larson wrote:<br>
-<br>
-&gt; =C2=A0 - Patched in --sysroot=3D support for systemd-tmpfiles, to faci=
-litate<br>
-&gt; running it up front against the filesystem at do_rootfs time the way<b=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, Jul 24, 2013 at 7:=
+34 PM, Chris Larson &lt;<a href=3D"mailto:clarson@kergoth.com">clarson@kerg=
+oth.com</a>&gt; wrote:<br>
+
+
+&gt;<br>
+&gt; On Wed, Jul 24, 2013 at 2:51 PM, Otavio Salvador &lt;<a href=3D"mailto=
+:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;<br>
+&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Wed, Jul 24, 2013 at 3:54 PM, Chris Larson &lt;<a href=3D"mailt=
+o:clarson@kergoth.com">clarson@kergoth.com</a>&gt; wrote:<br>
+&gt;&gt; ...<br>
+&gt;&gt; &gt; The standalone systemd-tmpfiles recipe I&#39;ve created has a=
+ fairly small<br>
+&gt;&gt; &gt; set<br>
+&gt;&gt; &gt; of dependencies: intltool-native, dbus, libcap. Given this, I=
+&#39;d like to<br>
+&gt;&gt; &gt; propose transitioning away from populate-volatiles to systemd=
+-tmpfiles,<br>
+&gt;&gt; &gt; even<br>
+&gt;&gt; &gt; for non-systemd images. I think that the update-tmpfiles shel=
+l script<br>
+&gt;&gt; &gt; may be<br>
+&gt;&gt; &gt; of use in a transition, but before we even begin discussing a=
+ transition<br>
+&gt;&gt; &gt; path, I&#39;d like to request comments on the notion of movin=
+g to it at all.<br>
+&gt;&gt;<br>
+&gt;&gt; I think it shouldn&#39;t be hard to make an C app or script which =
+could<br>
+&gt;&gt; parse systemd-tmpfiles and use this for non-systemd systems. What =
+do<br>
+&gt;&gt; you think?<br>
+&gt;<br>
+&gt;<br>
+&gt; I considered this too, but systemd-tmpfiles supports quite a lot more =
+than<br>
+&gt; volatiles, for example restoring selinux labels. Maybe that sounds fun=
+ to<br>
+&gt; you, but it sounded like more trouble than it was worth to me, given<b=
 r>
-&gt; read_only_rootfs_hook does with populate-volatiles<br>
+&gt; systemd-tmpfiles can be used without systemd :) But yes, it&#39;s defi=
+nitely<br>
+&gt; another option to consider.<br>
 <br>
-</div>How are you handling /run? =C2=A0Is it still a tmpfs in your model? =
-=C2=A0If so<br>
-are you excluding tmpfiles.d snippets which reference /run at rootfs<br>
-time?<br></blockquote><div><br></div><div style>Still a tmpfs, yes. I haven=
-&#39;t excluded them at this time, which means right now it ends up with th=
-e tmpfs paths populated with content that won&#39;t be seen at runtime, due=
- to being under the tmpfs mount. I&#39;m not certain whether that&#39;s a p=
-roblem or not, but it&#39;s absolutely something to think about.</div>
-
-<div style><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-It strikes me that a less invasive way to achieve readonly rootfs is<br>
-to symlink /var -&gt; /run/var. =C2=A0Or are you doing that already?<br>
+</div>Sorry, pressed the send button too fast ...<br>
 <br>
-Then you&#39;d probably want to just run through any tmpfiles which<br>
-reference /etc and /usr.<br></blockquote><div><br></div><div style>That&#39=
-;s not a bad idea, and I haven&#39;t tried that yet myself. One concern wit=
-h this is, with the current setup, retaining existing regenerated bits in t=
-he filesystem would be just a matter of tweaking the tmpfiles configuration=
-, whereas doing so if you link the entirety could be more troublesome. One =
-example of a file that lives in /var but isn&#39;t volatile is the asound.s=
-tate file shipped by alsa-state for some machines. Another is the package m=
-anagement database, which while r/o if the rootfs is r/o, can still have va=
-lue.</div>
+I understand but I think we could solve the tmp files issue only;<br>
+people using sysv are expected to solve all those other issues in<br>
+another way so it is not a regression for them.</blockquote><div><br></div>=
+<div style>I think those other issues still apply to tmpfiles, just not abo=
+ut their creation alone :)=C2=A0</div></div><br>Assuming others have other =
+ways of handling that, it does bother me a little still duplicating that in=
+formation between tmpfiles config and whatever that &#39;another way&#39; w=
+as, but it would definitely be a step in the right direction.</div>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im"><br>
-&gt; - Implemented a prototype configuration for dbus which uses this to<br=
->
-&gt; support read-only-rootfs.<br>
-<br>
-</div>Err...for what? =C2=A0/var/run/dbus/system_bus_socket? =C2=A0You shou=
-ld just<br>
-have /var/run -&gt; /run, and that&#39;s solved.<br></blockquote><div><br><=
-/div><div style>or-core already has /var/run -&gt; /run, so indeed, that&#3=
-9;s not an issue.</div><div style>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Using a sin=
+gle config file but different implementations would absolutely be an improv=
+ement over the current handling, and would be less invasive, and wouldn&#39=
+;t add the potential additional deps brought in by systemd-tmpfiles. It&#39=
+;s a good idea, and I&#39;d be curious to hear what others think about this=
+ option vs using systemd-tmpfiles itself.<br>
 
-
-If it&#39;s for /var/lib/dbus/machine-id, likewise that should on modern<br=
->
-systems just be a symlink to /etc/machine-id.<br>
-<br>
-Though you do need to figure out whether you want a statically<br>
-configured machine ID, or to have one generated dynamically at boot.<br>
-These both have tradeoffs; basically, whatever you&#39;re doing for the<br>
-random seed you should probably also do for the machine ID.</blockquote></d=
-iv><br>It was indeed for the machine-id. I didn&#39;t really look closely a=
-t exactly what was being dealt with, as I just wanted an example to show th=
-at the approach with the additional -volatile package with the override con=
-fig was going to pan out. :)</div>
-
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Personally,=
- I think that the best approach is for such things to generate on boot ever=
-y time, and treat shipping pre-generated content (possibly just to improve =
-boot time) as a separate task which a distro could take on. That way everyt=
-hing works, and isn&#39;t exposed to any downsides of using pregenerated co=
-ntent which is the same for all devices by default, unless opted in. Anothe=
-r example of this would be the ssh host keys. I&#39;m certainly open to dis=
-cussing the tradeoffs of the alternatives, though.</div>
-
-<div class=3D"gmail_extra">-- <br>Christopher Larson<br>clarson at kergoth =
-dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tsli=
-b<br>Senior Software Engineer, Mentor Graphics
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
 </div></div>
 
---e89a8f234e85e2b68d04e249a56c--
+--089e014939688638e404e249cebc--
