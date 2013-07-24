@@ -1,27 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C5F96B276
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 6215B6028B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 14:32:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Jul 2013 07:31:51 -0700
+	Wed, 24 Jul 2013 15:07:00 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 24 Jul 2013 08:07:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,735,1367996400"; d="scan'208";a="375284471"
+X-IronPort-AV: E=Sophos;i="4.89,736,1367996400"; d="scan'208";a="272604316"
 Received: from unknown (HELO [10.255.14.43]) ([10.255.14.43])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Jul 2013 07:31:50 -0700
-Message-ID: <51EFE556.4050605@linux.intel.com>
-Date: Wed, 24 Jul 2013 07:31:50 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 24 Jul 2013 08:06:59 -0700
+Message-ID: <51EFED93.7080109@linux.intel.com>
+Date: Wed, 24 Jul 2013 08:06:59 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1374511663.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1374511663.git.sgw@linux.intel.com>
-Cc: otavio@ossystems.com.br, paul.eggleton@linux.intel.com,
-	dvhart@linux.intel.com, zhenhua.luo@freescale.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/27] Ready for Pull after final ACK
+To: Gabriel Barbu <gabriel.barbu@enea.com>
+References: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
+In-Reply-To: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] strace: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,155 +32,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 14:32:00 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 24 Jul 2013 15:07:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/24/2013 05:06 AM, Gabriel Barbu wrote:
+> Install strace test suite and run it as ptest.
+>
+> Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
+> ---
+>   .../strace/strace-4.8/Makefile-ptest.patch         |   23 ++++++++++++++++++++
+>   meta/recipes-devtools/strace/strace-4.8/run-ptest  |    2 ++
+>   meta/recipes-devtools/strace/strace_4.8.bb         |   19 ++++++++++++++--
+>   3 files changed, 42 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+>   create mode 100755 meta/recipes-devtools/strace/strace-4.8/run-ptest
+>
+> diff --git a/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+> new file mode 100644
+> index 0000000..9cd491b
+> --- /dev/null
 
+Please add an Upstream-Status and Signed-off-by per the OE-Core patch 
+guidelines.
 
-This set has been, which means BSPs that have MESA bbappend files need 
-to be updated, I will be starting a Master build for weekly testing 
-around 11:00am PT today (7/24)
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
+I have had to ask this of the recent ptest, maybe your team can do an 
+internal review before sending these patches to the list.
 
-Sau!
+Thanks
+  	 Sau!
 
-
-On 07/22/2013 10:12 AM, Saul Wold wrote:
-> Richard,
+> +++ b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+> @@ -0,0 +1,23 @@
+> +--- old/tests/Makefile.am	2013-07-23 13:44:24.660481381 +0200
+> ++++ new/tests/Makefile.am	2013-07-23 16:22:42.937654391 +0200
+> +@@ -9,3 +9,20 @@
+> + EXTRA_DIST = init.sh $(TESTS)
+> +
+> + CLEANFILES = check.log
+> ++
+> ++buildtest-TESTS: $(check_PROGRAMS) $(TESTS)
+> ++
+> ++install-ptest:
+> ++	install $(BUILDDIR)/strace $(DESTDIR)
+> ++	install "$(srcdir)/.."/strace-log-merge $(DESTDIR)
+> ++	install -d $(DESTDIR)/$(TESTDIR)
+> ++	cp $(BUILDDIR)/$(TESTDIR)/Makefile $(DESTDIR)/$(TESTDIR)
+> ++	sed -i -e 's/^Makefile:/_Makefile:/' $(DESTDIR)/$(TESTDIR)/Makefile
+> ++	for file in $(check_PROGRAMS); do \
+> ++		install $(BUILDDIR)/$(TESTDIR)/$$file $(DESTDIR)/$(TESTDIR); \
+> ++	done
+> ++	for file in $(EXTRA_DIST); do \
+> ++		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
+> ++		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
+> ++	done
+> ++	sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/net
+> diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+> new file mode 100755
+> index 0000000..133cf92
+> --- /dev/null
+> +++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+> @@ -0,0 +1,2 @@
+> +#!/bin/sh
+> +make -C tests -k runtest-TESTS
+> diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
+> index 0f4d2f0..79a4ad7 100644
+> --- a/meta/recipes-devtools/strace/strace_4.8.bb
+> +++ b/meta/recipes-devtools/strace/strace_4.8.bb
+> @@ -7,11 +7,16 @@ PR = "r0"
 >
-> This has been trimmed and reviewed, please wait for Paul and Ross (traveling)
-> final ACKs.
+>   SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+>              file://git-version-gen \
+> -           file://strace-add-configure-options.patch"
+> +           file://strace-add-configure-options.patch \
+> +           file://Makefile-ptest.patch \
+> +           file://run-ptest \
+> +          "
 >
-> ** Reminder to BSP Maintainers - Please update your mesa .bbappends ***
-> ** I will send email when RP has pulled, please keep me posted on your branches **
+>   SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
+>   SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
+> -inherit autotools
+> +
+> +inherit autotools ptest
+> +RDEPENDS_${PN}-ptest += "make"
 >
-> Thanks
-> 	Sau!
+>   PACKAGECONFIG_class-target ?= "libaio"
+>   PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+> @@ -21,6 +26,8 @@ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
 >
+>   export INCLUDES = "-I. -I./linux"
 >
-> The following changes since commit 8fc6904fe97438478119db6cd23b7b4eb33b50aa:
+> +TESTDIR = "tests"
+> +
+>   do_configure_prepend() {
+>   	cp ${WORKDIR}/git-version-gen ${S}
+>   }
+> @@ -30,4 +37,12 @@ do_install_append() {
+>   	rm ${D}${bindir}/strace-graph
+>   }
 >
->    curl: add upstream status to patch (2013-07-18 12:21:13 -0700)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib sgw/stage
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
->
-> André Draszik (1):
->    directfb: don't patch pkg-config files
->
-> Beth Flanagan (1):
->    adt_installer_internal: fix spelling error
->
-> Chen Qi (2):
->    useradd.bbclass: add a new base class and code refactor
->    extrausers.bbclass: add a new bbclass
->
-> Daniel Nilsson (1):
->    glew: Update GLEW version number in autotools patch
->
-> Emilia Ciobanu (3):
->    kmod:add GIT revision to PV variable
->    lttng-modules: Append _git to recipe name and add GIT revision to PV
->        variable
->    docbook-sgml-dtd-4.5-native.bb: Add real PV inside the recipe
->
-> Jesse Zhang (1):
->    tremor: add a patch to build with arm thumb
->
-> Jonathan Liu (5):
->    systemd: remove unneeded modprobe.rules
->    mesa: upgrade to 9.1.5
->    wget: backport fixes for documentation build errors
->    mesa: use LLVM 3.3 by default
->    boot-directdisk: use awk instead of echo -ne for dash compatibility
->
-> Martin Jansa (6):
->    gst-plugins-good: add PACKAGECONFIG for jack
->    gst-plugins-ugly: add PACKAGECONFIG for x264, cdio, dvdread
->    pulseaudio: add PACKAGECONFIG for jack
->    subversion: add PACKAGECONFIG for sasl
->    cups: add PACKAGECONFIG for avahi
->    mesa: add Upstream-Status
->
-> Ming Liu (1):
->    libpam: add a new 'nullok_secure' option support to pam_unix
->
-> Muhammad Shakeel (1):
->    systemd: Remove systemd_unitdir if systemd is not in distro features
->
-> Petter Mabäcker (1):
->    remake: fix insufficient gettext dependency
->
-> Ross Burton (1):
->    initrdscripts: mount / as read-only when live-booting
->
-> Saul Wold (1):
->    pigz: Fix typo in ALTERNATIVES line
->
-> Tudor Florea (2):
->    python: Add ptest
->    kmod: Add ptest
->
->   meta/classes/boot-directdisk.bbclass               |   2 +-
->   meta/classes/extrausers.bbclass                    |  61 ++++++
->   meta/classes/systemd.bbclass                       |   9 +
->   meta/classes/useradd.bbclass                       |  99 +--------
->   meta/classes/useradd_base.bbclass                  | 230 +++++++++++++++++++++
->   meta/recipes-core/initrdscripts/files/init-live.sh |   6 +-
->   meta/recipes-core/systemd/systemd/modprobe.rules   |  17 --
->   meta/recipes-core/systemd/systemd_204.bb           |   1 -
->   .../docbook-sgml-dtd-4.5-native.bb                 |   1 +
->   .../adt-installer/scripts/adt_installer_internal   |   2 +-
->   .../python/python/fix-makefile-for-ptest.patch     |  33 +++
->   meta/recipes-devtools/python/python/run-ptest      |   5 +
->   meta/recipes-devtools/python/python_2.7.3.bb       |  10 +
->   meta/recipes-devtools/remake/remake_git.bb         |   6 +-
->   .../subversion/subversion_1.6.15.bb                |   2 +
->   .../subversion/subversion_1.7.10.bb                |   2 +
->   meta/recipes-extended/cups/cups16.inc              |   3 +
->   .../pam-security-abstract-securetty-handling.patch | 200 ++++++++++++++++++
->   .../pam/libpam/pam-unix-nullok-secure.patch        | 222 ++++++++++++++++++++
->   meta/recipes-extended/pam/libpam_1.1.6.bb          |   4 +-
->   meta/recipes-extended/pigz/pigz.inc                |   2 +-
->   meta/recipes-extended/wget/wget-1.14/fix_doc.patch |  71 +++++++
->   meta/recipes-extended/wget/wget_1.14.bb            |   1 +
->   meta/recipes-graphics/directfb/directfb.inc        |   1 -
->   .../directfb-1.2.x-fix-pkgconfig-cflags.patch      |  48 -----
->   meta/recipes-graphics/glew/files/autotools.patch   |   4 +-
->   ...ate-NativeDisplayType-depending-on-config.patch |   3 +
->   ...move-the-power-of-two-sizeof-struct-cmd_b.patch |   0
->   meta/recipes-graphics/mesa/mesa.inc                |   2 +-
->   ...ate-NativeDisplayType-depending-on-config.patch |   3 +
->   .../mesa/{mesa_9.1.3.bb => mesa_9.1.5.bb}          |   4 +-
->   meta/recipes-kernel/kmod/kmod.inc                  |   4 +-
->   meta/recipes-kernel/kmod/kmod/ptest.patch          |  25 +++
->   meta/recipes-kernel/kmod/kmod/run-ptest            |   5 +
->   meta/recipes-kernel/kmod/kmod_git.bb               |  10 +
->   ...lttng-modules_2.2.0.bb => lttng-modules_git.bb} |   2 +-
->   .../gstreamer/gst-plugins-good_0.10.31.bb          |   1 +
->   .../gstreamer/gst-plugins-ugly_0.10.19.bb          |   5 +
->   meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |   1 +
->   .../tremor/tremor-20120314/tremor-arm-thumb2.patch | 104 ++++++++++
->   meta/recipes-multimedia/tremor/tremor_20120314.bb  |   1 +
->   41 files changed, 1039 insertions(+), 173 deletions(-)
->   create mode 100644 meta/classes/extrausers.bbclass
->   create mode 100644 meta/classes/useradd_base.bbclass
->   delete mode 100644 meta/recipes-core/systemd/systemd/modprobe.rules
->   create mode 100644 meta/recipes-devtools/python/python/fix-makefile-for-ptest.patch
->   create mode 100644 meta/recipes-devtools/python/python/run-ptest
->   create mode 100644 meta/recipes-extended/pam/libpam/pam-security-abstract-securetty-handling.patch
->   create mode 100644 meta/recipes-extended/pam/libpam/pam-unix-nullok-secure.patch
->   create mode 100644 meta/recipes-extended/wget/wget-1.14/fix_doc.patch
->   delete mode 100644 meta/recipes-graphics/directfb/directfb/directfb-1.2.x-fix-pkgconfig-cflags.patch
->   rename meta/recipes-graphics/mesa/{mesa-9.1.3 => mesa-9.1.5}/0003-EGL-Mutate-NativeDisplayType-depending-on-config.patch (98%)
->   rename meta/recipes-graphics/mesa/{mesa-9.1.3 => mesa-9.1.5}/0005-llvmpipe-remove-the-power-of-two-sizeof-struct-cmd_b.patch (100%)
->   rename meta/recipes-graphics/mesa/{mesa_9.1.3.bb => mesa_9.1.5.bb} (79%)
->   create mode 100644 meta/recipes-kernel/kmod/kmod/ptest.patch
->   create mode 100755 meta/recipes-kernel/kmod/kmod/run-ptest
->   rename meta/recipes-kernel/lttng/{lttng-modules_2.2.0.bb => lttng-modules_git.bb} (97%)
->   create mode 100644 meta/recipes-multimedia/tremor/tremor-20120314/tremor-arm-thumb2.patch
+> +do_compile_ptest() {
+> +	oe_runmake -C ${TESTDIR} buildtest-TESTS
+> +}
+> +
+> +do_install_ptest() {
+> +	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
+> +}
+> +
+>   BBCLASSEXTEND = "native"
 >
 
