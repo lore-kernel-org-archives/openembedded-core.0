@@ -1,38 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C0C4A6B34B
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 248DD6B2CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 12:02:35 +0000 (UTC)
-Received: by mail-ee0-f48.google.com with SMTP id b47so186803eek.21
+	Wed, 24 Jul 2013 12:02:36 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id l15so188164eak.23
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 05:02:36 -0700 (PDT)
+	Wed, 24 Jul 2013 05:02:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:in-reply-to:references;
-	bh=lSh2PALOtd5jorKmnPEVM/HGbiVvFq4RRlG5ur8F+V0=;
-	b=HzZvVXwdaZkeFP+ANKkvTQ0B6Clzjjr7DhDUUvAbRTrtG5kQNG9uC34pHZw88AmodV
-	Oit7AhcVde+xXdigqwJyZoA3xav7kdHySqzgoWpC8m+7ot29LIogyEOgiu099ZAHBBAc
-	6UMpcgOci4uOGbMEaIrXC0P38l9fMVVFD7364n3cCwJvvvZhUBoAs3LlA0BwRHOSoKV3
-	+y9ItUdcR6PvK4Hot5mhgvqaXfm2rrPcrHXLwcA6bYk93j0ZRKD91S4vs/HI4NtLtgd1
-	8F/VU6Npt6Y7+pEVi7Q0xOZX3seRY0/zADljUA8frCwgIQ3AoaBINDX1DaMzTvXQYu3a
-	7hmQ==
-X-Received: by 10.14.1.70 with SMTP id 46mr37447717eec.82.1374667356188;
-	Wed, 24 Jul 2013 05:02:36 -0700 (PDT)
+	bh=Gvs0kHfglRu6IgkEUfUDueZLiWgr90FEIGb8Anoiexo=;
+	b=ENu0HSgyp2oRxu6XXGAO4agA3sb8oR+8qpFHDOe9jNyjZBnZ0ptxiCRuk7bMJWlOmE
+	1Fr6z0pBHX0RR8F4NYQvbP0OpxExfM0SbCo6YU1GhjeJOxWeEA5rzAK00b3oL/J1Be80
+	Rbt7Q9+Bp0A0puciPLQeYrIDosRvInRs/SulcOGXrE+DWmqmq/G82ZLf0P1AH0/Yj13U
+	vQy5qzeIyv2HcRWDtewFfwy7wTzpmY2zPzRVbW9K1Qs2h3e1tMpWbOYIIMsfwkZlC3nn
+	UMLTOCnhmZY4lnunVLOpG4S0uflmWx9z2JQGZGt7BVXQ2gk4QAvPIWGdQcp9JcIqh6mS
+	EEYQ==
+X-Received: by 10.14.201.68 with SMTP id a44mr11445323eeo.46.1374667357548;
+	Wed, 24 Jul 2013 05:02:37 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	p49sm65677596eeu.2.2013.07.24.05.02.35 for <multiple recipients>
+	bj46sm65594770eeb.13.2013.07.24.05.02.36 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 24 Jul 2013 05:02:35 -0700 (PDT)
+	Wed, 24 Jul 2013 05:02:37 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2013 14:02:35 +0200
-Message-Id: <d6e4efe49dafb6f75ffb35eefcba638afb146ed0.1374667312.git.Martin.Jansa@gmail.com>
+Date: Wed, 24 Jul 2013 14:02:36 +0200
+Message-Id: <32bf6c29a439e4aa325b07190cd9592fa244ace2.1374667312.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
 References: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1374667312.git.Martin.Jansa@gmail.com>
 References: <cover.1374667312.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 13/18] python-imaging: add PACKAGECONFIG for lcms
+Subject: [PATCH 14/18] socat: add PACKAGECONFIG for tcp-wrappers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,126 +46,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 12:02:36 -0000
+X-List-Received-Date: Wed, 24 Jul 2013 12:02:37 -0000
 
 * it's autodetected from sysroot
 * add PACKAGECONFIG to make it deterministic
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- .../allow.to.disable.some.features.patch           | 65 ++++++++++++++++++++++
- .../python/python-imaging_1.1.7.bb                 | 10 +++-
- 2 files changed, 74 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch
+ meta/recipes-connectivity/socat/socat_1.7.2.2.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch b/meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch
-new file mode 100644
-index 0000000..4960ed4
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch
-@@ -0,0 +1,65 @@
-+At least lcms wasn't deterministicly detected from sysroot.
-+
-+This will allow to export LCMS_ENABLED=False when lcms isn't in PACKAGECONFIG.
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+diff -uNr Imaging-1.1.7.orig/setup.py Imaging-1.1.7/setup.py
-+--- Imaging-1.1.7.orig/setup.py	2013-07-22 10:17:02.081457075 +0200
-++++ Imaging-1.1.7/setup.py	2013-07-22 13:10:09.029707492 +0200
-+@@ -39,6 +39,12 @@
-+ TIFF_ROOT = None
-+ FREETYPE_ROOT =  os.environ['STAGING_LIBDIR'], os.environ['STAGING_INCDIR']
-+ LCMS_ROOT = None
-++TCL_ENABLED = os.getenv('TCL_ENABLED', "True")
-++JPEG_ENABLED = os.getenv('JPEG_ENABLED', "True")
-++ZLIB_ENABLED = os.getenv('ZLIB_ENABLED', "True")
-++TIFF_ENABLED = os.getenv('TIFF_ENABLED', "True")
-++FREETYPE_ENABLED = os.getenv('FREETYPE_ENABLED', "True")
-++LCMS_ENABLED = os.getenv('LCMS_ENABLED', "True")
-+ 
-+ # FIXME: add mechanism to explicitly *disable* the use of a library
-+ 
-+@@ -220,22 +226,22 @@
-+             zlib = jpeg = tiff = freetype = tcl = tk = lcms = None
-+         feature = feature()
-+ 
-+-        if find_include_file(self, "zlib.h"):
-++        if ZLIB_ENABLED == 'True' and find_include_file(self, "zlib.h"):
-+             if find_library_file(self, "z"):
-+                 feature.zlib = "z"
-+             elif sys.platform == "win32" and find_library_file(self, "zlib"):
-+                 feature.zlib = "zlib" # alternative name
-+ 
-+-        if find_include_file(self, "jpeglib.h"):
-++        if JPEG_ENABLED == 'True' and find_include_file(self, "jpeglib.h"):
-+             if find_library_file(self, "jpeg"):
-+                 feature.jpeg = "jpeg"
-+             elif sys.platform == "win32" and find_library_file(self, "libjpeg"):
-+                 feature.jpeg = "libjpeg" # alternative name
-+ 
-+-        if find_library_file(self, "tiff"):
-++        if TIFF_ENABLED == 'True' and find_library_file(self, "tiff"):
-+             feature.tiff = "tiff"
-+ 
-+-        if find_library_file(self, "freetype"):
-++        if FREETYPE_ENABLED == 'True' and find_library_file(self, "freetype"):
-+             # look for freetype2 include files
-+             freetype_version = 0
-+             for dir in self.compiler.include_dirs:
-+@@ -256,11 +262,11 @@
-+                 if dir:
-+                     add_directory(self.compiler.include_dirs, dir, 0)
-+ 
-+-        if find_include_file(self, "lcms.h"):
-++        if LCMS_ENABLED == 'True' and find_include_file(self, "lcms.h"):
-+             if find_library_file(self, "lcms"):
-+                 feature.lcms = "lcms"
-+ 
-+-        if _tkinter and find_include_file(self, "tk.h"):
-++        if TCL_ENABLED == 'True' and _tkinter and find_include_file(self, "tk.h"):
-+             # the library names may vary somewhat (e.g. tcl84 or tcl8.4)
-+             version = TCL_VERSION[0] + TCL_VERSION[2]
-+             if find_library_file(self, "tcl" + version):
-diff --git a/meta/recipes-devtools/python/python-imaging_1.1.7.bb b/meta/recipes-devtools/python/python-imaging_1.1.7.bb
-index de0e975..e100358 100644
---- a/meta/recipes-devtools/python/python-imaging_1.1.7.bb
-+++ b/meta/recipes-devtools/python/python-imaging_1.1.7.bb
-@@ -7,23 +7,31 @@ SRCNAME = "Imaging"
- PR = "r5"
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.2.2.bb b/meta/recipes-connectivity/socat/socat_1.7.2.2.bb
+index 2f0ee68..f015def 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.2.2.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.2.2.bb
+@@ -18,6 +18,9 @@ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "39231e512d8052f328552865df15d42f"
+ SRC_URI[sha256sum] = "9a167af11a4d3809cbc66f5e2dcb39b6e371251282ef5de6ea6ff0c4be8a953c"
  
- SRC_URI = "http://effbot.org/downloads/Imaging-${PV}.tar.gz \
--           file://0001-python-imaging-setup.py-force-paths-for-zlib-freetyp.patch"
-+           file://0001-python-imaging-setup.py-force-paths-for-zlib-freetyp.patch \
-+           file://allow.to.disable.some.features.patch"
- 
- SRC_URI[md5sum] = "fc14a54e1ce02a0225be8854bfba478e"
- SRC_URI[sha256sum] = "895bc7c2498c8e1f9b99938f1a40dc86b3f149741f105cf7c7bd2e0725405211"
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
-+# There isn't enable/disable option, and lcms is in meta-oe, at least make it explicit when enabled
-+# setup.py already has FIXME: add mechanism to explicitly *disable* the use of a library
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[lcms] = ",,lcms"
++PACKAGECONFIG ??= "tcp-wrappers"
++PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
 +
- inherit distutils
- 
- do_compile() {
-     export STAGING_LIBDIR=${STAGING_LIBDIR}
-     export STAGING_INCDIR=${STAGING_INCDIR}
-+    export LCMS_ENABLED=${@base_contains('PACKAGECONFIG', 'lcms', 'True', 'False', d)}
-     distutils_do_compile
- }
- 
- do_install() {
-     export STAGING_LIBDIR=${STAGING_LIBDIR}
-     export STAGING_INCDIR=${STAGING_INCDIR}
-+    export LCMS_ENABLED=${@base_contains('PACKAGECONFIG', 'lcms', 'True', 'False', d)}
-     distutils_do_install
-     install -d ${D}${datadir}/doc/${BPN}/html/
-     install -m 0644 ${S}/README ${D}${datadir}/doc/${BPN}/
+ EXTRA_OECONF += "ac_cv_have_z_modifier=yes sc_cv_sys_crdly_shift=9 \
+         sc_cv_sys_tabdly_shift=11 sc_cv_sys_csize_shift=4 \
+         ac_cv_ispeed_offset=13 \
 -- 
 1.8.3.2
 
