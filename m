@@ -1,22 +1,27 @@
-Return-Path: <gaba@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 0EFE860071
+Return-Path: <ddalex@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 2718B6028B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 12:06:27 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
-	Wed, 24 Jul 2013 14:06:22 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4354)	id 996F9288FF0;
-	Wed, 24 Jul 2013 14:06:22 +0200 (CEST)
-From: Gabriel Barbu <gabriel.barbu@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Jul 2013 14:06:13 +0200
-Message-ID: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: gabriel.barbu@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] strace: Add ptest
+	Wed, 24 Jul 2013 12:23:37 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 24 Jul 2013 05:23:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,735,1367996400"; d="scan'208";a="336037953"
+Received: from adamian-desktop.isw.intel.com (HELO
+	adamian-desktop.rb.intel.com) ([10.237.224.34])
+	by azsmga001.ch.intel.com with ESMTP; 24 Jul 2013 05:23:36 -0700
+Received: by adamian-desktop.rb.intel.com (Postfix, from userid 1000)
+	id 1BEC95606A4; Wed, 24 Jul 2013 13:23:36 +0100 (BST)
+From: Alex DAMIAN <alexandru.damian@intel.com>
+To: ross.burton@intel.com, sgw@linux.intel.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 24 Jul 2013 13:23:30 +0100
+Message-Id: <1374668610-11198-1-git-send-email-alexandru.damian@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <1374577279-21342-1-git-send-email-alexandru.damian@intel.com>
+References: <1374577279-21342-1-git-send-email-alexandru.damian@intel.com>
+Cc: Alexandru DAMIAN <alexandru.damian@intel.com>
+Subject: [PATCH v3] weston: add pango dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,103 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 12:06:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Jul 2013 12:23:37 -0000
 
-Install strace test suite and run it as ptest.
+From: Alexandru DAMIAN <alexandru.damian@intel.com>
 
-Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
+Weston 1.1.0 has a build time dependency on pango,
+so we add it.
+
+Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
 ---
- .../strace/strace-4.8/Makefile-ptest.patch         |   23 ++++++++++++++++++++
- meta/recipes-devtools/strace/strace-4.8/run-ptest  |    2 ++
- meta/recipes-devtools/strace/strace_4.8.bb         |   19 ++++++++++++++--
- 3 files changed, 42 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
- create mode 100755 meta/recipes-devtools/strace/strace-4.8/run-ptest
+ meta/recipes-graphics/wayland/weston_1.1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
-new file mode 100644
-index 0000000..9cd491b
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
-@@ -0,0 +1,23 @@
-+--- old/tests/Makefile.am	2013-07-23 13:44:24.660481381 +0200
-++++ new/tests/Makefile.am	2013-07-23 16:22:42.937654391 +0200
-+@@ -9,3 +9,20 @@
-+ EXTRA_DIST = init.sh $(TESTS)
-+ 
-+ CLEANFILES = check.log
-++
-++buildtest-TESTS: $(check_PROGRAMS) $(TESTS)
-++
-++install-ptest:
-++	install $(BUILDDIR)/strace $(DESTDIR)
-++	install "$(srcdir)/.."/strace-log-merge $(DESTDIR)
-++	install -d $(DESTDIR)/$(TESTDIR)
-++	cp $(BUILDDIR)/$(TESTDIR)/Makefile $(DESTDIR)/$(TESTDIR)
-++	sed -i -e 's/^Makefile:/_Makefile:/' $(DESTDIR)/$(TESTDIR)/Makefile
-++	for file in $(check_PROGRAMS); do \
-++		install $(BUILDDIR)/$(TESTDIR)/$$file $(DESTDIR)/$(TESTDIR); \
-++	done
-++	for file in $(EXTRA_DIST); do \
-++		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
-++		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
-++	done
-++	sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/net
-diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-new file mode 100755
-index 0000000..133cf92
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-@@ -0,0 +1,2 @@
-+#!/bin/sh
-+make -C tests -k runtest-TESTS
-diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
-index 0f4d2f0..79a4ad7 100644
---- a/meta/recipes-devtools/strace/strace_4.8.bb
-+++ b/meta/recipes-devtools/strace/strace_4.8.bb
-@@ -7,11 +7,16 @@ PR = "r0"
+diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes-graphics/wayland/weston_1.1.0.bb
+index 7327b98..c7c64ad 100644
+--- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "e7715d2c731f77a729c994a599ffdaebac1307b2dd9336136706869fa5
+ inherit autotools pkgconfig useradd
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
-            file://git-version-gen \
--           file://strace-add-configure-options.patch"
-+           file://strace-add-configure-options.patch \
-+           file://Makefile-ptest.patch \
-+           file://run-ptest \
-+          "
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+-DEPENDS += "wayland mesa virtual/egl"
++DEPENDS += "wayland mesa virtual/egl pango"
  
- SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
- SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
--inherit autotools
-+
-+inherit autotools ptest
-+RDEPENDS_${PN}-ptest += "make"
- 
- PACKAGECONFIG_class-target ?= "libaio"
- PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
-@@ -21,6 +26,8 @@ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
- 
- export INCLUDES = "-I. -I./linux"
- 
-+TESTDIR = "tests"
-+
- do_configure_prepend() {
- 	cp ${WORKDIR}/git-version-gen ${S}
- }
-@@ -30,4 +37,12 @@ do_install_append() {
- 	rm ${D}${bindir}/strace-graph
- }
- 
-+do_compile_ptest() {
-+	oe_runmake -C ${TESTDIR} buildtest-TESTS
-+}
-+
-+do_install_ptest() {
-+	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
-+}
-+
- BBCLASSEXTEND = "native"
+ EXTRA_OECONF = "--disable-android-compositor \
+                 --enable-setuid-install \
 -- 
-1.7.10.4
+1.8.1.2
 
 
