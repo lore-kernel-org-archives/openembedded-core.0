@@ -1,38 +1,22 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id E36866B269
+Return-Path: <gaba@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 0EFE860071
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 12:02:42 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id d41so190445eek.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 05:02:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
-	:in-reply-to:references;
-	bh=q6PTJtngF45AZIuMaodcvw3yi5EtFKPda1ztAdVpBC0=;
-	b=G7Vvxr6OwrpGEmNtPSzVCun4klGU+2aHk3jGQcW2S88+oFWefgmwWTRyV9Csel9k3W
-	TAYSe76EkQZ+QWj/lX0IKaoyoVBD+SYe7PsMrj3vcf979Ut/aG3Is6Xk/2E8SvOM7uOn
-	kAToU2dpQ6sTtQ05MqasrMES2z1RH+7lVLJl0BkDKgGLZ0lF9MkXkAQxhVeUE8KZhaDz
-	wqDATDxsujltJi1Eahfkjnc+ClUB9D6uyG7LcM0aFm20s7pTeJ8PjWyQ7yhf7VJH7JAe
-	IjeAs8fjZL+iXSz4KePROOGiO/r0P8wdy8+/Y+McaRPHPXemOEvYg3JAQLPy3vMCKhA7
-	TnEA==
-X-Received: by 10.14.108.7 with SMTP id p7mr5824190eeg.3.1374667363279;
-	Wed, 24 Jul 2013 05:02:43 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	o5sm65653353eef.5.2013.07.24.05.02.42 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 24 Jul 2013 05:02:42 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2013 14:02:40 +0200
-Message-Id: <a2e681396ba1cffe5a215dc430010463cb377898.1374667312.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
-References: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1374667312.git.Martin.Jansa@gmail.com>
-References: <cover.1374667312.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 18/18] gettext: disable nls when INHIBIT_DEFAULT_DEPS is set
+	Wed, 24 Jul 2013 12:06:27 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Wed, 24 Jul 2013 14:06:22 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4354)	id 996F9288FF0;
+	Wed, 24 Jul 2013 14:06:22 +0200 (CEST)
+From: Gabriel Barbu <gabriel.barbu@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Jul 2013 14:06:13 +0200
+Message-ID: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX03.enea.se: gabriel.barbu@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] strace: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +29,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 12:02:43 -0000
+X-List-Received-Date: Wed, 24 Jul 2013 12:06:29 -0000
+Content-Type: text/plain
 
-* for example in gcc-runtime DEPENDS_GETTEXT from gettext.bbclass isn't
-  used because gcc-runtime recipes also set INHIBIT_DEFAULT_DEPS,
-  explicitly disable NLS when DEPENDS_GETTEXT is empty
-* this is causing undeterministic build
-  if you compare i586-oe-linux/libstdc++-v3/config.log in WORKDIR when building
-  gcc-runtime before and after building gettext-native you'll see that msgfmt
-  isn't found in one of them and gcc-runtime-locale-{de,fr} packages
-  aren't created, there is only one file in them:
-  gcc-runtime-locale-de/usr/share/locale/de/LC_MESSAGES/libstdc++.mo
+Install strace test suite and run it as ptest.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
 ---
- meta/classes/gettext.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../strace/strace-4.8/Makefile-ptest.patch         |   23 ++++++++++++++++++++
+ meta/recipes-devtools/strace/strace-4.8/run-ptest  |    2 ++
+ meta/recipes-devtools/strace/strace_4.8.bb         |   19 ++++++++++++++--
+ 3 files changed, 42 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+ create mode 100755 meta/recipes-devtools/strace/strace-4.8/run-ptest
 
-diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
-index 95818c6..17c894f 100644
---- a/meta/classes/gettext.bbclass
-+++ b/meta/classes/gettext.bbclass
-@@ -10,8 +10,8 @@ def gettext_dependencies(d):
- def gettext_oeconf(d):
-     if oe.utils.inherits(d, 'native', 'cross'):
-         return '--disable-nls'
--    # Remove the NLS bits if USE_NLS is no.
--    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'nativesdk', 'cross-canadian'):
-+    # Remove the NLS bits if USE_NLS is no or INHIBIT_DEFAULT_DEPS is set
-+    if (d.getVar('USE_NLS', True) == 'no' or d.getVar('INHIBIT_DEFAULT_DEPS', True)) and not oe.utils.inherits(d, 'nativesdk', 'cross-canadian'):
-         return '--disable-nls'
-     return "--enable-nls"
+diff --git a/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+new file mode 100644
+index 0000000..9cd491b
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+@@ -0,0 +1,23 @@
++--- old/tests/Makefile.am	2013-07-23 13:44:24.660481381 +0200
+++++ new/tests/Makefile.am	2013-07-23 16:22:42.937654391 +0200
++@@ -9,3 +9,20 @@
++ EXTRA_DIST = init.sh $(TESTS)
++ 
++ CLEANFILES = check.log
+++
+++buildtest-TESTS: $(check_PROGRAMS) $(TESTS)
+++
+++install-ptest:
+++	install $(BUILDDIR)/strace $(DESTDIR)
+++	install "$(srcdir)/.."/strace-log-merge $(DESTDIR)
+++	install -d $(DESTDIR)/$(TESTDIR)
+++	cp $(BUILDDIR)/$(TESTDIR)/Makefile $(DESTDIR)/$(TESTDIR)
+++	sed -i -e 's/^Makefile:/_Makefile:/' $(DESTDIR)/$(TESTDIR)/Makefile
+++	for file in $(check_PROGRAMS); do \
+++		install $(BUILDDIR)/$(TESTDIR)/$$file $(DESTDIR)/$(TESTDIR); \
+++	done
+++	for file in $(EXTRA_DIST); do \
+++		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
+++		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
+++	done
+++	sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/net
+diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+new file mode 100755
+index 0000000..133cf92
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+@@ -0,0 +1,2 @@
++#!/bin/sh
++make -C tests -k runtest-TESTS
+diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
+index 0f4d2f0..79a4ad7 100644
+--- a/meta/recipes-devtools/strace/strace_4.8.bb
++++ b/meta/recipes-devtools/strace/strace_4.8.bb
+@@ -7,11 +7,16 @@ PR = "r0"
  
+ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://git-version-gen \
+-           file://strace-add-configure-options.patch"
++           file://strace-add-configure-options.patch \
++           file://Makefile-ptest.patch \
++           file://run-ptest \
++          "
+ 
+ SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
+ SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
+-inherit autotools
++
++inherit autotools ptest
++RDEPENDS_${PN}-ptest += "make"
+ 
+ PACKAGECONFIG_class-target ?= "libaio"
+ PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+@@ -21,6 +26,8 @@ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+ 
+ export INCLUDES = "-I. -I./linux"
+ 
++TESTDIR = "tests"
++
+ do_configure_prepend() {
+ 	cp ${WORKDIR}/git-version-gen ${S}
+ }
+@@ -30,4 +37,12 @@ do_install_append() {
+ 	rm ${D}${bindir}/strace-graph
+ }
+ 
++do_compile_ptest() {
++	oe_runmake -C ${TESTDIR} buildtest-TESTS
++}
++
++do_install_ptest() {
++	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
++}
++
+ BBCLASSEXTEND = "native"
 -- 
-1.8.3.2
+1.7.10.4
 
 
