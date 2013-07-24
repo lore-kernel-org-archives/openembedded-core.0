@@ -1,36 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 21A5460842
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 08FDE60842
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 11:58:33 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id ey16so332426wid.16
+	Wed, 24 Jul 2013 12:02:14 +0000 (UTC)
+Received: by mail-ea0-f170.google.com with SMTP id h10so190623eaj.15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 04:58:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=ImWzvtfWQGLoThfxEnfMt3oC6pTtIlTDt3J0H0WzewI=;
-	b=T4Uwt9aREBAd0agUq2QVL5prd8eTGT+nHJFEE21ml5563MfFnFzd6fCQE4BtPUgtOa
-	8HBVOwhExnhrVFHZbsfmyO5T34L/a9EsrnUJBRz3Gb9pFbdQcoadOQi0JLTsXuShdKye
-	nkpBpGnd6SuHJlIRDYEZtNZ+QaOBjRBQttl0/XkOp3UVr5JK3zRJNOh8XmBlSmsL5fwv
-	fnG/FTLNm9H47ikg4IQuWSfZ+BcTBK+b/1qhbMUuXmqQg0qhF6YRpGAqdhPjVRilIj7M
-	Bgim3XWpffnXSRxkpMtBbj9B6mpeUyHJBR8/zN/LFGTgmycw2zW4i2OqFCRmcvjh3s4v
-	IsUA==
-X-Received: by 10.180.14.105 with SMTP id o9mr2428169wic.30.1374667113526;
-	Wed, 24 Jul 2013 04:58:33 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id r8sm4798049wiz.5.2013.07.24.04.58.31
-	for <openembedded-core@lists.openembedded.org>
+	Wed, 24 Jul 2013 05:02:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=d+tXpgKKBtqAt0i9KucSEcEJlM5fYeNFgPcayFc8yk8=;
+	b=gN7VEYTraouYoFOm11AoQBIHszucCB0oniBeH8I1thPdkVc+ZQDtf8C0BDCUq6qklS
+	g2744PyOXZ9ZHKMOEG+qWpFVhrNZcDvAkvjEh4xXlVXB3o1W/M4WiX3KbOO8I0JZPVYJ
+	mbh87K3XpVdpeQwmBd1MrG02jVmbr0WjDUfUp2ZY0ADpCzo7xoyQNmWk50itkEHEyJ4X
+	7PVC8ctuxScSJ7JXiDzeUOMESAzMDOaxXImUX4p0omw5Qg6ifkRz0PeaovKuKSG+uHmj
+	b4tbcOkPD5UKXKxqT3Zb2gXd4lBfHAxMMIYLWDza3aAiHT4ghe8yarV+kMbPx0eDemEz
+	Turw==
+X-Received: by 10.15.94.142 with SMTP id bb14mr37542627eeb.112.1374667335305; 
+	Wed, 24 Jul 2013 05:02:15 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	p49sm65675360eeu.2.2013.07.24.05.02.14 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 24 Jul 2013 04:58:32 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 24 Jul 2013 05:02:14 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2013 12:54:46 +0100
-Message-Id: <1374666886-30003-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQlLJuE833f6LoeaCIDlk7ZlPY1suSHqgBYiumsrTCcuvhJgqielQ/QWgTFqFavSFqLGvLof
-Subject: [PATCH] sanity.bbclass: mention version when erroring on LCONF_VERSION mismatch
+Date: Wed, 24 Jul 2013 14:02:36 +0200
+Message-Id: <cover.1374667312.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 00/18] autodetected dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +41,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 11:58:35 -0000
+X-List-Received-Date: Wed, 24 Jul 2013 12:02:15 -0000
 
-If someone is using a Poky release but not the Poky distribution they'll get a
-bblayers.conf generated from meta-yocto's template with a LCONF_VERSION that
-doesn't necessarily match LAYER_CONF_VERSION (default in sanity.conf), as Poky
-overrides LAYER_CONF_VERSION to cater for the meta-yocto split.  The resulting
-error message will tell them to compare bblayers.conf with bblayers.conf.sample,
-but they're identical.
+The following changes since commit ac5d20f4adac69ea1702694fb50849c9e465b443:
 
-By explicitly refering to the required and actual versions this situation is
-hopefully clearer.
+  systemd: Remove systemd_unitdir if systemd is not in distro features (2013-07-23 07:49:54 -0700)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sanity.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index a505a5d..08ab1b7 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -401,7 +401,7 @@ def sanity_check_conffiles(status, d):
-                 status.reparse = True
-                 break
-         if not status.reparse:
--            status.addresult("Your version of bblayers.conf was generated from an older/newer version of bblayers.conf.sample and there have been updates made to this file. Please compare the two files and merge any changes before continuing.\nMatching the version numbers will remove this message.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n")
-+            status.addresult("Your version of bblayers.conf has the wrong LCONF_VERSION (has %s, expecting %s).\nPlease compare the your file against bblayers.conf.sample and merge any changes before continuing.\n\"meld conf/bblayers.conf ${COREBASE}/meta*/conf/bblayers.conf.sample\" is a good way to visualise the changes.\n" % (current_lconf, lconf_version))
- 
-     # If we have a site.conf, check it's valid
-     if check_conf_exists("conf/site.conf", d):
+  git://git.openembedded.org/openembedded-core-contrib jansa/deps
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/deps
+
+Martin Jansa (18):
+  test-dependencies: add simple script to detect missing or autoenabled
+    dependencies
+  gst-plugins-bad: add few more PACKAGECONFIGs
+  xkeyboard-config: add missing dependency on util-macros
+  ccache: add zlib dependency
+  cups: add PACKAGECONFIG for acl
+  directfb: add PACKAGECONFIG for jpeg2000
+  distcc: add PACKAGECONFIG for popt
+  grub: add PACKAGECONFIG for grub-mount
+  mailx: remove support for autodetection of krb5
+  minicom: add configure option and PACKAGECONFIG for lockdev
+  ltp: add acl, openssl dependency
+  patch: add PACKAGECONFIG for attr
+  python-imaging: add PACKAGECONFIG for lcms
+  socat: add PACKAGECONFIG for tcp-wrappers
+  sudo: add PACKAGECONFIG for zlib
+  gstreamer1.0-plugins-good: add PACKAGECONFIG for v4l
+  gst-plugins-good: add PACKAGECONFIG for jpeg, wavpack, gdkpixbuf, v4l,
+    bzip2, orc
+  gettext: disable nls when INHIBIT_DEFAULT_DEPS is set
+
+ meta/classes/gettext.bbclass                       |   4 +-
+ meta/recipes-bsp/grub/grub_2.00.bb                 |   3 +
+ meta/recipes-connectivity/socat/socat_1.7.2.2.bb   |   3 +
+ meta/recipes-devtools/ccache/ccache.inc            |   2 +
+ meta/recipes-devtools/distcc/distcc_3.1.bb         |   4 +-
+ meta/recipes-devtools/patch/patch.inc              |   3 +
+ .../allow.to.disable.some.features.patch           |  65 ++++++
+ .../python/python-imaging_1.1.7.bb                 |  10 +-
+ meta/recipes-extended/cups/cups16.inc              |   1 +
+ meta/recipes-extended/ltp/ltp_20130503.bb          |   2 +-
+ .../explicitly.disable.krb5.support.patch          |  46 ++++
+ meta/recipes-extended/mailx/mailx_12.5.bb          |   1 +
+ .../minicom-2.6.2/allow.to.disable.lockdev.patch   |  21 ++
+ meta/recipes-extended/minicom/minicom_2.6.2.bb     |   7 +-
+ meta/recipes-extended/sudo/sudo.inc                |   3 +
+ meta/recipes-graphics/directfb/directfb.inc        |   3 +
+ .../xorg-lib/xkeyboard-config_2.9.bb               |   2 +-
+ .../gstreamer/gst-plugins-bad_0.10.23.bb           |  10 +
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |  12 +-
+ .../gstreamer/gstreamer1.0-plugins-good.inc        |   2 +-
+ scripts/test-dependencies.sh                       | 256 +++++++++++++++++++++
+ 21 files changed, 449 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch
+ create mode 100644 meta/recipes-extended/mailx/mailx-12.5/explicitly.disable.krb5.support.patch
+ create mode 100644 meta/recipes-extended/minicom/minicom-2.6.2/allow.to.disable.lockdev.patch
+ create mode 100755 scripts/test-dependencies.sh
+
 -- 
-1.7.10.4
+1.8.3.2
 
 
