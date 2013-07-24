@@ -1,24 +1,24 @@
 Return-Path: <ionutx.radu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 27AA16B31A
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C2E186B32E
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 24 Jul 2013 12:40:52 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jul 2013 05:40:52 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 Jul 2013 05:38:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,735,1367996400"; d="scan'208";a="350750328"
+X-IronPort-AV: E=Sophos;i="4.89,735,1367996400"; d="scan'208";a="350750352"
 Received: from work.rb.intel.com ([10.237.105.51])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jul 2013 05:40:28 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 Jul 2013 05:40:30 -0700
 From: Ionut Radu <ionutx.radu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2013 15:42:51 +0300
-Message-Id: <631156aa390290eb5ab012b7ce8772e4396670b0.1374669164.git.ionutx.radu@intel.com>
+Date: Wed, 24 Jul 2013 15:42:52 +0300
+Message-Id: <1d373ccc969af0239db6c5cda2aba9d6d429612d.1374669164.git.ionutx.radu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <0e420cbfa5d9ab32d32657fbbbac8d3ce13e778f.1374669164.git.ionutx.radu@intel.com>
 References: <0e420cbfa5d9ab32d32657fbbbac8d3ce13e778f.1374669164.git.ionutx.radu@intel.com>
 In-Reply-To: <cover.1374669164.git.ionutx.radu@intel.com>
 References: <cover.1374669164.git.ionutx.radu@intel.com>
-Subject: [PATCH 2/4] libxrandr: Update from 1.4.0 to 1.4.1
+Subject: [PATCH 3/4] libxxf86dga: Updated from 1.1.3 to 1.1.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +33,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 24 Jul 2013 12:40:52 -0000
 
+Patch libxxf86dga-1.1.3_fix_for_x32.patch was backported (the use of uintptr_t
+guarantees that the unsigned int has the same size as a pointer)
+
 Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
 ---
- .../xorg-lib/{libxrandr_1.4.0.bb => libxrandr_1.4.1.bb}           |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxrandr_1.4.0.bb => libxrandr_1.4.1.bb} (80%)
+ .../xorg-lib/{libxxf86dga_1.1.3.bb => libxxf86dga_1.1.4.bb}     |    7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxxf86dga_1.1.3.bb => libxxf86dga_1.1.4.bb} (70%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.1.bb
-similarity index 80%
-rename from meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-rename to meta/recipes-graphics/xorg-lib/libxrandr_1.4.1.bb
-index 323c098..360199d 100644
---- a/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.1.bb
-@@ -13,12 +13,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=aa33e583cc3e96238a8467b485e62992"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.3.bb b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
+similarity index 70%
+rename from meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.3.bb
+rename to meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
+index dcb6701..695a396 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86dga_1.1.4.bb
+@@ -12,11 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=abb99ac125f84f424a4278153988e32f"
+ DEPENDS += "libxext xf86dgaproto"
  
- DEPENDS += "virtual/libx11 randrproto libxrender libxext"
- 
--PR = "r0"
  PE = "1"
+-PR = "r2"
  
- XORG_PN = "libXrandr"
+-SRC_URI += "file://libxxf86dga-1.1.3_fix_for_x32.patch"
+-
+-SRC_URI[md5sum] = "b7f38465c46e7145782d37dbb9da8c09"
+-SRC_URI[sha256sum] = "551fa374dbef0f977de1f35d005fa9ffe92b7a87e82dbe62d6a4640f5b0b4994"
++SRC_URI[md5sum] = "d7dd9b9df336b7dd4028b6b56542ff2c"
++SRC_URI[sha256sum] = "8eecd4b6c1df9a3704c04733c2f4fa93ef469b55028af5510b25818e2456c77e"
  
- BBCLASSEXTEND = "native nativesdk"
- 
--SRC_URI[md5sum] = "0c843636124cc1494e3d87df16957672"
--SRC_URI[sha256sum] = "033ad0ac2f012afb05268660f6d78705c85f84689f92fa7b47ce12959b15f5c3"
-+SRC_URI[md5sum] = "8dbac4e972348dcbd3a0673ce2e37919"
-+SRC_URI[sha256sum] = "d914a0490fd0a2ea6c3194505b5b28c56e2a277d8f4648b0275ee0ee370fb905"
+ XORG_PN = "libXxf86dga"
 -- 
 1.7.10.4
 
