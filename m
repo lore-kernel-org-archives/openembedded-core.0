@@ -1,35 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A7A16AE6E
+Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 659046AE6E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 12:02:18 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id d49so186024eek.23
+	Wed, 24 Jul 2013 12:02:19 +0000 (UTC)
+Received: by mail-ee0-f49.google.com with SMTP id b57so186503eek.36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 05:02:18 -0700 (PDT)
+	Wed, 24 Jul 2013 05:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=5Lpl04cCBCdaYJhJ+5UuOV8NSqPz9DRDLAK/09KWMhw=;
-	b=RJ6dsWepA7c/lckfTvDjVpfKXnYK8z/HeIuA6/95m77k8cyob7650q7TKLNPz/ayeH
-	t9SOM2JM3QmtRJr0tDJd+56wB1TQXbPXnC3yt38lHG42xtAP2k2YoQTU2nA8J/QcuSDc
-	+To30DOFmk+ac3hpqr98EG8HCjeQ76N4ujCYbHm47U5nFLUJMNEJfOvQ8k3EzRLxy1ta
-	rjrxjjU4iYM6ZwmiZW7WDPo6aelCbeY3yCGoOyXnMdP85FW4UI8o1NYsRONOXbRvbFrX
-	kj4bE3nwa5ZJW57DPawODlRQl2VElaftjNufDGofB8NIV3qM01fWj4Eq3XykTACwmG9r
-	yJZA==
-X-Received: by 10.14.246.77 with SMTP id p53mr36814941eer.11.1374667338493;
-	Wed, 24 Jul 2013 05:02:18 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:in-reply-to:references;
+	bh=GL30ydxPxVSM5v93877uhQd8NmkzQfuT4yAy5rdnS6Q=;
+	b=dSS5YpqOVKcMC9TztuYkqo0fKk0inkI0iUOxXaWA4h6aTCx217/Jy00mzhOvnpMncm
+	fZQT1m9AKUJ/AM0iwbjcsJCxK0u0T12ovZmwXvuMO/V8yjl4nQs4gbcmr+JZXJmxgY6M
+	o/wdm+HxLTJfXnDyKC6kN1Su3CWwDji2vCmlH6EA/UZxEl3m9eQpjIMMvAQiN1XmGZ/f
+	NgmYPWcxlIZ8+VxVMbGu7xXuPNzP1i1JV5edOhmEnP6u5k6wjuRAftU2VTNOC74yg+JS
+	6nuXXVEqzZFqQljuTFvOoey4MrgP1BCnNqZtOqvFW4KexPPaB6Sfnu8Z5fwgXMcdPINv
+	XBVw==
+X-Received: by 10.14.173.70 with SMTP id u46mr36861395eel.92.1374667339853;
+	Wed, 24 Jul 2013 05:02:19 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	i2sm65654432eeu.4.2013.07.24.05.02.17 for <multiple recipients>
+	p49sm65675618eeu.2.2013.07.24.05.02.19 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 24 Jul 2013 05:02:17 -0700 (PDT)
+	Wed, 24 Jul 2013 05:02:19 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jul 2013 14:02:23 +0200
-Message-Id: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
+Date: Wed, 24 Jul 2013 14:02:24 +0200
+Message-Id: <b452909b33600acbc9e0ab5bd8f74fc7443a17ad.1374667312.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
+References: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1374667312.git.Martin.Jansa@gmail.com>
 References: <cover.1374667312.git.Martin.Jansa@gmail.com>
-Subject: [PATCH 01/18] test-dependencies: add simple script to detect missing or autoenabled dependencies
+Subject: [PATCH 02/18] gst-plugins-bad: add few more PACKAGECONFIGs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,276 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 12:02:18 -0000
+X-List-Received-Date: Wed, 24 Jul 2013 12:02:20 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- scripts/test-dependencies.sh | 256 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 256 insertions(+)
- create mode 100755 scripts/test-dependencies.sh
+ meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-new file mode 100755
-index 0000000..e4cf4d3
---- /dev/null
-+++ b/scripts/test-dependencies.sh
-@@ -0,0 +1,256 @@
-+#!/bin/sh
-+
-+# Author: Martin Jansa <martin.jansa@gmail.com>
-+#
-+# Copyright (c) 2013 Martin Jansa <Martin.Jansa@gmail.com>
-+
-+# Used to detect missing dependencies or automagically
-+# enabled dependencies which aren't explicitly enabled
-+# or disabled.
-+
-+# It does 3 builds of <target>
-+# 1st to populate sstate-cache directory and sysroot
-+# 2nd to rebuild each recipe with every possible
-+#     dependency found in sysroot (which stays populated
-+#     from 1st build
-+# 3rd to rebuild each recipe only with dependencies defined
-+#     in DEPENDS
-+# 4th (optional) repeat build like 3rd to make sure that
-+#     minimal versions of dependencies defined in DEPENDS
-+#     is also enough
-+
-+# Global vars
-+tmpdir=
-+targets=
-+recipes=
-+buildhistory=
-+buildtype=
-+default_targets="world"
-+default_buildhistory="buildhistory"
-+default_buildtype="1 2 3 c"
-+
-+usage () {
-+  cat << EOF
-+Welcome to utility to detect missing or autoenabled dependencies.
-+WARNING: this utility will completely remove your tmpdir (make sure
-+         you don't have important buildhistory or persistent dir there).
-+$0 <OPTION>
-+
-+Options:
-+  -h, --help
-+        Display this help and exit.
-+
-+  --tmpdir=<tmpdir>
-+        Specify tmpdir, will use the environment variable TMPDIR if it is not specified.
-+        Something like /OE/oe-core/tmp-eglibc (no / at the end).
-+
-+  --targets=<targets>
-+        List of targets separated by space, will use the environment variable TARGETS if it is not specified.
-+        It will run "bitbake <targets>" to populate sysroots.
-+        Default value is "world".
-+
-+  --recipes=<recipes>
-+        File with list of recipes we want to rebuild with minimal and maximal sysroot.
-+        Will use the environment variable RECIPES if it is not specified.
-+        Default value will use all packages ever recorded in buildhistory directory.
-+
-+  --buildhistory=<buildhistory>
-+        Path to buildhistory directory, it needs to be enabled in your config,
-+        because it's used to detect different dependencies and to create list
-+        of recipes to rebuild when it's not specified.
-+        Will use the environment variable BUILDHISTORY if it is not specified.
-+        Default value is "buildhistory"
-+
-+  --buildtype=<buildtype>
-+        There are 4 types of build:
-+          1: build to populate sstate-cache directory and sysroot
-+          2: build to rebuild each recipe with every possible dep
-+          3: build to rebuild each recipe with minimal dependencies
-+          4: build to rebuild each recipe again with minimal dependencies
-+          c: compare buildhistory directories from build 2 and 3
-+        Will use the environment variable BUILDTYPE if it is not specified.
-+        Default value is "1 2 3 c", order is important, type 4 is optional.
-+EOF
-+}
-+
-+# Print error information and exit.
-+echo_error () {
-+  echo "ERROR: $1" >&2
-+  exit 1
-+}
-+
-+while [ -n "$1" ]; do
-+  case $1 in
-+    --tmpdir=*)
-+      tmpdir=`echo $1 | sed -e 's#^--tmpdir=##' | xargs readlink -e`
-+      [ -d "$tmpdir" ] || echo_error "Invalid argument to --tmpdir"
-+      shift
-+        ;;
-+    --targets=*)
-+      targets=`echo $1 | sed -e 's#^--targets="*\([^"]*\)"*#\1#'`
-+      shift
-+        ;;
-+    --recipes=*)
-+      recipes=`echo $1 | sed -e 's#^--recipes="*\([^"]*\)"*#\1#'`
-+      shift
-+        ;;
-+    --buildhistory=*)
-+      buildhistory=`echo $1 | sed -e 's#^--buildhistory="*\([^"]*\)"*#\1#'`
-+      shift
-+        ;;
-+    --buildtype=*)
-+      buildtype=`echo $1 | sed -e 's#^--buildtype="*\([^"]*\)"*#\1#'`
-+      shift
-+        ;;
-+    --help|-h)
-+      usage
-+      exit 0
-+        ;;
-+    *)
-+      echo "Invalid arguments $*"
-+      echo_error "Try '$0 -h' for more information."
-+        ;;
-+  esac
-+done
-+
-+# tmpdir directory, use environment variable TMPDIR
-+# if it was not specified, otherwise, error.
-+[ -n "$tmpdir" ] || tmpdir=$TMPDIR
-+[ -n "$tmpdir" ] || echo_error "No tmpdir found!"
-+[ -d "$tmpdir" ] || echo_error "Invalid tmpdir \"$tmpdir\""
-+[ -n "$targets" ] || targets=$TARGETS
-+[ -n "$targets" ] || targets=$default_targets
-+[ -n "$recipes" ] || recipes=$RECIPES
-+[ -n "$recipes" -a ! -f "$recipes" ] && echo_error "Invalid file with list of recipes to rebuild"
-+[ -n "$recipes" ] || echo "All packages ever recorded in buildhistory directory will be rebuilt"
-+[ -n "$buildhistory" ] || buildhistory=$BUILDHISTORY
-+[ -n "$buildhistory" ] || buildhistory=$default_buildhistory
-+[ -d "$buildhistory" ] || echo_error "Invalid buildhistory directory \"$buildhistory\""
-+[ -n "$buildtype" ] || buildtype=$BUILDTYPE
-+[ -n "$buildtype" ] || buildtype=$default_buildtype
-+echo "$buildtype" | grep -v '^[1234c ]*$' && echo_error "Invalid buildtype \"$buildtype\", only some combination of 1, 2, 3, 4, c separated by space is allowed"
-+
-+OUTPUT_BASE=test-dependencies/`date "+%s"`
-+
-+build_all() {
-+  echo "===== 1st build to populate sstate-cache directory and sysroot ====="
-+  OUTPUT1=${OUTPUT_BASE}/${TYPE}_all
-+  mkdir -p ${OUTPUT1}
-+  echo "Logs will be stored in ${OUTPUT1} directory"
-+  bitbake -k $targets | tee -a ${OUTPUT1}/complete.log
-+}
-+
-+build_every_recipe() {
-+  if [ "${TYPE}" = "2" ] ; then
-+    echo "===== 2nd build to rebuild each recipe with every possible dep ====="
-+    OUTPUT_MAX=${OUTPUT_BASE}/${TYPE}_max
-+    OUTPUTB=${OUTPUT_MAX}
-+  else
-+    echo "===== 3rd or 4th build to rebuild each recipe with minimal dependencies ====="
-+    OUTPUT_MIN=${OUTPUT_BASE}/${TYPE}_min
-+    OUTPUTB=${OUTPUT_MIN}
-+  fi
-+
-+  mkdir -p ${OUTPUTB} ${OUTPUTB}/failed ${OUTPUTB}/ok
-+  echo "Logs will be stored in ${OUTPUTB} directory"
-+  if [ -z "$recipes" ]; then
-+    ls -d $buildhistory/packages/*/* | xargs -n 1 basename | sort -u > ${OUTPUTB}/recipe.list
-+    recipes=${OUTPUTB}/recipe.list
-+  fi
-+  if [ "${TYPE}" != "2" ] ; then
-+    echo "!!!Removing tmpdir \"$tmpdir\"!!!"
-+    rm -rf $tmpdir/deploy $tmpdir/pkgdata $tmpdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work $tmpdir/work-shared 2>/dev/null
-+  fi
-+  i=1
-+  count=`cat $recipes | wc -l`
-+  for recipe in `cat $recipes`; do
-+    echo "Building recipe: ${recipe} ($i/$count)"
-+    bitbake -c cleansstate ${recipe} > ${OUTPUTB}/log.${recipe} 2>&1;
-+    bitbake ${recipe} >> ${OUTPUTB}/log.${recipe} 2>&1;
-+    grep "ERROR: Task.*failed" ${OUTPUTB}/log.${recipe} && mv ${OUTPUTB}/log.${recipe} ${OUTPUTB}/failed/${recipe} || mv ${OUTPUTB}/log.${recipe} ${OUTPUTB}/ok/${recipe}
-+    if [ "${TYPE}" != "2" ] ; then
-+      rm -rf $tmpdir/deploy $tmpdir/pkgdata $tmpdir/sstate-control $tmpdir/stamps $tmpdir/sysroots $tmpdir/work $tmpdir/work-shared 2>/dev/null
-+    fi
-+    i=`expr $i + 1`
-+  done
-+  echo "Copying buildhistory/packages to ${OUTPUTB}"
-+  cp -ra $buildhistory/packages ${OUTPUTB}
-+  # This will be usefull to see which library is pulling new dependency
-+  echo "Copying do_package logs to ${OUTPUTB}/do_package/"
-+  mkdir ${OUTPUTB}/do_package
-+  find $tmpdir/work/ -name log.do_package | while read f; do
-+    # pn is 3 levels back, but we don't know if there is just one log per pn (only one arch and version)
-+    # dest=`echo $f | sed 's#^.*/\([^/]*\)/\([^/]*\)/\([^/]*\)/log.do_package#\1#g'`
-+    dest=`echo $f | sed "s#$tmpdir/work/##g; s#/#_#g"`
-+    cp $f ${OUTPUTB}/do_package/$dest
-+  done
-+  grep "ERROR: Task.*failed" ${OUTPUTB}/failed/*
-+  ls -1 ${OUTPUTB}/failed/* >> ${OUTPUT_BASE}/failed.recipes
-+}
-+
-+compare_deps() {
-+  # you can run just compare task with command like this
-+  # OUTPUT_BASE=test-dependencies/1373140172 \
-+  # OUTPUT_MAX=${OUTPUT_BASE}/2_max \
-+  # OUTPUT_MIN=${OUTPUT_BASE}/3_min \
-+  # openembedded-core/scripts/test-dependencies.sh --tmpdir=tmp-eglibc --targets=glib-2.0 --recipes=recipe_list --buildtype=c
-+  echo "===== Compare dependencies recorded in \"${OUTPUT_MAX}\" and \"${OUTPUT_MIN}\" ====="
-+  [ -n "${OUTPUTC}" ] || OUTPUTC=${OUTPUT_BASE}
-+  mkdir -p ${OUTPUTC}
-+  OUTPUT_FILE=${OUTPUTC}/dependency-changes
-+  echo "Differences will be stored in ${OUTPUT_FILE}, dot is shown for every 100 of checked packages"
-+  echo > ${OUTPUT_FILE}
-+
-+  [ -d ${OUTPUT_MAX} ] || echo_error "Directory with output from build 2 \"${OUTPUT_MAX}\" does not exist"
-+  [ -d ${OUTPUT_MIN} ] || echo_error "Directory with output from build 3 \"${OUTPUT_MIN}\" does not exist"
-+  [ -d ${OUTPUT_MAX}/packages/ ] || echo_error "Directory with packages from build 2 \"${OUTPUT_MAX}/packages/\" does not exist"
-+  [ -d ${OUTPUT_MIN}/packages/ ] || echo_error "Directory with packages from build 3 \"${OUTPUT_MIN}/packages/\" does not exist"
-+  i=0
-+  find ${OUTPUT_MAX}/packages/ -name latest | sed "s#${OUTPUT_MAX}/##g" | while read pkg; do
-+    max_pkg=${OUTPUT_MAX}/${pkg}
-+    min_pkg=${OUTPUT_MIN}/${pkg}
-+    if [ ! -f "${min_pkg}" ] ; then
-+      echo "ERROR: ${min_pkg} doesn't exist" | tee -a ${OUTPUT_FILE}
-+      continue
-+    fi
-+    # strip version information in parenthesis
-+    max_deps=`grep "^RDEPENDS = " ${max_pkg} | sed 's/^RDEPENDS = / /g; s/$/ /g; s/([^(]*)//g'`
-+    min_deps=`grep "^RDEPENDS = " ${min_pkg} | sed 's/^RDEPENDS = / /g; s/$/ /g; s/([^(]*)//g'`
-+    if [ "$i" = 100 ] ; then
-+      echo -n "." # cheap progressbar
-+      i=0
-+    fi
-+    if [ "${max_deps}" = "${min_deps}" ] ; then
-+      # it's annoying long, but at least it's showing some progress, warnings are grepped at the end
-+      echo "NOTE: ${pkg} dependencies weren't changed" >> ${OUTPUT_FILE}
-+    else
-+      missing_deps=
-+      for dep in ${max_deps}; do
-+        echo "${min_deps}" | grep -q " ${dep} " || missing_deps="${missing_deps} ${dep}"
-+      done
-+      if [ -n "${missing_deps}" ] ; then
-+        echo # to get rid of dots on last line
-+        echo "WARN: ${pkg} lost dependency on ${missing_deps}" | tee -a ${OUTPUT_FILE}
-+      fi
-+    fi
-+    i=`expr $i + 1`
-+  done
-+  echo # to get rid of dots on last line
-+  echo "Found differences: "
-+  grep "^WARN: " ${OUTPUT_FILE} | tee ${OUTPUT_FILE}.warn
-+  echo "Found errors: "
-+  grep "^ERROR: " ${OUTPUT_FILE} | tee ${OUTPUT_FILE}.error
-+  # useful for reexecuting this script with only small subset of recipes with known issues
-+  sed 's#.*[ /]packages/\([^/]*\)/\([^/]*\)/.*#\2#g' ${OUTPUT_FILE}.warn ${OUTPUT_FILE}.error | sort -u >> ${OUTPUT_BASE}/failed.recipes
-+}
-+
-+for TYPE in $buildtype; do
-+  case ${TYPE} in
-+    1) build_all;;
-+    2) build_every_recipe;;
-+    3) build_every_recipe;;
-+    4) build_every_recipe;;
-+    c) compare_deps;;
-+    *) echo_error "Invalid buildtype \"$TYPE\""
-+  esac
-+done
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+index 7e80ce4..dceb12c 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+@@ -24,6 +24,16 @@ PACKAGECONFIG[curl] = "--enable-curl,--disable-curl,curl"
+ PACKAGECONFIG[rsvg] = "--enable-rsvg,--disable-rsvg,librsvg,"
+ PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
+ PACKAGECONFIG[neon] = "--enable-neon,--disable-neon,neon"
++PACKAGECONFIG[mms] = "--enable-libmms,--disable-libmms,libmms"
++PACKAGECONFIG[cog] = "--enable-cog,--disable-cog,libpng"
++PACKAGECONFIG[faad] = "--enable-faad,--disable-faad,faad2"
++PACKAGECONFIG[jp2k] = "--enable-jp2k,--disable-jp2k,jasper"
++PACKAGECONFIG[modplug] = "--enable-modplug,--disable-modplug,libmodplug"
++PACKAGECONFIG[opus] = "--enable-opus,--disable-opus,libopus"
++PACKAGECONFIG[sndfile] = "--enable-sndfile,--disable-sndfile,libsndfile1"
++PACKAGECONFIG[vp8] = "--enable-vp8,--disable-vp8,libvpx"
++PACKAGECONFIG[ass] = "--enable-assrender,--disable-assrender,libass"
++PACKAGECONFIG[openal] = "--enable-openal,--disable-openal,openal-soft"
+ 
+ ARM_INSTRUCTION_SET = "arm"
+ 
 -- 
 1.8.3.2
 
