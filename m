@@ -1,27 +1,27 @@
 Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C4076B2BD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F23A6B2BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 02:00:46 +0000 (UTC)
+	Wed, 24 Jul 2013 02:00:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6O20mt5007660
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6O20oFd008263
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jul 2013 19:00:48 -0700 (PDT)
+	Tue, 23 Jul 2013 19:00:50 -0700 (PDT)
 Received: from localhost (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Tue, 23 Jul 2013 19:00:46 -0700
+	Tue, 23 Jul 2013 19:00:49 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Jul 2013 10:00:38 +0800
-Message-ID: <40d54b37721400b9a49efe78bcc86f6f9dfd8d49.1374556931.git.yi.zhao@windriver.com>
+Date: Wed, 24 Jul 2013 10:00:39 +0800
+Message-ID: <5dbeb2d1fd9f49b138b10cf4ee9b9a10437dcc76.1374556931.git.yi.zhao@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1374556931.git.yi.zhao@windriver.com>
 References: <cover.1374556931.git.yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.215]
-Subject: [PATCH 1/2] LSB_Test.sh: add -f option for curl
+Subject: [PATCH 2/2] scripts/create-lsb-image: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +34,253 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 02:00:47 -0000
+X-List-Received-Date: Wed, 24 Jul 2013 02:00:49 -0000
 Content-Type: text/plain
 
-In normal cases when a HTTP server fails to deliver a file, it returns
-an HTML document to describe the reason (e.g. 404 Not Found). The curl
-will output this page as a file and do not return error. Add a "-f"
-option will prevent curl from outputting that and return error.
-
-[YOCTO #4895]
+This script is no longer maintained. Now we don't perform LSB test on
+qemu image, so we don't need this script. Most of functions in this
+script are implemented in LSB_Test.sh. So it is safe to remove.
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-extended/lsb/lsbtest/LSB_Test.sh |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/create-lsb-image |  228 ----------------------------------------------
+ 1 file changed, 228 deletions(-)
+ delete mode 100755 scripts/create-lsb-image
 
-diff --git a/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-index f14f485..af1d61c 100644
---- a/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-+++ b/meta/recipes-extended/lsb/lsbtest/LSB_Test.sh
-@@ -128,7 +128,7 @@ CURL=`which curl`
- WGET=`which wget`
- if [ ! -z ${CURL} ]
- then
--	DOWNLOAD_CMD="${CURL} -R -L --retry 3 --retry-delay 4 --connect-timeout 180 --compressed -C - -o"
-+	DOWNLOAD_CMD="${CURL} -R -L -f --retry 3 --retry-delay 4 --connect-timeout 180 --compressed -C - -o"
- elif [ ! -z ${WGET} ]
- then
- 	DOWNLOAD_CMD="${WGET} -c -t 5 -O"
+diff --git a/scripts/create-lsb-image b/scripts/create-lsb-image
+deleted file mode 100755
+index 48b96e2..0000000
+--- a/scripts/create-lsb-image
++++ /dev/null
+@@ -1,228 +0,0 @@
+-#!/bin/bash
+-#
+-# Copyright (C) 2010-2011 Wind River Systems, Inc.
+-#
+-# This program is free software; you can redistribute it and/or modify
+-# it under the terms of the GNU General Public License version 2 as
+-# published by the Free Software Foundation.
+-#
+-# This program is distributed in the hope that it will be useful,
+-# but WITHOUT ANY WARRANTY; without even the implied warranty of
+-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+-# See the GNU General Public License for more details.
+-#
+-# You should have received a copy of the GNU General Public License
+-# along with this program; if not, write to the Free Software
+-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+-
+-
+-red='\E[31;40m'
+-green='\E[32;40m'
+-
+-#Get current owner
+-OWNER=`whoami` 
+-#Get group 
+-GROUP=`id -gn ${USER}`
+-MACHINE_ARCH=`bitbake -e | sed -n 's/^MACHINE_ARCH=\"\(.*\)\"/\1/p'`
+-DEPLOY_DIR_IMAGE=`bitbake -e | sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p'`
+-#Get value of varibale MACHINE_INE and DEPLOY_DIR_IMAGE
+-LSB_IMAGE=poky-image-lsb-${MACHINE_ARCH}-test.ext3
+-
+-ECHO()
+-{
+-    echo -e "${green}$@"
+-    tput sgr0
+-}
+-
+-ERROR()
+-{
+-    echo -e "${red}$@"
+-    tput sgr0
+-    exit 1
+-}
+-
+-exit_check()
+-{
+-    [ $? -ne 0 ] && exit $? 
+-}
+-
+-usage()
+-{
+-    ECHO "Usage: PC\$ create-lsb-image ARCH ROOTFS_IMAGE"
+-    ECHO "       ARCH: x86 or x86-64 or ppc32"
+-    ECHO "       ROOTFS_IMAGE: \
+-Name of the rootfs image with suffix \"tar.bz2\""
+-
+-
+-    ECHO ""
+-    ECHO "Examples:"
+-    ECHO "       PC\$ creat-lsb-image \
+-x86 poky-image-lsb-qemux86-20110317030443.rootfs.tar.bz2"
+-    exit 1
+-}
+-
+-#There should be two parameters to get machine type and name of image
+-if [ $# -ne 2 ]; then
+-    usage
+-fi
+-
+-#Get list for lsb test suite
+-case ${1} in
+-"x86")
+-    T_ARCH=ia32
+-    P_ARCH=i486
+-    COM_PACKAGE_LIST="lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz"
+-    ;;
+-"x86-64")
+-    T_ARCH=amd64
+-    P_ARCH=x86_64
+-    MACHINE_ARCH=${MACHINE_ARCH/x86_64/x86-64}
+-    COM_PACKAGE_LIST="lsb-dist-testkit-4.1.0-5.${P_ARCH}.tar.gz"
+-    ;;
+-"ppc32")
+-    P_ARCH=ppc
+-    T_ARCH=${1}
+-    COM_PACKAGE_LIST="lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz"
+-    ;;
+-*)
+-   usage
+-   ;;
+-esac
+-
+-APP_PACKAGE_RPMLIST="lsb-apache-2.2.14-3.lsb4.${P_ARCH}.rpm \
+-                     lsb-tcl-8.5.7-6.lsb4.${P_ARCH}.rpm \
+-                     lsb-expect-5.43.0-11.lsb4.${P_ARCH}.rpm \
+-                     lsb-groff-1.20.1-5.lsb4.${P_ARCH}.rpm \
+-                     lsb-raptor-1.4.19-3.lsb4.${P_ARCH}.rpm \
+-                     lsb-xpdf-1.01-10.lsb4.${P_ARCH}.rpm \
+-                     lsb-samba-3.4.3-5.lsb4.${P_ARCH}.rpm \
+-                     lsb-rsync-3.0.6-3.lsb4.${P_ARCH}.rpm"
+-
+-APP_PACKAGE_SOURCELIST="expect-tests.tar \
+-                        tcl-tests.tar \
+-                        raptor-tests.tar \
+-                        test1.pdf \
+-                        test2.pdf"
+-
+-PACKAGE_LIST="${COM_PACKAGE_LIST} \
+-              ${APP_PACKAGE_RPMLIST} \
+-              ${APP_PACKAGE_SOURCELIST}"
+-
+-#Version for lsb test suite
+-RELEASE=released-4.1.0 
+-#Tools of download packages 
+-WGET="wget -c -t 5" 
+-SERVER1="\
+-http://ftp.linuxfoundation.org/pub/lsb/bundles/${RELEASE}/dist-testkit" 
+-SERVER2="\
+-http://ftp.linux-foundation.org/pub/lsb/app-battery/${RELEASE}/${T_ARCH}"
+-SERVER3="http://ftp.linuxfoundation.org/pub/lsb/snapshots/appbat/tests"
+-
+-
+-#Function for downloading package from URL pointed
+-download()
+-{
+-
+-    for i in $@; do
+-        ECHO "  -->Downloading package \"${i}\""
+-        PACKAGE_NAME=${i}
+-        suffix=${PACKAGE_NAME##*.}
+-        if [ "$suffix" = "gz" ];then
+-            ${WGET} ${SERVER1}/${i}
+-        elif [ "$suffix" = "rpm" ];then
+-            ${WGET} ${SERVER2}/${i}
+-        else
+-            ${WGET} ${SERVER3}/${i}
+-        fi
+-    done
+-}
+-
+-#Check lsb image
+-[ ! -d $DEPLOY_DIR_IMAGE ] && ERROR "\ 
+-Image directory does not exist: ${DEPLOY_DIR_IMAGE}"
+-
+-ECHO "Entering directory $DEPLOY_DIR_IMAGE"
+-cd $DEPLOY_DIR_IMAGE
+-
+-if [ ! -f ${2} ]; then
+-    ECHO "rootfs image \"${2}\" not found in ${DEPLOY_DIR_IMAGE}"
+-    ECHO "Please copy \"${2}\" to \"${DEPLOY_DIR_IMAGE}\""
+-    exit 1
+-fi
+-
+-#Umount lsbtmp 
+-[ ! -d lsbtmp ] && mkdir lsbtmp 
+- 
+-#Download lsb test suite
+-mkdir -p lsb-test-suite-${MACHINE_ARCH} || \
+-ERROR "Couldn't find lsb test suite for ${MACHINE_ARCH}"
+-cd lsb-test-suite-${MACHINE_ARCH}
+-ECHO "Downloading lsb test suite, it would take some time..."
+-download ${PACKAGE_LIST}
+-
+-cd ..
+-
+-#Creat lsb image
+-if [ -f ${LSB_IMAGE} ];then
+-    sudo umount lsbtmp > /dev/null 2>&1
+-    ECHO "Removing old lsb image..."
+-    /bin/rm ${LSB_IMAGE} > /dev/null 2>&1
+-fi	
+-
+-ECHO "Creating a 8GB file for the lsb image"
+-dd if=/dev/zero of=${LSB_IMAGE} bs=1M count=8000 > /dev/null 2>&1
+-exit_check
+-
+-ECHO "Formatting ext3 image..."
+-mkfs.ext3 -q -F ${LSB_IMAGE} > /dev/null 2>&1
+-tune2fs -j  ${LSB_IMAGE} > /dev/null 2>&1
+-
+-
+-ECHO "Generating final image"
+-[ ! -d lsbtmp ] && mkdir lsbtmp
+-
+-
+-#Install file system and lsb test suite to lsb image
+-sudo mount -o loop ${LSB_IMAGE} lsbtmp
+-exit_check
+-
+-ECHO "  ->Installing rootfs..."
+-sudo tar jpxf ${2} -C lsbtmp
+-exit_check
+-
+-ECHO "  ->Installing lsb test suite..."
+-cd lsb-test-suite-${MACHINE_ARCH}
+-if [ "${1}" = "x86-64" ]; then
+-    sudo tar zpxf lsb-dist-testkit-4.1.0-5.${P_ARCH}.tar.gz -C ../lsbtmp
+-else
+-    sudo tar zpxf lsb-dist-testkit-4.1.0-5.${T_ARCH}.tar.gz -C ../lsbtmp
+-fi
+-exit_check
+-
+-sudo mkdir ../lsbtmp/lsb-Application
+-sudo cp *.rpm *.tar *.pdf ../lsbtmp/lsb-Application
+-exit_check
+-cd ..
+-
+-if [ -f modules-*-${MACHINE_ARCH}.tgz ];then
+-ECHO "  ->Installing moudles of driver..."	
+-    sudo tar zpxf modules-*-${MACHINE_ARCH}.tgz -C lsbtmp/
+-fi
+-
+-
+-#Unmount lsbtmp
+-sudo umount lsbtmp
+-exit_check
+-sudo rm -rf lsbtmp
+-
+-#Change file attribute
+-sudo chown ${OWNER}:${GROUP} ${LSB_IMAGE} 
+-exit_check
+-sudo chmod 755 ${LSB_IMAGE}
+-exit_check
+-
+-#Set up link
+-ln -sf ${LSB_IMAGE} poky-image-lsb-${MACHINE_ARCH}.ext3
+-
+-ECHO "The LSB test environment has been setup successfully."
+-ECHO "Please run this image on platform ${MACHINE_ARCH}"
 -- 
 1.7.9.5
 
