@@ -1,39 +1,27 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 361C86A9C4
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E331D6065F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 22:55:33 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id 13so987274lba.30
+	Thu, 25 Jul 2013 02:51:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6P2pnpp020216
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jul 2013 15:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=Guo2dDpejPXAbIDXJzTu37j7TkAlwEl684sMUM5gHXk=;
-	b=diEHAeXr7zGQNBuaQ3V6Htu69XZaWETBob24UmOxUxCD5Pv3e6jLpoiVoWcs1+NUQ9
-	H2xp50ZUB1Nilk9Ss/bWp1itQit7jYFzN9IMuxnXXNXqjpDA73VPBjW+G1DBLuQGkVk6
-	a2VNgSQafnOoKtJsd3q3JI1uIWXErl4Cpvawa2OxxX2fgs0l4heakaOElYNC0LGUrUIO
-	AjlSQsKSWwC7gqBAlAdGJGXHQ9gtWnAXhfNqqIDkZJ45Ba1hCtqBC5LYH05r7Y5ZZsLG
-	7aYk2lvfynpIo9BR9LRPihB3drQ3AbDqhDe/9saMN/NeNrtEmJT7NfIQMwR6eIP+gQg7
-	S4CQ==
-X-Received: by 10.152.18.129 with SMTP id w1mr17876996lad.10.1374706532233;
-	Wed, 24 Jul 2013 15:55:32 -0700 (PDT)
+	Wed, 24 Jul 2013 19:51:49 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Wed, 24 Jul 2013 19:51:48 -0700
+Message-ID: <51F092C5.3060906@windriver.com>
+Date: Thu, 25 Jul 2013 10:51:49 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.17.67 with HTTP; Wed, 24 Jul 2013 15:55:12 -0700 (PDT)
-In-Reply-To: <CAP9ODKrwQfK9=mArwGbJk1E2-8G+_QvFZ3ehU+fKqYvPY5xLjg@mail.gmail.com>
+To: <openembedded-core@lists.openembedded.org>
 References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-	<CAP9ODKouv4sp08h5dnm4M=4bfhewoqSSqgPiTiQm=VyN7=gZCQ@mail.gmail.com>
-	<CABcZAN=Kn_V82JE3e=781cHBd6WwH9=96wZx=o=u_z6X89Vg=w@mail.gmail.com>
-	<CAP9ODKrwQfK9=mArwGbJk1E2-8G+_QvFZ3ehU+fKqYvPY5xLjg@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 24 Jul 2013 15:55:12 -0700
-X-Google-Sender-Auth: AvAf2e_nEtqtTUx70X5FyDDHw4s
-Message-ID: <CABcZANnTy3Mg91oeu0U57Y1YADM+Jr-gK8phf9P0SuQcLy5YNw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+In-Reply-To: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
+X-Originating-IP: [128.224.162.233]
 Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,153 +35,303 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2013 22:55:33 -0000
-Content-Type: multipart/alternative; boundary=089e014939688638e404e249cebc
+X-List-Received-Date: Thu, 25 Jul 2013 02:51:49 -0000
+Content-Type: multipart/alternative;
+	boundary="------------090105030706030308000407"
 
---089e014939688638e404e249cebc
-Content-Type: text/plain; charset=UTF-8
+--------------090105030706030308000407
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 24, 2013 at 3:40 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
+Hi Chris,
 
-> On Wed, Jul 24, 2013 at 7:34 PM, Chris Larson <clarson@kergoth.com> wrote:
-> >
-> > On Wed, Jul 24, 2013 at 2:51 PM, Otavio Salvador <
-> otavio@ossystems.com.br>
-> > wrote:
-> >>
-> >> On Wed, Jul 24, 2013 at 3:54 PM, Chris Larson <clarson@kergoth.com>
-> wrote:
-> >> ...
-> >> > The standalone systemd-tmpfiles recipe I've created has a fairly small
-> >> > set
-> >> > of dependencies: intltool-native, dbus, libcap. Given this, I'd like
-> to
-> >> > propose transitioning away from populate-volatiles to
-> systemd-tmpfiles,
-> >> > even
-> >> > for non-systemd images. I think that the update-tmpfiles shell script
-> >> > may be
-> >> > of use in a transition, but before we even begin discussing a
-> transition
-> >> > path, I'd like to request comments on the notion of moving to it at
-> all.
-> >>
-> >> I think it shouldn't be hard to make an C app or script which could
-> >> parse systemd-tmpfiles and use this for non-systemd systems. What do
-> >> you think?
-> >
-> >
-> > I considered this too, but systemd-tmpfiles supports quite a lot more
-> than
-> > volatiles, for example restoring selinux labels. Maybe that sounds fun to
-> > you, but it sounded like more trouble than it was worth to me, given
-> > systemd-tmpfiles can be used without systemd :) But yes, it's definitely
-> > another option to consider.
+I'm now working on some bugs related to read-only rootfs.
+
+You can get more information from the bug link below. The related bugs 
+are listed in the blocks list of this bug.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4103
+You can also review the patchset for these bugs on
+
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images
+
+
+I'm really interested on this topic. From my understanding, this RFC 
+mainly focuses on read-only rootfs support for systemd based images, right?
+I've read though this thread carefully, but still can't get a clear 
+picture about this RFC.
+Could you please give me a link to your patchset, if convenient?
+
+Best Regards,
+Chen Qi
+
+On 07/25/2013 02:54 AM, Chris Larson wrote:
+> Greetings all,
 >
-> Sorry, pressed the send button too fast ...
+> I've recently been doing some work at Mentor Graphics on 
+> read-only-rootfs, for our purposes, and have done some things which I 
+> think may be of use. I'm looking for comments/thoughts on the approach 
+> and potential use of a pattern generally, and also wish to discuss the 
+> volatiles vs tmp files.d situation.
 >
-> I understand but I think we could solve the tmp files issue only;
-> people using sysv are expected to solve all those other issues in
-> another way so it is not a regression for them.
+> I have recently created a `meta-ro-rootfs` layer to hold work in this 
+> direction which is not yet in or-core. As is fairly usual, it's a 
+> staging area between us and upstream, not a place for anything to live 
+> permanently. What follows is a summation of the work done there thus far:
+>
+> - Created a 'systemd-tmpfiles' recipe for non-systemd builds, and also 
+> for native
+>
+>   - Patched in --sysroot= support for systemd-tmpfiles, to facilitate 
+> running it up front against the filesystem at do_rootfs time the way 
+> read_only_rootfs_hook does with populate-volatiles
+>
+>   - Added an 'update-tmpfiles' script, which iterates over all files 
+> in /etc/default/volatiles/, converting them to tmpfiles.d config 
+> files, writing them into /usr/lib/tmpfiles.d/, and removing the 
+> volatile config files
+>
+>   - Reduced the dependencies, via patches and EXTRA_OECONF, as much as 
+> seemed to be viable
+>
+> - Split out 'systemd-tmpfiles' from 'systemd' package in the main 
+> systemd recipe, equivalent to the standalone one, for builds with 
+> `systemd` in DISTRO_FEATURES
+>
+> - Created a 'read-only-rootfs-systemd' bbclass, which appends the bits 
+> to run both update-tmpfiles and systemd-tmpfiles against the 
+> filesystem at do_rootfs time for systemd distros. This will need to be 
+> altered to not remove the volatiles config files for non-systemd 
+> *images*. I realize there are many use cases to consider in the 
+> sysvinit vs systemd realm, and I haven't verified that all are 
+> satisfied just yet, as systemd is our current priority for r/o rootfs.
+>
+> - Added a COMPLEMENTARY_GLOBS config (in the layer.conf for now, 
+> though I may move it into the bbclass) which adds `pkg-volatile` for 
+> each `pkg` to the rootfs if read-only-rootfs is enabled.
+>
+> - Implemented a prototype configuration for dbus which uses this to 
+> support read-only-rootfs. In the main package, we install a dbus.conf 
+> into /usr/lib/tmpfiles.d/ which ensures /var/lib/dbus exists for the 
+> non-r/o case, without including the path in the package (as including 
+> paths within volatile paths in a binary package will break things). In 
+> the dbus-volatile package, I install a different dbus.conf to 
+> /etc/tmpfiles.d/, which overrides the one in /usr/lib/tmpfiles.d/ 
+> (yes, update-alternatives would have been an option too, and has a 
+> certain amount of merit, as /etc/tmpfiles.d/ is supposed to be 
+> reserved for use by the administrator), and this config ensures that 
+> /var/volatile/lib/dbus is created and that /var/lib/dbus is a symlink 
+> which points to it.
+>
+> I have confirmed that I can create a systemd image with 
+> read-only-rootfs and read-only-rootfs-systemd inherited, and dbus is 
+> able to write to the volatile /var/lib/dbus/ path.
+>
+> I think this is a step in the right direction, though clearly more 
+> needs to be worked out, but this pattern of using override 
+> volatile/tmpfiles configurations with an additional complementary 
+> package should let us cleanly share binary packages between r/o and 
+> non-r/o images.
+>
+> Now, regarding tmpfiles.d vs volatiles. This is a rather unpleasant 
+> situation currently, as for a recipe to cleanly support both sysvinit 
+> and systemd images, it needs not only both sysv init script and 
+> systemd services (though admittedly the latter is optional with sysv 
+> compat), it also needs to provide both a volatiles config and a 
+> tmpfiles.d config if it needs volatile paths.
+>
+> The standalone systemd-tmpfiles recipe I've created has a fairly small 
+> set of dependencies: intltool-native, dbus, libcap. Given this, I'd 
+> like to propose transitioning away from populate-volatiles to 
+> systemd-tmpfiles, even for non-systemd images. I think that the 
+> update-tmpfiles shell script may be of use in a transition, but before 
+> we even begin discussing a transition path, I'd like to request 
+> comments on the notion of moving to it at all. Thoughts? Objections?
+>
+> Thanks,
+> -- 
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-I think those other issues still apply to tmpfiles, just not about their
-creation alone :)
+--------------090105030706030308000407
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-Assuming others have other ways of handling that, it does bother me a
-little still duplicating that information between tmpfiles config and
-whatever that 'another way' was, but it would definitely be a step in the
-right direction.
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">Hi Chris,<br>
+      <br>
+      I'm now working on some bugs related to read-only rootfs. <br>
+      <br>
+      You can get more information from the bug link below. The related
+      bugs are listed in the blocks list of this bug.<br>
+      <a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=4103">https://bugzilla.yoctoproject.org/show_bug.cgi?id=4103</a><br>
+      You can also review the patchset for these bugs on <br>
+      <pre wrap=""><a class="moz-txt-link-freetext" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images</a></pre>
+      <br>
+      I'm really interested on this topic. From my understanding, this
+      RFC mainly focuses on read-only rootfs support for systemd based
+      images, right?<br>
+      I've read though this thread carefully, but still can't get a
+      clear picture about this RFC.<br>
+      Could you please give me a link to your patchset, if convenient?<br>
+      <br>
+      Best Regards,<br>
+      Chen Qi<br>
+      <br>
+      On 07/25/2013 02:54 AM, Chris Larson wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <div dir="ltr">
+        <div style="">Greetings all,</div>
+        <div style=""><br>
+        </div>
+        <div style="">I've recently been doing some work at Mentor
+          Graphics on read-only-rootfs, for our purposes, and have done
+          some things which I think may be of use. I'm looking for
+          comments/thoughts on the approach and potential use of a
+          pattern generally, and also wish to discuss the volatiles vs
+          tmp files.d situation.</div>
+        <div style=""><br>
+        </div>
+        <div style="">I have recently created a `meta-ro-rootfs` layer
+          to hold work in this direction which is not yet in or-core. As
+          is fairly usual, it's a staging area between us and upstream,
+          not a place for anything to live permanently. What follows is
+          a summation of the work done there thus far:</div>
+        <div style=""><br>
+        </div>
+        <div style="">- Created a 'systemd-tmpfiles' recipe for
+          non-systemd builds, and also for native<br>
+        </div>
+        <div style=""><br>
+        </div>
+        <div style="">&nbsp; - Patched in --sysroot= support for
+          systemd-tmpfiles, to facilitate running it up front against
+          the filesystem at do_rootfs time the way read_only_rootfs_hook
+          does with populate-volatiles</div>
+        <div style=""><br>
+        </div>
+        <div style="">&nbsp; - Added an 'update-tmpfiles' script, which
+          iterates over all files in /etc/default/volatiles/, converting
+          them to tmpfiles.d config files, writing them into
+          /usr/lib/tmpfiles.d/, and removing the volatile config files</div>
+        <div style=""><br>
+        </div>
+        <div style="">&nbsp; - Reduced the dependencies, via patches and
+          EXTRA_OECONF, as much as seemed to be viable</div>
+        <div style=""><br>
+        </div>
+        <div style="">
+          <div>- Split out 'systemd-tmpfiles' from 'systemd' package in
+            the main systemd recipe, equivalent to the standalone one,
+            for builds with `systemd` in DISTRO_FEATURES</div>
+          <div><br>
+          </div>
+          <div style="">- Created a 'read-only-rootfs-systemd' bbclass,
+            which appends the bits to run both update-tmpfiles and
+            systemd-tmpfiles against the filesystem at do_rootfs time
+            for systemd distros. This will need to be altered to not
+            remove the volatiles config files for non-systemd *images*.
+            I realize there are many use cases to consider in the
+            sysvinit vs systemd realm, and I haven't verified that all
+            are satisfied just yet, as systemd is our current priority
+            for r/o rootfs.</div>
+          <div style=""><br>
+          </div>
+          <div style="">- Added a COMPLEMENTARY_GLOBS config (in the
+            layer.conf for now, though I may move it into the bbclass)
+            which adds `pkg-volatile` for each `pkg` to the rootfs if
+            read-only-rootfs is enabled.</div>
+          <div style=""><br>
+          </div>
+          <div style="">- Implemented a prototype configuration for dbus
+            which uses this to support read-only-rootfs. In the main
+            package, we install a dbus.conf into /usr/lib/tmpfiles.d/
+            which ensures /var/lib/dbus exists for the non-r/o case,
+            without including the path in the package (as including
+            paths within volatile paths in a binary package will break
+            things). In the dbus-volatile package, I install a different
+            dbus.conf to /etc/tmpfiles.d/, which overrides the one in
+            /usr/lib/tmpfiles.d/ (yes, update-alternatives would have
+            been an option too, and has a certain amount of merit, as
+            /etc/tmpfiles.d/ is supposed to be reserved for use by the
+            administrator), and this config ensures that
+            /var/volatile/lib/dbus is created and that /var/lib/dbus is
+            a symlink which points to it.</div>
+          <div style=""><br>
+          </div>
+          <div style="">I have confirmed that I can create a systemd
+            image with read-only-rootfs and read-only-rootfs-systemd
+            inherited, and dbus is able to write to the volatile
+            /var/lib/dbus/ path.</div>
+          <div style="">
+            <br>
+          </div>
+          <div style="">I think this is a step in the right direction,
+            though clearly more needs to be worked out, but this pattern
+            of using override volatile/tmpfiles configurations with an
+            additional complementary package should let us cleanly share
+            binary packages between r/o and non-r/o images.</div>
+          <div style=""><br>
+          </div>
+          <div style="">Now, regarding tmpfiles.d vs volatiles. This is
+            a rather unpleasant situation currently, as for a recipe to
+            cleanly support both sysvinit and systemd images, it needs
+            not only both sysv init script and systemd services (though
+            admittedly the latter is optional with sysv compat), it also
+            needs to provide both a volatiles config and a tmpfiles.d
+            config if it needs volatile paths.</div>
+          <div style=""><br>
+          </div>
+          <div style="">The standalone systemd-tmpfiles recipe I've
+            created has a fairly small set of dependencies:
+            intltool-native, dbus, libcap. Given this, I'd like to
+            propose transitioning away from populate-volatiles to
+            systemd-tmpfiles, even for non-systemd images. I think that
+            the update-tmpfiles shell script may be of use in a
+            transition, but before we even begin discussing a transition
+            path, I'd like to request comments on the notion of moving
+            to it at all. Thoughts? Objections?</div>
+          <div style=""><br>
+          </div>
+          <div style="">Thanks,</div>
+        </div>
+        -- <br>
+        Christopher Larson<br>
+        clarson at kergoth dot com<br>
+        Founder - BitBake, OpenEmbedded, OpenZaurus<br>
+        Maintainer - Tslib<br>
+        Senior Software Engineer, Mentor Graphics
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
-Using a single config file but different implementations would absolutely
-be an improvement over the current handling, and would be less invasive,
-and wouldn't add the potential additional deps brought in by
-systemd-tmpfiles. It's a good idea, and I'd be curious to hear what others
-think about this option vs using systemd-tmpfiles itself.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---089e014939688638e404e249cebc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jul 24, 2013 at 3:40 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.c=
-om.br</a>&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, Jul 24, 2013 at 7:=
-34 PM, Chris Larson &lt;<a href=3D"mailto:clarson@kergoth.com">clarson@kerg=
-oth.com</a>&gt; wrote:<br>
-
-
-&gt;<br>
-&gt; On Wed, Jul 24, 2013 at 2:51 PM, Otavio Salvador &lt;<a href=3D"mailto=
-:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;<br>
-&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Wed, Jul 24, 2013 at 3:54 PM, Chris Larson &lt;<a href=3D"mailt=
-o:clarson@kergoth.com">clarson@kergoth.com</a>&gt; wrote:<br>
-&gt;&gt; ...<br>
-&gt;&gt; &gt; The standalone systemd-tmpfiles recipe I&#39;ve created has a=
- fairly small<br>
-&gt;&gt; &gt; set<br>
-&gt;&gt; &gt; of dependencies: intltool-native, dbus, libcap. Given this, I=
-&#39;d like to<br>
-&gt;&gt; &gt; propose transitioning away from populate-volatiles to systemd=
--tmpfiles,<br>
-&gt;&gt; &gt; even<br>
-&gt;&gt; &gt; for non-systemd images. I think that the update-tmpfiles shel=
-l script<br>
-&gt;&gt; &gt; may be<br>
-&gt;&gt; &gt; of use in a transition, but before we even begin discussing a=
- transition<br>
-&gt;&gt; &gt; path, I&#39;d like to request comments on the notion of movin=
-g to it at all.<br>
-&gt;&gt;<br>
-&gt;&gt; I think it shouldn&#39;t be hard to make an C app or script which =
-could<br>
-&gt;&gt; parse systemd-tmpfiles and use this for non-systemd systems. What =
-do<br>
-&gt;&gt; you think?<br>
-&gt;<br>
-&gt;<br>
-&gt; I considered this too, but systemd-tmpfiles supports quite a lot more =
-than<br>
-&gt; volatiles, for example restoring selinux labels. Maybe that sounds fun=
- to<br>
-&gt; you, but it sounded like more trouble than it was worth to me, given<b=
-r>
-&gt; systemd-tmpfiles can be used without systemd :) But yes, it&#39;s defi=
-nitely<br>
-&gt; another option to consider.<br>
-<br>
-</div>Sorry, pressed the send button too fast ...<br>
-<br>
-I understand but I think we could solve the tmp files issue only;<br>
-people using sysv are expected to solve all those other issues in<br>
-another way so it is not a regression for them.</blockquote><div><br></div>=
-<div style>I think those other issues still apply to tmpfiles, just not abo=
-ut their creation alone :)=C2=A0</div></div><br>Assuming others have other =
-ways of handling that, it does bother me a little still duplicating that in=
-formation between tmpfiles config and whatever that &#39;another way&#39; w=
-as, but it would definitely be a step in the right direction.</div>
-
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Using a sin=
-gle config file but different implementations would absolutely be an improv=
-ement over the current handling, and would be less invasive, and wouldn&#39=
-;t add the potential additional deps brought in by systemd-tmpfiles. It&#39=
-;s a good idea, and I&#39;d be curious to hear what others think about this=
- option vs using systemd-tmpfiles itself.<br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
-
---089e014939688638e404e249cebc--
+--------------090105030706030308000407--
