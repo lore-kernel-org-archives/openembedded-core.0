@@ -1,55 +1,37 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C89C6AF56
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
+	[209.85.212.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 04DDD6B254
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 15:59:03 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r6PFx1IP020206
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Thu, 25 Jul 2013 16:11:24 +0000 (UTC)
+Received: by mail-vb0-f42.google.com with SMTP id i3so562079vbh.29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 17:59:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1374767942;
-	bh=FRwrExgT/AajrBhbATRee5lj+lMn+n32Jw7vHRZhbYs=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=QKjdOP/DQ/sANQT3CuqMj5THQrwazsbNq6i4NVjQ8VoyqtR8gPJqAD8neZZmvs1rC
-	Od898zMAV0m6tub3Q4jXUSbeasHQhgUAHPGxeDlnWB81x02iq+s+izdWF89JO9edJM
-	OXOx5C1s4wKS4bueDl2zushU2+xUAzzCV16XI9fA=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r6PFwwxh000412
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 17:58:59 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1V2NwP-0000CW-Rd
-	for openembedded-core@lists.openembedded.org;
-	Thu, 25 Jul 2013 17:58:57 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1373325035-29814-1-git-send-email-sgw@linux.intel.com>
-	<lysizmmle9.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<F61C6B48-CF28-4331-BEBF-19673E091E96@dominion.thruhere.net>
-	<4F2BF532-D3A4-431E-8905-E4F33FBF80D5@dominion.thruhere.net>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Thu, 25 Jul 2013 17:58:57 +0200
-In-Reply-To: <4F2BF532-D3A4-431E-8905-E4F33FBF80D5@dominion.thruhere.net>
-	(Koen Kooi's message of "Thu, 25 Jul 2013 15:02:20 +0200")
-Message-ID: <lyy58uljge.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Thu, 25 Jul 2013 09:11:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=mtlRMjjPKE73LZQbajZJ9zr6oJRFyUztAnXhjQ7Rhj4=;
+	b=ozA7shygIZdqzHJJCbbgStIayWy+t5SXL99MTDx+S6B0++b+TyTYcomNuIUZgsNWVu
+	H+OqqWGNkl2W4vRCjTqIXR7mK//RORbJvfYRGqZt2Aw1CoWZrIZjGGJtEsy6LJs9zcQd
+	duWPSWgLek2265PPT1nomxMKahIZE+3SjXJSRAE0rk4/Yj7RrFqC2PfnHBIBPn3iIB8i
+	WfR7LB+VjcJap3gqMssNoyuP3hCvkrOlsgkBg/PJOFQkMWMhOhREVIwE3lM47SGH6Oh/
+	W8014tFrFnYeq8NC9OcNqvrt4ORgeNm8ILLgdaovUhf58/iv8rrQUAK6xZCkBOrKz883
+	FpTQ==
+X-Received: by 10.52.158.136 with SMTP id wu8mr15178055vdb.33.1374768685022;
+	Thu, 25 Jul 2013 09:11:25 -0700 (PDT)
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.8
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Subject: Re: [PATCH v2] util-linux: Use PACKAGECONFIG to control pam and system config options
+Received: by 10.58.30.15 with HTTP; Thu, 25 Jul 2013 09:11:04 -0700 (PDT)
+In-Reply-To: <78114fce0d09f10018959859a4ad69d128cbaf80.1374763279.git.ionutx.radu@intel.com>
+References: <cover.1374763279.git.ionutx.radu@intel.com>
+	<78114fce0d09f10018959859a4ad69d128cbaf80.1374763279.git.ionutx.radu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Jul 2013 17:11:04 +0100
+Message-ID: <CAJTo0Lbmfaj2sLvOiKvoeuPRnQxcFDOPfct8ZWu1vV4kpFH==g@mail.gmail.com>
+To: Ionut Radu <ionutx.radu@intel.com>
+X-Gm-Message-State: ALoCoQlHae+2RBsui+CU06TLj7drZZIYuaMCV1mHMHhQs9/nNuR33gBWJBDwl6RGPfvWRHG8Y97Q
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [v2 4/6] qemu: Updated from 1.5.0 to 1.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,36 +44,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 15:59:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Jul 2013 16:11:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Koen Kooi <koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@public.gmane.org>
-writes:
+Hi,
 
->     The ??= operator is too weak
-> ...
-> -PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
-> +PACKAGECONFIG_class-target ?= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->                                  ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
+On 25 July 2013 15:51, Ionut Radu <ionutx.radu@intel.com> wrote:
+> Tested (displayed the version of qemu installed) on core-image-sato
+> on all architectures (x86, x86-64, ppc, mips, arm).
 
-good to see that I am not the only one hitting this problem.  But does
-there exist some explanation for this behavior?  Lots of other packages
-have
+What do you mean by "displayed the version of qemu installed"?
 
-| PACKAGECONFIG ??=
+> -SRC_URI += "file://fdt_header.patch \
+> -            file://target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch"
+> +SRC_URI += "file://fdt_header.patch"
 
-and it seems to work there.  It might be related to the '_class-target'
-override but that's a nasty, unpredictable bug causing silent breakage.
+Please explain why this patch is being dropped, and if it's not
+required anymore please delete it.
 
-Something like
-
-| localconfig = ""
-| localconfig_class-target = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}...
-|
-| PACKAGECONFIG ??= "${localconfig}"
-
-and forbidding '??' in override-constructs might make things clearer.
-
-
-Enrico
+Ross
 
