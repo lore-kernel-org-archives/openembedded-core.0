@@ -1,36 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B7C016AF56
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C89C6AF56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 15:35:29 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id w60so836354wes.1
+	Thu, 25 Jul 2013 15:59:03 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	r6PFx1IP020206
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 08:35:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=TWtdOIYLDhTbkE4dxYE5I9asdYwaY9zzL/3252v5SaY=;
-	b=O0Q27begXutKcAOpJ+ZPpbdZmRaIghqxPIN6EPngZFk/y+6uqC0xgu3vQuUlLFN4gH
-	b2pP5V2ZR8/udl2OHGN4zKlZyhqNMt1kbYIejsSmEHWQUcUvlH/btebGrWasRpCoIcfG
-	R0CkIii6aak7R5ggBufB9Z0epGbruv8gXPWvZ+NrjgKJLAxPSoFvX1Ig7pIv89wXAp4+
-	7zSz5ZKqXzfYMq7yLYFxEejIG50y8nuzX0R+6mEG5xsl3uBNJFTAlW8lD2SEbDOGSTCG
-	Rci2Ip13QKHQwjaGKq40ONs4lAlLr6ArMoLH3/dRaCWXUjOZFCE2xLAFVX4lHGcGiZ0Y
-	2fGQ==
-X-Received: by 10.180.74.197 with SMTP id w5mr2568032wiv.20.1374766529460;
-	Thu, 25 Jul 2013 08:35:29 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id hb2sm4530350wib.0.2013.07.25.08.35.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 25 Jul 2013 08:35:28 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 25 Jul 2013 17:59:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1374767942;
+	bh=FRwrExgT/AajrBhbATRee5lj+lMn+n32Jw7vHRZhbYs=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=QKjdOP/DQ/sANQT3CuqMj5THQrwazsbNq6i4NVjQ8VoyqtR8gPJqAD8neZZmvs1rC
+	Od898zMAV0m6tub3Q4jXUSbeasHQhgUAHPGxeDlnWB81x02iq+s+izdWF89JO9edJM
+	OXOx5C1s4wKS4bueDl2zushU2+xUAzzCV16XI9fA=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r6PFwwxh000412
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2013 17:58:59 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1V2NwP-0000CW-Rd
+	for openembedded-core@lists.openembedded.org;
+	Thu, 25 Jul 2013 17:58:57 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jul 2013 16:31:40 +0100
-Message-Id: <1374766300-14041-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQkPV1iOGP1R0HoRUOde19gmH7coeBSwxISzxBt4PuF8FMXHohibht6mdFf3Z+TO5FCRnRDU
-Subject: [PATCH] Revert "initrdscripts: mount / as read-only when live-booting"
+References: <1373325035-29814-1-git-send-email-sgw@linux.intel.com>
+	<lysizmmle9.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<F61C6B48-CF28-4331-BEBF-19673E091E96@dominion.thruhere.net>
+	<4F2BF532-D3A4-431E-8905-E4F33FBF80D5@dominion.thruhere.net>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 25 Jul 2013 17:58:57 +0200
+In-Reply-To: <4F2BF532-D3A4-431E-8905-E4F33FBF80D5@dominion.thruhere.net>
+	(Koen Kooi's message of "Thu, 25 Jul 2013 15:02:20 +0200")
+Message-ID: <lyy58uljge.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -4.8
+X-Spam-Level: ----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH v2] util-linux: Use PACKAGECONFIG to control pam and system config options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +62,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 15:35:30 -0000
+X-List-Received-Date: Thu, 25 Jul 2013 15:59:03 -0000
+Content-Type: text/plain
 
-My test environment must have been messed up as now hddimgs are failing to
-re-mount / as read-write.
+Koen Kooi <koen-QLwJDigV5abLmq1fohREcCpxlwaOVQ5f@public.gmane.org>
+writes:
 
-This reverts commit 7af92f8fa3a12fc8fcb22dbd12f87d89768b2d39.
+>     The ??= operator is too weak
+> ...
+> -PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
+> +PACKAGECONFIG_class-target ?= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+>                                  ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-live.sh |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+good to see that I am not the only one hitting this problem.  But does
+there exist some explanation for this behavior?  Lots of other packages
+have
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index c56c79a..890c562 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -157,7 +157,7 @@ mount_and_boot() {
-     case $union_fs_type in
- 	"overlayfs")
- 	    mkdir -p /rootfs.ro /rootfs.rw
--	    if ! mount -o ro,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
-+	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
- 		rm -rf /rootfs.ro /rootfs.rw
- 		fatal "Could not mount rootfs image"
- 	    else
-@@ -170,7 +170,7 @@ mount_and_boot() {
- 	    ;;
- 	"aufs")
- 	    mkdir -p /rootfs.ro /rootfs.rw
--	    if ! mount -o ro,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
-+	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
- 		rm -rf /rootfs.ro /rootfs.rw
- 		fatal "Could not mount rootfs image"
- 	    else
-@@ -182,7 +182,7 @@ mount_and_boot() {
- 	    fi
- 	    ;;
- 	"")
--	    if ! mount -o ro,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
-+	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
- 		fatal "Could not mount rootfs image"
- 	    fi
- 	    ;;
--- 
-1.7.10.4
+| PACKAGECONFIG ??=
 
+and it seems to work there.  It might be related to the '_class-target'
+override but that's a nasty, unpredictable bug causing silent breakage.
+
+Something like
+
+| localconfig = ""
+| localconfig_class-target = "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}...
+|
+| PACKAGECONFIG ??= "${localconfig}"
+
+and forbidding '??' in override-constructs might make things clearer.
+
+
+Enrico
 
