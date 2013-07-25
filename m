@@ -1,46 +1,25 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C43D96B254
+Return-Path: <gaba@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id A17166028A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 13:02:21 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id hq4so1750328wib.14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 06:02:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=0Xl1YekvH04qv8mIBERZVeij/yAUnrbQbe+2cr9TDac=;
-	b=gFAMZnJiNfpN3yRBNe3kAsoab5lhXqCnfnmbaS3mPqmEBiPlhhFG5AunLEfPw1Ze+V
-	TSEq1DAXKYZHrZ1WfqBnh2WjK0Ky76Yvai3uUlFs1vlLh6hvxXNzJ2qstpfPaQyYelzM
-	pAGvBdMyy0obAE9IoBHl6rjyQZyz/g99fwhoAN/1+X5eGeu6RNySMS8+JZcCgUXDHhdd
-	nQsLbaXwJrRfRfKYKFx5X9mZQxBy0F8Tcc/hiux9mHdjsDoYoV/ajjfSaEm0UPV2AiKa
-	l3xeV84Ewb96SlMkm3qybjTYiKM/ME46NxsxErjdNWL8tbJdUol3hB2AX9MfyPR2+Qth
-	EGCA==
-X-Received: by 10.194.92.6 with SMTP id ci6mr6572889wjb.79.1374757342039;
-	Thu, 25 Jul 2013 06:02:22 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::4907:4245:5568:5807?
-	([2001:610:612:0:4907:4245:5568:5807])
-	by mx.google.com with ESMTPSA id li9sm3626723wic.2.2013.07.25.06.02.19
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 25 Jul 2013 06:02:20 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <F61C6B48-CF28-4331-BEBF-19673E091E96@dominion.thruhere.net>
-Date: Thu, 25 Jul 2013 15:02:20 +0200
-Message-Id: <4F2BF532-D3A4-431E-8905-E4F33FBF80D5@dominion.thruhere.net>
-References: <1373325035-29814-1-git-send-email-sgw@linux.intel.com>
-	<lysizmmle9.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<F61C6B48-CF28-4331-BEBF-19673E091E96@dominion.thruhere.net>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-Mailer: Apple Mail (2.1508)
-X-Gm-Message-State: ALoCoQk3LCN8tFjBoh9MVdBaoyhg2OjHygdaZ1nOGssR03KXNkT+KqwbYF03GhVygVa/hBmk6MWS
-Cc: Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] util-linux: Use PACKAGECONFIG to control pam and system config options
+	Thu, 25 Jul 2013 13:28:45 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 25 Jul 2013 15:28:39 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4354)	id D78A4288FF5;
+	Thu, 25 Jul 2013 15:28:39 +0200 (CEST)
+From: Gabriel Barbu <gabriel.barbu@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Jul 2013 15:28:33 +0200
+Message-ID: <1374758913-56345-1-git-send-email-gabriel.barbu@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
+References: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
+Upstream-Status: Pending
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: gabriel.barbu@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH] strace: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,97 +32,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 13:02:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 25 Jul 2013 13:28:46 -0000
+Content-Type: text/plain
 
+Install strace test suite and run it as ptest.
 
-Op 25 jul. 2013, om 14:58 heeft Koen Kooi <koen@dominion.thruhere.net> =
-het volgende geschreven:
+Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
+---
+ .../strace/strace-4.8/Makefile-ptest.patch         |   28 ++++++++++++++++++++
+ meta/recipes-devtools/strace/strace-4.8/run-ptest  |    2 ++
+ meta/recipes-devtools/strace/strace_4.8.bb         |   19 +++++++++++--
+ 3 files changed, 47 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+ create mode 100755 meta/recipes-devtools/strace/strace-4.8/run-ptest
 
->=20
-> Op 10 jul. 2013, om 18:26 heeft Enrico Scholz =
-<enrico.scholz@sigma-chemnitz.de> het volgende geschreven:
->=20
->> Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> writes:
->>=20
->>> The PACKAGECONFIG will ensure consistent enabling and disabling of =
-the pam and systemd related
->>> options for configure and the correct dependencies
->>>=20
->>> v2: fixed PACKAGECONFIG line continuation grammar
->>>   added _class-target for PACKAGECONFIG to work on target only
->>> ...
->>> +PACKAGECONFIG_class-target ??=3D =
-"${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->>> +                                ${@base_contains('DISTRO_FEATURES', =
-'systemd', 'systemd', '', d)} "
->>=20
->> This does not work here. d.getVar('PACKAGECONFIG', True) evaluates to =
-'None'
->> in the anonymous python function in base.bbclass so that non-systemd =
-options
->> are selected in systemd distributions and packaging fails in a sanity =
-check.
->>=20
->> Using the less weak '?=3D' operator makes thing work as expected.
->=20
-> And a different version of this patch got merged:
->=20
-> 	=
-https://github.com/openembedded/oe-core/commit/7cde7c639c53724327d981cbc0d=
-b5e123607de1c
->=20
-> Which has the following bug:
->=20
-> PACKAGECONFIG_class-target ??=3D "${@base_contains('DISTRO_FEATURES', =
-'pam', 'libpam', '', d)} \
-> [..]
-> PACKAGECONFIG[pam] =3D "--enable-su --enable-runuser,--disable-su =
---disable-runuser, pam,"
->=20
-> It sets 'libpam' as PACKAGECONFIG option, but the option is actually =
-named 'pam'. The patches posted to this list don't seem to have this =
-bug.
-
-Here's what I used with dylan + backports:
-
-commit 2f318d0f9627e1872732db1ecafaed9caeb68ebf
-Author: Koen Kooi <koen@dominion.thruhere.net>
-Date:   Thu Jul 25 14:58:27 2013 +0200
-
-    util-linux: fix PACKAGECONFIG options
-   =20
-    The ??=3D operator is too weak and it's setting a non-existent =
-PACKAGECONFIG option ('libpam' instead of 'pam').
-   =20
-    Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-
-diff --git a/meta/recipes-core/util-linux/util-linux.inc =
-b/meta/recipes-core/util-linux/util-linux.inc
-index d373cec..3d1198a 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -47,9 +47,9 @@ EXTRA_OECONF =3D "--libdir=3D${base_libdir} =
---disable-use-tty-group \
-                 --enable-libuuid --enable-libblkid --enable-fsck =
---without-udev \
-                usrsbin_execdir=3D'${sbindir}' \
- "
--PACKAGECONFIG_class-target ??=3D "${@base_contains('DISTRO_FEATURES', =
-'pam', 'libpam', '', d)} \
-+PACKAGECONFIG_class-target ?=3D "${@base_contains('DISTRO_FEATURES', =
-'pam', 'pam', '', d)} \
-                                 ${@base_contains('DISTRO_FEATURES', =
-'systemd', 'systemd', '', d)} "
--PACKAGECONFIG[pam] =3D "--enable-su --enable-runuser,--disable-su =
---disable-runuser, pam,"
-+PACKAGECONFIG[pam] =3D "--enable-su --enable-runuser,--disable-su =
---disable-runuser, libpam,"
-=20
- # Respect the systemd feature for uuidd
- PACKAGECONFIG[systemd] =3D "--enable-socket-activation =
---with-systemdsystemunitdir=3D${systemd_unitdir}/system/, =
---disable-socket-activation --without-systemdsystemunitdir"
+diff --git a/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+new file mode 100644
+index 0000000..f5556b2
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
+@@ -0,0 +1,28 @@
++strace: Add ptest
++
++Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
++Upstream-Status: Pending
++
++--- old/tests/Makefile.am	2013-07-23 13:44:24.660481381 +0200
+++++ new/tests/Makefile.am	2013-07-23 16:22:42.937654391 +0200
++@@ -9,3 +9,20 @@
++ EXTRA_DIST = init.sh $(TESTS)
++ 
++ CLEANFILES = check.log
+++
+++buildtest-TESTS: $(check_PROGRAMS) $(TESTS)
+++
+++install-ptest:
+++	install $(BUILDDIR)/strace $(DESTDIR)
+++	install "$(srcdir)/.."/strace-log-merge $(DESTDIR)
+++	install -d $(DESTDIR)/$(TESTDIR)
+++	cp $(BUILDDIR)/$(TESTDIR)/Makefile $(DESTDIR)/$(TESTDIR)
+++	sed -i -e 's/^Makefile:/_Makefile:/' $(DESTDIR)/$(TESTDIR)/Makefile
+++	for file in $(check_PROGRAMS); do \
+++		install $(BUILDDIR)/$(TESTDIR)/$$file $(DESTDIR)/$(TESTDIR); \
+++	done
+++	for file in $(EXTRA_DIST); do \
+++		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
+++		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
+++	done
+++	sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/net
+diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+new file mode 100755
+index 0000000..133cf92
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
+@@ -0,0 +1,2 @@
++#!/bin/sh
++make -C tests -k runtest-TESTS
+diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
+index 0f4d2f0..79a4ad7 100644
+--- a/meta/recipes-devtools/strace/strace_4.8.bb
++++ b/meta/recipes-devtools/strace/strace_4.8.bb
+@@ -7,11 +7,16 @@ PR = "r0"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
+            file://git-version-gen \
+-           file://strace-add-configure-options.patch"
++           file://strace-add-configure-options.patch \
++           file://Makefile-ptest.patch \
++           file://run-ptest \
++          "
+ 
+ SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
+ SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
+-inherit autotools
++
++inherit autotools ptest
++RDEPENDS_${PN}-ptest += "make"
+ 
+ PACKAGECONFIG_class-target ?= "libaio"
+ PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
+@@ -21,6 +26,8 @@ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
+ 
+ export INCLUDES = "-I. -I./linux"
+ 
++TESTDIR = "tests"
++
+ do_configure_prepend() {
+ 	cp ${WORKDIR}/git-version-gen ${S}
+ }
+@@ -30,4 +37,12 @@ do_install_append() {
+ 	rm ${D}${bindir}/strace-graph
+ }
+ 
++do_compile_ptest() {
++	oe_runmake -C ${TESTDIR} buildtest-TESTS
++}
++
++do_install_ptest() {
++	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
++}
++
+ BBCLASSEXTEND = "native"
+-- 
+1.7.10.4
 
 
