@@ -1,29 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 675AF6AF56
+Return-Path: <ionutx.radu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 844D26AF56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 14:18:03 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jul 2013 07:18:03 -0700
+	Thu, 25 Jul 2013 14:48:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2013 07:48:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,743,1367996400"; d="scan'208";a="376316216"
-Received: from unknown (HELO [10.255.14.43]) ([10.255.14.43])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jul 2013 07:17:59 -0700
-Message-ID: <51F13397.8030500@linux.intel.com>
-Date: Thu, 25 Jul 2013 07:17:59 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Koen Kooi <koen@dominion.thruhere.net>
-References: <1373325035-29814-1-git-send-email-sgw@linux.intel.com>
-	<lysizmmle9.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<F61C6B48-CF28-4331-BEBF-19673E091E96@dominion.thruhere.net>
-	<4F2BF532-D3A4-431E-8905-E4F33FBF80D5@dominion.thruhere.net>
-In-Reply-To: <4F2BF532-D3A4-431E-8905-E4F33FBF80D5@dominion.thruhere.net>
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] util-linux: Use PACKAGECONFIG to control pam and system config options
+X-IronPort-AV: E=Sophos;i="4.89,743,1367996400"; d="scan'208";a="375930687"
+Received: from work.rb.intel.com ([10.237.105.51])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2013 07:48:30 -0700
+From: Ionut Radu <ionutx.radu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jul 2013 17:51:00 +0300
+Message-Id: <cover.1374763279.git.ionutx.radu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [v2 0/6] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,86 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 14:18:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jul 2013 14:48:32 -0000
 
-On 07/25/2013 06:02 AM, Koen Kooi wrote:
->
->
->
-> Op 25 jul. 2013, om 14:58 heeft Koen Kooi <koen@dominion.thruhere.net> het volgende geschreven:
->
->>
->> Op 10 jul. 2013, om 18:26 heeft Enrico Scholz <enrico.scholz@sigma-chemnitz.de> het volgende geschreven:
->>
->>> Saul Wold <sgw-VuQAYsv1563Yd54FQh9/CA@public.gmane.org> writes:
->>>
->>>> The PACKAGECONFIG will ensure consistent enabling and disabling of the pam and systemd related
->>>> options for configure and the correct dependencies
->>>>
->>>> v2: fixed PACKAGECONFIG line continuation grammar
->>>>    added _class-target for PACKAGECONFIG to work on target only
->>>> ...
->>>> +PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->>>> +                                ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
->>>
->>> This does not work here. d.getVar('PACKAGECONFIG', True) evaluates to 'None'
->>> in the anonymous python function in base.bbclass so that non-systemd options
->>> are selected in systemd distributions and packaging fails in a sanity check.
->>>
->>> Using the less weak '?=' operator makes thing work as expected.
->>
->> And a different version of this patch got merged:
->>
->> 	https://github.com/openembedded/oe-core/commit/7cde7c639c53724327d981cbc0db5e123607de1c
->>
->> Which has the following bug:
->>
->> PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
->> [..]
->> PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, pam,"
->>
->> It sets 'libpam' as PACKAGECONFIG option, but the option is actually named 'pam'. The patches posted to this list don't seem to have this bug.
->
-> Here's what I used with dylan + backports:
->
-> commit 2f318d0f9627e1872732db1ecafaed9caeb68ebf
-> Author: Koen Kooi <koen@dominion.thruhere.net>
-> Date:   Thu Jul 25 14:58:27 2013 +0200
->
->      util-linux: fix PACKAGECONFIG options
->
->      The ??= operator is too weak and it's setting a non-existent PACKAGECONFIG option ('libpam' instead of 'pam').
->
->      Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->
+Changes from v1:
+Added libuser and videoproto updates.
+* qemu: Tested (displayed the version of qemu installed) on core-image-sato
+on all architectures (x86, x86-64, ppc, mips, arm).
+* videoproto: LIC_FILES_CHECKSUM changed (some trailing spaces have been removed)
 
-Koen,
+The following changes since commit 31e6eee860b5f9f4ac9ef0889bcff5648de6e3f9:
 
-Good catch, can you send this as a proper patch to the OE-Core list also.
+  poky-tiny.conf: blacklist core-image-weston option (2013-07-18 21:26:58 +0100)
 
-Thanks
-	Sau!
+are available in the git repository at:
 
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-> index d373cec..3d1198a 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -47,9 +47,9 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
->                   --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
->                  usrsbin_execdir='${sbindir}' \
->   "
-> -PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
-> +PACKAGECONFIG_class-target ?= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
->                                   ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
-> -PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, pam,"
-> +PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
->
->   # Respect the systemd feature for uuidd
->   PACKAGECONFIG[systemd] = "--enable-socket-activation --with-systemdsystemunitdir=${systemd_unitdir}/system/, --disable-socket-activation --without-systemdsystemunitdir"
->
->
->
->
+  git://git.yoctoproject.org/poky-contrib ionutx/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
+
+Ionut Radu (6):
+  libxfont: Update from 1.4.5 to 1.4.6
+  libxrandr: Update from 1.4.0 to 1.4.1
+  libxxf86dga: Updated from 1.1.3 to 1.1.4
+  qemu: Updated from 1.5.0 to 1.5.1
+  libuser: Updated from 0.58 to 0.59
+  videoproto: Update from 2.3.1 to 2.3.2
+
+ meta/recipes-devtools/qemu/{qemu_1.5.0.bb => qemu_1.5.1.bb}     |    7 +++----
+ .../libuser/{libuser_0.58.bb => libuser_0.59.bb}                |    4 ++--
+ .../xorg-lib/{libxfont_1.4.5.bb => libxfont_1.4.6.bb}           |    5 ++---
+ .../xorg-lib/{libxrandr_1.4.0.bb => libxrandr_1.4.1.bb}         |    5 ++---
+ .../xorg-lib/{libxxf86dga_1.1.3.bb => libxxf86dga_1.1.4.bb}     |    7 ++-----
+ .../xorg-proto/{videoproto_2.3.1.bb => videoproto_2.3.2.bb}     |    7 +++----
+ 6 files changed, 14 insertions(+), 21 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_1.5.0.bb => qemu_1.5.1.bb} (49%)
+ rename meta/recipes-extended/libuser/{libuser_0.58.bb => libuser_0.59.bb} (88%)
+ rename meta/recipes-graphics/xorg-lib/{libxfont_1.4.5.bb => libxfont_1.4.6.bb} (76%)
+ rename meta/recipes-graphics/xorg-lib/{libxrandr_1.4.0.bb => libxrandr_1.4.1.bb} (80%)
+ rename meta/recipes-graphics/xorg-lib/{libxxf86dga_1.1.3.bb => libxxf86dga_1.1.4.bb} (70%)
+ rename meta/recipes-graphics/xorg-proto/{videoproto_2.3.1.bb => videoproto_2.3.2.bb} (53%)
+
+-- 
+1.7.10.4
+
 
