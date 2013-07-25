@@ -1,38 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id BCE596AB67;
-	Thu, 25 Jul 2013 20:27:18 +0000 (UTC)
-Received: by mail-ee0-f53.google.com with SMTP id e53so1167532eek.40
-	for <multiple recipients>; Thu, 25 Jul 2013 13:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bE+SLvaTZe4qHk3mlT4xCoZYaVf/NXz6qccYAOp5B0M=;
-	b=oM7oiqz91MOqJVCSUhg+MwahaNRdb7TTdqYf+77/IGl5QqSFBwFv3J6Mu53KQ1D0gy
-	gJpOcXY5h4vKkex854KSFXUqIUZf/z20wzDwCitk+Jnb8snKkB90d+iQL5Rq6zVRU005
-	X9D+iH0xaxJUFeEIIVrL8cdn1C05gYVR64tHKpEdY9WogK+Zm7XyNBd08r+H0MlDQecJ
-	H+5cqKRodwt7/cUnT+aKAar5aA4AK7LeRNl/Cg6ZbA2LC7tLHazs1PBafsPOkScE0cak
-	wDl+Qft8y5jsGSVm3W+m2fMfGYfd4YVSUSZVgzX0jr7cAAhcIRvAQXMVt95QUvOwtKD7
-	L5TQ==
-X-Received: by 10.15.24.9 with SMTP id i9mr44028790eeu.28.1374784038882;
-	Thu, 25 Jul 2013 13:27:18 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	n42sm76017103eeh.15.2013.07.25.13.27.17 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 25 Jul 2013 13:27:18 -0700 (PDT)
-Date: Thu, 25 Jul 2013 22:27:43 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <20130725202743.GB3280@jama>
-References: <51F18346.2@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <51F18346.2@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: koen@dominion.thruhere.net, "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Add lua to oe-core.
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D5886AB67
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2013 21:35:49 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2013 14:35:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,745,1367996400"; d="scan'208";a="376211478"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.38])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2013 14:35:44 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jul 2013 14:35:44 -0700
+Message-Id: <1374788144-1380-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] external-sourcery: add missing providers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +27,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 20:27:19 -0000
-X-Groupsio-MsgNum: 42472
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="3uo+9/B/ebqu+fSQ"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 25 Jul 2013 21:35:49 -0000
 
---3uo+9/B/ebqu+fSQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Addess the issue with multiple .bb providers
 
-On Thu, Jul 25, 2013 at 03:57:58PM -0400, Randy MacLeod wrote:
->=20
-> I've found that many projects use the lua scripting language.
-> I'd like to move it from meta-oe to oe-core:
->=20
-> =20
-> http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/reci=
-pes-devtools/lua/lua5.1_5.1.5.bb?h=3Dmaster
->=20
-> http://www.lua.org/about.html
->=20
-> lua-5.2.2 is current, see: http://www.lua.org/download.html
-> so we'd likely uprev and send that version.
->=20
-> rpm and lighttpd could (would?) optionally depend on lua.
->=20
-> oe-core.git $ grep -r lua * | egrep -v 'valuat|valuable|uargp|rpm'
-> meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb:
->               --without-lua \
->=20
-> Any comments pro or con before we do the uprev, testing and send
-> a commit?
+ERROR: Multiple .bb files are due to be built which each provide virtual/libc (/srv/hdd/releases/dylan/meta/recipes-core/eglibc/eglibc_2.17.bb /srv/hdd/releases/dylan/meta/recipes-core/meta/external-sourcery-toolchain.bb).
+ This usually means one provides something the other doesn't and should.
+ERROR: Multiple .bb files are due to be built which each provide virtual/arm-none-linux-gnueabi-libc-for-gcc (/srv/hdd/releases/dylan/meta/recipes-core/eglibc/eglibc_2.17.bb /srv/hdd/releases/dylan/meta/recipes-core/meta/external-sourcery-toolchain.bb).
+ This usually means one provides something the other doesn't and should.
+ERROR: Multiple .bb files are due to be built which each provide virtual/libiconv (/srv/hdd/releases/dylan/meta/recipes-core/eglibc/eglibc_2.17.bb /srv/hdd/releases/dylan/meta/recipes-core/meta/external-sourcery-toolchain.bb).
+ This usually means one provides something the other doesn't and should.
 
-2 recipes which would optionally depend on it doesn't make it good
-"core" component IMHO.
+Thanks to Kergoth (Chris Larson) and Lpapp (Lazslo)
 
-But uprev, few PACKAGECONFIGs and more testing would be nice.
+[YOCTO #4908]
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/distro/include/tcmode-external-sourcery.inc | 3 +++
+ meta/recipes-core/meta/external-sourcery-toolchain.bb | 2 ++
+ 2 files changed, 5 insertions(+)
 
---3uo+9/B/ebqu+fSQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+diff --git a/meta/conf/distro/include/tcmode-external-sourcery.inc b/meta/conf/distro/include/tcmode-external-sourcery.inc
+index 53e6653..d6cac74 100644
+--- a/meta/conf/distro/include/tcmode-external-sourcery.inc
++++ b/meta/conf/distro/include/tcmode-external-sourcery.inc
+@@ -27,13 +27,16 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}gcc-intermediate = "external-sourcery
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++ = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}binutils = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-for-gcc = "external-sourcery-toolchain"
++PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_libgcc = "external-sourcery-toolchain"
++PREFERRED_PROVIDER_eglibc = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_virtual/libc = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_virtual/libintl = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_virtual/libiconv = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_glibc-thread-db = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_virtual/linux-libc-headers = "external-sourcery-toolchain"
++PREFERRED_PROVIDER_virtual/linux-libc-headers-dev = "external-sourcery-toolchain"
+ PREFERRED_PROVIDER_gdbserver ??= "external-sourcery-toolchain"
+ 
+ # No need to re-compile the locale files
+diff --git a/meta/recipes-core/meta/external-sourcery-toolchain.bb b/meta/recipes-core/meta/external-sourcery-toolchain.bb
+index 5fed30a..41d86d6 100644
+--- a/meta/recipes-core/meta/external-sourcery-toolchain.bb
++++ b/meta/recipes-core/meta/external-sourcery-toolchain.bb
+@@ -16,12 +16,14 @@ PROVIDES += "\
+ 	virtual/${TARGET_PREFIX}gcc-intermediate \
+ 	virtual/${TARGET_PREFIX}binutils \
+ 	virtual/${TARGET_PREFIX}libc-for-gcc \
++	virtual/${TARGET_PREFIX}libc-initial \
+ 	virtual/${TARGET_PREFIX}compilerlibs \
+ 	virtual/libc \
+ 	virtual/libintl \
+ 	virtual/libiconv \
+ 	glibc-thread-db \
+ 	libgcc \
++	eglibc \
+ 	virtual/linux-libc-headers \
+ "
+ PV = "${CSL_VER_MAIN}"
+-- 
+1.8.1.4
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlHxij8ACgkQN1Ujt2V2gBxCTACgmyRJXKH7GIxgHmmMj+0XnSHj
-YOwAnjeQyVRvF7XQ2iCe5YXarJ0BJ1LB
-=iQvR
------END PGP SIGNATURE-----
-
---3uo+9/B/ebqu+fSQ--
