@@ -1,24 +1,38 @@
-Return-Path: <ionutx.radu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B1A76AF56
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A8FA6B254
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 14:48:50 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2013 07:48:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,743,1367996400"; d="scan'208";a="375930870"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2013 07:48:50 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
+	Thu, 25 Jul 2013 14:52:19 +0000 (UTC)
+Received: by mail-wi0-f181.google.com with SMTP id hq4so1899961wib.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2013 07:52:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=FyNoWncJqwbEe9dyutCEFaehRhPEu1KiSqG31h0HKOY=;
+	b=KRBCCVQqkpsZX49GaFact9wg4IpCSmf++jyIh58Pmu244G/xbEQD9IyfSc49sBIdxn
+	y0UuohBW7If+kNnDHLO8DZMPadMXqNaLzbBs2xSfualdQIDlJBOHJOi27A7Y86yIeMMk
+	D15U5Th/DK4DjkHYvwPaAxpDwcpJ8NMDw6hAC80Pm+qwtuFv+SaCPBJ2dQvC/Ygyo3ho
+	N1Pk8Q8HnMrzfw0XZya4SGQ8E6zEH3Irp33E6kUV41ZNQGHm5HiCrt+glbi6PiypucpU
+	z0uzitWjgol6p8Ch6SWnTC8Wko1xIYedqmQTclsYT+zWBuwP0GdSfLDpgKv5w6ZkrT0A
+	7iLw==
+X-Received: by 10.194.172.228 with SMTP id bf4mr30491379wjc.36.1374763939045; 
+	Thu, 25 Jul 2013 07:52:19 -0700 (PDT)
+Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
+	[77.162.165.174])
+	by mx.google.com with ESMTPSA id eu1sm4260885wib.8.2013.07.25.07.52.17
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 25 Jul 2013 07:52:17 -0700 (PDT)
+From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jul 2013 17:51:07 +0300
-Message-Id: <b7e0e3a2b3e7a485e80d3028a28bdcab1046941a.1374763279.git.ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <0e420cbfa5d9ab32d32657fbbbac8d3ce13e778f.1374763279.git.ionutx.radu@intel.com>
-References: <0e420cbfa5d9ab32d32657fbbbac8d3ce13e778f.1374763279.git.ionutx.radu@intel.com>
-In-Reply-To: <cover.1374763279.git.ionutx.radu@intel.com>
-References: <cover.1374763279.git.ionutx.radu@intel.com>
-Subject: [v2 6/6] videoproto: Update from 2.3.1 to 2.3.2
+Date: Thu, 25 Jul 2013 16:51:28 +0200
+Message-Id: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
+X-Mailer: git-send-email 1.8.2.1
+X-Gm-Message-State: ALoCoQmPCjR4pXrT8N5+B9fZCmDgCjIS92P2ZNnte7WccaGUm9iqKmvXJSWQsOn7vr3hnWdtSJr0
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] util-linux: fix PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 14:48:50 -0000
+X-List-Received-Date: Thu, 25 Jul 2013 14:52:20 -0000
 
-LIC_FILES_CHECKSUM changed (some trailing spaces have been removed)
+The ??= operator is too weak and it's setting a non-existent PACKAGECONFIG option ('libpam' instead of 'pam').
 
-Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- .../xorg-proto/{videoproto_2.3.1.bb => videoproto_2.3.2.bb}     |    7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{videoproto_2.3.1.bb => videoproto_2.3.2.bb} (53%)
+ meta/recipes-core/util-linux/util-linux.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/videoproto_2.3.1.bb b/meta/recipes-graphics/xorg-proto/videoproto_2.3.2.bb
-similarity index 53%
-rename from meta/recipes-graphics/xorg-proto/videoproto_2.3.1.bb
-rename to meta/recipes-graphics/xorg-proto/videoproto_2.3.2.bb
-index 5113243..53aa759 100644
---- a/meta/recipes-graphics/xorg-proto/videoproto_2.3.1.bb
-+++ b/meta/recipes-graphics/xorg-proto/videoproto_2.3.2.bb
-@@ -6,10 +6,9 @@ DESCRIPTION = "This package provides the wire protocol for the X Video \
- extension.  This extension alows for accerlated drawing of videos."
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index d373cec..3d1198a 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -47,9 +47,9 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
+                 --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
+ 		usrsbin_execdir='${sbindir}' \
+ "
+-PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
++PACKAGECONFIG_class-target ?= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+                                 ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
+-PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, pam,"
++PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
  
- LICENSE = "MIT & MIT-style"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59d089e37bf57b5206602da38f58ca5d"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ce3472a119a864085fa4155cb0979a7b"
- 
--PR = "r0"
- PE = "1"
- 
--SRC_URI[md5sum] = "c3b348c6e2031b72b11ae63fc7f805c2"
--SRC_URI[sha256sum] = "3ec76d24931d1e08c6c8d0b89a25e32dc44bc8f87d1dcb3fe201e3c99f89635a"
-+SRC_URI[md5sum] = "e658641595327d3990eab70fdb55ca8b"
-+SRC_URI[sha256sum] = "8dae168cb820fcd32f564879afb3f24d27c176300d9af66819a18265539bd4b6"
+ # Respect the systemd feature for uuidd
+ PACKAGECONFIG[systemd] = "--enable-socket-activation --with-systemdsystemunitdir=${systemd_unitdir}/system/, --disable-socket-activation --without-systemdsystemunitdir"
 -- 
-1.7.10.4
+1.8.2.1
 
 
