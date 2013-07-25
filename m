@@ -1,33 +1,33 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A7366B214
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id D889A6B0FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 11:19:03 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1V2JZW-0000U4-2P from Muhammad_Shakeel@mentor.com ;
-	Thu, 25 Jul 2013 04:19:02 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Thu, 25 Jul 2013 04:19:01 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Thu, 25 Jul 2013 12:19:00 +0100
-Message-ID: <51F109D5.3010702@mentor.com>
-Date: Thu, 25 Jul 2013 16:19:49 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: ChenQi <Qi.Chen@windriver.com>
-References: <1374573823-27458-1-git-send-email-muhammad_shakeel@mentor.com>
-	<51F1071E.4040304@windriver.com>
-In-Reply-To: <51F1071E.4040304@windriver.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 25 Jul 2013 11:19:01.0984 (UTC)
-	FILETIME=[C3F82600:01CE8928]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: Remove init.d dir if systemd unit file is present and sysvinit not a distro feature
+	Thu, 25 Jul 2013 11:45:35 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id b47so852716eek.21
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2013 04:45:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=SQD17BPcgagFCsBjNQSPMM88RofN3pme3QDpPUnhHSU=;
+	b=r3js7bx0OK7mTvfChsQ0HvNOqexwqjpyu+reG5u+nCxETOXqfi6BPc8X/1b+B9PCur
+	lPWdx4DwMapDhtCGkwLplbHXkOmso2bZguRExQoyxR8oFaprlmdVaPz2gw6slMgP2/O9
+	QObE8IPPOvDISB4zFlur5+59rixcWHLxXfexC0z6rpjcQ1YerGhyH8Tml/3YRHSwvCXl
+	XW7FukNas/8tU6iu3VdBsgy/Qg7YBtmHgPzx16BK3mfki0ITn1SAvEaTKPJVQET4e6oc
+	Vt3bJ5nj4veEv9SvsK4l/oJ8ohM900gzitdayhvEAd/+OTkwsHocdhcKvnpetaIa6kHP
+	XuFQ==
+X-Received: by 10.14.0.4 with SMTP id 4mr41657487eea.68.1374752735937;
+	Thu, 25 Jul 2013 04:45:35 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	n5sm73111937eed.9.2013.07.25.04.45.35 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 25 Jul 2013 04:45:35 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jul 2013 13:45:57 +0200
+Message-Id: <1374752757-22453-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] mesa: add PACKAGEs and PACKAGECONFIG for xvmc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,21 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 11:19:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jul 2013 11:45:37 -0000
 
-On 07/25/2013 04:08 PM, ChenQi wrote:
-> I just tried this patch out.
-> It resulted in the following warning.
->
-> WARNING: busybox: NOT adding alternative provide /etc/init.d/syslog: 
-> /etc/init.d/syslog.busybox does not exist
->
-> I know this warning is harmless. But it's still somewhat misleading. 
-> So are we going to do something about it?
->
-Yes, I am going to send a V2 and that will handle this warning.
+* fixes [YOCTO #4898]
+---
+ meta/recipes-graphics/mesa/mesa.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 65c2770..e888201 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -30,6 +30,7 @@ PACKAGECONFIG ??= "egl gles dri \
+ 
+ X11_DEPS = "xf86driproto glproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes"
+ PACKAGECONFIG[x11] = "--enable-glx-tls,--disable-glx,${X11_DEPS}"
++PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
+ PACKAGECONFIG[wayland] = ",,wayland"
+ 
+ DRIDRIVERS = "swrast"
+@@ -78,6 +79,7 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
+              libwayland-egl libwayland-egl-dev \
+              libegl-gallium libgbm-gallium \
+              libopenvg libopenvg-dev \
++             libxvmcsoftpipe libxvmcsoftpipe-dev \
+             "
+ 
+ do_install_append () {
+@@ -146,6 +148,7 @@ FILES_libwayland-egl = "${libdir}/libwayland-egl.so.*"
+ FILES_libegl-gallium = "${libdir}/egl/egl_gallium.so*"
+ FILES_libgbm-gallium = "${libdir}/gbm/gbm_gallium_drm.so*"
+ FILES_libopenvg = "${libdir}/libOpenVG.so.*"
++FILES_libxvmcsoftpipe = "${libdir}/libXvMCsoftpipe.so.*"
+ 
+ FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc"
+ FILES_libdricore-dev = "${libdir}/libdricore*.*"
+@@ -160,5 +163,6 @@ FILES_libosmesa-dev = "${libdir}/libOSMesa.* ${includedir}/osmesa.h ${libdir}/pk
+ FILES_libwayland-egl-dev = "${libdir}/pkgconfig/wayland-egl.pc ${libdir}/libwayland-egl.*"
+ FILES_libopenvg-dev = "${libdir}/libOpenVG.so ${libdir}/libOpenVG.la* \
+                        ${includedir}/VG ${libdir}/pkgconfig/vg.pc"
++FILES_libxvmcsoftpipe-dev = "${libdir}/libXvMCsoftpipe.so ${libdir}/libXvMCsoftpipe.la"
+ 
+ FILES_${PN}-dbg += "${libdir}/dri/.debug/* ${libdir}/egl/.debug/* ${libdir}/gbm/.debug/* ${libdir}/gallium-pipe/.debug"
+-- 
+1.8.3.2
+
 
