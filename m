@@ -1,17 +1,37 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 595CE60FEE
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 257996AF56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 10:01:21 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r6PA1IKW026210; 
-	Thu, 25 Jul 2013 05:01:20 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jul 2013 15:02:04 +0500
-Message-Id: <1374746524-18179-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] avahi: Remove unnecessary runtime dependency on sysvinit-pidof
+	Thu, 25 Jul 2013 10:09:35 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1V2IUI-0002Mj-E5 from Muhammad_Shakeel@mentor.com ;
+	Thu, 25 Jul 2013 03:09:34 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Thu, 25 Jul 2013 03:09:33 -0700
+Received: from [137.202.157.119] (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Thu, 25 Jul 2013 11:09:31 +0100
+Message-ID: <51F0F98C.8080401@mentor.com>
+Date: Thu, 25 Jul 2013 15:10:20 +0500
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1374573823-27458-1-git-send-email-muhammad_shakeel@mentor.com>
+	<ly4nblpn8m.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	<51EFD503.9070404@mentor.com> <2332743.8PXxt6HHNa@helios>
+	<CAJTo0LYi3+yOEVFPgfN8Q4NCg+8bwsViTXK386x4vk-TijB3nA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYi3+yOEVFPgfN8Q4NCg+8bwsViTXK386x4vk-TijB3nA@mail.gmail.com>
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 25 Jul 2013 10:09:33.0898 (UTC)
+	FILETIME=[0F98B2A0:01CE891F]
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org,
+	Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: Re: [PATCH] systemd: Remove init.d dir if systemd unit file is present and sysvinit not a distro feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,33 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 10:01:22 -0000
+X-List-Received-Date: Thu, 25 Jul 2013 10:09:35 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On 07/25/2013 02:56 PM, Burton, Ross wrote:
+> On 24 July 2013 14:55, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+>> Would it work to simply check for any files instaled into systemd_unitdir?
+> Agreed - the list of file types has grown over time so we'd been
+> constantly chasing systemd, and it's not like anything else is dropped
+> into this directory.
+>
+> Ross
+Ok, I will send a V2 with updated check.
 
-'pidof' is alternatively coming from busybox so no need for avahi to explicitly
-rdepend on sysvinit-pidof. This unnecessarily includes sysvinit in systemd only
-build.
-
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/recipes-connectivity/avahi/avahi.inc |    2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index c302f87..7bb5381 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -96,8 +96,6 @@ FILES_libavahi-glib = "${libdir}/libavahi-glib.so.*"
- FILES_libavahi-gobject = "${libdir}/libavahi-gobject.so.*"
- FILES_avahi-utils = "${bindir}/avahi-*"
- 
--RDEPENDS_avahi-daemon = "sysvinit-pidof"
--
- # uclibc has no nss
- RRECOMMENDS_avahi-daemon_append_libc-glibc = "libnss-mdns"
- RRECOMMENDS_${PN}_append_libc-glibc = "libnss-mdns"
--- 
-1.7.9.5
-
+Thanks
 
