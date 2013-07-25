@@ -1,25 +1,37 @@
-Return-Path: <gaba@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id A17166028A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id C2BBF6028A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 13:28:45 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Thu, 25 Jul 2013 15:28:39 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4354)	id D78A4288FF5;
-	Thu, 25 Jul 2013 15:28:39 +0200 (CEST)
-From: Gabriel Barbu <gabriel.barbu@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jul 2013 15:28:33 +0200
-Message-ID: <1374758913-56345-1-git-send-email-gabriel.barbu@enea.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
-References: <1374667573-31160-1-git-send-email-gabriel.barbu@enea.com>
-Upstream-Status: Pending
+	Thu, 25 Jul 2013 13:42:50 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id id13so139607vcb.18
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jul 2013 06:42:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=ijpCpgQJ3c/Pk16T2SFCgnwVqGLsa2eYuqfjQhf8va4=;
+	b=buuX8H2nY4usmlSI4QZkx1kxDwN8K7e5rCF9pAFtQ4QVkl/fO/sdyPvS42xxvAJwuv
+	wa4H6bDNe8Fh1koTQKmhmEPN1lAZ+Nn++95U28xdQlJA83L14LaeSuein3h4bHGHi0Nv
+	qjyjl8VB/ct5RC8J8uV6oVx2+fuy6o8Qe+9iMlMVS46+ZqTq8xhuoJOd1o+BoueVncwX
+	j4Ubijoq+Ro0+CJh4b341puMb7Vzh5M7SwbGkqgzEXip9qWKdfGvOrZMQxPPATwoHsDN
+	X3Xg8nmHo8DmLr3obzhsbrsiQIgJ25VujiU7G5Jkr/dz8xYPZ5rKYJQzLQrI+vcUfmSv
+	JdJw==
+X-Received: by 10.220.124.1 with SMTP id s1mr586319vcr.93.1374759771111; Thu,
+	25 Jul 2013 06:42:51 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: gabriel.barbu@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] strace: Add ptest
+Received: by 10.58.30.15 with HTTP; Thu, 25 Jul 2013 06:42:31 -0700 (PDT)
+In-Reply-To: <2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
+References: <cover.1374667312.git.Martin.Jansa@gmail.com>
+	<2373edadac0faa602a41d966efb278f330bb2846.1374667312.git.Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Jul 2013 14:42:31 +0100
+Message-ID: <CAJTo0LYFgyEW0dVqAEid3JN_5AvZjhGZFHQj8o0sMeN6hwBOZQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Gm-Message-State: ALoCoQm5+HT2kIUYOtGtS9stfVuW1t/qqIr5uhstuFtnLfgD2Huq1TcyzYIbM1QkhRKPHvcYiyzC
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/18] test-dependencies: add simple script to detect missing or autoenabled dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,108 +44,11 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 13:28:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Jul 2013 13:42:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Install strace test suite and run it as ptest.
+This whole series looks great, thanks Martin for donating vast amounts
+of CPU time to this!
 
-Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
----
- .../strace/strace-4.8/Makefile-ptest.patch         |   28 ++++++++++++++++++++
- meta/recipes-devtools/strace/strace-4.8/run-ptest  |    2 ++
- meta/recipes-devtools/strace/strace_4.8.bb         |   19 +++++++++++--
- 3 files changed, 47 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
- create mode 100755 meta/recipes-devtools/strace/strace-4.8/run-ptest
-
-diff --git a/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
-new file mode 100644
-index 0000000..f5556b2
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace-4.8/Makefile-ptest.patch
-@@ -0,0 +1,28 @@
-+strace: Add ptest
-+
-+Signed-off-by: Gabriel Barbu <gabriel.barbu@enea.com>
-+Upstream-Status: Pending
-+
-+--- old/tests/Makefile.am	2013-07-23 13:44:24.660481381 +0200
-++++ new/tests/Makefile.am	2013-07-23 16:22:42.937654391 +0200
-+@@ -9,3 +9,20 @@
-+ EXTRA_DIST = init.sh $(TESTS)
-+ 
-+ CLEANFILES = check.log
-++
-++buildtest-TESTS: $(check_PROGRAMS) $(TESTS)
-++
-++install-ptest:
-++	install $(BUILDDIR)/strace $(DESTDIR)
-++	install "$(srcdir)/.."/strace-log-merge $(DESTDIR)
-++	install -d $(DESTDIR)/$(TESTDIR)
-++	cp $(BUILDDIR)/$(TESTDIR)/Makefile $(DESTDIR)/$(TESTDIR)
-++	sed -i -e 's/^Makefile:/_Makefile:/' $(DESTDIR)/$(TESTDIR)/Makefile
-++	for file in $(check_PROGRAMS); do \
-++		install $(BUILDDIR)/$(TESTDIR)/$$file $(DESTDIR)/$(TESTDIR); \
-++	done
-++	for file in $(EXTRA_DIST); do \
-++		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
-++		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
-++	done
-++	sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/net
-diff --git a/meta/recipes-devtools/strace/strace-4.8/run-ptest b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-new file mode 100755
-index 0000000..133cf92
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace-4.8/run-ptest
-@@ -0,0 +1,2 @@
-+#!/bin/sh
-+make -C tests -k runtest-TESTS
-diff --git a/meta/recipes-devtools/strace/strace_4.8.bb b/meta/recipes-devtools/strace/strace_4.8.bb
-index 0f4d2f0..79a4ad7 100644
---- a/meta/recipes-devtools/strace/strace_4.8.bb
-+++ b/meta/recipes-devtools/strace/strace_4.8.bb
-@@ -7,11 +7,16 @@ PR = "r0"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/strace/strace-${PV}.tar.xz \
-            file://git-version-gen \
--           file://strace-add-configure-options.patch"
-+           file://strace-add-configure-options.patch \
-+           file://Makefile-ptest.patch \
-+           file://run-ptest \
-+          "
- 
- SRC_URI[md5sum] = "c575ef43829586801f514fd91bfe7575"
- SRC_URI[sha256sum] = "f492291f07a7c805c07a8395cce1ea054a6401ad414f4cc12185672215e1d7f8"
--inherit autotools
-+
-+inherit autotools ptest
-+RDEPENDS_${PN}-ptest += "make"
- 
- PACKAGECONFIG_class-target ?= "libaio"
- PACKAGECONFIG_class-target += "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
-@@ -21,6 +26,8 @@ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl"
- 
- export INCLUDES = "-I. -I./linux"
- 
-+TESTDIR = "tests"
-+
- do_configure_prepend() {
- 	cp ${WORKDIR}/git-version-gen ${S}
- }
-@@ -30,4 +37,12 @@ do_install_append() {
- 	rm ${D}${bindir}/strace-graph
- }
- 
-+do_compile_ptest() {
-+	oe_runmake -C ${TESTDIR} buildtest-TESTS
-+}
-+
-+do_install_ptest() {
-+	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
-+}
-+
- BBCLASSEXTEND = "native"
--- 
-1.7.10.4
-
+Ross
 
