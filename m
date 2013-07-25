@@ -1,22 +1,27 @@
-Return-Path: <ionutx.radu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CCF0E6B325
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 17:16:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jul 2013 10:16:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,744,1367996400"; d="scan'208";a="376428649"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jul 2013 10:15:20 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jul 2013 20:17:44 +0300
-Message-Id: <1374772664-9304-4-git-send-email-ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1374772664-9304-1-git-send-email-ionutx.radu@intel.com>
-References: <1374772664-9304-1-git-send-email-ionutx.radu@intel.com>
-Subject: [PATCH 3/3] fix-gcc-4.6-null-not-defined.patch: Added Upstream Status
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 253786AB67;
+	Thu, 25 Jul 2013 19:58:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6PJw2kk012916
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Jul 2013 12:58:03 -0700 (PDT)
+Received: from [128.224.20.100] (128.224.20.100) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 25 Jul 2013 12:58:01 -0700
+Message-ID: <51F18346.2@windriver.com>
+Date: Thu, 25 Jul 2013 15:57:58 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	<koen@dominion.thruhere.net>, Martin Jansa <martin.jansa@gmail.com>
+X-Originating-IP: [128.224.20.100]
+Subject: Add lua to oe-core.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,24 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 17:16:31 -0000
+X-List-Received-Date: Thu, 25 Jul 2013 19:58:06 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
----
- .../apt/apt-0.9.8.2/fix-gcc-4.6-null-not-defined.patch               |    2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/apt/apt-0.9.8.2/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt-0.9.8.2/fix-gcc-4.6-null-not-defined.patch
-index 70ecd95..801ae6d 100644
---- a/meta/recipes-devtools/apt/apt-0.9.8.2/fix-gcc-4.6-null-not-defined.patch
-+++ b/meta/recipes-devtools/apt/apt-0.9.8.2/fix-gcc-4.6-null-not-defined.patch
-@@ -1,3 +1,5 @@
-+Upstream-Status: Pending
-+
- --- a/apt-pkg/contrib/weakptr.h
- +++ b/apt-pkg/contrib/weakptr.h
- @@ -21,6 +21,7 @@
+I've found that many projects use the lua scripting language.
+I'd like to move it from meta-oe to oe-core:
+
+ 
+http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-devtools/lua/lua5.1_5.1.5.bb?h=master
+
+http://www.lua.org/about.html
+
+lua-5.2.2 is current, see: http://www.lua.org/download.html
+so we'd likely uprev and send that version.
+
+rpm and lighttpd could (would?) optionally depend on lua.
+
+oe-core.git $ grep -r lua * | egrep -v 'valuat|valuable|uargp|rpm'
+meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb:
+              --without-lua \
+
+Any comments pro or con before we do the uprev, testing and send
+a commit?
 -- 
-1.7.10.4
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
