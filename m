@@ -1,22 +1,24 @@
 Return-Path: <ionutx.radu@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 43CE56B276
+	by mail.openembedded.org (Postfix) with ESMTP id C817C6AF56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jul 2013 14:48:37 +0000 (UTC)
+	Thu, 25 Jul 2013 14:48:39 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2013 07:48:38 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jul 2013 07:48:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,743,1367996400"; d="scan'208";a="375930749"
+X-IronPort-AV: E=Sophos;i="4.89,743,1367996400"; d="scan'208";a="375930769"
 Received: from work.rb.intel.com ([10.237.105.51])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2013 07:48:37 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jul 2013 07:48:39 -0700
 From: Ionut Radu <ionutx.radu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jul 2013 17:51:02 +0300
-Message-Id: <0e420cbfa5d9ab32d32657fbbbac8d3ce13e778f.1374763279.git.ionutx.radu@intel.com>
+Date: Thu, 25 Jul 2013 17:51:03 +0300
+Message-Id: <631156aa390290eb5ab012b7ce8772e4396670b0.1374763279.git.ionutx.radu@intel.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <0e420cbfa5d9ab32d32657fbbbac8d3ce13e778f.1374763279.git.ionutx.radu@intel.com>
+References: <0e420cbfa5d9ab32d32657fbbbac8d3ce13e778f.1374763279.git.ionutx.radu@intel.com>
 In-Reply-To: <cover.1374763279.git.ionutx.radu@intel.com>
 References: <cover.1374763279.git.ionutx.radu@intel.com>
-Subject: [v2 1/6] libxfont: Update from 1.4.5 to 1.4.6
+Subject: [v2 2/6] libxrandr: Update from 1.4.0 to 1.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,36 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2013 14:48:37 -0000
+X-List-Received-Date: Thu, 25 Jul 2013 14:48:40 -0000
 
 Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
 ---
- .../xorg-lib/{libxfont_1.4.5.bb => libxfont_1.4.6.bb}             |    5 ++---
+ .../xorg-lib/{libxrandr_1.4.0.bb => libxrandr_1.4.1.bb}           |    5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxfont_1.4.5.bb => libxfont_1.4.6.bb} (76%)
+ rename meta/recipes-graphics/xorg-lib/{libxrandr_1.4.0.bb => libxrandr_1.4.1.bb} (80%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.4.5.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.4.6.bb
-similarity index 76%
-rename from meta/recipes-graphics/xorg-lib/libxfont_1.4.5.bb
-rename to meta/recipes-graphics/xorg-lib/libxfont_1.4.6.bb
-index 78ab5ea..a9711c3 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont_1.4.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont_1.4.6.bb
-@@ -12,12 +12,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a46c8040f2f737bcd0c435feb2ab1c2c"
- DEPENDS += "freetype xtrans fontsproto libfontenc zlib"
- PROVIDES = "xfont"
+diff --git a/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.1.bb
+similarity index 80%
+rename from meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
+rename to meta/recipes-graphics/xorg-lib/libxrandr_1.4.1.bb
+index 323c098..360199d 100644
+--- a/meta/recipes-graphics/xorg-lib/libxrandr_1.4.0.bb
++++ b/meta/recipes-graphics/xorg-lib/libxrandr_1.4.1.bb
+@@ -13,12 +13,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=aa33e583cc3e96238a8467b485e62992"
  
--PR = "r1"
+ DEPENDS += "virtual/libx11 randrproto libxrender libxext"
+ 
+-PR = "r0"
  PE = "1"
  
- XORG_PN = "libXfont"
+ XORG_PN = "libXrandr"
  
- BBCLASSEXTEND = "native"
+ BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI[md5sum] = "6851da5dae0a6cf5f7c9b9e2b05dd3b4"
--SRC_URI[sha256sum] = "bbf96fb80b6b95cdb1dc968085082a6e668193a54cd9d6e2af669909c0cb7170"
-+SRC_URI[md5sum] = "351a9b7348d165029bda52c9fdcb5c7a"
-+SRC_URI[sha256sum] = "d0cbfe4554dc17ceea413cdad5601d35ed8d05d5b880e60931a8775fd1157e9f"
+-SRC_URI[md5sum] = "0c843636124cc1494e3d87df16957672"
+-SRC_URI[sha256sum] = "033ad0ac2f012afb05268660f6d78705c85f84689f92fa7b47ce12959b15f5c3"
++SRC_URI[md5sum] = "8dbac4e972348dcbd3a0673ce2e37919"
++SRC_URI[sha256sum] = "d914a0490fd0a2ea6c3194505b5b28c56e2a277d8f4648b0275ee0ee370fb905"
 -- 
 1.7.10.4
 
