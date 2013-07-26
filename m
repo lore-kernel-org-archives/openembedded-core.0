@@ -1,26 +1,23 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 566C46B3CE
+Return-Path: <andrei.adrianx.dinu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C1CE46B3C7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 12:09:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6QC9HUt000665
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 05:09:17 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 26 Jul 2013 05:09:16 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jul 2013 20:09:10 +0800
-Message-ID: <ea12f0d8dde0b08ae5a8e13b6b101256c98efcff.1374835913.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1374835913.git.hongxu.jia@windriver.com>
-References: <cover.1374835913.git.hongxu.jia@windriver.com>
+	Fri, 26 Jul 2013 12:28:25 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jul 2013 05:28:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,751,1367996400"; d="scan'208";a="376541925"
+Received: from adinu-vostro-460.rb.intel.com (HELO [10.237.105.146])
+	([10.237.105.146])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Jul 2013 05:28:18 -0700
+Message-ID: <51F26B86.5020309@intel.com>
+Date: Fri, 26 Jul 2013 15:28:54 +0300
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Subject: [PATCH 3/3] move /bin/su to /usr/bin/su to match util-linux and shadow
+To: openembedded-core@lists.openembedded.org
+Subject: is there a variable where the kernel version is stored?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,66 +30,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 12:09:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Jul 2013 12:28:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Both of util-linux and shadow have su binary in /usr/bin, fix busybox
-to use the same path so they can be properly tracked by alternatives.
+Hello,
 
-[YOCTO #4926]
+I'm having a problem trying to run Bastille. Seems like the kernel 
+version has changed from 3.8.11 to 3.8.13 and
+in order to run Bastille, i need to patch a file used by the tool to 
+check the version of the system. It was previously
+patched with linux-yocto-3.8.11 version, but now it has changed to 
+linux-yocto-3.8.13 and the tool doesn't work
+because it doesn't identify the right version of the kernel.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../busybox/busybox-1.21.1/su-usr-bin.patch        | 26 ++++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.21.1.bb        |  1 +
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch
+Is there a way to find out the kernel version at build time so i can 
+replace it dynamically in that specific file?
 
-diff --git a/meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch b/meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch
-new file mode 100644
-index 0000000..0d5b558
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch
-@@ -0,0 +1,26 @@
-+busybox: move /bin/su to /usr/bin/su to match util-linux and shadow
-+
-+Both of util-linux and shadow have su binary in /usr/bin, fix busybox
-+to use the same path so they can be properly tracked by alternatives.
-+
-+Upstream-Status: Inappropriate [embedded]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ include/applets.src.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/include/applets.src.h b/include/applets.src.h
-+--- a/include/applets.src.h
-++++ b/include/applets.src.h
-+@@ -349,7 +349,7 @@ IF_STAT(APPLET(stat, BB_DIR_USR_BIN, BB_SUID_DROP))
-+ IF_STRINGS(APPLET(strings, BB_DIR_USR_BIN, BB_SUID_DROP))
-+ IF_STTY(APPLET(stty, BB_DIR_BIN, BB_SUID_DROP))
-+ /* Needs to be run by root or be suid root - needs to change uid and gid: */
-+-IF_SU(APPLET(su, BB_DIR_BIN, BB_SUID_REQUIRE))
-++IF_SU(APPLET(su, BB_DIR_USR_BIN, BB_SUID_REQUIRE))
-+ IF_SULOGIN(APPLET(sulogin, BB_DIR_SBIN, BB_SUID_DROP))
-+ IF_SUM(APPLET(sum, BB_DIR_USR_BIN, BB_SUID_DROP))
-+ IF_SV(APPLET(sv, BB_DIR_USR_BIN, BB_SUID_DROP))
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-core/busybox/busybox_1.21.1.bb b/meta/recipes-core/busybox/busybox_1.21.1.bb
-index d702f7e..fdb1974 100644
---- a/meta/recipes-core/busybox/busybox_1.21.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.21.1.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://umount.busybox \
-            file://defconfig \
-            file://stat-usr-bin.patch \
-+           file://su-usr-bin.patch \
-            file://busybox-syslog.service.in \
-            file://busybox-klogd.service.in \
-            file://testsuite-du-du-k-works-fix-false-positive.patch \
--- 
-1.8.1.2
+Thanks in advance,
 
+Andrei Dinu
 
