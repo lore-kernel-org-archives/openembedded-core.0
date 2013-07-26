@@ -1,22 +1,30 @@
-Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 04D0F6B346
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 15:50:36 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2013 08:50:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,752,1367996400"; d="scan'208";a="273784730"
-Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Jul 2013 08:50:33 -0700
-From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2013 18:58:18 +0300
-Message-Id: <1374854298-30941-2-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1374854298-30941-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-References: <1374854298-30941-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
-Subject: [PATCH v2 2/2] distrodata.bbclass: Remove whitespaces
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AC8C6AE6E;
+	Fri, 26 Jul 2013 16:08:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6QG8Ji6004219
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 26 Jul 2013 09:08:19 -0700 (PDT)
+Received: from [128.224.20.81] (128.224.20.81) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 26 Jul 2013 09:08:19 -0700
+Message-ID: <51F29EEF.1020806@windriver.com>
+Date: Fri, 26 Jul 2013 12:08:15 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <51F18346.2@windriver.com> <20130725202743.GB3280@jama>
+	<2462161.40E7azp51u@helios>
+In-Reply-To: <2462161.40E7azp51u@helios>
+X-Originating-IP: [128.224.20.81]
+Cc: koen@dominion.thruhere.net, "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Add lua to oe-core.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,93 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 15:50:38 -0000
+X-List-Received-Date: Fri, 26 Jul 2013 16:08:24 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
----
- meta/classes/distrodata.bbclass |   18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+On 13-07-26 10:11 AM, Paul Eggleton wrote:
+> On Thursday 25 July 2013 22:27:43 Martin Jansa wrote:
+>> On Thu, Jul 25, 2013 at 03:57:58PM -0400, Randy MacLeod wrote:
+>>> I've found that many projects use the lua scripting language.
+>>> I'd like to move it from meta-oe to oe-core:
+>>>
+>>> http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recip
+>>> es-devtools/lua/lua5.1_5.1.5.bb?h=master
+>>>
+>>> http://www.lua.org/about.html
+>>>
+>>> lua-5.2.2 is current, see: http://www.lua.org/download.html
+>>> so we'd likely uprev and send that version.
+>>>
+>>> rpm and lighttpd could (would?) optionally depend on lua.
+>>>
+>>> oe-core.git $ grep -r lua * | egrep -v 'valuat|valuable|uargp|rpm'
+>>>
+>>> meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb:
+>>>                --without-lua \
+>>>
+>>> Any comments pro or con before we do the uprev, testing and send
+>>> a commit?
+>>
+>> 2 recipes which would optionally depend on it doesn't make it good
+>> "core" component IMHO.
+>>
+>> But uprev, few PACKAGECONFIGs and more testing would be nice.
+>
+> I concur with Martin, if we're only talking about optional dependencies this
+> should just be a case of adding the PACKAGECONFIG options to the recipes in
+> OE-Core (or whereever they happen to be), with lua remaining in meta-oe.
 
-diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 5f182ac..aef7973 100644
---- a/meta/classes/distrodata.bbclass
-+++ b/meta/classes/distrodata.bbclass
-@@ -71,7 +71,7 @@ python do_distrodata_np() {
-         rstatus = localdata.getVar('RECIPE_COLOR', True)
-         if rstatus is not None:
-                 rstatus = rstatus.replace(',','')
--                
-+
-         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
-         if pcurver == pupver:
-                 vermatch="1"
-@@ -157,7 +157,7 @@ python do_distrodata() {
-         rstatus = localdata.getVar('RECIPE_COLOR', True)
-         if rstatus is not None:
-                 rstatus = rstatus.replace(',','')
--                
-+
-         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
-         if pcurver == pupver:
-                 vermatch="1"
-@@ -408,7 +408,7 @@ python do_checkpkg() {
-                                 s = "%s[^\d\"]*?(\d+[\.\-_])+\d+/?" % m.group()
-                         else:
-                                 s = "(\d+[\.\-_])+\d+/?"
--                                
-+
-                         searchstr = "[hH][rR][eE][fF]=\"%s\">" % s
- 
-                         reg = re.compile(searchstr)
-@@ -609,17 +609,17 @@ python do_checkpkg() {
-                 altpath = path
-                 dirver = "-"
-                 curname = "-"
--        
-+
-                 """
-                 match version number amid the path, such as "5.7" in:
--                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz        
-+                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz
-                 N.B. how about sth. like "../5.7/5.8/..."? Not find such example so far :-P
-                 """
-                 m = re.search(r"[^/]*(\d+\.)+\d+([\-_]r\d+)*/", path)
-                 if m:
-                         altpath = path.split(m.group())[0]
-                         dirver = m.group().strip("/")
--        
-+
-                         """use new path and remove param. for wget only param is md5sum"""
-                         alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
-                         my_uri = d.getVar('REGEX_URI', True)
-@@ -637,7 +637,7 @@ python do_checkpkg() {
-                 """Now try to acquire all remote files in current directory"""
-                 if not re.match("Err", newver):
-                         curname = altpath.split("/")[-1]
--        
-+
-                         """get remote name by skipping pacakge name"""
-                         m = re.search(r"/.*/", altpath)
-                         if not m:
-@@ -663,7 +663,7 @@ python do_checkpkg() {
-                                 pstatus = "UPDATE"
-                         else:
-                                 pstatus = "MATCH"
--        
-+
-                 if re.match("Err", newver):
-                         pstatus = newver + ":" + altpath + ":" + dirver + ":" + curname
-         elif type == 'git':
-@@ -809,7 +809,7 @@ python do_checkpkg() {
-                         pmstatus = "MATCH"
-                 else:
-                         pmstatus = "UPDATE"
--        
-+
-         psrcuri = psrcuri.split()[0]
-         pdepends = "".join(pdepends.split("\t"))
-         pdesc = "".join(pdesc.split("\t"))
+I understand your reluctance to add bloat to oe-core but from a
+users point of view a base distro should have a reasonable
+collection of tools. I'll add lua to our internal layer since
+we don't support all of meta-oe. We'll uprev and send meta-oe the
+new recipe.
+
+> However I am aware that lua may be a hard dependency for upcoming versions of
+> stuff we do have in OE-Core (I can't recall which). We'll have to cross that
+> bridge when we come to it.
+
+Ok. Thanks for the feedback.
+
+// Randy
+>
+> Cheers,
+> Paul
+>
+
+
 -- 
-1.7.9.5
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
