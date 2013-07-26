@@ -1,38 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
-	[209.85.212.50])
-	by mail.openembedded.org (Postfix) with ESMTP id ABF9B6A960
+Return-Path: <ionutx.radu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0928C6B2FC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 11:22:48 +0000 (UTC)
-Received: by mail-vb0-f50.google.com with SMTP id x13so705933vbb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 04:22:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=7v6fSbFyjzLy4lYGDWzVn2TamezU6J1ys1LwPTyKC5I=;
-	b=oWS93x7TsKIruu+UHx27cyFblrrhgckOGD/LpUO/VTT6UbWOdqmcPr3LXwf+e1N0ro
-	Rr68VlW1l0tNaQ9GpOeJu+zTQTXE4nJZkIRWW2k2Rl5VqIkzI0OeAUWSxspSw0XbUvJa
-	/Q4Z3ONqE7EBUXlpY4vOkxF9Dqevmr5XNys5SLD1GauodJ8PuS2vZ8Vw/oie7wUyX5Zv
-	2YALcAWLLIonVma1tKH8oKolhQloWLUGCv6P7PAx5XYerZPd3iIpe/Q6an880czXYFpD
-	gdwU+feKMb9lHfnGdrse/8FEDbOTrFNjhJCylo3cf40CAK9R/515fJJyFMpPsUft5Lvu
-	km0Q==
-X-Received: by 10.58.171.4 with SMTP id aq4mr19907917vec.26.1374837769146;
-	Fri, 26 Jul 2013 04:22:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.58.30.15 with HTTP; Fri, 26 Jul 2013 04:22:29 -0700 (PDT)
-In-Reply-To: <51F258A0.9090007@topic.nl>
-References: <cover.1374642547.git.Qi.Chen@windriver.com>
-	<5dc3be245a9757c51dadd7ce446c5116ce79496d.1374642547.git.Qi.Chen@windriver.com>
-	<20130726092812.GD3280@jama> <51F258A0.9090007@topic.nl>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Jul 2013 12:22:29 +0100
-Message-ID: <CAJTo0LZOvjmz3hPEj3uPJhmHcHPWPmwxYLBeddJPG4QYhb8F9g@mail.gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-X-Gm-Message-State: ALoCoQncmLB+UQcTGNVQUn4HlffXjVWaCY1eE8LYibsGgqLsa0Rwuxmz8ygY9r4O+t8LjsTTUgGm
-Cc: Zhangle.Yang@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 9/9] Generate ssh keys at rootfs creation time in case of a read-only rootfs
+	Fri, 26 Jul 2013 11:38:54 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2013 04:36:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,751,1367996400"; d="scan'208";a="376984538"
+Received: from work.rb.intel.com ([10.237.105.51])
+	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2013 04:38:53 -0700
+From: Ionut Radu <ionutx.radu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Jul 2013 14:41:24 +0300
+Message-Id: <cover.1374837613.git.ionutx.radu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH v3 0/1] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,18 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 11:22:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Jul 2013 11:38:54 -0000
 
-On 26 July 2013 12:08, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> I would suggest creating a separate recipe that places a ssh key on the
-> filesystem. That would be about equally useful, and it gives people a
-> choice. During development, such a feature is very nice to have, as it lets
-> the test board keep its current ssh key. It's a recipe that I'd be happy to
-> contribute. I alread have one that puts my pulic key on the box so i can
-> safely log in and/or run automated test software with passwords disabled.
+Changes in v3:
+* target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch was backported
+* qemu was tested on core-image-sato all architectures. The tests were basic (output version qemu version information)
 
-Please do that, I'd appreciate this too. :)
+The following changes since commit 67864ca79da08df752487a3a4e1a975546da123d:
 
-Ross
+  systemd: Remove systemd_unitdir if systemd is not in distro features (2013-07-24 11:35:39 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ionutx/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
+
+Ionut Radu (1):
+  qemu: Updated from 1.5.0 to 1.5.1
+
+ ...-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch |   79 --------------------
+ .../qemu/{qemu_1.5.0.bb => qemu_1.5.1.bb}          |    7 +-
+ 2 files changed, 3 insertions(+), 83 deletions(-)
+ delete mode 100644 meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+ rename meta/recipes-devtools/qemu/{qemu_1.5.0.bb => qemu_1.5.1.bb} (49%)
+
+-- 
+1.7.10.4
+
 
