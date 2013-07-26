@@ -1,30 +1,23 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AC8C6AE6E;
-	Fri, 26 Jul 2013 16:08:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6QG8Ji6004219
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Jul 2013 09:08:19 -0700 (PDT)
-Received: from [128.224.20.81] (128.224.20.81) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Fri, 26 Jul 2013 09:08:19 -0700
-Message-ID: <51F29EEF.1020806@windriver.com>
-Date: Fri, 26 Jul 2013 12:08:15 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id D948E6AE6E;
+	Fri, 26 Jul 2013 16:32:14 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2013 09:32:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,752,1367996400"; d="scan'208";a="337412445"
+Received: from unknown (HELO helios.localnet) ([10.252.122.182])
+	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2013 09:32:01 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-members@lists.openembedded.org, tsc@lists.openembedded.org
+Date: Fri, 26 Jul 2013 17:32 +0100
+Message-ID: <2188465.MKAfj8q3MG@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <51F18346.2@windriver.com> <20130725202743.GB3280@jama>
-	<2462161.40E7azp51u@helios>
-In-Reply-To: <2462161.40E7azp51u@helios>
-X-Originating-IP: [128.224.20.81]
-Cc: koen@dominion.thruhere.net, "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Add lua to oe-core.
+Subject: Invitation to attend the first TSC / Workgroup meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,63 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 16:08:24 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Jul 2013 16:32:15 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 13-07-26 10:11 AM, Paul Eggleton wrote:
-> On Thursday 25 July 2013 22:27:43 Martin Jansa wrote:
->> On Thu, Jul 25, 2013 at 03:57:58PM -0400, Randy MacLeod wrote:
->>> I've found that many projects use the lua scripting language.
->>> I'd like to move it from meta-oe to oe-core:
->>>
->>> http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recip
->>> es-devtools/lua/lua5.1_5.1.5.bb?h=master
->>>
->>> http://www.lua.org/about.html
->>>
->>> lua-5.2.2 is current, see: http://www.lua.org/download.html
->>> so we'd likely uprev and send that version.
->>>
->>> rpm and lighttpd could (would?) optionally depend on lua.
->>>
->>> oe-core.git $ grep -r lua * | egrep -v 'valuat|valuable|uargp|rpm'
->>>
->>> meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb:
->>>                --without-lua \
->>>
->>> Any comments pro or con before we do the uprev, testing and send
->>> a commit?
->>
->> 2 recipes which would optionally depend on it doesn't make it good
->> "core" component IMHO.
->>
->> But uprev, few PACKAGECONFIGs and more testing would be nice.
->
-> I concur with Martin, if we're only talking about optional dependencies this
-> should just be a case of adding the PACKAGECONFIG options to the recipes in
-> OE-Core (or whereever they happen to be), with lua remaining in meta-oe.
+Hi all,
 
-I understand your reluctance to add bloat to oe-core but from a
-users point of view a base distro should have a reasonable
-collection of tools. I'll add lua to our internal layer since
-we don't support all of meta-oe. We'll uprev and send meta-oe the
-new recipe.
+As you may be aware, the role of the OpenEmbedded TSC (Technical Steering 
+Committee) is currently evolving.  Over the past few meetings we have 
+discussed the need to focus our efforts on settings technical direction and 
+resolving conflicts (should they arise), instead of spearheading specific 
+technical contributions. While each of us expects to continue to be involved 
+in technical contributions, we want to reach out to the OpenEmbedded community 
+and work to establish a better way for work to be done.
 
-> However I am aware that lua may be a hard dependency for upcoming versions of
-> stuff we do have in OE-Core (I can't recall which). We'll have to cross that
-> bridge when we come to it.
+Time: Tuesday July 30th - 16:00 GMT (9am PDT, 11am CDT, 12 EDT, 18:00 CEST, 
+17:00 BST)
+Where: Freenode IRC, channel #oe
 
-Ok. Thanks for the feedback.
+The goal of this meeting is to introduce the work that we have been doing, the 
+type of tasks that we believe need to be done, and a discussion with the 
+community on establishing one or more task-force/working group/etc in order to 
+accomplish the tasks.
 
-// Randy
->
-> Cheers,
-> Paul
->
+While we are still working on a more formal agenda, we expect to cover topics 
+such as:
 
+* janitor bugs (general cleanup/maintenance activities)
+* eglibc -> glibc transition happening in the broader community
+* oe-core/meta-oe work
+* python 3 transition
+
+Cheers,
+Paul
+
+
+[Thanks to Mark Hatle for the above text]
 
 -- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
