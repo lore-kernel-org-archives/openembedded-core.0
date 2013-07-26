@@ -1,25 +1,26 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A00DE6041D
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 26C886AE6E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 18:10:37 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2013 11:10:37 -0700
+	Fri, 26 Jul 2013 18:52:57 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2013 11:52:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,752,1367996400"; d="scan'208";a="337455238"
+X-IronPort-AV: E=Sophos;i="4.89,752,1367996400"; d="scan'208";a="352389385"
 Received: from unknown (HELO [10.255.14.38]) ([10.255.14.38])
-	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2013 11:10:37 -0700
-Message-ID: <51F2BB9D.7030900@linux.intel.com>
-Date: Fri, 26 Jul 2013 11:10:37 -0700
+	by orsmga001.jf.intel.com with ESMTP; 26 Jul 2013 11:52:57 -0700
+Message-ID: <51F2C589.7080706@linux.intel.com>
+Date: Fri, 26 Jul 2013 11:52:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-To: Ming Liu <ming.liu@windriver.com>
-References: <1374038143-5807-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1374038143-5807-1-git-send-email-ming.liu@windriver.com>
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<1374842117-24504-4-git-send-email-jukka.rissanen@linux.intel.com>
+In-Reply-To: <1374842117-24504-4-git-send-email-jukka.rissanen@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: Fix multilib header conflict - opensslconf.h
+Subject: Re: [PATCH 3/3] ofono: Enable test scripts by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,53 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 18:10:37 -0000
+X-List-Received-Date: Fri, 26 Jul 2013 18:52:57 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/16/2013 10:15 PM, Ming Liu wrote:
-> opensslconf.h conflicts between 32-bit and 64-bit versions.
+On 07/26/2013 05:35 AM, Jukka Rissanen wrote:
+> oFono test scripts are very useful so enable those by default.
 >
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
 > ---
->   meta/recipes-connectivity/openssl/openssl.inc |    5 +++--
->   1 files changed, 3 insertions(+), 2 deletions(-)
+>   meta/recipes-connectivity/ofono/ofono.inc     | 3 ++-
+>   meta/recipes-connectivity/ofono/ofono_1.12.bb | 3 ---
+>   2 files changed, 2 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-> index f5b2432..267eb89 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -5,7 +5,7 @@ BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
->   SECTION = "libs/network"
+> diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
+> index d825496..c5bd4d0 100644
+> --- a/meta/recipes-connectivity/ofono/ofono.inc
+> +++ b/meta/recipes-connectivity/ofono/ofono.inc
+> @@ -15,6 +15,7 @@ INITSCRIPT_PARAMS = "defaults 22"
+>   EXTRA_OECONF += "\
+>       ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
+>       ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
+> +    --enable-test \
+>   "
+>   SYSTEMD_SERVICE_${PN} = "ofono.service"
 >
->   # Big Jump for OpenSSL 1.0 support with meta-oe
-> -INC_PR = "r15"
-> +INC_PR = "r16"
+> @@ -30,5 +31,5 @@ PACKAGES =+ "${PN}-tests"
+>   RDEPENDS_${PN} += "dbus"
 >
-No PR Bump needed
+>   FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
+> -FILES_${PN}-tests = "${libdir}/ofono"
+> +FILES_${PN}-tests = "${libdir}/${BPN}/test"
+I think you should be using the ptest here instead of test and inherit 
+ptest, please see the ptest.bbclass.
 
-Sorry I missed this patch.
+I realize that this is not new code, but if we are going to changes this 
+we should use the new ptest mechanism.
 
 Sau!
 
->   # "openssl | SSLeay" dual license
->   LICENSE = "openssl"
-> @@ -31,7 +31,7 @@ export DIRS = "crypto ssl apps"
->   export EX_LIBS = "-lgcc -ldl"
->   export AS = "${CC} -c"
+>   RDEPENDS_${PN}-tests = "python python-pygobject python-dbus"
+> diff --git a/meta/recipes-connectivity/ofono/ofono_1.12.bb b/meta/recipes-connectivity/ofono/ofono_1.12.bb
+> index 32c8bc2..ad524a0 100644
+> --- a/meta/recipes-connectivity/ofono/ofono_1.12.bb
+> +++ b/meta/recipes-connectivity/ofono/ofono_1.12.bb
+> @@ -12,7 +12,4 @@ PR = "r2"
+>   SRC_URI[md5sum] = "aa8924c0e8de3ec7ac5e41fe7df4cb99"
+>   SRC_URI[sha256sum] = "733b75bfd1b2a1925b6de532989c496b8ae17a746691120ef64cceb00b3ef751"
 >
-> -inherit pkgconfig siteinfo
-> +inherit pkgconfig siteinfo multilib_header
->
->   PACKAGES =+ "libcrypto libssl ${PN}-misc"
->   FILES_libcrypto = "${base_libdir}/libcrypto${SOLIBS}"
-> @@ -145,6 +145,7 @@ do_install () {
->   	cp --dereference -R include/openssl ${D}${includedir}
->   	sed -i -e '1s,.*,#!${bindir}/env perl,' ${D}${libdir}/ssl/misc/CA.pl
->
-> +	oe_multilib_header openssl/opensslconf.h
->   }
->
->   BBCLASSEXTEND = "native nativesdk"
+> -EXTRA_OECONF += "\
+> -    --enable-test \
+> -"
+>   CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
 >
 
