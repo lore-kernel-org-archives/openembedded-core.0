@@ -1,51 +1,20 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 944A16041D
+Return-Path: <andrei.adrianx.dinu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FB466041D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 10:39:18 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r6QAdHav027370
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Fri, 26 Jul 2013 12:39:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1374835157;
-	bh=Nv4415LPWCx3jr6P12aW9lElY6sNiZqpfDAaozaUeUQ=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=ldPCyKh+EDAEsFVDBxa7bSR+SYEh0bJC9lANo1wUbBi2ChOOwr2BWPce9FlJFrIYE
-	1ZoRRdItZ6ANpklDx5ipuH8hZ6ozFfDk+gwIqaszwlrdi4fAfOMjMfJY6MSp1x/RsQ
-	E5X9UNV5QIuoJMikNg6zu15mCBxRTs+PauwiHzQI=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r6QAdCdQ029563
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 26 Jul 2013 12:39:13 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1V2fQW-0005wo-P4; Fri, 26 Jul 2013 12:39:12 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Fri, 26 Jul 2013 10:44:37 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 26 Jul 2013 03:44:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,750,1367996400"; d="scan'208";a="376958869"
+Received: from adinu-vostro-460.rb.intel.com ([10.237.105.146])
+	by orsmga002.jf.intel.com with ESMTP; 26 Jul 2013 03:44:36 -0700
+From: Andrei Dinu <andrei.adrianx.dinu@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1374642547.git.Qi.Chen@windriver.com>
-	<5dc3be245a9757c51dadd7ce446c5116ce79496d.1374642547.git.Qi.Chen@windriver.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Fri, 26 Jul 2013 12:39:12 +0200
-In-Reply-To: <5dc3be245a9757c51dadd7ce446c5116ce79496d.1374642547.git.Qi.Chen@windriver.com>
-	(Qi's message of "Fri, 26 Jul 2013 15:39:36 +0800")
-Message-ID: <lyk3kdk3lb.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -4.8
-X-Spam-Level: ----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org
-Subject: Re: [PATCH 9/9] Generate ssh keys at rootfs creation time in case of a read-only rootfs
+Date: Fri, 26 Jul 2013 13:45:11 +0300
+Message-Id: <1374835511-16971-1-git-send-email-andrei.adrianx.dinu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] libpng : upgrade to 1.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,18 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 10:39:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Jul 2013 10:44:37 -0000
 
-<Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
+upgrade from 1.6.2 -> 1.6.3
 
-> To avoid generating ssh keys every time a system with read-only rootfs
-> starts, we generate ssh keys at rootfs creation time.
+LICENSE and png.h checksum changed caused by
+dates and release numbers.
 
-This is security wise a very bad and dangerous change because all devices
-will get the same key which can be extracted very easy from (public)
-images.
+Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+---
+ .../libpng/{libpng_1.6.2.bb => libpng_1.6.3.bb}    |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.2.bb => libpng_1.6.3.bb} (64%)
 
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.2.bb b/meta/recipes-multimedia/libpng/libpng_1.6.3.bb
+similarity index 64%
+rename from meta/recipes-multimedia/libpng/libpng_1.6.2.bb
+rename to meta/recipes-multimedia/libpng/libpng_1.6.3.bb
+index 7a19313..11e735c 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.2.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.3.bb
+@@ -3,16 +3,16 @@ DESCRIPTION = "PNG Library"
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=b7c6b3f443bd29d45da5575f36293606 \
+-                    file://png.h;beginline=207;endline=321;md5=f8e34d28a077eca674b739ded0de063c"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6a42d0002ce5c11e4a529c29f78d13dd \
++                    file://png.h;beginline=207;endline=321;md5=de933190ded7f9d6c22110c8509ea85a"
+ DEPENDS = "zlib"
+ LIBV = "16"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/libpng-${PV}.tar.xz \
+            file://0001-configure-lower-automake-requirement.patch \
+           "
+-SRC_URI[md5sum] = "9d838f6fca9948a9f360a0cc1b516d5f"
+-SRC_URI[sha256sum] = "1c97a90bc22107e50f04f77a0115f4ec890d5c6a373ac4c560e8fb87259e92de"
++SRC_URI[md5sum] = "9307f8ab04f4be3c1889ffb504f0fe5c"
++SRC_URI[sha256sum] = "c5ecc0d38663b944a828145ed59cf15dfbad2217512875bc05ecf9b92afa0f45"
+ 
+ inherit autotools binconfig pkgconfig
+ 
+-- 
+1.7.9.5
 
-Enrico
 
