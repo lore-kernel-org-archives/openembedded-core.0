@@ -1,40 +1,25 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C5E276041D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 957DE6AE6E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 15:18:55 +0000 (UTC)
-Received: by mail-pd0-f182.google.com with SMTP id r10so3041207pdi.27
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 08:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=JKk500F6ebGcDTUrLw/muGiofN2cWH7xDW0DUftC1sI=;
-	b=VcxZeLT7Pw4oC6fwoui07njipqXUkkuoiKF1dTsn4lQUpvKG3/nC2Ho2aW8jTfN8dn
-	tExcSfP20qnQ4ANza4UUDKT/ECfewnrh1i/8v1ZNwXjUSzHBB/yCnNu/jT3GJa7H+Y5R
-	E8Mu6BKQADYQVce7pe0B5fmaAFIEIUsK2Vk3e45M5BWjsiHhXzvRbqptCq8dALtUEs3s
-	Z7jbZym57wi9GxtSCI7a0j9KNClmThkgP108ecJxVWZbLdmF/7mtDa1O+4s9EqEWMfVK
-	Sl0DBTB8szutAlKTVuOqPxGZ6qVOuvxnlc5aADl6Q9vidPMI74EDg24zLVPNfxcNMcf0
-	DzZA==
-X-Received: by 10.66.252.129 with SMTP id zs1mr54689685pac.113.1374851936266; 
-	Fri, 26 Jul 2013 08:18:56 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244]) by mx.google.com with ESMTPSA id
-	qh10sm20750807pbb.33.2013.07.26.08.18.54 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 26 Jul 2013 08:18:55 -0700 (PDT)
-Message-ID: <51F29236.70003@gmail.com>
-Date: Sat, 27 Jul 2013 01:13:58 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	Fri, 26 Jul 2013 15:34:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Jul 2013 08:34:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,752,1367996400"; d="scan'208";a="376628660"
+Received: from unknown (HELO helios.localnet) ([10.252.122.182])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Jul 2013 08:34:16 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, Saul Wold <sgw@linux.intel.com>
+Date: Fri, 26 Jul 2013 16:34:15 +0100
+Message-ID: <4930472.WmY8LRsmSd@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CAJTo0LZddy=dtdm_wdqg+GJQmxmt24uhmNe8J6hM6gnK_ikocw@mail.gmail.com>
+References: <cover.1374822498.git.sgw@linux.intel.com>
+	<CAJTo0LZddy=dtdm_wdqg+GJQmxmt24uhmNe8J6hM6gnK_ikocw@mail.gmail.com>
 MIME-Version: 1.0
-To: Riku Voipio <riku.voipio@linaro.org>
-References: <CAAqcGH=ouV4fgpR629AVG2+J2SVY6vbPTyD0JatyMX72oVn-pQ@mail.gmail.com>
-In-Reply-To: <CAAqcGH=ouV4fgpR629AVG2+J2SVY6vbPTyD0JatyMX72oVn-pQ@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: too tight inode limits on ext4?
+Subject: Re: [CONSOLIDATED PULL 00/78] Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,45 +32,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 15:18:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Jul 2013 15:34:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 26/07/2013 11:27 PM, Riku Voipio wrote:
-> So the image has plenty of space:
->
-> root@genericarmv8:~# df -h
->
-> Filesystem      Size  Used Avail Use% Mounted on
-> /dev/root       2.3G  961M  1.2G  45% /
->
-> root@genericarmv8:~#
->
-> but only 48 free inodes:
->
-> root@genericarmv8:~# df -i
-> Filesystem     Inodes IUsed  IFree IUse% Mounted on
-> /dev/root       34440 34392     48  100% /
->
-> ext3 image is much more sensible:
->
-> root@genericarmv8:~# df -i
-> Filesystem     Inodes IUsed  IFree IUse% Mounted on
-> /dev/root      293888 34392 259496   12% /
-> e
->
-> I understand that the E in OE is about embedded, but still only 48 free
-> inodes seems a bit too steep. I would presume the amount of free inodes
-> should be about the same for both ext3 and ext4.
->
-> Also fiddling with EXTRA_IMAGECMD_ext4 doesn't seem to have any effect,
-> so currently ext4 images are not very useful.
->
-> Riku
-Try Robert Yang's patches which build ext4 using mkfs.ext4 and debugfs 
-rather than genext2fs: 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=robert/image
+On Friday 26 July 2013 10:35:20 Burton, Ross wrote:
+> On 26 July 2013 08:14, Saul Wold <sgw@linux.intel.com> wrote:
+> > Emilia Ciobanu (12):
+> >   babeltrace: fix recipe name
+> >   build-appliance-image: fix recipe name add GIT revision to PV variable
+> >   chkconfig-alternatives-native: fix recipe name and add GIT revision to
+> >   
+> >     PV variable
+> >   
+> >   connman-gnome: fix recipe name add GIT revision to PV variable
+> >   docbook-sgml-dtd-3.1-native: fix recipe name
+> >   docbook-sgml-dtd-4.1-native: fix recipe name
+> >   hwlatdetect: fix recipe name and add GIT revision to PV variable
+> >   lttng-ust: fix recipe name and add GIT revision to PV variable
+> >   mtd-utils: fix recipe name and add GIT revision to PV variable
+> >   neard: fix recipe name
+> >   rt-tests: fix recipe name add GIT revision to PV variable
+> >   update-rc.d: fix recipe name and add GIT revision to PV variable
+> 
+> I meant to chime in on this yesterday but was... tied up.  For
+> packages where the SRC_URI is a git repo *but* we're only ever
+> checking out release tags do we really need to rename the package to
+> _git?  The _git version to me implies "a mostly working snapshot of
+> the development release" not "a stable release".
 
-Regards,
-Jonathan
+It's also going to be hard to be consistent in renaming everywhere as well 
+because I think in a few cases we already have a bleeding-edge _git recipe in 
+addition to the release recipe being built from git.
+
+I guess I've not been very coherent on this, sorry for the confusion Emilia. I 
+think we need to take a step back and make sure we're doing the right thing 
+here, especially if we're only doing it to accommodate the current behaviour 
+of distrodata.bbclass.
+
+> >   bluez5: disable obex by default
+> 
+> The message seems to allude to some other reason for disabling it
+> apart from a systemd user service not being packaged.  Is there a
+> reason, as the systemd issue should be fixable in systemd.bbclass.
+> 
+> Apart from that, Acked-By: Ross Burton <ross.burton@intel.com>.
+
+I've also looked over the rest of the patches, they're OK by me as well.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
