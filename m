@@ -1,27 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ECF256B325
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 72B6A6B31D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 07:39:48 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6Q7doQV024592
+	Fri, 26 Jul 2013 09:01:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6Q91Nso011190
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 00:39:50 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 26 Jul 2013 00:39:49 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jul 2013 15:39:36 +0800
-Message-ID: <5dc3be245a9757c51dadd7ce446c5116ce79496d.1374642547.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1374642547.git.Qi.Chen@windriver.com>
-References: <cover.1374642547.git.Qi.Chen@windriver.com>
+	Fri, 26 Jul 2013 02:01:23 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 26 Jul 2013 02:01:23 -0700
+Message-ID: <51F23ADF.904@windriver.com>
+Date: Fri, 26 Jul 2013 17:01:19 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Cc: Zhangle.Yang@windriver.com
-Subject: [PATCH 9/9] Generate ssh keys at rootfs creation time in case of a read-only rootfs
+To: <openembedded-core@lists.openembedded.org>
+References: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
+	<21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
+In-Reply-To: <21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
+Subject: Re: [PATCH] util-linux: fix PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,162 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 07:39:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Jul 2013 09:01:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 07/26/2013 03:01 PM, Koen Kooi wrote:
+> Op 25 jul. 2013, om 16:51 heeft Koen Kooi <koen@dominion.thruhere.net> het volgende geschreven:
+>
+>> The ??= operator is too weak and it's setting a non-existent PACKAGECONFIG option ('libpam' instead of 'pam').
+>>
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>> meta/recipes-core/util-linux/util-linux.inc | 4 ++--
+>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+>> index d373cec..3d1198a 100644
+>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>> @@ -47,9 +47,9 @@ EXTRA_OECONF = "--libdir=${base_libdir} --disable-use-tty-group \
+>>                  --enable-libuuid --enable-libblkid --enable-fsck --without-udev \
+>> 		usrsbin_execdir='${sbindir}' \
+>> "
+>> -PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
+>> +PACKAGECONFIG_class-target ?= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \
+>>                                  ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} "
+>> -PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, pam,"
+>> +PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
+>>
+>> # Respect the systemd feature for uuidd
+>> PACKAGECONFIG[systemd] = "--enable-socket-activation --with-systemdsystemunitdir=${systemd_unitdir}/system/, --disable-socket-activation --without-systemdsystemunitdir"
+> And of course this will trigger another bug:
+>
+> |  * check_data_file_clashes: Package util-linux wants to install file /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-angstrom-linux-gnueabi/cloud9-image/1.0-r0/rootfs/usr/bin/su
+> |       But that file is already provided by package  * shadow
+Hi Koen,
 
-To avoid generating ssh keys every time a system with read-only rootfs
-starts, we generate ssh keys at rootfs creation time.
+I am working on this issue and the patch will be sent later.
 
-This change only has effect for systems with read-only rootfs.
-
-[YOCTO #4103]
-[YOCTO #4887]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/image.bbclass                         |   15 +++++++++++++++
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   10 +++++++---
- meta/recipes-core/dropbear/dropbear.inc            |    6 +++++-
- meta/recipes-core/dropbear/dropbear/init           |   19 ++-----------------
- 4 files changed, 29 insertions(+), 21 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 3bc57d3..9a0692a 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -263,6 +263,21 @@ read_only_rootfs_hook () {
- 		if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
- 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
- 		fi
-+	        # Generate ssh keys at rootfs time
-+		if [ -d ${IMAGE_ROOTFS}/etc/dropbear ]; then
-+			[ -r ${IMAGE_ROOTFS}/etc/default/dropbear ] && . ${IMAGE_ROOTFS}/etc/default/dropbear
-+			DROPBEAR_RSAKEY_DEFAULT="/etc/dropbear/dropbear_rsa_host_key"
-+			DROPBEAR_DSSKEY_DEFAULT="/etc/dropbear/dropbear_dss_host_key"
-+			test -n "$DROPBEAR_RSAKEY" || DROPBEAR_RSAKEY=$DROPBEAR_RSAKEY_DEFAULT
-+			test -n "$DROPBEAR_DSSKEY" || DROPBEAR_DSSKEY=$DROPBEAR_DSSKEY_DEFAULT
-+			dropbearkey -t rsa -f ${IMAGE_ROOTFS}$DROPBEAR_RSAKEY
-+			dropbearkey -t dss -f ${IMAGE_ROOTFS}$DROPBEAR_DSSKEY
-+		fi
-+		if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
-+			ssh-keygen -q -f ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key -N '' -t rsa
-+			ssh-keygen -q -f ${IMAGE_ROOTFS}/etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
-+			ssh-keygen -q -f ${IMAGE_ROOTFS}/etc/ssh/ssh_host_dsa_key -N '' -t dsa
-+		fi
- 	fi
- }
- 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index ab2eefb..40dc4ca 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -9,7 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=e326045657e842541d3f35aada442507"
- 
- PR = "r0"
- 
--DEPENDS = "zlib openssl"
-+DEPENDS = "zlib openssl openssh-native"
-+DEPENDS_class-native = "zlib-native openssl-native"
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
- RPROVIDES_${PN}-ssh = "ssh"
-@@ -41,7 +42,7 @@ INITSCRIPT_PACKAGES = "${PN}-sshd"
- INITSCRIPT_NAME_${PN}-sshd = "sshd"
- INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
- 
--PACKAGECONFIG ??= "tcp-wrappers"
-+PACKAGECONFIG_class-target ??= "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
- 
- inherit autotools
-@@ -49,6 +50,7 @@ inherit autotools
- # LFS support:
- CFLAGS += "-D__FILE_OFFSET_BITS=64"
- export LD = "${CC}"
-+export LD_class-native = "${CC}"
- 
- EXTRA_OECONF = "--with-rand-helper=no \
-                 ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
-@@ -74,7 +76,7 @@ do_compile_append () {
- 	install -m 0644 ${WORKDIR}/ssh_config ${S}/
- }
- 
--do_install_append () {
-+do_install_append_class-target () {
- 	for i in ${DISTRO_FEATURES};
- 	do
- 		if [ ${i} = "pam" ];  then
-@@ -102,6 +104,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- RDEPENDS_${PN}-sshd += "${PN}-keygen"
-+RDEPENDS_${PN}_class-native = ""
- 
- CONFFILES_${PN}-sshd = "${sysconfdir}/ssh/sshd_config"
- CONFFILES_${PN}-ssh = "${sysconfdir}/ssh/ssh_config"
-@@ -110,3 +113,4 @@ ALTERNATIVE_PRIORITY = "90"
- ALTERNATIVE_${PN}-scp = "scp"
- ALTERNATIVE_${PN}-ssh = "ssh"
- 
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index be93d60..381b8aa 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -9,11 +9,13 @@ INC_PR = "r1"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3a5b0c2f0d0c49dfde9558ae2036683c"
- 
--DEPENDS = "zlib"
-+DEPENDS = "zlib dropbear-native"
- RPROVIDES_${PN} = "ssh sshd" 
- 
- DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- 
-+DEPENDS_class-native = "zlib-native"
-+
- SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://0001-urandom-xauth-changes-to-options.h.patch \
-            file://0002-static_build_fix.patch \
-@@ -88,3 +90,5 @@ pkg_postrm_append_${PN} () {
-         rm ${sysconfdir}/dropbear/dropbear_dss_host_key
-   fi
- }
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-core/dropbear/dropbear/init b/meta/recipes-core/dropbear/dropbear/init
-index e8fed3f..5140b0b 100755
---- a/meta/recipes-core/dropbear/dropbear/init
-+++ b/meta/recipes-core/dropbear/dropbear/init
-@@ -28,23 +28,8 @@ test "$NO_START" = "0" || exit 0
- test -x "$DAEMON" || exit 0
- test ! -h /var/service/dropbear || exit 0
- 
--readonly_rootfs=0
--for flag in `awk '{ if ($2 == "/") { split($4,FLAGS,",") } }; END { for (f in FLAGS) print FLAGS[f] }' </proc/mounts`; do
--  case $flag in
--   ro)
--     readonly_rootfs=1
--     ;;
--  esac
--done
--
--if [ $readonly_rootfs = "1" ]; then
--  mkdir -p /var/lib/dropbear
--  DROPBEAR_RSAKEY_DEFAULT="/var/lib/dropbear/dropbear_rsa_host_key"
--  DROPBEAR_DSSKEY_DEFAULT="/var/lib/dropbear/dropbear_dss_host_key"
--else
--  DROPBEAR_RSAKEY_DEFAULT="/etc/dropbear/dropbear_rsa_host_key"
--  DROPBEAR_DSSKEY_DEFAULT="/etc/dropbear/dropbear_dss_host_key"
--fi
-+DROPBEAR_RSAKEY_DEFAULT="/etc/dropbear/dropbear_rsa_host_key"
-+DROPBEAR_DSSKEY_DEFAULT="/etc/dropbear/dropbear_dss_host_key"
- 
- test -z "$DROPBEAR_BANNER" || \
-   DROPBEAR_EXTRA_ARGS="$DROPBEAR_EXTRA_ARGS -b $DROPBEAR_BANNER"
--- 
-1.7.9.5
+Thanks,
+Hongxu
+>
+> *sigh*
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
