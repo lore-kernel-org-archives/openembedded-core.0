@@ -1,36 +1,41 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D2C66A960
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 174766A960
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 05:50:51 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jul 2013 22:50:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,748,1367996400"; d="scan'208";a="376841372"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga002.jf.intel.com with ESMTP; 25 Jul 2013 22:50:41 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 26 Jul 2013 06:50:39 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.218]) with mapi id
-	14.03.0123.003; Fri, 26 Jul 2013 06:50:39 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, "'Patches and discussions about the
-	oe-core layer'" <openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: Thoughts about bluez4 and bluez5
-Thread-Index: AQHOiVN0Vw1tM5H8tUqvXj0b/PhQx5l2dF+Q
-Date: Fri, 26 Jul 2013 05:50:38 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C0E71D@IRSMSX105.ger.corp.intel.com>
-References: <51F15115.3040008@linux.intel.com>
-In-Reply-To: <51F15115.3040008@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
-MIME-Version: 1.0
-Subject: Re: Thoughts about bluez4 and bluez5
+	Fri, 26 Jul 2013 07:01:11 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id y10so1842168wgg.16
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jul 2013 00:01:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=MkcoPIKWwrBy3R2czlA0FGHikoJeTfCrXgrwe1JwxJk=;
+	b=Jt05llf98lh1QyE+IAM/UcmVmreZK9zvO3rRtl4nJWwihvBGNdjSASFMA29LrEIRn4
+	PwQN05RNPDRhPpltaFYFGderDbVTQrbervBbl9O4IUwSHse+TWQNsFABP7NafAU5vFvY
+	btzm+AMlCZgpjQsrzNWsB3kN96WSLLep/nTfW1hz+fjiTp8sq64f68vaa1+8BMCLpmqM
+	rp/UCE5JgD2XTX/cQdlUINLoaChyvfYE73wM4AeZgy/dyAD9HdEeRWzEUXPvTRKaURWZ
+	YDRR/0qdn672iom6nHD9JiRY37i+x54Mme6Ei3KYZU0HhJ/gGLF3yGAb3w1iZZTwNb20
+	V9XA==
+X-Received: by 10.180.83.163 with SMTP id r3mr4640316wiy.10.1374822071706;
+	Fri, 26 Jul 2013 00:01:11 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::a847:9734:1a85:7bf5?
+	([2001:610:612:0:a847:9734:1a85:7bf5])
+	by mx.google.com with ESMTPSA id hb2sm2655588wib.0.2013.07.26.00.01.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 26 Jul 2013 00:01:10 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
+Date: Fri, 26 Jul 2013 09:01:10 +0200
+Message-Id: <21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
+References: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
+To: openembedded-core@lists.openembedded.org
+X-Mailer: Apple Mail (2.1508)
+X-Gm-Message-State: ALoCoQkrundp+KP+zrHk+uvbPwk3g25dsgq/EI3H37HXg8/u1P9gWZfJb0h7uIygiuh2Wp9O95L/
+Subject: Re: [PATCH] util-linux: fix PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +48,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 05:50:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 26 Jul 2013 07:01:13 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-Hi Saul, Ross,
 
-I think that for the time being libasound-module-bluez should be libasound-=
-module-bluez5.
-We will get back to it after 1.5, when all components will be ready for Blu=
-eZ 5.
-On the second issue, can you please go into details? I am not following exa=
-ctly.
-Regards,
-Cristian
+Op 25 jul. 2013, om 16:51 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
 
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]=20
-Sent: Thursday, July 25, 2013 7:24 PM
-To: 'Patches and discussions about the oe-core layer'; Iorga, Cristian; Bur=
-ton, Ross
-Subject: Thoughts about bluez4 and bluez5
+> The ??=3D operator is too weak and it's setting a non-existent =
+PACKAGECONFIG option ('libpam' instead of 'pam').
+>=20
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+> meta/recipes-core/util-linux/util-linux.inc | 4 ++--
+> 1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc =
+b/meta/recipes-core/util-linux/util-linux.inc
+> index d373cec..3d1198a 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -47,9 +47,9 @@ EXTRA_OECONF =3D "--libdir=3D${base_libdir} =
+--disable-use-tty-group \
+>                 --enable-libuuid --enable-libblkid --enable-fsck =
+--without-udev \
+> 		usrsbin_execdir=3D'${sbindir}' \
+> "
+> -PACKAGECONFIG_class-target ??=3D "${@base_contains('DISTRO_FEATURES', =
+'pam', 'libpam', '', d)} \
+> +PACKAGECONFIG_class-target ?=3D "${@base_contains('DISTRO_FEATURES', =
+'pam', 'pam', '', d)} \
+>                                 ${@base_contains('DISTRO_FEATURES', =
+'systemd', 'systemd', '', d)} "
+> -PACKAGECONFIG[pam] =3D "--enable-su --enable-runuser,--disable-su =
+--disable-runuser, pam,"
+> +PACKAGECONFIG[pam] =3D "--enable-su --enable-runuser,--disable-su =
+--disable-runuser, libpam,"
+>=20
+> # Respect the systemd feature for uuidd
+> PACKAGECONFIG[systemd] =3D "--enable-socket-activation =
+--with-systemdsystemunitdir=3D${systemd_unitdir}/system/, =
+--disable-socket-activation --without-systemdsystemunitdir"
 
+And of course this will trigger another bug:
 
+|  * check_data_file_clashes: Package util-linux wants to install file =
+/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-angstro=
+m-linux-gnueabi/cloud9-image/1.0-r0/rootfs/usr/bin/su
+|       But that file is already provided by package  * shadow
 
-Cristi, Ross:
-
-There is currently a PREFERRED_PROVIDER issue with bluez4 and bluez5 and I =
-am beginning to think we need to distinguish the libasound-module-bluez wit=
-h libasound-module-bluez5.
-
-I am also seeing some areas where we might need a virtual/bluez to allow re=
-cipes to enable features in places like connman and ofono
-
-Thoughts?
-
-
-
---=20
-     Sau!
-
-Saul Wold
-Yocto Component Wrangler @ Intel
-Yocto Project / Poky Build System
-
+*sigh*=
 
