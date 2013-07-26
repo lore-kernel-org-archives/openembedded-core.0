@@ -1,22 +1,25 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F04FB6B3D2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id B31996B3CE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 12:35:20 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2013 05:32:45 -0700
+	Fri, 26 Jul 2013 12:39:39 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 26 Jul 2013 05:39:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,751,1367996400"; d="scan'208";a="371689157"
-Received: from sorvi.fi.intel.com ([10.237.72.152])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Jul 2013 05:35:21 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2013 15:35:17 +0300
-Message-Id: <1374842117-24504-4-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
-Subject: [PATCH 3/3] ofono: Enable test scripts by default
+X-IronPort-AV: E=Sophos;i="4.89,751,1367996400"; d="scan'208";a="337314850"
+Received: from unknown (HELO helios.localnet) ([10.252.122.182])
+	by azsmga001.ch.intel.com with ESMTP; 26 Jul 2013 05:39:39 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Andrei Dinu <andrei.adrianx.dinu@intel.com>
+Date: Fri, 26 Jul 2013 13:39:38 +0100
+Message-ID: <2661953.CXEvbvU0xy@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <51F26B86.5020309@intel.com>
+References: <51F26B86.5020309@intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: is there a variable where the kernel version is stored?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,48 +32,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 12:35:21 -0000
+X-List-Received-Date: Fri, 26 Jul 2013 12:39:39 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-oFono test scripts are very useful so enable those by default.
+Hi Andrei,
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
- meta/recipes-connectivity/ofono/ofono.inc     | 3 ++-
- meta/recipes-connectivity/ofono/ofono_1.12.bb | 3 ---
- 2 files changed, 2 insertions(+), 4 deletions(-)
+On Friday 26 July 2013 15:28:54 Andrei Dinu wrote:
+> I'm having a problem trying to run Bastille. Seems like the kernel
+> version has changed from 3.8.11 to 3.8.13 and
+> in order to run Bastille, i need to patch a file used by the tool to
+> check the version of the system. It was previously
+> patched with linux-yocto-3.8.11 version, but now it has changed to
+> linux-yocto-3.8.13 and the tool doesn't work
+> because it doesn't identify the right version of the kernel.
+> 
+> Is there a way to find out the kernel version at build time so i can
+> replace it dynamically in that specific file?
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index d825496..c5bd4d0 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -15,6 +15,7 @@ INITSCRIPT_PARAMS = "defaults 22"
- EXTRA_OECONF += "\
-     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
-     ${@base_contains('DISTRO_FEATURES', 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
-+    --enable-test \
- "
- SYSTEMD_SERVICE_${PN} = "ofono.service"
- 
-@@ -30,5 +31,5 @@ PACKAGES =+ "${PN}-tests"
- RDEPENDS_${PN} += "dbus"
- 
- FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
--FILES_${PN}-tests = "${libdir}/ofono"
-+FILES_${PN}-tests = "${libdir}/${BPN}/test"
- RDEPENDS_${PN}-tests = "python python-pygobject python-dbus"
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.12.bb b/meta/recipes-connectivity/ofono/ofono_1.12.bb
-index 32c8bc2..ad524a0 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.12.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.12.bb
-@@ -12,7 +12,4 @@ PR = "r2"
- SRC_URI[md5sum] = "aa8924c0e8de3ec7ac5e41fe7df4cb99"
- SRC_URI[sha256sum] = "733b75bfd1b2a1925b6de532989c496b8ae17a746691120ef64cceb00b3ef751"
- 
--EXTRA_OECONF += "\
--    --enable-test \
--"
- CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
+Hmm, so if you add a DEPENDS on virtual/kernel you should be able to rely on 
+the contents of ${STAGING_KERNEL_DIR}/kernel-abiversion - have a look at what 
+meta/classes/module.bbclass does with this.
+
+Cheers,
+Paul
+
 -- 
-1.7.11.7
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
