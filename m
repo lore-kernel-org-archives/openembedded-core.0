@@ -1,27 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B2036B1A0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C1FF56B21B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 07:39:43 +0000 (UTC)
+	Fri, 26 Jul 2013 07:39:44 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6Q7diDu002884
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6Q7djje024589
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 00:39:44 -0700 (PDT)
+	Fri, 26 Jul 2013 00:39:46 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 26 Jul 2013 00:39:43 -0700
+	14.2.342.3; Fri, 26 Jul 2013 00:39:45 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jul 2013 15:39:33 +0800
-Message-ID: <32e18c31ae6edea8ff2fe6ccea04add5006b5978.1374642547.git.Qi.Chen@windriver.com>
+Date: Fri, 26 Jul 2013 15:39:34 +0800
+Message-ID: <8c71c4fc4bb4853341bb51433ce727750fa6fb61.1374642547.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1374642547.git.Qi.Chen@windriver.com>
 References: <cover.1374642547.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhangle.Yang@windriver.com
-Subject: [PATCH 6/9] initscripts: use a uniform way to handle directories in read-only rootfs
+Subject: [PATCH 7/9] irda-utils: make /etc/sysconfig writable in read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,85 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 07:39:43 -0000
+X-List-Received-Date: Fri, 26 Jul 2013 07:39:44 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-Packages in our system may need to write to some directories to function
-correctly. In read-only rootfs, these directories should be made writable.
+This diretory needs to be writable, the following error will appear
+at system start-up.
 
-This patch uses a convenient and uniform way to handle such situations.
-The read-only-rootfs-hook.sh script searches the /etc/default/readonly
-diretory for config files and then apply them one by one.
-
-The config files simply have the following format.
-<original diretory> <corresponding directory in volatile story>
-
-For example, /etc/default/readonly/initscripts have the following content.
-/var/lib /var/volatile/lib
-
-This patch only has effect for systems with read-only rootfs.
+   /etc/rc5.d/S20irattach: /etc/sysconfig/irda: Read-only file system
 
 [YOCTO #4103]
-[YOCTO #4888]
+[YOCTO #4886]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../initscripts-1.0/read-only-rootfs-hook.sh       |   17 ++++++++++++++---
- meta/recipes-core/initscripts/initscripts_1.0.bb   |    5 +++++
- 2 files changed, 19 insertions(+), 3 deletions(-)
+ .../irda-utils/irda-utils_0.9.18.bb                |    4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-index d523924..b61f420 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-@@ -1,15 +1,26 @@
- #!/bin/sh
+diff --git a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
+index 575b0b1..4c8723e 100644
+--- a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
++++ b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
+@@ -37,4 +37,8 @@ do_install () {
  
- . /etc/init.d/functions
-+READONLY_CFGDIR="/etc/default/readonly"
- 
- ROOTFS_READ_ONLY=`is_rootfs_readonly`
- 
- [ "$ROOTFS_READ_ONLY" = "no" ] && exit 0
- 
-+apply_conf () {
-+	cfgfile=$1
-+	cat $cfgfile | while read line; do
-+		eval `echo "$line" | sed -n "s/\(.*\)\ \(.*\)/DIR_READONLY=\1; DIR_VOLATILE=\2;/p"`
-+		mkdir -p $DIR_VOLATILE
-+		cp -a $DIR_READONLY/* $DIR_VOLATILE
-+		mount --bind $DIR_VOLATILE $DIR_READONLY
-+	done
-+}
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/${INITSCRIPT_NAME}
 +
- if [ "$1" = "start" ] ; then
- 	grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
--	mkdir -p /var/volatile/lib
--	cp -a /var/lib/* /var/volatile/lib
--	mount --bind /var/volatile/lib /var/lib
-+	for file in `ls -1 "$READONLY_CFGDIR"`; do
-+		apply_conf "$READONLY_CFGDIR/$file"
-+	done
- fi
- 
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 52e1c9c..46c4c99 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -105,6 +105,11 @@ do_install () {
- 	install -m 0755 ${WORKDIR}/umountfs	${D}${sysconfdir}/init.d/umountfs
- 	install -m 0755		${WORKDIR}/device_table.txt		${D}${sysconfdir}/device_table
- #
-+# Create config files for read-only rootfs
-+#
++	# Create config files for read-only rootfs
 +	install -d ${D}${sysconfdir}/default/readonly
-+	echo "/var/lib /var/volatile/lib" > ${D}${sysconfdir}/default/readonly/initscripts
-+#
- # Create runlevel links
- #
- 	update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .
++	echo "/etc/sysconfig /var/volatile/etc/sysconfig" > ${D}${sysconfdir}/default/readonly/irda-utils
+ }
 -- 
 1.7.9.5
 
