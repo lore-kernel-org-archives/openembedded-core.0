@@ -1,24 +1,26 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BFDCC6A960
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 57C266A960
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 09:51:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6Q9p7xi016252
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jul 2013 02:51:07 -0700 (PDT)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 26 Jul 2013 02:51:07 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jul 2013 17:51:02 +0800
-Message-ID: <1374832262-18765-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.1
-MIME-Version: 1.0
-Subject: [PATCH] libpam: deny all services for the OTHER entries
+	Fri, 26 Jul 2013 09:53:09 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.5])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1V2ehv-0000Wu-G7; Fri, 26 Jul 2013 11:53:08 +0200
+Message-ID: <1374832374.2861.72.camel@pb-ThinkPad-R50e>
+From: Phil Blundell <pb@pbcl.net>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 26 Jul 2013 10:52:54 +0100
+In-Reply-To: <20130726092812.GD3280@jama>
+References: <cover.1374642547.git.Qi.Chen@windriver.com>
+	<5dc3be245a9757c51dadd7ce446c5116ce79496d.1374642547.git.Qi.Chen@windriver.com>
+	<20130726092812.GD3280@jama>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org, Zhangle.Yang@windriver.com
+Subject: Re: [PATCH 9/9] Generate ssh keys at rootfs creation time in case of a read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jul 2013 09:51:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Jul 2013 09:53:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-To be secure, change behavior of the OTHER entries to warn and deny
-access to everything by stating pam_deny.so on all services.
+On Fri, 2013-07-26 at 11:28 +0200, Martin Jansa wrote:
+> On Fri, Jul 26, 2013 at 03:39:36PM +0800, Qi.Chen@windriver.com wrote:
+> > From: Chen Qi <Qi.Chen@windriver.com>
+> > 
+> > To avoid generating ssh keys every time a system with read-only rootfs
+> > starts, we generate ssh keys at rootfs creation time.
+> > 
+> > This change only has effect for systems with read-only rootfs.
+> 
+> I'm not sure if having the same keys on all devices installed from the
+> same image is always desired behavior, imho it should be controlled by
+> another variable, because some people want read-only rootfs and keys
+> generated in some other write-able partition.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- meta/recipes-extended/pam/libpam/pam.d/other |   15 ++++++---------
- 1 files changed, 6 insertions(+), 9 deletions(-)
+Agreed.  In fact, I suspect that most folks who would be happy with all
+devices getting identical keys would want to go even further and have
+the keys be pre-generated so they were the same in every version of the
+image, rather than having them change every time the rootfs is
+regenerated.  Otherwise you still get the "host key has changed" warning
+whenever you install a new rootfs.
 
-diff --git a/meta/recipes-extended/pam/libpam/pam.d/other b/meta/recipes-extended/pam/libpam/pam.d/other
-index 6e40cd0..ec970ec 100644
---- a/meta/recipes-extended/pam/libpam/pam.d/other
-+++ b/meta/recipes-extended/pam/libpam/pam.d/other
-@@ -6,22 +6,19 @@
- #pam_open_session, the session module out of /etc/pam.d/other is
- #used.  
- 
--#If you really want nothing to happen then use pam_permit.so or
--#pam_deny.so as appropriate.
--
- # We use pam_warn.so to generate syslog notes that the 'other'
- #fallback rules are being used (as a hint to suggest you should setup
--#specific PAM rules for the service and aid to debugging). We then 
--#fall back to the system default in /etc/pam.d/common-*
-+#specific PAM rules for the service and aid to debugging). Then to be
-+#secure, deny access to all services by default. 
- 
- auth       required     pam_warn.so
--auth       include      common-auth
-+auth       required     pam_deny.so
- 
- account    required     pam_warn.so
--account    include      common-account
-+account    required     pam_deny.so
- 
- password   required     pam_warn.so
--password   include      common-password
-+password   required     pam_deny.so
- 
- session    required     pam_warn.so
--session    include      common-session
-+session    required     pam_deny.so
--- 
-1.7.1
+If we're going to add this "generate keys at rootfs time" thing as an
+option then that's fine, but it needs to be configurable under control
+of IMAGE_FEATURES and/or DISTRO_FEATURES and/or PACKAGECONFIG.
+
+Some other observations on this patch:
+
+- the subject line is in the wrong format
+- there are quite a lot of changes to the openssh recipe in here, some
+of which look a bit hokey.  For example, this change:
+
+-PACKAGECONFIG ??= "tcp-wrappers"
++PACKAGECONFIG_class-target ??= "tcp-wrappers"
+
+... is going to be a trap for the unwary and probably shouldn't be done
+this way.
+
+p.
+
 
 
