@@ -1,20 +1,22 @@
 Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id F13BC6B095
+	by mail.openembedded.org (Postfix) with ESMTP id 04D0F6B346
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 26 Jul 2013 15:50:36 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2013 08:50:32 -0700
+	by azsmga101.ch.intel.com with ESMTP; 26 Jul 2013 08:50:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,752,1367996400"; d="scan'208";a="273784704"
+X-IronPort-AV: E=Sophos;i="4.89,752,1367996400"; d="scan'208";a="273784730"
 Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by AZSMGA002.ch.intel.com with ESMTP; 26 Jul 2013 08:50:30 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 26 Jul 2013 08:50:33 -0700
 From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jul 2013 18:58:17 +0300
-Message-Id: <1374854298-30941-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+Date: Fri, 26 Jul 2013 18:58:18 +0300
+Message-Id: <1374854298-30941-2-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH v2 1/2] distrodata.bbclass: Include PRSPV variable in upstream version checking
+In-Reply-To: <1374854298-30941-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+References: <1374854298-30941-1-git-send-email-emilia.maria.silvia.ciobanu@intel.com>
+Subject: [PATCH v2 2/2] distrodata.bbclass: Remove whitespaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,78 +31,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 26 Jul 2013 15:50:38 -0000
 
-The PRSPV variable is used for the packages that have different
-representation for a same upstream and local version (e.g 2.0 vs 20).
-In this case, the system is using PRSPV instead of PV when comparing
-the local and upstream versions.
-
-The packages that are using this modification are the following:
-	* zip
-	* unzip
-	* docbook-sgml-dtd-3.1-native
-	* docbook-sgml-dtd-4.1-native
-
 Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 ---
- meta/classes/distrodata.bbclass |   23 ++++++++++++++++++-----
- 1 file changed, 18 insertions(+), 5 deletions(-)
+ meta/classes/distrodata.bbclass |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
-index 204612c..5f182ac 100644
+index 5f182ac..aef7973 100644
 --- a/meta/classes/distrodata.bbclass
 +++ b/meta/classes/distrodata.bbclass
-@@ -563,7 +563,10 @@ python do_checkpkg() {
-                chk_uri = src_uri
-         pdesc = localdata.getVar('DESCRIPTION', True)
-         pgrp = localdata.getVar('SECTION', True)
--        pversion = localdata.getVar('PV', True)
-+        if localdata.getVar('PRSPV', True):
-+                pversion = localdata.getVar('PRSPV', True)
-+        else:
-+                pversion = localdata.getVar('PV', True)
-         plicense = localdata.getVar('LICENSE', True)
-         psection = localdata.getVar('SECTION', True)
-         phome = localdata.getVar('HOMEPAGE', True)
-@@ -590,9 +593,16 @@ python do_checkpkg() {
- 
-         (type, host, path, user, pswd, parm) = bb.decodeurl(uri)
-         if type in ['http', 'https', 'ftp']:
--                pcurver = d.getVar('PV', True)
-+                if d.getVar('PRSPV', True):
-+                    pcurver = d.getVar('PRSPV', True)
-+                else:
-+                    pcurver = d.getVar('PV', True)
-         else:
--                pcurver = d.getVar("SRCREV", True)
-+                if d.getVar('PRSPV', True):
-+                    pcurver = d.getVar('PRSPV', True)
-+                else:
-+                    pcurver = d.getVar("SRCREV", True)
+@@ -71,7 +71,7 @@ python do_distrodata_np() {
+         rstatus = localdata.getVar('RECIPE_COLOR', True)
+         if rstatus is not None:
+                 rstatus = rstatus.replace(',','')
+-                
 +
+         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
+         if pcurver == pupver:
+                 vermatch="1"
+@@ -157,7 +157,7 @@ python do_distrodata() {
+         rstatus = localdata.getVar('RECIPE_COLOR', True)
+         if rstatus is not None:
+                 rstatus = rstatus.replace(',','')
+-                
++
+         pupver = localdata.getVar('RECIPE_UPSTREAM_VERSION', True)
+         if pcurver == pupver:
+                 vermatch="1"
+@@ -408,7 +408,7 @@ python do_checkpkg() {
+                                 s = "%s[^\d\"]*?(\d+[\.\-_])+\d+/?" % m.group()
+                         else:
+                                 s = "(\d+[\.\-_])+\d+/?"
+-                                
++
+                         searchstr = "[hH][rR][eE][fF]=\"%s\">" % s
  
-         if type in ['http', 'https', 'ftp']:
-                 newver = pcurver
-@@ -614,7 +624,10 @@ python do_checkpkg() {
+                         reg = re.compile(searchstr)
+@@ -609,17 +609,17 @@ python do_checkpkg() {
+                 altpath = path
+                 dirver = "-"
+                 curname = "-"
+-        
++
+                 """
+                 match version number amid the path, such as "5.7" in:
+-                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz        
++                        http://download.gnome.org/sources/${PN}/5.7/${PN}-${PV}.tar.gz
+                 N.B. how about sth. like "../5.7/5.8/..."? Not find such example so far :-P
+                 """
+                 m = re.search(r"[^/]*(\d+\.)+\d+([\-_]r\d+)*/", path)
+                 if m:
+                         altpath = path.split(m.group())[0]
+                         dirver = m.group().strip("/")
+-        
++
+                         """use new path and remove param. for wget only param is md5sum"""
                          alturi = bb.encodeurl([type, host, altpath, user, pswd, {}])
                          my_uri = d.getVar('REGEX_URI', True)
-                         if my_uri:
--                            newver = d.getVar('PV', True)
-+                            if d.getVar('PRSPV', True):
-+                                    newver = d.getVar('PRSPV', True)
-+                            else:
-+                                    newver = d.getVar('PV', True)
+@@ -637,7 +637,7 @@ python do_checkpkg() {
+                 """Now try to acquire all remote files in current directory"""
+                 if not re.match("Err", newver):
+                         curname = altpath.split("/")[-1]
+-        
++
+                         """get remote name by skipping pacakge name"""
+                         m = re.search(r"/.*/", altpath)
+                         if not m:
+@@ -663,7 +663,7 @@ python do_checkpkg() {
+                                 pstatus = "UPDATE"
                          else:
-                             newver = check_new_dir(alturi, dirver, d)
-                         altpath = path
-@@ -736,7 +749,7 @@ python do_checkpkg() {
-                                 pupver = latest_pv + tmp3.group('git_prefix') + latest_head
-                         else:
-                                 if not tmp3:
--                                        bb.plain("#DEBUG# Current version (%s) doesn't match the usual pattern" %pversion)
-+                                        bb.plain("#DEBUG# Package %s: current version (%s) doesn't match the usual pattern" %(pname, pversion))
-         elif type == 'svn':
-                 options = []
-                 if user:
+                                 pstatus = "MATCH"
+-        
++
+                 if re.match("Err", newver):
+                         pstatus = newver + ":" + altpath + ":" + dirver + ":" + curname
+         elif type == 'git':
+@@ -809,7 +809,7 @@ python do_checkpkg() {
+                         pmstatus = "MATCH"
+                 else:
+                         pmstatus = "UPDATE"
+-        
++
+         psrcuri = psrcuri.split()[0]
+         pdepends = "".join(pdepends.split("\t"))
+         pdesc = "".join(pdesc.split("\t"))
 -- 
 1.7.9.5
 
