@@ -1,36 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
-	[209.85.212.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 226626B20C
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id DBDC96B1EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 15:28:02 +0000 (UTC)
-Received: by mail-vb0-f54.google.com with SMTP id q14so817204vbe.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 08:28:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=2hcRH4coTOu6jOEdkWbLhcrtIBk4moqboMhyJjI3Hw4=;
-	b=Kp74Kj5U0kbXlBP+/c0KmYcSOXrA1uuBl7iR67vdAQXvz06Vh3K4MUPVOjKJLXszzm
-	WdjEdxhyIhScAc/RhIZF8Is0aAbsBUS0wVTxelhi6FYFQnoE4R0BnobSt1SrozWw2+dJ
-	iUVWv7pZl1QjfTxjo6NvzRyWddoEmrFyHDryoGsevmVUTkXVGBrBgWTjHPZ06lk1LMfq
-	ORSG87HUWML85km0p8qP3bDO99r6M972HpnOSyQi6Vi+3viAloaQpgGj9KutzD1xI6c5
-	wU2gF/8iMY0z0KUS6TP+q6Q+zgXkco4XcO05W7AAl9EfoQJmm4FQfujWyO1xN4xyTf90
-	y2bg==
-X-Received: by 10.52.103.84 with SMTP id fu20mr17296454vdb.51.1375111682005;
-	Mon, 29 Jul 2013 08:28:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 29 Jul 2013 08:27:41 -0700 (PDT)
-In-Reply-To: <cover.1375110365.git.sgw@linux.intel.com>
-References: <cover.1375110365.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jul 2013 16:27:41 +0100
-Message-ID: <CAJTo0Lb59u+KWS3Sb0HGiMAcgPwChrfW9ac5XnhwvkzwbEuRmA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQmKZvdqrXqTpX8JZAWl39NJNVj5MX1NdXerZ4udLnUyiFsEZGDQqbqMciwKi5+e6OFS6D3r
+	Mon, 29 Jul 2013 15:36:10 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1V3pUY-0003Oa-3j; Mon, 29 Jul 2013 17:36:10 +0200
+Message-ID: <1375112169.13247.44.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Bian Naimeng <biannm@cn.fujitsu.com>
+Date: Mon, 29 Jul 2013 16:36:09 +0100
+In-Reply-To: <51F5E948.4070107@cn.fujitsu.com>
+References: <51F5E863.9010406@cn.fujitsu.com> <51F5E948.4070107@cn.fujitsu.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL (Part 2) (resend) 00/26] Branch Updated with Correct Set
+Subject: Re: [RFC][PATCH 1/6]qemuarm.conf: provide a common qemuarm machine configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,13 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 15:28:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Jul 2013 15:36:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 29 July 2013 16:07, Saul Wold <sgw@linux.intel.com> wrote:
-> Already basicly ACK'ed by Ross and Paul
+On Mon, 2013-07-29 at 12:02 +0800, Bian Naimeng wrote:
+> qemux86.conf: provide a common qemux86 machine configuration, 
+> so developer/distributor can customize their specific one.
+> 
+> Although, we can modify the meta/conf/machine/qemux86.conf to customize our 
+> configuration, but it's uncomfortable for developer/distributor maintaining
+> their branch.
+> After applying this patch, developer can tell poky using their machine
+> configuration by prepending their layer to BBPATH(Of course,
+> the bblayers.conf should be adapted to it).
 
-Just to double-confirm:
+I don't really understand the purpose of this patch.  Surely there is
+nothing to stop you from shipping an overlay qemux86.conf in some other
+layer today, right?  What exactly is the advantage of this extra
+indirection through an .inc file?
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+Also, as a side note, your patches 1/6, 2/6 and 6/6 all said
+"qemuarm.conf" in the subject lines but only the last of them actually
+contained changes to qemuarm.conf.
+
+Also also, the patches in this form are quite hard to follow.  Did you
+use "git format-patch -M" when creating them?
+
+p.
+
+
 
