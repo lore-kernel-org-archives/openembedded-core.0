@@ -1,33 +1,23 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 5251760958
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 6928E60958
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 09:42:23 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1V3jyA-00009R-GM from Muhammad_Shakeel@mentor.com ;
-	Mon, 29 Jul 2013 02:42:22 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 29 Jul 2013 02:42:22 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Mon, 29 Jul 2013 10:42:19 +0100
-Message-ID: <51F6392F.60004@mentor.com>
-Date: Mon, 29 Jul 2013 14:43:11 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<1374842117-24504-2-git-send-email-jukka.rissanen@linux.intel.com>
-In-Reply-To: <1374842117-24504-2-git-send-email-jukka.rissanen@linux.intel.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 29 Jul 2013 09:42:22.0254 (UTC)
-	FILETIME=[ECB694E0:01CE8C3F]
+	Mon, 29 Jul 2013 10:00:19 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1V3kFX-0003B0-CJ; Mon, 29 Jul 2013 12:00:19 +0200
+Message-ID: <1375092018.6324.176.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Laszlo Papp <lpapp@kde.org>
+Date: Mon, 29 Jul 2013 11:00:18 +0100
+In-Reply-To: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] ofono: Add systemd support
+Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,25 +30,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 09:42:23 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 29 Jul 2013 10:00:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/26/2013 05:35 PM, Jukka Rissanen wrote:
->   do_install_append() {
-> -  install -d ${D}${sysconfdir}/init.d/
-> -  install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
-> +    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
-> +        install -d ${D}${sysconfdir}/init.d/
-> +        install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
-> +    fi
->   }
->   
->   PACKAGES =+ "${PN}-tests"
-We won't need above 'sysvinit' check as we are trying to implement this 
-for all packages through systemd class. Please see this: 
-http://patches.openembedded.org/patch/54671/
+On Mon, 2013-07-29 at 08:16 +0100, Laszlo Papp wrote:
+> This is necessary to get the build going, for instance with older Code Sourcery
+> compilers.
 
-Regards,
-Shakeel
+You seem to have inadvertently sent a patch to busybox.inc as well as
+the defconfig change that's described in the commit message.
+
+p.
+
+
 
