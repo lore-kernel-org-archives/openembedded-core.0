@@ -1,53 +1,47 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D52E6A4AC
+Return-Path: <rep.dot.nop@gmail.com>
+Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D3C2E6B414
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 13:17:04 +0000 (UTC)
-Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id DB70A3F604;
-	Mon, 29 Jul 2013 15:17:03 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -3.418
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.418 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9, KHOP_DYNAMIC2=1, KHOP_THREADED=-1.5,
-	RDNS_DYNAMIC=0.982, _DSLHELP01=-1] autolearn=no
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Mon, 29 Jul 2013 15:17:03 +0200 (CEST)
-Received: from TOP-EX02.topic.local (82-204-13-181.dsl.bbeyond.nl
-	[82.204.13.181]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
-	Mon, 29 Jul 2013 15:17:02 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (192.168.10.102) by mail.topic.nl
-	(192.168.1.103) with Microsoft SMTP Server (TLS) id 14.1.218.12;
-	Mon, 29 Jul 2013 15:17:01 +0200
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.289.1;
-	Mon, 29 Jul 2013 15:17:01 +0200
-Message-ID: <51F66B4D.3090903@topic.nl>
-Date: Mon, 29 Jul 2013 15:17:01 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	Mon, 29 Jul 2013 13:31:08 +0000 (UTC)
+Received: by mail-ee0-f53.google.com with SMTP id b15so732706eek.40
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jul 2013 06:31:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:date:message-id:in-reply-to:references:user-agent
+	:subject:mime-version:content-type:content-transfer-encoding;
+	bh=Nl7Lcb7VsMB445e8FjlhWJXfZxc6C34+TeEny0BDEhA=;
+	b=VXe/DmR2n3Nh7c4yMa9AUrmeDtg4ceJXRCqAUSTDRRdBl2Ky5Ub8bcZgGWPS2cCel2
+	oRSTINtfSYoY/Rg0sBo2b+st0M+zo8t9gTspoN0DOh04LyPIfJXGMblX5q9HoJIh0DhX
+	cIT2yv3WeGsuZD5i+442WVCMAA2Q+pa167u+V9/0OdHdBeosBp/yFSi2rTWvrxXZdowR
+	MsRzpy6e2YSHPE8e+J0Rd9DbmBzA/qo6xklOvS6vUXhTUZCWkmAuwmHmMDB3y6NcEhEg
+	CObhs78mLt9vpj/RcsdFCx8Cw1aAY0brISJgCZdyAvENTwYG0/ALh/PdQLlCNXIpQwri
+	5Uzw==
+X-Received: by 10.15.24.129 with SMTP id j1mr60239925eeu.17.1375104668501;
+	Mon, 29 Jul 2013 06:31:08 -0700 (PDT)
+Received: from [46.206.9.55] (046206009055.atmpu0017.highway.a1.net.
+	[46.206.9.55]) by mx.google.com with ESMTPSA id
+	i43sm27183018eeg.10.2013.07.29.06.31.02 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 29 Jul 2013 06:31:07 -0700 (PDT)
+From: "Bernhard Reutner-Fischer" <rep.dot.nop@gmail.com>
+To: Laszlo Papp <lpapp@kde.org>, Phil Blundell <pb@pbcl.net>
+Date: Mon, 29 Jul 2013 15:34:54 +0200
+Message-ID: <1402aa377f6.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+In-Reply-To: <CAOMwXhO2A75jPxM4FdU=XBgVRjsxW24hDVLOf8eub2Wp4CmGDA@mail.gmail.com>
+References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+	<1375092018.6324.176.camel@phil-desktop.brightsign>
+	<CAOMwXhNqXneU6UzeHZJJVM++RmNmmdvNMp3mbNV=YpFVE6tOdw@mail.gmail.com>
+	<1375093253.13247.5.camel@phil-desktop.brightsign>
+	<CAOMwXhO6+sJWjKAKVh=y1gymGoSUNVgs+nV9fz8G8eo9WHyAkw@mail.gmail.com>
+	<1375094111.13247.9.camel@phil-desktop.brightsign>
+	<CAOMwXhMZ1w5j=aP_yPXb=k0=UOuinMS5ENAsXAdzcb42WxC0Og@mail.gmail.com>
+	<CAOMwXhO2A75jPxM4FdU=XBgVRjsxW24hDVLOf8eub2Wp4CmGDA@mail.gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:9.0) Gecko/20111222 Thunderbird/9.0.1 AquaMail/1.2.4.0 (build:
+	2100294)
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20130706213931.GD3288@jama>
-	<1373459893-23611-1-git-send-email-Martin.Jansa@gmail.com>
-	<51DD5C13.1040701@topic.nl> <2537500.7dBumEqH9t@helios>
-	<20130710174516.GE3288@jama>
-In-Reply-To: <20130710174516.GE3288@jama>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: sstate-cache and making a package "host-dependent"
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,124 +54,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 13:17:05 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Jul 2013 13:31:09 -0000
+Content-Type: text/plain; charset="us-ascii"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 07/10/2013 07:45 PM, Martin Jansa wrote:
-> On Wed, Jul 10, 2013 at 06:39:20PM +0100, Paul Eggleton wrote:
->> Hi Mike,
->>
->> On Wednesday 10 July 2013 15:05:23 Mike Looijmans wrote:
->>> I added a buildserver that also exports its "sstate-cache" directory, s=
-o
->>> that other build machines can grab their stuff from it. This works fine=
-,
->>> but I have one problem. Some packages are meant to be dependent on the
->>> system that built it. I want to enforce that each build machine creates
->>> its own package, and does not grab it from the sstate-cache of the
->>> central server.
->>>
->>> For example,
->>>
->>> $ cat recipes-core/meta/distro-feed-configs.bbappend
->>> PRINC=3D"1"
->>> DISTRO_HOST_NAME ?=3D "${@os.uname()[1]}"
->>> DISTRO_FEED_NAME ?=3D "feed"
->>> DISTRO_FEED_PREFIX =3D "topic"
->>> DISTRO_FEED_URI =3D
->>> "http://${DISTRO_HOST_NAME}/${DISTRO_FEED_NAME}/${MACHINE}"
->>>
->>>
->>> The purpose being that the host name of the machien that built the imag=
-e
->>> ends up in the opkg config files. This works just fine.
->>> Now that we have a central server, all images on all build hosts grab
->>> the package from the sstate-cache server, resulting in the feed pointin=
-g
->>> to the central server instead of the private one, which is not what I
->>> wanted to happen.
->>>
->>> After reading the documentation, I added the following line to the reci=
-pe:
->>>
->>> PACKAGE_ARCHS[vardeps] =3D "DISTRO_FEED_URI"
->>>
->>> This did not have the desired effect. The package is still retrieved
->>> from the cache, and not rebuilt locally. Even if I clean and force a
->>> rebuild of the distro-feed-configs package, the package that ends up in
->>> the image is still the one from the central server.
->>>
->>> What am I missing here?
->>
->> I think distro-feed-configs (from meta-oe, not OE-Core) is for package
->> installation on the target, and has nothing to do with shared state.
->>
->> I'm not sure if it's entirely appropriate, but you could take a similar
->> approach to the one we use for preventing native sstate packages from mi=
-xing
->> across different distributions (mostly to sidestep host glibc version
->> dependency problems) - set SSTATE_EXTRAPATH to some value for the recipe=
-s you
->> don't want to share and then the packages will go into a subdirectory na=
-med
->> with that value; you could then delete these automatically from the serv=
-er.
+On 29 July 2013 14:20:05 Laszlo Papp <lpapp@kde.org> wrote:
+> Oh, it is actually also in danny. I was looking into the "files" directory,
+> but it is in the other.
 >
-> I would try to add
-> DISTRO_HOST_NAME[vardepvalue] =3D "${DISTRO_HOST_NAME}"
+> It is definitely not in denzil though.
+
+Perhaps disable it only in the layer that pulls in these pre-2.6.31 kernel 
+headers?
+
+Thanks,
 >
-> that way each builder should create own sstate archive.
+>
+> On Mon, Jul 29, 2013 at 1:18 PM, Laszlo Papp <lpapp@kde.org> wrote:
+>
+> > Only _one_, not two.
+> >
+> >
+> > On Mon, Jul 29, 2013 at 11:35 AM, Phil Blundell <pb@pbcl.net> wrote:
+> >
+> >> On Mon, 2013-07-29 at 11:22 +0100, Laszlo Papp wrote:
+> >> > I disagree. This change should not have gone in the first place
+> >> > causing the regression for the users. Please be consistent with the
+> >> > history.
+> >>
+> >> If this was a recent change then I would have some (limited) amount of
+> >> sympathy for your position.  But the commit you are complaining about
+> >> has been in the tree for over a year, and it was presumably included in
+> >> at least one if not two of the most recent stable releases.
+> >>
+> >> p.
+> >>
+> >>
+> >>
+> >>
+> >
 
-I forgot to give my final feedback on this, it would be impolite to ask=20
-for advise and don't report back on whether it was useful, so here goes:
 
-I've been using that setting for a while now and it does exactly what I=20
-wanted it to do. Every build machine creates its own feed configuration,=20
-while the big buildserver creates about everything else. The shared=20
-state cache is a big time saver for us.
-
-Thanks!
-
-Mike.
+Sent with AquaMail for Android
+http://www.aqua-mail.com
 
 
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
-Telefax: (+31) - (0)499 - 33.69.70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
-end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
-en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
- Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
-jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
- te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
-n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
-nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
- een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
-ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
-C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
-d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
-orende bijlagen.
-
-The contents of this message, as well as any enclosures, are addressed pers=
-onally to, and thus solely intended for the addressee. They may contain inf=
-ormation regarding a third party. A recipient who is neither the addressee,=
- nor empowered to receive this message on behalf of the addressee, is kindl=
-y requested to immediately inform the sender of receipt, and to destroy the=
- message and the enclosures. Any use of the contents of this message and/or=
- the enclosures by any other person than the addressee or person who is emp=
-owered to receive this message, is illegal towards the sender and/or the af=
-orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
-age as a result of the use and/or acceptance of this message and as well as=
- any enclosures.
 
