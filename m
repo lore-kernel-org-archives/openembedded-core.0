@@ -1,44 +1,27 @@
-Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B652060958
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2392F60958
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 06:10:54 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id hr7so936911wib.12
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jul 2013 23:10:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer
-	:x-gm-message-state;
-	bh=KW6Qv0eQo2eSNjgCHJnYiLHE0QTBw7E4WKmiyfTpQjg=;
-	b=l/NT0+TS4vCWhTBSA0K4UBKJgAIt5IsfygDiehJKyAId0EYONKubSRZXlwL7TXFzpr
-	pgZ2NZy9wWzkvgmusp2hwwOs7n1lenmDld8z4xk1qY0HkSvd739QlIciDr/m/DatJvqH
-	M1tgZkmSDPBOAn5roO/YgBgpy9sRQA+kEwgyYV3YjvQ+TrMc46z0T5KV3I1T0dOL8GnW
-	HCfjaNco5zykzkVWm0BAsFBowzGCI85Dv9oQYC2l8px50VEAkKVInmn+nN4cPlEcwuLM
-	n0lAWyCE4myBpOaz3QmUL/vU0537PR+il5k9g6jqAAz8Iiiprpe4ewLV6aL2oCLre4Uj
-	zBaA==
-X-Received: by 10.180.36.238 with SMTP id t14mr6051522wij.29.1375078254581;
-	Sun, 28 Jul 2013 23:10:54 -0700 (PDT)
-Received: from ?IPv6:2001:610:612::fcb0:ae2c:ca5c:8512?
-	([2001:610:612:0:fcb0:ae2c:ca5c:8512])
-	by mx.google.com with ESMTPSA id
-	s19sm20092838wik.11.2013.07.28.23.10.52 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 28 Jul 2013 23:10:53 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Koen Kooi <koen@dominion.thruhere.net>
-In-Reply-To: <CAJTo0LZddy=dtdm_wdqg+GJQmxmt24uhmNe8J6hM6gnK_ikocw@mail.gmail.com>
-Date: Mon, 29 Jul 2013 08:10:56 +0200
-Message-Id: <EF1B5F37-0C9D-4804-BF7C-6C95A25E0091@dominion.thruhere.net>
-References: <cover.1374822498.git.sgw@linux.intel.com>
-	<CAJTo0LZddy=dtdm_wdqg+GJQmxmt24uhmNe8J6hM6gnK_ikocw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.1508)
-X-Gm-Message-State: ALoCoQky4B8ZmvtSk8Xn2YJkEGtdULXMSJ1zipDwthSTmNZ7j1RlbYj8c7OfkHVHGnLtGWuxbeg6
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/78] Review & ACK
+	Mon, 29 Jul 2013 06:39:45 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 28 Jul 2013 23:37:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,767,1367996400"; d="scan'208";a="378136519"
+Received: from unknown (HELO [10.255.14.47]) ([10.255.14.47])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jul 2013 23:39:45 -0700
+Message-ID: <51F60E30.5030200@linux.intel.com>
+Date: Sun, 28 Jul 2013 23:39:44 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: "Iorga, Cristian" <cristian.iorga@intel.com>, 
+	'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+References: <51F15115.3040008@linux.intel.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16C0F03E@IRSMSX105.ger.corp.intel.com>
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16C0F03E@IRSMSX105.ger.corp.intel.com>
+Subject: Re: Thoughts about bluez4 and bluez5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,41 +34,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 06:10:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Jul 2013 06:39:45 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/28/2013 11:34 PM, Iorga, Cristian wrote:
+> Back from the past!!
+>
+> -----Original Message-----
+> From: Iorga, Cristian
+> Sent: Friday, July 26, 2013 8:51 AM
+> To: 'Saul Wold'; 'Patches and discussions about the oe-core layer'; Burton, Ross
+> Subject: RE: Thoughts about bluez4 and bluez5
+>
+> Hi Saul, Ross,
+>
+> I think that for the time being libasound-module-bluez should be libasound-module-bluez5.
+> We will get back to it after 1.5, when all components will be ready for BlueZ 5.
+This can not wait until after 1.5, it's a note and needs to be addressed 
+now. Martin has also reported this issue to you as well.
 
-Op 26 jul. 2013, om 11:35 heeft "Burton, Ross" <ross.burton@intel.com> =
-het volgende geschreven:
+> On the second issue, can you please go into details? I am not following exactly.
 
-> On 26 July 2013 08:14, Saul Wold <sgw@linux.intel.com> wrote:
->> Emilia Ciobanu (12):
->>  babeltrace: fix recipe name
->>  build-appliance-image: fix recipe name add GIT revision to PV =
-variable
->>  chkconfig-alternatives-native: fix recipe name and add GIT revision =
-to
->>    PV variable
->>  connman-gnome: fix recipe name add GIT revision to PV variable
->>  docbook-sgml-dtd-3.1-native: fix recipe name
->>  docbook-sgml-dtd-4.1-native: fix recipe name
->>  hwlatdetect: fix recipe name and add GIT revision to PV variable
->>  lttng-ust: fix recipe name and add GIT revision to PV variable
->>  mtd-utils: fix recipe name and add GIT revision to PV variable
->>  neard: fix recipe name
->>  rt-tests: fix recipe name add GIT revision to PV variable
->>  update-rc.d: fix recipe name and add GIT revision to PV variable
->=20
-> I meant to chime in on this yesterday but was... tied up.  For
-> packages where the SRC_URI is a git repo *but* we're only ever
-> checking out release tags do we really need to rename the package to
-> _git?  The _git version to me implies "a mostly working snapshot of
-> the development release" not "a stable release".
+It's possible for new version of ofono or connman to want to use bluez5, 
+via the PACKAGECONFIG settings, we need to allow that to happen with out 
+having to embed bluez4 vs bluez5 in the recipe, this can be done with a 
+virtual/bluez style of declartion you can see examples of this for 
+virtual/libc and in the meta/conf/distro/include/default-providers.inc file
 
-That matches my expextations as well.
+Sau!
 
-regards,
-
-Koen=
+> Regards,
+> Cristian
+>
+> -----Original Message-----
+> From: Saul Wold [mailto:sgw@linux.intel.com]
+> Sent: Thursday, July 25, 2013 7:24 PM
+> To: 'Patches and discussions about the oe-core layer'; Iorga, Cristian; Burton, Ross
+> Subject: Thoughts about bluez4 and bluez5
+>
+>
+>
+> Cristi, Ross:
+>
+> There is currently a PREFERRED_PROVIDER issue with bluez4 and bluez5 and I am beginning to think we need to distinguish the libasound-module-bluez with libasound-module-bluez5.
+>
+> I am also seeing some areas where we might need a virtual/bluez to allow recipes to enable features in places like connman and ofono
+>
+> Thoughts?
+>
+>
+>
 
