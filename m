@@ -1,40 +1,35 @@
-Return-Path: <djszapi@archlinux.us>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A5D86A4AC
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-wg0-f52.google.com (mail-wg0-f52.google.com [74.125.82.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E9676A4AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 07:22:36 +0000 (UTC)
-Received: by mail-pd0-f179.google.com with SMTP id v10so4933727pde.24
+	Mon, 29 Jul 2013 07:29:19 +0000 (UTC)
+Received: by mail-wg0-f52.google.com with SMTP id b13so4556269wgh.19
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 00:22:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:x-gm-message-state;
-	bh=9+h6St7BtFzOhDT2SJ/48nvcYQgKbOc8PWj7gKtR/+g=;
-	b=Vq8ZO2IL8HFqv79Itt5960wkouHv0HTZFVy2LNb8vqiDvFeOnLIQu+uLLAHoKDMIjX
-	ugs81qMuZy8dUQ4QD7VSXT5cejouJOsccYtV5tFT1K3xNxBwNqV9IxnS2VXB2zP5snOq
-	eUJKVmIny0RGbD9e4LvSKdeSZocIn2rhmtV8OLO3V3kK1mJFU+0aYF/Py0m9qFW+lyaG
-	1Thzid9jbRbaeB9MsVJlxnzKSgRgWpayPvP+b8VHbi4YU4OykUL6aRWx7LTnUkoIlfMd
-	qvKxfPmjNF8fcDyB+rAav4uGod5r0DLhujnSj7U6VMXnUOhl7FNlX24zkbdceo8dRlh0
-	NrfA==
-MIME-Version: 1.0
-X-Received: by 10.66.119.35 with SMTP id kr3mr67793786pab.149.1375082556685;
-	Mon, 29 Jul 2013 00:22:36 -0700 (PDT)
-Sender: djszapi@archlinux.us
-Received: by 10.70.37.237 with HTTP; Mon, 29 Jul 2013 00:22:36 -0700 (PDT)
-In-Reply-To: <CANyK_8eaZJPT+gGCrn4Nfh3qRQehNE442X8pepTr+EcHiWw2HQ@mail.gmail.com>
-References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
-	<CANyK_8eaZJPT+gGCrn4Nfh3qRQehNE442X8pepTr+EcHiWw2HQ@mail.gmail.com>
-Date: Mon, 29 Jul 2013 08:22:36 +0100
-X-Google-Sender-Auth: mlYIB3XPkZMBgM5K1Wxqikj5loM
-Message-ID: <CAOMwXhPgH_v6Q0ok=WOiHYzhUCTvO8zPf72MEYiO5SOS7y6v6A@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Paul Barker <paul@paulbarker.me.uk>
-X-Gm-Message-State: ALoCoQkQKkYGEiSOBcTouaV/I9xClwy5SM0lXXGZrGKhmK3BAjoj036e4XUdpuCPjYMENMfRcNeX
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
+	Mon, 29 Jul 2013 00:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=mSxkDk1bEkduIksDeav5PXh7K9ChTSAwk4U7HfhFEHg=;
+	b=UdzTweVFan6O/Hc0cVFq1zco5Ke7gJOx0WNOj7wurQvCZPRCJfGnAkN+orE1dJ1FZa
+	02byeHTphOZ0cOTkhxp7gOGAMtTflTTcU0LN/D/0rTsId5o55tHJ3nbicdWcp+/aqrtx
+	yzGhK/eKaFiEoOCyshDbnh+5BfhCxC7H9na6f/Ln9EGh58uaDErnPh1N9XTVMjZBdQ48
+	sa3N+7DGgRpaq2G1ToLfUglM77t/2B3XgoFunezduSU/0BLibwe/J7WeJqFlfU4FxY9o
+	79+ZGud8Jh3vE7NXSGLAi25qwbLQEASaYbqphnxLa/OzT1CmWidCkkz2SNEpEEjyj3FL
+	5DMg==
+X-Received: by 10.194.63.46 with SMTP id d14mr43004738wjs.81.1375082958614;
+	Mon, 29 Jul 2013 00:29:18 -0700 (PDT)
+Received: from desktop.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
+	[94.192.12.83])
+	by mx.google.com with ESMTPSA id em1sm13702237wib.3.2013.07.29.00.29.17
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 29 Jul 2013 00:29:17 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Jul 2013 08:28:32 +0100
+Message-Id: <1375082912-22426-1-git-send-email-paul@paulbarker.me.uk>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] opkg: Bump SRCREV as patch has been applied upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,62 +42,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 07:22:36 -0000
-Content-Type: multipart/alternative; boundary=047d7b0721ca54155304e2a15b68
+X-List-Received-Date: Mon, 29 Jul 2013 07:29:19 -0000
 
---047d7b0721ca54155304e2a15b68
-Content-Type: text/plain; charset=ISO-8859-1
+The previous patch to fix the installation of libopkg headers has been accepted
+upstream and is the next commit after the SRCREV used by the opkg recipe.
+Therefore the patch can be replaced by a simple update of the SRCREV.
 
-Let us fix the build issue first, and then you can improve the situation as
-you wish.
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+---
+ .../0001-Fix-libopkg-header-installation.patch     | 32 ----------------------
+ meta/recipes-devtools/opkg/opkg_svn.bb             |  3 +-
+ 2 files changed, 1 insertion(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch
+
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch b/meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch
+deleted file mode 100644
+index 784c412..0000000
+--- a/meta/recipes-devtools/opkg/opkg/0001-Fix-libopkg-header-installation.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From 79a40cc4c3b5d6f8a90d9dc0ac5d2c40983764f7 Mon Sep 17 00:00:00 2001
+-From: Paul Barker <paul@paulbarker.me.uk>
+-Date: Sun, 16 Jun 2013 23:27:27 +0100
+-Subject: [PATCH] Fix libopkg header installation.
+-
+-When opkg is built outside the source directory, libopkg headers aren't all
+-installed as the search path for headers only includes the directory that make
+-is being ran in, not the source directory. So we fix this by adding
+-$(srcdir)/*.h to the list of header files to install.
+-
+-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+-Upstream-Status: Submitted
+----
+- libopkg/Makefile.am | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/libopkg/Makefile.am b/libopkg/Makefile.am
+-index 043c5c4..b6f4f7b 100644
+---- a/libopkg/Makefile.am
+-+++ b/libopkg/Makefile.am
+-@@ -2,7 +2,7 @@
+- AM_CFLAGS=-Wall -DHOST_CPU_STR=\"@host_cpu@\" -DBUILD_CPU=@build_cpu@ -DLIBDIR=\"@libdir@\" -DOPKGLIBDIR=\"@opkglibdir@\" -DOPKGETCDIR=\"@opkgetcdir@\" -DOPKGLOCKFILE=\"@opkglockfile@\" -DDATADIR=\"@datadir@\" -I$(top_srcdir) $(BIGENDIAN_CFLAGS) $(CURL_CFLAGS) $(GPGME_CFLAGS) $(PATHFINDER_CFLAGS)
+- 
+- libopkg_includedir=$(includedir)/libopkg
+--libopkg_include_HEADERS= *.h
+-+libopkg_include_HEADERS= *.h $(srcdir)/*.h
+- 
+- 
+- opkg_libcore_sources = \
+--- 
+-1.8.3
+-
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 9f3512d..3a47b95 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -2,12 +2,11 @@ require opkg.inc
+ 
+ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+            file://obsolete_automake_macros.patch \
+-	   file://0001-Fix-libopkg-header-installation.patch \
+ "
+ 
+ S = "${WORKDIR}/trunk"
+ 
+-SRCREV = "649"
++SRCREV = "650"
+ PV = "0.1.8+svnr${SRCPV}"
+ 
+ PR = "${INC_PR}.0"
+-- 
+1.8.3.4
 
 
-On Mon, Jul 29, 2013 at 8:20 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
-
-> On 29 July 2013 08:16, Laszlo Papp <lpapp@kde.org> wrote:
-> > -       busybox_cfg('wifi', distro_features, 'CONFIG_RFKILL', cnf, rem)
-> > -       busybox_cfg('bluetooth', distro_features, 'CONFIG_RFKILL', cnf,
-> rem)
->
-> It would be good to have some way to re-enable this if it is needed.
-> Maybe an 'rfkill' PACKAGECONFIG option?
->
-> --
-> Paul Barker
->
-> Email: paul@paulbarker.me.uk
-> http://www.paulbarker.me.uk
->
-
---047d7b0721ca54155304e2a15b68
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Let us fix the build issue first, and then you can improve=
- the situation as you wish.</div><div class=3D"gmail_extra"><br><br><div cl=
-ass=3D"gmail_quote">On Mon, Jul 29, 2013 at 8:20 AM, Paul Barker <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:paul@paulbarker.me.uk" target=3D"_blank">pau=
-l@paulbarker.me.uk</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On 29 July 2013 08:16, Las=
-zlo Papp &lt;<a href=3D"mailto:lpapp@kde.org">lpapp@kde.org</a>&gt; wrote:<=
-br>
-&gt; - =A0 =A0 =A0 busybox_cfg(&#39;wifi&#39;, distro_features, &#39;CONFIG=
-_RFKILL&#39;, cnf, rem)<br>
-&gt; - =A0 =A0 =A0 busybox_cfg(&#39;bluetooth&#39;, distro_features, &#39;C=
-ONFIG_RFKILL&#39;, cnf, rem)<br>
-<br>
-</div>It would be good to have some way to re-enable this if it is needed.<=
-br>
-Maybe an &#39;rfkill&#39; PACKAGECONFIG option?<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Paul Barker<br>
-<br>
-Email: <a href=3D"mailto:paul@paulbarker.me.uk">paul@paulbarker.me.uk</a><b=
-r>
-<a href=3D"http://www.paulbarker.me.uk" target=3D"_blank">http://www.paulba=
-rker.me.uk</a><br>
-</font></span></blockquote></div><br></div>
-
---047d7b0721ca54155304e2a15b68--
