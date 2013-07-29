@@ -1,27 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D0C7F6AFB6
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id F3E0A6AFB6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 16:20:19 +0000 (UTC)
+	Mon, 29 Jul 2013 16:32:22 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 29 Jul 2013 09:17:38 -0700
+	by azsmga102.ch.intel.com with ESMTP; 29 Jul 2013 09:32:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,771,1367996400"; d="scan'208";a="372968201"
-Received: from unknown (HELO [10.255.14.47]) ([10.255.14.47])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2013 09:20:12 -0700
-Message-ID: <51F6963C.1010009@linux.intel.com>
-Date: Mon, 29 Jul 2013 09:20:12 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+X-IronPort-AV: E=Sophos;i="4.89,771,1367996400"; d="scan'208";a="372973962"
+Received: from unknown (HELO helios.localnet) ([10.252.122.206])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2013 09:32:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jul 2013 17:32:07 +0100
+Message-ID: <1931416.qSpeW4C5Z6@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <cover.1375112939.git.sgw@linux.intel.com>
+References: <cover.1375112939.git.sgw@linux.intel.com>
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1375110365.git.sgw@linux.intel.com>
-	<6339709.CFmXEXRQnE@helios> <1375114624.5851.5.camel@ted>
-In-Reply-To: <1375114624.5851.5.camel@ted>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL (Part 2) (resend) 00/26] Branch Updated with Correct Set
+Subject: Re: [CONSOLIDATED PULL (Part 2) (resend) 00/14] Fixed again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 16:20:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jul 2013 16:32:23 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 07/29/2013 09:17 AM, Richard Purdie wrote:
-> On Mon, 2013-07-29 at 16:49 +0100, Paul Eggleton wrote:
->> On Monday 29 July 2013 08:07:51 Saul Wold wrote:
->>> Branch is updated, sorry not sure what happened with the
->>> obex and texinfo, I thought I had removed them since they did not
->>> show up in the summary below (in the first email).
->>>
->>> Already basicly ACK'ed by Ross and Paul
->>>
->>> Thanks
->>> Sau!
->>>
->>> The following changes since commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1:
->>>
->>>    external-sourcery: add missing providers (2013-07-27 23:28:29 -0700)
->>>
->>> are available in the git repository at:
->>>
->>>    git://git.openembedded.org/openembedded-core-contrib sgw/stage2
->>>
->>> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
->>> stage2
->>>
->>> Andrei Dinu (1):
->>>    libpng : upgrade to 1.6.3
->>>
->>> Emilia Ciobanu (14):
->>>    babeltrace: fix recipe name
->>>    build-appliance-image: fix recipe name add GIT revision to PV variable
->>>    chkconfig-alternatives-native: fix recipe name and add GIT revision to
->>>      PV variable
->>>    connman-gnome: fix recipe name add GIT revision to PV variable
->>>    docbook-sgml-dtd-3.1-native: fix recipe name
->>>    docbook-sgml-dtd-4.1-native: fix recipe name
->>>    hwlatdetect: fix recipe name and add GIT revision to PV variable
->>>    lttng-ust: fix recipe name and add GIT revision to PV variable
->>>    mtd-utils: fix recipe name and add GIT revision to PV variable
->>>    neard: fix recipe name
->>>    rt-tests: fix recipe name add GIT revision to PV variable
->>>    update-rc.d: fix recipe name and add GIT revision to PV variable
->>
->> Some of these patches were meant to be dropped... so no ack from me.
->
-> This really isn't filling me with confidence...
->
+On Monday 29 July 2013 08:51:01 Saul Wold wrote:
+> Clearly having a bad morning!
+> 
+> This one drops the Recipe Re-names from Ema, should not have been
+> there.
+> 
+> Sau!
+> 
+> The following changes since commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1:
+> 
+>   external-sourcery: add missing providers (2013-07-27 23:28:29 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage2
+>  
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
+> stage2
+> 
+> Andrei Dinu (1):
+>   libpng : upgrade to 1.6.3
+> 
+> Emilia Ciobanu (2):
+>   distrodata.bbclass: Remove whitespaces
+>   distrodata.bbclass: Include PRSPV variable in upstream version
+>     checking
+> 
+> Hongxu Jia (3):
+>   util-linux: use u-a for su
+>   shadow: use u-a for su
+>   move /bin/su to /usr/bin/su to match util-linux and shadow
 
-Sorry, I rushed this morning, the v2 and sgw/stage2 is correct now, and 
-should only have 14 patches.
+Missing busybox: prefix on the latter
+ 
+> Jukka Rissanen (1):
+>   ofono: Move bluetooth enablement from .bb to .inc
+> 
+> Laurentiu Palcu (1):
+>   csl-versions.inc: instruct user to check local.conf
+> 
+> Ming Liu (3):
+>   libpam: deny all services for the OTHER entries
 
-Sau!
+I'm not a pam expert, so I'm just assuming this is the right thing to be 
+doing. It seems like it might be if you want the system to be secure by 
+default, but from what I can tell it also means that every service using pam 
+for authentication must explicitly provide a configuration file.
 
-> Cheers,
->
-> Richard
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+>   util-linux: fix a regression
+>   util-linux: replace += with _append to EXTRA_OECONF_class-native
+> 
+> Paul Eggleton (1):
+>   classes/sanity: check for suid root command evility
+> 
+> Peter Seebach (1):
+>   pseudo: Always try to build 32-bit libpseudo when NO32LIBS is set to 0
+> 
+> Saul Wold (1):
+>   bluez5: Add obex as a PACKAGECONFIG and package seperately
+
+Otherwise:
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
