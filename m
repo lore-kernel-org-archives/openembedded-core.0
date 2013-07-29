@@ -1,37 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
-	[209.85.128.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 88C516B436
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id E21726B1EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 15:59:50 +0000 (UTC)
-Received: by mail-ve0-f170.google.com with SMTP id 15so438090vea.15
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 08:59:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=5UNwzlRJjUZ/GoYGxhNubt8ymfkOSpU8r8xqrFyJeeM=;
-	b=kDxgmHtb8RtvvMuK4zjF5YcLZ1ohnQ2spW+Ui+VVGwRuQk/a729hHv5S6OHJ1DwZpf
-	BRgTmyf7dIJWbqHhO5BZqSvtcF9DwqFOg1qeNp0EObeS7BQOKAxbgAHc78mLAbdTmgbC
-	fq/DV7pQqwrOhDFQvokRTmAB6uCxQKKUmo7dpR/fi2/yMl0o8mSYXQ1jl81MWepIhSNf
-	YFsTpP9B0g5qGLgdjKhtXmfPK5VY249Sbx/eNSPVDeCfp5zCPK4XIH83gM2hYn1O244Z
-	hiywTNXHIAbOCbn31ZqqBIHo45HjJnTu9wO0bELqaabcHdH3U4ZfwxJHeiW4iSH/9l/p
-	BtoQ==
-X-Received: by 10.52.103.84 with SMTP id fu20mr17336893vdb.51.1375113590939;
-	Mon, 29 Jul 2013 08:59:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 29 Jul 2013 08:59:30 -0700 (PDT)
-In-Reply-To: <6e09df864b4a870ac23c7e443dfee302962b811b.1375065009.git.Qi.Chen@windriver.com>
-References: <cover.1375065009.git.Qi.Chen@windriver.com>
-	<6e09df864b4a870ac23c7e443dfee302962b811b.1375065009.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jul 2013 16:59:30 +0100
-Message-ID: <CAJTo0LZNX0DXiZVu6cL+7dEbD77g1c6KPj7XXT59VV6Tm4sX4g@mail.gmail.com>
-To: Qi.Chen@windriver.com
-X-Gm-Message-State: ALoCoQlk1tiyFzT827AoUjAALl6sUpmOzJDb5yfQVAKiSGElqHZ5DusQj74bEDf6kAHVlxvZE3e9
-Cc: Zhangle.Yang@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 10/10] openssh: make /etc/ssh directory writable in read-only rootfs
+	Mon, 29 Jul 2013 16:17:22 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6TGQxJb017283; Mon, 29 Jul 2013 17:26:59 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id qmH5F_eh2MsD; Mon, 29 Jul 2013 17:26:59 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6TGQseA017275
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 29 Jul 2013 17:26:55 +0100
+Message-ID: <1375114624.5851.5.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Mon, 29 Jul 2013 17:17:04 +0100
+In-Reply-To: <6339709.CFmXEXRQnE@helios>
+References: <cover.1375110365.git.sgw@linux.intel.com>
+	<6339709.CFmXEXRQnE@helios>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL (Part 2) (resend) 00/26] Branch Updated with Correct Set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +38,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 15:59:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Jul 2013 16:17:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 29 July 2013 03:33,  <Qi.Chen@windriver.com> wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> If the rootfs is read-only and the ssh keys are not available at system
-> start-up, the init script will generate ssh keys into /etc/ssh, thus
-> causing a 'read-only file system' error.
->
-> Make this directory writable in case of a read-only rootfs.
-> Note that if the ssh keys are pregenerated, they will not be lost,
-> as there's a copying process before bind mounting.
+On Mon, 2013-07-29 at 16:49 +0100, Paul Eggleton wrote:
+> On Monday 29 July 2013 08:07:51 Saul Wold wrote:
+> > Branch is updated, sorry not sure what happened with the
+> > obex and texinfo, I thought I had removed them since they did not
+> > show up in the summary below (in the first email).
+> > 
+> > Already basicly ACK'ed by Ross and Paul
+> > 
+> > Thanks
+> > Sau!
+> > 
+> > The following changes since commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1:
+> > 
+> >   external-sourcery: add missing providers (2013-07-27 23:28:29 -0700)
+> > 
+> > are available in the git repository at:
+> > 
+> >   git://git.openembedded.org/openembedded-core-contrib sgw/stage2
+> >  
+> > http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
+> > stage2
+> > 
+> > Andrei Dinu (1):
+> >   libpng : upgrade to 1.6.3
+> > 
+> > Emilia Ciobanu (14):
+> >   babeltrace: fix recipe name
+> >   build-appliance-image: fix recipe name add GIT revision to PV variable
+> >   chkconfig-alternatives-native: fix recipe name and add GIT revision to
+> >     PV variable
+> >   connman-gnome: fix recipe name add GIT revision to PV variable
+> >   docbook-sgml-dtd-3.1-native: fix recipe name
+> >   docbook-sgml-dtd-4.1-native: fix recipe name
+> >   hwlatdetect: fix recipe name and add GIT revision to PV variable
+> >   lttng-ust: fix recipe name and add GIT revision to PV variable
+> >   mtd-utils: fix recipe name and add GIT revision to PV variable
+> >   neard: fix recipe name
+> >   rt-tests: fix recipe name add GIT revision to PV variable
+> >   update-rc.d: fix recipe name and add GIT revision to PV variable
+> 
+> Some of these patches were meant to be dropped... so no ack from me.
 
-I'm not very keen on the idea of every oe-core system having a tmpfs
-on /etc/openssh just for read-only-root configurations where there
-isn't a pre-generated key.
+This really isn't filling me with confidence...
 
-At least one better option would be to handle the read-only / with no
-pre-generated keys situation in the init script, and write keys to
-/run.
+Cheers,
 
-Ross
+Richard
+
 
