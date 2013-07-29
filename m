@@ -1,30 +1,30 @@
 Return-Path: <djszapi@archlinux.us>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B0AF6A3ED
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id EAFD560629
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 10:48:29 +0000 (UTC)
-Received: by mail-pa0-f46.google.com with SMTP id fa1so5739927pad.33
+	Mon, 29 Jul 2013 10:50:58 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id kl13so5650542pab.20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 03:48:30 -0700 (PDT)
+	Mon, 29 Jul 2013 03:50:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
 	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
 	:x-gm-message-state;
-	bh=m82GrtJjWYLBxfwwhzwdi3Z4faG78GCvqilU7gP1L1Q=;
-	b=LuiotUSkRlkOdYHM1p3EpM2P7t8vkEQO70ME7KmWhPcbbh2R7s3FyOLInQcZicoj2A
-	tiGAHzNBB+oDfqItzRVYhS3m51qohUSmYer1QFg+3oQ+XQOkpJiiSHJI5Q0sZkCBso3k
-	hXMH8FtXXMX2LMPY0D5smR0jCNx4XFAW6Qi60/7pbewPs6NOiLhZcwcJ/cfm4C8eQCjZ
-	VkBR0kejS79LXir/FXfphVB7QEuENzXSClOryOoXAOCBU4coFs3bClD+fKI/xCOWWwwG
-	v2f+GKdxfpCLMhuqwQS6BJ9xT/23Fs/64hbnq91Mobo0FrpSBGhvseZTZVBXuebLrIHx
-	sHWA==
+	bh=qbOM2Qa06+17kKLLbqJTn09FbqLzpkdTyVC+Kl1x6kw=;
+	b=Tgzr74oERGsRZSWqeQADV/aGEJ99D+UdSzF/rN6JusDYj0ZYOGL5GCVFSt8v2zOpKm
+	6nIkM96lRAImnxAYk1Gvyze/PpV+EaDL59PQ0E+Cvn2/MhZPE9cihWKQhAj9CdCLG1+7
+	D2l1Npb0R9PNqcOruXPrzGwA8jnyr1hOR8nQTzpEWsJb6Yq2PfvQpg2V/hkQ9t/qBdBZ
+	c5FnUjhgZc8bJwq1oZYAZRgT3KR6fj2VtTi96WT6AuWzjB6R2/G5dcwFmOvbLZ4T9VoQ
+	cj3UjRpC4MyWTQU12N4O5dazqGPW2OHMPAmTvkVhIs+M75W/B1Re+prRNOgXeDji9g3i
+	ggNw==
 MIME-Version: 1.0
-X-Received: by 10.68.2.165 with SMTP id 5mr2583640pbv.105.1375094910596; Mon,
-	29 Jul 2013 03:48:30 -0700 (PDT)
+X-Received: by 10.66.155.102 with SMTP id vv6mr32817838pab.89.1375095059848;
+	Mon, 29 Jul 2013 03:50:59 -0700 (PDT)
 Sender: djszapi@archlinux.us
-Received: by 10.70.37.237 with HTTP; Mon, 29 Jul 2013 03:48:30 -0700 (PDT)
-In-Reply-To: <CANyK_8fu6VhVmKeTjD8DLt5DYnf-DfNG2PGzZSM83KougpOyBA@mail.gmail.com>
+Received: by 10.70.37.237 with HTTP; Mon, 29 Jul 2013 03:50:59 -0700 (PDT)
+In-Reply-To: <CAJTo0LaG_CZcqXOrRe_fLq-HpQOGfqWeLFq7F8Cs8FTbsEnRPg@mail.gmail.com>
 References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
 	<1375092018.6324.176.camel@phil-desktop.brightsign>
 	<CAOMwXhNqXneU6UzeHZJJVM++RmNmmdvNMp3mbNV=YpFVE6tOdw@mail.gmail.com>
@@ -33,13 +33,13 @@ References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
 	<CAOMwXhN556gDMxEGGSaFwYMJ7EU=Pvn+4mZcy0Q4eLyn7ShjqA@mail.gmail.com>
 	<1375094306.13247.11.camel@phil-desktop.brightsign>
 	<CAOMwXhNsgLaOtmCouNmB3d7wuACAt7iSLfO5zMq-ph0FBi8w0A@mail.gmail.com>
-	<CANyK_8fu6VhVmKeTjD8DLt5DYnf-DfNG2PGzZSM83KougpOyBA@mail.gmail.com>
-Date: Mon, 29 Jul 2013 11:48:30 +0100
-X-Google-Sender-Auth: MsuK0ALhe8PzvItVHaBA0wqr-4A
-Message-ID: <CAOMwXhMKu6JikR5TRCEDorq2uZZ4kK=uiJ2LWkYsgg0kJh0S3A@mail.gmail.com>
+	<CAJTo0LaG_CZcqXOrRe_fLq-HpQOGfqWeLFq7F8Cs8FTbsEnRPg@mail.gmail.com>
+Date: Mon, 29 Jul 2013 11:50:59 +0100
+X-Google-Sender-Auth: ou6lrZLAIRXZIftyuQKy8gQq56I
+Message-ID: <CAOMwXhPzD5wVKB_dB=ucF32Qq5p-rzuUpLHOFJXA-pe7xg1EDw@mail.gmail.com>
 From: Laszlo Papp <lpapp@kde.org>
-To: Paul Barker <paul@paulbarker.me.uk>
-X-Gm-Message-State: ALoCoQl1YXdDp8Niisypevdcd4jdJORa59Nwxe6g3smnTyDnrqoZ4d2NtyI8Vj2wXp0Ty0I86akN
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Gm-Message-State: ALoCoQlPG6CyU7HTP+6l/0URXJ5KWpbMpn0PEEU4yy9z8bwTUSZEXrFz8WVYBHcr2i12ybFpZUwn
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,79 +54,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 10:48:31 -0000
-Content-Type: multipart/alternative; boundary=bcaec5215afbadbcbd04e2a43b0d
+X-List-Received-Date: Mon, 29 Jul 2013 10:50:59 -0000
+Content-Type: multipart/alternative; boundary=047d7b86e3a893332004e2a44474
 
---bcaec5215afbadbcbd04e2a43b0d
+--047d7b86e3a893332004e2a44474
 Content-Type: text/plain; charset=ISO-8859-1
 
-Have you ever heard about project budgets and that updating a toolchain
-requires a lot of testing, and hence time, money, man power?
+Why it does not make sense in my opinion is the fact that the many people
+would already need to do this right now. Yet, you prefer a few people (if
+any?) with only a very limited application set out of the 1000+, as it is
+only two which is affected?
+
+I do not understand how the gun can be compared to the cannon. It is
+unfortunate you guys introduced regressions for those users, but I just do
+not have time to make everyone happy. I am not paid for this as a few in
+here. However, I still think making more users happy than less is a nice
+thing.
 
 
-On Mon, Jul 29, 2013 at 11:46 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+On Mon, Jul 29, 2013 at 11:46 AM, Burton, Ross <ross.burton@intel.com>wrote:
 
 > On 29 July 2013 11:42, Laszlo Papp <lpapp@kde.org> wrote:
-> > Not to mention, you would cause a "runtime" issue which is pretty simple
-> to
-> > fix for a very minor portion compared to a *large* user base using older
-> > toolchains. There is a huge difference between a few people cannot use
-> > rfkill for those applications (2, ridiculous), and that a slightly old
-> > toolchain cannot even build the *whole* project.
-> >
+> > you would cause a "runtime" issue which is pretty simple to fix
 >
-> Is there any reason that you need to use such an old toolchain? We
-> can't expect everything we have to compile with every toolchain
-> release since the start of the GNU project so we need to draw the line
-> somewhere. I think the feeling is that we'd draw the line somewhere
-> after the toolchain you're using (from 2009 IIRC).
+> Enabling rfkill would involve writing a bbappend and patching busybox,
+> when a PACKAGECONFIG would make everyone happy and configurable from
+> the distro.  Even if we disagree on what the default value should be,
+> it should be a PACKAGECONFIG.
 >
-> --
-> Paul Barker
->
-> Email: paul@paulbarker.me.uk
-> http://www.paulbarker.me.uk
+> Ross
 >
 
---bcaec5215afbadbcbd04e2a43b0d
+--047d7b86e3a893332004e2a44474
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Have you ever heard about project budgets and that updatin=
-g a toolchain requires a lot of testing, and hence time, money, man power?<=
-/div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, =
-Jul 29, 2013 at 11:46 AM, Paul Barker <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:paul@paulbarker.me.uk" target=3D"_blank">paul@paulbarker.me.uk</a>&gt;</=
-span> wrote:<br>
+<div dir=3D"ltr">Why it does not make sense in my opinion is the fact that =
+the many people would already need to do this right now. Yet, you prefer a =
+few people (if any?) with only a very limited application set out of the 10=
+00+, as it is only two which is affected?<div>
+<br></div><div>I do not understand how the gun can be compared to the canno=
+n. It is unfortunate you guys introduced regressions for those users, but I=
+ just do not have time to make everyone happy. I am not paid for this as a =
+few in here. However, I still think making more users happy than less is a =
+nice thing.</div>
+</div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon,=
+ Jul 29, 2013 at 11:46 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;=
+</span> wrote:<br>
 <blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
 x #ccc solid;padding-left:1ex"><div class=3D"im">On 29 July 2013 11:42, Las=
 zlo Papp &lt;<a href=3D"mailto:lpapp@kde.org">lpapp@kde.org</a>&gt; wrote:<=
 br>
-</div><div class=3D"im">&gt; Not to mention, you would cause a &quot;runtim=
-e&quot; issue which is pretty simple to<br>
-&gt; fix for a very minor portion compared to a *large* user base using old=
-er<br>
-&gt; toolchains. There is a huge difference between a few people cannot use=
+&gt; you would cause a &quot;runtime&quot; issue which is pretty simple to =
+fix<br>
 <br>
-&gt; rfkill for those applications (2, ridiculous), and that a slightly old=
-<br>
-&gt; toolchain cannot even build the *whole* project.<br>
-&gt;<br>
-<br>
-</div>Is there any reason that you need to use such an old toolchain? We<br=
->
-can&#39;t expect everything we have to compile with every toolchain<br>
-release since the start of the GNU project so we need to draw the line<br>
-somewhere. I think the feeling is that we&#39;d draw the line somewhere<br>
-after the toolchain you&#39;re using (from 2009 IIRC).<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
---<br>
-Paul Barker<br>
-<br>
-Email: <a href=3D"mailto:paul@paulbarker.me.uk">paul@paulbarker.me.uk</a><b=
-r>
-<a href=3D"http://www.paulbarker.me.uk" target=3D"_blank">http://www.paulba=
-rker.me.uk</a><br>
-</div></div></blockquote></div><br></div>
+</div>Enabling rfkill would involve writing a bbappend and patching busybox=
+,<br>
+when a PACKAGECONFIG would make everyone happy and configurable from<br>
+the distro. =A0Even if we disagree on what the default value should be,<br>
+it should be a PACKAGECONFIG.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Ross<br>
+</font></span></blockquote></div><br></div>
 
---bcaec5215afbadbcbd04e2a43b0d--
+--047d7b86e3a893332004e2a44474--
