@@ -1,27 +1,39 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E6DEC6A4AC
+Return-Path: <djszapi@archlinux.us>
+Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F0F660958
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 06:51:19 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jul 2013 23:51:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,767,1367996400"; d="scan'208";a="378140440"
-Received: from sorvi.fi.intel.com (HELO [10.237.72.152]) ([10.237.72.152])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jul 2013 23:51:19 -0700
-Message-ID: <51F610E7.9090905@linux.intel.com>
-Date: Mon, 29 Jul 2013 09:51:19 +0300
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<1374842117-24504-4-git-send-email-jukka.rissanen@linux.intel.com>
-	<51F2C589.7080706@linux.intel.com>
-In-Reply-To: <51F2C589.7080706@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] ofono: Enable test scripts by default
+	Mon, 29 Jul 2013 07:16:13 +0000 (UTC)
+Received: by mail-wg0-f42.google.com with SMTP id j13so2458204wgh.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jul 2013 00:16:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer
+	:x-gm-message-state;
+	bh=XJk4fX3N7BeI+ILIZ29r/EpAw8G7IpWeUTK/F9A/Uho=;
+	b=DoJRIdflE2zb+YGqBAuZ9PS9XIrGRRycAdVcJ2UP2opazaZd/OwCjYvw3xw62Zj2wm
+	4aT33TXOF1PQcJi5Lj5bcN2zNqnNXNhKVelsRcihGtikqNBEboy/rEfCrRZGMxGaCueJ
+	Rfptt52N5j35rczWFh5nZJKoD6AXahr9KmTjZmFscmqZ8TkqiKNjuAVkdLDqrL01VXYt
+	36tS89UC1rmMOqpISQN9LGPVqpBzZWv8ZaZz9Jx2POabl8Fhtw/98+e/qYw+c9Ofnd8P
+	cY8mio4UUq/6UV1SciQrLIS26efHi+0wHsb8f/Y1Uaq0xO8d4/M/TrwXKFHF4w/NnPa5
+	kJxQ==
+X-Received: by 10.180.149.134 with SMTP id ua6mr4525136wib.51.1375082173439;
+	Mon, 29 Jul 2013 00:16:13 -0700 (PDT)
+Received: from archlinux.us (cpc11-cmbg15-2-0-cust30.5-4.cable.virginmedia.com.
+	[86.30.245.31]) by mx.google.com with ESMTPSA id
+	dt17sm14799194wic.1.2013.07.29.00.16.10 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 29 Jul 2013 00:16:12 -0700 (PDT)
+Sender: Laszlo Papp <djszapi@archlinux.us>
+Received: by archlinux.us (sSMTP sendmail emulation);
+	Mon, 29 Jul 2013 08:16:25 +0100
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jul 2013 08:16:24 +0100
+Message-Id: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+X-Mailer: git-send-email 1.8.3.4
+X-Gm-Message-State: ALoCoQnOPVpcc3uDrfOrYysc31H856JjkMnbE3iuPfgGV0Jz+RHBJIhyNzbuTOOmT8TjHMGbFhzz
+Subject: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,62 +46,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 06:51:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jul 2013 07:16:13 -0000
 
-Hi Saul,
+This is necessary to get the build going, for instance with older Code Sourcery
+compilers.
 
-On 26.07.2013 21:52, Saul Wold wrote:
-> On 07/26/2013 05:35 AM, Jukka Rissanen wrote:
->> oFono test scripts are very useful so enable those by default.
->>
->> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
->> ---
->>   meta/recipes-connectivity/ofono/ofono.inc     | 3 ++-
->>   meta/recipes-connectivity/ofono/ofono_1.12.bb | 3 ---
->>   2 files changed, 2 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/ofono/ofono.inc
->> b/meta/recipes-connectivity/ofono/ofono.inc
->> index d825496..c5bd4d0 100644
->> --- a/meta/recipes-connectivity/ofono/ofono.inc
->> +++ b/meta/recipes-connectivity/ofono/ofono.inc
->> @@ -15,6 +15,7 @@ INITSCRIPT_PARAMS = "defaults 22"
->>   EXTRA_OECONF += "\
->>       ${@base_contains('DISTRO_FEATURES', 'systemd',
->> '--with-systemdunitdir=${systemd_unitdir}/system/',
->> '--with-systemdunitdir=', d)} \
->>       ${@base_contains('DISTRO_FEATURES',
->> 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
->> +    --enable-test \
->>   "
->>   SYSTEMD_SERVICE_${PN} = "ofono.service"
->>
->> @@ -30,5 +31,5 @@ PACKAGES =+ "${PN}-tests"
->>   RDEPENDS_${PN} += "dbus"
->>
->>   FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
->> -FILES_${PN}-tests = "${libdir}/ofono"
->> +FILES_${PN}-tests = "${libdir}/${BPN}/test"
-> I think you should be using the ptest here instead of test and inherit
-> ptest, please see the ptest.bbclass.
->
-> I realize that this is not new code, but if we are going to changes this
-> we should use the new ptest mechanism.
->
-> Sau!
->
+It is also disabled in upstream due to this very reason. The details can be
+found on the following links:
 
-If I am reading https://wiki.yoctoproject.org/wiki/Ptest correctly, the 
-ptest if for running the package test suite. Unfortunately the 
-ofono-tests package is not for that purpose, it is just a bunch of 
-useful python scripts for setting up cellular modem, context and 
-monitoring ofono signals etc.
-Similar scripts are also found in connman and neard packages.
+http://comments.gmane.org/gmane.linux.busybox/30999
+http://git.busybox.net/busybox/commit/?h=1_21_stable&id=1cd769a154b04f4b058beed482a5dd7192437cdc
 
+[YOCTO #4932]
 
-Cheers,
-Jukka
+Signed-off-by: Laszlo Papp <lpapp@kde.org>
+---
+ meta/recipes-core/busybox/busybox-1.21.1/defconfig | 2 +-
+ meta/recipes-core/busybox/busybox.inc              | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/busybox/busybox-1.21.1/defconfig b/meta/recipes-core/busybox/busybox-1.21.1/defconfig
+index bdfdadf..e77a817 100644
+--- a/meta/recipes-core/busybox/busybox-1.21.1/defconfig
++++ b/meta/recipes-core/busybox/busybox-1.21.1/defconfig
+@@ -705,7 +705,7 @@ CONFIG_MICROCOM=y
+ # CONFIG_MT is not set
+ # CONFIG_RAIDAUTORUN is not set
+ # CONFIG_READAHEAD is not set
+-CONFIG_RFKILL=y
++# CONFIG_RFKILL is not set
+ # CONFIG_RUNLEVEL is not set
+ # CONFIG_RX is not set
+ # CONFIG_SETSID is not set
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index acd2bfb..0e84f4c 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -66,8 +66,6 @@ def features_to_busybox_settings(d):
+ 	busybox_cfg('nls',  distro_features, 'CONFIG_LOCALE_SUPPORT', cnf, rem)
+ 	busybox_cfg('ipv4', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
+ 	busybox_cfg('ipv6', distro_features, 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
+-	busybox_cfg('wifi', distro_features, 'CONFIG_RFKILL', cnf, rem)
+-	busybox_cfg('bluetooth', distro_features, 'CONFIG_RFKILL', cnf, rem)
+ 	return "\n".join(cnf), "\n".join(rem)
+ 
+ # X, Y = ${@features_to_uclibc_settings(d)}
+-- 
+1.8.3.4
 
 
