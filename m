@@ -1,20 +1,22 @@
 Return-Path: <emilia.maria.silvia.ciobanu@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DBDA60958
+	by mail.openembedded.org (Postfix) with ESMTP id DC3EB60958
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 10:12:38 +0000 (UTC)
+	Mon, 29 Jul 2013 10:14:16 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 29 Jul 2013 03:10:00 -0700
+	by orsmga102.jf.intel.com with ESMTP; 29 Jul 2013 03:11:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,768,1367996400"; d="scan'208";a="372816670"
+X-IronPort-AV: E=Sophos;i="4.89,768,1367996400"; d="scan'208";a="372817207"
 Received: from ema-vostro-460.rb.intel.com ([10.237.105.147])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2013 03:12:37 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2013 03:14:16 -0700
 From: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2013 13:20:33 +0300
-Message-Id: <cover.1375092836.git.emilia.maria.silvia.ciobanu@intel.com>
+Date: Mon, 29 Jul 2013 13:22:11 +0300
+Message-Id: <c0a3bc4708c78db46250e769fdadf13ffb57c145.1375092836.git.emilia.maria.silvia.ciobanu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/2] Fix recipes' name
+In-Reply-To: <cover.1375092836.git.emilia.maria.silvia.ciobanu@intel.com>
+References: <cover.1375092836.git.emilia.maria.silvia.ciobanu@intel.com>
+Subject: [PATCH 1/2] docbook-sgml-dtd-3.1-native: fix recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,30 +29,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 10:12:38 -0000
+X-List-Received-Date: Mon, 29 Jul 2013 10:14:16 -0000
 
-The recipes have the local version of the packages appended to the
-recipe name.
+Package recipe should contain version token in its name.
 
-The following changes since commit 67864ca79da08df752487a3a4e1a975546da123d:
-
-  systemd: Remove systemd_unitdir if systemd is not in distro features (2013-07-24 11:35:39 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib emac/docbook-sgml-dtd-name-fix
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=emac/docbook-sgml-dtd-name-fix
-
-Emilia Ciobanu (2):
-  docbook-sgml-dtd-3.1-native: fix recipe name
-  docbook-sgml-dtd-4.1-native: fix recipe name
-
+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
+---
  ...ative.bb => docbook-sgml-dtd-3.1-native_3.1.bb} |    0
- ...ative.bb => docbook-sgml-dtd-4.1-native_4.1.bb} |    0
- 2 files changed, 0 insertions(+), 0 deletions(-)
+ 1 file changed, 0 insertions(+), 0 deletions(-)
  rename meta/recipes-devtools/docbook-sgml-dtd/{docbook-sgml-dtd-3.1-native.bb => docbook-sgml-dtd-3.1-native_3.1.bb} (100%)
- rename meta/recipes-devtools/docbook-sgml-dtd/{docbook-sgml-dtd-4.1-native.bb => docbook-sgml-dtd-4.1-native_4.1.bb} (100%)
 
+diff --git a/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native.bb b/meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native_3.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native.bb
+rename to meta/recipes-devtools/docbook-sgml-dtd/docbook-sgml-dtd-3.1-native_3.1.bb
 -- 
 1.7.9.5
 
