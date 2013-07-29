@@ -1,24 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <sgw@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 97A6A6B436
+	by mail.openembedded.org (Postfix) with ESMTP id 8CCA46B436
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 15:49:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Jul 2013 08:49:53 -0700
+	Mon, 29 Jul 2013 15:51:01 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jul 2013 08:51:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,770,1367996400"; d="scan'208";a="377855615"
-Received: from unknown (HELO helios.localnet) ([10.252.122.206])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Jul 2013 08:49:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.89,770,1367996400"; d="scan'208";a="372955348"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.47])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jul 2013 08:51:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2013 16:49:51 +0100
-Message-ID: <6339709.CFmXEXRQnE@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1375110365.git.sgw@linux.intel.com>
-References: <cover.1375110365.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-Subject: Re: [CONSOLIDATED PULL (Part 2) (resend) 00/26] Branch Updated with Correct Set
+Date: Mon, 29 Jul 2013 08:51:01 -0700
+Message-Id: <cover.1375112939.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [CONSOLIDATED PULL (Part 2) (resend) 00/14] Fixed again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,56 +27,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 15:49:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 29 Jul 2013 15:51:01 -0000
 
-On Monday 29 July 2013 08:07:51 Saul Wold wrote:
-> Branch is updated, sorry not sure what happened with the
-> obex and texinfo, I thought I had removed them since they did not
-> show up in the summary below (in the first email).
-> 
-> Already basicly ACK'ed by Ross and Paul
-> 
-> Thanks
-> Sau!
-> 
-> The following changes since commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1:
-> 
->   external-sourcery: add missing providers (2013-07-27 23:28:29 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage2
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage2
-> 
-> Andrei Dinu (1):
->   libpng : upgrade to 1.6.3
-> 
-> Emilia Ciobanu (14):
->   babeltrace: fix recipe name
->   build-appliance-image: fix recipe name add GIT revision to PV variable
->   chkconfig-alternatives-native: fix recipe name and add GIT revision to
->     PV variable
->   connman-gnome: fix recipe name add GIT revision to PV variable
->   docbook-sgml-dtd-3.1-native: fix recipe name
->   docbook-sgml-dtd-4.1-native: fix recipe name
->   hwlatdetect: fix recipe name and add GIT revision to PV variable
->   lttng-ust: fix recipe name and add GIT revision to PV variable
->   mtd-utils: fix recipe name and add GIT revision to PV variable
->   neard: fix recipe name
->   rt-tests: fix recipe name add GIT revision to PV variable
->   update-rc.d: fix recipe name and add GIT revision to PV variable
+Clearly having a bad morning!
 
-Some of these patches were meant to be dropped... so no ack from me.
+This one drops the Recipe Re-names from Ema, should not have been
+there.
 
-Cheers,
-Paul
+Sau!
+
+The following changes since commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1:
+
+  external-sourcery: add missing providers (2013-07-27 23:28:29 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage2
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage2
+
+Andrei Dinu (1):
+  libpng : upgrade to 1.6.3
+
+Emilia Ciobanu (2):
+  distrodata.bbclass: Remove whitespaces
+  distrodata.bbclass: Include PRSPV variable in upstream version
+    checking
+
+Hongxu Jia (3):
+  util-linux: use u-a for su
+  shadow: use u-a for su
+  move /bin/su to /usr/bin/su to match util-linux and shadow
+
+Jukka Rissanen (1):
+  ofono: Move bluetooth enablement from .bb to .inc
+
+Laurentiu Palcu (1):
+  csl-versions.inc: instruct user to check local.conf
+
+Ming Liu (3):
+  libpam: deny all services for the OTHER entries
+  util-linux: fix a regression
+  util-linux: replace += with _append to EXTRA_OECONF_class-native
+
+Paul Eggleton (1):
+  classes/sanity: check for suid root command evility
+
+Peter Seebach (1):
+  pseudo: Always try to build 32-bit libpseudo when NO32LIBS is set to 0
+
+Saul Wold (1):
+  bluez5: Add obex as a PACKAGECONFIG and package seperately
+
+ meta/classes/distrodata.bbclass                    | 41 ++++++++++++------
+ meta/classes/sanity.bbclass                        | 10 +++++
+ meta/conf/distro/include/csl-versions.inc          |  1 +
+ meta/recipes-connectivity/bluez5/bluez5.inc        | 10 ++++-
+ meta/recipes-connectivity/ofono/ofono.inc          |  6 +++
+ meta/recipes-connectivity/ofono/ofono_1.12.bb      |  1 -
+ meta/recipes-connectivity/ofono/ofono_git.bb       |  4 --
+ .../busybox/busybox-1.21.1/su-usr-bin.patch        | 26 +++++++++++
+ meta/recipes-core/busybox/busybox_1.21.1.bb        |  1 +
+ meta/recipes-core/util-linux/util-linux.inc        | 15 ++++++-
+ .../util-linux/configure-usrlibdir.patch           | 31 ++++++++++++++
+ meta/recipes-core/util-linux/util-linux_2.23.1.bb  |  7 ++-
+ meta/recipes-devtools/pseudo/pseudo.inc            | 50 ++++++++++++++++++----
+ meta/recipes-extended/pam/libpam/pam.d/other       | 15 +++----
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |  3 +-
+ .../libpng/{libpng_1.6.2.bb => libpng_1.6.3.bb}    |  8 ++--
+ 16 files changed, 183 insertions(+), 46 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/configure-usrlibdir.patch
+ rename meta/recipes-multimedia/libpng/{libpng_1.6.2.bb => libpng_1.6.3.bb} (64%)
 
 -- 
+1.8.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
