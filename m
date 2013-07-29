@@ -1,35 +1,44 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id A12B06A3ED
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id B652060958
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 04:09:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,766,1367942400"; 
-   d="scan'208";a="8053457"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 29 Jul 2013 12:06:46 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r6T49kaJ001976
+	Mon, 29 Jul 2013 06:10:54 +0000 (UTC)
+Received: by mail-wi0-f179.google.com with SMTP id hr7so936911wib.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 12:09:47 +0800
-Received: from [127.0.0.1] ([10.167.226.190])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013072912073780-200941 ;
-	Mon, 29 Jul 2013 12:07:37 +0800 
-Message-ID: <51F5EB0C.3010507@cn.fujitsu.com>
-Date: Mon, 29 Jul 2013 12:09:48 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
-	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <51F5E863.9010406@cn.fujitsu.com>
-In-Reply-To: <51F5E863.9010406@cn.fujitsu.com>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/07/29 12:07:37,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/07/29 12:07:38,
-	Serialize complete at 2013/07/29 12:07:38
-Subject: [RFC][PATCH 6/6]qemuarm.conf: provide a common qemuarm machine configuration
+	Sun, 28 Jul 2013 23:10:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer
+	:x-gm-message-state;
+	bh=KW6Qv0eQo2eSNjgCHJnYiLHE0QTBw7E4WKmiyfTpQjg=;
+	b=l/NT0+TS4vCWhTBSA0K4UBKJgAIt5IsfygDiehJKyAId0EYONKubSRZXlwL7TXFzpr
+	pgZ2NZy9wWzkvgmusp2hwwOs7n1lenmDld8z4xk1qY0HkSvd739QlIciDr/m/DatJvqH
+	M1tgZkmSDPBOAn5roO/YgBgpy9sRQA+kEwgyYV3YjvQ+TrMc46z0T5KV3I1T0dOL8GnW
+	HCfjaNco5zykzkVWm0BAsFBowzGCI85Dv9oQYC2l8px50VEAkKVInmn+nN4cPlEcwuLM
+	n0lAWyCE4myBpOaz3QmUL/vU0537PR+il5k9g6jqAAz8Iiiprpe4ewLV6aL2oCLre4Uj
+	zBaA==
+X-Received: by 10.180.36.238 with SMTP id t14mr6051522wij.29.1375078254581;
+	Sun, 28 Jul 2013 23:10:54 -0700 (PDT)
+Received: from ?IPv6:2001:610:612::fcb0:ae2c:ca5c:8512?
+	([2001:610:612:0:fcb0:ae2c:ca5c:8512])
+	by mx.google.com with ESMTPSA id
+	s19sm20092838wik.11.2013.07.28.23.10.52 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 28 Jul 2013 23:10:53 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <CAJTo0LZddy=dtdm_wdqg+GJQmxmt24uhmNe8J6hM6gnK_ikocw@mail.gmail.com>
+Date: Mon, 29 Jul 2013 08:10:56 +0200
+Message-Id: <EF1B5F37-0C9D-4804-BF7C-6C95A25E0091@dominion.thruhere.net>
+References: <cover.1374822498.git.sgw@linux.intel.com>
+	<CAJTo0LZddy=dtdm_wdqg+GJQmxmt24uhmNe8J6hM6gnK_ikocw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1508)
+X-Gm-Message-State: ALoCoQky4B8ZmvtSk8Xn2YJkEGtdULXMSJ1zipDwthSTmNZ7j1RlbYj8c7OfkHVHGnLtGWuxbeg6
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/78] Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +51,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 04:09:48 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
-
-qemuarm.conf: provide a common qemuarm machine configuration,
-so developer/distributor can customize their specific one.
-
-Although, we can modify the meta/conf/machine/qemuarm.conf to customize our
-configuration,but it's uncomfortable for developer/distributor maintaining
-their branch.
-After applying this patch, developer can tell poky using their machine
-configuration by prepending their layer to BBPATH(Of course,
-the bblayers.conf should be adapted to it).
-
-Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
-
----
- meta/conf/machine/include/qemuarm.inc |   10 ++++++++++
- meta/conf/machine/qemuarm.conf        |   10 ++--------
- 2 files changed, 12 insertions(+), 8 deletions(-)
- create mode 100644 meta/conf/machine/include/qemuarm.inc
-
-diff --git a/meta/conf/machine/include/qemuarm.inc b/meta/conf/machine/include/qemuarm.inc
-new file mode 100644
-index 0000000..366a52a
---- /dev/null
-+++ b/meta/conf/machine/include/qemuarm.inc
-@@ -0,0 +1,10 @@
-+#@DESCRIPTION: Common machine configuration for versatile 926ejs.
-+
-+require conf/machine/include/qemu.inc
-+require conf/machine/include/tune-arm926ejs.inc
-+#require conf/machine/include/tune-arm1136jf-s.inc
-+
-+KERNEL_IMAGETYPE = "zImage"
-+
-+SERIAL_CONSOLE = "115200 ttyAMA0"
-+
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index d07084b..bc6287a 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -1,12 +1,6 @@
- #@TYPE: Machine
- #@NAME: arm_versatile_926ejs
--#@DESCRIPTION: arm_versatile_926ejs
-+#@DESCRIPTION: Machine configuration for versatile 926ejs.
- 
--require conf/machine/include/qemu.inc
--require conf/machine/include/tune-arm926ejs.inc
--#require conf/machine/include/tune-arm1136jf-s.inc
--
--KERNEL_IMAGETYPE = "zImage"
--
--SERIAL_CONSOLE = "115200 ttyAMA0"
-+require conf/machine/include/qemuarm.inc
- 
--- 
-1.7.7
+X-List-Received-Date: Mon, 29 Jul 2013 06:10:55 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+Op 26 jul. 2013, om 11:35 heeft "Burton, Ross" <ross.burton@intel.com> =
+het volgende geschreven:
 
+> On 26 July 2013 08:14, Saul Wold <sgw@linux.intel.com> wrote:
+>> Emilia Ciobanu (12):
+>>  babeltrace: fix recipe name
+>>  build-appliance-image: fix recipe name add GIT revision to PV =
+variable
+>>  chkconfig-alternatives-native: fix recipe name and add GIT revision =
+to
+>>    PV variable
+>>  connman-gnome: fix recipe name add GIT revision to PV variable
+>>  docbook-sgml-dtd-3.1-native: fix recipe name
+>>  docbook-sgml-dtd-4.1-native: fix recipe name
+>>  hwlatdetect: fix recipe name and add GIT revision to PV variable
+>>  lttng-ust: fix recipe name and add GIT revision to PV variable
+>>  mtd-utils: fix recipe name and add GIT revision to PV variable
+>>  neard: fix recipe name
+>>  rt-tests: fix recipe name add GIT revision to PV variable
+>>  update-rc.d: fix recipe name and add GIT revision to PV variable
+>=20
+> I meant to chime in on this yesterday but was... tied up.  For
+> packages where the SRC_URI is a git repo *but* we're only ever
+> checking out release tags do we really need to rename the package to
+> _git?  The _git version to me implies "a mostly working snapshot of
+> the development release" not "a stable release".
+
+That matches my expextations as well.
+
+regards,
+
+Koen=
 
