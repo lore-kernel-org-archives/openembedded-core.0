@@ -1,37 +1,27 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id E88BF60958
+Return-Path: <jukka.rissanen@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E6DEC6A4AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 06:42:10 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 28 Jul 2013 23:42:11 -0700
+	Mon, 29 Jul 2013 06:51:19 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jul 2013 23:51:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,767,1367996400"; d="scan'208";a="274650927"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by AZSMGA002.ch.intel.com with ESMTP; 28 Jul 2013 23:41:52 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 29 Jul 2013 07:41:36 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.218]) with mapi id
-	14.03.0123.003; Mon, 29 Jul 2013 07:41:35 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Saul Wold <sgw@linux.intel.com>, "'Patches and discussions about the
-	oe-core layer'" <openembedded-core@lists.openembedded.org>
-Thread-Topic: Thoughts about bluez4 and bluez5
-Thread-Index: AQHOiVN0Vw1tM5H8tUqvXj0b/PhQx5l2dF+QgATEK/D///DdAIAAESaw
-Date: Mon, 29 Jul 2013 06:41:35 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C0F05B@IRSMSX105.ger.corp.intel.com>
-References: <51F15115.3040008@linux.intel.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16C0F03E@IRSMSX105.ger.corp.intel.com>
-	<51F60E30.5030200@linux.intel.com>
-In-Reply-To: <51F60E30.5030200@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+X-IronPort-AV: E=Sophos;i="4.89,767,1367996400"; d="scan'208";a="378140440"
+Received: from sorvi.fi.intel.com (HELO [10.237.72.152]) ([10.237.72.152])
+	by orsmga002.jf.intel.com with ESMTP; 28 Jul 2013 23:51:19 -0700
+Message-ID: <51F610E7.9090905@linux.intel.com>
+Date: Mon, 29 Jul 2013 09:51:19 +0300
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: Re: Thoughts about bluez4 and bluez5
+To: Saul Wold <sgw@linux.intel.com>
+References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<1374842117-24504-4-git-send-email-jukka.rissanen@linux.intel.com>
+	<51F2C589.7080706@linux.intel.com>
+In-Reply-To: <51F2C589.7080706@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] ofono: Enable test scripts by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,75 +34,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 06:42:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Jul 2013 06:51:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-OK, thanks, will handle it this week.
-Regards,
-/Cristian
+Hi Saul,
 
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]=20
-Sent: Monday, July 29, 2013 9:40 AM
-To: Iorga, Cristian; 'Patches and discussions about the oe-core layer'
-Cc: Burton, Ross
-Subject: Re: Thoughts about bluez4 and bluez5
+On 26.07.2013 21:52, Saul Wold wrote:
+> On 07/26/2013 05:35 AM, Jukka Rissanen wrote:
+>> oFono test scripts are very useful so enable those by default.
+>>
+>> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+>> ---
+>>   meta/recipes-connectivity/ofono/ofono.inc     | 3 ++-
+>>   meta/recipes-connectivity/ofono/ofono_1.12.bb | 3 ---
+>>   2 files changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-connectivity/ofono/ofono.inc
+>> b/meta/recipes-connectivity/ofono/ofono.inc
+>> index d825496..c5bd4d0 100644
+>> --- a/meta/recipes-connectivity/ofono/ofono.inc
+>> +++ b/meta/recipes-connectivity/ofono/ofono.inc
+>> @@ -15,6 +15,7 @@ INITSCRIPT_PARAMS = "defaults 22"
+>>   EXTRA_OECONF += "\
+>>       ${@base_contains('DISTRO_FEATURES', 'systemd',
+>> '--with-systemdunitdir=${systemd_unitdir}/system/',
+>> '--with-systemdunitdir=', d)} \
+>>       ${@base_contains('DISTRO_FEATURES',
+>> 'bluetooth','--enable-bluetooth', '--disable-bluetooth', d)} \
+>> +    --enable-test \
+>>   "
+>>   SYSTEMD_SERVICE_${PN} = "ofono.service"
+>>
+>> @@ -30,5 +31,5 @@ PACKAGES =+ "${PN}-tests"
+>>   RDEPENDS_${PN} += "dbus"
+>>
+>>   FILES_${PN} += "${base_libdir}/udev ${systemd_unitdir}"
+>> -FILES_${PN}-tests = "${libdir}/ofono"
+>> +FILES_${PN}-tests = "${libdir}/${BPN}/test"
+> I think you should be using the ptest here instead of test and inherit
+> ptest, please see the ptest.bbclass.
+>
+> I realize that this is not new code, but if we are going to changes this
+> we should use the new ptest mechanism.
+>
+> Sau!
+>
 
-On 07/28/2013 11:34 PM, Iorga, Cristian wrote:
-> Back from the past!!
->
-> -----Original Message-----
-> From: Iorga, Cristian
-> Sent: Friday, July 26, 2013 8:51 AM
-> To: 'Saul Wold'; 'Patches and discussions about the oe-core layer';=20
-> Burton, Ross
-> Subject: RE: Thoughts about bluez4 and bluez5
->
-> Hi Saul, Ross,
->
-> I think that for the time being libasound-module-bluez should be libasoun=
-d-module-bluez5.
-> We will get back to it after 1.5, when all components will be ready for B=
-lueZ 5.
-This can not wait until after 1.5, it's a note and needs to be addressed no=
-w. Martin has also reported this issue to you as well.
+If I am reading https://wiki.yoctoproject.org/wiki/Ptest correctly, the 
+ptest if for running the package test suite. Unfortunately the 
+ofono-tests package is not for that purpose, it is just a bunch of 
+useful python scripts for setting up cellular modem, context and 
+monitoring ofono signals etc.
+Similar scripts are also found in connman and neard packages.
 
-> On the second issue, can you please go into details? I am not following e=
-xactly.
 
-It's possible for new version of ofono or connman to want to use bluez5, vi=
-a the PACKAGECONFIG settings, we need to allow that to happen with out havi=
-ng to embed bluez4 vs bluez5 in the recipe, this can be done with a virtual=
-/bluez style of declartion you can see examples of this for virtual/libc an=
-d in the meta/conf/distro/include/default-providers.inc file
+Cheers,
+Jukka
 
-Sau!
-
-> Regards,
-> Cristian
->
-> -----Original Message-----
-> From: Saul Wold [mailto:sgw@linux.intel.com]
-> Sent: Thursday, July 25, 2013 7:24 PM
-> To: 'Patches and discussions about the oe-core layer'; Iorga,=20
-> Cristian; Burton, Ross
-> Subject: Thoughts about bluez4 and bluez5
->
->
->
-> Cristi, Ross:
->
-> There is currently a PREFERRED_PROVIDER issue with bluez4 and bluez5 and =
-I am beginning to think we need to distinguish the libasound-module-bluez w=
-ith libasound-module-bluez5.
->
-> I am also seeing some areas where we might need a virtual/bluez to=20
-> allow recipes to enable features in places like connman and ofono
->
-> Thoughts?
->
->
->
 
