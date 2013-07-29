@@ -1,37 +1,28 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 987116B407
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 31D696B403
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 01:51:56 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,774,1367942400"; 
-   d="scan'208";a="8062894"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 30 Jul 2013 09:48:53 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r6U1prS7016617;
-	Tue, 30 Jul 2013 09:51:53 +0800
-Received: from [127.0.0.1] ([10.167.226.190])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013073009494260-237324 ;
-	Tue, 30 Jul 2013 09:49:42 +0800 
-Message-ID: <51F71C3A.8000701@cn.fujitsu.com>
-Date: Tue, 30 Jul 2013 09:51:54 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
-	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
+	Tue, 30 Jul 2013 02:05:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6U25sOR004270
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jul 2013 19:05:54 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.230) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 29 Jul 2013 19:05:54 -0700
+Message-ID: <51F6FE24.7090502@windriver.com>
+Date: Mon, 29 Jul 2013 18:43:32 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <51F5E863.9010406@cn.fujitsu.com>	
-	<51F5E948.4070107@cn.fujitsu.com>
-	<1375112169.13247.44.camel@phil-desktop.brightsign>
-In-Reply-To: <1375112169.13247.44.camel@phil-desktop.brightsign>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/07/30 09:49:42,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/07/30 09:49:42,
-	Serialize complete at 2013/07/30 09:49:42
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH 1/6]qemuarm.conf: provide a common qemuarm machine configuration
+To: <openembedded-core@lists.openembedded.org>
+References: <1374835703-9222-1-git-send-email-paul.eggleton@linux.intel.com>
+In-Reply-To: <1374835703-9222-1-git-send-email-paul.eggleton@linux.intel.com>
+Subject: Re: [PATCH] classes/sanity: check for suid root command evility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,67 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 01:51:57 -0000
+X-List-Received-Date: Tue, 30 Jul 2013 02:05:53 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
 
+On 7/26/13 5:48 AM, Paul Eggleton wrote:
+> Some users have been found to have an unnamed third-party piece of
+> software installed which sets chmod, chown and mknod as suid root as
+> part of its installation process. This interferes with the operation of
+> pseudo and can result in files really being owned by root within the
+> build output, and therefore breaks the build, apart from being a
+> security issue. Check for this and bail out early if it is found.
+>
+> Reported-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+>
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-said the following on 2013-7-29 23:36:, Phil Blundell wrote:
-> On Mon, 2013-07-29 at 12:02 +0800, Bian Naimeng wrote:
->> qemux86.conf: provide a common qemux86 machine configuration, 
->> so developer/distributor can customize their specific one.
->>
->> Although, we can modify the meta/conf/machine/qemux86.conf to customize our 
->> configuration, but it's uncomfortable for developer/distributor maintaining
->> their branch.
->> After applying this patch, developer can tell poky using their machine
->> configuration by prepending their layer to BBPATH(Of course,
->> the bblayers.conf should be adapted to it).
-> 
-> I don't really understand the purpose of this patch.  Surely there is
-> nothing to stop you from shipping an overlay qemux86.conf in some other
-> layer today, right?  What exactly is the advantage of this extra
-> indirection through an .inc file?
-> 
+Should these items be added to the buildtools-tarball target?  It might help 
+avoid the problem in the same way we already do to detect the bad make, tar, etc..
 
-What my purpose is that make it easy to implement the below case.
- 1. I want inherit all the configuration item of qemux86.conf.
- 2. I want add some new items to my qemux86.conf.
- 3. If there're changes to qemux86.conf, i want merge them to my qemux86.conf
+--Mark
 
-Yes, we can implement this case today.
- 1. Copy the meta/conf/machine/qemux86.conf to my layer.
- 2. Add new items to my qemux86.conf
- 3. Rewrite my qemux86.conf to merge community changes.
-
-However, if applying these patches, it becomes easy.
- 1. add "require conf/machine/include/qemux86.inc" to my qemux86.conf
- 2. add new items to my qemux86.conf
- 3. modify qemux86.inc to update qemux86 configration at community, 
-    so all community changes will be merged to my qemux86.conf automatically
-    when merging the mainline.
-
-> Also, as a side note, your patches 1/6, 2/6 and 6/6 all said
-> "qemuarm.conf" in the subject lines but only the last of them actually
-> contained changes to qemuarm.conf.
-
-Sorry for my mistake. The correct one is following.
-1/6: qemux86.conf.
-2/6: qemux86-64.conf
-
-> 
-> Also also, the patches in this form are quite hard to follow.  Did you
-> use "git format-patch -M" when creating them?
-
-Yes, I used "git format-patch -M" to create them.
-I will check them by linux/scripts/checkpatch.pl next time.
-
-Thanks
- bian
-
-> 
-> p.
-> 
-> 
+> ---
+>   meta/classes/sanity.bbclass | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index a505a5d..0546293 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -569,6 +569,16 @@ def check_sanity_everybuild(status, d):
+>       if 0 == os.getuid():
+>           raise_sanity_error("Do not use Bitbake as root.", d)
+>
+> +    # Some third-party software apparently relies on chmod etc. being suid root (!!)
+> +    import stat
+> +    suid_check_bins = "chown chmod mknod".split()
+> +    for bin_cmd in suid_check_bins:
+> +        bin_path = bb.utils.which(os.environ["PATH"], bin_cmd)
+> +        if bin_path:
+> +            bin_stat = os.stat(bin_path)
+> +            if bin_stat.st_uid == 0 and bin_stat.st_mode & stat.S_ISUID:
+> +                status.addresult('%s has the setuid bit set. This interferes with pseudo and may cause other issues that break the build process.\n' % bin_path)
+> +
+>       # Check the Python version, we now have a minimum of Python 2.7.3
+>       import sys
+>       if sys.hexversion < 0x020703F0:
+>
 
 
