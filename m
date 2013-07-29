@@ -1,36 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
-	[209.85.212.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 45CEA601AF
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 5251760958
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 09:08:56 +0000 (UTC)
-Received: by mail-vb0-f50.google.com with SMTP id x13so2178366vbb.23
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 02:08:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=oLyQLzS2r+3iCo0ePvLiDXXWx2zRplQ/CiP0gC+uqZU=;
-	b=KwmavyRjnYC9jsH9Rxxt7zpxVBcUGVOBGZs4b4HqMVu3OleTpvuE+9PjgKeRJzx/kg
-	XiH8hyaCWUFMO499r9ttU6W39SJWG5OGZZ/Ovt92lRwVwlPioKRmTV46ygqhKFlzZQY1
-	5AJGXAUympy5bY9bonet3piIr3j/KykdkEOZhXrQPJqoX8LyOkCJjJv+9zOhNCoFFzJ9
-	0adeFt3TdtQ/VkkyNySmQmIrUeYA8U3YKqZp6ryzANr71yEHKmC2MIltefQjnzDahtuC
-	IJm3Enos97c40OhfGrbijnhfTpSWfjhGaiufRVYKZRPfG1N94v8MYDWqf+FqWH0oDhMd
-	cwwA==
-X-Received: by 10.58.233.8 with SMTP id ts8mr25105081vec.44.1375088936652;
-	Mon, 29 Jul 2013 02:08:56 -0700 (PDT)
+	Mon, 29 Jul 2013 09:42:23 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1V3jyA-00009R-GM from Muhammad_Shakeel@mentor.com ;
+	Mon, 29 Jul 2013 02:42:22 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 29 Jul 2013 02:42:22 -0700
+Received: from [137.202.157.119] (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Mon, 29 Jul 2013 10:42:19 +0100
+Message-ID: <51F6392F.60004@mentor.com>
+Date: Mon, 29 Jul 2013 14:43:11 +0500
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 29 Jul 2013 02:08:36 -0700 (PDT)
-In-Reply-To: <cover.1374992484.git.sgw@linux.intel.com>
-References: <cover.1374992484.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jul 2013 10:08:36 +0100
-Message-ID: <CAJTo0Lb+LauJxMWSzjhPwQ=1K5L71_Q97sf6RMdCZPe0mc0K4A@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQkyR/E1/00D4XKc2QfjYSkaL0GsQx75ujPBLs2tG/i+6OfmgI4xPxRD7oL5uTfMV5fYITIj
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
+	<1374842117-24504-2-git-send-email-jukka.rissanen@linux.intel.com>
+In-Reply-To: <1374842117-24504-2-git-send-email-jukka.rissanen@linux.intel.com>
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 29 Jul 2013 09:42:22.0254 (UTC)
+	FILETIME=[ECB694E0:01CE8C3F]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL (Part 2) 00/15] Tobe Reviewed and ACK'ed
+Subject: Re: [PATCH 1/3] ofono: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +40,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 09:08:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Jul 2013 09:42:23 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 28 July 2013 07:30, Saul Wold <sgw@linux.intel.com> wrote:
-> This is part 2 of the C-Pull, part one was reviewed and ACK'ed on Friday,
-> these where some changes that have come in since, there are some additional
-> changes that I still need to review (Read-Only Rootfs specificly).
+On 07/26/2013 05:35 PM, Jukka Rissanen wrote:
+>   do_install_append() {
+> -  install -d ${D}${sysconfdir}/init.d/
+> -  install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
+> +    if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
+> +        install -d ${D}${sysconfdir}/init.d/
+> +        install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
+> +    fi
+>   }
+>   
+>   PACKAGES =+ "${PN}-tests"
+We won't need above 'sysvinit' check as we are trying to implement this 
+for all packages through systemd class. Please see this: 
+http://patches.openembedded.org/patch/54671/
 
-The contents of the branch sgw/stage2 doesn't match this log...
-(specifically the branch at least has two conflicting bluez5 obex
-changes and the texinfo update, which isn't in this log).
-
-So, note that I'm acking the contents of this thread and not sgw/stage2.
-
-Acked-By: Ross Burton <ross.burton@intel.com>
-
-Ross
+Regards,
+Shakeel
 
