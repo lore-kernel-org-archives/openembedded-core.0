@@ -1,27 +1,27 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BBCA6B3F3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C48866B3E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 02:33:11 +0000 (UTC)
+	Mon, 29 Jul 2013 02:33:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6T2XBlD003002
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6T2XDVV028152
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jul 2013 19:33:12 -0700 (PDT)
+	Sun, 28 Jul 2013 19:33:14 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 28 Jul 2013 19:33:11 -0700
+	14.2.342.3; Sun, 28 Jul 2013 19:33:13 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Jul 2013 10:33:06 +0800
-Message-ID: <533dcd934f47fa1afe9a61a31240a225f7449e35.1375065009.git.Qi.Chen@windriver.com>
+Date: Mon, 29 Jul 2013 10:33:07 +0800
+Message-ID: <ba0136368ef145c6a7ebe8fa7f0d22c0d9e16a42.1375065009.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1375065009.git.Qi.Chen@windriver.com>
 References: <cover.1375065009.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: Zhangle.Yang@windriver.com
-Subject: [PATCH V2 06/10] runqemu-internal: fix to start X correctly in live images
+Subject: [PATCH V2 07/10] initscripts: use a uniform way to handle directories in read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +34,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 02:33:11 -0000
+X-List-Received-Date: Mon, 29 Jul 2013 02:33:13 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The QEMUOPTIONS for ISOFS was not complete, leading to failures when
-trying to start X in live images.
+Packages in our system may need to write to some directories to function
+correctly. In read-only rootfs, these directories should be made writable.
 
-This patch fixes this problem.
+This patch uses a convenient and uniform way to handle such situations.
+The read-only-rootfs-hook.sh script searches the /etc/default/readonly
+diretory for config files and then apply them one by one.
+
+The config files simply have the following format.
+<original diretory> <corresponding directory in volatile story>
+
+For example, /etc/default/readonly/initscripts have the following content.
+/var/lib /var/volatile/lib
+
+This patch only has effect for systems with read-only rootfs.
 
 [YOCTO #4103]
-[YOCTO #4884]
+[YOCTO #4888]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- scripts/runqemu-internal |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../initscripts-1.0/read-only-rootfs-hook.sh       |   43 ++++++++++++++++++--
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |    5 +++
+ 2 files changed, 44 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 9619bec..8a6e551 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -526,7 +526,7 @@ if [ "x$RAMFS" = "xtrue" ]; then
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+index d523924..a3ed59d 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
+@@ -1,15 +1,50 @@
+ #!/bin/sh
+ 
+ . /etc/init.d/functions
++READONLY_CFGDIR="/etc/default/readonly"
+ 
+ ROOTFS_READ_ONLY=`is_rootfs_readonly`
+ 
+ [ "$ROOTFS_READ_ONLY" = "no" ] && exit 0
+ 
++is_on_read_only_partition () {
++    DIRECTORY=$1
++    dir=`readlink -f $DIRECTORY`
++    while true; do
++	if [ ! -d "$dir" ]; then
++	    echo "ERROR: $dir is not a directory"
++	    exit 1
++	else
++	    for flag in `awk -v dir=$dir '{ if ($2 == dir) { print "FOUND"; split($4,FLAGS,",") } }; END { for (f in FLAGS) print FLAGS[f] }' < /proc/mounts`; do
++		[ "$flag" = "FOUND" ] && partition="read-write"
++		[ "$flag" = "ro" ] && { partition="read-only"; break; }
++	    done
++	fi
++	if [ "$dir" = "/" -o -n "$partition" ]; then
++	    break
++	else
++	    dir=`dirname $dir`
++	fi
++    done
++    [ "$partition" = "read-only" ] && echo "yes" || echo "no"
++}
++
++apply_conf () {
++    cfgfile=$1
++    cat $cfgfile | while read line; do
++	eval `echo "$line" | sed -n "s/\(.*\)\ \(.*\)/DIR_READONLY=\1; DIR_VOLATILE=\2;/p"`
++	if [ `is_on_read_only_partition $DIR_READONLY` = "yes" ]; then
++	    mkdir -p $DIR_VOLATILE
++	    cp -a $DIR_READONLY/* $DIR_VOLATILE
++	    mount --bind $DIR_VOLATILE $DIR_READONLY
++	fi
++    done
++}
++
+ if [ "$1" = "start" ] ; then
+-	grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
+-	mkdir -p /var/volatile/lib
+-	cp -a /var/lib/* /var/volatile/lib
+-	mount --bind /var/volatile/lib /var/lib
++    grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
++    for file in `ls -1 "$READONLY_CFGDIR"`; do
++	apply_conf "$READONLY_CFGDIR/$file"
++    done
  fi
  
- if [ "x$ISOFS" = "xtrue" ]; then
--    QEMUOPTIONS="-cdrom $ROOTFS"
-+    QEMUOPTIONS="$QEMU_NETWORK_CMD -cdrom $ROOTFS $QEMU_UI_OPTIONS"
- fi
- 
- if [ "x$QEMUOPTIONS" = "x" ]; then
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 52e1c9c..46c4c99 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -105,6 +105,11 @@ do_install () {
+ 	install -m 0755 ${WORKDIR}/umountfs	${D}${sysconfdir}/init.d/umountfs
+ 	install -m 0755		${WORKDIR}/device_table.txt		${D}${sysconfdir}/device_table
+ #
++# Create config files for read-only rootfs
++#
++	install -d ${D}${sysconfdir}/default/readonly
++	echo "/var/lib /var/volatile/lib" > ${D}${sysconfdir}/default/readonly/initscripts
++#
+ # Create runlevel links
+ #
+ 	update-rc.d -r ${D} rmnologin.sh start 99 2 3 4 5 .
 -- 
 1.7.9.5
 
