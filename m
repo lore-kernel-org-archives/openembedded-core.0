@@ -1,38 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A5822612D1
+Return-Path: <jukka.rissanen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 85C23612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 08:26:47 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id gf12so1842215vcb.22
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 01:26:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=piQ8iSWPFJY7oNQDb1ar6CM+Cbvmc7elyatxBbsgBr4=;
-	b=mO/Om8t5nNLlAKitlO9lmIsZYk6FS1squZFWU1tbOFjjoARQkmwNX6Qy3o+XEp+/HC
-	7PnbGmlcpv+w8a8Wv74ly1unKFA4fs3O8ozfqC51OCop41qMggKrPCVGO88gr39Mlwxo
-	A43WzsKlvchzpwdu2IjFAPzniVMQF55V6uCjgR13gVhlxsA3FLPyi88HZsFp1CNUWEB+
-	OtEaMWMXhF2yo+4T5seTXTXSzxpnOC5CuPIlemteQsqxE5oIxAbAk4t/wOIgP1b3e8eC
-	/SxwWMo/9VN+VLPe0f0vq7mqZBOGcZm7lUeCgqkPXo3i2MHRI5rTfzek5zBSbQOtzvdF
-	0wmg==
-X-Received: by 10.220.1.9 with SMTP id 9mr8234667vcd.37.1375086408149; Mon, 29
-	Jul 2013 01:26:48 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 29 Jul 2013 01:26:28 -0700 (PDT)
-In-Reply-To: <51F610E7.9090905@linux.intel.com>
-References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<1374842117-24504-4-git-send-email-jukka.rissanen@linux.intel.com>
-	<51F2C589.7080706@linux.intel.com> <51F610E7.9090905@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jul 2013 09:26:28 +0100
-Message-ID: <CAJTo0LamL5DztOFRna7hr7yJtMUBxqX=C8N5eH3j3DxveVQ_rg@mail.gmail.com>
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-X-Gm-Message-State: ALoCoQl5BBqZRpGsIqQUE7qFkPRB0fudNy2VLvkfk7i/giBkzS+SJhcGcTot8khNqAMhwz/6rAiu
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] ofono: Enable test scripts by default
+	Mon, 29 Jul 2013 08:29:42 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jul 2013 01:29:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,767,1367996400"; d="scan'208";a="377673337"
+Received: from sorvi.fi.intel.com ([10.237.72.152])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jul 2013 01:29:42 -0700
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jul 2013 11:29:41 +0300
+Message-Id: <1375086581-12129-1-git-send-email-jukka.rissanen@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH] bluez5: Only install .conf files if found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,25 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 08:26:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Jul 2013 08:29:42 -0000
 
-On 29 July 2013 07:51, Jukka Rissanen <jukka.rissanen@linux.intel.com> wrote:
->> I think you should be using the ptest here instead of test and inherit
->> ptest, please see the ptest.bbclass.
->>
->> I realize that this is not new code, but if we are going to changes this
->> we should use the new ptest mechanism.
->
-> If I am reading https://wiki.yoctoproject.org/wiki/Ptest correctly, the
-> ptest if for running the package test suite. Unfortunately the ofono-tests
-> package is not for that purpose, it is just a bunch of useful python scripts
-> for setting up cellular modem, context and monitoring ofono signals etc.
-> Similar scripts are also found in connman and neard packages.
+Bluez5 is migrating away from using separate .conf files
+for different profiles. So only install profile configuration files
+when they are found. This is needed so that the bluez5.inc file
+can be used with latest bluez5 from git.
 
-You're right Jukka, whilst ptest is something that everyone should be
-considering it's for test suites that typically run at "make check",
-these are not that.
+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-Ross
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index fc78900..36a6061 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -39,9 +39,15 @@ EXTRA_OECONF = "\
+ 
+ do_install_append() {
+ 	install -d ${D}${sysconfdir}/bluetooth/
+-	install -m 0644 ${S}/profiles/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
+-	install -m 0644 ${S}/profiles/network/network.conf ${D}/${sysconfdir}/bluetooth/
+-	install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
++	if [ -f ${S}/profiles/audio/audio.conf ]; then
++	    install -m 0644 ${S}/profiles/audio/audio.conf ${D}/${sysconfdir}/bluetooth/
++	fi
++	if [ -f ${S}/profiles/network/network.conf ]; then
++	    install -m 0644 ${S}/profiles/network/network.conf ${D}/${sysconfdir}/bluetooth/
++	fi
++	if [ -f ${S}/profiles/input/input.conf ]; then
++	    install -m 0644 ${S}/profiles/input/input.conf ${D}/${sysconfdir}/bluetooth/
++	fi
+ 	# at_console doesn't really work with the current state of OE, so punch some more holes so people can actually use BT
+ 	install -m 0644 ${WORKDIR}/bluetooth.conf ${D}/${sysconfdir}/dbus-1/system.d/
+ }
+-- 
+1.7.11.7
+
 
