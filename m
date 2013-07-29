@@ -1,35 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B7E6B1EB
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 97A6A6B436
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 15:42:27 +0000 (UTC)
-Received: by mail-wg0-f43.google.com with SMTP id z12so5048686wgg.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 08:42:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=BbJ9ixtss9UW4WviipOu2FBXy49ceXF3cfMHPF0KAVA=;
-	b=pS1StNb0fHUDw+XyvdxczB7/jMlI4hGeUVuBbvbSwpbhZw3jy+XQfqWt1LBVFVA4AX
-	FlE+p1LCr7cu0cUqWOoX/vfG+iSBIXpgBLMRnT452eJ4zPr/QsI1netn3adf7HhHJHf5
-	3Bo2+Abbgib3C5PSbHlSUFXPzk+cW1dIk7hKQDamERC3Fp7UTy+104P+SdX7ch97ToVy
-	493vNeCKbWVx8wgCR7qd4Rku3iu3gzxK1B9JooK5Cz4e6/SdBuGRPB9Qfiqw5eyVhcv9
-	ALFXmYPnygbJ22LUrnkoFzD+gaZwjJsFOb8ZoFFgizCVSYUHgP/ooCtei5YOxP9gnJ82
-	Xypg==
-X-Received: by 10.194.121.132 with SMTP id lk4mr43927638wjb.25.1375112548012; 
-	Mon, 29 Jul 2013 08:42:28 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id o10sm23316552wiz.5.2013.07.29.08.42.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 29 Jul 2013 08:42:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 29 Jul 2013 15:49:52 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jul 2013 08:49:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,770,1367996400"; d="scan'208";a="377855615"
+Received: from unknown (HELO helios.localnet) ([10.252.122.206])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jul 2013 08:49:52 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jul 2013 16:42:23 +0100
-Message-Id: <1375112543-27194-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQn2LOuGXoscBglKAIkzoL5oe6IyzufoXf1WbQKlwY+fe31Id/1GC6QHtW7f+Z+aU3CDHsP2
-Subject: [PATCH] qemu: remove unused SDL variable
+Date: Mon, 29 Jul 2013 16:49:51 +0100
+Message-ID: <6339709.CFmXEXRQnE@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <cover.1375110365.git.sgw@linux.intel.com>
+References: <cover.1375110365.git.sgw@linux.intel.com>
+MIME-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL (Part 2) (resend) 00/26] Branch Updated with Correct Set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 15:42:29 -0000
+X-List-Received-Date: Mon, 29 Jul 2013 15:49:52 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc |    4 ----
- 1 file changed, 4 deletions(-)
+On Monday 29 July 2013 08:07:51 Saul Wold wrote:
+> Branch is updated, sorry not sure what happened with the
+> obex and texinfo, I thought I had removed them since they did not
+> show up in the summary below (in the first email).
+> 
+> Already basicly ACK'ed by Ross and Paul
+> 
+> Thanks
+> Sau!
+> 
+> The following changes since commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1:
+> 
+>   external-sourcery: add missing providers (2013-07-27 23:28:29 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage2
+>  
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
+> stage2
+> 
+> Andrei Dinu (1):
+>   libpng : upgrade to 1.6.3
+> 
+> Emilia Ciobanu (14):
+>   babeltrace: fix recipe name
+>   build-appliance-image: fix recipe name add GIT revision to PV variable
+>   chkconfig-alternatives-native: fix recipe name and add GIT revision to
+>     PV variable
+>   connman-gnome: fix recipe name add GIT revision to PV variable
+>   docbook-sgml-dtd-3.1-native: fix recipe name
+>   docbook-sgml-dtd-4.1-native: fix recipe name
+>   hwlatdetect: fix recipe name and add GIT revision to PV variable
+>   lttng-ust: fix recipe name and add GIT revision to PV variable
+>   mtd-utils: fix recipe name and add GIT revision to PV variable
+>   neard: fix recipe name
+>   rt-tests: fix recipe name add GIT revision to PV variable
+>   update-rc.d: fix recipe name and add GIT revision to PV variable
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 77045df..c43f1ef 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -13,10 +13,6 @@ BBCLASSEXTEND = "native nativesdk"
- # QEMU_TARGETS is overridable variable
- QEMU_TARGETS ?= "arm i386 mips mipsel mips64 mips64el ppc sh4 x86_64"
- 
--SDL ?= ""
--SDL_class-native ?= ""
--SDL_class-nativesdk ?= ""
--
- SRC_URI = "\
-     file://powerpc_rom.bin \
-     file://no-strip.patch \
+Some of these patches were meant to be dropped... so no ack from me.
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
