@@ -1,43 +1,37 @@
-Return-Path: <djszapi@archlinux.us>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 410E66B03A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
+	[209.85.128.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 699826B03A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 10:42:12 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id kq13so5640763pab.39
+	Mon, 29 Jul 2013 10:42:57 +0000 (UTC)
+Received: by mail-ve0-f169.google.com with SMTP id db10so2808761veb.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 03:42:13 -0700 (PDT)
+	Mon, 29 Jul 2013 03:42:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:x-gm-message-state;
-	bh=/7RyqHip7A4AT3qV+Zz7gCpwJ8DDoAse9umrML0jsF4=;
-	b=Keax8oEkpOf+lnxLz0QidCUnUzv+zVv6i/XPEJKR+5SfmKoXHMNBs1yjtQBDN+1HNj
-	r7YyMES24VneOhhUN911K+btPo/pAz3L3HvnzTWdymEuabGV3yMV25+KY+RI4hNz09Vn
-	hcZIkHlf/uV6/m9EgOisqkvB2DhP5gXg72FgVtPkxyHc1WxOGgtYD3DBg+EDVynPMU/V
-	UWUNE3PYcbgviOZjTM8sTJwNFJHZar1Vlf1h4HgB8L5nSUOQP/7ZkhHmdy2mzJB/jFYh
-	Ew8D1Ep/MWi40RsyuG3Uz75TDzkT/m3nvPTzR4rbv10515ZuC3SSktFza5MK40EQ7zvQ
-	Vwhg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=qaEQOiEQZ/FRs0jr65i+ZeNcwuaBA0QC9E7TL+Ao9cA=;
+	b=BZGyllKCI7F+55Cv9Kz9vLKwtTfaVaiBViQEQ92FjmBgdYeZrviE9WAK0HFkSDPGvs
+	I6fjiaItT8Oav+/bBqMyR/aeof0EXHqBcMoZY/Hjvv6K5XBL0+CnsYwup3TFUlXXoUdL
+	GT+V+1Bvd7kuscDa/9iQ/MD4RhpYx+EGsadxkvlZUjnmXbBJTd0RPFfuL9bppTcqq+W0
+	6nFfq1WN0GhYeSbqmKz/SFmF9mg2qLgR+NtPpRgB1fCyZyWcyIwNw41R2gFncV7+fVjL
+	wWPFpvOiYWdf5DK6hMzlYpVoFgaBgWoTrq2Ccfk1Cl0klspiU3irIDRnBhuzRC4WzEIn
+	1wnA==
+X-Received: by 10.52.103.84 with SMTP id fu20mr16980059vdb.51.1375094577556;
+	Mon, 29 Jul 2013 03:42:57 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.66.119.35 with SMTP id kr3mr68649588pab.149.1375094533095;
-	Mon, 29 Jul 2013 03:42:13 -0700 (PDT)
-Sender: djszapi@archlinux.us
-Received: by 10.70.37.237 with HTTP; Mon, 29 Jul 2013 03:42:12 -0700 (PDT)
-In-Reply-To: <1375094306.13247.11.camel@phil-desktop.brightsign>
+Received: by 10.220.71.201 with HTTP; Mon, 29 Jul 2013 03:42:37 -0700 (PDT)
+In-Reply-To: <1375093253.13247.5.camel@phil-desktop.brightsign>
 References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
 	<1375092018.6324.176.camel@phil-desktop.brightsign>
 	<CAOMwXhNqXneU6UzeHZJJVM++RmNmmdvNMp3mbNV=YpFVE6tOdw@mail.gmail.com>
 	<1375093253.13247.5.camel@phil-desktop.brightsign>
-	<CAOMwXhO6+sJWjKAKVh=y1gymGoSUNVgs+nV9fz8G8eo9WHyAkw@mail.gmail.com>
-	<CAOMwXhN556gDMxEGGSaFwYMJ7EU=Pvn+4mZcy0Q4eLyn7ShjqA@mail.gmail.com>
-	<1375094306.13247.11.camel@phil-desktop.brightsign>
-Date: Mon, 29 Jul 2013 11:42:12 +0100
-X-Google-Sender-Auth: 9vFq2sLR5cfZYyRxhGzD7iwgC2M
-Message-ID: <CAOMwXhNsgLaOtmCouNmB3d7wuACAt7iSLfO5zMq-ph0FBi8w0A@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Phil Blundell <pb@pbcl.net>
-X-Gm-Message-State: ALoCoQlKBkqcd9AMnizfO2M6ZFs3WiexIm7YPw45eEaLxFkcuul+Y4Pwr9ytZiNd5o3rMY3MbmN/
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Jul 2013 11:42:37 +0100
+Message-ID: <CAJTo0LazaFL14=WbXSM4CnF0y=25VLt7m4cP9nU4B7Qs2kXEnQ@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+X-Gm-Message-State: ALoCoQn6MrduzrSJgwDoF17iJWDK7lKrnP/JosDuVUuFS8SEKXoM1r7HHscJYmZFS6mxfSBtmD8O
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,63 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jul 2013 10:42:12 -0000
-Content-Type: multipart/alternative; boundary=047d7b0721ca2d9b5904e2a425ca
+X-List-Received-Date: Mon, 29 Jul 2013 10:42:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
---047d7b0721ca2d9b5904e2a425ca
-Content-Type: text/plain; charset=ISO-8859-1
-
-You *do* realize rfkill is a hardly common feature?
-
-Not to mention, you would cause a "runtime" issue which is pretty simple to
-fix for a very minor portion compared to a *large* user base using older
-toolchains. There is a huge difference between a few people cannot use
-rfkill for those applications (2, ridiculous), and that a slightly old
-toolchain cannot even build the *whole* project.
-
-
-On Mon, Jul 29, 2013 at 11:38 AM, Phil Blundell <pb@pbcl.net> wrote:
-
-> On Mon, 2013-07-29 at 11:30 +0100, Laszlo Papp wrote:
-> > Not to mention, there is a huge difference between build time
-> > regression and run time,
+On 29 July 2013 11:20, Phil Blundell <pb@pbcl.net> wrote:
+> But in this particular case, your new patch seems to have more serious
+> problems since it will cause rfkill to silently disappear for many
+> people who do currently have it.
 >
-> Quite so, run-time regressions are much harder to detect and debug.
->
-> p.
->
->
->
->
->
+> If your distro selects a toolchain which doesn't contain the necessary
+> bits to support rfkill then it seems as though the appropriate course of
+> action would be to either:
 
---047d7b0721ca2d9b5904e2a425ca
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+I'm in agreement  with Phil. Whilst support for userspaces that from
+2009 is patchy at best with modern software (you'll need an equally
+old udev, systemd won't happen, etc) this is a trivial change but
+let's be clear that it's an option to handle older external userspaces
+and not our so there should be a PACKAGECONFIG for rfkill that
+defaults to enabled.
 
-<div dir=3D"ltr">You *do* realize rfkill is a hardly common feature?<div><b=
-r></div><div>Not to mention, you would cause a &quot;runtime&quot; issue wh=
-ich is pretty simple to fix for a very minor portion compared to a *large* =
-user base using older toolchains. There is a huge difference between a few =
-people cannot use rfkill for those applications (2, ridiculous), and that a=
- slightly old toolchain cannot even build the *whole* project.</div>
-</div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon,=
- Jul 29, 2013 at 11:38 AM, Phil Blundell <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:pb@pbcl.net" target=3D"_blank">pb@pbcl.net</a>&gt;</span> wrote:<br><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">
-<div class=3D"im">On Mon, 2013-07-29 at 11:30 +0100, Laszlo Papp wrote:<br>
-&gt; Not to mention, there is a huge difference between build time<br>
-&gt; regression and run time,<br>
-<br>
-</div>Quite so, run-time regressions are much harder to detect and debug.<b=
-r>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-p.<br>
-<br>
-<br>
-<br>
-<br>
-</font></span></blockquote></div><br></div>
+Ross
 
---047d7b0721ca2d9b5904e2a425ca--
