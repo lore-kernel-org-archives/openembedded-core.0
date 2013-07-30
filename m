@@ -1,36 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f50.google.com (mail-oa0-f50.google.com
-	[209.85.219.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 22FC06B451
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 8996F6A9C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 12:00:28 +0000 (UTC)
-Received: by mail-oa0-f50.google.com with SMTP id i4so3062471oah.23
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 05:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=tYtKzsbn3Qdp1c4rzy8dxZnYIlyp4OURBd36i0Qk4xg=;
-	b=JNWFAxQ39hjJ41u6JbmOz8Tmhnds1vSShSd3Dep1UOjXb1kqODUPd99HED6NXnjMw6
-	xxQB4/QaKy8bMSo7RVreY5yeid0ECY9OttyZKxZ2r+a344q24SrP+YEOdHfqP+4TFvr/
-	jrZG71Y9O6xRsaLWECmzPW1dIg4U+YrT3tsQqR0VVYVgAb+RTMQuNZ9SJbv6uLVe5IN6
-	lDURH7XQ3zaUbrwqRXoR5QiE8s8wdh0GpRgS/qUG23puPLbh/4RfJ2wSj76Xge77S3re
-	N4e2zrpyZVHlwEj/bnM5dF4Vw+ujqreI84k2rdwjXe1GY0jiJSi/YcgkDvIHD7z/mKJ1
-	h/bw==
-MIME-Version: 1.0
-X-Received: by 10.60.115.199 with SMTP id jq7mr61793815oeb.19.1375185628475;
-	Tue, 30 Jul 2013 05:00:28 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.125.199 with HTTP; Tue, 30 Jul 2013 05:00:28 -0700 (PDT)
-In-Reply-To: <14478313.i1FmA8Di2T@helios>
+	Tue, 30 Jul 2013 12:14:52 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1V48pG-0004BU-Oh; Tue, 30 Jul 2013 14:14:50 +0200
+Message-ID: <1375186489.13247.55.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Tue, 30 Jul 2013 13:14:49 +0100
+In-Reply-To: <CAP9ODKogS69N51YxJ54-saCXbS0orquD8cbFCWWKLosE_TjSeg@mail.gmail.com>
 References: <1375136787-18139-1-git-send-email-otavio@ossystems.com.br>
 	<14478313.i1FmA8Di2T@helios>
-Date: Tue, 30 Jul 2013 09:00:28 -0300
-X-Google-Sender-Auth: _OZTBBsDxOQw4gET-gU71J5a00I
-Message-ID: <CAP9ODKogS69N51YxJ54-saCXbS0orquD8cbFCWWKLosE_TjSeg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	<CAP9ODKogS69N51YxJ54-saCXbS0orquD8cbFCWWKLosE_TjSeg@mail.gmail.com>
+X-Mailer: Evolution 3.4.4-1 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,50 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 12:00:28 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 30 Jul 2013 12:14:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 30, 2013 at 7:59 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Monday 29 July 2013 19:26:27 Otavio Salvador wrote:
->> This allow the addition and removal of distro features easily. To add
->> a feature, use:
->>
->>  EXTRA_DISTRO_FEATURES += "wayland"
->>
->> and to remove, use '~' prefix, as:
->>
->>  EXTRA_DISTRO_FEATURES += "~x11"
->>
->> This code has been mostly copied from Mentor Graphics public layer but
->> changed the variable name for a more descriptive name.
->
-> 1) Isn't this just adding list subtraction via the back door, which Richard
-> has already argued against (mostly because the interaction between it and
-> _append/_prepend will be hard to predict)?
+On Tue, 2013-07-30 at 09:00 -0300, Otavio Salvador wrote:
+> To make this, we cannot reuse Poky distro for example as it
+> /unconditionally/ appends to DISTRO_FEATURES. Besides it is easier for
+> test to be able to override it using local.conf. For products I agree
+> we'll end adding a distro to make it reprodicable but for development
+> stage this trick makes life much easier.
 
-We call it and /finalize/ the database so it has _append/_prepend
-resolved before mangling the list.
+Surely for one-off tests you can just write out the whole intended value
+of DISTRO_FEATURES in your local.conf.  It doesn't seem as though this
+variable is unwieldy enough that it really needs mechanical handling.
 
-> 2) Why not just set DISTRO_FEATURES to contain just the items you want in your
-> distro configuration instead of trying to add and subtract from some previous
-> value? What if the previous value changes in a way that no longer fits your
-> desired configuration? Surely it is better to just be explicit.
+As for poky appending to DISTRO_FEATURES rather than just setting it,
+that sounds like it's arguably a bug in poky and you should perhaps take
+it up with those guys.  Of course, they might take the view that poky
+itself is meant to be determining what DISTRO_FEATURES it wants and they
+don't want to support or encourage random frobbing of flags by third
+parties, and I think that'd be an understandable position.
 
-To make this, we cannot reuse Poky distro for example as it
-/unconditionally/ appends to DISTRO_FEATURES. Besides it is easier for
-test to be able to override it using local.conf. For products I agree
-we'll end adding a distro to make it reprodicable but for development
-stage this trick makes life much easier.
+>We call it and /finalize/ the database so it has _append/_prepend
+>resolved before mangling the list.
 
-> 3) Even if we were to add this here wouldn't users expect this to work in all
-> such variables and not just DISTRO_FEATURES?
+That seems a bit unwholesome in itself.  Are you sure there are no
+potential bad consequences from calling finalize() there?
 
-I did this for DISTRO_FEATURES and I don't think it is good to have
-this for all vars.
+p.
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
 
