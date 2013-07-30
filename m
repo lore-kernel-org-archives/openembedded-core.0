@@ -1,38 +1,40 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 734B96B478
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
+	[209.85.219.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C31E36B478
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 18:54:17 +0000 (UTC)
-Received: by mail-la0-f51.google.com with SMTP id fp13so5129084lab.24
+	Tue, 30 Jul 2013 20:14:52 +0000 (UTC)
+Received: by mail-oa0-f41.google.com with SMTP id j6so7831874oag.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 11:54:17 -0700 (PDT)
+	Tue, 30 Jul 2013 13:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=EXggBxcDI1/R+EJPQKEyESpEBoSSyI5HXSa8Zu8XKjg=;
-	b=lBPTMn7fpq4QiMRAhkAjMIOPUZHfq2Pb7zDL2hCJu+Tjhw563RA4cr+5w7eQEpEhCt
-	QaWXMNKFcCMwdgT6Bm+2g9b8fSesLW/PouqqTQfpDkFTojP75dw7Q1OTIH7ju6q26Iyp
-	5NaA0vLfN5jlx5xdfYhcr4MxdJrzxu/a4nJlz+OBOMh3bANHOC66UZ5sXyTKxv0DJEhk
-	mhY/aQ2XqlMzoSG3vtmwhJq6j4vJ6oNdHOUk1feFDh2vLxjIGWpY5pUO4JX+g2OCe72M
-	hEVR6M8v+WE04w4Dj5uQqxn4DEsFdPGe1MNqlZ/PtBwjsqS8NZM5mI1T5xfkqinOjqdT
-	6TtQ==
-X-Received: by 10.112.140.231 with SMTP id rj7mr28968267lbb.16.1375210457159; 
-	Tue, 30 Jul 2013 11:54:17 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=jjMPyfRHg4yf/70VT3SQC7lCRHksJTxggum5d3e3wSM=;
+	b=pnMxLy2E/Efir3ZafVpty+hu2Pbzob2HVU2NQveLJUgd52nMjQhMyY+X52uJm0wYUf
+	1Eaxt/HNQ+2x6QlOO27niNvvo+gtPPnScAjdkhXVH147l8N/fxnRKVAy2wbC3VuInagp
+	AHrXQjWe3JH/1MopMSklW8OCxS2ALfbrL5vXejCqKHwJf2le2s/VT30rC9UXa2BlAUvd
+	mwM/t5pIQbmJ3obVL8QfSHVRMNoyye0ifOGDyEXpQV1/rqjXgH6uG3YNsV72gHKK3Pke
+	YJTnbZOuTfmE5AGca4ivna+kSNkzS9aOAYznbqmXO8b6PtccexIVLqIrRjJI3Kwy6TQQ
+	ZRCA==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.17.67 with HTTP; Tue, 30 Jul 2013 11:53:57 -0700 (PDT)
-In-Reply-To: <51F092C5.3060906@windriver.com>
-References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-	<51F092C5.3060906@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 30 Jul 2013 11:53:57 -0700
-X-Google-Sender-Auth: VDtR-M26IRHTFvgGpuAVg77dS7c
-Message-ID: <CABcZANk_XvT3uHDQQmqsm-4dTVZYd-D3RRsW+wz=2cdE-xkbmA@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.182.27.74 with SMTP id r10mr58161832obg.63.1375215292843;
+	Tue, 30 Jul 2013 13:14:52 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.125.199 with HTTP; Tue, 30 Jul 2013 13:14:52 -0700 (PDT)
+In-Reply-To: <6204851.hDiY3UGMop@atv-pwoegere-l3.atv.mentorg.com>
+References: <4903846.j6lpffeJue@atv-pwoegere-l3.atv.mentorg.com>
+	<CAP9ODKqt4ZkPsr8bzHqekb7NxRypF75tgbmiqg7aJTVEreD0Sw@mail.gmail.com>
+	<6204851.hDiY3UGMop@atv-pwoegere-l3.atv.mentorg.com>
+Date: Tue, 30 Jul 2013 17:14:52 -0300
+X-Google-Sender-Auth: jPaJ7858fwAczqtGCLYl6iUcViA
+Message-ID: <CAP9ODKqABwY=qvbAjRrFToaG4e+yw7Pm1WYPxMoaRYdB9i0sjQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Woegerer, Paul" <Paul_Woegerer@mentor.com>
+Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
+Subject: Re: lttng-* 2.2.x point release updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,78 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 18:54:18 -0000
-Content-Type: multipart/alternative; boundary=001a11c26a30ca5e9c04e2bf225f
+X-List-Received-Date: Tue, 30 Jul 2013 20:14:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---001a11c26a30ca5e9c04e2bf225f
-Content-Type: text/plain; charset=UTF-8
+On Tue, Jul 30, 2013 at 5:09 PM,  <Paul_Woegerer@mentor.com> wrote:
+> Hi Otavio,
 
-On Wed, Jul 24, 2013 at 7:51 PM, ChenQi <Qi.Chen@windriver.com> wrote:
+Hi Paul,
 
-> You can get more information from the bug link below. The related bugs are
-> listed in the blocks list of this bug.
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4103
-> You can also review the patchset for these bugs on
->
-> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images
->
->
-I'll start playing around with this locally, to see how well it'd work
-(with adjustments to support systemd) for our use cases, and will go from
-there on our end. Up next for me:
+> The patch below updates LTTng and related packages to the latest point releases.
 
-- see if your r/o bits will be suitable for us with systemd rather than
-using our tmpfiles override mechanism. we need to support this on much more
-than just live images, and we need systemd :)
-- pursue systemd support for services missing that support in oe-core
-- pursue improved sysvinit / systemd feature parity, and potential
-volatiles -> tmpfiles migration / consolidation
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Thanks by working on this but please send one patch for each recipe
+and follow the process documented at:
 
---001a11c26a30ca5e9c04e2bf225f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Jul 24, 2013 at 7:51 PM, ChenQi <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</sp=
-an> wrote:<br>
+Thanks in advance :-)
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div>You can get more information from the b=
-ug link below. The related
-      bugs are listed in the blocks list of this bug.<br>
-      <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4103" =
-target=3D"_blank">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4103<=
-/a><br>
-      You can also review the patchset for these bugs on <br>
-      <pre><a href=3D"http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=
-=3DChenQi/read-only-rootfs-in-live-images" target=3D"_blank">http://git.pok=
-ylinux.org/cgit.cgi/poky-contrib/log/?h=3DChenQi/read-only-rootfs-in-live-i=
-mages</a></pre>
+Best regards,
 
-</div></blockquote></div><br>I&#39;ll start playing around with this locall=
-y, to see how well it&#39;d work (with adjustments to support systemd) for =
-our use cases, and will go from there on our end. Up next for me:</div>
+--
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">- see if yo=
-ur r/o bits will be suitable for us with systemd rather than using our tmpf=
-iles override mechanism. we need to support this on much more than just liv=
-e images, and we need systemd :)</div>
-
-<div class=3D"gmail_extra">- pursue systemd support for services missing th=
-at support in oe-core</div><div class=3D"gmail_extra">- pursue improved sys=
-vinit / systemd feature parity, and potential volatiles -&gt; tmpfiles migr=
-ation / consolidation<br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
-
---001a11c26a30ca5e9c04e2bf225f--
