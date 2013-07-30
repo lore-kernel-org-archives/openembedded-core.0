@@ -1,28 +1,26 @@
-Return-Path: <stefanx.stanacar@intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F8A56B4CC
+	by mail.openembedded.org (Postfix) with ESMTP id C1E9D6B41A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 08:35:42 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2013 01:35:42 -0700
+	Tue, 30 Jul 2013 08:36:16 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2013 01:36:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,776,1367996400"; d="scan'208";a="338899930"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 30 Jul 2013 01:35:42 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 898C62C8001
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 01:35:37 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jul 2013 11:35:54 +0300
-Message-Id: <edec10deb2863c79750af25b31d39f7d0904c8a8.1375171561.git.stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1375171561.git.stefanx.stanacar@intel.com>
-References: <cover.1375171561.git.stefanx.stanacar@intel.com>
-In-Reply-To: <cover.1375171561.git.stefanx.stanacar@intel.com>
-References: <cover.1375171561.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 4/4] oeqa/runtime/xorg: use the right ps command for xorg test
+X-IronPort-AV: E=Sophos;i="4.89,776,1367996400"; d="scan'208";a="275198111"
+Received: from unknown (HELO helios.localnet) ([10.252.122.217])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Jul 2013 01:36:16 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 30 Jul 2013 09:36:15 +0100
+Message-ID: <3142379.RoO2xEFs45@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <51F6FE24.7090502@windriver.com>
+References: <1374835703-9222-1-git-send-email-paul.eggleton@linux.intel.com>
+	<51F6FE24.7090502@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] classes/sanity: check for suid root command evility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 08:35:42 -0000
+X-List-Received-Date: Tue, 30 Jul 2013 08:36:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Use our determined ps command, otherwise test fails for images with procps.
+On Monday 29 July 2013 18:43:32 Mark Hatle wrote:
+> On 7/26/13 5:48 AM, Paul Eggleton wrote:
+> > Some users have been found to have an unnamed third-party piece of
+> > software installed which sets chmod, chown and mknod as suid root as
+> > part of its installation process. This interferes with the operation of
+> > pseudo and can result in files really being owned by root within the
+> > build output, and therefore breaks the build, apart from being a
+> > security issue. Check for this and bail out early if it is found.
+> > 
+> > Reported-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> 
+> Should these items be added to the buildtools-tarball target?  It might help
+> avoid the problem in the same way we already do to detect the bad make,
+> tar, etc..
 
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/runtime/xorg.py     | 4 ++--
- meta/lib/oeqa/utils/qemurunner.py | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+To be honest I'd rather not try to work around misconfiguration such as this.
 
-diff --git a/meta/lib/oeqa/runtime/xorg.py b/meta/lib/oeqa/runtime/xorg.py
-index 96cc20a..12dccd8 100644
---- a/meta/lib/oeqa/runtime/xorg.py
-+++ b/meta/lib/oeqa/runtime/xorg.py
-@@ -11,8 +11,8 @@ class XorgTest(oeRuntimeTest):
- 
-     @skipUnlessPassed('test_ssh')
-     def test_xorg_running(self):
--        (status, output) = self.target.run('ps | grep -v xinit | grep [X]org')
--        self.assertEqual(status, 0, msg="Xorg does not appear to be running %s" % self.target.run('ps')[1])
-+        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' |  grep -v xinit | grep [X]org')
-+        self.assertEqual(status, 0, msg="Xorg does not appear to be running %s" % self.target.run(oeRuntimeTest.pscmd)[1])
- 
-     @skipUnlessPassed('test_ssh')
-     def test_xorg_error(self):
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 45b3ccb..426af01 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -25,7 +25,7 @@ class QemuRunner:
-         self.rootfs = rootfs
- 
-         self.streampath = '/tmp/qemuconnection.%s' % os.getpid()
--        self.qemuparams = 'bootparams="console=tty1 console=ttyS0,115200n8" qemuparams="-serial unix:%s,server,nowait"' % self.streampath
-+        self.qemuparams = 'nographic bootparams="console=tty1 console=ttyS0,115200n8" qemuparams="-serial unix:%s,server,nowait"' % self.streampath
-         self.qemupid = None
-         self.ip = None
- 
+Cheers,
+Paul
+
 -- 
-1.8.3.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
