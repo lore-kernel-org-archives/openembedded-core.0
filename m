@@ -1,39 +1,45 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
-	[209.85.217.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EE976B4C2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EC866B480
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 18:27:18 +0000 (UTC)
-Received: by mail-lb0-f172.google.com with SMTP id o7so3607765lbv.31
+	Tue, 30 Jul 2013 18:28:45 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id kp13so6232771pab.21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 11:27:18 -0700 (PDT)
+	Tue, 30 Jul 2013 11:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date
-	:x-google-sender-auth:message-id:subject:to:cc:content-type;
-	bh=fQyI5zavpFc5+Iin1BO7E9M4gAHViPys7ImQ9/VEXbM=;
-	b=zoDprz9DefCwDxZfKFwE8HDpMoeKXjRXTwVnPbwYqlmUzspbIHUhGGTdkglQBX209w
-	3ufz0FYBhaMqhVi44yDR9GMXCdpfHFcehKHlgQw8aZBghyEYa85A0GvuEdC5it5labwi
-	Ld56MtzgpyDFxcqSe5LrclC5LQ0vmhOhdhGWTEbS46iOFUPySH1CmaLxb7A57g3K4E0d
-	LVdsfv1T4TYvJotGxvedtblE4kT2OlbOvxdnqCYEpXH7XyFNMWddjnaqKuWe9fPAz0DT
-	NKvSCzyn+kNzkDLuEzAcfgbT3YGEotNXpP3jk4sU3VyEbe2utpBTCKhvD1+ffvnyCFrP
-	BABQ==
-X-Received: by 10.112.60.129 with SMTP id h1mr4645414lbr.12.1375208838167;
-	Tue, 30 Jul 2013 11:27:18 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.17.67 with HTTP; Tue, 30 Jul 2013 11:26:58 -0700 (PDT)
-In-Reply-To: <CABcZANn+uBWBLLqoTUc0KSD6YtWsyuMgMUXX7EfQuGJqJOQmNg@mail.gmail.com>
-References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-	<51F092C5.3060906@windriver.com>
-	<CABcZANn+uBWBLLqoTUc0KSD6YtWsyuMgMUXX7EfQuGJqJOQmNg@mail.gmail.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 30 Jul 2013 11:26:58 -0700
-X-Google-Sender-Auth: d8zOVZR0hnb9uR7MTssvlJjScjQ
-Message-ID: <CABcZANkzrC9D4CR5cp6VWV9goF0bWKDP_0GJLiNt18AfoMuU0Q@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=K1ZRnrvKwIwn68RbpEIO4w/gkeMLmmi3NNikxkH+naI=;
+	b=Ucd8dJ14YhmLFcsGVul5naQSiQwvO9+rbetq6u1/w2cmMG7bIKJd/OHfPjzItjvCMM
+	GLEepDvIFaNN/Od/7PtHMXq7eGHG+wlXPTqCTgsj2TA7weuCTMVZ5FoG+2v2aTgFjlg+
+	6TDy0URdKlvdFOCPG3fhj2XluIMBtATiXcL9gtUODvwm1aD/EZvNkYhwhTi4NpogtuHP
+	t1ayUTcLxN4WfujrSTTBKCPiy11TRM/vIQskmjc+EsXHML0HeQ7v5e8rxm8LxbXmlUPN
+	ltpxAkd7kyUU8M1Ix6ntKCSEDR8OMYasZPWlIkkHCb/ZIY5drLQgjUXKyjxYLxUxVbhv
+	Riow==
+X-Received: by 10.66.216.129 with SMTP id oq1mr33794136pac.75.1375208926467;
+	Tue, 30 Jul 2013 11:28:46 -0700 (PDT)
+Received: from ddeviny-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id wr9sm84471691pbc.7.2013.07.30.11.28.44
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 30 Jul 2013 11:28:45 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51F7EDC7.1050105@linux.intel.com>
+Date: Tue, 30 Jul 2013 11:28:42 -0700
+Message-Id: <87BC44D8-DC37-4B4E-8E36-B25893EED742@gmail.com>
+References: <cover.1372456294.git.raj.khem@gmail.com>
+	<20130629053844.GQ3261@jama>
+	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
+	<20130629153101.GV3261@jama>
+	<45F76803-CA83-4DAC-A972-EE4CB8FEE054@gmail.com>
+	<51F7EDC7.1050105@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/24] Add python3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,100 +52,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 18:27:18 -0000
-Content-Type: multipart/alternative; boundary=e89a8f9219c24a82f604e2bec2c1
-
---e89a8f9219c24a82f604e2bec2c1
-Content-Type: text/plain; charset=UTF-8
-
-On Tue, Jul 30, 2013 at 11:17 AM, Chris Larson <clarson@kergoth.com> wrote:
-
-> - Next steps, from my perspective:
->
->     - We need to agree on a pattern to follow for the read only rootfs
-> support for individual pieces of recipes, as we need to work through them
-> individually. Currently we have two possibilities on the floor, the
-> /etc/default/readonly/ approach advocated by Chen Qi, and the overriding
-> the volatiles/tmpfiles.d config file approach advocated by myself.
->     - We need a plan of attack to avoid the need to duplicate tmpfiles.d
-> and volatiles configuration. I was leaning toward using systemd-tmpfiles
-> for both sysvinit and systemd, but others have advocated moving to
-> tmpfiles.d configuration but using a homerolled script to implement it.
-> Either would be a step in the right direction: moving away from volatiles
-> config files in favor of tmpfiles.d config files.
->     - We need a coherent, consistent mechanism for the user to choose
-> whether a given file or files will be pregenerated at build time (e.g. ssh
-> host keys, machine id) or generated every time at boot, for applicable
-> cases.
->
-
-I forgot to mention, we also need to focus on improving the oe-core systemd
-support, and the feature parity between sysvinit and systemd images. Some
-are missing systemd support at all still (e.g. dropbear's service files are
-still in meta-systemd), and others don't behave the same between the two.
-For example, were we to pull over those dropbear service files, the
-dropbear sysvinit script would behave differently than the service files,
-and dropbear would behave differently than openssh.
-
-I don't know if that's a priority for the Yocto 1.5 release, but it
-probably should be.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---e89a8f9219c24a82f604e2bec2c1
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 30 Jul 2013 18:28:45 -0000
+Content-Type: text/plain; charset=iso-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-ue, Jul 30, 2013 at 11:17 AM, Chris Larson <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&gt;<=
-/span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"gmail_extra">- Next steps, fro=
-m my perspective:</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
-mail_extra">
+On Jul 30, 2013, at 9:45 AM, Saul Wold <sgw@linux.intel.com> wrote:
 
-=C2=A0 =C2=A0 - We need to agree on a pattern to follow for the read only r=
-ootfs support for individual pieces of recipes, as we need to work through =
-them individually. Currently we have two possibilities on the floor, the /e=
-tc/default/readonly/ approach advocated by=C2=A0Chen Qi, and the overriding=
- the volatiles/tmpfiles.d config file approach advocated by myself.</div>
+> On 07/30/2013 01:16 AM, Khem Raj wrote:
+>>=20
+>> On Jun 29, 2013, at 8:31 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>>=20
+>>> On Sat, Jun 29, 2013 at 07:11:35AM -0700, Khem Raj wrote:
+>>>>=20
+>>>> On Jun 28, 2013, at 10:38 PM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>>>>=20
+>>>>> On Fri, Jun 28, 2013 at 03:03:39PM -0700, Khem Raj wrote:
+>>>>>>=20
+>>>>>> generate-manifest-3.3.py: Add script to generate python 3.3 =
+manifests
+>>>>>> python-3.3-manifest: Add python3 manifest file
+>>>>>=20
+>>>>>> classes: Add distutils for python3
+>>>>>> setuptools.bbclass: Use python-distribute instead of
+>>>>>>   python-setuptools
+>>>>>> distutils3.bbclass: Port the distutils class fix to handle =
+filenames
+>>>>>>   with spaces
+>>>>>> setuptools3.bbclass: Remove useless multiline comment
+>>>>>> distutils: Introduce PYTHON_ABI variable
+>>>>>> distutils3: Do build_ext as separate step during compile
+>>>>>=20
+>>>>=20
+>>>>> I think these 2 groups could be squashed together for easier =
+review, but
+>>>>=20
+>>>> do you mean create just two patches out of those ?
+>>>=20
+>>> Yes
+>>>=20
+>>>>> otherwise great work, thanks for doing it!
+>>>>>=20
+>>>>> I'll add them to jenkins a bit later when I get some better build =
+that
+>>>>> what we have now.
+>>>>=20
+>>>> They were added in order that the build keeps working with every =
+commit for helping bisects on tree later
+>>>=20
+>>> I meant that e.g.
+>>>  classes: Add distutils for python3
+>>> introduces setuptools3.bbclass and
+>>>  setuptools3.bbclass: Remove useless multiline comment
+>>> just 3 commits later fixes that, the same with the left-over commit =
+I
+>>> mentined in other thread which was also resolved by some follow up
+>>> commit, with all new .bbclasses together I would read them just =
+once.
+>>>=20
+>>=20
+>> Thanks Martin and Paul for reviewing and trying out the patches
+>> Finally I have now addressed all the comments/feedback that was =
+provided for this patch set.
+>> The pull tree is now updated to latest.
+>>=20
+>> Take a look and install if its ok
+>>=20
+> Please review your patches for Upstream-Status: and Signed-off-by: =
+tags.
+>=20
+
+I have pushed a patch on top which fixed these
+
+> I will be reviewing and building this on the AB in mut.
+>=20
+
+OK
 
 
-<div class=3D"gmail_extra">=C2=A0 =C2=A0 - We need a plan of attack to avoi=
-d the need to duplicate tmpfiles.d and volatiles configuration. I was leani=
-ng toward using systemd-tmpfiles for both sysvinit and systemd, but others =
-have advocated moving to tmpfiles.d configuration but using a homerolled sc=
-ript to implement it. Either would be a step in the right direction: moving=
- away from volatiles config files in favor of tmpfiles.d config files.</div=
->
-
-
-<div class=3D"gmail_extra">=C2=A0 =C2=A0 - We need a coherent, consistent m=
-echanism for the user to choose whether a given file or files will be prege=
-nerated at build time (e.g. ssh host keys, machine id) or generated every t=
-ime at boot, for applicable cases.</div>
-
-</blockquote></div><br>I forgot to mention, we also need to focus on improv=
-ing the oe-core systemd support, and the feature parity between sysvinit an=
-d systemd images. Some are missing systemd support at all still (e.g. dropb=
-ear&#39;s service files are still in meta-systemd), and others don&#39;t be=
-have the same between the two. For example, were we to pull over those drop=
-bear service files, the dropbear sysvinit script would behave differently t=
-han the service files, and dropbear would behave differently than openssh.<=
-/div>
-
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">I don&#39;t=
- know if that&#39;s a priority for the Yocto 1.5 release, but it probably s=
-hould be.<br>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Fou=
-nder - BitBake, OpenEmbedded, OpenZaurus<br>
-
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
-</div></div>
-
---e89a8f9219c24a82f604e2bec2c1--
