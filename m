@@ -1,37 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C1226A9C4
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 212346B20C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 13:48:38 +0000 (UTC)
-Received: by mail-wi0-f177.google.com with SMTP id hq12so3676493wib.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 06:48:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=crGiJJSGQtDQ3NryV15Wf1xAl62dngEKgblgFkiaH9c=;
-	b=XVh6EtevkZ5fgOFK8Qn45jiNwndR1clGQgvdQoOqAKbdciHNUGysQDNP8ld5dZXaMb
-	n2Kyy9awPv8Z+PBP23qwY6YDWWNxQXyDylq/5QvmEsk9IqW3IVj2CTzfOTK8QWAQ+90m
-	W+o0WJYtghyFeVHDdQTUkJSEYhZqpYSDD/oXsDUy7eldmoyM6HHHFgn5mKdhYPulUADL
-	2qv41X2euC19uVkrD83lOt5FYYS3w9sePGaWmlpKqXBUYNrFXRnzXQ/r1S7kZxAwNrxV
-	3Y4bZCOOgP9Zu46kAuorAqrKuyRhGICCJLH/q6jEFEOxdhICAAFc/ztYyxiGZewd6SeF
-	uTtA==
-X-Received: by 10.180.79.161 with SMTP id k1mr1041819wix.36.1375192118397;
-	Tue, 30 Jul 2013 06:48:38 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	s19sm28651851wik.11.2013.07.30.06.48.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 30 Jul 2013 06:48:37 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jul 2013 14:48:34 +0100
-Message-Id: <1375192114-11396-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnvVgYIqjoN4CSz/E3hlU6yJ/8kNqZ6D3MdDO84Svi0y8coYbRuw/iBz8bMr668//Zn4789
-Subject: [PATCH][V2] bluez5: Add obex-profiles as a PACKAGECONFIG, package obexd separately
+	Tue, 30 Jul 2013 14:18:19 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 Jul 2013 07:18:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,778,1367996400"; d="scan'208";a="378912133"
+Received: from unknown (HELO helios.localnet) ([10.252.122.217])
+	by orsmga002.jf.intel.com with ESMTP; 30 Jul 2013 07:18:18 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>,
+	Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Tue, 30 Jul 2013 15:18:17 +0100
+Message-ID: <10500377.RxauFUiAWr@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CAP9ODKrysra+zBOTmpYiMMoaoM2gfXqJDRKE1PNa2YNzWpPRxg@mail.gmail.com>
+References: <1374223150-16033-1-git-send-email-andre.draszik@linaro.org>
+	<CAP71WjyRkp0TM9vLfX6jFG-E6TWZuUjZeUTSnEefvJA1VOb5yA@mail.gmail.com>
+	<CAP9ODKrysra+zBOTmpYiMMoaoM2gfXqJDRKE1PNa2YNzWpPRxg@mail.gmail.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] directfb: don't patch pkg-config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 13:48:38 -0000
+X-List-Received-Date: Tue, 30 Jul 2013 14:18:19 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
---enable-obex controls if obexd supports extra profiles (currently IRMC and
-PBAB), which brings in a dependency on libical for the dummy phonebook
-implementation.
+On Friday 19 July 2013 14:52:00 Otavio Salvador wrote:
+> On Fri, Jul 19, 2013 at 11:46 AM, Nicolas Dechesne
+>=20
+> <nicolas.dechesne@linaro.org> wrote:
+> > On Fri, Jul 19, 2013 at 10:39 AM, Andr=E9 Draszik <andre.draszik@li=
+naro.org>
+> >=20
+> > wrote:
+> >> We are currently getting build failures of projects that rely on
+> >> being able to access DirectFB's internal include directories, as
+> >> returned via pkg-config, since the include paths returned by
+> >> pkg-config are incomplete.
+> >>=20
+> >> The reason for that is the patch that is being removed with this
+> >> change. It modified the cflags returned by pkg-config in an
+> >> incorrect way, causing us to miss important include paths:
+> >>=20
+> >> For reference, pkg-config output with incorrect patch applied:
+> >>   ad@bril0118 #513 ~> pkg-config --cflags directfb-internal
+> >>=20
+> >> -D_GNU_SOURCE -D_REENTRANT
+> >> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb
+> >> -I<builddir>/tmp/sysroots/<machine>/usr/include
+> >>=20
+> >> Now, with the incorrect patch removed, the output is as expected:
+> >>   ad@bril0118 #514 ~> pkg-config --cflags directfb-internal
+> >>=20
+> >> -D_GNU_SOURCE -D_REENTRANT
+> >> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb-internal
+> >> -I<builddir>/tmp/sysroots/<machine>/usr/include/directfb
+> >>=20
+> >> Overall, the removed patch is not needed - pkg-config does the rig=
+ht
+> >> thing these days and we can simply use the correctly working upstr=
+eam
+> >> versions of all DirectFB .pc files.
+> >>=20
+> >> Signed-off-by: Andr=E9 Draszik <andre.draszik@linaro.org>
+> >=20
+> > i reviewed and tested this patch against a QT4e image build. it loo=
+ks good
+> > to me, and that offending patch being removed seems to come from qu=
+ite
+> > ancient stuff.
+> >=20
+> > Tested-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> >=20
+> > any chance this can get into 'dylan', too?
+>=20
+> Paul, I think it is your business ;-)
 
-Based on work by Saul Wold <sgw@linux.intel.com>.
+Indeed. I've added it to my paule/dylan-next branch for testing.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc |   13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+Cheers,
+Paul
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index fc78900..6ab05cf 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -6,12 +6,13 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
--DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck libical readline"
-+DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
- 
- RCONFLICTS_${PN} = "bluez4"
- 
--PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} obex-profiles"
- PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
-+PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
- 
- SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.gz \
-@@ -47,7 +48,7 @@ do_install_append() {
- }
- 
- ALLOW_EMPTY_libasound-module-bluez = "1"
--PACKAGES =+ "libasound-module-bluez ${PN}-test"
-+PACKAGES =+ "libasound-module-bluez ${PN}-test ${PN}-obex"
- 
- FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
- FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
-@@ -56,6 +57,12 @@ FILES_${PN}-dev += "\
-   ${libdir}/alsa-lib/*.la \
- "
- 
-+FILES_${PN}-obex = "${libdir}/bluez5/bluetooth/obexd \
-+                    ${libdir}/systemd/user/obex.service \
-+                    ${datadir}/dbus-1/services/org.bluez.obex.service \
-+                   "
-+SYSTEMD_SERVICE_${PN}-obex = "obex.service"
-+
- FILES_${PN}-test = "${libdir}/bluez/test/*"
- 
- FILES_${PN}-dbg += "\
--- 
-1.7.10.4
+--=20
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
