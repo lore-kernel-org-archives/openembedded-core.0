@@ -1,31 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DFFF6B3F2
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EAEA6B3F2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 15:36:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2013 08:36:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,778,1367996400"; d="scan'208";a="378427735"
-Received: from unknown (HELO [10.255.14.47]) ([10.255.14.47])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2013 08:35:59 -0700
-Message-ID: <51F7DD5E.2000407@linux.intel.com>
-Date: Tue, 30 Jul 2013 08:35:58 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue, 30 Jul 2013 15:37:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6UFbxVP013487
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 30 Jul 2013 08:38:00 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.230) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 30 Jul 2013 08:37:58 -0700
+Message-ID: <51F7DDD7.2010507@windriver.com>
+Date: Tue, 30 Jul 2013 10:37:59 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
-	<21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
-	<7891D5A0-7EB3-4A7A-99EC-962DC7EF9764@gmail.com>
-	<8237333.h1yk84NkVT@helios>
-	<1E8D28AF-6657-4E48-B7D6-79D4A29A3095@gmail.com>
-In-Reply-To: <1E8D28AF-6657-4E48-B7D6-79D4A29A3095@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: fix PACKAGECONFIG options
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1375136787-18139-1-git-send-email-otavio@ossystems.com.br>
+	<CAP9ODKrC8koJjy-1P82wJ5UrP8Yqp_sQhCFDqqjsGe_Gyv-NSQ@mail.gmail.com>
+	<51F7D1BB.8010405@windriver.com> <25949827.IjnmVXh6xo@helios>
+In-Reply-To: <25949827.IjnmVXh6xo@helios>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,95 +37,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 15:36:00 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 30 Jul 2013 15:37:59 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/30/2013 08:31 AM, Khem Raj wrote:
->
-> On Jul 30, 2013, at 3:50 AM, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->
->> On Tuesday 30 July 2013 01:52:42 Khem Raj wrote:
->>> On Jul 26, 2013, at 12:01 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
->>>> Op 25 jul. 2013, om 16:51 heeft Koen Kooi <koen@dominion.thruhere.net> het
->> volgende geschreven:
->>>>> The ??= operator is too weak and it's setting a non-existent
->>>>> PACKAGECONFIG option ('libpam' instead of 'pam').
->>>>>
->>>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
->>>>> ---
->>>>> meta/recipes-core/util-linux/util-linux.inc | 4 ++--
->>>>> 1 file changed, 2 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/meta/recipes-core/util-linux/util-linux.inc
->>>>> b/meta/recipes-core/util-linux/util-linux.inc index d373cec..3d1198a
->>>>> 100644
->>>>> --- a/meta/recipes-core/util-linux/util-linux.inc
->>>>> +++ b/meta/recipes-core/util-linux/util-linux.inc
->>>>> @@ -47,9 +47,9 @@ EXTRA_OECONF = "--libdir=${base_libdir}
->>>>> --disable-use-tty-group \>>
->>>>>                --enable-libuuid --enable-libblkid --enable-fsck
->>>>>                --without-udev \
->>>>> 		
->>>>> 		usrsbin_execdir='${sbindir}' \
->>>>>
->>>>> "
->>>>> -PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES',
->>>>> 'pam', 'libpam', '', d)} \ +PACKAGECONFIG_class-target ?=
->>>>> "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \>>
->>>>>                                ${@base_contains('DISTRO_FEATURES',
->>>>>                                'systemd', 'systemd', '', d)} "
->>>>>
->>>>> -PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su
->>>>> --disable-runuser, pam," +PACKAGECONFIG[pam] = "--enable-su
->>>>> --enable-runuser,--disable-su --disable-runuser, libpam,"
->>>>>
->>>>> # Respect the systemd feature for uuidd
->>>>> PACKAGECONFIG[systemd] = "--enable-socket-activation
->>>>> --with-systemdsystemunitdir=${systemd_unitdir}/system/,
->>>>> --disable-socket-activation --without-systemdsystemunitdir">
->>>> And of course this will trigger another bug:
->>>> |  * check_data_file_clashes: Package util-linux wants to install file
->>>> |  /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-ang
->>>> |  strom-linux-gnueabi/cloud9-image/1.0-r0/rootfs/usr/bin/su> |
->>>> |       But that file is already provided by package  * shadow
->>>>
->>>> *sigh*
->>>
->>> +*sigh*
->>>
->>> has this been fixed yet ? just ran into same issue
+On 7/30/13 10:09 AM, Paul Eggleton wrote:
+> On Tuesday 30 July 2013 09:46:19 Mark Hatle wrote:
+>> I agree with the previous folks that the design of the distribution setting
+>> the one and true value is the right technical answer for this.  HOWEVER, in
+>> my experience, this is NOT what end users want.
 >>
->> The patch to fix it is in Saul's most recent consolidated pull.
->>
+>> They want a method similar to the one posted by Otavio in order to tailor
+>> the system.  End users never want to create a new distribution, they simply
+>> want to start with one and tweak it.
 >
-> which one is it ? I am at
+> Then surely an easier solution would be to advocate copy-and-modify of an
+> existing distro config, and if we're not setting the value of DISTRO_FEATURES
+> explicitly there (which we aren't currently in poky.conf) then we should just
+> do that in order to make that easier?
 >
-> commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1
-> Author: Saul Wold <sgw@linux.intel.com>
-> Date:   Thu Jul 25 14:15:18 2013 -0700
->
->      external-sourcery: add missing providers
->
->
-It's pending on oe-contrib/sgw/stage, a series of 3 Update-Alternatives 
-for busybox, util-linux and shadow,
+> I honestly think building on an existing configuration value that is not
+> immediately visible and might change when the user upgrades to a new version
+> of the underlying distro is not a good thing to be encouraging people to do.
 
-Sau!
+I don't disagree with you either, but my experience so far is end users don't 
+care.  They also don't know what the right setting(s) should be.  So they are 
+more comfortable with adding or removing individual options.
 
+>> So with that said, my opinion is to enable this code, allowing end users to
+>> tweak their distribution settings.  But make it a stated policy that
+>> distribution layers should only "set" the value of DISTRO_FEATURES, and
+>> should never modify/update this new EXTRA_DISTRO_FEATURES value.  (Of
+>> course, I doubt there is a way to police that, other then state it's
+>> policy.)
+>
+> Yes but people will just ignore that. DISTRO_FEATURES_BACKFILL has already
+> been abused for similar purposes :/
+>
+>> This is the same type of reason that end users was a "don't install this
+>> package" feature as well. While anyone can write a new image recipe, nobody
+>> wants to, especially when they only want one or two less packages in their
+>> image.
+>
+> Surely the primary motivation for having the "remove" functionality [1] is the
+> case when you don't know how a particular package has got in via dependencies
+> and you want it removed, and not the percieved difficulty of creating an image
+> recipe?
 
->> Cheers,
->> Paul
->>
->> --
->>
->> Paul Eggleton
->> Intel Open Source Technology Centre
+That is part of it.. but it's the same concept.  The end user doesn't have any 
+desire to learn recipe's, image generation, etc.  So they want a path of least 
+resistance.  I don't want 'foo', so remove it.  (When I say remove BTW, I'm 
+really mean don't install..  vs install -then- remove.)
+
+> Really if people write nothing else they should be writing their own image
+> recipes, because it's trivially easy to do so (or at the very least, copy an
+> existing one and modify it).
+
+I don't disagree with you, but the two commercial (oe-core based) releases I've 
+been involved with over the last couple years, the yelling keeps getting louder 
+for a removal capability, because they don't want to write image recipes.
+
+--Mark
+
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=4079
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Cheers,
+> Paul
 >
->
+
 
