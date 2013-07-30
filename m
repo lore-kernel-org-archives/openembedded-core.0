@@ -1,26 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id C1E9D6B41A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EF8A6B410
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 08:36:16 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2013 01:36:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,776,1367996400"; d="scan'208";a="275198111"
-Received: from unknown (HELO helios.localnet) ([10.252.122.217])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Jul 2013 01:36:16 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Tue, 30 Jul 2013 09:36:15 +0100
-Message-ID: <3142379.RoO2xEFs45@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <51F6FE24.7090502@windriver.com>
-References: <1374835703-9222-1-git-send-email-paul.eggleton@linux.intel.com>
-	<51F6FE24.7090502@windriver.com>
-MIME-Version: 1.0
+	Tue, 30 Jul 2013 08:52:45 +0000 (UTC)
+Received: by mail-pd0-f172.google.com with SMTP id z10so6455222pdj.31
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jul 2013 01:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=+NyW5UT7F/1P5aUJIddoGSBVO+3cmdBBFuaU8ZPA0go=;
+	b=q6eOZfHhzWIk+gNWVrj+bxckj5SMEc7LyhJtHUyUvPRNpgOkK8Ia/RgsG7Y5tIxwOn
+	W6IfZqkWwOqyBKcCMd+xy/b8ThhdkMR29XSAQ4k5G3iRwL2P4bSBBSZi8O358yj+pnqo
+	hGQn0GsaNV5xJRGdRoSl+03XcyQkrw6lfRll1jQKdQKWtxh/GCdrdPqK89ebSWA7wR5k
+	Oj9Lh+OjHOS59MtqXJJF/BZaARmMcw5ZsKYj4xmPlDWaDvOtOMyKwgzJvp+U2DGd6zEB
+	o9b/k9z0vrtGusdQthKdGrO5n1qBzwY4n+OAIHakvM+HW+pV5V4sm9eYAWDunR15p1Fu
+	54zA==
+X-Received: by 10.67.22.69 with SMTP id hq5mr51430610pad.174.1375174365879;
+	Tue, 30 Jul 2013 01:52:45 -0700 (PDT)
+Received: from ddeviny-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	pq1sm81779728pbb.26.2013.07.30.01.52.43 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 30 Jul 2013 01:52:44 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
+Date: Tue, 30 Jul 2013 01:52:42 -0700
+Message-Id: <7891D5A0-7EB3-4A7A-99EC-962DC7EF9764@gmail.com>
+References: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
+	<21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
+To: Koen Kooi <koen@dominion.thruhere.net>
+X-Mailer: Apple Mail (2.1508)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/sanity: check for suid root command evility
+Subject: Re: [PATCH] util-linux: fix PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +47,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 08:36:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 30 Jul 2013 08:52:45 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Monday 29 July 2013 18:43:32 Mark Hatle wrote:
-> On 7/26/13 5:48 AM, Paul Eggleton wrote:
-> > Some users have been found to have an unnamed third-party piece of
-> > software installed which sets chmod, chown and mknod as suid root as
-> > part of its installation process. This interferes with the operation of
-> > pseudo and can result in files really being owned by root within the
-> > build output, and therefore breaks the build, apart from being a
-> > security issue. Check for this and bail out early if it is found.
-> > 
-> > Reported-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> > 
-> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> 
-> Should these items be added to the buildtools-tarball target?  It might help
-> avoid the problem in the same way we already do to detect the bad make,
-> tar, etc..
 
-To be honest I'd rather not try to work around misconfiguration such as this.
+On Jul 26, 2013, at 12:01 AM, Koen Kooi <koen@dominion.thruhere.net> =
+wrote:
 
-Cheers,
-Paul
+>=20
+> Op 25 jul. 2013, om 16:51 heeft Koen Kooi <koen@dominion.thruhere.net> =
+het volgende geschreven:
+>=20
+>> The ??=3D operator is too weak and it's setting a non-existent =
+PACKAGECONFIG option ('libpam' instead of 'pam').
+>>=20
+>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>> ---
+>> meta/recipes-core/util-linux/util-linux.inc | 4 ++--
+>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>=20
+>> diff --git a/meta/recipes-core/util-linux/util-linux.inc =
+b/meta/recipes-core/util-linux/util-linux.inc
+>> index d373cec..3d1198a 100644
+>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>> @@ -47,9 +47,9 @@ EXTRA_OECONF =3D "--libdir=3D${base_libdir} =
+--disable-use-tty-group \
+>>                --enable-libuuid --enable-libblkid --enable-fsck =
+--without-udev \
+>> 		usrsbin_execdir=3D'${sbindir}' \
+>> "
+>> -PACKAGECONFIG_class-target ??=3D =
+"${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
+>> +PACKAGECONFIG_class-target ?=3D "${@base_contains('DISTRO_FEATURES', =
+'pam', 'pam', '', d)} \
+>>                                ${@base_contains('DISTRO_FEATURES', =
+'systemd', 'systemd', '', d)} "
+>> -PACKAGECONFIG[pam] =3D "--enable-su --enable-runuser,--disable-su =
+--disable-runuser, pam,"
+>> +PACKAGECONFIG[pam] =3D "--enable-su --enable-runuser,--disable-su =
+--disable-runuser, libpam,"
+>>=20
+>> # Respect the systemd feature for uuidd
+>> PACKAGECONFIG[systemd] =3D "--enable-socket-activation =
+--with-systemdsystemunitdir=3D${systemd_unitdir}/system/, =
+--disable-socket-activation --without-systemdsystemunitdir"
+>=20
+> And of course this will trigger another bug:
+>=20
+> |  * check_data_file_clashes: Package util-linux wants to install file =
+/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-angstro=
+m-linux-gnueabi/cloud9-image/1.0-r0/rootfs/usr/bin/su
+> |       But that file is already provided by package  * shadow
+>=20
+> *sigh*
 
--- 
++*sigh*
 
-Paul Eggleton
-Intel Open Source Technology Centre
+has this been fixed yet ? just ran into same issue
+
+| Collected errors:
+|  * check_data_file_clashes: Package util-linux wants to install file =
+/builds1/angstrom/build/tmp-angstrom_next-uclibc/work/qemuarm-angstrom-lin=
+ux-uclibceabi/systemd-image/1.0-r0/rootfs/usr/bin/su
+|       But that file is already provided by package  * shadow
+|  * opkg_install_cmd: Cannot install package packagegroup-target-sdk.
+| ERROR: Function failed: do_rootfs (log file is located at =
+/builds1/angstrom/build/tmp-angstrom_next-uclibc/work/qemuarm-angstrom-lin=
+ux-uclibceabi/systemd-image/1.0-r0/temp/log.do_rootfs.27649)
+NOTE: recipe systemd-image-1.0-r0: task do_rootfs: Failed
+
+
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
