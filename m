@@ -1,30 +1,34 @@
 Return-Path: <pb@pbcl.net>
 Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 84D9D6B3EE
+	by mail.openembedded.org (Postfix) with ESMTP id 0CD026B3FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 16:05:31 +0000 (UTC)
+	Tue, 30 Jul 2013 16:10:34 +0000 (UTC)
 Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
 	([86.30.57.232] helo=[172.30.1.45])
 	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1V4CQV-0004Os-BY; Tue, 30 Jul 2013 18:05:31 +0200
-Message-ID: <1375200330.8017.26.camel@phil-desktop.brightsign>
+	id 1V4CVO-0004PK-Bz; Tue, 30 Jul 2013 18:10:34 +0200
+Message-ID: <1375200633.8017.29.camel@phil-desktop.brightsign>
 From: Phil Blundell <pb@pbcl.net>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Tue, 30 Jul 2013 17:05:30 +0100
-In-Reply-To: <51F7DF2C.9030207@windriver.com>
-References: <1375136787-18139-1-git-send-email-otavio@ossystems.com.br>
-	<14478313.i1FmA8Di2T@helios>
-	<CAP9ODKogS69N51YxJ54-saCXbS0orquD8cbFCWWKLosE_TjSeg@mail.gmail.com>
-	<1375186489.13247.55.camel@phil-desktop.brightsign>
-	<CAP9ODKrC8koJjy-1P82wJ5UrP8Yqp_sQhCFDqqjsGe_Gyv-NSQ@mail.gmail.com>
-	<51F7D1BB.8010405@windriver.com>
-	<1375197551.8017.6.camel@phil-desktop.brightsign>
-	<51F7DF2C.9030207@windriver.com>
+To: Laszlo Papp <lpapp@kde.org>
+Date: Tue, 30 Jul 2013 17:10:33 +0100
+In-Reply-To: <CAOMwXhPw4K+T82qs21UzFFT+-eCYz9vBRVfUNGs5smmHCTP=VQ@mail.gmail.com>
+References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+	<1375092018.6324.176.camel@phil-desktop.brightsign>
+	<CAOMwXhNqXneU6UzeHZJJVM++RmNmmdvNMp3mbNV=YpFVE6tOdw@mail.gmail.com>
+	<1375093253.13247.5.camel@phil-desktop.brightsign>
+	<CAOMwXhO6+sJWjKAKVh=y1gymGoSUNVgs+nV9fz8G8eo9WHyAkw@mail.gmail.com>
+	<1375094111.13247.9.camel@phil-desktop.brightsign>
+	<CAOMwXhMZ1w5j=aP_yPXb=k0=UOuinMS5ENAsXAdzcb42WxC0Og@mail.gmail.com>
+	<CAOMwXhO2A75jPxM4FdU=XBgVRjsxW24hDVLOf8eub2Wp4CmGDA@mail.gmail.com>
+	<1402aa377f6.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+	<CAOMwXhOjyAtjsRbiHT3ufeApZVvkEE47pgBhXDsE0wxeHOZJiQ@mail.gmail.com>
+	<1402b178308.2760.0f39ed3bcad52ef2c88c90062b7714dc@gmail.com>
+	<CAOMwXhPw4K+T82qs21UzFFT+-eCYz9vBRVfUNGs5smmHCTP=VQ@mail.gmail.com>
 X-Mailer: Evolution 3.4.4-1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +41,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 16:05:32 -0000
+X-List-Received-Date: Tue, 30 Jul 2013 16:10:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-07-30 at 10:43 -0500, Mark Hatle wrote:
-> That only filters out recommendations though.  A good example is some x86 
-> packagegroups have a requirement of 'vte'.  It turns out a class of end users 
-> don't want 'vte'.  And they have no easy way to remove it.  Telling them to 
-> generate a new image, with a custom IMAGE_INSTALL value that includes everything 
-> except 'vte' doesn't make sense to them.
+On Tue, 2013-07-30 at 16:55 +0100, Laszlo Papp wrote:
 
-I'm not familiar with the particular example that you mentioned, but it
-sounds as though the packagegroups in question ought to be recommending
-vte rather than depending on it.  I think this is probably true for
-packagegroup dependencies in general in fact.
+> At any rate, can someone provide a helper change from the past for
+> PACKAGEGROUP like changes?
 
-The intended semantics of RDEPENDS are that anything named in that list
-is absolutely required for correct operation and can't be removed
-without breaking the functionality of the package that's doing the
-depending.  Things that are desirable but not absolutely necessary
-should be in RRECOMMENDS (and can be suppressed with
-BAD_RECOMMENDATIONS), and things which are entirely optional but might
-be "nice to have" should be in RSUGGESTS.
+Do you mean PACKAGECONFIG?  If so, just run "git log" in your oe-core
+tree and search for PACKAGECONFIG.
 
 p.
+
 
 
 
