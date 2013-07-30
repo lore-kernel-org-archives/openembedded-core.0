@@ -1,26 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id DDE8B6B3EE
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DFFF6B3F2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 15:35:00 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1V4Bww-0004Ns-Jw; Tue, 30 Jul 2013 17:34:58 +0200
-Message-ID: <1375198498.8017.9.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
+	Tue, 30 Jul 2013 15:36:00 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2013 08:36:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,778,1367996400"; d="scan'208";a="378427735"
+Received: from unknown (HELO [10.255.14.47]) ([10.255.14.47])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2013 08:35:59 -0700
+Message-ID: <51F7DD5E.2000407@linux.intel.com>
+Date: Tue, 30 Jul 2013 08:35:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
 To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 30 Jul 2013 16:34:58 +0100
-In-Reply-To: <825C7047-80C1-4FCF-B7F3-6F0895C41C36@gmail.com>
-References: <1362529925-13211-1-git-send-email-obi@opendreambox.org>
-	<1372758642-6302-1-git-send-email-obi@opendreambox.org>
-	<1375197856.8017.7.camel@phil-desktop.brightsign>
-	<825C7047-80C1-4FCF-B7F3-6F0895C41C36@gmail.com>
-X-Mailer: Evolution 3.4.4-1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH v3] chrpath.bbclass: strip common parent directories from rpath
+References: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
+	<21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
+	<7891D5A0-7EB3-4A7A-99EC-962DC7EF9764@gmail.com>
+	<8237333.h1yk84NkVT@helios>
+	<1E8D28AF-6657-4E48-B7D6-79D4A29A3095@gmail.com>
+In-Reply-To: <1E8D28AF-6657-4E48-B7D6-79D4A29A3095@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: fix PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +38,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 15:35:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 30 Jul 2013 15:36:00 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-07-30 at 08:27 -0700, Khem Raj wrote:
-> On Jul 30, 2013, at 8:24 AM, Phil Blundell <pb@pbcl.net> wrote:
-> 
-> > On Tue, 2013-07-02 at 11:50 +0200, Andreas Oberritter wrote:
-> >> Allows to use shorter TMPDIRs in corner cases, e.g. with native
-> >> perl modules, having a deep directory structure.
-> >> 
-> >> The problem is that the original absolute rpath may be shorter
-> >> than the newly generated relative rpath.
-> > 
-> > Can we not just fix chrpath to cope with the case where the new path is
-> > longer than the old one?  It seems a bit sad to require
-> > ever-more-convoluted workarounds for what is essentially a tool problem.
-> > 
-> 
-> another option is to dump chrpath in favour of something which does it elegantly - patchelf
+On 07/30/2013 08:31 AM, Khem Raj wrote:
+>
+> On Jul 30, 2013, at 3:50 AM, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+>
+>> On Tuesday 30 July 2013 01:52:42 Khem Raj wrote:
+>>> On Jul 26, 2013, at 12:01 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+>>>> Op 25 jul. 2013, om 16:51 heeft Koen Kooi <koen@dominion.thruhere.net> het
+>> volgende geschreven:
+>>>>> The ??= operator is too weak and it's setting a non-existent
+>>>>> PACKAGECONFIG option ('libpam' instead of 'pam').
+>>>>>
+>>>>> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+>>>>> ---
+>>>>> meta/recipes-core/util-linux/util-linux.inc | 4 ++--
+>>>>> 1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/meta/recipes-core/util-linux/util-linux.inc
+>>>>> b/meta/recipes-core/util-linux/util-linux.inc index d373cec..3d1198a
+>>>>> 100644
+>>>>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>>>>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>>>>> @@ -47,9 +47,9 @@ EXTRA_OECONF = "--libdir=${base_libdir}
+>>>>> --disable-use-tty-group \>>
+>>>>>                --enable-libuuid --enable-libblkid --enable-fsck
+>>>>>                --without-udev \
+>>>>> 		
+>>>>> 		usrsbin_execdir='${sbindir}' \
+>>>>>
+>>>>> "
+>>>>> -PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES',
+>>>>> 'pam', 'libpam', '', d)} \ +PACKAGECONFIG_class-target ?=
+>>>>> "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \>>
+>>>>>                                ${@base_contains('DISTRO_FEATURES',
+>>>>>                                'systemd', 'systemd', '', d)} "
+>>>>>
+>>>>> -PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su
+>>>>> --disable-runuser, pam," +PACKAGECONFIG[pam] = "--enable-su
+>>>>> --enable-runuser,--disable-su --disable-runuser, libpam,"
+>>>>>
+>>>>> # Respect the systemd feature for uuidd
+>>>>> PACKAGECONFIG[systemd] = "--enable-socket-activation
+>>>>> --with-systemdsystemunitdir=${systemd_unitdir}/system/,
+>>>>> --disable-socket-activation --without-systemdsystemunitdir">
+>>>> And of course this will trigger another bug:
+>>>> |  * check_data_file_clashes: Package util-linux wants to install file
+>>>> |  /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-ang
+>>>> |  strom-linux-gnueabi/cloud9-image/1.0-r0/rootfs/usr/bin/su> |
+>>>> |       But that file is already provided by package  * shadow
+>>>>
+>>>> *sigh*
+>>>
+>>> +*sigh*
+>>>
+>>> has this been fixed yet ? just ran into same issue
+>>
+>> The patch to fix it is in Saul's most recent consolidated pull.
+>>
+>
+> which one is it ? I am at
+>
+> commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1
+> Author: Saul Wold <sgw@linux.intel.com>
+> Date:   Thu Jul 25 14:15:18 2013 -0700
+>
+>      external-sourcery: add missing providers
+>
+>
+It's pending on oe-contrib/sgw/stage, a series of 3 Update-Alternatives 
+for busybox, util-linux and shadow,
 
-Right, or that.  I've never used patchelf myself but if it works better
-than chrpath (which isn't an especially high bar to set) then that
-sounds like a decent enough option.
-
-p.
+Sau!
 
 
+>> Cheers,
+>> Paul
+>>
+>> --
+>>
+>> Paul Eggleton
+>> Intel Open Source Technology Centre
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
