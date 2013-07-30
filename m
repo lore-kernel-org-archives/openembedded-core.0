@@ -1,27 +1,28 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id DAA276B3F2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 34E796B3F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 10:30:01 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 30 Jul 2013 03:30:01 -0700
+	Tue, 30 Jul 2013 10:51:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2013 03:51:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,777,1367996400"; d="scan'208";a="275232752"
-Received: from sorvi.fi.intel.com (HELO [10.237.72.152]) ([10.237.72.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Jul 2013 03:30:00 -0700
-Message-ID: <51F795A8.1060207@linux.intel.com>
-Date: Tue, 30 Jul 2013 13:30:00 +0300
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+X-IronPort-AV: E=Sophos;i="4.89,777,1367996400"; d="scan'208";a="378299713"
+Received: from unknown (HELO helios.localnet) ([10.252.122.217])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2013 03:50:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 30 Jul 2013 11:50:58 +0100
+Message-ID: <8237333.h1yk84NkVT@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <7891D5A0-7EB3-4A7A-99EC-962DC7EF9764@gmail.com>
+References: <1374763888-7315-1-git-send-email-koen@dominion.thruhere.net>
+	<21EAF1A7-D7BE-4275-9998-C42694B18C43@dominion.thruhere.net>
+	<7891D5A0-7EB3-4A7A-99EC-962DC7EF9764@gmail.com>
 MIME-Version: 1.0
-To: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-References: <1374842117-24504-1-git-send-email-jukka.rissanen@linux.intel.com>
-	<1374842117-24504-2-git-send-email-jukka.rissanen@linux.intel.com>
-	<51F6392F.60004@mentor.com>
-In-Reply-To: <51F6392F.60004@mentor.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] ofono: Add systemd support
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: fix PACKAGECONFIG options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +35,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 10:30:02 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jul 2013 10:51:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 29.07.2013 12:43, Muhammad Shakeel wrote:
-> On 07/26/2013 05:35 PM, Jukka Rissanen wrote:
->>   do_install_append() {
->> -  install -d ${D}${sysconfdir}/init.d/
->> -  install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
->> +    if
->> ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
->> +        install -d ${D}${sysconfdir}/init.d/
->> +        install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
->> +    fi
->>   }
->>   PACKAGES =+ "${PN}-tests"
-> We won't need above 'sysvinit' check as we are trying to implement this
-> for all packages through systemd class. Please see this:
-> http://patches.openembedded.org/patch/54671/
+On Tuesday 30 July 2013 01:52:42 Khem Raj wrote:
+> On Jul 26, 2013, at 12:01 AM, Koen Kooi <koen@dominion.thruhere.net> wrote:
+> > Op 25 jul. 2013, om 16:51 heeft Koen Kooi <koen@dominion.thruhere.net> het 
+volgende geschreven:
+> >> The ??= operator is too weak and it's setting a non-existent
+> >> PACKAGECONFIG option ('libpam' instead of 'pam').
+> >> 
+> >> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> >> ---
+> >> meta/recipes-core/util-linux/util-linux.inc | 4 ++--
+> >> 1 file changed, 2 insertions(+), 2 deletions(-)
+> >> 
+> >> diff --git a/meta/recipes-core/util-linux/util-linux.inc
+> >> b/meta/recipes-core/util-linux/util-linux.inc index d373cec..3d1198a
+> >> 100644
+> >> --- a/meta/recipes-core/util-linux/util-linux.inc
+> >> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> >> @@ -47,9 +47,9 @@ EXTRA_OECONF = "--libdir=${base_libdir}
+> >> --disable-use-tty-group \>> 
+> >>                --enable-libuuid --enable-libblkid --enable-fsck
+> >>                --without-udev \
+> >> 		
+> >> 		usrsbin_execdir='${sbindir}' \
+> >> 
+> >> "
+> >> -PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES',
+> >> 'pam', 'libpam', '', d)} \ +PACKAGECONFIG_class-target ?=
+> >> "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)} \>> 
+> >>                                ${@base_contains('DISTRO_FEATURES',
+> >>                                'systemd', 'systemd', '', d)} "
+> >> 
+> >> -PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su
+> >> --disable-runuser, pam," +PACKAGECONFIG[pam] = "--enable-su
+> >> --enable-runuser,--disable-su --disable-runuser, libpam,"
+> >> 
+> >> # Respect the systemd feature for uuidd
+> >> PACKAGECONFIG[systemd] = "--enable-socket-activation
+> >> --with-systemdsystemunitdir=${systemd_unitdir}/system/,
+> >> --disable-socket-activation --without-systemdsystemunitdir"> 
+> > And of course this will trigger another bug:
+> > |  * check_data_file_clashes: Package util-linux wants to install file
+> > |  /build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/beaglebone-ang
+> > |  strom-linux-gnueabi/cloud9-image/1.0-r0/rootfs/usr/bin/su> |  
+> > |       But that file is already provided by package  * shadow
+> > 
+> > *sigh*
+> 
+> +*sigh*
+> 
+> has this been fixed yet ? just ran into same issue
 
-There is an issue here as I am using ofono.inc in separate ofono recipe 
-where I do not have ofono init script.
-In that case I need to move the do_install_append() from ofono.inc to 
-ofono_1.12.bb file in order to reuse the ofono.inc.
-
-I will send v2 after your patchset is committed.
-
+The patch to fix it is in Saul's most recent consolidated pull.
 
 Cheers,
-Jukka
+Paul
 
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
