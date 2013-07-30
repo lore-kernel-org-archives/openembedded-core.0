@@ -1,28 +1,25 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 31D696B403
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CA4A6B403
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 02:05:53 +0000 (UTC)
+	Tue, 30 Jul 2013 02:20:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6U25sOR004270
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6U2K3FL029577
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jul 2013 19:05:54 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.230) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 29 Jul 2013 19:05:54 -0700
-Message-ID: <51F6FE24.7090502@windriver.com>
-Date: Mon, 29 Jul 2013 18:43:32 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
-MIME-Version: 1.0
+	Mon, 29 Jul 2013 19:20:03 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 29 Jul 2013 19:20:01 -0700
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1374835703-9222-1-git-send-email-paul.eggleton@linux.intel.com>
-In-Reply-To: <1374835703-9222-1-git-send-email-paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH] classes/sanity: check for suid root command evility
+Date: Tue, 30 Jul 2013 10:20:08 +0800
+Message-ID: <cover.1375150748.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Zhangle.Yang@windriver.com
+Subject: [PATCH 0/1] opkg.inc: remove the obsolete REDIRECT_CMD
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,52 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 02:05:53 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jul 2013 02:20:01 -0000
+Content-Type: text/plain
 
-On 7/26/13 5:48 AM, Paul Eggleton wrote:
-> Some users have been found to have an unnamed third-party piece of
-> software installed which sets chmod, chown and mknod as suid root as
-> part of its installation process. This interferes with the operation of
-> pseudo and can result in files really being owned by root within the
-> build output, and therefore breaks the build, apart from being a
-> security issue. Check for this and bail out early if it is found.
->
-> Reported-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
->
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Should these items be added to the buildtools-tarball target?  It might help 
-avoid the problem in the same way we already do to detect the bad make, tar, etc..
+The following changes since commit bd1c441a210cae03fb6006c996227211cc29056b:
 
---Mark
+  bitbake: bitbake: runqueue: add warning if invalidating invalid task (2013-07-29 15:25:09 +0100)
 
-> ---
->   meta/classes/sanity.bbclass | 10 ++++++++++
->   1 file changed, 10 insertions(+)
->
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index a505a5d..0546293 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -569,6 +569,16 @@ def check_sanity_everybuild(status, d):
->       if 0 == os.getuid():
->           raise_sanity_error("Do not use Bitbake as root.", d)
->
-> +    # Some third-party software apparently relies on chmod etc. being suid root (!!)
-> +    import stat
-> +    suid_check_bins = "chown chmod mknod".split()
-> +    for bin_cmd in suid_check_bins:
-> +        bin_path = bb.utils.which(os.environ["PATH"], bin_cmd)
-> +        if bin_path:
-> +            bin_stat = os.stat(bin_path)
-> +            if bin_stat.st_uid == 0 and bin_stat.st_mode & stat.S_ISUID:
-> +                status.addresult('%s has the setuid bit set. This interferes with pseudo and may cause other issues that break the build process.\n' % bin_path)
-> +
->       # Check the Python version, we now have a minimum of Python 2.7.3
->       import sys
->       if sys.hexversion < 0x020703F0:
->
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/opkg-remove-REDIRECT_CMD
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/opkg-remove-REDIRECT_CMD
+
+Chen Qi (1):
+  opkg.inc: remove the obsolete REDIRECT_CMD
+
+ meta/recipes-devtools/opkg/opkg.inc |    2 --
+ 1 file changed, 2 deletions(-)
+
+-- 
+1.7.9.5
 
 
