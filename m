@@ -1,24 +1,36 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id B5BE86B24D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
+	[209.85.212.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CFB06B444
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 14:40:53 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2013 07:40:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,778,1367996400"; d="scan'208";a="275315444"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Jul 2013 07:40:53 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jul 2013 17:40:48 +0300
-Message-Id: <ed3170be112571814659eee1b6cc8d42d34aae0e.1375195205.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1375195205.git.laurentiu.palcu@intel.com>
-References: <cover.1375195205.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1375195205.git.laurentiu.palcu@intel.com>
-References: <cover.1375195205.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/1] adt_installer: allow specifying relative target sysroot paths
+	Tue, 30 Jul 2013 14:41:31 +0000 (UTC)
+Received: by mail-vb0-f41.google.com with SMTP id g17so3940917vbg.28
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jul 2013 07:41:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=jNUACZPkEAIrNZu5p3tgvwE82SmNR5I5WyZQXH/BYl4=;
+	b=Xdy80sJ73LWKTno45+bSYTjq3VyT/u2ZF5PZQwylulp7xc7X2xRXUJsMbCCD2YYrR0
+	neEHj+L/AkwX7Uhl4+Dmf2wCDahwC+Vt5OZh1C3wrwnhRYlpEtxDF6IT+Rkz5lXKSbKC
+	1wkfkXwzZRsS0j+pryrQFOOpMgxT1bXb0f6FC4i1Osa864w331PlRYWu/sH3MtqA5lyl
+	gHwgdhNcNim1DLRcDf4Wp+aOrVHR6eIZFu3dQir2thAQiiOJvcLSQY1pvYRzxHnmYqKS
+	apUMa83CNfOCnRv9MSETirvrEzrePWzSRZMmxHCbvHI4gedS3u2tg3T3j3x7N8xhi4wE
+	tKdA==
+X-Received: by 10.58.171.4 with SMTP id aq4mr26966748vec.26.1375195291763;
+	Tue, 30 Jul 2013 07:41:31 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Tue, 30 Jul 2013 07:41:11 -0700 (PDT)
+In-Reply-To: <cover.1375194496.git.sgw@linux.intel.com>
+References: <cover.1375194496.git.sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Jul 2013 15:41:11 +0100
+Message-ID: <CAJTo0LZJrYvHaA4_ZBefvNFuJv+p6Vz0LBHvzLO9JQG34qTzbQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQnDalC9Sw2gl1y4Le1FoAESKDqDb3pvrbuNv7qzE2/JjOIo/2qU78gNy7Y3MEM/8rZsjG1d
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL (M3 rc1) v2 00/25] Needs Final Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,51 +43,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 14:40:53 -0000
+X-List-Received-Date: Tue, 30 Jul 2013 14:41:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If one specifies a relative target sysroot path, then he/she must always
-be in the same directory in order to be able to compile.
+On 30 July 2013 15:30, Saul Wold <sgw@linux.intel.com> wrote:
+> Please review/ack for RP to pull today for M3-rc1
 
-With this patch, adt_installer will automatically convert user
-supplied relative paths to absolute.
+Acked-By: Ross Burton <ross.burton@intel.com>
 
-[YOCTO #4955]
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../installer/adt-installer/adt_installer          |    4 ++++
- .../adt-installer/scripts/adt_installer_internal   |    2 ++
- 2 files changed, 6 insertions(+)
-
-diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
-index 58728af..a6042b9 100755
---- a/meta/recipes-devtools/installer/adt-installer/adt_installer
-+++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
-@@ -272,6 +272,10 @@ download_images()
-   select_sysroot_image=`eval echo $select_sysroot_image_var`
-   select_sysroot=`eval echo $select_sysroot_var`
- 
-+  if [ -n "$select_sysroot" ]; then
-+    select_sysroot=`readlink -m $select_sysroot`
-+  fi
-+
-   if [ "$select_rootfs" != "" ]; then
-     if [ $2 ]; then
-     #echo_info "\n############################################################################"
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-index 7931ff5..462199c 100755
---- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
-@@ -242,6 +242,8 @@ target_sysroot=`eval echo $target_sysroot_var`
- 
- if [ "$target_sysroot" == "" ]; then
-   return 0
-+else
-+  target_sysroot=`readlink -m $target_sysroot`
- fi
- 
- target_sysroot_image_var="\$YOCTOADT_TARGET_SYSROOT_IMAGE_$1"
--- 
-1.7.9.5
-
+Ross
 
