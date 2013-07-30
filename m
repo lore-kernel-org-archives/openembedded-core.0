@@ -1,40 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f41.google.com (mail-oa0-f41.google.com
-	[209.85.219.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C31E36B478
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 53B216B478
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 20:14:52 +0000 (UTC)
-Received: by mail-oa0-f41.google.com with SMTP id j6so7831874oag.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 13:14:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=jjMPyfRHg4yf/70VT3SQC7lCRHksJTxggum5d3e3wSM=;
-	b=pnMxLy2E/Efir3ZafVpty+hu2Pbzob2HVU2NQveLJUgd52nMjQhMyY+X52uJm0wYUf
-	1Eaxt/HNQ+2x6QlOO27niNvvo+gtPPnScAjdkhXVH147l8N/fxnRKVAy2wbC3VuInagp
-	AHrXQjWe3JH/1MopMSklW8OCxS2ALfbrL5vXejCqKHwJf2le2s/VT30rC9UXa2BlAUvd
-	mwM/t5pIQbmJ3obVL8QfSHVRMNoyye0ifOGDyEXpQV1/rqjXgH6uG3YNsV72gHKK3Pke
-	YJTnbZOuTfmE5AGca4ivna+kSNkzS9aOAYznbqmXO8b6PtccexIVLqIrRjJI3Kwy6TQQ
-	ZRCA==
+	Tue, 30 Jul 2013 20:19:38 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2013 13:19:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,781,1367996400"; d="scan'208";a="373635078"
+Received: from unknown (HELO helios.localnet) ([10.252.122.205])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2013 13:19:37 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chris Larson <clarson@kergoth.com>,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jul 2013 21:19:37 +0100
+Message-ID: <1987043.I59naQdUL0@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CABcZANkzrC9D4CR5cp6VWV9goF0bWKDP_0GJLiNt18AfoMuU0Q@mail.gmail.com>
+References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
+	<CABcZANn+uBWBLLqoTUc0KSD6YtWsyuMgMUXX7EfQuGJqJOQmNg@mail.gmail.com>
+	<CABcZANkzrC9D4CR5cp6VWV9goF0bWKDP_0GJLiNt18AfoMuU0Q@mail.gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.182.27.74 with SMTP id r10mr58161832obg.63.1375215292843;
-	Tue, 30 Jul 2013 13:14:52 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.125.199 with HTTP; Tue, 30 Jul 2013 13:14:52 -0700 (PDT)
-In-Reply-To: <6204851.hDiY3UGMop@atv-pwoegere-l3.atv.mentorg.com>
-References: <4903846.j6lpffeJue@atv-pwoegere-l3.atv.mentorg.com>
-	<CAP9ODKqt4ZkPsr8bzHqekb7NxRypF75tgbmiqg7aJTVEreD0Sw@mail.gmail.com>
-	<6204851.hDiY3UGMop@atv-pwoegere-l3.atv.mentorg.com>
-Date: Tue, 30 Jul 2013 17:14:52 -0300
-X-Google-Sender-Auth: jPaJ7858fwAczqtGCLYl6iUcViA
-Message-ID: <CAP9ODKqABwY=qvbAjRrFToaG4e+yw7Pm1WYPxMoaRYdB9i0sjQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Woegerer, Paul" <Paul_Woegerer@mentor.com>
-Cc: "poky@yoctoproject.org" <poky@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: lttng-* 2.2.x point release updates
+Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,27 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 20:14:53 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 30 Jul 2013 20:19:39 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Jul 30, 2013 at 5:09 PM,  <Paul_Woegerer@mentor.com> wrote:
-> Hi Otavio,
+On Tuesday 30 July 2013 11:26:58 Chris Larson wrote:
+> I forgot to mention, we also need to focus on improving the oe-core systemd
+> support, and the feature parity between sysvinit and systemd images. Some
+> are missing systemd support at all still (e.g. dropbear's service files are
+> still in meta-systemd), and others don't behave the same between the two.
+> For example, were we to pull over those dropbear service files, the
+> dropbear sysvinit script would behave differently than the service files,
+> and dropbear would behave differently than openssh.
+> 
+> I don't know if that's a priority for the Yocto 1.5 release, but it
+> probably should be.
 
-Hi Paul,
+Thanks for bringing this up. There's a bug open for this, but I'd like to 
+stress that people need not wait for someone else to get around to it. There 
+have already been some patches from Mentor folks to start getting this support 
+moved across (although not yet merged due to earlier lack of a concrete 
+resolution on the issue of unpackaged unit files, which is now resolved). 
+Further help from anyone would be very much appreciated:
 
-> The patch below updates LTTng and related packages to the latest point releases.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4420
 
-Thanks by working on this but please send one patch for each recipe
-and follow the process documented at:
+Cheers,
+Paul
 
-http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+-- 
 
-Thanks in advance :-)
-
-Best regards,
-
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Paul Eggleton
+Intel Open Source Technology Centre
 
