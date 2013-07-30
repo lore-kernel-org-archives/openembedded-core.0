@@ -1,25 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 24A6F6B20C
+	by mail.openembedded.org (Postfix) with ESMTP id 0566B6007C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 14:56:47 +0000 (UTC)
+	Tue, 30 Jul 2013 15:10:22 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2013 07:56:47 -0700
+	by azsmga102.ch.intel.com with ESMTP; 30 Jul 2013 08:10:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,778,1367996400"; d="scan'208";a="275321793"
-Received: from unknown (HELO [10.255.14.47]) ([10.255.14.47])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Jul 2013 07:56:47 -0700
-Message-ID: <51F7D42E.2010802@linux.intel.com>
-Date: Tue, 30 Jul 2013 07:56:46 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+X-IronPort-AV: E=Sophos;i="4.89,778,1367996400"; d="scan'208";a="275327904"
+Received: from unknown (HELO helios.localnet) ([10.252.122.217])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Jul 2013 08:10:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Tue, 30 Jul 2013 16:09:58 +0100
+Message-ID: <25949827.IjnmVXh6xo@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-26-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <51F7D1BB.8010405@windriver.com>
+References: <1375136787-18139-1-git-send-email-otavio@ossystems.com.br>
+	<CAP9ODKrC8koJjy-1P82wJ5UrP8Yqp_sQhCFDqqjsGe_Gyv-NSQ@mail.gmail.com>
+	<51F7D1BB.8010405@windriver.com>
 MIME-Version: 1.0
-To: Mihai Prica <mihai.prica@intel.com>
-References: <1375177516-9199-1-git-send-email-mihai.prica@intel.com>
-In-Reply-To: <1375177516-9199-1-git-send-email-mihai.prica@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] makedevs: Change numeric user/group ids to user/group names in device table
+Subject: Re: [PATCH] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,139 +34,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 14:56:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jul 2013 15:10:23 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 07/30/2013 02:45 AM, Mihai Prica wrote:
-> Full usernames and groupnames should be used instead  of numeric ids in
-> meta/files/device_table-minimal.txt.
->
+On Tuesday 30 July 2013 09:46:19 Mark Hatle wrote:
+> I agree with the previous folks that the design of the distribution setting
+> the one and true value is the right technical answer for this.  HOWEVER, in
+> my experience, this is NOT what end users want.
+> 
+> They want a method similar to the one posted by Otavio in order to tailor
+> the system.  End users never want to create a new distribution, they simply
+> want to start with one and tweak it.
 
-I think this will uses the host's files not the target's rootfs, please 
-verify this.
+Then surely an easier solution would be to advocate copy-and-modify of an 
+existing distro config, and if we're not setting the value of DISTRO_FEATURES 
+explicitly there (which we aren't currently in poky.conf) then we should just 
+do that in order to make that easier?
 
-Thanks
-	Sau!
+I honestly think building on an existing configuration value that is not 
+immediately visible and might change when the user upgrades to a new version 
+of the underlying distro is not a good thing to be encouraging people to do.
 
+> So with that said, my opinion is to enable this code, allowing end users to
+> tweak their distribution settings.  But make it a stated policy that
+> distribution layers should only "set" the value of DISTRO_FEATURES, and
+> should never modify/update this new EXTRA_DISTRO_FEATURES value.  (Of
+> course, I doubt there is a way to police that, other then state it's
+> policy.)
 
-> [YOCTO #1159]
->
-> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-> ---
->   meta/files/device_table-minimal.txt                |   47 ++++++++++----------
->   .../makedevs/makedevs-1.0.0/makedevs.c             |   23 ++++++++--
->   2 files changed, 43 insertions(+), 27 deletions(-)
->
-> diff --git a/meta/files/device_table-minimal.txt b/meta/files/device_table-minimal.txt
-> index 02ed534..41c6e0b 100644
-> --- a/meta/files/device_table-minimal.txt
-> +++ b/meta/files/device_table-minimal.txt
-> @@ -1,5 +1,5 @@
-> -#<path>	<type> <mode>	<uid>	<gid>	<major>	<minor>	<start>	<inc>	<count>
-> -#/dev/mem    c      640      0       0       1       1       0        0        -
-> +#<path>	<type> <mode>	<username>	<groupname>	<major>	<minor>	<start>	<inc>	<count>
-> +#/dev/mem    c      640      root       root       1       1       0        0        -
->   #
->   #type can be one of:
->   #    f	A regular file
-> @@ -8,24 +8,25 @@
->   #    b	Block special device file
->   #    p	Fifo (named pipe)
->
-> -/dev		d	755	0	0	-	-	-	-	-
-> -/dev/initctl	p	600	0	0	-	-	-	-	-
-> -/dev/apm_bios	c	660	0	46	10	134	-	-	-
-> -/dev/fb0	c	600	0	0	29	0	-	-	-
-> -/dev/hda	b	660	0	6	3	0	-	-	-
-> -/dev/hda	b	660	0	6	3	1	1	1	19
-> -/dev/kmem	c	640	0	15	1	2	-	-	-
-> -/dev/kmsg	c	600	0	0	1	11	-	-	-
-> -/dev/mem	c	640	0	15	1	1	-	-	-
-> -/dev/null	c	666	0	0	1	3	-	-	-
-> -/dev/ram	b	640	0	0	1	0	0	1	4
-> -/dev/tty	c	662	0	5	5	0	-	-	-
-> -/dev/tty	c	666	0	5	4	0	0	1	9
-> -/dev/ttyS	c	640	0	5	4	64	0	1	1
-> -/dev/ttySA	c	640	0	5	204	5	0	1	1
-> -/dev/zero	c	644	0	0	1	5	-	-	-
-> -/dev/mtd	c	660	0	6	90	0	0	2	8
-> -/dev/mtdblock	b	640	0	0	31	0	0	1	8
-> -/dev/console	c	662	0	5	5	1	-	-	-
-> -/dev/random	c	644	0	0	1	8	-	-	-
-> -/dev/urandom	c	644	0	0	1	9	-	-	-
-> +/dev		d	755	root	root	-	-	-	-	-
-> +/dev/initctl	p	600	root	root	-	-	-	-	-
-> +/dev/apm_bios	c	660	root	plugdev	10	134	-	-	-
-> +/dev/fb0	c	600	root	root	29	0	-	-	-
-> +/dev/hda	b	660	root	disk	3	0	-	-	-
-> +/dev/hda	b	660	root	disk	3	1	1	1	20
-> +/dev/kmem	c	640	root	kmem	1	2	-	-	-
-> +/dev/kmsg	c	600	root	root	1	11	-	-	-
-> +/dev/mem	c	640	root	kmem	1	1	-	-	-
-> +/dev/null	c	666	root	root	1	3	-	-	-
-> +/dev/ram	b	640	root	root	1	0	0	1	4
-> +/dev/tty	c	662	root    tty	5	0	-	-	-
-> +/dev/tty	c	666	root	tty	4	0	0	1	9
-> +/dev/ttyS	c	640	root	tty	4	64	0	1	1
-> +/dev/ttySA	c	640	root	tty	204	5	0	1	1
-> +/dev/zero	c	644	root	root	1	5	-	-	-
-> +/dev/mtd	c	660	root	disk	90	0	0	2	8
-> +/dev/mtdblock	b	640	root	root	0	31	0	0	1	8
-> +/dev/console	c	662	root	root	5	1	-	-	-
-> +/dev/random	c	644	root	root	1	8	-	-	-
-> +/dev/urandom	c	644	root	root	1	9	-	-	-
-> +
-> diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-> index 6c1f2fb..26bbe33 100644
-> --- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-> +++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-> @@ -13,6 +13,8 @@
->   #include <libgen.h>
->   #include <sys/types.h>
->   #include <sys/stat.h>
-> +#include <pwd.h>
-> +#include <grp.h>
->
->   #define MINORBITS	8
->   #define MKDEV(ma,mi)	(((ma) << MINORBITS) | (mi))
-> @@ -180,13 +182,15 @@ static void add_new_fifo(char *name, char *path, unsigned long uid,
->   */
->   static int interpret_table_entry(char *line)
->   {
-> -	char *name;
-> -	char path[4096], type;
-> +	char *name;	
-> +	char path[4096], username[32], groupname[32], type;
->   	unsigned long mode = 0755, uid = 0, gid = 0, major = 0, minor = 0;
->   	unsigned long start = 0, increment = 1, count = 0;
-> +	struct passwd *pw;
-> +	struct group *gr;
->
-> -	if (0 > sscanf(line, "%40s %c %lo %lu %lu %lu %lu %lu %lu %lu", path,
-> -		    &type, &mode, &uid, &gid, &major, &minor, &start,
-> +	if (0 > sscanf(line, "%40s %c %lo %s %s %lu %lu %lu %lu %lu", path,
-> +		    &type, &mode, &username, &groupname, &major, &minor, &start,	
->   		    &increment, &count))
->   	{
->   		return 1;
-> @@ -198,6 +202,17 @@ static int interpret_table_entry(char *line)
->   	name = xstrdup(path + 1);
->   	sprintf(path, "%s/%s", rootdir, name);
->
-> +	pw = getpwnam(username);
-> +	if (pw == NULL) {
-> +		error_msg_and_die("Username does not exist in the user database");
-> +	}
-> +	uid = pw->pw_uid;
-> +	gr = getgrnam(groupname);
-> +	if (gr == NULL) {
-> +		error_msg_and_die("Groupname does not exist in the group database ");
-> +	}
-> +	gid = gr->gr_gid;
-> +	
->   	switch (type) {
->   	case 'd':
->   		mode |= S_IFDIR;
->
+Yes but people will just ignore that. DISTRO_FEATURES_BACKFILL has already 
+been abused for similar purposes :/
+
+> This is the same type of reason that end users was a "don't install this
+> package" feature as well. While anyone can write a new image recipe, nobody
+> wants to, especially when they only want one or two less packages in their
+> image.
+
+Surely the primary motivation for having the "remove" functionality [1] is the 
+case when you don't know how a particular package has got in via dependencies 
+and you want it removed, and not the percieved difficulty of creating an image 
+recipe?
+
+Really if people write nothing else they should be writing their own image 
+recipes, because it's trivially easy to do so (or at the very least, copy an 
+existing one and modify it).
+
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=4079
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
