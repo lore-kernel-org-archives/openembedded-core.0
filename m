@@ -1,30 +1,30 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C3786B3FA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B54C6B3FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 05:33:32 +0000 (UTC)
+	Tue, 30 Jul 2013 05:48:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6U5XVsd001011
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6U5m419020001
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Jul 2013 22:33:31 -0700 (PDT)
+	Mon, 29 Jul 2013 22:48:04 -0700 (PDT)
 Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Mon, 29 Jul 2013 22:33:30 -0700
-Message-ID: <51F75030.4090600@windriver.com>
-Date: Tue, 30 Jul 2013 13:33:36 +0800
+	Mon, 29 Jul 2013 22:48:03 -0700
+Message-ID: <51F75398.901@windriver.com>
+Date: Tue, 30 Jul 2013 13:48:08 +0800
 From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+To: Phil Blundell <pb@pbcl.net>
 References: <cover.1375065009.git.Qi.Chen@windriver.com>
-	<9e31ede9ba9cb827f0b5e510d4aab17260aa5eab.1375065009.git.Qi.Chen@windriver.com>
-	<CAJTo0LYSeFR29EAWWqaVVGw_YO1_u=J-UquRhaMdyNq7s6gUpQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYSeFR29EAWWqaVVGw_YO1_u=J-UquRhaMdyNq7s6gUpQ@mail.gmail.com>
+	<c73f95c035bb32208d7da8be11a50b15f4611174.1375065009.git.Qi.Chen@windriver.com>
+	<1375111593.13247.41.camel@phil-desktop.brightsign>
+In-Reply-To: <1375111593.13247.41.camel@phil-desktop.brightsign>
 X-Originating-IP: [128.224.162.233]
 Cc: Zhangle.Yang@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 09/10] lighttpd: make /www diretory writable in read-only rootfs
+Subject: Re: [PATCH V2 08/10] irda-utils: make /etc/sysconfig writable in read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 05:33:32 -0000
+X-List-Received-Date: Tue, 30 Jul 2013 05:48:04 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/29/2013 11:56 PM, Burton, Ross wrote:
-> On 29 July 2013 03:33,  <Qi.Chen@windriver.com> wrote:
->> +    echo "/www /var/volatile/www" > ${D}${sysconfdir}/default/readonly/lighttpd
-> /www is the default lighttpd document root, where the web sites are
-> stored, so putting them in a tmpfs would be very wrong indeed.
+On 07/29/2013 11:26 PM, Phil Blundell wrote:
+> On Mon, 2013-07-29 at 10:33 +0800, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> This diretory needs to be writable, the following error will appear
+>> at system start-up.
+>>
+>>     /etc/rc5.d/S20irattach: /etc/sysconfig/irda: Read-only file system
+> The whole chunk of code in that script that's trying to write
+> to /etc/sysconfig seems bogus.  I think the right fix is just to delete
+> it rather than trying to provide a a volatile implementation
+> of /etc/sysconfig (which seems like a contradiction in terms).
 >
-> Why does lightttp need write access?  If it's putting logs in there
-Yes. Exactly the log issue.
+> p.
+>
+>
 
-After some thinking, I think I'll just drop this patch.
-Because even if I move the log location to /var/log/xxx, it will not 
-make the situation any better, as the /www directory is still not writable.
-So I think, at this point, we should not do too much.
-I'll assume that if the user is using a read-only rootfs and his system 
-is holding a website, maybe he'll just mount some writable media to /www.
+After a second look at the script, I think you're right.
+Thank your for pointing it out :)
+I'll fix this in my V3 patchset.
 
 Best Regards,
 Chen Qi
 
-> then they should be in /var/log, PIDs in /run and so on.
->
-> Ross
->
 >
 
 
