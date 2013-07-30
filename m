@@ -1,37 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
-	[74.125.82.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D292D6ADB0
+Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C0F16B1C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 13:14:01 +0000 (UTC)
-Received: by mail-we0-f181.google.com with SMTP id p58so5161222wes.12
+	Tue, 30 Jul 2013 13:15:15 +0000 (UTC)
+Received: by mail-ve0-f171.google.com with SMTP id pa12so2161988veb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 06:14:01 -0700 (PDT)
+	Tue, 30 Jul 2013 06:15:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=Luj0S6LzccLI6pRZLvXIjoQBCynLs+mpePj+fI5dWZE=;
-	b=Am+lc/FIzgIxA6Jz1b3xz6dQcLQM1Fk98rDfHTzQ3SPqaD4WMA6gpaxI/xdtusqDks
-	VQvMhqamLWrGI+VF2al8o5qIKUO0vemRTxCSSTsxBHTJq6EG+niuo7d5NDn6aKoAsgi7
-	zpv0KoF1W5+yNFbSEQTyXnQSci8TQNoIE3CMV38drNfSI8Yqmz5U2i2Ym+2RbHwXdDcu
-	ProhAOSfb9WeOv3Rq9XIoE5Qr8RstYKjgM0jkI/RkBSLSdlIFI6VY7w3wXl20bGB1JtM
-	9vBsYx5QNVpXsBKj++GS4XNO2IzJiNrhEMvm3oFSEhrV7kQd+dLAY8Cq1mwcADTGt+jO
-	5N8g==
-X-Received: by 10.195.12.202 with SMTP id es10mr47007440wjd.17.1375190041759; 
-	Tue, 30 Jul 2013 06:14:01 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	s19sm28448933wik.11.2013.07.30.06.14.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 30 Jul 2013 06:14:01 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jul 2013 14:13:58 +0100
-Message-Id: <1375190038-21751-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQlZXiGMGw5dK9b4IVanUa9Ke18t7hrM9Imt/YbcDHGvaVxjbN1Z4J7/HIU/xzDD8MfpjkJb
-Subject: [PATCH] bluez5: Add obex-profiles as a PACKAGECONFIG, package obexd separately
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=19J5UIXNW5wXE1BcZ9diB3QgxDXDehi+bCBKpKyPwX0=;
+	b=csTHId5Bg/ZQMwaB3P8kbYSOHLHvedFT259G5iwo1MjQwq/fHgFqr+ADWo0/CYo3nO
+	2560RvC0xEzz+v/962z9wReryanSFxDQnc67ifXWn3+lvxNAMKc9I6tUU6OUZaJJ0vSv
+	8cNcu4/WJ19L8BRH0Io3JzKczUDZsVBn75j0VThGkgyPjbD7dABvy7ceL/xUis5hb3hM
+	tmsPLKkFbau9Ho8n6NiExE2nV9cuNkVLkv2zIMrHXRtABJa4bret8THhgZ/8h28NRftT
+	AMndHQpehOkVBLWat/ZpvIpA49PijQUtPckMQ32lY0msbQudzOo8GlNHKxr5FAEtoP3S
+	dltQ==
+X-Received: by 10.52.163.46 with SMTP id yf14mr22542403vdb.58.1375190115474;
+	Tue, 30 Jul 2013 06:15:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Tue, 30 Jul 2013 06:14:55 -0700 (PDT)
+In-Reply-To: <1375178646.13247.50.camel@phil-desktop.brightsign>
+References: <cover.1375164419.git.sgw@linux.intel.com>
+	<CAJTo0LZk9HR12mR7nozaE0yZ-DjMPkagf1GvagEeKmkF2i6M9A@mail.gmail.com>
+	<1375178646.13247.50.camel@phil-desktop.brightsign>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Jul 2013 14:14:55 +0100
+Message-ID: <CAJTo0LbPNLjQKKX1fPfeC+U643D2cD-Snyb_nAAe3P4D=XC+jg@mail.gmail.com>
+To: Phil Blundell <pb@pbcl.net>
+X-Gm-Message-State: ALoCoQkgFfuIMqElZpPVv5HNt0JPdDsWQ7Y4HXZ4v9Z2M4gFPujc8Y7terQ3sqX/itrB3Czw8Cgk
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL (M3 rc1) 00/26] Needs early review and ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,75 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 13:14:02 -0000
+X-List-Received-Date: Tue, 30 Jul 2013 13:15:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
---enable-obex controls if obexd supports extra profiles (currently IRMC and
-PBAB), which brings in a dependency on libical for the dummy phonebook
-implementation.
+On 30 July 2013 11:04, Phil Blundell <pb@pbcl.net> wrote:
+>> I'm still unsure why this patch was needed.  I've nothing against
+>> splitting out the OBEX functionality and controlling it with a
+>> packageconfig, but this does disable it by default when before it was
+>> enabled.
+>
+> Was that patch ever actually posted to the list?  I don't recall seeing
+> it in my inbox and I can't find it in the ML archive on the web.
 
-Based on work by Saul Wold <sgw@linux.intel.com>.
+Hmm, I can't see it either.  I just went to fix the little problems I
+found and discovered the details of obex in bluez5 are more
+complicated so ended up revising the entire patch, which I've just
+sent to the list.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/buildhistory.bbclass           |    1 +
- meta/recipes-connectivity/bluez5/bluez5.inc |   13 ++++++++++---
- 2 files changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 36e7fe1..c5bba25 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -531,6 +531,7 @@ END
- python buildhistory_eventhandler() {
-     if e.data.getVar('BUILDHISTORY_FEATURES', True).strip():
-         if e.data.getVar("BUILDHISTORY_COMMIT", True) == "1":
-+            bb.note("Writing buildhistory")
-             bb.build.exec_func("buildhistory_commit", e.data)
- }
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index fc78900..6ab05cf 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -6,12 +6,13 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
-                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
-                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
--DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck libical readline"
-+DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
- 
- RCONFLICTS_${PN} = "bluez4"
- 
--PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} obex-profiles"
- PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
-+PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
- 
- SRC_URI = "\
-     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.gz \
-@@ -47,7 +48,7 @@ do_install_append() {
- }
- 
- ALLOW_EMPTY_libasound-module-bluez = "1"
--PACKAGES =+ "libasound-module-bluez ${PN}-test"
-+PACKAGES =+ "libasound-module-bluez ${PN}-test ${PN}-obex"
- 
- FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
- FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
-@@ -56,6 +57,12 @@ FILES_${PN}-dev += "\
-   ${libdir}/alsa-lib/*.la \
- "
- 
-+FILES_${PN}-obex = "${libdir}/bluez5/bluetooth/obexd \
-+                    ${libdir}/systemd/user/obex.service \
-+                    ${datadir}/dbus-1/services/org.bluez.obex.service \
-+                   "
-+SYSTEMD_SERVICE_${PN}-obex = "obex.service"
-+
- FILES_${PN}-test = "${libdir}/bluez/test/*"
- 
- FILES_${PN}-dbg += "\
--- 
-1.7.10.4
-
+Ross
 
