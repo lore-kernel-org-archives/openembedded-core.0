@@ -1,41 +1,42 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A43A6B410
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2963E6B410
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 08:14:32 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id n15so3386534ead.16
+	Tue, 30 Jul 2013 08:17:01 +0000 (UTC)
+Received: by mail-pd0-f174.google.com with SMTP id 3so5437090pdj.33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 01:14:32 -0700 (PDT)
+	Tue, 30 Jul 2013 01:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=VJalBzd+iFnKd1MAK6at0uWDpx3/EwW2Gj4ZJpEBDEE=;
-	b=H6hq4tyUzVCDzLt5mPVWtHZvUGHoVwRW7MO3bmIpy2lQPq4twFH/QXnGLK+CFjQ91Q
-	1sG+jQNQluXSKjQ7HgvTpBul1f4pNDnxcfRw3QS2CXmEmJPp8+J2+/oaTbVKCpfMwDVk
-	l4ixNMkfZChiZdoyKwS4NnpJ0pjIA46Yw6zsQAmtw0AHe5QSvsq7q1kBCLZELVNnUJyN
-	kkadQym5IJu5cVAl6gsoouNZrRbm4jKFv72OjG5nlfbAm7OGFvRfnoIzqgFVVSCuCbU8
-	aljOry+FZzU5SgsPRYfM/OKR9G1o+AwoXSn3mBmI/tol0JUhfLe7tJFvGCPDFmLg+Z5c
-	+PLg==
-X-Received: by 10.14.6.9 with SMTP id 9mr20066269eem.108.1375172072625;
-	Tue, 30 Jul 2013 01:14:32 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	bb14sm7597268eeb.17.2013.07.30.01.14.31 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 30 Jul 2013 01:14:32 -0700 (PDT)
-Date: Tue, 30 Jul 2013 10:15:04 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Bian Naimeng <biannm@cn.fujitsu.com>
-Message-ID: <20130730081504.GF3280@jama>
-References: <51F5E863.9010406@cn.fujitsu.com> <51F5E948.4070107@cn.fujitsu.com>
-	<1375112169.13247.44.camel@phil-desktop.brightsign>
-	<51F71C3A.8000701@cn.fujitsu.com>
-MIME-Version: 1.0
-In-Reply-To: <51F71C3A.8000701@cn.fujitsu.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=gXcNr2hm56OP63x0CO2qUBqyd+UQ1O0YifUW28rYe2g=;
+	b=mxM+0JoJAcNsRVWCpwKr6WI3BUfm0vWzKpOxexNnabwhNRGBK81qdxET/QOdAq5a5p
+	HL9o+8kRBI8e4hrnbbm2SlbIA3B/lmCrvQv7X+J2Xz0lW9IMFhMCTqP+qDm43htUcxiv
+	ZqlWPZPelhlGhiwwXCYZGbnj4l4KqhOPnpCrc45uomAGDjfQfPUHoZBq0yHdk8auXndL
+	4c/Nh8n3zykw9CNN7NdlDmFnae/qQsP7QC0Y6o+EiMfRA1Y9YI/sJNjM15AqeyKfeNF4
+	BDWp+H2lbrmJ+D7R94vZRfC1SvryblcUroIU1tR1q5RG35woCKLs9B3t1TLaQpd1B2Sb
+	TYbg==
+X-Received: by 10.68.1.9 with SMTP id 9mr71731445pbi.128.1375172221595;
+	Tue, 30 Jul 2013 01:17:01 -0700 (PDT)
+Received: from ddeviny-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	ot4sm25535941pac.17.2013.07.30.01.16.59 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 30 Jul 2013 01:17:00 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20130629153101.GV3261@jama>
+Date: Tue, 30 Jul 2013 01:16:58 -0700
+Message-Id: <45F76803-CA83-4DAC-A972-EE4CB8FEE054@gmail.com>
+References: <cover.1372456294.git.raj.khem@gmail.com>
+	<20130629053844.GQ3261@jama>
+	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
+	<20130629153101.GV3261@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1508)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH 1/6]qemuarm.conf: provide a common qemuarm machine configuration
+Subject: Re: [PATCH 00/24] Add python3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,105 +49,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 08:14:33 -0000
-X-Groupsio-MsgNum: 42644
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="B0nZA57HJSoPbsHY"
-Content-Disposition: inline
-
---B0nZA57HJSoPbsHY
+X-List-Received-Date: Tue, 30 Jul 2013 08:17:01 -0000
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jul 30, 2013 at 09:51:54AM +0800, Bian Naimeng wrote:
->=20
-> said the following on 2013-7-29 23:36:, Phil Blundell wrote:
-> > On Mon, 2013-07-29 at 12:02 +0800, Bian Naimeng wrote:
-> >> qemux86.conf: provide a common qemux86 machine configuration,=20
-> >> so developer/distributor can customize their specific one.
-> >>
-> >> Although, we can modify the meta/conf/machine/qemux86.conf to customiz=
-e our=20
-> >> configuration, but it's uncomfortable for developer/distributor mainta=
-ining
-> >> their branch.
-> >> After applying this patch, developer can tell poky using their machine
-> >> configuration by prepending their layer to BBPATH(Of course,
-> >> the bblayers.conf should be adapted to it).
-> >=20
-> > I don't really understand the purpose of this patch.  Surely there is
-> > nothing to stop you from shipping an overlay qemux86.conf in some other
-> > layer today, right?  What exactly is the advantage of this extra
-> > indirection through an .inc file?
-> >=20
->=20
-> What my purpose is that make it easy to implement the below case.
->  1. I want inherit all the configuration item of qemux86.conf.
->  2. I want add some new items to my qemux86.conf.
->  3. If there're changes to qemux86.conf, i want merge them to my qemux86.=
-conf
->=20
-> Yes, we can implement this case today.
->  1. Copy the meta/conf/machine/qemux86.conf to my layer.
->  2. Add new items to my qemux86.conf
->  3. Rewrite my qemux86.conf to merge community changes.
->=20
-> However, if applying these patches, it becomes easy.
->  1. add "require conf/machine/include/qemux86.inc" to my qemux86.conf
->  2. add new items to my qemux86.conf
->  3. modify qemux86.inc to update qemux86 configration at community,=20
->     so all community changes will be merged to my qemux86.conf automatica=
-lly
->     when merging the mainline.
 
-Without patches
-1. add require ${COREBASE}/meta/conf/machine/qemux86.conf at the
-beginning of your qemux86.conf copy
-2. add new items
+On Jun 29, 2013, at 8:31 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
 
+> On Sat, Jun 29, 2013 at 07:11:35AM -0700, Khem Raj wrote:
+>>=20
+>> On Jun 28, 2013, at 10:38 PM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>>=20
+>>> On Fri, Jun 28, 2013 at 03:03:39PM -0700, Khem Raj wrote:
+>>>>=20
+>>>> generate-manifest-3.3.py: Add script to generate python 3.3 =
+manifests
+>>>> python-3.3-manifest: Add python3 manifest file
+>>>=20
+>>>> classes: Add distutils for python3
+>>>> setuptools.bbclass: Use python-distribute instead of
+>>>>   python-setuptools
+>>>> distutils3.bbclass: Port the distutils class fix to handle =
+filenames
+>>>>   with spaces
+>>>> setuptools3.bbclass: Remove useless multiline comment
+>>>> distutils: Introduce PYTHON_ABI variable
+>>>> distutils3: Do build_ext as separate step during compile
+>>>=20
+>>=20
+>>> I think these 2 groups could be squashed together for easier review, =
+but
+>>=20
+>> do you mean create just two patches out of those ?
 >=20
-> > Also, as a side note, your patches 1/6, 2/6 and 6/6 all said
-> > "qemuarm.conf" in the subject lines but only the last of them actually
-> > contained changes to qemuarm.conf.
+> Yes
 >=20
-> Sorry for my mistake. The correct one is following.
-> 1/6: qemux86.conf.
-> 2/6: qemux86-64.conf
+>>> otherwise great work, thanks for doing it!
+>>>=20
+>>> I'll add them to jenkins a bit later when I get some better build =
+that
+>>> what we have now.
+>>=20
+>> They were added in order that the build keeps working with every =
+commit for helping bisects on tree later
 >=20
-> >=20
-> > Also also, the patches in this form are quite hard to follow.  Did you
-> > use "git format-patch -M" when creating them?
+> I meant that e.g.=20
+>  classes: Add distutils for python3
+> introduces setuptools3.bbclass and
+>  setuptools3.bbclass: Remove useless multiline comment
+> just 3 commits later fixes that, the same with the left-over commit I
+> mentined in other thread which was also resolved by some follow up
+> commit, with all new .bbclasses together I would read them just once.
 >=20
-> Yes, I used "git format-patch -M" to create them.
-> I will check them by linux/scripts/checkpatch.pl next time.
->=20
-> Thanks
->  bian
->=20
-> >=20
-> > p.
-> >=20
-> >=20
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Thanks Martin and Paul for reviewing and trying out the patches
+Finally I have now addressed all the comments/feedback that was provided =
+for this patch set.
+The pull tree is now updated to latest.
 
---B0nZA57HJSoPbsHY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Take a look and install if its ok
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
+-Khem
 
-iEYEARECAAYFAlH3dggACgkQN1Ujt2V2gBydjQCeM5q2k7j3/rQ6XP0Adsuor717
-T4MAoJ0bcQIYmSip5IeYgFFM9HyNNIQA
-=q2Rb
------END PGP SIGNATURE-----
 
---B0nZA57HJSoPbsHY--
+
