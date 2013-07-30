@@ -1,41 +1,37 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 248CD6B46A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id D292D6ADB0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 12:24:43 +0000 (UTC)
-Received: by mail-ob0-f177.google.com with SMTP id f8so6308003obp.8
+	Tue, 30 Jul 2013 13:14:01 +0000 (UTC)
+Received: by mail-we0-f181.google.com with SMTP id p58so5161222wes.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 05:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=Zp0nQDuFRVSaRLG70hAzzissJUQH0tLaj+MEVtOFpv4=;
-	b=ZGb76TXmYR7fUyq9Yv90qW8P792TBqntrrdXGkgE7eXh7JyBZfCEKOrEYFvkkg6M0b
-	iFKcVOS4CntOFBV0bePoECvVrI4KX/uaGA3y4iB5148bqW7k4Zds4uUWtwxc+8bnfcXL
-	lyisRY0zAaH2etN8bW3HvYmu42NrsSQUgLOYO6XDgvkn9GTwnJxAHuBUd/shL2NaZKYe
-	2KYacIlgy8t2nPnyiIjLmZ9MbaVVPfCatV576rxZId/lBwc5GTATk9n4wxdvAJrGJY1E
-	PRRsOeVmme85J/cwku8sJ0hYwurWiHkaugIflYF0MucYawvy/hfAmYHr0MaW3XZmrnr5
-	3l1A==
-MIME-Version: 1.0
-X-Received: by 10.182.142.104 with SMTP id rv8mr56660412obb.3.1375187083213;
-	Tue, 30 Jul 2013 05:24:43 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.125.199 with HTTP; Tue, 30 Jul 2013 05:24:43 -0700 (PDT)
-In-Reply-To: <1375186489.13247.55.camel@phil-desktop.brightsign>
-References: <1375136787-18139-1-git-send-email-otavio@ossystems.com.br>
-	<14478313.i1FmA8Di2T@helios>
-	<CAP9ODKogS69N51YxJ54-saCXbS0orquD8cbFCWWKLosE_TjSeg@mail.gmail.com>
-	<1375186489.13247.55.camel@phil-desktop.brightsign>
-Date: Tue, 30 Jul 2013 09:24:43 -0300
-X-Google-Sender-Auth: Imxa4Eyo7bmV1qYxDULNc7CD69M
-Message-ID: <CAP9ODKrC8koJjy-1P82wJ5UrP8Yqp_sQhCFDqqjsGe_Gyv-NSQ@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Phil Blundell <pb@pbcl.net>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
+	Tue, 30 Jul 2013 06:14:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=Luj0S6LzccLI6pRZLvXIjoQBCynLs+mpePj+fI5dWZE=;
+	b=Am+lc/FIzgIxA6Jz1b3xz6dQcLQM1Fk98rDfHTzQ3SPqaD4WMA6gpaxI/xdtusqDks
+	VQvMhqamLWrGI+VF2al8o5qIKUO0vemRTxCSSTsxBHTJq6EG+niuo7d5NDn6aKoAsgi7
+	zpv0KoF1W5+yNFbSEQTyXnQSci8TQNoIE3CMV38drNfSI8Yqmz5U2i2Ym+2RbHwXdDcu
+	ProhAOSfb9WeOv3Rq9XIoE5Qr8RstYKjgM0jkI/RkBSLSdlIFI6VY7w3wXl20bGB1JtM
+	9vBsYx5QNVpXsBKj++GS4XNO2IzJiNrhEMvm3oFSEhrV7kQd+dLAY8Cq1mwcADTGt+jO
+	5N8g==
+X-Received: by 10.195.12.202 with SMTP id es10mr47007440wjd.17.1375190041759; 
+	Tue, 30 Jul 2013 06:14:01 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	s19sm28448933wik.11.2013.07.30.06.14.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 30 Jul 2013 06:14:01 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jul 2013 14:13:58 +0100
+Message-Id: <1375190038-21751-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+X-Gm-Message-State: ALoCoQlZXiGMGw5dK9b4IVanUa9Ke18t7hrM9Imt/YbcDHGvaVxjbN1Z4J7/HIU/xzDD8MfpjkJb
+Subject: [PATCH] bluez5: Add obex-profiles as a PACKAGECONFIG, package obexd separately
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +44,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 12:24:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 30 Jul 2013 13:14:02 -0000
 
-On Tue, Jul 30, 2013 at 9:14 AM, Phil Blundell <pb@pbcl.net> wrote:
-> On Tue, 2013-07-30 at 09:00 -0300, Otavio Salvador wrote:
->> To make this, we cannot reuse Poky distro for example as it
->> /unconditionally/ appends to DISTRO_FEATURES. Besides it is easier for
->> test to be able to override it using local.conf. For products I agree
->> we'll end adding a distro to make it reprodicable but for development
->> stage this trick makes life much easier.
->
-> Surely for one-off tests you can just write out the whole intended value
-> of DISTRO_FEATURES in your local.conf.  It doesn't seem as though this
-> variable is unwieldy enough that it really needs mechanical handling.
->
-> As for poky appending to DISTRO_FEATURES rather than just setting it,
-> that sounds like it's arguably a bug in poky and you should perhaps take
-> it up with those guys.  Of course, they might take the view that poky
-> itself is meant to be determining what DISTRO_FEATURES it wants and they
-> don't want to support or encourage random frobbing of flags by third
-> parties, and I think that'd be an understandable position.
->
->>We call it and /finalize/ the database so it has _append/_prepend
->>resolved before mangling the list.
->
-> That seems a bit unwholesome in itself.  Are you sure there are no
-> potential bad consequences from calling finalize() there?
+--enable-obex controls if obexd supports extra profiles (currently IRMC and
+PBAB), which brings in a dependency on libical for the dummy phonebook
+implementation.
 
-No; I am not sure. What I know is it has been being used by meta-metro
-and O.S. Systems distribution without issues for a while and it solves
-the problem I have.
+Based on work by Saul Wold <sgw@linux.intel.com>.
 
-Adding /full/ distro features list is ugly and easy to get wrong. This
-seems much better for user IMO.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/buildhistory.bbclass           |    1 +
+ meta/recipes-connectivity/bluez5/bluez5.inc |   13 ++++++++++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)
 
---
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 36e7fe1..c5bba25 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -531,6 +531,7 @@ END
+ python buildhistory_eventhandler() {
+     if e.data.getVar('BUILDHISTORY_FEATURES', True).strip():
+         if e.data.getVar("BUILDHISTORY_COMMIT", True) == "1":
++            bb.note("Writing buildhistory")
+             bb.build.exec_func("buildhistory_commit", e.data)
+ }
+ 
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index fc78900..6ab05cf 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -6,12 +6,13 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+                     file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+                     file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
+-DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck libical readline"
++DEPENDS = "udev libusb dbus-glib glib-2.0 libcheck readline"
+ 
+ RCONFLICTS_${PN} = "bluez4"
+ 
+-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} obex-profiles"
+ PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
++PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
+ 
+ SRC_URI = "\
+     ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.gz \
+@@ -47,7 +48,7 @@ do_install_append() {
+ }
+ 
+ ALLOW_EMPTY_libasound-module-bluez = "1"
+-PACKAGES =+ "libasound-module-bluez ${PN}-test"
++PACKAGES =+ "libasound-module-bluez ${PN}-test ${PN}-obex"
+ 
+ FILES_libasound-module-bluez = "${libdir}/alsa-lib/lib*.so ${datadir}/alsa"
+ FILES_${PN} += "${libdir}/bluetooth/plugins ${libdir}/bluetooth/plugins/*.so ${base_libdir}/udev/ ${nonarch_base_libdir}/udev/ ${systemd_unitdir}/ ${datadir}/dbus-1"
+@@ -56,6 +57,12 @@ FILES_${PN}-dev += "\
+   ${libdir}/alsa-lib/*.la \
+ "
+ 
++FILES_${PN}-obex = "${libdir}/bluez5/bluetooth/obexd \
++                    ${libdir}/systemd/user/obex.service \
++                    ${datadir}/dbus-1/services/org.bluez.obex.service \
++                   "
++SYSTEMD_SERVICE_${PN}-obex = "obex.service"
++
+ FILES_${PN}-test = "${libdir}/bluez/test/*"
+ 
+ FILES_${PN}-dbg += "\
+-- 
+1.7.10.4
+
 
