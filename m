@@ -1,33 +1,41 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 338EA6B3FA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A43A6B410
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 07:57:16 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1V44nz-00034Z-KH from Muhammad_Shakeel@mentor.com ;
-	Tue, 30 Jul 2013 00:57:15 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Tue, 30 Jul 2013 00:57:15 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Tue, 30 Jul 2013 08:57:13 +0100
-Message-ID: <51F7720E.2000206@mentor.com>
-Date: Tue, 30 Jul 2013 12:58:06 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Tue, 30 Jul 2013 08:14:32 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id n15so3386534ead.16
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jul 2013 01:14:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=VJalBzd+iFnKd1MAK6at0uWDpx3/EwW2Gj4ZJpEBDEE=;
+	b=H6hq4tyUzVCDzLt5mPVWtHZvUGHoVwRW7MO3bmIpy2lQPq4twFH/QXnGLK+CFjQ91Q
+	1sG+jQNQluXSKjQ7HgvTpBul1f4pNDnxcfRw3QS2CXmEmJPp8+J2+/oaTbVKCpfMwDVk
+	l4ixNMkfZChiZdoyKwS4NnpJ0pjIA46Yw6zsQAmtw0AHe5QSvsq7q1kBCLZELVNnUJyN
+	kkadQym5IJu5cVAl6gsoouNZrRbm4jKFv72OjG5nlfbAm7OGFvRfnoIzqgFVVSCuCbU8
+	aljOry+FZzU5SgsPRYfM/OKR9G1o+AwoXSn3mBmI/tol0JUhfLe7tJFvGCPDFmLg+Z5c
+	+PLg==
+X-Received: by 10.14.6.9 with SMTP id 9mr20066269eem.108.1375172072625;
+	Tue, 30 Jul 2013 01:14:32 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	bb14sm7597268eeb.17.2013.07.30.01.14.31 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 30 Jul 2013 01:14:32 -0700 (PDT)
+Date: Tue, 30 Jul 2013 10:15:04 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Bian Naimeng <biannm@cn.fujitsu.com>
+Message-ID: <20130730081504.GF3280@jama>
+References: <51F5E863.9010406@cn.fujitsu.com> <51F5E948.4070107@cn.fujitsu.com>
+	<1375112169.13247.44.camel@phil-desktop.brightsign>
+	<51F71C3A.8000701@cn.fujitsu.com>
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1374746524-18179-1-git-send-email-muhammad_shakeel@mentor.com>
-	<51F155BF.8040301@linux.intel.com>
-In-Reply-To: <51F155BF.8040301@linux.intel.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 30 Jul 2013 07:57:15.0149 (UTC)
-	FILETIME=[67CC7BD0:01CE8CFA]
+In-Reply-To: <51F71C3A.8000701@cn.fujitsu.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] avahi: Remove unnecessary runtime dependency on sysvinit-pidof
+Subject: Re: [RFC][PATCH 1/6]qemuarm.conf: provide a common qemuarm machine configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,44 +48,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jul 2013 07:57:16 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jul 2013 08:14:33 -0000
+X-Groupsio-MsgNum: 42644
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="B0nZA57HJSoPbsHY"
+Content-Disposition: inline
 
-On 07/25/2013 09:43 PM, Saul Wold wrote:
-> On 07/25/2013 03:02 AM, Shakeel, Muhammad wrote:
->> -RDEPENDS_avahi-daemon = "sysvinit-pidof"
->> -
-> I am sure there was a reason that the sysvinit version of pidof was 
-> required over the busybox, did you test that the busybox version works 
-> correctly in both systemd and sysvinit usages?
->
-> It maybe that the busybox version now work correctly.
->
-> Also as Paul pointed out, this is an RDEPENDS on a single package not 
-> all the sysvinit packages.
->
-> Sau!
->
-I have tested that pidof from busybox works fine for both systemd and 
-sysvinit and also avahi-daemon works fine with this.
+--B0nZA57HJSoPbsHY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Also sysvinit is rdepending on 'sysvinit-pidof' and for sysvinit systems 
-pidof will always come from inside it. It is only systemd enabled 
-systems which will get pidof from busybox and it seems to be working fine.
+On Tue, Jul 30, 2013 at 09:51:54AM +0800, Bian Naimeng wrote:
+>=20
+> said the following on 2013-7-29 23:36:, Phil Blundell wrote:
+> > On Mon, 2013-07-29 at 12:02 +0800, Bian Naimeng wrote:
+> >> qemux86.conf: provide a common qemux86 machine configuration,=20
+> >> so developer/distributor can customize their specific one.
+> >>
+> >> Although, we can modify the meta/conf/machine/qemux86.conf to customiz=
+e our=20
+> >> configuration, but it's uncomfortable for developer/distributor mainta=
+ining
+> >> their branch.
+> >> After applying this patch, developer can tell poky using their machine
+> >> configuration by prepending their layer to BBPATH(Of course,
+> >> the bblayers.conf should be adapted to it).
+> >=20
+> > I don't really understand the purpose of this patch.  Surely there is
+> > nothing to stop you from shipping an overlay qemux86.conf in some other
+> > layer today, right?  What exactly is the advantage of this extra
+> > indirection through an .inc file?
+> >=20
+>=20
+> What my purpose is that make it easy to implement the below case.
+>  1. I want inherit all the configuration item of qemux86.conf.
+>  2. I want add some new items to my qemux86.conf.
+>  3. If there're changes to qemux86.conf, i want merge them to my qemux86.=
+conf
+>=20
+> Yes, we can implement this case today.
+>  1. Copy the meta/conf/machine/qemux86.conf to my layer.
+>  2. Add new items to my qemux86.conf
+>  3. Rewrite my qemux86.conf to merge community changes.
+>=20
+> However, if applying these patches, it becomes easy.
+>  1. add "require conf/machine/include/qemux86.inc" to my qemux86.conf
+>  2. add new items to my qemux86.conf
+>  3. modify qemux86.inc to update qemux86 configration at community,=20
+>     so all community changes will be merged to my qemux86.conf automatica=
+lly
+>     when merging the mainline.
 
-I have tried to track it that why this rdepend was added for avahi 
-daemon. It was added back in May 2007 but commit 
-(1641c2bd2c71bb08de7057b052ae74c00eedb330) message doesn't have any more 
-detail. I am sure that pidof from busybox is much more stable now.
+Without patches
+1. add require ${COREBASE}/meta/conf/machine/qemux86.conf at the
+beginning of your qemux86.conf copy
+2. add new items
 
-This is definitely installing only 'sysvinit-pidof' but I was of the 
-opinion that if we can avoid all of sysvinit for systemd only build, 
-given that it is not impacting any of the functionality, then it will be 
-nice. IMHO, we should try to prevent as many unnecessary bits from 
-build/image as possible.
+>=20
+> > Also, as a side note, your patches 1/6, 2/6 and 6/6 all said
+> > "qemuarm.conf" in the subject lines but only the last of them actually
+> > contained changes to qemuarm.conf.
+>=20
+> Sorry for my mistake. The correct one is following.
+> 1/6: qemux86.conf.
+> 2/6: qemux86-64.conf
+>=20
+> >=20
+> > Also also, the patches in this form are quite hard to follow.  Did you
+> > use "git format-patch -M" when creating them?
+>=20
+> Yes, I used "git format-patch -M" to create them.
+> I will check them by linux/scripts/checkpatch.pl next time.
+>=20
+> Thanks
+>  bian
+>=20
+> >=20
+> > p.
+> >=20
+> >=20
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Regards,
-Shakeel
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--B0nZA57HJSoPbsHY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlH3dggACgkQN1Ujt2V2gBydjQCeM5q2k7j3/rQ6XP0Adsuor717
+T4MAoJ0bcQIYmSip5IeYgFFM9HyNNIQA
+=q2Rb
+-----END PGP SIGNATURE-----
+
+--B0nZA57HJSoPbsHY--
