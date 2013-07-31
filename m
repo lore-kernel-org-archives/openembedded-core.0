@@ -1,37 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B8B0461619
+Return-Path: <rich.tollerton@ni.com>
+Received: from us-aus-skprod2.natinst.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 4967560667
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 16:07:36 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id d10so991879vea.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 09:07:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=tKg9Uc8xIyKfq0F/j2swW3ToZPUr+hKDk9aS58ZrjxY=;
-	b=mv/SUqEDQOIGgRFhAOOkLUeFESo8iy4Gj3MuNmDX0YKbR3bwmoGFtwvh5i7CIbgF3v
-	oZ5A/5BugYFn84TPG1pQ4yAvuWGhb2tlA9AgfNRUpjVrE9SqCehIDzkdOiGyZ3sIRYiu
-	jRK9ZWdmP1ftoxp1hLRT1r6YVpjdzQnVKeaTd1KnLSB75qIyw48ff2qkcWli7nqgNqWq
-	NqOO+tGNVttGFm6Yo0zjKKvjLR3pnP5W1uCrw34vQ5WNKlu+tKpf9f1DRtvhc/BFbl4M
-	Gs2gv4JyRf6zRIZrpd3goT8vANdqLgnIRw+QfnjGJUQ957Tc2T2nR12U/s5yeuGctbxY
-	T09w==
-X-Received: by 10.52.163.46 with SMTP id yf14mr23953812vdb.58.1375286857198;
-	Wed, 31 Jul 2013 09:07:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 31 Jul 2013 09:07:16 -0700 (PDT)
-In-Reply-To: <e63ad84faf8021c7d5b964e0c3c220b044fe8072.1375278766.git.ionutx.radu@intel.com>
-References: <cover.1375278766.git.ionutx.radu@intel.com>
-	<e63ad84faf8021c7d5b964e0c3c220b044fe8072.1375278766.git.ionutx.radu@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 31 Jul 2013 17:07:16 +0100
-Message-ID: <CAJTo0LYUjDoK=kry8CHNMaorC7srzPaH_wz1of=GdgdbPjdb+w@mail.gmail.com>
-To: Ionut Radu <ionutx.radu@intel.com>
-X-Gm-Message-State: ALoCoQmh2rgWc70MWoFRApSpzz6nLikjBBaFEM+xBjGNzK5h6mqkQK1FODgrbnO5VefyBPwzgJiu
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] freetype: Upgrade from 2.4.12 to 2.5.0
+	Wed, 31 Jul 2013 18:16:22 +0000 (UTC)
+Received: from mailserv58-us.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
+	r6VIGMIL004384 for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jul 2013 13:16:22 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by mailserv58-us.natinst.com (Lotus Domino Release 8.5.3FP2 HF169)
+	with ESMTP id 2013073113162250-873781 ;
+	Wed, 31 Jul 2013 13:16:22 -0500 
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 31 Jul 2013 13:15:39 -0500
+Message-Id: <1375294539-1643-1-git-send-email-rich.tollerton@ni.com>
+X-Mailer: git-send-email 1.8.3.4
+X-MIMETrack: Itemize by SMTP Server on MailServ58-US/AUS/H/NIC(Release
+	8.5.3FP2 HF169|September 14, 2012) at 07/31/2013 01:16:22 PM,
+	Serialize by Router on MailServ58-US/AUS/H/NIC(Release 8.5.3FP2
+	HF169|September 14, 2012) at 07/31/2013 01:16:22 PM,
+	Serialize complete at 07/31/2013 01:16:22 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.10.8794, 1.0.431,
+	0.0.0000
+	definitions=2013-07-31_07:2013-07-31, 2013-07-31,
+	1970-01-01 signatures=0
+Subject: [master, dylan][PATCH] shadow: Fix build when DISTRO_FEATURES contains pam, libc-crypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +39,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 16:07:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 31 Jul 2013 18:16:22 -0000
 
-On 31 July 2013 14:58, Ionut Radu <ionutx.radu@intel.com> wrote:
->  .../freetype/{freetype_2.4.12.bb => freetype_2.5.0.bb}        |    9 +++------
+shadow falsely assumes that if --enable-libpam is set, it doesn't need to link
+against libcrypt; this breaks chsh. (This same fix exists in Arch.)
 
-There's a 2.5.0.1 which fixes an installation problem, please update
-to that instead.
+Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+---
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+index caf24c0..c9d64ad 100644
+--- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
++++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+@@ -11,7 +11,7 @@ DEPENDS = "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)} \
+            shadow-native"
+ RDEPENDS_${PN} = "shadow-securetty ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS}', '', d)} \
+                   base-passwd"
+-PR = "r13"
++PR = "r14"
+ 
+ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
+            file://login_defs_pam.sed \
+@@ -37,6 +37,10 @@ EXTRA_OECONF += "--without-audit \
+                  --without-selinux"
+ EXTRA_OECONF_libc-uclibc += "--with-nscd=no"
+ 
++# Build falsely assumes that if --enable-libpam is set, we don't need to link against
++# libcrypt. This breaks chsh.
++BUILD_LDFLAGS += "${@base_contains('DISTRO_FEATURES', 'pam', base_contains('DISTRO_FEATURES', 'libc-crypt',  '-lcrypt', '', d), '', d)}"
++
+ PAM_PLUGINS = "libpam-runtime \
+                pam-plugin-faildelay \
+                pam-plugin-securetty \
+-- 
+1.8.3.4
+
 
