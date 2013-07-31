@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B424261883
+Received: from mail-ve0-f172.google.com (mail-ve0-f172.google.com
+	[209.85.128.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B05061883
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 13:56:36 +0000 (UTC)
-Received: by mail-ve0-f178.google.com with SMTP id ox1so776704veb.37
+	Wed, 31 Jul 2013 13:58:20 +0000 (UTC)
+Received: by mail-ve0-f172.google.com with SMTP id oz10so791824veb.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 06:56:37 -0700 (PDT)
+	Wed, 31 Jul 2013 06:58:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:x-gm-message-state;
-	bh=7vcfMXSg9GtkHzClTDw3SUkaFJLSdSMt9fGVSX+2YT0=;
-	b=Jt1OZ/DLF9niI3Q3HUUnRoyUc4/BvWj7OyDd9dtQ89eWl8Pa5XYAXKEfws6NR944/1
-	SBXQETFro2bobPTU26wZXa/y5lYl2im8os2182XJAEakta14mgH8YL5g4FHt0W8IvYnS
-	uQvR7Ta1PWtNFXo6HRftQXOtvCthjM9VhdXWetVJGG1ZcUN6tbfgwMeFpH21Gn140xMq
-	RUe8ewAToxRrRpM64rCuUpwskuZ7nJoZ00TpTgKv40F1ZvQYcQ4dhke151eodyTHoIqy
-	GCweJu3cmcicBrxdM1aK6aEx1y9HXBqLhMMKNtTyWbuzKcjF3Y8ubw2Hkx0gJGErFims
-	03Ew==
-X-Received: by 10.58.233.8 with SMTP id ts8mr28447071vec.44.1375278997002;
-	Wed, 31 Jul 2013 06:56:37 -0700 (PDT)
+	bh=fnJ4XzLJ7qxPnkJZ9La5+EYPfGz6keIiecpJrub3tSM=;
+	b=mbCNKLABttt3oj3+pV/56gGeXFJyLXJMDrcWGbuWicH+SuoUZhoQgMN6ezu9LFHNSn
+	7xhv0HiOM7pm/rDiADRE8goTYqFnygn/HTdEtReVm+b+tqlzEdjUScOAsWXzN2zm6lkb
+	Jz8Xt7TiiU4GuwWU9ALWqkTh9zE1yjwtvZ2OYXU9+k8A3/+CZDIauQXyYB2lZKuCJ88k
+	HNCh29BtRMmClgi7VV46mXDWTb2BUQ8+ed/b9aurU5RoajOFYcfDLzIOeHEQrfv65kO8
+	YjlNf5YEyWG62a/HHchzmu5Znix/uwrKPIziK0MmQgKOSF99KCj5UHLy473pwRnwRXf8
+	oihw==
+X-Received: by 10.58.219.232 with SMTP id pr8mr28826995vec.80.1375279101209;
+	Wed, 31 Jul 2013 06:58:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 31 Jul 2013 06:56:16 -0700 (PDT)
-In-Reply-To: <d5ae8d136ab3036e7f64600250abdfa099756076.1375275560.git.laurentiu.palcu@intel.com>
+Received: by 10.220.71.201 with HTTP; Wed, 31 Jul 2013 06:58:01 -0700 (PDT)
+In-Reply-To: <cover.1375275560.git.laurentiu.palcu@intel.com>
 References: <cover.1375275560.git.laurentiu.palcu@intel.com>
-	<d5ae8d136ab3036e7f64600250abdfa099756076.1375275560.git.laurentiu.palcu@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 31 Jul 2013 14:56:16 +0100
-Message-ID: <CAJTo0LYbEC5aX4nesh=qvq=ONYo27GU1FjkPE2ksNYoPYOLdOA@mail.gmail.com>
+Date: Wed, 31 Jul 2013 14:58:01 +0100
+Message-ID: <CAJTo0LYoN6=JpLsFgp-O-_owoGLve2FZxZVZfqvnD1aooAbKkQ@mail.gmail.com>
 To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-X-Gm-Message-State: ALoCoQkML+9adZ8vlSZz2pX5Z2SWVQ0e18fWBopI8nzd7/NL4yWdbExNWgFV8am/f29C8mKtx6XX
+X-Gm-Message-State: ALoCoQnmsjsLhSiAe5uF0eAksgjj12Kj98itpt+vS+bgQFCoHuKe0GlwLaJIB6aQafILoBvg8omB
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 12/13] flex: upgrade to 2.5.37
+Subject: Re: [PATCH 00/13] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,13 +43,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 13:56:36 -0000
+X-List-Received-Date: Wed, 31 Jul 2013 13:58:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 31 July 2013 14:09, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
-> +PR = "r3"
+> Tests done:
+>  * build tested on AB running following nightlies: x86, x86_64, ppc, mips, arm;
+>  * basic functionality for X, powertop, nasm, xhost and xranr was tested on an
+>    ideapad s10-3t with a core-image-sato image. No issues spotted;
+>  * makedepend, flex, git, subversion are needed during the build process for
+>    various packages and were not tested directly. AB caught a grub compilation
+>    issue caused by the new flex version and this patchset contains a fix for
+>    that too;
 
-You can remove this.
+Apart from the PR that needs to be removed, all looks good to me.
 
+Cheers,
 Ross
 
