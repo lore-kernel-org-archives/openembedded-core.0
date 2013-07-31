@@ -1,37 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E1396A4AC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 9092A6A4AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 15:18:55 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id m1so1757162oag.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 08:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=AgRChnNDTeX+Y+U2jFdcUYh5VpVtjVwPLDdfJIh6FPQ=;
-	b=pMqJ7empoDXFoB/VCLOvsxkaoyBVntsin9XbAxtFCmZ2Cv1J7MQgFncuoSFqEi5bhk
-	gDn1ulYCnFyBU3NfOsQTkTceRG1GJRjXJTfLfsSfG+GY4VK6O1QdbWePiQX/freqrWKL
-	kb3kU/X/PAroTDN585G0oE/wMq81HSSW6blsgMX8zxcRYyTNX9eAdL798ge+97LMfFOs
-	e/9ngQ+3C9WEgErD+tOA8o/a26MolmnRgymXXTlrRE8uUQaUzNXXnNChA34jFfFCrQVA
-	lk8oZvoGndl/LR8h1uc1elb5O6h1n0HntqG7hNLbwTTP22t9hLHwiPGwFu6wIAdT09kl
-	kcBQ==
+	Wed, 31 Jul 2013 15:22:19 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 31 Jul 2013 08:22:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,788,1367996400"; d="scan'208";a="339600044"
+Received: from unknown (HELO helios.localnet) ([10.252.122.226])
+	by azsmga001.ch.intel.com with ESMTP; 31 Jul 2013 08:22:19 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 31 Jul 2013 16:22:18 +0100
+Message-ID: <2820820.TAGXFEgGOg@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <cover.1375176217.git.stefanx.stanacar@intel.com>
+References: <cover.1375176217.git.stefanx.stanacar@intel.com>
 MIME-Version: 1.0
-X-Received: by 10.60.145.241 with SMTP id sx17mr856527oeb.57.1375283935226;
-	Wed, 31 Jul 2013 08:18:55 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 31 Jul 2013 08:18:55 -0700 (PDT)
-In-Reply-To: <1375271223.8017.52.camel@phil-desktop.brightsign>
-References: <1375233090-5072-1-git-send-email-otavio@ossystems.com.br>
-	<1375271223.8017.52.camel@phil-desktop.brightsign>
-Date: Wed, 31 Jul 2013 12:18:55 -0300
-X-Google-Sender-Auth: kJuqAwkQ0xqPe2eDsUcqwQVyars
-Message-ID: <CAP9ODKofjzCPQyVV55ykVfi93LHNFCSbCOTgSqyni=6afdbRXA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Phil Blundell <pb@pbcl.net>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
+Subject: Re: [PATCH v2 0/4] Small tweaks for testimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 15:18:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 31 Jul 2013 15:22:20 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Jul 31, 2013 at 8:47 AM, Phil Blundell <pb@pbcl.net> wrote:
-> On Tue, 2013-07-30 at 22:11 -0300, Otavio Salvador wrote:
->> +    l = d.createCopy()
->> +    l.finalize()
->
-> Doesn't this mean you're now going to get the overrides applied twice?
-> It seems as though making a copy here kind of defeats the point of
-> calling finalize() in the first place.
+On Tuesday 30 July 2013 12:28:16 Stefan Stanacar wrote:
+> Changed in v2:
+>  - 4/4 had an extra change that wasn't meant to be.
+> 
+> The following changes since commit bd1c441a210cae03fb6006c996227211cc29056b:
+> 
+>   bitbake: bitbake: runqueue: add warning if invalidating invalid task
+> (2013-07-29 15:25:09 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib stefans/testimage-fix1
+> 
+> for you to fetch changes up to 42a3f746ec638bfb4802ccc4c10f0cbd09de958e:
+> 
+>   oeqa/runtime/xorg: use the right ps command for xorg test (2013-07-30
+> 11:59:30 +0300)
+> 
+> ----------------------------------------------------------------
+> Stefan Stanacar (4):
+>       oeqa/utils/sshcontrol: increase and log timeout in output
+>       oeqa/utils/qemurunner: add comment and header
+>       oeqa/utils/qemurunner: tweak console bootparam and ip command
+>       oeqa/runtime/xorg: use the right ps command for xorg test
 
-I sent a v3 which fixes the issue.
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+
+Cheers,
+Paul
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
