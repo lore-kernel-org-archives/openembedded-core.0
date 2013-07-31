@@ -1,24 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9092A6A4AC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B8B0461619
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 15:22:19 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 31 Jul 2013 08:22:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,788,1367996400"; d="scan'208";a="339600044"
-Received: from unknown (HELO helios.localnet) ([10.252.122.226])
-	by azsmga001.ch.intel.com with ESMTP; 31 Jul 2013 08:22:19 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2013 16:22:18 +0100
-Message-ID: <2820820.TAGXFEgGOg@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1375176217.git.stefanx.stanacar@intel.com>
-References: <cover.1375176217.git.stefanx.stanacar@intel.com>
+	Wed, 31 Jul 2013 16:07:36 +0000 (UTC)
+Received: by mail-ve0-f174.google.com with SMTP id d10so991879vea.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jul 2013 09:07:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=tKg9Uc8xIyKfq0F/j2swW3ToZPUr+hKDk9aS58ZrjxY=;
+	b=mv/SUqEDQOIGgRFhAOOkLUeFESo8iy4Gj3MuNmDX0YKbR3bwmoGFtwvh5i7CIbgF3v
+	oZ5A/5BugYFn84TPG1pQ4yAvuWGhb2tlA9AgfNRUpjVrE9SqCehIDzkdOiGyZ3sIRYiu
+	jRK9ZWdmP1ftoxp1hLRT1r6YVpjdzQnVKeaTd1KnLSB75qIyw48ff2qkcWli7nqgNqWq
+	NqOO+tGNVttGFm6Yo0zjKKvjLR3pnP5W1uCrw34vQ5WNKlu+tKpf9f1DRtvhc/BFbl4M
+	Gs2gv4JyRf6zRIZrpd3goT8vANdqLgnIRw+QfnjGJUQ957Tc2T2nR12U/s5yeuGctbxY
+	T09w==
+X-Received: by 10.52.163.46 with SMTP id yf14mr23953812vdb.58.1375286857198;
+	Wed, 31 Jul 2013 09:07:37 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/4] Small tweaks for testimage
+Received: by 10.220.71.201 with HTTP; Wed, 31 Jul 2013 09:07:16 -0700 (PDT)
+In-Reply-To: <e63ad84faf8021c7d5b964e0c3c220b044fe8072.1375278766.git.ionutx.radu@intel.com>
+References: <cover.1375278766.git.ionutx.radu@intel.com>
+	<e63ad84faf8021c7d5b964e0c3c220b044fe8072.1375278766.git.ionutx.radu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 31 Jul 2013 17:07:16 +0100
+Message-ID: <CAJTo0LYUjDoK=kry8CHNMaorC7srzPaH_wz1of=GdgdbPjdb+w@mail.gmail.com>
+To: Ionut Radu <ionutx.radu@intel.com>
+X-Gm-Message-State: ALoCoQmh2rgWc70MWoFRApSpzz6nLikjBBaFEM+xBjGNzK5h6mqkQK1FODgrbnO5VefyBPwzgJiu
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] freetype: Upgrade from 2.4.12 to 2.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 15:22:20 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 31 Jul 2013 16:07:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 30 July 2013 12:28:16 Stefan Stanacar wrote:
-> Changed in v2:
->  - 4/4 had an extra change that wasn't meant to be.
-> 
-> The following changes since commit bd1c441a210cae03fb6006c996227211cc29056b:
-> 
->   bitbake: bitbake: runqueue: add warning if invalidating invalid task
-> (2013-07-29 15:25:09 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib stefans/testimage-fix1
-> 
-> for you to fetch changes up to 42a3f746ec638bfb4802ccc4c10f0cbd09de958e:
-> 
->   oeqa/runtime/xorg: use the right ps command for xorg test (2013-07-30
-> 11:59:30 +0300)
-> 
-> ----------------------------------------------------------------
-> Stefan Stanacar (4):
->       oeqa/utils/sshcontrol: increase and log timeout in output
->       oeqa/utils/qemurunner: add comment and header
->       oeqa/utils/qemurunner: tweak console bootparam and ip command
->       oeqa/runtime/xorg: use the right ps command for xorg test
+On 31 July 2013 14:58, Ionut Radu <ionutx.radu@intel.com> wrote:
+>  .../freetype/{freetype_2.4.12.bb => freetype_2.5.0.bb}        |    9 +++------
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+There's a 2.5.0.1 which fixes an installation problem, please update
+to that instead.
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
