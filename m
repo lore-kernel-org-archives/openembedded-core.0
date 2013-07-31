@@ -1,39 +1,39 @@
 Return-Path: <djszapi@archlinux.us>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 56C426A5AF
+Received: from mail-we0-f181.google.com (mail-we0-f181.google.com
+	[74.125.82.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 70DB66A5AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 13:16:48 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id q54so590904wes.19
+	Wed, 31 Jul 2013 13:18:45 +0000 (UTC)
+Received: by mail-we0-f181.google.com with SMTP id p58so602800wes.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 06:16:48 -0700 (PDT)
+	Wed, 31 Jul 2013 06:18:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:x-mailer
 	:x-gm-message-state;
-	bh=nhxUw/180R36CEGyUJPICMJPZ+fROchrQeuaxP5T6ig=;
-	b=kV+z5aHOjir6y8aiQ9FNIYxEj7TpqXnfHrTcjBnsEp+2WZ4rfUA6eH1MMqAKXN3Pwh
-	L1SwJfNP3JxXG71bY0rPSkLHbEdlGpl2M1njXSHyr3IXml2e5/y0dTM9WGFenPwNqS+z
-	tpmUDHbuoGAMOcmdSc+lf0x5hqb9YlZpbcHgY1FdEWxsQu/iPUyeVn8P9DzKcGNJyrIu
-	H+L+S+CEvQkI0umViSPCH+9Nk5FBbzs0s5Gkzqe1PSaVU7mGDOF6wpk/xKQvR3x6CLN2
-	VkW7KG6dzhfWKs8R+eduwylwIEAudTsKgbVWJUAa4HpuBhCsTe5EGBB26iJ8nU+DJyOu
-	Fbww==
-X-Received: by 10.194.219.233 with SMTP id pr9mr11490514wjc.8.1375276608202;
-	Wed, 31 Jul 2013 06:16:48 -0700 (PDT)
+	bh=2nNukC/MzyaMxeShOM6tq1ZdFV5K9mXg47oplFVjeAs=;
+	b=BARN67PUbJXC52K4n+HHuc8lsDrLP9KXTG8nl9CLmpzmQKcInqhyUYb22wcw07Q4C5
+	eH0QcEdmARSI6+vZAy7eJhixikYfBXPBYdq1Y+NZ7tkVNSqzM7fwE9U7lvg71zffZfU0
+	GjHXeYrJWudeBtkWEx6kfa4HZykQWat5/SPHxKiHQcvFLRQsQcLh+JMYmeqK62+z35vC
+	sy/OUK+egeteR6Go90RMa/Q9bh7FMttAsDgyaujg/xypnKEHZFZ591sYOWgeO/PAuQFg
+	YSZY1x3PkXR7ZczqA/hKh+XFLdfmZoCQx20w1wIuKqv1XKv4C3KNizw7/VfADklE8Hqd
+	xz/A==
+X-Received: by 10.194.190.201 with SMTP id gs9mr8992431wjc.82.1375276725555;
+	Wed, 31 Jul 2013 06:18:45 -0700 (PDT)
 Received: from djszapi@archlinux.us ([212.44.19.228])
-	by mx.google.com with ESMTPSA id li9sm35328562wic.2.2013.07.31.06.16.45
-	for <multiple recipients>
+	by mx.google.com with ESMTPSA id
+	nb12sm35309212wic.7.2013.07.31.06.18.42 for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 31 Jul 2013 06:16:47 -0700 (PDT)
+	Wed, 31 Jul 2013 06:18:44 -0700 (PDT)
 Sender: Laszlo Papp <djszapi@archlinux.us>
 Received: by djszapi@archlinux.us (sSMTP sendmail emulation);
-	Wed, 31 Jul 2013 14:14:58 +0100
+	Wed, 31 Jul 2013 14:16:55 +0100
 From: Laszlo Papp <lpapp@kde.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2013 14:14:51 +0100
-Message-Id: <1375276491-25074-1-git-send-email-lpapp@kde.org>
+Date: Wed, 31 Jul 2013 14:16:54 +0100
+Message-Id: <1375276614-24376-1-git-send-email-lpapp@kde.org>
 X-Mailer: git-send-email 1.8.3.4
-X-Gm-Message-State: ALoCoQmW+SdtR+qTbbzRBSAwZ7ojRmanumT9KSa3lI0cGjcWyoyNqZsQ04bLI/GS/kVJHMmdVw3P
+X-Gm-Message-State: ALoCoQm1iIdSCGJ09H1oCkgvb+8aAFz0wVoX69Wv2QLyT4IHfNkPSiC/GxeAdV8ZEeyEuJFDJP/0
 Subject: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,7 +47,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 13:16:48 -0000
+X-List-Received-Date: Wed, 31 Jul 2013 13:18:46 -0000
 
 Signed-off-by: Laszlo Papp <lpapp@kde.org>
 ---
@@ -61,7 +61,7 @@ Signed-off-by: Laszlo Papp <lpapp@kde.org>
 
 diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
 new file mode 100644
-index 0000000..7c4df1a
+index 0000000..e20e5f9
 --- /dev/null
 +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
 @@ -0,0 +1,28 @@
@@ -73,7 +73,7 @@ index 0000000..7c4df1a
 +
 +DEPENDS = "mtd-utils"
 +
-+PR = "r1"
++PR = "r0"
 +
 +SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
 +
@@ -130,7 +130,7 @@ index 0000000..abd373f
 +
 diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
 new file mode 100644
-index 0000000..b812e69
+index 0000000..111c066
 --- /dev/null
 +++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
 @@ -0,0 +1,26 @@
@@ -153,7 +153,7 @@ index 0000000..b812e69
 +SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
 +
 +PV = "v2013.07+git${SRCPV}"
-+PR = "r1"
++PR = "r0"
 +
 +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
 +
