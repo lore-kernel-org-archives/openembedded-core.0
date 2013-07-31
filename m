@@ -1,31 +1,45 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 127EA6A9C4
+Return-Path: <B40290@freescale.com>
+Received: from co9outboundpool.messaging.microsoft.com
+	(co9ehsobe005.messaging.microsoft.com [207.46.163.28])
+	by mail.openembedded.org (Postfix) with ESMTP id A7BB461883
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 07:09:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6V79GWf029179
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 31 Jul 2013 00:09:16 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Wed, 31 Jul 2013 00:09:16 -0700
-Message-ID: <51F8B825.3000707@windriver.com>
-Date: Wed, 31 Jul 2013 15:09:25 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Wed, 31 Jul 2013 08:19:58 +0000 (UTC)
+Received: from mail62-co9-R.bigfish.com (10.236.132.232) by
+	CO9EHSOBE019.bigfish.com (10.236.130.82) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 31 Jul 2013 08:19:58 +0000
+Received: from mail62-co9 (localhost [127.0.0.1])	by mail62-co9-R.bigfish.com
+	(Postfix) with ESMTP id 93708A0158	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jul 2013 08:19:58 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h8275bh1de097hz2dh2a8h668h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
+Received: from mail62-co9 (localhost.localdomain [127.0.0.1]) by mail62-co9
+	(MessageSwitch) id 1375258797399696_23876;
+	Wed, 31 Jul 2013 08:19:57 +0000 (UTC)
+Received: from CO9EHSMHS032.bigfish.com (unknown [10.236.132.240])	by
+	mail62-co9.bigfish.com (Postfix) with ESMTP id 5A293B0004E	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jul 2013 08:19:57 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS032.bigfish.com
+	(10.236.130.42) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Wed, 31 Jul 2013 08:19:57 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.3.136.1; Wed, 31 Jul 2013 08:19:56 +0000
+Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
+	[10.192.208.136])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
+	id r6V8JqiS016790;	Wed, 31 Jul 2013 01:19:53 -0700
+From: Chunrong Guo <B40290@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 31 Jul 2013 16:19:43 +0800
+Message-ID: <1375258783-9009-1-git-send-email-B40290@freescale.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-To: Chris Larson <clarson@kergoth.com>
-References: <CABcZANmOQBbYKAk145vSMZn2ag1Us=ySmjq_sECCrscQCqk+dg@mail.gmail.com>
-	<51F092C5.3060906@windriver.com>
-	<CABcZANk_XvT3uHDQQmqsm-4dTVZYd-D3RRsW+wz=2cdE-xkbmA@mail.gmail.com>
-In-Reply-To: <CABcZANk_XvT3uHDQQmqsm-4dTVZYd-D3RRsW+wz=2cdE-xkbmA@mail.gmail.com>
-X-Originating-IP: [128.224.162.233]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: meta-ro-rootfs approach and volatiles vs tmpfiles.d
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] base-files: remove symbolic link from /etc/mtab to /proc/mounts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,123 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 07:09:17 -0000
-Content-Type: multipart/alternative;
-	boundary="------------020505050601090500000409"
+X-List-Received-Date: Wed, 31 Jul 2013 08:19:59 -0000
+Content-Type: text/plain
 
---------------020505050601090500000409
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+    *If /etc/mtab is a symlink to /proc/self/mounts,
+     mounting fails because addmntent returns an error.
+     As a consequence, the Private directory is unusable
+     because /proc/self/mounts is read-only feature.
 
-On 07/31/2013 02:53 AM, Chris Larson wrote:
-> On Wed, Jul 24, 2013 at 7:51 PM, ChenQi <Qi.Chen@windriver.com 
-> <mailto:Qi.Chen@windriver.com>> wrote:
->
->     You can get more information from the bug link below. The related
->     bugs are listed in the blocks list of this bug.
->     https://bugzilla.yoctoproject.org/show_bug.cgi?id=4103
->     You can also review the patchset for these bugs on
->
->     http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images
->
->
-> I'll start playing around with this locally, to see how well it'd work 
-> (with adjustments to support systemd) for our use cases, and will go 
-> from there on our end. Up next for me:
->
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
+---
+ meta/recipes-core/base-files/base-files_3.0.14.bb |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
 
-Thank you very much for your review :)
-
-Best Regards,
-Chen Qi
-
-> - see if your r/o bits will be suitable for us with systemd rather 
-> than using our tmpfiles override mechanism. we need to support this on 
-> much more than just live images, and we need systemd :)
-> - pursue systemd support for services missing that support in oe-core
-> - pursue improved sysvinit / systemd feature parity, and potential 
-> volatiles -> tmpfiles migration / consolidation
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 054fefa..1843bdd 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -100,7 +100,6 @@ do_install () {
+ 	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
+ 	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
+ 
+-	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
+ }
+ 
+ do_install_basefilesissue () {
+-- 
+1.7.5.4
 
 
---------------020505050601090500000409
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 07/31/2013 02:53 AM, Chris Larson
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CABcZANk_XvT3uHDQQmqsm-4dTVZYd-D3RRsW+wz=2cdE-xkbmA@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">On Wed, Jul 24, 2013 at 7:51 PM,
-            ChenQi <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:Qi.Chen@windriver.com" target="_blank">Qi.Chen@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div>You can get more information from the bug link below.
-                The related bugs are listed in the blocks list of this
-                bug.<br>
-                <a moz-do-not-send="true"
-                  href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=4103"
-                  target="_blank">https://bugzilla.yoctoproject.org/show_bug.cgi?id=4103</a><br>
-                You can also review the patchset for these bugs on <br>
-                <pre><a moz-do-not-send="true" href="http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images" target="_blank">http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images</a></pre>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          I'll start playing around with this locally, to see how well
-          it'd work (with adjustments to support systemd) for our use
-          cases, and will go from there on our end. Up next for me:</div>
-        <div class="gmail_extra"><br>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Thank you very much for your review :)<br>
-    <br>
-    Best Regards,<br>
-    Chen Qi<br>
-    <br>
-    <blockquote
-cite="mid:CABcZANk_XvT3uHDQQmqsm-4dTVZYd-D3RRsW+wz=2cdE-xkbmA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">- see if your r/o bits will be suitable
-          for us with systemd rather than using our tmpfiles override
-          mechanism. we need to support this on much more than just live
-          images, and we need systemd :)</div>
-        <div class="gmail_extra">- pursue systemd support for services
-          missing that support in oe-core</div>
-        <div class="gmail_extra">- pursue improved sysvinit / systemd
-          feature parity, and potential volatiles -&gt; tmpfiles
-          migration / consolidation<br>
-          -- <br>
-          Christopher Larson<br>
-          clarson at kergoth dot com<br>
-          Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-          Maintainer - Tslib<br>
-          Senior Software Engineer, Mentor Graphics
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------020505050601090500000409--
