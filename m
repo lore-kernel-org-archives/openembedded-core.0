@@ -1,26 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ED556B52E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id F0EF26B5A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 02:09:51 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6V29qQC017866
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jul 2013 19:09:52 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 30 Jul 2013 19:09:51 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 31 Jul 2013 10:09:43 +0800
-Message-ID: <1f3158d6cbdfbec033f08a7a8d724eddb7796505.1375236274.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1375236274.git.Qi.Chen@windriver.com>
-References: <cover.1375236274.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V3 9/9] openssh: fix for read-only rootfs
+	Wed, 31 Jul 2013 06:01:23 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6V6B1F4029164; Wed, 31 Jul 2013 07:11:01 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9Uhl1vNju0fY; Wed, 31 Jul 2013 07:11:01 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r6V6AtAn029155
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 31 Jul 2013 07:10:57 +0100
+Message-ID: <1375250457.5851.11.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Wed, 31 Jul 2013 07:00:57 +0100
+In-Reply-To: <cover.1375194496.git.sgw@linux.intel.com>
+References: <cover.1375194496.git.sgw@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL (M3 rc1) v2 00/25] Needs Final Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,137 +37,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 02:09:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 31 Jul 2013 06:01:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Tue, 2013-07-30 at 07:30 -0700, Saul Wold wrote:
+> Removed bluez / obex patch in preference for Ross's (later this week).
+> 
+> Please review/ack for RP to pull today for M3-rc1
+> 
+> Thanks
+> 
+> Sau!
+> 
+> 
+> The following changes since commit 09deeef20ee5a0c12ad4fd89cace6e0fb832d5b1:
+> 
+>   external-sourcery: add missing providers (2013-07-27 23:28:29 -0700)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+> 
+> Andre McCurdy (1):
+>   lib/oe/terminal.py: add support for MATE desktop terminals
+> 
+> Andrei Dinu (1):
+>   libpng : upgrade to 1.6.3
+> 
+> Colin Walters (1):
+>   util-linux: Update for swapoff being a separate binary
+> 
+> Cristian Iorga (1):
+>   iproute2: upgrade to v3.10.0
+> 
+> Emilia Ciobanu (4):
+>   docbook-sgml-dtd-3.1-native: fix recipe name
+>   docbook-sgml-dtd-4.1-native: fix recipe name
+>   distrodata.bbclass: Remove whitespaces
+>   distrodata.bbclass: Include PRSPV variable in upstream version
+>     checking
+> 
+> Hongxu Jia (3):
+>   util-linux: use u-a for su
+>   shadow: use u-a for su
+>   busybox: move /bin/su to /usr/bin/su to match util-linux and shadow
+> 
+> Jackie Huang (2):
+>   dbus: remove build host test in configure script
+>   matchbox-wm: correct the SRC_URI and add checksums
+> 
+> Jonathan Liu (1):
+>   syslinux: update to 4.07
+> 
+> Jukka Rissanen (1):
+>   bluez5: Only install .conf files if found
+> 
+> Laurentiu Palcu (1):
+>   csl-versions.inc: instruct user to check local.conf
+> 
+> Ming Liu (2):
+>   openssl: Fix multilib header conflict - opensslconf.h
+>   libpam: deny all services for the OTHER entries
+> 
+> Muhammad Shakeel (2):
+>   systemd: Remove init.d dir if systemd unit file is present and
+>     sysvinit not a distro feature
+>   busybox: Add syslog-init alternative only if SysV in enabled
+> 
+> Paul Eggleton (1):
+>   classes/sanity: check for suid root command evility
 
-If the rootfs is read-only and the ssh keys are not available at system
-start-up, the init script will generate ssh keys into /etc/ssh, thus
-causing a 'read-only file system' error.
+I merged this apart from the one above since I don't believe we need to
+run this check on every build...
 
-In order for Yocto based image to work correctly for read-only rootfs,
-we use the following logic for openssh.
+Cheers,
 
-If the rootfs is read-only and there are pre-generated keys under /etc/ssh,
-we use the pre-generated keys. Note the pre-generated keys are mainly for
-debugging or development purpose.
-If the rootfs is read-only and there are no pre-generated keys under
-/etc/ssh, we use /var/run/ssh as the location for ssh keys. That is, at
-system boot-up, the generated ssh keys will put into /var/run/ssh.
+Richard
 
-[YOCTO #4887]
+> Peter Seebach (1):
+>   pseudo: Always try to build 32-bit libpseudo when NO32LIBS is set to 0
+> 
+> Ross Burton (1):
+>   v86d: mark as compatible with all x86, not just qemux86
+> 
+> Saul Wold (1):
+>   texinfo: Update to 5.1
+> 
+> Wenzong Fan (1):
+>   ccache: allow CCACHE_DIR to be overriden
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/image.bbclass                         |   12 +++++++++++
- .../openssh/openssh-6.2p2/init                     |   22 +++++++++++++-------
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |    9 +++++++-
- 3 files changed, 35 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 15fe51a..769cf81 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -264,6 +264,18 @@ read_only_rootfs_hook () {
- 		if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
- 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
- 		fi
-+		# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
-+		# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
-+		# and the keys under /var/run/ssh.
-+		if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
-+			if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
-+				echo "SYSCONFDIR=/etc/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+				echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+			else
-+				echo "SYSCONFDIR=/var/run/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+				echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+			fi
-+		fi
- 	fi
- }
- 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/init b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-index 6beec84..12fb79b 100644
---- a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-@@ -6,14 +6,22 @@ set -e
- test -x /usr/sbin/sshd || exit 0
- ( /usr/sbin/sshd -\? 2>&1 | grep -q OpenSSH ) 2>/dev/null || exit 0
- 
-+# /etc/default/ssh may set SYSCONFDIR and SSHD_OPTS
- if test -f /etc/default/ssh; then
-     . /etc/default/ssh
- fi
- 
-+[ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
-+mkdir -p $SYSCONFDIR
-+
-+HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
-+HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
-+HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
-+
- check_for_no_start() {
-     # forget it if we're trying to start, and /etc/ssh/sshd_not_to_be_run exists
--    if [ -e /etc/ssh/sshd_not_to_be_run ]; then 
--	echo "OpenBSD Secure Shell server not in use (/etc/ssh/sshd_not_to_be_run)"
-+    if [ -e $SYSCONFDIR/sshd_not_to_be_run ]; then
-+	echo "OpenBSD Secure Shell server not in use ($SYSCONFDIR/sshd_not_to_be_run)"
- 	exit 0
-     fi
- }
-@@ -32,17 +40,17 @@ check_config() {
- 
- check_keys() {
- 	# create keys if necessary
--	if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
-+	if [ ! -f $HOST_KEY_RSA ]; then
- 		echo "  generating ssh RSA key..."
--		ssh-keygen -q -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-+		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
- 	fi
--	if [ ! -f /etc/ssh/ssh_host_ecdsa_key ]; then
-+	if [ ! -f $HOST_KEY_ECDSA ]; then
- 		echo "  generating ssh ECDSA key..."
--		ssh-keygen -q -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
-+		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
- 	fi
- 	if [ ! -f /etc/ssh/ssh_host_dsa_key ]; then
- 		echo "  generating ssh DSA key..."
--		ssh-keygen -q -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
-+		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
- 	fi
- }
- 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index ab2eefb..c76f9ac 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -86,6 +86,13 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
- 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
- 	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
-+        # Create config files for read-only rootfs
-+	install -d ${D}${sysconfdir}/ssh
-+	install -m 644 ${WORKDIR}/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
- }
- 
- ALLOW_EMPTY_${PN} = "1"
-@@ -94,7 +101,7 @@ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc $
- FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
--FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config"
-+FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
--- 
-1.7.9.5
 
 
