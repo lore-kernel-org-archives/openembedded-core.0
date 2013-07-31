@@ -1,24 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EAA46B1F5
+	by mail.openembedded.org (Postfix) with ESMTP id BAE846B3B3
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 31 Jul 2013 13:10:17 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 31 Jul 2013 06:10:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,787,1367996400"; d="scan'208";a="354884429"
+X-IronPort-AV: E=Sophos;i="4.89,787,1367996400"; d="scan'208";a="354884440"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2013 06:10:06 -0700
+	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2013 06:10:08 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2013 16:09:50 +0300
-Message-Id: <de4662434f41ce17bee8887ed8bfd22f586e4252.1375275560.git.laurentiu.palcu@intel.com>
+Date: Wed, 31 Jul 2013 16:09:51 +0300
+Message-Id: <9e6c9cd0b772079f10ddfcb585133d213327c4fb.1375275560.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1375275560.git.laurentiu.palcu@intel.com>
 References: <cover.1375275560.git.laurentiu.palcu@intel.com>
 In-Reply-To: <cover.1375275560.git.laurentiu.palcu@intel.com>
 References: <cover.1375275560.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 06/13] libpciaccess: upgrade to 0.13.2
+Subject: [PATCH 07/13] xrandr: upgrade to 1.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,36 +33,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 31 Jul 2013 13:10:17 -0000
 
-Licence MD5 changed because some years were updated and some new people
-added their own copyright text which, apparently, is similar with what
-already exists in the file.
-
 Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 ---
- ...bpciaccess_0.13.1.bb => libpciaccess_0.13.2.bb} |    8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.13.1.bb => libpciaccess_0.13.2.bb} (50%)
+ .../xorg-app/{xrandr_1.4.0.bb => xrandr_1.4.1.bb}  |    5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-app/{xrandr_1.4.0.bb => xrandr_1.4.1.bb} (70%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.1.bb b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-similarity index 50%
-rename from meta/recipes-graphics/xorg-lib/libpciaccess_0.13.1.bb
-rename to meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-index 0ec6814..6da86f2 100644
---- a/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libpciaccess_0.13.2.bb
-@@ -6,9 +6,7 @@ PCI bus and devices in a platform-independent way."
- require xorg-lib-common.inc
+diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb b/meta/recipes-graphics/xorg-app/xrandr_1.4.1.bb
+similarity index 70%
+rename from meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb
+rename to meta/recipes-graphics/xorg-app/xrandr_1.4.1.bb
+index 687c9b8..35e53c8 100644
+--- a/meta/recipes-graphics/xorg-app/xrandr_1.4.0.bb
++++ b/meta/recipes-graphics/xorg-app/xrandr_1.4.1.bb
+@@ -10,7 +10,6 @@ LICENSE= "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fe1608bdb33cf8c62a4438f7d34679b3"
+ DEPENDS += "libxrandr libxrender"
+ PE = "1"
+-PR = "${INC_PR}.0"
  
- LICENSE = "MIT & MIT-style"
--LIC_FILES_CHKSUM = "file://COPYING;md5=de01cb89a769dc657d4c321c209ce4fc"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=277aada5222b9a22fbf3471ff3687068"
- 
--PR = "r1"
--
--SRC_URI[md5sum] = "399a419ac6a54f0fc07c69c9bdf452dc"
--SRC_URI[sha256sum] = "27ab68f645691a4ca258dcc9d131040586e134f9233ce079794496f6264da084"
-+SRC_URI[md5sum] = "b7c0d3afce14eedca57312a3141ec13a"
-+SRC_URI[sha256sum] = "abab8c2b050afb89bc29280e9c6b50ec5867174960d88bfb81a01036ec20de19"
+-SRC_URI[md5sum] = "4d68317238bb14a33c0e419233d57d87"
+-SRC_URI[sha256sum] = "a76b004abe6fd7606eba9ad161ac6391fe5c665708cc5fb7c7ea7d36459d9693"
++SRC_URI[md5sum] = "52c3de0297bf45be6a189dc2e0515638"
++SRC_URI[sha256sum] = "67b554ab975652778bef587f86dab7fec8cb95dfd21c11d98a203dac5c241e50"
 -- 
 1.7.9.5
 
