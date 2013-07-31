@@ -1,22 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 697A96B1F5
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E4FED61883
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 14:19:24 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2013 07:16:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,787,1367996400"; d="scan'208";a="379500167"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga002.jf.intel.com with ESMTP; 31 Jul 2013 07:19:04 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2013 17:20:43 +0300
-Message-Id: <1375280443-21430-3-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <1375280443-21430-1-git-send-email-cristian.iorga@intel.com>
-References: <1375280443-21430-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH 2/2] alsa-utils: upgrade to 1.0.27.2
+	Wed, 31 Jul 2013 14:26:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r6VEQGqK011690
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 31 Jul 2013 07:26:17 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.230) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 31 Jul 2013 07:26:15 -0700
+Message-ID: <51F91E87.9020507@windriver.com>
+Date: Wed, 31 Jul 2013 09:26:15 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1375258783-9009-1-git-send-email-B40290@freescale.com>
+	<51F8CEFF.2050406@windriver.com>
+	<B21730BB6DA1D24B83348D9301EA417E104309CB@039-SN2MPN1-023.039d.mgd.msft.net>
+In-Reply-To: <B21730BB6DA1D24B83348D9301EA417E104309CB@039-SN2MPN1-023.039d.mgd.msft.net>
+Subject: Re: [PATCH] base-files: remove symbolic link from /etc/mtab to /proc/mounts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,167 +37,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 14:19:24 -0000
+X-List-Received-Date: Wed, 31 Jul 2013 14:26:15 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-obsolete_automake_macros.patch,
-uclibc-exp10-replacement.patch patches removed;
-included in upstream.
+On 7/31/13 4:16 AM, Guo Chunrong-B40290 wrote:
+> Hello,
+>
+> I add libhugetlbfs package into my rootfs and run the below command in my board .
+> root@p1021rdb:~# hugeadm --create-mounts
+>      hugeadm:WARNING: Unable to add entry /var/lib/hugetlbfs/pagesize-4MB to /etc/mtab, error: Invalid argument
+>      hugeadm:WARNING: Unable to add entry /var/lib/hugetlbfs/pagesize-16MB to /etc/mtab, error: Invalid argument
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...f_1.0.26.bb => alsa-utils-alsaconf_1.0.27.2.bb} |  0
- ...-t-let-systemd-unit-restore-the-volume-wh.patch | 40 +++++++++-------------
- .../alsa/alsa-utils/obsolete_automake_macros.patch | 15 --------
- .../alsa/alsa-utils/uclibc-exp10-replacement.patch | 21 ------------
- ...alsa-utils_1.0.26.bb => alsa-utils_1.0.27.2.bb} |  7 ++--
- 5 files changed, 19 insertions(+), 64 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-utils-alsaconf_1.0.26.bb => alsa-utils-alsaconf_1.0.27.2.bb} (100%)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
- rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.26.bb => alsa-utils_1.0.27.2.bb} (93%)
+This looks like the hugeadm may be broken in some way.  The writing to the 
+mounts and behavior should be based on the way the standard mount does it.
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.27.2.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.27.2.bb
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-index 1690ca5..477cd11 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-+++ b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
-@@ -6,41 +6,35 @@ Subject: [PATCH] alsactl: don't let systemd unit restore the volume when asound.
- This avoids an error on bootup
- 
- Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-----
- 
- Filed as https://bugtrack.alsa-project.org/alsa-bug/view.php?id=5459
- 
- Upstream-Status: Pending
- 
-- alsactl/Makefile.am             |    2 +-
-- alsactl/alsa-restore.service.in |    1 +
-- 2 files changed, 2 insertions(+), 1 deletions(-)
--
--diff --git a/alsactl/Makefile.am b/alsactl/Makefile.am
--index 5cfc415..c3768c4 100644
----- a/alsactl/Makefile.am
--+++ b/alsactl/Makefile.am
--@@ -34,7 +34,7 @@ install-data-hook:
-+Index: alsa-utils-1.0.27.2/alsactl/Makefile.am
-+===================================================================
-+--- alsa-utils-1.0.27.2.orig/alsactl/Makefile.am
-++++ alsa-utils-1.0.27.2/alsactl/Makefile.am
-+@@ -36,8 +36,8 @@ install-data-hook:
-  endif
-  
-  edit = \
---	$(SED) -r 's,@sbindir\@,$(sbindir),g' < $< > $@ || rm $@
--+	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' -e 's,@sbindir\@,$(sbindir),g' < $< > $@ || rm $@
-+-	$(SED) -r -e 's,@sbindir\@,$(sbindir),g' \
-+-		  -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
-++	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' -e 's,@sbindir\@,$(sbindir),g' \
-++	       -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
-+ 							< $< > $@ || rm $@
-  
-- alsa-store.service: alsa-store.service.in
-- 	$(edit)
--diff --git a/alsactl/alsa-restore.service.in b/alsactl/alsa-restore.service.in
--index e97d196..3b76710 100644
----- a/alsactl/alsa-restore.service.in
--+++ b/alsactl/alsa-restore.service.in
--@@ -4,6 +4,7 @@ DefaultDependencies=no
-- After=sysinit.target
-+ alsa-state.service: alsa-state.service.in
-+Index: alsa-utils-1.0.27.2/alsactl/alsa-restore.service.in
-+===================================================================
-+--- alsa-utils-1.0.27.2.orig/alsactl/alsa-restore.service.in
-++++ alsa-utils-1.0.27.2/alsactl/alsa-restore.service.in
-+@@ -10,6 +10,7 @@ DefaultDependencies=no
-+ After=alsa-state.service
-  Before=shutdown.target
-  Conflicts=shutdown.target
- +ConditionPathExists=@localstatedir@/lib/alsa/asound.state
-  
-  [Service]
-  Type=oneshot
---- 
--1.6.6.1
--
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch b/meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
-deleted file mode 100644
-index 1a20b48..0000000
---- a/meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Submitted [alsa-devel@alsa-project.org]
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd alsa-utils-1.0.25/configure.in alsa-utils-1.0.25/configure.in
----- alsa-utils-1.0.25/configure.in	2012-01-25 11:43:48.000000000 +0200
--+++ alsa-utils-1.0.25/configure.in	2013-01-12 10:11:51.401498722 +0200
--@@ -269,7 +269,7 @@
--   TESTSOUND="$dir/test.wav")
-- AC_SUBST(TESTSOUND)
--
---AM_CONFIG_HEADER(include/aconfig.h)
--+AC_CONFIG_HEADERS(include/aconfig.h)
--
-- dnl Checks for typedefs, structures, and compiler characteristics.
-- AC_C_CONST
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch b/meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
-deleted file mode 100644
-index b2a9a95..0000000
---- a/meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--uclibc does not have exp10 function which is glibc extension.
--Bur we can get the same behavior by using pow()
--
--Upstream-Status: Pending
--
--Khem Raj <raj.khem@gmail.com>
--
--Index: alsa-utils-1.0.24.2/alsamixer/volume_mapping.c
--===================================================================
----- alsa-utils-1.0.24.2.orig/alsamixer/volume_mapping.c
--+++ alsa-utils-1.0.24.2/alsamixer/volume_mapping.c
--@@ -36,6 +36,9 @@
-- #include <math.h>
-- #include <stdbool.h>
-- #include "volume_mapping.h"
--+#ifdef __UCLIBC__
--+#define exp10(x) (pow(10, (x)))
--+#endif /* __UCLIBC__ */
-- 
-- #define MAX_LINEAR_DB_SCALE	24
-- 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-similarity index 93%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-index e0bf755..a894171 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
-@@ -6,16 +6,13 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
- DEPENDS = "alsa-lib ncurses libsamplerate0 udev"
--PR = "r0"
- 
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
--           file://uclibc-exp10-replacement.patch \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
--           file://obsolete_automake_macros.patch \
-           "
- 
--SRC_URI[md5sum] = "4dcf1017fafc91603af96705c073eca9"
--SRC_URI[sha256sum] = "f85f2a3aa6e78475bbe35b0cad3a8cabb99f45ebc5f37962f2137b8df8b081e7"
-+SRC_URI[md5sum] = "b65e9a04181bd7c9db7667a4566f8dc3"
-+SRC_URI[sha256sum] = "02bfac39092f3b68d743c23ad3d688d6c5aa8df69f2ccd692c5b8282edb352ea"
- 
- # lazy hack. needs proper fixing in gettext.m4, see
- # http://bugs.openembedded.org/show_bug.cgi?id=2348
--- 
-1.8.1.2
+If the hugeadm uses standard mount resources, then the entries it adds should 
+have showed up into the /proc/mounts automatically.
+
+--Mark
+
+> root@p1022ds:~# ls /etc/mtab -l
+> lrwxrwxrwx 1 root root 12 Jul 31 07:28 /etc/mtab -> /proc/mounts
+> root@p1022ds:~# ls /proc/mounts
+> /proc/mounts
+> root@p1022ds:~# ls /proc/mounts -l
+> lrwxrwxrwx 1 root root 11 Jul 31 07:58 /proc/mounts -> self/mounts
+>
+>
+>
+> thanks,
+> chunrong
+>
+>
+>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of ChenQi
+> Sent: Wednesday, July 31, 2013 4:47 PM
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] base-files: remove symbolic link from /etc/mtab to /proc/mounts
+>
+> On 07/31/2013 04:19 PM, Chunrong Guo wrote:
+>>       *If /etc/mtab is a symlink to /proc/self/mounts,
+>>        mounting fails because addmntent returns an error.
+>>        As a consequence, the Private directory is unusable
+>>        because /proc/self/mounts is read-only feature.
+>
+> Could you please detail your environment a little bit?
+> Where does this error come from?
+>
+> Besides, if you're going to make this change, please take a read-only rootfs into consideration. There should be more to fix.
+>
+> Best Regards,
+> Chen Qi
+>
+>> Signed-off-by: Chunrong Guo <B40290@freescale.com>
+>> ---
+>>    meta/recipes-core/base-files/base-files_3.0.14.bb |    1 -
+>>    1 files changed, 0 insertions(+), 1 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> b/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> index 054fefa..1843bdd 100644
+>> --- a/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> +++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+>> @@ -100,7 +100,6 @@ do_install () {
+>>    	install -m 0644 ${WORKDIR}/host.conf ${D}${sysconfdir}/host.conf
+>>    	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
+>>
+>> -	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
+>>    }
+>>
+>>    do_install_basefilesissue () {
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
