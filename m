@@ -1,22 +1,22 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E12D61883
+	by mail.openembedded.org (Postfix) with ESMTP id 697A96B1F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 14:19:22 +0000 (UTC)
+	Wed, 31 Jul 2013 14:19:24 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2013 07:16:25 -0700
+	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2013 07:16:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,787,1367996400"; d="scan'208";a="379500150"
+X-IronPort-AV: E=Sophos;i="4.89,787,1367996400"; d="scan'208";a="379500167"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga002.jf.intel.com with ESMTP; 31 Jul 2013 07:19:03 -0700
+	by orsmga002.jf.intel.com with ESMTP; 31 Jul 2013 07:19:04 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 31 Jul 2013 17:20:42 +0300
-Message-Id: <1375280443-21430-2-git-send-email-cristian.iorga@intel.com>
+Date: Wed, 31 Jul 2013 17:20:43 +0300
+Message-Id: <1375280443-21430-3-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <1375280443-21430-1-git-send-email-cristian.iorga@intel.com>
 References: <1375280443-21430-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH 1/2] alsa-lib: upgrade to v1.0.27.2
+Subject: [PATCH 2/2] alsa-utils: upgrade to 1.0.27.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,168 +29,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 14:19:22 -0000
+X-List-Received-Date: Wed, 31 Jul 2013 14:19:24 -0000
 
-fix-O0-Optimize-unable-inline-function.patch,
-obsolete_automake_macros.patch patches
-included in upstream; removed.
-unbreak_plugindir.patch not used, removed.
+obsolete_automake_macros.patch,
+uclibc-exp10-replacement.patch patches removed;
+included in upstream.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../fix-O0-Optimize-unable-inline-function.patch   | 63 ----------------------
- .../alsa/alsa-lib/obsolete_automake_macros.patch   | 15 ------
- .../alsa/alsa-lib/unbreak_plugindir.patch          | 14 -----
- .../{alsa-lib_1.0.26.bb => alsa-lib_1.0.27.2.bb}   | 12 ++---
- 4 files changed, 4 insertions(+), 100 deletions(-)
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/fix-O0-Optimize-unable-inline-function.patch
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/obsolete_automake_macros.patch
- delete mode 100644 meta/recipes-multimedia/alsa/alsa-lib/unbreak_plugindir.patch
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.0.26.bb => alsa-lib_1.0.27.2.bb} (84%)
+ ...f_1.0.26.bb => alsa-utils-alsaconf_1.0.27.2.bb} |  0
+ ...-t-let-systemd-unit-restore-the-volume-wh.patch | 40 +++++++++-------------
+ .../alsa/alsa-utils/obsolete_automake_macros.patch | 15 --------
+ .../alsa/alsa-utils/uclibc-exp10-replacement.patch | 21 ------------
+ ...alsa-utils_1.0.26.bb => alsa-utils_1.0.27.2.bb} |  7 ++--
+ 5 files changed, 19 insertions(+), 64 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-alsaconf_1.0.26.bb => alsa-utils-alsaconf_1.0.27.2.bb} (100%)
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.0.26.bb => alsa-utils_1.0.27.2.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/fix-O0-Optimize-unable-inline-function.patch b/meta/recipes-multimedia/alsa/alsa-lib/fix-O0-Optimize-unable-inline-function.patch
-deleted file mode 100644
-index 1e43c25..0000000
---- a/meta/recipes-multimedia/alsa/alsa-lib/fix-O0-Optimize-unable-inline-function.patch
-+++ /dev/null
-@@ -1,63 +0,0 @@
--Change function type from "extern __inline__" to "static __inline__"
--
--"extern __inline__ function()" is the inlined version that
--can be used in this compilation unit, but there will be another
--definition of this function somewhere, so compiler will not emit
--any code for the function body. This causes problem in -O0,
--where functions are never inlined, the function call is preserved,
--but linker can't find the symbol, thus the error happens.
--
--since no packages provide atomic_add and atomic_sub, and -O0
--Optimize is hoped to keep for debug, we can change extern to
--static to fix this problem.
--
--Upstream-Status: Pending
--
--Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.27.2.bb
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.26.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils-alsaconf_1.0.27.2.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+index 1690ca5..477cd11 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
++++ b/meta/recipes-multimedia/alsa/alsa-utils/0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch
+@@ -6,41 +6,35 @@ Subject: [PATCH] alsactl: don't let systemd unit restore the volume when asound.
+ This avoids an error on bootup
+ 
+ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ----
-- include/iatomic.h |    8 ++++----
-- 1 files changed, 4 insertions(+), 4 deletions(-)
+ 
+ Filed as https://bugtrack.alsa-project.org/alsa-bug/view.php?id=5459
+ 
+ Upstream-Status: Pending
+ 
+- alsactl/Makefile.am             |    2 +-
+- alsactl/alsa-restore.service.in |    1 +
+- 2 files changed, 2 insertions(+), 1 deletions(-)
 -
--diff --git a/include/iatomic.h b/include/iatomic.h
--index e92dbfd..364bc5c 100644
----- a/include/iatomic.h
--+++ b/include/iatomic.h
--@@ -720,7 +720,7 @@ typedef struct { volatile int counter; } atomic_t;
--  * Atomically adds @i to @v.  Note that the guaranteed useful range
--  * of an atomic_t is only 24 bits.
--  */
---extern __inline__ void atomic_add(int i, atomic_t * v)
--+static __inline__ void atomic_add(int i, atomic_t * v)
-- {
-- 	unsigned long temp;
-- 
--@@ -744,7 +744,7 @@ extern __inline__ void atomic_add(int i, atomic_t * v)
--  * Atomically subtracts @i from @v.  Note that the guaranteed
--  * useful range of an atomic_t is only 24 bits.
--  */
---extern __inline__ void atomic_sub(int i, atomic_t * v)
--+static __inline__ void atomic_sub(int i, atomic_t * v)
-- {
-- 	unsigned long temp;
-- 
--@@ -763,7 +763,7 @@ extern __inline__ void atomic_sub(int i, atomic_t * v)
-- /*
--  * Same as above, but return the result value
--  */
---extern __inline__ int atomic_add_return(int i, atomic_t * v)
--+static __inline__ int atomic_add_return(int i, atomic_t * v)
-- {
-- 	unsigned long temp, result;
-- 
--@@ -784,7 +784,7 @@ extern __inline__ int atomic_add_return(int i, atomic_t * v)
-- 	return result;
-- }
-- 
---extern __inline__ int atomic_sub_return(int i, atomic_t * v)
--+static __inline__ int atomic_sub_return(int i, atomic_t * v)
-- {
-- 	unsigned long temp, result;
-- 
+-diff --git a/alsactl/Makefile.am b/alsactl/Makefile.am
+-index 5cfc415..c3768c4 100644
+---- a/alsactl/Makefile.am
+-+++ b/alsactl/Makefile.am
+-@@ -34,7 +34,7 @@ install-data-hook:
++Index: alsa-utils-1.0.27.2/alsactl/Makefile.am
++===================================================================
++--- alsa-utils-1.0.27.2.orig/alsactl/Makefile.am
+++++ alsa-utils-1.0.27.2/alsactl/Makefile.am
++@@ -36,8 +36,8 @@ install-data-hook:
+  endif
+  
+  edit = \
+--	$(SED) -r 's,@sbindir\@,$(sbindir),g' < $< > $@ || rm $@
+-+	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' -e 's,@sbindir\@,$(sbindir),g' < $< > $@ || rm $@
++-	$(SED) -r -e 's,@sbindir\@,$(sbindir),g' \
++-		  -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
+++	$(SED) -e 's,@localstatedir\@,$(localstatedir),g' -e 's,@sbindir\@,$(sbindir),g' \
+++	       -e 's,@daemonswitch\@,$(ALSACTL_DAEMONSWITCH),g' \
++ 							< $< > $@ || rm $@
+  
+- alsa-store.service: alsa-store.service.in
+- 	$(edit)
+-diff --git a/alsactl/alsa-restore.service.in b/alsactl/alsa-restore.service.in
+-index e97d196..3b76710 100644
+---- a/alsactl/alsa-restore.service.in
+-+++ b/alsactl/alsa-restore.service.in
+-@@ -4,6 +4,7 @@ DefaultDependencies=no
+- After=sysinit.target
++ alsa-state.service: alsa-state.service.in
++Index: alsa-utils-1.0.27.2/alsactl/alsa-restore.service.in
++===================================================================
++--- alsa-utils-1.0.27.2.orig/alsactl/alsa-restore.service.in
+++++ alsa-utils-1.0.27.2/alsactl/alsa-restore.service.in
++@@ -10,6 +10,7 @@ DefaultDependencies=no
++ After=alsa-state.service
+  Before=shutdown.target
+  Conflicts=shutdown.target
+ +ConditionPathExists=@localstatedir@/lib/alsa/asound.state
+  
+  [Service]
+  Type=oneshot
 --- 
--1.7.4.1
+-1.6.6.1
 -
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/obsolete_automake_macros.patch b/meta/recipes-multimedia/alsa/alsa-lib/obsolete_automake_macros.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch b/meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
 deleted file mode 100644
-index 95c29da..0000000
---- a/meta/recipes-multimedia/alsa/alsa-lib/obsolete_automake_macros.patch
+index 1a20b48..0000000
+--- a/meta/recipes-multimedia/alsa/alsa-utils/obsolete_automake_macros.patch
 +++ /dev/null
 @@ -1,15 +0,0 @@
 -Upstream-Status: Submitted [alsa-devel@alsa-project.org]
 -
 -Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd alsa-lib-1.0.25/configure.in alsa-lib-1.0.25/configure.in
----- alsa-lib-1.0.25/configure.in	2012-01-25 09:56:56.000000000 +0200
--+++ alsa-lib-1.0.25/configure.in	2013-01-02 17:00:31.468090167 +0200
--@@ -53,7 +53,7 @@
+-diff -Nurd alsa-utils-1.0.25/configure.in alsa-utils-1.0.25/configure.in
+---- alsa-utils-1.0.25/configure.in	2012-01-25 11:43:48.000000000 +0200
+-+++ alsa-utils-1.0.25/configure.in	2013-01-12 10:11:51.401498722 +0200
+-@@ -269,7 +269,7 @@
+-   TESTSOUND="$dir/test.wav")
+- AC_SUBST(TESTSOUND)
 -
-- dnl Checks for header files.
-- AC_HEADER_STDC
---AM_CONFIG_HEADER(include/config.h)
--+AC_CONFIG_HEADERS(include/config.h)
+--AM_CONFIG_HEADER(include/aconfig.h)
+-+AC_CONFIG_HEADERS(include/aconfig.h)
 -
 - dnl Checks for typedefs, structures, and compiler characteristics.
 - AC_C_CONST
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/unbreak_plugindir.patch b/meta/recipes-multimedia/alsa/alsa-lib/unbreak_plugindir.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch b/meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
 deleted file mode 100644
-index 1f3edd0..0000000
---- a/meta/recipes-multimedia/alsa/alsa-lib/unbreak_plugindir.patch
+index b2a9a95..0000000
+--- a/meta/recipes-multimedia/alsa/alsa-utils/uclibc-exp10-replacement.patch
 +++ /dev/null
-@@ -1,14 +0,0 @@
--Upstream-Status: Inappropriate [configuration]
+@@ -1,21 +0,0 @@
+-uclibc does not have exp10 function which is glibc extension.
+-Bur we can get the same behavior by using pow()
 -
--diff -Nur alsa-lib-1.0.14.orig/configure.in alsa-lib-1.0.14/configure.in
----- alsa-lib-1.0.14.orig/configure.in	2007-05-31 03:05:13.000000000 -0500
--+++ alsa-lib-1.0.14/configure.in	2007-08-18 13:05:49.000000000 -0500
--@@ -93,7 +93,7 @@
--     esac
--     plugindir="$dir/$PACKAGE"
-- fi
---AC_DEFINE_UNQUOTED(ALSA_PLUGIN_DIR, "plugindir", [directory containing ALSA add-on modules])
--+AC_DEFINE_UNQUOTED(ALSA_PLUGIN_DIR, "${plugindir}", [directory containing ALSA add-on modules])
-- ALSA_PLUGIN_DIR="$plugindir"
-- AC_SUBST(ALSA_PLUGIN_DIR)
+-Upstream-Status: Pending
+-
+-Khem Raj <raj.khem@gmail.com>
+-
+-Index: alsa-utils-1.0.24.2/alsamixer/volume_mapping.c
+-===================================================================
+---- alsa-utils-1.0.24.2.orig/alsamixer/volume_mapping.c
+-+++ alsa-utils-1.0.24.2/alsamixer/volume_mapping.c
+-@@ -36,6 +36,9 @@
+- #include <math.h>
+- #include <stdbool.h>
+- #include "volume_mapping.h"
+-+#ifdef __UCLIBC__
+-+#define exp10(x) (pow(10, (x)))
+-+#endif /* __UCLIBC__ */
 - 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-similarity index 84%
-rename from meta/recipes-multimedia/alsa/alsa-lib_1.0.26.bb
-rename to meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-index 6f22d06..5455944 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.26.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "Alsa sound library"
-+DESCRIPTION = "ALSA sound library"
- HOMEPAGE = "http://www.alsa-project.org"
- BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
- SECTION = "libs/multimedia"
-@@ -14,16 +14,12 @@ BBCLASSEXTEND = "native nativesdk"
- #FIXME: remove the following
- ARM_INSTRUCTION_SET = "arm"
- 
+- #define MAX_LINEAR_DB_SCALE	24
+- 
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
+similarity index 93%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
+index e0bf755..a894171 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.26.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.27.2.bb
+@@ -6,16 +6,13 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
+                     file://alsactl/utils.c;beginline=1;endline=20;md5=fe9526b055e246b5558809a5ae25c0b9"
+ DEPENDS = "alsa-lib ncurses libsamplerate0 udev"
 -PR = "r0"
--
- SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/alsa-lib-${PV}.tar.bz2 \
--           file://fix-tstamp-declaration.patch \
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
+-           file://uclibc-exp10-replacement.patch \
+            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
 -           file://obsolete_automake_macros.patch \
--           file://fix-O0-Optimize-unable-inline-function.patch \
-            file://Check-if-wordexp-function-is-supported.patch \
-+           file://fix-tstamp-declaration.patch \
            "
--SRC_URI[md5sum] = "2dfa35d28471d721e592b616beedf965"
--SRC_URI[sha256sum] = "8c9f8161603cc3db640619650401292c3e110da63429ab6938aac763319f6e7d"
-+SRC_URI[md5sum] = "69129a7c37697f81ac092335e9fa452b"
-+SRC_URI[sha256sum] = "690ed393e7efd4fc7e3a2d2cda5449298ca0c895197e5914e350882012430d19"
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "4dcf1017fafc91603af96705c073eca9"
+-SRC_URI[sha256sum] = "f85f2a3aa6e78475bbe35b0cad3a8cabb99f45ebc5f37962f2137b8df8b081e7"
++SRC_URI[md5sum] = "b65e9a04181bd7c9db7667a4566f8dc3"
++SRC_URI[sha256sum] = "02bfac39092f3b68d743c23ad3d688d6c5aa8df69f2ccd692c5b8282edb352ea"
  
+ # lazy hack. needs proper fixing in gettext.m4, see
+ # http://bugs.openembedded.org/show_bug.cgi?id=2348
 -- 
 1.8.1.2
 
