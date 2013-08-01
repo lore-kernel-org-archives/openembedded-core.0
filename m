@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AF5C6B1C1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 10:07:40 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id q58so1520296wes.20
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 03:07:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=CvmQ2uYtnO88YVM/eXbF/XK5CtWXabkzkZZO9Y8N7+E=;
-	b=OR8nmMu5dog60uiXmv2vso1NzYuPLBD++9Pj6Ds36hzkchMcKKUKlo1lOiOTeKIXJ6
-	7peGSSJgKWQrsDsd7ZAxtIbzCwZCrn33GSrfugYeqajiXU1GA0sSjHlfiCmNilqQvViM
-	cuILTPuZagNHvoQF6LqL7wK8wivsUdXgq/gMNLyFsvsNblxArPQegdhyJcUJX/5eXc/z
-	OZiQf+86IY/iT6+KYvOkA3txaGUt0p17os11UvBTyH8ZnwSfxleHiVxCdoNKzY0J2rcH
-	VJ1il7EHIXfAKJdgbZjTTMoJn8dwYsAmoD5pyBwaZCv/Lk84sDGzZqyZrkBKZguVHdgr
-	2piQ==
-X-Received: by 10.194.8.72 with SMTP id p8mr590249wja.71.1375351660558;
-	Thu, 01 Aug 2013 03:07:40 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id s19sm2457530wik.11.2013.08.01.03.07.39
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 01 Aug 2013 03:07:39 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Aug 2013 11:07:36 +0100
-Message-Id: <1375351656-12261-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQmzEU4XuPnPCiVgNFNlpSBf1Tpfc+A6Q9XS6gJNxUEuu6RaDnaxydz0daz4/Lpbzu8jYTFL
-Subject: [PATCH][V2] u-boot: state the MACHINE when skipping u-boot
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 685A26B1F0;
+	Thu,  1 Aug 2013 10:35:47 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id c41so913793eek.39
+	for <multiple recipients>; Thu, 01 Aug 2013 03:35:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=TjL3IsiVq1trsmSYuuC/NSjA0RVH8jmEdF6LvTceJCo=;
+	b=wOmDAOAl29rf3uqf8f5f05v2ZMw8vW/29d3q0Z4JGscxS9ErujZ8a5tD3g/bPiuobp
+	gBKzFYfznzsVWTnoCWJYWwQeldnJpqxgOHEXakJ4XLB1JHBTR6eB6Pmkzv93dRp/OcmZ
+	Fa1FXMg2uybHc2gND4HkoD3ASy3QzRjStDk8+qo3CtVjm5Vrcwmja7SJKWIjaTXpGVPD
+	+DiMXday46UUYSHQ1jvWqq84903idrY9Agav6vkKOyfw+NC87AADTeE7FnULtatbPVGV
+	V19+BwssxaJBaWjTbsCio8rKvme2AdysRRkHhTbkSDcyNd/Y1E9GMi5B67GxJ4r43htv
+	yGtA==
+X-Received: by 10.15.110.197 with SMTP id ch45mr769627eeb.149.1375353347714;
+	Thu, 01 Aug 2013 03:35:47 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id x3sm2772849eeu.1.2013.08.01.03.35.46
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 03:35:47 -0700 (PDT)
+Date: Thu, 1 Aug 2013 12:36:22 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20130801103622.GM3280@jama>
+References: <51ECCF5C.2020505@dresearch-fe.de> <6366141.Q5aULPr4OG@helios>
+	<51F8E0C2.3070102@dresearch-fe.de> <8337615.XrjW46moIm@helios>
+	<51F9FC24.3070907@dresearch-fe.de>
+MIME-Version: 1.0
+In-Reply-To: <51F9FC24.3070907@dresearch-fe.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] SRC_URI and latest HEAD revision with git (in oe-classic)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +46,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 10:07:41 -0000
+X-List-Received-Date: Thu, 01 Aug 2013 10:35:48 -0000
+X-Groupsio-MsgNum: 42797
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="zROEGoKAXsG5UqGB"
+Content-Disposition: inline
 
-If the user accidently tries building u-boot on a machine doesn't use u-boot
-(such as qemuarm) the error message doesn't make it clear why u-boot was
-skipped.  To help, state the machine that was being built for again.
+--zROEGoKAXsG5UqGB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[ YOCTO #4945 ]
+On Thu, Aug 01, 2013 at 08:11:48AM +0200, Steffen Sledz wrote:
+> On 31.07.2013 14:50, Paul Eggleton wrote:
+> > On Wednesday 31 July 2013 12:02:42 Steffen Sledz wrote:
+> >> On 22.07.2013 11:51, Paul Eggleton wrote:
+> >>> On Monday 22 July 2013 11:46:23 Steffen Sledz wrote:
+> >>>> On 22.07.2013 11:01, Nicolas Dechesne wrote:
+> >>>>> On Mon, Jul 22, 2013 at 8:21 AM, Steffen Sledz <sledz@dresearch-fe.=
+de
+> >>>>>
+> >>>>> <mailto:sledz@dresearch-fe.de>> wrote:
+> >>>>>> After being OE abstinent for some months i'd like to ask what is t=
+he
+> >>>>>> current suggested method for recipes building from the HEAD revisi=
+on of
+> >>>>>> a git repository (we need this for continuous integration).
+> >>>>>>
+> >>>>>> I read some RFC's in the ml about PKGV/PKGR stuff, but i miss a fi=
+nal
+> >>>>>> decision, documentation and a good example.>
+> >>>>>
+> >>>>> you can use ${AUTOREV} for this purpose. You can look at poky-bleed=
+ing
+> >>>>> distro config for such an example.
+> >>>>>
+> >>>>> e.g.
+> >>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf=
+/dist
+> >>>>> r
+> >>>>> o/include/poky-floating-revisions.inc
+> >>>>
+> >>>> Hmmmm? This doesn't seem the work.
+> >>>>
+> >>>> Here's what i tried in my recipe:
+> >>>>
+> >>>> ------------> snip <------------
+> >>>> PR =3D "r3"
+> >>>>
+> >>>> SRCREV=3D"${AUTOREV}"
+> >>>> PV =3D "gitr${SRCPV}"
+> >>>> ------------> snip <------------
+> >>>>
+> >>>> But i get package versions like
+> >>>>
+> >>>>   gitr0+53b64e717404d282d0c58b7fa4a4e74ab2ca81ba-r3
+> >>>>
+> >>>> where SRCPB is always 0. :(
+> >>>>
+> >>>> A bit more description and/or a complete example would be very helpf=
+ul.
+> >>>
+> >>> If you want these to increment now AIUI you need to be using the PR
+> >>> server:
+> >>>
+> >>> https://wiki.yoctoproject.org/wiki/PR_Service
+> >>
+> >> And here comes my next really big problem. :(
+> >>
+> >> We're sitting on an big, old but active project based on oe-classic and
+> >> bitbake 1.12.0. Irksomely we're forced to switch from SVN to GIT for t=
+his
+> >> project. So we need the AUTOREV/PRSERV stuff for this old environment =
+too.
+> >>
+> >> Has anyone tried to backport the feature to an older bitbake/oe-classic
+> >> environment? Or can someone give some hints what's to do?
+> >=20
+> > I'm not sure, but my gut feeling is you'd be better off trying to bring=
+ the=20
+> > project up to be based on OE-Core rather than trying to bring such=20
+> > functionality back to OE-Classic, particularly since for full functiona=
+lity it=20
+> > requires signature-based tasks that are only supported with current ver=
+sions=20
+> > of bitbake and require support from the metadata. You'd be trading some=
+=20
+> > hopefully short-term pain for long-term gain if the project is going to=
+=20
+> > continue for a reasonable amount of time.
+>=20
+> I was afraid to get this answer. ;-)
+>=20
+> Unfortunately we do not have the manpower to bring up this old project to=
+ oe-core. Our team is working hard on a follow-up project based on oe-core.
+>=20
+> I read something about a solution using
+>=20
+>   BB_GIT_CLONE_FOR_SRCREV =3D "1"
+>   BB_LOCALCOUNT_OVERRIDE =3D ""
+>=20
+> which should be supported by the old oe-classic/bitbake-1.12.0. Could thi=
+s be a solution for our problem? What drawbacks does it have?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+BB_GIT_CLONE_FOR_SRCREV will need to clone every git repository included
+in metadata you're using (even if the recipe isn't built, because it
+needs to define AUTOREV for parsing and that needs local clone).
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 6bbe457..6ec63df 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -13,7 +13,7 @@ python () {
- 		FILE = os.path.basename(d.getVar("FILE", True))
- 		bb.debug(1, "To build %s, see %s for instructions on \
- 			     setting up your machine config" % (PN, FILE))
--		raise bb.parse.SkipPackage("because UBOOT_MACHINE is not set")
-+		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
- }
- 
- # Allow setting an additional version string that will be picked up by the
--- 
-1.7.10.4
+empty BB_LOCALCOUNT_OVERRIDE should work correctly, but you need to
+synchronize bb_persist_data.sqlite3 between multiple builders (if you
+have multiple builders populating the same binary feed).
 
+> Steffen
+>=20
+> --=20
+> DResearch Fahrzeugelektronik GmbH
+> Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+> Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+> Fax: +49 30 515932-299
+> Gesch=E4ftsf=FChrer: Dr. Michael Weber, Werner M=F6gle;
+> Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+> Ust.-IDNr. DE273952058
+> _______________________________________________
+> Openembedded-devel mailing list
+> Openembedded-devel@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--zROEGoKAXsG5UqGB
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlH6OiYACgkQN1Ujt2V2gByqUgCcC5L7S/FTFdWsK2G3Zr3UqXKu
+4FoAoKwwDN1ErFA688JAAFfLJLhfGgGB
+=Hzvc
+-----END PGP SIGNATURE-----
+
+--zROEGoKAXsG5UqGB--
