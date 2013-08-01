@@ -1,41 +1,42 @@
-Return-Path: <djszapi@archlinux.us>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C2DA6B1F0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 11:18:42 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id q10so1897278pdj.21
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 04:18:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:x-gm-message-state;
-	bh=8rXe6kqOzvH/3iL665Cb5zHUj402ifdpnuDwedFl95w=;
-	b=nvOtMsWfg8KWvbsc3ZeN980ADHg49gPZLRY8Eh8AiA4peKzwEXygA+0/ihzWE4LWK2
-	dtE8+YBj3XUGOJHsjkd2y8MPQXREZGZvHdisHWvSzN0XIYau58GnKQAjM03UFLdckpai
-	5SY7lxJ0mvX1sLyrC6LyOZQOzYT2me/7Ozk/+B0RsNHP8q7EULF8SNDXibFI4/8BnfUk
-	x9+k/0McNf4SSlFD98TI9xrmX4AKxQ+CtM4KVzzoxhhtq3PkTWDF9Pq+HOu/XLToE7pO
-	JZKO+Z6VRiyxOexHqPcMtSIrOkLr8RZpwpOVhP6eAJR2chlaTBX5L/aGvzWoai+QJeqv
-	VW9A==
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id BFC926B1F0;
+	Thu,  1 Aug 2013 11:37:01 +0000 (UTC)
+Received: by mail-ea0-f172.google.com with SMTP id r16so952289ead.31
+	for <multiple recipients>; Thu, 01 Aug 2013 04:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=p61Us68YcyNmcBIiVpkF1g7GWE+pVk4Rn9NfRoDQvNY=;
+	b=riMve4Yd9+l68XMM7Lgb0dAWfx4oqzobXRCADg6697mtrsGkJiEHI3bXYKv8GUKgDw
+	UBhk82eaZBst0FcfwtUwtgeR3l7T++/p9ZBCuhhF8S+v4oiR85Ede6dL290Ergi+IJGV
+	IIIAV0tDTu80wXHGaMVistfeUEfJqyOzdawalSvxwoyRUPl5EhZjNcbSXqG+Cu3B0lsQ
+	vavx15RAzSBjVlUJl3Wh2BdrCt//czA0evy3Zi7Lf3ce4yWowhVrGba/rKGdaB89Tta7
+	0UGdmoa2HdoxCZ5rACueYKf8a5FaV/HbAFVy8bVr/SeSqLuEnPFYmsRitCmfVQ5rPQoL
+	Rsfw==
+X-Received: by 10.15.109.135 with SMTP id cf7mr1187192eeb.0.1375357021782;
+	Thu, 01 Aug 2013 04:37:01 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	e44sm3660856eeh.11.2013.08.01.04.37.00 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 04:37:01 -0700 (PDT)
+Date: Thu, 1 Aug 2013 13:37:36 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Steffen Sledz <sledz@dresearch-fe.de>
+Message-ID: <20130801113736.GO3280@jama>
+References: <51ECCF5C.2020505@dresearch-fe.de> <6366141.Q5aULPr4OG@helios>
+	<51F8E0C2.3070102@dresearch-fe.de> <8337615.XrjW46moIm@helios>
+	<51F9FC24.3070907@dresearch-fe.de> <20130801103622.GM3280@jama>
+	<51FA3E05.2070205@dresearch-fe.de>
 MIME-Version: 1.0
-X-Received: by 10.66.27.143 with SMTP id t15mr3301682pag.171.1375355921190;
-	Thu, 01 Aug 2013 04:18:41 -0700 (PDT)
-Sender: djszapi@archlinux.us
-Received: by 10.70.37.237 with HTTP; Thu, 1 Aug 2013 04:18:41 -0700 (PDT)
-In-Reply-To: <CAJTo0LYPD48S3rjYPfh5HPyeuzxrx=ZiJOguz5doxjd2r3PAXw@mail.gmail.com>
-References: <1375351656-12261-1-git-send-email-ross.burton@intel.com>
-	<CAOMwXhNbDzsi4=mBb+0=iqdxafnAezRsMvJbG1dPetCTMEhJQQ@mail.gmail.com>
-	<CAJTo0LYPD48S3rjYPfh5HPyeuzxrx=ZiJOguz5doxjd2r3PAXw@mail.gmail.com>
-Date: Thu, 1 Aug 2013 12:18:41 +0100
-X-Google-Sender-Auth: 9p4HEXh0ghipkq7HC1tYOp54Noc
-Message-ID: <CAOMwXhPi108Q0yWNPgZ-XfGA99+AUpaL+oPSH9W5yS8HhuZd3Q@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQmVm/Thp3VMbFrE7gnxYitb1dwoTuDEtqsaj6aoi6Nzi/+MZ8J7VYuoeWTouC6rWjZAOGbx
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][V2] u-boot: state the MACHINE when skipping u-boot
+In-Reply-To: <51FA3E05.2070205@dresearch-fe.de>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] SRC_URI and latest HEAD revision with git (in oe-classic)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,77 +49,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 11:18:43 -0000
-Content-Type: multipart/alternative; boundary=bcaec52bea191f668204e2e101db
+X-List-Received-Date: Thu, 01 Aug 2013 11:37:02 -0000
+X-Groupsio-MsgNum: 42807
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Thv7PGoFpDPJ7Oar"
+Content-Disposition: inline
 
---bcaec52bea191f668204e2e101db
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Thu, Aug 1, 2013 at 11:56 AM, Burton, Ross <ross.burton@intel.com> wrote:
-
-> On 1 August 2013 11:50, Laszlo Papp <lpapp@kde.org> wrote:
-> > Speaking of gerrit terms: I would prefer that you didn't submit this.
-> >
-> > I would like it to be more specific. If it cannot be more specific, it
-> > should provide further information to get more specific information.
-> Note,
-> > machine configuration can be the command line as well, so this would
-> still
-> > be vague.
->
-> It cannot be more specific without dumping the entire machine
-> configuration, which won't help because a variable is *not* set.
->
-
-No no, it could print out the concrete file to look up, not just a name.
-Besides, I would probably even print a warning about the entry point and
-load address not set.
-
-
-> By "machine configuration can be in the command line" do you mean
-> MACHINE=foo?  And if so, why does that mean the statement is vague?
->
-
-Well, you could place a warning for instance when it is set to the same as
-in the config file. That is probably not what the user intended.
-
---bcaec52bea191f668204e2e101db
-Content-Type: text/html; charset=ISO-8859-1
+--Thv7PGoFpDPJ7Oar
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On Thu, Aug 1, 2013 at 11:56 AM, Burton, Ross <span dir=3D=
-"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.b=
-urton@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cl=
-ass=3D"gmail_quote">
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On 1 August 2013 11:50, La=
-szlo Papp &lt;<a href=3D"mailto:lpapp@kde.org">lpapp@kde.org</a>&gt; wrote:=
-<br>
+On Thu, Aug 01, 2013 at 12:52:53PM +0200, Steffen Sledz wrote:
+> -----BEGIN PGP SIGNED MESSAGE-----
+> Hash: SHA1
+>=20
+> On 01.08.2013 12:36, Martin Jansa wrote:
+> > On Thu, Aug 01, 2013 at 08:11:48AM +0200, Steffen Sledz wrote:
+> >> On 31.07.2013 14:50, Paul Eggleton wrote:
+> >>> On Wednesday 31 July 2013 12:02:42 Steffen Sledz wrote:
+> >> ... I read something about a solution using
+> >>=20
+> >> BB_GIT_CLONE_FOR_SRCREV =3D "1" BB_LOCALCOUNT_OVERRIDE =3D ""
+> >>=20
+> >> which should be supported by the old oe-classic/bitbake-1.12.0. Could =
+this be a solution for our problem? What drawbacks does it have?
+> >=20
+> > BB_GIT_CLONE_FOR_SRCREV will need to clone every git repository include=
+d in metadata you're using (even if the recipe isn't built, because it need=
+s to define AUTOREV for parsing and that needs local clone).
+>=20
+> Every git repo? Or every git repo used with AUTOREV only?
 
-&gt; Speaking of gerrit terms: I would prefer that you didn&#39;t submit th=
-is.<br>
-&gt;<br>
-&gt; I would like it to be more specific. If it cannot be more specific, it=
-<br>
-&gt; should provide further information to get more specific information. N=
-ote,<br>
-&gt; machine configuration can be the command line as well, so this would s=
-till<br>
-&gt; be vague.<br>
-<br>
-</div>It cannot be more specific without dumping the entire machine<br>
-configuration, which won&#39;t help because a variable is *not* set.<br></b=
-lockquote><div><br></div><div>No no, it could print out the concrete file t=
-o look up, not just a name. Besides, I would probably even print a warning =
-about the entry point and load address not set.</div>
-<div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">
-By &quot;machine configuration can be in the command line&quot; do you mean=
-<br>
-MACHINE=3Dfoo? =A0And if so, why does that mean the statement is vague?<br>=
-</blockquote><div><br></div><div>Well, you could place a warning for instan=
-ce when it is set to the same as in the config file. That is probably not w=
-hat the user intended.</div>
-</div></div></div>
+Every git repo with SRCPV.
 
---bcaec52bea191f668204e2e101db--
+> > empty BB_LOCALCOUNT_OVERRIDE should work correctly, but you need to syn=
+chronize bb_persist_data.sqlite3 between multiple builders (if you have mul=
+tiple builders populating the same binary feed).
+>=20
+> That should be OK for us.
+>=20
+> - --=20
+> DResearch Fahrzeugelektronik GmbH
+> Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+> Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+> Fax: +49 30 515932-299
+> Gesch=E4ftsf=FChrer: Dr. Michael Weber, Werner M=F6gle;
+> Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+> Ust.-IDNr. DE273952058
+> -----BEGIN PGP SIGNATURE-----
+> Version: GnuPG v2.0.19 (GNU/Linux)
+> Comment: Using GnuPG with Thunderbird - http://www.enigmail.net/
+>=20
+> iEYEARECAAYFAlH6PgUACgkQlSfCk8EgCzhRlgCgm/sRrRd945HXKRdsj8aL/+qa
+> bagAnidiDoZO6PtViGA9zJfSRa+n4IcK
+> =3DrQan
+> -----END PGP SIGNATURE-----
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--Thv7PGoFpDPJ7Oar
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlH6SIAACgkQN1Ujt2V2gByDGgCfVnrGp00OAuddcbOSwh8Ww5wg
+FfMAn2+YIgAWqxXOKpoI/X0iqYbyiAlk
+=pMIr
+-----END PGP SIGNATURE-----
+
+--Thv7PGoFpDPJ7Oar--
