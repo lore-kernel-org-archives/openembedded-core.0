@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 389B86B48F
+	by mail.openembedded.org (Postfix) with ESMTP id 3023D6B48F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 17:17:20 +0000 (UTC)
+	Thu,  1 Aug 2013 17:17:21 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Aug 2013 10:17:21 -0700
+	by azsmga101.ch.intel.com with ESMTP; 01 Aug 2013 10:17:22 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,795,1367996400"; d="scan'208";a="340243460"
+X-IronPort-AV: E=Sophos;i="4.89,795,1367996400"; d="scan'208";a="340243465"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.169])
-	by azsmga001.ch.intel.com with ESMTP; 01 Aug 2013 10:17:20 -0700
+	by azsmga001.ch.intel.com with ESMTP; 01 Aug 2013 10:17:21 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Aug 2013 18:17:16 +0100
-Message-Id: <deb18987e98b4da42468cd8162ec9dd88e0d83ba.1375377305.git.paul.eggleton@linux.intel.com>
+Date: Thu,  1 Aug 2013 18:17:17 +0100
+Message-Id: <3b75fb5b6349ec4e06a28eeab093a55f0eca0b53.1375377305.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1375377305.git.paul.eggleton@linux.intel.com>
 References: <cover.1375377305.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1375377305.git.paul.eggleton@linux.intel.com>
 References: <cover.1375377305.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 1/2] classes/sanity: check for suid root command evility
+Subject: [PATCH v2 2/2] classes/sanity: fix some grammatical errors in messages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 17:17:20 -0000
-
-Some users have been found to have an unnamed third-party piece of
-software installed which sets chmod, chown and mknod as suid root as
-part of its installation process. This interferes with the operation of
-pseudo and can result in files really being owned by root within the
-build output, and therefore breaks the build, apart from being a
-security issue. Check for this and bail out if it is found.
-
-Reported-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+X-List-Received-Date: Thu, 01 Aug 2013 17:17:21 -0000
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/sanity.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/classes/sanity.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 08ab1b7..cc67490 100644
+index cc67490..4df3ca8 100644
 --- a/meta/classes/sanity.bbclass
 +++ b/meta/classes/sanity.bbclass
-@@ -530,6 +530,16 @@ def check_sanity_version_change(status, d):
-     tmpdir = d.getVar('TMPDIR', True)
-     status.addresult(check_create_long_filename(tmpdir, "TMPDIR"))
+@@ -522,7 +522,7 @@ def check_sanity_version_change(status, d):
+         status.addresult("Your gcc version is older than 4.5, please add the following param to local.conf\n \
+         %s\n" % message)
+     if not result:
+-        status.addresult("Your gcc version is older then 4.5 or is not working properly.  Please verify you can build")
++        status.addresult("Your gcc version is older than 4.5 or is not working properly.  Please verify you can build")
+         status.addresult(" and link something that uses atomic operations, such as: \n")
+         status.addresult("        __sync_bool_compare_and_swap (&atomic, 2, 3);\n")
  
-+    # Some third-party software apparently relies on chmod etc. being suid root (!!)
-+    import stat
-+    suid_check_bins = "chown chmod mknod".split()
-+    for bin_cmd in suid_check_bins:
-+        bin_path = bb.utils.which(os.environ["PATH"], bin_cmd)
-+        if bin_path:
-+            bin_stat = os.stat(bin_path)
-+            if bin_stat.st_uid == 0 and bin_stat.st_mode & stat.S_ISUID:
-+                status.addresult('%s has the setuid bit set. This interferes with pseudo and may cause other issues that break the build process.\n' % bin_path)
-+
-     # Check that we can fetch from various network transports
-     netcheck = check_connectivity(d)
-     status.addresult(netcheck)
+@@ -567,7 +567,7 @@ def check_sanity_version_change(status, d):
+ 
+     oes_bb_conf = d.getVar( 'OES_BITBAKE_CONF', True)
+     if not oes_bb_conf:
+-        status.addresult('You do not include the OpenEmbedded version of conf/bitbake.conf. This means your environment is misconfigured, in particular check BBPATH.\n')
++        status.addresult('You are not using the OpenEmbedded version of conf/bitbake.conf. This means your environment is misconfigured, in particular check BBPATH.\n')
+ 
+     # The length of tmpdir can't be longer than 410
+     status.addresult(check_path_length(tmpdir, "TMPDIR", 410))
+@@ -631,7 +631,7 @@ def check_sanity_everybuild(status, d):
+     if d.getVar( 'IMAGETEST', True ) == 'qemu':
+         display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
+         if not display:
+-            status.addresult('qemuimagetest needs a X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n')
++            status.addresult('qemuimagetest needs an X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n')
+ 
+     omask = os.umask(022)
+     if omask & 0755:
 -- 
 1.8.1.2
 
