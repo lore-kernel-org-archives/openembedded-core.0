@@ -1,50 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
-	[209.85.160.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 92A5461883
+Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
+	[209.85.160.54])
+	by mail.openembedded.org (Postfix) with ESMTP id CE88861883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 20:19:05 +0000 (UTC)
-Received: by mail-pb0-f48.google.com with SMTP id ma3so2475169pbc.7
+	Thu,  1 Aug 2013 22:08:18 +0000 (UTC)
+Received: by mail-pb0-f54.google.com with SMTP id ro12so2592573pbb.27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 13:19:06 -0700 (PDT)
+	Thu, 01 Aug 2013 15:08:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=wGoBBNnhAFsao+YMS8z7I71MFoZ1lHbg92HaLkyE8Zo=;
-	b=OmjtRFmT2Zdk3mlgR1I0a63WeotFNJGHXWZVdNbzTrcpO9Kuhnw36BjioKyaM9eynp
-	tjMw5YW7UvXRIG8QpVvtO5tYV+Uhvh7NccYlbs1ovxMWqDSFqH8otf2yIEtUvdJ2BKEY
-	SUyVv8Jq/N6qZnPU5PyoeoJKX1B4iSomtBLecBWnsSQMP8xBjF24hGw9K8ogy+FOP4PV
-	eP7UpkueX2jZXJsSrjP0IqNHCptTj/Eu68PEZ4/XhqI092dPnQqNz4cuTNc2dJzvjstl
-	wPwCZtegyPKqPA0I3OBKsaE/U22LXQJiekvKCdndQs8j3i9q6lAzRHLT6cGPJh9pUTFT
-	HAzg==
-X-Received: by 10.66.246.66 with SMTP id xu2mr6279880pac.134.1375388346406;
-	Thu, 01 Aug 2013 13:19:06 -0700 (PDT)
-Received: from sa-nc-spg-213.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id lk9sm4683087pab.2.2013.08.01.13.19.04
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=LClxd3QDG4wRVIGLnG0aYiCyh5e01iz6bNfF8jSHmD8=;
+	b=DtE2GsmcwIdeBNB8vyg/ySwFaVevABSwslYAFiYwuef+7RK9LYDP2IasqfAYGSLp4D
+	IeKxpfg5WAdrCWzpC/bi4xh46DV72MQ6VM+wQ8oE4yHx4dLkXLBBrWuyNoVIYqcIbPgD
+	FWNRX9rl7303Zr3tGY2pkVwQQeRGDKGOfzpAaozwWrUoVfOm4L9waiXNLuCd0oMAtn/Q
+	Mm1TUKXxjGlO9ws89+JBshl+yaqm3bdZp0L92quPis4DpCU4O1DuXS8HOyCysgq8TZdB
+	qH/7mJ6zzM5IvlEEyZdoI2xXGkOzR+Qm//1W7q2PybJHTXWBDeFXeRFzpHbOSjJCUekq
+	SjFA==
+X-Received: by 10.66.51.102 with SMTP id j6mr6831801pao.80.1375394899467;
+	Thu, 01 Aug 2013 15:08:19 -0700 (PDT)
+Received: from leo.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id qc5sm6137590pbc.31.2013.08.01.15.08.18
 	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 01 Aug 2013 13:19:05 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 15:08:18 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <51F99839.4020003@linux.intel.com>
-Date: Thu, 1 Aug 2013 13:19:03 -0700
-Message-Id: <FEC3604F-BE31-4146-AA6B-A16CB22C8D3F@gmail.com>
-References: <cover.1372456294.git.raj.khem@gmail.com>
-	<20130629053844.GQ3261@jama>
-	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
-	<20130629153101.GV3261@jama>
-	<45F76803-CA83-4DAC-A972-EE4CB8FEE054@gmail.com>
-	<51F97628.9040801@linux.intel.com>
-	<7705A938-20F6-4100-AB3A-99BDF5023118@gmail.com>
-	<13A232F2-9B2C-427E-B5F0-26138984D099@gmail.com>
-	<51F9948F.1000908@linux.intel.com>
-	<08E217DF-FA59-4DAB-BB7F-0369A4BB3165@gmail.com>
-	<51F99839.4020003@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/24] Add python3 recipes
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Aug 2013 15:07:55 -0700
+Message-Id: <1375394875-23238-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] gcc-4.8: Fix meta-fsl-arm iperf build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +43,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 20:19:06 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Aug 2013 22:08:19 -0000
 
+This should fix the problem seen where gcc ICE
+was happening when compiling iperf with older 2.6.x
+kernel
 
-On Jul 31, 2013, at 4:05 PM, Saul Wold <sgw@linux.intel.com> wrote:
+Test this patch by reverting below commit in meta-fsl-arm
 
-> On 07/31/2013 03:51 PM, Khem Raj wrote:
->>=20
->> On Jul 31, 2013, at 3:49 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>=20
->>>=20
->>> Still seems to failing in Jinja, I wonder if the dependencies are =
-correctly sinec it's nooking for native bits and the python3-native had =
-not been installed yet.
->>>=20
->>>=20
->>=20
->> in my build from scratch several times, I never had this issue. Did =
-you do an incremental build to get to this issue ?
->>=20
->=20
-> Yes, most of my builds are incremental until I throw them against the =
-Autobuilder!
+commit daf582c93a7283fb0af3b25fe2ada48f4c9985c4
+Author: Otavio Salvador <otavio@ossystems.com.br>
+Date:   Tue Jul 2 11:52:51 2013 -0300
 
-Saul,
+    perf: Disable FPU tune for i.MX5 SoCs to workaround GCC ICE
 
-I was able to reproduce the incremental build issue. I have now fixed it =
-and pushed a rebased branch to pull tree
-in contrib. Please try it out
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+CC: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
+ .../gcc/gcc-4.8/0042-pr57748.patch                 |   78 ++++++++++++++++++++
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch
 
-Thanks
--Khem
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index 42355f2..9d92eda 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -71,6 +71,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0039-gcc-4.8-PR57717.patch \
+ 	   file://0040-fix-g++-sysroot.patch \
+ 	   file://0041-libtool-avoid-libdir.patch \
++	   file://0042-pr57748.patch \
+ 	  "
+ SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+ SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch b/meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch
+new file mode 100644
+index 0000000..5356f72
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch
+@@ -0,0 +1,78 @@
++Upstream-Status: Backport
++Signed-off-by: Khem Raj
++
++2013-08-01  Martin Jambor  <mjambor@suse.cz>
++
++	PR middle-end/57748
++	* stor-layout.c (compute_record_mode): Treat zero-sized array fields
++	like incomplete types.
++
++testsuite/
++	* gcc.dg/torture/pr57748.c: New test.
++
++
++Index: gcc-4.8.1/gcc/stor-layout.c
++===================================================================
++--- gcc-4.8.1.orig/gcc/stor-layout.c	2013-04-28 10:29:18.000000000 -0700
+++++ gcc-4.8.1/gcc/stor-layout.c	2013-08-01 15:02:08.018006125 -0700
++@@ -1618,7 +1618,9 @@
++ 		   && integer_zerop (TYPE_SIZE (TREE_TYPE (field)))))
++ 	  || ! host_integerp (bit_position (field), 1)
++ 	  || DECL_SIZE (field) == 0
++-	  || ! host_integerp (DECL_SIZE (field), 1))
+++	  || ! host_integerp (DECL_SIZE (field), 1)
+++	  || (TREE_CODE (TREE_TYPE (field)) == ARRAY_TYPE
+++	      && tree_low_cst (DECL_SIZE (field), 1) == 0))
++ 	return;
++ 
++       /* If this field is the whole struct, remember its mode so
++Index: gcc-4.8.1/gcc/testsuite/gcc.dg/torture/pr57748.c
++===================================================================
++--- /dev/null	1970-01-01 00:00:00.000000000 +0000
+++++ gcc-4.8.1/gcc/testsuite/gcc.dg/torture/pr57748.c	2013-08-01 15:02:08.062006126 -0700
++@@ -0,0 +1,45 @@
+++/* PR middle-end/57748 */
+++/* { dg-do run } */
+++
+++#include <stdlib.h>
+++
+++extern void abort (void);
+++
+++typedef long long V
+++  __attribute__ ((vector_size (2 * sizeof (long long)), may_alias));
+++
+++typedef struct S { V a; V b[0]; } P __attribute__((aligned (1)));
+++
+++struct __attribute__((packed)) T { char c; P s; };
+++
+++void __attribute__((noinline, noclone))
+++check (struct T *t)
+++{
+++  if (t->s.b[0][0] != 3 || t->s.b[0][1] != 4)
+++    abort ();
+++}
+++
+++int __attribute__((noinline, noclone))
+++get_i (void)
+++{
+++  return 0;
+++}
+++
+++void __attribute__((noinline, noclone))
+++foo (P *p)
+++{
+++  V a = { 3, 4 };
+++  int i = get_i();
+++  p->b[i] = a;
+++}
+++
+++int
+++main ()
+++{
+++  struct T *t = (struct T *) malloc (128);
+++
+++  foo (&t->s);
+++  check (t);
+++
+++  return 0;
+++}
+-- 
+1.7.9.5
 
 
