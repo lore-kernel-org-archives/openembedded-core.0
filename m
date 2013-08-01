@@ -1,45 +1,38 @@
-Return-Path: <djszapi@archlinux.us>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 22F396B1EF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 556EA61883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 16:38:52 +0000 (UTC)
-Received: by mail-pd0-f169.google.com with SMTP id y11so2232073pdj.14
+	Thu,  1 Aug 2013 16:46:17 +0000 (UTC)
+Received: by mail-ob0-f171.google.com with SMTP id tb18so4374287obb.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 09:38:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
+	Thu, 01 Aug 2013 09:46:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:x-gm-message-state;
-	bh=eepntFtUeRA6kjHXJkLhg126gICZkyy7zsDGnqnirn4=;
-	b=AfbcCAdl9kjtcqGpRWvAnEKYYhTzXzKtjAW+NjZUdUdkyV+/ldeI8/lFzG9CjFgPQR
-	UplisPmnKsOk8XBCw/RxnN414ZBMT+Msft6GU8fqx/H5f7WAqKVYhGEclFawFk47v4Zz
-	YkJyNIPm+Yv0m+dYwmwESyhjo9+X1L/pJ36d4gH0HPXKGjLxhE1ATbrwab7hZ87oy0jo
-	pCwHZhs/GqTCeBVXnVz0L5/xgbyvNA9wwxaKnNzjhajmw+DioZvRPWfPcEDqfyTm3ma9
-	n+4YfjEbaHgUZziDeha72oyL5wPhBNlVrZnFJKSUCFN+yrDhQY6FL79HNOIfwZ0CBKiC
-	ocWA==
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=HYSKVyXhvSnYRbzFh72l5cBlLqJ1s8WQaQnukCUiMJg=;
+	b=Le9k7SKXYC0QIPHdu3gts1MTWLOYGuUvPwqiGJOVDzdHk8rHao5OLx5JmO8z47Wvtg
+	bDNVmTEsk4Ozb0+vK5+cdcDLUm8fwFqWPZMaPGDaIGFhp4Qlhz49mj6xjcZaZZpwh/xa
+	Nmi8SWPpUvbZZSIoc0zybJUaUIcQGVu83wH9e/J3LHG6oql8ezP1q52UgTQItIWHyvC8
+	olDoEP7OV7Oo+palfyA7585ng4Be/qm3gAcgrXfUbQ5z4wXB5tIF0dwOVbDKBV23Omk2
+	3o4BmvjXDsqtC71MzpnqtOyJ1rdyO1zMIUV2CmIaDmAiIasdCWDIzhGHPgyj2DVtgNrq
+	Q5oQ==
 MIME-Version: 1.0
-X-Received: by 10.68.163.131 with SMTP id yi3mr3244888pbb.55.1375375132298;
-	Thu, 01 Aug 2013 09:38:52 -0700 (PDT)
-Sender: djszapi@archlinux.us
-Received: by 10.70.37.237 with HTTP; Thu, 1 Aug 2013 09:38:52 -0700 (PDT)
-In-Reply-To: <CAJTo0LaYiJsuJG6BNEHiCL8Ga+4EZ9S+vvAKRkiNyXQ16v1fMw@mail.gmail.com>
-References: <1375351656-12261-1-git-send-email-ross.burton@intel.com>
-	<CAOMwXhNbDzsi4=mBb+0=iqdxafnAezRsMvJbG1dPetCTMEhJQQ@mail.gmail.com>
-	<CAJTo0LYPD48S3rjYPfh5HPyeuzxrx=ZiJOguz5doxjd2r3PAXw@mail.gmail.com>
-	<CAOMwXhPi108Q0yWNPgZ-XfGA99+AUpaL+oPSH9W5yS8HhuZd3Q@mail.gmail.com>
-	<CAJTo0LbVOSEz53G8TT0hn4UKyyhhJu6uacRb3XbCjnwBej7zGQ@mail.gmail.com>
-	<CAOMwXhNfdQ_41HybptW0xgqBZhOGOx7pgdJ8M5F+qVs5Qd5vvA@mail.gmail.com>
-	<CAJTo0LaYiJsuJG6BNEHiCL8Ga+4EZ9S+vvAKRkiNyXQ16v1fMw@mail.gmail.com>
-Date: Thu, 1 Aug 2013 17:38:52 +0100
-X-Google-Sender-Auth: kStjdL8dScF-Bq1BCjv3fc7WZ_g
-Message-ID: <CAOMwXhNXO+ZDSh3Kt41g=K1Jo_EDGSGkX6-DUTHN1hMz3QF2yg@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Gm-Message-State: ALoCoQk1B4KkdoRPZt4udvf9NRHQga/UFev4ItFeUnGY6VJia7t0ITuvJzEbvCm1+6ZOp7p/gmh3
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][V2] u-boot: state the MACHINE when skipping u-boot
+X-Received: by 10.60.79.3 with SMTP id f3mr1958421oex.50.1375375577701; Thu,
+	01 Aug 2013 09:46:17 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 1 Aug 2013 09:46:17 -0700 (PDT)
+In-Reply-To: <2339c72ba0e5afb7379f065ad403e3209b334956.1375354695.git.hongxu.jia@windriver.com>
+References: <cover.1375354695.git.hongxu.jia@windriver.com>
+	<2339c72ba0e5afb7379f065ad403e3209b334956.1375354695.git.hongxu.jia@windriver.com>
+Date: Thu, 1 Aug 2013 13:46:17 -0300
+X-Google-Sender-Auth: UPJ7IWBZhZKGU2ls4Vi3x1nno7M
+Message-ID: <CAP9ODKrK-qHCVHRfRwatCfp6e2RaejP5CSm+xBgEEp95uSb13g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] list-packageconfig-flag.py: add a script to list all PACKAGECONFIG's flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,57 +45,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 16:38:52 -0000
-Content-Type: multipart/alternative; boundary=047d7bacb46e31a0e504e2e57a5e
-
---047d7bacb46e31a0e504e2e57a5e
+X-List-Received-Date: Thu, 01 Aug 2013 16:46:17 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Aug 1, 2013 at 5:35 PM, Burton, Ross <ross.burton@intel.com> wrote:
-
-> On 1 August 2013 17:33, Laszlo Papp <lpapp@kde.org> wrote:
-> >> I'm not sure what you meant here.  Do you mean a situation where the
-> >> local.conf says MACHINE=foo and the user also sets MACHINE=foo in the
-> >> environment?
-> >
-> > Yes.
+On Thu, Aug 1, 2013 at 8:04 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> list-packageconfig-flag.py will walk the METADIR and collect recipes which
+> have PACKAGECONFIG's flags.
 >
-> But there's nothing wrong with the user doing that at all.
+> The default display is to list recipes which have PACKAGECONFIG's flags in
+> METADIR. If option '-f' is used, it will list PACKAGECONFIG's flags and all
+> affected recipes in METADIR
+>
+> EXAMPLE:
+> list-packageconfig-flag.py poky/meta poky/meta-yocto
+> RECIPE NAME          PACKAGECONFIG's flag
+> =========================================
+> libarchive_2.8.5.bb  acl xattr largefile zlib bz2 xz openssl libxml2 expat
+> strace_4.8.bb        libaio acl
+> connman.inc          wifi bluetooth 3g tist openvpn vpnc l2tp pptp wispr
+>
+> list-packageconfig-flag.py -f poky/meta poky/meta-yocto
+> PACKAGECONFIG's flag     RECIPE NAME
+> ====================================
+> speex                    gstreamer1.0-plugins-good.inc
+> keyutils                 rpm_5.4.9.bb
+> gallium-egl              mesa.inc
+>
+> [YOCTO #4368]
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 
+Cool! :-)
 
-Why do you think compilers warn in such use cases? Because they cannot know
-if you are doing something silly, or something unintentional. It might just
-well be that the user wanted to type something else, but got confused in
-which case he might get a hard to debug issue later, or even if not hard,
-it is additional issue due to his.
+>  scripts/contrib/list-packageconfig-flag.py | 180 +++++++++++++++++++++++++++++
 
---047d7bacb46e31a0e504e2e57a5e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+I'd drop .py extension and use +x permission.
 
-<div dir=3D"ltr">On Thu, Aug 1, 2013 at 5:35 PM, Burton, Ross <span dir=3D"=
-ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.bu=
-rton@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cla=
-ss=3D"gmail_quote">
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On 1 August 2013 17:33, La=
-szlo Papp &lt;<a href=3D"mailto:lpapp@kde.org">lpapp@kde.org</a>&gt; wrote:=
-<br>
+>  1 file changed, 180 insertions(+)
+>  create mode 100755 scripts/contrib/list-packageconfig-flag.py
+>
+> diff --git a/scripts/contrib/list-packageconfig-flag.py b/scripts/contrib/list-packageconfig-flag.py
+> new file mode 100755
+> index 0000000..7a5568f
+> --- /dev/null
+> +++ b/scripts/contrib/list-packageconfig-flag.py
+> @@ -0,0 +1,180 @@
+> +#!/usr/bin/env python
+> +
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program; if not, write to the Free Software Foundation.
+> +#
+> +# Copyright (C) 2013 Wind River Systems, Inc.
+> +#
+> +# list recipes which have PACKAGECONFIG's flags in METADIR
+> +# list PACKAGECONFIG's flags and all affected recipes in METADIR
+> +#
+> +
+> +import sys
+> +import getopt
+> +import os
+> +import re
+> +
+> +usage_body = '''  list recipes which have PACKAGECONFIG's flags in METADIR
+> +
+> +OPTION:
+> +  -h, --help  display this help and exit
+> +  -f, --flag  list PACKAGECONFIG's flags and all affected recipes in METADIR
+> +
+> +EXAMPLE:
+> +list-packageconfig-flag.py poky/meta poky/meta-yocto
+> +list-packageconfig-flag.py -f poky/meta poky/meta-yocto
+> +'''
+> +
+> +def usage():
+> +    print 'Usage: %s [OPTION] [METADIR]...' % os.path.basename(sys.argv[0])
+> +    print usage_body
+> +
+> +def parse_recipe(recipe):
+> +    ''' Parse a recipe to collect PACKAGECONFIG's flags '''
+> +    prog = re.compile(r' *PACKAGECONFIG\[(?P<flag>.*)\] *=.*')
+> +    try:
+> +        r = open(recipe)
+> +    except IOError as (errno, strerror):
+> +        print >> sys.stderr, 'WARNING: Failed to open recipe', recipe
+> +
+> +    flaglist = []
+> +    for line in r:
+> +        # Strip any comments from the line
+> +        line = line.rsplit('#')[0]
+> +        m = prog.match(line)
+> +        if m:
+> +            flaglist.append(m.group('flag'))
+> +    r.close()
+> +
+> +    return flaglist
+> +
+> +def process_recipes(metadir):
+> +    ''' Collect recipes which have PACKAGECONFIG's flags in METADIR '''
+> +    # recipesdict = {'recipe': ['flag1', 'flag2',...]}
+> +    recipesdict = {}
+> +    for root,dirs,files in os.walk(metadir):
+> +        for name in files:
+> +            if name.find(".bb") >= 0 or name.find(".inc") >= 0:
+> +                flaglist = parse_recipe(os.path.join(root,name))
+> +                if flaglist:
+> +                    recipesdict[name] = flaglist
+> +
+> +    return recipesdict
 
-&gt;&gt; I&#39;m not sure what you meant here. =A0Do you mean a situation w=
-here the<br>
-&gt;&gt; local.conf says MACHINE=3Dfoo and the user also sets MACHINE=3Dfoo=
- in the<br>
-&gt;&gt; environment?<br>
-&gt;<br>
-&gt; Yes.<br>
-<br>
-</div>But there&#39;s nothing wrong with the user doing that at all.</block=
-quote><div><br></div><div>Why do you think compilers warn in such use cases=
-? Because they cannot know if you are doing something silly, or something u=
-nintentional. It might just well be that the user wanted to type something =
-else, but got confused in which case he might get a hard to debug issue lat=
-er, or even if not hard, it is additional issue due to his.</div>
-</div></div></div>
+In case a PACKAGECONFIG is add by a class. I think this case is missing here.
 
---047d7bacb46e31a0e504e2e57a5e--
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
