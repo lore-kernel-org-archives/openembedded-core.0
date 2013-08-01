@@ -1,30 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 177416B1F0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C2C16B1C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 07:38:06 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r717m4m7008944; Thu, 1 Aug 2013 08:48:04 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id DgqOkKj2o7FL; Thu,  1 Aug 2013 08:48:04 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r717m0DE008941
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 1 Aug 2013 08:48:02 +0100
-Message-ID: <1375342673.3362.7.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Thu, 01 Aug 2013 08:37:53 +0100
-In-Reply-To: <1375283605-25870-1-git-send-email-otavio@ossystems.com.br>
-References: <1375283605-25870-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
+	Thu,  1 Aug 2013 08:36:48 +0000 (UTC)
+Received: by mail-ea0-f172.google.com with SMTP id r16so852630ead.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Aug 2013 01:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=czQOK3IIWZYQOTZ7Z9j2ShSCvp2QYCsBDTocI+SN2x0=;
+	b=pFVQnD8VByxTkhR44IOW/P3tgZ9MIFx8rpjnb1pmn7b/h5j1wfO0JlXy9vbo26OGqM
+	ZTq2f05kThZ59QQ+Gj2NoJMvZ6cY1HzgHqPuXtUXCz8iwFME9C7bimd5Xi9I/Ajj1rZ3
+	/UK6ZWZXXwRt4ZdgQ/W5nnuAkcx4tMLXzg6A/5Jc98AlaoZgqE1qeG2P4dsGwVY8hZRJ
+	rb0Vff7fULn+vnwqaLAroXO3eilxa7iT92+OYG/314dMHoHBUjxT0kQrplhCCjTKNLC6
+	/YX8rQKMt56c8Y/roW9f/CGeMc7+ihdQAi3bm23Z0hMVzi6TbxjKLFrYqAElxbTJ/VKY
+	l0zg==
+X-Received: by 10.14.225.72 with SMTP id y48mr373228eep.131.1375346208732;
+	Thu, 01 Aug 2013 01:36:48 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	n42sm2545361eeh.15.2013.08.01.01.36.47 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 01:36:48 -0700 (PDT)
+Date: Thu, 1 Aug 2013 10:37:23 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130801083723.GJ3280@jama>
+References: <cover.1375275560.git.laurentiu.palcu@intel.com>
+	<435e5b32a36fbc1e2eabda8d9ed1eff7273673c5.1375275560.git.laurentiu.palcu@intel.com>
+	<51F990E4.3060505@linux.intel.com>
+	<CAPhnLPDcJDAQF=_PiZ2A87unB=ZEOW5atSgHvhu=x1H9c0LmhA@mail.gmail.com>
+	<CAJTo0LbxoCY20u1T-Z3Y2EFBOQfNW_jcf71E-QkLiK8qNzT9yA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbxoCY20u1T-Z3Y2EFBOQfNW_jcf71E-QkLiK8qNzT9yA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 09/13] subversion: upgrade to 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,98 +51,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 07:38:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Aug 2013 08:36:49 -0000
+X-Groupsio-MsgNum: 42793
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="IJFRpmOek+ZRSQoz"
+Content-Disposition: inline
 
-On Wed, 2013-07-31 at 12:13 -0300, Otavio Salvador wrote:
-> This allow the addition and removal of distro features easily. To add
-> a feature, use:
-> 
->  EXTRA_DISTRO_FEATURES += "wayland"
-> 
-> and to remove, use '~' prefix, as:
-> 
->  EXTRA_DISTRO_FEATURES += "~x11"
-> 
-> This code has been mostly copied from Mentor Graphics public layer but
-> changed the variable name for a more descriptive name. The original
-> code can be seen at user_feature.bbclass at:
-> 
->  http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> Changes for v3:
-> - Drop _prepend/_append flags from DISTRO_FEATURES to avoid the re-add
-> 
->  meta/classes/base.bbclass |  4 ++++
->  meta/lib/oe/utils.py      | 25 +++++++++++++++++++++++++
->  2 files changed, 29 insertions(+)
-> 
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 9c92e0b..83f6458 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -298,6 +298,9 @@ def buildcfg_neededvars(d):
->      if pesteruser:
->          bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
->  
-> +EXTRA_DISTRO_FEATURES ?= ""
-> +EXTRA_DISTRO_FEATURES[type] = "list"
-> +
->  addhandler base_eventhandler
->  base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted"
->  python base_eventhandler() {
-> @@ -307,6 +310,7 @@ python base_eventhandler() {
->          preferred_ml_updates(e.data)
->          oe.utils.features_backfill("DISTRO_FEATURES", e.data)
->          oe.utils.features_backfill("MACHINE_FEATURES", e.data)
-> +        oe.utils.extra_distro_features(e.data)
->  
->      if isinstance(e, bb.event.BuildStarted):
->          localdata = bb.data.createCopy(e.data)
-> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> index 82987e8..db468cb 100644
-> --- a/meta/lib/oe/utils.py
-> +++ b/meta/lib/oe/utils.py
-> @@ -117,6 +117,31 @@ def features_backfill(var,d):
->      if addfeatures:
->          d.appendVar(var, " " + " ".join(addfeatures))
->  
-> +def extra_distro_features(d):
-> +    import oe.data
-> +
-> +    l = d.createCopy()
-> +    l.finalize()
-> +
-> +    extra_features = oe.data.typed_value('EXTRA_DISTRO_FEATURES', l)
-> +    if not extra_features:
-> +        return
-> +
-> +    distro_features = l.getVar('DISTRO_FEATURES', True).split()
-> +    for feature in extra_features:
-> +        if feature.startswith('~'):
-> +            feature = feature[1:]
-> +            if feature in distro_features:
-> +                distro_features.remove(feature)
-> +        else:
-> +            if feature not in distro_features:
-> +                distro_features.append(feature)
-> +
-> +    # Avoid readding the removed features later
-> +    d.delVarFlag("DISTRO_FEATURES", "_append")
-> +    d.delVarFlag("DISTRO_FEATURES", "_prepend")
+--IJFRpmOek+ZRSQoz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I quite clearly said this was a hack to allow you to see what the
-problem was with the code and that it was *not* an acceptable change to
-go into the core. I don't see any mention of that now and that is a
-little frustrating to see this being proposed as a patch.
+On Thu, Aug 01, 2013 at 07:30:25AM +0100, Burton, Ross wrote:
+> On 1 August 2013 00:59, Flanagan, Elizabeth
+> <elizabeth.flanagan@intel.com> wrote:
+> > If we do update this I'd like to also get this backported to earlier
+> > and remove all older versions of subversion to keep from mixing and
+> > matching with svn.
+> >
+> > They made changes in 1.8 that requires an upgrade to the working copy
+> > of a checkout. Once upgraded I don't believe you can go back to an
+> > earlier version. If people try to utilize an svn 1.8 oe-core and an
+> > svn 1.7 oe-core, this could destroy the svn working copies in DL_DIR.
+> > Which would be bad for those of us who maintain source mirrors.
+>=20
+> Again? Urgh.  Sounds like an excellent reason to not move to 1.8 as
+> this bit us one already.
 
-Cheers,
+Does this
+http://git.openembedded.org/bitbake/commit/?id=3Debd3ecdb5f3c6d3fe1fad27cbe=
+d4d80f4277e92e
+work for 1.7 -> 1.8 transition?
 
-Richard
+It looks like it should from
+http://subversion.apache.org/docs/release-notes/1.8.html
+but someone should test it before builders will start distributing
+downloads directory to PREMIRRORs with working copy format already
+upgraded.
 
+Good that we removed subversion-native from ASSUME_PROVIDED :).
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--IJFRpmOek+ZRSQoz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlH6HkMACgkQN1Ujt2V2gBwlFgCgqM4/gF8garrj3BWpV8H4xmi4
+n5YAoKZSzxSFa/+oxBKxenm25jXz2hUm
+=X59k
+-----END PGP SIGNATURE-----
+
+--IJFRpmOek+ZRSQoz--
