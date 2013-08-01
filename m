@@ -1,37 +1,51 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 50CC361883
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id AE0F26B40D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 12:19:18 +0000 (UTC)
-Received: by mail-ob0-f171.google.com with SMTP id tb18so3724809obb.30
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 05:19:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=ZrIa3EVtUbU85cXh/ZT0NIxSBms2WhsAdWzOzH+SdDQ=;
-	b=ozuu9v7rHAMxRtigvBm2bQiLJtv/QmgWOW6SZgaXSq6ka+YnxM6UOZn6lWloCiOSnD
-	3Yn1gMruWjZOa6yrYQadMOTFkGuzKz06ZLnGdEDlxYApxHnxSHt+XAgOgGwcXmDpUFxd
-	FPrsOciezoWyjYpW3UB4PaXd32RFcylFavDCtAau4LLqmCRqQuTyZxOzrbknoKJW+65v
-	FHbFI+3KqLmRY2fQbi2we+XsplUe7SSDoeixCCB1vlsYt0d6iCCJtAoOVXA0Y+4ZVLpi
-	7Zd0lU+U/TtrCYGTBrZmTjU2q0ubaE2F/SwZx6LSpYLxcXqoBdOhb4cMRoFGbnvlmKNF
-	8QXQ==
+	Thu,  1 Aug 2013 12:27:52 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	r71CRnCv029856
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
+	Thu, 1 Aug 2013 14:27:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1375360070;
+	bh=M+dvssbRtZvRqYSNqUg0HCm4qI4sOb6PHCVJUcncefs=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=P3RGlbZlMsLEg8/9AJYcftodJ8LblJC7wfQASIqTpZ3dU7lRii8VH38jrsbZaC1qe
+	dOgf1q4gpLoW20Bj9uz+dPdQXUuA3ovPxQ+U/ncnpI7RXrN+5Ma/UfXXdH6Us6mSAc
+	2ZQENAvmR1SILCDzzUqwKbM3jeqBGAJk+PntRC4E=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r71CRjQ4021439
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Thu, 1 Aug 2013 14:27:46 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1V4ryr-0006VP-It; Thu, 01 Aug 2013 14:27:45 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+To: openembedded-core@lists.openembedded.org
+References: <1375357402-10147-1-git-send-email-muhammad_shakeel@mentor.com>
+	<1375357402-10147-4-git-send-email-muhammad_shakeel@mentor.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 01 Aug 2013 14:27:45 +0200
+In-Reply-To: <1375357402-10147-4-git-send-email-muhammad_shakeel@mentor.com>
+	(Muhammad Shakeel's message of "Thu, 1 Aug 2013 16:43:22 +0500")
+Message-ID: <lyob9hwq7y.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
 MIME-Version: 1.0
-X-Received: by 10.60.145.241 with SMTP id sx17mr939147oeb.57.1375359558389;
-	Thu, 01 Aug 2013 05:19:18 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 1 Aug 2013 05:19:18 -0700 (PDT)
-In-Reply-To: <1375342673.3362.7.camel@ted>
-References: <1375283605-25870-1-git-send-email-otavio@ossystems.com.br>
-	<1375342673.3362.7.camel@ted>
-Date: Thu, 1 Aug 2013 09:19:18 -0300
-X-Google-Sender-Auth: -VtfSX-v9G7foY9IaT7YIHKwm1Y
-Message-ID: <CAP9ODKrKdvyBtMLUzDztyfZHgC0=Y6p37Q_nHjoVb-cZ8=6CJg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.6
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Cc: muhammad_shakeel-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org
+Subject: Re: [PATCH 4/4] nfs-utils: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 12:19:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 01 Aug 2013 12:27:53 -0000
+Content-Type: text/plain
 
-On Thu, Aug 1, 2013 at 4:37 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2013-07-31 at 12:13 -0300, Otavio Salvador wrote:
-...
->> +    # Avoid readding the removed features later
->> +    d.delVarFlag("DISTRO_FEATURES", "_append")
->> +    d.delVarFlag("DISTRO_FEATURES", "_prepend")
->
-> I quite clearly said this was a hack to allow you to see what the
-> problem was with the code and that it was *not* an acceptable change to
-> go into the core. I don't see any mention of that now and that is a
-> little frustrating to see this being proposed as a patch.
+"Shakeel, Muhammad"
+<muhammad_shakeel-nmGgyN9QBj3QT0dZR+AlfA@public.gmane.org> writes:
 
-I forgot to add it to commit log, sorry. The idea was to send the
-working code so people using it could use a valid one. I understand we
-need to find a better solution for this but I am clueless about where
-to look.
+> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.service
+> @@ -0,0 +1,16 @@
+> +[Unit]
+> +Description=NFS Server
+> +Requires=rpcbind.service
+> +After=rpcbind.service
+> +
+> +[Service]
+> +Type=oneshot
+> +ExecStart=/usr/sbin/rpc.nfsd
+> +ExecStart=/usr/sbin/rpc.mountd
+> +ExecStart=/usr/sbin/rpc.statd
+> +ExecStart=/usr/sbin/exportfs -a
 
-I can work in another solution if someone can tell me what needs to be
-done. I looked at bb.data_smart code and didn't find any other way to
-fix this.
+imo, this should be splitted into own units with a way to add custom
+options (e.g. '-p').
 
-The finalize code would be the other place I can think about changing. Any hint?
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+>  	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
+> +
+> +    install -d ${D}${systemd_unitdir}/system
+
+--> tab/space mismatch
+
+
+
+Enrico
 
