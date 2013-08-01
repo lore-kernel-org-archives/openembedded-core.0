@@ -1,26 +1,50 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4383661883
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f48.google.com (mail-pb0-f48.google.com
+	[209.85.160.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 92A5461883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 18:12:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 01 Aug 2013 11:12:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,795,1367996400"; d="scan'208";a="380245355"
-Received: from unknown (HELO [10.255.13.203]) ([10.255.13.203])
-	by orsmga002.jf.intel.com with ESMTP; 01 Aug 2013 11:12:37 -0700
-Message-ID: <51FAA515.6050302@linux.intel.com>
-Date: Thu, 01 Aug 2013 11:12:37 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Qi.Chen@windriver.com
-References: <cover.1375073005.git.Qi.Chen@windriver.com>
-	<bc3108ce8eea753d38dc70187fface31e6178e71.1375073005.git.Qi.Chen@windriver.com>
-In-Reply-To: <bc3108ce8eea753d38dc70187fface31e6178e71.1375073005.git.Qi.Chen@windriver.com>
-Cc: Zhangle.Yang@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] buildtools-tarball: unset OECORE_NATIVE_SYSROOT
+	Thu,  1 Aug 2013 20:19:05 +0000 (UTC)
+Received: by mail-pb0-f48.google.com with SMTP id ma3so2475169pbc.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Aug 2013 13:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to:x-mailer;
+	bh=wGoBBNnhAFsao+YMS8z7I71MFoZ1lHbg92HaLkyE8Zo=;
+	b=OmjtRFmT2Zdk3mlgR1I0a63WeotFNJGHXWZVdNbzTrcpO9Kuhnw36BjioKyaM9eynp
+	tjMw5YW7UvXRIG8QpVvtO5tYV+Uhvh7NccYlbs1ovxMWqDSFqH8otf2yIEtUvdJ2BKEY
+	SUyVv8Jq/N6qZnPU5PyoeoJKX1B4iSomtBLecBWnsSQMP8xBjF24hGw9K8ogy+FOP4PV
+	eP7UpkueX2jZXJsSrjP0IqNHCptTj/Eu68PEZ4/XhqI092dPnQqNz4cuTNc2dJzvjstl
+	wPwCZtegyPKqPA0I3OBKsaE/U22LXQJiekvKCdndQs8j3i9q6lAzRHLT6cGPJh9pUTFT
+	HAzg==
+X-Received: by 10.66.246.66 with SMTP id xu2mr6279880pac.134.1375388346406;
+	Thu, 01 Aug 2013 13:19:06 -0700 (PDT)
+Received: from sa-nc-spg-213.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id lk9sm4683087pab.2.2013.08.01.13.19.04
+	for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 13:19:05 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51F99839.4020003@linux.intel.com>
+Date: Thu, 1 Aug 2013 13:19:03 -0700
+Message-Id: <FEC3604F-BE31-4146-AA6B-A16CB22C8D3F@gmail.com>
+References: <cover.1372456294.git.raj.khem@gmail.com>
+	<20130629053844.GQ3261@jama>
+	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
+	<20130629153101.GV3261@jama>
+	<45F76803-CA83-4DAC-A972-EE4CB8FEE054@gmail.com>
+	<51F97628.9040801@linux.intel.com>
+	<7705A938-20F6-4100-AB3A-99BDF5023118@gmail.com>
+	<13A232F2-9B2C-427E-B5F0-26138984D099@gmail.com>
+	<51F9948F.1000908@linux.intel.com>
+	<08E217DF-FA59-4DAB-BB7F-0369A4BB3165@gmail.com>
+	<51F99839.4020003@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/24] Add python3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 18:12:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 01 Aug 2013 20:19:06 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 07/29/2013 06:50 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> When building a qemu image inside the environment created by the
-> buildtools-tarball, the qemu image cannot be started, as the runqemu
-> script uses the tunctl binary which cannot be found inside the sysroot
-> directory of the buildtools-tarball.
->
-> The buildtools-tarball is inherently a tool set instead of a fully
-> functional SDK, so leaving the OECORE_NATIVE_SYSROOT variable in the
-> environment will mess things up.
->
-> However, we do need a line of 'OECORE_NATIVE_SYSROOT=xxx' in the environment
-> setup script so that the SDK can be extracted and relocated correctly.
->
-Where is this being processed, can could be done as a since comment in 
-the the environment-setup script instead of exporting and unseting it?
 
-Sau!
-> That's why this patch unsets the variable instead of removing it from the
-> environment setup script.
->
-> [YOCTO #4939]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-core/meta/buildtools-tarball.bb |    6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-> index 9771497..1f8f142 100644
-> --- a/meta/recipes-core/meta/buildtools-tarball.bb
-> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-> @@ -59,7 +59,11 @@ create_sdk_files_append () {
->   	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
->   	touch $script
->   	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
-> +	# OECORE_NATIVE_SYSROOT variable needs to be in $script so that the
-> +	# relocate script can find the ld-linux.so.
->   	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
-> -
-> +	# buildtools-tarball is inherently a tool set instead of a fully functional SDK.
-> +	# Leaving OECORE_NATIVE_SYSROOT in environment will mess things up.
-> +	echo 'unset OECORE_NATIVE_SYSROOT' >> $script
->   	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
->   }
->
+On Jul 31, 2013, at 4:05 PM, Saul Wold <sgw@linux.intel.com> wrote:
+
+> On 07/31/2013 03:51 PM, Khem Raj wrote:
+>>=20
+>> On Jul 31, 2013, at 3:49 PM, Saul Wold <sgw@linux.intel.com> wrote:
+>>=20
+>>>=20
+>>> Still seems to failing in Jinja, I wonder if the dependencies are =
+correctly sinec it's nooking for native bits and the python3-native had =
+not been installed yet.
+>>>=20
+>>>=20
+>>=20
+>> in my build from scratch several times, I never had this issue. Did =
+you do an incremental build to get to this issue ?
+>>=20
+>=20
+> Yes, most of my builds are incremental until I throw them against the =
+Autobuilder!
+
+Saul,
+
+I was able to reproduce the incremental build issue. I have now fixed it =
+and pushed a rebased branch to pull tree
+in contrib. Please try it out
+
+Thanks
+-Khem
+
 
