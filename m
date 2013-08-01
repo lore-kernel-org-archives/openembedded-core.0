@@ -1,41 +1,20 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
-	[209.85.214.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CD946B1ED
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 878EE6B1ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 17:17:36 +0000 (UTC)
-Received: by mail-ob0-f175.google.com with SMTP id xn12so4348803obc.20
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 10:17:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=fclMzWdaHTMsBVouVluQiA8/8e2vfHG+M7dHDfJwqKA=;
-	b=WCymESfP0wq6rb0dwzJfXhvOikEUe2muBIe07gN6sXJs8uOGrKS33/ND1oidU9CQl2
-	LUzi4+3bh6ki9BOXqqyRxJeeuFAPrMSqGCnLzl2LnG8X6ntj3AB1DbXM42UyDmloglqz
-	SxFpfKzqePM9VcWc3wGSVPiovbszaJSz4RiZQu7TK2DTDxl8Of4wbp5g3zA5CjAN4mZH
-	f9lDwImRezADr9LFCQSxr9QHbx+iHQlBqKXMPEisoG3P+y3pp2rMyyGeGQ1a6iDjtBF+
-	rCu+at+SqGb4ByKTmtePsHArmZ6O5m/rGPNpjwUTj8eMcnOY0c1eO2Vhvud5Uf3WovzT
-	KlaA==
-MIME-Version: 1.0
-X-Received: by 10.60.124.228 with SMTP id ml4mr2056547oeb.47.1375377456502;
-	Thu, 01 Aug 2013 10:17:36 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 1 Aug 2013 10:17:36 -0700 (PDT)
-In-Reply-To: <CAOMwXhO-g9N3b0b27jrmZYbgDwPDNziJFF9_ryGbXF+RgBZyCw@mail.gmail.com>
-References: <1375351656-12261-1-git-send-email-ross.burton@intel.com>
-	<CAP9ODKrXScWCUTfL8_hO6Jm+gFHUbzgADZoBd-iW7xjZW1679w@mail.gmail.com>
-	<CAOMwXhM5ofGEhzDoQCiuuknpuFyg+6vB-LwuNh8m9yibmGFT3Q@mail.gmail.com>
-	<1981575.9KzFInvyxm@helios>
-	<CAOMwXhO-g9N3b0b27jrmZYbgDwPDNziJFF9_ryGbXF+RgBZyCw@mail.gmail.com>
-Date: Thu, 1 Aug 2013 14:17:36 -0300
-X-Google-Sender-Auth: 5lkPmSCzA8Zx9KKSpgfz7tc6WYw
-Message-ID: <CAP9ODKr3g-rSDftBo9uyeUGJUFn2dzSRjgySRxoK8CNOSH3z7Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Laszlo Papp <lpapp@kde.org>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][V2] u-boot: state the MACHINE when skipping u-boot
+	Thu,  1 Aug 2013 17:18:12 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 01 Aug 2013 10:18:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,795,1367996400"; d="scan'208";a="379626495"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.169])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Aug 2013 10:18:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Aug 2013 18:17:59 +0100
+Message-Id: <1375377479-8630-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] grub: disable floating ncurses dependency for GPLv2 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,73 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 17:17:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 01 Aug 2013 17:18:13 -0000
 
-On Thu, Aug 1, 2013 at 2:09 PM, Laszlo Papp <lpapp@kde.org> wrote:
-> On Thu, Aug 1, 2013 at 6:02 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
->>
->> I'm afraid this is not practical. The ability to specify the value for
->> MACHINE
->> and other variables from the external environment is not just there for
->> folks
->> running bitbake manually from the command line, but also external scripts
->> as
->> well, and they could quite legitimately set it to the same value that has
->> been
->> specified in the configuration file and showing a warning in that case
->> would be
->> undesirable.
->
->
-> Oh yeah, it cannot happen with compiler outputs the same way? Answer is: it
-> can.
->
-> You can add another feature later though if you wish to suppress warnings.
-> That makes sense to me.
+A dependency was being added on ncurses conditionally upon whether it
+had been built first. Explicitly disable this dependency to stop this
+from happening.
 
-It makes sense to not add the warning. Too many warnings just confuse
-users and does not provide anything useful as users just ignore them
-in the end.
+Note that grub 2.x does not need this same fix because ncurses is only
+used when building grub-emu, which is only built when the specified
+target platform is "emu" which we do not use.
 
->> I'm not sure I understand the value of showing this warning in any case.
->> The
->> system is not going to do anything that the user won't expect - the user
->> specified the value of MACHINE on the command line and that's the value
->> that is
->> being used. The fact that it is the same as what's in the configuration
->> file is
->> incidental.
->
->
-> Have you used gcc, clang, etc? Do you have experience with warnings in
-> general? They are there in certain cases because the programmer may have or
-> probably made a mistake. It is a lot easier to figure out at that time than
-> debugging very hard later...
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/recipes-bsp/grub/grub_0.97.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-<sarcarsm>
-I am sure we all in Yocto community NEVER used GCC/CLang...
-</sarcarsm>
-
-Did you EVER read your own messages? Please do.
-
-> Actually, it is even getting more serious in your "script" case where it
-> would be totally hidden by the script if it is not logging properly, and you
-> would only realize an issue later.
->
-> Surely, we all copy paste wrong on a daily basis, and we also write "foo"
-> instead "fow" and "bar" at times. So, I do not follow your comment. Nothing
-> to reinvent the wheel here, just follow the general practice that other
-> software developers have figured out along the decades.
-
-That's the point; we are folloing Yocto general practice and doing it
-different here won't help. Just confuse.
-
-Regards,
-
+diff --git a/meta/recipes-bsp/grub/grub_0.97.bb b/meta/recipes-bsp/grub/grub_0.97.bb
+index 6971193..38f3912 100644
+--- a/meta/recipes-bsp/grub/grub_0.97.bb
++++ b/meta/recipes-bsp/grub/grub_0.97.bb
+@@ -26,6 +26,8 @@ inherit autotools
+ 
+ COMPATIBLE_HOST = "i.86.*-linux"
+ 
++EXTRA_OECONF = "--without-curses"
++
+ do_install_append_vmware() {
+ 	mkdir -p ${D}/boot/
+ 	ln -sf ../usr/lib/grub/{$TARGET_ARCH}{$TARGET_VENDOR}/ ${D}/boot/grub
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.1.2
+
 
