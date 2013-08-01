@@ -1,17 +1,19 @@
 Return-Path: <muhammad_shakeel@mentor.com>
 Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id C0A2A6B1F0
+	by mail.openembedded.org (Postfix) with ESMTP id 12F086B3B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 11:43:01 +0000 (UTC)
+	Thu,  1 Aug 2013 11:43:08 +0000 (UTC)
 Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r71Bgwhf031900; 
-	Thu, 1 Aug 2013 06:43:00 -0500
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r71Bgwhg031900; 
+	Thu, 1 Aug 2013 06:43:08 -0500
 From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Aug 2013 16:43:19 +0500
-Message-Id: <1375357402-10147-1-git-send-email-muhammad_shakeel@mentor.com>
+Date: Thu,  1 Aug 2013 16:43:20 +0500
+Message-Id: <1375357402-10147-2-git-send-email-muhammad_shakeel@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 1/4] openssh: Add systemd support
+In-Reply-To: <1375357402-10147-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1375357402-10147-1-git-send-email-muhammad_shakeel@mentor.com>
+Subject: [PATCH 2/4] lighttpd: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,127 +26,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 11:43:02 -0000
+X-List-Received-Date: Thu, 01 Aug 2013 11:43:09 -0000
 
 From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
--Remove dependency on meta-systemd
+- Remove dependency on meta-systemd
 
 Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- .../openssh/openssh-6.2p2/sshd.socket              |   11 ++++++++++
- .../openssh/openssh-6.2p2/sshd@.service            |    9 +++++++++
- .../openssh/openssh-6.2p2/sshdgenkeys.service      |   10 ++++++++++
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   21 ++++++++++++++++++--
- 4 files changed, 49 insertions(+), 2 deletions(-)
+ .../lighttpd/files/lighttpd.service                |   12 ++++++++++++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   14 ++++++++++++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/files/lighttpd.service
 new file mode 100644
-index 0000000..753a33b
+index 0000000..a5333b6
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
-@@ -0,0 +1,11 @@
++++ b/meta/recipes-extended/lighttpd/files/lighttpd.service
+@@ -0,0 +1,12 @@
 +[Unit]
-+Conflicts=sshd.service
-+
-+[Socket]
-+ExecStartPre=/bin/mkdir -p /var/run/sshd
-+ListenStream=22
-+Accept=yes
-+
-+[Install]
-+WantedBy=sockets.target
-+Also=sshdgenkeys.service
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
-new file mode 100644
-index 0000000..d118490
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
-@@ -0,0 +1,9 @@
-+[Unit]
-+Description=OpenSSH Per-Connection Daemon
-+After=sshdgenkeys.service
++Description=Lightning Fast Webserver With Light System Requirements
++After=network.target
 +
 +[Service]
-+ExecStart=-/usr/sbin/sshd -i
++ExecStartPre=/usr/sbin/lighttpd -t -f /etc/lighttpd.conf
++ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd.conf
 +ExecReload=/bin/kill -HUP $MAINPID
-+StandardInput=socket
-+StandardError=syslog
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
-new file mode 100644
-index 0000000..c717214
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=SSH Key Generation
-+
-+[Service]
-+ExecStart=/usr/bin/ssh-keygen -A
-+Type=oneshot
-+RemainAfterExit=yes
 +
 +[Install]
 +WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index ab2eefb..0821190 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -26,14 +26,17 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://init \
-            file://openssh-CVE-2011-4327.patch \
-            file://mac.patch \
--           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
-+           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-+           file://sshd.socket \
-+           file://sshd@.service \
-+           file://sshdgenkeys.service "
- 
- PAM_SRC_URI = "file://sshd"
- 
- SRC_URI[md5sum] = "be46174dcbb77ebb4ea88ef140685de1"
- SRC_URI[sha256sum] = "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90c766432e32161b842313b"
- 
--inherit useradd update-rc.d update-alternatives
-+inherit useradd update-rc.d update-alternatives systemd
- 
- USERADD_PACKAGES = "${PN}-sshd"
- USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
-@@ -41,6 +44,10 @@ INITSCRIPT_PACKAGES = "${PN}-sshd"
- INITSCRIPT_NAME_${PN}-sshd = "sshd"
- INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
- 
-+SYSTEMD_PACKAGES = "${PN}-sshd"
-+SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
-+SYSTEMD_AUTO_ENABLE = "enable"
 +
- PACKAGECONFIG ??= "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+index df6ce97..f473632 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://index.html.lighttpd \
+         file://lighttpd.conf \
+         file://lighttpd \
++        file://lighttpd.service \
+         "
  
-@@ -86,6 +93,15 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
- 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
- 	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
+ SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
+@@ -39,19 +40,28 @@ EXTRA_OECONF = " \
+              --disable-static \
+ "
+ 
+-inherit autotools pkgconfig update-rc.d gettext
++inherit autotools pkgconfig update-rc.d gettext systemd
+ 
+ INITSCRIPT_NAME = "lighttpd"
+ INITSCRIPT_PARAMS = "defaults 70"
+ 
++SYSTEMD_SERVICE_${PN} = "lighttpd.service"
++SYSTEMD_AUTO_ENABLE = "disable"
++
+ do_install_append() {
+     install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
+     install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
+     install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
+     install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
 +
 +    install -d ${D}${systemd_unitdir}/system
-+    install -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
-+    install -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
-+    install -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
-+    sed -i 's,/bin,${base_bindir},g' ${D}${systemd_unitdir}/system/sshd.socket
-+    sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/sshd@.service
-+    sed -i 's,/bin,${base_bindir},g' ${D}${systemd_unitdir}/system/sshd@.service
-+    sed -i 's,/usr/bin/,${bindir}/,g' ${D}${systemd_unitdir}/system/sshdgenkeys.service
++    install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
++    sed -i 's,/usr/sbin,${sbindir},g' ${D}${systemd_unitdir}/system/lighttpd.service
++    sed -i 's,/etc,${sysconfdir},g' ${D}${systemd_unitdir}/system/lighttpd.service
++    sed -i 's,/bin,${base_bindir},g' ${D}${systemd_unitdir}/system/lighttpd.service
  }
  
- ALLOW_EMPTY_${PN} = "1"
-@@ -95,6 +111,7 @@ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
- FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config"
-+FILES_${PN}-sshd += "${systemd_unitdir}"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+-FILES_${PN} += "${sysconfdir} /www"
++FILES_${PN} += "${sysconfdir} /www ${systemd_unitdir}"
+ 
+ CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
+ 
 -- 
 1.7.9.5
 
