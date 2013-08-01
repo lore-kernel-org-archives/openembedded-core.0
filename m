@@ -1,47 +1,40 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-bk0-f51.google.com (mail-bk0-f51.google.com
-	[209.85.214.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 734386B1FC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
+	[209.85.212.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 826A96A39D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 06:11:52 +0000 (UTC)
-Received: by mail-bk0-f51.google.com with SMTP id ji2so522003bkc.24
+	Thu,  1 Aug 2013 06:30:45 +0000 (UTC)
+Received: by mail-vb0-f44.google.com with SMTP id e13so1709852vbg.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 23:11:52 -0700 (PDT)
+	Wed, 31 Jul 2013 23:30:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:x-enigmail-version:content-type
-	:content-transfer-encoding:x-gm-message-state;
-	bh=IfFErQWbjXx+cIIIAURyYNlf/yrMPF9ou5FJqKEtQvo=;
-	b=DB7Gam//vyG7W6g4LwCi0GF74SOlGJ5Vv3oaziy7pExT+7MjkXZqz9b6uOVvF5Joqv
-	0/eIK62luKLyFicEo/SAAuP46V1FxAEmjsGROcDFCTGyV4blWrFWR891AXPrOi68Nau3
-	GvKoZtXZWCvrch5PE8ub0FMnGo5iUoPl1H9BJu2saN8pfZUPO/pMMNsXeRo4krRqkkIu
-	79T4mE8nbblkx9c8hbGsKJYX31jmCaEKRjeVNTtIXHm2WLigBaFM0uRGvonRbS50sY/4
-	hvgnUo95L9JiLUYP3nwjWBrbgGZUHsCJxw8Ws09UggQKSwrX/HJGtLDWTBoeZD7d+MxM
-	TtWw==
-X-Received: by 10.204.77.199 with SMTP id h7mr4663540bkk.112.1375337512160;
-	Wed, 31 Jul 2013 23:11:52 -0700 (PDT)
-Received: from fensuse.internal.dresearch-fe.de (zk223.dresearch-fe.de.
-	[217.92.177.116])
-	by mx.google.com with ESMTPSA id oe7sm129687bkb.5.2013.07.31.23.11.50
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 31 Jul 2013 23:11:51 -0700 (PDT)
-Message-ID: <51F9FC24.3070907@dresearch-fe.de>
-Date: Thu, 01 Aug 2013 08:11:48 +0200
-From: Steffen Sledz <sledz@dresearch-fe.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=hqLyrdWxBmlOPCxmnHHxg73/IdH3vtAUZuFtexnWgmY=;
+	b=YzV7B/H6TME/T3GdVUkbZn1KxJiB1w+fVByiD5ZMfdVbH2ZVRBfCQ+vWri34njw2h8
+	0/XN7TCdwC2qNVB4zyFiNzm8O4axktyxxD2AvxxuUSdwq4T1u0O2NKylUxbslQMFDJ7P
+	3EhnZGLL6XWdAIsA/gZKxiogn3BP3qUu4IHnnrgSpLBgI8PyySS8FSlWUc1Xexj51gWh
+	N1durH7QNMv+bJYsvVSoh1JJ+XY8xYpCNUnVpzCgE+WIfwjnA+JtSiTUIzecBV46dX6v
+	io7LZipygVeeI2Z4wQiSJOTRUY44tRTMUI5hhXB8zrbbERBqlloWVpa0B8OYCHj2DVCZ
+	1HfA==
+X-Received: by 10.58.219.232 with SMTP id pr8mr29894017vec.80.1375338645838;
+	Wed, 31 Jul 2013 23:30:45 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <51ECCF5C.2020505@dresearch-fe.de> <6366141.Q5aULPr4OG@helios>
-	<51F8E0C2.3070102@dresearch-fe.de> <8337615.XrjW46moIm@helios>
-In-Reply-To: <8337615.XrjW46moIm@helios>
-X-Enigmail-Version: 1.5.2
-X-Gm-Message-State: ALoCoQnxFY9Gyk7ffeuS7fWGLG8E0Df59G+VBRzGPPwEWJcNP4/HplGos/qjNV1QXUseQD0Ulc5v
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] SRC_URI and latest HEAD revision with git (in oe-classic)
+Received: by 10.220.71.201 with HTTP; Wed, 31 Jul 2013 23:30:25 -0700 (PDT)
+In-Reply-To: <CAPhnLPDcJDAQF=_PiZ2A87unB=ZEOW5atSgHvhu=x1H9c0LmhA@mail.gmail.com>
+References: <cover.1375275560.git.laurentiu.palcu@intel.com>
+	<435e5b32a36fbc1e2eabda8d9ed1eff7273673c5.1375275560.git.laurentiu.palcu@intel.com>
+	<51F990E4.3060505@linux.intel.com>
+	<CAPhnLPDcJDAQF=_PiZ2A87unB=ZEOW5atSgHvhu=x1H9c0LmhA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 1 Aug 2013 07:30:25 +0100
+Message-ID: <CAJTo0LbxoCY20u1T-Z3Y2EFBOQfNW_jcf71E-QkLiK8qNzT9yA@mail.gmail.com>
+To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+X-Gm-Message-State: ALoCoQlTX6YLLy7+BkEEYgkCGn2PhR0kqh44iRGFyWdKJ2J9FcR0TwB28kGI2hYId4mwT9utNE49
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 09/13] subversion: upgrade to 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,93 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 06:11:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 01 Aug 2013 06:30:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 31.07.2013 14:50, Paul Eggleton wrote:
-> On Wednesday 31 July 2013 12:02:42 Steffen Sledz wrote:
->> On 22.07.2013 11:51, Paul Eggleton wrote:
->>> On Monday 22 July 2013 11:46:23 Steffen Sledz wrote:
->>>> On 22.07.2013 11:01, Nicolas Dechesne wrote:
->>>>> On Mon, Jul 22, 2013 at 8:21 AM, Steffen Sledz <sledz@dresearch-fe.de
->>>>>
->>>>> <mailto:sledz@dresearch-fe.de>> wrote:
->>>>>> After being OE abstinent for some months i'd like to ask what is the
->>>>>> current suggested method for recipes building from the HEAD revision of
->>>>>> a git repository (we need this for continuous integration).
->>>>>>
->>>>>> I read some RFC's in the ml about PKGV/PKGR stuff, but i miss a final
->>>>>> decision, documentation and a good example.>
->>>>>
->>>>> you can use ${AUTOREV} for this purpose. You can look at poky-bleeding
->>>>> distro config for such an example.
->>>>>
->>>>> e.g.
->>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf/dist
->>>>> r
->>>>> o/include/poky-floating-revisions.inc
->>>>
->>>> Hmmmm? This doesn't seem the work.
->>>>
->>>> Here's what i tried in my recipe:
->>>>
->>>> ------------> snip <------------
->>>> PR = "r3"
->>>>
->>>> SRCREV="${AUTOREV}"
->>>> PV = "gitr${SRCPV}"
->>>> ------------> snip <------------
->>>>
->>>> But i get package versions like
->>>>
->>>>   gitr0+53b64e717404d282d0c58b7fa4a4e74ab2ca81ba-r3
->>>>
->>>> where SRCPB is always 0. :(
->>>>
->>>> A bit more description and/or a complete example would be very helpful.
->>>
->>> If you want these to increment now AIUI you need to be using the PR
->>> server:
->>>
->>> https://wiki.yoctoproject.org/wiki/PR_Service
->>
->> And here comes my next really big problem. :(
->>
->> We're sitting on an big, old but active project based on oe-classic and
->> bitbake 1.12.0. Irksomely we're forced to switch from SVN to GIT for this
->> project. So we need the AUTOREV/PRSERV stuff for this old environment too.
->>
->> Has anyone tried to backport the feature to an older bitbake/oe-classic
->> environment? Or can someone give some hints what's to do?
-> 
-> I'm not sure, but my gut feeling is you'd be better off trying to bring the 
-> project up to be based on OE-Core rather than trying to bring such 
-> functionality back to OE-Classic, particularly since for full functionality it 
-> requires signature-based tasks that are only supported with current versions 
-> of bitbake and require support from the metadata. You'd be trading some 
-> hopefully short-term pain for long-term gain if the project is going to 
-> continue for a reasonable amount of time.
+On 1 August 2013 00:59, Flanagan, Elizabeth
+<elizabeth.flanagan@intel.com> wrote:
+> If we do update this I'd like to also get this backported to earlier
+> and remove all older versions of subversion to keep from mixing and
+> matching with svn.
+>
+> They made changes in 1.8 that requires an upgrade to the working copy
+> of a checkout. Once upgraded I don't believe you can go back to an
+> earlier version. If people try to utilize an svn 1.8 oe-core and an
+> svn 1.7 oe-core, this could destroy the svn working copies in DL_DIR.
+> Which would be bad for those of us who maintain source mirrors.
 
-I was afraid to get this answer. ;-)
+Again? Urgh.  Sounds like an excellent reason to not move to 1.8 as
+this bit us one already.
 
-Unfortunately we do not have the manpower to bring up this old project to oe-core. Our team is working hard on a follow-up project based on oe-core.
-
-I read something about a solution using
-
-  BB_GIT_CLONE_FOR_SRCREV = "1"
-  BB_LOCALCOUNT_OVERRIDE = ""
-
-which should be supported by the old oe-classic/bitbake-1.12.0. Could this be a solution for our problem? What drawbacks does it have?
-
-Steffen
-
--- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+Ross
 
