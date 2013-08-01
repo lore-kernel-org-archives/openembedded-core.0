@@ -1,39 +1,36 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id D0CD161883
+Received: from mail-gh0-f176.google.com (mail-gh0-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 68B6F61883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 13:45:54 +0000 (UTC)
-Received: by mail-ob0-f179.google.com with SMTP id fb19so3935835obc.10
+	Thu,  1 Aug 2013 14:05:49 +0000 (UTC)
+Received: by mail-gh0-f176.google.com with SMTP id z17so764012ghb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 06:45:55 -0700 (PDT)
+	Thu, 01 Aug 2013 07:05:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=BCWJluYx+87g6veRm+HShTi50cpkiqJ8oor43lGFzNQ=;
-	b=pty+xN+VmP6m+ZfeMVUYmEDV1ilH7QqqH8h1lGuBClzS8wycNFXAPwqMLtsIMxQJL6
-	66TwSNzkQnyYXQZuL5kPHHLxa0ffisgszQiuVtg57A6rbnkAghVXql8nyXHZfwG4KO/W
-	/CFQVloHis0atq+O4ynxZHKPp6bAdOZOURonyjikHKZ49ihjHopyW+Z7RbjHe1kngJjj
-	hRaekhiPC5ndSvzbZc9+fsut6eEuXX4sya4Fz+/6+N957V73qzAq7HdEx0rZi0wSztqH
-	5bN6IuvMYyiAIDlqoX1zW6KrfasDuENAkVmP9vg+iFzsgaAc/z0KzPe12OkpTB+cGsxE
-	wd6Q==
-MIME-Version: 1.0
-X-Received: by 10.60.79.3 with SMTP id f3mr1277572oex.50.1375364755135; Thu,
-	01 Aug 2013 06:45:55 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 1 Aug 2013 06:45:55 -0700 (PDT)
-In-Reply-To: <1375362513.3362.9.camel@ted>
-References: <1375283605-25870-1-git-send-email-otavio@ossystems.com.br>
-	<1375342673.3362.7.camel@ted>
-	<CAP9ODKrKdvyBtMLUzDztyfZHgC0=Y6p37Q_nHjoVb-cZ8=6CJg@mail.gmail.com>
-	<1375362513.3362.9.camel@ted>
-Date: Thu, 1 Aug 2013 10:45:55 -0300
-X-Google-Sender-Auth: VjtStPMVxEMxiV0o0t4YIaKK_sk
-Message-ID: <CAP9ODKpH_qhWehJG=o5KiubLQum+Yiz-0WevSrP=qSROUFgjpQ@mail.gmail.com>
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=Fj1CY100rywc0q2LgP08kcAlhW83HsVjTuoQ265dif4=;
+	b=m+RRuiTpIEpZugZhoxIx/sPQSJlD+7AfDfeoHzNz+ZSx49FnTmSZpFcYNzcHVk38Kf
+	gGsS12VRmlkP88FB8/myvf1joG8DhbQPE7B28E+15k0iVbb5hnwt4ADJ3/lDpaOKpvoC
+	tT2VMOBY5x3Hwo1Y6Jg0igT8JlbIGkInmuQ0iwW4ROvoqdf3aFhLQmj5mGToX2CVOv6t
+	/KhFdxm919WFxn2XAgGvMcz7Rw7YKL37BjE1N08R8+VW1xcVK39FgmfkXkGDGThQQXRX
+	Xg/LxyWQQmtxPJsUY/+2gbWqB9X6OUu0GO3aNiAr+CJ/oe4YHWDZ6Jd+B/VOTMsglzp8
+	Va6g==
+X-Received: by 10.236.28.112 with SMTP id f76mr969789yha.93.1375365949545;
+	Thu, 01 Aug 2013 07:05:49 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([187.23.155.55])
+	by mx.google.com with ESMTPSA id h26sm4764826yhb.21.2013.08.01.07.05.47
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 07:05:48 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu,  1 Aug 2013 11:05:32 -0300
+Message-Id: <1375365932-9602-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.3.2
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v4] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,44 +43,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 13:45:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 01 Aug 2013 14:05:49 -0000
 
-On Thu, Aug 1, 2013 at 10:08 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2013-08-01 at 09:19 -0300, Otavio Salvador wrote:
->> On Thu, Aug 1, 2013 at 4:37 AM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> > On Wed, 2013-07-31 at 12:13 -0300, Otavio Salvador wrote:
->> ...
->> >> +    # Avoid readding the removed features later
->> >> +    d.delVarFlag("DISTRO_FEATURES", "_append")
->> >> +    d.delVarFlag("DISTRO_FEATURES", "_prepend")
->> >
->> > I quite clearly said this was a hack to allow you to see what the
->> > problem was with the code and that it was *not* an acceptable change to
->> > go into the core. I don't see any mention of that now and that is a
->> > little frustrating to see this being proposed as a patch.
->>
->> I forgot to add it to commit log, sorry. The idea was to send the
->> working code so people using it could use a valid one. I understand we
->> need to find a better solution for this but I am clueless about where
->> to look.
->>
->> I can work in another solution if someone can tell me what needs to be
->> done. I looked at bb.data_smart code and didn't find any other way to
->> fix this.
->>
->> The finalize code would be the other place I can think about changing. Any hint?
->
-> Using existing API, did you try just d.delVar("DISTRO_FEATURES") and
-> then setting it again? Unlike the above, that doesn't assume any
-> knowledge of bitbake internals.
+This allow the addition and removal of distro features easily. To add
+a feature, use:
 
-Works like a charm. I will send v4 with this one.
+ EXTRA_DISTRO_FEATURES += "wayland"
 
+and to remove, use '~' prefix, as:
+
+ EXTRA_DISTRO_FEATURES += "~x11"
+
+This code has been mostly copied from Mentor Graphics public layer but
+changed the variable name for a more descriptive name. The original
+code can be seen at user_feature.bbclass at:
+
+ http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+Changes in v4:
+- Drop _prepend/_append hack and remove/add DISTRO_FEATURES (thanks to
+  RP for the tip).
+
+Changes in v3:
+- Drop _prepend/_append flags from DISTRO_FEATURES to avoid the re-add
+
+Changes in v2:
+- Use data copy to fix wrong prepend/append expanding.
+
+ meta/classes/base.bbclass |  4 ++++
+ meta/lib/oe/utils.py      | 24 ++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 9c92e0b..83f6458 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -298,6 +298,9 @@ def buildcfg_neededvars(d):
+     if pesteruser:
+         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
+ 
++EXTRA_DISTRO_FEATURES ?= ""
++EXTRA_DISTRO_FEATURES[type] = "list"
++
+ addhandler base_eventhandler
+ base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted"
+ python base_eventhandler() {
+@@ -307,6 +310,7 @@ python base_eventhandler() {
+         preferred_ml_updates(e.data)
+         oe.utils.features_backfill("DISTRO_FEATURES", e.data)
+         oe.utils.features_backfill("MACHINE_FEATURES", e.data)
++        oe.utils.extra_distro_features(e.data)
+ 
+     if isinstance(e, bb.event.BuildStarted):
+         localdata = bb.data.createCopy(e.data)
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 82987e8..0c9dde0 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -117,6 +117,30 @@ def features_backfill(var,d):
+     if addfeatures:
+         d.appendVar(var, " " + " ".join(addfeatures))
+ 
++def extra_distro_features(d):
++    import oe.data
++
++    l = d.createCopy()
++    l.finalize()
++
++    extra_features = oe.data.typed_value('EXTRA_DISTRO_FEATURES', l)
++    if not extra_features:
++        return
++
++    distro_features = l.getVar('DISTRO_FEATURES', True).split()
++    for feature in extra_features:
++        if feature.startswith('~'):
++            feature = feature[1:]
++            if feature in distro_features:
++                distro_features.remove(feature)
++        else:
++            if feature not in distro_features:
++                distro_features.append(feature)
++
++    # Avoid readding the removed features later
++    d.delVar("DISTRO_FEATURES")
++
++    d.setVar('DISTRO_FEATURES', ' '.join(distro_features))
+ 
+ def packages_filter_out_system(d):
+     """
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.2
+
 
