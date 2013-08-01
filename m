@@ -1,22 +1,33 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 441136B256
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A0C361883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 15:01:47 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 01 Aug 2013 08:01:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,795,1367996400"; d="scan'208";a="276321904"
-Received: from sorvi.fi.intel.com ([10.237.72.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 01 Aug 2013 08:01:46 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+	Thu,  1 Aug 2013 16:30:58 +0000 (UTC)
+Received: by mail-ee0-f41.google.com with SMTP id d17so1136294eek.28
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Aug 2013 09:30:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=vnm6XNGOyFh7Q4Alg6ZfrNEjC7rY+0tcvyKKJ2FWjwc=;
+	b=KXeFo8tTClwnafPekbhpvHCAM1tfj8EBagX1LEVyc1W+fXnaUR7XG+GefzWDbtKONf
+	icagUroreevzqC+aTy4xHNIUjBydu8CJ6U68nvTJKJ7kobwh/gZTsB3hN00CHH/RScUQ
+	cu+a4SsiNhUG7VQaQuj7Ok3R+N6Ts5WAuEzN7076x9AShqSAprikBGHanwXyMI+8+EHv
+	ANbv6/iP1UbS59s57TgDDr/wKuE8481YdvMDlOI7nneikMr0kh+Q8rFegIWSQHg0/i32
+	/+fnfIeDKtE8ja0FLforW+7x1zXYtkLdZSyT4wKHElKIw4vON8YGC0x3hr2395JJrbk3
+	HbWA==
+X-Received: by 10.15.21.76 with SMTP id c52mr2085813eeu.135.1375374658496;
+	Thu, 01 Aug 2013 09:30:58 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id n5sm5460003eed.9.2013.08.01.09.30.57
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 09:30:57 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Aug 2013 18:01:40 +0300
-Message-Id: <1375369300-13471-5-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <1375369300-13471-1-git-send-email-jukka.rissanen@linux.intel.com>
-References: <1375369300-13471-1-git-send-email-jukka.rissanen@linux.intel.com>
-Subject: [PATCH v2 4/4] ofono: Move do_install() to ofono recipe file
+Date: Thu,  1 Aug 2013 18:26:17 +0200
+Message-Id: <1375374377-2415-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] mesa: inherit gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,47 +40,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 15:01:47 -0000
+X-List-Received-Date: Thu, 01 Aug 2013 16:30:58 -0000
 
-This allows the ofono.inc file to be used by a recipe that does
-not have or use ofono init script.
+* build in clean tmpdir fails with:
+  | make[6]: Entering directory `/OE/mesa/2_9.1.3-r9.0/git/src/mesa/drivers/dri/common/xmlpool'
+  | Updating (de) de/LC_MESSAGES/options.mo from de.po.
+  | Updating (es) es/LC_MESSAGES/options.mo from es.po.
+  | Updating (nl) nl/LC_MESSAGES/options.mo from nl.po.
+  | Updating (fr) fr/LC_MESSAGES/options.mo from fr.po.
+  | /bin/bash: line 4: msgfmt: command not found
+  | make[6]: *** [de/LC_MESSAGES/options.mo] Error 127
+  | Updating (sv) sv/LC_MESSAGES/options.mo from sv.po.
+  | make[6]: *** Waiting for unfinished jobs....
+  | /bin/bash: line 4: msgfmt: command not found
+  | make[6]: *** [es/LC_MESSAGES/options.mo] Error 127
+  | /bin/bash: line 4: msgfmt: command not found
+  | make[6]: *** [nl/LC_MESSAGES/options.mo] Error 127
+  | /bin/bash: line 4: msgfmt: command not found
+  | /bin/bash: line 4: msgfmt: command not found
+  | make[6]: *** [fr/LC_MESSAGES/options.mo] Error 127
+  | make[6]: *** [sv/LC_MESSAGES/options.mo] Error 127
+  | make[6]: Leaving directory `/OE/mesa/2_9.1.3-r9.0/git/src/mesa/drivers/dri/common/xmlpool'
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-connectivity/ofono/ofono.inc     | 5 -----
- meta/recipes-connectivity/ofono/ofono_1.12.bb | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/ofono/ofono.inc b/meta/recipes-connectivity/ofono/ofono.inc
-index 3972e06..5e98be9 100644
---- a/meta/recipes-connectivity/ofono/ofono.inc
-+++ b/meta/recipes-connectivity/ofono/ofono.inc
-@@ -19,11 +19,6 @@ EXTRA_OECONF += "\
- "
- SYSTEMD_SERVICE_${PN} = "ofono.service"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index e888201..447e186 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -19,7 +19,7 @@ DEPENDS = "expat makedepend-native flex-native bison-native"
  
--do_install_append() {
--  install -d ${D}${sysconfdir}/init.d/
--  install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
--}
--
- PACKAGES =+ "${PN}-tests"
+ PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
  
- RDEPENDS_${PN} += "dbus"
-diff --git a/meta/recipes-connectivity/ofono/ofono_1.12.bb b/meta/recipes-connectivity/ofono/ofono_1.12.bb
-index ad524a0..8f5c341 100644
---- a/meta/recipes-connectivity/ofono/ofono_1.12.bb
-+++ b/meta/recipes-connectivity/ofono/ofono_1.12.bb
-@@ -13,3 +13,8 @@ SRC_URI[md5sum] = "aa8924c0e8de3ec7ac5e41fe7df4cb99"
- SRC_URI[sha256sum] = "733b75bfd1b2a1925b6de532989c496b8ae17a746691120ef64cceb00b3ef751"
+-inherit autotools pkgconfig pythonnative
++inherit autotools pkgconfig pythonnative gettext
  
- CFLAGS_append_libc-uclibc = " -D_GNU_SOURCE"
-+
-+do_install_append() {
-+  install -d ${D}${sysconfdir}/init.d/
-+  install -m 0755 ${WORKDIR}/ofono ${D}${sysconfdir}/init.d/ofono
-+}
+ EXTRA_OECONF = "--enable-shared-glapi"
+ 
 -- 
-1.7.11.7
+1.8.3.2
 
 
