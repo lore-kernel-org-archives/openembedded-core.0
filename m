@@ -1,36 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id CE88861883
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
+	[209.85.213.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 86F3961883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 22:08:18 +0000 (UTC)
-Received: by mail-pb0-f54.google.com with SMTP id ro12so2592573pbb.27
+	Thu,  1 Aug 2013 22:14:17 +0000 (UTC)
+Received: by mail-yh0-f52.google.com with SMTP id f11so1247119yha.39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 15:08:19 -0700 (PDT)
+	Thu, 01 Aug 2013 15:14:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=LClxd3QDG4wRVIGLnG0aYiCyh5e01iz6bNfF8jSHmD8=;
-	b=DtE2GsmcwIdeBNB8vyg/ySwFaVevABSwslYAFiYwuef+7RK9LYDP2IasqfAYGSLp4D
-	IeKxpfg5WAdrCWzpC/bi4xh46DV72MQ6VM+wQ8oE4yHx4dLkXLBBrWuyNoVIYqcIbPgD
-	FWNRX9rl7303Zr3tGY2pkVwQQeRGDKGOfzpAaozwWrUoVfOm4L9waiXNLuCd0oMAtn/Q
-	Mm1TUKXxjGlO9ws89+JBshl+yaqm3bdZp0L92quPis4DpCU4O1DuXS8HOyCysgq8TZdB
-	qH/7mJ6zzM5IvlEEyZdoI2xXGkOzR+Qm//1W7q2PybJHTXWBDeFXeRFzpHbOSjJCUekq
-	SjFA==
-X-Received: by 10.66.51.102 with SMTP id j6mr6831801pao.80.1375394899467;
-	Thu, 01 Aug 2013 15:08:19 -0700 (PDT)
-Received: from leo.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id qc5sm6137590pbc.31.2013.08.01.15.08.18
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=u2hMn5m3VAEoFi6Y/ExpJnULVsb8BSkj5tqJM3KIhAg=;
+	b=j15ppgvRw/MtmClbYhWRmjSGjb7Fv8IEupLoeR3ph72CS0vDF8a6PLn1OC4wTrS3WZ
+	9hlD59KnTK/ylUPyHwMeabc03how1XndI46dU5U2SPwRMLqgswz1VpLpcyVpGPewkhsI
+	pcW3uQofR2qEMnBqAZsft66QO/2Y0unrenoao1Fl3tIGWw+t2s6HjnnulgTcLdyQfig+
+	oQdm/ZKOrokylUMIANapbqiWURAwElvfyQbFkH9HBTOEurEc+7a86OfXPTK/oFI9k3EH
+	NSAkvO7IjHdXe1QpiZDQlOntNp1AEF/VwQNgPvV7xfqhTmTwn34twcRlrwuKl4qtXSOx
+	GRdw==
+X-Received: by 10.236.59.38 with SMTP id r26mr2334241yhc.132.1375395257768;
+	Thu, 01 Aug 2013 15:14:17 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([187.23.155.55])
+	by mx.google.com with ESMTPSA id d68sm7322532yhk.7.2013.08.01.15.14.15
 	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 01 Aug 2013 15:08:18 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Aug 2013 15:07:55 -0700
-Message-Id: <1375394875-23238-1-git-send-email-raj.khem@gmail.com>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 01 Aug 2013 15:14:17 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu,  1 Aug 2013 19:13:57 -0300
+Message-Id: <1375395237-17840-1-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.8.3.2
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] gcc-4.8: Fix meta-fsl-arm iperf build issue
+Cc: Evan Kotara <evan.kotara@freescale.com>,
+	Lauren Post <lauren.post@freescale.com>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	Daiane Angolini <daiane.angolini@freescale.com>
+Subject: [PATCH v3] distro_features_check.bbclass: Allow checking of required/conflicting features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,125 +46,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 22:08:19 -0000
+X-List-Received-Date: Thu, 01 Aug 2013 22:14:18 -0000
 
-This should fix the problem seen where gcc ICE
-was happening when compiling iperf with older 2.6.x
-kernel
+This add support to list required/confliting distro features for a
+recipe; this avoids user mistake when building recipes/images which
+would not work depending on DISTRO_FEATURES option set.
 
-Test this patch by reverting below commit in meta-fsl-arm
+Adding:
 
-commit daf582c93a7283fb0af3b25fe2ada48f4c9985c4
-Author: Otavio Salvador <otavio@ossystems.com.br>
-Date:   Tue Jul 2 11:52:51 2013 -0300
+,----[ Use example ]
+| inherit distro_features_check
+|
+| REQUIRED_DISTRO_FEATURES = "x11"
+| CONFLICT_DISTRO_FEATURES_mx6 = "wayland"
+`----
 
-    perf: Disable FPU tune for i.MX5 SoCs to workaround GCC ICE
+In the image recipe allow us to make clear to user that this image
+needs X11 and /cannot/ be build with Wayland support in i.MX6
+platforms, for example.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-CC: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/recipes-devtools/gcc/gcc-4.8.inc              |    1 +
- .../gcc/gcc-4.8/0042-pr57748.patch                 |   78 ++++++++++++++++++++
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch
+Changes in v3:
+- Move code from base.bbclass to distro_features_check.bbclass
+- Rework code
+- Rework commit log
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 42355f2..9d92eda 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -71,6 +71,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0039-gcc-4.8-PR57717.patch \
- 	   file://0040-fix-g++-sysroot.patch \
- 	   file://0041-libtool-avoid-libdir.patch \
-+	   file://0042-pr57748.patch \
- 	  "
- SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
- SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch b/meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch
+Changes in v2:
+- Rename to REQUIRED_DISTRO_FEATURES;
+- Remove spurious bb.note;
+- Rewrote error message;
+
+ meta/classes/distro_features_check.bbclass | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 meta/classes/distro_features_check.bbclass
+
+diff --git a/meta/classes/distro_features_check.bbclass b/meta/classes/distro_features_check.bbclass
 new file mode 100644
-index 0000000..5356f72
+index 0000000..61b11b7
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/0042-pr57748.patch
-@@ -0,0 +1,78 @@
-+Upstream-Status: Backport
-+Signed-off-by: Khem Raj
++++ b/meta/classes/distro_features_check.bbclass
+@@ -0,0 +1,28 @@
++# Allow checking of required and conflicting DISTRO_FEATURES
++#
++# REQUIRED_DISTRO_FEATURES: ensure every item on this list is included
++#                           in DISTRO_FEATURES.
++# CONFLICT_DISTRO_FEATURES: ensure no item in this list is included in
++#                           DISTRO_FEATURES.
++#
++# Copyright 2013 (C) O.S. Systems Software LTDA.
 +
-+2013-08-01  Martin Jambor  <mjambor@suse.cz>
++python () {
++    required_distro_features = d.getVar('REQUIRED_DISTRO_FEATURES', True)
++    if required_distro_features:
++        required_distro_features = required_distro_features.split()
++        distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
++        for f in required_distro_features:
++            if f in distro_features:
++                break
++        else:
++            raise bb.parse.SkipPackage("missing required distro feature %s (not in DISTRO_FEATURES)" % required_distro_features)
 +
-+	PR middle-end/57748
-+	* stor-layout.c (compute_record_mode): Treat zero-sized array fields
-+	like incomplete types.
-+
-+testsuite/
-+	* gcc.dg/torture/pr57748.c: New test.
-+
-+
-+Index: gcc-4.8.1/gcc/stor-layout.c
-+===================================================================
-+--- gcc-4.8.1.orig/gcc/stor-layout.c	2013-04-28 10:29:18.000000000 -0700
-++++ gcc-4.8.1/gcc/stor-layout.c	2013-08-01 15:02:08.018006125 -0700
-+@@ -1618,7 +1618,9 @@
-+ 		   && integer_zerop (TYPE_SIZE (TREE_TYPE (field)))))
-+ 	  || ! host_integerp (bit_position (field), 1)
-+ 	  || DECL_SIZE (field) == 0
-+-	  || ! host_integerp (DECL_SIZE (field), 1))
-++	  || ! host_integerp (DECL_SIZE (field), 1)
-++	  || (TREE_CODE (TREE_TYPE (field)) == ARRAY_TYPE
-++	      && tree_low_cst (DECL_SIZE (field), 1) == 0))
-+ 	return;
-+ 
-+       /* If this field is the whole struct, remember its mode so
-+Index: gcc-4.8.1/gcc/testsuite/gcc.dg/torture/pr57748.c
-+===================================================================
-+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
-++++ gcc-4.8.1/gcc/testsuite/gcc.dg/torture/pr57748.c	2013-08-01 15:02:08.062006126 -0700
-+@@ -0,0 +1,45 @@
-++/* PR middle-end/57748 */
-++/* { dg-do run } */
-++
-++#include <stdlib.h>
-++
-++extern void abort (void);
-++
-++typedef long long V
-++  __attribute__ ((vector_size (2 * sizeof (long long)), may_alias));
-++
-++typedef struct S { V a; V b[0]; } P __attribute__((aligned (1)));
-++
-++struct __attribute__((packed)) T { char c; P s; };
-++
-++void __attribute__((noinline, noclone))
-++check (struct T *t)
-++{
-++  if (t->s.b[0][0] != 3 || t->s.b[0][1] != 4)
-++    abort ();
-++}
-++
-++int __attribute__((noinline, noclone))
-++get_i (void)
-++{
-++  return 0;
-++}
-++
-++void __attribute__((noinline, noclone))
-++foo (P *p)
-++{
-++  V a = { 3, 4 };
-++  int i = get_i();
-++  p->b[i] = a;
-++}
-++
-++int
-++main ()
-++{
-++  struct T *t = (struct T *) malloc (128);
-++
-++  foo (&t->s);
-++  check (t);
-++
-++  return 0;
-++}
++    conflict_distro_features = d.getVar('CONFLICT_DISTRO_FEATURES', True)
++    if conflict_distro_features:
++        conflict_distro_features = conflict_distro_features.split()
++        distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
++        for f in conflict_distro_features:
++            if f in distro_features:
++                raise bb.parse.SkipPackage("conflicting distro feature %s (in DISTRO_FEATURES)" % conflict_distro_features)
++}
 -- 
-1.7.9.5
+1.8.3.2
 
 
