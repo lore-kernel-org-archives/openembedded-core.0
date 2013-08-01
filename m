@@ -1,39 +1,28 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 86F3961883
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 87A6361883
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 22:14:17 +0000 (UTC)
-Received: by mail-yh0-f52.google.com with SMTP id f11so1247119yha.39
+	Thu,  1 Aug 2013 23:21:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r71NLmgm000940
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 01 Aug 2013 15:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=u2hMn5m3VAEoFi6Y/ExpJnULVsb8BSkj5tqJM3KIhAg=;
-	b=j15ppgvRw/MtmClbYhWRmjSGjb7Fv8IEupLoeR3ph72CS0vDF8a6PLn1OC4wTrS3WZ
-	9hlD59KnTK/ylUPyHwMeabc03how1XndI46dU5U2SPwRMLqgswz1VpLpcyVpGPewkhsI
-	pcW3uQofR2qEMnBqAZsft66QO/2Y0unrenoao1Fl3tIGWw+t2s6HjnnulgTcLdyQfig+
-	oQdm/ZKOrokylUMIANapbqiWURAwElvfyQbFkH9HBTOEurEc+7a86OfXPTK/oFI9k3EH
-	NSAkvO7IjHdXe1QpiZDQlOntNp1AEF/VwQNgPvV7xfqhTmTwn34twcRlrwuKl4qtXSOx
-	GRdw==
-X-Received: by 10.236.59.38 with SMTP id r26mr2334241yhc.132.1375395257768;
-	Thu, 01 Aug 2013 15:14:17 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([187.23.155.55])
-	by mx.google.com with ESMTPSA id d68sm7322532yhk.7.2013.08.01.15.14.15
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 01 Aug 2013 15:14:17 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu,  1 Aug 2013 19:13:57 -0300
-Message-Id: <1375395237-17840-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.3.2
-Cc: Evan Kotara <evan.kotara@freescale.com>,
-	Lauren Post <lauren.post@freescale.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Daiane Angolini <daiane.angolini@freescale.com>
-Subject: [PATCH v3] distro_features_check.bbclass: Allow checking of required/conflicting features
+	Thu, 1 Aug 2013 16:21:48 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.230) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 1 Aug 2013 16:21:48 -0700
+Message-ID: <51FAED8B.6060802@windriver.com>
+Date: Thu, 1 Aug 2013 18:21:47 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1375295590-1887-1-git-send-email-rich.tollerton@ni.com>
+In-Reply-To: <1375295590-1887-1-git-send-email-rich.tollerton@ni.com>
+Subject: Re: [master, dylan][PATCH v2] shadow: Fix build when DISTRO_FEATURES contains pam, libc-crypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,76 +35,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 22:14:18 -0000
+X-List-Received-Date: Thu, 01 Aug 2013 23:21:48 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This add support to list required/confliting distro features for a
-recipe; this avoids user mistake when building recipes/images which
-would not work depending on DISTRO_FEATURES option set.
+On 7/31/13 1:33 PM, Richard Tollerton wrote:
+> shadow falsely assumes that if --enable-libpam is set, it doesn't need to link
+> against libcrypt; this breaks chsh. (This same fix exists in Arch.)
+>
+> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
 
-Adding:
+This change is working for me.
 
-,----[ Use example ]
-| inherit distro_features_check
-|
-| REQUIRED_DISTRO_FEATURES = "x11"
-| CONFLICT_DISTRO_FEATURES_mx6 = "wayland"
-`----
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
 
-In the image recipe allow us to make clear to user that this image
-needs X11 and /cannot/ be build with Wayland support in i.MX6
-platforms, for example.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-Changes in v3:
-- Move code from base.bbclass to distro_features_check.bbclass
-- Rework code
-- Rework commit log
-
-Changes in v2:
-- Rename to REQUIRED_DISTRO_FEATURES;
-- Remove spurious bb.note;
-- Rewrote error message;
-
- meta/classes/distro_features_check.bbclass | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
- create mode 100644 meta/classes/distro_features_check.bbclass
-
-diff --git a/meta/classes/distro_features_check.bbclass b/meta/classes/distro_features_check.bbclass
-new file mode 100644
-index 0000000..61b11b7
---- /dev/null
-+++ b/meta/classes/distro_features_check.bbclass
-@@ -0,0 +1,28 @@
-+# Allow checking of required and conflicting DISTRO_FEATURES
-+#
-+# REQUIRED_DISTRO_FEATURES: ensure every item on this list is included
-+#                           in DISTRO_FEATURES.
-+# CONFLICT_DISTRO_FEATURES: ensure no item in this list is included in
-+#                           DISTRO_FEATURES.
-+#
-+# Copyright 2013 (C) O.S. Systems Software LTDA.
-+
-+python () {
-+    required_distro_features = d.getVar('REQUIRED_DISTRO_FEATURES', True)
-+    if required_distro_features:
-+        required_distro_features = required_distro_features.split()
-+        distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
-+        for f in required_distro_features:
-+            if f in distro_features:
-+                break
-+        else:
-+            raise bb.parse.SkipPackage("missing required distro feature %s (not in DISTRO_FEATURES)" % required_distro_features)
-+
-+    conflict_distro_features = d.getVar('CONFLICT_DISTRO_FEATURES', True)
-+    if conflict_distro_features:
-+        conflict_distro_features = conflict_distro_features.split()
-+        distro_features = (d.getVar('DISTRO_FEATURES', True) or "").split()
-+        for f in conflict_distro_features:
-+            if f in distro_features:
-+                raise bb.parse.SkipPackage("conflicting distro feature %s (in DISTRO_FEATURES)" % conflict_distro_features)
-+}
--- 
-1.8.3.2
+> ---
+>   meta/recipes-extended/shadow/shadow_4.1.4.3.bb | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+> index caf24c0..108e11e 100644
+> --- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+> +++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+> @@ -37,6 +37,10 @@ EXTRA_OECONF += "--without-audit \
+>                    --without-selinux"
+>   EXTRA_OECONF_libc-uclibc += "--with-nscd=no"
+>
+> +# Build falsely assumes that if --enable-libpam is set, we don't need to link against
+> +# libcrypt. This breaks chsh.
+> +BUILD_LDFLAGS += "${@base_contains('DISTRO_FEATURES', 'pam', base_contains('DISTRO_FEATURES', 'libc-crypt',  '-lcrypt', '', d), '', d)}"
+> +
+>   PAM_PLUGINS = "libpam-runtime \
+>                  pam-plugin-faildelay \
+>                  pam-plugin-securetty \
+>
 
 
