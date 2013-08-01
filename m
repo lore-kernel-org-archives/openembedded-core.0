@@ -1,24 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 3023D6B48F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
+	[209.85.214.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD946B1ED
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 17:17:21 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Aug 2013 10:17:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,795,1367996400"; d="scan'208";a="340243465"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.169])
-	by azsmga001.ch.intel.com with ESMTP; 01 Aug 2013 10:17:21 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  1 Aug 2013 18:17:17 +0100
-Message-Id: <3b75fb5b6349ec4e06a28eeab093a55f0eca0b53.1375377305.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1375377305.git.paul.eggleton@linux.intel.com>
-References: <cover.1375377305.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1375377305.git.paul.eggleton@linux.intel.com>
-References: <cover.1375377305.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 2/2] classes/sanity: fix some grammatical errors in messages
+	Thu,  1 Aug 2013 17:17:36 +0000 (UTC)
+Received: by mail-ob0-f175.google.com with SMTP id xn12so4348803obc.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 01 Aug 2013 10:17:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=fclMzWdaHTMsBVouVluQiA8/8e2vfHG+M7dHDfJwqKA=;
+	b=WCymESfP0wq6rb0dwzJfXhvOikEUe2muBIe07gN6sXJs8uOGrKS33/ND1oidU9CQl2
+	LUzi4+3bh6ki9BOXqqyRxJeeuFAPrMSqGCnLzl2LnG8X6ntj3AB1DbXM42UyDmloglqz
+	SxFpfKzqePM9VcWc3wGSVPiovbszaJSz4RiZQu7TK2DTDxl8Of4wbp5g3zA5CjAN4mZH
+	f9lDwImRezADr9LFCQSxr9QHbx+iHQlBqKXMPEisoG3P+y3pp2rMyyGeGQ1a6iDjtBF+
+	rCu+at+SqGb4ByKTmtePsHArmZ6O5m/rGPNpjwUTj8eMcnOY0c1eO2Vhvud5Uf3WovzT
+	KlaA==
+MIME-Version: 1.0
+X-Received: by 10.60.124.228 with SMTP id ml4mr2056547oeb.47.1375377456502;
+	Thu, 01 Aug 2013 10:17:36 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 1 Aug 2013 10:17:36 -0700 (PDT)
+In-Reply-To: <CAOMwXhO-g9N3b0b27jrmZYbgDwPDNziJFF9_ryGbXF+RgBZyCw@mail.gmail.com>
+References: <1375351656-12261-1-git-send-email-ross.burton@intel.com>
+	<CAP9ODKrXScWCUTfL8_hO6Jm+gFHUbzgADZoBd-iW7xjZW1679w@mail.gmail.com>
+	<CAOMwXhM5ofGEhzDoQCiuuknpuFyg+6vB-LwuNh8m9yibmGFT3Q@mail.gmail.com>
+	<1981575.9KzFInvyxm@helios>
+	<CAOMwXhO-g9N3b0b27jrmZYbgDwPDNziJFF9_ryGbXF+RgBZyCw@mail.gmail.com>
+Date: Thu, 1 Aug 2013 14:17:36 -0300
+X-Google-Sender-Auth: 5lkPmSCzA8Zx9KKSpgfz7tc6WYw
+Message-ID: <CAP9ODKr3g-rSDftBo9uyeUGJUFn2dzSRjgySRxoK8CNOSH3z7Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][V2] u-boot: state the MACHINE when skipping u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +48,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 17:17:21 -0000
+X-List-Received-Date: Thu, 01 Aug 2013 17:17:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/sanity.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On Thu, Aug 1, 2013 at 2:09 PM, Laszlo Papp <lpapp@kde.org> wrote:
+> On Thu, Aug 1, 2013 at 6:02 PM, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+>>
+>> I'm afraid this is not practical. The ability to specify the value for
+>> MACHINE
+>> and other variables from the external environment is not just there for
+>> folks
+>> running bitbake manually from the command line, but also external scripts
+>> as
+>> well, and they could quite legitimately set it to the same value that has
+>> been
+>> specified in the configuration file and showing a warning in that case
+>> would be
+>> undesirable.
+>
+>
+> Oh yeah, it cannot happen with compiler outputs the same way? Answer is: it
+> can.
+>
+> You can add another feature later though if you wish to suppress warnings.
+> That makes sense to me.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index cc67490..4df3ca8 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -522,7 +522,7 @@ def check_sanity_version_change(status, d):
-         status.addresult("Your gcc version is older than 4.5, please add the following param to local.conf\n \
-         %s\n" % message)
-     if not result:
--        status.addresult("Your gcc version is older then 4.5 or is not working properly.  Please verify you can build")
-+        status.addresult("Your gcc version is older than 4.5 or is not working properly.  Please verify you can build")
-         status.addresult(" and link something that uses atomic operations, such as: \n")
-         status.addresult("        __sync_bool_compare_and_swap (&atomic, 2, 3);\n")
- 
-@@ -567,7 +567,7 @@ def check_sanity_version_change(status, d):
- 
-     oes_bb_conf = d.getVar( 'OES_BITBAKE_CONF', True)
-     if not oes_bb_conf:
--        status.addresult('You do not include the OpenEmbedded version of conf/bitbake.conf. This means your environment is misconfigured, in particular check BBPATH.\n')
-+        status.addresult('You are not using the OpenEmbedded version of conf/bitbake.conf. This means your environment is misconfigured, in particular check BBPATH.\n')
- 
-     # The length of tmpdir can't be longer than 410
-     status.addresult(check_path_length(tmpdir, "TMPDIR", 410))
-@@ -631,7 +631,7 @@ def check_sanity_everybuild(status, d):
-     if d.getVar( 'IMAGETEST', True ) == 'qemu':
-         display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
-         if not display:
--            status.addresult('qemuimagetest needs a X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n')
-+            status.addresult('qemuimagetest needs an X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n')
- 
-     omask = os.umask(022)
-     if omask & 0755:
+It makes sense to not add the warning. Too many warnings just confuse
+users and does not provide anything useful as users just ignore them
+in the end.
+
+>> I'm not sure I understand the value of showing this warning in any case.
+>> The
+>> system is not going to do anything that the user won't expect - the user
+>> specified the value of MACHINE on the command line and that's the value
+>> that is
+>> being used. The fact that it is the same as what's in the configuration
+>> file is
+>> incidental.
+>
+>
+> Have you used gcc, clang, etc? Do you have experience with warnings in
+> general? They are there in certain cases because the programmer may have or
+> probably made a mistake. It is a lot easier to figure out at that time than
+> debugging very hard later...
+
+<sarcarsm>
+I am sure we all in Yocto community NEVER used GCC/CLang...
+</sarcarsm>
+
+Did you EVER read your own messages? Please do.
+
+> Actually, it is even getting more serious in your "script" case where it
+> would be totally hidden by the script if it is not logging properly, and you
+> would only realize an issue later.
+>
+> Surely, we all copy paste wrong on a daily basis, and we also write "foo"
+> instead "fow" and "bar" at times. So, I do not follow your comment. Nothing
+> to reinvent the wheel here, just follow the general practice that other
+> software developers have figured out along the decades.
+
+That's the point; we are folloing Yocto general practice and doing it
+different here won't help. Just confuse.
+
+Regards,
+
 -- 
-1.8.1.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
