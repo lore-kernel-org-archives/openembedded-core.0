@@ -1,50 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E41B26A39D
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-bk0-f51.google.com (mail-bk0-f51.google.com
+	[209.85.214.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 734386B1FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  1 Aug 2013 04:32:46 +0000 (UTC)
-Received: by mail-pd0-f179.google.com with SMTP id v10so1562297pde.10
+	Thu,  1 Aug 2013 06:11:52 +0000 (UTC)
+Received: by mail-bk0-f51.google.com with SMTP id ji2so522003bkc.24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 31 Jul 2013 21:32:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to:x-mailer;
-	bh=n/Mx5TrIMNkNfMn/oVzik+zwZS1zf7QcADjQO+prPHc=;
-	b=KMKDVBQUYIDG+1xKsylbx/4m6i/ozRA4kopjVe1Z0KFTLwBCOyaEOHeJ0nJ78pVjBk
-	n6ZrTLOoOFLMtlQOo93gvkIFvZ+Qk6xCKdVjgxHTPZHwRglO80o0c3Hp2C4JvnYejUy/
-	104VbC9SsN0oQZiD6zo8oqf/DkbRHWDv/k2uoFUId2SZmp1CSAQLvxRJo1OSqxuDquuG
-	j3hb2tZzgjUz2aZ+oIrwNr+LPbUlojCYopgmoXSF5clk/yp8PR/C7+srhBYo0zHF3FLq
-	bk7/H0yOJTE9rrGPQ2x/gMjdFMKMrZ2xIQBdB1srWoXN3Cr+cDS5q2qqsKayfx3U1eAL
-	ZQ3w==
-X-Received: by 10.68.164.225 with SMTP id yt1mr9386531pbb.195.1375331567384;
-	Wed, 31 Jul 2013 21:32:47 -0700 (PDT)
-Received: from sa-nc-spg-213.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id wr9sm1393127pbc.7.2013.07.31.21.32.45
+	Wed, 31 Jul 2013 23:11:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:x-enigmail-version:content-type
+	:content-transfer-encoding:x-gm-message-state;
+	bh=IfFErQWbjXx+cIIIAURyYNlf/yrMPF9ou5FJqKEtQvo=;
+	b=DB7Gam//vyG7W6g4LwCi0GF74SOlGJ5Vv3oaziy7pExT+7MjkXZqz9b6uOVvF5Joqv
+	0/eIK62luKLyFicEo/SAAuP46V1FxAEmjsGROcDFCTGyV4blWrFWR891AXPrOi68Nau3
+	GvKoZtXZWCvrch5PE8ub0FMnGo5iUoPl1H9BJu2saN8pfZUPO/pMMNsXeRo4krRqkkIu
+	79T4mE8nbblkx9c8hbGsKJYX31jmCaEKRjeVNTtIXHm2WLigBaFM0uRGvonRbS50sY/4
+	hvgnUo95L9JiLUYP3nwjWBrbgGZUHsCJxw8Ws09UggQKSwrX/HJGtLDWTBoeZD7d+MxM
+	TtWw==
+X-Received: by 10.204.77.199 with SMTP id h7mr4663540bkk.112.1375337512160;
+	Wed, 31 Jul 2013 23:11:52 -0700 (PDT)
+Received: from fensuse.internal.dresearch-fe.de (zk223.dresearch-fe.de.
+	[217.92.177.116])
+	by mx.google.com with ESMTPSA id oe7sm129687bkb.5.2013.07.31.23.11.50
 	for <multiple recipients>
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 31 Jul 2013 21:32:46 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <51F99839.4020003@linux.intel.com>
-Date: Wed, 31 Jul 2013 21:32:45 -0700
-Message-Id: <1883FC1F-8A5F-4FB4-B849-EF9BCE544A3C@gmail.com>
-References: <cover.1372456294.git.raj.khem@gmail.com>
-	<20130629053844.GQ3261@jama>
-	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
-	<20130629153101.GV3261@jama>
-	<45F76803-CA83-4DAC-A972-EE4CB8FEE054@gmail.com>
-	<51F97628.9040801@linux.intel.com>
-	<7705A938-20F6-4100-AB3A-99BDF5023118@gmail.com>
-	<13A232F2-9B2C-427E-B5F0-26138984D099@gmail.com>
-	<51F9948F.1000908@linux.intel.com>
-	<08E217DF-FA59-4DAB-BB7F-0369A4BB3165@gmail.com>
-	<51F99839.4020003@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/24] Add python3 recipes
+	Wed, 31 Jul 2013 23:11:51 -0700 (PDT)
+Message-ID: <51F9FC24.3070907@dresearch-fe.de>
+Date: Thu, 01 Aug 2013 08:11:48 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <51ECCF5C.2020505@dresearch-fe.de> <6366141.Q5aULPr4OG@helios>
+	<51F8E0C2.3070102@dresearch-fe.de> <8337615.XrjW46moIm@helios>
+In-Reply-To: <8337615.XrjW46moIm@helios>
+X-Enigmail-Version: 1.5.2
+X-Gm-Message-State: ALoCoQnxFY9Gyk7ffeuS7fWGLG8E0Df59G+VBRzGPPwEWJcNP4/HplGos/qjNV1QXUseQD0Ulc5v
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] SRC_URI and latest HEAD revision with git (in oe-classic)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,58 +54,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Aug 2013 04:32:47 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 01 Aug 2013 06:11:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
 
+On 31.07.2013 14:50, Paul Eggleton wrote:
+> On Wednesday 31 July 2013 12:02:42 Steffen Sledz wrote:
+>> On 22.07.2013 11:51, Paul Eggleton wrote:
+>>> On Monday 22 July 2013 11:46:23 Steffen Sledz wrote:
+>>>> On 22.07.2013 11:01, Nicolas Dechesne wrote:
+>>>>> On Mon, Jul 22, 2013 at 8:21 AM, Steffen Sledz <sledz@dresearch-fe.de
+>>>>>
+>>>>> <mailto:sledz@dresearch-fe.de>> wrote:
+>>>>>> After being OE abstinent for some months i'd like to ask what is the
+>>>>>> current suggested method for recipes building from the HEAD revision of
+>>>>>> a git repository (we need this for continuous integration).
+>>>>>>
+>>>>>> I read some RFC's in the ml about PKGV/PKGR stuff, but i miss a final
+>>>>>> decision, documentation and a good example.>
+>>>>>
+>>>>> you can use ${AUTOREV} for this purpose. You can look at poky-bleeding
+>>>>> distro config for such an example.
+>>>>>
+>>>>> e.g.
+>>>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf/dist
+>>>>> r
+>>>>> o/include/poky-floating-revisions.inc
+>>>>
+>>>> Hmmmm? This doesn't seem the work.
+>>>>
+>>>> Here's what i tried in my recipe:
+>>>>
+>>>> ------------> snip <------------
+>>>> PR = "r3"
+>>>>
+>>>> SRCREV="${AUTOREV}"
+>>>> PV = "gitr${SRCPV}"
+>>>> ------------> snip <------------
+>>>>
+>>>> But i get package versions like
+>>>>
+>>>>   gitr0+53b64e717404d282d0c58b7fa4a4e74ab2ca81ba-r3
+>>>>
+>>>> where SRCPB is always 0. :(
+>>>>
+>>>> A bit more description and/or a complete example would be very helpful.
+>>>
+>>> If you want these to increment now AIUI you need to be using the PR
+>>> server:
+>>>
+>>> https://wiki.yoctoproject.org/wiki/PR_Service
+>>
+>> And here comes my next really big problem. :(
+>>
+>> We're sitting on an big, old but active project based on oe-classic and
+>> bitbake 1.12.0. Irksomely we're forced to switch from SVN to GIT for this
+>> project. So we need the AUTOREV/PRSERV stuff for this old environment too.
+>>
+>> Has anyone tried to backport the feature to an older bitbake/oe-classic
+>> environment? Or can someone give some hints what's to do?
+> 
+> I'm not sure, but my gut feeling is you'd be better off trying to bring the 
+> project up to be based on OE-Core rather than trying to bring such 
+> functionality back to OE-Classic, particularly since for full functionality it 
+> requires signature-based tasks that are only supported with current versions 
+> of bitbake and require support from the metadata. You'd be trading some 
+> hopefully short-term pain for long-term gain if the project is going to 
+> continue for a reasonable amount of time.
 
-On Jul 31, 2013, at 4:05 PM, Saul Wold <sgw@linux.intel.com> wrote:
+I was afraid to get this answer. ;-)
 
-> On 07/31/2013 03:51 PM, Khem Raj wrote:
->>=20
->> On Jul 31, 2013, at 3:49 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>=20
->>>=20
->>> Still seems to failing in Jinja, I wonder if the dependencies are =
-correctly sinec it's nooking for native bits and the python3-native had =
-not been installed yet.
->>>=20
->>>=20
->>=20
->> in my build from scratch several times, I never had this issue. Did =
-you do an incremental build to get to this issue ?
->>=20
->=20
-> Yes, most of my builds are incremental until I throw them against the =
-Autobuilder!
+Unfortunately we do not have the manpower to bring up this old project to oe-core. Our team is working hard on a follow-up project based on oe-core.
 
-OK. I will try to cleansstate python3-native and rebuild python3-jinja =
-and see if I can reproduce it
+I read something about a solution using
 
->=20
-> It seems that I also got a do_package failure, seems like it might be =
-a host contamination issue
->=20
->> NOTE: DO PACKAGE QA
->> ERROR: QA Issue: python3: The compile log indicates that host include =
-and/or library paths were used.
+  BB_GIT_CLONE_FOR_SRCREV = "1"
+  BB_LOCALCOUNT_OVERRIDE = ""
 
+which should be supported by the old oe-classic/bitbake-1.12.0. Could this be a solution for our problem? What drawbacks does it have?
 
-That is known and  its because python machinery adds -L /usr/lib at link =
-line it is harmless since nothing from that
-path is picked up. To get this removed, I planned to work on it as =
-follow up patch since this needs some deeper look
+Steffen
 
-
->>         Please check the log =
-'/srv/hdd/builds/world/tmp/work/mips32-poky-linux/python3/3.3.2-r0.0/temp/=
-log.do_compile' for more information.
->> NOTE: Checking Package: libpython3
->=20
-> I attached my do_compile log.
->=20
-> Sau!
->=20
-> <log.do_compile>
-
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
