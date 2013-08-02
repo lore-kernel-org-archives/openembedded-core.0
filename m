@@ -1,31 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FF9F6B0D8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
+	[209.85.212.50])
+	by mail.openembedded.org (Postfix) with ESMTP id DF0D16B0D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 15:47:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r72FlOtp007073
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  2 Aug 2013 15:47:35 +0000 (UTC)
+Received: by mail-vb0-f50.google.com with SMTP id x14so758785vbb.23
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 2 Aug 2013 08:47:25 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.230) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 2 Aug 2013 08:47:24 -0700
-Message-ID: <51FBD48C.9080209@windriver.com>
-Date: Fri, 2 Aug 2013 10:47:24 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	Fri, 02 Aug 2013 08:47:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=XH5irB8Rpd0Ss0+qgPVD6CZQ89qW9RZ7EyT1RL+BDfE=;
+	b=HonoHPw3Tko6+Gn81UE5HWB2G8NQ+Z/I0fSxOLnXToFMN43OuXOv03L/wv9juGznu8
+	mLaTG+moZQU4y9SLquYMLak67dTJvewwwLFgrdZ5eswXrdcli90VxTzKNtyC06w3U3l4
+	Id1Q1H/BtHyxijrh3sXY9Shml0FGJlZfIkmEwl8d6DBZQInT08EpMIgnSr0oV3hbVuHZ
+	smUb9jQpkK4SPPCFy9dM7yKPGMMfa91yu2VWQhCT55F8ccYabJUH8IO9l7U50qZ5eqvW
+	jNrivXc6yaoC0t5wu1i6BHUGhC1mXobkymsBM7/0XXcJbfBDbtMdifDhACLfkYz+DLPK
+	f99g==
+X-Received: by 10.58.181.225 with SMTP id dz1mr2204428vec.95.1375458456499;
+	Fri, 02 Aug 2013 08:47:36 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CALaXJ9nQCTk==sDA2UySBBwRd_g_gqvO0F=_r7gK14gQE-rKwQ@mail.gmail.com>
-	<loom.20130726T142233-407@post.gmane.org>
-	<20130726135617.GA17824@lpalcu-linux>
-	<89483D19B008F748B6F04D85F328657A0EE1E1D1@039-SN1MPN1-002.039d.mgd.msft.net>
-In-Reply-To: <89483D19B008F748B6F04D85F328657A0EE1E1D1@039-SN1MPN1-002.039d.mgd.msft.net>
-Subject: Re: Issue of Yocto multilib sdk
+Received: by 10.220.71.201 with HTTP; Fri, 2 Aug 2013 08:47:16 -0700 (PDT)
+In-Reply-To: <1884229.ooeQbcBQ1r@helios>
+References: <cover.1375456955.git.sgw@linux.intel.com>
+	<1884229.ooeQbcBQ1r@helios>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 2 Aug 2013 16:47:16 +0100
+Message-ID: <CAJTo0LZu2=L+-UMshWR-dNh2M7+vO-Bbo=XP-z8pfxYVhJ6HqA@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Gm-Message-State: ALoCoQnWSzfEV9mCcSrMIemm8AoKdyCrJVk5uqQ4G+riO1Dc/sewoF+Exduw7EVZ7fWmGATjiI6J
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/45] Final Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,64 +44,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 15:47:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Aug 2013 15:47:36 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 8/2/13 5:10 AM, Sardan Alexandru Cezar-B41700 wrote:
->>
->> There could be several issues here:
->> 1. default library path for 64bit is wrong... You can inspect it by
->> looking at SEARCH_DIR in the linker script. Just run:
->>
->> $CC -o mytest -Wl,-verbose mytest.c
->>
->> Then you can try to set the library path explicitly with -L. See if it
->> works.
->>
->> 2. you don't have the 64bit libraries and it falls back to looking into
->> /lib or /usr/lib which contain the 32bit libraries...
->>
->> Do you have any lib64/ usr/lib64/ in your target sysroot?
->>
->
-> [Alex Sardan] Yes, it seems that the 64bit libraries are not being
-> installed in the sysroot.
-> What is the right way of adding them? I tried adding libgcc to
-> MULTILIB_IMAGE_INSTALL but it doesn't do the trick.
+On 2 August 2013 16:35, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+> Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-By default all libraries end up in 'lib' (no suffix).  When you enable the 
-multilib support, the lib directory depends on the multilib you are compiling 
-(and installing).
+Acked-By: Ross Burton <ross.burton@intel.com>
 
-i.e.:
-MACHINE = "<some 64bit ppc capable machine>"
-
-require conf/multilib.conf
-DEFAULTTUNE = "ppc"
-MULTILIBS = "multilib:lib64"
-DEFAULTTUNE_virtclass-multilib-lib64 = "ppc64"
-
-
-If you enable the multilib support, and then build with:
-
-bitbake lib64-core-image-minimal  -- you should see an all 'lib64' 
-core-image-minimal (assuming lib64 is your alternative library name)
-
-IMAGE_INSTALL_append = " lib64-bash"
-
-Should switch bash to being the 64-bit version, and install all of the necessary 
-libraries -- in addition to the 32-bit items being default.
-
---Mark
-
-> Thanks,
-> Alex
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
+Ross
 
