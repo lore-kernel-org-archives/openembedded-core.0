@@ -1,35 +1,25 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-ea0-f181.google.com (mail-ea0-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 23A236B0D8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C8E860886
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 19:41:19 +0000 (UTC)
-Received: by mail-ea0-f181.google.com with SMTP id d10so518139eaj.26
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2013 12:41:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=YibhD6tf+rxMlsbef8FeFB6l12wtKSyMrXfOettJXm0=;
-	b=wQup99CRDaLb0WP/J4FseCSEtGLvI4/RyelqQmKCnZagyzHmCKyETl704ASR6z87uj
-	ICWpT97tAEo9Uk/WF+58WjIrluyZ6dx+ap9GadH6Ge+YlZ0Vyltdpk0oq9Fi9nKx8M+m
-	wwQEerxhluO2VzjTyn/VD1Fr3n1bCUJcEVHJyKTB511yIAJx1O+puSt61IGbjtIr/Jcr
-	399kITwSPRy0lVJR2Vz1TCBJG7EF0S8Ezu+1qGttoV4fNzF1oAybMOjN2DX29jpsBDxK
-	SXWOCslL++nyfoQe/Fq+k5x9WDbcqxk6xSJkMbgl3gXPK1Pck1nok6c78vcKEmFksskA
-	89WQ==
-X-Received: by 10.15.21.199 with SMTP id d47mr6939404eeu.36.1375472479861;
-	Fri, 02 Aug 2013 12:41:19 -0700 (PDT)
-Received: from ubuntu.datv.net ([213.174.0.226])
-	by mx.google.com with ESMTPSA id e1sm2656187eev.8.2013.08.02.12.41.18
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 02 Aug 2013 12:41:19 -0700 (PDT)
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 22:41:07 +0300
-Message-Id: <1375472467-8051-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH v1] btrfs-tools: upgrade to upstream revision.
+	Fri,  2 Aug 2013 20:57:00 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2013 13:57:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,803,1367996400"; d="scan'208";a="276966176"
+Received: from unknown (HELO [10.255.13.203]) ([10.255.13.203])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 13:57:00 -0700
+Message-ID: <51FC1D1A.10608@linux.intel.com>
+Date: Fri, 02 Aug 2013 13:56:58 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Yevhen Kyriukha <kirgene@gmail.com>
+References: <1375472467-8051-1-git-send-email-kirgene@gmail.com>
+In-Reply-To: <1375472467-8051-1-git-send-email-kirgene@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v1] btrfs-tools: upgrade to upstream revision.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,126 +32,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 19:41:21 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 20:57:01 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
----
- ...ix_race_condition_with_multithreaded_make.patch | 36 ----------------------
- .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   | 31 -------------------
- .../btrfs-tools/btrfs-tools_git.bb                 | 13 +++-----
- 3 files changed, 4 insertions(+), 76 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
-deleted file mode 100644
-index 40175b8..0000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Upstream-Status: Pending
--
--Fix makefile for multithreaded (make -j ) building.
--
--btrfsctl.c
--| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
--| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
--| compilation terminated.
--| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
--| compilation terminated.
--
--Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
--2012/01/02
--
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -26,14 +26,13 @@ else
-- 	check = ls
-- endif
-- 
---.c.o:
--+%.o: %.c version.h
-- 	$(check) $<
-- 	$(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
-- 
--+all: $(progs) manpages
-- 
---all: version $(progs) manpages
---
---version:
--+version.h: version.sh
-- 	bash version.sh
-- 
-- btrfs: $(objects) btrfs.o btrfs_cmds.o scrub.o
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-deleted file mode 100644
-index 7f6594a..0000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
--Upstream-Status: Pending
--
--Avoid these kinds of errors while doing cross build:
--
--| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
--| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl btrfsctl.o ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1  -Wl,--as-needed -luuid
--| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is incompatible with i386:x86-64 output
--| /usr/bin/ld: i386 architecture of input file `ctree.o' is incompatible with i386:x86-64 output
--
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
-- 		$(objects) $(LDFLAGS) $(LIBS)
-- 
-- calc-size: $(objects) calc-size.o
---	gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
--+	$(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
-- 
-- find-root: $(objects) find-root.o
---	gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
--+	$(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
-- 
-- restore: $(objects) restore.o
---	gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
--+	$(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
-- 
-- btrfsctl: $(objects) btrfsctl.o
-- 	$(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS) $(LIBS)
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index ef575ae..d63f1e0 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -12,21 +12,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
- SECTION = "base"
- DEPENDS = "util-linux attr"
- 
--SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
-+SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--PV = "0.19+git${SRCPV}"
-+PV = "0.20+git${SRCPV}"
- 
--PR = "r6"
-+PR = "r7"
- 
--SRC_URI += " file://fix_use_of_gcc.patch \
--	 file://weak-defaults.patch \
--	 file://fix_race_condition_with_multithreaded_make.patch "
--
--SRC_URI[md5sum] = "78b1700d318de8518abfaab71f99a885"
--SRC_URI[sha256sum] = "1285774e0cb72984fac158dd046c8d405324754febd30320cd31e459253e4b65"
-+SRC_URI += "file://weak-defaults.patch"
- 
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
--- 
-1.8.1.2
+Please add an explanation of why the patches are removed and a 
+Signed-off-by: in the commit message.
 
+Thanks
+	Sau!
+
+
+On 08/02/2013 12:41 PM, Yevhen Kyriukha wrote:
+> ---
+>   ...ix_race_condition_with_multithreaded_make.patch | 36 ----------------------
+>   .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   | 31 -------------------
+>   .../btrfs-tools/btrfs-tools_git.bb                 | 13 +++-----
+>   3 files changed, 4 insertions(+), 76 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>   delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+> deleted file mode 100644
+> index 40175b8..0000000
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+> +++ /dev/null
+> @@ -1,36 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -Fix makefile for multithreaded (make -j ) building.
+> -
+> -btrfsctl.c
+> -| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
+> -| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
+> -| compilation terminated.
+> -| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
+> -| compilation terminated.
+> -
+> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+> -2012/01/02
+> -
+> -Index: git/Makefile
+> -===================================================================
+> ---- git.orig/Makefile
+> -+++ git/Makefile
+> -@@ -26,14 +26,13 @@ else
+> - 	check = ls
+> - endif
+> -
+> --.c.o:
+> -+%.o: %.c version.h
+> - 	$(check) $<
+> - 	$(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
+> -
+> -+all: $(progs) manpages
+> -
+> --all: version $(progs) manpages
+> --
+> --version:
+> -+version.h: version.sh
+> - 	bash version.sh
+> -
+> - btrfs: $(objects) btrfs.o btrfs_cmds.o scrub.o
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+> deleted file mode 100644
+> index 7f6594a..0000000
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
+> -Upstream-Status: Pending
+> -
+> -Avoid these kinds of errors while doing cross build:
+> -
+> -| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
+> -| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl btrfsctl.o ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1  -Wl,--as-needed -luuid
+> -| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is incompatible with i386:x86-64 output
+> -| /usr/bin/ld: i386 architecture of input file `ctree.o' is incompatible with i386:x86-64 output
+> -
+> -Index: git/Makefile
+> -===================================================================
+> ---- git.orig/Makefile
+> -+++ git/Makefile
+> -@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
+> - 		$(objects) $(LDFLAGS) $(LIBS)
+> -
+> - calc-size: $(objects) calc-size.o
+> --	gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
+> -+	$(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
+> -
+> - find-root: $(objects) find-root.o
+> --	gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
+> -+	$(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
+> -
+> - restore: $(objects) restore.o
+> --	gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
+> -+	$(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
+> -
+> - btrfsctl: $(objects) btrfsctl.o
+> - 	$(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS) $(LIBS)
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> index ef575ae..d63f1e0 100644
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> @@ -12,21 +12,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+>   SECTION = "base"
+>   DEPENDS = "util-linux attr"
+>
+> -SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
+> +SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
+>   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
+>
+>   S = "${WORKDIR}/git"
+>
+> -PV = "0.19+git${SRCPV}"
+> +PV = "0.20+git${SRCPV}"
+>
+> -PR = "r6"
+> +PR = "r7"
+>
+We do not need PR Bumps any more, so it can just be removed as you are 
+incrementing the PV.
+
+> -SRC_URI += " file://fix_use_of_gcc.patch \
+> -	 file://weak-defaults.patch \
+> -	 file://fix_race_condition_with_multithreaded_make.patch "
+> -
+> -SRC_URI[md5sum] = "78b1700d318de8518abfaab71f99a885"
+> -SRC_URI[sha256sum] = "1285774e0cb72984fac158dd046c8d405324754febd30320cd31e459253e4b65"
+> +SRC_URI += "file://weak-defaults.patch"
+>
+>   do_install () {
+>   	oe_runmake 'DESTDIR=${D}' install
+>
 
