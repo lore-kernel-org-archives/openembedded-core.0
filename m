@@ -1,29 +1,51 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E29846B22E
+Return-Path: <B41700@freescale.com>
+Received: from tx2outboundpool.messaging.microsoft.com
+	(tx2ehsobe005.messaging.microsoft.com [65.55.88.15])
+	by mail.openembedded.org (Postfix) with ESMTP id 2626B6B2CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 10:03:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r72A3lB7006354
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 2 Aug 2013 03:03:48 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Fri, 2 Aug 2013 03:03:11 -0700
-Message-ID: <51FB83D9.80904@windriver.com>
-Date: Fri, 2 Aug 2013 18:03:05 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Fri,  2 Aug 2013 10:10:30 +0000 (UTC)
+Received: from mail185-tx2-R.bigfish.com (10.9.14.253) by
+	TX2EHSOBE009.bigfish.com (10.9.40.29) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 2 Aug 2013 10:10:30 +0000
+Received: from mail185-tx2 (localhost [127.0.0.1])	by
+	mail185-tx2-R.bigfish.com (Postfix) with ESMTP id 2F2822A011D;
+	Fri,  2 Aug 2013 10:10:30 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz1432I4015Izz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzzz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
+Received: from mail185-tx2 (localhost.localdomain [127.0.0.1]) by mail185-tx2
+	(MessageSwitch) id 1375438228468012_32154;
+	Fri,  2 Aug 2013 10:10:28 +0000 (UTC)
+Received: from TX2EHSMHS021.bigfish.com (unknown [10.9.14.228])	by
+	mail185-tx2.bigfish.com (Postfix) with ESMTP id 6E8021600B5;
+	Fri,  2 Aug 2013 10:10:28 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS021.bigfish.com
+	(10.9.99.121) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Fri, 2 Aug 2013 10:10:28 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.234]) by
+	039-SN1MMR1-005.039d.mgd.msft.net ([::1]) with mapi id 14.03.0136.001;
+	Fri, 2 Aug 2013 10:10:27 +0000
+From: Sardan Alexandru Cezar-B41700 <B41700@freescale.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Thread-Topic: [OE-core] Issue of Yocto multilib sdk
+Thread-Index: AQHOigftN7u2YMLSlkGCqAetJTqJtpmBvORg
+Date: Fri, 2 Aug 2013 10:10:27 +0000
+Message-ID: <89483D19B008F748B6F04D85F328657A0EE1E1D1@039-SN1MPN1-002.039d.mgd.msft.net>
+References: <CALaXJ9nQCTk==sDA2UySBBwRd_g_gqvO0F=_r7gK14gQE-rKwQ@mail.gmail.com>
+	<loom.20130726T142233-407@post.gmane.org>
+	<20130726135617.GA17824@lpalcu-linux>
+In-Reply-To: <20130726135617.GA17824@lpalcu-linux>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.171.74.42]
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1375354695.git.hongxu.jia@windriver.com>
-	<2339c72ba0e5afb7379f065ad403e3209b334956.1375354695.git.hongxu.jia@windriver.com>
-	<2353783.439DWQmp63@helios>
-In-Reply-To: <2353783.439DWQmp63@helios>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] list-packageconfig-flag.py: add a script to list all PACKAGECONFIG's flags
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Issue of Yocto multilib sdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,105 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 10:03:47 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Aug 2013 10:10:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Paul,
+>=20
+> There could be several issues here:
+> 1. default library path for 64bit is wrong... You can inspect it by
+> looking at SEARCH_DIR in the linker script. Just run:
+>=20
+> $CC -o mytest -Wl,-verbose mytest.c
+>=20
+> Then you can try to set the library path explicitly with -L. See if it
+> works.
+>=20
+> 2. you don't have the 64bit libraries and it falls back to looking into
+> /lib or /usr/lib which contain the 32bit libraries...
+>=20
+> Do you have any lib64/ usr/lib64/ in your target sysroot?
+>=20
 
-I have updated the pull branch to rename the script and correct the comments
-as your suggestions.
-
-The suggestion about using bitbake parser to make the script more robust,
-I need some time to do the investigation and I am very pleased to do that,
-I will address this in follow-up pathch, would you think it's proper or not?
+[Alex Sardan] Yes, it seems that the 64bit libraries are not being=20
+installed in the sysroot.
+What is the right way of adding them? I tried adding libgcc to=20
+MULTILIB_IMAGE_INSTALL but it doesn't do the trick.
 
 Thanks,
-Hongxu
-
-On 08/02/2013 04:24 PM, Paul Eggleton wrote:
-> Hi Hongxu,
->
-> Great idea! This should be very useful indeed.
->
-> Just a few feedback points:
->
-> On Thursday 01 August 2013 19:04:05 Hongxu Jia wrote:
->> list-packageconfig-flag.py will walk the METADIR and collect recipes which
->> have PACKAGECONFIG's flags.
->>
->> The default display is to list recipes which have PACKAGECONFIG's flags in
->> METADIR. If option '-f' is used, it will list PACKAGECONFIG's flags and all
->> affected recipes in METADIR
->>
->> EXAMPLE:
->> list-packageconfig-flag.py poky/meta poky/meta-yocto
->> RECIPE NAME          PACKAGECONFIG's flag
->> =========================================
->> libarchive_2.8.5.bb  acl xattr largefile zlib bz2 xz openssl libxml2 expat
->> strace_4.8.bb        libaio acl
->> connman.inc          wifi bluetooth 3g tist openvpn vpnc l2tp pptp wispr
->>
->> list-packageconfig-flag.py -f poky/meta poky/meta-yocto
->> PACKAGECONFIG's flag     RECIPE NAME
->> ====================================
->> speex                    gstreamer1.0-plugins-good.inc
->> keyutils                 rpm_5.4.9.bb
->> gallium-egl              mesa.inc
->>
->> [YOCTO #4368]
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   scripts/contrib/list-packageconfig-flag.py | 180
->> +++++++++++++++++++++++++++++ 1 file changed, 180 insertions(+)
->>   create mode 100755 scripts/contrib/list-packageconfig-flag.py
-> I think the script ought to be called "list-packageconfig-flags" rather than
-> "list-packageconfig-flag".
->
->> ...
->> +def parse_recipe(recipe):
->> +    ''' Parse a recipe to collect PACKAGECONFIG's flags '''
-> This should say "collect available PACKAGECONFIG flags". The same applies to
-> other messages/comments.
->
->> +    prog = re.compile(r' *PACKAGECONFIG\[(?P<flag>.*)\] *=.*')
->> +    try:
->> +        r = open(recipe)
->> +    except IOError as (errno, strerror):
->> +        print >> sys.stderr, 'WARNING: Failed to open recipe', recipe
->> +
->> +    flaglist = []
->> +    for line in r:
->> +        # Strip any comments from the line
->> +        line = line.rsplit('#')[0]
->> +        m = prog.match(line)
->> +        if m:
->> +            flaglist.append(m.group('flag'))
->> +    r.close()
->> +
->> +    return flaglist
->>
->> +def process_recipes(metadir):
->> +    ''' Collect recipes which have PACKAGECONFIG's flags in METADIR '''
->> +    # recipesdict = {'recipe': ['flag1', 'flag2',...]}
->> +    recipesdict = {}
->> +    for root,dirs,files in os.walk(metadir):
->> +        for name in files:
->> +            if name.find(".bb") >= 0 or name.find(".inc") >= 0:
->> +                flaglist = parse_recipe(os.path.join(root,name))
->> +                if flaglist:
->> +                    recipesdict[name] = flaglist
->> +
->> +    return recipesdict
-> So, this is fairly simple and works for most cases; however it would probably
-> be a bit more robust if the script used bitbake's own parser to extract the
-> flags. The "tinfoil" module should help with this. We can always address this
-> in a follow-up patch later on, though - I can certainly show you some examples
-> of how to do this or I can do it, whichever you prefer.
->
-> Cheers,
-> Paul
->
+Alex
 
 
