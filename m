@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1090D6066A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FAAB6B3F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 03:36:55 +0000 (UTC)
+	Fri,  2 Aug 2013 03:36:57 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r723au2C029667
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r723avwc021022
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Aug 2013 20:36:56 -0700 (PDT)
+	Thu, 1 Aug 2013 20:36:57 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 1 Aug 2013 20:36:54 -0700
+	14.2.342.3; Thu, 1 Aug 2013 20:36:56 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Aug 2013 11:37:07 +0800
-Message-ID: <cover.1375414558.git.Qi.Chen@windriver.com>
+Date: Fri, 2 Aug 2013 11:37:08 +0800
+Message-ID: <2743307e4802ce4564558a9dd9da55b039247040.1375414558.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1375414558.git.Qi.Chen@windriver.com>
+References: <cover.1375414558.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/1] buildtools-tarball: do not export OECORE_NATIVE_SYSROOT
+Subject: [PATCH V2 1/1] buildtools-tarball: do not export OECORE_NATIVE_SYSROOT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 03:36:56 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 03:36:57 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit 67864ca79da08df752487a3a4e1a975546da123d:
+When building a qemu image inside the environment created by the
+buildtools-tarball, the qemu image cannot be started, as the runqemu
+script uses the tunctl binary which cannot be found inside the sysroot
+directory of the buildtools-tarball.
 
-  systemd: Remove systemd_unitdir if systemd is not in distro features (2013-07-24 11:35:39 +0100)
+The buildtools-tarball is inherently a tool set instead of a fully
+functional SDK, so leaving the OECORE_NATIVE_SYSROOT variable in the
+environment will mess things up.
 
-are available in the git repository at:
+However, we do need a line of 'OECORE_NATIVE_SYSROOT=xxx' in the environment
+setup script so that the SDK can be extracted and relocated correctly.
+Thus, instead of exporting OECORE_NATIVE_SYSROOT, we use a comment here.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/buildtools-env
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/buildtools-env
+[YOCTO #4939]
 
-Chen Qi (1):
-  buildtools-tarball: do not export OECORE_NATIVE_SYSROOT
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-core/meta/buildtools-tarball.bb |    7 +++++--
  1 file changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 9771497..1e46308 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -59,7 +59,10 @@ create_sdk_files_append () {
+ 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
+ 	touch $script
+ 	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
+-	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+-
++	# In order for the self-extraction script to correctly extract and set up things,
++	# we need a 'OECORE_NATIVE_SYSROOT=xxx' line in environment setup script.
++	# However, buildtools-tarball is inherently a tool set instead of a fully functional SDK,
++	# so instead of exporting the variable, we use a comment here.
++	echo '#OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
+ 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
+ }
 -- 
 1.7.9.5
 
