@@ -1,25 +1,39 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C8E860886
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 425826066A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 20:57:00 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2013 13:57:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,803,1367996400"; d="scan'208";a="276966176"
-Received: from unknown (HELO [10.255.13.203]) ([10.255.13.203])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 13:57:00 -0700
-Message-ID: <51FC1D1A.10608@linux.intel.com>
-Date: Fri, 02 Aug 2013 13:56:58 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Fri,  2 Aug 2013 21:17:18 +0000 (UTC)
+Received: by mail-la0-f47.google.com with SMTP id eo20so787320lab.34
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Aug 2013 14:17:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=qdie6AvaDR5GmV4i5+njYyLFZEP8Kb63SUusCwMfqb4=;
+	b=AdFtT06OktEKB/3iGq3sF2der0pVu3/AMSMknlSDdDgcViBlpfKhC08aUR0GF6QheY
+	mvGeTW/cKcqCyBfeb+0r1W4y6EyS+X62i6sT7bGZ+8MoAtnVkzmS6AR32RFLcZDaH1ss
+	sz900xDC9dT/0XbHPb5Pm2LYycpKuJEDtwi5RRaOFm75XO+XTnY+6Rm08N4E0x0hNV8b
+	Enb2fZQyPLUd4qLEx24UeBI2ijREy4JbA/OBRIGjzbnbecTCQ0hufn1Ads1rtaXLvnp7
+	YH5k2B10xf72SHP+X4FnSLoX9Vs3fyFKI62Z8Mlv17CJXkJtZKPndfFxDlg832mZHTGG
+	fwiQ==
+X-Received: by 10.152.22.42 with SMTP id a10mr3864374laf.30.1375478238281;
+	Fri, 02 Aug 2013 14:17:18 -0700 (PDT)
 MIME-Version: 1.0
-To: Yevhen Kyriukha <kirgene@gmail.com>
-References: <1375472467-8051-1-git-send-email-kirgene@gmail.com>
-In-Reply-To: <1375472467-8051-1-git-send-email-kirgene@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v1] btrfs-tools: upgrade to upstream revision.
+Sender: kergoth@gmail.com
+Received: by 10.112.17.67 with HTTP; Fri, 2 Aug 2013 14:16:58 -0700 (PDT)
+In-Reply-To: <1375395237-17840-1-git-send-email-otavio@ossystems.com.br>
+References: <1375395237-17840-1-git-send-email-otavio@ossystems.com.br>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 2 Aug 2013 14:16:58 -0700
+X-Google-Sender-Auth: WlxtzNq-7VrOr_pNfBR00pGgwWg
+Message-ID: <CABcZANnvpMCNKyncpct+FTiHrcGid4_hpKQvH=DQ=YwD4LFYJA@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Evan Kotara <evan.kotara@freescale.com>,
+	Lauren Post <lauren.post@freescale.com>,
+	Daiane Angolini <daiane.angolini@freescale.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] distro_features_check.bbclass: Allow checking of required/conflicting features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,138 +46,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 20:57:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 02 Aug 2013 21:17:18 -0000
+Content-Type: multipart/alternative; boundary=089e0158b794ca065304e2fd7b67
 
+--089e0158b794ca065304e2fd7b67
+Content-Type: text/plain; charset=UTF-8
 
-Please add an explanation of why the patches are removed and a 
-Signed-off-by: in the commit message.
+On Thu, Aug 1, 2013 at 3:13 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-Thanks
-	Sau!
-
-
-On 08/02/2013 12:41 PM, Yevhen Kyriukha wrote:
-> ---
->   ...ix_race_condition_with_multithreaded_make.patch | 36 ----------------------
->   .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   | 31 -------------------
->   .../btrfs-tools/btrfs-tools_git.bb                 | 13 +++-----
->   3 files changed, 4 insertions(+), 76 deletions(-)
->   delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
->   delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+> This add support to list required/confliting distro features for a
+> recipe; this avoids user mistake when building recipes/images which
+> would not work depending on DISTRO_FEATURES option set.
 >
-> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
-> deleted file mode 100644
-> index 40175b8..0000000
-> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> -Fix makefile for multithreaded (make -j ) building.
-> -
-> -btrfsctl.c
-> -| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
-> -| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
-> -| compilation terminated.
-> -| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
-> -| compilation terminated.
-> -
-> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
-> -2012/01/02
-> -
-> -Index: git/Makefile
-> -===================================================================
-> ---- git.orig/Makefile
-> -+++ git/Makefile
-> -@@ -26,14 +26,13 @@ else
-> - 	check = ls
-> - endif
-> -
-> --.c.o:
-> -+%.o: %.c version.h
-> - 	$(check) $<
-> - 	$(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
-> -
-> -+all: $(progs) manpages
-> -
-> --all: version $(progs) manpages
-> --
-> --version:
-> -+version.h: version.sh
-> - 	bash version.sh
-> -
-> - btrfs: $(objects) btrfs.o btrfs_cmds.o scrub.o
-> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-> deleted file mode 100644
-> index 7f6594a..0000000
-> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-> +++ /dev/null
-> @@ -1,31 +0,0 @@
-> -Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
-> -Upstream-Status: Pending
-> -
-> -Avoid these kinds of errors while doing cross build:
-> -
-> -| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
-> -| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl btrfsctl.o ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1  -Wl,--as-needed -luuid
-> -| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is incompatible with i386:x86-64 output
-> -| /usr/bin/ld: i386 architecture of input file `ctree.o' is incompatible with i386:x86-64 output
-> -
-> -Index: git/Makefile
-> -===================================================================
-> ---- git.orig/Makefile
-> -+++ git/Makefile
-> -@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
-> - 		$(objects) $(LDFLAGS) $(LIBS)
-> -
-> - calc-size: $(objects) calc-size.o
-> --	gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
-> -+	$(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
-> -
-> - find-root: $(objects) find-root.o
-> --	gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
-> -+	$(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
-> -
-> - restore: $(objects) restore.o
-> --	gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
-> -+	$(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
-> -
-> - btrfsctl: $(objects) btrfsctl.o
-> - 	$(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS) $(LIBS)
-> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-> index ef575ae..d63f1e0 100644
-> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-> @@ -12,21 +12,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
->   SECTION = "base"
->   DEPENDS = "util-linux attr"
+> Adding:
 >
-> -SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
-> +SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
->   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
->
->   S = "${WORKDIR}/git"
->
-> -PV = "0.19+git${SRCPV}"
-> +PV = "0.20+git${SRCPV}"
->
-> -PR = "r6"
-> +PR = "r7"
->
-We do not need PR Bumps any more, so it can just be removed as you are 
-incrementing the PV.
-
-> -SRC_URI += " file://fix_use_of_gcc.patch \
-> -	 file://weak-defaults.patch \
-> -	 file://fix_race_condition_with_multithreaded_make.patch "
-> -
-> -SRC_URI[md5sum] = "78b1700d318de8518abfaab71f99a885"
-> -SRC_URI[sha256sum] = "1285774e0cb72984fac158dd046c8d405324754febd30320cd31e459253e4b65"
-> +SRC_URI += "file://weak-defaults.patch"
->
->   do_install () {
->   	oe_runmake 'DESTDIR=${D}' install
+> ,----[ Use example ]
+> | inherit distro_features_check
+> |
+> | REQUIRED_DISTRO_FEATURES = "x11"
+> | CONFLICT_DISTRO_FEATURES_mx6 = "wayland"
 >
 
+I wonder if it would be worth doing this like PNBLACKLIST to let the recipe
+provide its reasoning as a message, or if that would add too much overhead.
+I don't know enough about this use case, but something to consider if it
+hasn't been already.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e0158b794ca065304e2fd7b67
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Aug 1, 2013 at 3:13 PM, Otavio Salvador <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.co=
+m.br</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":qd" style=3D"overflow:hidden">Th=
+is add support to list required/confliting distro features for a<br>
+recipe; this avoids user mistake when building recipes/images which<br>
+would not work depending on DISTRO_FEATURES option set.<br>
+<br>
+Adding:<br>
+<br>
+,----[ Use example ]<br>
+| inherit distro_features_check<br>
+|<br>
+| REQUIRED_DISTRO_FEATURES =3D &quot;x11&quot;<br>
+| CONFLICT_DISTRO_FEATURES_mx6 =3D &quot;wayland&quot;</div></blockquote></=
+div><br><div style>I wonder if it would be worth doing this like PNBLACKLIS=
+T to let the recipe provide its reasoning as a message, or if that would ad=
+d too much overhead. I don&#39;t know enough about this use case, but somet=
+hing to consider if it hasn&#39;t been already.</div>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
+</div></div>
+
+--089e0158b794ca065304e2fd7b67--
