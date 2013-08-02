@@ -1,38 +1,29 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E59B6B22E
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E07466066A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 09:08:36 +0000 (UTC)
-Received: by mail-lb0-f173.google.com with SMTP id 10so272472lbf.32
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2013 02:08:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=VWo3NXXwtd3cg5byTqa73JiCqZILNb8Dr8cxh5eCYbM=;
-	b=TwuHvlghEQpeDMzWoYMVgnKtOoFnwV5Sjhj28vGqp5Ug3oWg6nGPIyZdNEAhtLP57S
-	brW8MeZ/KuCnrDYub/17irejk9x5+Z3iyODL6nsNanEJ3UVaAg1xPl0J+tfZjZ10X0Ns
-	NqvbnsH9tlPNzJldSNtOPx2hd6hLLgblnWmzAobMO/hv0B4CS0CHCRX021DToy9ezK5k
-	UJgBVuu/U108HwoKKvtTvMQ5EbhW3D6HyBsekR+zKRAqRf8B7do1hIhsCrgoRdee1kJF
-	PsW0a+zH1rOr2bmseXjzEWBNM4jeiUXRGT3/hSIqKzbS+YjzI4GneiVTJTb/UiMSro2k
-	kzqQ==
-X-Received: by 10.112.97.179 with SMTP id eb19mr3057237lbb.78.1375434517003;
-	Fri, 02 Aug 2013 02:08:37 -0700 (PDT)
-Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
-	[91.152.78.194])
-	by mx.google.com with ESMTPSA id p17sm2835390lbv.11.2013.08.02.02.08.35
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 02 Aug 2013 02:08:36 -0700 (PDT)
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 12:08:20 +0300
-Message-Id: <1375434500-869-1-git-send-email-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 1.8.1.2
-X-Gm-Message-State: ALoCoQmABiBSeA2bhITH3aje/cYWum3L+SljcIn/qJ/DgSZmPI7x/NFhYePkd/nqiW3zAAX3M4Rq
-Cc: Victor Kamensky <victor.kamensky@linaro.org>
-Subject: [PATCH] libc-package.bbclass: Add armeb architecture to locale_arch_options
+	Fri,  2 Aug 2013 09:14:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r729Ef3K004690
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 2 Aug 2013 02:14:41 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 2 Aug 2013 02:14:38 -0700
+Message-ID: <51FB787A.2040406@windriver.com>
+Date: Fri, 2 Aug 2013 17:14:34 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1375354695.git.hongxu.jia@windriver.com>
+	<2339c72ba0e5afb7379f065ad403e3209b334956.1375354695.git.hongxu.jia@windriver.com>
+	<2353783.439DWQmp63@helios>
+In-Reply-To: <2353783.439DWQmp63@helios>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] list-packageconfig-flag.py: add a script to list all PACKAGECONFIG's flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 09:08:38 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 09:14:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix gconv build failure on ARM big-endian architecture:
-ERROR: locale_arch_options not found for target_arch=armeb
-ERROR: Function failed: unknown arch:armeb for locale_arch_options
+On 08/02/2013 04:24 PM, Paul Eggleton wrote:
+> Hi Hongxu,
+>
+> Great idea! This should be very useful indeed.
+>
+> Just a few feedback points:
+>
+> On Thursday 01 August 2013 19:04:05 Hongxu Jia wrote:
+>> list-packageconfig-flag.py will walk the METADIR and collect recipes which
+>> have PACKAGECONFIG's flags.
+>>
+>> The default display is to list recipes which have PACKAGECONFIG's flags in
+>> METADIR. If option '-f' is used, it will list PACKAGECONFIG's flags and all
+>> affected recipes in METADIR
+>>
+>> EXAMPLE:
+>> list-packageconfig-flag.py poky/meta poky/meta-yocto
+>> RECIPE NAME          PACKAGECONFIG's flag
+>> =========================================
+>> libarchive_2.8.5.bb  acl xattr largefile zlib bz2 xz openssl libxml2 expat
+>> strace_4.8.bb        libaio acl
+>> connman.inc          wifi bluetooth 3g tist openvpn vpnc l2tp pptp wispr
+>>
+>> list-packageconfig-flag.py -f poky/meta poky/meta-yocto
+>> PACKAGECONFIG's flag     RECIPE NAME
+>> ====================================
+>> speex                    gstreamer1.0-plugins-good.inc
+>> keyutils                 rpm_5.4.9.bb
+>> gallium-egl              mesa.inc
+>>
+>> [YOCTO #4368]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   scripts/contrib/list-packageconfig-flag.py | 180
+>> +++++++++++++++++++++++++++++ 1 file changed, 180 insertions(+)
+>>   create mode 100755 scripts/contrib/list-packageconfig-flag.py
+> I think the script ought to be called "list-packageconfig-flags" rather than
+> "list-packageconfig-flag".
+>
+Agree, I will rename it.
+>> ...
+>> +def parse_recipe(recipe):
+>> +    ''' Parse a recipe to collect PACKAGECONFIG's flags '''
+> This should say "collect available PACKAGECONFIG flags". The same applies to
+> other messages/comments.
+>
+Agree
+>> +    prog = re.compile(r' *PACKAGECONFIG\[(?P<flag>.*)\] *=.*')
+>> +    try:
+>> +        r = open(recipe)
+>> +    except IOError as (errno, strerror):
+>> +        print >> sys.stderr, 'WARNING: Failed to open recipe', recipe
+>> +
+>> +    flaglist = []
+>> +    for line in r:
+>> +        # Strip any comments from the line
+>> +        line = line.rsplit('#')[0]
+>> +        m = prog.match(line)
+>> +        if m:
+>> +            flaglist.append(m.group('flag'))
+>> +    r.close()
+>> +
+>> +    return flaglist
+>>
+>> +def process_recipes(metadir):
+>> +    ''' Collect recipes which have PACKAGECONFIG's flags in METADIR '''
+>> +    # recipesdict = {'recipe': ['flag1', 'flag2',...]}
+>> +    recipesdict = {}
+>> +    for root,dirs,files in os.walk(metadir):
+>> +        for name in files:
+>> +            if name.find(".bb") >= 0 or name.find(".inc") >= 0:
+>> +                flaglist = parse_recipe(os.path.join(root,name))
+>> +                if flaglist:
+>> +                    recipesdict[name] = flaglist
+>> +
+>> +    return recipesdict
+> So, this is fairly simple and works for most cases; however it would probably
+> be a bit more robust if the script used bitbake's own parser to extract the
+> flags. The "tinfoil" module should help with this. We can always address this
+> in a follow-up patch later on, though - I can certainly show you some examples
+> of how to do this or I can do it, whichever you prefer.
+Great, this is what I hope to do in the follow-up, I am very pleased to
+do the investigate on bitbake parser, very thankful to share some
+examples of how to do this with me.
 
-Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
----
- meta/classes/libc-package.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+Should this simple patch be accepted? And I will include bitbake parser
+in follow-up patch.
+Or
+Drop this patch and waiting till bitbake parser has been included.
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index 74e2078..fd06c4a 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -267,6 +267,7 @@ python package_do_split_gconvs () {
-             target_arch = d.getVar('TARGET_ARCH', True)
-             locale_arch_options = { \
-                 "arm":     " --uint32-align=4 --little-endian ", \
-+                "armeb":   " --uint32-align=4 --big-endian ",    \
-                 "sh4":     " --uint32-align=4 --big-endian ",    \
-                 "powerpc": " --uint32-align=4 --big-endian ",    \
-                 "powerpc64": " --uint32-align=4 --big-endian ",  \
--- 
-1.8.1.2
+Thanks,
+Hongxu
+> Cheers,
+> Paul
+>
 
 
