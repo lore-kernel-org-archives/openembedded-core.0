@@ -1,51 +1,26 @@
-Return-Path: <B41700@freescale.com>
-Received: from tx2outboundpool.messaging.microsoft.com
-	(tx2ehsobe005.messaging.microsoft.com [65.55.88.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 2626B6B2CA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1728B6B22E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 10:10:30 +0000 (UTC)
-Received: from mail185-tx2-R.bigfish.com (10.9.14.253) by
-	TX2EHSOBE009.bigfish.com (10.9.40.29) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 2 Aug 2013 10:10:30 +0000
-Received: from mail185-tx2 (localhost [127.0.0.1])	by
-	mail185-tx2-R.bigfish.com (Postfix) with ESMTP id 2F2822A011D;
-	Fri,  2 Aug 2013 10:10:30 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz1432I4015Izz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzzz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
-Received: from mail185-tx2 (localhost.localdomain [127.0.0.1]) by mail185-tx2
-	(MessageSwitch) id 1375438228468012_32154;
-	Fri,  2 Aug 2013 10:10:28 +0000 (UTC)
-Received: from TX2EHSMHS021.bigfish.com (unknown [10.9.14.228])	by
-	mail185-tx2.bigfish.com (Postfix) with ESMTP id 6E8021600B5;
-	Fri,  2 Aug 2013 10:10:28 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS021.bigfish.com
-	(10.9.99.121) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Fri, 2 Aug 2013 10:10:28 +0000
-Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.234]) by
-	039-SN1MMR1-005.039d.mgd.msft.net ([::1]) with mapi id 14.03.0136.001;
-	Fri, 2 Aug 2013 10:10:27 +0000
-From: Sardan Alexandru Cezar-B41700 <B41700@freescale.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Thread-Topic: [OE-core] Issue of Yocto multilib sdk
-Thread-Index: AQHOigftN7u2YMLSlkGCqAetJTqJtpmBvORg
-Date: Fri, 2 Aug 2013 10:10:27 +0000
-Message-ID: <89483D19B008F748B6F04D85F328657A0EE1E1D1@039-SN1MPN1-002.039d.mgd.msft.net>
-References: <CALaXJ9nQCTk==sDA2UySBBwRd_g_gqvO0F=_r7gK14gQE-rKwQ@mail.gmail.com>
-	<loom.20130726T142233-407@post.gmane.org>
-	<20130726135617.GA17824@lpalcu-linux>
-In-Reply-To: <20130726135617.GA17824@lpalcu-linux>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.171.74.42]
+	Fri,  2 Aug 2013 10:38:22 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Aug 2013 03:38:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,800,1367996400"; d="scan'208";a="380041950"
+Received: from unknown (HELO helios.localnet) ([10.252.122.201])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2013 03:38:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Fri, 02 Aug 2013 11:38:20 +0100
+Message-ID: <2141715.fZzytAtgVl@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <51FB787A.2040406@windriver.com>
+References: <cover.1375354695.git.hongxu.jia@windriver.com>
+	<2353783.439DWQmp63@helios> <51FB787A.2040406@windriver.com>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issue of Yocto multilib sdk
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] list-packageconfig-flag.py: add a script to list all PACKAGECONFIG's flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +33,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 10:10:30 -0000
-Content-Language: en-US
+X-List-Received-Date: Fri, 02 Aug 2013 10:38:22 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
->=20
-> There could be several issues here:
-> 1. default library path for 64bit is wrong... You can inspect it by
-> looking at SEARCH_DIR in the linker script. Just run:
->=20
-> $CC -o mytest -Wl,-verbose mytest.c
->=20
-> Then you can try to set the library path explicitly with -L. See if it
-> works.
->=20
-> 2. you don't have the 64bit libraries and it falls back to looking into
-> /lib or /usr/lib which contain the 32bit libraries...
->=20
-> Do you have any lib64/ usr/lib64/ in your target sysroot?
->=20
+On Friday 02 August 2013 17:14:34 Hongxu Jia wrote:
+> On 08/02/2013 04:24 PM, Paul Eggleton wrote:
+> > So, this is fairly simple and works for most cases; however it would
+> > probably be a bit more robust if the script used bitbake's own parser to
+> > extract the flags. The "tinfoil" module should help with this. We can
+> > always address this in a follow-up patch later on, though - I can
+> > certainly show you some examples of how to do this or I can do it,
+> > whichever you prefer.
+> 
+> Great, this is what I hope to do in the follow-up, I am very pleased to
+> do the investigate on bitbake parser, very thankful to share some
+> examples of how to do this with me.
 
-[Alex Sardan] Yes, it seems that the 64bit libraries are not being=20
-installed in the sysroot.
-What is the right way of adding them? I tried adding libgcc to=20
-MULTILIB_IMAGE_INSTALL but it doesn't do the trick.
+Sure - we use the parser in the layer index. The latest in-development code
+has a module that does most of the work:
 
-Thanks,
-Alex
+http://git.yoctoproject.org/cgit/cgit.cgi/layerindex-web/tree/layerindex/recipeparse.py?h=paule/features
 
+Specifically, you can call bb.cache.Cache.loadDataFull() for each recipe file
+and that will give you a datastore you can query for information.
+
+I'm not sure, but you may wish to use bitbake's cache to get the list of recipes
+rather than just walking the directory tree so the utility has the same
+understanding of PN and preferred versions as bitbake. If you do want to
+go down this route I've put together this example:
+
+https://gist.github.com/bluelightning/6138980
+
+Hope this helps.
+
+> Should this simple patch be accepted? And I will include bitbake parser
+> in follow-up patch.
+> Or
+> Drop this patch and waiting till bitbake parser has been included.
+
+I'd say let's accept this simple version for now after the naming/message
+corrections (especially since it's a contrib script) and then follow up 
+with another patch when you have the bitbake-based version working.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
