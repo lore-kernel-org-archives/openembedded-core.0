@@ -1,22 +1,22 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C5286B22E
+	by mail.openembedded.org (Postfix) with ESMTP id 492DE6B22E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 15:27:49 +0000 (UTC)
+	Fri,  2 Aug 2013 15:27:53 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:27:50 -0700
+	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:27:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276851386"
+X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276851399"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:27:49 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:27:50 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 18:29:21 +0300
-Message-Id: <1375457365-19847-4-git-send-email-cristian.iorga@intel.com>
+Date: Fri,  2 Aug 2013 18:29:22 +0300
+Message-Id: <1375457365-19847-5-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <1375457365-19847-1-git-send-email-cristian.iorga@intel.com>
 References: <1375457365-19847-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH 3/7] gstreamer1.0: upgrade to v1.0.9
+Subject: [PATCH 4/7] gstreamer1.0-plugins-base: upgrade to v1.0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,45 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 15:27:49 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 15:27:53 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0.inc                    | 2 --
- .../gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb}        | 4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb} (72%)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc      | 2 --
+ ...r1.0-plugins-base_1.0.7.bb => gstreamer1.0-plugins-base_1.0.9.bb} | 5 ++---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.0.7.bb => gstreamer1.0-plugins-base_1.0.9.bb} (72%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-index d7bbee1..3cb478a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
-@@ -7,8 +7,6 @@ SECTION = "multimedia"
- LICENSE = "LGPLv2+"
- DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
+index b2c8995..5002399 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
+@@ -5,8 +5,6 @@ LICENSE = "GPLv2+ & LGPLv2+"
+ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxv', '', d)}"
+ DEPENDS += "freetype liboil util-linux"
  
 -PR = "r1"
 -
- inherit autotools pkgconfig gettext
+ inherit gettext
  
- GSTREAMER_1_DEBUG ?= "--disable-debug"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.9.bb
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.0.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.0.9.bb
 similarity index 72%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.7.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.9.bb
-index 1423227..e4b2f1e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.9.bb
-@@ -7,7 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-     file://0001-Fix-crash-with-gst-inspect.patch \
-     "
--SRC_URI[md5sum] = "8f6066a37c71a0d0ff5fe5f7687fea12"
--SRC_URI[sha256sum] = "68cada7ee24ede23e15dc81ccde11898eed1a7a3c6a2d81a8c31596fccb1b5ce"
-+SRC_URI[md5sum] = "cbbad73d703b811bc8bd18e47b36e534"
-+SRC_URI[sha256sum] = "17a2c60a82baa461ef685ad3de187edb9c03a2c7e07513daba58a5a32efacaa3"
- S = "${WORKDIR}/gstreamer-${PV}"
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.0.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.0.9.bb
+index 72a4aee..7b1e990 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.0.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.0.9.bb
+@@ -4,8 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=622921ffad8cb18ab906c56052788a3f \
+                     file://COPYING.LIB;md5=55ca817ccb7d5b5b66355690e9abc605 \
+                    "
+-
+-SRC_URI[md5sum] = "b5b43cfbf82b413ce2e07a190d87e68f"
+-SRC_URI[sha256sum] = "014805e50b696bc06c3862ea656df079fc0b5fef0c10f16e9f085f290545677a"
++SRC_URI[md5sum] = "24af1986581d9c2cd3dc834ab64d133d"
++SRC_URI[sha256sum] = "963e3b83d651661f495ca2e44ccd2d5c61e986e9d7706246e568276689a372ea"
  
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
 -- 
 1.8.1.2
 
