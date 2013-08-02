@@ -1,26 +1,20 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FAAB6B3F6
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 05EE16066A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 03:36:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r723avwc021022
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 1 Aug 2013 20:36:57 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 1 Aug 2013 20:36:56 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 2 Aug 2013 11:37:08 +0800
-Message-ID: <2743307e4802ce4564558a9dd9da55b039247040.1375414558.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1375414558.git.Qi.Chen@windriver.com>
-References: <cover.1375414558.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 1/1] buildtools-tarball: do not export OECORE_NATIVE_SYSROOT
+	Fri,  2 Aug 2013 04:45:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 01 Aug 2013 21:45:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,798,1367996400"; d="scan'208";a="379906183"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.13.203])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Aug 2013 21:45:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  1 Aug 2013 21:45:40 -0700
+Message-Id: <1375418740-14692-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] packagegroup-core-boot: correct runtime dependencies for non-sysvinit system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 03:36:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 02 Aug 2013 04:45:41 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+[YOCTO #4969]
 
-When building a qemu image inside the environment created by the
-buildtools-tarball, the qemu image cannot be started, as the runqemu
-script uses the tunctl binary which cannot be found inside the sysroot
-directory of the buildtools-tarball.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-The buildtools-tarball is inherently a tool set instead of a fully
-functional SDK, so leaving the OECORE_NATIVE_SYSROOT variable in the
-environment will mess things up.
+core
 
-However, we do need a line of 'OECORE_NATIVE_SYSROOT=xxx' in the environment
-setup script so that the SDK can be extracted and relocated correctly.
-Thus, instead of exporting OECORE_NATIVE_SYSROOT, we use a comment here.
-
-[YOCTO #4939]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb |    7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 9771497..1e46308 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -59,7 +59,10 @@ create_sdk_files_append () {
- 	script=${1:-${SDK_OUTPUT}/${SDKPATH}/environment-setup-${SDK_SYS}}
- 	touch $script
- 	echo 'export PATH=${SDKPATHNATIVE}${bindir_nativesdk}:$PATH' >> $script
--	echo 'export OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
--
-+	# In order for the self-extraction script to correctly extract and set up things,
-+	# we need a 'OECORE_NATIVE_SYSROOT=xxx' line in environment setup script.
-+	# However, buildtools-tarball is inherently a tool set instead of a fully functional SDK,
-+	# so instead of exporting the variable, we use a comment here.
-+	echo '#OECORE_NATIVE_SYSROOT="${SDKPATHNATIVE}"' >> $script
- 	toolchain_create_sdk_version ${SDK_OUTPUT}/${SDKPATH}/version-${SDK_SYS}
- }
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index d69c41d..486385a 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -30,15 +30,18 @@ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+ 
++SYSVINIT_SCRIPTS = "${@base_contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
++                    modutils-initscripts \
++                    init-ifupdown \
++                   "
++
+ RDEPENDS_${PN} = "\
+     base-files \
+     base-passwd \
+     busybox \
+-    ${@base_contains("MACHINE_FEATURES", "rtc", "busybox-hwclock", "", d)} \
++    ${@base_contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@base_contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+-    modutils-initscripts \
+     netbase \
+-    init-ifupdown \
+     ${VIRTUAL-RUNTIME_login_manager} \
+     ${VIRTUAL-RUNTIME_init_manager} \
+     ${VIRTUAL-RUNTIME_initscripts} \
 -- 
-1.7.9.5
+1.8.1.4
 
 
