@@ -1,25 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id AB12D6A9E1
+Return-Path: <ionutx.radu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 633BE6B4F0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 15:35:05 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:35:06 -0700
+	Fri,  2 Aug 2013 15:37:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Aug 2013 08:37:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276853871"
-Received: from unknown (HELO helios.localnet) ([10.252.122.201])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:35:04 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 02 Aug 2013 16:35:03 +0100
-Message-ID: <1884229.ooeQbcBQ1r@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1375456955.git.sgw@linux.intel.com>
-References: <cover.1375456955.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/45] Final Review & ACK
+X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="380251810"
+Received: from work.rb.intel.com ([10.237.105.51])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2013 08:37:47 -0700
+From: Ionut Radu <ionutx.radu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Aug 2013 18:40:27 +0300
+Message-Id: <cover.1375457879.git.ionutx.radu@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/2] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,117 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 15:35:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 02 Aug 2013 15:37:49 -0000
 
-On Friday 02 August 2013 08:32:43 Saul Wold wrote:
-> Richard,
-> 
-> Updated based on Paul's comments
-> 
-> This set went through the Autobuilder with the Python3 changes, some
-> of the failures on the AB are Pyhton3 related, but have not been included
-> here yet.
-> 
-> Thanks
-> 	Sau!
-> 
-> 
-> The following changes since commit f192c444c2d88c49738bea4ff4c3af0cc72916de:
-> 
->   texinfo: Update to 5.1 (2013-07-31 06:56:28 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage
-> 
-> Chen Qi (1):
->   opkg.inc: remove the obsolete REDIRECT_CMD
-> 
-> Cristian Iorga (2):
->   alsa-lib: upgrade to v1.0.27.2
->   alsa-utils: upgrade to 1.0.27.2
-> 
-> Eric Nelson (1):
->   gst-plugins-gl: add explicit dependency on libpng
-> 
-> Ionut Radu (1):
->   apt: Upgrade from 0.9.8.2 to 0.9.9.4
-> 
-> Joe MacDonald (1):
->   oe-find-native-sysroot: minor optimization
-> 
-> Jukka Rissanen (3):
->   ofono: Add systemd support
->   ofono: Move bluetooth enabling to .inc file
->   ofono: Enable test scripts by default
-> 
-> Khem Raj (1):
->   gcc-4.8: Fix meta-fsl-arm iperf build issue
-> 
-> Laurentiu Palcu (13):
->   adt_installer: allow specifying relative target sysroot paths
->   xf86-video-intel: upgrade to 2.21.13
->   git: upgrade to 1.8.3.4
->   nasm: upgrade to 2.10.09
->   powertop: upgrade to 2.4
->   libdrm: upgrade to 2.4.46
->   libpciaccess: upgrade to 0.13.2
->   xrandr: upgrade to 1.4.1
->   xf86-input-evdev: upgrade to 2.8.1
->   xhost: upgrade to 1.0.6
->   makedepend: upgrade to 1.0.5
->   flex: upgrade to 2.5.37
->   grub_2.00: fix compilation when using flex 2.5.37
-> 
-> Martin Jansa (1):
->   mesa: inherit gettext
-> 
-> Muhammad Shakeel (1):
->   avahi: Remove unnecessary runtime dependency on sysvinit-pidof
-> 
-> Paul Barker (1):
->   opkg: Bump SRCREV as patch has been applied upstream
-> 
-> Paul Eggleton (3):
->   classes/sanity: check for suid root command evility
->   classes/sanity: fix some grammatical errors in messages
->   grub: disable floating ncurses dependency for GPLv2 version
-> 
-> Richard Tollerton (1):
->   shadow: Fix build when DISTRO_FEATURES contains pam, libc-crypt
-> 
-> Rogerio Nunes (1):
->   packagegroup-core-tools-testapps: isolate x11 dependent tools
-> 
-> Ross Burton (3):
->   bluez5: Add obex-profiles as a PACKAGECONFIG, package obexd separately
->   qemu: remove unused SDL variable
->   u-boot: state the MACHINE when skipping u-boot
-> 
-> Saul Wold (7):
->   dpkg: upgrade to 1.17.1
->   dpkg: Drop INC_PR as it's unused
->   glew: upgrade to 1.10.0
->   libgcrypt: upgrade to 1.5.3
->   resolvconf: upgrade to 1.74
->   xorg-cf-files: upgrade to 1.0.5
->   grep: Add patch for texinfo 5.1
-> 
-> Stefan Stanacar (4):
->   oeqa/utils/sshcontrol: increase and log timeout in output
->   oeqa/utils/qemurunner: add comment and header
->   oeqa/utils/qemurunner: tweak console bootparam and ip command
->   oeqa/runtime/xorg: use the right ps command for xorg test
+freetype: tested on core-image-sato on all architectures (x86, x86-64, arm, ppc, mips)
+gdk-pixbuf: tested on core-image-sato on all architectures (x86, x86-64, arm, ppc, mips)
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+The following changes since commit 9de0ad47462c13ac4a2d73e12e92be6c1b4e0415:
+
+  genericx86: ship all the driver firmware by default (2013-07-31 07:00:00 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ionutx/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ionutx/work
+
+Ionut Radu (2):
+  freetype: upgrade to 2.5.0.1
+  gdk-pixbuf: upgrade to 2.28.2
+
+ .../gdk-pixbuf/{gdk-pixbuf_2.28.1.bb => gdk-pixbuf_2.28.2.bb}    |    4 ++--
+ .../freetype/{freetype_2.4.12.bb => freetype_2.5.0.1.bb}         |    6 ++----
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+ rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.28.1.bb => gdk-pixbuf_2.28.2.bb} (94%)
+ rename meta/recipes-graphics/freetype/{freetype_2.4.12.bb => freetype_2.5.0.1.bb} (90%)
 
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
