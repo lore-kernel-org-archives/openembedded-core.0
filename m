@@ -1,25 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 30DE96B2CA
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E59B6B22E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 08:56:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Aug 2013 01:56:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,800,1367996400"; d="scan'208";a="375040664"
-Received: from unknown (HELO helios.localnet) ([10.252.122.201])
-	by fmsmga001.fm.intel.com with ESMTP; 02 Aug 2013 01:56:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 02 Aug 2013 09:56:30 +0100
-Message-ID: <2742525.TaHAicXVaK@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1375419531.git.sgw@linux.intel.com>
-References: <cover.1375419531.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/45] Initial Review - lots of upgrades
+	Fri,  2 Aug 2013 09:08:36 +0000 (UTC)
+Received: by mail-lb0-f173.google.com with SMTP id 10so272472lbf.32
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 02 Aug 2013 02:08:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:x-gm-message-state;
+	bh=VWo3NXXwtd3cg5byTqa73JiCqZILNb8Dr8cxh5eCYbM=;
+	b=TwuHvlghEQpeDMzWoYMVgnKtOoFnwV5Sjhj28vGqp5Ug3oWg6nGPIyZdNEAhtLP57S
+	brW8MeZ/KuCnrDYub/17irejk9x5+Z3iyODL6nsNanEJ3UVaAg1xPl0J+tfZjZ10X0Ns
+	NqvbnsH9tlPNzJldSNtOPx2hd6hLLgblnWmzAobMO/hv0B4CS0CHCRX021DToy9ezK5k
+	UJgBVuu/U108HwoKKvtTvMQ5EbhW3D6HyBsekR+zKRAqRf8B7do1hIhsCrgoRdee1kJF
+	PsW0a+zH1rOr2bmseXjzEWBNM4jeiUXRGT3/hSIqKzbS+YjzI4GneiVTJTb/UiMSro2k
+	kzqQ==
+X-Received: by 10.112.97.179 with SMTP id eb19mr3057237lbb.78.1375434517003;
+	Fri, 02 Aug 2013 02:08:37 -0700 (PDT)
+Received: from localhost.localdomain (a91-152-78-194.elisa-laajakaista.fi.
+	[91.152.78.194])
+	by mx.google.com with ESMTPSA id p17sm2835390lbv.11.2013.08.02.02.08.35
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 02 Aug 2013 02:08:36 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Aug 2013 12:08:20 +0300
+Message-Id: <1375434500-869-1-git-send-email-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 1.8.1.2
+X-Gm-Message-State: ALoCoQmABiBSeA2bhITH3aje/cYWum3L+SljcIn/qJ/DgSZmPI7x/NFhYePkd/nqiW3zAAX3M4Rq
+Cc: Victor Kamensky <victor.kamensky@linaro.org>
+Subject: [PATCH] libc-package.bbclass: Add armeb architecture to locale_arch_options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,126 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 08:56:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 02 Aug 2013 09:08:38 -0000
 
-On Friday 02 August 2013 00:15:00 Saul Wold wrote:
-> Ross, Paul:
-> 
-> Please review this batch, contains alot of updates along with some
-> patches and bug fixes.
-> 
-> Thanks
-> 	Sau!
-> 
-> 
-> The following changes since commit f192c444c2d88c49738bea4ff4c3af0cc72916de:
-> 
->   texinfo: Update to 5.1 (2013-07-31 06:56:28 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage
-> 
-> Chen Qi (1):
->   opkg.inc: remove the obsolete REDIRECT_CMD
-> 
-> Cristian Iorga (2):
->   alsa-lib: upgrade to v1.0.27.2
->   alsa-utils: upgrade to 1.0.27.2
-> 
-> Eric Nelson (1):
->   gst-plugins-gl: add explicit dependency on libpng
-> 
-> Ionut Radu (1):
->   apt: Upgrade from 0.9.8.2 to 0.9.9.4
-> 
-> Joe MacDonald (1):
->   oe-find-native-sysroot: minor optimization
-> 
-> Jukka Rissanen (3):
->   ofono: Add systemd support
->   ofono: Move bluetooth enabling to .inc file
->   ofono: Enable test scripts by default
-> 
-> Khem Raj (1):
->   gcc-4.8: Fix meta-fsl-arm iperf build issue
-> 
-> Laurentiu Palcu (13):
->   adt_installer: allow specifying relative target sysroot paths
->   xf86-video-intel: upgrade to 2.21.13
->   git: upgrade to 1.8.3.4
->   nasm: upgrade to 2.10.09
->   powertop: upgrade to 2.4
->   libdrm: upgrade to 2.4.46
->   libpciaccess: upgrade to 0.13.2
->   xrandr: upgrade to 1.4.1
->   xf86-input-evdev: upgrade to 2.8.1
->   xhost: upgrade to 1.0.6
->   makedepend: upgrade to 1.0.5
->   flex: upgrade to 2.5.37
+Fix gconv build failure on ARM big-endian architecture:
+ERROR: locale_arch_options not found for target_arch=armeb
+ERROR: Function failed: unknown arch:armeb for locale_arch_options
 
-This one needs PR dropping.
+Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ meta/classes/libc-package.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
->   grub_2.00: fix compilation when using flex 2.5.37
-> 
-> Martin Jansa (1):
->   mesa: inherit gettext
-> 
-> Muhammad Shakeel (1):
->   avahi: Remove unnecessary runtime dependency on sysvinit-pidof
-> 
-> Paul Barker (1):
->   opkg: Bump SRCREV as patch has been applied upstream
-> 
-> Paul Eggleton (3):
->   classes/sanity: check for suid root command evility
->   classes/sanity: fix some grammatical errors in messages
->   grub: disable floating ncurses dependency for GPLv2 version
-
-While you're at it could you please tweak my commit message for that last one 
-to to replace "because ncurses" with "because there ncurses"? I just noticed 
-it doesn't quite read properly at the moment.
-
-> Richard Tollerton (1):
->   shadow: Fix build when DISTRO_FEATURES contains pam, libc-crypt
-> 
-> Rogerio Nunes (1):
->   packagegroup-core-tools-testapps: isolate x11 dependent tools
-> 
-> Ross Burton (3):
->   bluez5: Add obex-profiles as a PACKAGECONFIG, package obexd separately
->   qemu: remove unused SDL variable
->   u-boot: state the MACHINE when skipping u-boot
-> 
-> Saul Wold (7):
->   dpkg: upgrade to 1.17.1
->   dpkg: Drop INC_PR as it's unused
->   glew: upgrade to 1.10.0
->   libgcrypt: upgrade to 1.5.3
->   resolvconf: upgrade to 1.74
->   xorg-cf-files: upgrade to 1.0.5
->   grep: Add patch for texinfo 5.1
-> 
-> Stefan Stanacar (4):
->   oeqa/utils/sshcontrol: increase and log timeout in output
->   oeqa/utils/qemurunner: add comment and header
->   oeqa/utils/qemurunner: tweak console bootparam and ip command
->   oeqa/runtime/xorg: use the right ps command for xorg test
-
-Otherwise they all look good to me.
-
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-
-Cheers,
-Paul
-
+diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
+index 74e2078..fd06c4a 100644
+--- a/meta/classes/libc-package.bbclass
++++ b/meta/classes/libc-package.bbclass
+@@ -267,6 +267,7 @@ python package_do_split_gconvs () {
+             target_arch = d.getVar('TARGET_ARCH', True)
+             locale_arch_options = { \
+                 "arm":     " --uint32-align=4 --little-endian ", \
++                "armeb":   " --uint32-align=4 --big-endian ",    \
+                 "sh4":     " --uint32-align=4 --big-endian ",    \
+                 "powerpc": " --uint32-align=4 --big-endian ",    \
+                 "powerpc64": " --uint32-align=4 --big-endian ",  \
 -- 
+1.8.1.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
