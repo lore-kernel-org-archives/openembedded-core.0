@@ -1,22 +1,22 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 243D56B0D8
+	by mail.openembedded.org (Postfix) with ESMTP id 6C5286B22E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 15:27:48 +0000 (UTC)
+	Fri,  2 Aug 2013 15:27:49 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:27:49 -0700
+	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:27:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276851378"
+X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276851386"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:27:47 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:27:49 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 18:29:20 +0300
-Message-Id: <1375457365-19847-3-git-send-email-cristian.iorga@intel.com>
+Date: Fri,  2 Aug 2013 18:29:21 +0300
+Message-Id: <1375457365-19847-4-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <1375457365-19847-1-git-send-email-cristian.iorga@intel.com>
 References: <1375457365-19847-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH 2/7] telepathy-idle: upgrade to v0.1.16
+Subject: [PATCH 3/7] gstreamer1.0: upgrade to v1.0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,38 +29,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 15:27:48 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 15:27:49 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../fix-svc-gtk-doc.h-target.patch                                   | 0
- .../telepathy/{telepathy-idle_0.1.14.bb => telepathy-idle_0.1.16.bb} | 5 ++---
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-connectivity/telepathy/{telepathy-idle-0.1.14 => telepathy-idle-0.1.16}/fix-svc-gtk-doc.h-target.patch (100%)
- rename meta/recipes-connectivity/telepathy/{telepathy-idle_0.1.14.bb => telepathy-idle_0.1.16.bb} (82%)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc                    | 2 --
+ .../gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb}        | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb} (72%)
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-idle-0.1.14/fix-svc-gtk-doc.h-target.patch b/meta/recipes-connectivity/telepathy/telepathy-idle-0.1.16/fix-svc-gtk-doc.h-target.patch
-similarity index 100%
-rename from meta/recipes-connectivity/telepathy/telepathy-idle-0.1.14/fix-svc-gtk-doc.h-target.patch
-rename to meta/recipes-connectivity/telepathy/telepathy-idle-0.1.16/fix-svc-gtk-doc.h-target.patch
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb b/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.16.bb
-similarity index 82%
-rename from meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb
-rename to meta/recipes-connectivity/telepathy/telepathy-idle_0.1.16.bb
-index 4edcb3b..279e8f1 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.14.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-idle_0.1.16.bb
-@@ -8,9 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+index d7bbee1..3cb478a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0.inc
+@@ -7,8 +7,6 @@ SECTION = "multimedia"
+ LICENSE = "LGPLv2+"
+ DEPENDS = "glib-2.0 libxml2 bison-native flex-native"
  
- SRC_URI = "http://telepathy.freedesktop.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
-            file://fix-svc-gtk-doc.h-target.patch"
+-PR = "r1"
 -
--SRC_URI[md5sum] = "c292c54aa08f61544ab53fda880d861c"
--SRC_URI[sha256sum] = "df344e7959d99ab4ee4c0bcde82e6fc652cc48dc93ce11fcd024fa2383068fec"
-+SRC_URI[md5sum] = "afabda908a798aac3a427f4564af113a"
-+SRC_URI[sha256sum] = "739614e2d526d82bdd2fd94026ca70a46670563556ff15537a2a08bf17172875"
+ inherit autotools pkgconfig gettext
  
- inherit autotools pkgconfig pythonnative
+ GSTREAMER_1_DEBUG ?= "--disable-debug"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.9.bb
+similarity index 72%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.9.bb
+index 1423227..e4b2f1e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.0.9.bb
+@@ -7,7 +7,7 @@ SRC_URI = " \
+     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+     file://0001-Fix-crash-with-gst-inspect.patch \
+     "
+-SRC_URI[md5sum] = "8f6066a37c71a0d0ff5fe5f7687fea12"
+-SRC_URI[sha256sum] = "68cada7ee24ede23e15dc81ccde11898eed1a7a3c6a2d81a8c31596fccb1b5ce"
++SRC_URI[md5sum] = "cbbad73d703b811bc8bd18e47b36e534"
++SRC_URI[sha256sum] = "17a2c60a82baa461ef685ad3de187edb9c03a2c7e07513daba58a5a32efacaa3"
+ S = "${WORKDIR}/gstreamer-${PV}"
  
 -- 
 1.8.1.2
