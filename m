@@ -1,22 +1,22 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B2E46B4F1
+	by mail.openembedded.org (Postfix) with ESMTP id 6DD036B524
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 15:27:55 +0000 (UTC)
+	Fri,  2 Aug 2013 15:27:56 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:27:56 -0700
+	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:27:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276851419"
+X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276851424"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:27:54 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:27:56 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 18:29:24 +0300
-Message-Id: <1375457365-19847-7-git-send-email-cristian.iorga@intel.com>
+Date: Fri,  2 Aug 2013 18:29:25 +0300
+Message-Id: <1375457365-19847-8-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <1375457365-19847-1-git-send-email-cristian.iorga@intel.com>
 References: <1375457365-19847-1-git-send-email-cristian.iorga@intel.com>
-Subject: [PATCH 6/7] gstreamer1.0-libav: upgrade to v1.0.9
+Subject: [PATCH 7/7] gstreamer1.0-plugins-bad: upgrade to v1.0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +29,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 15:27:55 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 15:27:56 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../{gstreamer1.0-libav_1.0.7.bb => gstreamer1.0-libav_1.0.9.bb}     | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.0.7.bb => gstreamer1.0-libav_1.0.9.bb} (89%)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc        | 2 --
+ ...amer1.0-plugins-bad_1.0.7.bb => gstreamer1.0-plugins-bad_1.0.9.bb} | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.0.7.bb => gstreamer1.0-plugins-bad_1.0.9.bb} (75%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.0.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.0.9.bb
-similarity index 89%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.0.7.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.0.9.bb
-index f486a9d..0b6bd50 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.0.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.0.9.bb
-@@ -14,9 +14,8 @@ SRC_URI = " \
-     file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
-     file://libav_e500mc.patch \
-     "
--
--SRC_URI[md5sum] = "68e1eb18a58907e21b81d26ce7db056a"
--SRC_URI[sha256sum] = "aefa679d14e7a6558673cfbf401b9c01f1903bb52e5dc08332e9001d25a7ba7a"
-+SRC_URI[md5sum] = "8414f8d4c4a239a74a3d5eadf3d14875"
-+SRC_URI[sha256sum] = "759641c0597c24191322f40945b363b75df299a539ff4086650be6193028189a"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+index 38cf512..a36335a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc
+@@ -7,8 +7,6 @@ DEPENDS += "gstreamer1.0-plugins-base bzip2"
+ SRC_URI[md5sum] = "d1493d1219b836a8cbf54f4fba962420"
+ SRC_URI[sha256sum] = "5f49e6353fdc855834b5beb054b3a47ef5fa558006c7eda6d2ec07b36315c2ab"
  
- LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
-   --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
+-PR = "r1"
+-
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
+ inherit gettext
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.0.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.0.9.bb
+similarity index 75%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.0.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.0.9.bb
+index bca3567..9ce7991 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.0.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.0.9.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
+                     file://COPYING.LIB;md5=21682e4e8fea52413fd26c60acb907e5 \
+                     file://gst/tta/crc32.h;beginline=12;endline=29;md5=71a904d99ce7ae0c1cf129891b98145c"
+ 
+-SRC_URI[md5sum] = "d1493d1219b836a8cbf54f4fba962420"
+-SRC_URI[sha256sum] = "5f49e6353fdc855834b5beb054b3a47ef5fa558006c7eda6d2ec07b36315c2ab"
++SRC_URI[md5sum] = "569e5122fd7bfd7bd861a537f0a28c60"
++SRC_URI[sha256sum] = "69d236b1d8188270a3f51f6710146d0ca63c2f1a9f6cfbab3399ef01b9498f75"
+ 
+ S = "${WORKDIR}/gst-plugins-bad-${PV}"
+ 
 -- 
 1.8.1.2
 
