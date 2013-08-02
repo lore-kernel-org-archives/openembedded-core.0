@@ -1,22 +1,26 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E33C6B22E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 52F7C6B22E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 10:40:28 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2013 03:40:17 -0700
+	Fri,  2 Aug 2013 10:40:54 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 03:40:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,800,1367996400"; d="scan'208";a="340629359"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 02 Aug 2013 03:40:15 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 13:40:14 +0300
-Message-Id: <cover.1375439894.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1375275560.git.laurentiu.palcu@intel.com>
-References: <cover.1375275560.git.laurentiu.palcu@intel.com>
-Subject: [PATCH v2 00/13] Package upgrades (cover letter only)
+X-IronPort-AV: E=Sophos;i="4.89,800,1367996400"; d="scan'208";a="276746537"
+Received: from unknown (HELO helios.localnet) ([10.252.122.201])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 03:40:53 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Fri, 02 Aug 2013 11:40:53 +0100
+Message-ID: <2803921.ll8rIZ9yu3@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <51FB83D9.80904@windriver.com>
+References: <cover.1375354695.git.hongxu.jia@windriver.com>
+	<2353783.439DWQmp63@helios> <51FB83D9.80904@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] list-packageconfig-flag.py: add a script to list all PACKAGECONFIG's flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,86 +33,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 10:40:29 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 10:40:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Changes in v2:
- * dropped PR for flex;
+On Friday 02 August 2013 18:03:05 Hongxu Jia wrote:
+> I have updated the pull branch to rename the script and correct the comments
+> as your suggestions.
 
-Thanks,
-Laurentiu
+There still seem to be a lot of instances of "PACKAGECONFIG's flags" on the 
+branch.
 
-The following changes since commit 9de0ad47462c13ac4a2d73e12e92be6c1b4e0415:
+> The suggestion about using bitbake parser to make the script more robust,
+> I need some time to do the investigation and I am very pleased to do that,
+> I will address this in follow-up pathch, would you think it's proper or not?
 
-  genericx86: ship all the driver firmware by default (2013-07-31 07:00:00 +0100)
+Yes, that's fine.
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/upgrades_v2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/upgrades_v2
-
-Laurentiu Palcu (13):
-  xf86-video-intel: upgrade to 2.21.13
-  git: upgrade to 1.8.3.4
-  nasm: upgrade to 2.10.09
-  powertop: upgrade to 2.4
-  libdrm: upgrade to 2.4.46
-  libpciaccess: upgrade to 0.13.2
-  xrandr: upgrade to 1.4.1
-  xf86-input-evdev: upgrade to 2.8.1
-  subversion: upgrade to 1.8.1
-  xhost: upgrade to 1.0.6
-  makedepend: upgrade to 1.0.5
-  flex: upgrade to 2.5.37
-  grub_2.00: fix compilation when using flex 2.5.37
-
- .../grub-2.00/fix-issue-with-flex-2.5.37.patch     |   21 +++++++
- meta/recipes-bsp/grub/grub_2.00.bb                 |    4 +-
- .../flex/files/do_not_create_pdf_doc.patch         |   17 ++++++
- .../flex/flex/avoid-FORTIFY-warnings.patch         |   59 --------------------
- .../flex/int-is-not-the-same-size-as-size_t.patch  |   42 --------------
- meta/recipes-devtools/flex/flex_2.5.35.bb          |   11 ----
- meta/recipes-devtools/flex/flex_2.5.37.bb          |    9 +++
- .../git/{git_1.8.3.bb => git_1.8.3.4.bb}           |    4 +-
- .../nasm/{nasm_2.10.07.bb => nasm_2.10.09.bb}      |    5 +-
- .../subversion-1.8.1/disable_mac_checks.patch      |   21 +++++++
- .../libtool2.patch                                 |   14 +++--
- .../subversion/disable-revision-install.patch      |   36 ------------
- .../subversion/fix-install-depends.patch           |   45 ---------------
- .../{subversion_1.6.15.bb => subversion_1.8.1.bb}  |   24 ++++----
- .../drm/{libdrm_2.4.45.bb => libdrm_2.4.46.bb}     |    4 +-
- .../xorg-app/{xhost_1.0.5.bb => xhost_1.0.6.bb}    |    5 +-
- .../xorg-app/{xrandr_1.4.0.bb => xrandr_1.4.1.bb}  |    5 +-
- ...ut-evdev_2.8.0.bb => xf86-input-evdev_2.8.1.bb} |    4 +-
- ...intel_2.21.9.bb => xf86-video-intel_2.21.13.bb} |    4 +-
- ...bpciaccess_0.13.1.bb => libpciaccess_0.13.2.bb} |    8 +--
- .../obsolete_automake_macros.patch                 |   15 -----
- .../{makedepend_1.0.4.bb => makedepend_1.0.5.bb}   |    7 +--
- .../powertop/{powertop_2.3.bb => powertop_2.4.bb}  |    4 +-
- 23 files changed, 111 insertions(+), 257 deletions(-)
- create mode 100644 meta/recipes-bsp/grub/grub-2.00/fix-issue-with-flex-2.5.37.patch
- create mode 100644 meta/recipes-devtools/flex/files/do_not_create_pdf_doc.patch
- delete mode 100644 meta/recipes-devtools/flex/flex/avoid-FORTIFY-warnings.patch
- delete mode 100644 meta/recipes-devtools/flex/flex/int-is-not-the-same-size-as-size_t.patch
- delete mode 100644 meta/recipes-devtools/flex/flex_2.5.35.bb
- create mode 100644 meta/recipes-devtools/flex/flex_2.5.37.bb
- rename meta/recipes-devtools/git/{git_1.8.3.bb => git_1.8.3.4.bb} (67%)
- rename meta/recipes-devtools/nasm/{nasm_2.10.07.bb => nasm_2.10.09.bb} (80%)
- create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.1/disable_mac_checks.patch
- rename meta/recipes-devtools/subversion/{subversion => subversion-1.8.1}/libtool2.patch (54%)
- delete mode 100644 meta/recipes-devtools/subversion/subversion/disable-revision-install.patch
- delete mode 100644 meta/recipes-devtools/subversion/subversion/fix-install-depends.patch
- rename meta/recipes-devtools/subversion/{subversion_1.6.15.bb => subversion_1.8.1.bb} (54%)
- rename meta/recipes-graphics/drm/{libdrm_2.4.45.bb => libdrm_2.4.46.bb} (46%)
- rename meta/recipes-graphics/xorg-app/{xhost_1.0.5.bb => xhost_1.0.6.bb} (79%)
- rename meta/recipes-graphics/xorg-app/{xrandr_1.4.0.bb => xrandr_1.4.1.bb} (70%)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-evdev_2.8.0.bb => xf86-input-evdev_2.8.1.bb} (83%)
- rename meta/recipes-graphics/xorg-driver/{xf86-video-intel_2.21.9.bb => xf86-video-intel_2.21.13.bb} (85%)
- rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.13.1.bb => libpciaccess_0.13.2.bb} (50%)
- delete mode 100644 meta/recipes-graphics/xorg-util/makedepend-1.0.4/obsolete_automake_macros.patch
- rename meta/recipes-graphics/xorg-util/{makedepend_1.0.4.bb => makedepend_1.0.5.bb} (76%)
- rename meta/recipes-kernel/powertop/{powertop_2.3.bb => powertop_2.4.bb} (87%)
+Cheers,
+Paul
 
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
