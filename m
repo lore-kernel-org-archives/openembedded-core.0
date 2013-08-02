@@ -1,37 +1,20 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
-	[209.85.219.52])
-	by mail.openembedded.org (Postfix) with ESMTP id F28B66B42A
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B9496B0D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 12:17:58 +0000 (UTC)
-Received: by mail-oa0-f52.google.com with SMTP id n12so1171669oag.11
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2013 05:17:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
-	bh=2/NixJ40OsHZFxxByeoLcADSMdlgwQYNANxNfkNc85k=;
-	b=H1S+oOAs+ABH7+R4Rz8pXojhv0Tc/cYe47cootf91yb0Um25fspSNkGnPOjVnaWWTV
-	y1bsl+Mluh55JtfuOr6gO/JHlIS7NZD4dL9Qp9PE9jTnvfUo36390D18tLS/zae3NuJq
-	0y2dq1BnuQYvq+sdQZqD8ij8pXDortgiYO1Pl5CSp4INsMBGfOw7v4fULOtgRBa5zHRf
-	Egj6dKiMww9IrgXcue8js+dpP3NS6eDDx5DWF2sTFwz2RMcYp5ees/lS3JRiZ1OnzkuO
-	hFPgpW02w8WTbGdemx7kYOAPNKYjmm9j3JwRnnQ0voqIgc4nZX+si1Cy9vkvtzBrnPhA
-	OO2Q==
-MIME-Version: 1.0
-X-Received: by 10.182.38.228 with SMTP id j4mr5005843obk.94.1375445879054;
-	Fri, 02 Aug 2013 05:17:59 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 2 Aug 2013 05:17:58 -0700 (PDT)
-In-Reply-To: <1375394875-23238-1-git-send-email-raj.khem@gmail.com>
-References: <1375394875-23238-1-git-send-email-raj.khem@gmail.com>
-Date: Fri, 2 Aug 2013 09:17:58 -0300
-X-Google-Sender-Auth: NoCxpnKtHdoaEIwD4kQy5or8xdE
-Message-ID: <CAP9ODKqkn3WH=qohEVySc02rS12xJ3-N84drrApmJc7HYSRqOw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-4.8: Fix meta-fsl-arm iperf build issue
+	Fri,  2 Aug 2013 15:27:46 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 02 Aug 2013 08:27:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276851358"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:27:45 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  2 Aug 2013 18:29:18 +0300
+Message-Id: <1375457365-19847-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/7] Upgrades for telepathy stack and GStreamer 1.0 stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +27,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 12:17:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 02 Aug 2013 15:27:46 -0000
 
-On Thu, Aug 1, 2013 at 7:07 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> This should fix the problem seen where gcc ICE
-> was happening when compiling iperf with older 2.6.x
-> kernel
+Upgrades for telepathy stack and GStreamer 1.0 stack
 
-In fact it is 'perf', not iperf ;-)
+Cristian Iorga (7):
+  telepathy-mission-control: upgrade to v5.15.0
+  telepathy-idle: upgrade to v0.1.16
+  gstreamer1.0: upgrade to v1.0.9
+  gstreamer1.0-plugins-base: upgrade to v1.0.9
+  gstreamer1.0-plugins-good: upgrade to v1.0.9
+  gstreamer1.0-libav: upgrade to v1.0.9
+  gstreamer1.0-plugins-bad: upgrade to v1.0.9
 
-> Test this patch by reverting below commit in meta-fsl-arm
->
-> commit daf582c93a7283fb0af3b25fe2ada48f4c9985c4
-> Author: Otavio Salvador <otavio@ossystems.com.br>
-> Date:   Tue Jul 2 11:52:51 2013 -0300
->
->     perf: Disable FPU tune for i.MX5 SoCs to workaround GCC ICE
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> CC: Otavio Salvador <otavio@ossystems.com.br>
-
-Tested-by: Otavio Salvador <otavio@ossystems.com.br>
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+ .../fix-svc-gtk-doc.h-target.patch                                   | 0
+ .../telepathy/{telepathy-idle_0.1.14.bb => telepathy-idle_0.1.16.bb} | 5 ++---
+ ...mission-control_5.14.0.bb => telepathy-mission-control_5.15.0.bb} | 5 ++---
+ .../{gstreamer1.0-libav_1.0.7.bb => gstreamer1.0-libav_1.0.9.bb}     | 5 ++---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc       | 2 --
+ ...mer1.0-plugins-bad_1.0.7.bb => gstreamer1.0-plugins-bad_1.0.9.bb} | 4 ++--
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc      | 2 --
+ ...r1.0-plugins-base_1.0.7.bb => gstreamer1.0-plugins-base_1.0.9.bb} | 5 ++---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc      | 2 --
+ ...r1.0-plugins-good_1.0.7.bb => gstreamer1.0-plugins-good_1.0.9.bb} | 4 ++--
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc                   | 2 --
+ .../gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb}       | 4 ++--
+ 12 files changed, 14 insertions(+), 26 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-idle-0.1.14 => telepathy-idle-0.1.16}/fix-svc-gtk-doc.h-target.patch (100%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-idle_0.1.14.bb => telepathy-idle_0.1.16.bb} (82%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.14.0.bb => telepathy-mission-control_5.15.0.bb} (92%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.0.7.bb => gstreamer1.0-libav_1.0.9.bb} (89%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.0.7.bb => gstreamer1.0-plugins-bad_1.0.9.bb} (75%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.0.7.bb => gstreamer1.0-plugins-base_1.0.9.bb} (72%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.0.7.bb => gstreamer1.0-plugins-good_1.0.9.bb} (73%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb} (72%)
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.1.2
+
 
