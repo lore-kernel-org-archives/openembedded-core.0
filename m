@@ -1,24 +1,20 @@
-Return-Path: <ionutx.radu@intel.com>
+Return-Path: <cristian.iorga@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C97E6B4F0
+	by mail.openembedded.org (Postfix) with ESMTP id 7F2556B46D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 15:37:54 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2013 08:37:55 -0700
+	Fri,  2 Aug 2013 15:38:18 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 02 Aug 2013 08:38:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="276854932"
-Received: from work.rb.intel.com ([10.237.105.51])
-	by AZSMGA002.ch.intel.com with ESMTP; 02 Aug 2013 08:37:54 -0700
-From: Ionut Radu <ionutx.radu@intel.com>
+X-IronPort-AV: E=Sophos;i="4.89,802,1367996400"; d="scan'208";a="375219333"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Aug 2013 08:38:18 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 18:40:32 +0300
-Message-Id: <08a4585c2793705445417b442a345ae2f358fb87.1375457879.git.ionutx.radu@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <c9a41bb004c2b313f8dc4067b431da6f3c18f689.1375457879.git.ionutx.radu@intel.com>
-References: <c9a41bb004c2b313f8dc4067b431da6f3c18f689.1375457879.git.ionutx.radu@intel.com>
-In-Reply-To: <cover.1375457879.git.ionutx.radu@intel.com>
-References: <cover.1375457879.git.ionutx.radu@intel.com>
-Subject: [PATCH 2/2] gdk-pixbuf: upgrade to 2.28.2
+Date: Fri,  2 Aug 2013 18:39:49 +0300
+Message-Id: <cover.1375457906.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/7] PUs for telepathy and gstreamer1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 15:37:55 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 15:38:18 -0000
 
-Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
----
- .../gdk-pixbuf/{gdk-pixbuf_2.28.1.bb => gdk-pixbuf_2.28.2.bb}      |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gdk-pixbuf/{gdk-pixbuf_2.28.1.bb => gdk-pixbuf_2.28.2.bb} (94%)
+Upgrade for telepathy stack and gstreamer1.0 stack
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.1.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb
-similarity index 94%
-rename from meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.1.bb
-rename to meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb
-index a97234c..08d6f0a 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.1.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.28.2.bb
-@@ -19,8 +19,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://extending-libinstall-dependencies.patch \
-            "
- 
--SRC_URI[md5sum] = "5c71cce316d08c559fc5970aa60754ab"
--SRC_URI[sha256sum] = "bea0b743fdb5c3c8e23210f73623ec5f18f9ead2522942897fe739d80b50c2bb"
-+SRC_URI[md5sum] = "04c04e5042acd85cff6c439aba1995f1"
-+SRC_URI[sha256sum] = "183113c2eb2232963e88864a6a54fd963dbfeb1a3679fb0d3456f9e0b79e4617"
- 
- inherit autotools pkgconfig gettext pixbufcache
- 
+The following changes since commit 9de0ad47462c13ac4a2d73e12e92be6c1b4e0415:
+
+  genericx86: ship all the driver firmware by default (2013-07-31 07:00:00 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ciorga/work
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/work
+
+Cristian Iorga (7):
+  telepathy-mission-control: upgrade to v5.15.0
+  telepathy-idle: upgrade to v0.1.16
+  gstreamer1.0: upgrade to v1.0.9
+  gstreamer1.0-plugins-base: upgrade to v1.0.9
+  gstreamer1.0-plugins-good: upgrade to v1.0.9
+  gstreamer1.0-libav: upgrade to v1.0.9
+  gstreamer1.0-plugins-bad: upgrade to v1.0.9
+
+ .../fix-svc-gtk-doc.h-target.patch                                   | 0
+ .../telepathy/{telepathy-idle_0.1.14.bb => telepathy-idle_0.1.16.bb} | 5 ++---
+ ...mission-control_5.14.0.bb => telepathy-mission-control_5.15.0.bb} | 5 ++---
+ .../{gstreamer1.0-libav_1.0.7.bb => gstreamer1.0-libav_1.0.9.bb}     | 5 ++---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad.inc       | 2 --
+ ...mer1.0-plugins-bad_1.0.7.bb => gstreamer1.0-plugins-bad_1.0.9.bb} | 4 ++--
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc      | 2 --
+ ...r1.0-plugins-base_1.0.7.bb => gstreamer1.0-plugins-base_1.0.9.bb} | 5 ++---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good.inc      | 2 --
+ ...r1.0-plugins-good_1.0.7.bb => gstreamer1.0-plugins-good_1.0.9.bb} | 4 ++--
+ meta/recipes-multimedia/gstreamer/gstreamer1.0.inc                   | 2 --
+ .../gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb}       | 4 ++--
+ 12 files changed, 14 insertions(+), 26 deletions(-)
+ rename meta/recipes-connectivity/telepathy/{telepathy-idle-0.1.14 => telepathy-idle-0.1.16}/fix-svc-gtk-doc.h-target.patch (100%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-idle_0.1.14.bb => telepathy-idle_0.1.16.bb} (82%)
+ rename meta/recipes-connectivity/telepathy/{telepathy-mission-control_5.14.0.bb => telepathy-mission-control_5.15.0.bb} (92%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.0.7.bb => gstreamer1.0-libav_1.0.9.bb} (89%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.0.7.bb => gstreamer1.0-plugins-bad_1.0.9.bb} (75%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.0.7.bb => gstreamer1.0-plugins-base_1.0.9.bb} (72%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.0.7.bb => gstreamer1.0-plugins-good_1.0.9.bb} (73%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.0.7.bb => gstreamer1.0_1.0.9.bb} (72%)
+
 -- 
-1.7.10.4
+1.8.1.2
 
 
