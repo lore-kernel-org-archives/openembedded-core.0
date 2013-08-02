@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DDE26A9E1
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
+	[209.85.219.52])
+	by mail.openembedded.org (Postfix) with ESMTP id F28B66B42A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  2 Aug 2013 12:15:13 +0000 (UTC)
-Received: by mail-wi0-f180.google.com with SMTP id f14so478124wiw.1
+	Fri,  2 Aug 2013 12:17:58 +0000 (UTC)
+Received: by mail-oa0-f52.google.com with SMTP id n12so1171669oag.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 02 Aug 2013 05:15:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=from:to:subject:date:message-id:x-mailer:x-gm-message-state;
-	bh=z1c5nmPyOP/xqlyClkjcjAtGfJyEZvccQ5iLGsvXRfo=;
-	b=PZrVimEQaTuGCuKJwxRm9x91ZowNHZxC3R0vw++LazUJg03KBy6WRQ5b2WJ87HIIcm
-	A/yZSqZuO0jB5vl5twwGqYXY+8DRShagsfa1omGJWqeP+GRBeovMir61HaUHM2ttlCXh
-	C5EwjWXfDMObo/ZDXygIHAxFEUvG0ehfcAQo6nkqJRq4ZNOA+XnSRI7S1XjunvmBaO/V
-	5StqbiDxBBy//Yw72+CVLC8SpDv52QRTKRny4knF3dPbqJscUmPdK5glbCuiBjA2acKI
-	CYPvbfT8VgiEarmE3U8WmLPKZNh2fbfSR8bg51JQFszdOPW2bk2KVGpHDfArmD2kHb/v
-	+6ww==
-X-Received: by 10.180.12.243 with SMTP id b19mr1674293wic.6.1375445713801;
-	Fri, 02 Aug 2013 05:15:13 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id w4sm2957817wia.9.2013.08.02.05.15.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 02 Aug 2013 05:15:13 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  2 Aug 2013 13:15:07 +0100
-Message-Id: <1375445707-28585-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-X-Gm-Message-State: ALoCoQnGHBNDLk4OPWcDVIgTi/Oti9+en7nXTue8BLbzl0SIa+EuUEMoNHkictwzzDEAyZqR/UWe
-Subject: [PATCH] buildhistory: add a note when committing to buildhistory
+	Fri, 02 Aug 2013 05:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=2/NixJ40OsHZFxxByeoLcADSMdlgwQYNANxNfkNc85k=;
+	b=H1S+oOAs+ABH7+R4Rz8pXojhv0Tc/cYe47cootf91yb0Um25fspSNkGnPOjVnaWWTV
+	y1bsl+Mluh55JtfuOr6gO/JHlIS7NZD4dL9Qp9PE9jTnvfUo36390D18tLS/zae3NuJq
+	0y2dq1BnuQYvq+sdQZqD8ij8pXDortgiYO1Pl5CSp4INsMBGfOw7v4fULOtgRBa5zHRf
+	Egj6dKiMww9IrgXcue8js+dpP3NS6eDDx5DWF2sTFwz2RMcYp5ees/lS3JRiZ1OnzkuO
+	hFPgpW02w8WTbGdemx7kYOAPNKYjmm9j3JwRnnQ0voqIgc4nZX+si1Cy9vkvtzBrnPhA
+	OO2Q==
+MIME-Version: 1.0
+X-Received: by 10.182.38.228 with SMTP id j4mr5005843obk.94.1375445879054;
+	Fri, 02 Aug 2013 05:17:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Fri, 2 Aug 2013 05:17:58 -0700 (PDT)
+In-Reply-To: <1375394875-23238-1-git-send-email-raj.khem@gmail.com>
+References: <1375394875-23238-1-git-send-email-raj.khem@gmail.com>
+Date: Fri, 2 Aug 2013 09:17:58 -0300
+X-Google-Sender-Auth: NoCxpnKtHdoaEIwD4kQy5or8xdE
+Message-ID: <CAP9ODKqkn3WH=qohEVySc02rS12xJ3-N84drrApmJc7HYSRqOw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gcc-4.8: Fix meta-fsl-arm iperf build issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Aug 2013 12:15:14 -0000
+X-List-Received-Date: Fri, 02 Aug 2013 12:17:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-If there's been a lot of changes the commit to buildhistory can take a
-significant amount of time, so print a note so there's some indication of
-progress.
+On Thu, Aug 1, 2013 at 7:07 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> This should fix the problem seen where gcc ICE
+> was happening when compiling iperf with older 2.6.x
+> kernel
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/buildhistory.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+In fact it is 'perf', not iperf ;-)
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 36e7fe1..c5bba25 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -531,6 +531,7 @@ END
- python buildhistory_eventhandler() {
-     if e.data.getVar('BUILDHISTORY_FEATURES', True).strip():
-         if e.data.getVar("BUILDHISTORY_COMMIT", True) == "1":
-+            bb.note("Writing buildhistory")
-             bb.build.exec_func("buildhistory_commit", e.data)
- }
- 
+> Test this patch by reverting below commit in meta-fsl-arm
+>
+> commit daf582c93a7283fb0af3b25fe2ada48f4c9985c4
+> Author: Otavio Salvador <otavio@ossystems.com.br>
+> Date:   Tue Jul 2 11:52:51 2013 -0300
+>
+>     perf: Disable FPU tune for i.MX5 SoCs to workaround GCC ICE
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> CC: Otavio Salvador <otavio@ossystems.com.br>
+
+Tested-by: Otavio Salvador <otavio@ossystems.com.br>
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
 -- 
-1.7.10.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
