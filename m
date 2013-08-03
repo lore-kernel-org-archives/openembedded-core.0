@@ -1,41 +1,41 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
-	[209.85.220.44])
-	by mail.openembedded.org (Postfix) with ESMTP id B829861AD1
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 265D16041E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2013 18:12:50 +0000 (UTC)
-Received: by mail-pa0-f44.google.com with SMTP id jh10so1803759pab.17
+	Sat,  3 Aug 2013 18:26:38 +0000 (UTC)
+Received: by mail-lb0-f176.google.com with SMTP id w10so1173267lbi.21
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Aug 2013 11:12:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date
-	:x-google-sender-auth:message-id:subject:from:to:cc:content-type
-	:x-gm-message-state;
-	bh=kCDGSDu7UTnBZiNo0/w3TOWZcPt8p36eCitCtwsyHBE=;
-	b=hTzl6Vbzc7AyzbZPjTje9lJU9aI1HiIKyaTnMG05L6/OYOO4+Iq3Jjajw9JHkdKj3X
-	h0cWI1qmludk4mlqYlZ51dTJ9ki8FEfxJENwp1AfRKPHm8kdWPsDyfcDYdC+1bxl8rAd
-	Fj/xcOd9/XrEXDtp95BfQI8tfbXzRAtBUCWSXt+jxotOin9TH/qvOFSGKabPBiEtjLED
-	xUoF60SciuCsQtM1UzodTaMejFN1PPWhLHJUCvKztqD4DcSc7T/EXYVLamEDMwzI/Wa1
-	mbO6xvOFvT8Ys4Sp8s9TKpjwLRRButxZB0wdL52AZHP2nsV1VEz1CLlcldbJ7U9HNKE2
-	/KLA==
+	Sat, 03 Aug 2013 11:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date
+	:x-google-sender-auth:message-id:subject:to:cc:content-type;
+	bh=8MzI7Pbs/ycCEh56HBW0zPTqvkjOFgW7g4KB/fkm9wY=;
+	b=Bkboihi4Fm28V4mBTtPZIVOcH1n3aTZWGsJfg1z7lNyBC1Di4PzO6d0eEQY/1Jukyi
+	aY9yZNNGFN1UJTAXW/lZf+3lnoHM0s97ir1zWAHkyXzFfJabTIM6dknXM87iLWBaesM8
+	ullsEuM3uNUQRVL/oWkZQBWzotoB6ZZc84nBdanOxeeIvhgPRY7Dtya1ol3JoTi/hvRs
+	UQrRKqMLnk/+gEPFscU3Bq04CHZUD1akaZFOkfXwUblhG8X6H6CLJGN3AHl/VW+qzAzC
+	QmtaI+xV+zRXUT8btDb3iiRH1eoY0OO2zkiab1QuEDFBiAA0xqv0hibLnpoSe2XjNr83
+	15+A==
+X-Received: by 10.152.20.227 with SMTP id q3mr4594304lae.16.1375554398883;
+	Sat, 03 Aug 2013 11:26:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.66.119.35 with SMTP id kr3mr16959067pab.149.1375553570968;
-	Sat, 03 Aug 2013 11:12:50 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.37.237 with HTTP; Sat, 3 Aug 2013 11:12:50 -0700 (PDT)
-In-Reply-To: <CAP9ODKrGeOrWx6v_E9cYBY_VvBn3BLNDWMaDBekhfFR3sr4+eg@mail.gmail.com>
-References: <1375521469-1654-1-git-send-email-lpapp@kde.org>
-	<CAP9ODKrGeOrWx6v_E9cYBY_VvBn3BLNDWMaDBekhfFR3sr4+eg@mail.gmail.com>
-Date: Sat, 3 Aug 2013 19:12:50 +0100
-X-Google-Sender-Auth: eZTyeLClonth2go5-GH_p4rPmYw
-Message-ID: <CAOMwXhOopQVMRmCXVMnGPt_ZrcL8aS0mxwmUyGgGAvLH7533Cw@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
+Sender: kergoth@gmail.com
+Received: by 10.112.17.67 with HTTP; Sat, 3 Aug 2013 11:26:18 -0700 (PDT)
+In-Reply-To: <CAP9ODKqjwDuMNM1aj6TgX6-S10fZC1qBU9O58RdCioTiV0XL-A@mail.gmail.com>
+References: <1375395237-17840-1-git-send-email-otavio@ossystems.com.br>
+	<CABcZANnvpMCNKyncpct+FTiHrcGid4_hpKQvH=DQ=YwD4LFYJA@mail.gmail.com>
+	<CAP9ODKqjwDuMNM1aj6TgX6-S10fZC1qBU9O58RdCioTiV0XL-A@mail.gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Sat, 3 Aug 2013 11:26:18 -0700
+X-Google-Sender-Auth: AG9DTBawh1mhfCu787n3esaRmlc
+Message-ID: <CABcZANmU0=Pz7HzaifB1GOJuA2GC4ZQnEyiGy60=Veas9T3-RA@mail.gmail.com>
 To: Otavio Salvador <otavio@ossystems.com.br>
-X-Gm-Message-State: ALoCoQnG4GbL/Lj3tLnKWqre17sZP/wOsga7LIVW5ha/qyAVRZ+XBrecQbwXCuRx4qYIzped7RW+
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to 2013.07
+Cc: Evan Kotara <evan.kotara@freescale.com>,
+	Lauren Post <lauren.post@freescale.com>,
+	Daiane Angolini <daiane.angolini@freescale.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] distro_features_check.bbclass: Allow checking of required/conflicting features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,65 +48,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2013 18:12:50 -0000
-Content-Type: multipart/alternative; boundary=047d7b0721caf7ac0c04e30f0598
+X-List-Received-Date: Sat, 03 Aug 2013 18:26:39 -0000
+Content-Type: multipart/alternative; boundary=089e0141a9ac5097e504e30f3761
 
---047d7b0721caf7ac0c04e30f0598
-Content-Type: text/plain; charset=ISO-8859-1
+--089e0141a9ac5097e504e30f3761
+Content-Type: text/plain; charset=UTF-8
 
-It is updating the latest version while also preserving the option of using
-an earlier one.
+On Sat, Aug 3, 2013 at 9:55 AM, Otavio Salvador <otavio@ossystems.com.br>wrote:
 
-
-On Sat, Aug 3, 2013 at 6:53 PM, Otavio Salvador <otavio@ossystems.com.br>wrote:
-
-> On Sat, Aug 3, 2013 at 6:17 AM, Laszlo Papp <lpapp@kde.org> wrote:
-> > Signed-off-by: Laszlo Papp <lpapp@kde.org>
+> On Fri, Aug 2, 2013 at 6:16 PM, Chris Larson <clarson@kergoth.com> wrote:
+> > On Thu, Aug 1, 2013 at 3:13 PM, Otavio Salvador <otavio@ossystems.com.br
+> >
+> > wrote:
+> >>
+> >> This add support to list required/confliting distro features for a
+> >> recipe; this avoids user mistake when building recipes/images which
+> >> would not work depending on DISTRO_FEATURES option set.
+> >>
+> >> Adding:
+> >>
+> >> ,----[ Use example ]
+> >> | inherit distro_features_check
+> >> |
+> >> | REQUIRED_DISTRO_FEATURES = "x11"
+> >> | CONFLICT_DISTRO_FEATURES_mx6 = "wayland"
+> >
+> >
+> > I wonder if it would be worth doing this like PNBLACKLIST to let the
+> recipe
+> > provide its reasoning as a message, or if that would add too much
+> overhead.
+> > I don't know enough about this use case, but something to consider if it
+> > hasn't been already.
 >
-> Please reword the commit. You're not updating it but adding 2013.07
-> version.
+> I did a look now on PNBLACKLIST and while I see the value of a custom
+> message I didn't come up with a way to do it using overrides as well.
+> So, as the example in the commit log, it'd be harder to make a mx6
+> specific conflict.
 >
-> Personally I'd prefer to update for 2013.07 and drop previous
-> releases. To support the update, I've been using this in meta-fsl-arm
-> since rc1 ;-)
+> CONFLICT_DISTRO_FEATURES[wayland]_mx6 = "Vivante GPU driver for
+> Wayland is incompatible with X11"
 >
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://projetos.ossystems.com.br
-> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->
+> Would the above work with current BitBake code?
 
---047d7b0721caf7ac0c04e30f0598
-Content-Type: text/html; charset=ISO-8859-1
+
+That's a good point, unfortunately I don't think flags propagate for
+overrides today :(. I think it would be something like
+CONFLICT_DISTRO_FEATURES_mx6[wayland], but I don't think that folds into
+the main variable when the overrides are applied (the semantics of that may
+be unclear0. Oh well, nevermind :)
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e0141a9ac5097e504e30f3761
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">It is updating the latest version while also preserving th=
-e option of using an earlier one.</div><div class=3D"gmail_extra"><br><br><=
-div class=3D"gmail_quote">On Sat, Aug 3, 2013 at 6:53 PM, Otavio Salvador <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:otavio@ossystems.com.br" target=3D"_=
-blank">otavio@ossystems.com.br</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">On Sat, Aug 3, 2013 at 6:17 AM, Laszlo Papp =
-&lt;<a href=3D"mailto:lpapp@kde.org">lpapp@kde.org</a>&gt; wrote:<br>
-&gt; Signed-off-by: Laszlo Papp &lt;<a href=3D"mailto:lpapp@kde.org">lpapp@=
-kde.org</a>&gt;<br>
-<br>
-Please reword the commit. You&#39;re not updating it but adding 2013.07 ver=
-sion.<br>
-<br>
-Personally I&#39;d prefer to update for 2013.07 and drop previous<br>
-releases. To support the update, I&#39;ve been using this in meta-fsl-arm<b=
-r>
-since rc1 ;-)<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-Otavio Salvador =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 O.S=
-. Systems<br>
-<a href=3D"http://www.ossystems.com.br" target=3D"_blank">http://www.ossyst=
-ems.com.br</a> =A0 =A0 =A0 =A0<a href=3D"http://projetos.ossystems.com.br" =
-target=3D"_blank">http://projetos.ossystems.com.br</a><br>
-Mobile: +55 (53) 9981-7854 =A0 =A0 =A0 =A0 =A0 =A0Mobile: +1 (347) 903-9750=
-<br>
-</font></span></blockquote></div><br></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Sat, Aug 3, 2013 at 9:55 AM, Otavio Salvador <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.co=
+m.br</a>&gt;</span> wrote:<br>
 
---047d7b0721caf7ac0c04e30f0598--
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Fri, Aug 2, 2013 at 6:1=
+6 PM, Chris Larson &lt;<a href=3D"mailto:clarson@kergoth.com">clarson@kergo=
+th.com</a>&gt; wrote:<br>
+
+
+&gt; On Thu, Aug 1, 2013 at 3:13 PM, Otavio Salvador &lt;<a href=3D"mailto:=
+otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt;<br>
+&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; This add support to list required/confliting distro features for a=
+<br>
+&gt;&gt; recipe; this avoids user mistake when building recipes/images whic=
+h<br>
+&gt;&gt; would not work depending on DISTRO_FEATURES option set.<br>
+&gt;&gt;<br>
+&gt;&gt; Adding:<br>
+&gt;&gt;<br>
+&gt;&gt; ,----[ Use example ]<br>
+&gt;&gt; | inherit distro_features_check<br>
+&gt;&gt; |<br>
+&gt;&gt; | REQUIRED_DISTRO_FEATURES =3D &quot;x11&quot;<br>
+&gt;&gt; | CONFLICT_DISTRO_FEATURES_mx6 =3D &quot;wayland&quot;<br>
+&gt;<br>
+&gt;<br>
+&gt; I wonder if it would be worth doing this like PNBLACKLIST to let the r=
+ecipe<br>
+&gt; provide its reasoning as a message, or if that would add too much over=
+head.<br>
+&gt; I don&#39;t know enough about this use case, but something to consider=
+ if it<br>
+&gt; hasn&#39;t been already.<br>
+<br>
+</div>I did a look now on PNBLACKLIST and while I see the value of a custom=
+<br>
+message I didn&#39;t come up with a way to do it using overrides as well.<b=
+r>
+So, as the example in the commit log, it&#39;d be harder to make a mx6<br>
+specific conflict.<br>
+<br>
+CONFLICT_DISTRO_FEATURES[wayland]_mx6 =3D &quot;Vivante GPU driver for<br>
+Wayland is incompatible with X11&quot;<br>
+<br>
+Would the above work with current BitBake code?</blockquote></div><br>That&=
+#39;s a good point, unfortunately I don&#39;t think flags propagate for ove=
+rrides today :(. I think it would be something like CONFLICT_DISTRO_FEATURE=
+S_mx6[wayland], but I don&#39;t think that folds into the main variable whe=
+n the overrides are applied (the semantics of that may be unclear0. Oh well=
+, nevermind :)<br>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
+</div></div>
+
+--089e0141a9ac5097e504e30f3761--
