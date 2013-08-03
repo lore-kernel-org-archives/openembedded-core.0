@@ -1,35 +1,36 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E9FF9608BF
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2013 15:59:51 +0000 (UTC)
-Received: by mail-ea0-f177.google.com with SMTP id f15so833036eak.22
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Aug 2013 08:59:51 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
+	[209.85.219.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A092D608BF
+	for <Openembedded-core@lists.openembedded.org>;
+	Sat,  3 Aug 2013 16:32:49 +0000 (UTC)
+Received: by mail-oa0-f53.google.com with SMTP id k18so3473065oag.40
+	for <Openembedded-core@lists.openembedded.org>;
+	Sat, 03 Aug 2013 09:32:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=xuljiw02uAWTa7mqhW4vlXX6qavFhXGLHAOhQ50sAo4=;
-	b=WBVnfk6GJB5mW/IJYrwVsiJSHTRnFV0NV/6FsW7iYSOUoPaQLh/qGhzjHEJ1k7X0JK
-	+MLlL1U8xZNfrTjps/TwQCow6LNJY+SD25G8ucuhfvV/Ny54Y9AvWLOFxo8WpvCE1sCE
-	gv6o8EMIG9f1hv6pEsQRmOfip+UkbaPCKi45C8cAih9jB5AUmmWm1UapmcVKD1Zap2b8
-	LLKeCYi6fghZdddvPQssoNMIUfUGRo2SD9Fq9UqUvc6CYDvmlR+UR5Sak9brtbNfJrEs
-	BEX8u45UcjzlaItCwrosFkrV+dZ4uNhkIUBXM68j2NufDf2JiH9isLmMw8TAi3zAMTse
-	3NXw==
-X-Received: by 10.14.200.132 with SMTP id z4mr5407102een.14.1375545591623;
-	Sat, 03 Aug 2013 08:59:51 -0700 (PDT)
-Received: from ubuntu.datv.net ([213.174.0.226])
-	by mx.google.com with ESMTPSA id p49sm20199413eeu.2.2013.08.03.08.59.50
-	for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 03 Aug 2013 08:59:50 -0700 (PDT)
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  3 Aug 2013 18:59:33 +0300
-Message-Id: <1375545573-1987-1-git-send-email-kirgene@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: Yevhen Kyriukha <kirgene@gmail.com>
-Subject: [PATCH v2] btrfs-tools: upgrade to upstream revision.
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=WCoVi4vtXjRMzqp02+aMsAHEt4vuRbcI4X23IFUU4YM=;
+	b=knS6MNIt7Swk4HGetAC9hcA91g2uhxx4T38iAGTioRXK+FX+Ehdour/C2e9RWi9/aQ
+	auV6llf2QMDlEE2LsC0G6R8QcIpJydFv4NdhsKo1HJ1rBKQBxNuujCR+KvYOhuM8VYYK
+	SEnLX1OushRK8GiEag58rZ7cmmOWkovkuhdI9Cvm8k6IhiSv8aqtfyICmxn4a7oljAs8
+	rcsB+AVKgLJP1MFmsyO8DYisX+WnWWqfRYqTuaSR7GCAPn6D7HaOpD2Uz61D1Gnsbstx
+	UoEizQjnU0DW/Z+Q2OkN3IdmgByPnJN1se/WwBaaWDf59SJ07CHKuwnTbMuI2Q6oK+Ov
+	nH2A==
+MIME-Version: 1.0
+X-Received: by 10.50.171.163 with SMTP id av3mr412191igc.33.1375547569375;
+	Sat, 03 Aug 2013 09:32:49 -0700 (PDT)
+Received: by 10.50.216.137 with HTTP; Sat, 3 Aug 2013 09:32:49 -0700 (PDT)
+In-Reply-To: <51FCEA92.8040508@gmail.com>
+References: <7F497479-61B1-4F37-B910-670CEB93FA46@gmail.com>
+	<51FCEA92.8040508@gmail.com>
+Date: Sat, 3 Aug 2013 09:32:49 -0700
+Message-ID: <CAMKF1so5-8qN1NvRcLEKB8fcA-uMSiR9eQUz322qQ3a0vGVLaQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: is someone working on upgrading systemd 205 into OE-Core ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,128 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2013 15:59:52 -0000
+X-List-Received-Date: Sat, 03 Aug 2013 16:32:50 -0000
+Content-Type: multipart/alternative; boundary=089e0117668b3e904d04e30da0c5
 
-Two patches were removed because changes that they provide are already exist.
+--089e0117668b3e904d04e30da0c5
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
----
- ...ix_race_condition_with_multithreaded_make.patch | 36 ----------------------
- .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   | 31 -------------------
- .../btrfs-tools/btrfs-tools_git.bb                 | 11 ++-----
- 3 files changed, 3 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
- delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+On Saturday, August 3, 2013, Jonathan Liu <net147@gmail.com> wrote:
+> On 17/07/2013 3:06 PM, Khem Raj wrote:
+>>
+>> Hi
+>>
+>> Wanted to know before duplicating effort. If someone is working on it
+please speak up
+>>
+>> -Khem
+>
+> As far as I know there aren't any people working on it. systemd is up to
+206 now.
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
-deleted file mode 100644
-index 40175b8..0000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Upstream-Status: Pending
--
--Fix makefile for multithreaded (make -j ) building.
--
--btrfsctl.c
--| i586-poky-linux-gcc  -m32   -march=i586 --sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
--| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
--| compilation terminated.
--| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
--| compilation terminated.
--
--Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
--2012/01/02
--
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -26,14 +26,13 @@ else
-- 	check = ls
-- endif
-- 
---.c.o:
--+%.o: %.c version.h
-- 	$(check) $<
-- 	$(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
-- 
--+all: $(progs) manpages
-- 
---all: version $(progs) manpages
---
---version:
--+version.h: version.sh
-- 	bash version.sh
-- 
-- btrfs: $(objects) btrfs.o btrfs_cmds.o scrub.o
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-deleted file mode 100644
-index 7f6594a..0000000
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
--Upstream-Status: Pending
--
--Avoid these kinds of errors while doing cross build:
--
--| ccache i586-poky-linux-gcc -march=i586 --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86 -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c btrfsctl.c
--| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl btrfsctl.o ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1  -Wl,--as-needed -luuid
--| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is incompatible with i386:x86-64 output
--| /usr/bin/ld: i386 architecture of input file `ctree.o' is incompatible with i386:x86-64 output
--
--Index: git/Makefile
--===================================================================
----- git.orig/Makefile
--+++ git/Makefile
--@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
-- 		$(objects) $(LDFLAGS) $(LIBS)
-- 
-- calc-size: $(objects) calc-size.o
---	gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
--+	$(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS) $(LIBS)
-- 
-- find-root: $(objects) find-root.o
---	gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
--+	$(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS) $(LIBS)
-- 
-- restore: $(objects) restore.o
---	gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
--+	$(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS) $(RESTORE_LIBS)
-- 
-- btrfsctl: $(objects) btrfsctl.o
-- 	$(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS) $(LIBS)
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index ef575ae..6c9b7c0 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -12,21 +12,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
- SECTION = "base"
- DEPENDS = "util-linux attr"
- 
--SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
-+SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--PV = "0.19+git${SRCPV}"
-+PV = "0.20+git${SRCPV}"
- 
- PR = "r6"
- 
--SRC_URI += " file://fix_use_of_gcc.patch \
--	 file://weak-defaults.patch \
--	 file://fix_race_condition_with_multithreaded_make.patch "
--
--SRC_URI[md5sum] = "78b1700d318de8518abfaab71f99a885"
--SRC_URI[sha256sum] = "1285774e0cb72984fac158dd046c8d405324754febd30320cd31e459253e4b65"
-+SRC_URI += "file://weak-defaults.patch"
- 
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
--- 
-1.8.1.2
+I know no worries I have a patch set somewhat
+>
+> Regards,
+> Jonathan
+>
 
+--089e0117668b3e904d04e30da0c5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<br><br>On Saturday, August 3, 2013, Jonathan Liu &lt;<a href=3D"mailto:net=
+147@gmail.com">net147@gmail.com</a>&gt; wrote:<br>&gt; On 17/07/2013 3:06 P=
+M, Khem Raj wrote:<br>&gt;&gt;<br>&gt;&gt; Hi<br>&gt;&gt;<br>&gt;&gt; Wante=
+d to know before duplicating effort. If someone is working on it please spe=
+ak up<br>
+&gt;&gt;<br>&gt;&gt; -Khem<br>&gt;<br>&gt; As far as I know there aren&#39;=
+t any people working on it. systemd is up to 206 now.<br><br>I know no worr=
+ies I have a patch set somewhat <br>&gt;<br>&gt; Regards,<br>&gt; Jonathan<=
+br>
+&gt;
+
+--089e0117668b3e904d04e30da0c5--
