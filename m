@@ -1,38 +1,39 @@
 Return-Path: <lpapp@archlinux.us>
-Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
-	[209.85.219.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E44046A9E1
+Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 181056A59D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2013 09:11:09 +0000 (UTC)
-Received: by mail-oa0-f43.google.com with SMTP id i10so3102460oag.16
+	Sat,  3 Aug 2013 09:17:38 +0000 (UTC)
+Received: by mail-wg0-f45.google.com with SMTP id x12so1186874wgg.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Aug 2013 02:11:10 -0700 (PDT)
+	Sat, 03 Aug 2013 02:17:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=4Jm9dWA4q3dFtIYTzZrmOesaKGwGoHVP3K7aRP0EdFk=;
-	b=AY9jGNSvgEBX4WZMdlh0xuXvHE2Yqvb/dKAsdz0QUFRkCktrCSsEX02ocEN6OkpDv7
-	eKEcN2WHveQMHu4BYCLjQara32wrvc+uA2q1EXDGUSMa0xA9Xnu/upGjI+etoDuVqgpB
-	9VwPgP9mhoYzkZsbuUd+KGKGgL3LCdqZW4i9O/TBlr2I16OM+HkmN4gGAgm+IsJKV4OS
-	0lwD39PVUrKltWTt6hJLPbgo8Oxb6MCtQcPFR86VbekXv0R7EoEYTzmJ+/vf/09rBL9c
-	B0Xm79Ab0m3UP4oS8tLVLinztFLcvjdMtUaS1F9KyAkKqa0uhA58pmrhe3esDjZMHy3y
-	mwYw==
-X-Gm-Message-State: ALoCoQl2SSNFSnacPTUNWLObp/xBIRZcze0uyahShTqfe0UG2trf6+cfJgj+dU82KC8xzI+l1xRI
-MIME-Version: 1.0
-X-Received: by 10.50.4.66 with SMTP id i2mr271916igi.43.1375521069958; Sat, 03
-	Aug 2013 02:11:09 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.42.76.199 with HTTP; Sat, 3 Aug 2013 02:11:09 -0700 (PDT)
-In-Reply-To: <1375516603-9720-1-git-send-email-net147@gmail.com>
-References: <1375516603-9720-1-git-send-email-net147@gmail.com>
-Date: Sat, 3 Aug 2013 10:11:09 +0100
-X-Google-Sender-Auth: c1nviHxc2UoTDa1lBYLk9JbcYY8
-Message-ID: <CAOMwXhPTMUKQ+H34k_6pdTPXk=Luy4VPQ8N=kd3hT4CTqJ8qJg@mail.gmail.com>
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=NANHsnYKGm8BiAmAREI8CIsbSYLMjDbS3mMO85Ne5Cc=;
+	b=jV0ZoIqFahfnrTD65cTr/2gnCDvQ8YtoPGgh/UkiSicJ6BraZf3r8WEmDf8n7KixUP
+	pJg5fv11x3z7e0G403ZqLNg2BaUzP2WF8a74Iqg3b2zGiHZJQ9LV58UwduhYXs1a+hHF
+	LaZU1odMWEwQyXBvN+d5fHcq5vpc+/7p2BSq5+qC+fTLi6mRtPo1TxvloVEMwGBzBrJC
+	NH2nOUG7NPjamnnGoQ1cmNhno6w1baHmRdcRwVAL5hbMK3Oz+MN3OfgH3Fz0zK+6Kw2p
+	8pqHwBpoQACtGOCEcqIqekowsw7jbXsAE5HDCMbQJTDybbfXAFJn05Ha1CeumGnf84KF
+	Vtlw==
+X-Gm-Message-State: ALoCoQlCWnypmIi6Oe1huZG6k4CY7wiIgAIMoi0x1rjWF7QMbqZavoWdyZbXYkOPvETvNvpcmjyC
+X-Received: by 10.180.12.45 with SMTP id v13mr1351086wib.7.1375521459057;
+	Sat, 03 Aug 2013 02:17:39 -0700 (PDT)
+Received: from archlinux.us (cpc11-cmbg15-2-0-cust30.5-4.cable.virginmedia.com.
+	[86.30.245.31])
+	by mx.google.com with ESMTPSA id b13sm8218298wic.9.2013.08.03.02.17.36
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 03 Aug 2013 02:17:38 -0700 (PDT)
+Sender: Laszlo Papp <lpapp@archlinux.us>
+Received: by archlinux.us (sSMTP sendmail emulation);
+	Sat, 03 Aug 2013 10:17:50 +0100
 From: Laszlo Papp <lpapp@kde.org>
-To: Jonathan Liu <net147@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4: add upstream QTBUG-32534 patch for QHttpMultiPart upload corruption
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Aug 2013 10:17:49 +0100
+Message-Id: <1375521469-1654-1-git-send-email-lpapp@kde.org>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,235 +46,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2013 09:11:10 -0000
-Content-Type: multipart/alternative; boundary=001a11c2a6f6c1a49404e3077412
+X-List-Received-Date: Sat, 03 Aug 2013 09:17:39 -0000
 
---001a11c2a6f6c1a49404e3077412
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: Laszlo Papp <lpapp@kde.org>
+---
+ meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb | 26 +++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb  | 27 ++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2013.07.bb          | 25 ++++++++++++++++++++
+ 3 files changed, 78 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
 
-You need this fix right in your third-party project that it cannot wait
-until the next upstream bugfix release, or if not you, someone else
-requested it on the Yocto bugtracker?
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+new file mode 100644
+index 0000000..8d13151
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+@@ -0,0 +1,26 @@
++DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
++                    file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
++SECTION = "bootloader"
++
++DEPENDS = "mtd-utils"
++
++SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "0cc5026aad02f218a9b9ac56b301c97a"
++SRC_URI[sha256sum] = "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa15596f43af310ba8b"
++
++S = "${WORKDIR}/u-boot-${PV}"
++
++EXTRA_OEMAKE = 'HOSTCC="${CC}"'
++
++do_compile () {
++  oe_runmake env
++}
++
++do_install () {
++  install -d ${D}${base_sbindir}
++  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
++  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
++}
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+new file mode 100644
+index 0000000..0108e00
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+@@ -0,0 +1,27 @@
++DESCRIPTION = "U-boot bootloader mkimage tool"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
++                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
++SECTION = "bootloader"
++
++SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "8445162690052e6afd4b8f87af2bb557"
++SRC_URI[sha256sum] = "2bbd440c1b29928d230604eac372fda5152d3ae23f52b1910c77fc5bf531250b"
++
++S = "${WORKDIR}/u-boot-${PV}"
++
++BBCLASSEXTEND = "native nativesdk"
++
++EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
++
++do_compile () {
++  oe_runmake tools
++}
++
++do_install () {
++  install -d ${D}${bindir}
++  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
++  ln -sf uboot-mkimage ${D}${bindir}/mkimage
++}
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+new file mode 100644
+index 0000000..8e05558
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+@@ -0,0 +1,25 @@
++require u-boot.inc
++
++# To build u-boot for your machine, provide the following lines in your machine
++# config, replacing the assignments as appropriate for your machine.
++# UBOOT_MACHINE = "omap3_beagle_config"
++# UBOOT_ENTRYPOINT = "0x80008000"
++# UBOOT_LOADADDRESS = "0x80008000"
++
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
++                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
++
++FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
++
++# This revision corresponds to the tag "v2013.07"
++# We use the revision in order to avoid having to fetch it from the repo during parse
++SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
++
++PV = "v2013.07+git${SRCPV}"
++
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
++
++S = "${WORKDIR}/git"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
+-- 
+1.8.3.4
 
 
-On Sat, Aug 3, 2013 at 8:56 AM, Jonathan Liu <net147@gmail.com> wrote:
-
-> Signed-off-by: Jonathan Liu <net147@gmail.com>
-> ---
->  meta/recipes-qt/qt4/qt4-4.8.5.inc                  |  1 +
->  ...art-fix-data-corruption-in-readData-metho.patch | 43
-> ++++++++++++++++++++++
->  2 files changed, 44 insertions(+)
->  create mode 100644
-> meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
->
-> diff --git a/meta/recipes-qt/qt4/qt4-4.8.5.inc
-> b/meta/recipes-qt/qt4/qt4-4.8.5.inc
-> index d05b174..95a14f3 100644
-> --- a/meta/recipes-qt/qt4/qt4-4.8.5.inc
-> +++ b/meta/recipes-qt/qt4/qt4-4.8.5.inc
-> @@ -22,6 +22,7 @@ SRC_URI = "
-> http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
->             file://0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch \
->             file://0020-webkit-disable-the-fuse-ld-gold-flag.patch \
->
-> file://0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch \
-> +
-> file://0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch \
->             file://0027-tools.pro-disable-qmeegographicssystemhelper.patch
-> \
->             file://g++.conf \
->             file://linux.conf \
-> diff --git
-> a/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
-> b/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
-> new file mode 100644
-> index 0000000..c3c002e
-> --- /dev/null
-> +++
-> b/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
-> @@ -0,0 +1,43 @@
-> +From 1f40ed553e618c3b0511c7db4b4fd26c2d2b65bf Mon Sep 17 00:00:00 2001
-> +From: Peter Hartmann <phartmann@blackberry.com>
-> +Date: Thu, 25 Jul 2013 12:05:29 -0400
-> +Subject: [PATCH] QHttpMultiPart: fix data corruption in readData method
-> +
-> +When readData() is called repeatedly, we need to keep track which
-> +part of the multipart message we are currently reading from.
-> +Hereby we also need to take the boundary size into account, and not
-> +only the size of the multipart; otherwise we would skip a not
-> +completely read part. This would then later lead to advancing the
-> +read pointer by negative indexes and data loss.
-> +
-> +Upstream-Status: Accepted [
-> https://codereview.qt-project.org/#change,61861]
-> +Signed-off-by: Jonathan Liu <net147@gmail.com>
-> +
-> +Task-number: QTBUG-32534
-> +Change-Id: Ibb6dff16adaf4ea67181d23d1d0c8459e33a0ed0
-> +Reviewed-by: Jonathan Liu <net147@gmail.com>
-> +Reviewed-by: Shane Kearns <shane.kearns@accenture.com>
-> +(cherry picked from qtbase/af96c6fed931564c95037539f07e9c8e33c69529)
-> +Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
-> +---
-> + src/network/access/qhttpmultipart.cpp          |  3 +-
-> + tests/auto/qnetworkreply/tst_qnetworkreply.cpp | 44
-> ++++++++++++++++++++++++++
-> + 2 files changed, 46 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/network/access/qhttpmultipart.cpp
-> b/src/network/access/qhttpmultipart.cpp
-> +index 635129a..b25e917 100644
-> +--- a/src/network/access/qhttpmultipart.cpp
-> ++++ b/src/network/access/qhttpmultipart.cpp
-> +@@ -488,7 +488,8 @@ qint64 QHttpMultiPartIODevice::readData(char *data,
-> qint64 maxSize)
-> +
-> +     // skip the parts we have already read
-> +     while (index < multiPart->parts.count() &&
-> +-           readPointer >= partOffsets.at(index) + multiPart->parts.at
-> (index).d->size())
-> ++           readPointer >= partOffsets.at(index) + multiPart->parts.at
-> (index).d->size()
-> ++           + multiPart->boundary.count() + 6) // 6 == 2 boundary dashes,
-> \r\n after boundary, \r\n after multipart
-> +         index++;
-> +
-> +     // read the data
-> +--
-> +1.8.3.4
-> +
-> --
-> 1.8.3.4
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---001a11c2a6f6c1a49404e3077412
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">You need this fix right in your third-party project that i=
-t cannot wait until the next upstream bugfix release, or if not you, someon=
-e else requested it on the Yocto bugtracker?</div><div class=3D"gmail_extra=
-">
-<br><br><div class=3D"gmail_quote">On Sat, Aug 3, 2013 at 8:56 AM, Jonathan=
- Liu <span dir=3D"ltr">&lt;<a href=3D"mailto:net147@gmail.com" target=3D"_b=
-lank">net147@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">
-Signed-off-by: Jonathan Liu &lt;<a href=3D"mailto:net147@gmail.com">net147@=
-gmail.com</a>&gt;<br>
----<br>
-=A0meta/recipes-qt/qt4/qt4-4.8.5.inc =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =
-=A01 +<br>
-=A0...art-fix-data-corruption-in-readData-metho.patch | 43 ++++++++++++++++=
-++++++<br>
-=A02 files changed, 44 insertions(+)<br>
-=A0create mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix=
--data-corruption-in-readData-metho.patch<br>
-<br>
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5.inc b/meta/recipes-qt/qt4/qt4-4.=
-8.5.inc<br>
-index d05b174..95a14f3 100644<br>
---- a/meta/recipes-qt/qt4/qt4-4.8.5.inc<br>
-+++ b/meta/recipes-qt/qt4/qt4-4.8.5.inc<br>
-@@ -22,6 +22,7 @@ SRC_URI =3D &quot;<a href=3D"http://download.qt-project.o=
-rg/official_releases/qt/4.8/${PV}/qt-ever" target=3D"_blank">http://downloa=
-d.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever</a><br>
-=A0 =A0 =A0 =A0 =A0 =A0 file://0019-Fixes-for-gcc-4.7.0-particularly-on-qem=
-ux86.patch \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 file://0020-webkit-disable-the-fuse-ld-gold-flag.pa=
-tch \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 file://0022-Fix-drawing-of-0-width-polylines-from-o=
-utside-the-de.patch \<br>
-+ =A0 =A0 =A0 =A0 =A0 file://0023-QHttpMultiPart-fix-data-corruption-in-rea=
-dData-metho.patch \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 file://0027-tools.pro-disable-qmeegographicssystemh=
-elper.patch \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 file://g++.conf \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 file://linux.conf \<br>
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-cor=
-ruption-in-readData-metho.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpM=
-ultiPart-fix-data-corruption-in-readData-metho.patch<br>
-new file mode 100644<br>
-index 0000000..c3c002e<br>
---- /dev/null<br>
-+++ b/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption=
--in-readData-metho.patch<br>
-@@ -0,0 +1,43 @@<br>
-+From 1f40ed553e618c3b0511c7db4b4fd26c2d2b65bf Mon Sep 17 00:00:00 2001<br>
-+From: Peter Hartmann &lt;<a href=3D"mailto:phartmann@blackberry.com">phart=
-mann@blackberry.com</a>&gt;<br>
-+Date: Thu, 25 Jul 2013 12:05:29 -0400<br>
-+Subject: [PATCH] QHttpMultiPart: fix data corruption in readData method<br=
->
-+<br>
-+When readData() is called repeatedly, we need to keep track which<br>
-+part of the multipart message we are currently reading from.<br>
-+Hereby we also need to take the boundary size into account, and not<br>
-+only the size of the multipart; otherwise we would skip a not<br>
-+completely read part. This would then later lead to advancing the<br>
-+read pointer by negative indexes and data loss.<br>
-+<br>
-+Upstream-Status: Accepted [<a href=3D"https://codereview.qt-project.org/#c=
-hange,61861" target=3D"_blank">https://codereview.qt-project.org/#change,61=
-861</a>]<br>
-+Signed-off-by: Jonathan Liu &lt;<a href=3D"mailto:net147@gmail.com">net147=
-@gmail.com</a>&gt;<br>
-+<br>
-+Task-number: QTBUG-32534<br>
-+Change-Id: Ibb6dff16adaf4ea67181d23d1d0c8459e33a0ed0<br>
-+Reviewed-by: Jonathan Liu &lt;<a href=3D"mailto:net147@gmail.com">net147@g=
-mail.com</a>&gt;<br>
-+Reviewed-by: Shane Kearns &lt;<a href=3D"mailto:shane.kearns@accenture.com=
-">shane.kearns@accenture.com</a>&gt;<br>
-+(cherry picked from qtbase/af96c6fed931564c95037539f07e9c8e33c69529)<br>
-+Reviewed-by: Thiago Macieira &lt;<a href=3D"mailto:thiago.macieira@intel.c=
-om">thiago.macieira@intel.com</a>&gt;<br>
-+---<br>
-+ src/network/access/qhttpmultipart.cpp =A0 =A0 =A0 =A0 =A0| =A03 +-<br>
-+ tests/auto/qnetworkreply/tst_qnetworkreply.cpp | 44 +++++++++++++++++++++=
-+++++<br>
-+ 2 files changed, 46 insertions(+), 1 deletion(-)<br>
-+<br>
-+diff --git a/src/network/access/qhttpmultipart.cpp b/src/network/access/qh=
-ttpmultipart.cpp<br>
-+index 635129a..b25e917 100644<br>
-+--- a/src/network/access/qhttpmultipart.cpp<br>
-++++ b/src/network/access/qhttpmultipart.cpp<br>
-+@@ -488,7 +488,8 @@ qint64 QHttpMultiPartIODevice::readData(char *data, qi=
-nt64 maxSize)<br>
-+<br>
-+ =A0 =A0 // skip the parts we have already read<br>
-+ =A0 =A0 while (index &lt; multiPart-&gt;parts.count() &amp;&amp;<br>
-+- =A0 =A0 =A0 =A0 =A0 readPointer &gt;=3D partOffsets.at(index) + multiPar=
-t-&gt;<a href=3D"http://parts.at" target=3D"_blank">parts.at</a>(index).d-&=
-gt;size())<br>
-++ =A0 =A0 =A0 =A0 =A0 readPointer &gt;=3D partOffsets.at(index) + multiPar=
-t-&gt;<a href=3D"http://parts.at" target=3D"_blank">parts.at</a>(index).d-&=
-gt;size()<br>
-++ =A0 =A0 =A0 =A0 =A0 + multiPart-&gt;boundary.count() + 6) // 6 =3D=3D 2 =
-boundary dashes, \r\n after boundary, \r\n after multipart<br>
-+ =A0 =A0 =A0 =A0 index++;<br>
-+<br>
-+ =A0 =A0 // read the data<br>
-+--<br>
-+1.8.3.4<br>
-+<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.8.3.4<br>
-<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core</a><br>
-</font></span></blockquote></div><br></div>
-
---001a11c2a6f6c1a49404e3077412--
