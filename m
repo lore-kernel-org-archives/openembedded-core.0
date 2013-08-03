@@ -1,42 +1,36 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7054F6AB93
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2013 11:38:38 +0000 (UTC)
-Received: by mail-pd0-f177.google.com with SMTP id u10so1544375pdi.36
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 03 Aug 2013 04:38:39 -0700 (PDT)
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qe0-f54.google.com (mail-qe0-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id BA8C4608BF
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  3 Aug 2013 15:30:58 +0000 (UTC)
+Received: by mail-qe0-f54.google.com with SMTP id 1so930225qee.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Aug 2013 08:30:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=YCqa95flT3ze6GMiGP5t9vOD/Ak07+vPBIIzUVsF1nk=;
-	b=r/ZsliovTLmD25bRKwKER5JejDE39C6CU1T0o15tzJwxY6mK6tHnupEKH0jwjdMItT
-	W2/hNUmW+slehn06xgoGUYUG44ScvpmcggCs23HPM9PL+mkS+qFqLL4B6mOlLOV8lb57
-	+OwOiaTzmPuKUv4yquBfZCnaNzIJGu+8rf/nOBzso2iXh94/ci2CDwTMXKcS9cgE6qhk
-	MjzF1g3bL88JUH1Rs2Wd+EkgrZrmg9iX2SH+9n/Ns5VjLkV0VwO57ZS8JNc7iQj2l0X+
-	zu0CZY4nI1xoqv9cJfZVSpm4OGIkukPeLmZyxRYXoDeB7ydmclIx64LmSgLz2qxwbB7H
-	PPyg==
-X-Received: by 10.66.194.13 with SMTP id hs13mr15217882pac.163.1375529919212; 
-	Sat, 03 Aug 2013 04:38:39 -0700 (PDT)
-Received: from [192.168.0.2] (60-242-179-244.static.tpgi.com.au.
-	[60.242.179.244])
-	by mx.google.com with ESMTPSA id z14sm15803613pbt.0.2013.08.03.04.38.37
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 03 Aug 2013 04:38:38 -0700 (PDT)
-Message-ID: <51FCEA92.8040508@gmail.com>
-Date: Sat, 03 Aug 2013 21:33:38 +1000
-From: Jonathan Liu <net147@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=V+Q0qPNkUdli+BusOf1eENlirNYqpqWupHBIGAkpUMA=;
+	b=vJ1fBHkmCqy65ZT45Hm4NxUVT/kNitehFPO3a+DYDGXcU/giODfAYPCMwdghwBU6OI
+	wSfXm7lgBxFOI4M5VD4a+4Fivs/MrzqdJZVIOrmVuTdwt0X/8ct0yig2IqOl0UoTZfPc
+	uX2HDF0ffoxMws1VpSJVy8ZnWQKQ4frBpVtMs15EMMiD4DPuPAjXE/SK1YjtJ6I0X9Ml
+	jhL1uQcnqIHSNogfekEGLs/nq4FAkPP79YmoXQ2dKFveVRVYUQisBXMdhhdhewEpqP6P
+	IYF5KTwBQtL41/n+sKWBMZZYZFuL+bouTZDahC2ZXFX5XCFojNKtFD6gVo/4655E7RK6
+	yYtQ==
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <7F497479-61B1-4F37-B910-670CEB93FA46@gmail.com>
-In-Reply-To: <7F497479-61B1-4F37-B910-670CEB93FA46@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org oe-core layer"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: is someone working on upgrading systemd 205 into OE-Core ?
+X-Received: by 10.49.50.198 with SMTP id e6mr15714747qeo.76.1375543858895;
+	Sat, 03 Aug 2013 08:30:58 -0700 (PDT)
+Received: by 10.49.108.39 with HTTP; Sat, 3 Aug 2013 08:30:58 -0700 (PDT)
+In-Reply-To: <51FC1D1A.10608@linux.intel.com>
+References: <1375472467-8051-1-git-send-email-kirgene@gmail.com>
+	<51FC1D1A.10608@linux.intel.com>
+Date: Sat, 3 Aug 2013 18:30:58 +0300
+Message-ID: <CADV-EXFtuyca0R_thUm89teFACNW8Fnv6zD0sg8kUw5Ae_d8Uw@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] btrfs-tools: upgrade to upstream revision.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,19 +43,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2013 11:38:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Aug 2013 15:30:59 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 17/07/2013 3:06 PM, Khem Raj wrote:
-> Hi
+2013/8/2 Saul Wold <sgw@linux.intel.com>:
 >
-> Wanted to know before duplicating effort. If someone is working on it please speak up
+> Please add an explanation of why the patches are removed and a
+> Signed-off-by: in the commit message.
 >
-> -Khem
-As far as I know there aren't any people working on it. systemd is up to 
-206 now.
+> Thanks
+>         Sau!
+>
+>
+>
+> On 08/02/2013 12:41 PM, Yevhen Kyriukha wrote:
+>>
+>> ---
+>>   ...ix_race_condition_with_multithreaded_make.patch | 36
+>> ----------------------
+>>   .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   | 31
+>> -------------------
+>>   .../btrfs-tools/btrfs-tools_git.bb                 | 13 +++-----
+>>   3 files changed, 4 insertions(+), 76 deletions(-)
+>>   delete mode 100644
+>> meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>>   delete mode 100644
+>> meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>>
+>> diff --git
+>> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>> b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>> deleted file mode 100644
+>> index 40175b8..0000000
+>> ---
+>> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>> +++ /dev/null
+>> @@ -1,36 +0,0 @@
+>> -Upstream-Status: Pending
+>> -
+>> -Fix makefile for multithreaded (make -j ) building.
+>> -
+>> -btrfsctl.c
+>> -| i586-poky-linux-gcc  -m32   -march=i586
+>> --sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86
+>> -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64
+>> -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c
+>> btrfsctl.c
+>> -| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
+>> -| compilation terminated.
+>> -| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
+>> -| compilation terminated.
+>> -
+>> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+>> -2012/01/02
+>> -
+>> -Index: git/Makefile
+>> -===================================================================
+>> ---- git.orig/Makefile
+>> -+++ git/Makefile
+>> -@@ -26,14 +26,13 @@ else
+>> -       check = ls
+>> - endif
+>> -
+>> --.c.o:
+>> -+%.o: %.c version.h
+>> -       $(check) $<
+>> -       $(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
+>> -
+>> -+all: $(progs) manpages
+>> -
+>> --all: version $(progs) manpages
+>> --
+>> --version:
+>> -+version.h: version.sh
+>> -       bash version.sh
+>> -
+>> - btrfs: $(objects) btrfs.o btrfs_cmds.o scrub.o
+>> diff --git
+>> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>> b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>> deleted file mode 100644
+>> index 7f6594a..0000000
+>> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>> +++ /dev/null
+>> @@ -1,31 +0,0 @@
+>> -Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
+>> -Upstream-Status: Pending
+>> -
+>> -Avoid these kinds of errors while doing cross build:
+>> -
+>> -| ccache i586-poky-linux-gcc -march=i586
+>> --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86
+>> -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64
+>> -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c
+>> btrfsctl.c
+>> -| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl btrfsctl.o
+>> ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o
+>> dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o
+>> extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1
+>> -Wl,--as-needed -luuid
+>> -| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is
+>> incompatible with i386:x86-64 output
+>> -| /usr/bin/ld: i386 architecture of input file `ctree.o' is incompatible
+>> with i386:x86-64 output
+>> -
+>> -Index: git/Makefile
+>> -===================================================================
+>> ---- git.orig/Makefile
+>> -+++ git/Makefile
+>> -@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
+>> -               $(objects) $(LDFLAGS) $(LIBS)
+>> -
+>> - calc-size: $(objects) calc-size.o
+>> --      gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS)
+>> $(LIBS)
+>> -+      $(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS)
+>> $(LIBS)
+>> -
+>> - find-root: $(objects) find-root.o
+>> --      gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS)
+>> $(LIBS)
+>> -+      $(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS)
+>> $(LIBS)
+>> -
+>> - restore: $(objects) restore.o
+>> --      gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS)
+>> $(RESTORE_LIBS)
+>> -+      $(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS)
+>> $(RESTORE_LIBS)
+>> -
+>> - btrfsctl: $(objects) btrfsctl.o
+>> -       $(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS)
+>> $(LIBS)
+>> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>> b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>> index ef575ae..d63f1e0 100644
+>> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>> @@ -12,21 +12,16 @@ LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+>>   SECTION = "base"
+>>   DEPENDS = "util-linux attr"
+>>
+>> -SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
+>> +SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
+>>   SRC_URI =
+>> "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
+>>
+>>   S = "${WORKDIR}/git"
+>>
+>> -PV = "0.19+git${SRCPV}"
+>> +PV = "0.20+git${SRCPV}"
+>>
+>> -PR = "r6"
+>> +PR = "r7"
+>>
+> We do not need PR Bumps any more, so it can just be removed as you are
+> incrementing the PV.
+>
 
-Regards,
-Jonathan
+So what do I need to do with existing PR? Just don't change it or
+remove it from recipe?
 
