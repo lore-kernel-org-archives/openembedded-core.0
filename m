@@ -1,39 +1,35 @@
-Return-Path: <mario.goulart@gmail.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CAB160664
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 36CDC60664
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2013 22:44:47 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id c11so1007333qcv.41
+	Sat,  3 Aug 2013 22:58:21 +0000 (UTC)
+Received: by mail-ob0-f173.google.com with SMTP id ta17so3343133obb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 03 Aug 2013 15:44:47 -0700 (PDT)
+	Sat, 03 Aug 2013 15:58:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
-	:user-agent:mime-version:content-type;
-	bh=gMQJVbli+iAO/tpsBSwcEuxRZS+/jUXQoj9d0RVA0sA=;
-	b=VgDLKMr9zmlIEUPfd6dHzzJTeVIiRnKysp/RHONa+Ay9xKHTuSKZAXZGqvQrUd8jr2
-	zbjPI4fm+4bar2J7zSlMq5pXgpB/g3MhEmbXf/zUHtpnEp/RcX3XS4k2sw4qLcd7ezCj
-	zBqLOxiWWXncuX6ylszXCx+mndnOr9nun8GF8pWiC1h0Ff55tGlEq/mTPN4Y0wFYdJSO
-	klbfZxRSZfYBLGS3y6eP4W25nFqhQhUPY0zk1vQjj6abzbD7UQPdjnbBqHFKohBGnzbZ
-	kOtcrrHXoKn/rmRPRuTNpes+SzjQjtU5n5ZlQ20OPUG+weM31AlxXzI1eVicdTMbYjxu
-	+0wA==
-X-Received: by 10.224.112.68 with SMTP id v4mr19644964qap.41.1375569887630;
-	Sat, 03 Aug 2013 15:44:47 -0700 (PDT)
-Received: from parenteses.gmail.com (email.parenteses.org. [198.199.72.94])
-	by mx.google.com with ESMTPSA id nh4sm614861qeb.6.2013.08.03.15.44.45
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sat, 03 Aug 2013 15:44:46 -0700 (PDT)
-Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
-From: Mario Domenech Goulart <mario@ossystems.com.br>
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1375569057-696-1-git-send-email-otavio@ossystems.com.br>
-Date: Sat, 03 Aug 2013 22:44:43 +0000
-In-Reply-To: <1375569057-696-1-git-send-email-otavio@ossystems.com.br> (Otavio
-	Salvador's message of "Sat, 3 Aug 2013 19:30:57 -0300")
-Message-ID: <871u6axulg.fsf@parenteses.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3.50 (gnu/linux)
+	h=mime-version:sender:in-reply-to:references:date
+	:x-google-sender-auth:message-id:subject:from:to:cc:content-type;
+	bh=BadkKbAUHjZWSl4PMkMDJXdjYD+7ODJUE00xjxwdgP8=;
+	b=TG4VdLvP4SbZSv5LeiAyQd8tWk/ho5wTpkF6Ox885MOBaWcbuJQhCYz/wyJm0vQk/7
+	gpEH8t+NxacJHppD5CHVV9QDZzHyMS9QQnedjM7Aeg6R1OdmsCzjUqU3/vu15HCeVug+
+	mAj16Lg1M7ooJyg/LPy2GMzX6fUT47pjfCuUkdeTZQMs3R+T9afO0anpzKgsQbKzTh45
+	FYKrIwfHph+A3ROl5uoBiNJiIcxV/VqctbCx6T3UHsJLlJYLrDbfvBRfaqA/l15LKECh
+	15hrkgQt+82FCmkJY2w+KeeFXAOszMU87mJyCCZrgnpTgdENCXU7oUa+57GnysU00/Kj
+	aqMg==
 MIME-Version: 1.0
+X-Received: by 10.60.145.241 with SMTP id sx17mr9720452oeb.57.1375570701376;
+	Sat, 03 Aug 2013 15:58:21 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Sat, 3 Aug 2013 15:58:21 -0700 (PDT)
+In-Reply-To: <871u6axulg.fsf@parenteses.org>
+References: <1375569057-696-1-git-send-email-otavio@ossystems.com.br>
+	<871u6axulg.fsf@parenteses.org>
+Date: Sat, 3 Aug 2013 19:58:21 -0300
+X-Google-Sender-Auth: 9VpVauwmeN-GFYD6JGWDcnE3kuk
+Message-ID: <CAP9ODKqL00udxX7ht3JvoFLfOBySCgzebx=eqvoUO_6dcJ1w-Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mario Domenech Goulart <mario@ossystems.com.br>
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] blacklist.bbclass: Avoid blacklist specific handle in base.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,100 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2013 22:44:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 03 Aug 2013 22:58:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi Otavio,
-
-On Sat,  3 Aug 2013 19:30:57 -0300 Otavio Salvador <otavio@ossystems.com.br> wrote:
-
-> base.bbclass had code which handled the PNBLACKLIST in case of
-> multilib use. This is better to be done in the blacklist.bbclass so it
-> has all logic in a single place.
+On Sat, Aug 3, 2013 at 7:44 PM, Mario Domenech Goulart
+<mario@ossystems.com.br> wrote:
+...
+>> +# Cope with PNBLACKLIST flags for multilib case
+>> +addhandler blacklist_multilib_eventhandler
+>> +blacklist_multilib_eventhandler[eventmask] = "bb.event.ConfigParsed"
+>> +python blacklist_multilib_eventhandler() {
+>> +    multilibs = e.data.getVar('MULTILIBS', True) or ""
+>> +    if not multilibs:
+>> +        return
 >
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/classes/base.bbclass      | 10 ----------
->  meta/classes/blacklist.bbclass | 25 +++++++++++++++++++++++++
->  2 files changed, 25 insertions(+), 10 deletions(-)
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index e2c9a7d..bc2b4f6 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -141,7 +141,6 @@ def pkgarch_mapping(d):
->  def preferred_ml_updates(d):
->      # If any PREFERRED_PROVIDER or PREFERRED_VERSION are set,
->      # we need to mirror these variables in the multilib case;
-> -    # likewise the PNBLACKLIST flags.
->      multilibs = d.getVar('MULTILIBS', True) or ""
->      if not multilibs:
->          return
-> @@ -154,21 +153,12 @@ def preferred_ml_updates(d):
->  
->      versions = []
->      providers = []
-> -    blacklists = d.getVarFlags('PNBLACKLIST') or {}
->      for v in d.keys():
->          if v.startswith("PREFERRED_VERSION_"):
->              versions.append(v)
->          if v.startswith("PREFERRED_PROVIDER_"):
->              providers.append(v)
->  
-> -    for pkg, reason in blacklists.items():
-> -        if pkg.endswith(("-native", "-crosssdk")) or pkg.startswith(("nativesdk-", "virtual/nativesdk-")) or 'cross-canadian' in pkg:
-> -            continue
-> -        for p in prefixes:
-> -            newpkg = p + "-" + pkg
-> -            if not d.getVarFlag('PNBLACKLIST', newpkg, True):
-> -                d.setVarFlag('PNBLACKLIST', newpkg, reason)
-> -
->      for v in versions:
->          val = d.getVar(v, False)
->          pkg = v.replace("PREFERRED_VERSION_", "")
-> diff --git a/meta/classes/blacklist.bbclass b/meta/classes/blacklist.bbclass
-> index 75abd99..6153cf8 100644
-> --- a/meta/classes/blacklist.bbclass
-> +++ b/meta/classes/blacklist.bbclass
-> @@ -12,6 +12,31 @@
->  #   PNBLACKLIST[pn] = "message"
->  #
->  
-> +# Cope with PNBLACKLIST flags for multilib case
-> +addhandler blacklist_multilib_eventhandler
-> +blacklist_multilib_eventhandler[eventmask] = "bb.event.ConfigParsed"
-> +python blacklist_multilib_eventhandler() {
-> +    multilibs = e.data.getVar('MULTILIBS', True) or ""
-> +    if not multilibs:
-> +        return
+> Is the `or ""' part necessary, given that `if not multilibs' would
+> branch to return in case multilib is bound to a falsy value?  It looks
+> redundant.
 
-Is the `or ""' part necessary, given that `if not multilibs' would
-branch to return in case multilib is bound to a falsy value?  It looks
-redundant.
+You're right. I just sent a v2 removing this code.
 
-> +
-> +    # this block has been copied from base.bbclass so keep it in sync
-> +    prefixes = []
-> +    for ext in multilibs.split():
-> +        eext = ext.split(':')
-> +        if len(eext) > 1 and eext[0] == 'multilib':
-> +            prefixes.append(eext[1])
-> +
-> +    blacklists = e.data.getVarFlags('PNBLACKLIST') or {}
-> +    for pkg, reason in blacklists.items():
-> +        if pkg.endswith(("-native", "-crosssdk")) or pkg.startswith(("nativesdk-", "virtual/nativesdk-")) or 'cross-canadian' in pkg:
-> +            continue
-> +        for p in prefixes:
-> +            newpkg = p + "-" + pkg
-> +            if not e.data.getVarFlag('PNBLACKLIST', newpkg, True):
-> +                e.data.setVarFlag('PNBLACKLIST', newpkg, reason)
-> +}
-> +
->  python () {
->      blacklist = d.getVarFlag('PNBLACKLIST', d.getVar('PN', True), True)
-
-Best wishes.
-Mario
 -- 
-http://www.ossystems.com.br
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
