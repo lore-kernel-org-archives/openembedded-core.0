@@ -1,38 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CF7660664
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ye0-f176.google.com (mail-ye0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id DDDF160664
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2013 22:28:30 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 03 Aug 2013 15:25:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,808,1367996400"; d="scan'208";a="356979741"
-Received: from unknown (HELO [10.255.14.110]) ([10.255.14.110])
-	by orsmga001.jf.intel.com with ESMTP; 03 Aug 2013 15:28:30 -0700
-Message-ID: <51FD840E.7000004@linux.intel.com>
-Date: Sat, 03 Aug 2013 15:28:30 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1372456294.git.raj.khem@gmail.com>
-	<20130629053844.GQ3261@jama>
-	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
-	<20130629153101.GV3261@jama>
-	<45F76803-CA83-4DAC-A972-EE4CB8FEE054@gmail.com>
-	<51F97628.9040801@linux.intel.com>
-	<7705A938-20F6-4100-AB3A-99BDF5023118@gmail.com>
-	<13A232F2-9B2C-427E-B5F0-26138984D099@gmail.com>
-	<51F9948F.1000908@linux.intel.com>
-	<08E217DF-FA59-4DAB-BB7F-0369A4BB3165@gmail.com>
-	<51F99839.4020003@linux.intel.com>
-	<FEC3604F-BE31-4146-AA6B-A16CB22C8D3F@gmail.com>
-	<51FB3B2F.1060908@linux.intel.com>
-	<45FADA31-8F4F-4BF7-A672-D083C3353813@gmail.com>
-In-Reply-To: <45FADA31-8F4F-4BF7-A672-D083C3353813@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/24] Add python3 recipes
+	Sat,  3 Aug 2013 22:31:14 +0000 (UTC)
+Received: by mail-ye0-f176.google.com with SMTP id q3so739970yen.21
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Aug 2013 15:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=i7F/gV4p7KrEXjSNvBE4Cv+i3DhIkgtZ7NkXgNyp0WY=;
+	b=dgK0qsQvLdxi7E+7iUTc6/Poih3QfLBu8fu31VFiATO3UmHLB2aXYPJB06X907Gy6a
+	yq0YxNZY1pXjfYktdK1sR2qpvzUb3CbWUMb8msdW7ZIHnbhlOuAM4ksRZSl+h6cVCN7U
+	cKUbXV3Ghl2PdB+ED3GyVZ3WM3WiiObBWct4erZVTvteo8kJh1yGVVbRq9u7VCN9ZZQC
+	CbO+R7qNnPnPHPgW7Jkl6LRfG2/UBCcyDbMm/dq5lZ0KWhVClYNfVcDewVRmJR7/8kzu
+	4XsTLIoBxsUUHXV9dHJ/D19jpiGaMnLSaFt8w5XnePR2OiChMTcNFrLDf4cYoqJj5b+G
+	uFhw==
+X-Received: by 10.236.141.134 with SMTP id g6mr7722275yhj.81.1375569075052;
+	Sat, 03 Aug 2013 15:31:15 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([187.23.155.55])
+	by mx.google.com with ESMTPSA id
+	j63sm23495976yhh.17.2013.08.03.15.31.13 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 03 Aug 2013 15:31:14 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Sat,  3 Aug 2013 19:30:57 -0300
+Message-Id: <1375569057-696-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.3.2
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] blacklist.bbclass: Avoid blacklist specific handle in base.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,81 +43,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2013 22:28:31 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Aug 2013 22:31:15 -0000
 
-On 08/02/2013 12:27 AM, Khem Raj wrote:
->
-> On Aug 1, 2013, at 9:53 PM, Saul Wold <sgw@linux.intel.com> wrote:
->
->> On 08/01/2013 01:19 PM, Khem Raj wrote:
->>>
->>> On Jul 31, 2013, at 4:05 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>>
->>>> On 07/31/2013 03:51 PM, Khem Raj wrote:
->>>>>
->>>>> On Jul 31, 2013, at 3:49 PM, Saul Wold <sgw@linux.intel.com> wrote:
->>>>>
->>>>>>
->>>>>> Still seems to failing in Jinja, I wonder if the dependencies are correctly sinec it's nooking for native bits and the python3-native had not been installed yet.
->>>>>>
->>>>>>
->>>>>
->>>>> in my build from scratch several times, I never had this issue. Did you do an incremental build to get to this issue ?
->>>>>
->>>>
->>>> Yes, most of my builds are incremental until I throw them against the Autobuilder!
->>>
->>> Saul,
->>>
->>> I was able to reproduce the incremental build issue. I have now fixed it and pushed a rebased branch to pull tree
->>> in contrib. Please try it out
->>>
->>
->> Almost there!  It looks like you have a ${PN} in the tarball name instead of ${BPN} and it's causing a multilib failure for zeromq.
->
-> Yes. Pushed a fix on top of the branch plus another fix that I ran into was missing dependency on virtual/libntl
->
->
-OK, Ran it on the Autobuilder last night, and came up with the following 
-on a World build with multilib enabled:
+base.bbclass had code which handled the PNBLACKLIST in case of
+multilib use. This is better to be done in the blacklist.bbclass so it
+has all logic in a single place.
 
-> ERROR: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
-> Rerun configure task after fixing this. The path was '/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.3.2-r0.0/Python-3.3.2'
-> ERROR: Function failed: do_qa_configure
-> ERROR: Logfile of failure stored in: /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.3.2-r0.0/temp/log.do_configure.13443
-> NOTE: recipe lib32-python3-3.3.2-r0.0: task do_configure: Failed
-> ERROR: Task 11368 (virtual:multilib:lib32:/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/meta/recipes-devtools/python/python3_3.3.2.bb, do_configure) failed with exit code '1'
-> NOTE: Running task 10412 of 21582 (ID: 12424, virtual:multilib:lib32:/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/meta/recipes-connectivity/bluez/bluez-hcidump_2.5.bb, do_packagedata)
-> NOTE: recipe lib32-quota-4.01-r1: task do_compile: Started
-> ERROR: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
-> Rerun configure task after fixing this. The path was '/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/python3/3.3.2-r0.0/Python-3.3.2'
-> ERROR: Function failed: do_qa_configure
-> ERROR: Logfile of failure stored in: /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/i586-poky-linux/python3/3.3.2-r0.0/temp/log.do_configure.15796
-> NOTE: recipe python3-3.3.2-r0.0: task do_configure: Failed
-> ERROR: Task 80 (/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/meta/recipes-devtools/python/python3_3.3.2.bb, do_configure) failed with exit code '1'
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/base.bbclass      | 10 ----------
+ meta/classes/blacklist.bbclass | 25 +++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+), 10 deletions(-)
 
-Summary of local.conf changes:
-DISTRO = "poky"
-PACKAGE_CLASSES = "package_rpm package_deb package_ipk"
-BB_NUMBER_THREADS = "16"
-PARALLEL_MAKE = "-j 16"
-SDKMACHINE ?= "x86_64"
-DL_DIR = "/srv/www/vhosts/autobuilder.yoctoproject.org/current_sources"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-SSTATE_DIR ?= "/srv/www/vhosts/sstate.yoctoproject.org//multilib"
-MACHINE = "qemux86"
-PREMIRRORS = ""
-BB_GENERATE_MIRROR_TARBALLS = "1"
-ADTREPO = "http://adtrepo.yoctoproject.org//1.4+snapshot"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e2c9a7d..bc2b4f6 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -141,7 +141,6 @@ def pkgarch_mapping(d):
+ def preferred_ml_updates(d):
+     # If any PREFERRED_PROVIDER or PREFERRED_VERSION are set,
+     # we need to mirror these variables in the multilib case;
+-    # likewise the PNBLACKLIST flags.
+     multilibs = d.getVar('MULTILIBS', True) or ""
+     if not multilibs:
+         return
+@@ -154,21 +153,12 @@ def preferred_ml_updates(d):
+ 
+     versions = []
+     providers = []
+-    blacklists = d.getVarFlags('PNBLACKLIST') or {}
+     for v in d.keys():
+         if v.startswith("PREFERRED_VERSION_"):
+             versions.append(v)
+         if v.startswith("PREFERRED_PROVIDER_"):
+             providers.append(v)
+ 
+-    for pkg, reason in blacklists.items():
+-        if pkg.endswith(("-native", "-crosssdk")) or pkg.startswith(("nativesdk-", "virtual/nativesdk-")) or 'cross-canadian' in pkg:
+-            continue
+-        for p in prefixes:
+-            newpkg = p + "-" + pkg
+-            if not d.getVarFlag('PNBLACKLIST', newpkg, True):
+-                d.setVarFlag('PNBLACKLIST', newpkg, reason)
+-
+     for v in versions:
+         val = d.getVar(v, False)
+         pkg = v.replace("PREFERRED_VERSION_", "")
+diff --git a/meta/classes/blacklist.bbclass b/meta/classes/blacklist.bbclass
+index 75abd99..6153cf8 100644
+--- a/meta/classes/blacklist.bbclass
++++ b/meta/classes/blacklist.bbclass
+@@ -12,6 +12,31 @@
+ #   PNBLACKLIST[pn] = "message"
+ #
+ 
++# Cope with PNBLACKLIST flags for multilib case
++addhandler blacklist_multilib_eventhandler
++blacklist_multilib_eventhandler[eventmask] = "bb.event.ConfigParsed"
++python blacklist_multilib_eventhandler() {
++    multilibs = e.data.getVar('MULTILIBS', True) or ""
++    if not multilibs:
++        return
++
++    # this block has been copied from base.bbclass so keep it in sync
++    prefixes = []
++    for ext in multilibs.split():
++        eext = ext.split(':')
++        if len(eext) > 1 and eext[0] == 'multilib':
++            prefixes.append(eext[1])
++
++    blacklists = e.data.getVarFlags('PNBLACKLIST') or {}
++    for pkg, reason in blacklists.items():
++        if pkg.endswith(("-native", "-crosssdk")) or pkg.startswith(("nativesdk-", "virtual/nativesdk-")) or 'cross-canadian' in pkg:
++            continue
++        for p in prefixes:
++            newpkg = p + "-" + pkg
++            if not e.data.getVarFlag('PNBLACKLIST', newpkg, True):
++                e.data.setVarFlag('PNBLACKLIST', newpkg, reason)
++}
++
+ python () {
+     blacklist = d.getVarFlag('PNBLACKLIST', d.getVar('PN', True), True)
+ 
+-- 
+1.8.3.2
 
-
-Sau!
-
-
->
->
 
