@@ -1,26 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D6436A59D
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B1F16A59D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  3 Aug 2013 03:58:47 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 02 Aug 2013 20:58:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,805,1367996400"; d="scan'208";a="380506572"
-Received: from unknown (HELO [10.255.13.203]) ([10.255.13.203])
-	by fmsmga002.fm.intel.com with ESMTP; 02 Aug 2013 20:58:47 -0700
-Message-ID: <51FC7FF7.1090304@linux.intel.com>
-Date: Fri, 02 Aug 2013 20:58:47 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Ionut Radu <ionutx.radu@intel.com>
-References: <cover.1375457879.git.ionutx.radu@intel.com>
-	<c9a41bb004c2b313f8dc4067b431da6f3c18f689.1375457879.git.ionutx.radu@intel.com>
-In-Reply-To: <c9a41bb004c2b313f8dc4067b431da6f3c18f689.1375457879.git.ionutx.radu@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] freetype: upgrade to 2.5.0.1
+	Sat,  3 Aug 2013 08:02:38 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id bv13so1445970pdb.16
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 03 Aug 2013 01:02:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=IcC02iN6UL2Do6mdimL3pbGLr+2AYlDGjTErrUR9A6U=;
+	b=o6V7GbAikSRY64C51FJ/EJEQ+iIQ3dh9Qrh/p2s68KWqHeVov0JUD+suJyC8jtvrVO
+	5tByRgm3uKoBq7hIbvuERtOL5hkK/JRi2jYvbLJqp/6gdjIVyAAoSx3nqKHfx5q17it7
+	wrRYCynsHlWdYay3WBohqSpD1ghomCAF23N3nuPGeL3uD1WJElBfmIF3WMb1oJBTq13S
+	2CFRjNqr0QM/oluqgDoQ0+C0Ry0G/ZaewoHgpdkkzwbkVz/sKGfIXJlO0rxPb5Ir0oFi
+	hNmWhXhkD585Rt0MmN7TzuRhX4Ou5oxmME6dtcIDTqLSGDycP1/IjU/WzIZ9V3XZKdgy
+	7xlw==
+X-Received: by 10.66.221.8 with SMTP id qa8mr11846890pac.188.1375516959132;
+	Sat, 03 Aug 2013 01:02:39 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id
+	bp12sm15175430pac.1.2013.08.03.01.02.37 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 03 Aug 2013 01:02:38 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  3 Aug 2013 17:56:43 +1000
+Message-Id: <1375516603-9720-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] qt4: add upstream QTBUG-32534 patch for QHttpMultiPart upload corruption
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +42,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Aug 2013 03:58:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 03 Aug 2013 08:02:39 -0000
 
-On 08/02/2013 08:40 AM, Ionut Radu wrote:
-> Signed-off-by: Ionut Radu <ionutx.radu@intel.com>
-> ---
->   .../freetype/{freetype_2.4.12.bb => freetype_2.5.0.1.bb}         |    6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
->   rename meta/recipes-graphics/freetype/{freetype_2.4.12.bb => freetype_2.5.0.1.bb} (90%)
->
-> diff --git a/meta/recipes-graphics/freetype/freetype_2.4.12.bb b/meta/recipes-graphics/freetype/freetype_2.5.0.1.bb
-> similarity index 90%
-> rename from meta/recipes-graphics/freetype/freetype_2.4.12.bb
-> rename to meta/recipes-graphics/freetype/freetype_2.5.0.1.bb
-> index 8cf79d3..d9f53ab 100644
-> --- a/meta/recipes-graphics/freetype/freetype_2.4.12.bb
-> +++ b/meta/recipes-graphics/freetype/freetype_2.5.0.1.bb
-> @@ -13,13 +13,11 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=c017ff17fc6f0794adf93db5559ccd56
->
->   SECTION = "libs"
->
-> -PR = "r0"
-> -
->   SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
->   "
->
-> -SRC_URI[md5sum] = "3463102764315eb86c0d3c2e1f3ffb7d"
-> -SRC_URI[sha256sum] = "a78a17486689ab6852a9e1a759b179827ac9dfd7e2f237ddf169c73398c85381"
-> +SRC_URI[md5sum] = "c72e9010b1d986d556fc0b2b5fcbf31a"
-> +SRC_URI[sha256sum] = "57bce5b37989577aa8b4a588426839f6bf39bcc3869748cb18f6827df251f4e5"
->
->   S = "${WORKDIR}/freetype-${PV}"
->
->
-This seems to have a problem with the creation of the libfreetype.la, it 
-includes the full sysroot path to the libpng16.la file in, instead of 
-the short root relative path.
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-qt/qt4/qt4-4.8.5.inc                  |  1 +
+ ...art-fix-data-corruption-in-readData-metho.patch | 43 ++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
 
-> | make[2]: Entering directory `/srv/ssd/sgw/builds/world/tmp/work/x86_64-poky-linux/directfb/1.6.1-r0.2/build/tools'
-> | ../x86_64-poky-linux-libtool  --tag=CC   --mode=link x86_64-poky-linux-gcc  -m64 --sysroot=/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64 -I/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/freetype2  -I/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/libpng16  -Wall -Wstrict-prototypes -Wmissing-prototypes -Wno-strict-aliasing -Werror-implicit-function-declaration -O2 -g2 -ffast-math -pipe -O2 -pipe -g -feliminate-unused-debug-types -D_GNU_SOURCE  -std=gnu99 -Werror-implicit-function-declaration  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -lts -lm -o mkdgiff mkdgiff.o -lfreetype  ../lib/direct/libdirect.la -ldl -lrt -lpthread
-> | x86_64-poky-linux-libtool: link: cannot find the library `/srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/srv/ssd/sgw/builds/world/tmp/sysroots/x86_64-linux/usr/lib/libpng16.la' or unhandled argument `=/srv/ssd/sgw/builds/world/tmp/sysroots/x86_64-linux/usr/lib/libpng16.la'
-> | make[2]: *** [mkdgiff] Error 1
-
-This library should be with out the extra 
-"srv/ssd/sgw/builds/world/tmp/sysroots/x86_64-linux"
-
-These three recipes have the same issue.
-
->   /srv/ssd/sgw/poky/meta/recipes-graphics/fontconfig/fontconfig_2.10.2.bb, do_compile
->   /srv/ssd/sgw/poky/meta/recipes-graphics/xorg-lib/libxfont_1.4.6.bb, do_compile
->   /srv/ssd/sgw/poky/meta/recipes-graphics/directfb/directfb_1.6.1.bb, do_compile
-
-It may be due to the libtool.
-
-Sau!
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.5.inc b/meta/recipes-qt/qt4/qt4-4.8.5.inc
+index d05b174..95a14f3 100644
+--- a/meta/recipes-qt/qt4/qt4-4.8.5.inc
++++ b/meta/recipes-qt/qt4/qt4-4.8.5.inc
+@@ -22,6 +22,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
+            file://0019-Fixes-for-gcc-4.7.0-particularly-on-qemux86.patch \
+            file://0020-webkit-disable-the-fuse-ld-gold-flag.patch \
+            file://0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch \
++           file://0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch \
+            file://0027-tools.pro-disable-qmeegographicssystemhelper.patch \
+            file://g++.conf \
+            file://linux.conf \
+diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
+new file mode 100644
+index 0000000..c3c002e
+--- /dev/null
++++ b/meta/recipes-qt/qt4/qt4-4.8.5/0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch
+@@ -0,0 +1,43 @@
++From 1f40ed553e618c3b0511c7db4b4fd26c2d2b65bf Mon Sep 17 00:00:00 2001
++From: Peter Hartmann <phartmann@blackberry.com>
++Date: Thu, 25 Jul 2013 12:05:29 -0400
++Subject: [PATCH] QHttpMultiPart: fix data corruption in readData method
++
++When readData() is called repeatedly, we need to keep track which
++part of the multipart message we are currently reading from.
++Hereby we also need to take the boundary size into account, and not
++only the size of the multipart; otherwise we would skip a not
++completely read part. This would then later lead to advancing the
++read pointer by negative indexes and data loss.
++
++Upstream-Status: Accepted [https://codereview.qt-project.org/#change,61861]
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++
++Task-number: QTBUG-32534
++Change-Id: Ibb6dff16adaf4ea67181d23d1d0c8459e33a0ed0
++Reviewed-by: Jonathan Liu <net147@gmail.com>
++Reviewed-by: Shane Kearns <shane.kearns@accenture.com>
++(cherry picked from qtbase/af96c6fed931564c95037539f07e9c8e33c69529)
++Reviewed-by: Thiago Macieira <thiago.macieira@intel.com>
++---
++ src/network/access/qhttpmultipart.cpp          |  3 +-
++ tests/auto/qnetworkreply/tst_qnetworkreply.cpp | 44 ++++++++++++++++++++++++++
++ 2 files changed, 46 insertions(+), 1 deletion(-)
++
++diff --git a/src/network/access/qhttpmultipart.cpp b/src/network/access/qhttpmultipart.cpp
++index 635129a..b25e917 100644
++--- a/src/network/access/qhttpmultipart.cpp
+++++ b/src/network/access/qhttpmultipart.cpp
++@@ -488,7 +488,8 @@ qint64 QHttpMultiPartIODevice::readData(char *data, qint64 maxSize)
++ 
++     // skip the parts we have already read
++     while (index < multiPart->parts.count() &&
++-           readPointer >= partOffsets.at(index) + multiPart->parts.at(index).d->size())
+++           readPointer >= partOffsets.at(index) + multiPart->parts.at(index).d->size()
+++           + multiPart->boundary.count() + 6) // 6 == 2 boundary dashes, \r\n after boundary, \r\n after multipart
++         index++;
++ 
++     // read the data
++-- 
++1.8.3.4
++
+-- 
+1.8.3.4
 
 
