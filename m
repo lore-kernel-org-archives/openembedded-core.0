@@ -1,37 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
-	by mail.openembedded.org (Postfix) with ESMTP id DE853605A0;
-	Sun,  4 Aug 2013 11:10:15 +0000 (UTC)
-Received: by mail-ee0-f48.google.com with SMTP id l10so1079001eei.21
-	for <multiple recipients>; Sun, 04 Aug 2013 04:10:15 -0700 (PDT)
+Return-Path: <kirgene@gmail.com>
+Received: from mail-qa0-f42.google.com (mail-qa0-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 4130A605A0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  4 Aug 2013 15:53:18 +0000 (UTC)
+Received: by mail-qa0-f42.google.com with SMTP id bv4so536162qab.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 04 Aug 2013 08:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=AlbW+h+FienyhPUjCUtiEGM7N8Ub+gj4MrY6mIbg7Fc=;
-	b=q7/7VZkZeg5cm+zVWfZsoIkvfnX56ArgJhg5PatBOlDjhrlvqs1gEEuxk7H5DVaPyB
-	DeGB77Ua1jdx24T1cLyI3U8QSskTYd98mJ6jLJP3begbFC0kmDoKM3vWxZ48arpynYUR
-	F6z1mPbpRXx/GAqDfszwt/Wa+86gjk82oq3nUVON5fzuLl5aTaA1faj/OVfHRipQJEce
-	8S+QIMu4Ia8vYzl+JuYI9RrCplMfhvqpxRba6dAihK9nFIBESpo2/G8R8UWTPQo/go4M
-	ioFBpxWKitqdPUWEE9jy0vCZYdhL8qW/KA0XB7AF+/VQVKEwCeK6EPkQXQn0XqMMF1tp
-	o+0Q==
-X-Received: by 10.14.69.206 with SMTP id n54mr12486748eed.118.1375614615574;
-	Sun, 04 Aug 2013 04:10:15 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	n42sm25440160eeh.15.2013.08.04.04.10.14 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 04 Aug 2013 04:10:14 -0700 (PDT)
-Date: Sun, 4 Aug 2013 13:10:54 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Andrei Dinu <andrei.adrianx.dinu@intel.com>
-Message-ID: <20130804111054.GC3280@jama>
-References: <20130731055135.2CC81504BA@opal>
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=dJR8c4waTZeE63a9w0eKPMLyOvXxRKMvHQfT+j55LHQ=;
+	b=lurrUrd06eyTmY5GA2RisNshaz7aoRjqVRqHQL/7UrvHxu34ZeGU0WvJKrRS4kPd+q
+	5nxGyMtQukv75QmoeOjxs9XKVHtRCiC/mBwXezA83zrGH6GZt6MZ3F7+jlFaVq0UV0Br
+	uhah3I1d6R+5UPrzC8SaRSnu9C1geVpQx8YMyWgon9khXxPHFf9opCBO+bv+xbEb5kM0
+	fe+Ku326WNAMSk4anAVAXMoGTQlzA9Um5E+MtdoR31yIyaZnbXVbsDCtGX5eHPd/57Ka
+	3q/cTaX4cUr2hLpLpFgMqz+OoItRYx3k7GXr9MQD87wCtxuixqFtjHboVSubsfARoC3C
+	hRcw==
 MIME-Version: 1.0
-In-Reply-To: <20130731055135.2CC81504BA@opal>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Andrei Dinu : libpng : upgrade to 1.6.3
+X-Received: by 10.224.2.194 with SMTP id 2mr24081162qak.40.1375631597858; Sun,
+	04 Aug 2013 08:53:17 -0700 (PDT)
+Received: by 10.49.108.39 with HTTP; Sun, 4 Aug 2013 08:53:17 -0700 (PDT)
+In-Reply-To: <51FD5AB2.6020209@linux.intel.com>
+References: <1375472467-8051-1-git-send-email-kirgene@gmail.com>
+	<51FC1D1A.10608@linux.intel.com>
+	<CADV-EXFtuyca0R_thUm89teFACNW8Fnv6zD0sg8kUw5Ae_d8Uw@mail.gmail.com>
+	<51FD5AB2.6020209@linux.intel.com>
+Date: Sun, 4 Aug 2013 18:53:17 +0300
+Message-ID: <CADV-EXF_DqtaYYc2n_e_Epto-s_rpeeqFekrtOZ_PyuY7-8FCw@mail.gmail.com>
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] btrfs-tools: upgrade to upstream revision.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,128 +45,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Aug 2013 11:10:16 -0000
-X-Groupsio-MsgNum: 42946
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WG0/bXtUnGTsWt66"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 04 Aug 2013 15:53:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---WG0/bXtUnGTsWt66
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 31, 2013 at 05:51:35AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: 776c753bc5745b098d6a80e61c7332d956ae7f4f
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3D776c753bc5745b098d6a80e61c7332d956ae7f4f
->=20
-> Author: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-> Date:   Fri Jul 26 13:45:11 2013 +0300
->=20
-> libpng : upgrade to 1.6.3
->=20
-> upgrade from 1.6.2 -> 1.6.3
->=20
-> LICENSE and png.h checksum changed caused by
-> dates and release numbers.
->=20
-> Signed-off-by: Andrei Dinu <andrei.adrianx.dinu@intel.com>
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-
-Sigh,
-
-Are you using buildhistory and checking changes in it when upgrading
-packages?
-
-debian.bbclass didn't rename last libpng, because 2 ${bindir}
-files are included now, was it intentional?
-
-diff --git a/packages/x86_64-oe-linux/libpng/libpng/latest b/packages/x86_6=
-4-oe-linux/libpng/libpng/latest
-index 7e88312..04b3ca7 100644
---- a/packages/x86_64-oe-linux/libpng/libpng/latest
-+++ b/packages/x86_64-oe-linux/libpng/libpng/latest
-@@ -1,10 +1,9 @@
--PV =3D 1.6.2
-+PV =3D 1.6.3
- PR =3D r0
- PKGR =3D r0.0
--PKG =3D libpng16-16
- RPROVIDES =3D=20
--RDEPENDS =3D eglibc (>=3D 2.17) zlib (>=3D 1.2.8)
-+RDEPENDS =3D eglibc (>=3D 2.18) zlib (>=3D 1.2.8)
- RRECOMMENDS =3D=20
--PKGSIZE =3D 204562
-+PKGSIZE =3D 252458
- FILES =3D /usr/bin/* /usr/sbin/* /usr/lib/libpng/* /usr/lib/lib*.so.* /etc=
- /com /var /bin/* /sbin/* /lib/*.so.* /lib/udev/rules.d /usr/lib/udev/rules=
-=2Ed /usr/sh
--FILELIST =3D /usr/lib/libpng16.so.16 /usr/lib/libpng16.so.16.2.0
-+FILELIST =3D /usr/bin/png-fix-itxt /usr/bin/pngfix /usr/lib/libpng16.so.16=
- /usr/lib/libpng16.so.16.3.0
+OK, I'll fix it and send v3 of this patch.
+Best regards,
+Yevhen
 
 
->  .../libpng/{libpng_1.6.2.bb =3D> libpng_1.6.3.bb}    |    8 ++++----
->  1 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.2.bb b/meta/recipe=
-s-multimedia/libpng/libpng_1.6.3.bb
-> similarity index 64%
-> rename from meta/recipes-multimedia/libpng/libpng_1.6.2.bb
-> rename to meta/recipes-multimedia/libpng/libpng_1.6.3.bb
-> index 7a19313..11e735c 100644
-> --- a/meta/recipes-multimedia/libpng/libpng_1.6.2.bb
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.3.bb
-> @@ -3,16 +3,16 @@ DESCRIPTION =3D "PNG Library"
->  HOMEPAGE =3D "http://www.libpng.org/"
->  SECTION =3D "libs"
->  LICENSE =3D "Libpng"
-> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Db7c6b3f443bd29d45da5575f36293=
-606 \
-> -                    file://png.h;beginline=3D207;endline=3D321;md5=3Df8e=
-34d28a077eca674b739ded0de063c"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D6a42d0002ce5c11e4a529c29f78d1=
-3dd \
-> +                    file://png.h;beginline=3D207;endline=3D321;md5=3Dde9=
-33190ded7f9d6c22110c8509ea85a"
->  DEPENDS =3D "zlib"
->  LIBV =3D "16"
-> =20
->  SRC_URI =3D "${SOURCEFORGE_MIRROR}/project/libpng/libpng${LIBV}/${PV}/li=
-bpng-${PV}.tar.xz \
->             file://0001-configure-lower-automake-requirement.patch \
->            "
-> -SRC_URI[md5sum] =3D "9d838f6fca9948a9f360a0cc1b516d5f"
-> -SRC_URI[sha256sum] =3D "1c97a90bc22107e50f04f77a0115f4ec890d5c6a373ac4c5=
-60e8fb87259e92de"
-> +SRC_URI[md5sum] =3D "9307f8ab04f4be3c1889ffb504f0fe5c"
-> +SRC_URI[sha256sum] =3D "c5ecc0d38663b944a828145ed59cf15dfbad2217512875bc=
-05ecf9b92afa0f45"
-> =20
->  inherit autotools binconfig pkgconfig
-> =20
->=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+2013/8/3 Saul Wold <sgw@linux.intel.com>:
+> On 08/03/2013 08:30 AM, Yevhen Kyriukha wrote:
+>>
+>> 2013/8/2 Saul Wold <sgw@linux.intel.com>:
+>>>
+>>>
+>>> Please add an explanation of why the patches are removed and a
+>>> Signed-off-by: in the commit message.
+>>>
+>>> Thanks
+>>>          Sau!
+>>>
+>>>
+>>>
+>>> On 08/02/2013 12:41 PM, Yevhen Kyriukha wrote:
+>>>>
+>>>>
+>>>> ---
+>>>>    ...ix_race_condition_with_multithreaded_make.patch | 36
+>>>> ----------------------
+>>>>    .../btrfs-tools/btrfs-tools/fix_use_of_gcc.patch   | 31
+>>>> -------------------
+>>>>    .../btrfs-tools/btrfs-tools_git.bb                 | 13 +++-----
+>>>>    3 files changed, 4 insertions(+), 76 deletions(-)
+>>>>    delete mode 100644
+>>>>
+>>>> meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>>>>    delete mode 100644
+>>>> meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>>>>
+>>>> diff --git
+>>>>
+>>>> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>>>>
+>>>> b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>>>> deleted file mode 100644
+>>>> index 40175b8..0000000
+>>>> ---
+>>>>
+>>>> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_race_condition_with_multithreaded_make.patch
+>>>> +++ /dev/null
+>>>> @@ -1,36 +0,0 @@
+>>>> -Upstream-Status: Pending
+>>>> -
+>>>> -Fix makefile for multithreaded (make -j ) building.
+>>>> -
+>>>> -btrfsctl.c
+>>>> -| i586-poky-linux-gcc  -m32   -march=i586
+>>>> --sysroot=/intel/poky/builds/world/tmp/sysroots/qemux86
+>>>> -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64
+>>>> -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c
+>>>> btrfsctl.c
+>>>> -| btrfsctl.c:37:21: fatal error: version.h: No such file or directory
+>>>> -| compilation terminated.
+>>>> -| btrfslabel.c:40:21: fatal error: version.h: No such file or directory
+>>>> -| compilation terminated.
+>>>> -
+>>>> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+>>>> -2012/01/02
+>>>> -
+>>>> -Index: git/Makefile
+>>>> -===================================================================
+>>>> ---- git.orig/Makefile
+>>>> -+++ git/Makefile
+>>>> -@@ -26,14 +26,13 @@ else
+>>>> -       check = ls
+>>>> - endif
+>>>> -
+>>>> --.c.o:
+>>>> -+%.o: %.c version.h
+>>>> -       $(check) $<
+>>>> -       $(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
+>>>> -
+>>>> -+all: $(progs) manpages
+>>>> -
+>>>> --all: version $(progs) manpages
+>>>> --
+>>>> --version:
+>>>> -+version.h: version.sh
+>>>> -       bash version.sh
+>>>> -
+>>>> - btrfs: $(objects) btrfs.o btrfs_cmds.o scrub.o
+>>>> diff --git
+>>>> a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>>>> b/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>>>> deleted file mode 100644
+>>>> index 7f6594a..0000000
+>>>> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/fix_use_of_gcc.patch
+>>>> +++ /dev/null
+>>>> @@ -1,31 +0,0 @@
+>>>> -Nitin A Kamble <nitin.a.kamble@intel.com> 2011/06/09
+>>>> -Upstream-Status: Pending
+>>>> -
+>>>> -Avoid these kinds of errors while doing cross build:
+>>>> -
+>>>> -| ccache i586-poky-linux-gcc -march=i586
+>>>> --sysroot=/disk0/pokybuild/build0/tmp/sysroots/qemux86
+>>>> -Wp,-MMD,./.btrfsctl.o.d,-MT,btrfsctl.o -Wall -D_FILE_OFFSET_BITS=64
+>>>> -D_FORTIFY_SOURCE=2 -O2 -pipe -g -feliminate-unused-debug-types -c
+>>>> btrfsctl.c
+>>>> -| gcc -O2 -pipe -g -feliminate-unused-debug-types -o btrfsctl
+>>>> btrfsctl.o
+>>>> ctree.o disk-io.o radix-tree.o extent-tree.o print-tree.o root-tree.o
+>>>> dir-item.o file-item.o inode-item.o inode-map.o crc32c.o rbtree.o
+>>>> extent-cache.o extent_io.o volumes.o utils.o btrfs-list.o -Wl,-O1
+>>>> -Wl,--as-needed -luuid
+>>>> -| /usr/bin/ld: i386 architecture of input file `btrfsctl.o' is
+>>>> incompatible with i386:x86-64 output
+>>>> -| /usr/bin/ld: i386 architecture of input file `ctree.o' is
+>>>> incompatible
+>>>> with i386:x86-64 output
+>>>> -
+>>>> -Index: git/Makefile
+>>>> -===================================================================
+>>>> ---- git.orig/Makefile
+>>>> -+++ git/Makefile
+>>>> -@@ -41,13 +41,13 @@ btrfs: $(objects) btrfs.o btrfs_cmds.o s
+>>>> -               $(objects) $(LDFLAGS) $(LIBS)
+>>>> -
+>>>> - calc-size: $(objects) calc-size.o
+>>>> --      gcc $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS)
+>>>> $(LIBS)
+>>>> -+      $(CC) $(CFLAGS) -o calc-size calc-size.o $(objects) $(LDFLAGS)
+>>>> $(LIBS)
+>>>> -
+>>>> - find-root: $(objects) find-root.o
+>>>> --      gcc $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS)
+>>>> $(LIBS)
+>>>> -+      $(CC) $(CFLAGS) -o find-root find-root.o $(objects) $(LDFLAGS)
+>>>> $(LIBS)
+>>>> -
+>>>> - restore: $(objects) restore.o
+>>>> --      gcc $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS) $(LIBS)
+>>>> $(RESTORE_LIBS)
+>>>> -+      $(CC) $(CFLAGS) -o restore restore.o $(objects) $(LDFLAGS)
+>>>> $(LIBS)
+>>>> $(RESTORE_LIBS)
+>>>> -
+>>>> - btrfsctl: $(objects) btrfsctl.o
+>>>> -       $(CC) $(CFLAGS) -o btrfsctl btrfsctl.o $(objects) $(LDFLAGS)
+>>>> $(LIBS)
+>>>> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>>> b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>>> index ef575ae..d63f1e0 100644
+>>>> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>>> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>>> @@ -12,21 +12,16 @@ LIC_FILES_CHKSUM =
+>>>> "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+>>>>    SECTION = "base"
+>>>>    DEPENDS = "util-linux attr"
+>>>>
+>>>> -SRCREV = "fdb6c0402337d9607c7a39155088eaf033742752"
+>>>> +SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
+>>>>    SRC_URI =
+>>>>
+>>>> "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
+>>>>
+>>>>    S = "${WORKDIR}/git"
+>>>>
+>>>> -PV = "0.19+git${SRCPV}"
+>>>> +PV = "0.20+git${SRCPV}"
+>>>>
+>>>> -PR = "r6"
+>>>> +PR = "r7"
+>>>>
+>>> We do not need PR Bumps any more, so it can just be removed as you are
+>>> incrementing the PV.
+>>>
+>>
+>> So what do I need to do with existing PR? Just don't change it or
+>> remove it from recipe?
+>>
+>>
+> Sorry for being unclear since you have incremented the PV, you can
+> completely remove the PR entry.
+>
+> Sau!
+>
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---WG0/bXtUnGTsWt66
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlH+Nr4ACgkQN1Ujt2V2gByk1ACgqOo/1y6YVT4WX7alpti2RKlm
-8G8AnRtWKV2C5c6YImO/ecKQRKQUZSlM
-=mfiv
------END PGP SIGNATURE-----
-
---WG0/bXtUnGTsWt66--
