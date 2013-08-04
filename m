@@ -1,23 +1,23 @@
 Return-Path: <stefanx.stanacar@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A789608BF
+	by mail.openembedded.org (Postfix) with ESMTP id 85F3461AD1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  4 Aug 2013 09:12:58 +0000 (UTC)
+	Sun,  4 Aug 2013 09:17:03 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Aug 2013 02:12:58 -0700
+	by orsmga101.jf.intel.com with ESMTP; 04 Aug 2013 02:17:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,811,1367996400"; d="scan'208";a="357122553"
+X-IronPort-AV: E=Sophos;i="4.89,811,1367996400"; d="scan'208";a="357123142"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2013 02:12:46 -0700
+	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2013 02:15:49 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id B2F0A6A4092;
-	Sun,  4 Aug 2013 02:12:38 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 8657C6A4092;
+	Sun,  4 Aug 2013 02:15:47 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  4 Aug 2013 12:12:32 +0300
-Message-Id: <1375607552-13458-1-git-send-email-stefanx.stanacar@intel.com>
+Date: Sun,  4 Aug 2013 12:15:40 +0300
+Message-Id: <1375607740-13512-1-git-send-email-stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] oeqa/utils/qemurunner: fix wrong var in message
+Subject: [PATCH v2] oeqa/utils/qemurunner: fix wrong var in message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 04 Aug 2013 09:12:58 -0000
+X-List-Received-Date: Sun, 04 Aug 2013 09:17:03 -0000
+
+If nothing matches we should print the text not
+the match, else we get a nice traceback.
+
+Changed in V2:
+ - commit message
 
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
