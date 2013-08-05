@@ -1,36 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1436461223
+Return-Path: <Bjoern.Stenberg@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 3C74861223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 08:57:31 +0000 (UTC)
-Received: by mail-ve0-f176.google.com with SMTP id b10so2774902vea.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2013 01:57:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=kXuhk+/0RjndZWLokFBBmTdXvMLV7n7M9HIC6FiWR7M=;
-	b=V2jHtFcCSCUNJfcgoCBn018LmPdUsPZJwZnFsFZ4gFzD0Uf0RzePqfvO8D0wmeZ+LZ
-	0+Ixq0xF2lfYgYyeu/KH4lvMQKn9XFp0uLWkaJ/zG9D3MN/3htCU5M6b1ImMzT7rJ+8W
-	P/et1Rnh/1nA4jq33ZDZHAR+Z2bl5OTT8yic3rziqUxn0NycoE8CRUUIaIoFjAtD+2ut
-	ZiyvawKNCRK4k60hsZGgUb8Umi0hQtXu1iG3mk5HZsm+3kx85j5zrbUwy8McpMm3AWW6
-	SlSFyK9grb3+Lc/4KsL7oEm830LkkJUpKU49EbrNMZG5EkcpM1dlWgC91ItpXgk9uSIy
-	8/mA==
-X-Received: by 10.58.219.232 with SMTP id pr8mr5468077vec.80.1375693052401;
-	Mon, 05 Aug 2013 01:57:32 -0700 (PDT)
+	Mon,  5 Aug 2013 09:16:21 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1; Mon, 5 Aug 2013
+	11:16:17 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 5A03328B66D;
+	Mon,  5 Aug 2013 11:16:17 +0200 (CEST)
+Date: Mon, 5 Aug 2013 11:16:17 +0200
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130805091617.GA55817@sestofb10.enea.se>
+References: <20130605143619.GE20636@sestofb10.enea.se>
+	<CAJTo0LZNeJZO-=6YwnANqtNE3Q3t55+X49n0W_iJc2nUiG=cYQ@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 5 Aug 2013 01:57:12 -0700 (PDT)
-In-Reply-To: <1375679521-16328-1-git-send-email-sgw@linux.intel.com>
-References: <1375679521-16328-1-git-send-email-sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Aug 2013 09:57:12 +0100
-Message-ID: <CAJTo0LaW4bR325d=PGiWz9OfkS-xugbp4E0dQRm0nXCZ3j9Evg@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-X-Gm-Message-State: ALoCoQkr+loombRYzDw+tXDSWJMDizKyYpwTKLZjorB/yM1jPEjZc6docAmAg/iKmoLk1rQ09RoD
+In-Reply-To: <CAJTo0LZNeJZO-=6YwnANqtNE3Q3t55+X49n0W_iJc2nUiG=cYQ@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] libpng: remove two un-necessary binaries
+Subject: Re: ptest recipes in progress
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,14 +33,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 08:57:32 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Aug 2013 09:16:21 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 5 August 2013 06:12, Saul Wold <sgw@linux.intel.com> wrote:
-> +       rm ${D}${bindir}/png-fix-itxt ${D}${bindir}/pngfix
+Burton, Ross wrote:
+> Do you plan on adding GStreamer to that list?
 
-These tools could be useful, can we make a libpng-tools package or
-something similar for the contents of $bindir?
+No, we have no plans for gstreamer pest. Feel free to run with it. :-)
 
-Ross
+--=20
+Bj=F6rn
 
