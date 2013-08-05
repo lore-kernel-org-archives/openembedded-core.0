@@ -1,37 +1,36 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 454A3605A0
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ye0-f181.google.com (mail-ye0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 093E5605A0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 13:59:43 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2013 06:59:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,818,1367996400"; d="scan'208";a="381487944"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Aug 2013 06:59:34 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 5 Aug 2013 14:59:02 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.218]) with mapi id
-	14.03.0123.003; Mon, 5 Aug 2013 14:59:01 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 0/7] PUs for telepathy and gstreamer1.0
-Thread-Index: AQHOkdFHKUdzuusjuUi2OQH6t5ulp5mGpCHg
-Date: Mon, 5 Aug 2013 13:59:00 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C11C22@IRSMSX105.ger.corp.intel.com>
-References: <cover.1375457906.git.cristian.iorga@intel.com>
-	<CAJTo0LYTjnD32wbx2HUEQuXNiJGnjhZWYmQ3PGvfEaYjACr1fQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYTjnD32wbx2HUEQuXNiJGnjhZWYmQ3PGvfEaYjACr1fQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/7] PUs for telepathy and gstreamer1.0
+	Mon,  5 Aug 2013 14:02:49 +0000 (UTC)
+Received: by mail-ye0-f181.google.com with SMTP id q2so1241550yen.26
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Aug 2013 07:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:x-mailer;
+	bh=muZMvA4zbM7n7alttsJ5GxUCTjdvso/gZ/mhDcI+4QQ=;
+	b=KjLuFR+yTd6imEgpmRoWxRjVouiiONIrd8GvPsXgUDq90cjzCg+uWzf+cE+i614r8C
+	77l7HJledwTnOyJHShDLQqj+zu9r/D18TEhR7XkvjKTPm22yXDV4E7TixC3p4TkvNVtc
+	Unlz840RFwIQ0VdQSW0x/lT0QcHleQByg/UjnxYyilX86NN8JB+ViX4RHEoVMpVvb73u
+	p/oQA2lBVsU2odrrgSGV7ozqhK3lLszRG/UwOIKR1YdRnwSGZUiAex3zR5aaBuJ+AQ/U
+	aYNzpd6EzyqfV7QHfm8xHnwZ/Im3TXt6+HW3+QSalQHqwzjO7DIuDA46ROZpin7lLCZo
+	t0Wg==
+X-Received: by 10.236.188.70 with SMTP id z46mr11229435yhm.82.1375711370365;
+	Mon, 05 Aug 2013 07:02:50 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([187.23.155.55])
+	by mx.google.com with ESMTPSA id s29sm36785591yhf.6.2013.08.05.07.02.48
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 05 Aug 2013 07:02:49 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon,  5 Aug 2013 11:02:43 -0300
+Message-Id: <1375711363-18991-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.3.2
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] base.bbclass: Fix PACKAGECONFIG usage comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +43,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 13:59:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 05 Aug 2013 14:02:50 -0000
 
-T0ssIEkgd2lsbCBkZWFsIHdpdGggaXQgdG9tb3Jyb3cuDQovQ3Jpc3RpYW4NCg0KLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9u
-QGludGVsLmNvbV0gDQpTZW50OiBNb25kYXksIEF1Z3VzdCAwNSwgMjAxMyAyOjQ1IFBNDQpUbzog
-SW9yZ2EsIENyaXN0aWFuDQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC83XSBQVXMgZm9yIHRlbGVwYXRo
-eSBhbmQgZ3N0cmVhbWVyMS4wDQoNCk9uIDIgQXVndXN0IDIwMTMgMTY6MzksIENyaXN0aWFuIElv
-cmdhIDxjcmlzdGlhbi5pb3JnYUBpbnRlbC5jb20+IHdyb3RlOg0KPiBDcmlzdGlhbiBJb3JnYSAo
-Nyk6DQo+ICAgdGVsZXBhdGh5LW1pc3Npb24tY29udHJvbDogdXBncmFkZSB0byB2NS4xNS4wDQo+
-ICAgdGVsZXBhdGh5LWlkbGU6IHVwZ3JhZGUgdG8gdjAuMS4xNg0KPiAgIGdzdHJlYW1lcjEuMDog
-dXBncmFkZSB0byB2MS4wLjkNCj4gICBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlOiB1cGdyYWRl
-IHRvIHYxLjAuOQ0KPiAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2Q6IHVwZ3JhZGUgdG8gdjEu
-MC45DQo+ICAgZ3N0cmVhbWVyMS4wLWxpYmF2OiB1cGdyYWRlIHRvIHYxLjAuOQ0KPiAgIGdzdHJl
-YW1lcjEuMC1wbHVnaW5zLWJhZDogdXBncmFkZSB0byB2MS4wLjkNCg0KQnVpbGQgdGVzdGVkIGFu
-ZCB2ZXJpZmllZCBidWlsZGhpc3RvcnkuDQoNCkluIGFub3RoZXIgY29tbWl0IGNhbiB5b3UgYWRk
-IGFuIElOU0FORV9TS0lQIGZvciB0aGUgdGV4dC1yZWwgd2FybmluZ3MgaW4gZ3N0cmVhbWVyMS4w
-LWxpYmF2PyAgVGhhdCdzIGEga25vd24gaXNzdWUgd2l0aCBsaWJhdiBhZmFpay4NCg0KQWNrZWQt
-Qnk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+DQoNClJvc3MNCg==
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/classes/base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index bc2b4f6..f30f4db 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -397,7 +397,7 @@ python () {
+     #
+     # These take the form:
+     #
+-    # PACKAGECONFIG ?? = "<default options>"
++    # PACKAGECONFIG ??= "<default options>"
+     # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends"
+     pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
+     if pkgconfigflags:
+-- 
+1.8.3.2
+
 
