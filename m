@@ -1,36 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f175.google.com (mail-ve0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 79D9360593
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id EEDED60593
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 17:19:41 +0000 (UTC)
-Received: by mail-ve0-f175.google.com with SMTP id oy10so3339525veb.20
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2013 10:19:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:x-gm-message-state;
-	bh=dgZ7N2Q0inSzbsyq9+hPlYmAEhLHy+HV374EH1VnbQY=;
-	b=WnuMlM8f0zZFM2H8JCRB1+AlNP/2S+gglQXtu97o6rudwwX6Zcj/22RVseZRZPBsRj
-	xbHslqS4BfV9Arn0JdXVt8YTcaCQbha8BWtoLfXn/PmrVpdS1bLLUOl/+qnmFXIkRvKp
-	bDi+poHo/Ijuq3Eia1kHufI+SDsflAR0EjCM1Y+adL729S9kg27VqWYjy/9Anf5nECcV
-	UgRMVpOIYEYcepVZP1XEoMrRRnlXdtOxfgMev3DefJfK/ZecvhJx4aUn/jIfiWmCgkzc
-	0b1StElEmAsOsAy1L10K9Im4CipDL6O5prAqPbZTAVKWV0PKhTzNSdq7Wt4iml4tzW9m
-	mTYQ==
-X-Received: by 10.52.164.227 with SMTP id yt3mr5118436vdb.107.1375723182030;
-	Mon, 05 Aug 2013 10:19:42 -0700 (PDT)
+	Mon,  5 Aug 2013 17:39:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 05 Aug 2013 10:39:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,819,1367996400"; d="scan'208";a="376483970"
+Received: from unknown (HELO [10.255.14.110]) ([10.255.14.110])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2013 10:39:50 -0700
+Message-ID: <51FFE366.7010603@linux.intel.com>
+Date: Mon, 05 Aug 2013 10:39:50 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 5 Aug 2013 10:19:21 -0700 (PDT)
-In-Reply-To: <cover.1375714695.git.cristian.iorga@intel.com>
-References: <cover.1375714695.git.cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 5 Aug 2013 18:19:21 +0100
-Message-ID: <CAJTo0LYVq72WqJX6Maesw69KK5L0mH6A2yZqQhWOtq-Bwa_P0A@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-X-Gm-Message-State: ALoCoQlhu1j2yuu1c/HpARUseY1Rg+A9+eXEJ/8Oymw1cAqSpbfTBGGGj3OjlexlKOPT9aPT4MzU
+To: Bian Naimeng <biannm@cn.fujitsu.com>
+References: <51FF72B7.9070706@cn.fujitsu.com>
+In-Reply-To: <51FF72B7.9070706@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] various upgrades
+Subject: Re: [PATCH] icu: fix configure error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 17:19:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Aug 2013 17:39:52 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 5 August 2013 15:59, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> Cristian Iorga (4):
->   neon: upgrade to v0.30.0
->   gstreamer1.0-plugins-ugly: upgrade to v1.0.9
->   telepathy-glib: upgrade to v0.20.4
->   harfbuzz: upgrade to v0.9.19
+On 08/05/2013 02:39 AM, Bian Naimeng wrote:
+> If we don't create ${STAGING_ICU_DIR_NATIVE} before doing
+> do_configure for cross target, the following will be caught.
+>
+>   |configure: error: No such directory ${cross_buildroot} supplied as
+>   | the argument to --with-cross-build. Use an absolute path.
+>   |Configure failed. The contents of all config.log files follows to
+>   | aid debugging
+>   |ERROR: oe_runconf failed
+>
+Is this really needed?  Which ICU is failing, the target or -native 
+version?  The target version depends on the -native version which should 
+have created this directory first.
 
-I just sent a mail about harfbuzz, but
-neon/gstreamer1.0-plugins-ugly/telepathy-glib look good.
+What are the steps to reproduce this?
 
-Ross
+Sau!
+
+> Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+>
+> ---
+>   meta/recipes-support/icu/icu.inc |    1 +
+>   1 files changed, 1 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
+> index e3944cd..3987e42 100644
+> --- a/meta/recipes-support/icu/icu.inc
+> +++ b/meta/recipes-support/icu/icu.inc
+> @@ -27,6 +27,7 @@ EXTRA_OECONF_class-native = ""
+>   # http://bugs.icu-project.org/trac/ticket/9790
+>   do_configure_prepend() {
+>       [ -f ${S}/acinclude.m4 ] || cp ${S}/aclocal.m4 ${S}/acinclude.m4
+> +    [ -d ${STAGING_ICU_DIR_NATIVE} ] || mkdir -p ${STAGING_ICU_DIR_NATIVE}
+>   }
+>
+>   do_install_append_class-native() {
+>
 
