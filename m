@@ -1,35 +1,20 @@
-Return-Path: <tylerwhall@gmail.com>
-Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
-	[209.85.219.47])
-	by mail.openembedded.org (Postfix) with ESMTP id BD0386A458
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id CAF69605A0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 14:25:26 +0000 (UTC)
-Received: by mail-oa0-f47.google.com with SMTP id g12so6400664oah.34
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2013 07:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=gkPQzc7zaKjHrFs4uVivr5SKnMi+L0uPyYxyG8MNLVU=;
-	b=VNs9MWECn2Gr4vFB0ozOZ10/HgBrXiv8TXGqg5lU77s6WzuzBgkKeA3KF7nIlEts3b
-	2g25qaQzkWRwTV0e2xiUX7Be7IV2ghe7sUkWtZKADAJRVeGQEYwgUJRbDNhWZqmQRe+C
-	UTc8ctDFdBcy2c+pk3EWQ+yhXR0HzCgoek/RQK+0aRz68nnhatQLc1L063urInEQYrlo
-	xkXH/j4FJXVrcHp9H1ngicnA5Jjm7v4KP2cfDOpe/OtZM8Tb7uSatU1xEzFRu0NMBbP1
-	Ry5EG8lLq+IyEsKcnIP6k93SacOrM9mI+9o/hc4BIrbCvAMToKkBowO5Kw64N0uN67Zn
-	MCWw==
-X-Received: by 10.60.131.171 with SMTP id on11mr14650422oeb.71.1375712727074; 
-	Mon, 05 Aug 2013 07:25:27 -0700 (PDT)
-Received: from localhost.localdomain (cpe-69-23-225-27.natcky.res.rr.com.
-	[69.23.225.27])
-	by mx.google.com with ESMTPSA id g1sm24311429oeq.6.2013.08.05.07.25.25
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 05 Aug 2013 07:25:25 -0700 (PDT)
-From: Tyler Hall <tylerwhall@gmail.com>
+	Mon,  5 Aug 2013 14:43:00 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 05 Aug 2013 07:43:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,819,1367996400"; d="scan'208";a="277913300"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Aug 2013 07:42:59 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Aug 2013 10:25:20 -0400
-Message-Id: <1375712720-16668-1-git-send-email-tylerwhall@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] cpan-base: Don't use immediate expansion
+Date: Mon,  5 Aug 2013 17:44:41 +0300
+Message-Id: <1375713884-8528-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 1/4] neon: upgrade to v0.30.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 14:25:26 -0000
+X-List-Received-Date: Mon, 05 Aug 2013 14:43:01 -0000
 
-PERLVERSION is derived from installed output in the sysroot, so it
-should not be evaluated at parse time.
-
-In an new workspace, the sequence
-
-$ bitbake -S libxml-sax-perl
-$ bitbake perl
-$ bitbake -S libxml-sax-perl
-
-generates different task hashes for libxml-sax-perl, and the error
-
-ERROR: Bitbake's cached basehash does not match the one we just
-generated (/bonus/scratch/tylerh/oe-core/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb.do_package)!
-
-Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/classes/cpan-base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../neon/{neon-0.29.6 => neon-0.30.0}/pkgconfig.patch              | 0
+ meta/recipes-support/neon/{neon_0.29.6.bb => neon_0.30.0.bb}       | 7 ++-----
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/neon/{neon-0.29.6 => neon-0.30.0}/pkgconfig.patch (100%)
+ rename meta/recipes-support/neon/{neon_0.29.6.bb => neon_0.30.0.bb} (83%)
 
-diff --git a/meta/classes/cpan-base.bbclass b/meta/classes/cpan-base.bbclass
-index 7e1e8d0..d05863e 100644
---- a/meta/classes/cpan-base.bbclass
-+++ b/meta/classes/cpan-base.bbclass
-@@ -40,7 +40,7 @@ def is_target(d):
-     return "no"
+diff --git a/meta/recipes-support/neon/neon-0.29.6/pkgconfig.patch b/meta/recipes-support/neon/neon-0.30.0/pkgconfig.patch
+similarity index 100%
+rename from meta/recipes-support/neon/neon-0.29.6/pkgconfig.patch
+rename to meta/recipes-support/neon/neon-0.30.0/pkgconfig.patch
+diff --git a/meta/recipes-support/neon/neon_0.29.6.bb b/meta/recipes-support/neon/neon_0.30.0.bb
+similarity index 83%
+rename from meta/recipes-support/neon/neon_0.29.6.bb
+rename to meta/recipes-support/neon/neon_0.30.0.bb
+index 157f711..dbc43bb 100644
+--- a/meta/recipes-support/neon/neon_0.29.6.bb
++++ b/meta/recipes-support/neon/neon_0.30.0.bb
+@@ -7,15 +7,12 @@ LIC_FILES_CHKSUM = "file://src/COPYING.LIB;md5=f30a9716ef3762e3467a2f62bf790f0a
+ DEPENDS = "zlib libxml2 expat time gnutls libproxy"
+ DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
  
- PERLLIBDIRS := "${@perl_get_libdirs(d)}"
--PERLVERSION := "${@get_perl_version(d)}"
-+PERLVERSION = "${@get_perl_version(d)}"
+-PR = "r3"
+-
+ BBCLASSEXTEND = "native"
  
- FILES_${PN}-dbg += "${PERLLIBDIRS}/auto/*/.debug \
-                     ${PERLLIBDIRS}/auto/*/*/.debug \
+ SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
+            file://pkgconfig.patch"
+-
+-SRC_URI[md5sum] = "591e0c82e6979e7e615211b386b8f6bc"
+-SRC_URI[sha256sum] = "9c640b728d6dc80ef1e48f83181166ab6bc95309cece5537e01ffdd01b96eb43"
++SRC_URI[md5sum] = "fb60b3a124eeec441937a812c456fd94"
++SRC_URI[sha256sum] = "2962cfcb5d30f3272e3d2fa0e473434419770a3801afe3d46e5d1650787990c2"
+ 
+ inherit autotools binconfig lib_package pkgconfig
+ 
 -- 
-1.8.3.4
+1.8.1.2
 
 
