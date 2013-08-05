@@ -1,24 +1,36 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 17A7B61223
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1436461223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 08:25:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2013 01:25:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,817,1367996400"; d="scan'208";a="376250889"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2013 01:25:33 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Aug 2013 11:28:12 +0300
-Message-Id: <5f1da5555d9fde20116266cb54831afadeb2565a.1375441054.git.cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <002befd249411cf19e27d77a58d7be18e2690807.1375441054.git.cristiana.voicu@intel.com>
-References: <002befd249411cf19e27d77a58d7be18e2690807.1375441054.git.cristiana.voicu@intel.com>
-In-Reply-To: <cover.1375441054.git.cristiana.voicu@intel.com>
-References: <cover.1375441054.git.cristiana.voicu@intel.com>
-Subject: [PATCH 3/3] curl: upgrade to 7.31.0
+	Mon,  5 Aug 2013 08:57:31 +0000 (UTC)
+Received: by mail-ve0-f176.google.com with SMTP id b10so2774902vea.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Aug 2013 01:57:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type:x-gm-message-state;
+	bh=kXuhk+/0RjndZWLokFBBmTdXvMLV7n7M9HIC6FiWR7M=;
+	b=V2jHtFcCSCUNJfcgoCBn018LmPdUsPZJwZnFsFZ4gFzD0Uf0RzePqfvO8D0wmeZ+LZ
+	0+Ixq0xF2lfYgYyeu/KH4lvMQKn9XFp0uLWkaJ/zG9D3MN/3htCU5M6b1ImMzT7rJ+8W
+	P/et1Rnh/1nA4jq33ZDZHAR+Z2bl5OTT8yic3rziqUxn0NycoE8CRUUIaIoFjAtD+2ut
+	ZiyvawKNCRK4k60hsZGgUb8Umi0hQtXu1iG3mk5HZsm+3kx85j5zrbUwy8McpMm3AWW6
+	SlSFyK9grb3+Lc/4KsL7oEm830LkkJUpKU49EbrNMZG5EkcpM1dlWgC91ItpXgk9uSIy
+	8/mA==
+X-Received: by 10.58.219.232 with SMTP id pr8mr5468077vec.80.1375693052401;
+	Mon, 05 Aug 2013 01:57:32 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 5 Aug 2013 01:57:12 -0700 (PDT)
+In-Reply-To: <1375679521-16328-1-git-send-email-sgw@linux.intel.com>
+References: <1375679521-16328-1-git-send-email-sgw@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 5 Aug 2013 09:57:12 +0100
+Message-ID: <CAJTo0LaW4bR325d=PGiWz9OfkS-xugbp4E0dQRm0nXCZ3j9Evg@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Gm-Message-State: ALoCoQkr+loombRYzDw+tXDSWJMDizKyYpwTKLZjorB/yM1jPEjZc6docAmAg/iKmoLk1rQ09RoD
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] libpng: remove two un-necessary binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 08:25:34 -0000
+X-List-Received-Date: Mon, 05 Aug 2013 08:57:32 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
----
- .../curl/{curl_7.30.0.bb => curl_7.31.0.bb}        |    5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-support/curl/{curl_7.30.0.bb => curl_7.31.0.bb} (92%)
+On 5 August 2013 06:12, Saul Wold <sgw@linux.intel.com> wrote:
+> +       rm ${D}${bindir}/png-fix-itxt ${D}${bindir}/pngfix
 
-diff --git a/meta/recipes-support/curl/curl_7.30.0.bb b/meta/recipes-support/curl/curl_7.31.0.bb
-similarity index 92%
-rename from meta/recipes-support/curl/curl_7.30.0.bb
-rename to meta/recipes-support/curl/curl_7.31.0.bb
-index fbfc211..6d78ff2 100644
---- a/meta/recipes-support/curl/curl_7.30.0.bb
-+++ b/meta/recipes-support/curl/curl_7.31.0.bb
-@@ -8,7 +8,6 @@ LIC_FILES_CHKSUM = "file://COPYING;beginline=7;md5=3a34942f4ae3fbf1a303160714e66
- DEPENDS = "zlib gnutls"
- DEPENDS_class-native = "zlib-native openssl-native"
- DEPENDS_class-nativesdk = "nativesdk-zlib"
--PR = "r0"
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://pkgconfig_fix.patch \
-@@ -19,8 +18,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
- #
- SRC_URI += " file://configure_ac.patch"
- 
--SRC_URI[md5sum] = "0db5ec03a5001b42a2edc03bf63b5ceb"
--SRC_URI[sha256sum] = "6b1c410387bea82601baec85d6aa61955794672e36766407e99ade8d55aaaf11"
-+SRC_URI[md5sum] = "b7bea20579ac2f696338ae03f2c19ba5"
-+SRC_URI[sha256sum] = "a73b118eececff5de25111f35d1d0aafe1e71afdbb83082a8e44d847267e3e08"
- 
- inherit autotools pkgconfig binconfig
- 
--- 
-1.7.9.5
+These tools could be useful, can we make a libpng-tools package or
+something similar for the contents of $bindir?
 
+Ross
 
