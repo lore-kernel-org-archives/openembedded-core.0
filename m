@@ -1,20 +1,22 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id CAF69605A0
+	by mail.openembedded.org (Postfix) with ESMTP id 3E2A1621B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 14:43:00 +0000 (UTC)
+	Mon,  5 Aug 2013 14:43:01 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 05 Aug 2013 07:43:01 -0700
+	by azsmga102.ch.intel.com with ESMTP; 05 Aug 2013 07:43:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,819,1367996400"; d="scan'208";a="277913300"
+X-IronPort-AV: E=Sophos;i="4.89,819,1367996400"; d="scan'208";a="277913321"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Aug 2013 07:42:59 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Aug 2013 07:43:00 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  5 Aug 2013 17:44:41 +0300
-Message-Id: <1375713884-8528-1-git-send-email-cristian.iorga@intel.com>
+Date: Mon,  5 Aug 2013 17:44:42 +0300
+Message-Id: <1375713884-8528-2-git-send-email-cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 1/4] neon: upgrade to v0.30.0
+In-Reply-To: <1375713884-8528-1-git-send-email-cristian.iorga@intel.com>
+References: <1375713884-8528-1-git-send-email-cristian.iorga@intel.com>
+Subject: [PATCH 2/4] gstreamer1.0-plugins-ugly: upgrade to v1.0.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,40 +33,41 @@ X-List-Received-Date: Mon, 05 Aug 2013 14:43:01 -0000
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../neon/{neon-0.29.6 => neon-0.30.0}/pkgconfig.patch              | 0
- meta/recipes-support/neon/{neon_0.29.6.bb => neon_0.30.0.bb}       | 7 ++-----
- 2 files changed, 2 insertions(+), 5 deletions(-)
- rename meta/recipes-support/neon/{neon-0.29.6 => neon-0.30.0}/pkgconfig.patch (100%)
- rename meta/recipes-support/neon/{neon_0.29.6.bb => neon_0.30.0.bb} (83%)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc       | 2 --
+ ...er1.0-plugins-ugly_1.0.7.bb => gstreamer1.0-plugins-ugly_1.0.9.bb} | 4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.0.7.bb => gstreamer1.0-plugins-ugly_1.0.9.bb} (66%)
 
-diff --git a/meta/recipes-support/neon/neon-0.29.6/pkgconfig.patch b/meta/recipes-support/neon/neon-0.30.0/pkgconfig.patch
-similarity index 100%
-rename from meta/recipes-support/neon/neon-0.29.6/pkgconfig.patch
-rename to meta/recipes-support/neon/neon-0.30.0/pkgconfig.patch
-diff --git a/meta/recipes-support/neon/neon_0.29.6.bb b/meta/recipes-support/neon/neon_0.30.0.bb
-similarity index 83%
-rename from meta/recipes-support/neon/neon_0.29.6.bb
-rename to meta/recipes-support/neon/neon_0.30.0.bb
-index 157f711..dbc43bb 100644
---- a/meta/recipes-support/neon/neon_0.29.6.bb
-+++ b/meta/recipes-support/neon/neon_0.30.0.bb
-@@ -7,15 +7,12 @@ LIC_FILES_CHKSUM = "file://src/COPYING.LIB;md5=f30a9716ef3762e3467a2f62bf790f0a
- DEPENDS = "zlib libxml2 expat time gnutls libproxy"
- DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+index 4a54d1b..3f47949 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly.inc
+@@ -5,8 +5,6 @@ LICENSE_FLAGS = "commercial"
  
--PR = "r3"
+ DEPENDS += "gstreamer1.0-plugins-base libid3tag"
+ 
+-PR = "r1"
 -
- BBCLASSEXTEND = "native"
+ inherit gettext
  
- SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
-            file://pkgconfig.patch"
--
--SRC_URI[md5sum] = "591e0c82e6979e7e615211b386b8f6bc"
--SRC_URI[sha256sum] = "9c640b728d6dc80ef1e48f83181166ab6bc95309cece5537e01ffdd01b96eb43"
-+SRC_URI[md5sum] = "fb60b3a124eeec441937a812c456fd94"
-+SRC_URI[sha256sum] = "2962cfcb5d30f3272e3d2fa0e473434419770a3801afe3d46e5d1650787990c2"
  
- inherit autotools binconfig lib_package pkgconfig
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.0.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.0.9.bb
+similarity index 66%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.0.7.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.0.9.bb
+index 7e9b8aa..30fa3a3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.0.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.0.9.bb
+@@ -3,8 +3,8 @@ include gstreamer1.0-plugins-ugly.inc
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068 "
+ 
+-SRC_URI[md5sum] = "8754edf6c3be235f232fb75ad11708bb"
+-SRC_URI[sha256sum] = "b78b8cfabe322497da432a0f297dbb21862a033f95e8d4cd8f207eccb5288f2b"
++SRC_URI[md5sum] = "ea8b4e05ed5beb982762b45aba266720"
++SRC_URI[sha256sum] = "11250fe9e44b0169c3a289e981b31874b483643ed78f619682ae1644d7088379"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
  
 -- 
 1.8.1.2
