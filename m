@@ -1,31 +1,22 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CEC106B1A4
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D8D1261223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 05:21:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r755LJLT024311
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 4 Aug 2013 22:21:19 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Sun, 4 Aug 2013 22:21:19 -0700
-Message-ID: <51FF364D.3030908@windriver.com>
-Date: Mon, 5 Aug 2013 13:21:17 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1374643300.git.rongqing.li@windriver.com>
-	<947336a1ef2b936328ba6fcf519d55a4eda7085d.1374643300.git.rongqing.li@windriver.com>
-	<8651FFE5-8500-4151-A4DF-BE780516C6CC@gmail.com>
-	<51EF70F6.6060800@windriver.com>
-	<CAJTo0LZn5-59UwuM3byj-LgSr8-SxzSqGaLnrzMpEjmR_O2Ayw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZn5-59UwuM3byj-LgSr8-SxzSqGaLnrzMpEjmR_O2Ayw@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: ignore qemu output, and check its return code
+	Mon,  5 Aug 2013 08:25:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2013 01:25:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,817,1367996400"; d="scan'208";a="376250841"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2013 01:25:26 -0700
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Aug 2013 11:28:10 +0300
+Message-Id: <002befd249411cf19e27d77a58d7be18e2690807.1375441054.git.cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1375441054.git.cristiana.voicu@intel.com>
+References: <cover.1375441054.git.cristiana.voicu@intel.com>
+Subject: [PATCH 1/3] tzdata: upgrade to 2013d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +29,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 05:21:22 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Aug 2013 08:25:27 -0000
 
+Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+---
+ .../recipes-extended/tzcode/tzcode-native_2013d.bb |    4 ++--
+ .../tzdata/{tzdata_2013b.bb => tzdata_2013d.bb}    |    4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-extended/tzdata/{tzdata_2013b.bb => tzdata_2013d.bb} (98%)
 
-
-On 07/26/2013 07:53 PM, Burton, Ross wrote:
-> On 24 July 2013 07:15, Rongqing Li <rongqing.li@windriver.com> wrote:
->> qemu is not segfaulting, except error message, it returns 0,
->> and udevadm hwdb finished its task.
->
-> A bit of googling takes you to
-> https://bugs.launchpad.net/ubuntu/+source/qemu-linaro/+bug/758424.
-> Key quote:
->
-> "We only implement the futex syscalls if CONFIG_USE_NPTL. This isn't
-> defined for the i386 target (the necessary support in target-i386 for
-> pushing atomic insns up to the linux-user top level loop isn't
-> implemented). The upshot is that running multithreaded programs in
-> linux-user i386-target isn't supported and this is just one of the
-> symptoms."
->
-> Not segfaulting != working when multithreaded programs don't have
-> futexs.  We'll be seeing this more in the future now that GLib assumes
-> you can thread.
->
-> Ross
->
-
-
-I see this bug was not fixed from 2011-11, what should I do?
-
-I know my patch works well on my machine.
-
--Roy
-
-
-
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013d.bb b/meta/recipes-extended/tzcode/tzcode-native_2013d.bb
+index 52aa9c2..8dea55e 100644
+--- a/meta/recipes-extended/tzcode/tzcode-native_2013d.bb
++++ b/meta/recipes-extended/tzcode/tzcode-native_2013d.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=d7a19b8c6d8a28785c4cd04ff2e46d2
+ SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
+            ftp://ftp.iana.org/tz/releases/tzdata2013b.tar.gz;name=tzdata"
+ 
+-SRC_URI[tzdata.md5sum] = "489dbca77d1f2e287a3987ca047bb246"
+-SRC_URI[tzdata.sha256sum] = "70d589d0e76a3749403d2bb404e9214c2520dda4c13e4b07b1b945ed2c64edb2"
++SRC_URI[tzdata.md5sum] = "65b6818162230fc02f86f293376c73df"
++SRC_URI[tzdata.sha256sum] = "cd1c96f0676e0edceebc6a418a2222ffb05becb41180dd9f847b9c7cef303b04"
+ 
+ SRC_URI[tzcode.md5sum] = "4616a9560270f180eeb9a08540636890"
+ SRC_URI[tzcode.sha256sum] = "2d9eb90c94644cddb74a490d1184ef9f88efcaa7a2b1bf88be0ee9eeeab707b6"
+diff --git a/meta/recipes-extended/tzdata/tzdata_2013b.bb b/meta/recipes-extended/tzdata/tzdata_2013d.bb
+similarity index 98%
+rename from meta/recipes-extended/tzdata/tzdata_2013b.bb
+rename to meta/recipes-extended/tzdata/tzdata_2013d.bb
+index 0b34e85..c0f1506 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2013b.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2013d.bb
+@@ -14,8 +14,8 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
+ 
+ SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+ 
+-SRC_URI[tzdata.md5sum] = "489dbca77d1f2e287a3987ca047bb246"
+-SRC_URI[tzdata.sha256sum] = "70d589d0e76a3749403d2bb404e9214c2520dda4c13e4b07b1b945ed2c64edb2"
++SRC_URI[tzdata.md5sum] = "65b6818162230fc02f86f293376c73df"
++SRC_URI[tzdata.sha256sum] = "cd1c96f0676e0edceebc6a418a2222ffb05becb41180dd9f847b9c7cef303b04"
+ 
+ S = "${WORKDIR}"
+ 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.7.9.5
+
 
