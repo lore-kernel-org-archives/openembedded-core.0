@@ -1,33 +1,24 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 0049561223
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 532D761223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 09:39:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,817,1367942400"; 
-   d="scan'208";a="8121601"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 05 Aug 2013 17:36:07 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r759d4uL005456
+	Mon,  5 Aug 2013 11:42:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r75BgBOw002249
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 5 Aug 2013 17:39:08 +0800
-Received: from [127.0.0.1] ([10.167.226.190])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013080517374437-410477 ;
-	Mon, 5 Aug 2013 17:37:44 +0800 
-Message-ID: <51FF72B7.9070706@cn.fujitsu.com>
-Date: Mon, 05 Aug 2013 17:39:03 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
-	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
+	Mon, 5 Aug 2013 04:42:11 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 5 Aug 2013 04:42:11 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 5 Aug 2013 19:42:08 +0800
+Message-ID: <cover.1375702232.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/08/05 17:37:44,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/08/05 17:37:48,
-	Serialize complete at 2013/08/05 17:37:48
-Subject: [PATCH] icu: fix configure error
+Subject: [PATCH V3 0/1] list-packageconfig-flags.py: add a script to list all PACKAGECONFIG flags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,40 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 09:39:11 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 05 Aug 2013 11:42:11 -0000
+Content-Type: text/plain
 
-If we don't create ${STAGING_ICU_DIR_NATIVE} before doing 
-do_configure for cross target, the following will be caught.
+Change in V3: 
+  * Reference Paul's bitbake parser examples to redesign the script
+  * Add '-a' option to list all pkgs and PACKAGECONFIG information
 
- |configure: error: No such directory ${cross_buildroot} supplied as
- | the argument to --with-cross-build. Use an absolute path.
- |Configure failed. The contents of all config.log files follows to
- | aid debugging
- |ERROR: oe_runconf failed
+Usage: list-packageconfig-flags.py [-f|-a] [-p]
+  list available pkgs which have PACKAGECONFIG flags
 
-Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+OPTION:
+  -h, --help    display this help and exit
+  -f, --flag    list available PACKAGECONFIG flags and all affected pkgs
+  -a, --all     list all pkgs and PACKAGECONFIG information
+  -p, --prefer  list pkgs with preferred version
 
----
- meta/recipes-support/icu/icu.inc |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+EXAMPLE:
+Enter the build directory and setup OE Build Environment
 
-diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
-index e3944cd..3987e42 100644
---- a/meta/recipes-support/icu/icu.inc
-+++ b/meta/recipes-support/icu/icu.inc
-@@ -27,6 +27,7 @@ EXTRA_OECONF_class-native = ""
- # http://bugs.icu-project.org/trac/ticket/9790
- do_configure_prepend() {
-     [ -f ${S}/acinclude.m4 ] || cp ${S}/aclocal.m4 ${S}/acinclude.m4
-+    [ -d ${STAGING_ICU_DIR_NATIVE} ] || mkdir -p ${STAGING_ICU_DIR_NATIVE}
- }
- 
- do_install_append_class-native() {
+list-packageconfig-flags.py
+PACKAGE NAME                               PACKAGECONFIG FLAGS
+==============================================================
+alsa-tools-1.0.26.1                        defaultval gtk+
+avahi-ui-0.6.31                            defaultval python
+bluez4-4.101                               alsa defaultval pie
+
+list-packageconfig-flags.py -f
+PACKAGECONFIG FLAG     PACKAGE NAMES
+====================================
+3g                     connman-1.16        
+avahi                  cups-1.6.3  pulseaudio-4.0
+beecrypt               rpm-5.4.9  rpm-native-5.4.9
+
+list-packageconfig-flags.py -a
+==================================================
+gtk+-2.24.18
+/home/jiahongxu/yocto/poky/meta/recipes-gnome/gtk+/gtk+_2.24.18.bb
+PACKAGECONFIG x11
+PACKAGECONFIG[x11] --with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}
+
+xf86-video-intel-2.21.9
+/home/jiahongxu/yocto/poky/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb
+PACKAGECONFIG None
+PACKAGECONFIG[xvmc] --enable-xvmc,--disable-xvmc,libxvmc
+PACKAGECONFIG[sna] --enable-sna,--disable-sna
+
+//Hongxu
+
+The following changes since commit 9de0ad47462c13ac4a2d73e12e92be6c1b4e0415:
+
+  genericx86: ship all the driver firmware by default (2013-07-31 07:00:00 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/list-pkgconfigflag
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/list-pkgconfigflag
+
+Hongxu Jia (1):
+  list-packageconfig-flags.py: add a script to list all PACKAGECONFIG
+    flags
+
+ scripts/contrib/list-packageconfig-flags.py | 191 ++++++++++++++++++++++++++++
+ 1 file changed, 191 insertions(+)
+ create mode 100755 scripts/contrib/list-packageconfig-flags.py
+
 -- 
-1.7.7
-
-
+1.8.1.2
 
 
