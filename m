@@ -1,26 +1,33 @@
-Return-Path: <Bjoern.Stenberg@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 3C74861223
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 0049561223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 09:16:21 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1; Mon, 5 Aug 2013
-	11:16:17 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4331)	id 5A03328B66D;
-	Mon,  5 Aug 2013 11:16:17 +0200 (CEST)
-Date: Mon, 5 Aug 2013 11:16:17 +0200
-From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130805091617.GA55817@sestofb10.enea.se>
-References: <20130605143619.GE20636@sestofb10.enea.se>
-	<CAJTo0LZNeJZO-=6YwnANqtNE3Q3t55+X49n0W_iJc2nUiG=cYQ@mail.gmail.com>
+	Mon,  5 Aug 2013 09:39:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.89,817,1367942400"; 
+   d="scan'208";a="8121601"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 05 Aug 2013 17:36:07 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r759d4uL005456
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 5 Aug 2013 17:39:08 +0800
+Received: from [127.0.0.1] ([10.167.226.190])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013080517374437-410477 ;
+	Mon, 5 Aug 2013 17:37:44 +0800 
+Message-ID: <51FF72B7.9070706@cn.fujitsu.com>
+Date: Mon, 05 Aug 2013 17:39:03 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
+	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZNeJZO-=6YwnANqtNE3Q3t55+X49n0W_iJc2nUiG=cYQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX03.enea.se: bjst@enea.com does not designate
-	permitted sender hosts)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: ptest recipes in progress
+To: openembedded-core@lists.openembedded.org
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/08/05 17:37:44,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/08/05 17:37:48,
+	Serialize complete at 2013/08/05 17:37:48
+Subject: [PATCH] icu: fix configure error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,16 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 09:16:21 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 05 Aug 2013 09:39:11 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 
-Burton, Ross wrote:
-> Do you plan on adding GStreamer to that list?
+If we don't create ${STAGING_ICU_DIR_NATIVE} before doing 
+do_configure for cross target, the following will be caught.
 
-No, we have no plans for gstreamer pest. Feel free to run with it. :-)
+ |configure: error: No such directory ${cross_buildroot} supplied as
+ | the argument to --with-cross-build. Use an absolute path.
+ |Configure failed. The contents of all config.log files follows to
+ | aid debugging
+ |ERROR: oe_runconf failed
 
---=20
-Bj=F6rn
+Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+
+---
+ meta/recipes-support/icu/icu.inc |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
+index e3944cd..3987e42 100644
+--- a/meta/recipes-support/icu/icu.inc
++++ b/meta/recipes-support/icu/icu.inc
+@@ -27,6 +27,7 @@ EXTRA_OECONF_class-native = ""
+ # http://bugs.icu-project.org/trac/ticket/9790
+ do_configure_prepend() {
+     [ -f ${S}/acinclude.m4 ] || cp ${S}/aclocal.m4 ${S}/acinclude.m4
++    [ -d ${STAGING_ICU_DIR_NATIVE} ] || mkdir -p ${STAGING_ICU_DIR_NATIVE}
+ }
+ 
+ do_install_append_class-native() {
+-- 
+1.7.7
+
+
+
 
