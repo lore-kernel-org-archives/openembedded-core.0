@@ -1,26 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 20A5961223
+Return-Path: <prathamesh.ghanekar@igate.com>
+Received: from as3.igate.com (as3.igate.com [63.241.95.186])
+	by mail.openembedded.org (Postfix) with ESMTP id C340F61223
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 17:09:58 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Aug 2013 10:09:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,819,1367996400"; d="scan'208";a="376469344"
-Received: from unknown (HELO [10.255.14.110]) ([10.255.14.110])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2013 10:09:58 -0700
-Message-ID: <51FFDC66.1000808@linux.intel.com>
-Date: Mon, 05 Aug 2013 10:09:58 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Mon,  5 Aug 2013 17:11:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.89,819,1367996400"; d="scan'208,217";a="30878574"
+Received: from unknown (HELO IGTEMUMCAHT01.igatecorp.com) ([10.216.6.48])
+	by as3.igate.com with ESMTP/TLS/AES128-SHA; 05 Aug 2013 10:08:48 -0700
+Received: from IGTEMUMMB11.igatecorp.com ([fe80::64fc:7b51:1204:8a04]) by
+	IGTEMUMCAHT01.igatecorp.com ([::1]) with mapi id 14.03.0146.000;
+	Mon, 5 Aug 2013 22:41:43 +0530
+From: Prathamesh P Ghanekar <prathamesh.ghanekar@igate.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: meta-
+Thread-Index: Ac6R/qtVCxJrK6wKRbWr6WrM7vGXXw==
+Date: Mon, 5 Aug 2013 17:11:42 +0000
+Message-ID: <2BC3ECFBDE78594E858F96993713F3F9011F939E@IGTEMUMMB11.igatecorp.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.216.5.8]
 MIME-Version: 1.0
-To: Cristiana Voicu <cristiana.voicu@intel.com>
-References: <cover.1375441054.git.cristiana.voicu@intel.com>
-	<002befd249411cf19e27d77a58d7be18e2690807.1375441054.git.cristiana.voicu@intel.com>
-In-Reply-To: <002befd249411cf19e27d77a58d7be18e2690807.1375441054.git.cristiana.voicu@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] tzdata: upgrade to 2013d
+Subject: meta-
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,59 +34,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 17:09:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 05 Aug 2013 17:11:49 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_2BC3ECFBDE78594E858F96993713F3F9011F939EIGTEMUMMB11igat_"
 
-On 08/05/2013 01:28 AM, Cristiana Voicu wrote:
-> Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
-> ---
->   .../recipes-extended/tzcode/tzcode-native_2013d.bb |    4 ++--
->   .../tzdata/{tzdata_2013b.bb => tzdata_2013d.bb}    |    4 ++--
->   2 files changed, 4 insertions(+), 4 deletions(-)
->   rename meta/recipes-extended/tzdata/{tzdata_2013b.bb => tzdata_2013d.bb} (98%)
->
-> diff --git a/meta/recipes-extended/tzcode/tzcode-native_2013d.bb b/meta/recipes-extended/tzcode/tzcode-native_2013d.bb
-> index 52aa9c2..8dea55e 100644
-> --- a/meta/recipes-extended/tzcode/tzcode-native_2013d.bb
-> +++ b/meta/recipes-extended/tzcode/tzcode-native_2013d.bb
-> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/README;md5=d7a19b8c6d8a28785c4cd04ff2e46d2
->   SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
->              ftp://ftp.iana.org/tz/releases/tzdata2013b.tar.gz;name=tzdata"
->
-> -SRC_URI[tzdata.md5sum] = "489dbca77d1f2e287a3987ca047bb246"
-> -SRC_URI[tzdata.sha256sum] = "70d589d0e76a3749403d2bb404e9214c2520dda4c13e4b07b1b945ed2c64edb2"
-> +SRC_URI[tzdata.md5sum] = "65b6818162230fc02f86f293376c73df"
-> +SRC_URI[tzdata.sha256sum] = "cd1c96f0676e0edceebc6a418a2222ffb05becb41180dd9f847b9c7cef303b04"
->
->   SRC_URI[tzcode.md5sum] = "4616a9560270f180eeb9a08540636890"
->   SRC_URI[tzcode.sha256sum] = "2d9eb90c94644cddb74a490d1184ef9f88efcaa7a2b1bf88be0ee9eeeab707b6"
+--_000_2BC3ECFBDE78594E858F96993713F3F9011F939EIGTEMUMMB11igat_
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-While the PRS does not seem to report the update, tzcode usually updates 
-at the same time (as it has in this case to 20123d), please do both at 
-the same time.
+Hi,
 
-Thanks
-	Sau!
+In the meta-ti layer, there is a repository, which is not fetched by the bu=
+ild system during build for whatever reasons. Hence, I manually git cloned =
+it.I am not sure, where to place this.Earlier, i tried giving path to that =
+repository in the "file://" section.But,it couldn't find the repository. He=
+nce, i placed it in the build/downloads/ now.But, still the same error come=
+s.Any idea where should we place manually downloaded directories in order t=
+o let the build system know the path of the directory???!
 
+Thanks and regards,
+Prathamesh Ghanekar
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Disclaimer~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Information contained and transmitted by this e-mail is confidential and pr=
+oprietary to iGATE and its affiliates and is intended for use only by the r=
+ecipient. If you are not the intended recipient, you are hereby notified th=
+at any dissemination, distribution, copying or use of this e-mail is strict=
+ly prohibited and you are requested to delete this e-mail immediately and n=
+otify the originator or mailadmin@igate.com <mailto:mailadmin@igate.com>. i=
+GATE does not enter into any agreement with any party by e-mail. Any views =
+expressed by an individual do not necessarily reflect the view of iGATE. iG=
+ATE is not responsible for the consequences of any actions taken on the bas=
+is of information provided, through this email. The contents of an attachme=
+nt to this e-mail may contain software viruses, which could damage your own=
+ computer system. While iGATE has taken every reasonable precaution to mini=
+mise this risk, we cannot accept liability for any damage which you sustain=
+ as a result of software viruses. You should carry out your own virus check=
+s before opening an attachment. To know more about iGATE please visit www.i=
+gate.com <http://www.igate.com>.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-> diff --git a/meta/recipes-extended/tzdata/tzdata_2013b.bb b/meta/recipes-extended/tzdata/tzdata_2013d.bb
-> similarity index 98%
-> rename from meta/recipes-extended/tzdata/tzdata_2013b.bb
-> rename to meta/recipes-extended/tzdata/tzdata_2013d.bb
-> index 0b34e85..c0f1506 100644
-> --- a/meta/recipes-extended/tzdata/tzdata_2013b.bb
-> +++ b/meta/recipes-extended/tzdata/tzdata_2013d.bb
-> @@ -14,8 +14,8 @@ RCONFLICTS_${PN} = "timezones timezone-africa timezone-america timezone-antarcti
->
->   SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
->
-> -SRC_URI[tzdata.md5sum] = "489dbca77d1f2e287a3987ca047bb246"
-> -SRC_URI[tzdata.sha256sum] = "70d589d0e76a3749403d2bb404e9214c2520dda4c13e4b07b1b945ed2c64edb2"
-> +SRC_URI[tzdata.md5sum] = "65b6818162230fc02f86f293376c73df"
-> +SRC_URI[tzdata.sha256sum] = "cd1c96f0676e0edceebc6a418a2222ffb05becb41180dd9f847b9c7cef303b04"
->
->   S = "${WORKDIR}"
->
->
+--_000_2BC3ECFBDE78594E858F96993713F3F9011F939EIGTEMUMMB11igat_
+Content-Type: text/html; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style id=3D"owaParaStyle" type=3D"text/css">P {margin-top:0;margin-bottom:=
+0;}</style>
+</head>
+<body ocsi=3D"0" fpstyle=3D"1">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">Hi,<br>
+<br>
+In the meta-ti layer, there is a repository, which is not fetched by the bu=
+ild system during build for whatever reasons. Hence, I manually git cloned =
+it.I am not sure, where to place this.Earlier, i tried giving path to that =
+repository in the &quot;<a href=3D"file://" target=3D"_blank">file://</a>&q=
+uot;
+ section.But,it couldn't find the repository. Hence, i placed it in the bui=
+ld/downloads/ now.But, still the same error comes.Any idea where should we =
+place manually downloaded directories in order to let the build system know=
+ the path of the directory???!<br>
+<br>
+Thanks and regards,<br>
+Prathamesh Ghanekar<br>
+</div>
+<P>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Disclaimer~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>Informat=
+ion contained and transmitted by this e-mail is confidential and proprietar=
+y to iGATE and its affiliates and is intended for use only by the recipient=
+. If you are not the intended recipient, you are hereby notified that any d=
+issemination, distribution, copying or use of this e-mail is strictly prohi=
+bited and you are requested to delete this e-mail immediately and notify th=
+e originator or <A href=3D"mailto:mailadmin@igate.com">mailadmin@igate.com<=
+/A>. iGATE does not enter into any agreement with any party by e-mail. Any =
+views expressed by an individual do not necessarily reflect the view of iGA=
+TE. iGATE is not responsible for the consequences of any actions taken on t=
+he basis of information provided, through this email. The contents of an at=
+tachment to this e-mail may contain software viruses, which could damage yo=
+ur own computer system. While iGATE has taken every reasonable precaution t=
+o minimise this risk, we cannot accept liability for any damage which you s=
+ustain as a result of software viruses. You should carry out your own virus=
+ checks before opening an attachment. To know more about iGATE please visit=
+ <A href=3D"http://www.igate.com">www.igate.com</A>.<br>~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></P></body>
+</html>
+
+--_000_2BC3ECFBDE78594E858F96993713F3F9011F939EIGTEMUMMB11igat_--
