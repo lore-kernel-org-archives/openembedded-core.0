@@ -1,26 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 86EC3621B1
+Return-Path: <tylerwhall@gmail.com>
+Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
+	[209.85.219.47])
+	by mail.openembedded.org (Postfix) with ESMTP id BD0386A458
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 14:14:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 05 Aug 2013 07:11:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,818,1367996400"; d="scan'208";a="357739022"
-Received: from unknown (HELO helios.localnet) ([10.252.122.196])
-	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2013 07:13:46 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 05 Aug 2013 15:13:43 +0100
-Message-ID: <3845418.BXzYRjkcFy@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <CAJTo0LYTjnD32wbx2HUEQuXNiJGnjhZWYmQ3PGvfEaYjACr1fQ@mail.gmail.com>
-References: <cover.1375457906.git.cristian.iorga@intel.com>
-	<CAJTo0LYTjnD32wbx2HUEQuXNiJGnjhZWYmQ3PGvfEaYjACr1fQ@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/7] PUs for telepathy and gstreamer1.0
+	Mon,  5 Aug 2013 14:25:26 +0000 (UTC)
+Received: by mail-oa0-f47.google.com with SMTP id g12so6400664oah.34
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 05 Aug 2013 07:25:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer;
+	bh=gkPQzc7zaKjHrFs4uVivr5SKnMi+L0uPyYxyG8MNLVU=;
+	b=VNs9MWECn2Gr4vFB0ozOZ10/HgBrXiv8TXGqg5lU77s6WzuzBgkKeA3KF7nIlEts3b
+	2g25qaQzkWRwTV0e2xiUX7Be7IV2ghe7sUkWtZKADAJRVeGQEYwgUJRbDNhWZqmQRe+C
+	UTc8ctDFdBcy2c+pk3EWQ+yhXR0HzCgoek/RQK+0aRz68nnhatQLc1L063urInEQYrlo
+	xkXH/j4FJXVrcHp9H1ngicnA5Jjm7v4KP2cfDOpe/OtZM8Tb7uSatU1xEzFRu0NMBbP1
+	Ry5EG8lLq+IyEsKcnIP6k93SacOrM9mI+9o/hc4BIrbCvAMToKkBowO5Kw64N0uN67Zn
+	MCWw==
+X-Received: by 10.60.131.171 with SMTP id on11mr14650422oeb.71.1375712727074; 
+	Mon, 05 Aug 2013 07:25:27 -0700 (PDT)
+Received: from localhost.localdomain (cpe-69-23-225-27.natcky.res.rr.com.
+	[69.23.225.27])
+	by mx.google.com with ESMTPSA id g1sm24311429oeq.6.2013.08.05.07.25.25
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 05 Aug 2013 07:25:25 -0700 (PDT)
+From: Tyler Hall <tylerwhall@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  5 Aug 2013 10:25:20 -0400
+Message-Id: <1375712720-16668-1-git-send-email-tylerwhall@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] cpan-base: Don't use immediate expansion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +42,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 14:14:10 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 05 Aug 2013 14:25:26 -0000
 
-On Monday 05 August 2013 12:45:02 Burton, Ross wrote:
-> On 2 August 2013 16:39, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> > Cristian Iorga (7):
-> >   telepathy-mission-control: upgrade to v5.15.0
-> >   telepathy-idle: upgrade to v0.1.16
-> >   gstreamer1.0: upgrade to v1.0.9
-> >   gstreamer1.0-plugins-base: upgrade to v1.0.9
-> >   gstreamer1.0-plugins-good: upgrade to v1.0.9
-> >   gstreamer1.0-libav: upgrade to v1.0.9
-> >   gstreamer1.0-plugins-bad: upgrade to v1.0.9
-> 
-> Build tested and verified buildhistory.
-> 
-> In another commit can you add an INSANE_SKIP for the text-rel warnings
-> in gstreamer1.0-libav?  That's a known issue with libav afaik.
+PERLVERSION is derived from installed output in the sysroot, so it
+should not be evaluated at parse time.
 
-Are you sure about this? Coincidentally I have been looking at bringing in 
-libav from meta-oe, and I can see in the configure script explicitly disables 
-PIC for x86 (32-bit) but not other architectures, so I guess you'd need to 
-append " textrel" to INSANE_SKIP only for i586, which is what I'm going to be 
-doing there. However I'll admit I haven't done a build for another arch yet to 
-check if the warnings are not present there.
+In an new workspace, the sequence
 
-Cheers,
-Paul
+$ bitbake -S libxml-sax-perl
+$ bitbake perl
+$ bitbake -S libxml-sax-perl
 
+generates different task hashes for libxml-sax-perl, and the error
+
+ERROR: Bitbake's cached basehash does not match the one we just
+generated (/bonus/scratch/tylerh/oe-core/meta/recipes-extended/perl/libxml-sax-perl_0.99.bb.do_package)!
+
+Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
+---
+ meta/classes/cpan-base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/cpan-base.bbclass b/meta/classes/cpan-base.bbclass
+index 7e1e8d0..d05863e 100644
+--- a/meta/classes/cpan-base.bbclass
++++ b/meta/classes/cpan-base.bbclass
+@@ -40,7 +40,7 @@ def is_target(d):
+     return "no"
+ 
+ PERLLIBDIRS := "${@perl_get_libdirs(d)}"
+-PERLVERSION := "${@get_perl_version(d)}"
++PERLVERSION = "${@get_perl_version(d)}"
+ 
+ FILES_${PN}-dbg += "${PERLLIBDIRS}/auto/*/.debug \
+                     ${PERLLIBDIRS}/auto/*/*/.debug \
 -- 
+1.8.3.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
