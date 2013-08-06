@@ -1,33 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 156526B553
+Return-Path: <Yang.Shi@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 783996B563
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2013 22:09:06 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id d17so486748eek.0
+	Tue,  6 Aug 2013 23:44:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r76NiQil011342
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 06 Aug 2013 15:09:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ngJVCkORDxKH7xoRxm5x4hnkOQwvSRF53Fm7yCUa9V8=;
-	b=JqPwzFS48G6cMDZfni9xmE0paNZ2YwXDS8/lBhBI6/HtrSaqwme5xylknEdE6htTqf
-	P5NHU+gxm16GWFL1W/O0ecr+nkmYkq8+Dob/useGZ3YShwFXu8aHEGyOSbzYx04Q08rj
-	SNe42zSPaIIVKxlhdQTWUIvhWB9qUCOmjl8MPFtaJkhnt8xhRd4rzZwwo/afEIeIISTG
-	q5gUM46QoWwFtIaP5zJ17F4qnFEY/EDG0bk6S1O/rdf06ZZ4y+4t03tYnwSmFxUt6IfH
-	Os9baP9KDMMHRNNl1hkVOqT6Oa+vD57G8usnDS/P9l4vMiV3kP4gdZvuCuljdZE8pHnl
-	1Tng==
-X-Received: by 10.15.33.74 with SMTP id b50mr139106eev.140.1375826946632;
-	Tue, 06 Aug 2013 15:09:06 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	n42sm5037235eeh.15.2013.08.06.15.09.05 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 06 Aug 2013 15:09:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Aug 2013 00:09:49 +0200
-Message-Id: <1375826989-15923-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] buildhistory: use bb.utils.mkdirhier instead of os.makedirs
+	Tue, 6 Aug 2013 16:44:27 -0700 (PDT)
+Received: from [147.11.152.84] (147.11.152.84) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 6 Aug 2013 16:44:25 -0700
+Message-ID: <52018A59.3020508@windriver.com>
+Date: Tue, 6 Aug 2013 16:44:25 -0700
+From: Yang Shi <yang.shi@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+Subject: Out-of-tree kernel module in multilib build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,53 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2013 22:09:07 -0000
+X-List-Received-Date: Tue, 06 Aug 2013 23:44:25 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Martin Jansa <martin.jansa@gmail.com>
+Hi folks,
 
-* Multiple do_fetch[prefunc] can happen at the same time and
-  if not os.path.exists(pkghistdir):
-    os.makedirs(pkghistdir)
-  isn't safe
-* Use bb.utils.mkdirhier which doesn't raise error when directory exists
+I'm looking a defect about out-of-tree kernel module in multilib build.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/buildhistory.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I'm building hello-mod package to run my test. During my test, I found 
+module-split generates kernel-module-hello package (naming style is 
+"kernel-module-" + ${moudle_name}). And, the real kernel module file is 
+included in this package.
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 7be442e..33b670d 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -169,7 +169,7 @@ python buildhistory_emit_pkghistory() {
- 
-     packagelist = packages.split()
-     if not os.path.exists(pkghistdir):
--        os.makedirs(pkghistdir)
-+        bb.utils.mkdirhier(pkghistdir)
-     else:
-         # Remove files for packages that no longer exist
-         for item in os.listdir(pkghistdir):
-@@ -268,7 +268,7 @@ def write_pkghistory(pkginfo, d):
- 
-     pkgpath = os.path.join(pkghistdir, pkginfo.name)
-     if not os.path.exists(pkgpath):
--        os.makedirs(pkgpath)
-+        bb.utils.mkdirhier(pkgpath)
- 
-     infofile = os.path.join(pkgpath, "latest")
-     with open(infofile, "w") as f:
-@@ -580,7 +580,7 @@ python write_srcrev() {
-     srcrevs, tag_srcrevs = _get_srcrev_values(d)
-     if srcrevs:
-         if not os.path.exists(pkghistdir):
--            os.makedirs(pkghistdir)
-+            bb.utils.mkdirhier(pkghistdir)
-         old_tag_srcrevs = {}
-         if os.path.exists(srcrevfile):
-             with open(srcrevfile) as f:
--- 
-1.8.3.2
+So, is this right or expected behavior to have kernel module package 
+named with module name (kernel-module-hello) rather than the package 
+name (kernel-module-hello-mod)? Isn't the multilib name, and 'regular' 
+name for a kernel module package supposed to be identical?
 
+
+But, for making multilib build happy, we need kernel-module-hello-mod 
+package (naming style is "kernel-module-${PN}). Actually, it's a empty 
+package (hello-mod or kernel-module-hello-mod). So, in hello-mod case, 
+we need both:
+
+kernel-module-hello-0.1-r0.4.intel_xeon_core.rpm
+kernel-module-hello-mod-0.1-r0.4.intel_xeon_core.rpm
+
+As we known, the workaround is to rename the package name to 
+"kernel-module-" + ${PN} in hello-mod bb file otherwise multilib needs 
+${mlib}-hello-mod package, i.e. lib32-hello-mod.
+
+I'm not quite sure if this is a real fix or just a workaround? If it's 
+not a real fix, how can we make multilib skip out-of-tree kernel module 
+package? What code should I look into?
+
+How are in-tree kernel modules skipped by multilib? Just because their 
+names start with "kernel-module-"?
+
+If we can't suppose multilib name, and 'regular' name for a kernel 
+module package are identical, the workaround may sound like a real fix.
+
+Thanks,
+Yang
 
