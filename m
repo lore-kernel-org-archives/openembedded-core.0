@@ -1,26 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5053D60886
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
+	[209.85.212.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 413C260886
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2013 08:46:19 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Aug 2013 01:43:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,825,1367996400"; d="scan'208";a="358254193"
-Received: from unknown (HELO helios.localnet) ([10.252.122.203])
-	by orsmga001.jf.intel.com with ESMTP; 06 Aug 2013 01:46:17 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 06 Aug 2013 09:46:16 +0100
-Message-ID: <4829913.jVRc2DKv5Q@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1375772719.git.sgw@linux.intel.com>
-References: <cover.1375772719.git.sgw@linux.intel.com>
+	Tue,  6 Aug 2013 08:49:36 +0000 (UTC)
+Received: by mail-vb0-f44.google.com with SMTP id e13so99894vbg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Aug 2013 01:49:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=DQTyh/IfJrD7YBcuB1Jnfsob+ZJOxfo46Ud+19FMCsg=;
+	b=jx22mkGdZ+nwenFJPh5y4jwZLVZhbpI8CbV/4be6+tjpGQsES55e5SnkM8WdbhXorO
+	sN/AFsOIWkJrp35rr62ILK72Fqg/IXTy9iaa7DEOXNhe7ez0lzgbVuwpEGQ4NdsVPG0n
+	YCggWeYGQSp73IClGbdoVXaeb1FNQJEF0OUhnGQyorMQNN8U3EJh/bcbuki1xZjepMgn
+	aruetBmEd4B14BQh3/EcQ0yE09nvDzbQH28MJTVBau9ZSd5G2zsEgVbXukSL5cut4pnE
+	UXzJHgkToBxdBhkV1YiZXL2FHJ+HdioG+QTX+Cbyqd6tvYKi6B1909KS0hCcIFl07o/T
+	45pQ==
+X-Gm-Message-State: ALoCoQmyaqHW1To8FeSs4YvMcd+iP1DygfMbjUUmaaf77NFqbcce/HqMwc/xRbEH3ihtwUITuK9N
+X-Received: by 10.220.86.1 with SMTP id q1mr43372vcl.91.1375778976525; Tue, 06
+	Aug 2013 01:49:36 -0700 (PDT)
 MIME-Version: 1.0
-Cc: otavio@ossystems.com.br, dvhart@linux.intel.com, zhenhua.luo@freescale.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/35] Review and ACK
+Received: by 10.220.71.201 with HTTP; Tue, 6 Aug 2013 01:49:15 -0700 (PDT)
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16C12030@IRSMSX105.ger.corp.intel.com>
+References: <cover.1375714695.git.cristian.iorga@intel.com>
+	<ac2478839baa47707462f083c300ce22cdb8e1f0.1375714695.git.cristian.iorga@intel.com>
+	<CAJTo0Lbo_v=SAxKTM8vSa_=LK295uZVjgukpsXKJ+uhAZWOq9g@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16C12030@IRSMSX105.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 6 Aug 2013 09:49:15 +0100
+Message-ID: <CAJTo0LZvuVTCnmKZtAgO_K+B=LRtugStcrAZfzaHLHnZJE5v-w@mail.gmail.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] harfbuzz: upgrade to v0.9.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,106 +47,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2013 08:46:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 06 Aug 2013 08:49:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 06 August 2013 00:13:40 Saul Wold wrote:
-> Ross, Paul:
-> 
-> Here is a batch of AB tested and initially reviewed by me set of
-> updates and other patches.  I did provide a setp patches for some
-> overlooked issues in the last master
-> 
-> There is also a bashism fix for poky-tiny on the Poky list.
-> 
-> *** BSP Maintainers, this includes a Mesa Update, please be prepared to
-> *** Update your mesa bbappend.
-> 
-> Sau!
-> 
-> The following changes since commit bc6258f88705b0e7989089a8666ac5e5d2355823:
-> 
->   grep: Add patch for texinfo 5.1 (2013-08-02 08:21:17 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage
-> 
-> Chen Qi (5):
->   scripts/contrib/mkefidisk.sh: fix bashism
->   qtdemo-init: fix bashism
->   xtscal: fix bashism
->   initramfs-framework: fix bashism
->   buildtools-tarball: do not export OECORE_NATIVE_SYSROOT
-> 
-> Cristian Iorga (10):
->   telepathy-mission-control: upgrade to v5.15.0
->   telepathy-idle: upgrade to v0.1.16
->   gstreamer1.0: upgrade to v1.0.9
->   gstreamer1.0-plugins-base: upgrade to v1.0.9
->   gstreamer1.0-plugins-good: upgrade to v1.0.9
->   gstreamer1.0-libav: upgrade to v1.0.9
->   gstreamer1.0-plugins-bad: upgrade to v1.0.9
->   neon: upgrade to v0.30.0
->   gstreamer1.0-plugins-ugly: upgrade to v1.0.9
->   telepathy-glib: upgrade to v0.20.4
-> 
-> Cristiana Voicu (2):
->   liburcu: upgrade to 0.7.7
->   curl: upgrade to 7.31.0
-> 
-> Fathi Boudra (1):
->   libc-package.bbclass: Add armeb architecture to locale_arch_options
-> 
-> Hongxu Jia (1):
->   list-packageconfig-flags.py: add a script to list all PACKAGECONFIG
->     flags
-> 
-> Ionut Radu (1):
->   gdk-pixbuf: upgrade to 2.28.2
-> 
-> Javier Viguera (1):
->   kernel.bbclass: fix typo
-> 
-> Jonathan Liu (2):
->   mesa: update to 9.1.6
->   qt4: add upstream QTBUG-32534 patch for QHttpMultiPart upload
->     corruption
-> 
-> Otavio Salvador (1):
->   base.bbclass: Fix PACKAGECONFIG usage comment
-> 
-> Ross Burton (1):
->   buildhistory: add a note when committing to buildhistory
-> 
-> Saul Wold (8):
->   apt-native: fix SRC_URI Checksum for update
->   grub-efi-native: add flex patch to efi-native version also
->   packagegroup-core-boot: correct runtime dependencies for non-sysvinit
->     system
->   texinfo: Fix path to perl for scripts
->   libpng: package new tools into a libpng-tools package
->   mc: upgrade to 4.8.10
->   util-linux: upgrade to 2.23.2
->   man-pages: upgrade to 3.53
-> 
-> Stefan Stanacar (1):
->   oeqa/utils/qemurunner: fix wrong var in message
-> 
-> Yevhen Kyriukha (1):
->   btrfs-tools: upgrade to upstream revision.
+On 6 August 2013 08:00, Iorga, Cristian <cristian.iorga@intel.com> wrote:
+> For evaluating the correct functionality of harfbuzz, I built and ran core-image-sato.
+> The text looked OK, I try to see if there are some issues in any of the included apps.
+> Did not find any, so I considered that the harfbuzz upgrade went OK.
+> Are there any other more complex tests to perform?
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Hopefully harfbuzz has a test suite we can ptest one day, but
+generally when it breaks all you can see is squares. :)
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
