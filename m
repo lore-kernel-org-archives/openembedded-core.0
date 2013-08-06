@@ -1,35 +1,53 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id CB88C601AF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
+	[209.85.160.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EDE660886
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  5 Aug 2013 21:31:25 +0000 (UTC)
-Received: by mail-wg0-f51.google.com with SMTP id a12so2853029wgh.6
+	Tue,  6 Aug 2013 05:29:31 +0000 (UTC)
+Received: by mail-pb0-f53.google.com with SMTP id up15so4312545pbc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 05 Aug 2013 14:31:25 -0700 (PDT)
+	Mon, 05 Aug 2013 22:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:x-mailer;
-	bh=JkehKNThccu+NAI5TMGkUuIJJdYlR6hnwZX4hyIx9Yw=;
-	b=M3cVW59J5LYk/eDWQhL/yiZlJBwCbbKv0kkwc4EaPYkWEKoijZCmUPDs+CWHzwZ7Tc
-	RnGIwlrDKI5iZsafuG2W7HJmsUhrwPv2brNINqq9wvkm0KDJxFEmQ6jwbxoK7U5oX3zh
-	0ar20+l7k3ENNGyg+PpsIJePiKP0GUod9UMpg1J0upSJvjnk4kVVDKMqS6MDvoxUpYQ4
-	i/2S2gldiSasSI0juPv/ti3PjcMRiB9UmtWhu+kPquRuXZV+cMGnKv1m/FwhG+EpQK0b
-	D7bks2FeemwjVud7zUj6TcLAZpEtQz7ZySP1hQrxbQsDAPblgwHzhzQPhods9mTV3Ypd
-	IWOA==
-X-Received: by 10.181.13.209 with SMTP id fa17mr8052111wid.12.1375738285431;
-	Mon, 05 Aug 2013 14:31:25 -0700 (PDT)
-Received: from desktop.betafive.co.uk (94-192-12-83.zone6.bethere.co.uk.
-	[94.192.12.83])
-	by mx.google.com with ESMTPSA id gg10sm1525465wib.1.2013.08.05.14.31.24
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 05 Aug 2013 14:31:24 -0700 (PDT)
-Sender: Paul Barker <paul.betafive@gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon,  5 Aug 2013 22:31:00 +0100
-Message-Id: <1375738260-29990-1-git-send-email-paul@paulbarker.me.uk>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] opkg: Fix possible installation of GPLv3 header
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=ZpYxc//z6wmWt4lCSmPvFRgJj8yj2rw5+OEJVJk0Zwc=;
+	b=FHY6flfw2+WJ8J2HKIngVwvWW/lK90w8m3hvcy16BQdbdlvzEkJ0E9bhfJwq32Qzc3
+	uFUrUeEPYueQjfJwIPmRCZgPHibmPgfE0obJPSCRZXILvoN/OjH7qP3NfzBaFri+7rEC
+	DHZWVAFLADpR67Z9UxOmoYAhQIwkdrdmiVjMDdFVlxJvZE+1hdOFHHr0Su2pZ0dyUvi4
+	t5bh+wqmwMSK4QD+p88NgYVVz9cvpAYJPs+yx5721TP11osxugREMles6kePb/JZPaBm
+	JuF1p6RcrZZsEEBbH+TOm3Z6L1MLKHOracnfr0Ad5Ropx6tFR1OgPhebzdZmlZa2BCgi
+	idYg==
+X-Received: by 10.66.252.129 with SMTP id zs1mr1201791pac.113.1375766971857;
+	Mon, 05 Aug 2013 22:29:31 -0700 (PDT)
+Received: from gourish-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	qh10sm2891206pbb.33.2013.08.05.22.29.30 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 05 Aug 2013 22:29:31 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <51FF33AE.20302@linux.intel.com>
+Date: Mon, 5 Aug 2013 22:29:28 -0700
+Message-Id: <C4934DB9-23CC-4B7D-AC40-CCEB59D08039@gmail.com>
+References: <cover.1372456294.git.raj.khem@gmail.com>
+	<20130629053844.GQ3261@jama>
+	<408838C4-EA8B-4497-84D4-27B9309B65B8@gmail.com>
+	<20130629153101.GV3261@jama>
+	<45F76803-CA83-4DAC-A972-EE4CB8FEE054@gmail.com>
+	<51F97628.9040801@linux.intel.com>
+	<7705A938-20F6-4100-AB3A-99BDF5023118@gmail.com>
+	<13A232F2-9B2C-427E-B5F0-26138984D099@gmail.com>
+	<51F9948F.1000908@linux.intel.com>
+	<08E217DF-FA59-4DAB-BB7F-0369A4BB3165@gmail.com>
+	<51F99839.4020003@linux.intel.com>
+	<FEC3604F-BE31-4146-AA6B-A16CB22C8D3F@gmail.com>
+	<51FB3B2F.1060908@linux.intel.com>
+	<45FADA31-8F4F-4BF7-A672-D083C3353813@gmail.com>
+	<51FD840E.7000004@linux.intel.com> <51FF33AE.20302@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/24] Add python3 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,78 +60,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Aug 2013 21:31:26 -0000
+X-List-Received-Date: Tue, 06 Aug 2013 05:29:32 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-opkg is GPLv2+ licensed but it has optional support for sha256 checksums which
-was GPLv3+ licensed. This code is not built unless '--enable-sha256' is passed
-to the configure script, the default is equivalent to '--disable-sha256'.
 
-However, the header 'sha256.h', which is GPLv3+ licensed, is in the list of
-header files to be installed and thus could end up in the libopkg-dev package.
-As this header is installed to '/usr/include/libopkg' it is very unlikely that
-it will ever be used. However, if you're uncomfortable with GPLv3 code going
-anywhere near your target filesystem you won't want this to happen.
+>>>=20
+>> OK, Ran it on the Autobuilder last night, and came up with the =
+following
+>> on a World build with multilib enabled:
+>>=20
+>>> ERROR: This autoconf log indicates errors, it looked at host include
+>>> and/or library paths while determining system capabilities.
+>>> Rerun configure task after fixing this. The path was
+>>> =
+'/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build=
+/build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.3.2-r0.0/Python-3.3.=
+2'
+>>>=20
+>>> ERROR: Function failed: do_qa_configure
+>>> ERROR: Logfile of failure stored in:
+>>> =
+/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/=
+build/tmp/work/x86-pokymllib32-linux/lib32-python3/3.3.2-r0.0/temp/log.do_=
+configure.13443
+>>>=20
+>>> NOTE: recipe lib32-python3-3.3.2-r0.0: task do_configure: Failed
+>>> ERROR: Task 11368
+>>> =
+(virtual:multilib:lib32:/srv/home/pokybuild/yocto-autobuilder-new/yocto-sl=
+ave/nightly-world/build/meta/recipes-devtools/python/python3_3.3.2.bb,
+>>> do_configure) failed with exit code '1'
+>>> NOTE: Running task 10412 of 21582 (ID: 12424,
+>>> =
+virtual:multilib:lib32:/srv/home/pokybuild/yocto-autobuilder-new/yocto-sla=
+ve/nightly-world/build/meta/recipes-connectivity/bluez/bluez-hcidump_2.5.b=
+b,
+>>> do_packagedata)
+>>> NOTE: recipe lib32-quota-4.01-r1: task do_compile: Started
+>>> ERROR: This autoconf log indicates errors, it looked at host include
+>>> and/or library paths while determining system capabilities.
+>>> Rerun configure task after fixing this. The path was
+>>> =
+'/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build=
+/build/tmp/work/i586-poky-linux/python3/3.3.2-r0.0/Python-3.3.2'
+>>>=20
+>>> ERROR: Function failed: do_qa_configure
+>>> ERROR: Logfile of failure stored in:
+>>> =
+/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/=
+build/tmp/work/i586-poky-linux/python3/3.3.2-r0.0/temp/log.do_configure.15=
+796
+>>>=20
+>>> NOTE: recipe python3-3.3.2-r0.0: task do_configure: Failed
+>>> ERROR: Task 80
+>>> =
+(/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build=
+/meta/recipes-devtools/python/python3_3.3.2.bb,
+>>> do_configure) failed with exit code '1'
+>>=20
+>> Summary of local.conf changes:
+>> DISTRO =3D "poky"
+>> PACKAGE_CLASSES =3D "package_rpm package_deb package_ipk"
+>> BB_NUMBER_THREADS =3D "16"
+>> PARALLEL_MAKE =3D "-j 16"
+>> SDKMACHINE ?=3D "x86_64"
+>> DL_DIR =3D =
+"/srv/www/vhosts/autobuilder.yoctoproject.org/current_sources"
+>> require conf/multilib.conf
+>> MULTILIBS =3D "multilib:lib32"
+>> DEFAULTTUNE_virtclass-multilib-lib32 =3D "x86"
+>> SSTATE_DIR ?=3D "/srv/www/vhosts/sstate.yoctoproject.org//multilib"
+>> MACHINE =3D "qemux86"
+>> PREMIRRORS =3D ""
+>> BB_GENERATE_MIRROR_TARBALLS =3D "1"
+>> ADTREPO =3D "http://adtrepo.yoctoproject.org//1.4+snapshot"
+>>=20
 
-The simplest solution is to replace the sha256 implementation in opkg with the
-implementation from coreutils-6.9 which is licensed under GPLv2+. This is
-committed to the opkg subversion repository as r652/r653.
 
-The only intervening commit between r650 (previous SRCREV) and this is r651,
-which integrates 'obsolete_automake_macros.patch' into the opkg sources. Thus
-this patch isn't needed in oe-core anymore.
+This is not reproducible on my end on multiple attempts. Built from =
+scratch incremental anything
+works ok python branch is on top of=20
 
-(Note: Before 873689bbabba25e7be5c12317c04519a7bc8d0ef, this header is only
-installed if opkg is built in its source tree (ie. ${B}=${S}). After that commit
-the header will always be installed)
+commit bc6258f88705b0e7989089a8666ac5e5d2355823
+Author: Saul Wold <sgw@linux.intel.com>
+Date:   Thu Aug 1 18:30:59 2013 -0700
 
-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
----
- .../opkg/opkg/obsolete_automake_macros.patch              | 15 ---------------
- meta/recipes-devtools/opkg/opkg_svn.bb                    |  6 ++----
- 2 files changed, 2 insertions(+), 19 deletions(-)
- delete mode 100644 meta/recipes-devtools/opkg/opkg/obsolete_automake_macros.patch
+    grep: Add patch for texinfo 5.1
+   =20
+    Signed-off-by: Saul Wold <sgw@linux.intel.com>
 
-diff --git a/meta/recipes-devtools/opkg/opkg/obsolete_automake_macros.patch b/meta/recipes-devtools/opkg/opkg/obsolete_automake_macros.patch
-deleted file mode 100644
-index 1f9833a..0000000
---- a/meta/recipes-devtools/opkg/opkg/obsolete_automake_macros.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--Upstream-Status: Pending
--
--Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
--diff -Nurd opkg/configure.ac opkg/configure.ac
----- opkg/configure.ac	2013-02-01 23:01:57.419774077 +0200
--+++ opkg/configure.ac	2013-02-01 23:02:25.643773458 +0200
--@@ -7,7 +7,7 @@
-- AC_CONFIG_MACRO_DIR([shave])
--
-- AM_INIT_AUTOMAKE
---AM_CONFIG_HEADER(libopkg/config.h)
--+AC_CONFIG_HEADERS(libopkg/config.h)
--
-- AC_CANONICAL_HOST
-- AC_GNU_SOURCE
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index 3a47b95..032578d 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -1,12 +1,10 @@
- require opkg.inc
- 
--SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
--           file://obsolete_automake_macros.patch \
--"
-+SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http"
- 
- S = "${WORKDIR}/trunk"
- 
--SRCREV = "650"
-+SRCREV = "653"
- PV = "0.1.8+svnr${SRCPV}"
- 
- PR = "${INC_PR}.0"
--- 
-1.8.3.4
+
+Build Configuration:
+BB_VERSION        =3D "1.19.1"
+BUILD_SYS         =3D "x86_64-linux"
+NATIVELSBSTRING   =3D "Ubuntu-12.04"
+TARGET_SYS        =3D "x86_64-oe-linux"
+MACHINE           =3D "qemux86-64"
+DISTRO_VERSION    =3D "oe-core.0"
+TUNE_FEATURES     =3D "m64"
+TARGET_FPU        =3D ""
+meta-nslu2        =3D "master:392b7799314a49b00f20a1bef004f9b0a0c9c364"
+meta              =3D "master:f902781f1cc6a7007060dfad3e3596688866ef87"
+
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+NOTE: Tasks Summary: Attempted 917 tasks of which 834 didn't need to be =
+rerun and all succeeded.
 
 
