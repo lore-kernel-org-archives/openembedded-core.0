@@ -1,21 +1,21 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 553996B55B
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 87CDE6B55B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2013 20:52:11 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Aug 2013 13:52:12 -0700
+	Tue,  6 Aug 2013 20:55:28 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 06 Aug 2013 13:55:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,827,1367996400"; d="scan'208";a="382278898"
+X-IronPort-AV: E=Sophos;i="4.89,827,1367996400"; d="scan'208";a="342607431"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.23])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Aug 2013 13:52:06 -0700
+	by azsmga001.ch.intel.com with ESMTP; 06 Aug 2013 13:55:28 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: richard.purdie@linuxfoundation.org,
 	openembedded-core@lists.openembedded.org
-Date: Tue,  6 Aug 2013 13:52:05 -0700
-Message-Id: <1375822325-1519-1-git-send-email-sgw@linux.intel.com>
+Date: Tue,  6 Aug 2013 13:55:28 -0700
+Message-Id: <1375822528-2026-1-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] subversion: Add patch to use neon 0.30
+Subject: [PATCH v2] subversion: Add patch to use neon 0.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,24 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2013 20:52:11 -0000
+X-List-Received-Date: Tue, 06 Aug 2013 20:55:28 -0000
 
 The neon update is not recognized but subversion, so we need to patch the configure.ac
 to know about 0.30, otherwise we don't have http/https support in subversion.
 
+v2: Add patch header (doh!)
+
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../subversion/subversion-1.7.10/allow-updated-neon.patch   | 13 +++++++++++++
- meta/recipes-devtools/subversion/subversion_1.7.10.bb       |  1 +
- 2 files changed, 14 insertions(+)
+ .../subversion-1.7.10/allow-updated-neon.patch       | 20 ++++++++++++++++++++
+ .../recipes-devtools/subversion/subversion_1.7.10.bb |  1 +
+ 2 files changed, 21 insertions(+)
  create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/allow-updated-neon.patch
 
 diff --git a/meta/recipes-devtools/subversion/subversion-1.7.10/allow-updated-neon.patch b/meta/recipes-devtools/subversion/subversion-1.7.10/allow-updated-neon.patch
 new file mode 100644
-index 0000000..777b941
+index 0000000..e8acb12
 --- /dev/null
 +++ b/meta/recipes-devtools/subversion/subversion-1.7.10/allow-updated-neon.patch
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,20 @@
++
++Allow neon 0.30 to be usable also
++
++Upstream-Status: Pending
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
 +Index: subversion-1.7.10/configure.ac
 +===================================================================
 +--- subversion-1.7.10.orig/configure.ac
