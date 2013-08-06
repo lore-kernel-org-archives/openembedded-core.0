@@ -1,25 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 32367612D1
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 010E8612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2013 17:42:15 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 06 Aug 2013 10:41:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,827,1367996400"; d="scan'208";a="377063227"
-Received: from unknown (HELO [10.255.14.23]) ([10.255.14.23])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Aug 2013 10:41:43 -0700
-Message-ID: <52013556.8080701@linux.intel.com>
-Date: Tue, 06 Aug 2013 10:41:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+	Tue,  6 Aug 2013 19:08:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r76J8S1f001399
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 6 Aug 2013 12:08:28 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 6 Aug 2013 12:08:28 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 6 Aug 2013 12:08:27 -0700
+Message-ID: <1375816107-30963-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <cover.1375787843.git.ross.burton@intel.com>
-In-Reply-To: <cover.1375787843.git.ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Enable out-of-tree builds for Mesa
+Subject: [PATCH 1/1] openjade-native: do not create shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,57 +31,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2013 17:42:16 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 06 Aug 2013 19:08:28 -0000
+Content-Type: text/plain
 
-On 08/06/2013 04:18 AM, Ross Burton wrote:
-> Hi,
->
-> Attached is a two-patch series to enable out-of-tree build for Mesa.
->
-> Ross
->
-> The following changes since commit 4cff3defb545643132b7233fcffb3fedc1bf182b:
->
->    grep: Add patch for texinfo 5.1 (2013-08-03 10:33:14 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib ross/mesa
->
-> for you to fetch changes up to 653b8f2da86101031731b208b84a4ca4f91b5074:
->
->    seperatebuilddir: mesa now builds out of tree (2013-08-06 12:16:55 +0100)
->
-> ----------------------------------------------------------------
-> Ross Burton (2):
->        mesa: fix out-of-tree builds when Gallium is enabled
->        seperatebuilddir: mesa now builds out of tree
->
->   meta/conf/distro/include/seperatebuilddir.inc      |    2 +-
->   .../mesa/0005-fix-out-of-tree-builds-gallium.patch |   42 ++++++++++++++++++++
->   meta/recipes-graphics/mesa/mesa_9.1.5.bb           |    1 +
->   meta/recipes-graphics/mesa/mesa_git.bb             |    1 +
->   4 files changed, 45 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
->
+CQID: 429576
 
-This needs to be rebased for the mesa 9.1.6 Update.
+openjade is the only one that uses the shared libraries
+and sometimes it cannot find them!
 
-Thanks
-	Sau!
+[Yocto #2972]
 
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../openjade/openjade-native_1.3.2.bb              |   29 ++++++++++++++-----
+ 1 files changed, 21 insertions(+), 8 deletions(-)
 
-> Ross Burton (2):
->    mesa: fix out-of-tree builds when Gallium is enabled
->    seperatebuilddir: mesa now builds out of tree
->
->   meta/conf/distro/include/seperatebuilddir.inc      |    2 +-
->   .../mesa/0005-fix-out-of-tree-builds-gallium.patch |   42 ++++++++++++++++++++
->   meta/recipes-graphics/mesa/mesa_9.1.5.bb           |    1 +
->   meta/recipes-graphics/mesa/mesa_git.bb             |    1 +
->   4 files changed, 45 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
->
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 8af0b52..ffdb3fc 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -7,7 +7,7 @@ SECTION = "base"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ DEPENDS = "opensp-native sgml-common-native"
+ RDEPENDS_${PN} = "sgml-common-native"
+@@ -24,8 +24,13 @@ SRC_URI[sha256sum] = "1d2d7996cc94f9b87d0c51cf0e028070ac177c4123ecbfd7ac1cb8d0b7
+ 
+ inherit autotools native
+ 
++# Per bugzilla.yoctoproject.org/show_bug.cgi?id=2972 we do
++# not create shared libraries.  Note that openjade still links
++# to shared libraries from other packages.
++#
+ EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
+-                --enable-splibdir=${STAGING_LIBDIR}"
++                --enable-splibdir=${STAGING_LIBDIR} \
++                --disable-shared"
+ 
+ # We need to set datadir explicitly, but adding it to EXTRA_OECONF
+ # results in it being specified twice when configure is run.
+@@ -55,13 +60,21 @@ do_compile_prepend () {
+ do_install() {
+ 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/openjade.html
+ 	# for details.
+-	install -d ${D}${bindir}	
+-	install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
+-	ln -sf openjade ${D}${bindir}/jade
++	install -d ${D}${bindir}
+ 
+-	oe_libinstall -a -so -C style libostyle ${D}${libdir}
+-	oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
+-	oe_libinstall -a -so -C grove libogrove ${D}${libdir}
++	# install shared library version if it exists
++	#
++	if [ -f ${S}/jade/.libs/openjade ]
++	then
++	 install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
++	 oe_libinstall -a -so -C style libostyle ${D}${libdir}
++	 oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
++	 oe_libinstall -a -so -C grove libogrove ${D}${libdir}
++	else
++	 install -m 0755 ${S}/jade/openjade ${D}${bindir}/openjade
++	fi
++
++	ln -sf openjade ${D}${bindir}/jade
+ 
+ 	install -d ${D}${datadir}/sgml/openjade-${PV}
+ 	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
+-- 
+1.7.3.4
+
 
