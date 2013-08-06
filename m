@@ -1,36 +1,36 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id CF20C60886
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
+	[74.125.82.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 5538960886
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2013 09:41:05 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,825,1367942400"; 
-   d="scan'208";a="8132617"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 06 Aug 2013 17:38:01 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r769f0GJ004257;
-	Tue, 6 Aug 2013 17:41:00 +0800
-Received: from [127.0.0.1] ([10.167.226.190])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013080617393864-450418 ;
-	Tue, 6 Aug 2013 17:39:38 +0800 
-Message-ID: <5200C4AA.20504@cn.fujitsu.com>
-Date: Tue, 06 Aug 2013 17:40:58 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
-	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
-MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <51FF72B7.9070706@cn.fujitsu.com>
-	<51FFE366.7010603@linux.intel.com>
-In-Reply-To: <51FFE366.7010603@linux.intel.com>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/08/06 17:39:38,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/08/06 17:39:41,
-	Serialize complete at 2013/08/06 17:39:41
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] icu: fix configure error
+	Tue,  6 Aug 2013 11:18:14 +0000 (UTC)
+Received: by mail-we0-f176.google.com with SMTP id q56so229876wes.21
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 06 Aug 2013 04:18:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=SHIvZ6Vc0w72MHXLbxZh93n3NWIZkRPFyVCPb+1TRBs=;
+	b=W8WwRQFCZxm78yTBVqQuJHtAhfAGip0ACyypzau9TQgWJ2449yJ+hO3s21DaKjglWD
+	ntEeHwOgxPdbMBq9RlVqeLYbymmpCdMU5uBGivJCHk+69qskL06aLn2HJNWfH7UjTvgH
+	K68C/pOZT1LX3fnawC6HfDJjr/AQPtiG8zSCMbv0g5b7gp7i9qvTD9+V4sF/awqkhP9n
+	DZ/h1S7CGxLHptYvqWYZpN0bomCfSh+bQMNo9W4+T7sz8w4c2ZeWm8N/f2VdVBtmaLq7
+	SSirwVYbvdehqIY0Rkgxs33IOCsaxM47uJIFP+ZUpR/llUjH9pe5dj4ThbZq+15vIZWF
+	TfVw==
+X-Gm-Message-State: ALoCoQnRqIn5m5DE5m5cKm940WRKog1t+qB+Pxxr2O+C2tPiO2HQ8M0iRHNfOPwUDwih5/LlG9sy
+X-Received: by 10.194.8.99 with SMTP id q3mr588799wja.91.1375787893842;
+	Tue, 06 Aug 2013 04:18:13 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id hb2sm4966164wib.0.2013.08.06.04.18.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 06 Aug 2013 04:18:12 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  6 Aug 2013 12:18:05 +0100
+Message-Id: <cover.1375787843.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 0/2] Enable out-of-tree builds for Mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,58 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2013 09:41:06 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 06 Aug 2013 11:18:15 -0000
 
+Hi,
 
-said the following on 2013-8-6 1:39:, Saul Wold wrote:
-> On 08/05/2013 02:39 AM, Bian Naimeng wrote:
->> If we don't create ${STAGING_ICU_DIR_NATIVE} before doing
->> do_configure for cross target, the following will be caught.
->>
->>   |configure: error: No such directory ${cross_buildroot} supplied as
->>   | the argument to --with-cross-build. Use an absolute path.
->>   |Configure failed. The contents of all config.log files follows to
->>   | aid debugging
->>   |ERROR: oe_runconf failed
->>
-> Is this really needed?  Which ICU is failing, the target or -native version?  The target version depends on the -native version which should have created this directory first.
-> 
+Attached is a two-patch series to enable out-of-tree build for Mesa.
 
-We don't need it almost.
-As you said, the native version will create this directory first.
+Ross
 
-> What are the steps to reproduce this?
+The following changes since commit 4cff3defb545643132b7233fcffb3fedc1bf182b:
 
-It occurs in my strange case.
-My icu-native is different version from icu.
+  grep: Add patch for texinfo 5.1 (2013-08-03 10:33:14 +0100)
 
-In my opinion, it's better to remove this dependence.
+are available in the git repository at:
 
-Thanks
- Bian
+  git://git.yoctoproject.org/poky-contrib ross/mesa
 
-> 
-> Sau!
-> 
->> Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
->>
->> ---
->>   meta/recipes-support/icu/icu.inc |    1 +
->>   1 files changed, 1 insertions(+), 0 deletions(-)
->>
->> diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
->> index e3944cd..3987e42 100644
->> --- a/meta/recipes-support/icu/icu.inc
->> +++ b/meta/recipes-support/icu/icu.inc
->> @@ -27,6 +27,7 @@ EXTRA_OECONF_class-native = ""
->>   # http://bugs.icu-project.org/trac/ticket/9790
->>   do_configure_prepend() {
->>       [ -f ${S}/acinclude.m4 ] || cp ${S}/aclocal.m4 ${S}/acinclude.m4
->> +    [ -d ${STAGING_ICU_DIR_NATIVE} ] || mkdir -p ${STAGING_ICU_DIR_NATIVE}
->>   }
->>
->>   do_install_append_class-native() {
+for you to fetch changes up to 653b8f2da86101031731b208b84a4ca4f91b5074:
+
+  seperatebuilddir: mesa now builds out of tree (2013-08-06 12:16:55 +0100)
+
+----------------------------------------------------------------
+Ross Burton (2):
+      mesa: fix out-of-tree builds when Gallium is enabled
+      seperatebuilddir: mesa now builds out of tree
+
+ meta/conf/distro/include/seperatebuilddir.inc      |    2 +-
+ .../mesa/0005-fix-out-of-tree-builds-gallium.patch |   42 ++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_9.1.5.bb           |    1 +
+ meta/recipes-graphics/mesa/mesa_git.bb             |    1 +
+ 4 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
+
+Ross Burton (2):
+  mesa: fix out-of-tree builds when Gallium is enabled
+  seperatebuilddir: mesa now builds out of tree
+
+ meta/conf/distro/include/seperatebuilddir.inc      |    2 +-
+ .../mesa/0005-fix-out-of-tree-builds-gallium.patch |   42 ++++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_9.1.5.bb           |    1 +
+ meta/recipes-graphics/mesa/mesa_git.bb             |    1 +
+ 4 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
+
+-- 
+1.7.10.4
 
 
