@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
-	[209.85.128.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DB5BD61013
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EEF76B4F8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2013 14:34:27 +0000 (UTC)
-Received: by mail-ve0-f176.google.com with SMTP id b10so1845600vea.21
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Aug 2013 07:34:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=2R8U1BfrQQEOezUGwUZ2AW91JXFNGOnM+XipQ5RjxzM=;
-	b=pgN7MwJWiOJ8N3t/cFPktdvL5Fmtfnann7etEKUu04nxsUqJm9tLGalxnsLplcVMZU
-	DG1LmJqlk4JREiYzfj7yog7AMCQIzIE25RApaqToevW3//FQM1s2rpJDxPcBjSMcbIRB
-	ncw62KLOEQKtQEBnYsuzuqc1+su2SV60o3W0FdVX/5syjkU0BJvQCAVzPAOULrjftmm7
-	DDo5ZSEqcO7EXcStWxqTSLjPxn5z+Gc5aTK8k2/LTcD4WfKX/QivdzPl4aLqCXdzexTO
-	SLUqIph8cdignDRtWD7mgy1xMpTuct60zwEUBxmWZdBvG7icUNjYdPcCauZ+f9lKTjAO
-	H5uw==
-X-Gm-Message-State: ALoCoQn7hS+gaQ4DWBhQqhwaG62m/Nu9AFwgD2wZOcBkdPMyifbj4Patg7JzbFjmy2hwT7OSbQG4
-X-Received: by 10.58.233.8 with SMTP id ts8mr530768vec.44.1375886066784; Wed,
-	07 Aug 2013 07:34:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 7 Aug 2013 07:34:06 -0700 (PDT)
-In-Reply-To: <1375885075-13410-1-git-send-email-mranostay@gmail.com>
-References: <1375885075-13410-1-git-send-email-mranostay@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 7 Aug 2013 15:34:06 +0100
-Message-ID: <CAJTo0LYAgx=FdSGNMDL3u+yjuPBjmcy1U2zd+Ew5GC7225SKeQ@mail.gmail.com>
-To: Matt Ranostay <mranostay@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] acpica: Add ACPICA package
+	Wed,  7 Aug 2013 14:52:12 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2013 07:52:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,833,1367996400"; d="scan'208";a="377525049"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Aug 2013 07:52:06 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Aug 2013 17:53:47 +0300
+Message-Id: <f1339cda511a9f943f6163215cbd1de1e2a04c0f.1375887108.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1375887108.git.cristian.iorga@intel.com>
+References: <cover.1375887108.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1375887108.git.cristian.iorga@intel.com>
+References: <cover.1375887108.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/2] net-tools: upgrade to v1.60-25
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2013 14:34:28 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 Aug 2013 14:52:12 -0000
 
-Hi,
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../net-tools/{net-tools-1.60-24.2 => net-tools}/net-tools-config.h  | 0
+ .../{net-tools-1.60-24.2 => net-tools}/net-tools-config.make         | 0
+ .../net-tools/{net-tools_1.60-24.2.bb => net-tools_1.60-25.bb}       | 5 ++---
+ 3 files changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/net-tools/{net-tools-1.60-24.2 => net-tools}/net-tools-config.h (100%)
+ rename meta/recipes-extended/net-tools/{net-tools-1.60-24.2 => net-tools}/net-tools-config.make (100%)
+ rename meta/recipes-extended/net-tools/{net-tools_1.60-24.2.bb => net-tools_1.60-25.bb} (94%)
 
-On 7 August 2013 15:17, Matt Ranostay <mranostay@gmail.com> wrote:
-> Added ACPICA package which enables viewing/editing/compiling
-> of ACPI tables.
+diff --git a/meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.h b/meta/recipes-extended/net-tools/net-tools/net-tools-config.h
+similarity index 100%
+rename from meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.h
+rename to meta/recipes-extended/net-tools/net-tools/net-tools-config.h
+diff --git a/meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.make b/meta/recipes-extended/net-tools/net-tools/net-tools-config.make
+similarity index 100%
+rename from meta/recipes-extended/net-tools/net-tools-1.60-24.2/net-tools-config.make
+rename to meta/recipes-extended/net-tools/net-tools/net-tools-config.make
+diff --git a/meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb b/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
+similarity index 94%
+rename from meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
+rename to meta/recipes-extended/net-tools/net-tools_1.60-25.bb
+index 4040e1a..bd72acc 100644
+--- a/meta/recipes-extended/net-tools/net-tools_1.60-24.2.bb
++++ b/meta/recipes-extended/net-tools/net-tools_1.60-25.bb
+@@ -5,7 +5,6 @@ BUGTRACKER = "http://bugs.debian.org/net-tools"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://ifconfig.c;beginline=11;endline=15;md5=d1ca372080ad5401e23ca0afc35cf9ba"
+-PR = "r0"
+ 
+ SRC_URI = "${DEBIAN_MIRROR}/main/n/net-tools/net-tools_1.60.orig.tar.gz;name=tarball \
+            ${DEBIAN_MIRROR}/main/n/net-tools/${BPN}_${PV}.diff.gz;apply=no;name=patch \
+@@ -17,8 +16,8 @@ S = "${WORKDIR}/net-tools-1.60"
+ SRC_URI[tarball.md5sum] = "ecaf37acb5b5daff4bdda77785fd916d"
+ SRC_URI[tarball.sha256sum] = "ec67967cf7b1a3a3828a84762fbc013ac50ee5dc9aa3095d5c591f302c2de0f5"
+ 
+-SRC_URI[patch.md5sum] = "524658bb8df5ff92c4a991f5edcaf240"
+-SRC_URI[patch.sha256sum] = "170cc024fcb34329f4c25fd88b5f160a06be5d6d3eaf0bc976650fd1b1a6235d"
++SRC_URI[patch.md5sum] = "5ab1e2184d0fa6518031291138f2fc51"
++SRC_URI[patch.sha256sum] = "1bddcd96ac60e794978cb20fb7ea4c2e77258c56c042c9ac8b6ec2b2033bc56f"
+ 
+ inherit gettext
+ 
+-- 
+1.8.1.2
 
-Is this really general-purpose enough to be suitable for oe-core, or
-would it be more suited to meta-oe or some other layer?
-
-> +PR =3D "r0"
-
-Remove this line, r0 is the default.
-
-+LIC_FILES_CHKSUM =3D
-"file://${S}/source/include/aclocal.h;endline=3D42;md5=3D07fbd4e514c75e140a=
-19e3ab508f763d"
-
-${S} is default, so in general people do file://sources/...
-
-> +SRC_URI =3D "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.ta=
-r.gz"
-
-Fetching that here with wget produces:
-
-ERROR: The certificate of =E2=80=98acpica.org=E2=80=99 is not trusted.
-
-Someone should tell them...
-
-> +inherit autotools
-
-The recipe doesn't use autotools, so you should drop this inherit.
-
-> +do_install() {
-> +    oe_runmake INSTALLFLAGS=3D"-m 555"
-> +}
-
-That's just running 'make INSTALLFLAGS=3D"-m 555"'.  You'll need to tell
-it to run the right target for install, and to pass ${D} somehow so
-the makefile doesn't try and write to /usr directly.
-
-Ross
 
