@@ -1,25 +1,33 @@
-Return-Path: <Yang.Shi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 783996B563
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id B98F46066A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  6 Aug 2013 23:44:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r76NiQil011342
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  7 Aug 2013 03:33:21 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.89,829,1367942400"; 
+   d="scan'208";a="8139884"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 07 Aug 2013 11:30:17 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r773XJrJ006438
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 6 Aug 2013 16:44:27 -0700 (PDT)
-Received: from [147.11.152.84] (147.11.152.84) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 6 Aug 2013 16:44:25 -0700
-Message-ID: <52018A59.3020508@windriver.com>
-Date: Tue, 6 Aug 2013 16:44:25 -0700
-From: Yang Shi <yang.shi@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
+	Wed, 7 Aug 2013 11:33:19 +0800
+Received: from [127.0.0.1] ([10.167.226.190])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013080711315657-474888 ;
+	Wed, 7 Aug 2013 11:31:56 +0800 
+Message-ID: <5201BFFF.6040209@cn.fujitsu.com>
+Date: Wed, 07 Aug 2013 11:33:19 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
+	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-Subject: Out-of-tree kernel module in multilib build
+To: openembedded-core@lists.openembedded.org
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/08/07 11:31:56,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/08/07 11:31:57,
+	Serialize complete at 2013/08/07 11:31:57
+Subject: [PATCH]bash: reference acl*.m4 from ${S}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,47 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Aug 2013 23:44:25 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Wed, 07 Aug 2013 03:33:22 -0000
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 
-Hi folks,
+bash: reference acl*.m4 from ${S}.
 
-I'm looking a defect about out-of-tree kernel module in multilib build.
+The build directory had been moved to ${WORKDIR}/build,
+so we should reference acl*.m4 from ${S}.
+Otherwise, the following configure error will be caught.
 
-I'm building hello-mod package to run my test. During my test, I found 
-module-split generates kernel-module-hello package (naming style is 
-"kernel-module-" + ${moudle_name}). And, the real kernel module file is 
-included in this package.
+  | cat: aclocal.m4: No such file or directory
+  | ERROR: Function failed: do_configure (log file is located at ...)
 
-So, is this right or expected behavior to have kernel module package 
-named with module name (kernel-module-hello) rather than the package 
-name (kernel-module-hello-mod)? Isn't the multilib name, and 'regular' 
-name for a kernel module package supposed to be identical?
+Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+
+---
+ meta/recipes-extended/bash/bash.inc |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index 2f4519c..64b476f 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -20,8 +20,8 @@ export AUTOHEADER = "true"
+ RDEPENDS_${PN}-ptest += "make"
+ 
+ do_configure_prepend () {
+-	if [ ! -e acinclude.m4 ]; then
+-		cat aclocal.m4 > acinclude.m4
++	if [ ! -e ${S}/acinclude.m4 ]; then
++		cat ${S}/aclocal.m4 > ${S}/acinclude.m4
+ 	fi
+ }
+ 
+-- 
+1.7.7
 
 
-But, for making multilib build happy, we need kernel-module-hello-mod 
-package (naming style is "kernel-module-${PN}). Actually, it's a empty 
-package (hello-mod or kernel-module-hello-mod). So, in hello-mod case, 
-we need both:
-
-kernel-module-hello-0.1-r0.4.intel_xeon_core.rpm
-kernel-module-hello-mod-0.1-r0.4.intel_xeon_core.rpm
-
-As we known, the workaround is to rename the package name to 
-"kernel-module-" + ${PN} in hello-mod bb file otherwise multilib needs 
-${mlib}-hello-mod package, i.e. lib32-hello-mod.
-
-I'm not quite sure if this is a real fix or just a workaround? If it's 
-not a real fix, how can we make multilib skip out-of-tree kernel module 
-package? What code should I look into?
-
-How are in-tree kernel modules skipped by multilib? Just because their 
-names start with "kernel-module-"?
-
-If we can't suppose multilib name, and 'regular' name for a kernel 
-module package are identical, the workaround may sound like a real fix.
-
-Thanks,
-Yang
 
