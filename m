@@ -1,21 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E7BA66B5B5
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 137D86B5CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2013 10:48:48 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2013 03:46:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,832,1367996400"; d="scan'208";a="383195249"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.214])
-	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2013 03:48:24 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Aug 2013 11:47:44 +0100
-Message-Id: <cover.1375872311.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
+	Wed,  7 Aug 2013 11:55:36 +0000 (UTC)
+Received: by mail-ve0-f173.google.com with SMTP id cy12so1640138veb.18
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Aug 2013 04:55:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=FggHmMa7KvgtiECGuBAShhD3VIwpRlGOo/VjoGwD79s=;
+	b=LfsyYhJCPdPEfoU3JEcOvJdQ3CCj04I7jnOTSNKsp1RcaGw0nRkdoaufjwB6FSdpc/
+	oCcjeoBttdY5MYwpMAAnEEtqP8+IzfJCihpnuxImzXbIX7zoRnA8zvM5W6PzoLXNJIKj
+	8F7uwDVk9tliNd7RJpvMe+7hLz+ByJCtqRDu3xWpy+D/3xlsgo3VQ/9t1AphKVwagLw5
+	jrmHnBNMebP7rtRMsKZJ7NuPLjTKoFfT8IUnydojObzupaUieehqvy3JGQeKf9Syu67R
+	0yvawV7GVmHFloZTMQiIBzJNPEL1SS8fXOHpP47imRwdpUopUOhZkwJNYzDYl3feu040
+	tvdw==
+X-Gm-Message-State: ALoCoQlbaEE/kOtnEaKbIgz+mS6DCae/3MD1BC1z+FjQR4Sor60wFD5nLDpDNtRFWoqvRUXOwKRz
+X-Received: by 10.52.73.33 with SMTP id i1mr88763vdv.51.1375876537504; Wed, 07
+	Aug 2013 04:55:37 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [dylan][PATCH 00/12] Backports from master (cover letter only)
+Received: by 10.220.71.201 with HTTP; Wed, 7 Aug 2013 04:55:17 -0700 (PDT)
+In-Reply-To: <5201F783.4020601@windriver.com>
+References: <cover.1374643300.git.rongqing.li@windriver.com>
+	<947336a1ef2b936328ba6fcf519d55a4eda7085d.1374643300.git.rongqing.li@windriver.com>
+	<5201F783.4020601@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Aug 2013 12:55:17 +0100
+Message-ID: <CAJTo0LZw9kOSmQbeQM71JGZh36nYy58o=ZEB_oA8nYOFBtqZTw@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] systemd: ignore qemu output, and check its return code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,72 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2013 10:48:49 -0000
+X-List-Received-Date: Wed, 07 Aug 2013 11:55:37 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Backports from the master branch. These have been tested on the Yocto
-Project autobuilder.
+On 7 August 2013 08:30, Rongqing Li <rongqing.li@windriver.com> wrote:
+>>                 ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')}
+>> hwdb --update \
+>> -                       --root $D
+>> +                       --root $D 2>/dev/null
+>> +
+>> +               [ $? -ne 0 ] && exit 1
 
+The $? check can be removed replaced by set -e, as many postinst
+scripts do already.
 
-The following changes since commit 319355e68006c0c7dca117d552e96a36dfef01c3:
+Why/where is the output from runqemu considered an error?  I wasn't
+aware that logs were monitored for that error message.  I don't think
+we should be hiding the output of runqemu as any real errors will also
+be hidden.
 
-  cups: add PACKAGECONFIG for avahi (2013-07-29 09:24:56 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-next
-
-Andre McCurdy (1):
-  lib/oe/terminal.py: add support for MATE desktop terminals
-
-André Draszik (1):
-  directfb: don't patch pkg-config files
-
-Laurentiu Palcu (1):
-  csl-versions.inc: instruct user to check local.conf
-
-Paul Eggleton (2):
-  classes/sanity: check for suid root command evility
-  grub: disable floating ncurses dependency for GPLv2 version
-
-Peter Seebach (1):
-  pseudo: Always try to build 32-bit libpseudo when NO32LIBS is set to 0
-
-Richard Tollerton (1):
-  shadow: Fix build when DISTRO_FEATURES contains pam, libc-crypt
-
-Rogerio Nunes (1):
-  packagegroup-core-tools-testapps: isolate x11 dependent tools
-
-Ross Burton (1):
-  u-boot: state the MACHINE when skipping u-boot
-
-Saul Wold (1):
-  external-sourcery: add missing providers
-
-Tyler Hall (2):
-  terminal: Run command using a wrapper script
-  TmuxRunning: handle multi-word commands
-
- meta/classes/sanity.bbclass                        | 11 +++++
- meta/classes/terminal.bbclass                      | 41 ++++++++++++++----
- meta/conf/distro/include/csl-versions.inc          |  1 +
- .../distro/include/tcmode-external-sourcery.inc    |  3 ++
- meta/lib/oe/terminal.py                            |  6 ++-
- meta/recipes-bsp/grub/grub_0.97.bb                 |  2 +
- meta/recipes-bsp/u-boot/u-boot.inc                 |  2 +-
- .../meta/external-sourcery-toolchain.bb            |  2 +
- .../packagegroup-core-tools-testapps.bb            | 20 +++++----
- meta/recipes-devtools/pseudo/pseudo.inc            | 50 ++++++++++++++++++----
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |  4 ++
- meta/recipes-graphics/directfb/directfb.inc        |  1 -
- .../directfb-1.2.x-fix-pkgconfig-cflags.patch      | 48 ---------------------
- 13 files changed, 114 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-graphics/directfb/directfb/directfb-1.2.x-fix-pkgconfig-cflags.patch
-
--- 
-1.8.1.2
-
+Ross
 
