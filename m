@@ -1,28 +1,21 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 83FAF6B598
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E7BA66B5B5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2013 09:32:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r779W3jr007271
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Aug 2013 02:32:03 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 7 Aug 2013 02:32:03 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Aug 2013 17:30:13 +0800
-Message-ID: <8e2c5e865ee5b6ce9887769c4b305df772ae1c2a.1375865440.git.kai.kang@windriver.com>
+	Wed,  7 Aug 2013 10:48:48 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2013 03:46:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,832,1367996400"; d="scan'208";a="383195249"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.214])
+	by orsmga002.jf.intel.com with ESMTP; 07 Aug 2013 03:48:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  7 Aug 2013 11:47:44 +0100
+Message-Id: <cover.1375872311.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1375865440.git.kai.kang@windriver.com>
-References: <cover.1375865440.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Cc: Zhangle.Yang@windriver.com
-Subject: [PATCH 1/1] sudo: quote BUILD_CC
+Subject: [dylan][PATCH 00/12] Backports from master (cover letter only)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +28,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2013 09:32:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Aug 2013 10:48:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-BUILD_CC is assigned to CC when do compile. If BUILD_CC has multi-items
-such as "ccache gcc", compilation fails with:
+Backports from the master branch. These have been tested on the Yocto
+Project autobuilder.
 
-make: *** No rule to make target `gcc'.  Stop.
 
-Double quote BUILD_CC to avoid this error.
+The following changes since commit 319355e68006c0c7dca117d552e96a36dfef01c3:
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-extended/sudo/sudo.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  cups: add PACKAGECONFIG for avahi (2013-07-29 09:24:56 +0100)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index ef2367a..e77c901 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -26,7 +26,7 @@ do_configure_prepend () {
- 
- # mksigname/mksiglist are used on build host to generate source files
- do_compile_prepend () {
--	oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC=$BUILD_CC CFLAGS="$BUILD_CFLAGS" CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C compat mksigname mksiglist
-+	oe_runmake SSP_CFLAGS="" SSP_LDFLAGS="" CC="$BUILD_CC" CFLAGS="$BUILD_CFLAGS" CPPFLAGS="$BUILD_CPPFLAGS -I${S}/include -I${S} -I${B}"  -C compat mksigname mksiglist
- }
- 
- # Explicitly create ${localstatedir}/lib before do_install to ensure
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/dylan-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/dylan-next
+
+Andre McCurdy (1):
+  lib/oe/terminal.py: add support for MATE desktop terminals
+
+André Draszik (1):
+  directfb: don't patch pkg-config files
+
+Laurentiu Palcu (1):
+  csl-versions.inc: instruct user to check local.conf
+
+Paul Eggleton (2):
+  classes/sanity: check for suid root command evility
+  grub: disable floating ncurses dependency for GPLv2 version
+
+Peter Seebach (1):
+  pseudo: Always try to build 32-bit libpseudo when NO32LIBS is set to 0
+
+Richard Tollerton (1):
+  shadow: Fix build when DISTRO_FEATURES contains pam, libc-crypt
+
+Rogerio Nunes (1):
+  packagegroup-core-tools-testapps: isolate x11 dependent tools
+
+Ross Burton (1):
+  u-boot: state the MACHINE when skipping u-boot
+
+Saul Wold (1):
+  external-sourcery: add missing providers
+
+Tyler Hall (2):
+  terminal: Run command using a wrapper script
+  TmuxRunning: handle multi-word commands
+
+ meta/classes/sanity.bbclass                        | 11 +++++
+ meta/classes/terminal.bbclass                      | 41 ++++++++++++++----
+ meta/conf/distro/include/csl-versions.inc          |  1 +
+ .../distro/include/tcmode-external-sourcery.inc    |  3 ++
+ meta/lib/oe/terminal.py                            |  6 ++-
+ meta/recipes-bsp/grub/grub_0.97.bb                 |  2 +
+ meta/recipes-bsp/u-boot/u-boot.inc                 |  2 +-
+ .../meta/external-sourcery-toolchain.bb            |  2 +
+ .../packagegroup-core-tools-testapps.bb            | 20 +++++----
+ meta/recipes-devtools/pseudo/pseudo.inc            | 50 ++++++++++++++++++----
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |  4 ++
+ meta/recipes-graphics/directfb/directfb.inc        |  1 -
+ .../directfb-1.2.x-fix-pkgconfig-cflags.patch      | 48 ---------------------
+ 13 files changed, 114 insertions(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-graphics/directfb/directfb/directfb-1.2.x-fix-pkgconfig-cflags.patch
+
 -- 
 1.8.1.2
 
