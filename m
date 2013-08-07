@@ -1,38 +1,36 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 664386B53B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id DB5BD61013
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2013 14:18:33 +0000 (UTC)
-Received: by mail-la0-f45.google.com with SMTP id fj20so1252952lab.32
+	Wed,  7 Aug 2013 14:34:27 +0000 (UTC)
+Received: by mail-ve0-f176.google.com with SMTP id b10so1845600vea.21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Aug 2013 07:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=RJNEYICOf2yfLYuozhWKTTKw+VaH6Sci43O9CNh94io=;
-	b=GHjIVfDWZ3gNuDg6pvN1/XIY443pSXsZSOB2tzLuEM/+QZn6IzXXQlEtYjm20jJ3Th
-	Gmjs5nSXf+KKOquthSp75/AhRLJ289RsjTcjy4MwN/214rRNPQyrz1Mxd6GGWcphDCCh
-	+RK7MhiPif3VmdGlis9NImu5Et38TsXwtJTFOpaiXRneRr/MRdMoFX14KNuamgor9OSa
-	jWWenVIObeNUNED5Khs35ix77KAXFfCZ+edOXjBQvTtS+XPcvqHGm6yV2mYfnEtw/Dwm
-	6ly6ZiPP6+oBrBRrNWLhDJ+bvx3lKrEbGrzNX4Ahi1OrotXtd4U2/qhNgnxR2y5v+H8a
-	frqg==
-X-Received: by 10.112.5.199 with SMTP id u7mr308566lbu.67.1375885112795; Wed,
-	07 Aug 2013 07:18:32 -0700 (PDT)
+	Wed, 07 Aug 2013 07:34:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=2R8U1BfrQQEOezUGwUZ2AW91JXFNGOnM+XipQ5RjxzM=;
+	b=pgN7MwJWiOJ8N3t/cFPktdvL5Fmtfnann7etEKUu04nxsUqJm9tLGalxnsLplcVMZU
+	DG1LmJqlk4JREiYzfj7yog7AMCQIzIE25RApaqToevW3//FQM1s2rpJDxPcBjSMcbIRB
+	ncw62KLOEQKtQEBnYsuzuqc1+su2SV60o3W0FdVX/5syjkU0BJvQCAVzPAOULrjftmm7
+	DDo5ZSEqcO7EXcStWxqTSLjPxn5z+Gc5aTK8k2/LTcD4WfKX/QivdzPl4aLqCXdzexTO
+	SLUqIph8cdignDRtWD7mgy1xMpTuct60zwEUBxmWZdBvG7icUNjYdPcCauZ+f9lKTjAO
+	H5uw==
+X-Gm-Message-State: ALoCoQn7hS+gaQ4DWBhQqhwaG62m/Nu9AFwgD2wZOcBkdPMyifbj4Patg7JzbFjmy2hwT7OSbQG4
+X-Received: by 10.58.233.8 with SMTP id ts8mr530768vec.44.1375886066784; Wed,
+	07 Aug 2013 07:34:26 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.17.67 with HTTP; Wed, 7 Aug 2013 07:18:12 -0700 (PDT)
-In-Reply-To: <3ea48b1c837fd67e81f367ff6943cae9f7fbeb33.1375862591.git.Qi.Chen@windriver.com>
-References: <cover.1375862591.git.Qi.Chen@windriver.com>
-	<3ea48b1c837fd67e81f367ff6943cae9f7fbeb33.1375862591.git.Qi.Chen@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Wed, 7 Aug 2013 07:18:12 -0700
-X-Google-Sender-Auth: zlohk0IC5f45LgTQ-gTdLbRQHDc
-Message-ID: <CABcZAN=kKF1cLeCR+SMenSBG2bRxVd==GR727XN-h72FW2ZT2w@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: chen_q07@163.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V4 09/10] irda-utils: fix for read-only rootfs
+Received: by 10.220.71.201 with HTTP; Wed, 7 Aug 2013 07:34:06 -0700 (PDT)
+In-Reply-To: <1375885075-13410-1-git-send-email-mranostay@gmail.com>
+References: <1375885075-13410-1-git-send-email-mranostay@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 7 Aug 2013 15:34:06 +0100
+Message-ID: <CAJTo0LYAgx=FdSGNMDL3u+yjuPBjmcy1U2zd+Ew5GC7225SKeQ@mail.gmail.com>
+To: Matt Ranostay <mranostay@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] acpica: Add ACPICA package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,86 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2013 14:18:33 -0000
-Content-Type: multipart/alternative; boundary=14dae94ed6fd66698b04e35c37c6
-
---14dae94ed6fd66698b04e35c37c6
+X-List-Received-Date: Wed, 07 Aug 2013 14:34:28 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On Wed, Aug 7, 2013 at 1:08 AM, <Qi.Chen@windriver.com> wrote:
-
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> The init script for irda writes configuration items to /etc/sysconfig/irda
-> if that file is not available in system. But it's actually not necessary,
-> the behavior doesn't change whether the init script writes to the file or
-> not.
->
-> Considering it issues error messages in case of a read-only rootfs, I
-> delete
-> the writing process.
->
-> [YOCTO #4103]
-> [YOCTO #4886]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->
-
-This is a start, but is incomplete, from what I can tell. As mentioned in
-the other thread, the startup script shouldn't be using /etc/sysconfig/ at
-all, in any form. We use /etc/default/ for our startup script config files,
-not /etc/sysconfig/. Also, the purpose of this block was clearly to
-implement a default configuration, yet the recipe isn't altered to ship a
-default configuration to provide equivalent functionality.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---14dae94ed6fd66698b04e35c37c6
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Aug 7, 2013 at 1:08 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:Qi=
-.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span>=
- wrote:<br>
+Hi,
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div id=3D":vd" style=3D"overflow:hidden">Fr=
-om: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.=
-com</a>&gt;<br>
+On 7 August 2013 15:17, Matt Ranostay <mranostay@gmail.com> wrote:
+> Added ACPICA package which enables viewing/editing/compiling
+> of ACPI tables.
 
+Is this really general-purpose enough to be suitable for oe-core, or
+would it be more suited to meta-oe or some other layer?
 
-<br>
-The init script for irda writes configuration items to /etc/sysconfig/irda<=
-br>
-if that file is not available in system. But it&#39;s actually not necessar=
-y,<br>
-the behavior doesn&#39;t change whether the init script writes to the file =
-or not.<br>
-<br>
-Considering it issues error messages in case of a read-only rootfs, I delet=
-e<br>
-the writing process.<br>
-<br>
-[YOCTO #4103]<br>
-[YOCTO #4886]<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
-@windriver.com</a>&gt;</div></blockquote></div><br>This is a start, but is =
-incomplete, from what I can tell. As mentioned in the other thread, the sta=
-rtup script shouldn&#39;t be using /etc/sysconfig/ at all, in any form. We =
-use /etc/default/ for our startup script config files, not /etc/sysconfig/.=
- Also, the purpose of this block was clearly to implement a default configu=
-ration, yet the recipe isn&#39;t altered to ship a default configuration to=
- provide equivalent functionality.<br>
+> +PR =3D "r0"
 
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
+Remove this line, r0 is the default.
 
---14dae94ed6fd66698b04e35c37c6--
++LIC_FILES_CHKSUM =3D
+"file://${S}/source/include/aclocal.h;endline=3D42;md5=3D07fbd4e514c75e140a=
+19e3ab508f763d"
+
+${S} is default, so in general people do file://sources/...
+
+> +SRC_URI =3D "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.ta=
+r.gz"
+
+Fetching that here with wget produces:
+
+ERROR: The certificate of =E2=80=98acpica.org=E2=80=99 is not trusted.
+
+Someone should tell them...
+
+> +inherit autotools
+
+The recipe doesn't use autotools, so you should drop this inherit.
+
+> +do_install() {
+> +    oe_runmake INSTALLFLAGS=3D"-m 555"
+> +}
+
+That's just running 'make INSTALLFLAGS=3D"-m 555"'.  You'll need to tell
+it to run the right target for install, and to pass ${D} somehow so
+the makefile doesn't try and write to /usr directly.
+
+Ross
+
