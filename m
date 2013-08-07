@@ -1,35 +1,38 @@
-Return-Path: <mranostay@gmail.com>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B3D46B53B
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 664386B53B
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  7 Aug 2013 14:18:33 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id rp2so1956004pbb.14
+Received: by mail-la0-f45.google.com with SMTP id fj20so1252952lab.32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 07 Aug 2013 07:18:34 -0700 (PDT)
+	Wed, 07 Aug 2013 07:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ieyKYQppNNbpkHHApXmVHpBgEqOOOMcLNkPHhGdX3kU=;
-	b=LzbiAxy59DDrbCXfuJaHldyhkRUKS41EPv5TToVnO4nYd1nuNe3QglZaTWI5IdKbBx
-	ykUp9zil8tZebzeY2FLdiK2lfaryhSZcggUj/yRLtqvZkPqlLdR9N2bg9csijdkXwBY/
-	7hqupTjEd5yQp38yrw1v9c3H2149kB3R/rkJvKMrS1s+h5kA45fQLYTQvTcBd0LTCh8K
-	iBPpnR9f/nW9RYkvabysj5YHa0Mc9P+2PSx2BVgdcn8y061V8g/bXITnwYCEsjzL+xIy
-	55JC89pgnG9sWSGye3eu7cOl+gn/LFfr52Jyyw34HMUU5ylZPXScI2nRURAmHqv45+wV
-	eZMQ==
-X-Received: by 10.67.1.203 with SMTP id bi11mr832002pad.137.1375885113946;
-	Wed, 07 Aug 2013 07:18:33 -0700 (PDT)
-Received: from localhost.localdomain (c-76-105-193-198.hsd1.or.comcast.net.
-	[76.105.193.198])
-	by mx.google.com with ESMTPSA id ht5sm8501396pbb.29.2013.08.07.07.18.32
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 07 Aug 2013 07:18:33 -0700 (PDT)
-From: Matt Ranostay <mranostay@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  7 Aug 2013 14:17:55 +0000
-Message-Id: <1375885075-13410-1-git-send-email-mranostay@gmail.com>
-X-Mailer: git-send-email 1.8.2.rc3.6.g407929c
-Subject: [PATCH] acpica: Add ACPICA package
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=RJNEYICOf2yfLYuozhWKTTKw+VaH6Sci43O9CNh94io=;
+	b=GHjIVfDWZ3gNuDg6pvN1/XIY443pSXsZSOB2tzLuEM/+QZn6IzXXQlEtYjm20jJ3Th
+	Gmjs5nSXf+KKOquthSp75/AhRLJ289RsjTcjy4MwN/214rRNPQyrz1Mxd6GGWcphDCCh
+	+RK7MhiPif3VmdGlis9NImu5Et38TsXwtJTFOpaiXRneRr/MRdMoFX14KNuamgor9OSa
+	jWWenVIObeNUNED5Khs35ix77KAXFfCZ+edOXjBQvTtS+XPcvqHGm6yV2mYfnEtw/Dwm
+	6ly6ZiPP6+oBrBRrNWLhDJ+bvx3lKrEbGrzNX4Ahi1OrotXtd4U2/qhNgnxR2y5v+H8a
+	frqg==
+X-Received: by 10.112.5.199 with SMTP id u7mr308566lbu.67.1375885112795; Wed,
+	07 Aug 2013 07:18:32 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.17.67 with HTTP; Wed, 7 Aug 2013 07:18:12 -0700 (PDT)
+In-Reply-To: <3ea48b1c837fd67e81f367ff6943cae9f7fbeb33.1375862591.git.Qi.Chen@windriver.com>
+References: <cover.1375862591.git.Qi.Chen@windriver.com>
+	<3ea48b1c837fd67e81f367ff6943cae9f7fbeb33.1375862591.git.Qi.Chen@windriver.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 7 Aug 2013 07:18:12 -0700
+X-Google-Sender-Auth: zlohk0IC5f45LgTQ-gTdLbRQHDc
+Message-ID: <CABcZAN=kKF1cLeCR+SMenSBG2bRxVd==GR727XN-h72FW2ZT2w@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: chen_q07@163.com, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V4 09/10] irda-utils: fix for read-only rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +46,85 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 07 Aug 2013 14:18:33 -0000
+Content-Type: multipart/alternative; boundary=14dae94ed6fd66698b04e35c37c6
 
-Added ACPICA package which enables viewing/editing/compiling
-of ACPI tables.
+--14dae94ed6fd66698b04e35c37c6
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Matt Ranostay <mranostay@gmail.com>
----
- meta/recipes-extended/acpica/acpica_20130725.bb | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100644 meta/recipes-extended/acpica/acpica_20130725.bb
+On Wed, Aug 7, 2013 at 1:08 AM, <Qi.Chen@windriver.com> wrote:
 
-diff --git a/meta/recipes-extended/acpica/acpica_20130725.bb b/meta/recipes-extended/acpica/acpica_20130725.bb
-new file mode 100644
-index 0000000..6fa183c
---- /dev/null
-+++ b/meta/recipes-extended/acpica/acpica_20130725.bb
-@@ -0,0 +1,23 @@
-+DESCRIPTION = "ACPI Component Architecture (ACPICA) project"
-+LICENSE = "BSD | GPLv2"
-+HOMEPAGE = "http://www.acpica.org"
-+PR = "r0"
-+
-+LIC_FILES_CHKSUM = "file://${S}/source/include/aclocal.h;endline=42;md5=07fbd4e514c75e140a19e3ab508f763d"
-+
-+SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "ef854d8c97f04795d6ac958cb8898e7e"
-+SRC_URI[sha256sum] = "f31ad702a17f9dd03907693120267216d1a797625d123a38f3064fbafe141d8a"
-+
-+S = "${WORKDIR}/acpica-unix2-${PV}"
-+
-+inherit autotools
-+
-+do_compile() {
-+    oe_runmake CC="${CC}"
-+}
-+
-+do_install() {
-+    oe_runmake INSTALLFLAGS="-m 555"
-+}
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> The init script for irda writes configuration items to /etc/sysconfig/irda
+> if that file is not available in system. But it's actually not necessary,
+> the behavior doesn't change whether the init script writes to the file or
+> not.
+>
+> Considering it issues error messages in case of a read-only rootfs, I
+> delete
+> the writing process.
+>
+> [YOCTO #4103]
+> [YOCTO #4886]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>
+
+This is a start, but is incomplete, from what I can tell. As mentioned in
+the other thread, the startup script shouldn't be using /etc/sysconfig/ at
+all, in any form. We use /etc/default/ for our startup script config files,
+not /etc/sysconfig/. Also, the purpose of this block was clearly to
+implement a default configuration, yet the recipe isn't altered to ship a
+default configuration to provide equivalent functionality.
 -- 
-1.8.2.rc3.6.g407929c
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--14dae94ed6fd66698b04e35c37c6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Aug 7, 2013 at 1:08 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:Qi=
+.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span>=
+ wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":vd" style=3D"overflow:hidden">Fr=
+om: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.=
+com</a>&gt;<br>
 
 
+<br>
+The init script for irda writes configuration items to /etc/sysconfig/irda<=
+br>
+if that file is not available in system. But it&#39;s actually not necessar=
+y,<br>
+the behavior doesn&#39;t change whether the init script writes to the file =
+or not.<br>
+<br>
+Considering it issues error messages in case of a read-only rootfs, I delet=
+e<br>
+the writing process.<br>
+<br>
+[YOCTO #4103]<br>
+[YOCTO #4886]<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
+@windriver.com</a>&gt;</div></blockquote></div><br>This is a start, but is =
+incomplete, from what I can tell. As mentioned in the other thread, the sta=
+rtup script shouldn&#39;t be using /etc/sysconfig/ at all, in any form. We =
+use /etc/default/ for our startup script config files, not /etc/sysconfig/.=
+ Also, the purpose of this block was clearly to implement a default configu=
+ration, yet the recipe isn&#39;t altered to ship a default configuration to=
+ provide equivalent functionality.<br>
+
+-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
+e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
+er, Mentor Graphics
+</div></div>
+
+--14dae94ed6fd66698b04e35c37c6--
