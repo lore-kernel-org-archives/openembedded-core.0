@@ -1,26 +1,34 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C84886B5C7
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 979266B5B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2013 08:09:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r77890nX016868
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 7 Aug 2013 01:09:00 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 7 Aug 2013 01:08:58 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Aug 2013 16:08:58 +0800
-Message-ID: <abbcd187dc2b585220e55a60bc2f03c94e965df2.1375862591.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1375862591.git.Qi.Chen@windriver.com>
-References: <cover.1375862591.git.Qi.Chen@windriver.com>
+	Wed,  7 Aug 2013 08:26:34 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2013 01:26:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,831,1367996400"; d="scan'208";a="377362341"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by fmsmga001.fm.intel.com with ESMTP; 07 Aug 2013 01:26:31 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX101.ger.corp.intel.com ([169.254.1.83]) with mapi id
+	14.03.0123.003; Wed, 7 Aug 2013 09:26:31 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH v2] subversion: Add patch to use neon 0.30
+Thread-Index: AQHOkudUtZGZEw8AckGFsDg6FkQu85mJacrA
+Date: Wed, 7 Aug 2013 08:26:30 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C12CDE@IRSMSX105.ger.corp.intel.com>
+References: <1375822528-2026-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1375822528-2026-1-git-send-email-sgw@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-Cc: clarson@kergoth.com, chen_q07@163.com
-Subject: [PATCH V4 10/10] openssh: fix for read-only rootfs
+Subject: Re: [PATCH v2] subversion: Add patch to use neon 0.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,137 +41,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2013 08:09:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 Aug 2013 08:26:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Chen Qi <Qi.Chen@windriver.com>
+ACK.
 
-If the rootfs is read-only and the ssh keys are not available at system
-start-up, the init script will generate ssh keys into /etc/ssh, thus
-causing a 'read-only file system' error.
+-----Original Message-----
+From: Saul Wold [mailto:sgw@linux.intel.com]=20
+Sent: Tuesday, August 06, 2013 11:55 PM
+To: richard.purdie@linuxfoundation.org; openembedded-core@lists.openembedde=
+d.org
+Cc: Iorga, Cristian
+Subject: [PATCH v2] subversion: Add patch to use neon 0.30
 
-In order for Yocto based image to work correctly for read-only rootfs,
-we use the following logic for openssh.
+The neon update is not recognized but subversion, so we need to patch the c=
+onfigure.ac to know about 0.30, otherwise we don't have http/https support =
+in subversion.
 
-If the rootfs is read-only and there are pre-generated keys under /etc/ssh,
-we use the pre-generated keys. Note the pre-generated keys are mainly for
-debugging or development purpose.
-If the rootfs is read-only and there are no pre-generated keys under
-/etc/ssh, we use /var/run/ssh as the location for ssh keys. That is, at
-system boot-up, the generated ssh keys will put into /var/run/ssh.
+v2: Add patch header (doh!)
 
-[YOCTO #4887]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/classes/image.bbclass                         |   12 +++++++++++
- .../openssh/openssh-6.2p2/init                     |   22 +++++++++++++-------
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |    9 +++++++-
- 3 files changed, 35 insertions(+), 8 deletions(-)
+ .../subversion-1.7.10/allow-updated-neon.patch       | 20 ++++++++++++++++=
+++++
+ .../recipes-devtools/subversion/subversion_1.7.10.bb |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.7.10/allo=
+w-updated-neon.patch
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 15fe51a..769cf81 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -264,6 +264,18 @@ read_only_rootfs_hook () {
- 		if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
- 			${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
- 		fi
-+		# If we're using openssh and the /etc/ssh directory has no pre-generated keys,
-+		# we should configure openssh to use the configuration file /etc/ssh/sshd_config_readonly
-+		# and the keys under /var/run/ssh.
-+		if [ -d ${IMAGE_ROOTFS}/etc/ssh ]; then
-+			if [ -e ${IMAGE_ROOTFS}/etc/ssh/ssh_host_rsa_key ]; then
-+				echo "SYSCONFDIR=/etc/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+				echo "SSHD_OPTS=" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+			else
-+				echo "SYSCONFDIR=/var/run/ssh" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+				echo "SSHD_OPTS='-f /etc/ssh/sshd_config_readonly'" >> ${IMAGE_ROOTFS}/etc/default/ssh
-+			fi
-+		fi
- 	fi
- }
- 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/init b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-index 6beec84..12fb79b 100644
---- a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
-@@ -6,14 +6,22 @@ set -e
- test -x /usr/sbin/sshd || exit 0
- ( /usr/sbin/sshd -\? 2>&1 | grep -q OpenSSH ) 2>/dev/null || exit 0
- 
-+# /etc/default/ssh may set SYSCONFDIR and SSHD_OPTS
- if test -f /etc/default/ssh; then
-     . /etc/default/ssh
- fi
- 
-+[ -z "$SYSCONFDIR" ] && SYSCONFDIR=/etc/ssh
-+mkdir -p $SYSCONFDIR
+diff --git a/meta/recipes-devtools/subversion/subversion-1.7.10/allow-updat=
+ed-neon.patch b/meta/recipes-devtools/subversion/subversion-1.7.10/allow-up=
+dated-neon.patch
+new file mode 100644
+index 0000000..e8acb12
+--- /dev/null
++++ b/meta/recipes-devtools/subversion/subversion-1.7.10/allow-updated-n
++++ eon.patch
+@@ -0,0 +1,20 @@
 +
-+HOST_KEY_RSA=$SYSCONFDIR/ssh_host_rsa_key
-+HOST_KEY_DSA=$SYSCONFDIR/ssh_host_dsa_key
-+HOST_KEY_ECDSA=$SYSCONFDIR/ssh_host_ecdsa_key
++Allow neon 0.30 to be usable also
 +
- check_for_no_start() {
-     # forget it if we're trying to start, and /etc/ssh/sshd_not_to_be_run exists
--    if [ -e /etc/ssh/sshd_not_to_be_run ]; then 
--	echo "OpenBSD Secure Shell server not in use (/etc/ssh/sshd_not_to_be_run)"
-+    if [ -e $SYSCONFDIR/sshd_not_to_be_run ]; then
-+	echo "OpenBSD Secure Shell server not in use ($SYSCONFDIR/sshd_not_to_be_run)"
- 	exit 0
-     fi
- }
-@@ -32,17 +40,17 @@ check_config() {
- 
- check_keys() {
- 	# create keys if necessary
--	if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
-+	if [ ! -f $HOST_KEY_RSA ]; then
- 		echo "  generating ssh RSA key..."
--		ssh-keygen -q -f /etc/ssh/ssh_host_rsa_key -N '' -t rsa
-+		ssh-keygen -q -f $HOST_KEY_RSA -N '' -t rsa
- 	fi
--	if [ ! -f /etc/ssh/ssh_host_ecdsa_key ]; then
-+	if [ ! -f $HOST_KEY_ECDSA ]; then
- 		echo "  generating ssh ECDSA key..."
--		ssh-keygen -q -f /etc/ssh/ssh_host_ecdsa_key -N '' -t ecdsa
-+		ssh-keygen -q -f $HOST_KEY_ECDSA -N '' -t ecdsa
- 	fi
- 	if [ ! -f /etc/ssh/ssh_host_dsa_key ]; then
- 		echo "  generating ssh DSA key..."
--		ssh-keygen -q -f /etc/ssh/ssh_host_dsa_key -N '' -t dsa
-+		ssh-keygen -q -f $HOST_KEY_DSA -N '' -t dsa
- 	fi
- }
- 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index ab2eefb..c76f9ac 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -86,6 +86,13 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
- 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
- 	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
-+        # Create config files for read-only rootfs
-+	install -d ${D}${sysconfdir}/ssh
-+	install -m 644 ${WORKDIR}/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	sed -i '/HostKey/d' ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
-+	echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
- }
- 
- ALLOW_EMPTY_${PN} = "1"
-@@ -94,7 +101,7 @@ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc $
- FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
--FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config"
-+FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
--- 
-1.7.9.5
++Upstream-Status: Pending
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: subversion-1.7.10/configure.ac
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++--- subversion-1.7.10.orig/configure.ac
+++++ subversion-1.7.10/configure.ac
++@@ -118,7 +118,7 @@ AC_PATH_PROG(PKG_CONFIG, pkg-config)
++=20
++ # Either a space-separated list of allowable Neon versions, or "any"=20
++to  # mean allow anything.
++-NEON_ALLOWED_LIST=3D"0\.25 0\.26 0\.27\.2 0\.28 0\.29"
+++NEON_ALLOWED_LIST=3D"0\.25 0\.26 0\.27\.2 0\.28 0\.29 0\.30"
++ NEON_RECOMMENDED_VER=3D"0.29.6"
++ NEON_URL=3D"http://www.webdav.org/neon/neon-${NEON_RECOMMENDED_VER}.tar.g=
+z"
++ dnl You can skip the neon version check only if you know what you are=20
++ doing
+diff --git a/meta/recipes-devtools/subversion/subversion_1.7.10.bb b/meta/r=
+ecipes-devtools/subversion/subversion_1.7.10.bb
+index a24edb5..f77656b 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.7.10.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
+@@ -12,6 +12,7 @@ inherit gettext
+ SRC_URI =3D "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://libtool2.patch \
+            file://fix-install-depends.patch \
++           file://allow-updated-neon.patch \
+ "
+ SRC_URI[md5sum] =3D "4088a77e14232876c9b4ff1541e6e200"
+ SRC_URI[sha256sum] =3D "c1df222bec83d014d17785e2ceba6bc80962f64b280967de02=
+85836d8d77a8e7"
+--
+1.8.1.4
 
 
