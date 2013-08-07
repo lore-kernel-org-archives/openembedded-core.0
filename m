@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 528686B5C6
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A867F6B5B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  7 Aug 2013 08:08:51 +0000 (UTC)
+	Wed,  7 Aug 2013 08:08:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7788onO016859
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7788o0V027679
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
 	Wed, 7 Aug 2013 01:08:50 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 7 Aug 2013 01:08:48 -0700
+	14.2.342.3; Wed, 7 Aug 2013 01:08:50 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 7 Aug 2013 16:08:53 +0800
-Message-ID: <193ad1cac9131a1240dcacc404b43991b34bed2a.1375862591.git.Qi.Chen@windriver.com>
+Date: Wed, 7 Aug 2013 16:08:54 +0800
+Message-ID: <c0da8cdbf82fa10f6ea1ab575aa8fff11e9bc9ef.1375862591.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1375862591.git.Qi.Chen@windriver.com>
 References: <cover.1375862591.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
 Cc: clarson@kergoth.com, chen_q07@163.com
-Subject: [PATCH V4 05/10] populate-volatile.sh: don't spawn background process at rootfs time
+Subject: [PATCH V4 06/10] runqemu-internal: fix to start X correctly in live images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,58 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2013 08:08:51 -0000
+X-List-Received-Date: Wed, 07 Aug 2013 08:08:54 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-If we're building a read-only rootfs, we'll get the following error now
-and then.
+The QEMUOPTIONS for ISOFS was not complete, leading to failures when
+trying to start X in live images.
 
-    tar: .: file changed as we read it
+This patch fixes this problem.
 
-The root cause is that we spawn background process at rootfs time.
-When the tar command is running, it's possible that files under rootfs
-are changed by background processes, thus this error.
-
-[YOCTO #4937]
+[YOCTO #4103]
+[YOCTO #4884]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../initscripts-1.0/populate-volatile.sh           |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/runqemu-internal |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-index d8ae14e..827fd7d 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
-@@ -46,7 +46,7 @@ create_file() {
- 			# but these failures should not be logged to make sure the do_rootfs
- 			# process doesn't fail. This does no harm, as this script will
- 			# run on target to set up the correct files and directories.
--			eval $EXEC > /dev/null 2>&1 &
-+			eval $EXEC > /dev/null 2>&1
- 		fi
- 	}
- }
-@@ -91,7 +91,7 @@ link_file() {
- 	else
- 		# For the same reason with create_file(), failures should
- 		# not be logged.
--		eval $EXEC > /dev/null 2>&1 &
-+		eval $EXEC > /dev/null 2>&1
- 	fi
- }
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 9619bec..8a6e551 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -526,7 +526,7 @@ if [ "x$RAMFS" = "xtrue" ]; then
+ fi
  
-@@ -160,7 +160,7 @@ apply_cfgfile() {
- 		[ "${TTYPE}" = "l" ] && {
- 			TSOURCE="$TLTARGET"
- 			[ "${VERBOSE}" != "no" ] && echo "Creating link -${TNAME}- pointing to -${TSOURCE}-."
--			link_file "${TSOURCE}" "${TNAME}" &
-+			link_file "${TSOURCE}" "${TNAME}"
- 			continue
- 		}
+ if [ "x$ISOFS" = "xtrue" ]; then
+-    QEMUOPTIONS="-cdrom $ROOTFS"
++    QEMUOPTIONS="$QEMU_NETWORK_CMD -cdrom $ROOTFS $QEMU_UI_OPTIONS"
+ fi
  
+ if [ "x$QEMUOPTIONS" = "x" ]; then
 -- 
 1.7.9.5
 
