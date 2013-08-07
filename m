@@ -1,39 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id E1909605F2;
-	Wed,  7 Aug 2013 18:30:57 +0000 (UTC)
-Received: by mail-pb0-f54.google.com with SMTP id ro12so2227382pbb.27
-	for <multiple recipients>; Wed, 07 Aug 2013 11:30:58 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
+	[209.85.219.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E8A9C61013
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  7 Aug 2013 20:29:06 +0000 (UTC)
+Received: by mail-oa0-f52.google.com with SMTP id n12so4124427oag.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 07 Aug 2013 13:29:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=QgEA5l7YYlBRc4zHsbkufunYtqhCDH+OLKY8ZTQNG9Q=;
-	b=L2rdm2R0zpqroSmCWAQRQN1GU+gtQgIA5PqZ4qJxpQrtM+Ci1Ly3PlCo/mCMrV3qD0
-	GeaPS0JtvmTVbW8LEyaAZ6ncbgRMiEFpdvx5Pg8EoEKjRBOcFjfDnM0lkCHd12pDA0IO
-	XbJlhvvce5hqSAM/9akSXr1H5GfZo5rENP2QEVxlTDxGervEjJmPrq1ohmgjFfmTD+HP
-	jFVGIfwae1GubLXATqIbySj2uazEleWcbJFvii1fmaCOGx6EnD0P81E6Zb+ZjPWBm3/e
-	Hicxe1NS+Z0RZ+xOTGlKe1+B8A0wwROlDkC4V2sQP+STZ+/GAf2WbV4x2feJQuCDjjd7
-	WvGA==
-X-Received: by 10.68.170.37 with SMTP id aj5mr2052639pbc.79.1375900258597;
-	Wed, 07 Aug 2013 11:30:58 -0700 (PDT)
-Received: from gourish-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36])
-	by mx.google.com with ESMTPSA id r7sm11814407pao.18.2013.08.07.11.30.56
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 07 Aug 2013 11:30:56 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20130807122314.GF17450@ibawizard.net>
-Date: Wed, 7 Aug 2013 11:30:55 -0700
-Message-Id: <705A265A-57A0-4534-8D31-F7F969183B35@gmail.com>
-References: <51F18346.2@windriver.com> <20130807122314.GF17450@ibawizard.net>
-To: =?windows-1252?Q?Petr_=8Atetiar?= <ynezz@true.cz>
-X-Mailer: Apple Mail (2.1508)
-Cc: koen@dominion.thruhere.net, openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Add lua to oe-core.
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=CPBlI0tjgRCTbB8SmFHE3tjgRWK6sh1ZaqVtMg1NCa0=;
+	b=vIwE2HH6Fl0G4gxPINHyYeqIH/15rjvQu05japF468JUh3uZxjSwot+PqdWK5TuTfC
+	1FoxJ89K5FNImEU7lf6CxkAhfNqlzcylqiNF6CKW/7KuHQhVMPDisJjB3ScP5x9KSZTM
+	s9O+Gu+bSs8XbWZ50SxQsTsdcEgy3VPUVxDApQwbZuYDof0VfXM7Z4Gi9rVyFYYTVxJZ
+	ehwZ8aZccPvBOJsivhi49di3WTRNSSmZHv3sRbT+TprlvT1oSJG2vKJywxnlM23H4X1u
+	I/c/ADV9QMECwQwa9bFyDIgeceF+w24WlqeghKdChd3jXsRhXkx+pKjkGb3rpxLd0XyV
+	0YNQ==
+MIME-Version: 1.0
+X-Received: by 10.60.96.169 with SMTP id dt9mr1943013oeb.27.1375907347178;
+	Wed, 07 Aug 2013 13:29:07 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 7 Aug 2013 13:29:07 -0700 (PDT)
+In-Reply-To: <9a4e60262e656b8e3138805c74b8f5ed3bf40fbe.1375862591.git.Qi.Chen@windriver.com>
+References: <cover.1375862591.git.Qi.Chen@windriver.com>
+	<9a4e60262e656b8e3138805c74b8f5ed3bf40fbe.1375862591.git.Qi.Chen@windriver.com>
+Date: Wed, 7 Aug 2013 17:29:07 -0300
+X-Google-Sender-Auth: 9HMMVWqGLFTxfyf9QuMFSEAkGfc
+Message-ID: <CAP9ODKpyS3L0H6HpRwouVmesHXr8Yk3AW48s2_xCZhkKMF8iJQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: Christopher Larson <clarson@kergoth.com>, chen_q07@163.com,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V4 02/10] use a uniform way to determine whether rootfs is read-only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,44 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2013 18:30:58 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 07 Aug 2013 20:29:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Wed, Aug 7, 2013 at 5:08 AM,  <Qi.Chen@windriver.com> wrote:
+...
+> --- a/meta/recipes-core/initscripts/initscripts-1.0/functions
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/functions
+> @@ -58,3 +58,17 @@ status() {
+>      fi
+>      return 3
+>  }
+> +
+> +# Determine whether rootfs is read-only or not according to /proc/mounts or /etc/fstab.
+> +is_rootfs_readonly () {
+> +    local DIRNAME=`dirname $0`
+> +    local ROOT_DIR=`echo $DIRNAME | sed -ne 's:/etc/.*::p'`
+> +    local criteria_file
+> +    [ -n "$ROOT_DIR" ] && criteria_file="$ROOT_DIR/etc/fstab" || criteria_file="/proc/mounts"
+> +    local flag
+> +    for flag in `awk '{ if ($2 == "/") { split($4,FLAGS,",") } }; END { for (f in FLAGS) print FLAGS[f] }' < $criteria_file`; do
+> +       [ "$flag" = "ro" ] && { echo "yes"; return 0; }
+> +    done
+> +    echo "no"
+> +    return 0
+> +}
+> \ No newline at end of file
 
-On Aug 7, 2013, at 5:23 AM, Petr =8Atetiar <ynezz@true.cz> wrote:
+Please fix this.
 
-> Randy MacLeod <randy.macleod@windriver.com> [2013-07-25 15:57:58]:
->=20
->> lua-5.2.2 is current, see: http://www.lua.org/download.html
->> so we'd likely uprev and send that version.
->=20
-> Just FYI Lua 5.2 has quite a lot of changes to Lua 5.1[1].  So I =
-wouldn't
-> consider it as an drop-in replacement for Lua 5.1. Simply said it's =
-not
-> compatible out of the box.
-
-5.2 is not ABI compatible with 5.1 see
-
-http://www.lua.org/manual/5.2/manual.html#8
-
-so you can add a new recipe for 5.2 on
-the same lines at 5.1 but don't delete 5.1
-
->=20
->> oe-core.git $ grep -r lua * | egrep -v 'valuat|valuable|uargp|rpm'
->> meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb:
->>             --without-lua \
->=20
-> For example lighttpd uses Lua 5.1.
->=20
-> 1. http://www.corsix.org/content/look-lua-52-work3
->=20
-> -- ynezz
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
