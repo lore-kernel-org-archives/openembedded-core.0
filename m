@@ -1,38 +1,41 @@
 Return-Path: <victor.kamensky@linaro.org>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 26A31608BF
+Received: from mail-pb0-f50.google.com (mail-pb0-f50.google.com
+	[209.85.160.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C12CE608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 16:14:55 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id hz10so3684034pad.2
+	Thu,  8 Aug 2013 16:15:06 +0000 (UTC)
+Received: by mail-pb0-f50.google.com with SMTP id uo5so3477856pbc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2013 09:14:56 -0700 (PDT)
+	Thu, 08 Aug 2013 09:15:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=p3cOtvNGehBEi27Wdy8S+bz2H0aFcwr3kWZ7y03XuqM=;
-	b=AxucOaibTrQojnkJFH9hweXt4xdaCl1JoNAq7E5O1UQhY/a/fLiog+yncj1KBzG4aR
-	a6KKqBwACiuyJ/nkfuDSvIwHxtAzjFFxUisFTBSwfS8dDblRNHnWqV4HT/BSiIqZMjs1
-	0wGEvjMI+ZmZjNER72ldoqVhHKxmxkVR2O7yWtOdg5fMVKC9F2gtDhuXAUW3apAvZYFf
-	boo+ALBSocjoP5s0Ns+Gu0Bws08Vh7JtyenXEOJ6HsUTy077ks0aArecivliHGFr7rJM
-	fSC/fiontYaEkcBhSEg1+8KD54XXTlOcpvz/8/MU3ZekzCY/Ggg88jDYDgjZ3GgnwUvj
-	iXAQ==
-X-Gm-Message-State: ALoCoQkuXg1xryFBlcMtMJSRquZdLQsAXxqEFIsDjDkINAAt3cIz0LK6bWaC+RDE4qy70gYvWTdB
-X-Received: by 10.67.23.36 with SMTP id hx4mr7057031pad.54.1375978495992;
-	Thu, 08 Aug 2013 09:14:55 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=zaDuiSXP7J9KhDZtZnKC9MrG2n1lIgIye8qvVBeDFPo=;
+	b=hMcdUZXIuK2c4MmWp/UYl6kRq1iNYNOlYMuCLdQzlk5UcuQ5UpmX3dBXg7lKnSvRtb
+	NnBQpLZd5zze4xC3FxIVIprBaewN66aE7WAvR9XqYnglmUu/JhNNEKftGpEjDkl1BBgx
+	7lhyVAT5mhv0De4xR9pxRNYxbs8v//8Kewjk2pP2YW2W2KzSnid7XNZ9/Ghpja9840zi
+	Z6hXWKbMwDde2nMFwOSlEENLJmIKsQajrq2MRnw79sMnJKb7d7SP3FuTWfgKkY7WcYDv
+	EEbU4p+OMQLfHgx/Mtlr2grSjw16unfAPWXz6fQgc8eStHIzeEYUn7S5ASeoVCx1ywft
+	R2rQ==
+X-Gm-Message-State: ALoCoQlw1qbQhBWFTfGEOGzBFYaTfrkdgi3vG6AgweHi1eGnPCD263SIbVkhYZpJECToiji8L1Uk
+X-Received: by 10.67.23.36 with SMTP id hx4mr7057973pad.54.1375978507503;
+	Thu, 08 Aug 2013 09:15:07 -0700 (PDT)
 Received: from kamensky-w530.cisco.com.com (128-107-239-234.cisco.com.
 	[128.107.239.234])
-	by mx.google.com with ESMTPSA id 7sm17339991paf.22.2013.08.08.09.14.54
+	by mx.google.com with ESMTPSA id 7sm17339991paf.22.2013.08.08.09.15.06
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 08 Aug 2013 09:14:55 -0700 (PDT)
+	Thu, 08 Aug 2013 09:15:06 -0700 (PDT)
 From: Victor Kamensky <victor.kamensky@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2013 09:14:28 -0700
-Message-Id: <1375978469-15252-1-git-send-email-victor.kamensky@linaro.org>
+Date: Thu,  8 Aug 2013 09:14:29 -0700
+Message-Id: <1375978469-15252-2-git-send-email-victor.kamensky@linaro.org>
 X-Mailer: git-send-email 1.8.1.4
+In-Reply-To: <1375978469-15252-1-git-send-email-victor.kamensky@linaro.org>
+References: <1375978469-15252-1-git-send-email-victor.kamensky@linaro.org>
 Cc: patches@linaro.org
-Subject: [PATCH 0/1] systemtap: fix build failure on host system with dyninst installed
+Subject: [PATCH 1/1] systemtap: fix build failure on host system with dyninst installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 16:14:55 -0000
+X-List-Received-Date: Thu, 08 Aug 2013 16:15:06 -0000
 
-Building systemap on Fedora 18 got the following failure
+On host system where dyninst installed (i.e Fedora 18 with SystemTap)
+builds fails with the error from do_qa_configure "This autoconf log
+indicates errors, it looked at host include and/or library paths
+while determining system capabilities." Problematic config.log
+indicates inclusion of /usr/include/dyninst/dyntypes.h
 
-DEBUG: Shell function do_configure finished
-DEBUG: Executing python function do_qa_configure
-NOTE: Checking autotools environment for common misconfiguration
-ERROR: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
-Rerun configure task after fixing this. The path was '/run/media/kamensky/wd/lng/080713/buildle/tmp-eglibc/work/armv7ahf-vfp-neon-oe-linux-gnueabi/systemtap/2.1+gitAUTOINC+addec813fe-r1/git'
-DEBUG: Python function do_qa_configure finished
-ERROR: Function failed: do_qa_configure
+Fix for now - disable dyninst in oe builds
 
-Inside of config log have the following cross compilation
-issue:
-
-configure:10017: arm-oe-linux-gnueabi-g++  -march=armv7-a -marm -mthumb-interwork -mfloat-abi=hard -mfpu=neon --sysroot=/run/media/kamensky/wd/lng/080713/buildle/tmp-eglibc/sysroots/genericarmv7a -c -O2 -pipe -g -feliminate-unused-debug-types -fpermissive -fvisibility-inlines-hidden -fstack-protector-all -D_FORTIFY_SOURCE=2  -I/usr/include/dyninst conftest.cpp >&5
-cc1plus: warning: include location "/usr/include/dyninst" is unsafe for cross-compilation [-Wpoison-system-directories]
-In file included from /usr/include/dyninst/dyntypes.h:158:0,
-                 from /usr/include/dyninst/BPatch_object.h:36,
-                 from conftest.cpp:74:
-/usr/include/dyninst/dyn_regs.h:36:32: fatal error: boost/shared_ptr.hpp: No such file or directory
- #include "boost/shared_ptr.hpp"
-                                ^
-compilation terminated.
-
-For now simple fix is to disable dyninst with --without-dyninst.
-Proposed patch follows this cover letter
-
-Thanks,
-Victor
-
-Victor Kamensky (1):
-  systemtap: fix build failure on host system with dyninst installed
-
+Signed-off-by: Victor Kamensky <victor.kamensky@linaro.org>
+---
  meta/recipes-kernel/systemtap/systemtap_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 9bba5a9..4f60f6b 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -13,7 +13,7 @@ RDEPENDS_${PN}_class-nativesdk += "python-native"
+ PR = "r1"
+ 
+ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+-            --without-nss --without-avahi \
++            --without-nss --without-avahi --without-dyninst \
+             --disable-server --disable-grapher "
+ 
+ STAP_DOCS ?= "--disable-docs --disable-publican --disable-refdocs"
 -- 
 1.8.1.4
 
