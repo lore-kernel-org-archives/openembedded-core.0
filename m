@@ -1,24 +1,36 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 36DB46B5AA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D51BF608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 13:45:28 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2013 06:45:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="279405824"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Aug 2013 06:45:26 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
+	Thu,  8 Aug 2013 14:14:36 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id f15so1461527eak.22
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Aug 2013 07:14:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=XgoIldnPhrIDGWZNhbHugB5HtE4NOuA3p/8o+zanBng=;
+	b=CvJOB5D+CLnPgoHc5jPkpoKG6I1Kq5TePjsUZg1JWprA65+SMQp/1jjbjtwaDS8Oom
+	7HjrOfsLrq6pt7Vha0mFWnjQdejvdeNc8LL23LTnCgI+LVIlHfptX3aNEq4q+0ImaYvd
+	qHbC7sMi/k6CpgahcI0uPb4eWc5UvuDCnx3qPXRhN7FW6zRniTnPa0yz8AEPfA6UPz4O
+	mi6VGyubv6MVc0umCeOPrU2oMZ2tNsrgDnMku4ljPuxz9A6jolP1pb79JifOwuoHO/qX
+	azxsXBiuBtj2ZcOFRcSWxx/nXFSIYPV+5kWhvv8hf/vMHJr/j7lCaAv1/5Lj12YL1NKQ
+	cWGA==
+X-Gm-Message-State: ALoCoQlSM2llFTM7SuIscx32POLCzmW7qsHQNA2YNxdj2nrMSS+oh07fFjs+4p7qQARyvZF3aQSY
+X-Received: by 10.14.7.71 with SMTP id 47mr8591473eeo.21.1375971276732;
+	Thu, 08 Aug 2013 07:14:36 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id c3sm19542383eev.3.2013.08.08.07.14.35
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 08 Aug 2013 07:14:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2013 16:46:13 +0300
-Message-Id: <734a8edf2a73e000207f7e11cfb28bb864a12c72.1375969277.git.cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
-References: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
-In-Reply-To: <cover.1375969277.git.cristiana.voicu@intel.com>
-References: <cover.1375969277.git.cristiana.voicu@intel.com>
-Subject: [PATCH 5/5] kmod: upgrade to 14
+Date: Thu,  8 Aug 2013 15:14:29 +0100
+Message-Id: <1375971269-9758-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] oe-setup-builddir: substitute ##OEROOT## when using templates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,117 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 13:45:28 -0000
+X-List-Received-Date: Thu, 08 Aug 2013 14:14:37 -0000
 
-Made some changes on patches to apply correctly.
+oe-setup-builddir substitutes ##COREBASE## which seems like it should have the
+same value as the variable ${COREBASE}.  In reality it doesn't as ##COREBASE##
+is substituted with the value of $OEROOT (the location of the oe-init-build-env
+script), whereas ${COREBASE} is set by oe-core to the parent directory of meta/.
+If oe-core's meta/ isn't a top-level directory then ##COREBASE## and ${COREBASE}
+have different values, which can lead to confusion.
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+To resolve this, deprecate (but still substitute) ##COREBASE## and substitute
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/kmod/kmod-native_git.bb        |    1 -
- meta/recipes-kernel/kmod/kmod.inc                  |    5 ++---
- ...-man-page-generation-because-we-don-t-hav.patch |   21 ++++++++++----------
- .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |    5 ++---
- meta/recipes-kernel/kmod/kmod_git.bb               |    3 +--
- 5 files changed, 16 insertions(+), 19 deletions(-)
+ scripts/oe-setup-builddir |    5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
-index 8cbcdf8..afa3ad0 100644
---- a/meta/recipes-kernel/kmod/kmod-native_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
-@@ -4,7 +4,6 @@
- require kmod.inc
- inherit native
+diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+index d5d8d98..d5bd581 100755
+--- a/scripts/oe-setup-builddir
++++ b/scripts/oe-setup-builddir
+@@ -101,7 +101,10 @@ EOM
  
--PR = "${INC_PR}.1"
- SRC_URI += "file://fix-undefined-O_CLOEXEC.patch"
+     # Put the abosolute path to the layers in bblayers.conf so we can run
+     # bitbake without the init script after the first run
+-    sed "s|##COREBASE##|$OEROOT|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
++    sed "s|##OEROOT##|$OEROOT|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
++    # ##COREBASE## is deprecated as it's meaning was inconsistent, but continue
++    # ##to replace it for compatibility.
++    sed -i -e "s|##COREBASE##|$OEROOT|g" $BUILDDIR/conf/bblayers.conf
+ fi
  
- do_install_append (){
-diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
-index a780b6c..b07fc58 100644
---- a/meta/recipes-kernel/kmod/kmod.inc
-+++ b/meta/recipes-kernel/kmod/kmod.inc
-@@ -7,8 +7,7 @@ HOMEPAGE = "http://packages.profusion.mobi/kmod/"
- LICENSE = "GPL-2.0+ & LGPL-2.1+"
- LICENSE_libkmod = "LGPL-2.1+"
- SECTION = "base"
--PV = "9"
--INC_PR = "r0"
-+PV = "14"
- 
- DEPENDS += "pkgconfig-native"
- 
-@@ -24,7 +23,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
-            file://ptest.patch \
-           "
- 
--SRCREV = "62081c0f68905b22f375156d4532fd37fa5c8d33"
-+SRCREV = "3b38c7fcb58be4ddc34f90454c5f5dc3693d2d85"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch b/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
-index 5361b84..b5a8e08 100644
---- a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
-+++ b/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
-@@ -11,16 +11,17 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-  Makefile.am |    2 +-
-  1 files changed, 1 insertions(+), 1 deletions(-)
- 
--diff --git a/Makefile.am b/Makefile.am
--index 141c102..a8bdfd1 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -1,4 +1,4 @@
---SUBDIRS = . libkmod/docs man
--+SUBDIRS = . libkmod/docs
-+Index: git/Makefile.am
-+===================================================================
-+--- git.orig/Makefile.am
-++++ git/Makefile.am
-+@@ -1,9 +1,5 @@
-+ SUBDIRS = . libkmod/docs
-  
-+-if BUILD_MANPAGES
-+-SUBDIRS += man
-+-endif
-+-
-  DISTCLEAN_LOCAL_HOOKS =
-  EXTRA_DIST =
---- 
--1.7.8.4
--
-+ CLEANFILES =
-diff --git a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
-index 3177e9a..49728c2 100644
---- a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
-+++ b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
-@@ -4,9 +4,8 @@ Index: git/libkmod/libkmod-private.h
- ===================================================================
- --- git.orig/libkmod/libkmod-private.h
- +++ git/libkmod/libkmod-private.h
--@@ -1,6 +1,10 @@
-- #ifndef _LIBKMOD_PRIVATE_H_
-- #define _LIBKMOD_PRIVATE_H_
-+@@ -1,5 +1,9 @@
-+ #pragma once
-  
- +#ifndef O_CLOEXEC
- +# define O_CLOEXEC 0
-diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-index f92ff72..28ce194 100644
---- a/meta/recipes-kernel/kmod/kmod_git.bb
-+++ b/meta/recipes-kernel/kmod/kmod_git.bb
-@@ -3,8 +3,7 @@
- 
- require kmod.inc
- 
--PR = "${INC_PR}.0"
--PV = "9+git${SRCPV}"
-+PV = "14+git${SRCPV}"
- 
- PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
- RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ # Prevent disturbing a new GIT clone in same console
 -- 
-1.7.9.5
+1.7.10.4
 
 
