@@ -1,24 +1,24 @@
 Return-Path: <cristiana.voicu@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E6E46B4BB
+	by mail.openembedded.org (Postfix) with ESMTP id 362C66B59C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 13:45:23 +0000 (UTC)
+	Thu,  8 Aug 2013 13:45:25 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2013 06:45:24 -0700
+	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2013 06:45:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="279405797"
+X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="279405811"
 Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Aug 2013 06:45:21 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Aug 2013 06:45:23 -0700
 From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2013 16:46:11 +0300
-Message-Id: <6d45e79a28f0e03dd2d21cd1a2d0e2450736b56d.1375969277.git.cristiana.voicu@intel.com>
+Date: Thu,  8 Aug 2013 16:46:12 +0300
+Message-Id: <06a01304db7ca6bc605947b809400868dfe72b67.1375969277.git.cristiana.voicu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
 References: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
 In-Reply-To: <cover.1375969277.git.cristiana.voicu@intel.com>
 References: <cover.1375969277.git.cristiana.voicu@intel.com>
-Subject: [PATCH 3/5] atk: upgrade to 2.9.3
+Subject: [PATCH 4/5] systemtap: upgrade to 2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 13:45:23 -0000
+X-List-Received-Date: Thu, 08 Aug 2013 13:45:25 -0000
 
 Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
 ---
- .../atk/{atk_2.8.0.bb => atk_2.9.3.bb}             |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/atk/{atk_2.8.0.bb => atk_2.9.3.bb} (79%)
+ meta/recipes-kernel/systemtap/systemtap_git.bb  |    2 --
+ meta/recipes-kernel/systemtap/systemtap_git.inc |    4 ++--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/atk/atk_2.8.0.bb b/meta/recipes-support/atk/atk_2.9.3.bb
-similarity index 79%
-rename from meta/recipes-support/atk/atk_2.8.0.bb
-rename to meta/recipes-support/atk/atk_2.9.3.bb
-index 9a36ae4..e7cc67c 100644
---- a/meta/recipes-support/atk/atk_2.8.0.bb
-+++ b/meta/recipes-support/atk/atk_2.9.3.bb
-@@ -14,8 +14,8 @@ inherit gnomebase gtk-doc
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
+index 9bba5a9..a0db074 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
+@@ -10,8 +10,6 @@ RDEPENDS_${PN} += "python bash"
+ RDEPENDS_${PN}_class-native += "python-native"
+ RDEPENDS_${PN}_class-nativesdk += "python-native"
  
- GNOME_COMPRESS_TYPE = "xz"
+-PR = "r1"
+-
+ EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
+             --without-nss --without-avahi \
+             --disable-server --disable-grapher "
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 7be6c2b..0632746 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+@@ -1,8 +1,8 @@
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
--SRC_URI[archive.md5sum] = "c652bd25530825d604dae1c1ebd2da02"
--SRC_URI[archive.sha256sum] = "b22519176226f3e07cf6d932b77852e6b6be4780977770704b32d0f4e0686df4"
-+SRC_URI[archive.md5sum] = "467447fa3d733394481c214d619690df"
-+SRC_URI[archive.sha256sum] = "5fdb79c729cfad45042c3e0f55d01f57fdde3b8379b6cb5bbeb8b37478d4456d"
+-SRCREV = "addec813fed4c712d6ea752f6e4f23e602b87fad"
+-PV = "2.1+git${SRCPV}"
++SRCREV = "e58138572ebddac9498b93c76770eeca7d45e3b1"
++PV = "2.3+git${SRCPV}"
  
- BBCLASSEXTEND = "native"
- 
+ SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=git \
+            file://docproc-build-fix.patch \
 -- 
 1.7.9.5
 
