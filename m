@@ -1,30 +1,25 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B5F7608BF
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob07.myregisteredsite.com
+	(atl4mhob07.myregisteredsite.com [209.17.115.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BEC06B40A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 08:53:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r788rnTJ014216
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2013 04:53:49 -0400 (EDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 8 Aug 2013 01:53:48 -0700
-Message-ID: <52035C9D.2050904@windriver.com>
-Date: Thu, 8 Aug 2013 16:53:49 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1374643300.git.rongqing.li@windriver.com>
-	<947336a1ef2b936328ba6fcf519d55a4eda7085d.1374643300.git.rongqing.li@windriver.com>
-	<5201F783.4020601@windriver.com>
-	<1318833D-CF46-4453-8ECA-ED9C92AD59C8@gmail.com>
-In-Reply-To: <1318833D-CF46-4453-8ECA-ED9C92AD59C8@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: ignore qemu output, and check its return code
+	Thu,  8 Aug 2013 08:55:23 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.211])
+	by atl4mhob07.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r788tNwW011488 for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Aug 2013 04:55:23 -0400
+Received: (qmail 19673 invoked by uid 0); 8 Aug 2013 08:55:23 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO paradigit.TOPIC.LOCAL)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 8 Aug 2013 08:55:23 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Aug 2013 10:55:18 +0200
+Message-Id: <1375952118-7982-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] linux-dtb.inc: Replace /boot/ with /${KERNEL_IMAGEDEST}/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,76 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 08:53:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Aug 2013 08:55:23 -0000
 
+Devicetree files were installed hard-coded in /boot. When KERNEL_IMAGEDEST
+is anything else but "boot", the postinstall script and the file locations
+no longer match and the postinstall will fail.
 
+Replace "boot" with "${KERNEL_IMAGEDEST}" to fix this problem, and to allow
+the devicetree files to be installed in another location.
+---
+ meta/recipes-kernel/linux/linux-dtb.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On 08/08/2013 02:26 AM, Khem Raj wrote:
->
-> On Aug 7, 2013, at 12:30 AM, Rongqing Li <rongqing.li@windriver.com> wrote:
->
->> ping
->>
->> On 07/24/2013 01:24 PM, rongqing.li@windriver.com wrote:
->>> From: "Roy.Li" <rongqing.li@windriver.com>
->>>
->>> qemu prints errors sometime, but it works well,
->
->
-> how do you know ?
->
-
-echo $? and output of "udevadm hwdb --update --root $D" shows
-it works well.
-
--Roy
-
-
->>> the error information
->>> can be captured by rpm, and lead to rpm failure. like:
->>>
->>> 	$export D=/tmp/rootfs;.../usr/bin/qemu-i386 -L $D \
->>> 		-E LD_LIBRARY_PATH=$D/usr/lib:$D/lib $D/bin/udevadm hwdb --update --root $D
->>> 	qemu: Unsupported syscall: 240
->>> 	$echo $?
->>> 	$ 0
->>>
->>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
->>> ---
->>>   meta/recipes-core/systemd/systemd_204.bb |    4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
->>> index b8b1290..10bde33 100644
->>> --- a/meta/recipes-core/systemd/systemd_204.bb
->>> +++ b/meta/recipes-core/systemd/systemd_204.bb
->>> @@ -277,7 +277,9 @@ ALTERNATIVE_PRIORITY[poweroff] ?= "300"
->>>   pkg_postinst_udev-hwdb () {
->>>   	if test -n "$D"; then
->>>   		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
->>> -			--root $D
->>> +			--root $D 2>/dev/null
->>> +
->>> +		[ $? -ne 0 ] && exit 1
->>>   	else
->>>   		udevadm hwdb --update
->>>   	fi
->>>
->>
->> --
->> Best Reagrds,
->> Roy | RongQing Li
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 7747718..41dd599 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -1,5 +1,5 @@
+ # Support for device tree generation
+-FILES_kernel-devicetree = "/boot/devicetree*"
++FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+ KERNEL_DEVICETREE_FLAGS ?= "-R 8 -p 0x3000"
+ 
+ python __anonymous () {
+@@ -22,7 +22,7 @@ do_install_append() {
+ 			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+ 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+ 			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
+-			install -m 0644 ${DTS_BASE_NAME} ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
++			install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+ 		done
+ 	fi
+ }
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.7.9.5
+
 
