@@ -1,24 +1,24 @@
 Return-Path: <nitin.a.kamble@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id E8CFE6B0D0
+	by mail.openembedded.org (Postfix) with ESMTP id 02C386B53B
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 21:33:27 +0000 (UTC)
+	Thu,  8 Aug 2013 21:33:28 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2013 14:33:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,841,1367996400"; d="scan'208";a="359882639"
+X-IronPort-AV: E=Sophos;i="4.89,841,1367996400"; d="scan'208";a="359882642"
 Received: from yocto-hm1.jf.intel.com ([10.23.232.34])
 	by orsmga001.jf.intel.com with ESMTP; 08 Aug 2013 14:33:28 -0700
 From: nitin.a.kamble@intel.com
 To: Openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2013 21:34:28 +0000
-Message-Id: <83539c1ee1aa0bf122c88b9c23275f4914330d99.1375996888.git.nitin.a.kamble@intel.com>
+Date: Thu,  8 Aug 2013 21:34:29 +0000
+Message-Id: <ebd74052582cd3def1b5a4c3d609cfc6b2613933.1375996888.git.nitin.a.kamble@intel.com>
 X-Mailer: git-send-email 1.8.1.4
 In-Reply-To: <13a5bf7b035552bb397edea9c91dc528cfa9b70d.1375996888.git.nitin.a.kamble@intel.com>
 References: <13a5bf7b035552bb397edea9c91dc528cfa9b70d.1375996888.git.nitin.a.kamble@intel.com>
 In-Reply-To: <cover.1375996888.git.nitin.a.kamble@intel.com>
 References: <cover.1375996888.git.nitin.a.kamble@intel.com>
-Subject: [PATCH 2/3] packagegroup-base.bb: add a new machine feature: v4l2
+Subject: [PATCH 3/3] gst-meta-base: bring in the v4l2 related gst plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,47 +35,29 @@ X-List-Received-Date: Thu, 08 Aug 2013 21:33:28 -0000
 
 From: Nitin A Kamble <nitin.a.kamble@intel.com>
 
-This new machine feature gives a choice to add the video for linux 2
-drivers and related utilities to BSPs.
+If the v4l2 machine feature is enabled, then the v4l2 gstreamer plugin
+is also pulled in the gst-meta-base packages.
 
 Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-base.bb | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 1c0c757..839c400 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -24,6 +24,7 @@ PACKAGES = ' \
-             ${@base_contains("MACHINE_FEATURES", "serial", "packagegroup-base-serial", "", d)} \
-             ${@base_contains("MACHINE_FEATURES", "usbgadget", "packagegroup-base-usbgadget", "", d)} \
-             ${@base_contains("MACHINE_FEATURES", "usbhost", "packagegroup-base-usbhost", "", d)} \
-+            ${@base_contains("MACHINE_FEATURES", "v4l2", "packagegroup-base-v4l2", "", d)} \
-             \
-             ${@base_contains("DISTRO_FEATURES", "bluetooth", "packagegroup-base-bluetooth", "", d)} \
-             ${@base_contains("DISTRO_FEATURES", "wifi", "packagegroup-base-wifi", "", d)} \
-@@ -60,6 +61,7 @@ RDEPENDS_packagegroup-base = "\
-     ${@base_contains('MACHINE_FEATURES', 'acpi', 'packagegroup-base-acpi', '',d)} \
-     ${@base_contains('MACHINE_FEATURES', 'keyboard', 'packagegroup-base-keyboard', '',d)} \
-     ${@base_contains('MACHINE_FEATURES', 'phone', 'packagegroup-base-phone', '',d)} \
-+    ${@base_contains('MACHINE_FEATURES', 'v4l2', 'packagegroup-base-v4l2', '',d)} \
-     \
-     ${@base_contains('COMBINED_FEATURES', 'alsa', 'packagegroup-base-alsa', '',d)} \
-     ${@base_contains('COMBINED_FEATURES', 'ext2', 'packagegroup-base-ext2', '',d)} \
-@@ -355,6 +357,12 @@ SUMMARY_packagegroup-base-zeroconf = "Zeroconf support"
- RDEPENDS_packagegroup-base-zeroconf = "\
-     avahi-daemon"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+index 210da37..c1139f4 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
+@@ -35,7 +35,9 @@ RDEPENDS_gst-meta-base = "\
+     gst-plugins-base-videoscale \
+     gst-plugins-base-ffmpegcolorspace \
+     gst-plugins-good-autodetect \
+-    gst-plugins-good-souphttpsrc"
++    gst-plugins-good-souphttpsrc \
++    gst-plugins-base-videotestsrc \
++    ${@base_contains('MACHINE_FEATURES', 'v4l2', 'gst-plugins-good-video4linux2', '', d)}"
  
-+SUMMARY_packagegroup-base-v4l2 = "Video for Linux 2 support"
-+RDEPENDS_packagegroup-base-v4l2 = "\
-+    kernel-module-v4l2-int-device \
-+    kernel-module-v4l2-common \
-+    v4l-utils"
-+
- SUMMARY_packagegroup-base-ipv6 = "IPv6 support"
- RDEPENDS_packagegroup-base-ipv6 = "\
-     "
+ RRECOMMENDS_gst-meta-x11-base = "\
+     gst-plugins-base-ximagesink \
 -- 
 1.8.1.4
 
