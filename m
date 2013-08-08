@@ -1,42 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
-	[209.85.212.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 545CB6B4BB
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DC6D608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 13:13:56 +0000 (UTC)
-Received: by mail-vb0-f47.google.com with SMTP id h10so3136710vbh.20
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2013 06:13:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=1DDyd+fhT93Jvv6rHQWXeUdxrSJW+gne4pzueRsxhlI=;
-	b=ovKXOA8MetWId9rtfj6lh3alvfcq1WNpMfUlxxFaSwLj9pnvAQsijX7RGsCVLfOjPJ
-	63teEcLY4s2yeGnCTMjfwJ06i2iYglZLwzOlZ9NOSzCQFvjVO+jsrl9Uaryf2uUJyJ3m
-	FrFgDBsi9UBmDTrYSKQ0Gar8X8PGKNMumczwwmMKnaldqLLIS9yC9QzS7eMDOYgUEZmF
-	C5qMIdkx5KzSGL+JzUxxQv6sOhj/sUvx7U+zDQ9lJj5zNaa/A419bovFczVD1xVNynG7
-	BgLO0bNr35QGkiZ/YBr+zOKALitt8oA5sh++VLn04T5/lQ8k0JYQOcooAOZQc05vYsYt
-	Jgqg==
-X-Gm-Message-State: ALoCoQnG2eYypSTii5jKcX6F3KuDI12vMV2Drl1oLMpoQFGuNN3+5uxONIFGBHg8PIkIj7M4zHyd
-X-Received: by 10.220.145.4 with SMTP id b4mr3917015vcv.94.1375967636355; Thu,
-	08 Aug 2013 06:13:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 8 Aug 2013 06:13:36 -0700 (PDT)
-In-Reply-To: <20130808130838.GC12638@axis.com>
-References: <cover.1375952210.git.hongxu.jia@windriver.com>
-	<9facc9593dc27237a07ebd620b9d7c9d9541f20a.1375952210.git.hongxu.jia@windriver.com>
-	<CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com>
-	<52037BBF.1030600@windriver.com>
-	<CAJTo0LbxpTyZCn7wCmynEPT9n5o=iSbZcn7HMooe=mewV_fE3w@mail.gmail.com>
-	<5203828E.2040705@windriver.com> <20130808130838.GC12638@axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Aug 2013 14:13:36 +0100
-Message-ID: <CAJTo0LbWcFaLyvDOrdrFOm7ovs2CnfJc-OeENkid=b_Z31hLbg@mail.gmail.com>
-To: Olof Johansson <olof.johansson@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libdbm-sqlite-perl: add version 1.40
+	Thu,  8 Aug 2013 13:43:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Aug 2013 06:43:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="383265901"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2013 06:43:15 -0700
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  8 Aug 2013 16:46:06 +0300
+Message-Id: <cover.1375969277.git.cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/5] Package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,16 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 13:13:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 08 Aug 2013 13:43:16 -0000
 
-On 8 August 2013 14:08, Olof Johansson <olof.johansson@axis.com> wrote:
-> I assume perl module recipes already in oecore are there for a
-> reason, and we should perhaps avoid moving them, and just let
-> meta-perl depend on oecore. Right?
+Hi,
 
-Yeah.  It's worth reviewing them, but generally perl modules in
-oe-core are there before other parts of oe-core depend on them.
+Tests done:
+ * build tested on AB running following nightlies: x86, x86_64, ppc, mips, arm;
+ * checked with rpm if the packages were installed; basic functionality for kmod,
+systemtap, atk, mkfontscale and ed
 
-Ross
+Thanks,
+Cristiana
+
+The following changes since commit f63e7f4323368c0d6fe7a1d44393a7e15652d4f2:
+
+  subversion: Add patch to use neon 0.30 (2013-08-07 07:43:47 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib cvoicu/work2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cvoicu/work2
+
+Cristiana Voicu (5):
+  ed: upgrade to 1.9
+  mkfontscale: upgrade to 1.1.1
+  atk: upgrade to 2.9.3
+  systemtap: upgrade to 2.3
+  kmod: upgrade to 14
+
+ meta/recipes-extended/ed/{ed_1.8.bb => ed_1.9.bb}  |    7 +++----
+ .../{mkfontscale_1.1.0.bb => mkfontscale_1.1.1.bb} |    6 ++----
+ meta/recipes-kernel/kmod/kmod-native_git.bb        |    1 -
+ meta/recipes-kernel/kmod/kmod.inc                  |    5 ++---
+ ...-man-page-generation-because-we-don-t-hav.patch |   21 ++++++++++----------
+ .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |    5 ++---
+ meta/recipes-kernel/kmod/kmod_git.bb               |    3 +--
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 --
+ meta/recipes-kernel/systemtap/systemtap_git.inc    |    4 ++--
+ .../atk/{atk_2.8.0.bb => atk_2.9.3.bb}             |    4 ++--
+ 10 files changed, 25 insertions(+), 33 deletions(-)
+ rename meta/recipes-extended/ed/{ed_1.8.bb => ed_1.9.bb} (68%)
+ rename meta/recipes-graphics/xorg-app/{mkfontscale_1.1.0.bb => mkfontscale_1.1.1.bb} (78%)
+ rename meta/recipes-support/atk/{atk_2.8.0.bb => atk_2.9.3.bb} (79%)
+
+-- 
+1.7.9.5
+
 
