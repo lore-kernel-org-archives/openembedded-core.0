@@ -1,25 +1,24 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3805F6AF12
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8076A6AF12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 09:47:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r789lLX5007817
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2013 02:47:21 -0700 (PDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 8 Aug 2013 02:47:19 -0700
-Message-ID: <5203691F.9080306@windriver.com>
-Date: Thu, 8 Aug 2013 17:47:11 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu,  8 Aug 2013 09:51:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r789pXAI020784
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Aug 2013 02:51:33 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 8 Aug 2013 02:51:31 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Aug 2013 17:51:28 +0800
+Message-ID: <cover.1375953812.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: "'Patches and discussions about the oe-core layer'"
-	<openembedded-core@lists.openembedded.org>
-Subject: sstate_create_package fails since 'tar: xxxx: file changed as we read it'
+Subject: [PATCH V2 0/2] add perl database support packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 09:47:21 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Aug 2013 09:51:33 -0000
+Content-Type: text/plain
 
-Hi All,
+Change in V2:
+  * Rename recipe to use libdbd-sqlite-perl instead of libdbm-sqlite-perl
 
-I met it on some packages like: util-macros-native, glib-2.0-native, 
-libogg ...
+In oe-core, only SQLite is supported, so we add perl-DBI and perl-DBD-SQLite.
 
-Build host: CentOS 5.9
-Error messages:
--------------------------------
-DEBUG: Preparing tree 
-/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/work/x86_64-linux/util-macros-native/1_1.17-r0/sysroot-destdir/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/sysroots/x86_64-linux 
-for packaging at 
-/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/work/x86_64-linux/util-macros-native/1_1.17-r0/sstate-build-populate-sysroot/x86_64-linux
-NOTE: Removing hardcoded paths from sstate package: 'grep -Irl 
-/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/sysroots 
-/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/work/x86_64-linux/util-macros-native/1_1.17-r0/sstate-build-populate-sysroot/ 
-| xargs grep -l -e 
-'/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/sysroots' 
-| tee /home/nxadm/nx/yow-blade4.1/builds-2013-08-0
-6-030257/e500-kvm-guest_std/bitbake_build/tmp/work/x86_64-linux/util-macros-native/1_1.17-r0/sstate-build-populate-sysroot/fixmepath 
-| xargs --no-run-if-empty sed -i -e 
-'s:/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/sysroots:FIXMESTAGINGDIR:g''
-NOTE: Replacing absolute paths in fixmepath file: 'sed -i -e 
-'s:^/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/work/x86_64-linux/util-macros-native/1_1.17-r0/sstate-build-populate-sysroot/::g' 
-/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/work/x86_64-linux/util-macros-native/1_1.17-r0/sstate-build-populate-sysroot/fixmepath'
-DEBUG: Executing shell function sstate_create_package
-tar: x86_64-linux/usr/share/aclocal/xorg-macros.m4: file changed as we 
-read it
-WARNING: 
-/home/nxadm/nx/yow-blade4.1/builds-2013-08-06-030257/e500-kvm-guest_std/bitbake_build/tmp/work/x86_64-linux/util-macros-native/1_1.17-r0/temp/do_populate_sysroot/run.do_populate_sysroot.sstate_create_package.18975:122 
-exit 1 from
-   tar -czf $TFILE fixmepath x86_64-linux
-DEBUG: Python function sstate_task_postfunc finished
--------------------------------
+Test Case:
 
-I searched and found this discussions but did not found any conclusions, 
-anyone know about that?
--------------------------------
-JaMa	anyone seeing:	11:40
-JaMa	| DEBUG: Executing shell function sstate_create_package	11:40
-JaMa	| tar: x86_64-linux/usr/share/aclocal/lib-prefix.m4: file changed 
-as we read it	11:40
-JaMa	? I've found 
-http://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg36323.html 
-but without solution	11:40
-JaMa	it happens in different recipes, so far all were -native
+1) vim local.conf:
+...
+IMAGE_INSTALL_append = " libdbd-sqlite-perl"
+PERL_DBM_TEST = "1"
+...
+2) build core-image-sato and boot the target
 
-RP	JaMa: relatively old OS?	21:26
+3) run "sqlite-perl-test.pl" in target
+...
+root@qemuarm:~# sqlite-perl-test.pl 
+Connect to SQLite's in-memory database
+Create table tbl1(name varchar(10), id smallint)
+Insert into tbl1 values('yocto',10)
+Insert into tbl1 values('windriver', 20)
+Select * from tbl1
+-----------------------------------
+yocto: 10
+windriver: 20
 
-JaMa	RP: no Ubuntu 12.04	22:15
-JaMa	and it started suddenly few days ago even on different machines
--------------------------------
+Update tbl1 set name = 'oe-core' where id = 10
+Delete from tbl1 where id = 20
+Select * from tbl1
+-----------------------------------
+oe-core: 10
 
-Thanks
-Wenzong
+Test Success
+...
+
+//Hongxu
+
+The following changes since commit 9de0ad47462c13ac4a2d73e12e92be6c1b4e0415:
+
+  genericx86: ship all the driver firmware by default (2013-07-31 07:00:00 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/perl-dbi
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/perl-dbi
+
+Hongxu Jia (2):
+  libdbi-perl: add version 1.628
+  libdbd-sqlite-perl: add version 1.40
+
+ .../perl/files/sqlite-perl-test.pl                 | 69 ++++++++++++++++++++++
+ .../perl/libdbd-sqlite-perl_1.40.bb                | 40 +++++++++++++
+ meta/recipes-extended/perl/libdbi-perl_1.628.bb    | 27 +++++++++
+ 3 files changed, 136 insertions(+)
+ create mode 100755 meta/recipes-extended/perl/files/sqlite-perl-test.pl
+ create mode 100644 meta/recipes-extended/perl/libdbd-sqlite-perl_1.40.bb
+ create mode 100644 meta/recipes-extended/perl/libdbi-perl_1.628.bb
+
+-- 
+1.8.1.2
+
 
