@@ -1,27 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F0C6B53B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
+	[209.85.212.52])
+	by mail.openembedded.org (Postfix) with ESMTP id AB887608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 10:26:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r78AQR0T027598
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  8 Aug 2013 10:44:00 +0000 (UTC)
+Received: by mail-vb0-f52.google.com with SMTP id f12so3040731vbg.39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Aug 2013 03:26:28 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 8 Aug 2013 03:26:27 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2013 18:26:47 +0800
-Message-ID: <7666b33f8b5a263f4eaa3dfbd4dde70bc33235f6.1375957555.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1375957555.git.Qi.Chen@windriver.com>
-References: <cover.1375957555.git.Qi.Chen@windriver.com>
+	Thu, 08 Aug 2013 03:44:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=uONGS5sD2S593SIKMQ+T0Y0rFs8U5wU3Y/dT0Q7lrKY=;
+	b=TIPlL8oqyJpKH92Fjx6B19Ru8FQDjIsc6rbu31eD+N4imytcgru3jxX5MHStG1nfJa
+	BbBIaDk+5vT8XMqutEsq3kHDfF7NHeInu03nbCeWm6Yi88dTE99AvyXszhr5Lk8d2o35
+	oKwL6x7ClXNMIlK8w3ddUifdjcZ+fWFWBu7F+BFOu8RKbMD0Q82iQ7+qWP2BSUz1Thp/
+	z65FJ3+UjX5RnhuBB85/TZGJD+9DYdKAxH1jHJ84GdmI8nl6smtC0QD2I81lQiTg84bC
+	OO47EEpSq2ms/TbMPvx6KCiE5N7jAQcaNuBV9zKZ9r+F4okoQB1Zt6SezwKSieEj08P2
+	Agsw==
+X-Gm-Message-State: ALoCoQkmh6xNKMum09gDiCVJuQDdmD155NiWXgmo3M5HKeNYjldtCB4p0jZczCxZuNGOhMdscKHH
+X-Received: by 10.52.73.33 with SMTP id i1mr2347454vdv.51.1375958640696; Thu,
+	08 Aug 2013 03:44:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Zhangle.Yang@windriver.com
-Subject: [PATCH 1/1] checkroot.sh: respect the value of ENABLE_ROOTFS_FSCK
+Received: by 10.220.71.201 with HTTP; Thu, 8 Aug 2013 03:43:40 -0700 (PDT)
+In-Reply-To: <9facc9593dc27237a07ebd620b9d7c9d9541f20a.1375952210.git.hongxu.jia@windriver.com>
+References: <cover.1375952210.git.hongxu.jia@windriver.com>
+	<9facc9593dc27237a07ebd620b9d7c9d9541f20a.1375952210.git.hongxu.jia@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Aug 2013 11:43:40 +0100
+Message-ID: <CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] libdbm-sqlite-perl: add version 1.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 10:26:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 08 Aug 2013 10:44:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 8 August 2013 10:01, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> DBD::SQLite is a Perl DBI driver for SQLite, that includes the entire
+> thing in the distribution. So in order to get a fast transaction capable
+> RDBMS working for your perl project you simply have to install this
+> module, and nothing else.
 
-Previously, fsck is always disabled because the value of rootcheck in
-the checkroot.sh script is always set to 'no'.
+What's the rationale for putting this into oe-core, verses meta-oe or
+even starting a meta-perl?
 
-We should respect the value of ENABLE_ROOTFS_FSCK in /etc/default/rcS
-to allow for filesystem check.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../initscripts/initscripts-1.0/checkroot.sh       |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh b/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
-index ac21ee4..cf84cfa 100755
---- a/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/checkroot.sh
-@@ -22,7 +22,7 @@ test "$SULOGIN" = yes && sulogin -t 30 $CONSOLE
- exec 9< /etc/fstab
- rootmode=rw
- rootopts=rw
--rootcheck=no
-+rootcheck=$ENABLE_ROOTFS_FSCK
- swap_on_md=no
- devfs=
- while read fs mnt type opts dump pass junk <&9
--- 
-1.7.9.5
-
+Ross
 
