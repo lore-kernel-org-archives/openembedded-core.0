@@ -1,31 +1,42 @@
-Return-Path: <s.stirtzel@googlemail.com>
-Received: from mail-oa0-f54.google.com (mail-oa0-f54.google.com
-	[209.85.219.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D93146AF12
+Return-Path: <olof.johansson@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 67ADC6AF12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 12:21:34 +0000 (UTC)
-Received: by mail-oa0-f54.google.com with SMTP id o6so5252629oag.27
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2013 05:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=u5VXQE/TxwW2vN07cdIDV5N1cE7wq9GeDOgD9a5fB3k=;
-	b=O2YuLn0xGBT2XdU6ZvCCRaIQhq92qafFge2twWep7tGGjJgrwTbm/6zh5L3TzjSJff
-	duSjCESoO0tcVjf8s9/ZYdl+IOCe9VjvOLrzKaiO2GumfcdFtqew4nyaMalMnge0D+ZX
-	t7e/1KL4sot2RXLmf8ta3WMVPBqy+wUXlZUYU0fg9WAgV7AcCDWVEGyJMoSNbGtIuDoP
-	69S1HOgUzcqplApHNxYJMKkT9fNdnw0DBYsc3zhlosoX+GvgrCMQimrBTu40VQVFDNIp
-	WeVqJD2kxT0dkJlVry/GvbPddjjRKOsnBSz7740/ZY397scvw+XS9/5D6r1pEka53aE5
-	Q8iA==
-X-Received: by 10.182.29.198 with SMTP id m6mr6043869obh.105.1375964494981;
-	Thu, 08 Aug 2013 05:21:34 -0700 (PDT)
+	Thu,  8 Aug 2013 13:06:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id CEACA11F9C;
+	Thu,  8 Aug 2013 15:06:06 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id sjoDxpeBW-gm; Thu,  8 Aug 2013 15:06:06 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 3DF6E11F9B;
+	Thu,  8 Aug 2013 15:06:06 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 244ED5C3;
+	Thu,  8 Aug 2013 15:06:06 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 18D1651B;
+	Thu,  8 Aug 2013 15:06:06 +0200 (CEST)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by seth.se.axis.com (Postfix) with ESMTP id 172D73E06F;
+	Thu,  8 Aug 2013 15:06:06 +0200 (CEST)
+Received: from axis.com (10.92.17.1) by xmail2.se.axis.com (10.0.5.74) with
+	Microsoft SMTP Server (TLS) id 8.2.255.0; Thu, 8 Aug 2013 15:06:05 +0200
+Date: Thu, 8 Aug 2013 15:06:04 +0200
+From: Olof Johansson <olof.johansson@axis.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20130808130604.GB12638@axis.com>
+References: <cover.1375952210.git.hongxu.jia@windriver.com>
+	<9facc9593dc27237a07ebd620b9d7c9d9541f20a.1375952210.git.hongxu.jia@windriver.com>
+	<20130808090617.GF25081@axis.com> <52036240.3090506@windriver.com>
 MIME-Version: 1.0
-Received: by 10.60.37.65 with HTTP; Thu, 8 Aug 2013 05:21:14 -0700 (PDT)
-From: Samuel Stirtzel <s.stirtzel@googlemail.com>
-Date: Thu, 8 Aug 2013 14:21:14 +0200
-Message-ID: <CAGiJk9eZGqhJ4SKiJ_ivW94Ug9ine1P4UdftNdrg_E0wfV1mLA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Unhandled exception with BB_SIGNATURE_HANDLER="noop"
+In-Reply-To: <52036240.3090506@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libdbm-sqlite-perl: add version 1.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +49,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 12:21:35 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 08 Aug 2013 13:06:09 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Hi,
+On 13-08-08 11:17 +0200, Hongxu Jia wrote:
+> On 08/08/2013 05:06 PM, Olof Johansson wrote:
+> > The recipe is called libdbm-sqlite-perl, but the perl module is
+> > called DBD::SQLite. Is that intentional, and if so, why?
+>
+> I know what your mean, we should rename the recipe:
+> s/libdbm-sqlite-perl_1.40.bb/libdbd-sqlite-perl_1.40.bb/
 
-on the autobuilder I use, this error is currently blocking all nightly
-builds for some time:
-http://pastebin.com/RN6nJyPh
-
-The build is a normal nightly world build (these srcrevs are from 2013/08/01)
-$ bitbake -k world
-
-meta-angstrom     = "master:bed0c8c6abbf90aaaa730617a465839fde4374d2"
-meta-oe         = "master:246bedc1c6b3e2830ca0a8fae8c30b8624f46ab2"
-meta-ti           = "master:3f3f05eea39d0f13bc140747984e202e9288b2fe"
-meta-gumstix-community = "master:75dba51592cba66ff42c287d88b670852b767336"
-meta              = "master:f192c444c2d88c49738bea4ff4c3af0cc72916de"
-
-
-In the local.conf these settings are used:
-# Disable shared state creation
-SSTATE_CREATE_PKG = "0"
-BB_SIGNATURE_HANDLER = "noop"
-
-
-In siggen.py the "noop" object has no variable file_checksum_values.
-
-What is the preferred way to resolve this?
-
+Yes, exactly. Sorry if I was unclear.
 
 -- 
-Regards
-Samuel
+olofjn
 
