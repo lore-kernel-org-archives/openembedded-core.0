@@ -1,20 +1,22 @@
 Return-Path: <cristiana.voicu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DC6D608BF
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 45BB5608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 13:43:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Aug 2013 06:43:16 -0700
+	Thu,  8 Aug 2013 13:43:41 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2013 06:43:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="383265901"
+X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="279405180"
 Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Aug 2013 06:43:15 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Aug 2013 06:43:21 -0700
 From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2013 16:46:06 +0300
-Message-Id: <cover.1375969277.git.cristiana.voicu@intel.com>
+Date: Thu,  8 Aug 2013 16:46:09 +0300
+Message-Id: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/5] Package upgrades
+In-Reply-To: <cover.1375969277.git.cristiana.voicu@intel.com>
+References: <cover.1375969277.git.cristiana.voicu@intel.com>
+Subject: [PATCH 1/5] ed: upgrade to 1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,49 +29,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 13:43:16 -0000
+X-List-Received-Date: Thu, 08 Aug 2013 13:43:41 -0000
 
-Hi,
+LIC_FILES_CHKSUM changed because some lines were
+in addition in main.c file. Those lines are related to exit
+status.
 
-Tests done:
- * build tested on AB running following nightlies: x86, x86_64, ppc, mips, arm;
- * checked with rpm if the packages were installed; basic functionality for kmod,
-systemtap, atk, mkfontscale and ed
-
-Thanks,
-Cristiana
-
-The following changes since commit f63e7f4323368c0d6fe7a1d44393a7e15652d4f2:
-
-  subversion: Add patch to use neon 0.30 (2013-08-07 07:43:47 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib cvoicu/work2
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=cvoicu/work2
-
-Cristiana Voicu (5):
-  ed: upgrade to 1.9
-  mkfontscale: upgrade to 1.1.1
-  atk: upgrade to 2.9.3
-  systemtap: upgrade to 2.3
-  kmod: upgrade to 14
-
- meta/recipes-extended/ed/{ed_1.8.bb => ed_1.9.bb}  |    7 +++----
- .../{mkfontscale_1.1.0.bb => mkfontscale_1.1.1.bb} |    6 ++----
- meta/recipes-kernel/kmod/kmod-native_git.bb        |    1 -
- meta/recipes-kernel/kmod/kmod.inc                  |    5 ++---
- ...-man-page-generation-because-we-don-t-hav.patch |   21 ++++++++++----------
- .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |    5 ++---
- meta/recipes-kernel/kmod/kmod_git.bb               |    3 +--
- meta/recipes-kernel/systemtap/systemtap_git.bb     |    2 --
- meta/recipes-kernel/systemtap/systemtap_git.inc    |    4 ++--
- .../atk/{atk_2.8.0.bb => atk_2.9.3.bb}             |    4 ++--
- 10 files changed, 25 insertions(+), 33 deletions(-)
+Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+---
+ meta/recipes-extended/ed/{ed_1.8.bb => ed_1.9.bb} |    7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
  rename meta/recipes-extended/ed/{ed_1.8.bb => ed_1.9.bb} (68%)
- rename meta/recipes-graphics/xorg-app/{mkfontscale_1.1.0.bb => mkfontscale_1.1.1.bb} (78%)
- rename meta/recipes-support/atk/{atk_2.8.0.bb => atk_2.9.3.bb} (79%)
 
+diff --git a/meta/recipes-extended/ed/ed_1.8.bb b/meta/recipes-extended/ed/ed_1.9.bb
+similarity index 68%
+rename from meta/recipes-extended/ed/ed_1.8.bb
+rename to meta/recipes-extended/ed/ed_1.9.bb
+index c6b5075..bd00c52 100644
+--- a/meta/recipes-extended/ed/ed_1.8.bb
++++ b/meta/recipes-extended/ed/ed_1.9.bb
+@@ -5,18 +5,17 @@ BUGTRACKER = ""
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
+                     file://ed.h;endline=20;md5=375a20cc2545ac1115eeb7b323c60ae3 \
+-                    file://main.c;endline=24;md5=1b31246da5e3864d7b30094ff76bf7ed"
++                    file://main.c;endline=17;md5=14dbb325c1f2d4daf50e0aa5c5038e96"
+ 
+ SECTION = "base"
+-PR = "r0"
+ 
+ # LSB states that ed should be in /bin/
+ bindir = "${base_bindir}"
+ 
+ SRC_URI = "${GNU_MIRROR}/ed/ed-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "2268d2344b3c52d23730acb2e3c942fe"
+-SRC_URI[sha256sum] = "64c138d33b1ea4b9daa88e045da0619e2a43cb99a9d378417d20163f410a7273"
++SRC_URI[md5sum] = "565b6d1d5a9a8816b9b304fc4ed9405d"
++SRC_URI[sha256sum] = "d5b372cfadf073001823772272fceac2cfa87552c5cd5a8efc1c8aae61f45a88"
+ 
+ do_configure() {
+ 	${S}/configure
 -- 
 1.7.9.5
 
