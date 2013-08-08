@@ -1,30 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 969BE6B0AC
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 46F676B0AC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 08:55:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r788tf9e014246
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2013 04:55:42 -0400 (EDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 8 Aug 2013 01:55:41 -0700
-Message-ID: <52035D0E.4090502@windriver.com>
-Date: Thu, 8 Aug 2013 16:55:42 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu,  8 Aug 2013 09:01:54 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7891tui015248
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 8 Aug 2013 02:01:55 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 8 Aug 2013 02:01:54 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 8 Aug 2013 17:01:50 +0800
+Message-ID: <cover.1375952210.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1374643300.git.rongqing.li@windriver.com>
-	<947336a1ef2b936328ba6fcf519d55a4eda7085d.1374643300.git.rongqing.li@windriver.com>
-	<5201F783.4020601@windriver.com>
-	<CAJTo0LZw9kOSmQbeQM71JGZh36nYy58o=ZEB_oA8nYOFBtqZTw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZw9kOSmQbeQM71JGZh36nYy58o=ZEB_oA8nYOFBtqZTw@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: ignore qemu output, and check its return code
+Subject: [PATCH 0/2] add perl database support packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,123 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 08:55:43 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 08 Aug 2013 09:01:54 -0000
+Content-Type: text/plain
 
+In oe-core, only SQLite is supported, so we add perl-DBI and perl-DBD-SQLite.
 
+Test Case:
 
-On 08/07/2013 07:55 PM, Burton, Ross wrote:
-> On 7 August 2013 08:30, Rongqing Li <rongqing.li@windriver.com> wrote:
->>>                  ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')}
->>> hwdb --update \
->>> -                       --root $D
->>> +                       --root $D 2>/dev/null
->>> +
->>> +               [ $? -ne 0 ] && exit 1
->
-> The $? check can be removed replaced by set -e, as many postinst
-> scripts do already.
->
-> Why/where is the output from runqemu considered an error?  I wasn't
-> aware that logs were monitored for that error message.  I don't think
-> we should be hiding the output of runqemu as any real errors will also
-> be hidden.
->
-> Ross
+1) vim local.conf:
+...
+IMAGE_INSTALL_append = " libdbm-sqlite-perl"
+PERL_DBM_TEST = "1"
+...
+2) build core-image-sato and boot the target
 
+3) run "sqlite-perl-test.pl" in target
+...
+root@qemuarm:~# sqlite-perl-test.pl 
+Connect to SQLite's in-memory database
+Create table tbl1(name varchar(10), id smallint)
+Insert into tbl1 values('yocto',10)
+Insert into tbl1 values('windriver', 20)
+Select * from tbl1
+-----------------------------------
+yocto: 10
+windriver: 20
 
-I always get the below on error on my machine(Ubuntu 12.10) when enable 
-systemd:
+Update tbl1 set name = 'oe-core' where id = 10
+Delete from tbl1 where id = 20
+Select * from tbl1
+-----------------------------------
+oe-core: 10
 
+Test Success
+...
 
-|  102:Installing libnfsidmap0 
-######################################## [ 26%]
-|  103:Installing run-postinsts 
-######################################## [ 26%]
-| Output from run-postinsts-1.0-r9@i586:
-| --
-|  257:Installing liberation-fo.. 
-######################################## [ 65%]
-|  258:Installing glib-networking 
-######################################## [ 65%]
-|  259:Installing wpa-supplicant 
-######################################## [ 66%]
-|  260:Installing udev-hwdb 
-######################################## [ 66%]
-| Output from udev-hwdb-1:204-r0@i586:
-| ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be 
-preloaded: ignored.
-| qemu: Unsupported syscall: 240
-|  261:Installing udev 
-######################################## [ 66%]
-|  262:Installing util-linux-fsck 
-######################################## [ 67%]
-| Output from util-linux-fsck-2.23.2-r0@i586:
-| update-alternatives: Linking 
-/buildarea/build/poky/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0-r0/rootfs//sbin/fsck.minix 
-to /sbin/fsck.minix.util-linux
-|
-| ERROR: Function failed: do_rootfs (log file is located at 
-/buildarea/build/poky/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0-r0/temp/log.do_rootfs.26461)
-ERROR: Task 7 
-(/buildarea/build/poky/meta/recipes-sato/images/core-image-sato.bb, 
-do_rootfs) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 5548 tasks of which 924 didn't need to be 
-rerun and 1 failed.
-No currently running tasks (5547 of 5549)
+//Hongxu
 
-Summary: 1 task failed:
-   /buildarea/build/poky/meta/recipes-sato/images/core-image-sato.bb, 
-do_rootfs
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+The following changes since commit 9de0ad47462c13ac4a2d73e12e92be6c1b4e0415:
 
+  genericx86: ship all the driver firmware by default (2013-07-31 07:00:00 +0100)
 
-After using the patch, it works well.
+are available in the git repository at:
 
+  git://git.pokylinux.org/poky-contrib hongxu/perl-dbi
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/perl-dbi
 
-Other place used the same method to handle the qemu_run_binary result:
+Hongxu Jia (2):
+  libdbi-perl: add version 1.628
+  libdbm-sqlite-perl: add version 1.40
 
-
-lirq@lirq-OptiPlex-780:/buildarea/build/poky/meta$ grep qemu_run_binary 
-./ -r -A2
-./classes/qemu.bbclass:# ${@qemu_run_binary(d, '$D', 
-'/usr/bin/test_app')} [test_app arguments]
-./classes/qemu.bbclass-#
-./classes/qemu.bbclass:def qemu_run_binary(data, rootfs_path, binary):
-./classes/qemu.bbclass-    qemu_binary = qemu_target_binary(data)
-./classes/qemu.bbclass-    if qemu_binary == "qemu-allarch":
---
-./classes/gtk-immodules-cache.bbclass:            ${@qemu_run_binary(d, 
-'$D', '${bindir}/gtk-query-immodules-$maj_ver.0')} \
-./classes/gtk-immodules-cache.bbclass-                $IMFILES > 
-$D/etc/gtk-$maj_ver.0/gtk.immodules 2>/dev/null &&
-./classes/gtk-immodules-cache.bbclass-                sed -i -e "s:$D::" 
-$D/etc/gtk-$maj_ver.0/gtk.immodules
---
-./classes/gtk-immodules-cache.bbclass:            ${@qemu_run_binary(d, 
-'$D', '${bindir}/gtk-query-immodules-$maj_ver.0')} \
-./classes/gtk-immodules-cache.bbclass-                $IMFILES > 
-$D/etc/gtk-$maj_ver.0/gtk.immodules 2>/dev/null &&
-./classes/gtk-immodules-cache.bbclass-                sed -i -e "s:$D::" 
-$D/etc/gtk-$maj_ver.0/gtk.immodules
---
-./recipes-graphics/pango/pango.inc:	${@qemu_run_binary(d, 
-'$D','${bindir}/${MLPREFIX}pango-querymodules')} \
-./recipes-graphics/pango/pango.inc-	 
-$D${libdir}/pango/${LIBV}/modules/*.so \
-./recipes-graphics/pango/pango.inc-		> 
-$D${sysconfdir}/pango/${MLPREFIX}pango.modules 2>/dev/null
-
-
-
--Roy
-
-
->
->
+ .../perl/files/sqlite-perl-test.pl                 | 69 ++++++++++++++++++++++
+ meta/recipes-extended/perl/libdbi-perl_1.628.bb    | 27 +++++++++
+ .../perl/libdbm-sqlite-perl_1.40.bb                | 40 +++++++++++++
+ 3 files changed, 136 insertions(+)
+ create mode 100755 meta/recipes-extended/perl/files/sqlite-perl-test.pl
+ create mode 100644 meta/recipes-extended/perl/libdbi-perl_1.628.bb
+ create mode 100644 meta/recipes-extended/perl/libdbm-sqlite-perl_1.40.bb
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.8.1.2
+
 
