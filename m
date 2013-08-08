@@ -1,27 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 70FB06AF12
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
+	[209.85.128.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 5087E608BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 11:06:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r78B6hsD011174
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2013 04:06:43 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 8 Aug 2013 04:06:41 -0700
-Message-ID: <52037BBF.1030600@windriver.com>
-Date: Thu, 8 Aug 2013 19:06:39 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	Thu,  8 Aug 2013 11:12:39 +0000 (UTC)
+Received: by mail-ve0-f182.google.com with SMTP id m1so2916484ves.41
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Aug 2013 04:12:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4MmFGTrVt32sWiRD+oYIdwSPCU4RONmZrhvFASR1raI=;
+	b=B2voBn6o9BJsHRKWKSsW6uu6lt1I3dc3E7hgUUVLnhp8yPEqoW6GGeg6i4z1g9kTIK
+	QlrA3hz94qliqyiOBWBv259PbrI4HFYrFQsMsW6ZvYLJ+/qrP9l81fBShxIhlCa4rpKi
+	Ntu+XmK1tzVBWR4ETlO2vQqu3K79ynBaIrPJRiyKJb3A4lRDnHY9B2QkZhtO6/MqFj/9
+	fNkhGcBS6F+302h9MU8ziruqEqQyoLpEffiP+1U6Py4UeXzPkB/GegaFmaEQHgl+cvqp
+	p7fDCGepuKz5mWKQP5b+z3KN2lND08SusibXoju9kBMxzLYLXwsLRV0TXDkBKaNtnCqH
+	Vuiw==
+X-Gm-Message-State: ALoCoQlQ5nsvhgSa+eRxLe48a18pOd4jm+/XP0bRstsEsxm2DP9JM1rr/HTXabsp8XOOXcqzXy5n
+X-Received: by 10.220.75.73 with SMTP id x9mr3687010vcj.38.1375960359615; Thu,
+	08 Aug 2013 04:12:39 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.220.71.201 with HTTP; Thu, 8 Aug 2013 04:12:19 -0700 (PDT)
+In-Reply-To: <52037BBF.1030600@windriver.com>
 References: <cover.1375952210.git.hongxu.jia@windriver.com>
 	<9facc9593dc27237a07ebd620b9d7c9d9541f20a.1375952210.git.hongxu.jia@windriver.com>
 	<CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com>
-In-Reply-To: <CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com>
+	<52037BBF.1030600@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Aug 2013 12:12:19 +0100
+Message-ID: <CAJTo0LbxpTyZCn7wCmynEPT9n5o=iSbZcn7HMooe=mewV_fE3w@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] libdbm-sqlite-perl: add version 1.40
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -36,74 +46,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 11:06:44 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050300060605000702070900"
+X-List-Received-Date: Thu, 08 Aug 2013 11:12:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
---------------050300060605000702070900
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+On 8 August 2013 12:06, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> It seems DBI is a commonly-used perl database support package,
+> and work with multiple DBDs, the DBD::driver is based on actual
+> database. We get sqlite in oe-core, so put them in oe-core.
 
-On 08/08/2013 06:43 PM, Burton, Ross wrote:
-> On 8 August 2013 10:01, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->> DBD::SQLite is a Perl DBI driver for SQLite, that includes the entire
->> thing in the distribution. So in order to get a fast transaction capable
->> RDBMS working for your perl project you simply have to install this
->> module, and nothing else.
-> What's the rationale for putting this into oe-core, verses meta-oe or
-> even starting a meta-perl?
-It seems DBI is a commonly-used perl database support package,
-and work with multiple DBDs, the DBD::driver is based on actual
-database. We get sqlite in oe-core, so put them in oe-core.
+There are many perl packages that are commonly-used but we don't put
+them all into oe-core.  I'm really thinking that we need to start a
+meta-perl for the majority of Perl libraries, apart from the ones that
+are needed in oe-core.
 
-//Hongxu
-> Ross
-
-
---------------050300060605000702070900
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 08/08/2013 06:43 PM, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com"
-      type="cite">
-      <pre wrap="">On 8 August 2013 10:01, Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">DBD::SQLite is a Perl DBI driver for SQLite, that includes the entire
-thing in the distribution. So in order to get a fast transaction capable
-RDBMS working for your perl project you simply have to install this
-module, and nothing else.
-</pre>
-      </blockquote>
-      <pre wrap="">
-What's the rationale for putting this into oe-core, verses meta-oe or
-even starting a meta-perl?
-</pre>
-    </blockquote>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    It seems DBI is a commonly-used perl database support package,<br>
-    and work with multiple DBDs, the DBD::driver is based on actual<br>
-    database. We get sqlite in oe-core, so put them in oe-core.<br>
-    <br>
-    //Hongxu<br>
-    <blockquote
-cite="mid:CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com"
-      type="cite">
-      <pre wrap="">
 Ross
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
 
---------------050300060605000702070900--
