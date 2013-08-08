@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 46F676B0AC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AC2986B590
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 09:01:54 +0000 (UTC)
+	Thu,  8 Aug 2013 09:01:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7891tui015248
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7891wC3007393
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 8 Aug 2013 02:01:55 -0700 (PDT)
+	Thu, 8 Aug 2013 02:01:58 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 8 Aug 2013 02:01:54 -0700
+	14.2.342.3; Thu, 8 Aug 2013 02:01:55 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2013 17:01:50 +0800
-Message-ID: <cover.1375952210.git.hongxu.jia@windriver.com>
+Date: Thu, 8 Aug 2013 17:01:51 +0800
+Message-ID: <2b606315902d9e502bd3dd2e6c7610bc3995301b.1375952210.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1375952210.git.hongxu.jia@windriver.com>
+References: <cover.1375952210.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] add perl database support packages
+Subject: [PATCH 1/2] libdbi-perl: add version 1.628
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,64 +33,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 09:01:54 -0000
+X-List-Received-Date: Thu, 08 Aug 2013 09:01:55 -0000
 Content-Type: text/plain
 
-In oe-core, only SQLite is supported, so we add perl-DBI and perl-DBD-SQLite.
+The DBI is a database access module for the Perl programming language.
+It defines a set of methods, variables, and conventions that provide
+a consistent database interface, independent of the actual database
+being used.
+             |<- Scope of DBI ->|
+                  .-.   .--------------.   .-------------.
+  .-------.       | |---| XYZ Driver   |---| XYZ Engine  |
+  | Perl  |       | |   `--------------'   `-------------'
+  | script|  |A|  |D|   .--------------.   .-------------.
+  | using |--|P|--|B|---|Oracle Driver |---|Oracle Engine|
+  | DBI   |  |I|  |I|   `--------------'   `-------------'
+  | API   |       | |...
+  |methods|       | |... Other drivers
+  `-------'       | |...
+                  `-'
 
-Test Case:
+[YOCTO #4128]
 
-1) vim local.conf:
-...
-IMAGE_INSTALL_append = " libdbm-sqlite-perl"
-PERL_DBM_TEST = "1"
-...
-2) build core-image-sato and boot the target
-
-3) run "sqlite-perl-test.pl" in target
-...
-root@qemuarm:~# sqlite-perl-test.pl 
-Connect to SQLite's in-memory database
-Create table tbl1(name varchar(10), id smallint)
-Insert into tbl1 values('yocto',10)
-Insert into tbl1 values('windriver', 20)
-Select * from tbl1
------------------------------------
-yocto: 10
-windriver: 20
-
-Update tbl1 set name = 'oe-core' where id = 10
-Delete from tbl1 where id = 20
-Select * from tbl1
------------------------------------
-oe-core: 10
-
-Test Success
-...
-
-//Hongxu
-
-The following changes since commit 9de0ad47462c13ac4a2d73e12e92be6c1b4e0415:
-
-  genericx86: ship all the driver firmware by default (2013-07-31 07:00:00 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/perl-dbi
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/perl-dbi
-
-Hongxu Jia (2):
-  libdbi-perl: add version 1.628
-  libdbm-sqlite-perl: add version 1.40
-
- .../perl/files/sqlite-perl-test.pl                 | 69 ++++++++++++++++++++++
- meta/recipes-extended/perl/libdbi-perl_1.628.bb    | 27 +++++++++
- .../perl/libdbm-sqlite-perl_1.40.bb                | 40 +++++++++++++
- 3 files changed, 136 insertions(+)
- create mode 100755 meta/recipes-extended/perl/files/sqlite-perl-test.pl
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/recipes-extended/perl/libdbi-perl_1.628.bb | 27 +++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
  create mode 100644 meta/recipes-extended/perl/libdbi-perl_1.628.bb
- create mode 100644 meta/recipes-extended/perl/libdbm-sqlite-perl_1.40.bb
 
+diff --git a/meta/recipes-extended/perl/libdbi-perl_1.628.bb b/meta/recipes-extended/perl/libdbi-perl_1.628.bb
+new file mode 100644
+index 0000000..c115fac
+--- /dev/null
++++ b/meta/recipes-extended/perl/libdbi-perl_1.628.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "The Perl Database Interface"
++DESCRIPTION = "DBI is a database access Application Programming Interface \
++(API) for the Perl Language. The DBI API Specification defines a set \
++of functions, variables and conventions that provide a consistent \
++database interface independent of the actual database being used. \
++"
++HOMEPAGE = "http://search.cpan.org/dist/DBI/"
++SECTION = "libs"
++LICENSE = "Artistic-1.0 | GPL-1.0+"
++RDEPENDS_${PN} = " perl-module-carp \
++                   perl-module-exporter \
++                   perl-module-exporter-heavy \
++                   perl-module-dynaloader \
++"
++PR = "r0"
++
++LIC_FILES_CHKSUM = "file://DBI.pm;beginline=8147;endline=8151;md5=7d9e154a9ca3c093d2422f7c692d5861"
++
++SRC_URI = "http://search.cpan.org/CPAN/authors/id/T/TI/TIMB/DBI-${PV}.tar.gz"
++SRC_URI[md5sum] = "4273f8cc6ee3979ce448c7eb3f8a6a5a"
++SRC_URI[sha256sum] = "46c834f4ba1b28c8d8a2db8095835a67fc69a9585761523aea3a74437a969b52"
++
++S = "${WORKDIR}/DBI-${PV}"
++
++inherit cpan
++
++BBCLASSEXTEND = "native"
 -- 
 1.8.1.2
 
