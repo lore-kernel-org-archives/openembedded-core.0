@@ -1,40 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
-	[209.85.212.41])
-	by mail.openembedded.org (Postfix) with ESMTP id DCF97608BF
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 70FB06AF12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 10:58:01 +0000 (UTC)
-Received: by mail-vb0-f41.google.com with SMTP id g17so3114408vbg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2013 03:58:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=lA7OJMq1Wvy+m309vElPdAHj89S8dVB4h/SL0mh8v8s=;
-	b=h4V9HEge85nBck3dGezmL2SY+WZabWZTrF+xRUh5OKV6A7k1URZHr6gj9dP6+khk1/
-	kwQTlHk+BhU9b4quA63MwXb7rG9PpieXxxaVpxIfsdgGCQCnxipgXDE1+lNMaq1J2e2b
-	arO9dii9a1N3ftFu4RpI7wBg7Vknk/sMo+4/3WAKvNK9K10b9F5XHIBFK8Oei63c9yLF
-	aIAVi3LldDPL8FrupdUfgMJMoDzLLAuyrvFQCB1ysNFW68JkWsjmbEostN2GDT+vONjQ
-	EbZmUv7kJvZx4YLTxi3wYNimiwJIwsvIxbrNYqJXtCqW1diziqgdpAFbzR2eq+FydrLY
-	qKdA==
-X-Gm-Message-State: ALoCoQlESJQVaAssvC3uisY2B+39yUYpZxg1uF+c+noceoZ6vXtEZp5Y61msUlcpASvP7RS6meuR
-X-Received: by 10.220.13.15 with SMTP id z15mr3614902vcz.46.1375959482131;
-	Thu, 08 Aug 2013 03:58:02 -0700 (PDT)
+	Thu,  8 Aug 2013 11:06:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r78B6hsD011174
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 8 Aug 2013 04:06:43 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 8 Aug 2013 04:06:41 -0700
+Message-ID: <52037BBF.1030600@windriver.com>
+Date: Thu, 8 Aug 2013 19:06:39 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 8 Aug 2013 03:57:42 -0700 (PDT)
-In-Reply-To: <52035D0E.4090502@windriver.com>
-References: <cover.1374643300.git.rongqing.li@windriver.com>
-	<947336a1ef2b936328ba6fcf519d55a4eda7085d.1374643300.git.rongqing.li@windriver.com>
-	<5201F783.4020601@windriver.com>
-	<CAJTo0LZw9kOSmQbeQM71JGZh36nYy58o=ZEB_oA8nYOFBtqZTw@mail.gmail.com>
-	<52035D0E.4090502@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 8 Aug 2013 11:57:42 +0100
-Message-ID: <CAJTo0LaLYpG12N74wtDRbPC81Qc+0DYuoRd98w1vRd0yHLS_FQ@mail.gmail.com>
-To: Rongqing Li <rongqing.li@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1375952210.git.hongxu.jia@windriver.com>
+	<9facc9593dc27237a07ebd620b9d7c9d9541f20a.1375952210.git.hongxu.jia@windriver.com>
+	<CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com>
+In-Reply-To: <CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] systemd: ignore qemu output, and check its return code
+Subject: Re: [PATCH 2/2] libdbm-sqlite-perl: add version 1.40
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,18 +36,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 10:58:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 08 Aug 2013 11:06:44 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050300060605000702070900"
 
-On 8 August 2013 09:55, Rongqing Li <rongqing.li@windriver.com> wrote:
-> | ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-> ignored.
+--------------050300060605000702070900
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-That's probably what's causing the problem, not the syscall warning.
+On 08/08/2013 06:43 PM, Burton, Ross wrote:
+> On 8 August 2013 10:01, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> DBD::SQLite is a Perl DBI driver for SQLite, that includes the entire
+>> thing in the distribution. So in order to get a fast transaction capable
+>> RDBMS working for your perl project you simply have to install this
+>> module, and nothing else.
+> What's the rationale for putting this into oe-core, verses meta-oe or
+> even starting a meta-perl?
+It seems DBI is a commonly-used perl database support package,
+and work with multiple DBDs, the DBD::driver is based on actual
+database. We get sqlite in oe-core, so put them in oe-core.
 
-It looks like https://bugzilla.yoctoproject.org/show_bug.cgi?id=4843
-which is tricky to replicate, maybe you should speak to Peter about
-your configuration so we can finally fix it.
+//Hongxu
+> Ross
 
+
+--------------050300060605000702070900
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 08/08/2013 06:43 PM, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com"
+      type="cite">
+      <pre wrap="">On 8 August 2013 10:01, Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">DBD::SQLite is a Perl DBI driver for SQLite, that includes the entire
+thing in the distribution. So in order to get a fast transaction capable
+RDBMS working for your perl project you simply have to install this
+module, and nothing else.
+</pre>
+      </blockquote>
+      <pre wrap="">
+What's the rationale for putting this into oe-core, verses meta-oe or
+even starting a meta-perl?
+</pre>
+    </blockquote>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    It seems DBI is a commonly-used perl database support package,<br>
+    and work with multiple DBDs, the DBD::driver is based on actual<br>
+    database. We get sqlite in oe-core, so put them in oe-core.<br>
+    <br>
+    //Hongxu<br>
+    <blockquote
+cite="mid:CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com"
+      type="cite">
+      <pre wrap="">
 Ross
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------050300060605000702070900--
