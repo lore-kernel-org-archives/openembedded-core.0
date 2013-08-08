@@ -1,45 +1,39 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F4426AF12
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
+	[209.85.212.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 545CB6B4BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 13:08:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by ra.se.axis.com (Postfix) with ESMTP id A8C1211F9F;
-	Thu,  8 Aug 2013 15:08:42 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
-Received: from ra.se.axis.com ([127.0.0.1])
-	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id D3FWYr8LdD3P; Thu,  8 Aug 2013 15:08:42 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by ra.se.axis.com (Postfix) with ESMTP id 39320349606;
-	Thu,  8 Aug 2013 15:08:40 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id E1E3B5C5;
-	Thu,  8 Aug 2013 15:08:39 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id D6C5B4FA;
-	Thu,  8 Aug 2013 15:08:39 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by thoth.se.axis.com (Postfix) with ESMTP id D51133404E;
-	Thu,  8 Aug 2013 15:08:39 +0200 (CEST)
-Received: from axis.com (10.92.17.1) by xmail2.se.axis.com (10.0.5.74) with
-	Microsoft SMTP Server (TLS) id 8.2.255.0; Thu, 8 Aug 2013 15:08:39 +0200
-Date: Thu, 8 Aug 2013 15:08:38 +0200
-From: Olof Johansson <olof.johansson@axis.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20130808130838.GC12638@axis.com>
+	Thu,  8 Aug 2013 13:13:56 +0000 (UTC)
+Received: by mail-vb0-f47.google.com with SMTP id h10so3136710vbh.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 08 Aug 2013 06:13:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=1DDyd+fhT93Jvv6rHQWXeUdxrSJW+gne4pzueRsxhlI=;
+	b=ovKXOA8MetWId9rtfj6lh3alvfcq1WNpMfUlxxFaSwLj9pnvAQsijX7RGsCVLfOjPJ
+	63teEcLY4s2yeGnCTMjfwJ06i2iYglZLwzOlZ9NOSzCQFvjVO+jsrl9Uaryf2uUJyJ3m
+	FrFgDBsi9UBmDTrYSKQ0Gar8X8PGKNMumczwwmMKnaldqLLIS9yC9QzS7eMDOYgUEZmF
+	C5qMIdkx5KzSGL+JzUxxQv6sOhj/sUvx7U+zDQ9lJj5zNaa/A419bovFczVD1xVNynG7
+	BgLO0bNr35QGkiZ/YBr+zOKALitt8oA5sh++VLn04T5/lQ8k0JYQOcooAOZQc05vYsYt
+	Jgqg==
+X-Gm-Message-State: ALoCoQnG2eYypSTii5jKcX6F3KuDI12vMV2Drl1oLMpoQFGuNN3+5uxONIFGBHg8PIkIj7M4zHyd
+X-Received: by 10.220.145.4 with SMTP id b4mr3917015vcv.94.1375967636355; Thu,
+	08 Aug 2013 06:13:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Thu, 8 Aug 2013 06:13:36 -0700 (PDT)
+In-Reply-To: <20130808130838.GC12638@axis.com>
 References: <cover.1375952210.git.hongxu.jia@windriver.com>
 	<9facc9593dc27237a07ebd620b9d7c9d9541f20a.1375952210.git.hongxu.jia@windriver.com>
 	<CAJTo0LZgSV7RRPE6qjNp9fkRD9abiWoW6teRdYq2zBXEWdcmew@mail.gmail.com>
 	<52037BBF.1030600@windriver.com>
 	<CAJTo0LbxpTyZCn7wCmynEPT9n5o=iSbZcn7HMooe=mewV_fE3w@mail.gmail.com>
-	<5203828E.2040705@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <5203828E.2040705@windriver.com>
-Thread-Topic: [OE-core] [PATCH 2/2] libdbm-sqlite-perl: add version 1.40
-Accept-Language: en-US, sv-SE
-acceptlanguage: en-US, sv-SE
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	<5203828E.2040705@windriver.com> <20130808130838.GC12638@axis.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 8 Aug 2013 14:13:36 +0100
+Message-ID: <CAJTo0LbWcFaLyvDOrdrFOm7ovs2CnfJc-OeENkid=b_Z31hLbg@mail.gmail.com>
+To: Olof Johansson <olof.johansson@axis.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] libdbm-sqlite-perl: add version 1.40
@@ -55,26 +49,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 13:08:43 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-Content-Language: en-US
+X-List-Received-Date: Thu, 08 Aug 2013 13:13:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 13-08-08 13:35 +0200, Hongxu Jia wrote:
-> Great, how about create a new layer named 'meta-perl', we sould do:
-...
-> - and than move other perl libraries already existed in oe-core
->    to that layer, it includes:
->    * meta/recipes-extended/perl/
->    * meta/recipes-devtools/perl/
+On 8 August 2013 14:08, Olof Johansson <olof.johansson@axis.com> wrote:
+> I assume perl module recipes already in oecore are there for a
+> reason, and we should perhaps avoid moving them, and just let
+> meta-perl depend on oecore. Right?
 
-I assume perl module recipes already in oecore are there for a
-reason, and we should perhaps avoid moving them, and just let
-meta-perl depend on oecore. Right?
+Yeah.  It's worth reviewing them, but generally perl modules in
+oe-core are there before other parts of oe-core depend on them.
 
-But I like the idea of a meta-perl for my personal projects...
-Would be happy to help!
-
--- 
-olofjn
+Ross
 
