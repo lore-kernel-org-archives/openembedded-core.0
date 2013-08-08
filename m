@@ -1,40 +1,43 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A5CC16B0D0
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 22:36:21 +0000 (UTC)
-Received: by mail-ea0-f172.google.com with SMTP id r16so1737899ead.31
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 08 Aug 2013 15:36:21 -0700 (PDT)
+Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 8533D6B0D0;
+	Thu,  8 Aug 2013 22:53:33 +0000 (UTC)
+Received: by mail-ea0-f182.google.com with SMTP id o10so1737062eaj.13
+	for <multiple recipients>; Thu, 08 Aug 2013 15:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
+	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=bY8Qb1UYsKXVLgsILm6AkLFMxz8U4TdmCMrMVQyd3pE=;
-	b=e4LKxzB7XShMIxSRPcCqFw6eUX/Mnpw8FDbyapJ7LHm2zNc3acMoNAdZkUi6gG80xT
-	HGpzLk+gdBDUTdjSyP06L087aqtygY2fcfnSXZlPBX8T1595mDhv/zTocfi+ln2BL44O
-	GZIwYPsbU24LA8+9wOvi8l2H7AbhC75ljcCY4JpJDehFUaMNN8ZBLzXDlIcHab6RdcFo
-	esU41AV++XpAT/9MctHzdgdvM8/aN58uoeF5pWlnL6LZh3UJNxoL0gB2BYZS0mUGWndR
-	PPCvvUaBctShS9WBmv2KdDX3t9PiBpFhBd6u0BRwwIzIMSxLFfKB7BqxJkS2QyV+HqQh
-	IN9Q==
-X-Received: by 10.14.102.72 with SMTP id c48mr10429452eeg.52.1376001381851;
-	Thu, 08 Aug 2013 15:36:21 -0700 (PDT)
+	bh=35YvWtAN5SLrCAQjr1ByBglMxIreoH6k8+afM6TdibY=;
+	b=lYLWN+4p8jK34ltLnagvyfxWghX4Tj1e1d3QwcqHin1noecWoyaZFpHZ3KSvaYh8z7
+	zbsw1GjRsd/wvBUcSt1ncUqgNh0pLoJP1IM4KP2xZr5spQFBq1jvT/qEgxv0TSX5/9jF
+	qqEW1ksWL016nQksi+rIw5e8q9V3BxwMlTeAPIOWOKmx6oiq+k54BdeIq18PaQWTQWNu
+	eWesj2sHJ5WZRFmz8MVrcB6zxyCW2JvcbV5oyqoTMDn20+HoAInKQphazW2sDUlidsjL
+	tro4fUam3rknH0EGgFge99E6F+1Jrf9L12QmBEJ1ZF7RzsLcsPrKITn8pVjX3GXbjCUI
+	HWKQ==
+X-Received: by 10.15.33.132 with SMTP id c4mr7164861eev.2.1376002413576;
+	Thu, 08 Aug 2013 15:53:33 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	bq1sm23222207eeb.9.2013.08.08.15.36.20 for <multiple recipients>
+	k7sm23323754eeg.13.2013.08.08.15.53.32 for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 08 Aug 2013 15:36:21 -0700 (PDT)
-Date: Fri, 9 Aug 2013 00:37:07 +0200
+	Thu, 08 Aug 2013 15:53:33 -0700 (PDT)
+Date: Fri, 9 Aug 2013 00:54:19 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: nitin.a.kamble@intel.com
-Message-ID: <20130808223707.GA17945@jama>
-References: <cover.1375996888.git.nitin.a.kamble@intel.com>
-	<ebd74052582cd3def1b5a4c3d609cfc6b2613933.1375996888.git.nitin.a.kamble@intel.com>
+To: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20130808225419.GB17945@jama>
+References: <20121213174202.GE3356@jama.jama.net>
+	<20130415141253.GC10628@jama.dyndns-home.com>
+	<20130427105400.GB3199@jama> <20130502151833.GC3206@jama>
+	<20130516075215.GA24809@jama.dyndns-home.com>
+	<20130520130635.GA32431@jama> <20130603151008.GC3279@jama>
+	<20130611160434.GI3233@jama> <20130622181656.GK14021@jama>
+	<20130725162341.GA3280@jama>
 MIME-Version: 1.0
-In-Reply-To: <ebd74052582cd3def1b5a4c3d609cfc6b2613933.1375996888.git.nitin.a.kamble@intel.com>
+In-Reply-To: <20130725162341.GA3280@jama>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] gst-meta-base: bring in the v4l2 related gst plugin
+Subject: Re: State of bitbake world
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,71 +50,794 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 22:36:22 -0000
-X-Groupsio-MsgNum: 43131
+X-List-Received-Date: Thu, 08 Aug 2013 22:53:34 -0000
+X-Groupsio-MsgNum: 43132
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="17pEHd4RhPHOinZp"
+	protocol="application/pgp-signature"; boundary="K8nIJk4ghYZn606h"
 Content-Disposition: inline
 
---17pEHd4RhPHOinZp
+--K8nIJk4ghYZn606h
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 08, 2013 at 09:34:29PM +0000, nitin.a.kamble@intel.com wrote:
-> From: Nitin A Kamble <nitin.a.kamble@intel.com>
+On Thu, Jul 25, 2013 at 06:23:41PM +0200, Martin Jansa wrote:
+> On Sat, Jun 22, 2013 at 08:16:56PM +0200, Martin Jansa wrote:
+> > On Tue, Jun 11, 2013 at 06:04:34PM +0200, Martin Jansa wrote:
+> > Last week hero Khem, sent many world fixes, but it seems like some fixe=
+s weren't enough
+> > (tk, packagekit are still failing - I hope I haven't missed some other =
+vN)
+> > qemuarm: Summary: 11 tasks failed:
+> > http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world=
+=2E20130620_105211.log/
+> >=20
+> > qemux86: Summary: 14 tasks failed:
+> > http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world=
+=2E20130621_023143.log/
+> >=20
+> > qemux86_64: Summary: 15 tasks failed:
+> > http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world=
+=2E20130621_181258.log/
+> >=20
+> > common (9):
+> >   openembedded-core/meta/recipes-qt/qt4/qt4-embedded_4.8.4.bb, do_compi=
+le
+> >   openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb, =
+do_package
+> >   meta-openembedded/meta-oe/recipes-connectivity/samba/samba_3.6.8.bb, =
+do_package
+> >   meta-openembedded/meta-oe/recipes-qt/qcanobserver/qcanobserver_svn.bb=
+, do_compile
+> >   meta-openembedded/meta-oe/recipes-devtools/packagekit/packagekit_0.5.=
+6.bb, do_compile
+> >   meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_comp=
+ile
+> >   meta-openembedded/meta-gnome/recipes-gnome/eds/evolution-data-server_=
+git.bb, do_compile
+> >   meta-openembedded/meta-gnome/recipes-gnome/gcalctool/gcalctool_5.32.0=
+=2Ebb, do_compile
+> >   meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.b=
+b, do_compile
+> >=20
+> > qemuarm (2):
+> >   openembedded-core/meta/recipes-devtools/qemu/qemu_1.5.0.bb, do_compile
+> >   meta-openembedded/meta-oe/recipes-connectivity/gnuradio/gnuradio_git.=
+bb, do_compile
+> >=20
+> > qemux86* common (4):
+> >   openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_=
+2.21.9.bb, do_compile
+> >   openembedded-core/meta/recipes-bsp/grub/grub_2.00.bb, do_package
+> >   meta-openembedded/meta-oe/recipes-support/ode/ode_0.9.bb, do_configure
+> >   meta-openembedded/meta-oe/recipes-support/emacs/emacs_23.4.bb, do_com=
+pile
+> >=20
+> > qemux86 (1):
+> >   meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-geo=
+de_2.11.14.bb, do_compile
+> >=20
+> > qemux86-64 (2):=20
+> >   meta-browser/recipes-mozilla/firefox/firefox_10.0.11esr.bb, do_compile
+> >   meta-openembedded/meta-oe/recipes-connectivity/libimobiledevice/libim=
+obiledevice_1.1.4.bb, do_configure
 >=20
-> If the v4l2 machine feature is enabled, then the v4l2 gstreamer plugin
-> is also pulled in the gst-meta-base packages.
+> This time only qemuarm build:
+> http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.2=
+0130724_125425.log/
 >=20
-> Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Summary: 8 tasks failed
+>   openembedded-core/meta/recipes-core/base-files/base-files_3.0.14.bb, do=
+_package
+>   meta-openembedded/meta-gnome/recipes-gnome/eds/evolution-data-server_gi=
+t.bb, do_compile
+>   meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_com=
+pile
+>   meta-openembedded/meta-oe/recipes-qt/qcanobserver/qcanobserver_svn.bb, =
+do_compile
+>   meta-openembedded/meta-oe/recipes-qt/qt-creator/qt-creator_2.8.0.bb, do=
+_compile
+>   meta-openembedded/meta-gnome/recipes-gnome/gcalctool/gcalctool_5.32.0.b=
+b, do_compile
+>   meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_compile
+>   meta-openembedded/meta-multimedia/recipes-mediacentre/xbmc/xbmc_git.bb,=
+ do_compile
+
+Again just qemuarm build, but together with test-dependencies.sh run
+
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30806_055749.log/
+
+Summary: 7 tasks failed:
+  meta-qt5/recipes-qt/qt5/qtdeclarative_5.0.2.bb, do_configure
+  meta-openembedded/meta-oe/recipes-multimedia/mikmod/libmikmod_3.1.12.bb, =
+do_compile
+  meta-openembedded/meta-oe/recipes-navigation/monav/monav_0.3.bb, do_compi=
+le
+  meta-openembedded/meta-oe/recipes-qt/qt-creator/qt-creator_2.8.0.bb, do_c=
+ompile
+  meta-openembedded/meta-oe/recipes-qt/qcanobserver/qcanobserver_svn.bb, do=
+_compile
+  meta-openembedded/meta-networking/recipes-protocols/quagga/quagga_0.99.21=
+=2Ebb, do_compile
+  meta-openembedded/meta-oe/recipes-devtools/tcltk/tk_8.6.0.bb, do_compile
+
+Most recipes failing with minimal dependencies are fixed in my
+jansa/test branches:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30806_055749.log/min_failed/failed/
+
+But many packages still have autodetected deps:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30806_055749.log/dependency-changes.warn
+
+Some recipes create few packages only when dependencies available:
+http://logs.nslu2-linux.org/buildlogs/oe/oe-shr-core-branches/log.world.201=
+30806_055749.log/dependency-changes.error
+
+Next run shouldn't take long, because I'll be building only recipes
+where issues were found.
+
 >=20
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb b/me=
-ta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> index 210da37..c1139f4 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> @@ -35,7 +35,9 @@ RDEPENDS_gst-meta-base =3D "\
->      gst-plugins-base-videoscale \
->      gst-plugins-base-ffmpegcolorspace \
->      gst-plugins-good-autodetect \
-> -    gst-plugins-good-souphttpsrc"
-> +    gst-plugins-good-souphttpsrc \
-> +    gst-plugins-base-videotestsrc \
-> +    ${@base_contains('MACHINE_FEATURES', 'v4l2', 'gst-plugins-good-video=
-4linux2', '', d)}"
-
-I was expecting to see PACKAGECONFIG somewhere, is v4l2 autodetected?
-
-Why not keep v4l2-utils in meta-multimedia?
-
-> =20
->  RRECOMMENDS_gst-meta-x11-base =3D "\
->      gst-plugins-base-ximagesink \
+> 182 Warnings about multiple shlibs providers:
+> WARNING: gtk-immodule-am-et-2.24.18 is already registered as shlib provid=
+er for im-am-et.so, ignoring gtk3-immodule-am-et-3.8.2 trying to register t=
+he same
+> WARNING: gtk-immodule-cedilla-2.24.18 is already registered as shlib prov=
+ider for im-cedilla.so, ignoring gtk3-immodule-cedilla-3.8.2 trying to regi=
+ster the same
+> WARNING: gtk-immodule-cyrillic-translit-2.24.18 is already registered as =
+shlib provider for im-cyrillic-translit.so, ignoring gtk3-immodule-cyrillic=
+-translit-3.8.2 trying to register the same
+> WARNING: gtk-immodule-inuktitut-2.24.18 is already registered as shlib pr=
+ovider for im-inuktitut.so, ignoring gtk3-immodule-inuktitut-3.8.2 trying t=
+o register the same
+> WARNING: gtk-immodule-ipa-2.24.18 is already registered as shlib provider=
+ for im-ipa.so, ignoring gtk3-immodule-ipa-3.8.2 trying to register the same
+> WARNING: gtk-immodule-multipress-2.24.18 is already registered as shlib p=
+rovider for im-multipress.so, ignoring gtk3-immodule-multipress-3.8.2 tryin=
+g to register the same
+> WARNING: gtk-immodule-thai-2.24.18 is already registered as shlib provide=
+r for im-thai.so, ignoring gtk3-immodule-thai-3.8.2 trying to register the =
+same
+> WARNING: gtk-immodule-ti-er-2.24.18 is already registered as shlib provid=
+er for im-ti-er.so, ignoring gtk3-immodule-ti-er-3.8.2 trying to register t=
+he same
+> WARNING: gtk-immodule-ti-et-2.24.18 is already registered as shlib provid=
+er for im-ti-et.so, ignoring gtk3-immodule-ti-et-3.8.2 trying to register t=
+he same
+> WARNING: gtk-immodule-viqr-2.24.18 is already registered as shlib provide=
+r for im-viqr.so, ignoring gtk3-immodule-viqr-3.8.2 trying to register the =
+same
+> WARNING: gtk-immodule-xim-2.24.18 is already registered as shlib provider=
+ for im-xim.so, ignoring gtk3-immodule-xim-3.8.2 trying to register the same
+> WARNING: gtk-printbackend-file-2.24.18 is already registered as shlib pro=
+vider for libprintbackend-file.so, ignoring gtk3-printbackend-file-3.8.2 tr=
+ying to register the same
+> WARNING: gtk-printbackend-lpr-2.24.18 is already registered as shlib prov=
+ider for libprintbackend-lpr.so, ignoring gtk3-printbackend-lpr-3.8.2 tryin=
+g to register the same
+> WARNING: gstreamer-0.10.36 is already registered as shlib provider for li=
+bgstcoreelements.so, ignoring gstreamer1.0-1.0.7 trying to register the same
+> WARNING: xfce4-panel-plugin-showdesktop-4.10.1 is already registered as s=
+hlib provider for libshowdesktop.so, ignoring matchbox-panel-2-2.0+git3+26a=
+3a67b41 trying to register the same
+> WARNING: xfce4-panel-plugin-systray-4.10.1 is already registered as shlib=
+ provider for libsystray.so, ignoring matchbox-panel-2-2.0+git3+26a3a67b41 =
+trying to register the same
+> WARNING: xfce4-panel-plugin-launcher-4.10.1 is already registered as shli=
+b provider for liblauncher.so, ignoring matchbox-panel-2-2.0+git3+26a3a67b4=
+1 trying to register the same
+> WARNING: xfce4-panel-plugin-clock-4.10.1 is already registered as shlib p=
+rovider for libclock.so, ignoring matchbox-panel-2-2.0+git3+26a3a67b41 tryi=
+ng to register the same
+> WARNING: gst-plugins-base-adder-0.10.36 is already registered as shlib pr=
+ovider for libgstadder.so, ignoring gstreamer1.0-plugins-base-adder-1.0.7 t=
+rying to register the same
+> WARNING: gst-plugins-base-alsa-0.10.36 is already registered as shlib pro=
+vider for libgstalsa.so, ignoring gstreamer1.0-plugins-base-alsa-1.0.7 tryi=
+ng to register the same
+> WARNING: gst-plugins-base-app-0.10.36 is already registered as shlib prov=
+ider for libgstapp.so, ignoring gstreamer1.0-plugins-base-app-1.0.7 trying =
+to register the same
+> WARNING: gst-plugins-base-audioconvert-0.10.36 is already registered as s=
+hlib provider for libgstaudioconvert.so, ignoring gstreamer1.0-plugins-base=
+-audioconvert-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-audiorate-0.10.36 is already registered as shli=
+b provider for libgstaudiorate.so, ignoring gstreamer1.0-plugins-base-audio=
+rate-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-audioresample-0.10.36 is already registered as =
+shlib provider for libgstaudioresample.so, ignoring gstreamer1.0-plugins-ba=
+se-audioresample-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-audiotestsrc-0.10.36 is already registered as s=
+hlib provider for libgstaudiotestsrc.so, ignoring gstreamer1.0-plugins-base=
+-audiotestsrc-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-encodebin-0.10.36 is already registered as shli=
+b provider for libgstencodebin.so, ignoring gstreamer1.0-plugins-base-encod=
+ebin-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-gio-0.10.36 is already registered as shlib prov=
+ider for libgstgio.so, ignoring gstreamer1.0-plugins-base-gio-1.0.7 trying =
+to register the same
+> WARNING: gst-plugins-base-ivorbisdec-0.10.36 is already registered as shl=
+ib provider for libgstivorbisdec.so, ignoring gstreamer1.0-plugins-base-ivo=
+rbisdec-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-ogg-0.10.36 is already registered as shlib prov=
+ider for libgstogg.so, ignoring gstreamer1.0-plugins-base-ogg-1.0.7 trying =
+to register the same
+> WARNING: gst-plugins-base-subparse-0.10.36 is already registered as shlib=
+ provider for libgstsubparse.so, ignoring gstreamer1.0-plugins-base-subpars=
+e-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-tcp-0.10.36 is already registered as shlib prov=
+ider for libgsttcp.so, ignoring gstreamer1.0-plugins-base-tcp-1.0.7 trying =
+to register the same
+> WARNING: gst-plugins-base-theora-0.10.36 is already registered as shlib p=
+rovider for libgsttheora.so, ignoring gstreamer1.0-plugins-base-theora-1.0.=
+7 trying to register the same
+> WARNING: gst-plugins-base-typefindfunctions-0.10.36 is already registered=
+ as shlib provider for libgsttypefindfunctions.so, ignoring gstreamer1.0-pl=
+ugins-base-typefindfunctions-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-videorate-0.10.36 is already registered as shli=
+b provider for libgstvideorate.so, ignoring gstreamer1.0-plugins-base-video=
+rate-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-videoscale-0.10.36 is already registered as shl=
+ib provider for libgstvideoscale.so, ignoring gstreamer1.0-plugins-base-vid=
+eoscale-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-videotestsrc-0.10.36 is already registered as s=
+hlib provider for libgstvideotestsrc.so, ignoring gstreamer1.0-plugins-base=
+-videotestsrc-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-volume-0.10.36 is already registered as shlib p=
+rovider for libgstvolume.so, ignoring gstreamer1.0-plugins-base-volume-1.0.=
+7 trying to register the same
+> WARNING: gst-plugins-base-vorbis-0.10.36 is already registered as shlib p=
+rovider for libgstvorbis.so, ignoring gstreamer1.0-plugins-base-vorbis-1.0.=
+7 trying to register the same
+> WARNING: gst-plugins-base-ximagesink-0.10.36 is already registered as shl=
+ib provider for libgstximagesink.so, ignoring gstreamer1.0-plugins-base-xim=
+agesink-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-xvimagesink-0.10.36 is already registered as sh=
+lib provider for libgstxvimagesink.so, ignoring gstreamer1.0-plugins-base-x=
+vimagesink-1.0.7 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibnss3.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibfreebl3.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibnssckbi.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibsmime3.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibnssutil3.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibnssdbm3.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibssl3.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: firefox-10.0.11esr is already registered as shlib provider for l=
+ibsoftokn3.so, ignoring nss-3.13.3 trying to register the same
+> WARNING: imlib2-loaders-1.4.5+svnr82070 is already registered as shlib pr=
+ovider for png.so, ignoring lightmediascanner-0.4.4 trying to register the =
+same
+> WARNING: imlib2-loaders-1.4.5+svnr82070 is already registered as shlib pr=
+ovider for id3.so, ignoring lightmediascanner-0.4.4 trying to register the =
+same
+> WARNING: imlib2-loaders-1.4.5+svnr82070 is already registered as shlib pr=
+ovider for jpeg.so, ignoring lightmediascanner-0.4.4 trying to register the=
+ same
+> WARNING: python-gst-0.10.22 is already registered as shlib provider for a=
+udio.so, ignoring fsodeviced-0.12.0 trying to register the same
+> WARNING: fsoaudiod-0.12.0 is already registered as shlib provider for rou=
+ter_alsa.so, ignoring fsodeviced-0.12.0 trying to register the same
+> WARNING: fsousaged-0.12.0 is already registered as shlib provider for low=
+level_openmoko.so, ignoring fsogsmd-module-lowlevel-openmoko-0.12.0 trying =
+to register the same
+> WARNING: fsousaged-0.12.0 is already registered as shlib provider for dbu=
+s_service.so, ignoring fsogsmd-0.12.0 trying to register the same
+> WARNING: gtk-xfce-engine-3.0.1 is already registered as shlib provider fo=
+r libxfce.so, ignoring gtk3-xfce-engine-3.0.1 trying to register the same
+> WARNING: xfce4-session-4.10.1 is already registered as shlib provider for=
+ libsimple.so, ignoring libpurple-protocol-simple-2.7.9 trying to register =
+the same
+> WARNING: apache2-2.4.4 is already registered as shlib provider for mod_al=
+ias.so, ignoring lighttpd-module-alias-1.4.32 trying to register the same
+> WARNING: apache2-2.4.4 is already registered as shlib provider for mod_pr=
+oxy.so, ignoring lighttpd-module-proxy-1.4.32 trying to register the same
+> WARNING: apache2-2.4.4 is already registered as shlib provider for mod_re=
+write.so, ignoring lighttpd-module-rewrite-1.4.32 trying to register the sa=
+me
+> WARNING: apache2-2.4.4 is already registered as shlib provider for mod_st=
+atus.so, ignoring lighttpd-module-status-1.4.32 trying to register the same
+> WARNING: apache2-2.4.4 is already registered as shlib provider for mod_us=
+erdir.so, ignoring lighttpd-module-userdir-1.4.32 trying to register the sa=
+me
+> WARNING: matchbox-keyboard-applet-0.0+git1+b38f24036c is already register=
+ed as shlib provider for libkeyboard.so, ignoring gnome-settings-daemon-2.3=
+2.1 trying to register the same
+> WARNING: gnome-vfs-plugin-http-2.24.4 is already registered as shlib prov=
+ider for libhttp.so, ignoring qmmp-plugin-transports-http-0.6.6 trying to r=
+egister the same
+> WARNING: imlib2-loaders-1.4.5+svnr82070 is already registered as shlib pr=
+ovider for bmp.so, ignoring abiword-plugin-bmp-2.8.6 trying to register the=
+ same
+> WARNING: matchbox-panel-2-2.0+git3+26a3a67b41 is already registered as sh=
+lib provider for libbattery.so, ignoring xfce4-battery-plugin-1.0.5 trying =
+to register the same
+> WARNING: libgphoto2-camlibs-2.4.11 is already registered as shlib provide=
+r for disk.so, ignoring libfreerdp-plugin-disk-gitr1+f311acaffb trying to r=
+egister the same
+> WARNING: systemd-204 is already registered as shlib provider for libnss_m=
+yhostname.so.2, ignoring nss-myhostname-0.3 trying to register the same
+> WARNING: gst-plugins-bad-adpcmdec-0.10.23 is already registered as shlib =
+provider for libgstadpcmdec.so, ignoring gstreamer1.0-plugins-bad-adpcmdec-=
+1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-adpcmenc-0.10.23 is already registered as shlib =
+provider for libgstadpcmenc.so, ignoring gstreamer1.0-plugins-bad-adpcmenc-=
+1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-asfmux-0.10.23 is already registered as shlib pr=
+ovider for libgstasfmux.so, ignoring gstreamer1.0-plugins-bad-asfmux-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-audiovisualizers-0.10.23 is already registered a=
+s shlib provider for libgstaudiovisualizers.so, ignoring gstreamer1.0-plugi=
+ns-bad-audiovisualizers-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-autoconvert-0.10.23 is already registered as shl=
+ib provider for libgstautoconvert.so, ignoring gstreamer1.0-plugins-bad-aut=
+oconvert-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-bayer-0.10.23 is already registered as shlib pro=
+vider for libgstbayer.so, ignoring gstreamer1.0-plugins-bad-bayer-1.0.7 try=
+ing to register the same
+> WARNING: gst-plugins-bad-bz2-0.10.23 is already registered as shlib provi=
+der for libgstbz2.so, ignoring gstreamer1.0-plugins-bad-bz2-1.0.7 trying to=
+ register the same
+> WARNING: gst-plugins-bad-camerabin2-0.10.23 is already registered as shli=
+b provider for libgstcamerabin2.so, ignoring gstreamer1.0-plugins-bad-camer=
+abin2-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-coloreffects-0.10.23 is already registered as sh=
+lib provider for libgstcoloreffects.so, ignoring gstreamer1.0-plugins-bad-c=
+oloreffects-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-curl-0.10.23 is already registered as shlib prov=
+ider for libgstcurl.so, ignoring gstreamer1.0-plugins-bad-curl-1.0.7 trying=
+ to register the same
+> WARNING: gst-plugins-bad-dataurisrc-0.10.23 is already registered as shli=
+b provider for libgstdataurisrc.so, ignoring gstreamer1.0-plugins-bad-datau=
+risrc-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-debugutilsbad-0.10.23 is already registered as s=
+hlib provider for libgstdebugutilsbad.so, ignoring gstreamer1.0-plugins-bad=
+-debugutilsbad-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-dtmf-0.10.23 is already registered as shlib prov=
+ider for libgstdtmf.so, ignoring gstreamer1.0-plugins-bad-dtmf-1.0.7 trying=
+ to register the same
+> WARNING: gst-plugins-bad-dvb-0.10.23 is already registered as shlib provi=
+der for libgstdvb.so, ignoring gstreamer1.0-plugins-bad-dvb-1.0.7 trying to=
+ register the same
+> WARNING: gst-plugins-bad-dvbsuboverlay-0.10.23 is already registered as s=
+hlib provider for libgstdvbsuboverlay.so, ignoring gstreamer1.0-plugins-bad=
+-dvbsuboverlay-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-dvdspu-0.10.23 is already registered as shlib pr=
+ovider for libgstdvdspu.so, ignoring gstreamer1.0-plugins-bad-dvdspu-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-festival-0.10.23 is already registered as shlib =
+provider for libgstfestival.so, ignoring gstreamer1.0-plugins-bad-festival-=
+1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-fieldanalysis-0.10.23 is already registered as s=
+hlib provider for libgstfieldanalysis.so, ignoring gstreamer1.0-plugins-bad=
+-fieldanalysis-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-fragmented-0.10.23 is already registered as shli=
+b provider for libgstfragmented.so, ignoring gstreamer1.0-plugins-bad-fragm=
+ented-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-frei0r-0.10.23 is already registered as shlib pr=
+ovider for libgstfrei0r.so, ignoring gstreamer1.0-plugins-bad-frei0r-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-gaudieffects-0.10.23 is already registered as sh=
+lib provider for libgstgaudieffects.so, ignoring gstreamer1.0-plugins-bad-g=
+audieffects-1.0.7 trying to register the same
+> WARNING: gst-plugins-base-gdp-0.10.36 is already registered as shlib prov=
+ider for libgstgdp.so, ignoring gstreamer1.0-plugins-bad-gdp-1.0.7 trying t=
+o register the same
+> WARNING: gst-plugins-bad-geometrictransform-0.10.23 is already registered=
+ as shlib provider for libgstgeometrictransform.so, ignoring gstreamer1.0-p=
+lugins-bad-geometrictransform-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-id3tag-0.10.23 is already registered as shlib pr=
+ovider for libgstid3tag.so, ignoring gstreamer1.0-plugins-bad-id3tag-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-inter-0.10.23 is already registered as shlib pro=
+vider for libgstinter.so, ignoring gstreamer1.0-plugins-bad-inter-1.0.7 try=
+ing to register the same
+> WARNING: gst-plugins-bad-interlace-0.10.23 is already registered as shlib=
+ provider for libgstinterlace.so, ignoring gstreamer1.0-plugins-bad-interla=
+ce-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-jpegformat-0.10.23 is already registered as shli=
+b provider for libgstjpegformat.so, ignoring gstreamer1.0-plugins-bad-jpegf=
+ormat-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-liveadder-0.10.23 is already registered as shlib=
+ provider for libgstliveadder.so, ignoring gstreamer1.0-plugins-bad-liveadd=
+er-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-mpegpsmux-0.10.23 is already registered as shlib=
+ provider for libgstmpegpsmux.so, ignoring gstreamer1.0-plugins-bad-mpegpsm=
+ux-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-mpegtsdemux-0.10.23 is already registered as shl=
+ib provider for libgstmpegtsdemux.so, ignoring gstreamer1.0-plugins-bad-mpe=
+gtsdemux-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-mpegtsmux-0.10.23 is already registered as shlib=
+ provider for libgstmpegtsmux.so, ignoring gstreamer1.0-plugins-bad-mpegtsm=
+ux-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-pcapparse-0.10.23 is already registered as shlib=
+ provider for libgstpcapparse.so, ignoring gstreamer1.0-plugins-bad-pcappar=
+se-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-pnm-0.10.23 is already registered as shlib provi=
+der for libgstpnm.so, ignoring gstreamer1.0-plugins-bad-pnm-1.0.7 trying to=
+ register the same
+> WARNING: gst-plugins-bad-rawparse-0.10.23 is already registered as shlib =
+provider for libgstrawparse.so, ignoring gstreamer1.0-plugins-bad-rawparse-=
+1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-removesilence-0.10.23 is already registered as s=
+hlib provider for libgstremovesilence.so, ignoring gstreamer1.0-plugins-bad=
+-removesilence-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-rtpmux-0.10.23 is already registered as shlib pr=
+ovider for libgstrtpmux.so, ignoring gstreamer1.0-plugins-bad-rtpmux-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-rtpvp8-0.10.23 is already registered as shlib pr=
+ovider for libgstrtpvp8.so, ignoring gstreamer1.0-plugins-bad-rtpvp8-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-scaletempoplugin-0.10.23 is already registered a=
+s shlib provider for libgstscaletempoplugin.so, ignoring gstreamer1.0-plugi=
+ns-bad-scaletempoplugin-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-sdpelem-0.10.23 is already registered as shlib p=
+rovider for libgstsdpelem.so, ignoring gstreamer1.0-plugins-bad-sdpelem-1.0=
+=2E7 trying to register the same
+> WARNING: gst-plugins-bad-segmentclip-0.10.23 is already registered as shl=
+ib provider for libgstsegmentclip.so, ignoring gstreamer1.0-plugins-bad-seg=
+mentclip-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-shm-0.10.23 is already registered as shlib provi=
+der for libgstshm.so, ignoring gstreamer1.0-plugins-bad-shm-1.0.7 trying to=
+ register the same
+> WARNING: gst-plugins-bad-siren-0.10.23 is already registered as shlib pro=
+vider for libgstsiren.so, ignoring gstreamer1.0-plugins-bad-siren-1.0.7 try=
+ing to register the same
+> WARNING: gst-plugins-bad-smooth-0.10.23 is already registered as shlib pr=
+ovider for libgstsmooth.so, ignoring gstreamer1.0-plugins-bad-smooth-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-speed-0.10.23 is already registered as shlib pro=
+vider for libgstspeed.so, ignoring gstreamer1.0-plugins-bad-speed-1.0.7 try=
+ing to register the same
+> WARNING: gst-plugins-bad-subenc-0.10.23 is already registered as shlib pr=
+ovider for libgstsubenc.so, ignoring gstreamer1.0-plugins-bad-subenc-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-bad-videoparsersbad-0.10.23 is already registered as=
+ shlib provider for libgstvideoparsersbad.so, ignoring gstreamer1.0-plugins=
+-bad-videoparsersbad-1.0.7 trying to register the same
+> WARNING: gst-plugins-bad-y4mdec-0.10.23 is already registered as shlib pr=
+ovider for libgsty4mdec.so, ignoring gstreamer1.0-plugins-bad-y4mdec-1.0.7 =
+trying to register the same
+> WARNING: gst-plugins-good-alaw-0.10.31 is already registered as shlib pro=
+vider for libgstalaw.so, ignoring gstreamer1.0-plugins-good-alaw-1.0.7 tryi=
+ng to register the same
+> WARNING: gst-plugins-good-alpha-0.10.31 is already registered as shlib pr=
+ovider for libgstalpha.so, ignoring gstreamer1.0-plugins-good-alpha-1.0.7 t=
+rying to register the same
+> WARNING: gst-plugins-good-alphacolor-0.10.31 is already registered as shl=
+ib provider for libgstalphacolor.so, ignoring gstreamer1.0-plugins-good-alp=
+hacolor-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-apetag-0.10.31 is already registered as shlib p=
+rovider for libgstapetag.so, ignoring gstreamer1.0-plugins-good-apetag-10.3=
+1 is already registered as shlib provider for libgstavi.so, ignoring gstrea=
+mer1.0-plugins-good-avi-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-cairo-0.10.31 is already registered as shlib pr=
+ovider for libgstcairo.so, ignoring gstreamer1.0-plugins-good-cairo-1.0.7 t=
+rying to register the same
+> WARNING: gst-plugins-good-cutter-0.10.31 is already registered as shlib p=
+rovider for libgstcutter.so, ignoring gstreamer1.0-plugins-good-cutter-1.0.=
+7 trying to register the same
+> WARNING: gst-plugins-good-debug-0.10.31 is already registered as shlib pr=
+ovider for libgstdebug.so, ignoring gstreamer1.0-plugins-good-debug-1.0.7 t=
+rying to register the same
+> WARNING: gst-plugins-good-deinterlace-0.10.31 is already registered as sh=
+lib provider for libgstdeinterlace.so, ignoring gstreamer1.0-plugins-good-d=
+einterlace-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-effectv-0.10.31 is already registered as shlib =
+provider for libgsteffectv.so, ignoring gstreamer1.0-plugins-good-effectv-1=
+=2E0.7 trying to register the same
+> WARNING: gst-plugins-good-equalizer-0.10.31 is already registered as shli=
+b provider for libgstequalizer.so, ignoring gstreamer1.0-plugins-good-equal=
+izer-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-flac-0.10.31 is already registered as shlib pro=
+vider for libgstflac.so, ignoring gstreamer1.0-plugins-good-flac-1.0.7 tryi=
+ng to register the same
+> WARNING: gst-plugins-good-flv-0.10.31 is already registered as shlib prov=
+ider for libgstflv.so, ignoring gstreamer1.0-plugins-good-flv-1.0.7 trying =
+to register the same
+> WARNING: gst-plugins-good-flxdec-0.10.31 is already registered as shlib p=
+rovider for libgstflxdec.so, ignoring gstreamer1.0-plugins-good-flxdec-1.0.=
+7 trying to register the same
+> WARNING: gst-plugins-good-goom-0.10.31 is already registered as shlib pro=
+vider for libgstgoom.so, ignoring gstreamer1.0-plugins-good-goom-1.0.7 tryi=
+ng to register the same
+> WARNING: gst-plugins-good-goom2k1-0.10.31 is already registered as shlib =
+provider for libgstgoom2k1.so, ignoring gstreamer1.0-plugins-good-goom2k1-1=
+=2E0.7 trying to register the same
+> WARNING: gst-plugins-good-icydemux-0.10.31 is already registered as shlib=
+ provider for libgsticydemux.so, ignoring gstreamer1.0-plugins-good-icydemu=
+x-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-id3demux-0.10.31 is already registered as shlib=
+ provider for libgstid3demux.so, ignoring gstreamer1.0-plugins-good-id3demu=
+x-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-imagefreeze-0.10.31 is already registered as sh=
+lib provider for libgstimagefreeze.so, ignoring gstreamer1.0-plugins-good-i=
+magefreeze-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-interleave-0.10.31 is already registered as shl=
+ib provider for libgstinterleave.so, ignoring gstreamer1.0-plugins-good-int=
+erleave-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-isomp4-0.10.31 is already registered as shlib p=
+rovider for libgstisomp4.so, ignoring gstreamer1.0-plugins-good-isomp4-1.0.=
+7 trying to register the same
+> WARNING: gst-plugins-good-jpeg-0.10.31 is already registered as shlib pro=
+vider for libgstjpeg.so, ignoring gstreamer1.0-plugins-good-jpeg-1.0.7 tryi=
+ng to register the same
+> WARNING: gst-plugins-good-level-0.10.31 is already registered as shlib pr=
+ovider for libgstlevel.so, ignoring gstreamer1.0-plugins-good-level-1.0.7 t=
+rying to register the same
+> WARNING: gst-plugins-good-matroska-0.10.31 is already registered as shlib=
+ provider for libgstmatroska.so, ignoring gstreamer1.0-plugins-good-matrosk=
+a-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-mulaw-0.10.31 is already registered as shlib pr=
+ovider for libgstmulaw.so, ignoring gstreamer1.0-plugins-good-mulaw-1.0.7 t=
+rying to register the same
+> WARNING: gst-plugins-good-multifile-0.10.31 is already registered as shli=
+b provider for libgstmultifile.so, ignoring gstreamer1.0-plugins-good-multi=
+file-1.0.7 trying to register the same
+> WARNING: gst-plugins-good-multipart-0.10.31 is already registered as shli=
+b provider for libgstmultipart.so, ignoring gstreamer1.0-plugins-good-multi=
+part-1.0.7 trying to registe
+>=20
+> Other warnings
+> WARNING: qt3d: No generic license file exists for: PREVIEW.COMMERCIAL in =
+any provider
+> WARNING: The recipe python3 is trying to install files into a shared area=
+ when those files already exist. Those files and their manifest location ar=
+e:
+> WARNING: Building libpam but 'pam' isn't in DISTRO_FEATURES, PAM won't wo=
+rk correctly
+> WARNING: The recipe python3-distribute-native is trying to install files =
+into a shared area when those files already exist. Those files and their ma=
+nifest location are:
+> WARNING: The recipe qt4-embedded is trying to install files into a shared=
+ area when those files already exist. Those files and their manifest locati=
+on are:
+> WARNING: The recipe nss is trying to install files into a shared area whe=
+n those files already exist. Those files and their manifest location are:
+> WARNING: The recipe libungif is trying to install files into a shared are=
+a when those files already exist. Those files and their manifest location a=
+re:
+> WARNING: The recipe fftwf is trying to install files into a shared area w=
+hen those files already exist. Those files and their manifest location are:
+> WARNING: The recipe qcanobserver-socketcan is trying to install files int=
+o a shared area when those files already exist. Those files and their manif=
+est location are:
+> WARNING: The recipe qconnman is trying to install files into a shared are=
+a when those files already exist. Those files and their manifest location a=
+re:
+> WARNING: The recipe qt-mobility-embedded is trying to install files into =
+a shared area when those files already exist. Those files and their manifes=
+t location are:
+> WARNING: The recipe python-distribute is trying to install files into a s=
+hared area when those files already exist. Those files and their manifest l=
+ocation are:
+> WARNING: The recipe php is trying to install files into a shared area whe=
+n those files already exist. Those files and their manifest location are:
+> WARNING: The recipe python-setuptools is trying to install files into a s=
+hared area when those files already exist. Those files and their manifest l=
+ocation are:
+> WARNING: The recipe gcr is trying to install files into a shared area whe=
+n those files already exist. Those files and their manifest location are:
+> WARNING: The recipe libnewt-python is trying to install files into a shar=
+ed area when those files already exist. Those files and their manifest loca=
+tion are:
+> WARNING: The recipe nss-myhostname is trying to install files into a shar=
+ed area when those files already exist. Those files and their manifest loca=
+tion are:
+> WARNING: The recipe fftwl is trying to install files into a shared area w=
+hen those files already exist. Those files and their manifest location are:
+> WARNING: The recipe lzma is trying to install files into a shared area wh=
+en those files already exist. Those files and their manifest location are:
+> WARNING: The recipe python-matplotlib is trying to install files into a s=
+hared area when those files already exist. Those files and their manifest l=
+ocation are:
+> WARNING: The recipe libgweather3 is trying to install files into a shared=
+ area when those files already exist. Those files and their manifest locati=
+on are:
+> WARNING: The recipe bluez5 is trying to install files into a shared area =
+when those files already exist. Those files and their manifest location are:
+> WARNING: The recipe bluez5 is trying to install files into a shared area =
+when those files already exist. Those files and their manifest location are:
+> WARNING: The recipe libpostproc is trying to install files into a shared =
+area when those files already exist. Those files and their manifest locatio=
+n are:
+> WARNING: The recipe libpostproc is trying to install files into a shared =
+area when those files already exist. Those files and their manifest locatio=
+n are:
+> WARNING: The recipe python3-pycurl is trying to install files into a shar=
+ed area when those files already exist. Those files and their manifest loca=
+tion are:
+>=20
+>=20
+> QA issues:
+> libav-0.8.4+gitAUTOINC+2c8ce46250: ELF binary '/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libav/0.8.4+gitA=
+UTOINC+2c8ce46250-r8.0/packages-split/libswscale/usr/lib/libswscale.so.2.1.=
+0' has relocations in .text
+> libav-0.8.4+gitAUTOINC+2c8ce46250: ELF binary '/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libav/0.8.4+gitA=
+UTOINC+2c8ce46250-r8.0/packages-split/libpostproc/usr/lib/libpostproc.so.52=
+=2E0.0' has relocations in .text
+> libav-0.8.4+gitAUTOINC+2c8ce46250: ELF binary '/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libav/0.8.4+gitA=
+UTOINC+2c8ce46250-r8.0/packages-split/libavutil/usr/lib/libavutil.so.51.22.=
+1' has relocations in .text
+> libav-0.8.4+gitAUTOINC+2c8ce46250: ELF binary '/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libav/0.8.4+gitA=
+UTOINC+2c8ce46250-r8.0/packages-split/libavformat/usr/lib/libavformat.so.53=
+=2E21.0' has relocations in .text
+> libav-0.8.4+gitAUTOINC+2c8ce46250: ELF binary '/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libav/0.8.4+gitA=
+UTOINC+2c8ce46250-r8.0/packages-split/libavfilter/usr/lib/libavfilter.so.2.=
+15.0' has relocations in .text
+> libav-0.8.4+gitAUTOINC+2c8ce46250: ELF binary '/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libav/0.8.4+gitA=
+UTOINC+2c8ce46250-r8.0/packages-split/libavdevice/usr/lib/libavdevice.so.53=
+=2E2.0' has relocations in .text
+> libav-0.8.4+gitAUTOINC+2c8ce46250: ELF binary '/home/jenkins/oe/shr-core-=
+branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libav/0.8.4+gitA=
+UTOINC+2c8ce46250-r8.0/packages-split/libavcodec/usr/lib/libavcodec.so.53.3=
+5.0' has relocations in .text
+> qwt-6.0.1: File '/usr/lib/libqwt.so.6.0.1' from qwt was already stripped,=
+ this will prevent future debugging!
+> qwt-6.0.1: File '/usr/lib/libqwtmathml.so.6.0.1' from qwt was already str=
+ipped, this will prevent future debugging!
+> qwt-6.0.1: File '/usr/plugins/designer/libqwt_designer_plugin.so' from qw=
+t was already stripped, this will prevent future debugging!
+> qwt-6.0.1: qwt-plugins: found library in wrong location: /usr/plugins/des=
+igner/libqwt_designer_plugin.so
+> base-files-3.0.14: Fixup Perms: Unable to correct directory link, target =
+already exists: /var/log -> /var/volatile/log
+> base-files-3.0.14: Fixup Perms: Unable to correct directory link, target =
+already exists: /var/run -> /run
+> base-files-3.0.14: Fixup Perms: Unable to correct directory link, target =
+already exists: /var/tmp -> /var/volatile/tmp
+> imagemagick-6.8.5: imagemagick: Files/directories were installed but not =
+shipped
+>   /usr/lib/ImageMagick-6.8.5
+>   /usr/lib/ImageMagick-6.8.5/config-Q16
+>   /usr/lib/ImageMagick-6.8.5/config-Q16/configure.xml
+>   /usr/share/ImageMagick-6
+>   /usr/share/ImageMagick-6/english.xml
+>   /usr/share/ImageMagick-6/francais.xml
+>   /usr/share/ImageMagick-6/locale.xml
+> qtwebkit-5.0.2: package qtwebkit contains bad RPATH /home/jenkins/oe/shr-=
+core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/qtwebkit/5.=
+0.2-r0.0/build/lib in file /home/jenkins/oe/shr-core-branches/shr-core/tmp-=
+eglibc/work/armv5te-oe-linux-gnueabi/qtwebkit/5.0.2-r0.0/packages-split/qtw=
+ebkit/usr/lib/qt5/libexec/QtWebProcess
+> python3-jinja-1.2: python3-jinja: Files/directories were installed but no=
+t shipped
+>   /usr/share
+>   /usr/share/docs
+>   /usr/share/docs/html
+>   /usr/share/docs/txt
+>   /usr/share/docs/html/watermark.png
+>   /usr/share/docs/html/translators.html
+>   /usr/share/docs/html/tests.html
+>   /usr/share/docs/html/templatei18n.html
+>   /usr/share/docs/html/style.css
+>   /usr/share/docs/html/streaming.html
+>   /usr/share/docs/html/scopes.html
+>   /usr/share/docs/html/recipies.html
+>   /usr/share/docs/html/objects.html
+>   /usr/share/docs/html/loaders.html
+>   /usr/share/docs/html/jinjalogo.png
+>   /usr/share/docs/html/jinjabanner.png
+>   /usr/share/docs/html/installation.html
+>   /usr/share/docs/html/inheritance.html
+>   /usr/share/docs/html/index.html
+>   /usr/share/docs/html/i18n.html
+>   /usr/share/docs/html/fromdjango.html
+>   /usr/share/docs/html/frameworks.html
+>   /usr/share/docs/html/filters.html
+>   /usr/share/docs/html/escaping.html
+>   /usr/share/docs/html/devrecipies.html
+>   /usr/share/docs/html/devintro.html
+>   /usr/share/docs/html/designerdoc.html
+>   /usr/share/docs/html/debugging.html
+>   /usr/share/docs/html/changelog.html
+>   /usr/share/docs/html/builtins.html
+>   /usr/share/docs/html/api.html
+>   /usr/share/docs/html/altsyntax.html
+>   /usr/share/docs/txt/translators.txt
+>   /usr/share/docs/txt/tests.txt
+>   /usr/share/docs/txt/templatei18n.txt
+>   /usr/share/docs/txt/streaming.txt
+>   /usr/share/docs/txt/scopes.txt
+>   /usr/share/docs/txt/recipies.txt
+>   /usr/share/docs/txt/objects.txt
+>   /usr/share/docs/txt/loaders.txt
+>   /usr/share/docs/txt/installation.txt
+>   /usr/share/docs/txt/inheritance.txt
+>   /usr/share/docs/txt/index.txt
+>   /usr/share/docs/txt/i18n.txt
+>   /usr/share/docs/txt/fromdjango.txt
+>   /usr/share/docs/txt/frameworks.txt
+>   /usr/share/docs/txt/filters.txt
+>   /usr/share/docs/txt/escaping.txt
+>   /usr/share/docs/txt/devrecipies.txt
+>   /usr/share/docs/txt/devintro.txt
+>   /usr/share/docs/txt/designerdoc.txt
+>   /usr/share/docs/txt/debugging.txt
+>   /usr/share/docs/txt/changelog.txt
+>   /usr/share/docs/txt/builtins.txt
+>   /usr/share/docs/txt/api.txt
+>   /usr/share/docs/txt/altsyntax.txt
+> ed-1.8: The /usr/share/info/dir file is not meant to be shipped in a part=
+icular package.
+> qcanobserver-socketcan-0.5+svnr48: qcanobserver-socketcan: found library =
+in wrong location: /usr/share/qcanobserver/lib/libSocketCAN.so.1
+> qcanobserver-socketcan: found library in wrong location: /usr/share/qcano=
+bserver/lib/libSocketCAN.so.1.0.0
+> qcanobserver-socketcan: found library in wrong location: /usr/share/qcano=
+bserver/lib/libSocketCAN.so.1.0
+> qcanobserver-socketcan: found library in wrong location: /usr/share/qcano=
+bserver/lib/libSocketCAN.so
+> qcanobserver-socketcan-dbg: found library in wrong location: /usr/share/q=
+canobserver/lib/.debug/libSocketCAN.so.1.0
+> qcanobserver-socketcan-dbg: found library in wrong location: /usr/share/q=
+canobserver/lib/.debug/libSocketCAN.so
+> qcanobserver-socketcan-dbg: found library in wrong location: /usr/share/q=
+canobserver/lib/.debug/libSocketCAN.so.1.0.0
+> qcanobserver-socketcan-dbg: found library in wrong location: /usr/share/q=
+canobserver/lib/.debug/libSocketCAN.so.1
+> emacs-23.4: The /usr/share/info/dir file is not meant to be shipped in a =
+particular package.
+> oscam-1.10+7974: File '/usr/bin/oscam' from oscam was already stripped, t=
+his will prevent future debugging!
+> aurora-daemon-0.1+gitrAUTOINC+b65354ad6c: aurora-daemon: found library in=
+ wrong location: /usr/share/aurora/applications/settings/libaurora-app-sett=
+ings.so
+> quagga-0.99.21: The /usr/share/info/dir file is not meant to be shipped i=
+n a particular package.
+> gstreamer1.0-libav-1.0.7: ELF binary '/home/jenkins/oe/shr-core-branches/=
+shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/gstreamer1.0-libav/1.0.7-=
+r1/packages-split/gstreamer1.0-libav/usr/lib/gstreamer-1.0/libgstlibav.so' =
+has relocations in .text
+> inetutils-1.9.1: inetutils: Files/directories were installed but not ship=
+ped
+>   /usr/lib
+> lzip-1.14: The /usr/share/info/dir file is not meant to be shipped in a p=
+articular package.
+> bluez5-5.7: bluez5: Files/directories were installed but not shipped
+>   /usr/lib/systemd
+>   /usr/lib/systemd/user
+>   /usr/lib/systemd/user/obex.service
+> libpostproc-0.0.0+gitAUTOINC+3b7053f46d: ELF binary '/home/jenkins/oe/shr=
+-core-branches/shr-core/tmp-eglibc/work/armv5te-oe-linux-gnueabi/libpostpro=
+c/0.0.0+gitAUTOINC+3b7053f46d-r1/packages-split/libpostproc/usr/lib/libpost=
+proc.so.52.0.100' has relocations in .text
+> tracker-0.14.2: tracker: Files/directories were installed but not shipped
+>   /usr/lib/tracker-0.14/writeback-modules/libwriteback-taglib.so
+>   /usr/lib/tracker-0.14/writeback-modules/libwriteback-taglib.la
+>=20
 > --=20
-> 1.8.1.4
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---17pEHd4RhPHOinZp
+--K8nIJk4ghYZn606h
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlIEHZMACgkQN1Ujt2V2gByI2ACgl1zXAYJaDCox0aBceuR3Bt6I
-7coAn2pnuYyvUIQj9YURFj4ikmUXErMa
-=ih9g
+iEYEARECAAYFAlIEIZsACgkQN1Ujt2V2gBw7QACfRA29vXTy0pUT7Cb9KwiHQ5kw
+VrgAoJB0RW0LwqKlMHfnjz/FpgMja+XX
+=iNUX
 -----END PGP SIGNATURE-----
 
---17pEHd4RhPHOinZp--
+--K8nIJk4ghYZn606h--
