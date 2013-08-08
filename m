@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7443D6B0AC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D5E16B5A9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 06:15:48 +0000 (UTC)
+	Thu,  8 Aug 2013 06:15:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r786FnoW026164
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r786Fpur005261
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 7 Aug 2013 23:15:49 -0700 (PDT)
+	Wed, 7 Aug 2013 23:15:51 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 7 Aug 2013 23:15:48 -0700
+	14.2.342.3; Wed, 7 Aug 2013 23:15:50 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 8 Aug 2013 14:16:00 +0800
-Message-ID: <74985602b23517b331b441829a955a9184e096ab.1375941355.git.Qi.Chen@windriver.com>
+Date: Thu, 8 Aug 2013 14:16:01 +0800
+Message-ID: <6bab50b7175af465199fd8efd3f1ff402b7e375d.1375941355.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1375941355.git.Qi.Chen@windriver.com>
 References: <cover.1375941355.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V5 03/10] udev: remove implicit dependency on initscripts
+Subject: [PATCH V5 04/10] populate-volatile.sh: use $ROOT_DIR/var/volatile/tmp as TMPDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 06:15:48 -0000
+X-List-Received-Date: Thu, 08 Aug 2013 06:15:50 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-At some point, the udev was modified to source the functions from
-initscripts or lsbinitscripts. This dependency is actually not needed.
-If we use udev in a system where initscripts from oe-core is not available,
-there will be errors.
+It's possible that a 'No such directory' error occurs when doing
+check_requirement in populate-volatile.sh at rootfs time. This is
+because the $ROOT_DIR/var/tmp might be a dead link.
 
-This patch fixes this problem by removing the implicit dependency.
+Use $ROOT_DIR/var/volatile/tmp as the TMPDIR instead to avoid this
+error.
 
-[YOCTO #4882]
+[YOCTO #4883]
 [YOCTO #4103]
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-core/udev/udev/init |   16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ .../initscripts-1.0/populate-volatile.sh           |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev/init b/meta/recipes-core/udev/udev/init
-index 4e5094a..52c7925 100644
---- a/meta/recipes-core/udev/udev/init
-+++ b/meta/recipes-core/udev/udev/init
-@@ -9,8 +9,6 @@
- # Short-Description: Start udevd, populate /dev and load drivers.
- ### END INIT INFO
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index 392879f..253fe1b 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -23,7 +23,7 @@ ROOTFS_READ_ONLY=`is_rootfs_readonly`
+ [ "$ROOTFS_READ_ONLY" = "yes" ] && VOLATILE_ENABLE_CACHE=no
  
--. /etc/init.d/functions
--
- export TZ=/etc/localtime
+ CFGDIR="${ROOT_DIR}/etc/default/volatiles"
+-TMPROOT="${ROOT_DIR}/var/tmp"
++TMPROOT="${ROOT_DIR}/var/volatile/tmp"
+ COREDEF="00_core"
  
- [ -d /sys/class ] || exit 1
-@@ -31,6 +29,11 @@ readfiles () {
-    done
- }
- 
-+kill_udevd () {
-+    pid=`pidof -x udevd`
-+    [ -n "$pid" ] && kill $pid
-+}
-+
- case "$1" in
-   start)
-     export ACTION=add
-@@ -94,7 +97,7 @@ case "$1" in
-     fi
- 
-     # make_extra_nodes
--    killproc udevd > "/dev/null" 2>&1
-+    kill_udevd > "/dev/null" 2>&1
- 
-     # trigger the sorted events
-     echo -e '\000\000\000\000' > /proc/sys/kernel/hotplug
-@@ -119,7 +122,12 @@ case "$1" in
-     $0 start
-     ;;
-   status)
--    status udevd
-+    pid=`pidof -x udevd`
-+    if [ -n "$pid" ]; then
-+	echo "udevd (pid $pid) is running ..."
-+    else
-+	echo "udevd is stopped"
-+    fi
-     ;;
-   *)
-     echo "Usage: $0 {start|stop|status|restart}"
+ [ "${VERBOSE}" != "no" ] && echo "Populating volatile Filesystems."
 -- 
 1.7.9.5
 
