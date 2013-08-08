@@ -1,24 +1,24 @@
 Return-Path: <cristiana.voicu@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 362C66B59C
+	by mail.openembedded.org (Postfix) with ESMTP id 36DB46B5AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 13:45:25 +0000 (UTC)
+	Thu,  8 Aug 2013 13:45:28 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2013 06:45:26 -0700
+	by azsmga101.ch.intel.com with ESMTP; 08 Aug 2013 06:45:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="279405811"
+X-IronPort-AV: E=Sophos;i="4.89,839,1367996400"; d="scan'208";a="279405824"
 Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
-	by AZSMGA002.ch.intel.com with ESMTP; 08 Aug 2013 06:45:23 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 08 Aug 2013 06:45:26 -0700
 From: Cristiana Voicu <cristiana.voicu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  8 Aug 2013 16:46:12 +0300
-Message-Id: <06a01304db7ca6bc605947b809400868dfe72b67.1375969277.git.cristiana.voicu@intel.com>
+Date: Thu,  8 Aug 2013 16:46:13 +0300
+Message-Id: <734a8edf2a73e000207f7e11cfb28bb864a12c72.1375969277.git.cristiana.voicu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
 References: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
 In-Reply-To: <cover.1375969277.git.cristiana.voicu@intel.com>
 References: <cover.1375969277.git.cristiana.voicu@intel.com>
-Subject: [PATCH 4/5] systemtap: upgrade to 2.3
+Subject: [PATCH 5/5] kmod: upgrade to 14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +31,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 13:45:25 -0000
+X-List-Received-Date: Thu, 08 Aug 2013 13:45:28 -0000
+
+Made some changes on patches to apply correctly.
 
 Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
 ---
- meta/recipes-kernel/systemtap/systemtap_git.bb  |    2 --
- meta/recipes-kernel/systemtap/systemtap_git.inc |    4 ++--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/kmod/kmod-native_git.bb        |    1 -
+ meta/recipes-kernel/kmod/kmod.inc                  |    5 ++---
+ ...-man-page-generation-because-we-don-t-hav.patch |   21 ++++++++++----------
+ .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |    5 ++---
+ meta/recipes-kernel/kmod/kmod_git.bb               |    3 +--
+ 5 files changed, 16 insertions(+), 19 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 9bba5a9..a0db074 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -10,8 +10,6 @@ RDEPENDS_${PN} += "python bash"
- RDEPENDS_${PN}_class-native += "python-native"
- RDEPENDS_${PN}_class-nativesdk += "python-native"
+diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
+index 8cbcdf8..afa3ad0 100644
+--- a/meta/recipes-kernel/kmod/kmod-native_git.bb
++++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
+@@ -4,7 +4,6 @@
+ require kmod.inc
+ inherit native
  
--PR = "r1"
+-PR = "${INC_PR}.1"
+ SRC_URI += "file://fix-undefined-O_CLOEXEC.patch"
+ 
+ do_install_append (){
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index a780b6c..b07fc58 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -7,8 +7,7 @@ HOMEPAGE = "http://packages.profusion.mobi/kmod/"
+ LICENSE = "GPL-2.0+ & LGPL-2.1+"
+ LICENSE_libkmod = "LGPL-2.1+"
+ SECTION = "base"
+-PV = "9"
+-INC_PR = "r0"
++PV = "14"
+ 
+ DEPENDS += "pkgconfig-native"
+ 
+@@ -24,7 +23,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+            file://ptest.patch \
+           "
+ 
+-SRCREV = "62081c0f68905b22f375156d4532fd37fa5c8d33"
++SRCREV = "3b38c7fcb58be4ddc34f90454c5f5dc3693d2d85"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch b/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
+index 5361b84..b5a8e08 100644
+--- a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
++++ b/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
+@@ -11,16 +11,17 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+  Makefile.am |    2 +-
+  1 files changed, 1 insertions(+), 1 deletions(-)
+ 
+-diff --git a/Makefile.am b/Makefile.am
+-index 141c102..a8bdfd1 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -1,4 +1,4 @@
+--SUBDIRS = . libkmod/docs man
+-+SUBDIRS = . libkmod/docs
++Index: git/Makefile.am
++===================================================================
++--- git.orig/Makefile.am
+++++ git/Makefile.am
++@@ -1,9 +1,5 @@
++ SUBDIRS = . libkmod/docs
+  
++-if BUILD_MANPAGES
++-SUBDIRS += man
++-endif
++-
+  DISTCLEAN_LOCAL_HOOKS =
+  EXTRA_DIST =
+--- 
+-1.7.8.4
 -
- EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-             --without-nss --without-avahi \
-             --disable-server --disable-grapher "
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 7be6c2b..0632746 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,8 +1,8 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++ CLEANFILES =
+diff --git a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+index 3177e9a..49728c2 100644
+--- a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
++++ b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+@@ -4,9 +4,8 @@ Index: git/libkmod/libkmod-private.h
+ ===================================================================
+ --- git.orig/libkmod/libkmod-private.h
+ +++ git/libkmod/libkmod-private.h
+-@@ -1,6 +1,10 @@
+- #ifndef _LIBKMOD_PRIVATE_H_
+- #define _LIBKMOD_PRIVATE_H_
++@@ -1,5 +1,9 @@
++ #pragma once
+  
+ +#ifndef O_CLOEXEC
+ +# define O_CLOEXEC 0
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index f92ff72..28ce194 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -3,8 +3,7 @@
  
--SRCREV = "addec813fed4c712d6ea752f6e4f23e602b87fad"
--PV = "2.1+git${SRCPV}"
-+SRCREV = "e58138572ebddac9498b93c76770eeca7d45e3b1"
-+PV = "2.3+git${SRCPV}"
+ require kmod.inc
  
- SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=git \
-            file://docproc-build-fix.patch \
+-PR = "${INC_PR}.0"
+-PV = "9+git${SRCPV}"
++PV = "14+git${SRCPV}"
+ 
+ PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+ RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
 -- 
 1.7.9.5
 
