@@ -1,27 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 911A76AFC2
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1422E6B4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2013 16:37:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Aug 2013 09:37:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,846,1367996400"; d="scan'208";a="378643112"
-Received: from unknown (HELO helios.localnet) ([10.252.122.201])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Aug 2013 09:37:21 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 09 Aug 2013 17:37:20 +0100
-Message-ID: <1991130.heSQ5hX7rv@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <CAJTo0LZML+XWhhpj4PS2nXt3XzgzLDpay4wBBM-vsavVmcHWgA@mail.gmail.com>
-References: <cover.1376038140.git.paul.eggleton@linux.intel.com>
-	<dd5b55f4d3f2ef9218001d44fbb3d848dbc91c1a.1376038140.git.paul.eggleton@linux.intel.com>
-	<CAJTo0LZML+XWhhpj4PS2nXt3XzgzLDpay4wBBM-vsavVmcHWgA@mail.gmail.com>
+	Fri,  9 Aug 2013 17:44:08 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id wo10so6791703obc.27
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Aug 2013 10:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=ovJ6WQROEMtIc2iFgs5hqz/HatGn5YlDomo38Cr11kE=;
+	b=bxmz4imtn+mhp5pJNhtC3nLdqwKCIg39ZmRSXVq4uemG2k2fuoVbM3DF2g0xKL4YFO
+	wuhy7AtdL84qSyN5rJNLk7UyVwpYgddp+4jr/ROLUYcWrbAycm/OVodgoZpiplrX9vtc
+	GN5zt61kKwK67IXoBSg0bL9wVKnq3rpH1fAo4imjlaTj05tDP6267POvZutGkGijkOsH
+	OAn0n7AVQTMXlEi06tfu5ESHXE/770myFwfC0BkN9cWyq4zFgA6IIP3NWf2Up+1Bo71U
+	C2s7UlY+wBiMX82TGd0ZoYwWjQwLTnQwXFYzSocePXBIplMeXq3z1gdpQ9Ta0BIfC7cd
+	am6w==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] yasm: add from meta-oe and tweak
+X-Received: by 10.182.22.5 with SMTP id z5mr1321155obe.42.1376070248422; Fri,
+	09 Aug 2013 10:44:08 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Fri, 9 Aug 2013 10:44:08 -0700 (PDT)
+In-Reply-To: <2788148.lfVDMmudBm@helios>
+References: <1375570717-3017-1-git-send-email-otavio@ossystems.com.br>
+	<2788148.lfVDMmudBm@helios>
+Date: Fri, 9 Aug 2013 14:44:08 -0300
+X-Google-Sender-Auth: Qwrwd7tK639YHSRKpeSWa_s_YE4
+Message-ID: <CAP9ODKro0FZO4TmkTmphf5TrpmzxGm7_MP9FfUYZUReABBhraw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] blacklist.bbclass: Avoid blacklist specific handle in base.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,25 +45,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 16:37:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 09 Aug 2013 17:44:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Friday 09 August 2013 17:32:58 Burton, Ross wrote:
-> On 9 August 2013 09:59, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
-> > +SUMMARY = "x86 (SSE) assembler supporting NASM and GAS-syntaxes"
-> 
-> Does this mean we can drop nasm to avoid having numerous assemblers in
-> oe-core?  You can't feed them after midnight you know.
+On Fri, Aug 9, 2013 at 12:47 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Saturday 03 August 2013 19:58:37 Otavio Salvador wrote:
+>> +# Cope with PNBLACKLIST flags for multilib case
+>> +addhandler blacklist_multilib_eventhandler
+>> +blacklist_multilib_eventhandler[eventmask] = "bb.event.ConfigParsed"
+>> +python blacklist_multilib_eventhandler() {
+>> +    multilibs = e.data.getVar('MULTILIBSA', True)
+>
+> Typo - this should be MULTILIBS. Did you test this patch in a multilib
+> configuration?
 
-I don't know what the comparison between the two is, but I suspect they are 
-not interchangeable.
-
-Cheers,
-Paul
+I changed it to test and ended commiting it. Sorry. I can send a v2 of it.
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
