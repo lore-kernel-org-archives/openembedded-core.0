@@ -1,21 +1,25 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A36DB6B589
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 21BF76B4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2013 17:54:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Aug 2013 10:52:15 -0700
+	Fri,  9 Aug 2013 18:33:13 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Aug 2013 11:32:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,847,1367996400"; d="scan'208";a="360325760"
-Received: from fear.jf.intel.com (HELO rage.local) ([10.7.196.147])
-	by orsmga001.jf.intel.com with ESMTP; 09 Aug 2013 10:54:59 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  9 Aug 2013 10:58:42 -0700
-Message-Id: <1041db89535287764361b8902eb380b4541e985d.1376071122.git.dvhart@linux.intel.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: [PATCH] kernel.bbclass: Correct post(inst|rm) package association
+X-IronPort-AV: E=Sophos;i="4.89,847,1367996400"; d="scan'208";a="383947660"
+Received: from unknown (HELO [10.255.14.176]) ([10.255.14.176])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Aug 2013 11:32:51 -0700
+Message-ID: <520535D3.8020900@linux.intel.com>
+Date: Fri, 09 Aug 2013 11:32:51 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Joe Slater <jslater@windriver.com>
+References: <1375816107-30963-1-git-send-email-jslater@windriver.com>
+In-Reply-To: <1375816107-30963-1-git-send-email-jslater@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] openjade-native: do not create shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,69 +32,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 17:55:00 -0000
+X-List-Received-Date: Fri, 09 Aug 2013 18:33:13 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fixes [YOCTO #4991]
+On 08/06/2013 12:08 PM, Joe Slater wrote:
+> CQID: 429576
+>
+> openjade is the only one that uses the shared libraries
+> and sometimes it cannot find them!
+>
+> [Yocto #2972]
+>
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>   .../openjade/openjade-native_1.3.2.bb              |   29 ++++++++++++++-----
+>   1 files changed, 21 insertions(+), 8 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> index 8af0b52..ffdb3fc 100644
+> --- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> +++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+> @@ -7,7 +7,7 @@ SECTION = "base"
+>   LICENSE = "BSD"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
+>
+> -PR = "r5"
+> +PR = "r6"
+>
+No need to add PR Bump here anymore.
 
-The kernel image is installed as part of the kernel-image package, but
-the symlink creation/removal via alternatives is being done in
-pkg_post(inst|rm)_kernel-base.
+>   DEPENDS = "opensp-native sgml-common-native"
+>   RDEPENDS_${PN} = "sgml-common-native"
+> @@ -24,8 +24,13 @@ SRC_URI[sha256sum] = "1d2d7996cc94f9b87d0c51cf0e028070ac177c4123ecbfd7ac1cb8d0b7
+>
+>   inherit autotools native
+>
+> +# Per bugzilla.yoctoproject.org/show_bug.cgi?id=2972 we do
+> +# not create shared libraries.  Note that openjade still links
+> +# to shared libraries from other packages.
+> +#
+>   EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
+> -                --enable-splibdir=${STAGING_LIBDIR}"
+> +                --enable-splibdir=${STAGING_LIBDIR} \
+> +                --disable-shared"
+>
+>   # We need to set datadir explicitly, but adding it to EXTRA_OECONF
+>   # results in it being specified twice when configure is run.
+> @@ -55,13 +60,21 @@ do_compile_prepend () {
+>   do_install() {
+>   	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/openjade.html
+>   	# for details.
+> -	install -d ${D}${bindir}	
+> -	install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
+> -	ln -sf openjade ${D}${bindir}/jade
+> +	install -d ${D}${bindir}
+>
+> -	oe_libinstall -a -so -C style libostyle ${D}${libdir}
+> -	oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
+> -	oe_libinstall -a -so -C grove libogrove ${D}${libdir}
+> +	# install shared library version if it exists
+> +	#
+> +	if [ -f ${S}/jade/.libs/openjade ]
+> +	then
+> +	 install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
+> +	 oe_libinstall -a -so -C style libostyle ${D}${libdir}
+> +	 oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
+> +	 oe_libinstall -a -so -C grove libogrove ${D}${libdir}
+> +	else
+> +	 install -m 0755 ${S}/jade/openjade ${D}${bindir}/openjade
+> +	fi
+> +
+> +	ln -sf openjade ${D}${bindir}/jade
+>
+Convention is to use tabs for indentation in oe-core Shell code and 
+4-spaces for python code.
 
-Move the postinst alternatives logic into the kernel-image functions.
+Thanks
 
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
----
- meta/classes/kernel.bbclass |   29 +++++++++++++----------------
- 1 file changed, 13 insertions(+), 16 deletions(-)
+     Sau!
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ca49aec..e039dfc 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -237,14 +237,6 @@ do_savedefconfig() {
- do_savedefconfig[nostamp] = "1"
- addtask savedefconfig after do_configure
- 
--pkg_postinst_kernel-base () {
--	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
--}
--
--pkg_postrm_kernel-base () {
--	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
--}
--
- inherit cml1
- 
- EXPORT_FUNCTIONS do_compile do_install do_configure
-@@ -272,14 +264,19 @@ ALLOW_EMPTY_kernel-modules = "1"
- DESCRIPTION_kernel-modules = "Kernel modules meta package"
- 
- pkg_postinst_kernel-image () {
--if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
--	mkdir -p $D/lib/modules/${KERNEL_VERSION}
--fi
--if [ -n "$D" ]; then
--	depmodwrapper -a -b $D ${KERNEL_VERSION}
--else
--	depmod -a ${KERNEL_VERSION}
--fi
-+	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
-+	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
-+		mkdir -p $D/lib/modules/${KERNEL_VERSION}
-+	fi
-+	if [ -n "$D" ]; then
-+		depmodwrapper -a -b $D ${KERNEL_VERSION}
-+	else
-+		depmod -a ${KERNEL_VERSION}
-+	fi
-+}
-+
-+pkg_postrm_kernel-image () {
-+	update-alternatives --remove ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} || true
- }
- 
- PACKAGESPLITFUNCS_prepend = "split_kernel_packages "
--- 
-1.7.9.5
-
+>   	install -d ${D}${datadir}/sgml/openjade-${PV}
+>   	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
+>
 
