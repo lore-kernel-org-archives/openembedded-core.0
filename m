@@ -1,24 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A09216AFC2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id D4B186B5C1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2013 15:48:53 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Aug 2013 08:48:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,846,1367996400"; d="scan'208";a="344092127"
-Received: from unknown (HELO helios.localnet) ([10.252.122.201])
-	by azsmga001.ch.intel.com with ESMTP; 09 Aug 2013 08:48:52 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 09 Aug 2013 16:48:51 +0100
-Message-ID: <1968399.0vPzSGTeY5@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+	Fri,  9 Aug 2013 15:48:56 +0000 (UTC)
+Received: by mail-vc0-f175.google.com with SMTP id ia10so897120vcb.34
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 09 Aug 2013 08:48:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=5YjrINsgZfv6zvMcmnBFdOeblkyLTcT8qcH4hpGDEGY=;
+	b=KyUtViC/BM4NBA9+nCiBvpDNm4VhaHW0WXziJE6thzS1T1cHPw0ZjrDmXuex/c0sq1
+	0A9sJIqHSajKwqROgMqUCfMiA/7CJxbOtVm/0gZuU9RLJC3OHckXgEQbDut/fzkPlxRt
+	+TLh7dql+8v7TlMTZZ9Znj5A0nJ3BZEYJ0n12rxyVfH5rZ2BaQWLmrT7AQ5IAs6eCtQ5
+	3HdUhQhrpIlSolj82ZRd1SAL+FL0T1uwhqTvbjVXAx/KJSGzci6LF+iJWy8lwGOFJJz8
+	gpR6fgNXjjeaNXtJVg1nMKZZC9/lsU14fgcBbfOjmkACy2Oa5a5LU2/55yz+fMS8nCcH
+	xzmg==
+X-Gm-Message-State: ALoCoQk0AoZUGRfGmLI5L93c4oZEnHujkFHiVuxDTLB1pCE66zE4tG0lhM/eUuWuz7xqSmu5q/n0
+X-Received: by 10.58.118.70 with SMTP id kk6mr783241veb.1.1376063337112; Fri,
+	09 Aug 2013 08:48:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Fri, 9 Aug 2013 08:48:36 -0700 (PDT)
 In-Reply-To: <cover.1376060231.git.sgw@linux.intel.com>
 References: <cover.1376060231.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 9 Aug 2013 16:48:36 +0100
+Message-ID: <CAJTo0LaBb=c9Kw9UyEuwei2u+wfMyFi2LebXbdns64LjQ5aoVw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
 Subject: Re: [CONSOLIDATED PULL 00/17] Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -32,87 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 15:48:53 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 09 Aug 2013 15:48:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Friday 09 August 2013 08:03:30 Saul Wold wrote:
-> Ross, Paul:
-> 
+On 9 August 2013 16:03, Saul Wold <sgw@linux.intel.com> wrote:
 > I build this set, along with the Python3 and Read-Only, which are removed
 > pending some more review, on the AB. While there were some failures due to
 > other updates, those were also removed.
-> 
-> Thanks
-> 	Sau!
-> 
-> The following changes since commit 291ab168fac15eae0e4c9234e16f394b0e1547a0:
-> 
->   subversion: Add patch to use neon 0.30 (2013-08-07 07:43:31 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage
-> 
-> Bian Naimeng (1):
->   bash: reference acl*.m4 from ${S}
-> 
-> Chen Qi (2):
->   busybox: remove syslog-startup.conf if sysvinit not in DISTRO_FEATURES
->   checkroot.sh: respect the value of ENABLE_ROOTFS_FSCK
-> 
-> Cristian Iorga (3):
->   net-tools: upgrade to v1.60-25
->   gst-fluendo-mpegdemux: upgrade to v0.10.72
->   build-appliance-image: upgrade to
->     ac60aa8cf707eec58e2cb51e7c406250d0b43ef1 commit.
-> 
-> Cristiana Voicu (3):
->   tzdata: upgrade to 2013d
->   ed: upgrade to 1.9
->   mkfontscale: upgrade to 1.1.1
-> 
-> Jukka Rissanen (1):
->   procps: Add cgroup support
 
-Patch is missing signed-off-by and upstream-status.
- 
-> Kai Kang (1):
->   sudo: quote BUILD_CC
-> 
-> Martin Jansa (2):
->   buildhistory: use package_qa_handle_error for version-going-backwards
+Acked-By: Ross Burton <ross.burton@intel.com>
 
-Not a blocker, but note that this will need a corresponding change to poky's 
-ERROR_QA value in meta-yocto/conf/poky.conf.
-
->   buildhistory: use bb.utils.mkdirhier instead of os.makedirs
-> 
-> Otavio Salvador (1):
->   blacklist.bbclass: Avoid blacklist specific handle in base.bbclass
-
-Typo "MULTILIBSA". I've replied to the original patch, I'd suggest dropping it 
-for now.
-
-> Riku Voipio (1):
->   qemu: pass CFLAGS via ./configure instead of a patch
-> 
-> Ross Burton (1):
->   separatebuilddir: add comments
-> 
-> Victor Kamensky (1):
->   systemtap: fix build failure on host system with dyninst installed
-
-Everything else looks OK to me.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
