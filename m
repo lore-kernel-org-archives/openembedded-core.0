@@ -1,25 +1,20 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 21BF76B4F7
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F0B6B5A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2013 18:33:13 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Aug 2013 11:32:52 -0700
+	Fri,  9 Aug 2013 20:46:41 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 09 Aug 2013 13:46:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,847,1367996400"; d="scan'208";a="383947660"
-Received: from unknown (HELO [10.255.14.176]) ([10.255.14.176])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Aug 2013 11:32:51 -0700
-Message-ID: <520535D3.8020900@linux.intel.com>
-Date: Fri, 09 Aug 2013 11:32:51 -0700
+X-IronPort-AV: E=Sophos;i="4.89,848,1367996400"; d="scan'208";a="344195750"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.176])
+	by azsmga001.ch.intel.com with ESMTP; 09 Aug 2013 13:46:41 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: Joe Slater <jslater@windriver.com>
-References: <1375816107-30963-1-git-send-email-jslater@windriver.com>
-In-Reply-To: <1375816107-30963-1-git-send-email-jslater@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] openjade-native: do not create shared libraries
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Aug 2013 13:46:38 -0700
+Message-Id: <1376081200-12061-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH 0/2] Current Groff is really GPLv3!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,87 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 18:33:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 09 Aug 2013 20:46:41 -0000
 
-On 08/06/2013 12:08 PM, Joe Slater wrote:
-> CQID: 429576
->
-> openjade is the only one that uses the shared libraries
-> and sometimes it cannot find them!
->
-> [Yocto #2972]
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
-> ---
->   .../openjade/openjade-native_1.3.2.bb              |   29 ++++++++++++++-----
->   1 files changed, 21 insertions(+), 8 deletions(-)
->
-> diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-> index 8af0b52..ffdb3fc 100644
-> --- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-> +++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-> @@ -7,7 +7,7 @@ SECTION = "base"
->   LICENSE = "BSD"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
->
-> -PR = "r5"
-> +PR = "r6"
->
-No need to add PR Bump here anymore.
+Turns out that a groff update was done sometime ago, and while committer
+noted the license checksum changed, they did not verify the true nature
+of the change.  I caught this by total chance looking at the license 
+manifest directory.
 
->   DEPENDS = "opensp-native sgml-common-native"
->   RDEPENDS_${PN} = "sgml-common-native"
-> @@ -24,8 +24,13 @@ SRC_URI[sha256sum] = "1d2d7996cc94f9b87d0c51cf0e028070ac177c4123ecbfd7ac1cb8d0b7
->
->   inherit autotools native
->
-> +# Per bugzilla.yoctoproject.org/show_bug.cgi?id=2972 we do
-> +# not create shared libraries.  Note that openjade still links
-> +# to shared libraries from other packages.
-> +#
->   EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
-> -                --enable-splibdir=${STAGING_LIBDIR}"
-> +                --enable-splibdir=${STAGING_LIBDIR} \
-> +                --disable-shared"
->
->   # We need to set datadir explicitly, but adding it to EXTRA_OECONF
->   # results in it being specified twice when configure is run.
-> @@ -55,13 +60,21 @@ do_compile_prepend () {
->   do_install() {
->   	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/openjade.html
->   	# for details.
-> -	install -d ${D}${bindir}	
-> -	install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
-> -	ln -sf openjade ${D}${bindir}/jade
-> +	install -d ${D}${bindir}
->
-> -	oe_libinstall -a -so -C style libostyle ${D}${libdir}
-> -	oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
-> -	oe_libinstall -a -so -C grove libogrove ${D}${libdir}
-> +	# install shared library version if it exists
-> +	#
-> +	if [ -f ${S}/jade/.libs/openjade ]
-> +	then
-> +	 install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
-> +	 oe_libinstall -a -so -C style libostyle ${D}${libdir}
-> +	 oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
-> +	 oe_libinstall -a -so -C grove libogrove ${D}${libdir}
-> +	else
-> +	 install -m 0755 ${S}/jade/openjade ${D}${bindir}/openjade
-> +	fi
-> +
-> +	ln -sf openjade ${D}${bindir}/jade
->
-Convention is to use tabs for indentation in oe-core Shell code and 
-4-spaces for python code.
+Saul Wold (2):
+  groff: Add GPLv2 version
+  groff: Fix License to be GPLv3
 
-Thanks
+ .../groff-1.18.1.4/groff-1.18.1.4-remove-mom.patch | 35 ++++++++++++++++
+ .../groff/groff-1.18.1.4/man-local.patch           | 32 +++++++++++++++
+ .../groff/groff-1.18.1.4/mdoc-local.patch          | 31 +++++++++++++++
+ meta/recipes-extended/groff/groff_1.18.1.4.bb      | 46 ++++++++++++++++++++++
+ meta/recipes-extended/groff/groff_1.22.2.bb        |  2 +-
+ 5 files changed, 145 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/groff/groff-1.18.1.4/groff-1.18.1.4-remove-mom.patch
+ create mode 100644 meta/recipes-extended/groff/groff-1.18.1.4/man-local.patch
+ create mode 100644 meta/recipes-extended/groff/groff-1.18.1.4/mdoc-local.patch
+ create mode 100644 meta/recipes-extended/groff/groff_1.18.1.4.bb
 
-     Sau!
+-- 
+1.8.1.4
 
->   	install -d ${D}${datadir}/sgml/openjade-${PV}
->   	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
->
 
