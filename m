@@ -1,33 +1,27 @@
-Return-Path: <biannm@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FAF66B0D4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2013 03:09:48 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,843,1367942400"; 
-   d="scan'208";a="8159618"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 09 Aug 2013 11:06:45 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r7939lAY001837
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 9 Aug 2013 11:09:47 +0800
-Received: from [127.0.0.1] ([10.167.226.190])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013080911082174-555629 ;
-	Fri, 9 Aug 2013 11:08:21 +0800 
-Message-ID: <52045D74.2040703@cn.fujitsu.com>
-Date: Fri, 09 Aug 2013 11:09:40 +0800
-From: Bian Naimeng <biannm@cn.fujitsu.com>
-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
-	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C3EC56077D;
+	Fri,  9 Aug 2013 06:47:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r796lQve008354
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 8 Aug 2013 23:47:26 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 8 Aug 2013 23:47:26 -0700
+Message-ID: <5204907A.5040301@windriver.com>
+Date: Fri, 9 Aug 2013 14:47:22 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/08/09 11:08:21,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/08/09 11:08:22,
-	Serialize complete at 2013/08/09 11:08:22
-Subject: [PATCH]lsof: avoid creating directory ${DL_DIR}/${WORKDIR}/lsof_${PV}
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20130731055135.A7345504BD@opal> <20130808172507.GB3269@jama>
+In-Reply-To: <20130808172507.GB3269@jama>
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Hongxu Jia : util-linux: use u-a for su
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,51 +34,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 03:09:50 -0000
+X-List-Received-Date: Fri, 09 Aug 2013 06:47:28 -0000
+Content-Type: multipart/alternative;
+	boundary="------------090902020904090804060306"
+
+--------------090902020904090804060306
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=UTF-8
 
-lsof: avoid creating directory ${DL_DIR}/${WORKDIR}/lsof_${PV}.
+On 08/09/2013 01:25 AM, Martin Jansa wrote:
+> On Wed, Jul 31, 2013 at 05:51:35AM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: 6190c69a9f78aeef951c39e4c8700e945bbec5f7
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=6190c69a9f78aeef951c39e4c8700e945bbec5f7
+>>
+>> Author: Hongxu Jia <hongxu.jia@windriver.com>
+>> Date:   Fri Jul 26 20:09:08 2013 +0800
+>>
+>> util-linux: use u-a for su
+>>
+>> Use alternatives mechanism to prevent confliction of attempted
+>> installing su binary among busybox, shadow and util-linux.
+>>
+>> [YOCTO #4926]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> Doesn't seem to work correctly:
+>
+> Configuring util-linux.
+> update-alternatives: Linking //bin/dmesg to /bin/dmesg.util-linux
+> update-alternatives: Linking //bin/kill to /bin/kill.procps
+> update-alternatives: Linking //bin/more to /bin/more.util-linux
+> update-alternatives: Linking //sbin/mkswap to /sbin/mkswap.util-linux
+> update-alternatives: Linking //sbin/blockdev to /sbin/blockdev.util-linux
+> update-alternatives: Linking //sbin/pivot_root to /sbin/pivot_root.util-linux
+> update-alternatives: Linking //sbin/mkfs.minix to /sbin/mkfs.minix.util-linux
+> update-alternatives: Linking //usr/bin/hexdump to /usr/bin/hexdump.util-linux
+> update-alternatives: Linking //usr/bin/last to /usr/bin/last.util-linux
+> update-alternatives: Linking //usr/bin/logger to /usr/bin/logger.util-linux
+> update-alternatives: Linking //usr/bin/mesg to /usr/bin/mesg.util-linux
+> update-alternatives: Linking //usr/bin/renice to /usr/bin/renice.util-linux
+> update-alternatives: Linking //usr/bin/wall to /usr/bin/wall.util-linux
+> update-alternatives: Linking //usr/bin/setsid to /usr/bin/setsid.util-linux
+> update-alternatives: Linking //usr/bin/chrt to /usr/bin/chrt.util-linux
+> update-alternatives: Linking //usr/bin/flock to /usr/bin/flock.util-linux
+> update-alternatives: Linking //sbin/hwclock to /bin/busybox.nosuid
+> update-alternatives: Linking //usr/bin/utmpdump to /usr/bin/utmpdump.util-linux
+> update-alternatives: Linking //usr/bin/eject to /usr/bin/eject.util-linux
+> update-alternatives: Linking //bin/getopt to /usr/bin/getopt
+> update-alternatives: Error: cannot register alternative su to /usr/bin/su since it is already registered to /bin/su
+>
+> SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/su
+> /bin/su
+> /bin/busybox.suid 50
+Are you sure the following patch has been updated to your local branch?
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=hongxu/fix-su&id=32eee3e731772da04ccb64b4da9ca9b413433674
 
-Set LOCALSRC as SRC_URI will make do_unpack mkdir ${DL_DIR}/${WORKDIR}/lsof_${PV},
-it's not good while multiuser sharing ${DL_DIR}.
+busybox: move /bin/su to /usr/bin/su to match util-linux and shadow
+This patch is used to fix this issue.
 
-Signed-off-by: Bian Naimeng <biannm@cn.fujitsu.com>
+Maybe you should rebuild busybox and try again.
 
+Thanks,
+Hongxu
+
+> should base_bindir be used for ALTERNATIVE_LINK_NAME and bindir for TARGET?
+>
+>> ---
+>>
+>>   meta/recipes-core/util-linux/util-linux.inc |    7 +++++++
+>>   1 files changed, 7 insertions(+), 0 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+>> index 3c8c246..961bcc5 100644
+>> --- a/meta/recipes-core/util-linux/util-linux.inc
+>> +++ b/meta/recipes-core/util-linux/util-linux.inc
+>> @@ -215,3 +215,10 @@ ALTERNATIVE_LINK_NAME[reset] = "${bindir}/reset"
+>>   ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
+>>   
+>>   BBCLASSEXTEND = "native nativesdk"
+>> +
+>> +python do_package_prepend () {
+>> +    if '--enable-su' in d.getVar('EXTRA_OECONF', True).split():
+>> +        alt_name = "su"
+>> +        d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, '%s/%s' % (d.getVar('bindir', True), alt_name))
+>> +        d.appendVar('ALTERNATIVE_%s' % (d.getVar('PN', True)), ' ' + alt_name)
+>> +}
+>>
+>> _______________________________________________
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+
+--------------090902020904090804060306
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 08/09/2013 01:25 AM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote cite="mid:20130808172507.GB3269@jama" type="cite">
+      <pre wrap="">On Wed, Jul 31, 2013 at 05:51:35AM +0000, <a class="moz-txt-link-abbreviated" href="mailto:git@git.openembedded.org">git@git.openembedded.org</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">Module: openembedded-core.git
+Branch: master
+Commit: 6190c69a9f78aeef951c39e4c8700e945bbec5f7
+URL:    <a class="moz-txt-link-freetext" href="http://git.openembedded.org/?p=openembedded-core.git&amp;a=commit;h=6190c69a9f78aeef951c39e4c8700e945bbec5f7">http://git.openembedded.org/?p=openembedded-core.git&amp;a=commit;h=6190c69a9f78aeef951c39e4c8700e945bbec5f7</a>
+
+Author: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
+Date:   Fri Jul 26 20:09:08 2013 +0800
+
+util-linux: use u-a for su
+
+Use alternatives mechanism to prevent confliction of attempted
+installing su binary among busybox, shadow and util-linux.
+
+[YOCTO #4926]
+
+Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
+Signed-off-by: Saul Wold <a class="moz-txt-link-rfc2396E" href="mailto:sgw@linux.intel.com">&lt;sgw@linux.intel.com&gt;</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+Doesn't seem to work correctly:
+
+Configuring util-linux.
+update-alternatives: Linking //bin/dmesg to /bin/dmesg.util-linux
+update-alternatives: Linking //bin/kill to /bin/kill.procps
+update-alternatives: Linking //bin/more to /bin/more.util-linux
+update-alternatives: Linking //sbin/mkswap to /sbin/mkswap.util-linux
+update-alternatives: Linking //sbin/blockdev to /sbin/blockdev.util-linux
+update-alternatives: Linking //sbin/pivot_root to /sbin/pivot_root.util-linux
+update-alternatives: Linking //sbin/mkfs.minix to /sbin/mkfs.minix.util-linux
+update-alternatives: Linking //usr/bin/hexdump to /usr/bin/hexdump.util-linux
+update-alternatives: Linking //usr/bin/last to /usr/bin/last.util-linux
+update-alternatives: Linking //usr/bin/logger to /usr/bin/logger.util-linux
+update-alternatives: Linking //usr/bin/mesg to /usr/bin/mesg.util-linux
+update-alternatives: Linking //usr/bin/renice to /usr/bin/renice.util-linux
+update-alternatives: Linking //usr/bin/wall to /usr/bin/wall.util-linux
+update-alternatives: Linking //usr/bin/setsid to /usr/bin/setsid.util-linux
+update-alternatives: Linking //usr/bin/chrt to /usr/bin/chrt.util-linux
+update-alternatives: Linking //usr/bin/flock to /usr/bin/flock.util-linux
+update-alternatives: Linking //sbin/hwclock to /bin/busybox.nosuid
+update-alternatives: Linking //usr/bin/utmpdump to /usr/bin/utmpdump.util-linux
+update-alternatives: Linking //usr/bin/eject to /usr/bin/eject.util-linux
+update-alternatives: Linking //bin/getopt to /usr/bin/getopt
+update-alternatives: Error: cannot register alternative su to /usr/bin/su since it is already registered to /bin/su
+
+SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/su
+/bin/su
+/bin/busybox.suid 50
+</pre>
+    </blockquote>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    Are you sure the following patch has been updated to your local
+    branch?<br>
+    <a
+href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=hongxu/fix-su&amp;id=32eee3e731772da04ccb64b4da9ca9b413433674">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=hongxu/fix-su&amp;id=32eee3e731772da04ccb64b4da9ca9b413433674</a><br>
+    <br>
+    busybox: move /bin/su to /usr/bin/su to match util-linux and shadow<br>
+    This patch is used to fix this issue.<br>
+    <br>
+    Maybe you should rebuild busybox and try again.<br>
+    <br>
+    Thanks,<br>
+    Hongxu<br>
+    <br>
+    <blockquote cite="mid:20130808172507.GB3269@jama" type="cite">
+      <pre wrap="">
+should base_bindir be used for ALTERNATIVE_LINK_NAME and bindir for TARGET?
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">
 ---
- meta/recipes-extended/lsof/lsof_4.87.bb |   15 +++++++--------
- 1 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.87.bb b/meta/recipes-extended/lsof/lsof_4.87.bb
-index 2f425aa..222ede8 100644
---- a/meta/recipes-extended/lsof/lsof_4.87.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.87.bb
-@@ -10,17 +10,16 @@ SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
- SRC_URI[md5sum] = "80e2a76d0e05826db910ec88e631296c"
- SRC_URI[sha256sum] = "dfdd3709d82bc79ccdf3e404b84aafa9aede5948642a824ecaefd0aac589da2c"
+ meta/recipes-core/util-linux/util-linux.inc |    7 +++++++
+ 1 files changed, 7 insertions(+), 0 deletions(-)
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 3c8c246..961bcc5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -215,3 +215,10 @@ ALTERNATIVE_LINK_NAME[reset] = "${bindir}/reset"
+ ALTERNATIVE_TARGET[reset] = "${base_bindir}/reset"
  
--LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
- S = "${WORKDIR}/lsof_${PV}_src"
- 
--LIC_FILES_CHKSUM = "file://${S}/00README;beginline=645;endline=679;md5=964df275d26429ba3b39dbb9f205172a"
-+LIC_FILES_CHKSUM = "file://00README;beginline=645;endline=679;md5=964df275d26429ba3b39dbb9f205172a"
- 
--python do_unpack () {
--    bb.build.exec_func('base_do_unpack', d)
--    src_uri = d.getVar('SRC_URI')
--    d.setVar('SRC_URI', '${LOCALSRC}')
--    bb.build.exec_func('base_do_unpack', d)
--    d.setVar('SRC_URI', src_uri)
-+python do_unpack_append () {
-+    bb.build.exec_func('do_unpack_realsrc', d)
-+}
+ BBCLASSEXTEND = "native nativesdk"
 +
-+do_unpack_realsrc () {
-+	tar x --no-same-owner -f ${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar -C ${WORKDIR}
- }
- 
- export LSOF_OS = "${TARGET_OS}"
--- 
-1.7.7
++python do_package_prepend () {
++    if '--enable-su' in d.getVar('EXTRA_OECONF', True).split():
++        alt_name = "su"
++        d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, '%s/%s' % (d.getVar('bindir', True), alt_name))
++        d.appendVar('ALTERNATIVE_%s' % (d.getVar('PN', True)), ' ' + alt_name)
++}
 
+_______________________________________________
+Openembedded-commits mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-commits@lists.openembedded.org">Openembedded-commits@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-commits">http://lists.openembedded.org/mailman/listinfo/openembedded-commits</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------090902020904090804060306--
