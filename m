@@ -1,39 +1,26 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 588C26B0D0
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  8 Aug 2013 23:10:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 08 Aug 2013 16:10:11 -0700
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EC336B55C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Aug 2013 00:44:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 08 Aug 2013 17:44:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,842,1367996400"; d="scan'208";a="359925532"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by orsmga001.jf.intel.com with ESMTP; 08 Aug 2013 16:10:09 -0700
-Received: from orsmsx151.amr.corp.intel.com (10.22.226.38) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 8 Aug 2013 16:10:09 -0700
-Received: from orsmsx103.amr.corp.intel.com ([169.254.2.129]) by
-	ORSMSX151.amr.corp.intel.com ([169.254.7.169]) with mapi id
-	14.03.0123.003; Thu, 8 Aug 2013 16:10:08 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [PATCH 3/3] gst-meta-base: bring in the v4l2 related
-	gst plugin
-Thread-Index: AQHOlH7w0OBz34hW30e1aQlNBqsKWJmMW/qA//+OURA=
-Date: Thu, 8 Aug 2013 23:10:08 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C7044C4BB@ORSMSX103.amr.corp.intel.com>
-References: <cover.1375996888.git.nitin.a.kamble@intel.com>
-	<ebd74052582cd3def1b5a4c3d609cfc6b2613933.1375996888.git.nitin.a.kamble@intel.com>
-	<20130808223707.GA17945@jama>
-In-Reply-To: <20130808223707.GA17945@jama>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+X-IronPort-AV: E=Sophos;i="4.89,842,1367996400"; d="scan'208";a="378356155"
+Received: from unknown (HELO [10.255.14.176]) ([10.255.14.176])
+	by fmsmga001.fm.intel.com with ESMTP; 08 Aug 2013 17:44:15 -0700
+Message-ID: <52043B5F.4020401@linux.intel.com>
+Date: Thu, 08 Aug 2013 17:44:15 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] gst-meta-base: bring in the v4l2 related gst plugin
+To: Cristiana Voicu <cristiana.voicu@intel.com>
+References: <640f6c9fa2af863b50ed3a89207e718e99078473.1375969277.git.cristiana.voicu@intel.com>
+	<734a8edf2a73e000207f7e11cfb28bb864a12c72.1375969277.git.cristiana.voicu@intel.com>
+In-Reply-To: <734a8edf2a73e000207f7e11cfb28bb864a12c72.1375969277.git.cristiana.voicu@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] kmod: upgrade to 14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,81 +33,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Aug 2013 23:10:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 09 Aug 2013 00:44:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 08/08/2013 06:46 AM, Cristiana Voicu wrote:
+> Made some changes on patches to apply correctly.
+>
 
+Seems to be an issue with building the kmod-native_git  Autobuilder 
+failed to build this, one example:
 
-> -----Original Message-----
-> From: Martin Jansa [mailto:martin.jansa@gmail.com]
-> Sent: Thursday, August 08, 2013 3:37 PM
-> To: Kamble, Nitin A
-> Cc: Openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 3/3] gst-meta-base: bring in the v4l2 relat=
-ed
-> gst plugin
->=20
-> On Thu, Aug 08, 2013 at 09:34:29PM +0000, nitin.a.kamble@intel.com wrote:
-> > From: Nitin A Kamble <nitin.a.kamble@intel.com>
-> >
-> > If the v4l2 machine feature is enabled, then the v4l2 gstreamer plugin
-> > is also pulled in the gst-meta-base packages.
-> >
-> > Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
-> > ---
-> >  meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> > b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> > index 210da37..c1139f4 100644
-> > --- a/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> > +++ b/meta/recipes-multimedia/gstreamer/gst-meta-base_0.10.bb
-> > @@ -35,7 +35,9 @@ RDEPENDS_gst-meta-base =3D "\
-> >      gst-plugins-base-videoscale \
-> >      gst-plugins-base-ffmpegcolorspace \
-> >      gst-plugins-good-autodetect \
-> > -    gst-plugins-good-souphttpsrc"
-> > +    gst-plugins-good-souphttpsrc \
-> > +    gst-plugins-base-videotestsrc \
-> > +    ${@base_contains('MACHINE_FEATURES', 'v4l2', 'gst-plugins-good-
-> video4linux2', '', d)}"
->=20
-> I was expecting to see PACKAGECONFIG somewhere, is v4l2 autodetected?
+http://autobuilder.yoctoproject.org:8011/builders/build-appliance/builds/245/steps/Building%20Images_1/logs/stdio
 
-There are PACKAGECONFIG definitions for v4l in meta/recipes-multimedia/gstr=
-eamer/gstreamer1.0-plugins-good.inc & meta/recipes-multimedia/gstreamer/gst=
--plugins-good_0.10.31.bb in oecore, which controls building of the v4l2 plu=
-gin. And I see it is built even when v4l is not listed in PACKAGECONFIG var=
-, so looks like it is autodetected.
+I have removed it for now.
 
-But the above change is to make sure that the v4l2 plugins gets pulled in t=
-he image.
->=20
-> Why not keep v4l2-utils in meta-multimedia?
-Because of the general availability of accelerated encoding in processors, =
-many BSPs can include the accelerated encoding support. Also because the gs=
-treamers plugin for v4l2 is in oecore, so oecore will be ideal location for=
- v4l-utils.
+Thanks
+	Sau!
 
-Thanks,
-Nitin
-
-
->=20
-> >
-> >  RRECOMMENDS_gst-meta-x11-base =3D "\
-> >      gst-plugins-base-ximagesink \
-> > --
-> > 1.8.1.4
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+> ---
+>   meta/recipes-kernel/kmod/kmod-native_git.bb        |    1 -
+>   meta/recipes-kernel/kmod/kmod.inc                  |    5 ++---
+>   ...-man-page-generation-because-we-don-t-hav.patch |   21 ++++++++++----------
+>   .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |    5 ++---
+>   meta/recipes-kernel/kmod/kmod_git.bb               |    3 +--
+>   5 files changed, 16 insertions(+), 19 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
+> index 8cbcdf8..afa3ad0 100644
+> --- a/meta/recipes-kernel/kmod/kmod-native_git.bb
+> +++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
+> @@ -4,7 +4,6 @@
+>   require kmod.inc
+>   inherit native
+>
+> -PR = "${INC_PR}.1"
+>   SRC_URI += "file://fix-undefined-O_CLOEXEC.patch"
+>
+>   do_install_append (){
+> diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+> index a780b6c..b07fc58 100644
+> --- a/meta/recipes-kernel/kmod/kmod.inc
+> +++ b/meta/recipes-kernel/kmod/kmod.inc
+> @@ -7,8 +7,7 @@ HOMEPAGE = "http://packages.profusion.mobi/kmod/"
+>   LICENSE = "GPL-2.0+ & LGPL-2.1+"
+>   LICENSE_libkmod = "LGPL-2.1+"
+>   SECTION = "base"
+> -PV = "9"
+> -INC_PR = "r0"
+> +PV = "14"
+>
+>   DEPENDS += "pkgconfig-native"
+>
+> @@ -24,7 +23,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+>              file://ptest.patch \
+>             "
+>
+> -SRCREV = "62081c0f68905b22f375156d4532fd37fa5c8d33"
+> +SRCREV = "3b38c7fcb58be4ddc34f90454c5f5dc3693d2d85"
+>
+>   S = "${WORKDIR}/git"
+>
+> diff --git a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch b/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
+> index 5361b84..b5a8e08 100644
+> --- a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
+> +++ b/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
+> @@ -11,16 +11,17 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>    Makefile.am |    2 +-
+>    1 files changed, 1 insertions(+), 1 deletions(-)
+>
+> -diff --git a/Makefile.am b/Makefile.am
+> -index 141c102..a8bdfd1 100644
+> ---- a/Makefile.am
+> -+++ b/Makefile.am
+> -@@ -1,4 +1,4 @@
+> --SUBDIRS = . libkmod/docs man
+> -+SUBDIRS = . libkmod/docs
+> +Index: git/Makefile.am
+> +===================================================================
+> +--- git.orig/Makefile.am
+> ++++ git/Makefile.am
+> +@@ -1,9 +1,5 @@
+> + SUBDIRS = . libkmod/docs
+>
+> +-if BUILD_MANPAGES
+> +-SUBDIRS += man
+> +-endif
+> +-
+>    DISTCLEAN_LOCAL_HOOKS =
+>    EXTRA_DIST =
+> ---
+> -1.7.8.4
+> -
+> + CLEANFILES =
+> diff --git a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+> index 3177e9a..49728c2 100644
+> --- a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+> +++ b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
+> @@ -4,9 +4,8 @@ Index: git/libkmod/libkmod-private.h
+>   ===================================================================
+>   --- git.orig/libkmod/libkmod-private.h
+>   +++ git/libkmod/libkmod-private.h
+> -@@ -1,6 +1,10 @@
+> - #ifndef _LIBKMOD_PRIVATE_H_
+> - #define _LIBKMOD_PRIVATE_H_
+> +@@ -1,5 +1,9 @@
+> + #pragma once
+>
+>   +#ifndef O_CLOEXEC
+>   +# define O_CLOEXEC 0
+> diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+> index f92ff72..28ce194 100644
+> --- a/meta/recipes-kernel/kmod/kmod_git.bb
+> +++ b/meta/recipes-kernel/kmod/kmod_git.bb
+> @@ -3,8 +3,7 @@
+>
+>   require kmod.inc
+>
+> -PR = "${INC_PR}.0"
+> -PV = "9+git${SRCPV}"
+> +PV = "14+git${SRCPV}"
+>
+>   PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+>   RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+>
 
