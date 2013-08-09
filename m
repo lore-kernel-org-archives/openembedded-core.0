@@ -1,26 +1,27 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C3EC56077D;
-	Fri,  9 Aug 2013 06:47:27 +0000 (UTC)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EAB66077D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  9 Aug 2013 07:11:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r796lQve008354
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 8 Aug 2013 23:47:26 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 8 Aug 2013 23:47:26 -0700
-Message-ID: <5204907A.5040301@windriver.com>
-Date: Fri, 9 Aug 2013 14:47:22 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r797B90B023857
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Aug 2013 00:11:09 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Fri, 9 Aug 2013 00:11:07 -0700
+Message-ID: <52049623.7020308@windriver.com>
+Date: Fri, 9 Aug 2013 15:11:31 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
 References: <20130731055135.A7345504BD@opal> <20130808172507.GB3269@jama>
 In-Reply-To: <20130808172507.GB3269@jama>
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
+X-Originating-IP: [128.224.162.233]
 Subject: Re: [oe-commits] Hongxu Jia : util-linux: use u-a for su
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,13 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 06:47:28 -0000
+X-List-Received-Date: Fri, 09 Aug 2013 07:11:08 -0000
 Content-Type: multipart/alternative;
-	boundary="------------090902020904090804060306"
+	boundary="------------080909080707000502060803"
 
---------------090902020904090804060306
+--------------080909080707000502060803
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
+
+Hi Martin,
+
+I think this is the same problem we discussed before.
+The thread is "busybox: fix the on-target upgrade problem".
+
+The problem roots in opkg's update-alternatives.
+At that time, I made a patch to fix this problem.
+I didn't send it out because I then found some other problems with 
+update-alternatives in OE/Yocto.
+And I filed a bug to track these issues. I wanted to fix them all in one 
+patchset.
+(https://bugzilla.yoctoproject.org/show_bug.cgi?id=4836)
+
+Best Regards,
+Chen Qi
 
 On 08/09/2013 01:25 AM, Martin Jansa wrote:
 > On Wed, Jul 31, 2013 at 05:51:35AM +0000, git@git.openembedded.org wrote:
@@ -89,17 +106,7 @@ On 08/09/2013 01:25 AM, Martin Jansa wrote:
 > SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/su
 > /bin/su
 > /bin/busybox.suid 50
-Are you sure the following patch has been updated to your local branch?
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=hongxu/fix-su&id=32eee3e731772da04ccb64b4da9ca9b413433674
-
-busybox: move /bin/su to /usr/bin/su to match util-linux and shadow
-This patch is used to fix this issue.
-
-Maybe you should rebuild busybox and try again.
-
-Thanks,
-Hongxu
-
+>
 > should base_bindir be used for ALTERNATIVE_LINK_NAME and bindir for TARGET?
 >
 >> ---
@@ -127,9 +134,15 @@ Hongxu
 >> Openembedded-commits mailing list
 >> Openembedded-commits@lists.openembedded.org
 >> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---------------090902020904090804060306
+--------------080909080707000502060803
 Content-Type: text/html; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
@@ -139,8 +152,24 @@ Content-Transfer-Encoding: 7bit
       http-equiv="Content-Type">
   </head>
   <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 08/09/2013 01:25 AM, Martin Jansa
-      wrote:<br>
+    <div class="moz-cite-prefix">Hi Martin,<br>
+      <br>
+      I think this is the same problem we discussed before.<br>
+      The thread is "busybox: fix the on-target upgrade problem".<br>
+      <br>
+      The problem roots in opkg's update-alternatives.
+      <br>
+      At that time, I made a patch to fix this problem.<br>
+      I didn't send it out because I then found some other problems with
+      update-alternatives in OE/Yocto.<br>
+      And I filed a bug to track these issues. I wanted to fix them all
+      in one patchset.<br>
+      (<a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=4836">https://bugzilla.yoctoproject.org/show_bug.cgi?id=4836</a>)<br>
+      <br>
+      Best Regards,<br>
+      Chen Qi<br>
+      <br>
+      On 08/09/2013 01:25 AM, Martin Jansa wrote:<br>
     </div>
     <blockquote cite="mid:20130808172507.GB3269@jama" type="cite">
       <pre wrap="">On Wed, Jul 31, 2013 at 05:51:35AM +0000, <a class="moz-txt-link-abbreviated" href="mailto:git@git.openembedded.org">git@git.openembedded.org</a> wrote:
@@ -194,25 +223,7 @@ update-alternatives: Error: cannot register alternative su to /usr/bin/su since 
 SHR root@gjama ~ $ cat /var/lib/opkg/alternatives/su
 /bin/su
 /bin/busybox.suid 50
-</pre>
-    </blockquote>
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    Are you sure the following patch has been updated to your local
-    branch?<br>
-    <a
-href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=hongxu/fix-su&amp;id=32eee3e731772da04ccb64b4da9ca9b413433674">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=hongxu/fix-su&amp;id=32eee3e731772da04ccb64b4da9ca9b413433674</a><br>
-    <br>
-    busybox: move /bin/su to /usr/bin/su to match util-linux and shadow<br>
-    This patch is used to fix this issue.<br>
-    <br>
-    Maybe you should rebuild busybox and try again.<br>
-    <br>
-    Thanks,<br>
-    Hongxu<br>
-    <br>
-    <blockquote cite="mid:20130808172507.GB3269@jama" type="cite">
-      <pre wrap="">
+
 should base_bindir be used for ALTERNATIVE_LINK_NAME and bindir for TARGET?
 
 </pre>
@@ -247,9 +258,17 @@ Openembedded-commits mailing list
       </blockquote>
       <pre wrap="">
 </pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
     </blockquote>
     <br>
   </body>
 </html>
 
---------------090902020904090804060306--
+--------------080909080707000502060803--
