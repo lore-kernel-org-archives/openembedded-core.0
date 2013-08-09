@@ -1,27 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FE606066D
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob09.myregisteredsite.com
+	(atl4mhob09.myregisteredsite.com [209.17.115.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C1B66007B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2013 09:58:32 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Aug 2013 02:58:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,844,1367996400"; d="scan'208";a="343974943"
-Received: from unknown (HELO helios.localnet) ([10.252.122.201])
-	by azsmga001.ch.intel.com with ESMTP; 09 Aug 2013 02:58:31 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 09 Aug 2013 10:58:30 +0100
-Message-ID: <21844536.louSSSY83b@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <20130809092044.GE17945@jama>
-References: <cover.1376038140.git.paul.eggleton@linux.intel.com>
-	<2db87529704491705f7288abb2ec787f90bcb3c1.1376038140.git.paul.eggleton@linux.intel.com>
-	<20130809092044.GE17945@jama>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/6] x264: add from meta-oe, update and tweak
+	Fri,  9 Aug 2013 10:53:49 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.203])
+	by atl4mhob09.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	r79ArnlR000925 for <openembedded-core@lists.openembedded.org>;
+	Fri, 9 Aug 2013 06:53:49 -0400
+Received: (qmail 2199 invoked by uid 0); 9 Aug 2013 10:53:48 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO paradigit.TOPIC.LOCAL)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 9 Aug 2013 10:53:48 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  9 Aug 2013 12:53:39 +0200
+Message-Id: <1376045619-27438-1-git-send-email-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH v2] linux-dtb.inc: Replace /boot/ with /${KERNEL_IMAGEDEST}/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +32,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 09:58:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 09 Aug 2013 10:53:50 -0000
 
-Hi Martin,
+Devicetree files were installed hard-coded in /boot. When KERNEL_IMAGEDEST
+is anything else but "boot", the postinstall script and the file locations
+no longer match and the postinstall will fail.
 
-On Friday 09 August 2013 11:20:44 Martin Jansa wrote:
-> On Fri, Aug 09, 2013 at 09:59:31AM +0100, Paul Eggleton wrote:
-> > This is required by the default configuration of libav being brought over
-> > from meta-oe. Changes from the meta-oe recipe:
-> > 
-> > * Update to the latest revision from the stable branch (upstream does
-> > 
-> >   not seem to provide stable releases.)
-> > 
-> > * Add LICENSE_FLAGS = "commercial"
-> > * Enable PIC to fix text relocation warnings and disable warning for
-> > 
-> >   i586 (since PIC can't be used there)
-> > 
-> > * Make SUMMARY value slightly shorter
-> > * Indent SRC_URI properly
-> 
-> I think it was indented correctly and styleguide doesn't define how many
-> spaces should be used for multiline variables.
+Replace "boot" with "${KERNEL_IMAGEDEST}" to fix this problem, and to allow
+the devicetree files to be installed in another location.
 
-It doesn't, but the convention that is observed in OE-Core is to indent 
-multiple-line statements to the level of the start of the value in the first 
-line (as indeed the value of EXTRA_OECONF is indented in this recipe). FWIW, I 
-have altered the commit message to refer to consistency with other recipes 
-rather than correctness.
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+ meta/recipes-kernel/linux/linux-dtb.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> > +EXTRA_OECONF = '--prefix=${prefix} \
-> > +                --host=${HOST_SYS} \
-> > +                --cross-prefix=${TARGET_PREFIX} \
-> > +                --sysroot=${STAGING_DIR_TARGET} \
-> > +                --enable-shared \
-> > +                --enable-static \
-> > +                --disable-lavf \
-> > +                --disable-swscale \
-> > +		--enable-pic \
-> 
-> Don't mix tabs and spaces.
-
-Oops, that's what I get for using vi without configuring it. Fixed on the 
-branch.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 7747718..41dd599 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -1,5 +1,5 @@
+ # Support for device tree generation
+-FILES_kernel-devicetree = "/boot/devicetree*"
++FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+ KERNEL_DEVICETREE_FLAGS ?= "-R 8 -p 0x3000"
+ 
+ python __anonymous () {
+@@ -22,7 +22,7 @@ do_install_append() {
+ 			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+ 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+ 			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
+-			install -m 0644 ${DTS_BASE_NAME} ${D}/boot/devicetree-${DTB_SYMLINK_NAME}.dtb
++			install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+ 		done
+ 	fi
+ }
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
