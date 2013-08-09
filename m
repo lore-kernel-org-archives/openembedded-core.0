@@ -1,36 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f175.google.com (mail-vc0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id D4B186B5C1
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 228C46AFC2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  9 Aug 2013 15:48:56 +0000 (UTC)
-Received: by mail-vc0-f175.google.com with SMTP id ia10so897120vcb.34
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 09 Aug 2013 08:48:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=5YjrINsgZfv6zvMcmnBFdOeblkyLTcT8qcH4hpGDEGY=;
-	b=KyUtViC/BM4NBA9+nCiBvpDNm4VhaHW0WXziJE6thzS1T1cHPw0ZjrDmXuex/c0sq1
-	0A9sJIqHSajKwqROgMqUCfMiA/7CJxbOtVm/0gZuU9RLJC3OHckXgEQbDut/fzkPlxRt
-	+TLh7dql+8v7TlMTZZ9Znj5A0nJ3BZEYJ0n12rxyVfH5rZ2BaQWLmrT7AQ5IAs6eCtQ5
-	3HdUhQhrpIlSolj82ZRd1SAL+FL0T1uwhqTvbjVXAx/KJSGzci6LF+iJWy8lwGOFJJz8
-	gpR6fgNXjjeaNXtJVg1nMKZZC9/lsU14fgcBbfOjmkACy2Oa5a5LU2/55yz+fMS8nCcH
-	xzmg==
-X-Gm-Message-State: ALoCoQk0AoZUGRfGmLI5L93c4oZEnHujkFHiVuxDTLB1pCE66zE4tG0lhM/eUuWuz7xqSmu5q/n0
-X-Received: by 10.58.118.70 with SMTP id kk6mr783241veb.1.1376063337112; Fri,
-	09 Aug 2013 08:48:57 -0700 (PDT)
+	Fri,  9 Aug 2013 15:57:46 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Aug 2013 08:57:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,846,1367996400"; d="scan'208";a="378627251"
+Received: from unknown (HELO [10.255.14.176]) ([10.255.14.176])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Aug 2013 08:57:37 -0700
+Message-ID: <52051171.1050705@linux.intel.com>
+Date: Fri, 09 Aug 2013 08:57:37 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 9 Aug 2013 08:48:36 -0700 (PDT)
-In-Reply-To: <cover.1376060231.git.sgw@linux.intel.com>
-References: <cover.1376060231.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 9 Aug 2013 16:48:36 +0100
-Message-ID: <CAJTo0LaBb=c9Kw9UyEuwei2u+wfMyFi2LebXbdns64LjQ5aoVw@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/17] Review & ACK
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+References: <1375881352-12993-1-git-send-email-jukka.rissanen@linux.intel.com>
+In-Reply-To: <1375881352-12993-1-git-send-email-jukka.rissanen@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] procps: Add cgroup support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,15 +32,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Aug 2013 15:48:57 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 09 Aug 2013 15:57:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 9 August 2013 16:03, Saul Wold <sgw@linux.intel.com> wrote:
-> I build this set, along with the Python3 and Read-Only, which are removed
-> pending some more review, on the AB. While there were some failures due to
-> other updates, those were also removed.
+On 08/07/2013 06:15 AM, Jukka Rissanen wrote:
+>
+> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+> ---
+> Hi,
+>
+> I have been using this patch in meta-eca but it might be useful
+> in oe-core.
+>
+> Cheers,
+> Jukka
+>
+>
+>   .../procps-3.2.8/procps-3.2.8-ps-cgroup.patch      | 74 ++++++++++++++++++++++
+>   meta/recipes-extended/procps/procps_3.2.8.bb       |  1 +
+>   2 files changed, 75 insertions(+)
+>   create mode 100644 meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
+>
+> diff --git a/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch b/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
+> new file mode 100644
+> index 0000000..eb260d3
+> --- /dev/null
+> +++ b/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+This needs a proper patch headers, please see the guidelines:
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
-Ross
+Thanks
+
+Sau!
+
+
+> @@ -0,0 +1,74 @@
+> +From e529ce0b53f6b73d8b760cd37b23e0397720cede Mon Sep 17 00:00:00 2001
+> +From: Daniel Novotny <dnovotny@fedoraproject.org>
+> +Date: Mon, 16 Feb 2009 12:22:20 +0000
+> +Subject: add cgroup support
+> +
+> +Rebased for 3.2.8: Andrei Gherzan <andrei.gherzan@windriver.com>
+> +
+> +Index: procps-3.2.8/ps/output.c
+> +===================================================================
+> +--- procps-3.2.8.orig/ps/output.c	2012-11-15 17:44:05.501337741 +0200
+> ++++ procps-3.2.8/ps/output.c	2012-11-15 17:48:31.585328231 +0200
+> +@@ -1099,6 +1099,39 @@
+> +   return snprintf(outbuf, COLWID, "*");
+> + }
+> +
+> ++static int pr_cgroup(char *restrict const outbuf, const proc_t *restrict const pp){
+> ++  char filename[48];
+> ++  FILE *fd;
+> ++  int counter = 0;
+> ++  int c;
+> ++  int is_cgroup = 0;
+> ++
+> ++  outbuf[0]='\0';
+> ++  snprintf(filename, sizeof filename, "/proc/%d/cgroup", pp->tgid);
+> ++  fd = fopen(filename, "r");
+> ++  if (likely(fd == NULL)) goto fail;
+> ++  while (( (c = fgetc(fd)) != EOF) && (counter<665)) {
+> ++    if (is_cgroup == 0) {
+> ++      if (c == ':') {
+> ++        is_cgroup = 1;
+> ++        if (counter>0)
+> ++          outbuf[counter++]=';';
+> ++      }
+> ++    }else
+> ++      if ((c == '\n') || (c == '\0'))
+> ++        is_cgroup = 0;
+> ++      else
+> ++        outbuf[counter++]=c;
+> ++  }
+> ++  outbuf[counter]='\0';
+> ++  close(fd);
+> ++  if (counter>0)
+> ++    return counter;
+> ++fail:
+> ++  outbuf[0] = '-';
+> ++  outbuf[1] = '\0';
+> ++  return 1;
+> ++}
+> +
+> + /****************** FLASK & seLinux security stuff **********************/
+> + // move the bulk of this to libproc sometime
+> +@@ -1293,6 +1326,7 @@
+> + {"bsdtime",   "TIME",    pr_bsdtime,  sr_nop,     6,   0,    LNX, ET|RIGHT},
+> + {"c",         "C",       pr_c,        sr_pcpu,    2,   0,    SUN, ET|RIGHT},
+> + {"caught",    "CAUGHT",  pr_sigcatch, sr_nop,     9,   0,    BSD, TO|SIGNAL}, /*sigcatch*/
+> ++{"cgroup",    "CGROUP",  pr_cgroup,   sr_nop,    35,   0,    LNX, PO|LEFT},  /* cgroups*/
+> + {"class",     "CLS",     pr_class,    sr_sched,   3,   0,    XXX, TO|LEFT},
+> + {"cls",       "CLS",     pr_class,    sr_sched,   3,   0,    HPU, TO|RIGHT}, /*says HPUX or RT*/
+> + {"cmaj_flt",  "-",       pr_nop,      sr_cmaj_flt, 1,  0,    LNX, AN|RIGHT},
+> +Index: procps-3.2.8/ps/ps.1
+> +===================================================================
+> +--- procps-3.2.8.orig/ps/ps.1	2012-11-15 17:44:50.845336117 +0200
+> ++++ procps-3.2.8/ps/ps.1	2012-11-15 17:49:09.621326859 +0200
+> +@@ -904,6 +904,10 @@
+> + displayed.  (alias\ \fBsig_catch\fR,\ \fBsigcatch\fR).
+> + T}
+> +
+> ++cgroup	CGROUP	T{
+> ++display control groups to which the process belonges.
+> ++t}
+> ++
+> + class	CLS	T{
+> + scheduling class of the process.  (alias\ \fBpolicy\fR,\ \fBcls\fR).
+> + Field's possible values are:
+> diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
+> index 8436d4a..e4b82e0 100644
+> --- a/meta/recipes-extended/procps/procps_3.2.8.bb
+> +++ b/meta/recipes-extended/procps/procps_3.2.8.bb
+> @@ -10,6 +10,7 @@ SRC_URI += "file://procmodule.patch \
+>               file://gnu-kbsd-version.patch \
+>               file://60_linux_version_init.patch \
+>               file://procps-3.2.7-top-remcpu.patch \
+> +            file://procps-3.2.8-ps-cgroup.patch \
+>              "
+>
+>   SRC_URI[md5sum] = "9532714b6846013ca9898984ba4cd7e0"
+>
 
