@@ -1,47 +1,31 @@
-Return-Path: <eric.nelson@boundarydevices.com>
-Received: from mail-pb0-f45.google.com (mail-pb0-f45.google.com
-	[209.85.160.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 8833461222
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C1C8061222
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 20:09:26 +0000 (UTC)
-Received: by mail-pb0-f45.google.com with SMTP id mc17so7130795pbc.32
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 13:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=NDd9kJdFmueTSFqItDicvHMYpEmgC8n6X6lrM+eYt7M=;
-	b=fJz0SiHXac6pUD/Bltvzq6Om6w3lRjFpoGWCLQykzegSDQmff5r1Da1QbI5pNoi6Uo
-	B0b297MjYgJ1aqsaXrwGXvZ6gbWDnGnen05cSwccsS0VQs+auA6WSkbvLwGwsED6pYkD
-	RjKfKv5M4nl4I1DrkjjOytwH70Qf1OchW/lB/AyRImLyk2pOB67f34p2eZidSFuEWYAs
-	9KZzMB9l9EsABA9Wb710Gw45KzVrSqwarVZGO8WCu/ygcQ0nG3E3rzZ+wOZsjePb8dF0
-	a0RgF/r3rsdk276gdTsL5f2I7l2OfFRYLVeKLl9KEYLcHnfqUTdtsw0b+KXf8M/q0Kvc
-	ul9A==
-X-Gm-Message-State: ALoCoQm8nqQnZeGXDUlZSeGkqe/iJIF+31eK8NlT5jg5dQPJruBdr4XS/r48wGBjRWJbSdExH7sB
-X-Received: by 10.66.25.133 with SMTP id c5mr754762pag.4.1376338167405;
-	Mon, 12 Aug 2013 13:09:27 -0700 (PDT)
-Received: from [192.168.0.15] ([70.96.116.236])
-	by mx.google.com with ESMTPSA id gg9sm239480pbc.25.2013.08.12.13.09.24
-	for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 12 Aug 2013 13:09:26 -0700 (PDT)
-Message-ID: <520940F2.7040508@boundarydevices.com>
-Date: Mon, 12 Aug 2013 13:09:22 -0700
-From: Eric Nelson <eric.nelson@boundarydevices.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <1376257018-17066-1-git-send-email-eric.nelson@boundarydevices.com>
-	<1376291285.27470.33.camel@ted>
-	<5208EA00.5010505@boundarydevices.com>
-	<CAP9ODKqf=FhdAzq1q_Dj1Hppcub9C4aGyYGGt587or-7fOmcdQ@mail.gmail.com>
-In-Reply-To: <CAP9ODKqf=FhdAzq1q_Dj1Hppcub9C4aGyYGGt587or-7fOmcdQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, denys@ti.com
-Subject: Re: [PATCH] nativesdk-qt4-tools: remove nativesdk-libx11 for qt-embedded
+	Mon, 12 Aug 2013 22:04:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7CMF5Ri010485; Mon, 12 Aug 2013 23:15:05 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uUM6z5__DaQd; Mon, 12 Aug 2013 23:15:05 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7CMF0hG010469
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 12 Aug 2013 23:15:02 +0100
+Message-ID: <1376345031.1838.10.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Francois Retief <fgretief@gmail.com>
+Date: Mon, 12 Aug 2013 23:03:51 +0100
+In-Reply-To: <1376333513.1838.3.camel@ted>
+References: <CAFpw0gLwDcf-yULb7UDX=MS=PH3=AU0iMf+_0zaG-Ov1mELKyw@mail.gmail.com>
+	<1376333513.1838.3.camel@ted>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [meta-mingw] eglibc-initial package getting in the way
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2013 20:09:27 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-List-Received-Date: Mon, 12 Aug 2013 22:04:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/12/2013 12:26 PM, Otavio Salvador wrote:
-> Hello Eric,
->
-> On Mon, Aug 12, 2013 at 10:58 AM, Eric Nelson
-> <eric.nelson@boundarydevices.com> wrote:
->>> I'm afraid we can't do this since you just broke any other kind of
->>> override which might get used anywhere by any recipe using this .inc
->>> file. I'd also be wary of adding something as simple as "qt" into
->>> overrides since it can match things more widely than you might want.
->>>
->>
->> I'm a bit of an OE n00b, and I'm not quite sure how to express this
->> conditional.
->>
->> meta-toolchain-qte shouldn't depend on nativesdk-libx11, and I'm
->> not sure how the dependency can be moved to the X11 recipe
->> recipes_qt/meta/meta-toolchain-qt.bb.
->
-> I think you're looking for to:
->
-> http://privatepaste.com/cc22a68c56
->
-> The missing part for merging it is to /force/ it to be disabled in qt
-> configure. This was last Richard complain about this patch when I sent
-> it.
->
-Thanks Otavio,
+On Mon, 2013-08-12 at 19:51 +0100, Richard Purdie wrote:
+> On Fri, 2013-08-09 at 18:16 +0200, Francois Retief wrote:
+> > I am working on a MinGW SDK layer for OpenEmbedded.  At this point, I
+> > got to the 
+> > point where the "gcc-crosssdk" package builds successfully. 
+> >
+> > My next target is to build the "nativesdk-libgcc" package. But the 
+> > "nativesdk-eglibc-initial package" is getting in the way. As one can
+> > see from 
+> > the log output below, eglibc, it complains that the mingw32
+> > environment is not 
+> > supported.
+> >
+> > So I switched TCLIBC in local.conf to "uclibc" in the hope that it
+> > would do better, 
+> > but same error message. Same package gets built.
+> >
+> > Also there is a BitBake warning about multiple package that provides
+> > the same libc-for-gcc package. But when I run gcc-crosssdk, there is
+> > no such clash.
+> >
+> > Thus my question is, where does the eglibc package get included in the
+> > dependency 
+> > tree? I worked through the package-depends.dot file to try and find
+> > what is 
+> > referencing this package but with no luck.
 
-I saw the ${@base_contains('DISTRO_FEATURES', construct elsewhere
-but got lost in the Python (scratching my head over the trailing 'd').
+I played a bit with this and shared some tweaks as:
+
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rpurdie/meta-mingw
+
+With those applied, "bitbake gcc-cross-canadian-i586
+binutils-cross-canadian-i586 -k" results in:
+
+Summary: 6 tasks failed:
+  virtual:nativesdk:/media/build1/poky/meta/recipes-core/zlib/zlib_1.2.8.bb, do_compile
+  virtual:nativesdk:/media/build1/poky/meta/recipes-devtools/gcc/libgcc_4.8.bb, do_package
+[easy to fix, not blocking the build]
+  /media/build1/poky/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb, do_compile
+  virtual:nativesdk:/media/build1/poky/meta/recipes-extended/bzip2/bzip2_1.0.6.bb, do_compile
+  virtual:nativesdk:/media/build1/poky/meta/recipes-support/mpfr/mpfr_3.1.2.bb, do_configure
+[shared gmp lib is bust, --disable-shared might make mpfr build]
+  virtual:nativesdk:/media/build1/poky/meta/recipes-core/gettext/gettext_0.18.2.bb, do_compile
+
+which is progress I guess. I've commented on a couple of the failures,
+I've not looked at the others. zlib is probably the one to get building
+next.
+
+The root cause was the libintl/libiconv providers being problematic.
+I've hacked those for now to make the build work, we can worry about
+sorting proper providers later should that be an issue.
+
+Cheers,
+
+Richard
+
 
 
