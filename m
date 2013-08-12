@@ -1,30 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D795661222
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 70E8061222
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 18:52:09 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7CJ37v4005412; Mon, 12 Aug 2013 20:03:07 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QgQNsjTJyBb8; Mon, 12 Aug 2013 20:03:06 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7CJ31Bd005392
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 12 Aug 2013 20:03:03 +0100
-Message-ID: <1376333513.1838.3.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Francois Retief <fgretief@gmail.com>
-Date: Mon, 12 Aug 2013 19:51:53 +0100
-In-Reply-To: <CAFpw0gLwDcf-yULb7UDX=MS=PH3=AU0iMf+_0zaG-Ov1mELKyw@mail.gmail.com>
-References: <CAFpw0gLwDcf-yULb7UDX=MS=PH3=AU0iMf+_0zaG-Ov1mELKyw@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-mingw] eglibc-initial package getting in the way
+	Mon, 12 Aug 2013 19:26:23 +0000 (UTC)
+Received: by mail-ob0-f176.google.com with SMTP id uz19so9163318obc.35
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Aug 2013 12:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=uA2/E2MEJTaoLNZxKbf0sheHOYxbLVnfLt9UK7gfNh8=;
+	b=zdn8NoyksOV5k8LCaK/1IksNESJmPVKVwy9jRZv5ENux80ytYIWGcBx+Ck4YivESQT
+	14MIeqaaTd1tMyEdxON2zzcrzmj9utGkO6bvt6krhT0TXD3LVvTwY2L6fabRxNK5O2Pj
+	JENwx/JfdnENH6rqvOWxh5scsX56hV5oEctw+lstyt3mRPE/bVElPQfNVfPsI4r8v9B/
+	qLYDZxiGXQdrgbIZ/uH3Zy4xqlg5dQYmP84Jf3HbXrQrE3F9pPRhx/VCBfZ74TzG6k9j
+	xnCqCibEvr1GntPrk+QK6KyBr4ycZQfjJ9nks34LNc0rNdqSwO2OXnafPJNSEmr5/s0s
+	+tMg==
+MIME-Version: 1.0
+X-Received: by 10.60.133.233 with SMTP id pf9mr546261oeb.46.1376335583597;
+	Mon, 12 Aug 2013 12:26:23 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 12 Aug 2013 12:26:23 -0700 (PDT)
+In-Reply-To: <5208EA00.5010505@boundarydevices.com>
+References: <1376257018-17066-1-git-send-email-eric.nelson@boundarydevices.com>
+	<1376291285.27470.33.camel@ted>
+	<5208EA00.5010505@boundarydevices.com>
+Date: Mon, 12 Aug 2013 16:26:23 -0300
+X-Google-Sender-Auth: g6N687VrXek20F7jgcI_qTv__H0
+Message-ID: <CAP9ODKqf=FhdAzq1q_Dj1Hppcub9C4aGyYGGt587or-7fOmcdQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Eric Nelson <eric.nelson@boundarydevices.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, denys@ti.com
+Subject: Re: [PATCH] nativesdk-qt4-tools: remove nativesdk-libx11 for qt-embedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,61 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2013 18:52:11 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Aug 2013 19:26:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, 2013-08-09 at 18:16 +0200, Francois Retief wrote:
-> I am working on a MinGW SDK layer for OpenEmbedded.  At this point, I
-> got to the 
-> point where the "gcc-crosssdk" package builds successfully. 
+Hello Eric,
+
+On Mon, Aug 12, 2013 at 10:58 AM, Eric Nelson
+<eric.nelson@boundarydevices.com> wrote:
+>> I'm afraid we can't do this since you just broke any other kind of
+>> override which might get used anywhere by any recipe using this .inc
+>> file. I'd also be wary of adding something as simple as "qt" into
+>> overrides since it can match things more widely than you might want.
+>>
 >
-> My next target is to build the "nativesdk-libgcc" package. But the 
-> "nativesdk-eglibc-initial package" is getting in the way. As one can
-> see from 
-> the log output below, eglibc, it complains that the mingw32
-> environment is not 
-> supported.
+> I'm a bit of an OE n00b, and I'm not quite sure how to express this
+> conditional.
 >
-> So I switched TCLIBC in local.conf to "uclibc" in the hope that it
-> would do better, 
-> but same error message. Same package gets built.
->
-> Also there is a BitBake warning about multiple package that provides
-> the same libc-for-gcc package. But when I run gcc-crosssdk, there is
-> no such clash.
->
-> Thus my question is, where does the eglibc package get included in the
-> dependency 
-> tree? I worked through the package-depends.dot file to try and find
-> what is 
-> referencing this package but with no luck.
+> meta-toolchain-qte shouldn't depend on nativesdk-libx11, and I'm
+> not sure how the dependency can be moved to the X11 recipe
+> recipes_qt/meta/meta-toolchain-qt.bb.
 
-I had a look at your repository and also tried building with it, looks
-good so far. TCLIBC is the wrong thing to play with, the issue is that
-you need to totally replace nativesdk-libc* with the mingw-w64-runtime
-package. This means it needs to have all the right PROVIDES to do this.
-The warning when you run "bitbake meta-toolchain":
+I think you're looking for to:
 
-ERROR: Multiple .bb files are due to be built which each provide
-virtual/nativesdk-x86_64-pokysdk-mingw32-libc-for-gcc
-(virtual:nativesdk:/media/build1/poky/meta-mingw/recipes-devtools/mingw-w64/mingw-w64-runtime_2.0.8.bb virtual:nativesdk:/media/build1/poky/meta/recipes-core/eglibc/eglibc_2.18.bb).
- This usually means one provides something the other doesn't and should.
-ERROR: Multiple .bb files are due to be built which each provide
-virtual/nativesdk-libc
-(virtual:nativesdk:/media/build1/poky/meta-mingw/recipes-devtools/mingw-w64/mingw-w64-runtime_2.0.8.bb virtual:nativesdk:/media/build1/poky/meta/recipes-core/eglibc/eglibc_2.18.bb).
- This usually means one provides something the other doesn't and should.
+http://privatepaste.com/cc22a68c56
 
-clearly shows its trying to build both and is rather confused. I'm going
-to poke at this a little further and see if I can give some better
-pointers as to how to fix this...
+The missing part for merging it is to /force/ it to be disabled in qt
+configure. This was last Richard complain about this patch when I sent
+it.
 
-Cheers,
-
-Richard
-
-
-
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
