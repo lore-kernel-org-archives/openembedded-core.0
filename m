@@ -1,19 +1,19 @@
 Return-Path: <muhammad_shakeel@mentor.com>
 Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BBCB61222
+	by mail.openembedded.org (Postfix) with ESMTP id D289A6B646
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 15:17:21 +0000 (UTC)
+	Mon, 12 Aug 2013 15:17:25 +0000 (UTC)
 Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7CFHBU0002187; 
-	Mon, 12 Aug 2013 10:17:21 -0500
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7CFHBU1002187; 
+	Mon, 12 Aug 2013 10:17:25 -0500
 From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Aug 2013 20:18:09 +0500
-Message-Id: <1376320691-20541-2-git-send-email-muhammad_shakeel@mentor.com>
+Date: Mon, 12 Aug 2013 20:18:10 +0500
+Message-Id: <1376320691-20541-3-git-send-email-muhammad_shakeel@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1376320691-20541-1-git-send-email-muhammad_shakeel@mentor.com>
 References: <1376320691-20541-1-git-send-email-muhammad_shakeel@mentor.com>
-Subject: [PATCH 2/4] [v2] lighttpd: Add systemd support
+Subject: [PATCH 3/4] [v2] rpcbind: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,7 +26,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2013 15:17:21 -0000
+X-List-Received-Date: Mon, 12 Aug 2013 15:17:26 -0000
 
 From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
@@ -34,71 +34,85 @@ From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
 Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- .../lighttpd/files/lighttpd.service                |   12 ++++++++++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   14 ++++++++++++--
- 2 files changed, 24 insertions(+), 2 deletions(-)
+ meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf |    3 +++
+ .../rpcbind/rpcbind/rpcbind.service                |   14 ++++++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |   15 ++++++++++++++-
+ 3 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/lighttpd/files/lighttpd.service b/meta/recipes-extended/lighttpd/files/lighttpd.service
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf
 new file mode 100644
-index 0000000..a5333b6
+index 0000000..2a4dfbc
 --- /dev/null
-+++ b/meta/recipes-extended/lighttpd/files/lighttpd.service
-@@ -0,0 +1,12 @@
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf
+@@ -0,0 +1,3 @@
++# Optional arguments passed to rpcbind.
++#
++RPCBIND_OPTS=""
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+new file mode 100644
+index 0000000..fa217b9
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+@@ -0,0 +1,14 @@
 +[Unit]
-+Description=Lightning Fast Webserver With Light System Requirements
++Description=RPC Bind
 +After=network.target
++Wants=rpcbind.target
++Before=rpcbind.target
 +
 +[Service]
-+ExecStartPre=/usr/sbin/lighttpd -t -f /etc/lighttpd.conf
-+ExecStart=/usr/sbin/lighttpd -D -f /etc/lighttpd.conf
-+ExecReload=/bin/kill -HUP $MAINPID
++Type=forking
++EnvironmentFile=-/etc/rpcbind.conf
++ExecStart=/usr/sbin/rpcbind -w $RPCBIND_OPTS
++Restart=always
 +
 +[Install]
 +WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+index f4a0367..264c50c 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+@@ -15,6 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://fix_host_path.patch \
+            file://obsolete_automake_macros.patch \
+            ${UCLIBCPATCHES} \
++           file://rpcbind.conf \
++           file://rpcbind.service \
+           "
+ 
+ UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
+@@ -27,7 +29,7 @@ SRC_URI[sha256sum] = "c92f263e0353887f16379d7708ef1fb4c7eedcf20448bc1e4838f59497
+ 
+ PR = "r4"
+ 
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
+ 
+ PACKAGECONFIG ??= "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+@@ -35,6 +37,11 @@ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+ INITSCRIPT_NAME = "rpcbind"
+ INITSCRIPT_PARAMS = "start 43 S . start 32 0 6 . stop 81 1 ."
+ 
++SYSTEMD_SERVICE_${PN} = "rpcbind.service"
++SYSTEMD_AUTO_ENABLE = "disable"
 +
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-index df6ce97..cb823f5 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://index.html.lighttpd \
-         file://lighttpd.conf \
-         file://lighttpd \
-+        file://lighttpd.service \
-         "
- 
- SRC_URI[md5sum] = "8e2d4ae8e918d4de1aeb9842584d170b"
-@@ -39,19 +40,28 @@ EXTRA_OECONF = " \
-              --disable-static \
- "
- 
--inherit autotools pkgconfig update-rc.d gettext
-+inherit autotools pkgconfig update-rc.d gettext systemd
- 
- INITSCRIPT_NAME = "lighttpd"
- INITSCRIPT_PARAMS = "defaults 70"
- 
-+SYSTEMD_SERVICE_${PN} = "lighttpd.service"
-+SYSTEMD_AUTO_ENABLE = "enable"
++EXTRA_OECONF += " --enable-warmstarts "
 +
- do_install_append() {
-     install -d ${D}${sysconfdir}/init.d ${D}/www/logs ${D}/www/pages/dav ${D}/www/var
-     install -m 0755 ${WORKDIR}/lighttpd ${D}${sysconfdir}/init.d
-     install -m 0755 ${WORKDIR}/lighttpd.conf ${D}${sysconfdir}
-     install -m 0644 ${WORKDIR}/index.html.lighttpd ${D}/www/pages/index.html
+ do_install_append () {
+     mv ${D}${bindir} ${D}${sbindir}
+ 
+@@ -43,4 +50,10 @@ do_install_append () {
+         -e 's,/sbin/,${sbindir}/,g' \
+         ${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
+     chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
 +
++    install -m 0755 ${WORKDIR}/rpcbind.conf ${D}${sysconfdir}
 +    install -d ${D}${systemd_unitdir}/system
-+    install -m 0644 ${WORKDIR}/lighttpd.service ${D}${systemd_unitdir}/system
-+    sed -i 's,/usr/sbin,${sbindir},g' ${D}${systemd_unitdir}/system/lighttpd.service
-+    sed -i 's,/etc,${sysconfdir},g' ${D}${systemd_unitdir}/system/lighttpd.service
-+    sed -i 's,/bin,${base_bindir},g' ${D}${systemd_unitdir}/system/lighttpd.service
++    install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
++    sed -i 's,/usr/sbin,${sbindir},g' ${D}${systemd_unitdir}/system/rpcbind.service
++    sed -i 's,/etc,${sysconfdir},g' ${D}${systemd_unitdir}/system/rpcbind.service
  }
- 
--FILES_${PN} += "${sysconfdir} /www"
-+FILES_${PN} += "${sysconfdir} /www ${systemd_unitdir}"
- 
- CONFFILES_${PN} = "${sysconfdir}/lighttpd.conf"
- 
 -- 
 1.7.9.5
 
