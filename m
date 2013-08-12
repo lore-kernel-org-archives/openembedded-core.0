@@ -1,44 +1,36 @@
-Return-Path: <eric.nelson@boundarydevices.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id E33CA61222
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A3AA61222
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 13:58:27 +0000 (UTC)
-Received: by mail-pd0-f182.google.com with SMTP id r10so2830886pdi.27
+	Mon, 12 Aug 2013 14:09:24 +0000 (UTC)
+Received: by mail-ea0-f178.google.com with SMTP id a15so3512058eae.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 06:58:28 -0700 (PDT)
+	Mon, 12 Aug 2013 07:09:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:cc:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=BuhXesczEe56lb9u+8LnX9XJt6jEHiZcQL+eTpZBJKE=;
-	b=CnK/1zEdIt8bBd7xe5pRbkVr77e+0wl2URO6NtNr5lQpLWZZc73o37N75VpSulRvB0
-	9QwjgY4fyYvZdPKMvV5dj3Ho+rZ0/HqERt8tl9/8NJZE9+IT4FnaFBtOQGsxED8avtW5
-	MXRSjos5UC7xh7FO5XXvNjGJgNZ0pJTmIgkSUG7QcSg/876K6kyce1YSZDToz8ENJgLr
-	6XDhHHAQVoz0dDmOel2FZWWFgpA6QBHuw4n+U58/cFfRnL4RyPeFtRzqgPsA/S2COnsl
-	Pb3suTLlwKEcq1erMapkOhoF+3spFTxRqafP2GpXco3cPOKtO7Xlxn8ogQg0cNdeisDj
-	RzLA==
-X-Gm-Message-State: ALoCoQntYSBuQk8PXSL2S9HwXETKp2yGX7TRyWxmkWrdm2DJTZHBo/OitVwhY2R0S1BI+MYLpK0Y
-X-Received: by 10.68.6.100 with SMTP id z4mr15509844pbz.187.1376315908577;
-	Mon, 12 Aug 2013 06:58:28 -0700 (PDT)
-Received: from [192.168.1.8] (ip98-167-230-131.ph.ph.cox.net. [98.167.230.131])
-	by mx.google.com with ESMTPSA id
-	xe9sm37477650pbc.21.2013.08.12.06.58.26 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 12 Aug 2013 06:58:27 -0700 (PDT)
-Message-ID: <5208EA00.5010505@boundarydevices.com>
-Date: Mon, 12 Aug 2013 06:58:24 -0700
-From: Eric Nelson <eric.nelson@boundarydevices.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1376257018-17066-1-git-send-email-eric.nelson@boundarydevices.com>
-	<1376291285.27470.33.camel@ted>
-In-Reply-To: <1376291285.27470.33.camel@ted>
-Cc: denys@ti.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nativesdk-qt4-tools: remove nativesdk-libx11 for qt-embedded
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7xYws1pxhhJZZbfj0MwLtVMDLf33F+oQY2XR/jQaIm8=;
+	b=Ck5VzZGGACvZVKgIq20dT3GGHxneqSAOzG0dV82Ew11U0XVpZR0IwUh86yBQd8Gvjw
+	VkuFzCl6V3U4VIALv/Vax5tAvU5n4P+Vw5l0/ZTe8y4AqCmoCNBnzR3gtk5EU1gCP/aS
+	5Gs0RXosYDXIWDO31GYKcmd3V8v1iY0HIN/NBx7h050UBs12fv6gvElkphY2Ovz5qBmK
+	QEqQgzzTJmvmP3wfasW9HjGEFB3BROa5hb3dvANrpUhBOTKZbwGqtoXEpS+4Lait6S8L
+	YDzUsi2j/l9o4GNcCKlEZ7KQI/By1a8bk9D4Zwx0KRVie8tYQjBrQjvEqDGPTtP9bkE2
+	gCMg==
+X-Gm-Message-State: ALoCoQnbJm0iGna88pgBVagNHQzW/PMHe5iPpbkGkXdAhvqAeMwWkdwbaUJlV3aNfEZRw46Otcs+
+X-Received: by 10.14.114.68 with SMTP id b44mr7148048eeh.60.1376316564304;
+	Mon, 12 Aug 2013 07:09:24 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id t6sm57617539eel.12.2013.08.12.07.09.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 12 Aug 2013 07:09:23 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Aug 2013 15:09:20 +0100
+Message-Id: <1376316560-10880-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] cogl: GL/GLX feature cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,43 +43,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2013 13:58:28 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Aug 2013 14:09:24 -0000
 
-Thanks Richard,
+Separate GL and GLX flags don't make sense, as on Linux GL means GLX and GLX
+means GL.
 
-On 08/12/2013 12:08 AM, Richard Purdie wrote:
-> On Sun, 2013-08-11 at 14:36 -0700, Eric Nelson wrote:
->> Signed-off-by: Eric Nelson <eric.nelson@boundarydevices.com>
->> ---
->>   meta/recipes-qt/qt4/nativesdk-qt4-tools.inc | 5 ++++-
->>   1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
->> index cfc6fd8..6ec3225 100644
->> --- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
->> +++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
->> @@ -1,5 +1,8 @@
->>   DESCRIPTION = "SDK tools for Qt/[X11|Mac|Embedded] version 4.x"
->> -DEPENDS = "nativesdk-zlib nativesdk-dbus nativesdk-libx11 qt4-native"
->> +DEPENDS = "nativesdk-zlib nativesdk-dbus qt4-native"
->> +OVERRIDES="${QTNAME}"
->> +DEPENDS_append_qt = " nativesdk-libx11"
->
-> I'm afraid we can't do this since you just broke any other kind of
-> override which might get used anywhere by any recipe using this .inc
-> file. I'd also be wary of adding something as simple as "qt" into
-> overrides since it can match things more widely than you might want.
->
+So, default to GLESv2 and GLX if X11 is enabled.  EGL on X11 doesn't have
+feature parity yet so leave it disabled by default.
 
-I'm a bit of an OE n00b, and I'm not quite sure how to express this
-conditional.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/cogl/cogl-1.0.inc |   17 +++++++++--------
+ 1 file changed, 9 insertions(+), 8 deletions(-)
 
-meta-toolchain-qte shouldn't depend on nativesdk-libx11, and I'm
-not sure how the dependency can be moved to the X11 recipe
-recipes_qt/meta/meta-toolchain-qt.bb.
-
-
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
+index c0d410e..c189e95 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0.inc
++++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
+@@ -28,16 +28,17 @@ EDEPENDS_WAYLAND = "wayland"
+ ERDEPENDS_GL    = "libgl"
+ ERDEPENDS_GLES2 = "libgles2"
+ 
+++# GLESv1 is rarely tested, so disable it
+ EXTRA_OECONF += "--disable-introspection	\
+ 	       	 --enable-examples-install	\
+ 	       	 --enable-debug		 	\
+ 	       	 --disable-gles1		\
+ 	    	"
+ 
+-PACKAGECONFIG[cogl-pango] = "--enable-cogl-pango,--disable-cogl-pango,pango"
++# OpenGL/GLX
++PACKAGECONFIG[glx] = "--enable-gl --enable-glx,--disable-gl --disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11},${ERDEPENDS_GL}"
+ 
+-# GL flavours
+-PACKAGECONFIG[gl] = "--enable-gl,--disable-gl,${EDEPENDS_GL},${ERDEPENDS_GL}"
++# GLESv2
+ PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,${EDEPENDS_GLES2}, ${ERDEPENDS_GLES2}"
+ 
+ # EGL backends
+@@ -46,15 +47,15 @@ PACKAGECONFIG[egl-null] = "--enable-null-egl-platform,--disable-null-egl-platfor
+ PACKAGECONFIG[egl-x11] = "--enable-xlib-egl-platform,--disable-xlib-egl-platform,${EDEPENDS_X11}"
+ PACKAGECONFIG[egl-wayland] = "--enable-wayland-egl-platform,--disable-wayland-egl-platform,${EDEPENDS_WAYLAND}"
+ 
+-# GLX
+-PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11}"
+-
+-# Wayland server-side
++# Wayland (server-side)
+ PACKAGECONFIG[wayland-server] = "--enable-wayland-egl-server,--disable-wayland-egl-server,${EDEPENDS_WAYLAND}"
+ 
++# Support rendering text directly with Pango
++PACKAGECONFIG[cogl-pango] = "--enable-cogl-pango,--disable-cogl-pango,pango"
++
+ # Respect the DISTRO_FEATURES to pull in GLX or Wayland as appropriate by
+ # default.
+-PACKAGECONFIG ??= "cogl-pango gl \
++PACKAGECONFIG ??= "cogl-pango gles2 \
+                    ${@base_contains('DISTRO_FEATURES', 'wayland', 'egl-wayland', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'x11', 'glx', '', d)}"
+ 
+-- 
+1.7.10.4
 
 
