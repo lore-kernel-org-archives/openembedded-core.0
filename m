@@ -1,31 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id C1C8061222
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id C556F61222
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 22:04:06 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7CMF5Ri010485; Mon, 12 Aug 2013 23:15:05 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uUM6z5__DaQd; Mon, 12 Aug 2013 23:15:05 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7CMF0hG010469
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 12 Aug 2013 23:15:02 +0100
-Message-ID: <1376345031.1838.10.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Francois Retief <fgretief@gmail.com>
-Date: Mon, 12 Aug 2013 23:03:51 +0100
-In-Reply-To: <1376333513.1838.3.camel@ted>
-References: <CAFpw0gLwDcf-yULb7UDX=MS=PH3=AU0iMf+_0zaG-Ov1mELKyw@mail.gmail.com>
-	<1376333513.1838.3.camel@ted>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	Mon, 12 Aug 2013 22:53:00 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 12 Aug 2013 15:53:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,865,1367996400"; d="scan'208";a="345367461"
+Received: from unknown (HELO [10.255.14.106]) ([10.255.14.106])
+	by azsmga001.ch.intel.com with ESMTP; 12 Aug 2013 15:52:37 -0700
+Message-ID: <52096735.9060300@linux.intel.com>
+Date: Mon, 12 Aug 2013 15:52:37 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Yevhen Kyriukha <kirgene@gmail.com>
+References: <1376324886-17664-1-git-send-email-kirgene@gmail.com>
+In-Reply-To: <1376324886-17664-1-git-send-email-kirgene@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-mingw] eglibc-initial package getting in the way
+Subject: Re: [PATCH v1] connman: fix systemd support for connman-* packages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,65 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2013 22:04:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 12 Aug 2013 22:53:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-08-12 at 19:51 +0100, Richard Purdie wrote:
-> On Fri, 2013-08-09 at 18:16 +0200, Francois Retief wrote:
-> > I am working on a MinGW SDK layer for OpenEmbedded.  At this point, I
-> > got to the 
-> > point where the "gcc-crosssdk" package builds successfully. 
-> >
-> > My next target is to build the "nativesdk-libgcc" package. But the 
-> > "nativesdk-eglibc-initial package" is getting in the way. As one can
-> > see from 
-> > the log output below, eglibc, it complains that the mingw32
-> > environment is not 
-> > supported.
-> >
-> > So I switched TCLIBC in local.conf to "uclibc" in the hope that it
-> > would do better, 
-> > but same error message. Same package gets built.
-> >
-> > Also there is a BitBake warning about multiple package that provides
-> > the same libc-for-gcc package. But when I run gcc-crosssdk, there is
-> > no such clash.
-> >
-> > Thus my question is, where does the eglibc package get included in the
-> > dependency 
-> > tree? I worked through the package-depends.dot file to try and find
-> > what is 
-> > referencing this package but with no luck.
+On 08/12/2013 09:28 AM, Yevhen Kyriukha wrote:
+> This patch fixes systemd's postinst/postrm script generation.
+>
+> Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
+> ---
+>   meta/recipes-connectivity/connman/connman.inc | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+> index 6b5ea0b..c5014b7 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -56,6 +56,7 @@ PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+>   INITSCRIPT_NAME = "connman"
+>   INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+>
+> +SYSTEMD_PACKAGES = "${PN} ${PN}-vpn"
 
-I played a bit with this and shared some tweaks as:
+This needs to be guarded with a check for the vpn in PACKAGECONFIG, 
+otherwise a packaging error can occur since the service file is not 
+available:
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rpurdie/meta-mingw
+ERROR: Function failed: SYSTEMD_SERVICE_connman-vpn value 
+connman-vpn.service does not exist
 
-With those applied, "bitbake gcc-cross-canadian-i586
-binutils-cross-canadian-i586 -k" results in:
+Please correct this.
 
-Summary: 6 tasks failed:
-  virtual:nativesdk:/media/build1/poky/meta/recipes-core/zlib/zlib_1.2.8.bb, do_compile
-  virtual:nativesdk:/media/build1/poky/meta/recipes-devtools/gcc/libgcc_4.8.bb, do_package
-[easy to fix, not blocking the build]
-  /media/build1/poky/meta/recipes-devtools/libtool/nativesdk-libtool_2.4.2.bb, do_compile
-  virtual:nativesdk:/media/build1/poky/meta/recipes-extended/bzip2/bzip2_1.0.6.bb, do_compile
-  virtual:nativesdk:/media/build1/poky/meta/recipes-support/mpfr/mpfr_3.1.2.bb, do_configure
-[shared gmp lib is bust, --disable-shared might make mpfr build]
-  virtual:nativesdk:/media/build1/poky/meta/recipes-core/gettext/gettext_0.18.2.bb, do_compile
+Thanks
+	Sau!
 
-which is progress I guess. I've commented on a couple of the failures,
-I've not looked at the others. zlib is probably the one to get building
-next.
-
-The root cause was the libintl/libiconv providers being problematic.
-I've hacked those for now to make the build work, we can worry about
-sorting proper providers later should that be an issue.
-
-Cheers,
-
-Richard
-
-
+>   SYSTEMD_SERVICE_${PN} = "connman.service"
+>   SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+>   SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+>
 
