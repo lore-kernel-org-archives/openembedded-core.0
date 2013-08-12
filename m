@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 592E16B110
+Return-Path: <jukka.rissanen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 325B561222
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 07:08:23 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7C7JIpH011053; Mon, 12 Aug 2013 08:19:18 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id l99q2r02oHCx; Mon, 12 Aug 2013 08:19:18 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7C7JAPY011047
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 12 Aug 2013 08:19:12 +0100
-Message-ID: <1376291285.27470.33.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Eric Nelson <eric.nelson@boundarydevices.com>
-Date: Mon, 12 Aug 2013 08:08:05 +0100
-In-Reply-To: <1376257018-17066-1-git-send-email-eric.nelson@boundarydevices.com>
-References: <1376257018-17066-1-git-send-email-eric.nelson@boundarydevices.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: denys@ti.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nativesdk-qt4-tools: remove nativesdk-libx11 for qt-embedded
+	Mon, 12 Aug 2013 07:22:26 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 12 Aug 2013 00:22:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,860,1367996400"; d="scan'208";a="280720919"
+Received: from sorvi.fi.intel.com ([10.237.72.152])
+	by AZSMGA002.ch.intel.com with ESMTP; 12 Aug 2013 00:22:25 -0700
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 12 Aug 2013 10:22:24 +0300
+Message-Id: <1376292144-15493-1-git-send-email-jukka.rissanen@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.7
+Subject: [PATCH v2] procps: Add cgroup support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +27,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2013 07:08:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 12 Aug 2013 07:22:26 -0000
 
-On Sun, 2013-08-11 at 14:36 -0700, Eric Nelson wrote:
-> Signed-off-by: Eric Nelson <eric.nelson@boundarydevices.com>
-> ---
->  meta/recipes-qt/qt4/nativesdk-qt4-tools.inc | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> index cfc6fd8..6ec3225 100644
-> --- a/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> +++ b/meta/recipes-qt/qt4/nativesdk-qt4-tools.inc
-> @@ -1,5 +1,8 @@
->  DESCRIPTION = "SDK tools for Qt/[X11|Mac|Embedded] version 4.x"
-> -DEPENDS = "nativesdk-zlib nativesdk-dbus nativesdk-libx11 qt4-native"
-> +DEPENDS = "nativesdk-zlib nativesdk-dbus qt4-native"
-> +OVERRIDES="${QTNAME}"
-> +DEPENDS_append_qt = " nativesdk-libx11"
 
-I'm afraid we can't do this since you just broke any other kind of
-override which might get used anywhere by any recipe using this .inc
-file. I'd also be wary of adding something as simple as "qt" into
-overrides since it can match things more widely than you might want.
+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+---
+Hi,
+
+v2:
+- added Upstream-Status to procps-3.2.8-ps-cgroup.patch file
+
+v1:
+I have been using this patch in meta-eca but it might be useful
+in oe-core.
 
 Cheers,
+Jukka
 
-Richard
+ .../procps-3.2.8/procps-3.2.8-ps-cgroup.patch      | 82 ++++++++++++++++++++++
+ meta/recipes-extended/procps/procps_3.2.8.bb       |  1 +
+ 2 files changed, 83 insertions(+)
+ create mode 100644 meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
 
->  SECTION = "libs"
->  HOMEPAGE = "http://qt.nokia.com"
->  LICENSE = "LGPLv2.1 | GPLv3"
-
+diff --git a/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch b/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
+new file mode 100644
+index 0000000..1a29414
+--- /dev/null
++++ b/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
+@@ -0,0 +1,82 @@
++From e529ce0b53f6b73d8b760cd37b23e0397720cede Mon Sep 17 00:00:00 2001
++From: Daniel Novotny <dnovotny@fedoraproject.org>
++Date: Mon, 16 Feb 2009 12:22:20 +0000
++Subject: add cgroup support
++
++Rebased for 3.2.8: Andrei Gherzan <andrei.gherzan@windriver.com>
++
++Upstream-Status: Pending
++
++The patch was imported from the meta-ivi repository
++(git://git.yoctoproject.org/meta-ivi) as of commit id
++74b9624fe94b2b90810717a13d481b0db9d2d95a
++
++Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
++
++Index: procps-3.2.8/ps/output.c
++===================================================================
++--- procps-3.2.8.orig/ps/output.c	2012-11-15 17:44:05.501337741 +0200
+++++ procps-3.2.8/ps/output.c	2012-11-15 17:48:31.585328231 +0200
++@@ -1099,6 +1099,39 @@
++   return snprintf(outbuf, COLWID, "*");
++ }
++ 
+++static int pr_cgroup(char *restrict const outbuf, const proc_t *restrict const pp){
+++  char filename[48];
+++  FILE *fd;
+++  int counter = 0;
+++  int c;
+++  int is_cgroup = 0;
+++
+++  outbuf[0]='\0';
+++  snprintf(filename, sizeof filename, "/proc/%d/cgroup", pp->tgid);
+++  fd = fopen(filename, "r");
+++  if (likely(fd == NULL)) goto fail;
+++  while (( (c = fgetc(fd)) != EOF) && (counter<665)) {
+++    if (is_cgroup == 0) {
+++      if (c == ':') {
+++        is_cgroup = 1;
+++        if (counter>0)
+++          outbuf[counter++]=';';
+++      }
+++    }else
+++      if ((c == '\n') || (c == '\0'))
+++        is_cgroup = 0;
+++      else
+++        outbuf[counter++]=c;
+++  }
+++  outbuf[counter]='\0';
+++  close(fd);
+++  if (counter>0)
+++    return counter;
+++fail:
+++  outbuf[0] = '-';
+++  outbuf[1] = '\0';
+++  return 1;
+++}
++ 
++ /****************** FLASK & seLinux security stuff **********************/
++ // move the bulk of this to libproc sometime
++@@ -1293,6 +1326,7 @@
++ {"bsdtime",   "TIME",    pr_bsdtime,  sr_nop,     6,   0,    LNX, ET|RIGHT},
++ {"c",         "C",       pr_c,        sr_pcpu,    2,   0,    SUN, ET|RIGHT},
++ {"caught",    "CAUGHT",  pr_sigcatch, sr_nop,     9,   0,    BSD, TO|SIGNAL}, /*sigcatch*/
+++{"cgroup",    "CGROUP",  pr_cgroup,   sr_nop,    35,   0,    LNX, PO|LEFT},  /* cgroups*/
++ {"class",     "CLS",     pr_class,    sr_sched,   3,   0,    XXX, TO|LEFT},
++ {"cls",       "CLS",     pr_class,    sr_sched,   3,   0,    HPU, TO|RIGHT}, /*says HPUX or RT*/
++ {"cmaj_flt",  "-",       pr_nop,      sr_cmaj_flt, 1,  0,    LNX, AN|RIGHT},
++Index: procps-3.2.8/ps/ps.1
++===================================================================
++--- procps-3.2.8.orig/ps/ps.1	2012-11-15 17:44:50.845336117 +0200
+++++ procps-3.2.8/ps/ps.1	2012-11-15 17:49:09.621326859 +0200
++@@ -904,6 +904,10 @@
++ displayed.  (alias\ \fBsig_catch\fR,\ \fBsigcatch\fR).
++ T}
++ 
+++cgroup	CGROUP	T{
+++display control groups to which the process belonges.
+++t}
+++
++ class	CLS	T{
++ scheduling class of the process.  (alias\ \fBpolicy\fR,\ \fBcls\fR).
++ Field's possible values are:
+diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
+index 8436d4a..e4b82e0 100644
+--- a/meta/recipes-extended/procps/procps_3.2.8.bb
++++ b/meta/recipes-extended/procps/procps_3.2.8.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://procmodule.patch \
+             file://gnu-kbsd-version.patch \
+             file://60_linux_version_init.patch \
+             file://procps-3.2.7-top-remcpu.patch \
++            file://procps-3.2.8-ps-cgroup.patch \
+            "
+ 
+ SRC_URI[md5sum] = "9532714b6846013ca9898984ba4cd7e0"
+-- 
+1.7.11.7
 
 
