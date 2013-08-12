@@ -1,20 +1,37 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 325B561222
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id EC94961222
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 12 Aug 2013 07:22:26 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 12 Aug 2013 00:22:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,860,1367996400"; d="scan'208";a="280720919"
-Received: from sorvi.fi.intel.com ([10.237.72.152])
-	by AZSMGA002.ch.intel.com with ESMTP; 12 Aug 2013 00:22:25 -0700
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 12 Aug 2013 10:22:24 +0300
-Message-Id: <1376292144-15493-1-git-send-email-jukka.rissanen@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.7
-Subject: [PATCH v2] procps: Add cgroup support
+	Mon, 12 Aug 2013 10:02:38 +0000 (UTC)
+Received: by mail-ve0-f179.google.com with SMTP id c13so5442223vea.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 12 Aug 2013 03:02:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=E9QdlGPtvNK8JBPWu/JIuay6r1aJkCrpzDhwEgY6888=;
+	b=jRIE5VClDvKfLdbpfj91gXYniZpekqyAj4HQhHh60oMCacD/wNOTKiNsRfiddqMIN8
+	HkcSv96Qp+uxGhvpnQFAkCh3ZW/dipPlYLnkVFHzc3PqpqwxRv/WCnNpLLz0ngm/Zo+H
+	Q7FUEKAzDNiV98uYycEdpWIx+kB6RHRBXYqsDaFHh8eeNaq0usLO0FxLiwIOiZxw44jg
+	e2SVYXmpPvYRX3qC5HjC2Kv2wKQihatFpHedYsjH7IEWQMcvuclFnCCGzaQPVtqqbdxc
+	q37Lf9f5sL3wShEh3s36DtvW8CTUI27g3VELK82cxwLbIXrg9IofIAQlXy4eBar4Sgy3
+	4gxA==
+X-Gm-Message-State: ALoCoQl74H+F5VCo66w+ukfNJN24gHbmxnTuwzaeiB21vIp9xik8SqqzztfOtVBQwuuTLjx8XFB6
+X-Received: by 10.58.181.225 with SMTP id dz1mr11367643vec.95.1376301759008;
+	Mon, 12 Aug 2013 03:02:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 12 Aug 2013 03:02:18 -0700 (PDT)
+In-Reply-To: <520557EE.7090904@linux.intel.com>
+References: <1376040425-2928-1-git-send-email-ross.burton@intel.com>
+	<520557EE.7090904@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 12 Aug 2013 11:02:18 +0100
+Message-ID: <CAJTo0La9U1QaxmdsCH3gHuQ=aQ22EQzuPX2f5FyrZJHT_5SqEQ@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][V3] oe-setup-builddir: substitute ##OEROOT## when using templates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,129 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2013 07:22:26 -0000
+X-List-Received-Date: Mon, 12 Aug 2013 10:02:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 9 August 2013 21:58, Saul Wold <sgw@linux.intel.com> wrote:
+>> To resolve this, deprecate (but still substitute) ##COREBASE## and
+>> substitute
+>>
+> Did you mean for this sentence to just trail off?
 
-Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
----
-Hi,
+The problem with write commit messages with # in is that you're one
+paragraph reformat away from lines disappearing...
 
-v2:
-- added Upstream-Status to procps-3.2.8-ps-cgroup.patch file
-
-v1:
-I have been using this patch in meta-eca but it might be useful
-in oe-core.
-
-Cheers,
-Jukka
-
- .../procps-3.2.8/procps-3.2.8-ps-cgroup.patch      | 82 ++++++++++++++++++++++
- meta/recipes-extended/procps/procps_3.2.8.bb       |  1 +
- 2 files changed, 83 insertions(+)
- create mode 100644 meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
-
-diff --git a/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch b/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
-new file mode 100644
-index 0000000..1a29414
---- /dev/null
-+++ b/meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
-@@ -0,0 +1,82 @@
-+From e529ce0b53f6b73d8b760cd37b23e0397720cede Mon Sep 17 00:00:00 2001
-+From: Daniel Novotny <dnovotny@fedoraproject.org>
-+Date: Mon, 16 Feb 2009 12:22:20 +0000
-+Subject: add cgroup support
-+
-+Rebased for 3.2.8: Andrei Gherzan <andrei.gherzan@windriver.com>
-+
-+Upstream-Status: Pending
-+
-+The patch was imported from the meta-ivi repository
-+(git://git.yoctoproject.org/meta-ivi) as of commit id
-+74b9624fe94b2b90810717a13d481b0db9d2d95a
-+
-+Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-+
-+Index: procps-3.2.8/ps/output.c
-+===================================================================
-+--- procps-3.2.8.orig/ps/output.c	2012-11-15 17:44:05.501337741 +0200
-++++ procps-3.2.8/ps/output.c	2012-11-15 17:48:31.585328231 +0200
-+@@ -1099,6 +1099,39 @@
-+   return snprintf(outbuf, COLWID, "*");
-+ }
-+ 
-++static int pr_cgroup(char *restrict const outbuf, const proc_t *restrict const pp){
-++  char filename[48];
-++  FILE *fd;
-++  int counter = 0;
-++  int c;
-++  int is_cgroup = 0;
-++
-++  outbuf[0]='\0';
-++  snprintf(filename, sizeof filename, "/proc/%d/cgroup", pp->tgid);
-++  fd = fopen(filename, "r");
-++  if (likely(fd == NULL)) goto fail;
-++  while (( (c = fgetc(fd)) != EOF) && (counter<665)) {
-++    if (is_cgroup == 0) {
-++      if (c == ':') {
-++        is_cgroup = 1;
-++        if (counter>0)
-++          outbuf[counter++]=';';
-++      }
-++    }else
-++      if ((c == '\n') || (c == '\0'))
-++        is_cgroup = 0;
-++      else
-++        outbuf[counter++]=c;
-++  }
-++  outbuf[counter]='\0';
-++  close(fd);
-++  if (counter>0)
-++    return counter;
-++fail:
-++  outbuf[0] = '-';
-++  outbuf[1] = '\0';
-++  return 1;
-++}
-+ 
-+ /****************** FLASK & seLinux security stuff **********************/
-+ // move the bulk of this to libproc sometime
-+@@ -1293,6 +1326,7 @@
-+ {"bsdtime",   "TIME",    pr_bsdtime,  sr_nop,     6,   0,    LNX, ET|RIGHT},
-+ {"c",         "C",       pr_c,        sr_pcpu,    2,   0,    SUN, ET|RIGHT},
-+ {"caught",    "CAUGHT",  pr_sigcatch, sr_nop,     9,   0,    BSD, TO|SIGNAL}, /*sigcatch*/
-++{"cgroup",    "CGROUP",  pr_cgroup,   sr_nop,    35,   0,    LNX, PO|LEFT},  /* cgroups*/
-+ {"class",     "CLS",     pr_class,    sr_sched,   3,   0,    XXX, TO|LEFT},
-+ {"cls",       "CLS",     pr_class,    sr_sched,   3,   0,    HPU, TO|RIGHT}, /*says HPUX or RT*/
-+ {"cmaj_flt",  "-",       pr_nop,      sr_cmaj_flt, 1,  0,    LNX, AN|RIGHT},
-+Index: procps-3.2.8/ps/ps.1
-+===================================================================
-+--- procps-3.2.8.orig/ps/ps.1	2012-11-15 17:44:50.845336117 +0200
-++++ procps-3.2.8/ps/ps.1	2012-11-15 17:49:09.621326859 +0200
-+@@ -904,6 +904,10 @@
-+ displayed.  (alias\ \fBsig_catch\fR,\ \fBsigcatch\fR).
-+ T}
-+ 
-++cgroup	CGROUP	T{
-++display control groups to which the process belonges.
-++t}
-++
-+ class	CLS	T{
-+ scheduling class of the process.  (alias\ \fBpolicy\fR,\ \fBcls\fR).
-+ Field's possible values are:
-diff --git a/meta/recipes-extended/procps/procps_3.2.8.bb b/meta/recipes-extended/procps/procps_3.2.8.bb
-index 8436d4a..e4b82e0 100644
---- a/meta/recipes-extended/procps/procps_3.2.8.bb
-+++ b/meta/recipes-extended/procps/procps_3.2.8.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://procmodule.patch \
-             file://gnu-kbsd-version.patch \
-             file://60_linux_version_init.patch \
-             file://procps-3.2.7-top-remcpu.patch \
-+            file://procps-3.2.8-ps-cgroup.patch \
-            "
- 
- SRC_URI[md5sum] = "9532714b6846013ca9898984ba4cd7e0"
--- 
-1.7.11.7
-
+Ross
 
