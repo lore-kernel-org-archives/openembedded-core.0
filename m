@@ -1,24 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5217A60664
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EE1A60664
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 08:20:13 +0000 (UTC)
+	Tue, 13 Aug 2013 08:20:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7D8KEU3008076
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7D8KGJg026270
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 01:20:14 -0700 (PDT)
+	Tue, 13 Aug 2013 01:20:16 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 13 Aug 2013 01:20:13 -0700
+	14.2.342.3; Tue, 13 Aug 2013 01:20:15 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Aug 2013 16:20:17 +0800
-Message-ID: <cover.1376379182.git.rongqing.li@windriver.com>
+Date: Tue, 13 Aug 2013 16:20:18 +0800
+Message-ID: <02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1376379182.git.rongqing.li@windriver.com>
+References: <cover.1376379182.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] sstate.bbclass: fix parallel building issue
+Subject: [PATCH 1/1] sstate.bbclass: fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,26 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 08:20:13 -0000
+X-List-Received-Date: Tue, 13 Aug 2013 08:20:15 -0000
 Content-Type: text/plain
 
 From: "Roy.Li" <rongqing.li@windriver.com>
 
-The following changes since commit 8dbb6fdca32785d91d6380e3722720714f8140e8:
+sstate_package creates hardlink from sysroot to SSTATE_BUILDDIR, then
+sstate_create_package will store SSTATE_BUILDDIR into a archive file by
+tar, but once other packages install the same file into sysroot, the
+creating the archive file will fail with below error:
 
-  man-pages: upgrade to 3.53 (2013-08-05 23:59:59 -0700)
+    DEBUG: Executing shell function sstate_create_package
+    tar: x86_64-linux/usr/share/aclocal/xorg-macros.m4: file changed as we read it
 
-are available in the git repository at:
+This kind of error is harmless, use --ignore-failed-read to ignore it.
 
-  git://git.pokylinux.org/poky-contrib roy/sstat
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/sstat
-
-Roy.Li (1):
-  sstate.bbclass: fix parallel building issue
-
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
  meta/classes/sstate.bbclass |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index c1ca54b..3e2fedd 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -565,7 +565,7 @@ sstate_create_package () {
+ 	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
+ 	# Need to handle empty directories
+ 	if [ "$(ls -A)" ]; then
+-		tar -czf $TFILE *
++		tar --ignore-failed-read -czf $TFILE *
+ 	else
+ 		tar -cz --file=$TFILE --files-from=/dev/null
+ 	fi
 -- 
 1.7.10.4
 
