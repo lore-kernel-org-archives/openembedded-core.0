@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 6225560664
+Received: from mail-ve0-f171.google.com (mail-ve0-f171.google.com
+	[209.85.128.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A6B460664
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 09:45:22 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id n15so4013574ead.30
+	Tue, 13 Aug 2013 09:49:15 +0000 (UTC)
+Received: by mail-ve0-f171.google.com with SMTP id pa12so6486196veb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 02:45:22 -0700 (PDT)
+	Tue, 13 Aug 2013 02:49:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=pXIjSTdUdLlXHxjsRODdCqXaT+RHhv8MV3DQx1adM2Y=;
-	b=lylhbCC3ARvZAtZyWqyYjBtjqULVzVE0OugNmoiYJlwDBEcPR1mRrl9UKTABFoX8LB
-	CcQ+82+vvMD7g7u00Q0R3aROdbnBhSLMOL84gxBF3D0kQWUHGuOaGXtFvkShE14hl3iX
-	YyU0hUQmP8ebPKH5Oj9lYBwb5zbPjXEZHKseDmMqLSAqQjf+sXtPCpdJEmf2J6a5xczf
-	Ctq5MCz7kJHl/md2gyZ9Y7PtTbU9z3vGYVoXFih7CVYgKupb/XwdU5xOgehIzqU3RGgP
-	qi5uiAvswgyuIqTnCv8DElUJk/uJOJ81ROzHU2jYMBw9Mys6HThdyj6x91rCc7IIuOam
-	uztA==
-X-Gm-Message-State: ALoCoQm6KFtFttLfgiUWxpMHRrHu1SPpv1Wp1dvhmpkKkJCxdRWChW0YKggCO5eze7HMd7uh3k1K
-X-Received: by 10.14.225.199 with SMTP id z47mr5640252eep.24.1376387122025;
-	Tue, 13 Aug 2013 02:45:22 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id a1sm64939434eem.1.2013.08.13.02.45.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 13 Aug 2013 02:45:21 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2013 10:45:16 +0100
-Message-Id: <1376387116-8721-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] cogl: GL/GLX feature cleanup
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=R2WE39kdXeZpdL4l0lp3YDSJDDIBhhS7vTqPeRG+Vp8=;
+	b=LPXHV1Fibh17DGhaJ9OptYCzwkkbQ3GMPLP8oMk0dVR4Q4tjgTok78NnqeDI8Bc2Zl
+	DJ5bm2sYfSu9B5/xt5B2gA8mPRqPp6Xm0zGeuuCo1HvuZYZ1jfFOUvJpiXG900WA8QT0
+	u30aTdXZz+NhyxH5ncS2lloVbj/S3jFwOzD46UPoHKPi1WO+fDc3hAXL/kFdAIQZ9Y+P
+	S9naPQVm4+xrvjFrlHYPzCmilRcKdzcAisidcRULJ+lIgserPpdHA8YdMzJskgoGvTFQ
+	BTKhKUF6vMeBbO0eE12unvqojkzQxlg+pCD+LKhLwN6sPX25O7YTbdiS0JP5C1ifEC0S
+	yw/w==
+X-Gm-Message-State: ALoCoQnhvW4DG+KjtJnNq3dMHUbjVuZwvI3YJmK3+E8CNn6eG1dWJJtorHg3xptDq4ar0vdNY7Uj
+X-Received: by 10.52.103.101 with SMTP id fv5mr3053330vdb.31.1376387355163;
+	Tue, 13 Aug 2013 02:49:15 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Tue, 13 Aug 2013 02:48:55 -0700 (PDT)
+In-Reply-To: <CAOMwXhPK5VqtvhSopZb+CFaRcfV=x9FQT9-TuEyEn7gPotCGTw@mail.gmail.com>
+References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+	<10585858-000F-43F4-80AF-5622D08A91D7@gmail.com>
+	<CAOMwXhMPmoFo+bYz9NAijJevWvizNFm0rsbVn1fPNHCS4Kf7yw@mail.gmail.com>
+	<CAOMwXhPK5VqtvhSopZb+CFaRcfV=x9FQT9-TuEyEn7gPotCGTw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Aug 2013 10:48:55 +0100
+Message-ID: <CAJTo0LZJpOhqMVyLyKTHmL_JrPpUG7rY_-rRpd2kQk7TTpTDXw@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,66 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 09:45:22 -0000
+X-List-Received-Date: Tue, 13 Aug 2013 09:49:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Separate GL and GLX flags don't make sense, as on Linux GL means GLX and GLX
-means GL.
+On 13 August 2013 08:32, Laszlo Papp <lpapp@kde.org> wrote:
+> So, everyone suggested PACKAGECONFIG in here on the mailing list except Khem
+> whose reply I did not get.
+>
+> Yet, 4964 got closed by the "team". Could anyone please give a sane
+> description why and what would block the end users other than fork?
 
-So, default to GLESv2 and GLX if X11 is enabled.  EGL on X11 doesn't have
-feature parity yet so leave it disabled by default.
+Quoting from comment 1 on 4964:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/cogl/cogl-1.0.inc |   17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+"""
+Busybox is a rather complicated beast. PACKAGECONFIG is unfortunately
+not sufficient to manage it's config system. It is very similar to the
+Linux kernel config and we recently added configuration fragment
+support to busybox from the kernel recipes:
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index c0d410e..59ff66e 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -28,16 +28,17 @@ EDEPENDS_WAYLAND = "wayland"
- ERDEPENDS_GL    = "libgl"
- ERDEPENDS_GLES2 = "libgles2"
- 
-+# GLESv1 is rarely tested, so disable it
- EXTRA_OECONF += "--disable-introspection	\
- 	       	 --enable-examples-install	\
- 	       	 --enable-debug		 	\
- 	       	 --disable-gles1		\
- 	    	"
- 
--PACKAGECONFIG[cogl-pango] = "--enable-cogl-pango,--disable-cogl-pango,pango"
-+# OpenGL/GLX
-+PACKAGECONFIG[glx] = "--enable-gl --enable-glx,--disable-gl --disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11},${ERDEPENDS_GL}"
- 
--# GL flavours
--PACKAGECONFIG[gl] = "--enable-gl,--disable-gl,${EDEPENDS_GL},${ERDEPENDS_GL}"
-+# GLESv2
- PACKAGECONFIG[gles2] = "--enable-gles2,--disable-gles2,${EDEPENDS_GLES2}, ${ERDEPENDS_GLES2}"
- 
- # EGL backends
-@@ -46,15 +47,15 @@ PACKAGECONFIG[egl-null] = "--enable-null-egl-platform,--disable-null-egl-platfor
- PACKAGECONFIG[egl-x11] = "--enable-xlib-egl-platform,--disable-xlib-egl-platform,${EDEPENDS_X11}"
- PACKAGECONFIG[egl-wayland] = "--enable-wayland-egl-platform,--disable-wayland-egl-platform,${EDEPENDS_WAYLAND}"
- 
--# GLX
--PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11}"
--
--# Wayland server-side
-+# Wayland (server-side)
- PACKAGECONFIG[wayland-server] = "--enable-wayland-egl-server,--disable-wayland-egl-server,${EDEPENDS_WAYLAND}"
- 
-+# Support rendering text directly with Pango
-+PACKAGECONFIG[cogl-pango] = "--enable-cogl-pango,--disable-cogl-pango,pango"
-+
- # Respect the DISTRO_FEATURES to pull in GLX or Wayland as appropriate by
- # default.
--PACKAGECONFIG ??= "cogl-pango gl \
-+PACKAGECONFIG ??= "cogl-pango gles2 \
-                    ${@base_contains('DISTRO_FEATURES', 'wayland', 'egl-wayland', '', d)} \
-                    ${@base_contains('DISTRO_FEATURES', 'x11', 'glx', '', d)}"
- 
--- 
-1.7.10.4
+commit 56dc1720caa48344238d352c7b6e9b0f0d41aa54
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Tue Feb 5 14:36:40 2013 +0800
 
+    busybox: add config fragments
+
+This allows you to use the default config and include only the delta
+in your layer's bbappend in the form of a config fragment added to the
+SRC_URI.
+"""
+
+If this isn't sufficient or is buggy, then fixing this is preferred
+(it works for the kernel, so should work for busybox).
+
+Ross
 
