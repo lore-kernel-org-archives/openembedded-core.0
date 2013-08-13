@@ -1,44 +1,35 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB2060664
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 68CA66AE6C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 10:00:46 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id fb10so8710774pad.37
+	Tue, 13 Aug 2013 10:11:06 +0000 (UTC)
+Received: by mail-ee0-f41.google.com with SMTP id d17so4142787eek.28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 03:00:47 -0700 (PDT)
+	Tue, 13 Aug 2013 03:11:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=M9PYRYfi6QY4TO3jgRLcBnOPHxpEhsBLrkMe3GZR9as=;
-	b=JthGKFLSV91Om3xpgIGN3R2I+sszljyjH4CubHn967c8nFpLRhdAdumeF8PJf8vUZ6
-	lOzZ2ItEzUTCgHxR5RDlV6+FdCj22v53HuQM3y+Ll1+4sCRrSfc6AKsSdlDWBQXM03SI
-	B9Pzqu4Mz4dtXyQSfcxkYabDBM1iN+OR3FR5MrGs0F/w49Wdh+xCayi4rAjs5RgTl/NK
-	If9YhbIDCU0uYq51xwNX976inyKSuWe6tE0NNYerunvQVuboPbg9dD0haZ4hN/0U2lDF
-	Ao4i2xAl88BHRhYUYeRvix7btagyXyMog3W7jkopqYPOKeVTTaVoRv5E8XujMb9hmXV2
-	3oqA==
-X-Gm-Message-State: ALoCoQm+lBMV1nieQRoiJg46fTARmqSBs6vmzS8gK6o9KYUw+HwvWUcp7KwCVDwKml6QBisOAkzW
-MIME-Version: 1.0
-X-Received: by 10.68.189.72 with SMTP id gg8mr231740pbc.201.1376388046881;
-	Tue, 13 Aug 2013 03:00:46 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.37.237 with HTTP; Tue, 13 Aug 2013 03:00:46 -0700 (PDT)
-In-Reply-To: <CAJTo0Lbp4fUNEoyehK6KtMQm2-GXTg_Jiift37gXgCDjmh676Q@mail.gmail.com>
-References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
-	<10585858-000F-43F4-80AF-5622D08A91D7@gmail.com>
-	<CAOMwXhMPmoFo+bYz9NAijJevWvizNFm0rsbVn1fPNHCS4Kf7yw@mail.gmail.com>
-	<CAOMwXhPK5VqtvhSopZb+CFaRcfV=x9FQT9-TuEyEn7gPotCGTw@mail.gmail.com>
-	<CAJTo0LZJpOhqMVyLyKTHmL_JrPpUG7rY_-rRpd2kQk7TTpTDXw@mail.gmail.com>
-	<CAOMwXhMx5Ky7HQAYxMP7_CyYOLqDPKz6TRsmVvZe0Cu-r-Vvkw@mail.gmail.com>
-	<CAJTo0Lbp4fUNEoyehK6KtMQm2-GXTg_Jiift37gXgCDjmh676Q@mail.gmail.com>
-Date: Tue, 13 Aug 2013 11:00:46 +0100
-X-Google-Sender-Auth: 95i2eIGwfkVGq2f0DtY2VtnyRvU
-Message-ID: <CAOMwXhPqdK9WvKmPD6rO33x==c8Dt0z5DrMBEx_s8G+t4nrLpg@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=yBNcTLz9yqmOhMcWNCsZOy4kFY++oUjDsbsghLY6HBU=;
+	b=J3DBOdNm7gHDES2wczR6ZdNPBENh/mpHtnBGx6j0ePydLUcbfxIr+AK3fcn0H/MEDT
+	CMQOuJjK/Oqc1vkfBlj4uSJLlfOH9W+OReSxIdoQppdDgRXp8gnEziZY4RAVspNoOmG/
+	hpyXct0r0hD5tB4k9B7msDdq1fU3KyBqJcrJMTAqpUU1r1eGjefwqVnzdMi0rTsHVjpW
+	4TIqhugJTC1im8YIRxlpS639OFWqz9F/xiYlAoivh0yNUZk7fuSSh8uannrmc4PU4DXj
+	aveI9Updcegw4ABEGSInKCtv8T/ivmldINFHhqDy6UEyYkTMm4+FVB/yD4gqqy6AWd4E
+	ruHg==
+X-Gm-Message-State: ALoCoQnEjHropYyAF/1MAvTM2qlWLZNYOf/20nTWDtpv2kwNqbbkQEGGsVrLZkmcm4AzBnTie1yD
+X-Received: by 10.14.101.13 with SMTP id a13mr51730eeg.86.1376388665824;
+	Tue, 13 Aug 2013 03:11:05 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id t6sm65098119eel.12.2013.08.13.03.11.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 13 Aug 2013 03:11:04 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Aug 2013 11:10:58 +0100
+Message-Id: <cover.1376388241.git.ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [RFC][PATCH 0/2] WORKDIR and insane tweaks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,83 +42,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 10:00:47 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1c85e9b9c5704e3d15080
+X-List-Received-Date: Tue, 13 Aug 2013 10:11:06 -0000
 
---e89a8ff1c85e9b9c5704e3d15080
-Content-Type: text/plain; charset=ISO-8859-1
+Hi,
 
-Why are you referring to defconfig when I mentioned several times, the
-problem is the inc file and a python function; i.e. not the kernel, nor the
-busybox config?
+Last night I was attempting a build with WORKDIR in a tmpfs to see what impact
+it made on build time (the results were fairly interesting, I'll write them up
+shortly).
+
+I noticed that to move WORKDIR I had to replicate the full WORKDIR path logic,
+which was a bit irritating but not that serious.  I then noticed that the
+"rpaths" sanity test checks that WORKDIR is in fact TMPDIR/work, and does a
+bb.fatal() if it isn't.  My best understanding here is that the check needs to
+know the base of all possible WORKDIRS so that it can check for linkage directly
+into another package's work directory.
+
+Assuming that understanding is correct then both problems can be resolved with a
+BASE_WORKDIR variable, which this series adds to bitbake.conf and then uses in
+insane.bbclass.
+
+Ross
+
+The following changes since commit 16d522bcd1f1b7741577fa31fab7e2129da0cae9:
+
+  maintainers.inc: reassign maintainers, remove obsolete recipes (2013-08-12 13:13:05 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ross/workdir
+
+for you to fetch changes up to e91cbd17131101d1c470669acce66682ae06960a:
+
+  insane: don't abort if workdir is not TMPDIR/work (2013-08-13 10:36:53 +0100)
+
+----------------------------------------------------------------
+Ross Burton (2):
+      bitbake.conf: define WORKDIR in terms of BASE_WORKDIR
+      insane: don't abort if workdir is not TMPDIR/work
+
+ meta/classes/insane.bbclass |    5 +----
+ meta/conf/bitbake.conf      |    3 ++-
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+
+Ross Burton (2):
+  bitbake.conf: define WORKDIR in terms of BASE_WORKDIR
+  insane: don't abort if workdir is not TMPDIR/work
+
+ meta/classes/insane.bbclass |    5 +----
+ meta/conf/bitbake.conf      |    3 ++-
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+
+-- 
+1.7.10.4
 
 
-On Tue, Aug 13, 2013 at 10:58 AM, Burton, Ross <ross.burton@intel.com>wrote:
-
-> On 13 August 2013 10:52, Laszlo Papp <lpapp@kde.org> wrote:
-> > As we have already discussed that, it is not any clear at all without
-> > example. Yes, the end user does not really care about the internal
-> > implementation of the feature ....
-> >
-> > Please provide useful examples and tutorials how to use a feature
-> especially
-> > when a user (and apparently others posting here) is such clueless.
->
-> Personally I've never touched busybox configuration so this is
-> untested.  However it claims to support configuration fragments as
-> used by the kernel (as both busybox and the kernel use the same
-> configuration system), so this section in the kernel documentation
-> should be useful:
->
->
-> http://www.yoctoproject.org/docs/current/kernel-dev/kernel-dev.html#changing-the-configuration
->
-> tl;dr: put a file such as myconfig.cfg in SRC_URI which contains the
-> configuration variables you want set.
->
-> Ross
->
-
---e89a8ff1c85e9b9c5704e3d15080
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Why are you referring to defconfig when I mentioned severa=
-l times, the problem is the inc file and a python function; i.e. not the ke=
-rnel, nor the busybox config?</div><div class=3D"gmail_extra"><br><br><div =
-class=3D"gmail_quote">
-On Tue, Aug 13, 2013 at 10:58 AM, Burton, Ross <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div class=3D"im">On 13 August 2013 10:52, Laszlo Papp &lt;<a href=3D"mailt=
-o:lpapp@kde.org">lpapp@kde.org</a>&gt; wrote:<br>
-&gt; As we have already discussed that, it is not any clear at all without<=
-br>
-&gt; example. Yes, the end user does not really care about the internal<br>
-&gt; implementation of the feature ....<br>
-&gt;<br>
-&gt; Please provide useful examples and tutorials how to use a feature espe=
-cially<br>
-&gt; when a user (and apparently others posting here) is such clueless.<br>
-<br>
-</div>Personally I&#39;ve never touched busybox configuration so this is<br=
->
-untested. =A0However it claims to support configuration fragments as<br>
-used by the kernel (as both busybox and the kernel use the same<br>
-configuration system), so this section in the kernel documentation<br>
-should be useful:<br>
-<br>
-<a href=3D"http://www.yoctoproject.org/docs/current/kernel-dev/kernel-dev.h=
-tml#changing-the-configuration" target=3D"_blank">http://www.yoctoproject.o=
-rg/docs/current/kernel-dev/kernel-dev.html#changing-the-configuration</a><b=
-r>
-
-<br>
-tl;dr: put a file such as myconfig.cfg in SRC_URI which contains the<br>
-configuration variables you want set.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Ross<br>
-</font></span></blockquote></div><br></div>
-
---e89a8ff1c85e9b9c5704e3d15080--
