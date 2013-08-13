@@ -1,41 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 396A16AE6C
+Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 5ADC96B5D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 10:11:07 +0000 (UTC)
-Received: by mail-ea0-f177.google.com with SMTP id f15so3944340eak.8
+	Tue, 13 Aug 2013 10:11:08 +0000 (UTC)
+Received: by mail-ee0-f44.google.com with SMTP id b47so4059995eek.17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 03:11:07 -0700 (PDT)
+	Tue, 13 Aug 2013 03:11:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=kI04uphKR7Eh2F1h0Okw/psKVuhfyDzTTDK+fHFuT2U=;
-	b=m0SrrOpLuzENtNpxTL7ULFipLpCAyIZmhJfk5ksKaDwRWfpOhoov6+zIyCJVqw0j1D
-	dCekyrxO9G3/SXsu8XPKMtlu6QQjo6UVi7mre10dPC8BYGJ1WK2nOdIx/l5PsOpznw02
-	gnuvLgozyHZ5K7YeCgsrZBsvrDnfjKXks4gW2exi4Yj01ufJNjgDi7Ui3s7ZvqWIJI5U
-	gYYSk9qh26i9PBC3VxjD6ocSDtHeUSlo7qNJccxCMCEVqs7LkNQxVvghUbmXS8mt/AXr
-	ZvhLXyjOgZebJGdKU29b2LWRhuugPW7ka16IwvVG2tPFuR+JGo9Z8RKl4Fq4nBhsVxO9
-	PgYw==
-X-Gm-Message-State: ALoCoQnYYDtBTs1NqoswaQ+3rU7Tcm6h2urY1AAU5SK1J60q4ntF6mRa+xcjar1QdYfZbrbnAJLC
-X-Received: by 10.14.114.68 with SMTP id b44mr2105666eeh.60.1376388667270;
-	Tue, 13 Aug 2013 03:11:07 -0700 (PDT)
+	bh=qxMxT6NSCqnZ6y2urVdwLUZQz7BwxPGuSdAnmXfgML0=;
+	b=Hg+Hg588aTi++bzbRhAnVfmUeTR9vwxxH+PEbRrzRNfLDvXGWejg35Mw3BFdRdAXb8
+	O168trFrjHpTlYQLzbNFvA27nbYgLvnflhd+/GhWsSNY0nFcGJ1txAk8mXfa4urU+IZY
+	LiCzJRRtr2cwhvxRlkE63jJwI+MBQvnByMw1KMQ3YIGz9FxCtDlFpUJB3iwd4f/YxWtN
+	ctjJPd2Z6DacNn7629QevinbcN42YnHa0LfFZmKZPWAUdBPr+MlBRp+Y18VmQTFrUj+Q
+	zkQWPaVCQZYfW4nb0RjaDzWz95NJv6RJ2+MRW6e7IkSz0E4PHW9CH3efpoKOE6uOirkn
+	RuaA==
+X-Gm-Message-State: ALoCoQmaEX2/dPursXsaUUgVF/DSO4N1scqFMnrSRpcislsGhIZmD5u9J2PWX7e07W1zeQk4pM8o
+X-Received: by 10.15.65.76 with SMTP id p52mr2768eex.145.1376388668635;
+	Tue, 13 Aug 2013 03:11:08 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id t6sm65098119eel.12.2013.08.13.03.11.05
+	by mx.google.com with ESMTPSA id t6sm65098119eel.12.2013.08.13.03.11.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 13 Aug 2013 03:11:06 -0700 (PDT)
+	Tue, 13 Aug 2013 03:11:07 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2013 11:10:59 +0100
-Message-Id: <df9d47860ec90d7f77ece202832af3a65103b7cb.1376388241.git.ross.burton@intel.com>
+Date: Tue, 13 Aug 2013 11:11:00 +0100
+Message-Id: <e91cbd17131101d1c470669acce66682ae06960a.1376388241.git.ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1376388241.git.ross.burton@intel.com>
 References: <cover.1376388241.git.ross.burton@intel.com>
 In-Reply-To: <cover.1376388241.git.ross.burton@intel.com>
 References: <cover.1376388241.git.ross.burton@intel.com>
-Subject: [PATCH 1/2] bitbake.conf: define WORKDIR in terms of BASE_WORKDIR
+Subject: [PATCH 2/2] insane: don't abort if workdir is not TMPDIR/work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,30 +47,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 10:11:07 -0000
+X-List-Received-Date: Tue, 13 Aug 2013 10:11:08 -0000
 
-To make it easier to move WORKDIR, define it using the new variable
-BASE_WORKDIR, which is the root of the work directory.
+The BASE_WORKDIR variable can be used instead of enforcing WORKDIR being
+TMPDIR/work (and aborting the build if it isn't).
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/bitbake.conf |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/insane.bbclass |    5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 07eb473..9e2696b 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -338,8 +338,8 @@ HGDIR = "${CO_DIR}/hg"
- STAMPS_DIR ?= "${TMPDIR}/stamps"
- STAMP = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
- STAMPCLEAN = "${STAMPS_DIR}/${MULTIMACH_TARGET_SYS}/${PN}/*-*"
--WORKDIR = "${TMPDIR}/work/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
-+BASE_WORKDIR ?= "${TMPDIR}/work"
-+WORKDIR = "${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}/${PN}/${EXTENDPE}${PV}-${PR}"
- T = "${WORKDIR}/temp"
- D = "${WORKDIR}/image"
- S = "${WORKDIR}/${BP}"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index aa02985..865db5e 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -175,10 +175,7 @@ def package_qa_check_rpath(file,name, d, elf, messages):
+     if os.path.islink(file):
+         return
+ 
+-    bad_dirs = [d.getVar('TMPDIR', True) + "/work", d.getVar('STAGING_DIR_TARGET', True)]
+-
+-    if not bad_dirs[0] in d.getVar('WORKDIR', True):
+-        bb.fatal("This class assumed that WORKDIR is ${TMPDIR}/work... Not doing any check")
++    bad_dirs = [d.getVar('BASE_WORKDIR', True), d.getVar('STAGING_DIR_TARGET', True)]
+ 
+     phdrs = elf.run_objdump("-p", d)
+ 
 -- 
 1.7.10.4
 
