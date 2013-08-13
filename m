@@ -1,36 +1,25 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 623406B25A
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AE2E61037
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 14:59:36 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Aug 2013 07:56:51 -0700
+	Tue, 13 Aug 2013 15:30:55 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 13 Aug 2013 08:30:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,870,1367996400"; d="scan'208";a="386414083"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by orsmga002.jf.intel.com with ESMTP; 13 Aug 2013 07:59:35 -0700
-Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 13 Aug 2013 15:57:45 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.233]) with mapi id
-	14.03.0123.003; Tue, 13 Aug 2013 15:57:45 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [CONSOLIDATED PULL 00/24] Review & ACK
-Thread-Index: AQHOmDKjyG32iJDe0U208DHSZmqdbpmTKcUA
-Date: Tue, 13 Aug 2013 14:57:44 +0000
-Message-ID: <1376405864.7774.9.camel@firebird.rb.intel.com>
-References: <cover.1376404196.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1376404196.git.sgw@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.73]
+X-IronPort-AV: E=Sophos;i="4.89,870,1367996400"; d="scan'208";a="281406707"
+Received: from unknown (HELO [10.255.14.106]) ([10.255.14.106])
+	by AZSMGA002.ch.intel.com with ESMTP; 13 Aug 2013 08:30:55 -0700
+Message-ID: <520A512F.3060108@linux.intel.com>
+Date: Tue, 13 Aug 2013 08:30:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/24] Review & ACK
+To: Yevhen Kyriukha <kirgene@gmail.com>
+References: <1376393206-14191-1-git-send-email-kirgene@gmail.com>
+In-Reply-To: <1376393206-14191-1-git-send-email-kirgene@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] connman: fix systemd support for connman-* packages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,28 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 14:59:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <51F144FBB93A624293605995194B51E4@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 13 Aug 2013 15:30:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-DQoNCk9uIFR1ZSwgMjAxMy0wOC0xMyBhdCAwNzozNiAtMDcwMCwgU2F1bCBXb2xkIHdyb3RlOg0K
-PiBQYXVsLCBSb3NzOg0KPiANCj4gV2UgYXJlIHN0aWxsIGluIFJldmlldyBhbmQgQUNLIG1vZGUs
-IHNvIHBsZWFzZSB0YWtlIGEgbG9vayBhdCB0aGlzLg0KPiANCj4gSSBoYXZlIGluY2x1ZGVkIHRo
-ZSBkcGtnIGZpeCBmb3IgRmVkb3JhIDE5Lg0KPiANCj4gVGhpcyBhbHNvIGhhcyBzb21lIHBhdGNo
-IGZvciB0aGUgUUEgVGVzdHMgYW5kIFBhdWwncyBHc3RyZWFtZXINCj4gcGF0Y2hlcy4NCj4gDQoN
-ClNhdWwsIHlvdSBhbHdheXMgbW92ZSB0b28gZmFzdCBmb3IgbWUgOikgSSB3YXMgbG9va2luZyBv
-biBNVVQgYnVpbGQgb24NCkFCIGFuZCBzb21lIGhvc3RzIChEZWJpYW4pIHNlZW1lZCB0byBmYWls
-ZWQgY29uc3RhbnRseSBnZXR0aW5nIElQLCAgYW5kDQpJIHRvb2sgbWUgYSB3aGlsZSB0byBmaW5k
-IHRoZSBwcm9ibGVtLiANCj4gU3RlZmFuIFN0YW5hY2FyICgzKToNCj4gICBvZXFhL3V0aWxzL3Fl
-bXVydW5uZXI6IGdldCBpcCBvbGQgZmFzaGlvbmVkIHdheSBhbmQgdXNlIHRjcCBzZXJpYWwNCj4g
-ICAgIGNvbnNvbGUNCg0KU2VudCB2MiBvZiB0aGF0IGFuZCB1cGRhdGVkIHRoZSBvcmlnaW5hbCBi
-cmFuY2gsIGNoYW5naW5nIHBzIHRvIHVzZSAtd3cNCmFzIEkgZGlzY292ZXJlZCB0aGUgaGFyZCB3
-YXkgdGhhdCBpdCBiZWhhdmVzIGRpZmZlcmVudGx5LiBwcyBtYW4gcGFnZQ0Kc2F5czoNCiJJZiBw
-cyBjYW4gbm90IGRldGVybWluZSBkaXNwbGF5IHdpZHRoLCBhcyB3aGVuIG91dHB1dCBpcyByZWRp
-cmVjdGVkDQoocGlwZWQpIGludG8gYSBmaWxlIG9yIGFub3RoZXIgY29tbWFuZCwgdGhlDQpvdXRw
-dXQgd2lkdGggaXMgdW5kZWZpbmVkIChpdCBtYXkgYmUgODAsIHVubGltaXRlZCwgZGV0ZXJtaW5l
-ZCBieSB0aGUNClRFUk0gdmFyaWFibGUsIGFuZCBzbyBvbikuIiBTZWVtcyBkaXN0cm8gaGFzIGFu
-IGVmZmVjdCB0b28uLi4NCg0KQ2hlZXJzLA0KU3RlZmFuDQoNCg0K
+On 08/13/2013 04:26 AM, Yevhen Kyriukha wrote:
+> This patch fixes systemd's postinst/postrm script generation.
+>
+> Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
+> ---
+>   meta/recipes-connectivity/connman/connman.inc | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+> index 6b5ea0b..37ce3ec 100644
+> --- a/meta/recipes-connectivity/connman/connman.inc
+> +++ b/meta/recipes-connectivity/connman/connman.inc
+> @@ -56,6 +56,14 @@ PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+>   INITSCRIPT_NAME = "connman"
+>   INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+>
+> +python __anonymous () {
+> +    systemd_packages = "${PN}"
+> +    pkgconfig = d.getVar('PACKAGECONFIG', True)
+> +    if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
+> +        systemd_packages += " ${PN}-vpn"
+> +    d.setVar('SYSTEMD_PACKAGES', systemd_packages)
+> +}
+> +
+>   SYSTEMD_SERVICE_${PN} = "connman.service"
+>   SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+>   SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+>
+Can't you use the base_contains style of anon python in the 
+SYSTEMD_PACKAGES:
+
+SYSTEMD_PACKAGES = "${PN} ${@base_contains('PACKAGECONFIG', 'vpn', 
+'${PN}-vpn', '', d)}"
+
+Or can any one of those in the list above trigger the vpn, it would be 
+cleaner if we just trigger on just one item.
+
+Sau!
 
