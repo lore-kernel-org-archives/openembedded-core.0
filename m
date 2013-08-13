@@ -1,22 +1,24 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 76D646AF54
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7365F6B516
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 07:07:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Aug 2013 00:05:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,867,1367996400"; d="scan'208";a="386187024"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
-	by orsmga002.jf.intel.com with ESMTP; 13 Aug 2013 00:07:44 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 13 Aug 2013 10:10:44 +0300
-Message-Id: <1376377844-11929-1-git-send-email-cristiana.voicu@intel.com>
+	Tue, 13 Aug 2013 07:09:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7D79BYW000416
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Aug 2013 00:09:11 -0700 (PDT)
+Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 13 Aug 2013 00:09:10 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Aug 2013 03:09:08 -0400
+Message-ID: <cover.1376377523.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <06a01304db7ca6bc605947b809400868dfe72b67.1375969277.git.cristiana.voicu@intel.com>
-References: <06a01304db7ca6bc605947b809400868dfe72b67.1375969277.git.cristiana.voicu@intel.com>
-Subject: [PATCH_V2] systemtap: upgrade to 2.3
+MIME-Version: 1.0
+Subject: [PATCH 0/1] oe/path.py: call /bin/cp directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,50 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 07:07:45 -0000
+X-List-Received-Date: Tue, 13 Aug 2013 07:09:10 -0000
+Content-Type: text/plain
 
-Disabled javac and jar.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
----
- meta/recipes-kernel/systemtap/systemtap_git.bb  |    6 +++---
- meta/recipes-kernel/systemtap/systemtap_git.inc |    4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
+This avoids running cp with interactive mode on some hosts if defined:
+    
+        alias cp='cp -i'
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.bb b/meta/recipes-kernel/systemtap/systemtap_git.bb
-index 9bba5a9..2a42086 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.bb
-@@ -10,11 +10,11 @@ RDEPENDS_${PN} += "python bash"
- RDEPENDS_${PN}_class-native += "python-native"
- RDEPENDS_${PN}_class-nativesdk += "python-native"
- 
--PR = "r1"
--
- EXTRA_OECONF += "--with-libelf=${STAGING_DIR_TARGET} --without-rpm \
-             --without-nss --without-avahi \
--            --disable-server --disable-grapher "
-+            --disable-server --disable-grapher \
-+            ac_cv_prog_have_javac=no \
-+            ac_cv_prog_have_jar=no "
- 
- STAP_DOCS ?= "--disable-docs --disable-publican --disable-refdocs"
- 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 7be6c2b..0632746 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,8 +1,8 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRCREV = "addec813fed4c712d6ea752f6e4f23e602b87fad"
--PV = "2.1+git${SRCPV}"
-+SRCREV = "e58138572ebddac9498b93c76770eeca7d45e3b1"
-+PV = "2.3+git${SRCPV}"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git;protocol=git \
-            file://docproc-build-fix.patch \
+The following changes since commit 16d522bcd1f1b7741577fa31fab7e2129da0cae9:
+
+  maintainers.inc: reassign maintainers, remove obsolete recipes (2013-08-12 13:13:05 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/fix_alias_cp
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/fix_alias_cp
+
+Wenzong Fan (1):
+  oe/path.py: call /bin/cp directly
+
+ meta/lib/oe/path.py |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
 1.7.9.5
 
