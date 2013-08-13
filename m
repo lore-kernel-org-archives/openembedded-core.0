@@ -1,27 +1,41 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E8526B66B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 095206B516
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 09:58:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7D9wAlE009042
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 13 Aug 2013 05:58:11 -0400 (EDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Tue, 13 Aug 2013 02:58:09 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <sgw@linux.intel.com>
-Date: Tue, 13 Aug 2013 17:57:49 +0800
-Message-ID: <73b29b279c8979a5673dc601cd70aae35ac012b0.1376387750.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1376387750.git.kai.kang@windriver.com>
-References: <cover.1376387750.git.kai.kang@windriver.com>
+	Tue, 13 Aug 2013 09:59:10 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id kw10so3706361vcb.29
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 13 Aug 2013 02:59:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=DHTUe8nxaMJZhytHwymWgRJXqUzSxfef0jPeAe8s9YE=;
+	b=A96tfpxFKPM62TLGv5U0gkiSUaqhtxDKeYrwBKxXhZJIfuvaYJpxEKgISjTxOqzRS2
+	6syaNg60+1l79cKSdvqaK9JgHIV4+q9nLdppFumIKV9h19Q9u+Dn74zX4HxPGGrdtMOQ
+	kHJGJJeMZeje0LI6Tiosh8+FABEcL7t7O0L0YRo2ZyZShy5krB6eezhgr1qfns2l562o
+	ezmJqSDUMqTi6eHbfIbNWGAWDDPw5gD0Gye9+Wfu+GHHV2LATt4TKC33nSGOvoTXgxm5
+	zkgmc7jYZe0qfYZy77f67pXh7PsIU8Y5s/dSVIT3PQYuRuXdif+bI0E4J1sszqUcZJYm
+	TW7w==
+X-Gm-Message-State: ALoCoQnRF4w1BqGccWo/oUtPEaxy39Zwx8BuwSEUNKUHp/0/L7Er7qVaynaKOg2MMHEs9iywRD8c
+X-Received: by 10.52.187.162 with SMTP id ft2mr3004499vdc.10.1376387951241;
+	Tue, 13 Aug 2013 02:59:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Cc: Zhangle.Yang@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] dpkg: fix include header caused compile error
+Received: by 10.220.71.201 with HTTP; Tue, 13 Aug 2013 02:58:51 -0700 (PDT)
+In-Reply-To: <CAOMwXhMx5Ky7HQAYxMP7_CyYOLqDPKz6TRsmVvZe0Cu-r-Vvkw@mail.gmail.com>
+References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+	<10585858-000F-43F4-80AF-5622D08A91D7@gmail.com>
+	<CAOMwXhMPmoFo+bYz9NAijJevWvizNFm0rsbVn1fPNHCS4Kf7yw@mail.gmail.com>
+	<CAOMwXhPK5VqtvhSopZb+CFaRcfV=x9FQT9-TuEyEn7gPotCGTw@mail.gmail.com>
+	<CAJTo0LZJpOhqMVyLyKTHmL_JrPpUG7rY_-rRpd2kQk7TTpTDXw@mail.gmail.com>
+	<CAOMwXhMx5Ky7HQAYxMP7_CyYOLqDPKz6TRsmVvZe0Cu-r-Vvkw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 13 Aug 2013 10:58:51 +0100
+Message-ID: <CAJTo0Lbp4fUNEoyehK6KtMQm2-GXTg_Jiift37gXgCDjmh676Q@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,90 +48,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 09:58:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 13 Aug 2013 09:59:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Build dpkg-native on Fedora 19, it fails with:
+On 13 August 2013 10:52, Laszlo Papp <lpapp@kde.org> wrote:
+> As we have already discussed that, it is not any clear at all without
+> example. Yes, the end user does not really care about the internal
+> implementation of the feature ....
+>
+> Please provide useful examples and tutorials how to use a feature especially
+> when a user (and apparently others posting here) is such clueless.
 
-/usr/include/c++/4.8.1/cstdlib: In function ‘long long int std::abs(long long int)’:
-/usr/include/c++/4.8.1/cstdlib:174:20: error: declaration of C function ‘long long int std::abs(long long int)’ conflicts with
-   abs(long long __x) { return __builtin_llabs (__x); }
-                    ^
-/usr/include/c++/4.8.1/cstdlib:166:3: error: previous declaration ‘long int std::abs(long int)’ here
-   abs(long __i) { return __builtin_labs(__i); }
-   ^
+Personally I've never touched busybox configuration so this is
+untested.  However it claims to support configuration fragments as
+used by the kernel (as both busybox and the kernel use the same
+configuration system), so this section in the kernel documentation
+should be useful:
 
-That because header cstdlib is included in a 'extern "C"' block that gcc
-4.8 doesn't support. Fix it by move the header file out of the 'extern "C"'
-block.
+http://www.yoctoproject.org/docs/current/kernel-dev/kernel-dev.html#changing-the-configuration
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../dpkg/dpkg/fix-abs-redefine.patch               | 40 ++++++++++++++++++++++
- meta/recipes-devtools/dpkg/dpkg_1.17.1.bb          |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-devtools/dpkg/dpkg/fix-abs-redefine.patch
+tl;dr: put a file such as myconfig.cfg in SRC_URI which contains the
+configuration variables you want set.
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/fix-abs-redefine.patch b/meta/recipes-devtools/dpkg/dpkg/fix-abs-redefine.patch
-new file mode 100644
-index 0000000..e73311c
---- /dev/null
-+++ b/meta/recipes-devtools/dpkg/dpkg/fix-abs-redefine.patch
-@@ -0,0 +1,40 @@
-+Upstream-Status: Pending
-+
-+dpkg defines:
-+#define DPKG_BEGIN_DECLS	extern "C" {
-+
-+That makes header cstdlib included in a extern "C" block which is not supported
-+by gcc 4.8. It fails on Fedora 19:
-+
-+/usr/include/c++/4.8.1/cstdlib: In function ‘long long int std::abs(long long int)’:
-+/usr/include/c++/4.8.1/cstdlib:174:20: error: declaration of C function ‘long long int std::abs(long long int)’ conflicts with
-+   abs(long long __x) { return __builtin_llabs (__x); }
-+                    ^
-+/usr/include/c++/4.8.1/cstdlib:166:3: error: previous declaration ‘long int std::abs(long int)’ here
-+   abs(long __i) { return __builtin_labs(__i); }
-+   ^
-+
-+Move include gettext.h out of the extern "C" block to fix this issue.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+--- dpkg-1.17.1/lib/dpkg/i18n.h.orig	2013-08-13 17:31:28.870935573 +0800
-++++ dpkg-1.17.1/lib/dpkg/i18n.h	2013-08-13 17:31:37.893065249 +0800
-+@@ -23,8 +23,6 @@
-+ 
-+ #include <dpkg/macros.h>
-+ 
-+-DPKG_BEGIN_DECLS
-+-
-+ /**
-+  * @defgroup i18n Internationalization support
-+  * @ingroup dpkg-internal
-+@@ -33,6 +31,8 @@
-+ 
-+ #include <gettext.h>
-+ 
-++DPKG_BEGIN_DECLS
-++
-+ /* We need to include this because pgettext() uses LC_MESSAGES, but libintl.h
-+  * which gets pulled by gettext.h only includes it if building optimized. */
-+ #include <locale.h>
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-index 9ac2aa7..01027a0 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
-@@ -7,6 +7,7 @@ SRC_URI += "file://noman.patch \
-             file://preinst.patch \
-             file://fix-timestamps.patch \
-             file://remove-tar-no-timestamp.patch \
-+            file://fix-abs-redefine.patch \
-            "
- 
- SRC_URI[md5sum] = "ece3ae87a099158c17bde95c0036c575"
--- 
-1.8.1.2
-
+Ross
 
