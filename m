@@ -1,39 +1,22 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ye0-f179.google.com (mail-ye0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3538A6B25A
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0001E6B553
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 13:52:45 +0000 (UTC)
-Received: by mail-ye0-f179.google.com with SMTP id m15so2366071yen.38
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 06:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=FvoZOQXzveU49PHt8QNk0VWJt/q8waN79AIIMLHOWA0=;
-	b=z+SJFatrxdow0+AbfEYlQwNiEksuVm2iab/ojvqNMD7o5RVOo9j5JztC7SFZmopr1G
-	us4NRxuZeucDExwDC7mdFSh4kXQoR/7UHMWVDEa1gFbSFq5YCMr4q2sqyJWBIRuFHevg
-	xSOKR/VXzRa++4cBUafcG31JI3FbB8BPuRxSF517e5ub7duKxNcqJixNVTkWnCAuFWer
-	jZkvICsyzddApesPeDybKltCD06iAuOKt4dWlmrZH7JbtUBbwENipZSPLexNqbtzxv7T
-	IUVjdlsX5Xyy1rbr8gQw32enAGg6USMn+L6i5rqUp+ePg4XOnRHs2ne4pb49/BdXs8q0
-	EXSA==
-X-Received: by 10.236.230.3 with SMTP id i3mr3780848yhq.52.1376401965504;
-	Tue, 13 Aug 2013 06:52:45 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([187.23.155.55])
-	by mx.google.com with ESMTPSA id
-	m64sm38426067yho.25.2013.08.13.06.52.42 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 13 Aug 2013 06:52:44 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Aug 2013 10:52:35 -0300
-Message-Id: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.4.rc1
-Cc: Evan Kotara <evan.kotara@freescale.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Daiane Angolini <daiane.angolini@freescale.com>,
-	Lauren Post <lauren.post@freescale.com>
-Subject: [PATCH v2] linux-dtb: Use kernel build system to generate the dtb files
+	Tue, 13 Aug 2013 14:36:53 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 13 Aug 2013 07:36:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,869,1367996400"; d="scan'208";a="386404851"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.106])
+	by orsmga002.jf.intel.com with ESMTP; 13 Aug 2013 07:36:29 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: ross.burton@intel.com, paul.eggleton@linux.intel.com,
+	openembedded-core@lists.openembedded.org
+Date: Tue, 13 Aug 2013 07:36:28 -0700
+Message-Id: <cover.1376404196.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+MIME-Version: 1.0
+Subject: [CONSOLIDATED PULL 00/24] Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,140 +29,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 13:52:45 -0000
+X-List-Received-Date: Tue, 13 Aug 2013 14:36:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-As the Linux kernel, unconditionally, builds the dtc application and
-it is the compatible version with the DeviceTree files shipped within
-the kernel it is better to use it and the kernel build system to
-generate the dtb files.
+Paul, Ross:
 
-Some DeviceTree files rely on CPP and kernel headers to be able to
-generate the dtb binary contents and it is harder to replicate it
-outside of Linux kernel build system so we /use/ it.
+We are still in Review and ACK mode, so please take a look at this.
 
-To comply with these assumptions we need to use the dtb file when
-calling 'make' instead of pointing to the DeviceTree source file; the
-code has been made backward compatible but it is advised to move to
-the new definition to avoid warnings as:
+I have included the dpkg fix for Fedora 19.
 
-,----[ Original definition ]
-| KERNEL_DEVICETREE = "${S}/arch/arm/boot/dts/imx6q-sabresd.dts"
-`----
+This also has some patch for the QA Tests and Paul's Gstreamer
+patches.
 
-Becomes:
+Thanks
+	Sau!
 
-,----[ New definition ]
-| KERNEL_DEVICETREE = "imx6q-sabresd.dtb"
-`----
+The following changes since commit 5c11cf4db8f43003fb7132b92a78659f70f07ce0:
 
+  checkroot.sh: respect the value of ENABLE_ROOTFS_FSCK (2013-08-09 08:54:47 -0700)
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-Changes in v2:
-- Drop debug warning left by mistake
-- Improve bbwarn message (Bruce Ashfield)
-- Improve commit log (Bruce Ascfield)
+are available in the git repository at:
 
- meta/recipes-kernel/linux/linux-dtb.inc | 58 +++++++++++++++------------------
- 1 file changed, 26 insertions(+), 32 deletions(-)
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
 
-diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-index 41dd599..cebc76a 100644
---- a/meta/recipes-kernel/linux/linux-dtb.inc
-+++ b/meta/recipes-kernel/linux/linux-dtb.inc
-@@ -1,44 +1,38 @@
- # Support for device tree generation
- FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
--KERNEL_DEVICETREE_FLAGS ?= "-R 8 -p 0x3000"
- 
- python __anonymous () {
--    devicetree = d.getVar("KERNEL_DEVICETREE", True) or ''
--    if devicetree:
--        depends = d.getVar("DEPENDS", True)
--        d.setVar("DEPENDS", "%s dtc-native" % depends)
--        packages = d.getVar("PACKAGES", True)
--        d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
-+    d.appendVar("PACKAGES", " kernel-devicetree")
- }
- 
- do_install_append() {
- 	if test -n "${KERNEL_DEVICETREE}"; then
--		for DTS_FILE in ${KERNEL_DEVICETREE}; do
--			if [ ! -f ${DTS_FILE} ]; then
--				echo "Warning: ${DTS_FILE} is not available!"
--				continue
-+		for DTB in ${KERNEL_DEVICETREE}; do
-+			if echo ${DTB} | grep -q '/dts/'; then
-+				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-+				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
--			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
--			install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
-+			DTB_BASE_NAME=`basename ${DTB} .dtb`
-+			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+			oe_runmake ${DTB}
-+			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
- 		done
- 	fi
- }
- 
- do_deploy_append() {
- 	if test -n "${KERNEL_DEVICETREE}"; then
--		for DTS_FILE in ${KERNEL_DEVICETREE}; do
--			if [ ! -f ${DTS_FILE} ]; then
--				echo "Warning: ${DTS_FILE} is not available!"
--				continue
-+		for DTB in ${KERNEL_DEVICETREE}; do
-+			if echo ${DTB} | grep -q '/dts/'; then
-+				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-+				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
- 			fi
--			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-+			DTB_BASE_NAME=`basename ${DTB} .dtb`
-+			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
- 			install -d ${DEPLOYDIR}
--			install -m 0644 ${B}/${DTS_BASE_NAME} ${DEPLOYDIR}/${DTB_NAME}.dtb
-+			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${DEPLOYDIR}/${DTB_NAME}.dtb
- 			cd ${DEPLOYDIR}
- 			ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
- 			cd -
-@@ -48,20 +42,20 @@ do_deploy_append() {
- 
- pkg_postinst_kernel-devicetree () {
- 	cd /${KERNEL_IMAGEDEST}
--	for DTS_FILE in ${KERNEL_DEVICETREE}
-+	for DTB_FILE in ${KERNEL_DEVICETREE}
- 	do
--		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-+		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
-+		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
- 	done
- }
- 
- pkg_postrm_kernel-devicetree () {
- 	cd /${KERNEL_IMAGEDEST}
--	for DTS_FILE in ${KERNEL_DEVICETREE}
-+	for DTB_FILE in ${KERNEL_DEVICETREE}
- 	do
--		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
--		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
--		update-alternatives --remove ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-+		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
-+		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-+		update-alternatives --remove ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
- 	done
- }
+Alexandru Palalau (1):
+  lib/oeqa/runtime: add new systemd tests
+
+Chen Qi (1):
+  grub_0.97: Fix to correctly ship files under /usr/lib
+
+Darren Hart (1):
+  kernel.bbclass: Correct post(inst|rm) package association
+
+Jukka Rissanen (1):
+  procps: Add cgroup support
+
+Kai Kang (1):
+  dpkg: fix include header caused compile error
+
+Mark Hatle (3):
+  rpm: Change references from RPM_VENDOR_POKY to RPM_VENDOR_OE
+  rpm: Enable compatibility with older RPM packages that have invalid
+    platforms
+  image.bbclass: Move runtime_mapping_rename to avoid conflict w/
+    multilib
+
+Mike Looijmans (1):
+  linux-dtb.inc: Replace /boot/ with /${KERNEL_IMAGEDEST}/
+
+Otavio Salvador (1):
+  blacklist.bbclass: Avoid blacklist specific handle in base.bbclass
+
+Paul Barker (1):
+  opkg: Fix possible installation of GPLv3 header
+
+Paul Eggleton (6):
+  yasm: add from meta-oe and tweak
+  x264: add from meta-oe, update and tweak
+  libav: add from meta-oe, update and tweak
+  gst-ffmpeg: merge in bbappend from meta-oe
+  gst-ffmpeg: enable using yasm during build
+  gst-ffmpeg: set SUMMARY instead of DESCRIPTION
+
+Ross Burton (2):
+  mesa: fix and enable out-of-tree builds
+  oe-setup-builddir: substitute ##OEROOT## when using templates
+
+Saul Wold (2):
+  groff: Add GPLv2 version
+  groff: Fix License to be GPLv3
+
+Stefan Stanacar (3):
+  oeqa/utils/qemurunner: get ip old fashioned way and use tcp serial
+    console
+  classes/testimage: create a link for qemu boot log
+  lib/oeqa/runtime: rework syslog test
+
+ meta/classes/base.bbclass                          |  10 --
+ meta/classes/blacklist.bbclass                     |  25 ++++
+ meta/classes/image.bbclass                         |  17 ++-
+ meta/classes/kernel.bbclass                        |  29 +++--
+ meta/classes/testimage.bbclass                     |  20 +++-
+ meta/conf/distro/include/seperatebuilddir.inc      |   2 +-
+ meta/lib/oeqa/runtime/syslog.py                    |  23 ++--
+ meta/lib/oeqa/runtime/systemd.py                   |  35 ++++++
+ meta/lib/oeqa/utils/oeqemuconsole.py               |  45 -------
+ meta/lib/oeqa/utils/qemurunner.py                  | 123 +++++++++++++-------
+ .../grub-0.97/grub_fix_for_automake-1.12.patch     |  50 ++++++--
+ .../dpkg/dpkg/fix-abs-redefine.patch               |  40 +++++++
+ meta/recipes-devtools/dpkg/dpkg_1.17.1.bb          |   1 +
+ .../opkg/opkg/obsolete_automake_macros.patch       |  15 ---
+ meta/recipes-devtools/opkg/opkg_svn.bb             |   6 +-
+ .../rpm/rpm/python-rpm-rpmsense.patch              |   4 +-
+ .../rpm/rpm/rpm-lsb-compatibility.patch            |  24 ++++
+ meta/recipes-devtools/rpm/rpm/rpm-no-loopmsg.patch |   2 +-
+ .../rpm/rpm/rpm-platform-file-fix.patch            |   2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-platform.patch   |   8 +-
+ meta/recipes-devtools/rpm/rpm/rpm-platform2.patch  |   6 +-
+ .../rpm/rpm/rpm-scriptletexechelper.patch          |  22 ++--
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |   3 +-
+ meta/recipes-devtools/yasm/yasm_1.2.0.bb           |  13 +++
+ .../groff-1.18.1.4/groff-1.18.1.4-remove-mom.patch |  35 ++++++
+ .../groff/groff-1.18.1.4/man-local.patch           |  32 +++++
+ .../groff/groff-1.18.1.4/mdoc-local.patch          |  31 +++++
+ meta/recipes-extended/groff/groff_1.18.1.4.bb      |  46 ++++++++
+ meta/recipes-extended/groff/groff_1.22.2.bb        |   2 +-
+ .../procps-3.2.8/procps-3.2.8-ps-cgroup.patch      |  82 +++++++++++++
+ meta/recipes-extended/procps/procps_3.2.8.bb       |   1 +
+ .../mesa/0005-fix-out-of-tree-builds-gallium.patch |  42 +++++++
+ .../mesa/mesa/0006-fix-out-of-tree-egl.patch       |  48 ++++++++
+ meta/recipes-graphics/mesa/mesa_9.1.6.bb           |   2 +
+ meta/recipes-graphics/mesa/mesa_git.bb             |   2 +
+ meta/recipes-kernel/linux/linux-dtb.inc            |   4 +-
+ .../gstreamer/gst-ffmpeg_0.10.13.bb                |  12 +-
+ .../0001-configure-enable-pic-for-AArch64.patch    |  23 ++++
+ meta/recipes-multimedia/libav/libav.inc            | 129 +++++++++++++++++++++
+ meta/recipes-multimedia/libav/libav_0.8.8.bb       |  18 +++
+ meta/recipes-multimedia/libav/libav_git.bb         |  16 +++
+ .../don-t-default-to-cortex-a9-with-neon.patch     |  20 ++++
+ meta/recipes-multimedia/x264/x264_git.bb           |  52 +++++++++
+ scripts/oe-setup-builddir                          |   5 +-
+ 44 files changed, 930 insertions(+), 197 deletions(-)
+ delete mode 100644 meta/lib/oeqa/utils/oeqemuconsole.py
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/fix-abs-redefine.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/obsolete_automake_macros.patch
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lsb-compatibility.patch
+ create mode 100644 meta/recipes-devtools/yasm/yasm_1.2.0.bb
+ create mode 100644 meta/recipes-extended/groff/groff-1.18.1.4/groff-1.18.1.4-remove-mom.patch
+ create mode 100644 meta/recipes-extended/groff/groff-1.18.1.4/man-local.patch
+ create mode 100644 meta/recipes-extended/groff/groff-1.18.1.4/mdoc-local.patch
+ create mode 100644 meta/recipes-extended/groff/groff_1.18.1.4.bb
+ create mode 100644 meta/recipes-extended/procps/procps-3.2.8/procps-3.2.8-ps-cgroup.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0005-fix-out-of-tree-builds-gallium.patch
+ create mode 100644 meta/recipes-graphics/mesa/mesa/0006-fix-out-of-tree-egl.patch
+ create mode 100644 meta/recipes-multimedia/libav/libav-0.8.8/0001-configure-enable-pic-for-AArch64.patch
+ create mode 100644 meta/recipes-multimedia/libav/libav.inc
+ create mode 100644 meta/recipes-multimedia/libav/libav_0.8.8.bb
+ create mode 100644 meta/recipes-multimedia/libav/libav_git.bb
+ create mode 100644 meta/recipes-multimedia/x264/x264/don-t-default-to-cortex-a9-with-neon.patch
+ create mode 100644 meta/recipes-multimedia/x264/x264_git.bb
+
 -- 
-1.8.4.rc1
+1.8.1.4
 
 
