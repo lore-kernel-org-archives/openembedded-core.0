@@ -1,24 +1,26 @@
 Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7365F6B516
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 10C686B516
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 07:09:10 +0000 (UTC)
+	Tue, 13 Aug 2013 07:09:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7D79BYW000416
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7D79DTn025698
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 00:09:11 -0700 (PDT)
+	Tue, 13 Aug 2013 00:09:13 -0700 (PDT)
 Received: from pek-hostel-vm12.wrs.com (128.224.153.182) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 13 Aug 2013 00:09:10 -0700
+	14.2.342.3; Tue, 13 Aug 2013 00:09:12 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 13 Aug 2013 03:09:08 -0400
-Message-ID: <cover.1376377523.git.wenzong.fan@windriver.com>
+Date: Tue, 13 Aug 2013 03:09:09 -0400
+Message-ID: <27b0ee9bd74b6c95c3ddd11b673a56d8543cd5d6.1376377523.git.wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1376377523.git.wenzong.fan@windriver.com>
+References: <cover.1376377523.git.wenzong.fan@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] oe/path.py: call /bin/cp directly
+Subject: [PATCH 1/1] oe/path.py: call /bin/cp directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 07:09:10 -0000
+X-List-Received-Date: Tue, 13 Aug 2013 07:09:12 -0000
 Content-Type: text/plain
 
 From: Wenzong Fan <wenzong.fan@windriver.com>
 
-This avoids running cp with interactive mode on some hosts if defined:
-    
-        alias cp='cp -i'
+This avoids running cp with interactive mode if defined:
 
-The following changes since commit 16d522bcd1f1b7741577fa31fab7e2129da0cae9:
+    alias cp='cp -i'
 
-  maintainers.inc: reassign maintainers, remove obsolete recipes (2013-08-12 13:13:05 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib wenzong/fix_alias_cp
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/fix_alias_cp
-
-Wenzong Fan (1):
-  oe/path.py: call /bin/cp directly
-
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
  meta/lib/oe/path.py |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index da044ba..6933977 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -97,7 +97,7 @@ def copyhardlinktree(src, dst):
+         check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+         if os.path.isdir(src):
+             src = src + "/*"
+-        cmd = 'cp -afl %s %s' % (src, dst)
++        cmd = '/bin/cp -afl %s %s' % (src, dst)
+         check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+     else:
+         copytree(src, dst)
 -- 
 1.7.9.5
 
