@@ -1,46 +1,35 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C3C36AE6C
+Return-Path: <kirgene@gmail.com>
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E6AB60593
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 10:39:00 +0000 (UTC)
-Received: by mail-pd0-f178.google.com with SMTP id w10so4733146pde.37
+	Tue, 13 Aug 2013 11:26:57 +0000 (UTC)
+Received: by mail-la0-f49.google.com with SMTP id ev20so5680494lab.36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 03:39:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=Sk8egg1LNRkn8DuZOJI3gP7O0ctQuUhR1tlZ8n6iQ8A=;
-	b=C6u0VpAgWD6aZ6qmtk79hEyPYtnUavEhCdKTl5zSY+37vfCN6+LmcFlCT61JJkbFeP
-	akz9tRASr8giah2K904HBLJ43nhnQpy2XYPFlLFv9QGQ0BLgWtNUCeI3n16rTPBENhkX
-	ugwI1wDYpkqEge1hoEeNgbRA7vYi3gDCEuSp6fHCLU8iHb0tuq7KwGyR59LBFMxK3Wz4
-	gN/ux0yn/DLI/cy9Pj3cSVQcAd3rOY6+HBoa6MUjLLchKKWipQOavBCch5epR521+1Xu
-	34if0pbEqddAoILkSYEKN6a5FDrydnTMRSsnFczlV2PuINaQ90JsHfUVgabpnff3VyQG
-	QBZg==
-X-Gm-Message-State: ALoCoQksUpP+i7FC9XWCaxr7vL7lZwNwRdbVYul3DUbe9LNmgu21q+0g68uQs0H3P3MzMnJquGOn
-MIME-Version: 1.0
-X-Received: by 10.68.189.72 with SMTP id gg8mr391810pbc.201.1376390341066;
-	Tue, 13 Aug 2013 03:39:01 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.37.237 with HTTP; Tue, 13 Aug 2013 03:39:00 -0700 (PDT)
-In-Reply-To: <520A0BF6.1000709@communistcode.co.uk>
-References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
-	<10585858-000F-43F4-80AF-5622D08A91D7@gmail.com>
-	<CAOMwXhMPmoFo+bYz9NAijJevWvizNFm0rsbVn1fPNHCS4Kf7yw@mail.gmail.com>
-	<CAOMwXhPK5VqtvhSopZb+CFaRcfV=x9FQT9-TuEyEn7gPotCGTw@mail.gmail.com>
-	<CAJTo0LZJpOhqMVyLyKTHmL_JrPpUG7rY_-rRpd2kQk7TTpTDXw@mail.gmail.com>
-	<CAOMwXhMx5Ky7HQAYxMP7_CyYOLqDPKz6TRsmVvZe0Cu-r-Vvkw@mail.gmail.com>
-	<520A070C.3090302@communistcode.co.uk>
-	<CAOMwXhOO=NpnDyPu-oryv7L72h1DCejycFe+8XBqVabc6fqfAQ@mail.gmail.com>
-	<520A0BF6.1000709@communistcode.co.uk>
-Date: Tue, 13 Aug 2013 11:39:00 +0100
-X-Google-Sender-Auth: qcr6sHNyW9xSeO5Ix2UF-Med0WY
-Message-ID: <CAOMwXhOH_xtFQiPSQE0Kaceo5jO2Xb=vCtyot4HA=Xr=TgzBeA@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: ml@communistcode.co.uk
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
+	Tue, 13 Aug 2013 04:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=cWZw8AVmES+UNywa7Als1/h3J/aC3ckE/7LRaBYYH4I=;
+	b=h4HU3nCys0+JWNuZQkBD/6WytsdBofl4kj5SSroEI8gz9DZkWdJhWUmJONt7u9bK6Y
+	DW6caFdZ0D0ckrlzljp7V++JO/ohqvWdOdddY/7rWN7c8cMTz9j1NVzVU+otYBqiOERb
+	9swR9KOau5rabvWT4FxhyWrC4IwyFw6LC/g9qRQehCs1d4qnhWAdkKHAcWSgB81hdIy6
+	N/Q3nFhwn5/iq2xYYW2ceqsj9rYPtO5NfEzAVTvBhOBV0PFlHubHqIALbtP8nX8n4V2J
+	0+BQg+D+qCwNGx4HNwTwiT1yBo+Mklr8bhoZVRyN8r8wpSaVBiUtrrD31tRUOvqPZSjo
+	Kg7Q==
+X-Received: by 10.112.210.136 with SMTP id mu8mr3295054lbc.25.1376393217578;
+	Tue, 13 Aug 2013 04:26:57 -0700 (PDT)
+Received: from ubuntu.datv.net ([194.44.185.28])
+	by mx.google.com with ESMTPSA id 8sm13691437lbq.4.2013.08.13.04.26.56
+	for <multiple recipients>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 13 Aug 2013 04:26:56 -0700 (PDT)
+From: Yevhen Kyriukha <kirgene@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 13 Aug 2013 14:26:46 +0300
+Message-Id: <1376393206-14191-1-git-send-email-kirgene@gmail.com>
+X-Mailer: git-send-email 1.8.1.2
+Cc: Yevhen Kyriukha <kirgene@gmail.com>
+Subject: [PATCH v2] connman: fix systemd support for connman-* packages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,118 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 10:39:00 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1c85e5a1b1e04e3d1d900
+X-List-Received-Date: Tue, 13 Aug 2013 11:26:58 -0000
 
---e89a8ff1c85e5a1b1e04e3d1d900
-Content-Type: text/plain; charset=ISO-8859-1
+This patch fixes systemd's postinst/postrm script generation.
 
-On Tue, Aug 13, 2013 at 11:35 AM, Jack Mitchell <ml@communistcode.co.uk>wrote:
+Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
+---
+ meta/recipes-connectivity/connman/connman.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-> On 13/08/13 11:19, Laszlo Papp wrote:
-> > I personally dislike top posting for a single entity in an email and I
-> > think that is "nigh unbearable". ;-)
->
-> If you also have a dislike for top-posting, then why top-post?!
->
-
-That is a clear typo, as in: I personally dislike bottom posting for a
-single entity.
-
-
-> > More to the point, if there is no documentation, why is the bugreport
-> > closed rather than forming it into a documentation bugreport?
->
-> I am sure a bug-report for adding busybox config fragment documentation
-> would be accepted.
->
->
-> https://bugzilla.yoctoproject.org/buglist.cgi?product=General%20Docs&component=docs-general&resolution=---
-
-
-No, I did mention documentation as well if there is a feature doing this,
-but undocumented. That was apparently disregarded by the "team".
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 6b5ea0b..37ce3ec 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -56,6 +56,14 @@ PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
+ INITSCRIPT_NAME = "connman"
+ INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+ 
++python __anonymous () {
++    systemd_packages = "${PN}"
++    pkgconfig = d.getVar('PACKAGECONFIG', True)
++    if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
++        systemd_packages += " ${PN}-vpn"
++    d.setVar('SYSTEMD_PACKAGES', systemd_packages)
++}
++
+ SYSTEMD_SERVICE_${PN} = "connman.service"
+ SYSTEMD_SERVICE_${PN}-vpn = "connman-vpn.service"
+ SYSTEMD_WIRED_SETUP = "ExecStartPre=-${libdir}/connman/wired-setup"
+-- 
+1.8.1.2
 
 
-> > Also, I am still not sure we are on the same paper. You mean the python
-> > script snippet will become optional? How will that mapping be done for
-> > every possible options without adding explicit things to a feature set
-> > like PACKAGECONFIG?
->
-> I only answered the direct question in the email which is somewhere in
-> the mess below, I couldn't bare to wade through the previous dredge.
-> Hence, I have no idea with regards to any manual intervention with a
-> python script. Going by the bug report, and the steps that I have seen,
-> it should be automatic and as simple as dropping in a config fragment
-> into the busybox recipe folder.
->
-
-I have really no idea what you mean. You mean *every* defconfig entry is
-mapped to a cfg, or what? This is still quite unclear to me how it is
-supposed to work. Perhaps I should just wait for the "team" to realize this
-in the bugreport, write documentation, and once that exists, I can
-understand it. It is pretty hard to understand anything out of these
-chunks, at least for me.
-
---e89a8ff1c85e5a1b1e04e3d1d900
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On Tue, Aug 13, 2013 at 11:35 AM, Jack Mitchell <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:ml@communistcode.co.uk" target=3D"_blank">ml=
-@communistcode.co.uk</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><d=
-iv class=3D"gmail_quote">
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On 13/08/13 11:19, Laszlo =
-Papp wrote:<br>
-&gt; I personally dislike top posting for a single entity in an email and I=
-<br>
-&gt; think that is &quot;nigh unbearable&quot;. ;-)<br>
-<br>
-</div>If you also have a dislike for top-posting, then why top-post?!<br></=
-blockquote><div><br></div><div>That is a clear typo, as in: I personally di=
-slike bottom posting for a single entity.</div><div>=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">
-
-<div class=3D"im">&gt;=A0More to the point, if there is no documentation, w=
-hy is the bugreport<br>
-&gt; closed rather than forming it into a documentation bugreport?<br>
-<br>
-</div>I am sure a bug-report for adding busybox config fragment documentati=
-on<br>
-would be accepted.<br>
-<br>
-<a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?product=3DGeneral%=
-20Docs&amp;component=3Ddocs-general&amp;resolution=3D---" target=3D"_blank"=
->https://bugzilla.yoctoproject.org/buglist.cgi?product=3DGeneral%20Docs&amp=
-;component=3Ddocs-general&amp;resolution=3D---</a></blockquote>
-<div><br></div><div>No, I did mention documentation as well if there is a f=
-eature doing this, but undocumented. That was apparently disregarded by the=
- &quot;team&quot;.</div><div>=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<span style=3D"color:rgb(80,0,80)">&gt; Also, I am still not sure we are on=
- the same paper. You mean the python</span><br><div class=3D"im">
-&gt; script snippet will become optional? How will that mapping be done for=
-<br>
-&gt; every possible options without adding explicit things to a feature set=
-<br>
-&gt; like PACKAGECONFIG?<br>
-<br>
-</div>I only answered the direct question in the email which is somewhere i=
-n<br>
-the mess below, I couldn&#39;t bare to wade through the previous dredge.<br=
->
-Hence, I have no idea with regards to any manual intervention with a<br>
-python script. Going by the bug report, and the steps that I have seen,<br>
-it should be automatic and as simple as dropping in a config fragment<br>
-into the busybox recipe folder.<br></blockquote><div><br></div><div>I have =
-really no idea what you mean. You mean *every* defconfig entry is mapped to=
- a cfg, or what? This is still quite unclear to me how it is supposed to wo=
-rk. Perhaps I should just wait for the &quot;team&quot; to realize this in =
-the bugreport, write documentation, and once that exists, I can understand =
-it. It is pretty hard to understand anything out of these chunks, at least =
-for me.</div>
-</div></div></div>
-
---e89a8ff1c85e5a1b1e04e3d1d900--
