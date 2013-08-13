@@ -1,28 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 481F26B5C7
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 59D926B516
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 17:26:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7DHQqDc017896
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 10:26:53 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 13 Aug 2013 10:26:52 -0700
-Message-ID: <520A6C5C.3050308@windriver.com>
-Date: Tue, 13 Aug 2013 12:26:52 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Tue, 13 Aug 2013 17:28:57 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id CE8A8F811FD; Tue, 13 Aug 2013 11:28:57 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 6A524F811EE;
+	Tue, 13 Aug 2013 11:28:56 -0600 (MDT)
+Message-ID: <520A6CE6.3010000@mlbassoc.com>
+Date: Tue, 13 Aug 2013 11:29:10 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1376413879-9809-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1376413879-9809-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH 2/2 v2] meta-skeleton: Add busybox config fragment example
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Enabling x264 support in gstreamer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 17:26:52 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 13 Aug 2013 17:28:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/13/13 12:11 PM, Saul Wold wrote:
-> This shows an example of the config fragment support that
-> both the linux-yocto and busybox recipes use. This example
-> is specific to busybox.
->
-> By adding busybox CONFIG options into a .cfg file and then
-> adding that .cfg file to SRC_URI the merge_config.sh script will
-> correctly handle these CONFIG options during the do_configure task.
->
-> v2: fixed FILESEXTRAPATHS
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg   | 1 +
->   meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend | 5 +++++
->   2 files changed, 6 insertions(+)
->   create mode 100644 meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg
->   create mode 100644 meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend
->
-> diff --git a/meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg b/meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg
-> new file mode 100644
-> index 0000000..42c6730
-> --- /dev/null
-> +++ b/meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_RFKILL=n
+I see that some of the gstreamer recipes have changed so that x264
+is now a PACKAGECONFIG option.  However, I don't see anything that
+enables this option anywhere.
 
-Should be "# CONFIG_RFKILL is not set", I believe the =n will work, but it 
-doesn't following the kconfig conventions.
+How do I get x264 support back - it was working with Poky/Yocto
+just a few weeks back...
 
---Mark
+Note: I have imported meta-oe/recipes-multimedia/x264 from meta-openembedded
+into my layers for this [library] package.
 
-> diff --git a/meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend b/meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend
-> new file mode 100644
-> index 0000000..641f04a4
-> --- /dev/null
-> +++ b/meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend
-> @@ -0,0 +1,5 @@
-> +FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> +
-> +SRC_URI += " \
-> +	    file://no_rfkill.cfg \
-> +           "
->
+Thanks
 
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
