@@ -1,36 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f179.google.com (mail-vc0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EE5861037
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id AA2D860664
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 18:10:31 +0000 (UTC)
-Received: by mail-vc0-f179.google.com with SMTP id ht10so4154414vcb.24
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 11:10:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=tXPrns0bLga/8fwXvPzjykKPL2xTCvCHFDZ6Z6ijlaw=;
-	b=a/6LgvwDvuTlT0wpRvrPXOvtg+0VZDb7icnoc/8hUCjV6dg/ZrmWzhRA+S+iK64b4r
-	jiLPeM5a73dogpMH0b5D3bSbkom1R8bYMRtfyr+xseS6knJc/xeFJ93Qa7SkQ2Pzv3fY
-	V18QqM5IUCrbPhLPddrvGA8EVe1jd2hsDPR1afVc5qPT7kpQQBtcebkICYhGX4PJPsCX
-	kGhDdH+W3A87HMnq2LxidryyyxEu5gNuoC3i4jKeHR0XWayd+GnBAKRLsavQFOuf6IQD
-	Uo9AheWUnR4MU2Vl1AZBVWqzXHLm24IZYSI6gkgJGbke1Y2XEm2hq1pyrLPBGatrbN7h
-	DKiA==
-X-Gm-Message-State: ALoCoQm5fhvpk7DDTkv/9ho95rrv9AuHe/CMp5kqiMWvij1hiKse6TuGjRzdr4hWqm1h+XtU/m8c
-X-Received: by 10.52.89.197 with SMTP id bq5mr44487vdb.65.1376417431431; Tue,
-	13 Aug 2013 11:10:31 -0700 (PDT)
+	Tue, 13 Aug 2013 18:36:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7DIaYbF005137
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 13 Aug 2013 11:36:34 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 13 Aug 2013 11:36:32 -0700
+Message-ID: <520A7CAA.2000204@windriver.com>
+Date: Tue, 13 Aug 2013 14:36:26 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 13 Aug 2013 11:10:11 -0700 (PDT)
-In-Reply-To: <cover.1376414097.git.sgw@linux.intel.com>
-References: <cover.1376414097.git.sgw@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 13 Aug 2013 19:10:11 +0100
-Message-ID: <CAJTo0LbstOp2RwCgmF3pKUTOqSB1vGYw-BpULufaoEXBud5PdA@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/24] Final Review & ACK
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
+Cc: Evan Kotara <evan.kotara@freescale.com>,
+	Lauren Post <lauren.post@freescale.com>,
+	Daiane Angolini <daiane.angolini@freescale.com>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] linux-dtb: Use kernel build system to generate the dtb files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +37,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 18:10:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 13 Aug 2013 18:36:35 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 13 August 2013 18:49, Saul Wold <sgw@linux.intel.com> wrote:
-> Richard:
+On 13-08-13 09:52 AM, Otavio Salvador wrote:
+> As the Linux kernel, unconditionally, builds the dtc application and
+> it is the compatible version with the DeviceTree files shipped within
+> the kernel it is better to use it and the kernel build system to
+> generate the dtb files.
 >
-> This will be ready to pull after Paul and Ross Ack.
+> Some DeviceTree files rely on CPP and kernel headers to be able to
+> generate the dtb binary contents and it is harder to replicate it
+> outside of Linux kernel build system so we /use/ it.
 >
-> I fixed the groff patches for GPLv2 and updated Stefan's patch,
-> other than that no changes.
+> To comply with these assumptions we need to use the dtb file when
+> calling 'make' instead of pointing to the DeviceTree source file; the
+> code has been made backward compatible but it is advised to move to
+> the new definition to avoid warnings as:
+>
+> ,----[ Original definition ]
+> | KERNEL_DEVICETREE = "${S}/arch/arm/boot/dts/imx6q-sabresd.dts"
+> `----
+>
+> Becomes:
+>
+> ,----[ New definition ]
+> | KERNEL_DEVICETREE = "imx6q-sabresd.dtb"
+> `----
+>
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+This passed a build test on the yocto reference mpc8315e-rdb, so at
+least in a simple case, it worked for me.
 
-Ross
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+> ---
+> Changes in v2:
+> - Drop debug warning left by mistake
+> - Improve bbwarn message (Bruce Ashfield)
+> - Improve commit log (Bruce Ascfield)
+>
+>   meta/recipes-kernel/linux/linux-dtb.inc | 58 +++++++++++++++------------------
+>   1 file changed, 26 insertions(+), 32 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+> index 41dd599..cebc76a 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -1,44 +1,38 @@
+>   # Support for device tree generation
+>   FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+> -KERNEL_DEVICETREE_FLAGS ?= "-R 8 -p 0x3000"
+>
+>   python __anonymous () {
+> -    devicetree = d.getVar("KERNEL_DEVICETREE", True) or ''
+> -    if devicetree:
+> -        depends = d.getVar("DEPENDS", True)
+> -        d.setVar("DEPENDS", "%s dtc-native" % depends)
+> -        packages = d.getVar("PACKAGES", True)
+> -        d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
+> +    d.appendVar("PACKAGES", " kernel-devicetree")
+>   }
+>
+>   do_install_append() {
+>   	if test -n "${KERNEL_DEVICETREE}"; then
+> -		for DTS_FILE in ${KERNEL_DEVICETREE}; do
+> -			if [ ! -f ${DTS_FILE} ]; then
+> -				echo "Warning: ${DTS_FILE} is not available!"
+> -				continue
+> +		for DTB in ${KERNEL_DEVICETREE}; do
+> +			if echo ${DTB} | grep -q '/dts/'; then
+> +				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+> +				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+>   			fi
+> -			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
+> -			install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+> +			DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +			oe_runmake ${DTB}
+> +			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+>   		done
+>   	fi
+>   }
+>
+>   do_deploy_append() {
+>   	if test -n "${KERNEL_DEVICETREE}"; then
+> -		for DTS_FILE in ${KERNEL_DEVICETREE}; do
+> -			if [ ! -f ${DTS_FILE} ]; then
+> -				echo "Warning: ${DTS_FILE} is not available!"
+> -				continue
+> +		for DTB in ${KERNEL_DEVICETREE}; do
+> +			if echo ${DTB} | grep -q '/dts/'; then
+> +				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+> +				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+>   			fi
+> -			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> +			DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>   			install -d ${DEPLOYDIR}
+> -			install -m 0644 ${B}/${DTS_BASE_NAME} ${DEPLOYDIR}/${DTB_NAME}.dtb
+> +			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${DEPLOYDIR}/${DTB_NAME}.dtb
+>   			cd ${DEPLOYDIR}
+>   			ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
+>   			cd -
+> @@ -48,20 +42,20 @@ do_deploy_append() {
+>
+>   pkg_postinst_kernel-devicetree () {
+>   	cd /${KERNEL_IMAGEDEST}
+> -	for DTS_FILE in ${KERNEL_DEVICETREE}
+> +	for DTB_FILE in ${KERNEL_DEVICETREE}
+>   	do
+> -		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
+> +		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>   	done
+>   }
+>
+>   pkg_postrm_kernel-devicetree () {
+>   	cd /${KERNEL_IMAGEDEST}
+> -	for DTS_FILE in ${KERNEL_DEVICETREE}
+> +	for DTB_FILE in ${KERNEL_DEVICETREE}
+>   	do
+> -		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -		update-alternatives --remove ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
+> +		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +		update-alternatives --remove ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>   	done
+>   }
+>
+
 
