@@ -1,37 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f42.google.com (mail-oa0-f42.google.com
-	[209.85.219.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 3694060664
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C41D361037
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 18:39:06 +0000 (UTC)
-Received: by mail-oa0-f42.google.com with SMTP id i18so12008316oag.1
+	Tue, 13 Aug 2013 18:42:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7DIgfWu005205
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 11:39:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=qNtXWRSuD5JKlBNoJqzM0UHYZc2cHrY6DTEs8pLE5BQ=;
-	b=YPfeWLAVYZllaovFPeryWZj/CFGgmN732BZpG2Fjh/inH61r7eDu2213gabNttQzoL
-	UgJz5P75CTFGRF0r7moP565/EZkRY9wyVkXTbRhompdtp5/1GzhdoF1/opCHkMfk0EwP
-	uJySvQerorUuABVPOeyJTfu4QLoxfvcJMvoFBPnDosEmWPrVRFQz30kBDhDgd3bK4jHO
-	5q0kg7X6GTdJuYlEj70KP86IiVs4fPrWNeY7RQ24/GDxtkqXRDLKvBPstsaKPb4l8rEz
-	T0zg7DtMum5z9oLWxqOca6G79jAqWButnRXS5Kra2wG+khaV9txsKnUBTygXGDvEU0c6
-	K+VQ==
+	Tue, 13 Aug 2013 11:42:41 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 13 Aug 2013 11:42:39 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 13 Aug 2013 11:42:39 -0700
+Message-ID: <1376419359-21872-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.60.60.41 with SMTP id e9mr5654565oer.47.1376419146728; Tue,
-	13 Aug 2013 11:39:06 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 13 Aug 2013 11:39:06 -0700 (PDT)
-In-Reply-To: <1376413879-9809-1-git-send-email-sgw@linux.intel.com>
-References: <1376413879-9809-1-git-send-email-sgw@linux.intel.com>
-Date: Tue, 13 Aug 2013 15:39:06 -0300
-X-Google-Sender-Auth: L2kHKS5eCeu3Q8NjWMVpNhD0nuI
-Message-ID: <CAP9ODKpz=2nUBmoaX+uVHdCeYCkBq_kfEeKRi7zoJESkN9_zrA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2 v2] meta-skeleton: Add busybox config fragment example
+Subject: [V2][PATCH 1/1] openjade: do not produce shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,60 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2013 18:39:06 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 13 Aug 2013 18:42:39 -0000
+Content-Type: text/plain
 
-On Tue, Aug 13, 2013 at 2:11 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> This shows an example of the config fragment support that
-> both the linux-yocto and busybox recipes use. This example
-> is specific to busybox.
->
-> By adding busybox CONFIG options into a .cfg file and then
-> adding that .cfg file to SRC_URI the merge_config.sh script will
-> correctly handle these CONFIG options during the do_configure task.
->
-> v2: fixed FILESEXTRAPATHS
+CQID: 429576
 
-This should be bellow --- line or it ends in the commit log.
+openjade is the only one that uses the shared
+libraries and sometimes it cannot find them!
 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg   | 1 +
->  meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend | 5 +++++
->  2 files changed, 6 insertions(+)
->  create mode 100644 meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg
->  create mode 100644 meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend
->
-> diff --git a/meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg b/meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg
-> new file mode 100644
-> index 0000000..42c6730
-> --- /dev/null
-> +++ b/meta-skeleton/recipes-core/busybox/busybox/no_rfkill.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_RFKILL=n
-> diff --git a/meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend b/meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend
-> new file mode 100644
-> index 0000000..641f04a4
-> --- /dev/null
-> +++ b/meta-skeleton/recipes-core/busybox/busybox_1.21.1.bbappend
-> @@ -0,0 +1,5 @@
-> +FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-> +
-> +SRC_URI += " \
-> +           file://no_rfkill.cfg \
-> +           "
-> --
-> 1.8.1.4
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../openjade/openjade-native_1.3.2.bb              |   29 ++++++++++++++-----
+ 1 files changed, 21 insertions(+), 8 deletions(-)
 
-
-
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 8af0b52..189cb02 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -7,7 +7,7 @@ SECTION = "base"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=641ff1e4511f0a87044ad42f87cb1045"
+ 
+-PR = "r5"
++PR = "r6"
+ 
+ DEPENDS = "opensp-native sgml-common-native"
+ RDEPENDS_${PN} = "sgml-common-native"
+@@ -24,8 +24,13 @@ SRC_URI[sha256sum] = "1d2d7996cc94f9b87d0c51cf0e028070ac177c4123ecbfd7ac1cb8d0b7
+ 
+ inherit autotools native
+ 
++# Per bugzilla.yoctoproject.org/show_bug.cgi?id=2972 we do
++# not create shared libraries.  Note that openjade still links
++# to shared libraries from other packages.
++#
+ EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
+-                --enable-splibdir=${STAGING_LIBDIR}"
++                --enable-splibdir=${STAGING_LIBDIR} \
++                --disable-shared"
+ 
+ # We need to set datadir explicitly, but adding it to EXTRA_OECONF
+ # results in it being specified twice when configure is run.
+@@ -55,13 +60,21 @@ do_compile_prepend () {
+ do_install() {
+ 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/openjade.html
+ 	# for details.
+-	install -d ${D}${bindir}	
+-	install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
+-	ln -sf openjade ${D}${bindir}/jade
++	install -d ${D}${bindir}
+ 
+-	oe_libinstall -a -so -C style libostyle ${D}${libdir}
+-	oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
+-	oe_libinstall -a -so -C grove libogrove ${D}${libdir}
++	# install shared library version if it exists
++	#
++	if [ -f ${S}/jade/.libs/openjade ]
++	then
++		install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
++		oe_libinstall -a -so -C style libostyle ${D}${libdir}
++		oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
++		oe_libinstall -a -so -C grove libogrove ${D}${libdir}
++	else
++		install -m 0755 ${S}/jade/openjade ${D}${bindir}/openjade
++	fi
++
++	ln -sf openjade ${D}${bindir}/jade
+ 
+ 	install -d ${D}${datadir}/sgml/openjade-${PV}
+ 	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://projetos.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.3.4
+
 
