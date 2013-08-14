@@ -1,30 +1,32 @@
 Return-Path: <fcooper@ti.com>
-Received: from bear.ext.ti.com (bear.ext.ti.com [192.94.94.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 325ED6007B
+Received: from devils.ext.ti.com (devils.ext.ti.com [198.47.26.153])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BC3E6007B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 15:03:10 +0000 (UTC)
+	Wed, 14 Aug 2013 15:03:11 +0000 (UTC)
 Received: from dlelxv90.itg.ti.com ([172.17.2.17])
-	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id r7EF39dZ011561
+	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r7EF3C5I019721
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 10:03:09 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id r7EF39s9028412
+	Wed, 14 Aug 2013 10:03:12 -0500
+Received: from DLEE70.ent.ti.com (dlee70.ent.ti.com [157.170.170.113])
+	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id r7EF3BNU028452
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 10:03:09 -0500
-Received: from dlelxv23.itg.ti.com (172.17.1.198) by DFLE73.ent.ti.com
-	(128.247.5.110) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 14 Aug 2013 10:03:09 -0500
+	Wed, 14 Aug 2013 10:03:11 -0500
+Received: from dlelxv23.itg.ti.com (172.17.1.198) by DLEE70.ent.ti.com
+	(157.170.170.113) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 14 Aug 2013 10:03:11 -0500
 Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
-	dlelxv23.itg.ti.com (8.13.8/8.13.8) with ESMTP id r7EF3681030298;
-	Wed, 14 Aug 2013 10:03:07 -0500
+	dlelxv23.itg.ti.com (8.13.8/8.13.8) with ESMTP id r7EF3682030298;
+	Wed, 14 Aug 2013 10:03:10 -0500
 From: "Franklin S. Cooper Jr" <fcooper@ti.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Aug 2013 10:32:17 -0500
-Message-ID: <1376494338-11646-1-git-send-email-fcooper@ti.com>
+Date: Wed, 14 Aug 2013 10:32:18 -0500
+Message-ID: <1376494338-11646-2-git-send-email-fcooper@ti.com>
 X-Mailer: git-send-email 1.7.0.4
+In-Reply-To: <1376494338-11646-1-git-send-email-fcooper@ti.com>
+References: <1376494338-11646-1-git-send-email-fcooper@ti.com>
 MIME-Version: 1.0
 Cc: "Franklin S. Cooper Jr" <fcooper@ti.com>
-Subject: [PATCH] kernel.bbclass: Create symbolic link to add ${KERNEL_IMAGETYPE} to boot package
+Subject: [PATCH] linux-dtb.inc: Run dts through the preprocessor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 15:03:10 -0000
+X-List-Received-Date: Wed, 14 Aug 2013 15:03:11 -0000
 Content-Type: text/plain
 
-* By default for some platforms U-boot assumes the kernel image is located in
-  the boot directory of the root filesystem.
-* The kernel.bbclass already includes the kernel image in the /boot directory
-  but adds a version number to the file name.
-* Create a symbolic link that names the kernel image in the exact way that
-  U-boot expects.
+* In the 3.11 kernel some dts files now include C code that must first run
+  through the preprocessor.
+* Update building the dtb by first running the dts file through the user's
+  compiler before building using the device tree compiler.
+* The logic used is based on mainline u-boot dts/Makefile.
 
 Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
 ---
- meta/classes/kernel.bbclass |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
+ meta/recipes-kernel/linux/linux-dtb.inc |    5 ++++-
+ 1 files changed, 4 insertions(+), 1 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index e039dfc..248ee71 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -109,6 +109,7 @@ kernel_do_install() {
- 	install -d ${D}/${KERNEL_IMAGEDEST}
- 	install -d ${D}/boot
- 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-+	ln      -s ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}
- 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
- 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
- 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+index 41dd599..f1aafa2 100644
+--- a/meta/recipes-kernel/linux/linux-dtb.inc
++++ b/meta/recipes-kernel/linux/linux-dtb.inc
+@@ -21,7 +21,10 @@ do_install_append() {
+ 			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+ 			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+ 			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+-			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
++
++			cat ${DTS_FILE} | \
++				${CPP} -x assembler-with-cpp -I ./include/ -I ./arch/${ARCH}/boot/dts - | \
++				dtc ${KERNEL_DEVICETREE_FLAGS} -O dtb -o ${DTS_BASE_NAME} -i arch/${ARCH}/boot/dts/ -
+ 			install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+ 		done
+ 	fi
 -- 
 1.7.0.4
 
