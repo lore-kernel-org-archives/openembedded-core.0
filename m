@@ -1,35 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A1EA61220
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 14:13:48 +0000 (UTC)
-Received: by mail-ee0-f51.google.com with SMTP id c1so4853999eek.24
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 07:13:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=GyLDWxBTZ9D/XseHGK3l8cwWYFeB4HBmX7Wp2m1q1EM=;
-	b=T3RLjcVrRkcZG8W8MO6hO7Kt74K7JaeGdAvfWYjBnG8i7y5EP7IL+xanwdgg9v6I5Y
-	dTiCJTy0lKqUZ9PnxFNL1XY/D1ZthzjWEaBCuNbjai+wjIIgHUu1LZ7MAVx96mW/E/A7
-	gKo43dGkDk6zMGqTuMkKpcC0ZV8T2VdL4Y7yRk6bJ8hfxTrQZZ3oTcOp/FpgPb2yT+ld
-	mcuey9IPsdoc/vkDiCpDuma4EC3ZZuDT3S8MOcYvdxvTmBopNn6Ah/bHP363LGZ32hTL
-	04/dico48srTv7aP0Wn7sTa7mGkBBlZiXw198gNd8IjzHTRBNgEMkAZOVVJSl7rKEOZZ
-	K2Rg==
-X-Gm-Message-State: ALoCoQl5OwKMtrQCuP723hoWq5DKaBz2neja5D7NiN6Lb5ZHGrbo+crcfq96cKLzgXFwyz3/9TBI
-X-Received: by 10.15.102.72 with SMTP id bq48mr1218929eeb.85.1376489628663;
-	Wed, 14 Aug 2013 07:13:48 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id m54sm75475847eex.2.2013.08.14.07.13.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 14 Aug 2013 07:13:47 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Aug 2013 15:13:44 +0100
-Message-Id: <1376489624-30715-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] wipe-sysroots: don't assume TMPDIR is under BUILDDIR
+Return-Path: <kergoth@gmail.com>
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by mail.openembedded.org (Postfix) with ESMTP id AF4D561220
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 14 Aug 2013 14:16:08 +0000 (UTC)
+Received: by mail-lb0-f172.google.com with SMTP id o7so6954363lbv.17
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 14 Aug 2013 07:16:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=2acUwgIbzvbyWm5h6ixfheLpwli8lMm2MNERclYObyI=;
+	b=CHacD/b8Ua7CqI9Z2ox07j3HXHeHpHrh7jxgSCkv6LhtQP9EOONTufk3Puxa9Qr+I1
+	ruWA/PN6epyFjXP2qNPerGuG7rJEsPrNvFSiXMyYZjqNA4h7cA9Q3ZRAiGweVY+Q8oUC
+	/KrLTqprEG3ZmgFh2ghxEvHrzFnrsRI0zxGA9k4pQ/6ngpAAvpk5guaVKu3WBxOxZu/N
+	UgmD7OJkZzTEnPSgtQ60qL7euRK4yIzvyd3VxIscrg78hVxmzFGcJjkktpg7M6fx362x
+	UziI5ZTFs224XR4tlJAd7VJAMfOHk6pcvugCVfwt3Kwzqx2rNWHVE5DSmZhUveltgtgo
+	1I0g==
+X-Received: by 10.112.50.109 with SMTP id b13mr650204lbo.47.1376489768780;
+	Wed, 14 Aug 2013 07:16:08 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.17.67 with HTTP; Wed, 14 Aug 2013 07:15:48 -0700 (PDT)
+In-Reply-To: <20130814141339.GY17945@jama>
+References: <520B8B6C.40408@pabigot.com> <20130814141339.GY17945@jama>
+From: Chris Larson <clarson@kergoth.com>
+Date: Wed, 14 Aug 2013 07:15:48 -0700
+X-Google-Sender-Auth: hZ9TEJ9Cvj3FJZwe7dHv0liKlpk
+Message-ID: <CABcZANkRQHr8s8M1fgk2S-FyB7Gp6wS5SUohX4pS1dQKBpr9mg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: recipe whitespace style questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,57 +44,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 14:13:48 -0000
+X-List-Received-Date: Wed, 14 Aug 2013 14:16:09 -0000
+Content-Type: multipart/alternative; boundary=001a11336ce2b489dc04e3e8ff74
 
-The previous code used the environment variable BUILDDIR and assumed that TMPDIR
-was a subdirectory. This often isn't the case, so instead ask bitbake where the
-directories we're about to delete are.
+--001a11336ce2b489dc04e3e8ff74
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- scripts/wipe-sysroot |   24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+On Wed, Aug 14, 2013 at 7:13 AM, Martin Jansa <martin.jansa@gmail.com>wrote:
 
-diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
-index e751a91..2d2cbea 100755
---- a/scripts/wipe-sysroot
-+++ b/scripts/wipe-sysroot
-@@ -18,17 +18,27 @@
- # along with this program; if not, write to the Free Software
- # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
- 
--if [ -z "$BUILDDIR" ]; then
--    echo >&2 "Error: BUILDDIR is not defined, please initialise the build system."
--    return 1
-+set -e
-+
-+ENVS=`mktemp --suffix -wipe-sysroot-envs`
-+bitbake -p -e > $ENVS
-+
-+eval `grep -F SSTATE_MANIFESTS= $ENVS`
-+eval `grep -F STAGING_DIR= $ENVS`
-+eval `grep -F STAMPS_DIR= $ENVS`
-+rm -f $ENVS
-+
-+if [ -z "$SSTATE_MANIFESTS" -o -z "$STAGING_DIR" -o -z "$STAMPS_DIR" ]; then
-+    echo "Could not determine SSTATE_MANIFESTS/STAGING_DIR/STAMPS_DIR, check above for errors"
-+    exit 1
- fi
- 
- # The sysroots themselves
--rm -rf $BUILDDIR/tmp/sysroots/
-+rm -rf "$STAGING_DIR"
- 
- # The stamps that said the sysroot was populated
--rm -rf $BUILDDIR/tmp/stamps/*/*/*.do_populate_sysroot.*
--rm -rf $BUILDDIR/tmp/stamps/*/*/*.do_populate_sysroot_setscene.*
-+rm -rf "$STAMPS_DIR/*/*/*.do_populate_sysroot.*"
-+rm -rf "$STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*"
- 
- # The sstate manifests
--rm -rf $BUILDDIR/tmp/sstate-control/manifest-*.populate-sysroot
-+rm -rf "$SSTATE_MANIFESTS/manifest-*.populate-sysroot"
+> On Wed, Aug 14, 2013 at 08:51:40AM -0500, Peter A. Bigot wrote:
+> >
+> > SRC_URI = "file://skeleton \
+> >             file://skeleton_test.c \
+> >             file://COPYRIGHT \
+> > "
+> >
+> > which I'll call "none", and;
+> >
+> > SRC_URI = "file://skeleton \
+> >             file://skeleton_test.c \
+> >             file://COPYRIGHT"
+> >
+> > which I'll call "joined".
+> >
+> > Again, for consistency's sake it would be nice to have a
+> > recommendation.  I personally prefer "none", which matches the closing
+> > bracket style for functions.
+> >
+> > Next: I've also seen:
+> >
+> > SRC_URI = " \
+> >      file://skeleton \
+> >      file://skeleton_test.c \
+> >      file://COPYRIGHT \
+> > "
+>
+> I prefer this one (especially for longer variables or entries) or "none",
+> because with "none" it's easier to see where multiline variable ends.
+>
+> Worst is IMHO "joined" because when appending one more line you have to
+> edit 2 lines to move '"' so the diff for review is longer and harder to
+> read than just one added line.
+
+
+I'd agree on both counts.
 -- 
-1.7.10.4
+Christopher Larson
 
+--001a11336ce2b489dc04e3e8ff74
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Aug 14, 2013 at 7:13 AM, Martin Jansa <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
+</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, Aug 14, 2013 at 08=
+:51:40AM -0500, Peter A. Bigot wrote:<br>
+&gt;<br>
+&gt; SRC_URI =3D &quot;file://skeleton \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://skeleton_test.c \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://COPYRIGHT \<br>
+&gt; &quot;<br>
+&gt;<br>
+&gt; which I&#39;ll call &quot;none&quot;, and;<br>
+&gt;<br>
+&gt; SRC_URI =3D &quot;file://skeleton \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://skeleton_test.c \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://COPYRIGHT&quot;<br>
+&gt;<br>
+&gt; which I&#39;ll call &quot;joined&quot;.<br>
+&gt;<br>
+&gt; Again, for consistency&#39;s sake it would be nice to have a<br>
+&gt; recommendation. =C2=A0I personally prefer &quot;none&quot;, which matc=
+hes the closing<br>
+&gt; bracket style for functions.<br>
+&gt;<br>
+&gt; Next: I&#39;ve also seen:<br>
+&gt;<br>
+&gt; SRC_URI =3D &quot; \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0file://skeleton \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0file://skeleton_test.c \<br>
+&gt; =C2=A0 =C2=A0 =C2=A0file://COPYRIGHT \<br>
+&gt; &quot;<br>
+<br>
+</div>I prefer this one (especially for longer variables or entries) or &qu=
+ot;none&quot;,<br>
+because with &quot;none&quot; it&#39;s easier to see where multiline variab=
+le ends.<br>
+<br>
+Worst is IMHO &quot;joined&quot; because when appending one more line you h=
+ave to<br>
+edit 2 lines to move &#39;&quot;&#39; so the diff for review is longer and =
+harder to<br>
+read than just one added line.</blockquote></div><br>I&#39;d agree on both =
+counts.<br>-- <br>Christopher Larson</div></div>
+
+--001a11336ce2b489dc04e3e8ff74--
