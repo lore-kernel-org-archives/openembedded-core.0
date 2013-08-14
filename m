@@ -1,41 +1,34 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 61272600A3
+Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D9784600A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 10:58:25 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id d17so4819049eek.0
+	Wed, 14 Aug 2013 11:13:05 +0000 (UTC)
+Received: by mail-ea0-f172.google.com with SMTP id r16so4782015ead.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 03:58:25 -0700 (PDT)
+	Wed, 14 Aug 2013 04:13:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=+Q+N3o9zGcgZaUWC3NaK5Z3Qer8EA44w1DDUs/gIn9s=;
-	b=zex7zLFs0TNU2o44+kalVpG6dzjJg9tKApxw2WBD+r8GB4VNzfpjYVeVoa0KzNS/yI
-	NnWUNpvA6UezsVHxBs751Ti+cCz0QPe4SodOKG05omd1xJzoutJ51ikmuGS99koaUxij
-	G1BqDaLtaQ0wEd2lU7itcZG2QNERhzt24Em3QH9VkloIxeUodIIXXNdazuVABrI3Xpem
-	HreyRMrPZRx8wMEPVr0XwOQ2SkrFZniBGLtU8aKw9t7R82ZRRZqat+Bl9st3O7zXZWHw
-	pIRZ2w4Bm5D/iCxfjCaIFaCsP6VeWw0DUe3nsc/yjVLMypEdyEqnhUyojSDJYXi4cVEF
-	om5Q==
-X-Received: by 10.15.64.1 with SMTP id n1mr14334863eex.15.1376477905158;
-	Wed, 14 Aug 2013 03:58:25 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=U6glyI3M0kSxyHp1Os0hsOOOQZ1HZSczX8HAmGrP3wU=;
+	b=Dw/xO/QJrHIJJjRmuRq+t8ONisYVjP7VtkAFSWQbRvcXLrO5cFunWmoCqGLAN/KNK+
+	jpKUIOrbPc3YA4p4ySAetIkjxe0iqNEYfCsjEruif7s56C9DV5cwzYtWa3M71kcH1oi9
+	2YX/8xMiU+32k1BKFLZ0bVqIr/t5/6k9OtEnPDRk0EdbD38Q2O7tFjrCBLF5JBs3/oKa
+	3EZhbjs49YT2L4z2Dc7dYd0aDTl+1UttC7XNKxuRx7vuhiHM8tufpQXB6nBvBDMlc1s6
+	KqJoCAFxO0zRI+d/0VVNyd7g8OXlhICryrs0yhcX4I3UcsBnkWbm+y7qoJmyksXnFX9p
+	Mkng==
+X-Received: by 10.14.9.72 with SMTP id 48mr14054680ees.42.1376478785797;
+	Wed, 14 Aug 2013 04:13:05 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	c3sm74136635eev.3.2013.08.14.03.58.24 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 14 Aug 2013 03:58:24 -0700 (PDT)
-Date: Wed, 14 Aug 2013 12:59:15 +0200
+	n48sm74347823eeg.17.2013.08.14.04.13.04 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 14 Aug 2013 04:13:05 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130814105915.GU17945@jama>
-References: <cover.1376379182.git.rongqing.li@windriver.com>
-	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
-	<520A82BA.2070706@linux.intel.com> <520B1595.3060909@windriver.com>
-	<20130814065609.GQ17945@jama> <1376477217.22952.5.camel@ted>
-MIME-Version: 1.0
-In-Reply-To: <1376477217.22952.5.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Aug 2013 13:13:51 +0200
+Message-Id: <1376478834-12858-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH 1/4] at-spi2-core: add intltool-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,99 +41,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 10:58:26 -0000
-X-Groupsio-MsgNum: 43314
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="O0IT7rLmWuveAsNR"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Aug 2013 11:13:06 -0000
 
---O0IT7rLmWuveAsNR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+* configure fails without it
+  at-spi2-core/2.8.0-r0/temp/run.do_configure.372: intltoolize: not found
 
-On Wed, Aug 14, 2013 at 11:46:57AM +0100, Richard Purdie wrote:
-> On Wed, 2013-08-14 at 08:56 +0200, Martin Jansa wrote:
-> > On Wed, Aug 14, 2013 at 01:28:53PM +0800, Rongqing Li wrote:
-> > >=20
-> > >=20
-> > > On 08/14/2013 03:02 AM, Saul Wold wrote:
-> > > > On 08/13/2013 01:20 AM, rongqing.li@windriver.com wrote:
-> > > >> From: "Roy.Li" <rongqing.li@windriver.com>
-> > > >>
-> > > >> sstate_package creates hardlink from sysroot to SSTATE_BUILDDIR, t=
-hen
-> > > >> sstate_create_package will store SSTATE_BUILDDIR into a archive fi=
-le by
-> > > >> tar, but once other packages install the same file into sysroot, t=
-he
-> > > >> creating the archive file will fail with below error:
-> > > >>
-> > > >>      DEBUG: Executing shell function sstate_create_package
-> > > >>      tar: x86_64-linux/usr/share/aclocal/xorg-macros.m4: file chan=
-ged
-> > > >> as we read it
-> > > >>
-> > > >> This kind of error is harmless, use --ignore-failed-read to ignore=
- it.
-> > > >>
-> > > > I am not sure it's so harmless, what if the file is corrupted, then=
- we
-> > > > have a bad sstate tarball.  You have identified the part of the root
-> > > > cause being the hardlink, but what if the file actually does change
-> > > > (which would be a different bug potentially), then your packaging a
-> > > > differet set of macros (in this case) with the sysroot.
-> > > >
-> > > >
-> > > > Sau!
-> > >=20
-> > >=20
-> > > The file is not corrupted, and the file content is not changed,  "tar"
-> > > said xorg-macros.m4 file is changed, since the number of links of
-> > > xorg-macros.m4 has changed when other packages is doing configuration
-> > > and call autotools_copy_aclocal to make a hardlink to ${ACLOCALDIR}
-> > >=20
-> > > If this fix can be accepted, I will rework the commit header.
-> >=20
-> > I think there is still some other issue.
-> >=20
-> > I haven't seen this on ext4 filesystems, but with reiserfs I was able to
-> > reproduce "cp: will not create hard link" issue, e.g.:
-> >=20
-> > do_populate_lic_setscene task failing in sstate_install with=20
-> > cp: will not create hard link `/OE/deploy/licenses/recipe' to directory=
- `/OE/deploy/licenses/recipe' (same path)
-> >=20
-> > or
-> > ERROR: Error executing a python function in pn.bb:
-> > CalledProcessError: Command 'cp -afl /OE/work/armv7a-vfp-neon-oe-linux-=
-gnueabi/pn/1.0/pkgdata/* /OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi' retu=
-rned non-zero exit status 1 with output=20
-> > cp: warning: source file `/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/=
-1.0/pkgdata/pn' specified more than once
->=20
-> This sounds like a race issue in reiserfs to me...
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-support/atk/at-spi2-core_2.8.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-True, I assume the same until someone else is able to reproduce it on
-some other filesystem.
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.8.0.bb b/meta/recipes-support/atk/at-spi2-core_2.8.0.bb
+index 34cdcbb..8403d65 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.8.0.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.8.0.bb
+@@ -8,7 +8,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
+ SRC_URI[md5sum] = "93b57d5d56d15d1222ddf2386e2f869f"
+ SRC_URI[sha256sum] = "1861a30fc7f583d5a567a0ba547db67ce9bd294f0d1c9f7403c96a10a481c458"
+ 
+-DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst"
++DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst intltool-native"
+ 
+ inherit autotools gtk-doc
+ 
+-- 
+1.8.3.2
 
-Any idea how to confirm this theory at least to add warning in
-documentation that using reiserfs on build partition is causing random
-build failures?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---O0IT7rLmWuveAsNR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlILYwMACgkQN1Ujt2V2gBwtCACgtHr8TOIs8qVmbPGt5j+/EjlS
-nHsAoLYO3ydLEVR1J+GSRywgGgY9VBLJ
-=g097
------END PGP SIGNATURE-----
-
---O0IT7rLmWuveAsNR--
