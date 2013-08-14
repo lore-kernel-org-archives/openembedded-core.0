@@ -1,37 +1,35 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id F17CE60017
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 91FCF61220
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 15:25:14 +0000 (UTC)
-Received: by mail-la0-f45.google.com with SMTP id eh20so533885lab.18
+	Wed, 14 Aug 2013 15:32:29 +0000 (UTC)
+Received: by mail-la0-f48.google.com with SMTP id er20so542841lab.21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 08:25:15 -0700 (PDT)
+	Wed, 14 Aug 2013 08:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=4PSvNykbF2BgwgtVEOTu3vRUtAs10rj/gj0ouSVUOiE=;
-	b=w+pIll3rREogaoL7BrxdztwRZXWzoyav/RXiSZlqTvHmlpEPvUEeE9QbDm59T2FbQW
-	U0jfv+ihlo4unzxnMtw30p9gn3Em2/zQ5DOhzScGOspg6N+Y4GqMXqR9vt6XMpAn/9V8
-	FS0egI+DD2XtjDwCIiDatAeIu1YPY9u2hJ7LEntdO1KORYR1+JsccEyF+pfKMMPJpuxF
-	dCgRlylPcZqDHG+PW9o0a8K2oeN3vl+AxvKRPSTalePeGnJulb//nN0pGHd/FAfgm18L
-	pfPjehk53GicT5CrN9qpE3YKki8EPtaFRTeDFz7yFS/ZeLNecwy6cXyhNkjgkllq6RRF
-	eYHQ==
+	bh=qZXQam0lDLpnK/uAmPX1tXztqj5/uF+Ej4fJ0RVpsvI=;
+	b=RRrYzW9tSVESLDeV7O3OMFnmCKzT+YXa5HtZ9KXDzkW4HxMPHuNpaUib3xzyztJY4A
+	iGVtVN1i15KTMsgpIppD4LodFc08BCxRD4ou1CoIafqdB0C/p6k4x1GBUlL7DNBQS6tw
+	rd1EFycsfq2GuEMYZQNa57ZLsX2W+PoXTL4jIyJgTWaNqGZwAcQ3buIYp/bgpa4YCkV/
+	tT/Hu0/DWwX2umKmQxeOdpU9SrwhHSULBi7eEFHehww4FgCr81yxfPDbnDXphjXy/l73
+	A+GqI11JJPeCGHKE8JJEa9QcqdtvBJ8+LpySD3hG8NK5ZDoOvd1QpetS45h+k1V/lpDy
+	fQsQ==
 MIME-Version: 1.0
-X-Received: by 10.112.18.130 with SMTP id w2mr722164lbd.51.1376493914978; Wed,
-	14 Aug 2013 08:25:14 -0700 (PDT)
-Received: by 10.112.158.229 with HTTP; Wed, 14 Aug 2013 08:25:14 -0700 (PDT)
-In-Reply-To: <1376494338-11646-2-git-send-email-fcooper@ti.com>
+X-Received: by 10.152.29.103 with SMTP id j7mr8856980lah.7.1376494349649; Wed,
+	14 Aug 2013 08:32:29 -0700 (PDT)
+Received: by 10.112.158.229 with HTTP; Wed, 14 Aug 2013 08:32:29 -0700 (PDT)
+In-Reply-To: <1376494338-11646-1-git-send-email-fcooper@ti.com>
 References: <1376494338-11646-1-git-send-email-fcooper@ti.com>
-	<1376494338-11646-2-git-send-email-fcooper@ti.com>
-Date: Wed, 14 Aug 2013 11:25:14 -0400
-Message-ID: <CADkTA4M3MDkpPuZ2kEq6Uz-RfGyDLBUNK0npsxCB=is8M9JMYQ@mail.gmail.com>
+Date: Wed, 14 Aug 2013 11:32:29 -0400
+Message-ID: <CADkTA4OcJ1Une4FHwWUscXVuPi+xfewxn6+2ze9DjbOkQVsqcQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: "Franklin S. Cooper Jr" <fcooper@ti.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-dtb.inc: Run dts through the preprocessor
+Subject: Re: [PATCH] kernel.bbclass: Create symbolic link to add ${KERNEL_IMAGETYPE} to boot package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +42,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 15:25:15 -0000
+X-List-Received-Date: Wed, 14 Aug 2013 15:32:30 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
 On Wed, Aug 14, 2013 at 11:32 AM, Franklin S. Cooper Jr <fcooper@ti.com> wrote:
-> * In the 3.11 kernel some dts files now include C code that must first run
->   through the preprocessor.
-> * Update building the dtb by first running the dts file through the user's
->   compiler before building using the device tree compiler.
-> * The logic used is based on mainline u-boot dts/Makefile.
+> * By default for some platforms U-boot assumes the kernel image is located in
+>   the boot directory of the root filesystem.
+> * The kernel.bbclass already includes the kernel image in the /boot directory
+>   but adds a version number to the file name.
+> * Create a symbolic link that names the kernel image in the exact way that
+>   U-boot expects.
 
-We are already working through a change from Otavio that changes the way we
-build DTB files, using the in kernel resources.
-
-So this shouldn't be required in the end, or at least heavily modified.
-
-So I suggest we hold on this change for now, and rebase it once the
-patch I mentioned
-is merged.
-
-Bruce
+I swear I've seen this change before, but my grep didn't return a hit ..
 
 >
 > Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
 > ---
->  meta/recipes-kernel/linux/linux-dtb.inc |    5 ++++-
->  1 files changed, 4 insertions(+), 1 deletions(-)
+>  meta/classes/kernel.bbclass |    1 +
+>  1 files changed, 1 insertions(+), 0 deletions(-)
 >
-> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-> index 41dd599..f1aafa2 100644
-> --- a/meta/recipes-kernel/linux/linux-dtb.inc
-> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
-> @@ -21,7 +21,10 @@ do_install_append() {
->                         DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
->                         DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
->                         DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> -                       dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
-> +
-> +                       cat ${DTS_FILE} | \
-> +                               ${CPP} -x assembler-with-cpp -I ./include/ -I ./arch/${ARCH}/boot/dts - | \
-> +                               dtc ${KERNEL_DEVICETREE_FLAGS} -O dtb -o ${DTS_BASE_NAME} -i arch/${ARCH}/boot/dts/ -
->                         install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
->                 done
->         fi
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index e039dfc..248ee71 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -109,6 +109,7 @@ kernel_do_install() {
+>         install -d ${D}/${KERNEL_IMAGEDEST}
+>         install -d ${D}/boot
+>         install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+> +       ln      -s ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}
+
+This should probably be -sf, to match the rest of the linking in the file.
+
+Bruce
+
+>         install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+>         install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+>         install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
 > --
 > 1.7.0.4
 >
