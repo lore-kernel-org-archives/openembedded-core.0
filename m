@@ -1,40 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 195436007B
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 13:57:24 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id ib11so5206537vcb.28
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 06:57:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7MlyYeQsvMA2l/FDJ91TXagIQ4MIW/Si26HEW/HtJq4=;
-	b=QmRDUh76C4Prx/HfqrnxEmB8hGHzIDrh7NY/F0+IgOBemjWv30MB0/LZnQi0tONZcC
-	3gyYhqyKJmlWIxaqt7TKVjoTHqKesaf0HwNDt5peVunZ6QlPIh1T8kq9iS8NCWG5Lvo1
-	UbDuXdpO/17YC9EipzdbOgscSlcLj/za8E3c0TATspLMSHLIRIfbKCZ1pM83vtUYhE5D
-	+SlIIq+E8/kQNQZZvwGSxfwDwQcX0w02bdpeN1mH8iBccMItxvZMGoYpOFiaLHNAk0RC
-	mzpP2KONRTfccKNR4+m/IyIPJzhlbrQ07oIl4YM614WZ4r3j8xVkmpYTCAtzo7QKeFrW
-	NhJw==
-X-Gm-Message-State: ALoCoQlaDVH1f0wYokhLpfa+qxin65E6Ezym+FS49YK3hZafgYwFc0TAWDZ/AsG8DyBljbkuE2tk
-X-Received: by 10.58.136.4 with SMTP id pw4mr8802548veb.10.1376488644454; Wed,
-	14 Aug 2013 06:57:24 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id CC8666007B
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 14 Aug 2013 14:12:50 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id c41so4897611eek.39
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 14 Aug 2013 07:12:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=UlslsQAe3UfEaakhjvN1MM+7YMZb9qAx3xahBApg8Bk=;
+	b=0BlmJoHOJifPf6YseY5rFmviMcHlTYhRr2390DPBnluwtyopqYOBf23xqUJx3U09O+
+	H4z80zTKuLVkesJCQ/PvTycZc2ngg9YxM3phox39t5e7MLpm9dxwQ87kGw2lAh7qZzTE
+	FgUlku8pmgsW6Iyb+sYxygRuJYTPT614aqLWfHB6O/QfXwtVPasxAGPZNpxH7fxMFa1i
+	SmemgK2Z36ZYoR04uMpQjic90LUQM8LX7Or+4XsF78eDbOD9gJb+HAwQH4TD1Gj6SKGl
+	2b7XH2Q7nC7bSaV8zZ2gwsJMd9fkRooQ/ywKqpT5C/DWsMxJNfYtl88A/5FsVAydoJdj
+	Rzxg==
+X-Received: by 10.14.119.196 with SMTP id n44mr299208eeh.116.1376489569730;
+	Wed, 14 Aug 2013 07:12:49 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	c3sm75466429eev.3.2013.08.14.07.12.48 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 14 Aug 2013 07:12:48 -0700 (PDT)
+Date: Wed, 14 Aug 2013 16:13:39 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Message-ID: <20130814141339.GY17945@jama>
+References: <520B8B6C.40408@pabigot.com>
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 14 Aug 2013 06:57:04 -0700 (PDT)
-In-Reply-To: <1376485672.17787.1.camel@phil-desktop.brightsign>
-References: <cover.1376038140.git.paul.eggleton@linux.intel.com>
-	<16c7ff9c4e9ff11888d8d6b594f5ede88a78feeb.1376038140.git.paul.eggleton@linux.intel.com>
-	<20130814122216.GX17945@jama>
-	<1376485672.17787.1.camel@phil-desktop.brightsign>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Aug 2013 14:57:04 +0100
-Message-ID: <CAJTo0Lb0Pb=8UCBgEvZqHwrC7ALirbjSsjUaEA-+PNNU3_bf=A@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/6] libav: add from meta-oe, update and tweak
+In-Reply-To: <520B8B6C.40408@pabigot.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: recipe whitespace style questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,13 +46,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 13:57:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 14 Aug 2013 14:12:51 -0000
+X-Groupsio-MsgNum: 43328
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="RLVVO53zhS75EYih"
+Content-Disposition: inline
 
-On 14 August 2013 14:07, Phil Blundell <pb@pbcl.net> wrote:
-> I'm not quite sure why aargh64 is in there but arm isn't.
+--RLVVO53zhS75EYih
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Is that an official architecture alias, or a typo? ;)
+On Wed, Aug 14, 2013 at 08:51:40AM -0500, Peter A. Bigot wrote:
+>=20
+> SRC_URI =3D "file://skeleton \
+>             file://skeleton_test.c \
+>             file://COPYRIGHT \
+> "
+>=20
+> which I'll call "none", and;
+>=20
+> SRC_URI =3D "file://skeleton \
+>             file://skeleton_test.c \
+>             file://COPYRIGHT"
+>=20
+> which I'll call "joined".
+>=20
+> Again, for consistency's sake it would be nice to have a=20
+> recommendation.  I personally prefer "none", which matches the closing=20
+> bracket style for functions.
+>=20
+> Next: I've also seen:
+>=20
+> SRC_URI =3D " \
+>      file://skeleton \
+>      file://skeleton_test.c \
+>      file://COPYRIGHT \
+> "
 
-Ross
+I prefer this one (especially for longer variables or entries) or "none",
+because with "none" it's easier to see where multiline variable ends.
 
+Worst is IMHO "joined" because when appending one more line you have to
+edit 2 lines to move '"' so the diff for review is longer and harder to
+read than just one added line.
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--RLVVO53zhS75EYih
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlILkJMACgkQN1Ujt2V2gBwpPACfUMf+S58mQM/3HP5zysePreSC
+GpIAoJnKLzMUBkeI3tpIHbFhg+vDmaq7
+=HEEF
+-----END PGP SIGNATURE-----
+
+--RLVVO53zhS75EYih--
