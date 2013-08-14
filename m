@@ -1,40 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id F0F2261DDD
+Return-Path: <andre.draszik@linaro.org>
+Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
+	[209.85.214.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ECA86A457
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 06:55:18 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id d17so4728052eek.28
+	Wed, 14 Aug 2013 07:32:26 +0000 (UTC)
+Received: by mail-bk0-f52.google.com with SMTP id e11so2972632bkh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 23:55:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=U7zQUylh4Ry7MeRbtiXgHi4FhsKQDiF5fstTrTgINlY=;
-	b=zjfla7b8XosU9a6iAFcIOEGA1prxHAMVXiwN15H6y+u1xyFbHMjIjcmvf2aBPfMyGU
-	yOaNbI1UfHAL7n681PgnnneUCkzGUSPWATfYA9yaz9Y8Bd3atZyXDkCm3d63Q+YCKSzM
-	RfH2KY3yL/8lLa7qLk3CgtYe0Be3/vFQEyTT50yBuOwaHkJepxHW5viFWr9weG2iliLL
-	A+eooLdNQQSgAYMOT/Z87HXj+OAIAX+vlljlEb0EeJ+dXXv0/r9Kf26ACni3GQ1WFxqs
-	j1zGqSlt2u1X31mQtqOUBQQV/5Nkuc2pVer8/E0m6qIZHJcjGkfOo7is/IN3y84Na1C3
-	aBdQ==
-X-Received: by 10.14.198.73 with SMTP id u49mr12837394een.13.1376463319342;
-	Tue, 13 Aug 2013 23:55:19 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	bn13sm72542814eeb.11.2013.08.13.23.55.18 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Tue, 13 Aug 2013 23:55:18 -0700 (PDT)
-Date: Wed, 14 Aug 2013 08:56:09 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Rongqing Li <rongqing.li@windriver.com>
-Message-ID: <20130814065609.GQ17945@jama>
-References: <cover.1376379182.git.rongqing.li@windriver.com>
-	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
-	<520A82BA.2070706@linux.intel.com> <520B1595.3060909@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <520B1595.3060909@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
+	Wed, 14 Aug 2013 00:32:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:content-type:content-transfer-encoding:mime-version;
+	bh=WLxuAW72xA2HNiti9z5JrVQonwRS82+RBtdcqSq9pFA=;
+	b=OKG4bfix2/nedNZ2xZ7afR3/eAS/8ItdJEYkhqgp53xlse/kEhwYHRxH+Rvp35DJ8F
+	vWvbRXEuwRgPXYDuuI2hif0Su4k3vMSC7ocKV4XW1KcfV6wAQkhfifuzBoiqzwlIGPom
+	R3fVnd8oSytsFdcza/epAwMXXXES+EyizbuPnEzmqC3xw57KVfYyt3WOAIhEMdkQY9t2
+	TLqLtzz5PSyKKbf79kAX347smiCARur3xBlU6XhoMWrp8UpXQEEWfMydgpg8N55W54g8
+	JWE+mmSJMExJYdF4Byqaofmm3bhgpJ9b+0DoeUtlzQTOSy3Y/yKclosb9pucRGZa1lGL
+	FYLQ==
+X-Gm-Message-State: ALoCoQnQkCOv5jmET/BWbZSg4sGAaS+ObYVDczheo1ca4KQJHUumjHSnVzPj3LTUlfFD9/1r70gU
+X-Received: by 10.204.189.4 with SMTP id dc4mr5370244bkb.2.1376465546263;
+	Wed, 14 Aug 2013 00:32:26 -0700 (PDT)
+Received: from [10.65.4.44] (sushi.andred.org. [85.214.105.253])
+	by mx.google.com with ESMTPSA id od6sm7254573bkb.11.2013.08.14.00.32.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 14 Aug 2013 00:32:25 -0700 (PDT)
+Message-ID: <1376465543.6373.132.camel@bril0118.bri.st.com>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Aug 2013 08:32:23 +0100
+In-Reply-To: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
+References: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.2.3-0ubuntu6 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2] linux-dtb: Use kernel build system to generate the dtb files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,134 +47,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 06:55:19 -0000
-X-Groupsio-MsgNum: 43307
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="glwmnIOgU1tcuP7N"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Aug 2013 07:32:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---glwmnIOgU1tcuP7N
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Wed, Aug 14, 2013 at 01:28:53PM +0800, Rongqing Li wrote:
->=20
->=20
-> On 08/14/2013 03:02 AM, Saul Wold wrote:
-> > On 08/13/2013 01:20 AM, rongqing.li@windriver.com wrote:
-> >> From: "Roy.Li" <rongqing.li@windriver.com>
-> >>
-> >> sstate_package creates hardlink from sysroot to SSTATE_BUILDDIR, then
-> >> sstate_create_package will store SSTATE_BUILDDIR into a archive file by
-> >> tar, but once other packages install the same file into sysroot, the
-> >> creating the archive file will fail with below error:
-> >>
-> >>      DEBUG: Executing shell function sstate_create_package
-> >>      tar: x86_64-linux/usr/share/aclocal/xorg-macros.m4: file changed
-> >> as we read it
-> >>
-> >> This kind of error is harmless, use --ignore-failed-read to ignore it.
-> >>
-> > I am not sure it's so harmless, what if the file is corrupted, then we
-> > have a bad sstate tarball.  You have identified the part of the root
-> > cause being the hardlink, but what if the file actually does change
-> > (which would be a different bug potentially), then your packaging a
-> > differet set of macros (in this case) with the sysroot.
-> >
-> >
-> > Sau!
->=20
->=20
-> The file is not corrupted, and the file content is not changed,  "tar"
-> said xorg-macros.m4 file is changed, since the number of links of
-> xorg-macros.m4 has changed when other packages is doing configuration
-> and call autotools_copy_aclocal to make a hardlink to ${ACLOCALDIR}
->=20
-> If this fix can be accepted, I will rework the commit header.
+Can this please be pushed to dylan as well, please. It's a useful
+change, and I then could remove my version of that patch from our
+layer :-)
 
-I think there is still some other issue.
 
-I haven't seen this on ext4 filesystems, but with reiserfs I was able to
-reproduce "cp: will not create hard link" issue, e.g.:
+Cheers,
+Andre'
 
-do_populate_lic_setscene task failing in sstate_install with=20
-cp: will not create hard link `/OE/deploy/licenses/recipe' to directory `/O=
-E/deploy/licenses/recipe' (same path)
+On Tue, 2013-08-13 at 10:52 -0300, Otavio Salvador wrote:
+> As the Linux kernel, unconditionally, builds the dtc application and
+> it is the compatible version with the DeviceTree files shipped within
+> the kernel it is better to use it and the kernel build system to
+> generate the dtb files.
+> 
+> Some DeviceTree files rely on CPP and kernel headers to be able to
+> generate the dtb binary contents and it is harder to replicate it
+> outside of Linux kernel build system so we /use/ it.
+> 
+> To comply with these assumptions we need to use the dtb file when
+> calling 'make' instead of pointing to the DeviceTree source file; the
+> code has been made backward compatible but it is advised to move to
+> the new definition to avoid warnings as:
+> 
+> ,----[ Original definition ]
+> | KERNEL_DEVICETREE = "${S}/arch/arm/boot/dts/imx6q-sabresd.dts"
+> `----
+> 
+> Becomes:
+> 
+> ,----[ New definition ]
+> | KERNEL_DEVICETREE = "imx6q-sabresd.dtb"
+> `----
+> 
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> Changes in v2:
+> - Drop debug warning left by mistake
+> - Improve bbwarn message (Bruce Ashfield)
+> - Improve commit log (Bruce Ascfield)
+> 
+>  meta/recipes-kernel/linux/linux-dtb.inc | 58 +++++++++++++++------------------
+>  1 file changed, 26 insertions(+), 32 deletions(-)
+> 
+> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
+> index 41dd599..cebc76a 100644
+> --- a/meta/recipes-kernel/linux/linux-dtb.inc
+> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
+> @@ -1,44 +1,38 @@
+>  # Support for device tree generation
+>  FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
+> -KERNEL_DEVICETREE_FLAGS ?= "-R 8 -p 0x3000"
+>  
+>  python __anonymous () {
+> -    devicetree = d.getVar("KERNEL_DEVICETREE", True) or ''
+> -    if devicetree:
+> -        depends = d.getVar("DEPENDS", True)
+> -        d.setVar("DEPENDS", "%s dtc-native" % depends)
+> -        packages = d.getVar("PACKAGES", True)
+> -        d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
+> +    d.appendVar("PACKAGES", " kernel-devicetree")
+>  }
+>  
+>  do_install_append() {
+>  	if test -n "${KERNEL_DEVICETREE}"; then
+> -		for DTS_FILE in ${KERNEL_DEVICETREE}; do
+> -			if [ ! -f ${DTS_FILE} ]; then
+> -				echo "Warning: ${DTS_FILE} is not available!"
+> -				continue
+> +		for DTB in ${KERNEL_DEVICETREE}; do
+> +			if echo ${DTB} | grep -q '/dts/'; then
+> +				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+> +				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+>  			fi
+> -			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
+> -			install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+> +			DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +			oe_runmake ${DTB}
+> +			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
+>  		done
+>  	fi
+>  }
+>  
+>  do_deploy_append() {
+>  	if test -n "${KERNEL_DEVICETREE}"; then
+> -		for DTS_FILE in ${KERNEL_DEVICETREE}; do
+> -			if [ ! -f ${DTS_FILE} ]; then
+> -				echo "Warning: ${DTS_FILE} is not available!"
+> -				continue
+> +		for DTB in ${KERNEL_DEVICETREE}; do
+> +			if echo ${DTB} | grep -q '/dts/'; then
+> +				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
+> +				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
+>  			fi
+> -			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> +			DTB_BASE_NAME=`basename ${DTB} .dtb`
+> +			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+>  			install -d ${DEPLOYDIR}
+> -			install -m 0644 ${B}/${DTS_BASE_NAME} ${DEPLOYDIR}/${DTB_NAME}.dtb
+> +			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${DEPLOYDIR}/${DTB_NAME}.dtb
+>  			cd ${DEPLOYDIR}
+>  			ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
+>  			cd -
+> @@ -48,20 +42,20 @@ do_deploy_append() {
+>  
+>  pkg_postinst_kernel-devicetree () {
+>  	cd /${KERNEL_IMAGEDEST}
+> -	for DTS_FILE in ${KERNEL_DEVICETREE}
+> +	for DTB_FILE in ${KERNEL_DEVICETREE}
+>  	do
+> -		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
+> +		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>  	done
+>  }
+>  
+>  pkg_postrm_kernel-devicetree () {
+>  	cd /${KERNEL_IMAGEDEST}
+> -	for DTS_FILE in ${KERNEL_DEVICETREE}
+> +	for DTB_FILE in ${KERNEL_DEVICETREE}
+>  	do
+> -		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+> -		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
+> -		update-alternatives --remove ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+> +		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
+> +		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
+> +		update-alternatives --remove ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
+>  	done
+>  }
 
-or
-ERROR: Error executing a python function in pn.bb:
-CalledProcessError: Command 'cp -afl /OE/work/armv7a-vfp-neon-oe-linux-gnue=
-abi/pn/1.0/pkgdata/* /OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi' returned=
- non-zero exit status 1 with output=20
-cp: warning: source file `/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/=
-pkgdata/pn' specified more than once
 
-cp: will not create hard link `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi=
-/runtime' to directory `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/runtim=
-e'
-cp: will not create hard link `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi=
-/runtime-reverse' to directory `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueab=
-i/runtime-reverse'
-cp: will not create hard link `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi=
-/shlibs' to directory `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/shlibs'
 
-Number of hardlinks is:
-$ find pn/1.0/pkgdata -printf "%f/%n/%i\n"
-pkgdata/5/190867045
-runtime-reverse/2/190867046
-pn-dbg/1/190867047
-pn-dev/1/190867048
-pn-doc/1/190867049
-pn/1/190867067
-pn-staticdev/1/190867051
-pn-locale/1/190867078
-runtime/2/190867053
-pn-dbg.packaged/1/190867054
-pn-dev.packaged/1/190867056
-pn-dbg/1/190867057
-pn-dev/1/190867058
-pn-doc/1/190867059
-pn/1/190867060
-pn-staticdev/1/190867062
-pn.packaged/1/190867063
-pn-locale/1/190867064
-pn/1/190867065
-shlibs/2/190867069
-
-find ~ -xdev -samefile pn/1.0/pkgdata 2>/dev/null
-pn/1.0/pkgdata
-
-I'm not sure where the other pkgdata hardlinks came from.
-
-The problem is that I can reproduce it on 1-2 random recipes from few hundr=
-eds
-included in bigger image and even not in every build. After the error is sh=
-own
-it all looks sane, only way to manually reproduce the same error is to real=
-ly
-specify source dirs twice:
-
-$ cp -afl \
-/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/pkgdata/* \
-/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/pkgdata/* \
-/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi
-
-shows exactly the same 1 warning and 3 errors.
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---glwmnIOgU1tcuP7N
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlILKgkACgkQN1Ujt2V2gBw9oACgnti7qMYlthiNbVyhLIPcQVXJ
-Q80An1mHReU7gn9WkyaWSY23u+Kh93ub
-=0+pk
------END PGP SIGNATURE-----
-
---glwmnIOgU1tcuP7N--
