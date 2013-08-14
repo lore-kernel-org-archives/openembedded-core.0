@@ -1,51 +1,30 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
-	[217.149.192.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 594B560017
+Return-Path: <fcooper@ti.com>
+Received: from bear.ext.ti.com (bear.ext.ti.com [192.94.94.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 325ED6007B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 14:32:21 +0000 (UTC)
-Received: from amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.96])
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 6B3F93F49B
+	Wed, 14 Aug 2013 15:03:10 +0000 (UTC)
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+	by bear.ext.ti.com (8.13.7/8.13.7) with ESMTP id r7EF39dZ011561
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 16:32:20 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -3.418
-X-Spam-Level: 
-X-Spam-Status: No, score=-3.418 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9, KHOP_DYNAMIC2=1, KHOP_THREADED=-1.5,
-	RDNS_DYNAMIC=0.982, _DSLHELP01=-1] autolearn=no
-X-Spam-Languages: en
-Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
-	by amavisd-new (mailscanner03.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 16:32:19 +0200 (CEST)
-Received: from TOP-EX02.topic.local (82-204-13-181.dsl.bbeyond.nl
-	[82.204.13.181]) (using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS
+	Wed, 14 Aug 2013 10:03:09 -0500
+Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
+	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id r7EF39s9028412
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 16:32:19 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (192.168.10.102) by mail.topic.nl
-	(192.168.1.103) with Microsoft SMTP Server (TLS) id 14.1.438.0;
-	Wed, 14 Aug 2013 16:32:14 +0200
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
-	Wed, 14 Aug 2013 16:32:18 +0200
-Message-ID: <520B94F2.8050007@topic.nl>
-Date: Wed, 14 Aug 2013 16:32:18 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
+	Wed, 14 Aug 2013 10:03:09 -0500
+Received: from dlelxv23.itg.ti.com (172.17.1.198) by DFLE73.ent.ti.com
+	(128.247.5.110) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 14 Aug 2013 10:03:09 -0500
+Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
+	dlelxv23.itg.ti.com (8.13.8/8.13.8) with ESMTP id r7EF3681030298;
+	Wed, 14 Aug 2013 10:03:07 -0500
+From: "Franklin S. Cooper Jr" <fcooper@ti.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
-In-Reply-To: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Subject: How about deploying devicetree (dtb) files?
+Date: Wed, 14 Aug 2013 10:32:17 -0500
+Message-ID: <1376494338-11646-1-git-send-email-fcooper@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Cc: "Franklin S. Cooper Jr" <fcooper@ti.com>
+Subject: [PATCH] kernel.bbclass: Create symbolic link to add ${KERNEL_IMAGETYPE} to boot package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,82 +37,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 14:32:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Aug 2013 15:03:10 -0000
+Content-Type: text/plain
 
-=EF=BB=BFNow that the subject came up, maybe it's good to exchange some ide=
-as here.
+* By default for some platforms U-boot assumes the kernel image is located in
+  the boot directory of the root filesystem.
+* The kernel.bbclass already includes the kernel image in the /boot directory
+  but adds a version number to the file name.
+* Create a symbolic link that names the kernel image in the exact way that
+  U-boot expects.
 
-Building the DTB is one thing. But we have to get it on the target as well.
+Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
+---
+ meta/classes/kernel.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Currently, a bitbake virtual/kernel will also build one or more dtb=20
-files, and put them in the directory where the images will end up. It's=20
-up to the user to make it so that the blobs actually get programmed onto=20
-the target. Nothing wrong with that.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e039dfc..248ee71 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -109,6 +109,7 @@ kernel_do_install() {
+ 	install -d ${D}/${KERNEL_IMAGEDEST}
+ 	install -d ${D}/boot
+ 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
++	ln      -s ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+ 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+-- 
+1.7.0.4
 
-At some point, I thought it would be a good idea to be able to upgrade=20
-boards "in the field". So I added a postinstall script to the kernel to=20
-deploy in "/tmp/boot" instead of "/boot" and then make it write itself=20
-into the flash device or onto the FAT partition on the SD card, or=20
-whatever other method I came up with to load the kernel.
-
-Now for the devicetree, I thought I could just include the=20
-"kernel-devicetree" package onto my system, add a bit of script, and=20
-that would allow me to have devices upgrade themselves.
-
-The "kernel-devicetree" package contains multiple DTB files. I would=20
-expect a target to actually use only one, and that the various dtb files=20
-are intended for different targets. I think it would make sense to split=20
-that single package into a package for each DTB file. Then you can pick=20
-and choose which dtb you want on your target.
-
-Another issue is that the kernel-devicetree package postinstall script=20
-calls "awk" and "update-alternatives". Those must therefore be present=20
-on the target, if you expect to be able to install or upgrade it. As far=20
-as I can see, the only reason for using these tools is to create a=20
-symbolic link. As far as I know, no other package provides a dtb file.=20
-So why is it registering itself as an alternative?
-
-And I was just wondering, how do you guys handle upgrading kernel,=20
-bootloader and devicetree files?
-
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
-Telefax: (+31) - (0)499 - 33.69.70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
-end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
-en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
- Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
-jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
- te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
-n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
-nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
- een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
-ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
-C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
-d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
-orende bijlagen.
-
-The contents of this message, as well as any enclosures, are addressed pers=
-onally to, and thus solely intended for the addressee. They may contain inf=
-ormation regarding a third party. A recipient who is neither the addressee,=
- nor empowered to receive this message on behalf of the addressee, is kindl=
-y requested to immediately inform the sender of receipt, and to destroy the=
- message and the enclosures. Any use of the contents of this message and/or=
- the enclosures by any other person than the addressee or person who is emp=
-owered to receive this message, is illegal towards the sender and/or the af=
-orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
-age as a result of the use and/or acceptance of this message and as well as=
- any enclosures.
 
