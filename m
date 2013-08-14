@@ -1,21 +1,40 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-Received: from smarthost.TechFak.Uni-Bielefeld.DE
-	(smarthost.TechFak.Uni-Bielefeld.DE [129.70.137.17])
-	by mail.openembedded.org (Postfix) with ESMTP id DD9546077D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 28D92600A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 08:47:54 +0000 (UTC)
-Received: from astra.TechFak.Uni-Bielefeld.DE (astra.techfak.uni-bielefeld.de
-	[129.70.144.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested) (Authenticated sender: sherbrec)
-	by smarthost.TechFak.Uni-Bielefeld.DE (Postfix) with ESMTPSA id
-	12E5F80030; Wed, 14 Aug 2013 10:47:52 +0200 (CEST)
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Aug 2013 10:47:44 +0200
-Message-Id: <1376470064-6391-1-git-send-email-stefan@herbrechtsmeier.net>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] cmake.bbclass: Don't use packages from the native build machine
+	Wed, 14 Aug 2013 09:27:46 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7E9cku5007980; Wed, 14 Aug 2013 10:38:46 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id SOtM1nPnmrEj; Wed, 14 Aug 2013 10:38:46 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7E9cc8n007964
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 14 Aug 2013 10:38:40 +0100
+Message-ID: <1376472441.22952.3.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Zhang, Jessica" <jessica.zhang@intel.com>
+Date: Wed, 14 Aug 2013 10:27:21 +0100
+In-Reply-To: <C6510F6D410BB64A8C15398EDC6B847C73C69E71@ORSMSX103.amr.corp.intel.com>
+References: <6741EAAB26B57F4995668065CB62D86B33933627@IRSMSX102.ger.corp.intel.com>
+	<CAFpw0gKhTFiKC8BwPhtULqmtkuzgYV3MVPOCLn64ibgGYjuaGA@mail.gmail.com>
+	<6741EAAB26B57F4995668065CB62D86B33933DFC@IRSMSX102.ger.corp.intel.com>
+	<CAFpw0gKiRwXD8gJhG+7XDSHSGEvZY3YBR5MxBZieVMYPd_sL1g@mail.gmail.com>
+	<6741EAAB26B57F4995668065CB62D86B33934034@IRSMSX102.ger.corp.intel.com>
+	<CAFpw0gKCKapZsVm-sShNcfN_sE+hQM=1oWPoz-=g-PRMnzwTiw@mail.gmail.com>
+	<8B119486-AEBF-46F6-9EB1-BC31C81A80D3@gmail.com>
+	<1376424663.1838.26.camel@ted>
+	<C6510F6D410BB64A8C15398EDC6B847C73C69E71@ORSMSX103.amr.corp.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Sywula, Krzysztof M" <krzysztof.m.sywula@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto toolchain for Windows
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,26 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 08:47:55 -0000
+X-List-Received-Date: Wed, 14 Aug 2013 09:27:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
----
- meta/classes/cmake.bbclass |    1 +
- 1 file changed, 1 insertion(+)
+On Wed, 2013-08-14 at 00:00 +0000, Zhang, Jessica wrote:
+> Hi Richard,
+> 
+> I've tried the sdk on windows and here're the issues that I've run into:
+> 
+> 1. in our sysroot all the libraries have .so we need to change them to .dll
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 310242e..8e579a7 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -49,6 +49,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- # only search in the paths provided so cmake doesnt pick
- # up libraries and tools from the native build machine
- set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
-+set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
--- 
-1.7.9.5
+Which sysroot? The one for the target system should be using .so's since
+we're targeting a Linux system.
+
+> 2. seems the cross compiler i586-poky-linux-gcc.exe relies on
+> libiconv-2.dll, so I manually installed that dll.
+
+No surprise since the dynamic linking detection doesn't work for
+windows. We can add a manual dependency to resolve that.
+
+> 3. Now when I run i586-poky-linux-gcc.exe, I'm getting "the application was
+> unable to start correctly (0xc000007b). Click OK  to close the application."
+> By doing some initial search on the error, it seems relate to 32/64 bit dll
+> mismatch.  You mentioned that 32bit windows binaries are generated, so can
+> we generate a 64bit for me to try since my windows box is a 64bit.
+
+I was confused, they are supposed to be windows 64 bit binaries (and
+file under Linux says they are) so something other than what I
+originally thought is wrong.
+
+Cheers,
+
+Richard
 
 
