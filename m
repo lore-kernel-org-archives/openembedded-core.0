@@ -1,34 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
-	[209.85.212.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D851A6B669
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B847161DDD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 20:36:08 +0000 (UTC)
-Received: by mail-vb0-f50.google.com with SMTP id x14so8049549vbb.37
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 13:36:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Ox4GcvXMcsuucmwz509YDV8hWulbyon0nEpEIacTn+A=;
-	b=Z/D+AZz3iJIk+ZbWaVbS+gMceNKspR2keLmp1EREGZjROhTen6iPiv48qSjKd2kBZs
-	OzFKYvYPOgyEiCX9KzTM3aSmh4OppEVOVtxU1W3cwFxz+thQcYIGwHpBrHv2d/agM3+o
-	TiIzofGRCsxbX/cMXmIizQgrAWIKlZSP4ndD41wAE0oZRnVF2i7eATR4+WQkmB5g+Xic
-	FSGG2m4g2k8Qkv7tcd9DVLu8JAP7loioTf3bk0XScTqazSzz6iO8DPG7rk32VaBWoLM6
-	7qm2CT3uzl+q+o2wpsKSudhq+qKgreU+aih+QntRNS3VKgYALcnir1jjfWCjDGpA/C9Z
-	Mxnw==
-X-Gm-Message-State: ALoCoQleJ1A3kGcAOX0ftnwUgURyu27FbS4kAqreOb/yErn+W/Rc8ELHZhLP7fWnL4lQmJtJD+ei
-X-Received: by 10.52.30.48 with SMTP id p16mr9597897vdh.25.1376512569103; Wed,
-	14 Aug 2013 13:36:09 -0700 (PDT)
+	Wed, 14 Aug 2013 20:41:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7EKfX8Z022157
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 14 Aug 2013 13:41:33 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.228) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 14 Aug 2013 13:41:32 -0700
+Message-ID: <520BEB7B.8060909@windriver.com>
+Date: Wed, 14 Aug 2013 15:41:31 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 14 Aug 2013 13:35:48 -0700 (PDT)
-In-Reply-To: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 14 Aug 2013 21:35:48 +0100
-Message-ID: <CAJTo0La-PsajOhDmPHyMONi9_u2ytgWLpnGoQNvf1tewV5dYCQ@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+	<CAJTo0La-PsajOhDmPHyMONi9_u2ytgWLpnGoQNvf1tewV5dYCQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La-PsajOhDmPHyMONi9_u2ytgWLpnGoQNvf1tewV5dYCQ@mail.gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/11] Update the way we control the construction of filesystems
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,17 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 20:36:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 14 Aug 2013 20:41:32 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 14 August 2013 21:29, Mark Hatle <mark.hatle@windriver.com> wrote:
->  Debian(apt-get) does not appear to be capable of
-> BAD_RECOMEMNDATIONS,
+On 8/14/13 3:35 PM, Burton, Ross wrote:
+> On 14 August 2013 21:29, Mark Hatle <mark.hatle@windriver.com> wrote:
+>>   Debian(apt-get) does not appear to be capable of
+>> BAD_RECOMEMNDATIONS,
+>
+> The semantics of BAD_RECOMMENDATIONS is "these packages may be listed
+> as recommendations, but don't install them", right?  You *might* be
 
-The semantics of BAD_RECOMMENDATIONS is "these packages may be listed
-as recommendations, but don't install them", right?  You *might* be
-able to do this with dpkg by setting the package state to
-"not-installed hold".
+Correct.  If it's a dependency, it -will- be installed.  Helps trim some of the 
+recommended packages from the final filesystem, without introducing potentially 
+irreconcilable dependency failures.
 
-Ross
+> able to do this with dpkg by setting the package state to
+> "not-installed hold".
+
+I tried that and it did not work.  The hold semantic in dpkg/apt-get appears to 
+say once it's installed keep it at a specific version.  But it doesn't allow you 
+to hold in the not-installed mode.
+
+(I'd be more then happy for someone to prove me wrong btw..)  I tried everything 
+from setting special Pin-Priorities to playing with the state file, etc.. 
+eventually I gave up and made it a warning instead.  (This is not a regression 
+BTW, it has never worked in the past... it's just functionality someone may want.)
+
+> Ross
+>
+
 
