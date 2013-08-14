@@ -1,40 +1,41 @@
-Return-Path: <andre.draszik@linaro.org>
-Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
-	[209.85.214.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ECA86A457
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 079836077D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 07:32:26 +0000 (UTC)
-Received: by mail-bk0-f52.google.com with SMTP id e11so2972632bkh.11
+	Wed, 14 Aug 2013 08:35:09 +0000 (UTC)
+Received: by mail-lb0-f182.google.com with SMTP id v20so6615684lbc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 00:32:26 -0700 (PDT)
+	Wed, 14 Aug 2013 01:35:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:content-type:content-transfer-encoding:mime-version;
-	bh=WLxuAW72xA2HNiti9z5JrVQonwRS82+RBtdcqSq9pFA=;
-	b=OKG4bfix2/nedNZ2xZ7afR3/eAS/8ItdJEYkhqgp53xlse/kEhwYHRxH+Rvp35DJ8F
-	vWvbRXEuwRgPXYDuuI2hif0Su4k3vMSC7ocKV4XW1KcfV6wAQkhfifuzBoiqzwlIGPom
-	R3fVnd8oSytsFdcza/epAwMXXXES+EyizbuPnEzmqC3xw57KVfYyt3WOAIhEMdkQY9t2
-	TLqLtzz5PSyKKbf79kAX347smiCARur3xBlU6XhoMWrp8UpXQEEWfMydgpg8N55W54g8
-	JWE+mmSJMExJYdF4Byqaofmm3bhgpJ9b+0DoeUtlzQTOSy3Y/yKclosb9pucRGZa1lGL
-	FYLQ==
-X-Gm-Message-State: ALoCoQnQkCOv5jmET/BWbZSg4sGAaS+ObYVDczheo1ca4KQJHUumjHSnVzPj3LTUlfFD9/1r70gU
-X-Received: by 10.204.189.4 with SMTP id dc4mr5370244bkb.2.1376465546263;
-	Wed, 14 Aug 2013 00:32:26 -0700 (PDT)
-Received: from [10.65.4.44] (sushi.andred.org. [85.214.105.253])
-	by mx.google.com with ESMTPSA id od6sm7254573bkb.11.2013.08.14.00.32.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 14 Aug 2013 00:32:25 -0700 (PDT)
-Message-ID: <1376465543.6373.132.camel@bril0118.bri.st.com>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Aug 2013 08:32:23 +0100
-In-Reply-To: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
-References: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: Evolution 3.2.3-0ubuntu6 
-Mime-Version: 1.0
-Subject: Re: [PATCH v2] linux-dtb: Use kernel build system to generate the dtb files
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=ImYLvkxYekE+Nsj69jta8kwxchx3+Vxrv0LfBusy+d0=;
+	b=IYY2fb2n8XZ7RxFEA95CmwzuzK7ICvROz8SODLMKXEUijtSNMm+PoAsJmD70TTS2y9
+	e6i627bprDyieRlx6LlaevN6wmiYyvqbvJ4vd/qKt4WYnuQIhZXpUcor3xyxUn6D5cLH
+	3CWrN41uDbqrZ7Pv4CdoIhy1P6r3rOrQxnmXF58EzfqArVIfReEMMyRDvfiEUpHemoXA
+	t7ir9TH3YdHq0n3sQBmTCav/ojjzcO9lgFkZhFfNRwJjhDKCRh24evW/WehWUnXyeEm4
+	02ShZhiWLzVqE/ErG4YGHjZwPYtMZGtz/mh0xmeMJcbXRbCTwWFUgfVw2KMIMm9ISb90
+	asig==
+X-Gm-Message-State: ALoCoQlv0lUbi54j3D3MvM0ZW/Z2WS+UOUIwZ9ElLOmqAuHlYzAx7Qev8D2a7fUrUiW5jP0KQcm8
+MIME-Version: 1.0
+X-Received: by 10.112.20.137 with SMTP id n9mr7204169lbe.20.1376469309663;
+	Wed, 14 Aug 2013 01:35:09 -0700 (PDT)
+Received: by 10.112.160.73 with HTTP; Wed, 14 Aug 2013 01:35:09 -0700 (PDT)
+In-Reply-To: <CAOMwXhMx5Ky7HQAYxMP7_CyYOLqDPKz6TRsmVvZe0Cu-r-Vvkw@mail.gmail.com>
+References: <1375082184-14871-1-git-send-email-lpapp@kde.org>
+	<10585858-000F-43F4-80AF-5622D08A91D7@gmail.com>
+	<CAOMwXhMPmoFo+bYz9NAijJevWvizNFm0rsbVn1fPNHCS4Kf7yw@mail.gmail.com>
+	<CAOMwXhPK5VqtvhSopZb+CFaRcfV=x9FQT9-TuEyEn7gPotCGTw@mail.gmail.com>
+	<CAJTo0LZJpOhqMVyLyKTHmL_JrPpUG7rY_-rRpd2kQk7TTpTDXw@mail.gmail.com>
+	<CAOMwXhMx5Ky7HQAYxMP7_CyYOLqDPKz6TRsmVvZe0Cu-r-Vvkw@mail.gmail.com>
+Date: Wed, 14 Aug 2013 11:35:09 +0300
+Message-ID: <CAGNsrLBwkuv8dW3vZK7kR_c6WQdEYBZOfNKNGFFFDxSXmO9FAA@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] busybox-1.21.1/defconfig: disable rfkill
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,152 +48,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 07:32:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 14 Aug 2013 08:35:10 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Hi,
+On 13 August 2013 12:52, Laszlo Papp <lpapp@kde.org> wrote:
+> As we have already discussed that, it is not any clear at all without
+> example. Yes, the end user does not really care about the internal
+> implementation of the feature ....
+>
+> Please provide useful examples and tutorials how to use a feature especially
+> when a user (and apparently others posting here) is such clueless.
 
-Can this please be pushed to dylan as well, please. It's a useful
-change, and I then could remove my version of that patch from our
-layer :-)
+We're using the feature in our layer:
+https://git.linaro.org/gitweb?p=openembedded/meta-linaro.git;a=tree;f=meta-linaro/recipes-core/busybox
 
-
-Cheers,
-Andre'
-
-On Tue, 2013-08-13 at 10:52 -0300, Otavio Salvador wrote:
-> As the Linux kernel, unconditionally, builds the dtc application and
-> it is the compatible version with the DeviceTree files shipped within
-> the kernel it is better to use it and the kernel build system to
-> generate the dtb files.
-> 
-> Some DeviceTree files rely on CPP and kernel headers to be able to
-> generate the dtb binary contents and it is harder to replicate it
-> outside of Linux kernel build system so we /use/ it.
-> 
-> To comply with these assumptions we need to use the dtb file when
-> calling 'make' instead of pointing to the DeviceTree source file; the
-> code has been made backward compatible but it is advised to move to
-> the new definition to avoid warnings as:
-> 
-> ,----[ Original definition ]
-> | KERNEL_DEVICETREE = "${S}/arch/arm/boot/dts/imx6q-sabresd.dts"
-> `----
-> 
-> Becomes:
-> 
-> ,----[ New definition ]
-> | KERNEL_DEVICETREE = "imx6q-sabresd.dtb"
-> `----
-> 
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> Changes in v2:
-> - Drop debug warning left by mistake
-> - Improve bbwarn message (Bruce Ashfield)
-> - Improve commit log (Bruce Ascfield)
-> 
->  meta/recipes-kernel/linux/linux-dtb.inc | 58 +++++++++++++++------------------
->  1 file changed, 26 insertions(+), 32 deletions(-)
-> 
-> diff --git a/meta/recipes-kernel/linux/linux-dtb.inc b/meta/recipes-kernel/linux/linux-dtb.inc
-> index 41dd599..cebc76a 100644
-> --- a/meta/recipes-kernel/linux/linux-dtb.inc
-> +++ b/meta/recipes-kernel/linux/linux-dtb.inc
-> @@ -1,44 +1,38 @@
->  # Support for device tree generation
->  FILES_kernel-devicetree = "/${KERNEL_IMAGEDEST}/devicetree*"
-> -KERNEL_DEVICETREE_FLAGS ?= "-R 8 -p 0x3000"
->  
->  python __anonymous () {
-> -    devicetree = d.getVar("KERNEL_DEVICETREE", True) or ''
-> -    if devicetree:
-> -        depends = d.getVar("DEPENDS", True)
-> -        d.setVar("DEPENDS", "%s dtc-native" % depends)
-> -        packages = d.getVar("PACKAGES", True)
-> -        d.setVar("PACKAGES", "%s kernel-devicetree" % packages)
-> +    d.appendVar("PACKAGES", " kernel-devicetree")
->  }
->  
->  do_install_append() {
->  	if test -n "${KERNEL_DEVICETREE}"; then
-> -		for DTS_FILE in ${KERNEL_DEVICETREE}; do
-> -			if [ ! -f ${DTS_FILE} ]; then
-> -				echo "Warning: ${DTS_FILE} is not available!"
-> -				continue
-> +		for DTB in ${KERNEL_DEVICETREE}; do
-> +			if echo ${DTB} | grep -q '/dts/'; then
-> +				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-> +				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
->  			fi
-> -			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-> -			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> -			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> -			dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o ${DTS_BASE_NAME} ${DTS_FILE}
-> -			install -m 0644 ${DTS_BASE_NAME} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
-> +			DTB_BASE_NAME=`basename ${DTB} .dtb`
-> +			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> +			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> +			oe_runmake ${DTB}
-> +			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
->  		done
->  	fi
->  }
->  
->  do_deploy_append() {
->  	if test -n "${KERNEL_DEVICETREE}"; then
-> -		for DTS_FILE in ${KERNEL_DEVICETREE}; do
-> -			if [ ! -f ${DTS_FILE} ]; then
-> -				echo "Warning: ${DTS_FILE} is not available!"
-> -				continue
-> +		for DTB in ${KERNEL_DEVICETREE}; do
-> +			if echo ${DTB} | grep -q '/dts/'; then
-> +				bbwarn "${DTB} contains the full path to the the dts file, but only the dtb name should be used."
-> +				DTB=`basename ${DTB} | sed 's,\.dts$,.dtb,g'`
->  			fi
-> -			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-> -			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> -			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> +			DTB_BASE_NAME=`basename ${DTB} .dtb`
-> +			DTB_NAME=`echo ${KERNEL_IMAGE_BASE_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> +			DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
->  			install -d ${DEPLOYDIR}
-> -			install -m 0644 ${B}/${DTS_BASE_NAME} ${DEPLOYDIR}/${DTB_NAME}.dtb
-> +			install -m 0644 ${B}/arch/${ARCH}/boot/${DTB} ${DEPLOYDIR}/${DTB_NAME}.dtb
->  			cd ${DEPLOYDIR}
->  			ln -sf ${DTB_NAME}.dtb ${DTB_SYMLINK_NAME}.dtb
->  			cd -
-> @@ -48,20 +42,20 @@ do_deploy_append() {
->  
->  pkg_postinst_kernel-devicetree () {
->  	cd /${KERNEL_IMAGEDEST}
-> -	for DTS_FILE in ${KERNEL_DEVICETREE}
-> +	for DTB_FILE in ${KERNEL_DEVICETREE}
->  	do
-> -		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-> -		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> -		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTS_BASE_NAME}.dtb ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-> +		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
-> +		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> +		update-alternatives --install /${KERNEL_IMAGEDEST}/${DTB_BASE_NAME}.dtb ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
->  	done
->  }
->  
->  pkg_postrm_kernel-devicetree () {
->  	cd /${KERNEL_IMAGEDEST}
-> -	for DTS_FILE in ${KERNEL_DEVICETREE}
-> +	for DTB_FILE in ${KERNEL_DEVICETREE}
->  	do
-> -		DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
-> -		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> -		update-alternatives --remove ${DTS_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
-> +		DTB_BASE_NAME=`basename ${DTB_FILE} | awk -F "." '{print $1}'`
-> +		DTB_SYMLINK_NAME=`echo ${KERNEL_IMAGE_SYMLINK_NAME} | sed "s/${MACHINE}/${DTB_BASE_NAME}/g"`
-> +		update-alternatives --remove ${DTB_BASE_NAME}.dtb devicetree-${DTB_SYMLINK_NAME}.dtb ${KERNEL_PRIORITY} || true
->  	done
->  }
+> Oh, by the way, and I have mentioned this in the bug report as well. We need
+> proper documentation, examples, and tutorials; i.e. I am not ahead of the
+> day when I first read this post. ;-)
+>
+>
+> On Tue, Aug 13, 2013 at 10:48 AM, Burton, Ross <ross.burton@intel.com>
+> wrote:
+>>
+>> On 13 August 2013 08:32, Laszlo Papp <lpapp@kde.org> wrote:
+>> > So, everyone suggested PACKAGECONFIG in here on the mailing list except
+>> > Khem
+>> > whose reply I did not get.
+>> >
+>> > Yet, 4964 got closed by the "team". Could anyone please give a sane
+>> > description why and what would block the end users other than fork?
+>>
+>> Quoting from comment 1 on 4964:
+>>
+>> """
+>> Busybox is a rather complicated beast. PACKAGECONFIG is unfortunately
+>> not sufficient to manage it's config system. It is very similar to the
+>> Linux kernel config and we recently added configuration fragment
+>> support to busybox from the kernel recipes:
+>>
+>> commit 56dc1720caa48344238d352c7b6e9b0f0d41aa54
+>> Author: Chen Qi <Qi.Chen@windriver.com>
+>> Date:   Tue Feb 5 14:36:40 2013 +0800
+>>
+>>     busybox: add config fragments
+>>
+>> This allows you to use the default config and include only the delta
+>> in your layer's bbappend in the form of a config fragment added to the
+>> SRC_URI.
+>> """
+>>
+>> If this isn't sufficient or is buggy, then fixing this is preferred
+>> (it works for the kernel, so should work for busybox).
+>>
+>> Ross
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
+
+-- 
+Fathi Boudra
+Builds and Baselines Manager | Release Manager
+Linaro.org | Open source software for ARM SoCs
 
