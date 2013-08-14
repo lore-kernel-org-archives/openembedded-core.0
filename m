@@ -1,36 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F43A61DDD
+Return-Path: <joe.slater@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BE7761DDD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 21:22:37 +0000 (UTC)
-Received: by mail-we0-f180.google.com with SMTP id p61so8197932wes.39
+	Wed, 14 Aug 2013 23:03:52 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7EN3p3a000467
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 14:22:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=NONa/BSy6ruetaC9l/10b7crOhGzkWKJEWuPMASup24=;
-	b=HrbhL9bxNUU+0JvUMh+SK3LBGM8oQ+1XIIjstepIvkbQcUfL2h5oFoiFMYY/Rv/pkF
-	+DIGkdiDuyjmRHQnROYlvPO73XwGAsmxdm9dY3mgep9ZcXgNvwnsqGkfU3VQjoz6OjeO
-	yGfnwVdsKLZOAAkGTTZjiHwPBR2NWuAPnU2FDnOn/JSqOmU7G3F/yCmadfE7TGInvF1N
-	S6RFSDpUKQLv5iXw1dVTuQWp9JCzAOUACUdUYcN+RvH1s6DLpVSimjEaaemV63wiSLlr
-	Bu1jYITGJ+CYWJuSwEzhnLVBY2ebT7P2R34kZS8E3xsquQ6mIl7z+jeqzgrASAUN4tS9
-	9VSw==
+	Wed, 14 Aug 2013 19:03:52 -0400 (EDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 14 Aug 2013 16:03:51 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 14 Aug 2013 16:03:50 -0700
+Message-ID: <1376521430-15244-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.180.37.20 with SMTP id u20mr7450421wij.21.1376515357384;
-	Wed, 14 Aug 2013 14:22:37 -0700 (PDT)
-Received: by 10.194.34.168 with HTTP; Wed, 14 Aug 2013 14:22:37 -0700 (PDT)
-In-Reply-To: <1620077.DtNPbj50LY@helios>
-References: <CAJ86T=UDy7FJWR735GcK3bWZxmwRrGPdinfb+f49Wc1dEmg+ZQ@mail.gmail.com>
-	<CAP71Wjz1HsDcEQcV0MjXDiKLzo7OfE7H=DCuPBf_f0uwe3-+hw@mail.gmail.com>
-	<1620077.DtNPbj50LY@helios>
-Date: Wed, 14 Aug 2013 14:22:37 -0700
-Message-ID: <CAJ86T=Vt+oWiazVVN_ZY-G46UNOhakpkcqOR=tF6s3pXQta8iA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dylan]devshell: broken
+Subject: [PATCH 1/1] coreutils: add PACKAGECONFIG info for act support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,19 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 21:22:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 14 Aug 2013 23:03:53 -0000
+Content-Type: text/plain
 
-On Wed, Aug 14, 2013 at 8:50 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> Hi Andre / Nicolas,
-> ...
-> I have just sent a patch for dylan to this list to exclude
-> LD_PRELOAD from the environment which fixes the
-> problem in my testing here.
+CQID: 430353
 
-Fix confirmed here too. Thanks!
+Add configuration data to enable acl support if
+it is a distro feature.
 
-Andre
---
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-core/coreutils/coreutils_6.9.bb |   13 ++++++++++++-
+ 1 files changed, 12 insertions(+), 1 deletions(-)
+
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index c0778ba..2bdd297 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+                     file://src/ls.c;beginline=4;endline=16;md5=15ed60f67b1db5fedd5dbc37cf8a9543"
+-PR = "r5"
++PR = "r6"
+ DEPENDS_class-native = "gettext-native"
+ 
+ inherit autotools gettext
+@@ -32,6 +32,17 @@ SRC_URI_class-native = "${SRC_URI_BASE}"
+ SRC_URI[md5sum] = "c9607d8495f16e98906e7ed2d9751a06"
+ SRC_URI[sha256sum] = "89c2895ad157de50e53298b22d91db116ee4e1dd3fdf4019260254e2e31497b0"
+ 
++
++# acl is not a default feature
++#
++PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
++PACKAGECONFIG_class-native ??= ""
++
++# with, without, depends, rdepends
++#
++PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
++
++
+ # [ gets a special treatment and is not included in this
+ bindir_progs = "base64 basename cksum comm csplit cut dir dircolors dirname du \
+                 env expand expr factor fmt fold groups head hostid id install \
+-- 
+1.7.3.4
+
 
