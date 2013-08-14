@@ -1,27 +1,27 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 619B76B7AD
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 37E136B7C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 20:29:24 +0000 (UTC)
+	Wed, 14 Aug 2013 20:29:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7EKTQKC021926
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7EKTQd7026625
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 13:29:26 -0700 (PDT)
+	Wed, 14 Aug 2013 16:29:26 -0400 (EDT)
 Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
 	(TLS) id 14.2.342.3; Wed, 14 Aug 2013 13:29:25 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Aug 2013 15:30:05 -0500
-Message-ID: <1376512209-11622-8-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 14 Aug 2013 15:30:06 -0500
+Message-ID: <1376512209-11622-9-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
 In-Reply-To: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
 References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [172.25.34.61]
-Subject: [PATCH 07/11] package_deb: Add support for NO_RECOMMENDATIONS and PACKAGE_EXCLUDE
+Subject: [PATCH 08/11] opkg: Add --no-install-recommends option.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,106 +34,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 20:29:24 -0000
+X-List-Received-Date: Wed, 14 Aug 2013 20:29:26 -0000
 Content-Type: text/plain
 
-Add support for NO_RECOMMENDATIONS and PACKAGE_EXCLUDE.  Also add a
-warning that ensures users know that BAD_RECOMMENDATIONS support is
-not implemented in the debian package/rootfs classes.
+The new --no-install-recommends option is similar to the behavior of
+apt-get's --no-install-recommedns.  Only required packages will be
+installed.
 
 Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
- meta/classes/package_deb.bbclass | 17 +++++++++++++----
- meta/classes/rootfs_deb.bbclass  |  8 +++++++-
- 2 files changed, 20 insertions(+), 5 deletions(-)
+ .../opkg/opkg/no-install-recommends.patch          | 78 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_svn.bb             |  4 +-
+ 2 files changed, 81 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/no-install-recommends.patch
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 4980555..068c11a 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -12,6 +12,8 @@ PKGWRITEDIRDEB = "${WORKDIR}/deploy-debs"
- 
- APTCONF_TARGET = "${WORKDIR}"
- 
-+APT_ARGS = "${@['', '--no-install-recommends'][d.getVar("NO_RECOMMENDATIONS", True) == "1"]}"
+diff --git a/meta/recipes-devtools/opkg/opkg/no-install-recommends.patch b/meta/recipes-devtools/opkg/opkg/no-install-recommends.patch
+new file mode 100644
+index 0000000..f71b027
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/no-install-recommends.patch
+@@ -0,0 +1,78 @@
++Add the ability to not install ANY recommended packages.
 +
- #
- # Update the Packages index files in ${DEPLOY_DIR_DEB}
- #
-@@ -83,6 +85,13 @@ package_install_internal_deb () {
- 		priority=$(expr $priority + 5)
- 	done
- 
-+	for pkg in ${PACKAGE_EXCLUDE}; do
-+		(echo "Package: $pkg"
-+		echo "Pin: release *"
-+		echo "Pin-Priority: -1"
-+		echo) >> ${APTCONF_TARGET}/apt/preferences
-+	done
++Upstream-status: Pending
 +
- 	tac ${APTCONF_TARGET}/apt/sources.list.rev > ${APTCONF_TARGET}/apt/sources.list
- 
- 	# The params in deb package control don't allow character `_', so
-@@ -105,7 +114,7 @@ package_install_internal_deb () {
- 
- 	if [ ! -z "${package_linguas}" ]; then
- 		for i in ${package_linguas}; do
--			apt-get install $i --force-yes --allow-unauthenticated
-+			apt-get ${APT_ARGS} install $i --force-yes --allow-unauthenticated
- 			if [ $? -ne 0 ]; then
- 				exit 1
- 			fi
-@@ -114,13 +123,13 @@ package_install_internal_deb () {
- 
- 	# normal install
- 	if [ ! -z "${package_to_install}" ]; then
--		apt-get install ${package_to_install} --force-yes --allow-unauthenticated
-+		apt-get ${APT_ARGS} install ${package_to_install} --force-yes --allow-unauthenticated
- 		if [ $? -ne 0 ]; then
- 			exit 1
- 		fi
- 
- 		# Attempt to correct the probable broken dependencies in place.
--		apt-get -f install
-+		apt-get ${APT_ARGS} -f install
- 		if [ $? -ne 0 ]; then
- 			exit 1
- 		fi
-@@ -129,7 +138,7 @@ package_install_internal_deb () {
- 	rm -f `dirname ${BB_LOGFILE}`/log.do_${task}-attemptonly.${PID}
- 	if [ ! -z "${package_attemptonly}" ]; then
- 		for i in ${package_attemptonly}; do
--			apt-get install $i --force-yes --allow-unauthenticated >> `dirname ${BB_LOGFILE}`/log.do_${task}-attemptonly.${PID} 2>&1 || true
-+			apt-get ${APT_ARGS} install $i --force-yes --allow-unauthenticated >> `dirname ${BB_LOGFILE}`/log.do_${task}-attemptonly.${PID} 2>&1 || true
- 		done
- 	fi
- 
-diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
-index edd1037..dcfe786 100644
---- a/meta/classes/rootfs_deb.bbclass
-+++ b/meta/classes/rootfs_deb.bbclass
-@@ -11,6 +11,12 @@ rootfs_deb_do_rootfs[vardepsexclude] += "BUILDNAME"
- 
- do_rootfs[lockfiles] += "${DEPLOY_DIR_DEB}/deb.lock"
- 
-+python rootfs_deb_bad_recommendations() {
-+    if d.getVar("BAD_RECOMMENDATIONS", True):
-+	bb.warn("Debian package install does not support BAD_RECOMMENDATIONS")
-+}
-+do_rootfs[prefuncs] += "rootfs_deb_bad_recommendations"
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 +
- DEB_POSTPROCESS_COMMANDS = ""
++Index: trunk/libopkg/opkg_conf.h
++===================================================================
++--- trunk.orig/libopkg/opkg_conf.h
+++++ trunk/libopkg/opkg_conf.h
++@@ -80,6 +80,7 @@ struct opkg_conf
++      int prefer_arch_to_version;
++      int check_signature;
++      int nodeps; /* do not follow dependencies */
+++     int noinstall_recommends;
++      char *offline_root;
++      char *overlay_root;
++      int query_all;
++Index: trunk/libopkg/pkg_depends.c
++===================================================================
++--- trunk.orig/libopkg/pkg_depends.c
+++++ trunk/libopkg/pkg_depends.c
++@@ -19,6 +19,7 @@
++ #include <ctype.h>
++ 
++ #include "pkg.h"
+++#include "opkg_conf.h"
++ #include "opkg_utils.h"
++ #include "pkg_hash.h"
++ #include "opkg_message.h"
++@@ -204,7 +205,7 @@ pkg_hash_fetch_unsatisfied_dependencies(
++ 		    /* user request overrides package recommendation */
++ 		    if (satisfying_pkg != NULL
++ 			&& (compound_depend->type == RECOMMEND || compound_depend->type == SUGGEST)
++-			&& (satisfying_pkg->state_want == SW_DEINSTALL || satisfying_pkg->state_want == SW_PURGE)) {
+++			&& (satisfying_pkg->state_want == SW_DEINSTALL || satisfying_pkg->state_want == SW_PURGE || conf->noinstall_recommends)) {
++ 			 opkg_msg(NOTICE, "%s: ignoring recommendation for "
++ 					"%s at user request\n",
++ 					pkg->name, satisfying_pkg->name);
++Index: trunk/src/opkg-cl.c
++===================================================================
++--- trunk.orig/src/opkg-cl.c
+++++ trunk/src/opkg-cl.c
++@@ -50,6 +50,7 @@ enum {
++ 	ARGS_OPT_NODEPS,
++ 	ARGS_OPT_AUTOREMOVE,
++ 	ARGS_OPT_CACHE,
+++	ARGS_OPT_NOINSTALL_RECOMMENDS,
++ };
++ 
++ static struct option long_options[] = {
++@@ -89,6 +90,7 @@ static struct option long_options[] = {
++ 	{"noaction", 0, 0, ARGS_OPT_NOACTION},
++ 	{"download-only", 0, 0, ARGS_OPT_DOWNLOAD_ONLY},
++ 	{"nodeps", 0, 0, ARGS_OPT_NODEPS},
+++	{"no-install-recommends", 0, 0, ARGS_OPT_NOINSTALL_RECOMMENDS},
++ 	{"offline", 1, 0, 'o'},
++ 	{"offline-root", 1, 0, 'o'},
++ 	{"add-arch", 1, 0, ARGS_OPT_ADD_ARCH},
++@@ -199,6 +201,9 @@ args_parse(int argc, char *argv[])
++ 		case ARGS_OPT_NOACTION:
++ 			conf->noaction = 1;
++ 			break;
+++		case ARGS_OPT_NOINSTALL_RECOMMENDS:
+++			conf->noinstall_recommends = 1;
+++			break;
++         case ARGS_OPT_DOWNLOAD_ONLY:
++ 			conf->download_only = 1;
++ 			break;
++@@ -293,6 +298,8 @@ usage()
++ 	printf("\t--noaction		No action -- test only\n");
++ 	printf("\t--download-only	No action -- download only\n");
++ 	printf("\t--nodeps		Do not follow dependencies\n");
+++	printf("\t--no-install-recommends\n");
+++	printf("\t                      Do not install any recommended packages\n");
++ 	printf("\t--force-removal-of-dependent-packages\n");
++ 	printf("\t			Remove package and all dependencies\n");
++ 	printf("\t--autoremove		Remove packages that were installed\n");
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index 032578d..dbfca0f 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -1,6 +1,8 @@
+ require opkg.inc
  
- opkglibdir = "${localstatedir}/lib/opkg"
-@@ -113,7 +119,7 @@ remove_packaging_data_files() {
- }
+-SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http"
++SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
++           file://no-install-recommends.patch \
++"
  
- rootfs_install_packages() {
--	${STAGING_BINDIR_NATIVE}/apt-get install `cat $1` --force-yes --allow-unauthenticated
-+	${STAGING_BINDIR_NATIVE}/apt-get ${APT_ARGS} install `cat $1` --force-yes --allow-unauthenticated
+ S = "${WORKDIR}/trunk"
  
- 	# Mark all packages installed
- 	sed -i -e "s/Status: install ok unpacked/Status: install ok installed/;" $INSTALL_ROOTFS_DEB/var/lib/dpkg/status
 -- 
 1.8.1.2.545.g2f19ada
 
