@@ -1,25 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A0F86B669
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
+	[209.85.212.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D851A6B669
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 20:33:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7EKXt6A014561
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 14 Aug 2013 20:36:08 +0000 (UTC)
+Received: by mail-vb0-f50.google.com with SMTP id x14so8049549vbb.37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 13:33:56 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Wed, 14 Aug 2013 13:33:55 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 14 Aug 2013 15:34:48 -0500
-Message-ID: <1376512488-12313-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+	Wed, 14 Aug 2013 13:36:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Ox4GcvXMcsuucmwz509YDV8hWulbyon0nEpEIacTn+A=;
+	b=Z/D+AZz3iJIk+ZbWaVbS+gMceNKspR2keLmp1EREGZjROhTen6iPiv48qSjKd2kBZs
+	OzFKYvYPOgyEiCX9KzTM3aSmh4OppEVOVtxU1W3cwFxz+thQcYIGwHpBrHv2d/agM3+o
+	TiIzofGRCsxbX/cMXmIizQgrAWIKlZSP4ndD41wAE0oZRnVF2i7eATR4+WQkmB5g+Xic
+	FSGG2m4g2k8Qkv7tcd9DVLu8JAP7loioTf3bk0XScTqazSzz6iO8DPG7rk32VaBWoLM6
+	7qm2CT3uzl+q+o2wpsKSudhq+qKgreU+aih+QntRNS3VKgYALcnir1jjfWCjDGpA/C9Z
+	Mxnw==
+X-Gm-Message-State: ALoCoQleJ1A3kGcAOX0ftnwUgURyu27FbS4kAqreOb/yErn+W/Rc8ELHZhLP7fWnL4lQmJtJD+ei
+X-Received: by 10.52.30.48 with SMTP id p16mr9597897vdh.25.1376512569103; Wed,
+	14 Aug 2013 13:36:09 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Subject: [PATCH v2] prelink: update to latest cross-prelink
+Received: by 10.220.71.201 with HTTP; Wed, 14 Aug 2013 13:35:48 -0700 (PDT)
+In-Reply-To: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
+References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 14 Aug 2013 21:35:48 +0100
+Message-ID: <CAJTo0La-PsajOhDmPHyMONi9_u2ytgWLpnGoQNvf1tewV5dYCQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/11] Update the way we control the construction of filesystems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 20:33:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 14 Aug 2013 20:36:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Sync to latest cross-prelink, as of Aug 1, 2013.
+On 14 August 2013 21:29, Mark Hatle <mark.hatle@windriver.com> wrote:
+>  Debian(apt-get) does not appear to be capable of
+> BAD_RECOMEMNDATIONS,
 
-Drop the PR number, no longer needed.
+The semantics of BAD_RECOMMENDATIONS is "these packages may be listed
+as recommendations, but don't install them", right?  You *might* be
+able to do this with dpkg by setting the package state to
+"not-installed hold".
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- meta/recipes-devtools/prelink/prelink_git.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
-index ae9931f..8c55b91 100644
---- a/meta/recipes-devtools/prelink/prelink_git.bb
-+++ b/meta/recipes-devtools/prelink/prelink_git.bb
-@@ -8,9 +8,8 @@ and executables, so that far fewer relocations need to be resolved at \
- runtime and thus programs come up faster."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
--SRCREV = "4e313edb125db215d4c456ce62c74ee16841a365"
-+SRCREV = "6822ec76aa95f278195aeae59d4868ef224d7e4d"
- PV = "1.0+git${SRCPV}"
--PR = "r0"
- 
- #
- # The cron script attempts to re-prelink the system daily -- on
--- 
-1.8.1.2.545.g2f19ada
-
+Ross
 
