@@ -1,36 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id CA41560593
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ee0-f43.google.com (mail-ee0-f43.google.com [74.125.83.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C39776B747
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 11:17:56 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id n15so4715145ead.2
+	Wed, 14 Aug 2013 11:40:19 +0000 (UTC)
+Received: by mail-ee0-f43.google.com with SMTP id e52so4766818eek.16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 04:17:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6XaVZhZI46PhL/5voofBtmc06ZhX7t4KKLyAgxUcGhQ=;
-	b=eKqDVpAfVY8f80DfXTtBXt1PbshvXlyR1C8pFZM6A+RWstqLZf8tbR/QEm6C6ihIp+
-	DnT7vcN/4PLAjIdEEKBzfT6Ya3JLtKJMdXEUT1bEkkQbpqTQVtY0VZbIPa7SMDZZb3lv
-	3RZZ4Wtt8BHCJ+sNtz76/TZQCgb2Zlx4NnLOAFti5/74HcQZ6UB9L0800U1rQs06CNpy
-	Gx9btQh3BoAGPKvCylaAJRub9GswYWWRZUeBQbdWbcIir4MzuS5y8DFks4IWYBOxEjnT
-	tj8cA9U9XBD+a5+kEgLXnZXnW01GuEWLwQXm/w3jSfhmYeGVBKLh8PeBZHb5pU4sI3K3
-	4pgA==
-X-Received: by 10.14.202.193 with SMTP id d41mr380784eeo.83.1376479077157;
-	Wed, 14 Aug 2013 04:17:57 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	f49sm68607993eec.7.2013.08.14.04.17.56 for <multiple recipients>
+	Wed, 14 Aug 2013 04:40:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=i5Pjv8uPY25IdypjnT9mtiO04o5tLTFZfCnmqPsIcII=;
+	b=YdSC8V/Vc2OxLHCSi5/OoYg2mVi7WWTQjagrSmXCyyQ4s55nMw+khq3icwaadUXKfN
+	hC4YP1XmbieR7mlkqVEkJ9eLXx0hoxBWQ4L9VR7d7mlUJIff16pHh5/04mdoy2TkMxos
+	Hh2Fvwvj4bM6GbMXV0AisU4GPxkvYvuMzLRFb32qkF3M2QgDKVThF8t+HRTvq5uNxchk
+	BEAEH4m6Ge8/rBZmGb9Q48rnRAHMRtwuw7YeVDHsWR0pj1MIjNyse64vD9VxDI3c0sfi
+	nmpWzwidI+9OsU6iYkZPxACkmKvext4WplL2dDlxv5xrE84Nj/YSuWgPzk3YA3URi6Gg
+	2lXA==
+X-Gm-Message-State: ALoCoQnTI0QJTYzn5ILU9A2hHjbV/hhfKoACn98v1XE53fYnq7Dl7RTs0MzruHDG2yQ9Q4peGVDE
+X-Received: by 10.14.47.73 with SMTP id s49mr2532567eeb.71.1376480419413;
+	Wed, 14 Aug 2013 04:40:19 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id k3sm74487130een.16.2013.08.14.04.40.17
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 14 Aug 2013 04:17:56 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+	Wed, 14 Aug 2013 04:40:18 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 14 Aug 2013 13:18:45 +0200
-Message-Id: <1376479125-26055-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <1376478834-12858-2-git-send-email-Martin.Jansa@gmail.com>
-References: <1376478834-12858-2-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCHv2] gst-plugins-gl: add dependency on glew
+Date: Wed, 14 Aug 2013 12:40:11 +0100
+Message-Id: <1376480412-26009-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] libmatchbox: upgrade to 1.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +42,219 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 11:17:57 -0000
+X-List-Received-Date: Wed, 14 Aug 2013 11:40:20 -0000
 
-* fails without:
-  | ./gstglshader.h:30:21: fatal error: GL/glew.h: No such file or directory
+Remove check.m4 as libmatchbox uses the check.pc instead of a m4 file now.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/libmatchbox/files/check.m4   |  133 --------------------
+ .../libmatchbox/libmatchbox_1.10.bb                |   28 -----
+ .../libmatchbox/libmatchbox_1.11.bb                |   19 +++
+ 3 files changed, 19 insertions(+), 161 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libmatchbox/files/check.m4
+ delete mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb
+ create mode 100644 meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-index 213e799..4474e1e 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "48340b6a4b8abce16344a7bc33e74a94fdcce4f57ef6342cdf2f941c42
- 
- SRC_URI += " file://0001-conditional-gl-framebuffer-undefined-use.patch"
- 
--DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg libpng"
-+DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg libpng glew"
- 
- inherit gettext gconf
- 
+diff --git a/meta/recipes-graphics/libmatchbox/files/check.m4 b/meta/recipes-graphics/libmatchbox/files/check.m4
+deleted file mode 100644
+index 97bfd9c..0000000
+--- a/meta/recipes-graphics/libmatchbox/files/check.m4
++++ /dev/null
+@@ -1,133 +0,0 @@
+-dnl AM_PATH_CHECK([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+-dnl Test for check, and define CHECK_CFLAGS and CHECK_LIBS
+-dnl
+-
+-AC_DEFUN(AM_PATH_CHECK,
+-[
+-  AC_ARG_WITH(check,
+-  [  --with-check=PATH       prefix where check is installed [default=auto]])
+- 
+-  min_check_version=ifelse([$1], ,0.8.2,$1)
+-
+-  AC_MSG_CHECKING(for check - version >= $min_check_version)
+-
+-  if test x$with_check = xno; then
+-    AC_MSG_RESULT(disabled)
+-    ifelse([$3], , AC_MSG_ERROR([disabling check is not supported]), [$3])
+-  else
+-    if test "x$with_check" != x; then
+-      CHECK_CFLAGS="-I$with_check/include"
+-      CHECK_LIBS="-L$with_check/lib -lcheck"
+-    else
+-      CHECK_CFLAGS=""
+-      CHECK_LIBS="-lcheck"
+-    fi
+-
+-    ac_save_CFLAGS="$CFLAGS"
+-    ac_save_LIBS="$LIBS"
+-
+-    CFLAGS="$CFLAGS $CHECK_CFLAGS"
+-    LIBS="$CHECK_LIBS $LIBS"
+-
+-    rm -f conf.check-test
+-    AC_TRY_RUN([
+-#include <stdio.h>
+-#include <stdlib.h>
+-
+-#include <check.h>
+-
+-int main ()
+-{
+-  int major, minor, micro;
+-  char *tmp_version;
+-
+-  system ("touch conf.check-test");
+-
+-  /* HP/UX 9 (%@#!) writes to sscanf strings */
+-  tmp_version = strdup("$min_check_version");
+-  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
+-     printf("%s, bad version string\n", "$min_check_version");
+-     return 1;
+-   }
+-    
+-  if ((CHECK_MAJOR_VERSION != check_major_version) ||
+-      (CHECK_MINOR_VERSION != check_minor_version) ||
+-      (CHECK_MICRO_VERSION != check_micro_version))
+-    {
+-      printf("\n*** The check header file (version %d.%d.%d) does not match\n",
+-	     CHECK_MAJOR_VERSION, CHECK_MINOR_VERSION, CHECK_MICRO_VERSION);
+-      printf("*** the check library (version %d.%d.%d).\n",
+-	     check_major_version, check_minor_version, check_micro_version);
+-      return 1;
+-    }
+-
+-  if ((check_major_version > major) ||
+-      ((check_major_version == major) && (check_minor_version > minor)) ||
+-      ((check_major_version == major) && (check_minor_version == minor) && (check_micro_version >= micro)))
+-    {
+-      return 0;
+-    }
+-  else
+-    {
+-      printf("\n*** An old version of check (%d.%d.%d) was found.\n",
+-             check_major_version, check_minor_version, check_micro_version);
+-      printf("*** You need a version of check being at least %d.%d.%d.\n", major, minor, micro);
+-      printf("***\n"); 
+-      printf("*** If you have already installed a sufficiently new version, this error\n");
+-      printf("*** probably means that the wrong copy of the check library and header\n");
+-      printf("*** file is being found. Rerun configure with the --with-check=PATH option\n");
+-      printf("*** to specify the prefix where the correct version was installed.\n");
+-    }
+-
+-  return 1;
+-}
+-],, no_check=yes, [echo $ac_n "cross compiling; assumed OK... $ac_c"])
+-
+-    CFLAGS="$ac_save_CFLAGS"
+-    LIBS="$ac_save_LIBS"
+-
+-    if test "x$no_check" = x ; then
+-      AC_MSG_RESULT(yes)
+-      ifelse([$2], , :, [$2])
+-    else
+-      AC_MSG_RESULT(no)
+-      if test -f conf.check-test ; then
+-        :
+-      else
+-        echo "*** Could not run check test program, checking why..."
+-        CFLAGS="$CFLAGS $CHECK_CFLAGS"
+-        LIBS="$CHECK_LIBS $LIBS"
+-        AC_TRY_LINK([
+-#include <stdio.h>
+-#include <stdlib.h>
+-
+-#include <check.h>
+-], ,  [ echo "*** The test program compiled, but did not run. This usually means"
+-        echo "*** that the run-time linker is not finding check. You'll need to set your"
+-        echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
+-        echo "*** to the installed location  Also, make sure you have run ldconfig if that"
+-        echo "*** is required on your system"
+-	echo "***"
+-        echo "*** If you have an old version installed, it is best to remove it, although"
+-        echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
+-      [ echo "*** The test program failed to compile or link. See the file config.log for"
+-        echo "*** the exact error that occured." ])
+-      
+-        CFLAGS="$ac_save_CFLAGS"
+-        LIBS="$ac_save_LIBS"
+-      fi
+-
+-      CHECK_CFLAGS=""
+-      CHECK_LIBS=""
+-
+-      rm -f conf.check-test
+-      ifelse([$3], , AC_MSG_ERROR([check not found]), [$3])
+-    fi
+-
+-    AC_SUBST(CHECK_CFLAGS)
+-    AC_SUBST(CHECK_LIBS)
+-
+-    rm -f conf.check-test
+-
+-  fi
+-])
+diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb
+deleted file mode 100644
+index a1531b8..0000000
+--- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.10.bb
++++ /dev/null
+@@ -1,28 +0,0 @@
+-DESCRIPTION = "Matchbox window manager core library"
+-SECTION = "x11/libs"
+-HOMEPAGE = "http://matchbox-project.org/"
+-BUGTRACKER = "http://bugzilla.yoctoproject.com/"
+-
+-LICENSE = "LGPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
+-                    file://libmb/mbexp.c;endline=20;md5=28c0aef3b23e308464f5dae6a11b0d2f \
+-                    file://libmb/mbdotdesktop.c;endline=21;md5=5a287156b3207e851c1d68d09c439b51"
+-
+-DEPENDS = "virtual/libx11 libxext expat libxft jpeg libpng zlib libxsettings-client startup-notification"
+-
+-SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/${BPN}/${PV}/${BPN}-${PV}.tar.gz \
+-           file://check.m4"
+-SRC_URI[md5sum] = "042c5874631dfb95151aa793dc1434b8"
+-SRC_URI[sha256sum] = "d14d4844840e3e1e4faa9f9e90060915d39b6033f6979464ab3ea3fe1c4f9293"
+-
+-PR = "r0"
+-
+-inherit autotools pkgconfig
+-
+-S = "${WORKDIR}/libmatchbox-${PV}"
+-
+-do_configure_prepend () {
+-	cp ${WORKDIR}/check.m4 ${S}/
+-}
+-
+-EXTRA_OECONF = "--enable-jpeg --enable-expat --enable-xsettings --enable-startup-notification"
+diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb
+new file mode 100644
+index 0000000..244a495
+--- /dev/null
++++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.11.bb
+@@ -0,0 +1,19 @@
++DESCRIPTION = "Matchbox window manager core library"
++SECTION = "x11/libs"
++HOMEPAGE = "http://matchbox-project.org/"
++BUGTRACKER = "http://bugzilla.yoctoproject.com/"
++
++LICENSE = "LGPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34 \
++                    file://libmb/mbexp.c;endline=20;md5=28c0aef3b23e308464f5dae6a11b0d2f \
++                    file://libmb/mbdotdesktop.c;endline=21;md5=5a287156b3207e851c1d68d09c439b51"
++
++DEPENDS = "virtual/libx11 libxext expat libxft jpeg libpng zlib libxsettings-client startup-notification"
++
++SRC_URI = "http://downloads.yoctoproject.org/releases/matchbox/${BPN}/${PV}/${BPN}-${PV}.tar.bz2"
++SRC_URI[md5sum] = "fc6cc807f55a3e7c752d8013176875d7"
++SRC_URI[sha256sum] = "254cab52e304a3512c8df4be59d690cf3921bbb68a28ede7fe26b93534217b53"
++
++inherit autotools pkgconfig
++
++EXTRA_OECONF = "--enable-jpeg --enable-expat --enable-xsettings --enable-startup-notification"
 -- 
-1.8.3.2
+1.7.10.4
 
 
