@@ -1,37 +1,40 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-oa0-f48.google.com (mail-oa0-f48.google.com
-	[209.85.219.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 18340600A3
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
+	by mail.openembedded.org (Postfix) with ESMTP id F0F2261DDD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 06:35:38 +0000 (UTC)
-Received: by mail-oa0-f48.google.com with SMTP id o17so12494174oag.7
+	Wed, 14 Aug 2013 06:55:18 +0000 (UTC)
+Received: by mail-ee0-f41.google.com with SMTP id d17so4728052eek.28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 13 Aug 2013 23:35:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=5bDreOwnl+MnQmbdNzNokTJiWnKIiClZWIfvWRLu5Kw=;
-	b=aIQH/nqk1I7tPphSS0uiHRY9BfdUlAyLYw9ZxEzEpdTO4eTqGslhq7V5ht59gzRChV
-	skDQxjn6mT0mczd3wtMFb/rO4GMoAVZHYMJBsoL/YvwyQ+2Duwh03w4wEU9ZjUFedRAR
-	8JoghrSUg20VeFiXcQPAT5y4d7ZWaHaYq0fK1veCbyxT3CPyPzN9vagHsRKFJqR6aEfe
-	5HMozAQ+2jYG1Aki4/YPd9dCpVFramhdCUlAyAcWkISBAqdlGnq0Ca7EwFrH27L6hCmm
-	FIOLEFGX2PdwCPb261qIuEcU+M1MjVXaJOxcTcUh7AxivWOwV88f+UvCCVDX7fHotfSU
-	wMWQ==
-X-Gm-Message-State: ALoCoQndztC6+wXhIMgywml+2B8IyI/pM3xcMZ4IgnrUsYCLHJpK9mwGtDnuTtH7i7fb0vswKpdW
-X-Received: by 10.60.133.233 with SMTP id pf9mr8199042oeb.46.1376462138729;
-	Tue, 13 Aug 2013 23:35:38 -0700 (PDT)
+	Tue, 13 Aug 2013 23:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=U7zQUylh4Ry7MeRbtiXgHi4FhsKQDiF5fstTrTgINlY=;
+	b=zjfla7b8XosU9a6iAFcIOEGA1prxHAMVXiwN15H6y+u1xyFbHMjIjcmvf2aBPfMyGU
+	yOaNbI1UfHAL7n681PgnnneUCkzGUSPWATfYA9yaz9Y8Bd3atZyXDkCm3d63Q+YCKSzM
+	RfH2KY3yL/8lLa7qLk3CgtYe0Be3/vFQEyTT50yBuOwaHkJepxHW5viFWr9weG2iliLL
+	A+eooLdNQQSgAYMOT/Z87HXj+OAIAX+vlljlEb0EeJ+dXXv0/r9Kf26ACni3GQ1WFxqs
+	j1zGqSlt2u1X31mQtqOUBQQV/5Nkuc2pVer8/E0m6qIZHJcjGkfOo7is/IN3y84Na1C3
+	aBdQ==
+X-Received: by 10.14.198.73 with SMTP id u49mr12837394een.13.1376463319342;
+	Tue, 13 Aug 2013 23:55:19 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	bn13sm72542814eeb.11.2013.08.13.23.55.18 for <multiple recipients>
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 13 Aug 2013 23:55:18 -0700 (PDT)
+Date: Wed, 14 Aug 2013 08:56:09 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
+Message-ID: <20130814065609.GQ17945@jama>
+References: <cover.1376379182.git.rongqing.li@windriver.com>
+	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
+	<520A82BA.2070706@linux.intel.com> <520B1595.3060909@windriver.com>
 MIME-Version: 1.0
-Received: by 10.76.172.4 with HTTP; Tue, 13 Aug 2013 23:35:18 -0700 (PDT)
-In-Reply-To: <CAJ86T=UDy7FJWR735GcK3bWZxmwRrGPdinfb+f49Wc1dEmg+ZQ@mail.gmail.com>
-References: <CAJ86T=UDy7FJWR735GcK3bWZxmwRrGPdinfb+f49Wc1dEmg+ZQ@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 14 Aug 2013 08:35:18 +0200
-Message-ID: <CAP71Wjz1HsDcEQcV0MjXDiKLzo7OfE7H=DCuPBf_f0uwe3-+hw@mail.gmail.com>
-To: Andre <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [dylan]devshell: broken
+In-Reply-To: <520B1595.3060909@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,231 +47,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 06:35:38 -0000
-Content-Type: multipart/alternative; boundary=047d7b472078d37bb204e3e2907f
+X-List-Received-Date: Wed, 14 Aug 2013 06:55:19 -0000
+X-Groupsio-MsgNum: 43307
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="glwmnIOgU1tcuP7N"
+Content-Disposition: inline
 
---047d7b472078d37bb204e3e2907f
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Wed, Aug 14, 2013 at 7:54 AM, Andre <armccurdy@gmail.com> wrote:
-
-> bitbake -c devshell seems to have stopped working (tested with xterm
-> and mate-terminal) in dylan since this commit:
->
->   a749f06 terminal: Run command using a wrapper script
->
-> It looks like the run.do_devshell.<PID> script is generated but then
-> fails to run when passed to a terminal.
->
-> A possible clue is that after manually editing the do_devshell script
-> to replace:
->
->   do_terminal() {
->   exec pseudo /bin/bash
->   }
->
-> with:
->
->   do_terminal() {
->   exec /bin/bash
->   }
->
-> the script runs OK when passed to a terminal manually, such as:
->
->   $ xterm -e tmp/work/.../temp/run.do_terminal.25789
->
-
-I am observing the same issue here. I have tested 'devshell' against master
-and dylan, and master seems to be working fine.
-
-Here are the 2 generated run.do_terminal script for bitbake -c devshell
-busybox
-
-with dylan branch (failing) http://pastebin.com/jyBW2jEf
-
-with master branch (working) http://pastebin.com/PHxJvj0k
-
- The problem when using the detault terminal (hence gnome-terminal in my
-case), is that the gnome terminal windows shows up but very quickly
-disappears. If I set OE_TERMINAL="screen", then i get something like that
-in the failing case:
-Currently 1 running tasks (67 of 67):
-0: busybox-1.20.2-r8 do_devshell (pid 7566)
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-ERROR: ld.so: object 'libpseudo.so' from LD_PRELOAD cannot be preloaded:
-ignored.
-There is no screen to be resumed matching devshell_7566.
-Trying to run: screen -r devshell_7566
-WARNING: Screen started. Please connect in another terminal with "screen -r
-devshell_7566"
-NOTE: Tasks Summary: Attempted 67 tasks of which 66 didn't need to be rerun
-and all succeeded.
-
-and it stops, and there is no screen session.
-
-If I revert "a749f06 terminal: Run command using a wrapper script" from
-oe-core dylan, it works again.
-
-thx
-
---047d7b472078d37bb204e3e2907f
-Content-Type: text/html; charset=ISO-8859-1
+--glwmnIOgU1tcuP7N
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Aug 14, 2013 at 7:54 AM, Andre <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt;</spa=
-n> wrote:<br>
+On Wed, Aug 14, 2013 at 01:28:53PM +0800, Rongqing Li wrote:
+>=20
+>=20
+> On 08/14/2013 03:02 AM, Saul Wold wrote:
+> > On 08/13/2013 01:20 AM, rongqing.li@windriver.com wrote:
+> >> From: "Roy.Li" <rongqing.li@windriver.com>
+> >>
+> >> sstate_package creates hardlink from sysroot to SSTATE_BUILDDIR, then
+> >> sstate_create_package will store SSTATE_BUILDDIR into a archive file by
+> >> tar, but once other packages install the same file into sysroot, the
+> >> creating the archive file will fail with below error:
+> >>
+> >>      DEBUG: Executing shell function sstate_create_package
+> >>      tar: x86_64-linux/usr/share/aclocal/xorg-macros.m4: file changed
+> >> as we read it
+> >>
+> >> This kind of error is harmless, use --ignore-failed-read to ignore it.
+> >>
+> > I am not sure it's so harmless, what if the file is corrupted, then we
+> > have a bad sstate tarball.  You have identified the part of the root
+> > cause being the hardlink, but what if the file actually does change
+> > (which would be a different bug potentially), then your packaging a
+> > differet set of macros (in this case) with the sysroot.
+> >
+> >
+> > Sau!
+>=20
+>=20
+> The file is not corrupted, and the file content is not changed,  "tar"
+> said xorg-macros.m4 file is changed, since the number of links of
+> xorg-macros.m4 has changed when other packages is doing configuration
+> and call autotools_copy_aclocal to make a hardlink to ${ACLOCALDIR}
+>=20
+> If this fix can be accepted, I will rework the commit header.
 
+I think there is still some other issue.
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex"><div style=3D"overflow:hidden">bitbake -c devshell seems t=
-o have stopped working (tested with xterm<br>
+I haven't seen this on ext4 filesystems, but with reiserfs I was able to
+reproduce "cp: will not create hard link" issue, e.g.:
 
+do_populate_lic_setscene task failing in sstate_install with=20
+cp: will not create hard link `/OE/deploy/licenses/recipe' to directory `/O=
+E/deploy/licenses/recipe' (same path)
 
+or
+ERROR: Error executing a python function in pn.bb:
+CalledProcessError: Command 'cp -afl /OE/work/armv7a-vfp-neon-oe-linux-gnue=
+abi/pn/1.0/pkgdata/* /OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi' returned=
+ non-zero exit status 1 with output=20
+cp: warning: source file `/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/=
+pkgdata/pn' specified more than once
 
-and mate-terminal) in dylan since this commit:<br>
-<br>
-=A0 a749f06 terminal: Run command using a wrapper script<br>
-<br>
-It looks like the run.do_devshell.&lt;PID&gt; script is generated but then<=
-br>
-fails to run when passed to a terminal.<br>
-<br>
-A possible clue is that after manually editing the do_devshell script<br>
-to replace:<br>
-<br>
-=A0 do_terminal() {<br>
-=A0 exec pseudo /bin/bash<br>
-=A0 }<br>
-<br>
-with:<br>
-<br>
-=A0 do_terminal() {<br>
-=A0 exec /bin/bash<br>
-=A0 }<br>
-<br>
-the script runs OK when passed to a terminal manually, such as:<br>
-<br>
-=A0 $ xterm -e tmp/work/.../temp/run.do_terminal.25789</div></blockquote></=
-div><br>I am observing the same issue here. I have tested &#39;devshell&#39=
-; against master and dylan, and master seems to be working fine.=A0</div><d=
-iv class=3D"gmail_extra">
+cp: will not create hard link `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi=
+/runtime' to directory `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/runtim=
+e'
+cp: will not create hard link `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi=
+/runtime-reverse' to directory `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueab=
+i/runtime-reverse'
+cp: will not create hard link `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi=
+/shlibs' to directory `/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi/shlibs'
 
+Number of hardlinks is:
+$ find pn/1.0/pkgdata -printf "%f/%n/%i\n"
+pkgdata/5/190867045
+runtime-reverse/2/190867046
+pn-dbg/1/190867047
+pn-dev/1/190867048
+pn-doc/1/190867049
+pn/1/190867067
+pn-staticdev/1/190867051
+pn-locale/1/190867078
+runtime/2/190867053
+pn-dbg.packaged/1/190867054
+pn-dev.packaged/1/190867056
+pn-dbg/1/190867057
+pn-dev/1/190867058
+pn-doc/1/190867059
+pn/1/190867060
+pn-staticdev/1/190867062
+pn.packaged/1/190867063
+pn-locale/1/190867064
+pn/1/190867065
+shlibs/2/190867069
 
-<br></div><div class=3D"gmail_extra">Here are the 2 generated run.do_termin=
-al script for bitbake -c devshell busybox</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">with dylan branch (failing)=A0<a href=
-=3D"http://pastebin.com/jyBW2jEf" target=3D"_blank">http://pastebin.com/jyB=
-W2jEf</a><br>
+find ~ -xdev -samefile pn/1.0/pkgdata 2>/dev/null
+pn/1.0/pkgdata
 
+I'm not sure where the other pkgdata hardlinks came from.
 
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">with =
-master branch (working)=A0<a href=3D"http://pastebin.com/PHxJvj0k" target=
-=3D"_blank">http://pastebin.com/PHxJvj0k</a></div><div class=3D"gmail_extra=
-"><br></div>
+The problem is that I can reproduce it on 1-2 random recipes from few hundr=
+eds
+included in bigger image and even not in every build. After the error is sh=
+own
+it all looks sane, only way to manually reproduce the same error is to real=
+ly
+specify source dirs twice:
 
-<div class=3D"gmail_extra">
-The problem when using the detault terminal (hence gnome-terminal in my cas=
-e), is that the gnome terminal windows shows up but very quickly disappears=
-. If I set OE_TERMINAL=3D&quot;screen&quot;, then i get something like that=
- in the failing case:</div>
+$ cp -afl \
+/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/pkgdata/* \
+/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/pkgdata/* \
+/OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi
 
+shows exactly the same 1 warning and 3 errors.
 
-<div class=3D"gmail_extra"><div class=3D"gmail_extra">Currently 1 running t=
-asks (67 of 67):</div><div class=3D"gmail_extra">0: busybox-1.20.2-r8 do_de=
-vshell (pid 7566)</div><div class=3D"gmail_extra">Trying to run: screen -r =
-devshell_7566</div>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-<div class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from=
- LD_PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">T=
-here is no screen to be resumed matching devshell_7566.</div><div class=3D"=
-gmail_extra">
+--glwmnIOgU1tcuP7N
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Trying to run: screen -r devshell_7566</div><div class=3D"gmail_extra">ERRO=
-R: ld.so: object &#39;libpseudo.so&#39; from LD_PRELOAD cannot be preloaded=
-: ignored.</div><div class=3D"gmail_extra">There is no screen to be resumed=
- matching devshell_7566.</div>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
 
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from LD_=
-PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">There=
- is no screen to be resumed matching devshell_7566.</div>
+iEYEARECAAYFAlILKgkACgkQN1Ujt2V2gBw9oACgnti7qMYlthiNbVyhLIPcQVXJ
+Q80An1mHReU7gn9WkyaWSY23u+Kh93ub
+=0+pk
+-----END PGP SIGNATURE-----
 
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from LD_=
-PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">There=
- is no screen to be resumed matching devshell_7566.</div>
-
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from LD_=
-PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">There=
- is no screen to be resumed matching devshell_7566.</div>
-
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from LD_=
-PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">There=
- is no screen to be resumed matching devshell_7566.</div>
-
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from LD_=
-PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">There=
- is no screen to be resumed matching devshell_7566.</div>
-
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from LD_=
-PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">There=
- is no screen to be resumed matching devshell_7566.</div>
-
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">ERROR: ld.so: object &#39;libpseudo.so&#39; from LD_=
-PRELOAD cannot be preloaded: ignored.</div><div class=3D"gmail_extra">There=
- is no screen to be resumed matching devshell_7566.</div>
-
-<div class=3D"gmail_extra">Trying to run: screen -r devshell_7566</div><div=
- class=3D"gmail_extra">WARNING: Screen started. Please connect in another t=
-erminal with &quot;screen -r devshell_7566&quot;</div><div class=3D"gmail_e=
-xtra">
-
-NOTE: Tasks Summary: Attempted 67 tasks of which 66 didn&#39;t need to be r=
-erun and all succeeded.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">and it stops, and there is no screen session.</div><div>
-<br>
-</div><div>If I revert &quot;a749f06 terminal: Run command using a wrapper =
-script&quot; from oe-core dylan, it works again.</div><div><br></div><div>t=
-hx</div></div><div class=3D"gmail_extra"><br></div></div>
-
---047d7b472078d37bb204e3e2907f--
+--glwmnIOgU1tcuP7N--
