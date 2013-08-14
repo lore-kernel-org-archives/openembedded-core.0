@@ -1,36 +1,20 @@
-Return-Path: <fcooper@ti.com>
-Received: from comal.ext.ti.com (comal.ext.ti.com [198.47.26.152])
-	by mail.openembedded.org (Postfix) with ESMTP id 9929D61220
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DA1B60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 15:44:03 +0000 (UTC)
-Received: from dlelxv90.itg.ti.com ([172.17.2.17])
-	by comal.ext.ti.com (8.13.7/8.13.7) with ESMTP id r7EFi34s030641;
-	Wed, 14 Aug 2013 10:44:03 -0500
-Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
-	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id r7EFi2Te020046;
-	Wed, 14 Aug 2013 10:44:02 -0500
-Received: from DFLE08.ent.ti.com ([fe80::187f:8c86:2b7:ef9f]) by
-	DFLE72.ent.ti.com ([fe80::e5e2:bab6:34dc:a483%28]) with mapi id
-	14.02.0342.003; Wed, 14 Aug 2013 10:44:02 -0500
-From: "Cooper Jr., Franklin" <fcooper@ti.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Thread-Topic: [OE-core] [PATCH] linux-dtb.inc: Run dts through the preprocessor
-Thread-Index: AQHOmP9k/mnNR2f0O02Gi16UCGKlCZmVJsQA//+scKA=
-Date: Wed, 14 Aug 2013 15:44:02 +0000
-Message-ID: <8F29D6B095ED194EA1980491A5E029710C51C5AA@DFLE08.ent.ti.com>
-References: <1376494338-11646-1-git-send-email-fcooper@ti.com>
-	<1376494338-11646-2-git-send-email-fcooper@ti.com>
-	<CADkTA4M3MDkpPuZ2kEq6Uz-RfGyDLBUNK0npsxCB=is8M9JMYQ@mail.gmail.com>
-In-Reply-To: <CADkTA4M3MDkpPuZ2kEq6Uz-RfGyDLBUNK0npsxCB=is8M9JMYQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
-MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-dtb.inc: Run dts through the preprocessor
+	Wed, 14 Aug 2013 15:46:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2013 08:46:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,877,1367996400"; d="scan'208";a="380923356"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.240])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2013 08:46:43 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Aug 2013 16:46:38 +0100
+Message-Id: <1376495198-23621-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [dylan][PATCH] classes/terminal: fix pseudo exiting when launching devshell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,92 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 15:44:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 14 Aug 2013 15:46:43 -0000
 
+In dylan, since the entire bitbake process is run under pseudo,
+LD_PRELOAD is set when we collect BB_ORIGENV and thus when we construct
+the devshell environment from the latter, LD_PRELOAD is included.
+However, for a fakeroot task we explicitly run the devshell under pseudo
+(e.g. "pseudo /bin/bash"), and if LD_PRELOAD is set to preload
+libpseudo.so when pseudo is run, it seems to exit immediately without
+error. Since LD_PRELOAD shouldn't be exported anyway, exclude this from
+the environment so it doesn't prevent running the shell.
 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/terminal.bbclass | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> -----Original Message-----
-> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
-> Sent: Wednesday, August 14, 2013 10:25 AM
-> To: Cooper Jr., Franklin
-> Cc: Patches and discussions about the oe-core layer; Otavio Salvador
-> Subject: Re: [OE-core] [PATCH] linux-dtb.inc: Run dts through the preproc=
-essor
->=20
-> On Wed, Aug 14, 2013 at 11:32 AM, Franklin S. Cooper Jr <fcooper@ti.com>
-> wrote:
-> > * In the 3.11 kernel some dts files now include C code that must first =
-run
-> >   through the preprocessor.
-> > * Update building the dtb by first running the dts file through the use=
-r's
-> >   compiler before building using the device tree compiler.
-> > * The logic used is based on mainline u-boot dts/Makefile.
->=20
-> We are already working through a change from Otavio that changes the way =
-we
-> build DTB files, using the in kernel resources.
->=20
-> So this shouldn't be required in the end, or at least heavily modified.
->=20
-> So I suggest we hold on this change for now, and rebase it once the patch=
- I
-> mentioned is merged.
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index ae338e9..96d2d2a 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -62,6 +62,10 @@ def oe_terminal(command, title, d):
+             envdata.setVar(key, str(value))
+             envdata.setVarFlag(key, 'export', 1)
+ 
++    # LD_PRELOAD of pseudo will cause problems if this is a fakeroot task
++    # and we shouldn't be exporting it anyway
++    envdata.delVar('LD_PRELOAD')
++
+     # Replace command with an executable wrapper script
+     command = emit_terminal_func(command, envdata, d)
+ 
+-- 
+1.8.1.2
 
-No issue on my end. As long as one of our patches makes it in master and Dy=
-lan I will be happy.
->=20
-> Bruce
->=20
-> >
-> > Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
-> > ---
-> >  meta/recipes-kernel/linux/linux-dtb.inc |    5 ++++-
-> >  1 files changed, 4 insertions(+), 1 deletions(-)
-> >
-> > diff --git a/meta/recipes-kernel/linux/linux-dtb.inc
-> > b/meta/recipes-kernel/linux/linux-dtb.inc
-> > index 41dd599..f1aafa2 100644
-> > --- a/meta/recipes-kernel/linux/linux-dtb.inc
-> > +++ b/meta/recipes-kernel/linux/linux-dtb.inc
-> > @@ -21,7 +21,10 @@ do_install_append() {
-> >                         DTS_BASE_NAME=3D`basename ${DTS_FILE} | awk -F =
-"." '{print
-> $1}'`
-> >                         DTB_NAME=3D`echo ${KERNEL_IMAGE_BASE_NAME} | se=
-d
-> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> >                         DTB_SYMLINK_NAME=3D`echo
-> ${KERNEL_IMAGE_SYMLINK_NAME} | sed
-> "s/${MACHINE}/${DTS_BASE_NAME}/g"`
-> > -                       dtc -I dts -O dtb ${KERNEL_DEVICETREE_FLAGS} -o
-> ${DTS_BASE_NAME} ${DTS_FILE}
-> > +
-> > +                       cat ${DTS_FILE} | \
-> > +                               ${CPP} -x assembler-with-cpp -I ./inclu=
-de/ -I
-> ./arch/${ARCH}/boot/dts - | \
-> > +                               dtc ${KERNEL_DEVICETREE_FLAGS} -O dtb
-> > + -o ${DTS_BASE_NAME} -i arch/${ARCH}/boot/dts/ -
-> >                         install -m 0644 ${DTS_BASE_NAME}
-> ${D}/${KERNEL_IMAGEDEST}/devicetree-${DTB_SYMLINK_NAME}.dtb
-> >                 done
-> >         fi
-> > --
-> > 1.7.0.4
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
->=20
->=20
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee=
- at its
-> end"
 
