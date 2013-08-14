@@ -1,39 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CC8666007B
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 14:12:50 +0000 (UTC)
-Received: by mail-ee0-f52.google.com with SMTP id c41so4897611eek.39
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 07:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=UlslsQAe3UfEaakhjvN1MM+7YMZb9qAx3xahBApg8Bk=;
-	b=0BlmJoHOJifPf6YseY5rFmviMcHlTYhRr2390DPBnluwtyopqYOBf23xqUJx3U09O+
-	H4z80zTKuLVkesJCQ/PvTycZc2ngg9YxM3phox39t5e7MLpm9dxwQ87kGw2lAh7qZzTE
-	FgUlku8pmgsW6Iyb+sYxygRuJYTPT614aqLWfHB6O/QfXwtVPasxAGPZNpxH7fxMFa1i
-	SmemgK2Z36ZYoR04uMpQjic90LUQM8LX7Or+4XsF78eDbOD9gJb+HAwQH4TD1Gj6SKGl
-	2b7XH2Q7nC7bSaV8zZ2gwsJMd9fkRooQ/ywKqpT5C/DWsMxJNfYtl88A/5FsVAydoJdj
-	Rzxg==
-X-Received: by 10.14.119.196 with SMTP id n44mr299208eeh.116.1376489569730;
-	Wed, 14 Aug 2013 07:12:49 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	c3sm75466429eev.3.2013.08.14.07.12.48 for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 14 Aug 2013 07:12:48 -0700 (PDT)
-Date: Wed, 14 Aug 2013 16:13:39 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Message-ID: <20130814141339.GY17945@jama>
-References: <520B8B6C.40408@pabigot.com>
-MIME-Version: 1.0
-In-Reply-To: <520B8B6C.40408@pabigot.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: recipe whitespace style questions
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A1EA61220
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Aug 2013 14:13:48 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id c1so4853999eek.24
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 14 Aug 2013 07:13:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=GyLDWxBTZ9D/XseHGK3l8cwWYFeB4HBmX7Wp2m1q1EM=;
+	b=T3RLjcVrRkcZG8W8MO6hO7Kt74K7JaeGdAvfWYjBnG8i7y5EP7IL+xanwdgg9v6I5Y
+	dTiCJTy0lKqUZ9PnxFNL1XY/D1ZthzjWEaBCuNbjai+wjIIgHUu1LZ7MAVx96mW/E/A7
+	gKo43dGkDk6zMGqTuMkKpcC0ZV8T2VdL4Y7yRk6bJ8hfxTrQZZ3oTcOp/FpgPb2yT+ld
+	mcuey9IPsdoc/vkDiCpDuma4EC3ZZuDT3S8MOcYvdxvTmBopNn6Ah/bHP363LGZ32hTL
+	04/dico48srTv7aP0Wn7sTa7mGkBBlZiXw198gNd8IjzHTRBNgEMkAZOVVJSl7rKEOZZ
+	K2Rg==
+X-Gm-Message-State: ALoCoQl5OwKMtrQCuP723hoWq5DKaBz2neja5D7NiN6Lb5ZHGrbo+crcfq96cKLzgXFwyz3/9TBI
+X-Received: by 10.15.102.72 with SMTP id bq48mr1218929eeb.85.1376489628663;
+	Wed, 14 Aug 2013 07:13:48 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id m54sm75475847eex.2.2013.08.14.07.13.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 14 Aug 2013 07:13:47 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 14 Aug 2013 15:13:44 +0100
+Message-Id: <1376489624-30715-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH][V2] wipe-sysroots: don't assume TMPDIR is under BUILDDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,64 +42,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2013 14:12:51 -0000
-X-Groupsio-MsgNum: 43328
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="RLVVO53zhS75EYih"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 14 Aug 2013 14:13:48 -0000
 
---RLVVO53zhS75EYih
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The previous code used the environment variable BUILDDIR and assumed that TMPDIR
+was a subdirectory. This often isn't the case, so instead ask bitbake where the
+directories we're about to delete are.
 
-On Wed, Aug 14, 2013 at 08:51:40AM -0500, Peter A. Bigot wrote:
->=20
-> SRC_URI =3D "file://skeleton \
->             file://skeleton_test.c \
->             file://COPYRIGHT \
-> "
->=20
-> which I'll call "none", and;
->=20
-> SRC_URI =3D "file://skeleton \
->             file://skeleton_test.c \
->             file://COPYRIGHT"
->=20
-> which I'll call "joined".
->=20
-> Again, for consistency's sake it would be nice to have a=20
-> recommendation.  I personally prefer "none", which matches the closing=20
-> bracket style for functions.
->=20
-> Next: I've also seen:
->=20
-> SRC_URI =3D " \
->      file://skeleton \
->      file://skeleton_test.c \
->      file://COPYRIGHT \
-> "
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/wipe-sysroot |   24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
-I prefer this one (especially for longer variables or entries) or "none",
-because with "none" it's easier to see where multiline variable ends.
+diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
+index e751a91..2d2cbea 100755
+--- a/scripts/wipe-sysroot
++++ b/scripts/wipe-sysroot
+@@ -18,17 +18,27 @@
+ # along with this program; if not, write to the Free Software
+ # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+ 
+-if [ -z "$BUILDDIR" ]; then
+-    echo >&2 "Error: BUILDDIR is not defined, please initialise the build system."
+-    return 1
++set -e
++
++ENVS=`mktemp --suffix -wipe-sysroot-envs`
++bitbake -p -e > $ENVS
++
++eval `grep -F SSTATE_MANIFESTS= $ENVS`
++eval `grep -F STAGING_DIR= $ENVS`
++eval `grep -F STAMPS_DIR= $ENVS`
++rm -f $ENVS
++
++if [ -z "$SSTATE_MANIFESTS" -o -z "$STAGING_DIR" -o -z "$STAMPS_DIR" ]; then
++    echo "Could not determine SSTATE_MANIFESTS/STAGING_DIR/STAMPS_DIR, check above for errors"
++    exit 1
+ fi
+ 
+ # The sysroots themselves
+-rm -rf $BUILDDIR/tmp/sysroots/
++rm -rf "$STAGING_DIR"
+ 
+ # The stamps that said the sysroot was populated
+-rm -rf $BUILDDIR/tmp/stamps/*/*/*.do_populate_sysroot.*
+-rm -rf $BUILDDIR/tmp/stamps/*/*/*.do_populate_sysroot_setscene.*
++rm -rf "$STAMPS_DIR/*/*/*.do_populate_sysroot.*"
++rm -rf "$STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*"
+ 
+ # The sstate manifests
+-rm -rf $BUILDDIR/tmp/sstate-control/manifest-*.populate-sysroot
++rm -rf "$SSTATE_MANIFESTS/manifest-*.populate-sysroot"
+-- 
+1.7.10.4
 
-Worst is IMHO "joined" because when appending one more line you have to
-edit 2 lines to move '"' so the diff for review is longer and harder to
-read than just one added line.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---RLVVO53zhS75EYih
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.20 (GNU/Linux)
-
-iEYEARECAAYFAlILkJMACgkQN1Ujt2V2gBwpPACfUMf+S58mQM/3HP5zysePreSC
-GpIAoJnKLzMUBkeI3tpIHbFhg+vDmaq7
-=HEEF
------END PGP SIGNATURE-----
-
---RLVVO53zhS75EYih--
