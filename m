@@ -1,38 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 1103A6B906
+Received: from mail-ee0-f51.google.com (mail-ee0-f51.google.com [74.125.83.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 6892B6B903
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 07:23:18 +0000 (UTC)
-Received: by mail-ee0-f53.google.com with SMTP id b15so185823eek.12
+	Thu, 15 Aug 2013 07:23:20 +0000 (UTC)
+Received: by mail-ee0-f51.google.com with SMTP id c1so180525eek.38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 00:23:19 -0700 (PDT)
+	Thu, 15 Aug 2013 00:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=t1QVIbPq7KKZaTkdqFektVV2UbVyShAj3IH40bh1v1g=;
-	b=QWxT4vr5dSPieTXDtaArxA/b/drJw/e/OacPJlyitPuJP/8pfR4wJPwdaKW1I9SaVL
-	1f7NWKV/kCfk7IAekL+Xl7hp16w2xAWWZndIG3uO/1WEhPYZQOWsCr0lkO4qZaZfu2eh
-	sV1pQLQa7f3l0wzr7la1W2aMnhBYUzlr5bQoxKFGY4JBmBY7U4vPrSjHT51bkOyv1Js+
-	xSYrU3K8hPu4q1Bwq8WIUYoMG4uoxPa++/c/moJE/liWROtIsqJZf/cVJ7fk6BiaKSC8
-	ojl2c6mJp3uf4/tnY7IebTy3KrA7fwTvDtcynwg+x6I37xqUEGR1+elgbp1D75roKPDV
-	6K0Q==
-X-Received: by 10.15.21.142 with SMTP id d14mr141779eeu.90.1376551399518;
-	Thu, 15 Aug 2013 00:23:19 -0700 (PDT)
+	:references; bh=hxTdqBJPgNu+9b1jZ3V2kEh1r+y3S6j7xBe5SdYWEEo=;
+	b=efT8BE6W586G4M6ZL3tbP8dYNUUj77welgg3EwDkkzCtmYnzyZZBrwvfUNq4+HHoaO
+	7xB5ROtWMbSIN8bRveGohb1QiO7Cbn5Rb/3ZflKRe9qZSJM3zanQdE5Ggdu5xgCxdQsO
+	gDjnVQC7KwfkFW60IGe6xTzkG+uvDFTFbzQqYWdDmcUxgtkeVcsEs6UWKtPT7EnSXA1y
+	lARYVCqc1rwp7YjJlG5BlOkuGtqFC0noeRn05eNhwF8VRLg8W9tHsZiqbGZhnTDNaEG5
+	Kr0Q4TAT4AyR+4QCIwfrPVRBbi8erkJ58j4UzRxtb9qhACG3/pMvM+jq+RVJ2oPiqHzQ
+	gENg==
+X-Received: by 10.15.91.3 with SMTP id r3mr20858493eez.4.1376551400863;
+	Thu, 15 Aug 2013 00:23:20 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	bn13sm81970433eeb.11.2013.08.15.00.23.18
+	k7sm81982916eeg.13.2013.08.15.00.23.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 15 Aug 2013 00:23:19 -0700 (PDT)
+	Thu, 15 Aug 2013 00:23:20 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Aug 2013 09:23:32 +0200
-Message-Id: <bd69b08a7415d3401152801dc9d7fc360eb6a69d.1376551402.git.Martin.Jansa@gmail.com>
+Date: Thu, 15 Aug 2013 09:23:33 +0200
+Message-Id: <3582e95085c2f118415320305fd878e3fa618284.1376551402.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
 References: <cover.1376551401.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
 References: <cover.1376551401.git.Martin.Jansa@gmail.com>
-Subject: [for-dylan][PATCH 21/33] grub: add PACKAGECONFIG for grub-mount
+Subject: [for-dylan][PATCH 22/33] mailx: remove support for autodetection of krb5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +45,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 07:23:19 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 07:23:20 -0000
 
-* fuse is autodetected from sysroot
-* add PACKAGECONFIG to make it deterministic
+* it's autodetected from sysroot and makeconfig doesn't allow
+  to explicitly define what's expected
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-bsp/grub/grub_2.00.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ .../explicitly.disable.krb5.support.patch          | 46 ++++++++++++++++++++++
+ meta/recipes-extended/mailx/mailx_12.5.bb          |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-extended/mailx/mailx-12.5/explicitly.disable.krb5.support.patch
 
-diff --git a/meta/recipes-bsp/grub/grub_2.00.bb b/meta/recipes-bsp/grub/grub_2.00.bb
-index 8d224242..5153b6a 100644
---- a/meta/recipes-bsp/grub/grub_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub_2.00.bb
-@@ -33,6 +33,9 @@ FILES_${PN}-dbg += "${libdir}/${BPN}/i386-pc/.debug"
- inherit autotools
- inherit gettext
- 
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[grub-mount] = "--enable-grub-mount,--disable-grub-mount,fuse"
+diff --git a/meta/recipes-extended/mailx/mailx-12.5/explicitly.disable.krb5.support.patch b/meta/recipes-extended/mailx/mailx-12.5/explicitly.disable.krb5.support.patch
+new file mode 100644
+index 0000000..8c7178b
+--- /dev/null
++++ b/meta/recipes-extended/mailx/mailx-12.5/explicitly.disable.krb5.support.patch
+@@ -0,0 +1,46 @@
++krb5 support is autodetected from sysroot making builds undeterministic
++feel free to improve this to support explicitly enabling/disabling it
 +
- EXTRA_OECONF = "--with-platform=pc --disable-grub-mkfont --program-prefix="" \
-                --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
++Upstream-Status: Penging
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
++--- a/makeconfig	2013-07-21 15:06:11.177792334 +0200
+++++ b/makeconfig	2013-07-21 15:07:20.028793994 +0200
++@@ -424,36 +424,6 @@
++ }
++ !
++ 
++-<$tmp2.c link_check gssapi 'for GSSAPI in libgss' \
++-		'#define USE_GSSAPI' '-lgss' ||
++-	<$tmp2.c link_check gssapi 'for GSSAPI in libgssapi_krb5' \
++-			'#define USE_GSSAPI' '-lgssapi_krb5' ||
++-		link_check gssapi 'for GSSAPI in libgssapi_krb5, old-style' \
++-				'#define USE_GSSAPI
++-#define GSSAPI_OLD_STYLE' '-lgssapi_krb5' <<\! || \
++-			link_check gssapi 'for GSSAPI in libgssapi' \
++-				'#define USE_GSSAPI
++-#define	GSSAPI_REG_INCLUDE' '-lgssapi' <<\%
++-#include <gssapi/gssapi.h>
++-#include <gssapi/gssapi_generic.h>
++-
++-int main(void)
++-{
++-	gss_import_name(0, 0, gss_nt_service_name, 0);
++-	gss_init_sec_context(0,0,0,0,0,0,0,0,0,0,0,0,0);
++-	return 0;
++-}
++-!
++-#include <gssapi.h>
++-
++-int main(void)
++-{
++-	gss_import_name(0, 0, GSS_C_NT_HOSTBASED_SERVICE, 0);
++-	gss_init_sec_context(0,0,0,0,0,0,0,0,0,0,0,0,0);
++-	return 0;
++-}
++-%
++-
++ cat >$tmp2.c <<\!
++ #include "config.h"
++ #ifdef HAVE_NL_LANGINFO
+diff --git a/meta/recipes-extended/mailx/mailx_12.5.bb b/meta/recipes-extended/mailx/mailx_12.5.bb
+index 2a08113..f6734c7 100644
+--- a/meta/recipes-extended/mailx/mailx_12.5.bb
++++ b/meta/recipes-extended/mailx/mailx_12.5.bb
+@@ -14,6 +14,7 @@ DEPENDS = "openssl"
  
+ SRC_URI = "${DEBIAN_MIRROR}/main/h/heirloom-mailx/heirloom-mailx_${PV}.orig.tar.gz;name=archive \
+            ${DEBIAN_MIRROR}/main/h/heirloom-mailx/heirloom-mailx_${PV}-1.diff.gz;name=patch \
++           file://explicitly.disable.krb5.support.patch \
+           "
+ 
+ SRC_URI[archive.md5sum] = "29a6033ef1412824d02eb9d9213cb1f2"
 -- 
 1.8.3.2
 
