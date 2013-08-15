@@ -1,21 +1,45 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4440A6009A
+Return-Path: <B40290@freescale.com>
+Received: from db9outboundpool.messaging.microsoft.com
+	(mail-db9lp0253.outbound.messaging.microsoft.com [213.199.154.253])
+	by mail.openembedded.org (Postfix) with ESMTP id CDC566009A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 06:10:55 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Aug 2013 23:10:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,882,1367996400"; d="scan'208";a="381240014"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.106])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2013 23:10:54 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: ross.burton@intel.com, paul.eggleton@linux.intel.com,
-	openembedded-core@lists.openembedded.org, clarson@kergoth.com
-Date: Wed, 14 Aug 2013 23:10:54 -0700
-Message-Id: <cover.1376546582.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [CONSOLIDATED PULL 00/33] Review & ACK
+	Thu, 15 Aug 2013 06:24:01 +0000 (UTC)
+Received: from mail22-db9-R.bigfish.com (10.174.16.236) by
+	DB9EHSOBE034.bigfish.com (10.174.14.97) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 15 Aug 2013 06:24:01 +0000
+Received: from mail22-db9 (localhost [127.0.0.1])	by mail22-db9-R.bigfish.com
+	(Postfix) with ESMTP id 8D66624026A	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 15 Aug 2013 06:24:01 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz936eIzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h8275bh1de097hz2dh2a8h668h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h1155h)
+Received: from mail22-db9 (localhost.localdomain [127.0.0.1]) by mail22-db9
+	(MessageSwitch) id 1376547826599351_26866;
+	Thu, 15 Aug 2013 06:23:46 +0000 (UTC)
+Received: from DB9EHSMHS022.bigfish.com (unknown [10.174.16.233])	by
+	mail22-db9.bigfish.com (Postfix) with ESMTP id 8E6EB3A0047	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 15 Aug 2013 06:23:46 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB9EHSMHS022.bigfish.com
+	(10.174.14.32) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Thu, 15 Aug 2013 06:23:46 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.3.136.1; Thu, 15 Aug 2013 06:23:45 +0000
+Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
+	[10.192.208.136])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
+	id r7F6NgMZ023854;	Wed, 14 Aug 2013 23:23:43 -0700
+From: Chunrong Guo <B40290@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 15 Aug 2013 14:23:39 +0800
+Message-ID: <1376547819-3322-1-git-send-email-B40290@freescale.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] genext2fs: fix memory corruption on powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,127 +52,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 06:10:55 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 06:24:02 -0000
+Content-Type: text/plain
 
-Paul, Ross:
+    * fix memory corruption errors on powerpc64
+    e.g.
+    |$ genext2fs -b 30000 -d . -i 8192 /tmp/tstrootfs
+    |  Segmentation fault
 
-Please review this set, it include the Read-Only rootfs, which I have
-tested locally. I also included the makedev change, and I verified it's
-correctly using the rootfs to find the passwd and group files.
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
+---
+ .../fix-memory-corruption-on-powerpc.patch         |   76 ++++++++++++++++++++
+ meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb |    3 +-
+ 2 files changed, 78 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
 
-Thanks
-	Sau!
-
-
-The following changes since commit 57662d4f813d5795cac1529633db80a09efdb089:
-
-  meta-skeleton: Add busybox config fragment example (2013-08-13 23:03:44 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
-
-Chen Qi (14):
-  opkg.inc: remove the obsolete POSTLOG variable
-  makedevs: support using user/group names in device table files
-  image.bbclass: create device table after package installation
-  device_table-minimal.txt: use user/group names instead of uid/gid
-  init-live.sh: make $ROOT_MOUNT/media writable when necessary
-  use a uniform way to determine whether rootfs is read-only
-  udev: remove implicit dependency on initscripts
-  populate-volatile.sh: use $ROOT_DIR/var/volatile/tmp as TMPDIR
-  populate-volatile.sh: don't spawn background process at rootfs time
-  runqemu-internal: fix to start X correctly in live images
-  initscripts: use a uniform way to handle directories in read-only
-    rootfs
-  populate-volatile.sh: use 'cp -a' to avoid potential problem
-  irda-utils: fix for read-only rootfs
-  openssh: fix for read-only rootfs
-
-Cristiana Voicu (1):
-  systemtap: upgrade to 2.3
-
-Martin Jansa (5):
-  at-spi2-core: add intltool-native dependency
-  gst-plugins-gl: add dependency on glew
-  xeyes: add dependency on libxrender
-  xrestop: add dependency on ncurses
-  qemu, default-providers: Add mesa as default virtual/egl
-
-Muhammad Shakeel (3):
-  lighttpd: Replace spaces with tabs in shell function
-  rpcbind: Replace spaces with tabs in shell function
-  nfs-utils: Replace spaces with tabs in shell function
-
-Otavio Salvador (1):
-  linux-dtb: Use kernel build system to generate the dtb files
-
-Ross Burton (4):
-  cogl: GL/GLX feature cleanup
-  libmatchbox: upgrade to 1.11
-  matchbox-wm: fix icon handling on 64-bit hosts
-  wipe-sysroots: don't assume TMPDIR is under BUILDDIR
-
-Saul Wold (2):
-  meta-skeleton: layer.conf Should also have .bbappend in example
-  texinfo: add perl RDEPENDS and fix up packaging
-
-Stefan Herbrechtsmeier (1):
-  cmake.bbclass: Don't use packages from the native build machine
-
-Wenzong Fan (1):
-  oe/path.py: call /bin/cp directly
-
-Yevhen Kyriukha (1):
-  connman: fix systemd support for connman-* packages.
-
- meta-skeleton/conf/layer.conf                      |   2 +-
- meta/classes/cmake.bbclass                         |   1 +
- meta/classes/image.bbclass                         |  24 ++-
- meta/conf/distro/include/default-providers.inc     |   1 +
- meta/conf/machine/include/qemu.inc                 |   1 +
- meta/files/device_table-minimal.txt                |  42 ++---
- meta/lib/oe/path.py                                |   2 +-
- meta/recipes-connectivity/connman/connman.inc      |   8 +
- .../irda-utils/irda-utils-0.9.18/init              |  13 +-
- .../nfs-utils/nfs-utils_1.2.8.bb                   |   2 +-
- .../openssh/openssh-6.2p2/init                     |  22 ++-
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   9 +-
- meta/recipes-core/initrdscripts/files/init-live.sh |   2 +
- .../initscripts/initscripts-1.0/functions          |  14 ++
- .../initscripts-1.0/populate-volatile.sh           |  15 +-
- .../initscripts-1.0/read-only-rootfs-hook.sh       |  48 ++++-
- meta/recipes-core/initscripts/initscripts_1.0.bb   |   5 +
- meta/recipes-core/sysvinit/sysvinit/rcS-default    |   4 -
- meta/recipes-core/udev/udev/init                   |  21 ++-
- meta/recipes-core/udev/udev/udev-cache             |   5 +
- .../makedevs/makedevs-1.0.0/makedevs.c             | 207 ++++++++++++++++++---
- meta/recipes-devtools/opkg/opkg.inc                |   2 -
- meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb  |   8 +-
- .../0001-add-is_rootfs_readonly-to-functions.patch |  37 ++++
- meta/recipes-extended/lsb/lsbinitscripts_9.48.bb   |   1 +
- meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |  12 +-
- meta/recipes-extended/texinfo/texinfo_5.1.bb       |   5 +-
- meta/recipes-graphics/cogl/cogl-1.0.inc            |  17 +-
- meta/recipes-graphics/libmatchbox/files/check.m4   | 133 -------------
- .../{libmatchbox_1.10.bb => libmatchbox_1.11.bb}   |  15 +-
- .../matchbox-wm/matchbox-wm_git.bb                 |   3 +-
- meta/recipes-graphics/xorg-app/xeyes_1.1.1.bb      |   2 +-
- meta/recipes-graphics/xrestop/xrestop_0.4.bb       |   2 +-
- meta/recipes-kernel/linux/linux-dtb.inc            |  58 +++---
- meta/recipes-kernel/systemtap/systemtap_git.bb     |   6 +-
- meta/recipes-kernel/systemtap/systemtap_git.inc    |   4 +-
- .../gstreamer/gst-plugins-gl_0.10.3.bb             |   2 +-
- meta/recipes-support/atk/at-spi2-core_2.8.0.bb     |   2 +-
- scripts/runqemu-internal                           |   2 +-
- scripts/wipe-sysroot                               |  24 ++-
- 40 files changed, 466 insertions(+), 317 deletions(-)
- create mode 100644 meta/recipes-extended/lsb/lsbinitscripts/0001-add-is_rootfs_readonly-to-functions.patch
- delete mode 100644 meta/recipes-graphics/libmatchbox/files/check.m4
- rename meta/recipes-graphics/libmatchbox/{libmatchbox_1.10.bb => libmatchbox_1.11.bb} (70%)
-
+diff --git a/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch b/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
+new file mode 100644
+index 0000000..d7a8ea8
+--- /dev/null
++++ b/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
+@@ -0,0 +1,76 @@
++Upstream-Status: inappropriate
++
++fix memory corruption on powerpc
++
++Signed-off-by: Wrobel Heinz <Heinz.Wrobel@freescale.com>
++
++diff --unified a/genext2fs.c b/genext2fs.c
++--- a/genext2fs.c	2013-08-14 16:50:59.061623605 +0200
+++++ b/genext2fs.c	2013-08-14 16:47:23.349623674 +0200
++@@ -675,21 +675,34 @@
++ }
++ 
++ static void
++-swap_nod(inode *nod)
+++swap_nod(inode *nod, int fromdisk)
++ {
++ 	uint32 nblk;
+++	uint32 i_blocks = nod->i_blocks;
+++	uint32 i_size = nod->i_size;
+++	uint16 i_mode = nod->i_mode;
+++
++ 
++ #define this nod
++ 	inode_decl
++ #undef this
++ 
+++	if (fromdisk) {
+++		// Only now do we have the values in the correct
+++		// endianess for the host. So we override the
+++		// earlier assumption
+++		i_blocks = nod->i_blocks;
+++		i_size = nod->i_size;
+++		i_mode = nod->i_mode;
+++	}
+++
++ 	// block and character inodes store the major and minor in the
++ 	// i_block, so we need to unswap to get those.  Also, if it's
++ 	// zero iblocks, put the data back like it belongs.
++-	nblk = nod->i_blocks / INOBLK;
++-	if ((nod->i_size && !nblk)
++-	    || ((nod->i_mode & FM_IFBLK) == FM_IFBLK)
++-	    || ((nod->i_mode & FM_IFCHR) == FM_IFCHR))
+++	nblk = i_blocks / INOBLK;
+++	if ((i_size && !nblk)
+++	    || ((i_mode & FM_IFBLK) == FM_IFBLK)
+++	    || ((i_mode & FM_IFCHR) == FM_IFCHR))
++ 	{
++ 		int i;
++ 		for(i = 0; i <= EXT2_TIND_BLOCK; i++)
++@@ -1066,7 +1079,7 @@
++ 	nod_info *ni = container_of(elem, nod_info, link);
++ 
++ 	if (ni->fs->swapit)
++-		swap_nod(ni->itab);
+++		swap_nod(ni->itab, 0);
++ 	put_blk(ni->bi);
++ 	free(ni);
++ }
++@@ -1102,7 +1115,7 @@
++ 	ni->b = get_blk(fs, fs->gd[grp].bg_inode_table + boffset, &ni->bi);
++ 	ni->itab = ((inode *) ni->b) + offset;
++ 	if (fs->swapit)
++-		swap_nod(ni->itab);
+++		swap_nod(ni->itab, 1);
++ 
++ out:
++ 	*rni = ni;
++@@ -1158,6 +1171,8 @@
++ 	if (dw->fs->swapit)
++ 		swap_dir(&dw->d);
++ 	memcpy(dw->last_d, &dw->d, sizeof(directory));
+++	if (dw->fs->swapit)
+++		swap_dir(&dw->d);
++ 
++ 	if (((int8 *) next_d) >= ((int8 *) dw->b + BLOCKSIZE))
++ 		return NULL;
+diff --git a/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb b/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
+index 702245f..60fd0c2 100644
+--- a/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
++++ b/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
+@@ -22,7 +22,8 @@ SRC_URI += "file://update_to_1.95.patch \
+             file://0017-Fix-file-same-comparison.patch \
+             file://0018-Handle-files-changing-while-we-are-working.patch \
+             file://0019-Make-sure-superblock-is-clear-on-allocation.patch \
+-            file://fix-nbblocks-cast.patch"
++            file://fix-nbblocks-cast.patch \
++            file://fix-memory-corruption-on-powerpc.patch "
+ 
+ SRC_URI[md5sum] = "b7b6361bcce2cedff1ae437fadafe53b"
+ SRC_URI[sha256sum] = "404dbbfa7a86a6c3de8225c8da254d026b17fd288e05cec4df2cc7e1f4feecfc"
 -- 
-1.8.1.4
+1.7.5.4
+
 
 
