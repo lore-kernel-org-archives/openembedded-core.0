@@ -1,33 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 23EF76B4FD
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BE876B7CF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 10:08:31 +0000 (UTC)
+	Thu, 15 Aug 2013 10:14:56 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7FA8UEW028019
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7FAEu6I003454
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 15 Aug 2013 03:08:30 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 15 Aug 2013 03:08:29 -0700
-Message-ID: <520CA8A3.6050709@windriver.com>
-Date: Thu, 15 Aug 2013 18:08:35 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Thu, 15 Aug 2013 03:14:56 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 15 Aug 2013 03:14:56 -0700
+Message-ID: <520CAA18.1080706@windriver.com>
+Date: Thu, 15 Aug 2013 18:14:48 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <cover.1376379182.git.rongqing.li@windriver.com>
-	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
-	<520A82BA.2070706@linux.intel.com>
-	<520B1595.3060909@windriver.com> <20130814065609.GQ17945@jama>
-	<1376477217.22952.5.camel@ted> <20130814105915.GU17945@jama>
-	<520CA4AF.4040403@windriver.com>
-	<1376560519.17787.16.camel@phil-desktop.brightsign>
-In-Reply-To: <1376560519.17787.16.camel@phil-desktop.brightsign>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <520C9F8A.7080703@windriver.com> <2523779.jWvvpX7hhR@helios>
+In-Reply-To: <2523779.jWvvpX7hhR@helios>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
+Subject: Re: About PACKAGECONFIG audit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 10:08:32 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Thu, 15 Aug 2013 10:14:56 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 08/15/2013 05:55 PM, Phil Blundell wrote:
-> On Thu, 2013-08-15 at 17:51 +0800, Rongqing Li wrote:
->> OK, But your issue is not related to me.
+On 08/15/2013 05:44 PM, Paul Eggleton wrote:
+> Hi Wenzong,
+>
+> On Thursday 15 August 2013 17:29:46 wenzong fan wrote:
+>> We have seen some problems like this:
 >>
->> I can reproduce my issue by two simple script.
+>> $ bitbake libcap
+>>
+>> ld: warning: libaudit.so.1, needed by .../lib64/libpam.so, not found
+>> .../lib64/libpam.so: undefined reference to `audit_open'
+>> .../lib64/libpam.so: undefined reference to `audit_close'
+>> ......
+>>
+>> The libaudit has been available and libpam build with it, after we run
+>> another build with sstate-cache and w/o libaudit, the error occurs. The
+>> solution in these cases is to use PACKAGECONFIG to lay out dependencies
+>> on optional packages and make them explicit. We need to run an audit and
+>> catch all of these issues.
+>>
+>> A probable ways maybe:
+>>
+>> 1) Run world build to generate the sysroots as much as possible;
 >
-> If tar is deciding that the file has "changed" just because the link
-> count on the dentry has increased, that sounds like it is probably a bug
-> in tar and ought to be fixed there.
+> (See Ross's reply for a pointer to the new test-dependencies script)
+
+That would be a good start point, I have run that script once, but looks 
+not any failure occurs.
+
+I'll find a box and run it periodically.
+
+Thanks
+Wenzong
+
 >
-> That said, I can't immediately think why autotools_copy_aclocal couldn't
-> use a symlink rather than a hard link which would avoid this whole
-> problem.  If the file is in the sysroot then there should be no risk of
-> it going away underneath its user.
+>> 2) Run 'configure --help' on each package to spot all of the optional
+>> dependencies, and convert them into PACKAGECONFIG specs/or any other
+>> prompts.
 >
-
-Good idea, use a symlink in autotools_copy_aclocal,
-when tar makes a archive file, use -h parameter.
-
-   -h, --dereference
-            follow symlinks; archive and dump the files they point to
-
-
-
-
--Roy
-
-
-
-> p.
+> Actually I have started along this line as well, putting the output of
+> configure --help into buildhistory so you can see the differences. I'm not
+> totally sure how useful it is at the moment and it will need some smooting out
+> to avoid known differences (paths etc.).
 >
+> Cheers,
+> Paul
 >
->
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
 
