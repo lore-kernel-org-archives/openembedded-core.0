@@ -1,37 +1,38 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C6A662176
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D483B62176
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 02:25:09 +0000 (UTC)
-Received: by mail-la0-f41.google.com with SMTP id ec20so152853lab.0
+	Thu, 15 Aug 2013 02:39:26 +0000 (UTC)
+Received: by mail-ob0-f176.google.com with SMTP id uz19so260147obc.35
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 19:25:09 -0700 (PDT)
+	Wed, 14 Aug 2013 19:39:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=1lgYwCQ9mvWkxiAQjGh4sX6c5HRC3XR9hZRtDAJNVgc=;
-	b=ZVyaS7w/XOqJK0piTuQbu+aYOwIhJ5qkJrLu89yYgg6z9VdUUvj+iPsu7fGB+CBbUL
-	6KS8FbZAu5ww5M9etRRZtD4Qj+ir5j8OZdClzABCeQSu56Is/RTPh/CuFiDwE7eri0En
-	MQRi0R+9/23Z7SneurCFgxm0ye1BjgSdRm7derdcDzilz9BcIfzxEMQSSvTkcSwFh2qu
-	5DAdj7cA9xwBVZwrmsRlRPEegCU4bG0KIgX+fGxNYnaqATgpOVI3QAHk4N3HNKEu+s/A
-	5YTx8Fen7XInpmqi8nGmJakQSPmDddrn0s9XRhbVVvNU4X31//v5BeDxvUyTPR7KfkrI
-	DoTg==
-X-Received: by 10.112.35.52 with SMTP id e20mr10505939lbj.11.1376533509096;
-	Wed, 14 Aug 2013 19:25:09 -0700 (PDT)
-Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
-	by mx.google.com with ESMTPSA id i3sm17153267laf.4.2013.08.14.19.25.07
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 14 Aug 2013 19:25:08 -0700 (PDT)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1V9nFK-000680-Dy; Thu, 15 Aug 2013 05:25:06 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Aug 2013 05:25:04 +0300
-Message-Id: <cover.1376533154.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 0/1] Add SDL2
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Iy+uvKwHcnh46LHJXkcLcNnToD6ZOHJRuxL7plepxBY=;
+	b=rZ9uUJBSar0r0mRHnjFysortnELyiwn5VPADNrFz/qAM07KQqVyPYocj8G30VbiCrS
+	3zurIMVytDotk+rIHvWAj50JErwSjZkXBeY7Ny0Wh9T7hpoEwHUtaNX4fs/ZEOF3s1iy
+	lrpvuxQYM3caVgbWlvG9Wq4v66PKfvLvT5xIT4OzqAisWaiP3KS/qpEPBHW84sO0yVPj
+	I87tW9P4lmqg3qn9YYWRScuisdEscq1oDHT4oj9eFbfbTo+QI3NeIyg5B5+4f4qIwuSN
+	1NKw9UCxgqHkggaFoGnEEjiMsTIGyMSQwv74zZ/S0vyVBEY5DAJJPE9CXZCXZ0b+K+eI
+	eO8w==
+MIME-Version: 1.0
+X-Received: by 10.60.97.1 with SMTP id dw1mr12167039oeb.1.1376534367216; Wed,
+	14 Aug 2013 19:39:27 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 14 Aug 2013 19:39:26 -0700 (PDT)
+In-Reply-To: <520B915E.2080506@topic.nl>
+References: <1376401955-5676-1-git-send-email-otavio@ossystems.com.br>
+	<520B915E.2080506@topic.nl>
+Date: Wed, 14 Aug 2013 23:39:26 -0300
+X-Google-Sender-Auth: WBcR7EBsrRZh8-gIRWomZjX4cMw
+Message-ID: <CAP9ODKod7r7gnwkS1rGNdv3_x9N47gfj+rrv8320n2-L1TT64Q@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] linux-dtb: Use kernel build system to generate the dtb files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +45,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 02:25:09 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 02:39:28 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Add libSDL2 recipe. SDL2 is not drop in replacement for SDL-1.2 so is not
-replacing it. SDL2 could live outside core for now. I added it here just
-so it would be next to SDL-1.2 recipe. Likewise I plan to add SDL2_image
-and SDL2_mixer recipes to meta-openembedded next to their SDL-1.2 counterparts.
+On Wed, Aug 14, 2013 at 11:17 AM, Mike Looijmans
+<mike.looijmans@topic.nl> wrote:
+>
+> On 08/13/2013 03:52 PM, Otavio Salvador wrote:
+>>
+>> As the Linux kernel, unconditionally, builds the dtc application and
+>> it is the compatible version with the DeviceTree files shipped within
+>> the kernel it is better to use it and the kernel build system to
+>> generate the dtb files.
+>>
+>> Some DeviceTree files rely on CPP and kernel headers to be able to
+>> generate the dtb binary contents and it is harder to replicate it
+>> outside of Linux kernel build system so we /use/ it.
+>>
+>> To comply with these assumptions we need to use the dtb file when
+>> calling 'make' instead of pointing to the DeviceTree source file; the
+>> code has been made backward compatible but it is advised to move to
+>> the new definition to avoid warnings as:
+>>
+>> ,----[ Original definition ]
+>> | KERNEL_DEVICETREE = "${S}/arch/arm/boot/dts/imx6q-sabresd.dts"
+>> `----
+>>
+>> Becomes:
+>>
+>> ,----[ New definition ]
+>> | KERNEL_DEVICETREE = "imx6q-sabresd.dtb"
+>> `----
+>
+>
+> I currently have a "bbappend" that adds a DTB file from outside the kernel
+> (listing driver configuration that is implemented in the FPGA part of the
+> SOC). The DTB file /include/s files from the kernel (that is, it gets
+> everything from the standard files and adds a single device).
+>
+> How would I go about adding this after this change?
 
- - ML
-
-
-The following changes since commit 57662d4f813d5795cac1529633db80a09efdb089:
-
-  meta-skeleton: Add busybox config fragment example (2013-08-13 23:03:44 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib cazfi/misc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/misc
-
-Marko Lindqvist (1):
-  SDL2: add recipe
-
- meta/recipes-graphics/libsdl2/libsdl2_2.0.0.bb |   56 ++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2_2.0.0.bb
+Apply a patch?
 
 -- 
-1.7.10.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://projetos.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
