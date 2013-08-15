@@ -1,24 +1,36 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-Received: from dd19416.kasserver.com (dd19416.kasserver.com [85.13.139.185])
-	by mail.openembedded.org (Postfix) with ESMTP id F26096B5E1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 88EC86009A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 19:44:20 +0000 (UTC)
-Received: from [192.168.1.100] (blfd-4db136a0.pool.mediaWays.net
-	[77.177.54.160])
-	by dd19416.kasserver.com (Postfix) with ESMTPSA id 85E5B18404DE;
-	Thu, 15 Aug 2013 21:44:20 +0200 (CEST)
-Message-ID: <520D2F92.7030009@herbrechtsmeier.net>
-Date: Thu, 15 Aug 2013 21:44:18 +0200
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-References: <1376470064-6391-1-git-send-email-stefan@herbrechtsmeier.net>
-	<015801ce98e6$826796d0$8736c470$@oss.bmw-carit.de>
-In-Reply-To: <015801ce98e6$826796d0$8736c470$@oss.bmw-carit.de>
+	Thu, 15 Aug 2013 23:04:17 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7FNFWs5023467; Fri, 16 Aug 2013 00:15:32 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id x3W_dFu99KIg; Fri, 16 Aug 2013 00:15:32 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7FNFR78023462
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 16 Aug 2013 00:15:29 +0100
+Message-ID: <1376607841.22952.103.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Fri, 16 Aug 2013 00:04:01 +0100
+In-Reply-To: <520D0174.7030901@windriver.com>
+References: <cover.1376379182.git.rongqing.li@windriver.com>
+	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
+	<520A82BA.2070706@linux.intel.com> <520B1595.3060909@windriver.com>
+	<20130814065609.GQ17945@jama> <1376477217.22952.5.camel@ted>
+	<20130814105915.GU17945@jama> <520CA4AF.4040403@windriver.com>
+	<1376560519.17787.16.camel@phil-desktop.brightsign>
+	<1376583837.22952.72.camel@ted> <520D0174.7030901@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cmake.bbclass: Don't use packages from the native	build machine
+Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,55 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 19:44:22 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 15 Aug 2013 23:04:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Am 14.08.2013 14:05, schrieb Lukas Bulwahn:
-> I have been working with this patch for quite some time on my
-> OpenEmbedded-Core repository and I have not seen any problems, but I do not
-> know if it breaks anything on the complete 'bitbake world'.
-The only thing that should be used from the native build machine is the 
-detection of the native compiler and this detection is already broken as 
-the cmake module expect a CMAKE_C_COMPILER  and CMAKE_CXX_COMPILER 
-compiler variable with full paths.
+On Thu, 2013-08-15 at 11:27 -0500, Mark Hatle wrote:
+> On 8/15/13 11:23 AM, Richard Purdie wrote:
+> > On Thu, 2013-08-15 at 10:55 +0100, Phil Blundell wrote:
+> >> On Thu, 2013-08-15 at 17:51 +0800, Rongqing Li wrote:
+> >>> OK, But your issue is not related to me.
+> >>>
+> >>> I can reproduce my issue by two simple script.
+> >>
+> >> If tar is deciding that the file has "changed" just because the link
+> >> count on the dentry has increased, that sounds like it is probably a bug
+> >> in tar and ought to be fixed there.
+> >>
+> >> That said, I can't immediately think why autotools_copy_aclocal couldn't
+> >> use a symlink rather than a hard link which would avoid this whole
+> >> problem.  If the file is in the sysroot then there should be no risk of
+> >> it going away underneath its user.
+> >
+> > Sadly this doesn't work. We block copy a set of .m4 files from the
+> > sysroot. We can be running do_configure of package A whilst package B is
+> > de-installed from the sysroot and this leads to files disappearing
+> > whilst they're being accessed. Its turned out to be a really awkward
+> > problem to fix.
+> 
+> Do we need some kind of a read/write lock on accessing those files.  (Is this 
+> even something that we can do easily though the existing mechanisms?)
 
->> -----Ursprüngliche Nachricht-----
->> Von: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] Im
->> Auftrag von Stefan Herbrechtsmeier
->> Gesendet: Mittwoch, 14. August 2013 10:48
->> An: openembedded-core@lists.openembedded.org
->> Betreff: [OE-core] [PATCH] cmake.bbclass: Don't use packages from the
->> native build machine
->>
->> Signed-off-by: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
->> ---
->>   meta/classes/cmake.bbclass |    1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass index
->> 310242e..8e579a7 100644
->> --- a/meta/classes/cmake.bbclass
->> +++ b/meta/classes/cmake.bbclass
->> @@ -49,6 +49,7 @@ set( CMAKE_CXX_LINK_FLAGS
->> "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )  # only search
->> in the paths provided so cmake doesnt pick  # up libraries and tools from
-> the
->> native build machine  set( CMAKE_FIND_ROOT_PATH
->> ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR}
->> ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH}
->> ${EXTERNAL_TOOLCHAIN})
->> +set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
->>   set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )  set(
->> CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )  set(
->> CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
->> --
->> 1.7.9.5
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+It would kill performance for no good reason, been there, looked at
+it...
+
+Cheers,
+
+Richard
 
 
