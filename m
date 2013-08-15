@@ -1,26 +1,26 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FEED61037
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 72EC661037
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 14:41:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7FEfN4b020217
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 15 Aug 2013 10:41:24 -0400 (EDT)
-Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.143) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 15 Aug 2013 07:41:23 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 15 Aug 2013 10:41:13 -0400
-Message-ID: <4b9c08456c5e52d739598fe90b136bd1ae0aac59.1376577495.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1376577495.git.bruce.ashfield@windriver.com>
-References: <cover.1376577495.git.bruce.ashfield@windriver.com>
+	Thu, 15 Aug 2013 14:43:48 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Aug 2013 07:43:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,885,1367996400"; d="scan'208";a="363122089"
+Received: from timevans-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.122.206])
+	by orsmga001.jf.intel.com with ESMTP; 15 Aug 2013 07:43:48 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Thu, 15 Aug 2013 15:43:46 +0100
+Message-ID: <2167038.LjgKZdWHPy@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <cover.1376546582.git.sgw@linux.intel.com>
+References: <cover.1376546582.git.sgw@linux.intel.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] linux-yocto-3.8/meta: enable ALTIVEC for qemuppc
+Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/33] Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +33,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 14:41:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Aug 2013 14:43:48 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-As part of the qemuppc tuning activities, we are aligning on ppc74xx, and
-as a result we can enable ALTIVEC support in the base BSP config.
+On Wednesday 14 August 2013 23:10:54 Saul Wold wrote:
+> Paul, Ross:
+> 
+> Please review this set, it include the Read-Only rootfs, which I have
+> tested locally. I also included the makedev change, and I verified it's
+> correctly using the rootfs to find the passwd and group files.
+> 
+> Thanks
+> 	Sau!
+> 
+> 
+> The following changes since commit 57662d4f813d5795cac1529633db80a09efdb089:
+> 
+>   meta-skeleton: Add busybox config fragment example (2013-08-13 23:03:44
+> +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib sgw/stage
+>  
+> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
+> stage
+> 
+> Chen Qi (14):
+>   opkg.inc: remove the obsolete POSTLOG variable
+>   makedevs: support using user/group names in device table files
+>   image.bbclass: create device table after package installation
+>   device_table-minimal.txt: use user/group names instead of uid/gid
+>   init-live.sh: make $ROOT_MOUNT/media writable when necessary
+>   use a uniform way to determine whether rootfs is read-only
 
-[YOCTO #1914]
+Patch is missing signed-off-by and upstream-status.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb   |    2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb |    2 +-
- meta/recipes-kernel/linux/linux-yocto_3.8.bb      |    2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+>   udev: remove implicit dependency on initscripts
+>   populate-volatile.sh: use $ROOT_DIR/var/volatile/tmp as TMPDIR
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-index 47e76d4..647ace6 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb
-@@ -10,7 +10,7 @@ KMETA = "meta"
- 
- SRCREV_machine ?= "4fb187301ca153d496b2a96293dffde34d3b1a56"
- SRCREV_machine_qemuppc ?= "547c4ea570933ab7ece9f10d2c46875b460cd337"
--SRCREV_meta ?= "f706bd410c80a20ff437a53bb3f9f076ba31a17e"
-+SRCREV_meta ?= "e7f42a416a60499db3771181357b29b3b3c424cc"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb
-index 04cf22b..06d6b12 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb
-@@ -13,7 +13,7 @@ LINUX_VERSION ?= "3.8.13"
- KMETA = "meta"
- 
- SRCREV_machine ?= "f20047520a57322f05d95a18a5fbd082fb15cb87"
--SRCREV_meta ?= "f706bd410c80a20ff437a53bb3f9f076ba31a17e"
-+SRCREV_meta ?= "e7f42a416a60499db3771181357b29b3b3c424cc"
- 
- PR = "${INC_PR}.1"
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.8.bb b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-index d47d3b7..790e3e3 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.8.bb
-@@ -10,7 +10,7 @@ SRCREV_machine_qemuppc ?= "698eada61d9385b42dd117858b943655b565084b"
- SRCREV_machine_qemux86 ?= "f20047520a57322f05d95a18a5fbd082fb15cb87"
- SRCREV_machine_qemux86-64 ?= "f20047520a57322f05d95a18a5fbd082fb15cb87"
- SRCREV_machine ?= "f20047520a57322f05d95a18a5fbd082fb15cb87"
--SRCREV_meta ?= "f706bd410c80a20ff437a53bb3f9f076ba31a17e"
-+SRCREV_meta ?= "e7f42a416a60499db3771181357b29b3b3c424cc"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.8.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
+Saul, didn't you have feedback on this?
+
+>   populate-volatile.sh: don't spawn background process at rootfs time
+>   runqemu-internal: fix to start X correctly in live images
+>   initscripts: use a uniform way to handle directories in read-only
+>     rootfs
+>   populate-volatile.sh: use 'cp -a' to avoid potential problem
+>   irda-utils: fix for read-only rootfs
+>   openssh: fix for read-only rootfs
+> 
+> Cristiana Voicu (1):
+>   systemtap: upgrade to 2.3
+> 
+> Martin Jansa (5):
+>   at-spi2-core: add intltool-native dependency
+>   gst-plugins-gl: add dependency on glew
+>   xeyes: add dependency on libxrender
+>   xrestop: add dependency on ncurses
+>   qemu, default-providers: Add mesa as default virtual/egl
+> 
+> Muhammad Shakeel (3):
+>   lighttpd: Replace spaces with tabs in shell function
+>   rpcbind: Replace spaces with tabs in shell function
+>   nfs-utils: Replace spaces with tabs in shell function
+> 
+> Otavio Salvador (1):
+>   linux-dtb: Use kernel build system to generate the dtb files
+> 
+> Ross Burton (4):
+>   cogl: GL/GLX feature cleanup
+>   libmatchbox: upgrade to 1.11
+>   matchbox-wm: fix icon handling on 64-bit hosts
+>   wipe-sysroots: don't assume TMPDIR is under BUILDDIR
+> 
+> Saul Wold (2):
+>   meta-skeleton: layer.conf Should also have .bbappend in example
+>   texinfo: add perl RDEPENDS and fix up packaging
+> 
+> Stefan Herbrechtsmeier (1):
+>   cmake.bbclass: Don't use packages from the native build machine
+> 
+> Wenzong Fan (1):
+>   oe/path.py: call /bin/cp directly
+> 
+> Yevhen Kyriukha (1):
+>   connman: fix systemd support for connman-* packages.
+
+Everything else looks OK.
+
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
