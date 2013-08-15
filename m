@@ -1,26 +1,35 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id BD0416B7B4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id E1EC36009A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 15:42:38 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Aug 2013 08:42:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,886,1367996400"; d="scan'208";a="381443787"
-Received: from timevans-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.206])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2013 08:42:28 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Thu, 15 Aug 2013 16:42:27 +0100
-Message-ID: <1545860.CzBMp6p8jj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <cover.1376580529.git.sgw@linux.intel.com>
-References: <cover.1376580529.git.sgw@linux.intel.com>
-MIME-Version: 1.0
-Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/32] Ready for Final ACK & Pull
+	Thu, 15 Aug 2013 16:24:11 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7FGYjoY010711; Thu, 15 Aug 2013 17:35:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2cTsfhgvmXL3; Thu, 15 Aug 2013 17:35:25 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7FGZMJd010723
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 15 Aug 2013 17:35:24 +0100
+Message-ID: <1376583837.22952.72.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <pb@pbcl.net>
+Date: Thu, 15 Aug 2013 17:23:57 +0100
+In-Reply-To: <1376560519.17787.16.camel@phil-desktop.brightsign>
+References: <cover.1376379182.git.rongqing.li@windriver.com>
+	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
+	<520A82BA.2070706@linux.intel.com> <520B1595.3060909@windriver.com>
+	<20130814065609.GQ17945@jama> <1376477217.22952.5.camel@ted>
+	<20130814105915.GU17945@jama> <520CA4AF.4040403@windriver.com>
+	<1376560519.17787.16.camel@phil-desktop.brightsign>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,91 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 15:42:39 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 15 Aug 2013 16:24:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thursday 15 August 2013 08:32:26 Saul Wold wrote:
-> I updated this by removing the connman patch as suggested by Ross. I
-> chose to leave in the Read-Only rootfs, as I have talked with Qi and
-> I will have him send a follow on patch to fix the internal patch header.
+On Thu, 2013-08-15 at 10:55 +0100, Phil Blundell wrote:
+> On Thu, 2013-08-15 at 17:51 +0800, Rongqing Li wrote:
+> > OK, But your issue is not related to me.
+> > 
+> > I can reproduce my issue by two simple script.
 > 
-> I have tested the read-only stuff locally.
+> If tar is deciding that the file has "changed" just because the link
+> count on the dentry has increased, that sounds like it is probably a bug
+> in tar and ought to be fixed there.
 > 
-> Thanks
-> 	Sau!
-> The following changes since commit 57662d4f813d5795cac1529633db80a09efdb089:
-> 
->   meta-skeleton: Add busybox config fragment example (2013-08-13 23:03:44
-> +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib sgw/stage
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
-> stage
-> 
-> Chen Qi (14):
->   opkg.inc: remove the obsolete POSTLOG variable
->   makedevs: support using user/group names in device table files
->   image.bbclass: create device table after package installation
->   device_table-minimal.txt: use user/group names instead of uid/gid
->   init-live.sh: make $ROOT_MOUNT/media writable when necessary
->   use a uniform way to determine whether rootfs is read-only
->   udev: remove implicit dependency on initscripts
->   populate-volatile.sh: use $ROOT_DIR/var/volatile/tmp as TMPDIR
->   populate-volatile.sh: don't spawn background process at rootfs time
->   runqemu-internal: fix to start X correctly in live images
->   initscripts: use a uniform way to handle directories in read-only
->     rootfs
->   populate-volatile.sh: use 'cp -a' to avoid potential problem
->   irda-utils: fix for read-only rootfs
->   openssh: fix for read-only rootfs
-> 
-> Cristiana Voicu (1):
->   systemtap: upgrade to 2.3
-> 
-> Martin Jansa (5):
->   at-spi2-core: add intltool-native dependency
->   gst-plugins-gl: add dependency on glew
->   xeyes: add dependency on libxrender
->   xrestop: add dependency on ncurses
->   qemu, default-providers: Add mesa as default virtual/egl
-> 
-> Muhammad Shakeel (3):
->   lighttpd: Replace spaces with tabs in shell function
->   rpcbind: Replace spaces with tabs in shell function
->   nfs-utils: Replace spaces with tabs in shell function
-> 
-> Otavio Salvador (1):
->   linux-dtb: Use kernel build system to generate the dtb files
-> 
-> Ross Burton (4):
->   cogl: GL/GLX feature cleanup
->   libmatchbox: upgrade to 1.11
->   matchbox-wm: fix icon handling on 64-bit hosts
->   wipe-sysroots: don't assume TMPDIR is under BUILDDIR
-> 
-> Saul Wold (2):
->   meta-skeleton: layer.conf Should also have .bbappend in example
->   texinfo: add perl RDEPENDS and fix up packaging
-> 
-> Stefan Herbrechtsmeier (1):
->   cmake.bbclass: Don't use packages from the native build machine
-> 
-> Wenzong Fan (1):
->   oe/path.py: call /bin/cp directly
+> That said, I can't immediately think why autotools_copy_aclocal couldn't
+> use a symlink rather than a hard link which would avoid this whole
+> problem.  If the file is in the sysroot then there should be no risk of
+> it going away underneath its user.
 
-I'm satisfied by your response to my feedback on the last series, so:
-
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Sadly this doesn't work. We block copy a set of .m4 files from the
+sysroot. We can be running do_configure of package A whilst package B is
+de-installed from the sysroot and this leads to files disappearing
+whilst they're being accessed. Its turned out to be a really awkward
+problem to fix.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
+
 
