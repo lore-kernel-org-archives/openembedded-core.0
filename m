@@ -1,39 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f173.google.com (mail-ea0-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 789C96B8AD
+Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 9990B6B8AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 07:22:58 +0000 (UTC)
-Received: by mail-ea0-f173.google.com with SMTP id g10so184388eak.4
+	Thu, 15 Aug 2013 07:22:59 +0000 (UTC)
+Received: by mail-ea0-f169.google.com with SMTP id z7so186266eaf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 00:22:58 -0700 (PDT)
+	Thu, 15 Aug 2013 00:23:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=LYsyox2f95emjPFKp/Bsy906aF2wD85/XjiNVj/PypQ=;
-	b=S2PI1UqGK1rEnrplGfMDDJOimye7iupuIsgfC5K2E1RpxqpDPid7PdKrZJh/mKLaDt
-	pplaBGOjdngntPHSSIwEaHeaBzokdr7NQTRYDo8veDFHaB55s8OCcED52kBFdw4X10ab
-	ICeFPHUW5HPjc7V67ygyEpB+fZJag4c97VNGSVqkXsZiWeXQ7/vR1yAPaljzXhc3/5AF
-	/byn7BRxmkPF6friqtmdHJfWWuMFsT3Z8+nkzeBvL+Pi1yzEMYPfu+lG+o+ImMerlgzu
-	El9i1meOQEHNvJCEb62AxKSyxPhzn+g6rS2cuoSZY49ly6ccUI8uw3Qzudv9672HCZh0
-	G9Qg==
-X-Received: by 10.14.37.4 with SMTP id x4mr20878713eea.16.1376551378920;
-	Thu, 15 Aug 2013 00:22:58 -0700 (PDT)
+	:references; bh=zzx7vsNk73vpbqZecx0N29ij0beMvBZplmNSogODN64=;
+	b=pFQbGTB5ZVV9ikplzLP7xcmKlf++x8XffXucEp2pXTIuWeojKbrEspH0822iBPsvZI
+	kQQrzaMaJ0+MeVrB/s4u7DS3QsofnPo8UUvQGibqfV1zAFC+do6H1Sx7V7Y10AC8jAcc
+	pbZuSeZtmI5t9hOjdz8etIJgAmMPnZyJhac1lyE/Trkkdi4FujHfW5f3Up+Z2hoqlssS
+	OP/Bh89Zcbbf5EuF5lD6xixodNzZDb1TiO3yMiVofWNUVjrDYEkMV3cPDKmuoGC+sIgX
+	jSClSdVE0GZuNbGRdOKraWJgNZf88G3vJyFGjHzZp4q2vh7FQV1wY3Y1ihtmhm8aXJFC
+	Od0w==
+X-Received: by 10.14.149.3 with SMTP id w3mr141339eej.84.1376551380063;
+	Thu, 15 Aug 2013 00:23:00 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	t6sm81972828eel.12.2013.08.15.00.22.58
+	m54sm81957098eex.2.2013.08.15.00.22.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 15 Aug 2013 00:22:58 -0700 (PDT)
+	Thu, 15 Aug 2013 00:22:59 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Aug 2013 09:23:15 +0200
-Message-Id: <d3290a75c84556ff5f2e76e9e7188ba297e220a1.1376551402.git.Martin.Jansa@gmail.com>
+Date: Thu, 15 Aug 2013 09:23:16 +0200
+Message-Id: <808811e7f3329865c17e40333338cb71bc23c4fd.1376551402.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
 References: <cover.1376551401.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
 References: <cover.1376551401.git.Martin.Jansa@gmail.com>
-Subject: [for-dylan][PATCH 04/33] taglib: add missing dependency on zlib
+Subject: [for-dylan][PATCH 05/33] quota: inherit pkgconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +46,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 07:22:58 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 07:23:00 -0000
 
-* without target zlib it tries to use native one:
- | /OE/sysroots/x86_64-linux/usr/lib/libz.so: could not read symbols: File in wrong format
- | collect2: error: ld returned 1 exit status
- | make[2]: *** [taglib/libtag.so.1.12.0] Error 1
+* missing dependency on pkgconfig-native was causing
+  that PKG_CHECK_MODULES(DBUS, dbus-1) stayed unexpanded in
+  configure script:
+  checking for ext2fs_initialize in -lext2fs... yes
+  quota/4.01-r1/quota-tools/configure: line 3746: syntax error near unexpected token `DBUS,'
+  quota/4.01-r1/quota-tools/configure: line 3746: `        PKG_CHECK_MODULES(DBUS, dbus-1)'
+  Configure failed. The contents of all config.log files follows to aid debugging
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-support/taglib/taglib_1.8.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/quota/quota_4.01.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/taglib/taglib_1.8.bb b/meta/recipes-support/taglib/taglib_1.8.bb
-index 76d2e51..4c151b7 100644
---- a/meta/recipes-support/taglib/taglib_1.8.bb
-+++ b/meta/recipes-support/taglib/taglib_1.8.bb
-@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
-                     file://COPYING.MPL;md5=bfe1f75d606912a4111c90743d6c7325 \
-                     file://taglib/audioproperties.h;beginline=1;endline=24;md5=9df2c7399519b7310568a7c55042ecee"
+diff --git a/meta/recipes-extended/quota/quota_4.01.bb b/meta/recipes-extended/quota/quota_4.01.bb
+index 80159a9..f3c8fbe 100644
+--- a/meta/recipes-extended/quota/quota_4.01.bb
++++ b/meta/recipes-extended/quota/quota_4.01.bb
+@@ -17,7 +17,7 @@ S = "${WORKDIR}/quota-tools"
  
-+DEPENDS = "zlib"
-+
- PR = "r1"
- # http://developer.kde.org/~wheeler/files/src/taglib-${PV}.tar.gz
- SRC_URI = "https://github.com/downloads/taglib/taglib/taglib-1.8.tar.gz \
+ DEPENDS = "gettext-native e2fsprogs"
+ 
+-inherit autotools gettext
++inherit autotools gettext pkgconfig
+ 
+ EXTRA_OEMAKE += 'STRIP=""'
+ 
 -- 
 1.8.3.2
 
