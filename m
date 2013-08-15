@@ -1,38 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f172.google.com (mail-ve0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 23B436B7B4
+Received: from mail-vb0-f49.google.com (mail-vb0-f49.google.com
+	[209.85.212.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CD77A6B7B4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 15:35:13 +0000 (UTC)
-Received: by mail-ve0-f172.google.com with SMTP id oz10so684946veb.3
+	Thu, 15 Aug 2013 15:40:07 +0000 (UTC)
+Received: by mail-vb0-f49.google.com with SMTP id w16so679671vbb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 08:35:13 -0700 (PDT)
+	Thu, 15 Aug 2013 08:40:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=TLji06iS+pQ85pPeFFd2Fq1bQtHpEes5IG6pOb5TEyY=;
-	b=Vc/lBictZQolApZtVSL0EsHWR6XMukepl5BLYr5sj+L5AZ6mrGJ8RI6WBEMXKKCVFs
-	XlIZYNPk+/Zbq0YkltxnIVrp6UVeQT9NhjnAIWDgevzJLjRqjESubSXnWz/QrPTO7fi6
-	kPryjbai8IhQlAF39vqXmDUaHOqBvFJufOdGB/CLlUyouwVm9E35XfP9FM2XCdEJqLZX
-	cOV5av7JaG1RQCN7ZlEnoccRheJ6h7YoOgGF6g0EOwH4VcdqG0+PYRMPcM+36JhOIOT0
-	0t0+WZMaSyY3abqFSHiGW9NcrsDVW8g8NRQlUi7FRvAekKveNVLR0b7/BEvurX1TnT+K
-	kHjg==
-X-Gm-Message-State: ALoCoQn+dxnkYducJOblAg7cr9frgWCxAR1mGSNrw+2u2oMdVo9Rtm1iTXY3Tl33I2RNgrWMsYN8
-X-Received: by 10.58.230.135 with SMTP id sy7mr546724vec.42.1376580913364;
-	Thu, 15 Aug 2013 08:35:13 -0700 (PDT)
+	bh=HhIy1ud973M6wJU0dgHfE/c1LJ+JJgk6akwsjnKaiHI=;
+	b=bM47k0SGTg58BDxS9W3WKO0k3Bji1c4ApNu6F+sqdLdzMEfVjaS65wq0Gkxb0FQMQ7
+	NWXL2hmHo7gA3Qgf3X060tfsscIjDcdT1qoMB/CICtHDR1rkPt11AiOq3Jm1CYbuC6n4
+	+t6scH+oWmdy+VH/1zhiNibE2io4JRnA8z37IrQFuqclC0b6lN616UNiTyQsAcAOATJs
+	WAdyXOVc0dLBSsehUqc57/ZlWKMLf38eGTSM51qHaPMvjI89Iyii3LpdsnvsVHyasuWy
+	V9siFeLRismQAlVdEw9SS01JHqJ+Euslw7F4EPqirw6yiVwrJhLCHD47wWJhVQMWq0ja
+	HPAA==
+X-Gm-Message-State: ALoCoQmzZkfHURJqufNAPK+WyTytxK1scNjg3sGe6yQTFpCXe8cm5R2JIfn+aCbSa+4rtidMjHCE
+X-Received: by 10.52.117.79 with SMTP id kc15mr469825vdb.45.1376581208441;
+	Thu, 15 Aug 2013 08:40:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 15 Aug 2013 08:34:53 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ8ZcK3cWB1GU5f_Q8amruS-58xXvVmpZYSYpjHQEa4Rw@mail.gmail.com>
-References: <cover.1376546582.git.sgw@linux.intel.com>
-	<CAJTo0LZ8ZcK3cWB1GU5f_Q8amruS-58xXvVmpZYSYpjHQEa4Rw@mail.gmail.com>
+Received: by 10.220.71.201 with HTTP; Thu, 15 Aug 2013 08:39:48 -0700 (PDT)
+In-Reply-To: <cover.1376580529.git.sgw@linux.intel.com>
+References: <cover.1376580529.git.sgw@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Aug 2013 16:34:53 +0100
-Message-ID: <CAJTo0Lab32RUChCjEZapkkjwrjEicJLD6pTWkem8KuFR0ZM+bg@mail.gmail.com>
+Date: Thu, 15 Aug 2013 16:39:48 +0100
+Message-ID: <CAJTo0LbFSvRztxR3kOYTKYnENbFMhJ3ajHyssX8grN+-7VktYA@mail.gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
 Cc: paul.eggleton@linux.intel.com, clarson@kergoth.com,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/33] Review & ACK
+Subject: Re: [CONSOLIDATED PULL 00/32] Ready for Final ACK & Pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,13 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 15:35:13 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 15:40:08 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 August 2013 10:40, Burton, Ross <ross.burton@intel.com> wrote:
-> please pull this.
+On 15 August 2013 16:32, Saul Wold <sgw@linux.intel.com> wrote:
+> Richard,
+>
+> I updated this by removing the connman patch as suggested by Ross. I
+> chose to leave in the Read-Only rootfs, as I have talked with Qi and
+> I will have him send a follow on patch to fix the internal patch header.
+>
+> I have tested the read-only stuff locally.
 
-Please *remove* this for now.
+Acked-By: Ross Burton <ross.burton@intel.com>
 
 Ross
 
