@@ -1,38 +1,26 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 45E1E6009A
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BCA56009A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 04:25:42 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id c11so213608wgh.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 14 Aug 2013 21:25:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=aGgIvX7lawk4xWb1/W1gJnexqOTRuKmN3QyxKsFkkFo=;
-	b=pyijh8+AtcokWFKrSA3+P76dL92CbmahA0FM62rBdjxh8auWt2bCZ8/XSjWqVHr5P1
-	zJjvtOxzJu7VNf9kkaTiTJYPeVyw3XA1srmr9+DKSkPbBaf2MC5k6qiXg5Ok5BDGxY9I
-	KGCHUM6K2ffTXQdBwxEpI9Rve8GrdEyn7JPIh/2x4/2pyhUtiDa+V5CJr8dtgpAJeCha
-	xrKnylbwDl6SzAMBEae1e5HxTFYfK8vWuhogqpLt+FX6UozcL/7qb3nOSq0cjRE7VOwZ
-	utkfmfmbL0LOoszBf61V6DVeikSGcFknfyKhQ1mBWM+3r1oAnstuRFJmYZLU3CPFQ3Qh
-	26vQ==
-X-Gm-Message-State: ALoCoQmFn/nxYXvIit/9UpSt4X3/kzNj/pn5ORx3xLogBqs3entUocuq/akPO4VOP8PaaRr+YnPF
-X-Received: by 10.194.24.168 with SMTP id v8mr8938746wjf.28.1376540741968;
-	Wed, 14 Aug 2013 21:25:41 -0700 (PDT)
-Received: from archlinux.us (cpc11-cmbg15-2-0-cust30.5-4.cable.virginmedia.com.
-	[86.30.245.31])
-	by mx.google.com with ESMTPSA id dt17sm744870wic.1.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 14 Aug 2013 21:25:41 -0700 (PDT)
-Sender: Laszlo Papp <lpapp@archlinux.us>
-Received: by archlinux.us (sSMTP sendmail emulation);
-	Thu, 15 Aug 2013 05:25:51 +0100
-From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Aug 2013 05:25:49 +0100
-Message-Id: <1376540749-459-1-git-send-email-lpapp@kde.org>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] u-boot: update to 2013.07
+	Thu, 15 Aug 2013 06:00:55 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 14 Aug 2013 23:00:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,882,1367996400"; d="scan'208";a="387416481"
+Received: from unknown (HELO [10.255.14.106]) ([10.255.14.106])
+	by orsmga002.jf.intel.com with ESMTP; 14 Aug 2013 23:00:55 -0700
+Message-ID: <520C6E96.80900@linux.intel.com>
+Date: Wed, 14 Aug 2013 23:00:54 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+References: <1376428851-13845-1-git-send-email-jslater@windriver.com>
+	<520AA98C.6020104@linux.intel.com>
+In-Reply-To: <520AA98C.6020104@linux.intel.com>
+Cc: Joe Slater <jslater@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] coreutils: allow for acl support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,115 +33,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 04:25:42 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 06:00:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Laszlo Papp <lpapp@kde.org>
----
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb | 26 +++++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb  | 27 ++++++++++++++++++++++
- meta/recipes-bsp/u-boot/u-boot_2013.07.bb          | 25 ++++++++++++++++++++
- 3 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
- create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+On 08/13/2013 02:47 PM, Saul Wold wrote:
+> On 08/13/2013 02:20 PM, Joe Slater wrote:
+>> CQID: 430353
+>>
+>> Define PACKAGECONFIG info for acl assuming it
+>> might be a DISTRO_FEATURE.
+>>
+>
+> Thanks for the Patch!
+>
+> Will you be doing the same for the GPLv2 version?
+>
+> I guess this means we should be expecting a set of patches to enable
+> other recipes that have --disable-acl by default?
+>
+>
+> Thanks
+> Sau!
+>> Signed-off-by: Joe Slater <jslater@windriver.com>
+>> ---
+>>   meta/recipes-core/coreutils/coreutils_8.21.bb |   14 +++++++++++---
+>>   1 files changed, 11 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/coreutils/coreutils_8.21.bb
+>> b/meta/recipes-core/coreutils/coreutils_8.21.bb
+>> index 26ada48..e784329 100644
+>> --- a/meta/recipes-core/coreutils/coreutils_8.21.bb
+>> +++ b/meta/recipes-core/coreutils/coreutils_8.21.bb
+>> @@ -7,7 +7,7 @@ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+>>   LICENSE = "GPLv3+"
+>>   LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+>>
+>> file://src/ls.c;beginline=5;endline=16;md5=38b79785ca88537b75871782a2a3c6b8"
+>>
+>> -PR = "r0"
+>> +PR = "r1"
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-new file mode 100644
-index 0000000..a5bbb73
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-@@ -0,0 +1,26 @@
-+DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-+                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
-+SECTION = "bootloader"
-+
-+DEPENDS = "mtd-utils"
-+
-+SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "8445162690052e6afd4b8f87af2bb557"
-+SRC_URI[sha256sum] = "2bbd440c1b29928d230604eac372fda5152d3ae23f52b1910c77fc5bf531250b"
-+
-+S = "${WORKDIR}/u-boot-${PV}"
-+
-+EXTRA_OEMAKE = 'HOSTCC="${CC}"'
-+
-+do_compile () {
-+  oe_runmake env
-+}
-+
-+do_install () {
-+  install -d ${D}${base_sbindir}
-+  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
-+  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
-+}
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
-new file mode 100644
-index 0000000..0108e00
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
-@@ -0,0 +1,27 @@
-+DESCRIPTION = "U-boot bootloader mkimage tool"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-+                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
-+SECTION = "bootloader"
-+
-+SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "8445162690052e6afd4b8f87af2bb557"
-+SRC_URI[sha256sum] = "2bbd440c1b29928d230604eac372fda5152d3ae23f52b1910c77fc5bf531250b"
-+
-+S = "${WORKDIR}/u-boot-${PV}"
-+
-+BBCLASSEXTEND = "native nativesdk"
-+
-+EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
-+
-+do_compile () {
-+  oe_runmake tools
-+}
-+
-+do_install () {
-+  install -d ${D}${bindir}
-+  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
-+  ln -sf uboot-mkimage ${D}${bindir}/mkimage
-+}
-+
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
-new file mode 100644
-index 0000000..8e05558
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
-@@ -0,0 +1,25 @@
-+require u-boot.inc
-+
-+# To build u-boot for your machine, provide the following lines in your machine
-+# config, replacing the assignments as appropriate for your machine.
-+# UBOOT_MACHINE = "omap3_beagle_config"
-+# UBOOT_ENTRYPOINT = "0x80008000"
-+# UBOOT_LOADADDRESS = "0x80008000"
-+
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-+                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
-+
-+FILESDIR = "${@os.path.dirname(d.getVar('FILE',1))}/u-boot-git/${MACHINE}"
-+
-+# This revision corresponds to the tag "v2013.07"
-+# We use the revision in order to avoid having to fetch it from the repo during parse
-+SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
-+
-+PV = "v2013.07+git${SRCPV}"
-+
-+SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
-+
-+S = "${WORKDIR}/git"
-+
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
--- 
-1.8.3.4
+I missed noticing this on the first round, please drop the PR Update
 
+Thanks
+	Sau!
+
+>>   DEPENDS = "gmp libcap"
+>>   DEPENDS_class-native = ""
+>>
+>> @@ -22,8 +22,16 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>>   SRC_URI[md5sum] = "065ba41828644eca5dd8163446de5d64"
+>>   SRC_URI[sha256sum] =
+>> "adaa44bdab3fa5eb352e80d8a31fdbf957b78653d0c2cd30d63e161444288e18"
+>>
+>> -EXTRA_OECONF = "--disable-acl"
+>> -EXTRA_OECONF_class-native = "--disable-acl --without-gmp"
+>> +EXTRA_OECONF_class-native = "--without-gmp"
+>> +
+>> +# acl is not a default feature
+>> +#
+>> +PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES',
+>> 'acl', 'acl', '', d)}"
+>> +PACKAGECONFIG_class-native ??= ""
+>> +
+>> +# with, without, depends, rdepends
+>> +#
+>> +PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
+>>
+>>   # [ df mktemp base64 gets a special treatment and is not included in
+>> this
+>>   bindir_progs = "basename chcon cksum comm csplit cut dir dircolors
+>> dirname du \
+>>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
