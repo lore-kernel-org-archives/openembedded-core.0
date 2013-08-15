@@ -1,40 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f182.google.com (mail-ea0-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D5036B7B3
+Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1E261037
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 10:21:28 +0000 (UTC)
-Received: by mail-ea0-f182.google.com with SMTP id o10so275349eaj.27
+	Thu, 15 Aug 2013 10:33:30 +0000 (UTC)
+Received: by mail-ee0-f47.google.com with SMTP id d49so276283eek.34
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 03:21:28 -0700 (PDT)
+	Thu, 15 Aug 2013 03:33:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=m9TIQ66vWuWw5LeHxZCMgAbGyZvYA46WS+8NaN2dDxs=;
-	b=LiRxm1slPL8zrqWON9WaKfiqhsppgsUk/mASMmKJ1u0knCtx2Fu6Xab51uhsKhocYa
-	mTrOwJOcmOt/n4EqHKGmqpb1+qAIjyuQ6aCIDj6tpI9Xhzo2IgaNipHOspdbqoCMftjs
-	pi+07nSWj2G2TTUVTCrr3qWq3CvthPmDQtKyejuNnuheaqKujmceQfbuESMT8sJCEAMv
-	7+p1/egXURxUmJQlG2PglX6IyFAEpoEYyt4J7KHYdxZ5Ttnq//CRJjHAmy0QKq7IakiB
-	gePJ4sHQGXfr/9A5BFtv1eZJslI74GsRmHF544F4oDBb1VA1QdL2T/7Sorwvx0KWqYZw
-	Y7xA==
-X-Received: by 10.15.94.201 with SMTP id bb49mr22058558eeb.23.1376562088244;
-	Thu, 15 Aug 2013 03:21:28 -0700 (PDT)
+	bh=4iaZOYyO+Jl4mZ0+Nm4vOX3iirearbFMrp6olHMPCN4=;
+	b=A0lIjERh3PyVr5zc5Zp2cPSiBQgbTHPdmJMkrAOWeghtrWqSsg222n6t9EPRRO3/bn
+	fV/xPvWQ1oM+0nh1Ypw9xKA6SjfXqkH/033fimSLiz4Y4KgA5Roxin+BP74UUpHQTi5m
+	VeASJ+pV23y+9wr9IWbDbB3AyZTMdHn5i2Hojkd3u3hh9e0okq22KmdbTKY/+NjZKVPM
+	RgFJhcXknM2Ge+TYB2XDcyuhrcrV8gORqhjI6HUqvgipzMHYQQ7mJaoIuHKAd4deGSn6
+	ObRKiIXfAxcfquPEmn+Wyf9A4Z562apDakRnC0XyQwTpJzssP9BoawCuA97/HHAy52L1
+	4Deg==
+X-Received: by 10.15.64.194 with SMTP id o42mr3003515eex.62.1376562811153;
+	Thu, 15 Aug 2013 03:33:31 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	m54sm83209831eex.2.2013.08.15.03.21.27 for <multiple recipients>
+	p5sm83295258eeg.5.2013.08.15.03.33.30 for <multiple recipients>
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 15 Aug 2013 03:21:27 -0700 (PDT)
-Date: Thu, 15 Aug 2013 12:22:19 +0200
+	Thu, 15 Aug 2013 03:33:30 -0700 (PDT)
+Date: Thu, 15 Aug 2013 12:34:22 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20130815102219.GA17945@jama>
-References: <520C9F8A.7080703@windriver.com>
-	<1376559796.17787.14.camel@phil-desktop.brightsign>
+To: wenzong fan <wenzong.fan@windriver.com>
+Message-ID: <20130815103422.GB17945@jama>
+References: <520C9F8A.7080703@windriver.com> <2523779.jWvvpX7hhR@helios>
+	<520CAA18.1080706@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1376559796.17787.14.camel@phil-desktop.brightsign>
+In-Reply-To: <520CAA18.1080706@windriver.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: About PACKAGECONFIG audit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -48,53 +47,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 10:21:29 -0000
-X-Groupsio-MsgNum: 43422
+X-List-Received-Date: Thu, 15 Aug 2013 10:33:31 -0000
+X-Groupsio-MsgNum: 43423
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="UNifc18z8z6e1QHx"
+	protocol="application/pgp-signature"; boundary="UbqA5qh2E+WCbFAw"
 Content-Disposition: inline
 
---UNifc18z8z6e1QHx
+--UbqA5qh2E+WCbFAw
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 15, 2013 at 10:43:16AM +0100, Phil Blundell wrote:
-> On Thu, 2013-08-15 at 17:29 +0800, wenzong fan wrote:
-> > Or could we run this check as part of a QA build step?
+On Thu, Aug 15, 2013 at 06:14:48PM +0800, wenzong fan wrote:
+> On 08/15/2013 05:44 PM, Paul Eggleton wrote:
+> > Hi Wenzong,
+> >
+> > On Thursday 15 August 2013 17:29:46 wenzong fan wrote:
+> >> We have seen some problems like this:
+> >>
+> >> $ bitbake libcap
+> >>
+> >> ld: warning: libaudit.so.1, needed by .../lib64/libpam.so, not found
+> >> .../lib64/libpam.so: undefined reference to `audit_open'
+> >> .../lib64/libpam.so: undefined reference to `audit_close'
+> >> ......
+> >>
+> >> The libaudit has been available and libpam build with it, after we run
+> >> another build with sstate-cache and w/o libaudit, the error occurs. The
+> >> solution in these cases is to use PACKAGECONFIG to lay out dependencies
+> >> on optional packages and make them explicit. We need to run an audit a=
+nd
+> >> catch all of these issues.
+> >>
+> >> A probable ways maybe:
+> >>
+> >> 1) Run world build to generate the sysroots as much as possible;
+> >
+> > (See Ross's reply for a pointer to the new test-dependencies script)
 >=20
-> I think that could be done, in principle.  Now that "ld
-> --no-copy-dt-needed-entries" is the default, there's no reason that the
-> shlibs code in package.bbclass couldn't be taught to verify that all the
-> shared library providers it identifies come from recipes that are listed
-> in DEPENDS. =20
->=20
-> The only difficulty is that you'd need to accept DEPENDS-of-DEPENDS
-> (e.g. a recipe which DEPENDS on gtk+ but also links with libatk or
-> something) and I don't think there's currently any straightforward way
-> for package.bbclass to generate the recursive dependency chain for an
-> arbitrary recipe.  An easy if inelegant workaround would be for it to
-> just stash the value of ${DEPENDS} along with the other shlibs data that
-> it writes out for each provider.
+> That would be a good start point, I have run that script once, but looks=
+=20
+> not any failure occurs.
 
-Something like that is outlined in WIP patch for
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D4628
+I don't believe it, see "State of bitbake world" thread where I've sent
+results from last 3 executions.
 
-but I got stuck on generating this recursive dependency chain
+There is plenty of issues for everybody :)
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---UNifc18z8z6e1QHx
+--UbqA5qh2E+WCbFAw
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.20 (GNU/Linux)
 
-iEYEARECAAYFAlIMq9sACgkQN1Ujt2V2gBy9ZACeNgWfOsJ/Lq5hpftuPr6qF6SZ
-DSIAniUH3bwHuigKYzxL9qDrkR2kTr4u
-=qzAZ
+iEYEARECAAYFAlIMrq4ACgkQN1Ujt2V2gByc0wCeKiJqJod1Alk3tW5CvQqsZuuA
+BaYAnjmNjEh8wtwOSga2kyDzplf95EqV
+=z73o
 -----END PGP SIGNATURE-----
 
---UNifc18z8z6e1QHx--
+--UbqA5qh2E+WCbFAw--
