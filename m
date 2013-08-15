@@ -1,45 +1,35 @@
-Return-Path: <B40290@freescale.com>
-Received: from db9outboundpool.messaging.microsoft.com
-	(mail-db9lp0253.outbound.messaging.microsoft.com [213.199.154.253])
-	by mail.openembedded.org (Postfix) with ESMTP id CDC566009A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 569EA6B8A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 06:24:01 +0000 (UTC)
-Received: from mail22-db9-R.bigfish.com (10.174.16.236) by
-	DB9EHSOBE034.bigfish.com (10.174.14.97) with Microsoft SMTP Server id
-	14.1.225.22; Thu, 15 Aug 2013 06:24:01 +0000
-Received: from mail22-db9 (localhost [127.0.0.1])	by mail22-db9-R.bigfish.com
-	(Postfix) with ESMTP id 8D66624026A	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 06:24:01 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -1
-X-BigFish: VS-1(zz936eIzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h8275bh1de097hz2dh2a8h668h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h1155h)
-Received: from mail22-db9 (localhost.localdomain [127.0.0.1]) by mail22-db9
-	(MessageSwitch) id 1376547826599351_26866;
-	Thu, 15 Aug 2013 06:23:46 +0000 (UTC)
-Received: from DB9EHSMHS022.bigfish.com (unknown [10.174.16.233])	by
-	mail22-db9.bigfish.com (Postfix) with ESMTP id 8E6EB3A0047	for
-	<openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 06:23:46 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB9EHSMHS022.bigfish.com
-	(10.174.14.32) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Thu, 15 Aug 2013 06:23:46 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.3.136.1; Thu, 15 Aug 2013 06:23:45 +0000
-Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
-	[10.192.208.136])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
-	id r7F6NgMZ023854;	Wed, 14 Aug 2013 23:23:43 -0700
-From: Chunrong Guo <B40290@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 15 Aug 2013 14:23:39 +0800
-Message-ID: <1376547819-3322-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.7.5.4
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] genext2fs: fix memory corruption on powerpc
+	Thu, 15 Aug 2013 07:22:53 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id n15so183398ead.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 15 Aug 2013 00:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=dOpQE/IAvWga0FWVzmKy8fsAUGIwUgTb26ljjkvNP70=;
+	b=hXewbFf/6RTpg9Qxx/+UsinJFgy/DyFQ8wOMiqsp1a+Y0SAdJ/qY2SjRVblKC+AgHp
+	KUgJ1E9nExwE+BdoaCwaI+sixMsMVgClLYTWNLBtpEX4wmUPr1JDqoSgYd0dU3m+0YTp
+	s9JqAncXxcGJ5H1Qqt/i49ClLW9Xiecm1g1Zmt4EXSZ0iOjo/lsOdnAnWkDSBBvJ9vYr
+	RvLC5tMxoWksKAgw5Ah1zU1o45pOv+9YXSecyuDLX/EJzzys/7mRIUA3LzosEPM9evUn
+	S69LopPh3M09O7Xyjs//y1BiUm3Nm3bVoUrDRv3Yg3UupHAttDJyGSmBrn2vygQKrxNp
+	B9xg==
+X-Received: by 10.14.95.2 with SMTP id o2mr240659eef.82.1376551373756;
+	Thu, 15 Aug 2013 00:22:53 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	d8sm68769182eeh.8.2013.08.15.00.22.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 15 Aug 2013 00:22:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 15 Aug 2013 09:23:11 +0200
+Message-Id: <cover.1376551401.git.Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [for-dylan][PATCH 00/33] Backports for deterministic dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,119 +42,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 06:24:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 15 Aug 2013 07:22:53 -0000
 
-    * fix memory corruption errors on powerpc64
-    e.g.
-    |$ genext2fs -b 30000 -d . -i 8192 /tmp/tstrootfs
-    |  Segmentation fault
+The following changes since commit acf46cb2eb03c2ed3aadd7858044ba2837a83292:
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- .../fix-memory-corruption-on-powerpc.patch         |   76 ++++++++++++++++++++
- meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb |    3 +-
- 2 files changed, 78 insertions(+), 1 deletions(-)
- create mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
+  grub: disable floating ncurses dependency for GPLv2 version (2013-08-07 11:44:34 +0100)
 
-diff --git a/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch b/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
-new file mode 100644
-index 0000000..d7a8ea8
---- /dev/null
-+++ b/meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
-@@ -0,0 +1,76 @@
-+Upstream-Status: inappropriate
-+
-+fix memory corruption on powerpc
-+
-+Signed-off-by: Wrobel Heinz <Heinz.Wrobel@freescale.com>
-+
-+diff --unified a/genext2fs.c b/genext2fs.c
-+--- a/genext2fs.c	2013-08-14 16:50:59.061623605 +0200
-++++ b/genext2fs.c	2013-08-14 16:47:23.349623674 +0200
-+@@ -675,21 +675,34 @@
-+ }
-+ 
-+ static void
-+-swap_nod(inode *nod)
-++swap_nod(inode *nod, int fromdisk)
-+ {
-+ 	uint32 nblk;
-++	uint32 i_blocks = nod->i_blocks;
-++	uint32 i_size = nod->i_size;
-++	uint16 i_mode = nod->i_mode;
-++
-+ 
-+ #define this nod
-+ 	inode_decl
-+ #undef this
-+ 
-++	if (fromdisk) {
-++		// Only now do we have the values in the correct
-++		// endianess for the host. So we override the
-++		// earlier assumption
-++		i_blocks = nod->i_blocks;
-++		i_size = nod->i_size;
-++		i_mode = nod->i_mode;
-++	}
-++
-+ 	// block and character inodes store the major and minor in the
-+ 	// i_block, so we need to unswap to get those.  Also, if it's
-+ 	// zero iblocks, put the data back like it belongs.
-+-	nblk = nod->i_blocks / INOBLK;
-+-	if ((nod->i_size && !nblk)
-+-	    || ((nod->i_mode & FM_IFBLK) == FM_IFBLK)
-+-	    || ((nod->i_mode & FM_IFCHR) == FM_IFCHR))
-++	nblk = i_blocks / INOBLK;
-++	if ((i_size && !nblk)
-++	    || ((i_mode & FM_IFBLK) == FM_IFBLK)
-++	    || ((i_mode & FM_IFCHR) == FM_IFCHR))
-+ 	{
-+ 		int i;
-+ 		for(i = 0; i <= EXT2_TIND_BLOCK; i++)
-+@@ -1066,7 +1079,7 @@
-+ 	nod_info *ni = container_of(elem, nod_info, link);
-+ 
-+ 	if (ni->fs->swapit)
-+-		swap_nod(ni->itab);
-++		swap_nod(ni->itab, 0);
-+ 	put_blk(ni->bi);
-+ 	free(ni);
-+ }
-+@@ -1102,7 +1115,7 @@
-+ 	ni->b = get_blk(fs, fs->gd[grp].bg_inode_table + boffset, &ni->bi);
-+ 	ni->itab = ((inode *) ni->b) + offset;
-+ 	if (fs->swapit)
-+-		swap_nod(ni->itab);
-++		swap_nod(ni->itab, 1);
-+ 
-+ out:
-+ 	*rni = ni;
-+@@ -1158,6 +1171,8 @@
-+ 	if (dw->fs->swapit)
-+ 		swap_dir(&dw->d);
-+ 	memcpy(dw->last_d, &dw->d, sizeof(directory));
-++	if (dw->fs->swapit)
-++		swap_dir(&dw->d);
-+ 
-+ 	if (((int8 *) next_d) >= ((int8 *) dw->b + BLOCKSIZE))
-+ 		return NULL;
-diff --git a/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb b/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
-index 702245f..60fd0c2 100644
---- a/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
-+++ b/meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb
-@@ -22,7 +22,8 @@ SRC_URI += "file://update_to_1.95.patch \
-             file://0017-Fix-file-same-comparison.patch \
-             file://0018-Handle-files-changing-while-we-are-working.patch \
-             file://0019-Make-sure-superblock-is-clear-on-allocation.patch \
--            file://fix-nbblocks-cast.patch"
-+            file://fix-nbblocks-cast.patch \
-+            file://fix-memory-corruption-on-powerpc.patch "
- 
- SRC_URI[md5sum] = "b7b6361bcce2cedff1ae437fadafe53b"
- SRC_URI[sha256sum] = "404dbbfa7a86a6c3de8225c8da254d026b17fd288e05cec4df2cc7e1f4feecfc"
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib jansa/dylan-backports
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=jansa/dylan-backports
+
+Christopher Larson (1):
+  quota: obey 'tcp-wrappers' PACKAGECONFIG
+
+Eric Nelson (1):
+  gst-plugins-gl: add explicit dependency on libpng
+
+Hongxu Jia (1):
+  wget: Add missing DEPENDS on zlib
+
+Mark Hatle (1):
+  libarchive: Fix build dependencies
+
+Martin Jansa (26):
+  (lib)telepathy*: add missing dependency on libxslt-native
+  gst-plugins-bad: inherit gsettings
+  gst-plugins-base: add missing dependency on glib-2.0-native
+  taglib: add missing dependency on zlib
+  quota: inherit pkgconfig
+  libpam: inherit pkgconfig
+  systemtap: inherit pkgconfig
+  eglibc-locale: add missing dependency on
+    virtual/${TARGET_PREFIX}binutils
+  gst-plugins-bad: add few more PACKAGECONFIGs
+  xkeyboard-config: add missing dependency on util-macros
+  ccache: add zlib dependency
+  cups: add PACKAGECONFIG for acl
+  directfb: add PACKAGECONFIG for jpeg2000
+  distcc: add PACKAGECONFIG for popt
+  grub: add PACKAGECONFIG for grub-mount
+  mailx: remove support for autodetection of krb5
+  minicom: add configure option and PACKAGECONFIG for lockdev
+  ltp: add acl, openssl dependency
+  patch: add PACKAGECONFIG for attr
+  python-imaging: add PACKAGECONFIG for lcms
+  socat: add PACKAGECONFIG for tcp-wrappers
+  sudo: add PACKAGECONFIG for zlib
+  gst-plugins-good: add PACKAGECONFIG for jpeg, wavpack, gdkpixbuf, v4l,
+    bzip2, orc
+  gettext: disable nls when INHIBIT_DEFAULT_DEPS is set
+  weston: backport patch for libunwind configure option and disable it
+  mesa: inherit gettext
+
+Richard Purdie (1):
+  bdwgc-native: Add missing pkgconfig DEPENDS
+
+Ross Burton (1):
+  gst-plugins-bad: element selection rationalisation
+
+Roy.Li (1):
+  gcc: add build directory to include directories
+
+ meta/classes/gettext.bbclass                       |  4 +-
+ meta/recipes-bsp/grub/grub_2.00.bb                 |  3 +
+ meta/recipes-connectivity/socat/socat_1.7.2.1.bb   |  3 +
+ .../telepathy/libtelepathy_0.3.3.bb                |  2 +-
+ .../telepathy/telepathy-glib_0.20.1.bb             |  3 +-
+ .../telepathy/telepathy-idle_0.1.14.bb             |  3 +-
+ .../telepathy/telepathy-mission-control_5.14.0.bb  |  4 +-
+ .../telepathy/telepathy-python_0.15.19.bb          |  1 +
+ meta/recipes-core/eglibc/eglibc-locale.inc         |  5 ++
+ meta/recipes-devtools/ccache/ccache.inc            |  2 +
+ meta/recipes-devtools/distcc/distcc_3.1.bb         |  4 +-
+ meta/recipes-devtools/gcc/gcc_4.7.bb               |  2 +-
+ meta/recipes-devtools/patch/patch.inc              |  3 +
+ .../allow.to.disable.some.features.patch           | 65 ++++++++++++++++++++++
+ .../python/python-imaging_1.1.7.bb                 | 10 +++-
+ meta/recipes-extended/cups/cups16.inc              |  1 +
+ .../libarchive/libarchive_2.8.5.bb                 | 20 ++++++-
+ meta/recipes-extended/ltp/ltp_20120903.bb          |  2 +-
+ .../explicitly.disable.krb5.support.patch          | 46 +++++++++++++++
+ meta/recipes-extended/mailx/mailx_12.5.bb          |  1 +
+ .../minicom-2.6.2/allow.to.disable.lockdev.patch   | 21 +++++++
+ meta/recipes-extended/minicom/minicom_2.6.2.bb     |  7 ++-
+ meta/recipes-extended/pam/libpam_1.1.6.bb          |  2 +-
+ meta/recipes-extended/quota/quota_4.01.bb          |  5 +-
+ meta/recipes-extended/sudo/sudo.inc                |  3 +
+ meta/recipes-extended/wget/wget.inc                |  2 +-
+ meta/recipes-graphics/directfb/directfb.inc        |  3 +
+ meta/recipes-graphics/mesa/mesa-common.inc         |  2 +-
+ ...utotools-Add-a-libunwind-configure-switch.patch | 40 +++++++++++++
+ meta/recipes-graphics/wayland/weston_1.0.6.bb      |  3 +-
+ .../xorg-lib/xkeyboard-config_2.8.bb               |  2 +-
+ meta/recipes-kernel/systemtap/systemtap_git.bb     |  2 +-
+ .../gstreamer/gst-plugins-bad_0.10.23.bb           | 34 ++++++++---
+ .../gstreamer/gst-plugins-base_0.10.36.bb          |  2 +-
+ .../gstreamer/gst-plugins-gl_0.10.3.bb             |  2 +-
+ .../gstreamer/gst-plugins-good_0.10.31.bb          | 12 +++-
+ meta/recipes-support/bdwgc/bdwgc_7.2.bb            |  2 +-
+ meta/recipes-support/taglib/taglib_1.8.bb          |  2 +
+ 38 files changed, 292 insertions(+), 38 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python-imaging/allow.to.disable.some.features.patch
+ create mode 100644 meta/recipes-extended/mailx/mailx-12.5/explicitly.disable.krb5.support.patch
+ create mode 100644 meta/recipes-extended/minicom/minicom-2.6.2/allow.to.disable.lockdev.patch
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-autotools-Add-a-libunwind-configure-switch.patch
+
 -- 
-1.7.5.4
-
+1.8.3.2
 
 
