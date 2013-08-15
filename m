@@ -1,26 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E8F06B834
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id CCB2E6B4FD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 09:44:46 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 15 Aug 2013 02:44:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,884,1367996400"; d="scan'208";a="381308724"
-Received: from timevans-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.206])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Aug 2013 02:44:46 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Date: Thu, 15 Aug 2013 10:44:44 +0100
-Message-ID: <2523779.jWvvpX7hhR@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <520C9F8A.7080703@windriver.com>
-References: <520C9F8A.7080703@windriver.com>
+	Thu, 15 Aug 2013 09:51:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7F9pbGB014559
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 15 Aug 2013 05:51:37 -0400 (EDT)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 15 Aug 2013 02:51:37 -0700
+Message-ID: <520CA4AF.4040403@windriver.com>
+Date: Thu, 15 Aug 2013 17:51:43 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1376379182.git.rongqing.li@windriver.com>
+	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
+	<520A82BA.2070706@linux.intel.com>
+	<520B1595.3060909@windriver.com> <20130814065609.GQ17945@jama>
+	<1376477217.22952.5.camel@ted> <20130814105915.GU17945@jama>
+In-Reply-To: <20130814105915.GU17945@jama>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: About PACKAGECONFIG audit
+Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +38,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 09:44:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 15 Aug 2013 09:51:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Wenzong,
 
-On Thursday 15 August 2013 17:29:46 wenzong fan wrote:
-> We have seen some problems like this:
-> 
-> $ bitbake libcap
-> 
-> ld: warning: libaudit.so.1, needed by .../lib64/libpam.so, not found
-> .../lib64/libpam.so: undefined reference to `audit_open'
-> .../lib64/libpam.so: undefined reference to `audit_close'
-> ......
-> 
-> The libaudit has been available and libpam build with it, after we run
-> another build with sstate-cache and w/o libaudit, the error occurs. The
-> solution in these cases is to use PACKAGECONFIG to lay out dependencies
-> on optional packages and make them explicit. We need to run an audit and
-> catch all of these issues.
-> 
-> A probable ways maybe:
-> 
-> 1) Run world build to generate the sysroots as much as possible;
 
-(See Ross's reply for a pointer to the new test-dependencies script)
+On 08/14/2013 06:59 PM, Martin Jansa wrote:
+> On Wed, Aug 14, 2013 at 11:46:57AM +0100, Richard Purdie wrote:
+>> On Wed, 2013-08-14 at 08:56 +0200, Martin Jansa wrote:
+>>> On Wed, Aug 14, 2013 at 01:28:53PM +0800, Rongqing Li wrote:
+>>>>
+>>>>
+>>>> On 08/14/2013 03:02 AM, Saul Wold wrote:
+>>>>> On 08/13/2013 01:20 AM, rongqing.li@windriver.com wrote:
+>>>>>> From: "Roy.Li" <rongqing.li@windriver.com>
+>>>>>>
+>>>>>> sstate_package creates hardlink from sysroot to SSTATE_BUILDDIR, then
+>>>>>> sstate_create_package will store SSTATE_BUILDDIR into a archive file by
+>>>>>> tar, but once other packages install the same file into sysroot, the
+>>>>>> creating the archive file will fail with below error:
+>>>>>>
+>>>>>>       DEBUG: Executing shell function sstate_create_package
+>>>>>>       tar: x86_64-linux/usr/share/aclocal/xorg-macros.m4: file changed
+>>>>>> as we read it
+>>>>>>
+>>>>>> This kind of error is harmless, use --ignore-failed-read to ignore it.
+>>>>>>
+>>>>> I am not sure it's so harmless, what if the file is corrupted, then we
+>>>>> have a bad sstate tarball.  You have identified the part of the root
+>>>>> cause being the hardlink, but what if the file actually does change
+>>>>> (which would be a different bug potentially), then your packaging a
+>>>>> differet set of macros (in this case) with the sysroot.
+>>>>>
+>>>>>
+>>>>> Sau!
+>>>>
+>>>>
+>>>> The file is not corrupted, and the file content is not changed,  "tar"
+>>>> said xorg-macros.m4 file is changed, since the number of links of
+>>>> xorg-macros.m4 has changed when other packages is doing configuration
+>>>> and call autotools_copy_aclocal to make a hardlink to ${ACLOCALDIR}
+>>>>
+>>>> If this fix can be accepted, I will rework the commit header.
+>>>
+>>> I think there is still some other issue.
+>>>
+>>> I haven't seen this on ext4 filesystems, but with reiserfs I was able to
+>>> reproduce "cp: will not create hard link" issue, e.g.:
+>>>
+>>> do_populate_lic_setscene task failing in sstate_install with
+>>> cp: will not create hard link `/OE/deploy/licenses/recipe' to directory `/OE/deploy/licenses/recipe' (same path)
+>>>
+>>> or
+>>> ERROR: Error executing a python function in pn.bb:
+>>> CalledProcessError: Command 'cp -afl /OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/pkgdata/* /OE/pkgdata/armv7a-vfp-neon-oe-linux-gnueabi' returned non-zero exit status 1 with output
+>>> cp: warning: source file `/OE/work/armv7a-vfp-neon-oe-linux-gnueabi/pn/1.0/pkgdata/pn' specified more than once
+>>
+>> This sounds like a race issue in reiserfs to me...
+>
+> True, I assume the same until someone else is able to reproduce it on
+> some other filesystem.
+>
+> Any idea how to confirm this theory at least to add warning in
+> documentation that using reiserfs on build partition is causing random
+> build failures?
+>
 
-> 2) Run 'configure --help' on each package to spot all of the optional
-> dependencies, and convert them into PACKAGECONFIG specs/or any other
-> prompts.
 
-Actually I have started along this line as well, putting the output of 
-configure --help into buildhistory so you can see the differences. I'm not 
-totally sure how useful it is at the moment and it will need some smooting out 
-to avoid known differences (paths etc.).
 
-Cheers,
-Paul
+OK, But your issue is not related to me.
+
+I can reproduce my issue by two simple script.
+
+1. make a hardlink from a 
+file(0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch), we do not change 
+the source file.
+
+#! /bin/bash
+
+n=0
+
+while [ $n -le 100000 ] ; do
+	n=`expr "$n" + 1`
+  	aa=`mktemp`
+	rm $aa
+	cp -lf 0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch $aa
+	rm $aa
+done
+
+
+
+2. tar this file
+
+#! /bin/bash
+
+n=0
+
+while [ $n -le 100 ] ; do
+	n=`expr "$n" + 1`
+	tar -czvf aa.tar.gz 0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+	rm aa.tar.gz
+done
+
+3. the result of tar is below:
+001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+tar: 0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch: file changed as we 
+read it
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+tar: 0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch: file changed as we 
+read it
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+tar: 0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch: file changed as we 
+read it
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+tar: 0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch: file changed as we 
+read it
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+0001-qemu-set-COMPATIBLE_HOST-for-mips64.patch
+
+
+
+
+
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Best Reagrds,
+Roy | RongQing Li
 
