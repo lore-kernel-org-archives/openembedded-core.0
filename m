@@ -1,39 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B9C656B918
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E5786B874
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 07:23:34 +0000 (UTC)
-Received: by mail-ea0-f176.google.com with SMTP id q16so182565ead.35
+	Thu, 15 Aug 2013 09:00:58 +0000 (UTC)
+Received: by mail-wi0-f175.google.com with SMTP id hq12so2879383wib.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 00:23:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=XU+L6A5UlG8EBMR7/04ZsYVhpuHieZ0LxfIEQCWbFTI=;
-	b=hJ2qYvvbsotqIZ7jliD2X2bAJ7ChQVOVSpL7jhPOAiNSIJ5WqVObiWr9YWaIrcE+rr
-	S5sLtvgQE2Zd7+ZeCvESSvg1xmOAG/2UT8l1uVlH6ykspFmARFcgzdM6N/kbZI8xEzSm
-	IeU2sj37wXJai0azEVzpkbNPTRfqANq5LlNPCbZ4qRVFP0FNhs6MZLbvhD8PWDExz+XO
-	o0bw/qhlU5BMnvffQfNRSzStCeiDtPnFLh8N6R1vM+CqhABSPKDw303o1t7+73ky21mI
-	fJGw+QyDep33r1grx239UGiMhDVYDiZqMFdyfB2vuMCm3UJQzVqfalHQ5YSUeEy9KGhC
-	WHEg==
-X-Received: by 10.14.98.198 with SMTP id v46mr12038579eef.1.1376551414962;
-	Thu, 15 Aug 2013 00:23:34 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	f49sm76297231eec.7.2013.08.15.00.23.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 15 Aug 2013 00:23:34 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Aug 2013 09:23:44 +0200
-Message-Id: <c3e36611d7db135a13ac62e2f5a0b48409cc5cd0.1376551402.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
-References: <cover.1376551401.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
-References: <cover.1376551401.git.Martin.Jansa@gmail.com>
-Subject: [for-dylan][PATCH 33/33] gst-plugins-gl: add explicit dependency on libpng
+	Thu, 15 Aug 2013 02:00:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LgdtmH/XZ6cJ28CX7h9rf2Vk6avId5zqYW/8Qwcyz9A=;
+	b=jd8xcDxiEmE1373ETDErVB+FFq65c/vFf/lhMurlUXJ0HaYP4PUg55cS7rhOqp7AV2
+	DN25PxFOx7fpTZhKpZUuzzivVDHWwPWNLBr7paUN1B34BqFwF/W8Pk9KOfUwan5NYBtE
+	qJ4oRru/jMzYc0OsMB+nSPVWSDB/gmrmB2vMF9sWuoCHeqt0WtT5x60PqeWPDKuU9c+8
+	oFeNMPwzW813i63w9w6X1lVsBrQuiduyFym1ag3EtzQkCes0xXNG64Dyl4c/37iUNdxG
+	H0Wqy7lKi98v1eUU9/NgBwePZNM/l1WylhWr4Z6KCE6HSO9PE/eha0/dQXNtk/RHBWXQ
+	Ge8w==
+X-Gm-Message-State: ALoCoQlYxwSlzged4tBh+knuBKWua6VV6MWINNi1aIw5v7NyDaQnfZ4f0qrfcHjmaI/KX1O6DyRp
+X-Received: by 10.180.19.196 with SMTP id h4mr1164739wie.38.1376557258262;
+	Thu, 15 Aug 2013 02:00:58 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.217.140.10 with HTTP; Thu, 15 Aug 2013 02:00:38 -0700 (PDT)
+In-Reply-To: <1376547819-3322-1-git-send-email-B40290@freescale.com>
+References: <1376547819-3322-1-git-send-email-B40290@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 15 Aug 2013 10:00:38 +0100
+Message-ID: <CAJTo0La1OQdOpOzv0u3UcoMpdvm9dHPL_tHzqvXW-E0GT=Omfw@mail.gmail.com>
+To: Chunrong Guo <B40290@freescale.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] genext2fs: fix memory corruption on powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,30 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 07:23:35 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 09:00:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Eric Nelson <eric.nelson@boundarydevices.com>
+On 15 August 2013 07:23, Chunrong Guo <B40290@freescale.com> wrote:
+> +Upstream-Status: inappropriate
 
-Signed-off-by: Eric Nelson <eric.nelson@boundarydevices.com>
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+How is this inappropriate for upstream?  We don't want to deliberately
+horde non-trivial patches as it means more work in the future.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-index a6c74fb..213e799 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-gl_0.10.3.bb
-@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "48340b6a4b8abce16344a7bc33e74a94fdcce4f57ef6342cdf2f941c42
- 
- SRC_URI += " file://0001-conditional-gl-framebuffer-undefined-use.patch"
- 
--DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg"
-+DEPENDS += "gst-plugins-base virtual/libgles2 virtual/egl jpeg libpng"
- 
- inherit gettext gconf
- 
--- 
-1.8.3.2
-
+Ross
 
