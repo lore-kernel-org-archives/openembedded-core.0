@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 485756B824
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 266296B834
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 09:38:48 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id q58so386364wes.34
+	Thu, 15 Aug 2013 09:40:51 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id t57so376733wes.38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 02:38:47 -0700 (PDT)
+	Thu, 15 Aug 2013 02:40:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=FmzuGhFHaKZftr0df3pDZ0Y1kbymn4oj7vRkJJkCHNA=;
-	b=M6uc9eHtqC+FLQgUpzQWmK96eMGeZg/f/GtAxJN99A101sRlhnHQJz9vScV15QRxoG
-	IV10heslh4Ik9+VjUMLx2Mk803RVPU1qTZnqHoq22bW3IbXiDf9C2RJO0t+TMcUnk3pV
-	iJWXRDSU4wwY6dyzJknaSXo1xTsPVXJTd59Ns4uV+kmD+BlVQ/+FHprdxKzmbpfV0xrw
-	uE+1ky66opqNtnsU02nk0XK78IlhmbzqnnfcErfhh7hJFJCDMzYLHcd0INMKD0nhH9h1
-	dqta5Wv7thSwERwkQq9980ZuLQ5nCovJAFpMj3vF5wZYtc0TYSm22DJjXiSuXkSIenr8
-	jkxw==
-X-Gm-Message-State: ALoCoQnoWB4A1W4LMUcUhKNNWTGU/2ItIdOcoyhzBbfL/KrqcXA+8KoSuRhGUyTu7Arq8wQuxi5y
-X-Received: by 10.194.8.9 with SMTP id n9mr9644127wja.11.1376559527223; Thu,
-	15 Aug 2013 02:38:47 -0700 (PDT)
+	bh=yz57uBDhTravidwFo3WbPYyT96VBYIdeYK3Xe6htaw0=;
+	b=b+rtmnd5kNc3SC3j7pO9W7wd6gzFr/czQ18mb5gsVYuT5oMcSgMEGvv2D2ijWF2+rU
+	9DG5yaykdNOahaMgyPIaDUSjU9grf2IkUg2aVxm84lwKCuL9gSXgmeYZUYeupszx/zdm
+	w7F62gMmWMWFuoN4Idniu0Oz6et1K8/xnTxapLjiDzyY5SUthSAZ9uNLKsgVRX09aSIM
+	L3sisEhvxCUp6jSZrfcFcn4emc0OE800T26z7CUqQWtThlVYWu7JWSuI+zhGCo5ZlnZO
+	tPWi754QaUYc1+nff1jTz28rczt06k3t361MvTlMDbTK2AvKELFG+5J8UniO6taKA43y
+	4YJA==
+X-Gm-Message-State: ALoCoQlw6dxPgGGQ/6NEKoD6s2BsCOec+eDZIYhrDJ44atw2F/fFIfRo4NwMbUwgdkjNok7moPWx
+X-Received: by 10.180.79.161 with SMTP id k1mr1270215wix.36.1376559652527;
+	Thu, 15 Aug 2013 02:40:52 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.217.140.10 with HTTP; Thu, 15 Aug 2013 02:38:27 -0700 (PDT)
-In-Reply-To: <520C9F8A.7080703@windriver.com>
-References: <520C9F8A.7080703@windriver.com>
+Received: by 10.217.140.10 with HTTP; Thu, 15 Aug 2013 02:40:32 -0700 (PDT)
+In-Reply-To: <cover.1376546582.git.sgw@linux.intel.com>
+References: <cover.1376546582.git.sgw@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 15 Aug 2013 10:38:27 +0100
-Message-ID: <CAJTo0Lb=hiUHtjMSS8HMQC_gvdy6kjyvs77q1fxZtr9Y=ky24Q@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: About PACKAGECONFIG audit
+Date: Thu, 15 Aug 2013 10:40:32 +0100
+Message-ID: <CAJTo0LZ8ZcK3cWB1GU5f_Q8amruS-58xXvVmpZYSYpjHQEa4Rw@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: paul.eggleton@linux.intel.com, clarson@kergoth.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/33] Review & ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,23 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 09:38:50 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 09:40:52 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 15 August 2013 10:29, wenzong fan <wenzong.fan@windriver.com> wrote:
-> A probable ways maybe:
->
-> 1) Run world build to generate the sysroots as much as possible;
-> 2) Run 'configure --help' on each package to spot all of the optional
-> dependencies, and convert them into PACKAGECONFIG specs/or any other
-> prompts.
-> 3) Run #1, #2 as an audit script periodically.
+On 15 August 2013 07:10, Saul Wold <sgw@linux.intel.com> wrote:
+>   connman: fix systemd support for connman-* packages.
 
-Step 2 would be hard to to automate and some optional dependencies
-don't have configure options.  However Martin Jansa recently
-contributed scripts/test-dependencies.sh which does repeated builds to
-determine if there are any "floating" or missing dependencies, which
-can be ran periodically as an audit.
+This situation (possibly empty packages) should be supported in the
+systemd class instead of worked around with anonymous Python
+functions, please pull this.
 
 Ross
 
