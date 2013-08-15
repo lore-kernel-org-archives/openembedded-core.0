@@ -1,38 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f47.google.com (mail-ee0-f47.google.com [74.125.83.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E6A56B8D4
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F9E66B8D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 07:23:12 +0000 (UTC)
-Received: by mail-ee0-f47.google.com with SMTP id d49so181242eek.6
+	Thu, 15 Aug 2013 07:23:14 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id l10so182414eei.35
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 00:23:13 -0700 (PDT)
+	Thu, 15 Aug 2013 00:23:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=ZZNHjk8z2vIXAoZI3MwmyjFCCwdzl1QYCljOe/7P0VI=;
-	b=yL/+v7LIDVlrcbjf9fYHbiHlxqErFaeRT+35JdXBIwxjg1DG5VS4bD+vuHiHYBezig
-	y08xgRBKYxOLzv7sw4PNhdDQ+Wz24PTuSU0S1f6g4iOeQUOa5EA8L8LQatbjbIEFuC0W
-	aSjpAYYUQzGr9RvbPnRcKszt4GIoKE9MfyQAyCQJTPPrwkK1mR9ETafKm0uZEMoTOGsi
-	zc7Jg4s89FuzswhzweCUsbEQMHUgnS4BihCpl3BD/fFj+KJ4ylfaE529ZjaEexxHS4Pp
-	chn0NCcfzldi6Y3nsrHpnGSJZKQ5gpkmDOWptHl5jOGuf81/DNbZUto0ZhjZNTG/rkdW
-	SlRw==
-X-Received: by 10.14.102.72 with SMTP id c48mr2832479eeg.52.1376551393491;
-	Thu, 15 Aug 2013 00:23:13 -0700 (PDT)
+	:references; bh=S2YpdSEm8jeucpLTK/qd26y8H3xwRYy6o7C1pq5UZuA=;
+	b=HuA19cKQorML6tHObjuI4iWGVAFj8t34tODnpw8rSDTmE1E+x/C9Hmi8FT6H40styX
+	Odb9GRqNGLsgyJUvuI0GODgmOdUG2X0IDwV4wudXkOrcOaIJ8xDu9RiU6kKTGHbFxh7G
+	DdujXJ1PVqJFOmYqXHUgKfeaM6NP5zGossHKTTbobwHEjPIhosxHqqGtEYJ8WyEESj5Y
+	/EgRBxfY1ElEPyVvWU4AbxP3o/JuCToC/1RGzWwmN6OlLt4Pt4jB8/+apnGa26xn1nRG
+	44E82ZJYNdJDNMAMdkWAOo2UXZCrObrHk1Bk32VnnaQOphL9YZ471LUy8orJDpn7DrUM
+	TAXw==
+X-Received: by 10.14.100.141 with SMTP id z13mr242571eef.81.1376551394760;
+	Thu, 15 Aug 2013 00:23:14 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	m54sm81958743eex.2.2013.08.15.00.23.12
+	k3sm82027976een.16.2013.08.15.00.23.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 15 Aug 2013 00:23:13 -0700 (PDT)
+	Thu, 15 Aug 2013 00:23:14 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Aug 2013 09:23:27 +0200
-Message-Id: <63f21e22c7075015ed26dd61a0bc6114a116fe54.1376551402.git.Martin.Jansa@gmail.com>
+Date: Thu, 15 Aug 2013 09:23:28 +0200
+Message-Id: <4f581e6fc6c9d38a9cb1927387892fc9c42993d8.1376551402.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
 References: <cover.1376551401.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1376551401.git.Martin.Jansa@gmail.com>
 References: <cover.1376551401.git.Martin.Jansa@gmail.com>
-Subject: [for-dylan][PATCH 16/33] xkeyboard-config: add missing dependency on util-macros
+Subject: [for-dylan][PATCH 17/33] ccache: add zlib dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,29 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 07:23:13 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 07:23:14 -0000
 
-* build fails without it
-  configure.ac:7: error: must install xorg-macros 1.12 or later before
+* when it's not detected in sysroot it uses bundled version
+* add explicit dependency to make it deterministic
+* PACKAGECONFIG wasn't used because configure doesn't have an
+  option to select which one should be used
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/ccache/ccache.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-index ccb9f74..8579b24 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.8.bb
-@@ -17,7 +17,7 @@ SRC_URI[md5sum] = "e66d567d85a954d589c5723fb0e1f3dd"
- SRC_URI[sha256sum] = "4e1cf5468d488aaf320ddfd439e03cbda0b213550fd734026d23138e4b2078ae"
+diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
+index 29ac409..087cb7d 100644
+--- a/meta/recipes-devtools/ccache/ccache.inc
++++ b/meta/recipes-devtools/ccache/ccache.inc
+@@ -7,6 +7,8 @@ HOMEPAGE = "http://ccache.samba.org"
+ SECTION = "devel"
+ LICENSE = "GPLv3+"
  
- SECTION = "x11/libs"
--DEPENDS = "intltool-native virtual/gettext"
-+DEPENDS = "intltool-native virtual/gettext util-macros"
++DEPENDS = "zlib"
++
+ SRC_URI = "http://samba.org/ftp/ccache/ccache-${PV}.tar.xz"
  
- PR = "r0"
- 
+ inherit autotools
 -- 
 1.8.3.2
 
