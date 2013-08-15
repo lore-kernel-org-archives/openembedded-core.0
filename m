@@ -1,35 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FE116612B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 17:36:14 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id g10so1068580pdj.40
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 10:36:14 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B4B356612B;
+	Thu, 15 Aug 2013 17:47:00 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id c41so505412eek.25
+	for <multiple recipients>; Thu, 15 Aug 2013 10:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=c2L0DTL63CCVw6M9yjVHu86Bz80fh4n4wsM9RCNjdi0=;
-	b=znyfhF/q3XjqoVMKLKWqE5yQFrd4gpxCfQA1IbakU333ICSNNktrXm688dbMTvmqvg
-	70z8pmSBbCEpF47y6laDqE7rUq7H9AqpSuGI+6reKZhY0FKuwwiOpsqdtCrNp/6igfD4
-	jehOQKhBLgzxmFj2XCWILZBIl/Y8XFL1mPntBkvRDv9PM95yteyKJh2hZGvRzFslnUqA
-	KzMuAxGb1/w0W1HMkbWer8NVbOSYyoIUtHihVUz28G+vjnDaqeJHVH5bkiLZLiSCOSJx
-	5XzB3AerN38C1tx6VNATDTKnG6OnvMU5r15V5ZISvDRZdWzSAxlEwWIF+ugRAEkWvyF9
-	XXEA==
-X-Received: by 10.66.122.67 with SMTP id lq3mr8277847pab.147.1376588174829;
-	Thu, 15 Aug 2013 10:36:14 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id mz5sm734334pbc.18.2013.08.15.10.36.13
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=CL1zE9HsbAEwvx7QrjwNOQ72cBK0VBf0rNpcSA0gjmU=;
+	b=cXd4ZHXIMRBMqPBRORdv9e4kzdVOgI5QVdWQWNL2z4h0jnpx1hPolQik9kx3INpZnZ
+	ZTY0Sz4xP0ZRKyH33WQJjeKhwkUiQKg9XTPiqUnJoHWgNg7LhoA/QBPkJGZdpha/oAmN
+	JXyVc0EhlzYrn6suTERKwryazejnb62J1qreqUI09+Ya7BV6vwPGYm3kzFia3vblxwGO
+	SAZGyP/5bFCUeWfiLDnWY7hPgveVwUR7wWXBo353VsrXE3ErrJU23o7kuovFBjikq99m
+	D+JkRbvYkiZo3dyuxM5iz2ICTt8Z63T3ZnS7/yoTP/+tpHn4fzvyrXNDJP2mRFS/qG2C
+	fmew==
+X-Received: by 10.15.64.194 with SMTP id o42mr5295215eex.62.1376588820772;
+	Thu, 15 Aug 2013 10:47:00 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id h52sm205286eez.3.2013.08.15.10.46.59
 	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 15 Aug 2013 10:36:14 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 15 Aug 2013 10:35:27 -0700
-Message-Id: <1376588127-7395-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] qemuppc: Change default tune to 74xx
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 15 Aug 2013 10:47:00 -0700 (PDT)
+Date: Thu, 15 Aug 2013 19:47:52 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Message-ID: <20130815174752.GE17945@jama>
+References: <20130724102648.6C85050201@opal>
+MIME-Version: 1.0
+In-Reply-To: <20130724102648.6C85050201@opal>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Chen Qi : useradd.bbclass: add a new base class and code refactor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 17:36:14 -0000
+X-List-Received-Date: Thu, 15 Aug 2013 17:47:02 -0000
+X-Groupsio-MsgNum: 43449
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="qTzJm9l2qECmSDiM"
+Content-Disposition: inline
 
-We use mac99 as platform for qemuppc
-lets choose a tuning thats appropriate for it
+--qTzJm9l2qECmSDiM
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/qemuppc.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Jul 24, 2013 at 10:26:48AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 2a57bb7e9a7e154578aa7cb9aeebdf398a54ec00
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D2a57bb7e9a7e154578aa7cb9aeebdf398a54ec00
+>=20
+> Author: Chen Qi <Qi.Chen@windriver.com>
+> Date:   Fri Jul 19 09:52:25 2013 +0800
+>=20
+> useradd.bbclass: add a new base class and code refactor
+>=20
+> Add a new base class, useradd_base.bbclass, which is mainly a
+> collection of basic functions for user/group settings.
+>=20
+> The useradd_base.bbclass is intended to be inherited by useradd.bbclass
+> and the extrausers.bbclass to avoid code cuplication.
 
-diff --git a/meta/conf/machine/qemuppc.conf b/meta/conf/machine/qemuppc.conf
-index 48eecb7..93145a1 100644
---- a/meta/conf/machine/qemuppc.conf
-+++ b/meta/conf/machine/qemuppc.conf
-@@ -3,7 +3,7 @@
- #@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
- 
- require conf/machine/include/qemu.inc
--require conf/machine/include/tune-ppc603e.inc
-+require conf/machine/include/tune-ppc7400.inc
- 
- KERNEL_IMAGETYPE = "vmlinux"
- 
--- 
-1.8.3.4
+This code is calling bbwarn in postinst scripts, but only implementation
+I've found is in logging.bbclass and isn't included in postinst shell
+code causing:
 
+/tmp/opkg-HtXU0e/dbus-1-Ea0TSc/preinst: 15:
+/tmp/opkg-HtXU0e/dbus-1-Ea0TSc/preinst: bbwarn: not found
 
+--qTzJm9l2qECmSDiM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.20 (GNU/Linux)
+
+iEYEARECAAYFAlINFEgACgkQN1Ujt2V2gByJyACfTCJpFszCfIukvorbQHJ0bp1k
+uOUAn0pCTfezdmgjla+v95mlSqdGJgFP
+=8tIK
+-----END PGP SIGNATURE-----
+
+--qTzJm9l2qECmSDiM--
