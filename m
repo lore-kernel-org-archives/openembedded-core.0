@@ -1,26 +1,35 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 144756B4FD
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
+	[209.85.160.41])
+	by mail.openembedded.org (Postfix) with ESMTP id A78F26B79C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 10:51:07 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VAHcZ-0005aK-H6; Fri, 16 Aug 2013 12:51:07 +0200
-Message-ID: <1376650266.17787.33.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 16 Aug 2013 11:51:06 +0100
-In-Reply-To: <1376649704.22952.116.camel@ted>
-References: <520C9F8A.7080703@windriver.com>
-	<1376559796.17787.14.camel@phil-desktop.brightsign>
-	<1376649704.22952.116.camel@ted>
-X-Mailer: Evolution 3.4.4-3 
-Mime-Version: 1.0
-Cc: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: About PACKAGECONFIG audit
+	Fri, 16 Aug 2013 11:40:19 +0000 (UTC)
+Received: by mail-pb0-f41.google.com with SMTP id rp2so1909044pbb.28
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2013 04:40:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
+	:to:content-type;
+	bh=8DvQBCXKpQT5OmbRMH5Vd5KLDLaDpi+HLXGG4+g5tuI=;
+	b=gljemoXcBWqRngsSXqDBGc5aVqM0kZ5ybFeo+3jnfXpX6uEDM4i7w7Ytx+Ibvjq+ao
+	6UmtRC6P5A/jSO9249reZBcIPT9PXrFStdxmG+x5UK77kesh4LAb3Xr9Ne/LhujNe7qt
+	fKL9UeH34rwYxaa5lD8Yxk2O/PNO8nQVRfv9I3HHMPB8v68ebnuy1xL1s0X2B7l6jE2t
+	9QM+cQe+WwHDoyc2/rxUxMc+zmFIwiolZGRCZs6bB1+2QEmVKke6M22pDSvNqMdlYxft
+	k6WnDQH7pzXVCBYzeYwLyzMQqpV14eEZsbzPyjZoefv/2UJ5QyLcytELfHbwHcv+Cpv6
+	wxNQ==
+X-Gm-Message-State: ALoCoQmlCvGVG7icCFWguMnPz5Y9P1fF2hpPkZEOl2wKwi/DVGryjpv3N9FJGwrNtCkcw6bQcsH8
+MIME-Version: 1.0
+X-Received: by 10.66.118.204 with SMTP id ko12mr1044149pab.184.1376653220310; 
+	Fri, 16 Aug 2013 04:40:20 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.37.237 with HTTP; Fri, 16 Aug 2013 04:40:20 -0700 (PDT)
+Date: Fri, 16 Aug 2013 12:40:20 +0100
+X-Google-Sender-Auth: kbYgfiP0Fqm-fxZka5O2VzRV03M
+Message-ID: <CAOMwXhNaMEvSfi-J=EPOXfSAfjWUJeq8pGAGE3_5Hix1Sw9mKg@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Why is "bitbake core-image-minimal" building gtk docs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 10:51:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Aug 2013 11:40:19 -0000
+Content-Type: multipart/alternative; boundary=e89a8ffbaa2b2cffe404e40f0ef1
 
-On Fri, 2013-08-16 at 11:41 +0100, Richard Purdie wrote:
-> On Thu, 2013-08-15 at 10:43 +0100, Phil Blundell wrote:
-> > I don't think there's currently any straightforward way
-> > for package.bbclass to generate the recursive dependency chain for an
-> > arbitrary recipe. 
-> 
-> Bitbake itself has that information and I suspect we should share it to
-> tasks. The exact form of that would be the harder thing to determine...
+--e89a8ffbaa2b2cffe404e40f0ef1
+Content-Type: text/plain; charset=ISO-8859-1
 
-If it's something that bitbake already computes (or could compute
-cheaply) then you could just arrange for it to add it to the datastore
-as something like ${BB_COMPUTED_DEPENDS} before running each task.  Just
-a flat textual list of recipes, de-duped but in arbitrary order, would
-probably be good enough for all the use-cases we've talked about so far.
-I guess the question is whether you need to do anything clever with
-selecting the dependencies for particular tasks, or whether you could
-just take the dependencies for all tasks that the recipe defines and
-collapse them into a single list.  I think probably the latter.
+Hi,
 
-If it's expensive to compute then I guess there'd need to be some sort
-of bb.cooker.get_recursive_dependencies() kind of function that tasks
-can call when they want the information.
+alternatively: is there an option to turn gtk, especially the docs off?
 
-p.
+Cheers,
+Laszlo
 
+--e89a8ffbaa2b2cffe404e40f0ef1
+Content-Type: text/html; charset=ISO-8859-1
 
+<div dir="ltr">Hi,<div><br></div><div>alternatively: is there an option to turn gtk, especially the docs off?</div><div><br></div><div>Cheers,</div><div>Laszlo</div></div>
 
+--e89a8ffbaa2b2cffe404e40f0ef1--
