@@ -1,22 +1,24 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EA066B5AA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 34B4A6A9F9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 12:15:51 +0000 (UTC)
-Message-ID: <520E17F6.4030500@communistcode.co.uk>
-Date: Fri, 16 Aug 2013 13:15:50 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130806 Thunderbird/17.0.8
-MIME-Version: 1.0
+	Fri, 16 Aug 2013 13:33:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2013 06:33:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,895,1367996400"; d="scan'208";a="363632779"
+Received: from timevans-mobl.ger.corp.intel.com (HELO
+	helios.ger.corp.intel.com) ([10.252.122.223])
+	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2013 06:33:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <CAOMwXhNaMEvSfi-J=EPOXfSAfjWUJeq8pGAGE3_5Hix1Sw9mKg@mail.gmail.com>
-In-Reply-To: <CAOMwXhNaMEvSfi-J=EPOXfSAfjWUJeq8pGAGE3_5Hix1Sw9mKg@mail.gmail.com>
-Subject: Re: Why is "bitbake core-image-minimal" building gtk docs?
+Date: Fri, 16 Aug 2013 14:33:11 +0100
+Message-Id: <cover.1376659841.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 0/1] tslib 1.1 update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -26,50 +28,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 12:15:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Aug 2013 13:33:29 -0000
 
-On 16/08/13 12:40, Laszlo Papp wrote:
-> Hi,
-> 
-> alternatively: is there an option to turn gtk, especially the docs off?
-> 
-> Cheers,
-> Laszlo
-> 
-> 
+Tested both with ts_calibrate/ts_test and the Qt Embedded demo
+application on both qemumips and qemux86. Once merged this should also
+allow removal of the tslib recipe in meta-oe.
 
-I don't know how to properly stop it building, or turn it off but I can
-tell you the cause.
 
-Running bitbake -g core-image-minimal outputs the dependency graphs, and
-by examining that it seems as though the following packages pull in
-gtk-doc related packages.
+The following change since commit b8952942aed77473d3b44a17112cbf6a9e83eff3:
 
-"connman" -> "gtk-doc-stub-native"
-"kmod-native" -> "gtk-doc-stub-native"
-"kmod" -> "gtk-doc-stub-native"
-"glib-2.0" -> "gtk-doc-stub-native"
-"glib-2.0-native" -> "gtk-doc-stub-native"
+  qemu: Fix bit extraction for MTFSFI and MTFSF (2013-08-16 11:39:43 +0100)
 
-Now, all these packages are gtk-doc-stub[-native], which is described as:
+is available in the git repository at:
 
-DESCRIPTION = "Stub implementation of gtk-doc, as we don't want to build
-the API documentation"
+  git://git.openembedded.org/openembedded-core-contrib paule/tslib
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/tslib
 
-So it sounds like gtk-docs aren't actually being built, but the stubs
-provide enough to make the package think they're being built...
+Paul Eggleton (1):
+  tslib: update to 1.1
 
-That's all I know, someone with more gtk knowledge than me can probably
-fill in the reason for why it's required to build those packages.
-
-Cheers,
+ .../tslib/0001-Link-plugins-against-libts.patch    |  57 --
+ .../tslib/tslib/32bitBE-support.patch              |  55 --
+ .../recipes-graphics/tslib/tslib/fix_version.patch |  34 -
+ meta/recipes-graphics/tslib/tslib/multievent.patch | 845 ---------------------
+ .../tslib/tslib/obsolete_automake_macros.patch     |  15 -
+ .../tslib/set-open-mode-for-ts_calibrate_c.patch   |  30 -
+ .../tslib/{tslib_1.0.bb => tslib_1.1.bb}           |  14 +-
+ 7 files changed, 3 insertions(+), 1047 deletions(-)
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/32bitBE-support.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/fix_version.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/multievent.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/set-open-mode-for-ts_calibrate_c.patch
+ rename meta/recipes-graphics/tslib/{tslib_1.0.bb => tslib_1.1.bb} (77%)
 
 -- 
-  Jack Mitchell (jack@embed.me.uk)
-  Embedded Systems Engineer
-  Cambrideshire, UK
-  http://www.embed.me.uk
---
+1.8.1.2
+
 
