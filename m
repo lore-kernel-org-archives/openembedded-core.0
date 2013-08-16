@@ -1,26 +1,17 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 41C6661222
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id DDC866B5A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 17:11:39 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2013 10:11:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,895,1367996400"; d="scan'208";a="282913436"
-Received: from unknown (HELO [10.255.14.106]) ([10.255.14.106])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2013 10:11:39 -0700
-Message-ID: <520E5D4B.5020201@linux.intel.com>
-Date: Fri, 16 Aug 2013 10:11:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
-MIME-Version: 1.0
-To: wenzong.fan@windriver.com
-References: <cover.1376377523.git.wenzong.fan@windriver.com>
-	<27b0ee9bd74b6c95c3ddd11b673a56d8543cd5d6.1376377523.git.wenzong.fan@windriver.com>
-In-Reply-To: <27b0ee9bd74b6c95c3ddd11b673a56d8543cd5d6.1376377523.git.wenzong.fan@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] oe/path.py: call /bin/cp directly
+	Fri, 16 Aug 2013 17:26:45 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7GHQg7O007660; 
+	Fri, 16 Aug 2013 12:26:44 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Aug 2013 22:27:41 +0500
+Message-Id: <1376674064-14468-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/4] [v3] openssh: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +24,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 17:11:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Aug 2013 17:26:46 -0000
 
-On 08/13/2013 12:09 AM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
->
-> This avoids running cp with interactive mode if defined:
->
->      alias cp='cp -i'
->
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
->   meta/lib/oe/path.py |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-> index da044ba..6933977 100644
-> --- a/meta/lib/oe/path.py
-> +++ b/meta/lib/oe/path.py
-> @@ -97,7 +97,7 @@ def copyhardlinktree(src, dst):
->           check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->           if os.path.isdir(src):
->               src = src + "/*"
-> -        cmd = 'cp -afl %s %s' % (src, dst)
-> +        cmd = '/bin/cp -afl %s %s' % (src, dst)
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-As Richard points out in the Consolidated Pull, this is the wrong way to 
-go about this, there are possibly other places that will have similar 
-issues and we can't fix then all this way.
+-Remove dependency on meta-systemd
 
-A better solution is to add a sanity check and suggest that the user 
-needs to fix their environment to ensure the build will succeed.
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../openssh/openssh-6.2p2/sshd.socket              |   11 +++++++++++
+ .../openssh/openssh-6.2p2/sshd@.service            |    9 +++++++++
+ .../openssh/openssh-6.2p2/sshdgenkeys.service      |   10 ++++++++++
+ meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   20 ++++++++++++++++++--
+ 4 files changed, 48 insertions(+), 2 deletions(-)
 
-Sau!
->           check_output(cmd, shell=True, stderr=subprocess.STDOUT)
->       else:
->           copytree(src, dst)
->
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+new file mode 100644
+index 0000000..753a33b
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+@@ -0,0 +1,11 @@
++[Unit]
++Conflicts=sshd.service
++
++[Socket]
++ExecStartPre=/bin/mkdir -p /var/run/sshd
++ListenStream=22
++Accept=yes
++
++[Install]
++WantedBy=sockets.target
++Also=sshdgenkeys.service
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
+new file mode 100644
+index 0000000..d118490
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
+@@ -0,0 +1,9 @@
++[Unit]
++Description=OpenSSH Per-Connection Daemon
++After=sshdgenkeys.service
++
++[Service]
++ExecStart=-/usr/sbin/sshd -i
++ExecReload=/bin/kill -HUP $MAINPID
++StandardInput=socket
++StandardError=syslog
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
+new file mode 100644
+index 0000000..c717214
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=SSH Key Generation
++
++[Service]
++ExecStart=/usr/bin/ssh-keygen -A
++Type=oneshot
++RemainAfterExit=yes
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+index c76f9ac..8dac2f1 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+@@ -26,14 +26,17 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://init \
+            file://openssh-CVE-2011-4327.patch \
+            file://mac.patch \
+-           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
++           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
++           file://sshd.socket \
++           file://sshd@.service \
++           file://sshdgenkeys.service "
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+ SRC_URI[md5sum] = "be46174dcbb77ebb4ea88ef140685de1"
+ SRC_URI[sha256sum] = "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90c766432e32161b842313b"
+ 
+-inherit useradd update-rc.d update-alternatives
++inherit useradd update-rc.d update-alternatives systemd
+ 
+ USERADD_PACKAGES = "${PN}-sshd"
+ USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
+@@ -41,6 +44,10 @@ INITSCRIPT_PACKAGES = "${PN}-sshd"
+ INITSCRIPT_NAME_${PN}-sshd = "sshd"
+ INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
+ 
++SYSTEMD_PACKAGES = "${PN}-sshd"
++SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket sshd@.service sshdgenkeys.service"
++SYSTEMD_AUTO_ENABLE = "enable"
++
+ PACKAGECONFIG ??= "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
+ 
+@@ -93,6 +100,14 @@ do_install_append () {
+ 	echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
++
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
++	sed -i 's,/bin/,${base_bindir}/,g' ${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/sshd@.service
++	sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/sshd@.service
++	sed -i 's,/usr/bin/,${bindir}/,g' ${D}${systemd_unitdir}/system/sshdgenkeys.service
+ }
+ 
+ ALLOW_EMPTY_${PN} = "1"
+@@ -102,6 +117,7 @@ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
+ FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
+ FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
+ FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly"
++FILES_${PN}-sshd += "${systemd_unitdir}"
+ FILES_${PN}-sftp = "${bindir}/sftp"
+ FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
+ FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+-- 
+1.7.9.5
+
 
