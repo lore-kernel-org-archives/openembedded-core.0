@@ -1,22 +1,27 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BE596B7BB
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C44986B5A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 08:28:16 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2013 01:28:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,893,1367996400"; d="scan'208";a="282751131"
-Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.72])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2013 01:27:44 -0700
-From: Cristiana Voicu <cristiana.voicu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Aug 2013 11:30:49 +0300
-Message-Id: <f9e441cc3a1beefe5e6463ed1db730f8803af38c.1376641437.git.cristiana.voicu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1376641437.git.cristiana.voicu@intel.com>
-References: <cover.1376641437.git.cristiana.voicu@intel.com>
-Subject: [PATCH 1/2] cronie: upgrade to 1.4.11
+	Fri, 16 Aug 2013 08:45:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7G8j7cW020227
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 16 Aug 2013 01:45:07 -0700 (PDT)
+Received: from [128.224.162.225] (128.224.162.225) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 16 Aug 2013 01:45:07 -0700
+Message-ID: <520DE692.6060804@windriver.com>
+Date: Fri, 16 Aug 2013 16:45:06 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1376637245.git.jackie.huang@windriver.com>
+In-Reply-To: <cover.1376637245.git.jackie.huang@windriver.com>
+Subject: Re: [PATCH 0/1] texinfo: handle correctly @enumerate specification greater than 10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,54 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 08:28:16 -0000
+X-List-Received-Date: Fri, 16 Aug 2013 08:45:07 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-LIC_FILES_CHKSUM changed because cron.h doesn't exist anymore.
-Replaced it with cron.c.
 
-Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
----
- .../cronie/{cronie_1.4.9.bb => cronie_1.4.11.bb}   |    8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/cronie/{cronie_1.4.9.bb => cronie_1.4.11.bb} (92%)
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.9.bb b/meta/recipes-extended/cronie/cronie_1.4.11.bb
-similarity index 92%
-rename from meta/recipes-extended/cronie/cronie_1.4.9.bb
-rename to meta/recipes-extended/cronie/cronie_1.4.11.bb
-index b338c37..5b12448 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.9.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.11.bb
-@@ -9,7 +9,7 @@ BUGTRACKER = "mmaslano@redhat.com"
- # Internet Systems Consortium License
- LICENSE = "ISC & BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=963ea0772a2adbdcd607a9b2ec320c11 \
--                    file://src/cron.h;endline=20;md5=b425c334265026177128353a142633b4 \
-+                    file://src/cron.c;endline=20;md5=b425c334265026177128353a142633b4 \
-                     file://src/popen.c;beginline=3;endline=31;md5=edd50742d8def712e9472dba353668a9"
+On 8/16/2013 3:16 PM, jackie.huang@windriver.com wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>
+> The following changes since commit 57662d4f813d5795cac1529633db80a09efdb089:
+>
+>    meta-skeleton: Add busybox config fragment example (2013-08-13 23:03:44 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib jhuang0/d_texinfo_mpatrol_0816_1
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_texinfo_mpatrol_0816_1
+
+Sorry that the removing of a trailing white space in the patch would 
+cause patching fail, plase use the updated one:
+
+The following changes since commit 57662d4f813d5795cac1529633db80a09efdb089:
+
+   meta-skeleton: Add busybox config fragment example (2013-08-13 
+23:03:44 +0100)
+
+are available in the git repository at:
+   git://git.pokylinux.org/poky-contrib jhuang0/d_texinfo_mpatrol_0816_2
  
- SECTION = "utils"
-@@ -18,8 +18,6 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
- PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
- 
--PR = "r0"
--
- SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
-            file://crond.init \
-            file://crontab \
-@@ -28,8 +26,8 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
- PAM_SRC_URI = "file://crond_pam_config.patch"
- 
- 
--SRC_URI[md5sum] = "9133195e5e6f824ef460f5ccc533f1b7"
--SRC_URI[sha256sum] = "bd7f6f118460c452bd1217a24b80fd3c000425d3de28731b98354a81a2133e92"
-+SRC_URI[md5sum] = "2ba645cf54de17f138ef70312843862f"
-+SRC_URI[sha256sum] = "fd08084cedddbb42499f80ddb7f2158195c3555c2ff40ee11d4ece2f9864d7be"
- 
- inherit autotools update-rc.d useradd
- 
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_texinfo_mpatrol_0816_2
+
+Jackie Huang (1):
+   texinfo: handle correctly @enumerate specification greater than 10
+
+  .../texinfo-5.1/enumerate_greater_than_ten.patch   |   51 
+++++++++++++++++++++
+  meta/recipes-extended/texinfo/texinfo_5.1.bb       |    1 +
+  2 files changed, 52 insertions(+), 0 deletions(-)
+  create mode 100644 
+meta/recipes-extended/texinfo/texinfo-5.1/enumerate_greater_than_ten.patch
+
+--
+1.7.4.1
+
+Thanks,
+Jackie
+
+>
+> Jackie Huang (1):
+>    texinfo: handle correctly @enumerate specification greater than 10
+>
+>   .../texinfo-5.1/enumerate_greater_than_ten.patch   |   51 ++++++++++++++++++++
+>   meta/recipes-extended/texinfo/texinfo_5.1.bb       |    1 +
+>   2 files changed, 52 insertions(+), 0 deletions(-)
+>   create mode 100644 meta/recipes-extended/texinfo/texinfo-5.1/enumerate_greater_than_ten.patch
+>
+
 -- 
-1.7.9.5
-
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
