@@ -1,19 +1,25 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id BB3CD6B5A8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D6F2C6B2CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 17:27:00 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7GHQg7R007660; 
-	Fri, 16 Aug 2013 12:27:00 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Aug 2013 22:27:44 +0500
-Message-Id: <1376674064-14468-4-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1376674064-14468-1-git-send-email-muhammad_shakeel@mentor.com>
-References: <1376674064-14468-1-git-send-email-muhammad_shakeel@mentor.com>
-Subject: [PATCH 4/4] [v3] nfs-utils: Add systemd support
+	Fri, 16 Aug 2013 17:43:06 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2013 10:43:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,896,1367996400"; d="scan'208";a="388337995"
+Received: from unknown (HELO [10.255.14.106]) ([10.255.14.106])
+	by orsmga002.jf.intel.com with ESMTP; 16 Aug 2013 10:43:05 -0700
+Message-ID: <520E64A8.2000206@linux.intel.com>
+Date: Fri, 16 Aug 2013 10:43:04 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130514 Thunderbird/17.0.6
+MIME-Version: 1.0
+To: Qi.Chen@windriver.com
+References: <cover.1375941355.git.Qi.Chen@windriver.com>
+In-Reply-To: <cover.1375941355.git.Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V5 00/10] Make read-only rootfs work with live images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,167 +32,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 17:27:01 -0000
+X-List-Received-Date: Fri, 16 Aug 2013 17:43:06 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On 08/07/2013 11:15 PM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> Changes from V4:
+> 1. Fix the error of 'read -f' in populate-volatile.sh. The '-f' should should not be there.
+> 2. Fix the error of missing colon in populate-volatile.sh.
+>
+> Changes from V3:
+> 1. Take hidden directories and files into consideration when copying before bind mounting.
+> 2. Use 'cp -a' in populate-volatile.sh to avoid potential problems
+>
+> Change from V2:
+> 1. modify the irda init script so that it doesn't necessarily need to write to /etc/sysconfig/irda
+> 2. drop the lighttpd patch
+> 3. modify the logic for openssh in case of a read-only rootfs
+>
+> Change from V1:
+> 1. Disable the generating of ssh keys at rootfs time
+> 2. Add a mechanism to read-only-rootfs-hook.sh to check whether a directory is on a read-only partition.
+> 3. Fix a new bug#4937 (https://bugzilla.yoctoproject.org/show_bug.cgi?id=4937)
+>
+> The following changes since commit f63e7f4323368c0d6fe7a1d44393a7e15652d4f2:
+>
+>    subversion: Add patch to use neon 0.30 (2013-08-07 07:43:47 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib ChenQi/read-only-rootfs-in-live-images
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images
+>
+> Chen Qi (10):
+>    init-live.sh: make $ROOT_MOUNT/media writable when necessary
+>    use a uiform way to determine whether rootfs is read-only
 
-- Remove dependency on meta-systemd
+Qi,
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- .../nfs-utils/nfs-utils/nfs-mountd.service         |   11 ++++++
- .../nfs-utils/nfs-utils/nfs-server.service         |   18 ++++++++++
- .../nfs-utils/nfs-utils/nfs-statd.service          |   12 +++++++
- .../nfs-utils/nfs-utils/nfs-utils.conf             |   35 ++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.2.8.bb                   |   20 +++++++++--
- 5 files changed, 94 insertions(+), 2 deletions(-)
+Richard noted in the Consolidated Pull that he did not take this patch 
+along with the initscripts patch due to too many processes being spawned 
+at boot time, can you find a better way to handle this?
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
-new file mode 100644
-index 0000000..2e8dc03
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
-@@ -0,0 +1,11 @@
-+[Unit]
-+Description=NFS Mount Daemon
-+After=rpcbind.service nfs-server.service
-+Requires=rpcbind.service nfs-server.service
-+
-+[Service]
-+EnvironmentFile=-/etc/nfs-utils.conf
-+ExecStart=/usr/sbin/rpc.mountd -F $MOUNTD_OPTS
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
-new file mode 100644
-index 0000000..6c1eacb
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
-@@ -0,0 +1,18 @@
-+[Unit]
-+Description=NFS Server
-+Requires=rpcbind.service nfs-mountd.service
-+After=rpcbind.service
-+
-+[Service]
-+Type=oneshot
-+EnvironmentFile=-/etc/nfs-utils.conf
-+ExecStartPre=/usr/sbin/exportfs -r
-+ExecStart=/usr/sbin/rpc.nfsd $NFSD_OPTS $NFSD_COUNT
-+ExecStop=/usr/sbin/rpc.nfsd 0
-+ExecStopPost=/usr/sbin/exportfs -f
-+ExecReload=/usr/sbin/exportfs -r
-+StandardError=syslog
-+RemainAfterExit=yes
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
-new file mode 100644
-index 0000000..ca53527
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=NFS file locking service
-+After=rpcbind.service
-+Requires=rpcbind.service
-+Before=remote-fs-pre.target
-+
-+[Service]
-+EnvironmentFile=-/etc/nfs-utils.conf
-+ExecStart=/usr/sbin/rpc.statd -F $STATD_OPTS
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf
-new file mode 100644
-index 0000000..a1007a7
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf
-@@ -0,0 +1,35 @@
-+# Parameters to be passed to nfs-utils (clients & server) service files.
-+#
-+
-+# Options to pass to rpc.nfsd.
-+NFSD_OPTS=""
-+
-+# Number of servers to start up; the default is 8 servers.
-+NFSD_COUNT=""
-+
-+# Where to mount nfsd filesystem; the default is "/proc/fs/nfsd".
-+PROCNFSD_MOUNTPOINT=""
-+
-+# Options used to mount nfsd filesystem; the default is "rw,nodev,noexec,nosuid".
-+PROCNFSD_MOUNTOPTS=""
-+
-+# Options for rpc.mountd.
-+# If you have a port-based firewall, you might want to set up
-+# a fixed port here using the --port option.
-+MOUNTD_OPTS=""
-+
-+# Parameters to be passed to nfs-common (nfs clients & server) init script.
-+#
-+
-+# If you do not set values for the NEED_ options, they will be attempted
-+# autodetected; this should be sufficient for most people. Valid alternatives
-+# for the NEED_ options are "yes" and "no".
-+
-+# Do you want to start the statd daemon? It is not needed for NFSv4.
-+NEED_STATD=""
-+
-+# Options to pass to rpc.statd.
-+# N.B. statd normally runs on both client and server, and run-time
-+# options should be specified accordingly.
-+# STATD_OPTS="-p 32765 -o 32766"
-+STATD_OPTS=""
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-index fd6d33e..f684424 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-@@ -15,7 +15,11 @@ RRECOMMENDS_${PN} = "kernel-module-nfsd"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.bz2 \
-            file://nfs-utils-1.0.6-uclibc.patch \
-            file://nfs-utils-1.2.3-sm-notify-res_init.patch \
--           file://nfsserver"
-+           file://nfsserver \
-+           file://nfs-utils.conf \
-+           file://nfs-server.service \
-+           file://nfs-mountd.service \
-+           file://nfs-statd.service "
- 
- SRC_URI[md5sum] = "6e7d97de51e428a0b8698c16ca23db77"
- SRC_URI[sha256sum] = "1cc8f02a633eddbf0a1d93421f331479c4cdab4c5ab33b8bf8c7c369f9156ac6"
-@@ -31,7 +35,10 @@ INITSCRIPT_NAME = "nfsserver"
- # in the shutdown levels, but that works fine.
- INITSCRIPT_PARAMS = "defaults"
- 
--inherit autotools update-rc.d
-+inherit autotools update-rc.d systemd
-+
-+SYSTEMD_SERVICE_${PN} = "nfs-server.service nfs-mountd.service nfs-statd.service"
-+SYSTEMD_AUTO_ENABLE = "disable"
- 
- # --enable-uuid is need for cross-compiling
- EXTRA_OECONF = "--with-statduser=nobody \
-@@ -65,6 +72,15 @@ do_install_append () {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -d ${D}${localstatedir}/lib/nfs/statd
- 	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
-+
-+	install -m 0755 ${WORKDIR}/nfs-utils.conf ${D}${sysconfdir}
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_unitdir}/system/
-+	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_unitdir}/system/
-+	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_unitdir}/system/
-+	sed -i 's,/usr/sbin/,${sbindir}/,g' ${D}${systemd_unitdir}/system/*.service
-+	sed -i 's,/etc/,${sysconfdir}/,g' ${D}${systemd_unitdir}/system/*.service
-+
- 	# kernel code as of 3.8 hard-codes this path as a default
- 	install -d ${D}/var/lib/nfs/v4recovery
- 
--- 
-1.7.9.5
+Sau!
 
+>    udev: remove implicit dependency on initscripts
+>    populate-volatile.sh: use $ROOT_DIR/var/volatile/tmp as TMPDIR
+>    populate-volatile.sh: don't spawn background process at rootfs time
+>    runqemu-internal: fix to start X correctly in live images
+>    initscripts: use a uniform way to handle directories in read-only
+>      rootfs
+>    populate-volatile.sh: use 'cp -a' to avoid potential problem
+>    irda-utils: fix for read-only rootfs
+>    openssh: fix for read-only rootfs
+>
+>   meta/classes/image.bbclass                         |   16 +++++--
+>   .../irda-utils/irda-utils-0.9.18/init              |   13 +-----
+>   .../openssh/openssh-6.2p2/init                     |   22 ++++++---
+>   meta/recipes-connectivity/openssh/openssh_6.2p2.bb |    9 +++-
+>   meta/recipes-core/initrdscripts/files/init-live.sh |    2 +
+>   .../initscripts/initscripts-1.0/functions          |   14 ++++++
+>   .../initscripts-1.0/populate-volatile.sh           |   15 ++++--
+>   .../initscripts-1.0/read-only-rootfs-hook.sh       |   48 ++++++++++++++++++--
+>   meta/recipes-core/initscripts/initscripts_1.0.bb   |    5 ++
+>   meta/recipes-core/sysvinit/sysvinit/rcS-default    |    4 --
+>   meta/recipes-core/udev/udev/init                   |   21 +++++++--
+>   meta/recipes-core/udev/udev/udev-cache             |    5 ++
+>   .../0001-add-is_rootfs_readonly-to-functions.patch |   37 +++++++++++++++
+>   meta/recipes-extended/lsb/lsbinitscripts_9.48.bb   |    1 +
+>   scripts/runqemu-internal                           |    2 +-
+>   15 files changed, 172 insertions(+), 42 deletions(-)
+>   create mode 100644 meta/recipes-extended/lsb/lsbinitscripts/0001-add-is_rootfs_readonly-to-functions.patch
+>
 
