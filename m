@@ -1,31 +1,40 @@
-Return-Path: <Yang.Shi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F47561222
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D63D661222
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 15:23:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7GFNM53002596
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 16 Aug 2013 08:23:22 -0700 (PDT)
-Received: from [147.11.152.84] (147.11.152.84) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Fri, 16 Aug 2013 08:23:22 -0700
-Message-ID: <520E43E9.7040801@windriver.com>
-Date: Fri, 16 Aug 2013 08:23:21 -0700
-From: Yang Shi <yang.shi@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Fri, 16 Aug 2013 15:55:56 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Aug 2013 08:55:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,895,1367996400"; d="scan'208";a="387376394"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Aug 2013 08:55:52 -0700
+Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Fri, 16 Aug 2013 16:55:51 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.233]) with mapi id
+	14.03.0123.003; Fri, 16 Aug 2013 16:55:52 +0100
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Kai Kang
+	<kai.kang@windriver.com>
+Thread-Topic: [OE-core] [PATCH 1/1] qemu: update dependency of native package
+Thread-Index: AQHOmmhOP/KUsCzHH0akjBVsKRYjl5mXloCAgABkIvA=
+Date: Fri, 16 Aug 2013 15:55:50 +0000
+Message-ID: <81551E10643BEC4899D6BA2541201B62018E4EF9@IRSMSX105.ger.corp.intel.com>
+References: <cover.1376647416.git.kai.kang@windriver.com>
+	<b861e570e04aa288f05c344b161815b0dec8e788.1376647416.git.kai.kang@windriver.com>
+	<1376650065.22952.118.camel@ted>
+In-Reply-To: <1376650065.22952.118.camel@ted>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
 MIME-Version: 1.0
-To: Mark Hatle <mark.hatle@windriver.com>
-References: <1376498514-23057-1-git-send-email-yang.shi@windriver.com>
-	<1376498514-23057-2-git-send-email-yang.shi@windriver.com>
-	<1376503856.12272.217.camel@dvhart-mobl4.amr.corp.intel.com>
-	<520BCDE4.3010307@windriver.com>
-In-Reply-To: <520BCDE4.3010307@windriver.com>
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Revert "hello-mod: Ensure the produced package name begins with kernel-module-"
+Cc: "Zhangle.Yang@windriver.com" <Zhangle.Yang@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] qemu: update dependency of native package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,96 +47,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 15:23:23 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 16 Aug 2013 15:55:57 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 8/14/2013 11:35 AM, Mark Hatle wrote:
-> On 8/14/13 1:10 PM, Darren Hart wrote:
->> On Wed, 2013-08-14 at 09:41 -0700, Yang Shi wrote:
->>> [YOCTO #4286]
->>>
->>> The package runtime mapping rename issue is already fixed by
->>> commit 0bc564af07c1bae8112f834a60aea3b72af7de13, the 
->>> "kernel-module-" workaround
->>> is not necessary anymore for out-of-tree module package, so revert 
->>> that commit.
->>>
->>> This reverts commit 71aafc214fe407b7620e747c11dfb8326c867b1c.
->>>
->>
->> Is runtime mapping rename the right solution to this? I don't have any
->> experience with it, I'm not objecting, just asking the question. Is
->> runtime mapping rename a catchall for things that don't do the right
->> thing in the first place, or is it the preferred mechanism?
->
-> There we two patches that went into the main oe-core that make this 
-> change no longer relevant.  The first is a change 
-> 51928b6b5ca0a46a9dcd754483a19af58b95fa18, by Martin Jansa.  This 
-> automatically adds the kernel-module- prefix to kernel module packages.
->
-> The second was the recent commit 
-> 0bc564af07c1bae8112f834a60aea3b72af7de13 that allowed this change to 
-> work in a multilib environment.  To keep the example being as 'clean' 
-> as possible, we want to revert the workaround as it is no longer needed.
->
->> My uninformed initial reaction is that it makes more sense to be
->> explicit with this sort of thing so people can know what to expect as
->> the output from recipes like this without having to track down what the
->> runtime mapping rename will do to the package output.
->
-> The initial bug and feature request was that users creating packages 
-> that provide kernel-modules shouldn't have to know they need 
-> 'kernel-module-' in the name.  (Without that there are numerous QA and 
-> other checks that fail, some in ways that make it hard to figure out 
-> what went wrong.)
->
->> As things stand now, I can see from the hello-mod recipe that the
->> package will be called kernel-module-hello-mod, if we drop this, I would
->> expect it to be hello-mod if I didn't have a deep knowledge of this
->> rename mechanism...
->
-> Perhaps the need then is to document that the inherit of the modules 
-> bbclass will automatically name module packages w/ kernel-module- as 
-> required by the oe-core build environment?
-
-Any further comment on this?
-
-So, per Mark's comment, this workaround makes no sense so we should 
-revert it.
-
-Thanks,
-Yang
-
->
->> My 0.02 USD.
->>
->>> Signed-off-by: Yang Shi <yang.shi@windriver.com>
->>> ---
->>>   .../recipes-kernel/hello-mod/hello-mod_0.1.bb      |    8 --------
->>>   1 files changed, 0 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb 
->>> b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
->>> index 621f700..64a6dda 100644
->>> --- a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
->>> +++ b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
->>> @@ -13,11 +13,3 @@ SRC_URI = "file://Makefile \
->>>             "
->>>
->>>   S = "${WORKDIR}"
->>> -
->>> -# Kernel module packages MUST begin with 'kernel-module-', otherwise
->>> -# multilib image generation can fail.
->>> -#
->>> -# The following line is only necessary if the recipe name does not 
->>> begin
->>> -# with kernel-module-.
->>> -#
->>> -PKG_${PN} = "kernel-module-${PN}"
->>
->
->
->
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
+b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRkZWQtY29y
+ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uDQo+IEJlaGFsZiBPZiBSaWNoYXJk
+IFB1cmRpZQ0KPiBTZW50OiBGcmlkYXksIEF1Z3VzdCAxNiwgMjAxMyAxOjQ4IFBNDQo+IFRvOiBL
+YWkgS2FuZw0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsN
+Cj4gWmhhbmdsZS5ZYW5nQHdpbmRyaXZlci5jb20NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+UEFUQ0ggMS8xXSBxZW11OiB1cGRhdGUgZGVwZW5kZW5jeSBvZiBuYXRpdmUNCj4gcGFja2FnZQ0K
+PiANCj4gT24gRnJpLCAyMDEzLTA4LTE2IGF0IDE4OjA1ICswODAwLCBLYWkgS2FuZyB3cm90ZToN
+Cj4gPiBbWU9DVE8gIzQ5NzNdDQo+ID4NCj4gPiBJdCBmYWlscyB0byBzdGFydCBxZW11IHdpdGgg
+Y29yZS1pbWFnZS1zYXRvIG9uIEZlZG9yYSAxOS4gVGhlIGVycm9yDQo+ID4gbWVzc2FnZSBzaG93
+czoNCj4gPg0KPiA+IENvdWxkIG5vdCBpbml0aWFsaXplIFNETChObyBhdmFpbGFibGUgdmlkZW8g
+ZGV2aWNlKSAtIGV4aXRpbmcNCj4gPg0KPiA+IEFkZCBkZXBlbmRlY3kgbGlieGV4dC1uYXRpdmUg
+dG8gcWVtdS1uYXRpdmUgdG8gZml4IHRoaXMgZXJyb3IuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5
+OiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdS5pbmMgfCAyICstDQo+ID4gIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jIGIvbWV0YS9yZWNpcGVzLQ0KPiBkZXZ0
+b29scy9xZW11L3FlbXUuaW5jDQo+ID4gaW5kZXggOTdlOWI3Yi4uYTk2ZTAwYyAxMDA2NDQNCj4g
+PiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11LmluYw0KPiA+ICsrKyBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jDQo+ID4gQEAgLTIsNyArMiw3IEBAIERF
+U0NSSVBUSU9OID0gIm9wZW4gc291cmNlIHByb2Nlc3NvciBlbXVsYXRvciINCj4gPiAgSE9NRVBB
+R0UgPSAiaHR0cDovL3FlbXUub3JnIg0KPiA+ICBMSUNFTlNFID0gIkdQTHYyICYgTEdQTHYyLjEi
+DQo+ID4gIERFUEVORFMgPSAiZ2xpYi0yLjAgemxpYiBhbHNhLWxpYiB2aXJ0dWFsL2xpYngxMSBw
+aXhtYW4gZHRjIGxpYnNkbCINCj4gPiAtREVQRU5EU19jbGFzcy1uYXRpdmUgPSAiemxpYi1uYXRp
+dmUgYWxzYS1saWItbmF0aXZlIGdsaWItMi4wLW5hdGl2ZQ0KPiBwaXhtYW4tbmF0aXZlIGR0Yy1u
+YXRpdmUiDQo+ID4gK0RFUEVORFNfY2xhc3MtbmF0aXZlID0gInpsaWItbmF0aXZlIGFsc2EtbGli
+LW5hdGl2ZSBnbGliLTIuMC1uYXRpdmUNCj4gcGl4bWFuLW5hdGl2ZSBkdGMtbmF0aXZlIGxpYnhl
+eHQtbmF0aXZlIg0KPiA+ICBERVBFTkRTX2NsYXNzLW5hdGl2ZXNkayA9ICJuYXRpdmVzZGstemxp
+YiBuYXRpdmVzZGstbGlic2RsIG5hdGl2ZXNkay0NCj4gZ2xpYi0yLjAgbmF0aXZlc2RrLXBpeG1h
+biBuYXRpdmVzZGstZHRjIg0KPiA+ICBSREVQRU5EU18ke1BOfV9jbGFzcy1uYXRpdmVzZGsgPSAi
+bmF0aXZlc2RrLWxpYnNkbCINCj4gDQo+IFRoaXMgaXMgb25lIG9mIHRoZSB1Z2x5IGRlcGVuZGVu
+Y2llcyB3ZSd2ZSB0cmllZCB0byBpZ25vcmUuDQo+IA0KPiBXZSBiYXNpY2FsbHkgYXNzdW1lIGlm
+IHlvdXIgYnVpbGQgbWFjaGluZSBoYXMgZ3JhcGhpY3MsIHlvdSBoYXZlIHRoZQ0KPiBkZXZlbCBo
+ZWFkZXJzL2xpYnMgdGhlcmUgYW5kIHFlbXUgd2lsbCBhdXRvZGV0ZWN0IGFuZCBpbmNsdWRlIGdy
+YXBoaWNzDQo+IHN1cHBvcnQuIEVxdWFsbHksIGlmIHlvdXIgYnVpbGQgbWFjaGluZSBkb2Vzbid0
+LCBpdCBqdXN0IHdvbid0IGJ1aWxkDQo+IGdyYXBoaWNzIHN1cHBvcnQuIEluIGdlbmVyYWwgbW9z
+dCBwZW9wbGUgc2VlbSBoYXBweSB3aXRoIHRoaXMgZXZlbiBpZg0KPiBpdHMgaW1wZXJmZWN0Lg0K
+PiANCg0KQnV0LCBidXQuLi4gSSBkbyBoYXZlIGxpYnhleHQgYW5kIGxpYnhleHQtZGV2ZWwgaW5z
+dGFsbGVkLi4uIChhbmQgbWluaW1hbCB3b3JrcyBqdXN0IGZpbmUgYXMgdGhlIGJ1ZyBzYXlzKQ0K
+bGliWGV4dC0xLjMuMi0xLmZjMTkueDg2XzY0DQpsaWJYZXh0LWRldmVsLTEuMy4yLTEuZmMxOS54
+ODZfNjQNCg0KQWxzbyBzdHJhY2Ugc2hvd3M6DQpvcGVuKCIvbGliNjQvbGliWGV4dC5zby42Iiwg
+T19SRE9OTFl8T19DTE9FWEVDKSA9IDExDQpyZWFkKDExLCAiXDE3N0VMRlwyXDFcMVwwXDBcMFww
+XDBcMFwwXDBcMFwzXDA+XDBcMVwwXDBcMGA3YFUxXDBcMFwwIi4uLiwgODMyKSA9IDgzMg0KZnN0
+YXQoMTEsIHtzdF9tb2RlPVNfSUZSRUd8MDc1NSwgc3Rfc2l6ZT03NzM3NiwgLi4ufSkgPSAwDQpt
+bWFwKE5VTEwsIDIxNjkxMTIsIFBST1RfUkVBRHxQUk9UX0VYRUMsIE1BUF9QUklWQVRFfE1BUF9E
+RU5ZV1JJVEUsIDExLCAwKSA9IDB4N2YwYTQ5M2VlMDAwDQptcHJvdGVjdCgweDdmMGE0OTNmZjAw
+MCwgMjA5MzA1NiwgUFJPVF9OT05FKSA9IDANCm1tYXAoMHg3ZjBhNDk1ZmUwMDAsIDgxOTIsIFBS
+T1RfUkVBRHxQUk9UX1dSSVRFLCBNQVBfUFJJVkFURXxNQVBfRklYRUR8TUFQX0RFTllXUklURSwg
+MTEsIDB4MTAwMDApID0gMHg3ZjBhNDk1ZmUwMDANCmNsb3NlKDExKSAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICA9IDANCg0KVGhlIEYxOCBzeXN0ZW0gd2hpY2ggZG9lc24ndCBoYXZlIGEg
+cHJvYmxlbSB3aXRoIHNhdG8gaGFzOg0KDQpsaWJYZXh0LTEuMy4xLTMuMjAxMzA1MjRnaXRkZmU2
+ZTFmM2IuZmMxOC54ODZfNjQNCmxpYlhleHQtZGV2ZWwtMS4zLjEtMy4yMDEzMDUyNGdpdGRmZTZl
+MWYzYi5mYzE4Lng4Nl82NA0KDQoNCkNoZWVycywNClN0ZWZhbg0KDQo+IEFkZGluZyBsaWJ4ZXh0
+LW5hdGl2ZSB1cHNldHMgdGhpcyBiYWxhbmNlIGEgbGl0dGxlLi4uDQo+IA0KPiBDaGVlcnMsDQo+
+IA0KPiBSaWNoYXJkDQo+IA0KPiANCj4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX18NCj4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+IE9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gaHR0cDovL2xpc3RzLm9wZW5l
+bWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
 
