@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 34B4A6A9F9
+	by mail.openembedded.org (Postfix) with ESMTP id 9E1816A9F9
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 16 Aug 2013 13:33:29 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2013 06:33:15 -0700
+	by orsmga101.jf.intel.com with ESMTP; 16 Aug 2013 06:33:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,895,1367996400"; d="scan'208";a="363632779"
+X-IronPort-AV: E=Sophos;i="4.89,895,1367996400"; d="scan'208";a="363632781"
 Received: from timevans-mobl.ger.corp.intel.com (HELO
 	helios.ger.corp.intel.com) ([10.252.122.223])
-	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2013 06:33:14 -0700
+	by orsmga001.jf.intel.com with ESMTP; 16 Aug 2013 06:33:15 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Aug 2013 14:33:11 +0100
-Message-Id: <cover.1376659841.git.paul.eggleton@linux.intel.com>
+Date: Fri, 16 Aug 2013 14:33:12 +0100
+Message-Id: <7403927521eac9c67e76cafc81b72701e9389c8a.1376659841.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 0/1] tslib 1.1 update
+In-Reply-To: <cover.1376659841.git.paul.eggleton@linux.intel.com>
+References: <cover.1376659841.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1376659841.git.paul.eggleton@linux.intel.com>
+References: <cover.1376659841.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] tslib: update to 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,23 +34,12 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 16 Aug 2013 13:33:29 -0000
 
-Tested both with ts_calibrate/ts_test and the Qt Embedded demo
-application on both qemumips and qemux86. Once merged this should also
-allow removal of the tslib recipe in meta-oe.
+Drop patches merged upstream. 32bitBE-support.patch wasn't merged, but
+no longer applies and similar changes look to have been made; tslib 1.1
+works properly on qemumips without it, so this has also been dropped.
 
-
-The following change since commit b8952942aed77473d3b44a17112cbf6a9e83eff3:
-
-  qemu: Fix bit extraction for MTFSFI and MTFSF (2013-08-16 11:39:43 +0100)
-
-is available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/tslib
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/tslib
-
-Paul Eggleton (1):
-  tslib: update to 1.1
-
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
  .../tslib/0001-Link-plugins-against-libts.patch    |  57 --
  .../tslib/tslib/32bitBE-support.patch              |  55 --
  .../recipes-graphics/tslib/tslib/fix_version.patch |  34 -
@@ -63,6 +56,1110 @@ Paul Eggleton (1):
  delete mode 100644 meta/recipes-graphics/tslib/tslib/set-open-mode-for-ts_calibrate_c.patch
  rename meta/recipes-graphics/tslib/{tslib_1.0.bb => tslib_1.1.bb} (77%)
 
+diff --git a/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch b/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
+deleted file mode 100644
+index c6b9f59..0000000
+--- a/meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 9623bbedf4ff409e5036edfcfe52b2595932a6d7 Mon Sep 17 00:00:00 2001
+-From: Chris Larson <clarson@kergoth.com>
+-Date: Sat, 1 Nov 2008 20:46:07 +0000
+-Subject: [PATCH] Link plugins against libts
+-
+-Some plugins use tslib functions. Link those plugins against libts.
+-The problem is easy to see with LDFLAGS="-Wl,-no-undefined".
+-Without this change DirectFB in unable to use tslib because symbols
+-in the tslib plugins can't be resolved.
+-
+-Signed-off-by: Ville Syrjala <syrjala@sci.fi>
+-Signed-off-by: Chris Larson <clarson@kergoth.com>
+-
+-The patch was imported from git server git://github.com/kergoth/tslib.git
+-as of commit id 9623bbedf4ff409e5036edfcfe52b2595932a6d7.
+-
+-Upstream-Status: Accepted
+-Signed-off-by: Dmitry Cherukhin <dima_ch@emcraft.com>
+----
+- plugins/Makefile.am |    5 +++++
+- 1 files changed, 5 insertions(+), 0 deletions(-)
+-
+-diff --git a/plugins/Makefile.am b/plugins/Makefile.am
+-index 3b902c2..4c4ef8b 100644
+---- a/plugins/Makefile.am
+-+++ b/plugins/Makefile.am
+-@@ -114,15 +114,19 @@ pluginexec_LTLIBRARIES = \
+-   
+- variance_la_SOURCES	= variance.c
+- variance_la_LDFLAGS	= -module $(LTVSN)
+-+variance_la_LIBADD	= $(top_builddir)/src/libts.la
+-   
+- dejitter_la_SOURCES	= dejitter.c
+- dejitter_la_LDFLAGS	= -module $(LTVSN)
+-+dejitter_la_LIBADD	= $(top_builddir)/src/libts.la
+-   
+- linear_la_SOURCES	= linear.c
+- linear_la_LDFLAGS	= -module $(LTVSN)
+-+linear_la_LIBADD	= $(top_builddir)/src/libts.la
+- 
+- pthres_la_SOURCES	= pthres.c
+- pthres_la_LDFLAGS	= -module $(LTVSN)
+-+pthres_la_LIBADD	= $(top_builddir)/src/libts.la
+- 
+- # hw access
+- corgi_la_SOURCES	= corgi-raw.c
+-@@ -148,6 +152,7 @@ tatung_la_LDFLAGS	= -module $(LTVSN)
+- 
+- input_la_SOURCES	= input-raw.c
+- input_la_LDFLAGS	= -module $(LTVSN)
+-+input_la_LIBADD		= $(top_builddir)/src/libts.la
+- 
+- linear_h2200_la_SOURCES	= linear-h2200.c
+- linear_h2200_la_LDFLAGS	= -module $(LTVSN)
+--- 
+-1.7.6.4
+-
+diff --git a/meta/recipes-graphics/tslib/tslib/32bitBE-support.patch b/meta/recipes-graphics/tslib/tslib/32bitBE-support.patch
+deleted file mode 100644
+index 49232ef..0000000
+--- a/meta/recipes-graphics/tslib/tslib/32bitBE-support.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-#! /bin/sh /usr/share/dpatch/dpatch-run
+-## 030-32bitBE-support.dpatch by Neil Williams <codehelp@debian.org>
+-##
+-## All lines beginning with `## DP:' are a description of the patch.
+-## DP: See bug #496759 - being tested upstream for 32bit BE devices
+-
+-@DPATCH@
+-
+-Upstream-Status: Pending
+-
+-diff -urNad tslib-1.0~/plugins/input-raw.c tslib-1.0/plugins/input-raw.c
+---- tslib-1.0~/plugins/input-raw.c	2008-12-09 10:56:47.000000000 +0000
+-+++ tslib-1.0/plugins/input-raw.c	2008-12-09 11:05:41.000000000 +0000
+-@@ -44,25 +44,33 @@
+- 	int	using_syn;
+- };
+- 
+-+#define BITS_PER_LONG	(sizeof(long) * 8)
+-+#ifndef EV_CNT
+-+#define EV_CNT	(EV_MAX+1)
+-+#endif
+-+#ifndef ABS_CNT
+-+#define ABS_CNT	(ABS_MAX+1)
+-+#endif
+-+
+- static int check_fd(struct tslib_input *i)
+- {
+- 	struct tsdev *ts = i->module.dev;
+- 	int version;
+--	u_int32_t bit;
+--	u_int64_t absbit;
+-+	unsigned long bit[EV_CNT / BITS_PER_LONG + 1];
+-+	unsigned long absbit[ABS_MAX / BITS_PER_LONG + 1];
+- 
+- 	if (! ((ioctl(ts->fd, EVIOCGVERSION, &version) >= 0) &&
+- 		(version == EV_VERSION) &&
+--		(ioctl(ts->fd, EVIOCGBIT(0, sizeof(bit) * 8), &bit) >= 0) &&
+--		(bit & (1 << EV_ABS)) &&
+--		(ioctl(ts->fd, EVIOCGBIT(EV_ABS, sizeof(absbit) * 8), &absbit) >= 0) &&
+--		(absbit & (1 << ABS_X)) &&
+--		(absbit & (1 << ABS_Y)) && (absbit & (1 << ABS_PRESSURE)))) {
+-+		(ioctl(ts->fd, EVIOCGBIT(0, sizeof(bit)), bit) >= 0) &&
+-+		(bit[0] & (1 << EV_ABS)) &&
+-+		(ioctl(ts->fd, EVIOCGBIT(EV_ABS, sizeof(absbit)), absbit) >= 0) &&
+-+		(absbit[0] & (1 << ABS_X)) &&
+-+		(absbit[0] & (1 << ABS_Y)) && (absbit[0] & (1 << ABS_PRESSURE)))) {
+- 		fprintf(stderr, "selected device is not a touchscreen I understand\n");
+- 		return -1;
+- 	}
+- 
+--	if (bit & (1 << EV_SYN))
+-+	if (bit[0] & (1 << EV_SYN))
+- 		i->using_syn = 1;
+- 
+- 	return 0;
+diff --git a/meta/recipes-graphics/tslib/tslib/fix_version.patch b/meta/recipes-graphics/tslib/tslib/fix_version.patch
+deleted file mode 100644
+index c3d658e..0000000
+--- a/meta/recipes-graphics/tslib/tslib/fix_version.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+----
+- configure.ac |   10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: tslib-1.0/configure.ac
+-===================================================================
+---- tslib-1.0.orig/configure.ac	2006-08-24 22:02:55.000000000 +0100
+-+++ tslib-1.0/configure.ac	2007-07-09 21:04:38.000000000 +0100
+-@@ -2,7 +2,7 @@
+- # Process this file with autoconf to produce a configure script.
+- 
+- AC_PREREQ(2.57)
+--AC_INIT(tslib, 0.0.2, kergoth@handhelds.org)
+-+AC_INIT(tslib, 1.0.0, kergoth@handhelds.org)
+- # AC_CONFIG_AUX_DIR(config)
+- AM_INIT_AUTOMAKE(dist-bzip2)
+- AC_CONFIG_SRCDIR([src/ts_close.c])
+-@@ -193,10 +193,10 @@ TS_CONF='${sysconfdir}/ts.conf'
+- AC_SUBST(TS_CONF)
+- 
+- # Library versioning
+--LT_RELEASE=0.0
+--LT_CURRENT=1
+--LT_REVISION=1
+--LT_AGE=1
+-+LT_RELEASE=1.0
+-+LT_CURRENT=0
+-+LT_REVISION=0
+-+LT_AGE=0
+- AC_SUBST(LT_RELEASE)
+- AC_SUBST(LT_CURRENT)
+- AC_SUBST(LT_REVISION)
+diff --git a/meta/recipes-graphics/tslib/tslib/multievent.patch b/meta/recipes-graphics/tslib/tslib/multievent.patch
+deleted file mode 100644
+index e6803f5..0000000
+--- a/meta/recipes-graphics/tslib/tslib/multievent.patch
++++ /dev/null
+@@ -1,845 +0,0 @@
+-Upstream-Status: Pending
+-
+---- tslib/plugins/linear.c~multievent
+-+++ tslib/plugins/linear.c
+-@@ -39,14 +39,12 @@
+- linear_read(struct tslib_module_info *info, struct ts_sample *samp, int nr)
+- {
+- 	struct tslib_linear *lin = (struct tslib_linear *)info;
+--	int ret;
+-+	int ret, i = 0;
+- 	int xtemp,ytemp;
+- 
+- 	ret = info->next->ops->read(info->next, samp, nr);
+- 	if (ret >= 0) {
+--		int nr;
+--
+--		for (nr = 0; nr < ret; nr++, samp++) {
+-+		for (i = 0; i < ret; i++, samp++) {
+- #ifdef DEBUG
+- 			fprintf(stderr,"BEFORE CALIB--------------------> %d %d %d\n",samp->x, samp->y, samp->pressure);
+- #endif /*DEBUG*/
+-@@ -66,6 +64,7 @@
+- 				samp->y = tmp;
+- 			}
+- 		}
+-+		ret = i;
+- 	}
+- 
+- 	return ret;
+---- tslib/plugins/dejitter.c~multievent
+-+++ tslib/plugins/dejitter.c
+-@@ -24,7 +24,6 @@
+- 
+- struct tslib_threshold {
+- 	struct tslib_module_info	module;
+--	int			pthreshold;
+- 	int			xdelta;
+- 	int			ydelta;
+- 	int			delta2;
+-@@ -36,40 +35,28 @@
+- static int threshold_read(struct tslib_module_info *info, struct ts_sample *samp, int nr)
+- {
+- 	struct tslib_threshold *thr = (struct tslib_threshold *)info;
+--	struct ts_sample *s;
+--	int ret;
+-+	struct ts_sample *src = samp, *dest = samp;
+-+	int ret, i = 0;
+- 
+- 	ret = info->next->ops->read(info->next, samp, nr);
+- 	if (ret >= 0) {
+--		int nr = 0;
+--
+--		for (s = samp; s < samp + ret; s++) {
+-+		for (i = 0; i < ret; i++, samp++) {
+- 			int dr2;
+- #ifdef DEBUG
+--			fprintf(stderr,"BEFORE DEJITTER---------------> %d %d %d\n",s->x,s->y,s->pressure);
+-+			fprintf(stderr,"BEFORE DEJITTER---------------> %d %d %d\n", samp->x, samp->y, samp->pressure);
+- #endif /*DEBUG*/
+--			thr->down = (s->pressure >= thr->pthreshold);
+--			if (thr->down) {
+--				dr2 = (thr->x - s->x)*(thr->x - s->x) 
+--					+ (thr->y - s->y)*(thr->y - s->y);
+--				if(dr2 < thr->delta2) {
+--					s->x = thr->x;
+--					s->y = thr->y;
+--				} else {
+--					thr->x = s->x;
+--					thr->y = s->y;
+--				}
+--
+-+			dr2 = (thr->x - samp->x)*(thr->x - samp->x) 
+-+				+ (thr->y - samp->y)*(thr->y - samp->y);
+-+			if(dr2 < thr->delta2) {
+-+				samp->x = thr->x;
+-+				samp->y = thr->y;
+- 			} else {
+--				s->x = thr->x;
+--				s->y = thr->y;
+-+				thr->x = samp->x;
+-+				thr->y = samp->y;
+- 			}
+--
+--
+--			samp[nr++] = *s;
+- 		}
+- 
+--		ret = nr;
+-+		ret = i;
+- 	}
+- 	return ret;
+- }
+-@@ -106,10 +93,6 @@
+- 		thr->ydelta = v;
+- 		break;
+- 
+--	case 3:
+--		thr->pthreshold = v;
+--		break;
+--
+- 	default:
+- 		return -1;
+- 	}
+-@@ -120,7 +103,6 @@
+- {
+- 	{ "xdelta",	(void *)1, threshold_limit },
+- 	{ "ydelta",	(void *)2, threshold_limit },
+--	{ "pthreshold",	(void *)3, threshold_limit }
+- };
+- 
+- //#define NR_VARS (sizeof(threshold_vars) / sizeof(threshold_vars[0]))
+-@@ -138,7 +120,6 @@
+- 
+- 	thr->xdelta = 10;
+- 	thr->ydelta = 10;
+--	thr->pthreshold = 100;
+- 
+- 	if (tslib_parse_vars(&thr->module, threshold_vars, NR_VARS, params)) {
+- 		free(thr);
+---- tslib/plugins/variance.c~multievent
+-+++ tslib/plugins/variance.c
+-@@ -9,25 +9,36 @@
+-  * $Id: variance.c,v 1.3 2002/11/08 23:28:55 dlowder Exp $
+-  *
+-  * Variance filter for touchscreen values
+-+ *
+-+ * Policy question (applies to all tslib modules that consume events):
+-+ * 	1) User requests a read of 5 events using nr.
+-+ * 	2) Lower layers return us 4 events.
+-+ * 	3) Perform variance calculation, we now only have _1_ event.
+-+ * 	4) Do we, a) duplicate this data across the user requested 4 events,
+-+ * 		  b) push up the single event
+-+ * 		  c) loop on the read from the lower layers to obtain
+-+ * 		     the user's requested number of events, unless we hit
+-+ * 		     a pen_up.
+-  */
+-+
+- #include <errno.h>
+- #include <stdlib.h>
+- #include <string.h>
+- #include <limits.h>
+--
+- #include <stdio.h>
+- 
+- #include "tslib.h"
+- #include "tslib-filter.h"
+- 
+-+#define NR_INIT -1
+- #define NR_LAST	4
+- 
+- struct tslib_variance {
+- 	struct tslib_module_info	module;
+- 	int				nr;
+--	unsigned int			pthreshold;
+- 	unsigned int			xlimit;
+- 	unsigned int			ylimit;
+-+	unsigned int			pthreshold;
+- 	struct ts_sample		last[NR_LAST];
+- };
+- 
+-@@ -37,8 +48,7 @@
+-  * least variance, and average them.
+-  */
+- static int
+--variance_calculate(struct tslib_variance *var, struct ts_sample *samp,
+--		   struct ts_sample *s)
+-+variance_calculate(struct tslib_variance *var, struct ts_sample *dest, struct ts_sample *src)
+- {
+- 	int i, j;
+- 	int diff_x, min_x, i_x, j_x;
+-@@ -100,11 +110,11 @@
+- 		}
+- 	}
+- 
+--	samp->x		 = (var->last[i_x].x + var->last[j_x].x) / 2;
+--	samp->y		 = (var->last[i_y].y + var->last[j_y].y) / 2;
+--	samp->pressure   = (var->last[i_p].pressure + var->last[j_p].pressure) / 2;
+--	samp->tv.tv_sec  = s->tv.tv_sec;
+--	samp->tv.tv_usec = s->tv.tv_usec;
+-+	dest->x		 = (var->last[i_x].x + var->last[j_x].x) / 2;
+-+	dest->y		 = (var->last[i_y].y + var->last[j_y].y) / 2;
+-+	dest->pressure   = (var->last[i_p].pressure + var->last[j_p].pressure) / 2;
+-+	dest->tv.tv_sec  = src->tv.tv_sec;
+-+	dest->tv.tv_usec = src->tv.tv_usec;
+- 
+- 	return 1;
+- }
+-@@ -112,55 +122,57 @@
+- static int variance_read(struct tslib_module_info *info, struct ts_sample *samp, int nr)
+- {
+- 	struct tslib_variance *var = (struct tslib_variance *)info;
+--	struct ts_sample *s;
+--	int ret;
+--
+--	ret = info->next->ops->read(info->next, samp, nr);
+--	if (ret >= 0) {
+--		int nr = 0;
+--
+--		for (s = samp; s < samp + ret; s++) {
+--			if (s->pressure < var->pthreshold) {
+--				/*
+--				 * Pen was released.  Reset our state and
+--				 * pass up the release information.
+--				 */
+--//				samp[nr].x = 0;
+--//				samp[nr].y = 0;
+--				samp[nr].pressure = s->pressure;
+--				samp[nr].tv.tv_sec = s->tv.tv_sec;
+--				samp[nr].tv.tv_usec = s->tv.tv_usec;
+--
+--				nr++;
+--
+--				var->nr = 0;
+--				continue;
+--			} else if (var->nr == -1) {
+--				/*
+--				 * Pen was pressed.  Inform upper layers
+--				 * immediately.
+--				 */
+--				samp[nr] = *s;
+--				nr++;
+--			}
+--
+--			if (var->nr >= 0) {
+--				var->last[var->nr].x = s->x;
+--				var->last[var->nr].y = s->y;
+--				var->last[var->nr].pressure = s->pressure;
+--			}
+--
+--			var->nr++;
+-+	struct ts_sample *src = samp, *dest = samp;
+-+	int ret, i = 0;
+- 
+--			if (var->nr == NR_LAST) {
+--				if (variance_calculate(var, samp + nr, s))
+--					nr++;
+--				var->nr = 0;
+-+	/*
+-+	 * NOTES:
+-+	 *
+-+	 * Loop on read, collecting events until we hit nr, unless
+-+	 * we hit a pen up or encounter a failure.
+-+	 */
+-+	while ((i < nr) && (ret != -1)) {
+-+		ret = info->next->ops->read(info->next, dest + i, nr - i);
+-+		if (ret >= 0) {
+-+			for (src = dest + i; src < dest + ret; src++) {
+-+				if (src->pressure < var->pthreshold) {
+-+					/* pen released, reset var->nr,
+-+					 * do a calc based on what we have so
+-+					 * far, and let this event flow up */
+-+					if (variance_calculate(var, dest + i, src))
+-+						i++;
+-+					var->nr = NR_INIT;
+-+					ret = -1; /* break outer loop, push up event */
+-+					break;
+-+				} else if (var->nr == NR_INIT) {
+-+					/*
+-+					 * First pen down event. Inform upper layers
+-+					 * immediately for responsiveness.
+-+					 */
+-+					var->nr = 0;
+-+					i++;
+-+					ret = -1; /* break outer loop */
+-+					break;
+-+				}
+-+	
+-+				if (var->nr >= 0) {
+-+					var->last[var->nr].x = src->x;
+-+					var->last[var->nr].y = src->y;
+-+					var->last[var->nr].pressure = src->pressure;
+-+				}
+-+	
+-+				var->nr++;
+-+	
+-+				if (var->nr == NR_LAST) {
+-+					if (variance_calculate(var, dest + i, src))
+-+						i++;
+-+					var->nr = 0;
+-+				}
+- 			}
+- 		}
+--
+--		ret = nr;
+- 	}
+-+	/* if we've collected at least one event, send it up */
+-+	if (i != 0) ret = i;
+- 	return ret;
+- }
+- 
+-@@ -196,10 +208,6 @@
+- 		var->ylimit = v;
+- 		break;
+- 
+--	case 3:
+--		var->pthreshold = v;
+--		break;
+--
+- 	default:
+- 		return -1;
+- 	}
+-@@ -210,7 +218,6 @@
+- {
+- 	{ "xlimit",	(void *)1, variance_limit },
+- 	{ "ylimit",	(void *)2, variance_limit },
+--	{ "pthreshold",	(void *)3, variance_limit }
+- };
+- 
+- #define NR_VARS (sizeof(variance_vars) / sizeof(variance_vars[0]))
+-@@ -218,6 +225,7 @@
+- struct tslib_module_info *mod_init(struct tsdev *dev, const char *params)
+- {
+- 	struct tslib_variance *var;
+-+	char *pthresvar;
+- 
+- 	var = malloc(sizeof(struct tslib_variance));
+- 	if (var == NULL)
+-@@ -225,10 +233,15 @@
+- 
+- 	var->module.ops = &variance_ops;
+- 
+--	var->nr = -1;
+-+	var->nr = NR_INIT;
+- 	var->xlimit = 160;
+- 	var->ylimit = 160;
+- 	var->pthreshold = 100;
+-+	pthresvar = getenv("TSLIB_PTHRES");
+-+	if (pthresvar != NULL) {
+-+		int p = strtol(pthresvar, (char **)NULL, 10);
+-+		if (p != -1) var->pthreshold = p;
+-+	}
+- 
+- 	if (tslib_parse_vars(&var->module, variance_vars, NR_VARS, params)) {
+- 		free(var);
+---- tslib/README~multievent
+-+++ tslib/README
+-@@ -36,6 +36,19 @@
+- usages.  They are by no means exhaustive, nor probably even good examples.
+- They are basically the programs I used to test this library.
+- 
+-+Module Creation Notes
+-+=====================
+-+
+-+For those creating tslib modules, it is important to note a couple things with
+-+regard to handling of the ability for a user to request more than one ts event
+-+at a time.  The first thing to note is that the lower layers may send up less
+-+events than the user requested, but only if that was a result of a pen release.
+-+Next, your module should send up just as many events as the user requested in
+-+nr.  If your module is one that consumes events, such as variance, then you
+-+loop on the read from the lower layers, and only send the events up when
+-+1) you have the number of events requested by the user, or 2) one of the events
+-+from the lower layers was a pen release.
+-+
+- 
+- Module Parameters
+- =================
+---- tslib/src/ts_read_raw.c~multievent
+-+++ tslib/src/ts_read_raw.c
+-@@ -14,10 +14,10 @@
+-  *
+-  * Read raw pressure, x, y, and timestamp from a touchscreen device.
+-  */
+-+
+- #include "config.h"
+- 
+- #include <stdio.h>
+--
+- #include <stdlib.h>
+- #ifdef HAVE_UNISTD_H
+- #include <unistd.h>
+-@@ -25,79 +25,27 @@
+- #include <sys/time.h>
+- #include <sys/types.h>
+- 
+--#ifdef USE_INPUT_API
+--#include <linux/input.h>
+--#else
+--struct ts_event  {   /* Used in UCB1x00 style touchscreens (the default) */
+--	unsigned short pressure;
+--	unsigned short x;
+--	unsigned short y;
+--	unsigned short pad;
+--	struct timeval stamp;
+--};
+--struct h3600_ts_event { /* Used in the Compaq IPAQ */
+--	unsigned short pressure;
+--	unsigned short x;
+--	unsigned short y;
+--	unsigned short pad;
+--};
+--struct mk712_ts_event { /* Used in the Hitachi Webpad */
+--	unsigned int header;
+--	unsigned int x;
+--	unsigned int y;
+--	unsigned int reserved;
+--};
+--struct arctic2_ts_event { /* Used in the IBM Arctic II */
+--	signed short pressure;
+--	signed int x;
+--	signed int y;
+--	int millisecs;
+--	int flags;
+--};
+--struct collie_ts_event { /* Used in the Sharp Zaurus SL-5000d and SL-5500 */
+--	long y;
+--	long x;
+--	long pressure;
+--	long long millisecs;
+--};
+--struct corgi_ts_event { /* Used in the Sharp Zaurus SL-C700 */
+--	short pressure;
+--	short x;
+--	short y;
+--	short millisecs;
+--};
+--#endif /* USE_INPUT_API */
+--
+- #include "tslib-private.h"
+- 
+--int ts_read_raw(struct tsdev *ts, struct ts_sample *samp, int nr)
+--{
+- #ifdef USE_INPUT_API
+-+#include <linux/input.h>
+-+
+-+static inline int get_input_event(struct tsdev *ts, struct ts_sample *samp) {
+- 	struct input_event ev;
+--#else
+--	struct ts_event *evt;
+--	struct h3600_ts_event *hevt;
+--	struct mk712_ts_event *mevt;
+--	struct arctic2_ts_event *aevt;
+--	struct collie_ts_event *collie_evt;
+--	struct corgi_ts_event *corgi_evt;
+--#endif /* USE_INPUT_API */
+--	int ret;
+--	int total = 0;
+-+	struct timeval tv = {0, 0};
+-+	fd_set fdset;
+-+	int ret = 0;
+- 
+--	char *tseventtype=NULL;
+--	char *defaulttseventtype="UCB1x00";
+-+	/* event vars */
+-+	static int curr_x = 0, curr_y = 0;
+-+	int curr_p = 0, next_x = 0, next_y = 0;
+- 
+--#ifdef USE_INPUT_API
+--	/* warning: maybe those static vars should be part of the tsdev struct? */
+--	static int curr_x = 0, curr_y = 0, curr_p = 0;
+--	static int got_curr_x = 0, got_curr_y = 0;
+--	int got_curr_p = 0;
+--	int next_x, next_y;
+-+	/* state variables */
+-+	int got_curr_x = 0, got_curr_y = 0, got_curr_p = 0;
+- 	int got_next_x = 0, got_next_y = 0;
+- 	int got_tstamp = 0;
+- 
+--	while (total < nr) {
+-+	while (1) {
+- 		ret = read(ts->fd, &ev, sizeof(struct input_event));
+- 		if (ret < sizeof(struct input_event)) break;
+- 
+-@@ -146,177 +94,231 @@
+- 			samp->tv = ev.time;
+- 		}
+- 
+--		if ( (!got_curr_x || !got_curr_y) && !got_curr_p &&
+--		     !got_next_x && !got_next_y ) {
+--			/*
+--			 * The current event is not complete yet.
+--			 * Give the kernel a chance to feed us more.
+--			 */
+--			struct timeval tv = {0, 0};
+--			fd_set fdset;
+--			FD_ZERO(&fdset);
+--			FD_SET(ts->fd, &fdset);
+--			ret = select(ts->fd+1, &fdset, NULL, NULL, &tv);
+--		       	if (ret == 1) continue;
+--			if (ret == -1) break;
+-+		if (got_curr_x && got_curr_y && got_curr_p) {
+-+			/* we have a complete event */
+-+			samp->x = curr_x;
+-+			samp->y = curr_y;
+-+			samp->pressure = curr_p;
+-+			ret = 0; /* indicate success */
+-+			if (got_next_x) curr_x = next_x;
+-+			if (got_next_y) curr_y = next_y;
+-+			break;
+- 		}
+- 
+--		/* We consider having a complete ts event */
+--		samp->x = curr_x;
+--		samp->y = curr_y;
+--		samp->pressure = curr_p;
+--#ifdef DEBUG
+--        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x,samp->y,samp->pressure);
+--#endif /*DEBUG*/
+--		samp++;
+--		total++;
+--        
+--		/* get ready for next event */
+--		if (got_next_x) curr_x = next_x; else got_curr_x = 0;
+--		if (got_next_y) curr_y = next_y; else got_curr_y = 0;
+--		got_next_x = got_next_y = got_tstamp = 0;
+-+		/*
+-+		 * The current event is not complete yet.
+-+		 * Give the kernel a chance to feed us more.
+-+		 */
+-+		FD_ZERO(&fdset);
+-+		FD_SET(ts->fd, &fdset);
+-+		ret = select(ts->fd+1, &fdset, NULL, NULL, &tv);
+-+	       	if (ret == 1) continue;
+-+		if (ret == -1) break;
+- 	}
+- 
+--	if (ret) ret = -1;
+--	if (total) ret = total;
+-+//	fprintf(stdout, "%s: returning %d\n", __FUNCTION__, ret);
+-+	if (ret != 0) ret = -1;
+-+	return ret;
+-+}
+-+
+- #else
+-+
+-+struct ucb1x00_ts_event  {   /* Used in UCB1x00 style touchscreens (the default) */
+-+	unsigned short pressure;
+-+	unsigned short x;
+-+	unsigned short y;
+-+	unsigned short pad;
+-+	struct timeval stamp;
+-+};
+-+struct h3600_ts_event { /* Used in the Compaq IPAQ */
+-+	unsigned short pressure;
+-+	unsigned short x;
+-+	unsigned short y;
+-+	unsigned short pad;
+-+};
+-+struct mk712_ts_event { /* Used in the Hitachi Webpad */
+-+	unsigned int header;
+-+	unsigned int x;
+-+	unsigned int y;
+-+	unsigned int reserved;
+-+};
+-+struct arctic2_ts_event { /* Used in the IBM Arctic II */
+-+	signed short pressure;
+-+	signed int x;
+-+	signed int y;
+-+	int millisecs;
+-+	int flags;
+-+};
+-+struct collie_ts_event { /* Used in the Sharp Zaurus SL-5000d and SL-5500 */
+-+	long y;
+-+	long x;
+-+	long pressure;
+-+	long long millisecs;
+-+};
+-+struct corgi_ts_event { /* Used in the Sharp Zaurus SL-C700 */
+-+	short pressure;
+-+	short x;
+-+	short y;
+-+	short millisecs;
+-+};
+-+
+-+static inline int get_ucb1x00_event(struct tsdev *ts, struct ts_sample *samp) {
+-+	struct ucb1x00_ts_event evt;
+-+	int ret = read(ts->fd, &evt, sizeof(struct ucb1x00_ts_event));
+-+	if (ret > 0) {
+-+		samp->x = evt.x;
+-+		samp->y = evt.y;
+-+		samp->pressure = evt.pressure;
+-+		samp->tv.tv_usec = evt.stamp.tv_usec;
+-+		samp->tv.tv_sec = evt.stamp.tv_sec;
+-+		ret = 0; /* success */
+-+	}
+-+	return ret;
+-+}
+-+
+-+static inline int get_h3600_event(struct tsdev *ts, struct ts_sample *samp) {
+-+	struct h3600_ts_event evt;
+-+	int ret = read(ts->fd, &evt, sizeof(struct h3600_ts_event));
+-+	if (ret > 0) {
+-+		samp->x = evt.x;
+-+		samp->y = evt.y;
+-+		samp->pressure = evt.pressure;
+-+		gettimeofday(&samp->tv, NULL);
+-+		ret = 0; /* success */
+-+	}
+-+	return ret;
+-+}
+-+
+-+static inline int get_mk712_event(struct tsdev *ts, struct ts_sample *samp) {
+-+	struct mk712_ts_event evt;
+-+	int ret = read(ts->fd, &evt, sizeof(struct mk712_ts_event));
+-+	if (ret > 0) {
+-+		samp->x = (short)evt.x;
+-+		samp->y = (short)evt.y;
+-+		if(evt.header==0)
+-+			samp->pressure=1;
+-+		else
+-+			samp->pressure=0;
+-+		gettimeofday(&samp->tv, NULL);
+-+		ret = 0; /* success */
+-+	}
+-+	return ret;
+-+}
+-+
+-+static inline int get_arctic2_event(struct tsdev *ts, struct ts_sample *samp) {
+-+	struct arctic2_ts_event evt;
+-+	int ret = read(ts->fd, &evt, sizeof(struct arctic2_ts_event));
+-+	if (ret > 0) {
+-+		samp->x = (short)evt.x;
+-+		samp->y = (short)evt.y;
+-+		samp->pressure = evt.pressure;
+-+		gettimeofday(&samp->tv, NULL);
+-+		ret = 0; /* success */
+-+	}
+-+	return ret;
+-+}
+-+
+-+static inline int get_collie_event(struct tsdev *ts, struct ts_sample *samp) {
+-+	struct collie_ts_event evt;
+-+	int ret = read(ts->fd, &evt, sizeof(struct collie_ts_event));
+-+	if (ret > 0) {
+-+		samp->x = evt.x;
+-+		samp->y = evt.y;
+-+		samp->pressure = evt.pressure;
+-+		samp->tv.tv_usec = evt.millisecs % 1000;
+-+		samp->tv.tv_sec = evt.millisecs / 1000;
+-+		ret = 0; /* success */
+-+	}
+-+	return ret;
+-+}
+-+
+-+static inline int get_corgi_event(struct tsdev *ts, struct ts_sample *samp) {
+-+	struct corgi_ts_event evt;
+-+	int ret = read(ts->fd, &evt, sizeof(struct corgi_ts_event));
+-+	if (ret > 0) {
+-+		samp->x = evt.x;
+-+		samp->y = evt.y;
+-+		samp->pressure = evt.pressure;
+-+		samp->tv.tv_usec = evt.millisecs % 1000;
+-+		samp->tv.tv_sec = evt.millisecs / 1000;
+-+		ret = 0; /* success */
+-+	}
+-+	return ret;
+-+}
+-+
+-+#endif
+-+
+-+int ts_read_raw(struct tsdev *ts, struct ts_sample *samp, int nr)
+-+{
+-+	int ret;
+-+	int total = 0;
+-+	int pen_down = 1;
+-+	static short x_save = 0, y_save = 0;
+-+	static int pthres = -1;
+-+
+-+#ifndef USE_INPUT_API
+-+	char *tseventtype=NULL;
+-+	char *defaulttseventtype="UCB1x00";
+- 	tseventtype = getenv("TSLIB_TSEVENTTYPE");
+- 	if(tseventtype==NULL) tseventtype=defaulttseventtype;
+-+#endif
+- 
+--	if( strcmp(tseventtype,"H3600") == 0) { /* iPAQ style h3600 touchscreen events */
+--		hevt = alloca(sizeof(*hevt) * nr);
+--		ret = read(ts->fd, hevt, sizeof(*hevt) * nr);
+--		if(ret > 0) {
+--			int nr = ret / sizeof(*hevt);
+--			while(ret >= sizeof(*hevt)) {
+--				samp->x = hevt->x;
+--				samp->y = hevt->y;
+--				samp->pressure = hevt->pressure;
+--#ifdef DEBUG
+--        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x,samp->y,samp->pressure);
+--#endif /*DEBUG*/
+--				gettimeofday(&samp->tv,NULL);
+--				samp++;
+--				hevt++;
+--				ret -= sizeof(*hevt);
+--			}
+--		} else {
+--			return -1;
+--		}
+--	} else if( strcmp(tseventtype,"MK712") == 0) { /* Hitachi Webpad events */
+--		mevt = alloca(sizeof(*mevt) * nr);
+--		ret = read(ts->fd, mevt, sizeof(*mevt) * nr);
+--		if(ret > 0) {
+--			int nr = ret / sizeof(*mevt);
+--			while(ret >= sizeof(*mevt)) {
+--				samp->x = (short)mevt->x;
+--				samp->y = (short)mevt->y;
+--				if(mevt->header==0)
+--					samp->pressure=1;
+--				else
+--					samp->pressure=0;
+--#ifdef DEBUG
+--        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x,samp->y,samp->pressure);
+--#endif /*DEBUG*/
+--				gettimeofday(&samp->tv,NULL);
+--				samp++;
+--				mevt++;
+--				ret -= sizeof(*mevt);
+--			}
+--		} else {
+--			return -1;
+--		}
+--
+--	} else if( strcmp(tseventtype,"ARCTIC2") == 0) { /* IBM Arctic II events */
+--		aevt = alloca(sizeof(*aevt) * nr);
+--		ret = read(ts->fd, aevt, sizeof(*aevt) * nr);
+--		if(ret > 0) {
+--			int nr = ret / sizeof(*aevt);
+--			while(ret >= sizeof(*aevt)) {
+--				samp->x = (short)aevt->x;
+--				samp->y = (short)aevt->y;
+--				samp->pressure = aevt->pressure;
+--#ifdef DEBUG
+--        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x,samp->y,samp->pressure);
+--#endif /*DEBUG*/
+--				gettimeofday(&samp->tv,NULL);
+--				samp++;
+--				aevt++;
+--				ret -= sizeof(*aevt);
+--			}
+-+	while ((total < nr) && pen_down) {
+-+//		fprintf(stdout, "total: %d, nr: %d\n", total, nr);
+-+#ifdef USE_INPUT_API
+-+		ret = get_input_event(ts, samp);
+-+#else
+-+		if (strcmp(tseventtype, "H3600") == 0) {
+-+			/* iPAQ style h3600 touchscreen events */
+-+			ret = get_h3600_event(ts, samp);
+-+		} else if (strcmp(tseventtype, "MK712") == 0) {
+-+			/* Hitachi Webpad events */
+-+			ret = get_mk712_event(ts, samp);
+-+		} else if (strcmp(tseventtype, "ARCTIC2") == 0) {
+-+			/* IBM Arctic II events */
+-+			ret = get_arctic2_event(ts, samp);
+-+		} else if (strcmp(tseventtype, "COLLIE") == 0) {
+-+			/* Sharp Zaurus SL-5000d/5500 events */
+-+			ret = get_collie_event(ts, samp);
+-+		} else if (strcmp(tseventtype,"CORGI") == 0) {
+-+			/* Sharp Zaurus SL-C700 events */
+-+			ret = get_corgi_event(ts, samp);
+- 		} else {
+--			return -1;
+-+			/* Use normal UCB1x00 type events */
+-+			ret = get_ucb1x00_event(ts, samp);
+- 		}
+-+#endif
+-+		if (ret != 0) break;
+- 
+--	} else if( strcmp(tseventtype,"COLLIE") == 0) { /* Sharp Zaurus SL-5000d/5500 events */
+--		collie_evt = alloca(sizeof(*collie_evt) * nr);
+--		ret = read(ts->fd, collie_evt, sizeof(*collie_evt) * nr);
+--		if(ret > 0) {
+--			int nr = ret / sizeof(*collie_evt);
+--			while(ret >= sizeof(*collie_evt)) {
+--				samp->x = collie_evt->x;
+--				samp->y = collie_evt->y;
+--				samp->pressure = collie_evt->pressure;
+--#ifdef DEBUG
+--        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x,samp->y,samp->pressure);
+--#endif /*DEBUG*/
+--				samp->tv.tv_usec = collie_evt->millisecs % 1000;
+--				samp->tv.tv_sec = collie_evt->millisecs / 1000;
+--				samp++;
+--				collie_evt++;
+--				ret -= sizeof(*collie_evt);
+-+		if (pthres == -1) {
+-+			char *pthresvar = getenv("TSLIB_PTHRES");
+-+			pthres = 100;
+-+			if (pthresvar != NULL) {
+-+				int p = strtol(pthresvar, (char **)NULL, 10);
+-+				if (p != -1) pthres = p;
+- 			}
+--		} else {
+--			return -1;
+- 		}
+- 
+--	} else if( strcmp(tseventtype,"CORGI") == 0) { /* Sharp Zaurus SL-C700 events */
+--		corgi_evt = alloca(sizeof(*corgi_evt) * nr);
+--		ret = read(ts->fd, corgi_evt, sizeof(*corgi_evt) * nr);
+--		if(ret > 0) {
+--			int nr = ret / sizeof(*corgi_evt);
+--			while(ret >= sizeof(*corgi_evt)) {
+--				samp->x = corgi_evt->x;
+--				samp->y = corgi_evt->y;
+--				samp->pressure = corgi_evt->pressure;
+--#ifdef DEBUG
+--        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x,samp->y,samp->pressure);
+--#endif /*DEBUG*/
+--				samp->tv.tv_usec = corgi_evt->millisecs % 1000;
+--				samp->tv.tv_sec = corgi_evt->millisecs / 1000;
+--				samp++;
+--				corgi_evt++;
+--				ret -= sizeof(*corgi_evt);
+--			}
+-+		if (samp->pressure < pthres) {
+-+			/* pen released, send events up */
+-+			pen_down = 0;
+-+			/* set x and y to previous values */
+-+			samp->x = x_save;
+-+			samp->y = y_save;
+- 		} else {
+--			return -1;
+-+			pen_down = 1;
+-+			x_save = samp->x;
+-+			y_save = samp->y;
+- 		}
+--
+--	} else { /* Use normal UCB1x00 type events */
+--		evt = alloca(sizeof(*evt) * nr);
+--		ret = read(ts->fd, evt, sizeof(*evt) * nr);
+--		if(ret > 0) {
+--			int nr = ret / sizeof(*evt);
+--			while(ret >= sizeof(*evt)) {
+--				samp->x = evt->x;
+--				samp->y = evt->y;
+--				samp->pressure = evt->pressure;
+- #ifdef DEBUG
+--        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x,samp->y,samp->pressure);
+-+	        fprintf(stderr,"RAW---------------------------> %d %d %d\n",samp->x, samp->y, samp->pressure);
+- #endif /*DEBUG*/
+--				samp->tv.tv_usec = evt->stamp.tv_usec;
+--				samp->tv.tv_sec = evt->stamp.tv_sec;
+--				samp++;
+--				evt++;
+--				ret -= sizeof(*evt);
+--			}
+--		} else {
+--			return -1;
+--		}
+-+		samp++;
+-+		total++;
+- 	}
+--	ret = nr;
+--#endif /* USE_INPUT_API */
+- 
+-+	if (ret != 0) ret = -1;
+-+	if (total) ret = total;
+- 	return ret;
+- }
+- 
+diff --git a/meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch b/meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch
+deleted file mode 100644
+index 982413e..0000000
+--- a/meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Submitted [https://github.com/kergoth/tslib/pull/14]
+-
+-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
+-diff -Nurd tslib-1.0/configure.ac tslib-1.0/configure.ac
+---- tslib-1.0/configure.ac	2006-08-25 00:02:55.000000000 +0300
+-+++ tslib-1.0/configure.ac	2013-01-03 06:05:02.486882412 +0200
+-@@ -6,7 +6,7 @@
+- # AC_CONFIG_AUX_DIR(config)
+- AM_INIT_AUTOMAKE(dist-bzip2)
+- AC_CONFIG_SRCDIR([src/ts_close.c])
+--AM_CONFIG_HEADER(config.h)
+-+AC_CONFIG_HEADERS(config.h)
+-
+- PACKAGE_DESCRIPTION="Touchscreen Access Library"
+- AC_SUBST(PACKAGE_DESCRIPTION)
+diff --git a/meta/recipes-graphics/tslib/tslib/set-open-mode-for-ts_calibrate_c.patch b/meta/recipes-graphics/tslib/tslib/set-open-mode-for-ts_calibrate_c.patch
+deleted file mode 100644
+index 738ef9a..0000000
+--- a/meta/recipes-graphics/tslib/tslib/set-open-mode-for-ts_calibrate_c.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Get patch from: http://permalink.gmane.org/gmane.comp.lib.uclibc.buildroot/27614
+-
+-Upstream-Status: Inappropriate [configuration]
+-
+-diff --git a/tests/ts_calibrate.c b/tests/ts_calibrate.c
+-index 004517b..c0a9771 100644
+---- a/tests/ts_calibrate.c
+-+++ b/tests/ts_calibrate.c
+-@@ -21,6 +21,7 @@
+- #include <sys/ioctl.h>
+- #include <sys/mman.h>
+- #include <sys/time.h>
+-+#include <sys/stat.h>
+- #include <linux/kd.h>
+- #include <linux/vt.h>
+- #include <linux/fb.h>
+-@@ -224,9 +225,11 @@ int main()
+-		for (i = 0; i < 7; i++) printf("%d ", cal.a [i]);
+-		printf("\n");
+-		if ((calfile = getenv("TSLIB_CALIBFILE")) != NULL) {
+--			cal_fd = open (calfile, O_CREAT | O_RDWR);
+-+			cal_fd = open (calfile, O_CREAT | O_RDWR,
+-+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+-		} else {
+--			cal_fd = open ("/etc/pointercal", O_CREAT | O_RDWR);
+-+			cal_fd = open ("/etc/pointercal", O_CREAT | O_RDWR,
+-+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+-		}
+-		sprintf (cal_buffer,"%d %d %d %d %d %d %d",
+-			 cal.a[1], cal.a[2], cal.a[0],
+diff --git a/meta/recipes-graphics/tslib/tslib_1.0.bb b/meta/recipes-graphics/tslib/tslib_1.1.bb
+similarity index 77%
+rename from meta/recipes-graphics/tslib/tslib_1.0.bb
+rename to meta/recipes-graphics/tslib/tslib_1.1.bb
+index 84bc1eb..4dce8a7 100644
+--- a/meta/recipes-graphics/tslib/tslib_1.0.bb
++++ b/meta/recipes-graphics/tslib/tslib_1.1.bb
+@@ -10,21 +10,13 @@ SECTION = "base"
+ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f30a9716ef3762e3467a2f62bf790f0a"
+ 
+-PR = "r21"
+-
+-SRC_URI = "http://download.berlios.de/tslib/tslib-${PV}.tar.bz2 \
+-           file://fix_version.patch \
+-           file://0001-Link-plugins-against-libts.patch \
++SRC_URI = "https://github.com/kergoth/tslib/releases/download/${PV}/tslib-${PV}.tar.xz;downloadfilename=tslib-${PV}.tar.xz \
+            file://ts.conf \
+            file://tslib.sh \
+-           file://set-open-mode-for-ts_calibrate_c.patch \
+-           file://obsolete_automake_macros.patch \
+ "
+ 
+-SRC_URI[md5sum] = "92b2eb55b1e4ef7e2c0347069389390e"
+-SRC_URI[sha256sum] = "9c40d914e4f6fe00bdd77137d671c7ce4f211686228f2eb8b2d3c2360bc249c8"
+-SRC_URI_append_qemumips = " file://32bitBE-support.patch"
+-SRC_URI_append_qemuppc = " file://32bitBE-support.patch"
++SRC_URI[md5sum] = "14771f8607b341bb4b297819d37e837d"
++SRC_URI[sha256sum] = "fe35e5f710ea933b118f710e2ce4403ac076fe69926b570333867d4de082a51c"
+ 
+ 
+ inherit autotools pkgconfig
 -- 
 1.8.1.2
 
