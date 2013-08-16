@@ -1,36 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 88EC86009A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 15 Aug 2013 23:04:17 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7FNFWs5023467; Fri, 16 Aug 2013 00:15:32 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id x3W_dFu99KIg; Fri, 16 Aug 2013 00:15:32 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7FNFR78023462
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 16 Aug 2013 00:15:29 +0100
-Message-ID: <1376607841.22952.103.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Fri, 16 Aug 2013 00:04:01 +0100
-In-Reply-To: <520D0174.7030901@windriver.com>
-References: <cover.1376379182.git.rongqing.li@windriver.com>
-	<02e6f25c210b0628dc4ee4482474b0e6ce5606e4.1376379182.git.rongqing.li@windriver.com>
-	<520A82BA.2070706@linux.intel.com> <520B1595.3060909@windriver.com>
-	<20130814065609.GQ17945@jama> <1376477217.22952.5.camel@ted>
-	<20130814105915.GU17945@jama> <520CA4AF.4040403@windriver.com>
-	<1376560519.17787.16.camel@phil-desktop.brightsign>
-	<1376583837.22952.72.camel@ted> <520D0174.7030901@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sstate.bbclass: fix parallel building issue
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B92A61037;
+	Fri, 16 Aug 2013 01:38:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7G1cVEJ011985
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 15 Aug 2013 18:38:31 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Thu, 15 Aug 2013 18:38:30 -0700
+Message-ID: <520D8297.1040405@windriver.com>
+Date: Fri, 16 Aug 2013 09:38:31 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <20130724102648.6C85050201@opal> <20130815174752.GE17945@jama>
+In-Reply-To: <20130815174752.GE17945@jama>
+X-Originating-IP: [128.224.162.233]
+Cc: openembedded-commits@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe-commits] Chen Qi : useradd.bbclass: add a new base class and code refactor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 15 Aug 2013 23:04:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 16 Aug 2013 01:38:32 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-08-15 at 11:27 -0500, Mark Hatle wrote:
-> On 8/15/13 11:23 AM, Richard Purdie wrote:
-> > On Thu, 2013-08-15 at 10:55 +0100, Phil Blundell wrote:
-> >> On Thu, 2013-08-15 at 17:51 +0800, Rongqing Li wrote:
-> >>> OK, But your issue is not related to me.
-> >>>
-> >>> I can reproduce my issue by two simple script.
-> >>
-> >> If tar is deciding that the file has "changed" just because the link
-> >> count on the dentry has increased, that sounds like it is probably a bug
-> >> in tar and ought to be fixed there.
-> >>
-> >> That said, I can't immediately think why autotools_copy_aclocal couldn't
-> >> use a symlink rather than a hard link which would avoid this whole
-> >> problem.  If the file is in the sysroot then there should be no risk of
-> >> it going away underneath its user.
-> >
-> > Sadly this doesn't work. We block copy a set of .m4 files from the
-> > sysroot. We can be running do_configure of package A whilst package B is
-> > de-installed from the sysroot and this leads to files disappearing
-> > whilst they're being accessed. Its turned out to be a really awkward
-> > problem to fix.
-> 
-> Do we need some kind of a read/write lock on accessing those files.  (Is this 
-> even something that we can do easily though the existing mechanisms?)
+On 08/16/2013 01:47 AM, Martin Jansa wrote:
+> On Wed, Jul 24, 2013 at 10:26:48AM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: 2a57bb7e9a7e154578aa7cb9aeebdf398a54ec00
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=2a57bb7e9a7e154578aa7cb9aeebdf398a54ec00
+>>
+>> Author: Chen Qi <Qi.Chen@windriver.com>
+>> Date:   Fri Jul 19 09:52:25 2013 +0800
+>>
+>> useradd.bbclass: add a new base class and code refactor
+>>
+>> Add a new base class, useradd_base.bbclass, which is mainly a
+>> collection of basic functions for user/group settings.
+>>
+>> The useradd_base.bbclass is intended to be inherited by useradd.bbclass
+>> and the extrausers.bbclass to avoid code cuplication.
+> This code is calling bbwarn in postinst scripts, but only implementation
+> I've found is in logging.bbclass and isn't included in postinst shell
+> code causing:
+>
+> /tmp/opkg-HtXU0e/dbus-1-Ea0TSc/preinst: 15:
+> /tmp/opkg-HtXU0e/dbus-1-Ea0TSc/preinst: bbwarn: not found
+Hi Martin,
 
-It would kill performance for no good reason, been there, looked at
-it...
+I'm really sorry for this trouble. I didn't notice this when I first 
+made the patch.
 
-Cheers,
+I'll send out a patch to fix this.
 
-Richard
+Thanks for reporting this.
 
+Best Regards,
+Chen Qi
 
