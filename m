@@ -1,24 +1,20 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ECA8C6065F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 743B36B5A8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 20:19:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7GKJsOA024349
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 13:19:54 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 16 Aug 2013 13:19:53 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Aug 2013 13:19:53 -0700
-Message-ID: <1376684393-30276-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-MIME-Version: 1.0
-Subject: [PATCH 1/1][no PR bump] openjade: do not produce shared libraries
+	Fri, 16 Aug 2013 21:34:44 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2013 14:34:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,897,1367996400"; d="scan'208";a="282999375"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.106])
+	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2013 14:34:44 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 16 Aug 2013 14:34:44 -0700
+Message-Id: <1376688884-23815-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.4
+Subject: [PATCH] cronie: fix out of tree build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +27,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 20:19:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 16 Aug 2013 21:34:45 -0000
 
-CQID: 429576
-
-openjade is the only one that uses the shared
-libraries and sometimes it cannot find them!
-
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../openjade/openjade-native_1.3.2.bb              |   27 ++++++++++++++-----
- 1 files changed, 20 insertions(+), 7 deletions(-)
+ .../cronie/cronie/fix-out-of-tree-build.patch      | 31 ++++++++++++++++++++++
+ meta/recipes-extended/cronie/cronie_1.4.11.bb      |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
 
-diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-index 8af0b52..4e44484 100644
---- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-+++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
-@@ -24,8 +24,13 @@ SRC_URI[sha256sum] = "1d2d7996cc94f9b87d0c51cf0e028070ac177c4123ecbfd7ac1cb8d0b7
- 
- inherit autotools native
- 
-+# Per bugzilla.yoctoproject.org/show_bug.cgi?id=2972 we do
-+# not create shared libraries.  Note that openjade still links
-+# to shared libraries from other packages.
-+#
- EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
--                --enable-splibdir=${STAGING_LIBDIR}"
-+                --enable-splibdir=${STAGING_LIBDIR} \
-+                --disable-shared"
- 
- # We need to set datadir explicitly, but adding it to EXTRA_OECONF
- # results in it being specified twice when configure is run.
-@@ -55,13 +60,21 @@ do_compile_prepend () {
- do_install() {
- 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/openjade.html
- 	# for details.
--	install -d ${D}${bindir}	
--	install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
--	ln -sf openjade ${D}${bindir}/jade
-+	install -d ${D}${bindir}
- 
--	oe_libinstall -a -so -C style libostyle ${D}${libdir}
--	oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
--	oe_libinstall -a -so -C grove libogrove ${D}${libdir}
-+	# install shared library version if it exists
-+	#
-+	if [ -f ${S}/jade/.libs/openjade ]
-+	then
-+		install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
-+		oe_libinstall -a -so -C style libostyle ${D}${libdir}
-+		oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
-+		oe_libinstall -a -so -C grove libogrove ${D}${libdir}
-+	else
-+		install -m 0755 ${S}/jade/openjade ${D}${bindir}/openjade
-+	fi
+diff --git a/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch b/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
+new file mode 100644
+index 0000000..7384a0b
+--- /dev/null
++++ b/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
+@@ -0,0 +1,31 @@
++For an out of tree build, the cronie-common.h file was not being
++found correctly, so point it to the top_srcdir
 +
-+	ln -sf openjade ${D}${bindir}/jade
++Upstream-Status: Submitted
++
++Signed-off-by: Saul Wold <sgw@linux.intel.com>
++
++Index: cronie-1.4.11/anacron/Makefile.am
++===================================================================
++--- cronie-1.4.11.orig/anacron/Makefile.am
+++++ cronie-1.4.11/anacron/Makefile.am
++@@ -9,6 +9,7 @@ common_nodist = anacron-paths.h
++ nodist_anacron_SOURCES = $(common_nodist)
++ BUILT_SOURCES = $(common_nodist)
++ 
+++AM_CFLAGS = -I$(top_srcdir)
++ 
++ LDADD = $(LIBSELINUX) $(LIBPAM) $(LIBAUDIT)
++ 
++Index: cronie-1.4.11/src/Makefile.am
++===================================================================
++--- cronie-1.4.11.orig/src/Makefile.am
+++++ cronie-1.4.11/src/Makefile.am
++@@ -15,6 +15,7 @@ nodist_crond_SOURCES = $(common_nodist)
++ nodist_crontab_SOURCES = $(common_nodist)
++ BUILT_SOURCES = $(common_nodist)
++ 
+++AM_CFLAGS = -I$(top_srcdir)
++ 
++ LDADD = $(LIBSELINUX) $(LIBPAM) $(LIBAUDIT)
++ 
+diff --git a/meta/recipes-extended/cronie/cronie_1.4.11.bb b/meta/recipes-extended/cronie/cronie_1.4.11.bb
+index 5b12448..aa1ba39 100644
+--- a/meta/recipes-extended/cronie/cronie_1.4.11.bb
++++ b/meta/recipes-extended/cronie/cronie_1.4.11.bb
+@@ -19,6 +19,7 @@ RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '',
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
  
- 	install -d ${D}${datadir}/sgml/openjade-${PV}
- 	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
+ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
++           file://fix-out-of-tree-build.patch \
+            file://crond.init \
+            file://crontab \
+            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
 -- 
-1.7.3.4
+1.8.1.4
 
 
