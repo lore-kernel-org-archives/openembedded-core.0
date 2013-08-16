@@ -1,24 +1,24 @@
 Return-Path: <joe.slater@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 273EA6B5A8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ECA8C6065F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 20:07:29 +0000 (UTC)
+	Fri, 16 Aug 2013 20:19:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7GK7T1b000594
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7GKJsOA024349
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 16:07:29 -0400 (EDT)
+	Fri, 16 Aug 2013 13:19:54 -0700 (PDT)
 Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 16 Aug 2013 13:07:29 -0700
+	14.2.342.3; Fri, 16 Aug 2013 13:19:53 -0700
 From: Joe Slater <jslater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 16 Aug 2013 13:07:27 -0700
-Message-ID: <1376683648-21673-1-git-send-email-jslater@windriver.com>
+Date: Fri, 16 Aug 2013 13:19:53 -0700
+Message-ID: <1376684393-30276-1-git-send-email-jslater@windriver.com>
 X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Subject: [v3][PATCH 1/2] coreutils: add PACKAGECONFIG info for acl support
+Subject: [PATCH 1/1][no PR bump] openjade: do not produce shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +31,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 20:07:31 -0000
+X-List-Received-Date: Fri, 16 Aug 2013 20:19:53 -0000
 Content-Type: text/plain
 
-Sent to oe-core.  Updates GPLv2 version of coreutils.  They also want
-patches for other packages that might use act.
+CQID: 429576
 
-CQID: 430353
-
-Add configuration data to enable acl support if
-it is a distro feature.
+openjade is the only one that uses the shared
+libraries and sometimes it cannot find them!
 
 Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- meta/recipes-core/coreutils/coreutils_6.9.bb |   11 +++++++++++
- 1 files changed, 11 insertions(+), 0 deletions(-)
+ .../openjade/openjade-native_1.3.2.bb              |   27 ++++++++++++++-----
+ 1 files changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
-index c0778ba..2654028 100644
---- a/meta/recipes-core/coreutils/coreutils_6.9.bb
-+++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
-@@ -32,6 +32,17 @@ SRC_URI_class-native = "${SRC_URI_BASE}"
- SRC_URI[md5sum] = "c9607d8495f16e98906e7ed2d9751a06"
- SRC_URI[sha256sum] = "89c2895ad157de50e53298b22d91db116ee4e1dd3fdf4019260254e2e31497b0"
+diff --git a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+index 8af0b52..4e44484 100644
+--- a/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
++++ b/meta/recipes-devtools/openjade/openjade-native_1.3.2.bb
+@@ -24,8 +24,13 @@ SRC_URI[sha256sum] = "1d2d7996cc94f9b87d0c51cf0e028070ac177c4123ecbfd7ac1cb8d0b7
  
-+
-+# acl is not a default feature
+ inherit autotools native
+ 
++# Per bugzilla.yoctoproject.org/show_bug.cgi?id=2972 we do
++# not create shared libraries.  Note that openjade still links
++# to shared libraries from other packages.
 +#
-+PACKAGECONFIG_class-target ??= "${@base_contains('DISTRO_FEATURES', 'acl', 'acl', '', d)}"
-+PACKAGECONFIG_class-native ??= ""
+ EXTRA_OECONF = "--enable-spincludedir=${STAGING_INCDIR}/OpenSP \
+-                --enable-splibdir=${STAGING_LIBDIR}"
++                --enable-splibdir=${STAGING_LIBDIR} \
++                --disable-shared"
+ 
+ # We need to set datadir explicitly, but adding it to EXTRA_OECONF
+ # results in it being specified twice when configure is run.
+@@ -55,13 +60,21 @@ do_compile_prepend () {
+ do_install() {
+ 	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/openjade.html
+ 	# for details.
+-	install -d ${D}${bindir}	
+-	install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
+-	ln -sf openjade ${D}${bindir}/jade
++	install -d ${D}${bindir}
+ 
+-	oe_libinstall -a -so -C style libostyle ${D}${libdir}
+-	oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
+-	oe_libinstall -a -so -C grove libogrove ${D}${libdir}
++	# install shared library version if it exists
++	#
++	if [ -f ${S}/jade/.libs/openjade ]
++	then
++		install -m 0755 ${S}/jade/.libs/openjade ${D}${bindir}/openjade
++		oe_libinstall -a -so -C style libostyle ${D}${libdir}
++		oe_libinstall -a -so -C spgrove libospgrove ${D}${libdir}
++		oe_libinstall -a -so -C grove libogrove ${D}${libdir}
++	else
++		install -m 0755 ${S}/jade/openjade ${D}${bindir}/openjade
++	fi
 +
-+# with, without, depends, rdepends
-+#
-+PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
-+
-+
- # [ gets a special treatment and is not included in this
- bindir_progs = "base64 basename cksum comm csplit cut dir dircolors dirname du \
-                 env expand expr factor fmt fold groups head hostid id install \
++	ln -sf openjade ${D}${bindir}/jade
+ 
+ 	install -d ${D}${datadir}/sgml/openjade-${PV}
+ 	install -m 644 dsssl/catalog ${D}${datadir}/sgml/openjade-${PV}
 -- 
 1.7.3.4
 
