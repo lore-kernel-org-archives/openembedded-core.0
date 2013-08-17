@@ -1,20 +1,32 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 743B36B5A8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 16 Aug 2013 21:34:44 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 16 Aug 2013 14:34:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,897,1367996400"; d="scan'208";a="282999375"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.106])
-	by AZSMGA002.ch.intel.com with ESMTP; 16 Aug 2013 14:34:44 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 16 Aug 2013 14:34:44 -0700
-Message-Id: <1376688884-23815-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.4
-Subject: [PATCH] cronie: fix out of tree build
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AFBCE6B7BE;
+	Sat, 17 Aug 2013 18:48:39 +0000 (UTC)
+Received: by mail-ie0-f178.google.com with SMTP id f4so5087632iea.23
+	for <multiple recipients>; Sat, 17 Aug 2013 11:48:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:from:date:message-id:subject:to:content-type;
+	bh=/nRKzwtlkVC0ZX34C+4T82bxtf5wen1+5isXpOnXQeg=;
+	b=UNVnkxTNnJ4vvx1wRUx8RcTQx5G9nbySxzEasaqE3mTjp8WOGsttLx7qL7bzSDbJpM
+	DcR8R9CfYHWESlJ9YWwYMvmDo3aZVlJyCIKgkPa06faTBMXImHuTZ8990B/ay8MS7a/P
+	NCy3UqBQV5Igqlok0/5j1iRT/uZjiqaUSnJFtqcDo4e6bHi3rKPAZXjO1VckyoGsm1Dl
+	97z3/+gpym+D9nVFzXMTFxBbWXOQbLK5KEXa/GezRfKbA4XQCOpqtmnzcOhOLU8f9nZW
+	vywatwm5+2Sp/w5qP1zciDWPs4mpVr2Ivscyc+MubPVS1NuuhVKs9vpnArkM/xGwaUOV
+	Wd6Q==
+X-Received: by 10.50.61.179 with SMTP id q19mr1974026igr.33.1376765320271;
+	Sat, 17 Aug 2013 11:48:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.216.195 with HTTP; Sat, 17 Aug 2013 11:48:10 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 17 Aug 2013 11:48:10 -0700
+Message-ID: <CAMKF1srmPOcwYYEb1a1y-++vmTQtmH3Ex=ZemhCjgh=h16zwtg@mail.gmail.com>
+To: Discussion of the angstrom distribution development
+	<angstrom-distro-devel@linuxtogo.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: angstrom world build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,65 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2013 21:34:45 -0000
+X-List-Received-Date: Sat, 17 Aug 2013 18:48:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../cronie/cronie/fix-out-of-tree-build.patch      | 31 ++++++++++++++++++++++
- meta/recipes-extended/cronie/cronie_1.4.11.bb      |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
+Hi
 
-diff --git a/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch b/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
-new file mode 100644
-index 0000000..7384a0b
---- /dev/null
-+++ b/meta/recipes-extended/cronie/cronie/fix-out-of-tree-build.patch
-@@ -0,0 +1,31 @@
-+For an out of tree build, the cronie-common.h file was not being
-+found correctly, so point it to the top_srcdir
-+
-+Upstream-Status: Submitted
-+
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+
-+Index: cronie-1.4.11/anacron/Makefile.am
-+===================================================================
-+--- cronie-1.4.11.orig/anacron/Makefile.am
-++++ cronie-1.4.11/anacron/Makefile.am
-+@@ -9,6 +9,7 @@ common_nodist = anacron-paths.h
-+ nodist_anacron_SOURCES = $(common_nodist)
-+ BUILT_SOURCES = $(common_nodist)
-+ 
-++AM_CFLAGS = -I$(top_srcdir)
-+ 
-+ LDADD = $(LIBSELINUX) $(LIBPAM) $(LIBAUDIT)
-+ 
-+Index: cronie-1.4.11/src/Makefile.am
-+===================================================================
-+--- cronie-1.4.11.orig/src/Makefile.am
-++++ cronie-1.4.11/src/Makefile.am
-+@@ -15,6 +15,7 @@ nodist_crond_SOURCES = $(common_nodist)
-+ nodist_crontab_SOURCES = $(common_nodist)
-+ BUILT_SOURCES = $(common_nodist)
-+ 
-++AM_CFLAGS = -I$(top_srcdir)
-+ 
-+ LDADD = $(LIBSELINUX) $(LIBPAM) $(LIBAUDIT)
-+ 
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.11.bb b/meta/recipes-extended/cronie/cronie_1.4.11.bb
-index 5b12448..aa1ba39 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.11.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.11.bb
-@@ -19,6 +19,7 @@ RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '',
- PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
- 
- SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
-+           file://fix-out-of-tree-build.patch \
-            file://crond.init \
-            file://crontab \
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
--- 
-1.8.1.4
+I have started a world build of angstrom for beaglebone
+and soon will extend it to more machines. Angstrom uses most
+layers in OE universe and nothing gives better coverage
 
+The wold log for bb is here
+
+http://sakrah.homelinux.org/files/world/beaglebone-world.log
+
+There are interesting failures. Feel free to  peruse and lets fix them
+all !
+
+-Khem
 
