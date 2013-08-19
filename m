@@ -1,23 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id DF86169686
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 240876B3BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 08:25:11 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 19 Aug 2013 01:24:56 -0700
+	Mon, 19 Aug 2013 08:31:24 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Aug 2013 01:28:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,912,1367996400"; d="scan'208";a="283738991"
+X-IronPort-AV: E=Sophos;i="4.89,912,1367996400"; d="scan'208";a="389367820"
 Received: from unknown (HELO helios.localnet) ([10.252.122.215])
-	by AZSMGA002.ch.intel.com with ESMTP; 19 Aug 2013 01:24:55 -0700
+	by orsmga002.jf.intel.com with ESMTP; 19 Aug 2013 01:31:23 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: Cristiana Voicu <cristiana.voicu@intel.com>
-Date: Mon, 19 Aug 2013 09:24:54 +0100
-Message-ID: <2871332.fhu1i0uVde@helios>
+Date: Mon, 19 Aug 2013 09:31:22 +0100
+Message-ID: <1416445.v9mPbDrrvP@helios>
 Organization: Intel Corporation
 User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <f9e441cc3a1beefe5e6463ed1db730f8803af38c.1376641437.git.cristiana.voicu@intel.com>
+In-Reply-To: <2871332.fhu1i0uVde@helios>
 References: <cover.1376641437.git.cristiana.voicu@intel.com>
 	<f9e441cc3a1beefe5e6463ed1db730f8803af38c.1376641437.git.cristiana.voicu@intel.com>
+	<2871332.fhu1i0uVde@helios>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/2] cronie: upgrade to 1.4.11
@@ -33,44 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2013 08:25:12 -0000
+X-List-Received-Date: Mon, 19 Aug 2013 08:31:24 -0000
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
 
-Hi Cristiana,
+On Monday 19 August 2013 09:24:54 Paul Eggleton wrote:
+> Hi Cristiana,
+> 
+> On Friday 16 August 2013 11:30:49 Cristiana Voicu wrote:
+> > LIC_FILES_CHKSUM changed because cron.h doesn't exist anymore.
+> > Replaced it with cron.c.
+> >
+> >...
+> 
+> A couple of people have reported this doesn't build, and I've confirmed it
+> this morning:
 
-On Friday 16 August 2013 11:30:49 Cristiana Voicu wrote:
-> LIC_FILES_CHKSUM changed because cron.h doesn't exist anymore.
-> Replaced it with cron.c.
->...
-
-A couple of people have reported this doesn't build, and I've confirmed it this morning:
-
-| mips-poky-linux-gcc  -meb -mabi=32 -mhard-float -march=mips32 --sysroot=/media/large/tmp/sysroots/qemumips -DHAVE_CONFIG_H -I. -I/media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/cronie-1.4.11/src -I..     -O2 -pipe -g -feliminate-unused-debug-types -c /media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/cronie-1.4.11/src/database.c
-| /media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/cronie-1.4.11/src/security.c:32:27: fatal error: cronie_common.h: No such file or directory
-|  #include "cronie_common.h"
-|                            ^
-| compilation terminated.
-| /media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/cronie-1.4.11/src/crontab.c:59:27: fatal error: cronie_common.h: No such file or directory
-|  #include "cronie_common.h"
-|                            ^
-| compilation terminated.
-| make[3]: *** [security.o] Error 1
-| make[3]: *** Waiting for unfinished jobs....
-| make[3]: *** [crontab.o] Error 1
-| /media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/cronie-1.4.11/src/cron.c:52:27: fatal error: cronie_common.h: No such file or directory
-|  #include "cronie_common.h"
-|                            ^
-| compilation terminated.
-| make[3]: *** [cron.o] Error 1
-| make[3]: Leaving directory `/media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/build/src'
-| make[2]: *** [all] Error 2
-| make[2]: Leaving directory `/media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/build/src'
-| make[1]: *** [all-recursive] Error 1
-| make[1]: Leaving directory `/media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/build'
-| make: *** [all] Error 2
-| ERROR: oe_runmake failed
-| ERROR: Function failed: do_compile (log file is located at /media/large/tmp/work/mips32-poky-linux/cronie/1.4.11-r0/temp/log.do_compile.22142)
+Ah, I see Saul already sent a patch for this, sorry I didn't see it before.
 
 Cheers,
 Paul
