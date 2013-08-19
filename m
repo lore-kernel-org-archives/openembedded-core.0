@@ -1,26 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B5BD869686
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 3050869686
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 16:40:05 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 19 Aug 2013 09:37:17 -0700
+	Mon, 19 Aug 2013 16:58:15 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 19 Aug 2013 09:58:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,914,1367996400"; d="scan'208";a="383181328"
-Received: from unknown (HELO [10.255.14.105]) ([10.255.14.105])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Aug 2013 09:40:03 -0700
-Message-ID: <52124A63.7010504@linux.intel.com>
-Date: Mon, 19 Aug 2013 09:40:03 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+X-IronPort-AV: E=Sophos;i="4.89,914,1367996400"; d="scan'208";a="283920124"
+Received: from unknown (HELO helios.localnet) ([10.252.122.215])
+	by AZSMGA002.ch.intel.com with ESMTP; 19 Aug 2013 09:58:14 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Simon Busch <morphis@gravedo.de>
+Date: Mon, 19 Aug 2013 17:58:13 +0100
+Message-ID: <8886217.PuVShUglzT@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52124792.6030604@gravedo.de>
+References: <1376928263-9092-1-git-send-email-morphis@gravedo.de>
+	<1376928588.17787.64.camel@phil-desktop.brightsign>
+	<52124792.6030604@gravedo.de>
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1376928709.git.sgw@linux.intel.com>
-	<1574627.4jmVZAB5Ro@helios>
-In-Reply-To: <1574627.4jmVZAB5Ro@helios>
-Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/25] Review and ACK
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: add PACKAGECONFIG_DISTRO variable for distro specific options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,96 +34,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2013 16:40:05 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Aug 2013 16:58:16 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 08/19/2013 09:36 AM, Paul Eggleton wrote:
-> On Monday 19 August 2013 09:19:55 Saul Wold wrote:
->> Here is the latest C-Pull, I built this over the weekend with
->> other bits.  The build resulted with some issues, so I removed
->> the offending bits (Python3).
->>
->> The libxext-native, I put in and then took out, but we do have a
->> F19 issue that needs resolution
->>
->> There is a poky.conf change that matches with Otavio's DISTRO_FEATURES
->> patch, please review that also.
->>
->> Thanks
->> 	Sau!
->>
->> The following changes since commit fd9e591f266e1a6c183e77f24e50d31e0d52bdd5:
->>
->>    cronie: fix out of tree build (2013-08-19 11:24:51 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.openembedded.org/openembedded-core-contrib sgw/stage
->>
->> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/
->> stage
->>
->> Bruce Ashfield (2):
->>    linux-yocto-3.8/meta: update drm and intel power management settings
->>    linux-yocto-3.8/meta: enable ALTIVEC for qemuppc
->>
->> Chen Qi (4):
->>    useradd.bbclass: add missing functions to preinst
->>    init-install.sh: improve hard drive searching process
->>    init-install.sh: fix to handle the boot partition correctly
->>    initscripts: remove obsolete device_table.txt
->>
->> Chunrong Guo (1):
->>    genext2fs: fix memory corruption on powerpc
->
-> This is the earlier version that doesn't use the correct Upstream-Status
-> (Chunrong posted a v2).
->
-Updated in the branch
->> Jackie Huang (1):
->>    texinfo: handle correctly @enumerate specification greater than 10
->>
->> Joe Slater (2):
->>    coreutils: add PACKAGECONFIG info for acl support
->
-> act -> acl in commit message
->
-Fixed in the branch.
+On Monday 19 August 2013 18:28:02 Simon Busch wrote:
+> Am 19.08.2013 18:09, schrieb Phil Blundell:
+> > On Mon, 2013-08-19 at 18:04 +0200, Simon Busch wrote:
+> >> In some cases as distribution just wants to extend the default
+> >> PACKAGECONFIG instead of rewriting it completely. Therefor having a
+> >> PACKAGECONFIG_DISTRO variable which is empty by default and included in
+> >> PACKAGECONFIG helps a lot.
+> > 
+> > Can't those distros just use PACKAGECONFIG_append?
+> 
+> They can. I tried with PACKAGECONFIG += which didn't worked and I
+> thought it would be the same with PACKAGECONFIG_append cause of
+> PACKAGECONFIG being weak assignment in mesa.inc. But as it seems +=
+> takes higher than the weak assignment and overrides PACKAGECONFIG where
+> _append only appends.
 
->>    coreutils: allow for acl support
->>
->> Khem Raj (3):
->>    qemuppc: Change default tune to 74xx
->>    uclibc: Upgrade to latest on git
->>    tune-ppc7400.inc: Add tune file
->>
->> Mark Hatle (1):
->>    prelink: update to latest cross-prelink
->>
->> Marko Lindqvist (6):
->>    glib-2.0: use trim_version() to get the source directory
->>    pixman: update to upstream version 0.30.2
->>    curl: update to upstream version 7.32.0
->>    glib-2.0: update to upstream version 2.36.4
->>    gtk+: update to upstream version 2.24.20
->>    gettext: update to upstream version 0.18.3
->>
->> Otavio Salvador (2):
->>    default-distrovars.inc: Add 'DISTRO_FEATURES_DEFAULT' variable
->>    linux-dtb.inc: Fix dtb generation for kernels newer than 3.8
->>
->> Paul Eggleton (1):
->>    tslib: update to 1.1
->>
->> Yang Shi (2):
->>    Revert "hello-mod: Ensure the produced package name begins with
->>      kernel-module-"
->>    hello-mod: Add comment for kernel module package naming
->
-> Everything else looks OK.
->
-> Cheers,
-> Paul
->
+It's being set in the recipe with ??= which is the weakest form of assignment, 
+so this behaviour is expected. I just tested this in local.conf and it works:
+
+PACKAGECONFIG_append_pn-mesa = " something"
+
+BTW, outside of a recipe (or bbappend) you should always use a pn- override 
+with PACKAGECONFIG or you'll be affecting more than just the recipe you intend 
+to.
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
