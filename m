@@ -1,29 +1,34 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AEAC61EE1
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 0845F6010E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 02:15:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7J2FkLS015664
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 18 Aug 2013 19:15:46 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Sun, 18 Aug 2013 19:15:44 -0700
-Message-ID: <52117FD6.20002@windriver.com>
-Date: Mon, 19 Aug 2013 10:15:50 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Mon, 19 Aug 2013 06:17:40 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1VBImY-0000nE-SZ from Muhammad_Shakeel@mentor.com ;
+	Sun, 18 Aug 2013 23:17:38 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Sun, 18 Aug 2013 23:17:39 -0700
+Received: from [137.202.157.119] (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Mon, 19 Aug 2013 07:17:37 +0100
+Message-ID: <5211B8C4.7070601@mentor.com>
+Date: Mon, 19 Aug 2013 11:18:44 +0500
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1375941355.git.Qi.Chen@windriver.com>
-	<520E64A8.2000206@linux.intel.com>
-In-Reply-To: <520E64A8.2000206@linux.intel.com>
-X-Originating-IP: [128.224.162.233]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V5 00/10] Make read-only rootfs work with live images
+To: Khem Raj <raj.khem@gmail.com>
+References: <1376674064-14468-1-git-send-email-muhammad_shakeel@mentor.com>
+	<CAMKF1srCL2f+Cxb+2xvLY4_+oikJgXtj0vcR3=9h0tbDf1jGSg@mail.gmail.com>
+In-Reply-To: <CAMKF1srCL2f+Cxb+2xvLY4_+oikJgXtj0vcR3=9h0tbDf1jGSg@mail.gmail.com>
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 19 Aug 2013 06:17:39.0078 (UTC)
+	FILETIME=[CE0B6A60:01CE9CA3]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] [v3] openssh: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,99 +41,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2013 02:15:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 19 Aug 2013 06:17:42 -0000
+Content-Type: multipart/alternative;
+	boundary="------------070908010406090705090301"
 
-On 08/17/2013 01:43 AM, Saul Wold wrote:
-> On 08/07/2013 11:15 PM, Qi.Chen@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
->>
->> Changes from V4:
->> 1. Fix the error of 'read -f' in populate-volatile.sh. The '-f' 
->> should should not be there.
->> 2. Fix the error of missing colon in populate-volatile.sh.
->>
->> Changes from V3:
->> 1. Take hidden directories and files into consideration when copying 
->> before bind mounting.
->> 2. Use 'cp -a' in populate-volatile.sh to avoid potential problems
->>
->> Change from V2:
->> 1. modify the irda init script so that it doesn't necessarily need to 
->> write to /etc/sysconfig/irda
->> 2. drop the lighttpd patch
->> 3. modify the logic for openssh in case of a read-only rootfs
->>
->> Change from V1:
->> 1. Disable the generating of ssh keys at rootfs time
->> 2. Add a mechanism to read-only-rootfs-hook.sh to check whether a 
->> directory is on a read-only partition.
->> 3. Fix a new bug#4937 
->> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=4937)
->>
->> The following changes since commit 
->> f63e7f4323368c0d6fe7a1d44393a7e15652d4f2:
->>
->>    subversion: Add patch to use neon 0.30 (2013-08-07 07:43:47 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib 
->> ChenQi/read-only-rootfs-in-live-images
->> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/read-only-rootfs-in-live-images
->>
->> Chen Qi (10):
->>    init-live.sh: make $ROOT_MOUNT/media writable when necessary
->>    use a uiform way to determine whether rootfs is read-only
->
-> Qi,
->
-> Richard noted in the Consolidated Pull that he did not take this patch 
-> along with the initscripts patch due to too many processes being 
-> spawned at boot time, can you find a better way to handle this?
->
-> Sau!
->
-Yes.
+--------------070908010406090705090301
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I'll try to come up with a better solution.
-
-Best Regards,
-Chen Qi
-
->>    udev: remove implicit dependency on initscripts
->>    populate-volatile.sh: use $ROOT_DIR/var/volatile/tmp as TMPDIR
->>    populate-volatile.sh: don't spawn background process at rootfs time
->>    runqemu-internal: fix to start X correctly in live images
->>    initscripts: use a uniform way to handle directories in read-only
->>      rootfs
->>    populate-volatile.sh: use 'cp -a' to avoid potential problem
->>    irda-utils: fix for read-only rootfs
->>    openssh: fix for read-only rootfs
->>
->>   meta/classes/image.bbclass                         |   16 +++++--
->>   .../irda-utils/irda-utils-0.9.18/init              |   13 +-----
->>   .../openssh/openssh-6.2p2/init                     |   22 ++++++---
->>   meta/recipes-connectivity/openssh/openssh_6.2p2.bb |    9 +++-
->>   meta/recipes-core/initrdscripts/files/init-live.sh |    2 +
->>   .../initscripts/initscripts-1.0/functions          |   14 ++++++
->>   .../initscripts-1.0/populate-volatile.sh           |   15 ++++--
->>   .../initscripts-1.0/read-only-rootfs-hook.sh       |   48 
->> ++++++++++++++++++--
->>   meta/recipes-core/initscripts/initscripts_1.0.bb   |    5 ++
->>   meta/recipes-core/sysvinit/sysvinit/rcS-default    |    4 --
->>   meta/recipes-core/udev/udev/init                   |   21 +++++++--
->>   meta/recipes-core/udev/udev/udev-cache             |    5 ++
->>   .../0001-add-is_rootfs_readonly-to-functions.patch |   37 
->> +++++++++++++++
->>   meta/recipes-extended/lsb/lsbinitscripts_9.48.bb   |    1 +
->>   scripts/runqemu-internal                           |    2 +-
->>   15 files changed, 172 insertions(+), 42 deletions(-)
->>   create mode 100644 
->> meta/recipes-extended/lsb/lsbinitscripts/0001-add-is_rootfs_readonly-to-functions.patch
->>
+On 08/16/2013 10:47 PM, Khem Raj wrote:
 >
 >
+>
+> On Fri, Aug 16, 2013 at 10:27 AM, Shakeel, Muhammad 
+> <muhammad_shakeel@mentor.com <mailto:muhammad_shakeel@mentor.com>> wrote:
+>
+>     From: Muhammad Shakeel <muhammad_shakeel@mentor.com
+>     <mailto:muhammad_shakeel@mentor.com>>
+>
+>     -Remove dependency on meta-systemd
+>
+>     +[Service]
+>     +ExecStart=-/usr/sbin/sshd -i
+>
+>
+>
+> it would be nice if it was using libdir/bindir instead of hardcoded paths
+> coudld be achieved by generating the unit files from some sort of .in 
+> files at build time so it could benefit
+> the distros which dont use /usr e.g.
+> ​​
+>
+>     +       sed -i 's,/bin/,${base_bindir}/,g'
+>     ${D}${systemd_unitdir}/system/sshd.socket
+>     ${D}${systemd_unitdir}/system/sshd@.service
+>     +       sed -i 's,/usr/sbin/,${sbindir}/,g'
+>     ${D}${systemd_unitdir}/system/sshd@.service
+>     +       sed -i 's,/usr/bin/,${bindir}/,g'
+>     ${D}${systemd_unitdir}/system/sshdgenkeys.service
+>
+>
+/usr/sbin/ is being sed'ed with ${sbindir} in do_install_append of the 
+respective recipe file. /usr/bin/ and /bin/ is also taken care of.
 
+Regards
 
+--------------070908010406090705090301
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 08/16/2013 10:47 PM, Khem Raj wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAMKF1srCL2f+Cxb+2xvLY4_+oikJgXtj0vcR3=9h0tbDf1jGSg@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div class="gmail_default" style="font-family:courier
+          new,monospace;font-size:small"><br>
+        </div>
+        <div class="gmail_extra"><br>
+          <br>
+          <div class="gmail_quote">On Fri, Aug 16, 2013 at 10:27 AM,
+            Shakeel, Muhammad <span dir="ltr">&lt;<a
+                moz-do-not-send="true"
+                href="mailto:muhammad_shakeel@mentor.com"
+                target="_blank">muhammad_shakeel@mentor.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">From:
+              Muhammad Shakeel &lt;<a moz-do-not-send="true"
+                href="mailto:muhammad_shakeel@mentor.com">muhammad_shakeel@mentor.com</a>&gt;<br>
+              <br>
+              -Remove dependency on meta-systemd<br>
+              <br>
+              +[Service]<br>
+              +ExecStart=-/usr/sbin/sshd -i</blockquote>
+            <br>
+            <div><br>
+            </div>
+            <div style="font-family:'courier
+              new',monospace;font-size:small" class="gmail_default">it
+              would be nice if it was using libdir/bindir instead of
+              hardcoded paths</div>
+            <div style="font-family:'courier
+              new',monospace;font-size:small" class="gmail_default">coudld
+              be achieved by generating the unit files from some sort of
+              .in files at build time so it could benefit</div>
+            <div style="font-family:'courier
+              new',monospace;font-size:small" class="gmail_default">
+              the distros which dont use /usr e.g.</div>
+            <div style="font-family:'courier
+              new',monospace;font-size:small" class="gmail_default">
+              ​​</div>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              +       sed -i 's,/bin/,${base_bindir}/,g'
+              ${D}${systemd_unitdir}/system/sshd.socket
+              ${D}${<a class="moz-txt-link-abbreviated" href="mailto:systemd_unitdir}/system/sshd@.service">systemd_unitdir}/system/sshd@.service</a><br>
+              +       sed -i 's,/usr/sbin/,${sbindir}/,g'
+              ${D}${<a class="moz-txt-link-abbreviated" href="mailto:systemd_unitdir}/system/sshd@.service">systemd_unitdir}/system/sshd@.service</a><br>
+              +       sed -i 's,/usr/bin/,${bindir}/,g'
+              ${D}${systemd_unitdir}/system/sshdgenkeys.service<br>
+            </blockquote>
+          </div>
+          <br>
+        </div>
+      </div>
+    </blockquote>
+    /usr/sbin/ is being sed'ed with ${sbindir} in do_install_append of
+    the respective recipe file. /usr/bin/ and /bin/ is also taken care
+    of.<br>
+    <br>
+    Regards<br>
+  </body>
+</html>
+
+--------------070908010406090705090301--
