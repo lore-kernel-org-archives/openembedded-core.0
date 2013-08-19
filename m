@@ -1,29 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 3682C6AFFE
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-10.prod.phx3.secureserver.net
+	(p3plsmtpa08-10.prod.phx3.secureserver.net [173.201.193.111])
+	by mail.openembedded.org (Postfix) with ESMTP id E35C969686
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 21:00:29 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 19 Aug 2013 14:00:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,914,1367996400"; d="scan'208";a="348563756"
-Received: from unknown (HELO [10.255.14.105]) ([10.255.14.105])
-	by azsmga001.ch.intel.com with ESMTP; 19 Aug 2013 14:00:28 -0700
-Message-ID: <5212876C.7080806@linux.intel.com>
-Date: Mon, 19 Aug 2013 14:00:28 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 19 Aug 2013 22:57:33 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa08-10.prod.phx3.secureserver.net with 
+	id EmxY1m00Y1mTNtu01mxZ2H; Mon, 19 Aug 2013 15:57:34 -0700
+Message-ID: <5212A2DC.2000601@pabigot.com>
+Date: Mon, 19 Aug 2013 17:57:32 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1376674064-14468-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CAMKF1srCL2f+Cxb+2xvLY4_+oikJgXtj0vcR3=9h0tbDf1jGSg@mail.gmail.com>
-	<5211B8C4.7070601@mentor.com>
-	<CAMKF1srikv98W6EQ0Jk7_3FbKaPppaG1sBW-=A6YyD-eR-aj+Q@mail.gmail.com>
-In-Reply-To: <CAMKF1srikv98W6EQ0Jk7_3FbKaPppaG1sBW-=A6YyD-eR-aj+Q@mail.gmail.com>
+To: Joe MacDonald <Joe.MacDonald@windriver.com>
+References: <520B8B6C.40408@pabigot.com> <20130814141339.GY17945@jama>
+	<20130814143157.GB3894@windriver.com>
+In-Reply-To: <20130814143157.GB3894@windriver.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] [v3] openssh: Add systemd support
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: recipe whitespace style questions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +32,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2013 21:00:30 -0000
+X-List-Received-Date: Mon, 19 Aug 2013 22:57:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/18/2013 11:40 PM, Khem Raj wrote:
-> On Sun, Aug 18, 2013 at 11:18 PM, Muhammad Shakeel
-> <muhammad_shakeel@mentor.com> wrote:
->> /usr/sbin/ is being sed'ed with ${sbindir} in do_install_append of the
->> respective recipe file. /usr/bin/ and /bin/ is also taken care of.
+On 08/14/2013 09:31 AM, Joe MacDonald wrote:
+> [Re: [OE-core] recipe whitespace style questions] On 13.08.14 (Wed 16:13) Martin Jansa wrote:
 >
-> i see, thats better. however I do see a need to have  a generalized
-> way of specifying service files and a generic
-> processing engine which then takes care of it. Otherwise we have the
-> same code replicated in multiple recipes
+>> On Wed, Aug 14, 2013 at 08:51:40AM -0500, Peter A. Bigot wrote:
+>>> SRC_URI = "file://skeleton \
+>>>              file://skeleton_test.c \
+>>>              file://COPYRIGHT \
+>>> "
+>>>
+>>> which I'll call "none", and;
+>>>
+>>> SRC_URI = "file://skeleton \
+>>>              file://skeleton_test.c \
+>>>              file://COPYRIGHT"
+>>>
+>>> which I'll call "joined".
+>>>
+>>> Again, for consistency's sake it would be nice to have a
+>>> recommendation.  I personally prefer "none", which matches the closing
+>>> bracket style for functions.
+>>>
+>>> Next: I've also seen:
+>>>
+>>> SRC_URI = " \
+>>>       file://skeleton \
+>>>       file://skeleton_test.c \
+>>>       file://COPYRIGHT \
+>>> "
+>> I prefer this one (especially for longer variables or entries) or "none",
+>> because with "none" it's easier to see where multiline variable ends.
+>>
+>> Worst is IMHO "joined" because when appending one more line you have to
+>> edit 2 lines to move '"' so the diff for review is longer and harder to
+>> read than just one added line.
+> +1
 
-Agreed, I think there should be a generalized solution here, implemented 
-in the systemd.bbclass.
+To close this out: that's three votes for the style named "none" or the 
+one with separated lines.  No objections raised.
 
-It also appears that this set is also creating a /lib dir that should 
-not be there for non-systemd builds.
+I'd thought the style guide was part of the Yocto documentation so I 
+could prepare a patch to it, but it appears to only exist 
+(independently) on the Yocto 
+(https://wiki.yoctoproject.org/wiki/Recipe_%26_Patch_Style_Guide) and 
+OpenEmbedded (http://www.openembedded.org/wiki/Styleguide) wiki sites.
 
-> ERROR: Task 25 (/home/sgw/yocto/poky/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb, do_package) failed with exit code '1'
-> ERROR: QA Issue: nfs-utils: Files/directories were installed but not shipped
->   /lib
-> ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
-> ERROR: Logfile of failure stored in: /home/sgw/yocto/builds/world/tmp/work/x86_64-poky-linux/nfs-utils/1.2.8-r0/temp/log.do_package.17558
+In lieu of my applying for accounts on those sites and updating them 
+I'll leave it that I think these additions would document the 
+conclusions of this discussion, and are what I'll try to follow in my 
+own Yocto-based recipe development:
 
-Thanks
-	Sau!
+* Multiple-line continuations should be indented to the level of the 
+content following the introductory quote symbol on the first line.
 
+* Alternatively, the first line of a multi-line value may be continued 
+after the introductory quote symbol, with all subsequent content lines 
+indented four spaces (or one tab if within a shell function)
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+* Any closing quote of a multiple-line continuation should be placed at 
+the indentation level of the first continued line.
+
+Peter
 
