@@ -1,29 +1,38 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E92069686
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BEB6D6065F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 05:36:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7K5aliw003994
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 01:36:48 -0400 (EDT)
-Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 19 Aug 2013 22:36:46 -0700
-Message-ID: <5213006A.5050602@windriver.com>
-Date: Tue, 20 Aug 2013 13:36:42 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Tue, 20 Aug 2013 06:23:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Aug 2013 23:23:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,918,1367996400"; d="scan'208";a="388895603"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2013 23:23:18 -0700
+Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Tue, 20 Aug 2013 07:23:17 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.233]) with mapi id
+	14.03.0123.003; Tue, 20 Aug 2013 07:23:17 +0100
+From: "Voicu, Cristiana" <cristiana.voicu@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 1/2] cronie: upgrade to 1.4.11
+Thread-Index: AQHOmlqUfaJi9d71e0S9ODv/apNhbJmcJbAAgAABzwCAAX8l8A==
+Date: Tue, 20 Aug 2013 06:23:16 +0000
+Message-ID: <BE68E9C8E0850C43B0F0B0B7D57FA5AE2E7FC437@IRSMSX105.ger.corp.intel.com>
+References: <cover.1376641437.git.cristiana.voicu@intel.com>
+	<f9e441cc3a1beefe5e6463ed1db730f8803af38c.1376641437.git.cristiana.voicu@intel.com>
+	<2871332.fhu1i0uVde@helios> <1416445.v9mPbDrrvP@helios>
+In-Reply-To: <1416445.v9mPbDrrvP@helios>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-To: Randy MacLeod <randy.macleod@windriver.com>
-References: <520C9F8A.7080703@windriver.com> <52128427.3020009@windriver.com>
-In-Reply-To: <52128427.3020009@windriver.com>
-Cc: 'Patches and discussions about the oe-core layer'
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: About PACKAGECONFIG audit
+Subject: Re: [PATCH 1/2] cronie: upgrade to 1.4.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,62 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 05:36:47 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Aug 2013 06:23:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 08/20/2013 04:46 AM, Randy MacLeod wrote:
-> Add Joe Slater who owns US17463: PACKAGECONFIG clean-up.
->
->
-> On 13-08-15 05:29 AM, wenzong fan wrote:
->> Hi All,
->>
->> We have seen some problems like this:
->>
->> $ bitbake libcap
->>
->> ld: warning: libaudit.so.1, needed by .../lib64/libpam.so, not found
->> .../lib64/libpam.so: undefined reference to `audit_open'
->> .../lib64/libpam.so: undefined reference to `audit_close'
->> ......
->>
->> The libaudit has been available and libpam build with it, after we run
->> another build with sstate-cache and w/o libaudit, the error occurs. The
->> solution in these cases is to use PACKAGECONFIG to lay out dependencies
->> on optional packages and make them explicit. We need to run an audit and
->> catch all of these issues.
->>
->> A probable ways maybe:
->>
->> 1) Run world build to generate the sysroots as much as possible;
->> 2) Run 'configure --help' on each package to spot all of the optional
->> dependencies, and convert them into PACKAGECONFIG specs/or any other
->> prompts.
->
-> We should try to automate or codify this step so that the output is
-> a list of oe-core package names.
->
->> 3) Run #1, #2 as an audit script periodically.
->>
->> Or could we run this check as part of a QA build step?
->
-> Do you mean:
->    scripts/test-dependencies.sh
+Hi Paul,
 
-No, I mean some check steps that if PACKAGECONFIG should be used, not 
-limit to the script.
+I saw the error today, yesterday I was ooo. Sorry for the mistake.
+Cristiana
 
-Thanks
-Wenzong
+-----Original Message-----
+From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
+Sent: Monday, August 19, 2013 11:31 AM
+To: Voicu, Cristiana
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 1/2] cronie: upgrade to 1.4.11
 
->
-> // Randy
->
->>
->>
->> Thanks
->> Wenzong
->
->
+On Monday 19 August 2013 09:24:54 Paul Eggleton wrote:
+> Hi Cristiana,
+>=20
+> On Friday 16 August 2013 11:30:49 Cristiana Voicu wrote:
+> > LIC_FILES_CHKSUM changed because cron.h doesn't exist anymore.
+> > Replaced it with cron.c.
+> >
+> >...
+>=20
+> A couple of people have reported this doesn't build, and I've=20
+> confirmed it this morning:
+
+Ah, I see Saul already sent a patch for this, sorry I didn't see it before.
+
+Cheers,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
