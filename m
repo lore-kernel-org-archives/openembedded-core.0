@@ -1,40 +1,38 @@
-Return-Path: <cristiana.voicu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 179966B5B1
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 42A3E6B5B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 10:18:31 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Aug 2013 03:18:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,919,1367996400"; 
-	d="scan'208,217";a="348881631"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by azsmga001.ch.intel.com with ESMTP; 20 Aug 2013 03:18:31 -0700
-Received: from irsmsx152.ger.corp.intel.com (163.33.192.66) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Tue, 20 Aug 2013 11:18:26 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.33]) with mapi id
-	14.03.0123.003; Tue, 20 Aug 2013 11:18:26 +0100
-From: "Voicu, Cristiana" <cristiana.voicu@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 2/2] sudo: upgrade to 1.8.7
-Thread-Index: AQHOmlqsJfcxpfvdQ0GcDgX/MPSr55mX7OsAgAX7D/A=
-Date: Tue, 20 Aug 2013 10:18:25 +0000
-Message-ID: <BE68E9C8E0850C43B0F0B0B7D57FA5AE2E7FC669@IRSMSX105.ger.corp.intel.com>
-References: <cover.1376641437.git.cristiana.voicu@intel.com>
-	<f9e441cc3a1beefe5e6463ed1db730f8803af38c.1376641437.git.cristiana.voicu@intel.com>
-	<62aeb7c8b74f56c0b8c04956847505fe7d3db0e0.1376641437.git.cristiana.voicu@intel.com>
-	<CAMKF1sr5qE0aRvZGxOKisEJd2ZTr2VPXegH2_kCikVSf+L0Q8A@mail.gmail.com>
-In-Reply-To: <CAMKF1sr5qE0aRvZGxOKisEJd2ZTr2VPXegH2_kCikVSf+L0Q8A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Tue, 20 Aug 2013 10:23:24 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id c41so119504eek.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 03:23:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=aJfFU4iUA9+0DNiLUARb7gV87Dn1PMnizTbCDJjFX98=;
+	b=04rTNss/ChIBUcSl5N8xGDuk7i+bNV+sB+lP8L79nhPvJTneOlmM56CNbTbLqjfrMR
+	tBZDa69RxRG03kc0rt9gDQMz3z20N3fNN3LYCINRumA4VuwVQjcN+1uwjIlA21cf8fVC
+	lkqRd07FUl3GXnu32zfj6THiC2CY4Pjduncemc+KYkIWh5YcgnLKKai7STuHolD/5m+O
+	nVvaECyOLizw+bBLKRfE76nXv+ZvhuReNWEapIQltm5xR6kjH3LVsn+Faq4ndlfyEjYC
+	w2csa0NtwmOIqAq/IxpkZqF6xlGQdy6mRf8s+gN5ZZ5dnAOBnRz2Nna4V5BZZReVlIti
+	jyxw==
+X-Received: by 10.15.42.206 with SMTP id u54mr134203eev.94.1376994203661;
+	Tue, 20 Aug 2013 03:23:23 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	m54sm1384703eex.2.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 20 Aug 2013 03:23:23 -0700 (PDT)
+Date: Tue, 20 Aug 2013 12:24:27 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Jonathan Liu <net147@gmail.com>
+Message-ID: <20130820102427.GE522@jama>
+References: <1376993441-15007-1-git-send-email-net147@gmail.com>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] sudo: upgrade to 1.8.7
+In-Reply-To: <1376993441-15007-1-git-send-email-net147@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: enable additional drivers for gallium-llvm x86/x86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,132 +45,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 10:18:32 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_BE68E9C8E0850C43B0F0B0B7D57FA5AE2E7FC669IRSMSX105gercor_"
+X-List-Received-Date: Tue, 20 Aug 2013 10:23:25 -0000
+X-Groupsio-MsgNum: 43564
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="tVmo9FyGdCe4F4YN"
+Content-Disposition: inline
 
---_000_BE68E9C8E0850C43B0F0B0B7D57FA5AE2E7FC669IRSMSX105gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--tVmo9FyGdCe4F4YN
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-SGksDQoNClRoZXJlIHdlcmUgc29tZSBtaW5vciBjaGFuZ2VzOg0KZGlmZiBzdWRvLTEuOC42cDgv
-ZG9jL0xJQ0VOU0Ugc3Vkby0xLjguNy9kb2MvTElDRU5TRQ0KM2MzDQo8ICAgIENvcHlyaWdodCAo
-YykgMTk5NC0xOTk2LCAxOTk4LTIwMTINCi0tLQ0KPiAgICBDb3B5cmlnaHQgKGMpIDE5OTQtMTk5
-NiwgMTk5OC0yMDEzDQoNCmRpZmYgc3Vkby0xLjguNnA4L3BsdWdpbnMvc3Vkb2Vycy9yZWRibGFj
-ay5jIHN1ZG8tMS44LjcvcGx1Z2lucy9zdWRvZXJzL3JlZGJsYWNrLmMNCjJjMg0KPCAgKiBDb3B5
-cmlnaHQgKGMpIDIwMDQtMjAwNSwgMjAwNywgMjAwOS0yMDExDQotLS0NCj4gICogQ29weXJpZ2h0
-IChjKSAyMDA0LTIwMDUsIDIwMDcsIDIwMDktMjAxMw0KDQoNCkZvciB0aGUgbmV4dCB1cGdyYWRl
-cywgSSB3aWxsIG1lbnRpb24gdGhlbSBpbiB0aGUgY29tbWl0IG1lc3NhZ2UuDQpUaGFua3MsDQpD
-cmlzdGlhbmENCg0KRnJvbTogS2hlbSBSYWogW21haWx0bzpyYWoua2hlbUBnbWFpbC5jb21dDQpT
-ZW50OiBGcmlkYXksIEF1Z3VzdCAxNiwgMjAxMyA2OjU3IFBNDQpUbzogVm9pY3UsIENyaXN0aWFu
-YQ0KQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJdIHN1ZG86IHVwZ3JhZGUgdG8gMS44LjcN
-Cg0KDQpPbiBGcmksIEF1ZyAxNiwgMjAxMyBhdCAxOjMwIEFNLCBDcmlzdGlhbmEgVm9pY3UgPGNy
-aXN0aWFuYS52b2ljdUBpbnRlbC5jb208bWFpbHRvOmNyaXN0aWFuYS52b2ljdUBpbnRlbC5jb20+
-PiB3cm90ZToNCkFsc28sIHRoZSBsaWNlbnNlIGhhZCBzb21lIG1vZGlmaWNhdGlvbnMgaW4gdHdv
-IGZpbGVzLg0KDQrigIt3b3VsZCBiZSBuaWNlIGlmIHlvdSBtZW50aW9uZWQgd2hhdCB0aGUgY2hh
-bmdlZCB3ZXJlLuKAiw0KDQo=
+On Tue, Aug 20, 2013 at 08:10:41PM +1000, Jonathan Liu wrote:
+> The additional Gallium drivers are needed for open source ATI Radeon
+> and NVIDIA graphics drivers.
+>=20
+> The radeonsi and r600 drivers require LLVM 3.3 built with r600
+> PACKAGECONFIG so they must be explicitly enabled by adding r600 to the
+> mesa PACKAGECONFIG.
 
---_000_BE68E9C8E0850C43B0F0B0B7D57FA5AE2E7FC669IRSMSX105gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+BTW: I just got interesting question about egl_gallium:
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTIgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAxMSA2
-IDQgMyA1IDQgNCAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBs
-aS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9t
-Oi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJv
-bWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
-aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
-OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
-Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4u
-RW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFt
-aWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVm
-YXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTt9DQpAcGFnZSBXb3JkU2VjdGlvbjEN
-Cgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEuMGluO30N
-CmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0t
-W2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRt
-YXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
-CjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
-PSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJv
-ZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0i
-V29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90Oztjb2xvcjojMUY0OTdEIj5IaSw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
-cXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+
-PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oywm
-cXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlRoZXJlIHdlcmUgc29tZSBtaW5v
-ciBjaGFuZ2VzOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0
-eWxlPSJiYWNrZ3JvdW5kOndoaXRlIj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6JnF1b3Q7QXJp
-YWwmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjpibGFjayI+ZGlmZiBzdWRvLTEu
-OC42cDgvZG9jL0xJQ0VOU0Ugc3Vkby0xLjguNy9kb2MvTElDRU5TRQ0KPGJyPg0KM2MzPGJyPg0K
-Jmx0OyZuYnNwOyZuYnNwOyZuYnNwOyBDb3B5cmlnaHQgKGMpIDE5OTQtMTk5NiwgMTk5OC0yMDEy
-PGJyPg0KLS0tPGJyPg0KJmd0OyZuYnNwOyZuYnNwOyZuYnNwOyBDb3B5cmlnaHQgKGMpIDE5OTQt
-MTk5NiwgMTk5OC0yMDEzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FyaWFsJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6YmxhY2siPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtBcmlhbCZx
-dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOmJsYWNrIj5kaWZmIHN1ZG8tMS44LjZw
-OC9wbHVnaW5zL3N1ZG9lcnMvcmVkYmxhY2suYyBzdWRvLTEuOC43L3BsdWdpbnMvc3Vkb2Vycy9y
-ZWRibGFjay5jDQo8YnI+DQoyYzI8YnI+DQombHQ7Jm5ic3A7ICogQ29weXJpZ2h0IChjKSAyMDA0
-LTIwMDUsIDIwMDcsIDIwMDktMjAxMTxicj4NCi0tLTxicj4NCiZndDsmbmJzcDsgKiBDb3B5cmln
-aHQgKGMpIDIwMDQtMjAwNSwgMjAwNywgMjAwOS0yMDEzPG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1m
-YW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMx
-RjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
-bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+Rm9yIHRoZSBuZXh0IHVwZ3JhZGVzLCBJIHdpbGwgbWVu
-dGlvbiB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFG
-NDk3RCI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5DcmlzdGlhbmE8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
-PGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjQjVDNERGIDEuMHB0O3Bh
-ZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZx
-dW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90OyI+IEtoZW0gUmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXQ0KPGJyPg0KPGI+
-U2VudDo8L2I+IEZyaWRheSwgQXVndXN0IDE2LCAyMDEzIDY6NTcgUE08YnI+DQo8Yj5Ubzo8L2I+
-IFZvaWN1LCBDcmlzdGlhbmE8YnI+DQo8Yj5DYzo8L2I+IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25z
-IGFib3V0IHRoZSBvZS1jb3JlIGxheWVyPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29y
-ZV0gW1BBVENIIDIvMl0gc3VkbzogdXBncmFkZSB0byAxLjguNzxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8
-ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9uIEZyaSwgQXVnIDE2LCAyMDEzIGF0IDE6MzAg
-QU0sIENyaXN0aWFuYSBWb2ljdSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmNyaXN0aWFuYS52b2ljdUBp
-bnRlbC5jb20iIHRhcmdldD0iX2JsYW5rIj5jcmlzdGlhbmEudm9pY3VAaW50ZWwuY29tPC9hPiZn
-dDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2IGlkPSI6M2RjIj4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPkFsc28sIHRoZSBsaWNlbnNlIGhhZCBzb21lIG1vZGlmaWNhdGlvbnMgaW4gdHdvIGZp
-bGVzLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-IHN0eWxlPSJtYXJnaW4tYm90dG9tOjEyLjBwdCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQt
-ZmFtaWx5OiZxdW90O0NhbWJyaWEgTWF0aCZxdW90OywmcXVvdDtzZXJpZiZxdW90OyI+4oCLPC9z
-cGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtDb3VyaWVyIE5ldyZxdW90OyI+d291
-bGQgYmUgbmljZSBpZiB5b3UgbWVudGlvbmVkIHdoYXQgdGhlIGNoYW5nZWQgd2VyZS48L3NwYW4+
-PHNwYW4gc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0NhbWJyaWEgTWF0aCZxdW90OywmcXVvdDtz
-ZXJpZiZxdW90OyI+4oCLPC9zcGFuPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtDb3Vy
-aWVyIE5ldyZxdW90OyI+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4N
-CjwvYm9keT4NCjwvaHRtbD4NCg==
+libEGL warning: Could not open driver /usr/lib/egl/egl_gallium.so
+(libLLVM-3.3.so: cannot open shared object file: No such file or
+directory)
+Could not initialize egl display
 
---_000_BE68E9C8E0850C43B0F0B0B7D57FA5AE2E7FC669IRSMSX105gercor_--
+EGL error
+Aborted
+root@qemux86:~# ls -alh /usr/lib/llvm3.3/
+drwxr-xr-x    2 root     root        1.0K Aug 20 02:47 .
+drwxr-xr-x   35 root     root       10.0K Aug 20 02:47 ..
+-rwxr-xr-x    1 root     root       15.8M Aug 19 14:02 libLLVM-3.3.so
+-rwxr-xr-x    1 root     root       78.2K Aug 19 14:02 libLTO.so
+-rwxr-xr-x    1 root     root       10.1K Aug 19 14:02 libprofile_rt.so
+
+I don't know yet why it worked in my tests when I was updating mesa and
+llvm, but it's true that we need to make sure that mesa finds
+libLLVM-3.3.so in versioned subdirectory in runtime.
+
+>=20
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+> index 447e186..e985d67 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -50,6 +50,10 @@ PACKAGECONFIG[egl] =3D "--enable-egl --with-egl-platfo=
+rms=3D${EGL_PLATFORMS}, --disa
+>  PACKAGECONFIG[openvg] =3D "--enable-openvg, --disable-openvg"
+> =20
+>  GALLIUMDRIVERS =3D "swrast"
+> +GALLIUMDRIVERS_LLVM33 =3D "${@base_contains('PACKAGECONFIG', 'r600', 'ra=
+deonsi,r600', '', d)}"
+> +GALLIUMDRIVERS_LLVM =3D "r300,svga,nouveau${@base_version_less_or_equal(=
+'MESA_LLVM_RELEASE', '3.2', '', ',${GALLIUMDRIVERS_LLVM33}', d)}"
+> +GALLIUMDRIVERS_append_x86 =3D "${@base_contains('PACKAGECONFIG', 'galliu=
+m-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+> +GALLIUMDRIVERS_append_x86-64 =3D "${@base_contains('PACKAGECONFIG', 'gal=
+lium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+>  # keep --with-gallium-drivers separate, because when only one of gallium=
+ versions is enabled, other 2 were adding --without-gallium-drivers
+>  PACKAGECONFIG[gallium]      =3D "--with-gallium-drivers=3D${GALLIUMDRIVE=
+RS}, --without-gallium-drivers"
+>  PACKAGECONFIG[gallium-egl]  =3D "--enable-gallium-egl, --disable-gallium=
+-egl"
+> --=20
+> 1.8.3.4
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--tVmo9FyGdCe4F4YN
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlITQ9sACgkQN1Ujt2V2gBzyfwCePtMqbZmnoQilJUcdyATwYPR9
+mKcAnRYbtq0xFi2ton7JE782f78ckC6s
+=+X5z
+-----END PGP SIGNATURE-----
+
+--tVmo9FyGdCe4F4YN--
