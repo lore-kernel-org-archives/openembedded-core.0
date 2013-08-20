@@ -1,26 +1,29 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E32466065F
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E92069686
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 05:26:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7K5Q8UT002432
+	Tue, 20 Aug 2013 05:36:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7K5aliw003994
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 22:26:08 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 19 Aug 2013 22:26:07 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Aug 2013 13:26:15 +0800
-Message-ID: <87d62a3b41ce0817786dc65682410db969e49143.1376976261.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1376976261.git.rongqing.li@windriver.com>
-References: <cover.1376976261.git.rongqing.li@windriver.com>
+	Tue, 20 Aug 2013 01:36:48 -0400 (EDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 19 Aug 2013 22:36:46 -0700
+Message-ID: <5213006A.5050602@windriver.com>
+Date: Tue, 20 Aug 2013 13:36:42 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: [PATCH 1/1] shadown: backport a patch to make newgrp work
+To: Randy MacLeod <randy.macleod@windriver.com>
+References: <520C9F8A.7080703@windriver.com> <52128427.3020009@windriver.com>
+In-Reply-To: <52128427.3020009@windriver.com>
+Cc: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: About PACKAGECONFIG audit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +36,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 05:26:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Aug 2013 05:36:47 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+On 08/20/2013 04:46 AM, Randy MacLeod wrote:
+> Add Joe Slater who owns US17463: PACKAGECONFIG clean-up.
+>
+>
+> On 13-08-15 05:29 AM, wenzong fan wrote:
+>> Hi All,
+>>
+>> We have seen some problems like this:
+>>
+>> $ bitbake libcap
+>>
+>> ld: warning: libaudit.so.1, needed by .../lib64/libpam.so, not found
+>> .../lib64/libpam.so: undefined reference to `audit_open'
+>> .../lib64/libpam.so: undefined reference to `audit_close'
+>> ......
+>>
+>> The libaudit has been available and libpam build with it, after we run
+>> another build with sstate-cache and w/o libaudit, the error occurs. The
+>> solution in these cases is to use PACKAGECONFIG to lay out dependencies
+>> on optional packages and make them explicit. We need to run an audit and
+>> catch all of these issues.
+>>
+>> A probable ways maybe:
+>>
+>> 1) Run world build to generate the sysroots as much as possible;
+>> 2) Run 'configure --help' on each package to spot all of the optional
+>> dependencies, and convert them into PACKAGECONFIG specs/or any other
+>> prompts.
+>
+> We should try to automate or codify this step so that the output is
+> a list of oe-core package names.
+>
+>> 3) Run #1, #2 as an audit script periodically.
+>>
+>> Or could we run this check as part of a QA build step?
+>
+> Do you mean:
+>    scripts/test-dependencies.sh
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- .../shadow/files/fix-etc-gshadow-reading.patch     |   36 ++++++++++++++++++++
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+No, I mean some check steps that if PACKAGECONFIG should be used, not 
+limit to the script.
 
-diff --git a/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch b/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
-new file mode 100644
-index 0000000..80ebdc2
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
-@@ -0,0 +1,36 @@
-+shadow: Fix parsing of gshadow entries
-+
-+Upstream-Status: Backport [http://anonscm.debian.org/viewvc/pkg-shadow?view=revision&revision=3096]
-+
-+newgrp command does not function properly.
-+Even with the valid password, it outputs: "'Invalid password'"
-+
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+
-+2010-02-14  Michael Bunk  <mb@computer-leipzig.com>
-+
-+	* NEWS, lib/gshadow.c: Fix parsing of gshadow entries.
-+
-+diff -urpN a/lib/gshadow.c b/lib/gshadow.c
-+--- a/lib/gshadow.c	2013-07-11 10:18:15.745450428 +0800
-++++ b/lib/gshadow.c	2013-07-11 10:17:30.465450280 +0800
-+@@ -222,6 +222,7 @@ void endsgent (void)
-+ 		if (NULL == buf) {
-+ 			return NULL;
-+ 		}
-++		buflen = BUFSIZ;
-+ 	}
-+ 
-+ 	if (NULL == fp) {
-+@@ -229,9 +230,9 @@ void endsgent (void)
-+ 	}
-+ 
-+ #ifdef	USE_NIS
-+-	while (fgetsx (buf, (int) sizeof buf, fp) == buf)
-++	while (fgetsx (buf, (int) buflen, fp) == buf)
-+ #else
-+-	if (fgetsx (buf, (int) sizeof buf, fp) == buf)
-++	if (fgetsx (buf, (int) buflen, fp) == buf)
-+ #endif
-+ 	{
-+ 		while (   ((cp = strrchr (buf, '\n')) == NULL)
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index af67339..31cef20 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow-update-pam-conf.patch \
-            file://shadow_fix_for_automake-1.12.patch \
-            file://slackware_fix_for_glib-2.17_crypt.patch \
-+           file://fix-etc-gshadow-reading.patch \
-            "
- 
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
--- 
-1.7.10.4
+Thanks
+Wenzong
 
+>
+> // Randy
+>
+>>
+>>
+>> Thanks
+>> Wenzong
+>
+>
 
