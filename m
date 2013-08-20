@@ -1,26 +1,36 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 43D3F6B8A2
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id D46756065F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 07:02:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7K72fur011434
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 20 Aug 2013 08:44:47 +0000 (UTC)
+Received: by mail-la0-f49.google.com with SMTP id ev20so94070lab.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 00:02:41 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 20 Aug 2013 00:02:40 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Aug 2013 15:02:49 +0800
-Message-ID: <5a34823481741abaf039545e0809fd8305b125b6.1376982051.git.rongqing.li@windriver.com>
+	Tue, 20 Aug 2013 01:44:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=sjLDa3D2b4WwEtbiSJsU2ZJKOiTjn62O7In4mECv8K0=;
+	b=jAFo/c8rXfKpfG/JQg2utII6QUJORr9Ld27NTArby3sO3XXqKTEtJNTIK0uY8lXZJo
+	UmmGF41lA1a5yad4iKwJDbhir4ldn3F+VdZuFre/FXzb68gp7dHsXrW8z91qtiVQyXMe
+	/KNPYorp3KCbBuVHKq7rf/ytA27sGWWP4A0lGoEWq04nJewrndstZehC/Nd5fffiqEsr
+	HYJarNNAs0Gk9FuymDCllClsc7dk8mAeKeMjQLYyn0TIxEIh+1g1rvTgz+1zbcx1qBEe
+	HkFmzCBX2KuvGaNLiXFYESOHATCZGQMuC5wUuuAhNmXwd60LE8d05M/XaY9cQ5k0oDyQ
+	XUNw==
+X-Received: by 10.112.14.102 with SMTP id o6mr1784586lbc.28.1376988287629;
+	Tue, 20 Aug 2013 01:44:47 -0700 (PDT)
+Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
+	by mx.google.com with ESMTPSA id b3sm275109laf.7.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 20 Aug 2013 01:44:46 -0700 (PDT)
+Received: from cazfi by prime with local (Exim 4.80)
+	(envelope-from <cazfi74@gmail.com>)
+	id 1VBhYS-0005Ro-Rc; Tue, 20 Aug 2013 11:44:44 +0300
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Aug 2013 11:44:43 +0300
+Message-Id: <cover.1376988152.git.cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1376982051.git.rongqing.li@windriver.com>
-References: <cover.1376982051.git.rongqing.li@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] shadow: backport a patch to make newgrp work
+Subject: [PATCH 0/2] Automake-1.13 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 07:02:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Aug 2013 08:44:49 -0000
 
-From: "Roy.Li" <rongqing.li@windriver.com>
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- .../shadow/files/fix-etc-gshadow-reading.patch     |   36 ++++++++++++++++++++
- meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+The following changes since commit fd9e591f266e1a6c183e77f24e50d31e0d52bdd5:
 
-diff --git a/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch b/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
-new file mode 100644
-index 0000000..80ebdc2
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
-@@ -0,0 +1,36 @@
-+shadow: Fix parsing of gshadow entries
-+
-+Upstream-Status: Backport [http://anonscm.debian.org/viewvc/pkg-shadow?view=revision&revision=3096]
-+
-+newgrp command does not function properly.
-+Even with the valid password, it outputs: "'Invalid password'"
-+
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+
-+2010-02-14  Michael Bunk  <mb@computer-leipzig.com>
-+
-+	* NEWS, lib/gshadow.c: Fix parsing of gshadow entries.
-+
-+diff -urpN a/lib/gshadow.c b/lib/gshadow.c
-+--- a/lib/gshadow.c	2013-07-11 10:18:15.745450428 +0800
-++++ b/lib/gshadow.c	2013-07-11 10:17:30.465450280 +0800
-+@@ -222,6 +222,7 @@ void endsgent (void)
-+ 		if (NULL == buf) {
-+ 			return NULL;
-+ 		}
-++		buflen = BUFSIZ;
-+ 	}
-+ 
-+ 	if (NULL == fp) {
-+@@ -229,9 +230,9 @@ void endsgent (void)
-+ 	}
-+ 
-+ #ifdef	USE_NIS
-+-	while (fgetsx (buf, (int) sizeof buf, fp) == buf)
-++	while (fgetsx (buf, (int) buflen, fp) == buf)
-+ #else
-+-	if (fgetsx (buf, (int) sizeof buf, fp) == buf)
-++	if (fgetsx (buf, (int) buflen, fp) == buf)
-+ #endif
-+ 	{
-+ 		while (   ((cp = strrchr (buf, '\n')) == NULL)
-diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-index af67339..31cef20 100644
---- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-+++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
-            file://shadow-update-pam-conf.patch \
-            file://shadow_fix_for_automake-1.12.patch \
-            file://slackware_fix_for_glib-2.17_crypt.patch \
-+           file://fix-etc-gshadow-reading.patch \
-            "
- 
- SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
+  cronie: fix out of tree build (2013-08-19 11:24:51 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib cazfi/am13
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=cazfi/am13
+
+Marko Lindqvist (2):
+  texinfo: correct dont-depend-on-help2man.patch
+  gtk-engines: fix build with automake-1.13
+
+ .../texinfo-5.1/dont-depend-on-help2man.patch      |   43 +++++++++++++++++---
+ .../gtk-engines-2.20.2/substitute-tests.patch      |   37 +++++++++++++++++
+ .../gtk-engines/gtk-engines_2.20.2.bb              |    5 +--
+ 3 files changed, 77 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/substitute-tests.patch
+
 -- 
 1.7.10.4
 
