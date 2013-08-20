@@ -1,39 +1,37 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
-	[209.85.219.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D2F4E6B8C5
+Received: from mail-oa0-f44.google.com (mail-oa0-f44.google.com
+	[209.85.219.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 308886B7C8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 15:06:05 +0000 (UTC)
-Received: by mail-oa0-f43.google.com with SMTP id i10so978009oag.16
+	Tue, 20 Aug 2013 15:21:29 +0000 (UTC)
+Received: by mail-oa0-f44.google.com with SMTP id l20so1024345oag.17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 08:06:06 -0700 (PDT)
+	Tue, 20 Aug 2013 08:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=fbeObwo1Hw/OJIaAfvFL45IQalY8/k2SAKNoZuDyOK4=;
-	b=FnJTyJblUdUwTAl4VgWuBX5B5CZ35/uWKRzDiOaQvmTqVQ/e4fUEzXOTF2QWZwBTPF
-	xNxE7Jcal1KS7JakvdR4SZ7rnbxS8Dn343PDUrIxrreBhZNm2HXTUZmid1DUJPgUx6sj
-	yxI5+FbvsCHHMhFmQW9UlAla7Hbl4y3h9jvpAzhgbudmCi7wbVab+BIwPmqL+Rjjq+lu
-	Q4iDrSa+QwUzSO82s9d6+yC9wsMcaUxkumA8Ezc+8KIol6ytPgDJxcgZEEvnqzqCLWjY
-	0sNGi6D+QmS+jBAwLPOrrIAE7Exu7TAJITyE0tcmUh6p/ascXdE0/q3C3S2Fy2Ytr3HV
-	dmnw==
+	bh=M/Ihr71zRQ5AzhvYNNwIZWQhk7tSekplvB0t/VeALnY=;
+	b=CIc7/tRB3aM6GR4YLFWIO/OfhjHhHe/X6CxNvOgQnsveDrV+F3OyILbfcUON/ENyDQ
+	QFoRU1HmU6Xn6N2tg07pyVSvHQRMxVfYtkjhTVRP6A3YrVcST/duF5MwKI1lnU5r10s+
+	EB/k9rp6Qlh3VrUkZjoXkpBT77QRqKspcJ2lfaI2No9FKNsdzSc2wZso+ix+WA6y+GZz
+	moHK94UFgRkmzwmpGSaB4xHPrkEt5mTkOCWh7wgbezQXXmhK7SBvA6+vqEWNQF/A3f49
+	9BBCElL3WyVMV934l0gLZlq/vBjYWZwTCeIkMh9rgw+GdaDwNlhR6LY2Y24uuTj2XStX
+	/akA==
 MIME-Version: 1.0
-X-Received: by 10.60.140.168 with SMTP id rh8mr2114296oeb.76.1377011166210;
-	Tue, 20 Aug 2013 08:06:06 -0700 (PDT)
+X-Received: by 10.182.199.74 with SMTP id ji10mr2180495obc.69.1377012089444;
+	Tue, 20 Aug 2013 08:21:29 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 20 Aug 2013 08:06:06 -0700 (PDT)
-In-Reply-To: <1377009976.25999.98.camel@ted>
-References: <cover.1377008073.git.sgw@linux.intel.com>
-	<1377009976.25999.98.camel@ted>
-Date: Tue, 20 Aug 2013 12:06:06 -0300
-X-Google-Sender-Auth: BxjHrxVa_DT67ueqplQbDHIOrV0
-Message-ID: <CAP9ODKrztwFdR7qXzRhXWPbV1=Vsrnor=SAji2Hn3aHwZ7Ayhg@mail.gmail.com>
+Received: by 10.182.232.166 with HTTP; Tue, 20 Aug 2013 08:21:29 -0700 (PDT)
+In-Reply-To: <1376992956-20972-1-git-send-email-mike.looijmans@topic.nl>
+References: <1376992956-20972-1-git-send-email-mike.looijmans@topic.nl>
+Date: Tue, 20 Aug 2013 12:21:29 -0300
+X-Google-Sender-Auth: vQpXy4tbc2C-rTiiitbcWEmuujE
+Message-ID: <CAP9ODKoDgTQDYPdgj4cZTj+BFkKsw=i-GDYXFZ+tM-K-1DG-cw@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "Eggleton, Paul" <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/25] Final Review and ACK
+Subject: Re: [PATCH] linux-dtb: Fix compilation failure in install and deploy phases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,25 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 15:06:06 -0000
+X-List-Received-Date: Tue, 20 Aug 2013 15:21:29 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Aug 20, 2013 at 11:46 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2013-08-20 at 07:28 -0700, Saul Wold wrote:
->> Richard,
->>
->> This has been ACK'ed by Ross and Paul, I re-ordered the tune file
->> usage patches and will create a patch to clean up the comment that
->> Ross mentions.
->>
->> I agree with Ross on the texinfo patch, his name is there in the
->> email.
+On Tue, Aug 20, 2013 at 7:02 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
+> Baking a kernel failed on the devicetree creation. This was caused
+> by the install and deploy scripts referring to the wrong directory
+> for the dtb files.
 >
-> Merged, thanks!
+> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 
-Thanks for merging the patches but one change, the poky.conf change
-(http://patchwork.openembedded.org/patch/55893/), has not been merged.
+Nack! The right fix for this has been merged already.
+
+Your patch fixes kernel > 3.8 but breaks < 3.8 kernels. The patch
+applied today has support for both cases.
 
 Regards,
 
