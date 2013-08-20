@@ -1,39 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
-	[209.85.212.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 0221D6B5B1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 11:15:17 +0000 (UTC)
-Received: by mail-vb0-f41.google.com with SMTP id g17so164307vbg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 04:15:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=HIymlwbQ2FWxuFor+neI8aSCDSWpBl4YwTpdsX/626c=;
-	b=aOwEEuSwmL1ykjByevNa53VUgJsjVhCQaI66ZKoNz+mbdL07MhVbjVEiXGiAEqNwEM
-	ao3ZKjsgSCoImfMJokAjvWb8GqXWrNrqJB8jDlx6sTPyucqIm9RnksVGwvhWZfAIL1E/
-	iT2G3DLl+Z9zVIsXko0mPzlvx3JwKEuxBjY9X6rCGv8LU0uxLimaIS1fCqTkpVCW+UKb
-	YFaVzZwROKvxf5xMRF1Fjt8gTY8NRH2FvVLHTrDGYQOuBUaGYHwdv4YP/cDthXCBy+KM
-	e6AEQ2wM8mmTaK6vsacjdQrXCF9mpskt+CK++RRR8jj4o7uVqiwh2qAocvHfG6XyX08s
-	yUsg==
-X-Gm-Message-State: ALoCoQlPPCDpoGCanv2q3xA/Gv68lcGMoLLnL5BwphRyq0kP/H87Y6AAtVzU/o5ywgTIRPW5TpuS
-X-Received: by 10.221.64.17 with SMTP id xg17mr743549vcb.5.1376997318617; Tue,
-	20 Aug 2013 04:15:18 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
+	[209.85.219.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C6C4E6B7B3
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 11:58:00 +0000 (UTC)
+Received: by mail-oa0-f43.google.com with SMTP id i10so476404oag.30
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 04:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=iJ8i8vDHe1rDRXGVmmHccVWJstqn+mzBOXNnwSIYKHQ=;
+	b=QWgwTwGuHUv7hER3jrZiDAzkBIeRr6OEBfrW7JSBjV5hU5xnVEnTOzpegPNdY+96gZ
+	Mdd7/PyQLQLzG0pDEI/oiy5orqXnMgOpHy8pQV2JPOUP/1LkuY/2hnlajFCGbQNNHjqF
+	E2qjMQ3/Z8dVue7nQmUahsqRtgkm4wS14zifPIbUfQKzxd1OVXFthf3PysWzdEZkD1Th
+	69aJ/W3lUfEKtNW3054aziEyJzk7D9hrPtrfNKLkz4B/jpK6UC6xHbw0eP7bD3PBmmnk
+	UHtUTNZLHjRLPSfYq7IbSekX2Re1pr29HcKJhz8QL9ARcJWjmZLaPIMcQcieLBhcDwkI
+	Gfqg==
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 20 Aug 2013 04:14:58 -0700 (PDT)
-In-Reply-To: <CAF6bG8dSZZaLiZKVpafKFXSQnYb78Mn7baWQFnjmWvwMYHs0pA@mail.gmail.com>
-References: <cover.1376988152.git.cazfi74@gmail.com>
-	<CAJTo0LbUg8e_pQ+zFHa2bGjChUQpWhmiSqEfwq+KneG7KtmP-g@mail.gmail.com>
-	<CAF6bG8dSZZaLiZKVpafKFXSQnYb78Mn7baWQFnjmWvwMYHs0pA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Aug 2013 12:14:58 +0100
-Message-ID: <CAJTo0LZbwmxZDQqX9WvMHRgJxBLFgSu5PR8sFuVW7hRqRqydeg@mail.gmail.com>
-To: Marko Lindqvist <cazfi74@gmail.com>
+X-Received: by 10.182.191.36 with SMTP id gv4mr198795obc.103.1376999880987;
+	Tue, 20 Aug 2013 04:58:00 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Tue, 20 Aug 2013 04:58:00 -0700 (PDT)
+In-Reply-To: <CAJTo0LayXbOWSnT=F5=ud2Vy__b0ipc9Xx6ujKkups2zWSLM7A@mail.gmail.com>
+References: <cover.1376939912.git.nitin.a.kamble@intel.com>
+	<b8e848c82d5c361278328b0569509f6cc4f58d36.1376939912.git.nitin.a.kamble@intel.com>
+	<CAJTo0LayXbOWSnT=F5=ud2Vy__b0ipc9Xx6ujKkups2zWSLM7A@mail.gmail.com>
+Date: Tue, 20 Aug 2013 08:58:00 -0300
+X-Google-Sender-Auth: QnbXzSHW2Nl91CfFEhlYh30LBE4
+Message-ID: <CAP9ODKpxNe3zw4_HgYJZksDvr4tr-Jq9FxBc28kqqpjbzP=C0w@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Automake-1.13 fixes
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] sanity.bbclass: a new check for required distro features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,16 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 11:15:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 20 Aug 2013 11:58:02 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
->> Are you deliberately just sending the cover letter, or is my mailer
->> being strange?
+On Tue, Aug 20, 2013 at 8:11 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 19 August 2013 20:22,  <nitin.a.kamble@intel.com> wrote:
+>> Now these BSPs can specify in their BSP config, what distro features
+>> are required, and if these are not enabled then appropriate build
+>> error is thrown to help fix the issue.
 >
->  I've sent cover letter only.
+> Are there any situations where these distro feature dependencies can't
+> be expressed more precisely in a package recipe, and then something
+> like Otavio's approach of throwing a SkipPackage used?
 
-For review purposes I much prefer patches in mails, can you send the
-full series?
+I have several cases in meta-fsl-demos. Vivante GPU driver provides
+different libraries depending on the backend to use (DirectFB, FB,
+Wayland and X11) and they cannot be used at same time. So depending on
+distro features setting some images are buildable or not.
 
-Ross
+In fact I see same case in OE-Core; core-image-weston /depends/ on
+wayland distro feature and this is not explicit in metadata nowadays.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
