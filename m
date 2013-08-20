@@ -1,25 +1,26 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 882946065F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A675B6B5AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 06:39:55 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VBfbf-0003rf-FI; Tue, 20 Aug 2013 08:39:55 +0200
-Message-ID: <1376980784.4083.27.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: jackie.huang@windriver.com
-Date: Tue, 20 Aug 2013 07:39:44 +0100
-In-Reply-To: <0502058d180d47c81b6431d01868dd9bba6653f5.1376968627.git.jackie.huang@windriver.com>
-References: <cover.1376968627.git.jackie.huang@windriver.com>
-	<0502058d180d47c81b6431d01868dd9bba6653f5.1376968627.git.jackie.huang@windriver.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
-Mime-Version: 1.0
+	Tue, 20 Aug 2013 06:44:19 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 19 Aug 2013 23:41:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,918,1367996400"; d="scan'208";a="389976112"
+Received: from unknown (HELO [10.255.14.105]) ([10.255.14.105])
+	by orsmga002.jf.intel.com with ESMTP; 19 Aug 2013 23:44:20 -0700
+Message-ID: <52131043.40200@linux.intel.com>
+Date: Mon, 19 Aug 2013 23:44:19 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: rongqing.li@windriver.com
+References: <cover.1376976261.git.rongqing.li@windriver.com>
+	<87d62a3b41ce0817786dc65682410db969e49143.1376976261.git.rongqing.li@windriver.com>
+In-Reply-To: <87d62a3b41ce0817786dc65682410db969e49143.1376976261.git.rongqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/6] sysvinit: add init.d/bootlogd status command for LSB compliance
+Subject: Re: [PATCH 1/1] shadown: backport a patch to make newgrp work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +33,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 06:39:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 20 Aug 2013 06:44:19 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-08-20 at 11:25 +0800, jackie.huang@windriver.com wrote:
-> @@ -37,6 +40,19 @@ case "$0" in
->  		;;
->  esac
->  
-> +# default /var/log/boot is not an option since /var/log becomes
-> +# /var/volatile/log
-> +logfile=/var/local/bootlogd.log
+
+Do you mean Shadow?
+
+Please correct the spelling
+
+Thanks
+	Sau!
+
+
+On 08/19/2013 10:26 PM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> ---
+>   .../shadow/files/fix-etc-gshadow-reading.patch     |   36 ++++++++++++++++++++
+>   meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    1 +
+>   2 files changed, 37 insertions(+)
+>   create mode 100644 meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+>
+> diff --git a/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch b/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+> new file mode 100644
+> index 0000000..80ebdc2
+> --- /dev/null
+> +++ b/meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+> @@ -0,0 +1,36 @@
+> +shadow: Fix parsing of gshadow entries
 > +
-> +#
-> +# Create initial log files
-> +#
-> +if [ ! -f "$logfile" ] && touch "$logfile" >/dev/null 2>&1; then
-> +	echo "(Nothing has been logged yet.)" >| "$logfile"
-> +	chown root:adm "$logfile"
-> +	chmod 640 "$logfile"
-> +fi
+> +Upstream-Status: Backport [http://anonscm.debian.org/viewvc/pkg-shadow?view=revision&revision=3096]
 > +
->  case "$ACTION" in
->  	start)
->  		echo -n "Starting $DESC: "
-> @@ -44,9 +60,9 @@ case "$ACTION" in
->  		then
->  			umask 027
->  			start-stop-daemon --start --quiet \
-> -				--exec $DAEMON -- -r
-> +				--exec $DAEMON -- -r -l $logfile
->  		else
-> -			$DAEMON -r
-> +			$DAEMON -r -l $logfile
->  		fi
->  		echo "$NAME."
->  		;;
-
-It's not totally obvious that the changes are related to the "status"
-command.  If you're creating new logfiles that didn't exist previously
-then I think the commit message ought to explain why.
-
-p.
-
-
+> +newgrp command does not function properly.
+> +Even with the valid password, it outputs: "'Invalid password'"
+> +
+> +Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+> +
+> +2010-02-14  Michael Bunk  <mb@computer-leipzig.com>
+> +
+> +	* NEWS, lib/gshadow.c: Fix parsing of gshadow entries.
+> +
+> +diff -urpN a/lib/gshadow.c b/lib/gshadow.c
+> +--- a/lib/gshadow.c	2013-07-11 10:18:15.745450428 +0800
+> ++++ b/lib/gshadow.c	2013-07-11 10:17:30.465450280 +0800
+> +@@ -222,6 +222,7 @@ void endsgent (void)
+> + 		if (NULL == buf) {
+> + 			return NULL;
+> + 		}
+> ++		buflen = BUFSIZ;
+> + 	}
+> +
+> + 	if (NULL == fp) {
+> +@@ -229,9 +230,9 @@ void endsgent (void)
+> + 	}
+> +
+> + #ifdef	USE_NIS
+> +-	while (fgetsx (buf, (int) sizeof buf, fp) == buf)
+> ++	while (fgetsx (buf, (int) buflen, fp) == buf)
+> + #else
+> +-	if (fgetsx (buf, (int) sizeof buf, fp) == buf)
+> ++	if (fgetsx (buf, (int) buflen, fp) == buf)
+> + #endif
+> + 	{
+> + 		while (   ((cp = strrchr (buf, '\n')) == NULL)
+> diff --git a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+> index af67339..31cef20 100644
+> --- a/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+> +++ b/meta/recipes-extended/shadow/shadow_4.1.4.3.bb
+> @@ -24,6 +24,7 @@ SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/${BPN}-${PV}.tar.bz2 \
+>              file://shadow-update-pam-conf.patch \
+>              file://shadow_fix_for_automake-1.12.patch \
+>              file://slackware_fix_for_glib-2.17_crypt.patch \
+> +           file://fix-etc-gshadow-reading.patch \
+>              "
+>
+>   SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
+>
 
