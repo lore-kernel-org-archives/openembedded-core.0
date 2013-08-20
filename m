@@ -1,25 +1,27 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa08-10.prod.phx3.secureserver.net
-	(p3plsmtpa08-10.prod.phx3.secureserver.net [173.201.193.111])
-	by mail.openembedded.org (Postfix) with ESMTP id E35C969686
+Return-Path: <Xufeng.Zhang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E5EB761883
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 22:57:33 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa08-10.prod.phx3.secureserver.net with 
-	id EmxY1m00Y1mTNtu01mxZ2H; Mon, 19 Aug 2013 15:57:34 -0700
-Message-ID: <5212A2DC.2000601@pabigot.com>
-Date: Mon, 19 Aug 2013 17:57:32 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	Tue, 20 Aug 2013 01:57:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7K1vwrF016832
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Aug 2013 18:57:58 -0700 (PDT)
+Received: from [128.224.163.210] (128.224.163.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 19 Aug 2013 18:57:57 -0700
+Message-ID: <5212CD79.3000509@windriver.com>
+Date: Tue, 20 Aug 2013 09:59:21 +0800
+From: Xufeng Zhang <xufeng.zhang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
+	rv:1.9.1.10) Gecko/20100512 Thunderbird/3.0.5 ThunderBrowse/3.82
 MIME-Version: 1.0
-To: Joe MacDonald <Joe.MacDonald@windriver.com>
-References: <520B8B6C.40408@pabigot.com> <20130814141339.GY17945@jama>
-	<20130814143157.GB3894@windriver.com>
-In-Reply-To: <20130814143157.GB3894@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: recipe whitespace style questions
+To: <openembedded-core@lists.openembedded.org>
+References: <1370326530-23464-1-git-send-email-xufeng.zhang@windriver.com>
+In-Reply-To: <1370326530-23464-1-git-send-email-xufeng.zhang@windriver.com>
+Subject: Re: [PATCH] openssl: avoid NULL pointer dereference in three	places
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,69 +34,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2013 22:57:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 20 Aug 2013 01:57:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/14/2013 09:31 AM, Joe MacDonald wrote:
-> [Re: [OE-core] recipe whitespace style questions] On 13.08.14 (Wed 16:13) Martin Jansa wrote:
+Hi All,
+
+Anybody help me review this?
+
+
+Thanks,
+Xufeng
+
+On 06/04/2013 02:15 PM, Xufeng Zhang wrote:
+> There are three potential NULL pointer dereference in
+> EVP_DigestInit_ex(), dh_pub_encode() and dsa_pub_encode()
+> functions.
+> Fix them by adding proper null pointer check.
 >
->> On Wed, Aug 14, 2013 at 08:51:40AM -0500, Peter A. Bigot wrote:
->>> SRC_URI = "file://skeleton \
->>>              file://skeleton_test.c \
->>>              file://COPYRIGHT \
->>> "
->>>
->>> which I'll call "none", and;
->>>
->>> SRC_URI = "file://skeleton \
->>>              file://skeleton_test.c \
->>>              file://COPYRIGHT"
->>>
->>> which I'll call "joined".
->>>
->>> Again, for consistency's sake it would be nice to have a
->>> recommendation.  I personally prefer "none", which matches the closing
->>> bracket style for functions.
->>>
->>> Next: I've also seen:
->>>
->>> SRC_URI = " \
->>>       file://skeleton \
->>>       file://skeleton_test.c \
->>>       file://COPYRIGHT \
->>> "
->> I prefer this one (especially for longer variables or entries) or "none",
->> because with "none" it's easier to see where multiline variable ends.
->>
->> Worst is IMHO "joined" because when appending one more line you have to
->> edit 2 lines to move '"' so the diff for review is longer and harder to
->> read than just one added line.
-> +1
+> [YOCTO #4600]
+> [ CQID: WIND00373257 ]
+>
+> Signed-off-by: Xufeng Zhang<xufeng.zhang@windriver.com>
+> ---
+>   ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   16 +++++++++
+>   ...NULL-pointer-dereference-in-dh_pub_encode.patch |   34 ++++++++++++++++++++
+>   meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
+>   .../recipes-connectivity/openssl/openssl_1.0.1e.bb |    2 +
+>   4 files changed, 53 insertions(+), 1 deletions(-)
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+> new file mode 100644
+> index 0000000..69924a4
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+> @@ -0,0 +1,16 @@
+> +openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
+> +
+> +We should avoid accessing the type pointer if it's NULL,
+> +this could happen if ctx->digest is not NULL.
+> +---
+> +--- a/crypto/evp/digest.c
+> ++++ b/crypto/evp/digest.c
+> +@@ -199,7 +199,7 @@
+> + 		return 0;
+> + 		}
+> + #endif
+> +-	if (ctx->digest != type)
+> ++	if (type&&  (ctx->digest != type))
+> + 		{
+> + 		if (ctx->digest&&  ctx->digest->ctx_size)
+> + 			OPENSSL_free(ctx->md_data);
+> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+> new file mode 100644
+> index 0000000..642b0ea
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+> @@ -0,0 +1,34 @@
+> +openssl: avoid NULL pointer dereference in dh_pub_encode()/dsa_pub_encode()
+> +
+> +We should avoid accessing the pointer if ASN1_STRING_new()
+> +allocates memory failed.
+> +---
+> +--- a/crypto/dh/dh_ameth.c
+> ++++ b/crypto/dh/dh_ameth.c
+> +@@ -139,6 +139,12 @@
+> + 	dh=pkey->pkey.dh;
+> +
+> + 	str = ASN1_STRING_new();
+> ++	if (!str)
+> ++		{
+> ++		DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+> ++		goto err;
+> ++		}
+> ++
+> + 	str->length = i2d_DHparams(dh,&str->data);
+> + 	if (str->length<= 0)
+> + 		{
+> +--- a/crypto/dsa/dsa_ameth.c
+> ++++ b/crypto/dsa/dsa_ameth.c
+> +@@ -148,6 +148,11 @@
+> + 		{
+> + 		ASN1_STRING *str;
+> + 		str = ASN1_STRING_new();
+> ++		if (!str)
+> ++			{
+> ++			DSAerr(DSA_F_DSA_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+> ++			goto err;
+> ++			}
+> + 		str->length = i2d_DSAparams(dsa,&str->data);
+> + 		if (str->length<= 0)
+> + 			{
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+> index f5b2432..c753a27 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -5,7 +5,7 @@ BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
+>   SECTION = "libs/network"
+>
+>   # Big Jump for OpenSSL 1.0 support with meta-oe
+> -INC_PR = "r15"
+> +INC_PR = "r16"
+>
+>   # "openssl | SSLeay" dual license
+>   LICENSE = "openssl"
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> index 61de3a6..afd5576 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+> @@ -31,6 +31,8 @@ SRC_URI += "file://configure-targets.patch \
+>               file://openssl_fix_for_x32.patch \
+>               file://openssl-fix-doc.patch \
+>               file://find.pl \
+> +	    file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
+> +	    file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
+>              "
+>
+>   SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+>    
 
-To close this out: that's three votes for the style named "none" or the 
-one with separated lines.  No objections raised.
-
-I'd thought the style guide was part of the Yocto documentation so I 
-could prepare a patch to it, but it appears to only exist 
-(independently) on the Yocto 
-(https://wiki.yoctoproject.org/wiki/Recipe_%26_Patch_Style_Guide) and 
-OpenEmbedded (http://www.openembedded.org/wiki/Styleguide) wiki sites.
-
-In lieu of my applying for accounts on those sites and updating them 
-I'll leave it that I think these additions would document the 
-conclusions of this discussion, and are what I'll try to follow in my 
-own Yocto-based recipe development:
-
-* Multiple-line continuations should be indented to the level of the 
-content following the introductory quote symbol on the first line.
-
-* Alternatively, the first line of a multi-line value may be continued 
-after the introductory quote symbol, with all subsequent content lines 
-indented four spaces (or one tab if within a shell function)
-
-* Any closing quote of a multiple-line continuation should be placed at 
-the indentation level of the first continued line.
-
-Peter
 
