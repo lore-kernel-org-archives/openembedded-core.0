@@ -1,36 +1,40 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-ve0-f181.google.com (mail-ve0-f181.google.com
 	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 5093C6B8BB
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 11:59:11 +0000 (UTC)
-Received: by mail-ve0-f181.google.com with SMTP id jz10so195793veb.26
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 04:59:11 -0700 (PDT)
+	by mail.openembedded.org (Postfix) with ESMTP id A943E6B8BB
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 12:01:20 +0000 (UTC)
+Received: by mail-ve0-f181.google.com with SMTP id jz10so197498veb.26
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 05:01:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=K83F5VDD9Eno/DiifT3OyZQo3tPneeMU40vkfglkmYs=;
-	b=CONYMDIvKcLa9bwByVrUpYbIaOhovb6B5Pi3DMW2tqPz6u2jgR+gDF7HNARjEO+09s
-	vl+e/NhqGNixFPtUluFQ7La37PhNqVsuow5ahwgC9xP+UzJ94pvu6mc14r79ZHQcyITf
-	aWUkhCz3eBCnf0OdLy8Ahrzx2N05jcAHzOZIjuFoUtB1W9VMojxZQjPpLT1W/gqIE1r7
-	pUWDsYhUMFbgL+4illTYnyrqNg9BnKJ7V9B3ddt3Nsz1i1vYFIIB5nF3iDby3Yj3Z6Hy
-	fIFnCM/83sF8KKpP5QqoFs7id4kQEUR/RW4FFCL3ri6dnnGqFhjJ8ORG54Bp+J7q+3zQ
-	3qlg==
-X-Gm-Message-State: ALoCoQlxBM4AfZCfN3+7fuN5raDw5vvE33n7cLGQVeVKulMAjX8+c0XmmtK+ExO86P/RdZY6QoYu
-X-Received: by 10.58.152.3 with SMTP id uu3mr912019veb.16.1376999951735; Tue,
-	20 Aug 2013 04:59:11 -0700 (PDT)
+	bh=O5oesHsGMrTXITw+lz5lwNyjV/pqXmrzUAg2w+hy+nI=;
+	b=oJYrir1VQNyi/VJ4U3i/mKy7MnW9FDRyrfo4ZSBvR2z5fBCWuOWya6oJzI+RQBj/UG
+	U+P5KYV+XEC+Xap98op18DfjCUUerqCpxd66B4hXX/96L+n91dZAbg5cVq3MMQ29xjYp
+	cUN0O+EH7y3HyU2LzcrE1RLTfWB5t9LXkC4ToUHNfzig4kAcvY0vgAlf5AcUJ0HtDM/4
+	G1S9oturJKUnJkes907mbdu37vUoAER9ogBLcEf051QG9fQLw6++fTLqMhqQk6ltJFhC
+	rsVBkluKcMs81JxACBtMjgdHhT6fHPMTWKs5pdthxSTaLIsIReykCX3LZ5EhNnBr0QgQ
+	AhlQ==
+X-Gm-Message-State: ALoCoQlgWq12zYBF8rAyxezDq4f/afTuVizYAn00U05l/aIZKk1sIINTjCyLi1sTfV0aYC91yTUV
+X-Received: by 10.220.249.67 with SMTP id mj3mr905393vcb.23.1377000081443;
+	Tue, 20 Aug 2013 05:01:21 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 20 Aug 2013 04:58:51 -0700 (PDT)
-In-Reply-To: <1376393206-14191-1-git-send-email-kirgene@gmail.com>
-References: <1376393206-14191-1-git-send-email-kirgene@gmail.com>
+Received: by 10.220.71.201 with HTTP; Tue, 20 Aug 2013 05:01:01 -0700 (PDT)
+In-Reply-To: <CAP9ODKpxNe3zw4_HgYJZksDvr4tr-Jq9FxBc28kqqpjbzP=C0w@mail.gmail.com>
+References: <cover.1376939912.git.nitin.a.kamble@intel.com>
+	<b8e848c82d5c361278328b0569509f6cc4f58d36.1376939912.git.nitin.a.kamble@intel.com>
+	<CAJTo0LayXbOWSnT=F5=ud2Vy__b0ipc9Xx6ujKkups2zWSLM7A@mail.gmail.com>
+	<CAP9ODKpxNe3zw4_HgYJZksDvr4tr-Jq9FxBc28kqqpjbzP=C0w@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 20 Aug 2013 12:58:51 +0100
-Message-ID: <CAJTo0LYOGTfkUFnWNUnFUA68ABwsYj_uZQc_FnBF4ka13ApaWQ@mail.gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] connman: fix systemd support for connman-* packages.
+Date: Tue, 20 Aug 2013 13:01:01 +0100
+Message-ID: <CAJTo0LYzGTseb33djRVrpXmNXZB_OdHrdhfwd9D+4ovjrPQ48w@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] sanity.bbclass: a new check for required distro features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 11:59:12 -0000
+X-List-Received-Date: Tue, 20 Aug 2013 12:01:20 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 August 2013 12:26, Yevhen Kyriukha <kirgene@gmail.com> wrote:
-> +python __anonymous () {
-> +    systemd_packages = "${PN}"
-> +    pkgconfig = d.getVar('PACKAGECONFIG', True)
-> +    if ('openvpn' or 'vpnc' or 'l2tp' or 'pptp') in pkgconfig.split():
-> +        systemd_packages += " ${PN}-vpn"
-> +    d.setVar('SYSTEMD_PACKAGES', systemd_packages)
-> +}
+On 20 August 2013 12:58, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> Are there any situations where these distro feature dependencies can't
+>> be expressed more precisely in a package recipe, and then something
+>> like Otavio's approach of throwing a SkipPackage used?
+>
+> I have several cases in meta-fsl-demos. Vivante GPU driver provides
+> different libraries depending on the backend to use (DirectFB, FB,
+> Wayland and X11) and they cannot be used at same time. So depending on
+> distro features setting some images are buildable or not.
 
-I'm not keen on this as its quite a lot of logic to put in the recipe
-when it would be good to handle this case of optional packages in the
-systemd class itself.
+And does distro_features_check.bbclass work for those?
 
-However I'm not sure how best to do this as the FILES_* manipulation
-needs to happen *before* the package split, and this check can only
-happen *after* the package split.  I wonder if it's possible to split
-up the systemd class functionality like that.
+> In fact I see same case in OE-Core; core-image-weston /depends/ on
+> wayland distro feature and this is not explicit in metadata nowadays.
 
-So, we should probably merge this now, and try and fix the class so we
-can remove it again later.
+Yes, and it should definitely be checked for.
 
 Ross
 
