@@ -1,26 +1,26 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BAAA6B8A2
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C6126065F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 03:25:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7K3Q0lC006891
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 20:26:01 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 19 Aug 2013 20:25:59 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 20 Aug 2013 11:25:46 +0800
-Message-ID: <a1ff23db8b1205cf7f51bd24776c94b3ac0dff9a.1376968627.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1376968627.git.jackie.huang@windriver.com>
-References: <cover.1376968627.git.jackie.huang@windriver.com>
+	Tue, 20 Aug 2013 04:14:01 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 19 Aug 2013 21:14:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,917,1367996400"; d="scan'208";a="348724580"
+Received: from unknown (HELO [10.255.14.105]) ([10.255.14.105])
+	by azsmga001.ch.intel.com with ESMTP; 19 Aug 2013 21:13:56 -0700
+Message-ID: <5212ED04.1030908@linux.intel.com>
+Date: Mon, 19 Aug 2013 21:13:56 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH 6/6] at: add init.d/atd status command for LSB compliance
+To: Xufeng Zhang <xufeng.zhang@windriver.com>
+References: <1370326530-23464-1-git-send-email-xufeng.zhang@windriver.com>
+	<5212CD79.3000509@windriver.com>
+In-Reply-To: <5212CD79.3000509@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: avoid NULL pointer dereference in three	places
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +33,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 03:25:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Aug 2013 04:14:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On 08/19/2013 06:59 PM, Xufeng Zhang wrote:
+> Hi All,
+>
+> Anybody help me review this?
+>
+>
+> Thanks,
+> Xufeng
+>
+> On 06/04/2013 02:15 PM, Xufeng Zhang wrote:
+>> There are three potential NULL pointer dereference in
+>> EVP_DigestInit_ex(), dh_pub_encode() and dsa_pub_encode()
+>> functions.
+>> Fix them by adding proper null pointer check.
+>>
+>> [YOCTO #4600]
+>> [ CQID: WIND00373257 ]
+>>
+>> Signed-off-by: Xufeng Zhang<xufeng.zhang@windriver.com>
+>> ---
+>>   ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   16 +++++++++
+>>   ...NULL-pointer-dereference-in-dh_pub_encode.patch |   34
+>> ++++++++++++++++++++
+>>   meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
+>>   .../recipes-connectivity/openssl/openssl_1.0.1e.bb |    2 +
+>>   4 files changed, 53 insertions(+), 1 deletions(-)
+>>   create mode 100644
+>> meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>
+>>   create mode 100644
+>> meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>>
+>>
+>> diff --git
+>> a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>
+>> new file mode 100644
+>> index 0000000..69924a4
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>
+>> @@ -0,0 +1,16 @@
+>> +openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
+>> +
+>> +We should avoid accessing the type pointer if it's NULL,
+>> +this could happen if ctx->digest is not NULL.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/recipes-extended/at/files/S99at |   13 ++++++++++++-
- 1 files changed, 12 insertions(+), 1 deletions(-)
+These patches both need Upstream-Status: and Signed-off-by: Tags
 
-diff --git a/meta/recipes-extended/at/files/S99at b/meta/recipes-extended/at/files/S99at
-index 386f8a4..d2ba34b 100644
---- a/meta/recipes-extended/at/files/S99at
-+++ b/meta/recipes-extended/at/files/S99at
-@@ -5,6 +5,9 @@
- 
- umask 077
- 
-+# Source function library.
-+. /etc/init.d/functions
-+
- start() {
- 	echo -n "Starting atd: "
- 	start-stop-daemon --start --quiet --pidfile /var/run/atd.pid --background --exec /usr/sbin/atd -- -f
-@@ -20,6 +23,11 @@ restart() {
- 	start
- }
- 
-+rh_status() {
-+    # run checks to determine if the service is running or use generic status
-+    status /usr/sbin/atd
-+}
-+
- case "$1" in
-   start)
- 	start
-@@ -30,8 +38,11 @@ case "$1" in
-   restart|reload)
- 	restart
- 	;;
-+  status)
-+	rh_status
-+	;;
-   *)
--	echo $"Usage: $0 {start|stop|restart}"
-+	echo $"Usage: $0 {start|stop|restart|status}"
- 	exit 1
- esac
- 
--- 
-1.7.4.1
+>> +---
+>> +--- a/crypto/evp/digest.c
+>> ++++ b/crypto/evp/digest.c
+>> +@@ -199,7 +199,7 @@
+>> +         return 0;
+>> +         }
+>> + #endif
+>> +-    if (ctx->digest != type)
+>> ++    if (type&&  (ctx->digest != type))
+>> +         {
+>> +         if (ctx->digest&&  ctx->digest->ctx_size)
+>> +             OPENSSL_free(ctx->md_data);
 
+I am more concerned about this patch as I do not know the code well, but 
+if ctx->digest is non-NULL and type is, this code would not be executed 
+which would be wrong, correct?  Your changing the behavior of the code 
+here. Also reading the code, it should be be possible for type to be 
+NULL, unless some memory corruption occurs earlier as there is a check 
+at line 153 for !type, which should cause it to goto skip_to_init.
+
+Please verify this patch is really needed.
+
+
+>> diff --git
+>> a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>>
+>> new file mode 100644
+>> index 0000000..642b0ea
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>>
+>> @@ -0,0 +1,34 @@
+>> +openssl: avoid NULL pointer dereference in
+>> dh_pub_encode()/dsa_pub_encode()
+>> +
+>> +We should avoid accessing the pointer if ASN1_STRING_new()
+>> +allocates memory failed.
+>> +---
+>> +--- a/crypto/dh/dh_ameth.c
+>> ++++ b/crypto/dh/dh_ameth.c
+>> +@@ -139,6 +139,12 @@
+>> +     dh=pkey->pkey.dh;
+>> +
+>> +     str = ASN1_STRING_new();
+>> ++    if (!str)
+>> ++        {
+>> ++        DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+>> ++        goto err;
+>> ++        }
+>> ++
+>> +     str->length = i2d_DHparams(dh,&str->data);
+>> +     if (str->length<= 0)
+>> +         {
+>> +--- a/crypto/dsa/dsa_ameth.c
+>> ++++ b/crypto/dsa/dsa_ameth.c
+>> +@@ -148,6 +148,11 @@
+>> +         {
+>> +         ASN1_STRING *str;
+>> +         str = ASN1_STRING_new();
+>> ++        if (!str)
+>> ++            {
+>> ++            DSAerr(DSA_F_DSA_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+>> ++            goto err;
+>> ++            }
+>> +         str->length = i2d_DSAparams(dsa,&str->data);
+>> +         if (str->length<= 0)
+>> +             {
+>> diff --git a/meta/recipes-connectivity/openssl/openssl.inc
+>> b/meta/recipes-connectivity/openssl/openssl.inc
+>> index f5b2432..c753a27 100644
+>> --- a/meta/recipes-connectivity/openssl/openssl.inc
+>> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+>> @@ -5,7 +5,7 @@ BUGTRACKER =
+>> "http://www.openssl.org/news/vulnerabilities.html"
+>>   SECTION = "libs/network"
+>>
+>>   # Big Jump for OpenSSL 1.0 support with meta-oe
+>> -INC_PR = "r15"
+>> +INC_PR = "r16"
+>>
+No PR or INC_PR Bump needed
+
+>>   # "openssl | SSLeay" dual license
+>>   LICENSE = "openssl"
+>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>> b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>> index 61de3a6..afd5576 100644
+>> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>> @@ -31,6 +31,8 @@ SRC_URI += "file://configure-targets.patch \
+>>               file://openssl_fix_for_x32.patch \
+>>               file://openssl-fix-doc.patch \
+>>               file://find.pl \
+>> +
+>> file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
+>> +
+>> file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>> \
+>>              "
+>>
+>>   SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
