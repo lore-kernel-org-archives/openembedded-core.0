@@ -1,29 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3741C6B7CD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id CBDC86B25A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 21:27:15 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2013 14:27:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,922,1367996400"; d="scan'208";a="389369137"
-Received: from akagikob-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.122.209])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2013 14:26:36 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Tue, 20 Aug 2013 22:00:46 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7KMCLgH004331; Tue, 20 Aug 2013 23:12:21 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id XdzgowzVFFg1; Tue, 20 Aug 2013 23:12:21 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7KMCIFu004327
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 20 Aug 2013 23:12:19 +0100
+Message-ID: <1377036025.25999.106.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Tue, 20 Aug 2013 22:26:35 +0100
-Message-ID: <8150681.rZTrqf1BYP@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <CAP9ODKpJvBWZHhXAkdyx8H6bG4O4vDiV=yKYuomQ0=eOBK63aw@mail.gmail.com>
-References: <CAF6bG8cHBD0+5JQfuXNNY0odSU3gs=_Son6zT4RXuH8eBfj=Xg@mail.gmail.com>
-	<1507505.mjujvFaXNS@helios>
-	<CAP9ODKpJvBWZHhXAkdyx8H6bG4O4vDiV=yKYuomQ0=eOBK63aw@mail.gmail.com>
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+Date: Tue, 20 Aug 2013 23:00:25 +0100
+In-Reply-To: <CAP9ODKrztwFdR7qXzRhXWPbV1=Vsrnor=SAji2Hn3aHwZ7Ayhg@mail.gmail.com>
+References: <cover.1377008073.git.sgw@linux.intel.com>
+	<1377009976.25999.98.camel@ted>
+	<CAP9ODKrztwFdR7qXzRhXWPbV1=Vsrnor=SAji2Hn3aHwZ7Ayhg@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "Eggleton, Paul" <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu-native build regularly failing
+Subject: Re: [CONSOLIDATED PULL 00/25] Final Review and ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +41,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 21:27:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 20 Aug 2013 22:00:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 20 August 2013 18:24:55 Otavio Salvador wrote:
-> On Tue, Aug 20, 2013 at 6:16 PM, Paul Eggleton
-> <paul.eggleton@linux.intel.com> wrote:
-> > On Tuesday 20 August 2013 23:26:44 Marko Lindqvist wrote:
-> >> On 20 August 2013 16:32, Paul Eggleton <paul.eggleton@linux.intel.com>
-> >> 
-> >> wrote:
-> >> > On Tuesday 20 August 2013 15:51:21 Marko Lindqvist wrote:
-> >> >> Build of qemu-native regularly fails with:
-> >> >> |   LINK  sh4-softmmu/qemu-system-sh4
-> >> >> | 
-> >> >> | /usr/lib/x86_64-linux-gnu/libXext.so.6: undefined reference to
-> >> >> 
-> >> >> `_XEatDataWords'
-> >> >> 
-> >> >> | collect2: error: ld returned 1 exit status
-> >> >> 
-> >> >> This might be some dependency missing, as building first some packets
-> >> >> (+ more importantly their dependencies) that do not depend on qemu and
-> >> >> only then qemu dependant image success.
-> >> > 
-> >> > Do you have something else causing libxext-native to be built by any
-> >> > chance?
-> >>  
-> >>  Yes, it seems to be difference between the tree where build fails and
-> >> 
-> >> the one where build success that former has no libxext-native built.
-> >> Further, I tested just building libxext-native before building
-> >> qemu-native, and then the build succeded.
-> > 
-> > The problem is we want qemu-native to be buildable both on systems without
-> > X11 and systems with X11, so the dependency has to be floating, and this
-> > is more or less acceptable for a native recipe - there's only a problem
-> > when libxext- native needs to be built. I can't see a lot of value in
-> > building libxext- native in any case - what is causing it to be built on
-> > your system?
->
-> This floating dependency is  a problem; could it be patches to be x11
-> / x11-less?
+On Tue, 2013-08-20 at 12:06 -0300, Otavio Salvador wrote:
+> On Tue, Aug 20, 2013 at 11:46 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Tue, 2013-08-20 at 07:28 -0700, Saul Wold wrote:
+> >> Richard,
+> >>
+> >> This has been ACK'ed by Ross and Paul, I re-ordered the tune file
+> >> usage patches and will create a patch to clean up the comment that
+> >> Ross mentions.
+> >>
+> >> I agree with Ross on the texinfo patch, his name is there in the
+> >> email.
+> >
+> > Merged, thanks!
+> 
+> Thanks for merging the patches but one change, the poky.conf change
+> (http://patchwork.openembedded.org/patch/55893/), has not been merged.
 
-How would you propose to handle both use-cases?
+It was resent so I discarded the old series from my queue. You then sent
+the poky patch to the OE-Core list so every time I searched for it on
+the poky list, I didn't find it.
+
+I have now found and applied it but please keep this in mind in future
+as its simple things like this that end up delaying things :(
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
