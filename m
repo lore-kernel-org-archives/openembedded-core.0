@@ -1,41 +1,34 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D0DEC6B84D
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 12:10:43 +0000 (UTC)
-Received: by mail-ob0-f173.google.com with SMTP id ta17so423819obb.4
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 05:10:44 -0700 (PDT)
+Return-Path: <net147@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 86F686B84D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 12:25:38 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id g10so315344pdj.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 05:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=DXahegHUZ6XBfrld3Meb3vWhtnUyMssfopnW34EZMYs=;
-	b=CrPldgbuSiMyONmKkHp7aKF+TcyxqFNDuhce6tAxqFxsZkmSJrwVVPiqzE8ehGMfrX
-	W9VrRe3PkbW2zQt7KZweX7FcMcWOErJqc/UVnfvEPLi9CZd1My4xaRxVwQ1Y/uoWBLVu
-	eCBctCG4pwVa51gDtm/j3gK0I5A7bW8PxjK7eMX0kKc3agN2J6ufh/XGT7MlGtQG0yu6
-	m1cAt0Wk7pMQG06MwOq8ZIhxIycGrrIwCimYcmgI4lkgH0jqemsLwi31RPuna6IUgnbg
-	pUQ791MiVo0/IgYsYoassbYF+N20kPVBegIshr9g0oHMmYMigdPbbQqst5BGzlZ+H/Eq
-	ni4Q==
-MIME-Version: 1.0
-X-Received: by 10.60.115.164 with SMTP id jp4mr1186137oeb.19.1377000644312;
-	Tue, 20 Aug 2013 05:10:44 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 20 Aug 2013 05:10:44 -0700 (PDT)
-In-Reply-To: <CAJTo0LYzGTseb33djRVrpXmNXZB_OdHrdhfwd9D+4ovjrPQ48w@mail.gmail.com>
-References: <cover.1376939912.git.nitin.a.kamble@intel.com>
-	<b8e848c82d5c361278328b0569509f6cc4f58d36.1376939912.git.nitin.a.kamble@intel.com>
-	<CAJTo0LayXbOWSnT=F5=ud2Vy__b0ipc9Xx6ujKkups2zWSLM7A@mail.gmail.com>
-	<CAP9ODKpxNe3zw4_HgYJZksDvr4tr-Jq9FxBc28kqqpjbzP=C0w@mail.gmail.com>
-	<CAJTo0LYzGTseb33djRVrpXmNXZB_OdHrdhfwd9D+4ovjrPQ48w@mail.gmail.com>
-Date: Tue, 20 Aug 2013 09:10:44 -0300
-X-Google-Sender-Auth: oGKE4vKKkHpjRx7cPQTTAT2E-n8
-Message-ID: <CAP9ODKrxh2_ASDGpSxBiiw1O-xNpGhgUXORR0AzvAi+21+=XAw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] sanity.bbclass: a new check for required distro features
+	h=from:to:cc:subject:date:message-id;
+	bh=ECUZkoY0ZLckSJBmn+u9axAGHCfftTHE/U8vOF4Il2Q=;
+	b=Z+TPdTPTzEXZ2a97JWvlgb2Y1iu3fjePxlg0OzZ232hE6QH/8NsTUGHO3lnBvThfA4
+	bibvKthLtQZCA+PWwQhX5WmycpGDKhq1ZEVwMtTlk4YwTHU16dxyWsrDDGaaJrUq0Ecq
+	dttdsVIxGBVG4cgiqZb0zrrPsH3tOK52FxN/jNczTdt2QmXXSo7ZqqPZmH9QQO+6wizz
+	QMYgyW0aBMSOVrGIQRIa6fKsmIqxrHLU0XG3TPnIXp/ZXNfOXgUqUiqQxsMeff2UMBDC
+	uozkpZ4L5r3ng604Q4XVdVfdPcl+TVeHIf3SDwIgVy28J3mTolHNNJ03iPKbi7W6fD+Z
+	JJPQ==
+X-Received: by 10.68.143.38 with SMTP id sb6mr1612832pbb.44.1377001539292;
+	Tue, 20 Aug 2013 05:25:39 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id py4sm1912174pbc.14.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 20 Aug 2013 05:25:38 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 20 Aug 2013 22:21:03 +1000
+Message-Id: <1377001263-18778-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] xf86-video-intel: remove duplicate xf86driproto from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,33 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 12:10:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 20 Aug 2013 12:25:38 -0000
 
-On Tue, Aug 20, 2013 at 9:01 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 20 August 2013 12:58, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>> Are there any situations where these distro feature dependencies can't
->>> be expressed more precisely in a package recipe, and then something
->>> like Otavio's approach of throwing a SkipPackage used?
->>
->> I have several cases in meta-fsl-demos. Vivante GPU driver provides
->> different libraries depending on the backend to use (DirectFB, FB,
->> Wayland and X11) and they cannot be used at same time. So depending on
->> distro features setting some images are buildable or not.
->
-> And does distro_features_check.bbclass work for those?
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes; I did it to accomplish our needs. So it does.
-
->> In fact I see same case in OE-Core; core-image-weston /depends/ on
->> wayland distro feature and this is not explicit in metadata nowadays.
->
-> Yes, and it should definitely be checked for.
-
-Agreed.
-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb
+index 9817049..54c4d17 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb
+@@ -10,7 +10,7 @@ Infrastructure (DRI)."
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
+ 
+ DEPENDS += "virtual/libx11 drm xf86driproto glproto \
+-	    virtual/libgl xineramaproto xf86driproto libpciaccess udev"
++            virtual/libgl xineramaproto libpciaccess udev"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.4
+
 
