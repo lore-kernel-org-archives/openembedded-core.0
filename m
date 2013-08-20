@@ -1,27 +1,34 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 390766B8A4
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
+	[209.85.160.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 25D0D61013
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 02:20:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7K2KIWH000080
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 19 Aug 2013 22:20:19 -0400 (EDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Mon, 19 Aug 2013 19:20:17 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <sgw@linux.intel.com>
-Date: Tue, 20 Aug 2013 10:20:08 +0800
-Message-ID: <5a0310813a9df4c60eaf5ba31e2de12bf3d08ccf.1376965065.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1376965065.git.kai.kang@windriver.com>
-References: <cover.1376965065.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Cc: Zhangle.Yang@windriver.com, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] bc: fix segmentation fault
+	Tue, 20 Aug 2013 02:48:59 +0000 (UTC)
+Received: by mail-pb0-f51.google.com with SMTP id jt11so5697305pbb.38
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 19 Aug 2013 19:48:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=HD8I1Y9Tbm27w3x64+CvAL19AfZ8TXsP0/frFwD/WKY=;
+	b=fxBspu1wtoB6+UFmIJbjrXHCWLFqLlz8l42/XHOLcsog4c7NU8M7gjgyLqSb3tTGR2
+	zacbP67x/q1q6KlKkDlQGcu7J1UuhKzdfycSmsv9zZyPzpGwSW7aDoh7thvWg5A652wF
+	LhzR4htlzBYDeMdN1+15CUVCu6RlFukFbHdUf6uyjAzsA7I+eqnOeFe77968tYTMsBb/
+	U+G6ZysyReQEVD9fZPeuj/LKTNin8PHB7M2dizpJvVrWtdJ5jKfernggdeY4jHVA1GhU
+	uO4Z9MndX5nuy9NeLN8jtaTW6ahhKOCdvwQYnF7cFQPCalOykOgHOrtQhHLWzHMo21nR
+	2z7Q==
+X-Received: by 10.66.161.229 with SMTP id xv5mr1040766pab.87.1376966939777;
+	Mon, 19 Aug 2013 19:48:59 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id uw6sm3939068pbc.8.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 19 Aug 2013 19:48:58 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 19 Aug 2013 19:48:00 -0700
+Message-Id: <1376966880-4557-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] oe.types: add 'path' type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,70 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 02:20:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Aug 2013 02:48:59 -0000
 
-When run 'bc -l', it segmentation faults. Apply patch from BLFS to fix it.
+From: Christopher Larson <chris_larson@mentor.com>
 
-Ref:
-http://www.mail-archive.com/blfs-support@linuxfromscratch.org/msg04601.html
+- path normalization ('normalize' flag, defaults to enabled)
+- existence verification for paths we know should exist ('mustexist' flag)
+- supports clean handling of relative paths ('relativeto' flag)
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-extended/bc/bc_1.06.bb                |  3 ++-
- .../bc/files/fix-segment-fault.patch               | 28 ++++++++++++++++++++++
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/bc/files/fix-segment-fault.patch
+ meta/lib/oe/types.py | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/meta/recipes-extended/bc/bc_1.06.bb b/meta/recipes-extended/bc/bc_1.06.bb
-index fe9c3f4..4b28fad 100644
---- a/meta/recipes-extended/bc/bc_1.06.bb
-+++ b/meta/recipes-extended/bc/bc_1.06.bb
-@@ -13,7 +13,8 @@ SECTION = "base"
- DEPENDS = "flex"
- PR = "r2"
+diff --git a/meta/lib/oe/types.py b/meta/lib/oe/types.py
+index 5dac9de..7f47c17 100644
+--- a/meta/lib/oe/types.py
++++ b/meta/lib/oe/types.py
+@@ -1,4 +1,7 @@
++import errno
+ import re
++import os
++
  
--SRC_URI = "${GNU_MIRROR}/bc/bc-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/bc/bc-${PV}.tar.gz \
-+           file://fix-segment-fault.patch "
- 
- SRC_URI[md5sum] = "d44b5dddebd8a7a7309aea6c36fda117"
- SRC_URI[sha256sum] = "4ef6d9f17c3c0d92d8798e35666175ecd3d8efac4009d6457b5c99cea72c0e33"
-diff --git a/meta/recipes-extended/bc/files/fix-segment-fault.patch b/meta/recipes-extended/bc/files/fix-segment-fault.patch
-new file mode 100644
-index 0000000..20c0da2
---- /dev/null
-+++ b/meta/recipes-extended/bc/files/fix-segment-fault.patch
-@@ -0,0 +1,28 @@
-+Upstream-Status: Pending
+ class OEList(list):
+     """OpenEmbedded 'list' type
+@@ -133,3 +136,18 @@ def float(value, fromhex='false'):
+         return _float.fromhex(value)
+     else:
+         return _float(value)
 +
-+when run command such as 'echo "a = 13" | bc -l', it segmentation faults.
-+This patch is from http://www.mail-archive.com/blfs-support@linuxfromscratch.org/msg04602.html.
++def path(value, relativeto='', normalize='true', mustexist='false'):
++    value = os.path.join(relativeto, value)
 +
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
++    if boolean(normalize):
++        value = os.path.normpath(value)
 +
-+--- bc-1.06/lib/number.c.orig	2003-09-26 21:14:02.000000000 +0000
-++++ bc-1.06/lib/number.c	2003-09-26 21:14:26.000000000 +0000
-+@@ -34,6 +34,7 @@
-+ #include <number.h>
-+ #include <assert.h>
-+ #include <stdlib.h>
-++#include <string.h>
-+ #include <ctype.h>/* Prototypes needed for external utility routines. */
-+ 
-+ #define bc_rt_warn rt_warn
-+--- bc-1.06/bc/load.c.orig	2003-09-26 21:14:14.000000000 +0000
-++++ bc-1.06/bc/load.c	2003-09-26 21:14:26.000000000 +0000
-+@@ -156,7 +156,7 @@
-+   long  label_no;
-+   long  vaf_name;	/* variable, array or function number. */
-+   long  func;
-+-  program_counter save_adr;
-++  static program_counter save_adr;
-+ 
-+   /* Initialize. */
-+   str = code;
++    if boolean(mustexist):
++        try:
++            open(value, 'r')
++        except IOError as exc:
++            if exc.errno == errno.ENOENT:
++                raise ValueError("{0}: {1}".format(value, os.strerror(errno.ENOENT)))
++
++    return value
 -- 
-1.8.1.2
+1.8.3.4
 
 
