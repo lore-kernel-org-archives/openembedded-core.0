@@ -1,27 +1,21 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 83A4E6B84D
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 13:51:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7KDpWbj014717
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Aug 2013 06:51:32 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 20 Aug 2013 06:51:30 -0700
-Message-ID: <5213745A.8000307@windriver.com>
-Date: Tue, 20 Aug 2013 09:51:22 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Jason Wessel <jason.wessel@windriver.com>
-References: <1376939513-10400-1-git-send-email-jason.wessel@windriver.com>
-In-Reply-To: <1376939513-10400-1-git-send-email-jason.wessel@windriver.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A786F6B7B3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 14:28:05 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2013 07:28:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,921,1367996400"; d="scan'208";a="365580592"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.105])
+	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2013 07:28:04 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: richard.purdie@linuxfoundation.org, ross.burton@intel.com,
+	paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Date: Tue, 20 Aug 2013 07:28:04 -0700
+Message-Id: <cover.1377008073.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [CONSOLIDATED PULL 00/25] Final Review and ACK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,246 +28,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 13:51:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Aug 2013 14:28:06 -0000
 
-On 13-08-19 03:11 PM, Jason Wessel wrote:
-> This patch aims to fix the following two cases for the INITRAMFS generation.
->    1) Allow an image recipe to specify a paired INITRAMFS recipe such
->       as core-image-minimal-initramfs.  This allows building a base
->       image which always generates the needed initramfs image in one step
->    2) Allow building a single binary which contains a kernel and
->       the initramfs.
->
-> A key requirement of the initramfs is to be able to add kernel
-> modules.  The current implementation of the INITRAMFS_IMAGE variable
-> has a circular dependency when using kernel modules in the initramfs
-> image.bb file that is caused by kernel.bbclass trying to build the
-> initramfs before the kernel's do_install rule.
->
-> The solution for this problem is to have the kernel's
-> do_bundle_initramfs_image task depend on the do_rootfs from the
-> INITRAMFS_IMAGE and not some intermediate point.  The image.bbclass
-> will also sets up dependencies to make the initramfs creation task run
-> last.
->
-> The code to bundle the kernel and initramfs together has been added.
-> At a high level, all it is doing is invoking a second compilation of
-> the kernel but changing the value of CONFIG_INITRAMFS_SOURCE to point
-> to the generated initramfs from the image recipe.
+Richard,
 
-In case it wasn't obvious with Jason cc'ing me, I've seen the patch
-before, and I'm good with the change.
+This has been ACK'ed by Ross and Paul, I re-ordered the tune file
+usage patches and will create a patch to clean up the comment that
+Ross mentions.
 
-So definitely: Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+I agree with Ross on the texinfo patch, his name is there in the
+email.
 
-I'm adding Andrea to the cc list as well, since we've been talking
-about initramfs creation for years now, and I'd want his opinion on
-whether this looks good, and would work for meta-handheld.
+Thanks
+	Sau!
 
-Cheers,
+The following changes since commit fd9e591f266e1a6c183e77f24e50d31e0d52bdd5:
 
-Bruce
+  cronie: fix out of tree build (2013-08-19 11:24:51 +0100)
 
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->   meta/classes/image.bbclass  |   12 ++++++
->   meta/classes/kernel.bbclass |   96 +++++++++++++++++++++++++++++++++++++------
->   meta/conf/local.conf.sample |   20 +++++++++
->   3 files changed, 116 insertions(+), 12 deletions(-)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 116bd22..78c25db 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -140,6 +140,10 @@ python () {
->       d.setVar('MULTILIB_VENDORS', ml_vendor_list)
->
->       check_image_features(d)
-> +    initramfs_image = d.getVar('INITRAMFS_IMAGE', True) or ""
-> +    if initramfs_image != "":
-> +        d.appendVarFlag('do_build', 'depends', " %s:do_bundle_initramfs" %  d.getVar('PN', True))
-> +        d.appendVarFlag('do_bundle_initramfs', 'depends', " %s:do_rootfs" % initramfs_image)
->   }
->
->   #
-> @@ -614,3 +618,11 @@ do_package_write_deb[noexec] = "1"
->   do_package_write_rpm[noexec] = "1"
->
->   addtask rootfs before do_build
-> +# Allow the kernel to be repacked with the initramfs and boot image file as a single file
-> +do_bundle_initramfs[depends] += "virtual/kernel:do_bundle_initramfs"
-> +do_bundle_initramfs[nostamp] = "1"
-> +do_bundle_initramfs[noexec] = "1"
-> +do_bundle_initramfs () {
-> +	:
-> +}
-> +addtask bundle_initramfs after do_rootfs
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index e039dfc..8cf66ce 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -9,6 +9,7 @@ INHIBIT_DEFAULT_DEPS = "1"
->   KERNEL_IMAGETYPE ?= "zImage"
->   INITRAMFS_IMAGE ?= ""
->   INITRAMFS_TASK ?= ""
-> +INITRAMFS_IMAGE_BUNDLE ?= ""
->
->   python __anonymous () {
->       kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
-> @@ -19,7 +20,15 @@ python __anonymous () {
->
->       image = d.getVar('INITRAMFS_IMAGE', True)
->       if image:
-> -        d.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs')
-> +        d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
-> +
-> +    # NOTE: setting INITRAMFS_TASK is for backward compatibility
-> +    #       The preferred method is to set INITRAMFS_IMAGE, because
-> +    #       this INITRAMFS_TASK has circular dependency problems
-> +    #       if the initramfs requires kernel modules
-> +    image_task = d.getVar('INITRAMFS_TASK', True)
-> +    if image_task:
-> +        d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
->   }
->
->   inherit kernel-arch deploy
-> @@ -72,9 +81,82 @@ KERNEL_SRC_PATH = "/usr/src/kernel"
->
->   KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
->
-> +copy_initramfs() {
-> +	echo "Copying initramfs into ./usr ..."
-> +	# Find and use the first initramfs image archive type we find
-> +	rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-> +	for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
-> +		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
-> +			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${B}/usr/.
-> +			case $img in
-> +			*gz)
-> +				echo "gzip decompressing image"
-> +				gunzip -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +				break
-> +				;;
-> +			*lzo)
-> +				echo "lzo decompressing image"
-> +				lzop -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +				break
-> +				;;
-> +			*lzma)
-> +				echo "lzma decompressing image"
-> +				lzmash -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +				break
-> +				;;
-> +			*xz)
-> +				echo "xz decompressing image"
-> +				xz -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +				break
-> +				;;
-> +			esac
-> +		fi
-> +	done
-> +	echo "Finished copy of initramfs into ./usr"
-> +}
-> +
-> +INITRAMFS_BASE_NAME = "${KERNEL_IMAGETYPE}-initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
-> +INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
-> +do_bundle_initramfs () {
-> +	if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-> +		echo "Creating a kernel image with a bundled initramfs..."
-> +		copy_initramfs
-> +		if [ -e ${KERNEL_OUTPUT} ] ; then
-> +			mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
-> +		fi
-> +		use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-> +		kernel_do_compile
-> +		mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
-> +		mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
-> +		# Update install area
-> +		echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
-> +		install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
-> +		echo "${B}/${KERNEL_OUTPUT}.initramfs"
-> +		cd ${B}
-> +		# Update deploy directory
-> +		if [ -e "${KERNEL_OUTPUT}.initramfs" ]; then
-> +			echo "Copying deploy kernel-initramfs image and setting up links..."
-> +			initramfs_base_name=${INITRAMFS_BASE_NAME}
-> +			initramfs_symlink_name=${KERNEL_IMAGETYPE}-initramfs-${MACHINE}
-> +			install -m 0644 ${KERNEL_OUTPUT}.initramfs ${DEPLOY_DIR_IMAGE}/${initramfs_base_name}.bin
-> +			cd ${DEPLOY_DIR_IMAGE}
-> +			ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
-> +		fi
-> +	fi
-> +}
-> +do_bundle_initramfs[nostamp] = "1"
-> +addtask bundle_initramfs after do_compile
-> +
->   kernel_do_compile() {
->   	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> -	oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
-> +	# The $use_alternate_initrd is only set from
-> +	# do_bundle_initramfs() This variable is specifically for the
-> +	# case where we are making a second pass at the kernel
-> +	# compilation and we want to force the kernel build to use a
-> +	# different initramfs image.  The way to do that in the kernel
-> +	# is to specify:
-> +	# make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-> +	oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
->   	if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
->   		gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
->   	fi
-> @@ -219,18 +301,8 @@ kernel_do_configure() {
->   		cp "${WORKDIR}/defconfig" "${B}/.config"
->   	fi
->   	yes '' | oe_runmake oldconfig
-> -
-> -	if [ ! -z "${INITRAMFS_IMAGE}" ]; then
-> -		for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
-> -		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
-> -			cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" initramfs.$img
-> -		fi
-> -		done
-> -	fi
->   }
->
-> -do_configure[depends] += "${INITRAMFS_TASK}"
-> -
->   do_savedefconfig() {
->   	oe_runmake savedefconfig
->   }
-> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-> index 2b078d0..17733ab 100644
-> --- a/meta/conf/local.conf.sample
-> +++ b/meta/conf/local.conf.sample
-> @@ -146,6 +146,26 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
->   USER_CLASSES ?= "buildstats image-mklibs image-prelink"
->
->   #
-> +# Kernel image features
-> +#
-> +# The INITRAMFS_IMAGE image variable will cause an additional recipe to
-> +# be built as a dependency to the what ever rootfs recipe you might be
-> +# using such as core-image-sato.  The initramfs might be needed for
-> +# the initial boot of of the target system such as to load kernel
-> +# modules prior to mounting the root file system.
-> +#
-> +# INITRAMFS_IMAGE_BUNDLE variable controls if the image recipe
-> +# specified by the INITRAMFS_IMAGE will be run through an extra pass
-> +# through the kernel compilation in order to build a single binary
-> +# which contains both the kernel image and the initramfs.  The
-> +# combined binary will be deposited into the tmp/deploy directory.
-> +# NOTE: You can set INITRAMFS_IMAGE in an image recipe, but
-> +#       INITRAMFS_IMAGE_BUNDLE can only be set in a conf file.
-> +#
-> +#INITRAMFS_IMAGE = "core-image-minimal-initramfs"
-> +#INITRAMFS_IMAGE_BUNDLE = "1"
-> +
-> +#
->   # Runtime testing of images
->   #
->   # The build system can test booting virtual machine images under qemu (an emulator)
->
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Bruce Ashfield (2):
+  linux-yocto-3.8/meta: update drm and intel power management settings
+  linux-yocto-3.8/meta: enable ALTIVEC for qemuppc
+
+Chen Qi (4):
+  useradd.bbclass: add missing functions to preinst
+  init-install.sh: improve hard drive searching process
+  init-install.sh: fix to handle the boot partition correctly
+  initscripts: remove obsolete device_table.txt
+
+Chunrong Guo (1):
+  genext2fs: fix memory corruption on powerpc
+
+Jackie Huang (1):
+  texinfo: handle correctly @enumerate specification greater than 10
+
+Joe Slater (2):
+  coreutils: add PACKAGECONFIG info for acl support
+  coreutils: allow for acl support
+
+Khem Raj (3):
+  tune-ppc7400.inc: Add tune file
+  qemuppc: Change default tune to 74xx
+  uclibc: Upgrade to latest on git
+
+Mark Hatle (1):
+  prelink: update to latest cross-prelink
+
+Marko Lindqvist (6):
+  glib-2.0: use trim_version() to get the source directory
+  pixman: update to upstream version 0.30.2
+  curl: update to upstream version 7.32.0
+  glib-2.0: update to upstream version 2.36.4
+  gtk+: update to upstream version 2.24.20
+  gettext: update to upstream version 0.18.3
+
+Otavio Salvador (2):
+  default-distrovars.inc: Add 'DISTRO_FEATURES_DEFAULT' variable
+  linux-dtb.inc: Fix dtb generation for kernels newer than 3.8
+
+Paul Eggleton (1):
+  tslib: update to 1.1
+
+Yang Shi (2):
+  Revert "hello-mod: Ensure the produced package name begins with
+    kernel-module-"
+  hello-mod: Add comment for kernel module package naming
+
+ .../recipes-kernel/hello-mod/hello-mod_0.1.bb      |   9 +-
+ meta/classes/useradd.bbclass                       |   3 +
+ meta/conf/distro/include/default-distrovars.inc    |   3 +-
+ meta/conf/machine/include/tune-ppc7400.inc         |  14 +
+ meta/conf/machine/qemuppc.conf                     |   2 +-
+ meta/recipes-bsp/grub/grub-2.00/40_custom          |   2 +-
+ meta/recipes-core/coreutils/coreutils_6.9.bb       |  11 +
+ meta/recipes-core/coreutils/coreutils_8.21.bb      |  12 +-
+ .../parallel.patch                                 |   0
+ .../gettext/gettext-minimal-0.18.2/aclocal.tgz     | Bin 37504 -> 0 bytes
+ .../COPYING                                        |   0
+ .../Makefile.in.in                                 |   3 +-
+ .../Makevars.template                              |   0
+ .../gettext/gettext-minimal-0.18.3/aclocal.tgz     | Bin 0 -> 37586 bytes
+ .../config.rpath                                   |   2 +-
+ .../remove-potcdate.sin                            |   0
+ ..._0.18.2.bb => gettext-minimal-native_0.18.3.bb} |   0
+ .../{gettext_0.18.2.bb => gettext_0.18.3.bb}       |   5 +-
+ .../{glib-2.0_2.36.3.bb => glib-2.0_2.36.4.bb}     |   6 +-
+ .../initrdscripts/files/init-install.sh            | 160 ++--
+ .../initscripts/initscripts-1.0/device_table.txt   | 197 -----
+ meta/recipes-core/initscripts/initscripts_1.0.bb   |   2 -
+ meta/recipes-core/uclibc/uclibc-git.inc            |   3 +-
+ meta/recipes-core/uclibc/uclibc.inc                |   2 +-
+ .../fix-memory-corruption-on-powerpc.patch         |  76 ++
+ meta/recipes-devtools/genext2fs/genext2fs_1.4.1.bb |   3 +-
+ meta/recipes-devtools/prelink/prelink_git.bb       |   3 +-
+ .../texinfo-5.1/enumerate_greater_than_ten.patch   |  51 ++
+ meta/recipes-extended/texinfo/texinfo_5.1.bb       |   1 +
+ ...utton-do-not-prelight-in-touchscreen-mode.patch |   0
+ ...Duplicate-the-exec-string-returned-by-gtk.patch |   0
+ .../cellrenderer-cairo.patch                       |   0
+ .../configure-nm.patch                             |   0
+ .../configurefix.patch                             |   0
+ .../{gtk+-2.24.18 => gtk+-2.24.20}/doc-fixes.patch |   0
+ .../entry-cairo.patch                              |   0
+ .../hardcoded_libtool.patch                        |   0
+ .../{gtk+-2.24.18 => gtk+-2.24.20}/no-demos.patch  |   0
+ .../run-iconcache.patch                            |   0
+ .../toggle-font.diff                               |   0
+ .../{gtk+-2.24.18 => gtk+-2.24.20}/xsettings.patch |   0
+ .../gtk+/{gtk+_2.24.18.bb => gtk+_2.24.20.bb}      |   8 +-
+ .../tslib/0001-Link-plugins-against-libts.patch    |  57 --
+ .../tslib/tslib/32bitBE-support.patch              |  55 --
+ .../recipes-graphics/tslib/tslib/fix_version.patch |  34 -
+ meta/recipes-graphics/tslib/tslib/multievent.patch | 845 ---------------------
+ .../tslib/tslib/obsolete_automake_macros.patch     |  15 -
+ .../tslib/set-open-mode-for-ts_calibrate_c.patch   |  30 -
+ .../tslib/{tslib_1.0.bb => tslib_1.1.bb}           |  14 +-
+ .../{pixman_0.30.0.bb => pixman_0.30.2.bb}         |   4 +-
+ meta/recipes-kernel/linux/linux-dtb.inc            |  12 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb    |   2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb  |   2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb       |   2 +-
+ .../curl/{curl_7.31.0.bb => curl_7.32.0.bb}        |   4 +-
+ 55 files changed, 292 insertions(+), 1362 deletions(-)
+ create mode 100644 meta/conf/machine/include/tune-ppc7400.inc
+ rename meta/recipes-core/gettext/{gettext-0.18.2 => gettext-0.18.3}/parallel.patch (100%)
+ delete mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.2/aclocal.tgz
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.2 => gettext-minimal-0.18.3}/COPYING (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.2 => gettext-minimal-0.18.3}/Makefile.in.in (99%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.2 => gettext-minimal-0.18.3}/Makevars.template (100%)
+ create mode 100644 meta/recipes-core/gettext/gettext-minimal-0.18.3/aclocal.tgz
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.2 => gettext-minimal-0.18.3}/config.rpath (99%)
+ rename meta/recipes-core/gettext/{gettext-minimal-0.18.2 => gettext-minimal-0.18.3}/remove-potcdate.sin (100%)
+ rename meta/recipes-core/gettext/{gettext-minimal-native_0.18.2.bb => gettext-minimal-native_0.18.3.bb} (100%)
+ rename meta/recipes-core/gettext/{gettext_0.18.2.bb => gettext_0.18.3.bb} (96%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.36.3.bb => glib-2.0_2.36.4.bb} (88%)
+ delete mode 100644 meta/recipes-core/initscripts/initscripts-1.0/device_table.txt
+ create mode 100644 meta/recipes-devtools/genext2fs/genext2fs-1.4.1/fix-memory-corruption-on-powerpc.patch
+ create mode 100644 meta/recipes-extended/texinfo/texinfo-5.1/enumerate_greater_than_ten.patch
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/0001-GtkButton-do-not-prelight-in-touchscreen-mode.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/0001-bgo-584832-Duplicate-the-exec-string-returned-by-gtk.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/cellrenderer-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/configure-nm.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/configurefix.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/doc-fixes.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/entry-cairo.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/hardcoded_libtool.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/no-demos.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/run-iconcache.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/toggle-font.diff (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+-2.24.18 => gtk+-2.24.20}/xsettings.patch (100%)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.18.bb => gtk+_2.24.20.bb} (90%)
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/0001-Link-plugins-against-libts.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/32bitBE-support.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/fix_version.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/multievent.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-graphics/tslib/tslib/set-open-mode-for-ts_calibrate_c.patch
+ rename meta/recipes-graphics/tslib/{tslib_1.0.bb => tslib_1.1.bb} (77%)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.30.0.bb => pixman_0.30.2.bb} (89%)
+ rename meta/recipes-support/curl/{curl_7.31.0.bb => curl_7.32.0.bb} (93%)
+
+-- 
+1.8.3.1
 
 
