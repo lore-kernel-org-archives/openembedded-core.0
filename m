@@ -1,34 +1,31 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 5535B6B89E
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id F34B86B6AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 12:25:52 +0000 (UTC)
-Received: by mail-pd0-f180.google.com with SMTP id y10so308143pdj.39
+	Tue, 20 Aug 2013 12:51:21 +0000 (UTC)
+Received: by mail-qc0-f181.google.com with SMTP id k15so166847qcv.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 05:25:53 -0700 (PDT)
+	Tue, 20 Aug 2013 05:51:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=PJOD3i5OAjKBikqY8JbDVA6hKfsUD8MMzVrFO1Ajgqg=;
-	b=hH0mnBU1zjgMnCaoJJE0db1M9ROUhVYeF0QAEs/fzMMa2lOqpTQPTF+9Aw6p5v2b2v
-	DBMemFGlOA+PzxmaWLTCX5VcVSLbGSa3nFU3vO+xTrQB99lS93qgyLABLHMbmRGsIPmX
-	aVocVBHsm5ie+OdEfbpB+7fmaBkzDCN2pevLmuQQoLA1shoq4F/zhgz2XT5GW2gaOEHU
-	rl6Li+YaNUiwxq2Pj+FXwgz0xeqc04XihdzUC/lK6zKTC1iztG3npz8MdK9ecHKOJKJ+
-	KSAFK9RiL8BYF4eHNyV2IPbQn8T64oBXucS+MiB+6wPP2YD8zxeM5BgKLqGAN51mw01n
-	smIQ==
-X-Received: by 10.68.236.168 with SMTP id uv8mr1535142pbc.124.1377001553375;
-	Tue, 20 Aug 2013 05:25:53 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id ai6sm3553191pad.15.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 20 Aug 2013 05:25:52 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2013 22:21:18 +1000
-Message-Id: <1377001278-18822-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] xf86-video-vesa: remove duplicate xf86driproto from DEPENDS
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=LxpCsDx1wbt5k+27aSeZPCUc/4qRdFoBbAe0qQaSrgg=;
+	b=Ht5qoo+Cm1EuzYe37njKyTma49+yUuXQFPTvaZvZ0zOAR7etGM5BAibDFoaSn0emc8
+	lUF9rdf84XOZCAdt81Xl3THzbdH6mMMZw6HVAr+oKVMVVqoy+vdLhFa9OioujjK1A4Bz
+	EaKIuE4Ap0kbHU9Cm8crNAoJm7cY96nNVNCjqJbEVZiVIDAtk+Ko35rC5df2YPPCnP4U
+	T7N3bmCQvK10SI8QwK9LMGd8vQiEkQPLkZJ6SqIp3K4eD4TlPGBMadwiYP+5jqG/I+kI
+	JKl1yRgA5xV8nFYrDqFx9T/khLagCnvRAJ7ArtDBd9qA7lvZigFxqJIcRVgAGEz+PfWn
+	ZEiA==
+MIME-Version: 1.0
+X-Received: by 10.49.82.74 with SMTP id g10mr1585550qey.80.1377003081859; Tue,
+	20 Aug 2013 05:51:21 -0700 (PDT)
+Received: by 10.224.114.207 with HTTP; Tue, 20 Aug 2013 05:51:21 -0700 (PDT)
+Date: Tue, 20 Aug 2013 15:51:21 +0300
+Message-ID: <CAF6bG8cHBD0+5JQfuXNNY0odSU3gs=_Son6zT4RXuH8eBfj=Xg@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: qemu-native build regularly failing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,27 +38,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 12:25:52 -0000
+X-List-Received-Date: Tue, 20 Aug 2013 12:51:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Build of qemu-native regularly fails with:
+|   LINK  sh4-softmmu/qemu-system-sh4
+| /usr/lib/x86_64-linux-gnu/libXext.so.6: undefined reference to
+`_XEatDataWords'
+| collect2: error: ld returned 1 exit status
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb
-index 7373f85..fb285ea 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb
-@@ -14,7 +14,7 @@ supports depths 8, 15 16 and 24."
- PR = "${INC_PR}.0"
- 
- DEPENDS += "virtual/libx11 libxvmc drm xf86driproto glproto \
--	    virtual/libgl xineramaproto xf86driproto libpciaccess"
-+            virtual/libgl xineramaproto libpciaccess"
- 
- COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
- 
--- 
-1.8.3.4
+This might be some dependency missing, as building first some packets
+(+ more importantly their dependencies) that do not depend on qemu and
+only then qemu dependant image success.
 
+
+ - ML
 
