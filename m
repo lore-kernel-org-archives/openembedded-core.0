@@ -1,38 +1,28 @@
-Return-Path: <fcooper@ti.com>
-Received: from devils.ext.ti.com (devils.ext.ti.com [198.47.26.153])
-	by mail.openembedded.org (Postfix) with ESMTP id 64E986B0CE
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A28236B7CD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 18:35:27 +0000 (UTC)
-Received: from dlelxv90.itg.ti.com ([172.17.2.17])
-	by devils.ext.ti.com (8.13.7/8.13.7) with ESMTP id r7KIZRvH010366;
-	Tue, 20 Aug 2013 13:35:27 -0500
-Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
-	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id r7KIZRwj021188;
-	Tue, 20 Aug 2013 13:35:27 -0500
-Received: from DFLE08.ent.ti.com ([fe80::187f:8c86:2b7:ef9f]) by
-	DFLE72.ent.ti.com ([fe80::e5e2:bab6:34dc:a483%28]) with mapi id
-	14.02.0342.003; Tue, 20 Aug 2013 13:35:27 -0500
-From: "Cooper Jr., Franklin" <fcooper@ti.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Otavio Salvador
-	<otavio@ossystems.com.br>
-Thread-Topic: [for dylan][PATCH 3/3] linux-dtb.inc: Fix dtb generation for
-	kernels newer than 3.8
-Thread-Index: AQHOndGlkBvSJeuq/kuFcGLOBvVMv5mevS+A//+u3IA=
-Date: Tue, 20 Aug 2013 18:35:26 +0000
-Message-ID: <8F29D6B095ED194EA1980491A5E029710C5267D0@DFLE08.ent.ti.com>
-References: <1377017488-32708-1-git-send-email-fcooper@ti.com>
-	<1377017488-32708-3-git-send-email-fcooper@ti.com>
-	<CAP9ODKp7OF=yREqDpGhqcSRNdYAC9+S_SsRhoE6KPR4bJR5V9Q@mail.gmail.com>
-	<4800620.CZQFbUAUEs@helios>
-In-Reply-To: <4800620.CZQFbUAUEs@helios>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.247.5.50]
+	Tue, 20 Aug 2013 18:48:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7KIm1nF014563
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 11:48:02 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.229) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 20 Aug 2013 11:48:01 -0700
+Message-ID: <5213B9E1.1050805@windriver.com>
+Date: Tue, 20 Aug 2013 13:48:01 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [for dylan][PATCH 3/3] linux-dtb.inc: Fix dtb generation for kernels newer than 3.8
+To: <openembedded-core@lists.openembedded.org>
+References: <1377024321-6230-1-git-send-email-fcooper@ti.com>
+In-Reply-To: <1377024321-6230-1-git-send-email-fcooper@ti.com>
+Subject: Re: [PATCH v2] kernel.bbclass: Create symbolic link to add ${KERNEL_IMAGETYPE} to boot package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,92 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 18:35:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 20 Aug 2013 18:48:01 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 8/20/13 1:45 PM, Franklin S. Cooper Jr wrote:
+> * By default for some platforms U-boot assumes the kernel image is located in
+>    the boot directory of the root filesystem.
+> * The kernel.bbclass already includes the kernel image in the /boot directory
+>    but adds a version number to the file name.
+> * Create a symbolic link that names the kernel image in the exact way that
+>    U-boot expects.
+
+This should be done with a package post-install script.  It is fairly common for 
+multilib kernel versions to be installed on a machine at the same time, with the 
+Link pointing to the 'last-installed' version.  Doing it in the do_install rule 
+will cause a conflict (at least in the RPM case), preventing certain field 
+upgrade activities.
+
+post install script with something like:
+
+ln -sf $D/boot/<kernel_name> <common-name>
+
+Should work.
+
+(The above assumes that the kernel itself is being packaged.. if it's not being 
+packages and just copied to the end image -- then doing the link should be fine.)
+
+--Mark
 
 
+> Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
+> ---
+> Version 2 changes:
+> Change "ln -s" to "ln -sf" based on Bruce's comment.
+>
+>   meta/classes/kernel.bbclass |    1 +
+>   1 files changed, 1 insertions(+), 0 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index e039dfc..6e7d994 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -109,6 +109,7 @@ kernel_do_install() {
+>   	install -d ${D}/${KERNEL_IMAGEDEST}
+>   	install -d ${D}/boot
+>   	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
+> +	ln      -sf ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}
+>   	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+>   	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+>   	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
+>
 
-> -----Original Message-----
-> From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]
-> Sent: Tuesday, August 20, 2013 1:24 PM
-> To: Otavio Salvador
-> Cc: Cooper Jr., Franklin; Patches and discussions about the oe-core layer
-> Subject: Re: [for dylan][PATCH 3/3] linux-dtb.inc: Fix dtb generation for=
- kernels
-> newer than 3.8
->=20
-> Hi Otavio,
->=20
-> On Tuesday 20 August 2013 15:17:16 Otavio Salvador wrote:
-> > On Tue, Aug 20, 2013 at 1:51 PM, Franklin S. Cooper Jr
-> > <fcooper@ti.com>
-> wrote:
-> > > From: Otavio Salvador <otavio@ossystems.com.br>
-> > >
-> > > The 3.8 kernel has change the default directory where the dtb file
-> > > is stored. The change has been done at:
-> > >
-> > > ,----[ Quote of 3.8 kernel change ]
-> > >
-> > > | commit 499cd8298628eeabf0eb5eb6525d4faa0eec80d8
-> > > | Author: Grant Likely <grant.likely@secretlab.ca>
-> > > | Date:   Tue Nov 27 16:29:11 2012 -0700
-> > > |
-> > > |     ARM: dt: change .dtb build rules to build in dts directory
-> > > |
-> > > |     The current rules have the .dtb files build in a different dire=
-ctory
-> > > |     from the .dts files. The only reason for this is that it was wh=
-at
-> > > |     PowerPC has done historically. This patch changes ARM to use th=
-e
-> > > |     generic
-> > > |     dtb rule which builds .dtb files in the same directory as the s=
-ource
-> > > |     .dts.
-> > > |
-> > > |     Cc: Russell King <linux@arm.linux.org.uk>
-> > > |     Cc: Arnd Bergmann <arnd@arndb.de>
-> > > |     Acked-by: Olof Johansson <olof@lixom.net>
-> > > |     Cc: linux-arm-kernel@lists.infradead.org
-> > > |     Signed-off-by: Grant Likely <grant.likely@secretlab.ca>
-> > > |     [swarren: added rm command for old stale .dtb files]
-> > > |     Signed-off-by: Stephen Warren <swarren@nvidia.com>
-> > > |     Signed-off-by: Rob Herring <rob.herring@calxeda.com>
-> > >
-> > > `----
-> > >
-> > > This change adds support for both places to backward and forward
-> > > compatibility.
-> > >
-> > > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > > Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >
-> > Franklin, I agree this is the way to go but I think it is a bit risky
-> > to change it in dylan.
-> >
-> > I think it could be included in meta-ti or other layers (in case it is
-> > need for dylan) but it has breakage risk as noticed today in some
-> > behaviour change as found in meta-xilinx.
-> >
-> > Paul, please be conservative about this and my previous linux-dtb
-> > patch. In case it is going to be applied in dylan we need to let it
-> > sleep some more time in master to find any other side effect due the
-> > behaviour change.
->=20
-> Agreed, I'd very much prefer to hold on this until it has had time to soa=
-k in
-> master.
-[Franklin]=20
-No problem. I will put this on the back burner for some time.
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
 
