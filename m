@@ -1,34 +1,34 @@
 Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 86F686B84D
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5535B6B89E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 12:25:38 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id g10so315344pdj.12
+	Tue, 20 Aug 2013 12:25:52 +0000 (UTC)
+Received: by mail-pd0-f180.google.com with SMTP id y10so308143pdj.39
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 05:25:39 -0700 (PDT)
+	Tue, 20 Aug 2013 05:25:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id;
-	bh=ECUZkoY0ZLckSJBmn+u9axAGHCfftTHE/U8vOF4Il2Q=;
-	b=Z+TPdTPTzEXZ2a97JWvlgb2Y1iu3fjePxlg0OzZ232hE6QH/8NsTUGHO3lnBvThfA4
-	bibvKthLtQZCA+PWwQhX5WmycpGDKhq1ZEVwMtTlk4YwTHU16dxyWsrDDGaaJrUq0Ecq
-	dttdsVIxGBVG4cgiqZb0zrrPsH3tOK52FxN/jNczTdt2QmXXSo7ZqqPZmH9QQO+6wizz
-	QMYgyW0aBMSOVrGIQRIa6fKsmIqxrHLU0XG3TPnIXp/ZXNfOXgUqUiqQxsMeff2UMBDC
-	uozkpZ4L5r3ng604Q4XVdVfdPcl+TVeHIf3SDwIgVy28J3mTolHNNJ03iPKbi7W6fD+Z
-	JJPQ==
-X-Received: by 10.68.143.38 with SMTP id sb6mr1612832pbb.44.1377001539292;
-	Tue, 20 Aug 2013 05:25:39 -0700 (PDT)
+	bh=PJOD3i5OAjKBikqY8JbDVA6hKfsUD8MMzVrFO1Ajgqg=;
+	b=hH0mnBU1zjgMnCaoJJE0db1M9ROUhVYeF0QAEs/fzMMa2lOqpTQPTF+9Aw6p5v2b2v
+	DBMemFGlOA+PzxmaWLTCX5VcVSLbGSa3nFU3vO+xTrQB99lS93qgyLABLHMbmRGsIPmX
+	aVocVBHsm5ie+OdEfbpB+7fmaBkzDCN2pevLmuQQoLA1shoq4F/zhgz2XT5GW2gaOEHU
+	rl6Li+YaNUiwxq2Pj+FXwgz0xeqc04XihdzUC/lK6zKTC1iztG3npz8MdK9ecHKOJKJ+
+	KSAFK9RiL8BYF4eHNyV2IPbQn8T64oBXucS+MiB+6wPP2YD8zxeM5BgKLqGAN51mw01n
+	smIQ==
+X-Received: by 10.68.236.168 with SMTP id uv8mr1535142pbc.124.1377001553375;
+	Tue, 20 Aug 2013 05:25:53 -0700 (PDT)
 Received: from 60-242-179-244.static.tpgi.com.au
 	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id py4sm1912174pbc.14.1969.12.31.16.00.00
+	by mx.google.com with ESMTPSA id ai6sm3553191pad.15.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 20 Aug 2013 05:25:38 -0700 (PDT)
+	Tue, 20 Aug 2013 05:25:52 -0700 (PDT)
 From: Jonathan Liu <net147@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2013 22:21:03 +1000
-Message-Id: <1377001263-18778-1-git-send-email-net147@gmail.com>
+Date: Tue, 20 Aug 2013 22:21:18 +1000
+Message-Id: <1377001278-18822-1-git-send-email-net147@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] xf86-video-intel: remove duplicate xf86driproto from DEPENDS
+Subject: [PATCH] xf86-video-vesa: remove duplicate xf86driproto from DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,26 +41,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 12:25:38 -0000
+X-List-Received-Date: Tue, 20 Aug 2013 12:25:52 -0000
 
 Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb | 2 +-
+ meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb
-index 9817049..54c4d17 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb
-@@ -10,7 +10,7 @@ Infrastructure (DRI)."
- LIC_FILES_CHKSUM = "file://COPYING;md5=8730ad58d11c7bbad9a7066d69f7808e"
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb
+index 7373f85..fb285ea 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.3.2.bb
+@@ -14,7 +14,7 @@ supports depths 8, 15 16 and 24."
+ PR = "${INC_PR}.0"
  
- DEPENDS += "virtual/libx11 drm xf86driproto glproto \
--	    virtual/libgl xineramaproto xf86driproto libpciaccess udev"
-+            virtual/libgl xineramaproto libpciaccess udev"
+ DEPENDS += "virtual/libx11 libxvmc drm xf86driproto glproto \
+-	    virtual/libgl xineramaproto xf86driproto libpciaccess"
++            virtual/libgl xineramaproto libpciaccess"
  
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
+ COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
+ 
 -- 
 1.8.3.4
 
