@@ -1,28 +1,27 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A28236B7CD
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DF6B6B6AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 18:48:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7KIm1nF014563
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 11:48:02 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.229) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 20 Aug 2013 11:48:01 -0700
-Message-ID: <5213B9E1.1050805@windriver.com>
-Date: Tue, 20 Aug 2013 13:48:01 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Tue, 20 Aug 2013 19:16:37 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 20 Aug 2013 12:16:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,921,1367996400"; d="scan'208";a="284471663"
+Received: from unknown (HELO [10.255.14.105]) ([10.255.14.105])
+	by AZSMGA002.ch.intel.com with ESMTP; 20 Aug 2013 12:16:35 -0700
+Message-ID: <5213C093.2040007@linux.intel.com>
+Date: Tue, 20 Aug 2013 12:16:35 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1377024321-6230-1-git-send-email-fcooper@ti.com>
-In-Reply-To: <1377024321-6230-1-git-send-email-fcooper@ti.com>
-Subject: Re: [PATCH v2] kernel.bbclass: Create symbolic link to add ${KERNEL_IMAGETYPE} to boot package
+To: Xufeng Zhang <xufeng.zhang@windriver.com>
+References: <1370326530-23464-1-git-send-email-xufeng.zhang@windriver.com>
+	<5212CD79.3000509@windriver.com> <5212ED04.1030908@linux.intel.com>
+	<5212F9A1.3040609@windriver.com>
+In-Reply-To: <5212F9A1.3040609@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] openssl: avoid NULL pointer dereference in three	places
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,56 +34,229 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 18:48:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 20 Aug 2013 19:16:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 8/20/13 1:45 PM, Franklin S. Cooper Jr wrote:
-> * By default for some platforms U-boot assumes the kernel image is located in
->    the boot directory of the root filesystem.
-> * The kernel.bbclass already includes the kernel image in the /boot directory
->    but adds a version number to the file name.
-> * Create a symbolic link that names the kernel image in the exact way that
->    U-boot expects.
-
-This should be done with a package post-install script.  It is fairly common for 
-multilib kernel versions to be installed on a machine at the same time, with the 
-Link pointing to the 'last-installed' version.  Doing it in the do_install rule 
-will cause a conflict (at least in the RPM case), preventing certain field 
-upgrade activities.
-
-post install script with something like:
-
-ln -sf $D/boot/<kernel_name> <common-name>
-
-Should work.
-
-(The above assumes that the kernel itself is being packaged.. if it's not being 
-packages and just copied to the end image -- then doing the link should be fine.)
-
---Mark
-
-
-> Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
-> ---
-> Version 2 changes:
-> Change "ln -s" to "ln -sf" based on Bruce's comment.
+On 08/19/2013 10:07 PM, Xufeng Zhang wrote:
+> On 08/20/2013 12:13 PM, Saul Wold wrote:
+>> On 08/19/2013 06:59 PM, Xufeng Zhang wrote:
+>>> Hi All,
+>>>
+>>> Anybody help me review this?
+>>>
+>>>
+>>> Thanks,
+>>> Xufeng
+>>>
+>>> On 06/04/2013 02:15 PM, Xufeng Zhang wrote:
+>>>> There are three potential NULL pointer dereference in
+>>>> EVP_DigestInit_ex(), dh_pub_encode() and dsa_pub_encode()
+>>>> functions.
+>>>> Fix them by adding proper null pointer check.
+>>>>
+>>>> [YOCTO #4600]
+>>>> [ CQID: WIND00373257 ]
+>>>>
+>>>> Signed-off-by: Xufeng Zhang<xufeng.zhang@windriver.com>
+>>>> ---
+>>>>   ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   16 +++++++++
+>>>>   ...NULL-pointer-dereference-in-dh_pub_encode.patch |   34
+>>>> ++++++++++++++++++++
+>>>>   meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
+>>>>   .../recipes-connectivity/openssl/openssl_1.0.1e.bb |    2 +
+>>>>   4 files changed, 53 insertions(+), 1 deletions(-)
+>>>>   create mode 100644
+>>>> meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>
+>>>>
+>>>>   create mode 100644
+>>>> meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>>>>
+>>>>
+>>>>
+>>>> diff --git
+>>>> a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>
+>>>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>
+>>>>
+>>>> new file mode 100644
+>>>> index 0000000..69924a4
+>>>> --- /dev/null
+>>>> +++
+>>>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>
+>>>>
+>>>> @@ -0,0 +1,16 @@
+>>>> +openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
+>>>> +
+>>>> +We should avoid accessing the type pointer if it's NULL,
+>>>> +this could happen if ctx->digest is not NULL.
+>>
+>> These patches both need Upstream-Status: and Signed-off-by: Tags
 >
->   meta/classes/kernel.bbclass |    1 +
->   1 files changed, 1 insertions(+), 0 deletions(-)
+> Ok, I'll add these stuff when I send V2.
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index e039dfc..6e7d994 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -109,6 +109,7 @@ kernel_do_install() {
->   	install -d ${D}/${KERNEL_IMAGEDEST}
->   	install -d ${D}/boot
->   	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
-> +	ln      -sf ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}
->   	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
->   	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
->   	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
->
+Ok, looking at more details, these are good patches and should be 
+upstreamed also.
 
+Sau!
+
+>>
+>>>> +---
+>>>> +--- a/crypto/evp/digest.c
+>>>> ++++ b/crypto/evp/digest.c
+>>>> +@@ -199,7 +199,7 @@
+>>>> +         return 0;
+>>>> +         }
+>>>> + #endif
+>>>> +-    if (ctx->digest != type)
+>>>> ++    if (type&&  (ctx->digest != type))
+>>>> +         {
+>>>> +         if (ctx->digest&&  ctx->digest->ctx_size)
+>>>> +             OPENSSL_free(ctx->md_data);
+>>
+>> I am more concerned about this patch as I do not know the code well,
+>> but if ctx->digest is non-NULL and type is, this code would not be
+>> executed which would be wrong, correct?
+>
+> No, that's correct, if type is NULL, we should not execute the below
+> code as type pointer is accessed in the following code, see:
+> int EVP_DigestInit_ex()
+> {
+> ...
+>      if (ctx->digest != type)
+>     {
+>          if (ctx->digest && ctx->digest->ctx_size)
+>                          OPENSSL_free(ctx->md_data);
+>          ctx->digest=type;
+>          if (!(ctx->flags & EVP_MD_CTX_FLAG_NO_INIT) && type->ctx_size)
+>              {
+>                          ctx->update = type->update;
+>      ...
+>     }
+> ...
+> }
+>
+>
+>> Your changing the behavior of the code here.
+>
+> But if we don't change, NULL pointer dereference would appear.
+>
+>> Also reading the code, it should be be possible for type to be NULL,
+> I think you are saying "it should not be possible"
+>
+>> unless some memory corruption occurs earlier as there is a check at
+>> line 153 for !type, which should cause it to goto skip_to_init.
+>
+> Yes, it's true, but such code is executed only when OPENSSL_NO_ENGINE is
+> not defined.
+>
+>>
+>> Please verify this patch is really needed.
+>>
+>>
+>>>> diff --git
+>>>> a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>>>>
+>>>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>>>>
+>>>>
+>>>> new file mode 100644
+>>>> index 0000000..642b0ea
+>>>> --- /dev/null
+>>>> +++
+>>>> b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+>>>>
+>>>>
+>>>> @@ -0,0 +1,34 @@
+>>>> +openssl: avoid NULL pointer dereference in
+>>>> dh_pub_encode()/dsa_pub_encode()
+>>>> +
+>>>> +We should avoid accessing the pointer if ASN1_STRING_new()
+>>>> +allocates memory failed.
+>>>> +---
+>>>> +--- a/crypto/dh/dh_ameth.c
+>>>> ++++ b/crypto/dh/dh_ameth.c
+>>>> +@@ -139,6 +139,12 @@
+>>>> +     dh=pkey->pkey.dh;
+>>>> +
+>>>> +     str = ASN1_STRING_new();
+>>>> ++    if (!str)
+>>>> ++        {
+>>>> ++        DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+>>>> ++        goto err;
+>>>> ++        }
+>>>> ++
+>>>> +     str->length = i2d_DHparams(dh,&str->data);
+>>>> +     if (str->length<= 0)
+>>>> +         {
+>>>> +--- a/crypto/dsa/dsa_ameth.c
+>>>> ++++ b/crypto/dsa/dsa_ameth.c
+>>>> +@@ -148,6 +148,11 @@
+>>>> +         {
+>>>> +         ASN1_STRING *str;
+>>>> +         str = ASN1_STRING_new();
+>>>> ++        if (!str)
+>>>> ++            {
+>>>> ++            DSAerr(DSA_F_DSA_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
+>>>> ++            goto err;
+>>>> ++            }
+>>>> +         str->length = i2d_DSAparams(dsa,&str->data);
+>>>> +         if (str->length<= 0)
+>>>> +             {
+>>>> diff --git a/meta/recipes-connectivity/openssl/openssl.inc
+>>>> b/meta/recipes-connectivity/openssl/openssl.inc
+>>>> index f5b2432..c753a27 100644
+>>>> --- a/meta/recipes-connectivity/openssl/openssl.inc
+>>>> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+>>>> @@ -5,7 +5,7 @@ BUGTRACKER =
+>>>> "http://www.openssl.org/news/vulnerabilities.html"
+>>>>   SECTION = "libs/network"
+>>>>
+>>>>   # Big Jump for OpenSSL 1.0 support with meta-oe
+>>>> -INC_PR = "r15"
+>>>> +INC_PR = "r16"
+>>>>
+>> No PR or INC_PR Bump needed
+>
+> Ok, will drop it.
+>
+>
+> Thanks,
+> Xufeng
+>
+>>
+>>>>   # "openssl | SSLeay" dual license
+>>>>   LICENSE = "openssl"
+>>>> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>>>> b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>>>> index 61de3a6..afd5576 100644
+>>>> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>>>> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
+>>>> @@ -31,6 +31,8 @@ SRC_URI += "file://configure-targets.patch \
+>>>>               file://openssl_fix_for_x32.patch \
+>>>>               file://openssl-fix-doc.patch \
+>>>>               file://find.pl \
+>>>> +
+>>>> file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
+>>>> +
+>>>> file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
+>>>>
+>>>> \
+>>>>              "
+>>>>
+>>>>   SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>
+>
+>
+>
 
