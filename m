@@ -1,37 +1,38 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f44.google.com (mail-oa0-f44.google.com
-	[209.85.219.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 308886B7C8
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id EC7836B7C8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 15:21:29 +0000 (UTC)
-Received: by mail-oa0-f44.google.com with SMTP id l20so1024345oag.17
+	Tue, 20 Aug 2013 15:23:40 +0000 (UTC)
+Received: by mail-ob0-f181.google.com with SMTP id dn14so808803obc.40
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 08:21:29 -0700 (PDT)
+	Tue, 20 Aug 2013 08:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:date:message-id:subject
 	:from:to:cc:content-type;
-	bh=M/Ihr71zRQ5AzhvYNNwIZWQhk7tSekplvB0t/VeALnY=;
-	b=CIc7/tRB3aM6GR4YLFWIO/OfhjHhHe/X6CxNvOgQnsveDrV+F3OyILbfcUON/ENyDQ
-	QFoRU1HmU6Xn6N2tg07pyVSvHQRMxVfYtkjhTVRP6A3YrVcST/duF5MwKI1lnU5r10s+
-	EB/k9rp6Qlh3VrUkZjoXkpBT77QRqKspcJ2lfaI2No9FKNsdzSc2wZso+ix+WA6y+GZz
-	moHK94UFgRkmzwmpGSaB4xHPrkEt5mTkOCWh7wgbezQXXmhK7SBvA6+vqEWNQF/A3f49
-	9BBCElL3WyVMV934l0gLZlq/vBjYWZwTCeIkMh9rgw+GdaDwNlhR6LY2Y24uuTj2XStX
-	/akA==
+	bh=WMHdmx8atNmbhE0sZ9U/A9QC2TU2Nis44wLRAt9SQqw=;
+	b=dj9wpNO5XMY/uAwf2HhVrbSdKhVmA3ULJXjEK5iHEcK257zlDKebiH7uKYmE7qSEa1
+	oCugTD5K0pFeUPAPwhVObTo4BtDT/7Xm9+KenL0oWu9gXBvtaS4eSbYqx6UXMDO2Ujdi
+	2ckyRugSGmXn+ZgdtM3yuMUqXVQfVp1I/p5E8Pj+8ug93NHt0SZdtNYWf/Mm5GBPt+LQ
+	xbc0Bz/7zDImCA+WfMqk5voV0UgH29Fp96zL/CEq54ITbozvJIynglVOldhJLWsTiijz
+	fIhodTaV6rrSk7LQ8DMby2gGDLIvEffj8cZrTfGtukUvtXNpb/orBJYrVaehModkXIYa
+	Dl2g==
 MIME-Version: 1.0
-X-Received: by 10.182.199.74 with SMTP id ji10mr2180495obc.69.1377012089444;
-	Tue, 20 Aug 2013 08:21:29 -0700 (PDT)
+X-Received: by 10.182.144.136 with SMTP id sm8mr2203625obb.63.1377012221523;
+	Tue, 20 Aug 2013 08:23:41 -0700 (PDT)
 Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 20 Aug 2013 08:21:29 -0700 (PDT)
-In-Reply-To: <1376992956-20972-1-git-send-email-mike.looijmans@topic.nl>
-References: <1376992956-20972-1-git-send-email-mike.looijmans@topic.nl>
-Date: Tue, 20 Aug 2013 12:21:29 -0300
-X-Google-Sender-Auth: vQpXy4tbc2C-rTiiitbcWEmuujE
-Message-ID: <CAP9ODKoDgTQDYPdgj4cZTj+BFkKsw=i-GDYXFZ+tM-K-1DG-cw@mail.gmail.com>
+Received: by 10.182.232.166 with HTTP; Tue, 20 Aug 2013 08:23:41 -0700 (PDT)
+In-Reply-To: <1376966880-4557-1-git-send-email-kergoth@gmail.com>
+References: <1376966880-4557-1-git-send-email-kergoth@gmail.com>
+Date: Tue, 20 Aug 2013 12:23:41 -0300
+X-Google-Sender-Auth: ueanTHCrJHnjiMhXyZl9cCP51xU
+Message-ID: <CAP9ODKp2ofdWzn_P7xnZGZZ7QffxyE7XJtmn_m=V4ZoWfc_Zdg@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: Patches and discussions about the oe-core layer
+To: Christopher Larson <kergoth@gmail.com>
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-dtb: Fix compilation failure in install and deploy phases
+Subject: Re: [PATCH] oe.types: add 'path' type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 15:21:29 -0000
+X-List-Received-Date: Tue, 20 Aug 2013 15:23:41 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Aug 20, 2013 at 7:02 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> Baking a kernel failed on the devicetree creation. This was caused
-> by the install and deploy scripts referring to the wrong directory
-> for the dtb files.
+On Mon, Aug 19, 2013 at 11:48 PM, Christopher Larson <kergoth@gmail.com> wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
 >
-> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+> - path normalization ('normalize' flag, defaults to enabled)
+> - existence verification for paths we know should exist ('mustexist' flag)
+> - supports clean handling of relative paths ('relativeto' flag)
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 
-Nack! The right fix for this has been merged already.
+Great addition :-)
 
-Your patch fixes kernel > 3.8 but breaks < 3.8 kernels. The patch
-applied today has support for both cases.
+> ---
+>  meta/lib/oe/types.py | 18 ++++++++++++++++++
+>  1 file changed, 18 insertions(+)
+>
+> diff --git a/meta/lib/oe/types.py b/meta/lib/oe/types.py
+> index 5dac9de..7f47c17 100644
+> --- a/meta/lib/oe/types.py
+> +++ b/meta/lib/oe/types.py
+> @@ -1,4 +1,7 @@
+> +import errno
+>  import re
+> +import os
+> +
 
-Regards,
+No need for another new and empty line here.
+
+Rest of code looks alright :-)
 
 -- 
 Otavio Salvador                             O.S. Systems
