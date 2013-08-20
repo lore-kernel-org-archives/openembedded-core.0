@@ -1,37 +1,24 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 59B566B5AA
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 280B461883
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 06:53:35 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1VBfot-00010N-MK from Muhammad_Shakeel@mentor.com ;
-	Mon, 19 Aug 2013 23:53:35 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 19 Aug 2013 23:53:35 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Tue, 20 Aug 2013 07:53:32 +0100
-Message-ID: <521312AF.3010504@mentor.com>
-Date: Tue, 20 Aug 2013 11:54:39 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	Tue, 20 Aug 2013 07:02:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7K72dsd005685
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 03:02:39 -0400 (EDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 20 Aug 2013 00:02:38 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Aug 2013 15:02:48 +0800
+Message-ID: <cover.1376982051.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <1376674064-14468-1-git-send-email-muhammad_shakeel@mentor.com>
-	<CAMKF1srCL2f+Cxb+2xvLY4_+oikJgXtj0vcR3=9h0tbDf1jGSg@mail.gmail.com>
-	<5211B8C4.7070601@mentor.com>
-	<CAMKF1srikv98W6EQ0Jk7_3FbKaPppaG1sBW-=A6YyD-eR-aj+Q@mail.gmail.com>
-	<5212876C.7080806@linux.intel.com>
-In-Reply-To: <5212876C.7080806@linux.intel.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 20 Aug 2013 06:53:35.0008 (UTC)
-	FILETIME=[FD7DFA00:01CE9D71]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] [v3] openssh: Add systemd support
+Subject: [PATCH 0/1 v2] shadow: backport a patch to make newgrp work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,48 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 06:53:37 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Aug 2013 07:02:41 -0000
+Content-Type: text/plain
 
-On 08/20/2013 02:00 AM, Saul Wold wrote:
-> On 08/18/2013 11:40 PM, Khem Raj wrote:
->> On Sun, Aug 18, 2013 at 11:18 PM, Muhammad Shakeel
->> <muhammad_shakeel@mentor.com> wrote:
->>> /usr/sbin/ is being sed'ed with ${sbindir} in do_install_append of the
->>> respective recipe file. /usr/bin/ and /bin/ is also taken care of.
->>
->> i see, thats better. however I do see a need to have  a generalized
->> way of specifying service files and a generic
->> processing engine which then takes care of it. Otherwise we have the
->> same code replicated in multiple recipes
->
-> Agreed, I think there should be a generalized solution here, 
-> implemented in the systemd.bbclass.
-This is not required for all of the systemd unit files. Packages which 
-have upstream systemd support, e.g. avahi, ofono they install service 
-file theirselves.
-I have already discussed to move this 'sed' part into systemd.bbclass 
-but Ross Burton had other ideas. 
-http://patches.openembedded.org/patch/53489/
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-So what is your final recommendation here?
+Diff with v1: fix a typOS
 
-> It also appears that this set is also creating a /lib dir that should 
-> not be there for non-systemd builds.
->
->> ERROR: Task 25 
->> (/home/sgw/yocto/poky/meta/recipes-extended/lighttpd/lighttpd_1.4.32.bb, 
->> do_package) failed with exit code '1'
->> ERROR: QA Issue: nfs-utils: Files/directories were installed but not 
->> shipped
->>   /lib
->> ERROR: QA run found fatal errors. Please consider fixing them.
->> ERROR: Function failed: do_package_qa
->> ERROR: Logfile of failure stored in: 
->> /home/sgw/yocto/builds/world/tmp/work/x86_64-poky-linux/nfs-utils/1.2.8-r0/temp/log.do_package.17558
-Sorry about this error, I will fix this in next version.
+The following changes since commit fd9e591f266e1a6c183e77f24e50d31e0d52bdd5:
 
-Regards
---Shakeel
+  cronie: fix out of tree build (2013-08-19 11:24:51 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/mewgrp1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/mewgrp1
+
+Roy.Li (1):
+  shadow: backport a patch to make newgrp work
+
+ .../shadow/files/fix-etc-gshadow-reading.patch     |   36 ++++++++++++++++++++
+ meta/recipes-extended/shadow/shadow_4.1.4.3.bb     |    1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/files/fix-etc-gshadow-reading.patch
+
+-- 
+1.7.10.4
+
 
