@@ -1,24 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id F16706B8C2
+Return-Path: <fcooper@ti.com>
+Received: from arroyo.ext.ti.com (arroyo.ext.ti.com [192.94.94.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 22C266B0CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 18:04:08 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2013 11:03:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,921,1367996400"; d="scan'208";a="389269422"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2013 11:03:50 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2013 21:05:29 +0300
-Message-Id: <4ebf834a2a35217d96f4d7e4a43efd141ddad752.1377021737.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1377021737.git.cristian.iorga@intel.com>
-References: <cover.1377021737.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1377021737.git.cristian.iorga@intel.com>
-References: <cover.1377021737.git.cristian.iorga@intel.com>
-Subject: [PATCH 3/3] builder: register directories with pcmanfm
+	Tue, 20 Aug 2013 18:14:14 +0000 (UTC)
+Received: from dlelxv90.itg.ti.com ([172.17.2.17])
+	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id r7KIECTb027785
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 13:14:12 -0500
+Received: from DFLE72.ent.ti.com (dfle72.ent.ti.com [128.247.5.109])
+	by dlelxv90.itg.ti.com (8.14.3/8.13.8) with ESMTP id r7KIEC5n025950
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 13:14:12 -0500
+Received: from dlelxv23.itg.ti.com (172.17.1.198) by DFLE72.ent.ti.com
+	(128.247.5.109) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 20 Aug 2013 13:14:12 -0500
+Received: from localhost.localdomain (dbdp20.itg.ti.com [172.24.170.38])	by
+	dlelxv23.itg.ti.com (8.13.8/8.13.8) with ESMTP id r7KIE9DM016281;
+	Tue, 20 Aug 2013 13:14:10 -0500
+From: "Franklin S. Cooper Jr" <fcooper@ti.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 20 Aug 2013 13:45:21 -0500
+Message-ID: <1377024321-6230-1-git-send-email-fcooper@ti.com>
+X-Mailer: git-send-email 1.7.0.4
+MIME-Version: 1.0
+Cc: "Franklin S. Cooper Jr" <fcooper@ti.com>
+Subject: [PATCH v2] kernel.bbclass: Create symbolic link to add ${KERNEL_IMAGETYPE} to boot package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 18:04:09 -0000
+X-List-Received-Date: Tue, 20 Aug 2013 18:14:16 -0000
+Content-Type: text/plain
 
-Register directories to be opened with PCManFM
-filemanager using xdg-open in Build Appliance.
+* By default for some platforms U-boot assumes the kernel image is located in
+  the boot directory of the root filesystem.
+* The kernel.bbclass already includes the kernel image in the /boot directory
+  but adds a version number to the file name.
+* Create a symbolic link that names the kernel image in the exact way that
+  U-boot expects.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Franklin S. Cooper Jr <fcooper@ti.com>
 ---
- meta/recipes-graphics/builder/files/builder_hob_start.sh | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Version 2 changes:
+Change "ln -s" to "ln -sf" based on Bruce's comment.
 
-diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-index 40616f5..b3a0540 100644
---- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
-+++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-@@ -9,6 +9,15 @@ export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo
- export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64
- export GIT_PROXY_COMMAND=/home/builder/poky/scripts/oe-git-proxy
- 
-+#start pcmanfm in daemon mode to allow asynchronous launch
-+pcmanfm -d&
-+
-+#register folders to open with PCManFM filemanager
-+if [ ! -d /home/ubik/tmp/.local/share/applications ]; then
-+    mkdir -p /home/builder/.local/share/applications/
-+    xdg-mime default pcmanfm.desktop inode/directory
-+fi
-+
- cd /home/builder/poky
- . ./oe-init-build-env
- 
+ meta/classes/kernel.bbclass |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e039dfc..6e7d994 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -109,6 +109,7 @@ kernel_do_install() {
+ 	install -d ${D}/${KERNEL_IMAGEDEST}
+ 	install -d ${D}/boot
+ 	install -m 0644 ${KERNEL_OUTPUT} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
++	ln      -sf ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${D}/${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}
+ 	install -m 0644 System.map ${D}/boot/System.map-${KERNEL_VERSION}
+ 	install -m 0644 .config ${D}/boot/config-${KERNEL_VERSION}
+ 	install -m 0644 vmlinux ${D}/boot/vmlinux-${KERNEL_VERSION}
 -- 
-1.8.1.2
+1.7.0.4
 
 
