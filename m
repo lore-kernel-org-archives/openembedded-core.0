@@ -1,27 +1,25 @@
-Return-Path: <Xufeng.Zhang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E5EB761883
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7208261013
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 01:57:57 +0000 (UTC)
+	Tue, 20 Aug 2013 02:20:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7K1vwrF016832
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 19 Aug 2013 18:57:58 -0700 (PDT)
-Received: from [128.224.163.210] (128.224.163.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 19 Aug 2013 18:57:57 -0700
-Message-ID: <5212CD79.3000509@windriver.com>
-Date: Tue, 20 Aug 2013 09:59:21 +0800
-From: Xufeng Zhang <xufeng.zhang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; U; Linux i686; en-US;
-	rv:1.9.1.10) Gecko/20100512 Thunderbird/3.0.5 ThunderBrowse/3.82
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7K2KHuH006280
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 19 Aug 2013 19:20:17 -0700 (PDT)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Mon, 19 Aug 2013 19:20:15 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <sgw@linux.intel.com>
+Date: Tue, 20 Aug 2013 10:20:07 +0800
+Message-ID: <cover.1376965065.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1370326530-23464-1-git-send-email-xufeng.zhang@windriver.com>
-In-Reply-To: <1370326530-23464-1-git-send-email-xufeng.zhang@windriver.com>
-Subject: Re: [PATCH] openssl: avoid NULL pointer dereference in three	places
+X-Originating-IP: [128.224.162.231]
+Cc: Zhangle.Yang@windriver.com, openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] Fix bc segmentation fault.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,125 +32,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 01:57:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 20 Aug 2013 02:20:19 -0000
+Content-Type: text/plain
 
-Hi All,
+The following changes since commit 6382979cca1d1c57467f983ba9611f91555b20a9:
 
-Anybody help me review this?
+  cronie: fix out of tree build (2013-08-19 11:25:23 +0100)
 
+are available in the git repository at:
 
-Thanks,
-Xufeng
+  git://git.pokylinux.org/poky-contrib kangkai/bc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/bc
 
-On 06/04/2013 02:15 PM, Xufeng Zhang wrote:
-> There are three potential NULL pointer dereference in
-> EVP_DigestInit_ex(), dh_pub_encode() and dsa_pub_encode()
-> functions.
-> Fix them by adding proper null pointer check.
->
-> [YOCTO #4600]
-> [ CQID: WIND00373257 ]
->
-> Signed-off-by: Xufeng Zhang<xufeng.zhang@windriver.com>
-> ---
->   ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   16 +++++++++
->   ...NULL-pointer-dereference-in-dh_pub_encode.patch |   34 ++++++++++++++++++++
->   meta/recipes-connectivity/openssl/openssl.inc      |    2 +-
->   .../recipes-connectivity/openssl/openssl_1.0.1e.bb |    2 +
->   4 files changed, 53 insertions(+), 1 deletions(-)
->   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
->   create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-> new file mode 100644
-> index 0000000..69924a4
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-> @@ -0,0 +1,16 @@
-> +openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
-> +
-> +We should avoid accessing the type pointer if it's NULL,
-> +this could happen if ctx->digest is not NULL.
-> +---
-> +--- a/crypto/evp/digest.c
-> ++++ b/crypto/evp/digest.c
-> +@@ -199,7 +199,7 @@
-> + 		return 0;
-> + 		}
-> + #endif
-> +-	if (ctx->digest != type)
-> ++	if (type&&  (ctx->digest != type))
-> + 		{
-> + 		if (ctx->digest&&  ctx->digest->ctx_size)
-> + 			OPENSSL_free(ctx->md_data);
-> diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
-> new file mode 100644
-> index 0000000..642b0ea
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
-> @@ -0,0 +1,34 @@
-> +openssl: avoid NULL pointer dereference in dh_pub_encode()/dsa_pub_encode()
-> +
-> +We should avoid accessing the pointer if ASN1_STRING_new()
-> +allocates memory failed.
-> +---
-> +--- a/crypto/dh/dh_ameth.c
-> ++++ b/crypto/dh/dh_ameth.c
-> +@@ -139,6 +139,12 @@
-> + 	dh=pkey->pkey.dh;
-> +
-> + 	str = ASN1_STRING_new();
-> ++	if (!str)
-> ++		{
-> ++		DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
-> ++		goto err;
-> ++		}
-> ++
-> + 	str->length = i2d_DHparams(dh,&str->data);
-> + 	if (str->length<= 0)
-> + 		{
-> +--- a/crypto/dsa/dsa_ameth.c
-> ++++ b/crypto/dsa/dsa_ameth.c
-> +@@ -148,6 +148,11 @@
-> + 		{
-> + 		ASN1_STRING *str;
-> + 		str = ASN1_STRING_new();
-> ++		if (!str)
-> ++			{
-> ++			DSAerr(DSA_F_DSA_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
-> ++			goto err;
-> ++			}
-> + 		str->length = i2d_DSAparams(dsa,&str->data);
-> + 		if (str->length<= 0)
-> + 			{
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-> index f5b2432..c753a27 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -5,7 +5,7 @@ BUGTRACKER = "http://www.openssl.org/news/vulnerabilities.html"
->   SECTION = "libs/network"
->
->   # Big Jump for OpenSSL 1.0 support with meta-oe
-> -INC_PR = "r15"
-> +INC_PR = "r16"
->
->   # "openssl | SSLeay" dual license
->   LICENSE = "openssl"
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> index 61de3a6..afd5576 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-> @@ -31,6 +31,8 @@ SRC_URI += "file://configure-targets.patch \
->               file://openssl_fix_for_x32.patch \
->               file://openssl-fix-doc.patch \
->               file://find.pl \
-> +	    file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
-> +	    file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
->              "
->
->   SRC_URI[md5sum] = "66bf6f10f060d561929de96f9dfe5b8c"
->    
+Kai Kang (1):
+  bc: fix segmentation fault
+
+ meta/recipes-extended/bc/bc_1.06.bb                |  3 ++-
+ .../bc/files/fix-segment-fault.patch               | 28 ++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/bc/files/fix-segment-fault.patch
+
+-- 
+1.8.1.2
 
 
