@@ -1,20 +1,28 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E6ED6B5B1
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 137BC61883
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 10:46:49 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Aug 2013 03:46:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,919,1367996400"; d="scan'208";a="348892866"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.243])
-	by azsmga001.ch.intel.com with ESMTP; 20 Aug 2013 03:46:48 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 20 Aug 2013 11:46:35 +0100
-Message-Id: <1376995595-6734-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] gst-plugins-good: fix orc enabling via PACKAGECONFIG
+	Tue, 20 Aug 2013 10:52:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7KAqAkN013121
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 20 Aug 2013 03:52:10 -0700 (PDT)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 20 Aug 2013 03:52:08 -0700
+Message-ID: <52134A57.8090208@windriver.com>
+Date: Tue, 20 Aug 2013 18:52:07 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1376637245.git.jackie.huang@windriver.com>
+	<520DE692.6060804@windriver.com>
+In-Reply-To: <520DE692.6060804@windriver.com>
+Subject: Re: [PATCH 0/1] texinfo: handle correctly @enumerate specification greater than 10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,30 +35,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 10:46:49 -0000
+X-List-Received-Date: Tue, 20 Aug 2013 10:52:08 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-An extra --disable-orc was being added to EXTRA_OECONF regardless of
-whether orc was in PACKAGECONFIG, drop this.
+Added signed-off in the patch:
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The following changes since commit 57662d4f813d5795cac1529633db80a09efdb089:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index 8868ba7..daffcf1 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -25,7 +25,7 @@ inherit gettext gconf
- SRC_URI += "file://0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch"
+   meta-skeleton: Add busybox config fragment example (2013-08-13 
+23:03:44 +0100)
+
+are available in the git repository at:
+   git://git.pokylinux.org/poky-contrib jhuang0/d_texinfo_mpatrol_0820_0
  
- EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
--                 --disable-orc --disable-examples --disable-taglib"
-+                 --disable-examples --disable-taglib"
- 
- do_configure_prepend() {
- 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
+http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_texinfo_mpatrol_0820_0
+
+Jackie Huang (1):
+   texinfo: handle correctly @enumerate specification greater than 10
+
+  .../texinfo-5.1/enumerate_greater_than_ten.patch   |   53 
+++++++++++++++++++++
+  meta/recipes-extended/texinfo/texinfo_5.1.bb       |    1 +
+  2 files changed, 54 insertions(+), 0 deletions(-)
+  create mode 100644 
+meta/recipes-extended/texinfo/texinfo-5.1/enumerate_greater_than_ten.patch
+
+Thanks,
+Jackie
+
+On 8/16/2013 4:45 PM, jhuang0 wrote:
+>
+>
+> On 8/16/2013 3:16 PM, jackie.huang@windriver.com wrote:
+>> From: Jackie Huang <jackie.huang@windriver.com>
+>>
+>> The following changes since commit
+>> 57662d4f813d5795cac1529633db80a09efdb089:
+>>
+>>    meta-skeleton: Add busybox config fragment example (2013-08-13
+>> 23:03:44 +0100)
+>>
+>> are available in the git repository at:
+>>    git://git.pokylinux.org/poky-contrib jhuang0/d_texinfo_mpatrol_0816_1
+>>
+>> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_texinfo_mpatrol_0816_1
+>>
+>
+> Sorry that the removing of a trailing white space in the patch would
+> cause patching fail, plase use the updated one:
+>
+> The following changes since commit
+> 57662d4f813d5795cac1529633db80a09efdb089:
+>
+>    meta-skeleton: Add busybox config fragment example (2013-08-13
+> 23:03:44 +0100)
+>
+> are available in the git repository at:
+>    git://git.pokylinux.org/poky-contrib jhuang0/d_texinfo_mpatrol_0816_2
+>
+> http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_texinfo_mpatrol_0816_2
+>
+>
+> Jackie Huang (1):
+>    texinfo: handle correctly @enumerate specification greater than 10
+>
+>   .../texinfo-5.1/enumerate_greater_than_ten.patch   |   51
+> ++++++++++++++++++++
+>   meta/recipes-extended/texinfo/texinfo_5.1.bb       |    1 +
+>   2 files changed, 52 insertions(+), 0 deletions(-)
+>   create mode 100644
+> meta/recipes-extended/texinfo/texinfo-5.1/enumerate_greater_than_ten.patch
+>
+> --
+> 1.7.4.1
+>
+> Thanks,
+> Jackie
+>
+>>
+>> Jackie Huang (1):
+>>    texinfo: handle correctly @enumerate specification greater than 10
+>>
+>>   .../texinfo-5.1/enumerate_greater_than_ten.patch   |   51
+>> ++++++++++++++++++++
+>>   meta/recipes-extended/texinfo/texinfo_5.1.bb       |    1 +
+>>   2 files changed, 52 insertions(+), 0 deletions(-)
+>>   create mode 100644
+>> meta/recipes-extended/texinfo/texinfo-5.1/enumerate_greater_than_ten.patch
+>>
+>>
+>
+
 -- 
-1.8.1.2
-
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
