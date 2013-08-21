@@ -1,30 +1,29 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B1946B3A2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f48.google.com (mail-vb0-f48.google.com
+	[209.85.212.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E2ED6B3A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 10:24:18 +0000 (UTC)
-Received: by mail-pa0-f52.google.com with SMTP id kq13so673974pab.11
+	Wed, 21 Aug 2013 10:27:18 +0000 (UTC)
+Received: by mail-vb0-f48.google.com with SMTP id w16so149866vbf.21
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 03:24:19 -0700 (PDT)
+	Wed, 21 Aug 2013 03:27:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=buBL9BpD+iBY8wt/Zh/qmajDGk5xwrClKr/zcWhttak=;
-	b=BLyIYma36y7b/OiOnSZp/0bNENR8MsGwfRTE8/oYaHLZI98b9qteNgC+M9T8VRlXLC
-	lOYyGY+eLq2c9srkQ3KV2LNgS/qsX+aa6HAumDzuMsnP/rHI+Ocew4h29upJZ8RfHxeZ
-	AI0MQDX4dKTl00eTHFwm404X+avPKth7p9a975cRvNwq79BFah1ZdPEbnmXfnUrLxX96
-	FOkh53OpnDsDQnDlV5sKkRwr3ShoLmc03xlpXnXBK3lTh45iNNaZnLo53F8Hipz0JcZc
-	x6NWnV7PO8ErnKHR0CT4kf0kiFqMH0+66lWs5viWGFgCpbgoupej2SZuA7/uz5D5qn1t
-	KNqg==
-X-Gm-Message-State: ALoCoQm2CZDxmPchtDjCa72GAeJjWze0+SdxLCkkVnGsKCaUUOXNMOMSbJiKOvPXE9vMwxLuMMFM
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=xchO47V5Vd2isbAFVnllA4MuG3cB6jrsM1+jfySedGg=;
+	b=gUibF/ZcrsAzJcYG6FnRpm3zv3pVc73SeSPmKtYMCl+95gEGaA9ZOpd100iViYoSGZ
+	Dd/mZa27xj5U51zz9hG2IGcbcZAho1TgaAD6sbEiaGc9odiFiv9XiAtsg70Vvf0MAJ9o
+	065z815nU/ge6rQPLH8R2TgGdHGarY6g9l+dFKoDaIIoRQYcoERX6hCRDQI640h0fgfm
+	IH2TJ2x410LeWPxbqHuiS5JB0x6GxT7DIERhXVAZ+cJIsNTUClj//+LLgRl8zgu0Qnyr
+	nJjs1jGP3jNaD3ic77iY38Td592hOuvZ7p+SQl0jAQA5uOk2RCz0gviSsN6LTmB+8I2x
+	yBZA==
+X-Gm-Message-State: ALoCoQmAhJUeY1fwDODQA2cYYt8GXMYFnU+ROZlc+8k1bh2AxfSldN0oKloFasNlt4W3nBnh2juc
+X-Received: by 10.58.127.202 with SMTP id ni10mr373607veb.27.1377080838389;
+	Wed, 21 Aug 2013 03:27:18 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.68.59.98 with SMTP id y2mr6859264pbq.135.1377080658964; Wed,
-	21 Aug 2013 03:24:18 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.57.234 with HTTP; Wed, 21 Aug 2013 03:24:18 -0700 (PDT)
-In-Reply-To: <CAJTo0LYraeUno84Hof7PPiJ3d9_eydwRTjB1D7VjojoZNPOZYQ@mail.gmail.com>
+Received: by 10.220.71.201 with HTTP; Wed, 21 Aug 2013 03:26:58 -0700 (PDT)
+In-Reply-To: <CAOMwXhMOQo3PiAT+3L2M894MDJvLg0eEwunqtQD3TGMwBReXHw@mail.gmail.com>
 References: <CAOMwXhNaMEvSfi-J=EPOXfSAfjWUJeq8pGAGE3_5Hix1Sw9mKg@mail.gmail.com>
 	<520E17F6.4030500@communistcode.co.uk>
 	<CAOMwXhMD5FE2jK-R+5SCYRCtpS0S_Nk-6HhbsiUJt9i63-kHUQ@mail.gmail.com>
@@ -32,11 +31,11 @@ References: <CAOMwXhNaMEvSfi-J=EPOXfSAfjWUJeq8pGAGE3_5Hix1Sw9mKg@mail.gmail.com>
 	<CAJTo0Lap8PHE-=d_S7M7gEOzaXud3EqWgkbzU+5VQH7vUeVw7g@mail.gmail.com>
 	<CAOMwXhOLPoK994vd7aNnPKhutKfzriLSsg4XCPP6oCGO98jD9g@mail.gmail.com>
 	<CAJTo0LYraeUno84Hof7PPiJ3d9_eydwRTjB1D7VjojoZNPOZYQ@mail.gmail.com>
-Date: Wed, 21 Aug 2013 11:24:18 +0100
-X-Google-Sender-Auth: myAHsIASMG_kQMFq3O6Vg65SNjc
-Message-ID: <CAOMwXhMOQo3PiAT+3L2M894MDJvLg0eEwunqtQD3TGMwBReXHw@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CAOMwXhMOQo3PiAT+3L2M894MDJvLg0eEwunqtQD3TGMwBReXHw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 21 Aug 2013 11:26:58 +0100
+Message-ID: <CAJTo0La2UVtZ9rM-HRGY9DGzD9=D4RTZzutHT8Aks4QJ9E=zPw@mail.gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Why is "bitbake core-image-minimal" building gtk docs?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -51,81 +50,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 10:24:18 -0000
-Content-Type: multipart/alternative; boundary=bcaec5304f818145f404e472933f
+X-List-Received-Date: Wed, 21 Aug 2013 10:27:18 -0000
+Content-Type: multipart/alternative; boundary=047d7b5d870f33137004e4729e64
 
---bcaec5304f818145f404e472933f
-Content-Type: text/plain; charset=ISO-8859-1
+--047d7b5d870f33137004e4729e64
+Content-Type: text/plain; charset=UTF-8
 
-I am not saying to fix gtk-doc-stub only. I am saying fix the nastiness of
-using git repositories for released and supposedly stable versions. I do
-not see why tarball would not be enough for those to work off-hand? That
-should be the ideal architecture IMHO.
+On 21 August 2013 11:24, Laszlo Papp <lpapp@kde.org> wrote:
 
-
-On Wed, Aug 21, 2013 at 11:21 AM, Burton, Ross <ross.burton@intel.com>wrote:
-
-> On 21 August 2013 11:16, Laszlo Papp <lpapp@kde.org> wrote:
->
->> Having had an inconvenient debugging session this morning with the help
->> of you, ndec, and so forth on IRC, I would propose to get rid of this gtk
->> doc stub, at least how it is now. It is completely breaking projects
->> causing regressions compared to denzil. We are pretty much blocked by it
->> altogether now. Here is the other thread for details:
->> https://lists.yoctoproject.org/pipermail/poky/2013-August/009184.html
->>
->> IMHO, there should be a way for end users to get rid of the blocker issue
->> and regression. So, how about making this optional?
->>
->
-> We used to patch each recipe individually and it wasn't pleasant.
->  gtk-doc-stub is just the first place you're hitting problems with putting
-> DL_DIR inside a git repository, removing it will cause something else to
-> break.
->
-> Ross
+> I am not saying to fix gtk-doc-stub only. I am saying fix the nastiness of
+> using git repositories for released and supposedly stable versions. I do
+> not see why tarball would not be enough for those to work off-hand? That
+> should be the ideal architecture IMHO.
 >
 
---bcaec5304f818145f404e472933f
-Content-Type: text/html; charset=ISO-8859-1
+Two good reasons to allow git repositories as a source:
+
+1) Many projects don't make tarball releases.
+2) It's incredibly useful to be able to build from git snapshots for
+development/testing purposes.
+
+What you're asking for is the inability to use git repositories in SRC_URI,
+which won't happen.
+
+Ross
+
+--047d7b5d870f33137004e4729e64
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 21 August 2013 11:24, Laszlo Papp <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</=
+span> wrote:<br><div class=3D"gmail_extra"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">
 
 <div dir=3D"ltr">I am not saying to fix gtk-doc-stub only. I am saying fix =
 the nastiness of using git repositories for released and supposedly stable =
 versions. I do not see why tarball would not be enough for those to work of=
 f-hand? That should be the ideal architecture IMHO.</div>
-<div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Wed, Aug 2=
-1, 2013 at 11:21 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mailto:r=
-oss.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</span=
-> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"im">On 21 Aug=
-ust 2013 11:16, Laszlo Papp <span dir=3D"ltr">&lt;<a href=3D"mailto:lpapp@k=
-de.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> wrote:<br>
-</div><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div class=3D"i=
-m"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
 
-<div dir=3D"ltr">Having had an inconvenient debugging session this morning =
-with the help of you, ndec, and so forth on IRC, I would propose to get rid=
- of this gtk doc stub, at least how it is now. It is completely breaking pr=
-ojects causing regressions compared to denzil. We are pretty much blocked b=
-y it altogether now. Here is the other thread for details:=A0<a href=3D"htt=
-ps://lists.yoctoproject.org/pipermail/poky/2013-August/009184.html" target=
-=3D"_blank">https://lists.yoctoproject.org/pipermail/poky/2013-August/00918=
-4.html</a><div>
+</blockquote><div>=C2=A0</div><div>Two good reasons to allow git repositori=
+es as a source:</div><div><br></div><div>1) Many projects don&#39;t make ta=
+rball releases.</div><div>2) It&#39;s incredibly useful to be able to build=
+ from git snapshots for development/testing purposes.</div>
 
+<div><br></div><div>What you&#39;re asking for is the inability to use git =
+repositories in SRC_URI, which won&#39;t happen.</div><div><br></div><div>R=
+oss</div></div></div></div>
 
-
-<br></div><div>IMHO, there should be a way for end users to get rid of the =
-blocker issue and regression. So, how about making this optional?</div></di=
-v></blockquote><div>=A0</div></div><div>We used to patch each recipe indivi=
-dually and it wasn&#39;t pleasant. =A0gtk-doc-stub is just the first place =
-you&#39;re hitting problems with putting DL_DIR inside a git repository, re=
-moving it will cause something else to break.</div>
-<span class=3D"HOEnZb"><font color=3D"#888888">
-
-<div><br></div><div>Ross</div></font></span></div></div></div>
-</blockquote></div><br></div>
-
---bcaec5304f818145f404e472933f--
+--047d7b5d870f33137004e4729e64--
