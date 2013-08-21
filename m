@@ -1,39 +1,38 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 973586B0CE
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8899F6B0CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 16:33:05 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id a1so358895qcx.31
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 09:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Zr7+zy5ivcRgWTOMbcmlaLw3hwoYNehsAC/01pvA/pM=;
-	b=aeCDymUTcG46/MOCJeoSg2Sqq7PE7GkGMUDGXG3htp9kXaoY7AL09qk/TME1lyvLYz
-	WGvY131pWGpYJq1qIIwVLG1ibcJw4bqpgJosFEnxYJWSditF0E7ASG5kKeChHJJFL/vw
-	xBzoOhZrUIKMyfhH7z5a5HolQlT1uVBVP9VVQAUZfSeBxgZ/zXTl/ZoQdUEBx+8mSWJW
-	SFnZ/UGtV3aut3QMOKnqzKfYf9Y1U7KNQtnbW/3c3KiY6BuYY1ZIFJBisEkqrRukHtPx
-	7+YIYj+OTDj/AkgwszzCVtqcxGPI16UimqACjzHW1huozXqQriUlfHjK69MOOKOseoSS
-	4rxw==
-MIME-Version: 1.0
-X-Received: by 10.224.160.130 with SMTP id n2mr12030885qax.68.1377102785954;
-	Wed, 21 Aug 2013 09:33:05 -0700 (PDT)
-Received: by 10.224.114.207 with HTTP; Wed, 21 Aug 2013 09:33:05 -0700 (PDT)
-In-Reply-To: <CAF6bG8eN02y-jVmrF=onOjZfwbd_-9HVgfsgkNOHYE38ftL9JA@mail.gmail.com>
-References: <CAF6bG8cHBD0+5JQfuXNNY0odSU3gs=_Son6zT4RXuH8eBfj=Xg@mail.gmail.com>
-	<11672169.pPNsTrMMam@helios>
-	<CAF6bG8e=cCDyJGDNebVqaNSJ31PNYCUQ9xPNf_4p+mDVDUMbwA@mail.gmail.com>
-	<1507505.mjujvFaXNS@helios>
-	<CAF6bG8eN02y-jVmrF=onOjZfwbd_-9HVgfsgkNOHYE38ftL9JA@mail.gmail.com>
-Date: Wed, 21 Aug 2013 19:33:05 +0300
-Message-ID: <CAF6bG8f7HR25c6FPS0Lz3WqLqG+3-VxijyOKg64vOdRX95M0Dw@mail.gmail.com>
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
+	Wed, 21 Aug 2013 17:14:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 21 Aug 2013 10:11:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,929,1367996400"; d="scan'208";a="391057187"
+Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
+	by orsmga002.jf.intel.com with ESMTP; 21 Aug 2013 10:14:28 -0700
+Received: from orsmsx156.amr.corp.intel.com (10.22.240.22) by
+	ORSMSX105.amr.corp.intel.com (10.22.225.132) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Wed, 21 Aug 2013 10:14:28 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.129]) by
+	ORSMSX156.amr.corp.intel.com ([169.254.8.154]) with mapi id
+	14.03.0123.003; Wed, 21 Aug 2013 10:14:27 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>, OpenEmbedded Core Mailing List
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu-native build regularly failing
+Thread-Topic: [OE-core] [PATCH v3] distro_features_check.bbclass: Allow
+	checking	of required/conflicting features
+Thread-Index: AQHOjwSKKjsLtQW6HUukbNErD3eQgZmgBHcA
+Date: Wed, 21 Aug 2013 17:14:27 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C704770C5@ORSMSX103.amr.corp.intel.com>
+References: <1375395237-17840-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1375395237-17840-1-git-send-email-otavio@ossystems.com.br>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
+MIME-Version: 1.0
+Cc: Evan Kotara <evan.kotara@freescale.com>,
+	Daiane Angolini <daiane.angolini@freescale.com>
+Subject: Re: [PATCH v3] distro_features_check.bbclass: Allow checking	of required/conflicting features
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,65 +45,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 16:33:06 -0000
-Content-Type: text/plain; charset=UTF-8
-
-On 21 August 2013 01:15, Marko Lindqvist <cazfi74@gmail.com> wrote:
-> On 21 August 2013 00:16, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
->> On Tuesday 20 August 2013 23:26:44 Marko Lindqvist wrote:
->>> On 20 August 2013 16:32, Paul Eggleton <paul.eggleton@linux.intel.com>
->>> wrote:
->>> > On Tuesday 20 August 2013 15:51:21 Marko Lindqvist wrote:
->>> >> Build of qemu-native regularly fails with:
->>> >> |   LINK  sh4-softmmu/qemu-system-sh4
->>> >> |
->>> >> | /usr/lib/x86_64-linux-gnu/libXext.so.6: undefined reference to
->>> >>
->>> >> `_XEatDataWords'
->>> >>
->>> >> | collect2: error: ld returned 1 exit status
->>> >>
->>> >> This might be some dependency missing, as building first some packets
->>> >> (+ more importantly their dependencies) that do not depend on qemu and
->>> >> only then qemu dependant image success.
->>> >
->>> > Do you have something else causing libxext-native to be built by any
->>> > chance?
->>>
->>>  Yes, it seems to be difference between the tree where build fails and
->>> the one where build success that former has no libxext-native built.
->>> Further, I tested just building libxext-native before building
->>> qemu-native, and then the build succeded.
->>
->> The problem is we want qemu-native to be buildable both on systems without X11
->> and systems with X11, so the dependency has to be floating, and this is more or
->> less acceptable for a native recipe - there's only a problem when libxext-
->> native needs to be built. I can't see a lot of value in building libxext-
->> native in any case - what is causing it to be built on your system?
->>
->> Cheers,
->> Paul
->
->
->  I'm still running more tests - this seems to be complicated matter.
-> For one, I just got successful build from empty tree by building
-> qemu-native directly. That was build targeted to arm, while failing
-> builds have been for x86 (native is amd64). Also, I think (but cannot
-> be 100% sure any more) build has succeeded on trees where nothing
-> depends on libxext-native but still *something* was needed to be built
-> before qemu-native.
-
- It seems libxext-native is not needed. Rather this seems like problem
-with build parallelism.
-
- - Sometimes "bitbake qemu-native" to empty tree success at once
- - When it first fails (but other tasks get executed while it tries to
-build), it then success by forcing configure rerun & building  (
-"bitbake qemu-native -c configure -f && bitbake qemu-native" )
-
- I think next step is to get config.log of the succesful and failed
-build to compare.
+X-List-Received-Date: Wed, 21 Aug 2013 17:14:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
- - ML
+
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> Of Otavio Salvador
+> Sent: Thursday, August 01, 2013 3:14 PM
+> To: OpenEmbedded Core Mailing List
+> Cc: Evan Kotara; Lauren Post; Otavio Salvador; Daiane Angolini
+> Subject: [OE-core] [PATCH v3] distro_features_check.bbclass: Allow checki=
+ng
+> of required/conflicting features
+>=20
+> This add support to list required/confliting distro features for a recipe=
+; this
+> avoids user mistake when building recipes/images which would not work
+> depending on DISTRO_FEATURES option set.
+>=20
+> Adding:
+>=20
+> ,----[ Use example ]
+> | inherit distro_features_check
+> |
+> | REQUIRED_DISTRO_FEATURES =3D "x11"
+> | CONFLICT_DISTRO_FEATURES_mx6 =3D "wayland"
+> `----
+>=20
+> In the image recipe allow us to make clear to user that this image needs =
+X11
+> and /cannot/ be build with Wayland support in i.MX6 platforms, for exampl=
+e.
+>=20
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> Changes in v3:
+> - Move code from base.bbclass to distro_features_check.bbclass
+> - Rework code
+> - Rework commit log
+>=20
+> Changes in v2:
+> - Rename to REQUIRED_DISTRO_FEATURES;
+> - Remove spurious bb.note;
+> - Rewrote error message;
+>=20
+>  meta/classes/distro_features_check.bbclass | 28
+> ++++++++++++++++++++++++++++
+>  1 file changed, 28 insertions(+)
+>  create mode 100644 meta/classes/distro_features_check.bbclass
+>=20
+> diff --git a/meta/classes/distro_features_check.bbclass
+> b/meta/classes/distro_features_check.bbclass
+> new file mode 100644
+> index 0000000..61b11b7
+> --- /dev/null
+> +++ b/meta/classes/distro_features_check.bbclass
+> @@ -0,0 +1,28 @@
+> +# Allow checking of required and conflicting DISTRO_FEATURES # #
+> +REQUIRED_DISTRO_FEATURES: ensure every item on this list is included
+> +#                           in DISTRO_FEATURES.
+> +# CONFLICT_DISTRO_FEATURES: ensure no item in this list is included in
+> +#                           DISTRO_FEATURES.
+> +#
+> +# Copyright 2013 (C) O.S. Systems Software LTDA.
+> +
+> +python () {
+> +    required_distro_features =3D d.getVar('REQUIRED_DISTRO_FEATURES',
+> True)
+> +    if required_distro_features:
+> +        required_distro_features =3D required_distro_features.split()
+> +        distro_features =3D (d.getVar('DISTRO_FEATURES', True) or "").sp=
+lit()
+> +        for f in required_distro_features:
+> +            if f in distro_features:
+> +                break
+> +        else:
+> +            raise bb.parse.SkipPackage("missing required distro feature
+> +%s (not in DISTRO_FEATURES)" % required_distro_features)
+
+
+Hi Otavio,
+
+In my observations, these SkipPackage exceptions do not show up on the scre=
+en, leaving the user wondering what happened.
+Also the above logic can be simplified as
+
+ # check all the required DISTRO_FEATURES are enabled
+ distro_features_split =3D (d.getVar('DISTRO_FEATURES', True) or "").split(=
+)
+ required_distro_features_split =3D (d.getVar('REQUIRED_DISTRO_FEATURES', T=
+rue) or "").split()
+ for rdf in required_distro_features_split:
+      if rdf not in distro_features_split:
+           bb.error / raise exception...
+
+Thanks,
+Nitin
+
+> +
+> +    conflict_distro_features =3D d.getVar('CONFLICT_DISTRO_FEATURES', Tr=
+ue)
+> +    if conflict_distro_features:
+> +        conflict_distro_features =3D conflict_distro_features.split()
+> +        distro_features =3D (d.getVar('DISTRO_FEATURES', True) or "").sp=
+lit()
+> +        for f in conflict_distro_features:
+> +            if f in distro_features:
+> +                raise bb.parse.SkipPackage("conflicting distro feature
+> +%s (in DISTRO_FEATURES)" % conflict_distro_features) }
+> --
+> 1.8.3.2
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
