@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 30BDE6B0CE
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C4326B0CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 06:16:01 +0000 (UTC)
+	Wed, 21 Aug 2013 06:16:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6G2bt012637
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6G41e008858
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 23:16:02 -0700 (PDT)
+	Wed, 21 Aug 2013 02:16:04 -0400 (EDT)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 20 Aug 2013 23:16:01 -0700
+	14.2.342.3; Tue, 20 Aug 2013 23:16:03 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Aug 2013 14:15:48 +0800
-Message-ID: <f581dc9c657e20d3b1c28f9e47a50e0ea3dbb330.1377064624.git.jackie.huang@windriver.com>
+Date: Wed, 21 Aug 2013 14:15:49 +0800
+Message-ID: <f99eee6519014a56540f0e25f1a118ffb681b1dc.1377064624.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1377064624.git.jackie.huang@windriver.com>
 References: <cover.1377064624.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] dbus: add init.d/dbus-1 status command for LSB compliance
+Subject: [PATCH 4/6] sysvinit: add init.d/bootlogd status command for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 06:16:01 -0000
+X-List-Received-Date: Wed, 21 Aug 2013 06:16:05 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -41,42 +41,38 @@ From: Jackie Huang <jackie.huang@windriver.com>
 Signed-off-by: Li Wang <li.wang@windriver.com>
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init |    9 ++++++++-
+ meta/recipes-core/sysvinit/sysvinit/bootlogd.init |    9 ++++++++-
  1 files changed, 8 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
-index 0351190..04025e6 100644
---- a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
-+++ b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
-@@ -16,6 +16,9 @@
+diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+index f8f07a0..7b87827 100755
+--- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
++++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
+@@ -13,6 +13,9 @@ DAEMON=/sbin/bootlogd
+ NAME=bootlogd
+ DESC="Bootlog daemon"
  
- set -e
- 
-+# Source function library.
++# source function library
 +. /etc/init.d/functions
 +
- DAEMON=@bindir@/dbus-daemon
- NAME=dbus
- DAEMONUSER=messagebus           # must match /etc/dbus-1/system.conf
-@@ -99,6 +102,10 @@ case "$1" in
-   stop)
-     shut_it_down
-   ;;
-+  status)
-+    status $DAEMON
-+    exit $?
-+  ;;
-   reload|force-reload)
-     reload_it
-   ;;
-@@ -108,7 +115,7 @@ case "$1" in
-     start_it_up
-   ;;
-   *)
--    echo "Usage: /etc/init.d/$NAME {start|stop|restart|reload|force-reload}" >&2
-+    echo "Usage: /etc/init.d/$NAME {start|stop|status|restart|reload|force-reload}" >&2
-     exit 1
-   ;;
+ test -f $DAEMON || exit 0
+ 
+ [ -r /etc/default/bootlogd ] && . /etc/default/bootlogd
+@@ -73,10 +76,14 @@ case "$ACTION" in
+ 		start-stop-daemon --start --quiet --exec $DAEMON
+ 		echo "$NAME."
+ 		;;
++	status)
++		status $DAEMON
++		exit $?
++		;;
+ 	*)
+ 		N=${0##*/}
+ 		N=${N#[SK]??}
+-		echo "Usage: $N {start|stop|restart|force-reload}" >&2
++		echo "Usage: $N {start|stop|status|restart|force-reload}" >&2
+ 		exit 1
+ 		;;
  esac
 -- 
 1.7.4.1
