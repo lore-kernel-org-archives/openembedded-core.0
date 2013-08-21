@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 80AF36B0CE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 30BDE6B0CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 06:16:00 +0000 (UTC)
+	Wed, 21 Aug 2013 06:16:01 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6Fx6G008846
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6G2bt012637
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 02:16:00 -0400 (EDT)
+	Tue, 20 Aug 2013 23:16:02 -0700 (PDT)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 20 Aug 2013 23:15:58 -0700
+	14.2.342.3; Tue, 20 Aug 2013 23:16:01 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Aug 2013 14:15:47 +0800
-Message-ID: <01b2b57ac5681d245df899bde2308156d9e26c47.1377064624.git.jackie.huang@windriver.com>
+Date: Wed, 21 Aug 2013 14:15:48 +0800
+Message-ID: <f581dc9c657e20d3b1c28f9e47a50e0ea3dbb330.1377064624.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1377064624.git.jackie.huang@windriver.com>
 References: <cover.1377064624.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/6] at: add init.d/atd status command for LSB compliance
+Subject: [PATCH 3/6] dbus: add init.d/dbus-1 status command for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 06:16:00 -0000
+X-List-Received-Date: Wed, 21 Aug 2013 06:16:01 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -41,48 +41,43 @@ From: Jackie Huang <jackie.huang@windriver.com>
 Signed-off-by: Li Wang <li.wang@windriver.com>
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-extended/at/files/S99at |   13 ++++++++++++-
- 1 files changed, 12 insertions(+), 1 deletions(-)
+ meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init |    9 ++++++++-
+ 1 files changed, 8 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/at/files/S99at b/meta/recipes-extended/at/files/S99at
-index 386f8a4..d2ba34b 100644
---- a/meta/recipes-extended/at/files/S99at
-+++ b/meta/recipes-extended/at/files/S99at
-@@ -5,6 +5,9 @@
+diff --git a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
+index 0351190..04025e6 100644
+--- a/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
++++ b/meta/recipes-core/dbus/dbus-1.6.10/dbus-1.init
+@@ -16,6 +16,9 @@
  
- umask 077
+ set -e
  
 +# Source function library.
 +. /etc/init.d/functions
 +
- start() {
- 	echo -n "Starting atd: "
- 	start-stop-daemon --start --quiet --pidfile /var/run/atd.pid --background --exec /usr/sbin/atd -- -f
-@@ -20,6 +23,11 @@ restart() {
- 	start
- }
- 
-+rh_status() {
-+    # run checks to determine if the service is running or use generic status
-+    status /usr/sbin/atd
-+}
-+
- case "$1" in
-   start)
- 	start
-@@ -30,8 +38,11 @@ case "$1" in
-   restart|reload)
- 	restart
- 	;;
+ DAEMON=@bindir@/dbus-daemon
+ NAME=dbus
+ DAEMONUSER=messagebus           # must match /etc/dbus-1/system.conf
+@@ -99,6 +102,10 @@ case "$1" in
+   stop)
+     shut_it_down
+   ;;
 +  status)
-+	rh_status
-+	;;
++    status $DAEMON
++    exit $?
++  ;;
+   reload|force-reload)
+     reload_it
+   ;;
+@@ -108,7 +115,7 @@ case "$1" in
+     start_it_up
+   ;;
    *)
--	echo $"Usage: $0 {start|stop|restart}"
-+	echo $"Usage: $0 {start|stop|restart|status}"
- 	exit 1
+-    echo "Usage: /etc/init.d/$NAME {start|stop|restart|reload|force-reload}" >&2
++    echo "Usage: /etc/init.d/$NAME {start|stop|status|restart|reload|force-reload}" >&2
+     exit 1
+   ;;
  esac
- 
 -- 
 1.7.4.1
 
