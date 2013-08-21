@@ -1,37 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f175.google.com (mail-ve0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E90246B0CE
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F2A06B368
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 21:25:30 +0000 (UTC)
-Received: by mail-ve0-f175.google.com with SMTP id oy10so847288veb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 14:25:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=OCHJVQZVvSPkOzQAKm+wW0n077t/iAfMSbRQ19mwXG8=;
-	b=VLjNExuD46DLgU3Vk7HNBZVdbcGZGFF9uX2GqTbu3/iWQ3rrjmv9ICXqvV07aWm5/q
-	We9W19Uje/lMTVsGGDV+EweKsJ7i74k3cnSer02rfhtB1a0Z90y2o0QG+5fAMOVVomcp
-	sTNYHZN43NEZVvcO8b0MbDJ3sxBeXcKTnT14Jpm3jlaTIUoPHq4oS8KHiiMKE6oZNuaT
-	bQ02cWQZ9/DVcfJgAM4e9uvS194Q94OePd0BPWShTz95bckai2sTc8ViosXda5/KiUXN
-	TwWv5S5vmRrtG0GJNb6ClhEuWgvW/Acen2h7xiEL7B5qzf2rnmzNIPQMDQwm2VuX9dTG
-	6Czg==
-X-Gm-Message-State: ALoCoQnVa3fLdvItoydbmQifN3EIAQ7/VwOpoHzPfFOoAq7eIJJa0NmXG/49UUQXrW0j5QCZuRlw
-MIME-Version: 1.0
-X-Received: by 10.221.55.4 with SMTP id vw4mr119615vcb.37.1377120331121; Wed,
-	21 Aug 2013 14:25:31 -0700 (PDT)
-Received: by 10.220.71.201 with HTTP; Wed, 21 Aug 2013 14:25:31 -0700 (PDT)
-In-Reply-To: <1377119763-25684-1-git-send-email-jslater@windriver.com>
-References: <1377119763-25684-1-git-send-email-jslater@windriver.com>
-Date: Wed, 21 Aug 2013 22:25:31 +0100
-Message-ID: <CAJTo0LZmvUu1H8e-DkeJzqk0AKjAF_UJK30RhUL_NKaCxN0qAA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-To: Joe Slater <jslater@windriver.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libpam: add PACKAGECONFIG data concerning audit
+	Wed, 21 Aug 2013 22:44:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Aug 2013 15:44:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,930,1367996400"; d="scan'208";a="366486159"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.105])
+	by orsmga001.jf.intel.com with ESMTP; 21 Aug 2013 15:44:16 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Aug 2013 15:44:16 -0700
+Message-Id: <1377125056-26393-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] gnupg: Update to 2.0.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 21:25:31 -0000
-Content-Type: multipart/alternative; boundary=001a1133abf426566404e47bd019
+X-List-Received-Date: Wed, 21 Aug 2013 22:44:17 -0000
 
---001a1133abf426566404e47bd019
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-support/gnupg/{gnupg_2.0.20.bb => gnupg_2.0.21.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.0.20.bb => gnupg_2.0.21.bb} (85%)
 
-On Wednesday, 21 August 2013, Joe Slater wrote:
+diff --git a/meta/recipes-support/gnupg/gnupg_2.0.20.bb b/meta/recipes-support/gnupg/gnupg_2.0.21.bb
+similarity index 85%
+rename from meta/recipes-support/gnupg/gnupg_2.0.20.bb
+rename to meta/recipes-support/gnupg/gnupg_2.0.21.bb
+index 87acd00..aed0591 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.0.20.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.0.21.bb
+@@ -12,8 +12,8 @@ inherit autotools gettext
+ 
+ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "9d18ee71bb0b10d40d1c8a393bdd7a89"
+-SRC_URI[sha256sum] = "6e949b7f062cab8a3cf0910f91ecf04cabaad458c0aeeec66298651b8b04b79a"
++SRC_URI[md5sum] = "48c05f5dfe97cf21ae0ced811aaad750"
++SRC_URI[sha256sum] = "00df8902c7cef4d2440d36ca2a45985853eb36c34a4163bc995c3578030eeef5"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
+-- 
+1.8.3.1
 
-> +# yes, no, depends, rdepends
 
-
-We don't have inline comments explaining any other variables so please
-don't explain this one (I admit its more complex than most, but its
-increasingly common).
-
-Ross
-
---001a1133abf426566404e47bd019
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<br>On Wednesday, 21 August 2013, Joe Slater  wrote:<br><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">+# yes, no, depends, rdepends</blockquote><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-</blockquote><div><br></div><div>We don&#39;t have inline comments explaini=
-ng any other variables so please don&#39;t explain this one (I admit its mo=
-re complex than most, but its increasingly common).</div><div><br></div>
-<div>Ross<span></span></div>
-
---001a1133abf426566404e47bd019--
