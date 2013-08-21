@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BE6876B8E9
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 80AF36B0CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 06:15:56 +0000 (UTC)
+	Wed, 21 Aug 2013 06:16:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6FxNB024004
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6Fx6G008846
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 23:15:59 -0700 (PDT)
+	Wed, 21 Aug 2013 02:16:00 -0400 (EDT)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 20 Aug 2013 23:15:56 -0700
+	14.2.342.3; Tue, 20 Aug 2013 23:15:58 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Aug 2013 14:15:46 +0800
-Message-ID: <cdbb545158e455d936d458afa1847f3e1cf33550.1377064624.git.jackie.huang@windriver.com>
+Date: Wed, 21 Aug 2013 14:15:47 +0800
+Message-ID: <01b2b57ac5681d245df899bde2308156d9e26c47.1377064624.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1377064624.git.jackie.huang@windriver.com>
 References: <cover.1377064624.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/6] sysklogd: add init.d/syslog status command for LSB compliance
+Subject: [PATCH 2/6] at: add init.d/atd status command for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 06:15:57 -0000
+X-List-Received-Date: Wed, 21 Aug 2013 06:16:00 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -41,39 +41,46 @@ From: Jackie Huang <jackie.huang@windriver.com>
 Signed-off-by: Li Wang <li.wang@windriver.com>
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-extended/sysklogd/files/sysklogd |   13 ++++++++++++-
+ meta/recipes-extended/at/files/S99at |   13 ++++++++++++-
  1 files changed, 12 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-extended/sysklogd/files/sysklogd b/meta/recipes-extended/sysklogd/files/sysklogd
-index dcbc81e..258f882 100755
---- a/meta/recipes-extended/sysklogd/files/sysklogd
-+++ b/meta/recipes-extended/sysklogd/files/sysklogd
-@@ -12,6 +12,9 @@
- # Short-Description:    System logger
- ### END INIT INFO
+diff --git a/meta/recipes-extended/at/files/S99at b/meta/recipes-extended/at/files/S99at
+index 386f8a4..d2ba34b 100644
+--- a/meta/recipes-extended/at/files/S99at
++++ b/meta/recipes-extended/at/files/S99at
+@@ -5,6 +5,9 @@
+ 
+ umask 077
  
 +# Source function library.
 +. /etc/init.d/functions
 +
- PATH=/bin:/usr/bin:/sbin:/usr/sbin
+ start() {
+ 	echo -n "Starting atd: "
+ 	start-stop-daemon --start --quiet --pidfile /var/run/atd.pid --background --exec /usr/sbin/atd -- -f
+@@ -20,6 +23,11 @@ restart() {
+ 	start
+ }
  
- pidfile_syslogd=/var/run/syslogd.pid
-@@ -132,8 +135,16 @@ case "$1" in
- 	$0 start
-     fi
-     ;;
++rh_status() {
++    # run checks to determine if the service is running or use generic status
++    status /usr/sbin/atd
++}
++
+ case "$1" in
+   start)
+ 	start
+@@ -30,8 +38,11 @@ case "$1" in
+   restart|reload)
+ 	restart
+ 	;;
 +  status)
-+    status syslogd
-+    RETVAL=$?
-+    status klogd
-+    rval=$?
-+    [ $RETVAL -eq 0 ] && exit $rval
-+    exit $RETVAL
-+    ;;
++	rh_status
++	;;
    *)
--    log_success_msg "Usage: /etc/init.d/sysklogd {start|stop|reload|restart|force-reload|reload-or-restart}"
-+    log_success_msg "Usage: /etc/init.d/sysklogd {start|stop|reload|restart|force-reload|reload-or-restart|status}"
-     exit 1
+-	echo $"Usage: $0 {start|stop|restart}"
++	echo $"Usage: $0 {start|stop|restart|status}"
+ 	exit 1
  esac
  
 -- 
