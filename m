@@ -1,26 +1,26 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C4326B0CE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BBE5E6B8F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 06:16:04 +0000 (UTC)
+	Wed, 21 Aug 2013 06:16:05 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6G41e008858
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7L6G65Y012645
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 02:16:04 -0400 (EDT)
+	Tue, 20 Aug 2013 23:16:06 -0700 (PDT)
 Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 20 Aug 2013 23:16:03 -0700
+	14.2.342.3; Tue, 20 Aug 2013 23:16:06 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 21 Aug 2013 14:15:49 +0800
-Message-ID: <f99eee6519014a56540f0e25f1a118ffb681b1dc.1377064624.git.jackie.huang@windriver.com>
+Date: Wed, 21 Aug 2013 14:15:50 +0800
+Message-ID: <00b70d017db692cbb7d5965de26726ae0a695f88.1377064624.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.7.4.1
 In-Reply-To: <cover.1377064624.git.jackie.huang@windriver.com>
 References: <cover.1377064624.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/6] sysvinit: add init.d/bootlogd status command for LSB compliance
+Subject: [PATCH 5/6] nfs-utils: add init.d/nfsserver status command for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 06:16:05 -0000
+X-List-Received-Date: Wed, 21 Aug 2013 06:16:06 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
@@ -41,39 +41,36 @@ From: Jackie Huang <jackie.huang@windriver.com>
 Signed-off-by: Li Wang <li.wang@windriver.com>
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta/recipes-core/sysvinit/sysvinit/bootlogd.init |    9 ++++++++-
- 1 files changed, 8 insertions(+), 1 deletions(-)
+ .../nfs-utils/nfs-utils/nfsserver                  |    9 +++++++++
+ 1 files changed, 9 insertions(+), 0 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-index f8f07a0..7b87827 100755
---- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-+++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-@@ -13,6 +13,9 @@ DAEMON=/sbin/bootlogd
- NAME=bootlogd
- DESC="Bootlog daemon"
- 
-+# source function library
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+index e460e26..5b4f199 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfsserver
+@@ -14,6 +14,8 @@
+ #
+ # Startup script for nfs-utils
+ #
++# Source function library.
 +. /etc/init.d/functions
-+
- test -f $DAEMON || exit 0
- 
- [ -r /etc/default/bootlogd ] && . /etc/default/bootlogd
-@@ -73,10 +76,14 @@ case "$ACTION" in
- 		start-stop-daemon --start --quiet --exec $DAEMON
- 		echo "$NAME."
- 		;;
-+	status)
-+		status $DAEMON
-+		exit $?
-+		;;
- 	*)
- 		N=${0##*/}
- 		N=${N#[SK]??}
--		echo "Usage: $N {start|stop|restart|force-reload}" >&2
-+		echo "Usage: $N {start|stop|status|restart|force-reload}" >&2
- 		exit 1
- 		;;
- esac
+ #
+ # The environment variable NFS_SERVERS may be set in /etc/default/nfsd
+ # Other control variables may be overridden here too
+@@ -141,6 +143,13 @@ stop)	exportfs -ua
+ 	stop_statd
+ 	stop_mountd
+ 	stop_nfsd;;
++status)
++	status /usr/sbin/rpc.mountd
++	RETVAL=$?
++	status nfsd
++	rval=$?
++	[ $RETVAL -eq 0 ] && exit $rval
++	exit $RETVAL;;
+ reload)	test -r /etc/exports && exportfs -r;;
+ restart)exportfs -ua
+ 	stop_mountd
 -- 
 1.7.4.1
 
