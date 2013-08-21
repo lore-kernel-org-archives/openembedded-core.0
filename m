@@ -1,32 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F3656B0CE;
-	Wed, 21 Aug 2013 16:19:38 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7LGVNsu003344; Wed, 21 Aug 2013 17:31:24 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id EjEyw8s2H__5; Wed, 21 Aug 2013 17:31:23 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7LGVIdi003340
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 21 Aug 2013 17:31:19 +0100
-Message-ID: <1377101961.25999.121.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Chris Larson <clarson@kergoth.com>
-Date: Wed, 21 Aug 2013 17:19:21 +0100
-In-Reply-To: <CABcZANnt4v4LoM+HnK_=6VMDgSCFR7qGfciMdpXxSQ+Gc4HBEA@mail.gmail.com>
-References: <1377095185.25999.116.camel@ted>
-	<CABcZANnt4v4LoM+HnK_=6VMDgSCFR7qGfciMdpXxSQ+Gc4HBEA@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>,
-	poky <poky@lists.yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] Bitbake in server mode
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
+	[209.85.216.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 973586B0CE
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Aug 2013 16:33:05 +0000 (UTC)
+Received: by mail-qc0-f172.google.com with SMTP id a1so358895qcx.31
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Aug 2013 09:33:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Zr7+zy5ivcRgWTOMbcmlaLw3hwoYNehsAC/01pvA/pM=;
+	b=aeCDymUTcG46/MOCJeoSg2Sqq7PE7GkGMUDGXG3htp9kXaoY7AL09qk/TME1lyvLYz
+	WGvY131pWGpYJq1qIIwVLG1ibcJw4bqpgJosFEnxYJWSditF0E7ASG5kKeChHJJFL/vw
+	xBzoOhZrUIKMyfhH7z5a5HolQlT1uVBVP9VVQAUZfSeBxgZ/zXTl/ZoQdUEBx+8mSWJW
+	SFnZ/UGtV3aut3QMOKnqzKfYf9Y1U7KNQtnbW/3c3KiY6BuYY1ZIFJBisEkqrRukHtPx
+	7+YIYj+OTDj/AkgwszzCVtqcxGPI16UimqACjzHW1huozXqQriUlfHjK69MOOKOseoSS
+	4rxw==
+MIME-Version: 1.0
+X-Received: by 10.224.160.130 with SMTP id n2mr12030885qax.68.1377102785954;
+	Wed, 21 Aug 2013 09:33:05 -0700 (PDT)
+Received: by 10.224.114.207 with HTTP; Wed, 21 Aug 2013 09:33:05 -0700 (PDT)
+In-Reply-To: <CAF6bG8eN02y-jVmrF=onOjZfwbd_-9HVgfsgkNOHYE38ftL9JA@mail.gmail.com>
+References: <CAF6bG8cHBD0+5JQfuXNNY0odSU3gs=_Son6zT4RXuH8eBfj=Xg@mail.gmail.com>
+	<11672169.pPNsTrMMam@helios>
+	<CAF6bG8e=cCDyJGDNebVqaNSJ31PNYCUQ9xPNf_4p+mDVDUMbwA@mail.gmail.com>
+	<1507505.mjujvFaXNS@helios>
+	<CAF6bG8eN02y-jVmrF=onOjZfwbd_-9HVgfsgkNOHYE38ftL9JA@mail.gmail.com>
+Date: Wed, 21 Aug 2013 19:33:05 +0300
+Message-ID: <CAF6bG8f7HR25c6FPS0Lz3WqLqG+3-VxijyOKg64vOdRX95M0Dw@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: qemu-native build regularly failing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,50 +46,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 16:19:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 21 Aug 2013 16:33:06 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2013-08-21 at 08:56 -0700, Chris Larson wrote:
-> 
-> On Wed, Aug 21, 2013 at 7:26 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         Known issues:
->         
->         a) Parsing is slower. Probably due to all the debug messages
->         going over
->         the IPC/xmlrpc. UI event filtering should fix it.
->         b) Something is causing a cache reparse initially. Need to
->         figure out
->         what. Maybe the BBSERVER variable itself?
->         
->         This is still development so I'd not recommend everyone use
->         this for
->         production just yet but it gives some nice insight into what
->         the future
->         holds!
->         
->         We should be able to make bitbake in this mode much more
->         responsive to
->         commands since there is no cache overhead.
-> 
-> I expect the obvious question to be, what happens if a recipe is
-> altered between starting the server and running a command :)
+On 21 August 2013 01:15, Marko Lindqvist <cazfi74@gmail.com> wrote:
+> On 21 August 2013 00:16, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
+>> On Tuesday 20 August 2013 23:26:44 Marko Lindqvist wrote:
+>>> On 20 August 2013 16:32, Paul Eggleton <paul.eggleton@linux.intel.com>
+>>> wrote:
+>>> > On Tuesday 20 August 2013 15:51:21 Marko Lindqvist wrote:
+>>> >> Build of qemu-native regularly fails with:
+>>> >> |   LINK  sh4-softmmu/qemu-system-sh4
+>>> >> |
+>>> >> | /usr/lib/x86_64-linux-gnu/libXext.so.6: undefined reference to
+>>> >>
+>>> >> `_XEatDataWords'
+>>> >>
+>>> >> | collect2: error: ld returned 1 exit status
+>>> >>
+>>> >> This might be some dependency missing, as building first some packets
+>>> >> (+ more importantly their dependencies) that do not depend on qemu and
+>>> >> only then qemu dependant image success.
+>>> >
+>>> > Do you have something else causing libxext-native to be built by any
+>>> > chance?
+>>>
+>>>  Yes, it seems to be difference between the tree where build fails and
+>>> the one where build success that former has no libxext-native built.
+>>> Further, I tested just building libxext-native before building
+>>> qemu-native, and then the build succeded.
+>>
+>> The problem is we want qemu-native to be buildable both on systems without X11
+>> and systems with X11, so the dependency has to be floating, and this is more or
+>> less acceptable for a native recipe - there's only a problem when libxext-
+>> native needs to be built. I can't see a lot of value in building libxext-
+>> native in any case - what is causing it to be built on your system?
+>>
+>> Cheers,
+>> Paul
+>
+>
+>  I'm still running more tests - this seems to be complicated matter.
+> For one, I just got successful build from empty tree by building
+> qemu-native directly. That was build targeted to arm, while failing
+> builds have been for x86 (native is amd64). Also, I think (but cannot
+> be 100% sure any more) build has succeeded on trees where nothing
+> depends on libxext-native but still *something* was needed to be built
+> before qemu-native.
 
-I should have been clearer, it will reparse, the normal cache checks
-take effect, it just doesn't have to unpickle cache bits from disk which
-is where the time is taken.
+ It seems libxext-native is not needed. Rather this seems like problem
+with build parallelism.
 
-What happens if you edit recipes whilst bitbake is running a command? Do
-not do that, just like today!
+ - Sometimes "bitbake qemu-native" to empty tree success at once
+ - When it first fails (but other tasks get executed while it tries to
+build), it then success by forcing configure rerun & building  (
+"bitbake qemu-native -c configure -f && bitbake qemu-native" )
 
-Cheers,
-
-Richard
-
-
+ I think next step is to get config.log of the succesful and failed
+build to compare.
 
 
-
-
+ - ML
 
