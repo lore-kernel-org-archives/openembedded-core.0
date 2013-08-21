@@ -1,37 +1,47 @@
-Return-Path: <andre.draszik@linaro.org>
-Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
-	[209.85.215.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E59186B6AE
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
+	[217.149.192.139])
+	by mail.openembedded.org (Postfix) with ESMTP id 92CE16B0CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 22:54:31 +0000 (UTC)
-Received: by mail-la0-f49.google.com with SMTP id ev20so781284lab.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 20 Aug 2013 15:54:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:content-type;
-	bh=6G0i+FOAwS/XcccuhiHeJCRahsrfn0Sq24ZIDWIdDXE=;
-	b=CchJG9BiNNMSC55oft8GNNDBkub4AxX5J8jecw7MzKrnD6JpTaAyQKN7y7O+4vzY3D
-	tGC2M87GtLdtnTM9hi5/OOu/Uaj6hZIxqpQHkNgQfD2BPDgg4p0kKmqAwi3UFtrbGI0e
-	78xu8cVQelahyDHnuzipSjYf4JWsRfeTQ3J7qLit9TE/wweggvgTko4HkPxOHch2l0zj
-	wBdZ5A4lbbb0jix0NyOiEgLbvDaUha4pg4hBQcXIwLxhFzw13+okVPPnGJauGk9ySRHB
-	doiSendYcRBk1K6LUik+LPqt5V7aSsZtUfUFw/DU2rOZKOKhD0gH9gKFahMvUK9RPUVm
-	iaTA==
-X-Gm-Message-State: ALoCoQkg3Rul7vMj1VPrmqIdF8nS61mx1PLwqZYmcNk67iPQuY/hndsNjJTW1g7LqLG+yknnSr4/
+	Wed, 21 Aug 2013 05:38:26 +0000 (UTC)
+Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 4824B3F591;
+	Wed, 21 Aug 2013 07:38:26 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -4.4
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.4 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, KHOP_THREADED=-1.5] autolearn=no
+X-Spam-Languages: en
+Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
+	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Wed, 21 Aug 2013 07:38:25 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
+	Wed, 21 Aug 2013 07:38:25 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
+	Wed, 21 Aug 2013 07:38:24 +0200
+Message-ID: <52145250.6020900@topic.nl>
+Date: Wed, 21 Aug 2013 07:38:24 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-X-Received: by 10.112.210.136 with SMTP id mu8mr4479452lbc.25.1377039271237;
-	Tue, 20 Aug 2013 15:54:31 -0700 (PDT)
-Received: by 10.112.162.133 with HTTP; Tue, 20 Aug 2013 15:54:31 -0700 (PDT)
-Received: by 10.112.162.133 with HTTP; Tue, 20 Aug 2013 15:54:31 -0700 (PDT)
-In-Reply-To: <1376939864-4790-1-git-send-email-lauren.post@freescale.com>
-References: <lauren.post@freescale.com>
-	<1376939864-4790-1-git-send-email-lauren.post@freescale.com>
-Date: Tue, 20 Aug 2013 23:54:31 +0100
-Message-ID: <CAPaOLoLiT_0Z3xbvHYwpKEiN5KmmoQ-=rknNEFAUeXzkmUaLqg@mail.gmail.com>
-From: Andre Draszik <andre.draszik@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [v2][PATCH 1/2] directfb: Upgrade to 1.6.3
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1376992956-20972-1-git-send-email-mike.looijmans@topic.nl>
+	<CAP9ODKoDgTQDYPdgj4cZTj+BFkKsw=i-GDYXFZ+tM-K-1DG-cw@mail.gmail.com>
+In-Reply-To: <CAP9ODKoDgTQDYPdgj4cZTj+BFkKsw=i-GDYXFZ+tM-K-1DG-cw@mail.gmail.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-dtb: Fix compilation failure in install and deploy phases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Aug 2013 22:54:33 -0000
-Content-Type: multipart/alternative; boundary=001a11c3c7049aaa7504e468f00e
-
---001a11c3c7049aaa7504e468f00e
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 21 Aug 2013 05:38:28 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-On 19 Aug 2013 20:24, "Lauren Post" <lauren.post@freescale.com> wrote:
+=EF=BB=BFOn 08/20/2013 05:21 PM, Otavio Salvador wrote:
+> On Tue, Aug 20, 2013 at 7:02 AM, Mike Looijmans <mike.looijmans@topic.nl>=
+ wrote:
+>> Baking a kernel failed on the devicetree creation. This was caused
+>> by the install and deploy scripts referring to the wrong directory
+>> for the dtb files.
+>>
+>> Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 >
-> directfb: Upgrade to 1.6.3
+> Nack! The right fix for this has been merged already.
 >
-> [...]
->  delete mode 100644 meta/recipes-graphics/directfb/directfb_1.6.1.bb
->  create mode 100755 meta/recipes-graphics/directfb/directfb_1.6.3.bb
+> Your patch fixes kernel > 3.8 but breaks < 3.8 kernels. The patch
+> applied today has support for both cases.
 
-Not sure you really wanted the mode change.
+Indeed, forget my patch.
 
-Cheers,
-Andr=E9
+Mike.
 
---001a11c3c7049aaa7504e468f00e
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr">Hi,<br></p>
-<p dir=3D"ltr">On 19 Aug 2013 20:24, &quot;Lauren Post&quot; &lt;<a href=3D=
-"mailto:lauren.post@freescale.com">lauren.post@freescale.com</a>&gt; wrote:=
-<br>
-&gt;<br>
-&gt; directfb: Upgrade to 1.6.3<br>
-&gt;<br>
-&gt; [...]<br>
-&gt; =A0delete mode 100644 meta/recipes-graphics/directfb/<a href=3D"http:/=
-/directfb_1.6.1.bb">directfb_1.6.1.bb</a><br>
-&gt; =A0create mode 100755 meta/recipes-graphics/directfb/<a href=3D"http:/=
-/directfb_1.6.3.bb">directfb_1.6.3.bb</a></p>
-<p dir=3D"ltr">Not sure you really wanted the mode change.</p>
-<p dir=3D"ltr">Cheers,<br>
-Andr=E9</p>
 
---001a11c3c7049aaa7504e468f00e--
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
+Telefax: (+31) - (0)499 - 33.69.70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
+end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
+en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
+ Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
+jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
+ te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
+n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
+nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
+ een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
+ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
+C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
+d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
+orende bijlagen.
+
+The contents of this message, as well as any enclosures, are addressed pers=
+onally to, and thus solely intended for the addressee. They may contain inf=
+ormation regarding a third party. A recipient who is neither the addressee,=
+ nor empowered to receive this message on behalf of the addressee, is kindl=
+y requested to immediately inform the sender of receipt, and to destroy the=
+ message and the enclosures. Any use of the contents of this message and/or=
+ the enclosures by any other person than the addressee or person who is emp=
+owered to receive this message, is illegal towards the sender and/or the af=
+orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
+age as a result of the use and/or acceptance of this message and as well as=
+ any enclosures.
+
