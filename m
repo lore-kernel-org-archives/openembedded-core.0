@@ -1,34 +1,21 @@
-Return-Path: <pabigot@gmail.com>
-Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
-	[209.85.219.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E6716B368
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id C671E6B368
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 22:47:35 +0000 (UTC)
-Received: by mail-oa0-f43.google.com with SMTP id i10so2162269oag.30
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 15:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=zTy+otu25CRwkqaMDEusK+vzpGBLY3IhG1GIgPVf4/A=;
-	b=ff8Rh20gnyFQVcBV3s3gCMpwFj9SSSbDZ5OmaHhAKPoqNDRMX8EriZm9c/FG25i1QO
-	a/ma26qtejmIQzfX4ILm4c3R0AQAHsV6oScxjB/CLZDHRZrkwpqNmPb0bKOcwiIZydY9
-	FvCNdVTtjg9a1dJxnzpFoGfKAy6vHk1htWsG+gn5lSznPgi3RBZ5JfnVFxvXnvd247Ch
-	N/7NufIPVsWkbIWr3Les96KiM7IBWaoUnQNfQnkat1oSevZoEgKikqVfjo6KxRbQaOK6
-	v7HAdk0pPoeQqBWdGxmJXzSkrpXMyHindvTeF6AO+4bxJAvRVvKltG9iOIonBVEQpqfL
-	nIoA==
-X-Received: by 10.60.178.164 with SMTP id cz4mr4931727oec.87.1377125255696;
-	Wed, 21 Aug 2013 15:47:35 -0700 (PDT)
-Received: from llc.pab (c-66-41-60-82.hsd1.mn.comcast.net. [66.41.60.82])
-	by mx.google.com with ESMTPSA id hm1sm13611262obb.9.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 21 Aug 2013 15:47:35 -0700 (PDT)
-Sender: Peter Bigot <pabigot@gmail.com>
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 21 Aug 2013 17:47:11 -0500
-Message-Id: <1377125231-23508-1-git-send-email-pab@pabigot.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH][for-dylan] bluez4: fix network Connect parameter validation
+	Wed, 21 Aug 2013 23:14:41 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 21 Aug 2013 16:14:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,930,1367996400"; d="scan'208";a="285060160"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.105])
+	by AZSMGA002.ch.intel.com with ESMTP; 21 Aug 2013 16:14:41 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: kai.kang@windriver.com,
+	openembedded-core@lists.openembedded.org
+Date: Wed, 21 Aug 2013 16:14:31 -0700
+Message-Id: <1377126875-9856-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 0/4] libX11 Update & Valgrind patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,75 +28,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 22:47:35 -0000
+X-List-Received-Date: Wed, 21 Aug 2013 23:14:43 -0000
 
-From: "Peter A. Bigot" <pab@pabigot.com>
+This is a set of updates for libX11 and a couple of
+backport patches to address issues with libX11 and 
+the eglibc update
 
-The incorrect validation prevents connection to the NAP service on another
-device.
+The x11 update fixes issues with Fedora 19 and SDL.
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- ...ork-fix-network-Connect-method-parameters.patch |   30 ++++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |    3 +-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
+Sau!
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
-new file mode 100644
-index 0000000..37f9199
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
-@@ -0,0 +1,30 @@
-+Upstream-Status: Backport
-+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-+
-+From 57170b311f1468330f4a9961dc0b3ac45f97bc13 Mon Sep 17 00:00:00 2001
-+From: Gustavo Padovan <gustavo.padovan@collabora.co.uk>
-+Date: Sat, 30 Jun 2012 00:39:05 -0300
-+Subject: [PATCH] network: fix network Connect() method parameters
-+
-+---
-+ network/connection.c |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/network/connection.c b/network/connection.c
-+index 544ec3a..59423a9 100644
-+--- a/network/connection.c
-++++ b/network/connection.c
-+@@ -554,7 +554,9 @@ static void path_unregister(void *data)
-+ 
-+ static const GDBusMethodTable connection_methods[] = {
-+ 	{ GDBUS_ASYNC_METHOD("Connect",
-+-			NULL, NULL, connection_connect) },
-++				GDBUS_ARGS({"uuid", "s"}),
-++				GDBUS_ARGS({"interface", "s"}),
-++				connection_connect) },
-+ 	{ GDBUS_METHOD("Disconnect",
-+ 			NULL, NULL, connection_disconnect) },
-+ 	{ GDBUS_METHOD("GetProperties",
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index f48adfd..ab59075 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -1,11 +1,12 @@
- require bluez4.inc
- 
--PR = "r5"
-+PR = "r6"
- 
- SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch \
-             file://fix-udev-paths.patch \
-             file://obsolete_automake_macros.patch \
-+            file://network-fix-network-Connect-method-parameters.patch \
- "
- 
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
+
+Kai Kang (2):
+  libx11: upgrade to 1.6.1
+  libx11-diet: upgrade to 1.6.1
+
+Saul Wold (2):
+  libsdl: Backport xData32 patch for x11 update
+  valgrind: Backport patch for eglibc 2.18
+
+ .../valgrind/valgrind-3.8.1/eglibc-2.18.patch      | 27 ++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.8.1.bb   |  1 +
+ .../libsdl-1.2.15/libsdl-1.2.15-xdata32.patch      | 19 ++++++++++
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |  3 +-
+ .../{libx11-diet_1.5.0.bb => libx11-diet_1.6.1.bb} |  7 ++--
+ meta/recipes-graphics/xorg-lib/libx11.inc          |  3 +-
+ .../xorg-lib/libx11/disable_tests.patch            |  9 +++--
+ .../xorg-lib/libx11/keysymdef_include.patch        | 42 ----------------------
+ meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb     | 13 -------
+ meta/recipes-graphics/xorg-lib/libx11_1.6.1.bb     | 10 ++++++
+ 10 files changed, 69 insertions(+), 65 deletions(-)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind-3.8.1/eglibc-2.18.patch
+ create mode 100644 meta/recipes-graphics/libsdl/libsdl-1.2.15/libsdl-1.2.15-xdata32.patch
+ rename meta/recipes-graphics/xorg-lib/{libx11-diet_1.5.0.bb => libx11-diet_1.6.1.bb} (65%)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11/keysymdef_include.patch
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.5.0.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/libx11_1.6.1.bb
+
 -- 
-1.7.9.5
+1.8.3.1
 
 
