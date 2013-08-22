@@ -1,29 +1,31 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 467E36B88D
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A4066B89B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 05:53:05 +0000 (UTC)
+	Thu, 22 Aug 2013 05:53:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7M5r2ua013922
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Aug 2013 01:53:03 -0400 (EDT)
-Received: from [128.224.162.247] (128.224.162.247) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7M5rmJw012135
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 21 Aug 2013 22:53:48 -0700 (PDT)
+Received: from [128.224.21.167] (128.224.21.167) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 21 Aug 2013 22:53:02 -0700
-Message-ID: <5215A73D.6020608@windriver.com>
-Date: Thu, 22 Aug 2013 13:53:01 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Wed, 21 Aug 2013 22:53:47 -0700
+Message-ID: <5215A767.3040601@windriver.com>
+Date: Thu, 22 Aug 2013 01:53:43 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
-References: <cover.1377064624.git.jackie.huang@windriver.com>
-	<0b8b0b9d30aa7677a5c23e4d03d4ce6e21678ad7.1377064624.git.jackie.huang@windriver.com>
-	<5214FA20.6090803@linux.intel.com>
-In-Reply-To: <5214FA20.6090803@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 6/6] openssh: add init.d/sshd status command for LSB compliance
+To: wenzong fan <wenzong.fan@windriver.com>
+References: <520C9F8A.7080703@windriver.com> <52128427.3020009@windriver.com>
+	<5213006A.5050602@windriver.com>
+In-Reply-To: <5213006A.5050602@windriver.com>
+X-Originating-IP: [128.224.21.167]
+Cc: 'Patches and discussions about the oe-core layer'
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: About PACKAGECONFIG audit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,84 +38,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 05:53:06 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 05:53:47 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 8/22/2013 1:34 AM, Saul Wold wrote:
-> On 08/20/2013 11:15 PM, jackie.huang@windriver.com wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
+On 13-08-20 01:36 AM, wenzong fan wrote:
+> On 08/20/2013 04:46 AM, Randy MacLeod wrote:
+>> Add Joe Slater who owns US17463: PACKAGECONFIG clean-up.
 >>
->> Signed-off-by: Li Wang <li.wang@windriver.com>
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   .../openssh/openssh-6.2p2/init                     |   14
->> +++++++++++++-
->>   1 files changed, 13 insertions(+), 1 deletions(-)
 >>
->> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
->> b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
->> index 12fb79b..72c5822 100644
->> --- a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
->> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
->> @@ -1,6 +1,9 @@
->>   #! /bin/sh
->>   set -e
+>> On 13-08-15 05:29 AM, wenzong fan wrote:
+>>> Hi All,
+>>>
+>>> We have seen some problems like this:
+>>>
+>>> $ bitbake libcap
+>>>
+>>> ld: warning: libaudit.so.1, needed by .../lib64/libpam.so, not found
+>>> .../lib64/libpam.so: undefined reference to `audit_open'
+>>> .../lib64/libpam.so: undefined reference to `audit_close'
+>>> ......
+>>>
+>>> The libaudit has been available and libpam build with it, after we run
+>>> another build with sstate-cache and w/o libaudit, the error occurs. The
+>>> solution in these cases is to use PACKAGECONFIG to lay out dependencies
+>>> on optional packages and make them explicit. We need to run an audit and
+>>> catch all of these issues.
+>>>
+>>> A probable ways maybe:
+>>>
+>>> 1) Run world build to generate the sysroots as much as possible;
+>>> 2) Run 'configure --help' on each package to spot all of the optional
+>>> dependencies, and convert them into PACKAGECONFIG specs/or any other
+>>> prompts.
 >>
->> +# source function library
->> +. /etc/init.d/functions
->> +
->>   # /etc/init.d/ssh: start and stop the OpenBSD "secure shell" daemon
+>> We should try to automate or codify this step so that the output is
+>> a list of oe-core package names.
 >>
->>   test -x /usr/sbin/sshd || exit 0
->> @@ -54,6 +57,11 @@ check_keys() {
->>       fi
->>   }
+>>> 3) Run #1, #2 as an audit script periodically.
+>>>
+>>> Or could we run this check as part of a QA build step?
 >>
->> +rh_status() {
->> +    status /usr/sbin/sshd
->> +    return $?
->> +}
->> +
->>   export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
->>
->>   case "$1" in
->> @@ -92,8 +100,12 @@ case "$1" in
->>       echo "."
->>       ;;
->>
->> +  status)
->> +    rh_status
+>> Do you mean:
+>>    scripts/test-dependencies.sh
 >
-> Why rh_status here and in the "at" script?  Can't you just do the status
-> /usr/bin/sshd directly here?
+> No, I mean some check steps that if PACKAGECONFIG should be used, not
+> limit to the script.
 
-We may found this from Red Hat/Fedora, sure we can do it directly here, 
-I will change it if you think it would be better.
+thread replace by discussion on:
 
-Thanks,
-Jackie
+[Bug 5033] New: Way to audit all optional dependencies
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5033
+
+// Randy
 
 >
->> +  ;;
->> +
->>     *)
->> -    echo "Usage: /etc/init.d/ssh
->> {start|stop|reload|force-reload|restart}"
->> +    echo "Usage: /etc/init.d/ssh
->> {start|stop|status|reload|force-reload|restart}"
->>       exit 1
->>   esac
->>
->>
+> Thanks
+> Wenzong
 >
+>>
+>> // Randy
+>>
+>>>
+>>>
+>>> Thanks
+>>> Wenzong
+>>
+>>
+
 
 -- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
