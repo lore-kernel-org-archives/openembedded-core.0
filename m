@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id C6D8E60896
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 37D4460896
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 10:21:19 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MAW5SI031116; Thu, 22 Aug 2013 11:32:52 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id eHsJaIML7vx2; Thu, 22 Aug 2013 11:32:52 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MAWkXn031162
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 22 Aug 2013 11:32:48 +0100
-Message-ID: <1377166846.428.50.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 22 Aug 2013 11:20:46 +0100
-In-Reply-To: <6560539.TdGG90GaLI@helios>
-References: <cover.1377150822.git.sgw@linux.intel.com>
-	<6560539.TdGG90GaLI@helios>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and more (Initial ACK Please)!
+	Thu, 22 Aug 2013 10:39:08 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2013 03:39:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,933,1367996400"; d="scan'208";a="384855254"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Aug 2013 03:39:08 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Aug 2013 13:40:58 +0300
+Message-Id: <fca2db1acdf40b760b3e7f7667ff5b8679cc34a5.1377168023.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1377168023.git.cristian.iorga@intel.com>
+References: <cover.1377168023.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1377168023.git.cristian.iorga@intel.com>
+References: <cover.1377168023.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] connman: upgrade to 1.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,32 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 10:21:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2013 10:39:09 -0000
 
-On Thu, 2013-08-22 at 10:07 +0100, Paul Eggleton wrote:
-> On Wednesday 21 August 2013 22:58:55 Saul Wold wrote:
-> > Marko Lindqvist (3):
-> >   texinfo: correct dont-depend-on-help2man.patch
-> >   SDL2: add recipe
-> >   boost: fix build when PARALLEL_MAKE is not set
-> > 
-> > Otavio Salvador (1):
-> >   distro_features_check.bbclass: Allow checking of required/conflicting
-> >     features
-> 
-> I should have asked this earlier - why does this need to be a separate 
-> bbclass? The code doesn't do anything if the variables aren't set, so it can't 
-> be because it could have an impact on existing setups that don't set them.
+connman 1.17 is mainly a bugfix release,
+as such, recommended to upgrade to.
 
-FWIW I do have a worry about the shear weight of the core these days as
-we're building up piles of anonymous python for example. In many ways I
-therefore like the idea of having more classes which get included when
-they're needed.
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../recipes-connectivity/connman/{connman_1.16.bb => connman_1.17.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/connman/{connman_1.16.bb => connman_1.17.bb} (69%)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/connman/connman_1.16.bb b/meta/recipes-connectivity/connman/connman_1.17.bb
+similarity index 69%
+rename from meta/recipes-connectivity/connman/connman_1.16.bb
+rename to meta/recipes-connectivity/connman/connman_1.17.bb
+index 7e54bc2..461157f 100644
+--- a/meta/recipes-connectivity/connman/connman_1.16.bb
++++ b/meta/recipes-connectivity/connman/connman_1.17.bb
+@@ -6,8 +6,8 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://connman \
+             "
+ 
+-SRC_URI[md5sum] = "d2906816222219e10426442d07c3f4c1"
+-SRC_URI[sha256sum] = "7273e88e6a6338be1e51b0e4c685d556386897cba9317cd83370bfb3f009982a"
++SRC_URI[md5sum] = "dd4a13f789de1b69fcddf0cf613f2d5b"
++SRC_URI[sha256sum] = "d31aa2e7dc9fa817c93aba973995b63506a8c83f55afe507028f09b580ef0b00"
+ 
+ PR = "${INC_PR}.0"
+ 
+-- 
+1.8.1.2
 
 
