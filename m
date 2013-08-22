@@ -1,27 +1,38 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D6CE3608A6
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E93C96B10F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 17:30:19 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Aug 2013 10:27:08 -0700
+	Thu, 22 Aug 2013 17:34:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Aug 2013 10:34:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,935,1367996400"; d="scan'208";a="366922424"
-Received: from dvhart-mobl3.amr.corp.intel.com (HELO [10.7.201.147])
-	([10.7.201.147])
-	by orsmga001.jf.intel.com with ESMTP; 22 Aug 2013 10:29:58 -0700
-Message-ID: <1377192596.5259.8.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 22 Aug 2013 10:29:56 -0700
-In-Reply-To: <0fdd588a60edecc0aa11bfbb3ac8eb3d56a2b940.1377175027.git.liezhi.yang@windriver.com>
-References: <cover.1377175027.git.liezhi.yang@windriver.com>
-	<0fdd588a60edecc0aa11bfbb3ac8eb3d56a2b940.1377175027.git.liezhi.yang@windriver.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/6] e2fsprogs: add populate-extfs.sh
+X-IronPort-AV: E=Sophos;i="4.89,935,1367996400"; d="scan'208";a="390484329"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Aug 2013 10:34:01 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 22 Aug 2013 18:32:55 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.10]) with mapi id
+	14.03.0123.003; Thu, 22 Aug 2013 18:32:55 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and
+	more (Initial ACK Please)!
+Thread-Index: AQHOn05x7AhxK4sw9U+nbh/jr6OpHJmhfFfA
+Date: Thu, 22 Aug 2013 17:32:54 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C1928F@IRSMSX105.ger.corp.intel.com>
+References: <cover.1377150822.git.sgw@linux.intel.com>
+	<CAJTo0LYJhy5Qxn2Mbom5vgyiM_d_H+TvU0mCyUHp01ZVoeYvMQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYJhy5Qxn2Mbom5vgyiM_d_H+TvU0mCyUHp01ZVoeYvMQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and more (Initial ACK Please)!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 17:30:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2013 17:34:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2013-08-22 at 09:13 -0400, Robert Yang wrote:
-> This script is originally from Darren Hart, it will be used for creating
-> the ext* filesystem from a given directory, which will replace the
-> genext2fs in image_types.bbclass at the moment, we may use the mke2fs to
-> replace this script again when it has the initial directory support.
-> 
-> Changes of the script:
-> * Rename it from mkdebugfs.sh to populate-extfs.sh
-> * Add a simple usage
-> * Add checking for the number of the parameters
-> * Add the "regular empty file" and "fifo" file type
-> * Set mode, uid and gid for the file
-> * Save the command lines to a file and batch run them
-> * Change the error message
-> * Improve the performance
-> * Add the support for hardlink
-> 
-> [YOCTO #3848]
+So your advice is to keep hicolor-icon-theme and also add sato theme?
+Regards,
+Cristian
 
-> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Burton, Ross
+Sent: Thursday, August 22, 2013 6:44 PM
+To: Saul Wold
+Cc: Paul Eggleton; OE-core
+Subject: Re: [OE-core] [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and=
+ more (Initial ACK Please)!
 
+On 22 August 2013 06:58, Saul Wold <sgw@linux.intel.com> wrote:
+> Cristian Iorga (4):
+>   packagegroup-self-hosted: pcmanfm integration
 
-Ted has offered to add this to the contrib dir for the ext2 tools. This
-is fine to add to yocto, but we should contribute this back upstream as
-well.
+This also adds xprop.  Is that a dependency of something else, or should it=
+ be removed?
 
+>   build-appliance-image: changing the icon theme to sato
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+You'll want to keep hicolor-icon-theme installed, as it provides the skelet=
+on structure for icons.
 
-
+Ross
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
