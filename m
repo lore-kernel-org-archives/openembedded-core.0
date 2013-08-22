@@ -1,38 +1,41 @@
 Return-Path: <cazfi74@gmail.com>
-Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
-	[209.85.217.181])
-	by mail.openembedded.org (Postfix) with ESMTP id EFA1C6B426
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ABE26B917
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 21:37:32 +0000 (UTC)
-Received: by mail-lb0-f181.google.com with SMTP id u12so1944953lbd.12
+	Thu, 22 Aug 2013 21:37:34 +0000 (UTC)
+Received: by mail-lb0-f177.google.com with SMTP id n6so2144412lbi.36
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 14:37:32 -0700 (PDT)
+	Thu, 22 Aug 2013 14:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xJcgOCp+A5ocKO9ixXtqMsVP8FwFqeJquKE0BZUIv9Q=;
-	b=ocjvCimb93NDLLBJDlGP4zFRv0EZRdHb7A/jH1x3YRmXeK810PzcqIQNEX+MR5GVRb
-	5mkOAZSNlNQPdGO0CBHy90IEYFcFxf8/GsT1e/L3AG4TRWpvy5QcY4teatRV8kFadur3
-	eSd2rN8d1Zmd9IUIeGxY+K+SOpr/i+TLBD4VhKaUv62kcWZTMESGs0bD2B2QULu9Lk9E
-	BPcRcCw5kkbkKZrtjsrzDgC8t7Z1YVZSCXQ/stpBv8MgtBGOkG6h9dp4R65G5mZ3+VR3
-	DRcA/fpjDVKNWPFDnYqC5Ir5x2RK5ZE4Kw5w8bBSPhdLn3EPTMvrGJc/sKqdXCaErErE
-	JVXg==
-X-Received: by 10.112.18.232 with SMTP id z8mr13128460lbd.23.1377207452759;
-	Thu, 22 Aug 2013 14:37:32 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=7fzEods1ivjvkJ3yQYmsWVRwghLSIB8Aco7ORCdZqOY=;
+	b=OmHEzdoxdwJFwcwP/OHkh/kfBxnWRnTUf/+YuE0LrLvCQEmZJJvWih9pfvg4LeRBeG
+	15CDEephKxyCvCuwAeH5HOUUQXHu4pqswX7FF2hZCf4xCKEbogvKqrdbvBIVcqQ3NWNP
+	74pSaPhmu2ut1zQ1yMQoVuHYjRKDSGEyS7Si+QaKvlxNkKad7OpFKD5cJsSmbqnSER45
+	Qy9+GiRaJkO8i/lMlKBLtpYv4N2de/EkSBWdEdYYWReV4uKkOJ2eAnlTXt3SQimEWfqm
+	//7e+FhYLACLOE2edDSF86+fS58EfdafYzZpwnEumKDueIVMcCxDRtkfNMMecp9nk49e
+	FRww==
+X-Received: by 10.112.42.103 with SMTP id n7mr13222313lbl.6.1377207453963;
+	Thu, 22 Aug 2013 14:37:33 -0700 (PDT)
 Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
-	by mx.google.com with ESMTPSA id k6sm5519555lae.9.1969.12.31.16.00.00
+	by mx.google.com with ESMTPSA id m13sm5672557lbo.11.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 22 Aug 2013 14:37:32 -0700 (PDT)
+	Thu, 22 Aug 2013 14:37:33 -0700 (PDT)
 Received: from cazfi by prime with local (Exim 4.80)
 	(envelope-from <cazfi74@gmail.com>)
-	id 1VCcZO-0002kl-A2; Fri, 23 Aug 2013 00:37:30 +0300
+	id 1VCcZP-0002la-DG; Fri, 23 Aug 2013 00:37:31 +0300
 From: Marko Lindqvist <cazfi74@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 00:37:28 +0300
-Message-Id: <fdbdadc72d3c6c1ef1feb0602d9f16dce3645a33.1377207091.git.cazfi74@gmail.com>
+Date: Fri, 23 Aug 2013 00:37:29 +0300
+Message-Id: <fa107ce2393b834fd74c353526e98e9edcac0a85.1377207091.git.cazfi74@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <fdbdadc72d3c6c1ef1feb0602d9f16dce3645a33.1377207091.git.cazfi74@gmail.com>
+References: <fdbdadc72d3c6c1ef1feb0602d9f16dce3645a33.1377207091.git.cazfi74@gmail.com>
 In-Reply-To: <cover.1377207091.git.cazfi74@gmail.com>
 References: <cover.1377207091.git.cazfi74@gmail.com>
-Subject: [PATCH 1/2] gtk-engines: fix build with automake-1.13
+Subject: [PATCH 2/2] automake: update to upstream version 1.13.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,75 +48,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 21:37:33 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 21:37:35 -0000
 
-Add patch substitute-tests.patch that works around automake
-TESTS limitation.
-See http://debbugs.gnu.org/cgi/bugreport.cgi?bug=13771.
+prefer-cpio-over-pax-for-ustar-archives.patch updated to apply
 
 Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
 ---
- .../gtk-engines-2.20.2/substitute-tests.patch      |   37 ++++++++++++++++++++
- .../gtk-engines/gtk-engines_2.20.2.bb              |    3 +-
- 2 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/substitute-tests.patch
+ .../prefer-cpio-over-pax-for-ustar-archives.patch  |   37 ++++++++++----------
+ .../{automake_1.12.6.bb => automake_1.13.4.bb}     |    6 ++--
+ 2 files changed, 21 insertions(+), 22 deletions(-)
+ rename meta/recipes-devtools/automake/{automake_1.12.6.bb => automake_1.13.4.bb} (90%)
 
-diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/substitute-tests.patch b/meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/substitute-tests.patch
-new file mode 100644
-index 0000000..5c557ba
---- /dev/null
-+++ b/meta/recipes-gnome/gtk-engines/gtk-engines-2.20.2/substitute-tests.patch
-@@ -0,0 +1,37 @@
-+Upstream-Status: Pending
-+
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+diff -Nurd gtk-engines-2.20.2/configure.ac gtk-engines-2.20.2/configure.ac
-+--- gtk-engines-2.20.2/configure.ac	2010-10-01 15:42:37.000000000 +0300
-++++ gtk-engines-2.20.2/configure.ac	2013-08-20 02:50:27.930510565 +0300
-+@@ -166,6 +166,9 @@
-+
-+ AC_SUBST(DEVELOPMENT_CFLAGS)
-+
-++AC_SUBST([exported_symbols_tests], [[$(EXPORTED_SYMBOLS_TESTS)]])
-++AC_SUBST([torture_test_tests], [[$(TORTURE_TEST_TESTS)]])
-++
-+ AM_CONFIG_HEADER([engines/support/config.h])
-+
-+ AC_CONFIG_FILES([
-+diff -Nurd gtk-engines-2.20.2/test/Makefile.am gtk-engines-2.20.2/test/Makefile.am
-+--- gtk-engines-2.20.2/test/Makefile.am	2010-09-19 18:18:21.000000000 +0300
-++++ gtk-engines-2.20.2/test/Makefile.am	2013-08-20 02:50:36.842510865 +0300
-+@@ -66,7 +66,7 @@
-+ # Prefix with exported_
-+ EXPORTED_SYMBOLS_TESTS = $(patsubst %,exported_%,$(BUILD_ENGINES))
-+
-+-TESTS += $(EXPORTED_SYMBOLS_TESTS)
-++TESTS += @exported_symbols_tests@
-+
-+
-+ #############################################################
-+@@ -88,7 +88,7 @@
-+ TORTURE_TEST_TESTS = torture_buildin $(patsubst %,torture_%,$(TORTURE_TEST_ENGINES))
-+
-+ # Add TORTURE_TEST_ENGINES to list of tests
-+-TESTS += $(TORTURE_TEST_TESTS)
-++TESTS += @torture_test_tests@
-+
-+ # Possible other tests:
-+ #  - An extensive theme switch tests that loads/unloads the engine
-diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-index 32d7be4..f899307 100644
---- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-+++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-@@ -37,6 +37,7 @@ python populate_packages_prepend() {
-     # TODO: mark theme packages as arch all
- }
+diff --git a/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
+index 4627855..6558a00 100644
+--- a/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
++++ b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
+@@ -19,24 +19,13 @@ Updated for version 1.11.3:
+ Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
+ Date: 2011/03/14
  
--SRC_URI += "file://glib-2.32.patch"
-+SRC_URI += "file://glib-2.32.patch \
-+            file://substitute-tests.patch"
- SRC_URI[archive.md5sum] = "5deb287bc6075dc21812130604c7dc4f"
- SRC_URI[archive.sha256sum] = "15b680abca6c773ecb85253521fa100dd3b8549befeecc7595b10209d62d66b5"
+-Index: automake-1.11.3/m4/tar.m4
+-===================================================================
+---- automake-1.11.3.orig/m4/tar.m4	2012-01-31 03:41:18.000000000 -0800
+-+++ automake-1.11.3/m4/tar.m4	2012-03-14 17:36:11.901303777 -0700
+-@@ -31,7 +31,7 @@ m4_if([$1], [v7],
+-               [m4_fatal([Unknown tar format])])
+- AC_MSG_CHECKING([how to create a $1 tar archive])
+- # Loop over all known methods to create a tar archive until one works.
+--_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
+-+_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
+- _am_tools=${am_cv_prog_tar_$1-$_am_tools}
+- # Do not fold the above two line into one, because Tru64 sh and
+- # Solaris sh will not grok spaces in the rhs of `-'.
+-Index: automake-1.11.3/Makefile.in
+-===================================================================
+---- automake-1.11.3.orig/Makefile.in	2012-02-01 02:37:59.000000000 -0800
+-+++ automake-1.11.3/Makefile.in	2012-03-14 17:38:03.530869197 -0700
+-@@ -62,7 +62,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/a
++Updated for version 1.13.2:
++Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
++
++diff -Nurd automake-1.13.2/Makefile.in automake-1.13.2/Makefile.in
++--- automake-1.13.2/Makefile.in	2013-05-15 23:12:58.000000000 +0300
+++++ automake-1.13.2/Makefile.in	2013-05-23 02:13:41.364026301 +0300
++@@ -141,7 +141,7 @@
+  	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
+  	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/silent.m4 \
+  	$(top_srcdir)/m4/strip.m4 $(top_srcdir)/m4/substnot.m4 \
+@@ -45,3 +34,15 @@ Index: automake-1.11.3/Makefile.in
+  am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
+  	$(ACLOCAL_M4)
+  am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
++diff -Nurd automake-1.13.2/m4/tar.m4 automake-1.13.2/m4/tar.m4
++--- automake-1.13.2/m4/tar.m4	2013-05-13 23:12:48.000000000 +0300
+++++ automake-1.13.2/m4/tar.m4	2013-05-23 02:13:26.600025805 +0300
++@@ -26,7 +26,7 @@
++ AC_SUBST([AMTAR], ['$${TAR-tar}'])
++
++ # We'll loop over all known methods to create a tar archive until one works.
++-_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
+++_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
++
++ m4_if([$1], [v7],
++   [am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'],
+diff --git a/meta/recipes-devtools/automake/automake_1.12.6.bb b/meta/recipes-devtools/automake/automake_1.13.4.bb
+similarity index 90%
+rename from meta/recipes-devtools/automake/automake_1.12.6.bb
+rename to meta/recipes-devtools/automake/automake_1.13.4.bb
+index 549051b..e3db834 100644
+--- a/meta/recipes-devtools/automake/automake_1.12.6.bb
++++ b/meta/recipes-devtools/automake/automake_1.13.4.bb
+@@ -26,10 +26,8 @@ SRC_URI += "${PATHFIXPATCH} \
+             file://py-compile-compile-only-optimized-byte-code.patch \
+             file://buildtest.patch"
+ 
+-SRC_URI[md5sum] = "199d39ece2e6070d64ac20d45ac86026"
+-SRC_URI[sha256sum] = "0cbe570db487908e70af7119da85ba04f7e28656b26f717df0265ae08defd9ef"
+-
+-PR = "r0"
++SRC_URI[md5sum] = "9199e266993a5bbdc914923349d51e3e"
++SRC_URI[sha256sum] = "4c93abc0bff54b296f41f92dd3aa1e73e554265a6f719df465574983ef6f878c"
+ 
+ do_install_append () {
+     install -d ${D}${datadir}
 -- 
 1.7.10.4
 
