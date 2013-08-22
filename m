@@ -1,25 +1,24 @@
-Return-Path: <Florin.Sarbu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BD0D6A8B3
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D8B36A8B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 09:56:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7M9uv6Q019469
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 02:56:57 -0700 (PDT)
-Received: from otp-fsarbu-l1.corp.ad.wrs.com (128.224.169.187) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Thu, 22 Aug 2013 02:56:57 -0700
-From: Florin Sarbu <florin.sarbu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Aug 2013 12:56:46 +0300
-Message-ID: <1377165406-21978-1-git-send-email-florin.sarbu@windriver.com>
-X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-X-Originating-IP: [128.224.169.187]
-Subject: [PATCH] busybox.inc: Add -f to rm of ${D}${sysconfdir}/syslog-startup.conf.${BPN} to not error out when the busybox config used does not have SYSLOG enabled and DISTRO_FEATURES does not contain sysvinit.
+	Thu, 22 Aug 2013 09:58:48 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>) id 1VCRfD-00012l-Qu
+	for openembedded-core@lists.openembedded.org;
+	Thu, 22 Aug 2013 11:58:47 +0200
+Message-ID: <1377165527.17787.125.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Aug 2013 10:58:47 +0100
+In-Reply-To: <6560539.TdGG90GaLI@helios>
+References: <cover.1377150822.git.sgw@linux.intel.com>
+	<6560539.TdGG90GaLI@helios>
+X-Mailer: Evolution 3.4.4-3 
+Mime-Version: 1.0
+Subject: Re: [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and more (Initial ACK Please)!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +31,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 09:56:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Aug 2013 09:58:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Florin Sarbu <florin.sarbu@windriver.com>
----
- meta/recipes-core/busybox/busybox.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Thu, 2013-08-22 at 10:07 +0100, Paul Eggleton wrote:
+> On Wednesday 21 August 2013 22:58:55 Saul Wold wrote:
+> >   package_rpm.bbclass:Make the regexp less greedy
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 8b38c1a..454d7e3 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -277,7 +277,7 @@ do_install () {
- 
-     # Remove the sysvinit specific configuration file for systemd systems to avoid confusion
-     if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'false', 'true', d)}; then
--	rm ${D}${sysconfdir}/syslog-startup.conf.${BPN}
-+	rm -f ${D}${sysconfdir}/syslog-startup.conf.${BPN}
-     fi
- }
- 
--- 
-1.8.3.2
+That's a rather poor commit message.  There are multiple regexps in this
+class and none of them is famous enough to be adequately described as
+"the regexp".
+
+p.
 
 
