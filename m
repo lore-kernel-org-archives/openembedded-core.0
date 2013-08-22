@@ -1,40 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B26B6B91F
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BA2C6B927
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 06:38:34 +0000 (UTC)
-Received: by mail-pa0-f43.google.com with SMTP id hz10so1767460pad.16
+	Thu, 22 Aug 2013 06:42:47 +0000 (UTC)
+Received: by mail-pa0-f45.google.com with SMTP id bg4so374120pad.32
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 23:38:34 -0700 (PDT)
+	Wed, 21 Aug 2013 23:42:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=AT4H2TQNGv23KMFeVZRO4wVtnMUWVxKssdqLZ3/+Abs=;
-	b=qcGM3wbT/G2aaqu3Bh7/etct8JLfB57AMSaVFrbC3ZZfGFPBnExHJleq4Te1+urBSR
-	R/RXQY57/g4u50a0XPzuExfK6l6zntOyqET5lvEk6I7bvUAaZ+DGHsVS4g+mA5kFUAPd
-	v/MNgRsz10kCf7njK0HWCvLuiScWZ0i96yIq/G4d5fm2BoVX0zCdccZLJplIwSBRmq69
-	MN7ACgXxqPPNwyRLGRQaJnn5PoZR1Wgd5XBJrX0f1dw+Vo4b5iBMmqjt71gIOHsFmtme
-	PJJTTg/Uv0YUo8RXYfVM7nvTh9E11V3GhB95cXzWasD9gZW6w5fa1F72lc5yarSkvaEb
-	Qq1g==
-X-Received: by 10.68.240.72 with SMTP id vy8mr3693731pbc.161.1377153514736;
-	Wed, 21 Aug 2013 23:38:34 -0700 (PDT)
+	bh=Ud8435eleK35fuDuRWVgw4QsHsEsLrpljUh+w6KFfRw=;
+	b=m7f4vk39D/pB5gUG+6BEES8DlAxa4yS2kAbwDhpoQlTjmqwk+/qRjNN59J8ciF2Yh1
+	uUoD4CqOErxbL79qhhJW9mOPYTf4hO6F/26wF3AKBPeqku4c5hUO0Zbzi6ikrlStPq59
+	yIXiz0GaXuEdz7HPzqkA5swzqjgizo+OTFdSSpKbaHdHJz51licrTJszdpyD/LpJc3tc
+	egWQXqfAvYihxSRINlRsKC+fmcyLvgbvf1jkQi5yi295fVtJwrlpIVph+37NrDgjk8yZ
+	NYeM1SsIDKuFEYX7L8Rf1NKYfmAQJHLvWCTuRCt1ib0PUeJwMgy5OZqYMObxIiJ7sP62
+	QnjQ==
+X-Received: by 10.68.216.33 with SMTP id on1mr3749393pbc.107.1377153768547;
+	Wed, 21 Aug 2013 23:42:48 -0700 (PDT)
 Received: from sa-nc-finance-109.static.jnpr.net (natint3.juniper.net.
 	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	fl3sm14616649pad.10.1969.12.31.16.00.00
+	ta10sm14652675pab.5.1969.12.31.16.00.00
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 21 Aug 2013 23:38:32 -0700 (PDT)
+	Wed, 21 Aug 2013 23:42:47 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <5a0310813a9df4c60eaf5ba31e2de12bf3d08ccf.1376965065.git.kai.kang@windriver.com>
-Date: Wed, 21 Aug 2013 23:38:31 -0700
-Message-Id: <760CDDA0-416D-4E16-8FC2-6205ED265506@gmail.com>
-References: <cover.1376965065.git.kai.kang@windriver.com>
-	<5a0310813a9df4c60eaf5ba31e2de12bf3d08ccf.1376965065.git.kai.kang@windriver.com>
-To: Kai Kang <kai.kang@windriver.com>
+In-Reply-To: <6f2bc301767250c371bb8d927e54425bdeda6f37.1376968627.git.jackie.huang@windriver.com>
+Date: Wed, 21 Aug 2013 23:42:47 -0700
+Message-Id: <54332AB2-FDDB-44C5-BCD8-00989CF8B700@gmail.com>
+References: <cover.1376968627.git.jackie.huang@windriver.com>
+	<6f2bc301767250c371bb8d927e54425bdeda6f37.1376968627.git.jackie.huang@windriver.com>
+To: jackie.huang@windriver.com
 X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org, Zhangle.Yang@windriver.com
-Subject: Re: [PATCH 1/1] bc: fix segmentation fault
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/6] openssh: add init.d/sshd status command for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,91 +47,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 06:38:39 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 06:42:47 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
+Hi Jackie
 
-On Aug 19, 2013, at 7:20 PM, Kai Kang <kai.kang@windriver.com> wrote:
+One thing comes to mind is that these scripts are hardcoding the =
+binaries and may be it would be
+nicer to replace the bindir, libdir and so on at install time, that =
+would make them flexible where /usr
+is not used e.g. but I guess thats a general problem with capture init =
+scripts all around probably.
 
-> When run 'bc -l', it segmentation faults. Apply patch from BLFS to fix =
-it.
+On Aug 19, 2013, at 8:25 PM, jackie.huang@windriver.com wrote:
+
+> From: Jackie Huang <jackie.huang@windriver.com>
 >=20
-> Ref:
-> =
-http://www.mail-archive.com/blfs-support@linuxfromscratch.org/msg04601.htm=
-l
->=20
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Li Wang <li.wang@windriver.com>
+> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 > ---
-> meta/recipes-extended/bc/bc_1.06.bb                |  3 ++-
-> .../bc/files/fix-segment-fault.patch               | 28 =
-++++++++++++++++++++++
-> 2 files changed, 30 insertions(+), 1 deletion(-)
-> create mode 100644 =
-meta/recipes-extended/bc/files/fix-segment-fault.patch
+> .../openssh/openssh-6.2p2/init                     |   15 =
+++++++++++++++-
+> 1 files changed, 14 insertions(+), 1 deletions(-)
 >=20
-> diff --git a/meta/recipes-extended/bc/bc_1.06.bb =
-b/meta/recipes-extended/bc/bc_1.06.bb
-> index fe9c3f4..4b28fad 100644
-> --- a/meta/recipes-extended/bc/bc_1.06.bb
-> +++ b/meta/recipes-extended/bc/bc_1.06.bb
-> @@ -13,7 +13,8 @@ SECTION =3D "base"
-> DEPENDS =3D "flex"
-> PR =3D "r2"
+> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/init =
+b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
+> index 6beec84..6bbc573 100644
+> --- a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
+> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
+> @@ -1,6 +1,9 @@
+> #! /bin/sh
+> set -e
 >=20
-> -SRC_URI =3D "${GNU_MIRROR}/bc/bc-${PV}.tar.gz"
-> +SRC_URI =3D "${GNU_MIRROR}/bc/bc-${PV}.tar.gz \
-> +           file://fix-segment-fault.patch "
+> +# source function library
+> +. /etc/init.d/functions
+> +
+> # /etc/init.d/ssh: start and stop the OpenBSD "secure shell" daemon
 >=20
-> SRC_URI[md5sum] =3D "d44b5dddebd8a7a7309aea6c36fda117"
-> SRC_URI[sha256sum] =3D =
-"4ef6d9f17c3c0d92d8798e35666175ecd3d8efac4009d6457b5c99cea72c0e33"
-> diff --git a/meta/recipes-extended/bc/files/fix-segment-fault.patch =
-b/meta/recipes-extended/bc/files/fix-segment-fault.patch
-> new file mode 100644
-> index 0000000..20c0da2
-> --- /dev/null
-> +++ b/meta/recipes-extended/bc/files/fix-segment-fault.patch
-> @@ -0,0 +1,28 @@
-> +Upstream-Status: Pending
+> test -x /usr/sbin/sshd || exit 0
+> @@ -46,6 +49,11 @@ check_keys() {
+> 	fi
+> }
+>=20
+> +rh_status() {
+> +	status /usr/sbin/sshd;
+> +	return $?
+> +}
 > +
-> +when run command such as 'echo "a =3D 13" | bc -l', it segmentation =
-faults.
-> +This patch is from =
-http://www.mail-archive.com/blfs-support@linuxfromscratch.org/msg04602.htm=
-l.
+> export PATH=3D"${PATH:+$PATH:}/usr/sbin:/sbin"
+>=20
+> case "$1" in
+> @@ -84,8 +92,13 @@ case "$1" in
+> 	echo "."
+> 	;;
+>=20
+> +  status)
+> +	rh_status;
+> +	exit $?
+> +  ;;
 > +
-> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> +
-> +--- bc-1.06/lib/number.c.orig	2003-09-26 21:14:02.000000000 =
-+0000
-> ++++ bc-1.06/lib/number.c	2003-09-26 21:14:26.000000000 +0000
-> +@@ -34,6 +34,7 @@
-> + #include <number.h>
-> + #include <assert.h>
-> + #include <stdlib.h>
-> ++#include <string.h>
-
-what does adding this include file fix ?
-
-> + #include <ctype.h>/* Prototypes needed for external utility =
-routines. */
-> +=20
-> + #define bc_rt_warn rt_warn
-> +--- bc-1.06/bc/load.c.orig	2003-09-26 21:14:14.000000000 +0000
-> ++++ bc-1.06/bc/load.c	2003-09-26 21:14:26.000000000 +0000
-> +@@ -156,7 +156,7 @@
-> +   long  label_no;
-> +   long  vaf_name;	/* variable, array or function number. */
-> +   long  func;
-> +-  program_counter save_adr;
-> ++  static program_counter save_adr;
-> +=20
-> +   /* Initialize. */
-> +   str =3D code;
+>   *)
+> -	echo "Usage: /etc/init.d/ssh =
+{start|stop|reload|force-reload|restart}"
+> +	echo "Usage: /etc/init.d/ssh =
+{start|stop|status|reload|force-reload|restart}"
+> 	exit 1
+> esac
+>=20
 > --=20
-> 1.8.1.2
+> 1.7.4.1
 >=20
 > _______________________________________________
 > Openembedded-core mailing list
