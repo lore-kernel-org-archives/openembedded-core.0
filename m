@@ -1,21 +1,33 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 3423C60842
+Return-Path: <s.stirtzel@googlemail.com>
+Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CDDA60842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 14:19:52 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VCVjs-0001X5-K3; Thu, 22 Aug 2013 16:19:52 +0200
-Message-ID: <1377181123.13664.11.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Thu, 22 Aug 2013 14:24:29 +0000 (UTC)
+Received: by mail-ob0-f179.google.com with SMTP id fb19so3687403obc.38
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 07:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=xuIOoCX6Znx7wyEeHewRSpw7y5uK1Rcww1o3htZExM4=;
+	b=RwHl+Iy2HNaOFfpX9vueh5OpW3+6gQs5fKIPjFG0VGBtTwgwtsABGrCCoMXr2D21NQ
+	iTiHxWPmcV/FsJ4xOsM+OwRWX/0QsO3Ayr9sLmKSv6CvoJtH5PDaa1zx3JovIib7d9E8
+	B9MCzyfN/wgbhGoSyEw+jp3mg/E0qPvIA6C5YPg92qfF4XWzBiyvRqTN1p11ADLspI3g
+	WnULDOVpZOv1jlbO5MMRvEwkbEWzeYLEUBdycC3Gy8riuz0rtLNF3yvGge/8gGb7Pir8
+	MN2XORvR5dZeaPNGK5xjFLZkhAY4qbFkst4G96FIT34OuOVyh30GUu4VCZG3YeTg4KDq
+	gxWA==
+X-Received: by 10.60.95.229 with SMTP id dn5mr14443127oeb.26.1377181469508;
+	Thu, 22 Aug 2013 07:24:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.60.44.66 with HTTP; Thu, 22 Aug 2013 07:24:09 -0700 (PDT)
 In-Reply-To: <1377180295.6762.19.camel@ted>
 References: <1377180295.6762.19.camel@ted>
-Date: Thu, 22 Aug 2013 15:18:43 +0100
-Mime-Version: 1.0
-X-Mailer: Evolution 3.4.4-3 
+From: Samuel Stirtzel <s.stirtzel@googlemail.com>
+Date: Thu, 22 Aug 2013 16:24:09 +0200
+Message-ID: <CAGiJk9d6-53fdswhsoNC_s7Q75BAgqtFWq8DrC5TPg8KXY_NBA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: RFC: Web browsing and HTML in OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -30,11 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 14:19:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2013 14:24:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2013-08-22 at 15:04 +0100, Richard Purdie wrote:
+2013/8/22 Richard Purdie <richard.purdie@linuxfoundation.org>:
+> We've slowly been shaking out the definition of OE-Core and as part of
+> that we removed web and web-gtk which were the only browsers in there
+> and were admittedly a bit limited/broken.
+>
+> There is no doubt that web technology has an increasingly important role
+> in the future and in embedded devices (e.g. kiosk type devices, digital
+> signs and so on).
+>
 > With that in mind, I think some kind of HTML support in OE-Core is
 > important going forward. Equally, I dislike having things there which we
 > cannot test. I know some people have looked into this and it appears
@@ -43,15 +62,20 @@ On Thu, 2013-08-22 at 15:04 +0100, Richard Purdie wrote:
 > we should make a decision to include since it gives us significantly
 > better coverage of things like webkit which are a already in the core
 > yet totally untested at present.
-
-WebKit itself comes with a bunch of test wrappers (and tests!) for
-different platforms and if the aim of the exercise is to test webkit
-then it seems like maybe we should just be installing and using those.
-Midori would be fine for testing the parts of webkit that it uses, but
-obviously it doesn't exercise anything other than the Gtk port which
-still leaves you with a bit of a hole in your coverage.
-
-p.
+>
+> I'm open to opinions, equally we do need to make a decision on this soon
+> since we're nearly at the feature freeze point. Thoughts?
 
 
+Hi,
+
+just some thoughts: Qt provides an example application that uses
+webkit called "fancybrowser"
+This demo it is located at the package qt4-examples
+(/usr/bin/qt4/examples/webkit/fancybrowser/ in the target sysroot).
+
+
+-- 
+Regards
+Samuel
 
