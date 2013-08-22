@@ -1,26 +1,26 @@
 Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E4AD608A6
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B727360842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 14:48:19 +0000 (UTC)
+	Thu, 22 Aug 2013 14:52:41 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2013 07:48:20 -0700
+	by orsmga102.jf.intel.com with ESMTP; 22 Aug 2013 07:49:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,934,1367996400"; d="scan'208";a="391622491"
+X-IronPort-AV: E=Sophos;i="4.89,934,1367996400"; d="scan'208";a="391625764"
 Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.147]) ([10.7.201.147])
-	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2013 07:48:20 -0700
-Message-ID: <1377182898.5259.1.camel@dvhart-mobl4.amr.corp.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2013 07:52:34 -0700
+Message-ID: <1377183153.5259.4.camel@dvhart-mobl4.amr.corp.intel.com>
 From: Darren Hart <dvhart@linux.intel.com>
 To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 22 Aug 2013 07:48:18 -0700
-In-Reply-To: <2ee8dfb739c6ce3e08bdeb87875b6f054f23c005.1377175027.git.liezhi.yang@windriver.com>
+Date: Thu, 22 Aug 2013 07:52:33 -0700
+In-Reply-To: <c860af16cf9ffd4ba171206e5e9a36c50d771bdf.1377175027.git.liezhi.yang@windriver.com>
 References: <cover.1377175027.git.liezhi.yang@windriver.com>
-	<2ee8dfb739c6ce3e08bdeb87875b6f054f23c005.1377175027.git.liezhi.yang@windriver.com>
+	<c860af16cf9ffd4ba171206e5e9a36c50d771bdf.1377175027.git.liezhi.yang@windriver.com>
 Organization: Intel
 X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/6] e2fsprogs: the max length of debugfs argument is too short
+Subject: Re: [PATCH 2/6] e2fsprogs: let debugfs do sparse copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +33,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 14:48:20 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 14:52:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2013-08-22 at 09:13 -0400, Robert Yang wrote:
-> The max length of debugfs argument is 256 which is too short, the
-> arguments are two paths, the PATH_MAX is 4096 according to
-> /usr/include/linux/limits.h, so use BUFSIZ (which is 8192 on Linux
-> systems), that's also what the ss library uses.
+> Let debugfs do sparse copy when src is a sparse file, just like
+> "cp --sparse=auto"
 > 
 > This patch has been reviewed by the linux-ext4 mailing list, but isn't
 > merged atm.
 > 
 > [YOCTO #3848]
+
+Minor whitespace nit below, but will likely be caught by upstream.
+
+--
+Darren
+
 > 
 > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
 > ---
->  .../e2fsprogs-1.42.8/debugfs-too-short.patch       |   41 ++++++++++++++++++++
+>  .../e2fsprogs-1.42.8/debugfs-sparse-copy.patch     |  147 ++++++++++++++++++++
 >  .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    1 +
->  2 files changed, 42 insertions(+)
->  create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-too-short.patch
+>  2 files changed, 148 insertions(+)
+>  create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
 > 
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-too-short.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-too-short.patch
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
 > new file mode 100644
-> index 0000000..607305b
+> index 0000000..c87bcbf
 > --- /dev/null
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-too-short.patch
-> @@ -0,0 +1,41 @@
-> +debugfs.c: the max length of debugfs argument is too short
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+> @@ -0,0 +1,147 @@
+> +debugfs.c: do sparse copy when src is a sparse file
 > +
-> +The max length of debugfs argument is 256 which is too short, the
-> +arguments are two paths, the PATH_MAX is 4096 according to
-> +/usr/include/linux/limits.h, so use BUFSIZ (which is 8192 on Linux
-> +systems), that's also what the ss library uses.
+> +Let debugfs do sparse copy when src is a sparse file, just like
+> +"cp --sparse=auto"
+> +
+> +* For the:
+> +  #define IO_BUFSIZE 64*1024
+> +  this is a suggested value from gnu coreutils:
+> +  http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/ioblksize.h;h=1ae93255e7d0ccf0855208c7ae5888209997bf16;hb=HEAD
+> +
+> +* Use malloc() to allocate memory for the buffer since put 64K (or
+> +  more) on the stack seems not a good idea.
 > +
 > +Upstream-Status: Submitted
 > +
 > +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > +Acked-by: Darren Hart <dvhart@linux.intel.com>
 > +---
-> + debugfs/debugfs.c | 6 +++++-
-> + 1 file changed, 5 insertions(+), 1 deletion(-)
+> + debugfs/debugfs.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++----
+> + 1 file changed, 57 insertions(+), 4 deletions(-)
 > +
 > +diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
 > +--- a/debugfs/debugfs.c
 > ++++ b/debugfs/debugfs.c
-> +@@ -37,6 +37,10 @@ extern char *optarg;
-> + #include "../version.h"
-> + #include "jfs_user.h"
+> +@@ -41,6 +41,16 @@ extern char *optarg;
+> + #define BUFSIZ 8192
+> + #endif
 > + 
-> ++#ifndef BUFSIZ
-> ++#define BUFSIZ 8192
+> ++/* 64KiB is the minimium blksize to best minimize system call overhead. */
+> ++#ifndef IO_BUFSIZE
+> ++#define IO_BUFSIZE 64*1024
+> ++#endif
+> ++
+> ++/* Block size for `st_blocks' */
+> ++#ifndef S_BLKSIZE
+> ++#define S_BLKSIZE 512
 > ++#endif
 > ++
 > + ss_request_table *extra_cmds;
 > + const char *debug_prog_name;
 > + int sci_idx;
-> +@@ -2311,7 +2315,7 @@ void do_dump_mmp(int argc EXT2FS_ATTR((unused)), char *argv[])
-> + static int source_file(const char *cmd_file, int ss_idx)
+> +@@ -1575,22 +1585,36 @@ void do_find_free_inode(int argc, char *argv[])
+> + }
+> + 
+> + #ifndef READ_ONLY
+> +-static errcode_t copy_file(int fd, ext2_ino_t newfile)
+> ++static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int make_holes)
 > + {
-> + 	FILE		*f;
-> +-	char		buf[256];
-> ++	char		buf[BUFSIZ];
-> + 	char		*cp;
-> + 	int		exit_status = 0;
-> + 	int		retval;
+> + 	ext2_file_t	e2_file;
+> + 	errcode_t	retval;
+> + 	int		got;
+> + 	unsigned int	written;
+> +-	char		buf[8192];
+> ++	char		*buf;
+> + 	char		*ptr;
+> ++	char		*zero_buf;
+> ++	int		cmp;
+> + 
+> + 	retval = ext2fs_file_open(current_fs, newfile,
+> + 				  EXT2_FILE_WRITE, &e2_file);
+> + 	if (retval)
+> + 		return retval;
+> + 
+> ++	if (!(buf = (char *) malloc(bufsize))){
+> ++		com_err("copy_file", errno, "can't allocate buffer\n");
+> ++		return;
+> ++	}
+> ++
+> ++        /* This is used for checking whether the whole block is zero */
+
+Whitespace/indentation error ^
+
+
+> ++	retval = ext2fs_get_memzero(bufsize, &zero_buf);
+> ++	if (retval) {
+> ++		com_err("copy_file", retval, "can't allocate buffer\n");
+> ++		return retval;
+> ++	}
+> ++
+> + 	while (1) {
+> +-		got = read(fd, buf, sizeof(buf));
+> ++		got = read(fd, buf, bufsize);
+> + 		if (got == 0)
+> + 			break;
+> + 		if (got < 0) {
+> +@@ -1598,6 +1622,21 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
+> + 			goto fail;
+> + 		}
+> + 		ptr = buf;
+> ++
+> ++		/* Sparse copy */
+> ++		if (make_holes) {
+> ++			/* Check whether all is zero */
+> ++			cmp = memcmp(ptr, zero_buf, got);
+> ++			if (cmp == 0) {
+> ++				 /* The whole block is zero, make a hole */
+> ++				retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
+> ++				if (retval)
+> ++					goto fail;
+> ++				got = 0;
+> ++			}
+> ++		}
+> ++
+> ++		/* Normal copy */
+> + 		while (got > 0) {
+> + 			retval = ext2fs_file_write(e2_file, ptr,
+> + 						   got, &written);
+> +@@ -1608,10 +1647,14 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
+> + 			ptr += written;
+> + 		}
+> + 	}
+> ++	free(buf);
+> ++	ext2fs_free_mem(&zero_buf);
+> + 	retval = ext2fs_file_close(e2_file);
+> + 	return retval;
+> + 
+> + fail:
+> ++	free(buf);
+> ++	ext2fs_free_mem(&zero_buf);
+> + 	(void) ext2fs_file_close(e2_file);
+> + 	return retval;
+> + }
+> +@@ -1624,6 +1667,8 @@ void do_write(int argc, char *argv[])
+> + 	ext2_ino_t	newfile;
+> + 	errcode_t	retval;
+> + 	struct ext2_inode inode;
+> ++	int		bufsize = IO_BUFSIZE;
+> ++	int		make_holes = 0;
+> + 
+> + 	if (common_args_process(argc, argv, 3, 3, "write",
+> + 				"<native file> <new file>", CHECK_FS_RW))
+> +@@ -1699,7 +1744,15 @@ void do_write(int argc, char *argv[])
+> + 		return;
+> + 	}
+> + 	if (LINUX_S_ISREG(inode.i_mode)) {
+> +-		retval = copy_file(fd, newfile);
+> ++		if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
+> ++			make_holes = 1;
+> ++			/*
+> ++			 * Use I/O blocksize as buffer size when
+> ++			 * copying sparse files.
+> ++			 */
+> ++			bufsize = statbuf.st_blksize;
+> ++		}
+> ++		retval = copy_file(fd, newfile, bufsize, make_holes);
+> + 		if (retval)
+> + 			com_err("copy_file", retval, 0);
+> + 	}
 > +-- 
 > +1.8.1.2
 > +
 > diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> index d231268..f97de7f 100644
+> index f97de7f..5d65bbc 100644
 > --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
 > +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> @@ -3,6 +3,7 @@ require e2fsprogs.inc
->  
+> @@ -4,6 +4,7 @@ require e2fsprogs.inc
 >  SRC_URI += "file://acinclude.m4 \
 >              file://remove.ldconfig.call.patch \
-> +            file://debugfs-too-short.patch \
+>              file://debugfs-too-short.patch \
+> +            file://debugfs-sparse-copy.patch \
 >  "
 >  
 >  SRC_URI[md5sum] = "8ef664b6eb698aa6b733df59b17b9ed4"
