@@ -1,24 +1,39 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DEF7560842
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
+	[209.85.214.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C395060842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 17:21:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Aug 2013 10:21:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,935,1367996400"; d="scan'208";a="385034942"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Aug 2013 10:21:29 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Aug 2013 20:23:09 +0300
-Message-Id: <dc06de4ba9c628e37786d559929c12d65788790c.1377191890.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1377191890.git.cristian.iorga@intel.com>
-References: <cover.1377191890.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1377191890.git.cristian.iorga@intel.com>
-References: <cover.1377191890.git.cristian.iorga@intel.com>
-Subject: [PATCH v2 4/4] builder: register directories with pcmanfm
+	Thu, 22 Aug 2013 17:21:55 +0000 (UTC)
+Received: by mail-ob0-f175.google.com with SMTP id xn12so4122544obc.20
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 10:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=5N8sPD/ysoHWPGUBG/EyOPatlXQRQGD/LFi8YPwoi0E=;
+	b=QGJflyaW0ApOmcyeuozxAwOC/w4fYW+GZLilIpt8qdLs9EOC1AJnTRxuthWYodKdRk
+	axe9tjymfbbwzWoB/WlUHtX9xOVJxDk4UPHHoJQL+LRyjEFJUrbQIBuNWmIFCu46ZtBX
+	LGTd9l6O3B/LM25jRrVEgG+eiHRMfLZB5JhruO7eI+L2aLFfPb5taqHoUhI+HWHOShNs
+	6hypCewk90Z4xVD1ZBYzZDWPobAOiwwAbzbNmYJTsL0pSTPxfv3S+TsV8JNGat9c2hUg
+	cMYouLRwibGj1qUdkSOSzbqvxrMj2fOxVv4OPKF9qBMCrzLY90TQcvUxwzvccL70p1e7
+	ZCQA==
+MIME-Version: 1.0
+X-Received: by 10.182.144.136 with SMTP id sm8mr15507599obb.63.1377192116052; 
+	Thu, 22 Aug 2013 10:21:56 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 22 Aug 2013 10:21:55 -0700 (PDT)
+In-Reply-To: <1377190468-15466-2-git-send-email-lauren.post@freescale.com>
+References: <lauren.post@freescale.com>
+	<1377190468-15466-1-git-send-email-lauren.post@freescale.com>
+	<1377190468-15466-2-git-send-email-lauren.post@freescale.com>
+Date: Thu, 22 Aug 2013 14:21:55 -0300
+X-Google-Sender-Auth: n3YrJPF4lkz-FVg-KcTc5UpHMZE
+Message-ID: <CAP9ODKqppuY7ZVB=eoKBMuwH210UBmXtBjdx8nzF-DEL_fQsOQ@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Lauren Post <lauren.post@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [v4][PATCH 2/2] directfb: Add fusion patch for hangs on exit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +46,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 17:21:29 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 17:21:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Register directories to be opened with PCManFM
-filemanager using xdg-open in Build Appliance.
+On Thu, Aug 22, 2013 at 1:54 PM, Lauren Post <lauren.post@freescale.com> wrote:
+> directfb: Add fusion patch for hangs on exit
+>
+> with following tests:   direct_test, fusion_skirmish
+>
+> Signed-off-by: Lauren Post <lauren.post@freescale.com>
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-graphics/builder/files/builder_hob_start.sh | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-index 40616f5..b3a0540 100644
---- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
-+++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-@@ -9,6 +9,15 @@ export PSEUDO_LOCALSTATEDIR=/home/builder/pseudo
- export PSEUDO_LIBDIR=/usr/lib/pseudo/lib64
- export GIT_PROXY_COMMAND=/home/builder/poky/scripts/oe-git-proxy
- 
-+#start pcmanfm in daemon mode to allow asynchronous launch
-+pcmanfm -d&
-+
-+#register folders to open with PCManFM filemanager
-+if [ ! -d /home/ubik/tmp/.local/share/applications ]; then
-+    mkdir -p /home/builder/.local/share/applications/
-+    xdg-mime default pcmanfm.desktop inode/directory
-+fi
-+
- cd /home/builder/poky
- . ./oe-init-build-env
- 
 -- 
-1.8.1.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
