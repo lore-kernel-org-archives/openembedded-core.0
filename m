@@ -1,36 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
-	[209.85.212.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 38F9760842
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 718AF60842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 16:36:54 +0000 (UTC)
-Received: by mail-vb0-f42.google.com with SMTP id e12so1480996vbg.29
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 09:36:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=lWBF2iMyihm4Jln5ln98M76LVZOjgn38+fVBBCrOwOc=;
-	b=OUHgjSSn/pykNyRpLqjds/6mVR+X2DuxQgTR58AfCi2a+uJlJgdp53Wxu9q7l2f06u
-	IbdeleCI5t6BMa5M7EEX/xSn/MdRxyJ1+wn0SyO2a5SUYSv0k36YkMRIJEsHMVB2o3hX
-	YdgmyHxryMb7mTISin8GVVIXw3Pm+HAfwdy+UnCPGMj+oTO3Sno/yjfwz+4EecepezwE
-	GUfAxrq3xCwoHOCGD6dR+QPrC/L8dZZNP2YwPrNk5GSTPDJsv/VwFoexoybvMAx5JfIK
-	s4OqbphJ351s8bH17q2yCizAOWheKW/UoCTNg4bQOFKq8YoBeVNEqLIA4/saqF3DJe3w
-	SPFw==
-X-Gm-Message-State: ALoCoQkaJYtSDeXEKzyc0wK+4tWgN4HL7KzfnEGSzfrcyfgxFsEHosLGYggPhnILH7vCpmiFdAhJ
-X-Received: by 10.220.186.202 with SMTP id ct10mr12470875vcb.14.1377189414377; 
-	Thu, 22 Aug 2013 09:36:54 -0700 (PDT)
+	Thu, 22 Aug 2013 16:44:57 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2013 09:44:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,935,1367996400"; d="scan'208";a="391695651"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2013 09:44:51 -0700
+Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
+	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Thu, 22 Aug 2013 17:44:45 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX153.ger.corp.intel.com ([169.254.9.218]) with mapi id
+	14.03.0123.003; Thu, 22 Aug 2013 17:44:45 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/3] Build Appliance: pcmanfm integration
+Thread-Index: AQHOn0+dU26t4cJzdk+QgsmmaUI9lpmhbxmA
+Date: Thu, 22 Aug 2013 16:44:44 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C181CC@IRSMSX105.ger.corp.intel.com>
+References: <cover.1377014441.git.cristian.iorga@intel.com>
+	<c3d72ead7aeef67db0792738b194891ae8ed3871.1377014441.git.cristian.iorga@intel.com>
+	<CAJTo0LaXbDi7BXYsscN1D=LFJH1LcZNnHCs7aiFo-SiKi45Pag@mail.gmail.com>
+In-Reply-To: <CAJTo0LaXbDi7BXYsscN1D=LFJH1LcZNnHCs7aiFo-SiKi45Pag@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 22 Aug 2013 09:36:34 -0700 (PDT)
-In-Reply-To: <1377155969-15087-1-git-send-email-muhammad_shakeel@mentor.com>
-References: <1377155969-15087-1-git-send-email-muhammad_shakeel@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Aug 2013 17:36:34 +0100
-Message-ID: <CAJTo0LZkWSjgMEqfTc48fdB3D2cGaRzneD+u4rA33sXMAUR6hQ@mail.gmail.com>
-To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] [v4] openssh: Add systemd support
+Subject: Re: [PATCH 1/3] Build Appliance: pcmanfm integration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,16 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 16:36:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Aug 2013 16:44:58 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 22 August 2013 08:19, Shakeel, Muhammad <muhammad_shakeel@mentor.com> wrote:
-> sed -i 's,/bin/,${base_bindir}/,g' ${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/sshd@.service
-
-Instead of replacing path fragments, make the source file use a symbol
-such as @BASE_BINDIR@ @SBIN@ etc.
-
-(for all patches)
-
-Ross
+QUNLLCBmaXhpbmcgbm93LiBUaGFua3MsIFJvc3MuDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
+LS0tDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dIA0K
+U2VudDogVGh1cnNkYXksIEF1Z3VzdCAyMiwgMjAxMyA2OjUyIFBNDQpUbzogSW9yZ2EsIENyaXN0
+aWFuDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8zXSBCdWls
+ZCBBcHBsaWFuY2U6IHBjbWFuZm0gaW50ZWdyYXRpb24NCg0KT24gMjAgQXVndXN0IDIwMTMgMTc6
+MDUsIENyaXN0aWFuIElvcmdhIDxjcmlzdGlhbi5pb3JnYUBpbnRlbC5jb20+IHdyb3RlOg0KPiAr
+ICAgIHhwcm9wIFwNCg0KQXMgZGlzY3Vzc2VkIG9uIEphYmJlciwgdGhpcyBzaG91bGQgYmUgYSBy
+ZGVwZW5kcyBvZiB4ZGctdXRpbHMuDQoNClJvc3MNCg==
 
