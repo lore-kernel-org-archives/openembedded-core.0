@@ -1,32 +1,26 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 584D46B91D
+Return-Path: <Zhangle.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ED2906B88D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 07:25:06 +0000 (UTC)
+	Thu, 22 Aug 2013 07:40:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7M7P425029002
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Aug 2013 00:25:04 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7M7eZWj013233
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 00:40:35 -0700 (PDT)
+Received: from [128.224.177.76] (128.224.177.76) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 22 Aug 2013 00:25:03 -0700
-Message-ID: <5215BCD0.7080902@windriver.com>
-Date: Thu, 22 Aug 2013 15:25:04 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Thu, 22 Aug 2013 00:40:34 -0700
+Message-ID: <5215C06F.4050008@windriver.com>
+Date: Thu, 22 Aug 2013 15:40:31 +0800
+From: zyang <zhangle.yang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US;
+	rv:1.9.2.28) Gecko/20120306 Thunderbird/3.1.20
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1376965065.git.kai.kang@windriver.com>
-	<5a0310813a9df4c60eaf5ba31e2de12bf3d08ccf.1376965065.git.kai.kang@windriver.com>
-	<760CDDA0-416D-4E16-8FC2-6205ED265506@gmail.com>
-	<5215B4A7.8070604@windriver.com>
-	<9A96060F-4FEA-4785-A90F-B71A615976D3@gmail.com>
-In-Reply-To: <9A96060F-4FEA-4785-A90F-B71A615976D3@gmail.com>
-X-Originating-IP: [128.224.162.231]
-Cc: openembedded-core@lists.openembedded.org, Zhangle.Yang@windriver.com
-Subject: Re: [PATCH 1/1] bc: fix segmentation fault
+To: <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [128.224.177.76]
+Subject: test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +33,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 07:25:06 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 22 Aug 2013 07:40:34 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2013年08月22日 15:15, Khem Raj wrote:
-> Kai
->
-> On Aug 21, 2013, at 11:50 PM, Kang Kai <Kai.Kang@windriver.com> wrote:
->
->>> what does adding this include file fix ?
->> To be honest, I am not sure why add this include. After build it is harmless, so I didn't want to modify it because I think LFS is trustable.
->>
-> Its matter of understanding the change and may be explaining a bit better what it fixes and make the patch better for upstream too so try to build it without this include added and see if you get some warnings/errors that it fixes and then add that information to patch header.
-
-Thanks.
-I'll check it and be more careful next time.
-
-Regards,
-Kai
-
->
->> Regards,
->> Kai
->
->
-
-
--- 
-Regards,
-Neil | Kai Kang
-
+test
 
