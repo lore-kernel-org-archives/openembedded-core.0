@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id F2DBB6B25D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A0D26B25D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 13:13:27 +0000 (UTC)
+	Thu, 22 Aug 2013 13:13:28 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7MDDRhC025139
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7MDDTeu020145
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Aug 2013 09:13:27 -0400 (EDT)
+	Thu, 22 Aug 2013 06:13:29 -0700 (PDT)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 22 Aug 2013 06:13:26 -0700
+	14.2.342.3; Thu, 22 Aug 2013 06:13:28 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Aug 2013 09:13:12 -0400
-Message-ID: <37674ce0aeae479e3cde7f578871ed47ec9025f8.1377175027.git.liezhi.yang@windriver.com>
+Date: Thu, 22 Aug 2013 09:13:13 -0400
+Message-ID: <0fdd588a60edecc0aa11bfbb3ac8eb3d56a2b940.1377175027.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1377175027.git.liezhi.yang@windriver.com>
 References: <cover.1377175027.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [PATCH 4/6] e2fsprogs: properly set up extent header in do_write
+Subject: [PATCH 5/6] e2fsprogs: add populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,93 +36,146 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 22 Aug 2013 13:13:28 -0000
 Content-Type: text/plain
 
-do_write doesn't fully set up the first extent header on a new
-inode, so if we write a 0-length file, and don't write any data
-to the new file, we end up creating something that looks corrupt
-to kernelspace:
+This script is originally from Darren Hart, it will be used for creating
+the ext* filesystem from a given directory, which will replace the
+genext2fs in image_types.bbclass at the moment, we may use the mke2fs to
+replace this script again when it has the initial directory support.
 
-EXT4-fs error (device loop0): ext4_ext_check_inode:464: inode #12: comm
-ls: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
-depth 0(0)
-
-Do something similar to ext4_ext_tree_init() here, and
-fill out the first extent header upon creation to avoid this.
+Changes of the script:
+* Rename it from mkdebugfs.sh to populate-extfs.sh
+* Add a simple usage
+* Add checking for the number of the parameters
+* Add the "regular empty file" and "fifo" file type
+* Set mode, uid and gid for the file
+* Save the command lines to a file and batch run them
+* Change the error message
+* Improve the performance
+* Add the support for hardlink
 
 [YOCTO #3848]
 
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../e2fsprogs-1.42.8/debugfs-extent-header.patch   |   47 ++++++++++++++++++++
- .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    2 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-extent-header.patch
+ .../e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh   |   96 ++++++++++++++++++++
+ .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    1 +
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-extent-header.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-extent-header.patch
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
 new file mode 100644
-index 0000000..ae44730
+index 0000000..9eff030
 --- /dev/null
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-extent-header.patch
-@@ -0,0 +1,47 @@
-+debugfs: properly set up extent header in do_write
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/populate-extfs.sh
+@@ -0,0 +1,96 @@
++#!/bin/sh
 +
-+do_write doesn't fully set up the first extent header on a new
-+inode, so if we write a 0-length file, and don't write any data
-+to the new file, we end up creating something that looks corrupt
-+to kernelspace:
++do_usage () {
++	cat << _EOF
++Usage: populate-extfs.sh <source> <device>
++Create an ext2/ext3/ext4 filesystem from a directory or file
 +
-+EXT4-fs error (device loop0): ext4_ext_check_inode:464: inode #12: comm ls: bad header/extent: invalid magic - magic 0, entries 0, max 0(0), depth 0(0)
++  source: The source directory or file
++  device: The target device
 +
-+Do something similar to ext4_ext_tree_init() here, and
-+fill out the first extent header upon creation to avoid this.
++_EOF
++	exit 1
++}
 +
-+Upstream-Status: Backport
++[ $# -ne 2 ] && do_usage
 +
-+Reported-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Eric Sandeen <sandeen@redhat.com>
-+---
-+ debugfs/debugfs.c | 13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
++SRCDIR=${1%%/}
++DEVICE=$2
++DEBUGFS="debugfs"
 +
-+diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
-+--- a/debugfs/debugfs.c
-++++ b/debugfs/debugfs.c
-+@@ -1726,8 +1726,19 @@ void do_write(int argc, char *argv[])
-+ 	inode.i_links_count = 1;
-+ 	inode.i_size = statbuf.st_size;
-+ 	if (current_fs->super->s_feature_incompat &
-+-	    EXT3_FEATURE_INCOMPAT_EXTENTS)
-++	    EXT3_FEATURE_INCOMPAT_EXTENTS) {
-++		int i;
-++		struct ext3_extent_header *eh;
-++
-++		eh = (struct ext3_extent_header *) &inode.i_block[0];
-++		eh->eh_depth = 0;
-++		eh->eh_entries = 0;
-++		eh->eh_magic = EXT3_EXT_MAGIC;
-++		i = (sizeof(inode.i_block) - sizeof(*eh)) /
-++			sizeof(struct ext3_extent);
-++		eh->eh_max = ext2fs_cpu_to_le16(i);
-+ 		inode.i_flags |= EXT4_EXTENTS_FL;
-++	}
-+ 	if (debugfs_write_new_inode(newfile, &inode, argv[0])) {
-+ 		close(fd);
-+ 		return;
-+-- 
-+1.8.1.2
++{
++	CWD="/"
++	find $SRCDIR | while read FILE; do
++                TGT="${FILE##*/}"
++                DIR="${FILE#$SRCDIR}"
++                DIR="${DIR%$TGT}"
 +
++		# Skip the root dir
++		[ ! -z "$DIR" ] || continue
++		[ ! -z "$TGT" ] || continue
++
++		if [ "$DIR" != "$CWD" ]; then
++			echo "cd $DIR"
++			CWD="$DIR"
++		fi
++
++		# Only stat once since stat is a time consuming command
++		STAT=$(stat -c "TYPE=\"%F\";DEVNO=\"0x%t 0x%T\";MODE=\"%f\";U=\"%u\";G=\"%g\"" $FILE)
++		eval $STAT
++
++		case $TYPE in
++		"directory")
++			echo "mkdir $TGT"
++			;;
++		"regular file" | "regular empty file")
++			echo "write $FILE $TGT"
++			;;
++		"symbolic link")
++			LINK_TGT=$(readlink $FILE)
++			echo "symlink $TGT $LINK_TGT"
++			;;
++		"block special file")
++			echo "mknod $TGT b $DEVNO"
++			;;
++		"character special file")
++			echo "mknod $TGT c $DEVNO"
++			;;
++		"fifo")
++			echo "mknod $TGT p"
++			;;
++		*)
++			echo "Unknown/unhandled file type '$TYPE' file: $FILE" 1>&2
++			;;
++		esac
++
++		# Set the file mode
++		echo "sif $TGT mode 0x$MODE"
++
++		# Set uid and gid
++		echo "sif $TGT uid $U"
++		echo "sif $TGT gid $G"
++	done
++
++	# Handle the hard links.
++	# Save the hard links to a file, use the inode number as the filename, for example:
++	# If a and b's inode number is 6775928, save a and b to /tmp/tmp.VrCwHh5gdt/6775928.
++	INODE_DIR=`mktemp -d` || exit 1
++	for i in `find $SRCDIR -type f -links +1 -printf 'INODE=%i###FN=%p\n'`; do
++		eval `echo $i | sed 's$###$ $'`
++		echo ${FN#$SRCDIR} >>$INODE_DIR/$INODE
++	done
++	# Use the debugfs' ln and "sif links_count" to handle them.
++	for i in `ls $INODE_DIR`; do
++		# The link source
++		SRC=`head -1 $INODE_DIR/$i`
++		# Remove the files and link them again except the first one
++		for TGT in `sed -n -e '1!p' $INODE_DIR/$i`; do
++			echo "rm $TGT"
++			echo "ln $SRC $TGT"
++		done
++		LN_CNT=`cat $INODE_DIR/$i | wc -l`
++		# Set the links count
++		echo "sif $SRC links_count $LN_CNT"
++	done
++	rm -fr $INODE_DIR
++} | $DEBUGFS -w -f - $DEVICE
 diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-index b063bc0..2dc9dab 100644
+index 2dc9dab..8b69b22 100644
 --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
 +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-@@ -6,6 +6,8 @@ SRC_URI += "file://acinclude.m4 \
-             file://debugfs-too-short.patch \
-             file://debugfs-sparse-copy.patch \
-             file://fix-icache.patch \
-+            file://debugfs-extent-header.patch \
-+            file://populate-extfs.sh \
- "
+@@ -45,6 +45,7 @@ do_install_append () {
+ 		mv ${D}${base_libdir}/e2initrd_helper ${D}${libdir}
+ 		mv ${D}${base_libdir}/pkgconfig ${D}${libdir}
+ 	fi
++	install -m 0755 ${WORKDIR}/populate-extfs.sh ${D}${bindir}
+ }
  
- SRC_URI[md5sum] = "8ef664b6eb698aa6b733df59b17b9ed4"
+ RDEPENDS_e2fsprogs = "e2fsprogs-badblocks"
 -- 
 1.7.10.4
 
