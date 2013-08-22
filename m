@@ -1,26 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 462356B451
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A090460842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 13:13:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7MDDWHD018688
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 22 Aug 2013 06:13:32 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 22 Aug 2013 06:13:30 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Aug 2013 09:13:14 -0400
-Message-ID: <56e547586b84e14e7c445a54c94d0f0eb2e6ab28.1377175027.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1377175027.git.liezhi.yang@windriver.com>
-References: <cover.1377175027.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Cc: dvhart@linux.intel.com
-Subject: [PATCH 6/6] image_types.bbclass: replace genext2fs with populate-extfs.sh
+	Thu, 22 Aug 2013 13:28:59 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MDenUl006980; Thu, 22 Aug 2013 14:40:49 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ebcj2VQUwlIX; Thu, 22 Aug 2013 14:40:49 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MDeiKo006958
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 22 Aug 2013 14:40:46 +0100
+Message-ID: <1377178123.6762.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Aug 2013 14:28:43 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] gcc-4.8: Add two patches to deal with cross-canadian build failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,116 +34,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 13:13:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Aug 2013 13:29:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* The benefits:
-  - Really support ext4
+See the patch headers for more information about the cross-canadian build failures
+these patches avoid.
 
-  - Support the sparse file (we lost the sparse file in the image in the
-    past, the sparse file became into the common file)
-
-  - Fix the error reported by fsck: (ext2/ext3)
-      Inode 1025, i_size is 16384, should be 17408.
-
-  - Have a uniform code for ext2/3/4 generation
-
-* Comments from Darren Hart:
-Basically, genext2fs doesn't support creating ext4 filesystems. It
-creates, as I understand it, an ext2 filesystem, then adds a journal,
-and sets some bits. It can't support the newer features like extents. So
-what we end up with is a bit of a hack for a filesystem.
-
-The ext tools (e2fsprogs) unfortunately don't provide an integrated
-solution for generating prepopulated filesystem images as many other
-mkfs* tools do. One thing missing was symlink support in libext2fs. I
-added that support and demonstrated a script which uses the e2fsprogs
-debugfs tool that can populate the newly formatted filesystem from a
-directory and without root privileges.
-
-[YOCTO #3848]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image_types.bbclass |   46 +++++++++++++++-----------------------
- 1 file changed, 18 insertions(+), 28 deletions(-)
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index 9d92eda..e66bdaf 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -72,6 +72,8 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0040-fix-g++-sysroot.patch \
+ 	   file://0041-libtool-avoid-libdir.patch \
+ 	   file://0042-pr57748.patch \
++	   file://0043-cpp.patch \
++	   file://0044-gengtypes.patch \
+ 	  "
+ SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+ SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0043-cpp.patch b/meta/recipes-devtools/gcc/gcc-4.8/0043-cpp.patch
+new file mode 100644
+index 0000000..eaf8646
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0043-cpp.patch
+@@ -0,0 +1,40 @@
++The OE environment sets and exports CPP as being the target gcc. When building 
++gcc-cross-canadian for a mingw targetted sdk, the following can be found in
++build.x86_64-pokysdk-mingw32.i586-poky-linux/build-x86_64-linux/libiberty/config.log:
++
++configure:3641: checking for _FILE_OFFSET_BITS value needed for large files
++configure:3666: gcc  -c -isystem/media/build1/poky/build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe  conftest.c >&5
++configure:3666: $? = 0
++configure:3698: result: no
++configure:3786: checking how to run the C preprocessor
++configure:3856: result: x86_64-pokysdk-mingw32-gcc -E --sysroot=/media/build1/poky/build/tmp/sysroots/x86_64-nativesdk-mingw32-pokysdk-mingw32
++configure:3876: x86_64-pokysdk-mingw32-gcc -E --sysroot=/media/build1/poky/build/tmp/sysroots/x86_64-nativesdk-mingw32-pokysdk-mingw32  conftest.c
++configure:3876: $? = 0
++
++Note this is a *build* target (in build-x86_64-linux) so it should be using 
++the host "gcc", not x86_64-pokysdk-mingw32-gcc. Since the mingw32 headers are 
++very different, using the wrong cpp is a real problem. It is leaking into 
++configure through the CPP variable. Ultimately this leads to build failures 
++related to not being able to include a process.h file for pem-unix.c.
++
++The fix is to ensure we export a sane CPP value into the build environment when
++using build targets. We could define a CPP_FOR_BUILD value which may be the version
++which needs to be upstreamed but for now, this fix is good enough to avoid the 
++problem.
++
++RP 22/08/2013
++
++Upstream-Status: Pending
++
++Index: gcc-4.8.1/Makefile.in
++===================================================================
++--- gcc-4.8.1.orig/Makefile.in	2013-03-30 11:25:03.000000000 +0000
+++++ gcc-4.8.1/Makefile.in	2013-08-13 12:03:17.151988882 +0000
++@@ -149,6 +149,7 @@
++ 	AR="$(AR_FOR_BUILD)"; export AR; \
++ 	AS="$(AS_FOR_BUILD)"; export AS; \
++ 	CC="$(CC_FOR_BUILD)"; export CC; \
+++	CPP="$(CC_FOR_BUILD) -E"; export CPP; \
++ 	CFLAGS="$(CFLAGS_FOR_BUILD)"; export CFLAGS; \
++ 	CONFIG_SHELL="$(SHELL)"; export CONFIG_SHELL; \
++ 	CXX="$(CXX_FOR_BUILD)"; export CXX; \
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0044-gengtypes.patch b/meta/recipes-devtools/gcc/gcc-4.8/0044-gengtypes.patch
+new file mode 100644
+index 0000000..e38761d
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0044-gengtypes.patch
+@@ -0,0 +1,97 @@
++gengtype is generated for both the build system and the target. -DGENERATOR_FILE
++was added in the patch http://gcc.gnu.org/ml/gcc-patches/2012-07/msg00273.html
++and was applied to both versions of gengtype.
++
++Unfortunately the presence of this flag triggers the build configuration (bconfig.h) 
++to be included for the target build of gengtype. Compiling gengtype with the target 
++compiler and bconfig.h can result in errors if the build and target systems are 
++dissimilar. An example case this fails is cross compiling gcc on linux for a darwin 
++target system:
++
++In file included from /media/build1/poky/build/tmp/work-shared/gcc-4.8.1-r0/gcc-4.8.1/gcc/gengtype-parse.c:25:0:
++| /media/build1/poky/build/tmp/work-shared/gcc-4.8.1-r0/gcc-4.8.1/gcc/gengtype-parse.c: In function 'void parse_error(const char*, ...)':
++| /media/build1/poky/build/tmp/work-shared/gcc-4.8.1-r0/gcc-4.8.1/gcc/system.h:93:53: error: 'fputc_unlocked' was not declared in this scope
++|  #  define fputc(C, Stream) fputc_unlocked (C, Stream)
++
++which occurs since auto-build.h and auto-host.h have differnet values of
++HAVE_FPUTC_UNLOCKED:
++
++#define HAVE_FPUTC_UNLOCKED 1
++/* #undef HAVE_FPUTS_UNLOCKED */
++
++The obvious fix is to only include the flag on build/ targets which this patch does, however 
++this also leads to compile errors due to const_tree being undefined but used in double_int.h
++
++I added a GENERATOR_FILE2 flag to workaround those in the 
++target case and allow the build to succeed.
++
++Only the build/gengtypes should have the -DGENERATOR_FILE 
++
++RP 22/8/2013
++
++Upstream-Status: Pending
++
++Index: gcc-4.8.1/gcc/Makefile.in
++===================================================================
++--- gcc-4.8.1.orig/gcc/Makefile.in	2013-08-19 11:40:36.844014424 +0000
+++++ gcc-4.8.1/gcc/Makefile.in	2013-08-19 11:40:37.784014402 +0000
++@@ -3903,27 +3903,29 @@
++ 
++ gengtype-lex.o build/gengtype-lex.o : gengtype-lex.c gengtype.h $(SYSTEM_H)
++ gengtype-lex.o: $(CONFIG_H) $(BCONFIG_H)
++-CFLAGS-gengtype-lex.o += -DGENERATOR_FILE
+++CFLAGS-build/gengtype-lex.o += -DGENERATOR_FILE
++ build/gengtype-lex.o: $(BCONFIG_H)
++ 
++ gengtype-parse.o build/gengtype-parse.o : gengtype-parse.c gengtype.h \
++   $(SYSTEM_H)
++ gengtype-parse.o: $(CONFIG_H)
++-CFLAGS-gengtype-parse.o += -DGENERATOR_FILE
+++CFLAGS-build/gengtype-parse.o += -DGENERATOR_FILE
++ build/gengtype-parse.o: $(BCONFIG_H)
++ 
++ gengtype-state.o build/gengtype-state.o: gengtype-state.c $(SYSTEM_H) \
++   gengtype.h errors.h double-int.h version.h $(HASHTAB_H) $(OBSTACK_H) \
++   $(XREGEX_H)
++ gengtype-state.o: $(CONFIG_H)
++-CFLAGS-gengtype-state.o += -DGENERATOR_FILE
+++CFLAGS-gengtype-state.o += -DGENERATOR_FILE2
+++CFLAGS-build/gengtype-state.o += -DGENERATOR_FILE
++ build/gengtype-state.o: $(BCONFIG_H)
++ 
++ gengtype.o build/gengtype.o : gengtype.c $(SYSTEM_H) gengtype.h 	\
++   rtl.def insn-notes.def errors.h double-int.h version.h $(HASHTAB_H) \
++   $(OBSTACK_H) $(XREGEX_H)
++ gengtype.o: $(CONFIG_H)
++-CFLAGS-gengtype.o += -DGENERATOR_FILE
+++CFLAGS-gengtype.o += -DGENERATOR_FILE2
+++CFLAGS-build/gengtype.o += -DGENERATOR_FILE
++ build/gengtype.o: $(BCONFIG_H)
++ 
++ build/genmddeps.o: genmddeps.c $(BCONFIG_H) $(SYSTEM_H) coretypes.h	\
++@@ -3988,7 +3990,7 @@
++ # any system header is included.
++ gengtype-lex.c : gengtype-lex.l
++ 	-$(FLEX) $(FLEXFLAGS) -o$@ $< && { \
++-	  echo '#include "bconfig.h"' > $@.tmp; \
+++	  echo '' > $@.tmp; \
++ 	  cat $@ >> $@.tmp; \
++ 	  mv $@.tmp $@; \
++ 	}
++Index: gcc-4.8.1/gcc/double-int.h
++===================================================================
++--- gcc-4.8.1.orig/gcc/double-int.h	2013-01-30 11:04:30.000000000 +0000
+++++ gcc-4.8.1/gcc/double-int.h	2013-08-19 11:41:51.564012719 +0000
++@@ -448,10 +448,12 @@
++ 
++ 
++ #ifndef GENERATOR_FILE
+++#ifndef GENERATOR_FILE2
++ /* Conversion to and from GMP integer representations.  */
++ 
++ void mpz_set_double_int (mpz_t, double_int, bool);
++ double_int mpz_get_double_int (const_tree, mpz_t, bool);
++ #endif
+++#endif
++ 
++ #endif /* DOUBLE_INT_H */
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 0e5a9a8..c168ed5 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -141,34 +141,24 @@ IMAGE_CMD_sum.jffs2 = "${IMAGE_CMD_jffs2} && sumtool -i ${DEPLOY_DIR_IMAGE}/${IM
- 
- IMAGE_CMD_cramfs = "mkcramfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.cramfs ${EXTRA_IMAGECMD}"
- 
--IMAGE_CMD_ext2 () {
--	rm -rf ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN} && mkdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2
--	mv ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}/${IMAGE_NAME}.rootfs.ext2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext2
--	rmdir ${DEPLOY_DIR_IMAGE}/tmp.gz-${PN}
--}
-+oe_mkext234fs () {
-+	fstype=$1
-+	extra_imagecmd=""
- 
--IMAGE_CMD_ext3 () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
--	tune2fs -j ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
--}
-+	if [ $# -gt 1 ]; then
-+		shift
-+		extra_imagecmd=$@
-+	fi
- 
--oe_mkext4fs () {
--	genext2fs -b $ROOTFS_SIZE -d ${IMAGE_ROOTFS} ${EXTRA_IMAGECMD} $1
--	tune2fs -O extents,uninit_bg,dir_index,has_journal,filetype $1
--	e2fsck -yfDC0 $1 || chk=$?
--	case $chk in
--	0|1|2)
--	    ;;
--	*)
--	    return $chk
--	    ;;
--	esac
-+	# Create a sparse image block
-+	dd if=/dev/zero of=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype seek=$ROOTFS_SIZE count=0 bs=1k
-+	mkfs.$fstype -F $extra_imagecmd ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
-+	populate-extfs.sh ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.$fstype
- }
- 
--IMAGE_CMD_ext4 () {
--	oe_mkext4fs ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
--}
-+IMAGE_CMD_ext2 = "oe_mkext234fs ext2 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext3 = "oe_mkext234fs ext3 ${EXTRA_IMAGECMD}"
-+IMAGE_CMD_ext4 = "oe_mkext234fs ext4 ${EXTRA_IMAGECMD}"
- 
- IMAGE_CMD_btrfs () {
- 	mkfs.btrfs -b `expr ${ROOTFS_SIZE} \* 1024` ${EXTRA_IMAGECMD} -r ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.btrfs
-@@ -218,7 +208,7 @@ JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '--little-
- JFFS2_ERASEBLOCK ?= "0x40000"
- EXTRA_IMAGECMD_jffs2 ?= "--pad ${JFFS2_ENDIANNESS} --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
- 
--# Change these if you want default genext2fs behavior (i.e. create minimal inode number)
-+# Change these if you want default mkfs behavior (i.e. create minimal inode number)
- EXTRA_IMAGECMD_ext2 ?= "-i 8192"
- EXTRA_IMAGECMD_ext3 ?= "-i 8192"
- EXTRA_IMAGECMD_ext4 ?= "-i 8192"
-@@ -229,9 +219,9 @@ IMAGE_DEPENDS = ""
- IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
- IMAGE_DEPENDS_sum.jffs2 = "mtd-utils-native"
- IMAGE_DEPENDS_cramfs = "cramfs-native"
--IMAGE_DEPENDS_ext2 = "genext2fs-native"
--IMAGE_DEPENDS_ext3 = "genext2fs-native e2fsprogs-native"
--IMAGE_DEPENDS_ext4 = "genext2fs-native e2fsprogs-native"
-+IMAGE_DEPENDS_ext2 = "e2fsprogs-native"
-+IMAGE_DEPENDS_ext3 = "e2fsprogs-native"
-+IMAGE_DEPENDS_ext4 = "e2fsprogs-native"
- IMAGE_DEPENDS_btrfs = "btrfs-tools-native"
- IMAGE_DEPENDS_squashfs = "squashfs-tools-native"
- IMAGE_DEPENDS_squashfs-xz = "squashfs-tools-native"
--- 
-1.7.10.4
 
 
