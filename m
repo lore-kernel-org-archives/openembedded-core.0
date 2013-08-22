@@ -1,32 +1,32 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D8FD76B2C2
+	by mail.openembedded.org (Postfix) with ESMTP id CB3D86B51D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 11:30:53 +0000 (UTC)
+	Thu, 22 Aug 2013 11:30:56 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MBg9fZ001261; Thu, 22 Aug 2013 12:42:12 +0100
+	r7MBg9xx001260; Thu, 22 Aug 2013 12:42:15 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id s9rG_MZFiLeW; Thu, 22 Aug 2013 12:42:12 +0100 (BST)
+	with LMTP id zahdY7GSdDIA; Thu, 22 Aug 2013 12:42:15 +0100 (BST)
 Received: from ted (bebox.config [93.97.175.187] (may be forged))
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MBg7WZ001220
+	r7MBg7XQ001227
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
 	Thu, 22 Aug 2013 12:42:08 +0100
 Received: from richard by ted with local (Exim 4.80)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1VCT5a-0001i3-Mg; Thu, 22 Aug 2013 12:30:06 +0100
+	id 1VCT5b-0001iU-6m; Thu, 22 Aug 2013 12:30:07 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Aug 2013 12:29:41 +0100
-Message-Id: <1377171000-6469-9-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Aug 2013 12:29:46 +0100
+Message-Id: <1377171000-6469-14-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 09/28] gcc-configure-sdk.inc: Don't build target-libgcc
+Subject: [PATCH 14/28] Revert "nativesdk: inherit relocatable"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +39,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 11:30:54 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 11:30:57 -0000
 
-I don't understand why we're building the target libgcc in the canadian-cross build
-since it should have been built elsewhere. The compiler configuration isn't correct
-to build a working target libgcc in all cases anyway.
+This reverts commit f93ddea31fcf18833c9bc6e93d93ad223c62eded.
 
-To avoid various weird build errors, stop building it.
+We never run nativesdk binaries so it doesn't make sense to use the relocatable
+class. The chrpath calls at packaging time will ensure the binaries are relocated
+in the final packages. The binaries in the sysroot are never used.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/gcc/gcc-configure-sdk.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/nativesdk.bbclass | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-index 51c0217..6c55bc7 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-sdk.inc
-@@ -43,5 +43,5 @@ do_configure () {
- }
- 
- do_compile () {
--	oe_runmake all-host all-target-libgcc
-+	oe_runmake all-host
- }
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 5b9d1f5..0d5cba4 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -1,5 +1,3 @@
+-inherit relocatable
+-
+ # SDK packages are built either explicitly by the user,
+ # or indirectly via dependency.  No need to be in 'world'.
+ EXCLUDE_FROM_WORLD = "1"
 -- 
 1.8.1.2
 
