@@ -1,38 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E18C61EEB
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 96CB160842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 10:55:16 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2013 03:55:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,933,1367996400"; d="scan'208";a="366744772"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga001.jf.intel.com with ESMTP; 22 Aug 2013 03:55:16 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX101.ger.corp.intel.com ([169.254.1.83]) with mapi id
-	14.03.0123.003; Thu, 22 Aug 2013 11:55:11 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Thread-Topic: [OE-core] [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and
-	more (Initial ACK Please)!
-Thread-Index: AQHOnx237AhxK4sw9U+nbh/jr6OpHJmhDabg
-Date: Thu, 22 Aug 2013 10:55:11 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C17DEE@IRSMSX105.ger.corp.intel.com>
-References: <cover.1377150822.git.sgw@linux.intel.com>
-	<6560539.TdGG90GaLI@helios>
-	<969F26A8BAB325438E7EB80D3C3134FB16C17CB1@IRSMSX105.ger.corp.intel.com>
-	<20130822095515.GJ522@jama>
-In-Reply-To: <20130822095515.GJ522@jama>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and more (Initial ACK Please)!
+	Thu, 22 Aug 2013 11:30:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MBg5Kn001247; Thu, 22 Aug 2013 12:42:05 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uuUTeM64EVAr; Thu, 22 Aug 2013 12:42:05 +0100 (BST)
+Received: from ted (bebox.config [93.97.175.187] (may be forged))
+	(authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MBg2Ab001211
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
+	Thu, 22 Aug 2013 12:42:04 +0100
+Received: from richard by ted with local (Exim 4.80)
+	(envelope-from <richard@dan.rpsys.net>)
+	id 1VCT5V-0001hO-Sk; Thu, 22 Aug 2013 12:30:01 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Aug 2013 12:29:33 +0100
+Message-Id: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH 01/28] package.bbclass: Fix handling of symlinks in debug packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,51 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 10:55:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Aug 2013 11:30:16 -0000
 
-Sorry, for the moment, I don't have the necessary time resources to switch =
-to another email client.
-I will do it after 1.5 release.
-Regards,
-Cristian
+When copying the sources for the debug source package we use cpio -Ll
+which means to copy files as hardlinks and to dereference symlinks.
+It appears there is a bug in cpio since -Ll will copy symlinks and
+not dereference them. We therefore do a second pass over copied symlinks
+resolving them into files. Ideally we would copy these as hardlinks as well
+however it doesn't seem worth the extra code and effort for what amounts
+to a corner case for a minor space improvement.
 
------Original Message-----
-From: Martin Jansa [mailto:martin.jansa@gmail.com]=20
-Sent: Thursday, August 22, 2013 12:55 PM
-To: Iorga, Cristian
-Cc: Paul Eggleton; openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and=
- more (Initial ACK Please)!
+This means that the -dbg packages no longer contain broken symlinks.
 
-On Thu, Aug 22, 2013 at 09:14:07AM +0000, Iorga, Cristian wrote:
->=20
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org=20
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of=20
-> Paul Eggleton
-> Sent: Thursday, August 22, 2013 12:08 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [CONSOLIDATED PULL 00/62] Python3, Packge Exlude a=
-nd more (Initial ACK Please)!
+[YOCTO #5020]
 
-Iorga, please get better e-mail client, there is no way to see what was wri=
-tten by you and what was there from Paul's reply.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/package.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> > Cristian Iorga (4):
-> >   packagegroup-self-hosted: pcmanfm integration
-> >   builder: register directories with pcmanfm
-> >   build-appliance-image: changing the icon theme to sato
-> >   default-providers: Set the preferred provider for bluez
->=20
-> I thought we were going to fix the libasound-module-bluez multiple provid=
-er issue by renaming the package?
->  - Actually, that involves more changes (change in packagegroup-base.bb) =
-and I think that this change will be eliminated once we will make the chang=
-e to BlueZ5 in the next release (or I hope so :-) ).
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 2460d0a..f6f9310 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -316,6 +316,12 @@ def copydebugsources(debugsrcdir, d):
+         #if retval:
+         #    bb.fatal("debug source copy failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
++        # cpio seems to have a bug with -lL together and symbolic links are just copied, not dereferenced.
++        # Work around this by manually finding and copying any symbolic links that made it through.
++        cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s' 2>/dev/null)" % (dvar, debugsrcdir, dvar, debugsrcdir, workparentdir, dvar, debugsrcdir)
++        (retval, output) = oe.utils.getstatusoutput(cmd)
++        if retval:
++            bb.fatal("debugsrc symlink fixup failed with exit code %s (cmd was %s)" % (retval, cmd))
+ 
+         # The copy by cpio may have resulted in some empty directories!  Remove these
+         cmd = "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
+-- 
+1.8.1.2
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
