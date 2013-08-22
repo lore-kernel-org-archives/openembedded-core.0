@@ -1,29 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 11D31608A6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3307060842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 14:28:56 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 22 Aug 2013 07:27:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,934,1367996400"; d="scan'208";a="285374921"
-Received: from unknown (HELO [10.255.14.105]) ([10.255.14.105])
-	by AZSMGA002.ch.intel.com with ESMTP; 22 Aug 2013 07:27:51 -0700
-Message-ID: <52161FE7.5070900@linux.intel.com>
-Date: Thu, 22 Aug 2013 07:27:51 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <CAF6bG8cHBD0+5JQfuXNNY0odSU3gs=_Son6zT4RXuH8eBfj=Xg@mail.gmail.com>
-	<CAF6bG8f7HR25c6FPS0Lz3WqLqG+3-VxijyOKg64vOdRX95M0Dw@mail.gmail.com>
-	<CAF6bG8eV+iLQ0xmuJu=XrOn_eDEUtyp1r2KRx2TYX7xxijRJqQ@mail.gmail.com>
-	<1447719.EOHWTkW7bb@helios>
-In-Reply-To: <1447719.EOHWTkW7bb@helios>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu-native build regularly failing
+	Thu, 22 Aug 2013 14:36:22 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id p57so1591137wes.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 07:36:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=xXytuZWuZffxOYI7ct9s1Y1714GvpUvEZ+/KliB95QI=;
+	b=hMcRG35YTACj13V0y2QHDpu8LbPmYfpcvMU8LFU1ZkcAU3Qp1uRPAtVROYfhdref/s
+	FyyKeFk8SSZuhW0mF00sPO5CQ8VhhQgJNAcWr43vVmM0pxJVhDYIo+Wxu01waxmgPiIe
+	qmXL5aIdJN9IQUHxKOIhbLykdMpXVjENTFYqdIaLwAGuRVrmHqQD4BCq0fpCptFamMPS
+	LTsVgnRb4UWzWZP95d4eRHxcmsv+xCJ/Ph638pMAuUjo29xiwU/g+8N5myUH0bptRRqq
+	7edk21F+Ur1jlQGNUPA+pyjfK5odPJkJbjY1ky30+ZApGbNobodZ9YjI8fxVXtjFTjPI
+	CZaA==
+X-Gm-Message-State: ALoCoQnpCEA1tir6osckQKoLplWtv2Zlritn6J47fFUgtBsDa3MJGJBcHTccXfDrOUdfB5OZQ/wB
+X-Received: by 10.194.95.10 with SMTP id dg10mr10502136wjb.36.1377182182217;
+	Thu, 22 Aug 2013 07:36:22 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id bt8sm17222337wib.8.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 22 Aug 2013 07:36:21 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 22 Aug 2013 15:36:18 +0100
+Message-Id: <1377182178-19511-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] runqemu-ifup: when tunctl can't be found, say what package builds it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,120 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 14:28:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2013 14:36:24 -0000
 
-On 08/22/2013 06:03 AM, Paul Eggleton wrote:
-> On Thursday 22 August 2013 15:56:39 Marko Lindqvist wrote:
->> On 21 August 2013 19:33, Marko Lindqvist <cazfi74@gmail.com> wrote:
->>> On 21 August 2013 01:15, Marko Lindqvist <cazfi74@gmail.com> wrote:
->>>> On 21 August 2013 00:16, Paul Eggleton <paul.eggleton@linux.intel.com>
-> wrote:
->>>>> On Tuesday 20 August 2013 23:26:44 Marko Lindqvist wrote:
->>>>>> On 20 August 2013 16:32, Paul Eggleton <paul.eggleton@linux.intel.com>
->>>>>>
->>>>>> wrote:
->>>>>>> On Tuesday 20 August 2013 15:51:21 Marko Lindqvist wrote:
->>>>>>>> Build of qemu-native regularly fails with:
->>>>>>>> |   LINK  sh4-softmmu/qemu-system-sh4
->>>>>>>> |
->>>>>>>> | /usr/lib/x86_64-linux-gnu/libXext.so.6: undefined reference to
->>>>>>>>
->>>>>>>> `_XEatDataWords'
->>>>>>>>
->>>>>>>> | collect2: error: ld returned 1 exit status
->>>>>>>>
->>>>>>>> This might be some dependency missing, as building first some
->>>>>>>> packets
->>>>>>>> (+ more importantly their dependencies) that do not depend on qemu
->>>>>>>> and
->>>>>>>> only then qemu dependant image success.
->>>>>>>
->>>>>>> Do you have something else causing libxext-native to be built by any
->>>>>>> chance?
->>>>>>
->>>>>>   Yes, it seems to be difference between the tree where build fails and
->>>>>>
->>>>>> the one where build success that former has no libxext-native built.
->>>>>> Further, I tested just building libxext-native before building
->>>>>> qemu-native, and then the build succeded.
->>>>>
->>>>> The problem is we want qemu-native to be buildable both on systems
->>>>> without X11 and systems with X11, so the dependency has to be floating,
->>>>> and this is more or less acceptable for a native recipe - there's only
->>>>> a problem when libxext- native needs to be built. I can't see a lot of
->>>>> value in building libxext- native in any case - what is causing it to
->>>>> be built on your system?
->>>>>
->>>>> Cheers,
->>>>> Paul
->>>>>
->>>>   I'm still running more tests - this seems to be complicated matter.
->>>>
->>>> For one, I just got successful build from empty tree by building
->>>> qemu-native directly. That was build targeted to arm, while failing
->>>> builds have been for x86 (native is amd64). Also, I think (but cannot
->>>> be 100% sure any more) build has succeeded on trees where nothing
->>>> depends on libxext-native but still *something* was needed to be built
->>>> before qemu-native.
->>>>
->>>   It seems libxext-native is not needed. Rather this seems like problem
->>>
->>> with build parallelism.
->>>
->>>   - Sometimes "bitbake qemu-native" to empty tree success at once
->>>   - When it first fails (but other tasks get executed while it tries to
->>>
->>> build), it then success by forcing configure rerun & building  (
->>> "bitbake qemu-native -c configure -f && bitbake qemu-native" )
->>>
->>>   I think next step is to get config.log of the succesful and failed
->>>
->>> build to compare.
->>
->> --- success-qemu/qemu-1.5.0/config-host.h       2013-08-22
->> 15:45:10.323126880 +0300
->> +++ failed-qemu/qemu-1.5.0/config-host.h        2013-08-22
->> 15:32:23.515101072 +0300
->> @@ -26,6 +26,7 @@
->>   #define CONFIG_UUID 1
->>   #define QEMU_VERSION "1.5.0"
->>   #define QEMU_PKGVERSION ""
->> +#define CONFIG_SDL 1
->>   #define CONFIG_CURSES 1
->>   #define CONFIG_ATFILE 1
->>   #define CONFIG_UTIMENSAT 1
->> @@ -55,6 +56,7 @@
->>   #define CONFIG_MADVISE 1
->>   #define CONFIG_POSIX_MADVISE 1
->>   #define CONFIG_SIGEV_THREAD_ID 1
->> +#define CONFIG_GLX 1
->>   #define CONFIG_UNAME_RELEASE ""
->>   #define CONFIG_ZERO_MALLOC 1
->>   #define CONFIG_QOM_CAST_DEBUG 1
->>
->>
->> As this diff is success -> failed, CONFIG_GLX and CONFIG_SDL are
->> defined on first build ending to failure, but not on forced
->> reconfigure that then build succesfully.
->
-> You'd probably need to dig into the actual configure check that enables these
-> automatically. I was about to suggest maybe libsdl-native was present in the
-> failing case, but then the current libsdl recipe in OE-Core doesn't provide
-> libsdl-native so that probably isn't it...
->
-Something that we did not ask here, is what is your host OS?  We just 
-had a very similar issue Fedora 19, since qemu had a floating dependency 
-on some X libraries specifically libX11 and libXext and X11 is newer on 
-F19, it was causing problems if you happen to have libX11-native built. 
-  We just updated libX11 and in our testing it seems to have fix this issue.
+If runqemu is used without actually building any qemu images (i.e. you
+downloaded the images) it's likely that qemu-helper-native hasn't been built.
+Instead of just saying what command can't be found, tell the user how to solve
+their problem.
 
-Check out the patches.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/runqemu-ifup |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sau!
+diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+index 5f6a437..140dd88 100755
+--- a/scripts/runqemu-ifup
++++ b/scripts/runqemu-ifup
+@@ -53,7 +53,7 @@ NATIVE_SYSROOT_DIR=$3
+ 
+ TUNCTL=$NATIVE_SYSROOT_DIR/usr/bin/tunctl
+ if [ ! -x "$TUNCTL" ]; then
+-	echo "Error: Unable to find tunctl binary in '$NATIVE_SYSROOT_DIR/usr/bin'"
++        echo "Error: Unable to find tunctl binary in '$NATIVE_SYSROOT_DIR/usr/bin', please bitbake qemu-helper-native"
+ 	exit 1
+ fi
+ 
+-- 
+1.7.10.4
 
-> Cheers,
-> Paul
->
 
