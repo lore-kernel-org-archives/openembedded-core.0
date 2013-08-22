@@ -1,26 +1,39 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B727360842
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A3F660842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 14:52:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 22 Aug 2013 07:49:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,934,1367996400"; d="scan'208";a="391625764"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.147]) ([10.7.201.147])
-	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2013 07:52:34 -0700
-Message-ID: <1377183153.5259.4.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Thu, 22 Aug 2013 07:52:33 -0700
-In-Reply-To: <c860af16cf9ffd4ba171206e5e9a36c50d771bdf.1377175027.git.liezhi.yang@windriver.com>
-References: <cover.1377175027.git.liezhi.yang@windriver.com>
-	<c860af16cf9ffd4ba171206e5e9a36c50d771bdf.1377175027.git.liezhi.yang@windriver.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
+	Thu, 22 Aug 2013 15:16:31 +0000 (UTC)
+Received: by mail-ea0-f174.google.com with SMTP id z15so957589ead.19
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 08:16:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=C+2osIXxOhXxSbDw5hfdhOvqhaT818iULamh9TXnkd8=;
+	b=lU20Hfasfl9lBnQ/4FRD74ZwIPoExm9o5A4agY4PKfxZUY1Zixh6sKrXFOkC8x9PAX
+	GHfiy3Jve3i3VeFFzhPoXn/qreovwnCzsJKPq7fIrfTLxd5OGEot0QajMxo8EPxeY9zw
+	G7yYq0XwkdfhEtg+G4A3W5mjcA7937YZ2c+rZgd2T6vFtauP2zxbpQ9wVE0pLhUjPi0i
+	mvsCWttVzpZkupQHKdJ5lNP82RMhm5UMfCiMa1EFTL3rawewWJ7+Mmvp+saSqDxAFoKL
+	9+7mX1SrTrr7NmaBAic79U1OtUauxUBKZ21CQKYlqhKg8NWsHuKJzorZ6fIAThwO/dEw
+	2hgQ==
+X-Received: by 10.14.100.4 with SMTP id y4mr466850eef.75.1377184590870;
+	Thu, 22 Aug 2013 08:16:30 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	k7sm18186824eeg.13.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Thu, 22 Aug 2013 08:16:30 -0700 (PDT)
+Date: Thu, 22 Aug 2013 17:17:36 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20130822151736.GL522@jama>
+References: <1377182178-19511-1-git-send-email-ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1377182178-19511-1-git-send-email-ross.burton@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/6] e2fsprogs: let debugfs do sparse copy
+Subject: Re: [PATCH] runqemu-ifup: when tunctl can't be found, say what package builds it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,206 +46,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 14:52:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2013 15:16:31 -0000
+X-Groupsio-MsgNum: 43774
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="z9sQuz+HmDh2hVO4"
+Content-Disposition: inline
 
-On Thu, 2013-08-22 at 09:13 -0400, Robert Yang wrote:
-> Let debugfs do sparse copy when src is a sparse file, just like
-> "cp --sparse=auto"
-> 
-> This patch has been reviewed by the linux-ext4 mailing list, but isn't
-> merged atm.
-> 
-> [YOCTO #3848]
+--z9sQuz+HmDh2hVO4
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Minor whitespace nit below, but will likely be caught by upstream.
-
---
-Darren
-
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+On Thu, Aug 22, 2013 at 03:36:18PM +0100, Ross Burton wrote:
+> If runqemu is used without actually building any qemu images (i.e. you
+> downloaded the images) it's likely that qemu-helper-native hasn't been bu=
+ilt.
+> Instead of just saying what command can't be found, tell the user how to =
+solve
+> their problem.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > ---
->  .../e2fsprogs-1.42.8/debugfs-sparse-copy.patch     |  147 ++++++++++++++++++++
->  .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    1 +
->  2 files changed, 148 insertions(+)
->  create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
-> 
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
-> new file mode 100644
-> index 0000000..c87bcbf
-> --- /dev/null
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
-> @@ -0,0 +1,147 @@
-> +debugfs.c: do sparse copy when src is a sparse file
-> +
-> +Let debugfs do sparse copy when src is a sparse file, just like
-> +"cp --sparse=auto"
-> +
-> +* For the:
-> +  #define IO_BUFSIZE 64*1024
-> +  this is a suggested value from gnu coreutils:
-> +  http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/ioblksize.h;h=1ae93255e7d0ccf0855208c7ae5888209997bf16;hb=HEAD
-> +
-> +* Use malloc() to allocate memory for the buffer since put 64K (or
-> +  more) on the stack seems not a good idea.
-> +
-> +Upstream-Status: Submitted
-> +
-> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> +Acked-by: Darren Hart <dvhart@linux.intel.com>
-> +---
-> + debugfs/debugfs.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++----
-> + 1 file changed, 57 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
-> +--- a/debugfs/debugfs.c
-> ++++ b/debugfs/debugfs.c
-> +@@ -41,6 +41,16 @@ extern char *optarg;
-> + #define BUFSIZ 8192
-> + #endif
-> + 
-> ++/* 64KiB is the minimium blksize to best minimize system call overhead. */
-> ++#ifndef IO_BUFSIZE
-> ++#define IO_BUFSIZE 64*1024
-> ++#endif
-> ++
-> ++/* Block size for `st_blocks' */
-> ++#ifndef S_BLKSIZE
-> ++#define S_BLKSIZE 512
-> ++#endif
-> ++
-> + ss_request_table *extra_cmds;
-> + const char *debug_prog_name;
-> + int sci_idx;
-> +@@ -1575,22 +1585,36 @@ void do_find_free_inode(int argc, char *argv[])
-> + }
-> + 
-> + #ifndef READ_ONLY
-> +-static errcode_t copy_file(int fd, ext2_ino_t newfile)
-> ++static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int make_holes)
-> + {
-> + 	ext2_file_t	e2_file;
-> + 	errcode_t	retval;
-> + 	int		got;
-> + 	unsigned int	written;
-> +-	char		buf[8192];
-> ++	char		*buf;
-> + 	char		*ptr;
-> ++	char		*zero_buf;
-> ++	int		cmp;
-> + 
-> + 	retval = ext2fs_file_open(current_fs, newfile,
-> + 				  EXT2_FILE_WRITE, &e2_file);
-> + 	if (retval)
-> + 		return retval;
-> + 
-> ++	if (!(buf = (char *) malloc(bufsize))){
-> ++		com_err("copy_file", errno, "can't allocate buffer\n");
-> ++		return;
-> ++	}
-> ++
-> ++        /* This is used for checking whether the whole block is zero */
+>  scripts/runqemu-ifup |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/scripts/runqemu-ifup b/scripts/runqemu-ifup
+> index 5f6a437..140dd88 100755
+> --- a/scripts/runqemu-ifup
+> +++ b/scripts/runqemu-ifup
+> @@ -53,7 +53,7 @@ NATIVE_SYSROOT_DIR=3D$3
+> =20
+>  TUNCTL=3D$NATIVE_SYSROOT_DIR/usr/bin/tunctl
+>  if [ ! -x "$TUNCTL" ]; then
+> -	echo "Error: Unable to find tunctl binary in '$NATIVE_SYSROOT_DIR/usr/b=
+in'"
+> +        echo "Error: Unable to find tunctl binary in '$NATIVE_SYSROOT_DI=
+R/usr/bin', please bitbake qemu-helper-native"
 
-Whitespace/indentation error ^
+^ inconsistent whitespace
 
+>  	exit 1
+>  fi
+> =20
+> --=20
+> 1.7.10.4
+>=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-> ++	retval = ext2fs_get_memzero(bufsize, &zero_buf);
-> ++	if (retval) {
-> ++		com_err("copy_file", retval, "can't allocate buffer\n");
-> ++		return retval;
-> ++	}
-> ++
-> + 	while (1) {
-> +-		got = read(fd, buf, sizeof(buf));
-> ++		got = read(fd, buf, bufsize);
-> + 		if (got == 0)
-> + 			break;
-> + 		if (got < 0) {
-> +@@ -1598,6 +1622,21 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
-> + 			goto fail;
-> + 		}
-> + 		ptr = buf;
-> ++
-> ++		/* Sparse copy */
-> ++		if (make_holes) {
-> ++			/* Check whether all is zero */
-> ++			cmp = memcmp(ptr, zero_buf, got);
-> ++			if (cmp == 0) {
-> ++				 /* The whole block is zero, make a hole */
-> ++				retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
-> ++				if (retval)
-> ++					goto fail;
-> ++				got = 0;
-> ++			}
-> ++		}
-> ++
-> ++		/* Normal copy */
-> + 		while (got > 0) {
-> + 			retval = ext2fs_file_write(e2_file, ptr,
-> + 						   got, &written);
-> +@@ -1608,10 +1647,14 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
-> + 			ptr += written;
-> + 		}
-> + 	}
-> ++	free(buf);
-> ++	ext2fs_free_mem(&zero_buf);
-> + 	retval = ext2fs_file_close(e2_file);
-> + 	return retval;
-> + 
-> + fail:
-> ++	free(buf);
-> ++	ext2fs_free_mem(&zero_buf);
-> + 	(void) ext2fs_file_close(e2_file);
-> + 	return retval;
-> + }
-> +@@ -1624,6 +1667,8 @@ void do_write(int argc, char *argv[])
-> + 	ext2_ino_t	newfile;
-> + 	errcode_t	retval;
-> + 	struct ext2_inode inode;
-> ++	int		bufsize = IO_BUFSIZE;
-> ++	int		make_holes = 0;
-> + 
-> + 	if (common_args_process(argc, argv, 3, 3, "write",
-> + 				"<native file> <new file>", CHECK_FS_RW))
-> +@@ -1699,7 +1744,15 @@ void do_write(int argc, char *argv[])
-> + 		return;
-> + 	}
-> + 	if (LINUX_S_ISREG(inode.i_mode)) {
-> +-		retval = copy_file(fd, newfile);
-> ++		if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
-> ++			make_holes = 1;
-> ++			/*
-> ++			 * Use I/O blocksize as buffer size when
-> ++			 * copying sparse files.
-> ++			 */
-> ++			bufsize = statbuf.st_blksize;
-> ++		}
-> ++		retval = copy_file(fd, newfile, bufsize, make_holes);
-> + 		if (retval)
-> + 			com_err("copy_file", retval, 0);
-> + 	}
-> +-- 
-> +1.8.1.2
-> +
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> index f97de7f..5d65bbc 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> @@ -4,6 +4,7 @@ require e2fsprogs.inc
->  SRC_URI += "file://acinclude.m4 \
->              file://remove.ldconfig.call.patch \
->              file://debugfs-too-short.patch \
-> +            file://debugfs-sparse-copy.patch \
->  "
->  
->  SRC_URI[md5sum] = "8ef664b6eb698aa6b733df59b17b9ed4"
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+--z9sQuz+HmDh2hVO4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
 
+iEYEARECAAYFAlIWK5AACgkQN1Ujt2V2gByg0wCgqmq2siurV6jJ4+a2OWlYdHzJ
+l7cAnRaldBcRi2pQofKg6hxnc1I0aqXk
+=y2u3
+-----END PGP SIGNATURE-----
 
+--z9sQuz+HmDh2hVO4--
