@@ -1,37 +1,48 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 718AF60842
+Return-Path: <RAA013@freescale.com>
+Received: from db8outboundpool.messaging.microsoft.com
+	(mail-db8lp0188.outbound.messaging.microsoft.com [213.199.154.188])
+	by mail.openembedded.org (Postfix) with ESMTP id E3BDC60842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 16:44:57 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 22 Aug 2013 09:44:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,935,1367996400"; d="scan'208";a="391695651"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga002.jf.intel.com with ESMTP; 22 Aug 2013 09:44:51 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 22 Aug 2013 17:44:45 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.218]) with mapi id
-	14.03.0123.003; Thu, 22 Aug 2013 17:44:45 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH 1/3] Build Appliance: pcmanfm integration
-Thread-Index: AQHOn0+dU26t4cJzdk+QgsmmaUI9lpmhbxmA
-Date: Thu, 22 Aug 2013 16:44:44 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C181CC@IRSMSX105.ger.corp.intel.com>
-References: <cover.1377014441.git.cristian.iorga@intel.com>
-	<c3d72ead7aeef67db0792738b194891ae8ed3871.1377014441.git.cristian.iorga@intel.com>
-	<CAJTo0LaXbDi7BXYsscN1D=LFJH1LcZNnHCs7aiFo-SiKi45Pag@mail.gmail.com>
-In-Reply-To: <CAJTo0LaXbDi7BXYsscN1D=LFJH1LcZNnHCs7aiFo-SiKi45Pag@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Thu, 22 Aug 2013 17:01:39 +0000 (UTC)
+Received: from mail30-db8-R.bigfish.com (10.174.8.241) by
+	DB8EHSOBE017.bigfish.com (10.174.4.80) with Microsoft SMTP Server id
+	14.1.225.22; Thu, 22 Aug 2013 17:01:39 +0000
+Received: from mail30-db8 (localhost [127.0.0.1])	by mail30-db8-R.bigfish.com
+	(Postfix) with ESMTP id AA30F1C01AE	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 17:01:39 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -1
+X-BigFish: VS-1(zz936eIzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h177df4h17326ah1de096h8275bh8275dh1de097hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h1155h)
+Received: from mail30-db8 (localhost.localdomain [127.0.0.1]) by mail30-db8
+	(MessageSwitch) id 1377190897986582_18298;
+	Thu, 22 Aug 2013 17:01:37 +0000 (UTC)
+Received: from DB8EHSMHS003.bigfish.com (unknown [10.174.8.251])	by
+	mail30-db8.bigfish.com (Postfix) with ESMTP id E35EBC0048	for
+	<openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 17:01:37 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS003.bigfish.com
+	(10.174.4.13) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Thu, 22 Aug 2013 17:01:33 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.3.146.2; Thu, 22 Aug 2013 17:01:31 +0000
+Received: from neo.am.freescale.net (neo.am.freescale.net [10.81.16.89])	by
+	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id r7MH1MUi028169;
+	Thu, 22 Aug 2013 10:01:31 -0700
+From: Lauren Post <lauren.post@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Aug 2013 11:54:28 -0500
+Message-ID: <1377190468-15466-2-git-send-email-lauren.post@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1377190468-15466-1-git-send-email-lauren.post@freescale.com>
+References: <lauren.post@freescale.com>
+	<1377190468-15466-1-git-send-email-lauren.post@freescale.com>
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] Build Appliance: pcmanfm integration
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [v4][PATCH 2/2] directfb: Add fusion patch for hangs on exit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,17 +55,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 16:44:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 22 Aug 2013 17:01:40 -0000
+Content-Type: text/plain
 
-QUNLLCBmaXhpbmcgbm93LiBUaGFua3MsIFJvc3MuDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dIA0K
-U2VudDogVGh1cnNkYXksIEF1Z3VzdCAyMiwgMjAxMyA2OjUyIFBNDQpUbzogSW9yZ2EsIENyaXN0
-aWFuDQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMS8zXSBCdWls
-ZCBBcHBsaWFuY2U6IHBjbWFuZm0gaW50ZWdyYXRpb24NCg0KT24gMjAgQXVndXN0IDIwMTMgMTc6
-MDUsIENyaXN0aWFuIElvcmdhIDxjcmlzdGlhbi5pb3JnYUBpbnRlbC5jb20+IHdyb3RlOg0KPiAr
-ICAgIHhwcm9wIFwNCg0KQXMgZGlzY3Vzc2VkIG9uIEphYmJlciwgdGhpcyBzaG91bGQgYmUgYSBy
-ZGVwZW5kcyBvZiB4ZGctdXRpbHMuDQoNClJvc3MNCg==
+directfb: Add fusion patch for hangs on exit
+ 
+with following tests:   direct_test, fusion_skirmish
+
+Signed-off-by: Lauren Post <lauren.post@freescale.com>
+---
+ meta/recipes-graphics/directfb/directfb.inc        |    3 +-
+ .../directfb/directfb/fusion.patch                 |   36 ++++++++++++++++++++
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100755 meta/recipes-graphics/directfb/directfb/fusion.patch
+
+diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
+index 60b12f7..a23209f 100644
+--- a/meta/recipes-graphics/directfb/directfb.inc
++++ b/meta/recipes-graphics/directfb/directfb.inc
+@@ -14,7 +14,8 @@ DEPENDS = "jpeg libpng freetype zlib tslib"
+ INC_PR = "r0"
+ 
+ SRC_URI = "http://directfb.org/downloads/Core/DirectFB-1.6/DirectFB-${PV}.tar.gz \
+-           file://configurefix.patch"
++           file://configurefix.patch \
++           file://fusion.patch"
+ 
+ S = "${WORKDIR}/DirectFB-${PV}"
+ 
+diff --git a/meta/recipes-graphics/directfb/directfb/fusion.patch b/meta/recipes-graphics/directfb/directfb/fusion.patch
+new file mode 100755
+index 0000000..1f81a67
+--- /dev/null
++++ b/meta/recipes-graphics/directfb/directfb/fusion.patch
+@@ -0,0 +1,36 @@
++directfb: Fix for hangs in direct_test, fusion_skirmish on exit
++
++Upstream-Status: Pending
++Signed-off-by: Lauren Post <lauren.post@freescale.com>
++
++--- a/lib/fusion/fusion.c	2013-01-18 22:57:11.000000000 +0800
+++++ b/lib/fusion/fusion.c	2013-07-04 10:42:56.502699119 +0800
++@@ -2853,9 +2853,14 @@
++           direct_mutex_lock( &world->event_dispatcher_mutex );
++ 
++           while (1) {
++-               if (!world->event_dispatcher_buffers)
+++               if (!world->event_dispatcher_buffers){
++                     direct_waitqueue_wait( &world->event_dispatcher_cond, &world->event_dispatcher_mutex );
++-
+++                    if (world->dispatch_stop) {
+++                         D_DEBUG_AT( Fusion_Main_Dispatch, "  -> IGNORING (dispatch_stop!)\n" );
+++                         direct_mutex_unlock( &world->event_dispatcher_mutex );
+++                         return NULL;
+++                    }
+++               }
++                buf = (FusionEventDispatcherBuffer *)world->event_dispatcher_buffers;
++                D_MAGIC_ASSERT( buf, FusionEventDispatcherBuffer );
++ 
++@@ -2872,6 +2877,11 @@
++ //D_INFO("waiting...\n");
++                     D_ASSERT( buf->read_pos == buf->write_pos );
++                     direct_waitqueue_wait( &world->event_dispatcher_cond, &world->event_dispatcher_mutex );
+++		      if (world->dispatch_stop) {
+++                         D_DEBUG_AT( Fusion_Main_Dispatch, "  -> IGNORING (dispatch_stop!)\n" );
+++                         direct_mutex_unlock( &world->event_dispatcher_mutex );
+++                         return NULL;
+++                    }
++                }
++ 
++                buf = (FusionEventDispatcherBuffer *)world->event_dispatcher_buffers;
+-- 
+1.7.9.5
+
+
 
