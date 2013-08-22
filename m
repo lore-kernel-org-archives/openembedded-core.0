@@ -1,25 +1,39 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id B53F46B23B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 792C26AF21
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 18:18:39 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 22 Aug 2013 11:18:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,935,1367996400"; d="scan'208";a="350291961"
-Received: from unknown (HELO [10.255.14.105]) ([10.255.14.105])
-	by azsmga001.ch.intel.com with ESMTP; 22 Aug 2013 11:18:39 -0700
-Message-ID: <521655FF.8090307@linux.intel.com>
-Date: Thu, 22 Aug 2013 11:18:39 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Thu, 22 Aug 2013 18:25:56 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id id13so1263523vcb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 11:25:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=56rIkiBfUCBYfN8C32peZ3KOJID4ctTdVoMh5bpdf1g=;
+	b=gpAK0J6b2QZwtM61ayv5opNj33dRh0NuJemrYNTIDFoBxTcGFqwi72dtzBKhD2IAbQ
+	ku8V9b9j7MjDuc8HamGShOdDJhxx0SKRFK0wkXqoTfrPcS4SuYl+9726xldBevbx4EbZ
+	FM5mJLcbotwNUYqoyV6/RKzau2Xr26Kbw+730BZx8qWSP2Qb5AagrWBk2/N+rMzwYMCy
+	CFRTZNnUA4rm9EXwNkhv0t3st67/2uUP9vXqSY/2Qu3r+XzPC886y4UKJKigHXipmPEP
+	pNwuGJx/T4+tjvJNXVJt59T1D8cyeu54AQIGPuVKN0YRWHAeUiH0nJ/s1BTKqoXXvvdW
+	8GgQ==
+X-Gm-Message-State: ALoCoQnCSCR+vW87T7kAlkBbQY7b+QtD8XrlX6cfqqzjiyaMRkm0NfvjB66pcOvpocIf9vcFwc59
+X-Received: by 10.220.169.203 with SMTP id a11mr2060420vcz.26.1377195956825;
+	Thu, 22 Aug 2013 11:25:56 -0700 (PDT)
 MIME-Version: 1.0
-To: 'Patches and discussions about the oe-core layer'
-	<openembedded-core@lists.openembedded.org>, 
-	"poky@yoctoproject.org" <poky@yoctoproject.org>, 
-	Yocto Project Discussion <yocto@yoctoproject.org>
-Subject: Days away from Feature Freeze for 1.5!!
+Received: by 10.220.71.201 with HTTP; Thu, 22 Aug 2013 11:25:36 -0700 (PDT)
+In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB16C1928F@IRSMSX105.ger.corp.intel.com>
+References: <cover.1377150822.git.sgw@linux.intel.com>
+	<CAJTo0LYJhy5Qxn2Mbom5vgyiM_d_H+TvU0mCyUHp01ZVoeYvMQ@mail.gmail.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16C1928F@IRSMSX105.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 22 Aug 2013 19:25:36 +0100
+Message-ID: <CAJTo0Lbs0r-unjpfiGFk7GxZRkE8feT1xNBQvTrY3L_5G+Raaw@mail.gmail.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and more (Initial ACK Please)!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +46,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 18:18:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2013 18:25:56 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 22 August 2013 18:32, Iorga, Cristian <cristian.iorga@intel.com> wrote:
+> So your advice is to keep hicolor-icon-theme and also add sato theme?
 
-Folks,
+Yes.
 
-We have all been busy working on our respective projects and I want to 
-point out that we are days away from the 1.5 Feature Freeze of August 
-25th, at midnight PST.
-
-What this means is that in the coming weeks we will be slowing the 
-uptake of patches as we get closer to the 1.5 release date of 10/18. 
-This also means we will be doing more full pass testing and focusing on 
-getting any bugs discovered there fixed and generally well understood 
-patches that help with stabilization.
-
-We will not take any more recipe updates or major changes after the 
-25th, please set those aside for when we open up master again for 1.6, 
-which will likely happen in 3 - 5 weeks once master settles enough so 
-that we can create the release branch.
-
-We will start the planning for 1.6 in the mid-late September timeframe, 
-so put your idea cap on and file 1.6 enhancements.
-
-Thanks to everyone work on these projects.
-
-
--- 
-     Sau!
-
-Saul Wold
-Yocto Component Wrangler @ Intel
-Yocto Project / Poky Build System
-
+Ross
 
