@@ -1,19 +1,32 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A5FB6B93A
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 584D46B91D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 07:18:50 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7M7IR5j015819; 
-	Thu, 22 Aug 2013 02:18:50 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Aug 2013 12:19:29 +0500
-Message-Id: <1377155969-15087-5-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1377155969-15087-1-git-send-email-muhammad_shakeel@mentor.com>
-References: <1377155969-15087-1-git-send-email-muhammad_shakeel@mentor.com>
-Subject: [PATCH 5/5] [v4] systemd: Remove base_libdir if installed only for systemd_unitdir
+	Thu, 22 Aug 2013 07:25:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7M7P425029002
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 22 Aug 2013 00:25:04 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
+	Thu, 22 Aug 2013 00:25:03 -0700
+Message-ID: <5215BCD0.7080902@windriver.com>
+Date: Thu, 22 Aug 2013 15:25:04 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1376965065.git.kai.kang@windriver.com>
+	<5a0310813a9df4c60eaf5ba31e2de12bf3d08ccf.1376965065.git.kai.kang@windriver.com>
+	<760CDDA0-416D-4E16-8FC2-6205ED265506@gmail.com>
+	<5215B4A7.8070604@windriver.com>
+	<9A96060F-4FEA-4785-A90F-B71A615976D3@gmail.com>
+In-Reply-To: <9A96060F-4FEA-4785-A90F-B71A615976D3@gmail.com>
+X-Originating-IP: [128.224.162.231]
+Cc: openembedded-core@lists.openembedded.org, Zhangle.Yang@windriver.com
+Subject: Re: [PATCH 1/1] bc: fix segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,41 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 07:18:51 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 07:25:06 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On 2013年08月22日 15:15, Khem Raj wrote:
+> Kai
+>
+> On Aug 21, 2013, at 11:50 PM, Kang Kai <Kai.Kang@windriver.com> wrote:
+>
+>>> what does adding this include file fix ?
+>> To be honest, I am not sure why add this include. After build it is harmless, so I didn't want to modify it because I think LFS is trustable.
+>>
+> Its matter of understanding the change and may be explaining a bit better what it fixes and make the patch better for upstream too so try to build it without this include added and see if you get some warnings/errors that it fixes and then add that information to patch header.
 
-If a recipe installs systemd_unitdir and it is a non-systemd build than
-systemd.bbclass deletes systemd_unitdir (/lib/systemd/) but not
-base_libdir (/lib). In this case if base_libdir is empty than following
-QA Issue is reported.
+Thanks.
+I'll check it and be more careful next time.
 
-ERROR: QA Issue: openssh: Files/directories were installed but not shipped
-  /lib
+Regards,
+Kai
 
-If base_libdir was installed due to systemd_unitdir installation than for
-non-systemd build it should also be removed.
+>
+>> Regards,
+>> Kai
+>
+>
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/classes/systemd.bbclass |    3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 76f0e7d..8ec4992 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -168,6 +168,9 @@ python rm_systemd_unitdir (){
-         systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True))
-         if os.path.exists(systemd_unitdir):
-             shutil.rmtree(systemd_unitdir)
-+        base_libdir = oe.path.join(d.getVar("D", True), d.getVar('base_libdir', True))
-+        if (os.path.exists(base_libdir) and not os.listdir(base_libdir)):
-+            os.rmdir(base_libdir)
- }
- do_install[postfuncs] += "rm_systemd_unitdir "
- 
 -- 
-1.7.9.5
+Regards,
+Neil | Kai Kang
 
 
