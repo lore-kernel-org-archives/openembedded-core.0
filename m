@@ -1,37 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f172.google.com (mail-ve0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 39181608A6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 75C7F60842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 15:52:28 +0000 (UTC)
-Received: by mail-ve0-f172.google.com with SMTP id oz10so1660513veb.17
+	Thu, 22 Aug 2013 15:58:29 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MGALH5012135 for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 17:10:21 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9Q_v2j3gHcpY
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 08:52:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=5KmKZzwi5k4xBvZFuSIA9jr65ooiy+vWPFJi5YVgTCI=;
-	b=SexSOuIF/XOSuWR7oeHVSYpttNoS2SJbQ9rwtISj57z9kkYidbwsdgiSNyCoGMJMu3
-	r36y0kt00nTCCzLEDfDF2SP9IROxbN7JPctzftYAKRZveszUwgIwNAfvLcbLwIuRVqMm
-	hWqOqm5OoINGJPtjZKFr39KbcWryRH215rdY1dshz6rMrITMhJvE3/bBze3WMSCmBjM6
-	yj2NxnsBfZcan5BUl9Megw6Ynx85fGMsrxRC+6nYokRHWyKkb3XIGkkWpAdc63lKfoHR
-	zzZsitxh2aF2NHKFJahBqoH8OWSwDbmHRpG0qiAqIK2DJL0QKHTIV2ytu7sof3sbBK7Y
-	Tpww==
-X-Gm-Message-State: ALoCoQlmWEtSc28OD2gmuML7YeXqVTCGX+u4r3jqGuf9bNosaahKBZvvK3mEvdtCwB08yikdmA1p
-X-Received: by 10.220.237.208 with SMTP id kp16mr12030241vcb.4.1377186748785; 
-	Thu, 22 Aug 2013 08:52:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 22 Aug 2013 08:52:08 -0700 (PDT)
-In-Reply-To: <c3d72ead7aeef67db0792738b194891ae8ed3871.1377014441.git.cristian.iorga@intel.com>
-References: <cover.1377014441.git.cristian.iorga@intel.com>
-	<c3d72ead7aeef67db0792738b194891ae8ed3871.1377014441.git.cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Aug 2013 16:52:08 +0100
-Message-ID: <CAJTo0LaXbDi7BXYsscN1D=LFJH1LcZNnHCs7aiFo-SiKi45Pag@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] Build Appliance: pcmanfm integration
+	Thu, 22 Aug 2013 17:10:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MGAGuk012103
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 17:10:18 +0100
+Message-ID: <1377187095.6762.26.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Aug 2013 16:58:15 +0100
+In-Reply-To: <1377186667.6762.25.camel@ted>
+References: <1377186667.6762.25.camel@ted>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH v2] mkfontscale: This no longer needs a full libx11, xproto suffices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,13 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 15:52:29 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 22 Aug 2013 15:58:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 20 August 2013 17:05, Cristian Iorga <cristian.iorga@intel.com> wrote:
-> +    xprop \
+From 241ba8ad72afe7010568d0b3b574244f424817fb Mon Sep 17 00:00:00 2001
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Aug 2013 15:49:08 +0000
+Subject: mkfontscale: This no longer needs a full libx11, xproto suffices
 
-As discussed on Jabber, this should be a rdepends of xdg-utils.
+configure just looks for xproto so we can drop the libx11 dependency and
+reduce the amount we build for some small performance improvements and
+less of the -native stack.
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.1.bb b/meta/recipes-graphics/xorg-app/mkfontscale_1.1.1.bb
+index 3d248d1..65f74c2 100644
+--- a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.1.bb
++++ b/meta/recipes-graphics/xorg-app/mkfontscale_1.1.1.bb
+@@ -8,7 +8,7 @@ font name (XLFD) is generated, and is written together with the file \
+ name to a file fonts.scale in the directory.  The resulting fonts.scale \
+ is used by the mkfontdir program."
+ 
+-DEPENDS += " zlib libfontenc freetype virtual/libx11"
++DEPENDS = "util-macros-native zlib libfontenc freetype xproto"
+ 
+ BBCLASSEXTEND = "native"
+ 
+
+
 
