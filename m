@@ -1,31 +1,42 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 888546B91D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
+	[209.85.160.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 57DB26B91F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 07:14:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7M7EwS3018237
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 22 Aug 2013 07:15:04 +0000 (UTC)
+Received: by mail-pb0-f49.google.com with SMTP id xb4so1410386pbc.22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 03:14:59 -0400 (EDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.342.3;
-	Thu, 22 Aug 2013 00:14:58 -0700
-Message-ID: <5215BA7B.9040902@windriver.com>
-Date: Thu, 22 Aug 2013 15:15:07 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1376968627.git.jackie.huang@windriver.com>
-	<6f2bc301767250c371bb8d927e54425bdeda6f37.1376968627.git.jackie.huang@windriver.com>
-	<54332AB2-FDDB-44C5-BCD8-00989CF8B700@gmail.com>
-	<5215B78D.9060900@windriver.com>
-In-Reply-To: <5215B78D.9060900@windriver.com>
-X-Originating-IP: [128.224.162.233]
-Subject: Re: [PATCH 4/6] openssh: add init.d/sshd status command for LSB compliance
+	Thu, 22 Aug 2013 00:15:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=vsdgmJl9xEmxvYzgeblPw2h+cn5Jw9bWX+r5ShQ2T2w=;
+	b=TnN9JOCZMjiLGE5QUYw4gmVgNzElKqiI6WXy0OoF9FXRBJuLjCutX50d7/lIGbSqSI
+	rnOiPNo4LUG7MC3V1jEL16WmqWa1TC1gT74UdXevx/xeYZeR0O+G5VoD8yxiscnERnQg
+	Vb8ElcYc2PzdOHj5QLkm6v6/oDC/77NxGgSO7lFRUvL9SYDqtkEQYlkB2ivOmqVshu3r
+	rLlPjWFFnHR2O247aKPwXB+AZFDoi37Nz1cgK3OZlOkLPPxjLCmzZ1nrbDUaXr+fkKT+
+	m8ufhk4cHkyKEtP/q0Vd5UVR6+V8PFdJC0Tb79reIL87cld+T/jK4sJOVtYoo2PNOgn4
+	PtJg==
+X-Received: by 10.69.0.129 with SMTP id ay1mr11951153pbd.12.1377155704302;
+	Thu, 22 Aug 2013 00:15:04 -0700 (PDT)
+Received: from sa-nc-finance-109.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	pq1sm12964927pbb.26.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 22 Aug 2013 00:15:03 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <5215B4A7.8070604@windriver.com>
+Date: Thu, 22 Aug 2013 00:15:01 -0700
+Message-Id: <9A96060F-4FEA-4785-A90F-B71A615976D3@gmail.com>
+References: <cover.1376965065.git.kai.kang@windriver.com>
+	<5a0310813a9df4c60eaf5ba31e2de12bf3d08ccf.1376965065.git.kai.kang@windriver.com>
+	<760CDDA0-416D-4E16-8FC2-6205ED265506@gmail.com>
+	<5215B4A7.8070604@windriver.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org, Zhangle.Yang@windriver.com
+Subject: Re: [PATCH 1/1] bc: fix segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,105 +49,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 07:15:00 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Aug 2013 07:15:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 08/22/2013 03:02 PM, jhuang0 wrote:
->
->
-> On 8/22/2013 2:42 PM, Khem Raj wrote:
->> Hi Jackie
->>
->> One thing comes to mind is that these scripts are hardcoding the 
->> binaries and may be it would be
->> nicer to replace the bindir, libdir and so on at install time, that 
->> would make them flexible where /usr
->> is not used e.g. but I guess thats a general problem with capture 
->> init scripts all around probably.
->
-> Yes it is general problem that almost all init scripts have these 
-> hardcoding binaries, maybe we need a requirement and do that for all 
-> these scripts with a plan.
->
-> Thanks,
-> Jackie
->
+Kai
 
-Agree.
+On Aug 21, 2013, at 11:50 PM, Kang Kai <Kai.Kang@windriver.com> wrote:
 
-If we're going to do this, we need to take the postinst scripts into 
-consideration, as the postinst scripts have the same problem.
+>> what does adding this include file fix ?
+>=20
+> To be honest, I am not sure why add this include. After build it is =
+harmless, so I didn't want to modify it because I think LFS is =
+trustable.
+>=20
 
-Best Regards,
-Chen Qi
+Its matter of understanding the change and may be explaining a bit =
+better what it fixes and make the patch better for upstream too so try =
+to build it without this include added and see if you get some =
+warnings/errors that it fixes and then add that information to patch =
+header.
 
->>
->> On Aug 19, 2013, at 8:25 PM, jackie.huang@windriver.com wrote:
->>
->>> From: Jackie Huang <jackie.huang@windriver.com>
->>>
->>> Signed-off-by: Li Wang <li.wang@windriver.com>
->>> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->>> ---
->>> .../openssh/openssh-6.2p2/init                     |   15 
->>> ++++++++++++++-
->>> 1 files changed, 14 insertions(+), 1 deletions(-)
->>>
->>> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/init 
->>> b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
->>> index 6beec84..6bbc573 100644
->>> --- a/meta/recipes-connectivity/openssh/openssh-6.2p2/init
->>> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/init
->>> @@ -1,6 +1,9 @@
->>> #! /bin/sh
->>> set -e
->>>
->>> +# source function library
->>> +. /etc/init.d/functions
->>> +
->>> # /etc/init.d/ssh: start and stop the OpenBSD "secure shell" daemon
->>>
->>> test -x /usr/sbin/sshd || exit 0
->>> @@ -46,6 +49,11 @@ check_keys() {
->>>     fi
->>> }
->>>
->>> +rh_status() {
->>> +    status /usr/sbin/sshd;
->>> +    return $?
->>> +}
->>> +
->>> export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
->>>
->>> case "$1" in
->>> @@ -84,8 +92,13 @@ case "$1" in
->>>     echo "."
->>>     ;;
->>>
->>> +  status)
->>> +    rh_status;
->>> +    exit $?
->>> +  ;;
->>> +
->>>    *)
->>> -    echo "Usage: /etc/init.d/ssh 
->>> {start|stop|reload|force-reload|restart}"
->>> +    echo "Usage: /etc/init.d/ssh 
->>> {start|stop|status|reload|force-reload|restart}"
->>>     exit 1
->>> esac
->>>
->>> -- 
->>> 1.7.4.1
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
->
+> Regards,
+> Kai
 
 
