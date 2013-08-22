@@ -1,27 +1,31 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B05EB6B199
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C6D8E60896
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 09:59:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7M9xhCq014629
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 02:59:43 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.342.3; Thu, 22 Aug 2013 02:59:41 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Aug 2013 17:59:29 +0800
-Message-ID: <f9869f7b4140c668688499102da1dfa9fa2d91c2.1377165347.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1377165347.git.kai.kang@windriver.com>
-References: <cover.1377165347.git.kai.kang@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Subject: [PATCH 1/1] alsa-lib: fix function definitions error for mips
+	Thu, 22 Aug 2013 10:21:19 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MAW5SI031116; Thu, 22 Aug 2013 11:32:52 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eHsJaIML7vx2; Thu, 22 Aug 2013 11:32:52 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7MAWkXn031162
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 22 Aug 2013 11:32:48 +0100
+Message-ID: <1377166846.428.50.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 22 Aug 2013 11:20:46 +0100
+In-Reply-To: <6560539.TdGG90GaLI@helios>
+References: <cover.1377150822.git.sgw@linux.intel.com>
+	<6560539.TdGG90GaLI@helios>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [CONSOLIDATED PULL 00/62] Python3, Packge Exlude and more (Initial ACK Please)!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,115 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 09:59:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Aug 2013 10:21:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Functions atomic_add(s) and atomic_sub(s) are defined with 'extern
-__inline__' that may cause compile fails when cross compile for mips.
-The error message looks like:
+On Thu, 2013-08-22 at 10:07 +0100, Paul Eggleton wrote:
+> On Wednesday 21 August 2013 22:58:55 Saul Wold wrote:
+> > Marko Lindqvist (3):
+> >   texinfo: correct dont-depend-on-help2man.patch
+> >   SDL2: add recipe
+> >   boost: fix build when PARALLEL_MAKE is not set
+> > 
+> > Otavio Salvador (1):
+> >   distro_features_check.bbclass: Allow checking of required/conflicting
+> >     features
+> 
+> I should have asked this earlier - why does this need to be a separate 
+> bbclass? The code doesn't do anything if the variables aren't set, so it can't 
+> be because it could have an impact on existing setups that don't set them.
 
-| pcm/.libs/libpcm.a(pcm_meter.o): In function
-`snd_pcm_meter_update_scope':
-| .../alsa-lib-1.0.27.2/src/pcm/pcm_meter.c:139: undefined reference to
-`atomic_sub'
+FWIW I do have a worry about the shear weight of the core these days as
+we're building up piles of anonymous python for example. In many ways I
+therefore like the idea of having more classes which get included when
+they're needed.
 
-Replace the 'extern __inline__' with 'static __inline__' to fix this
-issue.
+Cheers,
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- ...-iatomic.h-functions-definitions-for-mips.patch | 68 ++++++++++++++++++++++
- meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb  |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/Update-iatomic.h-functions-definitions-for-mips.patch
-
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/Update-iatomic.h-functions-definitions-for-mips.patch b/meta/recipes-multimedia/alsa/alsa-lib/Update-iatomic.h-functions-definitions-for-mips.patch
-new file mode 100644
-index 0000000..f1a7947
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/Update-iatomic.h-functions-definitions-for-mips.patch
-@@ -0,0 +1,68 @@
-+Upstream-Status: Backport
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From f21f48a70f8437a671b58fcab75e54222a9eea16 Mon Sep 17 00:00:00 2001
-+From: Kai Kang <jiashuo.kang at gmail.com>
-+Date: Thu, 15 Aug 2013 17:17:19 +0800
-+Subject: [PATCH] Update iatomic.h functions definitions for mips
-+
-+Functions atomic_add(s) and atomic_sub(s) are defined with 'extern
-+__inline__' that may cause compile fails when cross compile for mips.
-+The error message looks like:
-+
-+| pcm/.libs/libpcm.a(pcm_meter.o): In function `snd_pcm_meter_update_scope':
-+| .../alsa-lib-1.0.27.2/src/pcm/pcm_meter.c:139: undefined reference to `atomic_sub'
-+
-+Replace the 'extern __inline__' with 'static __inline__' to fix this
-+issue.
-+
-+Signed-off-by: Kai Kang <jiashuo.kang at gmail.com>
-+Signed-off-by: Takashi Iwai <tiwai@suse.de>
-+---
-+ include/iatomic.h | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/include/iatomic.h b/include/iatomic.h
-+index 5711fe8..2393297 100644
-+--- a/include/iatomic.h
-++++ b/include/iatomic.h
-+@@ -720,7 +720,7 @@ typedef struct { volatile int counter; } atomic_t;
-+  * Atomically adds @i to @v.  Note that the guaranteed useful range
-+  * of an atomic_t is only 24 bits.
-+  */
-+-extern __inline__ void atomic_add(int i, atomic_t * v)
-++static __inline__ void atomic_add(int i, atomic_t * v)
-+ {
-+ 	unsigned long temp;
-+ 
-+@@ -744,7 +744,7 @@ extern __inline__ void atomic_add(int i, atomic_t * v)
-+  * Atomically subtracts @i from @v.  Note that the guaranteed
-+  * useful range of an atomic_t is only 24 bits.
-+  */
-+-extern __inline__ void atomic_sub(int i, atomic_t * v)
-++static __inline__ void atomic_sub(int i, atomic_t * v)
-+ {
-+ 	unsigned long temp;
-+ 
-+@@ -763,7 +763,7 @@ extern __inline__ void atomic_sub(int i, atomic_t * v)
-+ /*
-+  * Same as above, but return the result value
-+  */
-+-extern __inline__ int atomic_add_return(int i, atomic_t * v)
-++static __inline__ int atomic_add_return(int i, atomic_t * v)
-+ {
-+ 	unsigned long temp, result;
-+ 
-+@@ -784,7 +784,7 @@ extern __inline__ int atomic_add_return(int i, atomic_t * v)
-+ 	return result;
-+ }
-+ 
-+-extern __inline__ int atomic_sub_return(int i, atomic_t * v)
-++static __inline__ int atomic_sub_return(int i, atomic_t * v)
-+ {
-+ 	unsigned long temp, result;
-+ 
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-index 5455944..0e1ea76 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.27.2.bb
-@@ -17,6 +17,7 @@ ARM_INSTRUCTION_SET = "arm"
- SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/alsa-lib-${PV}.tar.bz2 \
-            file://Check-if-wordexp-function-is-supported.patch \
-            file://fix-tstamp-declaration.patch \
-+           file://Update-iatomic.h-functions-definitions-for-mips.patch \
-           "
- SRC_URI[md5sum] = "69129a7c37697f81ac092335e9fa452b"
- SRC_URI[sha256sum] = "690ed393e7efd4fc7e3a2d2cda5449298ca0c895197e5914e350882012430d19"
--- 
-1.8.1.2
+Richard
 
 
