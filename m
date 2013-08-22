@@ -1,24 +1,34 @@
-Return-Path: <Xufeng.Zhang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CE4746AF4A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 35C2061EE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 03:11:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7M3B1xb010947
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 22 Aug 2013 04:31:31 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id lj1so1651435pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 21 Aug 2013 20:11:01 -0700 (PDT)
-Received: from localhost.localdomain (128.224.163.210) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 21 Aug 2013 20:11:00 -0700
-From: Xufeng Zhang <xufeng.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 22 Aug 2013 11:12:28 +0800
-Message-ID: <1377141148-9271-1-git-send-email-xufeng.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.0.2
-MIME-Version: 1.0
-Subject: [PATCH v2] openssl: avoid NULL pointer dereference in three places
+	Wed, 21 Aug 2013 21:31:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=HkH1oo+HART9nsyUDHMxJgw7DjV0ma7hBLSnOvgekkg=;
+	b=k24mGEmxi/lVA2BZtEAlv7GTnGUYLQouNRTlBTnFRjlWqFFDygP/zb6qeKnyGkqSHX
+	Mm+9Wzhwps5t8toyaSwZ4RL7xRAL8huMG3SVHHowaJ0nD36Fl+Y4T7WgZLfX6nwo1G37
+	v7CKv2+QtC3XkLMqGvcKhmpjcsAfjymo29gG6S5OT4Q20gu9axnyVaFlHotwE31yyq32
+	tF16mry3Vbj2XpqeWBoviK9i27AfcpKKytjugK5uuN1EmG6HXzzYPosl3O0KEYCbhDyo
+	QS+HFFqWpsGmsc4dOPBtoQhuxP7QQuhJp4bjFcKDBvjY2QURfpoMFuYI+jdij+Lj3tju
+	kIEQ==
+X-Received: by 10.66.142.42 with SMTP id rt10mr12940021pab.1.1377145891130;
+	Wed, 21 Aug 2013 21:31:31 -0700 (PDT)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id t9sm11993568pba.46.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 21 Aug 2013 21:31:29 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 21 Aug 2013 21:30:40 -0700
+Message-Id: <cover.1377145501.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH 0/3] Update systemd/kmod
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,116 +41,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 03:11:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 22 Aug 2013 04:31:32 -0000
 
-There are three potential NULL pointer dereference in
-EVP_DigestInit_ex(), dh_pub_encode() and dsa_pub_encode()
-functions.
-Fix them by adding proper null pointer check.
+This patchset updates systemd to 206 and kmod to 14
+kmod 14 is now minimum version needed for systemd >= 206
 
-[YOCTO #4600]
-[ CQID: WIND00373257 ]
+glib-2.0 fix is needed for minimal-image to build
+with uclibc
 
-Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
----
-Changes in V2:
-- Added Upstream-Status and SOB tags into every patch.
-- Remove INC_PR bump.
+This has been boot tested on all supported qemus in OE-Core with
+minimal-image build with both eglibc/uclibc and systemd-image
+on angstrom
 
- ...-pointer-dereference-in-EVP_DigestInit_ex.patch |   21 +++++++++++
- ...NULL-pointer-dereference-in-dh_pub_encode.patch |   39 ++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.0.1e.bb |    2 +
- 3 files changed, 62 insertions(+), 0 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
- create mode 100644 meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
+The following changes since commit d98f08a7ad95d0b17846276b028a6614f16b6846:
 
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-new file mode 100644
-index 0000000..c161e62
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch
-@@ -0,0 +1,21 @@
-+openssl: avoid NULL pointer dereference in EVP_DigestInit_ex()
-+
-+We should avoid accessing the type pointer if it's NULL,
-+this could happen if ctx->digest is not NULL.
-+
-+Upstream-Status: Submitted
-+http://www.mail-archive.com/openssl-dev@openssl.org/msg32860.html
-+
-+Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
-+---
-+--- a/crypto/evp/digest.c
-++++ b/crypto/evp/digest.c
-+@@ -199,7 +199,7 @@
-+ 		return 0;
-+ 		}
-+ #endif
-+-	if (ctx->digest != type)
-++	if (type && (ctx->digest != type))
-+ 		{
-+ 		if (ctx->digest && ctx->digest->ctx_size)
-+ 			OPENSSL_free(ctx->md_data);
-diff --git a/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
-new file mode 100644
-index 0000000..3e93fe4
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl-1.0.1e/openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch
-@@ -0,0 +1,39 @@
-+openssl: avoid NULL pointer dereference in dh_pub_encode()/dsa_pub_encode()
-+
-+We should avoid accessing the pointer if ASN1_STRING_new()
-+allocates memory failed.
-+
-+Upstream-Status: Submitted
-+http://www.mail-archive.com/openssl-dev@openssl.org/msg32859.html
-+
-+Signed-off-by: Xufeng Zhang <xufeng.zhang@windriver.com>
-+---
-+--- a/crypto/dh/dh_ameth.c
-++++ b/crypto/dh/dh_ameth.c
-+@@ -139,6 +139,12 @@
-+ 	dh=pkey->pkey.dh;
-+ 
-+ 	str = ASN1_STRING_new();
-++	if (!str)
-++		{
-++		DHerr(DH_F_DH_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
-++		goto err;
-++		}
-++
-+ 	str->length = i2d_DHparams(dh, &str->data);
-+ 	if (str->length <= 0)
-+ 		{
-+--- a/crypto/dsa/dsa_ameth.c
-++++ b/crypto/dsa/dsa_ameth.c
-+@@ -148,6 +148,11 @@
-+ 		{
-+ 		ASN1_STRING *str;
-+ 		str = ASN1_STRING_new();
-++		if (!str)
-++			{
-++			DSAerr(DSA_F_DSA_PUB_ENCODE, ERR_R_MALLOC_FAILURE);
-++			goto err;
-++			}
-+ 		str->length = i2d_DSAparams(dsa, &str->data);
-+ 		if (str->length <= 0)
-+ 			{
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-index bd6fd04..ac27dba 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.1e.bb
-@@ -31,6 +31,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://openssl_fix_for_x32.patch \
-             file://openssl-fix-doc.patch \
-             file://fix-cipher-des-ede3-cfb1.patch \
-+            file://openssl-avoid-NULL-pointer-dereference-in-EVP_DigestInit_ex.patch \
-+            file://openssl-avoid-NULL-pointer-dereference-in-dh_pub_encode.patch \
-             file://find.pl \
-            "
- 
+  genext2fs: fix memory corruption on powerpc (2013-08-20 07:11:44 -0700)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib kraj/systemd-206
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=kraj/systemd-206
+
+Khem Raj (3):
+  kmod: Upgrade to version 14
+  systemd: Upgrade to 206
+  glib-2.0: Specify libiconv when building on uclibc
+
+ meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb      |   1 +
+ ...1-uClibc-doesn-t-implement-pwritev-preadv.patch |  37 +++
+ .../0001-use-CAP_MKNOD-ConditionCapability.patch   |  32 ++
+ ...ystemd-update-utmp-shutdown.service-into-.patch | 367 ---------------------
+ .../systemd/systemd/install-quotaon-once.patch     |  34 --
+ .../systemd/systemd-pam-fix-getty-unit.patch       |  24 +-
+ .../systemd/systemd/systemd-pam-fix-mkostemp.patch |  59 ++--
+ .../systemd/{systemd_204.bb => systemd_206.bb}     |  19 +-
+ meta/recipes-kernel/kmod/kmod-native_git.bb        |   1 -
+ meta/recipes-kernel/kmod/kmod.inc                  |   9 +-
+ ...-man-page-generation-because-we-don-t-hav.patch |  26 --
+ .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        |  16 +-
+ meta/recipes-kernel/kmod/kmod_git.bb               |   3 +-
+ 13 files changed, 134 insertions(+), 494 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-uClibc-doesn-t-implement-pwritev-preadv.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-use-CAP_MKNOD-ConditionCapability.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-utmp-turn-systemd-update-utmp-shutdown.service-into-.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/install-quotaon-once.patch
+ rename meta/recipes-core/systemd/{systemd_204.bb => systemd_206.bb} (95%)
+ delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
+
 -- 
-1.7.1
+1.8.3.4
 
 
