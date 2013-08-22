@@ -1,39 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
-	[209.85.212.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F21BE6B25D
+Return-Path: <joe.slater@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id CB2356B3B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 19:02:58 +0000 (UTC)
-Received: by mail-vb0-f42.google.com with SMTP id e12so1620583vbg.29
+	Thu, 22 Aug 2013 19:34:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7MJYBBe004282
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 12:02:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=t8tE/eZTNggg049+1nJnSeq3iycNdtZkKEdnNllUbJw=;
-	b=U3UbsleVfNTDcFv9naZ6RjVKMdCMi6a+bCitYWSpc/AnsbOM+mmkEtTOE5bSh+BThj
-	8U3JnpHcRgfUtYSNbS1uNEpJ8mF3Z/ZWQT6ALhBd1bJp/UdZ64IKhMcja8GwUCxGNHzi
-	lFQWl+VEWm0wgymzFxcIo6IU8CmmpkS0yj4SaYrZoj1AlkezYlyunVdqkkSbpZ2KFAt6
-	/ORiPsQX6rjhEp+SSuvut/thrKadDUO9u7jI21PDaW7IlxkFtv38ytBzaKS1odLcQZGn
-	moh0ux239FDxGK6jR/6J6v1FOhGEyv8zr7AX4+Mzwq1ds3BNo0KGn9rz2XIUQg+wDIEX
-	4pQw==
-X-Gm-Message-State: ALoCoQmF1De+vl9PhaAG9WiVUSpvy+F0ynURf/DXvoIKMD71pfH5uTZF5YBCp/rQ5H8vas4umRl5
-X-Received: by 10.58.97.138 with SMTP id ea10mr72246veb.38.1377198179548; Thu,
-	22 Aug 2013 12:02:59 -0700 (PDT)
+	Thu, 22 Aug 2013 15:34:11 -0400 (EDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 22 Aug 2013 12:34:10 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 22 Aug 2013 12:34:04 -0700
+Message-ID: <1377200044-16535-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 22 Aug 2013 12:02:39 -0700 (PDT)
-In-Reply-To: <20130822194905.5687000e@e6520eb>
-References: <1373354955-16500-1-git-send-email-eric@eukrea.com>
-	<1373354955-16500-3-git-send-email-eric@eukrea.com>
-	<CAJTo0La3zAhojZD6sSW=GXRuU+s4KCQQQjBYHTsT3=kFebPPYw@mail.gmail.com>
-	<20130822194905.5687000e@e6520eb>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 22 Aug 2013 20:02:39 +0100
-Message-ID: <CAJTo0LbgRmJUhF_529EPXfcwofc=57SHGvZZ61n=kcTozsYQnQ@mail.gmail.com>
-To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [danny][PATCH 3/3] binutils: fix build with recent texinfo (5.1)
+Subject: [PATCH 1/1] cronie: add PACKAGECONFIG data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,20 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 19:03:00 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 22 Aug 2013 19:34:14 -0000
+Content-Type: text/plain
 
-On 22 August 2013 18:49, Eric B=C3=A9nard <eric@eukrea.com> wrote:
->> Sorry for the delay, this series is now in ross/danny-next.
->>
-> when do you think these patches could reach oe-core's danny branch ?
+We add PACKAGECONFIG[] data for audit and move
+the current pam related stuff into it's own entry.
 
-Consider this ball well and truly dropped.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-extended/cronie/cronie_1.4.11.bb |   15 +++++++++------
+ 1 files changed, 9 insertions(+), 6 deletions(-)
 
-I'm literally packing now for a week away but I've just pinged Richard
-about the outstanding commits, so there may be a merge shortly. If
-not, I'll follow up when I return (1st September).
+diff --git a/meta/recipes-extended/cronie/cronie_1.4.11.bb b/meta/recipes-extended/cronie/cronie_1.4.11.bb
+index aa1ba39..9d2d30b 100644
+--- a/meta/recipes-extended/cronie/cronie_1.4.11.bb
++++ b/meta/recipes-extended/cronie/cronie_1.4.11.bb
+@@ -14,9 +14,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=963ea0772a2adbdcd607a9b2ec320c11 \
+ 
+ SECTION = "utils"
+ 
+-DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+-RDEPENDS_${PN} = "${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_DEPS}', '', d)}"
+-PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+ 
+ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+            file://fix-out-of-tree-build.patch \
+@@ -25,15 +22,21 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
+ 
+ PAM_SRC_URI = "file://crond_pam_config.patch"
+-
++PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+ 
+ SRC_URI[md5sum] = "2ba645cf54de17f138ef70312843862f"
+ SRC_URI[sha256sum] = "fd08084cedddbb42499f80ddb7f2158195c3555c2ff40ee11d4ece2f9864d7be"
+ 
+ inherit autotools update-rc.d useradd
+ 
+-EXTRA_OECONF += "\
+-                ${@base_contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)}"
++
++PACKAGECONFIG ?= "${@base_contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}"
++
++# yes, no, depends, rdepends
++#
++PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
++PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam,${PAM_DEPS}"
++
+ 
+ INITSCRIPT_NAME = "crond"
+ INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
+-- 
+1.7.3.4
 
-Ross
 
