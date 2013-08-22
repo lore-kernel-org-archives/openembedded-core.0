@@ -1,30 +1,32 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 96CB160842
+	by mail.openembedded.org (Postfix) with ESMTP id 82ECA61EE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 11:30:15 +0000 (UTC)
+	Thu, 22 Aug 2013 11:30:19 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MBg5Kn001247; Thu, 22 Aug 2013 12:42:05 +0100
+	r7MBg9xr001260; Thu, 22 Aug 2013 12:42:09 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uuUTeM64EVAr; Thu, 22 Aug 2013 12:42:05 +0100 (BST)
+	with LMTP id vvjNATa15PLI; Thu, 22 Aug 2013 12:42:09 +0100 (BST)
 Received: from ted (bebox.config [93.97.175.187] (may be forged))
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MBg2Ab001211
+	r7MBg6Wg001213
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 22 Aug 2013 12:42:04 +0100
+	Thu, 22 Aug 2013 12:42:07 +0100
 Received: from richard by ted with local (Exim 4.80)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1VCT5V-0001hO-Sk; Thu, 22 Aug 2013 12:30:01 +0100
+	id 1VCT5a-0001hY-2X; Thu, 22 Aug 2013 12:30:06 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Aug 2013 12:29:33 +0100
-Message-Id: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Aug 2013 12:29:35 +0100
+Message-Id: <1377171000-6469-3-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH 01/28] package.bbclass: Fix handling of symlinks in debug packages
+In-Reply-To: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 03/28] populate_sdk_base: Allow sdk tar options to be overridden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +39,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 11:30:16 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 11:30:20 -0000
 
-When copying the sources for the debug source package we use cpio -Ll
-which means to copy files as hardlinks and to dereference symlinks.
-It appears there is a bug in cpio since -Ll will copy symlinks and
-not dereference them. We therefore do a second pass over copied symlinks
-resolving them into files. Ideally we would copy these as hardlinks as well
-however it doesn't seem worth the extra code and effort for what amounts
-to a corner case for a minor space improvement.
-
-This means that the -dbg packages no longer contain broken symlinks.
-
-[YOCTO #5020]
+It can be useful to override or append options to the SDK tarball creation command
+so add a variable to allow this.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/populate_sdk_base.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 2460d0a..f6f9310 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -316,6 +316,12 @@ def copydebugsources(debugsrcdir, d):
-         #if retval:
-         #    bb.fatal("debug source copy failed with exit code %s (cmd was %s)" % (retval, cmd))
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index aa3c2fa..998280e 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -108,11 +108,13 @@ fakeroot create_sdk_files() {
+ 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+ }
  
-+        # cpio seems to have a bug with -lL together and symbolic links are just copied, not dereferenced.
-+        # Work around this by manually finding and copying any symbolic links that made it through.
-+        cmd = "find %s%s -type l -print0 -delete | sed s#%s%s/##g | (cd '%s' ; cpio -pd0mL --no-preserve-owner '%s%s' 2>/dev/null)" % (dvar, debugsrcdir, dvar, debugsrcdir, workparentdir, dvar, debugsrcdir)
-+        (retval, output) = oe.utils.getstatusoutput(cmd)
-+        if retval:
-+            bb.fatal("debugsrc symlink fixup failed with exit code %s (cmd was %s)" % (retval, cmd))
++SDKTAROPTS = "--owner=root --group=root -j"
++
+ fakeroot tar_sdk() {
+ 	# Package it up
+ 	mkdir -p ${SDK_DEPLOY}
+ 	cd ${SDK_OUTPUT}/${SDKPATH}
+-	tar --owner=root --group=root -cj --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
++	tar ${SDKTAROPTS} -c --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
+ }
  
-         # The copy by cpio may have resulted in some empty directories!  Remove these
-         cmd = "find %s%s -empty -type d -delete" % (dvar, debugsrcdir)
+ fakeroot create_shar() {
 -- 
 1.8.1.2
 
