@@ -1,32 +1,32 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 26F7D6B41B
+	by mail.openembedded.org (Postfix) with ESMTP id 4A4B260842
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 11:30:37 +0000 (UTC)
+	Thu, 22 Aug 2013 11:30:52 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MBg904001260; Thu, 22 Aug 2013 12:42:18 +0100
+	r7MBg9fW001261; Thu, 22 Aug 2013 12:42:10 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id P9sW_swzW1_s; Thu, 22 Aug 2013 12:42:18 +0100 (BST)
+	with LMTP id F5boEEZafgLP; Thu, 22 Aug 2013 12:42:10 +0100 (BST)
 Received: from ted (bebox.config [93.97.175.187] (may be forged))
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7MBg9tH001243
+	r7MBg6SP001214
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NOT);
-	Thu, 22 Aug 2013 12:42:10 +0100
+	Thu, 22 Aug 2013 12:42:07 +0100
 Received: from richard by ted with local (Exim 4.80)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1VCT5c-0001jh-Nz; Thu, 22 Aug 2013 12:30:08 +0100
+	id 1VCT5a-0001hb-5q; Thu, 22 Aug 2013 12:30:06 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 22 Aug 2013 12:30:00 +0100
-Message-Id: <1377171000-6469-28-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Thu, 22 Aug 2013 12:29:36 +0100
+Message-Id: <1377171000-6469-4-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
 References: <1377171000-6469-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 28/28] chrpath: Add support for relocating darwin binaries
+Subject: [PATCH 04/28] gettext: Improve USE_NLS handling for nativesdk/crosssdk/cross-canadian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,184 +39,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 11:30:38 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 11:30:52 -0000
 
-On darwin, install_name_tool can be used to relocate binaries/libraries. This
-adds support for adjusting them with relative paths rather than hardcoded ones.
-The Linux code is factored out into a function but is otherwise unchanged.
+The gettext handling of USE_NLS has become a bit tricky to understand, or
+alter from the SDK context. This patch introduces a SDKUSE_NLS which can
+be set to configure a given SDK/ADT to use NLS or not. This is independent
+of the target system NLS usage.
+
+The code in gettext.bbclass is therefore simplified and the classes
+themselves now set USE_NLS to appropriate values. No NLS is used
+for native, cross and crosssdk since it is never used there and
+would just increase build time.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/chrpath.bbclass | 138 +++++++++++++++++++++++++++----------------
- 1 file changed, 88 insertions(+), 50 deletions(-)
+ meta/classes/cross-canadian.bbclass | 2 ++
+ meta/classes/cross.bbclass          | 2 ++
+ meta/classes/crosssdk.bbclass       | 2 ++
+ meta/classes/gettext.bbclass        | 8 +++-----
+ meta/classes/native.bbclass         | 2 ++
+ meta/classes/nativesdk.bbclass      | 2 ++
+ meta/conf/bitbake.conf              | 1 +
+ 7 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
-index 0c7ab77..61a24b3 100644
---- a/meta/classes/chrpath.bbclass
-+++ b/meta/classes/chrpath.bbclass
-@@ -1,18 +1,103 @@
- CHRPATH_BIN ?= "chrpath"
- PREPROCESS_RELOCATE_DIRS ?= ""
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 7ab36ac..fa2ab70 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -94,3 +94,5 @@ SHLIBSDIRS = "${TMPDIR}/pkgdata/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}/
+ SHLIBSDIR = "${TMPDIR}/pkgdata/${HOST_ARCH}-nativesdk${HOST_VENDOR}-${HOST_OS}/shlibs/"
  
--def process_dir (directory, d):
-+def process_file_linux(cmd, fpath, basedir, tmpdir, d):
-     import subprocess as sub
+ do_populate_sysroot[stamp-extra-info] = ""
 +
-+    p = sub.Popen([cmd, '-l', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
-+    err, out = p.communicate()
-+    # If returned succesfully, process stderr for results
-+    if p.returncode != 0:
-+        return
++USE_NLS = "${SDKUSE_NLS}"
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 54584fe..f6e7dc1 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -75,3 +75,5 @@ cross_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
+ do_install () {
+ 	oe_runmake 'DESTDIR=${D}' install
+ }
 +
-+    # Throw away everything other than the rpath list
-+    curr_rpath = err.partition("RPATH=")[2]
-+    #bb.note("Current rpath for %s is %s" % (fpath, curr_rpath.strip()))
-+    rpaths = curr_rpath.split(":")
-+    new_rpaths = []
-+    for rpath in rpaths:
-+        # If rpath is already dynamic copy it to new_rpath and continue
-+        if rpath.find("$ORIGIN") != -1:
-+            new_rpaths.append(rpath.strip())
-+            continue
-+        rpath =  os.path.normpath(rpath)
-+        # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
-+        # base_prefix shared root
-+        if rpath.find(basedir) != -1:
-+            depth = fpath.partition(basedir)[2].count('/')
-+            libpath = rpath.partition(basedir)[2].strip()
-+        # otherwise (i.e. cross packages) determine a shared root based on the TMPDIR
-+        # NOTE: This will not work reliably for cross packages, particularly in the case
-+        # where your TMPDIR is a short path (i.e. /usr/poky) as chrpath cannot insert an
-+        # rpath longer than that which is already set.
-+        elif rpath.find(tmpdir) != -1:
-+            depth = fpath.rpartition(tmpdir)[2].count('/')
-+            libpath = rpath.partition(tmpdir)[2].strip()
-+        else:
-+            new_rpaths.append(rpath.strip())
-+            return
-+        base = "$ORIGIN"
-+        while depth > 1:
-+            base += "/.."
-+            depth-=1
-+        new_rpaths.append("%s%s" % (base, libpath))
-+
-+    # if we have modified some rpaths call chrpath to update the binary
-+    if len(new_rpaths):
-+        args = ":".join(new_rpaths)
-+        #bb.note("Setting rpath for %s to %s" %(fpath, args))
-+        p = sub.Popen([cmd, '-r', args, fpath],stdout=sub.PIPE,stderr=sub.PIPE)
-+        out, err = p.communicate()
-+        if p.returncode != 0:
-+            bb.error("%s: chrpath command failed with exit code %d:\n%s%s" % (d.getVar('PN', True), p.returncode, out, err))
-+            raise bb.build.FuncFailed
-+
-+def process_file_darwin(cmd, fpath, basedir, tmpdir, d):
-+    import subprocess as sub
-+
-+    p = sub.Popen([d.expand("${HOST_PREFIX}otool"), '-L', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
-+    err, out = p.communicate()
-+    # If returned succesfully, process stderr for results
-+    if p.returncode != 0:
-+        return
-+    for l in err.split("\n"):
-+        if "(compatibility" not in l:
-+            continue
-+        rpath = l.partition("(compatibility")[0].strip()
-+        if rpath.find(basedir) != -1:
-+            depth = fpath.partition(basedir)[2].count('/')
-+            libpath = rpath.partition(basedir)[2].strip()
-+        else:
-+            continue
-+
-+        base = "@loader_path"
-+        while depth > 1:
-+            base += "/.."
-+            depth-=1
-+        base = base + libpath
-+        p = sub.Popen([d.expand("${HOST_PREFIX}install_name_tool"), '-change', rpath, base, fpath],stdout=sub.PIPE,stderr=sub.PIPE)
-+        err, out = p.communicate()
-+
-+def process_dir (directory, d):
-     import stat
++USE_NLS = "no"
+diff --git a/meta/classes/crosssdk.bbclass b/meta/classes/crosssdk.bbclass
+index 810f61d..635c0c4 100644
+--- a/meta/classes/crosssdk.bbclass
++++ b/meta/classes/crosssdk.bbclass
+@@ -30,3 +30,5 @@ do_populate_sysroot[stamp-extra-info] = ""
  
-     cmd = d.expand('${CHRPATH_BIN}')
-     tmpdir = os.path.normpath(d.getVar('TMPDIR'))
-     basedir = os.path.normpath(d.expand('${base_prefix}'))
-+    hostos = d.getVar("HOST_OS", True)
- 
-     #bb.debug("Checking %s for binaries to process" % directory)
-     if not os.path.exists(directory):
-         return
- 
-+    if "linux" in hostos:
-+        process_file = process_file_linux
-+    elif "darwin" in hostos:
-+        process_file = process_file_darwin
-+    else:
-+        # Relocations not supported
-+        return
+ # Need to force this to ensure consitency accross architectures
+ EXTRA_OECONF_FPU = ""
 +
-     dirs = os.listdir(directory)
-     for file in dirs:
-         fpath = directory + "/" + file
-@@ -35,55 +120,8 @@ def process_dir (directory, d):
-             else:
-                 # Temporarily make the file writeable so we can chrpath it
-                 os.chmod(fpath, perms|stat.S_IRWXU)
--
--            p = sub.Popen([cmd, '-l', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
--            err, out = p.communicate()
--            # If returned succesfully, process stderr for results
--            if p.returncode != 0:
--                continue
--
--            # Throw away everything other than the rpath list
--            curr_rpath = err.partition("RPATH=")[2]
--            #bb.note("Current rpath for %s is %s" % (fpath, curr_rpath.strip()))
--            rpaths = curr_rpath.split(":")
--            new_rpaths = []
--            for rpath in rpaths:
--                # If rpath is already dynamic copy it to new_rpath and continue
--                if rpath.find("$ORIGIN") != -1:
--                    new_rpaths.append(rpath.strip())
--                    continue
--                rpath =  os.path.normpath(rpath)
--                # If the rpath shares a root with base_prefix determine a new dynamic rpath from the
--                # base_prefix shared root
--                if rpath.find(basedir) != -1:
--                    depth = fpath.partition(basedir)[2].count('/')
--                    libpath = rpath.partition(basedir)[2].strip()
--                # otherwise (i.e. cross packages) determine a shared root based on the TMPDIR
--                # NOTE: This will not work reliably for cross packages, particularly in the case
--                # where your TMPDIR is a short path (i.e. /usr/poky) as chrpath cannot insert an
--                # rpath longer than that which is already set.
--                elif rpath.find(tmpdir) != -1:
--                    depth = fpath.rpartition(tmpdir)[2].count('/')
--                    libpath = rpath.partition(tmpdir)[2].strip()
--                else:
--                    new_rpaths.append(rpath.strip())
--                    continue
--                base = "$ORIGIN"
--                while depth > 1:
--                    base += "/.."
--                    depth-=1
--                new_rpaths.append("%s%s" % (base, libpath))
--
--            # if we have modified some rpaths call chrpath to update the binary
--            if len(new_rpaths):
--                args = ":".join(new_rpaths)
--                #bb.note("Setting rpath for %s to %s" %(fpath, args))
--                p = sub.Popen([cmd, '-r', args, fpath],stdout=sub.PIPE,stderr=sub.PIPE)
--                out, err = p.communicate()
--                if p.returncode != 0:
--                    bb.error("%s: chrpath command failed with exit code %d:\n%s%s" % (d.getVar('PN', True), p.returncode, out, err))
--                    raise bb.build.FuncFailed
--
-+            process_file(cmd, fpath, basedir, tmpdir, d)
-+                
-             if perms:
-                 os.chmod(fpath, perms)
++USE_NLS = "no"
+diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+index 17c894f..03b89b2 100644
+--- a/meta/classes/gettext.bbclass
++++ b/meta/classes/gettext.bbclass
+@@ -1,17 +1,15 @@
+ def gettext_dependencies(d):
+-    if d.getVar('USE_NLS', True) == 'no' and not oe.utils.inherits(d, 'native', 'nativesdk', 'cross'):
+-        return ""
+     if d.getVar('INHIBIT_DEFAULT_DEPS', True) and not oe.utils.inherits(d, 'cross-canadian'):
+         return ""
+-    if oe.utils.inherits(d, 'native', 'cross'):
++    if d.getVar('USE_NLS', True) == 'no':
+         return "gettext-minimal-native"
+     return d.getVar('DEPENDS_GETTEXT', False)
  
+ def gettext_oeconf(d):
+-    if oe.utils.inherits(d, 'native', 'cross'):
++    if d.getVar('USE_NLS', True) == 'no':
+         return '--disable-nls'
+     # Remove the NLS bits if USE_NLS is no or INHIBIT_DEFAULT_DEPS is set
+-    if (d.getVar('USE_NLS', True) == 'no' or d.getVar('INHIBIT_DEFAULT_DEPS', True)) and not oe.utils.inherits(d, 'nativesdk', 'cross-canadian'):
++    if d.getVar('INHIBIT_DEFAULT_DEPS', True) and not oe.utils.inherits(d, 'cross-canadian'):
+         return '--disable-nls'
+     return "--enable-nls"
+ 
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 04f0d06..102dfb8 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -158,3 +158,5 @@ do_package_write_deb[noexec] = "1"
+ do_package_write_rpm[noexec] = "1"
+ 
+ do_populate_sysroot[stamp-extra-info] = ""
++
++USE_NLS = "no"
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 96e1b42..5b9d1f5 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -89,3 +89,5 @@ addhandler nativesdk_virtclass_handler
+ nativesdk_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
+ 
+ do_populate_sysroot[stamp-extra-info] = ""
++
++USE_NLS = "${SDKUSE_NLS}"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 07eb473..8ae3ad2 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -110,6 +110,7 @@ TUNE_FEATURES ??= "${TUNE_FEATURES_tune-${DEFAULTTUNE}}"
+ LIBCEXTENSION ??= ""
+ ABIEXTENSION ??= ""
+ USE_NLS ??= "yes"
++SDKUSE_NLS ??= "yes"
+ 
+ TARGET_ARCH = "${TUNE_ARCH}"
+ TARGET_OS = "linux${LIBCEXTENSION}${ABIEXTENSION}"
 -- 
 1.8.1.2
 
