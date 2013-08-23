@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D5BC26BA09
+	by mail.openembedded.org (Postfix) with ESMTP id DFFFE6BA09
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:04:31 +0000 (UTC)
+	Fri, 23 Aug 2013 18:04:32 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 11:04:32 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 11:04:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="385580109"
+X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="385580119"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 11:04:32 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 11:04:33 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 8F9652C8001
+	by linux.intel.com (Postfix) with ESMTP id AC1732C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 11:04:30 -0700 (PDT)
+	Fri, 23 Aug 2013 11:04:31 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 21:04:16 +0300
-Message-Id: <e6c3250754b14b8fa57db53f2fd8ec581f073917.1377280794.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 21:04:17 +0300
+Message-Id: <44884debec8156799d99dd6f7ecf3dc331d70cc6.1377280794.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 06/19] lib/oeqa/runtime: add new PAM support test
+Subject: [PATCH v2 07/19] lib/oeqa/runtime: add new scp test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,49 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:04:32 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 18:04:33 -0000
 
 From: Alexandru Palalau <alexandrux.palalau@intel.com>
 
-New test which verifies some usual commands functionality with PAM support
+Copies a 5MB to target using scp, more of an
+network test than a scp one.
 
 Signed-off-by: Alexandru Palalau <alexandrux.palalau@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/pam.py | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/pam.py
+ meta/lib/oeqa/runtime/scp.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/scp.py
 
-diff --git a/meta/lib/oeqa/runtime/pam.py b/meta/lib/oeqa/runtime/pam.py
+diff --git a/meta/lib/oeqa/runtime/scp.py b/meta/lib/oeqa/runtime/scp.py
 new file mode 100644
-index 0000000..52e1eb8
+index 0000000..b914802
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/pam.py
-@@ -0,0 +1,24 @@
-+# This test should cover https://bugzilla.yoctoproject.org/tr_show_case.cgi?case_id=287 testcase
-+# Note that the image under test must have "pam" in DISTRO_FEATURES
-+
++++ b/meta/lib/oeqa/runtime/scp.py
+@@ -0,0 +1,22 @@
++import subprocess
 +import unittest
++import os
 +from oeqa.oetest import oeRuntimeTest
 +from oeqa.utils.decorators import *
 +
 +def setUpModule():
-+    if not oeRuntimeTest.hasFeature("pam"):
-+        skipModule("target doesn't have 'pam' in DISTRO_FEATURES")
++    if not (oeRuntimeTest.hasPackage("dropbear") or oeRuntimeTest.hasPackage("openssh-sshd")):
++        skipModule("No ssh package in image")
 +
 +
-+class PamBasicTest(oeRuntimeTest):
++class ScpTest(oeRuntimeTest):
++
++    def setUp(self):
++         subprocess.check_call("dd if=/dev/zero of=%s bs=512k count=10" % os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR", True), 'test_scp_file'), shell=True)
 +
 +    @skipUnlessPassed('test_ssh')
-+    def test_pam(self):
-+        (status, output) = self.target.run('login --help')
-+        self.assertEqual(status, 1, msg = "login command does not work as expected. Status and output:%s and %s" %(status, output))
-+        (status, output) = self.target.run('passwd --help')
-+        self.assertEqual(status, 6, msg = "passwd command does not work as expected. Status and output:%s and %s" %(status, output))
-+        (status, output) = self.target.run('su --help')
-+        self.assertEqual(status, 2, msg = "su command does not work as expected. Status and output:%s and %s" %(status, output))
-+        (status, output) = self.target.run('useradd --help')
-+        self.assertEqual(status, 2, msg = "useradd command does not work as expected. Status and output:%s and %s" %(status, output))
++    def test_scp(self):
++        (status, output) = self.target.copy_to(os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR", True), 'test_scp_file'), '/tmp/test_scp_file')
++        self.assertEqual(status, 0, msg = "File could not be copied. Output: %s" % output)
++        (status, output) = self.target.run("ls -la /tmp/test_scp_file")
++        self.assertEqual(status, 0, msg = "SCP test failed")
 -- 
 1.8.3.1
 
