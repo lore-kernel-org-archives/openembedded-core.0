@@ -1,37 +1,33 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ECA861013
+Return-Path: <erik.boto@pelagicore.com>
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 10749608A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 05:47:15 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Aug 2013 22:47:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,938,1367996400"; d="scan'208";a="390759242"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Aug 2013 22:47:01 -0700
-Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 23 Aug 2013 06:47:01 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.233]) with mapi id
-	14.03.0123.003; Fri, 23 Aug 2013 06:47:01 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH] pulseaudio: upgrade to v4.0
-Thread-Index: AQHOh72Gycv0Zt/CoUO16yjspGxjxpmhrlKAgAA9KACAAI0hgA==
-Date: Fri, 23 Aug 2013 05:47:00 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C19588@IRSMSX105.ger.corp.intel.com>
-References: <1374595208-17628-1-git-send-email-cristian.iorga@intel.com>
-	<52165B77.2050602@linux.intel.com> <52168EC4.8060401@linux.intel.com>
-In-Reply-To: <52168EC4.8060401@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Fri, 23 Aug 2013 06:14:41 +0000 (UTC)
+Received: by mail-ob0-f178.google.com with SMTP id ef5so280798obb.23
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 23:14:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=8BowAb47tQuq6fdWX3UA7hN57iRlR07yj0knqUpJdLk=;
+	b=mEej0388rq8r2q40RSB6FQ6lgfGtJqrZ1iw0s6ZfnYBo/AliE6uF95trUA/oSb+F+0
+	8Fmn5Ft8dCdU91fx8zuztQPquQBC2dlL7AIUVLXyawtnziKnBabJkjbbaaRWnCUc0JmF
+	tlTvDjF7Uo7nXpUlw7u4dOVDTOeuKyCli7TK9L+mr58Dk2pOHkEkQVjLHy+JCI1dGqRf
+	XTZf4wi9M0qzL0lbJC6N11bip9MOuPkrQPK4PaRbqwurpXOI5u0uyyDLBFkk+DgvDIdc
+	eFpzdOFfYv0JxLdZpoRbElZibBWudjeN7Ke8cyCCOHTjZk4K8f4q4x2N4vBdSMZCVG8I
+	U/3g==
+X-Gm-Message-State: ALoCoQnFdiAE8zUioXiZlCkJliO3yN/zTEDAbrBpF+TypRVriMtpIEfnEZby2XonwpbqjAZcuO7h
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pulseaudio: upgrade to v4.0
+X-Received: by 10.182.142.106 with SMTP id rv10mr18561708obb.51.1377238482278; 
+	Thu, 22 Aug 2013 23:14:42 -0700 (PDT)
+Received: by 10.76.174.6 with HTTP; Thu, 22 Aug 2013 23:14:42 -0700 (PDT)
+Date: Fri, 23 Aug 2013 08:14:42 +0200
+Message-ID: <CA+AhUGwh+Ck5LYxwL0Lp20czW6m-xQAPnFOckfnjNFFB9aMreA@mail.gmail.com>
+From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Issue with pulseaudio and Qt introduced with eglibc 2.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,481 +40,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 05:47:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 23 Aug 2013 06:14:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c2e2be81ee5f04e4975274
+
+--001a11c2e2be81ee5f04e4975274
+Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-Now, it makes sense, please ignore my previous message.
-I will do a review this afternoon.
-Regards,
-Cristian
+Hi,
 
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]=20
-Sent: Friday, August 23, 2013 1:21 AM
-To: Saul Wold
-Cc: Iorga, Cristian; openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] pulseaudio: upgrade to v4.0
+I'm hitting a bug now when using Qt to play e.g mp3:s to a pulseaudio sink.
+Using gst-launch with playbin2 and pulsesink works well on the same system.
+I have tried a few different versions of Qt (5.0.1, 5.0.2 and Qt 5.1) and
+both pulseaudio 3 and 4 with the same problem. When I added this to
+local.conf:
 
-On 08/22/2013 11:41 AM, Saul Wold wrote:
->
-> I found a floating dependency on gtk+3, and that the configure for 4.0=20
-> takes a different set of options:
->
-> configure:29775: WARNING: unrecognized options: --disable-lynx,=20
-> --disable-polkit, --without-jack, --with-glib, --with-alsa,=20
-> --with-oss, --without-hal, --disable-hal, --enable-gtk2
->
-> If you look at configure --help for pulse audio, there is an updated=20
-> list of options.  There might be a little challenging with gtk+3 since=20
-> it's enabled by default and we want to disable it when no x11=20
-> DISTRO_FEATURE is there, so look at this carefully.
->
-I provided a patch for this already, but you might want to review the optio=
-ns that we have enabled, we might want to consider disabling some more.
+PREFERRED_VERSION_eglibc-locale =3D "2.17"
+PREFERRED_VERSION_eglibc-mtrace =3D "2.17"
+PREFERRED_VERSION_eglibc-scripts =3D "2.17"
+PREFERRED_VERSION_eglibc-initial =3D "2.17"
+PREFERRED_VERSION_eglibc =3D "2.17"
 
-Sau!
+It works ok again, so it was introduced when moving to eglib 2.18 (not
+saying that the actual error is in eglibc though).
 
-> Sau!
->
->
-> On 07/23/2013 09:00 AM, Cristian Iorga wrote:
->> pulseaudio_fix_for_x32.patch removed; included in upstream.
->> general recipe clean-up (multiple src URI removed, inheritance=20
->> grouping, dependency grouping).
->> parallel make is now active (was disabled in version 0.9).
->>
->> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
->> ---
->>   meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |    9 +-
->>   .../pulseaudio/pulseaudio_fix_for_x32.patch        |  238
->> --------------------
->>   .../{pulseaudio_3.0.bb =3D> pulseaudio_4.0.bb}       |   11 +-
->>   3 files changed, 5 insertions(+), 253 deletions(-)
->>   delete mode 100644
->> meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x32.
->> patch
->>
->>   rename meta/recipes-multimedia/pulseaudio/{pulseaudio_3.0.bb =3D>=20
->> pulseaudio_4.0.bb} (51%)
->>
->> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> index d4f66e6..d3f6d17 100644
->> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
->> @@ -7,15 +7,13 @@ LIC_FILES_CHKSUM =3D
->> "file://GPL;md5=3D4325afd396febcb659c36b49533135d4 \
->>                      =20
->> file://LGPL;md5=3D2d5025d4aa3495befef8f17206a5b0a1 \
->>
->> file://src/modules/bluetooth/proximity-helper.c;beginline=3D1;endline=3D=
-2
->> 5;md5=3De4cc710e40a4d900c2c294167bc58270
->> \
->>
->> file://src/pulsecore/resampler.h;beginline=3D4;endline=3D23;md5=3Dc3d539=
-b93f8c82a1780bfa3cfa544a95"
->>
->> +
->>   DEPENDS =3D "libatomics-ops liboil libsamplerate0 libsndfile1 libtool"
->>   # optional
->>   DEPENDS +=3D "udev alsa-lib glib-2.0 dbus gconf"
->> +DEPENDS +=3D "libjson gdbm speex libxml-parser-perl-native"
->>
->> -SRC_URI =3D
->> "http://0pointer.de/lennart/projects/pulseaudio/pulseaudio-${PV}.tar.gz =
-\
->> -           file://gcc4-compile-fix.patch \
->> -           file://volatiles.04_pulse"
->> -
->> -inherit autotools pkgconfig useradd
->> +inherit autotools pkgconfig useradd gettext perlnative
->>
->>   # *.desktop rules wont be generated during configure and build will=20
->> fail
->>   # if using --disable-nls
->> @@ -53,7 +51,6 @@ PACKAGECONFIG[avahi] =3D=20
->> "--enable-avahi,--disable-avahi,avahi"
->>
->>   EXTRA_OECONF_append_arm +=3D "${@bb.utils.contains("TUNE_FEATURES",
->> "neon", "", "--enable-neon-opt=3Dno", d)}"
->>
->> -PARALLEL_MAKE =3D ""
->>
->>   export TARGET_PFPU =3D "${TARGET_FPU}"
->>
->> diff --git
->> a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x3
->> 2.patch=20
->> b/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x3
->> 2.patch
->>
->> deleted file mode 100644
->> index b68ac5b..0000000
->> ---
->> a/meta/recipes-multimedia/pulseaudio/pulseaudio/pulseaudio_fix_for_x3
->> 2.patch
->>
->> +++ /dev/null
->> @@ -1,238 +0,0 @@
->> -Upstream-Status: Pending
->> -
->> -This patch makes assembly syntax compatible to the x32 toolchain.
->> -
->> -This fixes these kinds of compilations errors with x32 gcc.
->> -| pulsecore/svolume_mmx.c: Assembler messages:
->> -| pulsecore/svolume_mmx.c:107: Error: `(%esi,%rdi,4)' is not a valid
->> base/index expression
->> -| pulsecore/svolume_mmx.c:135: Error: `(%esi,%rdi,4)' is not a valid
->> base/index expression
->> -| pulsecore/svolume_mmx.c:161: Error: `(%esi,%rdi,4)' is not a valid
->> base/index expression
->> -| pulsecore/svolume_mmx.c:162: Error: `8(%esi,%rdi,4)' is not a=20
->> -| valid
->> base/index expression
->> -| pulsecore/svolume_mmx.c:180: Error: `(%esi,%rdi,4)' is not a valid
->> base/index expression
->> -| pulsecore/svolume_mmx.c:210: Error: `(%esi,%rdi,4)' is not a valid
->> base/index expression
->> -| pulsecore/svolume_mmx.c:244: Error: `(%esi,%rdi,4)' is not a valid
->> base/index expression
->> -| pulsecore/svolume_mmx.c:245: Error: `8(%esi,%rdi,4)' is not a=20
->> -| valid
->> base/index expression
->> -| make[3]: *** [libpulsecore_1.1_la-svolume_mmx.lo] Error 1
->> -
->> -Orignally these assembly lines are written for x86_64 ABI, now they=20
->> are also compatible with
->> -X32 ABI.
->> -
->> -Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com> 2011/12/03
->> -Index: pulseaudio-1.1/src/pulsecore/svolume_mmx.c
->> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> ---- pulseaudio-1.1.orig/src/pulsecore/svolume_mmx.c
->> -+++ pulseaudio-1.1/src/pulsecore/svolume_mmx.c
->> -@@ -107,7 +107,7 @@ static void pa_volume_s16ne_mmx(int16_t
->> -         " test $1, %2                   \n\t" /* check for odd
->> samples */
->> -         " je 2f                         \n\t"
->> -
->> --        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
->> -+        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
->> -         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
->> -         " movd %4, %%mm1                \n\t"
->> -         VOLUME_32x16 (%%mm1, %%mm0)
->> -@@ -122,7 +122,7 @@ static void pa_volume_s16ne_mmx(int16_t
->> -         " je 4f                         \n\t"
->> -
->> -         "3:                             \n\t" /* do samples in
->> groups of 2 */
->> --        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -         " movd (%0), %%mm1              \n\t" /*              .. |
->> p1  |  p0   | */
->> -         VOLUME_32x16 (%%mm1, %%mm0)
->> -         " movd %%mm0, (%0)              \n\t" /*              .. |
->> p1*v1 | p0*v0 | */
->> -@@ -135,8 +135,8 @@ static void pa_volume_s16ne_mmx(int16_t
->> -         " je 6f                         \n\t"
->> -
->> -         "5:                             \n\t" /* do samples in
->> groups of 4 */
->> --        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> --        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |
->> v2h  |  v2l  | */
->> -+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -+        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |
->> v2h  |  v2l  | */
->> -         " movd (%0), %%mm1              \n\t" /*              .. |
->> p1  |  p0   | */
->> -         " movd 4(%0), %%mm3             \n\t" /*              .. |
->> p3  |  p2   | */
->> -         VOLUME_32x16 (%%mm1, %%mm0)
->> -@@ -180,7 +180,7 @@ static void pa_volume_s16re_mmx(int16_t
->> -         " test $1, %2                   \n\t" /* check for odd
->> samples */
->> -         " je 2f                         \n\t"
->> -
->> --        " movd (%1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
->> -+        " movd (%q1, %3, 4), %%mm0       \n\t" /* |  v0h  |  v0l  | */
->> -         " movw (%0), %w4                \n\t" /*     ..  |  p0   | */
->> -         " rorw $8, %w4                  \n\t"
->> -         " movd %4, %%mm1                \n\t"
->> -@@ -197,7 +197,7 @@ static void pa_volume_s16re_mmx(int16_t
->> -         " je 4f                         \n\t"
->> -
->> -         "3:                             \n\t" /* do samples in
->> groups of 2 */
->> --        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -         " movd (%0), %%mm1              \n\t" /*              .. |
->> p1  |  p0   | */
->> -         SWAP_16 (%%mm1)
->> -         VOLUME_32x16 (%%mm1, %%mm0)
->> -@@ -212,8 +212,8 @@ static void pa_volume_s16re_mmx(int16_t
->> -         " je 6f                         \n\t"
->> -
->> -         "5:                             \n\t" /* do samples in
->> groups of 4 */
->> --        " movq (%1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> --        " movq 8(%1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |
->> v2h  |  v2l  | */
->> -+        " movq (%q1, %3, 4), %%mm0       \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -+        " movq 8(%q1, %3, 4), %%mm2      \n\t" /* |  v3h  |  v3l  |
->> v2h  |  v2l  | */
->> -         " movd (%0), %%mm1              \n\t" /*              .. |
->> p1  |  p0   | */
->> -         " movd 4(%0), %%mm3             \n\t" /*              .. |
->> p3  |  p2   | */
->> -         SWAP_16_2 (%%mm1, %%mm3)
->> -Index: pulseaudio-1.1/src/pulsecore/svolume_sse.c
->> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> ---- pulseaudio-1.1.orig/src/pulsecore/svolume_sse.c
->> -+++ pulseaudio-1.1/src/pulsecore/svolume_sse.c
->> -@@ -92,7 +92,7 @@ static void pa_volume_s16ne_sse2(int16_t
->> -         " test $1, %2                   \n\t" /* check for odd
->> samples */
->> -         " je 2f                         \n\t"
->> -
->> --        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
->> -+        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
->> -         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
->> -         " movd %4, %%xmm1               \n\t"
->> -         VOLUME_32x16 (%%xmm1, %%xmm0)
->> -@@ -107,7 +107,7 @@ static void pa_volume_s16ne_sse2(int16_t
->> -         " je 4f                         \n\t"
->> -
->> -         "3:                             \n\t" /* do samples in
->> groups of 2 */
->> --        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -+        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -         " movd (%0), %%xmm1             \n\t" /*              .. |
->> p1  |  p0   | */
->> -         VOLUME_32x16 (%%xmm1, %%xmm0)
->> -         " movd %%xmm0, (%0)             \n\t" /*              .. |
->> p1*v1 | p0*v0 | */
->> -@@ -123,7 +123,7 @@ static void pa_volume_s16ne_sse2(int16_t
->> -          * that the array is 16 bytes aligned, we probably have to
->> do the odd values
->> -          * after this then. */
->> -         "5:                             \n\t" /* do samples in
->> groups of 4 */
->> --        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..
->> v0h  |  v0l  | */
->> -+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l
->> ..  v0h  |  v0l  | */
->> -         " movq (%0), %%xmm1             \n\t" /*              .. |
->> p3  ..  p0   | */
->> -         VOLUME_32x16 (%%xmm1, %%xmm0)
->> -         " movq %%xmm0, (%0)             \n\t" /*              .. |
->> p3*v3 .. p0*v0 | */
->> -@@ -136,8 +136,8 @@ static void pa_volume_s16ne_sse2(int16_t
->> -         " je 8f                         \n\t"
->> -
->> -         "7:                             \n\t" /* do samples in
->> groups of 8 */
->> --        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..
->> v0h  |  v0l  | */
->> --        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..
->> v4h  |  v4l  | */
->> -+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l
->> ..  v0h  |  v0l  | */
->> -+        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l
->> ..  v4h  |  v4l  | */
->> -         " movq (%0), %%xmm1             \n\t" /*              .. |
->> p3  ..  p0   | */
->> -         " movq 8(%0), %%xmm3            \n\t" /*              .. |
->> p7  ..  p4   | */
->> -         VOLUME_32x16 (%%xmm1, %%xmm0)
->> -@@ -176,7 +176,7 @@ static void pa_volume_s16re_sse2(int16_t
->> -         " test $1, %2                   \n\t" /* check for odd
->> samples */
->> -         " je 2f                         \n\t"
->> -
->> --        " movd (%1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
->> -+        " movd (%q1, %3, 4), %%xmm0      \n\t" /* |  v0h  |  v0l  | */
->> -         " movw (%0), %w4                \n\t" /*     ..  |   p0  | */
->> -         " rorw $8, %w4                  \n\t"
->> -         " movd %4, %%xmm1               \n\t"
->> -@@ -193,7 +193,7 @@ static void pa_volume_s16re_sse2(int16_t
->> -         " je 4f                         \n\t"
->> -
->> -         "3:                             \n\t" /* do samples in
->> groups of 2 */
->> --        " movq (%1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -+        " movq (%q1, %3, 4), %%xmm0      \n\t" /* |  v1h  |  v1l  |
->> v0h  |  v0l  | */
->> -         " movd (%0), %%xmm1             \n\t" /*              .. |
->> p1  |  p0   | */
->> -         SWAP_16 (%%xmm1)
->> -         VOLUME_32x16 (%%xmm1, %%xmm0)
->> -@@ -211,7 +211,7 @@ static void pa_volume_s16re_sse2(int16_t
->> -          * that the array is 16 bytes aligned, we probably have to
->> do the odd values
->> -          * after this then. */
->> -         "5:                             \n\t" /* do samples in
->> groups of 4 */
->> --        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..
->> v0h  |  v0l  | */
->> -+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l
->> ..  v0h  |  v0l  | */
->> -         " movq (%0), %%xmm1             \n\t" /*              .. |
->> p3  ..  p0   | */
->> -         SWAP_16 (%%xmm1)
->> -         VOLUME_32x16 (%%xmm1, %%xmm0)
->> -@@ -226,8 +226,8 @@ static void pa_volume_s16re_sse2(int16_t
->> -         " je 8f                         \n\t"
->> -
->> -         "7:                             \n\t" /* do samples in
->> groups of 8 */
->> --        " movdqu (%1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l  ..
->> v0h  |  v0l  | */
->> --        " movdqu 16(%1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l  ..
->> v4h  |  v4l  | */
->> -+        " movdqu (%q1, %3, 4), %%xmm0    \n\t" /* |  v3h  |  v3l
->> ..  v0h  |  v0l  | */
->> -+        " movdqu 16(%q1, %3, 4), %%xmm2  \n\t" /* |  v7h  |  v7l
->> ..  v4h  |  v4l  | */
->> -         " movq (%0), %%xmm1             \n\t" /*              .. |
->> p3  ..  p0   | */
->> -         " movq 8(%0), %%xmm3            \n\t" /*              .. |
->> p7  ..  p4   | */
->> -         SWAP_16_2 (%%xmm1, %%xmm3)
->> -Index: pulseaudio-1.1/src/pulsecore/sconv_sse.c
->> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> ---- pulseaudio-1.1.orig/src/pulsecore/sconv_sse.c
->> -+++ pulseaudio-1.1/src/pulsecore/sconv_sse.c
->> -@@ -54,8 +54,8 @@ static void pa_sconv_s16le_from_f32ne_ss
->> -         " je 2f                         \n\t"
->> -
->> -         "1:                             \n\t"
->> --        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
->> --        " movups 16(%2, %0, 2), %%xmm2  \n\t"
->> -+        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
->> -+        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
->> -         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
->> -         " minps  %%xmm5, %%xmm2         \n\t"
->> -         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
->> -@@ -72,8 +72,8 @@ static void pa_sconv_s16le_from_f32ne_ss
->> -
->> -         " packssdw %%mm1, %%mm0         \n\t" /* pack parts */
->> -         " packssdw %%mm3, %%mm2         \n\t"
->> --        " movq     %%mm0, (%3, %0)      \n\t"
->> --        " movq    %%mm2, 8(%3, %0)     \n\t"
->> -+        " movq     %%mm0, (%q3, %0)      \n\t"
->> -+        " movq    %%mm2, 8(%q3, %0)     \n\t"
->> -
->> -         " add $16, %0                   \n\t"
->> -         " dec %1                        \n\t"
->> -@@ -85,12 +85,12 @@ static void pa_sconv_s16le_from_f32ne_ss
->> -         " je 4f                         \n\t"
->> -
->> -         "3:                             \n\t"
->> --        " movss (%2, %0, 2), %%xmm0     \n\t"
->> -+        " movss (%q2, %0, 2), %%xmm0     \n\t"
->> -         " minss  %%xmm5, %%xmm0         \n\t"
->> -         " maxss  %%xmm6, %%xmm0         \n\t"
->> -         " mulss  %%xmm7, %%xmm0         \n\t"
->> -         " cvtss2si %%xmm0, %4           \n\t"
->> --        " movw  %w4, (%3, %0)           \n\t"
->> -+        " movw  %w4, (%q3, %0)           \n\t"
->> -         " add $2, %0                    \n\t"
->> -         " dec %1                        \n\t"
->> -         " jne 3b                        \n\t"
->> -@@ -119,8 +119,8 @@ static void pa_sconv_s16le_from_f32ne_ss
->> -         " je 2f                         \n\t"
->> -
->> -         "1:                             \n\t"
->> --        " movups (%2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
->> --        " movups 16(%2, %0, 2), %%xmm2  \n\t"
->> -+        " movups (%q2, %0, 2), %%xmm0    \n\t" /* read 8 floats */
->> -+        " movups 16(%q2, %0, 2), %%xmm2  \n\t"
->> -         " minps  %%xmm5, %%xmm0         \n\t" /* clamp to 1.0 */
->> -         " minps  %%xmm5, %%xmm2         \n\t"
->> -         " maxps  %%xmm6, %%xmm0         \n\t" /* clamp to -1.0 */
->> -@@ -132,7 +132,7 @@ static void pa_sconv_s16le_from_f32ne_ss
->> -         " cvtps2dq %%xmm2, %%xmm2       \n\t"
->> -
->> -         " packssdw %%xmm2, %%xmm0       \n\t"
->> --        " movdqu   %%xmm0, (%3, %0)     \n\t"
->> -+        " movdqu   %%xmm0, (%q3, %0)     \n\t"
->> -
->> -         " add $16, %0                   \n\t"
->> -         " dec %1                        \n\t"
->> -@@ -144,12 +144,12 @@ static void pa_sconv_s16le_from_f32ne_ss
->> -         " je 4f                         \n\t"
->> -
->> -         "3:                             \n\t"
->> --        " movss (%2, %0, 2), %%xmm0     \n\t"
->> -+        " movss (%q2, %0, 2), %%xmm0     \n\t"
->> -         " minss  %%xmm5, %%xmm0         \n\t"
->> -         " maxss  %%xmm6, %%xmm0         \n\t"
->> -         " mulss  %%xmm7, %%xmm0         \n\t"
->> -         " cvtss2si %%xmm0, %4           \n\t"
->> --        " movw  %w4, (%3, %0)           \n\t"
->> -+        " movw  %w4, (%q3, %0)           \n\t"
->> -         " add $2, %0                    \n\t"
->> -         " dec %1                        \n\t"
->> -         " jne 3b                        \n\t"
->> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
->> b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
->> similarity index 51%
->> rename from meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
->> rename to meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
->> index 3621452..b419c54 100644
->> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_3.0.bb
->> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_4.0.bb
->> @@ -1,19 +1,12 @@
->>   require pulseaudio.inc
->>
->> -PR =3D "r0"
->> -
->> -DEPENDS +=3D "libjson gdbm speex libxml-parser-perl-native"
->> -
->> -inherit gettext perlnative
->> -
->>   SRC_URI =3D
->> "http://freedesktop.org/software/pulseaudio/releases/pulseaudio-${PV}
->> .tar.xz
->> \
->>              file://volatiles.04_pulse"
->>
->> -SRC_URI[md5sum] =3D "47fd7eca8479c757822bee68a1feef25"
->> -SRC_URI[sha256sum] =3D
->> "c90bfda29605942d08e3e218ef10e3c660506a06651a616bfbb6a6df8392836d"
->> +SRC_URI[md5sum] =3D "591f211db2790a7e4d222f2dc6858db3"
->> +SRC_URI[sha256sum] =3D
->> "35ceb36bb1822fe54f0b5e4863b4f486769fdfb8ff2111f01fd8778928f9cdae"
->>
->>   do_compile_prepend() {
->>       mkdir -p ${S}/libltdl
->>       cp ${STAGING_LIBDIR}/libltdl* ${S}/libltdl
->>   }
->> -
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+The error I'm seeing is this:
+Assertion 'pthread_mutex_unlock(&m->mutex) =3D=3D 0' failed at
+pulsecore/mutex-posix.c:108, function pa_mutex_unlock(). Aborting.
 
+Google tells me that this has been an issue for OMAP4 when certain kernel
+configuration where enabled [1], which makes me believe this might be a
+hard one to track down. I'll see if I can find the time to debug it a bit
+more, but I would really appreciate any input.
+
+It's quite easy to reproduce, just use the QtMultimedia (built to use
+gstreamer and pulseaudio) mediaplayer example and select an mp3 file. It
+works like one time out of 20 or so, so some kind of race condition is
+probably the case.
+
+My hardware setup is a nitrogen6x board with a Freescale iMX6 processor (so
+I'm using meta-fsl-arm*), I've tried with both Qt built with meta-qt5 and
+an external Qt build against the Yocto sysroot. If anyone can reproduce
+this on some other hardware that would be nice to know.
+
+This started on the meta-freescale list [2], but is probably belonging
+here.
+
+[1]. http://lists.linaro.org/pipermail/linaro-dev/2013-April/015794.html
+[2].
+https://lists.yoctoproject.org/pipermail/meta-freescale/2013-August/004152.=
+html
+
+Cheers,
+Erik Bot=F6
+
+--001a11c2e2be81ee5f04e4975274
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,=A0<div><br></div><div><span style=3D"font-family:arial=
+,sans-serif;font-size:13px">I&#39;m hitting a bug now when using Qt to play=
+ e.g mp3:s to a pulseaudio sink. Using gst-launch with playbin2 and pulsesi=
+nk works well on the same system. I have tried a few different versions of =
+Qt (5.0.1, 5.0.2 and Qt 5.1) and both pulseaudio 3 and 4 with the same prob=
+lem. When I=A0</span><span style=3D"font-family:arial,sans-serif;font-size:=
+13px">added this to local.conf:=A0</span></div>
+<div><div style=3D"font-family:arial,sans-serif;font-size:13px"><br></div><=
+div style=3D"font-family:arial,sans-serif;font-size:13px"><div>PREFERRED_VE=
+RSION_eglibc-locale =3D &quot;2.17&quot;</div><div>PREFERRED_VERSION_eglibc=
+-mtrace =3D &quot;2.17&quot;</div>
+<div>PREFERRED_VERSION_eglibc-scripts =3D &quot;2.17&quot;</div><div>PREFER=
+RED_VERSION_eglibc-initial =3D &quot;2.17&quot;</div><div>PREFERRED_VERSION=
+_eglibc =3D &quot;2.17&quot;</div></div></div><div><font face=3D"arial, san=
+s-serif"><br>
+</font></div><div><font face=3D"arial, sans-serif">It works ok again, so it=
+ was introduced when moving to eglib 2.18 (not saying that the actual error=
+ is in eglibc though).</font></div><div><font face=3D"arial, sans-serif"><b=
+r>
+</font></div><div><div style=3D"font-family:arial,sans-serif;font-size:13px=
+">The error I&#39;m seeing is this:=A0</div><div style=3D"font-family:arial=
+,sans-serif;font-size:13px">Assertion &#39;pthread_mutex_unlock(&amp;m-&gt;=
+mutex) =3D=3D 0&#39; failed at pulsecore/mutex-posix.c:108, function pa_mut=
+ex_unlock(). Aborting.</div>
+<div><br></div><div><span style=3D"font-family:arial,sans-serif;font-size:1=
+3px">Google tells me that this has been an issue for OMAP4 when certain ker=
+nel configuration where enabled [1], which makes me believe this might be a=
+ hard one to track down. I&#39;ll see if I can find the time to debug it a =
+bit more, but I would really appreciate any input.=A0</span></div>
+<div><span style=3D"font-family:arial,sans-serif;font-size:13px"><br></span=
+></div><div><span style=3D"font-family:arial,sans-serif;font-size:13px">It&=
+#39;s quite easy to reproduce, just use the QtMultimedia (</span><span styl=
+e=3D"font-family:arial,sans-serif;font-size:13px">built to use gstreamer an=
+d pulseaudio</span><span style=3D"font-family:arial,sans-serif;font-size:13=
+px">) mediaplayer example and select an mp3 file. It works like one time ou=
+t of 20 or so, so some kind of race condition is probably the case.=A0</spa=
+n></div>
+<div><span style=3D"font-family:arial,sans-serif;font-size:13px"><br></span=
+></div><div><span style=3D"font-family:arial,sans-serif;font-size:13px">My =
+hardware setup is a nitrogen6x board with a Freescale iMX6 processor (so I&=
+#39;m using meta-fsl-arm*), I&#39;ve tried with both Qt built with meta-qt5=
+ and an external Qt build against the Yocto sysroot. If anyone can reproduc=
+e this on some other hardware that would be nice to know.</span></div>
+<div><span style=3D"font-family:arial,sans-serif;font-size:13px"><br></span=
+></div><div><span style=3D"font-family:arial,sans-serif;font-size:13px">Thi=
+s started on the meta-freescale list [2], but is probably belonging here.=
+=A0</span></div>
+<div><br></div><div><span style=3D"font-family:arial,sans-serif;font-size:1=
+3px">[1].=A0</span><a href=3D"http://lists.linaro.org/pipermail/linaro-dev/=
+2013-April/015794.html" target=3D"_blank" style=3D"font-family:arial,sans-s=
+erif;font-size:13px">http://lists.linaro.org/pipermail/linaro-dev/2013-Apri=
+l/015794.html</a><br>
+</div><div>[2].=A0<a href=3D"https://lists.yoctoproject.org/pipermail/meta-=
+freescale/2013-August/004152.html">https://lists.yoctoproject.org/pipermail=
+/meta-freescale/2013-August/004152.html</a></div><div><br></div>Cheers,=A0<=
+/div>
+<div>Erik Bot=F6</div></div>
+
+--001a11c2e2be81ee5f04e4975274--
