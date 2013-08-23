@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DEC536B9D0
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id DE96C6B9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:04:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 11:04:27 -0700
+	Fri, 23 Aug 2013 18:04:27 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 11:04:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="392339102"
+X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="285943223"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2013 11:04:27 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 11:04:28 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 010DF2C8001
+	by linux.intel.com (Postfix) with ESMTP id 1A2202C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 11:04:24 -0700 (PDT)
+	Fri, 23 Aug 2013 11:04:25 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 21:04:11 +0300
-Message-Id: <f9a1a201c9281fdd4a289473019d60b70f974923.1377280794.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 21:04:12 +0300
+Message-Id: <c3ca1641ffd8c313307c1c065693ef79163cf1bb.1377280794.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 01/19] lib/oeqa/runtime: add basic test for x32 images
+Subject: [PATCH v2 02/19] lib/oeqa/runtime: add test for perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:04:27 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 18:04:28 -0000
 
-From: Alexandru Georgescu <alexandru.c.georgescu@intel.com>
+From: Cornel Stoicescu <corneliux.stoicescu@intel.com>
 
-Checks that an x86-64-x32 image has the right binaries.
+This test runs a perl script on the target and checks the output.
 
-Signed-off-by: Alexandru Georgescu <alexandru.c.georgescu@intel.com>
+Signed-off-by: Cornel Stoicescu <corneliux.stoicescu@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/x32lib.py | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/x32lib.py
+ meta/lib/oeqa/runtime/files/test.pl |  2 ++
+ meta/lib/oeqa/runtime/perl.py       | 28 ++++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/files/test.pl
+ create mode 100644 meta/lib/oeqa/runtime/perl.py
 
-diff --git a/meta/lib/oeqa/runtime/x32lib.py b/meta/lib/oeqa/runtime/x32lib.py
+diff --git a/meta/lib/oeqa/runtime/files/test.pl b/meta/lib/oeqa/runtime/files/test.pl
 new file mode 100644
-index 0000000..6bad201
+index 0000000..689c8f1
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/x32lib.py
-@@ -0,0 +1,17 @@
++++ b/meta/lib/oeqa/runtime/files/test.pl
+@@ -0,0 +1,2 @@
++$a = 9.01e+21 - 9.01e+21 + 0.01;
++print ("the value of a is ", $a, "\n");
+diff --git a/meta/lib/oeqa/runtime/perl.py b/meta/lib/oeqa/runtime/perl.py
+new file mode 100644
+index 0000000..c9bb684
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/perl.py
+@@ -0,0 +1,28 @@
 +import unittest
++import os
 +from oeqa.oetest import oeRuntimeTest, skipModule
 +from oeqa.utils.decorators import *
 +
 +def setUpModule():
-+        #check if DEFAULTTUNE is set and it's value is: x86-64-x32
-+        defaulttune = oeRuntimeTest.tc.d.getVar("DEFAULTTUNE", True)
-+        if "x86-64-x32" not in defaulttune:
-+            skipModule("DEFAULTTUNE is not set to x86-64-x32")
++    if not oeRuntimeTest.hasPackage("perl"):
++        skipModule("No perl package in the image")
 +
-+class X32libTest(oeRuntimeTest):
 +
-+    @skipUnlessPassed("test_ssh")
-+    def test_x32_file(self):
-+        status1 = self.target.run("readelf -h /bin/ls | grep Class | grep ELF32")[0]
-+        status2 = self.target.run("readelf -h /bin/ls | grep Machine | grep X86-64")[0]
-+        self.assertTrue(status1 == 0 and status2 == 0, msg="/bin/ls isn't an X86-64 ELF32 binary. readelf says: %s" % self.target.run("readelf -h /bin/ls")[1])
++class PerlTest(oeRuntimeTest):
++
++    @classmethod
++    def setUpClass(self):
++        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "test.pl"), "/tmp/test.pl")
++
++    def test_perl_exists(self):
++        (status, output) = self.target.run('which perl')
++        self.assertEqual(status, 0, msg="Perl binary not in PATH or not on target.")
++
++    def test_perl_works(self):
++        (status, output) = self.target.run('perl /tmp/test.pl')
++        self.assertEqual(status, 0, msg="Exit status was not 0. Output: %s" % output)
++        self.assertEqual(output, "the value of a is 0.01", msg="Incorrect output: %s" % output)
++
++    @classmethod
++    def tearDownClass(self):
++        oeRuntimeTest.tc.target.run("rm /tmp/test.pl")
 -- 
 1.8.3.1
 
