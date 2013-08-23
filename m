@@ -1,27 +1,41 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C3136B66A
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 17:06:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 10:06:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="392309992"
-Received: from unknown (HELO [10.7.201.53]) ([10.7.201.53])
-	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2013 10:06:27 -0700
-Message-ID: <1377277584.5259.54.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 23 Aug 2013 10:06:24 -0700
-In-Reply-To: <5217051D.8060405@windriver.com>
-References: <cover.1377175027.git.liezhi.yang@windriver.com>
-	<c860af16cf9ffd4ba171206e5e9a36c50d771bdf.1377175027.git.liezhi.yang@windriver.com>
-	<5216CA03.60108@windriver.com> <5217051D.8060405@windriver.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/6] e2fsprogs: let debugfs do sparse copy
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 94A146B91B
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 17:08:35 +0000 (UTC)
+Received: by mail-pa0-f53.google.com with SMTP id lb1so902587pab.40
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 10:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=MHn/IHVyj1T1yhRCu9g7pU2Ou7R6Be+2hCKdsmBtua0=;
+	b=H1nAA8BU/wp50jBHwohVKdZ1BGNXCAJe0x2zVbukqSL9pTfNRgAVH4xwlwATkqUQpS
+	K4yvTEpinoOranRa0qveUtTSxfvME1fQaXgbyu1PJQ4IUi+dTIQRIwCsLI/7o0ISvsY1
+	10SGyugWDIW4JiySGIPoC4GQI2iUUq49RS3m2ULyDOAZm8VgE+HSYlZmLpntp1qzx+sD
+	0jwP6dAmwpZui9+1BGPikVUa4F32+k93vJbiajPTu2KXINjKsDX0IoShT8MFaipayPBd
+	T5lyH55udM5lpttuY6fIHmXgrxchj6NS7OaNb4OxFAkdAY+nmuUWkXWmAjHb7HQKmjvz
+	A5nw==
+X-Received: by 10.68.238.104 with SMTP id vj8mr666593pbc.149.1377277716193;
+	Fri, 23 Aug 2013 10:08:36 -0700 (PDT)
+Received: from sa-nc-finance-109.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36])
+	by mx.google.com with ESMTPSA id in2sm864537pbc.37.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 23 Aug 2013 10:08:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20130822225302.GN522@jama>
+Date: Fri, 23 Aug 2013 10:08:27 -0700
+Message-Id: <97E14A4F-C674-4D5A-946F-F09F41F35AB3@gmail.com>
+References: <739A9EF8-4ABD-419C-978B-29006E185238@gmail.com>
+	<52168CC1.5050906@linux.intel.com> <20130822225302.GN522@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: "openembedded-core@lists.openembedded.org oe-core layer"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: World build on OE-Core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,235 +48,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 17:06:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Fri, 2013-08-23 at 14:45 +0800, Robert Yang wrote:
-> 
-> On 08/23/2013 10:33 AM, Rongqing Li wrote:
-> >
-> >
-> > On 08/22/2013 09:13 PM, Robert Yang wrote:
-> >> Let debugfs do sparse copy when src is a sparse file, just like
-> >> "cp --sparse=auto"
-> >>
-> >> This patch has been reviewed by the linux-ext4 mailing list, but isn't
-> >> merged atm.
-> >>
-> >> [YOCTO #3848]
-> >>
-> >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> >> ---
-> >>   .../e2fsprogs-1.42.8/debugfs-sparse-copy.patch     |  147 ++++++++++++++++++++
-> >>   .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    1 +
-> >>   2 files changed, 148 insertions(+)
-> >>   create mode 100644
-> >> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
-> >>
-> >> diff --git
-> >> a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
-> >> b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
-> >> new file mode 100644
-> >> index 0000000..c87bcbf
-> >> --- /dev/null
-> >> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
-> >> @@ -0,0 +1,147 @@
-> >> +debugfs.c: do sparse copy when src is a sparse file
-> >> +
-> >> +Let debugfs do sparse copy when src is a sparse file, just like
-> >> +"cp --sparse=auto"
-> >> +
-> >> +* For the:
-> >> +  #define IO_BUFSIZE 64*1024
-> >> +  this is a suggested value from gnu coreutils:
-> >> +
-> >> http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/ioblksize.h;h=1ae93255e7d0ccf0855208c7ae5888209997bf16;hb=HEAD
-> >>
-> >> +
-> >> +* Use malloc() to allocate memory for the buffer since put 64K (or
-> >> +  more) on the stack seems not a good idea.
-> >> +
-> >> +Upstream-Status: Submitted
-> >> +
-> >> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> >> +Acked-by: Darren Hart <dvhart@linux.intel.com>
-> >> +---
-> >> + debugfs/debugfs.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++----
-> >> + 1 file changed, 57 insertions(+), 4 deletions(-)
-> >> +
-> >> +diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
-> >> +--- a/debugfs/debugfs.c
-> >> ++++ b/debugfs/debugfs.c
-> >> +@@ -41,6 +41,16 @@ extern char *optarg;
-> >> + #define BUFSIZ 8192
-> >> + #endif
-> >> +
-> >> ++/* 64KiB is the minimium blksize to best minimize system call overhead. */
-> >> ++#ifndef IO_BUFSIZE
-> >> ++#define IO_BUFSIZE 64*1024
-> >> ++#endif
-> >> ++
-> >> ++/* Block size for `st_blocks' */
-> >> ++#ifndef S_BLKSIZE
-> >> ++#define S_BLKSIZE 512
-> >> ++#endif
-> >> ++
-> >> + ss_request_table *extra_cmds;
-> >> + const char *debug_prog_name;
-> >> + int sci_idx;
-> >> +@@ -1575,22 +1585,36 @@ void do_find_free_inode(int argc, char *argv[])
-> >> + }
-> >> +
-> >> + #ifndef READ_ONLY
-> >> +-static errcode_t copy_file(int fd, ext2_ino_t newfile)
-> >> ++static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int
-> >> make_holes)
-> >> + {
-> >> +     ext2_file_t    e2_file;
-> >> +     errcode_t    retval;
-> >> +     int        got;
-> >> +     unsigned int    written;
-> >> +-    char        buf[8192];
-> >> ++    char        *buf;
-> >> +     char        *ptr;
-> >> ++    char        *zero_buf;
-> >> ++    int        cmp;
-> >> +
-> >> +     retval = ext2fs_file_open(current_fs, newfile,
-> >> +                   EXT2_FILE_WRITE, &e2_file);
-> >> +     if (retval)
-> >> +         return retval;
-> >> +
-> >> ++    if (!(buf = (char *) malloc(bufsize))){
-> >> ++        com_err("copy_file", errno, "can't allocate buffer\n");
-> >> ++        return;
-> >> ++    }
-> >> ++
-> >> ++        /* This is used for checking whether the whole block is zero */
-> >> ++    retval = ext2fs_get_memzero(bufsize, &zero_buf);
-> >> ++    if (retval) {
-> >> ++        com_err("copy_file", retval, "can't allocate buffer\n");
-> >
-> > should free(buf), or memory leak.
-> >
-> 
-> Add a free(buf) and updated the PR:
-> 
-> git://git.pokylinux.org/poky-contrib robert/extX
+X-List-Received-Date: Fri, 23 Aug 2013 17:08:35 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
-Nice catch Rongqing, thank you.
+On Aug 22, 2013, at 3:53 PM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
 
-Acked-by: Darren Hart <dvhart@linux.intel.com>
-
-Robert, please resubmit a new version to the ext list with the memory
-leak and whitespace fixes. It's a good way to the attention back on the
-series.
-
---
-Darren
-
-> 
-> // Robert
-> 
-> > -Roy
-> >
-> >> ++        return retval;
-> >> ++    }
-> >> ++
-> >> +     while (1) {
-> >> +-        got = read(fd, buf, sizeof(buf));
-> >> ++        got = read(fd, buf, bufsize);
-> >> +         if (got == 0)
-> >> +             break;
-> >> +         if (got < 0) {
-> >> +@@ -1598,6 +1622,21 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
-> >> +             goto fail;
-> >> +         }
-> >> +         ptr = buf;
-> >> ++
-> >> ++        /* Sparse copy */
-> >> ++        if (make_holes) {
-> >> ++            /* Check whether all is zero */
-> >> ++            cmp = memcmp(ptr, zero_buf, got);
-> >> ++            if (cmp == 0) {
-> >> ++                 /* The whole block is zero, make a hole */
-> >> ++                retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
-> >> ++                if (retval)
-> >> ++                    goto fail;
-> >> ++                got = 0;
-> >> ++            }
-> >> ++        }
-> >> ++
-> >> ++        /* Normal copy */
-> >> +         while (got > 0) {
-> >> +             retval = ext2fs_file_write(e2_file, ptr,
-> >> +                            got, &written);
-> >> +@@ -1608,10 +1647,14 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
-> >> +             ptr += written;
-> >> +         }
-> >> +     }
-> >> ++    free(buf);
-> >> ++    ext2fs_free_mem(&zero_buf);
-> >> +     retval = ext2fs_file_close(e2_file);
-> >> +     return retval;
-> >> +
-> >> + fail:
-> >> ++    free(buf);
-> >> ++    ext2fs_free_mem(&zero_buf);
-> >> +     (void) ext2fs_file_close(e2_file);
-> >> +     return retval;
-> >> + }
-> >> +@@ -1624,6 +1667,8 @@ void do_write(int argc, char *argv[])
-> >> +     ext2_ino_t    newfile;
-> >> +     errcode_t    retval;
-> >> +     struct ext2_inode inode;
-> >> ++    int        bufsize = IO_BUFSIZE;
-> >> ++    int        make_holes = 0;
-> >> +
-> >> +     if (common_args_process(argc, argv, 3, 3, "write",
-> >> +                 "<native file> <new file>", CHECK_FS_RW))
-> >> +@@ -1699,7 +1744,15 @@ void do_write(int argc, char *argv[])
-> >> +         return;
-> >> +     }
-> >> +     if (LINUX_S_ISREG(inode.i_mode)) {
-> >> +-        retval = copy_file(fd, newfile);
-> >> ++        if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
-> >> ++            make_holes = 1;
-> >> ++            /*
-> >> ++             * Use I/O blocksize as buffer size when
-> >> ++             * copying sparse files.
-> >> ++             */
-> >> ++            bufsize = statbuf.st_blksize;
-> >> ++        }
-> >> ++        retval = copy_file(fd, newfile, bufsize, make_holes);
-> >> +         if (retval)
-> >> +             com_err("copy_file", retval, 0);
-> >> +     }
-> >> +--
-> >> +1.8.1.2
-> >> +
-> >> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> >> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> >> index f97de7f..5d65bbc 100644
-> >> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> >> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
-> >> @@ -4,6 +4,7 @@ require e2fsprogs.inc
-> >>   SRC_URI += "file://acinclude.m4 \
-> >>               file://remove.ldconfig.call.patch \
-> >>               file://debugfs-too-short.patch \
-> >> +            file://debugfs-sparse-copy.patch \
-> >>   "
-> >>
-> >>   SRC_URI[md5sum] = "8ef664b6eb698aa6b733df59b17b9ed4"
-> >>
-> >
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
+> On Thu, Aug 22, 2013 at 03:12:17PM -0700, Saul Wold wrote:
+>> On 08/22/2013 02:24 PM, Khem Raj wrote:
+>>> Hi
+>>>=20
+>>> In spare cycles my box ran world build for all eglibc/qemus, arm, =
+ppc, mips looks all fine however I see errors on mips64,x86 and x86_64
+>>> I am looking into the mips64 one.
+>>>=20
+>>> x86_64
+>>> =3D=3D=3D=3D=3D=3D
+>>>=20
+>>> Summary: 17 tasks failed:
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-graphics/xorg-lib=
+/libxft_2.3.1.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-graphics/cairo/ca=
+iro_1.12.14.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-multimedia/gstrea=
+mer/gst-plugins-base_0.10.36.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-connectivity/blue=
+z/bluez4_4.101.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-support/curl/curl=
+_7.32.0.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-support/beecrypt/=
+beecrypt_4.2.1.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-graphics/xorg-xse=
+rver/xserver-xorg_1.14.0.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-graphics/mesa/mes=
+a_9.1.6.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-core/glib-network=
+ing/glib-networking_2.36.2.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-support/enchant/e=
+nchant_1.6.0.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-support/neon/neon=
+_0.30.0.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-multimedia/gstrea=
+mer/gstreamer1.0-plugins-base_1.0.9.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-support/taglib/ta=
+glib_1.8.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-extended/parted/p=
+arted_3.1.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-extended/libuser/=
+libuser_0.59.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-connectivity/near=
+d/neard_0.10.bb, do_compile
+>>>   =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-connectivity/blue=
+z5/bluez5_5.7.bb, do_compile
+>>>=20
+>> I do regular builds on my local machine of world and qemumips (not=20
+>> mips64) with MUT, I wonder what your failures are.  I will do a =
+scratch=20
+>> build right now.
+>>=20
+>> What's your exact setup?  any other settings in your local.conf?
 
 
+Ran fresh from scratch builds and it seems its better, I have posted the =
+results at
+http://sakrah.homelinux.org/files/world/
+
+It seems x86/x86_64 is same failure that Martin mentioned
+
+x86_64
+
+Summary: 2 tasks failed:
+  =
+virtual:multilib:lib32:/builds1/angstrom/sources/openembedded-core/meta/re=
+cipes-graphics/xorg-driver/xf86-video-intel_2.21.13.bb, do_compile
+  =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-graphics/xorg-dri=
+ver/xf86-video-intel_2.21.13.bb, do_compile
+
+x86
+
+Summary: 1 task failed:
+  =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-graphics/xorg-dri=
+ver/xf86-video-intel_2.21.13.bb, do_compile
+
+
+mips64
+
+Summary: 1 task failed:
+  =
+/builds1/angstrom/sources/openembedded-core/meta/recipes-devtools/dpkg/dpk=
+g_1.17.1.bb, do_configure
+
+other qemus all look green=
 
