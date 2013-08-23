@@ -1,37 +1,31 @@
-Return-Path: <erik.boto@pelagicore.com>
-Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
-	[209.85.214.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 00AE5608A6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 0306860896
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 07:35:19 +0000 (UTC)
-Received: by mail-ob0-f176.google.com with SMTP id uz19so341725obc.21
+	Fri, 23 Aug 2013 09:02:34 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7N9EUXX006936 for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 10:14:31 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PxtfBX7Bmll7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 00:35:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=N7lP2Z1nxWYzCk+jqIpb+bLFKr2dUq70ZfB8WpalL7o=;
-	b=Oenux/mQ5elVh1Smdk6On+xzOoR2suXhgLkqgeAM1zfiH7CqEKAv6NJ063TqekSIEq
-	qC29Bu5iuWjyZ6lJab8L2txd/NaHkeznjnP+uJ5Nj4R11vgiMDa2p46t0ghgmcz2sxxI
-	oLjhrkZrmFRXivquKtJSgRRVv9a6D/5BOKoJWm13+Ij/q2IzmE3oIgpm/hjmYEc95hAD
-	OQkVHpuOsD7ecfI+ERcTOanKEDQco36FpB/w0A1rnT0MT5RFU+bSr+1bvYLrQGM7+2xO
-	eyC/OhmZekuj+yZxZD6ypF+SPjWEjrDWyBUnjwOQwNHHoslyx7w6i/XCOTOKzecR/6hR
-	s1qA==
-X-Gm-Message-State: ALoCoQnsPpvX7X/cC5BGjWgnvXtCNSRMLeCzHFVxskYYloh+oMv8LusRz+TIBpGS3ihyhpbL3Qch
-MIME-Version: 1.0
-X-Received: by 10.182.142.106 with SMTP id rv10mr18852706obb.51.1377243319358; 
-	Fri, 23 Aug 2013 00:35:19 -0700 (PDT)
-Received: by 10.76.174.6 with HTTP; Fri, 23 Aug 2013 00:35:19 -0700 (PDT)
-In-Reply-To: <FBAD1345-C987-413A-83C8-67042BEACBAF@gmail.com>
-References: <CA+AhUGwh+Ck5LYxwL0Lp20czW6m-xQAPnFOckfnjNFFB9aMreA@mail.gmail.com>
-	<FBAD1345-C987-413A-83C8-67042BEACBAF@gmail.com>
-Date: Fri, 23 Aug 2013 09:35:19 +0200
-Message-ID: <CA+AhUGzWX8zsAbD3FSAHJJfmc4KoiLstFPh_nRbkvCieQdHkYw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Issue with pulseaudio and Qt introduced with eglibc 2.18
+	Fri, 23 Aug 2013 10:14:30 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7N9EQ7D006931
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 10:14:28 +0100
+Message-ID: <1377248541.6762.44.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Aug 2013 10:02:21 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] sstate: Fix the relative symlink replacement code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +38,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 07:35:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 23 Aug 2013 09:02:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 23, 2013 at 8:33 AM, Khem Raj <raj.khem@gmail.com> wrote:
+ant reported on irc that the sstate absolute to relative symlink creation
+code wasn't working in klibc. He was correct although the level of breakage is 
+rather surprising since it only worked for one level of symlink (usr/include) with
+everything else being broken.
 
-<snip>
+The reason is probably that nothing really uses absolute paths, we use relative
+paths where at all possible already. Nothing in the target sysroot should use
+absolute paths for a start. In this regard, the klibc-dev package is broken and
+needs fixing. It will currently break when building for one machine, then switching
+to another of the same TUNE_PKGARCH and installing from sstate but that is a
+separate issue.
 
-> can you try
->
-> $ export CANBERRA_DRIVER="null"
->
-> and run the faulty program in this shell.
->
-> Does this fix the problem ?
->
+This patch fixes the symlink creation code by firstly passing in the correct
+value we need (where the symlink will end up) and seccondly, actually using it.
 
-It did not, same result as before.
+I've also tweaked the debug message to contain appropriate information and got
+right of the double "//" value the existing code created in favour of the form
+'./..' which looks neater.
 
-Cheers,
-Erik
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index c1ca54b..c86f393 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -440,13 +440,14 @@ def sstate_package(ss, d):
+         if not link.startswith(tmpdir):
+             return
+ 
+-        depth = link.rpartition(tmpdir)[2].count('/')
++        depth = outputpath.rpartition(tmpdir)[2].count('/')
+         base = link.partition(tmpdir)[2].strip()
+         while depth > 1:
+-            base = "../" + base
++            base = "/.." + base
+             depth -= 1
++        base = "." + base
+ 
+-        bb.debug(2, "Replacing absolute path %s with relative path %s" % (link, base))
++        bb.debug(2, "Replacing absolute path %s with relative path %s for %s" % (link, base, outputpath))
+         os.remove(path)
+         os.symlink(base, path)
+ 
+@@ -464,11 +465,11 @@ def sstate_package(ss, d):
+         for walkroot, dirs, files in os.walk(state[1]):
+             for file in files:
+                 srcpath = os.path.join(walkroot, file)
+-                dstpath = srcpath.replace(state[1], sstatebuild + state[0])
++                dstpath = srcpath.replace(state[1], state[2])
+                 make_relative_symlink(srcpath, dstpath, d)
+             for dir in dirs:
+                 srcpath = os.path.join(walkroot, dir)
+-                dstpath = srcpath.replace(state[1], sstatebuild + state[0])
++                dstpath = srcpath.replace(state[1], state[2])
+                 make_relative_symlink(srcpath, dstpath, d)
+         bb.debug(2, "Preparing tree %s for packaging at %s" % (state[1], sstatebuild + state[0]))
+         oe.path.copyhardlinktree(state[1], sstatebuild + state[0])
+
+
 
