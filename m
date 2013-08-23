@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 15DBC6B9FB
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 17DF06B989
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 15:32:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2013 08:32:42 -0700
+	Fri, 23 Aug 2013 15:32:43 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 23 Aug 2013 08:29:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="385514891"
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="367441416"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 08:32:41 -0700
+	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2013 08:32:42 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id D1CAB2C8001
+	by linux.intel.com (Postfix) with ESMTP id E9AB92C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 08:32:39 -0700 (PDT)
+	Fri, 23 Aug 2013 08:32:40 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 18:30:54 +0300
-Message-Id: <fd9d38f9ce1dedeb0823167f8afe12fc9d6a5206.1377269485.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 18:30:55 +0300
+Message-Id: <b5835fdb48e6e4e871f18764ddc3eae05082fb25.1377269485.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377269484.git.stefanx.stanacar@intel.com>
 References: <cover.1377269484.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377269484.git.stefanx.stanacar@intel.com>
 References: <cover.1377269484.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 14/21] lib/oeqa/runtime: add adjust date and time test
+Subject: [PATCH 15/21] lib/oeqa/runtime: add vncserver for target test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 15:32:41 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 15:32:43 -0000
 
 From: Mihai Prica <mihai.prica@intel.com>
 
 Signed-off-by: Mihai Prica <mihai.prica@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/date.py | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/date.py
+ meta/lib/oeqa/runtime/vnc.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/vnc.py
 
-diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py
+diff --git a/meta/lib/oeqa/runtime/vnc.py b/meta/lib/oeqa/runtime/vnc.py
 new file mode 100644
-index 0000000..d6c04cb
+index 0000000..9476184
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/date.py
-@@ -0,0 +1,27 @@
++++ b/meta/lib/oeqa/runtime/vnc.py
+@@ -0,0 +1,22 @@
 +from oeqa.oetest import oeRuntimeTest
 +from oeqa.utils.decorators import *
 +import re
 +
 +def setUpModule():
-+    skipModuleUnless(oeRuntimeTest.tc.target.run('which date')[0] == 0, "No date in image or no connection")
++    skipModuleUnless(oeRuntimeTest.tc.target.run('which x11vnc')[0] == 0, "No x11vnc in image")
 +
-+class DateTest(oeRuntimeTest):
++class VNCTest(oeRuntimeTest):
 +
-+    def setUp(self):
-+        (status, output) = self.target.run('date +"%Y-%m-%d %T"')
-+        self.assertEqual(status, 0, msg="Failed to get initial date, output: %s" % output)
-+        self.oldDate = output
++    @skipUnlessPassed('test_ssh')
++    def test_vnc(self):
++        (status, output) = self.target.run('x11vnc -display :0.0 -bg -q')
++        self.assertEqual(status, 0, msg="x11vnc server failed to start: %s" % output)
++        port = re.search('PORT=[0-9]*', output)
++        self.assertTrue(port, msg="Listening port not specified in command output: %s" %output)
 +
-+    @skipUnlessPassed("test_ssh")
-+    def test_date(self):
-+        sampleDate = '"2016-08-09 10:00:00"'
-+        (status, output) = self.target.run("date -s %s" % sampleDate)
-+        self.assertEqual(status, 0, msg="Date set failed, output: %s" % output)
++        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep -i [x]11vnc')
++        self.assertEqual(status, 0, msg="x11vnc process not running")
 +
-+        (status, output) = self.target.run("date -R")
-+        p = re.match('Tue, 09 Aug 2016 10:00:.. \+0000', output)
-+        self.assertTrue(p, msg="The date was not set correctly, output: %s" % output)
-+
-+    def tearDown(self):
-+        (status, output) = self.target.run('date -s "%s"' % self.oldDate)
-+        self.assertEqual(status, 0, msg="Failed to reset date, output: %s" % output)
++        vncport = port.group(0).split('=')[1]
++        (status, output) = self.target.run('netstat -atun | grep :%s | grep LISTEN' % vncport)
++        self.assertEqual(status, 0, msg="x11vnc server not running on port %s" % vncport)
 -- 
 1.8.3.1
 
