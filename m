@@ -1,31 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 0306860896
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 39C9B6B302
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 09:02:34 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7N9EUXX006936 for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 10:14:31 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PxtfBX7Bmll7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 10:14:30 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7N9EQ7D006931
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 10:14:28 +0100
-Message-ID: <1377248541.6762.44.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Aug 2013 10:02:21 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] sstate: Fix the relative symlink replacement code
+	Fri, 23 Aug 2013 09:08:44 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 02:08:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,940,1367996400"; d="scan'208";a="285759218"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 02:08:27 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.157]) with mapi id
+	14.03.0123.003; Fri, 23 Aug 2013 10:07:29 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 3/3] builder: register directories with pcmanfm
+Thread-Index: AQHOncPBwOYiZHtfe0CWkTKIGP0iPZmihKxQ
+Date: Fri, 23 Aug 2013 09:07:28 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C1968D@IRSMSX105.ger.corp.intel.com>
+References: <cover.1377014441.git.cristian.iorga@intel.com>
+	<7e1d9bb3b42c08f4337e717e959326014f0144c5.1377014441.git.cristian.iorga@intel.com>
+	<52139B76.4090608@linux.intel.com>
+In-Reply-To: <52139B76.4090608@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] builder: register directories with pcmanfm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,67 +42,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 09:02:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Aug 2013 09:08:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-ant reported on irc that the sstate absolute to relative symlink creation
-code wasn't working in klibc. He was correct although the level of breakage is 
-rather surprising since it only worked for one level of symlink (usr/include) with
-everything else being broken.
+Hmm, of course it should be builder.
+Let me check what happened.
+Regards,
+Cristian
 
-The reason is probably that nothing really uses absolute paths, we use relative
-paths where at all possible already. Nothing in the target sysroot should use
-absolute paths for a start. In this regard, the klibc-dev package is broken and
-needs fixing. It will currently break when building for one machine, then switching
-to another of the same TUNE_PKGARCH and installing from sstate but that is a
-separate issue.
+-----Original Message-----
+From: Saul Wold [mailto:sgw@linux.intel.com]=20
+Sent: Tuesday, August 20, 2013 7:38 PM
+To: Iorga, Cristian
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 3/3] builder: register directories with pcman=
+fm
 
-This patch fixes the symlink creation code by firstly passing in the correct
-value we need (where the symlink will end up) and seccondly, actually using it.
+On 08/20/2013 09:05 AM, Cristian Iorga wrote:
+> Register directories to be opened with PCManFM filemanager using=20
+> xdg-open in Build Appliance.
+>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>   meta/recipes-graphics/builder/builder_0.1.bb             | 2 +-
+>   meta/recipes-graphics/builder/files/builder_hob_start.sh | 9 +++++++++
+>   2 files changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/builder/builder_0.1.bb=20
+> b/meta/recipes-graphics/builder/builder_0.1.bb
+> index 78d41e5..1e8c977 100644
+> --- a/meta/recipes-graphics/builder/builder_0.1.bb
+> +++ b/meta/recipes-graphics/builder/builder_0.1.bb
+> @@ -1,7 +1,7 @@
+>   SUMMARY =3D "New user to do specific job"
+>   DESCRIPTION =3D "This recipe create a new user named ${PN}, who is used=
+ for specific jobs like building. The task can be auto started via mini X"
+>   SECTION =3D "x11"
+> -PR =3D "r6"
+> +PR =3D "r7"
+No PR Bumps!
 
-I've also tweaked the debug message to contain appropriate information and got
-right of the double "//" value the existing code created in favour of the form
-'./..' which looks neater.
+>   LICENSE =3D "MIT"
+>   LIC_FILES_CHKSUM =3D "file://builder_hob_start.sh;endline=3D5;md5=3D847=
+96c3c41785d86100fdabcbdade00e"
+>
+> diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh=20
+> b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+> index 40616f5..b3a0540 100644
+> --- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
+> +++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+> @@ -9,6 +9,15 @@ export PSEUDO_LOCALSTATEDIR=3D/home/builder/pseudo
+>   export PSEUDO_LIBDIR=3D/usr/lib/pseudo/lib64
+>   export GIT_PROXY_COMMAND=3D/home/builder/poky/scripts/oe-git-proxy
+>
+> +#start pcmanfm in daemon mode to allow asynchronous launch pcmanfm=20
+> +-d&
+> +
+> +#register folders to open with PCManFM filemanager if [ ! -d=20
+> +/home/ubik/tmp/.local/share/applications ]; then
+                   ^^^^^
+What's that user?  Should it be builder?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index c1ca54b..c86f393 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -440,13 +440,14 @@ def sstate_package(ss, d):
-         if not link.startswith(tmpdir):
-             return
- 
--        depth = link.rpartition(tmpdir)[2].count('/')
-+        depth = outputpath.rpartition(tmpdir)[2].count('/')
-         base = link.partition(tmpdir)[2].strip()
-         while depth > 1:
--            base = "../" + base
-+            base = "/.." + base
-             depth -= 1
-+        base = "." + base
- 
--        bb.debug(2, "Replacing absolute path %s with relative path %s" % (link, base))
-+        bb.debug(2, "Replacing absolute path %s with relative path %s for %s" % (link, base, outputpath))
-         os.remove(path)
-         os.symlink(base, path)
- 
-@@ -464,11 +465,11 @@ def sstate_package(ss, d):
-         for walkroot, dirs, files in os.walk(state[1]):
-             for file in files:
-                 srcpath = os.path.join(walkroot, file)
--                dstpath = srcpath.replace(state[1], sstatebuild + state[0])
-+                dstpath = srcpath.replace(state[1], state[2])
-                 make_relative_symlink(srcpath, dstpath, d)
-             for dir in dirs:
-                 srcpath = os.path.join(walkroot, dir)
--                dstpath = srcpath.replace(state[1], sstatebuild + state[0])
-+                dstpath = srcpath.replace(state[1], state[2])
-                 make_relative_symlink(srcpath, dstpath, d)
-         bb.debug(2, "Preparing tree %s for packaging at %s" % (state[1], sstatebuild + state[0]))
-         oe.path.copyhardlinktree(state[1], sstatebuild + state[0])
-
-
+> +    mkdir -p /home/builder/.local/share/applications/
+> +    xdg-mime default pcmanfm.desktop inode/directory fi
+> +
+>   cd /home/builder/poky
+>   . ./oe-init-build-env
+>
+>
 
