@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id AF93D6B9D8
+	by mail.openembedded.org (Postfix) with ESMTP id BDF056B9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:04:28 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 11:04:29 -0700
+	Fri, 23 Aug 2013 18:04:29 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 11:04:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="350776821"
+X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="285943247"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by azsmga001.ch.intel.com with ESMTP; 23 Aug 2013 11:04:29 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 11:04:30 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 320892C8001
+	by linux.intel.com (Postfix) with ESMTP id 49C8C2C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 11:04:26 -0700 (PDT)
+	Fri, 23 Aug 2013 11:04:28 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 21:04:13 +0300
-Message-Id: <df8a4b35c4abc3f10a2fddd9a2966f17817bbb81.1377280794.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 21:04:14 +0300
+Message-Id: <e1aa4e53581bd4fcc8989f3ddd07748fcba3cb0b.1377280794.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 03/19] lib/oeqa/runtime: add a test for ldd
+Subject: [PATCH v2 04/19] lib/oeqa/runtime: add new logrotate test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:04:29 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 18:04:30 -0000
 
-From: Cornel Stoicescu <corneliux.stoicescu@intel.com>
+From: Alexandru Palalau <alexandrux.palalau@intel.com>
 
-This test checks that at least one path in RTLDLIST exists.
+New logrotate test which verifies the log directory change in logrotate.conf.
+Needs an image with logrotate installed.
 
-Signed-off-by: Cornel Stoicescu <corneliux.stoicescu@intel.com>
+Signed-off-by: Alexandru Palalau <alexandrux.palalau@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/ldd.py | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/ldd.py
+ meta/lib/oeqa/runtime/logrotate.py | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/logrotate.py
 
-diff --git a/meta/lib/oeqa/runtime/ldd.py b/meta/lib/oeqa/runtime/ldd.py
+diff --git a/meta/lib/oeqa/runtime/logrotate.py b/meta/lib/oeqa/runtime/logrotate.py
 new file mode 100644
-index 0000000..577c5e2
+index 0000000..80489a3
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/ldd.py
-@@ -0,0 +1,19 @@
++++ b/meta/lib/oeqa/runtime/logrotate.py
+@@ -0,0 +1,27 @@
++# This test should cover https://bugzilla.yoctoproject.org/tr_show_case.cgi?case_id=289 testcase
++# Note that the image under test must have logrotate installed
++
 +import unittest
-+from oeqa.oetest import oeRuntimeTest
++from oeqa.oetest import oeRuntimeTest, skipModule
 +from oeqa.utils.decorators import *
 +
 +def setUpModule():
-+    if not oeRuntimeTest.hasFeature("tools-sdk"):
-+        skipModule("Image doesn't have tools-sdk in IMAGE_FEATURES")
++    if not oeRuntimeTest.hasPackage("logrotate"):
++        skipModule("No logrotate package in image")
 +
-+class LddTest(oeRuntimeTest):
 +
-+    @skipUnlessPassed('test_ssh')
-+    def test_ldd_exists(self):
-+        (status, output) = self.target.run('which ldd')
-+        self.assertEqual(status, 0, msg = "ldd does not exist in PATH !")
++class LogrotateTest(oeRuntimeTest):
 +
-+    @skipUnlessPassed('test_ldd_exists')
-+    def test_ldd(self):
-+        (status, output) = self.target.run('for i in $(which ldd | xargs cat | grep "^RTLDLIST"|cut -d\'=\' -f2|tr -d \'"\'); do test -f $i && echo $i && break; done')
-+        self.assertEqual(status, 0, msg = "ldd path not correct or RTLDLIST files don't exist. ")
++    @skipUnlessPassed("test_ssh")
++    def test_1_logrotate_setup(self):
++        (status, output) = self.target.run('mkdir /home/root/logrotate_dir')
++        self.assertEqual(status, 0, msg = "Could not create logrotate_dir. Output: %s" % output)
++        (status, output) = self.target.run("sed -i 's#wtmp {#wtmp {\\n    olddir /home/root/logrotate_dir#' /etc/logrotate.conf")
++        self.assertEqual(status, 0, msg = "Could not write to logrotate.conf file. Status and output: %s and %s)" % (status, output))
++
++    @skipUnlessPassed("test_1_logrotate_setup")
++    def test_2_logrotate(self):
++        (status, output) = self.target.run('logrotate -f /etc/logrotate.conf')
++        self.assertEqual(status, 0, msg = "logrotate service could not be reloaded. Status and output: %s and %s" % (status, output))
++        output = self.target.run('ls -la /home/root/logrotate_dir/ | wc -l')[1]
++        self.assertTrue(int(output)>=3, msg = "new logfile could not be created. List of files within log directory: %s" %(self.target.run('ls -la /home/root/logrotate_dir')[1]))
 -- 
 1.8.3.1
 
