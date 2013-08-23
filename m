@@ -1,27 +1,28 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A7C36065F
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DBB86065F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 17:03:56 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VCumD-0003NZ-34; Fri, 23 Aug 2013 19:03:57 +0200
-Message-ID: <1377277436.5452.48.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 23 Aug 2013 18:03:56 +0100
-In-Reply-To: <1377274473.6762.100.camel@ted>
-References: <1377180295.6762.19.camel@ted>
-	<1377181123.13664.11.camel@phil-desktop.brightsign>
-	<1377256631.6762.58.camel@ted>
-	<1377273397.5452.43.camel@phil-desktop.brightsign>
-	<1377274473.6762.100.camel@ted>
-X-Mailer: Evolution 3.4.4-3 
+	Fri, 23 Aug 2013 17:04:18 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 10:04:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="367485962"
+Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.53]) ([10.7.201.53])
+	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2013 10:04:18 -0700
+Message-ID: <1377277456.5259.52.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 23 Aug 2013 10:04:16 -0700
+In-Reply-To: <5216C2BE.2080705@windriver.com>
+References: <cover.1377175027.git.liezhi.yang@windriver.com>
+	<37674ce0aeae479e3cde7f578871ed47ec9025f8.1377175027.git.liezhi.yang@windriver.com>
+	<1377192296.5259.7.camel@dvhart-mobl4.amr.corp.intel.com>
+	<5216C2BE.2080705@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: Web browsing and HTML in OE-Core
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/6] e2fsprogs: properly set up extent header in do_write
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,24 +35,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 17:03:56 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 17:04:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-08-23 at 17:14 +0100, Richard Purdie wrote:
-> What does the standalone launcher give you?
+On Fri, 2013-08-23 at 10:02 +0800, Robert Yang wrote:
+> On 08/23/2013 01:24 AM, Darren Hart wrote:
+> > On Thu, 2013-08-22 at 09:13 -0400, Robert Yang wrote:
+> >> do_write doesn't fully set up the first extent header on a new
+> >> inode, so if we write a 0-length file, and don't write any data
+> >> to the new file, we end up creating something that looks corrupt
+> >> to kernelspace:
+> >>
+> >> EXT4-fs error (device loop0): ext4_ext_check_inode:464: inode #12: comm
+> >> ls: bad header/extent: invalid magic - magic 0, entries 0, max 0(0),
+> >> depth 0(0)
+> >>
+> >> Do something similar to ext4_ext_tree_init() here, and
+> >> fill out the first extent header upon creation to avoid this.
+> >>
+> >> [YOCTO #3848]
+> >>
+> >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> >> ---
+> >>   .../e2fsprogs-1.42.8/debugfs-extent-header.patch   |   47 ++++++++++++++++++++
+> >>   .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    2 +
+> >
+> >> +Upstream-Status: Backport
+> >
+> > Should we backport? Or should we just update the revision we use?
+> >
+> 
+> Yes, I think so, Ted said that he had merge this patch a few days ago, but
+> I didn't see where is it, I pulled this patch from the linux ext mailing
+> list.
 
-Basically a very simple browser-type application that you can launch
-with a URL from the command line and see the resulting page in a window.
-Generally you also get some rudimentary UI controls, back/forward
-buttons and an address bar, that sort of thing.
+OK, yeah, this is fine. It will be nice to rebase at some point in the
+future and drop these patches, but we have to do that anyway, so this is
+fine in my opinion.
 
-The Qt port actually seems to have a slightly more sophisticated thing
-in the form of QtTestBrowser, but I've never used that myself.  Anyway,
-I guess the key thing is that every port has at least something, and
-these ship with (and are maintained as part of) webkit itself.
+Acked-by: Darren Hart <dvhart@linux.intel.com>
 
-p.
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
 
