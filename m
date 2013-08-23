@@ -1,38 +1,24 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by mail.openembedded.org (Postfix) with ESMTP id DF5316065F
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 95D9660896
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 14:21:13 +0000 (UTC)
-Received: by mail-ee0-f49.google.com with SMTP id d41so320194eek.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 07:21:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=bFtXDSIKzu75Z+UVVzfUvIE53VUrzzbGJO8GVUdspQQ=;
-	b=dmlVLTFYw2OHg9SAjrFKq24BUZaO7jrD3KWd1UC2NYLNdwJPmrU5cMvDZe23WDRAGr
-	gFcwa5UWqn8jTGGULqWeNdgmpEJEtpwsMapSviteCmCP7+GsEAk0rF8+8a0s16fa05pq
-	eZX9jZkHJO38WDFTOHLmMvr654sOOqJBUpiv116C6iYZOxr7YkCHvqMFZC3HdTsYOUbo
-	bNauFgNO9aE8xJR6wC4hnnhhbdL/AjlJvmj7zfETVByRXRyGUeULn3R4KZFm2dU+zNG7
-	K7v04zIQqBVrNZT6DQo5JrwIE+iid7L3/xAs0YmAavLB8Ne5f9cCYsmv7uZcqUjbaoat
-	wUoQ==
-X-Gm-Message-State: ALoCoQn6YVGdQprMydBbO+hTMNnQtl9RuuPkeUXmyJemeso3r1rI0vHKLd5DkJJLXKEmyUpE4O1V
-X-Received: by 10.14.208.194 with SMTP id q42mr32335eeo.31.1377267674161;
-	Fri, 23 Aug 2013 07:21:14 -0700 (PDT)
-Received: from otp-mmes-build2.corp.ad.wrs.com ([89.121.200.106])
-	by mx.google.com with ESMTPSA id z12sm77206eev.6.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 23 Aug 2013 07:21:13 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
+	Fri, 23 Aug 2013 14:39:46 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 07:39:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="285865685"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 07:39:45 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 17:20:58 +0300
-Message-Id: <1377267658-14590-2-git-send-email-andrei.gherzan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1377267658-14590-1-git-send-email-andrei.gherzan@windriver.com>
-References: <1377267658-14590-1-git-send-email-andrei.gherzan@windriver.com>
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH 2/2] eglibc.inc: Remove quotation marks from OPTION_EGLIBC_NSSWITCH_FIXED_*
+Date: Fri, 23 Aug 2013 17:41:36 +0300
+Message-Id: <35f8641371aa93729d304989f6f531f93303fbac.1377268510.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1377268510.git.cristian.iorga@intel.com>
+References: <cover.1377268510.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1377268510.git.cristian.iorga@intel.com>
+References: <cover.1377268510.git.cristian.iorga@intel.com>
+Subject: [PATCH v2 1/1] default-providers: Set the preferred provider for bluez
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,35 +31,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 14:21:14 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 14:39:48 -0000
 
-Kconfig outputs strings with quotation marks. When eglibc tries to see if
-the paths exists, uses wildcard make function which doesn't strip out the
-quotation marks - checking for path fails. So strip out the quotation
-marks from OPTION_EGLIBC_NSSWITCH_FIXED_* option-groups.config.
-(see nss/Makefile)
+There is a need for a default provider for bluez
+now that bluez5 recipe is also present.
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+After the introduction of bluez5 recipe,
+the following warnings are displayed:
+
+"NOTE: multiple providers are available for runtime libasound-module-bluez (bluez4, bluez5)
+ NOTE: consider defining a PREFERRED_PROVIDER entry to match libasound-module-bluez"
+
+Upon debug, bitbake shows:
+DEBUG: checking PREFERRED_PROVIDER_bluez4 (value None) against ['bluez4', 'bluez5']
+DEBUG: checking PREFERRED_PROVIDER_bluez4-4.101 (value None) against ['bluez4', 'bluez5']
+DEBUG: checking PREFERRED_PROVIDER_bluez4-4.101-r5 (value None) against ['bluez4', 'bluez5']
+DEBUG: checking PREFERRED_PROVIDER_bluez5 (value None) against ['bluez4', 'bluez5']
+DEBUG: checking PREFERRED_PROVIDER_bluez5-5.7 (value None) against ['bluez4', 'bluez5']
+DEBUG: checking PREFERRED_PROVIDER_bluez5-5.7-r0 (value None) against ['bluez4', 'bluez5']
+
+Bitbake is faced with "what should provide libasound-module-bluez"
+which is a runtime name. It needs to try and find a PREFERRED_PROVIDER
+entry which matches this but those use *build time* naming.
+So it converts "libasound-module-bluez" into
+the canonical ${PN} of bluez4 and bluez5 and then
+tries to look those up.
+What it actually should do is go one step further
+of mapping bluez4/bluex5 into the virtual/bluez
+But that does not happen;
+
+Bug opened on this issue: YB5044
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=5044
+
+Fixes [YOCTO #5030].
+
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-core/eglibc/eglibc.inc |    4 ++++
- 1 file changed, 4 insertions(+)
+ meta/conf/distro/include/default-providers.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/eglibc/eglibc.inc b/meta/recipes-core/eglibc/eglibc.inc
-index 40dd6b5..375b9bc 100644
---- a/meta/recipes-core/eglibc/eglibc.inc
-+++ b/meta/recipes-core/eglibc/eglibc.inc
-@@ -75,6 +75,10 @@ do_configure_prepend() {
- 
- do_configure_append() {
- 	oe_runmake config
-+
-+	# Remove quotation marks from OPTION_EGLIBC_NSSWITCH_FIXED_*. This will
-+	# avoid install error.
-+	sed -i 's/^OPTION_EGLIBC_NSSWITCH_FIXED_\(.*\)="\(.*\)"$/OPTION_EGLIBC_NSSWITCH_FIXED_\1=\2/' option-groups.config
- }
- 
- GLIBC_ADDONS ?= "ports,nptl,libidn"
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index 67cc5f5..9255fd6 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -39,3 +39,4 @@ PREFERRED_PROVIDER_console-tools ?= "kbd"
+ PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
+ PREFERRED_PROVIDER_make ?= "make"
+ PREFERRED_PROVIDER_udev ?= "${@base_contains('DISTRO_FEATURES','systemd','systemd','udev',d)}"
++PREFERRED_PROVIDER_bluez4 ?= "bluez4"
 -- 
-1.7.9.5
+1.8.1.2
 
 
