@@ -1,24 +1,38 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id B23496AFC2
+	by mail.openembedded.org (Postfix) with ESMTP id A16FA608A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 13:40:48 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 06:40:36 -0700
+	Fri, 23 Aug 2013 13:47:36 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 06:47:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="385466308"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 06:40:35 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 16:42:19 +0300
-Message-Id: <59c13c72ca52e5e6a8302b499cff9c2950f32d19.1377264698.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1377264698.git.cristian.iorga@intel.com>
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="285847234"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 06:47:36 -0700
+Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Fri, 23 Aug 2013 14:47:35 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.233]) with mapi id
+	14.03.0123.003; Fri, 23 Aug 2013 14:47:36 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Iorga, Cristian" <cristian.iorga@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v3 2/4] packagegroup-self-hosted: pcmanfm and
+	xdg-utils integration - no comment on the patch itself!!
+Thread-Index: AQHOoAZ3NJlUrR1+3E+ke/P4kNPKVpmizfEg
+Date: Fri, 23 Aug 2013 13:47:35 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C19829@IRSMSX105.ger.corp.intel.com>
 References: <cover.1377264698.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1377264698.git.cristian.iorga@intel.com>
-References: <cover.1377264698.git.cristian.iorga@intel.com>
-Subject: [PATCH v3 4/4] recipes-graphics/builder: fix wrong user name
+	<b14c1c4990e540ebaee263fd631fecea7154682a.1377264698.git.cristian.iorga@intel.com>
+In-Reply-To: <b14c1c4990e540ebaee263fd631fecea7154682a.1377264698.git.cristian.iorga@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Subject: Re: [PATCH v3 2/4] packagegroup-self-hosted: pcmanfm and	xdg-utils integration - no comment on the patch itself!!
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 13:40:49 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 13:47:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Fix wrong inclusion of local username.
-The right "builder" user is now used in
-builder_hob_start shell script.
+There seems to be an issue with the create-pull-request script..
+It will break the subject in two lines...
+As such, at least under Outlook, the mail titles look strange.
+Is this happening to other people also?
+Regards,
+Cristian
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Cristian Iorga
+Sent: Friday, August 23, 2013 4:42 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH v3 2/4] packagegroup-self-hosted: pcmanfm and xdg=
+-utils integration
+
+PCManFm file manager is integrated in Build Appliance; xdg-utils is also in=
+tegrated for file association support.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-graphics/builder/files/builder_hob_start.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-index b3a0540..bef6878 100644
---- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
-+++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-@@ -13,7 +13,7 @@ export GIT_PROXY_COMMAND=/home/builder/poky/scripts/oe-git-proxy
- pcmanfm -d&
- 
- #register folders to open with PCManFM filemanager
--if [ ! -d /home/ubik/tmp/.local/share/applications ]; then
-+if [ ! -d /home/builder/.local/share/applications ]; then
-     mkdir -p /home/builder/.local/share/applications/
-     xdg-mime default pcmanfm.desktop inode/directory
- fi
--- 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/=
+meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 6a0722a..2d35c16 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -38,11 +38,13 @@ RDEPENDS_packagegroup-self-hosted-host-tools =3D "\
+     hdparm \
+     iptables \
+     lsb \
++    xdg-utils \
+     mc \
+     mc-fish \
+     mc-helpers \
+     mc-helpers-perl \
+     mc-helpers-python \
++    pcmanfm \
+     parted \
+     pseudo \
+     screen \
+--
 1.8.1.2
 
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
