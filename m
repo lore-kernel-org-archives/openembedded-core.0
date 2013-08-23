@@ -1,28 +1,24 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 84C9A6B9E1
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0455D6B115
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:05:08 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2013 11:04:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="385580184"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 11:04:43 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id BA42B2C8001
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 11:04:41 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 21:04:26 +0300
-Message-Id: <5efd72ae183f308d94d11e3a6d17f12556faa9aa.1377280794.git.stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
-References: <cover.1377280794.git.stefanx.stanacar@intel.com>
-In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
-References: <cover.1377280794.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 16/19] lib/oeqa/utils: targetbuild: Add helper class for building packages on target
+	Fri, 23 Aug 2013 18:08:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7NI8bkf008124
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 23 Aug 2013 11:08:39 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 23 Aug 2013 11:08:37 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 23 Aug 2013 14:08:15 -0400
+Message-ID: <cover.1377280429.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,90 +31,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:05:09 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 18:08:39 -0000
+Content-Type: text/plain
 
-From: Mihai Prica <mihai.prica@intel.com>
+Richard/Saul,
 
-This class can be used for test cases that configure
-and build packages on target.
+Here's my consolidated set of changes that represent the biggest chunk
+of work for the Yocto 1.5 release. The obvious change is that the 3.10
+kernel is now the latest linux-yocto kernel (and linux-yocto-dev will
+mark on). I've built and booted core-image-sato for all the oe-core
+qemu machines.
 
-Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/utils/targetbuild.py | 63 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
- create mode 100644 meta/lib/oeqa/utils/targetbuild.py
+3.10 also the latest LTSI and will be updated with that content when it
+becomes available.
 
-diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
-new file mode 100644
-index 0000000..9b2cf53
---- /dev/null
-+++ b/meta/lib/oeqa/utils/targetbuild.py
-@@ -0,0 +1,63 @@
-+# Copyright (C) 2013 Intel Corporation
-+#
-+# Released under the MIT license (see COPYING.MIT)
-+
-+# Provides a class for automating build tests for projects
-+
-+from oeqa.oetest import oeRuntimeTest
-+import bb.fetch2
-+import bb.data
-+import os
-+import re
-+
-+
-+class TargetBuildProject():
-+
-+    def __init__(self, target, uri, foldername=None):
-+        self.target = target
-+        self.uri = uri
-+        self.targetdir = "/home/root/"
-+
-+        self.localdata = bb.data.createCopy(oeRuntimeTest.tc.d)
-+        bb.data.update_data(self.localdata)
-+
-+        if not foldername:
-+            self.archive = os.path.basename(uri)
-+            self.fname = re.sub(r'.tar.bz2|tar.gz$', '', self.archive)
-+        else:
-+            self.fname = foldername
-+
-+    def download_archive(self):
-+
-+        try:
-+            self.localdata.delVar("BB_STRICT_CHECKSUM")
-+            fetcher = bb.fetch2.Fetch([self.uri], self.localdata)
-+            fetcher.download()
-+            self.localarchive = fetcher.localpath(self.uri)
-+        except bb.fetch2.BBFetchException:
-+            raise Exception("Failed to download archive: %s" % self.uri)
-+
-+        (status, output) = self.target.copy_to(self.localarchive, self.targetdir)
-+        if status != 0:
-+            raise Exception("Failed to copy archive to target, output: %s" % output)
-+
-+        (status, output) = self.target.run('tar xf %s%s -C %s' % (self.targetdir, self.archive, self.targetdir))
-+        if status != 0:
-+            raise Exception("Failed to extract archive, output: %s" % output)
-+
-+        #Change targetdir to project folder
-+        self.targetdir = self.targetdir + self.fname
-+
-+    # The timeout parameter of target.run is set to 0 to make the ssh command
-+    # run with no timeout.
-+    def run_configure(self):
-+        return self.target.run('cd %s; ./configure' % self.targetdir, 0)[0]
-+
-+    def run_make(self):
-+        return self.target.run('cd %s; make' % self.targetdir, 0)[0]
-+
-+    def run_install(self):
-+        return self.target.run('cd %s; make install' % self.targetdir, 0)[0]
-+
-+    def clean(self):
-+        self.target.run('rm -rf %s' % self.targetdir)
+Other features of the 3.10 kernel include:
+
+  - refreshed -rt support
+  - refreshed yaffs2, aufs3
+  - cryptodev
+  - bfs, edf, and OCF staged features
+  - scrubbed and updated meta data for v3.10
+  - improved tools support for meta data updates and queue maintenance
+  - patch carry forward from all previous linux-yocto kernels and
+    configuration.
+
+I've also tested linux-yocto-rt and linux-yocto-tiny for the new, shiny tree.
+
+I've also bumped the linux-libc-headers to 3.10 and have fixed gst-plugins-good
+to adapt to a changed #define in the exported headers.
+
+Other parts of this update include an uprev of guilt, and in fact, a 
+restoration of "normal" guil operations, since the kernel tree is now
+manipulated and maintained via a smaller, more contained script. This
+was necessary for both usability reasons and the fact that all of guilts
+protections were being removed for the kernel's use .. which makes you
+ask the quesetion "why use it". It was time for a change.
+
+The patches are pretty self explanitory and all contain detailed long
+logs .. but the summary is:
+
+   [PATCH 1/5] kern-tools: usability, bug fixes and no guilt  
+   [PATCH 2/5] guilt: update to latest git version
+   [PATCH 3/5] linux-libc-headers: update to v3.10
+   [PATCH 4/5] gst-plugins-good: fix 3.10 libc-headers build failure
+   [PATCH 5/5] linux-yocto: introduce v3.10
+
+** There is one pending activity. As part of thsi update to 3.10, we want
+to move to the 3.4 and 3.10 kernel, dropping 3.8 support. But the 
+routerstationpro BSP is still using it as its preferred version. I'm
+a one man show on this update, and I wasn't able to get the 100+ patches
+ported to 3.10 AND get this update out before the M4 cutoff.
+
+** I'm still attempting to udpate all the reference boards, and
+once done, I'll send a follow up patch.
+
+** Please test, I've done my best, but things can slip through. We'll
+work issues in the stabilization period.
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 501e1a321d15abd712e3a6ee6ccdb8e21c3d4ea4:
+
+  bitbake: prserv/serv: Fix pid file removal (2013-08-23 17:43:40 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  kern-tools: usability, bug fixes and no guilt
+  guilt: update to latest git version
+  linux-libc-headers: update to v3.10
+  gst-plugins-good: fix 3.10 libc-headers build failure
+  linux-yocto: introduce v3.10
+
+ meta/classes/kernel-yocto.bbclass                  |    2 +
+ meta/conf/distro/include/tcmode-default.inc        |    2 +-
+ .../guilt/files/guilt-import-commit.patch          |   96 ------
+ meta/recipes-devtools/guilt/files/guilt-init.patch |   25 --
+ meta/recipes-devtools/guilt/files/guilt-pop.patch  |   73 -----
+ .../guilt/files/guilt-push-no-series.patch         |   29 --
+ meta/recipes-devtools/guilt/files/guilt-push.patch |   42 ---
+ .../guilt/files/guilt-set-git_exec_path.patch      |   29 --
+ ...lt-update-supported-git-versions-to-1.8.x.patch |   28 --
+ meta/recipes-devtools/guilt/files/guilt.patch      |  319 --------------------
+ .../guilt/files/improve_auto_header_gen.patch      |   71 -----
+ .../files/make_git_commands_conditional.patch      |   48 ---
+ .../guilt/files/optional_head_check.patch          |   60 ----
+ .../guilt/files/uninstall_force.patch              |   14 -
+ .../{guilt-native_0.33.bb => guilt-native_git.bb}  |   21 +-
+ .../kern-tools/kern-tools-native_git.bb            |    6 +-
+ .../linux-libc-headers/linux-libc-headers_3.10.bb  |    7 +
+ .../linux-libc-headers/linux-libc-headers_3.8.bb   |    8 -
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   30 ++
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   25 ++
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   30 ++
+ ...define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch |   45 +++
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |    1 +
+ 23 files changed, 150 insertions(+), 861 deletions(-)
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt-import-commit.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt-init.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt-pop.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push-no-series.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/guilt.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/optional_head_check.patch
+ delete mode 100644 meta/recipes-devtools/guilt/files/uninstall_force.patch
+ rename meta/recipes-devtools/guilt/{guilt-native_0.33.bb => guilt-native_git.bb} (45%)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.10.bb
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
+
 -- 
-1.8.3.1
+1.7.10.4
 
 
