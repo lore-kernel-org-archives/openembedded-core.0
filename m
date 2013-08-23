@@ -1,39 +1,38 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 57AA66B994
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CD036AF21
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 17:20:09 +0000 (UTC)
-Received: by mail-wi0-f179.google.com with SMTP id hr7so839309wib.12
+	Fri, 23 Aug 2013 17:27:57 +0000 (UTC)
+Received: by mail-la0-f46.google.com with SMTP id eh20so704353lab.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 10:20:09 -0700 (PDT)
+	Fri, 23 Aug 2013 10:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=8JIXsSf/M58ZHaLdH5TpNdZgLDDOMM+ELiG40bAwPGw=;
-	b=kMzmMt62anYZQAZ4sOVQsm31CNXIx8YnmuVPlTVKHKhCvcZ88psTAaR70LwO2BguAk
-	kMl8JwkX8q9YFHMjb9zT/3x+VZgi6kHUkkoHCaVedMlzUIkMh2zME1paX6/qwjU7hdCl
-	uZhZglOYSXg2Pbwdv/vcWe9Jlm3uVqBa/3EQfwyF4eX5qxGCKjUzwdIiCu97ejFHRndp
-	z8SG53uzMdUffb69bhR5C2QInNCD8HrQMxLDOXpgcXJCyg9XX/vGRDAk6ZL47ewn4BwD
-	WGNdGWXMSGRdKwlBlwdU0KJAR951nO5gLacxkFR42lhLBG6YCjmi/ycdGQ8iyaOSEX6S
-	pgwQ==
-X-Received: by 10.180.185.166 with SMTP id fd6mr3024203wic.5.1377278409681;
-	Fri, 23 Aug 2013 10:20:09 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id z2sm1224919wiv.11.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 23 Aug 2013 10:20:08 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 10:20:09 -0700
-Message-Id: <a4b663563dca248a121ce6942f7b442780e0a3af.1377278314.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 1.8.3.4
-In-Reply-To: <cover.1377278314.git.chris_larson@mentor.com>
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=ydaADgv0XJ9JhLFeRaa1yvJN78VuYUnzGCgZHqq+9I8=;
+	b=wvBOawFGijBrr0sIfkSbpQclmxl2JQf9I+8RHnsbZddn1cnDKNVL/YmF9v/7rmaTIY
+	js/8UCaUu2xsJxbN0uHFr7UDRqqXJfNmCq/lOZ/kqAEhG35fYFxpHWAaclPfLDWJzWSn
+	LK267ZIFD0m1xAdRDARY1+QBlsK+Hl6pU3oJeagsJZvFQtCYroDuuoPk1FROdnG7E2Wz
+	VM79xw8zPLcKwUghRvaN3kIyja4dMtx/OFSOBrhdBUXr3HpZbEEh4c6DHX3QbbUx7wum
+	lFCgvNrjWK+Zz+4pZD6j6BLrenrmfu32AF1BgN7nsL7aElOr0iwuB2vROU9G1muLzJ64
+	ouCg==
+X-Received: by 10.112.11.20 with SMTP id m20mr29248lbb.56.1377278876424; Fri,
+	23 Aug 2013 10:27:56 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.112.53.197 with HTTP; Fri, 23 Aug 2013 10:27:36 -0700 (PDT)
+In-Reply-To: <7a4f632ef281997b5fd0609a9adfdfde52f3ed76.1377278314.git.chris_larson@mentor.com>
 References: <cover.1377278314.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1377278314.git.chris_larson@mentor.com>
-References: <cover.1377278314.git.chris_larson@mentor.com>
+	<7a4f632ef281997b5fd0609a9adfdfde52f3ed76.1377278314.git.chris_larson@mentor.com>
+From: Christopher Larson <chris_larson@mentor.com>
+Date: Fri, 23 Aug 2013 10:27:36 -0700
+X-Google-Sender-Auth: l_tgf9CSc4XLYNh36-OnvisTSHY
+Message-ID: <CABcZAN=oNBmva0=m=7SYH-eEYo5dCnA4Y+sVxhWO_8iPwWqp2Q@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/2] nativesdk-ca-certificates: prepopulate ca-certificates.crt
+Subject: Re: [PATCH 1/2] ca-certificates: add recipe (version 20130610)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,34 +45,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 17:20:09 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 17:27:58 -0000
+Content-Type: multipart/alternative; boundary=001a1133eb742fa13704e4a0bae0
 
-From: Christopher Larson <chris_larson@mentor.com>
+--001a1133eb742fa13704e4a0bae0
+Content-Type: text/plain; charset=UTF-8
 
-As postinsts aren't run for nativesdk packages when populating an SDK, we need
-to prepopulate up-front.
+On Fri, Aug 23, 2013 at 10:20 AM, Christopher Larson <kergoth@gmail.com>wrote:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-support/ca-certificates/ca-certificates_20130610.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+> We need this for certain nativesdk recipes, as we can't rely on the
+> certificate path or bundle path being the same across distros, and it's
+> useful
+> in many cases on the target as well.
+>
+> This is based on the 20130119 recipe from meta-oe, with the following
+> changes:
+>
+> - use the debian git repository to avoid vanishing sources
+> - obey our target paths
+> - default to a sysroot relative to the script location (make relocatable)
+> - define SUMMARY
+> - don't inherit autotools, this isn't an autotools package
+> - add MPL-2.0 to LICENSE, as that's the license of the certdata
+> - install the script man page
+> - use a native rather than cross recipe, as it's not bound in any way to
+> the
+>   target system
+> - add nativesdk to bbclassextend, for use in SDKs
+>
+> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb b/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb
-index 053fbbe..0ed238b 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20130610.bb
-@@ -60,4 +60,10 @@ pkg_postinst_${PN} () {
- 
- CONFFILES_${PN} += "${sysconfdir}/ca-certificates.conf"
- 
-+# Postinsts don't seem to be run for nativesdk packages when populating SDKs.
-+CONFFILES_${PN}_append_class-nativesdk = " ${sysconfdir}/ssl/certs/ca-certificates.crt"
-+do_install_append_class-nativesdk () {
-+    SYSROOT="${D}${SDKPATHNATIVE}" update-ca-certificates
-+}
-+
- BBCLASSEXTEND += "native nativesdk"
--- 
-1.8.3.4
+Await v2, forgot the patch upstream status :)
 
+--001a1133eb742fa13704e4a0bae0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Aug 23, 2013 at 10:20 AM, Christopher Larson <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a=
+>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":io" style=3D"overflow:hidden">We=
+ need this for certain nativesdk recipes, as we can&#39;t rely on the<br>
+certificate path or bundle path being the same across distros, and it&#39;s=
+ useful<br>
+in many cases on the target as well.<br>
+<br>
+This is based on the 20130119 recipe from meta-oe, with the following chang=
+es:<br>
+<br>
+- use the debian git repository to avoid vanishing sources<br>
+- obey our target paths<br>
+- default to a sysroot relative to the script location (make relocatable)<b=
+r>
+- define SUMMARY<br>
+- don&#39;t inherit autotools, this isn&#39;t an autotools package<br>
+- add MPL-2.0 to LICENSE, as that&#39;s the license of the certdata<br>
+- install the script man page<br>
+- use a native rather than cross recipe, as it&#39;s not bound in any way t=
+o the<br>
+=C2=A0 target system<br>
+- add nativesdk to bbclassextend, for use in SDKs<br>
+<br>
+Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
+.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>Await v2,=
+ forgot the patch upstream status :)</div></div>
+
+--001a1133eb742fa13704e4a0bae0--
