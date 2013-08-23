@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 637146B115
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 63E6F6B9EF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:08:40 +0000 (UTC)
+	Fri, 23 Aug 2013 18:08:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7NI8c6A003675
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7NI8gMU008129
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 23 Aug 2013 14:08:39 -0400 (EDT)
+	Fri, 23 Aug 2013 11:08:42 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 23 Aug 2013 11:08:38 -0700
+	14.2.342.3; Fri, 23 Aug 2013 11:08:40 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 23 Aug 2013 14:08:16 -0400
-Message-ID: <ff045b68722edebf963a6d5010b582afa5b3c848.1377280429.git.bruce.ashfield@windriver.com>
+Date: Fri, 23 Aug 2013 14:08:18 -0400
+Message-ID: <46a124834eb1e8b047e061ba0cbcd6db32cc97d2.1377280429.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1377280429.git.bruce.ashfield@windriver.com>
 References: <cover.1377280429.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/5] kern-tools: usability, bug fixes and no guilt
+Subject: [PATCH 3/5] linux-libc-headers: update to v3.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,90 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:08:40 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 18:08:42 -0000
 Content-Type: text/plain
 
-Updating the kern-tools SRCREV to pick up the following fixes:
-
-   60a894e kgit-s2q: add proper commit ID handling for mixed am/apply usage
-   3b08257 kgit-s2q: delete pruning of path support.
-   c5868b4 kgit-s2q: Restore implicit exit status to "git apply" section
-   1bd00b9 kgit-scc: mask warnings from cleanup phase 5
-   bb75299 kgit-s2q: fix commit warp when running "git am --abort"
-   ef9571b kgit-scc: cleanup git rebase-apply dir
-   fdb7d21 kgit-scc: ensure treegen stops if a meta series fails
-   008987b config: add kconfig cleaning options
-   69ff569 kgit-s2q: strip blank lines and comments
-   e7b4540 kgit-init: disable garbage collection on a new tree
-   417eaed kgit-s2q: delete old LTSI patch dir finding code
-   21f2200 kgit-scc: better error checking on resume
-   ad5084c kern-tools: use .meta as meta data container
-   1deb5d8 kgit-meta: don't push patches without a series file
-   eb431a1 kgit-s2q: aid patch reject resolution via helper scripts
-   f859c40 kgit-s2q: only use patch annotations when explicitly asked
-   333ae18 kgit: speed patch application by batching patches
-   bf6991d kgit: teach tools about non-default meta dirs
-   bcfc712 kgit-s2q: usability improvements
-   cb28803 kgit-s2q: fix patch prefix stripping.
-   37f40e1 kgit-s2q: warn/exit with error if patch not in series
-   f4704d2 kgit-s2q: consistent rm usage
-   e11819c kgit-s2q: standardize on use of git mailinfo
-   36a5eda kgit: remove guilt dependency
-   c461a4f spp/scc: export mark commands to meta-series
-   5311162 updateme: ensure that generated features are only used once
-   4f7a263 kgit-checkpoint: clear .gitignore for meta branch
-   21ee6f2 updateme: enforce a matching machine
-   b08749d kgit-scc: remove -meta files after consruction
-
-These are bug fixes, usability changes as well as the removal of the
-guilt dependency. During the uprev of the guilt package, the amount of
-circumvention of the typical guilt workflow and checks meant that using
-it as a series -> branch manager was no longer appropriate. As a result
-a new tools kgit-s2q (series 2 queue) was created based on git-quiltimport,
-git am, and the LTSI tree generation scripts.
-
-The result is better series to branch validation, faster application and
-a simpler management model. This tool is backwards compatible with any
-tree previously constructed with guilt. We are now "guilt free"
+Now that the 3.10 kernel has been released we can bump the libc-headers to
+that version and remove the 3.8 variant. Userspace compatibility is
+maintained through kernel versions, we also make the single 3.10 version the
+toolchain default.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass                       |    2 ++
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    6 +++---
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc                    |    2 +-
+ .../linux-libc-headers/linux-libc-headers_3.10.bb              |    7 +++++++
+ .../linux-libc-headers/linux-libc-headers_3.8.bb               |    8 --------
+ 3 files changed, 8 insertions(+), 9 deletions(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+ delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index d513ad2..fcc00e3 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -262,6 +262,8 @@ python do_kernel_configcheck() {
-     # set the default to 'meta'. Otherwise, kconf_check is not passed a valid
-     # meta-series for processing
-     kmeta = d.getVar( "KMETA", True ) or "meta"
-+    if not os.path.exists(kmeta):
-+        kmeta = "." + kmeta
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index aa0db25..fb41d5e 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -22,7 +22,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.23.2"
+ EGLIBCVERSION ?= "2.18"
+ UCLIBCVERSION ?= "0.9.33+git%"
+-LINUXLIBCVERSION ?= "3.8"
++LINUXLIBCVERSION ?= "3.10"
  
-     pathprefix = "export PATH=%s:%s; " % (d.getVar('PATH', True), "${S}/scripts/util/")
-     cmd = d.expand("cd ${S}; kconf_check -config- %s/meta-series ${S} ${B}" % kmeta)
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index c414fed..f6fca9e 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -2,11 +2,11 @@ DESCRIPTION = "Scripts and utilities for managing Yocto branched kernels."
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70cd5f52972f8884b80743d"
- 
--DEPENDS = "git-native guilt-native"
-+DEPENDS = "git-native"
- 
--SRCREV = "fbcdcb8e23c38352b46235598f34d7b345f458f1"
-+SRCREV = "60a894e1018ab55f4014fbfb2a56624d26d94504"
- PR = "r12"
--PV = "0.1+git${SRCPV}"
-+PV = "0.2+git${SRCPV}"
- 
- inherit native
- 
+ PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+new file mode 100644
+index 0000000..eb04367
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+@@ -0,0 +1,7 @@
++require linux-libc-headers.inc
++
++PR = "r0"
++
++SRC_URI[md5sum] = "72d0a9b3e60cd86fabcd3f24b1708944"
++SRC_URI[sha256sum] = "46c9e55e1fddf40813b8d697d5645037a8e2af5c1a8dff52b3fe82b5021582b8"
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
+deleted file mode 100644
+index 5672bd4..0000000
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require linux-libc-headers.inc
+-
+-SRC_URI += "file://scripts-Makefile.headersinst-install-headers-from-sc.patch"
+-
+-PR = "r0"
+-
+-SRC_URI[md5sum] = "fcd1d2e60e1033c935a13ef81c89ea2d"
+-SRC_URI[sha256sum] = "fce774b5313e73949cb35f128e91e7b2ccd7fa2438abc5cff69267e504395a45"
 -- 
 1.7.10.4
 
