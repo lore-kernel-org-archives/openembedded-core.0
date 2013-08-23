@@ -1,35 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B26060609
+Return-Path: <elizabeth.flanagan@intel.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id C81AA60609
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 21:30:32 +0000 (UTC)
-Received: by mail-lb0-f170.google.com with SMTP id r10so873758lbi.15
+	Fri, 23 Aug 2013 21:41:17 +0000 (UTC)
+Received: by mail-pd0-f178.google.com with SMTP id w10so1168151pde.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 14:30:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=/ujK7lsXpyuB+1+0bnyOQ2u8Zj3awgN22zHIXuYPMA8=;
-	b=Bieqzgr1NWCaqH3WNlQiiZzDSq7MFOytMViiP9BCv1NFfNWSyH3Cp4wFfnoCCbYx4y
-	wzeWA5K1Oe+YDX/Oqg6lfR8zZVGE6wrJUIKCDeAyugmrPs1pVXk2wCUCLJgSy38Lu91e
-	LahRK784hUNNEAYMLEB//3sTMl9pYE/7wPTQdGgBUIO17hWl1PlImmsnZSW3F5XUHrFI
-	Vopa4uLwxRgPtkfpfXzZnGdzRflg+qpTqNAHcHD4iJqqwSN9juqtm+uSq1F4whEVP2LJ
-	pzqLhFOXf60T+bYvRbXqwjHPn4FrPt7TWve2s/mAocwiQDx7nfUBbS34t7oSYP+4QjLv
-	i2Tw==
-MIME-Version: 1.0
-X-Received: by 10.112.0.173 with SMTP id 13mr702105lbf.8.1377293431361; Fri,
-	23 Aug 2013 14:30:31 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Fri, 23 Aug 2013 14:30:31 -0700 (PDT)
-In-Reply-To: <cover.1377280429.git.bruce.ashfield@windriver.com>
-References: <cover.1377280429.git.bruce.ashfield@windriver.com>
-Date: Fri, 23 Aug 2013 17:30:31 -0400
-Message-ID: <CADkTA4NVg6U9PJdcxqJe2_=rmt4-nXnpxY93UJuE5aV+4Ao8Lg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+	Fri, 23 Aug 2013 14:41:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=RKP31LbN/n81ss20bavVKHB2RJgbh/IAVPGCoBm+n5M=;
+	b=Je0Nn9SY/vh8EB+yPMZaVvpjdfdJNUHPCJmcba+JYD1vJu1Bmnf814lq9lGKGzwC5L
+	HNGoFN+Uw2rlQ1TJmNGpl9g+vt6P63vkBxbDbwlY5XLRuk8yJm6GUxwGHmBGnmwpQr+o
+	nlqzAQ6E2dkfShGQ9MEKUUwQpbxynv9pdjekmdTtr1Q6GnrcYxWaKGhCID66Yq8v4rSZ
+	B7pBeBgiKm0a8zT/aaRwZt9UbbmzzjmqZFjpSD9bkuUuOK79BZ0Zj6GoQC1wFl8neerS
+	g3hYElFWP2LFgOr+W1EfdY4Sz8eqSY1YQYLLYwZcaBEIxNMX5pnA6xMKfrcaprjZvYTJ
+	jyJA==
+X-Gm-Message-State: ALoCoQkH6GM6gudBSkAWAumXO3MeUlvQqt3sWJhSALqtz0R/SntTHPfsrjdbgifSvGMtr2IIPsuN
+X-Received: by 10.66.146.199 with SMTP id te7mr1072003pab.106.1377294078426;
+	Fri, 23 Aug 2013 14:41:18 -0700 (PDT)
+Received: from avartita.hsd1.or.comcast.net.
+	(c-24-21-207-18.hsd1.or.comcast.net. [24.21.207.18])
+	by mx.google.com with ESMTPSA id vz4sm3227425pab.11.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 23 Aug 2013 14:41:17 -0700 (PDT)
+From: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Aug 2013 14:40:35 -0700
+Message-Id: <1377294035-10694-1-git-send-email-elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] SPDX:real-time license scanning and SPDX output.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,154 +43,413 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 21:30:34 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 23 Aug 2013 21:41:17 -0000
 
-On Fri, Aug 23, 2013 at 2:08 PM, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> Richard/Saul,
->
-> Here's my consolidated set of changes that represent the biggest chunk
-> of work for the Yocto 1.5 release. The obvious change is that the 3.10
-> kernel is now the latest linux-yocto kernel (and linux-yocto-dev will
-> mark on). I've built and booted core-image-sato for all the oe-core
-> qemu machines.
->
-> 3.10 also the latest LTSI and will be updated with that content when it
-> becomes available.
->
-> Other features of the 3.10 kernel include:
->
->   - refreshed -rt support
->   - refreshed yaffs2, aufs3
->   - cryptodev
->   - bfs, edf, and OCF staged features
->   - scrubbed and updated meta data for v3.10
->   - improved tools support for meta data updates and queue maintenance
->   - patch carry forward from all previous linux-yocto kernels and
->     configuration.
->
-> I've also tested linux-yocto-rt and linux-yocto-tiny for the new, shiny tree.
->
-> I've also bumped the linux-libc-headers to 3.10 and have fixed gst-plugins-good
-> to adapt to a changed #define in the exported headers.
->
-> Other parts of this update include an uprev of guilt, and in fact, a
-> restoration of "normal" guil operations, since the kernel tree is now
-> manipulated and maintained via a smaller, more contained script. This
-> was necessary for both usability reasons and the fact that all of guilts
-> protections were being removed for the kernel's use .. which makes you
-> ask the quesetion "why use it". It was time for a change.
->
-> The patches are pretty self explanitory and all contain detailed long
-> logs .. but the summary is:
->
->    [PATCH 1/5] kern-tools: usability, bug fixes and no guilt
->    [PATCH 2/5] guilt: update to latest git version
->    [PATCH 3/5] linux-libc-headers: update to v3.10
->    [PATCH 4/5] gst-plugins-good: fix 3.10 libc-headers build failure
->    [PATCH 5/5] linux-yocto: introduce v3.10
->
-> ** There is one pending activity. As part of thsi update to 3.10, we want
-> to move to the 3.4 and 3.10 kernel, dropping 3.8 support. But the
-> routerstationpro BSP is still using it as its preferred version. I'm
-> a one man show on this update, and I wasn't able to get the 100+ patches
-> ported to 3.10 AND get this update out before the M4 cutoff.
+From: liangcao <liangcao@unomaha.edu>
 
-Good news on this front. The routerstation pro (and it's replacement after
-1.5) are working on 3.10 with the patches rebased. I'll follow up later with
-the update of the rsp and the removal of the 3.8 recipe.
+SPDX integrates real-time license scanning, generates
+SPDX standard output and license verification
+information during the OE-Core build process. The
+existing module includes scanning patched packages
+and creating package and file level SPDX documents.
 
-The beagleboard and fsl board will follow after that as well, pending some
-boot testing.
+Signed-off-by: liangcao <liangcao@unomaha.edu>
+Signed-off-by: Elizabeth Flanagan <elizabeth.flanagan@intel.com>
+---
+ meta/classes/spdx.bbclass |  321 +++++++++++++++++++++++++++++++++++++++++++++
+ meta/conf/licenses.conf   |   51 ++++++-
+ 2 files changed, 371 insertions(+), 1 deletion(-)
+ create mode 100644 meta/classes/spdx.bbclass
 
-Cheers,
-
-Bruce
-
->
-> ** I'm still attempting to udpate all the reference boards, and
-> once done, I'll send a follow up patch.
->
-> ** Please test, I've done my best, but things can slip through. We'll
-> work issues in the stabilization period.
->
-> Cheers,
->
-> Bruce
->
->
-> The following changes since commit 501e1a321d15abd712e3a6ee6ccdb8e21c3d4ea4:
->
->   bitbake: prserv/serv: Fix pid file removal (2013-08-23 17:43:40 +0100)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib zedd/kernel
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->
-> Bruce Ashfield (5):
->   kern-tools: usability, bug fixes and no guilt
->   guilt: update to latest git version
->   linux-libc-headers: update to v3.10
->   gst-plugins-good: fix 3.10 libc-headers build failure
->   linux-yocto: introduce v3.10
->
->  meta/classes/kernel-yocto.bbclass                  |    2 +
->  meta/conf/distro/include/tcmode-default.inc        |    2 +-
->  .../guilt/files/guilt-import-commit.patch          |   96 ------
->  meta/recipes-devtools/guilt/files/guilt-init.patch |   25 --
->  meta/recipes-devtools/guilt/files/guilt-pop.patch  |   73 -----
->  .../guilt/files/guilt-push-no-series.patch         |   29 --
->  meta/recipes-devtools/guilt/files/guilt-push.patch |   42 ---
->  .../guilt/files/guilt-set-git_exec_path.patch      |   29 --
->  ...lt-update-supported-git-versions-to-1.8.x.patch |   28 --
->  meta/recipes-devtools/guilt/files/guilt.patch      |  319 --------------------
->  .../guilt/files/improve_auto_header_gen.patch      |   71 -----
->  .../files/make_git_commands_conditional.patch      |   48 ---
->  .../guilt/files/optional_head_check.patch          |   60 ----
->  .../guilt/files/uninstall_force.patch              |   14 -
->  .../{guilt-native_0.33.bb => guilt-native_git.bb}  |   21 +-
->  .../kern-tools/kern-tools-native_git.bb            |    6 +-
->  .../linux-libc-headers/linux-libc-headers_3.10.bb  |    7 +
->  .../linux-libc-headers/linux-libc-headers_3.8.bb   |    8 -
->  meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   30 ++
->  meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   25 ++
->  meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   30 ++
->  ...define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch |   45 +++
->  .../gstreamer/gst-plugins-good_0.10.31.bb          |    1 +
->  23 files changed, 150 insertions(+), 861 deletions(-)
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-import-commit.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-init.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-pop.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push-no-series.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/guilt.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/optional_head_check.patch
->  delete mode 100644 meta/recipes-devtools/guilt/files/uninstall_force.patch
->  rename meta/recipes-devtools/guilt/{guilt-native_0.33.bb => guilt-native_git.bb} (45%)
->  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
->  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.10.bb
->  create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
->
-> --
-> 1.7.10.4
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
+diff --git a/meta/classes/spdx.bbclass b/meta/classes/spdx.bbclass
+new file mode 100644
+index 0000000..bde6e49
+--- /dev/null
++++ b/meta/classes/spdx.bbclass
+@@ -0,0 +1,321 @@
++# This class integrates real-time license scanning, generation of SPDX standard
++# output and verifiying license info during the building process.
++# It is a combination of efforts from the OE-Core, SPDX and Fossology projects.
++#
++# For more information on FOSSology:
++#   http://www.fossology.org
++#
++# For more information on FOSSologySPDX commandline:
++#   https://github.com/spdx-tools/fossology-spdx/wiki/Fossology-SPDX-Web-API
++#
++# For more information on SPDX:
++#   http://www.spdx.org
++#
++
++# SPDX file will be output to the path which is defined as[SPDX_MANIFEST_DIR] 
++# in ./meta/conf/licenses.conf.
++
++SPDXOUTPUTDIR = "${WORKDIR}/spdx_output_dir"
++SPDXSSTATEDIR = "${WORKDIR}/spdx_sstate_dir"
++
++python do_spdx () {
++    import os, sys
++    import json
++
++    info = {} 
++    info['workdir'] = (d.getVar('WORKDIR', True) or "")
++    info['sourcedir'] = (d.getVar('S', True) or "")
++    info['pn'] = (d.getVar( 'PN', True ) or "")
++    info['pv'] = (d.getVar( 'PV', True ) or "")
++    info['src_uri'] = (d.getVar( 'SRC_URI', True ) or "")
++    info['spdx_version'] = (d.getVar('SPDX_VERSION', True) or '')
++    info['data_license'] = (d.getVar('DATA_LICENSE', True) or '')
++
++    spdx_sstate_dir = (d.getVar('SPDXSSTATEDIR', True) or "")
++    manifest_dir = (d.getVar('SPDX_MANIFEST_DIR', True) or "")
++    info['outfile'] = os.path.join(manifest_dir, info['pn'] + ".spdx" )
++    sstatefile = os.path.join(spdx_sstate_dir, 
++        info['pn'] + info['pv'] + ".spdx" )
++    info['spdx_temp_dir'] = (d.getVar('SPDX_TEMP_DIR', True) or "")
++    info['tar_file'] = os.path.join( info['workdir'], info['pn'] + ".tar.gz" )
++
++
++    ## get everything from cache.  use it to decide if 
++    ## something needs to be rerun 
++    cur_ver_code = get_ver_code( info['sourcedir'] ) 
++    cache_cur = False
++    if not os.path.exists( spdx_sstate_dir ):
++        bb.mkdirhier( spdx_sstate_dir )
++    if not os.path.exists( info['spdx_temp_dir'] ):
++        bb.mkdirhier( info['spdx_temp_dir'] )
++    if os.path.exists( sstatefile ):
++        ## cache for this package exists. read it in
++        cached_spdx = get_cached_spdx( sstatefile )
++
++        if cached_spdx['PackageVerificationCode'] == cur_ver_code:
++            bb.warn(info['pn'] + "'s ver code same as cache's. do nothing")
++            cache_cur = True
++        else:
++            local_file_info = setup_foss_scan( info, 
++                True, cached_spdx['Files'] )
++    else:
++        local_file_info = setup_foss_scan( info, False, None )
++
++    if cache_cur:
++        spdx_file_info = cached_spdx['Files']
++    else:
++        ## setup fossology command
++        foss_server = (d.getVar('FOSS_SERVER', True) or "")
++        foss_flags = (d.getVar('FOSS_WGET_FLAGS', True) or "")
++        foss_command = "wget %s --post-file=%s %s"\
++            % (foss_flags,info['tar_file'],foss_server)
++        
++        #bb.warn(info['pn'] + json.dumps(local_file_info))
++        foss_file_info = run_fossology( foss_command )
++        spdx_file_info = create_spdx_doc( local_file_info, foss_file_info )
++        ## write to cache
++        write_cached_spdx(sstatefile,cur_ver_code,spdx_file_info)
++    
++    ## Get document and package level information
++    spdx_header_info = get_header_info(info, cur_ver_code, spdx_file_info)
++    
++    ## CREATE MANIFEST
++    create_manifest(info,spdx_header_info,spdx_file_info)
++
++    ## clean up the temp stuff
++    remove_dir_tree( info['spdx_temp_dir'] )
++    if os.path.exists(info['tar_file']):
++        remove_file( info['tar_file'] )
++}
++addtask spdx after do_patch before do_configure
++
++def create_manifest(info,header,files):
++    with open(info['outfile'], 'w') as f:
++        f.write(header + '\n')
++        for chksum, block in files.iteritems():
++            for key, value in block.iteritems():
++                f.write(key + ": " + value)
++                f.write('\n')
++            f.write('\n')
++
++def get_cached_spdx( sstatefile ):
++    import json
++    cached_spdx_info = {}
++    with open( sstatefile, 'r' ) as f:
++        try:
++            cached_spdx_info = json.load(f)
++        except ValueError as e:
++            cached_spdx_info = None
++    return cached_spdx_info
++
++def write_cached_spdx( sstatefile, ver_code, files ):
++    import json
++    spdx_doc = {}
++    spdx_doc['PackageVerificationCode'] = ver_code
++    spdx_doc['Files'] = {}
++    spdx_doc['Files'] = files
++    with open( sstatefile, 'w' ) as f:
++        f.write(json.dumps(spdx_doc))
++
++def setup_foss_scan( info, cache, cached_files ):
++    import errno, shutil
++    import tarfile
++    file_info = {}
++    cache_dict = {}
++
++    for f_dir, f in list_files( info['sourcedir'] ):
++        full_path =  os.path.join( f_dir, f )
++        abs_path = os.path.join(info['sourcedir'], full_path)
++        dest_dir = os.path.join( info['spdx_temp_dir'], f_dir )
++        dest_path = os.path.join( info['spdx_temp_dir'], full_path )
++        try:
++            stats = os.stat(abs_path)
++        except OSError as e:
++            bb.warn( "Stat failed" + str(e) + "\n")
++            continue
++
++        checksum = hash_file( abs_path )
++        mtime = time.asctime(time.localtime(stats.st_mtime))
++        
++        ## retain cache information if it exists
++        file_info[checksum] = {}
++        if cache and checksum in cached_files:
++            file_info[checksum] = cached_files[checksum]
++        else:
++            file_info[checksum]['FileName'] = full_path
++
++        try:
++            os.makedirs( dest_dir )
++        except OSError as e:
++            if e.errno == errno.EEXIST and os.path.isdir(dest_dir):
++                pass
++            else:
++                bb.warn( "mkdir failed " + str(e) + "\n" )
++                continue
++
++        if(cache and checksum not in cached_files) or not cache:
++            try:
++                shutil.copyfile( abs_path, dest_path )
++            except shutil.Error as e:
++                bb.warn( str(e) + "\n" )
++            except IOError as e:
++                bb.warn( str(e) + "\n" )
++    
++    with tarfile.open( info['tar_file'], "w:gz" ) as tar:
++        tar.add( info['spdx_temp_dir'], arcname=os.path.basename(info['spdx_temp_dir']) )
++    tar.close()
++    
++    return file_info
++
++
++def remove_dir_tree( dir_name ):
++    import shutil
++    try:
++        shutil.rmtree( dir_name )
++    except:
++        pass
++
++def remove_file( file_name ):
++    try:
++        os.remove( file_name )
++    except OSError as e:
++        pass
++
++def list_files( dir ):
++    for root, subFolders, files in os.walk( dir ):
++        for f in files:
++            rel_root = os.path.relpath( root, dir )
++            yield rel_root, f
++    return
++
++def hash_file( file_name ):
++    try:
++        f = open( file_name, 'rb' )
++        data_string = f.read()
++    except:
++       return None
++    finally:
++        f.close()
++    sha1 = hash_string( data_string )
++    return sha1
++
++def hash_string( data ):
++    import hashlib
++    sha1 = hashlib.sha1()
++    sha1.update( data )
++    return sha1.hexdigest()
++
++def run_fossology( foss_command ):
++    import string, re
++    import subprocess
++    
++    p = subprocess.Popen(foss_command.split(),
++        stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++    foss_output, foss_error = p.communicate()
++    
++    records = []
++    records = re.findall('FileName:.*?</text>', foss_output, re.S)
++
++    file_info = {}
++    for rec in records:
++        rec = string.replace( rec, '\r', '' )
++        chksum = re.findall( 'FileChecksum: SHA1: (.*)\n', rec)[0]
++        file_info[chksum] = {}
++        file_info[chksum]['FileCopyrightText'] = re.findall( 'FileCopyrightText: '
++            + '(.*?</text>)', rec, re.S )[0]
++        fields = ['FileType','LicenseConcluded',
++            'LicenseInfoInFile','FileName']
++        for field in fields:
++            file_info[chksum][field] = re.findall(field + ': (.*)', rec)[0]
++
++    return file_info
++
++def create_spdx_doc( file_info, scanned_files ):
++    import json
++    ## push foss changes back into cache
++    for chksum, lic_info in scanned_files.iteritems():
++        if chksum in file_info:
++            file_info[chksum]['FileName'] = file_info[chksum]['FileName']
++            file_info[chksum]['FileType'] = lic_info['FileType']
++            file_info[chksum]['FileChecksum: SHA1'] = chksum
++            file_info[chksum]['LicenseInfoInFile'] = lic_info['LicenseInfoInFile']
++            file_info[chksum]['LicenseConcluded'] = lic_info['LicenseConcluded']
++            file_info[chksum]['FileCopyrightText'] = lic_info['FileCopyrightText']
++        else:
++            bb.warn(lic_info['FileName'] + " : " + chksum
++                + " : is not in the local file info: "
++                + json.dumps(lic_info,indent=1))
++    return file_info
++
++def get_ver_code( dirname ):
++    chksums = []
++    for f_dir, f in list_files( dirname ):
++        try:
++            stats = os.stat(os.path.join(dirname,f_dir,f))
++        except OSError as e:
++            bb.warn( "Stat failed" + str(e) + "\n")
++            continue
++        chksums.append(hash_file(os.path.join(dirname,f_dir,f)))
++    ver_code_string = ''.join( chksums ).lower()
++    ver_code = hash_string( ver_code_string )
++    return ver_code
++
++def get_header_info( info, spdx_verification_code, spdx_files ):
++    """
++        Put together the header SPDX information.
++        Eventually this needs to become a lot less
++        of a hardcoded thing.
++    """
++    from datetime import datetime
++    import os
++    head = []
++    DEFAULT = "NOASSERTION"
++
++    #spdx_verification_code = get_ver_code( info['sourcedir'] )
++    package_checksum = ''
++    if os.path.exists(info['tar_file']):
++        package_checksum = hash_file( info['tar_file'] )
++    else:
++        package_checksum = DEFAULT
++
++    ## document level information
++    head.append("SPDXVersion: " + info['spdx_version'])
++    head.append("DataLicense: " + info['data_license'])
++    head.append("DocumentComment: <text>SPDX for "
++        + info['pn'] + " version " + info['pv'] + "</text>")
++    head.append("")
++
++    ## Creator information
++    now = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
++    head.append("## Creation Information")
++    head.append("Creator: fossology-spdx")
++    head.append("Created: " + now)
++    head.append("CreatorComment: <text>UNO</text>")
++    head.append("")
++
++    ## package level information
++    head.append("## Package Information")
++    head.append("PackageName: " + info['pn'])
++    head.append("PackageVersion: " + info['pv'])
++    head.append("PackageDownloadLocation: " + DEFAULT)
++    head.append("PackageSummary: <text></text>")
++    head.append("PackageFileName: " + os.path.basename(info['tar_file']))
++    head.append("PackageSupplier: Person:" + DEFAULT)
++    head.append("PackageOriginator: Person:" + DEFAULT)
++    head.append("PackageChecksum: SHA1: " + package_checksum)
++    head.append("PackageVerificationCode: " + spdx_verification_code)
++    head.append("PackageDescription: <text>" + info['pn']
++        + " version " + info['pv'] + "</text>")
++    head.append("")
++    head.append("PackageCopyrightText: <text>" + DEFAULT + "</text>")
++    head.append("")
++    head.append("PackageLicenseDeclared: " + DEFAULT)
++    head.append("PackageLicenseConcluded: " + DEFAULT)
++    head.append("PackageLicenseInfoFromFiles: " + DEFAULT)
++    head.append("")
++    
++    ## header for file level
++    head.append("## File Information")
++    head.append("")
++
++    return '\n'.join(head)
+diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+index 922b84c..b41d0a8 100644
+--- a/meta/conf/licenses.conf
++++ b/meta/conf/licenses.conf
+@@ -113,6 +113,55 @@ SPDXLICENSEMAP[SGIv1] = "SGI-1"
+ # Set if you want the license.manifest copied to the image
+ #COPY_LIC_MANIFEST = "1"
+ 
+-# If you want the pkg licenses copied over as well you must set 
++# If you want the pkg licenses copied over as well you must set
+ # both COPY_LIC_MANIFEST and COPY_LIC_DIRS
+ #COPY_LIC_DIRS = "1"
++
++## SPDX temporary directory
++SPDX_TEMP_DIR = "${WORKDIR}/spdx_temp"
++SPDX_MANIFEST_DIR = "/home/yocto/fossology_scans"
++
++## SPDX Format info
++SPDX_VERSION = "SPDX-1.1"
++DATA_LICENSE = "CC0-1.0"
++
++## Fossology scan information
++# You can set option to control if the copyright information will be skipped
++# during the identification process.
++#
++# It is defined as [FOSS_COPYRIGHT] in ./meta/conf/licenses.conf.
++# FOSS_COPYRIGHT = "true"
++#   NO copyright will be processed. That means only license information will be
++#   identified and output to SPDX file
++# FOSS_COPYRIGHT = "false"
++#   Copyright will be identified and output to SPDX file along with license
++#   information. The process will take more time than not processing copyright
++#   information.
++#
++
++FOSS_COPYRIGHT = "true"
++
++# A option defined as[FOSS_RECURSIVE_UNPACK] in ./meta/conf/licenses.conf. is
++# used to control if FOSSology server need recursively unpack tar.gz file which
++# is sent from do_spdx task.
++#
++# FOSS_RECURSIVE_UNPACK = "false":
++#    FOSSology server does NOT recursively unpack. In the current release, this
++#    is the default choice because recursively unpack will not necessarily break
++#    down original compressed files.
++# FOSS_RECURSIVE_UNPACK = "true":
++#    FOSSology server recursively unpack components.
++#
++
++FOSS_RECURSIVE_UNPACK = "false"
++
++# FOSSologySPDX instance server.
++# For more information on FOSSologySPDX commandline:
++#   https://github.com/spdx-tools/fossology-spdx/wiki/Fossology-SPDX-Web-API
++#
++
++FOSS_SERVER = "http://localhost//?mod=spdx_license_once&noCopyright=${FOSS_COPYRIGHT}&recursiveUnpack=${FOSS_RECURSIVE_UNPACK}"
++
++FOSS_WGET_FLAGS = "-qO - --no-check-certificate --timeout=0"
++
++
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.9.5
+
 
