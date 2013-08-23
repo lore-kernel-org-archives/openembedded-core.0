@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E3F26B9ED
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 00F2B6B115
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 15:32:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 08:32:30 -0700
+	Fri, 23 Aug 2013 15:32:30 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Aug 2013 08:32:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="367441344"
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="390996663"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 23 Aug 2013 08:32:30 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 23 Aug 2013 08:32:27 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 8B8332C8001
+	by linux.intel.com (Postfix) with ESMTP id 36F972C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 08:32:28 -0700 (PDT)
+	Fri, 23 Aug 2013 08:32:25 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 18:30:44 +0300
-Message-Id: <014ec7c5a0267bb0c9a8d9517828f1a9ef38829b.1377269485.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 18:30:41 +0300
+Message-Id: <47def7753037e9c7d1af211d4fd7901207246edc.1377269484.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377269484.git.stefanx.stanacar@intel.com>
 References: <cover.1377269484.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377269484.git.stefanx.stanacar@intel.com>
 References: <cover.1377269484.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 04/21] lib/oeqa/runtime: add new logrotate test
+Subject: [PATCH 01/21] lib/oeqa/runtime: add basic test for x32 images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 15:32:30 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 15:32:31 -0000
 
-From: Alexandru Palalau <alexandrux.palalau@intel.com>
+From: Alexandru Georgescu <alexandru.c.georgescu@intel.com>
 
-New logrotate test which verifies the log directory change in logrotate.conf.
-Needs an image with logrotate installed.
+Checks that an x86-64-x32 image has the right binaries.
 
-Signed-off-by: Alexandru Palalau <alexandrux.palalau@intel.com>
+Signed-off-by: Alexandru Georgescu <alexandru.c.georgescu@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/logrotate.py | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/logrotate.py
+ meta/lib/oeqa/runtime/x32lib.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/x32lib.py
 
-diff --git a/meta/lib/oeqa/runtime/logrotate.py b/meta/lib/oeqa/runtime/logrotate.py
+diff --git a/meta/lib/oeqa/runtime/x32lib.py b/meta/lib/oeqa/runtime/x32lib.py
 new file mode 100644
-index 0000000..80489a3
+index 0000000..6bad201
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/logrotate.py
-@@ -0,0 +1,27 @@
-+# This test should cover https://bugzilla.yoctoproject.org/tr_show_case.cgi?case_id=289 testcase
-+# Note that the image under test must have logrotate installed
-+
++++ b/meta/lib/oeqa/runtime/x32lib.py
+@@ -0,0 +1,17 @@
 +import unittest
 +from oeqa.oetest import oeRuntimeTest, skipModule
 +from oeqa.utils.decorators import *
 +
 +def setUpModule():
-+    if not oeRuntimeTest.hasPackage("logrotate"):
-+        skipModule("No logrotate package in image")
++        #check if DEFAULTTUNE is set and it's value is: x86-64-x32
++        defaulttune = oeRuntimeTest.tc.d.getVar("DEFAULTTUNE", True)
++        if "x86-64-x32" not in defaulttune:
++            skipModule("DEFAULTTUNE is not set to x86-64-x32")
 +
-+
-+class LogrotateTest(oeRuntimeTest):
++class X32libTest(oeRuntimeTest):
 +
 +    @skipUnlessPassed("test_ssh")
-+    def test_1_logrotate_setup(self):
-+        (status, output) = self.target.run('mkdir /home/root/logrotate_dir')
-+        self.assertEqual(status, 0, msg = "Could not create logrotate_dir. Output: %s" % output)
-+        (status, output) = self.target.run("sed -i 's#wtmp {#wtmp {\\n    olddir /home/root/logrotate_dir#' /etc/logrotate.conf")
-+        self.assertEqual(status, 0, msg = "Could not write to logrotate.conf file. Status and output: %s and %s)" % (status, output))
-+
-+    @skipUnlessPassed("test_1_logrotate_setup")
-+    def test_2_logrotate(self):
-+        (status, output) = self.target.run('logrotate -f /etc/logrotate.conf')
-+        self.assertEqual(status, 0, msg = "logrotate service could not be reloaded. Status and output: %s and %s" % (status, output))
-+        output = self.target.run('ls -la /home/root/logrotate_dir/ | wc -l')[1]
-+        self.assertTrue(int(output)>=3, msg = "new logfile could not be created. List of files within log directory: %s" %(self.target.run('ls -la /home/root/logrotate_dir')[1]))
++    def test_x32_file(self):
++        status1 = self.target.run("readelf -h /bin/ls | grep Class | grep ELF32")[0]
++        status2 = self.target.run("readelf -h /bin/ls | grep Machine | grep X86-64")[0]
++        self.assertTrue(status1 == 0 and status2 == 0, msg="/bin/ls isn't an X86-64 ELF32 binary. readelf says: %s" % self.target.run("readelf -h /bin/ls")[1])
 -- 
 1.8.3.1
 
