@@ -1,26 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C5A46B9EC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ye0-f172.google.com (mail-ye0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id ADD636A5A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:08:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7NI8ehL009137
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 23 Aug 2013 11:08:40 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 23 Aug 2013 11:08:39 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 23 Aug 2013 14:08:17 -0400
-Message-ID: <5340e26f47106932bca830d4f7b7f236922da64c.1377280429.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1377280429.git.bruce.ashfield@windriver.com>
-References: <cover.1377280429.git.bruce.ashfield@windriver.com>
+	Fri, 23 Aug 2013 18:09:43 +0000 (UTC)
+Received: by mail-ye0-f172.google.com with SMTP id l12so225652yen.17
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 11:09:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=qqOewxO2FA45faqweQnu1dEdSyTM0wByZQAw5cR1RLQ=;
+	b=l+Ts/y3K3tLnW0+Ua9iIuTJW/PbEw+/piL7mc2m2c5OoJ2stFxQIwetMxcPdDxKIEG
+	lkCcWEDXk16wuTT/STOTBwThtcgo0p1G0xfFBWU7dj45u5rjSetgtKOylpmwHienHUTT
+	MgGl1zo92KJhsoEEmb52cQCWBIK01myppmViCllEjNMWMRleR5BRaxGUhF8wNT+2YpvD
+	5Fg1GXkilq4t1s2G1J3JLMrKwVW3/dtHbNW4HvJHDd+FF0IFKF1dHcEo+lbGHF2jETvG
+	MxyIvCGm4+gACql8zTXR2L6OoUcUe6Q/R/yiH2hSHjuadBXDjrCAcCUpV+TLEl/CtzWW
+	rC3g==
+X-Received: by 10.236.114.196 with SMTP id c44mr673517yhh.75.1377281384089;
+	Fri, 23 Aug 2013 11:09:44 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([187.23.155.55])
+	by mx.google.com with ESMTPSA id s9sm1308286yhb.9.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 23 Aug 2013 11:09:43 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Fri, 23 Aug 2013 15:09:28 -0300
+Message-Id: <1377281368-11114-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.4.rc1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] guilt: update to latest git version
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] u-boot, u-boot-fw-utils-cross, u-boot-mkimage: Upgrade to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,994 +44,666 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:08:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Aug 2013 18:09:44 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Uprev guilt to the latest guilt version from its upstream repository.
-As part of the uprev all of the previous changes required for the
-yocto kernel tools to use git to manipulate series files have been
-dropped. These changes were specific to circumventing parts of guilt's
-internal santiy checking to allow specific Yocto kernel manipluation
-of sub-series files.
+This upgrades the U-Boot for 2013.07 release. This removes the
+2011.03, 2011.06 and 2013.01.01 versions so we keep a single one in
+core. The following recipes has been upgraded:
 
-Since the kernel tools no longer need guilt, we can use an up to date
-and nearly pure upstream version of guilt.
+ - u-boot
+ - u-boot-mkimage
+ - u-boot-fw-utils -> u-boot-fw-utils-cross (renamed)
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+The 2013.07 u-boot and u-boot-mkimage recipe updates were based on a
+patch sent by Laszlo Papp <lpapp@kde.org> but the
+u-boot-fw-utils-cross needed some more work as it uses the
+UBOOT_MACHINE to find default environment for use so it is indeed a
+cross binary and not a native one.
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- .../guilt/files/guilt-import-commit.patch          |   96 ------
- meta/recipes-devtools/guilt/files/guilt-init.patch |   25 --
- meta/recipes-devtools/guilt/files/guilt-pop.patch  |   73 -----
- .../guilt/files/guilt-push-no-series.patch         |   29 --
- meta/recipes-devtools/guilt/files/guilt-push.patch |   42 ---
- .../guilt/files/guilt-set-git_exec_path.patch      |   29 --
- ...lt-update-supported-git-versions-to-1.8.x.patch |   28 --
- meta/recipes-devtools/guilt/files/guilt.patch      |  319 --------------------
- .../guilt/files/improve_auto_header_gen.patch      |   71 -----
- .../files/make_git_commands_conditional.patch      |   48 ---
- .../guilt/files/optional_head_check.patch          |   60 ----
- .../guilt/files/uninstall_force.patch              |   14 -
- .../{guilt-native_0.33.bb => guilt-native_git.bb}  |   21 +-
- 13 files changed, 6 insertions(+), 849 deletions(-)
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt-import-commit.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt-init.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt-pop.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push-no-series.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/guilt.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/optional_head_check.patch
- delete mode 100644 meta/recipes-devtools/guilt/files/uninstall_force.patch
- rename meta/recipes-devtools/guilt/{guilt-native_0.33.bb => guilt-native_git.bb} (45%)
+ .../u-boot/files/fix-arm920t-eabi.patch            | 24 -------
+ .../u-boot/u-boot-fw-utils-cross_2013.07.bb        | 38 ++++++++++
+ meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb | 28 --------
+ .../u-boot/u-boot-fw-utils_2013.01.01.bb           | 33 ---------
+ ...Drop-config.h-include-in-tools-imximage.h.patch | 39 ----------
+ ...ove-LDSCRIPT-processing-to-the-top-level-.patch | 82 ----------------------
+ ...Drop-config.h-include-in-tools-imximage.h.patch | 39 ----------
+ ...ove-LDSCRIPT-processing-to-the-top-level-.patch | 82 ----------------------
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb  | 31 --------
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb  | 29 --------
+ ...age_2013.01.01.bb => u-boot-mkimage_2013.07.bb} | 10 +--
+ meta/recipes-bsp/u-boot/u-boot_2011.03.bb          | 24 -------
+ meta/recipes-bsp/u-boot/u-boot_2011.06.bb          | 24 -------
+ .../{u-boot_2013.01.01.bb => u-boot_2013.07.bb}    | 13 ++--
+ 14 files changed, 46 insertions(+), 450 deletions(-)
+ delete mode 100644 meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.01.01.bb
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
+ rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2013.01.01.bb => u-boot-mkimage_2013.07.bb} (72%)
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+ delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+ rename meta/recipes-bsp/u-boot/{u-boot_2013.01.01.bb => u-boot_2013.07.bb} (69%)
 
-diff --git a/meta/recipes-devtools/guilt/files/guilt-import-commit.patch b/meta/recipes-devtools/guilt/files/guilt-import-commit.patch
+diff --git a/meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch b/meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch
 deleted file mode 100644
-index bd746c5..0000000
---- a/meta/recipes-devtools/guilt/files/guilt-import-commit.patch
+index d614442..0000000
+--- a/meta/recipes-bsp/u-boot/files/fix-arm920t-eabi.patch
 +++ /dev/null
-@@ -1,96 +0,0 @@
--guilt: import commits via git format-patch
--
--Rather than attempting to process commits directly, it
--is preferable to try dumping the change via git format-patch
--to take advantage of the proper header/subject/from lines that
--are generated.
--
--If patches cannot be exported, fall back to importing 
--commits via a more custom method.
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+@@ -1,24 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
 -
 ----
-- guilt-import-commit |   40 +++++++++++++++++++++++++++++-----------
-- 1 file changed, 29 insertions(+), 11 deletions(-)
+- cpu/arm920t/config.mk |    4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
 -
----- a/guilt-import-commit
--+++ b/guilt-import-commit
--@@ -20,46 +20,64 @@ fi
-- disp "About to begin conversion..." >&2
-- disp "Current head: `cat $GIT_DIR/refs/heads/$branch`" >&2
+---- u-boot-1.3.2.orig/cpu/arm920t/config.mk
+-+++ u-boot-1.3.2/cpu/arm920t/config.mk
+-@@ -22,13 +22,13 @@
+- #
 - 
--+# try git-format-patch first, if it fails fall back to internal 
--+# methods.
--+patches=`git-format-patch -o $GUILT_DIR/$branch $rhash`
--+if [ -z "$patches" ]; then
--+    need_custom_patches="1"
--+fi
--+
-- for rev in `git rev-list $rhash`; do
--+    if [ ! -z "$need_custom_patches" ]; then
-- 	s=`git log --pretty=oneline -1 $rev | cut -c 42-`
+- PLATFORM_RELFLAGS += -fno-strict-aliasing  -fno-common -ffixed-r8 \
+- 	-msoft-float
 - 
-- 	fname=`echo $s | sed -e "s/&/and/g" -e "s/[ :]/_/g" -e "s,[/\\],-,g" \
---			-e "s/['\\[{}]//g" -e 's/]//g' -e 's/\*/-/g' \
--+			-e "s/['\\()<>[{}]//g" -e 's/]//g' -e 's/\*/-/g' \
-- 			-e 's/\?/-/g' | tr A-Z a-z`
-- 
---	disp "Converting `echo $rev | cut -c 1-8` as $fname"
--+	disp "Converting `echo $rev | cut -c 1-8` as $fname.patch"
-- 
-- 	mangle_prefix=1
-- 	fname_base=$fname
---	while [ -f "$GUILT_DIR/$branch/$fname" ]; do
--+	while [ -f "$GUILT_DIR/$branch/$fname.patch" ]; do
-- 		fname="$fname_base-$mangle_prefix"
-- 	        mangle_prefix=`expr $mangle_prefix + 1`
---		disp "Patch under that name exists...trying '$fname'"
--+		disp "Patch under that name exists...trying '$fname.patch'"
-- 	done
-- 
-- 	(
-- 		do_make_header $rev
-- 		echo ""
-- 		git diff --binary $rev^..$rev
---	) > $GUILT_DIR/$branch/$fname
--+	) > $GUILT_DIR/$branch/$fname.patch
-- 
-- 	# FIXME: grab the GIT_AUTHOR_DATE from the commit object and set the
-- 	# timestamp on the patch
-- 
---	# insert the patch name into the series file
---	series_insert_patch $fname
--+	patches="$patches $fname.patch"
--+    fi
-- 
---	# Only reset if the commit was on this branch
---	if head_check $rev 2> /dev/null; then
--+    # Only reset if the commit was on this branch
--+    if head_check $rev 2> /dev/null; then
-- 		# BEWARE: "git reset" ahead! Is there a way to verify that
-- 		# we really created a patch? - We don't want to lose any
-- 		# history.
-- 		git reset --hard $rev^ > /dev/null
---	elif [ -z "$warned" ]; then
--+    elif [ -z "$warned" ]; then
-- 		disp "Warning: commit $rev is not the HEAD...preserving commit" >&2
-- 		disp "Warning: (this message is displayed only once)" >&2
-- 		warned=t
---	fi
--+    fi
--+done
--+
--+rpatches=`echo "$patches" | sed 's% %\n%g' | tac`
--+for patch in $rpatches; do
--+
--+    iname=`echo $patch | sed s%$GUILT_DIR/$branch/%%`
--+    echo "Inserting $iname"	
--+	
--+    # insert the patch name into the series file
--+    series_insert_patch $iname
-- done
-- 
-- disp "Done." >&2
-diff --git a/meta/recipes-devtools/guilt/files/guilt-init.patch b/meta/recipes-devtools/guilt/files/guilt-init.patch
+--PLATFORM_CPPFLAGS += -march=armv4
+-+#PLATFORM_CPPFLAGS += -march=armv4
+- # =========================================================================
+- #
+- # Supply options according to compiler version
+- #
+- # =========================================================================
+--PLATFORM_CPPFLAGS +=$(call cc-option,-mapcs-32,-mabi=apcs-gnu)
+-+PLATFORM_CPPFLAGS +=$(call cc-option)
+- PLATFORM_RELFLAGS +=$(call cc-option,-mshort-load-bytes,$(call cc-option,-malignment-traps,))
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
+new file mode 100644
+index 0000000..7f649ca
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
+@@ -0,0 +1,38 @@
++DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
++SECTION = "bootloader"
++DEPENDS = "mtd-utils"
++
++# This revision corresponds to the tag "v2013.07"
++# We use the revision in order to avoid having to fetch it from the
++# repo during parse
++SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
++
++PV = "v2013.07+git${SRCPV}"
++
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
++
++S = "${WORKDIR}/git"
++
++inherit cross
++
++EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
++
++do_compile () {
++  oe_runmake ${UBOOT_MACHINE}
++  oe_runmake env
++}
++
++do_install () {
++  install -d ${D}${bindir_cross}
++  install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_printenv
++  install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
++}
++
++SYSROOT_PREPROCESS_FUNCS = "uboot_fw_utils_cross"
++uboot_fw_utils_cross() {
++    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
++}
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
 deleted file mode 100644
-index 1583346..0000000
---- a/meta/recipes-devtools/guilt/files/guilt-init.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--guilt: allow previously initialized branches to be re-initialized
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
-----
-- guilt-init |    6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
----- a/guilt-init
--+++ b/guilt-init
--@@ -20,9 +20,9 @@ while case $# in 0) break ;; esac; do
-- 	shift
-- done
-- 
---if [ -d "$GUILT_DIR/$branch" ]; then
---	die "Branch $branch appears to be already initialized (GIT_DIR=$GIT_DIR)"
---fi
--+# if [ -d "$GUILT_DIR/$branch" ]; then
--+# 	die "Branch $branch appears to be already initialized (GIT_DIR=$GIT_DIR)"
--+# fi
-- 
-- [ ! -d "$GUILT_DIR" ] && mkdir "$GUILT_DIR"
-- mkdir -p "$GUILT_DIR/$branch"
-diff --git a/meta/recipes-devtools/guilt/files/guilt-pop.patch b/meta/recipes-devtools/guilt/files/guilt-pop.patch
-deleted file mode 100644
-index 9c05427..0000000
---- a/meta/recipes-devtools/guilt/files/guilt-pop.patch
-+++ /dev/null
-@@ -1,73 +0,0 @@
--guilt: pop and delete tags
--
--Add support for popping to a tag and the ability to delete
--a tag while popping from the tree
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
-----
-- guilt-pop |   28 ++++++++++++++++++++++++++--
-- 1 file changed, 26 insertions(+), 2 deletions(-)
--
----- a/guilt-pop
--+++ b/guilt-pop
--@@ -17,6 +17,13 @@ while [ $# -gt 0 ]; do
-- 		-n)
-- 			num=t
-- 			;;
--+                -t|--t)
--+                        tag=$2
--+                        shift
--+                        ;;
--+	        -d|--d) # can only be used with --t
--+                        delete_tag=t
--+                        ;;
-- 		*)
-- 			break
-- 			;;
--@@ -24,7 +31,7 @@ while [ $# -gt 0 ]; do
-- 	shift
-- done
-- 
---# "guilt-pop" or "guilt-pop foo" or "guilt-pop -n foo"
--+# "guilt-pop" or "guilt-pop foo" or "guilt-pop -n foo" or "guilt-pop -t <tag>"
-- if [ -z "$all" ] && [ $# -gt 1 ]; then
-- 	usage
-- fi
--@@ -44,12 +51,26 @@ fi
-- patch="$1"
-- [ ! -z "$all" ] && patch="-a"
-- 
--+
--+# tag processing will just roll into another one of
--+# the pop types, number or patch name
--+if [ ! -z "$tag" ]; then
--+        git-rev-list HEAD ^$tag > /dev/null 2>/dev/null
--+	if [ $? -eq 0 ]; then
--+	    revs="`git-rev-list HEAD ^$tag`"
--+	    num=`echo "$revs" | wc -l`
--+	    patch=$num
--+	else
--+	    echo "Cannot find tag $tag";
--+	    exit 0
--+        fi
--+fi
--+
-- if [ ! -s "$applied" ]; then
-- 	disp "No patches applied."
-- 	exit 0
-- elif [ "$patch" = "-a" ]; then
-- 	# we are supposed to pop all patches
---
-- 	sidx=`wc -l < $applied`
-- 	eidx=0
-- elif [ ! -z "$num" ]; then
--@@ -96,3 +117,6 @@ pop_many_patches `git rev-parse refs/pat
-- p=`get_top`
-- [ ! -z "$p" ] && disp "Now at $p." || disp "All patches popped."
-- 
--+if [ ! -z "$delete_tag" ]; then
--+	git tag -d $tag
--+fi;
-diff --git a/meta/recipes-devtools/guilt/files/guilt-push-no-series.patch b/meta/recipes-devtools/guilt/files/guilt-push-no-series.patch
-deleted file mode 100644
-index 3446f10..0000000
---- a/meta/recipes-devtools/guilt/files/guilt-push-no-series.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--guilt-push: Avoid duplicate hits in a series
--
--If a series file becomes mangled and a patch name appears in there
--more than once, then the guilt-push will fail a horrible and
--incomprehensible death.  Make it fail in a sensible way.
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
--
-----
--
-- guilt-push |    5 +++++
-- 1 file changed, 5 insertions(+)
--
----- a/guilt-push
--+++ b/guilt-push
--@@ -90,6 +90,11 @@ else
-- 	if [ -z "$eidx" ]; then
-- 		die "Patch $patch is not in the series or is guarded."
-- 	fi
--+
--+	matches=`echo $eidx | wc -w`
--+	if [ $matches -gt 1 ]; then
--+		die "Patch $patch is in the series multiple times"
--+	fi
-- fi
-- 
-- # make sure that there are no unapplied changes
-diff --git a/meta/recipes-devtools/guilt/files/guilt-push.patch b/meta/recipes-devtools/guilt/files/guilt-push.patch
-deleted file mode 100644
-index 5ec290b..0000000
---- a/meta/recipes-devtools/guilt/files/guilt-push.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--guilt: add support for pushing and tagging
--
--It can be handy to push AND tag at the same time.
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
-----
--
-- guilt-push |   16 +++++++++++++++-
-- 1 file changed, 15 insertions(+), 1 deletion(-)
--
----- a/guilt-push
--+++ b/guilt-push
--@@ -19,7 +19,11 @@ while [ $# -gt 0 ]; do
-- 		-n)
-- 			num=t
-- 			;;
---		*)
--+                -t|--t)
--+                        tag=$2
--+                        shift
--+                        ;;
--+		*)      
-- 			break
-- 			;;
-- 	esac
--@@ -126,3 +130,13 @@ do
-- 	fi
-- done
-- 
--+ret=$?
--+if [ $ret -ne 0 ]; then
--+    exit $ret
--+fi
--+
--+# if a tag was specified, tag the tree now.
--+if [ -n "$tag" ]; then
--+    git-rev-parse HEAD > "$GIT_DIR/refs/tags/$tag"
--+fi
--+
-diff --git a/meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch b/meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch
-deleted file mode 100644
-index a40ec6f..0000000
---- a/meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--guilt: set GIT_EXEC_PATH in guilt wrapper
--
--git has the habit of tracking the directory where it was 
--installed. If you build git, relocate git and then remove
--the old directory --exec-path will return that original
--(now non-existent) directory. We insist that git and 
--guilt be in the same directory to ensure they are matched,
--so we use the environment variable GIT_EXEC_PATH to 
--force the issue.
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
-----
-- guilt |    2 ++
-- 1 file changed, 2 insertions(+)
--
----- a/guilt
--+++ b/guilt
--@@ -23,6 +23,8 @@ esac
-- # we change directories ourselves
-- SUBDIRECTORY_OK=1
-- 
--+export GIT_EXEC_PATH=`dirname $0`/../libexec/git-core
--+
-- if [ -z "$DO_NOT_USE_GITREPO_COMMANDS" ]; then
--     . "$(git --exec-path)/git-sh-setup"
-- fi
-diff --git a/meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch b/meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
-deleted file mode 100644
-index 579d9bc..0000000
---- a/meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
+index 7c4df1a..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2011.06.bb
 +++ /dev/null
 @@ -1,28 +0,0 @@
--From d7fb5d4e159071b6255181fcf436300038fe9e6c Mon Sep 17 00:00:00 2001
--From: Bruce Ashfield <bruce.ashfield@windriver.com>
--Date: Wed, 16 Jan 2013 20:48:11 -0500
--Subject: [PATCH] guilt: update supported git versions to 1.8.x
+-DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+-                    file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
+-SECTION = "bootloader"
 -
--guilt errors on the new 1.8.x git series, when it shouldn't, since
--1.8.x works fine with the existing guilt version.
+-DEPENDS = "mtd-utils"
 -
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+-PR = "r1"
+-
+-SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "0cc5026aad02f218a9b9ac56b301c97a"
+-SRC_URI[sha256sum] = "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa15596f43af310ba8b"
+-
+-S = "${WORKDIR}/u-boot-${PV}"
+-
+-EXTRA_OEMAKE = 'HOSTCC="${CC}"'
+-
+-do_compile () {
+-  oe_runmake env
+-}
+-
+-do_install () {
+-  install -d ${D}${base_sbindir}
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+-}
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.01.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.01.01.bb
+deleted file mode 100644
+index efa418f..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.01.01.bb
++++ /dev/null
+@@ -1,33 +0,0 @@
+-DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
+-SECTION = "bootloader"
+-
+-DEPENDS = "mtd-utils"
+-
+-# This is needs to be validated among supported BSP's before we can
+-# make it default
+-DEFAULT_PREFERENCE = "-1"
+-
+-# This revision corresponds to the tag "v2013.01.01"
+-# We use the revision in order to avoid having to fetch it from the
+-# repo during parse
+-SRCREV = "e8ae0fa5edd152b2b29c470b88429be4cdcd2c46"
+-
+-PV = "v2013.01.01+git${SRCPV}"
+-
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+-
+-S = "${WORKDIR}/git"
+-
+-EXTRA_OEMAKE = 'HOSTCC="${CC}"'
+-
+-do_compile () {
+-  oe_runmake env
+-}
+-
+-do_install () {
+-  install -d ${D}${base_sbindir}
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+-  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+-}
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
+deleted file mode 100644
+index 0405834..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0001-Drop-config.h-include-in-tools-imximage.h.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From ce56e089ddb51dbd81bb2c86b1646d77447afe39 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Lo=C3=AFc=20Minier?= <loic.minier@linaro.org>
+-Date: Thu, 3 Feb 2011 15:07:01 +0100
+-Subject: Drop config.h include in tools/imximage.h
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Upstream-Status: Accepted
+-
+-"make tools-all" should allow building tools such as mkimage and the new
+-imximage without any config, but imximage.c currently fails to build
+-with:
+-imximage.h:27:20: error: config.h: No such file or directory
+-
+-config.h is not needed in imximage.h nor in imximage.c, and imximage.h
+-is only included from imximage.c, so drop this include to fix the build.
+-
+-Signed-off-by: Loïc Minier <loic.minier@linaro.org>
 ----
-- guilt |    1 +
-- 1 file changed, 1 insertion(+)
+- tools/imximage.h |    2 --
+- 1 files changed, 0 insertions(+), 2 deletions(-)
 -
--diff --git a/guilt b/guilt
--index 346f929..6505653 100755
----- a/guilt
--+++ b/guilt
--@@ -37,6 +37,7 @@ case "$gitver" in
-- 	1.5.*)	;; # git config
-- 	1.6.*)	;; # git config
-- 	1.7.*)	;; # git config
--+	1.8.*)	;; # git config
-- 	*)	die "Unsupported version of git ($gitver)" ;;
-- esac
+-diff --git a/tools/imximage.h b/tools/imximage.h
+-index 38ca6be..d126a46 100644
+---- a/tools/imximage.h
+-+++ b/tools/imximage.h
+-@@ -24,8 +24,6 @@
+- #ifndef _IMXIMAGE_H_
+- #define _IMXIMAGE_H_
 - 
+--#include <config.h>
+--
+- #define MAX_HW_CFG_SIZE_V2 121 /* Max number of registers imx can set for v2 */
+- #define MAX_HW_CFG_SIZE_V1 60  /* Max number of registers imx can set for v1 */
+- #define APP_CODE_BARKER	0xB1
 --- 
--1.7.10.4
+-1.7.4.4
 -
-diff --git a/meta/recipes-devtools/guilt/files/guilt.patch b/meta/recipes-devtools/guilt/files/guilt.patch
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
 deleted file mode 100644
-index 8e5b61e..0000000
---- a/meta/recipes-devtools/guilt/files/guilt.patch
+index 5729cd9..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage-2011.03/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
 +++ /dev/null
-@@ -1,319 +0,0 @@
--guilt: enhanced patch queue management
+@@ -1,82 +0,0 @@
+-From fd1b50c5ff9c288040abf5e78815151327d32e0e Mon Sep 17 00:00:00 2001
+-From: Ilya Yanok <yanok@emcraft.com>
+-Date: Mon, 20 Jun 2011 12:45:37 +0000
+-Subject: config.mk: move LDSCRIPT processing to the top-level Makefile
 -
--guilt prefers to track the status and series of patches
--under .git/patches. But this location doesn't allow the
--status of a quilt queue to be committed to a secondary
--repository and later restored.
+-Upstream-Status: Accepted
 -
--This change does three things:
+-LDSCRIPT is used only from the top-level Makefile and only when the
+-system is configured so we can move LDSCRIPT and CONFIG_SYS_LDSCRIPT
+-related logic into the top level Makefile and under configured condition
+-to avoid errors when building tools from unconfigured tree.
 -
--  - allows GUILT_BASE to be changed (with a default to "wrs")
--  - allows shadow tracking of the patches (for rebase)
--  - enhances the header detection and creation of patches
--    as they are pushed onto the tree.
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
+-Signed-off-by: Ilya Yanok <yanok@emcraft.com>
+-Acked-by: Mike Frysinger <vapier@gentoo.org>
 ----
-- guilt |  183 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------
-- 1 file changed, 159 insertions(+), 24 deletions(-)
+- Makefile  |   30 ++++++++++++++++++++++++++++++
+- config.mk |    8 --------
+- 2 files changed, 30 insertions(+), 8 deletions(-)
 -
----- a/guilt
--+++ b/guilt
--@@ -153,14 +153,16 @@ get_branch()
+-diff --git a/Makefile b/Makefile
+-index ece91ab..358c410 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -163,6 +163,36 @@ endif
+- # load other configuration
+- include $(TOPDIR)/config.mk
 - 
-- verify_branch()
-- {
---	[ ! -d "$GIT_DIR/patches" ] &&
--+	[ ! -d "$GUILT_DIR" ] &&
-- 		die "Patches directory doesn't exist, try guilt-init"
---	[ ! -d "$GIT_DIR/patches/$branch" ] &&
--+	[ ! -d "$GUILT_DIR/$branch" ] &&
-- 		die "Branch $branch is not initialized, try guilt-init"
---	[ ! -f "$GIT_DIR/patches/$branch/series" ] &&
--+	[ ! -f "$GUILT_DIR/$branch/series" ] &&
-- 		die "Branch $branch does not have a series file"
---	[ ! -f "$GIT_DIR/patches/$branch/status" ] &&
--+	[ ! -f "$GUILT_DIR/$branch/status" ] &&
-- 		die "Branch $branch does not have a status file"
--+	[ -f "$GUILT_DIR/$branch/applied" ] &&
--+		die "Warning: Branch $branch has 'applied' file - guilt is not compatible with stgit"
-- 	[ -f "$GIT_DIR/patches/$branch/applied" ] &&
-- 		die "Warning: Branch $branch has 'applied' file - guilt is not compatible with stgit"
-- }
--@@ -339,6 +341,17 @@ BEGIN{}
-- '
-- }
+-+# If board code explicitly specified LDSCRIPT or CONFIG_SYS_LDSCRIPT, use
+-+# that (or fail if absent).  Otherwise, search for a linker script in a
+-+# standard location.
+-+
+-+ifndef LDSCRIPT
+-+	#LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds.debug
+-+	ifdef CONFIG_SYS_LDSCRIPT
+-+		# need to strip off double quotes
+-+		LDSCRIPT := $(subst ",,$(CONFIG_SYS_LDSCRIPT))
+-+	endif
+-+endif
+-+
+-+ifndef LDSCRIPT
+-+	ifeq ($(CONFIG_NAND_U_BOOT),y)
+-+		LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot-nand.lds
+-+		ifeq ($(wildcard $(LDSCRIPT)),)
+-+			LDSCRIPT := $(TOPDIR)/$(CPUDIR)/u-boot-nand.lds
+-+		endif
+-+	endif
+-+	ifeq ($(wildcard $(LDSCRIPT)),)
+-+		LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds
+-+	endif
+-+	ifeq ($(wildcard $(LDSCRIPT)),)
+-+		LDSCRIPT := $(TOPDIR)/$(CPUDIR)/u-boot.lds
+-+	endif
+-+	ifeq ($(wildcard $(LDSCRIPT)),)
+-+$(error could not find linker script)
+-+	endif
+-+endif
+-+
+- #########################################################################
+- # U-Boot objects....order is important (i.e. start must be first)
 - 
--+# usage: do_get_only_patch patchfile
--+# similar to do_get_patch except everything leading up to
--+# the first diff line and after the last chunk are removed
--+do_get_only_patch()
--+{
--+	cat "$1" | awk '
--+BEGIN{}
--+/^(diff )/,/^(-- |END{})/
--+' | sed '/^-- *$/D'
--+}
--+
-- # usage: do_get_header patchfile
-- do_get_header()
-- {
--@@ -352,8 +365,13 @@ do_get_header()
-- BEGIN{skip=0}
-- /^Subject:/ && (NR==1){print substr($0, 10); next}
-- /^From:/{skip=1; next}
--+/^Author:/{skip=1; next}
--+/^Date:/{skip=1; next}
--+/^commit/{skip=1; next}
-- /^[ \t\f\n\r\v]*$/ && (skip==1){skip=0; next}
-- /^(diff |---$|--- )/{exit}
--+/^diff --git/{exit}
--+/^Index: /{exit}
-- {print $0}
-- END{}
-- '
--@@ -415,6 +433,15 @@ series_insert_patch()
-- 	mv "$series.tmp" "$series"
-- }
+-diff --git a/config.mk b/config.mk
+-index fa46ff1..59c4c93 100644
+---- a/config.mk
+-+++ b/config.mk
+-@@ -153,14 +153,6 @@ endif
+- RELFLAGS= $(PLATFORM_RELFLAGS)
+- DBGFLAGS= -g # -DDEBUG
+- OPTFLAGS= -Os #-fomit-frame-pointer
+--ifndef LDSCRIPT
+--#LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds.debug
+--ifeq ($(CONFIG_NAND_U_BOOT),y)
+--LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot-nand.lds
+--else
+--LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds
+--endif
+--endif
+- OBJCFLAGS += --gap-fill=0xff
 - 
--+series_append_patch()
--+{
--+    # unlike series_insert_patch, which inserts the passed
--+    # patch after the current top patch, this function always
--+    # appends the patch to the series
--+
--+    echo $1 >> "$series"
--+}
--+
-- # usage: series_remove_patch <patchname>
-- series_remove_patch()
-- {
--@@ -473,8 +500,7 @@ remove_patch_refs()
-- # usage: pop_many_patches <commitish> <number of patches>
-- pop_many_patches()
-- {
---	assert_head_check
+- gccincdir := $(shell $(CC) -print-file-name=include)
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
+deleted file mode 100644
+index 0405834..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-Drop-config.h-include-in-tools-imximage.h.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-From ce56e089ddb51dbd81bb2c86b1646d77447afe39 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Lo=C3=AFc=20Minier?= <loic.minier@linaro.org>
+-Date: Thu, 3 Feb 2011 15:07:01 +0100
+-Subject: Drop config.h include in tools/imximage.h
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Upstream-Status: Accepted
+-
+-"make tools-all" should allow building tools such as mkimage and the new
+-imximage without any config, but imximage.c currently fails to build
+-with:
+-imximage.h:27:20: error: config.h: No such file or directory
+-
+-config.h is not needed in imximage.h nor in imximage.c, and imximage.h
+-is only included from imximage.c, so drop this include to fix the build.
+-
+-Signed-off-by: Loïc Minier <loic.minier@linaro.org>
+----
+- tools/imximage.h |    2 --
+- 1 files changed, 0 insertions(+), 2 deletions(-)
+-
+-diff --git a/tools/imximage.h b/tools/imximage.h
+-index 38ca6be..d126a46 100644
+---- a/tools/imximage.h
+-+++ b/tools/imximage.h
+-@@ -24,8 +24,6 @@
+- #ifndef _IMXIMAGE_H_
+- #define _IMXIMAGE_H_
+- 
+--#include <config.h>
 --
--+	head_check "`tail -1 < "$applied" | cut -d: -f 1`"
-- 	(
-- 		cd_to_toplevel
-- 
--@@ -508,50 +534,149 @@ remove_ref()
-- 	)
-- }
-- 
--+prep_patch()
--+{
--+	patch=$1;
--+	tgt=$2;
--+
--+	if test -f $patch; then
--+	    case $patch in
--+		*.gz)  gzip -dc $patch > $tgt ;;
--+		*.bz2) bzip2 -dc $patch >  $tgt ;;
--+		*) cp $patch $tgt ;;
--+	    esac;
--+	fi;
--+}
--+
-- # usage: commit patchname parent
-- commit()
-- {
-- 	(
-- 		TMP_MSG=`get_tmp_file msg`
--+		TMP_PATCH=`get_tmp_file patch`
--+		TMP_PATCH_OUT=`get_tmp_file patch_out`
--+		TMP_INFO=`get_tmp_file info`
-- 
-- 		p="$GUILT_DIR/$branch/$1"
-- 		pname="$1"
--+		prep_patch "$p" "$TMP_PATCH"
--+		p=$TMP_PATCH
--+
-- 		cd_to_toplevel
-- 
-- 		git diff-files --name-only | (while read n; do git update-index "$n" ; done)
-- 
--+		# borrowed from git-am
--+		header_type=git
--+                git mailinfo "$TMP_MSG" "$TMP_PATCH_OUT" \
--+                        <"$p" >"$TMP_INFO";
--+
--+                # skip pine's internal folder data
--+                grep '^Author: Mail System Internal Data$' \
--+                        <"$TMP_INFO" >/dev/null
--+
--+                git stripspace < "$TMP_MSG" > "$TMP_MSG.clean"
--+		mv "$TMP_MSG.clean" "$TMP_MSG"
--+		git stripspace < "$TMP_INFO" > "$TMP_INFO.clean"
--+		mv "$TMP_INFO.clean" "$TMP_INFO"
--+
--+		# If mailinfo couldn't get something , try another way
-- 		# grab a commit message out of the patch
---		do_get_header "$p" > "$TMP_MSG"
--+		if [ ! -s "$TMP_MSG" ] || [ ! -s "$TMP_INFO" ]; then
--+		    do_get_header "$p" > "$TMP_MSG"
--+		    header_type=guilt
--+		fi
-- 
---		# make a default commit message if patch doesn't contain one
---		[ ! -s "$TMP_MSG" ] && echo "patch $pname" > "$TMP_MSG"
--+		# last try: make a default commit message if patch doesn't contain one
--+		[ ! -s "$TMP_MSG" ] && echo "auto_msg: patch $pname" > "$TMP_MSG"
-- 
---		# extract a From line from the patch header, and set
---		# GIT_AUTHOR_{NAME,EMAIL}
---		author_str=`sed -n -e '/^From:/ { s/^From: //; p; q; }; /^(diff |---$|--- )/ q' "$p"`
---		if [ ! -z "$author_str" ]; then
--+
--+		if [ "$header_type" = "guilt" ]; then
--+
--+  		    # extract a From line from the patch header, and set
--+	            # GIT_AUTHOR_{NAME,EMAIL}
--+		    author_str=`sed -n -e '/^From:/ { s/^From: //; p; q }; /^(diff |---)/ q' "$p"`
--+		    if [ ! -z "$author_str" ]; then
-- 			GIT_AUTHOR_NAME=`echo $author_str | sed -e 's/ *<.*$//'`
-- 			export GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-" "}"
--                         export GIT_AUTHOR_EMAIL="`echo $author_str | sed -e 's/[^<]*//'`"
---		fi
--+		    fi
--+
--+
--+		    # check in the patch for a subject
--+		    SUBJECT="$(sed -n '/^Subject/ s/Subject: //p' "$p")"
--+		    if [ -z "$SUBJECT" ]; then
--+			# if we can't find a subject in the patch, then let's construct
--+			# one from the header of the patch itself
--+			SUBJECT=`cat "$TMP_MSG" | head -n 1`
--+			if [ ${#SUBJECT} -gt 60 ]; then
--+			    SUBJECT=${SUBJECT: -60}
--+			fi
--+		    fi
--+
--+		    if [ -z "$SUBJECT" ]; then
--+			# if we are *still* without a subject, then just use
--+			# the patch name
--+			SUBJECT=`echo $1 | sed 's%^patch *%%'`
--+
--+			if [ ${#SUBJECT} -gt 60 ]; then
--+			    SUBJECT=${SUBJECT: -60}
--+			fi
--+		    fi
-- 
---		# must strip nano-second part otherwise git gets very
---		# confused, and makes up strange timestamps from the past
---		# (chances are it decides to interpret it as a unix
---		# timestamp).
---		export GIT_AUTHOR_DATE="`stat -c %y "$p" | sed -e '
--+		    SUBJECT=`echo $SUBJECT | sed s'%^ *%%'`
--+
--+		    if [ ! -z "$SUBJECT" ]; then
--+			echo "$SUBJECT" >> $TMP_MSG.subject
--+			echo "" >> $TMP_MSG.subject
--+			cat "$TMP_MSG" >> $TMP_MSG.subject
--+			mv "$TMP_MSG.subject" "$TMP_MSG"
--+		    fi
--+
--+  		    # must strip nano-second part otherwise git gets very
--+		    # confused, and makes up strange timestamps from the past
--+		    # (chances are it decides to interpret it as a unix
--+		    # timestamp).
--+		    export GIT_AUTHOR_DATE="`stat -c %y "$p" | sed -e '\
-- s/^\([0-9]\{4\}\)-\([0-9]\{2\}\)-\([0-9]\{2\}\) \([0-9]\{2\}\):\([0-9]\{2\}\):\([0-9]\{2\}\)\.[0-9]* \(.*\)$/\1-\2-\3 \4:\5:\6 \7/'`"
---		export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"
--+		    export GIT_COMMITTER_DATE="$GIT_AUTHOR_DATE"
--+		else
--+		    # using git headers, closely related to git-am
--+		    
--+		    GIT_AUTHOR_NAME="$(sed -n '/^Author/ s/Author: //p' "$TMP_INFO")"
--+		    GIT_AUTHOR_EMAIL="$(sed -n '/^Email/ s/Email: //p' "$TMP_INFO")"
--+		    GIT_AUTHOR_DATE="$(sed -n '/^Date/ s/Date: //p' "$TMP_INFO")"
--+		    if test -z "$GIT_AUTHOR_EMAIL"
--+		    then
--+			echo "Warning: patch does not have a valid e-mail address."
--+			GIT_AUTHOR_EMAIL=$GIT_AUTHOR_NAME
--+		    fi
--+
--+		    SUBJECT="$(sed -n '/^Subject/ s/Subject: //p' "$TMP_INFO")"
--+		    if [ ! -z "$SUBJECT" ]; then
--+			echo "$SUBJECT" >> $TMP_MSG.subject
--+			echo "" >> $TMP_MSG.subject
--+			cat "$TMP_MSG" >> $TMP_MSG.subject
--+			mv "$TMP_MSG.subject" "$TMP_MSG"
--+		    fi
--+		    export GIT_AUTHOR_NAME GIT_AUTHOR_EMAIL GIT_AUTHOR_DATE
--+		fi
-- 
-- 		# commit
-- 		treeish=`git write-tree`
-- 		commitish=`git commit-tree $treeish -p $2 < "$TMP_MSG"`
--+		if [ ! $? -eq 0 ]; then
--+		    echo "ERROR. Could not commit tree"
--+		    git-reset --hard HEAD^
--+		    exit 1
--+		fi
-- 		git update-ref HEAD $commitish
-- 
-- 		# mark patch as applied
-- 		git update-ref "refs/patches/$branch/$pname" HEAD
-- 
---		rm -f "$TMP_MSG"
--+		rm -f "$TMP_MSG" "$TMP_LOG" "$TMP_PATCH" "$TMP_INFO" "$TMP_PATCH_OUT"
--+
-- 	)
-- }
-- 
--@@ -568,7 +693,7 @@ push_patch()
-- 		bail_action="$2"
-- 		reject="--reject"
-- 
---		assert_head_check
--+		head_check "`tail -1 < "$applied" | cut -d: -f 1`"
-- 		cd_to_toplevel
-- 
-- 		# apply the patch if and only if there is something to apply
--@@ -671,7 +796,7 @@ refresh_patch()
-- #			 incldiffstat
-- __refresh_patch()
-- {
---	assert_head_check
--+	head_check "`tail -1 < "$applied" | cut -d: -f 1`"
-- 
-- 	(
-- 		TMP_DIFF=`get_tmp_file diff`
--@@ -711,6 +836,10 @@ __refresh_patch()
-- 
-- 		head -n "-$N" < "$applied" > "$applied.tmp"
-- 		mv "$applied.tmp" "$applied"
--+
--+		# update the shadow status.
--+		ref=`cat $GIT_DIR/refs/tags/${branch}_top`
--+		echo "$ref:$1" >> $applied_shadow
-- 	)
-- }
-- 
--@@ -791,7 +920,12 @@ diffstat=`git config --bool guilt.diffst
-- # The following gets run every time this file is source'd
-- #
-- 
---GUILT_DIR="$GIT_DIR/patches"
--+
--+# GUILT_DIR="$GIT_DIR/patches"
--+if [ -z "$GUILT_BASE" ]; then
--+	GUILT_BASE=wrs
--+fi
--+GUILT_DIR="$GUILT_BASE/patches"
-- 
-- branch=`get_branch`
-- 
--@@ -814,6 +948,7 @@ fi
-- # very useful files
-- series="$GUILT_DIR/$branch/series"
-- applied="$GUILT_DIR/$branch/status"
--+applied_shadow="$GUILT_DIR/$branch/shadow_status"
-- guards_file="$GUILT_DIR/$branch/guards"
-- 
-- # determine a pager to use for anything interactive (fall back to more)
-diff --git a/meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch b/meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch
+- #define MAX_HW_CFG_SIZE_V2 121 /* Max number of registers imx can set for v2 */
+- #define MAX_HW_CFG_SIZE_V1 60  /* Max number of registers imx can set for v1 */
+- #define APP_CODE_BARKER	0xB1
+--- 
+-1.7.4.4
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
 deleted file mode 100644
-index fa7dd8a..0000000
---- a/meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch
+index 5729cd9..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage/0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch
 +++ /dev/null
-@@ -1,71 +0,0 @@
--guilt: improve the generation of an automatic header
+@@ -1,82 +0,0 @@
+-From fd1b50c5ff9c288040abf5e78815151327d32e0e Mon Sep 17 00:00:00 2001
+-From: Ilya Yanok <yanok@emcraft.com>
+-Date: Mon, 20 Jun 2011 12:45:37 +0000
+-Subject: config.mk: move LDSCRIPT processing to the top-level Makefile
 -
--Patches that do not have a proper header are encountered when generating
--a tree. This improves the detection of these patches and generates a sane
--header so the eventual commit will be coherent
+-Upstream-Status: Accepted
 -
--Upstream-Status: Inappropriate [oe-specific]
+-LDSCRIPT is used only from the top-level Makefile and only when the
+-system is configured so we can move LDSCRIPT and CONFIG_SYS_LDSCRIPT
+-related logic into the top level Makefile and under configured condition
+-to avoid errors when building tools from unconfigured tree.
 -
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
+-Signed-off-by: Ilya Yanok <yanok@emcraft.com>
+-Acked-by: Mike Frysinger <vapier@gentoo.org>
 ----
+- Makefile  |   30 ++++++++++++++++++++++++++++++
+- config.mk |    8 --------
+- 2 files changed, 30 insertions(+), 8 deletions(-)
 -
-- guilt |   24 ++++++++++++++++++------
-- 1 file changed, 18 insertions(+), 6 deletions(-)
--
----- a/guilt
--+++ b/guilt
--@@ -591,7 +591,12 @@ commit()
-- 		fi
+-diff --git a/Makefile b/Makefile
+-index ece91ab..358c410 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -163,6 +163,36 @@ endif
+- # load other configuration
+- include $(TOPDIR)/config.mk
 - 
-- 		# last try: make a default commit message if patch doesn't contain one
---		[ ! -s "$TMP_MSG" ] && echo "auto_msg: patch $pname" > "$TMP_MSG"
--+		if [ ! -s "$TMP_MSG" ]; then
--+		    echo "auto_msg: importing `basename $pname`" > "$TMP_MSG"
--+		    echo "" >> "$TMP_MSG"
--+		    echo "This is an automatic import of patch $pname, no headers were" >> "$TMP_MSG"
--+		    echo "detected and a default message was constructed" >>  "$TMP_MSG"
--+		fi
-- 
-- 
-- 		if [ "$header_type" = "guilt" ]; then
--@@ -599,12 +604,14 @@ commit()
--   		    # extract a From line from the patch header, and set
-- 	            # GIT_AUTHOR_{NAME,EMAIL}
-- 		    author_str=`sed -n -e '/^From:/ { s/^From: //; p; q }; /^(diff |---)/ q' "$p"`
---		    if [ ! -z "$author_str" ]; then
---			GIT_AUTHOR_NAME=`echo $author_str | sed -e 's/ *<.*$//'`
---			export GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-" "}"
---                        export GIT_AUTHOR_EMAIL="`echo $author_str | sed -e 's/[^<]*//'`"
--+		    if [ -z "$author_str" ]; then
--+			author_str="auto commit <unknown@unknown>"
-- 		    fi
-- 
--+		    GIT_AUTHOR_NAME=`echo $author_str | sed -e 's/ *<.*$//'`
--+		    export GIT_AUTHOR_NAME="${GIT_AUTHOR_NAME:-" "}"
--+                    export GIT_AUTHOR_EMAIL="`echo $author_str | sed -e 's/[^<]*//'`"
+-+# If board code explicitly specified LDSCRIPT or CONFIG_SYS_LDSCRIPT, use
+-+# that (or fail if absent).  Otherwise, search for a linker script in a
+-+# standard location.
 -+
-- 
-- 		    # check in the patch for a subject
-- 		    SUBJECT="$(sed -n '/^Subject/ s/Subject: //p' "$p")"
--@@ -615,6 +622,11 @@ commit()
-- 			if [ ${#SUBJECT} -gt 60 ]; then
-- 			    SUBJECT=${SUBJECT: -60}
-- 			fi
+-+ifndef LDSCRIPT
+-+	#LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds.debug
+-+	ifdef CONFIG_SYS_LDSCRIPT
+-+		# need to strip off double quotes
+-+		LDSCRIPT := $(subst ",,$(CONFIG_SYS_LDSCRIPT))
+-+	endif
+-+endif
 -+
--+			# remove the line from the tmp msg
--+			mv "$TMP_MSG" "$TMP_MSG.work"
--+			cat "$TMP_MSG.work" | grep -v -E ".*$SUBJECT.*" > "$TMP_MSG"
--+			rm "$TMP_MSG.work"
-- 		    fi
-- 
-- 		    if [ -z "$SUBJECT" ]; then
--@@ -629,7 +641,7 @@ commit()
-- 
-- 		    SUBJECT=`echo $SUBJECT | sed s'%^ *%%'`
-- 
---		    if [ ! -z "$SUBJECT" ]; then
--+		    if [ -n "$SUBJECT" ]; then
-- 			echo "$SUBJECT" >> $TMP_MSG.subject
-- 			echo "" >> $TMP_MSG.subject
-- 			cat "$TMP_MSG" >> $TMP_MSG.subject
-diff --git a/meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch b/meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch
-deleted file mode 100644
-index c912397..0000000
---- a/meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--guilt: allow operation outside of git repos
--
--Sometimes guilt is sourced when there isn't a containing git repository.
--Some of the git commands that are always called will report errors 
--unecesarility in this scenario. This adds a variable that will inhibit
--those problematic calls
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by <bruce.ashfield@windriver.com>
--
-----
--
-- guilt |    9 ++++++---
-- 1 file changed, 6 insertions(+), 3 deletions(-)
--
--
----- a/guilt
--+++ b/guilt
--@@ -23,7 +23,9 @@ esac
-- # we change directories ourselves
-- SUBDIRECTORY_OK=1
-- 
---. "$(git --exec-path)/git-sh-setup"
--+if [ -z "$DO_NOT_USE_GITREPO_COMMANDS" ]; then
--+    . "$(git --exec-path)/git-sh-setup"
--+fi
-- 
-- #
-- # Git version check
--@@ -921,14 +923,15 @@ diffstat=`git config --bool guilt.diffst
-- # The following gets run every time this file is source'd
-- #
-- 
---
-- # GUILT_DIR="$GIT_DIR/patches"
-- if [ -z "$GUILT_BASE" ]; then
-- 	GUILT_BASE=wrs
-- fi
-- GUILT_DIR="$GUILT_BASE/patches"
-- 
---branch=`get_branch`
--+if [ -z "$DO_NOT_USE_GITREPO_COMMANDS" ]; then
--+    branch=`get_branch`
--+fi
-- 
-- # most of the time we want to verify that the repo's branch has been
-- # initialized, but every once in a blue moon (e.g., we want to run guilt-init),
-diff --git a/meta/recipes-devtools/guilt/files/optional_head_check.patch b/meta/recipes-devtools/guilt/files/optional_head_check.patch
-deleted file mode 100644
-index 01e1d02..0000000
---- a/meta/recipes-devtools/guilt/files/optional_head_check.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--guilt: allow guilt-push to opt out of head checking
--
--Depending on the method used to construct a tree, it is entirely
--possible that branches are not only made up of guilt created commits.
--This mixed mode is valid, and in particular is valid when applying
--patches to a tree. 
--
--In the default mode of operation, you will see a warning such as
--this when working on a branch:
--
--Expected HEAD commit dbd5861f81a92b8b329561f94b8575c7ee6768b6
--                 got 3e8e6f6bd9f1772b91fc1fe9949f541d0560b487
--
--This looks severe, but is harmless during tree construction, 
--since even if the HEAD commit was expected, you can still run into
--issues pushing a patch. This is particularly seen when templates are
--adding patches to a kernel.
--
--To make this look less ominous, we make the head check for patch
--pushing opt-in. Which means that by default, you'll no longer see 
--this warning if you work with a mixed mode branch during tree 
--construction.
--
--Other modes such as pop or refresh can run into problems when 
--the HEAD commit isn't tracked or expected, so they should remained 
--checked.
--
--Upstream-Status: Inappropriate [oe-specific]
--
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
--
-----
-- guilt      |    3 +++
-- guilt-push |    3 +++
-- 2 files changed, 6 insertions(+)
--
----- a/guilt
--+++ b/guilt
--@@ -417,6 +417,9 @@ head_check()
-- 			return 0 ;;
-- 	esac
-- 
--+	# If do_head_check isn't set, bail, we are "opt-in"
--+	[ -z "$do_head_check" ] && return 0
+-+ifndef LDSCRIPT
+-+	ifeq ($(CONFIG_NAND_U_BOOT),y)
+-+		LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot-nand.lds
+-+		ifeq ($(wildcard $(LDSCRIPT)),)
+-+			LDSCRIPT := $(TOPDIR)/$(CPUDIR)/u-boot-nand.lds
+-+		endif
+-+	endif
+-+	ifeq ($(wildcard $(LDSCRIPT)),)
+-+		LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds
+-+	endif
+-+	ifeq ($(wildcard $(LDSCRIPT)),)
+-+		LDSCRIPT := $(TOPDIR)/$(CPUDIR)/u-boot.lds
+-+	endif
+-+	ifeq ($(wildcard $(LDSCRIPT)),)
+-+$(error could not find linker script)
+-+	endif
+-+endif
 -+
-- 	if [ "`git rev-parse refs/heads/$branch`" != "`git rev-parse $1`" ]; then
-- 		disp "Expected HEAD commit $1" >&2
-- 		disp "                 got `git rev-parse refs/heads/$branch`" >&2
----- a/guilt-push
--+++ b/guilt-push
--@@ -23,6 +23,9 @@ while [ $# -gt 0 ]; do
--                         tag=$2
--                         shift
--                         ;;
--+                --head_check)
--+                        do_head_check=t
--+                        ;;
-- 		*)      
-- 			break
-- 			;;
-diff --git a/meta/recipes-devtools/guilt/files/uninstall_force.patch b/meta/recipes-devtools/guilt/files/uninstall_force.patch
+- #########################################################################
+- # U-Boot objects....order is important (i.e. start must be first)
+- 
+-diff --git a/config.mk b/config.mk
+-index fa46ff1..59c4c93 100644
+---- a/config.mk
+-+++ b/config.mk
+-@@ -153,14 +153,6 @@ endif
+- RELFLAGS= $(PLATFORM_RELFLAGS)
+- DBGFLAGS= -g # -DDEBUG
+- OPTFLAGS= -Os #-fomit-frame-pointer
+--ifndef LDSCRIPT
+--#LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds.debug
+--ifeq ($(CONFIG_NAND_U_BOOT),y)
+--LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot-nand.lds
+--else
+--LDSCRIPT := $(TOPDIR)/board/$(BOARDDIR)/u-boot.lds
+--endif
+--endif
+- OBJCFLAGS += --gap-fill=0xff
+- 
+- gccincdir := $(shell $(CC) -print-file-name=include)
+--- 
+-1.7.5.4
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
 deleted file mode 100644
-index 8f7cea1..0000000
---- a/meta/recipes-devtools/guilt/files/uninstall_force.patch
+index 34bae8e..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.03.bb
 +++ /dev/null
-@@ -1,14 +0,0 @@
--guilt: force removal when uninstalling
+@@ -1,31 +0,0 @@
+-DESCRIPTION = "U-boot bootloader mkimage tool"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+-                    file://README;beginline=1;endline=22;md5=3a00ef51d3fc96e9d6c1bc4708ccd3b5"
+-SECTION = "bootloader"
 -
--Upstream-Status: Inappropriate [oe-specific]
+-PR = "r1"
 -
--Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+-SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2 \
+-           file://0001-Drop-config.h-include-in-tools-imximage.h.patch \
+-           file://0002-config.mk-move-LDSCRIPT-processing-to-the-top-level-.patch"
 -
----- a/uninstall.orig
--+++ b/uninstall
--@@ -12,4 +12,4 @@
-- 
-- shift
-- 
---(cd $PRE; rm "$@")
--+(cd $PRE; rm -f "$@")
-diff --git a/meta/recipes-devtools/guilt/guilt-native_0.33.bb b/meta/recipes-devtools/guilt/guilt-native_git.bb
-similarity index 45%
-rename from meta/recipes-devtools/guilt/guilt-native_0.33.bb
-rename to meta/recipes-devtools/guilt/guilt-native_git.bb
-index d4dd616..9c75c3c 100644
---- a/meta/recipes-devtools/guilt/guilt-native_0.33.bb
-+++ b/meta/recipes-devtools/guilt/guilt-native_git.bb
-@@ -3,24 +3,15 @@ LICENSE = "GPLv2"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=b6f3400dc1a01cebafe8a52b3f344135"
- 
--PV = "0.33"
--PR = "r4"
+-SRC_URI[md5sum] = "91d02124c94368557d0e9ac05fb8c33f"
+-SRC_URI[sha256sum] = "08677f66d8d4ee542f6599f580cdffdf730544e1803f9d3739117d6f6d68083e"
 -
- inherit native
+-S = "${WORKDIR}/u-boot-${PV}"
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+-EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTSTRIP=true'
+-
+-do_compile () {
+-  oe_runmake tools
+-}
+-
+-do_install () {
+-  install -d ${D}${bindir}
+-  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+-  ln -sf uboot-mkimage ${D}${bindir}/mkimage
+-}
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
+deleted file mode 100644
+index 3ca0c2c..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2011.06.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-DESCRIPTION = "U-boot bootloader mkimage tool"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+-                    file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
+-SECTION = "bootloader"
+-
+-PR = "r0"
+-
+-SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+-
+-SRC_URI[md5sum] = "0cc5026aad02f218a9b9ac56b301c97a"
+-SRC_URI[sha256sum] = "362ddb935885da98cf461eba08f31e3e59d0c4ada6cb2fa15596f43af310ba8b"
+-
+-S = "${WORKDIR}/u-boot-${PV}"
+-
+-BBCLASSEXTEND = "native nativesdk"
+-
+-EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+-
+-do_compile () {
+-  oe_runmake tools
+-}
+-
+-do_install () {
+-  install -d ${D}${bindir}
+-  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+-  ln -sf uboot-mkimage ${D}${bindir}/mkimage
+-}
+-
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.01.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+similarity index 72%
+rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2013.01.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+index 2b39998..a1b1db9 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.01.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+@@ -3,16 +3,12 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
+ SECTION = "bootloader"
  
--SRC_URI = "http://ftp.de.debian.org/debian/pool/main/g/guilt/guilt_${PV}.orig.tar.gz\
--           file://guilt-push.patch \
--	   file://guilt-pop.patch \
--	   file://guilt.patch \
--	   file://guilt-init.patch \
--	   file://guilt-import-commit.patch \
--	   file://uninstall_force.patch \
--	   file://guilt-push-no-series.patch \
--	   file://make_git_commands_conditional.patch \
--	   file://improve_auto_header_gen.patch \
-+SRC_URI = "git://repo.or.cz/guilt.git \
- 	   file://guilt-bash.patch \
--	   file://guilt-update-supported-git-versions-to-1.8.x.patch \
--	   file://optional_head_check.patch"
-+          "
-+
-+SRCREV="c2a5bae511c6d5354aa4e1cb59069c31df2b8eeb"
-+
-+S="${WORKDIR}/git"
+-# This is needs to be validated among supported BSP's before we can
+-# make it default
+-DEFAULT_PREFERENCE = "-1"
+-
+-# This revision corresponds to the tag "v2013.01.01"
++# This revision corresponds to the tag "v2013.07"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "e8ae0fa5edd152b2b29c470b88429be4cdcd2c46"
++SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
  
- SRC_URI[md5sum] = "d800c5e0743d90543ef51d797a626e09"
- SRC_URI[sha256sum] = "64dfe6af1e924030f71163f3aa12cd846c80901d6ff8ef267ea35bb0752b4ba9"
+-PV = "v2013.01.01+git${SRCPV}"
++PV = "v2013.07+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb b/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
+deleted file mode 100644
+index a9cbeca..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot_2011.03.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-require u-boot.inc
+-
+-# To build u-boot for your machine, provide the following lines in your machine
+-# config, replacing the assignments as appropriate for your machine.
+-# UBOOT_MACHINE = "omap3_beagle_config"
+-# UBOOT_ENTRYPOINT = "0x80008000"
+-# UBOOT_LOADADDRESS = "0x80008000"
+-
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+-                    file://README;beginline=1;endline=22;md5=3a00ef51d3fc96e9d6c1bc4708ccd3b5"
+-
+-# This revision corresponds to the tag "v2011.03"
+-# We use the revision in order to avoid having to fetch it from the repo during parse
+-SRCREV = "19b54a701811220221fc4d5089a2bb18892018ca"
+-
+-PV = "v2011.03+git${SRCPV}"
+-PR = "r8"
+-
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+-
+-S = "${WORKDIR}/git"
+-
+-PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb b/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
+deleted file mode 100644
+index a115ed2..0000000
+--- a/meta/recipes-bsp/u-boot/u-boot_2011.06.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-require u-boot.inc
+-
+-# To build u-boot for your machine, provide the following lines in your machine
+-# config, replacing the assignments as appropriate for your machine.
+-# UBOOT_MACHINE = "omap3_beagle_config"
+-# UBOOT_ENTRYPOINT = "0x80008000"
+-# UBOOT_LOADADDRESS = "0x80008000"
+-
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+-                    file://README;beginline=1;endline=22;md5=5ba4218ac89af7846802d0348df3fb90"
+-
+-# This revision corresponds to the tag "v2011.06"
+-# We use the revision in order to avoid having to fetch it from the repo during parse
+-SRCREV = "b1af6f532e0d348b153d5c148369229d24af361a"
+-
+-PV = "v2011.06+git${SRCPV}"
+-PR = "r3"
+-
+-SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+-
+-S = "${WORKDIR}/git"
+-
+-PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.01.01.bb b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+similarity index 69%
+rename from meta/recipes-bsp/u-boot/u-boot_2013.01.01.bb
+rename to meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+index 8ffb8f3..2603ad1 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2013.01.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+@@ -1,9 +1,5 @@
+ require u-boot.inc
+ 
+-# This is needs to be validated among supported BSP's before we can
+-# make it default
+-DEFAULT_PREFERENCE = "-1"
+-
+ # To build u-boot for your machine, provide the following lines in
+ # your machine config, replacing the assignments as appropriate for
+ # your machine.
+@@ -12,14 +8,15 @@ DEFAULT_PREFERENCE = "-1"
+ # UBOOT_LOADADDRESS = "0x80008000"
+ 
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
++                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
+ 
+-# This revision corresponds to the tag "v2013.01.01"
++# This revision corresponds to the tag "v2013.07"
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "e8ae0fa5edd152b2b29c470b88429be4cdcd2c46"
++SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+ 
+-PV = "v2013.01.01+git${SRCPV}"
++PV = "v2013.07+git${SRCPV}"
+ PR = "r0"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
 -- 
-1.7.10.4
+1.8.4.rc1
 
 
