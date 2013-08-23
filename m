@@ -1,31 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 306C56B1FC
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 799856065F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 16:29:05 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7NGf30l025239 for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 17:41:03 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id kdfiiZZOLkO2
+	Fri, 23 Aug 2013 16:57:54 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id lf1so903496pab.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 17:41:03 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7NGeu0m025176
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 17:40:58 +0100
-Message-ID: <1377275329.6762.102.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 23 Aug 2013 09:57:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=RIBkFTyU+HB0x6Lu0X2lkgD3/O/1yS74JXeuDdAFoAo=;
+	b=NJ6u0S9MMS+F3tQwuJMzYWH+ejeefyiU6WIMZL89VMm/i7rFy3z4bVRynar5OGstZv
+	WgoNkB/8s0XVuoRGhQ3wzaEQXh6eH2QF/G34hl7WTWYdRBaaixQg5QlHuNKek3Dw35wy
+	o+C2s1N3vX36Lz4to/ZeV0YfUHKXh3wLPsCcWUUdmPIWP0bAAANRjS3pCg9OA/wg+Zyg
+	5HxIy73vHBY0tHReyJHv5ewT4OY6NL3UQoUFnm608GfJQc9aVZTpt3r8tYUrzGl44FzJ
+	9g+jlkr1J7ntIoFm0cks6SVK+30Y/f94MCngVWFixK/bhdy+2orMFdrmknWhYDdb53hp
+	8wfw==
+X-Gm-Message-State: ALoCoQkhmQmmw8bltUM9UFpKVJcKP1as0jOKbJKS3HngMgx4jbDleSqXV2mJbjUXjzX3GkUEu+1k
+MIME-Version: 1.0
+X-Received: by 10.66.118.204 with SMTP id ko12mr3028852pab.184.1377277074888; 
+	Fri, 23 Aug 2013 09:57:54 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.234 with HTTP; Fri, 23 Aug 2013 09:57:54 -0700 (PDT)
+In-Reply-To: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+Date: Fri, 23 Aug 2013 17:57:54 +0100
+X-Google-Sender-Auth: essAaoJEY0fayeUBUorMZtDsTXs
+Message-ID: <CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 23 Aug 2013 17:28:49 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] Add memory resident bitbake script
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,91 +44,213 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 16:29:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Aug 2013 16:57:55 -0000
+Content-Type: multipart/alternative; boundary=e89a8ffbaa2bce6cfb04e4a04e2a
 
-This adds an init script which instead of the standard bitbake, launches
-a memory resident bitbake, defaulting to port 12345. It expects a port
-number to use as the first option.
+--e89a8ffbaa2bce6cfb04e4a04e2a
+Content-Type: text/plain; charset=ISO-8859-1
 
-Right now this is experimental but I think its probably worth wrapping
-up in a form people can more easily experiment with it. There are some
-known issues:
-
-a) It throws some debug output due to the lack of a UI which we need
-   to clean up
-b) It should probably be able to auto select a free port
-c) You get a nice backtrace if you specify a build directory but
-   not a port number
-
-I'd also highlight there are security issues here if you don't trust
-users who can connect into localhost. We might need to look at named
-pipes or something similar for something limited to the current user.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/oe-init-build-env-memres b/oe-init-build-env-memres
-new file mode 100755
-index 0000000..15e4f44
---- /dev/null
-+++ b/oe-init-build-env-memres
-@@ -0,0 +1,55 @@
-+#!/bin/sh
-+
-+# OE Build Environment Setup Script
-+#
-+# Copyright (C) 2006-2011 Linux Foundation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program; if not, write to the Free Software
-+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+
-+#
-+# Normally this is called as '. ./oe-init-build-env builddir <portnumber> <builddir>'
-+#
-+# This works in most shells (not dash), but not all of them pass arg1 when
-+# being sourced.   To workaround the shell limitation use "set arg1" prior 
-+# to sourcing this script.
-+#
-+if [ -z "$1" ]; then
-+    echo "No port specified, using 12345"
-+    port=12345
-+else
-+    port=$1
-+    shift
-+fi
-+if [ -z "$ZSH_NAME" ] && [ "x$0" = "x./oe-init-build-env" ]; then
-+   echo "Error: This script needs to be sourced. Please run as '. ./oe-init-build-env'"
-+else
-+   if [ -n "$BASH_SOURCE" ]; then
-+      OEROOT="`dirname $BASH_SOURCE`"
-+   elif [ -n "$ZSH_NAME" ]; then
-+      OEROOT="`dirname $0`"
-+   else
-+      OEROOT="`pwd`"
-+   fi
-+   OEROOT=`readlink -f "$OEROOT"`
-+   export OEROOT
-+   . $OEROOT/scripts/oe-buildenv-internal && \
-+        $OEROOT/scripts/oe-setup-builddir && \
-+        [ -n "$BUILDDIR" ] && cd $BUILDDIR
-+   unset OEROOT
-+   unset BBPATH
-+fi
-+bitbake --server-only -t xmlrpc -B localhost:$port
-+export BBSERVER=localhost:$port
-+echo "Bitbake server started on port %s, use bitbake -m to shut it down"
+Any update? It would be nice not to miss the freeze ... ;-)
 
 
+On Fri, Aug 23, 2013 at 10:48 AM, Laszlo Papp <lpapp@kde.org> wrote:
 
+> Signed-off-by: Laszlo Papp <lpapp@kde.org>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb | 27
+> +++++++++++++++++++++++
+>  meta/recipes-bsp/u-boot/u-boot_2013.07.bb         | 23
+> +++++++++++++++++++
+>  2 files changed, 50 insertions(+)
+>  create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+>  create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bbb/meta/recipes-bsp/u-boot/
+> u-boot-mkimage_2013.07.bb
+> new file mode 100644
+> index 0000000..0108e00
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+> @@ -0,0 +1,27 @@
+> +DESCRIPTION = "U-boot bootloader mkimage tool"
+> +LICENSE = "GPLv2+"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+> +
+>  file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
+> +SECTION = "bootloader"
+> +
+> +SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+> +
+> +SRC_URI[md5sum] = "8445162690052e6afd4b8f87af2bb557"
+> +SRC_URI[sha256sum] =
+> "2bbd440c1b29928d230604eac372fda5152d3ae23f52b1910c77fc5bf531250b"
+> +
+> +S = "${WORKDIR}/u-boot-${PV}"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> +
+> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}"
+> HOSTSTRIP=true'
+> +
+> +do_compile () {
+> +  oe_runmake tools
+> +}
+> +
+> +do_install () {
+> +  install -d ${D}${bindir}
+> +  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+> +  ln -sf uboot-mkimage ${D}${bindir}/mkimage
+> +}
+> +
+> diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bbb/meta/recipes-bsp/u-boot/
+> u-boot_2013.07.bb
+> new file mode 100644
+> index 0000000..f3f4b62
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+> @@ -0,0 +1,23 @@
+> +require u-boot.inc
+> +
+> +# To build u-boot for your machine, provide the following lines in your
+> machine
+> +# config, replacing the assignments as appropriate for your machine.
+> +# UBOOT_MACHINE = "omap3_beagle_config"
+> +# UBOOT_ENTRYPOINT = "0x80008000"
+> +# UBOOT_LOADADDRESS = "0x80008000"
+> +
+> +LICENSE = "GPLv2+"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+> +
+>  file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
+> +
+> +# This revision corresponds to the tag "v2013.07"
+> +# We use the revision in order to avoid having to fetch it from the repo
+> during parse
+> +SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+> +
+> +PV = "v2013.07+git${SRCPV}"
+> +
+> +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+> --
+> 1.8.3.4
+>
+>
+
+--e89a8ffbaa2bce6cfb04e4a04e2a
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Any update? It would be nice not to miss the freeze ... ;-=
+)</div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Fri=
+, Aug 23, 2013 at 10:48 AM, Laszlo Papp <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> wrote:<b=
+r>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">Signed-off-by: Laszlo Papp=
+ &lt;<a href=3D"mailto:lpapp@kde.org">lpapp@kde.org</a>&gt;<br>
+---<br>
+</div>=A0meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-mkimage_2013.07.b=
+b" target=3D"_blank">u-boot-mkimage_2013.07.bb</a> | 27 +++++++++++++++++++=
+++++<br>
+=A0meta/recipes-bsp/u-boot/<a href=3D"http://u-boot_2013.07.bb" target=3D"_=
+blank">u-boot_2013.07.bb</a> =A0 =A0 =A0 =A0 | 23 +++++++++++++++++++<br>
+=A02 files changed, 50 insertions(+)<br>
+=A0create mode 100644 meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-mkim=
+age_2013.07.bb" target=3D"_blank">u-boot-mkimage_2013.07.bb</a><br>
+=A0create mode 100644 meta/recipes-bsp/u-boot/<a href=3D"http://u-boot_2013=
+.07.bb" target=3D"_blank">u-boot_2013.07.bb</a><br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+diff --git a/meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-mkimage_2013.=
+07.bb" target=3D"_blank">u-boot-mkimage_2013.07.bb</a> b/meta/recipes-bsp/u=
+-boot/<a href=3D"http://u-boot-mkimage_2013.07.bb" target=3D"_blank">u-boot=
+-mkimage_2013.07.bb</a><br>
+
+new file mode 100644<br>
+index 0000000..0108e00<br>
+--- /dev/null<br>
++++ b/meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-mkimage_2013.07.bb" =
+target=3D"_blank">u-boot-mkimage_2013.07.bb</a><br>
+@@ -0,0 +1,27 @@<br>
++DESCRIPTION =3D &quot;U-boot bootloader mkimage tool&quot;<br>
++LICENSE =3D &quot;GPLv2+&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1707d6db1d42237583f50183a5=
+651ecb \<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0file://README;beginline=3D1;endlin=
+e=3D22;md5=3D78b195c11cb6ef63e6985140db7d7bab&quot;<br>
++SECTION =3D &quot;bootloader&quot;<br>
++<br>
++SRC_URI =3D &quot;<a href=3D"ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar=
+.bz2" target=3D"_blank">ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2</=
+a>&quot;<br>
++<br>
++SRC_URI[md5sum] =3D &quot;8445162690052e6afd4b8f87af2bb557&quot;<br>
++SRC_URI[sha256sum] =3D &quot;2bbd440c1b29928d230604eac372fda5152d3ae23f52b=
+1910c77fc5bf531250b&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/u-boot-${PV}&quot;<br>
++<br>
++BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
++<br>
++EXTRA_OEMAKE =3D &#39;HOSTCC=3D&quot;${CC}&quot; HOSTLD=3D&quot;${LD}&quot=
+; HOSTLDFLAGS=3D&quot;${LDFLAGS}&quot; HOSTSTRIP=3Dtrue&#39;<br>
++<br>
++do_compile () {<br>
++ =A0oe_runmake tools<br>
++}<br>
++<br>
++do_install () {<br>
++ =A0install -d ${D}${bindir}<br>
++ =A0install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage<br>
++ =A0ln -sf uboot-mkimage ${D}${bindir}/mkimage<br>
++}<br>
++<br>
+</div></div><div class=3D"HOEnZb"><div class=3D"h5">diff --git a/meta/recip=
+es-bsp/u-boot/<a href=3D"http://u-boot_2013.07.bb" target=3D"_blank">u-boot=
+_2013.07.bb</a> b/meta/recipes-bsp/u-boot/<a href=3D"http://u-boot_2013.07.=
+bb" target=3D"_blank">u-boot_2013.07.bb</a><br>
+
+new file mode 100644<br>
+index 0000000..f3f4b62<br>
+--- /dev/null<br>
++++ b/meta/recipes-bsp/u-boot/<a href=3D"http://u-boot_2013.07.bb" target=
+=3D"_blank">u-boot_2013.07.bb</a><br>
+@@ -0,0 +1,23 @@<br>
++require u-boot.inc<br>
++<br>
++# To build u-boot for your machine, provide the following lines in your ma=
+chine<br>
++# config, replacing the assignments as appropriate for your machine.<br>
++# UBOOT_MACHINE =3D &quot;omap3_beagle_config&quot;<br>
++# UBOOT_ENTRYPOINT =3D &quot;0x80008000&quot;<br>
++# UBOOT_LOADADDRESS =3D &quot;0x80008000&quot;<br>
++<br>
++LICENSE =3D &quot;GPLv2+&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1707d6db1d42237583f50183a5=
+651ecb \<br>
++ =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0file://README;beginline=3D1;endlin=
+e=3D22;md5=3D78b195c11cb6ef63e6985140db7d7bab&quot;<br>
++<br>
++# This revision corresponds to the tag &quot;v2013.07&quot;<br>
++# We use the revision in order to avoid having to fetch it from the repo d=
+uring parse<br>
++SRCREV =3D &quot;62c175fbb8a0f9a926c88294ea9f7e88eb898f6c&quot;<br>
++<br>
++PV =3D &quot;v2013.07+git${SRCPV}&quot;<br>
++<br>
++SRC_URI =3D &quot;git://<a href=3D"http://git.denx.de/u-boot.git;branch=3D=
+master;protocol=3Dgit" target=3D"_blank">git.denx.de/u-boot.git;branch=3Dma=
+ster;protocol=3Dgit</a>&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++PACKAGE_ARCH =3D &quot;${MACHINE_ARCH}&quot;<br>
+--<br>
+1.8.3.4<br>
+<br>
+</div></div></blockquote></div><br></div>
+
+--e89a8ffbaa2bce6cfb04e4a04e2a--
