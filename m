@@ -1,35 +1,39 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 39C9B6B302
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-we0-f172.google.com (mail-we0-f172.google.com
+	[74.125.82.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 79FBA6B302
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 09:08:44 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 02:08:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,940,1367996400"; d="scan'208";a="285759218"
-Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 02:08:27 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX104.ger.corp.intel.com ([169.254.5.157]) with mapi id
-	14.03.0123.003; Fri, 23 Aug 2013 10:07:29 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 3/3] builder: register directories with pcmanfm
-Thread-Index: AQHOncPBwOYiZHtfe0CWkTKIGP0iPZmihKxQ
-Date: Fri, 23 Aug 2013 09:07:28 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C1968D@IRSMSX105.ger.corp.intel.com>
-References: <cover.1377014441.git.cristian.iorga@intel.com>
-	<7e1d9bb3b42c08f4337e717e959326014f0144c5.1377014441.git.cristian.iorga@intel.com>
-	<52139B76.4090608@linux.intel.com>
-In-Reply-To: <52139B76.4090608@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] builder: register directories with pcmanfm
+	Fri, 23 Aug 2013 09:48:07 +0000 (UTC)
+Received: by mail-we0-f172.google.com with SMTP id t60so331915wes.17
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 02:48:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=NM+NrZzqZ4j8gndIkHngJg7aFR7WWs/iFCT4ustQLbE=;
+	b=eeEvsEvamfp8I/cFKsDF0z8pPHjSybekkDFFSKnavBaH6yMxz4rGrrla/hz+3P8++0
+	2a8ZYiY9+urTDMxEtRJTNBBkKzea7DRLzrRJas30vex30RRwsvOXb79/N6R7QNcUr35w
+	M7TZBmPun8f+ab2hrdBPVPI0qLzoe0/nn8bdtcaIM0g//tAd46vRm9Y2mjGy4TaVAght
+	r/oYtg1C7eqrTSoEZELPH0qbv1ALO+aGVZApuJa9B7CnB3t78oHTq8l9OpdUNNRbj1mN
+	iy2Qb8RlnXGUeA0eB29EqXbfmXsmKBpATCk3R/9tZwD6vTooobLHzWH8eSrHz+azFavm
+	XySQ==
+X-Gm-Message-State: ALoCoQnJ934yjTFSQyJ1ezKDpzF+RD/pLVJKVEajjdFEL1ebxrQmHiN/SK2W3e8Abqo/2sUwh1w+
+X-Received: by 10.194.123.199 with SMTP id mc7mr755612wjb.43.1377251287176;
+	Fri, 23 Aug 2013 02:48:07 -0700 (PDT)
+Received: from archlinux.us (cpc11-cmbg15-2-0-cust30.5-4.cable.virginmedia.com.
+	[86.30.245.31])
+	by mx.google.com with ESMTPSA id gg10sm2573106wib.1.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 23 Aug 2013 02:48:05 -0700 (PDT)
+Sender: Laszlo Papp <lpapp@archlinux.us>
+Received: by archlinux.us (sSMTP sendmail emulation);
+	Fri, 23 Aug 2013 10:48:14 +0100
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Aug 2013 10:48:10 +0100
+Message-Id: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,74 +46,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 09:08:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 23 Aug 2013 09:48:09 -0000
 
-Hmm, of course it should be builder.
-Let me check what happened.
-Regards,
-Cristian
+Signed-off-by: Laszlo Papp <lpapp@kde.org>
+---
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb | 27 +++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot_2013.07.bb         | 23 +++++++++++++++++++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
 
------Original Message-----
-From: Saul Wold [mailto:sgw@linux.intel.com]=20
-Sent: Tuesday, August 20, 2013 7:38 PM
-To: Iorga, Cristian
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 3/3] builder: register directories with pcman=
-fm
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+new file mode 100644
+index 0000000..0108e00
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+@@ -0,0 +1,27 @@
++DESCRIPTION = "U-boot bootloader mkimage tool"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
++                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
++SECTION = "bootloader"
++
++SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
++
++SRC_URI[md5sum] = "8445162690052e6afd4b8f87af2bb557"
++SRC_URI[sha256sum] = "2bbd440c1b29928d230604eac372fda5152d3ae23f52b1910c77fc5bf531250b"
++
++S = "${WORKDIR}/u-boot-${PV}"
++
++BBCLASSEXTEND = "native nativesdk"
++
++EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}" HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
++
++do_compile () {
++  oe_runmake tools
++}
++
++do_install () {
++  install -d ${D}${bindir}
++  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
++  ln -sf uboot-mkimage ${D}${bindir}/mkimage
++}
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+new file mode 100644
+index 0000000..f3f4b62
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+@@ -0,0 +1,23 @@
++require u-boot.inc
++
++# To build u-boot for your machine, provide the following lines in your machine
++# config, replacing the assignments as appropriate for your machine.
++# UBOOT_MACHINE = "omap3_beagle_config"
++# UBOOT_ENTRYPOINT = "0x80008000"
++# UBOOT_LOADADDRESS = "0x80008000"
++
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
++                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
++
++# This revision corresponds to the tag "v2013.07"
++# We use the revision in order to avoid having to fetch it from the repo during parse
++SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
++
++PV = "v2013.07+git${SRCPV}"
++
++SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
++
++S = "${WORKDIR}/git"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
+-- 
+1.8.3.4
 
-On 08/20/2013 09:05 AM, Cristian Iorga wrote:
-> Register directories to be opened with PCManFM filemanager using=20
-> xdg-open in Build Appliance.
->
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->   meta/recipes-graphics/builder/builder_0.1.bb             | 2 +-
->   meta/recipes-graphics/builder/files/builder_hob_start.sh | 9 +++++++++
->   2 files changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/builder/builder_0.1.bb=20
-> b/meta/recipes-graphics/builder/builder_0.1.bb
-> index 78d41e5..1e8c977 100644
-> --- a/meta/recipes-graphics/builder/builder_0.1.bb
-> +++ b/meta/recipes-graphics/builder/builder_0.1.bb
-> @@ -1,7 +1,7 @@
->   SUMMARY =3D "New user to do specific job"
->   DESCRIPTION =3D "This recipe create a new user named ${PN}, who is used=
- for specific jobs like building. The task can be auto started via mini X"
->   SECTION =3D "x11"
-> -PR =3D "r6"
-> +PR =3D "r7"
-No PR Bumps!
-
->   LICENSE =3D "MIT"
->   LIC_FILES_CHKSUM =3D "file://builder_hob_start.sh;endline=3D5;md5=3D847=
-96c3c41785d86100fdabcbdade00e"
->
-> diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh=20
-> b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-> index 40616f5..b3a0540 100644
-> --- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
-> +++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-> @@ -9,6 +9,15 @@ export PSEUDO_LOCALSTATEDIR=3D/home/builder/pseudo
->   export PSEUDO_LIBDIR=3D/usr/lib/pseudo/lib64
->   export GIT_PROXY_COMMAND=3D/home/builder/poky/scripts/oe-git-proxy
->
-> +#start pcmanfm in daemon mode to allow asynchronous launch pcmanfm=20
-> +-d&
-> +
-> +#register folders to open with PCManFM filemanager if [ ! -d=20
-> +/home/ubik/tmp/.local/share/applications ]; then
-                   ^^^^^
-What's that user?  Should it be builder?
-
-> +    mkdir -p /home/builder/.local/share/applications/
-> +    xdg-mime default pcmanfm.desktop inode/directory fi
-> +
->   cd /home/builder/poky
->   . ./oe-init-build-env
->
->
 
