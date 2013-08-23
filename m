@@ -1,28 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A4F160896
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B26060609
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 20:37:19 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Aug 2013 13:37:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,944,1367996400"; d="scan'208";a="391132364"
-Received: from unknown (HELO [10.255.15.65]) ([10.255.15.65])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Aug 2013 13:37:15 -0700
-Message-ID: <5217C7FA.7090703@linux.intel.com>
-Date: Fri, 23 Aug 2013 13:37:14 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Fri, 23 Aug 2013 21:30:32 +0000 (UTC)
+Received: by mail-lb0-f170.google.com with SMTP id r10so873758lbi.15
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 14:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=/ujK7lsXpyuB+1+0bnyOQ2u8Zj3awgN22zHIXuYPMA8=;
+	b=Bieqzgr1NWCaqH3WNlQiiZzDSq7MFOytMViiP9BCv1NFfNWSyH3Cp4wFfnoCCbYx4y
+	wzeWA5K1Oe+YDX/Oqg6lfR8zZVGE6wrJUIKCDeAyugmrPs1pVXk2wCUCLJgSy38Lu91e
+	LahRK784hUNNEAYMLEB//3sTMl9pYE/7wPTQdGgBUIO17hWl1PlImmsnZSW3F5XUHrFI
+	Vopa4uLwxRgPtkfpfXzZnGdzRflg+qpTqNAHcHD4iJqqwSN9juqtm+uSq1F4whEVP2LJ
+	pzqLhFOXf60T+bYvRbXqwjHPn4FrPt7TWve2s/mAocwiQDx7nfUBbS34t7oSYP+4QjLv
+	i2Tw==
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1377145501.git.raj.khem@gmail.com>
-	<39306cf37bfb1b6ccf99c049498d6b4cf6c60976.1377145501.git.raj.khem@gmail.com>
-	<5216888A.6050200@linux.intel.com>
-	<DBCC9871-A9D3-438D-95B2-7F6797313633@gmail.com>
-In-Reply-To: <DBCC9871-A9D3-438D-95B2-7F6797313633@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] kmod: Upgrade to version 14
+X-Received: by 10.112.0.173 with SMTP id 13mr702105lbf.8.1377293431361; Fri,
+	23 Aug 2013 14:30:31 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Fri, 23 Aug 2013 14:30:31 -0700 (PDT)
+In-Reply-To: <cover.1377280429.git.bruce.ashfield@windriver.com>
+References: <cover.1377280429.git.bruce.ashfield@windriver.com>
+Date: Fri, 23 Aug 2013 17:30:31 -0400
+Message-ID: <CADkTA4NVg6U9PJdcxqJe2_=rmt4-nXnpxY93UJuE5aV+4Ao8Lg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,225 +42,154 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 20:37:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Aug 2013 21:30:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 08/22/2013 09:09 PM, Khem Raj wrote:
+On Fri, Aug 23, 2013 at 2:08 PM, Bruce Ashfield
+<bruce.ashfield@windriver.com> wrote:
+> Richard/Saul,
 >
-> On Aug 22, 2013, at 2:54 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> Here's my consolidated set of changes that represent the biggest chunk
+> of work for the Yocto 1.5 release. The obvious change is that the 3.10
+> kernel is now the latest linux-yocto kernel (and linux-yocto-dev will
+> mark on). I've built and booted core-image-sato for all the oe-core
+> qemu machines.
 >
->> On 08/21/2013 09:31 PM, Khem Raj wrote:
->>> The update is a requirement for systemd-206
->>>
->>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> ---
->>>   meta/recipes-kernel/kmod/kmod-native_git.bb        |  1 -
->>>   meta/recipes-kernel/kmod/kmod.inc                  |  9 ++++----
->>>   ...-man-page-generation-because-we-don-t-hav.patch | 26 ----------------------
->>>   .../kmod/kmod/fix-undefined-O_CLOEXEC.patch        | 16 ++++++-------
->>>   meta/recipes-kernel/kmod/kmod_git.bb               |  3 +--
->>>   5 files changed, 13 insertions(+), 42 deletions(-)
->>>   delete mode 100644 meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
->>>
->>
->> Did you build the native version?  I am seeing failures in MUT on the autobuilder. It did pass my "sniff" test on my 2 local world builds.
+> 3.10 also the latest LTSI and will be updated with that content when it
+> becomes available.
 >
+> Other features of the 3.10 kernel include:
 >
-> yes and multiple times. what distro do you run on your build boxes ? I wonder if its some sort of race condition
-> I use -j20 and -j16
+>   - refreshed -rt support
+>   - refreshed yaffs2, aufs3
+>   - cryptodev
+>   - bfs, edf, and OCF staged features
+>   - scrubbed and updated meta data for v3.10
+>   - improved tools support for meta data updates and queue maintenance
+>   - patch carry forward from all previous linux-yocto kernels and
+>     configuration.
 >
-It's not a race condition, I built it stand alone with no parallel make. 
-  I am not sure if a host contamination issue or something else, because 
-like you I was able to built it on two machine locally, but not on the AB.
+> I've also tested linux-yocto-rt and linux-yocto-tiny for the new, shiny tree.
+>
+> I've also bumped the linux-libc-headers to 3.10 and have fixed gst-plugins-good
+> to adapt to a changed #define in the exported headers.
+>
+> Other parts of this update include an uprev of guilt, and in fact, a
+> restoration of "normal" guil operations, since the kernel tree is now
+> manipulated and maintained via a smaller, more contained script. This
+> was necessary for both usability reasons and the fact that all of guilts
+> protections were being removed for the kernel's use .. which makes you
+> ask the quesetion "why use it". It was time for a change.
+>
+> The patches are pretty self explanitory and all contain detailed long
+> logs .. but the summary is:
+>
+>    [PATCH 1/5] kern-tools: usability, bug fixes and no guilt
+>    [PATCH 2/5] guilt: update to latest git version
+>    [PATCH 3/5] linux-libc-headers: update to v3.10
+>    [PATCH 4/5] gst-plugins-good: fix 3.10 libc-headers build failure
+>    [PATCH 5/5] linux-yocto: introduce v3.10
+>
+> ** There is one pending activity. As part of thsi update to 3.10, we want
+> to move to the 3.4 and 3.10 kernel, dropping 3.8 support. But the
+> routerstationpro BSP is still using it as its preferred version. I'm
+> a one man show on this update, and I wasn't able to get the 100+ patches
+> ported to 3.10 AND get this update out before the M4 cutoff.
 
-Machine are CentOS 6.4, Debian 6.0.7, but it worked on my F19 and Ubuntu 
-12.04 machines!
+Good news on this front. The routerstation pro (and it's replacement after
+1.5) are working on 3.10 with the patches rebased. I'll follow up later with
+the update of the rsp and the removal of the 3.8 recipe.
 
-Sau!
+The beagleboard and fsl board will follow after that as well, pending some
+boot testing.
+
+Cheers,
+
+Bruce
 
 >
-> % bitbake kmod-native
-> Loading cache: 100% |###########################################| ETA:  00:00:00
-> Loaded 1197 entries from dependency cache.
+> ** I'm still attempting to udpate all the reference boards, and
+> once done, I'll send a follow up patch.
 >
-> Build Configuration:
-> BB_VERSION        = "1.19.1"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Ubuntu-12.04"
-> TARGET_SYS        = "x86_64-oe-linux"
-> MACHINE           = "qemux86-64"
-> DISTRO_VERSION    = "oe-core.0"
-> TUNE_FEATURES     = "m64"
-> TARGET_FPU        = ""
-> meta              = "master:2176bfd1099287056432780d0ee6b202e94bd1ee"
+> ** Please test, I've done my best, but things can slip through. We'll
+> work issues in the stabilization period.
 >
-> NOTE: Resolving any missing task queue dependencies
-> NOTE: Preparing runqueue
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> NOTE: Tasks Summary: Attempted 72 tasks of which 60 didn't need to be rerun and all succeeded.
+> Cheers,
+>
+> Bruce
 >
 >
+> The following changes since commit 501e1a321d15abd712e3a6ee6ccdb8e21c3d4ea4:
 >
->>
->>> | x86_64-linux-libtool: link: gcc -std=gnu99 -pipe -DANOTHER_BRICK_IN_THE -Wall -W -Wextra -Wno-inline -Wvla -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Wnested-externs -Wchar-subscripts -Wtype-limits -Wuninitialized -fno-common -fdiagnostics-show-option -fvisibility=hidden -ffunction-sections -fdata-sections -isystem/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -Wl,--as-needed -Wl,--gc-sections -Wl,-rpath-link -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-lin
-ux
->> /usr/lib -Wl,-rpath-link -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/lib -Wl,-rpath -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/usr/lib -Wl,-rpath -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/lib -Wl,-O1 -o tools/test/kmod tools/kmod.o tools/lsmod.o tools/rmmod.o tools/insmod.o tools/modinfo.o tools/modprobe.o tools/depmod.o tools/log.o tools/static-nodes.o  -L/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/usr/lib -L/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/lib libkmod/.libs/libkmod-util.a libkmod/.libs/libkmod-private.a
->>                        Nice ester egg                ^^^^^^^^^^^^^^^^
->>> | tools/kmod.o: In function `kmod_help':
->>> | kmod.c:(.text.kmod_help+0x27): undefined reference to `_Static_assert'
->>> | kmod.c:(.text.kmod_help+0x5c): undefined reference to `_Static_assert'
->>> | kmod.c:(.text.kmod_help+0x7f): undefined reference to `_Static_assert'
->>> | kmod.c:(.text.kmod_help+0xb9): undefined reference to `_Static_assert'
->>> | tools/kmod.o: In function `main':
->>> | kmod.c:(.text.main+0x5b): undefined reference to `_Static_assert'
->>> | tools/kmod.o:kmod.c:(.text.main+0x8c): more undefined references to `_Static_assert' follow
->>> | collect2: ld returned 1 exit status
->>> | make[2]: *** [tools/test/kmod] Error 1
->>> | make[2]: *** Waiting for unfinished jobs....
->>> | x86_64-linux-libtool: link: gcc -std=gnu99 -pipe -DANOTHER_BRICK_IN_THE -Wall -W -Wextra -Wno-inline -Wvla -Wundef -Wformat=2 -Wlogical-op -Wsign-compare -Wmissing-include-dirs -Wold-style-definition -Wpointer-arith -Winit-self -Wdeclaration-after-statement -Wfloat-equal -Wmissing-prototypes -Wstrict-prototypes -Wredundant-decls -Wmissing-declarations -Wmissing-noreturn -Wshadow -Wendif-labels -Wstrict-aliasing=2 -Wwrite-strings -Wno-long-long -Wno-overlength-strings -Wno-unused-parameter -Wno-missing-field-initializers -Wno-unused-result -Wnested-externs -Wchar-subscripts -Wtype-limits -Wuninitialized -fno-common -fdiagnostics-show-option -fvisibility=hidden -ffunction-sections -fdata-sections -isystem/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/usr/include -O2 -pipe -Wl,--as-needed -Wl,--gc-sections -Wl,-rpath-link -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-lin
-ux
->> /usr/lib -Wl,-rpath-link -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/lib -Wl,-rpath -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/usr/lib -Wl,-rpath -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/lib -Wl,-O1 -o tools/.libs/kmod tools/kmod.o tools/lsmod.o tools/rmmod.o tools/insmod.o tools/modinfo.o tools/modprobe.o tools/depmod.o tools/log.o tools/static-nodes.o  -L/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/usr/lib -L/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/lib libkmod/.libs/libkmod-util.a libkmod/.libs/libkmod.so -Wl,-rpath -Wl,/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-x86/build/build/tmp/sysroots/x86_64-linux/usr/lib
->>> | tools/kmod.o: In function `kmod_help':
->>> | kmod.c:(.text.kmod_help+0x27): undefined reference to `_Static_assert'
->>> | kmod.c:(.text.kmod_help+0x5c): undefined reference to `_Static_assert'
->>> | kmod.c:(.text.kmod_help+0x7f): undefined reference to `_Static_assert'
->>> | kmod.c:(.text.kmod_help+0xb9): undefined reference to `_Static_assert'
->>> | tools/kmod.o: In function `main':
->>> | kmod.c:(.text.main+0x5b): undefined reference to `_Static_assert'
->>> | tools/kmod.o:kmod.c:(.text.main+0x8c): more undefined references to `_Static_assert' follow
->>> | collect2: ld returned 1 exit status
->>> | make[2]: *** [tools/kmod] Error 1
->>
->>
->> Sau!
->>
->>
->>> diff --git a/meta/recipes-kernel/kmod/kmod-native_git.bb b/meta/recipes-kernel/kmod/kmod-native_git.bb
->>> index 8cbcdf8..afa3ad0 100644
->>> --- a/meta/recipes-kernel/kmod/kmod-native_git.bb
->>> +++ b/meta/recipes-kernel/kmod/kmod-native_git.bb
->>> @@ -4,7 +4,6 @@
->>>   require kmod.inc
->>>   inherit native
->>>
->>> -PR = "${INC_PR}.1"
->>>   SRC_URI += "file://fix-undefined-O_CLOEXEC.patch"
->>>
->>>   do_install_append (){
->>> diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
->>> index a780b6c..1728a4e 100644
->>> --- a/meta/recipes-kernel/kmod/kmod.inc
->>> +++ b/meta/recipes-kernel/kmod/kmod.inc
->>> @@ -7,8 +7,6 @@ HOMEPAGE = "http://packages.profusion.mobi/kmod/"
->>>   LICENSE = "GPL-2.0+ & LGPL-2.1+"
->>>   LICENSE_libkmod = "LGPL-2.1+"
->>>   SECTION = "base"
->>> -PV = "9"
->>> -INC_PR = "r0"
->>>
->>>   DEPENDS += "pkgconfig-native"
->>>
->>> @@ -19,17 +17,18 @@ inherit autotools gtk-doc ptest
->>>
->>>   SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
->>>              file://depmod-search.conf \
->>> -           file://0001-man-disable-man-page-generation-because-we-don-t-hav.patch \
->>>              file://run-ptest \
->>>              file://ptest.patch \
->>>             "
->>>
->>> -SRCREV = "62081c0f68905b22f375156d4532fd37fa5c8d33"
->>> +SRCREV = "3b38c7fcb58be4ddc34f90454c5f5dc3693d2d85"
->>> +# Lookout for PV bump too when SRCREV is changed
->>> +PV = "14"
->>>
->>>   S = "${WORKDIR}/git"
->>>
->>>   EXTRA_AUTORECONF += "--install --symlink"
->>> -EXTRA_OECONF +="--enable-debug --enable-logging --enable-tools"
->>> +EXTRA_OECONF +="--enable-debug --enable-logging --enable-tools --disable-manpages"
->>>
->>>   do_configure_prepend () {
->>>           gtkdocize --docdir ${S}/libkmod/docs || touch ${S}/libkmod/docs/gtk-doc.make
->>> diff --git a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch b/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
->>> deleted file mode 100644
->>> index 5361b84..0000000
->>> --- a/meta/recipes-kernel/kmod/kmod/0001-man-disable-man-page-generation-because-we-don-t-hav.patch
->>> +++ /dev/null
->>> @@ -1,26 +0,0 @@
->>> -From ce6f0cabb65e67dd4d31e1e555db8bc6eaf435d3 Mon Sep 17 00:00:00 2001
->>> -From: Martin Jansa <Martin.Jansa@gmail.com>
->>> -Date: Fri, 24 Feb 2012 07:35:38 +0100
->>> -Subject: [PATCH] man: disable man page generation because we don't have
->>> - working xsltproc
->>> -
->>> -Upstream-Status: Inappropriate [build system specific change]
->>> -
->>> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->>> ----
->>> - Makefile.am |    2 +-
->>> - 1 files changed, 1 insertions(+), 1 deletions(-)
->>> -
->>> -diff --git a/Makefile.am b/Makefile.am
->>> -index 141c102..a8bdfd1 100644
->>> ---- a/Makefile.am
->>> -+++ b/Makefile.am
->>> -@@ -1,4 +1,4 @@
->>> --SUBDIRS = . libkmod/docs man
->>> -+SUBDIRS = . libkmod/docs
->>> -
->>> - DISTCLEAN_LOCAL_HOOKS =
->>> - EXTRA_DIST =
->>> ---
->>> -1.7.8.4
->>> -
->>> diff --git a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
->>> index 3177e9a..0268216 100644
->>> --- a/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
->>> +++ b/meta/recipes-kernel/kmod/kmod/fix-undefined-O_CLOEXEC.patch
->>> @@ -2,16 +2,16 @@ Upstream-Status: Not applicable
->>>
->>>   Index: git/libkmod/libkmod-private.h
->>>   ===================================================================
->>> ---- git.orig/libkmod/libkmod-private.h
->>> -+++ git/libkmod/libkmod-private.h
->>> -@@ -1,6 +1,10 @@
->>> - #ifndef _LIBKMOD_PRIVATE_H_
->>> - #define _LIBKMOD_PRIVATE_H_
->>> +--- git.orig/libkmod/libkmod-private.h	2013-08-21 10:07:51.000000000 -0700
->>> ++++ git/libkmod/libkmod-private.h	2013-08-21 14:34:04.558278849 -0700
->>> +@@ -9,6 +9,10 @@
->>> + #include "macro.h"
->>> + #include "libkmod.h"
->>>
->>>   +#ifndef O_CLOEXEC
->>>   +# define O_CLOEXEC 0
->>>   +#endif
->>>   +
->>> - #include <stdbool.h>
->>> - #include <stdio.h>
->>> - #include <syslog.h>
->>> + static _always_inline_ _printf_format_(2, 3) void
->>> + 	kmod_log_null(struct kmod_ctx *ctx, const char *format, ...) {}
->>> +
->>> diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
->>> index f92ff72..b07c06e 100644
->>> --- a/meta/recipes-kernel/kmod/kmod_git.bb
->>> +++ b/meta/recipes-kernel/kmod/kmod_git.bb
->>> @@ -3,8 +3,7 @@
->>>
->>>   require kmod.inc
->>>
->>> -PR = "${INC_PR}.0"
->>> -PV = "9+git${SRCPV}"
->>> +PV_append = "+git${SRCPV}"
->>>
->>>   PROVIDES += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
->>>   RPROVIDES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
->>>
+>   bitbake: prserv/serv: Fix pid file removal (2013-08-23 17:43:40 +0100)
 >
+> are available in the git repository at:
 >
+>   git://git.pokylinux.org/poky-contrib zedd/kernel
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
 >
+> Bruce Ashfield (5):
+>   kern-tools: usability, bug fixes and no guilt
+>   guilt: update to latest git version
+>   linux-libc-headers: update to v3.10
+>   gst-plugins-good: fix 3.10 libc-headers build failure
+>   linux-yocto: introduce v3.10
+>
+>  meta/classes/kernel-yocto.bbclass                  |    2 +
+>  meta/conf/distro/include/tcmode-default.inc        |    2 +-
+>  .../guilt/files/guilt-import-commit.patch          |   96 ------
+>  meta/recipes-devtools/guilt/files/guilt-init.patch |   25 --
+>  meta/recipes-devtools/guilt/files/guilt-pop.patch  |   73 -----
+>  .../guilt/files/guilt-push-no-series.patch         |   29 --
+>  meta/recipes-devtools/guilt/files/guilt-push.patch |   42 ---
+>  .../guilt/files/guilt-set-git_exec_path.patch      |   29 --
+>  ...lt-update-supported-git-versions-to-1.8.x.patch |   28 --
+>  meta/recipes-devtools/guilt/files/guilt.patch      |  319 --------------------
+>  .../guilt/files/improve_auto_header_gen.patch      |   71 -----
+>  .../files/make_git_commands_conditional.patch      |   48 ---
+>  .../guilt/files/optional_head_check.patch          |   60 ----
+>  .../guilt/files/uninstall_force.patch              |   14 -
+>  .../{guilt-native_0.33.bb => guilt-native_git.bb}  |   21 +-
+>  .../kern-tools/kern-tools-native_git.bb            |    6 +-
+>  .../linux-libc-headers/linux-libc-headers_3.10.bb  |    7 +
+>  .../linux-libc-headers/linux-libc-headers_3.8.bb   |    8 -
+>  meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   30 ++
+>  meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   25 ++
+>  meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   30 ++
+>  ...define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch |   45 +++
+>  .../gstreamer/gst-plugins-good_0.10.31.bb          |    1 +
+>  23 files changed, 150 insertions(+), 861 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-import-commit.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-init.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-pop.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push-no-series.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/guilt.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/optional_head_check.patch
+>  delete mode 100644 meta/recipes-devtools/guilt/files/uninstall_force.patch
+>  rename meta/recipes-devtools/guilt/{guilt-native_0.33.bb => guilt-native_git.bb} (45%)
+>  create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>  delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.10.bb
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
+>
+> --
+> 1.7.10.4
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
