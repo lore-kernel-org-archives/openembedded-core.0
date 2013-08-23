@@ -1,34 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EC206B918
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 549516B989
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 15:31:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7NFhXE5022721; Fri, 23 Aug 2013 16:43:33 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id vX1ntAEMQTKH; Fri, 23 Aug 2013 16:43:33 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7NFhRY7022713
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 23 Aug 2013 16:43:28 +0100
-Message-ID: <1377271880.6762.97.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 23 Aug 2013 16:31:20 +0100
-In-Reply-To: <CAP9ODKrtNQt7XeaXbOSTqGWFnna9soB+KRE6UAumoFGVTzr-Mg@mail.gmail.com>
-References: <1377269339-6139-1-git-send-email-otavio@ossystems.com.br>
-	<1377269339-6139-2-git-send-email-otavio@ossystems.com.br>
-	<1377269956.6762.92.camel@ted>
-	<CAP9ODKrtNQt7XeaXbOSTqGWFnna9soB+KRE6UAumoFGVTzr-Mg@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Christopher Larson <clarson@kergoth.com>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH v5 1/2] base.bbclass: Add support to EXTRA_DISTRO_FEATURES
+	Fri, 23 Aug 2013 15:32:26 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2013 08:32:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="285884462"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 08:32:26 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 1C8062C8001
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 08:32:23 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Aug 2013 18:30:40 +0300
+Message-Id: <cover.1377269484.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 00/21] Some new runtime tests or fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,52 +31,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 15:31:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 23 Aug 2013 15:32:27 -0000
 
-On Fri, 2013-08-23 at 12:11 -0300, Otavio Salvador wrote:
-> On Fri, Aug 23, 2013 at 11:59 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2013-08-23 at 11:48 -0300, Otavio Salvador wrote:
-> >> This allow the addition and removal of distro features easily. To add
-> >> a feature, use:
-> >>
-> >>  EXTRA_DISTRO_FEATURES += "wayland"
-> >>
-> >> and to remove, use '~' prefix, as:
-> >>
-> >>  EXTRA_DISTRO_FEATURES += "~x11"
-> >>
-> >> This code has been mostly copied from Mentor Graphics public layer but
-> >> changed the variable name for a more descriptive name. The original
-> >> code can be seen at user_feature.bbclass at:
-> >>
-> >>  http://git.yoctoproject.org/cgit/cgit.cgi/meta-mentor
-> >>
-> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> >
-> > I discussed this with Otavio. My personal view is that we should hold
-> > off this right now. The removal issues he ran into with poky have been
-> > addressed in other ways so there is less of an immediate issue.
-> >
-> > The better fix for this kind of problem is -=/=- or more likely _remove
-> > override support in bitbake. I did propose a _remove patch a while back
-> > but Chris has some valid concerns about it, I don't remember the details
-> > offhand. I'd much rather we focused on fixing that and getting that
-> > merged than trying to add this functionality to every variable.
-> 
-> Chris, do you know the problems Richard's patch has? I can take a look
-> and try to fix it so we can get this in for 1.5.
+Hello,
 
-One more thing, we need to grep the existing metadata and change any
-existing _remove in variable names. I seem to remember finding one
-somewhere.
+This set includes new runtime tests and required changes for them.
+
+Not all of them will get run by default, for example all the project
+build tests on target (iptables, cvs and sudoku) need to be enabled manually.
+Same applies to tests which require special options (skeleton, logrotate, pam).
+A new patch for AutoBuilder is needed to add a new target for these.
+The new smart tests are the most important change here, (and those will get run by
+default on all targets on AB).
+
 
 Cheers,
+Stefan
 
-Richard
 
 
+
+The following changes since commit 199b1a8c7d7109d9b59d67bf4dcfeb03be07587a:
+
+  mkfontscale: This no longer needs a full libx11, xproto suffices (2013-08-22 18:30:06 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib stefans/stage-oeqa1
+
+for you to fetch changes up to 6d7bb8409eb99b415d2500c5146a6b0c7eac2e7f:
+
+  lib/oeqa: add a restart method for base class and use it for build tests (2013-08-23 15:14:43 +0300)
+
+----------------------------------------------------------------
+Alexandru Georgescu (1):
+      lib/oeqa/runtime: add basic test for x32 images
+
+Alexandru Palalau (4):
+      lib/oeqa/runtime: add new logrotate test
+      lib/oeqa/runtime: add new skeletoninit test
+      lib/oeqa/runtime: add new PAM support test
+      lib/oeqa/runtime: add new scp test
+
+Cornel Stoicescu (2):
+      lib/oeqa/runtime: add test for perl
+      lib/oeqa/runtime: add a test for ldd
+
+Mihai Lindner (4):
+      lib/oeqa/utils: new file: httpserver.py useful for serving files over HTTP to the target
+      lib/oeqa/utils: qemurunner: save host IP address
+      oeqa/utils/decorators: return the decorated method
+      lib/oeqa/runtime: smart: add new smart tests
+
+Mihai Prica (4):
+      lib/oeqa/utils: targetbuild: Add helper class for building packages on target
+      lib/oeqa/runtime: add iptables, cvs and sudoku projects build tests on target
+      lib/oeqa/runtime: add adjust date and time test
+      lib/oeqa/runtime: add vncserver for target test
+
+Stefan Stanacar (6):
+      classess/testimage: change default test suites
+      oeqa/utils/targetbuild: change download to use bitbake's fetcher
+      lib/oeqa/runtime: rpm: add install and erase tests
+      lib/oeqa: change behaviour for unskippable tests
+      lib/oeqa/utils: qemurunner: improve kill and restart
+      lib/oeqa: add a restart method for base class and use it for build tests
+
+ meta/classes/testimage.bbclass         |   4 +-
+ meta/lib/oeqa/oetest.py                |  11 +++-
+ meta/lib/oeqa/runtime/buildcvs.py      |  32 +++++++++++
+ meta/lib/oeqa/runtime/buildiptables.py |  32 +++++++++++
+ meta/lib/oeqa/runtime/buildsudoku.py   |  29 ++++++++++
+ meta/lib/oeqa/runtime/date.py          |  27 +++++++++
+ meta/lib/oeqa/runtime/files/test.pl    |   2 +
+ meta/lib/oeqa/runtime/ldd.py           |  19 ++++++
+ meta/lib/oeqa/runtime/logrotate.py     |  27 +++++++++
+ meta/lib/oeqa/runtime/pam.py           |  24 ++++++++
+ meta/lib/oeqa/runtime/perl.py          |  28 +++++++++
+ meta/lib/oeqa/runtime/rpm.py           |  30 +++++++++-
+ meta/lib/oeqa/runtime/scp.py           |  22 +++++++
+ meta/lib/oeqa/runtime/smart.py         | 102 +++++++++++++++++++++++++++++----
+ meta/lib/oeqa/runtime/vnc.py           |  22 +++++++
+ meta/lib/oeqa/runtime/x32lib.py        |  17 ++++++
+ meta/lib/oeqa/skeletoninit.py          |  28 +++++++++
+ meta/lib/oeqa/utils/decorators.py      |   6 +-
+ meta/lib/oeqa/utils/httpserver.py      |  32 +++++++++++
+ meta/lib/oeqa/utils/qemurunner.py      |  39 ++++++++-----
+ meta/lib/oeqa/utils/targetbuild.py     |  63 ++++++++++++++++++++
+ 21 files changed, 561 insertions(+), 35 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/buildcvs.py
+ create mode 100644 meta/lib/oeqa/runtime/buildiptables.py
+ create mode 100644 meta/lib/oeqa/runtime/buildsudoku.py
+ create mode 100644 meta/lib/oeqa/runtime/date.py
+ create mode 100644 meta/lib/oeqa/runtime/files/test.pl
+ create mode 100644 meta/lib/oeqa/runtime/ldd.py
+ create mode 100644 meta/lib/oeqa/runtime/logrotate.py
+ create mode 100644 meta/lib/oeqa/runtime/pam.py
+ create mode 100644 meta/lib/oeqa/runtime/perl.py
+ create mode 100644 meta/lib/oeqa/runtime/scp.py
+ create mode 100644 meta/lib/oeqa/runtime/vnc.py
+ create mode 100644 meta/lib/oeqa/runtime/x32lib.py
+ create mode 100644 meta/lib/oeqa/skeletoninit.py
+ create mode 100644 meta/lib/oeqa/utils/httpserver.py
+ create mode 100644 meta/lib/oeqa/utils/targetbuild.py
+
+Alexandru Georgescu (1):
+  lib/oeqa/runtime: add basic test for x32 images
+
+Alexandru Palalau (4):
+  lib/oeqa/runtime: add new logrotate test
+  lib/oeqa/runtime: add new skeletoninit test
+  lib/oeqa/runtime: add new PAM support test
+  lib/oeqa/runtime: add new scp test
+
+Cornel Stoicescu (2):
+  lib/oeqa/runtime: add test for perl
+  lib/oeqa/runtime: add a test for ldd
+
+Mihai Lindner (4):
+  lib/oeqa/utils: new file: httpserver.py useful for serving files over
+    HTTP to the target
+  lib/oeqa/utils: qemurunner: save host IP address
+  oeqa/utils/decorators: return the decorated method
+  lib/oeqa/runtime: smart: add new smart tests
+
+Mihai Prica (4):
+  lib/oeqa/utils: targetbuild: Add helper class for building packages on
+    target
+  lib/oeqa/runtime: add iptables, cvs and sudoku projects build tests on
+    target
+  lib/oeqa/runtime: add adjust date and time test
+  lib/oeqa/runtime: add vncserver for target test
+
+Stefan Stanacar (6):
+  classess/testimage: change default test suites
+  oeqa/utils/targetbuild: change download to use bitbake's fetcher
+  lib/oeqa/runtime: rpm: add install and erase tests
+  lib/oeqa: change behaviour for unskippable tests
+  lib/oeqa/utils: qemurunner: improve kill and restart
+  lib/oeqa: add a restart method for base class and use it for build
+    tests
+
+ meta/classes/testimage.bbclass         |   4 +-
+ meta/lib/oeqa/oetest.py                |  11 +++-
+ meta/lib/oeqa/runtime/buildcvs.py      |  32 +++++++++++
+ meta/lib/oeqa/runtime/buildiptables.py |  32 +++++++++++
+ meta/lib/oeqa/runtime/buildsudoku.py   |  29 ++++++++++
+ meta/lib/oeqa/runtime/date.py          |  27 +++++++++
+ meta/lib/oeqa/runtime/files/test.pl    |   2 +
+ meta/lib/oeqa/runtime/ldd.py           |  19 ++++++
+ meta/lib/oeqa/runtime/logrotate.py     |  27 +++++++++
+ meta/lib/oeqa/runtime/pam.py           |  24 ++++++++
+ meta/lib/oeqa/runtime/perl.py          |  28 +++++++++
+ meta/lib/oeqa/runtime/rpm.py           |  30 +++++++++-
+ meta/lib/oeqa/runtime/scp.py           |  22 +++++++
+ meta/lib/oeqa/runtime/smart.py         | 102 +++++++++++++++++++++++++++++----
+ meta/lib/oeqa/runtime/vnc.py           |  22 +++++++
+ meta/lib/oeqa/runtime/x32lib.py        |  17 ++++++
+ meta/lib/oeqa/skeletoninit.py          |  28 +++++++++
+ meta/lib/oeqa/utils/decorators.py      |   6 +-
+ meta/lib/oeqa/utils/httpserver.py      |  32 +++++++++++
+ meta/lib/oeqa/utils/qemurunner.py      |  39 ++++++++-----
+ meta/lib/oeqa/utils/targetbuild.py     |  63 ++++++++++++++++++++
+ 21 files changed, 561 insertions(+), 35 deletions(-)
+ create mode 100644 meta/lib/oeqa/runtime/buildcvs.py
+ create mode 100644 meta/lib/oeqa/runtime/buildiptables.py
+ create mode 100644 meta/lib/oeqa/runtime/buildsudoku.py
+ create mode 100644 meta/lib/oeqa/runtime/date.py
+ create mode 100644 meta/lib/oeqa/runtime/files/test.pl
+ create mode 100644 meta/lib/oeqa/runtime/ldd.py
+ create mode 100644 meta/lib/oeqa/runtime/logrotate.py
+ create mode 100644 meta/lib/oeqa/runtime/pam.py
+ create mode 100644 meta/lib/oeqa/runtime/perl.py
+ create mode 100644 meta/lib/oeqa/runtime/scp.py
+ create mode 100644 meta/lib/oeqa/runtime/vnc.py
+ create mode 100644 meta/lib/oeqa/runtime/x32lib.py
+ create mode 100644 meta/lib/oeqa/skeletoninit.py
+ create mode 100644 meta/lib/oeqa/utils/httpserver.py
+ create mode 100644 meta/lib/oeqa/utils/targetbuild.py
+
+-- 
+1.8.3.1
 
 
