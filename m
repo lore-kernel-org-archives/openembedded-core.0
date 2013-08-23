@@ -1,39 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EC71608A6
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AA5F608A6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 06:33:40 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id q10so290680pdj.21
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 23:33:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=aFaGyTNhW8K30AGMyuVSF8Q+4iiizYY9pelBcv/5yhU=;
-	b=0EzMBsEpMd4eZWmE3nxNTzImjcMCDuhL7/cWmp3rJD3cZTn6+wiRYvqtFNJ9XsyBCz
-	3vBYwKWeZ2kbXoUxZvPrMo16FMxyhVnPx4gTGsE+xpstJCKzjI98Rz/vSiR8BAMLFT5k
-	gLaBOdNMqhPUpWK6BrrSRd+m7fsLrLMBgW7bRoeP2EYXydX3vMJAb5QfQMlfpx5l2DyV
-	IB9MrAUYKqcQYu0BGhYd+1VO0UKTFTfKpsteF15W07sESpWH/YhHy2pmyCEVhIUc3Rd/
-	gFD3kQCdW9gJYtWfMR7wH+FfAY9BTYiLdxk8UdR2cB8ZCqgghcgLcbGNvvaH/UjVEbVm
-	ZkXw==
-X-Received: by 10.68.106.99 with SMTP id gt3mr9457118pbb.116.1377239620676;
-	Thu, 22 Aug 2013 23:33:40 -0700 (PDT)
-Received: from sa-nc-finance-109.static.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	ta10sm21308351pab.5.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 22 Aug 2013 23:33:37 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CA+AhUGwh+Ck5LYxwL0Lp20czW6m-xQAPnFOckfnjNFFB9aMreA@mail.gmail.com>
-Date: Thu, 22 Aug 2013 23:33:36 -0700
-Message-Id: <FBAD1345-C987-413A-83C8-67042BEACBAF@gmail.com>
-References: <CA+AhUGwh+Ck5LYxwL0Lp20czW6m-xQAPnFOckfnjNFFB9aMreA@mail.gmail.com>
-To: =?iso-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Issue with pulseaudio and Qt introduced with eglibc 2.18
+	Fri, 23 Aug 2013 06:46:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7N6kChF017333
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 23 Aug 2013 02:46:13 -0400 (EDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 22 Aug 2013 23:46:12 -0700
+Message-ID: <5217051D.8060405@windriver.com>
+Date: Fri, 23 Aug 2013 14:45:49 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Rongqing Li <rongqing.li@windriver.com>
+References: <cover.1377175027.git.liezhi.yang@windriver.com>
+	<c860af16cf9ffd4ba171206e5e9a36c50d771bdf.1377175027.git.liezhi.yang@windriver.com>
+	<5216CA03.60108@windriver.com>
+In-Reply-To: <5216CA03.60108@windriver.com>
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/6] e2fsprogs: let debugfs do sparse copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,172 +36,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 06:33:41 -0000
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601"
-
---Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
-
-
-On Aug 22, 2013, at 11:14 PM, Erik Bot=F6 <erik.boto@pelagicore.com> =
-wrote:
-
-> Hi,=20
->=20
-> I'm hitting a bug now when using Qt to play e.g mp3:s to a pulseaudio =
-sink. Using gst-launch with playbin2 and pulsesink works well on the =
-same system. I have tried a few different versions of Qt (5.0.1, 5.0.2 =
-and Qt 5.1) and both pulseaudio 3 and 4 with the same problem. When I =
-added this to local.conf:=20
->=20
-> PREFERRED_VERSION_eglibc-locale =3D "2.17"
-> PREFERRED_VERSION_eglibc-mtrace =3D "2.17"
-> PREFERRED_VERSION_eglibc-scripts =3D "2.17"
-> PREFERRED_VERSION_eglibc-initial =3D "2.17"
-> PREFERRED_VERSION_eglibc =3D "2.17"
->=20
-> It works ok again, so it was introduced when moving to eglib 2.18 (not =
-saying that the actual error is in eglibc though).
->=20
-> The error I'm seeing is this:=20
-> Assertion 'pthread_mutex_unlock(&m->mutex) =3D=3D 0' failed at =
-pulsecore/mutex-posix.c:108, function pa_mutex_unlock(). Aborting.
-
-can you try
-
-$ export CANBERRA_DRIVER=3D"null"
-
-and run the faulty program in this shell.
-
-Does this fix the problem ?
+X-List-Received-Date: Fri, 23 Aug 2013 06:46:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
->=20
-> Google tells me that this has been an issue for OMAP4 when certain =
-kernel configuration where enabled [1], which makes me believe this =
-might be a hard one to track down. I'll see if I can find the time to =
-debug it a bit more, but I would really appreciate any input.=20
->=20
-> It's quite easy to reproduce, just use the QtMultimedia (built to use =
-gstreamer and pulseaudio) mediaplayer example and select an mp3 file. It =
-works like one time out of 20 or so, so some kind of race condition is =
-probably the case.=20
->=20
-> My hardware setup is a nitrogen6x board with a Freescale iMX6 =
-processor (so I'm using meta-fsl-arm*), I've tried with both Qt built =
-with meta-qt5 and an external Qt build against the Yocto sysroot. If =
-anyone can reproduce this on some other hardware that would be nice to =
-know.
->=20
-> This started on the meta-freescale list [2], but is probably belonging =
-here.=20
->=20
-> [1]. =
-http://lists.linaro.org/pipermail/linaro-dev/2013-April/015794.html
-> [2]. =
-https://lists.yoctoproject.org/pipermail/meta-freescale/2013-August/004152=
-.html
->=20
-> Cheers,=20
-> Erik Bot=F6
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On 08/23/2013 10:33 AM, Rongqing Li wrote:
+>
+>
+> On 08/22/2013 09:13 PM, Robert Yang wrote:
+>> Let debugfs do sparse copy when src is a sparse file, just like
+>> "cp --sparse=auto"
+>>
+>> This patch has been reviewed by the linux-ext4 mailing list, but isn't
+>> merged atm.
+>>
+>> [YOCTO #3848]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   .../e2fsprogs-1.42.8/debugfs-sparse-copy.patch     |  147 ++++++++++++++++++++
+>>   .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    1 +
+>>   2 files changed, 148 insertions(+)
+>>   create mode 100644
+>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>>
+>> diff --git
+>> a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>> b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>> new file mode 100644
+>> index 0000000..c87bcbf
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>> @@ -0,0 +1,147 @@
+>> +debugfs.c: do sparse copy when src is a sparse file
+>> +
+>> +Let debugfs do sparse copy when src is a sparse file, just like
+>> +"cp --sparse=auto"
+>> +
+>> +* For the:
+>> +  #define IO_BUFSIZE 64*1024
+>> +  this is a suggested value from gnu coreutils:
+>> +
+>> http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/ioblksize.h;h=1ae93255e7d0ccf0855208c7ae5888209997bf16;hb=HEAD
+>>
+>> +
+>> +* Use malloc() to allocate memory for the buffer since put 64K (or
+>> +  more) on the stack seems not a good idea.
+>> +
+>> +Upstream-Status: Submitted
+>> +
+>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> +Acked-by: Darren Hart <dvhart@linux.intel.com>
+>> +---
+>> + debugfs/debugfs.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++----
+>> + 1 file changed, 57 insertions(+), 4 deletions(-)
+>> +
+>> +diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
+>> +--- a/debugfs/debugfs.c
+>> ++++ b/debugfs/debugfs.c
+>> +@@ -41,6 +41,16 @@ extern char *optarg;
+>> + #define BUFSIZ 8192
+>> + #endif
+>> +
+>> ++/* 64KiB is the minimium blksize to best minimize system call overhead. */
+>> ++#ifndef IO_BUFSIZE
+>> ++#define IO_BUFSIZE 64*1024
+>> ++#endif
+>> ++
+>> ++/* Block size for `st_blocks' */
+>> ++#ifndef S_BLKSIZE
+>> ++#define S_BLKSIZE 512
+>> ++#endif
+>> ++
+>> + ss_request_table *extra_cmds;
+>> + const char *debug_prog_name;
+>> + int sci_idx;
+>> +@@ -1575,22 +1585,36 @@ void do_find_free_inode(int argc, char *argv[])
+>> + }
+>> +
+>> + #ifndef READ_ONLY
+>> +-static errcode_t copy_file(int fd, ext2_ino_t newfile)
+>> ++static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int
+>> make_holes)
+>> + {
+>> +     ext2_file_t    e2_file;
+>> +     errcode_t    retval;
+>> +     int        got;
+>> +     unsigned int    written;
+>> +-    char        buf[8192];
+>> ++    char        *buf;
+>> +     char        *ptr;
+>> ++    char        *zero_buf;
+>> ++    int        cmp;
+>> +
+>> +     retval = ext2fs_file_open(current_fs, newfile,
+>> +                   EXT2_FILE_WRITE, &e2_file);
+>> +     if (retval)
+>> +         return retval;
+>> +
+>> ++    if (!(buf = (char *) malloc(bufsize))){
+>> ++        com_err("copy_file", errno, "can't allocate buffer\n");
+>> ++        return;
+>> ++    }
+>> ++
+>> ++        /* This is used for checking whether the whole block is zero */
+>> ++    retval = ext2fs_get_memzero(bufsize, &zero_buf);
+>> ++    if (retval) {
+>> ++        com_err("copy_file", retval, "can't allocate buffer\n");
+>
+> should free(buf), or memory leak.
+>
 
+Add a free(buf) and updated the PR:
 
---Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=iso-8859-1
+git://git.pokylinux.org/poky-contrib robert/extX
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Diso-8859-1"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space; =
-"><br><div><div>On Aug 22, 2013, at 11:14 PM, Erik Bot=F6 &lt;<a =
-href=3D"mailto:erik.boto@pelagicore.com">erik.boto@pelagicore.com</a>&gt; =
-wrote:</div><br class=3D"Apple-interchange-newline"><blockquote =
-type=3D"cite"><div dir=3D"ltr">Hi,&nbsp;<div><br></div><div><span =
-style=3D"font-family:arial,sans-serif;font-size:13px">I'm hitting a bug =
-now when using Qt to play e.g mp3:s to a pulseaudio sink. Using =
-gst-launch with playbin2 and pulsesink works well on the same system. I =
-have tried a few different versions of Qt (5.0.1, 5.0.2 and Qt 5.1) and =
-both pulseaudio 3 and 4 with the same problem. When I&nbsp;</span><span =
-style=3D"font-family:arial,sans-serif;font-size:13px">added this to =
-local.conf:&nbsp;</span></div>
-<div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px"><br></div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px"><div>PREFERRED_VERSI=
-ON_eglibc-locale =3D "2.17"</div><div>PREFERRED_VERSION_eglibc-mtrace =3D =
-"2.17"</div>
-<div>PREFERRED_VERSION_eglibc-scripts =3D =
-"2.17"</div><div>PREFERRED_VERSION_eglibc-initial =3D =
-"2.17"</div><div>PREFERRED_VERSION_eglibc =3D =
-"2.17"</div></div></div><div><font face=3D"arial, sans-serif"><br>
-</font></div><div><font face=3D"arial, sans-serif">It works ok again, so =
-it was introduced when moving to eglib 2.18 (not saying that the actual =
-error is in eglibc though).</font></div><div><font face=3D"arial, =
-sans-serif"><br>
-</font></div><div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px">The error I'm =
-seeing is this:&nbsp;</div><div =
-style=3D"font-family:arial,sans-serif;font-size:13px">Assertion =
-'pthread_mutex_unlock(&amp;m-&gt;mutex) =3D=3D 0' failed at =
-pulsecore/mutex-posix.c:108, function pa_mutex_unlock(). =
-Aborting.</div></div></div></blockquote><div><br></div><div>can you =
-try</div><div><br></div><div><div>$ export =
-CANBERRA_DRIVER=3D"null"</div><div><br></div><div>and run the faulty =
-program in this shell.</div><div><br></div><div>Does this fix the =
-problem ?</div><br =
-class=3D"Apple-interchange-newline"><br></div><br><blockquote =
-type=3D"cite"><div dir=3D"ltr"><div>
-<div><br></div><div><span =
-style=3D"font-family:arial,sans-serif;font-size:13px">Google tells me =
-that this has been an issue for OMAP4 when certain kernel configuration =
-where enabled [1], which makes me believe this might be a hard one to =
-track down. I'll see if I can find the time to debug it a bit more, but =
-I would really appreciate any input.&nbsp;</span></div>
-<div><span =
-style=3D"font-family:arial,sans-serif;font-size:13px"><br></span></div><di=
-v><span style=3D"font-family:arial,sans-serif;font-size:13px">It's quite =
-easy to reproduce, just use the QtMultimedia (</span><span =
-style=3D"font-family:arial,sans-serif;font-size:13px">built to use =
-gstreamer and pulseaudio</span><span =
-style=3D"font-family:arial,sans-serif;font-size:13px">) mediaplayer =
-example and select an mp3 file. It works like one time out of 20 or so, =
-so some kind of race condition is probably the case.&nbsp;</span></div>
-<div><span =
-style=3D"font-family:arial,sans-serif;font-size:13px"><br></span></div><di=
-v><span style=3D"font-family:arial,sans-serif;font-size:13px">My =
-hardware setup is a nitrogen6x board with a Freescale iMX6 processor (so =
-I'm using meta-fsl-arm*), I've tried with both Qt built with meta-qt5 =
-and an external Qt build against the Yocto sysroot. If anyone can =
-reproduce this on some other hardware that would be nice to =
-know.</span></div>
-<div><span =
-style=3D"font-family:arial,sans-serif;font-size:13px"><br></span></div><di=
-v><span style=3D"font-family:arial,sans-serif;font-size:13px">This =
-started on the meta-freescale list [2], but is probably belonging =
-here.&nbsp;</span></div>
-<div><br></div><div><span =
-style=3D"font-family:arial,sans-serif;font-size:13px">[1].&nbsp;</span><a =
-href=3D"http://lists.linaro.org/pipermail/linaro-dev/2013-April/015794.htm=
-l" target=3D"_blank" =
-style=3D"font-family:arial,sans-serif;font-size:13px">http://lists.linaro.=
-org/pipermail/linaro-dev/2013-April/015794.html</a><br>
-</div><div>[2].&nbsp;<a =
-href=3D"https://lists.yoctoproject.org/pipermail/meta-freescale/2013-Augus=
-t/004152.html">https://lists.yoctoproject.org/pipermail/meta-freescale/201=
-3-August/004152.html</a></div><div><br></div>Cheers,&nbsp;</div>
-<div>Erik Bot=F6</div></div>
-_______________________________________________<br>Openembedded-core =
-mailing list<br><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-core=
-@lists.openembedded.org</a><br>http://lists.openembedded.org/mailman/listi=
-nfo/openembedded-core<br></blockquote></div><br></body></html>=
+// Robert
 
---Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601--
+> -Roy
+>
+>> ++        return retval;
+>> ++    }
+>> ++
+>> +     while (1) {
+>> +-        got = read(fd, buf, sizeof(buf));
+>> ++        got = read(fd, buf, bufsize);
+>> +         if (got == 0)
+>> +             break;
+>> +         if (got < 0) {
+>> +@@ -1598,6 +1622,21 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
+>> +             goto fail;
+>> +         }
+>> +         ptr = buf;
+>> ++
+>> ++        /* Sparse copy */
+>> ++        if (make_holes) {
+>> ++            /* Check whether all is zero */
+>> ++            cmp = memcmp(ptr, zero_buf, got);
+>> ++            if (cmp == 0) {
+>> ++                 /* The whole block is zero, make a hole */
+>> ++                retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
+>> ++                if (retval)
+>> ++                    goto fail;
+>> ++                got = 0;
+>> ++            }
+>> ++        }
+>> ++
+>> ++        /* Normal copy */
+>> +         while (got > 0) {
+>> +             retval = ext2fs_file_write(e2_file, ptr,
+>> +                            got, &written);
+>> +@@ -1608,10 +1647,14 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
+>> +             ptr += written;
+>> +         }
+>> +     }
+>> ++    free(buf);
+>> ++    ext2fs_free_mem(&zero_buf);
+>> +     retval = ext2fs_file_close(e2_file);
+>> +     return retval;
+>> +
+>> + fail:
+>> ++    free(buf);
+>> ++    ext2fs_free_mem(&zero_buf);
+>> +     (void) ext2fs_file_close(e2_file);
+>> +     return retval;
+>> + }
+>> +@@ -1624,6 +1667,8 @@ void do_write(int argc, char *argv[])
+>> +     ext2_ino_t    newfile;
+>> +     errcode_t    retval;
+>> +     struct ext2_inode inode;
+>> ++    int        bufsize = IO_BUFSIZE;
+>> ++    int        make_holes = 0;
+>> +
+>> +     if (common_args_process(argc, argv, 3, 3, "write",
+>> +                 "<native file> <new file>", CHECK_FS_RW))
+>> +@@ -1699,7 +1744,15 @@ void do_write(int argc, char *argv[])
+>> +         return;
+>> +     }
+>> +     if (LINUX_S_ISREG(inode.i_mode)) {
+>> +-        retval = copy_file(fd, newfile);
+>> ++        if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
+>> ++            make_holes = 1;
+>> ++            /*
+>> ++             * Use I/O blocksize as buffer size when
+>> ++             * copying sparse files.
+>> ++             */
+>> ++            bufsize = statbuf.st_blksize;
+>> ++        }
+>> ++        retval = copy_file(fd, newfile, bufsize, make_holes);
+>> +         if (retval)
+>> +             com_err("copy_file", retval, 0);
+>> +     }
+>> +--
+>> +1.8.1.2
+>> +
+>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>> index f97de7f..5d65bbc 100644
+>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>> @@ -4,6 +4,7 @@ require e2fsprogs.inc
+>>   SRC_URI += "file://acinclude.m4 \
+>>               file://remove.ldconfig.call.patch \
+>>               file://debugfs-too-short.patch \
+>> +            file://debugfs-sparse-copy.patch \
+>>   "
+>>
+>>   SRC_URI[md5sum] = "8ef664b6eb698aa6b733df59b17b9ed4"
+>>
+>
+
