@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DFFFE6BA09
+	by mail.openembedded.org (Postfix) with ESMTP id BF4576B9F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:04:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 11:04:33 -0700
+	Fri, 23 Aug 2013 18:04:33 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 23 Aug 2013 11:04:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="385580119"
+X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="392339185"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 11:04:33 -0700
+	by orsmga002.jf.intel.com with ESMTP; 23 Aug 2013 11:04:34 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id AC1732C8001
+	by linux.intel.com (Postfix) with ESMTP id C29E12C8002
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 11:04:31 -0700 (PDT)
+	Fri, 23 Aug 2013 11:04:32 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 21:04:17 +0300
-Message-Id: <44884debec8156799d99dd6f7ecf3dc331d70cc6.1377280794.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 21:04:18 +0300
+Message-Id: <77ba57b4cebcca6fd35008e9ed8486a6163ffa52.1377280794.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 07/19] lib/oeqa/runtime: add new scp test
+Subject: [PATCH v2 08/19] lib/oeqa/runtime: add adjust date and time test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +35,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:04:33 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 18:04:34 -0000
 
-From: Alexandru Palalau <alexandrux.palalau@intel.com>
+From: Mihai Prica <mihai.prica@intel.com>
 
-Copies a 5MB to target using scp, more of an
-network test than a scp one.
-
-Signed-off-by: Alexandru Palalau <alexandrux.palalau@intel.com>
+Signed-off-by: Mihai Prica <mihai.prica@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/scp.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/scp.py
+ meta/lib/oeqa/runtime/date.py | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/date.py
 
-diff --git a/meta/lib/oeqa/runtime/scp.py b/meta/lib/oeqa/runtime/scp.py
+diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py
 new file mode 100644
-index 0000000..b914802
+index 0000000..d6c04cb
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/scp.py
-@@ -0,0 +1,22 @@
-+import subprocess
-+import unittest
-+import os
++++ b/meta/lib/oeqa/runtime/date.py
+@@ -0,0 +1,27 @@
 +from oeqa.oetest import oeRuntimeTest
 +from oeqa.utils.decorators import *
++import re
 +
 +def setUpModule():
-+    if not (oeRuntimeTest.hasPackage("dropbear") or oeRuntimeTest.hasPackage("openssh-sshd")):
-+        skipModule("No ssh package in image")
++    skipModuleUnless(oeRuntimeTest.tc.target.run('which date')[0] == 0, "No date in image or no connection")
 +
-+
-+class ScpTest(oeRuntimeTest):
++class DateTest(oeRuntimeTest):
 +
 +    def setUp(self):
-+         subprocess.check_call("dd if=/dev/zero of=%s bs=512k count=10" % os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR", True), 'test_scp_file'), shell=True)
++        (status, output) = self.target.run('date +"%Y-%m-%d %T"')
++        self.assertEqual(status, 0, msg="Failed to get initial date, output: %s" % output)
++        self.oldDate = output
 +
-+    @skipUnlessPassed('test_ssh')
-+    def test_scp(self):
-+        (status, output) = self.target.copy_to(os.path.join(oeRuntimeTest.tc.d.getVar("TEST_LOG_DIR", True), 'test_scp_file'), '/tmp/test_scp_file')
-+        self.assertEqual(status, 0, msg = "File could not be copied. Output: %s" % output)
-+        (status, output) = self.target.run("ls -la /tmp/test_scp_file")
-+        self.assertEqual(status, 0, msg = "SCP test failed")
++    @skipUnlessPassed("test_ssh")
++    def test_date(self):
++        sampleDate = '"2016-08-09 10:00:00"'
++        (status, output) = self.target.run("date -s %s" % sampleDate)
++        self.assertEqual(status, 0, msg="Date set failed, output: %s" % output)
++
++        (status, output) = self.target.run("date -R")
++        p = re.match('Tue, 09 Aug 2016 10:00:.. \+0000', output)
++        self.assertTrue(p, msg="The date was not set correctly, output: %s" % output)
++
++    def tearDown(self):
++        (status, output) = self.target.run('date -s "%s"' % self.oldDate)
++        self.assertEqual(status, 0, msg="Failed to reset date, output: %s" % output)
 -- 
 1.8.3.1
 
