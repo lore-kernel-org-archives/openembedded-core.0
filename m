@@ -1,24 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 36D826AF21
+	by mail.openembedded.org (Postfix) with ESMTP id B23496AFC2
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 23 Aug 2013 13:40:48 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 06:40:35 -0700
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 06:40:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="385466306"
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="385466308"
 Received: from sentry.rb.intel.com ([10.237.105.54])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 06:40:34 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 06:40:35 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 16:42:18 +0300
-Message-Id: <82ee88fb8b3cf9464e18c7106e9a1b8df69ce8e9.1377264698.git.cristian.iorga@intel.com>
+Date: Fri, 23 Aug 2013 16:42:19 +0300
+Message-Id: <59c13c72ca52e5e6a8302b499cff9c2950f32d19.1377264698.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1377264698.git.cristian.iorga@intel.com>
 References: <cover.1377264698.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1377264698.git.cristian.iorga@intel.com>
 References: <cover.1377264698.git.cristian.iorga@intel.com>
-Subject: [PATCH v3 3/4] packagegroup-self-hosted: changing the icon theme to sato
+Subject: [PATCH v3 4/4] recipes-graphics/builder: fix wrong user name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +33,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 23 Aug 2013 13:40:49 -0000
 
-Hicolor icon theme does not properly displays icons for
-folders in Build Appliance.
-Sato icon theme is working correctly.
-Also, settings-daemon needs to be added to image in order to
-properly display folder icons.
+Fix wrong inclusion of local username.
+The right "builder" user is now used in
+builder_hob_start shell script.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-graphics/builder/files/builder_hob_start.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 2d35c16..429ade9 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -123,7 +123,9 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
-     grep \
-     groff \
-     gzip \
-+    settings-daemon \
-     hicolor-icon-theme \
-+    sato-icon-theme \
-     libaio \
-     libusb1 \
-     libxml2 \
+diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+index b3a0540..bef6878 100644
+--- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
++++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
+@@ -13,7 +13,7 @@ export GIT_PROXY_COMMAND=/home/builder/poky/scripts/oe-git-proxy
+ pcmanfm -d&
+ 
+ #register folders to open with PCManFM filemanager
+-if [ ! -d /home/ubik/tmp/.local/share/applications ]; then
++if [ ! -d /home/builder/.local/share/applications ]; then
+     mkdir -p /home/builder/.local/share/applications/
+     xdg-mime default pcmanfm.desktop inode/directory
+ fi
 -- 
 1.8.1.2
 
