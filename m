@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id DE96C6B9D8
+	by mail.openembedded.org (Postfix) with ESMTP id AF93D6B9D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 18:04:27 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 11:04:28 -0700
+	Fri, 23 Aug 2013 18:04:28 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 11:04:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="285943223"
+X-IronPort-AV: E=Sophos;i="4.89,943,1367996400"; d="scan'208";a="350776821"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 11:04:28 -0700
+	by azsmga001.ch.intel.com with ESMTP; 23 Aug 2013 11:04:29 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 1A2202C8001
+	by linux.intel.com (Postfix) with ESMTP id 320892C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 11:04:25 -0700 (PDT)
+	Fri, 23 Aug 2013 11:04:26 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 21:04:12 +0300
-Message-Id: <c3ca1641ffd8c313307c1c065693ef79163cf1bb.1377280794.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 21:04:13 +0300
+Message-Id: <df8a4b35c4abc3f10a2fddd9a2966f17817bbb81.1377280794.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377280794.git.stefanx.stanacar@intel.com>
 References: <cover.1377280794.git.stefanx.stanacar@intel.com>
-Subject: [PATCH v2 02/19] lib/oeqa/runtime: add test for perl
+Subject: [PATCH v2 03/19] lib/oeqa/runtime: add a test for ldd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +35,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 18:04:28 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 18:04:29 -0000
 
 From: Cornel Stoicescu <corneliux.stoicescu@intel.com>
 
-This test runs a perl script on the target and checks the output.
+This test checks that at least one path in RTLDLIST exists.
 
 Signed-off-by: Cornel Stoicescu <corneliux.stoicescu@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/files/test.pl |  2 ++
- meta/lib/oeqa/runtime/perl.py       | 28 ++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/files/test.pl
- create mode 100644 meta/lib/oeqa/runtime/perl.py
+ meta/lib/oeqa/runtime/ldd.py | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/ldd.py
 
-diff --git a/meta/lib/oeqa/runtime/files/test.pl b/meta/lib/oeqa/runtime/files/test.pl
+diff --git a/meta/lib/oeqa/runtime/ldd.py b/meta/lib/oeqa/runtime/ldd.py
 new file mode 100644
-index 0000000..689c8f1
+index 0000000..577c5e2
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/files/test.pl
-@@ -0,0 +1,2 @@
-+$a = 9.01e+21 - 9.01e+21 + 0.01;
-+print ("the value of a is ", $a, "\n");
-diff --git a/meta/lib/oeqa/runtime/perl.py b/meta/lib/oeqa/runtime/perl.py
-new file mode 100644
-index 0000000..c9bb684
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/perl.py
-@@ -0,0 +1,28 @@
++++ b/meta/lib/oeqa/runtime/ldd.py
+@@ -0,0 +1,19 @@
 +import unittest
-+import os
-+from oeqa.oetest import oeRuntimeTest, skipModule
++from oeqa.oetest import oeRuntimeTest
 +from oeqa.utils.decorators import *
 +
 +def setUpModule():
-+    if not oeRuntimeTest.hasPackage("perl"):
-+        skipModule("No perl package in the image")
++    if not oeRuntimeTest.hasFeature("tools-sdk"):
++        skipModule("Image doesn't have tools-sdk in IMAGE_FEATURES")
 +
++class LddTest(oeRuntimeTest):
 +
-+class PerlTest(oeRuntimeTest):
++    @skipUnlessPassed('test_ssh')
++    def test_ldd_exists(self):
++        (status, output) = self.target.run('which ldd')
++        self.assertEqual(status, 0, msg = "ldd does not exist in PATH !")
 +
-+    @classmethod
-+    def setUpClass(self):
-+        oeRuntimeTest.tc.target.copy_to(os.path.join(oeRuntimeTest.tc.filesdir, "test.pl"), "/tmp/test.pl")
-+
-+    def test_perl_exists(self):
-+        (status, output) = self.target.run('which perl')
-+        self.assertEqual(status, 0, msg="Perl binary not in PATH or not on target.")
-+
-+    def test_perl_works(self):
-+        (status, output) = self.target.run('perl /tmp/test.pl')
-+        self.assertEqual(status, 0, msg="Exit status was not 0. Output: %s" % output)
-+        self.assertEqual(output, "the value of a is 0.01", msg="Incorrect output: %s" % output)
-+
-+    @classmethod
-+    def tearDownClass(self):
-+        oeRuntimeTest.tc.target.run("rm /tmp/test.pl")
++    @skipUnlessPassed('test_ldd_exists')
++    def test_ldd(self):
++        (status, output) = self.target.run('for i in $(which ldd | xargs cat | grep "^RTLDLIST"|cut -d\'=\' -f2|tr -d \'"\'); do test -f $i && echo $i && break; done')
++        self.assertEqual(status, 0, msg = "ldd path not correct or RTLDLIST files don't exist. ")
 -- 
 1.8.3.1
 
