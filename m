@@ -1,24 +1,24 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE776B918
+	by mail.openembedded.org (Postfix) with ESMTP id 5EC206B918
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 15:29:44 +0000 (UTC)
+	Fri, 23 Aug 2013 15:31:37 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7NFferk022669; Fri, 23 Aug 2013 16:41:40 +0100
+	r7NFhXE5022721; Fri, 23 Aug 2013 16:43:33 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id sL7z4C2-j4QU; Fri, 23 Aug 2013 16:41:40 +0100 (BST)
+	with LMTP id vX1ntAEMQTKH; Fri, 23 Aug 2013 16:43:33 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7NFfZ9r022665
+	r7NFhRY7022713
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 23 Aug 2013 16:41:36 +0100
-Message-ID: <1377271768.6762.96.camel@ted>
+	verify=NOT); Fri, 23 Aug 2013 16:43:28 +0100
+Message-ID: <1377271880.6762.97.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 23 Aug 2013 16:29:28 +0100
+Date: Fri, 23 Aug 2013 16:31:20 +0100
 In-Reply-To: <CAP9ODKrtNQt7XeaXbOSTqGWFnna9soB+KRE6UAumoFGVTzr-Mg@mail.gmail.com>
 References: <1377269339-6139-1-git-send-email-otavio@ossystems.com.br>
 	<1377269339-6139-2-git-send-email-otavio@ossystems.com.br>
@@ -41,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 15:29:45 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 15:31:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -79,20 +79,14 @@ On Fri, 2013-08-23 at 12:11 -0300, Otavio Salvador wrote:
 > Chris, do you know the problems Richard's patch has? I can take a look
 > and try to fix it so we can get this in for 1.5.
 
-http://lists.openembedded.org/pipermail/bitbake-devel/2013-March/003319.html
-
-We don't want to rush into adding type support to bitbake, that is
-something which needs a lot of thought. It might be good enough to have
-_remove assume space delimited for now and we can then have the type
-flag alter the behaviour later.
-
-So the thing that needs fixing is the naive str.replace() :)
-
-(x.startswith(y) or x.endswith(y) or " " + y + " " in x) kind of thing.
+One more thing, we need to grep the existing metadata and change any
+existing _remove in variable names. I seem to remember finding one
+somewhere.
 
 Cheers,
 
 Richard
+
 
 
 
