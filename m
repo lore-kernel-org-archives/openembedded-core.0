@@ -1,35 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 02644608A6
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 06:16:41 +0000 (UTC)
-Received: by mail-ie0-f177.google.com with SMTP id e14so233887iej.8
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 22 Aug 2013 23:16:42 -0700 (PDT)
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EC71608A6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 06:33:40 +0000 (UTC)
+Received: by mail-pd0-f176.google.com with SMTP id q10so290680pdj.21
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 22 Aug 2013 23:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=MdJd6R2G2JJ/REKLY4EF0N92kkKiMQ/gGYj395bT8ck=;
-	b=YbIYAv39PIDOG4mtuk3asLZI8OasXBWPDnMPwWAv7EiyYtFRtHofZRv4m6vlDojfcO
-	xDdhZ0kXPzkMY/FA1UgOvRjLLJ91AT5j2Kuw6iucAgRAZ0vXS5NrOH6uKKR7tz2mk10f
-	SV/lEzJC5CC+/0xquheLyLInLkkEsts46AXnMNCCbkDHjh4dSPO0BDnlRec1axwEJHNQ
-	3GrvWv5QSfN58R31Rwns8QFtszRHf/kKBQDNx9mhhZNcIaBePgnx+RU8yMl1k5Dwa+Kd
-	B6uV1V4Y5gCvYWgnyqOCXE8jywahegjgds7oOm3Yz37maUQIS4d557gli4q9aIixHVyO
-	YYfQ==
-X-Received: by 10.50.36.5 with SMTP id m5mr469966igj.3.1377238602561; Thu, 22
-	Aug 2013 23:16:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.216.195 with HTTP; Thu, 22 Aug 2013 23:16:12 -0700 (PDT)
-In-Reply-To: <1377212667-5915-1-git-send-email-jason.wessel@windriver.com>
-References: <1377212667-5915-1-git-send-email-jason.wessel@windriver.com>
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=aFaGyTNhW8K30AGMyuVSF8Q+4iiizYY9pelBcv/5yhU=;
+	b=0EzMBsEpMd4eZWmE3nxNTzImjcMCDuhL7/cWmp3rJD3cZTn6+wiRYvqtFNJ9XsyBCz
+	3vBYwKWeZ2kbXoUxZvPrMo16FMxyhVnPx4gTGsE+xpstJCKzjI98Rz/vSiR8BAMLFT5k
+	gLaBOdNMqhPUpWK6BrrSRd+m7fsLrLMBgW7bRoeP2EYXydX3vMJAb5QfQMlfpx5l2DyV
+	IB9MrAUYKqcQYu0BGhYd+1VO0UKTFTfKpsteF15W07sESpWH/YhHy2pmyCEVhIUc3Rd/
+	gFD3kQCdW9gJYtWfMR7wH+FfAY9BTYiLdxk8UdR2cB8ZCqgghcgLcbGNvvaH/UjVEbVm
+	ZkXw==
+X-Received: by 10.68.106.99 with SMTP id gt3mr9457118pbb.116.1377239620676;
+	Thu, 22 Aug 2013 23:33:40 -0700 (PDT)
+Received: from sa-nc-finance-109.static.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	ta10sm21308351pab.5.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 22 Aug 2013 23:33:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 22 Aug 2013 23:16:12 -0700
-Message-ID: <CAMKF1sp9sfkrRCaU6JwzN0YESyP=pd5n1oUcGz_fNj3OTTv6-g@mail.gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [v2 PATCH] kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling
+In-Reply-To: <CA+AhUGwh+Ck5LYxwL0Lp20czW6m-xQAPnFOckfnjNFFB9aMreA@mail.gmail.com>
+Date: Thu, 22 Aug 2013 23:33:36 -0700
+Message-Id: <FBAD1345-C987-413A-83C8-67042BEACBAF@gmail.com>
+References: <CA+AhUGwh+Ck5LYxwL0Lp20czW6m-xQAPnFOckfnjNFFB9aMreA@mail.gmail.com>
+To: =?iso-8859-1?Q?Erik_Bot=F6?= <erik.boto@pelagicore.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Issue with pulseaudio and Qt introduced with eglibc 2.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,257 +46,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 06:16:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 23 Aug 2013 06:33:41 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601"
 
-On Thu, Aug 22, 2013 at 4:04 PM, Jason Wessel
-<jason.wessel@windriver.com> wrote:
-> This patch aims to fix the following two cases for the INITRAMFS generation.
->   1) Allow an image recipe to specify a paired INITRAMFS recipe such
->      as core-image-minimal-initramfs.  This allows building a base
->      image which always generates the needed initramfs image in one step
->   2) Allow building a single binary which contains a kernel and
->      the initramfs.
-
-I think this could be a bit simpler. Have a full kernel image recipe (
-kernel + initramfs)
-separate. It fits into the equation nicely. The final image can bundle
-initramfs which has modules from practically same kernel build is
-staged step 1 of kernel build which
-automatically happens today for any image build.
-
-The new recipe for kernel+initramfs requires the existing kernel
-recipes and tweaks the .config to enable INITRAMFS_IMAGE
-
-You can share the sources for both stages where kernel is built like
-gcc is putting the sources under work-shared and building all gcc
-recipes out of this location.
+--Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=iso-8859-1
 
 
->
-> A key requirement of the initramfs is to be able to add kernel
-> modules.  The current implementation of the INITRAMFS_IMAGE variable
-> has a circular dependency when using kernel modules in the initramfs
-> image.bb file that is caused by kernel.bbclass trying to build the
-> initramfs before the kernel's do_install rule.
->
-> The solution for this problem is to have the kernel's
-> do_bundle_initramfs_image task depend on the do_rootfs from the
-> INITRAMFS_IMAGE and not some intermediate point.  The image.bbclass
-> will also sets up dependencies to make the initramfs creation task run
-> last.
->
-> The code to bundle the kernel and initramfs together has been added.
-> At a high level, all it is doing is invoking a second compilation of
-> the kernel but changing the value of CONFIG_INITRAMFS_SOURCE to point
-> to the generated initramfs from the image recipe.
->
-> [YOCTO #4072]
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->
-> ---
->  meta/classes/image.bbclass  |   12 ++++++
->  meta/classes/kernel.bbclass |   96 +++++++++++++++++++++++++++++++++++++------
->  meta/conf/local.conf.sample |   20 +++++++++
->  3 files changed, 116 insertions(+), 12 deletions(-)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 909702a..23967ec 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -130,6 +130,10 @@ python () {
->      d.setVar('MULTILIB_VENDORS', ml_vendor_list)
->
->      check_image_features(d)
-> +    initramfs_image = d.getVar('INITRAMFS_IMAGE', True) or ""
-> +    if initramfs_image != "":
-> +        d.appendVarFlag('do_build', 'depends', " %s:do_bundle_initramfs" %  d.getVar('PN', True))
-> +        d.appendVarFlag('do_bundle_initramfs', 'depends', " %s:do_rootfs" % initramfs_image)
->  }
->
->  #
-> @@ -629,3 +633,11 @@ do_package_write_deb[noexec] = "1"
->  do_package_write_rpm[noexec] = "1"
->
->  addtask rootfs before do_build
-> +# Allow the kernel to be repacked with the initramfs and boot image file as a single file
-> +do_bundle_initramfs[depends] += "virtual/kernel:do_bundle_initramfs"
-> +do_bundle_initramfs[nostamp] = "1"
-> +do_bundle_initramfs[noexec] = "1"
-> +do_bundle_initramfs () {
-> +       :
-> +}
-> +addtask bundle_initramfs after do_rootfs
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index e039dfc..8cf66ce 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -9,6 +9,7 @@ INHIBIT_DEFAULT_DEPS = "1"
->  KERNEL_IMAGETYPE ?= "zImage"
->  INITRAMFS_IMAGE ?= ""
->  INITRAMFS_TASK ?= ""
-> +INITRAMFS_IMAGE_BUNDLE ?= ""
->
->  python __anonymous () {
->      kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
-> @@ -19,7 +20,15 @@ python __anonymous () {
->
->      image = d.getVar('INITRAMFS_IMAGE', True)
->      if image:
-> -        d.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs')
-> +        d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
-> +
-> +    # NOTE: setting INITRAMFS_TASK is for backward compatibility
-> +    #       The preferred method is to set INITRAMFS_IMAGE, because
-> +    #       this INITRAMFS_TASK has circular dependency problems
-> +    #       if the initramfs requires kernel modules
-> +    image_task = d.getVar('INITRAMFS_TASK', True)
-> +    if image_task:
-> +        d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
->  }
->
->  inherit kernel-arch deploy
-> @@ -72,9 +81,82 @@ KERNEL_SRC_PATH = "/usr/src/kernel"
->
->  KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
->
-> +copy_initramfs() {
-> +       echo "Copying initramfs into ./usr ..."
-> +       # Find and use the first initramfs image archive type we find
-> +       rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-> +       for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
-> +               if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
-> +                       cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${B}/usr/.
-> +                       case $img in
-> +                       *gz)
-> +                               echo "gzip decompressing image"
-> +                               gunzip -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +                               break
-> +                               ;;
-> +                       *lzo)
-> +                               echo "lzo decompressing image"
-> +                               lzop -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +                               break
-> +                               ;;
-> +                       *lzma)
-> +                               echo "lzma decompressing image"
-> +                               lzmash -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +                               break
-> +                               ;;
-> +                       *xz)
-> +                               echo "xz decompressing image"
-> +                               xz -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
-> +                               break
-> +                               ;;
-> +                       esac
-> +               fi
-> +       done
-> +       echo "Finished copy of initramfs into ./usr"
-> +}
-> +
-> +INITRAMFS_BASE_NAME = "${KERNEL_IMAGETYPE}-initramfs-${PV}-${PR}-${MACHINE}-${DATETIME}"
-> +INITRAMFS_BASE_NAME[vardepsexclude] = "DATETIME"
-> +do_bundle_initramfs () {
-> +       if [ ! -z "${INITRAMFS_IMAGE}" -a x"${INITRAMFS_IMAGE_BUNDLE}" = x1 ]; then
-> +               echo "Creating a kernel image with a bundled initramfs..."
-> +               copy_initramfs
-> +               if [ -e ${KERNEL_OUTPUT} ] ; then
-> +                       mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.bak
-> +               fi
-> +               use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-> +               kernel_do_compile
-> +               mv -f ${KERNEL_OUTPUT} ${KERNEL_OUTPUT}.initramfs
-> +               mv -f ${KERNEL_OUTPUT}.bak ${KERNEL_OUTPUT}
-> +               # Update install area
-> +               echo "There is kernel image bundled with initramfs: ${B}/${KERNEL_OUTPUT}.initramfs"
-> +               install -m 0644 ${B}/${KERNEL_OUTPUT}.initramfs ${D}/boot/${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin
-> +               echo "${B}/${KERNEL_OUTPUT}.initramfs"
-> +               cd ${B}
-> +               # Update deploy directory
-> +               if [ -e "${KERNEL_OUTPUT}.initramfs" ]; then
-> +                       echo "Copying deploy kernel-initramfs image and setting up links..."
-> +                       initramfs_base_name=${INITRAMFS_BASE_NAME}
-> +                       initramfs_symlink_name=${KERNEL_IMAGETYPE}-initramfs-${MACHINE}
-> +                       install -m 0644 ${KERNEL_OUTPUT}.initramfs ${DEPLOY_DIR_IMAGE}/${initramfs_base_name}.bin
-> +                       cd ${DEPLOY_DIR_IMAGE}
-> +                       ln -sf ${initramfs_base_name}.bin ${initramfs_symlink_name}.bin
-> +               fi
-> +       fi
-> +}
-> +do_bundle_initramfs[nostamp] = "1"
-> +addtask bundle_initramfs after do_compile
-> +
->  kernel_do_compile() {
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> -       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
-> +       # The $use_alternate_initrd is only set from
-> +       # do_bundle_initramfs() This variable is specifically for the
-> +       # case where we are making a second pass at the kernel
-> +       # compilation and we want to force the kernel build to use a
-> +       # different initramfs image.  The way to do that in the kernel
-> +       # is to specify:
-> +       # make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-> +       oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
->         if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
->                 gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
->         fi
-> @@ -219,18 +301,8 @@ kernel_do_configure() {
->                 cp "${WORKDIR}/defconfig" "${B}/.config"
->         fi
->         yes '' | oe_runmake oldconfig
-> -
-> -       if [ ! -z "${INITRAMFS_IMAGE}" ]; then
-> -               for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
-> -               if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
-> -                       cp "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" initramfs.$img
-> -               fi
-> -               done
-> -       fi
->  }
->
-> -do_configure[depends] += "${INITRAMFS_TASK}"
-> -
->  do_savedefconfig() {
->         oe_runmake savedefconfig
->  }
-> diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
-> index 2b078d0..17733ab 100644
-> --- a/meta/conf/local.conf.sample
-> +++ b/meta/conf/local.conf.sample
-> @@ -146,6 +146,26 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
->  USER_CLASSES ?= "buildstats image-mklibs image-prelink"
->
->  #
-> +# Kernel image features
-> +#
-> +# The INITRAMFS_IMAGE image variable will cause an additional recipe to
-> +# be built as a dependency to the what ever rootfs recipe you might be
-> +# using such as core-image-sato.  The initramfs might be needed for
-> +# the initial boot of of the target system such as to load kernel
-> +# modules prior to mounting the root file system.
-> +#
-> +# INITRAMFS_IMAGE_BUNDLE variable controls if the image recipe
-> +# specified by the INITRAMFS_IMAGE will be run through an extra pass
-> +# through the kernel compilation in order to build a single binary
-> +# which contains both the kernel image and the initramfs.  The
-> +# combined binary will be deposited into the tmp/deploy directory.
-> +# NOTE: You can set INITRAMFS_IMAGE in an image recipe, but
-> +#       INITRAMFS_IMAGE_BUNDLE can only be set in a conf file.
-> +#
-> +#INITRAMFS_IMAGE = "core-image-minimal-initramfs"
-> +#INITRAMFS_IMAGE_BUNDLE = "1"
-> +
-> +#
->  # Runtime testing of images
->  #
->  # The build system can test booting virtual machine images under qemu (an emulator)
-> --
-> 1.7.9.5
->
+On Aug 22, 2013, at 11:14 PM, Erik Bot=F6 <erik.boto@pelagicore.com> =
+wrote:
+
+> Hi,=20
+>=20
+> I'm hitting a bug now when using Qt to play e.g mp3:s to a pulseaudio =
+sink. Using gst-launch with playbin2 and pulsesink works well on the =
+same system. I have tried a few different versions of Qt (5.0.1, 5.0.2 =
+and Qt 5.1) and both pulseaudio 3 and 4 with the same problem. When I =
+added this to local.conf:=20
+>=20
+> PREFERRED_VERSION_eglibc-locale =3D "2.17"
+> PREFERRED_VERSION_eglibc-mtrace =3D "2.17"
+> PREFERRED_VERSION_eglibc-scripts =3D "2.17"
+> PREFERRED_VERSION_eglibc-initial =3D "2.17"
+> PREFERRED_VERSION_eglibc =3D "2.17"
+>=20
+> It works ok again, so it was introduced when moving to eglib 2.18 (not =
+saying that the actual error is in eglibc though).
+>=20
+> The error I'm seeing is this:=20
+> Assertion 'pthread_mutex_unlock(&m->mutex) =3D=3D 0' failed at =
+pulsecore/mutex-posix.c:108, function pa_mutex_unlock(). Aborting.
+
+can you try
+
+$ export CANBERRA_DRIVER=3D"null"
+
+and run the faulty program in this shell.
+
+Does this fix the problem ?
+
+
+
+>=20
+> Google tells me that this has been an issue for OMAP4 when certain =
+kernel configuration where enabled [1], which makes me believe this =
+might be a hard one to track down. I'll see if I can find the time to =
+debug it a bit more, but I would really appreciate any input.=20
+>=20
+> It's quite easy to reproduce, just use the QtMultimedia (built to use =
+gstreamer and pulseaudio) mediaplayer example and select an mp3 file. It =
+works like one time out of 20 or so, so some kind of race condition is =
+probably the case.=20
+>=20
+> My hardware setup is a nitrogen6x board with a Freescale iMX6 =
+processor (so I'm using meta-fsl-arm*), I've tried with both Qt built =
+with meta-qt5 and an external Qt build against the Yocto sysroot. If =
+anyone can reproduce this on some other hardware that would be nice to =
+know.
+>=20
+> This started on the meta-freescale list [2], but is probably belonging =
+here.=20
+>=20
+> [1]. =
+http://lists.linaro.org/pipermail/linaro-dev/2013-April/015794.html
+> [2]. =
+https://lists.yoctoproject.org/pipermail/meta-freescale/2013-August/004152=
+.html
+>=20
+> Cheers,=20
+> Erik Bot=F6
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+
+--Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=iso-8859-1
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Diso-8859-1"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space; =
+"><br><div><div>On Aug 22, 2013, at 11:14 PM, Erik Bot=F6 &lt;<a =
+href=3D"mailto:erik.boto@pelagicore.com">erik.boto@pelagicore.com</a>&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><blockquote =
+type=3D"cite"><div dir=3D"ltr">Hi,&nbsp;<div><br></div><div><span =
+style=3D"font-family:arial,sans-serif;font-size:13px">I'm hitting a bug =
+now when using Qt to play e.g mp3:s to a pulseaudio sink. Using =
+gst-launch with playbin2 and pulsesink works well on the same system. I =
+have tried a few different versions of Qt (5.0.1, 5.0.2 and Qt 5.1) and =
+both pulseaudio 3 and 4 with the same problem. When I&nbsp;</span><span =
+style=3D"font-family:arial,sans-serif;font-size:13px">added this to =
+local.conf:&nbsp;</span></div>
+<div><div =
+style=3D"font-family:arial,sans-serif;font-size:13px"><br></div><div =
+style=3D"font-family:arial,sans-serif;font-size:13px"><div>PREFERRED_VERSI=
+ON_eglibc-locale =3D "2.17"</div><div>PREFERRED_VERSION_eglibc-mtrace =3D =
+"2.17"</div>
+<div>PREFERRED_VERSION_eglibc-scripts =3D =
+"2.17"</div><div>PREFERRED_VERSION_eglibc-initial =3D =
+"2.17"</div><div>PREFERRED_VERSION_eglibc =3D =
+"2.17"</div></div></div><div><font face=3D"arial, sans-serif"><br>
+</font></div><div><font face=3D"arial, sans-serif">It works ok again, so =
+it was introduced when moving to eglib 2.18 (not saying that the actual =
+error is in eglibc though).</font></div><div><font face=3D"arial, =
+sans-serif"><br>
+</font></div><div><div =
+style=3D"font-family:arial,sans-serif;font-size:13px">The error I'm =
+seeing is this:&nbsp;</div><div =
+style=3D"font-family:arial,sans-serif;font-size:13px">Assertion =
+'pthread_mutex_unlock(&amp;m-&gt;mutex) =3D=3D 0' failed at =
+pulsecore/mutex-posix.c:108, function pa_mutex_unlock(). =
+Aborting.</div></div></div></blockquote><div><br></div><div>can you =
+try</div><div><br></div><div><div>$ export =
+CANBERRA_DRIVER=3D"null"</div><div><br></div><div>and run the faulty =
+program in this shell.</div><div><br></div><div>Does this fix the =
+problem ?</div><br =
+class=3D"Apple-interchange-newline"><br></div><br><blockquote =
+type=3D"cite"><div dir=3D"ltr"><div>
+<div><br></div><div><span =
+style=3D"font-family:arial,sans-serif;font-size:13px">Google tells me =
+that this has been an issue for OMAP4 when certain kernel configuration =
+where enabled [1], which makes me believe this might be a hard one to =
+track down. I'll see if I can find the time to debug it a bit more, but =
+I would really appreciate any input.&nbsp;</span></div>
+<div><span =
+style=3D"font-family:arial,sans-serif;font-size:13px"><br></span></div><di=
+v><span style=3D"font-family:arial,sans-serif;font-size:13px">It's quite =
+easy to reproduce, just use the QtMultimedia (</span><span =
+style=3D"font-family:arial,sans-serif;font-size:13px">built to use =
+gstreamer and pulseaudio</span><span =
+style=3D"font-family:arial,sans-serif;font-size:13px">) mediaplayer =
+example and select an mp3 file. It works like one time out of 20 or so, =
+so some kind of race condition is probably the case.&nbsp;</span></div>
+<div><span =
+style=3D"font-family:arial,sans-serif;font-size:13px"><br></span></div><di=
+v><span style=3D"font-family:arial,sans-serif;font-size:13px">My =
+hardware setup is a nitrogen6x board with a Freescale iMX6 processor (so =
+I'm using meta-fsl-arm*), I've tried with both Qt built with meta-qt5 =
+and an external Qt build against the Yocto sysroot. If anyone can =
+reproduce this on some other hardware that would be nice to =
+know.</span></div>
+<div><span =
+style=3D"font-family:arial,sans-serif;font-size:13px"><br></span></div><di=
+v><span style=3D"font-family:arial,sans-serif;font-size:13px">This =
+started on the meta-freescale list [2], but is probably belonging =
+here.&nbsp;</span></div>
+<div><br></div><div><span =
+style=3D"font-family:arial,sans-serif;font-size:13px">[1].&nbsp;</span><a =
+href=3D"http://lists.linaro.org/pipermail/linaro-dev/2013-April/015794.htm=
+l" target=3D"_blank" =
+style=3D"font-family:arial,sans-serif;font-size:13px">http://lists.linaro.=
+org/pipermail/linaro-dev/2013-April/015794.html</a><br>
+</div><div>[2].&nbsp;<a =
+href=3D"https://lists.yoctoproject.org/pipermail/meta-freescale/2013-Augus=
+t/004152.html">https://lists.yoctoproject.org/pipermail/meta-freescale/201=
+3-August/004152.html</a></div><div><br></div>Cheers,&nbsp;</div>
+<div>Erik Bot=F6</div></div>
+_______________________________________________<br>Openembedded-core =
+mailing list<br><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-core=
+@lists.openembedded.org</a><br>http://lists.openembedded.org/mailman/listi=
+nfo/openembedded-core<br></blockquote></div><br></body></html>=
+
+--Apple-Mail=_3B31D1C0-D10F-4E15-9F00-7CB879AAE601--
