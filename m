@@ -1,28 +1,28 @@
 Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 00F2B6B115
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 220D06B9D9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 15:32:30 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Aug 2013 08:32:27 -0700
+	Fri, 23 Aug 2013 15:32:31 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 23 Aug 2013 08:32:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="390996663"
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="285884499"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Aug 2013 08:32:27 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 08:32:31 -0700
 Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 36F972C8001
+	by linux.intel.com (Postfix) with ESMTP id AF6382C8002
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 08:32:25 -0700 (PDT)
+	Fri, 23 Aug 2013 08:32:29 -0700 (PDT)
 From: Stefan Stanacar <stefanx.stanacar@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 18:30:41 +0300
-Message-Id: <47def7753037e9c7d1af211d4fd7901207246edc.1377269484.git.stefanx.stanacar@intel.com>
+Date: Fri, 23 Aug 2013 18:30:45 +0300
+Message-Id: <df323d903c2fc957ebf08d5127ec6a3ae984eaf8.1377269485.git.stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1377269484.git.stefanx.stanacar@intel.com>
 References: <cover.1377269484.git.stefanx.stanacar@intel.com>
 In-Reply-To: <cover.1377269484.git.stefanx.stanacar@intel.com>
 References: <cover.1377269484.git.stefanx.stanacar@intel.com>
-Subject: [PATCH 01/21] lib/oeqa/runtime: add basic test for x32 images
+Subject: [PATCH 05/21] lib/oeqa/runtime: add new skeletoninit test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,40 +37,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 23 Aug 2013 15:32:31 -0000
 
-From: Alexandru Georgescu <alexandru.c.georgescu@intel.com>
+From: Alexandru Palalau <alexandrux.palalau@intel.com>
 
-Checks that an x86-64-x32 image has the right binaries.
+New test which verifies the usage of skeleton init script available with meta-skeleton layer
 
-Signed-off-by: Alexandru Georgescu <alexandru.c.georgescu@intel.com>
+Signed-off-by: Alexandru Palalau <alexandrux.palalau@intel.com>
 Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/lib/oeqa/runtime/x32lib.py | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/x32lib.py
+ meta/lib/oeqa/skeletoninit.py | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 meta/lib/oeqa/skeletoninit.py
 
-diff --git a/meta/lib/oeqa/runtime/x32lib.py b/meta/lib/oeqa/runtime/x32lib.py
+diff --git a/meta/lib/oeqa/skeletoninit.py b/meta/lib/oeqa/skeletoninit.py
 new file mode 100644
-index 0000000..6bad201
+index 0000000..557e715
 --- /dev/null
-+++ b/meta/lib/oeqa/runtime/x32lib.py
-@@ -0,0 +1,17 @@
++++ b/meta/lib/oeqa/skeletoninit.py
+@@ -0,0 +1,28 @@
++# This test should cover https://bugzilla.yoctoproject.org/tr_show_case.cgi?case_id=284 testcase
++# Note that the image under test must have meta-skeleton layer in bblayers and IMAGE_INSTALL_append = " service" in local.conf
++
 +import unittest
-+from oeqa.oetest import oeRuntimeTest, skipModule
++from oeqa.oetest import oeRuntimeTest
 +from oeqa.utils.decorators import *
 +
 +def setUpModule():
-+        #check if DEFAULTTUNE is set and it's value is: x86-64-x32
-+        defaulttune = oeRuntimeTest.tc.d.getVar("DEFAULTTUNE", True)
-+        if "x86-64-x32" not in defaulttune:
-+            skipModule("DEFAULTTUNE is not set to x86-64-x32")
++    if not oeRuntimeTest.hasPackage("service"):
++        skipModule("No service package in image")
 +
-+class X32libTest(oeRuntimeTest):
 +
-+    @skipUnlessPassed("test_ssh")
-+    def test_x32_file(self):
-+        status1 = self.target.run("readelf -h /bin/ls | grep Class | grep ELF32")[0]
-+        status2 = self.target.run("readelf -h /bin/ls | grep Machine | grep X86-64")[0]
-+        self.assertTrue(status1 == 0 and status2 == 0, msg="/bin/ls isn't an X86-64 ELF32 binary. readelf says: %s" % self.target.run("readelf -h /bin/ls")[1])
++class SkeletonBasicTest(oeRuntimeTest):
++
++    @skipUnlessPassed('test_ssh')
++    @unittest.skipIf("systemd" == oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager"), "Not appropiate for systemd image")
++    def test_skeleton_availability(self):
++        (status, output) = self.target.run('ls /etc/init.d/skeleton')
++        self.assertEqual(status, 0, msg = "skeleton init script not found. Output:\n%s " % output)
++        (status, output) =  self.target.run('ls /usr/sbin/skeleton-test')
++        self.assertEqual(status, 0, msg = "skeleton-test not found. Output:\n%s" % output)
++
++    @skipUnlessPassed('test_skeleton_availability')
++    @unittest.skipIf("systemd" == oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager"), "Not appropiate for systemd image")
++    def test_skeleton_script(self):
++        output1 = self.target.run("/etc/init.d/skeleton start")[1]
++        (status, output2) = self.target.run(oeRuntimeTest.pscmd + ' | grep [s]keleton-test')
++        self.assertEqual(status, 0, msg = "Skeleton script could not be started:\n%s\n%s" % (output1, output2))
 -- 
 1.8.3.1
 
