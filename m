@@ -1,24 +1,24 @@
-Return-Path: <mihai.prica@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 837496B212
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C16E6065F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 12:57:32 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Aug 2013 05:57:33 -0700
+	Fri, 23 Aug 2013 13:40:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 06:40:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="390923677"
-Received: from unknown (HELO mihai-Vostro-460.rb.intel.com) ([10.237.105.31])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Aug 2013 05:57:32 -0700
-From: Mihai Prica <mihai.prica@intel.com>
+X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="385466293"
+Received: from sentry.rb.intel.com ([10.237.105.54])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Aug 2013 06:40:32 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 23 Aug 2013 15:57:00 +0300
-Message-Id: <00278871409c42941aa71f4c64e2c07b0cc6bf61.1377260859.git.mihai.prica@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1377260859.git.mihai.prica@intel.com>
-References: <cover.1377260859.git.mihai.prica@intel.com>
-In-Reply-To: <cover.1377260859.git.mihai.prica@intel.com>
-References: <cover.1377260859.git.mihai.prica@intel.com>
-Subject: [PATCH v2 1/1] connman-gnome: fix DHCP segfault
+Date: Fri, 23 Aug 2013 16:42:16 +0300
+Message-Id: <0f4ed0a174f9463cbd3fdea5f4e9d4b1b275ee6c.1377264698.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1377264698.git.cristian.iorga@intel.com>
+References: <cover.1377264698.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1377264698.git.cristian.iorga@intel.com>
+References: <cover.1377264698.git.cristian.iorga@intel.com>
+Subject: [PATCH v3 1/4] xdg-utils: add runtime dependency on xprop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 12:57:33 -0000
+X-List-Received-Date: Fri, 23 Aug 2013 13:40:49 -0000
 
-In networks that don't have a DHCP server configured, ipv4 address
-allocation fails and the ipv4 structure doesn't get populated.
-The patch checks this case also.
+xprop is called by xdg-utils scripts.
 
-[YOCTO #3945]
-
-Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu at intel.com>
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- .../connman-gnome/null_check_for_ipv4_config.patch |   36 ++++++++++++++++++++
- .../connman/connman-gnome_0.7.bb                   |    1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman-gnome/null_check_for_ipv4_config.patch
+ meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome/null_check_for_ipv4_config.patch b/meta/recipes-connectivity/connman/connman-gnome/null_check_for_ipv4_config.patch
-new file mode 100644
-index 0000000..a0cfda1
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman-gnome/null_check_for_ipv4_config.patch
-@@ -0,0 +1,36 @@
-+In networks that don't have a DHCP server configured, ipv4 address
-+allocation fails and the ipv4 structure doesn't get populated. When
-+the GUI is trying to read the ipv4_config.method field to see whether
-+it contains "dhcp" string, a segmentation fault is generated.
-+
-+Ethernet manual configuration behavior remains unchanged after this fix.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Emilia Ciobanu <emilia.maria.silvia.ciobanu@intel.com>
-+Index: git/properties/ethernet.c
-+===================================================================
-+--- git.orig/properties/ethernet.c
-++++ git/properties/ethernet.c
-+@@ -194,7 +194,7 @@ void add_ethernet_service(GtkWidget *mai
-+
-+ 	data->button = button;
-+
-+-	if (g_str_equal(ipv4_config.method, "dhcp") == TRUE)
-++	if (!ipv4_config.method || g_str_equal(ipv4_config.method, "dhcp") == TRUE)
-+ 		update_ethernet_ipv4(data, CONNMAN_POLICY_DHCP);
-+ 	else
-+ 		update_ethernet_ipv4(data, CONNMAN_POLICY_MANUAL);
-+Index: git/properties/wifi.c
-+===================================================================
-+--- git.orig/properties/wifi.c
-++++ git/properties/wifi.c
-+@@ -230,7 +230,7 @@ static void wifi_ipconfig(GtkWidget *tab
-+
-+ 	data->ipv4_config = ipv4_config;
-+
-+-	if (g_str_equal(ipv4_config.method, "dhcp") == TRUE)
-++	if (!ipv4_config.method || g_str_equal(ipv4_config.method, "dhcp") == TRUE)
-+ 		update_wifi_ipv4(data, CONNMAN_POLICY_DHCP);
-+ 	else
-+ 		update_wifi_ipv4(data, CONNMAN_POLICY_MANUAL);
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-index 6299e70..85be9cb 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -12,6 +12,7 @@ DEPENDS = "gtk+ dbus-glib intltool-native"
- SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
- SRC_URI = "git://github.com/connectivity/connman-gnome.git;protocol=git \
- 	   file://0001-Removed-icon-from-connman-gnome-about-applet.patch \
-+       file://null_check_for_ipv4_config.patch \
- 	   file://images/* \
-           "
-
---
-1.7.9.5
+diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb
+index d5c7aa3..22247f7 100644
+--- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb
++++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.0-rc1.bb
+@@ -23,3 +23,4 @@ SRC_URI[sha256sum] = "7b05558ae4bb8ede356863cae8c42e3e012aa421bf9d45130a570fd209
+ 
+ inherit autotools
+ 
++RDEPENDS_${PN} = "xprop"
+-- 
+1.8.1.2
 
 
