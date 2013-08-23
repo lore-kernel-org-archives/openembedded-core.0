@@ -1,38 +1,35 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A16FA608A6
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F3806065F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 23 Aug 2013 13:47:36 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 23 Aug 2013 06:47:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,941,1367996400"; d="scan'208";a="285847234"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by AZSMGA002.ch.intel.com with ESMTP; 23 Aug 2013 06:47:36 -0700
-Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Fri, 23 Aug 2013 14:47:35 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.233]) with mapi id
-	14.03.0123.003; Fri, 23 Aug 2013 14:47:36 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3 2/4] packagegroup-self-hosted: pcmanfm and
-	xdg-utils integration - no comment on the patch itself!!
-Thread-Index: AQHOoAZ3NJlUrR1+3E+ke/P4kNPKVpmizfEg
-Date: Fri, 23 Aug 2013 13:47:35 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C19829@IRSMSX105.ger.corp.intel.com>
-References: <cover.1377264698.git.cristian.iorga@intel.com>
-	<b14c1c4990e540ebaee263fd631fecea7154682a.1377264698.git.cristian.iorga@intel.com>
-In-Reply-To: <b14c1c4990e540ebaee263fd631fecea7154682a.1377264698.git.cristian.iorga@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Subject: Re: [PATCH v3 2/4] packagegroup-self-hosted: pcmanfm and	xdg-utils integration - no comment on the patch itself!!
+	Fri, 23 Aug 2013 14:21:13 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id b45so330456eek.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 23 Aug 2013 07:21:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Hm4gFdCtb3T3nkFNylc2M70Z5ae5sQtTNNprQTCeQaA=;
+	b=GKRVKFFDM8pu7O5W4HkaMhzgLRm7ZazqOereHbMifdzkrRXTkHZY++X/gfrO/LYfaO
+	gy6oQhqlrICsxhqKHDg/YEHk7v+J8YUadgCaLsjBwF72Nkb+/9pNYilu3xns2iJhDLKO
+	PiLP8N3MTWLYWz6lxp9RnZRp60F9zQPsJwDMc5rC8Qe2ObJWM4T1kiZBU1adObthnQ4d
+	DWhzt5keJuTyPGQUgjYgBB+79pSf4Xmc5lzpxyyzjRdi/qB3McuvU4Mmw9p9ioLyr+Ng
+	H3hpJ4dQm09l7Uew5eDofmj/726Zny3VnREEcPwRFvB1kTsgEHjAH98BPJSaK4Q58HFB
+	tCzQ==
+X-Gm-Message-State: ALoCoQkUn+ZO09MvRDcUQ/w5zsHX4bDRYj8ZEVI9GXvhgZnFOXdAA+uIuvap7vKtF504UUxvResF
+X-Received: by 10.14.183.130 with SMTP id q2mr70161eem.5.1377267673300;
+	Fri, 23 Aug 2013 07:21:13 -0700 (PDT)
+Received: from otp-mmes-build2.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPSA id z12sm77206eev.6.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 23 Aug 2013 07:21:12 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 23 Aug 2013 17:20:57 +0300
+Message-Id: <1377267658-14590-1-git-send-email-andrei.gherzan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH 1/2] eglibc-options.inc: Fix string options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Aug 2013 13:47:38 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 23 Aug 2013 14:21:13 -0000
 
-There seems to be an issue with the create-pull-request script..
-It will break the subject in two lines...
-As such, at least under Outlook, the mail titles look strange.
-Is this happening to other people also?
-Regards,
-Cristian
+Add quotation marks for OPTION_EGLIBC_NSSWITCH_FIXED* options. If not, Kconfig
+will ignore the value and will use the default one which is "".
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Cristian Iorga
-Sent: Friday, August 23, 2013 4:42 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH v3 2/4] packagegroup-self-hosted: pcmanfm and xdg=
--utils integration
-
-PCManFm file manager is integrated in Build Appliance; xdg-utils is also in=
-tegrated for file association support.
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/eglibc/eglibc-options.inc |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/=
-meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 6a0722a..2d35c16 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -38,11 +38,13 @@ RDEPENDS_packagegroup-self-hosted-host-tools =3D "\
-     hdparm \
-     iptables \
-     lsb \
-+    xdg-utils \
-     mc \
-     mc-fish \
-     mc-helpers \
-     mc-helpers-perl \
-     mc-helpers-python \
-+    pcmanfm \
-     parted \
-     pseudo \
-     screen \
---
-1.8.1.2
+diff --git a/meta/recipes-core/eglibc/eglibc-options.inc b/meta/recipes-core/eglibc/eglibc-options.inc
+index 74412e8..c55d05d 100644
+--- a/meta/recipes-core/eglibc/eglibc-options.inc
++++ b/meta/recipes-core/eglibc/eglibc-options.inc
+@@ -7,8 +7,8 @@ def eglibc_cfg(feature, features, tokens, cnf):
+         for token in tokens:
+             cnf.extend([token + '=n'])
+             if token == 'OPTION_EGLIBC_NSSWITCH':
+-                cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_CONFIG = ${S}/nss/nsswitch.conf"])
+-                cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_FUNCTIONS = ${S}/nss/fixed-nsswitch.functions"])
++                cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_CONFIG=\"${S}/nss/nsswitch.conf\""])
++                cnf.extend(["OPTION_EGLIBC_NSSWITCH_FIXED_FUNCTIONS=\"${S}/nss/fixed-nsswitch.functions\""])
+ 
+ # arrange the dependencies among eglibc configuable options according to file option-groups.def from eglibc source code
+ def distro_features_check_deps(distro_features):
+-- 
+1.7.9.5
 
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
