@@ -1,18 +1,18 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DB4861013
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7872561013
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2013 13:53:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7ODr9v1018178
+	Sat, 24 Aug 2013 14:47:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7OElJdv028921
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 24 Aug 2013 06:53:09 -0700 (PDT)
+	Sat, 24 Aug 2013 07:47:19 -0700 (PDT)
 Received: from bruce-ashfields-macbook.local (128.224.21.157) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sat, 24 Aug 2013 06:53:07 -0700
-Message-ID: <5218BAC2.8040709@windriver.com>
-Date: Sat, 24 Aug 2013 09:53:06 -0400
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Sat, 24 Aug 2013 07:47:18 -0700
+Message-ID: <5218C775.6050107@windriver.com>
+Date: Sat, 24 Aug 2013 10:47:17 -0400
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
 	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2013 13:53:11 -0000
+X-List-Received-Date: Sat, 24 Aug 2013 14:47:21 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -132,26 +132,25 @@ On 13-08-24 9:50 AM, Saul Wold wrote:
 > valgrind, ltp and strace are more Dev tools, so a world build would be
 > better.
 
-Ah ok. I'll explicitly add dependencies on them here and restart
-my sato build.
+I reproduced the failure here via adding ptrace to my image install.
+The kernel change happened in april, and the good news is that the
+structure is still exactly the same size, with the same fields. So the
+userspace ABI is unchanged.
 
-I'm a bit surprised that it failed, since user apis are a huge no-no
-to change.
+I'll hunt down the conflict and adjust the packages, since that kernel
+header change will be there to stay.
+
+Has anyone checked to see if the upstream version of those packages have
+already adapted to the change ? I'll do that tonight when I'm back, if
+no one else has.
+
+Cheers,
+
+Bruce
 
 >
 > Also, not sure why but ARM failed to patch 3.8 kernel overnight on the
 > AB. (lots of red).
-
-probably because I didn't look at 3.8 ... since my plan was to delete
-it!
-
-I'll follow up with a fix for that tonight, if I can see the failure
-here. Always fun!! :)
-
-Leave that one with me. Do you have a link to the failure ?
-
-Bruce
-
 >
 > I just restarted AB with out the 3.10 headers.
 >
