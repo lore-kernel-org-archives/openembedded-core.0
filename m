@@ -1,33 +1,30 @@
-Return-Path: <eric.nelson@boundarydevices.com>
-Received: from fed1rmfepo102.cox.net (fed1rmfepo102.cox.net [68.230.241.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B1ED61013
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2013 16:49:13 +0000 (UTC)
-Received: from fed1rmimpo110 ([68.230.241.159]) by fed1rmfepo102.cox.net
-	(InterMail vM.8.01.05.09 201-2260-151-124-20120717) with ESMTP
-	id <20130824164913.XCXJ3896.fed1rmfepo102.cox.net@fed1rmimpo110>
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2013 12:49:13 -0400
-Received: from localhost.localdomain ([98.167.230.131])
-	by fed1rmimpo110 with cox
-	id GgpD1m00V2ql3AS01gpDMa; Sat, 24 Aug 2013 12:49:13 -0400
-X-CT-Class: Clean
-X-CT-Score: 0.00
-X-CT-RefID: str=0001.0A020202.5218E409.00DD,ss=1,re=0.000,fgs=0
-X-CT-Spam: 0
-X-Authority-Analysis: v=2.0 cv=KYMMR3kD c=1 sm=1
-	a=np+gEjoI14f0/4viqHkTOw==:17 a=2bLghuLI4UkA:10 a=rcTfVT_afHIA:10
-	a=R_N1NMmAAAAA:8 a=HPwy993xoGEA:10 a=OCGuPPFrAAAA:8 a=1pLMaboaAAAA:8
-	a=Smoysqs_eyLD0UPY1x8A:9 a=uxzo5znrcxgA:10 a=QOiTB_lUNkwA:10
-	a=np+gEjoI14f0/4viqHkTOw==:117
-X-CM-Score: 0.00
-Authentication-Results: cox.net; none
-From: Eric Nelson <eric.nelson@boundarydevices.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 24 Aug 2013 09:49:12 -0700
-Message-Id: <1377362952-29061-1-git-send-email-eric.nelson@boundarydevices.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] recipes-qt: add fix for QWSLock on qt4e
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 441E561013
+	for <Openembedded-core@lists.openembedded.org>;
+	Sat, 24 Aug 2013 17:15:47 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7OHRngn021510; Sat, 24 Aug 2013 18:27:50 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8NxRsZ5RzOQg; Sat, 24 Aug 2013 18:27:49 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7OHRh0D021503
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sat, 24 Aug 2013 18:27:45 +0100
+Message-ID: <1377364531.6762.202.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jason Wessel <jason.wessel@windriver.com>
+Date: Sat, 24 Aug 2013 18:15:31 +0100
+In-Reply-To: <1377212667-5915-1-git-send-email-jason.wessel@windriver.com>
+References: <1377212667-5915-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [v2 PATCH] kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,121 +37,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2013 16:49:13 -0000
+X-List-Received-Date: Sat, 24 Aug 2013 17:15:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This patch adds a patch for Qt-Embedded to only
-destroy semaphores in the process which created
-them.
+On Thu, 2013-08-22 at 18:04 -0500, Jason Wessel wrote:
+> This patch aims to fix the following two cases for the INITRAMFS generation.
+>   1) Allow an image recipe to specify a paired INITRAMFS recipe such
+>      as core-image-minimal-initramfs.  This allows building a base
+>      image which always generates the needed initramfs image in one step
+>   2) Allow building a single binary which contains a kernel and
+>      the initramfs.
+> 
+> A key requirement of the initramfs is to be able to add kernel
+> modules.  The current implementation of the INITRAMFS_IMAGE variable
+> has a circular dependency when using kernel modules in the initramfs
+> image.bb file that is caused by kernel.bbclass trying to build the
+> initramfs before the kernel's do_install rule.
+> 
+> The solution for this problem is to have the kernel's
+> do_bundle_initramfs_image task depend on the do_rootfs from the
+> INITRAMFS_IMAGE and not some intermediate point.  The image.bbclass
+> will also sets up dependencies to make the initramfs creation task run
+> last.
+> 
+> The code to bundle the kernel and initramfs together has been added.
+> At a high level, all it is doing is invoking a second compilation of
+> the kernel but changing the value of CONFIG_INITRAMFS_SOURCE to point
+> to the generated initramfs from the image recipe.
+> 
+> [YOCTO #4072]
+> 
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Original patch by Neil Jerram for the OpenMoko project:
-	http://lists.openmoko.org/pipermail/community/2012-November/067806.html
+I have a couple of things I'd really like to see get resolved here. One
+is below, the other is I'm worried about the packaged output differences
+since we can package the kernel into a package file and now its going to
+be different.
 
-See also Bug 31254:
-https://bugreports.qt-project.org/browse/QTBUG-31254
+I appreciate its a hard problem to solve but not impossible. Basically
+we move the package generation for that single package into a separate
+recipe and have it depend on the bundling task if/as/when needed. The
+bundle task stashes the kernel in the sysroot, the other recipe simply
+packages it. Its a little bit of a dance but should ensure we get
+everything consistent.
 
-Signed-off-by: Eric Nelson <eric.nelson@boundarydevices.com>
----
- meta/recipes-qt/qt4/qt4-4.8.5.inc                  |  1 +
- ...-Only-destroy-semaphores-in-process-owner.patch | 77 ++++++++++++++++++++++
- 2 files changed, 78 insertions(+)
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.5/0028-QWSLock-Only-destroy-semaphores-in-process-owner.patch
 
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5.inc b/meta/recipes-qt/qt4/qt4-4.8.5.inc
-index 95a14f3..be16bff 100644
---- a/meta/recipes-qt/qt4/qt4-4.8.5.inc
-+++ b/meta/recipes-qt/qt4/qt4-4.8.5.inc
-@@ -24,6 +24,7 @@ SRC_URI = "http://download.qt-project.org/official_releases/qt/4.8/${PV}/qt-ever
-            file://0022-Fix-drawing-of-0-width-polylines-from-outside-the-de.patch \
-            file://0023-QHttpMultiPart-fix-data-corruption-in-readData-metho.patch \
-            file://0027-tools.pro-disable-qmeegographicssystemhelper.patch \
-+           file://0028-QWSLock-Only-destroy-semaphores-in-process-owner.patch \
-            file://g++.conf \
-            file://linux.conf \
-            "
-diff --git a/meta/recipes-qt/qt4/qt4-4.8.5/0028-QWSLock-Only-destroy-semaphores-in-process-owner.patch b/meta/recipes-qt/qt4/qt4-4.8.5/0028-QWSLock-Only-destroy-semaphores-in-process-owner.patch
-new file mode 100644
-index 0000000..d67a746
---- /dev/null
-+++ b/meta/recipes-qt/qt4/qt4-4.8.5/0028-QWSLock-Only-destroy-semaphores-in-process-owner.patch
-@@ -0,0 +1,77 @@
-+From 9af565935d16ecf8a8c04b5ea850ddb34a7c1294 Mon Sep 17 00:00:00 2001
-+From: Eric Nelson <eric.nelson@boundarydevices.com>
-+Date: Mon, 12 Aug 2013 11:54:05 -0700
-+Subject: [PATCH] QWSLock: Only destroy semaphores in process owner
-+
-+This fixes the case when QT_POSIX_IPC is not defined.
-+
-+Original patch by Neil Jerram for the OpenMoko project:
-+	http://lists.openmoko.org/pipermail/community/2012-November/067806.html
-+
-+See also Bug 31254:
-+	https://bugreports.qt-project.org/browse/QTBUG-31254
-+
-+Signed-off-by: Eric Nelson <eric.nelson@boundarydevices.com>
-+---
-+ src/gui/embedded/qwslock.cpp | 13 +++++++++----
-+ src/gui/embedded/qwslock_p.h |  2 +-
-+ 2 files changed, 10 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/gui/embedded/qwslock.cpp b/src/gui/embedded/qwslock.cpp
-+index 3f8f306..cd6a48d 100644
-+--- a/src/gui/embedded/qwslock.cpp
-++++ b/src/gui/embedded/qwslock.cpp
-+@@ -83,9 +83,12 @@ QWSLock::QWSLock(int id) : semId(id)
-+     QWSSignalHandler::instance()->addWSLock(this);
-+ #endif
-+ 
-++    owned = false;
-++
-+ #ifndef QT_POSIX_IPC
-+     if (semId == -1) {
-+         semId = semget(IPC_PRIVATE, 3, IPC_CREAT | 0666);
-++        owned = true;
-+         if (semId == -1) {
-+             perror("QWSLock::QWSLock");
-+             qFatal("Unable to create semaphore");
-+@@ -100,7 +103,6 @@ QWSLock::QWSLock(int id) : semId(id)
-+     }
-+ #else
-+     sems[0] = sems[1] = sems[2] = SEM_FAILED;
-+-    owned = false;
-+ 
-+     if (semId == -1) {
-+         // ### generate really unique IDs
-+@@ -134,9 +136,12 @@ QWSLock::~QWSLock()
-+ 
-+     if (semId != -1) {
-+ #ifndef QT_POSIX_IPC
-+-        qt_semun semval;
-+-        semval.val = 0;
-+-        semctl(semId, 0, IPC_RMID, semval);
-++
-++        if (owned) {
-++            qt_semun semval;
-++            semval.val = 0;
-++            semctl(semId, 0, IPC_RMID, semval);
-++        }
-+         semId = -1;
-+ #else
-+         // emulate the SEM_UNDO behavior for the BackingStore lock
-+diff --git a/src/gui/embedded/qwslock_p.h b/src/gui/embedded/qwslock_p.h
-+index ead7b89..d16b3d5 100644
-+--- a/src/gui/embedded/qwslock_p.h
-++++ b/src/gui/embedded/qwslock_p.h
-+@@ -86,8 +86,8 @@ private:
-+     int lockCount[2];
-+ #ifdef QT_POSIX_IPC
-+     sem_t *sems[3];
-+-    bool owned;
-+ #endif
-++    bool owned;
-+ };
-+ 
-+ QT_END_NAMESPACE
-+-- 
-+1.8.1.2
-+
--- 
-1.8.1.2
+> ---
+>  meta/classes/image.bbclass  |   12 ++++++
+>  meta/classes/kernel.bbclass |   96 +++++++++++++++++++++++++++++++++++++------
+>  meta/conf/local.conf.sample |   20 +++++++++
+>  3 files changed, 116 insertions(+), 12 deletions(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 909702a..23967ec 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -130,6 +130,10 @@ python () {
+>      d.setVar('MULTILIB_VENDORS', ml_vendor_list)
+>  
+>      check_image_features(d)
+> +    initramfs_image = d.getVar('INITRAMFS_IMAGE', True) or ""
+> +    if initramfs_image != "":
+> +        d.appendVarFlag('do_build', 'depends', " %s:do_bundle_initramfs" %  d.getVar('PN', True))
+> +        d.appendVarFlag('do_bundle_initramfs', 'depends', " %s:do_rootfs" % initramfs_image)
+>  }
+>  
+>  #
+> @@ -629,3 +633,11 @@ do_package_write_deb[noexec] = "1"
+>  do_package_write_rpm[noexec] = "1"
+>  
+>  addtask rootfs before do_build
+> +# Allow the kernel to be repacked with the initramfs and boot image file as a single file
+> +do_bundle_initramfs[depends] += "virtual/kernel:do_bundle_initramfs"
+> +do_bundle_initramfs[nostamp] = "1"
+> +do_bundle_initramfs[noexec] = "1"
+> +do_bundle_initramfs () {
+> +	:
+> +}
+> +addtask bundle_initramfs after do_rootfs
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index e039dfc..8cf66ce 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -9,6 +9,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+>  KERNEL_IMAGETYPE ?= "zImage"
+>  INITRAMFS_IMAGE ?= ""
+>  INITRAMFS_TASK ?= ""
+> +INITRAMFS_IMAGE_BUNDLE ?= ""
+>  
+>  python __anonymous () {
+>      kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
+> @@ -19,7 +20,15 @@ python __anonymous () {
+>  
+>      image = d.getVar('INITRAMFS_IMAGE', True)
+>      if image:
+> -        d.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs')
+> +        d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
+> +
+> +    # NOTE: setting INITRAMFS_TASK is for backward compatibility
+> +    #       The preferred method is to set INITRAMFS_IMAGE, because
+> +    #       this INITRAMFS_TASK has circular dependency problems
+> +    #       if the initramfs requires kernel modules
+> +    image_task = d.getVar('INITRAMFS_TASK', True)
+> +    if image_task:
+> +        d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
+>  }
+>  
+>  inherit kernel-arch deploy
+> @@ -72,9 +81,82 @@ KERNEL_SRC_PATH = "/usr/src/kernel"
+>  
+>  KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
+>  
+> +copy_initramfs() {
+> +	echo "Copying initramfs into ./usr ..."
+> +	# Find and use the first initramfs image archive type we find
+> +	rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+> +	for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
+> +		if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
+> +			cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${B}/usr/.
+> +			case $img in
+> +			*gz)
+> +				echo "gzip decompressing image"
+> +				gunzip -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
+> +				break
+> +				;;
+> +			*lzo)
+> +				echo "lzo decompressing image"
+> +				lzop -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
+> +				break
+> +				;;
+> +			*lzma)
+> +				echo "lzma decompressing image"
+> +				lzmash -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
+> +				break
+> +				;;
+> +			*xz)
+> +				echo "xz decompressing image"
+> +				xz -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
+> +				break
+> +				;;
+> +			esac
+> +		fi
+> +	done
+> +	echo "Finished copy of initramfs into ./usr"
+> +}
+
+But what about my bzip2'd image? ;-)
+
+I'd suggest we rid of this and instead ensure that we're generating an
+uncompressed cpio image. The image generation code will happily sort
+that our for us if we ask it for that specific image type.
+
+I'd also wondered if we could remove INITRAMFS_TASK since its just going
+to confuse things and I'd prefer to maintain only one way of doing this
+if at all possible.
+
+Cheers,
+
+Richard
 
 
