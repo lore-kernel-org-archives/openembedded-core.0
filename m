@@ -1,28 +1,29 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B60461013
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AEC8261013
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2013 13:34:54 +0000 (UTC)
+	Sat, 24 Aug 2013 13:36:28 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7ODYnCB026238
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7ODaRCZ025899
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 24 Aug 2013 09:34:50 -0400 (EDT)
+	Sat, 24 Aug 2013 06:36:27 -0700 (PDT)
 Received: from bruce-ashfields-macbook.local (128.224.21.157) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sat, 24 Aug 2013 06:34:48 -0700
-Message-ID: <5218B678.8060702@windriver.com>
-Date: Sat, 24 Aug 2013 09:34:48 -0400
+	14.2.342.3; Sat, 24 Aug 2013 06:36:26 -0700
+Message-ID: <5218B6D9.4040805@windriver.com>
+Date: Sat, 24 Aug 2013 09:36:25 -0400
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
 	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>
+To: Jonathan Liu <net147@gmail.com>
 References: <cover.1377280429.git.bruce.ashfield@windriver.com>
-	<521853B6.4090709@linux.intel.com>
-In-Reply-To: <521853B6.4090709@linux.intel.com>
+	<43c76ff9d0dcee4d4caa30a4e24d7f1e4613d750.1377280429.git.bruce.ashfield@windriver.com>
+	<52180512.8020603@gmail.com>
+In-Reply-To: <52180512.8020603@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/5] linux-yocto: consolidated pull request
+Subject: Re: [PATCH 5/5] linux-yocto: introduce v3.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,19 +36,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2013 13:34:54 -0000
+X-List-Received-Date: Sat, 24 Aug 2013 13:36:28 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 13-08-24 2:33 AM, Saul Wold wrote:
-> On 08/23/2013 11:08 AM, Bruce Ashfield wrote:
->> Richard/Saul,
->>
->> Here's my consolidated set of changes that represent the biggest chunk
->> of work for the Yocto 1.5 release. The obvious change is that the 3.10
->> kernel is now the latest linux-yocto kernel (and linux-yocto-dev will
->> mark on). I've built and booted core-image-sato for all the oe-core
->> qemu machines.
+On 13-08-23 8:57 PM, Jonathan Liu wrote:
+> On 24/08/2013 4:08 AM, Bruce Ashfield wrote:
+>> Introduce the 3.10 kernel. This is based on the 3.10.9 upstream kernel
+>> and replaces the 3.8 recipes, which will be removed once all reference
+>> boards have been updated.
 >>
 >> 3.10 also the latest LTSI and will be updated with that content when it
 >> becomes available.
@@ -63,163 +60,155 @@ On 13-08-24 2:33 AM, Saul Wold wrote:
 >>    - patch carry forward from all previous linux-yocto kernels and
 >>      configuration.
 >>
->> I've also tested linux-yocto-rt and linux-yocto-tiny for the new,
->> shiny tree.
+>> This kernel has been built and boot tested on all qemu machines and
+>> architectures.
 >>
->> I've also bumped the linux-libc-headers to 3.10 and have fixed
->> gst-plugins-good
->> to adapt to a changed #define in the exported headers.
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>   meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   30
+>> ++++++++++++++++++++
+>>   meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   25
+>> ++++++++++++++++
+>>   meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   30
+>> ++++++++++++++++++++
+>>   3 files changed, 85 insertions(+)
+>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.10.bb
 >>
->> Other parts of this update include an uprev of guilt, and in fact, a
->> restoration of "normal" guil operations, since the kernel tree is now
->> manipulated and maintained via a smaller, more contained script. This
->> was necessary for both usability reasons and the fact that all of guilts
->> protections were being removed for the kernel's use .. which makes you
->> ask the quesetion "why use it". It was time for a change.
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>> new file mode 100644
+>> index 0000000..4139be8
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+>> @@ -0,0 +1,30 @@
+>> +require recipes-kernel/linux/linux-yocto.inc
+>> +
+>> +KBRANCH = "standard/preempt-rt/base"
+>> +KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
+>> +
+>> +SRCREV_machine ?= "77c5842818867366c3d08ca1dec19dc43aee0e91"
+>> +SRCREV_machine_qemuppc ?= "7be83bc1124d2a2c75f99df94baaf718659722ea"
+>> +SRCREV_meta ?= "1b9b113837f353fd94148beb6bd00a3b7b35d01d"
+>> +
+>> +SRC_URI =
+>> "git://git.yoctoproject.org/linux-yocto-3.10.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
 >>
->> The patches are pretty self explanitory and all contain detailed long
->> logs .. but the summary is:
->>
->>     [PATCH 1/5] kern-tools: usability, bug fixes and no guilt
->>     [PATCH 2/5] guilt: update to latest git version
->>     [PATCH 3/5] linux-libc-headers: update to v3.10
-> One of the changes in 3.10 seems to have introduced a conflicting
-> definition of ptrace_peeksiginfo_args in linux/ptrace.h
->
->>  In file included from ptrace.h:22:0,
->> |                  from ptrace05.c:38:
->> |
->> /srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/linux/ptrace.h:58:8:
->> error: redefinition of 'struct ptrace_peeksiginfo_args'
->> |  struct ptrace_peeksiginfo_args {
->> |         ^
->> | In file included from ptrace.h:9:0,
->> |                  from ptrace05.c:38:
->> |
->> /srv/ssd/sgw/builds/world/tmp/sysroots/qemux86-64/usr/include/sys/ptrace.h:191:8:
->> note: originally defined here
->> |  struct ptrace_peeksiginfo_args
->> |         ^
->
-> This affects ltp, valgrind and strace.
->
-> Please check the autobuilder as I am building with this change set and
-> expect these failures.
+>> +
+>> +LINUX_VERSION ?= "3.10.9"
+>> +
+>> +PV = "${LINUX_VERSION}+git${SRCPV}"
+>> +
+>> +KMETA = "meta"
+>> +
+>> +LINUX_KERNEL_TYPE = "preempt-rt"
+>> +
+>> +# Omit broken machines from COMPATIBLE_MACHINE
+>> +#   qemuppc hangs at boot
+>> +#   qemumips panics at boot
+>> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
+> I see COMPATIBLE_MACHINE has been carried over from the 3.4 and 3.8
+> linux-rt recipes. Is linux-rt still broken on qemuppc and qemumips?
 
-I'm unfortunately off for the weekend and won't have cycles to look into
-any failures until Monday.
+It is still the case, for the most part. -rt works fine on both ppc and
+mips, just not in qemu.
 
-So if you want to leave the old headers in place, that's an option.
-
-I fixed the one issue that I saw with Sato .. but I am after all one
-person and can't possibly build and boot all the qemu boards with
-all image combinations! This is after all, where I'd expect other
-people to help out and fix build issues.
+The first port of any new kernel, I carry support over exactly as it is.
+Only changing the kernel + headers, stabilize the existing support and
+then look at adding new functionality and boards. That's the only way to
+reasonably control the changes.
 
 Cheers,
 
 Bruce
 
 >
-> Sau!
->
-> Sau!
->
->>     [PATCH 4/5] gst-plugins-good: fix 3.10 libc-headers build failure
->>     [PATCH 5/5] linux-yocto: introduce v3.10
+>> +
+>> +# Functionality flags
+>> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc
+>> features/taskstats/taskstats.scc"
+>> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+>> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+>> +KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES",
+>> "mx32", " cfg/x32.scc", "" ,d)}"
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>> new file mode 100644
+>> index 0000000..1c2ad37
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+>> @@ -0,0 +1,25 @@
+>> +require recipes-kernel/linux/linux-yocto.inc
+>> +
+>> +# We need lzma (as CONFIG_KERNEL_LZMA=y)
+>> +DEPENDS += "xz-native"
+>> +
+>> +KBRANCH_DEFAULT = "standard/tiny/base"
+>> +KBRANCH = "${KBRANCH_DEFAULT}"
+>> +LINUX_KERNEL_TYPE = "tiny"
+>> +KCONFIG_MODE = "--allnoconfig"
+>> +
+>> +LINUX_VERSION ?= "3.10.9"
+>> +
+>> +KMETA = "meta"
+>> +
+>> +SRCREV_machine ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
+>> +SRCREV_meta ?= "1b9b113837f353fd94148beb6bd00a3b7b35d01d"
+>> +
+>> +PV = "${LINUX_VERSION}+git${SRCPV}"
+>> +
+>> +SRC_URI =
+>> "git://git.yoctoproject.org/linux-yocto-3.10.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
 >>
->> ** There is one pending activity. As part of thsi update to 3.10, we want
->> to move to the 3.4 and 3.10 kernel, dropping 3.8 support. But the
->> routerstationpro BSP is still using it as its preferred version. I'm
->> a one man show on this update, and I wasn't able to get the 100+ patches
->> ported to 3.10 AND get this update out before the M4 cutoff.
+>> +
+>> +COMPATIBLE_MACHINE = "(qemux86)"
+>> +
+>> +# Functionality flags
+>> +KERNEL_FEATURES = ""
+>> diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+>> b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+>> new file mode 100644
+>> index 0000000..ea6ad2a
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+>> @@ -0,0 +1,30 @@
+>> +require recipes-kernel/linux/linux-yocto.inc
+>> +
+>> +KBRANCH_DEFAULT = "standard/base"
+>> +KBRANCH = "${KBRANCH_DEFAULT}"
+>> +
+>> +SRCREV_machine_qemuarm ?= "8675d3d0a3c17135f70ef474d5c362397c02e62a"
+>> +SRCREV_machine_qemumips  ?= "992b743b905edd21d3a4a27c92b5c6a9e44d7d73"
+>> +SRCREV_machine_qemuppc ?= "09388c3572e26c78b34554e46e077f12be7b2401"
+>> +SRCREV_machine_qemux86 ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
+>> +SRCREV_machine_qemux86-64 ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
+>> +SRCREV_machine_qemumips64 ?= "203679cb23c752fdcbc0180a55a81728d7462561"
+>> +SRCREV_machine ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
+>> +SRCREV_meta ?= "1b9b113837f353fd94148beb6bd00a3b7b35d01d"
+>> +
+>> +SRC_URI =
+>> "git://git.yoctoproject.org/linux-yocto-3.10.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
 >>
->> ** I'm still attempting to udpate all the reference boards, and
->> once done, I'll send a follow up patch.
->>
->> ** Please test, I've done my best, but things can slip through. We'll
->> work issues in the stabilization period.
->>
->> Cheers,
->>
->> Bruce
->>
->>
->> The following changes since commit
->> 501e1a321d15abd712e3a6ee6ccdb8e21c3d4ea4:
->>
->>    bitbake: prserv/serv: Fix pid file removal (2013-08-23 17:43:40 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib zedd/kernel
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
->>
->> Bruce Ashfield (5):
->>    kern-tools: usability, bug fixes and no guilt
->>    guilt: update to latest git version
->>    linux-libc-headers: update to v3.10
->>    gst-plugins-good: fix 3.10 libc-headers build failure
->>    linux-yocto: introduce v3.10
->>
->>   meta/classes/kernel-yocto.bbclass                  |    2 +
->>   meta/conf/distro/include/tcmode-default.inc        |    2 +-
->>   .../guilt/files/guilt-import-commit.patch          |   96 ------
->>   meta/recipes-devtools/guilt/files/guilt-init.patch |   25 --
->>   meta/recipes-devtools/guilt/files/guilt-pop.patch  |   73 -----
->>   .../guilt/files/guilt-push-no-series.patch         |   29 --
->>   meta/recipes-devtools/guilt/files/guilt-push.patch |   42 ---
->>   .../guilt/files/guilt-set-git_exec_path.patch      |   29 --
->>   ...lt-update-supported-git-versions-to-1.8.x.patch |   28 --
->>   meta/recipes-devtools/guilt/files/guilt.patch      |  319
->> --------------------
->>   .../guilt/files/improve_auto_header_gen.patch      |   71 -----
->>   .../files/make_git_commands_conditional.patch      |   48 ---
->>   .../guilt/files/optional_head_check.patch          |   60 ----
->>   .../guilt/files/uninstall_force.patch              |   14 -
->>   .../{guilt-native_0.33.bb => guilt-native_git.bb}  |   21 +-
->>   .../kern-tools/kern-tools-native_git.bb            |    6 +-
->>   .../linux-libc-headers/linux-libc-headers_3.10.bb  |    7 +
->>   .../linux-libc-headers/linux-libc-headers_3.8.bb   |    8 -
->>   meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   30 ++
->>   meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   25 ++
->>   meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   30 ++
->>   ...define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch |   45 +++
->>   .../gstreamer/gst-plugins-good_0.10.31.bb          |    1 +
->>   23 files changed, 150 insertions(+), 861 deletions(-)
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/guilt-import-commit.patch
->>   delete mode 100644 meta/recipes-devtools/guilt/files/guilt-init.patch
->>   delete mode 100644 meta/recipes-devtools/guilt/files/guilt-pop.patch
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/guilt-push-no-series.patch
->>   delete mode 100644 meta/recipes-devtools/guilt/files/guilt-push.patch
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/guilt-set-git_exec_path.patch
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/guilt-update-supported-git-versions-to-1.8.x.patch
->>
->>   delete mode 100644 meta/recipes-devtools/guilt/files/guilt.patch
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/improve_auto_header_gen.patch
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/make_git_commands_conditional.patch
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/optional_head_check.patch
->>   delete mode 100644
->> meta/recipes-devtools/guilt/files/uninstall_force.patch
->>   rename meta/recipes-devtools/guilt/{guilt-native_0.33.bb =>
->> guilt-native_git.bb} (45%)
->>   create mode 100644
->> meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
->>   delete mode 100644
->> meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
->>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
->>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
->>   create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.10.bb
->>   create mode 100644
->> meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
->>
->>
+>> +
+>> +LINUX_VERSION ?= "3.10.9"
+>> +
+>> +PV = "${LINUX_VERSION}+git${SRCPV}"
+>> +
+>> +KMETA = "meta"
+>> +
+>> +COMPATIBLE_MACHINE =
+>> "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+>> +
+>> +# Functionality flags
+>> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+>> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+>> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
+>> +KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES",
+>> "mx32", " cfg/x32.scc", "" ,d)}"
+> Regards,
+> Jonathan
 
 
