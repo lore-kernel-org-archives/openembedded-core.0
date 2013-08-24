@@ -1,18 +1,18 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7872561013
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id B584D61013
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 24 Aug 2013 14:47:21 +0000 (UTC)
+	Sat, 24 Aug 2013 14:59:14 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7OElJdv028921
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7OExAg8027344
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 24 Aug 2013 07:47:19 -0700 (PDT)
+	Sat, 24 Aug 2013 10:59:10 -0400 (EDT)
 Received: from bruce-ashfields-macbook.local (128.224.21.157) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sat, 24 Aug 2013 07:47:18 -0700
-Message-ID: <5218C775.6050107@windriver.com>
-Date: Sat, 24 Aug 2013 10:47:17 -0400
+	14.2.347.0; Sat, 24 Aug 2013 07:59:10 -0700
+Message-ID: <5218CA3D.9050907@windriver.com>
+Date: Sat, 24 Aug 2013 10:59:09 -0400
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
 	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 24 Aug 2013 14:47:21 -0000
+X-List-Received-Date: Sat, 24 Aug 2013 14:59:15 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -131,28 +131,34 @@ On 13-08-24 9:50 AM, Saul Wold wrote:
 > Just FYI, it might not show up in an LSB build, since those tools
 > valgrind, ltp and strace are more Dev tools, so a world build would be
 > better.
-
-I reproduced the failure here via adding ptrace to my image install.
-The kernel change happened in april, and the good news is that the
-structure is still exactly the same size, with the same fields. So the
-userspace ABI is unchanged.
-
-I'll hunt down the conflict and adjust the packages, since that kernel
-header change will be there to stay.
-
-Has anyone checked to see if the upstream version of those packages have
-already adapted to the change ? I'll do that tonight when I'm back, if
-no one else has.
-
-Cheers,
-
-Bruce
-
 >
 > Also, not sure why but ARM failed to patch 3.8 kernel overnight on the
 > AB. (lots of red).
 >
 > I just restarted AB with out the 3.10 headers.
+
+ok .. this time I'm REALLY going to step away for a few hours.
+
+The mismatch is between the eglibc 2.18 sys/ptrace.h and the kernel's
+definition of the structure. I wouldn't really call it a mismatch,
+since they are both the same size and field types .. both simply
+define it now.
+
+I'm adding Khem: What's the right thing to do here?
+
+I can obviously hack the kernel to remove the definition, but that make
+the linux-yocto 3.10 the only kernel that will work against yocto 1.5's
+eglibc for building any applications that use ptrace.h.
+
+Falling back to the 3.8 headers will work, but again, we are avoiding
+the problem and any end user that does bump to a newer set of libc-headers
+will see the problem.
+
+I'll wait for consensus on the approach and add a change if required
+into my linux-yocto 3.8 removal patch tonight.
+
+Bruce
+
 >
 > Sau!
 >
