@@ -1,42 +1,37 @@
-Return-Path: <elvis.dowson@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AE5D6010E
+Return-Path: <cazfi74@gmail.com>
+Received: from mail-qe0-f54.google.com (mail-qe0-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 98D0F6010E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Aug 2013 19:10:01 +0000 (UTC)
-Received: by mail-pa0-f45.google.com with SMTP id bg4so2595691pad.32
+	Sun, 25 Aug 2013 19:13:21 +0000 (UTC)
+Received: by mail-qe0-f54.google.com with SMTP id i11so1362124qej.27
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Aug 2013 12:10:02 -0700 (PDT)
+	Sun, 25 Aug 2013 12:13:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=O2JMkRl2Zj1mP4kUaR+1UDzqbZqSyyoscOvsV4yED+k=;
-	b=LoM80fPPCKgYltluSCtocrtyCSaaL8FmHGx5PuHPjE6um7YV4lRRkahwPDT1dIiC9Q
-	oZOLUC7mVpk4cS2vVe2fnFlUQ5GHWckHHOHsFW4eUeJg1HKH1o/biblh2wpauAdNxH2Y
-	Vo0ASxj6GTlhuPORcJA9zjF5NEZTJ4abRyH4YIZLedq7QnoUk6vdB/gGPX4l67mv1mNp
-	qV7zwR5i9esvRQ5cRAFMFSmtvugFgt+peS5IpKH+DCXvHnmu06zUOUiq46qGDv+HyyKi
-	M6v5TYXR0+4IygcymKnFcNEmU5zPBrbAPb6QxifZk+/p+ynSYYASPMt8axrmj/bVHP/x
-	XQgg==
-X-Received: by 10.68.183.131 with SMTP id em3mr11380687pbc.56.1377457801989;
-	Sun, 25 Aug 2013 12:10:01 -0700 (PDT)
-Received: from [192.168.1.106] ([94.205.106.26])
-	by mx.google.com with ESMTPSA id
-	bb1sm13343219pbc.10.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 25 Aug 2013 12:10:00 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
-From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
-Date: Sun, 25 Aug 2013 23:09:55 +0400
-Message-Id: <4AC41A5E-073D-4973-82BD-F94A8B168F34@gmail.com>
-References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
-	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
-	<092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Bruce Ashfield <bruce.ashfield@windriver.com>
-X-Mailer: Apple Mail (2.1498)
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Pl8mdpr14W5LkGNJ68v/yOS4bu0+EOvqR1F6VZhE6xY=;
+	b=DJecHCiOYwC5JvU6Cox9W8byfQvglwjZu1YDSOnm/wPc93YEYN4C4Hy6ABNbQ7izCb
+	NYiba1EZ9huL4scnoV2qdtdrwJs/Gqi72sOh3wyG2S0/kwBUbLpqt29Iw02xNv9AzYwK
+	U0DmCALgsr/B+2NHQofIT48/GVmycYlFVdTp320ZsYwl+fi+7P/ubMwlvfzbiIqssr8B
+	f3V58eMaAGFlv1k+pjsNLCEHShNOAt+mPmDZSSTcIMisxEqh1U5PGcnm3UrzvbD2y0pJ
+	san2h4L0trbU1CDPDzKyl5HeN8Z+R5aOGWSUcHf1S64+IsmRiAW3zN9/Ttc0z4+aO1ok
+	9i9w==
+MIME-Version: 1.0
+X-Received: by 10.49.64.38 with SMTP id l6mr7508525qes.30.1377458001494; Sun,
+	25 Aug 2013 12:13:21 -0700 (PDT)
+Received: by 10.224.114.207 with HTTP; Sun, 25 Aug 2013 12:13:20 -0700 (PDT)
+In-Reply-To: <52178BA7.2020107@intel.com>
+References: <fdbdadc72d3c6c1ef1feb0602d9f16dce3645a33.1377207091.git.cazfi74@gmail.com>
+	<fa107ce2393b834fd74c353526e98e9edcac0a85.1377207091.git.cazfi74@gmail.com>
+	<52178BA7.2020107@intel.com>
+Date: Sun, 25 Aug 2013 22:13:20 +0300
+Message-ID: <CAF6bG8caJp+U9HWUaNtR_-xxNCK=_ta-UOCLkcEU3CZg_L3M_Q@mail.gmail.com>
+From: Marko Lindqvist <cazfi74@gmail.com>
+To: Saul Wold <saul.wold@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] automake: update to upstream version 1.13.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Aug 2013 19:10:03 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 25 Aug 2013 19:13:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Bruce,
-                   I noticed that you've committed the changes for =
-qemuarma9 KMACHINE configuration to the linux-yocto kernel.
+On 23 August 2013 19:19, Saul Wold <saul.wold@intel.com> wrote:
+>>
+> Seems this update might have a perl script that is hard coded and will need
+> to be worked on.  This occurs with a toolchain build:
+> bitbake core-image-sato -c populate_sdk
+>
+> | Computing transaction...error: Can't install
+> nativesdk-automake-1.13.4-r0@x86_64_nativesdk: no package provides /bin/perl
 
-=
-http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.8/tree/meta/cfg/ke=
-rnel-cache/bsp?h=3Dmeta
+ I couldn't reproduce, and grepping for "/bin/perl" reveals nothing
+that would be new since 1.12.6.
 
-I adapted the qemuarm.conf configuration and booted it up, but nothing =
-shows up in the QEMU window, I just get a black screen.
-
-Has qemu with the qemuarma9 configuration been successfully built and =
-tested before?
-
-This is how my qemuarm.conf looks like, locally at the moment:
-
-#@TYPE: Machine
-#@NAME: qemuarmhf
-#@DESCRIPTION: Machine configuration for QEMU ARM Cortex A9 hard float.
-
-# Specify the default tune.
-DEFAULTTUNE =3D "armv7a-neon"
-
-require conf/machine/include/qemu.inc
-require conf/machine/include/tune-cortexa9.inc
-
-# Specify the machine name used by the kernel.
-KMACHINE_qemuarm =3D "qemuarma9"
-
-# Specify the kernel image type.
-KERNEL_IMAGETYPE =3D "zImage"
-
-# Specify the serial console parameters.
-SERIAL_CONSOLE =3D "115200 ttyAMA0"
+ There's one perl handling related error in the patch - recipe has old
+version number hardcoded when adjusting perl paths. It needs to be
+fixed in any case, and we can hope that it fixes the issue you are
+experiencing. I'll make the version number unhardcoding separate patch
+so it can be applied already before the automake update. I'll push
+updated series to contrib tree to cazfi/am13 branch for those
+interested (probably late tonight or tomorrow), but won't send pull
+request before 1.6 development begins.
 
 
-Elvis Dowson=
+ - ML
 
