@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 139486B8F5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4990B6BA2F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Aug 2013 05:16:53 +0000 (UTC)
+	Sun, 25 Aug 2013 05:16:54 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7P5GqvI008247
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7P5Gsmt021767
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 24 Aug 2013 22:16:52 -0700 (PDT)
+	Sat, 24 Aug 2013 22:16:54 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sat, 24 Aug 2013 22:16:51 -0700
+	14.2.347.0; Sat, 24 Aug 2013 22:16:52 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 25 Aug 2013 01:16:36 -0400
-Message-ID: <c2d44f9ff8d416b7f984bc4027de7acecbec0986.1377405083.git.bruce.ashfield@windriver.com>
+Date: Sun, 25 Aug 2013 01:16:37 -0400
+Message-ID: <03d9de265ca50b2182016c8335193e2f2302698a.1377405083.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1377405083.git.bruce.ashfield@windriver.com>
 References: <cover.1377405083.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/7] eglibc: ptrace: protect ptrace_peeksiginfo_args from redefintion
+Subject: [PATCH 5/7] gst-plugins-good: fix 3.10 libc-headers build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,111 +33,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Aug 2013 05:16:53 -0000
+X-List-Received-Date: Sun, 25 Aug 2013 05:16:54 -0000
 Content-Type: text/plain
 
-linux kernel commit 84c751bd [ptrace: add ability to retrieve signals without removing from a queue (v4)]
-added ptrace_peeksiginfo_args to the exported kernel user api.
+kernel commit 24b9f5017 [[media] V4L: Remove deprecated image centering controls]
+removed the definitions of V4L2_CID_HCENTER and V4L2_CID_VCENTER after three
+years of depreciation.
 
-This leads to build errors such as:
-
-| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
-| /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8: error: redefinition of 'struct ptrace_peeksiginfo_args'
-|  struct ptrace_peeksiginfo_args {
-|         ^
-| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
-|                  from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
-| /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note: originally defined here
-|  struct ptrace_peeksiginfo_args
-|         ^
-| make[2]: *** [process.o] Error 1
-
-In files that include both the eglibc sys/ptrace.h and the linux kernel exported
-one.
-
-We can avoid this by making the eglibc variant only declare its structure if PTRACE_PEEKSIGINFO
-has not been defined.
+The ioctl values are still free, and the case statement which processess them
+in v4l2 userspace falls through to the proper replacement. So in the short
+term, we can explicitly define them using the old absolute values, and everything
+will work.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- ...ect-ptrace_peeksiginfo_args-from-redefint.patch |   55 ++++++++++++++++++++
- meta/recipes-core/eglibc/eglibc_2.18.bb            |    1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch
+ ...define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch |   45 ++++++++++++++++++++
+ .../gstreamer/gst-plugins-good_0.10.31.bb          |    1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
 
-diff --git a/meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch b/meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch b/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
 new file mode 100644
-index 0000000..edf10fb
+index 0000000..bd0de58
 --- /dev/null
-+++ b/meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch
-@@ -0,0 +1,55 @@
-+From b5fe604678ffc7e0d6c2704a73d22f99b24a6d25 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
+@@ -0,0 +1,45 @@
++From ccb01de8096a32d86d47b0d92ec3416c57ee4d25 Mon Sep 17 00:00:00 2001
 +From: Bruce Ashfield <bruce.ashfield@windriver.com>
-+Date: Sat, 24 Aug 2013 23:51:06 -0400
-+Subject: [PATCH] ptrace: protect ptrace_peeksiginfo_args from redefintion
++Date: Thu, 22 Aug 2013 12:15:54 -0400
++Subject: [PATCH] v4l2_calls: define V4L2_CID_HCENTER and V4L2_CID_VCENTER
 +
-+linux kernel commit 84c751bd [ptrace: add ability to retrieve signals without removing from a queue (v4)]
-+added ptrace_peeksiginfo_args to the exported kernel user api.
++kernel commit 24b9f5017 [[media] V4L: Remove deprecated image centering controls]
++removed the definitions of V4L2_CID_HCENTER and V4L2_CID_VCENTER after three
++years of depreciation.
 +
-+This leads to build errors such as:
-+
-+| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
-+| /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8: error: redefinition of 'struct ptrace_peeksiginfo_args'
-+|  struct ptrace_peeksiginfo_args {
-+|         ^
-+| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
-+|                  from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
-+| /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note: originally defined here
-+|  struct ptrace_peeksiginfo_args
-+|         ^
-+| make[2]: *** [process.o] Error 1
-+
-+In files that include both the eglibc sys/ptrace.h and the linux kernel exported
-+one.
-+
-+We can avoid this by making the eglibc variant only declare its structure if PTRACE_PEEKSIGINFO
-+has not been defined.
++The ioctl values are still free, and the case statement which processess them
++in v4l2 userspace falls through to the proper replacement. So in the short
++term, we can explicitly define them using the old absolute values, and everything
++will work.
 +
 +Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 +---
-+ libc/sysdeps/unix/sysv/linux/sys/ptrace.h |    2 ++
-+ 1 file changed, 2 insertions(+)
++ sys/v4l2/v4l2_calls.c |    9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
 +
-+diff --git a/sysdeps/unix/sysv/linux/sys/ptrace.h b/sysdeps/unix/sysv/linux/sys/ptrace.h
-+index 2b78565..7800d9a 100644
-+--- a/sysdeps/unix/sysv/linux/sys/ptrace.h
-++++ b/sysdeps/unix/sysv/linux/sys/ptrace.h
-+@@ -187,6 +187,7 @@ enum __ptrace_eventcodes
-+   PTRAVE_EVENT_SECCOMP  = 7
-+ };
++diff --git a/sys/v4l2/v4l2_calls.c b/sys/v4l2/v4l2_calls.c
++index 309bfb6..3c64544 100644
++--- a/sys/v4l2/v4l2_calls.c
+++++ b/sys/v4l2/v4l2_calls.c
++@@ -54,11 +54,16 @@
++ #include "gst/gst-i18n-plugin.h"
 + 
-++#ifndef PTRACE_PEEKSIGINFO
-+ /* Arguments for PTRACE_PEEKSIGINFO.  */
-+ struct ptrace_peeksiginfo_args
-+ {
-+@@ -194,6 +195,7 @@ struct ptrace_peeksiginfo_args
-+   __uint32_t flags;	/* Flags for peeksiginfo.  */
-+   __int32_t nr;		/* How many siginfos to take.  */
-+ };
-++#endif
++ /* Those are ioctl calls */
+++
+++/* V4L2_CID_HCENTER has been removed from the mainline kernel, but
+++   the ioctl space is still present. Since these values fall through
+++   to their replacement, it is safe (in the short term) to re-use the
+++    old values explictily */
++ #ifndef V4L2_CID_HCENTER
++-#define V4L2_CID_HCENTER V4L2_CID_HCENTER_DEPRECATED
+++#define V4L2_CID_HCENTER V4L2_CID_BASE+22
++ #endif
++ #ifndef V4L2_CID_VCENTER
++-#define V4L2_CID_VCENTER V4L2_CID_VCENTER_DEPRECATED
+++#define V4L2_CID_VCENTER V4L2_CID_BASE+23
++ #endif
 + 
-+ enum __ptrace_peeksiginfo_flags
-+ {
++ GST_DEBUG_CATEGORY_EXTERN (v4l2_debug);
 +-- 
 +1.7.10.4
 +
-diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
-index 17b651f..2257c21 100644
---- a/meta/recipes-core/eglibc/eglibc_2.18.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr23
-            file://tzselect-awk.patch \
-            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
-            file://fix-tibetian-locales.patch \
-+           file://0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch \
-           "
- SRC_URI[md5sum] = "b395b021422a027d89884992e91734fc"
- SRC_URI[sha256sum] = "15f564b45dc5dd65faf0875579e3447961ae61e876933384ae05d19328539ad4"
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+index daffcf1..d18e155 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
+@@ -23,6 +23,7 @@ DEPENDS += "gst-plugins-base gconf cairo libpng zlib libid3tag flac \
+ inherit gettext gconf
+ 
+ SRC_URI += "file://0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch"
++SRC_URI += "file://0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch"
+ 
+ EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
+                  --disable-examples --disable-taglib"
 -- 
 1.7.10.4
 
