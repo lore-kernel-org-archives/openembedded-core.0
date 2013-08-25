@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B2D461AA9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 139486B8F5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Aug 2013 05:16:52 +0000 (UTC)
+	Sun, 25 Aug 2013 05:16:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7P5GoNQ008549
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7P5GqvI008247
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 25 Aug 2013 01:16:51 -0400 (EDT)
+	Sat, 24 Aug 2013 22:16:52 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sat, 24 Aug 2013 22:16:50 -0700
+	14.2.347.0; Sat, 24 Aug 2013 22:16:51 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 25 Aug 2013 01:16:35 -0400
-Message-ID: <7d9e8b82d9274e26b78d6aae20cbd343d6faf7fc.1377405083.git.bruce.ashfield@windriver.com>
+Date: Sun, 25 Aug 2013 01:16:36 -0400
+Message-ID: <c2d44f9ff8d416b7f984bc4027de7acecbec0986.1377405083.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1377405083.git.bruce.ashfield@windriver.com>
 References: <cover.1377405083.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/7] linux-libc-headers: update to v3.10
+Subject: [PATCH 4/7] eglibc: ptrace: protect ptrace_peeksiginfo_args from redefintion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,60 +36,108 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 25 Aug 2013 05:16:53 -0000
 Content-Type: text/plain
 
-Now that the 3.10 kernel has been released we can bump the libc-headers to
-that version and remove the 3.8 variant. Userspace compatibility is
-maintained through kernel versions, we also make the single 3.10 version the
-toolchain default.
+linux kernel commit 84c751bd [ptrace: add ability to retrieve signals without removing from a queue (v4)]
+added ptrace_peeksiginfo_args to the exported kernel user api.
+
+This leads to build errors such as:
+
+| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
+| /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8: error: redefinition of 'struct ptrace_peeksiginfo_args'
+|  struct ptrace_peeksiginfo_args {
+|         ^
+| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
+|                  from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
+| /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note: originally defined here
+|  struct ptrace_peeksiginfo_args
+|         ^
+| make[2]: *** [process.o] Error 1
+
+In files that include both the eglibc sys/ptrace.h and the linux kernel exported
+one.
+
+We can avoid this by making the eglibc variant only declare its structure if PTRACE_PEEKSIGINFO
+has not been defined.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/conf/distro/include/tcmode-default.inc                    |    2 +-
- .../linux-libc-headers/linux-libc-headers_3.10.bb              |    7 +++++++
- .../linux-libc-headers/linux-libc-headers_3.8.bb               |    8 --------
- 3 files changed, 8 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
- delete mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
+ ...ect-ptrace_peeksiginfo_args-from-redefint.patch |   55 ++++++++++++++++++++
+ meta/recipes-core/eglibc/eglibc_2.18.bb            |    1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index aa0db25..fb41d5e 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -22,7 +22,7 @@ SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.23.2"
- EGLIBCVERSION ?= "2.18"
- UCLIBCVERSION ?= "0.9.33+git%"
--LINUXLIBCVERSION ?= "3.8"
-+LINUXLIBCVERSION ?= "3.10"
- 
- PREFERRED_VERSION_gcc ?= "${GCCVERSION}"
- PREFERRED_VERSION_gcc-cross ?= "${GCCVERSION}"
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+diff --git a/meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch b/meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch
 new file mode 100644
-index 0000000..eb04367
+index 0000000..edf10fb
 --- /dev/null
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
-@@ -0,0 +1,7 @@
-+require linux-libc-headers.inc
++++ b/meta/recipes-core/eglibc/eglibc-2.18/0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch
+@@ -0,0 +1,55 @@
++From b5fe604678ffc7e0d6c2704a73d22f99b24a6d25 Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@windriver.com>
++Date: Sat, 24 Aug 2013 23:51:06 -0400
++Subject: [PATCH] ptrace: protect ptrace_peeksiginfo_args from redefintion
 +
-+PR = "r0"
++linux kernel commit 84c751bd [ptrace: add ability to retrieve signals without removing from a queue (v4)]
++added ptrace_peeksiginfo_args to the exported kernel user api.
 +
-+SRC_URI[md5sum] = "72d0a9b3e60cd86fabcd3f24b1708944"
-+SRC_URI[sha256sum] = "46c9e55e1fddf40813b8d697d5645037a8e2af5c1a8dff52b3fe82b5021582b8"
++This leads to build errors such as:
 +
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
-deleted file mode 100644
-index 5672bd4..0000000
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.8.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require linux-libc-headers.inc
--
--SRC_URI += "file://scripts-Makefile.headersinst-install-headers-from-sc.patch"
--
--PR = "r0"
--
--SRC_URI[md5sum] = "fcd1d2e60e1033c935a13ef81c89ea2d"
--SRC_URI[sha256sum] = "fce774b5313e73949cb35f128e91e7b2ccd7fa2438abc5cff69267e504395a45"
++| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
++| /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8: error: redefinition of 'struct ptrace_peeksiginfo_args'
++|  struct ptrace_peeksiginfo_args {
++|         ^
++| In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
++|                  from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
++| /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note: originally defined here
++|  struct ptrace_peeksiginfo_args
++|         ^
++| make[2]: *** [process.o] Error 1
++
++In files that include both the eglibc sys/ptrace.h and the linux kernel exported
++one.
++
++We can avoid this by making the eglibc variant only declare its structure if PTRACE_PEEKSIGINFO
++has not been defined.
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++---
++ libc/sysdeps/unix/sysv/linux/sys/ptrace.h |    2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/sysdeps/unix/sysv/linux/sys/ptrace.h b/sysdeps/unix/sysv/linux/sys/ptrace.h
++index 2b78565..7800d9a 100644
++--- a/sysdeps/unix/sysv/linux/sys/ptrace.h
+++++ b/sysdeps/unix/sysv/linux/sys/ptrace.h
++@@ -187,6 +187,7 @@ enum __ptrace_eventcodes
++   PTRAVE_EVENT_SECCOMP  = 7
++ };
++ 
+++#ifndef PTRACE_PEEKSIGINFO
++ /* Arguments for PTRACE_PEEKSIGINFO.  */
++ struct ptrace_peeksiginfo_args
++ {
++@@ -194,6 +195,7 @@ struct ptrace_peeksiginfo_args
++   __uint32_t flags;	/* Flags for peeksiginfo.  */
++   __int32_t nr;		/* How many siginfos to take.  */
++ };
+++#endif
++ 
++ enum __ptrace_peeksiginfo_flags
++ {
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
+index 17b651f..2257c21 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.18.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
+@@ -26,6 +26,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/eglibc/eglibc-${PV}-svnr23
+            file://tzselect-awk.patch \
+            file://0001-eglibc-run-libm-err-tab.pl-with-specific-dirs-in-S.patch \
+            file://fix-tibetian-locales.patch \
++           file://0001-ptrace-protect-ptrace_peeksiginfo_args-from-redefint.patch \
+           "
+ SRC_URI[md5sum] = "b395b021422a027d89884992e91734fc"
+ SRC_URI[sha256sum] = "15f564b45dc5dd65faf0875579e3447961ae61e876933384ae05d19328539ad4"
 -- 
 1.7.10.4
 
