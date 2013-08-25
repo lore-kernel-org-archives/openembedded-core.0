@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4990B6BA2F
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C6666BA1C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 25 Aug 2013 05:16:54 +0000 (UTC)
+	Sun, 25 Aug 2013 05:16:55 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7P5Gsmt021767
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7P5GsB6008553
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 24 Aug 2013 22:16:54 -0700 (PDT)
+	Sun, 25 Aug 2013 01:16:54 -0400 (EDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sat, 24 Aug 2013 22:16:52 -0700
+	14.2.347.0; Sat, 24 Aug 2013 22:16:53 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Sun, 25 Aug 2013 01:16:37 -0400
-Message-ID: <03d9de265ca50b2182016c8335193e2f2302698a.1377405083.git.bruce.ashfield@windriver.com>
+Date: Sun, 25 Aug 2013 01:16:38 -0400
+Message-ID: <adeb9441d7b1759da5cca435f54153c3b773d105.1377405083.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1377405083.git.bruce.ashfield@windriver.com>
 References: <cover.1377405083.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/7] gst-plugins-good: fix 3.10 libc-headers build failure
+Subject: [PATCH 6/7] linux-yocto: introduce v3.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,88 +33,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Aug 2013 05:16:54 -0000
+X-List-Received-Date: Sun, 25 Aug 2013 05:16:56 -0000
 Content-Type: text/plain
 
-kernel commit 24b9f5017 [[media] V4L: Remove deprecated image centering controls]
-removed the definitions of V4L2_CID_HCENTER and V4L2_CID_VCENTER after three
-years of depreciation.
+Introduce the 3.10 kernel. This is based on the 3.10.9 upstream kernel
+and replaces the 3.8 recipes, which will be removed once all reference
+boards have been updated.
 
-The ioctl values are still free, and the case statement which processess them
-in v4l2 userspace falls through to the proper replacement. So in the short
-term, we can explicitly define them using the old absolute values, and everything
-will work.
+3.10 also the latest LTSI and will be updated with that content when it
+becomes available.
+
+Other features of the 3.10 kernel include:
+
+  - refreshed -rt support
+  - refreshed yaffs2, aufs3
+  - cryptodev
+  - bfs, edf, and OCF staged features
+  - scrubbed and updated meta data for v3.10
+  - improved tools support for meta data updates and queue maintenance
+  - patch carry forward from all previous linux-yocto kernels and
+    configuration.
+
+This kernel has been built and boot tested on all qemu machines and architectures.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- ...define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch |   45 ++++++++++++++++++++
- .../gstreamer/gst-plugins-good_0.10.31.bb          |    1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   30 ++++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   25 ++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   30 ++++++++++++++++++++
+ 3 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_3.10.bb
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch b/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
 new file mode 100644
-index 0000000..bd0de58
+index 0000000..4139be8
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good-0.10.31/0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch
-@@ -0,0 +1,45 @@
-+From ccb01de8096a32d86d47b0d92ec3416c57ee4d25 Mon Sep 17 00:00:00 2001
-+From: Bruce Ashfield <bruce.ashfield@windriver.com>
-+Date: Thu, 22 Aug 2013 12:15:54 -0400
-+Subject: [PATCH] v4l2_calls: define V4L2_CID_HCENTER and V4L2_CID_VCENTER
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+@@ -0,0 +1,30 @@
++require recipes-kernel/linux/linux-yocto.inc
 +
-+kernel commit 24b9f5017 [[media] V4L: Remove deprecated image centering controls]
-+removed the definitions of V4L2_CID_HCENTER and V4L2_CID_VCENTER after three
-+years of depreciation.
++KBRANCH = "standard/preempt-rt/base"
++KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
 +
-+The ioctl values are still free, and the case statement which processess them
-+in v4l2 userspace falls through to the proper replacement. So in the short
-+term, we can explicitly define them using the old absolute values, and everything
-+will work.
++SRCREV_machine ?= "77c5842818867366c3d08ca1dec19dc43aee0e91"
++SRCREV_machine_qemuppc ?= "7be83bc1124d2a2c75f99df94baaf718659722ea"
++SRCREV_meta ?= "1b9b113837f353fd94148beb6bd00a3b7b35d01d"
 +
-+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-+---
-+ sys/v4l2/v4l2_calls.c |    9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
 +
-+diff --git a/sys/v4l2/v4l2_calls.c b/sys/v4l2/v4l2_calls.c
-+index 309bfb6..3c64544 100644
-+--- a/sys/v4l2/v4l2_calls.c
-++++ b/sys/v4l2/v4l2_calls.c
-+@@ -54,11 +54,16 @@
-+ #include "gst/gst-i18n-plugin.h"
-+ 
-+ /* Those are ioctl calls */
-++
-++/* V4L2_CID_HCENTER has been removed from the mainline kernel, but
-++   the ioctl space is still present. Since these values fall through
-++   to their replacement, it is safe (in the short term) to re-use the
-++    old values explictily */
-+ #ifndef V4L2_CID_HCENTER
-+-#define V4L2_CID_HCENTER V4L2_CID_HCENTER_DEPRECATED
-++#define V4L2_CID_HCENTER V4L2_CID_BASE+22
-+ #endif
-+ #ifndef V4L2_CID_VCENTER
-+-#define V4L2_CID_VCENTER V4L2_CID_VCENTER_DEPRECATED
-++#define V4L2_CID_VCENTER V4L2_CID_BASE+23
-+ #endif
-+ 
-+ GST_DEBUG_CATEGORY_EXTERN (v4l2_debug);
-+-- 
-+1.7.10.4
++LINUX_VERSION ?= "3.10.9"
 +
-diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-index daffcf1..d18e155 100644
---- a/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-plugins-good_0.10.31.bb
-@@ -23,6 +23,7 @@ DEPENDS += "gst-plugins-base gconf cairo libpng zlib libid3tag flac \
- inherit gettext gconf
- 
- SRC_URI += "file://0001-v4l2-fix-build-with-recent-kernels-the-v4l2_buffer-i.patch"
-+SRC_URI += "file://0001-v4l2_calls-define-V4L2_CID_HCENTER-and-V4L2_CID_VCEN.patch"
- 
- EXTRA_OECONF += "--disable-aalib --disable-esd --disable-shout2 --disable-libcaca --disable-hal --without-check \
-                  --disable-examples --disable-taglib"
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "meta"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++# Omit broken machines from COMPATIBLE_MACHINE
++#   qemuppc hangs at boot
++#   qemumips panics at boot
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+new file mode 100644
+index 0000000..1c2ad37
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+@@ -0,0 +1,25 @@
++require recipes-kernel/linux/linux-yocto.inc
++
++# We need lzma (as CONFIG_KERNEL_LZMA=y)
++DEPENDS += "xz-native"
++
++KBRANCH_DEFAULT = "standard/tiny/base"
++KBRANCH = "${KBRANCH_DEFAULT}"
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++LINUX_VERSION ?= "3.10.9"
++
++KMETA = "meta"
++
++SRCREV_machine ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
++SRCREV_meta ?= "1b9b113837f353fd94148beb6bd00a3b7b35d01d"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
++
++COMPATIBLE_MACHINE = "(qemux86)"
++
++# Functionality flags
++KERNEL_FEATURES = ""
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+new file mode 100644
+index 0000000..ea6ad2a
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+@@ -0,0 +1,30 @@
++require recipes-kernel/linux/linux-yocto.inc
++
++KBRANCH_DEFAULT = "standard/base"
++KBRANCH = "${KBRANCH_DEFAULT}"
++
++SRCREV_machine_qemuarm ?= "8675d3d0a3c17135f70ef474d5c362397c02e62a"
++SRCREV_machine_qemumips  ?= "992b743b905edd21d3a4a27c92b5c6a9e44d7d73"
++SRCREV_machine_qemuppc ?= "09388c3572e26c78b34554e46e077f12be7b2401"
++SRCREV_machine_qemux86 ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
++SRCREV_machine_qemux86-64 ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
++SRCREV_machine_qemumips64 ?= "203679cb23c752fdcbc0180a55a81728d7462561"
++SRCREV_machine ?= "6c1528b2b78d1ec7e75bb7a9880074ec35aa1aa0"
++SRCREV_meta ?= "1b9b113837f353fd94148beb6bd00a3b7b35d01d"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
++
++LINUX_VERSION ?= "3.10.9"
++
++PV = "${LINUX_VERSION}+git${SRCPV}"
++
++KMETA = "meta"
++
++COMPATIBLE_MACHINE = "qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc"
++KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
 -- 
 1.7.10.4
 
