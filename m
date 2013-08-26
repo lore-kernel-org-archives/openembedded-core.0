@@ -1,37 +1,24 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A5A260990
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 08:33:36 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id z5so2098839lbh.37
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 01:33:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=M4GcU7VUoFno1mzHGlgXtLQA8rexcjlMXQGKxM6V7Rc=;
-	b=pbJMgNjU2N7e98AOugUXEiF6AH56xcPmrPs3S+6CJyQOSUn9SO1KhjCrlLJzansOAi
-	ejPLHm1RNoZxMtzghqo1+D0PJfZx3FiZ/JhGUq6v+8Mw1L0Sc5a0vkTjjEHTcZYC5R1L
-	M/lRtiRyYkJVg7hyWzry8izA7XB8IBc6WuXZZO66WXVTlnyGgstl7eVZRrVNa7cz9AM4
-	+TE8seIQx9CyV5dPqzE2bRWfUSMK/Jxe3C6FBLbwNaQl5HYCMI+Kx7Bgund8+/T+s4Fm
-	wvhZSan+NESIqeVfmnf6rN16nBgQXw52nKBYThUSLKGj3x3sZiiF/uGd/RNx1bXUUs4Z
-	qjVg==
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id D11F860990
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 08:56:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q8ucag010078
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 04:56:39 -0400 (EDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Mon, 26 Aug 2013 01:56:37 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Aug 2013 16:56:39 +0800
+Message-ID: <cover.1377505592.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Received: by 10.152.2.130 with SMTP id 2mr630014lau.35.1377506017189; Mon,
-	26 Aug 2013 01:33:37 -0700 (PDT)
-Received: by 10.112.209.40 with HTTP; Mon, 26 Aug 2013 01:33:37 -0700 (PDT)
-In-Reply-To: <52175BE0.8010403@windriver.com>
-References: <1377212667-5915-1-git-send-email-jason.wessel@windriver.com>
-	<CAMKF1sp9sfkrRCaU6JwzN0YESyP=pd5n1oUcGz_fNj3OTTv6-g@mail.gmail.com>
-	<52175BE0.8010403@windriver.com>
-Date: Mon, 26 Aug 2013 10:33:37 +0200
-Message-ID: <CAAQYJAv7RiJZ8vPAx3cS7CDEbqQDWz5wCkY1hq37SBfv2R20wg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [v2 PATCH] kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling
+Subject: [PATCH 0/1] btrfs-tools: Add dependency on lzo acl e2fsprog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,86 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 08:33:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 Aug 2013 08:56:40 -0000
+Content-Type: text/plain
 
-On Fri, Aug 23, 2013 at 2:56 PM, Jason Wessel
-<jason.wessel@windriver.com> wrote:
-> On 08/23/2013 01:16 AM, Khem Raj wrote:
->> On Thu, Aug 22, 2013 at 4:04 PM, Jason Wessel
->> <jason.wessel@windriver.com> wrote:
->>> This patch aims to fix the following two cases for the INITRAMFS genera=
-tion.
->>>   1) Allow an image recipe to specify a paired INITRAMFS recipe such
->>>      as core-image-minimal-initramfs.  This allows building a base
->>>      image which always generates the needed initramfs image in one ste=
-p
->>>   2) Allow building a single binary which contains a kernel and
->>>      the initramfs.
->> I think this could be a bit simpler. Have a full kernel image recipe (
->> kernel + initramfs)
->> separate. It fits into the equation nicely. The final image can bundle
->> initramfs which has modules from practically same kernel build is
->> staged step 1 of kernel build which
->> automatically happens today for any image build.
->
-> The changes I put together are work around the circular dependency proble=
-m.  Staging and using another recipe is certainly an option.
->
-> What I really wanted to do was have just another image type not unlike cp=
-io, ext3, etc...  But this was not possible because there was no way to get=
- back to the point that the kernel could be re-linked and make the call to =
-the kernel methods and get the context correct.   I had tried using the int=
-ernal method for exec_task from the image recipe context but there appeared=
- to be no direct way to get this to work.
->
->
->
->
->>
->> The new recipe for kernel+initramfs requires the existing kernel
->> recipes and tweaks the .config to enable INITRAMFS_IMAGE
->>
->> You can share the sources for both stages where kernel is built like
->> gcc is putting the sources under work-shared and building all gcc
->> recipes out of this location.
->
->
-> Ideally we could use the sysroot to regenerate the combined image, but th=
-is was not low hanging fruit.  If we came up with a way to generate the com=
-bined kernel+initramfs image directly from the sysroot this could easily be=
- controlled by just having it as an IMAGE_FEATURE as opposed to making dist=
-inct image types.
->
->
-> Jason.
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+From: "Roy.Li" <rongqing.li@windriver.com>
 
+The following changes since commit 9b05c65450526522d7358d0c0901b594de546748:
 
-Some more thoughts:
+  sstate: Fix the relative symlink replacement code (2013-08-23 16:59:04 +0100)
 
-I'd like to point out that we introduced a variable called INITRAMFS_FSTYPE=
-S
+are available in the git repository at:
 
-http://cgit.openembedded.org/openembedded-core/commit/meta/conf/bitbake.con=
-f?id=3D17f7f3a43e863d9e2a16dd02face5137a4f4b225
+  git://git.pokylinux.org/poky-contrib roy/btrfs
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/btrfs
 
+Roy.Li (1):
+  btrfs-tools: Add dependency on lzo acl e2fsprog
 
-and that we have an initial initramfs framework (modular, similar to
-the one in oe-classic) :
+ meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-core/ini=
-trdscripts?id=3D7b69ad2167a1f0e57db82817b98a0cbcb70a0dd3
+-- 
+1.7.10.4
 
-Maybe this framework could be extended for the typical simple needs (
-I know our linux-yocto-tiny-kexecboot is a rather complicated
-example).
-
-Cheers
-
-Andrea
 
