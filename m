@@ -1,36 +1,34 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2582761F47
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F5C86BA7D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 18:49:01 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id x14so5368921ief.25
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 11:49:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+Xdng54rGX+0Yi/hTB5mdC+sBn95NInAh/b9ZnKLI1g=;
-	b=i8aLl9/dRHTAdPOl5khiOlsZOM+djv6dyweivmNdwB7iHqkX3YS1fgWEJugKhjAPIX
-	oLEjTMx4dnoXJ1AVjUFbHBcvEHzfdDRsxBzUTUe4Piw7SpCKPwmVSVPH3BueYH/Aom/w
-	4nvxcTwTRGdnDrrlu1ws5pYRwMd5pCu5obYwmMK2MXH40Aa1gKokErRExaCyCeUEe0rP
-	x28KauUaED8WH3UHtEpziUATtP6+4Y9JmzGK5RCjaKdSu8DsCuiwJBp9HT/MDkn5YzzW
-	+8b1PmHpqYc2GLcKFn+NFNGTpVmDVQOBG0WDodoUc5mCx+/D/U+u82YriUFEQ+2FaJT+
-	lu8w==
-X-Gm-Message-State: ALoCoQltM1iJQui8XAolkFE88Plf3eZuhILhI3yEQnKHdL+TlZeS/1kxr3eDXbHGpgyh5jj2seqb
-X-Received: by 10.50.13.10 with SMTP id d10mr7383337igc.56.1377542941862;
-	Mon, 26 Aug 2013 11:49:01 -0700 (PDT)
-Received: from otp-mmes-build2.corp.ad.wrs.com ([89.121.200.106])
-	by mx.google.com with ESMTPSA id p5sm19293858igj.10.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 26 Aug 2013 11:48:59 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 26 Aug 2013 21:48:44 +0300
-Message-Id: <1377542924-1605-1-git-send-email-andrei.gherzan@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
-Subject: [PATCH 1/1] eglibc: nscd support depends on OPTION_EGLIBC_INET
+	Mon, 26 Aug 2013 19:09:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7QJ9Acs007546
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 26 Aug 2013 12:09:10 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 26 Aug 2013 12:09:09 -0700
+Message-ID: <521BA7CB.7070206@windriver.com>
+Date: Mon, 26 Aug 2013 15:08:59 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Elvis Dowson <elvis.dowson@gmail.com>
+References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
+	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
+	<092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
+	<4AC41A5E-073D-4973-82BD-F94A8B168F34@gmail.com>
+	<521AA95A.8000803@windriver.com>
+	<7DBFB4EE-4727-422F-8815-D801827A37C9@gmail.com>
+	<521AD896.3000503@windriver.com>
+	<6324D287-2CA2-4A88-AFF4-58CABE82B2CC@gmail.com>
+In-Reply-To: <6324D287-2CA2-4A88-AFF4-58CABE82B2CC@gmail.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 18:49:01 -0000
+X-List-Received-Date: Mon, 26 Aug 2013 19:09:11 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add --disable-nscd if DISTRO_FEATURES does not contain ipv4. This features is
-mapped to OPTION_EGLIBC_INET.
-The default behavior is to activate nscd (if --disable-nscd is not passed to
-configure script). But nscd depends on OPTION_EGLIBC_INET, so compilation will
-fail if this option is not activated.
+On 13-08-26 11:49 AM, Elvis Dowson wrote:
+> Hi Bruce,
+>
+> On Aug 26, 2013, at 8:24 AM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>
+>> Perhaps the zynq machine definition is the right way to go, since nearly
+>> enough support is mainline (in both qemu and the kernel), and we can
+>> motivate the rest into their respective upstreams.
+>>
+>> If someone can come up the right conf files, and machine definition, I
+>> can pretty easily support it in linux-yocto.
+>
+> Could you tell me what's steps I need to follow, to add a new machine
+> definition and support to the linux-yocto kernel?
 
-Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
----
- meta/recipes-core/eglibc/eglibc_2.18.bb |    1 +
- 1 file changed, 1 insertion(+)
+Are you interested in something from scratch, versus something that
+isn't already partially in the tree (like qemuarma9) ?
 
-diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
-index 17b651f..771f3e7 100644
---- a/meta/recipes-core/eglibc/eglibc_2.18.bb
-+++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
-@@ -79,6 +79,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
-                 --without-selinux \
-                 --enable-obsolete-rpc \
-                 --with-kconfig=${STAGING_BINDIR_NATIVE} \
-+                ${@base_contains('DISTRO_FEATURES', 'ipv4', '', '--disable-nscd', d)} \
-                 ${GLIBC_EXTRA_OECONF}"
- 
- EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
--- 
-1.7.9.5
+We've got a few docs and tutorials, but I can also help step you through
+the process to assist the existing material.
+
+Bruce
+
+>
+> I'd like to learn how to do this!
+>
+> Best regards,
+>
+> Elvis Dowson
+>
 
 
