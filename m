@@ -1,24 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id D11F860990
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C6BA461F47
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 08:56:38 +0000 (UTC)
+	Mon, 26 Aug 2013 08:56:39 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q8ucag010078
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q8ue0t020151
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 04:56:39 -0400 (EDT)
+	Mon, 26 Aug 2013 01:56:40 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Mon, 26 Aug 2013 01:56:37 -0700
+	14.2.342.3; Mon, 26 Aug 2013 01:56:40 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Aug 2013 16:56:39 +0800
-Message-ID: <cover.1377505592.git.rongqing.li@windriver.com>
+Date: Mon, 26 Aug 2013 16:56:40 +0800
+Message-ID: <77319aeee8a2f49fa9ece78c4a0e4e20be3d4165.1377505592.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1377505592.git.rongqing.li@windriver.com>
+References: <cover.1377505592.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] btrfs-tools: Add dependency on lzo acl e2fsprog
+Subject: [PATCH 1/1] btrfs-tools: Add dependency on lzo acl e2fsprog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +38,24 @@ Content-Type: text/plain
 
 From: "Roy.Li" <rongqing.li@windriver.com>
 
-The following changes since commit 9b05c65450526522d7358d0c0901b594de546748:
-
-  sstate: Fix the relative symlink replacement code (2013-08-23 16:59:04 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib roy/btrfs
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/btrfs
-
-Roy.Li (1):
-  btrfs-tools: Add dependency on lzo acl e2fsprog
-
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
  meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+index 07e8529..3ec9e8a 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+@@ -10,7 +10,7 @@ HOMEPAGE = "https://btrfs.wiki.kernel.org"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+ SECTION = "base"
+-DEPENDS = "util-linux attr"
++DEPENDS = "util-linux attr e2fsprogs lzo acl"
+ 
+ SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
 -- 
 1.7.10.4
 
