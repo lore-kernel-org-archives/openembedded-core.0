@@ -1,32 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1093F6BC47
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E3086BB02
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 11:03:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7QBFf4u032626; Mon, 26 Aug 2013 12:15:41 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rMZSd-6OFoQK; Mon, 26 Aug 2013 12:15:41 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7QBFYsh032613
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 26 Aug 2013 12:15:36 +0100
-Message-ID: <1377514993.26773.42.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Mon, 26 Aug 2013 12:03:13 +0100
-In-Reply-To: <521AD8F8.10807@windriver.com>
-References: <1377487515-26654-1-git-send-email-bruce.ashfield@windriver.com>
-	<1377487515-26654-2-git-send-email-bruce.ashfield@windriver.com>
-	<521AD4CE.2020907@linux.intel.com> <521AD8F8.10807@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-libc-headers: ptrace.h: remove ptrace_peeksiginfo_args
+	Mon, 26 Aug 2013 12:16:53 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 26 Aug 2013 05:16:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,958,1367996400"; d="scan'208";a="351674308"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 26 Aug 2013 05:16:52 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 8574B6A4092
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 05:16:50 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Aug 2013 15:16:46 +0300
+Message-Id: <cover.1377519067.git.stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 0/2] Some tests fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,33 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 11:03:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Aug 2013 12:16:55 -0000
 
-On Mon, 2013-08-26 at 00:26 -0400, Bruce Ashfield wrote:
-> On 13-08-26 12:08 AM, Saul Wold wrote:
-> Thanks! And honestly, I didn't leave out the upstream status on purpose
-> this time .. like I said, it just isn't in my workflow, since I normally
-> seek and destroy them!
-> 
-> I'm pretty sure I can't convince the kernel guys to not export that
-> structure, but I can try. Otherwise, it can have the "dirty hack" upstream
-> status.
-> 
-> >
-> > I will put this in MUT so we can move forward tonight.
-> 
-> Fingers crossed, my builds are working here.
+Hello,
 
-Things failed badly on the autobuilder since we dropped the command
-length patch and it was still needed. I've updated it against 3.10,
-confirmed it worked on the autobuilder and then merged things.
+These should fix two of AB fails for RunSanity:
+http://autobuilder.yoctoproject.org:8011/builders/nightly-x86/builds/269/steps/Running%20Sanity%20Tests/logs/stdio
+and http://autobuilder.yoctoproject.org:8011/builders/nightly-multilib/builds/266/steps/Running%20Sanity%20Tests_3/logs/stdio
 
 Cheers,
+Stefan
 
-Richard
 
+The following changes since commit d80a715e3763a0e2bea5c84a4132d70dceaa2044:
 
+  python-2.7-manifest: Add missing python-ctypes dependency to python-multiprocessing (2013-08-26 12:15:49 +0100)
+
+are available in the git repository at:
+
+  git://mirror.rb.intel.com/git.yoctoproject.org/poky-contrib stefans/test-fixes1
+
+for you to fetch changes up to 215b28dcd8c0b11f63c151bb217e81188c595a91:
+
+  lib/oeqa/runtime: multilib: fix typo (2013-08-26 14:55:37 +0300)
+
+----------------------------------------------------------------
+Stefan Stanacar (2):
+      lib/oeqa/runtime: smart: add checks for smart output
+      lib/oeqa/runtime: multilib: fix typo
+
+ meta/lib/oeqa/runtime/multilib.py |  2 +-
+ meta/lib/oeqa/runtime/smart.py    | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+Stefan Stanacar (2):
+  lib/oeqa/runtime: smart: add checks for smart output
+  lib/oeqa/runtime: multilib: fix typo
+
+ meta/lib/oeqa/runtime/multilib.py |  2 +-
+ meta/lib/oeqa/runtime/smart.py    | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+-- 
+1.8.3.1
 
 
