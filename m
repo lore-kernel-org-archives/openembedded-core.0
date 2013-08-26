@@ -1,24 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 980A86AF96
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
+	[209.85.160.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 615A36AF96
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 18:04:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7QI4aO9020820
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Aug 2013 14:04:37 -0400 (EDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 26 Aug 2013 11:04:36 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 26 Aug 2013 14:04:25 -0400
-Message-ID: <cover.1377540140.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Mon, 26 Aug 2013 18:06:31 +0000 (UTC)
+Received: by mail-pb0-f53.google.com with SMTP id up15so3714030pbc.40
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 11:06:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
+	:to:cc:content-type;
+	bh=E/WcNMGVHWkprQ/YrITX7syzeJj99FXJM/OoNiT79rY=;
+	b=Acr+lrNW7a6tMXAyZ7gA3w1YN+UVSl7I/xqh0wlatSz1aj8yKViNb577CsQNzZQL8L
+	UztpGYu4AwCp2Ry/m91smfYRAeTg6feiLaFe/M1t9xqxzBVyTf3gpQ0XU9uUbO2fLrTw
+	f2jALr+zGoVgu9kIhEezrvy7AZyRj/D9thyZQuqk7f0E2kdjloy4LGqSSgbvzlY8zdnz
+	EgBvtaVGPcgTf0b72/OQejz0PPxeex/UOtCq+Y8S3Q/tmtlYBPJwV7JGcr07PxLrdiuU
+	Z0F8U+3e8+K3+XPH56qF1ajoLiaDs2tDVWQqN68m9VgEUfysufHk6rhb7QSWfna2HZBm
+	BMlA==
+X-Gm-Message-State: ALoCoQnD+Ec4b8IeW/q5PbKYYLHtNvpoX/sbGr27HKhcbZjM6p0bHyd3Xx6wa2M1PBnd3Ye5vAKC
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] linux-yocto/3.10: tools update
+X-Received: by 10.66.155.102 with SMTP id vv6mr16121998pab.89.1377540392346;
+	Mon, 26 Aug 2013 11:06:32 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.234 with HTTP; Mon, 26 Aug 2013 11:06:32 -0700 (PDT)
+Date: Mon, 26 Aug 2013 19:06:32 +0100
+X-Google-Sender-Auth: E1gJUoc07PWLX_mZSswskd_R8Lg
+Message-ID: <CAOMwXhPL4J8irv+8t02Mck-vAH47+9rqvncEkCUZpPHZWdSz1g@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 18:04:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 26 Aug 2013 18:06:31 -0000
+Content-Type: multipart/alternative; boundary=047d7b86e3a8bff7d704e4dd9d01
 
-Saul/Richard,
+--047d7b86e3a8bff7d704e4dd9d01
+Content-Type: text/plain; charset=ISO-8859-1
 
-Richard mentioned this morning that a patch issue was still being
-seen with the soon to be dead 3.8 kernel tree. I took a look and
-it was due to a missing SRCREV update to the kern-tools.
+On Mon, Aug 26, 2013 at 7:04 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
-Once this change is applied, all old trees, as well as the new
-3.10 and -dev kernels are in sync, patching and building.
+> On 08/26/2013 10:56 AM, Laszlo Papp wrote:
+>
+>> What exactly is the problem for beagle board?
+>>
+>>  The QA team did not provide the details.
+>
 
-Cheers,
+I wonder if you could ask for that?
 
-Bruce
+--047d7b86e3a8bff7d704e4dd9d01
+Content-Type: text/html; charset=ISO-8859-1
 
-The following changes since commit 44c3f72684c5c920ce8af1da54a2268047342589:
+<div dir="ltr">On Mon, Aug 26, 2013 at 7:04 PM, Saul Wold <span dir="ltr">&lt;<a href="mailto:sgw@linux.intel.com" target="_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br><div class="gmail_extra"><div class="gmail_quote">
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="im">On 08/26/2013 10:56 AM, Laszlo Papp wrote:<br>
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+What exactly is the problem for beagle board?<br>
+<br>
+</blockquote></div>
+The QA team did not provide the details.<br></blockquote><div><br></div><div>I wonder if you could ask for that?</div></div></div></div>
 
-  lib/oeqa/runtime: smart: add checks for smart output (2013-08-26 16:29:18 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  kern-tools: fix patch series to git tree validation
-
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-1.7.10.4
-
-
+--047d7b86e3a8bff7d704e4dd9d01--
