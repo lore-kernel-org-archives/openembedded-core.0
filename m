@@ -1,41 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 0775D6BAB8
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 143106BAB8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 17:37:51 +0000 (UTC)
-Received: by mail-pd0-f175.google.com with SMTP id q10so3727520pdj.34
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 10:37:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=nxUUyliXO2ak7iebhmOFceqNBDpLCoywYcNEwSPtGqw=;
-	b=muNiY0JZskOnthYpuvLHkKeUcaQwc+tQUsqUAQWjNcpi7TsR9Yus7pwafbHsFuHnwI
-	o1DF8d3p6bR2VwX6WgAWK1/Hro0GDaCkEdJ5vL+tgYGVgoeYFweaHN/vbRaVV8y5qo4g
-	Fy3/MHJJGh0HJo8+Wr+F78WAPnynJJjL4visI6W0cFhYfsaOco09vrSIElbA6R5EQy03
-	P4rcj7uUamr9sdwTKQU6E86qTHmrCPNauv+B4ae2dQiUyBOVSBoXqifPJ9RyMsfGHAxs
-	bRnTDopsTvDBqZUcRK4bNeLY7OMXJRfuWaRbR7Wa9KnH8U0mj9dzJ101l1mEqHeJ8sok
-	NFhQ==
-X-Received: by 10.68.252.135 with SMTP id zs7mr2865546pbc.194.1377538671661;
-	Mon, 26 Aug 2013 10:37:51 -0700 (PDT)
-Received: from edchang-sslvpn-nc.jnpr.net (natint3.juniper.net.
-	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	ct4sm10167479pbb.41.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 26 Aug 2013 10:37:50 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20130826133254.GR3544@jama>
-Date: Mon, 26 Aug 2013 10:38:03 -0700
-Message-Id: <7644CAFB-4399-44D0-A07C-4C1D4A6AE7B1@gmail.com>
-References: <cover.1372456294.git.raj.khem@gmail.com>
-	<317e5f0060239db963b826eb9b569170cf9e07dd.1372456294.git.raj.khem@gmail.com>
-	<20130826133254.GR3544@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1508)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 12/24] python3: Add recipes
+	Mon, 26 Aug 2013 17:55:37 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2013 10:52:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,960,1367996400"; d="scan'208";a="393616957"
+Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
+	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2013 10:55:36 -0700
+Message-ID: <521B9698.7030803@linux.intel.com>
+Date: Mon, 26 Aug 2013 10:55:36 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Laszlo Papp <lpapp@kde.org>
+References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+	<CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
+In-Reply-To: <CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,66 +33,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 17:37:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 26 Aug 2013 17:55:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 08/23/2013 09:57 AM, Laszlo Papp wrote:
+> Any update? It would be nice not to miss the freeze ... ;-)
+>
+This has been merged, and I was informed by the QA team that it works 
+correctly for the mpc8315e-rdb and beagleboard, but NOT the beagleboard XM.
 
-On Aug 26, 2013, at 6:32 AM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
->=20
-> When testing this on another host I got:
->=20
-> ERROR: This autoconf log indicates errors, it looked at host include
-> and/or library paths while determining system capabilities.
-> Rerun configure task after fixing this. The path was
-> =
-'/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/python3/3.3.2-r0.0/Python-3.=
-3.2'
-> ERROR: Function failed: do_qa_configure
-> ERROR: Logfile of failure stored in:
-> =
-/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/python3/3.3.2-r0.0/temp/log.d=
-o_configure.13003
-> ERROR: Task 58
-> =
-(/OE/shr-core/openembedded-core/meta/recipes-devtools/python/python3_3.3.2=
-.bb,
-> do_configure) failed with exit code '1'
->=20
->=20
-> configure:6972: x86_64-oe-linux-gcc  -m64 -DNDEBUG -fno-inline
-> --sysroot=3D/OE/shr-core/tmp-eglibc/sysroots/qemux86-64 -c -O2 -pipe =
--g
-> -feliminate-unused-debug-types  -I/usr/include/ncursesw conftest.c >&5
-> cc1: warning: include location "/usr/include/ncursesw" is unsafe for
-> cross-compilation [-Wpoison-system-directories]
-> conftest.c:63:19: fatal error: conio.h: No such file or directory
-> #include <conio.h>
->                   ^
-> compilation terminated.
+So maintaining this as DEFAULT_PREFERENCE = "-1" is correct for now, 
+until the XM issue can be resolved.
 
-interesting. since I think I have a patch in there to address the =
-contamination issue.
-see =
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/pyt=
-hon3&id=3D1b4847faa6af86516b4ff451d9cc44f565c7d398
-whats your build host OS ?
+Thanks for the contribution.
 
+Sau!
 
->=20
->=20
-> and from test-dependencies.sh run there is undeterministic lzma
-> dependency:
->=20
-> WARN: packages/armv5te-oe-linux-gnueabi/python3/python3-misc/latest =
-lost dependency on  liblzma
-
-Thanks, I will add that explicitly.
-
-
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
+>
+> On Fri, Aug 23, 2013 at 10:48 AM, Laszlo Papp <lpapp@kde.org
+> <mailto:lpapp@kde.org>> wrote:
+>
+>     Signed-off-by: Laszlo Papp <lpapp@kde.org <mailto:lpapp@kde.org>>
+>     ---
+>       meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+>     <http://u-boot-mkimage_2013.07.bb> | 27 +++++++++++++++++++++++
+>       meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>     <http://u-boot_2013.07.bb>         | 23 +++++++++++++++++++
+>       2 files changed, 50 insertions(+)
+>       create mode 100644
+>     meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+>     <http://u-boot-mkimage_2013.07.bb>
+>       create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>     <http://u-boot_2013.07.bb>
+>
+>     diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+>     <http://u-boot-mkimage_2013.07.bb>
+>     b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+>     <http://u-boot-mkimage_2013.07.bb>
+>     new file mode 100644
+>     index 0000000..0108e00
+>     --- /dev/null
+>     +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+>     <http://u-boot-mkimage_2013.07.bb>
+>     @@ -0,0 +1,27 @@
+>     +DESCRIPTION = "U-boot bootloader mkimage tool"
+>     +LICENSE = "GPLv2+"
+>     +LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+>     +
+>       file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
+>     +SECTION = "bootloader"
+>     +
+>     +SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
+>     +
+>     +SRC_URI[md5sum] = "8445162690052e6afd4b8f87af2bb557"
+>     +SRC_URI[sha256sum] =
+>     "2bbd440c1b29928d230604eac372fda5152d3ae23f52b1910c77fc5bf531250b"
+>     +
+>     +S = "${WORKDIR}/u-boot-${PV}"
+>     +
+>     +BBCLASSEXTEND = "native nativesdk"
+>     +
+>     +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}"
+>     HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
+>     +
+>     +do_compile () {
+>     +  oe_runmake tools
+>     +}
+>     +
+>     +do_install () {
+>     +  install -d ${D}${bindir}
+>     +  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
+>     +  ln -sf uboot-mkimage ${D}${bindir}/mkimage
+>     +}
+>     +
+>     diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>     <http://u-boot_2013.07.bb>
+>     b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb <http://u-boot_2013.07.bb>
+>     new file mode 100644
+>     index 0000000..f3f4b62
+>     --- /dev/null
+>     +++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>     <http://u-boot_2013.07.bb>
+>     @@ -0,0 +1,23 @@
+>     +require u-boot.inc
+>     +
+>     +# To build u-boot for your machine, provide the following lines in
+>     your machine
+>     +# config, replacing the assignments as appropriate for your machine.
+>     +# UBOOT_MACHINE = "omap3_beagle_config"
+>     +# UBOOT_ENTRYPOINT = "0x80008000"
+>     +# UBOOT_LOADADDRESS = "0x80008000"
+>     +
+>     +LICENSE = "GPLv2+"
+>     +LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+>     +
+>       file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
+>     +
+>     +# This revision corresponds to the tag "v2013.07"
+>     +# We use the revision in order to avoid having to fetch it from the
+>     repo during parse
+>     +SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+>     +
+>     +PV = "v2013.07+git${SRCPV}"
+>     +
+>     +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git
+>     <http://git.denx.de/u-boot.git;branch=master;protocol=git>"
+>     +
+>     +S = "${WORKDIR}/git"
+>     +
+>     +PACKAGE_ARCH = "${MACHINE_ARCH}"
+>     --
+>     1.8.3.4
+>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
