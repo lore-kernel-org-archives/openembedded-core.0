@@ -1,26 +1,41 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 143106BAB8
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C33B6BAAB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 17:55:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2013 10:52:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,960,1367996400"; d="scan'208";a="393616957"
-Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
-	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2013 10:55:36 -0700
-Message-ID: <521B9698.7030803@linux.intel.com>
-Date: Mon, 26 Aug 2013 10:55:36 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Mon, 26 Aug 2013 17:59:56 +0000 (UTC)
+Received: by mail-la0-f52.google.com with SMTP id ev20so2600844lab.39
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 10:59:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Arm8r/rI5/a81eilwGM/OtJxXNqet4FK+olvJZaOeKQ=;
+	b=zMIvEy3E5JkS8jF1ROrI2sZ0++6OcE+b5ELQeEmeZAUbDiDOVKvESliucupOnHBCfx
+	AIMCn7JJqrv43JcqmvMyL3YUxlO+hixPKebRrWG/8nX6VYKdLuKCUqfY/uFTBQd+lrfl
+	TtXZmRYleuaaxfZPL5AFu3n4W+rBv9saWyyv2P6uRmtjVlNAp+YrLV0rd9ycOMJ0n7A2
+	KNzqGpPD8hZSXU5X0Y9gCbuucVpxgxVjy4n89nRbbpAMg5Ila45+0tKEjHsJ+8xFWxds
+	63IWqMox8fC83QpvKy8StvLRvHhUobjcDbnAKzRUJK/XQVn1fF8j80cvV6Y6TPigEOE8
+	awiw==
 MIME-Version: 1.0
-To: Laszlo Papp <lpapp@kde.org>
-References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
-	<CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
-In-Reply-To: <CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to 2013.07
+X-Received: by 10.112.168.170 with SMTP id zx10mr13609063lbb.0.1377539996411; 
+	Mon, 26 Aug 2013 10:59:56 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Mon, 26 Aug 2013 10:59:56 -0700 (PDT)
+In-Reply-To: <8DA5FFBA-9580-444A-AC2F-53C97EF6D105@gmail.com>
+References: <cover.1377405083.git.bruce.ashfield@windriver.com>
+	<c2d44f9ff8d416b7f984bc4027de7acecbec0986.1377405083.git.bruce.ashfield@windriver.com>
+	<CAMKF1sr+z-f7KW6BqMLbs0RuFu4fhz_crhBVM_++nOqVb=OtnQ@mail.gmail.com>
+	<521AA761.4000605@windriver.com> <521ABA1C.9010105@windriver.com>
+	<CADkTA4OFMOyAUi5njjFXb1NnTh4ONp4vHT3JZxuL4tiG3OqOiw@mail.gmail.com>
+	<CADkTA4Pit1BhOxw5C1gFobrj-m00CpS-n=WNtCkgdRdCDRymhg@mail.gmail.com>
+	<8DA5FFBA-9580-444A-AC2F-53C97EF6D105@gmail.com>
+Date: Mon, 26 Aug 2013 13:59:56 -0400
+Message-ID: <CADkTA4NFqrBD=y7LqjgRXJyYvd5RiwD0_ab8ZLE1gkTUsCMVhw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/7] eglibc: ptrace: protect ptrace_peeksiginfo_args from redefintion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,127 +48,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 17:55:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Aug 2013 17:59:57 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 08/23/2013 09:57 AM, Laszlo Papp wrote:
-> Any update? It would be nice not to miss the freeze ... ;-)
+On Mon, Aug 26, 2013 at 1:28 PM, Khem Raj <raj.khem@gmail.com> wrote:
 >
-This has been merged, and I was informed by the QA team that it works 
-correctly for the mpc8315e-rdb and beagleboard, but NOT the beagleboard XM.
+> On Aug 25, 2013, at 7:46 PM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+>> A final (maybe .. hopefully!?) thought on this. Do drop this change,
+>> but give me a
+>> few minutes to remove the offending structure from linux-libc-headers_3.10. That
+>> will also protect all users of yocto, regardless of the kernel unless
+>> they provide
+>> their own libc-headers .. and then they are on their own :)
+>>
+>> That leaves the c library alone, and should buy us time to fix the
+>> offending apps.
+>
+> this is not again the correct place to fix it. since you will back this out say later
+> when all apps are fixed anyway. If we need to keep it I would rather have the app
+> builds failing and keep it enabled and it should not be the guy who is doing the kernel
+> headers upgrade to fix the whole ecosystem either. So add the headers by all means
+> and leave the old headers in there until the apps work correctly with new headers.
 
-So maintaining this as DEFAULT_PREFERENCE = "-1" is correct for now, 
-until the XM issue can be resolved.
+Whether or not to allow the apps to break, that's a call for Saul and
+Richard. For
+now, this fix works in all cases, and I'm able to build and boot with the 3.10
+kernel and matching headers.
 
-Thanks for the contribution.
+Given that we are about to hit the M4 freeze, I'd prefer this in now,
+and the apps
+fixed later. We need to get mileage with the matching headers and kernel.
 
-Sau!
+I think this is a good compromise for the time being, we've had far
+nastier hacks in
+the libc-headers in the past.
 
->
-> On Fri, Aug 23, 2013 at 10:48 AM, Laszlo Papp <lpapp@kde.org
-> <mailto:lpapp@kde.org>> wrote:
->
->     Signed-off-by: Laszlo Papp <lpapp@kde.org <mailto:lpapp@kde.org>>
->     ---
->       meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
->     <http://u-boot-mkimage_2013.07.bb> | 27 +++++++++++++++++++++++
->       meta/recipes-bsp/u-boot/u-boot_2013.07.bb
->     <http://u-boot_2013.07.bb>         | 23 +++++++++++++++++++
->       2 files changed, 50 insertions(+)
->       create mode 100644
->     meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
->     <http://u-boot-mkimage_2013.07.bb>
->       create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
->     <http://u-boot_2013.07.bb>
->
->     diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
->     <http://u-boot-mkimage_2013.07.bb>
->     b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
->     <http://u-boot-mkimage_2013.07.bb>
->     new file mode 100644
->     index 0000000..0108e00
->     --- /dev/null
->     +++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
->     <http://u-boot-mkimage_2013.07.bb>
->     @@ -0,0 +1,27 @@
->     +DESCRIPTION = "U-boot bootloader mkimage tool"
->     +LICENSE = "GPLv2+"
->     +LIC_FILES_CHKSUM =
->     "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
->     +
->       file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
->     +SECTION = "bootloader"
->     +
->     +SRC_URI = "ftp://ftp.denx.de/pub/u-boot/u-boot-${PV}.tar.bz2"
->     +
->     +SRC_URI[md5sum] = "8445162690052e6afd4b8f87af2bb557"
->     +SRC_URI[sha256sum] =
->     "2bbd440c1b29928d230604eac372fda5152d3ae23f52b1910c77fc5bf531250b"
->     +
->     +S = "${WORKDIR}/u-boot-${PV}"
->     +
->     +BBCLASSEXTEND = "native nativesdk"
->     +
->     +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTLD="${LD}"
->     HOSTLDFLAGS="${LDFLAGS}" HOSTSTRIP=true'
->     +
->     +do_compile () {
->     +  oe_runmake tools
->     +}
->     +
->     +do_install () {
->     +  install -d ${D}${bindir}
->     +  install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
->     +  ln -sf uboot-mkimage ${D}${bindir}/mkimage
->     +}
->     +
->     diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
->     <http://u-boot_2013.07.bb>
->     b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb <http://u-boot_2013.07.bb>
->     new file mode 100644
->     index 0000000..f3f4b62
->     --- /dev/null
->     +++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
->     <http://u-boot_2013.07.bb>
->     @@ -0,0 +1,23 @@
->     +require u-boot.inc
->     +
->     +# To build u-boot for your machine, provide the following lines in
->     your machine
->     +# config, replacing the assignments as appropriate for your machine.
->     +# UBOOT_MACHINE = "omap3_beagle_config"
->     +# UBOOT_ENTRYPOINT = "0x80008000"
->     +# UBOOT_LOADADDRESS = "0x80008000"
->     +
->     +LICENSE = "GPLv2+"
->     +LIC_FILES_CHKSUM =
->     "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
->     +
->       file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
->     +
->     +# This revision corresponds to the tag "v2013.07"
->     +# We use the revision in order to avoid having to fetch it from the
->     repo during parse
->     +SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
->     +
->     +PV = "v2013.07+git${SRCPV}"
->     +
->     +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git
->     <http://git.denx.de/u-boot.git;branch=master;protocol=git>"
->     +
->     +S = "${WORKDIR}/git"
->     +
->     +PACKAGE_ARCH = "${MACHINE_ARCH}"
->     --
->     1.8.3.4
->
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Bruce
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
