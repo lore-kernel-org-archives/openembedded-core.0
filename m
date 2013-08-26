@@ -1,23 +1,45 @@
-Return-Path: <pab@pabigot.com>
-Received: from m1plsmtpa01-06.prod.mesa1.secureserver.net
-	(m1plsmtpa01-06.prod.mesa1.secureserver.net [64.202.165.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 48EFE6BAC1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 71A996BAAE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 16:16:35 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by m1plsmtpa01-06.prod.mesa1.secureserver.net with 
-	id HUGa1m00J1mTNtu01UGahu; Mon, 26 Aug 2013 09:16:35 -0700
-Message-ID: <521B7F64.2080708@pabigot.com>
-Date: Mon, 26 Aug 2013 11:16:36 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1377477606-17591-1-git-send-email-pab@pabigot.com>
-	<521B7A4A.6030306@windriver.com>
-In-Reply-To: <521B7A4A.6030306@windriver.com>
-Subject: Re: [PATCH] pseudo: fix memory leak and missed privilege drop
+	Mon, 26 Aug 2013 17:27:56 +0000 (UTC)
+Received: by mail-pd0-f181.google.com with SMTP id g10so3729563pdj.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 10:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=Qmf/4K8CPgm7BDFuN9Lp+6VeB6CJeweHpG6IOhWmh/c=;
+	b=iZpu8lvNy9aq3EIcrzToSEnoKWEsu2mATsxiABLALbU9FlspjxY7JnMIN6ZWiFahdw
+	OxaanfJH6kIPmOkS59zJOKOB2htPMKEs4JsXtq6lGW8BrqladMbptUav9+n0jc5yusxZ
+	iv4/ubXy8qPtqbyTSZ96ccvpQo9ot4KyW05UEDDuibgCXU86QkcMDMdJ82bVYLfyVeof
+	gNTcbS8C5GndQ/qhEpm6i8KcOESfmaqRbQtIJPSVFpQDe7kWUf4h4McykdVd06X1DqSE
+	RLLZBfWpPUJjclGUZ/asP1ooB0Xg0ZZFQ1fWLnl+uHY7IjmuI+Jg+r5tDovEWUHkfRkZ
+	GMmg==
+X-Received: by 10.66.163.2 with SMTP id ye2mr4129313pab.168.1377538077251;
+	Mon, 26 Aug 2013 10:27:57 -0700 (PDT)
+Received: from edchang-sslvpn-nc.jnpr.net (natint3.juniper.net.
+	[66.129.224.36]) by mx.google.com with ESMTPSA id
+	py4sm19212932pbb.33.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 26 Aug 2013 10:27:54 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CADkTA4Pit1BhOxw5C1gFobrj-m00CpS-n=WNtCkgdRdCDRymhg@mail.gmail.com>
+Date: Mon, 26 Aug 2013 10:28:07 -0700
+Message-Id: <8DA5FFBA-9580-444A-AC2F-53C97EF6D105@gmail.com>
+References: <cover.1377405083.git.bruce.ashfield@windriver.com>
+	<c2d44f9ff8d416b7f984bc4027de7acecbec0986.1377405083.git.bruce.ashfield@windriver.com>
+	<CAMKF1sr+z-f7KW6BqMLbs0RuFu4fhz_crhBVM_++nOqVb=OtnQ@mail.gmail.com>
+	<521AA761.4000605@windriver.com> <521ABA1C.9010105@windriver.com>
+	<CADkTA4OFMOyAUi5njjFXb1NnTh4ONp4vHT3JZxuL4tiG3OqOiw@mail.gmail.com>
+	<CADkTA4Pit1BhOxw5C1gFobrj-m00CpS-n=WNtCkgdRdCDRymhg@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/7] eglibc: ptrace: protect ptrace_peeksiginfo_args from redefintion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,95 +52,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 16:16:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Aug 2013 17:27:57 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 08/26/2013 10:54 AM, Mark Hatle wrote:
-> +diff --git a/pseudo_util.c b/pseudo_util.c
->> +index 8d0969e..16c70e0 100644
->> +--- a/pseudo_util.c
->> ++++ b/pseudo_util.c
->> +@@ -95,6 +95,33 @@ dump_env(char **envp) {
->> + }
->> + #endif
->> +
->> ++int
->> ++pseudo_has_unload(char * const *envp) {
->> ++    static const char unload[] = "PSEUDO_UNLOAD";
->> ++    static size_t unload_len = strlen(unload);
->> ++    size_t i = 0;
->> ++
->> ++    /* Is it in the caller environment? */
->> ++    if (NULL != getenv(unload))
->> ++        return 1;
->
-> We actually want to use the pseudo_get_value as that ensures that the 
-> internal environment configuration is sane at all times.  The issue is 
-> that applications can do odd things to the environment, and just 
-> checking the environment itself may not always give sane results.
->
-> The rule for variables is:
->
-> * PSEUDO Variables are loaded ASAP into a cache.  This way if the user 
-> or program clear or modify the environment we maintain the variable.
->
-> * To 'reset' the variables to different values an exec needs to be 
-> performed. (Prior to the exec we also restore any missing variables 
-> that have been cached to the environment.)
->
-> -however- PSEUDO_UNLOAD is supposed to be special and acted on at the 
-> vary next exec...  So something like the following:
->
-> int
-> pseudo_has_unload(char * const *envp) {
->     static const char unload[] = "PSEUDO_UNLOAD";
->     static size_t unload_len = strlen(unload);
->     char * value = NULL;
->     size_t i = 0;
->
->     value = pseudo_get_value(unload)
->     if (value) {
->         free(value);
->         return 1;
->     }
->     free(value);
->
->     /* Is it in the caller environment? */
->     if (NULL != getenv(unload))
->         return 1;
->
->     /* Is it in the operational environment? */
->     while (envp && *envp) {
->         if ((!strncmp(*envp, unload, unload_len)) && ('=' == 
-> (*envp)[unload_len]))
->             return 1;
->         ++envp;
->     }
->     return 0;
-> }
->
-> This is -almost- the same as what you had.  The difference is that we 
-> check the cached value first, and use the get_value function which 
-> does all of the setup and comparison using the common function.  This 
-> ensures that the environment cache is properly configured as early as 
-> possible, only one accessor of the cache is used and it also checks 
-> the running and operation cache for the alternative value (in the same 
-> way your patch did it).
 
-Sure; I figured this was a special case, there was no point in 
-allocating and immediately throwing away a value, and that since nobody 
-looked at the value there was no need to update the cache through this 
-call and the other cache routines would do it if necessary.  But the 
-intent of the API wasn't entirely clear.  Based on what you said I'd 
-probably refactor pseudo_get_value() so it and pseudo_has_unload() would 
-share the code that located a matching cache entry, then duplicate the 
-return value only to satisfy the API for pseudo_get_value().  Checking 
-for PSEUDO_UNLOAD happens a lot in bitbaking images, so making it fast 
-seems worthwhile.
+On Aug 25, 2013, at 7:46 PM, Bruce Ashfield <bruce.ashfield@gmail.com> =
+wrote:
 
-I'm happy to leave this in your hands, including whether the fix 
-includes a new version of pseudo or just a patch in the recipe.
+> A final (maybe .. hopefully!?) thought on this. Do drop this change,
+> but give me a
+> few minutes to remove the offending structure from =
+linux-libc-headers_3.10. That
+> will also protect all users of yocto, regardless of the kernel unless
+> they provide
+> their own libc-headers .. and then they are on their own :)
+>=20
+> That leaves the c library alone, and should buy us time to fix the
+> offending apps.
 
-Peter
+this is not again the correct place to fix it. since you will back this =
+out say later
+when all apps are fixed anyway. If we need to keep it I would rather =
+have the app
+builds failing and keep it enabled and it should not be the guy who is =
+doing the kernel
+headers upgrade to fix the whole ecosystem either. So add the headers by =
+all means
+and leave the old headers in there until the apps work correctly with =
+new headers.=
 
