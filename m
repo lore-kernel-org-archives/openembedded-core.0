@@ -1,19 +1,21 @@
 Return-Path: <bruce.ashfield@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 15DB76B4BE
+	by mail.openembedded.org (Postfix) with ESMTP id 5A5266B4BE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 26 Aug 2013 03:25:31 +0000 (UTC)
 Received: from yow-bashfiel-d3.wrs.com (yow-bashfiel-d3.wrs.com
 	[128.224.147.67])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q3PUhH021534;
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q3PUhI021534;
 	Sun, 25 Aug 2013 20:25:30 -0700 (PDT)
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: richard.purdie@linuxfoundation.org
-Date: Sun, 25 Aug 2013 23:25:14 -0400
-Message-Id: <1377487515-26654-1-git-send-email-bruce.ashfield@windriver.com>
+Date: Sun, 25 Aug 2013 23:25:15 -0400
+Message-Id: <1377487515-26654-2-git-send-email-bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1377487515-26654-1-git-send-email-bruce.ashfield@windriver.com>
+References: <1377487515-26654-1-git-send-email-bruce.ashfield@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: linux-libc-headers: fix 3.10 build issues
+Subject: [PATCH] linux-libc-headers: ptrace.h: remove ptrace_peeksiginfo_args
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,28 +30,102 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 26 Aug 2013 03:25:31 -0000
 
-Richard/Saul,
+The addition of ptrace_peeksiginfo_args to the uapi in kernel commit
+84c751bd [ptrace: add ability to retrieve signals without removing from a queue (v4)]
+means that existing applications using glibc versions that define ptrace_peeksiginfo_args
+in sys/ptrace.h will get duplicate structure definitions like:
 
-As I mentioned in my last reply to my previous series:
+    | In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
+    | /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8: error: redefinition of 'struct ptrace_peeksiginfo_args'
+    |  struct ptrace_peeksiginfo_args {
+    |         ^
+    | In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
+    |                  from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
+    | /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note: originally defined here
+    |  struct ptrace_peeksiginfo_args
+    |         ^
+    | make[2]: *** [process.o] Error 1
 
-  [PATCH 4/7] eglibc: ptrace: protect ptrace_peeksiginfo_args from redefintion
+Reverting to the previous status of not exporting this structure temporarily
+fixes applications, until they can be adjusted to not mix sys/ptrace.h and
+linux/ptrace.h includes.
 
-Should be dropped, and replaced with this patch. 
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ ...1-ptrace.h-remove-ptrace_peeksiginfo_args.patch |   50 ++++++++++++++++++++
+ .../linux-libc-headers/linux-libc-headers_3.10.bb  |    2 +-
+ 2 files changed, 51 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
 
-It's a better idea to revert part of the kernel commit while we work on
-updating applications, than it is to patch eglibc and hope that include
-orders work in all cases.
-
-If you'd like a resend of the whole series, I can do that as well. But for
-now, I'm only sending this single patch.
-
-I've already build the offending applications on two architectures and
-everything looks fine. My full builds are still running, but I wanted to get
-this out and into Saul's hands sooner rather than later.
-
-Cheers,
-
-Bruce
-
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
+new file mode 100644
+index 0000000..da2e117
+--- /dev/null
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
+@@ -0,0 +1,50 @@
++From 7dddfb8fec5317ea16154d30e8e18b6559979b60 Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@windriver.com>
++Date: Sun, 25 Aug 2013 22:51:07 -0400
++Subject: [PATCH] ptrace.h: remove ptrace_peeksiginfo_args
++
++The addition of ptrace_peeksiginfo_args to the uapi in kernel commit
++84c751bd [ptrace: add ability to retrieve signals without removing from a queue (v4)]
++means that existing applications using glibc versions that define ptrace_peeksiginfo_args
++in sys/ptrace.h will get duplicate structure definitions like:
++
++    | In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
++    | /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8: error: redefinition of 'struct ptrace_peeksiginfo_args'
++    |  struct ptrace_peeksiginfo_args {
++    |         ^
++    | In file included from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
++    |                  from /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
++    | /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note: originally defined here
++    |  struct ptrace_peeksiginfo_args
++    |         ^
++    | make[2]: *** [process.o] Error 1
++
++Reverting to the previous status of not exporting this structure temporarily
++fixes applications, until they can be adjusted to not mix sys/ptrace.h and
++linux/ptrace.h includes.
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
++---
++ include/uapi/linux/ptrace.h |    6 ------
++ 1 file changed, 6 deletions(-)
++
++diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
++index 52ebcc8..524599d 100644
++--- a/include/uapi/linux/ptrace.h
+++++ b/include/uapi/linux/ptrace.h
++@@ -55,12 +55,6 @@
++ 
++ #define PTRACE_PEEKSIGINFO	0x4209
++ 
++-struct ptrace_peeksiginfo_args {
++-	__u64 off;	/* from which siginfo to start */
++-	__u32 flags;
++-	__s32 nr;	/* how may siginfos to take */
++-};
++-
++ /* Read signals from a shared (process wide) queue */
++ #define PTRACE_PEEKSIGINFO_SHARED	(1 << 0)
++ 
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+index eb04367..b2e6f0f 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+@@ -1,6 +1,6 @@
+ require linux-libc-headers.inc
+ 
+-PR = "r0"
++SRC_URI += "file://0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch"
+ 
+ SRC_URI[md5sum] = "72d0a9b3e60cd86fabcd3f24b1708944"
+ SRC_URI[sha256sum] = "46c9e55e1fddf40813b8d697d5645037a8e2af5c1a8dff52b3fe82b5021582b8"
+-- 
+1.7.10.4
 
 
