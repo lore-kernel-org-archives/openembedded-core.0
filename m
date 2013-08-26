@@ -1,27 +1,24 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <joe.slater@windriver.com>
 Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 46C746B988;
-	Mon, 26 Aug 2013 20:00:12 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 2F79F6B009
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 20:46:51 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7QK0A8v023302
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Aug 2013 16:00:11 -0400 (EDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 26 Aug 2013 13:00:10 -0700
-Message-ID: <521BB3BF.4090502@windriver.com>
-Date: Mon, 26 Aug 2013 15:59:59 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7QKkpn3024252
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 16:46:51 -0400 (EDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 26 Aug 2013 13:46:50 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 26 Aug 2013 13:46:50 -0700
+Message-ID: <1377550010-14358-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20130826101859.6987E503D3@opal> <20130826195621.GT3544@jama>
-In-Reply-To: <20130826195621.GT3544@jama>
-Cc: openembedded-commits@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe-commits] Bruce Ashfield : linux-yocto: introduce v3.10
+Subject: [PATCH 1/1] dpkg: fix configuration issure for mips64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,69 +31,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 20:00:13 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Aug 2013 20:46:52 -0000
+Content-Type: text/plain
 
-On 13-08-26 03:56 PM, Martin Jansa wrote:
-> On Mon, Aug 26, 2013 at 10:18:59AM +0000, git@git.openembedded.org wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: 6dc46834c6edaf358c18b26e4304bc9e7413eb60
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=6dc46834c6edaf358c18b26e4304bc9e7413eb60
->>
->> Author: Bruce Ashfield <bruce.ashfield@windriver.com>
->> Date:   Fri Aug 23 14:08:20 2013 -0400
->>
->> linux-yocto: introduce v3.10
->>
->> Introduce the 3.10 kernel. This is based on the 3.10.9 upstream kernel
->> and replaces the 3.8 recipes, which will be removed once all reference
->> boards have been updated.
->>
->> 3.10 also the latest LTSI and will be updated with that content when it
->> becomes available.
->>
->> Other features of the 3.10 kernel include:
->>
->>    - refreshed -rt support
->>    - refreshed yaffs2, aufs3
->>    - cryptodev
->>    - bfs, edf, and OCF staged features
->>    - scrubbed and updated meta data for v3.10
->>    - improved tools support for meta data updates and queue maintenance
->>    - patch carry forward from all previous linux-yocto kernels and
->>      configuration.
->>
->> This kernel has been built and boot tested on all qemu machines and architectures.
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> ---
->>
->>   meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |   30 ++++++++++++++++++++
->>   meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |   25 ++++++++++++++++
->>   meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   30 ++++++++++++++++++++
->>   3 files changed, 85 insertions(+), 0 deletions(-)
->
-> This commit should introduce bc-native dependency at least in my
-> minimalistic chroot for OE builds this is first linux-yocto kernel which
-> is failing because of missing host bc.
+CQID: 431771
 
-Good catch. I do recall the switch to bc to remove dependencies on perl.
-Obviously I have no machines without bc, so I never did trigger it.
+configure cannot determine the proper cpu, os, or
+architeture for mips64, and possibly other arch's
+because of faulty code added to Arch.pm in the latest
+release from upstream.  We remove that code.
 
-I'll follow up with a commit shortly, unless someone beats me to it.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-devtools/dpkg/dpkg/arch_pm.patch |   19 +++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.17.1.bb     |    1 +
+ 2 files changed, 20 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
 
-Bruce
-
->
-> |   BC      kernel/timeconst.h
-> | /bin/sh: bc: command not found
-> | make[3]: *** [kernel/timeconst.h] Error 127
-> | make[2]: *** [kernel] Error 2
-> | make[2]: *** Waiting for unfinished jobs....
->
+diff --git a/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
+new file mode 100644
+index 0000000..2ce5ef3
+--- /dev/null
++++ b/meta/recipes-devtools/dpkg/dpkg/arch_pm.patch
+@@ -0,0 +1,19 @@
++configure cannot determine the proper cpu, os, or
++architeture for mips64, and possibly other arch's
++because of faulty code added to Arch.pm in the latest
++release from upstream.  We remove that code.
++
++Upstream status: pending
++
++--- a/scripts/Dpkg/Arch.pm
+++++ b/scripts/Dpkg/Arch.pm
++@@ -233,9 +233,6 @@ sub read_triplettable()
++ 		    (my $dt = $debtriplet) =~ s/<cpu>/$_cpu/;
++ 		    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
++ 
++-		    next if exists $debarch_to_debtriplet{$da}
++-		         or exists $debtriplet_to_debarch{$dt};
++-
++ 		    $debarch_to_debtriplet{$da} = $dt;
++ 		    $debtriplet_to_debarch{$dt} = $da;
++ 		}
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
+index 9ac2aa7..e436f4e 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.17.1.bb
+@@ -7,6 +7,7 @@ SRC_URI += "file://noman.patch \
+             file://preinst.patch \
+             file://fix-timestamps.patch \
+             file://remove-tar-no-timestamp.patch \
++            file://arch_pm.patch \
+            "
+ 
+ SRC_URI[md5sum] = "ece3ae87a099158c17bde95c0036c575"
+-- 
+1.7.3.4
 
 
