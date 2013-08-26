@@ -1,35 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B9196BB51
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id C7CDE6BC1F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 13:18:36 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7QDUmxb004979; Mon, 26 Aug 2013 14:30:48 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RdkB1W9OoYM6; Mon, 26 Aug 2013 14:30:48 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7QDUh91004965
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 26 Aug 2013 14:30:44 +0100
-Message-ID: <1377523101.26773.59.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 26 Aug 2013 14:18:21 +0100
-In-Reply-To: <CADkTA4PbUqA4sLZumw44bcKpzDN=zMhy_9iZ+G5A7aGymdsLPg@mail.gmail.com>
-References: <1377487515-26654-1-git-send-email-bruce.ashfield@windriver.com>
-	<1377487515-26654-2-git-send-email-bruce.ashfield@windriver.com>
-	<521AD4CE.2020907@linux.intel.com> <521AD8F8.10807@windriver.com>
-	<1377514993.26773.42.camel@ted>
-	<CADkTA4PbUqA4sLZumw44bcKpzDN=zMhy_9iZ+G5A7aGymdsLPg@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-libc-headers: ptrace.h: remove ptrace_peeksiginfo_args
+	Mon, 26 Aug 2013 13:31:45 +0000 (UTC)
+Received: by mail-ea0-f169.google.com with SMTP id k11so1631298eaj.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 06:31:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=Ulgkye0bmIqmg83fnONJxmam1BrQjqmHgEA7t5KMsbs=;
+	b=y7oZqXKTYqKxLA1JG+zluksnEmK0rMb+P3veSPO1Er3a0T6Hizz5dv2Xdl/IG3dapa
+	Z9I+aQWNtOlCQPUGLhwJmiybZoWQmvrXZ4taKOtjKjfFm8p4e4aqEMP3W5J8VhCtbJhx
+	cm9l5EcFDG8bxK+Gw3kBAToGLq+ERLkHErMWIph9AOeRerJ/4kZvuoIOYSg9bpPt6ELs
+	8FudP/jgQIMOAQKTfUW86Xv8K4FQosWLt+hjzQyH1p6sPubDCFzoUzuRfsNV8QVqP3Vz
+	myV4IP+rpeKd8Mwr10jDdhv9H+cMkARMy22Q9/Tc0vc2+AQij2Q1NtS9sn03cRZtvZxV
+	HfRw==
+X-Received: by 10.15.99.133 with SMTP id bl5mr34483eeb.92.1377523905644;
+	Mon, 26 Aug 2013 06:31:45 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	bn13sm21441023eeb.11.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Mon, 26 Aug 2013 06:31:45 -0700 (PDT)
+Date: Mon, 26 Aug 2013 15:32:54 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130826133254.GR3544@jama>
+References: <cover.1372456294.git.raj.khem@gmail.com>
+	<317e5f0060239db963b826eb9b569170cf9e07dd.1372456294.git.raj.khem@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <317e5f0060239db963b826eb9b569170cf9e07dd.1372456294.git.raj.khem@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 12/24] python3: Add recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,44 +47,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 13:18:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Aug 2013 13:31:47 -0000
+X-Groupsio-MsgNum: 44039
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="YttKMwf6abDJOSyE"
+Content-Disposition: inline
 
-On Mon, 2013-08-26 at 08:39 -0400, Bruce Ashfield wrote:
-> On Mon, Aug 26, 2013 at 7:03 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Mon, 2013-08-26 at 00:26 -0400, Bruce Ashfield wrote:
-> >> On 13-08-26 12:08 AM, Saul Wold wrote:
-> >> Thanks! And honestly, I didn't leave out the upstream status on purpose
-> >> this time .. like I said, it just isn't in my workflow, since I normally
-> >> seek and destroy them!
-> >>
-> >> I'm pretty sure I can't convince the kernel guys to not export that
-> >> structure, but I can try. Otherwise, it can have the "dirty hack" upstream
-> >> status.
-> >>
-> >> >
-> >> > I will put this in MUT so we can move forward tonight.
-> >>
-> >> Fingers crossed, my builds are working here.
-> >
-> > Things failed badly on the autobuilder since we dropped the command
-> > length patch and it was still needed. I've updated it against 3.10,
-> > confirmed it worked on the autobuilder and then merged things.
-> 
-> Argh. I was emailed about that same patch in the mainline kernel, and when
-> I tested my previously "long" directory name .. it worked.
+--YttKMwf6abDJOSyE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think there is a dependency on the running kernel version too...
+On Fri, Jun 28, 2013 at 03:03:57PM -0700, Khem Raj wrote:
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../python/python3/000-cross-compile.patch         |   76 +++++
+>  .../python3/020-dont-compile-python-files.patch    |   31 ++
+>  .../python/python3/03-fix-tkinter-detection.patch  |   42 +++
+>  .../python/python3/030-fixup-include-dirs.patch    |   36 ++
+>  .../python/python3/04-default-is-optimized.patch   |   58 ++++
+>  .../python3/06-ctypes-libffi-fix-configure.patch   |   44 +++
+>  .../python3/070-dont-clean-ipkg-install.patch      |   30 ++
+>  .../python3/080-distutils-dont_adjust_files.patch  |   86 +++++
+>  .../python/python3/110-enable-zlib.patch           |   15 +
+>  .../python/python3/130-readline-setup.patch        |   49 +++
+>  .../python/python3/140-verbose-sharedmods.patch    |   10 +
+>  .../python/python3/150-fix-setupterm.patch         |   11 +
+>  .../python3/avoid_warning_about_tkinter.patch      |   25 ++
+>  meta/recipes-devtools/python/python3/cgi_py.patch  |   23 ++
+>  .../python3/fix_for_using_different_libdir.patch   |   54 +++
+>  .../python/python3/h2py-pr13032.patch              |  185 +++++++++++
+>  .../python3/host_include_contamination.patch       |   28 ++
+>  .../python/python3/python-3.3-multilib.patch       |  348 ++++++++++++++=
+++++++
+>  .../python/python3/remove_sqlite_rpath.patch       |   19 ++
+>  .../python/python3/setuptweaks.patch               |   57 ++++
+>  .../python/python3/shutil-follow-symlink-fix.patch |   11 +
+>  .../python/python3/sitecustomize.py                |   37 +++
+>  .../sys_platform_is_now_always_linux2.patch        |   29 ++
+>  meta/recipes-devtools/python/python3_3.3.0.bb      |  203 ++++++++++++
+>  24 files changed, 1507 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3/000-cross-compil=
+e.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/020-dont-compile=
+-python-files.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/03-fix-tkinter-d=
+etection.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/030-fixup-includ=
+e-dirs.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/04-default-is-op=
+timized.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/06-ctypes-libffi=
+-fix-configure.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/070-dont-clean-i=
+pkg-install.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/080-distutils-do=
+nt_adjust_files.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/110-enable-zlib.=
+patch
+>  create mode 100644 meta/recipes-devtools/python/python3/130-readline-set=
+up.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/140-verbose-shar=
+edmods.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/150-fix-setupter=
+m.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/avoid_warning_ab=
+out_tkinter.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/cgi_py.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/fix_for_using_di=
+fferent_libdir.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/h2py-pr13032.pat=
+ch
+>  create mode 100644 meta/recipes-devtools/python/python3/host_include_con=
+tamination.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/python-3.3-multi=
+lib.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/remove_sqlite_rp=
+ath.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/setuptweaks.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/shutil-follow-sy=
+mlink-fix.patch
+>  create mode 100644 meta/recipes-devtools/python/python3/sitecustomize.py
+>  create mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_=
+now_always_linux2.patch
+>  create mode 100644 meta/recipes-devtools/python/python3_3.3.0.bb
 
-> Thanks for pulling it back in, I had my doubts, which is why I hand't removed
-> it completely :)
+When testing this on another host I got:
 
-I kind of guessed that was why the patch was still there :)
+ERROR: This autoconf log indicates errors, it looked at host include
+and/or library paths while determining system capabilities.
+Rerun configure task after fixing this. The path was
+'/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/python3/3.3.2-r0.0/Python-3.3=
+=2E2'
+ERROR: Function failed: do_qa_configure
+ERROR: Logfile of failure stored in:
+/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/python3/3.3.2-r0.0/temp/log.do=
+_configure.13003
+ERROR: Task 58
+(/OE/shr-core/openembedded-core/meta/recipes-devtools/python/python3_3.3.2.=
+bb,
+do_configure) failed with exit code '1'
 
-Cheers,
 
-Richard
+configure:6972: x86_64-oe-linux-gcc  -m64 -DNDEBUG -fno-inline
+--sysroot=3D/OE/shr-core/tmp-eglibc/sysroots/qemux86-64 -c -O2 -pipe -g
+-feliminate-unused-debug-types  -I/usr/include/ncursesw conftest.c >&5
+cc1: warning: include location "/usr/include/ncursesw" is unsafe for
+cross-compilation [-Wpoison-system-directories]
+conftest.c:63:19: fatal error: conio.h: No such file or directory
+ #include <conio.h>
+                   ^
+compilation terminated.
 
 
+and from test-dependencies.sh run there is undeterministic lzma
+dependency:
+
+WARN: packages/armv5te-oe-linux-gnueabi/python3/python3-misc/latest lost de=
+pendency on  liblzma
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--YttKMwf6abDJOSyE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlIbWQYACgkQN1Ujt2V2gBw5swCgsEBXu20UeDIvFiVPJil5Por2
+/OkAnR5iSmExzT0mcDtcAHlro5Z+D0+6
+=w9A9
+-----END PGP SIGNATURE-----
+
+--YttKMwf6abDJOSyE--
