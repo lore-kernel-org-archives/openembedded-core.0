@@ -1,28 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 14B296A95B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 88BAB6A95B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 01:11:31 +0000 (UTC)
+	Mon, 26 Aug 2013 01:39:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q1BHG0029291
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q1dmRF029720
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 25 Aug 2013 18:11:17 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.21.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 25 Aug 2013 18:11:17 -0700
-Message-ID: <521AAB34.3010203@windriver.com>
-Date: Sun, 25 Aug 2013 21:11:16 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Sun, 25 Aug 2013 21:39:48 -0400 (EDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Sun, 25 Aug 2013 18:39:47 -0700
+Message-ID: <521AB1C9.5000503@windriver.com>
+Date: Mon, 26 Aug 2013 09:39:21 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-To: Elvis Dowson <elvis.dowson@gmail.com>
-References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
-	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
-In-Reply-To: <835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
+To: Darren Hart <dvhart@linux.intel.com>
+References: <cover.1377175027.git.liezhi.yang@windriver.com>
+	<c860af16cf9ffd4ba171206e5e9a36c50d771bdf.1377175027.git.liezhi.yang@windriver.com>
+	<5216CA03.60108@windriver.com> <5217051D.8060405@windriver.com>
+	<1377277584.5259.54.camel@dvhart-mobl4.amr.corp.intel.com>
+In-Reply-To: <1377277584.5259.54.camel@dvhart-mobl4.amr.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/6] e2fsprogs: let debugfs do sparse copy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,138 +37,237 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 01:11:32 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 26 Aug 2013 01:39:51 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 13-08-25 2:02 PM, Elvis Dowson wrote:
-> Hi,
->
-> On Aug 25, 2013, at 9:43 PM, rewitt@declaratino.com wrote:
->
->>>
->>> Thanks! Any idea why the qemu with hard float configuration has a kernel panic with linux-yocto?
+
+
+On 08/24/2013 01:06 AM, Darren Hart wrote:
+> On Fri, 2013-08-23 at 14:45 +0800, Robert Yang wrote:
 >>
->> init is going away so the kernel panics. Usually this means it couldn't
->> run the init on the rootfilesystem. Try adding keep_bootcon to your
->> kernel command line and see if that gives anymore debug.
+>> On 08/23/2013 10:33 AM, Rongqing Li wrote:
+>>>
+>>>
+>>> On 08/22/2013 09:13 PM, Robert Yang wrote:
+>>>> Let debugfs do sparse copy when src is a sparse file, just like
+>>>> "cp --sparse=auto"
+>>>>
+>>>> This patch has been reviewed by the linux-ext4 mailing list, but isn't
+>>>> merged atm.
+>>>>
+>>>> [YOCTO #3848]
+>>>>
+>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> ---
+>>>>    .../e2fsprogs-1.42.8/debugfs-sparse-copy.patch     |  147 ++++++++++++++++++++
+>>>>    .../recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb |    1 +
+>>>>    2 files changed, 148 insertions(+)
+>>>>    create mode 100644
+>>>> meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>>>>
+>>>> diff --git
+>>>> a/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>>>> b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>>>> new file mode 100644
+>>>> index 0000000..c87bcbf
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs-1.42.8/debugfs-sparse-copy.patch
+>>>> @@ -0,0 +1,147 @@
+>>>> +debugfs.c: do sparse copy when src is a sparse file
+>>>> +
+>>>> +Let debugfs do sparse copy when src is a sparse file, just like
+>>>> +"cp --sparse=auto"
+>>>> +
+>>>> +* For the:
+>>>> +  #define IO_BUFSIZE 64*1024
+>>>> +  this is a suggested value from gnu coreutils:
+>>>> +
+>>>> http://git.savannah.gnu.org/gitweb/?p=coreutils.git;a=blob;f=src/ioblksize.h;h=1ae93255e7d0ccf0855208c7ae5888209997bf16;hb=HEAD
+>>>>
+>>>> +
+>>>> +* Use malloc() to allocate memory for the buffer since put 64K (or
+>>>> +  more) on the stack seems not a good idea.
+>>>> +
+>>>> +Upstream-Status: Submitted
+>>>> +
+>>>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> +Acked-by: Darren Hart <dvhart@linux.intel.com>
+>>>> +---
+>>>> + debugfs/debugfs.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++----
+>>>> + 1 file changed, 57 insertions(+), 4 deletions(-)
+>>>> +
+>>>> +diff --git a/debugfs/debugfs.c b/debugfs/debugfs.c
+>>>> +--- a/debugfs/debugfs.c
+>>>> ++++ b/debugfs/debugfs.c
+>>>> +@@ -41,6 +41,16 @@ extern char *optarg;
+>>>> + #define BUFSIZ 8192
+>>>> + #endif
+>>>> +
+>>>> ++/* 64KiB is the minimium blksize to best minimize system call overhead. */
+>>>> ++#ifndef IO_BUFSIZE
+>>>> ++#define IO_BUFSIZE 64*1024
+>>>> ++#endif
+>>>> ++
+>>>> ++/* Block size for `st_blocks' */
+>>>> ++#ifndef S_BLKSIZE
+>>>> ++#define S_BLKSIZE 512
+>>>> ++#endif
+>>>> ++
+>>>> + ss_request_table *extra_cmds;
+>>>> + const char *debug_prog_name;
+>>>> + int sci_idx;
+>>>> +@@ -1575,22 +1585,36 @@ void do_find_free_inode(int argc, char *argv[])
+>>>> + }
+>>>> +
+>>>> + #ifndef READ_ONLY
+>>>> +-static errcode_t copy_file(int fd, ext2_ino_t newfile)
+>>>> ++static errcode_t copy_file(int fd, ext2_ino_t newfile, int bufsize, int
+>>>> make_holes)
+>>>> + {
+>>>> +     ext2_file_t    e2_file;
+>>>> +     errcode_t    retval;
+>>>> +     int        got;
+>>>> +     unsigned int    written;
+>>>> +-    char        buf[8192];
+>>>> ++    char        *buf;
+>>>> +     char        *ptr;
+>>>> ++    char        *zero_buf;
+>>>> ++    int        cmp;
+>>>> +
+>>>> +     retval = ext2fs_file_open(current_fs, newfile,
+>>>> +                   EXT2_FILE_WRITE, &e2_file);
+>>>> +     if (retval)
+>>>> +         return retval;
+>>>> +
+>>>> ++    if (!(buf = (char *) malloc(bufsize))){
+>>>> ++        com_err("copy_file", errno, "can't allocate buffer\n");
+>>>> ++        return;
+>>>> ++    }
+>>>> ++
+>>>> ++        /* This is used for checking whether the whole block is zero */
+>>>> ++    retval = ext2fs_get_memzero(bufsize, &zero_buf);
+>>>> ++    if (retval) {
+>>>> ++        com_err("copy_file", retval, "can't allocate buffer\n");
+>>>
+>>> should free(buf), or memory leak.
+>>>
+>>
+>> Add a free(buf) and updated the PR:
+>>
+>> git://git.pokylinux.org/poky-contrib robert/extX
 >
-> I ran bitbake linux-yocto -c menuconfig
 >
-> and noticed that the wrong ARM architecture was selected (it was using the same one set using tune-arm926ejs.inc)
+> Nice catch Rongqing, thank you.
 >
-> The thing is I don't see a defconfig anywhere, and I was wondering how the linux-yocto kernel picks up the defconfig from the standard/base branch.
+> Acked-by: Darren Hart <dvhart@linux.intel.com>
 >
-
-qemuarma9 would be building and booting from the 
-standard/arm-versatile-926ejs
-branch, and re-use the base policies of the kernel.
-
-It adds only the following board options, found in:
-
-http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.10/tree/meta/cfg/kernel-cache/bsp/qemuarma9/qemuarma9.cfg?h=meta
-
-Bruce
-
------
-
-CONFIG_ARCH_VEXPRESS=y
-
-#
-# Versatile Express platform type
-#
-CONFIG_ARCH_VEXPRESS_CA9X4=y
-CONFIG_PLAT_VERSATILE=y
-CONFIG_ARM_TIMER_SP804=y
-
-#
-# Bus support
-#
-CONFIG_ARM_AMBA=y
-
-#
-# Kernel Features
-#
-CONFIG_SMP=y
-CONFIG_NR_CPUS=4
-
-#
-# Floating point emulation
-#
-CONFIG_VFP=y
-CONFIG_VFPv3=y
-CONFIG_NEON=y
-
-CONFIG_SMSC911X=y
-
-#
-# Non-8250 serial port support
-#
-CONFIG_SERIAL_AMBA_PL011=y
-CONFIG_SERIAL_AMBA_PL011_CONSOLE=y
-
-#
-# Console display driver support
-#
-# CONFIG_VGA_CONSOLE is not set
-
-CONFIG_MTD=y
-CONFIG_MTD_CMDLINE_PARTS=y
-
-#
-# User Modules And Translation Layers
-#
-CONFIG_MTD_BLKDEVS=y
-CONFIG_MTD_BLOCK=y
-#
-# RAM/ROM/Flash chip drivers
-#
-CONFIG_MTD_CFI=y
-CONFIG_MTD_CFI_INTELEXT=y
-
-CONFIG_RTC_HCTOSYS=y
-CONFIG_RTC_HCTOSYS_DEVICE="rtc0"
-
-#
-# on-CPU RTC drivers
-#
-CONFIG_RTC_CLASS=y
-CONFIG_RTC_DRV_PL031=y
-
-#
-# Watchdog Device Drivers
-#
-CONFIG_ARM_SP805_WATCHDOG=y
-CONFIG_WATCHDOG_NOWAYOUT=y
-
-CONFIG_HAVE_ARM_TWD=y
-CONFIG_LOCAL_TIMERS=y
-
-CONFIG_HIGHMEM=y
-
-CONFIG_SCSI=y
-CONFIG_BLK_DEV_SD=y
-
-CONFIG_USB=y
-CONFIG_USB_ISP1760_HCD=y
-CONFIG_USB_STORAGE=y
-
-CONFIG_HOTPLUG=y
-CONFIG_HOTPLUG_CPU=y
-
-CONFIG_I2C=y
-CONFIG_I2C_VERSATILE=y
-
-# This is for the keyboard / mouse
-CONFIG_SERIO_AMBAKMI=y
-
-------
-
-> A TI OMAP 4430 Pandaboard or i.MX6 quad-core SABRE development kit platform would do, but not sure how the linux-yocto kernel works, in terms of pre-selecting the correct defconfig file.
->
-> Best regards,
->
-> Elvis Dowson
+> Robert, please resubmit a new version to the ext list with the memory
+> leak and whitespace fixes. It's a good way to the attention back on the
+> series.
 >
 
+OK, thanks, I will send it today.
+
+// Robert
+
+> --
+> Darren
+>
+>>
+>> // Robert
+>>
+>>> -Roy
+>>>
+>>>> ++        return retval;
+>>>> ++    }
+>>>> ++
+>>>> +     while (1) {
+>>>> +-        got = read(fd, buf, sizeof(buf));
+>>>> ++        got = read(fd, buf, bufsize);
+>>>> +         if (got == 0)
+>>>> +             break;
+>>>> +         if (got < 0) {
+>>>> +@@ -1598,6 +1622,21 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
+>>>> +             goto fail;
+>>>> +         }
+>>>> +         ptr = buf;
+>>>> ++
+>>>> ++        /* Sparse copy */
+>>>> ++        if (make_holes) {
+>>>> ++            /* Check whether all is zero */
+>>>> ++            cmp = memcmp(ptr, zero_buf, got);
+>>>> ++            if (cmp == 0) {
+>>>> ++                 /* The whole block is zero, make a hole */
+>>>> ++                retval = ext2fs_file_lseek(e2_file, got, EXT2_SEEK_CUR, NULL);
+>>>> ++                if (retval)
+>>>> ++                    goto fail;
+>>>> ++                got = 0;
+>>>> ++            }
+>>>> ++        }
+>>>> ++
+>>>> ++        /* Normal copy */
+>>>> +         while (got > 0) {
+>>>> +             retval = ext2fs_file_write(e2_file, ptr,
+>>>> +                            got, &written);
+>>>> +@@ -1608,10 +1647,14 @@ static errcode_t copy_file(int fd, ext2_ino_t newfile)
+>>>> +             ptr += written;
+>>>> +         }
+>>>> +     }
+>>>> ++    free(buf);
+>>>> ++    ext2fs_free_mem(&zero_buf);
+>>>> +     retval = ext2fs_file_close(e2_file);
+>>>> +     return retval;
+>>>> +
+>>>> + fail:
+>>>> ++    free(buf);
+>>>> ++    ext2fs_free_mem(&zero_buf);
+>>>> +     (void) ext2fs_file_close(e2_file);
+>>>> +     return retval;
+>>>> + }
+>>>> +@@ -1624,6 +1667,8 @@ void do_write(int argc, char *argv[])
+>>>> +     ext2_ino_t    newfile;
+>>>> +     errcode_t    retval;
+>>>> +     struct ext2_inode inode;
+>>>> ++    int        bufsize = IO_BUFSIZE;
+>>>> ++    int        make_holes = 0;
+>>>> +
+>>>> +     if (common_args_process(argc, argv, 3, 3, "write",
+>>>> +                 "<native file> <new file>", CHECK_FS_RW))
+>>>> +@@ -1699,7 +1744,15 @@ void do_write(int argc, char *argv[])
+>>>> +         return;
+>>>> +     }
+>>>> +     if (LINUX_S_ISREG(inode.i_mode)) {
+>>>> +-        retval = copy_file(fd, newfile);
+>>>> ++        if (statbuf.st_blocks < statbuf.st_size / S_BLKSIZE) {
+>>>> ++            make_holes = 1;
+>>>> ++            /*
+>>>> ++             * Use I/O blocksize as buffer size when
+>>>> ++             * copying sparse files.
+>>>> ++             */
+>>>> ++            bufsize = statbuf.st_blksize;
+>>>> ++        }
+>>>> ++        retval = copy_file(fd, newfile, bufsize, make_holes);
+>>>> +         if (retval)
+>>>> +             com_err("copy_file", retval, 0);
+>>>> +     }
+>>>> +--
+>>>> +1.8.1.2
+>>>> +
+>>>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>>>> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>>>> index f97de7f..5d65bbc 100644
+>>>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>>>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.8.bb
+>>>> @@ -4,6 +4,7 @@ require e2fsprogs.inc
+>>>>    SRC_URI += "file://acinclude.m4 \
+>>>>                file://remove.ldconfig.call.patch \
+>>>>                file://debugfs-too-short.patch \
+>>>> +            file://debugfs-sparse-copy.patch \
+>>>>    "
+>>>>
+>>>>    SRC_URI[md5sum] = "8ef664b6eb698aa6b733df59b17b9ed4"
+>>>>
+>>>
+>
 
