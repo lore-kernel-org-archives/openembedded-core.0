@@ -1,32 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A8D46A95B
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DBDF66B4BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 04:24:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q4Ovw1002468
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Aug 2013 00:24:58 -0400 (EDT)
-Received: from bruce-ashfields-macbook.local (128.224.21.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 25 Aug 2013 21:24:57 -0700
-Message-ID: <521AD896.3000503@windriver.com>
-Date: Mon, 26 Aug 2013 00:24:54 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Mon, 26 Aug 2013 04:25:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 25 Aug 2013 21:25:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,955,1367996400"; d="scan'208";a="393254598"
+Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
+	by orsmga002.jf.intel.com with ESMTP; 25 Aug 2013 21:25:31 -0700
+Message-ID: <521AD8BB.2070008@linux.intel.com>
+Date: Sun, 25 Aug 2013 21:25:31 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Elvis Dowson <elvis.dowson@gmail.com>
-References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
-	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
-	<092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
-	<4AC41A5E-073D-4973-82BD-F94A8B168F34@gmail.com>
-	<521AA95A.8000803@windriver.com>
-	<7DBFB4EE-4727-422F-8815-D801827A37C9@gmail.com>
-In-Reply-To: <7DBFB4EE-4727-422F-8815-D801827A37C9@gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
+To: "Peter A. Bigot" <pab@pabigot.com>
+References: <1377477606-17591-1-git-send-email-pab@pabigot.com>
+In-Reply-To: <1377477606-17591-1-git-send-email-pab@pabigot.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pseudo: fix memory leak and missed privilege drop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,143 +32,250 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 04:25:01 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Mon, 26 Aug 2013 04:25:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 13-08-25 11:58 PM, Elvis Dowson wrote:
-> Hi Bruce,
+On 08/25/2013 05:40 PM, Peter A. Bigot wrote:
+> From: "Peter A. Bigot" <pab@pabigot.com>
 >
-> On Aug 26, 2013, at 5:03 AM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+> qemu.bbclass adds PSEUDO_UNLOAD=1 in qemu_run_binary to avoid reference to
+> pseudo functions that may not exist in the target environment.  This patch
+> detects the addition of that variable within the environment to which the
+> call applies, even if not present in the parent environment.
 >
->> On 13-08-25 3:09 PM, Elvis Dowson wrote:
->>> I noticed that you've committed the changes for qemuarma9 KMACHINE configuration to the linux-yocto kernel.
->>>
->>> http://git.yoctoproject.org/cgit/cgit.cgi/linux-yocto-3.8/tree/meta/cfg/kernel-cache/bsp?h=meta
->>>
->>> I adapted the qemuarm.conf configuration and booted it up, but nothing shows up in the QEMU window, I just get a black screen.
->>>
->>> Has qemu with the qemuarma9 configuration been successfully built and tested before?
->>
->> It has been, but not with a machine definition that is part of oe-core
->> or Yocto.
->>
->> It was contributed as the output from some cortexA9 testing, and I've
->> been carrying the kernel parts ever since.
+> As a side effect it fixes a memory leak.
 >
-> Can you share the qemucortexa9.conf machine definition please?
-
-It's nearly identical to the one you posted:
-
-
-require conf/machine/include/qemu.inc
-require conf/machine/include/tune-cortexa9.inc
-
-
-KERNEL_IMAGETYPE = "uImage"
-
-SERIAL_CONSOLE = "115200 ttyAMA0"
-
-
+> [YOCTO #4843]
 >
->>
->>>
->>> This is how my qemuarm.conf looks like, locally at the moment:
->>>
->>> #@TYPE: Machine
->>> #@NAME: qemuarmhf
->>> #@DESCRIPTION: Machine configuration for QEMU ARM Cortex A9 hard float.
->>>
->>> # Specify the default tune.
->>> DEFAULTTUNE = "armv7a-neon"
->>>
->>> require conf/machine/include/qemu.inc
->>> require conf/machine/include/tune-cortexa9.inc
->>>
->>> # Specify the machine name used by the kernel.
->>> KMACHINE_qemuarm = "qemuarma9"
->>
->> This is a default, so you don't need to set it.
+> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> ---
+>   .../0001-pseudo_has_unload-add-function.patch      |  190 ++++++++++++++++++++
+>   meta/recipes-devtools/pseudo/pseudo_1.5.1.bb       |    7 +-
+>   2 files changed, 195 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch
 >
+> diff --git a/meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch b/meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch
+> new file mode 100644
+> index 0000000..b5c81c9
+> --- /dev/null
+> +++ b/meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch
+> @@ -0,0 +1,190 @@
+> +From be97cb958f2934fa398fc8e344b25b84ebd4e90c Mon Sep 17 00:00:00 2001
+> +From: "Peter A. Bigot" <pab@pabigot.com>
+> +Date: Sun, 25 Aug 2013 19:22:09 -0500
+> +Subject: [PATCH] pseudo_has_unload: add function
+> +
+> +Various wrappers checked for a non-null pseudo_get_value("PSEUDO_UNLOAD") to
+> +determine whether the environment should include the pseudo variables.  None
+> +of those checks freed the returned value when it was not null.  The new
+> +check function does.
+> +
+> +The new check function also sees whether PSEUDO_UNLOAD was defined in the
+> +environment that should be used in the wrapped system call.  This allows
+> +pkg_postinst scripts to strip out the LD_PRELOAD setting, for example before
+> +invoking qemu to execute commands in an environment that does not have
+> +libpseudo.so.
+> +
+> +[YOCTO #4843]
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> +---
+> + ports/common/guts/execv.c              |    2 +-
+> + ports/common/guts/execve.c             |    2 +-
+> + ports/common/guts/execvp.c             |    2 +-
+> + ports/common/guts/fork.c               |    2 +-
+> + ports/linux/newclone/pseudo_wrappers.c |    2 +-
+> + ports/linux/oldclone/pseudo_wrappers.c |    2 +-
+> + ports/unix/guts/popen.c                |    2 +-
+> + ports/unix/guts/system.c               |    2 +-
+> + pseudo.h                               |    1 +
+> + pseudo_util.c                          |   27 +++++++++++++++++++++++++++
+> + 10 files changed, 36 insertions(+), 8 deletions(-)
+> +
+> +diff --git a/ports/common/guts/execv.c b/ports/common/guts/execv.c
+> +index 763e1f9..3e1f820 100644
+> +--- a/ports/common/guts/execv.c
+> ++++ b/ports/common/guts/execv.c
+> +@@ -19,7 +19,7 @@
+> + 	}
+> +
+> + 	pseudo_setupenv();
+> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
+> ++	if (pseudo_has_unload(NULL))
+> + 		pseudo_dropenv();
+> +
+> + 	/* if exec() fails, we may end up taking signals unexpectedly...
+> +diff --git a/ports/common/guts/execve.c b/ports/common/guts/execve.c
+> +index a003657..ff6a44e 100644
+> +--- a/ports/common/guts/execve.c
+> ++++ b/ports/common/guts/execve.c
+> +@@ -20,7 +20,7 @@
+> +         }
+> +
+> + 	new_environ = pseudo_setupenvp(envp);
+> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
+> ++	if (pseudo_has_unload(new_environ))
+> + 		new_environ = pseudo_dropenvp(new_environ);
+> +
+> + 	/* if exec() fails, we may end up taking signals unexpectedly...
+> +diff --git a/ports/common/guts/execvp.c b/ports/common/guts/execvp.c
+> +index 5e75be7..04253c3 100644
+> +--- a/ports/common/guts/execvp.c
+> ++++ b/ports/common/guts/execvp.c
+> +@@ -20,7 +20,7 @@
+> +         }
+> +
+> + 	pseudo_setupenv();
+> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
+> ++	if (pseudo_has_unload(NULL))
+> + 		pseudo_dropenv();
+> +
+> + 	/* if exec() fails, we may end up taking signals unexpectedly...
+> +diff --git a/ports/common/guts/fork.c b/ports/common/guts/fork.c
+> +index df8abd7..bebe3b0 100644
+> +--- a/ports/common/guts/fork.c
+> ++++ b/ports/common/guts/fork.c
+> +@@ -12,7 +12,7 @@
+> + 	 */
+> + 	if (rc == 0) {
+> + 		pseudo_setupenv();
+> +-		if (!pseudo_get_value("PSEUDO_UNLOAD")) {
+> ++		if (!pseudo_has_unload(NULL)) {
+> + 			pseudo_reinit_libpseudo();
+> + 		} else {
+> + 			pseudo_dropenv();
+> +diff --git a/ports/linux/newclone/pseudo_wrappers.c b/ports/linux/newclone/pseudo_wrappers.c
+> +index 9dbac42..257e8bb 100644
+> +--- a/ports/linux/newclone/pseudo_wrappers.c
+> ++++ b/ports/linux/newclone/pseudo_wrappers.c
+> +@@ -28,7 +28,7 @@ int wrap_clone_child(void *args) {
+> +
+> + 	if (!(flags & CLONE_VM)) {
+> + 		pseudo_setupenv();
+> +-		if (!pseudo_get_value("PSEUDO_UNLOAD")) {
+> ++		if (!pseudo_has_unload(NULL)) {
+> + 			pseudo_reinit_libpseudo();
+> + 		} else {
+> + 			pseudo_dropenv();
+> +diff --git a/ports/linux/oldclone/pseudo_wrappers.c b/ports/linux/oldclone/pseudo_wrappers.c
+> +index c0ce5dd..598d966 100644
+> +--- a/ports/linux/oldclone/pseudo_wrappers.c
+> ++++ b/ports/linux/oldclone/pseudo_wrappers.c
+> +@@ -22,7 +22,7 @@ int wrap_clone_child(void *args) {
+> +
+> + 	if (!(flags & CLONE_VM)) {
+> + 		pseudo_setupenv();
+> +-		if (!pseudo_get_value("PSEUDO_UNLOAD")) {
+> ++		if (!pseudo_has_unload(NULL)) {
+> + 			pseudo_reinit_libpseudo();
+> + 		} else {
+> + 			pseudo_dropenv();
+> +diff --git a/ports/unix/guts/popen.c b/ports/unix/guts/popen.c
+> +index 0ca16b0..5d44c0e 100644
+> +--- a/ports/unix/guts/popen.c
+> ++++ b/ports/unix/guts/popen.c
+> +@@ -9,7 +9,7 @@
+> + 	 * in ways that avoid our usual enforcement of the environment.
+> + 	 */
+> + 	pseudo_setupenv();
+> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
+> ++	if (pseudo_has_unload(NULL))
+> + 		pseudo_dropenv();
+> +
+> + 	rc = real_popen(command, mode);
+> +diff --git a/ports/unix/guts/system.c b/ports/unix/guts/system.c
+> +index 028b372..6351592 100644
+> +--- a/ports/unix/guts/system.c
+> ++++ b/ports/unix/guts/system.c
+> +@@ -9,7 +9,7 @@
+> + 		return 1;
+> +
+> + 	pseudo_setupenv();
+> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
+> ++	if (pseudo_has_unload(NULL))
+> + 		pseudo_dropenv();
+> +
+> + 	rc = real_system(command);
+> +diff --git a/pseudo.h b/pseudo.h
+> +index 56760a4..f600793 100644
+> +--- a/pseudo.h
+> ++++ b/pseudo.h
+> +@@ -28,6 +28,7 @@ extern void pseudo_init_client(void);
+> + void pseudo_dump_env(char **envp);
+> + int pseudo_set_value(const char *key, const char *value);
+> + char *pseudo_get_value(const char *key);
+> ++int pseudo_has_unload(char * const *envp);
+> +
+> + #include "pseudo_tables.h"
+> +
+> +diff --git a/pseudo_util.c b/pseudo_util.c
+> +index 8d0969e..16c70e0 100644
+> +--- a/pseudo_util.c
+> ++++ b/pseudo_util.c
+> +@@ -95,6 +95,33 @@ dump_env(char **envp) {
+> + }
+> + #endif
+> +
+> ++int
+> ++pseudo_has_unload(char * const *envp) {
+> ++	static const char unload[] = "PSEUDO_UNLOAD";
+> ++	static size_t unload_len = strlen(unload);
+> ++	size_t i = 0;
+> ++
+> ++	/* Is it in the caller environment? */
+> ++	if (NULL != getenv(unload))
+> ++		return 1;
+> ++
+> ++	/* Is it in the environment cache? */
+> ++	if (pseudo_util_initted == -1)
+> ++		pseudo_init_util();
+> ++	while (pseudo_env[i].key && strcmp(pseudo_env[i].key, unload))
+> ++	       ++i;
+> ++	if (pseudo_env[i].key && pseudo_env[i].value)
+> ++		return 1;
+> ++
+> ++	/* Is it in the operational environment? */
+> ++	while (envp && *envp) {
+> ++		if ((!strncmp(*envp, unload, unload_len)) && ('=' == (*envp)[unload_len]))
+> ++			return 1;
+> ++		++envp;
+> ++	}
+> ++	return 0;
+> ++}
+> ++
+> + /* Caller must free memory! */
+> + char *
+> + pseudo_get_value(const char *key) {
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+> index 5694c4d..c5df919 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
+> @@ -1,8 +1,11 @@
+>   require pseudo.inc
 >
-> The default for qemuarm, as documented in
+> -PR = "r3"
+> +PR = "r4"
 >
-> http://www.yoctoproject.org/docs/1.5/ref-manual/ref-manual.html#var-KFEATURE_DESCRIPTION
+I can't speak to the pseudo patch itself, I will let Seebs way in on that!
+
+Nut in the recipe file, we no longer do PR bumps, so this is un-needed.
+
+Thanks for the contribution.
+
+Sau!
+
+> -SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
+> +SRC_URI = " \
+> +    http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
+> +    file://0001-pseudo_has_unload-add-function.patch \
+> +"
 >
-> is arm_versatile926ejs.
+>   SRC_URI[md5sum] = "5ec67c7bff5fe68c56de500859c19172"
+>   SRC_URI[sha256sum] = "3b896f592f4d568569bd02323fad2d6b8c398e16ca36ee5a8947d2ff6c1d3d52"
 >
-> So I had to modify it to force it to use qemuarma9.
-
-Hah, when I read this I was thinking that you were talking about your new
-machine name, and not clobbering qemuarm. So in this case, yes, that
-would have been required.
-
->
->>
->>>
->>> # Specify the kernel image type.
->>> KERNEL_IMAGETYPE = "zImage"
->>
->> I recall booting it with a uImage, but maybe my memory is failing.
->>
->>>
->>> # Specify the serial console parameters.
->>> SERIAL_CONSOLE = "115200 ttyAMA0"
->>
->> All of the above looks reasonably sane, but it's more about how you
->> launch qemu than the kernel build that is probably resulting in your
->> issues. What machine subtype did you use ?
->
-> I used -M versatilepb. I also passed the -cpu cortex-a9 parameter to qemu.
-
-I launch with these:
-
-  machine: -M vexpress-a9
-  memory: 128
-  console: ttyAMA0,115200"
-  kernel options: oprofile.timer=1"
-
->
-> I just got a blank screen.
->
-> FYI, I was able to get the qemuzynq machine working with the meta-xilinx
-> layer, and in that, there was also a blank screen, but the QEMU output
-> and login prompt came on the console from where the rumqemu qemuzynq
-> command was run. A different type of behaviour from that of qemuarm running
-> arm_versatile926ejs.
->
-> The qemuzynq machine uses the linux-xlnx kernel.
-
-I've booted the same machine/qemu on kernels ranging from 3.4 to
-3.10 with a few patches. :)
-
->
-> I'd like to get a generic qemuarma9 machine configuration working with
-> linux-yocto, if possible, and add it to the standard list of qemu targets.
-
-The kernel support has been in place for some time, the problem is really
-with the qemu system emulation. The vexpress-a9 doesn't support all of the
-boot methods that other qemu models do, in particular I only NFS boot it
-versus net boot, etc.
-
-When I worked on this before (2 years ago now), I didn't want to just
-switch the cpu, but was looking for a platform like the vexpress.
-
-Perhaps the zynq machine definition is the right way to go, since nearly
-enough support is mainline (in both qemu and the kernel), and we can
-motivate the rest into their respective upstreams.
-
-If someone can come up the right conf files, and machine definition, I
-can pretty easily support it in linux-yocto.
-
-Cheers,
-
-Bruce
-
->
-> Best regards,
->
-> Elvis Dowson
->
-
 
