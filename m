@@ -1,26 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 2174F6008D
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa09-03.prod.phx3.secureserver.net
+	(p3plsmtpa09-03.prod.phx3.secureserver.net [173.201.193.232])
+	by mail.openembedded.org (Postfix) with ESMTP id 877796AB7D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 21:47:05 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 26 Aug 2013 14:47:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,962,1367996400"; d="scan'208";a="351909468"
-Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
-	by azsmga001.ch.intel.com with ESMTP; 26 Aug 2013 14:47:04 -0700
-Message-ID: <521BCCD8.6080804@linux.intel.com>
-Date: Mon, 26 Aug 2013 14:47:04 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Mon, 26 Aug 2013 21:48:36 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa09-03.prod.phx3.secureserver.net with 
+	id HZob1m0031mTNtu01Zobnh; Mon, 26 Aug 2013 14:48:37 -0700
+Message-ID: <521BCD34.8090003@pabigot.com>
+Date: Mon, 26 Aug 2013 16:48:36 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Andrei Gherzan <andrei@gherzan.ro>
-References: <1377542924-1605-1-git-send-email-andrei.gherzan@windriver.com>
-In-Reply-To: <1377542924-1605-1-git-send-email-andrei.gherzan@windriver.com>
-Cc: Andrei Gherzan <andrei.gherzan@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] eglibc: nscd support depends on OPTION_EGLIBC_INET
+To: Saul Wold <sgw@linux.intel.com>
+References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+	<CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
+	<521B9698.7030803@linux.intel.com>
+In-Reply-To: <521B9698.7030803@linux.intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 21:47:05 -0000
+X-List-Received-Date: Mon, 26 Aug 2013 21:48:36 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/26/2013 11:48 AM, Andrei Gherzan wrote:
-> Add --disable-nscd if DISTRO_FEATURES does not contain ipv4. This features is
-> mapped to OPTION_EGLIBC_INET.
-> The default behavior is to activate nscd (if --disable-nscd is not passed to
-> configure script). But nscd depends on OPTION_EGLIBC_INET, so compilation will
-> fail if this option is not activated.
->
-Does this also need the Package to be set for ALLOW_EMPTY?
+I can confirm this also works with the Gumstix Overo in a layer bbappend 
+that used SRC_URI_append_overo for additional patches.  Thanks to you 
+both for getting it merged.
 
-Sau!
+I did come up with a question, though.  The recipe uses:
 
-> Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
-> ---
->   meta/recipes-core/eglibc/eglibc_2.18.bb |    1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
-> index 17b651f..771f3e7 100644
-> --- a/meta/recipes-core/eglibc/eglibc_2.18.bb
-> +++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
-> @@ -79,6 +79,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
->                   --without-selinux \
->                   --enable-obsolete-rpc \
->                   --with-kconfig=${STAGING_BINDIR_NATIVE} \
-> +                ${@base_contains('DISTRO_FEATURES', 'ipv4', '', '--disable-nscd', d)} \
->                   ${GLIBC_EXTRA_OECONF}"
->
->   EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
->
+   PV = "v2013.07+git${SRCPV}"
+
+which creates an informative but ugly ${BPN}.  I'd like to use something 
+like:
+
+   FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+
+in the bbappend to simplify updates, but I don't want to have a 
+directory named u-boot-v2013.07+gitAUTOINC+62c175fbb8.  For linux-yocto, 
+this is solved through introduction of ${LINUX_VERSION} allowing 
+${PN}-${LINUX_VERSION}.
+
+Is there reason to create a parallel UBOOT_VERSION?
+
+Is there reason to have some way to access the default ${PV} inferred 
+from the recipe name before the base recipe overrode it? (Is there 
+already some way to get that value?)
+
+Is there a better approach than bbappend-in-layer that I should use for 
+adding patches required for a specific u-boot machine?
+
+Peter
+
+On 08/26/2013 12:55 PM, Saul Wold wrote:
+> On 08/23/2013 09:57 AM, Laszlo Papp wrote:
+>> Any update? It would be nice not to miss the freeze ... ;-)
+>>
+> This has been merged, and I was informed by the QA team that it works 
+> correctly for the mpc8315e-rdb and beagleboard, but NOT the 
+> beagleboard XM.
+
 
