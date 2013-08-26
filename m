@@ -1,45 +1,41 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 71A996BAAE
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id B947A6BAAE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 17:27:56 +0000 (UTC)
-Received: by mail-pd0-f181.google.com with SMTP id g10so3729563pdj.12
+	Mon, 26 Aug 2013 17:31:46 +0000 (UTC)
+Received: by mail-pd0-f173.google.com with SMTP id p10so3706518pdj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 10:27:57 -0700 (PDT)
+	Mon, 26 Aug 2013 10:31:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=content-type:mime-version:subject:from:in-reply-to:date:cc
 	:content-transfer-encoding:message-id:references:to;
-	bh=Qmf/4K8CPgm7BDFuN9Lp+6VeB6CJeweHpG6IOhWmh/c=;
-	b=iZpu8lvNy9aq3EIcrzToSEnoKWEsu2mATsxiABLALbU9FlspjxY7JnMIN6ZWiFahdw
-	OxaanfJH6kIPmOkS59zJOKOB2htPMKEs4JsXtq6lGW8BrqladMbptUav9+n0jc5yusxZ
-	iv4/ubXy8qPtqbyTSZ96ccvpQo9ot4KyW05UEDDuibgCXU86QkcMDMdJ82bVYLfyVeof
-	gNTcbS8C5GndQ/qhEpm6i8KcOESfmaqRbQtIJPSVFpQDe7kWUf4h4McykdVd06X1DqSE
-	RLLZBfWpPUJjclGUZ/asP1ooB0Xg0ZZFQ1fWLnl+uHY7IjmuI+Jg+r5tDovEWUHkfRkZ
-	GMmg==
-X-Received: by 10.66.163.2 with SMTP id ye2mr4129313pab.168.1377538077251;
-	Mon, 26 Aug 2013 10:27:57 -0700 (PDT)
+	bh=VmUNeKjOJbNmtgx6zu/fDT70J/Hx+TjAU72J/zvWAOw=;
+	b=l8mE/gBfExbLu6KVkKzwMfd3kXMAm4s4azlMOgoo177HaZFR6cV08gShCanzK4EJ8z
+	D5cbd5ITDW/dRzE+5Bhsd79gBrrgBHaFUap6amnYuWx95ULF5zFiqDqRWIAwWa2P8wTf
+	uOMF3Tt7yldGdSScXNVyPMsEx9pVSi+IY6sbCuepFxiwpj4NvGKJ+NQOkvPrrF/8VEAo
+	63HOd8gqbCmsIZRwMudYeo3WWsA1J6Y/MZsbPEZvZPFSduxt/MI4Utj/YVN2tLF2GCIq
+	5ut0XRAPslreyau95Tfy3nrHfSnT1XghcBOL5MwEUIGKrKMYB6nkFm4L1wngDLAKfrgH
+	R9vQ==
+X-Received: by 10.67.15.70 with SMTP id fm6mr15723660pad.109.1377538307526;
+	Mon, 26 Aug 2013 10:31:47 -0700 (PDT)
 Received: from edchang-sslvpn-nc.jnpr.net (natint3.juniper.net.
 	[66.129.224.36]) by mx.google.com with ESMTPSA id
-	py4sm19212932pbb.33.1969.12.31.16.00.00
+	ib9sm19211151pbc.43.1969.12.31.16.00.00
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 26 Aug 2013 10:27:54 -0700 (PDT)
+	Mon, 26 Aug 2013 10:31:46 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CADkTA4Pit1BhOxw5C1gFobrj-m00CpS-n=WNtCkgdRdCDRymhg@mail.gmail.com>
-Date: Mon, 26 Aug 2013 10:28:07 -0700
-Message-Id: <8DA5FFBA-9580-444A-AC2F-53C97EF6D105@gmail.com>
-References: <cover.1377405083.git.bruce.ashfield@windriver.com>
-	<c2d44f9ff8d416b7f984bc4027de7acecbec0986.1377405083.git.bruce.ashfield@windriver.com>
-	<CAMKF1sr+z-f7KW6BqMLbs0RuFu4fhz_crhBVM_++nOqVb=OtnQ@mail.gmail.com>
-	<521AA761.4000605@windriver.com> <521ABA1C.9010105@windriver.com>
-	<CADkTA4OFMOyAUi5njjFXb1NnTh4ONp4vHT3JZxuL4tiG3OqOiw@mail.gmail.com>
-	<CADkTA4Pit1BhOxw5C1gFobrj-m00CpS-n=WNtCkgdRdCDRymhg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <20130826094552.GP3544@jama>
+Date: Mon, 26 Aug 2013 10:31:59 -0700
+Message-Id: <0A248202-214D-4563-B465-BE7DC18C4D52@gmail.com>
+References: <1377063923-23922-1-git-send-email-raj.khem@gmail.com>
+	<CAAqcGHmnX+7CCZ9BS0s2Xut5DbuzSgu1h-a-bFsDo588iyi6dA@mail.gmail.com>
+	<20130826094552.GP3544@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
 X-Mailer: Apple Mail (2.1508)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/7] eglibc: ptrace: protect ptrace_peeksiginfo_args from redefintion
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] eglibc: Update SRC_URI and fix unpackaged empty dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,33 +48,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 17:27:57 -0000
-Content-Type: text/plain; charset=iso-8859-1
+X-List-Received-Date: Mon, 26 Aug 2013 17:31:46 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
 
-On Aug 25, 2013, at 7:46 PM, Bruce Ashfield <bruce.ashfield@gmail.com> =
+On Aug 26, 2013, at 2:45 AM, Martin Jansa <martin.jansa@gmail.com> =
 wrote:
 
-> A final (maybe .. hopefully!?) thought on this. Do drop this change,
-> but give me a
-> few minutes to remove the offending structure from =
-linux-libc-headers_3.10. That
-> will also protect all users of yocto, regardless of the kernel unless
-> they provide
-> their own libc-headers .. and then they are on their own :)
+> On Mon, Aug 26, 2013 at 12:37:18PM +0300, Riku Voipio wrote:
+>> Hi,
+>>=20
+>> On 21 August 2013 08:45, Khem Raj <raj.khem@gmail.com> wrote:
+>>> diff --git a/meta/recipes-core/eglibc/eglibc-package.inc =
+b/meta/recipes-core/eglibc/eglibc-package.inc
+>>> index a590cce..1a23805 100644
+>>> --- a/meta/recipes-core/eglibc/eglibc-package.inc
+>>> +++ b/meta/recipes-core/eglibc/eglibc-package.inc
+>>> @@ -76,6 +76,10 @@ do_install_append () {
+>>>        rm -f ${D}${sysconfdir}/localtime
+>>>        rm -rf ${D}${localstatedir}
+>>>=20
+>>> +       # remove empty eglibc dir
+>>> +       if [ -d ${D}${libdir}/eglibc ]; then
+>>> +               rmdir ${D}${libdir}/eglibc
+>>> +       fi
+>>>        oe_multilib_header bits/syscall.h
+>>>=20
+>>>        if [ -f ${D}${bindir}/mtrace ]; then
+>>=20
+>> This breaks in the case the directory exists and is not empty - which
+>> is the case when you build with eglibc-2.17. In that case there is a
+>> pt_chown binary. pt_chown is deprecated since devpts was invented, =
+and
+>> now removed in 2.18.
 >=20
-> That leaves the c library alone, and should buy us time to fix the
-> offending apps.
+> Can we use just
+> rmdir --ignore-fail-on-non-empty ${D}${libdir}/eglibc
+> ?
 
-this is not again the correct place to fix it. since you will back this =
-out say later
-when all apps are fixed anyway. If we need to keep it I would rather =
-have the app
-builds failing and keep it enabled and it should not be the guy who is =
-doing the kernel
-headers upgrade to fix the whole ecosystem either. So add the headers by =
-all means
-and leave the old headers in there until the apps work correctly with =
-new headers.=
+yes however the reason to not use it in first place was to catch these =
+kind of issues.
+
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
 
