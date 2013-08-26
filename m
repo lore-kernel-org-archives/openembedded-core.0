@@ -1,26 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AA936BA54
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 06:43:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q6hgZK004979
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 02:43:42 -0400 (EDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 25 Aug 2013 23:43:41 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 26 Aug 2013 14:43:55 +0800
-Message-ID: <a2ff16e4b0c0ed3d04f1c6bc50d1b2a498e8020d.1377499381.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1377499381.git.Qi.Chen@windriver.com>
-References: <cover.1377499381.git.Qi.Chen@windriver.com>
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A5A260990
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 08:33:36 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id z5so2098839lbh.37
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 01:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=M4GcU7VUoFno1mzHGlgXtLQA8rexcjlMXQGKxM6V7Rc=;
+	b=pbJMgNjU2N7e98AOugUXEiF6AH56xcPmrPs3S+6CJyQOSUn9SO1KhjCrlLJzansOAi
+	ejPLHm1RNoZxMtzghqo1+D0PJfZx3FiZ/JhGUq6v+8Mw1L0Sc5a0vkTjjEHTcZYC5R1L
+	M/lRtiRyYkJVg7hyWzry8izA7XB8IBc6WuXZZO66WXVTlnyGgstl7eVZRrVNa7cz9AM4
+	+TE8seIQx9CyV5dPqzE2bRWfUSMK/Jxe3C6FBLbwNaQl5HYCMI+Kx7Bgund8+/T+s4Fm
+	wvhZSan+NESIqeVfmnf6rN16nBgQXw52nKBYThUSLKGj3x3sZiiF/uGd/RNx1bXUUs4Z
+	qjVg==
 MIME-Version: 1.0
-Subject: [PATCH 2/2] read-only-rootfs-hook.sh: check before bind mounting /var/lib
+X-Received: by 10.152.2.130 with SMTP id 2mr630014lau.35.1377506017189; Mon,
+	26 Aug 2013 01:33:37 -0700 (PDT)
+Received: by 10.112.209.40 with HTTP; Mon, 26 Aug 2013 01:33:37 -0700 (PDT)
+In-Reply-To: <52175BE0.8010403@windriver.com>
+References: <1377212667-5915-1-git-send-email-jason.wessel@windriver.com>
+	<CAMKF1sp9sfkrRCaU6JwzN0YESyP=pd5n1oUcGz_fNj3OTTv6-g@mail.gmail.com>
+	<52175BE0.8010403@windriver.com>
+Date: Mon, 26 Aug 2013 10:33:37 +0200
+Message-ID: <CAAQYJAv7RiJZ8vPAx3cS7CDEbqQDWz5wCkY1hq37SBfv2R20wg@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [v2 PATCH] kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +44,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 06:43:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 26 Aug 2013 08:33:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Fri, Aug 23, 2013 at 2:56 PM, Jason Wessel
+<jason.wessel@windriver.com> wrote:
+> On 08/23/2013 01:16 AM, Khem Raj wrote:
+>> On Thu, Aug 22, 2013 at 4:04 PM, Jason Wessel
+>> <jason.wessel@windriver.com> wrote:
+>>> This patch aims to fix the following two cases for the INITRAMFS genera=
+tion.
+>>>   1) Allow an image recipe to specify a paired INITRAMFS recipe such
+>>>      as core-image-minimal-initramfs.  This allows building a base
+>>>      image which always generates the needed initramfs image in one ste=
+p
+>>>   2) Allow building a single binary which contains a kernel and
+>>>      the initramfs.
+>> I think this could be a bit simpler. Have a full kernel image recipe (
+>> kernel + initramfs)
+>> separate. It fits into the equation nicely. The final image can bundle
+>> initramfs which has modules from practically same kernel build is
+>> staged step 1 of kernel build which
+>> automatically happens today for any image build.
+>
+> The changes I put together are work around the circular dependency proble=
+m.  Staging and using another recipe is certainly an option.
+>
+> What I really wanted to do was have just another image type not unlike cp=
+io, ext3, etc...  But this was not possible because there was no way to get=
+ back to the point that the kernel could be re-linked and make the call to =
+the kernel methods and get the context correct.   I had tried using the int=
+ernal method for exec_task from the image recipe context but there appeared=
+ to be no direct way to get this to work.
+>
+>
+>
+>
+>>
+>> The new recipe for kernel+initramfs requires the existing kernel
+>> recipes and tweaks the .config to enable INITRAMFS_IMAGE
+>>
+>> You can share the sources for both stages where kernel is built like
+>> gcc is putting the sources under work-shared and building all gcc
+>> recipes out of this location.
+>
+>
+> Ideally we could use the sysroot to regenerate the combined image, but th=
+is was not low hanging fruit.  If we came up with a way to generate the com=
+bined kernel+initramfs image directly from the sysroot this could easily be=
+ controlled by just having it as an IMAGE_FEATURE as opposed to making dist=
+inct image types.
+>
+>
+> Jason.
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-It's possible that /var/lib is on a separate writable partition. In such
-situation, we should not bind mount /var/lib with tmpfs, becasue it's
-already writable.
 
-This patch fixes this problem by checking whether /var/lib is already
-on a writable partition.
+Some more thoughts:
 
-[YOCTO #4888]
+I'd like to point out that we introduced a variable called INITRAMFS_FSTYPE=
+S
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- .../initscripts-1.0/read-only-rootfs-hook.sh       |   33 +++++++++++++++++---
- 1 file changed, 29 insertions(+), 4 deletions(-)
+http://cgit.openembedded.org/openembedded-core/commit/meta/conf/bitbake.con=
+f?id=3D17f7f3a43e863d9e2a16dd02face5137a4f4b225
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-index 9cf0921..1a0328d 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/read-only-rootfs-hook.sh
-@@ -4,10 +4,35 @@
- 
- [ "$ROOTFS_READ_ONLY" = "no" ] && exit 0
- 
-+is_on_read_only_partition () {
-+	DIRECTORY=$1
-+	dir=`readlink -f $DIRECTORY`
-+	while true; do
-+		if [ ! -d "$dir" ]; then
-+			echo "ERROR: $dir is not a directory"
-+			exit 1
-+		else
-+			for flag in `awk -v dir=$dir '{ if ($2 == dir) { print "FOUND"; split($4,FLAGS,",") } }; \
-+				END { for (f in FLAGS) print FLAGS[f] }' < /proc/mounts`; do
-+				[ "$flag" = "FOUND" ] && partition="read-write"
-+				[ "$flag" = "ro" ] && { partition="read-only"; break; }
-+			done
-+			if [ "$dir" = "/" -o -n "$partition" ]; then
-+				break
-+			else
-+				dir=`dirname $dir`
-+			fi
-+		fi
-+	done
-+	[ "$partition" = "read-only" ] && echo "yes" || echo "no"
-+}
-+
- if [ "$1" = "start" ] ; then
--	grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
--	mkdir -p /var/volatile/lib
--	cp -a /var/lib/* /var/volatile/lib
--	mount --bind /var/volatile/lib /var/lib
-+	if [ `is_on_read_only_partition /var/lib` = "yes" ]; then
-+		grep -q "tmpfs /var/volatile" /proc/mounts || mount /var/volatile
-+		mkdir -p /var/volatile/lib
-+		cp -a /var/lib/* /var/volatile/lib
-+		mount --bind /var/volatile/lib /var/lib
-+	fi
- fi
- 
--- 
-1.7.9.5
 
+and that we have an initial initramfs framework (modular, similar to
+the one in oe-classic) :
+
+http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-core/ini=
+trdscripts?id=3D7b69ad2167a1f0e57db82817b98a0cbcb70a0dd3
+
+Maybe this framework could be extended for the typical simple needs (
+I know our linux-yocto-tiny-kexecboot is a rather complicated
+example).
+
+Cheers
+
+Andrea
 
