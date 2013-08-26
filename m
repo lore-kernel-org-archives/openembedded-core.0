@@ -1,25 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 567CC6AF96
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2582761F47
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 18:14:06 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 26 Aug 2013 11:13:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,960,1367996400"; d="scan'208";a="351829080"
-Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
-	by azsmga001.ch.intel.com with ESMTP; 26 Aug 2013 11:13:44 -0700
-Message-ID: <521B9AD8.6060400@linux.intel.com>
-Date: Mon, 26 Aug 2013 11:13:44 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Laszlo Papp <lpapp@kde.org>
-References: <CAOMwXhPL4J8irv+8t02Mck-vAH47+9rqvncEkCUZpPHZWdSz1g@mail.gmail.com>
-In-Reply-To: <CAOMwXhPL4J8irv+8t02Mck-vAH47+9rqvncEkCUZpPHZWdSz1g@mail.gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to 2013.07 - Beagleboard XM Issue?
+	Mon, 26 Aug 2013 18:49:01 +0000 (UTC)
+Received: by mail-ie0-f180.google.com with SMTP id x14so5368921ief.25
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 11:49:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+Xdng54rGX+0Yi/hTB5mdC+sBn95NInAh/b9ZnKLI1g=;
+	b=i8aLl9/dRHTAdPOl5khiOlsZOM+djv6dyweivmNdwB7iHqkX3YS1fgWEJugKhjAPIX
+	oLEjTMx4dnoXJ1AVjUFbHBcvEHzfdDRsxBzUTUe4Piw7SpCKPwmVSVPH3BueYH/Aom/w
+	4nvxcTwTRGdnDrrlu1ws5pYRwMd5pCu5obYwmMK2MXH40Aa1gKokErRExaCyCeUEe0rP
+	x28KauUaED8WH3UHtEpziUATtP6+4Y9JmzGK5RCjaKdSu8DsCuiwJBp9HT/MDkn5YzzW
+	+8b1PmHpqYc2GLcKFn+NFNGTpVmDVQOBG0WDodoUc5mCx+/D/U+u82YriUFEQ+2FaJT+
+	lu8w==
+X-Gm-Message-State: ALoCoQltM1iJQui8XAolkFE88Plf3eZuhILhI3yEQnKHdL+TlZeS/1kxr3eDXbHGpgyh5jj2seqb
+X-Received: by 10.50.13.10 with SMTP id d10mr7383337igc.56.1377542941862;
+	Mon, 26 Aug 2013 11:49:01 -0700 (PDT)
+Received: from otp-mmes-build2.corp.ad.wrs.com ([89.121.200.106])
+	by mx.google.com with ESMTPSA id p5sm19293858igj.10.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 26 Aug 2013 11:48:59 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 26 Aug 2013 21:48:44 +0300
+Message-Id: <1377542924-1605-1-git-send-email-andrei.gherzan@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>
+Subject: [PATCH 1/1] eglibc: nscd support depends on OPTION_EGLIBC_INET
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 18:14:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 26 Aug 2013 18:49:01 -0000
 
-On 08/26/2013 11:06 AM, Laszlo Papp wrote:
-> On Mon, Aug 26, 2013 at 7:04 PM, Saul Wold <sgw@linux.intel.com
-> <mailto:sgw@linux.intel.com>> wrote:
->
->     On 08/26/2013 10:56 AM, Laszlo Papp wrote:
->
->         What exactly is the problem for beagle board?
->
->     The QA team did not provide the details.
->
->
-> I wonder if you could ask for that?
+Add --disable-nscd if DISTRO_FEATURES does not contain ipv4. This features is
+mapped to OPTION_EGLIBC_INET.
+The default behavior is to activate nscd (if --disable-nscd is not passed to
+configure script). But nscd depends on OPTION_EGLIBC_INET, so compilation will
+fail if this option is not activated.
 
-Yi,
+Signed-off-by: Andrei Gherzan <andrei.gherzan@windriver.com>
+---
+ meta/recipes-core/eglibc/eglibc_2.18.bb |    1 +
+ 1 file changed, 1 insertion(+)
 
-Can you be specific about the Beagleboard XM issue.
-
-Thanks
-	Sau!
+diff --git a/meta/recipes-core/eglibc/eglibc_2.18.bb b/meta/recipes-core/eglibc/eglibc_2.18.bb
+index 17b651f..771f3e7 100644
+--- a/meta/recipes-core/eglibc/eglibc_2.18.bb
++++ b/meta/recipes-core/eglibc/eglibc_2.18.bb
+@@ -79,6 +79,7 @@ EXTRA_OECONF = "--enable-kernel=${OLDEST_KERNEL} \
+                 --without-selinux \
+                 --enable-obsolete-rpc \
+                 --with-kconfig=${STAGING_BINDIR_NATIVE} \
++                ${@base_contains('DISTRO_FEATURES', 'ipv4', '', '--disable-nscd', d)} \
+                 ${GLIBC_EXTRA_OECONF}"
+ 
+ EXTRA_OECONF += "${@get_libc_fpu_setting(bb, d)}"
+-- 
+1.7.9.5
 
 
