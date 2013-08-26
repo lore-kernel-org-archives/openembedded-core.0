@@ -1,25 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DBDF66B4BE
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 57A0E6B4BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 04:25:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 25 Aug 2013 21:25:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,955,1367996400"; d="scan'208";a="393254598"
-Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
-	by orsmga002.jf.intel.com with ESMTP; 25 Aug 2013 21:25:31 -0700
-Message-ID: <521AD8BB.2070008@linux.intel.com>
-Date: Sun, 25 Aug 2013 21:25:31 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Mon, 26 Aug 2013 04:26:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7Q4QXLA025423
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 25 Aug 2013 21:26:34 -0700 (PDT)
+Received: from bruce-ashfields-macbook.local (128.224.21.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 25 Aug 2013 21:26:33 -0700
+Message-ID: <521AD8F8.10807@windriver.com>
+Date: Mon, 26 Aug 2013 00:26:32 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: "Peter A. Bigot" <pab@pabigot.com>
-References: <1377477606-17591-1-git-send-email-pab@pabigot.com>
-In-Reply-To: <1377477606-17591-1-git-send-email-pab@pabigot.com>
+To: Saul Wold <sgw@linux.intel.com>
+References: <1377487515-26654-1-git-send-email-bruce.ashfield@windriver.com>
+	<1377487515-26654-2-git-send-email-bruce.ashfield@windriver.com>
+	<521AD4CE.2020907@linux.intel.com>
+In-Reply-To: <521AD4CE.2020907@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pseudo: fix memory leak and missed privilege drop
+Subject: Re: [PATCH] linux-libc-headers: ptrace.h: remove ptrace_peeksiginfo_args
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,250 +36,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 04:25:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Mon, 26 Aug 2013 04:26:35 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/25/2013 05:40 PM, Peter A. Bigot wrote:
-> From: "Peter A. Bigot" <pab@pabigot.com>
+On 13-08-26 12:08 AM, Saul Wold wrote:
+> On 08/25/2013 08:25 PM, Bruce Ashfield wrote:
+>> The addition of ptrace_peeksiginfo_args to the uapi in kernel commit
+>> 84c751bd [ptrace: add ability to retrieve signals without removing
+>> from a queue (v4)]
+>> means that existing applications using glibc versions that define
+>> ptrace_peeksiginfo_args
+>> in sys/ptrace.h will get duplicate structure definitions like:
+>>
+>>      | In file included from
+>> /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
+>>
+>>      |
+>> /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8:
+>> error: redefinition of 'struct ptrace_peeksiginfo_args'
+>>      |  struct ptrace_peeksiginfo_args {
+>>      |         ^
+>>      | In file included from
+>> /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
+>>
+>>      |                  from
+>> /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
+>>
+>>      |
+>> /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note:
+>> originally defined here
+>>      |  struct ptrace_peeksiginfo_args
+>>      |         ^
+>>      | make[2]: *** [process.o] Error 1
+>>
+>> Reverting to the previous status of not exporting this structure
+>> temporarily
+>> fixes applications, until they can be adjusted to not mix sys/ptrace.h
+>> and
+>> linux/ptrace.h includes.
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ---
+>>   ...1-ptrace.h-remove-ptrace_peeksiginfo_args.patch |   50
+>> ++++++++++++++++++++
+>>   .../linux-libc-headers/linux-libc-headers_3.10.bb  |    2 +-
+>>   2 files changed, 51 insertions(+), 1 deletion(-)
+>>   create mode 100644
+>> meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
+>>
+>>
+>> diff --git
+>> a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
+>> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
+>>
+>> new file mode 100644
+>> index 0000000..da2e117
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch
+>>
+>> @@ -0,0 +1,50 @@
+>> +From 7dddfb8fec5317ea16154d30e8e18b6559979b60 Mon Sep 17 00:00:00 2001
+>> +From: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> +Date: Sun, 25 Aug 2013 22:51:07 -0400
+>> +Subject: [PATCH] ptrace.h: remove ptrace_peeksiginfo_args
+>> +
+>> +The addition of ptrace_peeksiginfo_args to the uapi in kernel commit
+>> +84c751bd [ptrace: add ability to retrieve signals without removing
+>> from a queue (v4)]
+>> +means that existing applications using glibc versions that define
+>> ptrace_peeksiginfo_args
+>> +in sys/ptrace.h will get duplicate structure definitions like:
+>> +
+>> +    | In file included from
+>> /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:66:0:
+>>
+>> +    |
+>> /poky-master/build/tmp/sysroots/qemux86/usr/include/linux/ptrace.h:58:8:
+>> error: redefinition of 'struct ptrace_peeksiginfo_args'
+>> +    |  struct ptrace_peeksiginfo_args {
+>> +    |         ^
+>> +    | In file included from
+>> /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/defs.h:159:0,
+>>
+>> +    |                  from
+>> /poky-master/build/tmp/work/i586-poky-linux/strace/4.8-r0/strace-4.8/process.c:37:
+>>
+>> +    |
+>> /poky-master/build/tmp/sysroots/qemux86/usr/include/sys/ptrace.h:191:8: note:
+>> originally defined here
+>> +    |  struct ptrace_peeksiginfo_args
+>> +    |         ^
+>> +    | make[2]: *** [process.o] Error 1
+>> +
+>> +Reverting to the previous status of not exporting this structure
+>> temporarily
+>> +fixes applications, until they can be adjusted to not mix
+>> sys/ptrace.h and
+>> +linux/ptrace.h includes.
+>> +
+>> +Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 >
-> qemu.bbclass adds PSEUDO_UNLOAD=1 in qemu_run_binary to avoid reference to
-> pseudo functions that may not exist in the target environment.  This patch
-> detects the addition of that variable within the environment to which the
-> call applies, even if not present in the parent environment.
->
-> As a side effect it fixes a memory leak.
->
-> [YOCTO #4843]
->
-> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-> ---
->   .../0001-pseudo_has_unload-add-function.patch      |  190 ++++++++++++++++++++
->   meta/recipes-devtools/pseudo/pseudo_1.5.1.bb       |    7 +-
->   2 files changed, 195 insertions(+), 2 deletions(-)
->   create mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch
->
-> diff --git a/meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch b/meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch
-> new file mode 100644
-> index 0000000..b5c81c9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/pseudo/files/0001-pseudo_has_unload-add-function.patch
-> @@ -0,0 +1,190 @@
-> +From be97cb958f2934fa398fc8e344b25b84ebd4e90c Mon Sep 17 00:00:00 2001
-> +From: "Peter A. Bigot" <pab@pabigot.com>
-> +Date: Sun, 25 Aug 2013 19:22:09 -0500
-> +Subject: [PATCH] pseudo_has_unload: add function
-> +
-> +Various wrappers checked for a non-null pseudo_get_value("PSEUDO_UNLOAD") to
-> +determine whether the environment should include the pseudo variables.  None
-> +of those checks freed the returned value when it was not null.  The new
-> +check function does.
-> +
-> +The new check function also sees whether PSEUDO_UNLOAD was defined in the
-> +environment that should be used in the wrapped system call.  This allows
-> +pkg_postinst scripts to strip out the LD_PRELOAD setting, for example before
-> +invoking qemu to execute commands in an environment that does not have
-> +libpseudo.so.
-> +
-> +[YOCTO #4843]
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-> +---
-> + ports/common/guts/execv.c              |    2 +-
-> + ports/common/guts/execve.c             |    2 +-
-> + ports/common/guts/execvp.c             |    2 +-
-> + ports/common/guts/fork.c               |    2 +-
-> + ports/linux/newclone/pseudo_wrappers.c |    2 +-
-> + ports/linux/oldclone/pseudo_wrappers.c |    2 +-
-> + ports/unix/guts/popen.c                |    2 +-
-> + ports/unix/guts/system.c               |    2 +-
-> + pseudo.h                               |    1 +
-> + pseudo_util.c                          |   27 +++++++++++++++++++++++++++
-> + 10 files changed, 36 insertions(+), 8 deletions(-)
-> +
-> +diff --git a/ports/common/guts/execv.c b/ports/common/guts/execv.c
-> +index 763e1f9..3e1f820 100644
-> +--- a/ports/common/guts/execv.c
-> ++++ b/ports/common/guts/execv.c
-> +@@ -19,7 +19,7 @@
-> + 	}
-> +
-> + 	pseudo_setupenv();
-> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
-> ++	if (pseudo_has_unload(NULL))
-> + 		pseudo_dropenv();
-> +
-> + 	/* if exec() fails, we may end up taking signals unexpectedly...
-> +diff --git a/ports/common/guts/execve.c b/ports/common/guts/execve.c
-> +index a003657..ff6a44e 100644
-> +--- a/ports/common/guts/execve.c
-> ++++ b/ports/common/guts/execve.c
-> +@@ -20,7 +20,7 @@
-> +         }
-> +
-> + 	new_environ = pseudo_setupenvp(envp);
-> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
-> ++	if (pseudo_has_unload(new_environ))
-> + 		new_environ = pseudo_dropenvp(new_environ);
-> +
-> + 	/* if exec() fails, we may end up taking signals unexpectedly...
-> +diff --git a/ports/common/guts/execvp.c b/ports/common/guts/execvp.c
-> +index 5e75be7..04253c3 100644
-> +--- a/ports/common/guts/execvp.c
-> ++++ b/ports/common/guts/execvp.c
-> +@@ -20,7 +20,7 @@
-> +         }
-> +
-> + 	pseudo_setupenv();
-> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
-> ++	if (pseudo_has_unload(NULL))
-> + 		pseudo_dropenv();
-> +
-> + 	/* if exec() fails, we may end up taking signals unexpectedly...
-> +diff --git a/ports/common/guts/fork.c b/ports/common/guts/fork.c
-> +index df8abd7..bebe3b0 100644
-> +--- a/ports/common/guts/fork.c
-> ++++ b/ports/common/guts/fork.c
-> +@@ -12,7 +12,7 @@
-> + 	 */
-> + 	if (rc == 0) {
-> + 		pseudo_setupenv();
-> +-		if (!pseudo_get_value("PSEUDO_UNLOAD")) {
-> ++		if (!pseudo_has_unload(NULL)) {
-> + 			pseudo_reinit_libpseudo();
-> + 		} else {
-> + 			pseudo_dropenv();
-> +diff --git a/ports/linux/newclone/pseudo_wrappers.c b/ports/linux/newclone/pseudo_wrappers.c
-> +index 9dbac42..257e8bb 100644
-> +--- a/ports/linux/newclone/pseudo_wrappers.c
-> ++++ b/ports/linux/newclone/pseudo_wrappers.c
-> +@@ -28,7 +28,7 @@ int wrap_clone_child(void *args) {
-> +
-> + 	if (!(flags & CLONE_VM)) {
-> + 		pseudo_setupenv();
-> +-		if (!pseudo_get_value("PSEUDO_UNLOAD")) {
-> ++		if (!pseudo_has_unload(NULL)) {
-> + 			pseudo_reinit_libpseudo();
-> + 		} else {
-> + 			pseudo_dropenv();
-> +diff --git a/ports/linux/oldclone/pseudo_wrappers.c b/ports/linux/oldclone/pseudo_wrappers.c
-> +index c0ce5dd..598d966 100644
-> +--- a/ports/linux/oldclone/pseudo_wrappers.c
-> ++++ b/ports/linux/oldclone/pseudo_wrappers.c
-> +@@ -22,7 +22,7 @@ int wrap_clone_child(void *args) {
-> +
-> + 	if (!(flags & CLONE_VM)) {
-> + 		pseudo_setupenv();
-> +-		if (!pseudo_get_value("PSEUDO_UNLOAD")) {
-> ++		if (!pseudo_has_unload(NULL)) {
-> + 			pseudo_reinit_libpseudo();
-> + 		} else {
-> + 			pseudo_dropenv();
-> +diff --git a/ports/unix/guts/popen.c b/ports/unix/guts/popen.c
-> +index 0ca16b0..5d44c0e 100644
-> +--- a/ports/unix/guts/popen.c
-> ++++ b/ports/unix/guts/popen.c
-> +@@ -9,7 +9,7 @@
-> + 	 * in ways that avoid our usual enforcement of the environment.
-> + 	 */
-> + 	pseudo_setupenv();
-> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
-> ++	if (pseudo_has_unload(NULL))
-> + 		pseudo_dropenv();
-> +
-> + 	rc = real_popen(command, mode);
-> +diff --git a/ports/unix/guts/system.c b/ports/unix/guts/system.c
-> +index 028b372..6351592 100644
-> +--- a/ports/unix/guts/system.c
-> ++++ b/ports/unix/guts/system.c
-> +@@ -9,7 +9,7 @@
-> + 		return 1;
-> +
-> + 	pseudo_setupenv();
-> +-	if (pseudo_get_value("PSEUDO_UNLOAD"))
-> ++	if (pseudo_has_unload(NULL))
-> + 		pseudo_dropenv();
-> +
-> + 	rc = real_system(command);
-> +diff --git a/pseudo.h b/pseudo.h
-> +index 56760a4..f600793 100644
-> +--- a/pseudo.h
-> ++++ b/pseudo.h
-> +@@ -28,6 +28,7 @@ extern void pseudo_init_client(void);
-> + void pseudo_dump_env(char **envp);
-> + int pseudo_set_value(const char *key, const char *value);
-> + char *pseudo_get_value(const char *key);
-> ++int pseudo_has_unload(char * const *envp);
-> +
-> + #include "pseudo_tables.h"
-> +
-> +diff --git a/pseudo_util.c b/pseudo_util.c
-> +index 8d0969e..16c70e0 100644
-> +--- a/pseudo_util.c
-> ++++ b/pseudo_util.c
-> +@@ -95,6 +95,33 @@ dump_env(char **envp) {
-> + }
-> + #endif
-> +
-> ++int
-> ++pseudo_has_unload(char * const *envp) {
-> ++	static const char unload[] = "PSEUDO_UNLOAD";
-> ++	static size_t unload_len = strlen(unload);
-> ++	size_t i = 0;
-> ++
-> ++	/* Is it in the caller environment? */
-> ++	if (NULL != getenv(unload))
-> ++		return 1;
-> ++
-> ++	/* Is it in the environment cache? */
-> ++	if (pseudo_util_initted == -1)
-> ++		pseudo_init_util();
-> ++	while (pseudo_env[i].key && strcmp(pseudo_env[i].key, unload))
-> ++	       ++i;
-> ++	if (pseudo_env[i].key && pseudo_env[i].value)
-> ++		return 1;
-> ++
-> ++	/* Is it in the operational environment? */
-> ++	while (envp && *envp) {
-> ++		if ((!strncmp(*envp, unload, unload_len)) && ('=' == (*envp)[unload_len]))
-> ++			return 1;
-> ++		++envp;
-> ++	}
-> ++	return 0;
-> ++}
-> ++
-> + /* Caller must free memory! */
-> + char *
-> + pseudo_get_value(const char *key) {
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-> index 5694c4d..c5df919 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_1.5.1.bb
-> @@ -1,8 +1,11 @@
->   require pseudo.inc
->
-> -PR = "r3"
-> +PR = "r4"
->
-I can't speak to the pseudo patch itself, I will let Seebs way in on that!
+> Just for the record, it has no Upstream-Status, I know how much you
+> dislike upstream status and just how inappropriate this patch is!
 
-Nut in the recipe file, we no longer do PR bumps, so this is un-needed.
+Thanks! And honestly, I didn't leave out the upstream status on purpose
+this time .. like I said, it just isn't in my workflow, since I normally
+seek and destroy them!
 
-Thanks for the contribution.
+I'm pretty sure I can't convince the kernel guys to not export that
+structure, but I can try. Otherwise, it can have the "dirty hack" upstream
+status.
 
-Sau!
-
-> -SRC_URI = "http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2"
-> +SRC_URI = " \
-> +    http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
-> +    file://0001-pseudo_has_unload-add-function.patch \
-> +"
 >
->   SRC_URI[md5sum] = "5ec67c7bff5fe68c56de500859c19172"
->   SRC_URI[sha256sum] = "3b896f592f4d568569bd02323fad2d6b8c398e16ca36ee5a8947d2ff6c1d3d52"
+> I will put this in MUT so we can move forward tonight.
+
+Fingers crossed, my builds are working here.
+
+Bruce
+
 >
+> Thanks
+>      Sau!
+>
+>> +---
+>> + include/uapi/linux/ptrace.h |    6 ------
+>> + 1 file changed, 6 deletions(-)
+>> +
+>> +diff --git a/include/uapi/linux/ptrace.h b/include/uapi/linux/ptrace.h
+>> +index 52ebcc8..524599d 100644
+>> +--- a/include/uapi/linux/ptrace.h
+>> ++++ b/include/uapi/linux/ptrace.h
+>> +@@ -55,12 +55,6 @@
+>> +
+>> + #define PTRACE_PEEKSIGINFO    0x4209
+>> +
+>> +-struct ptrace_peeksiginfo_args {
+>> +-    __u64 off;    /* from which siginfo to start */
+>> +-    __u32 flags;
+>> +-    __s32 nr;    /* how may siginfos to take */
+>> +-};
+>> +-
+>> + /* Read signals from a shared (process wide) queue */
+>> + #define PTRACE_PEEKSIGINFO_SHARED    (1 << 0)
+>> +
+>> +--
+>> +1.7.10.4
+>> +
+>> diff --git
+>> a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>> b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>> index eb04367..b2e6f0f 100644
+>> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>> @@ -1,6 +1,6 @@
+>>   require linux-libc-headers.inc
+>>
+>> -PR = "r0"
+>> +SRC_URI += "file://0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch"
+>>
+>>   SRC_URI[md5sum] = "72d0a9b3e60cd86fabcd3f24b1708944"
+>>   SRC_URI[sha256sum] =
+>> "46c9e55e1fddf40813b8d697d5645037a8e2af5c1a8dff52b3fe82b5021582b8"
+>>
+
 
