@@ -1,40 +1,26 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id C7CDE6BC1F
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A3B576BAA6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 13:31:45 +0000 (UTC)
-Received: by mail-ea0-f169.google.com with SMTP id k11so1631298eaj.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 06:31:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Ulgkye0bmIqmg83fnONJxmam1BrQjqmHgEA7t5KMsbs=;
-	b=y7oZqXKTYqKxLA1JG+zluksnEmK0rMb+P3veSPO1Er3a0T6Hizz5dv2Xdl/IG3dapa
-	Z9I+aQWNtOlCQPUGLhwJmiybZoWQmvrXZ4taKOtjKjfFm8p4e4aqEMP3W5J8VhCtbJhx
-	cm9l5EcFDG8bxK+Gw3kBAToGLq+ERLkHErMWIph9AOeRerJ/4kZvuoIOYSg9bpPt6ELs
-	8FudP/jgQIMOAQKTfUW86Xv8K4FQosWLt+hjzQyH1p6sPubDCFzoUzuRfsNV8QVqP3Vz
-	myV4IP+rpeKd8Mwr10jDdhv9H+cMkARMy22Q9/Tc0vc2+AQij2Q1NtS9sn03cRZtvZxV
-	HfRw==
-X-Received: by 10.15.99.133 with SMTP id bl5mr34483eeb.92.1377523905644;
-	Mon, 26 Aug 2013 06:31:45 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	bn13sm21441023eeb.11.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Mon, 26 Aug 2013 06:31:45 -0700 (PDT)
-Date: Mon, 26 Aug 2013 15:32:54 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20130826133254.GR3544@jama>
-References: <cover.1372456294.git.raj.khem@gmail.com>
-	<317e5f0060239db963b826eb9b569170cf9e07dd.1372456294.git.raj.khem@gmail.com>
+	Mon, 26 Aug 2013 14:37:38 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2013 07:34:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,958,1367996400"; d="scan'208";a="393524848"
+Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
+	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2013 07:37:20 -0700
+Message-ID: <521B6820.1000000@linux.intel.com>
+Date: Mon, 26 Aug 2013 07:37:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-In-Reply-To: <317e5f0060239db963b826eb9b569170cf9e07dd.1372456294.git.raj.khem@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+To: rongqing.li@windriver.com
+References: <cover.1377505592.git.rongqing.li@windriver.com>
+	<77319aeee8a2f49fa9ece78c4a0e4e20be3d4165.1377505592.git.rongqing.li@windriver.com>
+In-Reply-To: <77319aeee8a2f49fa9ece78c4a0e4e20be3d4165.1377505592.git.rongqing.li@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 12/24] python3: Add recipes
+Subject: Re: [PATCH 1/1] btrfs-tools: Add dependency on lzo acl e2fsprog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,138 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 13:31:47 -0000
-X-Groupsio-MsgNum: 44039
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="YttKMwf6abDJOSyE"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 26 Aug 2013 14:37:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---YttKMwf6abDJOSyE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 28, 2013 at 03:03:57PM -0700, Khem Raj wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Why?
+
+And should the acl be controlled by a PACKAGECONFIG?  Can it be disabled 
+during do_configure?
+
+Sau!
+
+On 08/26/2013 01:56 AM, rongqing.li@windriver.com wrote:
+> From: "Roy.Li" <rongqing.li@windriver.com>
+>
+> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
 > ---
->  .../python/python3/000-cross-compile.patch         |   76 +++++
->  .../python3/020-dont-compile-python-files.patch    |   31 ++
->  .../python/python3/03-fix-tkinter-detection.patch  |   42 +++
->  .../python/python3/030-fixup-include-dirs.patch    |   36 ++
->  .../python/python3/04-default-is-optimized.patch   |   58 ++++
->  .../python3/06-ctypes-libffi-fix-configure.patch   |   44 +++
->  .../python3/070-dont-clean-ipkg-install.patch      |   30 ++
->  .../python3/080-distutils-dont_adjust_files.patch  |   86 +++++
->  .../python/python3/110-enable-zlib.patch           |   15 +
->  .../python/python3/130-readline-setup.patch        |   49 +++
->  .../python/python3/140-verbose-sharedmods.patch    |   10 +
->  .../python/python3/150-fix-setupterm.patch         |   11 +
->  .../python3/avoid_warning_about_tkinter.patch      |   25 ++
->  meta/recipes-devtools/python/python3/cgi_py.patch  |   23 ++
->  .../python3/fix_for_using_different_libdir.patch   |   54 +++
->  .../python/python3/h2py-pr13032.patch              |  185 +++++++++++
->  .../python3/host_include_contamination.patch       |   28 ++
->  .../python/python3/python-3.3-multilib.patch       |  348 ++++++++++++++=
-++++++
->  .../python/python3/remove_sqlite_rpath.patch       |   19 ++
->  .../python/python3/setuptweaks.patch               |   57 ++++
->  .../python/python3/shutil-follow-symlink-fix.patch |   11 +
->  .../python/python3/sitecustomize.py                |   37 +++
->  .../sys_platform_is_now_always_linux2.patch        |   29 ++
->  meta/recipes-devtools/python/python3_3.3.0.bb      |  203 ++++++++++++
->  24 files changed, 1507 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/000-cross-compil=
-e.patch
->  create mode 100644 meta/recipes-devtools/python/python3/020-dont-compile=
--python-files.patch
->  create mode 100644 meta/recipes-devtools/python/python3/03-fix-tkinter-d=
-etection.patch
->  create mode 100644 meta/recipes-devtools/python/python3/030-fixup-includ=
-e-dirs.patch
->  create mode 100644 meta/recipes-devtools/python/python3/04-default-is-op=
-timized.patch
->  create mode 100644 meta/recipes-devtools/python/python3/06-ctypes-libffi=
--fix-configure.patch
->  create mode 100644 meta/recipes-devtools/python/python3/070-dont-clean-i=
-pkg-install.patch
->  create mode 100644 meta/recipes-devtools/python/python3/080-distutils-do=
-nt_adjust_files.patch
->  create mode 100644 meta/recipes-devtools/python/python3/110-enable-zlib.=
-patch
->  create mode 100644 meta/recipes-devtools/python/python3/130-readline-set=
-up.patch
->  create mode 100644 meta/recipes-devtools/python/python3/140-verbose-shar=
-edmods.patch
->  create mode 100644 meta/recipes-devtools/python/python3/150-fix-setupter=
-m.patch
->  create mode 100644 meta/recipes-devtools/python/python3/avoid_warning_ab=
-out_tkinter.patch
->  create mode 100644 meta/recipes-devtools/python/python3/cgi_py.patch
->  create mode 100644 meta/recipes-devtools/python/python3/fix_for_using_di=
-fferent_libdir.patch
->  create mode 100644 meta/recipes-devtools/python/python3/h2py-pr13032.pat=
-ch
->  create mode 100644 meta/recipes-devtools/python/python3/host_include_con=
-tamination.patch
->  create mode 100644 meta/recipes-devtools/python/python3/python-3.3-multi=
-lib.patch
->  create mode 100644 meta/recipes-devtools/python/python3/remove_sqlite_rp=
-ath.patch
->  create mode 100644 meta/recipes-devtools/python/python3/setuptweaks.patch
->  create mode 100644 meta/recipes-devtools/python/python3/shutil-follow-sy=
-mlink-fix.patch
->  create mode 100644 meta/recipes-devtools/python/python3/sitecustomize.py
->  create mode 100644 meta/recipes-devtools/python/python3/sys_platform_is_=
-now_always_linux2.patch
->  create mode 100644 meta/recipes-devtools/python/python3_3.3.0.bb
+>   meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> index 07e8529..3ec9e8a 100644
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> @@ -10,7 +10,7 @@ HOMEPAGE = "https://btrfs.wiki.kernel.org"
+>   LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+>   SECTION = "base"
+> -DEPENDS = "util-linux attr"
+> +DEPENDS = "util-linux attr e2fsprogs lzo acl"
+>
+>   SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
+>   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
+>
 
-When testing this on another host I got:
-
-ERROR: This autoconf log indicates errors, it looked at host include
-and/or library paths while determining system capabilities.
-Rerun configure task after fixing this. The path was
-'/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/python3/3.3.2-r0.0/Python-3.3=
-=2E2'
-ERROR: Function failed: do_qa_configure
-ERROR: Logfile of failure stored in:
-/OE/shr-core/tmp-eglibc/work/x86_64-oe-linux/python3/3.3.2-r0.0/temp/log.do=
-_configure.13003
-ERROR: Task 58
-(/OE/shr-core/openembedded-core/meta/recipes-devtools/python/python3_3.3.2.=
-bb,
-do_configure) failed with exit code '1'
-
-
-configure:6972: x86_64-oe-linux-gcc  -m64 -DNDEBUG -fno-inline
---sysroot=3D/OE/shr-core/tmp-eglibc/sysroots/qemux86-64 -c -O2 -pipe -g
--feliminate-unused-debug-types  -I/usr/include/ncursesw conftest.c >&5
-cc1: warning: include location "/usr/include/ncursesw" is unsafe for
-cross-compilation [-Wpoison-system-directories]
-conftest.c:63:19: fatal error: conio.h: No such file or directory
- #include <conio.h>
-                   ^
-compilation terminated.
-
-
-and from test-dependencies.sh run there is undeterministic lzma
-dependency:
-
-WARN: packages/armv5te-oe-linux-gnueabi/python3/python3-misc/latest lost de=
-pendency on  liblzma
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---YttKMwf6abDJOSyE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlIbWQYACgkQN1Ujt2V2gBw5swCgsEBXu20UeDIvFiVPJil5Por2
-/OkAnR5iSmExzT0mcDtcAHlro5Z+D0+6
-=w9A9
------END PGP SIGNATURE-----
-
---YttKMwf6abDJOSyE--
