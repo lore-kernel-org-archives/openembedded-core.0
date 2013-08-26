@@ -1,26 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BEA26B275
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by mail.openembedded.org (Postfix) with ESMTP id D9E146008D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 22:00:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7QM0RlD014198
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 26 Aug 2013 15:00:27 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 26 Aug 2013 15:00:26 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 26 Aug 2013 18:00:13 -0400
-Message-ID: <03c92c2afe5f84ce0fc46c08834437993c93e216.1377554229.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1377554229.git.bruce.ashfield@windriver.com>
-References: <cover.1377554229.git.bruce.ashfield@windriver.com>
+	Mon, 26 Aug 2013 22:03:19 +0000 (UTC)
+Received: by mail-la0-f52.google.com with SMTP id ev20so2823725lab.39
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 15:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=2YvEm9Z1I6abSo++iie7EWBMfyGtAakB4K4l7vKkGCs=;
+	b=x/qKIj+/2a2sIitBHP1Ifhuk1ZhlEp7Z4V7eIh0OBy+b5wHgsYyFUqTMcwDVz39jj8
+	PgdVlY5WC4YEo+LdHnwGzy8LKocYSg1LR7a/51FNyzeLtBGWbhikYnYO2joweDfPS0ev
+	eLcs8OgxrPGVPXwU5L+91PpCjqxjPO05g8TpjltufMyBJ31PpFUCsmQkByD6rgAeyPyk
+	Fvw0MTodLjTHpHzmLKoYzO6Z1P2j330fzCvQPBtZeq4TF4CZJzUJ0c4plS7A+ABC9Ffo
+	lrVuTR/tVj8KPxlmP1ezTfaPAamjcs1SZ3VGcOdg0gYaVe3BrtzJXp9CJ+ln08nmSrcY
+	HkHQ==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] linux-yocto: add bc-native dependency, and move to linux-yocto.inc
+X-Received: by 10.152.26.72 with SMTP id j8mr15648415lag.19.1377554599985;
+	Mon, 26 Aug 2013 15:03:19 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Mon, 26 Aug 2013 15:03:19 -0700 (PDT)
+In-Reply-To: <521BCD34.8090003@pabigot.com>
+References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+	<CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
+	<521B9698.7030803@linux.intel.com> <521BCD34.8090003@pabigot.com>
+Date: Mon, 26 Aug 2013 18:03:19 -0400
+Message-ID: <CADkTA4Oaoodzq5525nBXfNnMziM2y8068vj9JGt4v9UJkbSvAg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +43,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2013 22:00:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 26 Aug 2013 22:03:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-As reported by Martin Jansa <martin.jansa@gmail.com>, the following error happens
-when building in a minimal environment:
+On Mon, Aug 26, 2013 at 5:48 PM, Peter A. Bigot <pab@pabigot.com> wrote:
+> I can confirm this also works with the Gumstix Overo in a layer bbappend
+> that used SRC_URI_append_overo for additional patches.  Thanks to you both
+> for getting it merged.
+>
+> I did come up with a question, though.  The recipe uses:
+>
+>   PV = "v2013.07+git${SRCPV}"
+>
+> which creates an informative but ugly ${BPN}.  I'd like to use something
+> like:
+>
+>   FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+>
+> in the bbappend to simplify updates, but I don't want to have a directory
+> named u-boot-v2013.07+gitAUTOINC+62c175fbb8.  For linux-yocto, this is
+> solved through introduction of ${LINUX_VERSION} allowing
+> ${PN}-${LINUX_VERSION}.
+>
+> Is there reason to create a parallel UBOOT_VERSION?
+>
+> Is there reason to have some way to access the default ${PV} inferred from
+> the recipe name before the base recipe overrode it? (Is there already some
+> way to get that value?)
+>
+> Is there a better approach than bbappend-in-layer that I should use for
+> adding patches required for a specific u-boot machine?
 
-   |   BC      kernel/timeconst.h
-   | /bin/sh: bc: command not found
-   | make[3]: *** [kernel/timeconst.h] Error 127
-   | make[2]: *** [kernel] Error 2
-   | make[2]: *** Waiting for unfinished jobs....
+That's the right approach. Only when complexity warrants is it worth
+the effort to maintain
+a targeted git tree that manages changes via branches. So until the
+directories full of patches
+and conflicting features collapse on themselves, go with SRC_URIs and bbappends.
 
-kernel commit 70730bca [kernel: Replace timeconst.pl with a bc script] added
-a kernel dependency on bc. To support the build of linux-yocto recipes in
-these configurations, we add bc-native to the common dependencies.
+Cheers,
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    3 ---
- meta/recipes-kernel/linux/linux-yocto.inc          |    2 ++
- 2 files changed, 2 insertions(+), 3 deletions(-)
+Bruce
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index 1c2ad37..2a30b82 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -1,8 +1,5 @@
- require recipes-kernel/linux/linux-yocto.inc
- 
--# We need lzma (as CONFIG_KERNEL_LZMA=y)
--DEPENDS += "xz-native"
--
- KBRANCH_DEFAULT = "standard/tiny/base"
- KBRANCH = "${KBRANCH_DEFAULT}"
- LINUX_KERNEL_TYPE = "tiny"
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 973970d..2bee042 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
- 
- INC_PR = "r4"
- 
-+DEPENDS += "xz-native bc-native"
-+
- # A KMACHINE is the mapping of a yocto $MACHINE to what is built
- # by the kernel. This is typically the branch that should be built,
- # and it can be specific to the machine or shared
+>
+> Peter
+>
+>
+> On 08/26/2013 12:55 PM, Saul Wold wrote:
+>>
+>> On 08/23/2013 09:57 AM, Laszlo Papp wrote:
+>>>
+>>> Any update? It would be nice not to miss the freeze ... ;-)
+>>>
+>> This has been merged, and I was informed by the QA team that it works
+>> correctly for the mpc8315e-rdb and beagleboard, but NOT the beagleboard XM.
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.7.10.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
