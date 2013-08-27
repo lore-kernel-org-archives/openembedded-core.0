@@ -1,20 +1,26 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 7887261F47
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B21661F47
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 12:07:55 +0000 (UTC)
-Message-ID: <521C969A.30909@communistcode.co.uk>
-Date: Tue, 27 Aug 2013 13:07:54 +0100
-From: Jack Mitchell <ml@communistcode.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130806 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: do_root_fs failing on flock command
+	Tue, 27 Aug 2013 12:16:05 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VEIBp-0007UO-87; Tue, 27 Aug 2013 14:16:05 +0200
+Message-ID: <1377605761.28077.4.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: ml@communistcode.co.uk
+Date: Tue, 27 Aug 2013 13:16:01 +0100
+In-Reply-To: <521C969A.30909@communistcode.co.uk>
+References: <521C969A.30909@communistcode.co.uk>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: do_root_fs failing on flock command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -24,78 +30,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 12:07:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Tue, 27 Aug 2013 12:16:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-I'm attempting to build core-image-minimal using oe-core + 
-meta-beagleboard on an NFS mount. I'm running into the following error:
+On Tue, 2013-08-27 at 13:07 +0100, Jack Mitchell wrote:
+> Does anyone have any insight to why this may be failing. It mentions a 
+> bad file descriptor, so I assume it is related to building on an NFS mount.
 
-> [jack@archAntec beaglebone]$ bitbake core-image-minimal
-> Loading cache: 100% 
-> |#######################################################################################################| 
-> ETA:  00:00:00
-> Loaded 1193 entries from dependency cache.
->
-> Build Configuration:
-> BB_VERSION        = "1.19.1"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Arch-Linux"
-> TARGET_SYS        = "arm-oe-linux-gnueabi"
-> MACHINE           = "beaglebone"
-> DISTRO_VERSION    = "oe-core.0"
-> TUNE_FEATURES     = "armv7a vfp neon"
-> TARGET_FPU        = "vfp-neon"
-> meta              = "master:2ac7783e04f5e8e6005f967e1a6dd65d2fc6a19a"
-> common-bsp        = "master:f02fabd39cd49bf5932fa5f90e83084d49a8cbe2"
->
-> NOTE: Resolving any missing task queue dependencies
-> NOTE: Preparing runqueue
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> ERROR: Function failed: do_rootfs (log file is located at 
-> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.19520)
-> ERROR: Logfile of failure stored in: 
-> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.19520
-> Log data follows:
-> | DEBUG: Executing python function rootfs_process_ignore
-> | DEBUG: Python function rootfs_process_ignore finished
-> | DEBUG: Executing python function rootfs_runtime_mapping
-> | DEBUG: Python function rootfs_runtime_mapping finished
-> | DEBUG: Executing shell function do_rootfs
-> | flock: 
-> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/deploy/ipk/Packages.flock: 
-> Bad file descriptor
-> | WARNING: 
-> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.do_rootfs.19520:1 
-> exit 65 from
-> |   flock $pkgdir/Packages.flock -c "opkg-make-index -r 
-> $pkgdir/Packages -p $pkgdir/Packages -m $pkgdir/"
-> | ERROR: Function failed: do_rootfs (log file is located at 
-> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.19520)
-> ERROR: Task 7 
-> (/mnt/mediaserver/Projects/oe-core/meta/recipes-core/images/core-image-minimal.bb, 
-> do_rootfs) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 1580 tasks of which 1579 didn't need to 
-> be rerun and 1 failed.
-> No currently running tasks (1579 of 1581)
->
-> Summary: 1 task failed:
-> /mnt/mediaserver/Projects/oe-core/meta/recipes-core/images/core-image-minimal.bb, 
-> do_rootfs
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+There's no particular reason that flock() oughtn't to work on NFS.  If
+you happened to be mounted with -o nolock then you wouldn't get the
+correct semantics versus lockers on other hosts, but you shouldn't be
+getting -EBADF under any circumstances that I can think of.
 
-Does anyone have any insight to why this may be failing. It mentions a 
-bad file descriptor, so I assume it is related to building on an NFS mount.
+If you run flock by hand against a file on the same mount, does it work?
+If it fails, what does the output from strace look like?
 
-Cheers,
-Jack.
+p.
 
--- 
-   Jack Mitchell (jack@embed.me.uk)
-   Embedded Systems Engineer
-   Cambrideshire, UK
-   http://www.embed.me.uk
---
 
 
