@@ -1,43 +1,20 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pb0-f42.google.com (mail-pb0-f42.google.com
-	[209.85.160.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 363B36AF4A
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7887261F47
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 10:45:31 +0000 (UTC)
-Received: by mail-pb0-f42.google.com with SMTP id un15so4693895pbc.29
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 03:45:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=google.com; s=20120113;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=5q9Lvjjd3uzxNcbXiILPpwHEpLnlL7BSPSfn5oI1rnI=;
-	b=nTtCfAOeHSPKVgQypdiPmJl/cLAUZv1nSZ7LIzTLxlEtAs9+sOVP3U9edYbbuqWaoF
-	bCgzK8J8nbDUvxusmJKaNjHnZ60vlGToNgG0UMbL1Lzs6Ww33bh4e0b4sMo48Bu40oCR
-	dfRZCsSum/XGVtZMOoV3Po0mfi9ATCm2hbPfr2sByO/uGOc18kuX+Qs7XduVey17I0RX
-	gJvHU6IjF3tUA+3X3pv0RBFQoi2l0+J/KkHeLV17MTAHvE4ca2pMiV+gC9Sh2xf3FFKw
-	rIHboVirvyLmocqt2ZuSkRpGlWgex/fboIq3X0IiqhjAgfsFqZ0oyqaNJlHLY3ofu749
-	MwbQ==
-X-Gm-Message-State: ALoCoQnMGIxN9t6tQ1LODQrYRShs7QrajceXIaKXfp9HbSsGPwjix0DKRuTz1S+OH+K2B8RKBATS
+	Tue, 27 Aug 2013 12:07:55 +0000 (UTC)
+Message-ID: <521C969A.30909@communistcode.co.uk>
+Date: Tue, 27 Aug 2013 13:07:54 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130806 Thunderbird/17.0.8
 MIME-Version: 1.0
-X-Received: by 10.68.234.41 with SMTP id ub9mr1134533pbc.201.1377600331981;
-	Tue, 27 Aug 2013 03:45:31 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.57.234 with HTTP; Tue, 27 Aug 2013 03:45:31 -0700 (PDT)
-In-Reply-To: <521B9698.7030803@linux.intel.com>
-References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
-	<CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
-	<521B9698.7030803@linux.intel.com>
-Date: Tue, 27 Aug 2013 11:45:31 +0100
-X-Google-Sender-Auth: oV_paxxpZ-PduzD2R5aWfK-rYmU
-Message-ID: <CAOMwXhMtYV13MZczv+VTRkDEruJQ6aYkVgRpAf+NwizjuYDo6A@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to 2013.07
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: do_root_fs failing on flock command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ml@communistcode.co.uk
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -47,26 +24,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 10:45:31 -0000
-Content-Type: multipart/alternative; boundary=047d7b33d9566e38c004e4eb92ae
+X-List-Received-Date: Tue, 27 Aug 2013 12:07:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---047d7b33d9566e38c004e4eb92ae
-Content-Type: text/plain; charset=ISO-8859-1
+I'm attempting to build core-image-minimal using oe-core + 
+meta-beagleboard on an NFS mount. I'm running into the following error:
 
-On Mon, Aug 26, 2013 at 6:55 PM, Saul Wold <sgw@linux.intel.com> wrote:
-
-> Thanks for the contribution.
+> [jack@archAntec beaglebone]$ bitbake core-image-minimal
+> Loading cache: 100% 
+> |#######################################################################################################| 
+> ETA:  00:00:00
+> Loaded 1193 entries from dependency cache.
 >
+> Build Configuration:
+> BB_VERSION        = "1.19.1"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "Arch-Linux"
+> TARGET_SYS        = "arm-oe-linux-gnueabi"
+> MACHINE           = "beaglebone"
+> DISTRO_VERSION    = "oe-core.0"
+> TUNE_FEATURES     = "armv7a vfp neon"
+> TARGET_FPU        = "vfp-neon"
+> meta              = "master:2ac7783e04f5e8e6005f967e1a6dd65d2fc6a19a"
+> common-bsp        = "master:f02fabd39cd49bf5932fa5f90e83084d49a8cbe2"
+>
+> NOTE: Resolving any missing task queue dependencies
+> NOTE: Preparing runqueue
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> ERROR: Function failed: do_rootfs (log file is located at 
+> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.19520)
+> ERROR: Logfile of failure stored in: 
+> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.19520
+> Log data follows:
+> | DEBUG: Executing python function rootfs_process_ignore
+> | DEBUG: Python function rootfs_process_ignore finished
+> | DEBUG: Executing python function rootfs_runtime_mapping
+> | DEBUG: Python function rootfs_runtime_mapping finished
+> | DEBUG: Executing shell function do_rootfs
+> | flock: 
+> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/deploy/ipk/Packages.flock: 
+> Bad file descriptor
+> | WARNING: 
+> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/run.do_rootfs.19520:1 
+> exit 65 from
+> |   flock $pkgdir/Packages.flock -c "opkg-make-index -r 
+> $pkgdir/Packages -p $pkgdir/Packages -m $pkgdir/"
+> | ERROR: Function failed: do_rootfs (log file is located at 
+> /mnt/mediaserver/Projects/oe-core/beaglebone/tmp-eglibc/work/beaglebone-oe-linux-gnueabi/core-image-minimal/1.0-r0/temp/log.do_rootfs.19520)
+> ERROR: Task 7 
+> (/mnt/mediaserver/Projects/oe-core/meta/recipes-core/images/core-image-minimal.bb, 
+> do_rootfs) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 1580 tasks of which 1579 didn't need to 
+> be rerun and 1 failed.
+> No currently running tasks (1579 of 1581)
+>
+> Summary: 1 task failed:
+> /mnt/mediaserver/Projects/oe-core/meta/recipes-core/images/core-image-minimal.bb, 
+> do_rootfs
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
-Looks my first contribution which is in then! Yay, thanks. :)
+Does anyone have any insight to why this may be failing. It mentions a 
+bad file descriptor, so I assume it is related to building on an NFS mount.
 
--- Laszlo
+Cheers,
+Jack.
 
---047d7b33d9566e38c004e4eb92ae
-Content-Type: text/html; charset=ISO-8859-1
+-- 
+   Jack Mitchell (jack@embed.me.uk)
+   Embedded Systems Engineer
+   Cambrideshire, UK
+   http://www.embed.me.uk
+--
 
-<div dir="ltr">On Mon, Aug 26, 2013 at 6:55 PM, Saul Wold <span dir="ltr">&lt;<a href="mailto:sgw@linux.intel.com" target="_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br><div class="gmail_extra"><div class="gmail_quote">
-<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="im"><span style="color:rgb(34,34,34)">Thanks for the contribution.</span><br></div></blockquote><div><br></div>
-<div>Looks my first contribution which is in then! Yay, thanks. :)</div><div><br></div><div>-- Laszlo</div></div></div></div>
 
---047d7b33d9566e38c004e4eb92ae--
