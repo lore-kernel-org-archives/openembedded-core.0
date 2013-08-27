@@ -1,32 +1,38 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F4D36BA9F
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 96BFA6B275
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 07:10:59 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,966,1367942400"; d="scan'208,217";a="8314996"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 27 Aug 2013 15:07:51 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r7R7AsOs025980
+	Tue, 27 Aug 2013 07:20:11 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id m15so3666028wgh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 15:10:55 +0800
-Received: from G08FNSTD100511 ([10.167.226.63])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013082715085991-979932 ;
-	Tue, 27 Aug 2013 15:08:59 +0800 
-From: "leimaohui" <leimaohui@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Aug 2013 15:10:53 +0800
-Message-ID: <011401cea2f4$92481300$b6d83900$@cn.fujitsu.com>
+	Tue, 27 Aug 2013 00:20:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cvzaEeIl8ZAiyKoGCftaiT2zA3v5DhrxtRgHCIaYBg8=;
+	b=mTSqnWc5etRTZFiXB3cOiMbtRovZJ5IodGihZMAuVM6C083Hhvn12k3uzWh5iUnu/C
+	XoVacnYjeeDRPlaoVnR4OppcIUml5+yUniEIzYCc7vzT3UjPD4LTg3j0A6qXWEg1xFl+
+	triPSPenq7m0jhkVzrQ+OlZ5E+P2GAP2K3U92KF+YE57ZlF6gMpxrEWoxVgjyNtu7PK7
+	KLGAv62drRNufmpXPxo6uPiQqp66Efzr0DcWBhcWYR+zS1LDMdpArZi7ipFcqZhd0atV
+	yfGSG8mFyYCpKlbF0MpUl1JnknWkgNbRg8pBn8Nl5WLU9LUnwtuhI9YhImXeNE88vE44
+	BBnw==
+X-Gm-Message-State: ALoCoQlVayTVKhbkwd1Rp66GJ9mVzWOjPn06F3Z5hn51sj42De1t3jAVb6iopzCUjC9YR6lzpvCI
+X-Received: by 10.180.104.33 with SMTP id gb1mr10297171wib.25.1377588011613;
+	Tue, 27 Aug 2013 00:20:11 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: Ac6i9HWPrUR6k5dFRf+f4d/xOUKbiA==
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/08/27 15:09:00,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/08/27 15:09:00,
-	Serialize complete at 2013/08/27 15:09:00
-Subject: [PATCH 1/1] consolekit_0.4.6.bb: Fix QA error when --enable-udev-acl
+Received: by 10.217.91.198 with HTTP; Tue, 27 Aug 2013 00:19:51 -0700 (PDT)
+X-Originating-IP: [5.13.196.58]
+In-Reply-To: <521BCCD8.6080804@linux.intel.com>
+References: <1377542924-1605-1-git-send-email-andrei.gherzan@windriver.com>
+	<521BCCD8.6080804@linux.intel.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Tue, 27 Aug 2013 10:19:51 +0300
+Message-ID: <CAK18fxGDNu1+fvEZGoKGokTJ8A5Q4bYS4nZQvmrrvQbiCK_rLA@mail.gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: Andrei Gherzan <andrei.gherzan@windriver.com>,
+	openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] eglibc: nscd support depends on OPTION_EGLIBC_INET
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,278 +45,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 07:11:00 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0115_01CEA337.A06DC400"
-Content-Language: zh-cn
+X-List-Received-Date: Tue, 27 Aug 2013 07:20:12 -0000
+Content-Type: multipart/alternative; boundary=f46d0442678e1453c304e4e8b421
 
-------=_NextPart_000_0115_01CEA337.A06DC400
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset="us-ascii"
+--f46d0442678e1453c304e4e8b421
+Content-Type: text/plain; charset=ISO-8859-1
 
-Add EXTRA_OECONF += "--enable-udev-acl" to 
+On Tue, Aug 27, 2013 at 12:47 AM, Saul Wold <sgw@linux.intel.com> wrote:
 
-consolekit_0.4.6.bb whill cause a package_qa error. 
-
-The error message looks like:
-
- 
-
-| ERROR: QA Issue: non debug package contains .debug directory: 
-
-| consolekit path consolekit/0.4.6-r0/packages-split/consolekit/lib/u
-
-| dev/.debug/udev-acl
-
- 
-
-There is a need to add udev-acl file to package instead of "${base_libdir}"
-
- 
-
-Signed-off-by: leimaohui <leimaohui@cn.fujitsu.com>
-
----
-
-diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb 
-
-b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-
-index 63da028..4133f4d 100644
-
---- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-
-+++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-
-@@ -28,9 +28,10 @@ PACKAGECONFIG[policykit] = ",,polkit"
-
-PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=
-
-${systemd_unitdir}/system/,--with-systemdsystemunitdir="
-
- 
-
-FILES_${PN} += "${localstatedir}/log/ConsoleKit ${exec_prefix}/lib/ConsoleKit \
-
--                ${libdir}/ConsoleKit  ${systemd_unitdir} ${base_libdir} \
-
--                ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
-
--FILES_${PN}-dbg += "${base_libdir}/security/.debug"
-
-+                ${libdir}/ConsoleKit  ${systemd_unitdir}
-${base_libdir}/udev/rules.d \
-
-+               ${base_libdir}/udev/udev-acl ${datadir}/dbus-1
-${datadir}/PolicyKit \
-
-+               ${datadir}/polkit*"
-
-+FILES_${PN}-dbg += "${base_libdir}/security/.debug /lib/udev/.debug"
-
- 
-
-PACKAGES =+ "pam-plugin-ck-connector"
-
-FILES_pam-plugin-ck-connector += "${base_libdir}/security/*.so"
-
---
-
-1.7.1
-
- 
+> On 08/26/2013 11:48 AM, Andrei Gherzan wrote:
+>
+>> Add --disable-nscd if DISTRO_FEATURES does not contain ipv4. This
+>> features is
+>> mapped to OPTION_EGLIBC_INET.
+>> The default behavior is to activate nscd (if --disable-nscd is not passed
+>> to
+>> configure script). But nscd depends on OPTION_EGLIBC_INET, so compilation
+>> will
+>> fail if this option is not activated.
+>>
+>>  Does this also need the Package to be set for ALLOW_EMPTY?
+>
+> Sau!
+>
+>
+You're right. V2 is coming. Thanks.
 
 
-------=_NextPart_000_0115_01CEA337.A06DC400
+-- 
+*Andrei Gherzan*
+m: +40.744.478.414 |  f: +40.31.816.28.12
+
+--f46d0442678e1453c304e4e8b421
+Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset="us-ascii"
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
-HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 14 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"MS Gothic";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}
-@font-face
-	{font-family:"MS Gothic";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"\@MS Gothic";
-	panose-1:2 11 6 9 7 2 5 8 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0mm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:"Arial","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"\7EAF\6587\672C Char";
-	margin:0mm;
-	margin-bottom:.0001pt;
-	font-size:10.0pt;
-	font-family:"MS Gothic";}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Arial","sans-serif";
-	color:windowtext;}
-span.Char
-	{mso-style-name:"\7EAF\6587\672C Char";
-	mso-style-priority:99;
-	mso-style-link:\7EAF\6587\672C;
-	font-family:"MS Gothic";}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Arial","sans-serif";}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026">
-<v:textbox inset=3D"5.85pt,.7pt,5.85pt,.7pt" />
-</o:shapedefaults></xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DJA link=3Dblue =
-vlink=3Dpurple style=3D'text-justify-trim:punctuation'><div =
-class=3DWordSection1><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>Add EXTRA_OECONF =
-+=3D &quot;--enable-udev-acl&quot; to <o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>consolekit_0.4.6.bb=
- whill </span><span lang=3DEN-US>cause</span><span lang=3DEN-US =
-style=3D'mso-fareast-language:ZH-CN'> a package_qa error. =
-<o:p></o:p></span></p><p class=3DMsoPlainText><span lang=3DEN-US =
-style=3D'font-family:"Arial","sans-serif"'>The error message looks =
-like:<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'><o:p>&nbsp;</o:p></=
-span></p><p class=3DMsoNormal><span lang=3DEN-US>|</span><span =
-lang=3DEN-US style=3D'mso-fareast-language:ZH-CN'> </span><span =
-lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>ERROR: QA Issue: =
-non debug package contains .debug directory: <o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>| consolekit path =
-consolekit/0.4.6-r0/packages-split/consolekit/lib/u<o:p></o:p></span></p>=
-<p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>| =
-dev/.debug/udev-acl<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'><o:p>&nbsp;</o:p></=
-span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>There is a need to =
-add udev-acl file to package instead of =
-&#8220;${base_libdir}&#8221;<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'><o:p>&nbsp;</o:p></=
-span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>Signed-off-by: =
-leimaohui &lt;<a =
-href=3D"mailto:leimaohui@cn.fujitsu.com">leimaohui@cn.fujitsu.com</a>&gt;=
-<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>---</span><span =
-lang=3DEN-US style=3D'font-size:10.0pt'><o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>diff --git =
-a/meta/recipes-support/consolekit/consolekit_0.4.6.bb =
-<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>b/meta/recipes-supp=
-ort/consolekit/consolekit_0.4.6.bb<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>index =
-63da028..4133f4d 100644<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>--- =
-a/meta/recipes-support/consolekit/consolekit_0.4.6.bb<o:p></o:p></span></=
-p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>+++ =
-b/meta/recipes-support/consolekit/consolekit_0.4.6.bb<o:p></o:p></span></=
-p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>@@ -28,9 +28,10 @@ =
-PACKAGECONFIG[policykit] =3D =
-&quot;,,polkit&quot;<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>PACKAGECONFIG[syste=
-md] =3D &quot;--with-systemdsystemunitdir=3D</span><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'><o:p></o:p></span><=
-/p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>${systemd_unitdir}/=
-system/,--with-systemdsystemunitdir=3D&quot;<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'><o:p>&nbsp;</o:p></=
-span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>FILES_${PN} +=3D =
-&quot;${localstatedir}/log/ConsoleKit ${exec_prefix}/lib/ConsoleKit =
-\<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>-&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-${libdir}/ConsoleKit&nbsp; ${systemd_unitdir} ${base_libdir} =
-\<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>-&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-${datadir}/dbus-1 ${datadir}/PolicyKit =
-${datadir}/polkit*&quot;<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>-FILES_${PN}-dbg =
-+=3D &quot;${base_libdir}/security/.debug&quot;<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>+&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-${libdir}/ConsoleKit&nbsp; ${systemd_unitdir} =
-${base_libdir}/udev/rules.d \<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>+&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-${base_libdir}/udev/udev-acl ${datadir}/dbus-1 ${datadir}/PolicyKit =
-\<o:p></o:p></span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>+&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
-${datadir}/polkit*&quot;<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>+FILES_${PN}-dbg =
-+=3D &quot;${base_libdir}/security/.debug =
-/lib/udev/.debug&quot;<o:p></o:p></span></p><p class=3DMsoNormal><span =
-lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'><o:p>&nbsp;</o:p></=
-span></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>PACKAGES =3D+ =
-&quot;pam-plugin-ck-connector&quot;<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>FILES_pam-plugin-ck=
--connector +=3D =
-&quot;${base_libdir}/security/*.so&quot;<o:p></o:p></span></p><p =
-class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>--<o:p></o:p></span=
-></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt;mso-fareast-language:ZH-CN'>1.7.1<o:p></o:p></s=
-pan></p><p class=3DMsoNormal><span lang=3DEN-US =
-style=3D'font-size:10.0pt'><o:p>&nbsp;</o:p></span></p></div></body></htm=
-l>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Tue, Aug 27, 2013 at 12:47 AM, Saul Wold <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com=
+</a>&gt;</span> wrote:<br>
 
-------=_NextPart_000_0115_01CEA337.A06DC400--
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On 08/26/2013 11:48 AM, An=
+drei Gherzan wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Add --disable-nscd if DISTRO_FEATURES does not contain ipv4. This features =
+is<br>
+mapped to OPTION_EGLIBC_INET.<br>
+The default behavior is to activate nscd (if --disable-nscd is not passed t=
+o<br>
+configure script). But nscd depends on OPTION_EGLIBC_INET, so compilation w=
+ill<br>
+fail if this option is not activated.<br>
+<br>
+</blockquote></div>
+Does this also need the Package to be set for ALLOW_EMPTY?<br>
+<br>
+Sau!<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote><d=
+iv><br></div><div style>You&#39;re right. V2 is coming. Thanks.=A0</div></d=
+iv><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"><div style=3D"t=
+ext-align:center">
+
+</div><div style=3D"text-align:center"><div align=3D"left" style=3D"font-fa=
+mily:&#39;Times New Roman&#39;;font-size:medium"><b style=3D"color:rgb(51,5=
+1,51);font-family:Arial;font-size:small;text-align:center">Andrei Gherzan</=
+b><font face=3D"Arial" color=3D"#333333" size=3D"-1"><br>
+
+</font><font face=3D"Arial" color=3D"#333333" size=3D"-1">m: +40.744.478.41=
+4 | =A0f: +40.31.816.28.12</font><br></div></div></div>
+</div></div>
+
+--f46d0442678e1453c304e4e8b421--
