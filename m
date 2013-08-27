@@ -1,29 +1,27 @@
-Return-Path: <Mikhail_Durnev@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id A71AD6ABA5
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D1C76BA1B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 06:36:09 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1VECsr-0004lc-6E from Mikhail_Durnev@mentor.com ;
-	Mon, 26 Aug 2013 23:36:09 -0700
-Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Mon, 26 Aug 2013 23:36:08 -0700
-Received: from [172.30.176.89] (147.34.91.1) by SVR-ORW-FEM-04.mgc.mentorg.com
-	(147.34.97.41) with Microsoft SMTP Server (TLS) id 14.2.247.3;
-	Mon, 26 Aug 2013 23:36:08 -0700
-Message-ID: <521C48D3.3010901@mentor.com>
-Date: Tue, 27 Aug 2013 17:36:03 +1100
-From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+	Tue, 27 Aug 2013 06:52:45 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Aug 2013 23:52:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,966,1367996400"; d="scan'208";a="392524403"
+Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Aug 2013 23:52:45 -0700
+Message-ID: <521C4CBD.3070506@linux.intel.com>
+Date: Mon, 26 Aug 2013 23:52:45 -0700
+From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: <paul.eggleton@linux.intel.com>
-X-OriginalArrivalTime: 27 Aug 2013 06:36:08.0856 (UTC)
-	FILETIME=[B6D41980:01CEA2EF]
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: classes/insane: add check for PN in OVERRIDES
+To: Li Zhijian <lizhijian@cn.fujitsu.com>
+References: <1377596639-26980-1-git-send-email-lizhijian@cn.fujitsu.com>
+	<521BFA2A.4090508@linux.intel.com>
+	<521C2BDB.3020503@cn.fujitsu.com>
+In-Reply-To: <521C2BDB.3020503@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] grep-2.5.1a: fix grep for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +34,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 06:36:09 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Aug 2013 06:52:46 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hello Paul,
+On 08/26/2013 09:32 PM, Li Zhijian wrote:
+> ...skip... at 2013-8-27 9:00, Saul Wold wrote:
+>>> diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb
+>>> b/meta/recipes-extended/grep/grep_2.5.1a.bb index
+>>> 088959c..d964d84 100644 ---
+>>> a/meta/recipes-extended/grep/grep_2.5.1a.bb +++
+>>> b/meta/recipes-extended/grep/grep_2.5.1a.bb @@ -5,7 +5,7 @@
+>>> SECTION = "console/utils" LICENSE = "GPLv2" LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
+>>>
+>>> -PR = "r2" +PR = "r3"
+>>>
+>>> SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
+>>> file://uclibc-fix.patch \ @@ -13,8 +13,25 @@ SRC_URI =
+>>> "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \ file://gettext.patch \
+>>> file://fix64-int-to-pointer.patch \ file://Makevars \ -
+>>> file://grep-CVE-2012-5667.patch \
+>>
+>> Why are you removing this patch?
+>>
+>> Will an update to 2.5.3 accomplish the same thing as these
+>> patches?
+>>
+>> Also all of your patches above are missing Upstream-Status and
+>> Signed-off-by:
+>>
+>> See the Patch Guildlines on OE-Core:
+>> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>>
+>> Thanks
+>>
+>> Sau!
+>>
+>>
+> ...skip...
+>>> + file://grep-CVE-2012-5667.patch \
+> ...skip...
+>
+> Thank a lots for your comments.
+>
+> This patch is not removed ,it is here ↑
+>
+> I don't know what's fixed bettwen 2.5.1a an 2.5.3, but grep-2.5.3
+> LICENSE is GPLv3+ differed from 2.5.1a(GPLv2)
+>
+> The Guildlines is very helpful for me. But those patch is come from
+> grep-2.5.1-55.el5.src.rpm and I have not research this patch's
+> Upstream-Status and Signed-off-by So I am sorry about that
+>
 
-I have a question about your commit c331f0a:
+Please review the recipes and licenesing, since it seems the we might
+have multiple versions and the license fields are incorrect for both.
 
--------------------------------------------
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 4d2392e..fb18022 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -907,6 +907,11 @@ python () {
-      if d.getVar('do_stage', True) is not None:
-          bb.fatal("Legacy staging found for %s as it has a do_stage 
-function. This will need conversion to a do_install or often simply 
-removal to work with OE-core" % d.getVar("FILE", True))
+If there are both v2 and v3 versions, we need to ensure which is correct.
 
-+    overrides = d.getVar('OVERRIDES', True).split(':')
-+    pn = d.getVar('PN', True)
-+    if pn in overrides:
-+        bb.warn('Recipe %s has PN of "%s" which is in OVERRIDES, this 
-can result in unexpected behaviour.' % (d.getVar("FILE", True), pn))
-+
-      issues = []
-      if (d.getVar('PACKAGES', True) or "").split():
-          for var in 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 
-'RCONFLICTS', 'RPROVIDES', 'RREPLACES', 'FILES', 'pkg_preinst', 
-'pkg_postinst', 'pkg_prerm', 'pkg_postrm', 'ALLOW_EMPTY':
-----------------------------------------------
+Thanks
+	Sau!
 
-A recipe (lets say linux_git.bb) has its PN in OVERRIDES with prefix 
-'pn-' (pn-linux). So, if we have 'linux' in OVERRIDES then it cannot 
-interfere. Should we search for pn-${PN} instead? E.g.:
-
-     overrides = d.getVar('OVERRIDES', True).split(':')
-     pn = d.getVar('PN', True)
-     if ("pn-%s" % pn) in overrides:
-         bb.warn('Recipe %s has PN of "%s" which is in OVERRIDES, this 
-can result in unexpected behaviour.' % (d.getVar("FILE", True), pn))
-
-Thanks,
-Mikhail
+> Thanks Li,
+>
+>
+>
 
