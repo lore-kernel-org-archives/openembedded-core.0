@@ -1,37 +1,36 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 99B7A6B8CD
+Return-Path: <lizhijian@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 677BB6AE6C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 02:40:27 +0000 (UTC)
-Received: by mail-pa0-f54.google.com with SMTP id kx10so4216677pab.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 26 Aug 2013 19:40:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Vp2OXQDEF42o8kCq25toAhg0QzqWvelMCPx+wct8qsc=;
-	b=UINtFt8aozEgwRiNgOF2FU1EEKKrYmYQVIldX4lqWB1Rh6qjWd9uN1OFiHQ7FBim9H
-	TarSkU+JMzlr5p+MTrvRsiQKSb2YBVvO+8fK6eLM1J4QMa4lPS5dqca1HEw1Rdh7A7M2
-	4EnZzJpU63dUQF62Jm5RB82zAFJEm7ppJwC1sGNz40TNaD6GbfPz7Aoolqht4ye7Z0aW
-	MXftDYFDWvjO/ZBFZWNvJRzLqJ72+YK+wreZht2i1sDtMDyjvXJKHf235dsC5/5acWDd
-	7hZuaYrPPqgcF7AZ9CPrhpq83FcgyFq9/TG2eiadxItQIyAyi7nVq3p5GbcNd55C5Za+
-	3AvA==
+	Tue, 27 Aug 2013 04:32:43 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.89,965,1367942400"; 
+   d="scan'208";a="8313242"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 27 Aug 2013 12:29:33 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r7R4Wca5013852;
+	Tue, 27 Aug 2013 12:32:38 +0800
+Received: from [127.0.0.1] ([10.167.226.56])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013082712304384-975918 ;
+	Tue, 27 Aug 2013 12:30:43 +0800 
+Message-ID: <521C2BDB.3020503@cn.fujitsu.com>
+Date: Tue, 27 Aug 2013 12:32:27 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+Organization: fnst-ulinux
+User-Agent: Mozilla/5.0 (Windows NT 5.1;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-X-Received: by 10.68.253.161 with SMTP id ab1mr18443039pbd.76.1377571227594;
-	Mon, 26 Aug 2013 19:40:27 -0700 (PDT)
-Received: by 10.70.35.235 with HTTP; Mon, 26 Aug 2013 19:40:27 -0700 (PDT)
-In-Reply-To: <a7cb7b0c2c43a8cc4c45608ed805dbf015e4fdc6.1377145501.git.raj.khem@gmail.com>
-References: <cover.1377145501.git.raj.khem@gmail.com>
-	<39306cf37bfb1b6ccf99c049498d6b4cf6c60976.1377145501.git.raj.khem@gmail.com>
-	<a7cb7b0c2c43a8cc4c45608ed805dbf015e4fdc6.1377145501.git.raj.khem@gmail.com>
-Date: Tue, 27 Aug 2013 12:40:27 +1000
-Message-ID: <CANwerB1Sj-YRkr=0i2TrWzraD4rWQmsnJOWoh4Kwoo3eJsor7Q@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] systemd: Upgrade to 206
+To: Saul Wold <sgw@linux.intel.com>
+References: <1377596639-26980-1-git-send-email-lizhijian@cn.fujitsu.com>
+	<521BFA2A.4090508@linux.intel.com>
+In-Reply-To: <521BFA2A.4090508@linux.intel.com>
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/08/27 12:30:43,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/08/27 12:30:44
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] grep-2.5.1a: fix grep for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +43,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 02:40:28 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 27 Aug 2013 04:32:43 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On 22 August 2013 14:31, Khem Raj <raj.khem@gmail.com> wrote:
-> Add new PACKAGE systemd-rpm-macros, this will hold
-> the macros which are interesting when rpm is used as
-> package management backend
+...skip...
+at 2013-8-27 9:00, Saul Wold wrote:
+>> diff --git a/meta/recipes-extended/grep/grep=5F2.5.1a.bb b/meta/recipes-=
+extended/grep/grep=5F2.5.1a.bb
+>> index 088959c..d964d84 100644
+>> --- a/meta/recipes-extended/grep/grep=5F2.5.1a.bb
+>> +++ b/meta/recipes-extended/grep/grep=5F2.5.1a.bb
+>> @@ -5,7 +5,7 @@ SECTION =3D "console/utils"
+>> LICENSE =3D "GPLv2"
+>> LIC=5FFILES=5FCHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32=
+c317bb3"
+>>
+>> -PR =3D "r2"
+>> +PR =3D "r3"
+>>
+>> SRC=5FURI =3D "${GNU=5FMIRROR}/grep/grep-${PV}.tar.bz2 \
+>> file://uclibc-fix.patch \
+>> @@ -13,8 +13,25 @@ SRC=5FURI =3D "${GNU=5FMIRROR}/grep/grep-${PV}.tar.bz=
+2 \
+>> file://gettext.patch \
+>> file://fix64-int-to-pointer.patch \
+>> file://Makevars \
+>> - file://grep-CVE-2012-5667.patch \
 >
-> Forward port uclibc only patches. Add a new patch
-> to stub out use of preadv/pwritev in testcases
+> Why are you removing this patch?
 >
-> Delete patches that have been merged upstream in systemd
+> Will an update to 2.5.3 accomplish the same thing as these patches?
 >
-> Remove force export of GPERF variable in environment
-> this was causing AC_CHECK_TOOL to not populate GPERF
-> variable as expected
+> Also all of your patches above are missing Upstream-Status and Signed-off=
+-by:
 >
-> systemd needs kmod to be present on rootfs so add it
-> to RDEPENDS
+> See the Patch Guildlines on OE-Core:
+> http://www.openembedded.org/wiki/Commit=5FPatch=5FMessage=5FGuidelines
 >
-> some services substitute discovered kmod when the service
-> file is generated during boot, however the discovered kmod
-> is from native sysroot and it gets into the service file
-> with absolute path. So specify the target path of kmod using
-> KMOD variable so the unit files have correct pointer to kmod
-> on target
+> Thanks
 >
-> Add a patch to make sure that mknod capability is checked
-> before the service which excercise mknod, this patch is also
-> submitted to upstream systemd
+> Sau!
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+...skip...
+>> + file://grep-CVE-2012-5667.patch \
+...skip...
 
-Arch Linux had some issues with systemd 206 with regard to device
-nodes in /dev getting wrong permissions:
-https://bugs.archlinux.org/task/36259
+Thank a lots for your comments.
 
-I wonder if we need to add patches for that as well:
-http://cgit.freedesktop.org/systemd/systemd/patch/?id=15a722007dc1d8a9a11934b2ab528cf4d25b6c62
-http://cgit.freedesktop.org/systemd/systemd/patch/?id=a2aced4add1964f82cfd250f1fee8de9d974b507
-http://cgit.freedesktop.org/systemd/systemd/patch/?id=5c7951141fa9f33e1b97de97586cc16bce2776e0
-http://cgit.freedesktop.org/systemd/systemd/patch/?id=ec99834cb0e76a9e7096bd42249053712db9c32d
+This patch is not removed ,it is here =E2=86=91
 
-Regards,
-Jonathan
+I don't know what's fixed bettwen 2.5.1a an 2.5.3, but
+grep-2.5.3 LICENSE is GPLv3+ differed from 2.5.1a(GPLv2)
+
+The Guildlines is very helpful for me. But those patch is come
+from grep-2.5.1-55.el5.src.rpm and I have not research this patch's
+Upstream-Status and Signed-off-by
+So I am sorry about that
+
+Thanks
+Li,
+
+
+
+--=20
+Best regards.
+Li Zhijian (8555)
+
+
+=
+
 
