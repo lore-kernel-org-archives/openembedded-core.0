@@ -1,26 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 330B56BA9F
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D9866BA88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 07:07:46 +0000 (UTC)
+	Tue, 27 Aug 2013 07:07:44 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7R77kpc005169
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7R77itp005636
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 00:07:46 -0700 (PDT)
+	Tue, 27 Aug 2013 03:07:44 -0400 (EDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 27 Aug 2013 00:07:46 -0700
+	14.2.342.3; Tue, 27 Aug 2013 00:07:43 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Aug 2013 15:08:00 +0800
-Message-ID: <e071a6a03a66f2765c8943e737de00215a9a4b7c.1377587203.git.Qi.Chen@windriver.com>
+Date: Tue, 27 Aug 2013 15:07:59 +0800
+Message-ID: <cover.1377587203.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1377587203.git.Qi.Chen@windriver.com>
-References: <cover.1377587203.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] runqemu-ifdown: clean up the remaining iptables rules
+Subject: [PATCH 0/4] runqemu fixes about iptables rules and preconfigured tap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +36,25 @@ Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The iptables rules for the tap interface are added by runqemu-ifup
-everytime we use runqemu to start a qemu target. But it's not cleaned
-up when runqemu exits.
+The following changes since commit 44c3f72684c5c920ce8af1da54a2268047342589:
 
-This patch cleans up the remaining iptables rules for the tap interface
-in runqemu-ifdown.
+  lib/oeqa/runtime: smart: add checks for smart output (2013-08-26 16:29:18 +0100)
 
-[YOCTO #5047]
+are available in the git repository at:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- scripts/runqemu-ifdown |   14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+  git://git.pokylinux.org/poky-contrib ChenQi/runqemu-fixes
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/runqemu-fixes
 
-diff --git a/scripts/runqemu-ifdown b/scripts/runqemu-ifdown
-index 8b8c5a4..8f66cfa2 100755
---- a/scripts/runqemu-ifdown
-+++ b/scripts/runqemu-ifdown
-@@ -50,3 +50,17 @@ if [ ! -e "$TUNCTL" ]; then
- fi
- 
- $TUNCTL -d $TAP
-+
-+# cleanup the remaining iptables rules
-+IPTABLES=`which iptables 2> /dev/null`
-+if [ "x$IPTABLES" = "x" ]; then
-+	IPTABLES=/sbin/iptables
-+fi
-+if [ ! -x "$IPTABLES" ]; then
-+	echo "$IPTABLES cannot be executed"
-+	exit 1
-+fi
-+n=$[ (`echo $TAP | sed 's/tap//'` * 2) + 1 ]
-+dest=$[ (`echo $TAP | sed 's/tap//'` * 2) + 2 ]
-+$IPTABLES -D POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$n/32
-+$IPTABLES -D POSTROUTING -t nat -j MASQUERADE -s 192.168.7.$dest/32
+Chen Qi (4):
+  runqemu-ifdown: clean up the remaining iptables rules
+  runqemu-internal: don't bring down preconfigured tap interface
+  runqemu-internal: change the lock acquire/release logic
+  runqemu-internal: provide more info if a preconfigured tap is used
+
+ scripts/runqemu-ifdown   |   14 ++++++++++++++
+ scripts/runqemu-internal |   20 ++++++++++----------
+ 2 files changed, 24 insertions(+), 10 deletions(-)
+
 -- 
 1.7.9.5
 
