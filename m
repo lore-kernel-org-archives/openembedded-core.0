@@ -1,23 +1,29 @@
-Return-Path: <tom.zanussi@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id BC2B26BA1B
+Return-Path: <Mikhail_Durnev@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id A71AD6ABA5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 05:24:49 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Aug 2013 22:24:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,965,1367996400"; d="scan'208";a="386929151"
-Received: from unknown (HELO localhost) ([10.255.15.83])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2013 22:24:30 -0700
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2013 00:24:29 -0500
-Message-Id: <c5b965fbc9d5b94dbe8d4ec2d864e429db5e0e57.1377580874.git.tom.zanussi@linux.intel.com>
-X-Mailer: git-send-email 1.7.11.4
-In-Reply-To: <cover.1377580874.git.tom.zanussi@linux.intel.com>
-References: <cover.1377580874.git.tom.zanussi@linux.intel.com>
-Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 1/1] lttng-modules: Update to 2.2.1 based release
+	Tue, 27 Aug 2013 06:36:09 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1VECsr-0004lc-6E from Mikhail_Durnev@mentor.com ;
+	Mon, 26 Aug 2013 23:36:09 -0700
+Received: from SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Mon, 26 Aug 2013 23:36:08 -0700
+Received: from [172.30.176.89] (147.34.91.1) by SVR-ORW-FEM-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server (TLS) id 14.2.247.3;
+	Mon, 26 Aug 2013 23:36:08 -0700
+Message-ID: <521C48D3.3010901@mentor.com>
+Date: Tue, 27 Aug 2013 17:36:03 +1100
+From: Mikhail Durnev <Mikhail_Durnev@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: <paul.eggleton@linux.intel.com>
+X-OriginalArrivalTime: 27 Aug 2013 06:36:08.0856 (UTC)
+	FILETIME=[B6D41980:01CEA2EF]
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: classes/insane: add check for PN in OVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,29 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 05:24:49 -0000
+X-List-Received-Date: Tue, 27 Aug 2013 06:36:09 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
----
- meta/recipes-kernel/lttng/lttng-modules_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hello Paul,
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
-index 3a92879..351b0c8 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_git.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
-@@ -10,8 +10,8 @@ DEPENDS = "virtual/kernel"
- 
- inherit module
- 
--SRCREV = "1b26381c19dd2d9fa41f52d8dc13b15b8dd32c7c"
--PV = "2.2.0+git${SRCPV}"
-+SRCREV = "10fe4e3f10c9ce1f2963bd118b91895a67e955ee"
-+PV = "2.2.1+git${SRCPV}"
- 
- SRC_URI = "git://git.lttng.org/lttng-modules.git;protocol=git \
-            file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch"
--- 
-1.7.11.4
+I have a question about your commit c331f0a:
 
+-------------------------------------------
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 4d2392e..fb18022 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -907,6 +907,11 @@ python () {
+      if d.getVar('do_stage', True) is not None:
+          bb.fatal("Legacy staging found for %s as it has a do_stage 
+function. This will need conversion to a do_install or often simply 
+removal to work with OE-core" % d.getVar("FILE", True))
+
++    overrides = d.getVar('OVERRIDES', True).split(':')
++    pn = d.getVar('PN', True)
++    if pn in overrides:
++        bb.warn('Recipe %s has PN of "%s" which is in OVERRIDES, this 
+can result in unexpected behaviour.' % (d.getVar("FILE", True), pn))
++
+      issues = []
+      if (d.getVar('PACKAGES', True) or "").split():
+          for var in 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 
+'RCONFLICTS', 'RPROVIDES', 'RREPLACES', 'FILES', 'pkg_preinst', 
+'pkg_postinst', 'pkg_prerm', 'pkg_postrm', 'ALLOW_EMPTY':
+----------------------------------------------
+
+A recipe (lets say linux_git.bb) has its PN in OVERRIDES with prefix 
+'pn-' (pn-linux). So, if we have 'linux' in OVERRIDES then it cannot 
+interfere. Should we search for pn-${PN} instead? E.g.:
+
+     overrides = d.getVar('OVERRIDES', True).split(':')
+     pn = d.getVar('PN', True)
+     if ("pn-%s" % pn) in overrides:
+         bb.warn('Recipe %s has PN of "%s" which is in OVERRIDES, this 
+can result in unexpected behaviour.' % (d.getVar("FILE", True), pn))
+
+Thanks,
+Mikhail
 
