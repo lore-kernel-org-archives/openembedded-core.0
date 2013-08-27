@@ -1,34 +1,39 @@
-Return-Path: <pabigot@gmail.com>
-Received: from mail-oa0-f53.google.com (mail-oa0-f53.google.com
-	[209.85.219.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E337C61F47
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
+	[209.85.160.46])
+	by mail.openembedded.org (Postfix) with ESMTP id EB1086BB90
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 19:59:24 +0000 (UTC)
-Received: by mail-oa0-f53.google.com with SMTP id k18so6300885oag.12
+	Tue, 27 Aug 2013 20:03:16 +0000 (UTC)
+Received: by mail-pb0-f46.google.com with SMTP id rq2so5257834pbb.19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 12:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=SgSfQwPv5lDD4OE1nnFwGrVT9X6IB7vBdlRlNMFxRa8=;
-	b=OUs8IQ63yoOJoOTYSXBD1k/nXmSpmXRuX161oTZTIJEMo9mYXg49yDfXIBcknci/T4
-	5dslfPKQrNKm+WsoqtVOZ6Gw6z4NytYBrpSwULsQYDPfWL3KhiYtEYzYUiCvRwM1xXkm
-	YaNM3nFF8yEpFtOWGhDboQN43qjcTMPoGBPIadSyPGWaXRVCYD/cVRmyd9aSRWJnHA+o
-	w2OlG/naEgdr8SILz40JrUVC5n8P6ICBafgAw1AMqOcyc2v3xtssnygO9+pnBeSzrsp7
-	52rt3z4w3r24Z90SFFzqoKhn0HzXYM3xE5n60g8zLvEAM6XJeL1ewZTpQo+CkRpf8UKr
-	HC6A==
-X-Received: by 10.60.44.193 with SMTP id g1mr7908802oem.47.1377633565249;
-	Tue, 27 Aug 2013 12:59:25 -0700 (PDT)
-Received: from llc.pab (c-66-41-60-82.hsd1.mn.comcast.net. [66.41.60.82])
-	by mx.google.com with ESMTPSA id ru3sm21692208obc.2.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 27 Aug 2013 12:59:24 -0700 (PDT)
-Sender: Peter Bigot <pabigot@gmail.com>
-From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2013 14:59:11 -0500
-Message-Id: <1377633551-11880-1-git-send-email-pab@pabigot.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] oe-setup-rpmrepo: add native sysroot so nativepython can be found by env
+	Tue, 27 Aug 2013 13:03:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=tYH8KAot3SbVJ4Kf3C16DcTowkhpL5FS+W58pmmIAFc=;
+	b=ctfNrWjF9/MoVJGHtj5DujDh8/RafuR/a+jrKTsa01/VgPijnAekcruhb55KqhkmmP
+	xQJhzmJ3ZKhLgos7L0niOf6KtQrXJ08NM8kd/jsmamUFuI1lfKFxGG09g+10OJ+aRXJ8
+	LMQHFDInE321/EM6gg4TUTH1H35NTYb3X9uci4EZ6pBaJAgcD8JLh1fO1nu48cqvu5Ip
+	rmqZzCJsKqJ1PsuIArt5+dA4f2GdiToC0gzfQOimBVxBciZ/1G3H5SzrmNzl2koYqjVs
+	3K800QnOhSmmceThdWhgfk7CNR+fsyf//uP2/LdWtx2PJtBfJRTv7r+cLRa+8VgYmmOE
+	Ffag==
+X-Gm-Message-State: ALoCoQkRXtAkAEUkp53n3ode7Bnbs2uPfF62WSw0BRt4LfNGNnUZk396lejMWHElINtm4GaVb91k
+MIME-Version: 1.0
+X-Received: by 10.68.48.166 with SMTP id m6mr23058228pbn.105.1377633797903;
+	Tue, 27 Aug 2013 13:03:17 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.234 with HTTP; Tue, 27 Aug 2013 13:03:17 -0700 (PDT)
+In-Reply-To: <521D0495.203@windriver.com>
+References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+	<521D0495.203@windriver.com>
+Date: Tue, 27 Aug 2013 21:03:17 +0100
+X-Google-Sender-Auth: 3IrDFL7Xd1OEAMqNcAZ08jBO2IQ
+Message-ID: <CAOMwXhMb2=UT-NBkvNaat_OKrMYhnTUU394fnfCeLC8yBtYHEw@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +46,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 19:59:25 -0000
+X-List-Received-Date: Tue, 27 Aug 2013 20:03:17 -0000
+Content-Type: multipart/alternative; boundary=bcaec53aedb227bb6204e4f35d6a
 
-From: "Peter A. Bigot" <pab@pabigot.com>
+--bcaec53aedb227bb6204e4f35d6a
+Content-Type: text/plain; charset=ISO-8859-1
 
-This avoids the following new behavior resulting from the create_wrapper
-fixes:
+On Tue, Aug 27, 2013 at 8:57 PM, Randy MacLeod
+<randy.macleod@windriver.com>wrote:
 
-  llc[11]$ ../poky/scripts/oe-setup-rpmrepo
-  /usr/bin/env: nativepython: No such file or directory
+> Am I missing something or are people just copying and pasting the text?
+>
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- scripts/oe-setup-rpmrepo |    1 +
- 1 file changed, 1 insertion(+)
+I was just copying and pasting it.
 
-diff --git a/scripts/oe-setup-rpmrepo b/scripts/oe-setup-rpmrepo
-index ea885f6..917b98b 100755
---- a/scripts/oe-setup-rpmrepo
-+++ b/scripts/oe-setup-rpmrepo
-@@ -90,6 +90,7 @@ if [ ! -e "$CREATEREPO" ]; then
- 	exit 1
- fi
- 
-+export PATH=${PATH}:${OECORE_NATIVE_SYSROOT}/usr/bin
- 
- $CREATEREPO "$RPM_DIR"
- 
--- 
-1.7.9.5
+--bcaec53aedb227bb6204e4f35d6a
+Content-Type: text/html; charset=ISO-8859-1
 
+<div dir="ltr">On Tue, Aug 27, 2013 at 8:57 PM, Randy MacLeod <span dir="ltr">&lt;<a href="mailto:randy.macleod@windriver.com" target="_blank">randy.macleod@windriver.com</a>&gt;</span> wrote:<br><div class="gmail_extra"><div class="gmail_quote">
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="im"><span style="color:rgb(34,34,34)">Am I missing something or are people just copying and pasting the text?</span><br>
+</div></blockquote><div><br></div><div>I was just copying and pasting it.</div></div></div></div>
 
+--bcaec53aedb227bb6204e4f35d6a--
