@@ -1,24 +1,40 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 23AEA6A95B
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pb0-f42.google.com (mail-pb0-f42.google.com
+	[209.85.160.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 363B36AF4A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 10:43:46 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VEGkO-0006sz-Gg; Tue, 27 Aug 2013 12:43:40 +0200
-Message-ID: <1377600219.5452.60.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
+	Tue, 27 Aug 2013 10:45:31 +0000 (UTC)
+Received: by mail-pb0-f42.google.com with SMTP id un15so4693895pbc.29
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 27 Aug 2013 03:45:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=5q9Lvjjd3uzxNcbXiILPpwHEpLnlL7BSPSfn5oI1rnI=;
+	b=nTtCfAOeHSPKVgQypdiPmJl/cLAUZv1nSZ7LIzTLxlEtAs9+sOVP3U9edYbbuqWaoF
+	bCgzK8J8nbDUvxusmJKaNjHnZ60vlGToNgG0UMbL1Lzs6Ww33bh4e0b4sMo48Bu40oCR
+	dfRZCsSum/XGVtZMOoV3Po0mfi9ATCm2hbPfr2sByO/uGOc18kuX+Qs7XduVey17I0RX
+	gJvHU6IjF3tUA+3X3pv0RBFQoi2l0+J/KkHeLV17MTAHvE4ca2pMiV+gC9Sh2xf3FFKw
+	rIHboVirvyLmocqt2ZuSkRpGlWgex/fboIq3X0IiqhjAgfsFqZ0oyqaNJlHLY3ofu749
+	MwbQ==
+X-Gm-Message-State: ALoCoQnMGIxN9t6tQ1LODQrYRShs7QrajceXIaKXfp9HbSsGPwjix0DKRuTz1S+OH+K2B8RKBATS
+MIME-Version: 1.0
+X-Received: by 10.68.234.41 with SMTP id ub9mr1134533pbc.201.1377600331981;
+	Tue, 27 Aug 2013 03:45:31 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.234 with HTTP; Tue, 27 Aug 2013 03:45:31 -0700 (PDT)
+In-Reply-To: <521B9698.7030803@linux.intel.com>
+References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+	<CAOMwXhNWFicCJ1C4-Cd+9shAhTGuXkFu+885R8NfMurEZ+6rCQ@mail.gmail.com>
+	<521B9698.7030803@linux.intel.com>
+Date: Tue, 27 Aug 2013 11:45:31 +0100
+X-Google-Sender-Auth: oV_paxxpZ-PduzD2R5aWfK-rYmU
+Message-ID: <CAOMwXhMtYV13MZczv+VTRkDEruJQ6aYkVgRpAf+NwizjuYDo6A@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
 To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 27 Aug 2013 11:43:39 +0100
-In-Reply-To: <521BFA2A.4090508@linux.intel.com>
-References: <1377596639-26980-1-git-send-email-lizhijian@cn.fujitsu.com>
-	<521BFA2A.4090508@linux.intel.com>
-X-Mailer: Evolution 3.4.4-3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] grep-2.5.1a: fix grep for LSB compliance
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,64 +47,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 10:43:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 27 Aug 2013 10:45:31 -0000
+Content-Type: multipart/alternative; boundary=047d7b33d9566e38c004e4eb92ae
 
-On Mon, 2013-08-26 at 18:00 -0700, Saul Wold wrote:
-> On 08/27/2013 02:43 AM, Li Zhijian wrote:
-> > add patch from grep-2.5.1-55.el5.src.rpm and
-> > enable configration option of --without-include-regex
-> >
-> > LSB core-tests failed at /tset/LI18NUX2K.L1/utils/grep-tp/T.grep-tp 5,T.egrep-tp 5
-> > which is intend to verify this utility can perform pattern matching in searches
-> > without regard to case if -i option is specified.
-> >
-> > Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
-> >   SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
-> >              file://uclibc-fix.patch \
-> > @@ -13,8 +13,25 @@ SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
-> >              file://gettext.patch \
-> >              file://fix64-int-to-pointer.patch \
-> >              file://Makevars \
-> > -           file://grep-CVE-2012-5667.patch \
-> 
-> Why are you removing this patch?
+--047d7b33d9566e38c004e4eb92ae
+Content-Type: text/plain; charset=ISO-8859-1
 
-He didn't actually remove it, he just moved it further down the list.
-But...
+On Mon, Aug 26, 2013 at 6:55 PM, Saul Wold <sgw@linux.intel.com> wrote:
 
-> >              file://fix-for-texinfo-5.1.patch \
-> > +           file://grep-2.5.1-fgrep.patch \
-> > +           file://grep-2.5.1-bracket.patch \
-> > +           file://grep-2.5-i18n.patch \
-> > +           file://grep-2.5.1-oi.patch \
-> > +           file://grep-2.5.1-manpage.patch \
-> > +           file://grep-2.5.1-color.patch \
-> > +           file://grep-2.5.1-icolor.patch \
-> > +           file://grep-skip.patch \
-> > +           file://grep-2.5.1-egf-speedup.patch \
-> > +           file://grep-2.5.1-dfa-optional.patch \
-> > +           file://grep-2.5.1-tests.patch \
-> > +           file://grep-2.5.1-w.patch \
-> > +           file://grep-P.patch \
-> > +           file://grep-CVE-2012-5667.patch \
-> > +           file://grep-empty-pattern.patch \
-> > +           file://grep-bz460641.patch \
-> > +           file://grep-bz434934.patch \
-> > +           file://grep-man-label.patch \
+> Thanks for the contribution.
+>
 
-... it's fairly hard to believe that all these patches are really
-necessary to fix the problem with "grep -i" that's described in the
-checkin message.  It looks as though a more accurate description of this
-change would be something like "grep-2.5.1a: import all patches from
-RHEL".
+Looks my first contribution which is in then! Yay, thanks. :)
 
-Also, although adding --without-included-regex probably is a good thing
-(and probably ought to be done for grep-2.14 as well) it's not very
-obvious that this has anything to do with the LSB fix either.
+-- Laszlo
 
-p.
+--047d7b33d9566e38c004e4eb92ae
+Content-Type: text/html; charset=ISO-8859-1
 
+<div dir="ltr">On Mon, Aug 26, 2013 at 6:55 PM, Saul Wold <span dir="ltr">&lt;<a href="mailto:sgw@linux.intel.com" target="_blank">sgw@linux.intel.com</a>&gt;</span> wrote:<br><div class="gmail_extra"><div class="gmail_quote">
+<blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class="im"><span style="color:rgb(34,34,34)">Thanks for the contribution.</span><br></div></blockquote><div><br></div>
+<div>Looks my first contribution which is in then! Yay, thanks. :)</div><div><br></div><div>-- Laszlo</div></div></div></div>
 
-
+--047d7b33d9566e38c004e4eb92ae--
