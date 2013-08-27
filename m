@@ -1,25 +1,21 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 716EB61F47
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa07-06.prod.phx3.secureserver.net
+	(p3plsmtpa07-06.prod.phx3.secureserver.net [173.201.192.235])
+	by mail.openembedded.org (Postfix) with ESMTP id 49CCE61F47
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 18:48:13 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
-	helo=[192.168.114.7])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VEOJJ-0007zi-PD; Tue, 27 Aug 2013 20:48:13 +0200
-Message-ID: <1377629276.4083.101.camel@x121e.pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 27 Aug 2013 19:47:56 +0100
-In-Reply-To: <621ba27fe578346e2feae489fba4d576148299fc.1377623208.git.raj.khem@gmail.com>
-References: <569ad1cd7395edbd376600e8c05708a9cefd9262.1377623208.git.raj.khem@gmail.com>
-	<621ba27fe578346e2feae489fba4d576148299fc.1377623208.git.raj.khem@gmail.com>
-Organization: Phil Blundell Consulting Ltd
-X-Mailer: Evolution 3.4.4-3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 04/20] package_rpm.bbclass:Make the regexp less greedy
+	Tue, 27 Aug 2013 18:59:23 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa07-06.prod.phx3.secureserver.net with 
+	id HuzN1m00P1mTNtu01uzPht; Tue, 27 Aug 2013 11:59:23 -0700
+Message-ID: <521CF70C.2050100@pabigot.com>
+Date: Tue, 27 Aug 2013 13:59:24 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<Openembedded-core@lists.openembedded.org>
+Subject: qt4-x11-free dependence on gtk+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,23 +28,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 18:48:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 27 Aug 2013 18:59:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-08-27 at 10:15 -0700, Khem Raj wrote:
-> This causes issues when postinstalls have ERROR keywords
-> its interpreted as error and image build is cancelled
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Since "bitbake qt4-x11-free" failed for me until I did "bitbake gtk+", 
+qt4-x11-free needs some sort of dependency on gtk+ to avoid the failure 
+below.  I'm guessing it's something like the following added to 
+qt4-x11-free.inc:
 
-As I mentioned before, "the regexp" isn't a very satisfactory
-description of the locus for this change, given that the file contains
-many regexps.  I'm also not entirely convinced that this patch really
-makes the regexp "less greedy" in any meaningful way: it makes it less
-prone to unintended matches, but that's a different issue to greediness.
+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk', '', 
+d)}"
+PACKAGECONFIG[gtk] = "-gtkstyle,-no-gtkstyle,gtk+"
 
-p.
+but since it takes about an hour to build qt4-x11-free on my system I'm 
+hoping somebody can tell me whether that's the right approach.
+
+Peter
+
+arm-poky-linux-gnueabi-g++  -march=armv7-a -mthumb-interwork 
+-mfloat-abi=softfp -mfpu=neon 
+--sysroot=/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo -c -O2 -pipe 
+-g -feliminate-unused-debug-types -fpermissive 
+-fvisibility-inlines-hidden 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/freetype2 -pthread 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/glib-2.0 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/lib/glib-2.0/include 
+-pthread 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/gtk-2.0 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/lib/gtk-2.0/include 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/pango-1.0 -I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/cairo 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/pixman-1 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/libpng16 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/gdk-pixbuf-2.0 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/libpng16 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/pango-1.0 -I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/harfbuzz 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/pango-1.0 -I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/freetype2 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/atk-1.0 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/glib-2.0 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/lib/glib-2.0/include 
+-O2 -O2 -fvisibility=hidden -fvisibility-inlines-hidden 
+-fvisibility=hidden -fvisibility=hidden -fvisibility-inlines-hidden 
+-Wall -W -Wall -W -Wall -W -D_REENTRANT 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/freetype2 -fPIC 
+-fPIC -fPIC -DQT_SHARED -DQT_BUILD_GUI_LIB -DQT_NO_USING_NAMESPACE 
+-DQT_NO_CAST_TO_ASCII -DQT_ASCII_CAST_WARNINGS -DQT3_SUPPORT 
+-DQT_MOC_COMPAT -DQT_USE_QSTRINGBUILDER -DQT_NO_OPENTYPE 
+-DQT_NO_STYLE_MAC -DQT_NO_STYLE_WINDOWSVISTA -DQT_NO_STYLE_WINDOWSXP 
+-DQT_NO_STYLE_WINDOWSCE -DQT_NO_STYLE_WINDOWSMOBILE -DQT_NO_STYLE_S60 
+-DQ_INTERNAL_QAPP_SRC -DQT_HAVE_NEON -DQT_NO_DEBUG -DQT_CORE_LIB 
+-D_LARGEFILE64_SOURCE -D_LARGEFILE_SOURCE -I../../mkspecs/linux-g++ -I. 
+-I../../include/QtCore -I../../include -I../../include/QtGui 
+-I.rcc/release-shared -I../3rdparty/xorg -Iimage 
+-I../3rdparty/harfbuzz/src -Idialogs 
+-I/prj/oe/omap/build-gumstix-dev/tmp/sysroots/overo/usr/include/freetype2 -I.moc/release-shared 
+-I.uic/release-shared -o .obj/release-shared/qx11embed_x11.o 
+kernel/qx11embed_x11.cpp
+In file included from ../../include/QtGui/private/qgtkstyle_p.h:1:0,
+                  from kernel/qguiplatformplugin.cpp:63:
+../../include/QtGui/private/../../../src/gui/styles/qgtkstyle_p.h:69:21: 
+fatal error: gtk/gtk.h: No such file or directory
+  #include <gtk/gtk.h>
+                      ^
+compilation terminated.
+make[1]: *** [.obj/release-shared/qguiplatformplugin.o] Error 1
 
 
 
