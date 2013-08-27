@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D9866BA88
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 923416BB4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 07:07:44 +0000 (UTC)
+	Tue, 27 Aug 2013 07:07:47 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7R77itp005636
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7R77oHc018242
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 03:07:44 -0400 (EDT)
+	Tue, 27 Aug 2013 00:07:50 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 27 Aug 2013 00:07:43 -0700
+	14.2.342.3; Tue, 27 Aug 2013 00:07:48 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 27 Aug 2013 15:07:59 +0800
-Message-ID: <cover.1377587203.git.Qi.Chen@windriver.com>
+Date: Tue, 27 Aug 2013 15:08:01 +0800
+Message-ID: <55b4bd6190564b24e99a5e2969ba86db07ca95f7.1377587203.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1377587203.git.Qi.Chen@windriver.com>
+References: <cover.1377587203.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] runqemu fixes about iptables rules and preconfigured tap
+Subject: [PATCH 2/4] runqemu-internal: don't bring down preconfigured tap interface
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +33,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 07:07:46 -0000
+X-List-Received-Date: Tue, 27 Aug 2013 07:07:48 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit 44c3f72684c5c920ce8af1da54a2268047342589:
+runqemu-ifup and runqemu-ifdown should be pairs. If we're using a
+preconfigured tap interface, the runqemu-ifdown should not be invoked
+to bring it down.
 
-  lib/oeqa/runtime: smart: add checks for smart output (2013-08-26 16:29:18 +0100)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ scripts/runqemu-internal |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/runqemu-fixes
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/runqemu-fixes
-
-Chen Qi (4):
-  runqemu-ifdown: clean up the remaining iptables rules
-  runqemu-internal: don't bring down preconfigured tap interface
-  runqemu-internal: change the lock acquire/release logic
-  runqemu-internal: provide more info if a preconfigured tap is used
-
- scripts/runqemu-ifdown   |   14 ++++++++++++++
- scripts/runqemu-internal |   20 ++++++++++----------
- 2 files changed, 24 insertions(+), 10 deletions(-)
-
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 8a6e551..8165e13 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -175,12 +175,14 @@ else
+         POSSIBLE=`$IFCONFIG link | grep 'tap' | awk '{print $2}' | sed s/://`
+         TAP=""
+         LOCKFILE=""
++        USE_PRECONF_TAP="no"
+         for tap in $POSSIBLE; do
+             LOCKFILE="$LOCKDIR/$tap"
+             echo "Acquiring lockfile for $tap..."
+             acquire_lock $LOCKFILE
+             if [ $? -eq 0 ]; then
+                 TAP=$tap
++                USE_PRECONF_TAP="yes"
+                 break
+             fi
+         done
+@@ -215,7 +217,7 @@ else
+         fi
+ 
+         cleanup() {
+-            if [ ! -e "$NOSUDO_FLAG" ]; then
++            if [ ! -e "$NOSUDO_FLAG" -a "$USE_PRECONF_TAP" = "no" ]; then
+                 # Redirect stderr since we could see a LD_PRELOAD warning here if pseudo is loaded
+                 # but inactive. This looks scary but is harmless
+                 sudo $QEMUIFDOWN $TAP $OECORE_NATIVE_SYSROOT 2> /dev/null
 -- 
 1.7.9.5
 
