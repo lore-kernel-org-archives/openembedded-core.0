@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f42.google.com (mail-pb0-f42.google.com
-	[209.85.160.42])
-	by mail.openembedded.org (Postfix) with ESMTP id C873A6BBA6
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 891B56BB34
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 17:16:11 +0000 (UTC)
-Received: by mail-pb0-f42.google.com with SMTP id un15so5110248pbc.15
+	Tue, 27 Aug 2013 17:16:13 +0000 (UTC)
+Received: by mail-pa0-f51.google.com with SMTP id lf1so5074606pab.38
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 10:16:12 -0700 (PDT)
+	Tue, 27 Aug 2013 10:16:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=mPmP6nHFXd88zyY22Xi03352SrENSWxReHs/4Awu4A8=;
-	b=O4QXZKCfUihGe9oi7gr5KlFbYO7nAC8LyltyU4771Nvp8QMqjmjCi455mQhpKjWvw1
-	z1xONEoqX9CFzn8qxrlTRRKeZeVMKzouaGqyp3Z7jZsvGYx+tqEMX7XrSMJ4F1fui3rQ
-	83hEJhDDfCENuBzeyJy//GyN19LzXsxz711SM1nFYKnvIrHFvSfl6wemqRvw1lm56wLJ
-	OtPydtqKNxu/mrOxhOQKTVe5O/nwkkqZx5SN5zEVE3XPGH2Cwh2bqZUlbRxJwKTcTUJ6
-	6iHTk9YLP8q/HHjh4J2s6d0DXj787noZBJRnXb/k3ohWxmlQb7MwylxpSF9dtu/fT3St
-	By2A==
-X-Received: by 10.68.169.161 with SMTP id af1mr22722789pbc.22.1377623772902;
-	Tue, 27 Aug 2013 10:16:12 -0700 (PDT)
+	bh=7JIUz7fkA20MnJnVGw1hBA3XPcx8JBn4VhxD9pufWPg=;
+	b=GKaS6FSokdlOv6Sxzla7+gMKRYK7FNJvfSnOZyRjNuMCxg66z+YRw/g0b4xdV/1Dyh
+	okKwhOykumJxw435BwrLplGAK4aa5dw1fNqpFNISDCdrJaPD6TAMAyFh9Hxed+MTfu/3
+	KSm6PFaRk4NqM/jSaU2ATUKNtwKIeh5SjpONqt3FXvmcT9qI/gAuABn4eYDOeM/4JL8T
+	7oN0q0XaFqor9tB4i5uYDHHaowZhcABo5mLY5EnZJmRKxpgUkoOpKJv5YGGtLSymq+wq
+	nZ5WsYrWZVjKqBIwiPdBHxKHeUdlf6Je+K7Z3YSkQMdpJrBZDTb7MJDwWx0AA7YSk6z/
+	PFAg==
+X-Received: by 10.66.155.36 with SMTP id vt4mr21833788pab.93.1377623774571;
+	Tue, 27 Aug 2013 10:16:14 -0700 (PDT)
 Received: from isis.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
 	by mx.google.com with ESMTPSA id t9sm25769021pba.46.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 27 Aug 2013 10:16:11 -0700 (PDT)
+	Tue, 27 Aug 2013 10:16:13 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 27 Aug 2013 10:15:09 -0700
-Message-Id: <6e821a773ba31124d674fb077042f9d19e449289.1377623208.git.raj.khem@gmail.com>
+Date: Tue, 27 Aug 2013 10:15:10 -0700
+Message-Id: <32d476d08eb974de8c95778be4f0aa32b9fdb6a4.1377623208.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
 In-Reply-To: <569ad1cd7395edbd376600e8c05708a9cefd9262.1377623208.git.raj.khem@gmail.com>
 References: <569ad1cd7395edbd376600e8c05708a9cefd9262.1377623208.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1377623208.git.raj.khem@gmail.com>
 References: <cover.1377623208.git.raj.khem@gmail.com>
-Subject: [PATCH 10/20] python3: Add native recipe
+Subject: [PATCH 11/20] python_2.7.3.bb: Inherit python-dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,88 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 17:16:12 -0000
+X-List-Received-Date: Tue, 27 Aug 2013 17:16:13 -0000
+
+So it can get the correct python direcotries for python2
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python/python3-native_3.3.0.bb                 | 68 ++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-native_3.3.0.bb
+ meta/recipes-devtools/python/python_2.7.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-native_3.3.0.bb b/meta/recipes-devtools/python/python3-native_3.3.0.bb
-new file mode 100644
-index 0000000..3486ca0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-native_3.3.0.bb
-@@ -0,0 +1,68 @@
-+require recipes-devtools/python/python.inc
-+
-+PR = "${INC_PR}.0"
-+PYTHON_MAJMIN = "3.3"
-+DISTRO_SRC_URI ?= "file://sitecustomize.py"
-+DISTRO_SRC_URI_linuxstdbase = ""
-+SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.bz2 \
-+file://000-cross-compile.patch \
-+file://020-dont-compile-python-files.patch \
-+file://030-fixup-include-dirs.patch \
-+file://070-dont-clean-ipkg-install.patch \
-+file://080-distutils-dont_adjust_files.patch \
-+file://110-enable-zlib.patch \
-+file://130-readline-setup.patch \
-+file://140-verbose-sharedmods.patch \
-+file://150-fix-setupterm.patch \
-+file://h2py-pr13032.patch \
-+file://python-3.3-multilib.patch \
-+file://03-fix-tkinter-detection.patch \
-+file://avoid_warning_about_tkinter.patch \
-+file://06-ctypes-libffi-fix-configure.patch \
-+file://shutil-follow-symlink-fix.patch \
-+${DISTRO_SRC_URI} \
-+"
-+SRC_URI[md5sum] = "b3b2524f72409d919a4137826a870a8f"
-+SRC_URI[sha256sum] = "15c113fd6c058712f05d31b4eff149d4d823b8e39ef5e37228dc5dc4f8716df9"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d214581529e343354f8e23025bdf582d"
-+
-+S = "${WORKDIR}/Python-${PV}"
-+
-+EXTRANATIVEPATH += "bzip2-native"
-+DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native"
-+
-+inherit native
-+
-+RPROVIDES += "python3-distutils-native python3-compression-native python3-textutils-native python3-core-native"
-+
-+EXTRA_OECONF_append = " --bindir=${bindir}/${PN}"
-+
-+EXTRA_OEMAKE = '\
-+  BUILD_SYS="" \
-+  HOST_SYS="" \
-+  LIBC="" \
-+  STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE} \
-+  STAGING_INCDIR=${STAGING_INCDIR_NATIVE} \
-+  LIB=${baselib} \
-+  ARCH=${TARGET_ARCH} \
-+'
-+
-+do_configure_prepend() {
-+	autoreconf --verbose --install --force --exclude=autopoint Modules/_ctypes/libffi || bbnote "_ctypes failed to autoreconf"
-+}
-+
-+do_install() {
-+	install -d ${D}${libdir}/pkgconfig
-+	oe_runmake 'DESTDIR=${D}' install
-+	if [ -e ${WORKDIR}/sitecustomize.py ]; then
-+		install -m 0644 ${WORKDIR}/sitecustomize.py ${D}/${libdir}/python${PYTHON_MAJMIN}
-+	fi
-+	install -d ${D}${bindir}/${PN}
-+	install -m 0755 Parser/pgen ${D}${bindir}/${PN}
-+
-+	# Make sure we use /usr/bin/env python
-+	for PYTHSCRIPT in `grep -rIl ${bindir}/${PN}/python ${D}${bindir}/${PN}`; do
-+		sed -i -e '1s|^#!.*|#!/usr/bin/env python|' $PYTHSCRIPT
-+	done
-+}
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 2e35da6..62f78dc 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -34,7 +34,7 @@ SRC_URI += "\
+ 
+ S = "${WORKDIR}/Python-${PV}"
+ 
+-inherit autotools multilib_header pythonnative
++inherit autotools multilib_header python-dir pythonnative
+ 
+ # The 3 lines below are copied from the libffi recipe, ctypes ships its own copy of the libffi sources
+ #Somehow gcc doesn't set __SOFTFP__ when passing -mfloatabi=softp :(
 -- 
 1.8.3.4
 
