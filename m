@@ -1,23 +1,23 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6853261F47
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 1900C6BB5A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 15:16:45 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 27 Aug 2013 08:13:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,968,1367996400"; d="scan'208";a="394172491"
-Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
-	by orsmga002.jf.intel.com with ESMTP; 27 Aug 2013 08:16:46 -0700
-Message-ID: <521CC2DD.7020109@linux.intel.com>
-Date: Tue, 27 Aug 2013 08:16:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+	Tue, 27 Aug 2013 15:26:39 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VELAF-0007lW-Gm; Tue, 27 Aug 2013 17:26:39 +0200
+Message-ID: <1377617198.28077.61.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 27 Aug 2013 16:26:38 +0100
+In-Reply-To: <521CC2DD.7020109@linux.intel.com>
 References: <011401cea2f4$92481300$b6d83900$@cn.fujitsu.com>
-In-Reply-To: <011401cea2f4$92481300$b6d83900$@cn.fujitsu.com>
+	<521CC2DD.7020109@linux.intel.com>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] consolekit_0.4.6.bb: Fix QA error when --enable-udev-acl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -31,83 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 15:16:45 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Aug 2013 15:26:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 08/27/2013 12:10 AM, leimaohui wrote:
-> Add EXTRA_OECONF += "--enable-udev-acl" to
->
-> consolekit_0.4.6.bb whill causea package_qa error.
->
-> The error message looks like:
->
-> |ERROR: QA Issue: non debug package contains .debug directory:
->
-> | consolekit path consolekit/0.4.6-r0/packages-split/consolekit/lib/u
->
-> | dev/.debug/udev-acl
->
-> There is a need to add udev-acl file to package instead of “${base_libdir}”
->
-> Signed-off-by: leimaohui <leimaohui@cn.fujitsu.com
-> <mailto:leimaohui@cn.fujitsu.com>>
->
-> ---
->
-> diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
->
-> b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
->
-> index 63da028..4133f4d 100644
->
-> --- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
->
-> +++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
->
-> @@ -28,9 +28,10 @@ PACKAGECONFIG[policykit] = ",,polkit"
->
-> PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=
->
-> ${systemd_unitdir}/system/,--with-systemdsystemunitdir="
->
-> FILES_${PN} += "${localstatedir}/log/ConsoleKit
-> ${exec_prefix}/lib/ConsoleKit \
->
-> -                ${libdir}/ConsoleKit  ${systemd_unitdir} ${base_libdir} \
->
-> -                ${datadir}/dbus-1 ${datadir}/PolicyKit ${datadir}/polkit*"
->
-> -FILES_${PN}-dbg += "${base_libdir}/security/.debug"
->
-> +                ${libdir}/ConsoleKit  ${systemd_unitdir}
-> ${base_libdir}/udev/rules.d \
->
-> +               ${base_libdir}/udev/udev-acl ${datadir}/dbus-1
-> ${datadir}/PolicyKit \
->
-> +               ${datadir}/polkit*"
->
-> +FILES_${PN}-dbg += "${base_libdir}/security/.debug /lib/udev/.debug"
->
-Please use ${base_libdir} instead of /lib here.
+On Tue, 2013-08-27 at 08:16 -0700, Saul Wold wrote:
+> On 08/27/2013 12:10 AM, leimaohui wrote:
+> > -FILES_${PN}-dbg += "${base_libdir}/security/.debug"
+> >
+> > +                ${libdir}/ConsoleKit  ${systemd_unitdir}
+> > ${base_libdir}/udev/rules.d \
+> >
+> > +               ${base_libdir}/udev/udev-acl ${datadir}/dbus-1
+> > ${datadir}/PolicyKit \
+> >
+> > +               ${datadir}/polkit*"
+> >
+> > +FILES_${PN}-dbg += "${base_libdir}/security/.debug /lib/udev/.debug"
 
-Thanks
-	Sau!
+> Please use ${base_libdir} instead of /lib here.
 
-> PACKAGES =+ "pam-plugin-ck-connector"
->
-> FILES_pam-plugin-ck-connector += "${base_libdir}/security/*.so"
->
-> --
->
-> 1.7.1
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Really?  Hard-coding /lib isn't all that great but I think
+${base_libdir} would be even more wrong.  Shouldn't it be
+${nonarch_base_libdir}?
+
+p.
+
+
 
