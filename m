@@ -1,27 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D1C76BA1B
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 752436BA1B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 06:52:45 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Aug 2013 23:52:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,966,1367996400"; d="scan'208";a="392524403"
-Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Aug 2013 23:52:45 -0700
-Message-ID: <521C4CBD.3070506@linux.intel.com>
-Date: Mon, 26 Aug 2013 23:52:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Tue, 27 Aug 2013 06:59:00 +0000 (UTC)
+Received: by mail-pa0-f44.google.com with SMTP id fz6so4438055pac.17
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 26 Aug 2013 23:59:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
+	:to:content-type;
+	bh=ymFN/ph1hKm8TVGfmAKGq+bHEJKiz186S6XtWA/On9w=;
+	b=GCtahnioJo8lAGJUw+BJmR/xhCWGBo515rUtgFdl4k8ngDoshmy8M98I5y4Ebh4Nn0
+	fVAs+Uz8w2PNL7KyHlkQogd3PQ37t5Zab42KT2KjF6VTD3tLYnJhsEGDbnP3IOda6oIY
+	FwRIznmsKkKNr+334gWrVsLxUgV/Q105my4N5tn6vT7kS0eEoTj14pG4z42cI2B9ApXd
+	qK8ksYF5pojfpZOqeCghK5OAeiQwWAd5a3eQvsSXjotQUv1+lYFW6LmBW3HGIQga+1pC
+	MvsK3wiiR7RS7dSIsdRtnT0y+13NqknK0/N8gaARnDsqW/WWKW+1si/P4OXpkAqZ/fJ1
+	P41A==
+X-Gm-Message-State: ALoCoQm3g/izNQBj/nYlH4iYLwvds6qIIBic6EqtZTqnwPRC9oMr4/0kZlAM3JGLukpM9Bzdlmin
 MIME-Version: 1.0
-To: Li Zhijian <lizhijian@cn.fujitsu.com>
-References: <1377596639-26980-1-git-send-email-lizhijian@cn.fujitsu.com>
-	<521BFA2A.4090508@linux.intel.com>
-	<521C2BDB.3020503@cn.fujitsu.com>
-In-Reply-To: <521C2BDB.3020503@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] grep-2.5.1a: fix grep for LSB compliance
+X-Received: by 10.68.191.231 with SMTP id hb7mr19259175pbc.82.1377586741224;
+	Mon, 26 Aug 2013 23:59:01 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.234 with HTTP; Mon, 26 Aug 2013 23:59:00 -0700 (PDT)
+Date: Tue, 27 Aug 2013 07:59:00 +0100
+X-Google-Sender-Auth: XjU46mkF7x7wDB770R0TLTOZCWk
+Message-ID: <CAOMwXhPNi357C8BvFjvVYtQUDepu5VK-c1phR=5UseZg79uJ6Q@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Putting fltk into oe-core (recipes-graphics)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,70 +42,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 06:52:46 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 27 Aug 2013 06:59:01 -0000
+Content-Type: multipart/alternative; boundary=e89a8ffba65b5bb81d04e4e86886
 
-On 08/26/2013 09:32 PM, Li Zhijian wrote:
-> ...skip... at 2013-8-27 9:00, Saul Wold wrote:
->>> diff --git a/meta/recipes-extended/grep/grep_2.5.1a.bb
->>> b/meta/recipes-extended/grep/grep_2.5.1a.bb index
->>> 088959c..d964d84 100644 ---
->>> a/meta/recipes-extended/grep/grep_2.5.1a.bb +++
->>> b/meta/recipes-extended/grep/grep_2.5.1a.bb @@ -5,7 +5,7 @@
->>> SECTION = "console/utils" LICENSE = "GPLv2" LIC_FILES_CHKSUM =
->>> "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
->>>
->>> -PR = "r2" +PR = "r3"
->>>
->>> SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \
->>> file://uclibc-fix.patch \ @@ -13,8 +13,25 @@ SRC_URI =
->>> "${GNU_MIRROR}/grep/grep-${PV}.tar.bz2 \ file://gettext.patch \
->>> file://fix64-int-to-pointer.patch \ file://Makevars \ -
->>> file://grep-CVE-2012-5667.patch \
->>
->> Why are you removing this patch?
->>
->> Will an update to 2.5.3 accomplish the same thing as these
->> patches?
->>
->> Also all of your patches above are missing Upstream-Status and
->> Signed-off-by:
->>
->> See the Patch Guildlines on OE-Core:
->> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
->>
->> Thanks
->>
->> Sau!
->>
->>
-> ...skip...
->>> + file://grep-CVE-2012-5667.patch \
-> ...skip...
->
-> Thank a lots for your comments.
->
-> This patch is not removed ,it is here ↑
->
-> I don't know what's fixed bettwen 2.5.1a an 2.5.3, but grep-2.5.3
-> LICENSE is GPLv3+ differed from 2.5.1a(GPLv2)
->
-> The Guildlines is very helpful for me. But those patch is come from
-> grep-2.5.1-55.el5.src.rpm and I have not research this patch's
-> Upstream-Status and Signed-off-by So I am sorry about that
->
+--e89a8ffba65b5bb81d04e4e86886
+Content-Type: text/plain; charset=ISO-8859-1
 
-Please review the recipes and licenesing, since it seems the we might
-have multiple versions and the license fields are incorrect for both.
+Hi all,
 
-If there are both v2 and v3 versions, we need to ensure which is correct.
+was this thoroughly discussed before? I think the 'fltk' graphics library
+is quite lightweight. We still use that instead of qt and gtk on limited
+embedded platforms simply because it takes 1.2 MB or a bit more rather than
+a full blown Qt with 10-12+ MB.
 
-Thanks
-	Sau!
+If I understand correctly there were discussions that gtk should not be
+inside openembedded core which I agree about. However, I think it would be
+useful to have some lightweight library like this in. Of course, this is
+lacking some features that Qt has, but that is why it is lightweight after
+all. :-)
 
-> Thanks Li,
->
->
->
+It is currently in the openembedded layer. It has a couple of minor
+dependencies which should probably be moved, but I do not see anything
+major. I think it is a more "core" option for ui building than the
+alternatives. This also supports opengl to a certain extent.
 
+Cheers,
+Laszlo
+
+--e89a8ffba65b5bb81d04e4e86886
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi all,<div><br></div><div>was this thoroughly discussed b=
+efore? I think the &#39;fltk&#39; graphics library is quite lightweight. We=
+ still use that instead of qt and gtk on limited embedded platforms simply =
+because it takes 1.2 MB or a bit more rather than a full blown Qt with 10-1=
+2+ MB.</div>
+<div><br></div><div>If I understand correctly there were discussions that g=
+tk should not be inside openembedded core which I agree about. However, I t=
+hink it would be useful to have some lightweight library like this in. Of c=
+ourse, this is lacking some features that Qt has, but that is why it is lig=
+htweight after all. :-)</div>
+<div><br></div><div>It is currently in the openembedded layer. It has a cou=
+ple of minor dependencies which should probably be moved, but I do not see =
+anything major. I think it is a more &quot;core&quot; option for ui buildin=
+g than the alternatives. This also supports opengl to a certain extent.</di=
+v>
+<div><br></div><div>Cheers,</div><div>Laszlo</div></div>
+
+--e89a8ffba65b5bb81d04e4e86886--
