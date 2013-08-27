@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 143AF61F47
+Received: from mail7.windriver.com (mail7.windriver.com [128.224.252.3])
+	by mail.openembedded.org (Postfix) with ESMTP id E38E36B230
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 27 Aug 2013 17:01:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7RH1RgK027519
+	by mail7.windriver.com (8.14.5/8.14.3) with ESMTP id r7RH1Rfi020951
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 27 Aug 2013 10:01:27 -0700 (PDT)
+	Tue, 27 Aug 2013 13:01:27 -0400 (EDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 27 Aug 2013 10:01:25 -0700
+	14.2.347.0; Tue, 27 Aug 2013 10:01:26 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 27 Aug 2013 13:01:13 -0400
-Message-ID: <cover.1377622745.git.bruce.ashfield@windriver.com>
+Date: Tue, 27 Aug 2013 13:01:14 -0400
+Message-ID: <a236d41daf9510d03a104fb8eb0e8d51f8bf4b39.1377622745.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1377622745.git.bruce.ashfield@windriver.com>
+References: <cover.1377622745.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] linux-yocto-rt: add qemumips and qemuppc to COMPATIBLE_MACHINES
+Subject: [PATCH 1/1] linux-yocto-rt: add qemumips and qemuppc to COMPATIBLE_MACHINES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,37 +36,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 27 Aug 2013 17:01:29 -0000
 Content-Type: text/plain
 
-Richard/Saul,
+3.10-rt boots and has good cyclictest results on qemuppc and qemumips,
+so we can now safely add them into COMPATIBLE_MACHINES.
 
-Not trying to pile on more changes, since I know we are
-still digesting recent changes.
-
-But as promised, I continued my stability and feature testing
-with the 3.10 kernel and qemumips/ppc now work fine with 
-3.10 -rt.
-
-This won't put any more strain on the build resources, so it is
-worth enabling them in the 3.10 recipe.
-
-Cheers,
-
-Bruce   
-
-The following changes since commit 325ee9b5fcebe902dfea78750502d8f6667d0a97:
-
-  gcc-4.8.inc: Allow lto to be configurable (2013-08-27 13:48:47 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (1):
-  linux-yocto-rt: add qemumips and qemuppc to COMPATIBLE_MACHINES
-
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
  meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb |    5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+index 4139be8..eb34491 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+@@ -17,10 +17,7 @@ KMETA = "meta"
+ 
+ LINUX_KERNEL_TYPE = "preempt-rt"
+ 
+-# Omit broken machines from COMPATIBLE_MACHINE
+-#   qemuppc hangs at boot
+-#   qemumips panics at boot
+-COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm)"
++COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuppc|qemumips)"
+ 
+ # Functionality flags
+ KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
 -- 
 1.7.10.4
 
