@@ -1,35 +1,27 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
-	[209.85.160.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 311846BC83
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 279276B8A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 11:12:48 +0000 (UTC)
-Received: by mail-pb0-f47.google.com with SMTP id rr4so6096578pbb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 04:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=KfSFPJQHbqJeN3Zmm8pNKJvZ/EHV674E36iZGTeT050=;
-	b=Grza3HHGbEIU62FFtB9JbO2yfUs0hwn4TdWDKmJMAdg+rqYZLrHCMzGvZ66MiFGwVh
-	O1vRjxfiugLWZrFFdlHG5Xe6cHoOgsNltJkjzGLl6Dh4u8FU8TtNN6ydpj/v5wugd2M0
-	lXdQylA2T7otP9ZMCBJ6GeWkB/9kcWDczGbWhN8gWfp/XZ4XXqtxV1uvZJ7xeiNrG8mq
-	xJ0UDWgejH0b+iKkgv9EuJYCrNtOFJMSTRuBv+RQbqdM+ly6VZUxpEkfXor+AkxYPQWY
-	T5LbR3OJ3hr4AIcn/rRcHOMnLloV9YM1GQ9YGtVmwiN6jYewNCHW768z2D9yGco/metG
-	+yEA==
-X-Received: by 10.68.210.103 with SMTP id mt7mr14201187pbc.179.1377688368947; 
-	Wed, 28 Aug 2013 04:12:48 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id
-	br3sm30625474pbd.31.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 28 Aug 2013 04:12:48 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Aug 2013 21:08:14 +1000
-Message-Id: <1377688094-9542-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] mesa: add missing elfutils dependency for r600 PACKAGECONFIG
+	Wed, 28 Aug 2013 12:31:47 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 28 Aug 2013 05:31:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,975,1367996400"; d="scan'208";a="287828173"
+Received: from unknown (HELO helios.localnet) ([10.252.123.7])
+	by AZSMGA002.ch.intel.com with ESMTP; 28 Aug 2013 05:31:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Christopher Larson <kergoth@gmail.com>,
+	Christopher Larson <chris_larson@mentor.com>
+Date: Wed, 28 Aug 2013 13:31:39 +0100
+Message-ID: <1705534.gI98rekybp@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <20130828081908.GF3544@jama>
+References: <cover.1377285913.git.chris_larson@mentor.com>
+	<20130828081908.GF3544@jama>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 0/2] Add ca-certificates recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +34,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 11:12:48 -0000
+X-List-Received-Date: Wed, 28 Aug 2013 12:31:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Fixes the following configure error:
-configure:23490: error: radeonsi and r600g require libelf when using LLVM
+On Wednesday 28 August 2013 10:19:08 Martin Jansa wrote:
+> On Fri, Aug 23, 2013 at 12:26:13PM -0700, Christopher Larson wrote:
+> > From: Christopher Larson <chris_larson@mentor.com>
+> > 
+> > This is based on the meta-oe recipe, with enhancements, and prepopulates
+> > the certificates for the nativesdk version, for later use in the
+> > buildtools-tarball.
+> > 
+> > The following changes since commit 
+9b05c65450526522d7358d0c0901b594de546748:
+> >   sstate: Fix the relative symlink replacement code (2013-08-23 16:59:04
+> >   +0100)> 
+> > are available in the git repository at:
+> >   https://github.com/kergoth/oe-core.git ca-certificates
+> > 
+> > Christopher Larson (2):
+> >   ca-certificates: add recipe (version 20130610)
+> >   nativesdk-ca-certificates: prepopulate ca-certificates.crt
+> 
+> Are you going to send patches to oe-devel to remove moved
+> recipes/bbclasses ?
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Martin is now aware, but FYI I've sent a patch for this.
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index e985d67..71fcabd 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -51,7 +51,8 @@ PACKAGECONFIG[openvg] = "--enable-openvg, --disable-openvg"
- 
- GALLIUMDRIVERS = "swrast"
- GALLIUMDRIVERS_LLVM33 = "${@base_contains('PACKAGECONFIG', 'r600', 'radeonsi,r600', '', d)}"
--GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@base_version_less_or_equal('MESA_LLVM_RELEASE', '3.2', '', ',${GALLIUMDRIVERS_LLVM33}', d)}"
-+GALLIUMDRIVERS_LLVM33_ENABLED = "${@base_version_less_or_equal('MESA_LLVM_RELEASE', '3.2', False, len('${GALLIUMDRIVERS_LLVM33}') > 0, d)}"
-+GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- GALLIUMDRIVERS_append_x86 = "${@base_contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
- GALLIUMDRIVERS_append_x86-64 = "${@base_contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
- # keep --with-gallium-drivers separate, because when only one of gallium versions is enabled, other 2 were adding --without-gallium-drivers
-@@ -59,7 +60,8 @@ PACKAGECONFIG[gallium]      = "--with-gallium-drivers=${GALLIUMDRIVERS}, --witho
- PACKAGECONFIG[gallium-egl]  = "--enable-gallium-egl, --disable-gallium-egl"
- PACKAGECONFIG[gallium-gbm]  = "--enable-gallium-gbm, --disable-gallium-gbm"
- MESA_LLVM_RELEASE ?= "3.3"
--PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE}"
-+PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
-+                               ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
- 
- # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
--- 
-1.8.3.4
+Cheers,
+Paul
 
 
