@@ -1,24 +1,37 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 91E4D6B988
+Return-Path: <lizhijian@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CC316BBCE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 05:25:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7S5Pww7005807
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 22:25:58 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 27 Aug 2013 22:25:57 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Aug 2013 13:26:02 +0800
-Message-ID: <1377667562-21292-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Wed, 28 Aug 2013 05:47:31 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.89,974,1367942400"; 
+   d="scan'208";a="8327845"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 28 Aug 2013 13:44:23 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r7S5lRuF017629;
+	Wed, 28 Aug 2013 13:47:28 +0800
+Received: from [127.0.0.1] ([10.167.226.56])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013082813453184-1014162 ;
+	Wed, 28 Aug 2013 13:45:31 +0800 
+Message-ID: <521D8EE4.9040605@cn.fujitsu.com>
+Date: Wed, 28 Aug 2013 13:47:16 +0800
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+Organization: fnst-ulinux
+User-Agent: Mozilla/5.0 (Windows NT 5.1;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH] libsamplerate0: add PACKAGECONFIG for fftw
+To: Phil Blundell <pb@pbcl.net>
+References: <1377596639-26980-1-git-send-email-lizhijian@cn.fujitsu.com>
+	<521BFA2A.4090508@linux.intel.com>
+	<1377600219.5452.60.camel@phil-desktop.brightsign>
+In-Reply-To: <1377600219.5452.60.camel@phil-desktop.brightsign>
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/08/28 13:45:31,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/08/28 13:45:32
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] grep-2.5.1a: fix grep for LSB compliance
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +44,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 05:25:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Aug 2013 05:47:33 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+at 2013-8-27 18:43, Phil Blundell wrote:
+> On Mon, 2013-08-26 at 18:00 -0700, Saul Wold wrote:
+>> On 08/27/2013 02:43 AM, Li Zhijian wrote:
+>>> add patch from grep-2.5.1-55.el5.src.rpm and
+>>> enable configration option of --without-include-regex
+>>>
+>>> LSB core-tests failed at /tset/LI18NUX2K.L1/utils/grep-tp/T.grep-tp 5,T=
+.egrep-tp 5
+>>> which is intend to verify this utility can perform pattern matching in =
+searches
+>>> without regard to case if -i option is specified.
+>>>
+>>> Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+>>>    SRC=5FURI =3D "${GNU=5FMIRROR}/grep/grep-${PV}.tar.bz2 \
+>>>               file://uclibc-fix.patch \
+>>> @@ -13,8 +13,25 @@ SRC=5FURI =3D "${GNU=5FMIRROR}/grep/grep-${PV}.tar.b=
+z2 \
+>>>               file://gettext.patch \
+>>>               file://fix64-int-to-pointer.patch \
+>>>               file://Makevars \
+>>> -           file://grep-CVE-2012-5667.patch \
+>> Why are you removing this patch?
+> He didn't actually remove it, he just moved it further down the list.
+> But...
+>
+>>>               file://fix-for-texinfo-5.1.patch \
+>>> +           file://grep-2.5.1-fgrep.patch \
+>>> +           file://grep-2.5.1-bracket.patch \
+>>> +           file://grep-2.5-i18n.patch \
+>>> +           file://grep-2.5.1-oi.patch \
+>>> +           file://grep-2.5.1-manpage.patch \
+>>> +           file://grep-2.5.1-color.patch \
+>>> +           file://grep-2.5.1-icolor.patch \
+>>> +           file://grep-skip.patch \
+>>> +           file://grep-2.5.1-egf-speedup.patch \
+>>> +           file://grep-2.5.1-dfa-optional.patch \
+>>> +           file://grep-2.5.1-tests.patch \
+>>> +           file://grep-2.5.1-w.patch \
+>>> +           file://grep-P.patch \
+>>> +           file://grep-CVE-2012-5667.patch \
+>>> +           file://grep-empty-pattern.patch \
+>>> +           file://grep-bz460641.patch \
+>>> +           file://grep-bz434934.patch \
+>>> +           file://grep-man-label.patch \
+> ... it's fairly hard to believe that all these patches are really
+> necessary to fix the problem with "grep -i" that's described in the
+> checkin message.  It looks as though a more accurate description of this
+> change would be something like "grep-2.5.1a: import all patches from
+> RHEL".
+Agree, you are right.
+It is easier for me to import all patches from RHEL rather than analysising=
+ which
+are problem fixed patches.
 
-fftw is autodetected from sysroot, add PACKAGECONFIG to make it deterministic
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb |    2 ++
- 1 file changed, 2 insertions(+)
+>
+> Also, although adding --without-included-regex probably is a good thing
+> (and probably ought to be done for grep-2.14 as well) it's not very
+> obvious that this has anything to do with the LSB fix either.
 
-diff --git a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-index 3234568..25e97b4 100644
---- a/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-+++ b/meta/recipes-multimedia/libsamplerate/libsamplerate0_0.1.8.bb
-@@ -13,3 +13,5 @@ SRC_URI[sha256sum] = "93b54bdf46d5e6d2354b7034395fe329c222a966790de34520702bb964
- S = "${WORKDIR}/libsamplerate-${PV}"
- 
- inherit autotools pkgconfig
-+
-+PACKAGECONFIG[fftw] = ",--disable-fftw,fftw"
--- 
-1.7.10.4
+This option --without-included-regex at grep-2.5.1a is also necessary to fi=
+x LSB core-test
+Otherwise /tset/LI18NUX2K.L1/utils/grep-tp/T.grep-tp 5,T.egrep-tp 5 would F=
+AIL=E3=80=82
 
+Thanks
+Li
+
+>
+> p.
+>
+>
+>
+>
+
+
+--=20
+Best regards.
+Li Zhijian (8555)
+
+
+=
 
