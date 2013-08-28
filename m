@@ -1,24 +1,23 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E71F36BA7C
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id BB8EE6B8A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 09:28:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7S9SBTj009079
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 02:28:11 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 28 Aug 2013 02:28:09 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Aug 2013 17:28:14 +0800
-Message-ID: <1377682094-2565-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [PATCH v2] systemd: add ptest
+	Wed, 28 Aug 2013 09:56:53 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 28 Aug 2013 02:54:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,975,1367996400"; d="scan'208";a="369662430"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 28 Aug 2013 02:56:53 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 7B2446A4092;
+	Wed, 28 Aug 2013 02:56:51 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Aug 2013 12:56:45 +0300
+Message-Id: <1377683805-12957-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] lib/oeqa/runtime: remove some unnecessary checks from setUpModule
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,68 +30,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 09:28:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Aug 2013 09:56:54 -0000
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+These checks are unnecessary.
+setUpModule is run when a module is loaded and we
+shouldn't run commands on the target here, (plus if
+ssh doesn't work we error out in setup multiple times, instead
+of skipping the real test, which might depend on test_ssh).
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- meta/recipes-core/systemd/systemd/run-ptest |    2 ++
- meta/recipes-core/systemd/systemd_204.bb    |   16 +++++++++++++++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/systemd/systemd/run-ptest
+ meta/lib/oeqa/runtime/date.py  | 3 ---
+ meta/lib/oeqa/runtime/df.py    | 2 --
+ meta/lib/oeqa/runtime/dmesg.py | 2 --
+ meta/lib/oeqa/runtime/vnc.py   | 2 +-
+ 4 files changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/run-ptest b/meta/recipes-core/systemd/systemd/run-ptest
-new file mode 100644
-index 0000000..0418bc9
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/run-ptest
-@@ -0,0 +1,2 @@
-+make test/rules-test.sh.log
-+make test/udev-test.pl.log
-diff --git a/meta/recipes-core/systemd/systemd_204.bb b/meta/recipes-core/systemd/systemd_204.bb
-index 6261367..6563c3e 100644
---- a/meta/recipes-core/systemd/systemd_204.bb
-+++ b/meta/recipes-core/systemd/systemd_204.bb
-@@ -15,7 +15,7 @@ DEPENDS += "${@base_contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py
+index d6c04cb..3b35964 100644
+--- a/meta/lib/oeqa/runtime/date.py
++++ b/meta/lib/oeqa/runtime/date.py
+@@ -2,9 +2,6 @@ from oeqa.oetest import oeRuntimeTest
+ from oeqa.utils.decorators import *
+ import re
  
- SECTION = "base/shell"
+-def setUpModule():
+-    skipModuleUnless(oeRuntimeTest.tc.target.run('which date')[0] == 0, "No date in image or no connection")
+-
+ class DateTest(oeRuntimeTest):
  
--inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu
-+inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu ptest
+     def setUp(self):
+diff --git a/meta/lib/oeqa/runtime/df.py b/meta/lib/oeqa/runtime/df.py
+index c911989..b6da350 100644
+--- a/meta/lib/oeqa/runtime/df.py
++++ b/meta/lib/oeqa/runtime/df.py
+@@ -2,8 +2,6 @@ import unittest
+ from oeqa.oetest import oeRuntimeTest
+ from oeqa.utils.decorators import *
  
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://touchscreen.rules \
-@@ -24,6 +24,7 @@ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://install-quotaon-once.patch \
-            file://00-create-volatile.conf \
-            file://init \
-+           file://run-ptest \
-           "
- SRC_URI[md5sum] = "a07619bb19f48164fbf0761d12fd39a8"
- SRC_URI[sha256sum] = "072c393503c7c1e55ca7acf3db659cbd28c7fe5fa94fab3db95360bafd96731b"
-@@ -114,6 +115,19 @@ do_install() {
- 	fi
- }
+-def setUpModule():
+-    skipModuleUnless(oeRuntimeTest.tc.target.run('which df')[0] == 0, "No df in image or no connection")
  
-+do_install_ptest () {
-+	install -d ${D}${PTEST_PATH}/test
-+	install -d ${D}${libdir}/udev/rules.d
-+	install ${B}/test/* ${D}${PTEST_PATH}/test
-+	install -m 0755  ${B}/test-udev ${D}${PTEST_PATH}/
-+	install -d ${D}${PTEST_PATH}/build-aux
-+	cp -rf ${B}/rules ${D}${PTEST_PATH}/
-+	cp ${B}/Makefile ${D}${PTEST_PATH}/
-+	cp ${B}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
-+	tar -C ${D}${PTEST_PATH}/test -xJf ${B}/test/sys.tar.xz
-+	sed -i 's/"tree"/"ls"/' ${D}${PTEST_PATH}/test/udev-test.pl
-+}
-+
- python populate_packages_prepend (){
-     systemdlibdir = d.getVar("rootlibdir", True)
-     do_split_packages(d, systemdlibdir, '^lib(.*)\.so\.*', 'lib%s', 'Systemd %s library', extra_depends='', allow_links=True)
+ class DfTest(oeRuntimeTest):
+ 
+diff --git a/meta/lib/oeqa/runtime/dmesg.py b/meta/lib/oeqa/runtime/dmesg.py
+index 48370fb..a53d1f0 100644
+--- a/meta/lib/oeqa/runtime/dmesg.py
++++ b/meta/lib/oeqa/runtime/dmesg.py
+@@ -2,8 +2,6 @@ import unittest
+ from oeqa.oetest import oeRuntimeTest
+ from oeqa.utils.decorators import *
+ 
+-def setUpModule():
+-    skipModuleUnless(oeRuntimeTest.tc.target.run('which dmesg')[0] == 0, "No dmesg in image or no connection")
+ 
+ class DmesgTest(oeRuntimeTest):
+ 
+diff --git a/meta/lib/oeqa/runtime/vnc.py b/meta/lib/oeqa/runtime/vnc.py
+index 9476184..ce11179 100644
+--- a/meta/lib/oeqa/runtime/vnc.py
++++ b/meta/lib/oeqa/runtime/vnc.py
+@@ -3,7 +3,7 @@ from oeqa.utils.decorators import *
+ import re
+ 
+ def setUpModule():
+-    skipModuleUnless(oeRuntimeTest.tc.target.run('which x11vnc')[0] == 0, "No x11vnc in image")
++    skipModuleUnless(oeRuntimeTest.hasPackage('x11vnc'), "No x11vnc package in image")
+ 
+ class VNCTest(oeRuntimeTest):
+ 
 -- 
-1.7.10.4
+1.8.3.1
 
 
