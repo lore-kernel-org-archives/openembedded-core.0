@@ -1,37 +1,31 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
-	[74.125.82.182])
-	by mail.openembedded.org (Postfix) with ESMTP id CE0206BBC4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F57C6BCD6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 23:18:54 +0000 (UTC)
-Received: by mail-we0-f182.google.com with SMTP id q59so5912129wes.27
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 16:18:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=suD5XDjn9oeEJZFZ1n7JqTWnFLZR5HJBqNS+EajvzHM=;
-	b=i/e1f7ng8csIi0scjkwxLRp2CPRR2OXZqgYKIFJ1VSHg01Sx0wdByIre6jHM1YDYHG
-	RvjaLJtwQLSDpLY4TukKFlTczl91Y7nVCA+/7uWOoQbllWs7PJoUqSGwZyoVNH7T3fNz
-	kdTk9orhoT4tZB1XtNYuwGlZnZTmWIiGTmB6m9nUZcTdonhNDubKZYUtHMsp+hMv00Uq
-	zwKleYHWVGGvhWsrMFZe7/ZEDwcUbmFwNgRPZJNkwkcYq2R6aTVOvi5QsLymuzwBhTrZ
-	9Cn8/XG47uV0MRj9FhBSmhgfUeRm9mIhustvTuGkDHy29j5FxFo2g8sWxyRY1YWiSVB/
-	+2Kw==
-X-Gm-Message-State: ALoCoQmLrp9ypUkZOtjxAl0HKx73XxUVQqSaIYxZHTvPApFsep3Vkt3M8EMTYlBUF+QwfefV5DmY
-X-Received: by 10.194.80.39 with SMTP id o7mr500858wjx.39.1377731934907; Wed,
-	28 Aug 2013 16:18:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.217.91.198 with HTTP; Wed, 28 Aug 2013 16:18:34 -0700 (PDT)
-X-Originating-IP: [5.13.214.171]
-In-Reply-To: <020301ce9e37$b92b36d0$2b81a470$@cn.fujitsu.com>
-References: <020301ce9e37$b92b36d0$2b81a470$@cn.fujitsu.com>
-From: Andrei Gherzan <andrei@gherzan.ro>
-Date: Thu, 29 Aug 2013 02:18:34 +0300
-Message-ID: <CAK18fxGZ0yUsPz1tT5dc5XtTS3qP1BvhOnG4qxHXyv75DG28Ng@mail.gmail.com>
-To: yaoxp <yaoxp@cn.fujitsu.com>
-Cc: openembedded <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane.bbclass:WARNING: QA Issue: xxx doesn't match the [a-z0-9.+-]+ regex
+	Wed, 28 Aug 2013 23:44:09 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7SNuKbn021085; Thu, 29 Aug 2013 00:56:21 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lcvIlIJ-aZCB; Thu, 29 Aug 2013 00:56:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7SNuFFm021080
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 29 Aug 2013 00:56:16 +0100
+Message-ID: <1377733420.32502.58.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Tom Zanussi <tom.zanussi@intel.com>
+Date: Thu, 29 Aug 2013 00:43:40 +0100
+In-Reply-To: <1377721150.1643.17.camel@empanada>
+References: <cover.1377720350.git.bruce.ashfield@windriver.com>
+	<1377721150.1643.17.camel@empanada>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: dvhart@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] linux-yocto/3.10: M4 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,53 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 23:18:55 -0000
-Content-Type: multipart/alternative; boundary=047d7bb045c493823e04e50a367c
+X-List-Received-Date: Wed, 28 Aug 2013 23:44:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---047d7bb045c493823e04e50a367c
-Content-Type: text/plain; charset=ISO-8859-1
+On Wed, 2013-08-28 at 15:19 -0500, Tom Zanussi wrote:
+> On Wed, 2013-08-28 at 16:12 -0400, Bruce Ashfield wrote:
+> > Richard/Saul,
+> > 
+> > Here's an update of the linux-yocto-3.10 SRCREVs for the dropbear
+> > ssh issue, and a config change to restore existing behaviour.
+> > 
+> > Credit goes to TomZ for tracking down the root cause. We'll continue to
+> 
+> And to Darren for identifying the actual commit ;-)
+> 
+> Tom
+> 
+> > dig at this more and see what the permanent fix will be .. and whether or
+> > not this needs to be fixed upstream.
 
-On Wed, Aug 21, 2013 at 9:28 AM, yaoxp <yaoxp@cn.fujitsu.com> wrote:
+Thanks to everyone involved in getting this quickly resolved!
 
-> Will offer the following warning when there are upper case letters in the
-> BB file name:
-> WARNING: QA Issue: xxx doesn't match the [a-z0-9.+-]+ regex
->
-> Is there such a regulation in yocto that there can't be upper case letters
-> in the BB file name ?
->
+Cheers,
 
-It used to be a bug in opkg. Isn't that still reproducible? I didn't test
-it a while ago.
-Here is the link: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3139
-
-ag
-
---047d7bb045c493823e04e50a367c
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Wed, Aug 21, 2013 at 9:28 AM, yaoxp <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:yaoxp@cn.fujitsu.com" target=3D"_blank">yaoxp@cn.fujitsu.com</a=
->&gt;</span> wrote:<br>
-
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
-adding-left:1ex">Will offer the following warning when there are upper case=
- letters in the BB file name:<br>
+Richard
 
 
-WARNING: QA Issue: xxx doesn&#39;t match the [a-z0-9.+-]+ regex<br>
-<br>
-Is there such a regulation in yocto that there can&#39;t be upper case lett=
-ers in the BB file name ?<br></blockquote><div><br></div><div style>It used=
- to be a bug in opkg. Isn&#39;t that still reproducible? I didn&#39;t test =
-it a while ago.=A0</div>
-
-<div style>Here is the link:=A0<a href=3D"https://bugzilla.yoctoproject.org=
-/show_bug.cgi?id=3D3139">https://bugzilla.yoctoproject.org/show_bug.cgi?id=
-=3D3139</a>=A0</div><div style><br></div><div style>ag</div></div>
-</div></div>
-
---047d7bb045c493823e04e50a367c--
