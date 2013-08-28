@@ -1,39 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E6066B8D5
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B44AC6B8A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 08:28:47 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id d51so2734606eek.23
+	Wed, 28 Aug 2013 08:32:27 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id c41so2805864eek.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 01:28:48 -0700 (PDT)
+	Wed, 28 Aug 2013 01:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
+	h=date:from:to:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=VzhRDPL2TFaWMkKBKCtXCks1uOPqq1aBN4IY1rcT6fw=;
-	b=ZkS6t3a0ITGc1uRO/1AWkEc8iSlN+3f2KAL1WynnKWWiNH+sE8++JY9koV0lTuEQ76
-	nYpqafXoEClDYvPb/TAHg9LqzvBiBpCDBOYakxpDnw0Q3oZMCbljAQDxfqVlrPX2V+7y
-	P/cI04HXkal2TS7yDJsXdO6r3fMPsFxlyfNvnsZnAPbqXp2gwe806bSM3TDMkTgmYg8F
-	z5paAU00/q9PExsVO1vRx2abnDIjF09G5FmrjsVMOw2hB0bBmwmDSuQ0UeBNizpGBD67
-	vKScGQWw85lm869USr/R+Ofxiv17aPRSlH4oPbwKpSyMDaXkj83mhx5bMoHjdg/Sebkb
-	wLng==
-X-Received: by 10.15.83.2 with SMTP id b2mr41860651eez.28.1377678528494;
-	Wed, 28 Aug 2013 01:28:48 -0700 (PDT)
+	bh=BzmQyq8EJDN0hA6FzLQMi16/4/cRjug4qdAec7iPkIo=;
+	b=zH0wr6wwDNgCYnRvpbHq12NI2MwWHCNu6IDxcwtAMdBgLsvqvL1PpOr7iIqm957SYd
+	ypVtEdNlR1x6NYAafExQyuazWVmlGu+CJUmcqtrsx1+B/JJeubC2wMVWeE9XU+RIsZSQ
+	B5qUr0rOQTYVS9u/QhY7Z+3Gp5QXUPuOTRxxiuDZfXVklhEr3bzBcT9wpQkhrKW0nyM+
+	0vXJdaZ3BoglI9nVWxNagJZJJeA3mBnhM/n7/Pj8euEg9NDxb3o0svb9dVbvnOJrIKng
+	ATRtT2T+CcsOEwR6cQhxYU76EK0/qre55oTk2gN+oOKqztIiUKNlD/KCrKMNQinUcNiE
+	n2Aw==
+X-Received: by 10.14.220.200 with SMTP id o48mr1458165eep.62.1377678747941;
+	Wed, 28 Aug 2013 01:32:27 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	p5sm35299220eeg.5.1969.12.31.16.00.00
+	k7sm35308069eeg.13.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 28 Aug 2013 01:28:47 -0700 (PDT)
-Date: Wed, 28 Aug 2013 10:29:59 +0200
+	Wed, 28 Aug 2013 01:32:27 -0700 (PDT)
+Date: Wed, 28 Aug 2013 10:33:39 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20130828082959.GH3544@jama>
-References: <1365017211-17183-1-git-send-email-dv@pseudoterminal.org>
-	<515D9F33.9060909@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130828083339.GI3544@jama>
+References: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <515D9F33.9060909@linux.intel.com>
+In-Reply-To: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe][PATCH] eglinfo: Add recipes for x11 and fb backends
+Subject: Re: [RFC][PATCH 1/4] package.bbclass: move reading shlibs providers to separate function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,161 +44,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 08:28:49 -0000
-X-Groupsio-MsgNum: 44180
+X-List-Received-Date: Wed, 28 Aug 2013 08:32:28 -0000
+X-Groupsio-MsgNum: 44181
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="2l43pqSnz0CmKuGJ"
+	protocol="application/pgp-signature"; boundary="uN5p0Kt0tLhd3gfz"
 Content-Disposition: inline
 
---2l43pqSnz0CmKuGJ
+--uN5p0Kt0tLhd3gfz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 04, 2013 at 08:41:39AM -0700, Saul Wold wrote:
+On Sun, Jul 07, 2013 at 01:13:04AM +0200, Martin Jansa wrote:
+> * prepare for reading shlibs providers only from dependency tree of
+>   current recipe
 >=20
-> I am going to defer this to 1.5 when it opens up, I still need to review=
-=20
-> the recipe, but wanted to give you a heads up about the deferral.
+> [YOCTO #4628]
 
-It looks like it was deferred too much or is it applied somewhere else?
-I don't see it in oe-core.
+Any comment on this patchset?
+
+I'm using first 3 commits for some time in world builds and they helped
+me to discover some unexpected shlib providers (and fix them by setting
+PRIVATE_LIBS).
 
 >=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>  meta/classes/package.bbclass | 43 +++++++++++++++++++++++---------------=
+-----
+>  1 file changed, 23 insertions(+), 20 deletions(-)
 >=20
-> Thanks
-> 	Sau!
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 5c2d1c6..d80535d 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1337,6 +1337,28 @@ python package_do_shlibs() {
+>      # Take shared lock since we're only reading, not writing
+>      lf =3D bb.utils.lockfile(d.expand("${PACKAGELOCK}"))
+> =20
+> +    def read_shlib_providers:
+> +        list_re =3D re.compile('^(.*)\.list$')
+> +        # Go from least to most specific since the last one found wins
+> +        for dir in reversed(shlibs_dirs):
+> +            if not os.path.exists(dir):
+> +                continue
+> +            for file in os.listdir(dir):
+> +                m =3D list_re.match(file)
+> +                if m:
+> +                    dep_pkg =3D m.group(1)
+> +                    fd =3D open(os.path.join(dir, file))
+> +                    lines =3D fd.readlines()
+> +                    fd.close()
+> +                    ver_file =3D os.path.join(dir, dep_pkg + '.ver')
+> +                    lib_ver =3D None
+> +                    if os.path.exists(ver_file):
+> +                        fd =3D open(ver_file)
+> +                        lib_ver =3D fd.readline().rstrip()
+> +                        fd.close()
+> +                    for l in lines:
+> +                        shlib_provider[l.rstrip()] =3D (dep_pkg, lib_ver)
+> +
+>      def linux_so(file):
+>          needs_ldconfig =3D False
+>          cmd =3D d.getVar('OBJDUMP', True) + " -p " + pipes.quote(file) +=
+ " 2>/dev/null"
+> @@ -1479,26 +1501,7 @@ python package_do_shlibs() {
+>              postinst +=3D d.getVar('ldconfig_postinst_fragment', True)
+>              d.setVar('pkg_postinst_%s' % pkg, postinst)
+> =20
+> -    list_re =3D re.compile('^(.*)\.list$')
+> -    # Go from least to most specific since the last one found wins
+> -    for dir in reversed(shlibs_dirs):
+> -        if not os.path.exists(dir):
+> -            continue
+> -        for file in os.listdir(dir):
+> -            m =3D list_re.match(file)
+> -            if m:
+> -                dep_pkg =3D m.group(1)
+> -                fd =3D open(os.path.join(dir, file))
+> -                lines =3D fd.readlines()
+> -                fd.close()
+> -                ver_file =3D os.path.join(dir, dep_pkg + '.ver')
+> -                lib_ver =3D None
+> -                if os.path.exists(ver_file):
+> -                    fd =3D open(ver_file)
+> -                    lib_ver =3D fd.readline().rstrip()
+> -                    fd.close()
+> -                for l in lines:
+> -                    shlib_provider[l.rstrip()] =3D (dep_pkg, lib_ver)
+> +    read_shlib_providers()
+> =20
+>      bb.utils.unlockfile(lf)
+> =20
+> --=20
+> 1.8.2.1
 >=20
->=20
-> On 04/03/2013 12:26 PM, Carlos Rafael Giani wrote:
-> > eglinfo is a small utility for printing out information about EGL as we=
-ll
-> > as about its client APIs, OpenGL / OpenGLES 1.x / OpenGLES 2.x / OpenVG.
-> >
-> > Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
-> > ---
-> >   meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb  | 11 ++++++
-> >   meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb |  6 +++
-> >   meta/recipes-graphics/eglinfo/eglinfo.inc        | 49 +++++++++++++++=
-+++++++++
-> >   3 files changed, 66 insertions(+)
-> >   create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-> >   create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-> >   create mode 100644 meta/recipes-graphics/eglinfo/eglinfo.inc
-> >
-> > diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/rec=
-ipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-> > new file mode 100644
-> > index 0000000..65b265f
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-> > @@ -0,0 +1,11 @@
-> > +EGLINFO_PLATFORM ?=3D "fb"
-> > +EGLINFO_BINARY_NAME ?=3D "eglinfo-fb"
-> > +
-> > +# .bbappend files in BSP meta layers can add EGLINFO_DEVICE
-> > +# values if necessary. eglinfo.inc contains default values for
-> > +# the currently supported devices.
-> > +# Consult the eglinfo README.md for details
-> > +
-> > +include eglinfo.inc
-> > +
-> > +SUMMARY +=3D "(Framebuffer version)"
-> > diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/re=
-cipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-> > new file mode 100644
-> > index 0000000..8793a25
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-> > @@ -0,0 +1,6 @@
-> > +EGLINFO_PLATFORM ?=3D "x11"
-> > +EGLINFO_BINARY_NAME ?=3D "eglinfo-x11"
-> > +
-> > +include eglinfo.inc
-> > +
-> > +SUMMARY +=3D "(X11 version)"
-> > diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-g=
-raphics/eglinfo/eglinfo.inc
-> > new file mode 100644
-> > index 0000000..116435d
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
-> > @@ -0,0 +1,49 @@
-> > +SUMMARY =3D "Utility for printing information EGL and its client APIs =
-(OpenGL, OpenGL ES, OpenVG)"
-> > +SECTION =3D "graphics"
-> > +LICENSE =3D "Zlib"
-> > +HOMEPAGE =3D "https://github.com/dv1/eglinfo"
-> > +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D8d4f33bc3add976f7dfae85dab6=
-6f03c"
-> > +
-> > +DEPENDS =3D "virtual/egl"
-> > +
-> > +SRC_URI =3D "git://github.com/dv1/eglinfo.git;branch=3Dmaster"
-> > +SRCREV =3D "4a49ff59545d9b6a8222badab64115f89d3a6774"
-> > +
-> > +S =3D "${WORKDIR}/git"
-> > +
-> > +
-> > +# BSP layers should add .bbappend files for the -x11 and -fb .bb recip=
-es,
-> > +# which append the respective EGL/OpenGLES/OpenVG libraries to DEPENDS
-> > +# not doing that here, since some platforms might not have OpenGL ES o=
-r OpenVG support
-> > +# (in that case, the eglinfo build scripts automatically disable the r=
-elevant code paths)
-> > +
-> > +EGLINFO_DEVICE ?=3D "generic"
-> > +EGLINFO_DEVICE_raspberrypi ?=3D "raspberrypi"
-> > +EGLINFO_DEVICE_beagleboard ?=3D "beagleboard"
-> > +EGLINFO_DEVICE_mx6 ?=3D "imx6"
-> > +
-> > +
-> > +do_clean() {
-> > +	if [ -x ${S}/waf ]; then
-> > +		${S}/waf distclean
-> > +	fi
-> > +}
-> > +
-> > +do_configure() {
-> > +	${S}/waf configure \
-> > +		--platform=3D${EGLINFO_PLATFORM} \
-> > +		--device=3D${EGLINFO_DEVICE} \
-> > +		--sysroot ${STAGING_DIR_TARGET} \
-> > +		--prefix=3D${prefix} \
-> > +		${EXTRA_OECONF}
-> > +}
-> > +
-> > +do_compile() {
-> > +	${S}/waf
-> > +}
-> > +
-> > +do_install() {
-> > +	mkdir -p "${D}/${bindir}"
-> > +	mv "${S}/build/release/eglinfo" "${D}/${bindir}/${EGLINFO_BINARY_NAME=
-}"
-> > +}
-> > +
-> >
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---2l43pqSnz0CmKuGJ
+--uN5p0Kt0tLhd3gfz
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.21 (GNU/Linux)
 
-iEYEARECAAYFAlIdtQcACgkQN1Ujt2V2gBzoJgCfRu7QLs03GkKJeSugAtfZmAD/
-NtoAoJsov2ZLBgcpad3bvGzIAW6P1FU2
-=Hp78
+iEYEARECAAYFAlIdteMACgkQN1Ujt2V2gBy7uwCgtuze1IPO9zFFriJ3rC/sP8TG
+2ZoAnRQSPw9u2GGwv9K2r4rwOpHc/S9M
+=MCF+
 -----END PGP SIGNATURE-----
 
---2l43pqSnz0CmKuGJ--
+--uN5p0Kt0tLhd3gfz--
