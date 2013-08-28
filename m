@@ -1,40 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D22CB6B8A1
+Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A8FA6B8D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 08:17:57 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id n15so2764075ead.16
+	Wed, 28 Aug 2013 08:27:49 +0000 (UTC)
+Received: by mail-ea0-f174.google.com with SMTP id z15so2760913ead.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 01:17:58 -0700 (PDT)
+	Wed, 28 Aug 2013 01:27:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=/Eo4YOXoBf1EENTRQ5Ikb7+g8u6hcB3oTWma2mm56Zw=;
-	b=OquJ/360Anz48fFU4352SyY215MJJ54BHx9Mdlq3Pk933aKyYO0FuMlQLwmVWNL9CP
-	7s7lym56pB0Hk4tR0jVuiRIuiQu6FCkvJYgiPCkTxOY+KEWj9yRm8Q0jZXpZ/yy81d9f
-	3I6n4IM3yrS6q4HGsKJci8k3v1WWbqlXVa6qCp54cMhr5ZalkgMn0S1RGYy03KMFOaJb
-	0kfvYTGTC7te36GOjCOYSo9FF8RkY92gBU+Cez4+dZ/LDEqIbguLsUsqdoLFlM6nnJpo
-	VDLd2JPbMMl+YbQwC2wtoLueCJq5RKNtX9rX6C2kCvNIUHtGFJK0PwHcn/boUgFUADJj
-	P32g==
-X-Received: by 10.14.2.199 with SMTP id 47mr1499586eef.57.1377677877815;
-	Wed, 28 Aug 2013 01:17:57 -0700 (PDT)
+	bh=gcDa+82yPTwVyUXYv6kPQREreZ4bQ95jcgGfOW5OHgU=;
+	b=OFbEfgmrv/ynpZaGQiexhRv2LwXSbXZG/54vRx75wZp5rl9fGY5d3XFwA/7xtMPmA8
+	5mn1esVRWBZSMnDjSzSRizFLl2U4oxmorzvSGM42pEPuVO26nj+O/4vGSV1Q6uF8Nr/v
+	f3pyGclbG4zQGWPzgiw3A9U4oWdUVj1fuCI7eGOnSNYK4wqgqqr8TcwZHAIN5F2WLjvZ
+	t/2YLLKwv1pE9jBEXJZS0tmARP+8nxbAE1Jh29sBw57Wb27KMuqjeQjREeA3s+PGLOL7
+	WGYshbt9CwqJnTsC77FoQeWOQD3jLRNH3RCkkYBnUiTB9GVEtr5M1WnmAVlAM5BJJNTi
+	alCA==
+X-Received: by 10.15.54.72 with SMTP id s48mr1540969eew.58.1377678470019;
+	Wed, 28 Aug 2013 01:27:50 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	z12sm35219424eev.6.1969.12.31.16.00.00
+	a1sm35306400eem.1.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 28 Aug 2013 01:17:57 -0700 (PDT)
-Date: Wed, 28 Aug 2013 10:19:08 +0200
+	Wed, 28 Aug 2013 01:27:49 -0700 (PDT)
+Date: Wed, 28 Aug 2013 10:29:00 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
-Message-ID: <20130828081908.GF3544@jama>
-References: <cover.1377285913.git.chris_larson@mentor.com>
+To: Koen Kooi <koen@dominion.thruhere.net>
+Message-ID: <20130828082900.GG3544@jama>
+References: <1365581101-3810-1-git-send-email-koen@dominion.thruhere.net>
 MIME-Version: 1.0
-In-Reply-To: <cover.1377285913.git.chris_larson@mentor.com>
+In-Reply-To: <1365581101-3810-1-git-send-email-koen@dominion.thruhere.net>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv3 0/2] Add ca-certificates recipe
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCHv2] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,82 +46,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 08:17:58 -0000
-X-Groupsio-MsgNum: 44178
+X-List-Received-Date: Wed, 28 Aug 2013 08:27:50 -0000
+X-Groupsio-MsgNum: 44179
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="z+buRVFir587KtL+"
+	protocol="application/pgp-signature"; boundary="vsHhinrhaqUzFcVS"
 Content-Disposition: inline
 
---z+buRVFir587KtL+
+--vsHhinrhaqUzFcVS
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 23, 2013 at 12:26:13PM -0700, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
+On Wed, Apr 10, 2013 at 10:05:01AM +0200, Koen Kooi wrote:
+> This allows a clean seperation between all image outputs and making it po=
+ssible to have convinience symlinks to make it ready to deploy. And while i=
+t isn't a valid reason, it must be mentioned: BSP layers which do use conve=
+nience symlinks already don't step on files owned by others anymore.
 >=20
-> This is based on the meta-oe recipe, with enhancements, and prepopulates =
-the
-> certificates for the nativesdk version, for later use in the
-> buildtools-tarball.
+> I assumed this was the default behaviour in OE-classic, but as it turns o=
+ut every DISTRO set it to deploy/images/$MACHINE on its own.
 >=20
-> The following changes since commit 9b05c65450526522d7358d0c0901b594de5467=
-48:
->=20
->   sstate: Fix the relative symlink replacement code (2013-08-23 16:59:04 =
-+0100)
->=20
-> are available in the git repository at:
->=20
->   https://github.com/kergoth/oe-core.git ca-certificates
->=20
-> Christopher Larson (2):
->   ca-certificates: add recipe (version 20130610)
->   nativesdk-ca-certificates: prepopulate ca-certificates.crt
+> Code inspections shows that the all references to the image deploy dir in=
+ classes and scripts in OE-core do the right thing and parse the DEPLOY_DIR=
+_IMAGE variable, except runqemu.
 
-Are you going to send patches to oe-devel to remove moved=20
-recipes/bbclasses ?
+Is there some reason why this patch didn't make it into 1.5?
 
 >=20
->  ...01-update-ca-certificates-remove-c-rehash.patch | 46 +++++++++++++++
->  .../0002-update-ca-certificates-use-SYSROOT.patch  | 55 +++++++++++++++++
->  .../ca-certificates/default-sysroot.patch          | 55 +++++++++++++++++
->  .../ca-certificates/ca-certificates/sbindir.patch  | 20 +++++++
->  .../ca-certificates/ca-certificates_20130610.bb    | 69 ++++++++++++++++=
-++++++
->  5 files changed, 245 insertions(+)
->  create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/=
-0001-update-ca-certificates-remove-c-rehash.patch
->  create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/=
-0002-update-ca-certificates-use-SYSROOT.patch
->  create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/=
-default-sysroot.patch
->  create mode 100644 meta/recipes-support/ca-certificates/ca-certificates/=
-sbindir.patch
->  create mode 100644 meta/recipes-support/ca-certificates/ca-certificates_=
-20130610.bb
+> Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> ---
+>  meta/conf/bitbake.conf |  2 +-
+>  scripts/runqemu        | 37 ++++++++++++++++++++++++++++++++++---
+>  2 files changed, 35 insertions(+), 4 deletions(-)
 >=20
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index cd5d61e..0540766 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -379,7 +379,7 @@ DEPLOY_DIR_TAR =3D "${DEPLOY_DIR}/tar"
+>  DEPLOY_DIR_IPK =3D "${DEPLOY_DIR}/ipk"
+>  DEPLOY_DIR_RPM =3D "${DEPLOY_DIR}/rpm"
+>  DEPLOY_DIR_DEB =3D "${DEPLOY_DIR}/deb"
+> -DEPLOY_DIR_IMAGE ?=3D "${DEPLOY_DIR}/images"
+> +DEPLOY_DIR_IMAGE ?=3D "${DEPLOY_DIR}/images/${MACHINE}"
+>  DEPLOY_DIR_TOOLS =3D "${DEPLOY_DIR}/tools"
+> =20
+>  PKGDATA_DIR =3D "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 8ed1226..94aa054 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -339,6 +339,34 @@ setup_tmpdir() {
+>      fi
+>  }
+> =20
+> +setup_deploydir() {
+> +    if [ -z "$DEPLOY_DIR_IMAGE" ]; then
+> +        # Try to get DEPLOY_DIR_IMAGE from bitbake
+> +        type -P bitbake &>/dev/null || {
+> +            echo "In order for this script to dynamically infer paths";
+> +            echo "to kernels or filesystem images, you either need";
+> +            echo "bitbake in your PATH or to source oe-init-build-env";
+> +            echo "before running this script" >&2;
+> +            exit 1; }
+> +
+> +        # We have bitbake in PATH, get DEPLOY_DIR_IMAGE from bitbake
+> +        OE_TMPDIR=3D`MACHINE=3D$MACHINE bitbake -e | sed -n 's/^DEPLOY_D=
+IR_IMAGE=3D\"\(.*\)\"/\1/p'`
+> +        if [ -z "$DEPLOY_DIR_IMAGE" ]; then
+> +            # Check for errors from bitbake that the user needs to know =
+about
+> +            BITBAKE_OUTPUT=3D`bitbake -e | wc -l`
+> +            if [ "$BITBAKE_OUTPUT" -eq "0" ]; then
+> +                echo "Error: this script needs to be run from your build=
+ directory,"
+> +                echo "or you need to explicitly set DEPLOY_DIR_IMAGE in =
+your environment"
+> +            else
+> +                echo "There was an error running bitbake to determine DE=
+PLOY_DIR_IMAGE"
+> +                echo "Here is the output from 'bitbake -e':"
+> +                bitbake -e
+> +            fi
+> +            exit 1
+> +        fi
+> +    fi
+> +}
+> +
+>  setup_sysroot() {
+>      # Toolchain installs set up $OECORE_NATIVE_SYSROOT in their
+>      # environment script. If that variable isn't set, we're
+> @@ -395,8 +423,9 @@ fi
+> =20
+>  if [ -z "$KERNEL" -a "x$FSTYPE" !=3D "xvmdk" ]; then
+>      setup_tmpdir
+> +    setup_deploydir
+>      eval kernel_file=3D\$${machine2}_DEFAULT_KERNEL
+> -    KERNEL=3D$OE_TMPDIR/deploy/images/$kernel_file
+> +    KERNEL=3D$DEPLOY_DIR_IMAGE/$kernel_file
+> =20
+>      if [ -z "$KERNEL" ]; then
+>          error "Unable to determine default kernel for MACHINE [$MACHINE]"
+> @@ -418,13 +447,15 @@ fi
+>  # core-image-sato
+>  if [ "$LAZY_ROOTFS" =3D "true" ]; then
+>      setup_tmpdir
+> +    setup_deploydir
+>      echo "Assuming $ROOTFS really means $OE_TMPDIR/deploy/images/$ROOTFS=
+-$MACHINE.$FSTYPE"
+> -    ROOTFS=3D$OE_TMPDIR/deploy/images/$ROOTFS-$MACHINE.$FSTYPE
+> +    ROOTFS=3D$DEPLOY_DIR_IMAGE/$ROOTFS-$MACHINE.$FSTYPE
+>  fi
+> =20
+>  if [ -z "$ROOTFS" -a "x$FSTYPE" !=3D "xvmdk" ]; then
+>      setup_tmpdir
+> -    T=3D$OE_TMPDIR/deploy/images
+> +    setup_deploydir
+> +    T=3D$DEPLOY_DIR_IMAGE
+>      eval rootfs_list=3D\$${machine2}_DEFAULT_ROOTFS
+>      findimage $T $MACHINE $FSTYPE
+> =20
 > --=20
-> 1.8.3.4
+> 1.8.1.4
+>=20
 >=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---z+buRVFir587KtL+
+--vsHhinrhaqUzFcVS
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.21 (GNU/Linux)
 
-iEYEARECAAYFAlIdsnwACgkQN1Ujt2V2gByKOwCcDq0dgGsmTeKXOnPDvAzL/XF6
-pQcAn3A/E64VrvK+faVXQ456tSiFhSTb
-=eIuG
+iEYEARECAAYFAlIdtMwACgkQN1Ujt2V2gBwpDgCgk+Kmyi2ODk/tORqSwsv5jn1o
+trsAoI6efQAK8eZ5g8n6bWfimAIbKHrD
+=4JPB
 -----END PGP SIGNATURE-----
 
---z+buRVFir587KtL+--
+--vsHhinrhaqUzFcVS--
