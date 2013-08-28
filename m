@@ -1,26 +1,20 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B7796BCB3
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 586786BA13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 20:44:54 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Aug 2013 13:44:55 -0700
+	Wed, 28 Aug 2013 21:19:17 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 28 Aug 2013 14:19:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,977,1367996400"; d="scan'208";a="394937957"
-Received: from unknown (HELO [10.255.14.210]) ([10.255.14.210])
-	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2013 13:44:54 -0700
-Message-ID: <521E6146.7000807@linux.intel.com>
-Date: Wed, 28 Aug 2013 13:44:54 -0700
+X-IronPort-AV: E=Sophos;i="4.89,978,1367996400"; d="scan'208";a="352955033"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.210])
+	by azsmga001.ch.intel.com with ESMTP; 28 Aug 2013 14:19:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Randy MacLeod <randy.macleod@windriver.com>
-References: <cover.1377568883.git.rongqing.li@windriver.com>
-	<521E5C42.3070504@windriver.com>
-In-Reply-To: <521E5C42.3070504@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/1]libnfsidmap: Add and modify idmapd.conf
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 28 Aug 2013 14:19:16 -0700
+Message-Id: <cover.1377724432.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [CONSOLIDATED PULL 0/4] Kernel fix & QA tests support for RC1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 20:44:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Aug 2013 21:19:18 -0000
 
-On 08/28/2013 01:23 PM, Randy MacLeod wrote:
-> On 13-08-26 10:07 PM, rongqing.li@windriver.com wrote:
->> From: "Roy.Li" <rongqing.li@windriver.com>
->>
->> The following changes since commit
->> 58d05c817cf3be071c66c7e4dbbb9942fd7a0752:
->>
->>    xdg-utils: add runtime dependency on xprop (2013-08-23 16:08:30 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.pokylinux.org/poky-contrib roy/libnfsidmap
->>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/libnfsidmap
->>
->> Zhang Xiao (1):
->>    libnfsidmap: Add and modify idmapd.conf
->>
->>   .../nfs-utils/files/Set_nobody_user_group.patch      |   18
->> ++++++++++++++++++
->>   .../nfs-utils/libnfsidmap_0.25.bb                    |    7 +++++++
->>   2 files changed, 25 insertions(+)
->>   create mode 100644
->> meta/recipes-connectivity/nfs-utils/files/Set_nobody_user_group.patch
->>
->
->
-> It has only been a day and a half but was this missed?
->
->
-No, there are a number of patches on hold right now as we are entering 
-RC1 of the Milestone 4 and we just took on the Kernel Update which we 
-are trying to settle issues with.  I am queuing things in the MUT 
-(Master_Under_Test) branch in the poky-contrib repo.
+Richard,
 
-Thanks for your patience and understanding.
+Here is set of patches to address the sanity test failure we saw on 
+the build overnight, they work! Found a real issue.
 
-Sau!
+I am also including the qa patches that should address some other issues.
+
+Thanks
+	Sau!
+
+The following changes since commit 82c6ab123fafa2acc3d437328a7ca856dfd078d6:
+
+  midori: use BPN instead of PN (2013-08-28 09:30:45 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Bruce Ashfield (1):
+  linux-yocto/3.10: fix ssh login and restore CC_OPTIMIZE_FOR_SIZE
+
+Stefan Stanacar (3):
+  lib/oeqa/runtime: remove some unnecessary checks from setUpModule
+  classes/testimage: increase default boot timeout
+  classes/testimage: add support for finding tests in other layers
+
+ meta/classes/testimage.bbclass                     | 57 +++++++++++++++++-----
+ meta/lib/oeqa/runtime/__init__.py                  |  3 ++
+ meta/lib/oeqa/runtime/date.py                      |  3 --
+ meta/lib/oeqa/runtime/df.py                        |  2 -
+ meta/lib/oeqa/runtime/dmesg.py                     |  2 -
+ meta/lib/oeqa/runtime/vnc.py                       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |  6 +--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |  4 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 16 +++---
+ 9 files changed, 61 insertions(+), 34 deletions(-)
+
+-- 
+1.8.3.1
 
 
