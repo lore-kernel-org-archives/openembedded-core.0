@@ -1,26 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B7096BD03
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id CE0206BBC4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 23:13:27 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 28 Aug 2013 16:13:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,978,1367996400"; d="scan'208";a="393528751"
-Received: from unknown (HELO [10.255.14.210]) ([10.255.14.210])
-	by fmsmga002.fm.intel.com with ESMTP; 28 Aug 2013 16:13:26 -0700
-Message-ID: <521E8414.8060309@linux.intel.com>
-Date: Wed, 28 Aug 2013 16:13:24 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Wed, 28 Aug 2013 23:18:54 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id q59so5912129wes.27
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Aug 2013 16:18:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=suD5XDjn9oeEJZFZ1n7JqTWnFLZR5HJBqNS+EajvzHM=;
+	b=i/e1f7ng8csIi0scjkwxLRp2CPRR2OXZqgYKIFJ1VSHg01Sx0wdByIre6jHM1YDYHG
+	RvjaLJtwQLSDpLY4TukKFlTczl91Y7nVCA+/7uWOoQbllWs7PJoUqSGwZyoVNH7T3fNz
+	kdTk9orhoT4tZB1XtNYuwGlZnZTmWIiGTmB6m9nUZcTdonhNDubKZYUtHMsp+hMv00Uq
+	zwKleYHWVGGvhWsrMFZe7/ZEDwcUbmFwNgRPZJNkwkcYq2R6aTVOvi5QsLymuzwBhTrZ
+	9Cn8/XG47uV0MRj9FhBSmhgfUeRm9mIhustvTuGkDHy29j5FxFo2g8sWxyRY1YWiSVB/
+	+2Kw==
+X-Gm-Message-State: ALoCoQmLrp9ypUkZOtjxAl0HKx73XxUVQqSaIYxZHTvPApFsep3Vkt3M8EMTYlBUF+QwfefV5DmY
+X-Received: by 10.194.80.39 with SMTP id o7mr500858wjx.39.1377731934907; Wed,
+	28 Aug 2013 16:18:54 -0700 (PDT)
 MIME-Version: 1.0
-To: Christopher Larson <kergoth@gmail.com>
-References: <1377706342-15547-1-git-send-email-kergoth@gmail.com>
-In-Reply-To: <1377706342-15547-1-git-send-email-kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gtk+3: don't split immodules if we have none
+Received: by 10.217.91.198 with HTTP; Wed, 28 Aug 2013 16:18:34 -0700 (PDT)
+X-Originating-IP: [5.13.214.171]
+In-Reply-To: <020301ce9e37$b92b36d0$2b81a470$@cn.fujitsu.com>
+References: <020301ce9e37$b92b36d0$2b81a470$@cn.fujitsu.com>
+From: Andrei Gherzan <andrei@gherzan.ro>
+Date: Thu, 29 Aug 2013 02:18:34 +0300
+Message-ID: <CAK18fxGZ0yUsPz1tT5dc5XtTS3qP1BvhOnG4qxHXyv75DG28Ng@mail.gmail.com>
+To: yaoxp <yaoxp@cn.fujitsu.com>
+Cc: openembedded <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane.bbclass:WARNING: QA Issue: xxx doesn't match the [a-z0-9.+-]+ regex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 23:13:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 28 Aug 2013 23:18:55 -0000
+Content-Type: multipart/alternative; boundary=047d7bb045c493823e04e50a367c
 
-On 08/28/2013 09:12 AM, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
+--047d7bb045c493823e04e50a367c
+Content-Type: text/plain; charset=ISO-8859-1
+
+On Wed, Aug 21, 2013 at 9:28 AM, yaoxp <yaoxp@cn.fujitsu.com> wrote:
+
+> Will offer the following warning when there are upper case letters in the
+> BB file name:
+> WARNING: QA Issue: xxx doesn't match the [a-z0-9.+-]+ regex
 >
-> Currently we don't enable any immodules for gtk+3, yet we unconditionally call
-> do_split_packages on a nonexistent path. This results in a return value of
-> None, which it then tries to join, resulting in a TypeError. Only split the
-> modules if we have any modules to split.
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
->   meta/recipes-gnome/gtk+/gtk+3.inc | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-> index f4d5254..204a425 100644
-> --- a/meta/recipes-gnome/gtk+/gtk+3.inc
-> +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-> @@ -94,7 +94,8 @@ python populate_packages_prepend () {
->       immodules_root = os.path.join(gtk_libdir, 'immodules')
->       printmodules_root = os.path.join(gtk_libdir, 'printbackends');
->
-> -    d.setVar('GTKIMMODULES_PACKAGES', ' '.join(do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk3-immodule-%s', 'GTK input module for %s')))
-> +    if os.path.exists(os.path.join(d.getVar('D', True), immodules_root)):
-> +        d.setVar('GTKIMMODULES_PACKAGES', ' '.join(do_split_packages(d, immodules_root, '^im-(.*)\.so$', 'gtk3-immodule-%s', 'GTK input module for %s')))
->       do_split_packages(d, printmodules_root, '^libprintbackend-(.*)\.so$', 'gtk3-printbackend-%s', 'GTK printbackend module for %s')
->
->       if (d.getVar('DEBIAN_NAMES', 1)):
+> Is there such a regulation in yocto that there can't be upper case letters
+> in the BB file name ?
 >
 
-This seems to give me the following QA error:
+It used to be a bug in opkg. Isn't that still reproducible? I didn't test
+it a while ago.
+Here is the link: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3139
 
-> ERROR: QA Issue: gtk+3: Files/directories were installed but not shipped
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-viqr.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-am-et.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-xim.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-multipress.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-cedilla.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-ti-et.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-ipa.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-inuktitut.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-ti-er.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-thai.so
->   /usr/lib/gtk-3.0/3.0.0/immodules/im-cyrillic-translit.so
-> ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
-> ERROR: Logfile of failure stored in: /srv/hdd/builds/world/tmp/work/x86_64-poky-linux/gtk+3/3.8.2-r0/temp/log.do_package.17386
-> ERROR: Task 6017 (/srv/hdd/poky/meta/recipes-gnome/gtk+/gtk+3_3.8.2.bb, do_package) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 6199 tasks of which 6190 didn't need to be rerun and 1 failed.
+ag
 
-Thanks
-	Sau!
+--047d7bb045c493823e04e50a367c
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On Wed, Aug 21, 2013 at 9:28 AM, yaoxp <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:yaoxp@cn.fujitsu.com" target=3D"_blank">yaoxp@cn.fujitsu.com</a=
+>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex">Will offer the following warning when there are upper case=
+ letters in the BB file name:<br>
 
 
+WARNING: QA Issue: xxx doesn&#39;t match the [a-z0-9.+-]+ regex<br>
+<br>
+Is there such a regulation in yocto that there can&#39;t be upper case lett=
+ers in the BB file name ?<br></blockquote><div><br></div><div style>It used=
+ to be a bug in opkg. Isn&#39;t that still reproducible? I didn&#39;t test =
+it a while ago.=A0</div>
+
+<div style>Here is the link:=A0<a href=3D"https://bugzilla.yoctoproject.org=
+/show_bug.cgi?id=3D3139">https://bugzilla.yoctoproject.org/show_bug.cgi?id=
+=3D3139</a>=A0</div><div style><br></div><div style>ag</div></div>
+</div></div>
+
+--047d7bb045c493823e04e50a367c--
