@@ -1,18 +1,25 @@
 Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa08-10.prod.phx3.secureserver.net
-	(p3plsmtpa08-10.prod.phx3.secureserver.net [173.201.193.111])
-	by mail.openembedded.org (Postfix) with ESMTP id D9D366BA72
+Received: from p3plsmtpa11-08.prod.phx3.secureserver.net
+	(p3plsmtpa11-08.prod.phx3.secureserver.net [68.178.252.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AED66BC83
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 11:07:53 +0000 (UTC)
-Received: from llc.pab ([66.41.60.82])
-	by p3plsmtpa08-10.prod.phx3.secureserver.net with 
-	id JB7s1m0081mTNtu01B7sh7; Wed, 28 Aug 2013 04:07:54 -0700
+	Wed, 28 Aug 2013 11:10:32 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa11-08.prod.phx3.secureserver.net with 
+	id JBAX1m00W1mTNtu01BAY7p; Wed, 28 Aug 2013 04:10:33 -0700
+Message-ID: <521DDAAA.5010101@pabigot.com>
+Date: Wed, 28 Aug 2013 06:10:34 -0500
 From: "Peter A. Bigot" <pab@pabigot.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 28 Aug 2013 06:07:45 -0500
-Message-Id: <1377688065-16372-1-git-send-email-pab@pabigot.com>
-X-Mailer: git-send-email 1.8.4
-Subject: [PATCH] bluez4: fix network Connect parameter validation
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1377125231-23508-1-git-send-email-pab@pabigot.com>
+	<CAJTo0LZZBDBEi6L-9KtsE6hA8aosUGsak8_YFduWoVz1LYhrRg@mail.gmail.com>
+	<5215FBD0.6020902@pabigot.com>
+In-Reply-To: <5215FBD0.6020902@pabigot.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][for-dylan] bluez4: fix network Connect parameter validation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,67 +32,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 11:07:56 -0000
+X-List-Received-Date: Wed, 28 Aug 2013 11:10:34 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The incorrect validation prevents connection to the NAP service on another
-device.
+On 08/22/2013 06:53 AM, Peter A. Bigot wrote:
+> On 08/22/2013 04:46 AM, Burton, Ross wrote:
+>> On 21 August 2013 23:47, Peter A. Bigot <pab@pabigot.com> wrote:
+>>> The incorrect validation prevents connection to the NAP service on 
+>>> another
+>>> device.
+>> Is this intended for master as well as dylan?
+>
+> At the moment, no.  I have not been actively developing under master 
+> yet so have not tested it there.
 
-Signed-off-by: Peter A. Bigot <pab@pabigot.com>
----
- ...ork-fix-network-Connect-method-parameters.patch | 30 ++++++++++++++++++++++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
+I am now on master and verified the patch is required.  I've submitted a 
+slight variant for master that does not increment PR.
 
-diff --git a/meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch b/meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
-new file mode 100644
-index 0000000..37f9199
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
-@@ -0,0 +1,30 @@
-+Upstream-Status: Backport
-+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
-+
-+From 57170b311f1468330f4a9961dc0b3ac45f97bc13 Mon Sep 17 00:00:00 2001
-+From: Gustavo Padovan <gustavo.padovan@collabora.co.uk>
-+Date: Sat, 30 Jun 2012 00:39:05 -0300
-+Subject: [PATCH] network: fix network Connect() method parameters
-+
-+---
-+ network/connection.c |    4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/network/connection.c b/network/connection.c
-+index 544ec3a..59423a9 100644
-+--- a/network/connection.c
-++++ b/network/connection.c
-+@@ -554,7 +554,9 @@ static void path_unregister(void *data)
-+ 
-+ static const GDBusMethodTable connection_methods[] = {
-+ 	{ GDBUS_ASYNC_METHOD("Connect",
-+-			NULL, NULL, connection_connect) },
-++				GDBUS_ARGS({"uuid", "s"}),
-++				GDBUS_ARGS({"interface", "s"}),
-++				connection_connect) },
-+ 	{ GDBUS_METHOD("Disconnect",
-+ 			NULL, NULL, connection_disconnect) },
-+ 	{ GDBUS_METHOD("GetProperties",
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-connectivity/bluez/bluez4_4.101.bb b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-index 7af1305..d6c3e26 100644
---- a/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-+++ b/meta/recipes-connectivity/bluez/bluez4_4.101.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://bluetooth.conf \
-             file://sbc_mmx.patch \
-             file://fix-udev-paths.patch \
-             file://obsolete_automake_macros.patch \
-+            file://network-fix-network-Connect-method-parameters.patch \
- "
- 
- SRC_URI[md5sum] = "fb42cb7038c380eb0e2fa208987c96ad"
--- 
-1.8.4
-
+Peter
 
