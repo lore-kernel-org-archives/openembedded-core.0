@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id E0BBB6BBAF
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A8F36BC09
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 23:29:34 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7RNfs1w007144; Wed, 28 Aug 2013 00:41:54 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7RcQ0Hl2X4bw; Wed, 28 Aug 2013 00:41:54 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7RNfn7W007138
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 28 Aug 2013 00:41:50 +0100
-Message-ID: <1377646160.32502.25.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 28 Aug 2013 00:29:20 +0100
-In-Reply-To: <20130827200817.GB3544@jama>
-References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
-	<521D0495.203@windriver.com> <20130827200817.GB3544@jama>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	Wed, 28 Aug 2013 00:34:28 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 27 Aug 2013 17:34:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,971,1367996400"; d="scan'208";a="287605738"
+Received: from unknown (HELO [10.255.14.139]) ([10.255.14.139])
+	by AZSMGA002.ch.intel.com with ESMTP; 27 Aug 2013 17:34:26 -0700
+Message-ID: <521D4590.40607@linux.intel.com>
+Date: Tue, 27 Aug 2013 17:34:24 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Rongqing Li <rongqing.li@windriver.com>
+References: <cover.1377505592.git.rongqing.li@windriver.com>
+	<77319aeee8a2f49fa9ece78c4a0e4e20be3d4165.1377505592.git.rongqing.li@windriver.com>
+	<521B6820.1000000@linux.intel.com> <521BFE8A.803@windriver.com>
+In-Reply-To: <521BFE8A.803@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: update to 2013.07
+Subject: Re: [PATCH 1/1] btrfs-tools: Add dependency on lzo acl e2fsprog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,81 +34,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 27 Aug 2013 23:29:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 28 Aug 2013 00:34:29 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-08-27 at 22:08 +0200, Martin Jansa wrote:
-> On Tue, Aug 27, 2013 at 03:57:09PM -0400, Randy MacLeod wrote:
-> > On 13-08-23 05:48 AM, Laszlo Papp wrote:
-> > > Signed-off-by: Laszlo Papp <lpapp@kde.org>
-> > > ---
-> > >   meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb | 27 +++++++++++++++++++++++
-> > >   meta/recipes-bsp/u-boot/u-boot_2013.07.bb         | 23 +++++++++++++++++++
-> > >   2 files changed, 50 insertions(+)
-> > >   create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
-> > >   create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
-> > >
-> > ...
-> > > diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
-> > > new file mode 100644
-> > > index 0000000..f3f4b62
-> > > --- /dev/null
-> > > +++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
-> > > @@ -0,0 +1,23 @@
-> > > +require u-boot.inc
-> > > +
-> > > +# To build u-boot for your machine, provide the following lines in your machine
-> > > +# config, replacing the assignments as appropriate for your machine.
-> > > +# UBOOT_MACHINE = "omap3_beagle_config"
-> > > +# UBOOT_ENTRYPOINT = "0x80008000"
-> > > +# UBOOT_LOADADDRESS = "0x80008000"
-> > > +
-> > > +LICENSE = "GPLv2+"
-> > > +LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
-> > > +                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
-> > > +
-> > > +# This revision corresponds to the tag "v2013.07"
-> > > +# We use the revision in order to avoid having to fetch it from the repo during parse
-> > > +SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
-> > > +
-> > > +PV = "v2013.07+git${SRCPV}"
-> > > +
-> > > +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
-> > 
-> > Just curious...
-> > I dont' see a good reason to specify the git protocol twice:
-> >     git://.... and ; protocol=git
-> 
-> It's not twice, git:// is to select bitbake fetcher (git.py) and one
-> fetcher can support multiple protocols (e.g. over git, http or ssh)
-> 
-> but you're right that in most cases "protocol=git" isn't needed, because
-> it's default protocol for git fetcher when host is specified in that
-> SRC_URI.
-> 
-> bitbake/lib/bb/fetch2/git.py:
->         if 'protocol' in ud.parm:
->             ud.proto = ud.parm['protocol']
->         elif not ud.host:
->             ud.proto = 'file'
->         else:
->             ud.proto = "git"
-> 
-> And I would support removing it in one go as it clearly confuses people
-> :).
+On 08/26/2013 06:19 PM, Rongqing Li wrote:
+>
+>
+> On 08/26/2013 10:37 PM, Saul Wold wrote:
+>>
+>> Why?
+>>
+Still need give a better commit message about why these depends are needed.
 
-The reason is that the default for the git fetcher was once rsync. Why?
-The fetcher was written when git was still a new and unexplored
-landscape. We decided in the end to break that insane default and fix
-it.
+Sau!
 
-We should kill off the now unnecessary parameters though.
-
-Cheers,
-
-Richard
-
-
-
+>> And should the acl be controlled by a PACKAGECONFIG?  Can it be disabled
+>> during do_configure?
+>>
+>> Sau!
+>
+> btrfs-tools does not inherit autotools, and does not support the
+> configuration.
+>
+> it includes <sys/acl.h> hard-code.
+>
+> The commit which includes <sys/acl.h> is below:
+>
+> commit 62a72e7d9ada7a986dd299622b2233fe2e386003
+> Author: Yan <yanzheng@21cn.com>
+> Date:   Mon Jan 14 13:35:00 2008 -0500
+>
+>      xattr support for the ext3->btrfs converter
+>
+> diff --git a/convert.c b/convert.c
+> index beb9a96..c047620 100644
+> --- a/convert.c
+> +++ b/convert.c
+> @@ -25,6 +25,7 @@
+>   #include <stdlib.h>
+>   #include <sys/types.h>
+>   #include <sys/stat.h>
+> +#include <sys/acl.h>
+>   #include <fcntl.h>
+>   #include <unistd.h>
+>   #include <uuid/uuid.h>
+> @@ -35,11 +36,10 @@
+>   #include "transaction.h"
+>   #include "crc32c.h"
+>   #include "utils.h"
+> -#include "ext2fs/ext2_fs.h"
+> -#include "ext2fs/ext2fs.h"
+> -
+> +#include <ext2fs/ext2_fs.h>
+> +#include <ext2fs/ext2fs.h>
+> +#include <ext2fs/ext2_ext_attr.h>
+>   #define INO_OFFSET (BTRFS_FIRST_FREE_OBJECTID - EXT2_ROOT_INO)
+> -
+>   /*
+>    * Open Ext2fs in readonly mode, read block allocation bitmap and
+>    * inode bitmap into memory.
+> @@ -446,7 +446,8 @@ static int __block_iterate_proc(ext2_filsys fs,
+> blk_t *blocknr,
+>   static int create_file_extents(struct btrfs_trans_handle *trans,
+>                                 struct btrfs_root *root, u64 objectid,
+>                                 struct btrfs_inode_item *btrfs_inode,
+> -                              ext2_filsys ext2_fs, ext2_ino_t ext2_ino)
+> +                              ext2_filsys ext2_fs, ext2_ino_t ext2_ino,
+> +                              int datacsum, int packing)
+>
+>
+>
+>
+>
+>
+>
+> The btrfs-convert.c which include <sys/acl.h> is below:
+>
+>
+>   * but WITHOUT ANY WARRANTY; without even the implied warranty of
+>   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+>   * General Public License for more details.
+>   *
+>   * You should have received a copy of the GNU General Public
+>   * License along with this program; if not, write to the
+>   * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+>   * Boston, MA 021110-1307, USA.
+>   */
+>
+> #define _XOPEN_SOURCE 600
+> #define _GNU_SOURCE 1
+>
+> #include "kerncompat.h"
+>
+> #ifndef __CHECKER__
+> #include <sys/ioctl.h>
+> #include <sys/mount.h>
+> #endif
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <sys/types.h>
+> #include <sys/stat.h>
+> #include <sys/acl.h>
+>
+>
+> both are hard-code.
+>
+>
+> -Roy
+>
+>
+>>
+>> On 08/26/2013 01:56 AM, rongqing.li@windriver.com wrote:
+>>> From: "Roy.Li" <rongqing.li@windriver.com>
+>>>
+>>> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+>>> ---
+>>>   meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb |    2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>> b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>> index 07e8529..3ec9e8a 100644
+>>> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+>>> @@ -10,7 +10,7 @@ HOMEPAGE = "https://btrfs.wiki.kernel.org"
+>>>   LICENSE = "GPLv2"
+>>>   LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+>>>   SECTION = "base"
+>>> -DEPENDS = "util-linux attr"
+>>> +DEPENDS = "util-linux attr e2fsprogs lzo acl"
+>>>
+>>>   SRCREV = "194aa4a1bd6447bb545286d0bcb0b0be8204d79f"
+>>>   SRC_URI =
+>>> "git://git.kernel.org/pub/scm/linux/kernel/git/mason/btrfs-progs.git;protocol=git"
+>>>
+>>>
+>>>
+>>
+>>
+>
 
