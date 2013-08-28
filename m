@@ -1,26 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Randy.MacLeod@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D48436BC95
+	by mail.openembedded.org (Postfix) with ESMTP id 314A26B988
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 02:51:49 +0000 (UTC)
+	Wed, 28 Aug 2013 03:55:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7S2ponZ026306
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 27 Aug 2013 19:51:50 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 27 Aug 2013 19:51:50 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 28 Aug 2013 10:52:05 +0800
-Message-ID: <f0b21f7218b037ed76014a341b68568ef4474675.1377658086.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1377658086.git.Qi.Chen@windriver.com>
-References: <cover.1377658086.git.Qi.Chen@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7S3oPGg000166
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 27 Aug 2013 20:50:25 -0700 (PDT)
+Received: from [128.224.21.235] (128.224.21.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 27 Aug 2013 20:50:24 -0700
+Message-ID: <521D737D.4000706@windriver.com>
+Date: Tue, 27 Aug 2013 23:50:21 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH V2 3/3] runqemu-internal: provide more info if a preconfigured tap is used
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Huang, Jie (Jackie)"
+	<Jackie.Huang@windriver.com>
+References: <1377251290-4290-1-git-send-email-lpapp@kde.org>
+	<521D0495.203@windriver.com> <20130827200817.GB3544@jama>
+	<1377646160.32502.25.camel@ted>
+In-Reply-To: <1377646160.32502.25.camel@ted>
+X-Originating-IP: [128.224.21.235]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: update to 2013.07
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +38,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Aug 2013 02:51:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 28 Aug 2013 03:55:32 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 13-08-27 07:29 PM, Richard Purdie wrote:
+> On Tue, 2013-08-27 at 22:08 +0200, Martin Jansa wrote:
+>> On Tue, Aug 27, 2013 at 03:57:09PM -0400, Randy MacLeod wrote:
+>>> On 13-08-23 05:48 AM, Laszlo Papp wrote:
+>>>> Signed-off-by: Laszlo Papp <lpapp@kde.org>
+>>>> ---
+>>>>    meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb | 27 +++++++++++++++++++++++
+>>>>    meta/recipes-bsp/u-boot/u-boot_2013.07.bb         | 23 +++++++++++++++++++
+>>>>    2 files changed, 50 insertions(+)
+>>>>    create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage_2013.07.bb
+>>>>    create mode 100644 meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>>>>
+>>> ...
+>>>> diff --git a/meta/recipes-bsp/u-boot/u-boot_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>>>> new file mode 100644
+>>>> index 0000000..f3f4b62
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-bsp/u-boot/u-boot_2013.07.bb
+>>>> @@ -0,0 +1,23 @@
+>>>> +require u-boot.inc
+>>>> +
+>>>> +# To build u-boot for your machine, provide the following lines in your machine
+>>>> +# config, replacing the assignments as appropriate for your machine.
+>>>> +# UBOOT_MACHINE = "omap3_beagle_config"
+>>>> +# UBOOT_ENTRYPOINT = "0x80008000"
+>>>> +# UBOOT_LOADADDRESS = "0x80008000"
+>>>> +
+>>>> +LICENSE = "GPLv2+"
+>>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb \
+>>>> +                    file://README;beginline=1;endline=22;md5=78b195c11cb6ef63e6985140db7d7bab"
+>>>> +
+>>>> +# This revision corresponds to the tag "v2013.07"
+>>>> +# We use the revision in order to avoid having to fetch it from the repo during parse
+>>>> +SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+>>>> +
+>>>> +PV = "v2013.07+git${SRCPV}"
+>>>> +
+>>>> +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+>>>
+>>> Just curious...
+>>> I dont' see a good reason to specify the git protocol twice:
+>>>      git://.... and ; protocol=git
+>>
+>> It's not twice, git:// is to select bitbake fetcher (git.py) and one
+>> fetcher can support multiple protocols (e.g. over git, http or ssh)
+>>
+>> but you're right that in most cases "protocol=git" isn't needed, because
+>> it's default protocol for git fetcher when host is specified in that
+>> SRC_URI.
+>>
+>> bitbake/lib/bb/fetch2/git.py:
+>>          if 'protocol' in ud.parm:
+>>              ud.proto = ud.parm['protocol']
+>>          elif not ud.host:
+>>              ud.proto = 'file'
+>>          else:
+>>              ud.proto = "git"
+>>
+>> And I would support removing it in one go as it clearly confuses people
+>> :).
+>
+> The reason is that the default for the git fetcher was once rsync. Why?
+> The fetcher was written when git was still a new and unexplored
+> landscape. We decided in the end to break that insane default and fix
+> it.
+>
+> We should kill off the now unnecessary parameters though.
 
-We should provide the user more information if a preconfigured tap
-is used. This is because the user might have manually set up the tap
-interface to be used by other qemu binaries.
+Ok. Jackie will have time to make a first pass tomorrow.
+Jackie, please include the replacement script in your email.
 
-So at a minimum, we should let the user know how to make runqemu skip
-that tap interface.
+// Randy
 
-[YOCTO #5047]
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- scripts/runqemu-internal |    1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 8165e13..f9d8728 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -214,6 +214,7 @@ else
-             fi 
-         else
-             echo "Using preconfigured tap device '$TAP'"
-+            echo "If this is not intended, use flock on $LOCKFILE.lock to make runqemu skip $TAP."
-         fi
- 
-         cleanup() {
 -- 
-1.7.9.5
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
