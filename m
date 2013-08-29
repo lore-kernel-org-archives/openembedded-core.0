@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 51BC66BC8D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CBE0D6BC8D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 13:13:37 +0000 (UTC)
+	Thu, 29 Aug 2013 13:13:42 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7TDDcQb017382
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7TDDeY8007138
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 06:13:38 -0700 (PDT)
+	Thu, 29 Aug 2013 06:13:40 -0700 (PDT)
 Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 29 Aug 2013 06:13:37 -0700
+	14.2.342.3; Thu, 29 Aug 2013 06:13:39 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Aug 2013 09:13:33 -0400
-Message-ID: <cover.1377781793.git.liezhi.yang@windriver.com>
+Date: Thu, 29 Aug 2013 09:13:34 -0400
+Message-ID: <454944e7bd4c831bea934852393d8e16abe1d5ff.1377781793.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1377781793.git.liezhi.yang@windriver.com>
+References: <cover.1377781793.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] state.bbclass: check before open the manifest
+Subject: [PATCH 1/1] sstate.bbclass: check before open the manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 13:13:40 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 13:13:42 -0000
 Content-Type: text/plain
 
-The following changes since commit 5745e45b18e5099e94b4d5a73bc97dc6d4cdc91f:
+The python stack trace would be printed if we:
 
-  buildtools-tarball: Add python-pkgutil (2013-08-29 00:23:20 +0100)
+$ bitbake make (the make-3.82 will be built)
+// Edit make.inc
+$ bitbake make-3.81
+[snip]
+ *** 0004:    mfile = open(manifest)
+     0005:    entries = mfile.readlines()
+     0006:    mfile.close()
+     0007:
+     0008:    for entry in entries:
+Exception: IOError: [Errno 2] No such file or directory: xxx
+[snip]
 
-are available in the git repository at:
+This because the make-3.81 and make-3.82 are being built at the same
+time, the manifest may have been removed by make-3.82, but make-3.81
+still opens it, so the error happens.
 
-  git://git.pokylinux.org/poky-contrib robert/sstate
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/sstate
+Check before open the manifest would fix the problem.
 
-Robert Yang (1):
-  sstate.bbclass: check before open the manifest
+[YOCTO #5067]
 
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/classes/sstate.bbclass |    3 +++
  1 file changed, 3 insertions(+)
 
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index c86f393..6e71086 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -302,6 +302,9 @@ def sstate_clean_cachefiles(d):
+ def sstate_clean_manifest(manifest, d):
+     import oe.path
+ 
++    if not os.path.exists(manifest):
++        return True
++
+     mfile = open(manifest)
+     entries = mfile.readlines()
+     mfile.close()
 -- 
 1.7.10.4
 
