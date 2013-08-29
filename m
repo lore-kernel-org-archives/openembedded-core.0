@@ -1,17 +1,19 @@
 Return-Path: <muhammad_shakeel@mentor.com>
 Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 269D76BD54
+	by mail.openembedded.org (Postfix) with ESMTP id 828B86BD6B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 07:40:04 +0000 (UTC)
+	Thu, 29 Aug 2013 07:40:10 +0000 (UTC)
 Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7T7e09U007752; 
-	Thu, 29 Aug 2013 02:40:02 -0500
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7T7e09W007752; 
+	Thu, 29 Aug 2013 02:40:10 -0500
 From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2013 12:41:06 +0500
-Message-Id: <1377762070-22599-1-git-send-email-muhammad_shakeel@mentor.com>
+Date: Thu, 29 Aug 2013 12:41:08 +0500
+Message-Id: <1377762070-22599-3-git-send-email-muhammad_shakeel@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 1/5] [v5] openssh: Add systemd support
+In-Reply-To: <1377762070-22599-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1377762070-22599-1-git-send-email-muhammad_shakeel@mentor.com>
+Subject: [PATCH 3/5] [v5] rpcbind: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,127 +26,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 07:40:07 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 07:40:10 -0000
 
 From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
--Remove dependency on meta-systemd
+- Remove dependency on meta-systemd
 
 Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- .../openssh/openssh-6.2p2/sshd.socket              |   11 ++++++++++
- .../openssh/openssh-6.2p2/sshd@.service            |    9 +++++++++
- .../openssh/openssh-6.2p2/sshdgenkeys.service      |   10 ++++++++++
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   21 ++++++++++++++++++--
- 4 files changed, 49 insertions(+), 2 deletions(-)
+ meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf |    3 +++
+ .../rpcbind/rpcbind/rpcbind.service                |   14 ++++++++++++++
+ meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb     |   16 +++++++++++++++-
+ 3 files changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf
 new file mode 100644
-index 0000000..d19ab2a
+index 0000000..2a4dfbc
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
-@@ -0,0 +1,11 @@
-+[Unit]
-+Conflicts=sshd.service
-+
-+[Socket]
-+ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
-+ListenStream=22
-+Accept=yes
-+
-+[Install]
-+WantedBy=sockets.target
-+Also=sshdgenkeys.service
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf
+@@ -0,0 +1,3 @@
++# Optional arguments passed to rpcbind.
++#
++RPCBIND_OPTS=""
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
 new file mode 100644
-index 0000000..64e009f
+index 0000000..4de28d4
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
-@@ -0,0 +1,9 @@
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+@@ -0,0 +1,14 @@
 +[Unit]
-+Description=OpenSSH Per-Connection Daemon
-+After=sshdgenkeys.service
++Description=RPC Bind
++After=network.target
++Wants=rpcbind.target
++Before=rpcbind.target
 +
 +[Service]
-+ExecStart=-@SBINDIR@/sshd -i
-+ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
-+StandardInput=socket
-+StandardError=syslog
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
-new file mode 100644
-index 0000000..2fd8a9a
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
-@@ -0,0 +1,10 @@
-+[Unit]
-+Description=SSH Key Generation
-+
-+[Service]
-+ExecStart=@BINDIR@/ssh-keygen -A
-+Type=oneshot
-+RemainAfterExit=yes
++Type=forking
++EnvironmentFile=-@SYSCONFDIR@/rpcbind.conf
++ExecStart=@SBINDIR@/rpcbind -w $RPCBIND_OPTS
++Restart=always
 +
 +[Install]
 +WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index c76f9ac..cda22c4 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -26,14 +26,17 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            file://init \
-            file://openssh-CVE-2011-4327.patch \
-            file://mac.patch \
--           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
-+           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-+           file://sshd.socket \
-+           file://sshd@.service \
-+           file://sshdgenkeys.service "
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+index be2897c..a75e4e1 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_0.2.0.bb
+@@ -15,6 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://fix_host_path.patch \
+            file://obsolete_automake_macros.patch \
+            ${UCLIBCPATCHES} \
++           file://rpcbind.conf \
++           file://rpcbind.service \
+           "
  
- PAM_SRC_URI = "file://sshd"
+ UCLIBCPATCHES_libc-uclibc = "file://0001-uclibc-nss.patch \
+@@ -27,7 +29,7 @@ SRC_URI[sha256sum] = "c92f263e0353887f16379d7708ef1fb4c7eedcf20448bc1e4838f59497
  
- SRC_URI[md5sum] = "be46174dcbb77ebb4ea88ef140685de1"
- SRC_URI[sha256sum] = "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90c766432e32161b842313b"
+ PR = "r4"
  
--inherit useradd update-rc.d update-alternatives
-+inherit useradd update-rc.d update-alternatives systemd
+-inherit autotools update-rc.d
++inherit autotools update-rc.d systemd
  
- USERADD_PACKAGES = "${PN}-sshd"
- USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
-@@ -41,6 +44,10 @@ INITSCRIPT_PACKAGES = "${PN}-sshd"
- INITSCRIPT_NAME_${PN}-sshd = "sshd"
- INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
- 
-+SYSTEMD_PACKAGES = "${PN}-sshd"
-+SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket sshd@.service sshdgenkeys.service"
-+SYSTEMD_AUTO_ENABLE = "enable"
-+
  PACKAGECONFIG ??= "tcp-wrappers"
- PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+@@ -35,6 +37,11 @@ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+ INITSCRIPT_NAME = "rpcbind"
+ INITSCRIPT_PARAMS = "start 43 S . start 32 0 6 . stop 81 1 ."
  
-@@ -93,6 +100,15 @@ do_install_append () {
- 	echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
- 	echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
- 	echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
++SYSTEMD_SERVICE_${PN} = "rpcbind.service"
++SYSTEMD_AUTO_ENABLE = "disable"
 +
-+	install -d ${D}${systemd_unitdir}/system
-+	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
-+	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
-+	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
-+	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+		-e 's,@SBINDIR@,${sbindir},g' \
-+		-e 's,@BINDIR@,${bindir},g' \
-+		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
- }
++EXTRA_OECONF += " --enable-warmstarts "
++
+ do_install_append () {
+ 	mv ${D}${bindir} ${D}${sbindir}
  
- ALLOW_EMPTY_${PN} = "1"
-@@ -102,6 +118,7 @@ FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
- FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly"
-+FILES_${PN}-sshd += "${systemd_unitdir}"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+@@ -43,4 +50,11 @@ do_install_append () {
+ 		-e 's,/sbin/,${sbindir}/,g' \
+ 		${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
+ 	chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
++
++	install -m 0755 ${WORKDIR}/rpcbind.conf ${D}${sysconfdir}
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
++	sed -i -e 's,@SBINDIR@,${sbindir},g' \
++		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
++		${D}${systemd_unitdir}/system/rpcbind.service
+ }
 -- 
 1.7.9.5
 
