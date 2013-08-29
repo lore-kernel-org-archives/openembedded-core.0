@@ -1,26 +1,51 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 110FE6BD4D
+Return-Path: <elvis.dowson@gmail.com>
+Received: from mail-pb0-f44.google.com (mail-pb0-f44.google.com
+	[209.85.160.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 22AE96BD11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 02:36:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7T2aMTR027720
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 29 Aug 2013 04:36:57 +0000 (UTC)
+Received: by mail-pb0-f44.google.com with SMTP id xa7so7177799pbc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 19:36:23 -0700 (PDT)
-Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 28 Aug 2013 19:36:21 -0700
-From: <jackie.huang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Aug 2013 10:36:17 +0800
-Message-ID: <f48a576c2a1e09f0fec53aedf6dca5ca001047bd.1377674089.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.7.4.1
-In-Reply-To: <cover.1377674089.git.jackie.huang@windriver.com>
-References: <cover.1377674089.git.jackie.huang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] syslinux.bbclass: pull files from correct places for multilib
+	Wed, 28 Aug 2013 21:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=1NWrg5qYtO/iNFg2Hd5Zb4+rlf40VQT0lo5XDL/tHQM=;
+	b=JcdrVL6JFV9u6W/6KCs7NlzadSIyMxY+JlWqnepoP1KMI5ZAHEKTrQMEpo5fHIA7qn
+	gPer58+aJT9YDoVIiVanSGryixxUS8GmWTU3AqXZMONbtQZEUo+149CAJ9AgTNY4+k9o
+	/SmyrThMuAphVZcJ8E7vnfK1L/p4RKWaC97qnQG+rEwFVYVSw5vMRSFkbeoqzMBzB/N1
+	UIs109xwAwtPs0cMxb2DkMVdyr4UdKLVf7o411JBKRDs2bYWWjtnRE/rYgG+Ue/yAWWJ
+	plxP8FrPxzHCmZFkzc6Um2sxbnnx9LZn3Yp8YxJrgz3Svp3/vS0WEaSrgm9Q9eLBQhKB
+	RRDA==
+X-Received: by 10.67.30.70 with SMTP id kc6mr2195783pad.32.1377751017890;
+	Wed, 28 Aug 2013 21:36:57 -0700 (PDT)
+Received: from [192.168.1.106] ([94.205.106.26])
+	by mx.google.com with ESMTPSA id
+	tg7sm32444428pbc.36.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 28 Aug 2013 21:36:57 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
+From: Elvis Dowson <elvis.dowson@gmail.com>
+In-Reply-To: <521E7D2E.6060404@windriver.com>
+Date: Thu, 29 Aug 2013 08:36:51 +0400
+Message-Id: <E66BA9BD-07D4-4A90-BFB9-0908608FBD07@gmail.com>
+References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
+	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
+	<092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
+	<4AC41A5E-073D-4973-82BD-F94A8B168F34@gmail.com>
+	<521AA95A.8000803@windriver.com>
+	<7DBFB4EE-4727-422F-8815-D801827A37C9@gmail.com>
+	<521AD896.3000503@windriver.com>
+	<6324D287-2CA2-4A88-AFF4-58CABE82B2CC@gmail.com>
+	<521BA7CB.7070206@windriver.com>
+	<2D33FB6A-9F7F-4E8E-8B1A-CED1D571A82C@gmail.com>
+	<521D0622.6090802@windriver.com>
+	<2AC87191-8D2B-4972-A249-2043B68A0A7B@gmail.com>
+	<521E7D2E.6060404@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+X-Mailer: Apple Mail (2.1498)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,50 +58,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 02:36:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Aug 2013 04:36:57 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-From: Jackie Huang <jackie.huang@windriver.com>
 
-syslinux files isolinux.bin, ldlinux.sys and vesamenu.c32 are used
-when building hdd/iso image, but in multilib case, STAGING_DATADIR
-points to ${MLPREFIX}${MACHINE} in sysroot which is not correct
-for pulling syslinux files, fix it to ${MACHINE}.
+On Aug 29, 2013, at 2:43 AM, Bruce Ashfield =
+<bruce.ashfield@windriver.com> wrote:
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- meta/classes/syslinux.bbclass |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+> On 13-08-28 11:16 AM, Elvis Dowson wrote:
+>> Hi,
+>>        I get the following error while running the bitbake =
+linux-yocto
+>> command for a qemu machine conf that I'm building. The build system =
+is
+>> unable to find the dtc binary:
+>>=20
+>> | make: Leaving directory
+>> =
+`/tool/yocto/poky/build/tmp/work/qemuarma9-poky-linux-gnueabi/linux-yocto/=
+3.4.52+gitAUTOINC+7250de4d4a_4122d6cf3f-r4.5/image/usr/src/kernel'
+>> | NOTE: make -j 6 vexpress-v2p-ca9.dtb
+>> |   DTC     arch/arm/boot/vexpress-v2p-ca9.dtb
+>> | /bin/sh:
+>> =
+/tool/yocto/poky/build/tmp/work/qemuarma9-poky-linux-gnueabi/linux-yocto/3=
+.4.52+gitAUTOINC+7250de4d4a_4122d6cf3f-r4.5/linux-qemuarma9-standard-build=
+/scripts/dtc/dtc:
+>> No such file or directory
+>> | make[3]: *** [arch/arm/boot/vexpress-v2p-ca9.dtb] Error 1
+>> | make[2]: *** [vexpress-v2p-ca9.dtb] Error 2
+>> | make[1]: *** [sub-make] Error 2
+>> | make: *** [all] Error 2
+>> | ERROR: oe_runmake failed
+>> | WARNING:
+>> =
+/tool/yocto/poky/build/tmp/work/qemuarma9-poky-linux-gnueabi/linux-yocto/3=
+.4.52+gitAUTOINC+7250de4d4a_4122d6cf3f-r4.5/temp/run.do_install.10606:1
+>> exit 1 from
+>> |   exit 1
+>> | ERROR: Function failed: do_install (log file is located at
+>> =
+/tool/yocto/poky/build/tmp/work/qemuarma9-poky-linux-gnueabi/linux-yocto/3=
+.4.52+gitAUTOINC+7250de4d4a_4122d6cf3f-r4.5/temp/log.do_install.10606)
+>> ERROR: Task 4
+>> (/tool/yocto/poky/meta/recipes-kernel/linux/linux-yocto_3.4.bb,
+>> do_install) failed with exit code '1'
+>> NOTE: Tasks Summary: Attempted 598 tasks of which 597 didn't need to =
+be
+>> rerun and 1 failed.
+>=20
+> Did you ever get past this ? It looks like the recent device tree
+> changes where we use the kernel dtc versus an external dtc are causing
+> you a problem.
 
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index 501bc6d..a9eba59 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -40,9 +40,9 @@ syslinux_populate() {
- 
- syslinux_iso_populate() {
- 	syslinux_populate ${ISODIR} ${ISOLINUXDIR} isolinux.cfg
--	install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
-+	install -m 0644 ${STAGING_DIR}/${MACHINE}/${datadir}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
- 	if [ "${AUTO_SYSLINUXMENU}" = 1 ] ; then
--		install -m 0644 ${STAGING_DATADIR}/syslinux/vesamenu.c32 ${ISODIR}${ISOLINUXDIR}/vesamenu.c32
-+		install -m 0644 ${STAGING_DIR}/${MACHINE}/${datadir}/syslinux/vesamenu.c32 ${ISODIR}${ISOLINUXDIR}/vesamenu.c32
- 		if [ "${SYSLINUX_SPLASH}" != "" ] ; then
- 			install -m 0644 ${SYSLINUX_SPLASH} ${ISODIR}${ISOLINUXDIR}/splash.lss
- 		fi
-@@ -51,9 +51,9 @@ syslinux_iso_populate() {
- 
- syslinux_hddimg_populate() {
- 	syslinux_populate ${HDDDIR} ${SYSLINUXDIR} syslinux.cfg
--	install -m 0444 ${STAGING_DATADIR}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
-+	install -m 0444 ${STAGING_DIR}/${MACHINE}/${datadir}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
- 	if [ "${AUTO_SYSLINUXMENU}" = 1 ] ; then
--		install -m 0644 ${STAGING_DATADIR}/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
-+		install -m 0644 ${STAGING_DIR}/${MACHINE}/${datadir}/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
- 		if [ "${SYSLINUX_SPLASH}" != "" ] ; then
- 			install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
- 		fi
--- 
-1.7.4.1
+I did get past this, after I updated the SRCREV_meta with the correct =
+commit,
+which resulted in the correct kconfig fragment being picked up, with =
+enabled
+the device tree option in the kernel.
 
+However, I'm unable to get qemu to boot correctly, for both ARM Cortex =
+A9
+and ARM Cortex A* (beagle). Maybe this has to do with the fact that it =
+needs
+xload+uboot in addition to the kernel, using an SD card image.
+
+Any suggestions on how I can do this?
+
+I'd like to know how qemuarmv6, qemuarmv9 and qemuarma9 were tested
+earlier.
+
+I think its important to get atleast the A8 and A( QEMU platforms up and =
+running
+in oe-core, since they represent a bunch of the current targets used for =
+actual
+development.
+
+Best regards,
+
+Elvis Dowson=
 
