@@ -1,38 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B9716BE9D
+Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C97F6BEF4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 16:02:10 +0000 (UTC)
-Received: by mail-ea0-f169.google.com with SMTP id k11so346604eaj.28
+	Thu, 29 Aug 2013 16:02:11 +0000 (UTC)
+Received: by mail-ee0-f44.google.com with SMTP id b47so348755eek.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 09:02:10 -0700 (PDT)
+	Thu, 29 Aug 2013 09:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=Xh/DlyklriqOhqt4mUcgHhikUpRWUqv5mqvtjXCZtNA=;
-	b=wjcb10nYOP1aDnN/Neprzh5AktHglaYsu+d6fWwXTh/tUJraJFK461wYs1KHjF1csu
-	uCIpdHv0KvLWAruNO0A51eKBq+u+z09Lfrb4OHj6FT7FBK5JAg/Ty1cTHL3p1ZwaWYx6
-	QD+nN/BYsyz7+sduZXj5aTSi9og9OZAOTAOTAnnldRAl9sg4jflIULu1bXc/xJ9UwSSE
-	SDxz7HYB9lHsgwNNORLFAj9am/sckVl6O3e7gBD5ToYidmnvIjpWFY6QkQZMqSshP7Rq
-	ncH7dhzl9VV5OFIDiBCuC0wNg/GmnZmYTUU9hVgXPxLXOlolj/utV3JbKfXAzcqQ/t9e
-	1uqg==
-X-Received: by 10.14.223.134 with SMTP id v6mr4063eep.88.1377792130640;
-	Thu, 29 Aug 2013 09:02:10 -0700 (PDT)
+	:references; bh=Uy4jNzxXT37bvgklCi0g0Oi5VsuGF9JObczA1t76PGE=;
+	b=tynUXas3Nr7qQTZh9e8fgWif7/zfGf2PmkR+mIexhgGISB1o3a/k4Elsty5TsdyWk/
+	nw3/3Sr7A0PyMLS7rI8GELU8wnjW3KtlziA9N9taWrmi7KU1LM8XpCArLi8u7I2Dix7T
+	itLGFyEk4L9LyFH990mUUZ9WeYAxolfMUSEndoiltpfYrq2agjnC+XJopH4el84bfFrb
+	Syrpsnz2wQNidZU4c2+dh8e/gNsmZp183eLBLhqCbxeZwaW/zkdjczfF+QnfieyW4d7P
+	YyUfEzoXu20QsniJrakTs4p2n4kzkPFd9Ee4UrSbxDk3ZT1lVUKzTEByzERPbz/nlOrW
+	JTSQ==
+X-Received: by 10.14.174.8 with SMTP id w8mr3336eel.84.1377792131881;
+	Thu, 29 Aug 2013 09:02:11 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	r48sm47253487eev.14.1969.12.31.16.00.00
+	j7sm47263229eeo.15.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 29 Aug 2013 09:02:10 -0700 (PDT)
+	Thu, 29 Aug 2013 09:02:11 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2013 18:02:59 +0200
-Message-Id: <f774e0b175fe470e3df929b79df3c2e669094cb8.1377792006.git.Martin.Jansa@gmail.com>
+Date: Thu, 29 Aug 2013 18:03:00 +0200
+Message-Id: <985355a8e4e1d0600488af18687a544c62c61b9f.1377792006.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1377792005.git.Martin.Jansa@gmail.com>
 References: <cover.1377792005.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1377792005.git.Martin.Jansa@gmail.com>
 References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-Subject: [WIP][PATCH 12/20] x11vnc: Add PACKAGECONFIG for xfixes, xinerama, xrandr and xdamage
+Subject: [WIP][PATCH 13/20] guile: Add PACKAGECONFIG for readline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,29 +44,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 16:02:10 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 16:02:12 -0000
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-devtools/guile/guile_2.0.9.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-index 4b8bed4..7c404e3 100644
---- a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-+++ b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-@@ -18,5 +18,11 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
- SRC_URI[md5sum] = "a372ec4fe8211221547b1c108cf56e4c"
- SRC_URI[sha256sum] = "f6829f2e629667a5284de62b080b13126a0736499fe47cdb447aedb07a59f13b"
+diff --git a/meta/recipes-devtools/guile/guile_2.0.9.bb b/meta/recipes-devtools/guile/guile_2.0.9.bb
+index 0dd61ff..0cbc216 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.9.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.9.bb
+@@ -40,6 +40,9 @@ RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
+ 
+ EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix --without-libreadline-prefix', ''][bb.data.inherits_class('native',d)]}"
  
 +PACKAGECONFIG ??= ""
-+PACKAGECONFIG[xfixes] = "--with-xfixes,--without-xfixes,libxfixes"
-+PACKAGECONFIG[xinerama] = "--with-xinerama,--without-xinerama,libxinerama"
-+PACKAGECONFIG[xrandr] = "--with-xrandr,--without-xrandr,libxrandr"
-+PACKAGECONFIG[xdamage] = "--with-xdamage,--without-xdamage,libxdamage"
++PACKAGECONFIG[readline] = "--with-libreadline,--without-libreadline-support,readline"
 +
- inherit autotools
- 
+ do_configure_prepend() {
+ 	mkdir -p po
+ }
 -- 
 1.8.3.2
 
