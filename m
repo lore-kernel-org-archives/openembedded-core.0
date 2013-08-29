@@ -1,34 +1,23 @@
-Return-Path: <elvis.dowson@gmail.com>
-Received: from mail-pb0-f43.google.com (mail-pb0-f43.google.com
-	[209.85.160.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 656536BED8
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B90A6BEF7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 16:23:04 +0000 (UTC)
-Received: by mail-pb0-f43.google.com with SMTP id md4so665550pbc.30
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 09:23:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=83u8XAOhEqRKNWTZTW0LbzwOBbYVgfooE44bY1q99BY=;
-	b=Y6XzrYn+msxP9uiRjb2iR4e7SocNLQ46p1X8oRZxExU/IhVukxgpPJUPT2Qwc3ieN0
-	p90C8NdZX6BAJC8UT2kkV4vgSJTQXgp40LllG8un1xlhFuIwqAbD5tbYh7ot+Fyei2rr
-	S5n+f3fL585IdJyAzHPsabGvh/O8Rmr6/uD/8OOiCua837c9k2wI+XgWWlqb2QDWBEmj
-	0NnGjL6VKuDCgKBQtg1aJYexV3/s0y4dlmA/WrdnqXOQDPjiRFXVcMUtTTkQDN63z4LK
-	QJ6xh3OdiifDDDmTbLZSmdU36Sovl+WHAzJq981uNK4C0Pix+N6KTM67JszCSOgSJY+6
-	V3jw==
-X-Received: by 10.68.200.34 with SMTP id jp2mr4657652pbc.53.1377793385233;
-	Thu, 29 Aug 2013 09:23:05 -0700 (PDT)
-Received: from [192.168.1.106] ([94.205.106.26])
-	by mx.google.com with ESMTPSA id
-	zi1sm38861763pbb.28.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 29 Aug 2013 09:23:03 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
-From: Elvis Dowson <elvis.dowson@gmail.com>
-In-Reply-To: <7C83EB0C-C1E8-4481-AD5A-D38135A15D9F@gmail.com>
-Date: Thu, 29 Aug 2013 20:22:56 +0400
-Message-Id: <CBA2A6AF-AC69-41D5-841A-D17A144B753B@gmail.com>
+	Thu, 29 Aug 2013 16:23:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7TGNWGC020985
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 29 Aug 2013 09:23:33 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 29 Aug 2013 09:23:32 -0700
+Message-ID: <521F7578.60909@windriver.com>
+Date: Thu, 29 Aug 2013 12:23:20 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Elvis Dowson <elvis.dowson@gmail.com>
 References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
 	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
 	<092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
@@ -43,11 +32,9 @@ References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@emai
 	<2AC87191-8D2B-4972-A249-2043B68A0A7B@gmail.com>
 	<521E7D2E.6060404@windriver.com>
 	<E66BA9BD-07D4-4A90-BFB9-0908608FBD07@gmail.com>
-	<A3529AF4-7650-4866-A83B-5D948D733723@gmail.com>
-	<6A28979E-6351-4F22-B118-8987B099613B@gmail.com>
-	<7C83EB0C-C1E8-4481-AD5A-D38135A15D9F@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-X-Mailer: Apple Mail (2.1498)
+	<521F4020.1080800@windriver.com>
+	<9B9DE34A-D9BE-44CB-871D-E9C57510DE38@gmail.com>
+In-Reply-To: <9B9DE34A-D9BE-44CB-871D-E9C57510DE38@gmail.com>
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -62,42 +49,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 16:23:04 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 29 Aug 2013 16:23:35 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 13-08-29 10:02 AM, Elvis Dowson wrote:
+> Hi Bruce,
+>
+> On Aug 29, 2013, at 4:35 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>
+>> With that, it's always been a manual setup for me in the past. The typical
+>> workflow is to test them via the usermode NFS boot. Have you given
+>> that a go ?
+>
+> Does yocto have some wrapper script/command to setup nfs boot automatically
+> without too much manual configuration? The runqemu and runqemu-internal
+> scripts seems to indicate that, but haven't tried this before.
+>
+> Let me know if it exists! If not, if you could point me to a link that describes how
+> to set NFS boot, and use it to load a beagleboard image it would be great!
 
-On Aug 29, 2013, at 8:17 PM, Khem Raj <raj.khem@gmail.com> wrote:
+This is supported right out of the box, and it should be documented in
+the project docs.
 
->=20
-> On Aug 29, 2013, at 1:50 AM, Elvis Dowson <elvis.dowson@gmail.com> =
-wrote:
->=20
->>>> also take a look at meta-linaro, they test armv7+ qemu regularly.
->>=20
->> I built core-image-minimal using meta-linaro, using genericarmv7 =
-machine but it just generates an Image file for the kernel and a tar.gz =
-rootfs. It doesn't look like its useful out of the box for a QEMU image. =
-Additionally you have to do something extra for the image to be usable =
-for a beagle QEMU machine, related to x-load and u-boot, to get it to =
-work.
->=20
-> x-load, u-boot are not needed when booting a qemu machine. You just =
-need a kernel and rfs. So make sure that you use a kernel thats =
-configured correctly to boot on say vexpress emulation on qemu and that =
-should be it. Real thing is to figure out the kernel and any patches if =
-needed.
+Search for users-space NFS in 
+http://www.yoctoproject.org/docs/current/adt-manual/adt-manual.html
 
-Tried that with the current poky master, it doesn't work.=20
+Cheers,
 
-The only two qemu arm based machine configurations that work, at the =
-moment are qemuarm (versatilepb) and qemuzynq from the meta-xilinx layer =
-(xilinx-zynq-a9).
+Bruce
 
-The others don't work, it crashes upon booting.
+>
+>> Once I'm over the 3.10 introduction curve, I'm happy to dust off my
+>> old A9 support and get the right qemu support for a full system boot.
+>
+> That sounds good. We should aim for adding support for both A8 and A9,
+> since that represent the current bulk of last-gen and current-gen platforms
+> out there.
+>
+> Best regards,
+>
+> Elvis Dowson
+>
+>
 
-If you've got -M vexpress-a9 working, please let me know how you got it =
-to run against yocto master.
-
-Elvis Dowson=
 
