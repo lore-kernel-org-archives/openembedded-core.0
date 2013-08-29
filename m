@@ -1,38 +1,38 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id E3B516BF13
+Received: from mail-ea0-f170.google.com (mail-ea0-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 51E606BF13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 16:02:13 +0000 (UTC)
-Received: by mail-ea0-f172.google.com with SMTP id r16so351612ead.17
+	Thu, 29 Aug 2013 16:02:15 +0000 (UTC)
+Received: by mail-ea0-f170.google.com with SMTP id h14so347664eak.15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 09:02:14 -0700 (PDT)
+	Thu, 29 Aug 2013 09:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=T0d8xKE7O7QBoASrKFCaksSiQ3HfcCcDDOUb2MCEkc0=;
-	b=h5SSHp78eNm9zWHmrSFSgA8b4PK2eYxBDj9gXkjiFESmVxQFhv5sgkd8V7mHh9Kxop
-	fY1H4p6XuNi5kbFMvEWfFZ0LxFgRSgpiL++pkM2yaJ/b0V7oeumtIkdgDj0nd/4IaNGH
-	m5q+Ugx0WDZuxWLFcY1nVId+9f4t/MDvFUAKLIaMFRm725DQpt7D0iAnshnt+kJeEY4a
-	rqsDawuFKisEfVW2Zps1SIAbvrGE12uYAjzMZ0N/wuqexWwMDRW/BgVDAfKU4MiXOcIC
-	wIIB3gGJacKz6VxtBd2Mk0tYo8Z+0o0dGJvX1MH0na+3OdLqSrUJIjim+mw92MUE0gom
-	37fQ==
-X-Received: by 10.14.89.72 with SMTP id b48mr5469107eef.43.1377792134352;
-	Thu, 29 Aug 2013 09:02:14 -0700 (PDT)
+	:references; bh=mzvgrku4HSyipfM54HfaF0fnG0phBQi24J1yHsNo0BY=;
+	b=gZ4hJoF8EziiEKKfLzYg/dryORIKAiiFCbevCOtsvFS8b89p4BJTZbB6Rb1gWUmNc5
+	ugIIXCRwcBu/kHZ9G+YjyfGNaWu3e/GTR4zXEgEPwPJHveff1aM19TjVJPdhxw9QHiMc
+	c9KTo/bnuun+V5VD+34qvw8Xd5cbjhRGnwUEf7BHQB18G9HEnmGx/zUs8fjMeVCwXHH+
+	AfF+vt9kaXziMeBGgTl6B0Azem2oraRtCCz9HMTanUvpa/r1YtK+zdTc8i5BwVf1V1N2
+	Vz/bJv03Scfw0sBaeUHQ6uLAk54WLNp2RzqEpLcvbtqJy/raF2CZz+TEt/F2uo72OVX0
+	t2YA==
+X-Received: by 10.14.22.68 with SMTP id s44mr4163566ees.74.1377792135765;
+	Thu, 29 Aug 2013 09:02:15 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	a6sm47237681eei.10.1969.12.31.16.00.00
+	x47sm47281513eea.16.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 29 Aug 2013 09:02:13 -0700 (PDT)
+	Thu, 29 Aug 2013 09:02:15 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2013 18:03:02 +0200
-Message-Id: <46c0812f15f18f051db23c67f255d2260897b17d.1377792006.git.Martin.Jansa@gmail.com>
+Date: Thu, 29 Aug 2013 18:03:03 +0200
+Message-Id: <b9d2b395c0170d413eb20c686e7dc19d58b41800.1377792006.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 1.8.3.2
 In-Reply-To: <cover.1377792005.git.Martin.Jansa@gmail.com>
 References: <cover.1377792005.git.Martin.Jansa@gmail.com>
 In-Reply-To: <cover.1377792005.git.Martin.Jansa@gmail.com>
 References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-Subject: [WIP][PATCH 15/20] glib-networking: Add PACKAGECONFIG for p11-kit
+Subject: [WIP][PATCH 16/20] lame: Add dependency on ncurses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,27 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 16:02:14 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 16:02:15 -0000
+
+* it's autodetected and configure doesn't allow to explicitly disable it
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-core/glib-networking/glib-networking_2.36.2.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-multimedia/lame/lame_3.99.5.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.36.2.bb b/meta/recipes-core/glib-networking/glib-networking_2.36.2.bb
-index 863a4eb..5200b94 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.36.2.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.36.2.bb
-@@ -13,6 +13,9 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/2.36/${BPN}-${PV}.tar.xz"
- SRC_URI[md5sum] = "fb9121742ed36d1723f296eea19dbb3c"
- SRC_URI[sha256sum] = "2108d55b0af3eea56ce256830bcaf1519d6337e0054ef2eff80f2c0ef0eb23f9"
+diff --git a/meta/recipes-multimedia/lame/lame_3.99.5.bb b/meta/recipes-multimedia/lame/lame_3.99.5.bb
+index 764fcc1..978636a 100644
+--- a/meta/recipes-multimedia/lame/lame_3.99.5.bb
++++ b/meta/recipes-multimedia/lame/lame_3.99.5.bb
+@@ -5,6 +5,8 @@ SECTION = "console/utils"
+ LICENSE = "LGPLv2+"
+ LICENSE_FLAGS = "commercial"
  
-+PACKAGECONFIG ??= ""
-+PACKAGECONFIG[pkcs11] = "--with-pkcs11,--without-pkcs11,p11-kit"
++DEPENDS = "ncurses"
 +
- EXTRA_OECONF = "--without-ca-certificates --without-gnome-proxy --without-libproxy"
- 
- inherit autotools pkgconfig
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c46bda00ffbb0ba1dac22f8d087f54d9 \
+                     file://include/lame.h;beginline=1;endline=20;md5=a2258182c593c398d15a48262130a92b \
+ "
 -- 
 1.8.3.2
 
