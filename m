@@ -1,21 +1,23 @@
 Return-Path: <tom.zanussi@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id ED0C26BC98
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 179216BC98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 13:37:01 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 29 Aug 2013 06:37:02 -0700
+	Thu, 29 Aug 2013 13:37:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 29 Aug 2013 06:34:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,983,1367996400"; d="scan'208";a="388286839"
+X-IronPort-AV: E=Sophos;i="4.89,983,1367996400"; d="scan'208";a="395384523"
 Received: from unknown (HELO localhost) ([10.255.15.104])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2013 06:37:01 -0700
+	by orsmga002.jf.intel.com with ESMTP; 29 Aug 2013 06:37:03 -0700
 From: Tom Zanussi <tom.zanussi@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2013 08:36:59 -0500
-Message-Id: <cover.1377782855.git.tom.zanussi@linux.intel.com>
+Date: Thu, 29 Aug 2013 08:37:01 -0500
+Message-Id: <adf271c181c7618690d25cd694af75e8183575ed.1377782855.git.tom.zanussi@linux.intel.com>
 X-Mailer: git-send-email 1.7.11.4
+In-Reply-To: <cover.1377782855.git.tom.zanussi@linux.intel.com>
+References: <cover.1377782855.git.tom.zanussi@linux.intel.com>
 Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
-Subject: [PATCH 0/2] lttng: update remaining recipes
+Subject: [PATCH 1/2] lttng-tools: Update to version 2.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,40 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 13:37:02 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 13:37:03 -0000
 
-lttng-modules was updated a couple days ago to fix a build problem
-with the new kernel; this patchset adds the remaining updates for
-the other recipes for the corresponding lttng "Cuda" release.
+Update lttng-tools to version 2.2.3 to correspond to the LTTng 2.2
+"Cuda" - Tracer toolchain stable release.
 
-Tested on crownbay hardware using the examples described in the Yocto
-Tracing and Profiling Manual:
-
-  http://www.yoctoproject.org/docs/latest/profile-manual/profile-manual.html#lttng-linux-trace-toolkit-next-generation
-
-The following changes since commit 5745e45b18e5099e94b4d5a73bc97dc6d4cdc91f:
-
-  buildtools-tarball: Add python-pkgutil (2013-08-29 00:23:20 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib.git tzanussi/lttng-remainder-update
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/lttng-remainder-update
-
-Tom Zanussi (2):
-  lttng-tools: Update to version 2.2.3
-  lttng-ust: Update to version 2.2.1
-
- .../{lttng-tools_2.2.0.bb => lttng-tools_2.2.3.bb} |  4 +--
- .../lttng-ust/build-Fix-out-of-tree-build.patch    | 28 --------------------
- .../lttng-ust/depends-liblttng-ust-tracepoin.patch | 30 ----------------------
- .../{lttng-ust_2.2.0.bb => lttng-ust_2.2.1.bb}     |  6 ++---
- 4 files changed, 4 insertions(+), 64 deletions(-)
+Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
+---
+ .../lttng/{lttng-tools_2.2.0.bb => lttng-tools_2.2.3.bb}              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-kernel/lttng/{lttng-tools_2.2.0.bb => lttng-tools_2.2.3.bb} (93%)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/build-Fix-out-of-tree-build.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/depends-liblttng-ust-tracepoin.patch
- rename meta/recipes-kernel/lttng/{lttng-ust_2.2.0.bb => lttng-ust_2.2.1.bb} (84%)
 
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.2.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.2.3.bb
+similarity index 93%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.2.0.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.2.3.bb
+index e664d85..9872170 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.2.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.2.3.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+ 
+ DEPENDS = "liburcu popt lttng-ust"
+ 
+-SRCREV = "eff0b2c38d24092c41bbb51926ac4e3b8c6acb83"
+-PV = "v2.2.0"
++SRCREV = "b1ebf16ce065a35149c39bc4f56ace3671706860"
++PV = "v2.2.3"
+ 
+ SRC_URI = "git://git.lttng.org/lttng-tools.git;protocol=git"
+ 
 -- 
 1.7.11.4
 
