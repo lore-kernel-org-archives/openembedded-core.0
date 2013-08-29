@@ -1,42 +1,54 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1E96BD26
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f52.google.com (mail-pb0-f52.google.com
+	[209.85.160.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 74E3A6BEC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 16:14:32 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id w6so889746lbh.19
+	Thu, 29 Aug 2013 16:17:36 +0000 (UTC)
+Received: by mail-pb0-f52.google.com with SMTP id wz12so659723pbc.25
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 09:14:32 -0700 (PDT)
+	Thu, 29 Aug 2013 09:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=uvQdf7N9IJt8FAKTET9DRZdknAOFVCpAKf9myI4yg30=;
-	b=Xe9IgMksIINSyz4EQeTc+OPuvzWHJg+2nbM28YxJJ8fkrkgL+5+uju1FKR3l0bwY36
-	ALlhPVBHKuTDtaDNA0f7q/NNDccq0taTcptT1EGIYI9EyjDVyLAvB1eZ6di2z6NN0Rzy
-	h1dCrGWCkFt4G/Oe1bgSlptY4VK6sf/WN21Z8ePB51PlIEw7iIImoo2vBo3i5j/FFgI2
-	YXsOz/dUi6mx3DuB+BbudulPTmb/KCi2ydJvgX/US+Egx/Dce3y7ael8P9GuoAhGwgSE
-	xN6tc/hoxDPVptINKzNzONJEdZ/MAKQset/K8KRBEBGlgrK1xLc49ty4xuGTlRXcSGMk
-	bBng==
-X-Received: by 10.112.155.228 with SMTP id vz4mr2075083lbb.41.1377792872437;
-	Thu, 29 Aug 2013 09:14:32 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.53.197 with HTTP; Thu, 29 Aug 2013 09:14:12 -0700 (PDT)
-In-Reply-To: <1377777433.32502.71.camel@ted>
-References: <alpine.DEB.2.02.1308290628130.4283@oneiric>
-	<20130829104913.GM3544@jama>
-	<alpine.DEB.2.02.1308290657140.5063@oneiric>
-	<20130829112725.GN3544@jama>
-	<alpine.DEB.2.02.1308290733210.5515@oneiric>
-	<1377776979.28077.88.camel@phil-desktop.brightsign>
-	<1377777433.32502.71.camel@ted>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 29 Aug 2013 09:14:12 -0700
-X-Google-Sender-Auth: yXeywqY3l_0DlzdcYnK_iHyCOPI
-Message-ID: <CABcZANn3HfQ1RYxGO0_3MCwXCRdz3RmfYEPcMvaw+ufXEp2tig@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: appears to be inconsistency re: base-files between oe-core and meta-angstrom
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=KSeW3PC5jm+ehywonUBSJK7ZdaOrGy/CLOlWBexol7M=;
+	b=LrDwdVT9uapxqK3CKFfGZx4SEvOeP2vLUtiB67HQMTJ1qEdEN29ekF9Dz9erW8WAFP
+	GZ+5ikWQkF6Dd5JPRhgi3ZszzB8XXM0m8w8ZH0qlJiBBdwk3z7DMBkj4ktVEVoo87iR/
+	3EoLlT3ftTa6SrzhkNDict6c+j4lnUR4EmyxIvRLjH6UoJONY+M6ebYAEqdMKi25DkLX
+	0ktuGUUaICrycw4XZOe+XCtkfbl/Y8KrSZ97ymgHcNvh20ofWFfj0dNaxGO8hWajIzWL
+	6knw1+K441mLcFtNYx4Z+R6Bp/6UpKRSMiEYw8UOYPsnlMAK386rl4HdakfbwQNhoFfR
+	nA5w==
+X-Received: by 10.66.142.132 with SMTP id rw4mr5519510pab.6.1377793057123;
+	Thu, 29 Aug 2013 09:17:37 -0700 (PDT)
+Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPSA id
+	lm2sm41907215pab.2.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 29 Aug 2013 09:17:36 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <6A28979E-6351-4F22-B118-8987B099613B@gmail.com>
+Date: Thu, 29 Aug 2013 09:17:38 -0700
+Message-Id: <7C83EB0C-C1E8-4481-AD5A-D38135A15D9F@gmail.com>
+References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
+	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
+	<092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
+	<4AC41A5E-073D-4973-82BD-F94A8B168F34@gmail.com>
+	<521AA95A.8000803@windriver.com>
+	<7DBFB4EE-4727-422F-8815-D801827A37C9@gmail.com>
+	<521AD896.3000503@windriver.com>
+	<6324D287-2CA2-4A88-AFF4-58CABE82B2CC@gmail.com>
+	<521BA7CB.7070206@windriver.com>
+	<2D33FB6A-9F7F-4E8E-8B1A-CED1D571A82C@gmail.com>
+	<521D0622.6090802@windriver.com>
+	<2AC87191-8D2B-4972-A249-2043B68A0A7B@gmail.com>
+	<521E7D2E.6060404@windriver.com>
+	<E66BA9BD-07D4-4A90-BFB9-0908608FBD07@gmail.com>
+	<A3529AF4-7650-4866-A83B-5D948D733723@gmail.com>
+	<6A28979E-6351-4F22-B118-8987B099613B@gmail.com>
+To: Elvis Dowson <elvis.dowson@gmail.com>
+X-Mailer: Apple Mail (2.1508)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,99 +61,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 16:14:33 -0000
-Content-Type: multipart/alternative; boundary=089e01229724bc600604e51866de
-
---089e01229724bc600604e51866de
-Content-Type: text/plain; charset=UTF-8
-
-On Thu, Aug 29, 2013 at 4:57 AM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Thu, 2013-08-29 at 12:49 +0100, Phil Blundell wrote:
-> > On Thu, 2013-08-29 at 07:37 -0400, Robert P. J. Day wrote:
-> > >   distroless. i realize i *could* set a value for DISTRO, but it would
-> > > seem that i shouldn't have to in order to avoid a build error.
-> >
-> > Well, either you're using angstrom or you aren't.  If you do want to use
-> > it then you ought to set DISTRO appropriately, and if you don't want to
-> > use it then you probably oughtn't to have the angstrom layer included at
-> > all.
-> >
-> > Trying to use the angstrom .bbappends and files with a different (or no)
-> > distro configuration will give you a set of metadata that's neither one
-> > thing nor the other and, even if you didn't get a build error, there's
-> > no guarantee that the resulting image would actually work.
->
-> I'm not sure I agree. Ideally layers should be includable without
-> turning on behaviour unless it is enabled. This is why we have things
-> like an array of OVERRIDES to chose from.
->
-> So I'd actually suggest this is a bug in the angstrom layer. There are
-> also other layers which probably have issues, maybe including meta-yocto
-> but we should fix them.
->
-> I'll go further and suggest that Yocto Project Compatible status might
-> depend on this in future (the current questions suggest it should be the
-> case already).
->
-
-I agree wholeheartedly with this. Distro and BSP layers really need to be
-leveraging OVERRIDES for anything distro or machine specific.
--- 
-Christopher Larson
-
---089e01229724bc600604e51866de
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Thu, 29 Aug 2013 16:17:36 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Thu, Aug 29, 2013 at 4:57 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
-purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Thu, 2013-08-29 at 12:4=
-9 +0100, Phil Blundell wrote:<br>
-&gt; On Thu, 2013-08-29 at 07:37 -0400, Robert P. J. Day wrote:<br>
-&gt; &gt; =C2=A0 distroless. i realize i *could* set a value for DISTRO, bu=
-t it would<br>
-&gt; &gt; seem that i shouldn&#39;t have to in order to avoid a build error=
-.<br>
-&gt;<br>
-&gt; Well, either you&#39;re using angstrom or you aren&#39;t. =C2=A0If you=
- do want to use<br>
-&gt; it then you ought to set DISTRO appropriately, and if you don&#39;t wa=
-nt to<br>
-&gt; use it then you probably oughtn&#39;t to have the angstrom layer inclu=
-ded at<br>
-&gt; all.<br>
-&gt;<br>
-&gt; Trying to use the angstrom .bbappends and files with a different (or n=
-o)<br>
-&gt; distro configuration will give you a set of metadata that&#39;s neithe=
-r one<br>
-&gt; thing nor the other and, even if you didn&#39;t get a build error, the=
-re&#39;s<br>
-&gt; no guarantee that the resulting image would actually work.<br>
-<br>
-</div>I&#39;m not sure I agree. Ideally layers should be includable without=
-<br>
-turning on behaviour unless it is enabled. This is why we have things<br>
-like an array of OVERRIDES to chose from.<br>
-<br>
-So I&#39;d actually suggest this is a bug in the angstrom layer. There are<=
-br>
-also other layers which probably have issues, maybe including meta-yocto<br=
->
-but we should fix them.<br>
-<br>
-I&#39;ll go further and suggest that Yocto Project Compatible status might<=
-br>
-depend on this in future (the current questions suggest it should be the<br=
->
-case already).<br></blockquote></div><br>I agree wholeheartedly with this. =
-Distro and BSP layers really need to be leveraging OVERRIDES for anything d=
-istro or machine specific.<br>-- <br>Christopher Larson</div></div>
+On Aug 29, 2013, at 1:50 AM, Elvis Dowson <elvis.dowson@gmail.com> =
+wrote:
 
---089e01229724bc600604e51866de--
+>>> also take a look at meta-linaro, they test armv7+ qemu regularly.
+>=20
+> I built core-image-minimal using meta-linaro, using genericarmv7 =
+machine but it just generates an Image file for the kernel and a tar.gz =
+rootfs. It doesn't look like its useful out of the box for a QEMU image. =
+Additionally you have to do something extra for the image to be usable =
+for a beagle QEMU machine, related to x-load and u-boot, to get it to =
+work.
+
+x-load, u-boot are not needed when booting a qemu machine. You just need =
+a kernel and rfs. So make sure that you use a kernel thats configured =
+correctly to boot on say vexpress emulation on qemu and that should be =
+it. Real thing is to figure out the kernel and any patches if needed.
+
+>=20
+> Are you aware of the extract steps? Most of the docs I've seen use pre =
+built sd card images.
+>=20
+> Best regards,
+>=20
+> Elvis
+
+
