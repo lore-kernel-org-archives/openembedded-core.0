@@ -1,32 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 096016BDA6
+Return-Path: <elvis.dowson@gmail.com>
+Received: from mail-pb0-f53.google.com (mail-pb0-f53.google.com
+	[209.85.160.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EBC56BE1F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 18:58:16 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id q8so1054192lbi.39
+	Thu, 29 Aug 2013 19:01:24 +0000 (UTC)
+Received: by mail-pb0-f53.google.com with SMTP id up15so839692pbc.26
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 11:58:17 -0700 (PDT)
+	Thu, 29 Aug 2013 12:01:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=HJD0rwezB88PKmU1m84IYMNRTdYcD9l4rIlqwk864js=;
-	b=nMUSeWkB87p69LlQ6VFrct59wlQfxoM9d0YoqePK6GlZmprTN5/exta4jogrcxf51F
-	9ubio7c+nrY8lsOTB6Yc0qnM+PJUNfEIKGhGQx/3+8O1R58IQcmCvvkj7zUj5s8q/etf
-	E4ONpSFSvz0D4uEz2IxaDrfG9fes5ILmgfMg9mSAME3vBek7o30/hjyCpyjuMH3w5r/7
-	ZC41psYlG4C8RHm/V2pcAyK4R7Z0f8puXBsY16gMnV3mBVsfaAlk1zJGwJxeFqrtmwrP
-	rltj7DEWdlCTcLoshYJiPdVJkt3eRdfeI3y9vhXPa9sJHucdYW8gplYTt/WkAS/czQJu
-	IVkQ==
-MIME-Version: 1.0
-X-Received: by 10.112.158.225 with SMTP id wx1mr2916808lbb.37.1377802697020;
-	Thu, 29 Aug 2013 11:58:17 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Thu, 29 Aug 2013 11:58:16 -0700 (PDT)
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=EnaYK0hVgqjlFH5ME3AYB43R8vDDaa1Sdx4Fvasp1UA=;
+	b=MPDs3KKm6quK98VDkQzB/MLmB7Z5toCz1g6FgNBMlHBMGSWpJ54hEx7TxuC/OBp8Ki
+	+mv3GArCz4Y1WRLcQah9+uDkaN2oPP07qdjgH/lykskoe0wrT5uicbNIYRpWsX5j+fgm
+	i1bHgfLdbO0nicCsni2gRBonNjXulE0Wi5NASo1vkXf6XINipSBz7mEpwkGR8YyUjkib
+	xqJ2BHvELXAJ+RLYYhhDSB1ln0lE3TB9sGi0pJEdjcWu2NfeKVfNPI28/wuH6BbBXtWB
+	hC5BiRfbQJrWYEPgCOYQtqpJ9k3ZIzX62EezAVcvzSCaG40oogEC61+WBlFCQ4wpD9NW
+	Ynig==
+X-Received: by 10.66.250.47 with SMTP id yz15mr6095642pac.154.1377802884727;
+	Thu, 29 Aug 2013 12:01:24 -0700 (PDT)
+Received: from [192.168.1.106] ([94.205.106.26])
+	by mx.google.com with ESMTPSA id
+	tg7sm36939199pbc.36.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 29 Aug 2013 12:01:23 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
+From: Elvis Dowson <elvis.dowson@gmail.com>
 In-Reply-To: <20130829115339.a5c5c4a29245e5c988b774ab8f895ac5.53f04ab59e.wbe@email15.secureserver.net>
+Date: Thu, 29 Aug 2013 23:01:16 +0400
+Message-Id: <A259F4C4-2C7F-4835-961E-3F2EEF8F0FD6@gmail.com>
 References: <20130829115339.a5c5c4a29245e5c988b774ab8f895ac5.53f04ab59e.wbe@email15.secureserver.net>
-Date: Thu, 29 Aug 2013 14:58:16 -0400
-Message-ID: <CADkTA4NWhz3rmAqH=yB_5H4V4f11w4qZdYUTOG73SNLyv6R-=A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: rewitt@declaratino.com
+To: <rewitt@declaratino.com>
+X-Mailer: Apple Mail (2.1498)
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,88 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 18:58:17 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 29 Aug 2013 19:01:24 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 29, 2013 at 2:53 PM,  <rewitt@declaratino.com> wrote:
->
->
->> -------- Original Message --------
->> Subject: Re: [OE-core] [oe-core] QEMU with ARM Cortex A9 with hard float
->> configuration - Kernel panic
->> From: Elvis Dowson <elvis.dowson@gmail.com>
->> Date: Thu, August 29, 2013 12:28 pm
->> To: Bruce Ashfield <bruce.ashfield@windriver.com>
->> Cc: OpenEmbedded Core Mailing List
->> <openembedded-core@lists.openembedded.org>
->>
->>
->> On Aug 29, 2013, at 8:23 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
->>
->> > On 13-08-29 10:02 AM, Elvis Dowson wrote:
->> >> Hi Bruce,
->> >>
->> >> On Aug 29, 2013, at 4:35 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
->> >>
->> >>> With that, it's always been a manual setup for me in the past. The typical
->> >>> workflow is to test them via the usermode NFS boot. Have you given
->> >>> that a go ?
->> >>
->> >> Does yocto have some wrapper script/command to setup nfs boot automatically
->> >> without too much manual configuration? The runqemu and runqemu-internal
->> >> scripts seems to indicate that, but haven't tried this before.
->> >>
->> >> Let me know if it exists! If not, if you could point me to a link that describes how
->> >> to set NFS boot, and use it to load a beagleboard image it would be great!
->> >
->> > This is supported right out of the box, and it should be documented in
->> > the project docs.
->> >
->> > Search for users-space NFS in http://www.yoctoproject.org/docs/current/adt-manual/adt-manual.html
->>
->> I saw this, its only for the rootfs. what I've read on the net alluded to the fact that you need to have
->> xload, uboot and the kernel image on a specific partition inside an sdcard image. Those were
->> the boot procedures used for the beagleboard using qemu.
->>
->> This is for -M beagle, with qemu-system-arm.
->>
->> Anyway, I just need a way to boot vexpress-a9 using QEMU. I'll send a private email, with the
->> patch to you, so that you can start off from where I left, in terms of modifications to poky-master
->> and be able to debug the issue directly at your end.
->
+
+On Aug 29, 2013, at 10:53 PM, <rewitt@declaratino.com> wrote:
+
 > I actually set up a build to get a vexpress-a15 booting in qemu with
 > neon support. However, I didn't use the yocto kernel and just pointed at
 > my own defconfig and kernel version 3.10.7. If it would be helpful for
 > you, I could put my changes up on github.
->
+> 
 > The weirdest thing was if I just used the defconfig that is in the
 > kernel for vexpress it wouldn't boot, I had to tweak it a bit.
 
-I have a vexpress A15 that works here as well, but I wouldn't mind comparing
-configs. If you send it along, I'd have a look.
+This is the thing, I was using this as an excuse to learn linux-yocto
+kernel. I actually put off using linux-yocto for a while, and tended
+to use the official linux kernel, or vendor specific kernels (Xilinx,
+TI Arago, Freescale, etc) for actual target devices.
 
-I'm not surprised it needed some changes .. when going to qemu mileage varies
-with in tree defconfigs.
+If you could share your defconfig, I'll try it with the standard
+linux kernel.
 
-Bruce
+I'm doing this to get the process of using Yocto to build a representative
+QEMU emulator, and then using LaunchPad and Soyuz locally to
+build Ubuntu on a virtual machine, rather than just re-use the official
+Ubuntu binary packages. This way, I have more control over the 
+toolchain, and options, rather than use the existing armel or armhf
+machine configurations supplied by Debian/Ubuntu.
 
+Best regards,
 
->
->> Best regards,
->>
->> Elvis Dowson
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Elvis Dowson
 
