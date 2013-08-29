@@ -1,34 +1,24 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D1306BCC7
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C0C56BCC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 02:35:05 +0000 (UTC)
-Received: by mail-pa0-f50.google.com with SMTP id fb10so267927pad.23
+	Thu, 29 Aug 2013 02:36:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7T2aJKr011408
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 28 Aug 2013 19:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=rYtA/EdKIpOYXQusKTDPnDc1eL9MD/BK4J9+BI1DE78=;
-	b=MTk6j1hsv5yduzI/YVtovq50dnss5yuVkL0wcjYcsmUs217Plvi9f3I/Olv7xVZmOF
-	BwQTYR87ScoDs3WYXo5ncBmMIAGoOUklfBvN8RDfvm62jOKvg+0a7iiBQEXXwHLcYLMb
-	UMf0PF/nJ/gZQtkpEyqtGolTOmJi+Nut6jnPXCLHuaHdou8BNTYT/cRKhSaL1rjTZNsa
-	Oc5xBtinfO2szobKxjpEoVK2ZY5myVitfJTJIhRmr7btmNT5wMtFjQMx7JLVdX/JEdNl
-	kX9AR3ckeYN+VKXWJK0Obfxs7rEKldrcTHrPJPyTyRC/Qo3Jt+/kgYpxoXfIJsMxkX0A
-	wjDg==
-X-Received: by 10.66.233.195 with SMTP id ty3mr1766372pac.70.1377743705911;
-	Wed, 28 Aug 2013 19:35:05 -0700 (PDT)
-Received: from 60-242-179-244.static.tpgi.com.au
-	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
-	by mx.google.com with ESMTPSA id lm2sm37296147pab.2.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 28 Aug 2013 19:35:05 -0700 (PDT)
-From: Jonathan Liu <net147@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2013 12:30:24 +1000
-Message-Id: <1377743424-3112-1-git-send-email-net147@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] systemd: use /bin/mkdir instead of host mkdir path
+	Wed, 28 Aug 2013 19:36:19 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 28 Aug 2013 19:36:19 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 29 Aug 2013 10:36:16 +0800
+Message-ID: <cover.1377674089.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] syslinux.bbclass: pull files from correct places for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,65 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 02:35:05 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 02:36:19 -0000
+Content-Type: text/plain
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
----
- ...-Use-bin-mkdir-instead-of-host-mkdir-path.patch | 31 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_206.bb           |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
+From: Jackie Huang <jackie.huang@windriver.com>
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch b/meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
-new file mode 100644
-index 0000000..25988fc
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
-@@ -0,0 +1,31 @@
-+From 5599ab4ae3fe74cdd9699f2874badf241f0148fe Mon Sep 17 00:00:00 2001
-+From: Jonathan Liu <net147@gmail.com>
-+Date: Wed, 28 Aug 2013 19:09:49 -0700
-+Subject: [PATCH] Use /bin/mkdir instead of host mkdir path
-+
-+If the host system has /usr/bin/mkdir, autoconf would set MKDIR_P to
-+/usr/bin/mkdir when it should be /bin/mkdir. As a result, the
-+kmod-static-nodes service fails to start on the target because
-+/usr/bin/mkdir doesn't exist. This has been observed when building
-+systemd on Arch Linux host.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+Signed-off-by: Jonathan Liu <net147@gmail.com>
-+---
-+ units/kmod-static-nodes.service.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/units/kmod-static-nodes.service.in b/units/kmod-static-nodes.service.in
-+index d8a8420..1daed5f 100644
-+--- a/units/kmod-static-nodes.service.in
-++++ b/units/kmod-static-nodes.service.in
-+@@ -14,5 +14,5 @@ ConditionCapability=CAP_MKNOD
-+ [Service]
-+ Type=oneshot
-+ RemainAfterExit=yes
-+-ExecStartPre=@MKDIR_P@ /run/tmpfiles.d
-++ExecStartPre=/bin/mkdir -p /run/tmpfiles.d
-+ ExecStart=@KMOD@ static-nodes --format=tmpfiles --output=/run/tmpfiles.d/kmod.conf
-+-- 
-+1.8.3.4
-+
-diff --git a/meta/recipes-core/systemd/systemd_206.bb b/meta/recipes-core/systemd/systemd_206.bb
-index f05aa1b..75bdc61 100644
---- a/meta/recipes-core/systemd/systemd_206.bb
-+++ b/meta/recipes-core/systemd/systemd_206.bb
-@@ -19,6 +19,7 @@ inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-altern
- 
- SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
-            file://0001-use-CAP_MKNOD-ConditionCapability.patch \
-+           file://0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch \
-            file://touchscreen.rules \
-            ${UCLIBCPATCHES} \
-            file://00-create-volatile.conf \
+fix the failure when building lib32 hdd/iso image:
+| install: cannot stat `/buildarea/jhuang0/yp/y_x64_0705/tmp/sysroots/lib32-qemux86-64/usr/share/syslinux/ldlinux.sys': No such file or directory
+
+tested info:
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+IMAGE_FSTYPES += "live"
+
+$ bitbake lib32-core-image-minimal
+$ bitbake core-image-minimal
+
+--
+The following changes since commit 2ac7783e04f5e8e6005f967e1a6dd65d2fc6a19a:
+
+  lib/oeqa/runtime: smart: add checks for smart output (2013-08-26 16:28:55 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/d_bootimg_0828_0
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_bootimg_0828_0
+
+Jackie Huang (1):
+  syslinux.bbclass: pull files from correct places for multilib
+
+ meta/classes/syslinux.bbclass |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
+
 -- 
-1.8.3.4
+1.7.4.1
 
 
