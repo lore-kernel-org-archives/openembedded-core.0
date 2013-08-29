@@ -1,37 +1,21 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f43.google.com (mail-oa0-f43.google.com
-	[209.85.219.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F02F6BE9C
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 23DAF6BD7B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 22:17:38 +0000 (UTC)
-Received: by mail-oa0-f43.google.com with SMTP id i10so1419405oag.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 15:17:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=gYDTj/VlO3IML7tjg7064jBgz265di92xkH5PNnmiyo=;
-	b=EMIovrQDO4xiG5nQWTxEg43A8rtHJkg5mA27U5aMUree5f85Tvi+EVUxDx1cpWO8fE
-	P63q3sYOI7sXaCj64E4/Ch+Y+dG8/Teko2Vxb2/0b3KGiH9Y+kjXFyy/fqiCKgpgb0Pc
-	S/sjenxnPVoL+ZCYl2wftkjIgMebzUbtxzn0xC6iGuC9wMof/7LN2Z64Lfv8JLaZ2nF3
-	uSYLrx4J5CumGLNLJuZoLHAuwxl61VDJIwzSFnHLNLHjP/po6vJMY5/kg1Fngwcn2RF6
-	pyUvp0OJic3gP16JLkQndQC08b/90YOK1Gq8wnhSDR3BrIIApme0rG5WcGGzZCaTQ0Pa
-	lZFQ==
-MIME-Version: 1.0
-X-Received: by 10.182.81.65 with SMTP id y1mr4276368obx.89.1377814659445; Thu,
-	29 Aug 2013 15:17:39 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 29 Aug 2013 15:17:39 -0700 (PDT)
-In-Reply-To: <521B9AD8.6060400@linux.intel.com>
-References: <CAOMwXhPL4J8irv+8t02Mck-vAH47+9rqvncEkCUZpPHZWdSz1g@mail.gmail.com>
-	<521B9AD8.6060400@linux.intel.com>
-Date: Thu, 29 Aug 2013 19:17:39 -0300
-X-Google-Sender-Auth: A5pxHp2W7K2fXDRmrfCG9UU1iK0
-Message-ID: <CAP9ODKr+owgKVxzegkJ+FrQepcDRF1Qw08K5YUSMOFxc-h2pAw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot: update to 2013.07 - Beagleboard XM Issue?
+	Thu, 29 Aug 2013 23:06:25 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2013 16:06:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,986,1367996400"; d="scan'208";a="394243052"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.210])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2013 16:06:25 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: cristian.iorga@intel.com,
+	openembedded-core@lists.openembedded.org
+Date: Thu, 29 Aug 2013 16:06:24 -0700
+Message-Id: <1377817584-30537-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] packagegroup-self-hosted: Add missing python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +28,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 22:17:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 29 Aug 2013 23:06:26 -0000
 
-On Mon, Aug 26, 2013 at 3:13 PM, Saul Wold <sgw@linux.intel.com> wrote:
-> On 08/26/2013 11:06 AM, Laszlo Papp wrote:
->>
->> On Mon, Aug 26, 2013 at 7:04 PM, Saul Wold <sgw@linux.intel.com
->> <mailto:sgw@linux.intel.com>> wrote:
->>
->>     On 08/26/2013 10:56 AM, Laszlo Papp wrote:
->>
->>         What exactly is the problem for beagle board?
->>
->>     The QA team did not provide the details.
->>
->>
->> I wonder if you could ask for that?
->
->
-> Yi,
->
-> Can you be specific about the Beagleboard XM issue.
+These are in the Toolchain list, so they should also be installed on the build appliance
 
-I'd  be interested in learn from it as well and fix it. So we can drop
-other recipes.
+[YOCTO #5061]
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 429ade9..6e23ea2 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -138,6 +138,7 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
+     minicom \
+     mtools \
+     ncurses \
++    ncurses-terminfo-base \
+     neon \
+     nfs-utils \
+     nfs-utils-client \
+@@ -158,24 +159,29 @@ RDEPENDS_packagegroup-self-hosted-extended = "\
+     python-core \
+     python-curses \
+     python-datetime \
++    python-difflib \
+     python-distutils \
+     python-elementtree \
+     python-email \
+     python-fcntl \
+     python-git \
++    python-json \
+     python-logging \
+     python-misc \
++    python-mmap \
+     python-multiprocessing \
+     python-netclient \
+     python-netserver \
+     python-pickle \
+     python-pkgutil \
++    python-pprint \
+     python-re \
+     python-rpm \
+     python-shell \
+     python-sqlite3 \
+     python-subprocess \
+     python-textutils \
++    python-unittest \
+     python-unixadmin \
+     python-xmlrpc \
+     quota \
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.3.1
+
 
