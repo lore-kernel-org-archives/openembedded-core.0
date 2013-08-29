@@ -1,19 +1,25 @@
 Return-Path: <rpjday@crashcourse.ca>
 Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
 	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D4E76B3C7
+	by mail.openembedded.org (Postfix) with ESMTP id 7C9656B3C7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 11:54:25 +0000 (UTC)
-Received: from [69.196.158.250] (port=43930 helo=crashcourse.ca)
+	Thu, 29 Aug 2013 11:56:50 +0000 (UTC)
+Received: from [69.196.158.250] (port=43933 helo=crashcourse.ca)
 	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
 	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VF0nx-0005ae-UA for openembedded-core@lists.openembedded.org;
-	Thu, 29 Aug 2013 07:54:25 -0400
-Date: Thu, 29 Aug 2013 07:54:23 -0400 (EDT)
+	id 1VF0qJ-0005nh-51; Thu, 29 Aug 2013 07:56:51 -0400
+Date: Thu, 29 Aug 2013 07:56:48 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@oneiric
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.DEB.2.02.1308290743330.5588@oneiric>
+To: Phil Blundell <pb@pbcl.net>
+In-Reply-To: <1377776979.28077.88.camel@phil-desktop.brightsign>
+Message-ID: <alpine.DEB.2.02.1308290755290.5634@oneiric>
+References: <alpine.DEB.2.02.1308290628130.4283@oneiric>
+	<20130829104913.GM3544@jama>
+	<alpine.DEB.2.02.1308290657140.5063@oneiric>
+	<20130829112725.GN3544@jama>
+	<alpine.DEB.2.02.1308290733210.5515@oneiric>
+	<1377776979.28077.88.camel@phil-desktop.brightsign>
 User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
 X-AntiAbuse: This header was added to track abuse,
@@ -25,7 +31,8 @@ X-AntiAbuse: Sender Address Domain - crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Subject: looking for recommendation for cutting edge OE build for beagle black
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: appears to be inconsistency re: base-files between oe-core and meta-angstrom
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +45,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 11:54:26 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 11:56:50 -0000
 Content-Type: TEXT/PLAIN; charset=US-ASCII
 
+On Thu, 29 Aug 2013, Phil Blundell wrote:
 
-  i asked about this on the beagle ML but i figured some folks here
-would have massively useful advice, so here goes.
+> On Thu, 2013-08-29 at 07:37 -0400, Robert P. J. Day wrote:
+> >   distroless. i realize i *could* set a value for DISTRO, but it would
+> > seem that i shouldn't have to in order to avoid a build error.
+>
+> Well, either you're using angstrom or you aren't.  If you do want to
+> use it then you ought to set DISTRO appropriately, and if you don't
+> want to use it then you probably oughtn't to have the angstrom layer
+> included at all.
+>
+> Trying to use the angstrom .bbappends and files with a different (or
+> no) distro configuration will give you a set of metadata that's
+> neither one thing nor the other and, even if you didn't get a build
+> error, there's no guarantee that the resulting image would actually
+> work.
 
-  for the purposes of classroom instruction, i'm looking for an
-OE-based build for the beaglebone black (BBB) with the following
-properties:
-
-* works with some set of existing layers (oe-core, meta-openembedded,
-meta-ti, meta-angstrom, whatever it takes)
-* ideally works with current git repos, so totally cutting edge
-* easy to configure and build
-* generates minimal, command-line image; something like angstrom's
-"hardware-bringup-image" would be perfect as it would be the basis for
-further experimentation by the students
-
-  furthermore, i'd prefer that the config and build uses current linux
-kernel and u-boot trees, which means that, yes, there might be
-breakage as the kernel works its way to 3.12-rc1 but i can live with
-that for now. the generated content doesn't need to be *perfect*, it
-just needs to build and boot, and i'd like to be able to "git pull" on
-a regular basis to get new commits and test those.
-
-  currently, i'm using meta-beagleboard for this; i wrote that up
-here:
-
-http://www.crashcourse.ca/wiki/index.php/BBB_meta-bb
-
-however, that build, while convenient, is fixed at a 3.8.13 kernel, so
-i'd prefer a setup that lets me select "experimental" or "testing" or
-something similar. i'm aware of robert nelson's github stuff, which
-supports that sort of thing.
-
-  so ... recommendations? i just want something that is configurable
-and buildable from current layers that builds and boots on a BBB, and
-is as bleeding edge as i can get without things blowing up. much.
+  ah, gotcha. so if i want to live dangerously, i can select
+"angstrom-next"?
 
 rday
 
@@ -89,5 +79,4 @@ Robert P. J. Day                                 Ottawa, Ontario, CANADA
 Twitter:                                       http://twitter.com/rpjday
 LinkedIn:                               http://ca.linkedin.com/in/rpjday
 ========================================================================
-
 
