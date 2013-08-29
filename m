@@ -1,26 +1,21 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE0D6BC8D
+Return-Path: <tom.zanussi@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id ED0C26BC98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 13:13:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7TDDeY8007138
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 06:13:40 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 29 Aug 2013 06:13:39 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 29 Aug 2013 09:13:34 -0400
-Message-ID: <454944e7bd4c831bea934852393d8e16abe1d5ff.1377781793.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1377781793.git.liezhi.yang@windriver.com>
-References: <cover.1377781793.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] sstate.bbclass: check before open the manifest
+	Thu, 29 Aug 2013 13:37:01 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by azsmga101.ch.intel.com with ESMTP; 29 Aug 2013 06:37:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,983,1367996400"; d="scan'208";a="388286839"
+Received: from unknown (HELO localhost) ([10.255.15.104])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2013 06:37:01 -0700
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Aug 2013 08:36:59 -0500
+Message-Id: <cover.1377782855.git.tom.zanussi@linux.intel.com>
+X-Mailer: git-send-email 1.7.11.4
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>
+Subject: [PATCH 0/2] lttng: update remaining recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +28,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 13:13:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 29 Aug 2013 13:37:02 -0000
 
-The python stack trace would be printed if we:
+lttng-modules was updated a couple days ago to fix a build problem
+with the new kernel; this patchset adds the remaining updates for
+the other recipes for the corresponding lttng "Cuda" release.
 
-$ bitbake make (the make-3.82 will be built)
-// Edit make.inc
-$ bitbake make-3.81
-[snip]
- *** 0004:    mfile = open(manifest)
-     0005:    entries = mfile.readlines()
-     0006:    mfile.close()
-     0007:
-     0008:    for entry in entries:
-Exception: IOError: [Errno 2] No such file or directory: xxx
-[snip]
+Tested on crownbay hardware using the examples described in the Yocto
+Tracing and Profiling Manual:
 
-This because the make-3.81 and make-3.82 are being built at the same
-time, the manifest may have been removed by make-3.82, but make-3.81
-still opens it, so the error happens.
+  http://www.yoctoproject.org/docs/latest/profile-manual/profile-manual.html#lttng-linux-trace-toolkit-next-generation
 
-Check before open the manifest would fix the problem.
+The following changes since commit 5745e45b18e5099e94b4d5a73bc97dc6d4cdc91f:
 
-[YOCTO #5067]
+  buildtools-tarball: Add python-pkgutil (2013-08-29 00:23:20 +0100)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/sstate.bbclass |    3 +++
- 1 file changed, 3 insertions(+)
+are available in the git repository at:
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index c86f393..6e71086 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -302,6 +302,9 @@ def sstate_clean_cachefiles(d):
- def sstate_clean_manifest(manifest, d):
-     import oe.path
- 
-+    if not os.path.exists(manifest):
-+        return True
-+
-     mfile = open(manifest)
-     entries = mfile.readlines()
-     mfile.close()
+  git://git.yoctoproject.org/poky-contrib.git tzanussi/lttng-remainder-update
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/lttng-remainder-update
+
+Tom Zanussi (2):
+  lttng-tools: Update to version 2.2.3
+  lttng-ust: Update to version 2.2.1
+
+ .../{lttng-tools_2.2.0.bb => lttng-tools_2.2.3.bb} |  4 +--
+ .../lttng-ust/build-Fix-out-of-tree-build.patch    | 28 --------------------
+ .../lttng-ust/depends-liblttng-ust-tracepoin.patch | 30 ----------------------
+ .../{lttng-ust_2.2.0.bb => lttng-ust_2.2.1.bb}     |  6 ++---
+ 4 files changed, 4 insertions(+), 64 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.2.0.bb => lttng-tools_2.2.3.bb} (93%)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/build-Fix-out-of-tree-build.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/depends-liblttng-ust-tracepoin.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.2.0.bb => lttng-ust_2.2.1.bb} (84%)
+
 -- 
-1.7.10.4
+1.7.11.4
 
 
