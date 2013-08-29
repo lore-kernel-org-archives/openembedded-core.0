@@ -1,19 +1,19 @@
 Return-Path: <muhammad_shakeel@mentor.com>
 Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 864B26BD60
+	by mail.openembedded.org (Postfix) with ESMTP id 5964D6BD60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 07:40:14 +0000 (UTC)
+	Thu, 29 Aug 2013 07:40:17 +0000 (UTC)
 Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7T7e09X007752; 
-	Thu, 29 Aug 2013 02:40:14 -0500
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r7T7e09Y007752; 
+	Thu, 29 Aug 2013 02:40:17 -0500
 From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2013 12:41:09 +0500
-Message-Id: <1377762070-22599-4-git-send-email-muhammad_shakeel@mentor.com>
+Date: Thu, 29 Aug 2013 12:41:10 +0500
+Message-Id: <1377762070-22599-5-git-send-email-muhammad_shakeel@mentor.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1377762070-22599-1-git-send-email-muhammad_shakeel@mentor.com>
 References: <1377762070-22599-1-git-send-email-muhammad_shakeel@mentor.com>
-Subject: [PATCH 4/5] [v5] nfs-utils: Add systemd support
+Subject: [PATCH 5/5] [v5] systemd: Remove base_libdir if installed only for systemd_unitdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,166 +26,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 07:40:14 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 07:40:17 -0000
 
 From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-- Remove dependency on meta-systemd
+If a recipe installs systemd_unitdir and it is a non-systemd build than
+systemd.bbclass deletes systemd_unitdir (/lib/systemd/) but not
+base_libdir (/lib). In this case if base_libdir is empty than following
+QA Issue is reported.
+
+ERROR: QA Issue: openssh: Files/directories were installed but not shipped
+  /lib
+
+If base_libdir was installed due to systemd_unitdir installation than for
+non-systemd build it should also be removed.
 
 Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
- .../nfs-utils/nfs-utils/nfs-mountd.service         |   11 ++++++
- .../nfs-utils/nfs-utils/nfs-server.service         |   18 ++++++++++
- .../nfs-utils/nfs-utils/nfs-statd.service          |   12 +++++++
- .../nfs-utils/nfs-utils/nfs-utils.conf             |   35 ++++++++++++++++++++
- .../nfs-utils/nfs-utils_1.2.8.bb                   |   21 ++++++++++--
- 5 files changed, 95 insertions(+), 2 deletions(-)
+ meta/classes/systemd.bbclass |    3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
-new file mode 100644
-index 0000000..613ddc0
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-mountd.service
-@@ -0,0 +1,11 @@
-+[Unit]
-+Description=NFS Mount Daemon
-+After=rpcbind.service nfs-server.service
-+Requires=rpcbind.service nfs-server.service
-+
-+[Service]
-+EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
-+ExecStart=@SBINDIR@/rpc.mountd -F $MOUNTD_OPTS
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
-new file mode 100644
-index 0000000..147d7a7
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-server.service
-@@ -0,0 +1,18 @@
-+[Unit]
-+Description=NFS Server
-+Requires=rpcbind.service nfs-mountd.service
-+After=rpcbind.service
-+
-+[Service]
-+Type=oneshot
-+EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
-+ExecStartPre=@SBINDIR@/exportfs -r
-+ExecStart=@SBINDIR@/rpc.nfsd $NFSD_OPTS $NFSD_COUNT
-+ExecStop=@SBINDIR@/rpc.nfsd 0
-+ExecStopPost=@SBINDIR@/exportfs -f
-+ExecReload=@SBINDIR@/exportfs -r
-+StandardError=syslog
-+RemainAfterExit=yes
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
-new file mode 100644
-index 0000000..746dacf
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-statd.service
-@@ -0,0 +1,12 @@
-+[Unit]
-+Description=NFS file locking service
-+After=rpcbind.service
-+Requires=rpcbind.service
-+Before=remote-fs-pre.target
-+
-+[Service]
-+EnvironmentFile=-@SYSCONFDIR@/nfs-utils.conf
-+ExecStart=@SBINDIR@/rpc.statd -F $STATD_OPTS
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf
-new file mode 100644
-index 0000000..a1007a7
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils.conf
-@@ -0,0 +1,35 @@
-+# Parameters to be passed to nfs-utils (clients & server) service files.
-+#
-+
-+# Options to pass to rpc.nfsd.
-+NFSD_OPTS=""
-+
-+# Number of servers to start up; the default is 8 servers.
-+NFSD_COUNT=""
-+
-+# Where to mount nfsd filesystem; the default is "/proc/fs/nfsd".
-+PROCNFSD_MOUNTPOINT=""
-+
-+# Options used to mount nfsd filesystem; the default is "rw,nodev,noexec,nosuid".
-+PROCNFSD_MOUNTOPTS=""
-+
-+# Options for rpc.mountd.
-+# If you have a port-based firewall, you might want to set up
-+# a fixed port here using the --port option.
-+MOUNTD_OPTS=""
-+
-+# Parameters to be passed to nfs-common (nfs clients & server) init script.
-+#
-+
-+# If you do not set values for the NEED_ options, they will be attempted
-+# autodetected; this should be sufficient for most people. Valid alternatives
-+# for the NEED_ options are "yes" and "no".
-+
-+# Do you want to start the statd daemon? It is not needed for NFSv4.
-+NEED_STATD=""
-+
-+# Options to pass to rpc.statd.
-+# N.B. statd normally runs on both client and server, and run-time
-+# options should be specified accordingly.
-+# STATD_OPTS="-p 32765 -o 32766"
-+STATD_OPTS=""
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-index fd6d33e..e3e8136 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.2.8.bb
-@@ -15,7 +15,11 @@ RRECOMMENDS_${PN} = "kernel-module-nfsd"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.bz2 \
-            file://nfs-utils-1.0.6-uclibc.patch \
-            file://nfs-utils-1.2.3-sm-notify-res_init.patch \
--           file://nfsserver"
-+           file://nfsserver \
-+           file://nfs-utils.conf \
-+           file://nfs-server.service \
-+           file://nfs-mountd.service \
-+           file://nfs-statd.service "
- 
- SRC_URI[md5sum] = "6e7d97de51e428a0b8698c16ca23db77"
- SRC_URI[sha256sum] = "1cc8f02a633eddbf0a1d93421f331479c4cdab4c5ab33b8bf8c7c369f9156ac6"
-@@ -31,7 +35,10 @@ INITSCRIPT_NAME = "nfsserver"
- # in the shutdown levels, but that works fine.
- INITSCRIPT_PARAMS = "defaults"
- 
--inherit autotools update-rc.d
-+inherit autotools update-rc.d systemd
-+
-+SYSTEMD_SERVICE_${PN} = "nfs-server.service nfs-mountd.service nfs-statd.service"
-+SYSTEMD_AUTO_ENABLE = "disable"
- 
- # --enable-uuid is need for cross-compiling
- EXTRA_OECONF = "--with-statduser=nobody \
-@@ -65,6 +72,16 @@ do_install_append () {
- 	install -d ${D}${sysconfdir}/init.d
- 	install -d ${D}${localstatedir}/lib/nfs/statd
- 	install -m 0755 ${WORKDIR}/nfsserver ${D}${sysconfdir}/init.d/nfsserver
-+
-+	install -m 0755 ${WORKDIR}/nfs-utils.conf ${D}${sysconfdir}
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${WORKDIR}/nfs-server.service ${D}${systemd_unitdir}/system/
-+	install -m 0644 ${WORKDIR}/nfs-mountd.service ${D}${systemd_unitdir}/system/
-+	install -m 0644 ${WORKDIR}/nfs-statd.service ${D}${systemd_unitdir}/system/
-+	sed -i -e 's,@SBINDIR@,${sbindir},g' \
-+		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+		${D}${systemd_unitdir}/system/*.service
-+
- 	# kernel code as of 3.8 hard-codes this path as a default
- 	install -d ${D}/var/lib/nfs/v4recovery
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 76f0e7d..8ec4992 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -168,6 +168,9 @@ python rm_systemd_unitdir (){
+         systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True))
+         if os.path.exists(systemd_unitdir):
+             shutil.rmtree(systemd_unitdir)
++        base_libdir = oe.path.join(d.getVar("D", True), d.getVar('base_libdir', True))
++        if (os.path.exists(base_libdir) and not os.listdir(base_libdir)):
++            os.rmdir(base_libdir)
+ }
+ do_install[postfuncs] += "rm_systemd_unitdir "
  
 -- 
 1.7.9.5
