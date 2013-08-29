@@ -1,26 +1,26 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C88876BEA1
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id CAA8C6BE8F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 17:42:41 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Aug 2013 10:42:23 -0700
+	Thu, 29 Aug 2013 17:49:06 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 29 Aug 2013 10:49:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,984,1367996400"; d="scan'208";a="394070118"
+X-IronPort-AV: E=Sophos;i="4.89,984,1367996400"; d="scan'208";a="288534512"
 Received: from unknown (HELO [10.255.14.210]) ([10.255.14.210])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Aug 2013 10:42:23 -0700
-Message-ID: <521F87FF.2010602@linux.intel.com>
-Date: Thu, 29 Aug 2013 10:42:23 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 29 Aug 2013 10:49:06 -0700
+Message-ID: <521F898F.1060209@linux.intel.com>
+Date: Thu, 29 Aug 2013 10:49:03 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: "Peter A. Bigot" <pab@pabigot.com>
-References: <1377553769-21608-1-git-send-email-pab@pabigot.com>
-	<1377553769-21608-2-git-send-email-pab@pabigot.com>
-In-Reply-To: <1377553769-21608-2-git-send-email-pab@pabigot.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1377792005.git.Martin.Jansa@gmail.com>
+	<e77564486cce8199bd317f1ee79adb4f8b508ffa.1377792006.git.Martin.Jansa@gmail.com>
+In-Reply-To: <e77564486cce8199bd317f1ee79adb4f8b508ffa.1377792006.git.Martin.Jansa@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] linux-firmware: package Marvell SD8787 firmware
+Subject: Re: [WIP][PATCH 17/20] librsvg: Fix dependencies for PACKAGECONFIG gdkpixbuf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 17:42:44 -0000
+X-List-Received-Date: Thu, 29 Aug 2013 17:49:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/26/2013 02:49 PM, Peter A. Bigot wrote:
-> From: "Peter A. Bigot" <pab@pabigot.com>
+On 08/29/2013 09:03 AM, Martin Jansa wrote:
+> * without gtk+ or gdk-pixbuf available it gets disabled even with --enable-pixbuf-loader
 >
-> Also split out Marvell license as separate package.
->
-> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->   .../linux-firmware/linux-firmware_git.bb           |   14 ++++++++++++--
->   1 file changed, 12 insertions(+), 2 deletions(-)
+>   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> index 42f6ce0..0c69ee4 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-> @@ -55,7 +55,9 @@ do_install() {
->   }
->
->
-> -PACKAGES =+ "${PN}-ralink ${PN}-sd8686 ${PN}-wl12xx ${PN}-vt6656 \
-> +PACKAGES =+ "${PN}-ralink \
-> +             ${PN}-Marvell-license ${PN}-sd8686 ${PN}-sd8787 \
-This is an illegal package name with Capital "Marvell", this is due to 
-ipkg not handling capital letters in package names.
+> diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> index 4818422..30846bf 100644
+> --- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> +++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> @@ -29,7 +29,7 @@ PACKAGECONFIG ??= "croco gdkpixbuf"
+>   # Support embedded CSS stylesheets (recommended upstream)
+>   PACKAGECONFIG[croco] = "--with-croco,--without-croco,libcroco"
+>   # gdk-pixbuf loader
+> -PACKAGECONFIG[gdkpixbuf] = "--enable-pixbuf-loader,--disable-pixbuf-loader"
+> +PACKAGECONFIG[gdkpixbuf] = "--enable-pixbuf-loader,--disable-pixbuf-loader,gtk+ gdk-pixbuf"
 
-This should have given you an error during your testing.
+I think this needs to be a target only PACKAGECONFIG, as it will try to 
+depend on gtk+-native when building the librsvg-native.
 
 Sau!
 
-> +             ${PN}-wl12xx ${PN}-vt6656 \
->                ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
->                ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
->                ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
-> @@ -96,12 +98,20 @@ FILES_${PN}-ralink = " \
->     /lib/firmware/LICENCE.ralink-firmware.txt \
->   "
+>   # GTK+ 2 theme engine
+>   PACKAGECONFIG[gtk] = "--enable-gtk-theme,--disable-gtk-theme,gtk+"
 >
-> +FILES_${PN}-Marvell-license = "/lib/firmware/LICENCE.Marvell"
-> +
->   LICENSE_${PN}-sd8686 = "Firmware-Marvell"
->   FILES_${PN}-sd8686 = " \
->     /lib/firmware/libertas/sd8686_v9* \
->     /lib/firmware/sd8686* \
-> -  /lib/firmware/LICENCE.Marvell \
->   "
-> +RDEPENDS_${PN}-sd8686 += "${PN}-Marvell-license"
-> +
-> +LICENSE_${PN}-sd8787 = "Firmware-Marvell"
-> +FILES_${PN}-sd8787 = " \
-> +  /lib/firmware/mrvl/sd8787_uapsta.bin \
-> +"
-> +RDEPENDS_${PN}-sd8787 += "${PN}-Marvell-license"
->
->   FILES_${PN}-rtl-license = " \
->     /lib/firmware/LICENCE.rtlwifi_firmware.txt \
 >
 
