@@ -1,50 +1,55 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 1181A6BF57
+Return-Path: <elvis.dowson@gmail.com>
+Received: from mail-pb0-f43.google.com (mail-pb0-f43.google.com
+	[209.85.160.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 656536BED8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 16:19:10 +0000 (UTC)
-Received: by mail-pa0-f41.google.com with SMTP id bj1so1133297pad.28
+	Thu, 29 Aug 2013 16:23:04 +0000 (UTC)
+Received: by mail-pb0-f43.google.com with SMTP id md4so665550pbc.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 09:19:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=KgbDmjMuowgM/rfwMczSC8IauNWFvxDTWb5e13AYy8c=;
-	b=i2+2GtRN3CK2JhKuxsWkvliqU7DstEharWluTXGTPzbSxzjLrx04unyRGVbsiUEIva
-	BATHR+ZjVO36U9RSKvT7URQ//fw586RunqUCWUPTTOgYMnlfeDLpfVNxaBY3fKtJY9K0
-	KeHOoQof+QTnbsPH0GkCbLewWBFxBK/QgTYzf4pJdFOAmACnWqqjMIsbgKdOL+t/Vl6p
-	0rITR6Vr0F55sXdMRmVbTxfBeZvI7gS0J80z0ndir0cJl18Xm5p9SKovLwELs2/AyA5T
-	rerVgk5YWdH+Ec0lC8y9ez7pEdjs7nEG7VGwrhRDF/LeHe00HO4PGabLam2D8L7DXlA/
-	fCsg==
-X-Gm-Message-State: ALoCoQlIfDegTLMmaKQ5WgoF0MQELs8/b1PiPBv6N57sJA6wtKcEwoUyIoxCIAbXSXYsy4fEj8Aq
-MIME-Version: 1.0
-X-Received: by 10.68.161.132 with SMTP id xs4mr4514412pbb.172.1377793151066;
-	Thu, 29 Aug 2013 09:19:11 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.57.234 with HTTP; Thu, 29 Aug 2013 09:19:10 -0700 (PDT)
-In-Reply-To: <1377097189.25999.118.camel@ted>
-References: <CAOMwXhNaMEvSfi-J=EPOXfSAfjWUJeq8pGAGE3_5Hix1Sw9mKg@mail.gmail.com>
-	<520E17F6.4030500@communistcode.co.uk>
-	<CAOMwXhMD5FE2jK-R+5SCYRCtpS0S_Nk-6HhbsiUJt9i63-kHUQ@mail.gmail.com>
-	<52147D02.10106@communistcode.co.uk>
-	<CAJTo0Lap8PHE-=d_S7M7gEOzaXud3EqWgkbzU+5VQH7vUeVw7g@mail.gmail.com>
-	<CAOMwXhOLPoK994vd7aNnPKhutKfzriLSsg4XCPP6oCGO98jD9g@mail.gmail.com>
-	<CAJTo0LYraeUno84Hof7PPiJ3d9_eydwRTjB1D7VjojoZNPOZYQ@mail.gmail.com>
-	<CAOMwXhMOQo3PiAT+3L2M894MDJvLg0eEwunqtQD3TGMwBReXHw@mail.gmail.com>
-	<CAJTo0La2UVtZ9rM-HRGY9DGzD9=D4RTZzutHT8Aks4QJ9E=zPw@mail.gmail.com>
-	<CAOMwXhP6awmXzW2Sm0OMKyrWBFtQRje1CkL3yWtvzdU6fvd1bw@mail.gmail.com>
-	<20130821110401.GG522@jama>
-	<CAOMwXhP+k2qnhPsAEYvppC3eTf7N0UUY7V0-KVNs+83u-XU2oA@mail.gmail.com>
-	<1377097189.25999.118.camel@ted>
-Date: Thu, 29 Aug 2013 17:19:10 +0100
-X-Google-Sender-Auth: drkDWALet_-EHKVf8G_HMXEDi_4
-Message-ID: <CAOMwXhM=gnOZzk70yB6=2XdJFKtC6bZoNNHZDb2zd=bhma0Lhw@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Why is "bitbake core-image-minimal" building gtk docs?
+	Thu, 29 Aug 2013 09:23:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=83u8XAOhEqRKNWTZTW0LbzwOBbYVgfooE44bY1q99BY=;
+	b=Y6XzrYn+msxP9uiRjb2iR4e7SocNLQ46p1X8oRZxExU/IhVukxgpPJUPT2Qwc3ieN0
+	p90C8NdZX6BAJC8UT2kkV4vgSJTQXgp40LllG8un1xlhFuIwqAbD5tbYh7ot+Fyei2rr
+	S5n+f3fL585IdJyAzHPsabGvh/O8Rmr6/uD/8OOiCua837c9k2wI+XgWWlqb2QDWBEmj
+	0NnGjL6VKuDCgKBQtg1aJYexV3/s0y4dlmA/WrdnqXOQDPjiRFXVcMUtTTkQDN63z4LK
+	QJ6xh3OdiifDDDmTbLZSmdU36Sovl+WHAzJq981uNK4C0Pix+N6KTM67JszCSOgSJY+6
+	V3jw==
+X-Received: by 10.68.200.34 with SMTP id jp2mr4657652pbc.53.1377793385233;
+	Thu, 29 Aug 2013 09:23:05 -0700 (PDT)
+Received: from [192.168.1.106] ([94.205.106.26])
+	by mx.google.com with ESMTPSA id
+	zi1sm38861763pbb.28.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 29 Aug 2013 09:23:03 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.1 \(1498\))
+From: Elvis Dowson <elvis.dowson@gmail.com>
+In-Reply-To: <7C83EB0C-C1E8-4481-AD5A-D38135A15D9F@gmail.com>
+Date: Thu, 29 Aug 2013 20:22:56 +0400
+Message-Id: <CBA2A6AF-AC69-41D5-841A-D17A144B753B@gmail.com>
+References: <20130825104341.a5c5c4a29245e5c988b774ab8f895ac5.305c945aa2.wbe@email15.secureserver.net>
+	<835D4942-DCEA-4634-9822-24ADDCAD8DF7@gmail.com>
+	<092BF80A-B02A-4506-840E-2EEEE48CE298@gmail.com>
+	<4AC41A5E-073D-4973-82BD-F94A8B168F34@gmail.com>
+	<521AA95A.8000803@windriver.com>
+	<7DBFB4EE-4727-422F-8815-D801827A37C9@gmail.com>
+	<521AD896.3000503@windriver.com>
+	<6324D287-2CA2-4A88-AFF4-58CABE82B2CC@gmail.com>
+	<521BA7CB.7070206@windriver.com>
+	<2D33FB6A-9F7F-4E8E-8B1A-CED1D571A82C@gmail.com>
+	<521D0622.6090802@windriver.com>
+	<2AC87191-8D2B-4972-A249-2043B68A0A7B@gmail.com>
+	<521E7D2E.6060404@windriver.com>
+	<E66BA9BD-07D4-4A90-BFB9-0908608FBD07@gmail.com>
+	<A3529AF4-7650-4866-A83B-5D948D733723@gmail.com>
+	<6A28979E-6351-4F22-B118-8987B099613B@gmail.com>
+	<7C83EB0C-C1E8-4481-AD5A-D38135A15D9F@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Apple Mail (2.1498)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +62,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 16:19:10 -0000
-Content-Type: multipart/alternative; boundary=047d7bd6c27657f9c104e51877b2
-
---047d7bd6c27657f9c104e51877b2
-Content-Type: text/plain; charset=ISO-8859-1
-
-On Wed, Aug 21, 2013 at 3:59 PM, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> Regardless of whether you use mirrors or not, if you set
-> BB_GENERATE_MIRROR_TARBALLS it will create tarballs in DL_DIR of the git
-> repositories. You can then stop trying to check in the /git/  and /git2/
-> subdirectories of DL_DIR and some of your problems will likely go away.
->
-
-Actually, I have just spent one hour with a full rebuild, but putting this
-variable into the local.conf did not generate any different downloads
-folder. Any other idea how to get rid of the git hassle in here without a
-major infrastructure refactor?
-
---047d7bd6c27657f9c104e51877b2
-Content-Type: text/html; charset=ISO-8859-1
+X-List-Received-Date: Thu, 29 Aug 2013 16:23:04 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">On Wed, Aug 21, 2013 at 3:59 PM, Richard Purdie <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
-=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><di=
-v class=3D"gmail_extra">
-<div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"HOE=
-nZb"><div class=3D"h5"><span style=3D"color:rgb(34,34,34)">Regardless of wh=
-ether you use mirrors or not, if you set</span><br>
-</div></div>
-BB_GENERATE_MIRROR_TARBALLS it will create tarballs in DL_DIR of the git<br=
->
-repositories. You can then stop trying to check in the /git/ =A0and /git2/<=
-br>
-subdirectories of DL_DIR and some of your problems will likely go away.<br>=
-</blockquote><div><br></div><div>Actually, I have just spent one hour with =
-a full rebuild, but putting this variable into the local.conf did not gener=
-ate any different downloads folder. Any other idea how to get rid of the gi=
-t hassle in here without a major infrastructure refactor?</div>
-</div></div></div>
 
---047d7bd6c27657f9c104e51877b2--
+On Aug 29, 2013, at 8:17 PM, Khem Raj <raj.khem@gmail.com> wrote:
+
+>=20
+> On Aug 29, 2013, at 1:50 AM, Elvis Dowson <elvis.dowson@gmail.com> =
+wrote:
+>=20
+>>>> also take a look at meta-linaro, they test armv7+ qemu regularly.
+>>=20
+>> I built core-image-minimal using meta-linaro, using genericarmv7 =
+machine but it just generates an Image file for the kernel and a tar.gz =
+rootfs. It doesn't look like its useful out of the box for a QEMU image. =
+Additionally you have to do something extra for the image to be usable =
+for a beagle QEMU machine, related to x-load and u-boot, to get it to =
+work.
+>=20
+> x-load, u-boot are not needed when booting a qemu machine. You just =
+need a kernel and rfs. So make sure that you use a kernel thats =
+configured correctly to boot on say vexpress emulation on qemu and that =
+should be it. Real thing is to figure out the kernel and any patches if =
+needed.
+
+Tried that with the current poky master, it doesn't work.=20
+
+The only two qemu arm based machine configurations that work, at the =
+moment are qemuarm (versatilepb) and qemuzynq from the meta-xilinx layer =
+(xilinx-zynq-a9).
+
+The others don't work, it crashes upon booting.
+
+If you've got -M vexpress-a9 working, please let me know how you got it =
+to run against yocto master.
+
+Elvis Dowson=
+
