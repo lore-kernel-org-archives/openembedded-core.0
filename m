@@ -1,21 +1,32 @@
-Return-Path: <rewitt@declaratino.com>
-Received: from p3plwbeout15-05.prod.phx3.secureserver.net
-	(p3plsmtp15-05-2.prod.phx3.secureserver.net [173.201.193.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A9A6D6BEEB
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
+	[209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 096016BDA6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 18:53:43 +0000 (UTC)
-Received: from localhost ([173.201.193.116])
-	by p3plwbeout15-05.prod.phx3.secureserver.net with bizsmtp
-	id Jitg1m0012X8myt01itg6S; Thu, 29 Aug 2013 11:53:40 -0700
-X-SID: Jitg1m0012X8myt01
-Received: (qmail 23502 invoked by uid 99); 29 Aug 2013 18:53:40 -0000
-X-Originating-IP: 192.146.101.8
-User-Agent: Workspace Webmail 5.6.41
-Message-Id: <20130829115339.a5c5c4a29245e5c988b774ab8f895ac5.53f04ab59e.wbe@email15.secureserver.net>
-From: <rewitt@declaratino.com>
-To: "Elvis Dowson" <elvis.dowson@gmail.com>
-Date: Thu, 29 Aug 2013 11:53:39 -0700
-Mime-Version: 1.0
+	Thu, 29 Aug 2013 18:58:16 +0000 (UTC)
+Received: by mail-lb0-f180.google.com with SMTP id q8so1054192lbi.39
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Aug 2013 11:58:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=HJD0rwezB88PKmU1m84IYMNRTdYcD9l4rIlqwk864js=;
+	b=nMUSeWkB87p69LlQ6VFrct59wlQfxoM9d0YoqePK6GlZmprTN5/exta4jogrcxf51F
+	9ubio7c+nrY8lsOTB6Yc0qnM+PJUNfEIKGhGQx/3+8O1R58IQcmCvvkj7zUj5s8q/etf
+	E4ONpSFSvz0D4uEz2IxaDrfG9fes5ILmgfMg9mSAME3vBek7o30/hjyCpyjuMH3w5r/7
+	ZC41psYlG4C8RHm/V2pcAyK4R7Z0f8puXBsY16gMnV3mBVsfaAlk1zJGwJxeFqrtmwrP
+	rltj7DEWdlCTcLoshYJiPdVJkt3eRdfeI3y9vhXPa9sJHucdYW8gplYTt/WkAS/czQJu
+	IVkQ==
+MIME-Version: 1.0
+X-Received: by 10.112.158.225 with SMTP id wx1mr2916808lbb.37.1377802697020;
+	Thu, 29 Aug 2013 11:58:17 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Thu, 29 Aug 2013 11:58:16 -0700 (PDT)
+In-Reply-To: <20130829115339.a5c5c4a29245e5c988b774ab8f895ac5.53f04ab59e.wbe@email15.secureserver.net>
+References: <20130829115339.a5c5c4a29245e5c988b774ab8f895ac5.53f04ab59e.wbe@email15.secureserver.net>
+Date: Thu, 29 Aug 2013 14:58:16 -0400
+Message-ID: <CADkTA4NWhz3rmAqH=yB_5H4V4f11w4qZdYUTOG73SNLyv6R-=A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: rewitt@declaratino.com
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: QEMU with ARM Cortex A9 with hard float configuration - Kernel panic
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -30,45 +41,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 18:53:43 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 29 Aug 2013 18:58:17 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-=0A=0A> -------- Original Message --------=0A> Subject: Re: [OE-core] [oe-c=
-ore] QEMU with ARM Cortex A9 with hard float=0A> configuration - Kernel pan=
-ic=0A> From: Elvis Dowson <elvis.dowson@gmail.com>=0A> Date: Thu, August 29=
-, 2013 12:28 pm=0A> To: Bruce Ashfield <bruce.ashfield@windriver.com>=0A> C=
-c: OpenEmbedded Core Mailing List=0A> <openembedded-core@lists.openembedded=
-.org>=0A> =0A> =0A> On Aug 29, 2013, at 8:23 PM, Bruce Ashfield <bruce.ashf=
-ield@windriver.com> wrote:=0A> =0A> > On 13-08-29 10:02 AM, Elvis Dowson wr=
-ote:=0A> >> Hi Bruce,=0A> >> =0A> >> On Aug 29, 2013, at 4:35 PM, Bruce Ash=
-field <bruce.ashfield@windriver.com> wrote:=0A> >> =0A> >>> With that, it's=
- always been a manual setup for me in the past. The typical=0A> >>> workflo=
-w is to test them via the usermode NFS boot. Have you given=0A> >>> that a =
-go ?=0A> >> =0A> >> Does yocto have some wrapper script/command to setup nf=
-s boot automatically=0A> >> without too much manual configuration? The runq=
-emu and runqemu-internal=0A> >> scripts seems to indicate that, but haven't=
- tried this before.=0A> >> =0A> >> Let me know if it exists! If not, if you=
- could point me to a link that describes how=0A> >> to set NFS boot, and us=
-e it to load a beagleboard image it would be great!=0A> > =0A> > This is su=
-pported right out of the box, and it should be documented in=0A> > the proj=
-ect docs.=0A> > =0A> > Search for users-space NFS in http://www.yoctoprojec=
-t.org/docs/current/adt-manual/adt-manual.html=0A> =0A> I saw this, its only=
- for the rootfs. what I've read on the net alluded to the fact that you nee=
-d to have=0A> xload, uboot and the kernel image on a specific partition ins=
-ide an sdcard image. Those were=0A> the boot procedures used for the beagle=
-board using qemu.=0A> =0A> This is for -M beagle, with qemu-system-arm. =0A=
-> =0A> Anyway, I just need a way to boot vexpress-a9 using QEMU. I'll send =
-a private email, with the=0A> patch to you, so that you can start off from =
-where I left, in terms of modifications to poky-master=0A> and be able to d=
-ebug the issue directly at your end.=0A=0AI actually set up a build to get =
-a vexpress-a15 booting in qemu with=0Aneon support. However, I didn't use t=
-he yocto kernel and just pointed at=0Amy own defconfig and kernel version 3=
-.10.7. If it would be helpful for=0Ayou, I could put my changes up on githu=
-b.=0A=0AThe weirdest thing was if I just used the defconfig that is in the=
-=0Akernel for vexpress it wouldn't boot, I had to tweak it a bit.=0A=0A> Be=
-st regards,=0A> =0A> Elvis Dowson=0A> _____________________________________=
-__________=0A> Openembedded-core mailing list=0A> Openembedded-core@lists.o=
-penembedded.org=0A> http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core
+On Thu, Aug 29, 2013 at 2:53 PM,  <rewitt@declaratino.com> wrote:
+>
+>
+>> -------- Original Message --------
+>> Subject: Re: [OE-core] [oe-core] QEMU with ARM Cortex A9 with hard float
+>> configuration - Kernel panic
+>> From: Elvis Dowson <elvis.dowson@gmail.com>
+>> Date: Thu, August 29, 2013 12:28 pm
+>> To: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> Cc: OpenEmbedded Core Mailing List
+>> <openembedded-core@lists.openembedded.org>
+>>
+>>
+>> On Aug 29, 2013, at 8:23 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>>
+>> > On 13-08-29 10:02 AM, Elvis Dowson wrote:
+>> >> Hi Bruce,
+>> >>
+>> >> On Aug 29, 2013, at 4:35 PM, Bruce Ashfield <bruce.ashfield@windriver.com> wrote:
+>> >>
+>> >>> With that, it's always been a manual setup for me in the past. The typical
+>> >>> workflow is to test them via the usermode NFS boot. Have you given
+>> >>> that a go ?
+>> >>
+>> >> Does yocto have some wrapper script/command to setup nfs boot automatically
+>> >> without too much manual configuration? The runqemu and runqemu-internal
+>> >> scripts seems to indicate that, but haven't tried this before.
+>> >>
+>> >> Let me know if it exists! If not, if you could point me to a link that describes how
+>> >> to set NFS boot, and use it to load a beagleboard image it would be great!
+>> >
+>> > This is supported right out of the box, and it should be documented in
+>> > the project docs.
+>> >
+>> > Search for users-space NFS in http://www.yoctoproject.org/docs/current/adt-manual/adt-manual.html
+>>
+>> I saw this, its only for the rootfs. what I've read on the net alluded to the fact that you need to have
+>> xload, uboot and the kernel image on a specific partition inside an sdcard image. Those were
+>> the boot procedures used for the beagleboard using qemu.
+>>
+>> This is for -M beagle, with qemu-system-arm.
+>>
+>> Anyway, I just need a way to boot vexpress-a9 using QEMU. I'll send a private email, with the
+>> patch to you, so that you can start off from where I left, in terms of modifications to poky-master
+>> and be able to debug the issue directly at your end.
+>
+> I actually set up a build to get a vexpress-a15 booting in qemu with
+> neon support. However, I didn't use the yocto kernel and just pointed at
+> my own defconfig and kernel version 3.10.7. If it would be helpful for
+> you, I could put my changes up on github.
+>
+> The weirdest thing was if I just used the defconfig that is in the
+> kernel for vexpress it wouldn't boot, I had to tweak it a bit.
+
+I have a vexpress A15 that works here as well, but I wouldn't mind comparing
+configs. If you send it along, I'd have a look.
+
+I'm not surprised it needed some changes .. when going to qemu mileage varies
+with in tree defconfigs.
+
+Bruce
+
+
+>
+>> Best regards,
+>>
+>> Elvis Dowson
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
