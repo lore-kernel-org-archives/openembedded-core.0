@@ -1,26 +1,34 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BCAF6BCF4
+Return-Path: <walters@verbum.org>
+Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
+	[66.111.4.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D186BC98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 15:26:01 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 29 Aug 2013 08:26:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,984,1367996400"; d="scan'208";a="388332164"
-Received: from unknown (HELO helios.localnet) ([10.252.123.55])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2013 08:26:00 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 29 Aug 2013 16:25:59 +0100
-Message-ID: <2059010.0EkyrxoSPo@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <08dbbf71b281261919744307654a91bf3d452d18.1377660850.git.hongxu.jia@windriver.com>
-References: <cover.1377660850.git.hongxu.jia@windriver.com>
-	<08dbbf71b281261919744307654a91bf3d452d18.1377660850.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] list-packageconfig-flags.py: fix searching bitbake module failed
+	Thu, 29 Aug 2013 15:39:25 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.mail.srv.osa [10.202.2.44])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id EE915215F3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Aug 2013 11:39:18 -0400 (EDT)
+Received: from frontend2 ([10.202.2.161])
+	by compute4.internal (MEProxy); Thu, 29 Aug 2013 11:39:18 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:content-type:date
+	:message-id:mime-version:content-transfer-encoding; s=smtpout;
+	bh=1/irvIS16JosQNlRUOktDc+/1FE=; b=qknH3SpUhyATECQxufNhC4RYU1yi
+	lqdBvT8PjM27K/MU88lKf5c67HHwduEaKPPQXi90sednrXQWYqQNHKwxng8zLItW
+	87/zL/oudfIxpUbbL/eAn4EhqQBxIwrtyHm9kswPt+9JW+ox9bfggRaAxo+b5WrR
+	jmDMwJ1rY6i3Oa0=
+X-Sasl-enc: OcvksS8WbxqPokidjUkE/m407Gk8gQptPwqFg+w4bqI+ 1377790757
+Received: from [10.16.197.114] (unknown [66.187.233.206])
+	by mail.messagingengine.com (Postfix) with ESMTPA id B1BD66804EC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 29 Aug 2013 11:39:17 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Aug 2013 11:39:16 -0400
+Message-ID: <1377790756.20072.50.camel@localhost>
+Mime-Version: 1.0
+X-Mailer: Evolution 2.32.3 (2.32.3-21.el6) 
+Subject: OSTree as an output target for OE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,99 +41,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 15:26:02 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 29 Aug 2013 15:39:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 28 August 2013 12:30:01 Hongxu Jia wrote:
-> Run list-packageconfig-flags.py on wrlinux's platform in which
-> the oe-core layer and bitbake layer in different directories:
-> ----
-> ../layers/oe-core/scripts/contrib/list-packageconfig-flags.py
-> Traceback (most recent call last):
->   File "../layers/oe-core/scripts/contrib/list-packageconfig-flags.py", line
-> 28, in <module> import bb.cache
-> ImportError: No module named bb.cache
-> ----
-> 
-> The script import bb module from bitbake lib dir, the previous
-> lib dir was hardcode and only worked on poky but not for others.
-> 
-> In this situation, look for bitbake/bin dir in PATH could fix this issue.
-> 
-> [YOCTO #5060]
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  scripts/contrib/list-packageconfig-flags.py | 32
-> ++++++++++++++++++++++------- 1 file changed, 25 insertions(+), 7
-> deletions(-)
-> 
-> diff --git a/scripts/contrib/list-packageconfig-flags.py
-> b/scripts/contrib/list-packageconfig-flags.py index 149922d..371033a 100755
-> --- a/scripts/contrib/list-packageconfig-flags.py
-> +++ b/scripts/contrib/list-packageconfig-flags.py
-> @@ -23,8 +23,26 @@ import sys
->  import getopt
->  import os
-> 
-> +def search_bitbakepath():
-> +    bitbakepath = ""
-> +
-> +    # Search path to bitbake lib dir in order to load bb modules
-> +    if os.path.exists(os.path.join(os.path.dirname(sys.argv[0]),
-> '../../bitbake/lib/bb')): +        bitbakepath =
-> os.path.join(os.path.dirname(sys.argv[0]), '../../bitbake/lib') +       
-> bitbakepath = os.path.abspath(bitbakepath)
-> +    else:
-> +        # Look for bitbake/bin dir in PATH
-> +        for pth in os.environ['PATH'].split(':'):
-> +            if os.path.exists(os.path.join(pth, '../lib/bb')):
-> +                bitbakepath = os.path.abspath(os.path.join(pth, '../lib'))
-> +                break
-> +        if not bitbakepath:
-> +            sys.stderr.write("Unable to find bitbake by searching parent
-> directory of this script or PATH\n") +            sys.exit(1)
-> +    return bitbakepath
-> +
->  # For importing the following modules
-> -sys.path.insert(0,
-> os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])),
-> '../../bitbake/lib')) 
-> +sys.path.insert(0, search_bitbakepath())
+...is something I'd love to see.  I don't have much time in the
+immediate future to work on it myself, but I'd just like to raise the
+visibility of the project here because I am very much keeping in mind
+the needs of embedded systems.  Or at least what I perceive them to be;
+my job is not embedded, even though I use OE for a project.
 
-This looks fine, but I've been thinking for a while that we should have a place 
-for shared library code just for the scripts directory in which we could put 
-this function rather than having it repeated in a number of different scripts. 
-I'll add an enhancement to bugzilla to do this in 1.6.
+In particular I know that while historically many embedded devices
+aren't Internet connected, that's changing (which is a good and bad
+thing).  But if your device will have the ability to upgrade itself
+online, OSTree offers a model for completely atomic upgrades, which I
+imagine is quite desirable for many unattended devices.
 
->  import bb.cache
->  import bb.cooker
->  import bb.providers
-> @@ -39,12 +57,12 @@ OPTION:
->    -p, --prefer  list pkgs with preferred version
-> 
->  EXAMPLE:
-> -list-packageconfig-flags.py poky/meta poky/meta-yocto
-> -list-packageconfig-flags.py -f poky/meta poky/meta-yocto
-> -list-packageconfig-flags.py -a poky/meta poky/meta-yocto
-> -list-packageconfig-flags.py -p poky/meta poky/meta-yocto
-> -list-packageconfig-flags.py -f -p poky/meta poky/meta-yocto
-> -list-packageconfig-flags.py -a -p poky/meta poky/meta-yocto
-> +list-packageconfig-flags.py
-> +list-packageconfig-flags.py -f
-> +list-packageconfig-flags.py -a
-> +list-packageconfig-flags.py -p
-> +list-packageconfig-flags.py -f -p
-> +list-packageconfig-flags.py -a -p
->  '''
-> 
->  def usage():
+Here's a link to the LWN article:
+http://lwn.net/Articles/564793/
+Which links to my blog, but the most relevant thing here will probably
+be:
+https://people.gnome.org/~walters/ostree/doc/
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
--- 
+Many of the changes it asks for:
+https://people.gnome.org/~walters/ostree/doc/adapting-existing.html
+are somewhat nontrivial from the current OE-core; but on the other hand,
+it's not *that* far away.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+The biggest technical change is having a new rootfs backend; I have a
+truly hideous, hacky implementation here:
+https://github.com/cgwalters/poky/blob/gnomeostree-3.10-dylan/meta-gnomeos/classes/gnomeos-contents.bbclass
+which includes doing UsrMove (and further, unifying bin/sbin) etc. which
+then generates two tarballs out of the OE content.  From there, I take
+those two tarballs and commit it into an OSTree repository:
+
+https://git.gnome.org/browse/gnome-ostree/tree/src/js/tasks/task-build.js?id=600ea8e70cf8c8bf56a79ad5ec39c122f9066a92#n1125
+
+Then on the client side, users can choose between the refs
+"gnome-ostree/buildmaster/x86_64-runtime" and
+"gnome-ostree/buildmaster/x86_64-devel-debug" where the first is a
+runtime system with no debuginfo, and -devel-debug has all of the
+developer tools (gcc, make, etc.) and *all* of the debuginfo.
+
+So you can see here the client machine can (relatively efficiently)
+switch trees; it's not like images where you are locked into one thing.
+It's also not like packages where you have a combinatorial explosion of
+options.
+
+
 
