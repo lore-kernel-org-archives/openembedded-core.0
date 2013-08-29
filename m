@@ -1,34 +1,34 @@
-Return-Path: <lizhijian@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 2930D6BCD0
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D1306BCC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 01:46:40 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,979,1367942400"; 
-   d="scan'208";a="8338025"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 29 Aug 2013 09:43:33 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r7T1kWuW027633;
-	Thu, 29 Aug 2013 09:46:32 +0800
-Received: from [127.0.0.1] ([10.167.226.56])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013082909443475-1044558 ;
-	Thu, 29 Aug 2013 09:44:34 +0800 
-Message-ID: <521EA7EC.80302@cn.fujitsu.com>
-Date: Thu, 29 Aug 2013 09:46:20 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-Organization: fnst-ulinux
-User-Agent: Mozilla/5.0 (Windows NT 5.1;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org,
-	Yocto list discussion <yocto@yoctoproject.org>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/08/29 09:44:34,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/08/29 09:44:39,
-	Serialize complete at 2013/08/29 09:44:39
-Subject: [Question] libxml: How about add --with-catalog to EXTRA_OECONF ?
+	Thu, 29 Aug 2013 02:35:05 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id fb10so267927pad.23
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 28 Aug 2013 19:35:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=rYtA/EdKIpOYXQusKTDPnDc1eL9MD/BK4J9+BI1DE78=;
+	b=MTk6j1hsv5yduzI/YVtovq50dnss5yuVkL0wcjYcsmUs217Plvi9f3I/Olv7xVZmOF
+	BwQTYR87ScoDs3WYXo5ncBmMIAGoOUklfBvN8RDfvm62jOKvg+0a7iiBQEXXwHLcYLMb
+	UMf0PF/nJ/gZQtkpEyqtGolTOmJi+Nut6jnPXCLHuaHdou8BNTYT/cRKhSaL1rjTZNsa
+	Oc5xBtinfO2szobKxjpEoVK2ZY5myVitfJTJIhRmr7btmNT5wMtFjQMx7JLVdX/JEdNl
+	kX9AR3ckeYN+VKXWJK0Obfxs7rEKldrcTHrPJPyTyRC/Qo3Jt+/kgYpxoXfIJsMxkX0A
+	wjDg==
+X-Received: by 10.66.233.195 with SMTP id ty3mr1766372pac.70.1377743705911;
+	Wed, 28 Aug 2013 19:35:05 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id lm2sm37296147pab.2.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 28 Aug 2013 19:35:05 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Aug 2013 12:30:24 +1000
+Message-Id: <1377743424-3112-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] systemd: use /bin/mkdir instead of host mkdir path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,27 +41,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 01:46:41 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=Shift_JIS
+X-List-Received-Date: Thu, 29 Aug 2013 02:35:05 -0000
 
-Hi,
+Signed-off-by: Jonathan Liu <net147@gmail.com>
+---
+ ...-Use-bin-mkdir-instead-of-host-mkdir-path.patch | 31 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_206.bb           |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
 
-I had build libxml and executed xmlcatalog
-It shows follow messages
-# xmlcatalog --help
-libxml was not compiled with catalog and output support
-
-meta/recipes-core/libxml/libxml2.inc: 32
-EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
-
-Is it reasonable to add --without-catalog EXTRA_OECONF ?
-
-Thanks
-
-Best regards.
-Li Zhijian
-
-
+diff --git a/meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch b/meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
+new file mode 100644
+index 0000000..25988fc
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
+@@ -0,0 +1,31 @@
++From 5599ab4ae3fe74cdd9699f2874badf241f0148fe Mon Sep 17 00:00:00 2001
++From: Jonathan Liu <net147@gmail.com>
++Date: Wed, 28 Aug 2013 19:09:49 -0700
++Subject: [PATCH] Use /bin/mkdir instead of host mkdir path
++
++If the host system has /usr/bin/mkdir, autoconf would set MKDIR_P to
++/usr/bin/mkdir when it should be /bin/mkdir. As a result, the
++kmod-static-nodes service fails to start on the target because
++/usr/bin/mkdir doesn't exist. This has been observed when building
++systemd on Arch Linux host.
++
++Upstream-Status: Inappropriate [embedded specific]
++Signed-off-by: Jonathan Liu <net147@gmail.com>
++---
++ units/kmod-static-nodes.service.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/units/kmod-static-nodes.service.in b/units/kmod-static-nodes.service.in
++index d8a8420..1daed5f 100644
++--- a/units/kmod-static-nodes.service.in
+++++ b/units/kmod-static-nodes.service.in
++@@ -14,5 +14,5 @@ ConditionCapability=CAP_MKNOD
++ [Service]
++ Type=oneshot
++ RemainAfterExit=yes
++-ExecStartPre=@MKDIR_P@ /run/tmpfiles.d
+++ExecStartPre=/bin/mkdir -p /run/tmpfiles.d
++ ExecStart=@KMOD@ static-nodes --format=tmpfiles --output=/run/tmpfiles.d/kmod.conf
++-- 
++1.8.3.4
++
+diff --git a/meta/recipes-core/systemd/systemd_206.bb b/meta/recipes-core/systemd/systemd_206.bb
+index f05aa1b..75bdc61 100644
+--- a/meta/recipes-core/systemd/systemd_206.bb
++++ b/meta/recipes-core/systemd/systemd_206.bb
+@@ -19,6 +19,7 @@ inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-altern
+ 
+ SRC_URI = "http://www.freedesktop.org/software/systemd/systemd-${PV}.tar.xz \
+            file://0001-use-CAP_MKNOD-ConditionCapability.patch \
++           file://0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch \
+            file://touchscreen.rules \
+            ${UCLIBCPATCHES} \
+            file://00-create-volatile.conf \
+-- 
+1.8.3.4
 
 
