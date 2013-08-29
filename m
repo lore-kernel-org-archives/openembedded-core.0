@@ -1,41 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 913D06BEA4
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa09-04.prod.phx3.secureserver.net
+	(p3plsmtpa09-04.prod.phx3.secureserver.net [173.201.193.233])
+	by mail.openembedded.org (Postfix) with ESMTP id A6D746BE90
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 18:29:08 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id n15so428801ead.16
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 11:29:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=X8cfCF5qQgUwC8Zyh29555VFRlT77QlsnAKAUhbsgCg=;
-	b=oM/VCs3dfjmokZDiYSMU3plF6ph41Jhh+zkAM9gnQEEOBP4ug1upTB3tRhP5Ui9M13
-	2Ch+DAfKv6HZbSOhnJ7o3ZX0EWq6hYp7Rlc6taHUcgH3a+qhh+YeeS7s2lh/n8BDA8sZ
-	mA+rxgFHPD/AAf6emZvz4L+QXC88VB2lEsZlEbPRg0J21PB53Xyj0ReIuyTPYHwaf5+P
-	uxpv5f1blLYoATSnoCDJXn5YPqGG/pFBVbukGNPZX2+6/2C/i5EWcq22h8isOjPMkcQj
-	u+9tFLpE2AKO0zbqOkBytaxu7TB4aOpL2KTuyjUpVvsbICX3svejzpVUgikhohh35Ni3
-	5g1w==
-X-Received: by 10.14.69.206 with SMTP id n54mr10564eed.118.1377800949022;
-	Thu, 29 Aug 2013 11:29:09 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	a6sm48261151eei.10.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Thu, 29 Aug 2013 11:29:08 -0700 (PDT)
-Date: Thu, 29 Aug 2013 20:30:21 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20130829183021.GR3544@jama>
-References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-	<e77564486cce8199bd317f1ee79adb4f8b508ffa.1377792006.git.Martin.Jansa@gmail.com>
-	<521F898F.1060209@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <521F898F.1060209@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [WIP][PATCH 17/20] librsvg: Fix dependencies for PACKAGECONFIG gdkpixbuf
+	Thu, 29 Aug 2013 18:35:50 +0000 (UTC)
+Received: from llc.pab ([66.41.60.82])
+	by p3plsmtpa09-04.prod.phx3.secureserver.net with 
+	id Jibq1m00H1mTNtu01ibrBr; Thu, 29 Aug 2013 11:35:51 -0700
+From: "Peter A. Bigot" <pab@pabigot.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 29 Aug 2013 13:35:47 -0500
+Message-Id: <1377801347-10581-1-git-send-email-pab@pabigot.com>
+X-Mailer: git-send-email 1.8.4
+In-Reply-To: <1377553769-21608-2-git-send-email-pab@pabigot.com>
+References: <1377553769-21608-2-git-send-email-pab@pabigot.com>
+Subject: [Patch v2] linux-firmware: package Marvell SD8787 firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,72 +27,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Aug 2013 18:29:09 -0000
-X-Groupsio-MsgNum: 44296
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fdxaWYUQIlOfL+ny"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 29 Aug 2013 18:35:51 -0000
 
---fdxaWYUQIlOfL+ny
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Also split out Marvell license as separate package.
 
-On Thu, Aug 29, 2013 at 10:49:03AM -0700, Saul Wold wrote:
-> On 08/29/2013 09:03 AM, Martin Jansa wrote:
-> > * without gtk+ or gdk-pixbuf available it gets disabled even with --ena=
-ble-pixbuf-loader
-> >
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipe=
-s-gnome/librsvg/librsvg_2.32.1.bb
-> > index 4818422..30846bf 100644
-> > --- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-> > +++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
-> > @@ -29,7 +29,7 @@ PACKAGECONFIG ??=3D "croco gdkpixbuf"
-> >   # Support embedded CSS stylesheets (recommended upstream)
-> >   PACKAGECONFIG[croco] =3D "--with-croco,--without-croco,libcroco"
-> >   # gdk-pixbuf loader
-> > -PACKAGECONFIG[gdkpixbuf] =3D "--enable-pixbuf-loader,--disable-pixbuf-=
-loader"
-> > +PACKAGECONFIG[gdkpixbuf] =3D "--enable-pixbuf-loader,--disable-pixbuf-=
-loader,gtk+ gdk-pixbuf"
->=20
-> I think this needs to be a target only PACKAGECONFIG, as it will try to=
-=20
-> depend on gtk+-native when building the librsvg-native.
+Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+---
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-Yes I've noticed it couple minutes after sending this patchset and it's
-already fixed in branch (just not squashed yet - waiting for next
-build).
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index 42f6ce0..1a6f7c9 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -55,7 +55,9 @@ do_install() {
+ }
+ 
+ 
+-PACKAGES =+ "${PN}-ralink ${PN}-sd8686 ${PN}-wl12xx ${PN}-vt6656 \
++PACKAGES =+ "${PN}-ralink \
++             ${PN}-marvell-license ${PN}-sd8686 ${PN}-sd8787 \
++             ${PN}-wl12xx ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+              ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
+@@ -96,12 +98,20 @@ FILES_${PN}-ralink = " \
+   /lib/firmware/LICENCE.ralink-firmware.txt \
+ "
+ 
++FILES_${PN}-marvell-license = "/lib/firmware/LICENCE.Marvell"
++
+ LICENSE_${PN}-sd8686 = "Firmware-Marvell"
+ FILES_${PN}-sd8686 = " \
+   /lib/firmware/libertas/sd8686_v9* \
+   /lib/firmware/sd8686* \
+-  /lib/firmware/LICENCE.Marvell \
+ "
++RDEPENDS_${PN}-sd8686 += "${PN}-marvell-license"
++
++LICENSE_${PN}-sd8787 = "Firmware-Marvell"
++FILES_${PN}-sd8787 = " \
++  /lib/firmware/mrvl/sd8787_uapsta.bin \
++"
++RDEPENDS_${PN}-sd8787 += "${PN}-marvell-license"
+ 
+ FILES_${PN}-rtl-license = " \
+   /lib/firmware/LICENCE.rtlwifi_firmware.txt \
+-- 
+1.8.4
 
-Thanks for review
 
->=20
-> Sau!
->=20
-> >   # GTK+ 2 theme engine
-> >   PACKAGECONFIG[gtk] =3D "--enable-gtk-theme,--disable-gtk-theme,gtk+"
-> >
-> >
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---fdxaWYUQIlOfL+ny
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlIfkz0ACgkQN1Ujt2V2gByYKQCfXT07LLf1BzvEumijHMS8mSlV
-bi4AoKkVBpgcaiJSKUFrfGECO+OesvNF
-=8yb6
------END PGP SIGNATURE-----
-
---fdxaWYUQIlOfL+ny--
