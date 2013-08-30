@@ -1,26 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 44B656BD8B
+Return-Path: <lizj@suika.fct.css.fujitsu.com>
+Received: from fgwmail5.fujitsu.co.jp (fgwmail5.fujitsu.co.jp [192.51.44.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 72F986BBD2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 06:57:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r7U6v8KJ020787
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 30 Aug 2013 08:04:02 +0000 (UTC)
+Received: from m2.gw.fujitsu.co.jp (unknown [10.0.50.72])
+	by fgwmail5.fujitsu.co.jp (Postfix) with ESMTP id EEBA13EE10C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 29 Aug 2013 23:57:08 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 29 Aug 2013 23:57:07 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 30 Aug 2013 14:57:03 +0800
-Message-ID: <92e60acbac317fbc9d9109c6c3591339bca297ad.1377845594.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1377845594.git.hongxu.jia@windriver.com>
-References: <cover.1377845594.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] binutils-cross: autotools dependence is needed
+	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
+Received: from smail (m2 [127.0.0.1])
+	by outgoing.m2.gw.fujitsu.co.jp (Postfix) with ESMTP id E098445DE4D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
+Received: from s2.gw.fujitsu.co.jp (s2.gw.fujitsu.co.jp [10.0.50.92])
+	by m2.gw.fujitsu.co.jp (Postfix) with ESMTP id C06A145DE4E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
+Received: from s2.gw.fujitsu.co.jp (localhost.localdomain [127.0.0.1])
+	by s2.gw.fujitsu.co.jp (Postfix) with ESMTP id A96DD1DB8043
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
+Received: from suika.fct.css.fujitsu.com (mikan.fct.css.fujitsu.com
+	[10.24.14.129])
+	by s2.gw.fujitsu.co.jp (Postfix) with ESMTP id 518AA1DB803E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
+Received: by suika.fct.css.fujitsu.com (Postfix, from userid 506)
+	id B5F3C180408; Sat, 31 Aug 2013 02:03:59 +0900 (JST)
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 31 Aug 2013 02:00:23 +0900
+Message-Id: <1377882023-14125-1-git-send-email-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH] libxml2: make xmlcatalog work via --with-catalog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 06:57:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Aug 2013 08:04:02 -0000
 
-Reproduce:
-1. bitbake binutils-cross
-2. rm -rf tmp
-3. bitbake binutils-cross -ccleansstate
-4. bitbake binutils-cross failed at do_configure task
-...
-tmp/work/i586-poky-linux/binutils-cross/2.23.2-r4/temp/run.do_configure.3170: line 115: gnu-configize: command not found
-ERROR: Failed to run gnu-configize
-WARNING: tmp/work/i586-poky-linux/binutils-cross/2.23.2-r4/temp/run.do_configure.3170:1 exit 1  from
-  exit 1
-...
+Previously,when execute xmlcatalog, it shows as follows:
+ "libxml was not compiled with catalog and output support"
 
-gnu-configize belongs to gnu-config-native, and gnu-config-native will be
-added to DEPENDS while inherit autotools if INHIBIT_AUTOTOOLS_DEPS is not
-true. In binutils-cross.inc, INHIBIT_AUTOTOOLS_DEPS is incorrectly assigned
-with true.
+So it seems more reasonable to make xmlcatalog work
+by using --with-catalog instead of --without-catalog
 
-And explicitly add gnu-config-native to DEPENDS is not ok, the do_configure
-shows it needs autoconf-native.
-
-Don't assign INHIBIT_AUTOTOOLS_DEPS in binutils-cross could fix this issue.
-
-[YOCTO #5079]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 ---
- meta/recipes-devtools/binutils/binutils-cross.inc | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-core/libxml/libxml2.inc |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils-cross.inc b/meta/recipes-devtools/binutils/binutils-cross.inc
-index 300a1d3..f1afe8f 100644
---- a/meta/recipes-devtools/binutils/binutils-cross.inc
-+++ b/meta/recipes-devtools/binutils/binutils-cross.inc
-@@ -2,7 +2,6 @@ inherit cross
- PROVIDES = "virtual/${TARGET_PREFIX}binutils"
+diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
+index 7fb2644..7a6a638 100644
+--- a/meta/recipes-core/libxml/libxml2.inc
++++ b/meta/recipes-core/libxml/libxml2.inc
+@@ -29,7 +29,7 @@ do_configure_prepend () {
+ 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
+ }
  
- INHIBIT_DEFAULT_DEPS = "1"
--INHIBIT_AUTOTOOLS_DEPS = "1"
- 
- EXTRA_OECONF += "--with-sysroot=${STAGING_DIR_TARGET} \
-                 --disable-install-libbfd \
+-EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
++EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
+ EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+ EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
+ EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-catalog --with-docbook --with-c14n --without-lzma"
 -- 
-1.8.1.2
+1.7.1
 
 
