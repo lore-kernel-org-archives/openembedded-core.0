@@ -1,37 +1,28 @@
-Return-Path: <lizj@suika.fct.css.fujitsu.com>
-Received: from fgwmail5.fujitsu.co.jp (fgwmail5.fujitsu.co.jp [192.51.44.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 72F986BBD2
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DF966BD64
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 08:04:02 +0000 (UTC)
-Received: from m2.gw.fujitsu.co.jp (unknown [10.0.50.72])
-	by fgwmail5.fujitsu.co.jp (Postfix) with ESMTP id EEBA13EE10C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
-Received: from smail (m2 [127.0.0.1])
-	by outgoing.m2.gw.fujitsu.co.jp (Postfix) with ESMTP id E098445DE4D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
-Received: from s2.gw.fujitsu.co.jp (s2.gw.fujitsu.co.jp [10.0.50.92])
-	by m2.gw.fujitsu.co.jp (Postfix) with ESMTP id C06A145DE4E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
-Received: from s2.gw.fujitsu.co.jp (localhost.localdomain [127.0.0.1])
-	by s2.gw.fujitsu.co.jp (Postfix) with ESMTP id A96DD1DB8043
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
-Received: from suika.fct.css.fujitsu.com (mikan.fct.css.fujitsu.com
-	[10.24.14.129])
-	by s2.gw.fujitsu.co.jp (Postfix) with ESMTP id 518AA1DB803E
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 17:04:01 +0900 (JST)
-Received: by suika.fct.css.fujitsu.com (Postfix, from userid 506)
-	id B5F3C180408; Sat, 31 Aug 2013 02:03:59 +0900 (JST)
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 31 Aug 2013 02:00:23 +0900
-Message-Id: <1377882023-14125-1-git-send-email-lizhijian@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.1
-Subject: [PATCH] libxml2: make xmlcatalog work via --with-catalog
+	Fri, 30 Aug 2013 08:17:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r7U8HLlN023752
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 30 Aug 2013 01:17:21 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 30 Aug 2013 01:17:21 -0700
+Message-ID: <522054F2.3020306@windriver.com>
+Date: Fri, 30 Aug 2013 16:16:50 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Li Zhijian <lizhijian@cn.fujitsu.com>
+References: <521EA7EC.80302@cn.fujitsu.com> <521EEFB1.4040809@windriver.com>
+	<522033C9.7050804@cn.fujitsu.com>
+In-Reply-To: <522033C9.7050804@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [Question] libxml: How about add --with-catalog to EXTRA_OECONF ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 08:04:02 -0000
+X-List-Received-Date: Fri, 30 Aug 2013 08:17:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Previously,when execute xmlcatalog, it shows as follows:
- "libxml was not compiled with catalog and output support"
 
-So it seems more reasonable to make xmlcatalog work
-by using --with-catalog instead of --without-catalog
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- meta/recipes-core/libxml/libxml2.inc |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+On 08/30/2013 01:55 PM, Li Zhijian wrote:
+> libxml2 is built successfully with option  of  --with-catalog,and xmlcatalog
+> work well
+>
+> Maybe I would  send a patch to fix it.
+>
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index 7fb2644..7a6a638 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -29,7 +29,7 @@ do_configure_prepend () {
- 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
- }
- 
--EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
-+EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
- EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
- EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma"
- EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-catalog --with-docbook --with-c14n --without-lzma"
--- 
-1.7.1
+Yes, that would be great, thanks.
 
+// Robert
+
+> Thanks
+> Li
+>
+> at 2013-8-29 14:52, Robert Yang wrote:
+>>
+>> I took a look at the libxml's git log, didn't see the explicit reason
+>> that why use the --without-catalog, so it seems reasonable to use the
+>> --with-catalog which will make the xmlcatalog work (if it can be built
+>> well with the option.)
+>>
+>> // Robert
+>>
+>> On 08/29/2013 09:46 AM, Li Zhijian wrote:
+>>> Hi,
+>>>
+>>> I had build libxml and executed xmlcatalog
+>>> It shows follow messages
+>>> # xmlcatalog --help
+>>> libxml was not compiled with catalog and output support
+>>>
+>>> meta/recipes-core/libxml/libxml2.inc: 32
+>>> EXTRA_OECONF = "--without-python --without-debug --without-legacy
+>>> --without-catalog --without-docbook --with-c14n --without-lzma
+>>> --with-fexceptions"
+>>>
+>>> Is it reasonable to add --without-catalog EXTRA_OECONF ?
+>>>
+>>> Thanks
+>>>
+>>> Best regards.
+>>> Li Zhijian
+>>>
+>>>
+>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>>
+>>
+>>
+>
+>
 
