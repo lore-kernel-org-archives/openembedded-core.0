@@ -1,32 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A4C06BD6D
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id A9CFC6BD9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 15:29:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7UFfIkh006871; Fri, 30 Aug 2013 16:42:11 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FZ0PoO2d-PaL; Fri, 30 Aug 2013 16:42:11 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r7UFg7Kh007091
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 30 Aug 2013 16:42:09 +0100
-Message-ID: <1377876563.1059.100.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 30 Aug 2013 16:29:23 +0100
-In-Reply-To: <521FF438.5040702@windriver.com>
-References: <cover.1377781793.git.liezhi.yang@windriver.com>
-	<454944e7bd4c831bea934852393d8e16abe1d5ff.1377781793.git.liezhi.yang@windriver.com>
-	<1377795605.1059.20.camel@ted> <521FF438.5040702@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] sstate.bbclass: check before open the manifest
+	Fri, 30 Aug 2013 16:41:04 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Aug 2013 09:41:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,992,1367996400"; d="scan'208";a="288974860"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.186])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Aug 2013 09:41:02 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+Date: Fri, 30 Aug 2013 09:41:02 -0700
+Message-Id: <cover.1377880667.git.sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [CONSOLIDATED PULL 00/11] Bug Fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,53 +28,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 15:29:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Aug 2013 16:41:04 -0000
 
-On Fri, 2013-08-30 at 09:24 +0800, Robert Yang wrote:
-> 
-> On 08/30/2013 01:00 AM, Richard Purdie wrote:
-> > On Thu, 2013-08-29 at 09:13 -0400, Robert Yang wrote:
-> >> The python stack trace would be printed if we:
-> >>
-> >> $ bitbake make (the make-3.82 will be built)
-> >> // Edit make.inc
-> >> $ bitbake make-3.81
-> >
-> > This is at best hiding the real problem. Why is bitbake building
-> > make-3.82 when you asked for make-3.81?
-> >
-> > I tried this here and also see the warning:
-> >
-> > ERROR: Multiple .bb files are due to be built which each provide make
-> > (/media/build1/poky/meta/recipes-devtools/make/make_3.81.bb /media/build1/poky/meta/recipes-devtools/make/make_3.82.bb).
-> >   This usually means one provides something the other doesn't and should.
-> >
-> > so bitbake is basically telling you there is a problem already. So there
-> > are two issues:
-> >
-> 
-> What I thought was that let the user know the normal error, but we can do
-> more to fix it as you pointed out.
-> 
-> > a) Why is make 3.82 being built?
-> 
-> Ah, yes, that's problem, I will do more investigation.
-> 
-> > b) If multiple identical PNs are being built we probably should hard
-> > error out since its not supported in the slightest. The sstate race you
-> > mention is the least of the problems :(.
-> >
-> 
-> OK, I will try to fix such a case:
-> 
-> bitbake make-3.81 make-3.82
+Richard,
 
-I think this should just give an error.
+Here is a set of patches queued up post Kernel Update.
 
-Cheers,
+Thanks
+	Sau!
 
-Richard
+The following changes since commit ef38a0aed35357d035ca587162158cd2f55b958f:
+
+  runqemu-ifdown: clean up the remaining iptables rules (2013-08-30 16:21:15 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib sgw/stage
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+
+Chunrong Guo (1):
+  gcc-4.8: fix ICE of cross-compile for PowerPC e500v2 targets
+
+Jackie Huang (2):
+  multilib.bbclass: Expand the WHITELISTs with multilib prefix
+  syslinux.bbclass: pull files from correct places for multilib
+
+Jonathan Liu (2):
+  mesa: add missing elfutils dependency for r600 PACKAGECONFIG
+  systemd: use /bin/mkdir instead of host mkdir path
+
+Peter A. Bigot (2):
+  oe-setup-rpmrepo: add native sysroot so nativepython can be found by
+    env
+  bluez4: fix network Connect parameter validation
+
+Roy.Li (2):
+  libsamplerate0: add PACKAGECONFIG for fftw
+  btrfs-tools: Add dependency on lzo acl e2fsprogs
+
+Saul Wold (2):
+  perl: Backport 2 CVE Patches
+  python: Backport 2 CVE from upstream
+
+ meta/classes/multilib.bbclass                      |   7 +
+ meta/classes/syslinux.bbclass                      |   8 +-
+ ...ork-fix-network-Connect-method-parameters.patch |  30 +++
+ meta/recipes-connectivity/bluez/bluez4_4.101.bb    |   1 +
+ ...-Use-bin-mkdir-instead-of-host-mkdir-path.patch |  31 +++
+ meta/recipes-core/systemd/systemd_206.bb           |   1 +
+ .../btrfs-tools/btrfs-tools_git.bb                 |   2 +-
+ meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
+ .../0045-gcc-4.8-PR57717-PowerPC-E500v2.patch      |  21 ++
+ .../0001-Fix-misparsing-of-maketext-strings.patch  |  86 +++++++
+ ...mature-hsplit-calls-and-only-trigger-REHA.patch | 178 +++++++++++++++
+ meta/recipes-devtools/perl/perl_5.14.3.bb          |   3 +
+ .../python/python/CVE-2013-4073_py27.patch         | 251 +++++++++++++++++++++
+ .../python/python/pypirc-secure.patch              |  35 +++
+ meta/recipes-devtools/python/python_2.7.3.bb       |   2 +
+ meta/recipes-graphics/mesa/mesa.inc                |   6 +-
+ .../libsamplerate/libsamplerate0_0.1.8.bb          |   2 +
+ scripts/oe-setup-rpmrepo                           |   1 +
+ 18 files changed, 659 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0045-gcc-4.8-PR57717-PowerPC-E500v2.patch
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Fix-misparsing-of-maketext-strings.patch
+ create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Prevent-premature-hsplit-calls-and-only-trigger-REHA.patch
+ create mode 100644 meta/recipes-devtools/python/python/CVE-2013-4073_py27.patch
+ create mode 100644 meta/recipes-devtools/python/python/pypirc-secure.patch
+
+-- 
+1.8.3.1
 
 
