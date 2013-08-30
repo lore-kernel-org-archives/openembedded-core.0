@@ -1,21 +1,23 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A9CFC6BD9E
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BFD26BDE9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 16:41:04 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 30 Aug 2013 09:41:04 -0700
+	Fri, 30 Aug 2013 16:49:14 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 30 Aug 2013 09:46:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,992,1367996400"; d="scan'208";a="288974860"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.186])
-	by AZSMGA002.ch.intel.com with ESMTP; 30 Aug 2013 09:41:02 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2013 09:41:02 -0700
-Message-Id: <cover.1377880667.git.sgw@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.89,992,1367996400"; d="scan'208";a="371152481"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2013 09:48:59 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 189066A4092;
+	Fri, 30 Aug 2013 09:48:56 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 30 Aug 2013 19:48:53 +0300
+Message-Id: <1377881333-10382-1-git-send-email-stefanx.stanacar@intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [CONSOLIDATED PULL 00/11] Bug Fixes
+Subject: [PATCH] lib/oeqa/runtime: ping: fix ping false fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,75 +30,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 16:41:04 -0000
+X-List-Received-Date: Fri, 30 Aug 2013 16:49:15 -0000
 
-Richard,
+We run the ping test as soon as we reach the login prompt.
+But sometimes (seen in sato systemd) we end up with link down/link up stuff like:
 
-Here is a set of patches queued up post Kernel Update.
+    qemux86-64 login: IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+    e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
+    IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
 
-Thanks
-	Sau!
+The logic behind ping -w 30 -c 1 was to wait at most 30 seconds
+for at least one reply,  but there is a catch: reply doesn't seems
+to be echo reply but any reply (non-reply means loss not network error)
+ping's man page:
+    -w deadline
+              Specify  a  timeout, in seconds, before ping exits regardless of
+              how many packets have been sent or received. In this  case  ping
+              does  not  stop after count packet are sent, it waits either for
+              deadline expire or until count probes are answered or  for  some
+              error notification from network.
 
-The following changes since commit ef38a0aed35357d035ca587162158cd2f55b958f:
+Just when the link up/link down happens ping returns:
+    From 192.168.7.1 icmp_seq=1 Destination Host Unreachable
+    --- 192.168.7.2 ping statistics ---
+    1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
 
-  runqemu-ifdown: clean up the remaining iptables rules (2013-08-30 16:21:15 +0100)
+and exits sooner than the 30 seconds timeout.
 
-are available in the git repository at:
+This patch should do what was originally intended (wait at most
+30 seconds for at least one reply).
 
-  git://git.openembedded.org/openembedded-core-contrib sgw/stage
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=sgw/stage
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/runtime/ping.py | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-Chunrong Guo (1):
-  gcc-4.8: fix ICE of cross-compile for PowerPC e500v2 targets
-
-Jackie Huang (2):
-  multilib.bbclass: Expand the WHITELISTs with multilib prefix
-  syslinux.bbclass: pull files from correct places for multilib
-
-Jonathan Liu (2):
-  mesa: add missing elfutils dependency for r600 PACKAGECONFIG
-  systemd: use /bin/mkdir instead of host mkdir path
-
-Peter A. Bigot (2):
-  oe-setup-rpmrepo: add native sysroot so nativepython can be found by
-    env
-  bluez4: fix network Connect parameter validation
-
-Roy.Li (2):
-  libsamplerate0: add PACKAGECONFIG for fftw
-  btrfs-tools: Add dependency on lzo acl e2fsprogs
-
-Saul Wold (2):
-  perl: Backport 2 CVE Patches
-  python: Backport 2 CVE from upstream
-
- meta/classes/multilib.bbclass                      |   7 +
- meta/classes/syslinux.bbclass                      |   8 +-
- ...ork-fix-network-Connect-method-parameters.patch |  30 +++
- meta/recipes-connectivity/bluez/bluez4_4.101.bb    |   1 +
- ...-Use-bin-mkdir-instead-of-host-mkdir-path.patch |  31 +++
- meta/recipes-core/systemd/systemd_206.bb           |   1 +
- .../btrfs-tools/btrfs-tools_git.bb                 |   2 +-
- meta/recipes-devtools/gcc/gcc-4.8.inc              |   1 +
- .../0045-gcc-4.8-PR57717-PowerPC-E500v2.patch      |  21 ++
- .../0001-Fix-misparsing-of-maketext-strings.patch  |  86 +++++++
- ...mature-hsplit-calls-and-only-trigger-REHA.patch | 178 +++++++++++++++
- meta/recipes-devtools/perl/perl_5.14.3.bb          |   3 +
- .../python/python/CVE-2013-4073_py27.patch         | 251 +++++++++++++++++++++
- .../python/python/pypirc-secure.patch              |  35 +++
- meta/recipes-devtools/python/python_2.7.3.bb       |   2 +
- meta/recipes-graphics/mesa/mesa.inc                |   6 +-
- .../libsamplerate/libsamplerate0_0.1.8.bb          |   2 +
- scripts/oe-setup-rpmrepo                           |   1 +
- 18 files changed, 659 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez/bluez4-4.101/network-fix-network-Connect-method-parameters.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Use-bin-mkdir-instead-of-host-mkdir-path.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/0045-gcc-4.8-PR57717-PowerPC-E500v2.patch
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Fix-misparsing-of-maketext-strings.patch
- create mode 100644 meta/recipes-devtools/perl/perl-5.14.3/0001-Prevent-premature-hsplit-calls-and-only-trigger-REHA.patch
- create mode 100644 meta/recipes-devtools/python/python/CVE-2013-4073_py27.patch
- create mode 100644 meta/recipes-devtools/python/python/pypirc-secure.patch
-
+diff --git a/meta/lib/oeqa/runtime/ping.py b/meta/lib/oeqa/runtime/ping.py
+index d6a0c28..935f638 100644
+--- a/meta/lib/oeqa/runtime/ping.py
++++ b/meta/lib/oeqa/runtime/ping.py
+@@ -1,11 +1,17 @@
+ import subprocess
+ import unittest
+ import sys
++import time
+ from oeqa.oetest import oeRuntimeTest
+ 
+ class PingTest(oeRuntimeTest):
+ 
+     def test_ping(self):
+-        status = subprocess.call("ping -w 30 -c 1 %s" % oeRuntimeTest.tc.qemu.ip, shell=True, stdout=subprocess.PIPE)
+-        self.assertEqual(status, 0)
+-
++        output = ''
++        status = None
++        endtime = time.time() + 30
++        while status != 0 and time.time() < endtime:
++            proc = subprocess.Popen("ping -c 1 %s" % oeRuntimeTest.tc.qemu.ip, shell=True, stdout=subprocess.PIPE)
++            output += proc.communicate()[0]
++            status = proc.poll()
++        self.assertEqual(status, 0, msg = "No echo reply, ping output is:\n%s" % output)
 -- 
 1.8.3.1
 
