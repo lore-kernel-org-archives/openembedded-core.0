@@ -1,24 +1,25 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8356A6BD5B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A6A5F6BD68
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 13:27:44 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Aug 2013 06:27:44 -0700
+	Fri, 30 Aug 2013 13:37:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2013 06:37:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,990,1367996400"; d="scan'208";a="371050095"
-Received: from sentry.rb.intel.com ([10.237.105.54])
-	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2013 06:27:27 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2013 16:29:20 +0300
-Message-Id: <7aadd718720d4b917692a40e01ca1bf551df1930.1377869309.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1377869309.git.cristian.iorga@intel.com>
-References: <cover.1377869309.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1377869309.git.cristian.iorga@intel.com>
-References: <cover.1377869309.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/1] build-appliance-image: upgrade to commit 5745e45b18e5099e94b4d5a73bc97dc6d4cdc91f
+X-IronPort-AV: E=Sophos;i="4.89,990,1367996400"; d="scan'208";a="394525188"
+Received: from unknown (HELO helios.localnet) ([10.252.123.73])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Aug 2013 06:37:16 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Fri, 30 Aug 2013 14:37:13 +0100
+Message-ID: <2056053.nfWMgOXbJx@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <521CF70C.2050100@pabigot.com>
+References: <521CF70C.2050100@pabigot.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: qt4-x11-free dependence on gtk+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +32,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 13:27:46 -0000
+X-List-Received-Date: Fri, 30 Aug 2013 13:37:17 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Improvements to poky gets in this way
-reflected in Build Appliance.
+Hi Peter,
 
-Notable improvements/fixes to bitbake.
-New hardware targets.
+On Tuesday 27 August 2013 13:59:24 Peter A. Bigot wrote:
+> Since "bitbake qt4-x11-free" failed for me until I did "bitbake gtk+",
+> qt4-x11-free needs some sort of dependency on gtk+ to avoid the failure
+> below.  I'm guessing it's something like the following added to
+> qt4-x11-free.inc:
+> 
+> PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk', '',
+> d)}"
+> PACKAGECONFIG[gtk] = "-gtkstyle,-no-gtkstyle,gtk+"
+> 
+> but since it takes about an hour to build qt4-x11-free on my system I'm
+> hoping somebody can tell me whether that's the right approach.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-core/images/build-appliance-image_8.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This seems reasonable to me. I can't actually reproduce the failure, but I can 
+see how the dependency comes in and it does look to be on by default.
 
-diff --git a/meta/recipes-core/images/build-appliance-image_8.0.bb b/meta/recipes-core/images/build-appliance-image_8.0.bb
-index 27cdd6f..bb2ded6 100644
---- a/meta/recipes-core/images/build-appliance-image_8.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_8.0.bb
-@@ -21,7 +21,7 @@ IMAGE_FSTYPES = "vmdk"
- 
- inherit core-image
- 
--SRCREV ?= "ac60aa8cf707eec58e2cb51e7c406250d0b43ef1"
-+SRCREV ?= "5745e45b18e5099e94b4d5a73bc97dc6d4cdc91f"
- SRC_URI = "git://git.yoctoproject.org/poky;protocol=git \
-            file://Yocto_Build_Appliance.vmx \
-            file://Yocto_Build_Appliance.vmxf \
+Looking at bitbake -g output (for master at least) it seems like gtk+3 will 
+always be built by default when building qt4-x11-free because pulseaudio 
+depends upon it, so that explains how this problem doesn't often come up. Of 
+course if gtk+3 is rebuilding when qt4-x11-free is in do_compile, or you've 
+disabled pulseaudio, then this issue will occur so we do need to do something 
+such as the above. I think the PACKAGECONFIG option for this should be called 
+"gtkstyle" rather than just "gtk" to give a better idea of what it's enabling 
+though. Would you please send an actual patch to add this?
+
+Thanks,
+Paul
+
 -- 
-1.8.1.2
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
