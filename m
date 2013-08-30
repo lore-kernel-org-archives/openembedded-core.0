@@ -1,36 +1,32 @@
-Return-Path: <lizhijian@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 97FC86BD6D
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D60F96BD74
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 05:55:44 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,989,1367942400"; 
-   d="scan'208";a="8350680"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 30 Aug 2013 13:52:35 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r7U5tf1E010326;
-	Fri, 30 Aug 2013 13:55:41 +0800
-Received: from [127.0.0.1] ([10.167.226.56])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013083013534201-1088637 ;
-	Fri, 30 Aug 2013 13:53:42 +0800 
-Message-ID: <522033C9.7050804@cn.fujitsu.com>
-Date: Fri, 30 Aug 2013 13:55:21 +0800
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-Organization: fnst-ulinux
-User-Agent: Mozilla/5.0 (Windows NT 5.1;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Fri, 30 Aug 2013 06:56:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 29 Aug 2013 23:53:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,989,1367996400"; d="scan'208";a="395838725"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga002.jf.intel.com with ESMTP; 29 Aug 2013 23:56:38 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.157]) with mapi id
+	14.03.0123.003; Fri, 30 Aug 2013 07:56:04 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: Saul Wold <sgw@linux.intel.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] packagegroup-self-hosted: Add missing python code
+Thread-Index: AQHOpQxn9PNTXlipYkGIFi3/BA5QUpmtUdUA
+Date: Fri, 30 Aug 2013 06:56:03 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C2E800@IRSMSX105.ger.corp.intel.com>
+References: <1377817584-30537-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1377817584-30537-1-git-send-email-sgw@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <521EA7EC.80302@cn.fujitsu.com> <521EEFB1.4040809@windriver.com>
-In-Reply-To: <521EEFB1.4040809@windriver.com>
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/08/30 13:53:42,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/08/30 13:53:42,
-	Serialize complete at 2013/08/30 13:53:42
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [Question] libxml: How about add --with-catalog to EXTRA_OECONF ?
+Subject: Re: [PATCH] packagegroup-self-hosted: Add missing python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,60 +39,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 05:55:46 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Fri, 30 Aug 2013 06:56:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-libxml2 is built successfully with option  of  --with-catalog,and xmlcatalog
-work well
+ACK.
 
-Maybe I would  send a patch to fix it.
+-----Original Message-----
+From: Saul Wold [mailto:sgw@linux.intel.com]=20
+Sent: Friday, August 30, 2013 2:06 AM
+To: Iorga, Cristian; openembedded-core@lists.openembedded.org
+Subject: [PATCH] packagegroup-self-hosted: Add missing python code
 
-Thanks
-Li
+These are in the Toolchain list, so they should also be installed on the bu=
+ild appliance
 
-at 2013-8-29 14:52, Robert Yang wrote:
->
-> I took a look at the libxml's git log, didn't see the explicit reason
-> that why use the --without-catalog, so it seems reasonable to use the
-> --with-catalog which will make the xmlcatalog work (if it can be built
-> well with the option.)
->
-> // Robert
->
-> On 08/29/2013 09:46 AM, Li Zhijian wrote:
->> Hi,
->>
->> I had build libxml and executed xmlcatalog
->> It shows follow messages
->> # xmlcatalog --help
->> libxml was not compiled with catalog and output support
->>
->> meta/recipes-core/libxml/libxml2.inc: 32
->> EXTRA_OECONF = "--without-python --without-debug --without-legacy --without-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
->>
->> Is it reasonable to add --without-catalog EXTRA_OECONF ?
->>
->> Thanks
->>
->> Best regards.
->> Li Zhijian
->>
->>
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->
->
+[YOCTO #5061]
 
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
--- 
-Best regards.
-Li Zhijian (8555)
-
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/=
+meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index 429ade9..6e23ea2 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -138,6 +138,7 @@ RDEPENDS_packagegroup-self-hosted-extended =3D "\
+     minicom \
+     mtools \
+     ncurses \
++    ncurses-terminfo-base \
+     neon \
+     nfs-utils \
+     nfs-utils-client \
+@@ -158,24 +159,29 @@ RDEPENDS_packagegroup-self-hosted-extended =3D "\
+     python-core \
+     python-curses \
+     python-datetime \
++    python-difflib \
+     python-distutils \
+     python-elementtree \
+     python-email \
+     python-fcntl \
+     python-git \
++    python-json \
+     python-logging \
+     python-misc \
++    python-mmap \
+     python-multiprocessing \
+     python-netclient \
+     python-netserver \
+     python-pickle \
+     python-pkgutil \
++    python-pprint \
+     python-re \
+     python-rpm \
+     python-shell \
+     python-sqlite3 \
+     python-subprocess \
+     python-textutils \
++    python-unittest \
+     python-unixadmin \
+     python-xmlrpc \
+     quota \
+--=20
+1.8.3.1
 
 
