@@ -1,39 +1,34 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
-	[64.235.106.9])
-	by mail.openembedded.org (Postfix) with ESMTP id B65086B8EB
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B0DB66BCE7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 12:21:30 +0000 (UTC)
-Received: from [69.196.158.250] (port=51263 helo=crashcourse.ca)
-	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
-	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
-	id 1VFNhg-0007iS-Va; Fri, 30 Aug 2013 08:21:29 -0400
-Date: Fri, 30 Aug 2013 08:21:26 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@oneiric
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <1377777433.32502.71.camel@ted>
-Message-ID: <alpine.DEB.2.02.1308300817480.5487@oneiric>
-References: <alpine.DEB.2.02.1308290628130.4283@oneiric>
-	<20130829104913.GM3544@jama>
-	<alpine.DEB.2.02.1308290657140.5063@oneiric>
-	<20130829112725.GN3544@jama>
-	<alpine.DEB.2.02.1308290733210.5515@oneiric>
-	<1377776979.28077.88.camel@phil-desktop.brightsign>
-	<1377777433.32502.71.camel@ted>
-User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
+	Fri, 30 Aug 2013 12:47:48 +0000 (UTC)
+Received: by mail-la0-f49.google.com with SMTP id ev20so1433349lab.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2013 05:47:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=n3Byvq+gtOHY9eGgKz3tABCdUaW36Qag28SxscuW2oo=;
+	b=t6GY8GNTDuvGemkTdQ/SVpC+4jtAsByeV7xWEaAhh+yHlzHVYRjxdu6yFdNR6RXz8o
+	CdtGas3CeeIlQCpI6jJ4znsgqu2fZKVETCwnAJyuZwohGIgRtVCbF/87NL2tAXunDsNT
+	DRPsqgDVaRsTa0fEPOgjtTCnH072/nWW1UyFkxLAr72FTNTdRKhw27o1yBwAeYICtKHh
+	5GuOkEttRVVjpMkxln1eG9sY4IRFJQdTtPAlaxR6dHGDZ/2Gy68R7I5zucDkX6ou/xUH
+	2/swqg1E2WVOgFzAp49s9h0obZhDvGGUCkcY2SudILdrDzVgEvOvXhuH08QCjHsl/Rb3
+	DKWg==
 MIME-Version: 1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: appears to be inconsistency re: base-files between oe-core and meta-angstrom
+X-Received: by 10.152.5.66 with SMTP id q2mr7894553laq.13.1377866868814; Fri,
+	30 Aug 2013 05:47:48 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Fri, 30 Aug 2013 05:47:48 -0700 (PDT)
+In-Reply-To: <CAOMwXhN=mJMrePAXftb8CX_WOshN=S6ufC3BaXwfjY9WYGat+A@mail.gmail.com>
+References: <CAOMwXhN=mJMrePAXftb8CX_WOshN=S6ufC3BaXwfjY9WYGat+A@mail.gmail.com>
+Date: Fri, 30 Aug 2013 08:47:48 -0400
+Message-ID: <CADkTA4MAD8vB4EEdbSSfKSFuF4bRRmUxoft_y=VQLAZo3gb3Gw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Laszlo Papp <lpapp@kde.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Bug: 5089
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,53 +41,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 12:21:30 -0000
-Content-Type: TEXT/PLAIN; charset=US-ASCII
+X-List-Received-Date: Fri, 30 Aug 2013 12:47:51 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 29 Aug 2013, Richard Purdie wrote:
-
-> On Thu, 2013-08-29 at 12:49 +0100, Phil Blundell wrote:
-> > On Thu, 2013-08-29 at 07:37 -0400, Robert P. J. Day wrote:
-> > >   distroless. i realize i *could* set a value for DISTRO, but it would
-> > > seem that i shouldn't have to in order to avoid a build error.
-> >
-> > Well, either you're using angstrom or you aren't.  If you do want
-> > to use it then you ought to set DISTRO appropriately, and if you
-> > don't want to use it then you probably oughtn't to have the
-> > angstrom layer included at all.
-> >
-> > Trying to use the angstrom .bbappends and files with a different
-> > (or no) distro configuration will give you a set of metadata
-> > that's neither one thing nor the other and, even if you didn't get
-> > a build error, there's no guarantee that the resulting image would
-> > actually work.
+On Fri, Aug 30, 2013 at 7:45 AM, Laszlo Papp <lpapp@kde.org> wrote:
+> Hi,
 >
-> I'm not sure I agree. Ideally layers should be includable without
-> turning on behaviour unless it is enabled. This is why we have
-> things like an array of OVERRIDES to choose from.
+> there was this change which also goes undocumented. Unfortunately, this is
+> causing a lot of headache for me, but I expect that for others, too.
+>
+> I would like to propose the default kernel and module name from:
+>
+> uImage--3.2.1...
+>
+> to:
+>
+> uImage-3.2.1...
+>
+> This would avoid a lot of work for people. I have been trying to fix issues
+> for one day due to this which is unfortunate.
+>
+> Also, the double dash on its looks silly IMO. It should be either '-0-' or
+> '-'. I prefer the latter for compatibility reasons, although someone could
+> argue about that the former is more readable.
 
-  after i thought about it for a while, this is what i started to
-believe as well -- i should be able to include various layers and let
-them work it out amongst themselves the correct behaviour and bbappend
-processing and so on.
+Having maintained several systems when the default name was changed
+to include PE, it didn't cause any problems here. Both dependent recipes
+and scripts picked up the change easily and convenience symlinks made
+the -- or -0- not something that needed to be dealt with.
 
-  the reason i selected the layers i did in my example was that i
-wanted to build cutting-edge components for my beaglebone black and,
-as i read it, this required me to use oe-core, meta-angstom and
-meta-ti (among other things). and as you saw, oe-core and
-meta-angstrom didn't play well together WRT base-files.
+So I'm ok with either, since -- going to - won't cause any problems in my
+small part of the world, but it would be another change in the filenames
+on top of when PE was added in :)
 
-  anyway, i'll let folks higher up the food chain ponder on this.
+Obviously opinions and impacts of the change vary,
 
-rday
+Cheers,
+
+Bruce
+
+>
+> I heard Jama's opinion about it on IRC. I wonder what others think?
+>
+> Cheers,
+> Laszlo
+>
+> PS.: Note, this is a different proposal to the documentation update.
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
 
 -- 
-
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                        http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
