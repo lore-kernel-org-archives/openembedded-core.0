@@ -1,34 +1,32 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EC5176BD5B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 503A26BD87
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 13:55:30 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Aug 2013 06:52:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,990,1367996400"; d="scan'208";a="395978444"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by orsmga002.jf.intel.com with ESMTP; 30 Aug 2013 06:55:31 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.64]) by
-	IRSMSX101.ger.corp.intel.com ([163.33.3.153]) with mapi id
-	14.03.0123.003; Fri, 30 Aug 2013 14:55:30 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "Prica, Mihai" <mihai.prica@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/2] YB3506: Include web browser in Build
-	Appliance
-Thread-Index: AQHOpYfOpFTVxjvC20CF6F6PpTzpKpmtxhJg
-Date: Fri, 30 Aug 2013 13:55:29 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB16C30B99@IRSMSX105.ger.corp.intel.com>
-References: <cover.1377434794.git.mihai.prica@intel.com>
-In-Reply-To: <cover.1377434794.git.mihai.prica@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/2] YB3506: Include web browser in Build Appliance
+	Fri, 30 Aug 2013 15:00:06 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7UFCXxW005764; Fri, 30 Aug 2013 16:12:33 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lrAWpd3qJxBI; Fri, 30 Aug 2013 16:12:32 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r7UFCRsX005754
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 30 Aug 2013 16:12:29 +0100
+Message-ID: <1377874783.1059.98.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 30 Aug 2013 15:59:43 +0100
+In-Reply-To: <521F898F.1060209@linux.intel.com>
+References: <cover.1377792005.git.Martin.Jansa@gmail.com>
+	<e77564486cce8199bd317f1ee79adb4f8b508ffa.1377792006.git.Martin.Jansa@gmail.com>
+	<521F898F.1060209@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [WIP][PATCH 17/20] librsvg: Fix dependencies for PACKAGECONFIG gdkpixbuf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,50 +39,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 13:55:31 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 30 Aug 2013 15:00:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-ACK.
+On Thu, 2013-08-29 at 10:49 -0700, Saul Wold wrote:
+> On 08/29/2013 09:03 AM, Martin Jansa wrote:
+> > * without gtk+ or gdk-pixbuf available it gets disabled even with --enable-pixbuf-loader
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >   meta/recipes-gnome/librsvg/librsvg_2.32.1.bb | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> > index 4818422..30846bf 100644
+> > --- a/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> > +++ b/meta/recipes-gnome/librsvg/librsvg_2.32.1.bb
+> > @@ -29,7 +29,7 @@ PACKAGECONFIG ??= "croco gdkpixbuf"
+> >   # Support embedded CSS stylesheets (recommended upstream)
+> >   PACKAGECONFIG[croco] = "--with-croco,--without-croco,libcroco"
+> >   # gdk-pixbuf loader
+> > -PACKAGECONFIG[gdkpixbuf] = "--enable-pixbuf-loader,--disable-pixbuf-loader"
+> > +PACKAGECONFIG[gdkpixbuf] = "--enable-pixbuf-loader,--disable-pixbuf-loader,gtk+ gdk-pixbuf"
+> 
+> I think this needs to be a target only PACKAGECONFIG, as it will try to 
+> depend on gtk+-native when building the librsvg-native.
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Mihai Prica
-Sent: Friday, August 30, 2013 4:48 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH 0/2] YB3506: Include web browser in Build Applian=
-ce
+Also do we really need gtk for the pixbuf loader? gtk2 theme engine
+pulls in gtk+ elsewhere?
 
-Integrate Midori web browser in Build Appliance. This will allow the users =
-to get help and file a bug from Hob in Build Appliance.
+Cheers,
 
-[YOCTO #3506]
-[YOCTO #5034]
+Richard
 
-The following changes since commit 4fd453ef7cd2e7e2b1d72284440dac574603ed27=
-:
-
-  midori: add version 0.5.5 from meta-gnome (2013-08-28 00:51:45 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib mihaip/b3506
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dmihaip/b3506
-
-Mihai Prica (2):
-  packagegroup-self-hosted: integrate midori
-  builder: register html links and files with Midori
-
- .../packagegroups/packagegroup-self-hosted.bb      |    1 +
- .../builder/files/builder_hob_start.sh             |    8 +++++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
---
-1.7.9.5
-
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
