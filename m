@@ -1,23 +1,34 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BFD26BDE9
+Return-Path: <jefro.net@gmail.com>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 32B0D6BC9A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 16:49:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 30 Aug 2013 09:46:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,992,1367996400"; d="scan'208";a="371152481"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2013 09:48:59 -0700
-Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
-	by linux.intel.com (Postfix) with ESMTP id 189066A4092;
-	Fri, 30 Aug 2013 09:48:56 -0700 (PDT)
-From: Stefan Stanacar <stefanx.stanacar@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 30 Aug 2013 19:48:53 +0300
-Message-Id: <1377881333-10382-1-git-send-email-stefanx.stanacar@intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] lib/oeqa/runtime: ping: fix ping false fail
+	Fri, 30 Aug 2013 22:36:45 +0000 (UTC)
+Received: by mail-lb0-f177.google.com with SMTP id p5so2328551lbi.36
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2013 15:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:from:date:message-id:subject:to:cc:content-type
+	:content-transfer-encoding;
+	bh=M40PFnG9PfDelmnpOUw5iSjOScsFRUQMevWTtaQpWxo=;
+	b=XkkSMUeYHjlrv0Du+t/2dL8hwQZdry3654ZqnFPvxpR9HY2LZWenKztlhjh+6Do1m1
+	/KEn95x6wEJZbAMlHs+BF6Kffl1OLGOZ1liEp6d6iPYv7nZjVUr6j3cGzCeC0ywatVfM
+	e4LPJfMjB2tjXcmjqbnUj/aubhbgqyjE0t5nTnIgnrLHd8YMA9nJoecm8LmdZCXgQsCJ
+	r9ybu6vhNNs4JeV/hlLrYX4uYN20MlBCgTBOFSrwjOd/0J2JA9M5a24TPlqpvHUBGwRG
+	Ql0BU2W+WcTED6ieN7HGiSYLjQSzi5MlvKh9ChnA9AoRmNS7TqphJHdt35X9hg56JXDx
+	OVpA==
+X-Received: by 10.152.115.242 with SMTP id jr18mr39239lab.40.1377902205141;
+	Fri, 30 Aug 2013 15:36:45 -0700 (PDT)
+MIME-Version: 1.0
+Sender: jefro.net@gmail.com
+Received: by 10.112.57.105 with HTTP; Fri, 30 Aug 2013 15:36:25 -0700 (PDT)
+From: Jeff Osier-Mixon <jefro@jefro.net>
+Date: Fri, 30 Aug 2013 15:36:25 -0700
+X-Google-Sender-Auth: Hkf3ps2gKjKtX4KWHUoRvzJ-N7Y
+Message-ID: <CA+YB3rafdyhkJdOTNOS57vFuFe6NTkCwYTdDdCTg=3S=iCjpnQ@mail.gmail.com>
+To: Yocto Project <yocto@yoctoproject.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Developer Day at ELCE 2013
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,67 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 16:49:15 -0000
+X-List-Received-Date: Fri, 30 Aug 2013 22:36:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-We run the ping test as soon as we reach the login prompt.
-But sometimes (seen in sato systemd) we end up with link down/link up stuff like:
+The Yocto Project is pleased to announce a Developer Day event at
+ELCE, the Embedded Linux Conference Europe organized by the Linux
+Foundation and co-located with LinuxCon Europe. This year, ELCE is in
+Edinburgh, Scotland.
 
-    qemux86-64 login: IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
-    e1000: eth0 NIC Link is Up 1000 Mbps Full Duplex, Flow Control: RX
-    IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+Developer Day, or DevDay, is scheduled for Wednesday, 23 October, 9am
+- 6pm at the Edinburgh International Conference Centre in downtown
+Edinburgh. This is a full day of Yocto Project content, including
+separate tracks for new users and advanced users, and a hands-on lab
+session for each. We are particularly pleased with the labs this year,
+as they will be presented via our new virtual private cloud - just
+bring your laptop and a willingness to learn.
 
-The logic behind ping -w 30 -c 1 was to wait at most 30 seconds
-for at least one reply,  but there is a catch: reply doesn't seems
-to be echo reply but any reply (non-reply means loss not network error)
-ping's man page:
-    -w deadline
-              Specify  a  timeout, in seconds, before ping exits regardless of
-              how many packets have been sent or received. In this  case  ping
-              does  not  stop after count packet are sent, it waits either for
-              deadline expire or until count probes are answered or  for  some
-              error notification from network.
+DevDay is free for LinuxCon EU or ELCE attendees. If you are not
+attending either conference, you can still attend DevDay for US$199,
+or about =A3129. Register for DevDay along with ELCE or LinuxCon, or if
+you are registering separately, you can use this link:
+https://www.regonline.com/ypddeu13
 
-Just when the link up/link down happens ping returns:
-    From 192.168.7.1 icmp_seq=1 Destination Host Unreachable
-    --- 192.168.7.2 ping statistics ---
-    1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 0ms
+A schedule for DevDay will be announced next week.
 
-and exits sooner than the 30 seconds timeout.
+Hope to see you there!
 
-This patch should do what was originally intended (wait at most
-30 seconds for at least one reply).
-
-Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
----
- meta/lib/oeqa/runtime/ping.py | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/ping.py b/meta/lib/oeqa/runtime/ping.py
-index d6a0c28..935f638 100644
---- a/meta/lib/oeqa/runtime/ping.py
-+++ b/meta/lib/oeqa/runtime/ping.py
-@@ -1,11 +1,17 @@
- import subprocess
- import unittest
- import sys
-+import time
- from oeqa.oetest import oeRuntimeTest
- 
- class PingTest(oeRuntimeTest):
- 
-     def test_ping(self):
--        status = subprocess.call("ping -w 30 -c 1 %s" % oeRuntimeTest.tc.qemu.ip, shell=True, stdout=subprocess.PIPE)
--        self.assertEqual(status, 0)
--
-+        output = ''
-+        status = None
-+        endtime = time.time() + 30
-+        while status != 0 and time.time() < endtime:
-+            proc = subprocess.Popen("ping -c 1 %s" % oeRuntimeTest.tc.qemu.ip, shell=True, stdout=subprocess.PIPE)
-+            output += proc.communicate()[0]
-+            status = proc.poll()
-+        self.assertEqual(status, 0, msg = "No echo reply, ping output is:\n%s" % output)
--- 
-1.8.3.1
-
+--=20
+Jeff Osier-Mixon http://jefro.net/blog
+Yocto Project Community Manager @Intel http://yoctoproject.org
 
