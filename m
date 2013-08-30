@@ -1,25 +1,52 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A6A5F6BD68
+Return-Path: <lpapp@archlinux.us>
+Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
+	[209.85.192.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 738466BD69
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 13:37:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2013 06:37:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,990,1367996400"; d="scan'208";a="394525188"
-Received: from unknown (HELO helios.localnet) ([10.252.123.73])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Aug 2013 06:37:16 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Date: Fri, 30 Aug 2013 14:37:13 +0100
-Message-ID: <2056053.nfWMgOXbJx@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <521CF70C.2050100@pabigot.com>
-References: <521CF70C.2050100@pabigot.com>
+	Fri, 30 Aug 2013 13:42:36 +0000 (UTC)
+Received: by mail-pd0-f179.google.com with SMTP id v10so1897890pde.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 30 Aug 2013 06:42:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=12Sn+w2WaQgTS2FSgJYgSfLsL3enD/imX1lMS7eZMUo=;
+	b=F0PP71qjbHy6T6Zpug8eGcAk/rjI2zWHPcKlzFtMJBNiPeVqy1Z+b8aLOzs20kUA3I
+	qlrCgx1SbCpwkdPaLQvO3M/6kUDHlpEayaSnJdpnaytZA32jSNi469TPWroM7mQjA1W0
+	L0PFN5rsoHzbPO2fown9RPkBtaaV4y58xCX3jUFylHemdLpHQmODJyEUP+Gr1R+5KZ0y
+	wJpmQexAN+GA/dIE4cGlzggAzrxEc7OvgdmsNsX1qS6gFXTTXuufzC5sbnb0536OHpIw
+	6JbeYCZLD/a4YPKv8+UqIJI78WHf9Z8l7qZiwXbEBIZa9m3fJ+6kivQtmPiwRqfkhJDo
+	6YeA==
+X-Gm-Message-State: ALoCoQmGLI5tZip6E7+g5Ah57cduxoq40yQSn/b/TqRhx1lv9yr1GMYJ3CXURsxpovCwMeJWFp50
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt4-x11-free dependence on gtk+
+X-Received: by 10.68.254.226 with SMTP id al2mr9965051pbd.157.1377870157511;
+	Fri, 30 Aug 2013 06:42:37 -0700 (PDT)
+Sender: lpapp@archlinux.us
+Received: by 10.70.57.234 with HTTP; Fri, 30 Aug 2013 06:42:37 -0700 (PDT)
+In-Reply-To: <CAOMwXhNJdsYHaeKT34GEFXBYX5P75MdRDAs5YHUo-H08jBu+1A@mail.gmail.com>
+References: <CAOMwXhNaMEvSfi-J=EPOXfSAfjWUJeq8pGAGE3_5Hix1Sw9mKg@mail.gmail.com>
+	<520E17F6.4030500@communistcode.co.uk>
+	<CAOMwXhMD5FE2jK-R+5SCYRCtpS0S_Nk-6HhbsiUJt9i63-kHUQ@mail.gmail.com>
+	<52147D02.10106@communistcode.co.uk>
+	<CAJTo0Lap8PHE-=d_S7M7gEOzaXud3EqWgkbzU+5VQH7vUeVw7g@mail.gmail.com>
+	<CAOMwXhOLPoK994vd7aNnPKhutKfzriLSsg4XCPP6oCGO98jD9g@mail.gmail.com>
+	<CAJTo0LYraeUno84Hof7PPiJ3d9_eydwRTjB1D7VjojoZNPOZYQ@mail.gmail.com>
+	<CAOMwXhMOQo3PiAT+3L2M894MDJvLg0eEwunqtQD3TGMwBReXHw@mail.gmail.com>
+	<CAJTo0La2UVtZ9rM-HRGY9DGzD9=D4RTZzutHT8Aks4QJ9E=zPw@mail.gmail.com>
+	<CAOMwXhP6awmXzW2Sm0OMKyrWBFtQRje1CkL3yWtvzdU6fvd1bw@mail.gmail.com>
+	<20130821110401.GG522@jama>
+	<CAOMwXhP+k2qnhPsAEYvppC3eTf7N0UUY7V0-KVNs+83u-XU2oA@mail.gmail.com>
+	<1377097189.25999.118.camel@ted>
+	<CAOMwXhM=gnOZzk70yB6=2XdJFKtC6bZoNNHZDb2zd=bhma0Lhw@mail.gmail.com>
+	<CAOMwXhNJdsYHaeKT34GEFXBYX5P75MdRDAs5YHUo-H08jBu+1A@mail.gmail.com>
+Date: Fri, 30 Aug 2013 14:42:37 +0100
+X-Google-Sender-Auth: OVOosidiSQCHlkfXymnH2p-ZGbg
+Message-ID: <CAOMwXhP+PmKnr=uP=XeXqYSznW=ooCuMPH91kQsK295ekO=_=w@mail.gmail.com>
+From: Laszlo Papp <lpapp@kde.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Why is "bitbake core-image-minimal" building gtk docs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +59,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 13:37:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 30 Aug 2013 13:42:37 -0000
+Content-Type: multipart/alternative; boundary=047d7b2e0fc74914f804e52a6516
 
-Hi Peter,
+--047d7b2e0fc74914f804e52a6516
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Tuesday 27 August 2013 13:59:24 Peter A. Bigot wrote:
-> Since "bitbake qt4-x11-free" failed for me until I did "bitbake gtk+",
-> qt4-x11-free needs some sort of dependency on gtk+ to avoid the failure
-> below.  I'm guessing it's something like the following added to
-> qt4-x11-free.inc:
-> 
-> PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk', '',
-> d)}"
-> PACKAGECONFIG[gtk] = "-gtkstyle,-no-gtkstyle,gtk+"
-> 
-> but since it takes about an hour to build qt4-x11-free on my system I'm
-> hoping somebody can tell me whether that's the right approach.
+OK, it seems to finally work on our CI. Thanks to all for the help.
 
-This seems reasonable to me. I can't actually reproduce the failure, but I can 
-see how the dependency comes in and it does look to be on by default.
 
-Looking at bitbake -g output (for master at least) it seems like gtk+3 will 
-always be built by default when building qt4-x11-free because pulseaudio 
-depends upon it, so that explains how this problem doesn't often come up. Of 
-course if gtk+3 is rebuilding when qt4-x11-free is in do_compile, or you've 
-disabled pulseaudio, then this issue will occur so we do need to do something 
-such as the above. I think the PACKAGECONFIG option for this should be called 
-"gtkstyle" rather than just "gtk" to give a better idea of what it's enabling 
-though. Would you please send an actual patch to add this?
+On Thu, Aug 29, 2013 at 6:15 PM, Laszlo Papp <lpapp@kde.org> wrote:
 
-Thanks,
-Paul
+> On Thu, Aug 29, 2013 at 5:19 PM, Laszlo Papp <lpapp@kde.org> wrote:
+>
+>> On Wed, Aug 21, 2013 at 3:59 PM, Richard Purdie <
+>> richard.purdie@linuxfoundation.org> wrote:
+>>
+>>> Regardless of whether you use mirrors or not, if you set
+>>>  BB_GENERATE_MIRROR_TARBALLS it will create tarballs in DL_DIR of the git
+>>> repositories. You can then stop trying to check in the /git/  and /git2/
+>>> subdirectories of DL_DIR and some of your problems will likely go away.
+>>>
+>>
+>> Actually, I have just spent one hour with a full rebuild, but putting
+>> this variable into the local.conf did not generate any different downloads
+>> folder. Any other idea how to get rid of the git hassle in here without a
+>> major infrastructure refactor?
+>>
+>
+> What I executed was:  "git rm -r ./downloads/git2 && git commit
+> ./downloads/git2". Even after that, it is broken. :(
+>
+>
 
--- 
+--047d7b2e0fc74914f804e52a6516
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Paul Eggleton
-Intel Open Source Technology Centre
+<div dir=3D"ltr">OK, it seems to finally work on our CI. Thanks to all for =
+the help.</div><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote=
+">On Thu, Aug 29, 2013 at 6:15 PM, Laszlo Papp <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> w=
+rote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><div class=3D"h5">On T=
+hu, Aug 29, 2013 at 5:19 PM, Laszlo Papp <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:lpapp@kde.org" target=3D"_blank">lpapp@kde.org</a>&gt;</span> wrote:<=
+br>
+</div></div><div class=3D"gmail_extra"><div class=3D"gmail_quote"><div><div=
+ class=3D"h5"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex">
 
+<div dir=3D"ltr"><div>On Wed, Aug 21, 2013 at 3:59 PM, Richard Purdie <span=
+ dir=3D"ltr">&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" targ=
+et=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
+</div><div class=3D"gmail_extra">
+<div class=3D"gmail_quote"><div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,20=
+4,204);border-left-style:solid;padding-left:1ex"><div><div><span style=3D"c=
+olor:rgb(34,34,34)">Regardless of whether you use mirrors or not, if you se=
+t</span><br>
+
+
+</div></div>
+BB_GENERATE_MIRROR_TARBALLS it will create tarballs in DL_DIR of the git<br=
+>
+repositories. You can then stop trying to check in the /git/ =A0and /git2/<=
+br>
+subdirectories of DL_DIR and some of your problems will likely go away.<br>=
+</blockquote><div><br></div></div><div>Actually, I have just spent one hour=
+ with a full rebuild, but putting this variable into the local.conf did not=
+ generate any different downloads folder. Any other idea how to get rid of =
+the git hassle in here without a major infrastructure refactor?</div>
+
+</div></div></div></blockquote><div><br></div></div></div><div>What I execu=
+ted was: =A0&quot;git rm -r ./downloads/git2 &amp;&amp; git commit ./downlo=
+ads/git2&quot;. Even after that, it is broken. :(</div></div><br></div></di=
+v>
+
+</blockquote></div><br></div>
+
+--047d7b2e0fc74914f804e52a6516--
