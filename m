@@ -1,35 +1,39 @@
-Return-Path: <lpapp@archlinux.us>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 716A06BD7E
+Return-Path: <rpjday@crashcourse.ca>
+Received: from astoria.ccjclearline.com (astoria.ccjclearline.com
+	[64.235.106.9])
+	by mail.openembedded.org (Postfix) with ESMTP id B65086B8EB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 11:45:43 +0000 (UTC)
-Received: by mail-pa0-f42.google.com with SMTP id lj1so2245820pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 30 Aug 2013 04:45:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:date:message-id:subject:from
-	:to:content-type;
-	bh=zVYCYaLz2IY2XVifyBMPZRTIzgil+evNyalhnDSTlxI=;
-	b=IzshbhkXk+rwmRnxuKxWLxfXwsBagoJXx8pNljnHTy70WM3EDz+1W9i7Ufm7II/w++
-	+9YPe36eztHY8BTV9S6VuR5ZiMHvQxtkK9cs8CsG2j8/A8ZQiDdPmZeh87La81Cnv7Tn
-	ACAYZCMFb8V0hV4emE0GFWxf3SZx0E43H19hqqX27YFo567tpNNkpYurRH0UGvRx/7nM
-	sG1wSrAAW2gxMZaF3CPqiK4G1vATJP84c/RMVLHYJi+FCEROIniysfg/6yhkbo8+mbXh
-	SI1t4NFlJe6nnWuD/dF3LUsKAK8m8ry9vYcc28kRvjlTYOWyy04YZRFEsVMC3QUIjLtr
-	rWxw==
-X-Gm-Message-State: ALoCoQmR8rG/qj4wVwidCF9kjVmJdM2x27dUpIhUkXBixd9bXcCUXyjvbB4hHMAFq78jyANiKVAK
+	Fri, 30 Aug 2013 12:21:30 +0000 (UTC)
+Received: from [69.196.158.250] (port=51263 helo=crashcourse.ca)
+	by astoria.ccjclearline.com with esmtpsa (TLSv1:DHE-RSA-AES256-SHA:256)
+	(Exim 4.80) (envelope-from <rpjday@crashcourse.ca>)
+	id 1VFNhg-0007iS-Va; Fri, 30 Aug 2013 08:21:29 -0400
+Date: Fri, 30 Aug 2013 08:21:26 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@oneiric
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <1377777433.32502.71.camel@ted>
+Message-ID: <alpine.DEB.2.02.1308300817480.5487@oneiric>
+References: <alpine.DEB.2.02.1308290628130.4283@oneiric>
+	<20130829104913.GM3544@jama>
+	<alpine.DEB.2.02.1308290657140.5063@oneiric>
+	<20130829112725.GN3544@jama>
+	<alpine.DEB.2.02.1308290733210.5515@oneiric>
+	<1377776979.28077.88.camel@phil-desktop.brightsign>
+	<1377777433.32502.71.camel@ted>
+User-Agent: Alpine 2.02 (DEB 1266 2009-07-14)
 MIME-Version: 1.0
-X-Received: by 10.66.228.234 with SMTP id sl10mr10197724pac.149.1377863144377; 
-	Fri, 30 Aug 2013 04:45:44 -0700 (PDT)
-Sender: lpapp@archlinux.us
-Received: by 10.70.57.234 with HTTP; Fri, 30 Aug 2013 04:45:44 -0700 (PDT)
-Date: Fri, 30 Aug 2013 12:45:44 +0100
-X-Google-Sender-Auth: 3KKiLln2ejLkLHdn0VxrnT3mBBE
-Message-ID: <CAOMwXhN=mJMrePAXftb8CX_WOshN=S6ufC3BaXwfjY9WYGat+A@mail.gmail.com>
-From: Laszlo Papp <lpapp@kde.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Bug: 5089
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - astoria.ccjclearline.com
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: appears to be inconsistency re: base-files between oe-core and meta-angstrom
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,59 +46,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 11:45:44 -0000
-Content-Type: multipart/alternative; boundary=047d7b15a1654524fe04e528c3c3
+X-List-Received-Date: Fri, 30 Aug 2013 12:21:30 -0000
+Content-Type: TEXT/PLAIN; charset=US-ASCII
 
---047d7b15a1654524fe04e528c3c3
-Content-Type: text/plain; charset=ISO-8859-1
+On Thu, 29 Aug 2013, Richard Purdie wrote:
 
-Hi,
+> On Thu, 2013-08-29 at 12:49 +0100, Phil Blundell wrote:
+> > On Thu, 2013-08-29 at 07:37 -0400, Robert P. J. Day wrote:
+> > >   distroless. i realize i *could* set a value for DISTRO, but it would
+> > > seem that i shouldn't have to in order to avoid a build error.
+> >
+> > Well, either you're using angstrom or you aren't.  If you do want
+> > to use it then you ought to set DISTRO appropriately, and if you
+> > don't want to use it then you probably oughtn't to have the
+> > angstrom layer included at all.
+> >
+> > Trying to use the angstrom .bbappends and files with a different
+> > (or no) distro configuration will give you a set of metadata
+> > that's neither one thing nor the other and, even if you didn't get
+> > a build error, there's no guarantee that the resulting image would
+> > actually work.
+>
+> I'm not sure I agree. Ideally layers should be includable without
+> turning on behaviour unless it is enabled. This is why we have
+> things like an array of OVERRIDES to choose from.
 
-there was this change which also goes undocumented. Unfortunately, this is
-causing a lot of headache for me, but I expect that for others, too.
+  after i thought about it for a while, this is what i started to
+believe as well -- i should be able to include various layers and let
+them work it out amongst themselves the correct behaviour and bbappend
+processing and so on.
 
-I would like to propose the default kernel and module name from:
+  the reason i selected the layers i did in my example was that i
+wanted to build cutting-edge components for my beaglebone black and,
+as i read it, this required me to use oe-core, meta-angstom and
+meta-ti (among other things). and as you saw, oe-core and
+meta-angstrom didn't play well together WRT base-files.
 
-uImage--3.2.1...
+  anyway, i'll let folks higher up the food chain ponder on this.
 
-to:
+rday
 
-uImage-3.2.1...
+-- 
 
-This would avoid a lot of work for people. I have been trying to fix issues
-for one day due to this which is unfortunate.
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                        http://crashcourse.ca
 
-Also, the double dash on its looks silly IMO. It should be either '-0-' or
-'-'. I prefer the latter for compatibility reasons, although someone could
-argue about that the former is more readable.
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
-I heard Jama's opinion about it on IRC. I wonder what others think?
-
-Cheers,
-Laszlo
-
-PS.: Note, this is a different proposal to the documentation update.
-
---047d7b15a1654524fe04e528c3c3
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>there was this change which also go=
-es undocumented. Unfortunately, this is causing a lot of headache for me, b=
-ut I expect that for others, too.</div><div><br></div><div>I would like to =
-propose the default kernel and module name from:</div>
-<div><br></div><div>uImage--3.2.1...</div><div><br></div><div>to:</div><div=
-><br></div><div>uImage-3.2.1...</div><div><br></div><div>This would avoid a=
- lot of work for people. I have been trying to fix issues for one day due t=
-o this which is unfortunate.</div>
-<div><br></div><div>Also, the double dash on its looks silly IMO. It should=
- be either &#39;-0-&#39; or &#39;-&#39;. I prefer the latter for compatibil=
-ity reasons, although someone could argue about that the former is more rea=
-dable.</div>
-<div><br></div><div>I heard Jama&#39;s opinion about it on IRC. I wonder wh=
-at others think?</div><div><br></div><div>Cheers,</div><div>Laszlo</div><di=
-v><br></div><div>PS.: Note, this is a different proposal to the documentati=
-on update.</div>
-</div>
-
---047d7b15a1654524fe04e528c3c3--
