@@ -1,18 +1,20 @@
 Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa11-01.prod.phx3.secureserver.net
-	(p3plsmtpa11-01.prod.phx3.secureserver.net [68.178.252.102])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B7C16BD80
+Received: from m1plsmtpa01-08.prod.mesa1.secureserver.net
+	(m1plsmtpa01-08.prod.mesa1.secureserver.net [64.202.165.187])
+	by mail.openembedded.org (Postfix) with ESMTP id B40176BD8D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 31 Aug 2013 23:40:08 +0000 (UTC)
+	Sat, 31 Aug 2013 23:50:16 +0000 (UTC)
 Received: from llc.pab ([66.41.60.82])
-	by p3plsmtpa11-01.prod.phx3.secureserver.net with 
-	id Kbg51m00L1mTNtu01bg6fm; Sat, 31 Aug 2013 16:40:09 -0700
+	by m1plsmtpa01-08.prod.mesa1.secureserver.net with 
+	id KbqF1m00B1mTNtu01bqF1i; Sat, 31 Aug 2013 16:50:16 -0700
 From: "Peter A. Bigot" <pab@pabigot.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 31 Aug 2013 18:40:03 -0500
-Message-Id: <1377992403-11165-1-git-send-email-pab@pabigot.com>
+Date: Sat, 31 Aug 2013 18:50:13 -0500
+Message-Id: <1377993013-16479-1-git-send-email-pab@pabigot.com>
 X-Mailer: git-send-email 1.8.4
-Subject: [PATCH] chkconfig: remove linuxstdbase symlinks
+In-Reply-To: <1377992403-11165-1-git-send-email-pab@pabigot.com>
+References: <1377992403-11165-1-git-send-email-pab@pabigot.com>
+Subject: [PATCH v2] chkconfig: remove linuxstdbase symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,16 +27,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 31 Aug 2013 23:40:09 -0000
+X-List-Received-Date: Sat, 31 Aug 2013 23:50:16 -0000
 
-In cffd1a933fese the links were moved to the lsb package because lsbsetup
-was to be removed.  Subsequently an earlier patch 5283be2305b that moved
-them to chkconfig was also merged.  This results in duplicate installations
-that generate a warning when building core-image-lsb under DISTRO=poky-lsb
-which enables the linuxstdbase feature.
+These links were moved to the lsb package because lsbsetup was to be
+removed.  Subsequently an earlier patch that moved them to chkconfig was
+also merged.  This results in duplicate installations that generate a
+warning when building core-image-lsb under DISTRO=poky-lsb which enables the
+linuxstdbase feature.
 
 Signed-off-by: Peter A. Bigot <pab@pabigot.com>
 ---
+
+v2: remove misleading SHA references from commit message
+
  meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb | 8 --------
  1 file changed, 8 deletions(-)
 
