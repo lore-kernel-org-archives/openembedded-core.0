@@ -1,39 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 5487E6B3B7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C2F76BD5A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Sep 2013 11:12:17 +0000 (UTC)
-Received: by mail-ea0-f171.google.com with SMTP id n15so1772542ead.16
+	Sun,  1 Sep 2013 15:19:46 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r81FTFLm021089 for <openembedded-core@lists.openembedded.org>;
+	Sun, 1 Sep 2013 16:32:32 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id mkq4s6dLLozS
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Sep 2013 04:12:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=yXzR3FLK9vzKBsMD823fFt0Lz3zQD9kiQaZB+a9wyB4=;
-	b=XhMHGa9D/HjoGMrEwtaXiBS0+WxQ3FHVYrf7amfMoOa1zo4x6YckEV0g36FSttqKof
-	UeBZBuEaagi03vliCgFNrQ965TmGqdGs8qUEn5YaQVD1BizgJtgfuq6gL9ZmR2naeeYU
-	JcBwv32sixFaW50UBem8QX57LHnFFZXxsYxZEbsmNjS5KTqs+iGyOmUkkjmDy38rT8nx
-	SuksOV03ZggFKcYZ+aGm3oLgzof0Yn6nv5kKv7jDSh723NscAzupS2uOCurnSTiF7NH7
-	NdnCYzZEZ4c/gjKFsoC7pJLM96A91iXs/sYm8XV1WAH0kOdnaG/zpy+PQ9U94ZM+e3/6
-	48Yg==
-X-Received: by 10.15.100.198 with SMTP id bn46mr27489827eeb.11.1378033937524; 
-	Sun, 01 Sep 2013 04:12:17 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	a6sm12468063eei.10.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Sun, 01 Sep 2013 04:12:17 -0700 (PDT)
-Date: Sun, 1 Sep 2013 13:13:33 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Yevhen Kyriukha <kirgene@gmail.com>
-Message-ID: <20130901111333.GW3544@jama>
-References: <1377997926-55540-1-git-send-email-kirgene@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1377997926-55540-1-git-send-email-kirgene@gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] cryptsetup: Updated to upstream version.
+	Sun,  1 Sep 2013 16:32:32 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r81FWQDr021112
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Sun, 1 Sep 2013 16:32:27 +0100
+Message-ID: <1378048772.1059.167.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 01 Sep 2013 16:19:32 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] sanity: Don't make assumptions about cwd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,83 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2013 11:12:18 -0000
-X-Groupsio-MsgNum: 44357
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="uaCnWV1VgVvklJsa"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 01 Sep 2013 15:19:48 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---uaCnWV1VgVvklJsa
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When using the recently fixed out of build directory bitbake invocations, I was
+puzzled why bitbake seemed to be pausing. The reason was due to running the sanity
+tests each and every time. This was due to current working directory assumptions
+within the sanity test code. Fix this to use TOPDIR.
 
-On Sun, Sep 01, 2013 at 04:12:06AM +0300, Yevhen Kyriukha wrote:
-> Also build static libraries.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 4df3ca8..feffed9 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -694,7 +694,7 @@ def check_sanity(sanity_data):
+     last_sanity_version = 0
+     last_tmpdir = ""
+     last_sstate_dir = ""
+-    sanityverfile = 'conf/sanity_info'
++    sanityverfile = sanity_data.expand("${TOPDIR}/conf/sanity_info")
+     if os.path.exists(sanityverfile):
+         with open(sanityverfile, 'r') as f:
+             for line in f:
+@@ -715,7 +715,8 @@ def check_sanity(sanity_data):
+     else: 
+         if last_sstate_dir != sstate_dir:
+             status.addresult(check_sanity_sstate_dir_change(sstate_dir, sanity_data))
+-    if os.path.exists("conf") and not status.messages:
++
++    if os.path.exists(os.path.dirname(sanityverfile)) and not status.messages:
+         with open(sanityverfile, 'w') as f:
+             f.write("SANITY_VERSION %s\n" % sanity_version) 
+             f.write("TMPDIR %s\n" % tmpdir) 
 
-Hi,
 
-please resend to openembedded-devel ML.
 
->=20
-> Signed-off-by: Yevhen Kyriukha <kirgene@gmail.com>
-> ---
->  .../cryptsetup/{cryptsetup_1.6.1.bb =3D> cryptsetup_1.6.2.bb}         | =
-6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->  rename meta-oe/recipes-support/cryptsetup/{cryptsetup_1.6.1.bb =3D> cryp=
-tsetup_1.6.2.bb} (87%)
->=20
-> diff --git a/meta-oe/recipes-support/cryptsetup/cryptsetup_1.6.1.bb b/met=
-a-oe/recipes-support/cryptsetup/cryptsetup_1.6.2.bb
-> similarity index 87%
-> rename from meta-oe/recipes-support/cryptsetup/cryptsetup_1.6.1.bb
-> rename to meta-oe/recipes-support/cryptsetup/cryptsetup_1.6.2.bb
-> index 95f7e8d..6c3418a 100644
-> --- a/meta-oe/recipes-support/cryptsetup/cryptsetup_1.6.1.bb
-> +++ b/meta-oe/recipes-support/cryptsetup/cryptsetup_1.6.2.bb
-> @@ -12,8 +12,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D32107dd283b1=
-dfeb66c9b3e6be312326"
->  DEPENDS =3D "util-linux lvm2 popt libgcrypt"
-> =20
->  SRC_URI =3D "http://cryptsetup.googlecode.com/files/cryptsetup-${PV}.tar=
-=2Ebz2"
-> -SRC_URI[md5sum] =3D "f374d11e3b0e7ca0f805756fd02e34ff"
-> -SRC_URI[sha256sum] =3D "baf36e663c03eb6440482d91c486d61ed47ce5c9268ad04c=
-18ca09082755149c"
-> +SRC_URI[md5sum] =3D "cd834da49fbe92dd66df02cc5c61280f"
-> +SRC_URI[sha256sum] =3D "15723f0198303d4bcb99d480b7a773918e2d319f03484579=
-88c063bdd03e109a"
-> =20
->  inherit autotools gettext
-> =20
-> @@ -29,3 +29,5 @@ RRECOMMENDS_${PN} =3D "kernel-module-aes-generic \
->                       kernel-module-cbc \
->                       kernel-module-sha256-generic \
->  "
-> +
-> +EXTRA_OECONF =3D "--enable-static"
-> --=20
-> 1.8.1.2
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---uaCnWV1VgVvklJsa
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlIjIV0ACgkQN1Ujt2V2gBzlvACfcymYKVofqKPjz0p3jqJvy7at
-vgsAn11TFCTrM2w+yRnR276W30BE7O5x
-=z88Z
------END PGP SIGNATURE-----
-
---uaCnWV1VgVvklJsa--
