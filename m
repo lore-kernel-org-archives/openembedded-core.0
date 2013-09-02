@@ -1,37 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f172.google.com (mail-ve0-f172.google.com
-	[209.85.128.172])
-	by mail.openembedded.org (Postfix) with ESMTP id F28B96BCA1
+Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
+	[74.125.82.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 961136BF66
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 14:02:58 +0000 (UTC)
-Received: by mail-ve0-f172.google.com with SMTP id oz10so3209428veb.31
+	Mon,  2 Sep 2013 15:20:41 +0000 (UTC)
+Received: by mail-we0-f175.google.com with SMTP id m46so3784377wev.34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2013 07:02:59 -0700 (PDT)
+	Mon, 02 Sep 2013 08:20:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=MdFOrIouJK94wxmbPB8g1AiYmBqBC+RtIDv43Pl93W4=;
-	b=W4warz0w7UvCr63c6TBvKkI8GgkP5SmbnTptO+aIFmSmKeywB+a78O5muEVMYqmtzO
-	ONf5cacn76x01qaSqXoN0UtaqUWx83K2YDonrgzLcinr+yzgDr+OPrZalLYWF393K61E
-	pFq6ML86q3EO5Z9fEan6U9R0FIBmypIGy0+nAUr4A+r1vXaJCx6rikrh3n7G7OzkH6VR
-	ewJxks61++Va1nWmuJAw0FGpukPGo3DKk69oPuWuKIx6AMvEYG9xDNwrfn3IQFPCWoJL
-	vdjeR1uJwmPgZal2FyC5xoJ6z+Ck9kaUA4El8VrVNFw6ZfuwLCIbAqY4Mn5ktucdfLzB
-	D3pQ==
-X-Gm-Message-State: ALoCoQlh1k0CzwlQUubS88+5WBl5Ntlol5P90+TYZx4ZWfVRvWugDUHHHJyBQ5JwoIWqLa0X3KCm
-X-Received: by 10.220.16.73 with SMTP id n9mr1871565vca.24.1378130579540; Mon,
-	02 Sep 2013 07:02:59 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 2 Sep 2013 07:02:39 -0700 (PDT)
-In-Reply-To: <e6abe1f4e6a41cf4ac4070971b6ec1757d79b9ab.1377792006.git.Martin.Jansa@gmail.com>
-References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-	<e6abe1f4e6a41cf4ac4070971b6ec1757d79b9ab.1377792006.git.Martin.Jansa@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 2 Sep 2013 15:02:39 +0100
-Message-ID: <CAJTo0LbU5XC59qQ6mn5s161z4d3mvb+tdyjc5GNj-9-SFkNxSg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][PATCH 06/20] libmatchbox: Add PACKAGECONFIG for png
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=SQI4S0XFfM+WSk417aR10bWYqjDm65MBl6m/vw5XOo4=;
+	b=ZD5IP+hqlHd8mJVxAMDrN9eERtEulLBscaLd8L2rUpxTY7KKs+v6nkVr78Ce9ftsgc
+	fsFgAj49Z0A9RKWsgYyq6a8lNXLYYLJNdNESX8t02YUGggCwhERBTszOyYIlRloIfnXZ
+	2WWTKH2Tm4oDyo2ehaprWaAZj57OxCAv+cv0z+OyDu1bDSYSebCBKLi/3iBCPeXRRBUk
+	GQEYEl29J/WpO2HwB8Kwc4E67yFDG8xWALjOKuZoUAlFa3E/Rmm7rZmHULaskBmVvFOP
+	as8PFiMVQa2WA9EHBdwUuIprugGzr/Fivjk6BNrVuTRmVPVqE11eiZv0sbr2OhMDybEm
+	D0PQ==
+X-Gm-Message-State: ALoCoQlPoRbl8g37ONjcri1h+vjBDYmW9BNLmFm2Oz9c58pQ2w+JDwxh/ILLV2l/RVZ2S+7kFwkn
+X-Received: by 10.194.78.78 with SMTP id z14mr6194812wjw.32.1378135241752;
+	Mon, 02 Sep 2013 08:20:41 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id r6sm18524187wiw.0.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 02 Sep 2013 08:20:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Sep 2013 16:20:37 +0100
+Message-Id: <1378135237-5359-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] wipe-sysroot: fix removals
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,14 +42,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 14:02:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Sep 2013 15:20:42 -0000
 
-On 29 August 2013 17:02, Martin Jansa <martin.jansa@gmail.com> wrote:
-> +PACKAGECONFIG ??= "png"
+The previous changes were totally broken as quoting globs doesn't work.  Remove
+the quotes so the rm commands actually delete the stamps.
 
-For completeness consider adding "jpeg", although I doubt anyone
-actually uses the JPEG support...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/wipe-sysroot |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Ross
+diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
+index 2d2cbea..1c01166 100755
+--- a/scripts/wipe-sysroot
++++ b/scripts/wipe-sysroot
+@@ -34,11 +34,11 @@ if [ -z "$SSTATE_MANIFESTS" -o -z "$STAGING_DIR" -o -z "$STAMPS_DIR" ]; then
+ fi
+ 
+ # The sysroots themselves
+-rm -rf "$STAGING_DIR"
++rm -rf $STAGING_DIR
+ 
+ # The stamps that said the sysroot was populated
+-rm -rf "$STAMPS_DIR/*/*/*.do_populate_sysroot.*"
+-rm -rf "$STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*"
++rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot.*
++rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*
+ 
+ # The sstate manifests
+-rm -rf "$SSTATE_MANIFESTS/manifest-*.populate-sysroot"
++rm -rf $SSTATE_MANIFESTS/manifest-*.populate-sysroot
+-- 
+1.7.10.4
+
 
