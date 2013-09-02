@@ -1,41 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F7BD6BF82
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id A7C926BEF8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 11:26:42 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id a15so2309497eae.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2013 04:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=txC3qt2Z6MXkkGGWHcEEmeGxGQhH//C5LGeKTLQlw8k=;
-	b=PSZFUaM93/UTuNj5h3P8X9gpQhJHAlOJdoYbeg4n76MTR+3f/PR1BuUDnjLOsaRUdq
-	grcCYEWgM5OSYLqUlmqiMVJB9+hQsU3v/T5rnAHOJ1kLMPTjDcHJePoGzaWomczbPMWM
-	CBBe2cNPrWDGtUGm53TkrSpoYBNSJrroqDOZXaqcjy9hR+f8BVEWGVVeU9vD9X2q21HO
-	+T8mzlm4Wx/gVGGGiewrk+HeEBlpiMYi6ulOYR4/EnEyTjqnSA5xKi+RjYY1N9QH5wAG
-	t++iVM7kVxT7Wi+X2TMZD2OjdludpJ4FgQ0+mSxz/t0KdiaA12QICoVPUUa8qSVmYwuZ
-	UbPA==
-X-Received: by 10.15.64.1 with SMTP id n1mr37152697eex.15.1378121202632;
-	Mon, 02 Sep 2013 04:26:42 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	a6sm21278756eei.10.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 02 Sep 2013 04:26:42 -0700 (PDT)
-Date: Mon, 2 Sep 2013 13:27:59 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130902112759.GA3544@jama>
-References: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
-	<1373152387-19393-3-git-send-email-Martin.Jansa@gmail.com>
-	<1378120938.1059.184.camel@ted>
+	Mon,  2 Sep 2013 11:36:15 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Mon, 2 Sep 2013
+	13:36:11 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id B693028B833;
+	Mon,  2 Sep 2013 13:36:11 +0200 (CEST)
+From: <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Sep 2013 13:36:10 +0200
+Message-ID: <1378121770-55045-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-In-Reply-To: <1378120938.1059.184.camel@ted>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH 3/4] package.bbclass: add SHLIBSSEARCHDIRS to define where to search for shlib providers
+Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] sqlite3: update to version 3.8.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,72 +30,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 11:26:43 -0000
-X-Groupsio-MsgNum: 44373
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wrbmJCjDMpeEYJph"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Sep 2013 11:36:16 -0000
+Content-Type: text/plain
 
---wrbmJCjDMpeEYJph
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: "Maxin B. John" <maxin.john@enea.com>
 
-On Mon, Sep 02, 2013 at 12:22:18PM +0100, Richard Purdie wrote:
-> On Sun, 2013-07-07 at 01:13 +0200, Martin Jansa wrote:
-> > * when package contains some files matching "^.*\.so", but in directory
-> >   not default linker search paths (e.g. /opt/package/bundled-lib/libfoo=
-=2Eso)
-> >   don't register it as libfoo provider, because it's possible that there
-> >   is different package providing libfoo.so in ${libdir} and that would
-> >   be better shlib provider for other packages to depend on
-> > * recipes providing libs intentionally in some other directory can
-> >   define own SHLIBSSEARCHDIRS value
-> >=20
-> > [YOCTO #4628]
-> >=20
-> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > ---
-> >  meta/classes/package.bbclass | 26 +++++++++++++++++++++++---
-> >  1 file changed, 23 insertions(+), 3 deletions(-)
-> >=20
-> > diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-> > index 6c3ca56..3713fd3 100644
-> > --- a/meta/classes/package.bbclass
-> > +++ b/meta/classes/package.bbclass
-> > @@ -1307,6 +1307,9 @@ SHLIBSDIRS =3D "${@getshlibsdirs(d)}"
-> >  SHLIBSDIR =3D "${TMPDIR}/pkgdata/${PACKAGE_ARCH}${TARGET_VENDOR}-${TAR=
-GET_OS}/shlibs"
-> >  SHLIBSWORKDIR =3D "${PKGDESTWORK}/shlibs"
-> > =20
-> > +# default search path when searching for shlibs provided by package
-> > +SHLIBSSEARCHDIRS ?=3D "${baselib} ${libdir}"
-> > +
-> >  python package_do_shlibs() {
-> >      import re, pipes
->=20
-> Did you end up setting SHLIBSSEARCHDIRS for many recipes out of
-> interest?
+Upgrade to latest version 3.8.0.1
 
-No, but I was testing it only with world builds which won't cause any
-fatal error when something is missing in shlibs providers.
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-support/sqlite/sqlite3_3071700.bb |   10 ----------
+ meta/recipes-support/sqlite/sqlite3_3080001.bb |   10 ++++++++++
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3071700.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3080001.bb
 
-Maybe I should revert it in my build and compare runtime deps after
-another build (I'll do this when jenkins server is free again).
+diff --git a/meta/recipes-support/sqlite/sqlite3_3071700.bb b/meta/recipes-support/sqlite/sqlite3_3071700.bb
+deleted file mode 100644
+index 113e8ce..0000000
+--- a/meta/recipes-support/sqlite/sqlite3_3071700.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require sqlite3.inc
+-
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
+-
+-SRC_URI = "http://www.sqlite.org/2013/sqlite-autoconf-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "18c285053e9562b848209cb0ee16d4ab"
+-SRC_URI[sha256sum] = "8ff46d0baa9e64c0815544e829e985f1161c096aa6344c8f430791dbeadc2baf"
+-
+-S = "${WORKDIR}/sqlite-autoconf-${PV}"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3080001.bb b/meta/recipes-support/sqlite/sqlite3_3080001.bb
+new file mode 100644
+index 0000000..692e56a
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3080001.bb
+@@ -0,0 +1,10 @@
++require sqlite3.inc
++
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=65f0a57ca6928710b418c094b3570bb0"
++
++SRC_URI = "http://www.sqlite.org/2013/sqlite-autoconf-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "ee32c96e5db6c6d651c7c9b71082cf7c"
++SRC_URI[sha256sum] = "1d92ccfca5629701b207e57e86fdf0a01d8dca61c60e1246f92ec8d87408cf36"
++
++S = "${WORKDIR}/sqlite-autoconf-${PV}"
+-- 
+1.7.10.4
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---wrbmJCjDMpeEYJph
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlIkdj8ACgkQN1Ujt2V2gByzDwCfYGEMZefB4LPKa5R0/NmEyq1r
-IfUAnjSopmJUVK3CcXaZ54YVNRsauW9y
-=DhmO
------END PGP SIGNATURE-----
-
---wrbmJCjDMpeEYJph--
