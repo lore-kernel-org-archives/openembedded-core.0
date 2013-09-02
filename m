@@ -1,23 +1,36 @@
-Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa11-07.prod.phx3.secureserver.net
-	(p3plsmtpa11-07.prod.phx3.secureserver.net [68.178.252.108])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A44C6BCF1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A8F76BC77
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 11:58:47 +0000 (UTC)
-Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa11-07.prod.phx3.secureserver.net with 
-	id LByn1m0081mTNtu01BynzV; Mon, 02 Sep 2013 04:58:48 -0700
-Message-ID: <52247D78.4070406@pabigot.com>
-Date: Mon, 02 Sep 2013 06:58:48 -0500
-From: "Peter A. Bigot" <pab@pabigot.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
+	Mon,  2 Sep 2013 12:11:27 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id p57so3714556wes.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Sep 2013 05:11:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Xehp84WFBFNnRRFZhoYDMZajuQc0DpYFlFqKmmcYYV0=;
+	b=Vfe4yWkcoyLXT5YjG2tOFcgTsmgjQZqVkZ52Sehss6y1DzObFttqj7+AFuFOlgWjHz
+	p6uQiV+nkvKGt4aqmJGZJcFersh1/Yc2jJrQBxE472sHpZsdbiW2aQNRPBdtKMAtBDrk
+	veOtd8aDqsetIeAL4f4P8FHHOk7eVwTt+Bw02z9P3BQyWdCmYUuCUxBloWqTRWLkMIUH
+	cnxyICA9jVtGX/9Be0msSOpq+jw3Y1UJ7jPYVb7G87XgXZ4SiPGP+vx9W+jL1a1Q3GRh
+	lV+y7CX6vnmOApwhdNXkMSD88bY+na/WPq1htPwNEuqpPMXsfdmqW1gP3KzQjNRhDeJY
+	YG4w==
+X-Gm-Message-State: ALoCoQnYRqZAk7KHAex/TekCZoQLJvo/7RLazUAU+Q4zowXTqshXO0+Z09q0d/Q9DD4cuA72o9Ee
+X-Received: by 10.180.107.225 with SMTP id hf1mr13423140wib.7.1378123888189;
+	Mon, 02 Sep 2013 05:11:28 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	mb7sm17267191wic.10.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 02 Sep 2013 05:11:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <cover.1378121740.git.Qi.Chen@windriver.com>
-	<35139b57aba1b70ba9780e19765c1ef54cd4bab7.1378121740.git.Qi.Chen@windriver.com>
-In-Reply-To: <35139b57aba1b70ba9780e19765c1ef54cd4bab7.1378121740.git.Qi.Chen@windriver.com>
-Subject: Re: [PATCH 2/2] sysklogd: lower the ALTERNATIVE_PRIORITY in case of systemd
+Date: Mon,  2 Sep 2013 13:11:24 +0100
+Message-Id: <1378123884-19368-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] pulseaudio: disable GTK+ by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,52 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 11:58:47 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Sep 2013 12:11:30 -0000
 
-On 09/02/2013 06:40 AM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> The sysklogd package hasn't got systemd support yet. So in case of
-> a systemd based system, the commands and corresponding configuration
-> files should have a lower priority than that of the busybox's syslogd
-> and klogd utilities. These two utilities from busybox have internal
-> systemd support if CONFIG_FEATURE_SYSTEMD is enabled. And that config
-> item is enabled by default.
->
-> [YOCTO #5066]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-extended/sysklogd/sysklogd.inc |    9 ++++++++-
->   1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-> index 1167328..30dac2d 100644
-> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
-> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-> @@ -38,7 +38,14 @@ do_install () {
->   	install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
->   }
->   
-> -ALTERNATIVE_PRIORITY = "100"
-> +python () {
-> +    # sysklogd package has no internal systemd support, so we weigh busybox's
-> +    # sysklogd utility over it in case of systemd
-> +    if 'systemd' in d.getVar("DISTRO_FEATURES", True).split():
-> +        d.setVar("ALTERNATIVE_PRIORITY", "10")
-> +    else:
-> +        d.setVar("ALTERNATIVE_PRIORITY", "100")
-> +}
+PulseAudio's GTK+ support is limited to a test case and automatic icon name
+population for applications.  This is too limited to enforce GTK+ 3 on all
+builds, so disable it by default.
 
-Is there a reason an anonymous python block is better for this purpose than:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ALTERNATIVE_PRIORITY = "${@base_contains('DISTRO_FEATURES','systemd','10','100',d)}"
-
-?
-
->   ALTERNATIVE_${PN} = "syslogd klogd syslog-init syslog-conf"
->   
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 49705f3..4c10aa9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -35,7 +35,7 @@ EXTRA_OECONF = "\
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'bluetooth', 'bluez', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+-                   ${@base_contains('DISTRO_FEATURES', 'x11', 'gtk x11', '', d)}"
++                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ PACKAGECONFIG[bluez] = "--enable-bluez,--disable-bluez,bluez4 sbc"
+ PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
+ PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd"
+-- 
+1.7.10.4
 
 
