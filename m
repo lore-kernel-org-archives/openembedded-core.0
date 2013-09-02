@@ -1,21 +1,26 @@
-Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
-Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 8883F6BDA9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 05:08:34 +0000 (UTC)
-Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
-	[192.168.101.1])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 8AC9040096;
-	Mon,  2 Sep 2013 06:06:47 +0200 (CEST)
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Sep 2013 07:08:04 +0200
-Message-Id: <1378098484-19371-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] boost: adding serialization to BOOST_LIBS
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A0D66BC88;
+	Mon,  2 Sep 2013 09:54:23 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 02 Sep 2013 02:54:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,1006,1367996400"; d="scan'208";a="289793083"
+Received: from unknown (HELO helios.localnet) ([10.252.123.85])
+	by AZSMGA002.ch.intel.com with ESMTP; 02 Sep 2013 02:54:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org,
+	Koen Kooi <koen@dominion.thruhere.net>, Chase Maupin <chase.maupin@ti.com>,
+	Denys Dmytriyenko <denys@ti.com>
+Date: Mon, 02 Sep 2013 10:54:20 +0100
+Message-ID: <5772089.rktQrocuuR@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-27-generic; KDE/4.10.5; i686; ; )
+X-PRIORITY: 2 (High)
+Priority: urgent
+MIME-Version: 1.0
+Subject: Heads up: _remove in recipe namespace - check your layers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,45 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 05:08:35 -0000
+X-List-Received-Date: Mon, 02 Sep 2013 09:54:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Since its initial commit from the classic OpenEmbedded repository
-in 43e94412c45b4b79485a64010c76d89b245bb235, serialization was
-commented out, reportedly due to some issue with powerpc in the
-boost version 1.36. In the classic OpenEmbedded repository,
-serialization has been added again since version 1.4x.
+Hi all,
 
-The commit removes the outdated comment and adds serialization to
-the BOOST_LIBS after testing `bitbake boost` and bitbaking some
-applications using boost from the meta-ros layer for qemuppc.
+With the recent addition of a _remove operator into BitBake in master [1] any 
+use of _remove_ within a name or _remove at the end of a name within recipe 
+namespace (i.e. function and variable names) needs to be changed to avoid 
+unexpected behaviour. This change is now in master and will be in the upcoming 
+release. Please check the layers you maintain and change any instances of 
+these to avoid the use of _remove. You can use the following command to find 
+these (of course ignoring anything that's not in a recipe, bbclass, inc file 
+etc.):
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
----
- meta/recipes-support/boost/boost.inc |    4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+  git grep _remove[^a-zA-Z]
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index 5d20b11..5a219c5 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -11,15 +11,13 @@ BOOST_LIBS = "\
- 	iostreams \
- 	program_options \
- 	regex \
-+	serialization \
- 	signals \
- 	system \
- 	test \
- 	thread \
- 	"
- 
--# FIXME: for some reason this fails on powerpc
--#BOOST_LIBS += "serialization"
--
- # To enable python, uncomment the following:
- #BOOST_LIBS += "python"
- #DEPENDS += "python"
+In particular I've checked a number of layers that I have fetched locally, and 
+references exist in meta-arago-distro and meta-angstrom, so these will need to 
+be fixed as soon as possible.
+
+Cheers,
+Paul
+
+[1] 
+http://cgit.openembedded.org/bitbake/commit/?id=9c91948e10df278dad4832487fa56888cd58d187
+
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
