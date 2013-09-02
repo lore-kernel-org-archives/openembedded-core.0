@@ -1,40 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
-	[209.85.212.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C2CC26BBD8
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 10:48:13 +0000 (UTC)
-Received: by mail-vb0-f41.google.com with SMTP id g17so2910141vbg.14
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2013 03:48:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=8okGHtf0nhtV0KjvrewLMuYaGFVgB5OlFqGefmgJ00I=;
-	b=eFYkbDmo9gkdfUfTXp2y8dKzGawKPezBV6f+8A2K7u63C2DcfGTzmjWrat9bhhqNcd
-	rkv+UYGjgtN+gGXtoc9h7SKrbPQsw2hIBLDv6HGeHDycFfdQ/NZbLhQQqTVHHOtfyxAc
-	1s9Oe2lWH9tCPRJDyqAqizFvYVnuOOvovM9zs+Dqdxl121tyQGj/zqVX/yyEMSxtTy0Z
-	2urAQbPwIlMCXXReHlg11lsXoYUHmWk658wXywLpQ70QkQlwlYx29eMRkcx4uL4ovvHb
-	PuUZFng0PX9Y4dnsORMLhB4PJjTY1gxWPQaVlOarOmkrX5+ejmiH6CUKh9qxUxCAFMTK
-	d1yA==
-X-Gm-Message-State: ALoCoQly4Wm+cEFZXSVxU/Afeurn17P2v8TITI7t0Uo2c2m3ARufFbr9wGa+CgqDtSucpTsLY0wY
-X-Received: by 10.58.119.233 with SMTP id kx9mr22313322veb.3.1378118893924;
-	Mon, 02 Sep 2013 03:48:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 2 Sep 2013 03:47:53 -0700 (PDT)
-In-Reply-To: <5217BD3C.6040402@linux.intel.com>
-References: <739A9EF8-4ABD-419C-978B-29006E185238@gmail.com>
-	<52168CC1.5050906@linux.intel.com> <20130822225302.GN522@jama>
-	<97E14A4F-C674-4D5A-946F-F09F41F35AB3@gmail.com>
-	<5217BD3C.6040402@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 2 Sep 2013 11:47:53 +0100
-Message-ID: <CAJTo0LZTVWqV59LtLB1PONMzPwuBmC4Nd+0Hbkm3YA57JcwEsQ@mail.gmail.com>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: "openembedded-core@lists.openembedded.org oe-core layer"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: World build on OE-Core
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A68936B9D6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Sep 2013 11:20:03 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r82BWqrV013232; Mon, 2 Sep 2013 12:32:52 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7AkK8kyIZ9bb; Mon,  2 Sep 2013 12:32:52 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r82BWnai013214
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 2 Sep 2013 12:32:50 +0100
+Message-ID: <1378120790.1059.183.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 02 Sep 2013 12:19:50 +0100
+In-Reply-To: <20130828083339.GI3544@jama>
+References: <1373152387-19393-1-git-send-email-Martin.Jansa@gmail.com>
+	<20130828083339.GI3544@jama>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCH 1/4] package.bbclass: move reading shlibs providers to separate function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,20 +38,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 10:48:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 02 Sep 2013 11:20:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 23 August 2013 20:51, Saul Wold <sgw@linux.intel.com> wrote:
->> Ran fresh from scratch builds and it seems its better, I have posted the
->> results at
->> http://sakrah.homelinux.org/files/world/
->>
->> It seems x86/x86_64 is same failure that Martin mentioned
->>
-> Is there a bug filed?  If not can you please file a bug and include the
-> compile logs and your local.conf/distro settings.
+On Wed, 2013-08-28 at 10:33 +0200, Martin Jansa wrote:
+> On Sun, Jul 07, 2013 at 01:13:04AM +0200, Martin Jansa wrote:
+> > * prepare for reading shlibs providers only from dependency tree of
+> >   current recipe
+> > 
+> > [YOCTO #4628]
+> 
+> Any comment on this patchset?
+> 
+> I'm using first 3 commits for some time in world builds and they helped
+> me to discover some unexpected shlib providers (and fix them by setting
+> PRIVATE_LIBS).
 
-I just filed https://bugzilla.yoctoproject.org/show_bug.cgi?id=5096.
+It was sent as an RFC and the last patch was incomplete so it dropped
+off the radar :(.
 
-Ross
+If we remove the "continue" in 2/4 and maintain existing behaviour with
+a warning, it would probably seem reasonable. I'll have a further look
+at them.
+
+Cheers,
+
+Richard
+
+
+
 
