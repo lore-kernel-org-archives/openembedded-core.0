@@ -1,24 +1,37 @@
-Return-Path: <mihai.prica@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C7E46BA22
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
+	[209.85.128.169])
+	by mail.openembedded.org (Postfix) with ESMTP id CED876BF89
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 12:52:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Sep 2013 05:49:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,1007,1367996400"; d="scan'208";a="397040825"
-Received: from unknown (HELO mihai-Vostro-460.rb.intel.com) ([10.237.105.155])
-	by orsmga002.jf.intel.com with ESMTP; 02 Sep 2013 05:52:26 -0700
-From: Mihai Prica <mihai.prica@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Sep 2013 15:50:51 +0300
-Message-Id: <0a128d4a040bc934645cf69cdfaef15c4a518801.1378125322.git.mihai.prica@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378125322.git.mihai.prica@intel.com>
-References: <cover.1378125322.git.mihai.prica@intel.com>
-In-Reply-To: <cover.1378125322.git.mihai.prica@intel.com>
-References: <cover.1378125322.git.mihai.prica@intel.com>
-Subject: [PATCH 1/1] scripts/runqemu: Fix MACHINE regex
+	Mon,  2 Sep 2013 14:02:08 +0000 (UTC)
+Received: by mail-ve0-f169.google.com with SMTP id db10so3250052veb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Sep 2013 07:02:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=v9qs8b4TGMxvMeExSzwnwvbMf0TolfmM3zsOJmTYCyQ=;
+	b=man4qHecFlZrZ5xXX45hzUQsVPrB/lpbIOC/bAXAA7HEv+z3NmTeZW39h7J+yKXzXL
+	Xc6zClYjMRG0aYjbTiraZGsaaXD6AYHBCqUbmDE/RRpc/ss5zKYdTc/wKRQfSi5kDEXP
+	8sObAlRmQDcSS9F1ADmq4hO2TghP7WEPnj0Wm+zQE4UeIugIM/ImIDSkc01265Yqo0WE
+	rhXzhaYv8Syz0BYOj5TSzd+H/vo/bhP/yD+bXp70yUDAN/k4ZCBWNb9EGwICWJ/PP6yj
+	MYi/XrXk+nlnz2sqWeKsMd9pCxAjlcr0M/rlYp0T38cgwXjxQ3lY4pztH/uxMI5tRHHn
+	04MA==
+X-Gm-Message-State: ALoCoQn4r9+ap5zYNKj7DiqhHiehDKeJlVO7ozlnynkCy00TF5ADSTvvu8FCs5hCn4nZokY5obE4
+X-Received: by 10.58.208.130 with SMTP id me2mr23362969vec.13.1378130527972;
+	Mon, 02 Sep 2013 07:02:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 2 Sep 2013 07:01:47 -0700 (PDT)
+In-Reply-To: <e6abe1f4e6a41cf4ac4070971b6ec1757d79b9ab.1377792006.git.Martin.Jansa@gmail.com>
+References: <cover.1377792005.git.Martin.Jansa@gmail.com>
+	<e6abe1f4e6a41cf4ac4070971b6ec1757d79b9ab.1377792006.git.Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 2 Sep 2013 15:01:47 +0100
+Message-ID: <CAJTo0LY-D_swkE8SrR1mi4An9u1Uyk5c=1f9zVG1Y6ya45=JcA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [WIP][PATCH 06/20] libmatchbox: Add PACKAGECONFIG for png
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +44,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 12:52:26 -0000
+X-List-Received-Date: Mon, 02 Sep 2013 14:02:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-When runqemu tries to determine the MACHINE variable from a
-kernel or vmdk filename that doesn't contain any known machine
-name, the variable gets set to the filename. It should remain
-unset and cause an error.
+On 29 August 2013 17:02, Martin Jansa <martin.jansa@gmail.com> wrote:
+> * with png disabled it also fails, because of missing csetjmp include
+>   | mbpixbuf.c:128:3: error: unknown type name 'jmp_buf'
+>   |    jmp_buf setjmp_buffer; /* for return to caller */
 
-[YOCTO #2890]
+FWIW, I've just fixed this in libmatchbox.
 
-Signed-off-by: Mihai Prica <mihai.prica@intel.com>
----
- scripts/runqemu |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 04dc3b0..b496785 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -224,13 +224,13 @@ fi
- 
- if [ -z "$MACHINE" ]; then
-     if [ "x$FSTYPE" = "xvmdk" ]; then
--        MACHINE=`basename $VM | sed 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/'`
-+        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from vmdk filename [$VM]"
-         fi
-         echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
-     else
--        MACHINE=`basename $KERNEL | sed 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/'`
-+        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from kernel filename [$KERNEL]"
-         fi
--- 
-1.7.9.5
-
+Ross
 
