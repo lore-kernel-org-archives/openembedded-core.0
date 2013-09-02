@@ -1,32 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D941B6BD13
+	by mail.openembedded.org (Postfix) with ESMTP id 09DFB6BD13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 02:00:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8220S3a027956
+	Mon,  2 Sep 2013 02:01:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8221HuV027964
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 1 Sep 2013 19:00:28 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Sun, 1 Sep 2013 19:00:27 -0700
-Message-ID: <5223F118.3010007@windriver.com>
-Date: Mon, 2 Sep 2013 09:59:52 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Sun, 1 Sep 2013 19:01:18 -0700 (PDT)
+Received: from [128.224.162.215] (128.224.162.215) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Sun, 1 Sep 2013 19:01:16 -0700
+Message-ID: <5223F16B.5050705@windriver.com>
+Date: Mon, 2 Sep 2013 10:01:15 +0800
+From: jhuang0 <jackie.huang@windriver.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Otavio Salvador <otavio@ossystems.com.br>
-References: <cover.1377781793.git.liezhi.yang@windriver.com>
-	<454944e7bd4c831bea934852393d8e16abe1d5ff.1377781793.git.liezhi.yang@windriver.com>
-	<1377795605.1059.20.camel@ted> <521FF438.5040702@windriver.com>
-	<1377876563.1059.100.camel@ted> <5221CAA0.60601@windriver.com>
-	<CAP9ODKpEmUuuKs5DiozesCAsU0xCKeZGcs6soBQ=BuvB2=+iTA@mail.gmail.com>
-In-Reply-To: <CAP9ODKpEmUuuKs5DiozesCAsU0xCKeZGcs6soBQ=BuvB2=+iTA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] sstate.bbclass: check before open the manifest
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <cover.1377827133.git.jackie.huang@windriver.com>
+	<20130830092220.GT3544@jama>
+In-Reply-To: <20130830092220.GT3544@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/1] remove the unnecessary protocol parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,63 +35,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 02:00:30 -0000
+X-List-Received-Date: Mon, 02 Sep 2013 02:01:18 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 09/01/2013 06:07 AM, Otavio Salvador wrote:
-> On Sat, Aug 31, 2013 at 7:51 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 8/30/2013 5:22 PM, Martin Jansa wrote:
+> On Fri, Aug 30, 2013 at 09:56:35AM +0800, jackie.huang@windriver.com wrote:
+>> From: Jackie Huang <jackie.huang@windriver.com>
 >>
->> Hi RP,
+>> What I did to remove these:
+>> I checked that we only use git and svn:
+>> $ find meta \( -name *.bb -o -name *.inc -o -name *.bbclass \) -exec sed -n 's/.*"\(\w*:\/\/\).*\(;protocol=\w*\)/\1 \2/p' {} \; | sort | uniq
+>> git:// ;protocol=git \
+>> git:// ;protocol=git"
+>> git:// ;protocol=git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+>> git:// ;protocol=git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+>> git:// ;protocol=git" % (gstpkg_basename, branch))
+>> git:// ;protocol=git;nocheckout=1;branch=${KBRANCH},${KMETA};name=machine,meta"
+>> git:// ;protocol=http \
+>> svn:// ;protocol=http \
+>> svn:// ;protocol=http;module=trunk \
+>> svn:// ;protocol=svn"
 >>
->> Thanks, I've made a draft patch for fixing why make-3.82 is being built,
->> the problem is that when we run "bitbake make-3.81":
->> - For 'make' itself, it will build make_3.81.bb
->> - But for make-dev/dbg, it will build make_3.82.bb since there is no
->> PREFERRED_VERSION and it will use the highest version.
+>> So I think it's safe to simply remove ";protocol=git" and ";protocol=svn":
 >>
->> This draft patch sets the PREFERRED_VERSION for the pkg and will fix the
->> problem, I will send it to bitbake-devel later.
->
-> Nice discovery :-) This does seem to address a core issue.
->
->> diff --git a/bitbake/lib/bb/taskdata.py b/bitbake/lib/bb/taskdata.py
->> index 58fe199..fc8ee6d 100644
->> --- a/bitbake/lib/bb/taskdata.py
->> +++ b/bitbake/lib/bb/taskdata.py
->> @@ -429,6 +429,22 @@ class TaskData:
->>               return
+>> $ find meta \( -name *.bb -o -name *.inc -o -name *.bbclass \) -exec sed -i 's/;protocol=git//; s/;protocol=svn//' {} \;
 >>
->>           all_p = dataCache.providers[item]
->> +        logger.warn("pppreferred: %s" % dataCache.preferred)
->> +
->> +        # Check whether item has the one of following formats and set the
->> +        # PREFERRED_VERSION if it does:
->> +        # - <pn>-<pv>
->> +        # - <pn>-<pv>-<pr> (when no PE)
->> +        # - <pn>_<pe>-<pv>-<pr> (when PE)
->> +        for fn in all_p:
->> +            pn = dataCache.pkg_fn[fn]
->> +            pe = dataCache.pkg_pepvpr[fn][0]
->> +            pv = dataCache.pkg_pepvpr[fn][1]
->> +            pr = dataCache.pkg_pepvpr[fn][2]
->> +            if not pe and (item == "%s-%s" % (pn, pv) or item == "%s-%s-%s"
->> % (pn, pv, pr)):
->> +                cfgData.setVar("PREFERRED_VERSION_" + pn, pv)
->> +            elif pe and item == "%s_%s-%s-%s" % (pn, pe, pv, pr):
->> +                cfgData.setVar("PREFERRED_VERSION_" + pn, pv)
+>> What left with protocol parameter after removal is:
+>> $ find meta \( -name *.bb -o -name *.inc -o -name *.bbclass \) -exec sed -n 's/.*"\(\w*:\/\/\).*\(;protocol=\w*\)/\1 \2/p' {} \; | sort | uniq
+>> git:// ;protocol=http \
+>> svn:// ;protocol=http \
+>> svn:// ;protocol=http;module=trunk
+>>
+>> Please refer to "[OE-core] [PATCH] u-boot: update to 2013.07" for detail discussions.
+>>
+>> tested info:
+>> MACHINE ??= "qemux86-64"
+>>
+>> $ bitbake world
 >
-> I understand the problem here but maybe this should be checked in
-> bitbake and avoid iterate in all packages?
+> Would you mind running the same in meta-openembedded?
+
+No, I will do it for meta-openembedded.
+
+Thanks,
+Jackie
+
+>
+> I can do the "bitbake world" part.
 >
 
-Yes, you are right, it should be sent to bitbake-devel mailing list,
-and I'm trying to avoid iterating in all packages.
-
-// Robert
-
-
-
+-- 
+Jackie Huang
+WIND RIVER | China Development Center
+MSN:jackielily@hotmail.com
+Tel: +86 8477 8594
+Mobile: +86 138 1027 4745
 
