@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
-	[209.85.212.52])
-	by mail.openembedded.org (Postfix) with ESMTP id B50296BF6F
+Received: from mail-ve0-f170.google.com (mail-ve0-f170.google.com
+	[209.85.128.170])
+	by mail.openembedded.org (Postfix) with ESMTP id E00E36BF85
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 17:10:53 +0000 (UTC)
-Received: by mail-vb0-f52.google.com with SMTP id f12so3077194vbg.25
+	Mon,  2 Sep 2013 17:11:43 +0000 (UTC)
+Received: by mail-ve0-f170.google.com with SMTP id 15so3406364vea.29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2013 10:10:54 -0700 (PDT)
+	Mon, 02 Sep 2013 10:11:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=jtkShjEoDanW0cLxMcvrnoQUo4+hkdzFUc3bTG7bGe0=;
-	b=h1rm1MPHBDvK3j3uxBj1ZIG9i9zkY7tHKW405Rh3NvlJ7JeD43HGjZZTADA10LlPeP
-	7RnEFWBLMc3xOiyZ/l5e3+n5S8Ys88ikl7/kN/nAaN0Wy7SctMAfd6ch2i37FTDjGcey
-	sdSndGg3lYm3qh+sVfgtGoLU5i2G7+F22tuSOGo04hl6FbIEN7EQUeE1gMRRyc2vQL39
-	aSMC8xyE3omHeUHgj5j4808cNsk8GDg5eva8xZS0vNNJmjgbN/KADieimsCByMMxNa3p
-	eFZQ7o7fna2FD09I51fYAzT1g2SiA+v49/DV5nc619Nl2f/myDNb/w9gsad4c2bFNAuj
-	2R/A==
-X-Gm-Message-State: ALoCoQl9cnsFqdDg+quSZV4Y7c2M/FgwWoAZzuLB1Rbu9vUW+bdioz8sKdbcJ5GITF6DjzpMd/jU
-X-Received: by 10.52.187.65 with SMTP id fq1mr19454558vdc.13.1378141854031;
-	Mon, 02 Sep 2013 10:10:54 -0700 (PDT)
+	bh=wOmQPQJmaa5kMXJucOUA7WWiGmVMDopD2QJYaaacCUA=;
+	b=I33H4yUurISGT505YIVVyI4k2QWFypOS4l+QAEqSTqfzCQ/P0iIPPnSKvvmd5sCmXb
+	MdcQ11IOtwXL6PvGD/FWIu4xZ9RSrNgfzvywmz55OGes7/yZ7FhD/kLDH2+yQlckGfZr
+	3RtOKrhEI4103Lhfigoo8XMuiPgLGOGljYJlVPiu1Pk+coQ+x+FIfFQQ7/zL6DPaeHKH
+	yzqmBCVMRXdTVAcz2ZKkMtZdIUJUMOBJjodhtk0Xb1A7051GvxBc7EyNLubhIAPnUJpn
+	KOHAuwNypLEu84TeYMzyJag5Qf/sxC23E9b8sVoaCUGikpOVEtGvIZVB7qjdL5Yp23N0
+	PSyQ==
+X-Gm-Message-State: ALoCoQkV0wDN13wnxVu04ZO8iM4ZvNXrP5/+HQYMZ1lR+Pzn8RXEIEDWPX05wRCV8fAW+zyqdR8b
+X-Received: by 10.220.11.7 with SMTP id r7mr23875292vcr.12.1378141904627; Mon,
+	02 Sep 2013 10:11:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 2 Sep 2013 10:10:33 -0700 (PDT)
-In-Reply-To: <ec8f1bdec56b09ad884f0c19fb5e4eea256e846e.1377792006.git.Martin.Jansa@gmail.com>
+Received: by 10.220.71.201 with HTTP; Mon, 2 Sep 2013 10:11:24 -0700 (PDT)
+In-Reply-To: <75b5f2fe123fe20e0222bf25e4b0c5a1f836b602.1377792006.git.Martin.Jansa@gmail.com>
 References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-	<ec8f1bdec56b09ad884f0c19fb5e4eea256e846e.1377792006.git.Martin.Jansa@gmail.com>
+	<75b5f2fe123fe20e0222bf25e4b0c5a1f836b602.1377792006.git.Martin.Jansa@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 2 Sep 2013 18:10:33 +0100
-Message-ID: <CAJTo0LYV_0=7A93hdVnKK=hOm8BQJ_oNh7K0thEQZusPaDw1XQ@mail.gmail.com>
+Date: Mon, 2 Sep 2013 18:11:24 +0100
+Message-ID: <CAJTo0LbQ7zJjdJ+RbSg_wdWTnRZ-NqW_1rNfQwBniKG9sTRikA@mail.gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][PATCH 08/20] telepathy-mission-control: Add PACKAGECONFIG for upower and connectivity
+Subject: Re: [WIP][PATCH 05/20] xdypinfo: Add dependency on libxcomposite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,15 +44,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 17:10:54 -0000
+X-List-Received-Date: Mon, 02 Sep 2013 17:11:44 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 29 August 2013 17:02, Martin Jansa <martin.jansa@gmail.com> wrote:
-> +PACKAGECONFIG[connman] = "--with-connectivity=connman,,connman"
-> +PACKAGECONFIG[nm] = "--with-connectivity=nm,,networkmanager"
-
-Were those meant to be runtime dependencies?  At least for connman a
-build dependency doesn't make any sense (no headers).
+Typo (transposition in recipe name) in short log.
 
 Ross
 
