@@ -1,34 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 347886BEDB
+Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
+	[209.85.212.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BA0F6BF85
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 16:13:36 +0000 (UTC)
-Received: by mail-wg0-f53.google.com with SMTP id n12so3842101wgh.8
+	Mon,  2 Sep 2013 17:08:13 +0000 (UTC)
+Received: by mail-vb0-f41.google.com with SMTP id g17so3302944vbg.28
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Sep 2013 09:13:36 -0700 (PDT)
+	Mon, 02 Sep 2013 10:08:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=C5sKEYpgXdHl4ec0EwEnNldA6sNkW5NEoy+SL3j2OUs=;
-	b=DoqTlXC821CzruHykGUsfHKA5xlc9S2wT0RQ0NC1HE5MPyOHNQOTDjNHUnYkkNwSsj
-	uWmItUTOm/sJsUjIZ2VVT0ryZyKo0tDG+h6+/82FolGBEhwAU0r+W/XLWcB1WgepwIpb
-	4kVGwy35kKRNg3WmA3ctWChf5ivgntvrV92UfKaTVxjANlCRaPNR94DNA4WoH+hX7ewF
-	oLz1hJ9U3ezlsD3P68rx7K7kb9jtvCwH5Rb6A/CQEPoY87I4IcCIcOraabGmjBb6kWmN
-	nY/IC/F+ntJuA4fYfMO0pJXEeNqXnVkedWm48Enrx0BhbfV2kDwWLabDCywGFczqv786
-	GdrA==
-X-Gm-Message-State: ALoCoQn8QscVqiILEF6Cl7V9k7HGjrGBB3ljzmBQBrIAwQKO/gzHXq/Lnr8k+sK+Qr+SbzCPHFMo
-X-Received: by 10.180.211.19 with SMTP id my19mr14541557wic.19.1378138415898; 
-	Mon, 02 Sep 2013 09:13:35 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id pn7sm18828102wic.6.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 02 Sep 2013 09:13:35 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Sep 2013 17:13:32 +0100
-Message-Id: <1378138412-10373-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] eglinfo: add recipes for x11 and fb backends
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=jSDMKuV3GKEk+ynlVIEIl+CNJb348ISJZvJ38K2ZT90=;
+	b=VlbbIqWZidcTdks3OhRPdpKL64w0Z0jHilAtwuGDNSOpTdyKL3huKlnFuChMzeMTtM
+	AKdE9layhKvp+02ZxFAOE4QRSteBFmuIQLO37ZzAEqqFvdy1fy+0qo4esJfXuxvmns4/
+	xSKnZix8zBUC0u+U0D3pwjDZQSwYb5URf6KPYDVah1tVSSs2bpxlX3HBAJ2q9aMwDqfx
+	2g50kZ6gMlqYGzNOKa45QyHyZxhM0emkroKiGS8qspIy6tefEKkcVJRyFtj5DYtKS8j0
+	hg/cZXuJl39pWHHmbpImpGe6MYuSfyXyL7jkl3g0CsemL/R2b/nYXlUjw25OHEVJrR0f
+	SYjw==
+X-Gm-Message-State: ALoCoQlwznxqKrcIdWckHmp6BnRptArFZAgrY/8LSagot9x26J0EavOCCQ9YSQ4rwJm9tm7UlJPY
+X-Received: by 10.220.186.202 with SMTP id ct10mr24418227vcb.14.1378141693879; 
+	Mon, 02 Sep 2013 10:08:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 2 Sep 2013 10:07:53 -0700 (PDT)
+In-Reply-To: <f774e0b175fe470e3df929b79df3c2e669094cb8.1377792006.git.Martin.Jansa@gmail.com>
+References: <cover.1377792005.git.Martin.Jansa@gmail.com>
+	<f774e0b175fe470e3df929b79df3c2e669094cb8.1377792006.git.Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 2 Sep 2013 18:07:53 +0100
+Message-ID: <CAJTo0LZ72VaQHfJ4bNaNhgm6YpsGTWxCsRKMpD4LGLT5xbfWQg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [WIP][PATCH 12/20] x11vnc: Add PACKAGECONFIG for xfixes, xinerama, xrandr and xdamage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,93 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 16:13:37 -0000
+X-List-Received-Date: Mon, 02 Sep 2013 17:08:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-eglinfo is a small utility for printing out information about EGL as well
-as about its client APIs, OpenGL / OpenGLES 1.x / OpenGLES 2.x / OpenVG.
+On 29 August 2013 17:02, Martin Jansa <martin.jansa@gmail.com> wrote:
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[xfixes] = "--with-xfixes,--without-xfixes,libxfixes"
+> +PACKAGECONFIG[xinerama] = "--with-xinerama,--without-xinerama,libxinerama"
+> +PACKAGECONFIG[xrandr] = "--with-xrandr,--without-xrandr,libxrandr"
+> +PACKAGECONFIG[xdamage] = "--with-xdamage,--without-xdamage,libxdamage"
 
-Recipe originally by Carlos Rafael Giani <dv@pseudoterminal.org>.
+xfixes/xdamage are incredibly useful for VNC servers.  Can you make
+xfixes/xrandr/xdamage dependencies, leaving just xinerama a disabled
+option.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb  |   11 ++++++++
- meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb |    8 ++++++
- meta/recipes-graphics/eglinfo/eglinfo.inc        |   32 ++++++++++++++++++++++
- 3 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
- create mode 100644 meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
- create mode 100644 meta/recipes-graphics/eglinfo/eglinfo.inc
-
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-new file mode 100644
-index 0000000..65b265f
---- /dev/null
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-@@ -0,0 +1,11 @@
-+EGLINFO_PLATFORM ?= "fb"
-+EGLINFO_BINARY_NAME ?= "eglinfo-fb"
-+
-+# .bbappend files in BSP meta layers can add EGLINFO_DEVICE
-+# values if necessary. eglinfo.inc contains default values for
-+# the currently supported devices.
-+# Consult the eglinfo README.md for details
-+
-+include eglinfo.inc
-+
-+SUMMARY += "(Framebuffer version)"
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-new file mode 100644
-index 0000000..18fc893
---- /dev/null
-+++ b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-@@ -0,0 +1,8 @@
-+EGLINFO_PLATFORM ?= "x11"
-+EGLINFO_BINARY_NAME ?= "eglinfo-x11"
-+
-+include eglinfo.inc
-+
-+DEPENDS += "virtual/libx11"
-+
-+SUMMARY += "(X11 version)"
-diff --git a/meta/recipes-graphics/eglinfo/eglinfo.inc b/meta/recipes-graphics/eglinfo/eglinfo.inc
-new file mode 100644
-index 0000000..d53d0ff
---- /dev/null
-+++ b/meta/recipes-graphics/eglinfo/eglinfo.inc
-@@ -0,0 +1,32 @@
-+SUMMARY = "Utility for printing information EGL and its client APIs (OpenGL, OpenGL ES, OpenVG)"
-+SECTION = "graphics"
-+LICENSE = "Zlib"
-+HOMEPAGE = "https://github.com/dv1/eglinfo"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=8d4f33bc3add976f7dfae85dab66f03c"
-+
-+DEPENDS = "virtual/egl"
-+
-+SRC_URI = "git://github.com/dv1/eglinfo.git;branch=master"
-+SRCREV = "4a49ff59545d9b6a8222badab64115f89d3a6774"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit waf
-+
-+# BSP layers should add .bbappend files for the -x11 and -fb .bb recipes,
-+# which append the respective EGL/OpenGLES/OpenVG libraries to DEPENDS
-+# not doing that here, since some platforms might not have OpenGL ES or OpenVG support
-+# (in that case, the eglinfo build scripts automatically disable the relevant code paths)
-+
-+EGLINFO_DEVICE ?= "generic"
-+EGLINFO_DEVICE_raspberrypi ?= "raspberrypi"
-+EGLINFO_DEVICE_beagleboard ?= "beagleboard"
-+EGLINFO_DEVICE_mx6 ?= "imx6"
-+
-+EXTRA_OECONF = "--platform=${EGLINFO_PLATFORM} \
-+                --device=${EGLINFO_DEVICE} \
-+                --sysroot ${STAGING_DIR_TARGET}"
-+
-+do_install_append() {
-+	mv ${D}/${bindir}/eglinfo ${D}/${bindir}/${EGLINFO_BINARY_NAME}
-+}
--- 
-1.7.10.4
-
+Ross
 
