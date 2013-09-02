@@ -1,28 +1,21 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E2F3E6BD13
+Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
+Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 8883F6BDA9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Sep 2013 02:43:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r822hmYn028231
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 1 Sep 2013 19:43:49 -0700 (PDT)
-Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Sun, 1 Sep 2013 19:43:47 -0700
-Message-ID: <5223FB7E.6070306@windriver.com>
-Date: Mon, 2 Sep 2013 10:44:14 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <CAP9ODKqj3M+rxAK20=xU2RfJAAFO4JZyH0nWO9PVRt_exO6Q-A@mail.gmail.com>
-In-Reply-To: <CAP9ODKqj3M+rxAK20=xU2RfJAAFO4JZyH0nWO9PVRt_exO6Q-A@mail.gmail.com>
-X-Originating-IP: [128.224.162.233]
-Subject: Re: Failure
+	Mon,  2 Sep 2013 05:08:34 +0000 (UTC)
+Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
+	[192.168.101.1])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id 8AC9040096;
+	Mon,  2 Sep 2013 06:06:47 +0200 (CEST)
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Sep 2013 07:08:04 +0200
+Message-Id: <1378098484-19371-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] boost: adding serialization to BOOST_LIBS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,31 +28,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 02:43:48 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Sep 2013 05:08:35 -0000
 
-On 09/02/2013 10:08 AM, Otavio Salvador wrote:
-> Hello,
->
-> I got this build failure today; I am about to leave so I removed the
-> tmpdir and will let it running during night. I post more info if/when
-> I reproduce it again:
->
-> Patch redhat-portability.diff does not apply (enforce with -f)
-> ERROR: Function failed: patch_do_patch
-> ERROR: Logfile of failure stored in:
-> /home/otavio/hacking/freescale/fsl-community-bsp-mx6/build/tmp/work/x86_64-linux/elfutils-native/0.155-r0/temp/log.do_patch.20173
-> ERROR: Task 662
-> (virtual:native:/home/otavio/hacking/freescale/fsl-community-bsp-mx6/sources/poky/meta/recipes-devtools/elfutils/elfutils_0.155.bb,
-> do_patch) failed with exit code '1'
->
-> Regards,
->
+Since its initial commit from the classic OpenEmbedded repository
+in 43e94412c45b4b79485a64010c76d89b245bb235, serialization was
+commented out, reportedly due to some issue with powerpc in the
+boost version 1.36. In the classic OpenEmbedded repository,
+serialization has been added again since version 1.4x.
 
-I got the same error now and then when building native-elfutils. Every 
-time the error appears, I have to clean the sstate cache for elfutils.
+The commit removes the outdated comment and adds serialization to
+the BOOST_LIBS after testing `bitbake boost` and bitbaking some
+applications using boost from the meta-ros layer for qemuppc.
 
-Regards,
-Chen Qi
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+---
+ meta/recipes-support/boost/boost.inc |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 5d20b11..5a219c5 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -11,15 +11,13 @@ BOOST_LIBS = "\
+ 	iostreams \
+ 	program_options \
+ 	regex \
++	serialization \
+ 	signals \
+ 	system \
+ 	test \
+ 	thread \
+ 	"
+ 
+-# FIXME: for some reason this fails on powerpc
+-#BOOST_LIBS += "serialization"
+-
+ # To enable python, uncomment the following:
+ #BOOST_LIBS += "python"
+ #DEPENDS += "python"
+-- 
+1.7.9.5
+
 
