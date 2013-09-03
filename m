@@ -1,40 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 114846BAAE
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id CFFFD6BE5E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 18:57:53 +0000 (UTC)
-Received: by mail-ve0-f178.google.com with SMTP id ox1so4316273veb.23
+	Tue,  3 Sep 2013 19:43:42 +0000 (UTC)
+Received: by mail-ve0-f180.google.com with SMTP id pb11so4293980veb.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2013 11:57:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=h+QUg1P736j6d3rheziyt0mb3PYd7U410fAhPSvZ860=;
-	b=PSLXyzPkXy6kzrCv1fz9+Fp/n34VG/jEdRq1bzeK/GDjUrt3BUCW9Q/wFKAEtJbOGM
-	defe7FeZmIDiAqdS2lARe4sqRdrLizja0I0RmBlDFXvtXjQWoQBNOEkV7wnDGP+OytWd
-	opVGAnWPX/7oKwHd/BpfalK7vmPby6m1SUDJJ4cnujUAS6Y97TplTWV9M0J5HvnedISh
-	mB+W+GA9sCCOEop6UcJ87yX5yMkz02oKq4HQmu2z4vGFe7Y6YH5EIGof8zSr2A6XtpcJ
-	vn7zjELowNlqAQ3TOaV2ZNrOwBpBEMlGZZjw3bLvB9t9nxlHTj0bBWDKfWDwMmizDrDc
-	EN+A==
-X-Gm-Message-State: ALoCoQnbLMdlwXwuE/lMywh6vhj1zwXJDKEN8SK4s5tTsRUBMUgDZX5U5ZOZBKhBWaZ0rB2fmNOT
-X-Received: by 10.52.119.228 with SMTP id kx4mr3883206vdb.12.1378234674753;
-	Tue, 03 Sep 2013 11:57:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 3 Sep 2013 11:57:34 -0700 (PDT)
-In-Reply-To: <CAJTo0LbvXZ08r2AY1=_JUmeJ50rL25WP_6yM69f7WUXnmoiMKg@mail.gmail.com>
-References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-	<ec8f1bdec56b09ad884f0c19fb5e4eea256e846e.1377792006.git.Martin.Jansa@gmail.com>
-	<CAJTo0LYV_0=7A93hdVnKK=hOm8BQJ_oNh7K0thEQZusPaDw1XQ@mail.gmail.com>
-	<20130903180847.GC11500@jama>
-	<CAJTo0LbvXZ08r2AY1=_JUmeJ50rL25WP_6yM69f7WUXnmoiMKg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 3 Sep 2013 19:57:34 +0100
-Message-ID: <CAJTo0LaB75_mQG7CP7gEmt1nwd2DxPkzGQsj_nQ9dQv=68biqg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][PATCH 08/20] telepathy-mission-control: Add PACKAGECONFIG for upower and connectivity
+	Tue, 03 Sep 2013 12:43:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=O3/KdivPn/P1TBW5BxIHL72HeMyIC7PUGe18StPSOrs=;
+	b=qfcVkCoZ1Lt/gttXJRYTI8olEF5pmBQ+YAEHS0NFCGDRJF4TtL/0L3tVf/TP+7Onhe
+	hl19oLQYT5UG8QouO7eUG1pYrIAc+iRIMQ4CgkTsCCsrJKRScUXjAxoA43/Ag/51nVYi
+	rhNZoWgswex2la0jX4ZL6VQ5TdUtGNMLtj1KjlHJV8BxeBwnz4rzC48v4+MJUdfgXGNm
+	02izpBToydFqLF2e24HgOL9V/24EOn0jzXE4bNsm3Brmdty8wRJ6KYJRY4ekBeG9TTHU
+	UBtTeywSgkTT3TGe4jdrEDvHvriVAPBIIOvyUGJYbdYjMUlzUTTHsTQIdgb5wG0IsaB3
+	czKg==
+X-Received: by 10.58.165.4 with SMTP id yu4mr107754veb.39.1378237422952;
+	Tue, 03 Sep 2013 12:43:42 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([187.23.155.55])
+	by mx.google.com with ESMTPSA id qh6sm5239714vec.0.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 03 Sep 2013 12:43:42 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue,  3 Sep 2013 16:43:26 -0300
+Message-Id: <1378237406-11679-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.4.rc3
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] core-image-directfb: Use 'distro_features_check' class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,18 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 18:57:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 03 Sep 2013 19:43:43 -0000
 
-On 3 September 2013 19:51, Burton, Ross <ross.burton@intel.com> wrote:
-> Ah, so mission-control is Doing It Wrong - that .pc file is for
-> connman plugins.  I'll harass upstream but I do wonder what the script
-> is detecting as there isn't anything like a libconnman.so to link
-> against.
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-graphics/images/core-image-directfb.bb | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-So upstream has already fixed this by deleting all of the code and
-using GLib instead.  A worthy approach, and when they release we can
-ditch the PACKAGECONFIGs.
+diff --git a/meta/recipes-graphics/images/core-image-directfb.bb b/meta/recipes-graphics/images/core-image-directfb.bb
+index 3a74e94..b6187eb 100644
+--- a/meta/recipes-graphics/images/core-image-directfb.bb
++++ b/meta/recipes-graphics/images/core-image-directfb.bb
+@@ -6,16 +6,13 @@ PR="r0"
+ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
+                     file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
+ 
+-inherit core-image
++inherit core-image distro_features_check
++
++REQUIRED_DISTRO_FEATURES = "directfb"
++CONFLICT_DISTRO_FEATURES = "x11"
+ 
+ IMAGE_INSTALL += "\
+ 	${CORE_IMAGE_BASE_INSTALL} \
+ 	packagegroup-core-basic \
+ 	packagegroup-core-directfb \
+ "
+-
+-python __anonymous () {
+-	packages = d.getVar('DISTRO_FEATURES', True).split()
+-	if "x11" in packages:
+-		raise bb.parse.SkipPackage("FEATURE \"x11\" is in DISTRO_FEATURES, Please remove \"x11\" from DISTRO_FEATURES, use \"directfb\" instead of it\n")
+-}
+-- 
+1.8.4.rc3
 
-Ross
 
