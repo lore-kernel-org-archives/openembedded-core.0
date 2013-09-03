@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 07F696BEF5
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B04876BEF5
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  3 Sep 2013 15:16:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r83FGoe4024994
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r83FGnNx010277
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Sep 2013 08:16:50 -0700 (PDT)
+	Tue, 3 Sep 2013 08:16:49 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 3 Sep 2013 08:16:48 -0700
+	14.2.347.0; Tue, 3 Sep 2013 08:16:49 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 3 Sep 2013 11:16:43 -0400
-Message-ID: <ce9e2f9982e150dd1fdbb8a6b624d38784d27705.1378221277.git.bruce.ashfield@windriver.com>
+Date: Tue, 3 Sep 2013 11:16:44 -0400
+Message-ID: <a916b1414c3d319860b0e1b0ac82f4204c53cb4e.1378221277.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1378221277.git.bruce.ashfield@windriver.com>
 References: <cover.1378221277.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] kernel-yocto: improve error checking on non-git repos
+Subject: [PATCH 2/3] linux-yocto/3.10: fix YAFFS2 build issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,57 +33,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 15:16:49 -0000
+X-List-Received-Date: Tue, 03 Sep 2013 15:16:50 -0000
 Content-Type: text/plain
 
-While non-git kernel repos are not the preferred format for a kernel upstream,
-they are supported. Depending on the creator of the archive the expanded
-source directory name varies. If the recipe for the kernel doesn't properly
-set S to the right value, a cryptic git error message is produced. We can
-detect the situation and offer some advice on how to fix the issue.
+The 3.10 yaffs2 refresh caused several build errors. One due the single kernel
+version support being incomplete, and two others due to core kernel changes
+creating incompatbilies with the yaffs2 code.
 
-A second check is also added in this commit for archive based kernel repos
-which won't have a SRCREV to validate. If we have no SRCREV or SRCREV is
-INVALID, we can exit the branch validation step immediately. This saves yet
-another cryptic git error message and simplifies a custom tgz based recipe.
+The following three commits fix the issues.
+
+  b76f445 yaffs2: disable procfs support
+  ecfe5ed yaffs2: convert to kuid_t and kgid_t
+  fa8efc9 yaffs2: restore multi-kernel version functionality
+
+bumping the SRCREVs for all BSPs to import the fix.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass |   13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   14 +++++++-------
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 26d449a..97a5fa7 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -176,7 +176,17 @@ do_kernel_checkout() {
- 		# case 3: we have no git repository at all. 
- 		# To support low bandwidth options for building the kernel, we'll just 
- 		# convert the tree to a git repo and let the rest of the process work unchanged
-+		
-+		# if ${S} hasn't been set to the proper subdirectory a default of "linux" is 
-+		# used, but we can't initialize that empty directory. So check it and throw a
-+		# clear error
-+
- 	        cd ${S}
-+		if [ ! -f "Makefile" ]; then
-+			echo "[ERROR]: S is not set to the linux source directory. Check "
-+			echo "         the recipe and set S to the proper extracted subdirectory"
-+			exit 1
-+		fi
- 		git init
- 		git add .
- 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
-@@ -288,7 +298,8 @@ do_validate_branches() {
- 	set +e
- 	# if SRCREV is AUTOREV it shows up as AUTOINC there's nothing to
- 	# check and we can exit early
--	if [ "${SRCREV_machine}" = "AUTOINC" ]; then
-+	if [ "${SRCREV_machine}" = "AUTOINC" ] || "${SRCREV_machine}" = "INVALID" ] ||
-+	   [ "${SRCREV_machine}" = "" ]; then
- 		return
- 	fi
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+index cfcb711..797cad7 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
+@@ -3,8 +3,8 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH = "standard/preempt-rt/base"
+ KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
  
+-SRCREV_machine ?= "8a9b4902683f586f7d656c2e6747e314a5e1ed0e"
+-SRCREV_machine_qemuppc ?= "655d20d4f64dc053b40ac8d8fe44b82dec5e130a"
++SRCREV_machine ?= "94e63f0640ef3680a605e82ee19f3de688f0ec59"
++SRCREV_machine_qemuppc ?= "2c0455935f1964ce69c70d0f7980a656040e50ea"
+ SRCREV_meta ?= "cd502a88148ab214b54860f97a96f41858fd6446"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+index 5b84620..2d85537 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
+@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.10.9"
+ 
+ KMETA = "meta"
+ 
+-SRCREV_machine ?= "7144bcc4b8091675bfcf1941479067857b6242da"
++SRCREV_machine ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
+ SRCREV_meta ?= "cd502a88148ab214b54860f97a96f41858fd6446"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+index 7121881..b6d9eae 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
+@@ -3,13 +3,13 @@ require recipes-kernel/linux/linux-yocto.inc
+ KBRANCH_DEFAULT = "standard/base"
+ KBRANCH = "${KBRANCH_DEFAULT}"
+ 
+-SRCREV_machine_qemuarm ?= "24d53cd6ca4c3ae8f5dd2ff840f9275327d955ee"
+-SRCREV_machine_qemumips  ?= "0480771238bb87031b79ecb1ee6bce7bfe6ffb1c"
+-SRCREV_machine_qemuppc ?= "a9c383957f69e70fd2cb27d885160303a305cf57"
+-SRCREV_machine_qemux86 ?= "7144bcc4b8091675bfcf1941479067857b6242da"
+-SRCREV_machine_qemux86-64 ?= "7144bcc4b8091675bfcf1941479067857b6242da"
+-SRCREV_machine_qemumips64 ?= "10a8db0603d7186633a6bf90e2308710763e718e"
+-SRCREV_machine ?= "7144bcc4b8091675bfcf1941479067857b6242da"
++SRCREV_machine_qemuarm ?= "d8c48090a1272c69e009c4ef5fa675fc8db178cc"
++SRCREV_machine_qemumips  ?= "181188440e96896fbc69fa2c5ea5d2ee43304da0"
++SRCREV_machine_qemuppc ?= "c0a23bc4b4d6be3d2f09a81dfeb3456f51b8d439"
++SRCREV_machine_qemux86 ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
++SRCREV_machine_qemux86-64 ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
++SRCREV_machine_qemumips64 ?= "3a0d015e9908b69666c7f7780502aed4d115de1d"
++SRCREV_machine ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
+ SRCREV_meta ?= "cd502a88148ab214b54860f97a96f41858fd6446"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
 -- 
 1.7.10.4
 
