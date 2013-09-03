@@ -1,24 +1,26 @@
-Return-Path: <Maxin.John@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 201906C033
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C3B266B3B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 16:06:52 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Tue, 3 Sep 2013
-	18:06:52 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 542C528B833;
-	Tue,  3 Sep 2013 18:06:52 +0200 (CEST)
-Date: Tue, 3 Sep 2013 18:06:52 +0200
-From: "Maxin B. John" <maxin.john@enea.com>
-To: Saul Wold <sgw@linux.intel.com>
-Message-ID: <20130903160652.GA26072@sestofb10.enea.se>
+	Tue,  3 Sep 2013 16:35:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r83GZ3Lw021052
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Sep 2013 09:35:03 -0700 (PDT)
+Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 3 Sep 2013 09:35:02 -0700
+Date: Tue, 3 Sep 2013 10:41:37 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: "Peter A. Bigot" <pab@pabigot.com>
+Message-ID: <20130903104137.16fd7f6c@e6410-2>
+In-Reply-To: <1377477606-17591-1-git-send-email-pab@pabigot.com>
+References: <1377477606-17591-1-git-send-email-pab@pabigot.com>
+X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <52260359.5090507@linux.intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Received-SPF: None (SESTOEX08.enea.se: maxin.john@enea.com does not
-	designate permitted sender hosts)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sqlite3: update to version 3.8.0.1
+Subject: Re: [PATCH] pseudo: fix memory leak and missed privilege drop
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +33,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 16:06:54 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Sep 2013 16:35:03 -0000
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Sun, 25 Aug 2013 19:40:06 -0500
+"Peter A. Bigot" <pab@pabigot.com> wrote:
 
-On Tue, Sep 03, 2013 at 08:42:17AM -0700, Saul Wold wrote:
-> On 09/02/2013 04:36 AM, maxin.john@enea.com wrote:
-> >From: "Maxin B. John" <maxin.john@enea.com>
-> >
-> >Upgrade to latest version 3.8.0.1
-> >
->
-> Is there something special about this update?
-Apart from the regular bug fixes and some new features,=20
-there is nothing special about this update.
- =20
-> Otherwise I will hold this until after 1.5 since we are now in
-> stabilization and do not do updates of packages at this time,
-> especially something that is used by pseudo.
-I can understand that. This change can wait.
+> qemu.bbclass adds PSEUDO_UNLOAD=1 in qemu_run_binary to avoid reference to
+> pseudo functions that may not exist in the target environment.  This patch
+> detects the addition of that variable within the environment to which the
+> call applies, even if not present in the parent environment.
+> 
+> As a side effect it fixes a memory leak.
 
-> Thanks
-> =BB=B7Sau!
-> >Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> >---
-<snip>
+The memory leak was quasi-intentional -- I was aware of it, but I felt that
+freeing memory right before an exec() was probably silly.
 
-Thanks and Regards,
-Maxin
+I'm currently waffling on a design question: It's obvious that, if execve()
+has PSEUDO_UNLOAD=1 in envp, we want pseudo to be unloaded.
+
+What if execve() doesn't have PSEUDO_UNLOAD=1, but some other thing has
+happened which caused PSEUDO_UNLOAD to be 1 in the process that's calling
+execve(), but which had not yet resulted in pseudo being unloaded? For
+instance, I think there's at least one thing (memory is weak today, so I
+can't remember at all where, but I think it might have been one of the Python
+popen()-relatives) which lets you specify an environment, and if you do, that
+is the *entire* environment -- it does not inherit.
+
+My intuition is that if PSEUDO_UNLOAD is 1 in *either* of these, that should
+win. But then we want a way to say "no, really, don't unload pseudo", which
+means I might need to check for something like PSEUDO_UNLOAD=0 in envp.
+
+So my proposed logic would be:
+
+* if envp contains a value for PSEUDO_UNLOAD, act according to that value
+* otherwise if pseudo_get_value("PSEUDO_UNLOAD") exists, use that
+* otherwise act as though PSEUDO_UNLOAD is not set
+
+(Where "is not set" implies "make sure pseudo's environment variables are
+all present and expected to work.)
+
+... But all of this is secondary. I think we should put this patch in-tree
+for now so we can have the bug go away, and I can then spend a while
+navel-gazing and deciding what should go into the official pseudo tree, which
+is currently in a state of disrepair. Excellent catch!
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
