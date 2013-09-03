@@ -1,34 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 70B9E6BC09
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 10:27:16 +0000 (UTC)
-Received: by mail-ve0-f173.google.com with SMTP id cy12so3754792veb.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2013 03:27:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=X6usSqCj8hfpGdW9hVetzLfw1kYvuKeyLgvhiuFF2zk=;
-	b=P4vrJ+NHwus65alUCOR3MwbBbtSwpWdyCQDWukS1EOgg2kr21w12L3I4qYGgAhjPQh
-	if1Y/S3wyUEdZWApk+I9ACyEZP5SlN0MHKMPcU60DySORsya/8FHjMyj1wUO4a4P6s3i
-	nHq/2jtCQIYqKdoyDN3n7iHkQWqTv16aJir4QIVVY0FrxlZ25+8wT/C81sXSHkr9+aYu
-	U2dooKcOabQ5SkCT5LKgzjsIMPDc7poERDfr/W4glfLW4sp5dclt/hnDZMrpKv7Ube21
-	vq7yOKGVfxvsSf0y6JANfi6m5HrnBywM4WLITh+TeSsRZLwV8u5NKQ2XnboP2PL6FBKM
-	gdEw==
-X-Gm-Message-State: ALoCoQnlSV9zn3Z2MKrMYKl9hPdrsqdRcEFdmLUBYfJXPOb8SOBQsi5gj3cYToSihCtDhjbJ/n9y
-X-Received: by 10.52.178.198 with SMTP id da6mr6318111vdc.26.1378204036917;
-	Tue, 03 Sep 2013 03:27:16 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 3 Sep 2013 03:26:56 -0700 (PDT)
-In-Reply-To: <20130823215953.GF3544@jama>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E7F26BC26;
+	Tue,  3 Sep 2013 10:48:31 +0000 (UTC)
+Received: by mail-ee0-f50.google.com with SMTP id d51so2906648eek.37
+	for <multiple recipients>; Tue, 03 Sep 2013 03:48:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=zbIQd9GXonw/q7c+NRd5pzG8WjqKB3TmxKtiWjLJG1o=;
+	b=X0Lz7oNjegvo63la0qDZYaN6Dd1Z9ITzPOOJmPDsDOA1a2sEMH0TShLzd7xqyeg78U
+	tbVOAPLyiPFeKT+Yeb1eIwW0Rki0c+vn7tQSzV3NrET3sB/pg1rj5cIRWXNGzYynI7+G
+	r33EmcUdMyI7D6M2UMSbH7wXN+f3Km4NedgHoOOWdGnMNY4O7M6s/kAALuE/dBLERUv/
+	EKKGvSJ+pk9vwLSofSqWIVcVj7Rej8tUpIk4Qf6NDuocwWIsM+lOdgEjk5QhdFV9CbAH
+	YTGQf0uWVGsw9n2XNnGaJ3VnBFHXnBUusmzqZDl1reO+VG7xwm6G87Ba40dEKADf/HSz
+	73zw==
+X-Received: by 10.14.89.72 with SMTP id b48mr20607229eef.43.1378205311454;
+	Tue, 03 Sep 2013 03:48:31 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	j7sm30381206eeo.15.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 03 Sep 2013 03:48:31 -0700 (PDT)
+Date: Tue, 3 Sep 2013 12:49:48 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130903104948.GC3544@jama>
 References: <20130820142105.423E0503D1@opal> <20130823215953.GF3544@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 3 Sep 2013 11:26:56 +0100
-Message-ID: <CAJTo0LaTDeTnifQXoSq63tUxruJ1XvAgwvnGT-xOh8_YcPh4Gg@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+	<CAJTo0LaTDeTnifQXoSq63tUxruJ1XvAgwvnGT-xOh8_YcPh4Gg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LaTDeTnifQXoSq63tUxruJ1XvAgwvnGT-xOh8_YcPh4Gg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: "openembedded-commits@lists.openembedded.org"
 	<openembedded-commits@lists.openembedded.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -45,13 +46,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 10:27:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 03 Sep 2013 10:48:32 -0000
+X-Groupsio-MsgNum: 44412
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="pCBpnpYZ3zWUlzNh"
+Content-Disposition: inline
 
-On 23 August 2013 22:59, Martin Jansa <martin.jansa@gmail.com> wrote:
-> | failed to load "./apple-red.png": Couldn't recognize the image file format for file './apple-red.png'
+--pCBpnpYZ3zWUlzNh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-That's odd.  Can you replicate this on demand or was it a transient failure?
+On Tue, Sep 03, 2013 at 11:26:56AM +0100, Burton, Ross wrote:
+> On 23 August 2013 22:59, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > | failed to load "./apple-red.png": Couldn't recognize the image file f=
+ormat for file './apple-red.png'
+>=20
+> That's odd.  Can you replicate this on demand or was it a transient failu=
+re?
 
-Ross
+I haven't seen it on jenkins since then.
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--pCBpnpYZ3zWUlzNh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlIlvswACgkQN1Ujt2V2gBx2UwCgsHsMnoz8HNbia8o9XP59HMCe
+5YwAn2mHUfAlxZnAdZiw0CyIg4XSZB+V
+=eSZk
+-----END PGP SIGNATURE-----
+
+--pCBpnpYZ3zWUlzNh--
