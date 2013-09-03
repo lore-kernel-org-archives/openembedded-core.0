@@ -1,26 +1,30 @@
-Return-Path: <denis@denix.org>
-Received: from vms173005pub.verizon.net (vms173005pub.verizon.net
-	[206.46.173.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 68C9D6BE11;
-	Mon,  2 Sep 2013 21:41:55 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173005.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009))
-	with ESMTPA id <0MSI00CFVPLG7B50@vms173005.mailsrvcs.net>; Mon,
-	02 Sep 2013 16:41:50 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 030F920088; Mon,
-	02 Sep 2013 17:41:38 -0400 (EDT)
-Date: Mon, 02 Sep 2013 17:41:38 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Message-id: <20130902214138.GA30776@denix.org>
-References: <5772089.rktQrocuuR@helios>
-MIME-version: 1.0
-In-reply-to: <5772089.rktQrocuuR@helios>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: Heads up: _remove in recipe namespace - check your layers
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 375F16BEF5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Sep 2013 02:06:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8326Tb4013716
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 2 Sep 2013 19:06:29 -0700 (PDT)
+Received: from [128.224.162.233] (128.224.162.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 2 Sep 2013 19:06:26 -0700
+Message-ID: <5225443F.8060509@windriver.com>
+Date: Tue, 3 Sep 2013 10:06:55 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1378121740.git.Qi.Chen@windriver.com>
+	<35139b57aba1b70ba9780e19765c1ef54cd4bab7.1378121740.git.Qi.Chen@windriver.com>
+	<52247D78.4070406@pabigot.com>
+In-Reply-To: <52247D78.4070406@pabigot.com>
+X-Originating-IP: [128.224.162.233]
+Subject: Re: [PATCH 2/2] sysklogd: lower the ALTERNATIVE_PRIORITY in case of systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 21:41:56 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Tue, 03 Sep 2013 02:06:26 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 02, 2013 at 10:54:20AM +0100, Paul Eggleton wrote:
-> Hi all,
-> 
-> With the recent addition of a _remove operator into BitBake in master [1] any 
-> use of _remove_ within a name or _remove at the end of a name within recipe 
-> namespace (i.e. function and variable names) needs to be changed to avoid 
-> unexpected behaviour. This change is now in master and will be in the upcoming 
-> release. Please check the layers you maintain and change any instances of 
-> these to avoid the use of _remove. You can use the following command to find 
-> these (of course ignoring anything that's not in a recipe, bbclass, inc file 
-> etc.):
-> 
->   git grep _remove[^a-zA-Z]
-> 
-> In particular I've checked a number of layers that I have fetched locally, and 
-> references exist in meta-arago-distro and meta-angstrom, so these will need to 
-> be fixed as soon as possible.
+On 09/02/2013 07:58 PM, Peter A. Bigot wrote:
+> On 09/02/2013 06:40 AM, Qi.Chen@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
+>>
+>> The sysklogd package hasn't got systemd support yet. So in case of
+>> a systemd based system, the commands and corresponding configuration
+>> files should have a lower priority than that of the busybox's syslogd
+>> and klogd utilities. These two utilities from busybox have internal
+>> systemd support if CONFIG_FEATURE_SYSTEMD is enabled. And that config
+>> item is enabled by default.
+>>
+>> [YOCTO #5066]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/recipes-extended/sysklogd/sysklogd.inc |    9 ++++++++-
+>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc 
+>> b/meta/recipes-extended/sysklogd/sysklogd.inc
+>> index 1167328..30dac2d 100644
+>> --- a/meta/recipes-extended/sysklogd/sysklogd.inc
+>> +++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+>> @@ -38,7 +38,14 @@ do_install () {
+>>       install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
+>>   }
+>>   -ALTERNATIVE_PRIORITY = "100"
+>> +python () {
+>> +    # sysklogd package has no internal systemd support, so we weigh 
+>> busybox's
+>> +    # sysklogd utility over it in case of systemd
+>> +    if 'systemd' in d.getVar("DISTRO_FEATURES", True).split():
+>> +        d.setVar("ALTERNATIVE_PRIORITY", "10")
+>> +    else:
+>> +        d.setVar("ALTERNATIVE_PRIORITY", "100")
+>> +}
+>
+> Is there a reason an anonymous python block is better for this purpose 
+> than:
+>
+> ALTERNATIVE_PRIORITY = 
+> "${@base_contains('DISTRO_FEATURES','systemd','10','100',d)}"
+>
+> ?
+>
+Thanks. I'll send out a V2.
 
-Paul,
+Best Regards,
+Chen Qi
 
-Thanks for the heads up! While meta-arago is currently based on Dylan, I've
-made the necessary change in my layer so it will be ready for the master.
-Thanks.
+>>   ALTERNATIVE_${PN} = "syslogd klogd syslog-init syslog-conf"
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
---
-Denys
 
