@@ -1,36 +1,30 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C8DF6BEA6
+Return-Path: <fgretief@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B32046BD75
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 19:50:02 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id m6so3371964oag.32
+	Tue,  3 Sep 2013 23:50:54 +0000 (UTC)
+Received: by mail-la0-f51.google.com with SMTP id es20so5327906lab.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2013 12:50:03 -0700 (PDT)
+	Tue, 03 Sep 2013 16:50:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:content-type;
-	bh=TNCbhHS0QEgm61eFYFxvU2NvgEk+szcwk40i9zdRmKw=;
-	b=mnjDVeqbuxysCkpGnpZ2C3fYdUhJACoEQYjRKDbe3XQWNSoWYts1vRtyLx7nDfrpfZ
-	mTL7cyesfk8L1M5M3eDUM5EYpK21rKftzZPK/3ARiw0qDRy4v6T7ZmypoT3FppIVEnco
-	C4IOKwEYndzCPT+Flf6rIrKVWPl7OXXu4P5fnoSmiT24CD/mwJmgg+ywS/Bkd4wqQyuN
-	CSUjqZyt9HEOQF+kh218rnI1CIzcUtRDRahW1Y2aj2P+5zQdglf3IF+q3Jeb5TJ3zWmL
-	vJDhw23DK8Ex+Rj6a62qL1h4sdC2F75AFs99Gn0wUbDdQAgil7CE1fepVzvURivEbKRg
-	2KMw==
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=YXm90gy+cm8x1WhLeoOgx7WiCKhpBo3FRucy39TOXqA=;
+	b=Scwxgd19OQ+S5HXTmnqs1Iam8y748xFQnu4Sl/n1uFu0ihSR9hZ25pQbdWB//f5eMf
+	wNqYSiKCdQVxO1va3eu8rP18kkQHDqT2fNvysU+93aAqluUqNdIZppg9eCc7rFwaRCKj
+	zyJpBDBqmbXrMjiMOrcnL1Pju8+6qLJMS5GnhwSJCftguJH1sI3iy+6KAI2kUh0jD9mN
+	SZ8kw08YpUgVIMiIZy3ZXEcYnjX0v/sZm5veoQOeTmdreSE7sSlli1j+pSEI/BKDBLTx
+	A8Bn+laDzCJLlJNoIHAAjjO1O2SiMefduDoYVzwlc62hq8ibpbF8pNzoQe00ACtqW4nJ
+	Ng+g==
 MIME-Version: 1.0
-X-Received: by 10.182.199.74 with SMTP id ji10mr22067063obc.69.1378237802964; 
-	Tue, 03 Sep 2013 12:50:02 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 3 Sep 2013 12:50:02 -0700 (PDT)
-In-Reply-To: <1377269339-6139-3-git-send-email-otavio@ossystems.com.br>
-References: <1377269339-6139-1-git-send-email-otavio@ossystems.com.br>
-	<1377269339-6139-3-git-send-email-otavio@ossystems.com.br>
-Date: Tue, 3 Sep 2013 16:50:02 -0300
-X-Google-Sender-Auth: ia6cPdQ8FaiIxrNz-yoM9XVjkxc
-Message-ID: <CAP9ODKpy3jnL8rWgJYr+COB67HM6N5Wy17gZBHn43w=YdpDdkA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH v5 2/2] uboot-config.bbclass: Allow choose of U-Boot config for machine
+X-Received: by 10.152.203.233 with SMTP id kt9mr3633244lac.29.1378242802003;
+	Tue, 03 Sep 2013 14:13:22 -0700 (PDT)
+Received: by 10.152.37.102 with HTTP; Tue, 3 Sep 2013 14:13:21 -0700 (PDT)
+Date: Tue, 3 Sep 2013 23:13:21 +0200
+Message-ID: <CAFpw0gLn_s_SYaj9mMtYJvBfc1dqYEzYcXFn04J9+Xm1UroLeA@mail.gmail.com>
+From: Francois Retief <fgretief@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: GCC search paths in MinGW SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +37,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 19:50:02 -0000
+X-List-Received-Date: Tue, 03 Sep 2013 23:50:55 -0000
+Content-Type: multipart/alternative; boundary=001a11345984a0b5f304e5812874
+
+--001a11345984a0b5f304e5812874
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Aug 23, 2013 at 11:48 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> Some machines provide several possible configurations and until now
-> there was no easy way for user to override the default setting.
->
-> This class provides a system similar to PACKAGECONFIG but for
-> U-Boot. The format is:
->
-> UBOOT_CONFIG ??= <default>
-> UBOOT_CONFIG[foo] = "config,images"
->
-> There are two possible parameters:
->
->  - config: it is used to set UBOOT_MACHINE
->  - images: it is used to append onto IMAGE_FSTYPES
->
-> Below there's an usage example:
->
-> ,----[ i.MX6Q SABRE AUTO based example ]
-> | UBOOT_CONFIG ??= "sd"
-> | UBOOT_CONFIG[sd] = "mx6qsabreauto_config,sdcard"
-> | UBOOT_CONFIG[eimnor] = "mx6qsabreauto_eimnor_config"
-> | UBOOT_CONFIG[nand] = "mx6qsabreauto_nand_config,ubifs"
-> | UBOOT_CONFIG[spinor] = "mx6qsabreauto_spinor_config"
-> `----
->
-> User can, from local.conf or environment, use UBOOT_CONFIG=nand and
-> override the default setting, as:
->
-> ,----[ Override example from command line ]
-> | MACHINE=imx6qsabreauto UBOOT_CONFIG=nand bitbake core-image-base
-> `----
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Hi all,
 
-Could someone provide a feedback on this? I'd like to fix the gabs on
-this and propose a new version of it.
+Thanks to Richard's recent improvements in the oe-core tree, I finally got
+my first MinGW build to compile through and generate a SDK tarball.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Next issue is that on windows GCC is unable to find the crt1.o, crti.o and
+crtbegin.o files. when compiling a small hello world app (see
+gist<https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03>[1]
+for gcc verbose output). I verified that the files are indeed in the
+SDK folders and was correctly unpacked.
 
+Next, I checked the search path (-L) options and they point to the
+respective directories where the files reside.
+
+Is it hard coded somewhere GCC should look for these files?  Can anyone
+give me some pointers where to start looking?
+
+Cheers,
+  Francois
+
+ps. I have noticed that there is a relocate_sdk.py file in the root of the
+SDK folder. What is it's purpose and can it have anything to do with the
+GCC search paths?
+
+[1]
+https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03
+[2] https://github.com/fgretief/meta-mingw
+
+--001a11345984a0b5f304e5812874
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi all,<br><br></div><div>Thanks to Richard&#39;s rec=
+ent improvements in the oe-core tree, I finally got my first MinGW build to=
+ compile through and generate a SDK tarball.<br><br></div><div>Next issue i=
+s that on windows GCC is unable to find the crt1.o, crti.o and crtbegin.o f=
+iles. when compiling a small hello world app (see <a href=3D"https://gist.g=
+ithub.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03">gist</=
+a> [1] for gcc verbose output). I verified that the files are indeed in the=
+ SDK folders and was correctly unpacked. <br>
+<br></div><div>Next, I checked the search path (-L) options and they point =
+to the respective directories where the files reside.<br><br></div><div>Is =
+it hard coded somewhere GCC should look for these files?=A0 Can anyone give=
+ me some pointers where to start looking?<br>
+</div><div><br></div><div>Cheers,<br></div><div>=A0 Francois<br><br></div><=
+div>ps. I have noticed that there is a relocate_sdk.py file in the root of =
+the SDK folder. What is it&#39;s purpose and can it have anything to do wit=
+h the GCC search paths?<br>
+</div><div></div><div><div><br>[1] <a href=3D"https://gist.github.com/fgret=
+ief/6429416#file-mingw-gcc-verbose-output-2013-09-03">https://gist.github.c=
+om/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03</a><br>[2] <a =
+href=3D"https://github.com/fgretief/meta-mingw">https://github.com/fgretief=
+/meta-mingw</a><br>
+<br></div></div></div>
+
+--001a11345984a0b5f304e5812874--
