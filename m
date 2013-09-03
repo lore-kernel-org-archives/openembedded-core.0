@@ -1,26 +1,23 @@
-Return-Path: <Valentin.Cobelea@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id C71DD6BA7D
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C834C6010E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 12:53:33 +0000 (UTC)
-Received: from localhost.enea.se (192.168.14.201) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Tue, 3 Sep 2013
-	14:53:30 +0200
-Message-ID: <5225DBC9.7040801@enea.com>
-Date: Tue, 3 Sep 2013 15:53:29 +0300
-From: Vali Cobelea <valentin.cobelea@enea.com>
-Organization: ENEA
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>
-References: <cover.1378208967.git.liezhi.yang@windriver.com>
-	<de9091dfe0d902de86a95fa1856c44f7fc4e6544.1378208967.git.liezhi.yang@windriver.com>
-	<5225DB39.80204@windriver.com>
-In-Reply-To: <5225DB39.80204@windriver.com>
-X-Originating-IP: [192.168.14.201]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] archiver.bbclass: exclude recursive symlink for diff
+	Tue,  3 Sep 2013 13:01:20 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Sep 2013 06:01:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,1014,1367996400"; d="scan'208";a="390373303"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2013 06:01:21 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 7EABD2C8001;
+	Tue,  3 Sep 2013 06:01:18 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Sep 2013 16:01:11 +0300
+Message-Id: <1378213271-12755-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] lib/oeqa/runtime: smart: serve repo on host ip only and increase timeout
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,78 +30,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 12:53:34 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Sep 2013 13:01:21 -0000
 
-Hi,
+Don't start the http server on 0.0.0.0, listen on host ip (end of tap interface) only.
+Also use the timeout option (default is 300s for ssh commands) for all the commands
+run in this module (mostly because smart update timeouts on mips).
 
-What seems to be the issue ?
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ meta/lib/oeqa/runtime/smart.py    | 4 ++--
+ meta/lib/oeqa/utils/httpserver.py | 5 +++--
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-BR,
-Valentin
-
-
-On 09/03/2013 03:51 PM, Robert Yang wrote:
->
-> Please hold this patch for a while, seems that it didn't fix all of 
-> the things.
->
-> // Robert
->
-> On 09/03/2013 07:51 PM, Robert Yang wrote:
->> There would be errors if there are recursive symlinks in the ${S}:
->>
->> diff: 
->> /xxx/udev/182-r8/udev-182/test/sys/block/loop0/bdi/subsystem/0:16/subsystem: 
->> recursive directory loop
->>
->> We can check the recursive symlink and save it to the exclude file, then
->> the diff's --exclude-from argument can exclude them
->>
->> [YOCTO #4986]
->>
->> Signed-off-by: Valentin Cobelea <valentin.cobelea@enea.com>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/classes/archiver.bbclass |   18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/meta/classes/archiver.bbclass 
->> b/meta/classes/archiver.bbclass
->> index 66efe7d..f5ad562 100644
->> --- a/meta/classes/archiver.bbclass
->> +++ b/meta/classes/archiver.bbclass
->> @@ -493,6 +493,24 @@ def create_diff_gz(d):
->>       for i in exclude_from:
->>           f.write(i)
->>           f.write("\n")
->> +
->> +    symlinks = []
->> +    directories = []
->> +
->> +    # Add symlink and root dir to the separated lists for checking 
->> whether
->> +    # there is recursive symlink
->> +    for root, dirs, files in os.walk(os.getcwd(), followlinks=True):
->> +        if os.path.islink(root):
->> +            symlinks.append(root)
->> +        elif os.path.isdir(root):
->> +            directories.append(root)
->> +
->> +    # Check if there is a recursive symlink to a dir
->> +    for sym in symlinks:
->> +        if sym in directories:
->> +            # write the 'sym' in the 'exclude-from' file
->> +            f.write(os.path.basename(sym))
->> +
->>       f.close()
->>
->>       s=d.getVar('S', True)
->>
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/lib/oeqa/runtime/smart.py b/meta/lib/oeqa/runtime/smart.py
+index 6e20f96..59083ca 100644
+--- a/meta/lib/oeqa/runtime/smart.py
++++ b/meta/lib/oeqa/runtime/smart.py
+@@ -17,7 +17,7 @@ class SmartTest(oeRuntimeTest):
+     @skipUnlessPassed('test_smart_help')
+     def smart(self, command, expected = 0):
+         command = 'smart %s' % command
+-        status, output = self.target.run(command)
++        status, output = self.target.run(command, 500)
+         message = os.linesep.join([command, output])
+         self.assertEqual(status, expected, message)
+         self.assertFalse("Cannot allocate memory" in output, message)
+@@ -48,7 +48,7 @@ class SmartRepoTest(SmartTest):
+ 
+     @classmethod
+     def setUpClass(self):
+-        self.repo_server = HTTPService(oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True))
++        self.repo_server = HTTPService(oeRuntimeTest.tc.d.getVar('DEPLOY_DIR', True), oeRuntimeTest.tc.qemu.host_ip)
+         self.repo_server.start()
+ 
+     @classmethod
+diff --git a/meta/lib/oeqa/utils/httpserver.py b/meta/lib/oeqa/utils/httpserver.py
+index d4b6154..f161a1b 100644
+--- a/meta/lib/oeqa/utils/httpserver.py
++++ b/meta/lib/oeqa/utils/httpserver.py
+@@ -15,12 +15,13 @@ class HTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+ 
+ class HTTPService(object):
+ 
+-    def __init__(self, root_dir):
++    def __init__(self, root_dir, host=''):
+         self.root_dir = root_dir
++        self.host = host
+         self.port = 0
+ 
+     def start(self):
+-        self.server = HTTPServer(('', self.port), HTTPRequestHandler)
++        self.server = HTTPServer((self.host, self.port), HTTPRequestHandler)
+         if self.port == 0:
+             self.port = self.server.server_port
+         self.process = multiprocessing.Process(target=self.server.server_start, args=[self.root_dir])
+-- 
+1.8.3.1
 
 
