@@ -1,28 +1,41 @@
-Return-Path: <zbigniew.halas@citrix.com>
-Received: from SMTP.CITRIX.COM (smtp.citrix.com [66.165.176.89])
-	by mail.openembedded.org (Postfix) with ESMTP id AA9476BCF6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f171.google.com (mail-ea0-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B9DC6BE62
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 18:22:11 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.89,1015,1367971200"; d="scan'208";a="50050732"
-Received: from accessns.citrite.net (HELO FTLPEX01CL03.citrite.net)
-	([10.9.154.239])
-	by FTLPIPO01.CITRIX.COM with ESMTP; 03 Sep 2013 18:22:11 +0000
-Received: from norwich.cam.xci-test.com (10.80.248.129) by
-	smtprelay.citrix.com (10.13.107.80) with Microsoft SMTP Server id
-	14.2.342.4; Tue, 3 Sep 2013 14:22:10 -0400
-Received: from luna.cam.xci-test.com ([10.80.248.124])	by
-	norwich.cam.xci-test.com with esmtp (Exim 4.72)	(envelope-from
-	<zbigniew.halas@citrix.com>)	id 1VGvEw-0002jX-SF	for
-	openembedded-core@lists.openembedded.org;
-	Tue, 03 Sep 2013 18:22:10 +0000
-From: Zbigniew Halas <zbigniew.halas@citrix.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Sep 2013 19:22:10 +0100
-Message-ID: <2813997.u0vtaCWRMy@luna.cam.xci-test.com>
-User-Agent: KMail/4.10.5 (Linux/3.10.4-100.fc18.x86_64; KDE/4.10.5; x86_64; ; )
+	Tue,  3 Sep 2013 18:28:23 +0000 (UTC)
+Received: by mail-ea0-f171.google.com with SMTP id n15so3189997ead.30
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Sep 2013 11:28:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=PyxxO5KJ3CE5w8c1K7obK6x6trZQokzZba27tt+y1y4=;
+	b=LkE7APsfCduipNwl6lddjvadJGCCbzt3Y94jb/oI8mWkXzfJmsXjNyo8mTD4As4swV
+	P8beQJdd8YSYIQj76TwHmbBruBqZ6oxPGv0gvqRE5eQStn/J3IUsoSMNxvSGkHMT0eQE
+	NmXBLvRK83y0HzZvjyd45xK4tzLnfaWht08NWUg3g1HsKChpyE4W3chLCiWfhbRwolhw
+	yGh+KyNOnp2r75Zmg7f096mE01FEZbZvKwoYWYtwB3nUivfIySk2/cFMYPBJYIi8/eUz
+	5WZ3SmTXEV6qyqoD8FhpdvHgemw28OJjSpKpBr8IReGrScqb1k18v1n5Es4zJ2+cnJpW
+	HcIg==
+X-Received: by 10.14.202.132 with SMTP id d4mr360202eeo.105.1378232903547;
+	Tue, 03 Sep 2013 11:28:23 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	a1sm33652251eem.1.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 03 Sep 2013 11:28:23 -0700 (PDT)
+Date: Tue, 3 Sep 2013 20:29:41 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130903182941.GD11500@jama>
+References: <cover.1377792005.git.Martin.Jansa@gmail.com>
+	<e6abe1f4e6a41cf4ac4070971b6ec1757d79b9ab.1377792006.git.Martin.Jansa@gmail.com>
+	<CAJTo0LbU5XC59qQ6mn5s161z4d3mvb+tdyjc5GNj-9-SFkNxSg@mail.gmail.com>
 MIME-Version: 1.0
-X-DLP: MIA2
-Subject: Race condition in log_check
+In-Reply-To: <CAJTo0LbU5XC59qQ6mn5s161z4d3mvb+tdyjc5GNj-9-SFkNxSg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [WIP][PATCH 06/20] libmatchbox: Add PACKAGECONFIG for png
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +48,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 18:22:11 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 03 Sep 2013 18:28:23 -0000
+X-Groupsio-MsgNum: 44438
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="C1iGAkRnbeBonpVg"
+Content-Disposition: inline
 
-Hi,
+--C1iGAkRnbeBonpVg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I've just noticed that there is a race condition in log_check after rootfs 
-creation. do_rootfs task invokes package type specific shell function - in my 
-case it's rootfs_ipk_do_rootfs which in turn invokes log_check on the log file 
-produced by do_rootfs (log.do_rootfs.${PID}), which is buffered by BitBake, and 
-despite the fact that all packages are already installed when  log_check runs, 
-output may not have been flushed yet, so some errors may not be detected.
+On Mon, Sep 02, 2013 at 03:02:39PM +0100, Burton, Ross wrote:
+> On 29 August 2013 17:02, Martin Jansa <martin.jansa@gmail.com> wrote:
+> > +PACKAGECONFIG ??=3D "png"
+>=20
+> For completeness consider adding "jpeg", although I doubt anyone
+> actually uses the JPEG support...
 
-In my case relevant parts of log.do_rootfs look like that: 
-#v+
-Collected errors:
- * opkg_conf_load: Could not create lock file [...]
-#v-
+jpeg is already in DEPENDS
 
-And a few lines below:
-#v+
-log_check: Using [...]
-Logfile is clean
-#v-
+>=20
+> Ross
 
-and it was consistently passing log_check despite this error being there for a 
-long time. I'm using slightly outdated OE, but there haven't been any relevant 
-changes since then.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Regards,
-Zbigniew
+--C1iGAkRnbeBonpVg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
 
+iEYEARECAAYFAlImKpUACgkQN1Ujt2V2gBwUgwCeO2yrflRXzTfJlhB+u6qMoZ3t
+DzEAn1uw1lBwFCL1ify28jQZoZuZte8s
+=I33U
+-----END PGP SIGNATURE-----
+
+--C1iGAkRnbeBonpVg--
