@@ -1,35 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id A56936041E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by mail.openembedded.org (Postfix) with ESMTP id BE3916A9FC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 17:05:14 +0000 (UTC)
-Received: by mail-ie0-f178.google.com with SMTP id f4so10867267iea.37
+	Tue,  3 Sep 2013 18:04:33 +0000 (UTC)
+Received: by mail-ee0-f52.google.com with SMTP id c41so3139583eek.25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2013 10:05:15 -0700 (PDT)
+	Tue, 03 Sep 2013 11:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=VHkhuLwHJgpbkj3cjqsotFtFRY5uW6aPWVd2sOuTVYc=;
-	b=juhl7YrT7TBxj7Y8Uiav34p6VovlqmR1eRu3Iie+tUrm//kn7fMnH3+/ZeS1k2muME
-	CNzQSv6OZsw4ZvAWVRAw62wkJ2iL1k52Lv9GohorInbpcx6OqG/bHu4/QzFjCQ4hJyiC
-	cDkmoHozTvhRSTiR2Qy6sHbvxNomqjIdDYWedL20VxbwFpCzDr3sKi+GjDyuOFDp+3PJ
-	w/VtTuxE+GkRmWPGWmJJVWWIRroIP771pLzW4G+4GV+u9h4/TbsJYH31QjNg7rN1my56
-	XR0y99gdiJ7HEyxtZ9uGNEjRwyjD3XBcBYHB/U9/kSullWv2cm/4ChH+nH7QK3IR015Q
-	SRWw==
-X-Received: by 10.50.103.3 with SMTP id fs3mr16784164igb.39.1378227915142;
-	Tue, 03 Sep 2013 10:05:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.216.195 with HTTP; Tue, 3 Sep 2013 10:04:45 -0700 (PDT)
-In-Reply-To: <CAJTo0LZKRmPzCGxh_DzTx+AHgGMFWybg0UvMNjZrP4jEW3D0-w@mail.gmail.com>
-References: <cover.1377623208.git.raj.khem@gmail.com>
-	<CAJTo0LZKRmPzCGxh_DzTx+AHgGMFWybg0UvMNjZrP4jEW3D0-w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 Sep 2013 10:04:45 -0700
-Message-ID: <CAMKF1spPKfMJJNkKWdap89_LaDgg+g_G-tok4mixER3GEXVUDA@mail.gmail.com>
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vRsU7aKQ6HVF7BOc+87dAT//s/3fdK9JMNFWUQPvsPg=;
+	b=E/yrROtkagj89xni78trQ/Qio4fx/83YFSrSEbGZ3Zr0axHuzLpnNrgnvSTyFqqk/p
+	vwo2UmXcNUrsOymbTP84YxbsVd2gymBCWcqAE+SWCyUVIsKFi6xxN7XIq761JojZRnYB
+	yO+99eFfNyy+Q5Ub2wdU2wn52+d4sWupAwUZQBbiOlsUuWsemBQRYWIj1Cfm3Y6Lf3mM
+	hEVM+LrNpOoOhPjujWupj6Z3DlhjXOgg/UcQ3hWrj/rUcD3ccm1tJqXBnURKNhCcigu+
+	5eX4Nbu2jw+ZRpH5yX/6wFSOZHrb5POR5xLGM3guU6r98kCeueFqoUjwD9PiA7HRThcS
+	iz2g==
+X-Received: by 10.15.76.73 with SMTP id m49mr274358eey.91.1378231474049;
+	Tue, 03 Sep 2013 11:04:34 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	b45sm33476015eef.4.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 03 Sep 2013 11:04:33 -0700 (PDT)
+Date: Tue, 3 Sep 2013 20:05:51 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
 To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20130903180551.GB11500@jama>
+References: <cover.1377792005.git.Martin.Jansa@gmail.com>
+	<75b5f2fe123fe20e0222bf25e4b0c5a1f836b602.1377792006.git.Martin.Jansa@gmail.com>
+	<CAJTo0LbQ7zJjdJ+RbSg_wdWTnRZ-NqW_1rNfQwBniKG9sTRikA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LbQ7zJjdJ+RbSg_wdWTnRZ-NqW_1rNfQwBniKG9sTRikA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V4 00/20] Add python 3 support
+Subject: Re: [WIP][PATCH 05/20] xdypinfo: Add dependency on libxcomposite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 17:05:16 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 03 Sep 2013 18:04:34 -0000
+X-Groupsio-MsgNum: 44435
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="rS8CxjVDS/+yyDmU"
+Content-Disposition: inline
 
-On Tue, Sep 3, 2013 at 9:59 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 27 August 2013 18:15, Khem Raj <raj.khem@gmail.com> wrote:
->> python3: Add recipes
->>   python3: Add native recipe
->>   python3: Upgrade to 3.3.2
->>   python3, python3-native: Consider OE staging installation
->>   python3: Fix host include contamination issue
->>   python3: Fix the compiler invocation and linker flags when cross
->>     compiling
->>   python: Add Patch description and status information
+--rS8CxjVDS/+yyDmU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-this one has more than python recipes and is cosmetic. I will leave it
-alone since it will need breaking apart before squashing it into
-individual recipes.
+On Mon, Sep 02, 2013 at 06:11:24PM +0100, Burton, Ross wrote:
+> Typo (transposition in recipe name) in short log.
 
->>   python3_3.3.2.bb: Add liblzma to RDEPENDS for python3-misc
->
-> For bisecting and clarity, why can't all of those be squashed into
-> "add python 3"?  I don't see the point of merging a broken Python 3
-> recipe and then six required fixes.
+Thanks, fixed in jansa/deps branch.
 
-Depends how you look at it. I will squash rest into one.
-
->
+>=20
 > Ross
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--rS8CxjVDS/+yyDmU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlImJP8ACgkQN1Ujt2V2gByg3gCcCXo0wYvN4gIIRcwWelp0DyFo
+9BAAnih+nMfRE5r7hkMv54urvfY4tdCc
+=6BFp
+-----END PGP SIGNATURE-----
+
+--rS8CxjVDS/+yyDmU--
