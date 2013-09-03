@@ -1,39 +1,29 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E7F26BC26;
-	Tue,  3 Sep 2013 10:48:31 +0000 (UTC)
-Received: by mail-ee0-f50.google.com with SMTP id d51so2906648eek.37
-	for <multiple recipients>; Tue, 03 Sep 2013 03:48:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=zbIQd9GXonw/q7c+NRd5pzG8WjqKB3TmxKtiWjLJG1o=;
-	b=X0Lz7oNjegvo63la0qDZYaN6Dd1Z9ITzPOOJmPDsDOA1a2sEMH0TShLzd7xqyeg78U
-	tbVOAPLyiPFeKT+Yeb1eIwW0Rki0c+vn7tQSzV3NrET3sB/pg1rj5cIRWXNGzYynI7+G
-	r33EmcUdMyI7D6M2UMSbH7wXN+f3Km4NedgHoOOWdGnMNY4O7M6s/kAALuE/dBLERUv/
-	EKKGvSJ+pk9vwLSofSqWIVcVj7Rej8tUpIk4Qf6NDuocwWIsM+lOdgEjk5QhdFV9CbAH
-	YTGQf0uWVGsw9n2XNnGaJ3VnBFHXnBUusmzqZDl1reO+VG7xwm6G87Ba40dEKADf/HSz
-	73zw==
-X-Received: by 10.14.89.72 with SMTP id b48mr20607229eef.43.1378205311454;
-	Tue, 03 Sep 2013 03:48:31 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	j7sm30381206eeo.15.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 03 Sep 2013 03:48:31 -0700 (PDT)
-Date: Tue, 3 Sep 2013 12:49:48 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130903104948.GC3544@jama>
-References: <20130820142105.423E0503D1@opal> <20130823215953.GF3544@jama>
-	<CAJTo0LaTDeTnifQXoSq63tUxruJ1XvAgwvnGT-xOh8_YcPh4Gg@mail.gmail.com>
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C0D016BBD2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Sep 2013 11:17:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r83BHDJ7010479
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Sep 2013 04:17:13 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 3 Sep 2013 04:17:13 -0700
+Message-ID: <5225C515.9010804@windriver.com>
+Date: Tue, 3 Sep 2013 19:16:37 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaTDeTnifQXoSq63tUxruJ1XvAgwvnGT-xOh8_YcPh4Gg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Marko Lindqvist : gtk+: update to upstream version 2.24.20
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1378194734.git.liezhi.yang@windriver.com>
+	<f6faba2e39ab7055392521e8324ca08f2afa4c03.1378194734.git.liezhi.yang@windriver.com>
+	<CAJTo0LYOgNNfeAHWaCYU-QvE+pEKfOmxU0U13iLu5FLKXfewnw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYOgNNfeAHWaCYU-QvE+pEKfOmxU0U13iLu5FLKXfewnw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] glib-2.0: fix a host contamination issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 10:48:32 -0000
-X-Groupsio-MsgNum: 44412
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pCBpnpYZ3zWUlzNh"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 03 Sep 2013 11:17:15 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---pCBpnpYZ3zWUlzNh
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 03, 2013 at 11:26:56AM +0100, Burton, Ross wrote:
-> On 23 August 2013 22:59, Martin Jansa <martin.jansa@gmail.com> wrote:
-> > | failed to load "./apple-red.png": Couldn't recognize the image file f=
-ormat for file './apple-red.png'
->=20
-> That's odd.  Can you replicate this on demand or was it a transient failu=
-re?
 
-I haven't seen it on jenkins since then.
+On 09/03/2013 05:51 PM, Burton, Ross wrote:
+> On 3 September 2013 08:52, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> +    sed -i -e 's/^\(ABS_GLIB_RUNTIME_LIBDIR=.*readlink\) -f/\1 -m/' ${S}/configure.ac
+>
+> Please do this as a patch instead of a sed.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+It seems that sed command is preferred ? For example, we don't have to port the
+patch once we upgrade glib-2.0.
 
---pCBpnpYZ3zWUlzNh
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+// Robert
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
+>
+> Ross
+>
+>
 
-iEYEARECAAYFAlIlvswACgkQN1Ujt2V2gBx2UwCgsHsMnoz8HNbia8o9XP59HMCe
-5YwAn2mHUfAlxZnAdZiw0CyIg4XSZB+V
-=eSZk
------END PGP SIGNATURE-----
-
---pCBpnpYZ3zWUlzNh--
