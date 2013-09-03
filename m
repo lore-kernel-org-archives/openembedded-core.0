@@ -1,26 +1,35 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C3B266B3B7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f169.google.com (mail-ie0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id C29DB6BE31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 16:35:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r83GZ3Lw021052
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Sep 2013 09:35:03 -0700 (PDT)
-Received: from e6410-2 (172.25.40.227) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 3 Sep 2013 09:35:02 -0700
-Date: Tue, 3 Sep 2013 10:41:37 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Message-ID: <20130903104137.16fd7f6c@e6410-2>
-In-Reply-To: <1377477606-17591-1-git-send-email-pab@pabigot.com>
-References: <1377477606-17591-1-git-send-email-pab@pabigot.com>
-X-Mailer: Claws Mail 3.8.0 (GTK+ 2.24.10; x86_64-pc-linux-gnu)
+	Tue,  3 Sep 2013 16:43:46 +0000 (UTC)
+Received: by mail-ie0-f169.google.com with SMTP id tp5so6380411ieb.28
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Sep 2013 09:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Z1zBFCYByh5Zy+opeZ8jeCNlZNq642RVbC36DN/3Xkk=;
+	b=EXL/kEzYIanf/WLJbNlK9vWh34nWDr8hX9nOZMGkjKWhBSfzNctMLMBxF8c91DjHu+
+	JiUwv0Nv/hXa2lzU/06d63onfqW2C5CUfhAy6tAL7L3WkM0mT+neLvsmAjJpiKKZvKc8
+	acbQ0xMawP0KlXmwcAR0LMqKt4oSFURSxCbOMzEEDbNoDLq6WZa125mtgNAQ3+hdCGAy
+	xxf/0Bevs25IVsZOVKM4A0ph2ewt5P/UrWH6J3jxZKMgde+ByRox3LOVNz6BODSjYYu0
+	bTCaGKYINIEUkeUn7WZglIBxvQsRDROyjpZqmNocT0hv22Ys8ucYdCQdXJh1rMcy0tK2
+	s7wA==
+X-Received: by 10.42.130.10 with SMTP id t10mr183820ics.92.1378226627428; Tue,
+	03 Sep 2013 09:43:47 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pseudo: fix memory leak and missed privilege drop
+Received: by 10.50.216.195 with HTTP; Tue, 3 Sep 2013 09:43:17 -0700 (PDT)
+In-Reply-To: <CAJTo0LYOH6_QV_R2Y=BLKE-NLMEdPpU4T9kxCc4BPvJWwia34Q@mail.gmail.com>
+References: <1377672247-16456-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0LYOH6_QV_R2Y=BLKE-NLMEdPpU4T9kxCc4BPvJWwia34Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 3 Sep 2013 09:43:17 -0700
+Message-ID: <CAMKF1soXMvEFx+QFndWPaFymTRve4LCcJRgjz2O5o64t++mTDg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Cover for udev-systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +42,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 16:35:03 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Sep 2013 16:43:47 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Sun, 25 Aug 2013 19:40:06 -0500
-"Peter A. Bigot" <pab@pabigot.com> wrote:
+On Tue, Sep 3, 2013 at 3:20 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 28 August 2013 07:44, Khem Raj <raj.khem@gmail.com> wrote:
+>> meta-systemd currently has a bbappend which provides just a cover
+>> for udev-systemd, if we move this to the recipe proper then the
+>> bbappend can be removed from that layer
+>
+> If we do this for systemd we should do it for all recipes that were
+> part of meta-systemd.  I thought we'd previously agreed that
+> meta-systemd would contain the "compatibility" provides for people
+> that had previously used meta-systemd, not oe-core.
 
-> qemu.bbclass adds PSEUDO_UNLOAD=1 in qemu_run_binary to avoid reference to
-> pseudo functions that may not exist in the target environment.  This patch
-> detects the addition of that variable within the environment to which the
-> call applies, even if not present in the parent environment.
-> 
-> As a side effect it fixes a memory leak.
+yes thats fine.
 
-The memory leak was quasi-intentional -- I was aware of it, but I felt that
-freeing memory right before an exec() was probably silly.
-
-I'm currently waffling on a design question: It's obvious that, if execve()
-has PSEUDO_UNLOAD=1 in envp, we want pseudo to be unloaded.
-
-What if execve() doesn't have PSEUDO_UNLOAD=1, but some other thing has
-happened which caused PSEUDO_UNLOAD to be 1 in the process that's calling
-execve(), but which had not yet resulted in pseudo being unloaded? For
-instance, I think there's at least one thing (memory is weak today, so I
-can't remember at all where, but I think it might have been one of the Python
-popen()-relatives) which lets you specify an environment, and if you do, that
-is the *entire* environment -- it does not inherit.
-
-My intuition is that if PSEUDO_UNLOAD is 1 in *either* of these, that should
-win. But then we want a way to say "no, really, don't unload pseudo", which
-means I might need to check for something like PSEUDO_UNLOAD=0 in envp.
-
-So my proposed logic would be:
-
-* if envp contains a value for PSEUDO_UNLOAD, act according to that value
-* otherwise if pseudo_get_value("PSEUDO_UNLOAD") exists, use that
-* otherwise act as though PSEUDO_UNLOAD is not set
-
-(Where "is not set" implies "make sure pseudo's environment variables are
-all present and expected to work.)
-
-... But all of this is secondary. I think we should put this patch in-tree
-for now so we can have the bug go away, and I can then spend a while
-navel-gazing and deciding what should go into the official pseudo tree, which
-is currently in a state of disrepair. Excellent catch!
-
--s
--- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+>
+> Ross
 
