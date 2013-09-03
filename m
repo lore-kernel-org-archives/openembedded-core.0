@@ -1,26 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 906E96BC26
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 74AFC6BB6C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 07:57:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r837vmTB016867
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  3 Sep 2013 08:30:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.89,1012,1367942400"; d="scan'208";a="8390014"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 03 Sep 2013 16:27:41 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r838UgHb003699
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Sep 2013 00:57:49 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 3 Sep 2013 00:57:47 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Sep 2013 15:52:51 +0800
-Message-ID: <f6faba2e39ab7055392521e8324ca08f2afa4c03.1378194734.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1378194734.git.liezhi.yang@windriver.com>
-References: <cover.1378194734.git.liezhi.yang@windriver.com>
+	Tue, 3 Sep 2013 16:30:48 +0800
+Received: from [127.0.0.1] ([10.167.226.190])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013090316283697-1174039 ;
+	Tue, 3 Sep 2013 16:28:36 +0800 
+Message-ID: <52259E35.4030405@cn.fujitsu.com>
+Date: Tue, 03 Sep 2013 16:30:45 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
+	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
 MIME-Version: 1.0
-Subject: [PATCH 1/1] glib-2.0: fix a host contamination issue
+To: openembedded-core@lists.openembedded.org
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/09/03 16:28:37,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/09/03 16:28:42,
+	Serialize complete at 2013/09/03 16:28:42
+Subject: [PATCH 0/2]acpid: make the initscript friendly to user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +39,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 07:57:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Sep 2013 08:30:55 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 
-We will see the following warning by accident:
+At default, the ${sysconfdir}/acpi/events will be not installed,
+but initscript depends on it while starting acpid daemon.
 
-$ bitbake nativesdk-glib-2.0
+If rule directory "${sysconfdir}/acpi/events" is inexist, 
+the acpid initscript will exit with success, but the daemon will be not running.
+Print message in this case to tell user that the daemon is not running.
 
-WARNING: QA Issue: nativesdk-glib-2.0-dbg: found library in wrong location:
-/opt/poky/0.5.5/sysroots/x86_64-pokysdk-linux/usr/share/gdb/auto-load/opt/
-poky/0.5.5/sysroots/x86_64-pokysdk-linux/usr/lib/libglib-2.0.so.0.3600.4-gdb.py
+The following patchs try to make the initscript friendly to user.
 
-There are two '/opt/poky/0.5.5/sysroots' in the path when the warning
-comes, this is what we need since glib-2.0 has done this intentionally
-in its configure and Makefile.
-
-This is because the configure script uses the:
-ABS_GLIB_RUNTIME_LIBDIR = "readlink -f $libdir/$with_runtime_libdir`"
-to figure out the abs dir, so if
-/opt/poky/0.5.5/sysroots/x86_64-pokysdk-linux/usr/lib/ exists , there
-would be warning, otherwise no warning.
-
-We can change the "readlink -f" to "readlink -m" to fix the host
-contamination issue.
-
-Another fix could be:
-ABS_GLIB_RUNTIME_LIBDIR =""
-
-But this is much more like a workaround.
-
-BTW, fix the previous sed command's indent.
-
-[YOCTO #5099]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb
-index 0918bf5..cc104cc 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb
-@@ -47,7 +47,12 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
- EXTRA_OECONF_append_class-target_libc-uclibc = " --with-libiconv=gnu"
- 
- do_configure_prepend() {
--	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
-+    # Change the "readlink -f" to "readlink -m" to fix a host
-+    # contamination issue, the later one doesn't require the
-+    # components existence.
-+    sed -i -e 's/^\(ABS_GLIB_RUNTIME_LIBDIR=.*readlink\) -f/\1 -m/' ${S}/configure.ac
-+
-+    sed -i -e '1s,#!.*,#!${USRBINPATH}/env python,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
- }
- 
- do_install_append() {
--- 
-1.8.1.2
+Bian Naimeng (2):
+ acpid: install events directory at default.
+ acpid: print message if rule directory is inexist.
 
 
