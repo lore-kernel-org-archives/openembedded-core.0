@@ -1,26 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F176F6BCA9
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A36B06BC26
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 05:19:16 +0000 (UTC)
+	Tue,  3 Sep 2013 07:57:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r835JIh4015181
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r837vkg4014017
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Sep 2013 22:19:18 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	Tue, 3 Sep 2013 00:57:46 -0700 (PDT)
+Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 2 Sep 2013 22:19:17 -0700
-From: <rongqing.li@windriver.com>
+	14.2.347.0; Tue, 3 Sep 2013 00:57:45 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Sep 2013 13:19:24 +0800
-Message-ID: <dab1b5bca3fb63e0731aa7520d22d6504bc8e0b0.1378185423.git.rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1378185423.git.rongqing.li@windriver.com>
-References: <cover.1378185423.git.rongqing.li@windriver.com>
+Date: Tue, 3 Sep 2013 15:52:50 +0800
+Message-ID: <cover.1378194734.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Subject: [PATCH 2/2] irda-utils: add init.d/irattach status command for LSB compliance
+Subject: [PATCH 0/1] glib-2.0: fix a host contamination issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 05:19:17 -0000
+X-List-Received-Date: Tue, 03 Sep 2013 07:57:47 -0000
 Content-Type: text/plain
 
-From: "Roy.Li" <rongqing.li@windriver.com>
+The following changes since commit 5745e45b18e5099e94b4d5a73bc97dc6d4cdc91f:
 
-Signed-off-by: Roy.Li <rongqing.li@windriver.com>
----
- meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init |    9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+  buildtools-tarball: Add python-pkgutil (2013-08-29 00:23:20 +0100)
 
-diff --git a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init
-index 14efb94..b8038e0 100755
---- a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init
-+++ b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init
-@@ -8,6 +8,9 @@
- # Short-Description: Infrared port support
- ### END INIT INFO
- 
-+# Source function library.
-+. /etc/init.d/functions
-+
- module_id() {
-         awk 'BEGIN { FS=": " } /Hardware/ { print $2 } ' </proc/cpuinfo
- }
-@@ -62,9 +65,13 @@ case "$1" in
- 		killall irattach > /dev/null 2>&1
-         echo "$NAME."
-         ;;
-+  status)
-+	status irattach
-+	exit $?
-+	;;
-   *)
-         N=/etc/init.d/$NAME
--        echo "Usage: $N {start|stop|restart|force-reload}" >&2
-+        echo "Usage: $N {start|stop|restart|force-reload|status}" >&2
-         exit 1
-         ;;
- esac
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib robert/glib-2.0
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/glib-2.0
+
+Robert Yang (1):
+  glib-2.0: fix a host contamination issue
+
+ meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
 -- 
-1.7.10.4
+1.8.1.2
 
 
