@@ -1,26 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 426A16BE53
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
+	[209.85.128.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 70B9E6BC09
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 10:25:47 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 03 Sep 2013 03:25:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,1013,1367996400"; d="scan'208";a="355184197"
-Received: from unknown (HELO helios.localnet) ([10.252.123.86])
-	by azsmga001.ch.intel.com with ESMTP; 03 Sep 2013 03:25:44 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 03 Sep 2013 11:25:43 +0100
-Message-ID: <3896060.ZzyEfkrHt7@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <CAJTo0LYOH6_QV_R2Y=BLKE-NLMEdPpU4T9kxCc4BPvJWwia34Q@mail.gmail.com>
-References: <1377672247-16456-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0LYOH6_QV_R2Y=BLKE-NLMEdPpU4T9kxCc4BPvJWwia34Q@mail.gmail.com>
+	Tue,  3 Sep 2013 10:27:16 +0000 (UTC)
+Received: by mail-ve0-f173.google.com with SMTP id cy12so3754792veb.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Sep 2013 03:27:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=X6usSqCj8hfpGdW9hVetzLfw1kYvuKeyLgvhiuFF2zk=;
+	b=P4vrJ+NHwus65alUCOR3MwbBbtSwpWdyCQDWukS1EOgg2kr21w12L3I4qYGgAhjPQh
+	if1Y/S3wyUEdZWApk+I9ACyEZP5SlN0MHKMPcU60DySORsya/8FHjMyj1wUO4a4P6s3i
+	nHq/2jtCQIYqKdoyDN3n7iHkQWqTv16aJir4QIVVY0FrxlZ25+8wT/C81sXSHkr9+aYu
+	U2dooKcOabQ5SkCT5LKgzjsIMPDc7poERDfr/W4glfLW4sp5dclt/hnDZMrpKv7Ube21
+	vq7yOKGVfxvsSf0y6JANfi6m5HrnBywM4WLITh+TeSsRZLwV8u5NKQ2XnboP2PL6FBKM
+	gdEw==
+X-Gm-Message-State: ALoCoQnlSV9zn3Z2MKrMYKl9hPdrsqdRcEFdmLUBYfJXPOb8SOBQsi5gj3cYToSihCtDhjbJ/n9y
+X-Received: by 10.52.178.198 with SMTP id da6mr6318111vdc.26.1378204036917;
+	Tue, 03 Sep 2013 03:27:16 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd: Cover for udev-systemd
+Received: by 10.220.71.201 with HTTP; Tue, 3 Sep 2013 03:26:56 -0700 (PDT)
+In-Reply-To: <20130823215953.GF3544@jama>
+References: <20130820142105.423E0503D1@opal> <20130823215953.GF3544@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 3 Sep 2013 11:26:56 +0100
+Message-ID: <CAJTo0LaTDeTnifQXoSq63tUxruJ1XvAgwvnGT-xOh8_YcPh4Gg@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Marko Lindqvist : gtk+: update to upstream version 2.24.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +45,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 10:25:48 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 03 Sep 2013 10:27:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tuesday 03 September 2013 11:20:18 Burton, Ross wrote:
-> On 28 August 2013 07:44, Khem Raj <raj.khem@gmail.com> wrote:
-> > meta-systemd currently has a bbappend which provides just a cover
-> > for udev-systemd, if we move this to the recipe proper then the
-> > bbappend can be removed from that layer
-> 
-> If we do this for systemd we should do it for all recipes that were
-> part of meta-systemd.  I thought we'd previously agreed that
-> meta-systemd would contain the "compatibility" provides for people
-> that had previously used meta-systemd, not oe-core.
+On 23 August 2013 22:59, Martin Jansa <martin.jansa@gmail.com> wrote:
+> | failed to load "./apple-red.png": Couldn't recognize the image file format for file './apple-red.png'
 
-I concur with this. The bbappend should remain in meta-systemd, IMO.
+That's odd.  Can you replicate this on demand or was it a transient failure?
 
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
