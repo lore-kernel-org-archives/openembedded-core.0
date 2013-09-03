@@ -1,24 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 847FC6BEF5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 07F696BEF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 15:16:48 +0000 (UTC)
+	Tue,  3 Sep 2013 15:16:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r83FGm2d010274
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r83FGoe4024994
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Sep 2013 08:16:48 -0700 (PDT)
+	Tue, 3 Sep 2013 08:16:50 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 3 Sep 2013 08:16:47 -0700
+	14.2.347.0; Tue, 3 Sep 2013 08:16:48 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 3 Sep 2013 11:16:42 -0400
-Message-ID: <cover.1378221277.git.bruce.ashfield@windriver.com>
+Date: Tue, 3 Sep 2013 11:16:43 -0400
+Message-ID: <ce9e2f9982e150dd1fdbb8a6b624d38784d27705.1378221277.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1378221277.git.bruce.ashfield@windriver.com>
+References: <cover.1378221277.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/3] linux-yocto/3.10: consolidated pull update
+Subject: [PATCH 1/3] kernel-yocto: improve error checking on non-git repos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,42 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 15:16:48 -0000
+X-List-Received-Date: Tue, 03 Sep 2013 15:16:49 -0000
 Content-Type: text/plain
 
-Richard/Saul,
+While non-git kernel repos are not the preferred format for a kernel upstream,
+they are supported. Depending on the creator of the archive the expanded
+source directory name varies. If the recipe for the kernel doesn't properly
+set S to the right value, a cryptic git error message is produced. We can
+detect the situation and offer some advice on how to fix the issue.
 
-Now that 3.10 is getting some more eyes on it, we are getting a 
-few bug reports. I've collected up this series of fixes and bumped
-to 3.10.10 to pick up more upstream fixes.
+A second check is also added in this commit for archive based kernel repos
+which won't have a SRCREV to validate. If we have no SRCREV or SRCREV is
+INVALID, we can exit the branch validation step immediately. This saves yet
+another cryptic git error message and simplifies a custom tgz based recipe.
 
-Of note, there's a 3.11 fix for the ssh problem, so once it makes
-3.10 stable, I'll do more updates.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/classes/kernel-yocto.bbclass |   13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-Cheers,
-
-Bruce
-
-The following changes since commit 755f7d9afaab4e7424f5f57587aa45df3807acf0:
-
-  pulseaudio: disable GTK+ by default (2013-09-02 18:04:59 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (3):
-  kernel-yocto: improve error checking on non-git repos
-  linux-yocto/3.10: fix YAFFS2 build issues
-  linux-yocto/3.10: update to v3.10.10
-
- meta/classes/kernel-yocto.bbclass                  |   13 ++++++++++++-
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   16 ++++++++--------
- 4 files changed, 25 insertions(+), 14 deletions(-)
-
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index 26d449a..97a5fa7 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -176,7 +176,17 @@ do_kernel_checkout() {
+ 		# case 3: we have no git repository at all. 
+ 		# To support low bandwidth options for building the kernel, we'll just 
+ 		# convert the tree to a git repo and let the rest of the process work unchanged
++		
++		# if ${S} hasn't been set to the proper subdirectory a default of "linux" is 
++		# used, but we can't initialize that empty directory. So check it and throw a
++		# clear error
++
+ 	        cd ${S}
++		if [ ! -f "Makefile" ]; then
++			echo "[ERROR]: S is not set to the linux source directory. Check "
++			echo "         the recipe and set S to the proper extracted subdirectory"
++			exit 1
++		fi
+ 		git init
+ 		git add .
+ 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
+@@ -288,7 +298,8 @@ do_validate_branches() {
+ 	set +e
+ 	# if SRCREV is AUTOREV it shows up as AUTOINC there's nothing to
+ 	# check and we can exit early
+-	if [ "${SRCREV_machine}" = "AUTOINC" ]; then
++	if [ "${SRCREV_machine}" = "AUTOINC" ] || "${SRCREV_machine}" = "INVALID" ] ||
++	   [ "${SRCREV_machine}" = "" ]; then
+ 		return
+ 	fi
+ 
 -- 
 1.7.10.4
 
