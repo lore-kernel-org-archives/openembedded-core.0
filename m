@@ -1,26 +1,28 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 33EE26BE4C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C06E61AA9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 12:41:58 +0000 (UTC)
+	Tue,  3 Sep 2013 12:51:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r83CfwKY018938
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r83Cpgln022843
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Sep 2013 05:41:58 -0700 (PDT)
-Received: from pek-hostel-vm06.wrs.com (128.224.153.176) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 3 Sep 2013 05:41:58 -0700
+	Tue, 3 Sep 2013 05:51:42 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 3 Sep 2013 05:51:40 -0700
+Message-ID: <5225DB39.80204@windriver.com>
+Date: Tue, 3 Sep 2013 20:51:05 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Sep 2013 20:37:01 +0800
-Message-ID: <728fb0caa9ac238fc47ab26fde47dee491e32ce9.1378207842.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1378207842.git.liezhi.yang@windriver.com>
-References: <cover.1378207842.git.liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-Subject: [PATCH 1/1] glib-2.0: fix a host contamination issue
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1378208967.git.liezhi.yang@windriver.com>
+	<de9091dfe0d902de86a95fa1856c44f7fc4e6544.1378208967.git.liezhi.yang@windriver.com>
+In-Reply-To: <de9091dfe0d902de86a95fa1856c44f7fc4e6544.1378208967.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 1/1] archiver.bbclass: exclude recursive symlink for diff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,92 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 12:41:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Sep 2013 12:51:41 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-We will see the following warning by accident:
 
-$ bitbake nativesdk-glib-2.0
+Please hold this patch for a while, seems that it didn't fix all of the things.
 
-WARNING: QA Issue: nativesdk-glib-2.0-dbg: found library in wrong location:
-/opt/poky/0.5.5/sysroots/x86_64-pokysdk-linux/usr/share/gdb/auto-load/opt/
-poky/0.5.5/sysroots/x86_64-pokysdk-linux/usr/lib/libglib-2.0.so.0.3600.4-gdb.py
+// Robert
 
-There are two '/opt/poky/0.5.5/sysroots' in the path when the warning
-comes, this is what we need since glib-2.0 has done this intentionally
-in its configure and Makefile.
-
-This is because the configure script uses the:
-ABS_GLIB_RUNTIME_LIBDIR = "readlink -f $libdir/$with_runtime_libdir`"
-to figure out the abs dir, so if
-/opt/poky/0.5.5/sysroots/x86_64-pokysdk-linux/usr/lib/ exists , there
-would be warning, otherwise no warning.
-
-We can change the "readlink -f" to "readlink -m" to fix the host
-contamination issue.
-
-Another fix could be:
-ABS_GLIB_RUNTIME_LIBDIR =""
-
-But this is much more like a workaround.
-
-[YOCTO #5099]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../glib-2.0/glib-2.0-configure-readlink.patch     | 29 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb      |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/glib-2.0-configure-readlink.patch
-
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0-configure-readlink.patch b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0-configure-readlink.patch
-new file mode 100644
-index 0000000..9759d11
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-2.0-configure-readlink.patch
-@@ -0,0 +1,29 @@
-+configure.ac: change readlink -f to -m
-+
-+Change "readlink -f" to "readlink -m" since $libdir/$with_runtime_libdir
-+may not exist.
-+
-+This patch should go to the upstream, I will send it sooner.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -271,7 +271,7 @@ AC_ARG_WITH(runtime-libdir,
-+            [],
-+ 	   [with_runtime_libdir=""])
-+ GLIB_RUNTIME_LIBDIR="$with_runtime_libdir"
-+-ABS_GLIB_RUNTIME_LIBDIR="`readlink -f $libdir/$with_runtime_libdir`"
-++ABS_GLIB_RUNTIME_LIBDIR="`readlink -m $libdir/$with_runtime_libdir`"
-+ AC_SUBST(GLIB_RUNTIME_LIBDIR)
-+ AC_SUBST(ABS_GLIB_RUNTIME_LIBDIR)
-+ AM_CONDITIONAL(HAVE_GLIB_RUNTIME_LIBDIR, [test "x$with_runtime_libdir" != "x"])
-+-- 
-+1.8.1.2
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb
-index 0918bf5..d62c1fd 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.36.4.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://Makefile-ptest.patch \
-            file://add-march-i486-into-CFLAGS-automatically.patch \
-            file://run-ptest \
-+           file://glib-2.0-configure-readlink.patch \
-           "
- 
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
--- 
-1.8.1.2
-
+On 09/03/2013 07:51 PM, Robert Yang wrote:
+> There would be errors if there are recursive symlinks in the ${S}:
+>
+> diff: /xxx/udev/182-r8/udev-182/test/sys/block/loop0/bdi/subsystem/0:16/subsystem: recursive directory loop
+>
+> We can check the recursive symlink and save it to the exclude file, then
+> the diff's --exclude-from argument can exclude them
+>
+> [YOCTO #4986]
+>
+> Signed-off-by: Valentin Cobelea <valentin.cobelea@enea.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/classes/archiver.bbclass |   18 ++++++++++++++++++
+>   1 file changed, 18 insertions(+)
+>
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index 66efe7d..f5ad562 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -493,6 +493,24 @@ def create_diff_gz(d):
+>       for i in exclude_from:
+>           f.write(i)
+>           f.write("\n")
+> +
+> +    symlinks = []
+> +    directories = []
+> +
+> +    # Add symlink and root dir to the separated lists for checking whether
+> +    # there is recursive symlink
+> +    for root, dirs, files in os.walk(os.getcwd(), followlinks=True):
+> +        if os.path.islink(root):
+> +            symlinks.append(root)
+> +        elif os.path.isdir(root):
+> +            directories.append(root)
+> +
+> +    # Check if there is a recursive symlink to a dir
+> +    for sym in symlinks:
+> +        if sym in directories:
+> +            # write the 'sym' in the 'exclude-from' file
+> +            f.write(os.path.basename(sym))
+> +
+>       f.close()
+>
+>       s=d.getVar('S', True)
+>
 
