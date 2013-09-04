@@ -1,26 +1,17 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BE9F6BCB4
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id D89CC6BD57
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 10:56:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Sep 2013 03:53:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,1020,1367996400"; d="scan'208";a="398028984"
-Received: from unknown (HELO helios.localnet) ([10.252.123.76])
-	by orsmga002.jf.intel.com with ESMTP; 04 Sep 2013 03:56:28 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Date: Wed, 04 Sep 2013 11:56:27 +0100
-Message-ID: <1522300.pfxjxHF61P@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <5221ABED.6060705@pabigot.com>
-References: <521CF70C.2050100@pabigot.com> <2056053.nfWMgOXbJx@helios>
-	<5221ABED.6060705@pabigot.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: qt4-x11-free dependence on gtk+
+	Wed,  4 Sep 2013 11:03:49 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r84B3ls7028884; 
+	Wed, 4 Sep 2013 06:03:49 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Sep 2013 16:04:59 +0500
+Message-Id: <1378292703-10358-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/5] [v6] openssh: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,66 +24,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 10:56:28 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 04 Sep 2013 11:03:50 -0000
 
-Hi Peter,
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+
+-Remove dependency on meta-systemd
+
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../openssh/openssh-6.2p2/sshd.socket              |   11 +++++++++++
+ .../openssh/openssh-6.2p2/sshd@.service            |    9 +++++++++
+ .../openssh/openssh-6.2p2/sshdgenkeys.service      |   10 ++++++++++
+ meta/recipes-connectivity/openssh/openssh_6.2p2.bb |   19 +++++++++++++++++--
+ 4 files changed, 47 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+new file mode 100644
+index 0000000..d19ab2a
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd.socket
+@@ -0,0 +1,11 @@
++[Unit]
++Conflicts=sshd.service
++
++[Socket]
++ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
++ListenStream=22
++Accept=yes
++
++[Install]
++WantedBy=sockets.target
++Also=sshdgenkeys.service
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
+new file mode 100644
+index 0000000..64e009f
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd@.service
+@@ -0,0 +1,9 @@
++[Unit]
++Description=OpenSSH Per-Connection Daemon
++After=sshdgenkeys.service
++
++[Service]
++ExecStart=-@SBINDIR@/sshd -i
++ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
++StandardInput=socket
++StandardError=syslog
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
+new file mode 100644
+index 0000000..2fd8a9a
+--- /dev/null
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshdgenkeys.service
+@@ -0,0 +1,10 @@
++[Unit]
++Description=SSH Key Generation
++
++[Service]
++ExecStart=@BINDIR@/ssh-keygen -A
++Type=oneshot
++RemainAfterExit=yes
++
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+index c76f9ac..3a7f50d 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
++++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+@@ -26,14 +26,17 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+            file://init \
+            file://openssh-CVE-2011-4327.patch \
+            file://mac.patch \
+-           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
++           ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
++           file://sshd.socket \
++           file://sshd@.service \
++           file://sshdgenkeys.service "
  
-On Saturday 31 August 2013 03:40:13 Peter A. Bigot wrote:
-> On 08/30/2013 08:37 AM, Paul Eggleton wrote:
-> > On Tuesday 27 August 2013 13:59:24 Peter A. Bigot wrote:
-> >> Since "bitbake qt4-x11-free" failed for me until I did "bitbake gtk+",
-> >> qt4-x11-free needs some sort of dependency on gtk+ to avoid the failure
-> >> below.  I'm guessing it's something like the following added to
-> >> qt4-x11-free.inc:
-> >> 
-> >> PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk', '',
-> >> d)}"
-> >> PACKAGECONFIG[gtk] = "-gtkstyle,-no-gtkstyle,gtk+"
-> >> 
-> >> but since it takes about an hour to build qt4-x11-free on my system I'm
-> >> hoping somebody can tell me whether that's the right approach.
-> > 
-> > This seems reasonable to me. I can't actually reproduce the failure, but I
-> > can see how the dependency comes in and it does look to be on by default.
->
-> What actually happens is qt4 assumes -gtkstyle, but disables it if gtk+
-> (not gtk+3) can't be located in sysroots by invoking pkgconfig.
-> 
-> qt4-x11-free already depends on x11 so looking for x11 in
-> DISTRO_FEATURES will always succeed.
-
-Right, that check alone wouldn't solve anything.
+ PAM_SRC_URI = "file://sshd"
  
-> Further, PACKAGECONFIG doesn't work because the recipe uses qmake and I
-> can't see where changes to EXTRA_OECONF are ever applied.
-
-Indeed, I had missed that - that's because we haven't yet used PACKAGECONFIG 
-in conjunction with Qt (mainly because a lot of the Qt configure options 
-effectively have more than two states which PACKAGECONFIG can't handle) and Qt 
-doesn't use autotools so it doesn't already use EXTRA_OECONF.
-
-> So unless there's a way to do something like PACKAGECONFIG that isn't
-> PACKAGECONFIG, the options I see are either add -gtkstyle to
-> QT_X11_FLAGS and gtk+ to DEPENDS, or leave DEPENDS alone and add
-> -no-gtkstyle to QT_X11_FLAGS. I don't knowingly use qt4 so don't know
-> whether the GTK theme is important, but I'm inclined to the former path
-> (unconditionally enable gtk+).
-> 
-> Any better way to solve this?
-
-We could add ${EXTRA_OECONF} to the configure command line and then the 
-previously suggested PACKAGECONFIG will work. I'm tempted to suggest this 
-should be off by default as well since most users of Qt in our environment will 
-neither want nor expect it to depend on GTK+; having QGtkStyle enabled is (I 
-would think) peripheral to most embedded use cases.
-
-Cheers,
-Paul
-
+ SRC_URI[md5sum] = "be46174dcbb77ebb4ea88ef140685de1"
+ SRC_URI[sha256sum] = "7f29b9d2ad672ae0f9e1dcbff871fc5c2e60a194e90c766432e32161b842313b"
+ 
+-inherit useradd update-rc.d update-alternatives
++inherit useradd update-rc.d update-alternatives systemd
+ 
+ USERADD_PACKAGES = "${PN}-sshd"
+ USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
+@@ -41,6 +44,9 @@ INITSCRIPT_PACKAGES = "${PN}-sshd"
+ INITSCRIPT_NAME_${PN}-sshd = "sshd"
+ INITSCRIPT_PARAMS_${PN}-sshd = "defaults 9"
+ 
++SYSTEMD_PACKAGES = "${PN}-sshd"
++SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket sshd@.service sshdgenkeys.service"
++
+ PACKAGECONFIG ??= "tcp-wrappers"
+ PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,,tcp-wrappers"
+ 
+@@ -93,6 +99,15 @@ do_install_append () {
+ 	echo "HostKey /var/run/ssh/ssh_host_rsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	echo "HostKey /var/run/ssh/ssh_host_dsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
+ 	echo "HostKey /var/run/ssh/ssh_host_ecdsa_key" >> ${D}${sysconfdir}/ssh/sshd_config_readonly
++
++	install -d ${D}${systemd_unitdir}/system
++	install -c -m 0644 ${WORKDIR}/sshd.socket ${D}${systemd_unitdir}/system
++	install -c -m 0644 ${WORKDIR}/sshd@.service ${D}${systemd_unitdir}/system
++	install -c -m 0644 ${WORKDIR}/sshdgenkeys.service ${D}${systemd_unitdir}/system
++	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++		-e 's,@SBINDIR@,${sbindir},g' \
++		-e 's,@BINDIR@,${bindir},g' \
++		${D}${systemd_unitdir}/system/sshd.socket ${D}${systemd_unitdir}/system/*.service
+ }
+ 
+ ALLOW_EMPTY_${PN} = "1"
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
