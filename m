@@ -1,19 +1,24 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 53DDE6BE1F
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa08-09.prod.phx3.secureserver.net
+	(p3plsmtpa08-09.prod.phx3.secureserver.net [173.201.193.110])
+	by mail.openembedded.org (Postfix) with ESMTP id E07E86BD8B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 11:04:11 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r84B3lsB028884; 
-	Wed, 4 Sep 2013 06:04:12 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Sep 2013 16:05:03 +0500
-Message-Id: <1378292703-10358-5-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1378292703-10358-1-git-send-email-muhammad_shakeel@mentor.com>
-References: <1378292703-10358-1-git-send-email-muhammad_shakeel@mentor.com>
-Subject: [PATCH 5/5] [v6] systemd: Remove base_libdir if installed only for systemd_unitdir
+	Wed,  4 Sep 2013 11:20:10 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa08-09.prod.phx3.secureserver.net with 
+	id LzLB1m00F1mTNtu01zLBbD; Wed, 04 Sep 2013 04:20:12 -0700
+Message-ID: <5227176D.2050105@pabigot.com>
+Date: Wed, 04 Sep 2013 06:20:13 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <521CF70C.2050100@pabigot.com> <2056053.nfWMgOXbJx@helios>
+	<5221ABED.6060705@pabigot.com> <1522300.pfxjxHF61P@helios>
+In-Reply-To: <1522300.pfxjxHF61P@helios>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: qt4-x11-free dependence on gtk+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,41 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 11:04:11 -0000
+X-List-Received-Date: Wed, 04 Sep 2013 11:20:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On 09/04/2013 05:56 AM, Paul Eggleton wrote:
+> Hi Peter,
+>   
+> On Saturday 31 August 2013 03:40:13 Peter A. Bigot wrote:
+>> On 08/30/2013 08:37 AM, Paul Eggleton wrote:
+>>> On Tuesday 27 August 2013 13:59:24 Peter A. Bigot wrote:
+>>>> Since "bitbake qt4-x11-free" failed for me until I did "bitbake gtk+",
+>>>> qt4-x11-free needs some sort of dependency on gtk+ to avoid the failure
+>>>> below.  I'm guessing it's something like the following added to
+>>>> qt4-x11-free.inc:
+>>>>
+>>>> PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'x11', 'gtk', '',
+>>>> d)}"
+>>>> PACKAGECONFIG[gtk] = "-gtkstyle,-no-gtkstyle,gtk+"
+>>>>
+>>>> but since it takes about an hour to build qt4-x11-free on my system I'm
+>>>> hoping somebody can tell me whether that's the right approach.
+>>> This seems reasonable to me. I can't actually reproduce the failure, but I
+>>> can see how the dependency comes in and it does look to be on by default.
+>> What actually happens is qt4 assumes -gtkstyle, but disables it if gtk+
+>> (not gtk+3) can't be located in sysroots by invoking pkgconfig.
+>>
+>> qt4-x11-free already depends on x11 so looking for x11 in
+>> DISTRO_FEATURES will always succeed.
+> Right, that check alone wouldn't solve anything.
+>   
+>> Further, PACKAGECONFIG doesn't work because the recipe uses qmake and I
+>> can't see where changes to EXTRA_OECONF are ever applied.
+> Indeed, I had missed that - that's because we haven't yet used PACKAGECONFIG
+> in conjunction with Qt (mainly because a lot of the Qt configure options
+> effectively have more than two states which PACKAGECONFIG can't handle) and Qt
+> doesn't use autotools so it doesn't already use EXTRA_OECONF.
+>
+>> So unless there's a way to do something like PACKAGECONFIG that isn't
+>> PACKAGECONFIG, the options I see are either add -gtkstyle to
+>> QT_X11_FLAGS and gtk+ to DEPENDS, or leave DEPENDS alone and add
+>> -no-gtkstyle to QT_X11_FLAGS. I don't knowingly use qt4 so don't know
+>> whether the GTK theme is important, but I'm inclined to the former path
+>> (unconditionally enable gtk+).
+>>
+>> Any better way to solve this?
+> We could add ${EXTRA_OECONF} to the configure command line and then the
+> previously suggested PACKAGECONFIG will work. I'm tempted to suggest this
+> should be off by default as well since most users of Qt in our environment will
+> neither want nor expect it to depend on GTK+; having QGtkStyle enabled is (I
+> would think) peripheral to most embedded use cases.
 
-If a recipe installs systemd_unitdir and it is a non-systemd build than
-systemd.bbclass deletes systemd_unitdir (/lib/systemd/) but not
-base_libdir (/lib). In this case if base_libdir is empty than following
-QA Issue is reported.
+I actually tried that and the build blew up; I think some sort of 
+machine-specific options got inherited and placed where they weren't 
+expected (Qt's configure is not autoconf configure), but didn't bother 
+looking closely.
 
-ERROR: QA Issue: openssh: Files/directories were installed but not shipped
-  /lib
+Any solution other than forcing either -gtkstyle or -no-gtkstyle is more 
+intrusive than I want to take on, especially for a recipe I don't 
+personally rely on and at this stage of the development cycle.  Since I 
+can't tell what the right choice is and turning it off may break the 
+observed existing behavior in many cases, I've opened bug 5116 for 
+somebody more qualified to handle.
 
-If base_libdir was installed due to systemd_unitdir installation than for
-non-systemd build it should also be removed.
+Peter
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/classes/systemd.bbclass |    3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 76f0e7d..8ec4992 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -168,6 +168,9 @@ python rm_systemd_unitdir (){
-         systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True))
-         if os.path.exists(systemd_unitdir):
-             shutil.rmtree(systemd_unitdir)
-+        base_libdir = oe.path.join(d.getVar("D", True), d.getVar('base_libdir', True))
-+        if (os.path.exists(base_libdir) and not os.listdir(base_libdir)):
-+            os.rmdir(base_libdir)
- }
- do_install[postfuncs] += "rm_systemd_unitdir "
- 
--- 
-1.7.9.5
+>
+> Cheers,
+> Paul
+>
 
 
