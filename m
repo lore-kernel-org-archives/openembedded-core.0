@@ -1,30 +1,29 @@
-Return-Path: <fgretief@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by mail.openembedded.org (Postfix) with ESMTP id B32046BD75
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 85B1A6BE14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Sep 2013 23:50:54 +0000 (UTC)
-Received: by mail-la0-f51.google.com with SMTP id es20so5327906lab.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Sep 2013 16:50:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=YXm90gy+cm8x1WhLeoOgx7WiCKhpBo3FRucy39TOXqA=;
-	b=Scwxgd19OQ+S5HXTmnqs1Iam8y748xFQnu4Sl/n1uFu0ihSR9hZ25pQbdWB//f5eMf
-	wNqYSiKCdQVxO1va3eu8rP18kkQHDqT2fNvysU+93aAqluUqNdIZppg9eCc7rFwaRCKj
-	zyJpBDBqmbXrMjiMOrcnL1Pju8+6qLJMS5GnhwSJCftguJH1sI3iy+6KAI2kUh0jD9mN
-	SZ8kw08YpUgVIMiIZy3ZXEcYnjX0v/sZm5veoQOeTmdreSE7sSlli1j+pSEI/BKDBLTx
-	A8Bn+laDzCJLlJNoIHAAjjO1O2SiMefduDoYVzwlc62hq8ibpbF8pNzoQe00ACtqW4nJ
-	Ng+g==
+	Wed,  4 Sep 2013 00:58:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r840vvwg013158
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Sep 2013 17:57:57 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 3 Sep 2013 17:57:56 -0700
+Message-ID: <52268570.7050701@windriver.com>
+Date: Wed, 4 Sep 2013 08:57:20 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Received: by 10.152.203.233 with SMTP id kt9mr3633244lac.29.1378242802003;
-	Tue, 03 Sep 2013 14:13:22 -0700 (PDT)
-Received: by 10.152.37.102 with HTTP; Tue, 3 Sep 2013 14:13:21 -0700 (PDT)
-Date: Tue, 3 Sep 2013 23:13:21 +0200
-Message-ID: <CAFpw0gLn_s_SYaj9mMtYJvBfc1dqYEzYcXFn04J9+Xm1UroLeA@mail.gmail.com>
-From: Francois Retief <fgretief@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: GCC search paths in MinGW SDK
+To: Vali Cobelea <valentin.cobelea@enea.com>
+References: <cover.1378208967.git.liezhi.yang@windriver.com>
+	<de9091dfe0d902de86a95fa1856c44f7fc4e6544.1378208967.git.liezhi.yang@windriver.com>
+	<5225DB39.80204@windriver.com> <5225DBC9.7040801@enea.com>
+In-Reply-To: <5225DBC9.7040801@enea.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] archiver.bbclass: exclude recursive symlink for diff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,65 +36,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2013 23:50:55 -0000
-Content-Type: multipart/alternative; boundary=001a11345984a0b5f304e5812874
+X-List-Received-Date: Wed, 04 Sep 2013 00:58:05 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11345984a0b5f304e5812874
-Content-Type: text/plain; charset=ISO-8859-1
 
-Hi all,
+Hi Valentin,
 
-Thanks to Richard's recent improvements in the oe-core tree, I finally got
-my first MinGW build to compile through and generate a SDK tarball.
+It hangs up when build acl (which means that I can reproduce the
+problem as you have told), but it worked well without this patch,
+maybe python version related, I will do more investigation.
 
-Next issue is that on windows GCC is unable to find the crt1.o, crti.o and
-crtbegin.o files. when compiling a small hello world app (see
-gist<https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03>[1]
-for gcc verbose output). I verified that the files are indeed in the
-SDK folders and was correctly unpacked.
+// Robert
 
-Next, I checked the search path (-L) options and they point to the
-respective directories where the files reside.
+On 09/03/2013 08:53 PM, Vali Cobelea wrote:
+> Hi,
+>
+> What seems to be the issue ?
+>
+> BR,
+> Valentin
+>
+>
+> On 09/03/2013 03:51 PM, Robert Yang wrote:
+>>
+>> Please hold this patch for a while, seems that it didn't fix all of the things.
+>>
+>> // Robert
+>>
+>> On 09/03/2013 07:51 PM, Robert Yang wrote:
+>>> There would be errors if there are recursive symlinks in the ${S}:
+>>>
+>>> diff:
+>>> /xxx/udev/182-r8/udev-182/test/sys/block/loop0/bdi/subsystem/0:16/subsystem:
+>>> recursive directory loop
+>>>
+>>> We can check the recursive symlink and save it to the exclude file, then
+>>> the diff's --exclude-from argument can exclude them
+>>>
+>>> [YOCTO #4986]
+>>>
+>>> Signed-off-by: Valentin Cobelea <valentin.cobelea@enea.com>
+>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>> ---
+>>>   meta/classes/archiver.bbclass |   18 ++++++++++++++++++
+>>>   1 file changed, 18 insertions(+)
+>>>
+>>> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+>>> index 66efe7d..f5ad562 100644
+>>> --- a/meta/classes/archiver.bbclass
+>>> +++ b/meta/classes/archiver.bbclass
+>>> @@ -493,6 +493,24 @@ def create_diff_gz(d):
+>>>       for i in exclude_from:
+>>>           f.write(i)
+>>>           f.write("\n")
+>>> +
+>>> +    symlinks = []
+>>> +    directories = []
+>>> +
+>>> +    # Add symlink and root dir to the separated lists for checking whether
+>>> +    # there is recursive symlink
+>>> +    for root, dirs, files in os.walk(os.getcwd(), followlinks=True):
+>>> +        if os.path.islink(root):
+>>> +            symlinks.append(root)
+>>> +        elif os.path.isdir(root):
+>>> +            directories.append(root)
+>>> +
+>>> +    # Check if there is a recursive symlink to a dir
+>>> +    for sym in symlinks:
+>>> +        if sym in directories:
+>>> +            # write the 'sym' in the 'exclude-from' file
+>>> +            f.write(os.path.basename(sym))
+>>> +
+>>>       f.close()
+>>>
+>>>       s=d.getVar('S', True)
+>>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
-Is it hard coded somewhere GCC should look for these files?  Can anyone
-give me some pointers where to start looking?
-
-Cheers,
-  Francois
-
-ps. I have noticed that there is a relocate_sdk.py file in the root of the
-SDK folder. What is it's purpose and can it have anything to do with the
-GCC search paths?
-
-[1]
-https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03
-[2] https://github.com/fgretief/meta-mingw
-
---001a11345984a0b5f304e5812874
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi all,<br><br></div><div>Thanks to Richard&#39;s rec=
-ent improvements in the oe-core tree, I finally got my first MinGW build to=
- compile through and generate a SDK tarball.<br><br></div><div>Next issue i=
-s that on windows GCC is unable to find the crt1.o, crti.o and crtbegin.o f=
-iles. when compiling a small hello world app (see <a href=3D"https://gist.g=
-ithub.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03">gist</=
-a> [1] for gcc verbose output). I verified that the files are indeed in the=
- SDK folders and was correctly unpacked. <br>
-<br></div><div>Next, I checked the search path (-L) options and they point =
-to the respective directories where the files reside.<br><br></div><div>Is =
-it hard coded somewhere GCC should look for these files?=A0 Can anyone give=
- me some pointers where to start looking?<br>
-</div><div><br></div><div>Cheers,<br></div><div>=A0 Francois<br><br></div><=
-div>ps. I have noticed that there is a relocate_sdk.py file in the root of =
-the SDK folder. What is it&#39;s purpose and can it have anything to do wit=
-h the GCC search paths?<br>
-</div><div></div><div><div><br>[1] <a href=3D"https://gist.github.com/fgret=
-ief/6429416#file-mingw-gcc-verbose-output-2013-09-03">https://gist.github.c=
-om/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03</a><br>[2] <a =
-href=3D"https://github.com/fgretief/meta-mingw">https://github.com/fgretief=
-/meta-mingw</a><br>
-<br></div></div></div>
-
---001a11345984a0b5f304e5812874--
