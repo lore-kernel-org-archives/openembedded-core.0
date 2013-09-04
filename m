@@ -1,38 +1,20 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f47.google.com (mail-oa0-f47.google.com
-	[209.85.219.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DF8E16BDDC
+Return-Path: <valentin.popa@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 69E706BE14
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 15:39:58 +0000 (UTC)
-Received: by mail-oa0-f47.google.com with SMTP id g12so623513oah.34
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2013 08:40:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=LcxlIp1OYaoNUZZQTSwMN8E8nbk8v+kLhMxNSTT+oKI=;
-	b=jHSJl5NOW9pm9AVHFMsWNgkVCvBlwdByXT8FyJCc8h8+zBpcgk9YZfuPSNrf3Gr5u0
-	ytOG2TXraKQg4Wf+sFE9L0TyQKc4f1h9hinDWrLdMWoi7ZcUrC8RwPwunwLbNsbp00Kz
-	LUtlvYJ+LRVm7IG5A9zAYGQnivWAkqp38T51yksyMWr91qFl6orysHxfYOmo4asywZn7
-	ZoGpiPJiFfafoG/88F/5INm+2fr/Sz01hJ/ImBoUly0iba0ny9Rasro5OFtS3h/DPbxB
-	zA8qoi3Zf/NJ7H0uAHqb7p0+y5Ye0e1bzuMLfcSVVvzDwH7syqvevX48t1OzjxribBsZ
-	lkHQ==
-MIME-Version: 1.0
-X-Received: by 10.60.94.164 with SMTP id dd4mr1259882oeb.68.1378309200159;
-	Wed, 04 Sep 2013 08:40:00 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Wed, 4 Sep 2013 08:40:00 -0700 (PDT)
-In-Reply-To: <1378299645.1059.236.camel@ted>
-References: <CAFpw0gLn_s_SYaj9mMtYJvBfc1dqYEzYcXFn04J9+Xm1UroLeA@mail.gmail.com>
-	<1378299645.1059.236.camel@ted>
-Date: Wed, 4 Sep 2013 12:40:00 -0300
-X-Google-Sender-Auth: wbdRMOJnQWFhD_CTyO5xmKVczD0
-Message-ID: <CAP9ODKrEX1CqaPDDpLJNnDjrSzcqZhX43VY6gS4dF4xCHdu53Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: GCC search paths in MinGW SDK
+	Wed,  4 Sep 2013 15:56:01 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 04 Sep 2013 08:56:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,1021,1367996400"; d="scan'208";a="290770516"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
+	by AZSMGA002.ch.intel.com with ESMTP; 04 Sep 2013 08:56:00 -0700
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Sep 2013 18:57:10 +0300
+Message-Id: <1378310230-20253-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH_V2] HOB: split live into iso and hddimg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +27,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 15:39:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 04 Sep 2013 15:56:02 -0000
 
-On Wed, Sep 4, 2013 at 10:00 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I've shared the result of my tweaks as
-> http://git.yoctoproject.org/cgit.cgi/meta-mingw/ btw. I flattened the
-> history as I had a ton of now meaningless commits and tests so it made
-> sense for a clean start IMO.
+changes to split live into iso and hddimg without
+adding a new image type class.
 
-Richard, I think it is better if we use Francois repository and don't
-make it under git.yoctoproject.org for now. It will confuse people and
-potentially people can base work on this, instead of Francois one.
-Once Francois is happy with this, it can be moved to
-git.yoctoproject.org and turn github one into a mirror of it.
+[YOCTO #3197]
+---
+ meta/classes/image.bbclass       | 11 ++++++++++-
+ meta/classes/image_types.bbclass | 11 +++++++----
+ 2 files changed, 17 insertions(+), 5 deletions(-)
 
-My 2c.
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index ea59c36..3f76d80 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -87,7 +87,16 @@ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
+ do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_packagedata"
+ 
+-IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}'
++NOISO = '${@base_contains("IMAGE_FSTYPES", "iso", "0", "1", d)}'
++NOHDD = '${@base_contains("IMAGE_FSTYPES", "hddimg", "0", "1", d)}'
++
++def build_live(d):
++    if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
++        return "live"
++    else:
++        return "empty"
++
++IMAGE_TYPE_live = '${@build_live(d)}'
+ inherit image-${IMAGE_TYPE_live}
+ IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
+ inherit image-${IMAGE_TYPE_vmdk}
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index c168ed5..6af6499 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -43,12 +43,15 @@ def get_imagecmds(d):
+         if "ext3" not in alltypes:
+             alltypes.append("ext3")
+         types.remove("vmdk")
+-    if "live" in types:
++    if "iso" in types or "hddimg" in types:
+         if "ext3" not in types:
+             types.append("ext3")
+         if "ext3" not in alltypes:
+             alltypes.append("ext3")
+-        types.remove("live")
++        if "iso" in types:
++            types.remove("iso")
++        if "hddimg" in types:
++            types.remove("hddimg")
+ 
+     if d.getVar('IMAGE_LINK_NAME', True):
+         if d.getVar('RM_OLD_IMAGE', True) == "1":
+@@ -115,7 +118,7 @@ def imagetypes_getdepends(d):
+     deps = []
+     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
+-        if type == "vmdk" or type == "live":
++        if type == "vmdk" or type == "iso" or type == "hddimg":
+             type = "ext3"
+         basetype = type
+         for ctype in ctypes:
+@@ -230,7 +233,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+-IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
++IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf iso hddimg"
+ 
+ COMPRESSIONTYPES = "gz bz2 lzma xz"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.8.1.2
+
 
