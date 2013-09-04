@@ -1,29 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9198F6BDAA
+Return-Path: <Valentin.Cobelea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id B34106BBB0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 07:00:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r84705Ng007261
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Sep 2013 00:00:05 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 4 Sep 2013 00:00:03 -0700
-Message-ID: <5226DA72.8010709@windriver.com>
-Date: Wed, 4 Sep 2013 15:00:02 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+	Wed,  4 Sep 2013 07:22:38 +0000 (UTC)
+Received: from localhost.enea.se (192.168.14.201) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Wed, 4 Sep 2013
+	09:22:36 +0200
+Message-ID: <5226DFBB.2080304@enea.com>
+Date: Wed, 4 Sep 2013 10:22:35 +0300
+From: Vali Cobelea <valentin.cobelea@enea.com>
+Organization: ENEA
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: <rongqing.li@windriver.com>
-References: <cover.1378276893.git.rongqing.li@windriver.com>
-	<c4888f2e74ac1e1a20ea6907d982f208a0bd556d.1378276893.git.rongqing.li@windriver.com>
-In-Reply-To: <c4888f2e74ac1e1a20ea6907d982f208a0bd556d.1378276893.git.rongqing.li@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+References: <cover.1378208967.git.liezhi.yang@windriver.com>
+	<de9091dfe0d902de86a95fa1856c44f7fc4e6544.1378208967.git.liezhi.yang@windriver.com>
+	<5225DB39.80204@windriver.com> <5225DBC9.7040801@enea.com>
+	<52268570.7050701@windriver.com>
+In-Reply-To: <52268570.7050701@windriver.com>
+X-Originating-IP: [192.168.14.201]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] systemd-compat-units: do not create runlevel command
+Subject: Re: [PATCH 1/1] archiver.bbclass: exclude recursive symlink for diff
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +34,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 07:00:02 -0000
+X-List-Received-Date: Wed, 04 Sep 2013 07:22:40 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/04/2013 02:56 PM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
+Hi,
+
+You can try even without the patch and see if you reproduce the issue.
+We do have the symlinks recursivity problem as I said but on random 
+packages, "udev" was the first we noticed.
+
+Best regards,
+Valentin
+
+On 09/04/2013 03:57 AM, Robert Yang wrote:
 >
-> It seems strange that runlevel always returns 1, we should create
-> a runlevel link to systemctl if systemd is installed.
+> Hi Valentin,
 >
-> Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd-compat-units.bb |    5 -----
->   1 file changed, 5 deletions(-)
+> It hangs up when build acl (which means that I can reproduce the
+> problem as you have told), but it worked well without this patch,
+> maybe python version related, I will do more investigation.
 >
-> diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-> index 9b4a8a4..c47c14b 100644
-> --- a/meta/recipes-core/systemd/systemd-compat-units.bb
-> +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-> @@ -21,11 +21,6 @@ do_install() {
->   	install -m 0644 ${WORKDIR}/machineid.service ${D}${systemd_unitdir}/system
->   	ln -sf ../machineid.service ${D}${systemd_unitdir}/system/sysinit.target.wants/
->   	ln -sf ../machineid.service ${D}${systemd_unitdir}/system/basic.target.wants/
-> -
-> -	# hack to make old style sysvinit postinsts succeed
-> -	install -d ${D}${bindir}
-> -	echo "echo 1" > ${D}${bindir}/runlevel
-> -	chmod 0755 ${D}${bindir}/runlevel
-
-
-In fact, I am not sure what they are fixing, if these codes are still using,
-I will think other methods to make runlevel work
-
--Roy
-
-
-
->   }
+> // Robert
 >
->   SYSTEMD_DISABLED_SYSV_SERVICES = " \
->
+> On 09/03/2013 08:53 PM, Vali Cobelea wrote:
+>> Hi,
+>>
+>> What seems to be the issue ?
+>>
+>> BR,
+>> Valentin
+>>
+>>
+>> On 09/03/2013 03:51 PM, Robert Yang wrote:
+>>>
+>>> Please hold this patch for a while, seems that it didn't fix all of 
+>>> the things.
+>>>
+>>> // Robert
+>>>
+>>> On 09/03/2013 07:51 PM, Robert Yang wrote:
+>>>> There would be errors if there are recursive symlinks in the ${S}:
+>>>>
+>>>> diff:
+>>>> /xxx/udev/182-r8/udev-182/test/sys/block/loop0/bdi/subsystem/0:16/subsystem: 
+>>>>
+>>>> recursive directory loop
+>>>>
+>>>> We can check the recursive symlink and save it to the exclude file, 
+>>>> then
+>>>> the diff's --exclude-from argument can exclude them
+>>>>
+>>>> [YOCTO #4986]
+>>>>
+>>>> Signed-off-by: Valentin Cobelea <valentin.cobelea@enea.com>
+>>>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>>> ---
+>>>>   meta/classes/archiver.bbclass |   18 ++++++++++++++++++
+>>>>   1 file changed, 18 insertions(+)
+>>>>
+>>>> diff --git a/meta/classes/archiver.bbclass 
+>>>> b/meta/classes/archiver.bbclass
+>>>> index 66efe7d..f5ad562 100644
+>>>> --- a/meta/classes/archiver.bbclass
+>>>> +++ b/meta/classes/archiver.bbclass
+>>>> @@ -493,6 +493,24 @@ def create_diff_gz(d):
+>>>>       for i in exclude_from:
+>>>>           f.write(i)
+>>>>           f.write("\n")
+>>>> +
+>>>> +    symlinks = []
+>>>> +    directories = []
+>>>> +
+>>>> +    # Add symlink and root dir to the separated lists for checking 
+>>>> whether
+>>>> +    # there is recursive symlink
+>>>> +    for root, dirs, files in os.walk(os.getcwd(), followlinks=True):
+>>>> +        if os.path.islink(root):
+>>>> +            symlinks.append(root)
+>>>> +        elif os.path.isdir(root):
+>>>> +            directories.append(root)
+>>>> +
+>>>> +    # Check if there is a recursive symlink to a dir
+>>>> +    for sym in symlinks:
+>>>> +        if sym in directories:
+>>>> +            # write the 'sym' in the 'exclude-from' file
+>>>> +            f.write(os.path.basename(sym))
+>>>> +
+>>>>       f.close()
+>>>>
+>>>>       s=d.getVar('S', True)
+>>>>
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>>
 
--- 
-Best Reagrds,
-Roy | RongQing Li
 
