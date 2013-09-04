@@ -1,26 +1,35 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id E26566B275
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BB746B275
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 16:11:02 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 04 Sep 2013 09:11:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.89,1022,1367996400"; d="scan'208";a="290776600"
-Received: from unknown (HELO [10.255.14.205]) ([10.255.14.205])
-	by AZSMGA002.ch.intel.com with ESMTP; 04 Sep 2013 09:10:42 -0700
-Message-ID: <52275B82.4040309@linux.intel.com>
-Date: Wed, 04 Sep 2013 09:10:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Valentin Popa <valentin.popa@intel.com>
-References: <1378310230-20253-1-git-send-email-valentin.popa@intel.com>
-In-Reply-To: <1378310230-20253-1-git-send-email-valentin.popa@intel.com>
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH_V2] HOB: split live into iso and hddimg
+	Wed,  4 Sep 2013 16:22:07 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id u54so613327wes.27
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Sep 2013 09:22:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=wGzpxu41KvY8ePbXksjfr9gn/VUF21r2wrKtds6G2B8=;
+	b=Wz/QQRoWzU4Cxuzg/zi7UyYfVk+yjbf7SIZwnzT2vMPmmImGXixO8x6Hf68vB4cBev
+	UpEpwmpaCg1ZEdXop0e7CgytjxzM+KJy/dbFsclUnmFgAnzTDcGdUl++x8X6dydsUxs6
+	a5+DpP5A0o/RDf/XVwIx6a38hxK/rk30L9m3F0ZlknYKbp13YjsXxdtuGY1IPqCUg8KK
+	NoytXiyvtWpn5LCJS0ewsRI0HnsFYhQeTZrCJgHqOLkmxMc4p/KvVTZnV9dX+hTxq1om
+	HA4puCxRX+Nwe+5kj/QPkIXnAs4W+6QPz0MEQHDikEqk29ed2fMi8e+8k32csveGHEN1
+	77CA==
+X-Gm-Message-State: ALoCoQllMo5BSDvv+guYGPNbMUgAY4KAchAwmaneTY2q/ht9SFKHaM28GaKJ/irOMIVXZZnWJn6s
+X-Received: by 10.194.86.5 with SMTP id l5mr2444581wjz.45.1378311728411;
+	Wed, 04 Sep 2013 09:22:08 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id u8sm5186549wiz.2.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 04 Sep 2013 09:22:08 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Sep 2013 17:22:02 +0100
+Message-Id: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 16:11:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Sep 2013 16:22:07 -0000
 
-On 09/04/2013 08:57 AM, Valentin Popa wrote:
-> changes to split live into iso and hddimg without
-> adding a new image type class.
->
+Only qemumips was recommending kernel-modules which meant that the other qemu
+machines were missing some kernel modules, for example binfmt-misc.
 
-Will there be corresponding patches for the places that IMAGE_FSTYPES 
-use the "live" type?
+Move the recommends to qemu.inc so that all qemu machines pull in the kernel
+modules that have been built.
 
-There may also be some doc's changes that are needed.
+[ YOCTO #4863 ]
 
-Sau!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/machine/include/qemu.inc |    2 ++
+ meta/conf/machine/qemumips.conf    |    2 --
+ meta/conf/machine/qemumips64.conf  |    2 --
+ 3 files changed, 2 insertions(+), 4 deletions(-)
 
-> [YOCTO #3197]
-> ---
->   meta/classes/image.bbclass       | 11 ++++++++++-
->   meta/classes/image_types.bbclass | 11 +++++++----
->   2 files changed, 17 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index ea59c36..3f76d80 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -87,7 +87,16 @@ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
->   do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
->   do_rootfs[recrdeptask] += "do_packagedata"
->
-> -IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}'
-> +NOISO = '${@base_contains("IMAGE_FSTYPES", "iso", "0", "1", d)}'
-> +NOHDD = '${@base_contains("IMAGE_FSTYPES", "hddimg", "0", "1", d)}'
-> +
-> +def build_live(d):
-> +    if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
-> +        return "live"
-> +    else:
-> +        return "empty"
-> +
-> +IMAGE_TYPE_live = '${@build_live(d)}'
->   inherit image-${IMAGE_TYPE_live}
->   IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
->   inherit image-${IMAGE_TYPE_vmdk}
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index c168ed5..6af6499 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -43,12 +43,15 @@ def get_imagecmds(d):
->           if "ext3" not in alltypes:
->               alltypes.append("ext3")
->           types.remove("vmdk")
-> -    if "live" in types:
-> +    if "iso" in types or "hddimg" in types:
->           if "ext3" not in types:
->               types.append("ext3")
->           if "ext3" not in alltypes:
->               alltypes.append("ext3")
-> -        types.remove("live")
-> +        if "iso" in types:
-> +            types.remove("iso")
-> +        if "hddimg" in types:
-> +            types.remove("hddimg")
->
->       if d.getVar('IMAGE_LINK_NAME', True):
->           if d.getVar('RM_OLD_IMAGE', True) == "1":
-> @@ -115,7 +118,7 @@ def imagetypes_getdepends(d):
->       deps = []
->       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->       for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
-> -        if type == "vmdk" or type == "live":
-> +        if type == "vmdk" or type == "iso" or type == "hddimg":
->               type = "ext3"
->           basetype = type
->           for ctype in ctypes:
-> @@ -230,7 +233,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
->   IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->
->   # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
-> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf iso hddimg"
->
->   COMPRESSIONTYPES = "gz bz2 lzma xz"
->   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
->
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 545f8d1..7baf13e 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -27,3 +27,5 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
+ 
+ # Provide the nfs server kernel module for all qemu images
+ KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
++
++MACHINE_EXTRA_RRECOMMENDS = "kernel-modules"
+diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+index ce1c419..89721a6 100644
+--- a/meta/conf/machine/qemumips.conf
++++ b/meta/conf/machine/qemumips.conf
+@@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
+ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+ 
+ SERIAL_CONSOLE = "115200 ttyS0"
+-
+-MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
+index b2c7998..7ba98cb 100644
+--- a/meta/conf/machine/qemumips64.conf
++++ b/meta/conf/machine/qemumips64.conf
+@@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
+ KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+ 
+ SERIAL_CONSOLE = "115200 ttyS0"
+-
+-MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+-- 
+1.7.10.4
+
 
