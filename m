@@ -1,30 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 5753F6BD85
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B83A6BF49
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 13:10:21 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r84DNG3T000426; Wed, 4 Sep 2013 14:23:16 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id cMIT9FjvvHRg; Wed,  4 Sep 2013 14:23:16 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r84DNCap000410
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 4 Sep 2013 14:23:13 +0100
-Message-ID: <1378300202.1059.242.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Valentin Popa <valentin.popa@intel.com>
-Date: Wed, 04 Sep 2013 14:10:02 +0100
-In-Reply-To: <1378284202-2781-1-git-send-email-valentin.popa@intel.com>
-References: <1378284202-2781-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] HOB: split live into iso and hddimg
+	Wed,  4 Sep 2013 13:45:01 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Sep 2013 06:45:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,1021,1367996400"; d="scan'208";a="390939936"
+Received: from unknown (HELO helios.localnet) ([10.252.123.76])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Sep 2013 06:45:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 04 Sep 2013 14:44:54 +0100
+Message-ID: <1378304978.cEImkS9DJd@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <20130828082900.GG3544@jama>
+References: <1365581101-3810-1-git-send-email-koen@dominion.thruhere.net>
+	<20130828082900.GG3544@jama>
+MIME-Version: 1.0
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [RFC][PATCHv2] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,111 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 13:10:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Sep 2013 13:45:01 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 2013-09-04 at 11:43 +0300, Valentin Popa wrote:
-> changes to split live into iso and hddimg without
-> adding a new image type class.
-> 
-> [YOCTO #3197]
-> ---
->  meta/classes/image.bbclass       | 12 +++++++++++-
->  meta/classes/image_types.bbclass | 14 ++++++++++----
->  2 files changed, 21 insertions(+), 5 deletions(-)
-> 
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index ea59c36..ef99ecc 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -87,11 +87,21 @@ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
->  do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
->  do_rootfs[recrdeptask] += "do_packagedata"
->  
-> -IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}'
-> +NOISO = '${@base_contains("IMAGE_FSTYPES", "iso", "0", "1", d)}'
-> +NOHDD = '${@base_contains("IMAGE_FSTYPES", "hddimg", "0", "1", d)}'
-> +
-> +def build_live(d):
-> +    if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
-> +        return "live"
-> +    else:
-> +        return "empty"
+On Wednesday 28 August 2013 10:29:00 Martin Jansa wrote:
+> On Wed, Apr 10, 2013 at 10:05:01AM +0200, Koen Kooi wrote:
+> > This allows a clean seperation between all image outputs and making it
+> > possible to have convinience symlinks to make it ready to deploy. And
+> > while it isn't a valid reason, it must be mentioned: BSP layers which do
+> > use convenience symlinks already don't step on files owned by others
+> > anymore.
+> > 
+> > I assumed this was the default behaviour in OE-classic, but as it turns
+> > out every DISTRO set it to deploy/images/$MACHINE on its own.
+> > 
+> > Code inspections shows that the all references to the image deploy dir in
+> > classes and scripts in OE-core do the right thing and parse the
+> > DEPLOY_DIR_IMAGE variable, except runqemu.
+>
+> Is there some reason why this patch didn't make it into 1.5?
 
-Can't we simplify this?
+I think it just got missed; looking at the changes made to runqemu I can see a 
+couple of concerns (double execution of bitbake -e and one missed change to 
+DEPLOY_DIR_IMAGE, albeit only in a message). I'm coming up with a revised 
+version now.
 
-def build_live(d):
-    if base_contains("IMAGE_FSTYPES", "iso", False, True, d):
-        return "live"
-    elif base_contains("IMAGE_FSTYPES", "hddimg", False, True, d):
-        return "live"
-    else:
-        return "empty"
+Cheers,
+Paul
 
+-- 
 
-
-
-> +IMAGE_TYPE_live = '${@build_live(d)}'
->  inherit image-${IMAGE_TYPE_live}
->  IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
->  inherit image-${IMAGE_TYPE_vmdk}
->  
-> +
->  python () {
-
-Random whitespace?
-
->      deps = " " + imagetypes_getdepends(d)
->      d.appendVarFlag('do_rootfs', 'depends', deps)
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index c168ed5..4eb4157 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -43,12 +43,18 @@ def get_imagecmds(d):
->          if "ext3" not in alltypes:
->              alltypes.append("ext3")
->          types.remove("vmdk")
-> -    if "live" in types:
-> +    if "iso" in types:
->          if "ext3" not in types:
->              types.append("ext3")
->          if "ext3" not in alltypes:
->              alltypes.append("ext3")
-> -        types.remove("live")
-> +        types.remove("iso")
-> +    if "hddimg" in types:
-
-    if "hddimg" in types or "iso" in types:
-?
-
-
-> +        if "ext3" not in types:
-> +            types.append("ext3")
-> +        if "ext3" not in alltypes:
-> +            alltypes.append("ext3")
-> +        types.remove("hddimg")
->  
->      if d.getVar('IMAGE_LINK_NAME', True):
->          if d.getVar('RM_OLD_IMAGE', True) == "1":
-> @@ -115,7 +121,7 @@ def imagetypes_getdepends(d):
->      deps = []
->      ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->      for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
-> -        if type == "vmdk" or type == "live":
-> +        if type == "vmdk" or type == "iso" or type == "hddimg":
->              type = "ext3"
->          basetype = type
->          for ctype in ctypes:
-> @@ -230,7 +236,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->  
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
-> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf iso hddimg"
->  
->  COMPRESSIONTYPES = "gz bz2 lzma xz"
->  COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
