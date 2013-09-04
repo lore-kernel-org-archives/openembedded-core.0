@@ -1,29 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 85B1A6BE14
+	by mail.openembedded.org (Postfix) with ESMTP id 127F16BDBC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 00:58:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r840vvwg013158
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 3 Sep 2013 17:57:57 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Tue, 3 Sep 2013 17:57:56 -0700
-Message-ID: <52268570.7050701@windriver.com>
-Date: Wed, 4 Sep 2013 08:57:20 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Wed,  4 Sep 2013 01:45:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r841jq1K017363
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Sep 2013 18:45:52 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 3 Sep 2013 18:45:51 -0700
+Message-ID: <522690CF.6030707@windriver.com>
+Date: Tue, 3 Sep 2013 20:45:51 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Vali Cobelea <valentin.cobelea@enea.com>
-References: <cover.1378208967.git.liezhi.yang@windriver.com>
-	<de9091dfe0d902de86a95fa1856c44f7fc4e6544.1378208967.git.liezhi.yang@windriver.com>
-	<5225DB39.80204@windriver.com> <5225DBC9.7040801@enea.com>
-In-Reply-To: <5225DBC9.7040801@enea.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] archiver.bbclass: exclude recursive symlink for diff
+To: <openembedded-core@lists.openembedded.org>
+References: <CAFpw0gLn_s_SYaj9mMtYJvBfc1dqYEzYcXFn04J9+Xm1UroLeA@mail.gmail.com>
+In-Reply-To: <CAFpw0gLn_s_SYaj9mMtYJvBfc1dqYEzYcXFn04J9+Xm1UroLeA@mail.gmail.com>
+Subject: Re: GCC search paths in MinGW SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,87 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 00:58:05 -0000
+X-List-Received-Date: Wed, 04 Sep 2013 01:45:50 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 9/3/13 4:13 PM, Francois Retief wrote:
+> Hi all,
+>
+> Thanks to Richard's recent improvements in the oe-core tree, I finally got my
+> first MinGW build to compile through and generate a SDK tarball.
+>
+> Next issue is that on windows GCC is unable to find the crt1.o, crti.o and
+> crtbegin.o files. when compiling a small hello world app (see gist
+> <https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03>
+> [1] for gcc verbose output). I verified that the files are indeed in the SDK
+> folders and was correctly unpacked.
+>
+> Next, I checked the search path (-L) options and they point to the respective
+> directories where the files reside.
+>
+> Is it hard coded somewhere GCC should look for these files?  Can anyone give me
+> some pointers where to start looking?
 
-Hi Valentin,
+Usually GCC can learn the location where it was executed from, and then use a 
+relative path from that to the location where the libc and other components are 
+located.
 
-It hangs up when build acl (which means that I can reproduce the
-problem as you have told), but it worked well without this patch,
-maybe python version related, I will do more investigation.
+> Cheers,
+>    Francois
+>
+> ps. I have noticed that there is a relocate_sdk.py file in the root of the SDK
+> folder. What is it's purpose and can it have anything to do with the GCC search
+> paths?
 
-// Robert
+On linux we play with the RPATH and other components to ensure that the 
+executables can file the libraries for execution.  I don't believe that is a 
+problem on windows as the DLLs are searched automatically.
 
-On 09/03/2013 08:53 PM, Vali Cobelea wrote:
-> Hi,
->
-> What seems to be the issue ?
->
-> BR,
-> Valentin
->
->
-> On 09/03/2013 03:51 PM, Robert Yang wrote:
->>
->> Please hold this patch for a while, seems that it didn't fix all of the things.
->>
->> // Robert
->>
->> On 09/03/2013 07:51 PM, Robert Yang wrote:
->>> There would be errors if there are recursive symlinks in the ${S}:
->>>
->>> diff:
->>> /xxx/udev/182-r8/udev-182/test/sys/block/loop0/bdi/subsystem/0:16/subsystem:
->>> recursive directory loop
->>>
->>> We can check the recursive symlink and save it to the exclude file, then
->>> the diff's --exclude-from argument can exclude them
->>>
->>> [YOCTO #4986]
->>>
->>> Signed-off-by: Valentin Cobelea <valentin.cobelea@enea.com>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>> ---
->>>   meta/classes/archiver.bbclass |   18 ++++++++++++++++++
->>>   1 file changed, 18 insertions(+)
->>>
->>> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
->>> index 66efe7d..f5ad562 100644
->>> --- a/meta/classes/archiver.bbclass
->>> +++ b/meta/classes/archiver.bbclass
->>> @@ -493,6 +493,24 @@ def create_diff_gz(d):
->>>       for i in exclude_from:
->>>           f.write(i)
->>>           f.write("\n")
->>> +
->>> +    symlinks = []
->>> +    directories = []
->>> +
->>> +    # Add symlink and root dir to the separated lists for checking whether
->>> +    # there is recursive symlink
->>> +    for root, dirs, files in os.walk(os.getcwd(), followlinks=True):
->>> +        if os.path.islink(root):
->>> +            symlinks.append(root)
->>> +        elif os.path.isdir(root):
->>> +            directories.append(root)
->>> +
->>> +    # Check if there is a recursive symlink to a dir
->>> +    for sym in symlinks:
->>> +        if sym in directories:
->>> +            # write the 'sym' in the 'exclude-from' file
->>> +            f.write(os.path.basename(sym))
->>> +
->>>       f.close()
->>>
->>>       s=d.getVar('S', True)
->>>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--Mark
+
+> [1]
+> https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03
+> [2] https://github.com/fgretief/meta-mingw
 >
 >
 >
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
 
