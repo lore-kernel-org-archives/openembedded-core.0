@@ -1,28 +1,46 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 127F16BDBC
+Return-Path: <olof.johansson@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BB60E6BDAA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 01:45:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r841jq1K017363
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  4 Sep 2013 06:30:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 517AD349626
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 3 Sep 2013 18:45:52 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 3 Sep 2013 18:45:51 -0700
-Message-ID: <522690CF.6030707@windriver.com>
-Date: Tue, 3 Sep 2013 20:45:51 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
-MIME-Version: 1.0
+	Wed,  4 Sep 2013 08:30:30 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eJ+zgbL8lirh
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Sep 2013 08:30:30 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 037CF349603
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Sep 2013 08:30:29 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id D8197844
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Sep 2013 08:30:29 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id CD19674F
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Sep 2013 08:30:29 +0200 (CEST)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by thoth.se.axis.com (Postfix) with ESMTP id CB8EF3404E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Sep 2013 08:30:29 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.2.255.0;
+	Wed, 4 Sep 2013 08:30:29 +0200
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 9371B9C078; 
+	Wed,  4 Sep 2013 08:30:29 +0200 (CEST)
+From: Olof Johansson <olof.johansson@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <CAFpw0gLn_s_SYaj9mMtYJvBfc1dqYEzYcXFn04J9+Xm1UroLeA@mail.gmail.com>
-In-Reply-To: <CAFpw0gLn_s_SYaj9mMtYJvBfc1dqYEzYcXFn04J9+Xm1UroLeA@mail.gmail.com>
-Subject: Re: GCC search paths in MinGW SDK
+Date: Wed, 4 Sep 2013 08:30:29 +0200
+Message-ID: <1378276229-19687-1-git-send-email-olofjn@axis.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Subject: [PATCH] flex: Only use create_wrapper for native and nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +53,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 01:45:50 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Sep 2013 06:30:32 -0000
+Content-Type: text/plain
 
-On 9/3/13 4:13 PM, Francois Retief wrote:
-> Hi all,
->
-> Thanks to Richard's recent improvements in the oe-core tree, I finally got my
-> first MinGW build to compile through and generate a SDK tarball.
->
-> Next issue is that on windows GCC is unable to find the crt1.o, crti.o and
-> crtbegin.o files. when compiling a small hello world app (see gist
-> <https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03>
-> [1] for gcc verbose output). I verified that the files are indeed in the SDK
-> folders and was correctly unpacked.
->
-> Next, I checked the search path (-L) options and they point to the respective
-> directories where the files reside.
->
-> Is it hard coded somewhere GCC should look for these files?  Can anyone give me
-> some pointers where to start looking?
+The create_wrapper functions of utils.bbclass cause implicit
+dependencies on bash, which may not be suitable for deployment on
+target. Besides, the wrapper doesn't seem to be necessary on target.
 
-Usually GCC can learn the location where it was executed from, and then use a 
-relative path from that to the location where the libc and other components are 
-located.
+Signed-off-by: Olof Johansson <olofjn@axis.com>
+---
+ meta/recipes-devtools/flex/flex.inc |    6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> Cheers,
->    Francois
->
-> ps. I have noticed that there is a relocate_sdk.py file in the root of the SDK
-> folder. What is it's purpose and can it have anything to do with the GCC search
-> paths?
-
-On linux we play with the RPATH and other components to ensure that the 
-executables can file the libraries for execution.  I don't believe that is a 
-problem on windows as the DLLs are searched automatically.
-
---Mark
-
-> [1]
-> https://gist.github.com/fgretief/6429416#file-mingw-gcc-verbose-output-2013-09-03
-> [2] https://github.com/fgretief/meta-mingw
->
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-devtools/flex/flex.inc b/meta/recipes-devtools/flex/flex.inc
+index 517db16..43f1dda 100644
+--- a/meta/recipes-devtools/flex/flex.inc
++++ b/meta/recipes-devtools/flex/flex.inc
+@@ -13,6 +13,10 @@ inherit autotools gettext
+ M4 = "${bindir}/m4"
+ M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+ 
+-do_install_append() {
++do_install_append_class-native() {
++	create_wrapper ${D}/${bindir}/flex M4=${M4}
++}
++
++do_install_append_class-nativesdk() {
+ 	create_wrapper ${D}/${bindir}/flex M4=${M4}
+ }
+-- 
+1.7.10.4
 
 
