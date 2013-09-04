@@ -1,31 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 39E706BD76
+Return-Path: <Paul_Woegerer@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A5996BCA4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 11:49:23 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r84C1u91029678 for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Sep 2013 13:02:25 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id JHRTw_z5u03w
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 13:02:24 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r84C2Jmf029690
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Sep 2013 13:02:20 +0100
-Message-ID: <1378295350.1059.226.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 04 Sep 2013 12:49:10 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: bitbake.conf: Add SDKPKGSUFFIX to hash whitelist
+	Wed,  4 Sep 2013 12:51:37 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1VHCYc-0002xz-NL from Paul_Woegerer@mentor.com ;
+	Wed, 04 Sep 2013 05:51:38 -0700
+Received: from SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) by
+	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
+	Microsoft SMTPSVC(6.0.3790.4675); Wed, 4 Sep 2013 05:51:38 -0700
+Received: from atv-pwoegere-l3.atv.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
+	Server id 14.2.247.3; Wed, 4 Sep 2013 13:51:36 +0100
+From: "Woegerer, Paul" <Paul_Woegerer@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Sep 2013 14:51:36 +0200
+Message-ID: <9990671.OfVBjYJR7C@atv-pwoegere-l3.atv.mentorg.com>
+Organization: Mentor Graphics, Embedded Software Division
+User-Agent: KMail/4.11 (Linux/3.10.10-25.g8038aea-desktop; KDE/4.11.0; x86_64; ;
+	)
+MIME-Version: 1.0
+X-OriginalArrivalTime: 04 Sep 2013 12:51:38.0553 (UTC)
+	FILETIME=[7EE10A90:01CEA96D]
+Cc: Tom Zanussi <tom.zanussi@linux.intel.com>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH 0/3] lttng: update to lttng 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 11:49:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Sep 2013 12:51:37 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The gcc recipes reference this however we account for it in the work
-directory paths and we don't want recipes depending on the value changing.
-This avoids unecessary rebuilds when switching SDKs.
+Since lttng 2.3.0 (Dominus Vobiscum) was released today I have updated the
+respective recipes.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 8f98a93..2d19d86 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -782,7 +782,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
-     SSTATE_DIR THISDIR FILESEXTRAPATHS FILE_DIRNAME HOME LOGNAME SHELL TERM \
-     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
-     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
--    CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH"
-+    CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV"
+Tested kernel and userspace tracing with TARGET qemux86 as described by:
+http://www.yoctoproject.org/docs/latest/profile-manual/profile-manual.html#lttng-linux-trace-toolkit-next-generation
+
+Noteworthy changes:
+http://lttng.org/lttng-toolchain-230-out
+
+Paul Woegerer (3):
+  lttng-ust: Update to version 2.3.0
+  lttng-tools: Update to version 2.3.0
+  lttng-modules: Update to version 2.3.0
+
+ meta/recipes-kernel/lttng/lttng-modules_git.bb |  4 ++--
+ meta/recipes-kernel/lttng/lttng-tools_2.2.3.bb | 31 --------------------------
+ meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb | 31 ++++++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.2.1.bb   | 31 --------------------------
+ meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb   | 31 ++++++++++++++++++++++++++
+ 5 files changed, 64 insertions(+), 64 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools_2.2.3.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-tools_2.3.0.bb
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.2.1.bb
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust_2.3.0.bb
+
+-- 
+1.8.4
 
 
 
