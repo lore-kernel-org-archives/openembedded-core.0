@@ -1,39 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9E161617
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 35047615F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 08:13:55 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id c13so271874eek.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 01:13:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=wMCSyXpiRXS7HLFjDOqe/zquGTqKrWJIiZ+dLnAjZwQ=;
-	b=IUR5+irraVQ8myh1d48ERxq0hoq4LZ4dSsYTogGWiLKFvNQY8V2+6lYN6Ew/AvxHL+
-	ZVUsQr4kEP0XCR0Y719Ko6anR8HHImZaAC8RMGlb8O1WKrVQgBOuwWnv6S8y4P848SQL
-	xigB5jLf9G9txfQqsrCsHYoKdPHKUV50AjL8E8K64iYZjtRNsZtongI7j0DqQHn5hUp0
-	es2PLivDb7VAsBQRAfPL7HaDJiLROQgkb3Kqyb5JIek7sZrl0eY7EFW7ao/GOG8VKx2W
-	xTbjBsNWxFmaWyE1Jcs7xapinlkJGf//A7fvKx6rdwln7ZpdcyOdDcJJ1qMsWdGc8tvY
-	JQmw==
-X-Received: by 10.15.45.8 with SMTP id a8mr11699826eew.1.1378368836913;
-	Thu, 05 Sep 2013 01:13:56 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	k7sm46508790eeg.13.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 05 Sep 2013 01:13:56 -0700 (PDT)
-Date: Thu, 5 Sep 2013 10:15:16 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Message-ID: <20130905081516.GI11500@jama>
-References: <cover.1378366233.git.laurentiu.palcu@intel.com>
-	<728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
+	Thu,  5 Sep 2013 08:20:56 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 05 Sep 2013 01:20:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,845,1371106800"; d="scan'208";a="291077508"
+Received: from unknown (HELO helios.localnet) ([10.252.123.106])
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Sep 2013 01:20:56 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 05 Sep 2013 09:20:55 +0100
+Message-ID: <3107150.CumXHZvvrO@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <20130905080407.GH11500@jama>
+References: <1497435.xtb1AxO9Wj@helios> <20130905080407.GH11500@jama>
 MIME-Version: 1.0
-In-Reply-To: <728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [yocto] OpenEmbedded Layer Index updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,80 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 08:13:57 -0000
-X-Groupsio-MsgNum: 44527
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BWWlCdgt6QLN7tv3"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Sep 2013 08:20:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---BWWlCdgt6QLN7tv3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Martin,
 
-On Thu, Sep 05, 2013 at 10:31:10AM +0300, Laurentiu Palcu wrote:
-> If IMAGE_FEATURES does not contain 'package-management' but the user
-> manually installs a package manager (opkg/dpkg/rpm) using
-> CORE_IMAGE_EXTRA_INSTALL (for example), then do not remove update-rc.d,
-> base-passwd and package metadata because these will be needed by the
-> package manager to function correcly.
->=20
-> [YOCTO #4484]
->=20
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> ---
->  meta/classes/image.bbclass |    7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index 84f638c..e1a7367 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -498,7 +498,12 @@ rootfs_install_complementary() {
->  }
-> =20
->  rootfs_uninstall_unneeded () {
-> -	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "t=
-rue", d)}; then
-> +	rpm_installed=3D${@base_contains("PACKAGE_INSTALL", "rpm",  "true", "fa=
-lse", d)}
-> +	opkg_installed=3D${@base_contains("PACKAGE_INSTALL", "opkg", "true", "f=
-alse", d)}
-> +	dpkg_installed=3D${@base_contains("PACKAGE_INSTALL", "dpkg", "true", "f=
-alse", d)}
-> +
-> +	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "t=
-rue", d)} &&\
+On Thursday 05 September 2013 10:04:07 Martin Jansa wrote:
+> On Thu, Sep 05, 2013 at 01:10:47AM +0100, Paul Eggleton wrote:
+> > As always, feedback is welcome.
+> 
+> Great job!
+> 
+> One more suggestion (maybe I've overlooked it):
+> 
+> It would be nice to be able to search recipe across all branches
+> (including oe-classic)
+> 
+> e.g. if someone asks me to include ace in our builds I would like to
+> just search for ace, like:
+> http://layers.openembedded.org/layerindex/branch/master/recipes/?q=ace
+> 
+> and find it's not in master/dylan/danny, but that it still is in
+> oe-classic
+> http://layers.openembedded.org/layerindex/oe-classic/recipe/13881/
+> 
+> Now I have to run the same search in 2-4 different branches to be sure
+> there isn't recipe for ace already.
+> 
+> In many cases we can assume that if something isn't in master then it
+> isn't in danny/dylan, but that's not true for e.g. mysql5 which should
+> correctly show availability in oe-classic/danny/dylan (and master has
+> mariadb).
 
-is this first condition still needed? Do we have some case where
-package-management is enabled without rpm/opkg/dpkg installed?
+Right, this would be the next step. I think we'd have to be careful about how 
+we present search results from other branches / OE-Classic (so it's clear what 
+is being shown) but now we actually have the data it's certainly technically 
+possible. I'll be continuing to work on this application as my spare time 
+allows.
 
-> +	   ! $rpm_installed && ! $opkg_installed && ! $dpkg_installed; then
->  		if [ -z "$(delayed_postinsts)" ]; then
->  			# All packages were successfully configured.
->  			# update-rc.d, base-passwd, run-postinsts are no further use, remove =
-them now
-> --=20
-> 1.7.9.5
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+Paul
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+-- 
 
---BWWlCdgt6QLN7tv3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Paul Eggleton
+Intel Open Source Technology Centre
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlIoPZQACgkQN1Ujt2V2gBzP4ACgiY3lGY68hkVqUF70WMW6Eomh
-DyUAn29JPAu1nMvniZEvfFxoyLY1JVKP
-=hOXB
------END PGP SIGNATURE-----
-
---BWWlCdgt6QLN7tv3--
