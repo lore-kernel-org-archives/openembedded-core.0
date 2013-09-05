@@ -1,27 +1,22 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 238216B068
+Return-Path: <pab@pabigot.com>
+Received: from p3plsmtpa11-10.prod.phx3.secureserver.net
+	(p3plsmtpa11-10.prod.phx3.secureserver.net [68.178.252.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 8902461788
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 11:11:59 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 05 Sep 2013 04:12:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,846,1371106800"; d="scan'208";a="291127324"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Sep 2013 04:11:59 -0700
-Date: Thu, 5 Sep 2013 14:11:57 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20130905111155.GB17481@lpalcu-linux>
-References: <cover.1378366233.git.laurentiu.palcu@intel.com>
-	<728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
-	<20130905081516.GI11500@jama>
-	<1378377834.6940.66.camel@phil-desktop.brightsign>
+	Thu,  5 Sep 2013 11:16:08 +0000 (UTC)
+Received: from [192.168.65.10] ([66.41.60.82])
+	by p3plsmtpa11-10.prod.phx3.secureserver.net with 
+	id MPG81m00N1mTNtu01PG8Xm; Thu, 05 Sep 2013 04:16:09 -0700
+Message-ID: <522867F8.6090804@pabigot.com>
+Date: Thu, 05 Sep 2013 06:16:08 -0500
+From: "Peter A. Bigot" <pab@pabigot.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-In-Reply-To: <1378377834.6940.66.camel@phil-desktop.brightsign>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
+To: OE-core <openembedded-core@lists.openembedded.org>
+References: <1377553769-21608-1-git-send-email-pab@pabigot.com>
+In-Reply-To: <1377553769-21608-1-git-send-email-pab@pabigot.com>
+Subject: Re: [PATCH 1/2] linux-firmware: correct name of Marvell license file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,77 +29,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 11:12:00 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Sep 2013 11:16:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 05, 2013 at 11:43:54AM +0100, Phil Blundell wrote:
-> On Thu, 2013-09-05 at 10:15 +0200, Martin Jansa wrote:
-> > On Thu, Sep 05, 2013 at 10:31:10AM +0300, Laurentiu Palcu wrote:
-> > >  rootfs_uninstall_unneeded () {
-> > > -	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
-> > > +	rpm_installed=${@base_contains("PACKAGE_INSTALL", "rpm",  "true", "false", d)}
-> > > +	opkg_installed=${@base_contains("PACKAGE_INSTALL", "opkg", "true", "false", d)}
-> > > +	dpkg_installed=${@base_contains("PACKAGE_INSTALL", "dpkg", "true", "false", d)}
-> > > +
-> > > +	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)} &&\
-> > 
-> > is this first condition still needed? Do we have some case where
-> > package-management is enabled without rpm/opkg/dpkg installed?
-> 
-> Yes, potentially.  It is quite legitimate to have package-management in
-> IMAGE_FEATURES (in order to have the metadata kept around for later
-> inspection) but not actually install any of the package managers.  In
-> fact, this is basically all that the package-management feature does,
-> and revoking support for it in favour of needing to specify something in
-> PACKAGE_INSTALL seems like it would be a retrograde step. 
-This patch does not revoke support for 'package-management' in
-IMAGE_FEATURES. It just makes sure not to remove anything if a PM is
-present in the image. Those packages will be, potentially, needed by
-postinstalls etc.
-> 
-> Replacing the generic IMAGE_FEATURES test with something based on the
-> presence of one of three specific package managers also has a few other
-> minor downsides:
-> 
-> - it makes it harder for someone to maintain support for a different
-> package manager outside of oe-core;
-I agree here.
+Ping?  For this one on dylan; the master one has been merged.
 
-> 
-> - it means that mentioning rpm in PACKAGE_INSTALL for an opkg-based
-> image will still cause all the opkg metadata to be retained, which might
-> be surprising to some;
-Also true, but we cannot really deal with all combinations... can we?
+On 08/26/2013 04:49 PM, Peter A. Bigot wrote:
+> From: "Peter A. Bigot" <pab@pabigot.com>
+>
+> Follow upstream in changing the name of the license file for Marvell
+> firmware:
+>
+>    commit 2e79e60b7e4771427327ed508fa27b90d841afcb
+>    Author: Bing Zhao <bzhao@marvell.com>
+>    Date:   Fri Jan 7 16:06:56 2011 -0800
+>
+>      linux-firmware: use single license file for Marvell firmwares
+>
+>      Libertas and mwl8k firmware images are under the same license.
+>
+>      Signed-off-by: Bing Zhao <bzhao@marvell.com>
+>      Signed-off-by: Brian Cavagnolo <brian@cozybit.com>
+>      Signed-off-by: David Woodhouse <David.Woodhouse@intel.com>
+>
+>    :000000 100644 0000000... 3224e1b... A  LICENCE.Marvell
+>    :100644 000000 1fd8766... 0000000... D  LICENCE.libertas
+>    :100644 000000 3224e1b... 0000000... D  LICENCE.mwl8k
+>    :100644 100644 d0740ce... 35b82c8... M  WHENCE
+>
+> Signed-off-by: Peter A. Bigot <pab@pabigot.com>
+> ---
+>   .../linux-firmware/linux-firmware_git.bb           |    5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> index ee33f50..42f6ce0 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+> @@ -21,6 +21,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
+>                       file://LICENCE.ti-connectivity;md5=186e7a43cf6c274283ad81272ca218ea \
+>                       file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
+>                       file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
+> +                    file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
+>                      "
+>   
+>   SRCREV = "c530a75c1e6a472b0eb9558310b518f0dfcd8860"
+> @@ -95,11 +96,11 @@ FILES_${PN}-ralink = " \
+>     /lib/firmware/LICENCE.ralink-firmware.txt \
+>   "
+>   
+> -LICENSE_${PN}-sd8686 = "Firmware-libertas"
+> +LICENSE_${PN}-sd8686 = "Firmware-Marvell"
+>   FILES_${PN}-sd8686 = " \
+>     /lib/firmware/libertas/sd8686_v9* \
+>     /lib/firmware/sd8686* \
+> -  /lib/firmware/LICENCE.libertas \
+> +  /lib/firmware/LICENCE.Marvell \
+>   "
+>   
+>   FILES_${PN}-rtl-license = " \
 
-> 
-> - it makes it impossible to install opkg or suchlike without its
-> metadata, which has occasionally been a useful thing to do.
-Is this a valid use case? Besides, right now, if you don't have
-'package-management' in IMAGE_FEATURES but have opkg installed you will,
-indeed, have opkg installed without metadata but also update-rc.d,
-base-passwd and run-postinsts will be removed from the image. This means
-that opkg will be slightly useless since postinstalls might need
-update-rc.d to complete. Or, if there are delayed postinstalls,
-run-postinsts package has to be present too, in order to have those run
-at first boot.
-
-> 
-> I don't think any of the above are necessarily deal-breakers, but it
-> does seem to me that this patch is based on an erroneous premise.  If
-> the user wants package management then they should simply be adding that
-> flag to IMAGE_FEATURES.  I don't think it's necessary or desirable that
-> image.bbclass try to second-guess this by looking at the list of
-> packages to be installed and applying some heuristic.
-This solution is the most decent I could find in order to address this:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4484
-in this stage of 1.5 release. Other ideas are always welcome.
-
-Thanks,
-Laurentiu
-
-> 
-> p.
-> 
-> 
 
