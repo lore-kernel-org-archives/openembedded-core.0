@@ -1,22 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 85D3E6159C
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CF50615BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 00:10:49 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 04 Sep 2013 17:10:50 -0700
+	Thu,  5 Sep 2013 00:14:27 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 04 Sep 2013 17:14:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,843,1371106800"; d="scan'208";a="290951039"
-Received: from unknown (HELO helios.localnet) ([10.252.123.116])
-	by AZSMGA002.ch.intel.com with ESMTP; 04 Sep 2013 17:10:49 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
-Date: Thu, 05 Sep 2013 01:10:47 +0100
-Message-ID: <1497435.xtb1AxO9Wj@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
-MIME-Version: 1.0
-Subject: OpenEmbedded Layer Index updated
+X-IronPort-AV: E=Sophos;i="4.90,843,1371106800"; d="scan'208";a="398408127"
+Received: from fear.jf.intel.com (HELO rage.local) ([10.7.196.147])
+	by orsmga002.jf.intel.com with ESMTP; 04 Sep 2013 17:14:27 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org,
+	Tom Zanussi <tom.zanussi@intel.com>
+Date: Wed,  4 Sep 2013 17:18:38 -0700
+Message-Id: <7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <b2e7d64bcfed785d28da77202d46157f4ce7dfd6.1378339881.git.dvhart@linux.intel.com>
+References: <b2e7d64bcfed785d28da77202d46157f4ce7dfd6.1378339881.git.dvhart@linux.intel.com>
+In-Reply-To: <cover.1378339881.git.dvhart@linux.intel.com>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,124 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 00:10:50 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 Sep 2013 00:14:28 -0000
 
-Hi all,
+As part of pulling in the more generic components of the meta-intel
+xserver infrastructure, include the configure and install appends from
+the meta-intel version of xorg-driver-common.
 
-The OpenEmbedded layer index has just been updated:
+Modify the configure prepend to use ${S} in the paths explicitly as
+without this the script appears to be running in a build/ directory
+instead of the source directory, and cannot find the configure.ac.
+This prepend is required for at least the -intel and -mga drivers.
 
-  http://layers.openembedded.org/
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: Ross Burton <ross.burton@intel.com>
+Cc: Nitin A Kamble <nitin.a.kamble@intel.com>
+---
+ .../xorg-driver/xorg-driver-common.inc             |   17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
 
-This update includes a number of significant changes that have been in the 
-pipeline for a while. A summary of the changes follows.
-
-
-Branches
-----------
-
-Recipe data for the dylan and danny branches is now available. You can switch 
-between branches on the top-level pages using the drop-down at the left of the 
-navigation bar.
-
-Note: If a layer isn't visible when a branch other than master is selected, it 
-is likely because there is no corresponding "dylan" or "danny" branch in that 
-layer.
-
-
-OE-Classic
------------
-
-We now provide a static index of OE-Classic recipes, and record extra editable 
-information to track migration of recipes to the layer ecosystem, replacing 
-the old wiki pages used for this purpose. The migration data has been imported 
-from the wiki pages, and probably could do with some further tweaking (a login 
-is required to edit this). A couple of simple graphs give a summary of the 
-migration status based on this data.
-
-
-Bulk Change tool
--------------------
-
-The new Bulk Change tool that allows you to easily change the values of "meta" 
-variables such as DESCRIPTION and LICENSE across multiple recipes, and 
-download the result as a patch or set of patches against each layer suitable 
-for applying on top of a repository. From there, proper patches can be created 
-and submitted. This should hopefully make it easier to make the values of 
-these variables more consistently filled in across all recipes.
-
-(Note that you need to create an account to access this tool.)
-
-
-Duplicates tool
------------------
-
-The "duplicates" tool gives you a list of recipes with the same name in 
-multiple layers, helping to highlight possible duplicates.
-
-(Note that you need to create an account to access this tool.)
-
-
-Additional data
------------------
-
-* We now track bbappends in each layer, and list the appends for a recipe in 
-all layers on each recipe page
-
-* We now track bbclasses, so you can see the classes provided by each layer
-
-* The value of the BUGTRACKER variable is now recorded for each recipe if set
-
-
-Navigation improvements
------------------------------
-
-* The front page has been optimised out as it wasn't particularly useful - you 
-now get taken straight to the layer list
-
-* Added a clear top-level navigation bar
-
-* Added a simple breadcrumb at the top of layer / recipe pages
-
-* The update script now tries to preserve recipe ID numbers as much as 
-possible, so in most situations a bookmarked URL to a recipe page should point 
-to the same recipe even when it gets upgraded. (This is not guaranteed however 
-particularly where an older versioned recipe is removed in a separate commit 
-after a newer version has been added.)
-
-
-Misc
------
-
-Other minor improvements:
-
-* Wider page layouts improving readability
-
-* Recipe page sections are now shown in tabs
-
-* For layer maintainers, editing and saving a layer now takes you back to the 
-layer detail page instead of showing the edit layer page again
-
-* Added a change log (link at the bottom of every page) that shows an audit 
-log of changes to the layer database
-
-* Layer type filter drop-down now stays open to allow ticking/unticking 
-multiple items
-
-* Added a user profile page
-
-
-Thanks to Belen Barros Pena for help with the design and HTML/CSS, and Michael 
-Halstead for helping me with the upgrade process and continued administration.
-
-As always, feedback is welcome.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+index 5f5d282..2d4f2ce 100644
+--- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
++++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+@@ -5,7 +5,7 @@ SECTION = "x11/drivers"
+ LICENSE = "MIT-X"
+ 
+ PE = "2"
+-INC_PR = "r21"
++INC_PR = "r22"
+ 
+ DEPENDS = "virtual/xserver xproto randrproto util-macros"
+ 
+@@ -39,3 +39,18 @@ def add_abi_depends(d, name):
+ 
+     pn = d.getVar("PN", True)
+     d.appendVar('RDEPENDS_' + pn, ' ' + abi)
++
++# AC_CHECK_FILE doesn't work when cross compiling, so we create a replacement
++# macro that simply assumes the test succeeds. This is required for at least
++# the -intel and -mga drivers.
++do_configure_prepend () {
++	echo 'AC_DEFUN(CC_AC_CHECK_FILE, $2)' > ${S}/configure.ac.new
++	sed 's/AC_CHECK_FILE/CC_AC_CHECK_FILE/g' ${S}/configure.ac >> ${S}/configure.ac.new
++	mv ${S}/configure.ac.new ${S}/configure.ac
++}
++
++# FIXME: We don't want to include the libtool archives (*.la) from modules
++# directory, as they serve no useful purpose. Upstream should fix Makefile.am
++do_install_append() {
++	find ${D}${libdir}/xorg/modules -regex ".*\.la$" | xargs rm -f --
++}
 -- 
+1.7.9.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
