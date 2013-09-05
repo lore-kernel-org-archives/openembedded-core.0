@@ -1,38 +1,21 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C0A3A6C6C1
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 75D1760F1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 15:00:52 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id c13so523042eek.19
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 08:00:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=TsVz/a8iHz5cMWjDysju/Dpmay72mFk6cz6pdePcug8=;
-	b=CbJMueLd80a6rIJ4jwigNFVpqG2H5Ua7burkrTuUQWtIfsUBsEhFuZTimMrhWtrm5Q
-	B/QKcg7EUe2MacSSJ91QMVqXpJVu3KudwYLpNMhWq+41sk4SzCpWwY904U/DR2PmUD7f
-	elfqn7ajPRA7UvhSLRA+556OgFtzF3l1PiggfzGlfAk5GOmby2sSWRm0w+3CYJYc4EbK
-	FHH8oWkYX87bn/dQaMtilyz1G71j2s3x0S5RDLd+E/yc9jVErZ4z8aqkD9W10vTZQ1VD
-	ZfG5TWAd5gM2DhQFndOl1uwlr5+ecs25+aQbdp13T+4Rf+bLeltuH+IVoCGnPxLyafzn
-	Pbsw==
-X-Received: by 10.14.216.132 with SMTP id g4mr4014916eep.62.1378393254338;
-	Thu, 05 Sep 2013 08:00:54 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	p5sm49356610eeg.5.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 05 Sep 2013 08:00:53 -0700 (PDT)
-Date: Thu, 5 Sep 2013 17:02:13 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20130905150213.GL11500@jama>
-References: <1378389321-28598-1-git-send-email-ross.burton@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <1378389321-28598-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC][PATCH] insane: configure option checking
+	Thu,  5 Sep 2013 15:04:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 05 Sep 2013 08:05:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="398739984"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 05 Sep 2013 08:04:59 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Sep 2013 18:04:02 +0300
+Message-Id: <cover.1378393096.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH 0/1] run-postinsts: move script execution from S98 to S99 in rcS.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,51 +28,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 15:00:53 -0000
-X-Groupsio-MsgNum: 44593
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="4oF+6Ged69J0+4/e"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Sep 2013 15:04:59 -0000
 
---4oF+6Ged69J0+4/e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit f41b7a7d4d0463a0dfafe6621d01680b81798019:
 
-On Thu, Sep 05, 2013 at 02:55:20PM +0100, Ross Burton wrote:
-> Hi,
->=20
-> First: very much a RFC, this isn't ready for merging.  I thought I'd send=
- it
-> before it got lost in a nest of branches.
->=20
-> This is a small sanity test I've been poking at in between builds to dete=
-ct when
-> configure warns that it has been passed configure options it doesn't reco=
-ngise.
-> It's got a whitelist for options such as --disable-silent-rules that are =
-passed
-> blindly to large numbers of recipes, and I think we'll need the possibili=
-ty of a
-> per-recipe whitelist in case they are required[1].
->=20
-> Comments/improvements welcome!
+  bitbake: hob: remove PACKAGE_INSTALL variable setting from hob (2013-09-04 14:18:49 +0100)
 
-I like this idea a lot :)
+are available in the git repository at:
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+  git://git.yoctoproject.org/poky-contrib lpalcu/b4484_postinstalls_dont_run_for_ipk
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4484_postinstalls_dont_run_for_ipk
 
---4oF+6Ged69J0+4/e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Laurentiu Palcu (1):
+  run-postinsts: move script execution from S98 to S99 in rcS.d
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
+ .../run-postinsts/run-postinsts_1.0.bb             |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-iEYEARECAAYFAlIonPUACgkQN1Ujt2V2gBzgzACgtxVDhSGr362IkEAF+0saxK1H
-l3kAoIXZpC1dP774iszIzwHMfsjR0bMv
-=TZzO
------END PGP SIGNATURE-----
+-- 
+1.7.9.5
 
---4oF+6Ged69J0+4/e--
+
