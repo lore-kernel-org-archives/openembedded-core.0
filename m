@@ -1,43 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
-	[209.85.128.169])
-	by mail.openembedded.org (Postfix) with ESMTP id DC1BD6BE3D
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C4496BF48
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 14:19:30 +0000 (UTC)
-Received: by mail-ve0-f169.google.com with SMTP id db12so555647veb.14
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 07:19:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=JFDAvLQUVDWlre8Wv4DUfbVeAHV0uyHWMB0i/LfzWeE=;
-	b=KEn1ioJpCmRf2EP36vPDR3Oke96e/nC64EI7fZYhLYAfqT+Kmx5W6taf60E0zqn5e7
-	9fsLbzvOSa+cqepueISnezbOefyNxrjfZu5/AUliFMVKQV1pVyq1TJh88AonvRN1q8gG
-	mhFufjWfuLCL4nkz4+oxygVXYdiR20wsjPwCjqvWRb2xRD5/qE/7icUAIi7jS4OTPN2B
-	HDcPwDijy9FcGUwMlNGVA85s+xEt+aevS4qRpd8O3DSm5Yim3maJ04Fvho9FtJf3UPwG
-	+/4pgk4ObsUbVhMncD4sSOvbcYvWazZYXJbwvMLBx1hlhg+6dUD2vkGVGZza2unhviYw
-	QQ2g==
-X-Gm-Message-State: ALoCoQmQTuY2Dawd+8blzlwB/xeBBSRJGum8Wty5RoDl67JMXrXr6eZW4WKNMXxzPTuibVjRQ615
-X-Received: by 10.220.199.5 with SMTP id eq5mr2358356vcb.16.1378390772459;
-	Thu, 05 Sep 2013 07:19:32 -0700 (PDT)
+	Thu,  5 Sep 2013 14:32:38 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 05 Sep 2013 07:29:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="398723874"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 05 Sep 2013 07:32:37 -0700
+Date: Thu, 5 Sep 2013 17:32:36 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20130905143235.GF17481@lpalcu-linux>
+References: <cover.1378371716.git.laurentiu.palcu@intel.com>
+	<458079bc072716290bebe261aa1c24d4c40a2b7a.1378371716.git.laurentiu.palcu@intel.com>
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 07:19:12 -0700 (PDT)
-In-Reply-To: <1378386554.27411.14.camel@firebird.rb.intel.com>
-References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
-	<1378332114.1059.260.camel@ted>
-	<CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
-	<20130905071133.GG11500@jama>
-	<CAJTo0LZ0vG0w24Wkr2KiwWoEF9bFwyJeBpg4xnfLpYe9ELd+mQ@mail.gmail.com>
-	<CAJTo0LaPJjQqR80ZpowVBfjhYFLwqUvFF0wQm+S1VfKWeEDqdg@mail.gmail.com>
-	<1378386554.27411.14.camel@firebird.rb.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Sep 2013 15:19:12 +0100
-Message-ID: <CAJTo0LadXyEOszmBw=QR+AyQY9YeKpCNTX+zqQEGmXRm-9LChA@mail.gmail.com>
-To: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
+In-Reply-To: <458079bc072716290bebe261aa1c24d4c40a2b7a.1378371716.git.laurentiu.palcu@intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Subject: Re: [PATCH v2 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,19 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 14:19:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 05 Sep 2013 14:32:38 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 5 September 2013 14:09, Stanacar, StefanX <stefanx.stanacar@intel.com> wrote:
-> I just tested that the third option can be done (for this case at least)
-> by changing ConditionPathExists=/proc/sys/fs/binfmt_misc/ to
-> ConditionDirectoryNotEmpty=/proc/sys/fs/binfmt_misc/ for
-> proc-sys-fs-binfmt_misc.automount unit file and
-> "df" doesn't complain as it doesn't attempt to automount anymore. On a
-> system which does have that module loaded there are two files there so
-> that's why the condition works.
+Ignore this patch for the moment. I'm investigating another alternative.
 
-Confirmed, patch incoming.
+Laurentiu
 
-Ross
+On Thu, Sep 05, 2013 at 12:03:49PM +0300, Laurentiu Palcu wrote:
+> If IMAGE_FEATURES does not contain 'package-management' but the user
+> manually installs a package manager (opkg/dpkg/rpm) using
+> CORE_IMAGE_EXTRA_INSTALL (for example), then do not remove update-rc.d,
+> base-passwd and package metadata because these will be needed by the
+> package manager to function correcly.
+> 
+> [YOCTO #4484]
+> 
+> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+> ---
+>  meta/classes/image.bbclass |    6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 84f638c..b748397 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -498,7 +498,11 @@ rootfs_install_complementary() {
+>  }
+>  
+>  rootfs_uninstall_unneeded () {
+> -	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
+> +	rpm_installed=${@base_contains("PACKAGE_INSTALL", "rpm",  "true", "false", d)}
+> +	opkg_installed=${@base_contains("PACKAGE_INSTALL", "opkg", "true", "false", d)}
+> +	dpkg_installed=${@base_contains("PACKAGE_INSTALL", "dpkg", "true", "false", d)}
+> +
+> +	if ! $rpm_installed && ! $opkg_installed && ! $dpkg_installed; then
+>  		if [ -z "$(delayed_postinsts)" ]; then
+>  			# All packages were successfully configured.
+>  			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
+> -- 
+> 1.7.9.5
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
