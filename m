@@ -1,26 +1,26 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 16EEE62273
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 34CF16C6C1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 13:14:25 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 05 Sep 2013 06:14:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="356333613"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
-	by azsmga001.ch.intel.com with ESMTP; 05 Sep 2013 06:14:24 -0700
-Date: Thu, 5 Sep 2013 16:14:23 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20130905131422.GD17481@lpalcu-linux>
+	Thu,  5 Sep 2013 13:24:55 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VHZYM-00023I-Uu; Thu, 05 Sep 2013 15:24:55 +0200
+Message-ID: <1378387494.6940.90.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Thu, 05 Sep 2013 14:24:54 +0100
+In-Reply-To: <20130905131422.GD17481@lpalcu-linux>
 References: <cover.1378366233.git.laurentiu.palcu@intel.com>
 	<3518999.x3yV6XY4Eo@helios>
 	<1378384174.6940.86.camel@phil-desktop.brightsign>
-	<3397753.WTGSduA6kl@helios>
-MIME-Version: 1.0
-In-Reply-To: <3397753.WTGSduA6kl@helios>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: "openembedded-core@lists.openembedded.org"
+	<3397753.WTGSduA6kl@helios> <20130905131422.GD17481@lpalcu-linux>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -35,60 +35,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 13:14:25 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Sep 2013 13:24:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 05, 2013 at 01:53:44PM +0100, Paul Eggleton wrote:
-> On Thursday 05 September 2013 13:29:34 Phil Blundell wrote:
-> > On Thu, 2013-09-05 at 07:19 -0500, Paul Eggleton wrote:
-> > > I'm clearly missing something here. If we have a generic mechanism to run
-> > > postinstall scripts now, and "package-management" is not in
-> > > IMAGE_FEATURES,
-> > > why do we need or want the package manager to be in control of running the
-> > > postinstalls?
-> > 
-> > We don't.  The postinsts should be getting run by run-postinsts.
-> > 
-> > I must admit I still don't entirely understand what the problem is that
-> > Laurentiu is trying to fix with his patch, and the description in the
-> > Yocto bugzilla remains opaque to me.  Can you clarify what exactly it is
-> > that's currently going wrong?
+On Thu, 2013-09-05 at 16:14 +0300, Laurentiu Palcu wrote:
+> Before the rework, the metadata (for opkg at least) was deleted no
+> matter what during rootfs generation. So, there's no way this case (no
+> 'package-management' in IMAGE_FEATURES and opkg installed) worked
+> recently.
 > 
-> The reason I reopened the bug (the final comment) is that I had a situation 
-> recently where I had got opkg installed in an image via dependencies and I did 
-> not have package-management in IMAGE_FEATURES. The result was that 
-> postinstalls to be run on first boot just silently did not work, which is not 
-> good behaviour.
-> 
-> Now, with the image I was dealing with I needed to add package-management to 
-> IMAGE_FEATURES anyway; but things shouldn't just silently break because the 
-> package manager happens to be installed especially as it may not be 
-> immediately clear to the user that the latter had even happened. I'm pretty 
-> sure this didn't used to be an issue.
-Well, it's present since denzil anyway. You confirmed it yourself Paul:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4484#c13
+> Anyway, do we have a better idea? The solution Phil suggested, is not
+> quite ok... We'll end up with useless metadata if no PM is installed and
+> delayed postinstalls are present or, the other case, have the PM
+> installed with no metadata if the PM is installed but we have no delayed
+> postinstalls...
 
-Before the rework, the metadata (for opkg at least) was deleted no
-matter what during rootfs generation. So, there's no way this case (no
-'package-management' in IMAGE_FEATURES and opkg installed) worked
-recently.
+What is it that actually causes run-postinsts to fail when opkg is
+installed?  I guess that's the bit that I'm not understanding at the
+moment.  As far as I can tell from a quick inspection of run-postinsts
+itself, it ought to be unperturbed by opkg's presence and no harm ought
+to result.
 
-Anyway, do we have a better idea? The solution Phil suggested, is not
-quite ok... We'll end up with useless metadata if no PM is installed and
-delayed postinstalls are present or, the other case, have the PM
-installed with no metadata if the PM is installed but we have no delayed
-postinstalls...
+p.
 
-Thanks,
-Laurentiu
 
-> 
-> Cheers,
-> Paul
-> 
-> -- 
-> 
-> Paul Eggleton
-> Intel Open Source Technology Centre
 
