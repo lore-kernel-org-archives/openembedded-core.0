@@ -1,42 +1,28 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DCBB6C6A1
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 16EEE62273
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 13:09:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Sep 2013 06:09:20 -0700
+	Thu,  5 Sep 2013 13:14:25 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 05 Sep 2013 06:14:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="397146268"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Sep 2013 06:09:19 -0700
-Received: from irsmsx106.ger.corp.intel.com (163.33.3.31) by
-	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Thu, 5 Sep 2013 14:09:04 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.29]) by
-	IRSMSX106.ger.corp.intel.com ([169.254.8.226]) with mapi id
-	14.03.0123.003; Thu, 5 Sep 2013 14:09:03 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] qemu: add recommend of kernel-modules for
-	all qemu machines
-Thread-Index: AQHOqbqQ05bE9s28XE6nSTag/sc8tJm2P9+AgABqNYCAADTUAIAABw6AgAAoDgA=
-Date: Thu, 5 Sep 2013 13:09:02 +0000
-Message-ID: <1378386554.27411.14.camel@firebird.rb.intel.com>
-References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
-	<1378332114.1059.260.camel@ted>
-	<CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
-	<20130905071133.GG11500@jama>
-	<CAJTo0LZ0vG0w24Wkr2KiwWoEF9bFwyJeBpg4xnfLpYe9ELd+mQ@mail.gmail.com>
-	<CAJTo0LaPJjQqR80ZpowVBfjhYFLwqUvFF0wQm+S1VfKWeEDqdg@mail.gmail.com>
-In-Reply-To: <CAJTo0LaPJjQqR80ZpowVBfjhYFLwqUvFF0wQm+S1VfKWeEDqdg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.73]
+X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="356333613"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
+	by azsmga001.ch.intel.com with ESMTP; 05 Sep 2013 06:14:24 -0700
+Date: Thu, 5 Sep 2013 16:14:23 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <20130905131422.GD17481@lpalcu-linux>
+References: <cover.1378366233.git.laurentiu.palcu@intel.com>
+	<3518999.x3yV6XY4Eo@helios>
+	<1378384174.6940.86.camel@phil-desktop.brightsign>
+	<3397753.WTGSduA6kl@helios>
 MIME-Version: 1.0
+In-Reply-To: <3397753.WTGSduA6kl@helios>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
+Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 13:09:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B7B5861BFC786048B5C44A5590C7AE61@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 05 Sep 2013 13:14:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-DQoNCk9uIFRodSwgMjAxMy0wOS0wNSBhdCAxMTo0NSArMDEwMCwgQnVydG9uLCBSb3NzIHdyb3Rl
-Og0KPiBPbiA1IFNlcHRlbWJlciAyMDEzIDExOjIwLCBCdXJ0b24sIFJvc3MgPHJvc3MuYnVydG9u
-QGludGVsLmNvbT4gd3JvdGU6DQo+ID4gSSd2ZSBhbHNvIGRlY2lkZWQgdGhhdCBtYXliZSBzeXN0
-ZW1kIGlzbid0IGJlaW5nIHF1aXRlIGFzIGNsZXZlciBhcyBpdA0KPiA+IHNob3VsZCBhbmQgbWF5
-YmUgZml4aW5nIGl0IHRoZXJlIGlzIHRoZSByZWFsIGZpeC4NCj4gDQo+IHMvc3lzdGVtZC9MaW51
-eC8uDQo+IA0KPiBUaGUgYnVnIGlzIHRoYXQgZG9pbmcgYSAiZGYiIG9uIGEgcWVtdSBzeXN0ZW1k
-IGltYWdlIHJlc3VsdHMgaW4gaXQNCj4gYXR0ZW1wdGluZyB0byBhdXRvbW91bnQgL3Byb2Mvc3lz
-L2ZzL2JpbmZtdF9taXNjLiAgVGhlIGF1dG9tb3VudCB1bml0DQo+IGhhcyBDb25kaXRpb25QYXRo
-RXhpc3RzPS9wcm9jL3N5cy9mcy9iaW5mbXRfbWlzYy8gdG8gc3RvcCBpdA0KPiBhdHRlbXB0aW5n
-IHRvIGF1dG9tb3VudCB3aGVuIGJpbmZtdCBpcyBkaXNhYmxlZCBidXQgaG9vcmF5IExpbnV4IGlm
-DQo+IGJpbmZtdF9taXNjIGlzIGEgbW9kdWxlIHRoYXQgZGlyZWN0b3J5IGV4aXN0cyBldmVuIHdo
-ZW4gdGhlIG1vZHVsZQ0KPiBpc24ndCBhY3R1YWxseSBsb2FkZWQsIGdpdmluZyBhIG5vIHN1Y2gg
-ZGV2aWNlIGVycm9yIHdoZW4gYWNjZXNzZWQuDQo+IFRoZSBpbnRlbnRpb24gaGVyZSBJIGJlbGll
-dmUgaXMgc28gdGhhdCBhbiBhY2Nlc3MgdG8gdGhhdCBkaXJlY3RvcnkNCj4gY2FuIGludm9rZSBh
-biBhdXRvbW91bnRlciAoc3lzdGVtZCwgaW4gdGhpcyBjYXNlKSB3aGljaCBjYW4gdGhlbiBsb2Fk
-DQo+IHRoZSBtb2R1bGVzIGFuZCBtb3VudCB0aGUgdmlydHVhbCBmaWxlc3lzdGVtLg0KPiANCj4g
-VGhlcmUgYXBwZWFyIHRvIGJlIHR3byBvcHRpb25zLg0KPiANCj4gMSkgVGhlIFFBIHNjcmlwdHMg
-aWdub3JlIGFueSBiaW5mbXRfbWlzYyB1bml0IG1vdW50cyBmYWlsaW5nDQo+IDIpIHN5c3RlbWQg
-UlJFQ09NTUVORFMga2VybmVsLW1vZHVsZS1iaW5mbXQtbWlzYw0KPiANCj4gKHRoZSB0aGlyZCBv
-cHRpb24gb2YgdGVhY2hpbmcgc3lzdGVtZCBob3cgdG8gcmVjb2duaXNlIHRoaXMgc2l0dWF0aW9u
-DQo+IGFuZCByZWZ1c2UgdG8gc3RhcnQgdGhlIHVuaXQgYXBwZWFycyBpbXBvc3NpYmxlKQ0KPiAN
-Cg0KSSBob25lc3RseSBsaWtlIHNlY29uZCBvcHRpb24gbW9yZS4gQW5kIHRoZSB0aGlyZCBldmVu
-IGJldHRlciA6KSAoc3VyZQ0KY2hhbmdpbmcgdGhlIHRlc3QgdG8gaWdub3JlIGJpbmZtdF9taXNj
-IHVuaXQgZnJvbSBzeXN0ZW1jdGwgLS1mYWlsZWQNCm91dHB1dCBjYW4gYmUgZWFzaWx5IGRvbmUs
-IGJ1dCBzZWVtcyBsaWtlIGp1c3QgaGlkaW5nIHRoZSBmYWlsIHRvIG1lKS4NCg0KSSBqdXN0IHRl
-c3RlZCB0aGF0IHRoZSB0aGlyZCBvcHRpb24gY2FuIGJlIGRvbmUgKGZvciB0aGlzIGNhc2UgYXQg
-bGVhc3QpDQpieSBjaGFuZ2luZyBDb25kaXRpb25QYXRoRXhpc3RzPS9wcm9jL3N5cy9mcy9iaW5m
-bXRfbWlzYy8gdG8NCkNvbmRpdGlvbkRpcmVjdG9yeU5vdEVtcHR5PS9wcm9jL3N5cy9mcy9iaW5m
-bXRfbWlzYy8gZm9yDQpwcm9jLXN5cy1mcy1iaW5mbXRfbWlzYy5hdXRvbW91bnQgdW5pdCBmaWxl
-IGFuZCANCiJkZiIgZG9lc24ndCBjb21wbGFpbiBhcyBpdCBkb2Vzbid0IGF0dGVtcHQgdG8gYXV0
-b21vdW50IGFueW1vcmUuIE9uIGENCnN5c3RlbSB3aGljaCBkb2VzIGhhdmUgdGhhdCBtb2R1bGUg
-bG9hZGVkIHRoZXJlIGFyZSB0d28gZmlsZXMgdGhlcmUgc28NCnRoYXQncyB3aHkgdGhlIGNvbmRp
-dGlvbiB3b3Jrcy4NCg0KQ2hlZXJzLA0KU3RlZmFuDQoNCg0KPiAoQ0NpbmcgU3RlZmFuIGZvciBo
-aXMgaW5wdXQpDQo+IA0KPiBUbyBiZSBob25lc3QgSSdtIGxlYW5pbmcgdG93YXJkcyAoMSkgcmln
-aHQgbm93IGFzIGJpbmZtdF9taXNjIGlzIG9ubHkNCj4gcmVxdWlyZWQgaW4gc3BlY2lmaWMgc2l0
-dWF0aW9ucy4NCj4gDQo+IFJvc3MNCg0K
+On Thu, Sep 05, 2013 at 01:53:44PM +0100, Paul Eggleton wrote:
+> On Thursday 05 September 2013 13:29:34 Phil Blundell wrote:
+> > On Thu, 2013-09-05 at 07:19 -0500, Paul Eggleton wrote:
+> > > I'm clearly missing something here. If we have a generic mechanism to run
+> > > postinstall scripts now, and "package-management" is not in
+> > > IMAGE_FEATURES,
+> > > why do we need or want the package manager to be in control of running the
+> > > postinstalls?
+> > 
+> > We don't.  The postinsts should be getting run by run-postinsts.
+> > 
+> > I must admit I still don't entirely understand what the problem is that
+> > Laurentiu is trying to fix with his patch, and the description in the
+> > Yocto bugzilla remains opaque to me.  Can you clarify what exactly it is
+> > that's currently going wrong?
+> 
+> The reason I reopened the bug (the final comment) is that I had a situation 
+> recently where I had got opkg installed in an image via dependencies and I did 
+> not have package-management in IMAGE_FEATURES. The result was that 
+> postinstalls to be run on first boot just silently did not work, which is not 
+> good behaviour.
+> 
+> Now, with the image I was dealing with I needed to add package-management to 
+> IMAGE_FEATURES anyway; but things shouldn't just silently break because the 
+> package manager happens to be installed especially as it may not be 
+> immediately clear to the user that the latter had even happened. I'm pretty 
+> sure this didn't used to be an issue.
+Well, it's present since denzil anyway. You confirmed it yourself Paul:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4484#c13
+
+Before the rework, the metadata (for opkg at least) was deleted no
+matter what during rootfs generation. So, there's no way this case (no
+'package-management' in IMAGE_FEATURES and opkg installed) worked
+recently.
+
+Anyway, do we have a better idea? The solution Phil suggested, is not
+quite ok... We'll end up with useless metadata if no PM is installed and
+delayed postinstalls are present or, the other case, have the PM
+installed with no metadata if the PM is installed but we have no delayed
+postinstalls...
+
+Thanks,
+Laurentiu
+
+> 
+> Cheers,
+> Paul
+> 
+> -- 
+> 
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
