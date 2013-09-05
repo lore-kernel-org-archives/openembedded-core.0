@@ -1,20 +1,45 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A843B6BE78
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id F11066BE78
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 16:23:50 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 05 Sep 2013 09:23:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,848,1371106800"; d="scan'208";a="356409971"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
-	by azsmga001.ch.intel.com with ESMTP; 05 Sep 2013 09:23:50 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2013 19:25:01 +0300
-Message-Id: <1378398301-15303-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH_V4] image types: split live into iso and hddimg
+	Thu,  5 Sep 2013 16:24:11 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id ib11so1349384vcb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Sep 2013 09:24:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=+JywKFgmEGPWNPgz6yS2N3emWDWgfiRto4Vd4GizZ6E=;
+	b=fW1dFksXwvhwgmTD1+KZhKwLAwsaYZglTIluiLStDxXJv6h8xslTyHbDHXn08IQMDI
+	1wi9r2t4d9SQl7RDdtaJizJ0oRQT2UjV9ZQrRsfAKOics8KV2BHqiUgWTdKc5oqKH+iF
+	SvLkzg6wacGI5+xrNMVTgeGLIBlWC/igrQUbWd+ovADzj8eFFTM5fcPEH7+RlepyxlsG
+	6/gzs7u1o7oI61Fgxa/699uxBMJ5N9BVQvnJw8eX/1ZrSRcrNSkMbP7HHhDG27v7h83W
+	OGxwEJ3y/LV9Hw9Uf5L/Cg5iacY+I5Wsi4XyUf1MNes+cXMjfWQuTUMkZ4tsrgk+jnL+
+	8zdw==
+X-Gm-Message-State: ALoCoQmnEP92906Y49kCbN8yXEQtcR4Bx1++mx/uZ5wj4GE8QC5fscP8wOroxqDYA+kbFdaO7GyS
+X-Received: by 10.52.119.139 with SMTP id ku11mr650659vdb.42.1378398253481;
+	Thu, 05 Sep 2013 09:24:13 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 09:23:53 -0700 (PDT)
+In-Reply-To: <1378395125.32427.78.camel@ted>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
+	<CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
+	<CAP9ODKqVU+ka+VzjPj6p0iVsirrOSqLtDFWNzfBcKutwj1Fo3Q@mail.gmail.com>
+	<CAJTo0Labk000SpLOiM8gtuSu2pwK0jsgU9osO60GEFntThxSeA@mail.gmail.com>
+	<1378383289.32427.63.camel@ted>
+	<1378383839.6940.83.camel@phil-desktop.brightsign>
+	<1378395125.32427.78.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Sep 2013 17:23:53 +0100
+Message-ID: <CAJTo0LZozjJdqonXNqv1L1yL58YzsK11Z6xbio0YYo-gfTAEvw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Darren Hart <dvhart@linux.intel.com>, Poky <poky@yoctoproject.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,94 +52,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 16:23:51 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 16:24:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Changes to split live into iso and hddimg without
-adding a new image type class.
+On 5 September 2013 16:32, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I guess the .la files just don't seem to be a big issue that some people
+> seem to paint them as. Why do we need to remove them and deviate from
+> the upstream?
 
-[YOCTO #3197]
----
- meta/classes/image.bbclass              | 11 ++++++++++-
- meta/classes/image_types.bbclass        | 11 +++++++----
- meta/conf/machine/include/ia32-base.inc |  2 +-
- 3 files changed, 18 insertions(+), 6 deletions(-)
+You appear to be defending choices made by libtool upstream here.  Are
+you unwell? :)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index ea59c36..3f76d80 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -87,7 +87,16 @@ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
- do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_packagedata"
- 
--IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}'
-+NOISO = '${@base_contains("IMAGE_FSTYPES", "iso", "0", "1", d)}'
-+NOHDD = '${@base_contains("IMAGE_FSTYPES", "hddimg", "0", "1", d)}'
-+
-+def build_live(d):
-+    if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
-+        return "live"
-+    else:
-+        return "empty"
-+
-+IMAGE_TYPE_live = '${@build_live(d)}'
- inherit image-${IMAGE_TYPE_live}
- IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
- inherit image-${IMAGE_TYPE_vmdk}
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index c168ed5..6af6499 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -43,12 +43,15 @@ def get_imagecmds(d):
-         if "ext3" not in alltypes:
-             alltypes.append("ext3")
-         types.remove("vmdk")
--    if "live" in types:
-+    if "iso" in types or "hddimg" in types:
-         if "ext3" not in types:
-             types.append("ext3")
-         if "ext3" not in alltypes:
-             alltypes.append("ext3")
--        types.remove("live")
-+        if "iso" in types:
-+            types.remove("iso")
-+        if "hddimg" in types:
-+            types.remove("hddimg")
- 
-     if d.getVar('IMAGE_LINK_NAME', True):
-         if d.getVar('RM_OLD_IMAGE', True) == "1":
-@@ -115,7 +118,7 @@ def imagetypes_getdepends(d):
-     deps = []
-     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
--        if type == "vmdk" or type == "live":
-+        if type == "vmdk" or type == "iso" or type == "hddimg":
-             type = "ext3"
-         basetype = type
-         for ctype in ctypes:
-@@ -230,7 +233,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
-+IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf iso hddimg"
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
-diff --git a/meta/conf/machine/include/ia32-base.inc b/meta/conf/machine/include/ia32-base.inc
-index cb542a5..35d9560 100644
---- a/meta/conf/machine/include/ia32-base.inc
-+++ b/meta/conf/machine/include/ia32-base.inc
-@@ -10,7 +10,7 @@ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
- 
- MACHINE_EXTRA_RRECOMMENDS += "kernel-modules eee-acpi-scripts"
- 
--IMAGE_FSTYPES += "ext3 cpio.gz live"
-+IMAGE_FSTYPES += "ext3 cpio.gz iso hddimg"
- 
- KERNEL_IMAGETYPE ?= "bzImage"
- 
--- 
-1.8.1.2
+> Anyhow, if someone can show some world builds with and without the .la
+> files and see what build history shows we'd be closer to taking a patch
+> to turning them off. If we do it, we'll have to do it everywhere for
+> everything since the remaining code will bitrot badly IMO otherwise.
 
+I'll try and hack something up this week as a proof of concept.
+
+Ross
 
