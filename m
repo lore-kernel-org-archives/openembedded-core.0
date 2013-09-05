@@ -1,28 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6731961788
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8099A61788
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 12:19:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Sep 2013 05:19:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="373890307"
-Received: from unknown (HELO helios.localnet) ([10.252.123.106])
-	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2013 05:19:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <philb@brightsign.biz>,
-	Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Thu, 05 Sep 2013 13:19:05 +0100
-Message-ID: <3518999.x3yV6XY4Eo@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1378382840.6940.78.camel@phil-desktop.brightsign>
-References: <cover.1378366233.git.laurentiu.palcu@intel.com>
-	<20130905115913.GC17481@lpalcu-linux>
-	<1378382840.6940.78.camel@phil-desktop.brightsign>
+	Thu,  5 Sep 2013 12:21:41 +0000 (UTC)
+Received: by mail-lb0-f171.google.com with SMTP id u14so1586249lbd.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Sep 2013 05:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Iinqkh3yuFTORTXufbYDaCi6zI01YCBL0UvsT6ECEAU=;
+	b=VRv1AZAAGRb3Bipi4HmfNE4nPxxstoL0Q56AFQjXbSrLcURxFshnDf4mYOO57YrJbK
+	HwsrRUVRf85DtVR6Mf9AjLHbT2+ZCiHMmOxJAYrYnkqusfbCprUIbVdwlqH2NMZ+GaDr
+	Po78PsgkypJMDDmoB1hi2hI3jJDapRV28UMbSxFaacWspFHrBnL0jEps5gpPS4mza+Tm
+	1DLTvxQ6jMwwQExReZthcxLhmyaQL1mZtxDC4nE91yoj2db7iWpVcWOY//saI29JSDpq
+	R6Gpw9v4Ri9zwjTqq0+mwaxqh1bI/jx2v1KPFLktV1XUe+4elxOay6zW5HsIXl3rnUsh
+	6i0Q==
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
+X-Received: by 10.112.89.100 with SMTP id bn4mr6931333lbb.16.1378383702442;
+	Thu, 05 Sep 2013 05:21:42 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Thu, 5 Sep 2013 05:21:42 -0700 (PDT)
+In-Reply-To: <20130905071133.GG11500@jama>
+References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
+	<1378332114.1059.260.camel@ted>
+	<CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
+	<20130905071133.GG11500@jama>
+Date: Thu, 5 Sep 2013 08:21:42 -0400
+Message-ID: <CADkTA4Ok231DfBzGjFCDd5fsBuDsJ4fSu7Mow55vZye4itOPgA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +45,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 12:19:29 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 Sep 2013 12:21:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thursday 05 September 2013 13:07:20 Phil Blundell wrote:
-> On Thu, 2013-09-05 at 06:59 -0500, Laurentiu Palcu wrote:
-> > On Thu, Sep 05, 2013 at 12:40:26PM +0100, Phil Blundell wrote:
-> > > Actually, that last sentence is slightly incorrect.  image.bbclass does
-> > > have the knowledge, it just seems to be failing to act on it.  So
-> > > perhaps the easiest fix for the time being is simply to move the
-> > > remove_packaging_data_files call in rootfs_uninstall_unneeded () a few
-> > > lines higher up so that it's inside the "if [ -z $(delayed_postinsts) ]"
-> > > block.
-> > 
-> > What you're suggesting means that we will have the PM metadata present
-> > if there are delayed postinstalls present. But, since the PM is not
-> > present, what's the use of that?
-> 
-> Well, er, that it will make the postinstalls work.  Isn't that exactly
-> the problem here?
+On Thu, Sep 5, 2013 at 3:11 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+> On Wed, Sep 04, 2013 at 08:51:25PM -0400, Bruce Ashfield wrote:
+>> On Wed, Sep 4, 2013 at 6:01 PM, Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> > On Wed, 2013-09-04 at 17:22 +0100, Ross Burton wrote:
+>> >> Only qemumips was recommending kernel-modules which meant that the other qemu
+>> >> machines were missing some kernel modules, for example binfmt-misc.
+>> >>
+>> >> Move the recommends to qemu.inc so that all qemu machines pull in the kernel
+>> >> modules that have been built.
+>> >>
+>> >> [ YOCTO #4863 ]
+>> >>
+>> >> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> >> ---
+>> >>  meta/conf/machine/include/qemu.inc |    2 ++
+>> >>  meta/conf/machine/qemumips.conf    |    2 --
+>> >>  meta/conf/machine/qemumips64.conf  |    2 --
+>> >>  3 files changed, 2 insertions(+), 4 deletions(-)
+>> >
+>> > How many modules are built for the qemu machines? Are they all useful?
+>> > I'm just trying to get a feel for how much we're adding here and whether
+>> > this is the right thing to be doing...
+>>
+>> We can control the configs as tightly as we want, so if we are building too much
+>> for this, I'm happy to trim things down.
+>
+> I don't think this is right way to do it.
+>
+> It's good to have as many optional modules available in feed (so to
+> enable many modules in configs - you never know what obscure device
+> someone will try to test with qemu and one more module and package in
+> feed has smaller overhead then need to change configs) and install
+> only important modules by default in every image.
 
-I'm clearly missing something here. If we have a generic mechanism to run 
-postinstall scripts now, and "package-management" is not in IMAGE_FEATURES, 
-why do we need or want the package manager to be in control of running the 
-postinstalls?
+There's definite advantages to both, and I'm aware of preferences for and
+against, so there's a place for either model.
+
+I'm targeting specific machines, with known good configurations and feature
+mixes. So getting the config right, and trusting that configuration is the
+route that I take, and then just install everything that is built. Rather than
+having the granularity and the need to depend on individual modules, which
+ends up tying all my layers, to a specific set of kernel options .. which that
+base BSP likes to be at liberty to change.
+
+Having the options in the feed is nice, so somewhere in the middle would be
+my ideal :)
 
 Cheers,
-Paul
+
+Bruce
+
+>
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>> >
+>> > Cheers,
+>> >
+>> > Richard
+>> >
+>> >
+>> >
+>> >>
+>> >> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+>> >> index 545f8d1..7baf13e 100644
+>> >> --- a/meta/conf/machine/include/qemu.inc
+>> >> +++ b/meta/conf/machine/include/qemu.inc
+>> >> @@ -27,3 +27,5 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
+>> >>
+>> >>  # Provide the nfs server kernel module for all qemu images
+>> >>  KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+>> >> +
+>> >> +MACHINE_EXTRA_RRECOMMENDS = "kernel-modules"
+>> >> diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+>> >> index ce1c419..89721a6 100644
+>> >> --- a/meta/conf/machine/qemumips.conf
+>> >> +++ b/meta/conf/machine/qemumips.conf
+>> >> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
+>> >>  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>> >>
+>> >>  SERIAL_CONSOLE = "115200 ttyS0"
+>> >> -
+>> >> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+>> >> diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
+>> >> index b2c7998..7ba98cb 100644
+>> >> --- a/meta/conf/machine/qemumips64.conf
+>> >> +++ b/meta/conf/machine/qemumips64.conf
+>> >> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
+>> >>  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
+>> >>
+>> >>  SERIAL_CONSOLE = "115200 ttyS0"
+>> >> -
+>> >> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+>> >
+>> >
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
