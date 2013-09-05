@@ -1,36 +1,40 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A34F615CC
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4554C615C7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 00:51:25 +0000 (UTC)
-Received: by mail-lb0-f180.google.com with SMTP id q8so1074603lbi.39
+	Thu,  5 Sep 2013 00:54:37 +0000 (UTC)
+Received: by mail-ob0-f182.google.com with SMTP id wo10so1279829obc.27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2013 17:51:26 -0700 (PDT)
+	Wed, 04 Sep 2013 17:54:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=KyohmpBNieCPx8UDbF+ntP3Gl/nyQvY6hiudBzzdjXk=;
-	b=rFySCID2wv/uZFDjHhsrK8EVmp2QoJS6qKr4uBvjUWWSgXH3AyuKvFRmJRq+ILdakV
-	HZgxNsY74QFrKBg/vUjjpITbY9yQs2bwyW3i4X1OOyf/IbS+Cfo3GQcxQliqY6oggYs/
-	XrJjLoUO2Ckfvdcbf3oTGXg+JAa1zItA1YrHrZHjGVztIZ4fsBT118G18uDoCSca4+Nf
-	lTwGuqmhhSdJ52IXXyDlia+6ADCHXirmt2hTjRMdyb4hXwK6oWK4DJwS9rk0MNXycb2L
-	2+vQVhojTtI8aodZCokB6I5TxdCuIWs7AD7TAoC/q+vjvEiVmYbpq3G3OXL0C8cHOJa8
-	3uNA==
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=mZvbngx3CvtKXdXLa+QqGCxE438NII8bVOR5iJlVL2g=;
+	b=E4beXOrxfnRyq0vaOs3Di7VSifPQjY3u7S+WJs/j6wScKyBU/6ONtbZYHg1hzZXs/w
+	Z1/C5BzNBsghgiVaZzgFNDA8p/0kIobW2c8337FNqkUAupLwmooVrS7uESyMo8ZB1oUT
+	lOAM/ayakqsIp76rnI/iOp4E6acRXvFRYnAiNwXyz9417HWiEkqsUiqw1EMzMmwyklZa
+	6nThaMwT1W2KIstcl3AzSjUMycOIBzVczyEqFH3Cpt7AfddpWJ1RAPjOBBllFlOFdEvE
+	+t7zWeYsd5nYgVHh9Jzdfb3EuTfPJpsgNSIxGcnluaS7JxUAWaVpeqm7tLG2YYt0Nfm5
+	r/Ug==
 MIME-Version: 1.0
-X-Received: by 10.152.2.4 with SMTP id 4mr4960868laq.0.1378342286128; Wed, 04
-	Sep 2013 17:51:26 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Wed, 4 Sep 2013 17:51:25 -0700 (PDT)
-In-Reply-To: <1378332114.1059.260.camel@ted>
-References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
-	<1378332114.1059.260.camel@ted>
-Date: Wed, 4 Sep 2013 20:51:25 -0400
-Message-ID: <CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.60.78.227 with SMTP id e3mr4412699oex.5.1378342478705; Wed,
+	04 Sep 2013 17:54:38 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Wed, 4 Sep 2013 17:54:38 -0700 (PDT)
+In-Reply-To: <7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+	<b2e7d64bcfed785d28da77202d46157f4ce7dfd6.1378339881.git.dvhart@linux.intel.com>
+	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
+Date: Wed, 4 Sep 2013 21:54:38 -0300
+X-Google-Sender-Auth: 0a46PSOAdaIMJ78xGhrg3eeLYHE
+Message-ID: <CAP9ODKoZKArHD5+bTGwLrdNoa7DE+RWTOO7A_pVtPNevaz8sWg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: Poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
+Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,86 +47,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 00:51:26 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 00:54:37 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, Sep 4, 2013 at 6:01 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2013-09-04 at 17:22 +0100, Ross Burton wrote:
->> Only qemumips was recommending kernel-modules which meant that the other qemu
->> machines were missing some kernel modules, for example binfmt-misc.
->>
->> Move the recommends to qemu.inc so that all qemu machines pull in the kernel
->> modules that have been built.
->>
->> [ YOCTO #4863 ]
->>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> ---
->>  meta/conf/machine/include/qemu.inc |    2 ++
->>  meta/conf/machine/qemumips.conf    |    2 --
->>  meta/conf/machine/qemumips64.conf  |    2 --
->>  3 files changed, 2 insertions(+), 4 deletions(-)
+On Wed, Sep 4, 2013 at 9:18 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+> As part of pulling in the more generic components of the meta-intel
+> xserver infrastructure, include the configure and install appends from
+> the meta-intel version of xorg-driver-common.
 >
-> How many modules are built for the qemu machines? Are they all useful?
-> I'm just trying to get a feel for how much we're adding here and whether
-> this is the right thing to be doing...
+> Modify the configure prepend to use ${S} in the paths explicitly as
+> without this the script appears to be running in a build/ directory
+> instead of the source directory, and cannot find the configure.ac.
+> This prepend is required for at least the -intel and -mga drivers.
+>
+> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> Cc: Ross Burton <ross.burton@intel.com>
+> Cc: Nitin A Kamble <nitin.a.kamble@intel.com>
+> ---
+>  .../xorg-driver/xorg-driver-common.inc             |   17 ++++++++++++++++-
+>  1 file changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+> index 5f5d282..2d4f2ce 100644
+> --- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+> +++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+> @@ -5,7 +5,7 @@ SECTION = "x11/drivers"
+>  LICENSE = "MIT-X"
+>
+>  PE = "2"
+> -INC_PR = "r21"
+> +INC_PR = "r22"
 
-We can control the configs as tightly as we want, so if we are building too much
-for this, I'm happy to trim things down.
+This is need because you had a PRINC?
 
-Cheers,
+>  DEPENDS = "virtual/xserver xproto randrproto util-macros"
+>
+> @@ -39,3 +39,18 @@ def add_abi_depends(d, name):
+>
+>      pn = d.getVar("PN", True)
+>      d.appendVar('RDEPENDS_' + pn, ' ' + abi)
+> +
+> +# AC_CHECK_FILE doesn't work when cross compiling, so we create a replacement
+> +# macro that simply assumes the test succeeds. This is required for at least
+> +# the -intel and -mga drivers.
+> +do_configure_prepend () {
+> +       echo 'AC_DEFUN(CC_AC_CHECK_FILE, $2)' > ${S}/configure.ac.new
+> +       sed 's/AC_CHECK_FILE/CC_AC_CHECK_FILE/g' ${S}/configure.ac >> ${S}/configure.ac.new
+> +       mv ${S}/configure.ac.new ${S}/configure.ac
+> +}
+> +
+> +# FIXME: We don't want to include the libtool archives (*.la) from modules
+> +# directory, as they serve no useful purpose. Upstream should fix Makefile.am
+> +do_install_append() {
+> +       find ${D}${libdir}/xorg/modules -regex ".*\.la$" | xargs rm -f --
+> +}
 
-Bruce
-
->
-> Cheers,
->
-> Richard
->
->
->
->>
->> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
->> index 545f8d1..7baf13e 100644
->> --- a/meta/conf/machine/include/qemu.inc
->> +++ b/meta/conf/machine/include/qemu.inc
->> @@ -27,3 +27,5 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
->>
->>  # Provide the nfs server kernel module for all qemu images
->>  KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
->> +
->> +MACHINE_EXTRA_RRECOMMENDS = "kernel-modules"
->> diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
->> index ce1c419..89721a6 100644
->> --- a/meta/conf/machine/qemumips.conf
->> +++ b/meta/conf/machine/qemumips.conf
->> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
->>  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
->>
->>  SERIAL_CONSOLE = "115200 ttyS0"
->> -
->> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
->> diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
->> index b2c7998..7ba98cb 100644
->> --- a/meta/conf/machine/qemumips64.conf
->> +++ b/meta/conf/machine/qemumips64.conf
->> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
->>  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
->>
->>  SERIAL_CONSOLE = "115200 ttyS0"
->> -
->> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+Agreed.
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
