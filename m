@@ -1,41 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id CD8676B12F
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 810EF6B130
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 09:47:52 +0000 (UTC)
-Received: by mail-ve0-f173.google.com with SMTP id cz12so312902veb.4
+	Thu,  5 Sep 2013 09:53:42 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id hf12so945416vcb.41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 02:47:54 -0700 (PDT)
+	Thu, 05 Sep 2013 02:53:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=IkMeoOxxg6waM6UuSz146yVAkAXFgoXJ90Jw5hVEQlY=;
-	b=B0EBGfe1QGuOex8E723QRA534DbK6zTkD5LaTnxEHscGNCqSlDe7r82X+l0chF9IJ7
-	EJhbenzbymA6rX5kQeDl4UjgRU6E7wx+zkcxDOT4+yhhRFb8Vy5Bx27zn+24mS5tqfc0
-	RyKrQX7ISIBrhh7vVHEgj/u/bpD5SxndnHER8eF0U7gBua6+LSGj2nwHj7lzc48gc14D
-	Rtkeqx67rca6koklbbcAGJw3bZyxzBy53SzIR/G8XnxjzuLYowgS/PDuK287TpOH3HvC
-	voQHw6MQU/TecGfWzfDBIo+reb2kkPV2ZJQ3rNKJ/x44ChBxEYv467ItlG1ZVbRASSwX
-	C9pQ==
-X-Gm-Message-State: ALoCoQmdK4vhwDNJ0BnoUdLRrhOV8SQ2F6FKzw2dnab3Az2+LIHmN8EyJz+uMCVLfcrI7sXoYxLR
-X-Received: by 10.52.244.116 with SMTP id xf20mr1911626vdc.16.1378374474454;
-	Thu, 05 Sep 2013 02:47:54 -0700 (PDT)
+	bh=Hqfvdxo26ZF3Dm5IG0FX4hqjjkuxhaY+l8yI+J+lSgo=;
+	b=XZ/3osSPjcjI+R2cyRfxd7N09FdA/ZAmiBZRHy8yc4LPEWWX9kvQOE9sXQRaFwEJj2
+	sC3aNQSmOtrQGeNzsI9OeDGysXWrYc93Fgmn+PfdmAIxtPNpQRWjVW3+FlxF3+1sjmsx
+	xfHtlvlmkWOczDVfMZr1RHjpaS95mLzSszZQO/wcZpJPsCYtpVF5uMXqonWqwrlDYQMj
+	EDKfzF5Z+G5Wk/inEAoeAu2br8fDoOPBY4L3GaErdO7xM/qR5Fb1S3sF2PsAbJmVWyvc
+	TW1lDqbjyHXbgDSAtJ7DK/BrmIPfBunHs4Gh4zDi6T1MRb68WX71UsmQ/uINm9Wi61io
+	neEg==
+X-Gm-Message-State: ALoCoQmy6v9oafIGmwen0XObgv4Zsl327oHILAUEY/Tk+MVDK9fFe981U/i57wr7gXxMj7iQDhIS
+X-Received: by 10.58.100.234 with SMTP id fb10mr7135683veb.5.1378374824026;
+	Thu, 05 Sep 2013 02:53:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 02:47:33 -0700 (PDT)
-In-Reply-To: <1378352101.14029.52.camel@dvhart-mobl4.amr.corp.intel.com>
+Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 02:53:22 -0700 (PDT)
+In-Reply-To: <7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
 References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<CAP9ODKou8KFNUVjjMq7wcY8wJ5m-rh4YGpuFTA_JugiSis7dEQ@mail.gmail.com>
-	<1378352101.14029.52.camel@dvhart-mobl4.amr.corp.intel.com>
+	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Sep 2013 10:47:33 +0100
-Message-ID: <CAJTo0LZb5hTNAjTJvL2ueRWqe1PWPUv3yU-fbobwjcAis-7JCg@mail.gmail.com>
+Date: Thu, 5 Sep 2013 10:53:22 +0100
+Message-ID: <CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
 To: Darren Hart <dvhart@linux.intel.com>
-Cc: yunguo.wei@windriver.com, Poky <poky@yoctoproject.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 0/4] Updates in support of genericx86*
+Cc: Poky <poky@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,29 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 09:47:53 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 09:53:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 5 September 2013 04:35, Darren Hart <dvhart@linux.intel.com> wrote:
->> > Some of the oe-core changes could be contained in the meta-yocto-bsp layer, but
->> > as these changes come from meta-intel, they are needed by multiple layers, and I
->> > felt it might make more sense in oe-core. If people object to the mga or intel
->> > xserver video drivers, I can respin those for meta-yocto-bsp.
->>
->> QEMU does not need them so they should be in meta-yocto-bsp.
->
-> I'm fine with that if that is the consensus. Does anyone else care to
-> weigh in?
+On 5 September 2013 01:18, Darren Hart <dvhart@linux.intel.com> wrote:
+> +# AC_CHECK_FILE doesn't work when cross compiling, so we create a replacement
+> +# macro that simply assumes the test succeeds. This is required for at least
+> +# the -intel and -mga drivers.
+> +do_configure_prepend () {
+> +       echo 'AC_DEFUN(CC_AC_CHECK_FILE, $2)' > ${S}/configure.ac.new
+> +       sed 's/AC_CHECK_FILE/CC_AC_CHECK_FILE/g' ${S}/configure.ac >> ${S}/configure.ac.new
+> +       mv ${S}/configure.ac.new ${S}/configure.ac
+> +}
 
-By that logic nearly all the X drivers in oe-core should be in
-meta-yocto-bsp (synaptics, intel, modesetting, omap, omapfb, keyboard,
-mouse), but then we'd be forcing people using anything other than qemu
-to use meta-yocto-bsp (or duplicate the recipes).  A more nuanced
-rationale for keeping modesettings/intel/etc is that whilst the driver
-isn't used on QEMU it is in use on a large number of machines so it
-can be centrally maintained in oe-core.  I'm not convinced this holds
-for -mga (unless you're reading this from the late 90s) so it should
-be in meta-yocto-bsp.
+I've been systematically fixing the drivers that use AC_CHECK_FILE so
+now as far as I know we're left with just one (-mga), for which my
+patch has been submitted upstream.
+
+I'd prefer to see the patch retained and upstream fixed instead of
+working around the breakage, because the test that configure.ac is
+attempting to do is valid, it's just done wrong.
+
+>+# FIXME: We don't want to include the libtool archives (*.la) from modules
+>+# directory, as they serve no useful purpose. Upstream should fix Makefile.am
+>+do_install_append() {
+>+       find ${D}${libdir}/xorg/modules -regex ".*\.la$" | xargs rm -f --
+>+}
+
+Sadly when using libtool you can't "opt-out" of installing .la files
+unless you delete the files that just got installed.  In my opinion
+this is something that needs to be done globally instead of
+per-recipe.
 
 Ross
 
