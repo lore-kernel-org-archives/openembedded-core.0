@@ -1,28 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EA5961855
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
+	[209.85.219.52])
+	by mail.openembedded.org (Postfix) with ESMTP id BD62E61855
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 12:53:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 05 Sep 2013 05:53:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="373900560"
-Received: from unknown (HELO helios.localnet) ([10.252.123.106])
-	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2013 05:53:45 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Phil Blundell <pb@pbcl.net>
-Date: Thu, 05 Sep 2013 13:53:44 +0100
-Message-ID: <3397753.WTGSduA6kl@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1378384174.6940.86.camel@phil-desktop.brightsign>
-References: <cover.1378366233.git.laurentiu.palcu@intel.com>
-	<3518999.x3yV6XY4Eo@helios>
-	<1378384174.6940.86.camel@phil-desktop.brightsign>
+	Thu,  5 Sep 2013 12:56:43 +0000 (UTC)
+Received: by mail-oa0-f52.google.com with SMTP id f4so2090321oah.25
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Sep 2013 05:56:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=WTT0vZ/OcIukT5Ba/BKvMbG84GS1kWDUzHfeeNltCrk=;
+	b=mF0qIS6PyxcKLTaxsrD82bViM4fjJdWi8S5HnlMutpcHKjjXr+80cZ9/6O9gK0VcbR
+	kTX6gtSvKD0SrJhbWkI60diulnY9iZBz/B1b6E83h053uPJLNSYVrSP5BWNKSSloIRlf
+	RyUYBbRQbLioCjg4HBi/TF16qJ2FPQQs3IddLshNpbcw2Hyoky3i5Hpt13e3u++5/Wcn
+	E4kgKPLIWtCGl6IP5FmvmfudGJGkZHc/ZqKE9r78AmtqdD41l0NA2qFoQmNPZ24w0oZF
+	WHoQbclJwud6Xg5NkVKMtiaW5YT0v71KSYAFi8Owd8YtmQ2aoMuCNP+NfC8MkJ5pkOg0
+	zvxg==
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+X-Received: by 10.60.132.142 with SMTP id ou14mr1197555oeb.58.1378385804912;
+	Thu, 05 Sep 2013 05:56:44 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 5 Sep 2013 05:56:44 -0700 (PDT)
+In-Reply-To: <1378371660-5061-2-git-send-email-paul_woegerer@mentor.com>
+References: <1378371660-5061-1-git-send-email-paul_woegerer@mentor.com>
+	<1378371660-5061-2-git-send-email-paul_woegerer@mentor.com>
+Date: Thu, 5 Sep 2013 09:56:44 -0300
+X-Google-Sender-Auth: K8dEODtDPfaSY4fqRlNj4n7FjE0
+Message-ID: <CAP9ODKp9no3uABBeeuY=wksFmBb1novjE3b6NhHdKXoXeLtiMA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Paul Woegerer <paul_woegerer@mentor.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
+Subject: Re: [PATCH 1/3] lttng-ust: Update to version 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +45,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 12:53:47 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 05 Sep 2013 12:56:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thursday 05 September 2013 13:29:34 Phil Blundell wrote:
-> On Thu, 2013-09-05 at 07:19 -0500, Paul Eggleton wrote:
-> > I'm clearly missing something here. If we have a generic mechanism to run
-> > postinstall scripts now, and "package-management" is not in
-> > IMAGE_FEATURES,
-> > why do we need or want the package manager to be in control of running the
-> > postinstalls?
-> 
-> We don't.  The postinsts should be getting run by run-postinsts.
-> 
-> I must admit I still don't entirely understand what the problem is that
-> Laurentiu is trying to fix with his patch, and the description in the
-> Yocto bugzilla remains opaque to me.  Can you clarify what exactly it is
-> that's currently going wrong?
+On Thu, Sep 5, 2013 at 6:00 AM, Paul Woegerer <paul_woegerer@mentor.com> wrote:
+> Signed-off-by: Paul Woegerer <paul_woegerer@mentor.com>
 
-The reason I reopened the bug (the final comment) is that I had a situation 
-recently where I had got opkg installed in an image via dependencies and I did 
-not have package-management in IMAGE_FEATURES. The result was that 
-postinstalls to be run on first boot just silently did not work, which is not 
-good behaviour.
-
-Now, with the image I was dealing with I needed to add package-management to 
-IMAGE_FEATURES anyway; but things shouldn't just silently break because the 
-package manager happens to be installed especially as it may not be 
-immediately clear to the user that the latter had even happened. I'm pretty 
-sure this didn't used to be an issue.
-
-Cheers,
-Paul
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
