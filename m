@@ -1,25 +1,40 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 26EFC6C6E0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
+	[209.85.128.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 693FB615E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 15:05:02 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 05 Sep 2013 08:05:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="398739999"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by orsmga002.jf.intel.com with ESMTP; 05 Sep 2013 08:05:01 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2013 18:04:03 +0300
-Message-Id: <bf446596f51d2750050e8fc0818bbc44954634e2.1378393096.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378393096.git.laurentiu.palcu@intel.com>
-References: <cover.1378393096.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1378393096.git.laurentiu.palcu@intel.com>
-References: <cover.1378393096.git.laurentiu.palcu@intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 1/1] run-postinsts: move script execution from S98 to S99 in rcS.d
+	Thu,  5 Sep 2013 15:12:08 +0000 (UTC)
+Received: by mail-ve0-f182.google.com with SMTP id oy12so612946veb.41
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Sep 2013 08:12:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Yz77m/zFeWTquKikdeNwOLynh5S1O4cJqE9vrzIUi+I=;
+	b=QNDK4TCq0CBE3ZFjcip+KZNhYtAJEZuUj8Fw38q/8Qu6FSxXFRpKCkAv0lnAiRSxXb
+	8WK+FQSaYe0Wqhz/Vh6d/yBBSYK5BEgLBgoZAFkgZf7bAfbOugOk2gKWZwq8a8uebhC5
+	YlAUW2EgTM8nb7RuT8KpThSeXYqSs4JabBqGqlzQVzCeiiPGPKwtMe/ph18ZwdT2oKgk
+	EOj/Yo7EmWorOM9M6NL9918QGeOJPE2JFHZS3U7195wu8OCVnFLlanl6ImIBodEt2Jm6
+	gebYogmd18YWgEXbmpn8EtM6kWw5x/JZ2p189DoJcU9swIUuUlaqoK2lnu1C37npgLo8
+	PQIg==
+X-Gm-Message-State: ALoCoQnb876fxIg5UhWkbXyk5CbNOqH3f7vTGSjcRtieIA+nPqXnbQNfG8IXCpMbXZuXIkhPu60A
+X-Received: by 10.52.165.131 with SMTP id yy3mr2940280vdb.25.1378393929903;
+	Thu, 05 Sep 2013 08:12:09 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 08:11:49 -0700 (PDT)
+In-Reply-To: <1378392729.14029.73.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+	<4562a00806c5a6573b5aa650764ad12bc93edda7.1378339881.git.dvhart@linux.intel.com>
+	<CAJTo0LY-oi+tQy7rs84axy4R71Y4j=HtEgXALN20aVdATwzVdg@mail.gmail.com>
+	<1378392729.14029.73.camel@dvhart-mobl4.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Sep 2013 16:11:49 +0100
+Message-ID: <CAJTo0LZ6FHdDe0NgE0sQvqg+pF4hf_MjvRDe1L=HV-7021EAOg@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: yunguo.wei@windriver.com, Poky <poky@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] xf86-video-mga: Pull in Matrox MGA support from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,42 +47,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 15:05:02 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 15:12:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Apparently, when opkg/dpkg and run-postinsts are installed in the same
-time, opkg/dpkg postinstall overwrites the run-postinsts link in rcS.d.
-This will make run-postinsts script useless and the delayed postinstalls
-will not be run.
+On 5 September 2013 15:52, Darren Hart <dvhart@linux.intel.com> wrote:
+>> Assuming success in an distro where opengl isn't enabled will result
+>> in the driver believing that DRI is enabled when it isn't, so expect
+>> to see build failures from this.
+>
+> Should we be adding a distro depends on opengl for this driver as is
+> being done for others currently?
 
-This issue happens only when 'package-management' is disabled and, in
-the same time, dpkg/opkg ends up in the image: either pulled by some
-dependency or manually installed.
+No, because DRI is optional in this driver.  Follow opengl and flip
+--enable/disable-dri.
 
-With this patch, both opkg/dpkg and run-postinsts scripts will run but
-the former will silently fail because the package metadata is removed from
-the image since 'pacakge-management' is disabled.
+(assuming I don't change the server to always build DRI)
 
-[YOCTO #4484]
-
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- .../run-postinsts/run-postinsts_1.0.bb             |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-index 5dd1709..e18e7b6 100644
---- a/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts_1.0.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3
- SRC_URI = "file://run-postinsts"
- 
- INITSCRIPT_NAME = "run-postinsts"
--INITSCRIPT_PARAMS = "start 98 S ."
-+INITSCRIPT_PARAMS = "start 99 S ."
- 
- inherit update-rc.d
- 
--- 
-1.7.9.5
-
+Ross
 
