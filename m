@@ -1,14 +1,14 @@
 Return-Path: <pab@pabigot.com>
-Received: from p3plsmtpa11-10.prod.phx3.secureserver.net
-	(p3plsmtpa11-10.prod.phx3.secureserver.net [68.178.252.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 8902461788
+Received: from p3plsmtpa11-03.prod.phx3.secureserver.net
+	(p3plsmtpa11-03.prod.phx3.secureserver.net [68.178.252.104])
+	by mail.openembedded.org (Postfix) with ESMTP id D9D776B064
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 11:16:08 +0000 (UTC)
+	Thu,  5 Sep 2013 11:17:50 +0000 (UTC)
 Received: from [192.168.65.10] ([66.41.60.82])
-	by p3plsmtpa11-10.prod.phx3.secureserver.net with 
-	id MPG81m00N1mTNtu01PG8Xm; Thu, 05 Sep 2013 04:16:09 -0700
-Message-ID: <522867F8.6090804@pabigot.com>
-Date: Thu, 05 Sep 2013 06:16:08 -0500
+	by p3plsmtpa11-03.prod.phx3.secureserver.net with 
+	id MPHq1m00Q1mTNtu01PHqiX; Thu, 05 Sep 2013 04:17:51 -0700
+Message-ID: <5228685E.7090201@pabigot.com>
+Date: Thu, 05 Sep 2013 06:17:50 -0500
 From: "Peter A. Bigot" <pab@pabigot.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
@@ -29,11 +29,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 11:16:08 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 11:17:51 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Ping?  For this one on dylan; the master one has been merged.
+Ok, third time after smacking thunderbird upside the head:
+
+Ping for this and the revised 2/2 in which I addressed Saul's comment.
+
+Peter
 
 On 08/26/2013 04:49 PM, Peter A. Bigot wrote:
 > From: "Peter A. Bigot" <pab@pabigot.com>
