@@ -1,40 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
-	[209.85.128.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 693FB615E5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8989361862
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 15:12:08 +0000 (UTC)
-Received: by mail-ve0-f182.google.com with SMTP id oy12so612946veb.41
+	Thu,  5 Sep 2013 15:17:39 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r85FUl6j018264 for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Sep 2013 16:30:47 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id vZiICTAf5D8y
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 08:12:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Yz77m/zFeWTquKikdeNwOLynh5S1O4cJqE9vrzIUi+I=;
-	b=QNDK4TCq0CBE3ZFjcip+KZNhYtAJEZuUj8Fw38q/8Qu6FSxXFRpKCkAv0lnAiRSxXb
-	8WK+FQSaYe0Wqhz/Vh6d/yBBSYK5BEgLBgoZAFkgZf7bAfbOugOk2gKWZwq8a8uebhC5
-	YlAUW2EgTM8nb7RuT8KpThSeXYqSs4JabBqGqlzQVzCeiiPGPKwtMe/ph18ZwdT2oKgk
-	EOj/Yo7EmWorOM9M6NL9918QGeOJPE2JFHZS3U7195wu8OCVnFLlanl6ImIBodEt2Jm6
-	gebYogmd18YWgEXbmpn8EtM6kWw5x/JZ2p189DoJcU9swIUuUlaqoK2lnu1C37npgLo8
-	PQIg==
-X-Gm-Message-State: ALoCoQnb876fxIg5UhWkbXyk5CbNOqH3f7vTGSjcRtieIA+nPqXnbQNfG8IXCpMbXZuXIkhPu60A
-X-Received: by 10.52.165.131 with SMTP id yy3mr2940280vdb.25.1378393929903;
-	Thu, 05 Sep 2013 08:12:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 08:11:49 -0700 (PDT)
-In-Reply-To: <1378392729.14029.73.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<4562a00806c5a6573b5aa650764ad12bc93edda7.1378339881.git.dvhart@linux.intel.com>
-	<CAJTo0LY-oi+tQy7rs84axy4R71Y4j=HtEgXALN20aVdATwzVdg@mail.gmail.com>
-	<1378392729.14029.73.camel@dvhart-mobl4.amr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Sep 2013 16:11:49 +0100
-Message-ID: <CAJTo0LZ6FHdDe0NgE0sQvqg+pF4hf_MjvRDe1L=HV-7021EAOg@mail.gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: yunguo.wei@windriver.com, Poky <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] xf86-video-mga: Pull in Matrox MGA support from meta-intel
+	Thu,  5 Sep 2013 16:30:47 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r85FUgH7018255
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Sep 2013 16:30:43 +0100
+Message-ID: <1378394247.32427.75.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 05 Sep 2013 16:17:27 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] devshell: Don't corrupt the fakeroot variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,21 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 15:12:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 05 Sep 2013 15:17:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 5 September 2013 15:52, Darren Hart <dvhart@linux.intel.com> wrote:
->> Assuming success in an distro where opengl isn't enabled will result
->> in the driver believing that DRI is enabled when it isn't, so expect
->> to see build failures from this.
->
-> Should we be adding a distro depends on opengl for this driver as is
-> being done for others currently?
+The devshell anonymous python fragment overwrites variables in the
+datastore with their expanded versions. If this runs before the code
+in allarch.bbclass which changes TARGET_OS, we can end up with different
+directories in the fakeroot environment variables, some expanded with
+the original TARGET_OS value.
 
-No, because DRI is optional in this driver.  Follow opengl and flip
---enable/disable-dri.
+The devshell code only needs to run before the task itself so we change
+to trigger it to run at task execution time only using a flag.
 
-(assuming I don't change the server to always build DRI)
+[YOCTO #4795]
 
-Ross
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index a780118..92edb9e 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -3,6 +3,15 @@ inherit terminal
+ DEVSHELL = "${SHELL}"
+ 
+ python do_devshell () {
++    if d.getVarFlag("do_devshell", "manualfakeroot"):
++       d.prependVar("DEVSHELL", "pseudo ")
++       fakeenv = d.getVar("FAKEROOTENV", True).split()
++       for f in fakeenv:
++            k = f.split("=")
++            d.setVar(k[0], k[1])           
++            d.appendVar("OE_TERMINAL_EXPORTS", " " + k[0])
++       d.delVarFlag("do_devshell", "fakeroot")
++
+     oe_terminal(d.getVar('DEVSHELL', True), 'OpenEmbedded Developer Shell', d)
+ }
+ 
+@@ -17,11 +26,8 @@ do_devshell[nostamp] = "1"
+ # manually
+ python () {
+     if d.getVarFlag("do_devshell", "fakeroot"):
+-       d.prependVar("DEVSHELL", "pseudo ")
+-       fakeenv = d.getVar("FAKEROOTENV", True).split()
+-       for f in fakeenv:
+-            k = f.split("=")
+-            d.setVar(k[0], k[1])           
+-            d.appendVar("OE_TERMINAL_EXPORTS", " " + k[0])
++       # We need to signal our code that we want fakeroot however we
++       # can't manipulate the environment and variables here yet (see YOCTO #4795)
++       d.setVarFlag("do_devshell", "manualfakeroot", "1")
+        d.delVarFlag("do_devshell", "fakeroot")
+ } 
+
+
 
