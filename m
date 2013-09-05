@@ -1,36 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id A32496160A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 6731961788
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 12:15:27 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r85CSAp6007871; Thu, 5 Sep 2013 13:28:10 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PfXbV2Eco3Kn; Thu,  5 Sep 2013 13:28:09 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r85CS4UB007853
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 5 Sep 2013 13:28:05 +0100
-Message-ID: <1378383289.32427.63.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 05 Sep 2013 13:14:49 +0100
-In-Reply-To: <CAJTo0Labk000SpLOiM8gtuSu2pwK0jsgU9osO60GEFntThxSeA@mail.gmail.com>
-References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
-	<CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
-	<CAP9ODKqVU+ka+VzjPj6p0iVsirrOSqLtDFWNzfBcKutwj1Fo3Q@mail.gmail.com>
-	<CAJTo0Labk000SpLOiM8gtuSu2pwK0jsgU9osO60GEFntThxSeA@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Darren Hart <dvhart@linux.intel.com>, Poky <poky@yoctoproject.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
+	Thu,  5 Sep 2013 12:19:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Sep 2013 05:19:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="373890307"
+Received: from unknown (HELO helios.localnet) ([10.252.123.106])
+	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2013 05:19:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <philb@brightsign.biz>,
+	Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Thu, 05 Sep 2013 13:19:05 +0100
+Message-ID: <3518999.x3yV6XY4Eo@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1378382840.6940.78.camel@phil-desktop.brightsign>
+References: <cover.1378366233.git.laurentiu.palcu@intel.com>
+	<20130905115913.GC17481@lpalcu-linux>
+	<1378382840.6940.78.camel@phil-desktop.brightsign>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,45 +35,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 12:15:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Sep 2013 12:19:29 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, 2013-09-05 at 12:40 +0100, Burton, Ross wrote:
-> On 5 September 2013 12:37, Otavio Salvador <otavio@ossystems.com.br> wrote:
-> >> Sadly when using libtool you can't "opt-out" of installing .la files
-> >> unless you delete the files that just got installed.  In my opinion
-> >> this is something that needs to be done globally instead of
-> >> per-recipe.
-> >
-> > So autotools.bbclass?
+On Thursday 05 September 2013 13:07:20 Phil Blundell wrote:
+> On Thu, 2013-09-05 at 06:59 -0500, Laurentiu Palcu wrote:
+> > On Thu, Sep 05, 2013 at 12:40:26PM +0100, Phil Blundell wrote:
+> > > Actually, that last sentence is slightly incorrect.  image.bbclass does
+> > > have the knowledge, it just seems to be failing to act on it.  So
+> > > perhaps the easiest fix for the time being is simply to move the
+> > > remove_packaging_data_files call in rootfs_uninstall_unneeded () a few
+> > > lines higher up so that it's inside the "if [ -z $(delayed_postinsts) ]"
+> > > block.
+> > 
+> > What you're suggesting means that we will have the PM metadata present
+> > if there are delayed postinstalls present. But, since the PM is not
+> > present, what's the use of that?
 > 
-> Exactly.  Phil sent patches to do this previously, and I've a
-> branch... somewhere that has another unfinished version.
+> Well, er, that it will make the postinstalls work.  Isn't that exactly
+> the problem here?
 
-I continue to have mixed feelings about this: 
-
-* We've not done side by side build comparisons with something like
-buildhistory.
-
-* Figuring out any runtime issues with dlopen is the hardest part and we
-don't actually have real data on whether there are issues there or not.
-
-* We'd be deviating from the way the libtool authors suggest their tool
-should operate. This makes filing bug reports and interacting with
-upstream harder. I continue to dream of a libtool with working sysroot
-support for example instead of carrying our hacks/workarounds/bugfixes.
-
-* They are used in places, for example the darwin shlibs code currently
-uses them. It could be updated to use otool these days mind but I'd
-probably make the current code a fallback for unknown arches since it is
-guaranteed to work everywhere.
-
-So whilst I know several people love to just delete them, its a slightly
-more complex issue than that.
+I'm clearly missing something here. If we have a generic mechanism to run 
+postinstall scripts now, and "package-management" is not in IMAGE_FEATURES, 
+why do we need or want the package manager to be in control of running the 
+postinstalls?
 
 Cheers,
+Paul
 
-Richard (who isn't keen on libtool and would rather replace that instead)
+-- 
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
