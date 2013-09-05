@@ -1,58 +1,36 @@
-Return-Path: <philb@brightsign.biz>
-Received: from server505.appriver.com (server505d.appriver.com [98.129.35.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4997160F1B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A32496160A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 12:07:22 +0000 (UTC)
-X-Note-AR-ScanTimeLocal: 9/5/2013 7:07:23 AM
-X-Policy: GLOBAL - brightsign.biz
-X-Policy: GLOBAL - brightsign.biz
-X-Policy: GLOBAL - brightsign.biz
-X-Policy: GLOBAL - brightsign.biz
-X-Primary: philb@brightsign.biz
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Virus-Scan: V-
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-68/SG:2 9/5/2013 7:07:03 AM
-X-GBUdb-Analysis: 0, 98.129.35.1, Ugly c=1 p=-0.917716 Source White
-X-Signature-Violations: 0-0-0-3145-c
-X-Note-419: 15.6007 ms. Fail:0 Chk:1348 of 1348 total
-X-Note: SCH-CT/SI:0-1348/SG:1 9/5/2013 7:07:09 AM
-X-Note: Spam Tests Failed: 
-X-Country-Path: PRIVATE->UNITED STATES->UNITED STATES
-X-Note-Sending-IP: 98.129.35.1
-X-Note-Reverse-DNS: 
-X-Note-Return-Path: philb@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G340 G341 G342 G343 G347 G348 G455 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-X-Note: Headers Injected
-Received: from [98.129.35.1] (HELO smtp.exg5.exghost.com)
-	by server505.appriver.com (CommuniGate Pro SMTP 5.4.8)
-	with ESMTPS id 113965667; Thu, 05 Sep 2013 07:07:23 -0500
-Received: from [172.30.1.45] (86.30.57.232) by smtp.exg5.exghost.com
-	(98.129.23.45) with Microsoft SMTP Server (TLS) id 8.3.327.1;
-	Thu, 5 Sep 2013 07:07:22 -0500
-Message-ID: <1378382840.6940.78.camel@phil-desktop.brightsign>
-From: Phil Blundell <philb@brightsign.biz>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Thu, 5 Sep 2013 13:07:20 +0100
-In-Reply-To: <20130905115913.GC17481@lpalcu-linux>
-References: <cover.1378366233.git.laurentiu.palcu@intel.com>
-	<728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
-	<20130905081516.GI11500@jama>
-	<1378377834.6940.66.camel@phil-desktop.brightsign>
-	<20130905111155.GB17481@lpalcu-linux>
-	<1378381064.6940.75.camel@phil-desktop.brightsign>
-	<1378381226.6940.77.camel@phil-desktop.brightsign>
-	<20130905115913.GC17481@lpalcu-linux>
-Organization: BrightSign Digital Ltd
-X-Mailer: Evolution 3.4.4-4+b1 
-MIME-Version: 1.0
-Cc: "paul.eggleton@linux.intel.com" <paul.eggleton@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
+	Thu,  5 Sep 2013 12:15:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r85CSAp6007871; Thu, 5 Sep 2013 13:28:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PfXbV2Eco3Kn; Thu,  5 Sep 2013 13:28:09 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r85CS4UB007853
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 5 Sep 2013 13:28:05 +0100
+Message-ID: <1378383289.32427.63.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 05 Sep 2013 13:14:49 +0100
+In-Reply-To: <CAJTo0Labk000SpLOiM8gtuSu2pwK0jsgU9osO60GEFntThxSeA@mail.gmail.com>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
+	<CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
+	<CAP9ODKqVU+ka+VzjPj6p0iVsirrOSqLtDFWNzfBcKutwj1Fo3Q@mail.gmail.com>
+	<CAJTo0Labk000SpLOiM8gtuSu2pwK0jsgU9osO60GEFntThxSeA@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Darren Hart <dvhart@linux.intel.com>, Poky <poky@yoctoproject.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,26 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 12:07:23 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 12:15:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2013-09-05 at 06:59 -0500, Laurentiu Palcu wrote:
-> On Thu, Sep 05, 2013 at 12:40:26PM +0100, Phil Blundell wrote:
-> > Actually, that last sentence is slightly incorrect.  image.bbclass does
-> > have the knowledge, it just seems to be failing to act on it.  So
-> > perhaps the easiest fix for the time being is simply to move the
-> > remove_packaging_data_files call in rootfs_uninstall_unneeded () a few
-> > lines higher up so that it's inside the "if [ -z $(delayed_postinsts) ]"
-> > block.
-> What you're suggesting means that we will have the PM metadata present
-> if there are delayed postinstalls present. But, since the PM is not
-> present, what's the use of that? 
+On Thu, 2013-09-05 at 12:40 +0100, Burton, Ross wrote:
+> On 5 September 2013 12:37, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> >> Sadly when using libtool you can't "opt-out" of installing .la files
+> >> unless you delete the files that just got installed.  In my opinion
+> >> this is something that needs to be done globally instead of
+> >> per-recipe.
+> >
+> > So autotools.bbclass?
+> 
+> Exactly.  Phil sent patches to do this previously, and I've a
+> branch... somewhere that has another unfinished version.
 
-Well, er, that it will make the postinstalls work.  Isn't that exactly
-the problem here?
+I continue to have mixed feelings about this: 
 
-p.
+* We've not done side by side build comparisons with something like
+buildhistory.
 
+* Figuring out any runtime issues with dlopen is the hardest part and we
+don't actually have real data on whether there are issues there or not.
+
+* We'd be deviating from the way the libtool authors suggest their tool
+should operate. This makes filing bug reports and interacting with
+upstream harder. I continue to dream of a libtool with working sysroot
+support for example instead of carrying our hacks/workarounds/bugfixes.
+
+* They are used in places, for example the darwin shlibs code currently
+uses them. It could be updated to use otool these days mind but I'd
+probably make the current code a fallback for unknown arches since it is
+guaranteed to work everywhere.
+
+So whilst I know several people love to just delete them, its a slightly
+more complex issue than that.
+
+Cheers,
+
+Richard (who isn't keen on libtool and would rather replace that instead)
 
 
