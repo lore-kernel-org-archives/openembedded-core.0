@@ -1,28 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4562A615C4
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 42B38615C4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 22:41:40 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r85MsgaA031842; Thu, 5 Sep 2013 23:54:42 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id kc7fX8CYzsWO; Thu,  5 Sep 2013 23:54:42 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r85MsbUH031837
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 5 Sep 2013 23:54:38 +0100
-Message-ID: <1378420880.32427.85.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 05 Sep 2013 23:41:20 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Thomas Fitzsimmons <fitzsim@cisco.com>
-Subject: [PATCH] useradd: Handle users from a package being used in others
+	Thu,  5 Sep 2013 23:49:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r85Nn8ZH016903
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 5 Sep 2013 16:49:08 -0700 (PDT)
+Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Thu, 5 Sep 2013 16:49:07 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Sep 2013 18:48:42 -0500
+Message-ID: <1378424922-24009-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
+MIME-Version: 1.0
+X-Originating-IP: [172.25.34.61]
+Cc: yue.tao@windriver.com
+Subject: [PATCH] package_rpm.bbclass: Fix no_recommendations and package_exclude
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,44 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 22:41:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Sep 2013 23:49:07 -0000
+Content-Type: text/plain
 
-From: Thomas Fitzsimmons <fitzsim@cisco.com>
+When the code was refactored to address review comments, the wrong version
+was sent to the community.  Replace the $1 with ${target_rootfs}
 
-If there is a package A (TUNE_PKGARCH) which is depended upon by B which
-is MACHINE_ARCH and you build B for machine X, then Y, the user isn't
-present in the sysroot for machine Y since the useradd code is never
-triggered.
+Fix identified by: Yue Tao <yue.tao@windriver.com>
 
-The change ensures the code does get triggered and the user is present.
-
-[YOCTO 4739]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 ---
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index eabfc5d..a850e9d 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -101,7 +101,7 @@ useradd_sysroot () {
- }
- 
- useradd_sysroot_sstate () {
--	if [ "${BB_CURRENTTASK}" = "package_setscene" ]
-+	if [ "${BB_CURRENTTASK}" = "package_setscene" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
- 	then
- 		useradd_sysroot
- 	fi
-@@ -123,6 +123,7 @@ USERADDSETSCENEDEPS_virtclass-cross = ""
- USERADDSETSCENEDEPS_class-native = ""
- USERADDSETSCENEDEPS_class-nativesdk = ""
- do_package_setscene[depends] += "${USERADDSETSCENEDEPS}"
-+do_populate_sysroot_setscene[depends] += "${USERADDSETSCENEDEPS}"
- 
- # Recipe parse-time sanity checks
- def update_useradd_after_parse(d):
+ meta/classes/package_rpm.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index cc77c5e..8ab42c4 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -360,10 +360,10 @@ EOF
+ 		package_write_smart_config ${target_rootfs}
+ 		# Do the following configurations here, to avoid them being saved for field upgrade
+ 		if [ "x${NO_RECOMMENDATIONS}" = "x1" ]; then
+-			smart --data-dir=$1/var/lib/smart config --set ignore-all-recommends=1
++			smart --data-dir=${target_rootfs}/var/lib/smart config --set ignore-all-recommends=1
+ 		fi
+ 		for i in ${PACKAGE_EXCLUDE}; do
+-			smart --data-dir=$1/var/lib/smart flag --set exclude-packages $i
++			smart --data-dir=${target_rootfs}/var/lib/smart flag --set exclude-packages $i
+ 		done
+ 
+ 		# Optional debugging
+-- 
+1.8.1.2.545.g2f19ada
 
 
