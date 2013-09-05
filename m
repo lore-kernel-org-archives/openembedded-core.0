@@ -1,30 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id B40CF6B005
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 85D3E6159C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Sep 2013 22:02:11 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r84MF89a018250; Wed, 4 Sep 2013 23:15:08 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 96TiLjHs8Mkb; Wed,  4 Sep 2013 23:15:08 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r84MF5Vp018244
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 4 Sep 2013 23:15:07 +0100
-Message-ID: <1378332114.1059.260.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Wed, 04 Sep 2013 23:01:54 +0100
-In-Reply-To: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
-References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
+	Thu,  5 Sep 2013 00:10:49 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 04 Sep 2013 17:10:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,843,1371106800"; d="scan'208";a="290951039"
+Received: from unknown (HELO helios.localnet) ([10.252.123.116])
+	by AZSMGA002.ch.intel.com with ESMTP; 04 Sep 2013 17:10:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
+Date: Thu, 05 Sep 2013 01:10:47 +0100
+Message-ID: <1497435.xtb1AxO9Wj@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+MIME-Version: 1.0
+Subject: OpenEmbedded Layer Index updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +29,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Sep 2013 22:02:12 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Sep 2013 00:10:50 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, 2013-09-04 at 17:22 +0100, Ross Burton wrote:
-> Only qemumips was recommending kernel-modules which meant that the other qemu
-> machines were missing some kernel modules, for example binfmt-misc.
-> 
-> Move the recommends to qemu.inc so that all qemu machines pull in the kernel
-> modules that have been built.
-> 
-> [ YOCTO #4863 ]
-> 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/conf/machine/include/qemu.inc |    2 ++
->  meta/conf/machine/qemumips.conf    |    2 --
->  meta/conf/machine/qemumips64.conf  |    2 --
->  3 files changed, 2 insertions(+), 4 deletions(-)
+Hi all,
 
-How many modules are built for the qemu machines? Are they all useful?
-I'm just trying to get a feel for how much we're adding here and whether
-this is the right thing to be doing...
+The OpenEmbedded layer index has just been updated:
+
+  http://layers.openembedded.org/
+
+This update includes a number of significant changes that have been in the 
+pipeline for a while. A summary of the changes follows.
+
+
+Branches
+----------
+
+Recipe data for the dylan and danny branches is now available. You can switch 
+between branches on the top-level pages using the drop-down at the left of the 
+navigation bar.
+
+Note: If a layer isn't visible when a branch other than master is selected, it 
+is likely because there is no corresponding "dylan" or "danny" branch in that 
+layer.
+
+
+OE-Classic
+-----------
+
+We now provide a static index of OE-Classic recipes, and record extra editable 
+information to track migration of recipes to the layer ecosystem, replacing 
+the old wiki pages used for this purpose. The migration data has been imported 
+from the wiki pages, and probably could do with some further tweaking (a login 
+is required to edit this). A couple of simple graphs give a summary of the 
+migration status based on this data.
+
+
+Bulk Change tool
+-------------------
+
+The new Bulk Change tool that allows you to easily change the values of "meta" 
+variables such as DESCRIPTION and LICENSE across multiple recipes, and 
+download the result as a patch or set of patches against each layer suitable 
+for applying on top of a repository. From there, proper patches can be created 
+and submitted. This should hopefully make it easier to make the values of 
+these variables more consistently filled in across all recipes.
+
+(Note that you need to create an account to access this tool.)
+
+
+Duplicates tool
+-----------------
+
+The "duplicates" tool gives you a list of recipes with the same name in 
+multiple layers, helping to highlight possible duplicates.
+
+(Note that you need to create an account to access this tool.)
+
+
+Additional data
+-----------------
+
+* We now track bbappends in each layer, and list the appends for a recipe in 
+all layers on each recipe page
+
+* We now track bbclasses, so you can see the classes provided by each layer
+
+* The value of the BUGTRACKER variable is now recorded for each recipe if set
+
+
+Navigation improvements
+-----------------------------
+
+* The front page has been optimised out as it wasn't particularly useful - you 
+now get taken straight to the layer list
+
+* Added a clear top-level navigation bar
+
+* Added a simple breadcrumb at the top of layer / recipe pages
+
+* The update script now tries to preserve recipe ID numbers as much as 
+possible, so in most situations a bookmarked URL to a recipe page should point 
+to the same recipe even when it gets upgraded. (This is not guaranteed however 
+particularly where an older versioned recipe is removed in a separate commit 
+after a newer version has been added.)
+
+
+Misc
+-----
+
+Other minor improvements:
+
+* Wider page layouts improving readability
+
+* Recipe page sections are now shown in tabs
+
+* For layer maintainers, editing and saving a layer now takes you back to the 
+layer detail page instead of showing the edit layer page again
+
+* Added a change log (link at the bottom of every page) that shows an audit 
+log of changes to the layer database
+
+* Layer type filter drop-down now stays open to allow ticking/unticking 
+multiple items
+
+* Added a user profile page
+
+
+Thanks to Belen Barros Pena for help with the design and HTML/CSS, and Michael 
+Halstead for helping me with the upgrade process and continued administration.
+
+As always, feedback is welcome.
 
 Cheers,
+Paul
 
-Richard
+-- 
 
-
-
-> 
-> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-> index 545f8d1..7baf13e 100644
-> --- a/meta/conf/machine/include/qemu.inc
-> +++ b/meta/conf/machine/include/qemu.inc
-> @@ -27,3 +27,5 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
->  
->  # Provide the nfs server kernel module for all qemu images
->  KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
-> +
-> +MACHINE_EXTRA_RRECOMMENDS = "kernel-modules"
-> diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
-> index ce1c419..89721a6 100644
-> --- a/meta/conf/machine/qemumips.conf
-> +++ b/meta/conf/machine/qemumips.conf
-> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
->  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
->  
->  SERIAL_CONSOLE = "115200 ttyS0"
-> -
-> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
-> diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
-> index b2c7998..7ba98cb 100644
-> --- a/meta/conf/machine/qemumips64.conf
-> +++ b/meta/conf/machine/qemumips64.conf
-> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
->  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
->  
->  SERIAL_CONSOLE = "115200 ttyS0"
-> -
-> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
