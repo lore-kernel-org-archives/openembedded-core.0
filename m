@@ -1,44 +1,34 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
-	[209.85.212.44])
-	by mail.openembedded.org (Postfix) with ESMTP id E7C346C6BA
+Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 271FA6C6C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 13:48:33 +0000 (UTC)
-Received: by mail-vb0-f44.google.com with SMTP id e13so1178416vbg.3
+	Thu,  5 Sep 2013 13:55:24 +0000 (UTC)
+Received: by mail-wg0-f46.google.com with SMTP id k14so1747326wgh.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 06:48:35 -0700 (PDT)
+	Thu, 05 Sep 2013 06:55:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Yh0O5dYRvl9Ff1EF+DyyrSCe7nYEfbJQSZJ824OKLA8=;
-	b=JDQPRFzLscs6NoOiZPjSMYJBu3B0sP5h9JLZG9zzNBmq3386cqPTTYb/CeZJkv0R8z
-	OBij0qz3RVxU4dcqW7qjhk2hjLrSElZkvCI5KytdqJGa7wdkEXmNcUY86xBNf58JF5Oy
-	ocR92RsnRgrrd6bZ/vmMBK6HWk2mtx5eLwVEDH4lVPg2puI0ae1yQuZg9BO6tdJLhz0N
-	Xk7AAnOLcC6I/gTT4wQE1/+uUWNFAJzw3q4Nln2ZTCUFORtTSN+3BLAnRVbOlpPZOpzR
-	ez3O1O4CCWD724L2CmdHEwmghqPIUL5QUm+odZJJCpmQMNGQLwqGzJbEg5gV74daf/j4
-	DB3g==
-X-Gm-Message-State: ALoCoQlrMCx7F2vBXGwuFrLncybvokpauF2dzVcko3WAJfCE0xuNZnSasJ39tuDer+ZUeslUv2O9
-X-Received: by 10.220.11.7 with SMTP id r7mr6036281vcr.12.1378388915302; Thu,
-	05 Sep 2013 06:48:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 06:48:15 -0700 (PDT)
-In-Reply-To: <1378383839.6940.83.camel@phil-desktop.brightsign>
-References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
-	<CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
-	<CAP9ODKqVU+ka+VzjPj6p0iVsirrOSqLtDFWNzfBcKutwj1Fo3Q@mail.gmail.com>
-	<CAJTo0Labk000SpLOiM8gtuSu2pwK0jsgU9osO60GEFntThxSeA@mail.gmail.com>
-	<1378383289.32427.63.camel@ted>
-	<1378383839.6940.83.camel@phil-desktop.brightsign>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Sep 2013 14:48:15 +0100
-Message-ID: <CAJTo0Lap0090_U49tN=aBZ_imJRT0JB0eoAu8e4CTgfouDQHfQ@mail.gmail.com>
-To: Phil Blundell <pb@pbcl.net>
-Cc: Darren Hart <dvhart@linux.intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>, Poky <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=aU1MJr4qaC8+byOEzy22NgCOxxcbfS13KnSobV8722A=;
+	b=MPZ5w6MQpsC+ZNflepFwk88zifcYUA2wjv5BHeB/cEcX0Gte5gr6irxgw77IFgQKki
+	54gxyE6vWksqc0kq0oYTKSYKGM8piH/L5scBeCHo0dqGMIKKfX1wmLMEgQNWGxuXxEUH
+	aHUR/wZV1S8YxPvtlsnNBPsHeLFw0AACHU4/Bc19ctlWb3kR/KI4uAuVQUaYRBGIrTV8
+	+gkD52yaLhmwFNZ0CNxCkTaSD0LuCHieL6Nv1znnzzPS32e5tmVbl4Fl/PiFmu+hk3lI
+	cT+791JuUU22sQNrPRy6yBplSRbzOlJk2VUNwsgdK5s1LVsz8XuFx6fcNL5wECSuFyeu
+	zGFQ==
+X-Gm-Message-State: ALoCoQmV0CxbDv0Qu6J1ZDTZZ94gvNU8j7Tqc/HvAtoB6obZi6hjIpxVq4IBlbCPoAwglcKlxXse
+X-Received: by 10.194.24.168 with SMTP id v8mr7164058wjf.28.1378389325977;
+	Thu, 05 Sep 2013 06:55:25 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id b11sm5748994wik.1.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 05 Sep 2013 06:55:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Sep 2013 14:55:20 +0100
+Message-Id: <1378389321-28598-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [RFC][PATCH] insane: configure option checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,39 +41,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 13:48:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 05 Sep 2013 13:55:25 -0000
 
-On 5 September 2013 13:23, Phil Blundell <pb@pbcl.net> wrote:
-> On Thu, 2013-09-05 at 13:14 +0100, Richard Purdie wrote:
->> * Figuring out any runtime issues with dlopen is the hardest part and we
->> don't actually have real data on whether there are issues there or not.
->
-> Do we have any particular reason to believe that there would be issues
-> (and if so, what they might be)?  I guess it should be easy enough to
-> gather data if we know what we're looking for.
+Hi,
 
-There won't be any problems with dlopen() because that only looks at
-.so files.  Any issues will be at build time, I wouldn't be surprised
-if some dependencies changed due to a difference in eg pkgconfig vs
-.la linkage.  Then again some other distros blanket-delete .la files
-by default so I don't expect any critical problems.
+First: very much a RFC, this isn't ready for merging.  I thought I'd send it
+before it got lost in a nest of branches.
 
->> * They are used in places, for example the darwin shlibs code currently
->> uses them. It could be updated to use otool these days mind but I'd
->> probably make the current code a fallback for unknown arches since it is
->> guaranteed to work everywhere.
->
-> There's no reason in principle that folks on darwin (and/or
-> hitherto-undiscovered architectures) couldn't retain the .la files if
-> they wanted.  The original patch that I sent used a DISTRO_FEATURE to
-> control this and those people building for darwin could simply refrain
-> from setting it.  Alternatively we could make it explicitly conditional
-> on TARGET_OS or some such if there are reasons to believe that some
-> targets do genuinely require this stuff.
+This is a small sanity test I've been poking at in between builds to detect when
+configure warns that it has been passed configure options it doesn't recongise.
+It's got a whitelist for options such as --disable-silent-rules that are passed
+blindly to large numbers of recipes, and I think we'll need the possibility of a
+per-recipe whitelist in case they are required[1].
 
-I don't think a distro feature is the right approach, but however it's
-set can easily be forced using a machine override for Darwin.
+Comments/improvements welcome!
 
 Ross
+
+[1] The rationale here being the Xorg protocol recipes which have a common .inc
+that disables all forms of documentation, but not every protocol recipe has all
+forms enabled.
 
