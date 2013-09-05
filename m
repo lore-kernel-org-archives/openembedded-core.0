@@ -1,34 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 271FA6C6C5
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id CCB186C6C5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 13:55:24 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id k14so1747326wgh.13
+	Thu,  5 Sep 2013 13:55:25 +0000 (UTC)
+Received: by mail-wi0-f177.google.com with SMTP id cb5so1889039wib.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 06:55:26 -0700 (PDT)
+	Thu, 05 Sep 2013 06:55:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=aU1MJr4qaC8+byOEzy22NgCOxxcbfS13KnSobV8722A=;
-	b=MPZ5w6MQpsC+ZNflepFwk88zifcYUA2wjv5BHeB/cEcX0Gte5gr6irxgw77IFgQKki
-	54gxyE6vWksqc0kq0oYTKSYKGM8piH/L5scBeCHo0dqGMIKKfX1wmLMEgQNWGxuXxEUH
-	aHUR/wZV1S8YxPvtlsnNBPsHeLFw0AACHU4/Bc19ctlWb3kR/KI4uAuVQUaYRBGIrTV8
-	+gkD52yaLhmwFNZ0CNxCkTaSD0LuCHieL6Nv1znnzzPS32e5tmVbl4Fl/PiFmu+hk3lI
-	cT+791JuUU22sQNrPRy6yBplSRbzOlJk2VUNwsgdK5s1LVsz8XuFx6fcNL5wECSuFyeu
-	zGFQ==
-X-Gm-Message-State: ALoCoQmV0CxbDv0Qu6J1ZDTZZ94gvNU8j7Tqc/HvAtoB6obZi6hjIpxVq4IBlbCPoAwglcKlxXse
-X-Received: by 10.194.24.168 with SMTP id v8mr7164058wjf.28.1378389325977;
-	Thu, 05 Sep 2013 06:55:25 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=AM70/t08syfVDCGJEHz1XJ1Q208S/sPx2GF1xwt4OOk=;
+	b=HE622W3dmWsaHg4kjaZx0ISlCPPkmq+rdA6aQNg0L1T7QNqbGw3qoYcLXLyDOf9SgY
+	0nDEQGSlBezw+JrdpK30rCpoJHC9SHXbp1AniFE8fplm+wfQtR4nwpIiOUPDOlP5kps2
+	IWzhiTB05iap0r+qLSbgAaEAspe/vNN8VMccDqNSbsd234DqmfuDFY7xSPinZGJc3Sd9
+	telGmQGfj27Mbk7wb0KB0XT/FVyY2V2AG/xVnRFUNnzca6IznzhMQzPV1a/HFHPI7MmJ
+	/rbotdKlUY06FM3wnVqKxXfxrAiuWkH12L/4fahlxZypcq7ftTY2k88gjZiN3ODdhTqI
+	sblQ==
+X-Gm-Message-State: ALoCoQk4vKgsHzGbgAjwY8/pFsoysNSID95JEU11K3sOAf9hgOJ0EfF9Z6rIgGMz7kYKrUia8ir8
+X-Received: by 10.180.206.244 with SMTP id lr20mr6387217wic.45.1378389327028; 
+	Thu, 05 Sep 2013 06:55:27 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id b11sm5748994wik.1.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 05 Sep 2013 06:55:25 -0700 (PDT)
+	Thu, 05 Sep 2013 06:55:26 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2013 14:55:20 +0100
-Message-Id: <1378389321-28598-1-git-send-email-ross.burton@intel.com>
+Date: Thu,  5 Sep 2013 14:55:21 +0100
+Message-Id: <1378389321-28598-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [RFC][PATCH] insane: configure option checking
+In-Reply-To: <1378389321-28598-1-git-send-email-ross.burton@intel.com>
+References: <1378389321-28598-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH] insane: configure option checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,24 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 13:55:25 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 13:55:26 -0000
 
-Hi,
 
-First: very much a RFC, this isn't ready for merging.  I thought I'd send it
-before it got lost in a nest of branches.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/insane.bbclass |   19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-This is a small sanity test I've been poking at in between builds to detect when
-configure warns that it has been passed configure options it doesn't recongise.
-It's got a whitelist for options such as --disable-silent-rules that are passed
-blindly to large numbers of recipes, and I think we'll need the possibility of a
-per-recipe whitelist in case they are required[1].
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 524cdca..9809cba 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -919,6 +919,25 @@ Missing inherit gettext?""" % (gt, config))
+     if not package_qa_check_license(workdir, d):
+         bb.fatal("Licensing Error: LIC_FILES_CHKSUM does not match, please fix")
+ 
++    ###########################################################################
++    # Check unrecognised configure options (with a white list)
++    ###########################################################################
++    if bb.data.inherits_class("autotools", d):
++        bb.note("Checking configure output for unrecognised options")
++        try:
++            flag = "WARNING: unrecognized options:"
++            log = os.path.join(d.getVar('B', True), 'config.log')
++            output = subprocess.check_output(['grep', '-F', flag, log])
++            options = set(map(lambda s: s.strip(' ,'), output.partition(flag)[2].split()))
++            whitelist = {'--enable-nls', '--disable-nls', '--disable-silent-rules', '--disable-dependency-tracking', '--with-libtool-sysroot'}
++            # TODO: allow additions per-recipe?
++            options -= whitelist
++            if options:
++		pn = d.getVar('PN', True)
++                error_msg = pn + ": configure was passed unrecognised options: " + " ".join(options)
++                package_qa_handle_error("unknown-configure-option", error_msg, d)
++        except subprocess.CalledProcessError:
++            pass
+ }
+ # The Staging Func, to check all staging
+ #addtask qa_staging after do_populate_sysroot before do_build
+-- 
+1.7.10.4
 
-Comments/improvements welcome!
-
-Ross
-
-[1] The rationale here being the Xorg protocol recipes which have a common .inc
-that disables all forms of documentation, but not every protocol recipe has all
-forms enabled.
 
