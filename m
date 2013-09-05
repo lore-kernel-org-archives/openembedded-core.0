@@ -1,20 +1,24 @@
 Return-Path: <laurentiu.palcu@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A5EDA61613
+	by mail.openembedded.org (Postfix) with ESMTP id 109EC61613
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 07:31:28 +0000 (UTC)
+	Thu,  5 Sep 2013 07:31:29 +0000 (UTC)
 Received: from azsmga002.ch.intel.com ([10.2.17.35])
 	by azsmga102.ch.intel.com with ESMTP; 05 Sep 2013 00:31:30 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,845,1371106800"; d="scan'208";a="291065109"
+X-IronPort-AV: E=Sophos;i="4.90,845,1371106800"; d="scan'208";a="291065120"
 Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 05 Sep 2013 00:31:13 -0700
+	by AZSMGA002.ch.intel.com with ESMTP; 05 Sep 2013 00:31:14 -0700
 From: Laurentiu Palcu <laurentiu.palcu@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Sep 2013 10:31:09 +0300
-Message-Id: <cover.1378366233.git.laurentiu.palcu@intel.com>
+Date: Thu,  5 Sep 2013 10:31:10 +0300
+Message-Id: <728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 0/1] image.bbclass: leave metadata in place if a PM is installed in the image
+In-Reply-To: <cover.1378366233.git.laurentiu.palcu@intel.com>
+References: <cover.1378366233.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1378366233.git.laurentiu.palcu@intel.com>
+References: <cover.1378366233.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,24 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 07:31:28 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 07:31:29 -0000
 
-The following changes since commit f41b7a7d4d0463a0dfafe6621d01680b81798019:
+If IMAGE_FEATURES does not contain 'package-management' but the user
+manually installs a package manager (opkg/dpkg/rpm) using
+CORE_IMAGE_EXTRA_INSTALL (for example), then do not remove update-rc.d,
+base-passwd and package metadata because these will be needed by the
+package manager to function correcly.
 
-  bitbake: hob: remove PACKAGE_INSTALL variable setting from hob (2013-09-04 14:18:49 +0100)
+[YOCTO #4484]
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lpalcu/b4484_postinstalls_dont_run_for_ipk
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4484_postinstalls_dont_run_for_ipk
-
-Laurentiu Palcu (1):
-  image.bbclass: leave metadata in place if a PM is installed in the
-    image
-
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
  meta/classes/image.bbclass |    7 ++++++-
  1 file changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 84f638c..e1a7367 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -498,7 +498,12 @@ rootfs_install_complementary() {
+ }
+ 
+ rootfs_uninstall_unneeded () {
+-	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
++	rpm_installed=${@base_contains("PACKAGE_INSTALL", "rpm",  "true", "false", d)}
++	opkg_installed=${@base_contains("PACKAGE_INSTALL", "opkg", "true", "false", d)}
++	dpkg_installed=${@base_contains("PACKAGE_INSTALL", "dpkg", "true", "false", d)}
++
++	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)} &&\
++	   ! $rpm_installed && ! $opkg_installed && ! $dpkg_installed; then
+ 		if [ -z "$(delayed_postinsts)" ]; then
+ 			# All packages were successfully configured.
+ 			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
 -- 
 1.7.9.5
 
