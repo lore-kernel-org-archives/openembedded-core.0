@@ -1,26 +1,43 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E42606C6CC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f169.google.com (mail-ve0-f169.google.com
+	[209.85.128.169])
+	by mail.openembedded.org (Postfix) with ESMTP id DC1BD6BE3D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 13:57:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r85DvuHL015106
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  5 Sep 2013 14:19:30 +0000 (UTC)
+Received: by mail-ve0-f169.google.com with SMTP id db12so555647veb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Sep 2013 06:57:56 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 5 Sep 2013 06:57:55 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Sep 2013 21:58:26 +0800
-Message-ID: <6b58db6b07825ca9bcb9b925aed80710e3e6ce1f.1378388992.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378388992.git.Qi.Chen@windriver.com>
-References: <cover.1378388992.git.Qi.Chen@windriver.com>
+	Thu, 05 Sep 2013 07:19:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=JFDAvLQUVDWlre8Wv4DUfbVeAHV0uyHWMB0i/LfzWeE=;
+	b=KEn1ioJpCmRf2EP36vPDR3Oke96e/nC64EI7fZYhLYAfqT+Kmx5W6taf60E0zqn5e7
+	9fsLbzvOSa+cqepueISnezbOefyNxrjfZu5/AUliFMVKQV1pVyq1TJh88AonvRN1q8gG
+	mhFufjWfuLCL4nkz4+oxygVXYdiR20wsjPwCjqvWRb2xRD5/qE/7icUAIi7jS4OTPN2B
+	HDcPwDijy9FcGUwMlNGVA85s+xEt+aevS4qRpd8O3DSm5Yim3maJ04Fvho9FtJf3UPwG
+	+/4pgk4ObsUbVhMncD4sSOvbcYvWazZYXJbwvMLBx1hlhg+6dUD2vkGVGZza2unhviYw
+	QQ2g==
+X-Gm-Message-State: ALoCoQmQTuY2Dawd+8blzlwB/xeBBSRJGum8Wty5RoDl67JMXrXr6eZW4WKNMXxzPTuibVjRQ615
+X-Received: by 10.220.199.5 with SMTP id eq5mr2358356vcb.16.1378390772459;
+	Thu, 05 Sep 2013 07:19:32 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V2 2/2] ptest.bbclass: add cleandirs flag to do_install_ptest_base
+Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 07:19:12 -0700 (PDT)
+In-Reply-To: <1378386554.27411.14.camel@firebird.rb.intel.com>
+References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
+	<1378332114.1059.260.camel@ted>
+	<CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
+	<20130905071133.GG11500@jama>
+	<CAJTo0LZ0vG0w24Wkr2KiwWoEF9bFwyJeBpg4xnfLpYe9ELd+mQ@mail.gmail.com>
+	<CAJTo0LaPJjQqR80ZpowVBfjhYFLwqUvFF0wQm+S1VfKWeEDqdg@mail.gmail.com>
+	<1378386554.27411.14.camel@firebird.rb.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 5 Sep 2013 15:19:12 +0100
+Message-ID: <CAJTo0LadXyEOszmBw=QR+AyQY9YeKpCNTX+zqQEGmXRm-9LChA@mail.gmail.com>
+To: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +50,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 13:57:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Sep 2013 14:19:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 5 September 2013 14:09, Stanacar, StefanX <stefanx.stanacar@intel.com> wrote:
+> I just tested that the third option can be done (for this case at least)
+> by changing ConditionPathExists=/proc/sys/fs/binfmt_misc/ to
+> ConditionDirectoryNotEmpty=/proc/sys/fs/binfmt_misc/ for
+> proc-sys-fs-binfmt_misc.automount unit file and
+> "df" doesn't complain as it doesn't attempt to automount anymore. On a
+> system which does have that module loaded there are two files there so
+> that's why the condition works.
 
-The do_install_ptest_base task should have cleandirs flag, just like
-the do_install task. The ${D}${PTEST_PATH} directory should be cleaned,
-Otherwise, there would be similar errors like below if the
-do_install_ptest_base task is rerun.
+Confirmed, patch incoming.
 
-    ln: failed to create symbolic link `xxx': File exists
-
-[YOCTO #5129]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/ptest.bbclass |    2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 15a42d6..d67b4e6 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -52,6 +52,8 @@ do_install_ptest_base() {
-     fi
- }
- 
-+do_install_ptest_base[cleandirs] = "${D}${PTEST_PATH}"
-+
- addtask configure_ptest_base after do_configure before do_compile
- addtask compile_ptest_base   after do_compile   before do_install
- addtask install_ptest_base   after do_install   before do_package
--- 
-1.7.9.5
-
+Ross
 
