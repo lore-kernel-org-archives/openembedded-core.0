@@ -1,40 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f54.google.com (mail-pb0-f54.google.com
-	[209.85.160.54])
-	by mail.openembedded.org (Postfix) with ESMTP id F09A1615F2
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C425E61642
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 04:17:46 +0000 (UTC)
-Received: by mail-pb0-f54.google.com with SMTP id ro12so1254454pbb.27
+	Thu,  5 Sep 2013 04:17:47 +0000 (UTC)
+Received: by mail-pd0-f177.google.com with SMTP id y10so1238588pdj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Sep 2013 21:17:49 -0700 (PDT)
+	Wed, 04 Sep 2013 21:17:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=8ohh3NAoWeUbIymXY1yc0mC5cYnlkOnFpS/BWrkiXjw=;
-	b=Pha5U/WjqPzRaegp8WYMwM8MuI1/Q5nXRQyb4DZFuYBwQtiz2eOQ/b3aVAJZXrHSNc
-	W7LhA59EUR3kSgDjkPNAwoAqD6ClPLouWguiMlxt6ScyLBwzBE9SURDNx7vfI5oTUBCH
-	J5G4N9HIWx7R5WH21V8VB/6DQtc3LzwpnIgidfLH3cqifzahee6LVTHRAovJRDdjU9j4
-	SXio4FCrueS2QrEvcuLrd2ttqab/HQ4TwHzyPouZQ5x1A8d6nloV9uARsNscXRb6D3lk
-	d+AX/KoZiV+R7YApxu/+GNLJNigUHNK99hsuX+yTt8o5kNNC4eoMrqt5Xgk8SPoQMHv1
-	4AUQ==
-X-Received: by 10.68.196.138 with SMTP id im10mr7124258pbc.5.1378354669116;
+	bh=73Ar0AQTr99KXeL2RcWzBIC5N1H84b9ri/susEMUgpY=;
+	b=K+MjzyP8/qanu9BJbWyNs0Qn+qoXdSqmdS5jSzwIfTLDxrTvOdiQUXowPfJtO23B6c
+	pkmYhWzD8S5PkjhraPQEvYug7OGYESWXvtKOKHKXYGGN4M1jcS/3EeyV2zjV7kxsvU70
+	DoSenjqXHS6g9AHwGdvB+4JxyoppPjF2NM+JauLPmjNCnpIRirFj/MTvUe6qB/i9HING
+	p4I6eg5qhQ0Wgk+nyM079gOY4G3m+15FtBL0bpoYlHAXbRSH7lMXSgFAuvMb4m9g7frb
+	t9IS4qj8ByCWPC5imNIBeYgZLgEcTKXAvjKSX03nvqQXqKAjUhN6WiNLdNJYYOO1JVRM
+	XXYw==
+X-Received: by 10.68.113.99 with SMTP id ix3mr6770622pbb.180.1378354669952;
 	Wed, 04 Sep 2013 21:17:49 -0700 (PDT)
 Received: from isis.gateway.2wire.net
 	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
 	by mx.google.com with ESMTPSA id
 	tr10sm32571783pbc.22.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 04 Sep 2013 21:17:48 -0700 (PDT)
+	Wed, 04 Sep 2013 21:17:49 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Sep 2013 21:16:16 -0700
-Message-Id: <70a24c84362548fb16948eed6768dba9dad9be66.1378354382.git.raj.khem@gmail.com>
+Date: Wed,  4 Sep 2013 21:16:17 -0700
+Message-Id: <97d3a10d805464299a07a118958277b2aefd2704.1378354382.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 1.8.4
 In-Reply-To: <01b4612b2453648a4b5f203acd8326b73ef293f3.1378354382.git.raj.khem@gmail.com>
 References: <01b4612b2453648a4b5f203acd8326b73ef293f3.1378354382.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1378354381.git.raj.khem@gmail.com>
 References: <cover.1378354381.git.raj.khem@gmail.com>
-Subject: [PATCH 11/13] python-distribute: Add recipes for python2 and python3
+Subject: [PATCH 12/13] distutils3.bbclass: Fix typo and use proper values for target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,122 +49,60 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Sep 2013 04:17:47 -0000
 
-in python3-distribute rename easy_install to easy3_install
+Since OE-Core times we now have machine specific sysroots
+for targets unlike before when we used arch specific sysroots
+so reflect that here
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../python/python-distribute_0.6.32.bb             | 47 ++++++++++++++++++++++
- .../python/python3-distribute_0.6.32.bb            | 47 ++++++++++++++++++++++
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-distribute_0.6.32.bb
- create mode 100644 meta/recipes-devtools/python/python3-distribute_0.6.32.bb
+ meta/classes/distutils3.bbclass | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-new file mode 100644
-index 0000000..86ac871
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
-@@ -0,0 +1,47 @@
-+DESCRIPTION = "Download, build, install, upgrade, and uninstall Python packages"
-+HOMEPAGE = "http://packages.python.org/distribute"
-+SECTION = "devel/python"
-+LICENSE = "PSF"
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=234;endline=234;md5=26f6b02022b737126d3c88838782dddb"
-+
-+SRCNAME = "distribute"
-+PR = "ml5"
-+DEPENDS += "python"
-+DEPENDS_virtclass-native += "python-native"
-+
-+SRC_URI = " \
-+  http://pypi.python.org/packages/source/d/distribute/${SRCNAME}-${PV}.tar.gz \
-+"
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+#  http://python-distribute.org/distribute_setup.py 
-+
-+# force the selection of python3
-+#PYTHON_BASEVERSION = "3.3"
-+#PYTHON_MAJMIN = "3.3"
-+
-+inherit distutils
-+
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+
-+do_install_prepend() {
-+    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+}
-+
-+#
-+#  The installer puts the wrong path in the setuptools.pth file.  Correct it.
-+#
-+do_install_append() {
-+    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+}
-+
-+RDEPENDS_${PN} = "\
-+  python-distutils \
-+  python-compression \
-+"
-+
-+SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
-+SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/python/python3-distribute_0.6.32.bb b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-new file mode 100644
-index 0000000..31fc56d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-distribute_0.6.32.bb
-@@ -0,0 +1,47 @@
-+DESCRIPTION = "Download, build, install, upgrade, and uninstall Python packages"
-+HOMEPAGE = "http://packages.python.org/distribute"
-+SECTION = "devel/python"
-+LICENSE = "PSF"
-+LIC_FILES_CHKSUM = "file://setup.py;beginline=234;endline=234;md5=26f6b02022b737126d3c88838782dddb"
-+
-+SRCNAME = "distribute"
-+PR = "ml5"
-+DEPENDS += "python3"
-+DEPENDS_virtclass-native += "python3-native"
-+
-+SRC_URI = " \
-+  http://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-+"
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+#  http://python-distribute.org/distribute_setup.py 
-+
-+# force the selection of python3
-+#PYTHON_BASEVERSION = "3.3"
-+#PYTHON_MAJMIN = "3.3"
-+
-+inherit distutils3
-+
-+DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
-+
-+do_install_prepend() {
-+    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
-+}
-+#
-+#  The installer puts the wrong path in the setuptools.pth file.  Correct it.
-+#
-+do_install_append() {
-+    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+    mv ${D}${bindir}/easy_install ${D}${bindir}/easy3_install
-+    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
-+}
-+
-+RDEPENDS_${PN} = "\
-+  python3-distutils \
-+  python3-compression \
-+"
-+
-+SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
-+SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
-+
-+BBCLASSEXTEND = "native"
+diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
+index f118fa0..9c841e4 100644
+--- a/meta/classes/distutils3.bbclass
++++ b/meta/classes/distutils3.bbclass
+@@ -11,19 +11,18 @@ DISTUTILS_INSTALL_ARGS ?= "--prefix=${D}/${prefix} \
+ distutils3_do_compile() {
+          STAGING_INCDIR=${STAGING_INCDIR} \
+          STAGING_LIBDIR=${STAGING_LIBDIR} \
+-         BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
++         BUILD_SYS=${BUILD_SYS} HOST_SYS=${MACHINE} \
+          ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py \
+          build_ext --include-dirs ${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI} \
+-         --library-dirs ${STAGING_LIBCDIR}/${PYTHON_DIR} \
++         --library-dirs ${STAGING_LIBDIR}/${PYTHON_DIR} \
+          ${DISTUTILS_BUILD_EXT_ARGS} \
+          build ${DISTUTILS_BUILD_ARGS} || \
+-         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py build_ext ${DISTUTILS_BUILD_ARGS} || \
+          bbfatal "${PYTHON_PN} setup.py build_ext execution failed."
+ }
+ 
+ distutils3_stage_headers() {
+         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+-        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
++        BUILD_SYS=${BUILD_SYS} HOST_SYS=${MACHINE} \
+         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install_headers ${DISTUTILS_STAGE_HEADERS_ARGS} || \
+         bbfatal "${PYTHON_PN} setup.py install_headers execution failed."
+ }
+@@ -33,7 +32,7 @@ distutils3_stage_all() {
+         STAGING_LIBDIR=${STAGING_LIBDIR} \
+         install -d ${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR}
+         PYTHONPATH=${STAGING_DIR_HOST}${PYTHON_SITEPACKAGES_DIR} \
+-        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
++        BUILD_SYS=${BUILD_SYS} HOST_SYS=${MACHINE} \
+         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install ${DISTUTILS_STAGE_ALL_ARGS} || \
+         bbfatal "${PYTHON_PN} setup.py install (stage) execution failed."
+ }
+@@ -43,7 +42,7 @@ distutils3_do_install() {
+         STAGING_INCDIR=${STAGING_INCDIR} \
+         STAGING_LIBDIR=${STAGING_LIBDIR} \
+         PYTHONPATH=${D}${PYTHON_SITEPACKAGES_DIR} \
+-        BUILD_SYS=${BUILD_SYS} HOST_SYS=${HOST_SYS} \
++        BUILD_SYS=${BUILD_SYS} HOST_SYS=${MACHINE} \
+         ${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN} setup.py install --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR} ${DISTUTILS_INSTALL_ARGS} || \
+         bbfatal "${PYTHON_PN} setup.py install execution failed."
+ 
 -- 
 1.8.4
 
