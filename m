@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FA1D6BBC4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 888746C6BF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 13:57:51 +0000 (UTC)
+	Thu,  5 Sep 2013 13:57:52 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r85DvqkG015100
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r85Dvt14007412
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Sep 2013 06:57:52 -0700 (PDT)
+	Thu, 5 Sep 2013 06:57:55 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 5 Sep 2013 06:57:52 -0700
+	14.2.347.0; Thu, 5 Sep 2013 06:57:53 -0700
 From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Sep 2013 21:58:24 +0800
-Message-ID: <cover.1378388992.git.Qi.Chen@windriver.com>
+Date: Thu, 5 Sep 2013 21:58:25 +0800
+Message-ID: <8e47e2d04e84ba5229e9455b26266bbd3300b1b4.1378388992.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1378388992.git.Qi.Chen@windriver.com>
+References: <cover.1378388992.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/2] ptest: add cleandirs flag and fix error on ubuntu host
+Subject: [PATCH V2 1/2] ptest.bbclass: fix error on ubuntu host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,27 +33,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 13:57:51 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 13:57:52 -0000
 Content-Type: text/plain
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit f41b7a7d4d0463a0dfafe6621d01680b81798019:
+The do_install_ptest_base function uses 'type -t' command to check
+whether do_install_ptest is a function and acts correspondingly.
 
-  bitbake: hob: remove PACKAGE_INSTALL variable setting from hob (2013-09-04 14:18:49 +0100)
+However, the 'type' command is a shell builtin and its behavior is
+not all the same across Linux distros. On ubuntu, if we use #!/bin/sh
+as the interpreter for the scripts, as in the case of our intermediate
+scripts, the '-t' option for the 'type' command is not supported. So
+the check always fails and the do_install_ptest function, even if defined,
+is not run.
 
-are available in the git repository at:
+The same problem also applies to the do_configure_ptest_base and the
+do_compile_ptest_base functions.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/ptest-dash
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/ptest-dash
+This patch fixes this problem by avoiding using the 'type' builtin command.
 
-Chen Qi (2):
-  ptest.bbclass: fix error on ubuntu host
-  ptest.bbclass: add cleandirs flag to do_install_ptest_base
+[YOCTO #5128]
 
- meta/classes/ptest.bbclass |   26 +++++++++++++++++---------
- 1 file changed, 17 insertions(+), 9 deletions(-)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/ptest.bbclass |   24 +++++++++++++++---------
+ 1 file changed, 15 insertions(+), 9 deletions(-)
 
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index 37357e8..15a42d6 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -16,22 +16,30 @@ RDEPENDS_${PN}-ptest_virtclass-nativesdk = ""
+ 
+ PACKAGES =+ "${@base_contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)}"
+ 
++do_configure_ptest() {
++    :
++}
++
+ do_configure_ptest_base() {
+     if [ ${PTEST_ENABLED} = 1 ]; then
+-        if [ a$(type -t do_configure_ptest) = afunction ]; then
+-            do_configure_ptest
+-        fi
++        do_configure_ptest
+     fi
+ }
+ 
++do_compile_ptest() {
++    :
++}
++
+ do_compile_ptest_base() {
+     if [ ${PTEST_ENABLED} = 1 ]; then
+-        if [ a$(type -t do_compile_ptest) = afunction ]; then
+-            do_compile_ptest
+-        fi
++        do_compile_ptest
+     fi
+ }
+ 
++do_install_ptest() {
++    :
++}
++
+ do_install_ptest_base() {
+     if [ ${PTEST_ENABLED} = 1 ]; then
+         if [ -f ${WORKDIR}/run-ptest ]; then
+@@ -39,9 +47,7 @@ do_install_ptest_base() {
+             if grep -q install-ptest: Makefile; then
+                 oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
+             fi
+-            if [ a$(type -t do_install_ptest) = afunction ]; then
+-                do_install_ptest
+-            fi
++            do_install_ptest
+         fi
+     fi
+ }
 -- 
 1.7.9.5
 
