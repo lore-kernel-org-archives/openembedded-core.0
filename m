@@ -1,31 +1,41 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C13646160A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C71A61614
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 06:57:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 04 Sep 2013 23:57:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,845,1371106800"; d="scan'208";a="373783223"
-Received: from unknown (HELO [10.255.14.205]) ([10.255.14.205])
-	by orsmga001.jf.intel.com with ESMTP; 04 Sep 2013 23:57:18 -0700
-Message-ID: <52282B4E.9050204@linux.intel.com>
-Date: Wed, 04 Sep 2013 23:57:18 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Thu,  5 Sep 2013 07:10:13 +0000 (UTC)
+Received: by mail-ee0-f48.google.com with SMTP id l10so669947eei.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Sep 2013 00:10:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=hvBi96/0wgP2ctfUr7tJN62FoRM8BRcG3TqlyD2MwMA=;
+	b=bivq76x7RImFmbVYaUMpoC/LD53PFOWD2P3XSfGytjFWGwNAIEFMWBimA4qRfM0afZ
+	95/ksUe3ZVruGFGEXaotCfL5EmXnXXS9YXrKoZf2g9GqbmTZr/fSbLbAMu4aaa2T5cS+
+	nAWHUN8Ij3zEfE3BN5m/x1DHPyfTZGYGjG0lRmC4xLjvm40LauGt1qaB5Chdnwt2ZFF8
+	lrwiTmy2Q47t7TUZsNXZJKRtQfBbyvwyM8LMCxFogPmeycvuGy13FETtftRnIYbNmemP
+	Y67t+aEntHzTfLTVEXViSYz/hc2dWLp0UX4gO4Ikxfy4ExJz2pe/m5eb9SOuZSQb4b05
+	FcYg==
+X-Received: by 10.15.75.73 with SMTP id k49mr11111209eey.36.1378365014440;
+	Thu, 05 Sep 2013 00:10:14 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	a1sm46128013eem.1.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 05 Sep 2013 00:10:13 -0700 (PDT)
+Date: Thu, 5 Sep 2013 09:11:33 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <20130905071133.GG11500@jama>
+References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
+	<1378332114.1059.260.camel@ted>
+	<CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
 MIME-Version: 1.0
-To: Darren Hart <dvhart@linux.intel.com>
-References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<b2e7d64bcfed785d28da77202d46157f4ce7dfd6.1378339881.git.dvhart@linux.intel.com>
-	<CAP9ODKqGdoGoaNh9e_3gZ5A+HhCDq-_wCVygYKHcShajCNXyvg@mail.gmail.com>
-	<1378352047.14029.51.camel@dvhart-mobl4.amr.corp.intel.com>
-In-Reply-To: <1378352047.14029.51.camel@dvhart-mobl4.amr.corp.intel.com>
-Cc: yunguo.wei@windriver.com, Poky <poky@yoctoproject.org>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] [PATCH 1/4] linux-firmware: Update SRCREV, pull in iwlwifi-7260 support
+Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,97 +48,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 06:57:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Sep 2013 07:10:15 -0000
+X-Groupsio-MsgNum: 44523
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="VACxsDaSTfeluoxK"
+Content-Disposition: inline
 
-On 09/04/2013 08:34 PM, Darren Hart wrote:
-> On Wed, 2013-09-04 at 22:04 -0300, Otavio Salvador wrote:
->> On Wed, Sep 4, 2013 at 9:18 PM, Darren Hart <dvhart@linux.intel.com> wrote:
->>> Fixes [YOCTO #5110]
->>>
->>> Add support for the iwlwifi 7260 adapters. This creates a new package
->>> and includes support in the default linux-firmware (everything) package.
->>>
->>> Update the iwlwifi and radeon license checksums. Extensions to the
->>> copyright date ranges were the only change to the LICENSE files.
->>>
->>> Signed-off-by: Darren Hart <dvhart@linux.intel.com>
->>> Cc: yunguo.wei@windriver.com
->>> ---
->>>   .../linux-firmware/linux-firmware_git.bb           |   10 ++++++----
->>>   1 file changed, 6 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->>> index 3825889..1b7db08 100644
->>> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->>> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
->>> @@ -7,12 +7,12 @@ SECTION = "kernel"
->>>
->>>   LICENSE = "Proprietary"
->>>
->>> -LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
->>> +LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=9c2faab1bfca55e1510d6bde67206f9c \
->>>                       file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
->>>                       file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
->>>                       file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
->>>                       file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
->>> -                    file://LICENCE.iwlwifi_firmware;md5=11545778abf78c43d7644d4f171ea1c7 \
->>> +                    file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
->>>                       file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
->>>                       file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
->>>                       file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
->>> @@ -23,10 +23,10 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
->>>                       file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
->>>                      "
->>>
->>> -SRCREV = "c530a75c1e6a472b0eb9558310b518f0dfcd8860"
->>> +SRCREV = "600caefd83a406540b2a789be6415e44c9b87add"
->>>   PE = "1"
->>>   PV = "0.0+git${SRCPV}"
->>> -PR = "r1"
->>> +PR = "r0"
->>
->> I know this is OK but I'd prefer to omit the PR when it is r0;
->> specially now we use PRServer.
->
-> Well, what is the official policy here? I'm happy to respin if
-> necessary, but I'd rather not burn cycles if the policy is hazy on the
-> subject.
->
-Darren, sorry to say it is removal when possible.
+--VACxsDaSTfeluoxK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sau!
+On Wed, Sep 04, 2013 at 08:51:25PM -0400, Bruce Ashfield wrote:
+> On Wed, Sep 4, 2013 at 6:01 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Wed, 2013-09-04 at 17:22 +0100, Ross Burton wrote:
+> >> Only qemumips was recommending kernel-modules which meant that the oth=
+er qemu
+> >> machines were missing some kernel modules, for example binfmt-misc.
+> >>
+> >> Move the recommends to qemu.inc so that all qemu machines pull in the =
+kernel
+> >> modules that have been built.
+> >>
+> >> [ YOCTO #4863 ]
+> >>
+> >> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> >> ---
+> >>  meta/conf/machine/include/qemu.inc |    2 ++
+> >>  meta/conf/machine/qemumips.conf    |    2 --
+> >>  meta/conf/machine/qemumips64.conf  |    2 --
+> >>  3 files changed, 2 insertions(+), 4 deletions(-)
+> >
+> > How many modules are built for the qemu machines? Are they all useful?
+> > I'm just trying to get a feel for how much we're adding here and whether
+> > this is the right thing to be doing...
+>=20
+> We can control the configs as tightly as we want, so if we are building t=
+oo much
+> for this, I'm happy to trim things down.
 
-> Thanks,
->
-> Darren
->
->>
->>>   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
->>>
->>> @@ -172,10 +172,12 @@ ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/br
->>>
->>>   RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
->>>   RDEPENDS_${PN}-iwlwifi-6000g2b-6 = "${PN}-iwlwifi-license"
->>> +RDEPENDS_${PN}-iwlwifi-7260-7 = "${PN}-iwlwifi-license"
->>>
->>>   FILES_${PN}-iwlwifi-license =   "/lib/firmware/LICENCE.iwlwifi_firmware"
->>>   FILES_${PN}-iwlwifi-6000g2a-5 = "/lib/firmware/iwlwifi-6000g2a-5.ucode"
->>>   FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
->>> +FILES_${PN}-iwlwifi-7260-7 = "/lib/firmware/iwlwifi-7260-7.ucode"
->>>
->>>   FILES_${PN} += "/lib/firmware/*"
->>>
->>> --
->>> 1.7.9.5
->>>
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
->>
->
+I don't think this is right way to do it.
 
+It's good to have as many optional modules available in feed (so to
+enable many modules in configs - you never know what obscure device
+someone will try to test with qemu and one more module and package in
+feed has smaller overhead then need to change configs) and install
+only important modules by default in every image.
+
+>=20
+> Cheers,
+>=20
+> Bruce
+>=20
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> >
+> >>
+> >> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/in=
+clude/qemu.inc
+> >> index 545f8d1..7baf13e 100644
+> >> --- a/meta/conf/machine/include/qemu.inc
+> >> +++ b/meta/conf/machine/include/qemu.inc
+> >> @@ -27,3 +27,5 @@ EXTRA_IMAGEDEPENDS +=3D "qemu-native qemu-helper-nat=
+ive"
+> >>
+> >>  # Provide the nfs server kernel module for all qemu images
+> >>  KERNEL_FEATURES_append_pn-linux-yocto =3D " features/nfsd/nfsd-enable=
+=2Escc"
+> >> +
+> >> +MACHINE_EXTRA_RRECOMMENDS =3D "kernel-modules"
+> >> diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemum=
+ips.conf
+> >> index ce1c419..89721a6 100644
+> >> --- a/meta/conf/machine/qemumips.conf
+> >> +++ b/meta/conf/machine/qemumips.conf
+> >> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE =3D "vmlinux"
+> >>  KERNEL_ALT_IMAGETYPE =3D "vmlinux.bin"
+> >>
+> >>  SERIAL_CONSOLE =3D "115200 ttyS0"
+> >> -
+> >> -MACHINE_EXTRA_RRECOMMENDS =3D " kernel-modules"
+> >> diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qem=
+umips64.conf
+> >> index b2c7998..7ba98cb 100644
+> >> --- a/meta/conf/machine/qemumips64.conf
+> >> +++ b/meta/conf/machine/qemumips64.conf
+> >> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE =3D "vmlinux"
+> >>  KERNEL_ALT_IMAGETYPE =3D "vmlinux.bin"
+> >>
+> >>  SERIAL_CONSOLE =3D "115200 ttyS0"
+> >> -
+> >> -MACHINE_EXTRA_RRECOMMENDS =3D " kernel-modules"
+> >
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+>=20
+>=20
+> --=20
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--VACxsDaSTfeluoxK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlIoLqUACgkQN1Ujt2V2gBxi2gCfYkdhB5SRbHGImFuTjTipcsXj
+0lYAoIecSz6qZU2brdnbnYOSTdLQgHvz
+=5IQK
+-----END PGP SIGNATURE-----
+
+--VACxsDaSTfeluoxK--
