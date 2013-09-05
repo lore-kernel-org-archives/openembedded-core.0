@@ -1,54 +1,43 @@
-Return-Path: <philb@brightsign.biz>
-Received: from server505.appriver.com (server505b.appriver.com [98.129.35.5])
-	by mail.openembedded.org (Postfix) with ESMTP id BAA666B068
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E41CF6B064
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 11:40:31 +0000 (UTC)
-X-Note-AR-ScanTimeLocal: 9/5/2013 6:40:30 AM
-X-Policy: GLOBAL - brightsign.biz
-X-Policy: GLOBAL - brightsign.biz
-X-Policy: GLOBAL - brightsign.biz
-X-Policy: GLOBAL - brightsign.biz
-X-Primary: philb@brightsign.biz
-X-Note: This Email was scanned by AppRiver SecureTide
-X-Virus-Scan: V-
-X-Note-SnifferID: 0
-X-Note: TCH-CT/SI:0-34/SG:2 9/5/2013 6:39:49 AM
-X-GBUdb-Analysis: 0, 98.129.35.1, Ugly c=1 p=-0.961449 Source White
-X-Signature-Violations: 0-0-0-4420-c
-X-Note-419: 15.6004 ms. Fail:0 Chk:1348 of 1348 total
-X-Note: SCH-CT/SI:0-1348/SG:1 9/5/2013 6:40:18 AM
-X-Note: Spam Tests Failed: 
-X-Country-Path: PRIVATE->UNITED STATES->UNITED STATES
-X-Note-Sending-IP: 98.129.35.1
-X-Note-Reverse-DNS: smtp.exg5.exghost.com
-X-Note-Return-Path: philb@brightsign.biz
-X-Note: User Rule Hits: 
-X-Note: Global Rule Hits: G340 G341 G342 G343 G347 G348 G455 
-X-Note: Encrypt Rule Hits: 
-X-Note: Mail Class: VALID
-X-Note: Headers Injected
-Received: from [98.129.35.1] (HELO smtp.exg5.exghost.com)
-	by server505.appriver.com (CommuniGate Pro SMTP 6.0.2)
-	with ESMTPS id 405123267; Thu, 05 Sep 2013 06:40:30 -0500
-Received: from [172.30.1.45] (86.30.57.232) by smtp.exg5.exghost.com
-	(98.129.23.207) with Microsoft SMTP Server (TLS) id 8.3.327.1;
-	Thu, 5 Sep 2013 06:40:29 -0500
-Message-ID: <1378381226.6940.77.camel@phil-desktop.brightsign>
-From: Phil Blundell <philb@brightsign.biz>
-To: Laurentiu Palcu <laurentiu.palcu@intel.com>
-Date: Thu, 5 Sep 2013 12:40:26 +0100
-In-Reply-To: <1378381064.6940.75.camel@phil-desktop.brightsign>
-References: <cover.1378366233.git.laurentiu.palcu@intel.com>
-	<728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
-	<20130905081516.GI11500@jama>
-	<1378377834.6940.66.camel@phil-desktop.brightsign>
-	<20130905111155.GB17481@lpalcu-linux>
-	<1378381064.6940.75.camel@phil-desktop.brightsign>
-Organization: BrightSign Digital Ltd
-X-Mailer: Evolution 3.4.4-4+b1 
+	Thu,  5 Sep 2013 11:40:40 +0000 (UTC)
+Received: by mail-ob0-f176.google.com with SMTP id uz19so1799413obc.21
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Sep 2013 04:40:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=yabP4MM7WvztrAZ/QDn809hw16nxiwvmG0MboT1/EXM=;
+	b=RjDgP00uiF5Be0l8me7L+V86ELwrMvqrqmN0XWEWUEYvnBXPZHlBHTKasaXEcBX9W0
+	ksJQD/PJg4mlFnjkUyBv+kStfkZjJvQeBVesbkyG5b3jN5WOiHk2qNqmFu47zoJMhcV6
+	PNFweucW9Jo8LDHi10oUCiELd8197nG/6Ym4qq3muH2ij4j5qrRNxTLQ228nMPNOv3tS
+	oT/2ni3yh4jZLTMCT/GKAyoO15a9OjVuHB0mDSPubK1AKeffzLUuaF3msPmA/8EY0TV/
+	AySPoteleQHbK5pJd8pY50n0kL2KzWDMHtNCA1CJuLwa8Ri9lHTgcrvBzonUeD0NpPG1
+	VOfQ==
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
+X-Received: by 10.60.45.196 with SMTP id p4mr108188oem.81.1378381242600; Thu,
+	05 Sep 2013 04:40:42 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 5 Sep 2013 04:40:42 -0700 (PDT)
+In-Reply-To: <1378379194.32427.33.camel@ted>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+	<CAP9ODKou8KFNUVjjMq7wcY8wJ5m-rh4YGpuFTA_JugiSis7dEQ@mail.gmail.com>
+	<1378352101.14029.52.camel@dvhart-mobl4.amr.corp.intel.com>
+	<CAJTo0LZb5hTNAjTJvL2ueRWqe1PWPUv3yU-fbobwjcAis-7JCg@mail.gmail.com>
+	<1378379194.32427.33.camel@ted>
+Date: Thu, 5 Sep 2013 08:40:42 -0300
+X-Google-Sender-Auth: T2jEDar6bQL7F03IFIkOnR_GmbQ
+Message-ID: <CAP9ODKo5FrS0aAdJF=VU5Oef=moVmLHcFayF+W29i2LNPix0Nw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: yunguo.wei@windriver.com, Darren Hart <dvhart@linux.intel.com>,
+	Poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [poky] [PATCH 0/4] Updates in support of genericx86*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +50,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 11:40:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Sep 2013 11:40:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2013-09-05 at 12:37 +0100, Phil Blundell wrote:
-> On Thu, 2013-09-05 at 14:11 +0300, Laurentiu Palcu wrote:
-> > This solution is the most decent I could find in order to address this:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=4484
-> > in this stage of 1.5 release. Other ideas are always welcome.
-> 
-> I couldn't quite follow the long and complicated history of that bug,
-> but based on the description and the contents of comment #1 it sounds as
-> though the bug is at best tangentially related to this issue.
-> 
-> In the case where you have postinsts on the target but package
-> management is disabled, rootfs_ipk should be installing run-postinsts
-> (not opkg) and in that case it doesn't seem like this patch will help.
-> 
-> It looks as though this breakage was probably introduced by
-> 928df79cd3964f775c4c6e4283ef84b8882f9328 which moved the call to
-> remove_packaging_data_files() from rootfs_ipk (which was only calling it
-> if it knew that all postinsts had already been completed) to
-> image.bbclass (which doesn't have that knowledge and will call it
-> irrespective of what state the postinsts are in).
+On Thu, Sep 5, 2013 at 8:06 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2013-09-05 at 10:47 +0100, Burton, Ross wrote:
+>> On 5 September 2013 04:35, Darren Hart <dvhart@linux.intel.com> wrote:
+>> >> > Some of the oe-core changes could be contained in the meta-yocto-bsp layer, but
+>> >> > as these changes come from meta-intel, they are needed by multiple layers, and I
+>> >> > felt it might make more sense in oe-core. If people object to the mga or intel
+>> >> > xserver video drivers, I can respin those for meta-yocto-bsp.
+>> >>
+>> >> QEMU does not need them so they should be in meta-yocto-bsp.
+>> >
+>> > I'm fine with that if that is the consensus. Does anyone else care to
+>> > weigh in?
+>>
+>> By that logic nearly all the X drivers in oe-core should be in
+>> meta-yocto-bsp (synaptics, intel, modesetting, omap, omapfb, keyboard,
+>> mouse), but then we'd be forcing people using anything other than qemu
+>> to use meta-yocto-bsp (or duplicate the recipes).  A more nuanced
+>> rationale for keeping modesettings/intel/etc is that whilst the driver
+>> isn't used on QEMU it is in use on a large number of machines so it
+>> can be centrally maintained in oe-core.  I'm not convinced this holds
+>> for -mga (unless you're reading this from the late 90s) so it should
+>> be in meta-yocto-bsp.
+>
+> There is some thinking going on at the moment about merging genericx86
+> and qemux86 since the two machines are converging and any differences
+> could be dealt with at runtime. To me, this is a key detail.
+>
+> I agree that -mga is a push for OE-Core but the other drivers are useful
+> and I can see a case for moving them towards the core rather than having
+> several layers needing them.
 
-Actually, that last sentence is slightly incorrect.  image.bbclass does
-have the knowledge, it just seems to be failing to act on it.  So
-perhaps the easiest fix for the time being is simply to move the
-remove_packaging_data_files call in rootfs_uninstall_unneeded () a few
-lines higher up so that it's inside the "if [ -z $(delayed_postinsts) ]"
-block.
+I am not sure Intel's driver should be in OE-Core; if that's the case
+we'd need nouveau and ati drivers there as well as they are largely
+used in PCs.
 
-p.
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
