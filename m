@@ -1,39 +1,27 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f174.google.com (mail-ob0-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DB50C61788
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id ED6616B068
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 11:37:25 +0000 (UTC)
-Received: by mail-ob0-f174.google.com with SMTP id wd6so1798647obb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 04:37:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=LI6Px0ZTiCklyNPAujL0K08LDSct7Vr5ydhmuSPq7dA=;
-	b=Ld1Xp+hJouedHIxQwDnReQ4BT6D7wmFKXjO6ItzQ15OnNR9zP3JJz6IJ5PJUP1dZsl
-	5Z6tt1XUi0QoS0e7h2ZDv2ClKLiAuWR6GkcK/2QNjahRJZrekikTyStokDPSJuQm4kD3
-	t1EDL4aPVLpZc1w/BeBJalIGpyQaMCITgPAadU4nzILMEZCtfjMC08aWoMWojTrzOyk5
-	0NT70E2l3E2sm88NO7S1B8bABFntqXMFCo10KafCvR+eeMff7PtBXhUO5TXurggGLiJZ
-	0CeS83aaHZ7HopX+3AS64E/ua+g7y4+T3BnbMpLgkDuRgx3ozai/3F91Cnv/rOYKIzAj
-	7ylw==
-MIME-Version: 1.0
-X-Received: by 10.60.132.178 with SMTP id ov18mr6012399oeb.39.1378381047169;
-	Thu, 05 Sep 2013 04:37:27 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Thu, 5 Sep 2013 04:37:26 -0700 (PDT)
-In-Reply-To: <CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
-References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
-	<CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
-Date: Thu, 5 Sep 2013 08:37:26 -0300
-X-Google-Sender-Auth: z1ZV9OVK5zwYng5Bgz1ahMrmMRY
-Message-ID: <CAP9ODKqVU+ka+VzjPj6p0iVsirrOSqLtDFWNzfBcKutwj1Fo3Q@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Darren Hart <dvhart@linux.intel.com>, Poky <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
+	Thu,  5 Sep 2013 11:37:44 +0000 (UTC)
+Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
+	([86.30.57.232] helo=[172.30.1.45])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VHXsf-0001rA-1Q; Thu, 05 Sep 2013 13:37:45 +0200
+Message-ID: <1378381064.6940.75.camel@phil-desktop.brightsign>
+From: Phil Blundell <pb@pbcl.net>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Date: Thu, 05 Sep 2013 12:37:44 +0100
+In-Reply-To: <20130905111155.GB17481@lpalcu-linux>
+References: <cover.1378366233.git.laurentiu.palcu@intel.com>
+	<728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
+	<20130905081516.GI11500@jama>
+	<1378377834.6940.66.camel@phil-desktop.brightsign>
+	<20130905111155.GB17481@lpalcu-linux>
+X-Mailer: Evolution 3.4.4-4+b1 
+Mime-Version: 1.0
+Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,45 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 11:37:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 05 Sep 2013 11:37:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 5, 2013 at 6:53 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 5 September 2013 01:18, Darren Hart <dvhart@linux.intel.com> wrote:
->> +# AC_CHECK_FILE doesn't work when cross compiling, so we create a replacement
->> +# macro that simply assumes the test succeeds. This is required for at least
->> +# the -intel and -mga drivers.
->> +do_configure_prepend () {
->> +       echo 'AC_DEFUN(CC_AC_CHECK_FILE, $2)' > ${S}/configure.ac.new
->> +       sed 's/AC_CHECK_FILE/CC_AC_CHECK_FILE/g' ${S}/configure.ac >> ${S}/configure.ac.new
->> +       mv ${S}/configure.ac.new ${S}/configure.ac
->> +}
->
-> I've been systematically fixing the drivers that use AC_CHECK_FILE so
-> now as far as I know we're left with just one (-mga), for which my
-> patch has been submitted upstream.
->
-> I'd prefer to see the patch retained and upstream fixed instead of
-> working around the breakage, because the test that configure.ac is
-> attempting to do is valid, it's just done wrong.
+On Thu, 2013-09-05 at 14:11 +0300, Laurentiu Palcu wrote:
+> This solution is the most decent I could find in order to address this:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4484
+> in this stage of 1.5 release. Other ideas are always welcome.
 
-So I think this should be dropped from here.
+I couldn't quite follow the long and complicated history of that bug,
+but based on the description and the contents of comment #1 it sounds as
+though the bug is at best tangentially related to this issue.
 
->>+# FIXME: We don't want to include the libtool archives (*.la) from modules
->>+# directory, as they serve no useful purpose. Upstream should fix Makefile.am
->>+do_install_append() {
->>+       find ${D}${libdir}/xorg/modules -regex ".*\.la$" | xargs rm -f --
->>+}
->
-> Sadly when using libtool you can't "opt-out" of installing .la files
-> unless you delete the files that just got installed.  In my opinion
-> this is something that needs to be done globally instead of
-> per-recipe.
+In the case where you have postinsts on the target but package
+management is disabled, rootfs_ipk should be installing run-postinsts
+(not opkg) and in that case it doesn't seem like this patch will help.
 
-So autotools.bbclass?
+It looks as though this breakage was probably introduced by
+928df79cd3964f775c4c6e4283ef84b8882f9328 which moved the call to
+remove_packaging_data_files() from rootfs_ipk (which was only calling it
+if it knew that all postinsts had already been completed) to
+image.bbclass (which doesn't have that knowledge and will call it
+irrespective of what state the postinsts are in).
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+p.
+
+
 
