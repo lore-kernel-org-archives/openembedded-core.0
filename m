@@ -1,26 +1,27 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A97C361604
+Return-Path: <Paul_Woegerer@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 496AF61617
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 08:57:09 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 05 Sep 2013 01:54:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,845,1371106800"; d="scan'208";a="373819083"
-Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.105.165])
-	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2013 01:57:09 -0700
-Date: Thu, 5 Sep 2013 11:57:08 +0300
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20130905085708.GA17481@lpalcu-linux>
-References: <cover.1378366233.git.laurentiu.palcu@intel.com>
-	<728bbce2f20eefd81accfbbe48c6f5f4e85aabb2.1378366233.git.laurentiu.palcu@intel.com>
-	<20130905081516.GI11500@jama>
-MIME-Version: 1.0
-In-Reply-To: <20130905081516.GI11500@jama>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
+	Thu,  5 Sep 2013 09:01:03 +0000 (UTC)
+Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
+	by relay1.mentorg.com with esmtp 
+	id 1VHVR2-0004l7-SH from Paul_Woegerer@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 05 Sep 2013 02:01:04 -0700
+Received: from NA1-MAIL.mgc.mentorg.com ([147.34.98.181]) by
+	svr-orw-fem-01.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Thu, 5 Sep 2013 02:01:04 -0700
+Received: from atv-pwoegere-l3.atv.mentorg.com.com ([172.30.72.2]) by
+	NA1-MAIL.mgc.mentorg.com with Microsoft SMTPSVC(6.0.3790.3959); 
+	Thu, 5 Sep 2013 02:01:03 -0700
+From: Paul Woegerer <paul_woegerer@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Sep 2013 11:00:57 +0200
+Message-Id: <1378371660-5061-1-git-send-email-paul_woegerer@mentor.com>
+X-Mailer: git-send-email 1.8.4
+X-OriginalArrivalTime: 05 Sep 2013 09:01:04.0227 (UTC)
+	FILETIME=[73642B30:01CEAA16]
+Subject: [PATCH 0/3] lttng: update to lttng 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +34,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 08:57:11 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 05 Sep 2013 09:01:04 -0000
 
-On Thu, Sep 05, 2013 at 10:15:16AM +0200, Martin Jansa wrote:
-> On Thu, Sep 05, 2013 at 10:31:10AM +0300, Laurentiu Palcu wrote:
-> > If IMAGE_FEATURES does not contain 'package-management' but the user
-> > manually installs a package manager (opkg/dpkg/rpm) using
-> > CORE_IMAGE_EXTRA_INSTALL (for example), then do not remove update-rc.d,
-> > base-passwd and package metadata because these will be needed by the
-> > package manager to function correcly.
-> > 
-> > [YOCTO #4484]
-> > 
-> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> > ---
-> >  meta/classes/image.bbclass |    7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 84f638c..e1a7367 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -498,7 +498,12 @@ rootfs_install_complementary() {
-> >  }
-> >  
-> >  rootfs_uninstall_unneeded () {
-> > -	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
-> > +	rpm_installed=${@base_contains("PACKAGE_INSTALL", "rpm",  "true", "false", d)}
-> > +	opkg_installed=${@base_contains("PACKAGE_INSTALL", "opkg", "true", "false", d)}
-> > +	dpkg_installed=${@base_contains("PACKAGE_INSTALL", "dpkg", "true", "false", d)}
-> > +
-> > +	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)} &&\
-> 
-> is this first condition still needed? Do we have some case where
-> package-management is enabled without rpm/opkg/dpkg installed?
-I believe you're right. That condition can be removed.
+Resending patch series (now with --signoff -M):
 
-Thanks,
-Laurentiu
-> 
-> > +	   ! $rpm_installed && ! $opkg_installed && ! $dpkg_installed; then
-> >  		if [ -z "$(delayed_postinsts)" ]; then
-> >  			# All packages were successfully configured.
-> >  			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
-> > -- 
-> > 1.7.9.5
-> > 
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> -- 
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Since lttng 2.3.0 (Dominus Vobiscum) was released today I have updated the respective recipes.
 
+Tested kernel and userspace tracing with TARGET qemux86 as described by:
+http://www.yoctoproject.org/docs/latest/profile-manual/profile-manual.html#lttng-linux-trace-toolkit-next-generation
+
+Noteworthy changes:
+http://lttng.org/lttng-toolchain-230-out
+
+Paul Woegerer (3):
+  lttng-ust: Update to version 2.3.0
+  lttng-tools: Update to version 2.3.0
+  lttng-modules: Update to version 2.3.0
+
+ meta/recipes-kernel/lttng/lttng-modules_git.bb                        | 4 ++--
+ .../lttng/{lttng-tools_2.2.3.bb => lttng-tools_2.3.0.bb}              | 4 ++--
+ meta/recipes-kernel/lttng/{lttng-ust_2.2.1.bb => lttng-ust_2.3.0.bb}  | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.2.3.bb => lttng-tools_2.3.0.bb} (93%)
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.2.1.bb => lttng-ust_2.3.0.bb} (93%)
+
+-- 
+1.8.4
 
 
