@@ -1,28 +1,24 @@
 Return-Path: <mihaix.lindner@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 991E36C6B6
+	by mail.openembedded.org (Postfix) with ESMTP id 984096C6A6
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Sep 2013 15:52:54 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 05 Sep 2013 08:52:47 -0700
+	by azsmga101.ch.intel.com with ESMTP; 05 Sep 2013 08:52:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="391553082"
+X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="391553052"
 Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Sep 2013 08:52:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 05 Sep 2013 08:52:46 -0700
 Received: from mlindnex-mobl1.ger.corp.intel.com (unknown [10.237.105.34])
-	by linux.intel.com (Postfix) with ESMTP id 7B6682C8001
+	by linux.intel.com (Postfix) with ESMTP id 56CD92C8001
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 08:52:45 -0700 (PDT)
+	Thu,  5 Sep 2013 08:52:44 -0700 (PDT)
 From: Mihai Lindner <mihaix.lindner@linux.intel.com>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu,  5 Sep 2013 18:52:40 +0300
-Message-Id: <7586572e5b35a3bc9d5f1f9b3fb1e6c066d930b8.1378396260.git.mihaix.lindner@linux.intel.com>
+Date: Thu,  5 Sep 2013 18:52:39 +0300
+Message-Id: <cover.1378396260.git.mihaix.lindner@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1378396260.git.mihaix.lindner@linux.intel.com>
-References: <cover.1378396260.git.mihaix.lindner@linux.intel.com>
-In-Reply-To: <cover.1378396260.git.mihaix.lindner@linux.intel.com>
-References: <cover.1378396260.git.mihaix.lindner@linux.intel.com>
-Subject: [PATCH 1/3] oeqa/oetest: oeRuntimeTest: enable long messages
+Subject: [PATCH 0/3] oeqa: cleaner testimage log
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +33,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Sep 2013 15:52:55 -0000
 
-Set longMessage to True for all tests derived from oeRuntimeTest, in
-order to have somewhat info on assertions with cryptic or no messages.
+The following changes since commit f41b7a7d4d0463a0dfafe6621d01680b81798019:
 
-Signed-off-by: Mihai Lindner <mihaix.lindner@linux.intel.com>
----
- meta/lib/oeqa/oetest.py        | 2 ++
- meta/lib/oeqa/runtime/smart.py | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+  bitbake: hob: remove PACKAGE_INSTALL variable setting from hob (2013-09-04 14:18:49 +0100)
 
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index c9dc5dc..529abdc 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -37,6 +37,8 @@ def runTests(tc):
- 
- 
- class oeRuntimeTest(unittest.TestCase):
-+
-+    longMessage = True
-     testFailures = []
-     testSkipped = []
-     testErrors = []
-diff --git a/meta/lib/oeqa/runtime/smart.py b/meta/lib/oeqa/runtime/smart.py
-index 59083ca..468e047 100644
---- a/meta/lib/oeqa/runtime/smart.py
-+++ b/meta/lib/oeqa/runtime/smart.py
-@@ -12,8 +12,6 @@ def setUpModule():
- 
- class SmartTest(oeRuntimeTest):
- 
--    longMessage = True
--
-     @skipUnlessPassed('test_smart_help')
-     def smart(self, command, expected = 0):
-         command = 'smart %s' % command
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mihai/tests
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mihai/tests
+
+Mihai Lindner (3):
+  oeqa/oetest: oeRuntimeTest: enable long messages
+  oeqa/utils/sshcontrol: tweak ssh options
+  oeqa/runtime/scp: replace dd call
+
+ meta/lib/oeqa/oetest.py           |  2 ++
+ meta/lib/oeqa/runtime/scp.py      | 19 +++++++++----------
+ meta/lib/oeqa/runtime/smart.py    |  2 --
+ meta/lib/oeqa/utils/sshcontrol.py | 23 ++++++++++++-----------
+ 4 files changed, 23 insertions(+), 23 deletions(-)
+
 -- 
 1.8.3.2
 
