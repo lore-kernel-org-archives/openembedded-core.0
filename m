@@ -1,26 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 539FA6BBC4
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EA5961855
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 12:48:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r85CmcKX006382
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Sep 2013 05:48:39 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 5 Sep 2013 05:48:38 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Sep 2013 20:49:07 +0800
-Message-ID: <c2178953aaad8b6c2c14991af17eb6da9d0df2c9.1378385266.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378385266.git.Qi.Chen@windriver.com>
-References: <cover.1378385266.git.Qi.Chen@windriver.com>
+	Thu,  5 Sep 2013 12:53:46 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 05 Sep 2013 05:53:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,847,1371106800"; d="scan'208";a="373900560"
+Received: from unknown (HELO helios.localnet) ([10.252.123.106])
+	by orsmga001.jf.intel.com with ESMTP; 05 Sep 2013 05:53:45 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Phil Blundell <pb@pbcl.net>
+Date: Thu, 05 Sep 2013 13:53:44 +0100
+Message-ID: <3397753.WTGSduA6kl@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <1378384174.6940.86.camel@phil-desktop.brightsign>
+References: <cover.1378366233.git.laurentiu.palcu@intel.com>
+	<3518999.x3yV6XY4Eo@helios>
+	<1378384174.6940.86.camel@phil-desktop.brightsign>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] ptest.bbclass: add cleandirs flag to do_install_ptest_base
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] image.bbclass: leave metadata in place if a PM is installed in the image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +35,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 12:48:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Sep 2013 12:53:47 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On Thursday 05 September 2013 13:29:34 Phil Blundell wrote:
+> On Thu, 2013-09-05 at 07:19 -0500, Paul Eggleton wrote:
+> > I'm clearly missing something here. If we have a generic mechanism to run
+> > postinstall scripts now, and "package-management" is not in
+> > IMAGE_FEATURES,
+> > why do we need or want the package manager to be in control of running the
+> > postinstalls?
+> 
+> We don't.  The postinsts should be getting run by run-postinsts.
+> 
+> I must admit I still don't entirely understand what the problem is that
+> Laurentiu is trying to fix with his patch, and the description in the
+> Yocto bugzilla remains opaque to me.  Can you clarify what exactly it is
+> that's currently going wrong?
 
-The do_install_ptest_base task should have cleandirs flag, just like
-the do_install task. The ${D}${PTEST_PATH} directory should be cleaned,
-Otherwise, there would be similar errors like below if the
-do_install_ptest_base task is rerun.
+The reason I reopened the bug (the final comment) is that I had a situation 
+recently where I had got opkg installed in an image via dependencies and I did 
+not have package-management in IMAGE_FEATURES. The result was that 
+postinstalls to be run on first boot just silently did not work, which is not 
+good behaviour.
 
-    ln: failed to create symbolic link `xxx': File exists
+Now, with the image I was dealing with I needed to add package-management to 
+IMAGE_FEATURES anyway; but things shouldn't just silently break because the 
+package manager happens to be installed especially as it may not be 
+immediately clear to the user that the latter had even happened. I'm pretty 
+sure this didn't used to be an issue.
 
-[YOCTO #5129]
+Cheers,
+Paul
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/ptest.bbclass |    2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 71183af..188afcd 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -48,6 +48,8 @@ do_install_ptest_base() {
-     fi
- }
- 
-+do_install_ptest_base[cleandirs] = "${D}${PTEST_PATH}"
-+
- addtask configure_ptest_base after do_configure before do_compile
- addtask compile_ptest_base   after do_compile   before do_install
- addtask install_ptest_base   after do_install   before do_package
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
