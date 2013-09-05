@@ -1,26 +1,36 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A7924615B7
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
+	[209.85.217.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A34F615CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 00:38:26 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 04 Sep 2013 17:35:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,843,1371106800"; d="scan'208";a="398416030"
-Received: from unknown (HELO [10.255.14.205]) ([10.255.14.205])
-	by orsmga002.jf.intel.com with ESMTP; 04 Sep 2013 17:38:27 -0700
-Message-ID: <5227D283.6050606@linux.intel.com>
-Date: Wed, 04 Sep 2013 17:38:27 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Thu,  5 Sep 2013 00:51:25 +0000 (UTC)
+Received: by mail-lb0-f180.google.com with SMTP id q8so1074603lbi.39
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Sep 2013 17:51:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=KyohmpBNieCPx8UDbF+ntP3Gl/nyQvY6hiudBzzdjXk=;
+	b=rFySCID2wv/uZFDjHhsrK8EVmp2QoJS6qKr4uBvjUWWSgXH3AyuKvFRmJRq+ILdakV
+	HZgxNsY74QFrKBg/vUjjpITbY9yQs2bwyW3i4X1OOyf/IbS+Cfo3GQcxQliqY6oggYs/
+	XrJjLoUO2Ckfvdcbf3oTGXg+JAa1zItA1YrHrZHjGVztIZ4fsBT118G18uDoCSca4+Nf
+	lTwGuqmhhSdJ52IXXyDlia+6ADCHXirmt2hTjRMdyb4hXwK6oWK4DJwS9rk0MNXycb2L
+	2+vQVhojTtI8aodZCokB6I5TxdCuIWs7AD7TAoC/q+vjvEiVmYbpq3G3OXL0C8cHOJa8
+	3uNA==
 MIME-Version: 1.0
-References: <1378310230-20253-1-git-send-email-valentin.popa@intel.com>
-	<52275B82.4040309@linux.intel.com>
-In-Reply-To: <52275B82.4040309@linux.intel.com>
-Cc: "dvhart@linux.intel.com" <dvhart@linux.intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH_V2] HOB: split live into iso and hddimg
+X-Received: by 10.152.2.4 with SMTP id 4mr4960868laq.0.1378342286128; Wed, 04
+	Sep 2013 17:51:26 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Wed, 4 Sep 2013 17:51:25 -0700 (PDT)
+In-Reply-To: <1378332114.1059.260.camel@ted>
+References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
+	<1378332114.1059.260.camel@ted>
+Date: Wed, 4 Sep 2013 20:51:25 -0400
+Message-ID: <CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,119 +43,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 00:38:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Sep 2013 00:51:26 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-
-Also the patch summary does not conform to your style, it should be 
-image*: split live into iso and hddimg for hob
-
-tells us more that it's the image code, not hob code.
-
-See additional comment below.
-
-On 09/04/2013 09:10 AM, Saul Wold wrote:
-> On 09/04/2013 08:57 AM, Valentin Popa wrote:
->> changes to split live into iso and hddimg without
->> adding a new image type class.
+On Wed, Sep 4, 2013 at 6:01 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2013-09-04 at 17:22 +0100, Ross Burton wrote:
+>> Only qemumips was recommending kernel-modules which meant that the other qemu
+>> machines were missing some kernel modules, for example binfmt-misc.
 >>
->
-> Will there be corresponding patches for the places that IMAGE_FSTYPES
-> use the "live" type?
->
-> There may also be some doc's changes that are needed.
->
-> Sau!
->
->> [YOCTO #3197]
+>> Move the recommends to qemu.inc so that all qemu machines pull in the kernel
+>> modules that have been built.
+>>
+>> [ YOCTO #4863 ]
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
 >> ---
->>   meta/classes/image.bbclass       | 11 ++++++++++-
->>   meta/classes/image_types.bbclass | 11 +++++++----
->>   2 files changed, 17 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index ea59c36..3f76d80 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -87,7 +87,16 @@ do_rootfs[depends] +=
->> "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
->>   do_rootfs[depends] +=
->> "virtual/update-alternatives-native:do_populate_sysroot
->> update-rc.d-native:do_populate_sysroot"
->>   do_rootfs[recrdeptask] += "do_packagedata"
->>
->> -IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live",
->> "empty", d)}'
->> +NOISO = '${@base_contains("IMAGE_FSTYPES", "iso", "0", "1", d)}'
->> +NOHDD = '${@base_contains("IMAGE_FSTYPES", "hddimg", "0", "1", d)}'
->> +
->> +def build_live(d):
->> +    if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
->> +        return "live"
->> +    else:
->> +        return "empty"
->> +
-I think RP suggested a way to simplify this code.
+>>  meta/conf/machine/include/qemu.inc |    2 ++
+>>  meta/conf/machine/qemumips.conf    |    2 --
+>>  meta/conf/machine/qemumips64.conf  |    2 --
+>>  3 files changed, 2 insertions(+), 4 deletions(-)
+>
+> How many modules are built for the qemu machines? Are they all useful?
+> I'm just trying to get a feel for how much we're adding here and whether
+> this is the right thing to be doing...
 
-Sau!
+We can control the configs as tightly as we want, so if we are building too much
+for this, I'm happy to trim things down.
 
->> +IMAGE_TYPE_live = '${@build_live(d)}'
->>   inherit image-${IMAGE_TYPE_live}
->>   IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk",
->> "empty", d)}'
->>   inherit image-${IMAGE_TYPE_vmdk}
->> diff --git a/meta/classes/image_types.bbclass
->> b/meta/classes/image_types.bbclass
->> index c168ed5..6af6499 100644
->> --- a/meta/classes/image_types.bbclass
->> +++ b/meta/classes/image_types.bbclass
->> @@ -43,12 +43,15 @@ def get_imagecmds(d):
->>           if "ext3" not in alltypes:
->>               alltypes.append("ext3")
->>           types.remove("vmdk")
->> -    if "live" in types:
->> +    if "iso" in types or "hddimg" in types:
->>           if "ext3" not in types:
->>               types.append("ext3")
->>           if "ext3" not in alltypes:
->>               alltypes.append("ext3")
->> -        types.remove("live")
->> +        if "iso" in types:
->> +            types.remove("iso")
->> +        if "hddimg" in types:
->> +            types.remove("hddimg")
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 >>
->>       if d.getVar('IMAGE_LINK_NAME', True):
->>           if d.getVar('RM_OLD_IMAGE', True) == "1":
->> @@ -115,7 +118,7 @@ def imagetypes_getdepends(d):
->>       deps = []
->>       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->>       for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
->> -        if type == "vmdk" or type == "live":
->> +        if type == "vmdk" or type == "iso" or type == "hddimg":
->>               type = "ext3"
->>           basetype = type
->>           for ctype in ctypes:
->> @@ -230,7 +233,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
->>   IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+>> index 545f8d1..7baf13e 100644
+>> --- a/meta/conf/machine/include/qemu.inc
+>> +++ b/meta/conf/machine/include/qemu.inc
+>> @@ -27,3 +27,5 @@ EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
 >>
->>   # This variable is available to request which values are suitable
->> for IMAGE_FSTYPES
->> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3
->> ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz
->> tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
->> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3
->> ext3.gz ext2.lzma btrfs squashfs squashfs-xz ubi ubifs tar tar.gz
->> tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf iso hddimg"
+>>  # Provide the nfs server kernel module for all qemu images
+>>  KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
+>> +
+>> +MACHINE_EXTRA_RRECOMMENDS = "kernel-modules"
+>> diff --git a/meta/conf/machine/qemumips.conf b/meta/conf/machine/qemumips.conf
+>> index ce1c419..89721a6 100644
+>> --- a/meta/conf/machine/qemumips.conf
+>> +++ b/meta/conf/machine/qemumips.conf
+>> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
+>>  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
 >>
->>   COMPRESSIONTYPES = "gz bz2 lzma xz"
->>   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+>>  SERIAL_CONSOLE = "115200 ttyS0"
+>> -
+>> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+>> diff --git a/meta/conf/machine/qemumips64.conf b/meta/conf/machine/qemumips64.conf
+>> index b2c7998..7ba98cb 100644
+>> --- a/meta/conf/machine/qemumips64.conf
+>> +++ b/meta/conf/machine/qemumips64.conf
+>> @@ -9,5 +9,3 @@ KERNEL_IMAGETYPE = "vmlinux"
+>>  KERNEL_ALT_IMAGETYPE = "vmlinux.bin"
 >>
+>>  SERIAL_CONSOLE = "115200 ttyS0"
+>> -
+>> -MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
+>
+>
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
