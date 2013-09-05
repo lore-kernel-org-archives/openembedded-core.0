@@ -1,41 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f47.google.com (mail-vb0-f47.google.com
-	[209.85.212.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F7C261862
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F0BC61642
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 15:21:50 +0000 (UTC)
-Received: by mail-vb0-f47.google.com with SMTP id h10so1233638vbh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 08:21:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=rJANCgoOuXxEAJmIXUGZsuTViK1Sz15Kle9OsRFRHrU=;
-	b=a+Y+DPi+KUTwiOREUJBDLKaH2TgOk9tEuaDODg1U2m8MSDpEYbMuq4qSrCk1NyT7g0
-	h62EvJeL7oLFJS3jMo77scH2ynuB9KDX3ORd+10C/Z3kTAeiNEf/YfemR5ldy6jiLFN6
-	zQ0imGhL0gRfHzcX/tcJ7hLWBCuVESjPtZtlWidya/j009VAotVEVt5tGW6093oAaOFB
-	UI/FE7mVay1X5CWKY9bVVulbMrnhxvoUvbfdo6YTRnB6V1CPDae2Z9cDDaUnRzmr5ojk
-	9T9ZCE85PtpulBkI2YBQC7l2zCIBQ40fYhnwM/q8+dRkm0uc45UjuK6y7yyKBW8ECwiD
-	fyGw==
-X-Gm-Message-State: ALoCoQm0cVUtCk0cn7aYLwNlp3XV7jRRnGperTNaCpk6zkPaqkjxnBCaFE/msrXMSDxz+TB5simn
-X-Received: by 10.52.166.200 with SMTP id zi8mr603652vdb.38.1378394512095;
-	Thu, 05 Sep 2013 08:21:52 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 08:21:32 -0700 (PDT)
-In-Reply-To: <CAJTo0LZ6FHdDe0NgE0sQvqg+pF4hf_MjvRDe1L=HV-7021EAOg@mail.gmail.com>
+	Thu,  5 Sep 2013 15:32:34 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r85FjQv9019103; Thu, 5 Sep 2013 16:45:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 8tYQtcD3kPg5; Thu,  5 Sep 2013 16:45:26 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r85FjKFY019094
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 5 Sep 2013 16:45:21 +0100
+Message-ID: <1378395125.32427.78.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Blundell <pb@pbcl.net>
+Date: Thu, 05 Sep 2013 16:32:05 +0100
+In-Reply-To: <1378383839.6940.83.camel@phil-desktop.brightsign>
 References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<4562a00806c5a6573b5aa650764ad12bc93edda7.1378339881.git.dvhart@linux.intel.com>
-	<CAJTo0LY-oi+tQy7rs84axy4R71Y4j=HtEgXALN20aVdATwzVdg@mail.gmail.com>
-	<1378392729.14029.73.camel@dvhart-mobl4.amr.corp.intel.com>
-	<CAJTo0LZ6FHdDe0NgE0sQvqg+pF4hf_MjvRDe1L=HV-7021EAOg@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Sep 2013 16:21:32 +0100
-Message-ID: <CAJTo0LY=p5Gafe-4i7i3Cs01hqrFFOsMzRGovfurpF1gqX=9xg@mail.gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: yunguo.wei@windriver.com, Poky <poky@yoctoproject.org>,
+	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
+	<CAJTo0La0W7PXkuBsvqD2XqPMMbbLtmJef5T97sikSJogZ1XCiQ@mail.gmail.com>
+	<CAP9ODKqVU+ka+VzjPj6p0iVsirrOSqLtDFWNzfBcKutwj1Fo3Q@mail.gmail.com>
+	<CAJTo0Labk000SpLOiM8gtuSu2pwK0jsgU9osO60GEFntThxSeA@mail.gmail.com>
+	<1378383289.32427.63.camel@ted>
+	<1378383839.6940.83.camel@phil-desktop.brightsign>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Darren Hart <dvhart@linux.intel.com>, Poky <poky@yoctoproject.org>,
+	Otavio Salvador <otavio@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] xf86-video-mga: Pull in Matrox MGA support from meta-intel
+Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,27 +45,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 15:21:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 05 Sep 2013 15:32:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 5 September 2013 16:11, Burton, Ross <ross.burton@intel.com> wrote:
-> On 5 September 2013 15:52, Darren Hart <dvhart@linux.intel.com> wrote:
->>> Assuming success in an distro where opengl isn't enabled will result
->>> in the driver believing that DRI is enabled when it isn't, so expect
->>> to see build failures from this.
->>
->> Should we be adding a distro depends on opengl for this driver as is
->> being done for others currently?
->
-> No, because DRI is optional in this driver.  Follow opengl and flip
-> --enable/disable-dri.
->
-> (assuming I don't change the server to always build DRI)
+On Thu, 2013-09-05 at 13:23 +0100, Phil Blundell wrote:
+> On Thu, 2013-09-05 at 13:14 +0100, Richard Purdie wrote:
+> > * Figuring out any runtime issues with dlopen is the hardest part and we
+> > don't actually have real data on whether there are issues there or not.
+> 
+> Do we have any particular reason to believe that there would be issues
+> (and if so, what they might be)?  I guess it should be easy enough to
+> gather data if we know what we're looking for.
+> 
+> Right now the .la files go into the -dev packages anyway and hence
+> aren't usually going to be available at runtime for anything calling
+> dlopen() on the target.  Is it native packages you're concerned about?
 
-Follow-up.  Using PACKAGECONFIG to respecting the "opengl"
-DISTRO_FEATURE and --enable/--disable-dri should work for the MGA
-driver.  dri.h is part of Mesa, so obviously opengl and DRI are
-entwined.
+The -dev package argument is a good one, we seem to be surviving without
+those and that probably addresses the concern I was thinking of. I'm
+also thinking of ltdl and its dlopen wrapping, not dlopen itself which
+is a much smaller subset of recipes.
 
-Ross
+> > * We'd be deviating from the way the libtool authors suggest their tool
+> > should operate. This makes filing bug reports and interacting with
+> > upstream harder. 
+> 
+> This is true, though interacting with libtool upstream already seems to
+> be hard enough that I'm not sure this would make a material difference.
+
+It does seem somewhat tricky, agreed.
+
+> > * They are used in places, for example the darwin shlibs code currently
+> > uses them. It could be updated to use otool these days mind but I'd
+> > probably make the current code a fallback for unknown arches since it is
+> > guaranteed to work everywhere.
+> 
+> There's no reason in principle that folks on darwin (and/or
+> hitherto-undiscovered architectures) couldn't retain the .la files if
+> they wanted.  The original patch that I sent used a DISTRO_FEATURE to
+> control this and those people building for darwin could simply refrain
+> from setting it.  Alternatively we could make it explicitly conditional
+> on TARGET_OS or some such if there are reasons to believe that some
+> targets do genuinely require this stuff.
+
+There are ways to avoid problems for darwin. Using otool instead of
+the .la files would be nice, equally mangling DISTRO_FEATURES based on
+an SDK override is possible, albeit ugly. The la handling code will
+likely bitrot as soon as its disabled by default and metadata starts
+getting dropped which is probably a bigger concern. The number of SDK
+darwin builds is currently a tiny portion of the usercase and codebase.
+
+I guess the .la files just don't seem to be a big issue that some people
+seem to paint them as. Why do we need to remove them and deviate from
+the upstream?
+
+Anyhow, if someone can show some world builds with and without the .la
+files and see what build history shows we'd be closer to taking a patch
+to turning them off. If we do it, we'll have to do it everywhere for
+everything since the remaining code will bitrot badly IMO otherwise.
+
+Cheers,
+
+Richard
+
+
+
+
 
