@@ -1,26 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F34FC615E8
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 88AAB615F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 02:20:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r852KUsw026978
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 4 Sep 2013 19:20:30 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 4 Sep 2013 19:20:28 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Wed, 4 Sep 2013 22:20:23 -0400
-Message-ID: <fe4ee88f3de8df30e3420252d471c2472dc21364.1378347409.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1378347409.git.bruce.ashfield@windriver.com>
-References: <cover.1378347409.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] linux-yocto/3.10: update to v3.10.10
+	Thu,  5 Sep 2013 03:33:00 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 04 Sep 2013 20:33:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,843,1371106800"; d="scan'208";a="291006620"
+Received: from unknown (HELO [10.255.14.80]) ([10.255.14.80])
+	by AZSMGA002.ch.intel.com with ESMTP; 04 Sep 2013 20:33:01 -0700
+Message-ID: <1378351981.14029.50.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Wed, 04 Sep 2013 20:33:01 -0700
+In-Reply-To: <CAP9ODKoZKArHD5+bTGwLrdNoa7DE+RWTOO7A_pVtPNevaz8sWg@mail.gmail.com>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+	<b2e7d64bcfed785d28da77202d46157f4ce7dfd6.1378339881.git.dvhart@linux.intel.com>
+	<7e9270b1c56aeeb6ed22210cab98d2675b092d5d.1378339881.git.dvhart@linux.intel.com>
+	<CAP9ODKoZKArHD5+bTGwLrdNoa7DE+RWTOO7A_pVtPNevaz8sWg@mail.gmail.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Poky <poky@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] xorg-driver-common: Add configure and install appends from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,89 +37,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 02:20:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 05 Sep 2013 03:33:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Updating the BSP SRCREVs for the 3.10.10 korg -stable release.
+On Wed, 2013-09-04 at 21:54 -0300, Otavio Salvador wrote:
+> On Wed, Sep 4, 2013 at 9:18 PM, Darren Hart <dvhart@linux.intel.com> wrote:
+> > As part of pulling in the more generic components of the meta-intel
+> > xserver infrastructure, include the configure and install appends from
+> > the meta-intel version of xorg-driver-common.
+> >
+> > Modify the configure prepend to use ${S} in the paths explicitly as
+> > without this the script appears to be running in a build/ directory
+> > instead of the source directory, and cannot find the configure.ac.
+> > This prepend is required for at least the -intel and -mga drivers.
+> >
+> > Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+> > Cc: Ross Burton <ross.burton@intel.com>
+> > Cc: Nitin A Kamble <nitin.a.kamble@intel.com>
+> > ---
+> >  .../xorg-driver/xorg-driver-common.inc             |   17 ++++++++++++++++-
+> >  1 file changed, 16 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+> > index 5f5d282..2d4f2ce 100644
+> > --- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+> > +++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
+> > @@ -5,7 +5,7 @@ SECTION = "x11/drivers"
+> >  LICENSE = "MIT-X"
+> >
+> >  PE = "2"
+> > -INC_PR = "r21"
+> > +INC_PR = "r22"
+> 
+> This is need because you had a PRINC?
+> 
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   16 ++++++++--------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+It is my understanding that this change will ensure recipes including
+this file will get rebuilt after this patch is merged and will get the
+updated install append, clearing the .la files.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-index 797cad7..a2e0310 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb
-@@ -3,13 +3,13 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH = "standard/preempt-rt/base"
- KBRANCH_qemuppc = "standard/preempt-rt/qemuppc"
- 
--SRCREV_machine ?= "94e63f0640ef3680a605e82ee19f3de688f0ec59"
--SRCREV_machine_qemuppc ?= "2c0455935f1964ce69c70d0f7980a656040e50ea"
-+SRCREV_machine ?= "38793e629654f6b3e3f371a6b1f1745df26450f4"
-+SRCREV_machine_qemuppc ?= "d4c836c55fce6f1a7f299bba2104f457b201c63d"
- SRCREV_meta ?= "cd502a88148ab214b54860f97a96f41858fd6446"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
- 
--LINUX_VERSION ?= "3.10.9"
-+LINUX_VERSION ?= "3.10.10"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-index 2d85537..8b3dbe0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb
-@@ -5,11 +5,11 @@ KBRANCH = "${KBRANCH_DEFAULT}"
- LINUX_KERNEL_TYPE = "tiny"
- KCONFIG_MODE = "--allnoconfig"
- 
--LINUX_VERSION ?= "3.10.9"
-+LINUX_VERSION ?= "3.10.10"
- 
- KMETA = "meta"
- 
--SRCREV_machine ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
-+SRCREV_machine ?= "ebc8428fdd938cfdfcdcadd77c3308ece6a57de1"
- SRCREV_meta ?= "cd502a88148ab214b54860f97a96f41858fd6446"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.10.bb b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-index b6d9eae..1d29f6b 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.10.bb
-@@ -3,18 +3,18 @@ require recipes-kernel/linux/linux-yocto.inc
- KBRANCH_DEFAULT = "standard/base"
- KBRANCH = "${KBRANCH_DEFAULT}"
- 
--SRCREV_machine_qemuarm ?= "d8c48090a1272c69e009c4ef5fa675fc8db178cc"
--SRCREV_machine_qemumips  ?= "181188440e96896fbc69fa2c5ea5d2ee43304da0"
--SRCREV_machine_qemuppc ?= "c0a23bc4b4d6be3d2f09a81dfeb3456f51b8d439"
--SRCREV_machine_qemux86 ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
--SRCREV_machine_qemux86-64 ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
--SRCREV_machine_qemumips64 ?= "3a0d015e9908b69666c7f7780502aed4d115de1d"
--SRCREV_machine ?= "b76f4452b72080a538406abc9b290a5d811d61f8"
-+SRCREV_machine_qemuarm ?= "6a38a13d2aa6058d7e7d88c3dc44b0bdfc4fe551"
-+SRCREV_machine_qemumips  ?= "ad273773bee951fc63ab54f9fda672263bf919b4"
-+SRCREV_machine_qemuppc ?= "677afd6cdbfb5c23a9e5479acafb7ba484789837"
-+SRCREV_machine_qemux86 ?= "ebc8428fdd938cfdfcdcadd77c3308ece6a57de1"
-+SRCREV_machine_qemux86-64 ?= "ebc8428fdd938cfdfcdcadd77c3308ece6a57de1"
-+SRCREV_machine_qemumips64 ?= "6fdcd396b40373a63f57aeaf4fd59b4b4da05f8a"
-+SRCREV_machine ?= "ebc8428fdd938cfdfcdcadd77c3308ece6a57de1"
- SRCREV_meta ?= "cd502a88148ab214b54860f97a96f41858fd6446"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.10.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
--LINUX_VERSION ?= "3.10.9"
-+LINUX_VERSION ?= "3.10.10"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+Yes/No?
+
+Thanks for the review,
+
+Darren
+
+> >  DEPENDS = "virtual/xserver xproto randrproto util-macros"
+> >
+> > @@ -39,3 +39,18 @@ def add_abi_depends(d, name):
+> >
+> >      pn = d.getVar("PN", True)
+> >      d.appendVar('RDEPENDS_' + pn, ' ' + abi)
+> > +
+> > +# AC_CHECK_FILE doesn't work when cross compiling, so we create a replacement
+> > +# macro that simply assumes the test succeeds. This is required for at least
+> > +# the -intel and -mga drivers.
+> > +do_configure_prepend () {
+> > +       echo 'AC_DEFUN(CC_AC_CHECK_FILE, $2)' > ${S}/configure.ac.new
+> > +       sed 's/AC_CHECK_FILE/CC_AC_CHECK_FILE/g' ${S}/configure.ac >> ${S}/configure.ac.new
+> > +       mv ${S}/configure.ac.new ${S}/configure.ac
+> > +}
+> > +
+> > +# FIXME: We don't want to include the libtool archives (*.la) from modules
+> > +# directory, as they serve no useful purpose. Upstream should fix Makefile.am
+> > +do_install_append() {
+> > +       find ${D}${libdir}/xorg/modules -regex ".*\.la$" | xargs rm -f --
+> > +}
+> 
+> Agreed.
+> 
+
 -- 
-1.7.10.4
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
 
 
