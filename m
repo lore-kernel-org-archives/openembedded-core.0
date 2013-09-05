@@ -1,38 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 563926BB80
+Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
+	[209.85.212.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AB5D861788
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 09:58:04 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id ib11so954410vcb.14
+	Thu,  5 Sep 2013 10:20:56 +0000 (UTC)
+Received: by mail-vb0-f42.google.com with SMTP id e12so1009406vbg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Sep 2013 02:58:06 -0700 (PDT)
+	Thu, 05 Sep 2013 03:20:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=e3wnXq+SwrIqOjp6gffkuk+IAUrT2y84U2yM5EGH0Vg=;
-	b=ktEOdWLyR/8YrsjpUESq5hh/sDgXEJMilsVqR+dOhWbh8sUi6MBuQ6/0aiPr+NGhjM
-	VhA6iZYwk3T1Irlg9uRLY4/6mOONN4OirjEFfWATXsAQKG5t5pUcjbUAGfu+OjeN2jQU
-	SSAaPLKdajO0H5loKX+wYl8oADWKDDRwpH6+wzhuRJhJe9y1O0nt9VtOMrLFCQiE/2pp
-	crboR9O4WWsga3hrdAqqFlvws20fHETXKYPpnNYgH5V0V/eSeLyLKdX7MM7xglSjbgqA
-	nA3QBMOPNUh4im9WuKmCB5bydJK59T+TU5U7a1W5I1m97uJuNctpN5OY4IzFz1SX0ymB
-	Po6w==
-X-Gm-Message-State: ALoCoQmjd6fELLWJ/KeMkefRoGjMXnA5cRvX/o2heLDGc39FAMroyDTfauoyMeMXoV/rdOk09FyH
-X-Received: by 10.220.43.19 with SMTP id u19mr4892094vce.3.1378375086102; Thu,
-	05 Sep 2013 02:58:06 -0700 (PDT)
+	bh=/asUmje5+AmZJzjdaDecP2cUOHy+P7FdebHewwAFY8E=;
+	b=bd21SpInICgr9Err4qlwn8MtzOND7ZOR+OIgcqyFS6avH1wZGxKntdRcxpO0Jnjr7F
+	cxR2/SF1vXLAJ04DBRHPrx8I1lXXr7NhERpLPzHrcL+kJz9Sge9rMJ7MrcPY3BsfgZbf
+	uoXenrrh0ERpfneLWrPcdHG3OUciFv9vj5PtXx2zDUGYqSCsrrVlDUta0L2F7gHPrLvL
+	smjoNGiCNnN9rZk8CfJYInMPE31PDQCgA7DLt0X1mP3ou3j117r6V8f3W5Xp/StMdcWp
+	0xDXOofWSG2TdtXmjvE5ohZttTT2MgGvAEI3ctuO4KaKhpZOcnqYjBOC3YwQ6mTD0DEM
+	UUzg==
+X-Gm-Message-State: ALoCoQmrSLRZsbHr1hE9G1M6qBsHX3gF7vd6ulFpqAnYdkz3dsXujFmge6om/mg9PTv/18ZIOTg/
+X-Received: by 10.220.11.7 with SMTP id r7mr5224362vcr.12.1378376458357; Thu,
+	05 Sep 2013 03:20:58 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 02:57:46 -0700 (PDT)
-In-Reply-To: <4562a00806c5a6573b5aa650764ad12bc93edda7.1378339881.git.dvhart@linux.intel.com>
-References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<4562a00806c5a6573b5aa650764ad12bc93edda7.1378339881.git.dvhart@linux.intel.com>
+Received: by 10.220.71.201 with HTTP; Thu, 5 Sep 2013 03:20:38 -0700 (PDT)
+In-Reply-To: <20130905071133.GG11500@jama>
+References: <1378311722-17752-1-git-send-email-ross.burton@intel.com>
+	<1378332114.1059.260.camel@ted>
+	<CADkTA4NbnmnQZXB2YLv5psJwA=gDAh9Bi4sGOr2dp30sTR0bJg@mail.gmail.com>
+	<20130905071133.GG11500@jama>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 5 Sep 2013 10:57:46 +0100
-Message-ID: <CAJTo0LY-oi+tQy7rs84axy4R71Y4j=HtEgXALN20aVdATwzVdg@mail.gmail.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Cc: Poky <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] xf86-video-mga: Pull in Matrox MGA support from meta-intel
+Date: Thu, 5 Sep 2013 11:20:38 +0100
+Message-ID: <CAJTo0LZ0vG0w24Wkr2KiwWoEF9bFwyJeBpg4xnfLpYe9ELd+mQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: add recommend of kernel-modules for all qemu machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,27 +47,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 09:58:05 -0000
+X-List-Received-Date: Thu, 05 Sep 2013 10:20:57 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 5 September 2013 01:18, Darren Hart <dvhart@linux.intel.com> wrote:
-> In support of the more generic x86 BSPs, pull in the Matrox driver
-> recipe from meta-intel.
+On 5 September 2013 08:11, Martin Jansa <martin.jansa@gmail.com> wrote:
+> I don't think this is right way to do it.
+>
+> It's good to have as many optional modules available in feed (so to
+> enable many modules in configs - you never know what obscure device
+> someone will try to test with qemu and one more module and package in
+> feed has smaller overhead then need to change configs) and install
+> only important modules by default in every image.
 
-What machine is this for in particular?  In discussion with Nitin
-about MGA a few weeks back the conclusion was that the vesa driver
-should be sufficient.  As far as I'm aware the reference platforms
-don't ship with MGA hardware so it's up to the owner of the platform
-to install whatever they have to hand (mga, nvidia, ATI, etc), or am I
-wrong about that?
+But isn't the range of devices supported on a particular qemu machine
+incredibly limited?
 
-> Remove the checkfile patch from Ross as this is now handled adequately
-> with the configure prepend hack which assumes success for any checkfile
-> calls.
-
-Assuming success in an distro where opengl isn't enabled will result
-in the driver believing that DRI is enabled when it isn't, so expect
-to see build failures from this.
+I've also decided that maybe systemd isn't being quite as clever as it
+should and maybe fixing it there is the real fix.
 
 Ross
 
