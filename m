@@ -1,24 +1,37 @@
-Return-Path: <misn@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id ED4F36BE5E
+Return-Path: <kergoth@gmail.com>
+Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
+	[209.85.215.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 04C8B6BE7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2013 13:38:13 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1; Fri, 6 Sep 2013
-	15:38:12 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4351)	id 4D71628CD0B;
-	Fri,  6 Sep 2013 15:38:12 +0200 (CEST)
-From: Mihaela Sendrea <mihaela.sendrea@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 6 Sep 2013 15:38:10 +0200
-Message-ID: <1378474690-39713-3-git-send-email-mihaela.sendrea@enea.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1378474690-39713-1-git-send-email-mihaela.sendrea@enea.com>
-References: <1378474690-39713-1-git-send-email-mihaela.sendrea@enea.com>
+	Fri,  6 Sep 2013 14:15:14 +0000 (UTC)
+Received: by mail-la0-f41.google.com with SMTP id ec20so2805918lab.14
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Sep 2013 07:15:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=HZWvXz1Fxv54USsruxsCNu3ZDxB4nQF9XAb4lu5hlBc=;
+	b=K7PQLblCFNB+RQEPqpHL5jBHVFCFn44mYI4SI+XA33ExmCRCRy4+2mMP2a8QGTTWXk
+	6TZDOuSn3Kj4r28VQpPMCeG6SjjrWMNvjetyovLOtZj8evHT157WJ+OY5x7PQsY3PRxl
+	hhpHY9K3zaAPwpqD5dvwnJAm92m7tchdqkU/wNhGzqUrVphi57UY23xRv+tPjNR25hLw
+	CNLYkndoXr8n4UeslSOCciHVdsp9nn1WRHqyVnciuL8EsrcVVBMuNWTr34vwdCbwAEqJ
+	XFC35MYwxxI61PhZJYIQrYt+ZTLoOq3uzPVyTbkiby4Ebs7gfR5Bx4uY4OGa7+4ZnQ4l
+	diyQ==
+X-Received: by 10.152.22.35 with SMTP id a3mr872465laf.45.1378476916217; Fri,
+	06 Sep 2013 07:15:16 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: mihaela.sendrea@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH 3/3] gcc-runtime: Add ptest
+Sender: kergoth@gmail.com
+Received: by 10.112.53.197 with HTTP; Fri, 6 Sep 2013 07:14:56 -0700 (PDT)
+In-Reply-To: <1378456523-16123-1-git-send-email-raj.khem@gmail.com>
+References: <1378456523-16123-1-git-send-email-raj.khem@gmail.com>
+From: Chris Larson <clarson@kergoth.com>
+Date: Fri, 6 Sep 2013 07:14:56 -0700
+X-Google-Sender-Auth: nkwJ4Jhk5JPDvf5TlRhXU9n5-QM
+Message-ID: <CABcZANnwvbvCxahybCFQBO=QsR5P6cV+DT36N0qwe1Dvy4H0QQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package.bbclass: skip already-stripped QA test if asked for
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,276 +44,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2013 13:38:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Sep 2013 14:15:15 -0000
+Content-Type: multipart/alternative; boundary=089e0158b878ec1b8f04e5b7aad9
 
-libstdc++-v3 tests need g++ installed on the target, otherwise the
-majority of the tests will fail.
-The v3-build_support (initial support for objects needed for the test
-suite) is built separately at build time, to be able to still run and
-see the testcases and their output: PASS/FAIL/SKIP.
+--089e0158b878ec1b8f04e5b7aad9
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
----
- meta/recipes-devtools/gcc/gcc-4.8.inc              |    2 +
- .../gcc-4.8/add-install-ptest-to-Makefile.patch    |  162 ++++++++++++++++++++
- meta/recipes-devtools/gcc/gcc-4.8/run-ptest        |    3 +
- meta/recipes-devtools/gcc/gcc-common.inc           |    2 +-
- meta/recipes-devtools/gcc/gcc-runtime.inc          |   21 ++-
- 5 files changed, 188 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/add-install-ptest-to-Makefile.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-4.8/run-ptest
+On Fri, Sep 6, 2013 at 1:35 AM, Khem Raj <raj.khem@gmail.com> wrote:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 0fbbc1d..9632e6f 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -75,6 +75,8 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
- 	   file://0043-cpp.patch \
- 	   file://0044-gengtypes.patch \
- 	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
-+	   file://add-install-ptest-to-Makefile.patch \
-+	   file://run-ptest \
- 	  "
- SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
- SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/add-install-ptest-to-Makefile.patch b/meta/recipes-devtools/gcc/gcc-4.8/add-install-ptest-to-Makefile.patch
-new file mode 100644
-index 0000000..3dedde5
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/add-install-ptest-to-Makefile.patch
-@@ -0,0 +1,162 @@
-+Add 'install-ptest' rule.
-+
-+Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
-+Upstream-status: Pending
-+---
-+diff -uNr a/libstdc++-v3/Makefile.in b/libstdc++-v3/Makefile.in
-+--- a/libstdc++-v3/Makefile.in	2013-07-01 13:01:43.659958328 +0200
-++++ b/libstdc++-v3/Makefile.in	2013-08-23 13:22:41.962029555 +0200
-+@@ -710,6 +710,26 @@
-+ dvi:
-+ install-dvi:
-+ 
-++spath=$(subst /,\/,$(SOURCE_DIR))
-++bpath=$(subst /,\/,$(BUILD_DIR))
-++rpath=$(subst /,\/,$(REPLACE_DIR))
-++install-ptest:
-++	mkdir -p $(DEST_DIR)/gcc/testsuite
-++	mkdir -p $(DEST_DIR)/libstdc++-v3
-++	mkdir -p $(DEST_DIR)/contrib
-++	cp -r $(SOURCE_DIR)/libstdc++-v3/testsuite $(DEST_DIR)/libstdc++-v3
-++	cp    $(SOURCE_DIR)/contrib/dg-extract-results.sh $(DEST_DIR)/contrib
-++	cp    $(SOURCE_DIR)/gcc/BASE-VER $(DEST_DIR)/gcc
-++	cp -r $(SOURCE_DIR)/gcc/testsuite/lib $(DEST_DIR)/gcc/testsuite
-++	cp -r $(SOURCE_DIR)/libstdc++-v3/scripts $(DEST_DIR)/libstdc++-v3
-++	cp $(BUILD_DIR)/libstdc++-v3/scripts/* $(DEST_DIR)/libstdc++-v3/scripts
-++	cp $(BUILD_DIR)/libstdc++-v3/testsuite/Makefile	$(DEST_DIR)/libstdc++-v3/testsuite
-++	cp $(BUILD_DIR)/libstdc++-v3/Makefile $(DEST_DIR)/libstdc++-v3
-++	sed -i -e 's|^Makefile:|_Makefile:|' $(DEST_DIR)/libstdc++-v3/testsuite/Makefile
-++	sed -i -e "s/$(spath)/$(rpath)/g" -e "s/$(bpath)/$(rpath)/g" $(DEST_DIR)/libstdc++-v3/testsuite/Makefile
-++	sed -i -e "s/$(spath)/$(rpath)/g" -e "s/$(bpath)/$(rpath)/g" $(DEST_DIR)/libstdc++-v3/Makefile
-++	sed -i -e 's/RUNTESTDEFAULTFLAGS.=/RUNTESTDEFAULTFLAGS =-a/g' ${DEST_DIR}/libstdc++-v3/testsuite/Makefile
-++
-+ # All the machinations with string instantiations messes up the
-+ # automake-generated TAGS rule. Make a simple one here.
-+ TAGS: tags-recursive $(LISP)
-+diff -uNr a/libstdc++-v3/testsuite/Makefile.in b/libstdc++-v3/testsuite/Makefile.in
-+--- a/libstdc++-v3/testsuite/Makefile.in	2013-07-05 16:06:08.995480821 +0200
-++++ b/libstdc++-v3/testsuite/Makefile.in	2013-08-26 08:50:04.698546942 +0200
-+@@ -478,6 +478,8 @@
-+ 	maintainer-clean-generic mostlyclean mostlyclean-generic \
-+ 	mostlyclean-libtool pdf pdf-am ps ps-am uninstall uninstall-am
-+ 
-++buildtest-TESTS:
-++	-@runtest $(AM_RUNTESTFLAGS) --tool libstdc++ $(RUNTESTFLAGS) buildtest.exp
-+ 
-+ # This rule generates all of the testsuite_files* lists at once.
-+ ${lists_of_files}:
-+@@ -545,7 +547,7 @@
-+ 
-+ # Run the testsuite in normal mode.
-+ check-DEJAGNU $(check_DEJAGNU_normal_targets): check-DEJAGNU%: site.exp
-+-	AR="$(AR)"; export AR; \
-++	-@(AR="$(AR)"; export AR; \
-+ 	RANLIB="$(RANLIB)"; export RANLIB; \
-+ 	if [ -z "$*$(filter-out --target_board=%, $(RUNTESTFLAGS))" ] \
-+ 	    && [ "$(filter -j, $(MFLAGS))" = "-j" ]; then \
-+@@ -563,6 +565,7 @@
-+ 	  exit 0; \
-+ 	fi; \
-+ 	srcdir=`$(am__cd) $(srcdir) && pwd`; export srcdir; \
-++	$(SHELL) command -v g++ >/dev/null 2>&1 || echo "g++ is not installed on your system! Please note that most of the tests need g++."; \
-+ 	EXPECT=$(EXPECT); export EXPECT; \
-+ 	runtest=$(RUNTEST); \
-+ 	if [ -z "$$runtest" ]; then runtest=runtest; fi; \
-+@@ -606,7 +609,7 @@
-+ 		    $(RUNTESTFLAGS); \
-+ 	  fi; \
-+ 	else echo "WARNING: could not find \`runtest'" 1>&2; :;\
-+-	fi
-++	fi)
-+ 
-+ check-am:
-+ 	$(MAKE) $(AM_MAKEFLAGS) check-DEJAGNU
-+diff -uNr a/libstdc++-v3/testsuite/buildtest.exp b/libstdc++-v3/testsuite/buildtest.exp
-+--- a/libstdc++-v3/testsuite/buildtest.exp	1970-01-01 01:00:00.000000000 +0100
-++++ b/libstdc++-v3/testsuite/buildtest.exp	2013-08-14 09:25:57.773587133 +0200
-+@@ -0,0 +1,33 @@
-++# Copyright (C) 2013 Free Software Foundation, Inc.
-++#
-++# This program is free software; you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation; either version 3 of the License, or
-++# (at your option) any later version.
-++# 
-++# This program is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++# 
-++# You should have received a copy of the GNU General Public License
-++# along with this program; see the file COPYING3.  If not see
-++# <http://www.gnu.org/licenses/>.
-++
-++# If there is no baseline file, or we can't find the library, skip
-++# this test. Or, hey, if we don't support this kind of symbol
-++# versioning test: don't run it.
-++
-++
-++set baseline_subdir "[eval exec $cxx $baseline_subdir_switch]"
-++
-++# Build the support objects.
-++v3-build_support
-++
-++# Build the abi_check program.
-++if { [v3_target_compile "$srcdir/util/testsuite_abi_check.cc" "abi_check" \
-++      "executable" [list "additional_flags=-w"]] != "" } {
-++    error "could not compile testsuite_abi_check.cc"
-++}
-++
-++
-+diff -uNr a/libstdc++-v3/testsuite/libstdc++-abi/abi.exp b/libstdc++-v3/testsuite/libstdc++-abi/abi.exp
-+--- a/libstdc++-v3/testsuite/libstdc++-abi/abi.exp	2013-08-09 10:02:56.769743266 +0200
-++++ b/libstdc++-v3/testsuite/libstdc++-abi/abi.exp	2013-08-14 09:27:15.722299887 +0200
-+@@ -24,11 +24,6 @@
-+     set lib $blddir/src/.libs/libstdc++.so
-+ }
-+ 
-+-set baseline_subdir "[eval exec $cxx $baseline_subdir_switch]"
-+-
-+-# Build the support objects.
-+-v3-build_support
-+-
-+ if { (${v3-symver} == 0) || ![info exists baseline_dir] \
-+ 	 || ![file exists $baseline_dir] \
-+ 	 || ![file exists $lib] } {
-+@@ -50,12 +45,6 @@
-+ remote_exec "build" "$objdir/../scripts/extract_symvers" \
-+     [list $lib "current_symbols.txt"]
-+ 
-+-# Build the abi_check program.
-+-if { [v3_target_compile "$srcdir/util/testsuite_abi_check.cc" "abi_check" \
-+-      "executable" [list "additional_flags=-w"]] != "" } {
-+-    error "could not compile testsuite_abi_check.cc"
-+-}
-+-
-+ remote_download "target" $baseline_file "baseline_symbols.txt"
-+ remote_download "target" "current_symbols.txt" "current_symbols.txt"
-+ set result [${tool}_load "./abi_check" \
-+diff -uNr a/libstdc++-v3/testsuite/libstdc++-dg/conformance.exp b/libstdc++-v3/testsuite/libstdc++-dg/conformance.exp
-+--- a/libstdc++-v3/testsuite/libstdc++-dg/conformance.exp	2013-08-09 13:06:20.795174486 +0200
-++++ b/libstdc++-v3/testsuite/libstdc++-dg/conformance.exp	2013-08-23 13:25:31.290856664 +0200
-+@@ -21,9 +21,6 @@
-+ # Initialization.
-+ dg-init
-+ 
-+-# Build the support objects.
-+-v3-build_support
-+-
-+ set tests [list]
-+ 
-+ # If there is a "testsuite_files" file, use it.
-+diff -uNr a/libstdc++-v3/testsuite/libstdc++-prettyprinters/prettyprinters.exp b/libstdc++-v3/testsuite/libstdc++-prettyprinters/prettyprinters.exp
-+--- a/libstdc++-v3/testsuite/libstdc++-prettyprinters/prettyprinters.exp	2013-08-09 13:08:17.946244225 +0200
-++++ b/libstdc++-v3/testsuite/libstdc++-prettyprinters/prettyprinters.exp	2013-08-09 13:31:19.812003255 +0200
-+@@ -17,7 +17,6 @@
-+ load_lib gdb-test.exp
-+ 
-+ dg-init
-+-v3-build_support
-+ 
-+ global GDB
-+ if ![info exists ::env(GUALITY_GDB_NAME)] {
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8/run-ptest b/meta/recipes-devtools/gcc/gcc-4.8/run-ptest
-new file mode 100644
-index 0000000..36eccc3
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-4.8/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+make -C libstdc++-v3/testsuite -i check | sed -e 's/ERROR/FAIL/' -e 's/XFAIL/PASS/' -e 's/XPASS/FAIL/' -e 's/UNRESOLVED/SKIP/' -e 's/UNTESTED/SKIP/' -e 's/UNSUPPORTED/SKIP/'
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index d20be9f..b1d87fb 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -5,7 +5,7 @@ LICENSE = "GPL"
- 
- NATIVEDEPS = ""
- 
--inherit autotools gettext
-+inherit autotools gettext ptest
- 
- def get_gcc_fpu_setting(bb, d):
-     if d.getVar('ARMPKGSFX_EABI', True) == "hf" and d.getVar('TRANSLATED_TARGET_ARCH', True) == "arm":
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index b882889..69a7897 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -9,7 +9,8 @@ EXTRA_OECONF_PATHS = " \
- 
- ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR}"
- 
--EXTRA_OECONF += "--disable-libunwind-exceptions"
-+EXTRA_OECONF += "--disable-libunwind-exceptions \
-+                 ${@base_contains('DISTRO_FEATURES', 'ptest', 1, 0, d)}"
- EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
- 
- RUNTIMETARGET = "libssp libstdc++-v3 libgomp"
-@@ -57,6 +58,23 @@ do_install () {
- 	chown -R root:root ${D}
- }
- 
-+RDEPENDS_${PN}-ptest = "dejagnu make"
-+
-+do_configure_ptest() {
-+    if [ "${PN}" = "${BPN}" ]; then
-+        mkdir -p ${D}${PTEST_PATH}
-+        cp ${S}/../run-ptest ${WORKDIR}
-+    fi
-+}
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/${TARGET_SYS}/libstdc++-v3/testsuite buildtest-TESTS
-+}
-+
-+do_install_ptest() {
-+    oe_runmake -C ${B}/${TARGET_SYS}/libstdc++-v3 install-ptest DEST_DIR=${D}${PTEST_PATH} SOURCE_DIR=${S} BUILD_DIR=${B}/${TARGET_SYS} REPLACE_DIR=${PTEST_PATH}
-+}
-+
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = "virtual/${TARGET_PREFIX}gcc virtual/${TARGET_PREFIX}g++ libgcc"
- PROVIDES = "virtual/${TARGET_PREFIX}compilerlibs"
-@@ -81,6 +99,7 @@ PACKAGES = "\
-   libgomp \
-   libgomp-dev \
-   libgomp-staticdev \
-+  ${@base_contains('DISTRO_FEATURES', 'ptest', '${PN}-ptest', '', d)} \
- "
- # The base package doesn't exist, so we clear the recommends.
- RRECOMMENDS_${PN}-dbg = ""
+> Some packages like grub have already stripped binaries e.g.
+>
+> ERROR: QA Issue: File '/boot/grub/kernel.img' from grub was already
+> stripped, this will prevent future debugging!
+> ERROR: QA run found fatal errors. Please consider fixing them.
+>
+> We would like to have a possibility to skip it using something like
+>
+> INSANE_SKIP_${PN} = "already-stripped"
+>
+> This adds the logic to do so
+>
+> it acts at PN level and not at package level. so something like
+>
+> INSANE_SKIP_${PN}-misc = "already-stripped" wont work.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/classes/package.bbclass | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 50490bc..96e649a 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -811,8 +811,11 @@ python split_and_strip_files () {
+>                      elf_file = isELF(file)
+>                      if elf_file & 1:
+>                          if elf_file & 2:
+> -                            msg = "File '%s' from %s was already
+> stripped, this will prevent future debugging!" % (file[len(dvar):], pn)
+> -                            package_qa_handle_error("already-stripped",
+> msg, d)
+> +                            if 'already-stripped' in
+> (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
+> +                                bb.note("Package %s skipping
+> already-stripped QA test" % (pn))
+>
+
+This seems like it must be inside a loop over each file, yet the message
+here is about the package, not the file, so I expect the task log may show
+a ton of duplicate messages, eh? :)
 -- 
-1.7.10.4
+Christopher Larson
 
+--089e0158b878ec1b8f04e5b7aad9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Sep 6, 2013 at 1:35 AM, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</spa=
+n> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div id=3D":1eu" style=3D"overflow:hidden">S=
+ome packages like grub have already stripped binaries e.g.<br>
+<br>
+ERROR: QA Issue: File &#39;/boot/grub/kernel.img&#39; from grub was already=
+<br>
+stripped, this will prevent future debugging!<br>
+ERROR: QA run found fatal errors. Please consider fixing them.<br>
+<br>
+We would like to have a possibility to skip it using something like<br>
+<br>
+INSANE_SKIP_${PN} =3D &quot;already-stripped&quot;<br>
+<br>
+This adds the logic to do so<br>
+<br>
+it acts at PN level and not at package level. so something like<br>
+<br>
+INSANE_SKIP_${PN}-misc =3D &quot;already-stripped&quot; wont work.<br>
+<br>
+Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@=
+gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/package.<span class=3D"il">bbclass</span> | 7 +++++--<br=
+>
+=C2=A01 file changed, 5 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/classes/package.<span class=3D"il">bbclass</span> b/meta/=
+classes/package.<span class=3D"il">bbclass</span><br>
+index 50490bc..96e649a 100644<br>
+--- a/meta/classes/package.<span class=3D"il">bbclass</span><br>
++++ b/meta/classes/package.<span class=3D"il">bbclass</span><br>
+@@ -811,8 +811,11 @@ python split_and_strip_files () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0elf_file =3D isELF(file)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0if elf_file &amp; 1:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0if elf_file &amp; 2:<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0msg =3D &quot;File &#39;%s&#39; from %s was already=
+ stripped, this will prevent future debugging!&quot; % (file[len(dvar):], p=
+n)<br>
+- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0package_qa_handle_error(&quot;already-stripped&quot=
+;, msg, d)<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0if &#39;already-stripped&#39; in (d.getVar(&#39;INS=
+ANE_SKIP_&#39; + pn, True) or &quot;&quot;).split():<br>
++ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<span class=3D"il">bb</span>.note(&qu=
+ot;Package %s skipping already-stripped QA test&quot; % (pn))</div></blockq=
+uote></div><br>This seems like it must be inside a loop over each file, yet=
+ the message here is about the package, not the file, so I expect the task =
+log may show a ton of duplicate messages, eh? :)<br>
+
+-- <br>Christopher Larson</div></div>
+
+--089e0158b878ec1b8f04e5b7aad9--
