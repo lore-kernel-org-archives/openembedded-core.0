@@ -1,33 +1,53 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A488615F0
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 342286BB3A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2013 15:25:17 +0000 (UTC)
-Received: by mail-la0-f47.google.com with SMTP id eo20so2882247lab.20
+	Fri,  6 Sep 2013 16:12:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id E836C349617
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2013 08:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=J67a4WI5tDP9U8kumVGFnPYvnTAPaIQOo3ZiX/8uJaI=;
-	b=DtrdFpFmyRuTiqQEt7OoTJ1hpr2dGCFyfYyHnBJaomszsxgxLDtqxB0mvEajpUjVrT
-	rEIW/jgqKcrIlLofqOzZTWk+X1g3H5amx7ma885HR8UhjyBZgh0+oHAIzwkFqQgPYfeJ
-	uhPHyEeDwebbupaD0HuVlKLkkGvKuAr/GaVcz5SRuChEkI5z8xbEJsVh1ZApW4E6XjXK
-	7oY3mO0I8yPDfI9nCc4QK47+Aq/6jBbL81icjDsVqaBjlQdDao5iEBR593BVQFu5pU4N
-	9CrbYeE5GaJb+Q52Z2RHtsp1vk8o90PCAzXMPNRgBqOpgqo4UvASPWoUiwlNtCaIva1R
-	0H6g==
-X-Received: by 10.152.115.176 with SMTP id jp16mr2646857lab.17.1378481118701; 
-	Fri, 06 Sep 2013 08:25:18 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.53.197 with HTTP; Fri, 6 Sep 2013 08:24:57 -0700 (PDT)
-From: Chris Larson <clarson@kergoth.com>
-Date: Fri, 6 Sep 2013 08:24:57 -0700
-X-Google-Sender-Auth: MFmZpu6mVaE0TQPQLDsPIXd6tHY
-Message-ID: <CABcZANkbW5UhgrRsbWACJdJZDKm-Wu5J++ZwBQu_CiW5FzMBBQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Regarding ca-certificates & its usage
+	Fri,  6 Sep 2013 18:12:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+X-Amavis-Alert: BAD HEADER SECTION, Duplicate header field: "References"
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tWMCIg-Erq3Q
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Sep 2013 18:12:22 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 4489934960C
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Sep 2013 18:12:22 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 2EDB25DB
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Sep 2013 18:12:22 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 240EC1C0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Sep 2013 18:12:22 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 2302D3404E
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Sep 2013 18:12:22 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r86GCMcY012350
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 6 Sep 2013 18:12:22 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r86GCMhu012349
+	for openembedded-core@lists.openembedded.org;
+	Fri, 6 Sep 2013 18:12:22 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Sep 2013 18:12:18 +0200
+Message-Id: <398be88b2b4779bc227d9f716ebcc360958e02dd.1378483732.git.pkj@axis.com>
+X-Mailer: git-send-email 1.8.2.1
+In-Reply-To: <cover.1378483732.git.pkj@axis.com>
+References: <cover.1378483732.git.pkj@axis.com>
+In-Reply-To: <cover.1378483732.git.pkj@axis.com>
+References: <cover.1378483732.git.pkj@axis.com>
+Subject: [PATCH 2/2] bb-matrix: Make sure local.conf does not interfere
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,40 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2013 15:25:18 -0000
-Content-Type: multipart/alternative; boundary=001a11c3509668eecc04e5b8a542
+X-List-Received-Date: Fri, 06 Sep 2013 16:12:23 -0000
 
---001a11c3509668eecc04e5b8a542
-Content-Type: text/plain; charset=UTF-8
+If any of BB_NUMBER_THREADS, PARALLEL_MAKE or SSTATE_DIR happened to be
+set in local.conf then the bb-matrix script would not perform as
+intended.
 
-Greetings,
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ scripts/contrib/bb-perf/bb-matrix.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-I'm emailing as I think we should determine when and where ca-certificates
-gets pulled into images and sdks. Should we add it as a RRECOMMENDS to
-openssl and gnutls, or should it continue to be pulled in manually when and
-where appropriate? I'm not really familiar enough with openssl and gnutls
-use cases to say, so I'm hoping someone else has an opinion on this. Thanks,
+diff --git a/scripts/contrib/bb-perf/bb-matrix.sh b/scripts/contrib/bb-perf/bb-matrix.sh
+index 1064565..d5127e7 100755
+--- a/scripts/contrib/bb-perf/bb-matrix.sh
++++ b/scripts/contrib/bb-perf/bb-matrix.sh
+@@ -53,6 +53,10 @@ if [ $? -ne 0 ]; then
+ 	exit 1
+ fi
+ 
++# Make sure neither of BB_NUMBER_THREADS, PARALLEL_MAKE and SSTATE_DIR are set
++# in local.conf
++sed -ri 's/^([[:space:]]*(BB_NUMBER_THREADS|PARALLEL_MAKE|SSTATE_DIR)[[:space:]]*\??=.*)/#\1/' conf/local.conf
++
+ # Add a simple header
+ echo "BB PM $TIME_STR" > $RUNTIME_LOG
+ for BB in $BB_RANGE; do
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.8.2.1
 
---001a11c3509668eecc04e5b8a542
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Greetings,<div><br></div><div>I&#39;m emailing as I think =
-we should determine when and where ca-certificates gets pulled into images =
-and sdks. Should we add it as a RRECOMMENDS to openssl and gnutls, or shoul=
-d it continue to be pulled in manually when and where appropriate? I&#39;m =
-not really familiar enough with openssl and gnutls use cases to say, so I&#=
-39;m hoping someone else has an opinion on this. Thanks,<br>
-
--- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics
-</div></div>
-
---001a11c3509668eecc04e5b8a542--
