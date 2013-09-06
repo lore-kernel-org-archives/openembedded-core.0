@@ -1,26 +1,26 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 16C14616EA
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CED7B61867
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  6 Sep 2013 19:47:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r86JlXgF004848
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r86JlX3p003347
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
 	Fri, 6 Sep 2013 12:47:33 -0700 (PDT)
 Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 6 Sep 2013 12:47:32 -0700
+	14.2.347.0; Fri, 6 Sep 2013 12:47:33 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 6 Sep 2013 15:47:28 -0400
-Message-ID: <998009b65352ed645e0bb15678dd918c92c33399.1378496685.git.bruce.ashfield@windriver.com>
+Date: Fri, 6 Sep 2013 15:47:29 -0400
+Message-ID: <fc8a99ffc3974a5cb2b6d12a5a95d019f15c5f22.1378496685.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <cover.1378496685.git.bruce.ashfield@windriver.com>
 References: <cover.1378496685.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] kernel-yocto: improve error checking on non-git repos
+Subject: [PATCH 2/2] kern-tools: support no author patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +36,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 06 Sep 2013 19:47:34 -0000
 Content-Type: text/plain
 
-While non-git kernel repos are not the preferred format for a kernel upstream,
-they are supported. Depending on the creator of the archive the expanded
-source directory name varies. If the recipe for the kernel doesn't properly
-set S to the right value, a cryptic git error message is produced. We can
-detect the situation and offer some advice on how to fix the issue.
+Updating the kern-toosl SRCREV to pick up the following fix:
 
-A second check is also added in this commit for archive based kernel repos
-which won't have a SRCREV to validate. If we have no SRCREV or SRCREV is
-INVALID, we can exit the branch validation step immediately. This saves yet
-another cryptic git error message and simplifies a custom tgz based recipe.
+    previous versions of the kern-tools supported the ability to import a bare
+    patch, with no From: Subject: or other identifying fields that are typically
+    in a full commit.
+
+    The same type of commit with kgit-s2q will prompt for a author ID, just
+    as git-quilt-import does. In build system environment that leads to an
+    infinite loop and the commit is never pushed.
+
+    To fix this issue, we add an interactive flag (-i), that when passed the
+    prompt based behaviour is used. When it isn't passed (the default), the following
+    name and email will be used for the git author:
+
+       GIT_AUTHOR_NAME="invalid_git config"
+       GIT_AUTHOR_EMAIL="<unknown@unknown>"
+
+    And a bare/incomplete header patch will be applied.
+
+[YOCTO #5100]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- meta/classes/kernel-yocto.bbclass |   13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 26d449a..97a5fa7 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -176,7 +176,17 @@ do_kernel_checkout() {
- 		# case 3: we have no git repository at all. 
- 		# To support low bandwidth options for building the kernel, we'll just 
- 		# convert the tree to a git repo and let the rest of the process work unchanged
-+		
-+		# if ${S} hasn't been set to the proper subdirectory a default of "linux" is 
-+		# used, but we can't initialize that empty directory. So check it and throw a
-+		# clear error
-+
- 	        cd ${S}
-+		if [ ! -f "Makefile" ]; then
-+			echo "[ERROR]: S is not set to the linux source directory. Check "
-+			echo "         the recipe and set S to the proper extracted subdirectory"
-+			exit 1
-+		fi
- 		git init
- 		git add .
- 		git commit -q -m "baseline commit: creating repo for ${PN}-${PV}"
-@@ -288,7 +298,8 @@ do_validate_branches() {
- 	set +e
- 	# if SRCREV is AUTOREV it shows up as AUTOINC there's nothing to
- 	# check and we can exit early
--	if [ "${SRCREV_machine}" = "AUTOINC" ]; then
-+	if [ "${SRCREV_machine}" = "AUTOINC" ] || "${SRCREV_machine}" = "INVALID" ] ||
-+	   [ "${SRCREV_machine}" = "" ]; then
- 		return
- 	fi
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 2c82199..6cfb624 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=d8d1d729a70c
+ 
+ DEPENDS = "git-native"
+ 
+-SRCREV = "7fb05c54db4ce513fd961c5b71d85de5dafedb30"
++SRCREV = "9bbdd79086c164c82e4f982cbc3eb0b697ba651d"
+ PR = "r12"
+ PV = "0.2+git${SRCPV}"
  
 -- 
 1.7.10.4
