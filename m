@@ -1,36 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f46.google.com (mail-vb0-f46.google.com
-	[209.85.212.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC1F6BEA2
+Return-Path: <mihai.prica@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 634816BF8D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2013 14:46:53 +0000 (UTC)
-Received: by mail-vb0-f46.google.com with SMTP id p13so2200258vbe.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2013 07:46:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Owk9+1sBDP5yRhe8lTYqaGeuKKO8evrtUGTMUY15u7c=;
-	b=S6sAS9Wdve8iYBX/KiaLpg9gxkb861QXX2auX0yVdz/TEGsTZZ61boL3n6wJzDG0lX
-	+ScLa2IApVC4AQCt1/39kA+Q+lpL7zqlT+l58GTuCEZulKPkMcC+VaeSL+OQxbUfL6d2
-	JBfe3TENLUxwX5Olz/NJhJNebF8oBcyK1JR4WEQqBUHlEqnJvAALrv3yHK7/Brn5EHbf
-	Xi6AdtCGR0ohrwNPF6JrUZevAzZ8T4bxvUMnfuoqydmt/vKrkoubWo77GdTAPQO28IvL
-	nc7p4rQPnLQShuDtXe+SByuzXaRa6abz+qLeUbhF2iK3OvBAmFLXX9GLog56HCumhFNu
-	+YXw==
-X-Gm-Message-State: ALoCoQn6rSdJ23GWD1WbojXao1wDAie7Sqm8MAcFUz/rfEuahyBfw/ZYy0qO2FTHMZo5eq3ZjnDJ
-X-Received: by 10.58.218.225 with SMTP id pj1mr2097596vec.24.1378478814422;
-	Fri, 06 Sep 2013 07:46:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 6 Sep 2013 07:46:34 -0700 (PDT)
-In-Reply-To: <1378478579.3484.4.camel@ted>
-References: <1378478579.3484.4.camel@ted>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 6 Sep 2013 15:46:34 +0100
-Message-ID: <CAJTo0LZ_bA0ctzS3qrPdoOVhLSLZbVu9Nyk8WKNvaqe517RsCA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oeqa/qemurunner: Use a timeout in select() call
+	Fri,  6 Sep 2013 14:50:43 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2013 07:50:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,854,1371106800"; d="scan'208";a="397701799"
+Received: from unknown (HELO mihai-Vostro-460.rb.intel.com) ([10.237.105.155])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2013 07:50:21 -0700
+From: Mihai Prica <mihai.prica@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Sep 2013 17:49:00 +0300
+Message-Id: <c1363a436fa44130ea9e73cf05aaf2be40400008.1378477619.git.mihai.prica@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1378477619.git.mihai.prica@intel.com>
+References: <cover.1378477619.git.mihai.prica@intel.com>
+In-Reply-To: <cover.1378477619.git.mihai.prica@intel.com>
+References: <cover.1378477619.git.mihai.prica@intel.com>
+Subject: [PATCH 1/2] bluez5: Install the bluetooth library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,17 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2013 14:46:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 06 Sep 2013 14:50:44 -0000
 
-On 6 September 2013 15:42, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> -                sread, swrite, serror = select.select(socklist, [], [], 0)
-> +                sread, swrite, serror = select.select(socklist, [], [], 0.1)
+Bluez5 doesn't install libbluetooth by default. This is required
+by connman, ofono or other packages.
 
-As discussed on IM, for the purposes of this loop a timeout of seconds
-instead of fractions of seconds would be more correct, although we're
-obviously going to be having diminishing returns.
+Signed-off-by: Mihai Prica <mihai.prica@intel.com>
+---
+ meta/recipes-connectivity/bluez5/bluez5.inc |    1 +
+ 1 file changed, 1 insertion(+)
 
-Ross
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 2fae7fb..e2b7169 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -36,6 +36,7 @@ EXTRA_OECONF = "\
+   --enable-test \
+   --enable-datafiles \
+   ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--disable-systemd', d)} \
++  --enable-library \
+ "
+ 
+ do_install_append() {
+-- 
+1.7.9.5
+
 
