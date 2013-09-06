@@ -1,40 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f169.google.com (mail-ie0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4368E6186C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 18DD36C71D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2013 21:18:43 +0000 (UTC)
-Received: by mail-ie0-f169.google.com with SMTP id tp5so8029904ieb.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2013 14:18:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=iswtvVkpqIkYqtTyaiZ5eTGdP0FFDBdsdmwOoRpqtnE=;
-	b=axHfyrOPlVsyeGuKmW6szemvsToogzKYckudjJGnF02lrIktU18SxqqJn8NLuNcoSQ
-	DZUa/GVpBtilXtMQjBb6WS9Ea4yHf62UAIsdy7t5ONlFBLPsY29LMx2dmr8XHCMFuugw
-	0rxXkU7yrHwCmwrSEJPqva3oQuq40y1j/nAgLXUSHbNBgzCkuE4D1Wpb9393lsOqNczc
-	VBtS+TOLdG1TTbHlV5Ok8ee+ZLd9/ZnztCzpi/WJ8ADvvbUfj6sCT910memGgm3omvv/
-	Urg5bhlwmr63SPPMd0wk8/UdPZwMl5eVFUrltH9A994LPO+PoaorbeorN6BOqK5h10Pz
-	PH1A==
-X-Received: by 10.50.36.5 with SMTP id m5mr11557655igj.3.1378502325166; Fri,
-	06 Sep 2013 14:18:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.50.216.195 with HTTP; Fri, 6 Sep 2013 14:18:10 -0700 (PDT)
-In-Reply-To: <1378501748.3484.36.camel@ted>
-References: <1378415843.32427.84.camel@ted>
-	<165EE9CC-A70F-4416-8743-BE00BF7B8B93@gmail.com>
-	<1378460046.32427.96.camel@ted>
-	<50C050F1-3F84-419B-8053-D8DCA38FFFA7@gmail.com>
-	<1378487137.3484.18.camel@ted>
-	<A7AF04A1-07A7-4994-B4EB-48B09606345B@gmail.com>
-	<1378501748.3484.36.camel@ted>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 6 Sep 2013 14:18:10 -0700
-Message-ID: <CAMKF1soqyU_h5SpJqwDBq7XyT7uc=GLDW_FK50Mt-feMkEwiSg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC] gcc-runtime: Hacks for libgfortran with gcc-4.8
+	Fri,  6 Sep 2013 22:09:22 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r86MMae8007015; Fri, 6 Sep 2013 23:22:37 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7TaRPWMhCy4p; Fri,  6 Sep 2013 23:22:36 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r86MMWAP007011
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 6 Sep 2013 23:22:35 +0100
+Message-ID: <1378505349.3484.47.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Date: Fri, 06 Sep 2013 23:09:09 +0100
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF843C509B06@ALA-MBB.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF843C509B06@ALA-MBB.corp.ad.wrs.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: audit & oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,12 +38,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2013 21:18:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 06 Sep 2013 22:09:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 6, 2013 at 2:09 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I can't see how that will help solve this problem though?
+On Fri, 2013-09-06 at 20:01 +0000, Slater, Joseph wrote:
+> Hi,
+>  
+> Several packages in oe-core have PACKAGECONFIG[] info, or the
+> equivalent, concerning
+> explicitly disabling audit support.
+>  
+> Some people believe that PACKAGECONFIG[] data concerning features not
+> in oe-core
+>
+> should not be in oe-core.  I do think it should be there unless the
+> package requires special
+> patching to implement the feature support.
+>  
+> Is there an oe-core policy about this type of thing?
+> 
+I think it makes sense to be in OE-Core unless as you say it needs
+excessive patching or something to implement. The defaults should work
+with OE-Core though and not require other layers.
 
-might help n getting the libtool hackery right.
+Cheers,
+
+Richard
+
+
 
