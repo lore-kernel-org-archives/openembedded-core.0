@@ -1,34 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
-	[209.85.192.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A4856186C
+Received: from mail-ie0-f169.google.com (mail-ie0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4368E6186C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2013 21:16:37 +0000 (UTC)
-Received: by mail-pd0-f173.google.com with SMTP id p10so3752202pdj.32
+	Fri,  6 Sep 2013 21:18:43 +0000 (UTC)
+Received: by mail-ie0-f169.google.com with SMTP id tp5so8029904ieb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2013 14:16:39 -0700 (PDT)
+	Fri, 06 Sep 2013 14:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ppZhzfmpcqxmu/DVbjTp/OsoliTuJ6S0+Ulu+9x3/Vo=;
-	b=Pzwz7mE+KjgXg/lrEaejfebOYjqbF9pO5OVC+3AcfhtWXWNIYFiyuYoggAM7b2iU0c
-	uRy0yEta7PW3nOwsW+udfpm9SoIPn2BqY32bgwIoy0Eu3jguy/6I6LvE50aU7UQbTvpz
-	Hrb55/N70XFMwy9+mFd9g8bi7qJkuPxwZE1HaNTL+fqi7VcSLBxFM32ejGVz827QUIPa
-	LwjA+SWGz2UK3fUemqLz+T5KnIvbzmpjZ/6blZQWgZtvUCjz3gTIjU1cf7gWg0ecGgoo
-	UyCgkdbySVUcCr9GI4iD2GZtYKYiag8zgdvxhrLKjiF+51OMt7Vk1QfmkZ/pF53Dx+iy
-	ZG0Q==
-X-Received: by 10.66.149.73 with SMTP id ty9mr6107751pab.36.1378502199287;
-	Fri, 06 Sep 2013 14:16:39 -0700 (PDT)
-Received: from isis.gateway.2wire.net
-	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
-	by mx.google.com with ESMTPSA id qa9sm5931489pbc.7.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 06 Sep 2013 14:16:38 -0700 (PDT)
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=iswtvVkpqIkYqtTyaiZ5eTGdP0FFDBdsdmwOoRpqtnE=;
+	b=axHfyrOPlVsyeGuKmW6szemvsToogzKYckudjJGnF02lrIktU18SxqqJn8NLuNcoSQ
+	DZUa/GVpBtilXtMQjBb6WS9Ea4yHf62UAIsdy7t5ONlFBLPsY29LMx2dmr8XHCMFuugw
+	0rxXkU7yrHwCmwrSEJPqva3oQuq40y1j/nAgLXUSHbNBgzCkuE4D1Wpb9393lsOqNczc
+	VBtS+TOLdG1TTbHlV5Ok8ee+ZLd9/ZnztCzpi/WJ8ADvvbUfj6sCT910memGgm3omvv/
+	Urg5bhlwmr63SPPMd0wk8/UdPZwMl5eVFUrltH9A994LPO+PoaorbeorN6BOqK5h10Pz
+	PH1A==
+X-Received: by 10.50.36.5 with SMTP id m5mr11557655igj.3.1378502325166; Fri,
+	06 Sep 2013 14:18:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.50.216.195 with HTTP; Fri, 6 Sep 2013 14:18:10 -0700 (PDT)
+In-Reply-To: <1378501748.3484.36.camel@ted>
+References: <1378415843.32427.84.camel@ted>
+	<165EE9CC-A70F-4416-8743-BE00BF7B8B93@gmail.com>
+	<1378460046.32427.96.camel@ted>
+	<50C050F1-3F84-419B-8053-D8DCA38FFFA7@gmail.com>
+	<1378487137.3484.18.camel@ted>
+	<A7AF04A1-07A7-4994-B4EB-48B09606345B@gmail.com>
+	<1378501748.3484.36.camel@ted>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Sep 2013 14:15:18 -0700
-Message-Id: <1378502118-18126-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 1.8.4
-Subject: [PATCH V2] package.bbclass: skip already-stripped QA test if asked for
+Date: Fri, 6 Sep 2013 14:18:10 -0700
+Message-ID: <CAMKF1soqyU_h5SpJqwDBq7XyT7uc=GLDW_FK50Mt-feMkEwiSg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RFC] gcc-runtime: Hacks for libgfortran with gcc-4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,48 +47,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2013 21:16:38 -0000
+X-List-Received-Date: Fri, 06 Sep 2013 21:18:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Some packages like grub have already stripped binaries e.g.
+On Fri, Sep 6, 2013 at 2:09 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I can't see how that will help solve this problem though?
 
-ERROR: QA Issue: File '/boot/grub/kernel.img' from grub was already
-stripped, this will prevent future debugging!
-ERROR: QA run found fatal errors. Please consider fixing them.
-
-We would like to have a possibility to skip it using something like
-
-INSANE_SKIP_${PN} = "already-stripped"
-
-This adds the logic to do so
-
-it acts at PN level and not at package level. so something like
-
-INSANE_SKIP_${PN}-misc = "already-stripped" wont work.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/package.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 50490bc..599df24 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -811,8 +811,11 @@ python split_and_strip_files () {
-                     elf_file = isELF(file)
-                     if elf_file & 1:
-                         if elf_file & 2:
--                            msg = "File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn)
--                            package_qa_handle_error("already-stripped", msg, d)
-+                            if 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn, True) or "").split():
-+                                bb.note("Skipping file %s from %s for already-stripped QA test" % (file[len(dvar):], pn))
-+                            else:
-+                                msg = "File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn)
-+                                package_qa_handle_error("already-stripped", msg, d)
-                             continue
-                         # Check if it's a hard link to something else
-                         if s.st_nlink > 1:
--- 
-1.8.4
-
+might help n getting the libtool hackery right.
 
