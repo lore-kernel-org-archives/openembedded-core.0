@@ -1,40 +1,25 @@
-Return-Path: <jc@vtkloud.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 25F6661867
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 6867F60EF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2013 20:31:53 +0000 (UTC)
-Received: by mail-pa0-f51.google.com with SMTP id lf1so3820609pab.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Sep 2013 13:31:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:reply-to:sender:date:message-id
-	:subject:from:to:content-type;
-	bh=CQNq/56kfmZM8ZmmnUf18j75zQnPJin2NPaI+MBGD4E=;
-	b=GW/hRTkqnnQIf3K39bpcyVStIx6ps/+8p9Y9WkpYhzXP9hDdfmEp2u8dgN/cVtQVg4
-	2bijSWC/XEYI9A/tdPmVtTPiZsQ32ZcAYUXYpyb6gh0a1Cux65X2p6uS1gRL8qnaXFRI
-	B+NOoqbuk5v44vWre9M8mkb3/b64sVlTeJNbK6/yMICiYeqXjeTIg43Dh+AR21bHb51i
-	b5hJHp7CxiC2zBcedtrzZXnu3ZefZFEt1yiuY6uv+tonpVnI+3vs5rUHpbDMG+10iuYU
-	05LxvYDNQBMQduuslDX/fMcsdizOpWSE1IaPJBCY0SnEAkTup0kzjV86Eikzbq4UmGvM
-	n6iw==
-X-Gm-Message-State: ALoCoQkXFoeZ62xPGi/CohATPJJ/YXGbL5Z22BQWcvFdG6nbv1DY/sZY57NoJqwvzfp7WqkfEjlO
+	Fri,  6 Sep 2013 21:05:54 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1; Fri, 6 Sep 2013
+	23:05:51 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id BBB5F28CD09;
+	Fri,  6 Sep 2013 23:05:51 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 6 Sep 2013 23:05:50 +0200
+Message-ID: <1378501550-48227-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Received: by 10.67.23.227 with SMTP id id3mr5986405pad.101.1378499515091;
-	Fri, 06 Sep 2013 13:31:55 -0700 (PDT)
-Sender: jc@vtkloud.com
-Received: by 10.66.181.169 with HTTP; Fri, 6 Sep 2013 13:31:55 -0700 (PDT)
-X-Originating-IP: [88.167.231.94]
-Date: Fri, 6 Sep 2013 22:31:55 +0200
-X-Google-Sender-Auth: ema8Xxy2fN1NHreNqIgJ2R0xce0
-Message-ID: <CAGzCC=86twuXd4_BoaZ8Fwd_OF+FnJvqggxhVXPO0jDyzv9Zew@mail.gmail.com>
-From: JC <jcv@voxtok.com>
-To: openembedded-core@lists.openembedded.org
-Subject: problem with installing ruby-dev, and missing libcrypto ?
+Received-SPF: None (SESTOEX03.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: buildtest-TESTS and runtest-TESTS targets required by ptest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: jcv@voxtok.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,97 +29,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2013 20:31:53 -0000
-Content-Type: multipart/alternative; boundary=001a1134417eeb9dc804e5bced70
+X-List-Received-Date: Fri, 06 Sep 2013 21:05:55 -0000
+Content-Type: text/plain
 
---001a1134417eeb9dc804e5bced70
-Content-Type: text/plain; charset=ISO-8859-1
+From 035ad642c76bbf388de198a886f544e4da8a7efc Mon Sep 17 00:00:00 2001
+From: Tudor Florea <tudor.florea@enea.com>
+Date: Fri, 6 Sep 2013 22:49:30 +0200
+Subject: [PATCH] kmod: avoid parallel-tests
 
-Hi,
 
-I'm trying to install ruby-dev (in order to be able to apply some passenger
-features), and Passenger requires ruby-dev
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ meta/recipes-kernel/kmod/kmod.inc                    |    1 +
+ .../kmod/kmod/remove_parallel_tests.patch            |   18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch
 
-ruby-dev has indeed been built (i'm working with yoctoProject) but when I'm
-trying to install it, I can't:
+diff --git a/meta/recipes-kernel/kmod/kmod.inc b/meta/recipes-kernel/kmod/kmod.inc
+index 1728a4e..633258b 100644
+--- a/meta/recipes-kernel/kmod/kmod.inc
++++ b/meta/recipes-kernel/kmod/kmod.inc
+@@ -19,6 +19,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git \
+            file://depmod-search.conf \
+            file://run-ptest \
+            file://ptest.patch \
++           file://remove_parallel_tests.patch \
+           "
+ 
+ SRCREV = "3b38c7fcb58be4ddc34f90454c5f5dc3693d2d85"
+diff --git a/meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch b/meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch
+new file mode 100644
+index 0000000..ee19428
+--- /dev/null
++++ b/meta/recipes-kernel/kmod/kmod/remove_parallel_tests.patch
+@@ -0,0 +1,18 @@
++Avoid parallel-tests as it remove
++buildtest-TESTS and runtest-TESTS targets
++
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
++Upstream-Status: Inappropriate (disable feature incompatible with ptest) 
++
++diff -ruN a/configure.ac b/configure.ac
++--- a/configure.ac	2013-09-02 15:05:18.662366800 +0200
+++++ b/configure.ac	2013-09-02 15:05:49.557066764 +0200
++@@ -8,7 +8,7 @@
++ AC_CONFIG_SRCDIR([libkmod/libkmod.c])
++ AC_CONFIG_AUX_DIR([build-aux])
++ AM_INIT_AUTOMAKE([check-news foreign 1.11 silent-rules
++-	tar-pax no-dist-gzip dist-xz subdir-objects color-tests parallel-tests])
+++	tar-pax no-dist-gzip dist-xz subdir-objects color-tests])
++ AC_PROG_CC_STDC
++ AC_USE_SYSTEM_EXTENSIONS
++ AC_SYS_LARGEFILE
+-- 
+1.7.10.4
 
-root@qemuarm:~# smart install ruby-dev
-rpmdb: BDB0113 Thread/proc
-Computing transaction...
-error: Can't install ruby-dev-1.9.3+p194-r1.0@**armv5te: no package
-provides libcrypto-dev
 
-(smart connects to a local repo which is my tmp/work/rpms directory)
-
-And of course, libcrypto-dev is _not_ present neither in meta-ruby, nor
-anywhere else (as far as I can search in
-http://layers.openembedded.org/layerindex/branch/master/recipes/?q=crypto )
-
-I wonder how ruby-dev has been compiled if libcrypto is not here ? And
-how/why smart could have this package and not the other?
-
-and more importantly, how can I solve the issue ? How can I make sure
-libcryto is also generated (or not deleted?) during build process?
-
-I'm working on the qemuarm device, but I'm not sure how much the problem is
-bound to it or could be reproduced on other targets.
-
-Regards
-Jay
-
---001a1134417eeb9dc804e5bced70
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span style=3D"font-family:arial,sans-serif;font-size:13px=
-">Hi,</span><br style=3D"font-family:arial,sans-serif;font-size:13px"><br s=
-tyle=3D"font-family:arial,sans-serif;font-size:13px"><span style=3D"font-fa=
-mily:arial,sans-serif;font-size:13px">I&#39;m trying to install ruby-dev (i=
-n order to be able to apply some passenger features), and Passenger require=
-s ruby-dev</span><br style=3D"font-family:arial,sans-serif;font-size:13px">
-<br style=3D"font-family:arial,sans-serif;font-size:13px"><span style=3D"fo=
-nt-family:arial,sans-serif;font-size:13px">ruby-dev has indeed been built (=
-i&#39;m working with yoctoProject) but when I&#39;m trying to install it, I=
- can&#39;t:</span><br style=3D"font-family:arial,sans-serif;font-size:13px"=
->
-<br style=3D"font-family:arial,sans-serif;font-size:13px"><span style=3D"fo=
-nt-family:arial,sans-serif;font-size:13px">root@qemuarm:~# smart install ru=
-by-dev</span><br style=3D"font-family:arial,sans-serif;font-size:13px"><spa=
-n style=3D"font-family:arial,sans-serif;font-size:13px">rpmdb: BDB0113 Thre=
-ad/proc</span><br style=3D"font-family:arial,sans-serif;font-size:13px">
-<span style=3D"font-family:arial,sans-serif;font-size:13px">Computing trans=
-action...</span><br style=3D"font-family:arial,sans-serif;font-size:13px"><=
-span style=3D"font-family:arial,sans-serif;font-size:13px">error: Can&#39;t=
- install ruby-dev-1.9.3+p194-r1.0@</span><u style=3D"font-family:arial,sans=
--serif;font-size:13px"></u><span style=3D"font-family:arial,sans-serif;font=
--size:13px">armv5</span><span style=3D"font-family:arial,sans-serif;font-si=
-ze:13px">te: no package provides libcrypto-dev</span><br style=3D"font-fami=
-ly:arial,sans-serif;font-size:13px">
-<br>(smart connects to a local repo which is my tmp/work/rpms directory)<br=
-><div><br style=3D"font-family:arial,sans-serif;font-size:13px"><span style=
-=3D"font-family:arial,sans-serif;font-size:13px">And of course, libcrypto-d=
-ev is _not_ present neither in meta-ruby, nor anywhere else (as far as I ca=
-n search in=A0</span><a href=3D"http://layers.openembedded.org/layerindex/b=
-ranch/master/recipes/?q=3Dcrypto">http://layers.openembedded.org/layerindex=
-/branch/master/recipes/?q=3Dcrypto</a><span style=3D"font-family:arial,sans=
--serif;font-size:13px">=A0)</span><div>
-<span style=3D"font-family:arial,sans-serif;font-size:13px"><br></span></di=
-v><div><span style=3D"font-family:arial,sans-serif;font-size:13px">I wonder=
- how ruby-dev has been compiled if libcrypto is not here ? And how/why smar=
-t could have this package and not the other?=A0</span></div>
-<div><span style=3D"font-family:arial,sans-serif;font-size:13px"><br></span=
-></div><div><span style=3D"font-family:arial,sans-serif;font-size:13px">and=
- more importantly, how can I solve the issue ? How can I make sure libcryto=
- is also generated (or not deleted?) during build process?</span><br style=
-=3D"font-family:arial,sans-serif;font-size:13px">
-<br><span style=3D"font-family:arial,sans-serif;font-size:13px">I&#39;m wor=
-king on the qemuarm device, but I&#39;m not sure how much the problem is bo=
-und to it or could be reproduced on other targets.</span><br style=3D"font-=
-family:arial,sans-serif;font-size:13px">
-<br style=3D"font-family:arial,sans-serif;font-size:13px"><span style=3D"fo=
-nt-family:arial,sans-serif;font-size:13px">Regards</span><br style=3D"font-=
-family:arial,sans-serif;font-size:13px"><span style=3D"font-family:arial,sa=
-ns-serif;font-size:13px">Jay</span><br>
-</div></div></div>
-
---001a1134417eeb9dc804e5bced70--
