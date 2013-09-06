@@ -1,33 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CEC06BDAC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f177.google.com (mail-ve0-f177.google.com
+	[209.85.128.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6F16BB3A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Sep 2013 17:05:51 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r86HI53P030322; Fri, 6 Sep 2013 18:19:04 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hEFV280aWigR; Fri,  6 Sep 2013 18:19:03 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r86HJ0KN030340
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 6 Sep 2013 18:19:01 +0100
-Message-ID: <1378487137.3484.18.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 06 Sep 2013 18:05:37 +0100
-In-Reply-To: <50C050F1-3F84-419B-8053-D8DCA38FFFA7@gmail.com>
-References: <1378415843.32427.84.camel@ted>
-	<165EE9CC-A70F-4416-8743-BE00BF7B8B93@gmail.com>
-	<1378460046.32427.96.camel@ted>
-	<50C050F1-3F84-419B-8053-D8DCA38FFFA7@gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	Fri,  6 Sep 2013 17:57:42 +0000 (UTC)
+Received: by mail-ve0-f177.google.com with SMTP id db12so1821697veb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Sep 2013 10:57:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=xrtnC/QCzwjEWD4JLvqvWbmitn6O4+5IFXjZpp8MZyw=;
+	b=hY6etfjR1u2rsYsR8ZwbLuXAgL+2lNUPbTDJ0kiA5vfFcCJJ8/WtpcBNjqIt/ozPbO
+	fLmzeZDVqfWo+QSZtdb68/Iyqfpj+dLy6LvYidSLICvLI+gG/kJxjwj/9BpVcnoR12Am
+	o4KVasRWApMwSsHafOk6yQrzanPPeTmf43v6okNIU2+tmdUcha8WVVYR7LGOZvQ371bM
+	HrA4UHMox98J4q7Zq4ELRAtvTdI0beYdT3/mVSsWCJ0TvLdvNsBDJ+yjfAPTpPvZHZGm
+	fPAVuNd0IdHfJK7ZmYl+2klSXfXjoMFOq3+40EcUOqT5DToyIyV5HW+9CliHyV5EnY6u
+	hYyg==
+X-Gm-Message-State: ALoCoQkO7JdPXFs4NJr39JztCTQmucdY3b6zJL4ApQu1Sv3BDWPIPLb1AngImsOzmVCyKUABTnSG
+X-Received: by 10.58.44.37 with SMTP id b5mr3495145vem.4.1378490263606; Fri,
+	06 Sep 2013 10:57:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Fri, 6 Sep 2013 10:57:23 -0700 (PDT)
+In-Reply-To: <1378479022.3484.6.camel@ted>
+References: <1378478579.3484.4.camel@ted>
+	<CAJTo0LZ_bA0ctzS3qrPdoOVhLSLZbVu9Nyk8WKNvaqe517RsCA@mail.gmail.com>
+	<1378479022.3484.6.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 6 Sep 2013 18:57:23 +0100
+Message-ID: <CAJTo0LZJVu81PPBt5r4mNB7f0T27YgvTR7Crn_HwuT8_cB4U6A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC] gcc-runtime: Hacks for libgfortran with gcc-4.8
+Subject: Re: [PATCH] lib/oeqa/qemurunner: Use a timeout in select() call
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,65 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2013 17:05:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Sep 2013 17:57:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2013-09-06 at 09:54 -0700, Khem Raj wrote:
-> On Sep 6, 2013, at 2:34 AM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> 
-> > On Fri, 2013-09-06 at 00:08 -0700, Khem Raj wrote:
-> >> On Sep 5, 2013, at 2:17 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> >> 
-> >>> These are the hacks I needed to make libgfortran build. This is ugly, no
-> >>> argument from me. We could probably get better results if we patch
-> >>> configure and libtool to stop doing nasty things. I've probably taken
-> >>> this as far as I'd want to though, not being a particular fan of
-> >>> fortran...
-> >>> 
-> >>> Khem: Any thoughts on this?
-> >>> 
-> >>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >>> ---
-> >>> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> >>> index 2599760..395623f 100644
-> >>> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> >>> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> >>> @@ -18,6 +18,9 @@ RUNTIMETARGET = "libssp libstdc++-v3 libgomp"
-> >>> # libmudflap
-> >>> # libgfortran
-> >>> 
-> >>> +DEPENDS_append = " chrpath-replacement-native"
-> >>> +EXTRANATIVEPATH += "chrpath-native"
-> >>> +
-> >>> do_configure () {
-> >>> 	export CXX="${CXX} -nostdinc++ -nostdlib++"
-> >>> 	mtarget=`echo ${MULTIMACH_TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
-> >>> @@ -30,6 +33,11 @@ do_configure () {
-> >>> 		cd ${B}/$target/$d/
-> >>> 		chmod a+x ${S}/$d/configure
-> >>> 		${S}/$d/configure ${CONFIGUREOPTS} ${EXTRA_OECONF}
-> >>> +		# Ugly hack, libgfortran configure looks for ../libquadmath/libquadmath.la
-> >> 
-> >> Maybe we should explicitly --enable-libquadmath in gcc-cross when fortran is asked for in RUNTIMETARGETS
-> >> might avoid some of below.
-> > 
-> > That would mean the gcc-cross recipe has to package it. We've basically
-> > now agreed and changed the code so all the packaging doesn't happen in
-> > -cross packages since it was always problematic.
-> > 
-> > FWIW I also tried disabling quadmath but that caused different build
-> > failures.
-> 
-> But we stash the build artifacts from gcc-cross that then we reuse to build gcc-runtime so I am hoping that
-> it will do the configuration bits right probably and we dont have to do libtool surgery.
+On 6 September 2013 15:50, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Basically, agreed. I've pushed this into master-next for testing
+> purposes whilst we discuss what this really should be. I think 5 might
+> be a good number.
 
-It won't help, we'd have to install the libs/headers from quadmath into
-the target sysroot and we can't reasonably do that from the cross
-recipe.
+That certainly seems like a compromise between needless spinning and a
+noticeable delta between requested and actual overall timeout.
 
-Cheers,
-
-Richard
-
+Ross
 
