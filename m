@@ -1,26 +1,34 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42B38615C4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 0960F6156E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Sep 2013 23:49:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r85Nn8ZH016903
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  6 Sep 2013 04:37:32 +0000 (UTC)
+Received: by mail-pa0-f50.google.com with SMTP id fb10so2846214pad.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 5 Sep 2013 16:49:08 -0700 (PDT)
-Received: from msp-mhatle-lx2.wrs.com (172.25.34.61) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Thu, 5 Sep 2013 16:49:07 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 5 Sep 2013 18:48:42 -0500
-Message-ID: <1378424922-24009-1-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.8.1.2.545.g2f19ada
-MIME-Version: 1.0
-X-Originating-IP: [172.25.34.61]
-Cc: yue.tao@windriver.com
-Subject: [PATCH] package_rpm.bbclass: Fix no_recommendations and package_exclude
+	Thu, 05 Sep 2013 21:37:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=tY4fHhCn6sQ+0t8AbXIgxCYLWpTMLZKsPyj9DsyjPzo=;
+	b=b+DbXobEYS7hWNv/TU6tawjyaoZEMW7ukKyR2hu4q3fsQ2FbTj+5yweLS8h4T3U+S4
+	EN+luwj4e2McdCPHND7vPrOlkXyt2i8i78uLon/QznPCqf2np5BAY7uWy0bgPwWgAs//
+	hiHdw2NAT93qcHVQqBf5EyF1g2W+SZWbnfM+yWA6Pfm0A4FaIAdtM2k2+h5PLmODPWmS
+	A9Ff4LqFQsRtzLblIeNFWYyVFZBKktMLlVpAkIRm3mfDLK1Fdh/RHHa8FFZFHCTHYTAG
+	rOyd29veRG41ekPxWYyuv3KY0w5LV2djGt2CjrVVTL3GYPIrCzcEJ7d9O6jeqgUmJztO
+	Mvbw==
+X-Received: by 10.68.189.229 with SMTP id gl5mr598863pbc.77.1378442253785;
+	Thu, 05 Sep 2013 21:37:33 -0700 (PDT)
+Received: from isis.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id kz4sm914416pbc.39.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 05 Sep 2013 21:37:33 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Sep 2013 21:36:09 -0700
+Message-Id: <1378442169-15822-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Subject: [PATCH] systemd: Fix build with multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2013 23:49:07 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Sep 2013 04:37:32 -0000
 
-When the code was refactored to address review comments, the wrong version
-was sent to the community.  Replace the $1 with ${target_rootfs}
+rpm macros should be independent of libdir
+Fixes errors seen when multilib is turned on
+it shows up since then libdir != usr/lib
 
-Fix identified by: Yue Tao <yue.tao@windriver.com>
-
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/package_rpm.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd_206.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index cc77c5e..8ab42c4 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -360,10 +360,10 @@ EOF
- 		package_write_smart_config ${target_rootfs}
- 		# Do the following configurations here, to avoid them being saved for field upgrade
- 		if [ "x${NO_RECOMMENDATIONS}" = "x1" ]; then
--			smart --data-dir=$1/var/lib/smart config --set ignore-all-recommends=1
-+			smart --data-dir=${target_rootfs}/var/lib/smart config --set ignore-all-recommends=1
- 		fi
- 		for i in ${PACKAGE_EXCLUDE}; do
--			smart --data-dir=$1/var/lib/smart flag --set exclude-packages $i
-+			smart --data-dir=${target_rootfs}/var/lib/smart flag --set exclude-packages $i
- 		done
+diff --git a/meta/recipes-core/systemd/systemd_206.bb b/meta/recipes-core/systemd/systemd_206.bb
+index 75bdc61..120ab08 100644
+--- a/meta/recipes-core/systemd/systemd_206.bb
++++ b/meta/recipes-core/systemd/systemd_206.bb
+@@ -139,7 +139,7 @@ FILES_${PN}-kernel-install = "${bindir}/kernel-install \
+                               ${sysconfdir}/kernel/ \
+                               ${exec_prefix}/lib/kernel \
+                              "
+-FILES_${PN}-rpm-macros = "${libdir}/rpm \
++FILES_${PN}-rpm-macros = "${exec_prefix}/lib/rpm \
+                          "
  
- 		# Optional debugging
+ RRECOMMENDS_${PN}-vconsole-setup = "kbd kbd-consolefonts"
 -- 
-1.8.1.2.545.g2f19ada
+1.8.4
 
 
