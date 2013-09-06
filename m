@@ -1,25 +1,23 @@
 Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F1E76186C
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 343716B24E
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  6 Sep 2013 20:26:19 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 06 Sep 2013 13:26:15 -0700
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 06 Sep 2013 13:23:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,856,1371106800"; d="scan'208";a="399572791"
+X-IronPort-AV: E=Sophos;i="4.90,856,1371106800"; d="scan'208";a="374592390"
 Received: from fear.jf.intel.com (HELO rage.local) ([10.7.196.147])
-	by orsmga002.jf.intel.com with ESMTP; 06 Sep 2013 13:26:14 -0700
+	by orsmga001.jf.intel.com with ESMTP; 06 Sep 2013 13:26:13 -0700
 From: Darren Hart <dvhart@linux.intel.com>
 To: Poky <poky@yoctoproject.org>, openembedded-core@lists.openembedded.org,
 	Tom Zanussi <tom.zanussi@intel.com>
-Date: Fri,  6 Sep 2013 13:30:27 -0700
-Message-Id: <e5bd7a223ff269bbd33766b5e6bd866cc2fa4dbb.1378498892.git.dvhart@linux.intel.com>
+Date: Fri,  6 Sep 2013 13:30:20 -0700
+Message-Id: <cover.1378498892.git.dvhart@linux.intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378498892.git.dvhart@linux.intel.com>
-References: <cover.1378498892.git.dvhart@linux.intel.com>
 Cc: yunguo.wei@windriver.com, Darren Hart <dvhart@linux.intel.com>,
 	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 1/2] linux-firmware: Update SRCREV, pull in iwlwifi-7260 support
+Subject: [PATCH v2 0/2] UPdates in support of genericx86*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +32,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 06 Sep 2013 20:26:20 -0000
 
-Fixes [YOCTO #5110]
+As this series bridges both oe-core and poky and is best viewed as one series, I
+opted to send the series to both lists.
 
-Add support for the iwlwifi 7260 adapters. This creates a new package
-and includes support in the default linux-firmware (everything) package.
+These patches address bugs/feature requests for additional support of
+linux-firmware and xorg-video-* drivers for the new meta-yocto-bsp genericx86
+and genericx86-64 machines.
 
-Update the iwlwifi and radeon license checksums. Extensions to the
-copyright date ranges were the only change to the LICENSE files.
-
-Signed-off-by: Darren Hart <dvhart@linux.intel.com>
-Cc: yunguo.wei@windriver.com
-Cc: Otavio Salvador <otavio@ossystems.com.br>
----
 Changes since v1
+* Remove the addition of the mga video driver (postponed)
+* Rename x86-common.inc to genericx86-common.inc
+* Remove duplication from ia32-base.inc and genericx86-common.inc
 * Remove PR=0
 
- .../linux-firmware/linux-firmware_git.bb           |    9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index 3825889..63ed552 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -7,12 +7,12 @@ SECTION = "kernel"
- 
- LICENSE = "Proprietary"
- 
--LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
-+LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=9c2faab1bfca55e1510d6bde67206f9c \
-                     file://LICENSE.dib0700;md5=f7411825c8a555a1a3e5eab9ca773431 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.ralink-firmware.txt;md5=ab2c269277c45476fb449673911a2dfd \
-                     file://LICENCE.qla2xxx;md5=4005328a134054f0fa077bdc37aa64f2 \
--                    file://LICENCE.iwlwifi_firmware;md5=11545778abf78c43d7644d4f171ea1c7 \
-+                    file://LICENCE.iwlwifi_firmware;md5=8b938534f77ffd453690eb34ed84ae8b \
-                     file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
-                     file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-@@ -23,10 +23,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.radeon;md5=e56b405656593a0c97e478513051ea0e \
-                     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
-                    "
- 
--SRCREV = "c530a75c1e6a472b0eb9558310b518f0dfcd8860"
-+SRCREV = "600caefd83a406540b2a789be6415e44c9b87add"
- PE = "1"
- PV = "0.0+git${SRCPV}"
--PR = "r1"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
- 
-@@ -172,10 +171,12 @@ ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/br
- 
- RDEPENDS_${PN}-iwlwifi-6000g2a-5 = "${PN}-iwlwifi-license"
- RDEPENDS_${PN}-iwlwifi-6000g2b-6 = "${PN}-iwlwifi-license"
-+RDEPENDS_${PN}-iwlwifi-7260-7 = "${PN}-iwlwifi-license"
- 
- FILES_${PN}-iwlwifi-license =   "/lib/firmware/LICENCE.iwlwifi_firmware"
- FILES_${PN}-iwlwifi-6000g2a-5 = "/lib/firmware/iwlwifi-6000g2a-5.ucode"
- FILES_${PN}-iwlwifi-6000g2b-6 = "/lib/firmware/iwlwifi-6000g2b-6.ucode"
-+FILES_${PN}-iwlwifi-7260-7 = "/lib/firmware/iwlwifi-7260-7.ucode"
- 
- FILES_${PN} += "/lib/firmware/*"
- 
+The following changes since commit f41b7a7d4d0463a0dfafe6621d01680b81798019:
+
+  bitbake: hob: remove PACKAGE_INSTALL variable setting from hob (2013-09-04 14:18:49 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib dvhart/genericx86v2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/genericx86v2
+
+Darren Hart (2):
+  linux-firmware: Update SRCREV, pull in iwlwifi-7260 support
+  genericx86: Create a genericx86-common.inc base for the x86 BSPs
+
+ meta-yocto-bsp/conf/machine/genericx86-64.conf     |   29 +-----------------
+ meta-yocto-bsp/conf/machine/genericx86.conf        |   31 +-------------------
+ .../conf/machine/include/genericx86-common.inc     |   20 +++++++++++++
+ .../linux-firmware/linux-firmware_git.bb           |    9 +++---
+ 4 files changed, 27 insertions(+), 62 deletions(-)
+ create mode 100644 meta-yocto-bsp/conf/machine/include/genericx86-common.inc
+
 -- 
 1.7.9.5
 
