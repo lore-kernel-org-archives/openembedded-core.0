@@ -1,24 +1,20 @@
 Return-Path: <mihai.prica@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 634816BF8D
+	by mail.openembedded.org (Postfix) with ESMTP id 40D7A6BF5C
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  6 Sep 2013 14:50:43 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2013 07:50:22 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 06 Sep 2013 07:50:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,854,1371106800"; d="scan'208";a="397701799"
+X-IronPort-AV: E=Sophos;i="4.90,854,1371106800"; d="scan'208";a="397701789"
 Received: from unknown (HELO mihai-Vostro-460.rb.intel.com) ([10.237.105.155])
-	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2013 07:50:21 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 06 Sep 2013 07:50:20 -0700
 From: Mihai Prica <mihai.prica@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Sep 2013 17:49:00 +0300
-Message-Id: <c1363a436fa44130ea9e73cf05aaf2be40400008.1378477619.git.mihai.prica@intel.com>
+Date: Fri,  6 Sep 2013 17:48:59 +0300
+Message-Id: <cover.1378477619.git.mihai.prica@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378477619.git.mihai.prica@intel.com>
-References: <cover.1378477619.git.mihai.prica@intel.com>
-In-Reply-To: <cover.1378477619.git.mihai.prica@intel.com>
-References: <cover.1378477619.git.mihai.prica@intel.com>
-Subject: [PATCH 1/2] bluez5: Install the bluetooth library
+Subject: [PATCH 0/2] Bluez5 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,26 +29,22 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 06 Sep 2013 14:50:44 -0000
 
-Bluez5 doesn't install libbluetooth by default. This is required
-by connman, ofono or other packages.
+The following changes since commit c7994f83baa678a4670472e1f037bfc16cb1e3be:
 
-Signed-off-by: Mihai Prica <mihai.prica@intel.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc |    1 +
- 1 file changed, 1 insertion(+)
+  bitbake: runqueue: Fix scenequeue to pass file descriptors, not a float (2013-09-02 09:16:24 +0100)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 2fae7fb..e2b7169 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -36,6 +36,7 @@ EXTRA_OECONF = "\
-   --enable-test \
-   --enable-datafiles \
-   ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--disable-systemd', d)} \
-+  --enable-library \
- "
- 
- do_install_append() {
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib mihaip/bluez5
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=mihaip/bluez5
+
+Mihai Prica (2):
+  bluez5: Install the bluetooth library
+  bluez5: Rename tests package to testtools
+
+ meta/recipes-connectivity/bluez5/bluez5.inc |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
 -- 
 1.7.9.5
 
