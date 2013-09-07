@@ -1,27 +1,31 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 68F416BEC8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id D3D346186F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Sep 2013 20:46:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 07 Sep 2013 13:46:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,861,1371106800"; d="scan'208";a="392480483"
-Received: from unknown (HELO [10.255.15.38]) ([10.255.15.38])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2013 13:46:23 -0700
-Message-ID: <522B909E.3070609@linux.intel.com>
-Date: Sat, 07 Sep 2013 13:46:22 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Anders Roxell <anders.roxell@linaro.org>
-References: <1378401050-30782-1-git-send-email-anders.roxell@linaro.org>
-	<1378586028-6613-1-git-send-email-anders.roxell@linaro.org>
-In-Reply-To: <1378586028-6613-1-git-send-email-anders.roxell@linaro.org>
-Cc: linaro-networking@linaro.org, patches@linaro.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ltp: update to new release 20130904
+	Sat,  7 Sep 2013 22:25:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r87MclkE029769 for <openembedded-core@lists.openembedded.org>;
+	Sat, 7 Sep 2013 23:38:48 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id faU_27kl2MKQ
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  7 Sep 2013 23:38:47 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r87MchhR029765
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Sat, 7 Sep 2013 23:38:45 +0100
+Message-ID: <1378592714.3484.49.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 07 Sep 2013 23:25:14 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] cmake: set system name correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,66 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Sep 2013 20:46:23 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sat, 07 Sep 2013 22:25:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 09/07/2013 01:33 PM, Anders Roxell wrote:
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->   .../ltp/{ltp_20130503.bb => ltp_20130904.bb}                | 13 ++++++++-----
->   1 file changed, 8 insertions(+), 5 deletions(-)
->   rename meta/recipes-extended/ltp/{ltp_20130503.bb => ltp_20130904.bb} (93%)
->
-> diff --git a/meta/recipes-extended/ltp/ltp_20130503.bb b/meta/recipes-extended/ltp/ltp_20130904.bb
-> similarity index 93%
-> rename from meta/recipes-extended/ltp/ltp_20130503.bb
-> rename to meta/recipes-extended/ltp/ltp_20130904.bb
-> index 387826d..4f2b9e7 100644
-> --- a/meta/recipes-extended/ltp/ltp_20130503.bb
-> +++ b/meta/recipes-extended/ltp/ltp_20130904.bb
-> @@ -21,17 +21,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
->
->   DEPENDS = "attr libaio libcap acl openssl"
->
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/ltp/ltp-full-${PV}.bz2"
-> +SRC_URI = "git://github.com/linux-test-project/ltp.git"
->
-> -SRC_URI[md5sum] = "d448d9e9731d7ef45352fc74633cc97f"
-> -SRC_URI[sha256sum] = "afdb1479e73d4da7f0d4d5d3fe1570bc5fc96e3317d4a5c10c59c046d3dfa4a0"
-> +SRC_URI[md5sum] = "c8a5f6f397d2c021a0d21ad28992aa7d"
-> +SRC_URI[sha256sum] = "4c13e00c1bed8f1b85daf934cd7b54a08b7b7e31874085ab9277ee563af87139"
-> +
-> +SRCREV = "${PV}"
+For unknown reasons, the cmake class is using SDK_OS as the
+target system OS. This makes no sense but only shows up as a problem
+when you try a different SDK OS. Fix it to use TARGET_OS which is
+the correct thing to do. For the vast majority of users this will
+make no difference.
 
-Is the PV really a git hash?  That's a branch or tag which will also 
-require and extra lookup.  It needs to be a git hash.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 8e579a7..1e72371 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -35,7 +35,7 @@ cmake_do_generate_toolchain_file() {
+ 	cat > ${WORKDIR}/toolchain.cmake <<EOF
+ # CMake system name must be something like "Linux".
+ # This is important for cross-compiling.
+-set( CMAKE_SYSTEM_NAME `echo ${SDK_OS} | sed 's/^./\u&/'` )
++set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed 's/^./\u&/'` )
+ set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
+ set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
+ set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
 
-Also as noted in the last email the SRC_URI checksums are not needed as 
-you are using git now.
 
-Sau!
-
-> +S = "${WORKDIR}/git"
->
->   export prefix = "/opt/ltp"
->   export exec_prefix = "/opt/ltp"
->
->   inherit autotools
->
-> -RDEPENDS_${PN} = "perl"
-> +RDEPENDS_${PN} = "perl e2fsprogs-mke2fs"
->
->   FILES_${PN}-dbg += "/opt/ltp/runtest/.debug"
->   FILES_${PN}-dbg += "/opt/ltp/testcases/bin/.debug"
-> @@ -62,7 +65,7 @@ do_extract_tarball() {
->   do_install(){
->   	install -d ${D}/opt/ltp/
->   	oe_runmake DESTDIR=${D} SKIP_IDCHECK=1 install
-> -	
-> +
->   	# Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
->   	cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
->
->
 
