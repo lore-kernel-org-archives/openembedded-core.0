@@ -1,30 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 558F66A453
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f169.google.com (mail-ea0-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 220C06110C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Sep 2013 11:05:07 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r88BIUxE008121; Sun, 8 Sep 2013 12:18:30 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4_QUV6IobH_r; Sun,  8 Sep 2013 12:18:30 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r88BISe2008117
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 8 Sep 2013 12:18:29 +0100
-Message-ID: <1378638296.3484.63.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Peter A. Bigot" <pab@pabigot.com>
-Date: Sun, 08 Sep 2013 12:04:56 +0100
-In-Reply-To: <1378629609.3484.50.camel@ted>
-References: <522B8B50.6080508@pabigot.com> <1378629609.3484.50.camel@ted>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Unexpected behavior from PR server
+	Sun,  8 Sep 2013 14:59:48 +0000 (UTC)
+Received: by mail-ea0-f169.google.com with SMTP id k11so2635180eaj.14
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Sep 2013 07:59:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=vI+8f07hIndyKC/lNp85TEk1j0L1SS5geEiYPdbLX7M=;
+	b=1Di6z5Clzguvdo97xy7wO5rDvYTVV4nTuAoDOlChOv3cSgLBto/fLLjiwNMAs/STiz
+	FAROvtdLFYCeYmQn9qjtiRZ2+kEJMTm3NSZoO5LZ4jA05/llKQMZppRcAkIlL2P0CamU
+	QXV6n4lx2rWxo1I/M7UM4LcFZS1xNOUgIrZIcmEXQar+pCNWjXVGYjzu/A/oPzJtPxW9
+	X6j6/oWbvrg2PJwBrxl84lK3/TfMHIQcgjOxVm6tQRC+c3iwl7H6VXMm9xPGYU8K8Fhh
+	AF7upgX59o6+SzplYl1kIZmhiBfk/BpUMISwGKCBKCKaZ5fRegrdjyPNlAWWhdN8Rjba
+	/Hyw==
+X-Received: by 10.14.113.137 with SMTP id a9mr22081268eeh.3.1378652390511;
+	Sun, 08 Sep 2013 07:59:50 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	b45sm14185424eef.4.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 08 Sep 2013 07:59:50 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Sep 2013 17:01:11 +0200
+Message-Id: <1378652471-27278-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] package.bbclass: Call os.chmod after os.mkdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +41,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Sep 2013 11:05:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 08 Sep 2013 14:59:50 -0000
 
-On Sun, 2013-09-08 at 09:40 +0100, Richard Purdie wrote:
-> On Sat, 2013-09-07 at 15:23 -0500, Peter A. Bigot wrote:
-> > I'm apparently a little shaky on exactly how the PR service is supposed 
-> > to work.  I noticed an anomaly that adding a patch to SRC_URI for u-boot 
-> > did not result in a new package revision as I expected.  I'm using 
-> > PRSERV_HOST="localhost:0" and have bulidhistory enabled.
-> > 
-> > I just tried this with a toy recipe named "hello" with a constant PR=r1 
-> > which does nothing but install a file from SRC_URI into ${datadir} with 
-> > this:
-> > 
-> > PR = "r1"
-> > 
-> > SRC_URI = " \
-> >      file://file1 \
-> > "
-> > 
-> > S = "${WORKDIR}"
-> > 
-> > do_install () {
-> >    install -d ${D}/${datadir}/files
-> >    install file* ${D}/${datadir}/files
-> > }
-> > 
-> > FILES_${PN} = "${datadir}/files/*"
-> > 
-> > I started with one file in SRC_URI, and "bitbake hello" produced 
-> > hello-1.0-r1.0.armv7a_vfp_neon.rpm as I expected.
-> > 
-> > I then added a second file to SRC_URI and re-ran "bitbake hello". The 
-> > recipe stages were re-executed, the new file was fetched and installed, 
-> > and I now have a hello-1.0-r1.0.armv7a_vfp_neon.rpm (same name) with 
-> > different contents.  Build history confirms the differences in the 
-> > package FILELIST but no change to PKGR, as does dumping the rpm contents.
-> > 
-> > It is true that changing SRC_URI had no effect on the run.* task script 
-> > contents for the package, so it makes sense that the PR server doesn't 
-> > detect that the package is different from the last time it was built if 
-> > signatures from those scripts are the only way recipe changes are 
-> > detected.  But it very much surprises me that changing the sources does 
-> > not result in a PR bump.  In the normal work flow, adding a new patch to 
-> > SRC_URI is certainly something that I would expect to produce a new 
-> > package revision.
-> > 
-> > Is this how it's supposed to work?
-> 
-> It appears that something is broken :/
-> 
-> I'll see if I can figure out exactly what but it seems to be something
-> in the PR server itself.
+* in 556dee0c4d6d8a87c0cddbd2f60fe5917d009f18 os.chmod was replaced by 2nd param
+  to os.mkdir:
+  -      bb.utils.mkdirhier(dest)
+  -      fstat = os.stat(src)
+  -      os.chmod(dest, fstat.st_mode)
+  +      fstat = cpath.stat(src)
+  +      os.mkdir(dest, fstat.st_mode)
 
-Found the problem, the PR server wasn't persisting data after some
-recent changes. I've fixed it. Thanks for reporting that.
+  but fstat in os.mkdir, doesn't work the same as good old os.chmod:
+  >>> p='test-p'
+  >>> os.mkdir(p, 041777)
+  >>> oct(os.stat(p).st_mode)
+  '041775'
+  >>> os.chmod(p, 041777)
+  >>> oct(os.stat(p).st_mode)
+  '041777'
 
-Cheers,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/package.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index bdac2bd..c96acd2 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -988,8 +988,9 @@ python populate_packages () {
+             def mkdir(src, dest, p):
+                 src = os.path.join(src, p)
+                 dest = os.path.join(dest, p)
++                bb.utils.mkdirhier(dest)
+                 fstat = cpath.stat(src)
+-                os.mkdir(dest, fstat.st_mode)
++                os.chmod(dest, fstat.st_mode)
+                 os.chown(dest, fstat.st_uid, fstat.st_gid)
+                 if p not in seen:
+                     seen.append(p)
+-- 
+1.8.3.2
 
 
