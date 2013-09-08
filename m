@@ -1,31 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D3D346186F
+	by mail.openembedded.org (Postfix) with ESMTP id 9D5326B3C7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Sep 2013 22:25:27 +0000 (UTC)
+	Sun,  8 Sep 2013 08:40:22 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r87MclkE029769 for <openembedded-core@lists.openembedded.org>;
-	Sat, 7 Sep 2013 23:38:48 +0100
+	r888riBt006011; Sun, 8 Sep 2013 09:53:44 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id faU_27kl2MKQ
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Sep 2013 23:38:47 +0100 (BST)
+	with LMTP id GCJvKu7cyIVa; Sun,  8 Sep 2013 09:53:44 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r87MchhR029765
+	r888re6W006003
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Sat, 7 Sep 2013 23:38:45 +0100
-Message-ID: <1378592714.3484.49.camel@ted>
+	verify=NOT); Sun, 8 Sep 2013 09:53:42 +0100
+Message-ID: <1378629609.3484.50.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 07 Sep 2013 23:25:14 +0100
+To: "Peter A. Bigot" <pab@pabigot.com>
+Date: Sun, 08 Sep 2013 09:40:09 +0100
+In-Reply-To: <522B8B50.6080508@pabigot.com>
+References: <522B8B50.6080508@pabigot.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] cmake: set system name correctly
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Unexpected behavior from PR server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,31 +37,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Sep 2013 22:25:29 -0000
+X-List-Received-Date: Sun, 08 Sep 2013 08:40:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-For unknown reasons, the cmake class is using SDK_OS as the
-target system OS. This makes no sense but only shows up as a problem
-when you try a different SDK OS. Fix it to use TARGET_OS which is
-the correct thing to do. For the vast majority of users this will
-make no difference.
+On Sat, 2013-09-07 at 15:23 -0500, Peter A. Bigot wrote:
+> I'm apparently a little shaky on exactly how the PR service is supposed 
+> to work.  I noticed an anomaly that adding a patch to SRC_URI for u-boot 
+> did not result in a new package revision as I expected.  I'm using 
+> PRSERV_HOST="localhost:0" and have bulidhistory enabled.
+> 
+> I just tried this with a toy recipe named "hello" with a constant PR=r1 
+> which does nothing but install a file from SRC_URI into ${datadir} with 
+> this:
+> 
+> PR = "r1"
+> 
+> SRC_URI = " \
+>      file://file1 \
+> "
+> 
+> S = "${WORKDIR}"
+> 
+> do_install () {
+>    install -d ${D}/${datadir}/files
+>    install file* ${D}/${datadir}/files
+> }
+> 
+> FILES_${PN} = "${datadir}/files/*"
+> 
+> I started with one file in SRC_URI, and "bitbake hello" produced 
+> hello-1.0-r1.0.armv7a_vfp_neon.rpm as I expected.
+> 
+> I then added a second file to SRC_URI and re-ran "bitbake hello". The 
+> recipe stages were re-executed, the new file was fetched and installed, 
+> and I now have a hello-1.0-r1.0.armv7a_vfp_neon.rpm (same name) with 
+> different contents.  Build history confirms the differences in the 
+> package FILELIST but no change to PKGR, as does dumping the rpm contents.
+> 
+> It is true that changing SRC_URI had no effect on the run.* task script 
+> contents for the package, so it makes sense that the PR server doesn't 
+> detect that the package is different from the last time it was built if 
+> signatures from those scripts are the only way recipe changes are 
+> detected.  But it very much surprises me that changing the sources does 
+> not result in a PR bump.  In the normal work flow, adding a new patch to 
+> SRC_URI is certainly something that I would expect to produce a new 
+> package revision.
+> 
+> Is this how it's supposed to work?
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 8e579a7..1e72371 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -35,7 +35,7 @@ cmake_do_generate_toolchain_file() {
- 	cat > ${WORKDIR}/toolchain.cmake <<EOF
- # CMake system name must be something like "Linux".
- # This is important for cross-compiling.
--set( CMAKE_SYSTEM_NAME `echo ${SDK_OS} | sed 's/^./\u&/'` )
-+set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed 's/^./\u&/'` )
- set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
- set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
- set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
+It appears that something is broken :/
+
+I'll see if I can figure out exactly what but it seems to be something
+in the PR server itself.
+
+Cheers,
+
+Richard
+
+
+
+> Peter
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
