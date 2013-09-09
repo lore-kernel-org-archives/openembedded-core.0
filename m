@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
-	[74.125.82.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D7126BE4F
+Return-Path: <denis@denix.org>
+Received: from vms173001pub.verizon.net (vms173001pub.verizon.net
+	[206.46.173.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A0396BE4F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 16:16:20 +0000 (UTC)
-Received: by mail-we0-f173.google.com with SMTP id w62so4524851wes.32
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Sep 2013 09:16:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=yL6zS+ZHLMEMxQIoUefqeypPotYtuXYrB8JiFlrTOMI=;
-	b=O2NG+9N0bDNEx6qfbnNQKnYqUDSk9dfGZLUPAYmndrv5Yq+NS6Uczms4Qzqkq7hTt6
-	rpIgD9ygjwRxjBYvg654WTom6eGgwq6QohXWLkxjTnyR5gOOmRwjWy9SlThzojAzFSmv
-	sN982NresaT3ziIphtfJddBGZlAue1MJeS5T3lKXrZ4Qh7ug93X66r6U/FvOhhOynBiU
-	PEi7LgHLE8l4PA+/EFCeN3Ewmcjks/RcSTMDlDtNG3Czu/7uPvIr5SB5rUZXOrrS3bjY
-	1iYNsroDw84xh++LJaWDvzCkIrKDxXBWj4KCBbHdps8boJc4V6LJoVn0Jm1E/zaVqJEU
-	UG1Q==
-X-Gm-Message-State: ALoCoQlqxD6GZTWaDDinlgqXRLS6SOJyMf8bidMu/e8XNyZCsCV/byGkkXKxwMzF4jnQKQ+3qytx
-X-Received: by 10.180.206.180 with SMTP id lp20mr9115329wic.48.1378743381291; 
-	Mon, 09 Sep 2013 09:16:21 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id li9sm6394753wic.4.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 09 Sep 2013 09:16:20 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Sep 2013 17:16:10 +0100
-Message-Id: <1378743370-21987-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] avahi: use correct names in SYSTEMD_SERVICE_* variables
+	Mon,  9 Sep 2013 16:22:29 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173001.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0MSV001U19GVW2Q0@vms173001.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 09 Sep 2013 11:22:12 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 3B54A200A9; Mon,
+	09 Sep 2013 12:22:07 -0400 (EDT)
+Date: Mon, 09 Sep 2013 12:22:07 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-id: <20130909162207.GF5834@denix.org>
+References: <20130906185741.GA5834@denix.org> <20130909135125.GD5834@denix.org>
+	<1378740263.3484.122.camel@ted>
+MIME-version: 1.0
+In-reply-to: <1378740263.3484.122.camel@ted>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: eglibc_2.17.bb: Failure expanding variable SELECTED_OPTIMIZATION[:=]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 16:16:22 -0000
+X-List-Received-Date: Mon, 09 Sep 2013 16:22:29 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Don't hard-code full package names in SYSTEMD_SERVICE_*, because in multilib
-they'll be changed.
+On Mon, Sep 09, 2013 at 04:24:23PM +0100, Richard Purdie wrote:
+> On Mon, 2013-09-09 at 09:51 -0400, Denys Dmytriyenko wrote:
+> > Any ideas or suggestions at this point would be greatly appreciated! Thanks.
 
-[ YOCTO #4803 ]
+Richard,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/avahi/avahi_0.6.31.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> I have vague recollections about this from something happening in
+> master. Perhaps try with:
+> 
+> http://git.openembedded.org/bitbake/commit/?id=4d50690489ee8dc329a9b0c7bc4ceb29b71e95e9
+> 
+> applied. This might things more deterministic, perhaps always breaking
+> or perhaps never.
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.6.31.bb b/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
-index 22731f9..5d796a2 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.6.31.bb
-@@ -3,8 +3,8 @@ require avahi.inc
- inherit systemd
- 
- SYSTEMD_PACKAGES = "${PN}-daemon ${PN}-dnsconfd"
--SYSTEMD_SERVICE_avahi-daemon = "avahi-daemon.service"
--SYSTEMD_SERVICE_avahi-dnsconfd = "avahi-dnsconfd.service"
-+SYSTEMD_SERVICE_${PN}-daemon = "avahi-daemon.service"
-+SYSTEMD_SERVICE_${PN}-dnsconfd = "avahi-dnsconfd.service"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
-                     file://avahi-common/address.h;endline=25;md5=b1d1d2cda1c07eb848ea7d6215712d9d \
+Ah, good call! Massaging the patch onto 1.18 seems to have solved the parsing 
+breakage - it passed 10 out of 10 tries so far. I'll keep testing and run a 
+few real builds, but would you be willing to backport it to 1.18? Please let 
+me know if you need an updated patch re-submitted. Thanks.
+
+
+> Have you got two definitions of the "get_optimization" function?
+
+I grepped through all my layers and eglibc_2.17.inc is the only place where it 
+gets defined and used.
+
 -- 
-1.7.10.4
-
+Denys
 
