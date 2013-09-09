@@ -1,20 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id ACC546BB18
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A67A3614F3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 21:29:19 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 09 Sep 2013 14:26:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,873,1371106800"; d="scan'208";a="393260741"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.204])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Sep 2013 14:29:20 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Sep 2013 14:29:20 -0700
-Message-Id: <1378762160-25151-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] gstreamer-plugins: Change anonymous python structure
+	Mon,  9 Sep 2013 22:20:20 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r89MXpcj028396; Mon, 9 Sep 2013 23:33:51 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id fX-n30q2CTpt; Mon,  9 Sep 2013 23:33:50 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r89MXh8B028392
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 9 Sep 2013 23:33:45 +0100
+Message-ID: <1378765203.3484.148.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jeff Polk <jeff.polk@windriver.com>
+Date: Mon, 09 Sep 2013 23:20:03 +0100
+In-Reply-To: <1378744154-6489-1-git-send-email-jeff.polk@windriver.com>
+References: <1378744154-6489-1-git-send-email-jeff.polk@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sanity.bbclass: add xz to SANITY_REQUIRED_UTILITIES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,48 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 21:29:20 -0000
+X-List-Received-Date: Mon, 09 Sep 2013 22:20:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This change ensures that the SRC_URI is set before base.bbclass code is called. This will
-also ensure that the xz-native depends is set correct.
+On Mon, 2013-09-09 at 11:29 -0500, Jeff Polk wrote:
+> xz is commonly available and is now used by some recipes
+> It's reasonable to expect it to be present so error immediately
+> if it's not.
+> 
+> Signed-off-by: Jeff Polk <jeff.polk@windriver.com>
+> ---
+>  meta/classes/sanity.bbclass |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
 
-[YOCTO #5127]
+Is it in all the base distros we use as standard or do we need update
+the quickstart? Shouldn't we also be adding it to ASSUME_PROVIDED?
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+I think there is a different bug which may sometimes lead to build
+failures due to the dependency on it not being generated correctly.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index 6f27957..651119e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -30,7 +30,9 @@ oe_runconf_prepend() {
- 	fi
- }
- 
--python __anonymous () {
-+SRC_URI = "${@get_gst_srcuri(d)}"
-+
-+def get_gst_srcuri(d):
-     # check if expected prefix is present
-     prefix = "gstreamer1.0-"
-     bpn = d.getVar("BPN", True)
-@@ -43,10 +45,10 @@ python __anonymous () {
-     branch = d.getVar("GSTREAMER_1_0_GIT_BRANCH", True)
- 
-     if pv == "git":
--        d.setVar("SRC_URI", "git://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch))
-+        s = "git://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch)
-     else:
--        d.setVar("SRC_URI", "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv))
--}
-+        s = "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv)
-+    return s
- 
- delete_liblink_m4_file() {
- 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
--- 
-1.8.3.1
+Cheers,
+
+Richard
+
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index a49b405..26038cb 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -2,7 +2,7 @@
+>  # Sanity check the users setup for common misconfigurations
+>  #
+>  
+> -SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio"
+> +SANITY_REQUIRED_UTILITIES ?= "patch diffstat makeinfo git bzip2 tar gzip gawk chrpath wget cpio xz"
+>  
+>  def bblayers_conf_file(d):
+>      return os.path.join(d.getVar('TOPDIR', True), 'conf/bblayers.conf')
+
 
 
