@@ -1,25 +1,30 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 79CFA6BE64
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 135BF6BD5E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 14:58:41 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Sep 2013 07:58:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,866,1371106800"; d="scan'208";a="357896268"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.38])
-	by azsmga001.ch.intel.com with ESMTP; 09 Sep 2013 07:58:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	poky@yoctoproject.org
-Date: Mon,  9 Sep 2013 07:58:39 -0700
-Message-Id: <b565e6a583265fb63e66d3572af44551df7ac505.1378738373.git.sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <c5ef7706ea79bf327809ef89d054ed439ba36256.1378738373.git.sgw@linux.intel.com>
-References: <c5ef7706ea79bf327809ef89d054ed439ba36256.1378738373.git.sgw@linux.intel.com>
-In-Reply-To: <cover.1378738373.git.sgw@linux.intel.com>
-References: <cover.1378738373.git.sgw@linux.intel.com>
-Subject: [PATCH 3/3] yocto-bsp: remove apm as a default MACHINE_FEATURE
+	Mon,  9 Sep 2013 15:24:40 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r89Fc7JK012401; Mon, 9 Sep 2013 16:38:07 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Kug7HnoJq_X4; Mon,  9 Sep 2013 16:38:07 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r89Fc1ZQ012386
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 9 Sep 2013 16:38:03 +0100
+Message-ID: <1378740263.3484.122.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Denys Dmytriyenko <denis@denix.org>
+Date: Mon, 09 Sep 2013 16:24:23 +0100
+In-Reply-To: <20130909135125.GD5834@denix.org>
+References: <20130906185741.GA5834@denix.org> <20130909135125.GD5834@denix.org>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: eglibc_2.17.bb: Failure expanding variable SELECTED_OPTIMIZATION[:=]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 14:58:41 -0000
+X-List-Received-Date: Mon, 09 Sep 2013 15:24:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-APM is not only obsolete, but also requires a kernel config enabled, which is not enabled by default
+On Mon, 2013-09-09 at 09:51 -0400, Denys Dmytriyenko wrote:
+> Any ideas or suggestions at this point would be greatly appreciated! Thanks.
 
-[YOCTO #5121]
+I have vague recollections about this from something happening in
+master. Perhaps try with:
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../lib/bsp/substrate/target/arch/arm/conf/machine/{{=machine}}.conf    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+http://git.openembedded.org/bitbake/commit/?id=4d50690489ee8dc329a9b0c7bc4ceb29b71e95e9
 
-diff --git a/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/{{=machine}}.conf b/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/{{=machine}}.conf
-index ce9a58f..744486e 100644
---- a/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/{{=machine}}.conf
-+++ b/scripts/lib/bsp/substrate/target/arch/arm/conf/machine/{{=machine}}.conf
-@@ -90,4 +90,4 @@ UBOOT_ENTRYPOINT = "{{=uboot_entrypoint}}"
- {{ input type:"edit" name:"uboot_loadaddress" prio:"40" msg:"Please specify a value for UBOOT_LOADADDRESS:" default:"0x80008000" }}
- UBOOT_LOADADDRESS = "{{=uboot_loadaddress}}"
- 
--MACHINE_FEATURES = "apm usbgadget usbhost vfat alsa"
-+MACHINE_FEATURES = "usbgadget usbhost vfat alsa"
--- 
-1.8.3.1
+applied. This might things more deterministic, perhaps always breaking
+or perhaps never.
+
+Have you got two definitions of the "get_optimization" function?
+
+Cheers,
+
+Richard
+
+
 
 
