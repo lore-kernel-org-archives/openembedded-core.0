@@ -1,32 +1,28 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 24EA96110C
+Return-Path: <denis@denix.org>
+Received: from vms173011pub.verizon.net (vms173011pub.verizon.net
+	[206.46.173.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 64B826BE96
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 16:57:40 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 09 Sep 2013 09:54:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,872,1371106800"; d="scan'208";a="400711899"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-	by orsmga002.jf.intel.com with ESMTP; 09 Sep 2013 09:57:41 -0700
-Received: from orsmsx103.amr.corp.intel.com ([169.254.2.161]) by
-	ORSMSX107.amr.corp.intel.com ([169.254.1.193]) with mapi id
-	14.03.0123.003; Mon, 9 Sep 2013 09:57:41 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
-Thread-Index: AQHOrVfn4qnFo/lz+k+5cqfakFWZAJm9npjQ
-Date: Mon, 9 Sep 2013 16:57:40 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+	Mon,  9 Sep 2013 17:25:35 +0000 (UTC)
+Received: from gandalf.denix.org ([unknown] [108.45.150.102])
+	by vms173011.mailsrvcs.net
+	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
+	2009)) with ESMTPA id <0MSV00HCPCDG5UA1@vms173011.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Mon, 09 Sep 2013 12:25:08 -0500 (CDT)
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id 4FB26200A9; Mon,
+	09 Sep 2013 13:24:52 -0400 (EDT)
+Date: Mon, 09 Sep 2013 13:24:51 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+Message-id: <20130909172451.GG5834@denix.org>
 References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
-MIME-Version: 1.0
+	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+MIME-version: 1.0
+In-reply-to: <ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -40,62 +36,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 16:57:40 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 09 Sep 2013 17:25:35 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
-Hi Ross,
-  This is a clever way to deal with unnecessary rebuilding of mesa we were =
-seeing earlier. With this mesa-gl,
-the mesa also need modification to remove gl from the default recipe.
+On Mon, Sep 09, 2013 at 04:57:40PM +0000, Kamble, Nitin A wrote:
+> Hi Ross,
+>   This is a clever way to deal with unnecessary rebuilding of mesa we were 
+> seeing earlier. With this mesa-gl, the mesa also need modification to remove 
+> gl from the default recipe.
+> 
+> Also looks like there is a need from community for mesa-gl-lib and 
+> mesa-gl-headers, as some platforms need just the mesa-gl-headers and not the 
+> libs.
+> 
+> Nitin
 
-Also looks like there is a need from community for mesa-gl-lib and mesa-gl-=
-headers, as some
-platforms need just the mesa-gl-headers and not the libs.
+Ross, Nitin,
 
-Nitin
+This is a great and very welcomed development! This would definitely allow our 
+TI machines (and other ARM ones, as you said) to happily co-exist with Mesa 
+software rendering.
+
+-- 
+Denys
 
 
-
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Ross Burton
-> Sent: Monday, September 09, 2013 5:27 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
->=20
-> Some machines have hardware-specific GL drivers that do EGL and GLES
-> (many ARM boards).  Others have their own EGL/GLES drivers and provide a
-> Mesa DRI driver (EMGD).  Previously adding Mesa, for software GL/GLX
-> rendering in the first case and hardware GLX in the second, involved
-> bbappends and changing Mesa to be machine-specific.
->=20
-> By adding a just-GL Mesa the machine definition can combine it with the
-> hardware drivers cleanly.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb |    5 +++++
->  1 file changed, 5 insertions(+)
->  create mode 100644 meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb b/meta/recipes-
-> graphics/mesa/mesa-gl_9.1.6.bb
-> new file mode 100644
-> index 0000000..521a830
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
-> @@ -0,0 +1,5 @@
-> +require mesa_${PV}.bb
-> +
-> +FILESPATH =3D "${FILE_DIRNAME}/mesa-${PV}:${FILE_DIRNAME}/mesa"
-> +
-> +PACKAGECONFIG ??=3D "dri gl"
-> --
-> 1.7.10.4
->=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
+> > Of Ross Burton
+> > Sent: Monday, September 09, 2013 5:27 AM
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+> > 
+> > Some machines have hardware-specific GL drivers that do EGL and GLES
+> > (many ARM boards).  Others have their own EGL/GLES drivers and provide a
+> > Mesa DRI driver (EMGD).  Previously adding Mesa, for software GL/GLX
+> > rendering in the first case and hardware GLX in the second, involved
+> > bbappends and changing Mesa to be machine-specific.
+> > 
+> > By adding a just-GL Mesa the machine definition can combine it with the
+> > hardware drivers cleanly.
+> > 
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> >  meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb |    5 +++++
+> >  1 file changed, 5 insertions(+)
+> >  create mode 100644 meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
+> > 
+> > diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb b/meta/recipes-
+> > graphics/mesa/mesa-gl_9.1.6.bb
+> > new file mode 100644
+> > index 0000000..521a830
+> > --- /dev/null
+> > +++ b/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
+> > @@ -0,0 +1,5 @@
+> > +require mesa_${PV}.bb
+> > +
+> > +FILESPATH = "${FILE_DIRNAME}/mesa-${PV}:${FILE_DIRNAME}/mesa"
+> > +
+> > +PACKAGECONFIG ??= "dri gl"
+> > --
+> > 1.7.10.4
+> > 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
