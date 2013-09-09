@@ -1,28 +1,42 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 816CB615F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f171.google.com (mail-vc0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id DE8936156E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 10:25:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r89APvQJ007334
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Sep 2013 03:25:57 -0700 (PDT)
-Received: from [128.224.162.189] (128.224.162.189) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 9 Sep 2013 03:25:56 -0700
-Message-ID: <522DA232.70900@windriver.com>
-Date: Mon, 9 Sep 2013 18:25:54 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Mon,  9 Sep 2013 11:36:21 +0000 (UTC)
+Received: by mail-vc0-f171.google.com with SMTP id ij15so3994498vcb.30
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Sep 2013 04:36:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7XGc9WWMeRsrAgNmO5thtVYxj5xftJbYWv3Ki1fnip8=;
+	b=F/wF1e2ClmXwzxmZPbEKmNooBgATBAIGQiaAl4q02bMgsuP8HnfLFXbC/ockv17Hto
+	iTwqqlhCPdZHp4CdDbktteg30caGQefJ1TYG/ZN+CpEJrjRN+0q2OpOX/NTjgabK9Ry7
+	cmj8nEFncwGpLtLR5gIRORF99wxx+6RsDF+l8bbuJMs8SAwEhvn5WdSn/I9NSBXuHwDe
+	7om4rhUl3dIWiNF2F39bxSCNiCVIdZmd+LVA8xfu4sDJ7DZCyasbwNotIM7v6sRtJiXl
+	zCxEXA1gBJtlXrNXFZI5T0w8jwCqQtN+aERZj2AJwevUdmAkmVQfoQgypip14Eaa48+X
+	BpOg==
+X-Gm-Message-State: ALoCoQl/W0JtC0NLhzqnjZ877gMuozhVR37wWgiNlHMJHaNk47acqK/5zDtOdlKSL2uRGt1IA/vd
+X-Received: by 10.220.46.72 with SMTP id i8mr17535557vcf.10.1378726583187;
+	Mon, 09 Sep 2013 04:36:23 -0700 (PDT)
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>, "MacLeod, Randy" <Randy.MacLeod@windriver.com>
-References: <1378721444-22545-1-git-send-email-jackie.huang@windriver.com>
-	<1378722078.6940.124.camel@phil-desktop.brightsign>
-In-Reply-To: <1378722078.6940.124.camel@phil-desktop.brightsign>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pulseaudio: avoid gcc ICE by omitting code TEMPORARILY
+Received: by 10.220.71.201 with HTTP; Mon, 9 Sep 2013 04:36:03 -0700 (PDT)
+In-Reply-To: <CAP9ODKo0KQ3gJd+eCfzDF0QX9EYb_NhRRX6NWJOKsxWth7_wxg@mail.gmail.com>
+References: <cover.1378361078.git.nitin.a.kamble@intel.com>
+	<2b4e12bfea634eaecac61b471a9d607fe127d1cd.1378361078.git.nitin.a.kamble@intel.com>
+	<1378369981.32427.23.camel@ted>
+	<CAJTo0LbLaH4-YTJVo_yr-gsaaSbXXe9Ucfbq_i+4gO+qKa354Q@mail.gmail.com>
+	<CAP9ODKo0KQ3gJd+eCfzDF0QX9EYb_NhRRX6NWJOKsxWth7_wxg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Sep 2013 12:36:03 +0100
+Message-ID: <CAJTo0LYUL1kvZB=Lk8ine+zVpAipRNMevnnpLi5C2_+ZobLdyw@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	"meta-intel@yoctoproject.org" <meta-intel@yoctoproject.org>,
+	Darren Hart <darren.hart@intel.com>, Saul Wold <saul.wold@intel.com>
+Subject: Re: [Patch-v2 1/1] mesa: avoid unnecessary rerunning of tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +49,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 10:25:55 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Sep 2013 11:36:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 9/9/2013 6:21 PM, Phil Blundell wrote:
-> On Mon, 2013-09-09 at 18:10 +0800, jackie.huang@windriver.com wrote:
->> From: Randy MacLeod <Randy.MacLeod@windriver.com>
->>
->> It's a FYI patch for anyone who might be having the same problem.
->>
->> pulseaudio-4.0 causes an internal compiler error. Temporarily
->> avoid the build error be omitting the code that makes the
->> compiler fail until the compiler ICE is addressed.
+On 7 September 2013 00:56, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> Maybe it is time to have a mesa-gl recipe alongside mesa that *just*
+>> builds the GL libraries.  EMGD can depend on it for the driver modules
+>> it installs, and presumably other vendors with binary drivers can
+>> install it for the software rendering/GLX support (Otavio etc, please
+>> step in here!).
 >
-> Please mention the GCC bug number for this ice so that it's easy to
-> establish when it has indeed been addressed.
-
-Sorry, I don't have the bug number.
-
-Randy,
-
-Do you have one for this?
-
-Thanks,
-Jackie
-
+> Yes; we have both situations at Freescale ARM BSP.
 >
-> p.
->
->
->
->
+> For the AMD GPU binaries, which are used in MX5 SoCs we *just* use
+> mesa GL and do software rendering.
 
--- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
+So mesa-gl will work fine there.
+
+> For Vivante GPU binaries, used for
+> MX6, we use mesa GL *headers* but Vivante provides a libGL binary.
+
+My, that's horrific.  I'd forgotten about this, for good reason clearly.
+
+Ross
 
