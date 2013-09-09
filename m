@@ -1,42 +1,35 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f174.google.com (mail-ea0-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C6F2C614F3
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6500B6BDB7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 12:26:24 +0000 (UTC)
-Received: by mail-ea0-f174.google.com with SMTP id z15so3082320ead.19
+	Mon,  9 Sep 2013 12:26:58 +0000 (UTC)
+Received: by mail-wi0-f170.google.com with SMTP id cb5so3247571wib.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Sep 2013 05:26:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=6oYyy1B3Rrr+yxVwzYFLaHDuMXCsHyrSqrboJ7I5WDg=;
-	b=Fskgpk5b8azBVrDtODZ8ZnfxCvfuAkJIULe04IHMs03f9V7t4lmL+vOFZ1ysqK5MqE
-	B80YVJ9+ktbPxQV3RmXnbTy9i50qDvnc1qI0TDg8YBCF2RgBdjQpo4M8wBGq6Fd7VL1u
-	UN+JLLeqe0tIhDITJJOsdtmOcuigtlZeP85GYZlh3sXCtGZamRkXcnQepwsggdiCsCyr
-	ln6B+GKOzrYMfp9jxDkW8aDXuMvi8xqG9zNN/HHVqTLUXSR8559aC8CvpXGGqlpvpDVT
-	snlQzgCWGLxQGO33T7grf4D//wRDBukHYUCWPps0TLjGu3nujBPzEHaFXC0jNensZm6Q
-	v57g==
-X-Received: by 10.14.122.132 with SMTP id t4mr30227347eeh.20.1378729585368;
-	Mon, 09 Sep 2013 05:26:25 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	m54sm21642230eex.2.1969.12.31.16.00.00
+	Mon, 09 Sep 2013 05:26:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7pKm7foSTIrGJ1CrvblICTHenK6aWUFR6xbvVHy0PlU=;
+	b=Lqc8P/q4e6Am+Oj4Uw2zDKGrVGrhWIYIqq/DNCACI4WGunvhwX4sCHu5DK1D+Xm6xH
+	ycGHRELkje9iEK9fhh5doy5v8nQAbL7TkkLblaOT/8lS1lIiWNB6IlD+h72uIizb0eWl
+	9FH1I0C/b3mo+EE8dDZb4keWkBMf5RbjZX9xshfywufAu3KfQ1KVWp8Umy2WygU09/8F
+	r5LR3IQmQcx/nQ85WVm9DbK4TbHluTWGTH/7ySAEnBcnKVB2gOwTbnUXDvrK2UV7XjyC
+	BGVdNrpjE+jJC6kQ+OZh+x1u34nbzJJCcAVzixL++SDniDNSJK22m30nAwDaf6Nx2Cw6
+	EbUA==
+X-Gm-Message-State: ALoCoQnyqK5TD5mtsdxRPqSEhaFgCuj4Y6MSQ8KvaC/XL32M4Cha29DNkO3YMae1QCbHtR0tRIE9
+X-Received: by 10.180.9.69 with SMTP id x5mr8277773wia.41.1378729619809;
+	Mon, 09 Sep 2013 05:26:59 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id ey2sm17355304wib.5.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 09 Sep 2013 05:26:24 -0700 (PDT)
-Date: Mon, 9 Sep 2013 14:27:49 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20130909122749.GR11500@jama>
-References: <1378721952-10827-1-git-send-email-ross.burton@intel.com>
-	<20130909120824.GQ11500@jama>
-	<CAJTo0LaLKDACnUd6BZdUjLR6p87unCaF4pH_g+c3b-5c4w2NLw@mail.gmail.com>
-	<CAJTo0LYqNZjnuKtp8yJbZ+G7jQhBO1fq04Le=JZd+zRFNWkwmg@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYqNZjnuKtp8yJbZ+G7jQhBO1fq04Le=JZd+zRFNWkwmg@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] mesa: use distro_features_check to abort build without opengl feature
+	Mon, 09 Sep 2013 05:26:59 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  9 Sep 2013 13:26:54 +0100
+Message-Id: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,44 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 12:26:25 -0000
-X-Groupsio-MsgNum: 44697
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/Isdj7O9hWi8F9Bn"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 09 Sep 2013 12:26:58 -0000
 
---/Isdj7O9hWi8F9Bn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Some machines have hardware-specific GL drivers that do EGL and GLES (many ARM
+boards).  Others have their own EGL/GLES drivers and provide a Mesa DRI driver
+(EMGD).  Previously adding Mesa, for software GL/GLX rendering in the first case
+and hardware GLX in the second, involved bbappends and changing Mesa to be
+machine-specific.
 
-On Mon, Sep 09, 2013 at 01:16:44PM +0100, Burton, Ross wrote:
-> On 9 September 2013 13:12, Burton, Ross <ross.burton@intel.com> wrote:
-> > I'd always understood the "opengl" DISTRO_FEATURE to mean "give me GL
-> > support".  *What* that means depends on the target hardware, could be
-> > entirely software rendering through Mesa or binary HW drivers.
->=20
-> Forgot to say the rationale for the check is the same as the libX11
-> DISTRO_FEATURES check: a distribution asking for no opengl shouldn't
-> be building a GL stack, and aborting if that happens ensures that the
-> appropriate checks are in place.
+By adding a just-GL Mesa the machine definition can combine it with the hardware
+drivers cleanly.
 
-OK fair enough, thanks for explanation, it's time to add opengl in my
-DISTRO_FEATURES if I haven't done it already :).
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb |    5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
+new file mode 100644
+index 0000000..521a830
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
+@@ -0,0 +1,5 @@
++require mesa_${PV}.bb
++
++FILESPATH = "${FILE_DIRNAME}/mesa-${PV}:${FILE_DIRNAME}/mesa"
++
++PACKAGECONFIG ??= "dri gl"
+-- 
+1.7.10.4
 
---/Isdj7O9hWi8F9Bn
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlItvsUACgkQN1Ujt2V2gBw8mgCgrXTsH/cmSd6odzTGH+6Z3nKg
-g6IAnRwdEBbHsTwRhJBHpj4fBatGRoCF
-=U6+k
------END PGP SIGNATURE-----
-
---/Isdj7O9hWi8F9Bn--
