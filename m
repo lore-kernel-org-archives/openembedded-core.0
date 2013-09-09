@@ -1,26 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Yi.Zhao@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AF2A36156E
+	by mail.openembedded.org (Postfix) with ESMTP id F08A8615F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 02:34:04 +0000 (UTC)
+	Mon,  9 Sep 2013 06:11:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r892Y6Oi029325
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 8 Sep 2013 19:34:06 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 8 Sep 2013 19:34:06 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Sep 2013 10:34:41 +0800
-Message-ID: <3db763ead1137e1be11252a64326f1321eea2c1c.1378694025.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378694025.git.Qi.Chen@windriver.com>
-References: <cover.1378694025.git.Qi.Chen@windriver.com>
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r896Bjj4019468
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 8 Sep 2013 23:11:45 -0700 (PDT)
+Received: from [128.224.159.157] (128.224.159.157) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Sun, 8 Sep 2013 23:11:44 -0700
+Message-ID: <522D669E.5080001@windriver.com>
+Date: Mon, 9 Sep 2013 14:11:42 +0800
+From: Yi Zhao <yi.zhao@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH 2/2] sysvinit: remove unused files
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+References: <1378452180-2872-1-git-send-email-jukka.rissanen@linux.intel.com>
+In-Reply-To: <1378452180-2872-1-git-send-email-jukka.rissanen@linux.intel.com>
+X-Originating-IP: [128.224.159.157]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: Ignore the NFS root network interface in init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,66 +35,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 02:34:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Sep 2013 06:11:44 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+This patch can not work on routerstationpro.
 
-The 'need' and 'provide' files are there for simpleinit compatability,
-according to the comments in these two files.
+After apply this patch, the system can not boot up.
 
-However, we don't use simpleinit and there's even no simpleinit recipe
-in OE. Besides, these two files are not installed.
+Here is the boot log (I print some variables):
 
-This patch removes these two unused files.
+...
+Configuring network interfaces... ifup skipped for nfsroot interface eth0
+run-parts: /etc/network/if-pre-up.d/nfsroot exited with code 1
+Starting rpcbind daemon...done.
+hwclock: can't open '/dev/misc/rtc': No such file or directory
+Thu Sep 5 22:45:00 UTC 2013
+hwclock: can't open '/dev/misc/rtc': No such file or directory
+INIT: Entering runlevel: 5
+Starting system message bus: dbus.
+Starting Connection Manager
+NET_DEVS = lo
+eth1
+sit0
+eth0
+NET_ADDR = 128.224.165.207:128.224.165.20:128.224.165.1:255.255.255.0::eth0
+ADDR = 127.0.0.1
+ADDR =
+ADDR =
+ADDR = 128.224.165.207
+eth0: link down
+nfs: server 128.224.165.20 not responding, still trying
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/sysvinit/sysvinit/need       |    6 ------
- meta/recipes-core/sysvinit/sysvinit/provide    |    6 ------
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb |    2 --
- 3 files changed, 14 deletions(-)
- delete mode 100644 meta/recipes-core/sysvinit/sysvinit/need
- delete mode 100644 meta/recipes-core/sysvinit/sysvinit/provide
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/need b/meta/recipes-core/sysvinit/sysvinit/need
-deleted file mode 100644
-index 4d84bbe..0000000
---- a/meta/recipes-core/sysvinit/sysvinit/need
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#!/bin/sh
--
--# need binary that doesnt do anything, supplied for simpleinit
--# vs sysvinit compatibility for the supplied startup scripts
--
--exit 0
-diff --git a/meta/recipes-core/sysvinit/sysvinit/provide b/meta/recipes-core/sysvinit/sysvinit/provide
-deleted file mode 100644
-index c90cf35..0000000
---- a/meta/recipes-core/sysvinit/sysvinit/provide
-+++ /dev/null
-@@ -1,6 +0,0 @@
--#!/bin/sh
--
--# provide binary that doesnt do anything, supplied for simpleinit
--# vs sysvinit compatibility for the supplied startup scripts
--
--exit 0
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index ac915b7..97ecc51 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -13,8 +13,6 @@ SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvini
-            file://install.patch \
-            file://crypt-lib.patch \
-            file://pidof-add-m-option.patch \
--           file://need \
--           file://provide \
-            file://rcS-default \
-            file://rc \
-            file://rcS \
--- 
-1.7.9.5
+The system can not boot up since eth0 down.
+
+# cat /proc/cmdline
+console=ttyS0,115200 root=/dev/nfs rw 
+nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/19256/rootfs 
+ip=128.224.165.207:128.224.165.20:128.224.165.1:255.255.255.0::eth0:off 
+board=UBNT-RSPRO ethaddr=00.00.00.33.46.63
+
+
+于 2013年09月06日 15:23, Jukka Rissanen 写道:
+> The connman init.d script tried to ignore all the network interfaces
+> if NFS root is configured. We should only ignore the interface
+> that is used by NFS root.
+>
+> [YOCTO #4587]
+>
+> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+> ---
+>   meta/recipes-connectivity/connman/connman/connman | 14 ++++++++++++--
+>   1 file changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/connman/connman/connman b/meta/recipes-connectivity/connman/connman/connman
+> index 67ba7c8..2625ade 100644
+> --- a/meta/recipes-connectivity/connman/connman/connman
+> +++ b/meta/recipes-connectivity/connman/connman/connman
+> @@ -29,8 +29,18 @@ done
+>   do_start() {
+>   	EXTRA_PARAM=""
+>   	if test $nfsroot -eq 1 ; then
+> -		ethn=`ifconfig | grep eth | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
+> -		EXTRA_PARAM="-I $ethn"
+> +	    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
+> +	    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ ]*\):.*$/\1/p'`
+> +
+> +	    if [ x$NET_ADDR != x ]; then
+> +		for i in $NET_DEVS; do
+> +		    ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
+> +		    if [ "$NET_ADDR" = "$ADDR" ]; then
+> +			EXTRA_PARAM="-I $i"
+> +			break
+> +		    fi
+> +		done
+> +	    fi
+>   	fi
+>   	if [ -f @LIBDIR@/connman/wired-setup ] ; then
+>   		. @LIBDIR@/connman/wired-setup
 
 
