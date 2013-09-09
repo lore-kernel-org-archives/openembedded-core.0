@@ -1,28 +1,33 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F08A8615F0
+Return-Path: <biannm@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 099576186C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 06:11:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r896Bjj4019468
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 8 Sep 2013 23:11:45 -0700 (PDT)
-Received: from [128.224.159.157] (128.224.159.157) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Sun, 8 Sep 2013 23:11:44 -0700
-Message-ID: <522D669E.5080001@windriver.com>
-Date: Mon, 9 Sep 2013 14:11:42 +0800
-From: Yi Zhao <yi.zhao@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	Mon,  9 Sep 2013 06:58:35 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.90,866,1371052800"; 
+   d="scan'208";a="8457568"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 09 Sep 2013 14:55:25 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r896wSRE010772;
+	Mon, 9 Sep 2013 14:58:29 +0800
+Received: from [127.0.0.1] ([10.167.226.190])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013090914561248-1333088 ;
+	Mon, 9 Sep 2013 14:56:12 +0800 
+Message-ID: <522D7190.2010106@cn.fujitsu.com>
+Date: Mon, 09 Sep 2013 14:58:24 +0800
+From: Bian Naimeng <biannm@cn.fujitsu.com>
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh-CN;
+	rv:1.9.2.28) Gecko/20120306 Lightning/1.0b2 Thunderbird/3.1.20
 MIME-Version: 1.0
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-References: <1378452180-2872-1-git-send-email-jukka.rissanen@linux.intel.com>
-In-Reply-To: <1378452180-2872-1-git-send-email-jukka.rissanen@linux.intel.com>
-X-Originating-IP: [128.224.159.157]
+To: poky@yoctoproject.org
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/09/09 14:56:12,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/09/09 14:56:17,
+	Serialize complete at 2013/09/09 14:56:17
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: Ignore the NFS root network interface in init script
+Subject: [poky][Question]cross build error.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,84 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 06:11:44 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 09 Sep 2013 06:58:36 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
 
-This patch can not work on routerstationpro.
+Hi all,
 
-After apply this patch, the system can not boot up.
+If link library of distribution which built by Yocto-1.4.x,
+the following error will be caught.
 
-Here is the boot log (I print some variables):
+ # /opt/poky-lsb/1.4.1/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc \
+   -o helloworld helloworld.c -L /opt/mydistro/usr/lib -l xxx
+   /opt/poky-lsb/1.4.1/sysroots/x86_64-pokysdk-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/4.7.2/ld: 
+     skipping incompatible /lib/libc.so.6 when searching for /lib/libc.so.6
+   /opt/poky-lsb/1.4.1/sysroots/x86_64-pokysdk-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/4.7.2/ld: 
+     cannot find /lib/libc.so.6
+   /opt/poky-lsb/1.4.1/sysroots/x86_64-pokysdk-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/4.7.2/ld: 
+     skipping incompatible /usr/lib/libc_nonshared.a when searching for /usr/lib/libc_nonshared.a
+   /opt/poky-lsb/1.4.1/sysroots/x86_64-pokysdk-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/4.7.2/ld:
+     cannot find /usr/lib/libc_nonshared.a
+   /opt/poky-lsb/1.4.1/sysroots/x86_64-pokysdk-linux/usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/4.7.2/ld:
+     cannot find /lib/ld-linux-x86-64.so.2
+   collect2: error: ld returned 1 exit status
 
-...
-Configuring network interfaces... ifup skipped for nfsroot interface eth0
-run-parts: /etc/network/if-pre-up.d/nfsroot exited with code 1
-Starting rpcbind daemon...done.
-hwclock: can't open '/dev/misc/rtc': No such file or directory
-Thu Sep 5 22:45:00 UTC 2013
-hwclock: can't open '/dev/misc/rtc': No such file or directory
-INIT: Entering runlevel: 5
-Starting system message bus: dbus.
-Starting Connection Manager
-NET_DEVS = lo
-eth1
-sit0
-eth0
-NET_ADDR = 128.224.165.207:128.224.165.20:128.224.165.1:255.255.255.0::eth0
-ADDR = 127.0.0.1
-ADDR =
-ADDR =
-ADDR = 128.224.165.207
-eth0: link down
-nfs: server 128.224.165.20 not responding, still trying
+It can be avoid by changing the sysroot to "/opt/mydistro".
 
+ # /opt/poky-lsb/1.4.1/sysroots/x86_64-pokysdk-linux/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc \
+   -o helloworld helloworld.c -L /usr/lib -l xxx --sysroot /opt/mydistro
 
-The system can not boot up since eth0 down.
+The default sysroot is "/opt/poky-lsb/1.4.1/sysroots/x86_64-poky-linux",
+but why cross gcc finds libc.so.6 from /opt/mydistro/
+ # cat /opt/poky-lsb/1.4.1/environment-setup-x86_64-poky-linux  | grep sysroot
+   ... ...
+   CC="x86_64-poky-linux-gcc  -m64 --sysroot=/opt/poky-lsb/1.4.1/sysroots/x86_64-poky-linux"
+   ... ...
 
-# cat /proc/cmdline
-console=ttyS0,115200 root=/dev/nfs rw 
-nfsroot=128.224.165.20:/export/pxeboot/vlm-boards/19256/rootfs 
-ip=128.224.165.207:128.224.165.20:128.224.165.1:255.255.255.0::eth0:off 
-board=UBNT-RSPRO ethaddr=00.00.00.33.46.63
+Any suggestion?
 
-
-于 2013年09月06日 15:23, Jukka Rissanen 写道:
-> The connman init.d script tried to ignore all the network interfaces
-> if NFS root is configured. We should only ignore the interface
-> that is used by NFS root.
->
-> [YOCTO #4587]
->
-> Signed-off-by: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-> ---
->   meta/recipes-connectivity/connman/connman/connman | 14 ++++++++++++--
->   1 file changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/connman/connman/connman b/meta/recipes-connectivity/connman/connman/connman
-> index 67ba7c8..2625ade 100644
-> --- a/meta/recipes-connectivity/connman/connman/connman
-> +++ b/meta/recipes-connectivity/connman/connman/connman
-> @@ -29,8 +29,18 @@ done
->   do_start() {
->   	EXTRA_PARAM=""
->   	if test $nfsroot -eq 1 ; then
-> -		ethn=`ifconfig | grep eth | sed -e "s/\(eth[0-9]\)\(.*\)/\1/"`
-> -		EXTRA_PARAM="-I $ethn"
-> +	    NET_DEVS=`cat /proc/net/dev | sed -ne 's/^\([a-zA-Z0-9 ]*\):.*$/\1/p'`
-> +	    NET_ADDR=`cat /proc/cmdline | sed -ne 's/^.*ip=\([^ ]*\):.*$/\1/p'`
-> +
-> +	    if [ x$NET_ADDR != x ]; then
-> +		for i in $NET_DEVS; do
-> +		    ADDR=`ifconfig $i | sed 's/addr://g' | sed -ne 's/^.*inet \([0-9.]*\) .*$/\1/p'`
-> +		    if [ "$NET_ADDR" = "$ADDR" ]; then
-> +			EXTRA_PARAM="-I $i"
-> +			break
-> +		    fi
-> +		done
-> +	    fi
->   	fi
->   	if [ -f @LIBDIR@/connman/wired-setup ] ; then
->   		. @LIBDIR@/connman/wired-setup
+Thanks
+ Bian
 
 
