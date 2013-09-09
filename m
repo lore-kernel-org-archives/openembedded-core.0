@@ -1,38 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id A41176110E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
+	[209.85.212.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E8E5615F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 12:06:59 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id a15so3104423eae.37
+	Mon,  9 Sep 2013 12:12:21 +0000 (UTC)
+Received: by mail-vb0-f50.google.com with SMTP id x14so3808353vbb.37
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Sep 2013 05:07:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=NplkVVaGSousbiJxkoFSdNw0mDO28lwmfDNEYZFgyMk=;
-	b=TVPXZjm8Nv5M/tyZ/nFYhVERw//erMR8/VKuxcddY4z9kPXf6TzBiuclRiSGh7Qtj/
-	vtR9yQoLqymlHm5qOTmHczgi1iK4PbM5C0u3D3ySiuPQvaFfyl8QqE2VG6hWidiSvsu7
-	ZIsTxSAeUXFAUw1nJNlunagj9VkEY0ji7cbrTK0H5JaQm0V3ggy0FuF5pxcTPFNU+5Z1
-	9bhNvnzb7xv1pjyJKit5jNDgz/Rki/ADCEiJ+IhZWsfDzFLBCJ5svu6ozV6uzozuK/E9
-	NfEshH719+Pjg7duswuUn24DDsMOTUsIAz4rsuu2sUAqsGukdknYY9/07UGD/klp2OI6
-	9VNg==
-X-Received: by 10.14.107.68 with SMTP id n44mr30137545eeg.26.1378728420347;
-	Mon, 09 Sep 2013 05:07:00 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	y47sm21293559eew.12.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 09 Sep 2013 05:06:59 -0700 (PDT)
-Date: Mon, 9 Sep 2013 14:08:24 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20130909120824.GQ11500@jama>
-References: <1378721952-10827-1-git-send-email-ross.burton@intel.com>
+	Mon, 09 Sep 2013 05:12:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=JtWWfrfLZ+8gHt5wSXz1Vt0MEdJsMYup+PILIRR8qgE=;
+	b=WYEzygDqw6ZYzk7h4RZuDo5uXFiwPEeZLj95FYmnSJOj8RqBtttA8Rg9+UYRz1vRUf
+	M6hhcdKmreWGCJx7fyt3Q0/vRt7qKUF3htLo9SlWqVitMrVdfYJrBTdgWaqzyNqB9hva
+	2OjbpztRm4neisOP8xVjGDb3kcXkgSus9C/m/hD9VPgkwO6hCke3pAghMe7egBH20UpI
+	Cm4Ulf9mDTzOWyPT28iVQcvWPdFBUJc/L13m6s3ki3asE/aIVvO9HGEZsNSetrXb/KHF
+	dS9bnsc13W1j1YalqrQObV4Dy4g7DIr0gxnwjPjp9QYI45SU9I8lh/pyL+CcXZ+qa5EO
+	gEwQ==
+X-Gm-Message-State: ALoCoQkX6oht21B7gtGXk3qpuc5Amt2LJX31r7KAR9WllD/VyD/qif6C+NJw4ZOx4t4bGG7odcxY
+X-Received: by 10.52.164.16 with SMTP id ym16mr25444vdb.32.1378728742891; Mon,
+	09 Sep 2013 05:12:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1378721952-10827-1-git-send-email-ross.burton@intel.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
+Received: by 10.220.71.201 with HTTP; Mon, 9 Sep 2013 05:12:02 -0700 (PDT)
+In-Reply-To: <20130909120824.GQ11500@jama>
+References: <1378721952-10827-1-git-send-email-ross.burton@intel.com>
+	<20130909120824.GQ11500@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 9 Sep 2013 13:12:02 +0100
+Message-ID: <CAJTo0LaLKDACnUd6BZdUjLR6p87unCaF4pH_g+c3b-5c4w2NLw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] mesa: use distro_features_check to abort build without opengl feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -46,60 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 12:07:00 -0000
-X-Groupsio-MsgNum: 44693
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="gblAvmLjk8yGG9If"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 09 Sep 2013 12:12:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
---gblAvmLjk8yGG9If
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9 September 2013 13:08, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> +REQUIRED_DISTRO_FEATURES = "opengl"
+>
+> Is this really needed? I was building mesa in distro without opengl for
+> long time and was considering (probably incorrectly) opengl DISTRO_FEATURE more
+> like sign of proper hw GL libraries.
 
-On Mon, Sep 09, 2013 at 11:19:11AM +0100, Ross Burton wrote:
-> Stop mesa from building on distributions without the "opengl" DISTRO_FEAT=
-URE.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc |    4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index 71fcabd..79605fa 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -19,7 +19,9 @@ DEPENDS =3D "expat makedepend-native flex-native bison-=
-native"
-> =20
->  PROVIDES =3D "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/eg=
-l"
-> =20
-> -inherit autotools pkgconfig pythonnative gettext
-> +inherit autotools pkgconfig pythonnative gettext distro_features_check
-> +
-> +REQUIRED_DISTRO_FEATURES =3D "opengl"
+I'd always understood the "opengl" DISTRO_FEATURE to mean "give me GL
+support".  *What* that means depends on the target hardware, could be
+entirely software rendering through Mesa or binary HW drivers.
 
-Is this really needed? I was building mesa in distro without opengl for
-long time and was considering (probably incorrectly) opengl DISTRO_FEATURE =
-more
-like sign of proper hw GL libraries.
+Ross
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---gblAvmLjk8yGG9If
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlItujgACgkQN1Ujt2V2gBwBeACdEj3qBjvZ5ZZu5OqUySQ6UMTm
-xX0AnApnt8GIOLLlZwu85uG02/98prRM
-=WF/f
------END PGP SIGNATURE-----
-
---gblAvmLjk8yGG9If--
