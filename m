@@ -1,23 +1,25 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id D9DFE6BE64
+	by mail.openembedded.org (Postfix) with ESMTP id 423486BE64
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 14:58:40 +0000 (UTC)
+	Mon,  9 Sep 2013 14:58:41 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 09 Sep 2013 07:58:42 -0700
+	by azsmga102.ch.intel.com with ESMTP; 09 Sep 2013 07:58:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,866,1371106800"; d="scan'208";a="357896259"
+X-IronPort-AV: E=Sophos;i="4.90,866,1371106800"; d="scan'208";a="357896265"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.38])
 	by azsmga001.ch.intel.com with ESMTP; 09 Sep 2013 07:58:42 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org,
 	poky@yoctoproject.org
-Date: Mon,  9 Sep 2013 07:58:37 -0700
-Message-Id: <c5ef7706ea79bf327809ef89d054ed439ba36256.1378738373.git.sgw@linux.intel.com>
+Date: Mon,  9 Sep 2013 07:58:38 -0700
+Message-Id: <a7ce84cad31c0cd4adfbc9bfd19901627e31e8f2.1378738373.git.sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <c5ef7706ea79bf327809ef89d054ed439ba36256.1378738373.git.sgw@linux.intel.com>
+References: <c5ef7706ea79bf327809ef89d054ed439ba36256.1378738373.git.sgw@linux.intel.com>
 In-Reply-To: <cover.1378738373.git.sgw@linux.intel.com>
 References: <cover.1378738373.git.sgw@linux.intel.com>
-Subject: [PATCH 1/3] qemu.inc: remove apm as a MACHINE_FEATURE
+Subject: [PATCH 2/3] beagelboard.inc: remove apm as a MACHINE_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,28 +34,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 09 Sep 2013 14:58:41 -0000
 
-APM is not only obsolete, but requires a kernel config enabled and is meaningless for QEMU VM
+APM is not only obsolete, but also requires a kernel config enabled, which is not enabled by default
 
 [YOCTO #5121]
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/conf/machine/include/qemu.inc | 2 +-
+ meta-yocto-bsp/conf/machine/beagleboard.conf | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 545f8d1..95d7e66 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -11,7 +11,7 @@ XSERVER ?= "xserver-xorg \
-             xf86-video-fbdev \
-             xf86-input-keyboard"
+diff --git a/meta-yocto-bsp/conf/machine/beagleboard.conf b/meta-yocto-bsp/conf/machine/beagleboard.conf
+index dd0c222..0775cf8 100644
+--- a/meta-yocto-bsp/conf/machine/beagleboard.conf
++++ b/meta-yocto-bsp/conf/machine/beagleboard.conf
+@@ -40,4 +40,4 @@ UBOOT_MACHINE = "omap3_beagle_config"
+ UBOOT_ENTRYPOINT = "0x80008000"
+ UBOOT_LOADADDRESS = "0x80008000"
  
--MACHINE_FEATURES = "apm alsa pcmcia bluetooth irda usbgadget screen"
-+MACHINE_FEATURES = "alsa pcmcia bluetooth irda usbgadget screen"
- 
- MACHINEOVERRIDES =. "qemuall:"
- 
+-MACHINE_FEATURES = "apm usbgadget usbhost vfat alsa"
++MACHINE_FEATURES = "usbgadget usbhost vfat alsa"
 -- 
 1.8.3.1
 
