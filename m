@@ -1,26 +1,31 @@
-Return-Path: <denis@denix.org>
-Received: from vms173013pub.verizon.net (vms173013pub.verizon.net
-	[206.46.173.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BC7306BD93
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C26AB6BD93
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Sep 2013 13:51:25 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173013.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MSV00G3I2HPJT91@vms173013.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 09 Sep 2013 08:51:25 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 110002009D; Mon,
-	09 Sep 2013 09:51:25 -0400 (EDT)
-Date: Mon, 09 Sep 2013 09:51:25 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-id: <20130909135125.GD5834@denix.org>
-References: <20130906185741.GA5834@denix.org>
-MIME-version: 1.0
-In-reply-to: <20130906185741.GA5834@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: eglibc_2.17.bb: Failure expanding variable SELECTED_OPTIMIZATION[:=]
+	Mon,  9 Sep 2013 14:14:54 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r89ESNjj008773 for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Sep 2013 15:28:24 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id y4FSpT6wERBO
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Sep 2013 15:28:23 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r89ESH6T008764
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 9 Sep 2013 15:28:18 +0100
+Message-ID: <1378736079.3484.117.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 09 Sep 2013 15:14:39 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [RFC PATCH] bitbake.conf: Stop providing ${P} and ${PF} by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +38,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2013 13:51:25 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Mon, 09 Sep 2013 14:14:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Any ideas or suggestions at this point would be greatly appreciated! Thanks.
+For a long time we've provided PN-PV and PN-PV-PR by tweaking PROVIDES. This looks
+nice at first glance however it turns out to be a bit problematic. Taking make as an
+example where there are two versions, 3.81 and 3.82, what should "bitbake make-3.81" do?
+
+Currently it builds make-3.81 and make-3.82 and breaks in interesting ways. Is that
+a bitbake bug? Well, it certainly shouldn't try and run the build. Why is it building
+3.82 though? Its due to finding a dependency on "make-dev" and then trying to figure
+out what provides it? The answer is "make" and the default version of "make" is 3.82.
+
+So arguably, finding "make-3.81" should infer PREFERRED_VERSION_make = "3.81". Doing
+so resolved the above problem since now "make" resolves to "make-3.81".
+
+So what about if we have Recipe A:
+DEPENDS = "make-3.81"
+and Recipe B:
+DEPENDS = "make-3.82"
+
+That is clearly an error, easy. So finally what about if we have Recipe A:
+DEPENDS = "make-3.81"
+and Recipe B:
+DEPENDS = "make"
+
+The first recipe infers the PREFERRED_VERSION_make = "3.81" and then forces that
+version on everything else. Is that desired? Probably not in most cases, at least not
+silently.
+
+As mitigation, we could print a WARNING about this happening. The final part of the problem
+is that we can ony figure this out within bitbake itself. That means we'd have to teach bitbake
+about the PN-PV format of PROVIDES which is breaking the separation between bitbake and the
+metadata. We can't win :(.
+
+Nobody that I know of is using or relying on this functionality so perhaps we should
+just remove it instead which is what this patch does. Opinions?
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2d19d86..578c7d0 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -253,7 +253,7 @@ DEPCHAIN_POST = "-dev -dbg"
+ DEPENDS = ""
+ RDEPENDS = ""
+ PROVIDES = ""
+-PROVIDES_prepend = "${P} ${PF} ${PN} "
++PROVIDES_prepend = "${PN} "
+ RPROVIDES = ""
+ 
+ MULTI_PROVIDER_WHITELIST = "virtual/libintl virtual/libintl-native virtual/nativesdk-libintl virtual/xserver virtual/update-alternatives-native virtual/update-alternatives"
 
 
-On Fri, Sep 06, 2013 at 02:57:41PM -0400, Denys Dmytriyenko wrote:
-> Hi,
-> 
-> Has anyone seen this error before? It happens for me quite often, but not 
-> always, on Dylan branch during initial parsing:
-> 
-> Parsing recipes...
-> ERROR: ExpansionError during parsing .../oe-core/meta/recipes-core/eglibc/eglibc_2.17.bb:
->   Failure expanding variable SELECTED_OPTIMIZATION[:=], expression was ${@get_optimization(d)}
->   which triggered exception NameError: name 'get_optimization' is not defined
-> ERROR: Command execution failed: Exited with 1
-> 
-> 
-> Looking at the code, I don't see anything suspicious:
-> 
-> # eglibc can't be built without optimization, if someone tries to compile an
-> # entire image as -O0, we override it with -O2 here and give a note about it.
-> def get_optimization(d):
->     selected_optimization = d.getVar("SELECTED_OPTIMIZATION", True)
->     if base_contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) == "x":
->         bb.note("eglibc can't be built with -O0, -O2 will be used instead.")
->         return selected_optimization.replace("-O0", "-O2")
->     return selected_optimization
-> 
-> SELECTED_OPTIMIZATION := "${@get_optimization(d)}"
-> 
-> 
-> It sounds like by the time SELECTED_OPTIMIZATION tries to make an assignment 
-> with immediate var expansion, get_optimization() function is not yet defined.
-> 
-> This happens with high BB_NUM_THREADS and bitbake 1.18. Trying bitbake from 
-> master on Dylan gives "AttributeError: 'NoneType' object has no attribute 
-> 'rfind'", but that's another story.
-> 
-> Anyone has any clues or suggestions? Thanks.
-> 
-> -- 
-> Denys
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
