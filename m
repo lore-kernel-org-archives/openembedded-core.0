@@ -1,30 +1,30 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D2DC8616F5
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E25E46BFA6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 02:37:19 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 09 Sep 2013 19:34:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,875,1371106800"; d="scan'208";a="375820685"
-Received: from unknown (HELO [10.255.14.91]) ([10.255.14.91])
-	by orsmga001.jf.intel.com with ESMTP; 09 Sep 2013 19:37:20 -0700
-Message-ID: <1378780640.19978.69.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Yunguo Wei <yunguo.wei@windriver.com>
-Date: Mon, 09 Sep 2013 19:37:20 -0700
-In-Reply-To: <5229303F.1090209@windriver.com>
-References: <cover.1378339881.git.dvhart@linux.intel.com>
-	<4562a00806c5a6573b5aa650764ad12bc93edda7.1378339881.git.dvhart@linux.intel.com>
-	<CAJTo0LY-oi+tQy7rs84axy4R71Y4j=HtEgXALN20aVdATwzVdg@mail.gmail.com>
-	<1378392729.14029.73.camel@dvhart-mobl4.amr.corp.intel.com>
-	<5229303F.1090209@windriver.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: Poky <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] xf86-video-mga: Pull in Matrox MGA support from meta-intel
+	Tue, 10 Sep 2013 04:40:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8A4euId023318
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 9 Sep 2013 21:40:56 -0700 (PDT)
+Received: from [128.224.22.38] (128.224.22.38) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 9 Sep 2013 21:40:55 -0700
+Message-ID: <522EA2D6.7030805@windriver.com>
+Date: Tue, 10 Sep 2013 00:40:54 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: jhuang0 <jackie.huang@windriver.com>
+References: <1378721444-22545-1-git-send-email-jackie.huang@windriver.com>
+	<1378722078.6940.124.camel@phil-desktop.brightsign>
+	<522DA232.70900@windriver.com>
+In-Reply-To: <522DA232.70900@windriver.com>
+X-Originating-IP: [128.224.22.38]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pulseaudio: avoid gcc ICE by omitting code TEMPORARILY
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,67 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 02:37:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Sep 2013 04:40:55 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2013-09-06 at 09:30 +0800, Yunguo Wei wrote:
-> On 09/05/2013 10:52 PM, Darren Hart wrote:
-> > On Thu, 2013-09-05 at 10:57 +0100, Burton, Ross wrote:
-> >> On 5 September 2013 01:18, Darren Hart <dvhart@linux.intel.com> wrote:
-> >>> In support of the more generic x86 BSPs, pull in the Matrox driver
-> >>> recipe from meta-intel.
-> >> What machine is this for in particular?
-> > This was reported when someone was testing on a Romley machine.
-> 
-> Yes, it is Intel SDP S2R3, Romley-EP IVY refresh.
-> >
-> >>    In discussion with Nitin
-> >> about MGA a few weeks back the conclusion was that the vesa driver
-> >> should be sufficient.  As far as I'm aware the reference platforms
-> >> don't ship with MGA hardware so it's up to the owner of the platform
-> >> to install whatever they have to hand (mga, nvidia, ATI, etc), or am I
-> >> wrong about that?
-> > Nitin?
-> >
-> > Yunguo?
-> 
-> We thought vesa is supposed to work.
-> 
-> Intel OSVe team reported this problem against WRLinux 5.0.1, and I fixed 
-> it by adding mga package.
-> Note that, mga kernel driver was not built-in or as a module.
+On 13-09-09 06:25 AM, jhuang0 wrote:
+>
+>
+> On 9/9/2013 6:21 PM, Phil Blundell wrote:
+>> On Mon, 2013-09-09 at 18:10 +0800, jackie.huang@windriver.com wrote:
+>>> From: Randy MacLeod <Randy.MacLeod@windriver.com>
+>>>
+>>> It's a FYI patch for anyone who might be having the same problem.
+>>>
+>>> pulseaudio-4.0 causes an internal compiler error. Temporarily
+>>> avoid the build error be omitting the code that makes the
+>>> compiler fail until the compiler ICE is addressed.
+>>
+>> Please mention the GCC bug number for this ice so that it's easy to
+>> establish when it has indeed been addressed.
+>
+> Sorry, I don't have the bug number.
+>
+> Randy,
+>
+> Do you have one for this?
 
-I missed that the kernel module was missing. Oops. That's easy enough to
-add to the common-pc graphics fragment. But what we need to know is if
-we should try to get MGA into oe-core or not. I honestly don't
-understand why we shouldn't, with intel and omap in there already. It
-seems silly to have a special layer for the xorg driver when mesa and
-the kernel already build their part for the same hardware....
+Not yet.
 
-Are there any compelling arguments for not including the mga driver in
-oe-core?
+In fact I can't reproduce it using just oe-core so
+I think my report via Jackie is a false alarm.
+Sorry about that.
 
-> 
-> 
-> Regards,
-> Yunguo
-> >
-> >>> Remove the checkfile patch from Ross as this is now handled adequately
-> >>> with the configure prepend hack which assumes success for any checkfile
-> >>> calls.
-> >> Assuming success in an distro where opengl isn't enabled will result
-> >> in the driver believing that DRI is enabled when it isn't, so expect
-> >> to see build failures from this.
-> > Should we be adding a distro depends on opengl for this driver as is
-> > being done for others currently?
-> >
-> 
+// Randy
+>
+> Thanks,
+> Jackie
+>
+>>
+>> p.
+>>
+>>
+>>
+>>
+>
+
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
