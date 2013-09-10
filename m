@@ -1,35 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8214F6101A
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 98FB8610F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 17:15:15 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id hn9so1046042wib.17
+	Tue, 10 Sep 2013 17:15:16 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id l18so7038566wgh.16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 10:15:16 -0700 (PDT)
+	Tue, 10 Sep 2013 10:15:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=2Uiz6OaVlm/nQzbIWgJEMKe1MbJKi+tdVC0vmxM8s7s=;
-	b=MV0kNbaJHSWe5Wjf5DcKsUwQgvdJPk2LeZab2WppjMNTFV5ZrbtnuKCEf0OcWa9SvU
-	gf53WHuWwUOmleLNg8WjjJ68thBxl7pbterBwHmD79mXfmq4VO6Yty8wxVzl50dmNuLw
-	SDRSs6mLv17n6lmRU+JG09WJamcJpFVXN7SCkflrXNOHJL8KbSMnDGmbiQYVaDRjmbEd
-	Wi9qIWTLBquZ1teQyS/DVbS/4kVVmj52CWCDVuW5G9dA0tY80+7mvbtdNytqPA05PGNG
-	PCP/KXSKXad4yI8fNHt286C4XTtCs0YWHphatv65e/EZI1W9ZujIgVB6enjrkUu94e+/
-	EtQQ==
-X-Gm-Message-State: ALoCoQmmC3PAw1ihxLJSZb4fT96hXOpKSqfp5kLykEWz2ZBUzhBgw5EPYOYYnJbTQCDsZW3dtou2
-X-Received: by 10.180.183.108 with SMTP id el12mr13482532wic.55.1378833316469; 
-	Tue, 10 Sep 2013 10:15:16 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=xd2bJJGwXyENkVPFlEF2SVyLEobgzYEmNlriR+vnRY8=;
+	b=OuLSWHX0tIXX69Sl9k5UTfS3nnBPCkq7nMcBn3UUxIc65XpunzMPqDT0zU/6dZYdKY
+	0tyqLLCQJ29g5xP0GvauJ7IR9hqc3P4f/VuWe/+U2zgOwvpUSZZvviyAYv3rFOU0dS72
+	DG4fY6M85F62axzCG0H5OF3wGKq4JIEnZilRbIR3tIWWLhhMMcRgdGMCqSUW/k7KlRa1
+	UKURdgJsEITO1jR3+HaGdq8qaNulUB1dXm1BudF014j2xBzEy5dtCgj3sKgSSj7viGIn
+	w428mvDRbycd7UWH3GOwjNS5ODPxEPW2aj1BfRKdOUNAIoVvlb+qusotqXb17P7svMAZ
+	IelA==
+X-Gm-Message-State: ALoCoQmL6oUGF/rvZJnxNaQhTxl1sFuOH7gY5zEkTZqYgOoWP1qgWyPqgZtgsCMn05GZnJpxFOqR
+X-Received: by 10.194.23.8 with SMTP id i8mr1442163wjf.68.1378833317782;
+	Tue, 10 Sep 2013 10:15:17 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id fz8sm4932950wic.0.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 10 Sep 2013 10:15:15 -0700 (PDT)
+	Tue, 10 Sep 2013 10:15:17 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Sep 2013 18:15:05 +0100
-Message-Id: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 10 Sep 2013 18:15:06 +0100
+Message-Id: <1378833306-27394-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] base: improve PACKAGECONFIG handling logic
+In-Reply-To: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
+References: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] base: add RRECOMMENDS to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,52 +44,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 17:15:15 -0000
+X-List-Received-Date: Tue, 10 Sep 2013 17:15:17 -0000
 
-The existing code for handling PACKAGECONFIG lists wasn't the cleanest Python
-around.  Instead of diving into the list directly using indices and lengths, use
-pop() to iterate through the list.
+Add a fifth optional element of the PACKAGECONFIG flags that can be used to set
+RRECOMMENDS_${PN}.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/base.bbclass |   17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ meta/classes/base.bbclass |   12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index dfa580c..12c8741 100644
+index 12c8741..651512a 100644
 --- a/meta/classes/base.bbclass
 +++ b/meta/classes/base.bbclass
+@@ -394,7 +394,7 @@ python () {
+     # These take the form:
+     #
+     # PACKAGECONFIG ??= "<default options>"
+-    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends"
++    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends,foo_runtime_recommends"
+     pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
+     if pkgconfigflags:
+         pkgconfig = (d.getVar('PACKAGECONFIG', True) or "").split()
 @@ -420,7 +420,7 @@ python () {
          def appendVar(varname, appends):
              if not appends:
                  return
--            if varname.find("DEPENDS") != -1:
-+            if "DEPENDS_" in varname:
+-            if "DEPENDS_" in varname:
++            if "DEPENDS_" in varname or "RRECOMMENDS_" in varname:
                  if pn.startswith("nativesdk-"):
                      appends = expandFilter(appends, "", "nativesdk-")
                  if pn.endswith("-native"):
-@@ -442,12 +442,15 @@ python () {
-                 bb.error("Only enable,disable,depend,rdepend can be specified!")
+@@ -432,14 +432,15 @@ python () {
+ 
+         extradeps = []
+         extrardeps = []
++        extrarrecs = []
+         extraconf = []
+         for flag, flagval in pkgconfigflags.items():
+             if flag == "defaultval":
+                 continue
+             items = flagval.split(",")
+             num = len(items)
+-            if num > 4:
+-                bb.error("Only enable,disable,depend,rdepend can be specified!")
++            if num > 5:
++                bb.error("Only enable,disable,depend,rdepend,rrecommend can be specified!")
  
              if flag in pkgconfig:
--                if num >= 3 and items[2]:
--                    extradeps.append(items[2])
--                if num >= 4 and items[3]:
--                    extrardeps.append(items[3])
--                if num >= 1 and items[0]:
--                    extraconf.append(items[0])
+                 if items:
+@@ -451,10 +452,13 @@ python () {
+                     extradeps.append(items.pop(0))
+                 if items:
+                     extrardeps.append(items.pop(0))
 +                if items:
-+                    extraconf.append(items.pop(0))
-+                # Skip over disable
-+                if items:
-+                    items.pop(0)
-+                if items:
-+                    extradeps.append(items.pop(0))
-+                if items:
-+                    extrardeps.append(items.pop(0))
++                    extrarrecs.append(items.pop(0))
              elif num >= 2 and items[1]:
                      extraconf.append(items[1])
          appendVar('DEPENDS', extradeps)
+         appendVar('RDEPENDS_${PN}', extrardeps)
++        appendVar('RRECOMMENDS_${PN}', extrarrecs)
+         if bb.data.inherits_class('cmake', d):
+             appendVar('EXTRA_OECMAKE', extraconf)
+         else:
 -- 
 1.7.10.4
 
