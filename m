@@ -1,41 +1,27 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f178.google.com (mail-vc0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 85120615C4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 12:39:32 +0000 (UTC)
-Received: by mail-vc0-f178.google.com with SMTP id ha12so4870755vcb.37
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 05:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type:content-transfer-encoding;
-	bh=30Tcp1Lf4GYRv0mqwDUSuv14EEeRYxlz/8WEyun4o4I=;
-	b=Z2AWASFQDID8ixrTt3aVIlPSXmxyT64kXwCPT2eHsO/rH805r3HW5FaOqcEXGeQy2H
-	teM4aX4F63O5FFuPlhI8PoaSfJuF+CC85Wh0e9Dxvq1ea2WNjJyD/84FaAPuZLFKpOYC
-	1PB5pEyZ/AxKxRSXvPzCo2zQngolGViza8l+YUCUUdMD8IqxFvAnA6695KT0YHKOKYU7
-	/a1WW7MkxFG8LxJ5U11ESHljala6HKaU5rO0EclEjrS3G0pOxuNGyDlElH/m9c71rAQn
-	I1Pba9BmbebiYBvKKDdngdAqPNJDrpaZZYglGoyNijL+p1zd1N055RYj1vlnsjve911N
-	0XdA==
-X-Received: by 10.58.161.116 with SMTP id xr20mr22553424veb.2.1378816773846;
-	Tue, 10 Sep 2013 05:39:33 -0700 (PDT)
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 45C6B615F5;
+	Tue, 10 Sep 2013 13:16:51 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 10 Sep 2013 06:16:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,878,1371106800"; d="scan'208";a="358397623"
+Received: from akagikob-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.123.124])
+	by azsmga001.ch.intel.com with ESMTP; 10 Sep 2013 06:16:51 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Tue, 10 Sep 2013 14:16:50 +0100
+Message-ID: <1893978.VDA3SxeMzl@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <CANyK_8egdmC3tsFq2fZKbaqmxnpuruWyJPhbBgYEdMz-qqffKA@mail.gmail.com>
+References: <2350938.FMkgc32xKC@helios>
+	<CANyK_8egdmC3tsFq2fZKbaqmxnpuruWyJPhbBgYEdMz-qqffKA@mail.gmail.com>
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.155.17 with HTTP; Tue, 10 Sep 2013 05:38:53 -0700 (PDT)
-In-Reply-To: <CAFyqS9qs5YpbA2q_WLZb95qq_pGY-dezGMC1k7C5xAou2iCsAA@mail.gmail.com>
-References: <00D40DBB-D50A-44EE-B939-8EC0AD1024EB@gmail.com>
-	<CAFyqS9rEabcr+RMS_i+9+JMpVMnKucSB8GU9GS5pJf8SAr-MSA@mail.gmail.com>
-	<CANyK_8duW8cshoAkNKo3mnRdmaCNz12ZK3xKVCni9Uxx1hVftA@mail.gmail.com>
-	<CAFyqS9rHuWo+DXkBxCmtPwzeunMe01y-swKjYKjUkQ_YcofXqg@mail.gmail.com>
-	<CANyK_8eQB9KEs5NMXEhysakBrFzkBcGCBRs0=v3Kh6vxNYo0_g@mail.gmail.com>
-	<CAFyqS9qs5YpbA2q_WLZb95qq_pGY-dezGMC1k7C5xAou2iCsAA@mail.gmail.com>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Tue, 10 Sep 2013 13:38:53 +0100
-X-Google-Sender-Auth: CReApXRXMM1nMpcbUoupt5box3U
-Message-ID: <CANyK_8eNK6j6HZjpNpZHJs0_uqKJ4-zKv4vRZpue1O9Cnr8Q6g@mail.gmail.com>
-To: =?ISO-8859-1?Q?Hans_Beck=E9rus?= <hans.beckerus@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] libtool: fix resolve of lt_sysroot
+Cc: Openembedded Discussion <openembedded-devel@lists.openembedded.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Invitation: OpenEmbedded public TSC/workgroup meeting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,24 +34,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 12:39:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Sep 2013 13:16:51 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 10 September 2013 13:30, Hans Beck=E9rus <hans.beckerus@gmail.com> wrote=
-:
-> Yes, or I will just try to find a simple stupid mail client that does
-> not mess up the formatting.
-> I will try later today from a different client. That will be the last
-> attempt. I am making a complete fool out of myself already ;)
->
+Hi Paul,
 
-You should have seen the first patches I posted! Don't worry about
-looking like a fool, we were all new to this at some point.
+On Tuesday 10 September 2013 12:13:12 Paul Barker wrote:
+> On 5 September 2013 19:52, Paul Eggleton <paul.eggleton@linux.intel.com>
+> wrote:
+> > Please join the OpenEmbedded TSC (Technical Steering Committee) this
+> > coming Tuesday for a public IRC meeting to discuss ongoing community
+> > technical work.
+> > 
+> > As you may be aware, the role of the OpenEmbedded TSC is currently
+> > evolving to focus our efforts on setting technical direction and
+> > resolving conflicts (should they arise), instead of spearheading specific
+> > technical contributions. While each of us expects to continue to be
+> > involved in technical contributions, we want to reach out to the
+> > OpenEmbedded community and work to establish a better way for work to be
+> > done. The plan is to hold these public meetings on a monthly basis and
+> > reduce separate TSC meetings to quarterly or as-needed.
+> > 
+> > Time: Tuesday September 10th at 16:00 GMT (9am PDT, 11am CDT, 12 EDT,
+> > 18:00
+> > CEST, 17:00 BST)
+> > Where: Freenode IRC, channel #oe
+> > 
+> > The goal of this meeting is to continue to discuss outstanding tasks,
+> > discuss and collect any new tasks or issues, and establish one or more
+> > task- force/working group/etc in order to accomplish the tasks.
+> > 
+> > While we are still working on a more formal agenda, we expect to cover
+> > topics such as:
+> > 
+> > * SPDX integration, other licensing issues
+> > * janitor tasks (general cleanup/maintenance activities)
+> 
+> I'm unsure if I'll have internet access around this time as I'm
+> travelling today. Incase I can't make it, I briefly want to say that
+> we should set up a wiki page for non-urgent janitor tasks and try to
+> make a list of those tasks which we think could easily be handled by a
+> new contributor to OE/Yocto. That would hopefully make it easier for
+> people to learn the ropes and get involved.
 
---=20
-Paul Barker
+Absolutely. Between OE and the Yocto Project we do have a couple of wiki 
+pages:
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+http://www.openembedded.org/wiki/OpenEmbeddedJanitors
+https://wiki.yoctoproject.org/wiki/Janitors
+
+We need to work on getting this information into one place though and turning 
+it into a reasonable list with pointers on how people can get started.
+
+> I assume that an IRC log will be posted after the meeting, is that correct?
+
+That's correct.
+
+Cheers,
+Paul
+
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
