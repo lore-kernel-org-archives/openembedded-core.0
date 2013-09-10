@@ -1,50 +1,30 @@
-Return-Path: <B28495@freescale.com>
-Received: from ch1outboundpool.messaging.microsoft.com
-	(ch1ehsobe001.messaging.microsoft.com [216.32.181.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B4A176BE44
+Return-Path: <hans.beckerus@gmail.com>
+Received: from mail-qe0-f44.google.com (mail-qe0-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F92660F24
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 10:03:29 +0000 (UTC)
-Received: from mail79-ch1-R.bigfish.com (10.43.68.241) by
-	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 10 Sep 2013 10:03:31 +0000
-Received: from mail79-ch1 (localhost [127.0.0.1])	by mail79-ch1-R.bigfish.com
-	(Postfix) with ESMTP id EA091600A1;
-	Tue, 10 Sep 2013 10:03:30 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz98dI9371I542I1432Izz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839h8e2h8e3h93fhd25hf0ah1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5hbe9i1155h)
-Received: from mail79-ch1 (localhost.localdomain [127.0.0.1]) by mail79-ch1
-	(MessageSwitch) id 1378807408852588_15021;
-	Tue, 10 Sep 2013 10:03:28 +0000 (UTC)
-Received: from CH1EHSMHS008.bigfish.com (snatpool1.int.messaging.microsoft.com
-	[10.43.68.246])	by mail79-ch1.bigfish.com (Postfix) with ESMTP id
-	CB45EC025A; Tue, 10 Sep 2013 10:03:28 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS008.bigfish.com
-	(10.43.70.8) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Tue, 10 Sep 2013 10:03:28 +0000
-Received: from 039-SN2MPN1-013.039d.mgd.msft.net ([169.254.3.102]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.03.0158.002; Tue, 10 Sep 2013 10:03:27 +0000
-From: Liu Ting-B28495 <B28495@freescale.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [oe-core][PATCH] libcroco: disable Bsymbolic if it
-	is not supported on some hosts
-Thread-Index: AQHOrfAki5HFA0j0Fk6+HbxLdhMjDpm+tmIAgAAGSKA=
-Date: Tue, 10 Sep 2013 10:03:27 +0000
-Message-ID: <AF604684617F454390621992F367F1690BB21135@039-SN2MPN1-013.039d.mgd.msft.net>
-References: <1378795010-807-1-git-send-email-b28495@freescale.com>
-	<CAJTo0LbM2CF4_vnvCZejQB6kMUtqazbbG3UKk1TUSUKBfvGzog@mail.gmail.com>
-In-Reply-To: <CAJTo0LbM2CF4_vnvCZejQB6kMUtqazbbG3UKk1TUSUKBfvGzog@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.193.20.135]
+	Tue, 10 Sep 2013 10:12:07 +0000 (UTC)
+Received: by mail-qe0-f44.google.com with SMTP id 3so2668760qeb.17
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Sep 2013 03:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=VfsQit4HtxBGUV2ePba/lvqk3OSSBVwPmyR5b3TnymQ=;
+	b=anLCIukmOKdyJ0qQ84CgETAryNSnpxK4/Wq0EEAc3IWpIAv1WtPmBXQVh9B8akV97B
+	xSKzi5Jkr2QJxG42ccDaus1rj5ahA2a0uO+zj5qUVEN0E+U7pac+BRnoUAoTPVlsevhR
+	DSPR9S2PErW0xbk+nlxQah4iB3X1Q251CcLhojyMXpdz21xZdo+aHXyaIGkk5yl8IjWX
+	9tzeClmqIIN2Bat1SEopJfYk9I/X1NUT1HjVykn1DZtPfhtul0GPdT39MvEVrcSvXnbc
+	2U8Xj1YceTIQeXJY0urwtDzK+VwLqQvTnsNHp6ciTU7QOPji69il2r/pyA1JuOGB7Ma8
+	jcRQ==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcroco: disable Bsymbolic if it is not supported on some hosts
+X-Received: by 10.49.0.234 with SMTP id 10mr17670463qeh.67.1378807928380; Tue,
+	10 Sep 2013 03:12:08 -0700 (PDT)
+Received: by 10.49.57.197 with HTTP; Tue, 10 Sep 2013 03:12:08 -0700 (PDT)
+Date: Tue, 10 Sep 2013 12:12:08 +0200
+Message-ID: <CAFyqS9qQR+YQj8tKWHJxOc=9Ti34gM4DFjxaoJi9cVbnDWzLAA@mail.gmail.com>
+From: =?ISO-8859-1?Q?Hans_Beck=E9rus?= <hans.beckerus@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] libtool: fix resolve of variable lt_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,20 +37,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 10:03:30 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 10 Sep 2013 10:12:07 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0
-bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIFNlcHRlbWJlciAxMCwg
-MjAxMyA1OjM2IFBNDQo+IFRvOiBMaXUgVGluZy1CMjg0OTUNCj4gQ2M6IE9FLWNvcmUNCj4gU3Vi
-amVjdDogUmU6IFtPRS1jb3JlXSBbb2UtY29yZV1bUEFUQ0hdIGxpYmNyb2NvOiBkaXNhYmxlIEJz
-eW1ib2xpYyBpZiBpdA0KPiBpcyBub3Qgc3VwcG9ydGVkIG9uIHNvbWUgaG9zdHMNCj4gDQo+IE9u
-IDEwIFNlcHRlbWJlciAyMDEzIDA3OjM2LCAgPGIyODQ5NUBmcmVlc2NhbGUuY29tPiB3cm90ZToN
-Cj4gPiArRVhUUkFfT0VDT05GICs9ICJlbmFibGVfQnN5bWJvbGljPWF1dG8iDQo+IA0KPiBTdXJl
-bHkgeW91IG1lYW4gIi0tZW5hYmxlLUJzeW1ib2xpYz1hdXRvIiwgYXMgdGhhdCdzIHdoYXQgdGhl
-IG9wdGlvbiBpcw0KPiBjYWxsZWQuDQo+IA0KDQpZZWFoLCB5b3UgYXJlIHJpZ2h0LiBQYXRjaCB2
-MiBoYXMgYmVlbiBzZW50IG91dC4gVGhhbmtzLg0KDQotVGluZw0KDQo+IFJvc3MNCg0K
+This patch updates libtool.m4 (and its output) to resolve a problem
+with variable 'lt_sysroot' not being properly updated if the option
+'--with[-libtool]-sysroot' is not provided when running the 'configure'
+script for a package.
 
+According to the help text ouput from 'configure':
+ --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+                       (or the compiler's sysrooot if not specified).
+
+Due to swapped cases in a switch statement, when checking if the option
+was specified or not, wrong actions were taken resulting in an
+incorrect sysroot and failures to properly locate e.g. .la files.
+
+For current upstream status see:
+http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
+
+Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
+---
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc    |  1 +
+ .../libtool/libtool/fix-resolve-lt-sysroot.patch   | 35 ++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644
+meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+index bb4ddf0..92e4949 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+           file://respect-fstack-protector.patch \
+            file://norm-rpath.patch \
+            file://dont-depend-on-help2man.patch \
++           file://fix-resolve-lt-sysroot.patch \
+           "
+
+ SRC_URI[md5sum] = "d2f3b7d4627e69e13514a40e72a24d50"
+diff --git a/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+new file mode 100644
+index 0000000..5a6335b
+--- /dev/null
++++ b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+@@ -0,0 +1,35 @@
++
++Upstream-Status: Pending
++
++This patch updates libtool.m4 (and its output) to resolve a problem
++with variable 'lt_sysroot' not being properly updated if the option
++'--with[-libtool]-sysroot' is not provided when running the 'configure'
++script for a package.
++
++I have also reported the problem to libtool here
++
++http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
++
++Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
++---
++diff -ur libtool-2.4.2.orig/libltdl/m4/libtool.m4
+libtool-2.4.2/libltdl/m4/libtool.m4
++--- libtool-2.4.2.orig/libltdl/m4/libtool.m4   2013-09-05
+10:37:24.690013000 +0200
+++++ libtool-2.4.2/libltdl/m4/libtool.m4        2013-09-05
+12:05:51.560281000 +0200
++@@ -1234,7 +1234,7 @@
++ dnl in case the user passed a directory name.
++ lt_sysroot=
++ case ${with_libtool_sysroot} in #(
++- yes)
+++ no)
++    if test "$GCC" = yes; then
++      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
++    fi
++@@ -1242,7 +1242,7 @@
++  /*)
++    lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
++    ;; #(
++- no|'')
+++ yes|'')
++    ;; #(
++  *)
++    AC_MSG_RESULT([${with_libtool_sysroot}])
+-- 
+1.8.3.3
 
