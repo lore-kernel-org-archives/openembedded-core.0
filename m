@@ -1,45 +1,27 @@
-Return-Path: <B28495@freescale.com>
-Received: from va3outboundpool.messaging.microsoft.com
-	(va3ehsobe010.messaging.microsoft.com [216.32.180.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 243EA61628
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C57956161F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 06:36:56 +0000 (UTC)
-Received: from mail92-va3-R.bigfish.com (10.7.14.253) by
-	VA3EHSOBE003.bigfish.com (10.7.40.23) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 10 Sep 2013 06:36:56 +0000
-Received: from mail92-va3 (localhost [127.0.0.1])	by mail92-va3-R.bigfish.com
-	(Postfix) with ESMTP id 60F8822006D	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 06:36:56 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h1155h)
-Received: from mail92-va3 (localhost.localdomain [127.0.0.1]) by mail92-va3
-	(MessageSwitch) id 1378795015512362_21560;
-	Tue, 10 Sep 2013 06:36:55 +0000 (UTC)
-Received: from VA3EHSMHS019.bigfish.com (unknown [10.7.14.248])	by
-	mail92-va3.bigfish.com (Postfix) with ESMTP id 785FF3C004D	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 06:36:55 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS019.bigfish.com
-	(10.7.99.29) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Tue, 10 Sep 2013 06:36:55 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.3.158.2; Tue, 10 Sep 2013 06:36:54 +0000
-Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
-	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
-	ESMTP id r8A6apNQ002046;	Mon, 9 Sep 2013 23:36:52 -0700
-From: <b28495@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Sep 2013 14:36:50 +0800
-Message-ID: <1378795010-807-1-git-send-email-b28495@freescale.com>
-X-Mailer: git-send-email 1.7.5.4
+	Tue, 10 Sep 2013 07:33:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8A7XiqM025206
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Sep 2013 00:33:44 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 10 Sep 2013 00:33:42 -0700
+Message-ID: <522ECB4B.2070209@windriver.com>
+Date: Tue, 10 Sep 2013 15:33:31 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] libcroco: disable Bsymbolic if it is not supported on some hosts
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1378736079.3484.117.camel@ted>
+In-Reply-To: <1378736079.3484.117.camel@ted>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] bitbake.conf: Stop providing ${P} and ${PF} by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +34,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 06:36:56 -0000
-Content-Type: text/plain
-
-From: Ting Liu <b28495@freescale.com>
-
-When trying to build on my Centos 5.5 machine, got below error:
-| checking for gtkdoc-mkpdf... no
-| checking whether to build gtk-doc documentation... no
-| checking for CROCO... yes
-| checking if gcc supports "-Wl,-Bsymbolic-functions" flag...
-| configure: error: -Bsymbolic requested but not supported by ld. Use --disable-Bsymbolic to disable
-| Configure failed. The contents of all config.log files follows to aid debugging
-|
-| configure: exit 1
-| ERROR: oe_runconf failed
-
-Set enable_Bsymbolic=auto to disable it when it is not suppported.
-
-Signed-off-by: Ting Liu <b28495@freescale.com>
----
- meta/recipes-support/libcroco/libcroco_0.6.8.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.8.bb b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-index 3c5dc9a..fe1a42d 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
- SECTION = "x11/utils"
- DEPENDS = "glib-2.0 libxml2 zlib"
- BBCLASSEXTEND = "native"
--
-+EXTRA_OECONF += "enable_Bsymbolic=auto"
- PR = "r1"
- 
- inherit autotools pkgconfig gnomebase
--- 
-1.7.5.4
+X-List-Received-Date: Tue, 10 Sep 2013 07:33:44 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
+Hi RP,
+
+Thanks, Can we provide a replacement for the "bitbake PN-PV" since it is
+useful, for example, can we support the PREFERRED_VERSION_${PN} in the env
+in the future ? There is a similar bug:
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=4965
+
+// Robert
+
+
+On 09/09/2013 10:14 PM, Richard Purdie wrote:
+> For a long time we've provided PN-PV and PN-PV-PR by tweaking PROVIDES. This looks
+> nice at first glance however it turns out to be a bit problematic. Taking make as an
+> example where there are two versions, 3.81 and 3.82, what should "bitbake make-3.81" do?
+>
+> Currently it builds make-3.81 and make-3.82 and breaks in interesting ways. Is that
+> a bitbake bug? Well, it certainly shouldn't try and run the build. Why is it building
+> 3.82 though? Its due to finding a dependency on "make-dev" and then trying to figure
+> out what provides it? The answer is "make" and the default version of "make" is 3.82.
+>
+> So arguably, finding "make-3.81" should infer PREFERRED_VERSION_make = "3.81". Doing
+> so resolved the above problem since now "make" resolves to "make-3.81".
+>
+> So what about if we have Recipe A:
+> DEPENDS = "make-3.81"
+> and Recipe B:
+> DEPENDS = "make-3.82"
+>
+> That is clearly an error, easy. So finally what about if we have Recipe A:
+> DEPENDS = "make-3.81"
+> and Recipe B:
+> DEPENDS = "make"
+>
+> The first recipe infers the PREFERRED_VERSION_make = "3.81" and then forces that
+> version on everything else. Is that desired? Probably not in most cases, at least not
+> silently.
+>
+> As mitigation, we could print a WARNING about this happening. The final part of the problem
+> is that we can ony figure this out within bitbake itself. That means we'd have to teach bitbake
+> about the PN-PV format of PROVIDES which is breaking the separation between bitbake and the
+> metadata. We can't win :(.
+>
+> Nobody that I know of is using or relying on this functionality so perhaps we should
+> just remove it instead which is what this patch does. Opinions?
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 2d19d86..578c7d0 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -253,7 +253,7 @@ DEPCHAIN_POST = "-dev -dbg"
+>   DEPENDS = ""
+>   RDEPENDS = ""
+>   PROVIDES = ""
+> -PROVIDES_prepend = "${P} ${PF} ${PN} "
+> +PROVIDES_prepend = "${PN} "
+>   RPROVIDES = ""
+>
+>   MULTI_PROVIDER_WHITELIST = "virtual/libintl virtual/libintl-native virtual/nativesdk-libintl virtual/xserver virtual/update-alternatives-native virtual/update-alternatives"
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
