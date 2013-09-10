@@ -1,27 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C57956161F
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C4EB2617B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 07:33:43 +0000 (UTC)
+	Tue, 10 Sep 2013 07:53:41 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8A7XiqM025206
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 10 Sep 2013 00:33:44 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 10 Sep 2013 00:33:42 -0700
-Message-ID: <522ECB4B.2070209@windriver.com>
-Date: Tue, 10 Sep 2013 15:33:31 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8A7rhrH003611
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Sep 2013 00:53:43 -0700 (PDT)
+Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 10 Sep 2013 00:53:42 -0700
+From: Ming Liu <ming.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Sep 2013 15:53:24 +0800
+Message-ID: <1378799604-22201-1-git-send-email-ming.liu@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1378736079.3484.117.camel@ted>
-In-Reply-To: <1378736079.3484.117.camel@ted>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] bitbake.conf: Stop providing ${P} and ${PF} by default
+Subject: [PATCH] initscripts: filter out empty lines from volatiles in check_requirements()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,78 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 07:33:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Sep 2013 07:53:43 -0000
+Content-Type: text/plain
 
+So far the rules of check_requirements() is too strict to lead mismatch
+when empty lines exist in volatiles.
 
-Hi RP,
+Signed-off-by: Ming Liu <ming.liu@windriver.com>
+---
+ .../initscripts-1.0/populate-volatile.sh           |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Thanks, Can we provide a replacement for the "bitbake PN-PV" since it is
-useful, for example, can we support the PREFERRED_VERSION_${PN} in the env
-in the future ? There is a similar bug:
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+index 915b7d0..6ffe1f2 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/populate-volatile.sh
+@@ -107,7 +107,7 @@ check_requirements() {
+ 	TMP_COMBINED="${TMPROOT}/tmpcombined.$$"
+ 
+ 	cat ${ROOT_DIR}/etc/passwd | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+-	cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 2 > "${TMP_INTERMED}"
++	cat ${CFGFILE} | grep -v "^#" | cut -s -d " " -f 2 > "${TMP_INTERMED}"
+ 	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 	NR_DEFINED_USERS="`cat "${TMP_DEFINED}" | wc -l`"
+ 	NR_COMBINED_USERS="`cat "${TMP_COMBINED}" | wc -l`"
+@@ -121,7 +121,7 @@ check_requirements() {
+ 
+ 
+ 	cat ${ROOT_DIR}/etc/group | sed 's@\(^:\)*:.*@\1@' | sort | uniq > "${TMP_DEFINED}"
+-	cat ${CFGFILE} | grep -v "^#" | cut -d " " -f 3 > "${TMP_INTERMED}"
++	cat ${CFGFILE} | grep -v "^#" | cut -s -d " " -f 3 > "${TMP_INTERMED}"
+ 	cat "${TMP_DEFINED}" "${TMP_INTERMED}" | sort | uniq > "${TMP_COMBINED}"
+ 
+ 	NR_DEFINED_GROUPS="`cat "${TMP_DEFINED}" | wc -l`"
+-- 
+1.7.1
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=4965
-
-// Robert
-
-
-On 09/09/2013 10:14 PM, Richard Purdie wrote:
-> For a long time we've provided PN-PV and PN-PV-PR by tweaking PROVIDES. This looks
-> nice at first glance however it turns out to be a bit problematic. Taking make as an
-> example where there are two versions, 3.81 and 3.82, what should "bitbake make-3.81" do?
->
-> Currently it builds make-3.81 and make-3.82 and breaks in interesting ways. Is that
-> a bitbake bug? Well, it certainly shouldn't try and run the build. Why is it building
-> 3.82 though? Its due to finding a dependency on "make-dev" and then trying to figure
-> out what provides it? The answer is "make" and the default version of "make" is 3.82.
->
-> So arguably, finding "make-3.81" should infer PREFERRED_VERSION_make = "3.81". Doing
-> so resolved the above problem since now "make" resolves to "make-3.81".
->
-> So what about if we have Recipe A:
-> DEPENDS = "make-3.81"
-> and Recipe B:
-> DEPENDS = "make-3.82"
->
-> That is clearly an error, easy. So finally what about if we have Recipe A:
-> DEPENDS = "make-3.81"
-> and Recipe B:
-> DEPENDS = "make"
->
-> The first recipe infers the PREFERRED_VERSION_make = "3.81" and then forces that
-> version on everything else. Is that desired? Probably not in most cases, at least not
-> silently.
->
-> As mitigation, we could print a WARNING about this happening. The final part of the problem
-> is that we can ony figure this out within bitbake itself. That means we'd have to teach bitbake
-> about the PN-PV format of PROVIDES which is breaking the separation between bitbake and the
-> metadata. We can't win :(.
->
-> Nobody that I know of is using or relying on this functionality so perhaps we should
-> just remove it instead which is what this patch does. Opinions?
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 2d19d86..578c7d0 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -253,7 +253,7 @@ DEPCHAIN_POST = "-dev -dbg"
->   DEPENDS = ""
->   RDEPENDS = ""
->   PROVIDES = ""
-> -PROVIDES_prepend = "${P} ${PF} ${PN} "
-> +PROVIDES_prepend = "${PN} "
->   RPROVIDES = ""
->
->   MULTI_PROVIDER_WHITELIST = "virtual/libintl virtual/libintl-native virtual/nativesdk-libintl virtual/xserver virtual/update-alternatives-native virtual/update-alternatives"
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
