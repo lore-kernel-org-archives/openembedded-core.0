@@ -1,36 +1,30 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 081416BF83
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D2DC8616F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 00:44:47 +0000 (UTC)
-Received: by mail-pd0-f179.google.com with SMTP id v10so6857048pde.38
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Sep 2013 17:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=D/C5Y9rMAW/hMxzSDSrD+3yPoV/bcPN2kwX3kXbjaxo=;
-	b=zpG0x2Q6bgQjjo5LwT7KRT+VJeOOUXDHMAoqCCy3vPeaS8TPjch0Hr2+lccZCkm13d
-	GTCtqivG4UT8jJyUIKdY/FFtcxYlxDeWo+ev0BBDDbtMBdOf1Di5mWLq7cmlSDT1UkrB
-	H8XfCMxjrokqfxuwVlJrEZ+aIuEKs7rj2fi9iIxKx2gwGg7v7xmELS8dfFSLicBB/OaA
-	Jh4G60XARfXglerjcWpGMr3xr7u3/hn+r32HgIzi925cSTBTeGj+eqn5EX8M+yUUECa+
-	TGhUdKVqIjWCFqqvpzqcKyGs5ix6VxcQkkssilYKHA5KHhjVCd6c22XIjau1bTY8herD
-	H0KQ==
-MIME-Version: 1.0
-X-Received: by 10.68.134.98 with SMTP id pj2mr22093058pbb.110.1378773888720;
-	Mon, 09 Sep 2013 17:44:48 -0700 (PDT)
-Received: by 10.70.35.235 with HTTP; Mon, 9 Sep 2013 17:44:48 -0700 (PDT)
-In-Reply-To: <9546fb89b434a43ee317e5c26065ef4578778019.1377792006.git.Martin.Jansa@gmail.com>
-References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-	<9546fb89b434a43ee317e5c26065ef4578778019.1377792006.git.Martin.Jansa@gmail.com>
-Date: Tue, 10 Sep 2013 10:44:48 +1000
-Message-ID: <CANwerB0bBe+ZS5UDjTxP2mmOYXnLpNLb2KpSc7qq75XM07qxjQ@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][PATCH 18/20] subversion: Add dependency on file for libmagic
+	Tue, 10 Sep 2013 02:37:19 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 09 Sep 2013 19:34:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,875,1371106800"; d="scan'208";a="375820685"
+Received: from unknown (HELO [10.255.14.91]) ([10.255.14.91])
+	by orsmga001.jf.intel.com with ESMTP; 09 Sep 2013 19:37:20 -0700
+Message-ID: <1378780640.19978.69.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Yunguo Wei <yunguo.wei@windriver.com>
+Date: Mon, 09 Sep 2013 19:37:20 -0700
+In-Reply-To: <5229303F.1090209@windriver.com>
+References: <cover.1378339881.git.dvhart@linux.intel.com>
+	<4562a00806c5a6573b5aa650764ad12bc93edda7.1378339881.git.dvhart@linux.intel.com>
+	<CAJTo0LY-oi+tQy7rs84axy4R71Y4j=HtEgXALN20aVdATwzVdg@mail.gmail.com>
+	<1378392729.14029.73.camel@dvhart-mobl4.amr.corp.intel.com>
+	<5229303F.1090209@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Poky <poky@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] xf86-video-mga: Pull in Matrox MGA support from meta-intel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +37,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 00:44:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Sep 2013 02:37:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 30 August 2013 02:03, Martin Jansa <martin.jansa@gmail.com> wrote:
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-devtools/subversion/subversion_1.7.10.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/subversion/subversion_1.7.10.bb b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-> index f77656b..4acd70b 100644
-> --- a/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-> +++ b/meta/recipes-devtools/subversion/subversion_1.7.10.bb
-> @@ -1,6 +1,6 @@
->  DESCRIPTION = "The Subversion (svn) client"
->  SECTION = "console/network"
-> -DEPENDS = "apr-util neon sqlite3"
-> +DEPENDS = "apr-util neon sqlite3 file"
->  RDEPENDS_${PN} = "neon"
->  LICENSE = "Apache-2"
->  HOMEPAGE = "http://subversion.tigris.org"
-> --
-> 1.8.3.2
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On Fri, 2013-09-06 at 09:30 +0800, Yunguo Wei wrote:
+> On 09/05/2013 10:52 PM, Darren Hart wrote:
+> > On Thu, 2013-09-05 at 10:57 +0100, Burton, Ross wrote:
+> >> On 5 September 2013 01:18, Darren Hart <dvhart@linux.intel.com> wrote:
+> >>> In support of the more generic x86 BSPs, pull in the Matrox driver
+> >>> recipe from meta-intel.
+> >> What machine is this for in particular?
+> > This was reported when someone was testing on a Romley machine.
+> 
+> Yes, it is Intel SDP S2R3, Romley-EP IVY refresh.
+> >
+> >>    In discussion with Nitin
+> >> about MGA a few weeks back the conclusion was that the vesa driver
+> >> should be sufficient.  As far as I'm aware the reference platforms
+> >> don't ship with MGA hardware so it's up to the owner of the platform
+> >> to install whatever they have to hand (mga, nvidia, ATI, etc), or am I
+> >> wrong about that?
+> > Nitin?
+> >
+> > Yunguo?
+> 
+> We thought vesa is supposed to work.
+> 
+> Intel OSVe team reported this problem against WRLinux 5.0.1, and I fixed 
+> it by adding mga package.
+> Note that, mga kernel driver was not built-in or as a module.
 
-Signed-off-by: Jonathan Liu <net147@gmail.com>
+I missed that the kernel module was missing. Oops. That's easy enough to
+add to the common-pc graphics fragment. But what we need to know is if
+we should try to get MGA into oe-core or not. I honestly don't
+understand why we shouldn't, with intel and omap in there already. It
+seems silly to have a special layer for the xorg driver when mesa and
+the kernel already build their part for the same hardware....
 
-This fixes a subversion build error I was having a couple of weeks ago.
+Are there any compelling arguments for not including the mga driver in
+oe-core?
 
-Regards,
-Jonathan
+> 
+> 
+> Regards,
+> Yunguo
+> >
+> >>> Remove the checkfile patch from Ross as this is now handled adequately
+> >>> with the configure prepend hack which assumes success for any checkfile
+> >>> calls.
+> >> Assuming success in an distro where opengl isn't enabled will result
+> >> in the driver believing that DRI is enabled when it isn't, so expect
+> >> to see build failures from this.
+> > Should we be adding a distro depends on opengl for this driver as is
+> > being done for others currently?
+> >
+> 
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
 
