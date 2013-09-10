@@ -1,37 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 98FB8610F6
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 4115161113
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 17:15:16 +0000 (UTC)
-Received: by mail-wg0-f49.google.com with SMTP id l18so7038566wgh.16
+	Tue, 10 Sep 2013 17:17:46 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id ib11so5264688vcb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 10:15:17 -0700 (PDT)
+	Tue, 10 Sep 2013 10:17:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=xd2bJJGwXyENkVPFlEF2SVyLEobgzYEmNlriR+vnRY8=;
-	b=OuLSWHX0tIXX69Sl9k5UTfS3nnBPCkq7nMcBn3UUxIc65XpunzMPqDT0zU/6dZYdKY
-	0tyqLLCQJ29g5xP0GvauJ7IR9hqc3P4f/VuWe/+U2zgOwvpUSZZvviyAYv3rFOU0dS72
-	DG4fY6M85F62axzCG0H5OF3wGKq4JIEnZilRbIR3tIWWLhhMMcRgdGMCqSUW/k7KlRa1
-	UKURdgJsEITO1jR3+HaGdq8qaNulUB1dXm1BudF014j2xBzEy5dtCgj3sKgSSj7viGIn
-	w428mvDRbycd7UWH3GOwjNS5ODPxEPW2aj1BfRKdOUNAIoVvlb+qusotqXb17P7svMAZ
-	IelA==
-X-Gm-Message-State: ALoCoQmL6oUGF/rvZJnxNaQhTxl1sFuOH7gY5zEkTZqYgOoWP1qgWyPqgZtgsCMn05GZnJpxFOqR
-X-Received: by 10.194.23.8 with SMTP id i8mr1442163wjf.68.1378833317782;
-	Tue, 10 Sep 2013 10:15:17 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fz8sm4932950wic.0.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 10 Sep 2013 10:15:17 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Sep 2013 18:15:06 +0100
-Message-Id: <1378833306-27394-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=Q0wF6kMFzoIsneT7/hz5Wg4f9LnygUuUow5Wuh3gK8I=;
+	b=iTXungo+HXAMmGRqiujQCT4FKbAs163869t1pkWRF6tMBOdtEvgAtqfASISfWlJ54z
+	vC13D6AeOjwVcfzFeJu0vbZINss5hgx/UmzcV9BdVUieRU1gZHRsVR+mPGf31TKL4xHD
+	reHYb2vjG83GhESZcgarQVKwQJJnIhZcO1/t36pTG+oZIKUN0fz0utubyxzZc8e4+1bD
+	DdlH8FGXBXPLDhLD7MT316RG3fDydHNn2671CxxrCb+8+38W7nN+olg5Dh7iXp88WWHg
+	b7Sg0hZ9cf4EVCyyhFZv2yI4Vi5EBIUtaa+ypWB6rbSIw+ptgQqVh8JJkCrW8fxqUbbJ
+	9OdQ==
+X-Gm-Message-State: ALoCoQltfEiTYRoXUh5H5qDMaaJmz41HBMDCw5IkEG5nY5Ms0T84H57ki5rirwmEhdmVtaJd+STp
+X-Received: by 10.58.155.6 with SMTP id vs6mr1225254veb.32.1378833467738; Tue,
+	10 Sep 2013 10:17:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Tue, 10 Sep 2013 10:17:27 -0700 (PDT)
 In-Reply-To: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
 References: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] base: add RRECOMMENDS to PACKAGECONFIG
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Sep 2013 18:17:27 +0100
+Message-ID: <CAJTo0LaiEfUqXXz5UtaGzfFU2q1try_MHgbrUUViZcz=4jUXoA@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] base: improve PACKAGECONFIG handling logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,71 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 17:15:17 -0000
+X-List-Received-Date: Tue, 10 Sep 2013 17:17:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add a fifth optional element of the PACKAGECONFIG flags that can be used to set
-RRECOMMENDS_${PN}.
+On 10 September 2013 18:15, Ross Burton <ross.burton@intel.com> wrote:
+> -                if num >= 3 and items[2]:
+> -                    extradeps.append(items[2])
+> -                if num >= 4 and items[3]:
+> -                    extrardeps.append(items[3])
+> -                if num >= 1 and items[0]:
+> -                    extraconf.append(items[0])
+> +                if items:
+> +                    extraconf.append(items.pop(0))
+> +                # Skip over disable
+> +                if items:
+> +                    items.pop(0)
+> +                if items:
+> +                    extradeps.append(items.pop(0))
+> +                if items:
+> +                    extrardeps.append(items.pop(0))
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/base.bbclass |   12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+I should note that in a PACKAGECONFIG[foo] such as ",,,foo" this will
+add some whitespace to EXTRA_OECONF and DEPENDS.  If this is a massive
+concern I can sort it, but the clear code trumps the odd extra
+whitespace in my mind.
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 12c8741..651512a 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -394,7 +394,7 @@ python () {
-     # These take the form:
-     #
-     # PACKAGECONFIG ??= "<default options>"
--    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends"
-+    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends,foo_runtime_recommends"
-     pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
-     if pkgconfigflags:
-         pkgconfig = (d.getVar('PACKAGECONFIG', True) or "").split()
-@@ -420,7 +420,7 @@ python () {
-         def appendVar(varname, appends):
-             if not appends:
-                 return
--            if "DEPENDS_" in varname:
-+            if "DEPENDS_" in varname or "RRECOMMENDS_" in varname:
-                 if pn.startswith("nativesdk-"):
-                     appends = expandFilter(appends, "", "nativesdk-")
-                 if pn.endswith("-native"):
-@@ -432,14 +432,15 @@ python () {
- 
-         extradeps = []
-         extrardeps = []
-+        extrarrecs = []
-         extraconf = []
-         for flag, flagval in pkgconfigflags.items():
-             if flag == "defaultval":
-                 continue
-             items = flagval.split(",")
-             num = len(items)
--            if num > 4:
--                bb.error("Only enable,disable,depend,rdepend can be specified!")
-+            if num > 5:
-+                bb.error("Only enable,disable,depend,rdepend,rrecommend can be specified!")
- 
-             if flag in pkgconfig:
-                 if items:
-@@ -451,10 +452,13 @@ python () {
-                     extradeps.append(items.pop(0))
-                 if items:
-                     extrardeps.append(items.pop(0))
-+                if items:
-+                    extrarrecs.append(items.pop(0))
-             elif num >= 2 and items[1]:
-                     extraconf.append(items[1])
-         appendVar('DEPENDS', extradeps)
-         appendVar('RDEPENDS_${PN}', extrardeps)
-+        appendVar('RRECOMMENDS_${PN}', extrarrecs)
-         if bb.data.inherits_class('cmake', d):
-             appendVar('EXTRA_OECMAKE', extraconf)
-         else:
--- 
-1.7.10.4
-
+Ross
 
