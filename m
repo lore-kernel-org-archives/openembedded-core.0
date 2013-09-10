@@ -1,35 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1751F6A5AF
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 747996C062
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 15:48:20 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8AG1hmX028567; Tue, 10 Sep 2013 17:01:43 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id pMkxxXCqvidg; Tue, 10 Sep 2013 17:01:43 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8AG1ctR028564
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 10 Sep 2013 17:01:39 +0100
-Message-ID: <1378828074.3484.167.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Darren Hart <dvhart@linux.intel.com>
-Date: Tue, 10 Sep 2013 16:47:54 +0100
-In-Reply-To: <1378827721.19978.112.camel@dvhart-mobl4.amr.corp.intel.com>
-References: <cover.1378483732.git.pkj@axis.com>
-	<398be88b2b4779bc227d9f716ebcc360958e02dd.1378483732.git.pkj@axis.com>
-	<1378827198.19978.106.camel@dvhart-mobl4.amr.corp.intel.com>
-	<1378827477.3484.166.camel@ted>
-	<1378827721.19978.112.camel@dvhart-mobl4.amr.corp.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] bb-matrix: Make sure local.conf does not interfere
+	Tue, 10 Sep 2013 15:51:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8AFp8x7005281
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 10 Sep 2013 08:51:08 -0700 (PDT)
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.22.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 10 Sep 2013 08:51:05 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Tue, 10 Sep 2013 11:50:57 -0400
+Message-ID: <cover.1378827962.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto/3.10: update to v3.10.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,61 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 15:48:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Sep 2013 15:51:06 -0000
+Content-Type: text/plain
 
-On Tue, 2013-09-10 at 08:42 -0700, Darren Hart wrote:
-> On Tue, 2013-09-10 at 16:37 +0100, Richard Purdie wrote:
-> > On Tue, 2013-09-10 at 08:33 -0700, Darren Hart wrote:
-> > > On Fri, 2013-09-06 at 18:12 +0200, Peter Kjellerstedt wrote:
-> > > > If any of BB_NUMBER_THREADS, PARALLEL_MAKE or SSTATE_DIR happened to be
-> > > > set in local.conf then the bb-matrix script would not perform as
-> > > > intended.
-> > > > 
-> > > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > > ---
-> > > >  scripts/contrib/bb-perf/bb-matrix.sh | 4 ++++
-> > > >  1 file changed, 4 insertions(+)
-> > > > 
-> > > > diff --git a/scripts/contrib/bb-perf/bb-matrix.sh b/scripts/contrib/bb-perf/bb-matrix.sh
-> > > > index 1064565..d5127e7 100755
-> > > > --- a/scripts/contrib/bb-perf/bb-matrix.sh
-> > > > +++ b/scripts/contrib/bb-perf/bb-matrix.sh
-> > > > @@ -53,6 +53,10 @@ if [ $? -ne 0 ]; then
-> > > >  	exit 1
-> > > >  fi
-> > > >  
-> > > > +# Make sure neither of BB_NUMBER_THREADS, PARALLEL_MAKE and SSTATE_DIR are set
-> > > > +# in local.conf
-> > > > +sed -ri 's/^([[:space:]]*(BB_NUMBER_THREADS|PARALLEL_MAKE|SSTATE_DIR)[[:space:]]*\??=.*)/#\1/' conf/local.conf
-> > > > +
-> > > 
-> > > Unless I'm mistaken, you are modifying the users local.conf?
-> > > 
-> > > We definitely should *not* be doing that. I would support documenting
-> > > this as a requirement and even printing a warning if any of a set of
-> > > variables are found in the bitbake environment.
-> > > 
-> > > Note that local.conf is not the only place where these could be set.
-> > > 
-> > > Richard, shouldn't the env setting override anything in local.conf?
-> > 
-> > No, it will override a ?= or ??= but not a =.
-> 
-> OK, well, a warning if found in local.conf (or site.conf?) is probably
-> the best we can do for now. We can't check bitbake -e since that will
-> report the default which we wouldn't be able to distinguish from an
-> explicit setting.... unless we checked for an explicit assignment? Might
-> be doable.... but a warning should be sufficient for a script in
-> contrib, yes?
+Richard/Saul,
 
-Yes, although I think in the comments, bitbake -e will tell you which
-kind of operation was used :)
+I realize we are working our way through the stabilization cycle, and
+this -stable update is of particular interest, the patch says it
+all:
+
+    Bumping to the 3.10.11 -stable release. Of note in this update is
+    the timer_list fix, which broke ssh access in the previous 3.10
+    series of updates:
+
+        timer_list: correct the iterator for timer_list
+
+        commit 84a78a6504f5c5394a8e558702e5b54131f01d14 upstream.
+
+    With this, we can revert the two temporary fixes for timer lists.
+    ssh access has been directly tested after this update.
+
+And here's my test results:
+
+[/home/bruc...poky/build]> ssh root@192.168.7.2
+root@qemux86-64:~# uname -a
+Linux qemux86-64 3.10.11-yocto-standard #1 SMP PREEMPT Tue Sep 10 03:29:54 EDT 2013 x86_64 GNU/Linux
+root@qemux86-64:~# 
 
 Cheers,
 
-Richard
+Bruce
 
+
+The following changes since commit 2ab1bf27f79beadc45e86a26c85fc0b95ae3496f:
+
+  bitbake: prserv: Ensure data is committed (2013-09-08 10:51:56 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto/3.10: bump kver to 3.10.11
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    8 ++++----
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   18 +++++++++---------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+
+-- 
+1.7.10.4
 
 
