@@ -1,45 +1,50 @@
 Return-Path: <B28495@freescale.com>
-Received: from co9outboundpool.messaging.microsoft.com
-	(co9ehsobe001.messaging.microsoft.com [207.46.163.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8845661853
+Received: from ch1outboundpool.messaging.microsoft.com
+	(ch1ehsobe001.messaging.microsoft.com [216.32.181.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B4A176BE44
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 10:02:16 +0000 (UTC)
-Received: from mail126-co9-R.bigfish.com (10.236.132.243) by
-	CO9EHSOBE007.bigfish.com (10.236.130.70) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 10 Sep 2013 10:02:17 +0000
-Received: from mail126-co9 (localhost [127.0.0.1])	by
-	mail126-co9-R.bigfish.com (Postfix) with ESMTP id 87963740044	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 10:02:17 +0000 (UTC)
+	Tue, 10 Sep 2013 10:03:29 +0000 (UTC)
+Received: from mail79-ch1-R.bigfish.com (10.43.68.241) by
+	CH1EHSOBE002.bigfish.com (10.43.70.52) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 10 Sep 2013 10:03:31 +0000
+Received: from mail79-ch1 (localhost [127.0.0.1])	by mail79-ch1-R.bigfish.com
+	(Postfix) with ESMTP id EA091600A1;
+	Tue, 10 Sep 2013 10:03:30 +0000 (UTC)
 X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
 	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h1155h)
-Received: from mail126-co9 (localhost.localdomain [127.0.0.1]) by mail126-co9
-	(MessageSwitch) id 1378807335737049_12017;
-	Tue, 10 Sep 2013 10:02:15 +0000 (UTC)
-Received: from CO9EHSMHS027.bigfish.com (unknown [10.236.132.251])	by
-	mail126-co9.bigfish.com (Postfix) with ESMTP id AF5C420047	for
-	<openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 10:02:15 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS027.bigfish.com
-	(10.236.130.37) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Tue, 10 Sep 2013 10:02:15 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
-	Server (TLS) id 14.3.158.2; Tue, 10 Sep 2013 10:02:14 +0000
-Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
-	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
-	ESMTP id r8AA2Bf9026872;	Tue, 10 Sep 2013 03:02:12 -0700
-From: <b28495@freescale.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Sep 2013 18:02:10 +0800
-Message-ID: <1378807330-15606-1-git-send-email-b28495@freescale.com>
-X-Mailer: git-send-email 1.7.5.4
+X-SpamScore: -3
+X-BigFish: VS-3(zz98dI9371I542I1432Izz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839h8e2h8e3h93fhd25hf0ah1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5hbe9i1155h)
+Received: from mail79-ch1 (localhost.localdomain [127.0.0.1]) by mail79-ch1
+	(MessageSwitch) id 1378807408852588_15021;
+	Tue, 10 Sep 2013 10:03:28 +0000 (UTC)
+Received: from CH1EHSMHS008.bigfish.com (snatpool1.int.messaging.microsoft.com
+	[10.43.68.246])	by mail79-ch1.bigfish.com (Postfix) with ESMTP id
+	CB45EC025A; Tue, 10 Sep 2013 10:03:28 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CH1EHSMHS008.bigfish.com
+	(10.43.70.8) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Tue, 10 Sep 2013 10:03:28 +0000
+Received: from 039-SN2MPN1-013.039d.mgd.msft.net ([169.254.3.102]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.03.0158.002; Tue, 10 Sep 2013 10:03:27 +0000
+From: Liu Ting-B28495 <B28495@freescale.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [oe-core][PATCH] libcroco: disable Bsymbolic if it
+	is not supported on some hosts
+Thread-Index: AQHOrfAki5HFA0j0Fk6+HbxLdhMjDpm+tmIAgAAGSKA=
+Date: Tue, 10 Sep 2013 10:03:27 +0000
+Message-ID: <AF604684617F454390621992F367F1690BB21135@039-SN2MPN1-013.039d.mgd.msft.net>
+References: <1378795010-807-1-git-send-email-b28495@freescale.com>
+	<CAJTo0LbM2CF4_vnvCZejQB6kMUtqazbbG3UKk1TUSUKBfvGzog@mail.gmail.com>
+In-Reply-To: <CAJTo0LbM2CF4_vnvCZejQB6kMUtqazbbG3UKk1TUSUKBfvGzog@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.193.20.135]
 MIME-Version: 1.0
 X-OriginatorOrg: freescale.com
 X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH v2] libcroco: disable Bsymbolic if it is not supported on some hosts
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libcroco: disable Bsymbolic if it is not supported on some hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,44 +57,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 10:02:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Sep 2013 10:03:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Ting Liu <b28495@freescale.com>
-
-When trying to build on my Centos 5.5 machine, got below error:
-| checking for gtkdoc-mkpdf... no
-| checking whether to build gtk-doc documentation... no
-| checking for CROCO... yes
-| checking if gcc supports "-Wl,-Bsymbolic-functions" flag...
-| configure: error: -Bsymbolic requested but not supported by ld. Use --disable-Bsymbolic to disable
-| Configure failed. The contents of all config.log files follows to aid debugging
-|
-| configure: exit 1
-| ERROR: oe_runconf failed
-
-Set --enable_Bsymbolic=auto to disable it when it is not suppported.
-
-Signed-off-by: Ting Liu <b28495@freescale.com>
----
- meta/recipes-support/libcroco/libcroco_0.6.8.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.8.bb b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-index 3c5dc9a..fe1a42d 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
- SECTION = "x11/utils"
- DEPENDS = "glib-2.0 libxml2 zlib"
- BBCLASSEXTEND = "native"
--
-+EXTRA_OECONF += "--enable_Bsymbolic=auto"
- PR = "r1"
- 
- inherit autotools pkgconfig gnomebase
--- 
-1.7.5.4
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0
+bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIFNlcHRlbWJlciAxMCwg
+MjAxMyA1OjM2IFBNDQo+IFRvOiBMaXUgVGluZy1CMjg0OTUNCj4gQ2M6IE9FLWNvcmUNCj4gU3Vi
+amVjdDogUmU6IFtPRS1jb3JlXSBbb2UtY29yZV1bUEFUQ0hdIGxpYmNyb2NvOiBkaXNhYmxlIEJz
+eW1ib2xpYyBpZiBpdA0KPiBpcyBub3Qgc3VwcG9ydGVkIG9uIHNvbWUgaG9zdHMNCj4gDQo+IE9u
+IDEwIFNlcHRlbWJlciAyMDEzIDA3OjM2LCAgPGIyODQ5NUBmcmVlc2NhbGUuY29tPiB3cm90ZToN
+Cj4gPiArRVhUUkFfT0VDT05GICs9ICJlbmFibGVfQnN5bWJvbGljPWF1dG8iDQo+IA0KPiBTdXJl
+bHkgeW91IG1lYW4gIi0tZW5hYmxlLUJzeW1ib2xpYz1hdXRvIiwgYXMgdGhhdCdzIHdoYXQgdGhl
+IG9wdGlvbiBpcw0KPiBjYWxsZWQuDQo+IA0KDQpZZWFoLCB5b3UgYXJlIHJpZ2h0LiBQYXRjaCB2
+MiBoYXMgYmVlbiBzZW50IG91dC4gVGhhbmtzLg0KDQotVGluZw0KDQo+IFJvc3MNCg0K
 
 
