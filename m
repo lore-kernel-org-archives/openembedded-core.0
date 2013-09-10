@@ -1,20 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B5BD36BFBE
+	by mail.openembedded.org (Postfix) with ESMTP id D18B36C01E
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 10 Sep 2013 17:28:14 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by orsmga101.jf.intel.com with ESMTP; 10 Sep 2013 10:28:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,879,1371106800"; d="scan'208";a="393703676"
+X-IronPort-AV: E=Sophos;i="4.90,879,1371106800"; d="scan'208";a="393703679"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.204])
 	by fmsmga001.fm.intel.com with ESMTP; 10 Sep 2013 10:28:16 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Sep 2013 10:28:13 -0700
-Message-Id: <1378834095-8523-1-git-send-email-sgw@linux.intel.com>
+Date: Tue, 10 Sep 2013 10:28:14 -0700
+Message-Id: <1378834095-8523-2-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH 1/3] gstreamer-plugins: Change anonymous python structure
+In-Reply-To: <1378834095-8523-1-git-send-email-sgw@linux.intel.com>
+References: <1378834095-8523-1-git-send-email-sgw@linux.intel.com>
+Subject: [PATCH 2/3] systemd.bbclass: get the correct /lib directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,45 +31,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 10 Sep 2013 17:28:15 -0000
 
-This change ensures that the SRC_URI is set before base.bbclass code is called. This will
-also ensure that the xz-native depends is set correct.
-
-[YOCTO #5127]
+By using os.path.dirname(systemd_unitdir) we get the correct /lib directory instead of
+dealing with possibly multilib directories.  This address a QA Error for shipped/not
+installed /lib with multilib and x32.
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ meta/classes/systemd.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index 6f27957..651119e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -30,7 +30,9 @@ oe_runconf_prepend() {
- 	fi
+diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
+index 8ec4992..eab8735 100644
+--- a/meta/classes/systemd.bbclass
++++ b/meta/classes/systemd.bbclass
+@@ -168,9 +168,9 @@ python rm_systemd_unitdir (){
+         systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True))
+         if os.path.exists(systemd_unitdir):
+             shutil.rmtree(systemd_unitdir)
+-        base_libdir = oe.path.join(d.getVar("D", True), d.getVar('base_libdir', True))
+-        if (os.path.exists(base_libdir) and not os.listdir(base_libdir)):
+-            os.rmdir(base_libdir)
++        systemd_libdir = os.path.dirname(systemd_unitdir)
++        if (os.path.exists(systemd_libdir) and not os.listdir(systemd_libdir)):
++            os.rmdir(systemd_libdir)
  }
+ do_install[postfuncs] += "rm_systemd_unitdir "
  
--python __anonymous () {
-+SRC_URI = "${@get_gst_srcuri(d)}"
-+
-+def get_gst_srcuri(d):
-     # check if expected prefix is present
-     prefix = "gstreamer1.0-"
-     bpn = d.getVar("BPN", True)
-@@ -43,10 +45,10 @@ python __anonymous () {
-     branch = d.getVar("GSTREAMER_1_0_GIT_BRANCH", True)
- 
-     if pv == "git":
--        d.setVar("SRC_URI", "git://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch))
-+        s = "git://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch)
-     else:
--        d.setVar("SRC_URI", "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv))
--}
-+        s = "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv)
-+    return s
- 
- delete_liblink_m4_file() {
- 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
 -- 
 1.8.3.1
 
