@@ -1,38 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f173.google.com (mail-ve0-f173.google.com
-	[209.85.128.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C7A6BE31
+Return-Path: <B28495@freescale.com>
+Received: from co9outboundpool.messaging.microsoft.com
+	(co9ehsobe001.messaging.microsoft.com [207.46.163.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8845661853
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 09:52:05 +0000 (UTC)
-Received: by mail-ve0-f173.google.com with SMTP id cz12so4445446veb.32
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 02:52:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=FLI5LjVXYXS4BdPHS/C8RBI+/uqptrcbYG8qGywvKyI=;
-	b=bllPZFPruAvFXsdHnG63Vj19I8+BsD+DaZx8pPTXDoUBWHSj+vg2DBAaLtgUwOy77G
-	hD72LS74O5PAd24AmSjsXvBaaHZeT7nUxlovLwzDjaGEhKVmVtLKIves8RTnPnDJCKW+
-	5QvhFU3M1b818MWUNw9ZNN2lJLQTC0TxmUYCzl2dezKffedNiIeHmBbUrKHA5XXmap+u
-	YuC1Gw4zWuH8skXsMDBfDyqRK0yyvGJrGSuhtwznjNi7wlyybP0OtjXbCpopOyKY+9Ix
-	Z5nF9ALbRwPT8DKeAR2xQZ1md4UodrPi23C1YKxHcv6Qy6+3DuqWvQHUZvi4rO7dFPdg
-	thdg==
-X-Gm-Message-State: ALoCoQlAFHW+DUmF54Gd1U03g8/vKqN8pcCS4QpOByU0Ep9WnMPhlC7PirJ5sPkh1CBdkXetF99W
-X-Received: by 10.220.43.19 with SMTP id u19mr22032275vce.3.1378806726748;
-	Tue, 10 Sep 2013 02:52:06 -0700 (PDT)
+	Tue, 10 Sep 2013 10:02:16 +0000 (UTC)
+Received: from mail126-co9-R.bigfish.com (10.236.132.243) by
+	CO9EHSOBE007.bigfish.com (10.236.130.70) with Microsoft SMTP Server id
+	14.1.225.22; Tue, 10 Sep 2013 10:02:17 +0000
+Received: from mail126-co9 (localhost [127.0.0.1])	by
+	mail126-co9-R.bigfish.com (Postfix) with ESMTP id 87963740044	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Sep 2013 10:02:17 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h1155h)
+Received: from mail126-co9 (localhost.localdomain [127.0.0.1]) by mail126-co9
+	(MessageSwitch) id 1378807335737049_12017;
+	Tue, 10 Sep 2013 10:02:15 +0000 (UTC)
+Received: from CO9EHSMHS027.bigfish.com (unknown [10.236.132.251])	by
+	mail126-co9.bigfish.com (Postfix) with ESMTP id AF5C420047	for
+	<openembedded-core@lists.openembedded.org>;
+	Tue, 10 Sep 2013 10:02:15 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS027.bigfish.com
+	(10.236.130.37) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Tue, 10 Sep 2013 10:02:15 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Tue, 10 Sep 2013 10:02:14 +0000
+Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
+	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
+	ESMTP id r8AA2Bf9026872;	Tue, 10 Sep 2013 03:02:12 -0700
+From: <b28495@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Sep 2013 18:02:10 +0800
+Message-ID: <1378807330-15606-1-git-send-email-b28495@freescale.com>
+X-Mailer: git-send-email 1.7.5.4
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 10 Sep 2013 02:51:46 -0700 (PDT)
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
-References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Sep 2013 10:51:46 +0100
-Message-ID: <CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH v2] libcroco: disable Bsymbolic if it is not supported on some hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,25 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 09:52:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Sep 2013 10:02:17 -0000
+Content-Type: text/plain
 
-On 9 September 2013 17:57, Kamble, Nitin A <nitin.a.kamble@intel.com> wrote:
->   This is a clever way to deal with unnecessary rebuilding of mesa we were seeing earlier. With this mesa-gl,
-> the mesa also need modification to remove gl from the default recipe.
+From: Ting Liu <b28495@freescale.com>
 
-No, mesa and mesa-gl intentionally conflict.  mesa-gl provides GL,
-emgd-driver-bin provides EGL and GLES, your machines shouldn't need
-both mesa and mesa-gl.
+When trying to build on my Centos 5.5 machine, got below error:
+| checking for gtkdoc-mkpdf... no
+| checking whether to build gtk-doc documentation... no
+| checking for CROCO... yes
+| checking if gcc supports "-Wl,-Bsymbolic-functions" flag...
+| configure: error: -Bsymbolic requested but not supported by ld. Use --disable-Bsymbolic to disable
+| Configure failed. The contents of all config.log files follows to aid debugging
+|
+| configure: exit 1
+| ERROR: oe_runconf failed
 
-> Also looks like there is a need from community for mesa-gl-lib and mesa-gl-headers, as some
-> platforms need just the mesa-gl-headers and not the libs.
+Set --enable_Bsymbolic=auto to disable it when it is not suppported.
 
-To be honest GL platforms that don't ship their own headers are
-*totally broken* and using mesa's headers is basically the same as
-crossing your fingers and praying to $DEITY. Platforms that do this
-need to be fixed, not worked around, and taking Mesa's headers without
-editing them is just wrong.
+Signed-off-by: Ting Liu <b28495@freescale.com>
+---
+ meta/recipes-support/libcroco/libcroco_0.6.8.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-Ross
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.8.bb b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
+index 3c5dc9a..fe1a42d 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.8.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
+ SECTION = "x11/utils"
+ DEPENDS = "glib-2.0 libxml2 zlib"
+ BBCLASSEXTEND = "native"
+-
++EXTRA_OECONF += "--enable_Bsymbolic=auto"
+ PR = "r1"
+ 
+ inherit autotools pkgconfig gnomebase
+-- 
+1.7.5.4
+
+
 
