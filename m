@@ -1,35 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 4115161113
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B5BD36BFBE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 17:17:46 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id ib11so5264688vcb.14
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 10:17:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=Q0wF6kMFzoIsneT7/hz5Wg4f9LnygUuUow5Wuh3gK8I=;
-	b=iTXungo+HXAMmGRqiujQCT4FKbAs163869t1pkWRF6tMBOdtEvgAtqfASISfWlJ54z
-	vC13D6AeOjwVcfzFeJu0vbZINss5hgx/UmzcV9BdVUieRU1gZHRsVR+mPGf31TKL4xHD
-	reHYb2vjG83GhESZcgarQVKwQJJnIhZcO1/t36pTG+oZIKUN0fz0utubyxzZc8e4+1bD
-	DdlH8FGXBXPLDhLD7MT316RG3fDydHNn2671CxxrCb+8+38W7nN+olg5Dh7iXp88WWHg
-	b7Sg0hZ9cf4EVCyyhFZv2yI4Vi5EBIUtaa+ypWB6rbSIw+ptgQqVh8JJkCrW8fxqUbbJ
-	9OdQ==
-X-Gm-Message-State: ALoCoQltfEiTYRoXUh5H5qDMaaJmz41HBMDCw5IkEG5nY5Ms0T84H57ki5rirwmEhdmVtaJd+STp
-X-Received: by 10.58.155.6 with SMTP id vs6mr1225254veb.32.1378833467738; Tue,
-	10 Sep 2013 10:17:47 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 10 Sep 2013 10:17:27 -0700 (PDT)
-In-Reply-To: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
-References: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Sep 2013 18:17:27 +0100
-Message-ID: <CAJTo0LaiEfUqXXz5UtaGzfFU2q1try_MHgbrUUViZcz=4jUXoA@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] base: improve PACKAGECONFIG handling logic
+	Tue, 10 Sep 2013 17:28:14 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 10 Sep 2013 10:28:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,879,1371106800"; d="scan'208";a="393703676"
+Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.14.204])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Sep 2013 10:28:16 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Sep 2013 10:28:13 -0700
+Message-Id: <1378834095-8523-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH 1/3] gstreamer-plugins: Change anonymous python structure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,30 +27,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 17:17:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Sep 2013 17:28:15 -0000
 
-On 10 September 2013 18:15, Ross Burton <ross.burton@intel.com> wrote:
-> -                if num >= 3 and items[2]:
-> -                    extradeps.append(items[2])
-> -                if num >= 4 and items[3]:
-> -                    extrardeps.append(items[3])
-> -                if num >= 1 and items[0]:
-> -                    extraconf.append(items[0])
-> +                if items:
-> +                    extraconf.append(items.pop(0))
-> +                # Skip over disable
-> +                if items:
-> +                    items.pop(0)
-> +                if items:
-> +                    extradeps.append(items.pop(0))
-> +                if items:
-> +                    extrardeps.append(items.pop(0))
+This change ensures that the SRC_URI is set before base.bbclass code is called. This will
+also ensure that the xz-native depends is set correct.
 
-I should note that in a PACKAGECONFIG[foo] such as ",,,foo" this will
-add some whitespace to EXTRA_OECONF and DEPENDS.  If this is a massive
-concern I can sort it, but the clear code trumps the odd extra
-whitespace in my mind.
+[YOCTO #5127]
 
-Ross
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+index 6f27957..651119e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+@@ -30,7 +30,9 @@ oe_runconf_prepend() {
+ 	fi
+ }
+ 
+-python __anonymous () {
++SRC_URI = "${@get_gst_srcuri(d)}"
++
++def get_gst_srcuri(d):
+     # check if expected prefix is present
+     prefix = "gstreamer1.0-"
+     bpn = d.getVar("BPN", True)
+@@ -43,10 +45,10 @@ python __anonymous () {
+     branch = d.getVar("GSTREAMER_1_0_GIT_BRANCH", True)
+ 
+     if pv == "git":
+-        d.setVar("SRC_URI", "git://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch))
++        s = "git://anongit.freedesktop.org/gstreamer/%s;branch=%s" % (gstpkg_basename, branch)
+     else:
+-        d.setVar("SRC_URI", "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv))
+-}
++        s = "http://gstreamer.freedesktop.org/src/%s/%s-%s.tar.xz" % (gstpkg_basename, gstpkg_basename, pv)
++    return s
+ 
+ delete_liblink_m4_file() {
+ 	# This m4 file contains nastiness which conflicts with libtool 2.2.2
+-- 
+1.8.3.1
+
 
