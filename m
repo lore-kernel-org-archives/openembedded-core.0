@@ -1,37 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FD2A6C01E
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 8214F6101A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 16:10:13 +0000 (UTC)
-Received: by mail-qc0-f171.google.com with SMTP id x19so3840553qcw.2
+	Tue, 10 Sep 2013 17:15:15 +0000 (UTC)
+Received: by mail-wi0-f178.google.com with SMTP id hn9so1046042wib.17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 09:10:15 -0700 (PDT)
+	Tue, 10 Sep 2013 10:15:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=UTEMxO6lUNc1graOcz1FlCmhGG2IOvA9kiP3vxyDZak=;
-	b=LzZzmsnx1DI5ugw4uOVJbWEbxGOggr47arB6JDmOO1mgtgtaF0mL+/wPfUoHMGjcVo
-	xn0Xs7MOeC2Lh6srWKo2R+jYDvrq8IYxz9J2kjkepp0ah7zU0Ee9dPtBOZgGh4ZB+e/P
-	jJuh5AYytbY8vXLrUPqe919CElxuX+sYLLgtMiL7/b4HBJiMlq83He/kOuYx7AxoTOcN
-	qbNjI1KmTsREivVgoHdXHxtBQ9Bnv39gAzgN8vElE3HTO5c72qdnWGyx97ZHjZL9ztjJ
-	qkWqaIxeHMSdYKoILsHSA+jhswzSwSqIFAnupaHvLcwKubtbdebBnFNMTm4V/R944yWv
-	ZRgw==
-X-Gm-Message-State: ALoCoQkjX0Sk9eYDgMQncmYb3p52DZ8Pg5v09Xya0MSuvmR06P5mNlBqMKDAk5AFbxzkQDnq4gg5
-X-Received: by 10.49.134.102 with SMTP id pj6mr34169374qeb.49.1378829414710;
-	Tue, 10 Sep 2013 09:10:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.29.211 with HTTP; Tue, 10 Sep 2013 09:09:54 -0700 (PDT)
-In-Reply-To: <522F41AD.9080305@linux.intel.com>
-References: <1378807330-15606-1-git-send-email-b28495@freescale.com>
-	<522F41AD.9080305@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 10 Sep 2013 17:09:54 +0100
-Message-ID: <CAJTo0LaFw9PsnfQHf9CLwzRgBkYM5tcCXQLntTXTLwgvLcJLEA@mail.gmail.com>
-To: Alexandru Palalau <alexandrux.palalau@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] libcroco: disable Bsymbolic if it is not supported on some hosts
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=2Uiz6OaVlm/nQzbIWgJEMKe1MbJKi+tdVC0vmxM8s7s=;
+	b=MV0kNbaJHSWe5Wjf5DcKsUwQgvdJPk2LeZab2WppjMNTFV5ZrbtnuKCEf0OcWa9SvU
+	gf53WHuWwUOmleLNg8WjjJ68thBxl7pbterBwHmD79mXfmq4VO6Yty8wxVzl50dmNuLw
+	SDRSs6mLv17n6lmRU+JG09WJamcJpFVXN7SCkflrXNOHJL8KbSMnDGmbiQYVaDRjmbEd
+	Wi9qIWTLBquZ1teQyS/DVbS/4kVVmj52CWCDVuW5G9dA0tY80+7mvbtdNytqPA05PGNG
+	PCP/KXSKXad4yI8fNHt286C4XTtCs0YWHphatv65e/EZI1W9ZujIgVB6enjrkUu94e+/
+	EtQQ==
+X-Gm-Message-State: ALoCoQmmC3PAw1ihxLJSZb4fT96hXOpKSqfp5kLykEWz2ZBUzhBgw5EPYOYYnJbTQCDsZW3dtou2
+X-Received: by 10.180.183.108 with SMTP id el12mr13482532wic.55.1378833316469; 
+	Tue, 10 Sep 2013 10:15:16 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fz8sm4932950wic.0.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 10 Sep 2013 10:15:15 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Sep 2013 18:15:05 +0100
+Message-Id: <1378833306-27394-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] base: improve PACKAGECONFIG handling logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,21 +42,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 16:10:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 10 Sep 2013 17:15:15 -0000
 
-On 10 September 2013 16:58, Alexandru Palalau
-<alexandrux.palalau@linux.intel.com> wrote:
->> +EXTRA_OECONF += "--enable_Bsymbolic=auto"
->
-> I think that the correct parameter would be --enalbe-Bsymbolic (no
-> underscore as Ross already mentioned)
+The existing code for handling PACKAGECONFIG lists wasn't the cleanest Python
+around.  Instead of diving into the list directly using indices and lengths, use
+pop() to iterate through the list.
 
-The ironyometer is at 11 now thanks to even more typos!  This patch is doomed.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass |   17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-https://git.gnome.org/browse/libcroco/tree/configure.in?id=0.6.8#n101
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index dfa580c..12c8741 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -420,7 +420,7 @@ python () {
+         def appendVar(varname, appends):
+             if not appends:
+                 return
+-            if varname.find("DEPENDS") != -1:
++            if "DEPENDS_" in varname:
+                 if pn.startswith("nativesdk-"):
+                     appends = expandFilter(appends, "", "nativesdk-")
+                 if pn.endswith("-native"):
+@@ -442,12 +442,15 @@ python () {
+                 bb.error("Only enable,disable,depend,rdepend can be specified!")
+ 
+             if flag in pkgconfig:
+-                if num >= 3 and items[2]:
+-                    extradeps.append(items[2])
+-                if num >= 4 and items[3]:
+-                    extrardeps.append(items[3])
+-                if num >= 1 and items[0]:
+-                    extraconf.append(items[0])
++                if items:
++                    extraconf.append(items.pop(0))
++                # Skip over disable
++                if items:
++                    items.pop(0)
++                if items:
++                    extradeps.append(items.pop(0))
++                if items:
++                    extrardeps.append(items.pop(0))
+             elif num >= 2 and items[1]:
+                     extraconf.append(items[1])
+         appendVar('DEPENDS', extradeps)
+-- 
+1.7.10.4
 
-The option is "--enable-Bsymbolic=auto". :)
-
-Ross
 
