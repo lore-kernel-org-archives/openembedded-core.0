@@ -1,33 +1,37 @@
-Return-Path: <riku.voipio@linaro.org>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DBC76BCB0
+Return-Path: <qhanbec@rnd.ericsson.se>
+Received: from sesbmg20.ericsson.net (sesbmg20.ericsson.net [193.180.251.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F2B76B12F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 14:55:43 +0000 (UTC)
-Received: by mail-qc0-f182.google.com with SMTP id n4so1936817qcx.27
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 07:55:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=re3J7qzEVPF55LnAr21wXPu4Lp4S7H1PCwSN3vYRCbc=;
-	b=K9QI5KDba1OpeM3rxlwKZL90VRfENu+JYoDCEbM2eb6dQWawGcOFU5XR8DTSgiDF4G
-	uQ4FO2VEMonVxPJb09Npm7mPg7nQwIF5hkXU5A+HC+mMpge0M6q16CW8LVtGjheznSSp
-	2rExhRW26utDQQMYxJNIDMSuQTGwNrFOMQEbKc8U9hUn12nWW3z912lmzGar9/37n0e4
-	eUn26BHbbTF+5avWw34OCTEjrsq+q6jefc2H1LM8eZDKryseUcPNxVdZUxhCnhQZileI
-	hERZW93zYMbxfTUtEDBTNUT/tgpK7fCnoryTW0XmIFraeuNNYIijHQ6YrNToBxVj2j2Y
-	PBlw==
-X-Gm-Message-State: ALoCoQk2sZ37x8x0PIyIm0I2hyXiUB6B2kMaquYqvg0/xOWBr0CRFMOGkQRPzppwuBunnUsWu6Z5
+	Tue, 10 Sep 2013 14:57:25 +0000 (UTC)
+X-AuditID: c1b4fb38-b7fcf8e0000062b8-98-522f3356c42c
+Received: from ESESSHC023.ericsson.se (Unknown_Domain [153.88.253.124])
+	by sesbmg20.ericsson.net (Symantec Mail Security) with SMTP id
+	9B.F6.25272.6533F225; Tue, 10 Sep 2013 16:57:26 +0200 (CEST)
+Received: from esekilxxen355.rnd.ericsson.se (153.88.183.150) by
+	smtp.internal.ericsson.com (153.88.183.89) with Microsoft SMTP Server
+	id 14.2.328.9; Tue, 10 Sep 2013 16:57:25 +0200
+Received: from esekilxxen1299.rnd.ericsson.se (esekilxxen1299.rnd.ericsson.se
+	[147.214.14.86])	by esekilxxen355.rnd.ericsson.se (Postfix) with
+	ESMTP id C6B7EA013A	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Sep 2013 16:57:25 +0200 (CEST)
+Received: by esekilxxen1299.rnd.ericsson.se (Postfix, from userid 9759)	id
+	C4A06D1CB8; Tue, 10 Sep 2013 16:57:25 +0200 (CEST)
+From: <hans.beckerus@gmail.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 10 Sep 2013 16:56:28 +0200
+Message-ID: <1378825041-20190-1-git-send-email-hans.beckerus@gmail.com>
+X-Mailer: git-send-email 1.8.3.3
 MIME-Version: 1.0
-X-Received: by 10.49.107.226 with SMTP id hf2mr32535294qeb.17.1378824944564;
-	Tue, 10 Sep 2013 07:55:44 -0700 (PDT)
-Received: by 10.49.81.137 with HTTP; Tue, 10 Sep 2013 07:55:44 -0700 (PDT)
-Date: Tue, 10 Sep 2013 17:55:44 +0300
-Message-ID: <CAAqcGH=avmRB5GS23tj+JjckQ1Y-RrTnTkQmBHTFggnwDbihRA@mail.gmail.com>
-From: Riku Voipio <riku.voipio@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Subject: Using pigz-native from sstate-cache while zlib-native is not there yet
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrGJMWRmVeSWpSXmKPExsUyM+JvjW6YsX6Qwc5/vBZ3fr5jd2D0OLdx
+	BWMAYxSXTUpqTmZZapG+XQJXxrEFmxkL/ktU/F+yia2B8ZdIFyMnh4SAicShnomsELaYxIV7
+	69m6GLk4hASOMko8ONrNBpIQEtjJKPHmTDlE4j+jxMm7P5i7GDmAnHqJljeZIDVsAvISz77u
+	ZgMJiwjoSVz9JwoSFhYwk2j528kEYrMIqEpM/raeBcTmFXCXWDpxBhPEXgWJvTs2QcUFJU7O
+	fAJmMwtISBx88YIZ4gQViePrF7NOYOSfhaRsFpKyBYxMqxg5ilOLk3LTjQw2MQLD5uCW3xY7
+	GC//tTnEKM3BoiTOu0XvTKCQQHpiSWp2ampBalF8UWlOavEhRiYOTqkGxpZrZQXPhW6f2Lbi
+	00nhB7oJoSwi29+mKZk3n6oykbVyUYg87X6iauFKlxtMVSuuq+tfUZyl1+f8hS0vdIaB6QpP
+	82T5d8ULJSuK/19s847z7P6Tk759Z76UxpXPe5261p1glG65UcPpy2Sw9JqW8fN4ndt7TPi2
+	+33s23N+7Svj9a+irj5XVmIpzkg01GIuKk4EANJqhIbpAQAA
+Subject: [PATCH v4] libtool: fix resolve of lt_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,39 +44,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 14:55:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 10 Sep 2013 14:57:26 -0000
+Content-Type: text/plain
 
-Hi,
+From: Hans Beckerus <hans.beckerus at gmail.com>
 
-I've started observing build failures with pigz-native fails due
-ttrying to use too old libz (from host), instead of the one in
-sysroot. I take most don't see this bug because they have new enough
-zlib on their host system.
+This patch updates libtool.m4 (and its output) to resolve a problem
+with variable 'lt_sysroot' not being properly updated if the option
+'--with[-libtool]-sysroot' is not provided when running the 'configure'
+script for a package.
+ 
+According to the help text ouput from 'configure':
+--with-libtool-sysroot=DIR Search for dependent libraries within DIR
+                       (or the compiler's sysrooot if not specified).
+ 
+Due to swapped cases in a switch statement, when checking if the option
+was specified or not, wrong actions were taken resulting in an
+incorrect sysroot and failures to properly locate e.g. .la files.
+ 
+For current upstream status see:
+http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
+ 
+Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
+---
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc    |  1 +
+ .../libtool/libtool/fix-resolve-lt-sysroot.patch   | 35 ++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
 
-| DEBUG: Executing shell function sstate_create_package
-| gzip: /lib/x86_64-linux-gnu/libz.so.1: version `ZLIB_1.2.5.1' not
-found (required by gzip)
-| tar: Child returned status 1
-| tar: Error is not recoverable: exiting now
-| WARNING: exit code 2 from a shell command.
-| DEBUG: Python function sstate_task_postfunc finished
-| ERROR: Function failed: sstate_create_package
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+index bb4ddf0..92e4949 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+ 	   file://respect-fstack-protector.patch \
+            file://norm-rpath.patch \
+            file://dont-depend-on-help2man.patch \
++           file://fix-resolve-lt-sysroot.patch \
+           "
+ 
+ SRC_URI[md5sum] = "d2f3b7d4627e69e13514a40e72a24d50"
+diff --git a/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+new file mode 100644
+index 0000000..5a6335b
+--- /dev/null
++++ b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+@@ -0,0 +1,35 @@
++
++Upstream-Status: Pending
++
++This patch updates libtool.m4 (and its output) to resolve a problem
++with variable 'lt_sysroot' not being properly updated if the option
++'--with[-libtool]-sysroot' is not provided when running the 'configure'
++script for a package.
++
++I have also reported the problem to libtool here
++
++http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
++
++Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
++---
++diff -ur libtool-2.4.2.orig/libltdl/m4/libtool.m4 libtool-2.4.2/libltdl/m4/libtool.m4
++--- libtool-2.4.2.orig/libltdl/m4/libtool.m4	2013-09-05 10:37:24.690013000 +0200
+++++ libtool-2.4.2/libltdl/m4/libtool.m4	2013-09-05 12:05:51.560281000 +0200
++@@ -1234,7 +1234,7 @@
++ dnl in case the user passed a directory name.
++ lt_sysroot=
++ case ${with_libtool_sysroot} in #(
++- yes)
+++ no)
++    if test "$GCC" = yes; then
++      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
++    fi
++@@ -1242,7 +1242,7 @@
++  /*)
++    lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
++    ;; #(
++- no|'')
+++ yes|'')
++    ;; #(
++  *)
++    AC_MSG_RESULT([${with_libtool_sysroot}])
+-- 
+1.8.3.3
 
-This seems to happen, because
-
-1) pigz-native is extracted from sstate cache
-2) zlib-native is outdated, and it's compilation is being started
-3) another task trying to use gzip/pigz meanwhile
-
-Simply setting DEPENDS_class-native = "zlib-native" in pigz.bb didn't
-seem to help. These errors started around September 3rd, and it
-unclear to me what exactly changed that exposed thise bug.
-
-Full build log at:
-
-https://ci.linaro.org/jenkins/job/openembedded-armv8-rootfs/label=oe_persistent_cloud,rootfs=lamp/484/consoleText
-
-Any hints howto fix this would be appreciated,
-Riku
 
