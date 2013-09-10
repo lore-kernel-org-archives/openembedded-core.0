@@ -1,24 +1,36 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9F26BE32
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f172.google.com (mail-vc0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CD2B61853
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 09:24:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8A9OGAW026608
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 10 Sep 2013 09:36:07 +0000 (UTC)
+Received: by mail-vc0-f172.google.com with SMTP id m17so4904775vca.31
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 02:24:17 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 10 Sep 2013 02:24:15 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Sep 2013 17:24:14 +0800
-Message-ID: <1378805054-18410-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	Tue, 10 Sep 2013 02:36:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7S8EBlKe9Xju8EycXPyBOCvgxqnxWbcGfvN7rSQtmv8=;
+	b=Nr9Iw2kEeYEJ3/gj0lvJuV+lzd0nk56KgYRReNUiiQ1P5JAIRIryk39vtyveAOO0Ez
+	VgjlmynDvMKtIt9MSuQrZl4DK6CbQ4iWBOBDWIZuQjG+Ra9rzJK4crzm5WWWZH2l0Sg2
+	KjWev0f8mx+wiN8PMfaraZ+MC1lmy2MA/SdqWynBfDL2wxYtfWIoQxTqwI4qydgnDMSn
+	Na9XHb9c2YVlmXSiJ3FZlauFnGEDfAzFu6IbI/zDdOiAR5vBUryIYORrGtYW4BTCx5k4
+	jmPCHhTFitY0TCznpbBP00qHkDN/vYAqwEXqXraDzK3Itv/jcv+guHyZ4EFm6QW2wXHv
+	4I+Q==
+X-Gm-Message-State: ALoCoQksypzovNH4cydQjaR3SA0R2vpITz0h32S63Ob7iksDFntb90rUC1xEWiunwna+fF0vA4XS
+X-Received: by 10.220.11.7 with SMTP id r7mr22070259vcr.12.1378805768920; Tue,
+	10 Sep 2013 02:36:08 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] btrfs-tools: fix a parallel build issue
+Received: by 10.220.71.201 with HTTP; Tue, 10 Sep 2013 02:35:48 -0700 (PDT)
+In-Reply-To: <1378795010-807-1-git-send-email-b28495@freescale.com>
+References: <1378795010-807-1-git-send-email-b28495@freescale.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 10 Sep 2013 10:35:48 +0100
+Message-ID: <CAJTo0LbM2CF4_vnvCZejQB6kMUtqazbbG3UKk1TUSUKBfvGzog@mail.gmail.com>
+To: b28495@freescale.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libcroco: disable Bsymbolic if it is not supported on some hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +43,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 09:24:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Sep 2013 09:36:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Roy Li <rongqing.li@windriver.com>
+On 10 September 2013 07:36,  <b28495@freescale.com> wrote:
+> +EXTRA_OECONF += "enable_Bsymbolic=auto"
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../btrfs-progs-fix-parallel-build.patch           |   30 ++++++++++++++++++++
- .../btrfs-tools/btrfs-tools_git.bb                 |    1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch
+Surely you mean "--enable-Bsymbolic=auto", as that's what the option is called.
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch
-new file mode 100644
-index 0000000..e461cdf
---- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build.patch
-@@ -0,0 +1,30 @@
-+btrfs-progs: fix parallel build
-+
-+Upstream-Status: Submitted [http://permalink.gmane.org/gmane.comp.file-systems.btrfs/28197]
-+
-+Parallel execution of "make install" may fail due to late creation of
-+version.h, fix it by adding the dependence on version.h.
-+
-+The fix is similare to 7aaf00fc[btrfs-progs: fix parallel build]
-+
-+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
-+---
-+ Makefile |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index c43cb68..40ef205 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -190,7 +190,7 @@ clean :
-+ 	      $(libs) $(lib_links)
-+ 	$(Q)$(MAKE) $(MAKEOPTS) -C man $@
-+ 
-+-install: $(libs) $(progs) install-man
-++install: version.h $(libs) $(progs) install-man
-+ 	$(INSTALL) -m755 -d $(DESTDIR)$(bindir)
-+ 	$(INSTALL) $(progs) $(DESTDIR)$(bindir)
-+ 	$(INSTALL) -m755 -d $(DESTDIR)$(libdir)
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index 1c7f34f..650c164 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -20,6 +20,7 @@ S = "${WORKDIR}/git"
- PV = "0.20+git${SRCPV}"
- 
- SRC_URI += "file://weak-defaults.patch"
-+SRC_URI += "file://btrfs-progs-fix-parallel-build.patch"
- 
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
--- 
-1.7.10.4
-
+Ross
 
