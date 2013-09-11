@@ -1,28 +1,44 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 958CC6BBDB
+Return-Path: <B28495@freescale.com>
+Received: from db9outboundpool.messaging.microsoft.com
+	(mail-db9lp0250.outbound.messaging.microsoft.com [213.199.154.250])
+	by mail.openembedded.org (Postfix) with ESMTP id AAC016BEDF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 02:04:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8B24Vcp021722
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 19:04:31 -0700 (PDT)
-Received: from msp-dhcp10.wrs.com (172.25.34.10) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 10 Sep 2013 19:04:30 -0700
-Message-ID: <522FCFAD.2030400@windriver.com>
-Date: Tue, 10 Sep 2013 21:04:29 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
-MIME-Version: 1.0
+	Wed, 11 Sep 2013 03:11:49 +0000 (UTC)
+Received: from mail103-db9-R.bigfish.com (10.174.16.225) by
+	DB9EHSOBE012.bigfish.com (10.174.14.75) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 11 Sep 2013 03:11:50 +0000
+Received: from mail103-db9 (localhost [127.0.0.1])	by
+	mail103-db9-R.bigfish.com (Postfix) with ESMTP id 18C67C00FA	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 03:11:50 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h1155h)
+Received: from mail103-db9 (localhost.localdomain [127.0.0.1]) by mail103-db9
+	(MessageSwitch) id 1378869090885027_7726;
+	Wed, 11 Sep 2013 03:11:30 +0000 (UTC)
+Received: from DB9EHSMHS025.bigfish.com (unknown [10.174.16.237])	by
+	mail103-db9.bigfish.com (Postfix) with ESMTP id D3C8E2A027E	for
+	<openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 03:11:30 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB9EHSMHS025.bigfish.com
+	(10.174.14.35) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Wed, 11 Sep 2013 03:11:28 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Wed, 11 Sep 2013 03:11:21 +0000
+Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
+	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
+	ESMTP id r8B3BJ14002815;	Tue, 10 Sep 2013 20:11:20 -0700
+From: <b28495@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1378864775-7094-1-git-send-email-mark.hatle@windriver.com>
-In-Reply-To: <1378864775-7094-1-git-send-email-mark.hatle@windriver.com>
-Subject: Re: [PATCH] python-smartpm: Add an attempt install mode
+Date: Wed, 11 Sep 2013 11:11:15 +0800
+Message-ID: <1378869075-29422-1-git-send-email-b28495@freescale.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH v3] libcroco: disable Bsymbolic if it is not supported on some hosts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,151 +51,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 02:04:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Sep 2013 03:11:50 -0000
+Content-Type: text/plain
 
-Time measurements with:
+From: Ting Liu <b28495@freescale.com>
 
-MACHINE = "qemux86"
-PACKAGE_CLASSES = "package_rpm"
-EXTRA_IMAGE_FEATURES = "dev-pkgs staticdev-pkgs doc-pkgs dbg-pkgs ptest-pkgs"
-BB_NUMBER_THREADS ?= "8"
-PARALLEL_MAKE ?= "-j 8"
+When trying to build on my Centos 5.5 machine, got below error:
+| checking for gtkdoc-mkpdf... no
+| checking whether to build gtk-doc documentation... no
+| checking for CROCO... yes
+| checking if gcc supports "-Wl,-Bsymbolic-functions" flag...
+| configure: error: -Bsymbolic requested but not supported by ld. Use --disable-Bsymbolic to disable
+| Configure failed. The contents of all config.log files follows to aid debugging
+|
+| configure: exit 1
+| ERROR: oe_runconf failed
 
-image: core-image-sato
+Set --enable-Bsymbolic=auto to disable it when it is not suppported.
 
-Quad Core i7 workstation...
+Signed-off-by: Ting Liu <b28495@freescale.com>
+---
+ meta/recipes-support/libcroco/libcroco_0.6.8.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-With all of the recipes built, and just executing the do_rootfs:
+diff --git a/meta/recipes-support/libcroco/libcroco_0.6.8.bb b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
+index 3c5dc9a..fe1a42d 100644
+--- a/meta/recipes-support/libcroco/libcroco_0.6.8.bb
++++ b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
+ SECTION = "x11/utils"
+ DEPENDS = "glib-2.0 libxml2 zlib"
+ BBCLASSEXTEND = "native"
+-
++EXTRA_OECONF += "--enable-Bsymbolic=auto"
+ PR = "r1"
+ 
+ inherit autotools pkgconfig gnomebase
+-- 
+1.7.5.4
 
-Before this change:
-  real    26m2.541s
-  user    21m8.458s
-  sys     7m9.683s
-
-After this change:
-  real    14m43.436s
-  user    15m57.525s
-  sys     5m16.412s
-
-This is a significant performance boost when using the 'complementary' installs 
-and attemptonly installs.  The performance is by doing the complementary 
-installs as a batch instead of one at a time, ignoring failures.
-
---Mark
-
-On 9/10/13 8:59 PM, Mark Hatle wrote:
-> [ YOCTO #3723 ]
->
-> Add a mode to smart that will allow an installation to continue, instead of
-> failure in the case that one or more items is uninstallable.
->
-> Uninstallable packages are simply ignored, and no error is generated.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->   meta/classes/package_rpm.bbclass                   |  7 +--
->   .../python/python-smartpm/smart-attempt.patch      | 59 ++++++++++++++++++++++
->   .../python/python-smartpm_1.4.1.bb                 |  1 +
->   3 files changed, 62 insertions(+), 5 deletions(-)
->   create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
->
-> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-> index 8ab42c4..699d0f2 100644
-> --- a/meta/classes/package_rpm.bbclass
-> +++ b/meta/classes/package_rpm.bbclass
-> @@ -472,11 +472,8 @@ EOF
->   		echo "Attempting $pkgs_to_install"
->   		echo "Note: see `dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}"
->   		translate_oe_to_smart ${sdk_mode} --attemptonly $package_attemptonly
-> -		for each_pkg in $pkgs_to_install ;  do
-> -			# We need to try each package individually as a single dependency failure
-> -			# will break the whole set otherwise.
-> -			smart --data-dir=${target_rootfs}/var/lib/smart install -y $each_pkg >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" 2>&1 || true
-> -		done
-> +		echo "Attempting $pkgs_to_install" >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}"
-> +		smart --data-dir=${target_rootfs}/var/lib/smart install --attempt -y ${pkgs_to_install} >> "`dirname ${BB_LOGFILE}`/log.do_${task}_attemptonly.${PID}" 2>&1
->   	fi
->   }
->
-> diff --git a/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
-> new file mode 100644
-> index 0000000..0d603d3
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python-smartpm/smart-attempt.patch
-> @@ -0,0 +1,59 @@
-> +Add a mechanism to attempt the install operation, w/o failing.
-> +
-> +For complementary and 'attemptonly' packages, we need a way to instruct smart to
-> +try to install, but ignore any failures.
-> +
-> +This option only works for the install operation.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> +
-> +Index: smart-1.4.1/smart/commands/install.py
-> +===================================================================
-> +--- smart-1.4.1.orig/smart/commands/install.py
-> ++++ smart-1.4.1/smart/commands/install.py
-> +@@ -50,6 +50,8 @@ def option_parser():
-> +     parser = OptionParser(usage=USAGE,
-> +                           description=DESCRIPTION,
-> +                           examples=EXAMPLES)
-> ++    parser.add_option("--attempt", action="store_true",
-> ++                      help=_("attempt to install packages, ignore failures"))
-> +     parser.add_option("--stepped", action="store_true",
-> +                       help=_("split operation in steps"))
-> +     parser.add_option("--urls", action="store_true",
-> +@@ -80,6 +82,9 @@ def main(ctrl, opts):
-> +     if not opts.args:
-> +         raise Error, _("no package(s) given")
-> +
-> ++    if opts.attempt:
-> ++	sysconf.set("attempt-install", True, soft=True)
-> ++
-> +     if opts.explain:
-> +         sysconf.set("explain-changesets", True, soft=True)
-> +
-> +Index: smart-1.4.1/smart/transaction.py
-> +===================================================================
-> +--- smart-1.4.1.orig/smart/transaction.py
-> ++++ smart-1.4.1/smart/transaction.py
-> +@@ -1216,9 +1216,17 @@ class Transaction(object):
-> +                     else:
-> +                         op = REMOVE
-> +                 if op is INSTALL or op is REINSTALL:
-> +-                    self._install(pkg, changeset, locked, pending)
-> +-                    if pkg in changeset:
-> +-                        changeset.setRequested(pkg, True)
-> ++                    try:
-> ++                        self._install(pkg, changeset, locked, pending)
-> ++                        if pkg in changeset:
-> ++                            changeset.setRequested(pkg, True)
-> ++                    except Failed, e:
-> ++                        if sysconf.has("attempt-install", soft=True):
-> ++                            if pkg in changeset:
-> ++                                del changeset[pkg]
-> ++                            continue
-> ++                        else:
-> ++                            raise Failed, e
-> +                 elif op is REMOVE:
-> +                     self._remove(pkg, changeset, locked, pending)
-> +                 elif op is UPGRADE:
-> diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-> index 5d673b9..f406d69 100644
-> --- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-> +++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-> @@ -30,6 +30,7 @@ SRC_URI = "\
->             file://smart-flag-ignore-recommends.patch \
->             file://smart-flag-exclude-packages.patch \
->             file://smart-config-ignore-all-recommends.patch \
-> +          file://smart-attempt.patch \
->             "
->
->   SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
->
 
 
