@@ -1,48 +1,39 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2330E610F7
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C8D2361855
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 12:30:56 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by ra.se.axis.com (Postfix) with ESMTP id 2851E34963F;
-	Wed, 11 Sep 2013 14:30:53 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
-Received: from ra.se.axis.com ([127.0.0.1])
-	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id poGYTF3LnT8H; Wed, 11 Sep 2013 14:30:52 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by ra.se.axis.com (Postfix) with ESMTP id 53507349640;
-	Wed, 11 Sep 2013 14:30:47 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 11ABF7BB;
-	Wed, 11 Sep 2013 14:30:47 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 06080627;
-	Wed, 11 Sep 2013 14:30:47 +0200 (CEST)
-Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
-	by seth.se.axis.com (Postfix) with ESMTP id 041303E06F;
-	Wed, 11 Sep 2013 14:30:47 +0200 (CEST)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
-	([10.0.5.75]) with mapi; Wed, 11 Sep 2013 14:30:47 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Darren Hart <dvhart@linux.intel.com>
-Date: Wed, 11 Sep 2013 14:30:44 +0200
-Thread-Topic: [OE-core] [PATCH 1/1] bb-matrix-plot: Use interpolation for
-	sparse data
-Thread-Index: Ac6uO7rRfpq+5LQORau/MbA9V9d9PQArFyqQ
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC798CD24DE06@xmail3.se.axis.com>
-References: <cover.1378815538.git.pkj@axis.com>
-	<38fc73dd9c6027282c5528cf9d18ad68ae7a3e43.1378815538.git.pkj@axis.com>
-	<1378827464.19978.109.camel@dvhart-mobl4.amr.corp.intel.com>
-In-Reply-To: <1378827464.19978.109.camel@dvhart-mobl4.amr.corp.intel.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+	Wed, 11 Sep 2013 13:02:07 +0000 (UTC)
+Received: by mail-wi0-f171.google.com with SMTP id hm2so2126879wib.16
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 06:02:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ywo+t97yXqET9HPmsQhgrICy2OB9Pol5RuI5QiIiE2o=;
+	b=h9pEFTg0kTiEss760dsz3enhnyfqPuroilGsiLJ/VDgSh6mv+TWAwTf5FLAyICDo0V
+	T2bXe17x6hP6C6P+g8nIMzRs1d9zY4BKXWT54BjJ6NwshJP/KM1Zm8M0JQq+54M950lp
+	hd40NyeiiWwsIhxuo+0TSGVbu4MkGG/G8v53zd4VjioUh+GPZ41RznS7Bftvgg1mrpr1
+	EZxI41USZjSA7bhEZOfOSuWLgIsgQWBT395A/xo84SpR0bJM5z6B6GkL1qq3iiofxwmG
+	5jS9Jnc/KBpX1q6tWA7dlfWdbF11avu2Vs9ADLNSCMsoFWF/GoCtzA5ZPyIfiSPdkTKO
+	VlKA==
+X-Gm-Message-State: ALoCoQme+rypPGgzi6F5qdzRwIYV1+lgtB25MHFoXpO3OAQaLV1NCnmEMLwBgazwDMvKcQH5goOG
+X-Received: by 10.180.21.170 with SMTP id w10mr247640wie.62.1378904526202;
+	Wed, 11 Sep 2013 06:02:06 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.180.218.200 with HTTP; Wed, 11 Sep 2013 06:01:46 -0700 (PDT)
+In-Reply-To: <1378900852.3484.179.camel@ted>
+References: <CAP71Wjynkd=CGry-YKvEetsuGvoXmhwhVAF1rXuOuo-nh7V2CQ@mail.gmail.com>
+	<1378900852.3484.179.camel@ted>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 11 Sep 2013 15:01:46 +0200
+Message-ID: <CAP71Wjw7-7FX39-baCq+opPry1rpV9UqNDjX8MZRrJ6+qAKtSw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Linaro Dev <linaro-dev@lists.linaro.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] bb-matrix-plot: Use interpolation for sparse data
+Subject: Re: OE gcc-cross with builtin sysroot, BUG?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 12:30:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 11 Sep 2013 13:02:09 -0000
+Content-Type: multipart/alternative; boundary=047d7bb70cb076bbe604e61b3a6d
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBEYXJyZW4gSGFydCBbbWFpbHRv
-OmR2aGFydEBsaW51eC5pbnRlbC5jb21dDQo+IFNlbnQ6IGRlbiAxMCBzZXB0ZW1iZXIgMjAxMyAx
-NzozOA0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0DQo+IENjOiBvcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDEv
-MV0gYmItbWF0cml4LXBsb3Q6IFVzZSBpbnRlcnBvbGF0aW9uDQo+IGZvciBzcGFyc2UgZGF0YQ0K
-PiANCj4gT24gVHVlLCAyMDEzLTA5LTEwIGF0IDE0OjIwICswMjAwLCBQZXRlciBLamVsbGVyc3Rl
-ZHQgd3JvdGU6DQo+ID4gSWYgbm90IGV2ZXJ5IGNvbWJpbmF0aW9uIG9mIEJCX05VTUJFUl9USFJF
-QURTIGFuZCBQQVJBTExFTF9NQUtFIGhhdmUNCj4gPiBiZWVuIHRlc3RlZCBieSBiYi1tYXRyaXgu
-c2gsIGUuZy4sIGJ5IHVzaW5nIEJCX1JBTkdFPSIwNCAwOCAxMCAxMiAxNiINCj4gPiBhbmQgUE1f
-UkFOR0U9IjA0IDA4IDEwIDEyIDE2IiwgdGhlbiB0aGUgZ3JhcGggdGhhdCBnbnVwbG90IGdlbmVy
-YXRlcyBieQ0KPiA+IGRlZmF1bHQgbG9va3MgdmVyeSBqYWdnZWQgZHVlIHRvIHRoZSBtaXNzaW5n
-IGRhdGEgcG9pbnRzLiBCeSB1c2luZw0KPiA+IHNwbGluZXMgdG8gaW50ZXJwb2xhdGUgdGhlIG1p
-c3NpbmcgZGF0YSB0aGUgZ3JhcGggbG9va3MgYSBsb3QgYmV0dGVyLg0KPiA+DQo+ID4gVGhpcyBz
-aG91bGQgbm90IGNoYW5nZSBncmFwaHMgd2hlcmUgYWxsIGRhdGEgcG9pbnRzIGFyZSBhdmFpbGFi
-bGUgaW4gYW55DQo+ID4gd2F5LCBvbmx5IGltcHJvdmUgc3BhcnNlIGdyYXBocy4NCj4gPg0KPiA+
-IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4
-aXMuY29tPg0KPiA+IC0tLQ0KPiA+ICBzY3JpcHRzL2NvbnRyaWIvYmItcGVyZi9iYi1tYXRyaXgt
-cGxvdC5zaCB8IDIgKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvc2NyaXB0cy9jb250cmliL2JiLXBlcmYv
-YmItbWF0cml4LXBsb3Quc2ggYi9zY3JpcHRzL2NvbnRyaWIvYmItcGVyZi9iYi1tYXRyaXgtcGxv
-dC5zaA0KPiA+IGluZGV4IDg3ZThjYjEuLjEzNmEyNTUgMTAwNzU1DQo+ID4gLS0tIGEvc2NyaXB0
-cy9jb250cmliL2JiLXBlcmYvYmItbWF0cml4LXBsb3Quc2gNCj4gPiArKysgYi9zY3JpcHRzL2Nv
-bnRyaWIvYmItcGVyZi9iYi1tYXRyaXgtcGxvdC5zaA0KPiA+IEBAIC0xMTUsNyArMTE1LDcgQEAg
-c2V0IHhsYWJlbCAiJFhMQUJFTCINCj4gPiAgc2V0IHlsYWJlbCAiJFlMQUJFTCINCj4gPiAgc2V0
-IHN0eWxlIGxpbmUgMTAwIGx0IDUgbHcgMS41DQo+ID4gICRQTTNEX0ZSQUdNRU5UDQo+ID4gLXNl
-dCBkZ3JpZDNkICRQTV9DTlQsJEJCX0NOVA0KPiA+ICtzZXQgZGdyaWQzZCAkUE1fQ05ULCRCQl9D
-TlQgc3BsaW5lcw0KPiANCj4gDQo+IFNhd2VldCEgSSBqdXN0IGNvdWxkbid0IGZpZ3VyZSB0aGF0
-IG9uZSBvdXQgZm9yIHNvbWUgcmVhc29uLiBUaGFuayB5b3UsDQo+IHRoYW5rIHlvdSwgdGhhbmsg
-eW91IQ0KPiANCj4gUGxlYXNlIG5vdGUgdGhlIGdudXBsb3QgNC40IGRlcGVuZGVuY3kgaW4gdGhl
-IHBhdGNoIGNvbW1pdCBtZXNzYWdlDQo+IHRob3VnaC4gQWxzbywgd2hhdCBoYXBwZW5zIGlmIGFu
-IG9sZGVyIGdudXBsb3QgaXMgdXNlZD8gRG9lcyBpdCBmYWlsIG9yDQo+IHJldmVydCB0byB0aGUg
-b2xkIGJlaGF2aW9yPyBJZiBpdCBmYWlscywgY2FuIHdlIGNoZWNrIGZvciA0LjQgYW5kIHVzZQ0K
-PiBzcGxpbmVzIGlmIGF2YWlsYWJsZT8NCg0KSSBhY3R1YWxseSB0cmllZCBpdCBub3cgdXNpbmcg
-Z251cGxvdCA0LjIuMiwgYW5kIHRoZSBzY3JpcHQgDQphbHJlYWR5IHVzZXMgYSBjb3VwbGUgb2Yg
-ZmVhdHVyZXMgdGhhdCByZXF1aXJlIGdudXBsb3QgNC40Lg0KVGhlIHNjcmlwdCBjYW4gYmUgZml4
-ZWQgdG8gc3VwcG9ydCBnbnVwbG90IDQuMiAoYnkgYWRkaW5nIGEgDQp0ZXN0IGZvciB0aGUgZ251
-cGxvdCB2ZXJzaW9uIGFuZCB0aGVuIG1vZGlmeWluZyB0aGUgaW5wdXQgdG8gDQpnbnVwbG90IGFj
-Y29yZGluZ2x5KSwgYnV0IHNpbmNlIG5vYm9keSBoYXMgY29tcGxhaW5lZCBzbyBmYXIsIA0KSSB3
-b3VsZCBzdWdnZXN0IGp1c3QgbGVhdmluZyBpdCBhcyBpcy4uLg0KDQo+IC0tDQo+IERhcnJlbiBI
-YXJ0DQo+IEludGVsIE9wZW4gU291cmNlIFRlY2hub2xvZ3kgQ2VudGVyDQo+IFlvY3RvIFByb2pl
-Y3QgLSBMaW51eCBLZXJuZWwNCg0KLy9QZXRlcg0KDQo=
+--047d7bb70cb076bbe604e61b3a6d
+Content-Type: text/plain; charset=ISO-8859-1
 
+On Wed, Sep 11, 2013 at 2:00 PM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> > So, of course we shouldn't ignore the CFLAGS from OE, and the CFLAGS
+> > would set the right sysroot, and of course we fixed our software so
+> > that we don't ignore CFLAGS anymore... but that still looks like a bug
+> > to me.
+> >
+> Not really, its actually intentionally designed like this since its
+> pointless rebuilding gcc-cross multiple time just because we want to use
+> it with a different sysroot. We therefore just pass in the arguments to
+> the compiler to ensure it uses the right one. If you remove them, you
+> hit the problems you describe.
+>
+> We should probably compile in a bogus sysroot so it never works and
+> makes this kind of issue more visible.
+>
+
+hmm. ok. i see. it would certainly help to have a better 'error' message...
+i suppose that not having a builtin sysroot at all, would be an even bigger
+problem as it would default to /usr/include...
+
+--047d7bb70cb076bbe604e61b3a6d
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Sep 11, 2013 at 2:00 PM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
+purdie@linuxfoundation.org</a>&gt;</span> wrote:<br>
+
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb adM"><div class=3D"im">=
+&gt; So, of course we shouldn&#39;t ignore the CFLAGS from OE, and the CFLA=
+GS<br>
+
+
+&gt; would set the right sysroot, and of course we fixed our software so<br=
+>
+&gt; that we don&#39;t ignore CFLAGS anymore... but that still looks like a=
+ bug<br>
+&gt; to me.<br>
+&gt;<br>
+</div></div>Not really, its actually intentionally designed like this since=
+ its<br>
+pointless rebuilding gcc-cross multiple time just because we want to use<br=
+>
+it with a different sysroot. We therefore just pass in the arguments to<br>
+the compiler to ensure it uses the right one. If you remove them, you<br>
+hit the problems you describe.<br>
+<br>
+We should probably compile in a bogus sysroot so it never works and<br>
+makes this kind of issue more visible.<br></blockquote></div><br>hmm. ok. i=
+ see. it would certainly help to have a better &#39;error&#39; message... i=
+ suppose that not having a builtin sysroot at all, would be an even bigger =
+problem as it would default to /usr/include...=A0</div>
+
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><br></div><=
+/div>
+
+--047d7bb70cb076bbe604e61b3a6d--
