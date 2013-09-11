@@ -1,35 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f176.google.com (mail-we0-f176.google.com
-	[74.125.82.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 407F36110E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 863A061479
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 13:48:24 +0000 (UTC)
-Received: by mail-we0-f176.google.com with SMTP id u56so7984476wes.35
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 06:48:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=X7+JAnJ/y7WOKr+BsMpLas1reMhxC0Wxpb7Y7Hq2qiE=;
-	b=C4rUsYPXuCkaP+e6G23HcwQNp0lazysuN+zetj7ha+Ae0GVWC33gdE0jPLI8Y+kkh4
-	ajuc/9lhwtQi0k/dOUQZjqLmS5habQ5HdKqknLuTtm1AdJbspT3K2P2seGxgC8FJpovq
-	Ev8h+4yyo4/VAdGoPGd96a5M7thGUu5snXP3KiJtkenP17u5vEFgOGqMLTzv0InV0L5U
-	xooEAKJw2hv6RM7NVxSBkzk6oMQhc2AiWICGvEoCvr5ihkngEVd9VS2ATqDufAVs/Dsp
-	OYvHpgS3mtvLsNJMNGJIImerEffjlqxEzf4/GITlPwnrQmWaS/MGs9lymPaRS424101V
-	bPmg==
-X-Gm-Message-State: ALoCoQkA2V8Me+//hlMaXx1kSlbYpBrboPorej9xRh4wfiExd5REZGozrtZ60h9ovTCkfLhjIjKV
-X-Received: by 10.194.249.97 with SMTP id yt1mr1556476wjc.49.1378907305789;
-	Wed, 11 Sep 2013 06:48:25 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id e5sm10786622wiy.2.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 11 Sep 2013 06:48:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2013 14:48:19 +0100
-Message-Id: <1378907299-15627-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] x11vnc: add dependencies for xrandr/xfixes/xdamage/xtst
+	Wed, 11 Sep 2013 14:29:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Sep 2013 07:26:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,884,1371106800"; d="scan'208";a="376630794"
+Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.123.175])
+	by orsmga001.jf.intel.com with ESMTP; 11 Sep 2013 07:29:56 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 11 Sep 2013 15:29:55 +0100
+Message-ID: <9578359.7iYYtX4lxh@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <52307475.9090901@windriver.com>
+References: <1378864775-7094-1-git-send-email-mark.hatle@windriver.com>
+	<4927217.dsrI5AkMql@helios> <52307475.9090901@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-smartpm: Add an attempt install mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,31 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 13:48:24 -0000
+X-List-Received-Date: Wed, 11 Sep 2013 14:29:56 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Inspired by a patch by Martin Jansa but with these libraries required, as a VNC
-server without them is suboptimal.  Don't add an option for Xinerama as our X
-server always disables it.
+On Wednesday 11 September 2013 08:47:33 Mark Hatle wrote:
+> On 9/11/13 5:04 AM, Paul Eggleton wrote:
+> > On Tuesday 10 September 2013 21:04:29 Mark Hatle wrote:
+> >> Time measurements with:
+> >> 
+> >> MACHINE = "qemux86"
+> >> PACKAGE_CLASSES = "package_rpm"
+> >> EXTRA_IMAGE_FEATURES = "dev-pkgs staticdev-pkgs doc-pkgs dbg-pkgs
+> >> ptest-pkgs" BB_NUMBER_THREADS ?= "8"
+> >> PARALLEL_MAKE ?= "-j 8"
+> >> 
+> >> image: core-image-sato
+> >> 
+> >> Quad Core i7 workstation...
+> >> 
+> >> With all of the recipes built, and just executing the do_rootfs:
+> >> 
+> >> Before this change:
+> >>    real    26m2.541s
+> >>    user    21m8.458s
+> >>    sys     7m9.683s
+> >> 
+> >> After this change:
+> >>    real    14m43.436s
+> >>    user    15m57.525s
+> >>    sys     5m16.412s
+> >> 
+> >> This is a significant performance boost when using the 'complementary'
+> >> installs and attemptonly installs.  The performance is by doing the
+> >> complementary installs as a batch instead of one at a time, ignoring
+> >> failures.
+> > 
+> > This is a significant improvement, well done! My concern about not
+> > catching
+> > failures stands though, which is why I hadn't implemented this yet. How do
+> > we ensure that genuine failures are caught with this mode?
+> 
+> The code only ignores failures in the resolution of the dependencies.  As
+> far as I'm aware, this is the correct behavior in the attempt only mode(s).
+>  If the dependencies can't be resolved for some reason, we simply throw
+> away that item and move on.
+> 
+> Any errors that occur during package installation -will- now cause a failure
+> to exist, and they will be logged to the attemptonly log-file.
+> 
+> In the previous implementation, any error when installing an attemptonly
+> package would be ignored, even if it turned out to be an installation
+> problem and not a dependency issue.  So I think this is an improvement as
+> well.
+> 
+> (For some of my testing I intentionally created dependency errors by adding
+> things to the PACKAGE_EXCLUDE, and the system did what it was supposed to.
+> Ignored the items that couldn't be installed.)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sounds like a great improvement. Thanks!
 
-diff --git a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-index 4b8bed4..0abc84a 100644
---- a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-+++ b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f \
-                     file://x11vnc/x11vnc.h;endline=33;md5=6f95dc6535467d7ee1563fd434fb372e"
- 
--DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib"
-+DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib libxfixes libxrandr libxdamage libxtst"
- 
- PR = "r0"
- 
+Cheers,
+Paul
+
 -- 
-1.7.10.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
