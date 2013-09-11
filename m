@@ -1,35 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
-	[74.125.82.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 975886064E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F6D16007B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 22:25:00 +0000 (UTC)
-Received: by mail-we0-f178.google.com with SMTP id u57so7407192wes.37
+	Wed, 11 Sep 2013 22:30:14 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8BMhuR4020753 for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 23:43:56 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 5U_Uvqjxs3BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 15:25:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=E+Sfx+EG+GM/zrYEXI5T8wA01PkwQXum5t34X6lYN1g=;
-	b=muPPkPhZ3ugqGoO6Pp3B+TCC+GkAvPuYaW1qHOeWvFxi5bOvc6jOMAdR3MIr+YrST7
-	KFYOX5zzN2Ml8vApoo8XaJXcf+Fge77GRHu8MFl+yP3ca0jFLY8FzfbLpEVwLW5RnWAP
-	7+79mm51Ak8jFPGC29jpUtub4SMCgzN8UFCsva+DoS5SXbcbPEvmkN+3bftUzIj+Y6uY
-	t+V4INNuSNbJaArQzbM1CZJ3PwefBdICaZtDAJdBB5wZ7YrzKQ+rX+hb1sJZNw1Kd0oA
-	0S8XuKA9NEeVvbd0PJeVL7DWQx35T9Zcl5PFqrEByES/M454Ff24gJZEmsjraSiehujK
-	RmJA==
-X-Gm-Message-State: ALoCoQlN2BSJyxn3PWm6qFlrJO3SHMnj//WkOvoySJOtnyCPN0kvZWistC35EKliVjMW1RW2lbfo
-X-Received: by 10.180.189.9 with SMTP id ge9mr3183600wic.52.1378938301660;
-	Wed, 11 Sep 2013 15:25:01 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fz8sm13519243wic.0.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 11 Sep 2013 15:25:00 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2013 23:24:57 +0100
-Message-Id: <1378938297-9208-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] xf86-video-vmware: respect opengl DISTRO_FEATURE
+	Wed, 11 Sep 2013 23:43:56 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8BMhpDj020697
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 23:43:53 +0100
+Message-ID: <1378938601.3484.215.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Sep 2013 23:30:01 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] populate_sdk_rpm: Ensure empty strings aren't passed to attemponly rpm code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 22:25:02 -0000
+X-List-Received-Date: Wed, 11 Sep 2013 22:30:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Conditionalise the GL dependencies on the opengl DISTRO_FEATURE so this driver
-can build without the opengl feature active, as the configure script will
-enable/disable the GL sub-driver depending on the presence of these libraries.
+If empty strings are passed to the rpm attemptonly code, it breaks. This
+ensures we don't do that.
 
-This is an interim patch to fix the autobuilder, a more complete patch heading
-upstream to make the GL sub-driver deterministic will follow.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+diff --git a/meta/classes/populate_sdk_rpm.bbclass b/meta/classes/populate_sdk_rpm.bbclass
+index dd5f39a..9caa6f6 100644
+--- a/meta/classes/populate_sdk_rpm.bbclass
++++ b/meta/classes/populate_sdk_rpm.bbclass
+@@ -41,7 +41,7 @@ populate_sdk_rpm () {
+ 	export INSTALL_ROOTFS_RPM="${SDK_OUTPUT}/${SDKTARGETSYSROOT}"
+ 	export INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr - _)${TARGET_VENDOR}-${TARGET_OS}"
+ 	export INSTALL_PACKAGES_RPM="${TOOLCHAIN_TARGET_TASK}"
+-	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${TOOLCHAIN_TARGET_TASK_ATTEMPTONLY}"
++	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="$(echo '${TOOLCHAIN_TARGET_TASK_ATTEMPTONLY}' | tr -d ' ')"
+ 	export INSTALL_PACKAGES_LINGUAS_RPM=""
+ 	# We don't need any of these runtime items for the SDK, so
+ 	# just make the system assume they exist.
+@@ -98,7 +98,7 @@ populate_sdk_rpm () {
+ 	export INSTALL_ROOTFS_RPM="${SDK_OUTPUT}"
+ 	export INSTALL_PLATFORM_RPM="$(echo ${TARGET_ARCH} | tr - _)${SDK_VENDOR}-${SDK_OS}"
+ 	export INSTALL_PACKAGES_RPM="${TOOLCHAIN_HOST_TASK}"
+-	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="${TOOLCHAIN_TARGET_HOST_ATTEMPTONLY}"
++	export INSTALL_PACKAGES_ATTEMPTONLY_RPM="$(echo '${TOOLCHAIN_HOST_TASK_ATTEMPTONLY}' | tr -d ' ')"
+ 	export INSTALL_PACKAGES_LINGUAS_RPM=""
+ 	export INSTALL_PROVIDENAME_RPM="/bin/sh /bin/bash /usr/bin/env /usr/bin/perl pkgconfig libGL.so()(64bit) libGL.so"
+ 	export INSTALL_TASK_RPM="populate_sdk_rpm-nativesdk"
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
-index 1526a02..0d8c8d2 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
-@@ -6,8 +6,8 @@ DESCRIPTION = "vmware is an Xorg driver for VMware virtual video cards."
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
- 
--DEPENDS += "virtual/libx11 libxvmc drm glproto \
--	    virtual/libgl xineramaproto libpciaccess"
-+DEPENDS += "virtual/libx11 libxvmc xineramaproto libpciaccess \
-+            ${@base_contains('DISTRO_FEATURES', 'opengl', 'drm virtual/libgl', '', d)}"
- 
- SRC_URI[md5sum] = "b08e0195ebf3f88a82129322cb93da08"
- SRC_URI[sha256sum] = "802dda415c22412edad6c3df44fe18a06e91d0f8456d9a58bac0d340fdf8fe3d"
--- 
-1.7.10.4
 
 
