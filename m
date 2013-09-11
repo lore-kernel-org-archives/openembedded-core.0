@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id C6E3C6B05F
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6409D61005
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 09:27:25 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id c10so1882801wiw.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 02:27:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=I8Gjj7uuxxZNEQCgfJRouDUPMD+6wO2LaL9YnjpAHr8=;
-	b=aqBA+DmNWjOV+/YN8nythOCiERA/3M80VcmJu9ykBT7pJgKfdSVrzjLG8MRfDPNee1
-	xPjW2w8Z1Xm7zgVXigPGHhUiyFIAfaWCDhAjUT2Fo3eRDqYCuSe+07a5I7P2+D5uX4wn
-	8nVPRBkwizl3OQ07QQIRq8NQsNGgGIV6zPnnCrTEJ9GF8tjQqD05IshGBXZCrpQAsKg4
-	nI7KgXOaVvq6ILWuY3bmZ9Bi4IsrBSRZTDQJnji+r2b9p2b4/MkiqC7cZeVvStuPJ0we
-	iItS7HUXqMevh59ncit04dPRaexIHGJMmxtq24zrKCcKCnrXAu7incvbPYJBvuEeHEHt
-	WJ9Q==
-X-Gm-Message-State: ALoCoQmJspunvYjyBZUlgQONDPZR3UIKcdfMi4DTFeSHIav5KQQidokQEZ2T5Xq9qiFTv+LdoE2z
-X-Received: by 10.180.85.65 with SMTP id f1mr16267814wiz.33.1378891646698;
-	Wed, 11 Sep 2013 02:27:26 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id b13sm8543135wiv.1.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 11 Sep 2013 02:27:26 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2013 10:27:22 +0100
-Message-Id: <1378891642-20906-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] qemu: only depend on mesa-driver-swrast if opengl is enabled
+	Wed, 11 Sep 2013 09:31:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8B9VEsu011290
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Sep 2013 02:31:14 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 11 Sep 2013 02:31:13 -0700
+Message-ID: <52303854.1020209@windriver.com>
+Date: Wed, 11 Sep 2013 17:31:00 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1378736079.3484.117.camel@ted> <522ECB4B.2070209@windriver.com>
+	<1378822091.3484.163.camel@ted>
+In-Reply-To: <1378822091.3484.163.camel@ted>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] bitbake.conf: Stop providing ${P} and ${PF} by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,58 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 09:27:27 -0000
+X-List-Received-Date: Wed, 11 Sep 2013 09:31:14 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-As Mesa refuses to compile if the "opengl" DISTRO_FEATURE isn't enabled,
-mesa-driver-swrast has to be conditional in the QEMU machine defintions too.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/machine/include/qemu.inc |    2 +-
- meta/conf/machine/qemux86-64.conf  |    2 +-
- meta/conf/machine/qemux86.conf     |    2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index 95d7e66..a78622d 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -5,7 +5,7 @@ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
- PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
- 
- XSERVER ?= "xserver-xorg \
--            mesa-driver-swrast \
-+            ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast', '', d)} \
-             xf86-input-evdev \
-             xf86-input-mouse \
-             xf86-video-fbdev \
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
-index ff666af..c572225 100644
---- a/meta/conf/machine/qemux86-64.conf
-+++ b/meta/conf/machine/qemux86-64.conf
-@@ -15,7 +15,7 @@ KERNEL_IMAGETYPE = "bzImage"
- SERIAL_CONSOLE = "115200 ttyS0"
- 
- XSERVER = "xserver-xorg \
--           mesa-driver-swrast \
-+           ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast', '', d)} \
-            xf86-input-vmmouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
-index 5f107be..94ee573 100644
---- a/meta/conf/machine/qemux86.conf
-+++ b/meta/conf/machine/qemux86.conf
-@@ -15,7 +15,7 @@ KERNEL_IMAGETYPE = "bzImage"
- SERIAL_CONSOLE = "115200 ttyS0"
- 
- XSERVER = "xserver-xorg \
--           mesa-driver-swrast \
-+           ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast', '', d)} \
-            xf86-input-vmmouse \
-            xf86-input-keyboard \
-            xf86-input-evdev \
--- 
-1.7.10.4
+On 09/10/2013 10:08 PM, Richard Purdie wrote:
+> On Tue, 2013-09-10 at 15:33 +0800, Robert Yang wrote:
+>> Thanks, Can we provide a replacement for the "bitbake PN-PV" since it is
+>> useful, for example, can we support the PREFERRED_VERSION_${PN} in the env
+>> in the future ? There is a similar bug:
+>>
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4965
+>
+> If you set BB_PRESERVE_ENV=1 you can set PREFERRED_VERSION_xxx from the
+> environment so this should already be possible?
+>
 
+It seems that the BB_PRESERVE_ENV=1 doesn't work, but we use the
+BB_ENV_EXTRAWHITE, for example:
+
+$ export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE PREFERRED_VERSION_make"
+$ export PREFERRED_VERSION_make="3.81",
+
+Then it works, maybe something is wrong with the BB_PRESERVE_ENV.
+
+// Robert
+
+> Cheers,
+>
+> Richard
+>
+>
+>
 
