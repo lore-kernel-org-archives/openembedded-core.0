@@ -1,34 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id EE8CE6162A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB246162A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 13:06:46 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8BDKB5e001706; Wed, 11 Sep 2013 14:20:11 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gaEeWM7QQo31; Wed, 11 Sep 2013 14:20:11 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8BDK8pd001643
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 11 Sep 2013 14:20:10 +0100
-Message-ID: <1378904780.3484.183.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 11 Sep 2013 14:06:20 +0100
-In-Reply-To: <CAP71Wjw7-7FX39-baCq+opPry1rpV9UqNDjX8MZRrJ6+qAKtSw@mail.gmail.com>
-References: <CAP71Wjynkd=CGry-YKvEetsuGvoXmhwhVAF1rXuOuo-nh7V2CQ@mail.gmail.com>
-	<1378900852.3484.179.camel@ted>
-	<CAP71Wjw7-7FX39-baCq+opPry1rpV9UqNDjX8MZRrJ6+qAKtSw@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Linaro Dev <linaro-dev@lists.linaro.org>,
-	Patches and discussions about the oe-core layer
+	Wed, 11 Sep 2013 13:09:09 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id id13so6012501vcb.18
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 06:09:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=UOxuKl1fGfMIU9wWsbsdpVieUuBHSGrntgY1TPj98wk=;
+	b=Eo8SVdfpHriWepVuzccCUcv6E1vgT0yR+tsXoNJw4R29Ggiz5IAzEhp20mVIoIdXLe
+	/E9HpdNy8jtuObFwvU687PyRMTnrHdefzx5gHINgHHRfrik7kAARH9SpkZ892bcfCN6r
+	GsidHsWO3N3/iQ/5jy3nAw+jMiIG5fmWdIRFNNd2KXmu4tDaHOuBr1VRVSM10aMe2j+y
+	E8UBiA54YEMjLVJhSLup6IKI/hD9TOFJrUuNszHD6ooQxkF9DZFDRDF/9d5Pn3ipyxxv
+	1VvfK4gOAuOGolrRJAp8AnRapc42GJ6jl1dIAEkksAqYz3Oz5Djfh3yn6THNW2sXQLdd
+	qwIA==
+X-Gm-Message-State: ALoCoQntlGigoOUVsLwvl/3UzXTdBx8NkduzQi+5GZA1LYPraRobuskDfK4j/oBibdoAsR0y4Io0
+X-Received: by 10.58.19.233 with SMTP id i9mr19812vee.36.1378904950641; Wed,
+	11 Sep 2013 06:09:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Wed, 11 Sep 2013 06:08:50 -0700 (PDT)
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
+References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Sep 2013 14:08:50 +0100
+Message-ID: <CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: OE gcc-cross with builtin sysroot, BUG?
+Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,40 +47,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 13:06:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Sep 2013 13:09:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2013-09-11 at 15:01 +0200, Nicolas Dechesne wrote:
-> 
-> On Wed, Sep 11, 2013 at 2:00 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
+On 11 September 2013 01:23, Kamble, Nitin A <nitin.a.kamble@intel.com> wrote:
+> With few more fixes, this is working for EMGD based meta-intel BSPs.
+> Here are the commits which worked:
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=nitin/mesa-gl
 
->         Not really, its actually intentionally designed like this
->         since its
->         pointless rebuilding gcc-cross multiple time just because we
->         want to use
->         it with a different sysroot. We therefore just pass in the
->         arguments to
->         the compiler to ensure it uses the right one. If you remove
->         them, you
->         hit the problems you describe.
->         
->         We should probably compile in a bogus sysroot so it never
->         works and
->         makes this kind of issue more visible.
-> 
-> hmm. ok. i see. it would certainly help to have a better 'error'
-> message... i suppose that not having a builtin sysroot at all, would
-> be an even bigger problem as it would default to /usr/include... 
-> 
-> 
-Right, that would be even worse than a poisoned one...
+The dependency on "mesa" is actually right, any other GL
+implementation may or may not provide the DRI interface, which is what
+X is depending on.
 
-Cheers,
+I've updated my mesagl branch to add a virtual/mesa provider.
 
-Richard
-> 
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-contrib/log/?h=nitin/mesa-gl
 
+Add a preferred provider of virtual/mesa="mesa-gl" in here and I think
+you'll be sorted.
 
+Ross
 
