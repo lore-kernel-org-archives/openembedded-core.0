@@ -1,30 +1,36 @@
-Return-Path: <Stefan_Seefeld@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 058A260071
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 37EBB60EE5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 18:00:16 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1VJoiA-0003cn-5D from Stefan_Seefeld@mentor.com ;
-	Wed, 11 Sep 2013 11:00:18 -0700
-Received: from SVR-ORW-FEM-02.mgc.mentorg.com ([147.34.96.206]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 11 Sep 2013 11:00:17 -0700
-Received: from [0.0.0.0] (147.34.91.1) by svr-orw-fem-02.mgc.mentorg.com
-	(147.34.96.168) with Microsoft SMTP Server id 14.2.247.3;
-	Wed, 11 Sep 2013 11:00:17 -0700
-Message-ID: <5230AFB0.7010008@mentor.com>
-Date: Wed, 11 Sep 2013 14:00:16 -0400
-From: Stefan Seefeld <stefan_seefeld@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Wed, 11 Sep 2013 18:08:01 +0000 (UTC)
+Received: by mail-ve0-f180.google.com with SMTP id jz11so5895821veb.25
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 11:08:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cYlgIKNl/Hj6PKipojBPzTsEUSFVNNlTBCxnbn8K2T8=;
+	b=TePC54tNnGEqkduwKNYl/+3sgTJ4HvtewjXMOIeUtdxe0/aDjGWQCxiCloMqeCOJay
+	6QUK5AjO7DR94ZYgF/BMu1RDC2YdnwYQ+NB1OksYzj1iu3BfrBH2L3HCEfcWMUdCP8rf
+	kPKZu4VLkWJKg6Xic9UAeGTsa6OPuNV5+KY8uVu18MxBBo54JRp8sR78wSPhLr9RG/N3
+	Snr5oFHJtYWkhPNsCx94Aw4x1omUoElwC2nXCWBuuEcw4EUfmHk58St6Pe+Hr217Dy+x
+	5l7JIpSCLGaQjLKyulRJMfKDgxgebOmryBg4GGOmzvdQsDJLzlnvcR9xNE68QEwqvvoh
+	12mQ==
+X-Gm-Message-State: ALoCoQlKsRcTdEcQK1JFCHKTmCbLOv5tGIvBcke0X6Uq0/zSrTho8pzLv2+1lOkbBwRKPKeWFAnL
+X-Received: by 10.221.55.4 with SMTP id vw4mr1245635vcb.37.1378922882632; Wed,
+	11 Sep 2013 11:08:02 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+Received: by 10.220.71.201 with HTTP; Wed, 11 Sep 2013 11:07:42 -0700 (PDT)
+In-Reply-To: <5230AFB0.7010008@mentor.com>
 References: <5230AAB4.2060005@mentor.com>
 	<CAJTo0LZMNna84CTpC3QTr6X+kMMcFXCERgsx=8kaqL3PpRr_hw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZMNna84CTpC3QTr6X+kMMcFXCERgsx=8kaqL3PpRr_hw@mail.gmail.com>
-X-OriginalArrivalTime: 11 Sep 2013 18:00:17.0991 (UTC)
-	FILETIME=[C6374570:01CEAF18]
+	<5230AFB0.7010008@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Sep 2013 19:07:42 +0100
+Message-ID: <CAJTo0Lbt25Rd0yz3XGTjhA3+S-55t6DpgyhhDRmxSpxB6HNpTQ@mail.gmail.com>
+To: Stefan Seefeld <stefan_seefeld@mentor.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: build errors after upgrading
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -39,27 +45,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 18:00:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Sep 2013 18:08:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 09/11/2013 01:52 PM, Burton, Ross wrote:
+On 11 September 2013 19:00, Stefan Seefeld <stefan_seefeld@mentor.com> wrote:
+> But meanwhile, what is the appropriate fix on OE trunk, to get back to a
+> working state ?
 
-> So the X vmware driver has a hard dependency on DRI if your X server
-> is recent, instead of having a configure option. Now that Mesa is
-> refusing to build in distros where you haven't asked for any OpenGL,
-> this is being discovered.  It should be fairly simple to add a
-> configure option to enable/disable the graphics module of
-> xf86-video-vmware.
+The appropriate fix would be fixing the configure script.  I'm
+starting a build without opengl now to replicate, unless you can beat
+me to a patch.
 
-But meanwhile, what is the appropriate fix on OE trunk, to get back to a
-working state ?
-
-	Stefan
-
-
--- 
-Stefan Seefeld
-CodeSourcery / Mentor Graphics
-http://www.mentor.com/embedded-software/
+Ross
 
