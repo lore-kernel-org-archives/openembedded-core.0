@@ -1,35 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
-	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id AB59F62273
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 18E7C600A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 13:47:13 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id x55so6889347wes.38
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 06:47:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Ug+vnAzOsZfu9I9MoTMcMhyqL/ZlB/hGgTi69xDqzGI=;
-	b=DF0bScsjsreWBzf/n+cGyZHFeJOq/mRtUDlJgh+rI6bhefJUGTSW8/wv4CXkJ+vYl1
-	BKofYo8WUVUpKQgR/1Co0Mvbx9TuBc7Sm/A8uqSCcBFxzkFZ4TkcZj0UaXQTxl+eP4YS
-	/hZRHmDevAYzFfGxq/bW0bKEiA9lVqJQxsfX4bJiipMTPCnYJreEPWXslpGtHdMU4AuG
-	7Ck/fls5EGWPRVRboAO1/iBPrHYzxiDRWUnvYI5Lu6+P77A2sgcesXE0KsupMjxKxwiK
-	92/OqFNEn2aOAIDXSP5CORgEGWuuqMwawr2K62B5XjUPf8u59jR+0c1CHBVE32WTg2Ff
-	p3gw==
-X-Gm-Message-State: ALoCoQlWp1FMk4NqRAIblPddvA8jXnQgEy/adqSdvbk2NYDCw7HefXLaHYuZPyicKZo2ubbf2N3A
-X-Received: by 10.180.107.167 with SMTP id hd7mr1513596wib.13.1378907235059;
-	Wed, 11 Sep 2013 06:47:15 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id mw9sm4151575wib.0.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 11 Sep 2013 06:47:14 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Sep 2013 14:47:11 +0100
-Message-Id: <1378907231-15458-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] clutter: fix compilation when building without X11 backend
+	Wed, 11 Sep 2013 13:47:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8BDlXPh025666
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Sep 2013 06:47:33 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 11 Sep 2013 06:47:32 -0700
+Message-ID: <52307475.9090901@windriver.com>
+Date: Wed, 11 Sep 2013 08:47:33 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1378864775-7094-1-git-send-email-mark.hatle@windriver.com>
+	<522FCFAD.2030400@windriver.com> <4927217.dsrI5AkMql@helios>
+In-Reply-To: <4927217.dsrI5AkMql@helios>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-smartpm: Add an attempt install mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,99 +36,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 13:47:15 -0000
+X-List-Received-Date: Wed, 11 Sep 2013 13:47:32 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If Clutter is building the Wayland backend but not the X11 backend, the Cogl
-support doesn't get enabled so the Wayland backend (which uses it) fails to
-compile.
+On 9/11/13 5:04 AM, Paul Eggleton wrote:
+> Hi Mark,
+>
+> On Tuesday 10 September 2013 21:04:29 Mark Hatle wrote:
+>> Time measurements with:
+>>
+>> MACHINE = "qemux86"
+>> PACKAGE_CLASSES = "package_rpm"
+>> EXTRA_IMAGE_FEATURES = "dev-pkgs staticdev-pkgs doc-pkgs dbg-pkgs
+>> ptest-pkgs" BB_NUMBER_THREADS ?= "8"
+>> PARALLEL_MAKE ?= "-j 8"
+>>
+>> image: core-image-sato
+>>
+>> Quad Core i7 workstation...
+>>
+>> With all of the recipes built, and just executing the do_rootfs:
+>>
+>> Before this change:
+>>    real    26m2.541s
+>>    user    21m8.458s
+>>    sys     7m9.683s
+>>
+>> After this change:
+>>    real    14m43.436s
+>>    user    15m57.525s
+>>    sys     5m16.412s
+>>
+>> This is a significant performance boost when using the 'complementary'
+>> installs and attemptonly installs.  The performance is by doing the
+>> complementary installs as a batch instead of one at a time, ignoring
+>> failures.
+>
+> This is a significant improvement, well done! My concern about not catching
+> failures stands though, which is why I hadn't implemented this yet. How do we
+> ensure that genuine failures are caught with this mode?
 
-Backport a fix from upstream to fix this situation.
+The code only ignores failures in the resolution of the dependencies.  As far as 
+I'm aware, this is the correct behavior in the attempt only mode(s).  If the 
+dependencies can't be resolved for some reason, we simply throw away that item 
+and move on.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/clutter/clutter-1.0.inc      |    3 +-
- .../clutter/clutter-1.14/fix-wayland-deps.patch    |   57 ++++++++++++++++++++
- 2 files changed, 59 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/clutter/clutter-1.14/fix-wayland-deps.patch
+Any errors that occur during package installation -will- now cause a failure to 
+exist, and they will be logged to the attemptonly log-file.
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0.inc b/meta/recipes-graphics/clutter/clutter-1.0.inc
-index edc6081..1356586 100644
---- a/meta/recipes-graphics/clutter/clutter-1.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-1.0.inc
-@@ -4,7 +4,8 @@ LICENSE = "LGPLv2.1+"
- 
- inherit clutter
- 
--SRC_URI += "file://enable_tests.patch"
-+SRC_URI += "file://enable_tests.patch \
-+            file://fix-wayland-deps.patch"
- 
- DEPENDS = "pango glib-2.0 json-glib atk udev cogl-1.0"
- PACKAGES =+ "${PN}-examples"
-diff --git a/meta/recipes-graphics/clutter/clutter-1.14/fix-wayland-deps.patch b/meta/recipes-graphics/clutter/clutter-1.14/fix-wayland-deps.patch
-new file mode 100644
-index 0000000..f5af73c
---- /dev/null
-+++ b/meta/recipes-graphics/clutter/clutter-1.14/fix-wayland-deps.patch
-@@ -0,0 +1,57 @@
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 74f9d8a597acf0fd8458e3d6cb0475b8d9a0a6ba Mon Sep 17 00:00:00 2001
-+From: Emmanuele Bassi <ebassi@gnome.org>
-+Date: Thu, 27 Jun 2013 16:42:40 +0100
-+Subject: [PATCH] build: Enable Cogl support with Wayland
-+
-+The Wayland backend is based on Cogl, so we need to turn on the
-+SUPPORT_COGL flag to avoid breaking the build; this always went
-+unnoticed because we usually build the Wayland client backend
-+with the X11 backend.
-+
-+Reported-by: Ross Burton <ross.burton@intel.com>
-+(cherry picked from commit 1fb0295ba162507fb798b2b7030f0f45ff252f27)
-+
-+Signed-off-by: Emmanuele Bassi <ebassi@gnome.org>
-+---
-+ configure.ac |    6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index f5afe12..355c95b 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -310,6 +310,7 @@ AS_IF([test "x$enable_wayland" = "xyes"],
-+         experimental_backend="yes"
-+ 
-+         SUPPORT_WAYLAND=1
-++        SUPPORT_COGL=1
-+ 
-+         PKG_CHECK_EXISTS([wayland-client wayland-cursor xkbcommon gdk-pixbuf-2.0],
-+                          [
-+@@ -337,7 +338,10 @@ AS_IF([test "x$enable_wayland_compositor" = "xyes"],
-+       [
-+         PKG_CHECK_EXISTS([wayland-server],
-+ 			 [BACKEND_PC_FILES="$BACKEND_PC_FILES wayland-server"], [])
-++
-+         SUPPORT_WAYLAND_COMPOSITOR=1
-++        SUPPORT_COGL=1
-++
-+ 	CLUTTER_CONFIG_DEFINES="$CLUTTER_CONFIG_DEFINES
-+ #define CLUTTER_HAS_WAYLAND_COMPOSITOR_SUPPORT 1"
-+         AC_DEFINE([HAVE_CLUTTER_WAYLAND_COMPOSITOR], [1], [Have Wayland compositor support])
-+@@ -359,8 +363,8 @@ AS_IF([test "x$enable_cex100" = "xyes"],
-+ 
-+         experimental_backend="yes"
-+ 
-+-        SUPPORT_COGL=1
-+         SUPPORT_CEX100=1
-++        SUPPORT_COGL=1
-+ 
-+         have_gdl=no
-+         AC_CHECK_HEADERS([libgdl.h], [have_gdl=yes])
-+-- 
-+1.7.10.4
-+
--- 
-1.7.10.4
+In the previous implementation, any error when installing an attemptonly package 
+would be ignored, even if it turned out to be an installation problem and not a 
+dependency issue.  So I think this is an improvement as well.
+
+(For some of my testing I intentionally created dependency errors by adding 
+things to the PACKAGE_EXCLUDE, and the system did what it was supposed to. 
+Ignored the items that couldn't be installed.)
+
+--Mark
+
+> Cheers,
+> Paul
+>
 
 
