@@ -1,44 +1,24 @@
-Return-Path: <B28495@freescale.com>
-Received: from db9outboundpool.messaging.microsoft.com
-	(mail-db9lp0250.outbound.messaging.microsoft.com [213.199.154.250])
-	by mail.openembedded.org (Postfix) with ESMTP id AAC016BEDF
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 46A616BB80
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 03:11:49 +0000 (UTC)
-Received: from mail103-db9-R.bigfish.com (10.174.16.225) by
-	DB9EHSOBE012.bigfish.com (10.174.14.75) with Microsoft SMTP Server id
-	14.1.225.22; Wed, 11 Sep 2013 03:11:50 +0000
-Received: from mail103-db9 (localhost [127.0.0.1])	by
-	mail103-db9-R.bigfish.com (Postfix) with ESMTP id 18C67C00FA	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 03:11:50 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h1155h)
-Received: from mail103-db9 (localhost.localdomain [127.0.0.1]) by mail103-db9
-	(MessageSwitch) id 1378869090885027_7726;
-	Wed, 11 Sep 2013 03:11:30 +0000 (UTC)
-Received: from DB9EHSMHS025.bigfish.com (unknown [10.174.16.237])	by
-	mail103-db9.bigfish.com (Postfix) with ESMTP id D3C8E2A027E	for
-	<openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 03:11:30 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB9EHSMHS025.bigfish.com
-	(10.174.14.35) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Wed, 11 Sep 2013 03:11:28 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.3.158.2; Wed, 11 Sep 2013 03:11:21 +0000
-Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
-	[10.192.208.136])	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with
-	ESMTP id r8B3BJ14002815;	Tue, 10 Sep 2013 20:11:20 -0700
-From: <b28495@freescale.com>
+	Wed, 11 Sep 2013 05:01:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8B51E4u007840
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Sep 2013 22:01:14 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 10 Sep 2013 22:01:14 -0700
+From: <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Sep 2013 11:11:15 +0800
-Message-ID: <1378869075-29422-1-git-send-email-b28495@freescale.com>
-X-Mailer: git-send-email 1.7.5.4
+Date: Wed, 11 Sep 2013 13:01:54 +0800
+Message-ID: <cover.1378875647.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH v3] libcroco: disable Bsymbolic if it is not supported on some hosts
+Subject: [PATCH 0/1] init-live.sh: distinguish between a read-only image and a read-write one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,44 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 03:11:50 -0000
+X-List-Received-Date: Wed, 11 Sep 2013 05:01:14 -0000
 Content-Type: text/plain
 
-From: Ting Liu <b28495@freescale.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-When trying to build on my Centos 5.5 machine, got below error:
-| checking for gtkdoc-mkpdf... no
-| checking whether to build gtk-doc documentation... no
-| checking for CROCO... yes
-| checking if gcc supports "-Wl,-Bsymbolic-functions" flag...
-| configure: error: -Bsymbolic requested but not supported by ld. Use --disable-Bsymbolic to disable
-| Configure failed. The contents of all config.log files follows to aid debugging
-|
-| configure: exit 1
-| ERROR: oe_runconf failed
+The following changes since commit e15dc0911656d4fe44025e71ed3b6763841b05db:
 
-Set --enable-Bsymbolic=auto to disable it when it is not suppported.
+  mount.sh: automount cdrom device even if no ID_FS_TYPE available (2013-09-10 21:19:17 +0800)
 
-Signed-off-by: Ting Liu <b28495@freescale.com>
----
- meta/recipes-support/libcroco/libcroco_0.6.8.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-support/libcroco/libcroco_0.6.8.bb b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-index 3c5dc9a..fe1a42d 100644
---- a/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-+++ b/meta/recipes-support/libcroco/libcroco_0.6.8.bb
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605 \
- SECTION = "x11/utils"
- DEPENDS = "glib-2.0 libxml2 zlib"
- BBCLASSEXTEND = "native"
--
-+EXTRA_OECONF += "--enable-Bsymbolic=auto"
- PR = "r1"
- 
- inherit autotools pkgconfig gnomebase
+  git://git.pokylinux.org/poky-contrib ChenQi/init-live-iso-hddimg
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/init-live-iso-hddimg
+
+Chen Qi (1):
+  init-live.sh: distinguish between a read-only image and a read-write
+    image
+
+ meta/recipes-core/initrdscripts/files/init-live.sh |   29 ++++++++++++--------
+ 1 file changed, 18 insertions(+), 11 deletions(-)
+
 -- 
-1.7.5.4
-
+1.7.9.5
 
 
