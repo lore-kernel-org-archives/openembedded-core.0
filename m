@@ -1,24 +1,35 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DD5B60649
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 22:09:45 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8BM9ksB022725
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 15:09:46 -0700 (PDT)
-Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 11 Sep 2013 15:09:46 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Sep 2013 17:09:30 -0500
-Message-ID: <1378937370-29730-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] bootimage.bbclass, zisofs-tools-native: add ability to compress ISO images
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f178.google.com (mail-we0-f178.google.com
+	[74.125.82.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 975886064E
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 22:25:00 +0000 (UTC)
+Received: by mail-we0-f178.google.com with SMTP id u57so7407192wes.37
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 15:25:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=E+Sfx+EG+GM/zrYEXI5T8wA01PkwQXum5t34X6lYN1g=;
+	b=muPPkPhZ3ugqGoO6Pp3B+TCC+GkAvPuYaW1qHOeWvFxi5bOvc6jOMAdR3MIr+YrST7
+	KFYOX5zzN2Ml8vApoo8XaJXcf+Fge77GRHu8MFl+yP3ca0jFLY8FzfbLpEVwLW5RnWAP
+	7+79mm51Ak8jFPGC29jpUtub4SMCgzN8UFCsva+DoS5SXbcbPEvmkN+3bftUzIj+Y6uY
+	t+V4INNuSNbJaArQzbM1CZJ3PwefBdICaZtDAJdBB5wZ7YrzKQ+rX+hb1sJZNw1Kd0oA
+	0S8XuKA9NEeVvbd0PJeVL7DWQx35T9Zcl5PFqrEByES/M454Ff24gJZEmsjraSiehujK
+	RmJA==
+X-Gm-Message-State: ALoCoQlN2BSJyxn3PWm6qFlrJO3SHMnj//WkOvoySJOtnyCPN0kvZWistC35EKliVjMW1RW2lbfo
+X-Received: by 10.180.189.9 with SMTP id ge9mr3183600wic.52.1378938301660;
+	Wed, 11 Sep 2013 15:25:01 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fz8sm13519243wic.0.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 11 Sep 2013 15:25:00 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Sep 2013 23:24:57 +0100
+Message-Id: <1378938297-9208-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] xf86-video-vmware: respect opengl DISTRO_FEATURE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,113 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 22:09:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Sep 2013 22:25:02 -0000
 
-The mkzftree is needed to allow ISO images to be compressed with
-minimal runtime overhead.  Below is an example of the savings on a
-core-image-minimal.
+Conditionalise the GL dependencies on the opengl DISTRO_FEATURE so this driver
+can build without the opengl feature active, as the configure script will
+enable/disable the GL sub-driver depending on the presence of these libraries.
 
-Before ls -l:
-24117248 core-image-minimal-qemux86-64.iso
+This is an interim patch to fix the autobuilder, a more complete patch heading
+upstream to make the GL sub-driver deterministic will follow.
 
-Using the mkzftree ls -l:
-16777216 core-image-minimal-qemux86-64.iso
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/bootimg.bbclass                       |   21 ++++++++++++++--
- .../zisofs-tools/zisofs-tools-native_1.0.8.bb      |   26 ++++++++++++++++++++
- 2 files changed, 45 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
+ meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 90a241d..b312e0d 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -19,19 +19,23 @@
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
+index 1526a02..0d8c8d2 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
+@@ -6,8 +6,8 @@ DESCRIPTION = "vmware is an Xorg driver for VMware virtual video cards."
  
- # External variables (also used by syslinux.bbclass)
- # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
-+# ${COMPRESSISO}
- # ${NOISO}  - skip building the ISO image if set to 1
- # ${NOHDD}  - skip building the HDD image if set to 1
- # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
  
-+COMPRESSISO ?= ""
- do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-                         mtools-native:do_populate_sysroot \
--                        cdrtools-native:do_populate_sysroot"
-+                        cdrtools-native:do_populate_sysroot \
-+                        ${@oe.utils.ifelse(d.getVar('COMPRESSISO'),'zisofs-tools-native:do_populate_sysroot','')}"
+-DEPENDS += "virtual/libx11 libxvmc drm glproto \
+-	    virtual/libgl xineramaproto libpciaccess"
++DEPENDS += "virtual/libx11 libxvmc xineramaproto libpciaccess \
++            ${@base_contains('DISTRO_FEATURES', 'opengl', 'drm virtual/libgl', '', d)}"
  
- PACKAGES = " "
- EXCLUDE_FROM_WORLD = "1"
- 
- HDDDIR = "${S}/hddimg"
- ISODIR = "${S}/iso"
-+COMPACT_ISODIR = "${S}/iso.z"
- 
- BOOTIMG_VOLUME_ID   ?= "boot"
- BOOTIMG_EXTRA_SPACE ?= "512"
-@@ -92,10 +96,23 @@ build_iso() {
- 		grubefi_iso_populate
- 	fi
- 
-+	if [ "${COMPRESSISO}" = "1" ] ; then
-+		# create compact directory, compress iso
-+		mkdir -p ${COMPACT_ISODIR}
-+		mkzftree -z 9 -p 4 -F ${ISODIR}/rootfs.img ${COMPACT_ISODIR}/rootfs.img
-+
-+		# move compact iso to iso, then remove compact directory
-+		mv ${COMPACT_ISODIR}/rootfs.img ${ISODIR}/rootfs.img
-+		rm -Rf ${COMPACT_ISODIR}
-+		mkisofs_opts="-r"
-+	else
-+		mkisofs_opts="-R -z -D -l"
-+	fi
-+
- 	if [ "${PCBIOS}" = "1" ]; then
- 		mkisofs -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
--			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} -r \
-+			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} $mkisofs_opts \
- 			${MKISOFS_OPTIONS} ${ISODIR}
- 	else
- 		bbnote "EFI-only ISO images are untested, please provide feedback."
-diff --git a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-new file mode 100644
-index 0000000..b590854
---- /dev/null
-+++ b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-@@ -0,0 +1,26 @@
-+# zisofs-tools-native OE build file
-+# Copyright (C) 1989, 1991 Free Software Foundation, Inc.
-+SUMMARY = "A set of tools for iso file compression"
-+DESCRIPTION = "A set of tools for iso file compression"
-+HOMEPAGE = "http://http://freecode.com/projects/zisofs-tools"
-+SECTION = "console/utils"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+PR = "r0"
-+
-+SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/zisofs-tools/zisofs-tools-${PV}.tar.bz2/2d0ed8c9a1f60b45f949b136f9be1f6c/zisofs-tools-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "2d0ed8c9a1f60b45f949b136f9be1f6c"
-+SRC_URI[sha256sum] = "ae4e53e4914934d41660248fb59d3c8761f1f1fd180d5ec993c17ddb3afd04f3"
-+
-+inherit native
-+
-+STAGE_TEMP = "${WORKDIR}/image-temp"
-+
-+do_install() {
-+	install -d ${STAGE_TEMP}
-+	make install INSTALLROOT=${STAGE_TEMP}
-+
-+	install -d ${D}${bindir}/
-+	install ${STAGE_TEMP}/usr/bin/* ${D}${bindir}/
-+}
+ SRC_URI[md5sum] = "b08e0195ebf3f88a82129322cb93da08"
+ SRC_URI[sha256sum] = "802dda415c22412edad6c3df44fe18a06e91d0f8456d9a58bac0d340fdf8fe3d"
 -- 
-1.7.9.5
+1.7.10.4
 
 
