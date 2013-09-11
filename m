@@ -1,29 +1,37 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4924B6BD96
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 08EE66B05F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 09:02:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8B92e9C008475
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 11 Sep 2013 02:02:40 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 11 Sep 2013 02:02:39 -0700
-Message-ID: <523031B0.2090408@windriver.com>
-Date: Wed, 11 Sep 2013 17:02:40 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	Wed, 11 Sep 2013 09:15:52 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q14so5968330vbe.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 02:15:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=m3ld8w0GRozLLs1GkQA2w2pw7Ug+EU1gWk1F5BkH28Q=;
+	b=SLzliCe1GRalXX3zsqRaLCJrUkfi+NS1YUFj0lv1wULvP4AheCdYfBzrPPqWF4XRfp
+	gWnn5GtOrSbe+7Wb2nOJDJpOXserh8jmh+VBi9GaarcpRfEXrAH26ShHRN48nqzsg6pv
+	m1Gf/gfHmPrmZ7ncdJJ4XCAUw+oxhH972P1aXB7z39SZMPWOOzu9EAiaW9D9yf0HqtVS
+	RRYZlyJLvzMot1UXs+DjL6fWh4XTz15ufwecOWg6H2/YHq7WeG6hcusVcEL8a+LWhvlS
+	733v7y/BVr9DuvJZwLbQkrma7hXgG0jXpZ54iYEIevR1t/e32r+2bzFOexgd4whKYSnF
+	Gi/A==
+X-Gm-Message-State: ALoCoQntQ+yIL/Q1/oGYzh1UrGdytTVFVufC+iI60195Ciiac5iJkibF2gSJBtJwNt8Bxp9tYU5K
+X-Received: by 10.58.152.3 with SMTP id uu3mr308134veb.16.1378890954064; Wed,
+	11 Sep 2013 02:15:54 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1378884764.git.rongqing.li@windriver.com>
-	<934e6208f68c0801666853fc81c3f67b39c368cb.1378884764.git.rongqing.li@windriver.com>
-	<1378888802.3484.170.camel@ted>
-In-Reply-To: <1378888802.3484.170.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ptest-runner: trivial fixes and refine
+Received: by 10.220.71.201 with HTTP; Wed, 11 Sep 2013 02:15:34 -0700 (PDT)
+In-Reply-To: <14d6fca8bde7511b5ee32e26b3ece70a93345f99.1378875647.git.Qi.Chen@windriver.com>
+References: <cover.1378875647.git.Qi.Chen@windriver.com>
+	<14d6fca8bde7511b5ee32e26b3ece70a93345f99.1378875647.git.Qi.Chen@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 11 Sep 2013 10:15:34 +0100
+Message-ID: <CAJTo0LZP4K8o6y_bADGh0=2nVQTwOcY-U6Xgbznmi2SxZVASCw@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] init-live.sh: distinguish between a read-only image and a read-write image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,96 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 09:02:41 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Sep 2013 09:15:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 11 September 2013 06:01,  <Qi.Chen@windriver.com> wrote:
+> The iso and hddimg share a common concept of 'live image', and they
+> use the same initramfs and thus the same init. However, that init
+> script in initramfs made a wrong assumption that the rootfs image
+> was read-only by itself. This is apparently not true for hddimg.
 
+Works for me, thanks.
 
-On 09/11/2013 04:40 PM, Richard Purdie wrote:
-> On Wed, 2013-09-11 at 15:34 +0800, rongqing.li@windriver.com wrote:
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> 1. ptest files may be installed under /usr/lib64/ for 64bit filesystem
->> or under /usr/lib/ for 64bit multilib filesystem, so we should check both
->> directories
->>
->> 2. If a soft link is linking to a directory under the same directory, we
->> only run once.
->>
->> [YOCTO #5125]
->> [YOCTO #5126]
->>
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> ---
->>   .../ptest-runner/files/ptest-runner                |   30 +++++++++++++++-----
->>   1 file changed, 23 insertions(+), 7 deletions(-)
->>
->> diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/recipes-support/ptest-runner/files/ptest-runner
->> index 4f3c7ce..724e066 100644
->> --- a/meta/recipes-support/ptest-runner/files/ptest-runner
->> +++ b/meta/recipes-support/ptest-runner/files/ptest-runner
->> @@ -1,16 +1,32 @@
->>   #!/bin/sh
->>
->>   echo "START: $0"
->> -cd /usr/lib
->> -for x in *
->> +
->> +for libdir in /usr/lib/ /usr/lib64/
->
->
-> We shouldn't hard code this. To keep things simple, I think you need to
-> search /usr/lib*...
->
-> Cheers,
->
-> Richard
+Acked-By: Ross Burton <ross.burton@intel.com>
 
-Thanks, I will change it
-
--Roy
-
-
->
->>   do
->> -    if [ -x "/usr/lib/$x/ptest/run-ptest" ]; then
->> -       date "+%Y-%m-%dT%H:%M"
->> +
->> +    [ ! -d "$libdir" ] && continue
->> +
->> +    cd "$libdir"
->> +    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
->> +    do
->> +        # test if a dir is linking to one that they are under same directory
->> +        # like perl5-->perl
->> +        ptestdir=`dirname $x|cut -f2 -d"/"`
->> +        if [ -h "$ptestdir" ]; then
->> +            linkdir=`readlink -f "$ptestdir"`
->> +            if [ `dirname "$linkdir"`"/" = "$libdir" ]; then
->> +                continue
->> +            fi
->> +        fi
->> +
->> +        date "+%Y-%m-%dT%H:%M"
->>           echo "BEGIN: $x"
->> -        cd /usr/lib/$x/ptest
->> +        pushd `dirname "$x"`
->>           ./run-ptest
->> +        popd
->>           echo "END: $x"
->> -       date "+%Y-%m-%dT%H:%M"
->> -    fi
->> +        date "+%Y-%m-%dT%H:%M"
->> +    done
->>   done
->>   echo "STOP: $0"
->
->
->
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
+Ross
 
