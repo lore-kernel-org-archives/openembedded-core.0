@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EDFA6C812
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 148DC6B3A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 09:43:35 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8B9vEKw026313 for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 10:57:14 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id i5lkxEu5M5ZK
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 10:57:14 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8B9vAlU026296
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 10:57:11 +0100
-Message-ID: <1378892603.3484.173.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Sep 2013 10:43:23 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] uclibc: Add missing DEPENDS on kern-tools-native
+	Wed, 11 Sep 2013 10:04:21 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 11 Sep 2013 03:01:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,883,1371106800"; d="scan'208";a="401690573"
+Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
+	([10.252.123.175])
+	by orsmga002.jf.intel.com with ESMTP; 11 Sep 2013 03:04:21 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Date: Wed, 11 Sep 2013 11:04:20 +0100
+Message-ID: <4927217.dsrI5AkMql@helios>
+Organization: Intel Corporation
+User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
+In-Reply-To: <522FCFAD.2030400@windriver.com>
+References: <1378864775-7094-1-git-send-email-mark.hatle@windriver.com>
+	<522FCFAD.2030400@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-smartpm: Add an attempt install mode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,41 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 09:43:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Sep 2013 10:04:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-This is needed for the kconfig handling and the merge-config.sh script.
+Hi Mark,
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-core/uclibc/uclibc-initial_git.bb b/meta/recipes-core/uclibc/uclibc-initial_git.bb
-index 9e3edbd..3a1140e 100644
---- a/meta/recipes-core/uclibc/uclibc-initial_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc-initial_git.bb
-@@ -2,7 +2,7 @@ SECTION = "base"
- require uclibc.inc
- require uclibc-git.inc
- 
--DEPENDS = "linux-libc-headers ncurses-native virtual/${TARGET_PREFIX}gcc-initial"
-+DEPENDS = "linux-libc-headers ncurses-native virtual/${TARGET_PREFIX}gcc-initial kern-tools-native"
- PROVIDES = "virtual/${TARGET_PREFIX}libc-initial"
- 
- PACKAGES = ""
-diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
-index a66656d..b4f5d9c 100644
---- a/meta/recipes-core/uclibc/uclibc_git.bb
-+++ b/meta/recipes-core/uclibc/uclibc_git.bb
-@@ -10,7 +10,8 @@ PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
- DEPENDS = "virtual/${TARGET_PREFIX}binutils \
-            virtual/${TARGET_PREFIX}gcc-initial \
-            virtual/${TARGET_PREFIX}libc-initial \
--           linux-libc-headers ncurses-native"
-+           linux-libc-headers ncurses-native \
-+           kern-tools-native"
- 
- RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
- RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
+On Tuesday 10 September 2013 21:04:29 Mark Hatle wrote:
+> Time measurements with:
+> 
+> MACHINE = "qemux86"
+> PACKAGE_CLASSES = "package_rpm"
+> EXTRA_IMAGE_FEATURES = "dev-pkgs staticdev-pkgs doc-pkgs dbg-pkgs
+> ptest-pkgs" BB_NUMBER_THREADS ?= "8"
+> PARALLEL_MAKE ?= "-j 8"
+> 
+> image: core-image-sato
+> 
+> Quad Core i7 workstation...
+> 
+> With all of the recipes built, and just executing the do_rootfs:
+> 
+> Before this change:
+>   real    26m2.541s
+>   user    21m8.458s
+>   sys     7m9.683s
+> 
+> After this change:
+>   real    14m43.436s
+>   user    15m57.525s
+>   sys     5m16.412s
+> 
+> This is a significant performance boost when using the 'complementary'
+> installs and attemptonly installs.  The performance is by doing the
+> complementary installs as a batch instead of one at a time, ignoring
+> failures.
 
+This is a significant improvement, well done! My concern about not catching 
+failures stands though, which is why I hadn't implemented this yet. How do we 
+ensure that genuine failures are caught with this mode?
 
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
