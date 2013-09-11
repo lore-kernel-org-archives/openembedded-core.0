@@ -1,29 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 248926BEC0
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4924B6BD96
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 08:40:15 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8B8rsKA024002; Wed, 11 Sep 2013 09:53:54 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yquJKr-EccGB; Wed, 11 Sep 2013 09:53:54 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8B8rn1Y023987
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 11 Sep 2013 09:53:51 +0100
-Message-ID: <1378888802.3484.170.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rongqing.li@windriver.com
-Date: Wed, 11 Sep 2013 09:40:02 +0100
-In-Reply-To: <934e6208f68c0801666853fc81c3f67b39c368cb.1378884764.git.rongqing.li@windriver.com>
+	Wed, 11 Sep 2013 09:02:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8B92e9C008475
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Sep 2013 02:02:40 -0700 (PDT)
+Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 11 Sep 2013 02:02:39 -0700
+Message-ID: <523031B0.2090408@windriver.com>
+Date: Wed, 11 Sep 2013 17:02:40 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 References: <cover.1378884764.git.rongqing.li@windriver.com>
 	<934e6208f68c0801666853fc81c3f67b39c368cb.1378884764.git.rongqing.li@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	<1378888802.3484.170.camel@ted>
+In-Reply-To: <1378888802.3484.170.camel@ted>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/1] ptest-runner: trivial fixes and refine
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,81 +36,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 08:40:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Sep 2013 09:02:41 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-09-11 at 15:34 +0800, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
-> 
-> 1. ptest files may be installed under /usr/lib64/ for 64bit filesystem
-> or under /usr/lib/ for 64bit multilib filesystem, so we should check both
-> directories
-> 
-> 2. If a soft link is linking to a directory under the same directory, we
-> only run once.
-> 
-> [YOCTO #5125]
-> [YOCTO #5126]
-> 
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->  .../ptest-runner/files/ptest-runner                |   30 +++++++++++++++-----
->  1 file changed, 23 insertions(+), 7 deletions(-)
-> 
-> diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/recipes-support/ptest-runner/files/ptest-runner
-> index 4f3c7ce..724e066 100644
-> --- a/meta/recipes-support/ptest-runner/files/ptest-runner
-> +++ b/meta/recipes-support/ptest-runner/files/ptest-runner
-> @@ -1,16 +1,32 @@
->  #!/bin/sh
->  
->  echo "START: $0"
-> -cd /usr/lib
-> -for x in *
-> +
-> +for libdir in /usr/lib/ /usr/lib64/
 
 
-We shouldn't hard code this. To keep things simple, I think you need to
-search /usr/lib*...
+On 09/11/2013 04:40 PM, Richard Purdie wrote:
+> On Wed, 2013-09-11 at 15:34 +0800, rongqing.li@windriver.com wrote:
+>> From: Roy Li <rongqing.li@windriver.com>
+>>
+>> 1. ptest files may be installed under /usr/lib64/ for 64bit filesystem
+>> or under /usr/lib/ for 64bit multilib filesystem, so we should check both
+>> directories
+>>
+>> 2. If a soft link is linking to a directory under the same directory, we
+>> only run once.
+>>
+>> [YOCTO #5125]
+>> [YOCTO #5126]
+>>
+>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> ---
+>>   .../ptest-runner/files/ptest-runner                |   30 +++++++++++++++-----
+>>   1 file changed, 23 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/recipes-support/ptest-runner/files/ptest-runner
+>> index 4f3c7ce..724e066 100644
+>> --- a/meta/recipes-support/ptest-runner/files/ptest-runner
+>> +++ b/meta/recipes-support/ptest-runner/files/ptest-runner
+>> @@ -1,16 +1,32 @@
+>>   #!/bin/sh
+>>
+>>   echo "START: $0"
+>> -cd /usr/lib
+>> -for x in *
+>> +
+>> +for libdir in /usr/lib/ /usr/lib64/
+>
+>
+> We shouldn't hard code this. To keep things simple, I think you need to
+> search /usr/lib*...
+>
+> Cheers,
+>
+> Richard
 
-Cheers,
+Thanks, I will change it
 
-Richard
-
->  do
-> -    if [ -x "/usr/lib/$x/ptest/run-ptest" ]; then
-> -       date "+%Y-%m-%dT%H:%M"
-> +
-> +    [ ! -d "$libdir" ] && continue
-> +
-> +    cd "$libdir"
-> +    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
-> +    do
-> +        # test if a dir is linking to one that they are under same directory
-> +        # like perl5-->perl
-> +        ptestdir=`dirname $x|cut -f2 -d"/"`
-> +        if [ -h "$ptestdir" ]; then
-> +            linkdir=`readlink -f "$ptestdir"`
-> +            if [ `dirname "$linkdir"`"/" = "$libdir" ]; then
-> +                continue
-> +            fi
-> +        fi
-> +    
-> +        date "+%Y-%m-%dT%H:%M"
->          echo "BEGIN: $x"
-> -        cd /usr/lib/$x/ptest
-> +        pushd `dirname "$x"`
->          ./run-ptest
-> +        popd
->          echo "END: $x"
-> -       date "+%Y-%m-%dT%H:%M"
-> -    fi
-> +        date "+%Y-%m-%dT%H:%M"
-> +    done
->  done
->  echo "STOP: $0"
+-Roy
 
 
+>
+>>   do
+>> -    if [ -x "/usr/lib/$x/ptest/run-ptest" ]; then
+>> -       date "+%Y-%m-%dT%H:%M"
+>> +
+>> +    [ ! -d "$libdir" ] && continue
+>> +
+>> +    cd "$libdir"
+>> +    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
+>> +    do
+>> +        # test if a dir is linking to one that they are under same directory
+>> +        # like perl5-->perl
+>> +        ptestdir=`dirname $x|cut -f2 -d"/"`
+>> +        if [ -h "$ptestdir" ]; then
+>> +            linkdir=`readlink -f "$ptestdir"`
+>> +            if [ `dirname "$linkdir"`"/" = "$libdir" ]; then
+>> +                continue
+>> +            fi
+>> +        fi
+>> +
+>> +        date "+%Y-%m-%dT%H:%M"
+>>           echo "BEGIN: $x"
+>> -        cd /usr/lib/$x/ptest
+>> +        pushd `dirname "$x"`
+>>           ./run-ptest
+>> +        popd
+>>           echo "END: $x"
+>> -       date "+%Y-%m-%dT%H:%M"
+>> -    fi
+>> +        date "+%Y-%m-%dT%H:%M"
+>> +    done
+>>   done
+>>   echo "STOP: $0"
+>
+>
+>
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
