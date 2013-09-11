@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
-	[209.85.212.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 08EE66B05F
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B1746BE49
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 09:15:52 +0000 (UTC)
-Received: by mail-vb0-f54.google.com with SMTP id q14so5968330vbe.13
+	Wed, 11 Sep 2013 09:17:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8B9HWfV019967
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 02:15:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=m3ld8w0GRozLLs1GkQA2w2pw7Ug+EU1gWk1F5BkH28Q=;
-	b=SLzliCe1GRalXX3zsqRaLCJrUkfi+NS1YUFj0lv1wULvP4AheCdYfBzrPPqWF4XRfp
-	gWnn5GtOrSbe+7Wb2nOJDJpOXserh8jmh+VBi9GaarcpRfEXrAH26ShHRN48nqzsg6pv
-	m1Gf/gfHmPrmZ7ncdJJ4XCAUw+oxhH972P1aXB7z39SZMPWOOzu9EAiaW9D9yf0HqtVS
-	RRYZlyJLvzMot1UXs+DjL6fWh4XTz15ufwecOWg6H2/YHq7WeG6hcusVcEL8a+LWhvlS
-	733v7y/BVr9DuvJZwLbQkrma7hXgG0jXpZ54iYEIevR1t/e32r+2bzFOexgd4whKYSnF
-	Gi/A==
-X-Gm-Message-State: ALoCoQntQ+yIL/Q1/oGYzh1UrGdytTVFVufC+iI60195Ciiac5iJkibF2gSJBtJwNt8Bxp9tYU5K
-X-Received: by 10.58.152.3 with SMTP id uu3mr308134veb.16.1378890954064; Wed,
-	11 Sep 2013 02:15:54 -0700 (PDT)
+	Wed, 11 Sep 2013 02:17:33 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 11 Sep 2013 02:17:31 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Sep 2013 17:17:31 +0800
+Message-ID: <cover.1378890742.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 11 Sep 2013 02:15:34 -0700 (PDT)
-In-Reply-To: <14d6fca8bde7511b5ee32e26b3ece70a93345f99.1378875647.git.Qi.Chen@windriver.com>
-References: <cover.1378875647.git.Qi.Chen@windriver.com>
-	<14d6fca8bde7511b5ee32e26b3ece70a93345f99.1378875647.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Sep 2013 10:15:34 +0100
-Message-ID: <CAJTo0LZP4K8o6y_bADGh0=2nVQTwOcY-U6Xgbznmi2SxZVASCw@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] init-live.sh: distinguish between a read-only image and a read-write image
+Subject: [PATCH 0/1 v2] ptest-runner: trivial fixes and refine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,18 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 09:15:53 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 11 Sep 2013 09:17:31 -0000
+Content-Type: text/plain
 
-On 11 September 2013 06:01,  <Qi.Chen@windriver.com> wrote:
-> The iso and hddimg share a common concept of 'live image', and they
-> use the same initramfs and thus the same init. However, that init
-> script in initramfs made a wrong assumption that the rootfs image
-> was read-only by itself. This is apparently not true for hddimg.
+From: Roy Li <rongqing.li@windriver.com>
 
-Works for me, thanks.
+The following changes since commit 5b451a46550ba62e2fbfe5dbe50723b34a4fd527:
 
-Acked-By: Ross Burton <ross.burton@intel.com>
+  systemd.bbclass: get the correct /lib directory (2013-09-10 23:15:09 +0100)
 
-Ross
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib roy/ptest-1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/ptest-1
+
+Roy Li (1):
+  ptest-runner: trivial fixes and refine
+
+ .../ptest-runner/files/ptest-runner                |   30 +++++++++++++++-----
+ 1 file changed, 23 insertions(+), 7 deletions(-)
+
+-- 
+1.7.10.4
+
 
