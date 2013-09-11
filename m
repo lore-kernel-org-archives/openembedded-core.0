@@ -1,40 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CB246162A
+Received: from mail-we0-f182.google.com (mail-we0-f182.google.com
+	[74.125.82.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CD6562273
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 13:09:09 +0000 (UTC)
-Received: by mail-vc0-f173.google.com with SMTP id id13so6012501vcb.18
+	Wed, 11 Sep 2013 13:29:03 +0000 (UTC)
+Received: by mail-we0-f182.google.com with SMTP id q59so7027975wes.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 06:09:10 -0700 (PDT)
+	Wed, 11 Sep 2013 06:29:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=UOxuKl1fGfMIU9wWsbsdpVieUuBHSGrntgY1TPj98wk=;
-	b=Eo8SVdfpHriWepVuzccCUcv6E1vgT0yR+tsXoNJw4R29Ggiz5IAzEhp20mVIoIdXLe
-	/E9HpdNy8jtuObFwvU687PyRMTnrHdefzx5gHINgHHRfrik7kAARH9SpkZ892bcfCN6r
-	GsidHsWO3N3/iQ/5jy3nAw+jMiIG5fmWdIRFNNd2KXmu4tDaHOuBr1VRVSM10aMe2j+y
-	E8UBiA54YEMjLVJhSLup6IKI/hD9TOFJrUuNszHD6ooQxkF9DZFDRDF/9d5Pn3ipyxxv
-	1VvfK4gOAuOGolrRJAp8AnRapc42GJ6jl1dIAEkksAqYz3Oz5Djfh3yn6THNW2sXQLdd
-	qwIA==
-X-Gm-Message-State: ALoCoQntlGigoOUVsLwvl/3UzXTdBx8NkduzQi+5GZA1LYPraRobuskDfK4j/oBibdoAsR0y4Io0
-X-Received: by 10.58.19.233 with SMTP id i9mr19812vee.36.1378904950641; Wed,
-	11 Sep 2013 06:09:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 11 Sep 2013 06:08:50 -0700 (PDT)
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
-References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Sep 2013 14:08:50 +0100
-Message-ID: <CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=/qujygRBiewPlwn4irUA7ES38sdzNYC/bHFDQdSud8k=;
+	b=ewxQVByXFpmrTbmtgKEM1rG2J6JCr0nElOmx37i3c4G49f9f5Rbccyax4XQBKQatF6
+	YtSzrTPoUCjkjyw+rrltp8i0cN5KSqtfey6lQSF0qr3vat2+pvzmVrWQ/hOsPGQoBde4
+	KnIuBgv+Ixx/avmkrMaR5rV9Ts+dOb+UHlPptTbROfJUoybwKvhx3/PVJFkhes+ZLsAq
+	3p8lnktonS8UihKAruwLN1/CWfYt+G60/MeCH+Vqtd3IS3Cfx8iEvenamM+Rl4/BjtFg
+	YceXAWtlLQiLY1d4exehpTDgDnXSbwJQozDoMzPczM4aoc5Bvk8AiK2cjHuhcj3moi3x
+	VyZg==
+X-Gm-Message-State: ALoCoQkGFBKhihDseeZrrvYyIQbtmM4izYnd9iOWH3XhrgSZwwBBbPzwCvUArhHlrdW+QEintZWs
+X-Received: by 10.180.206.129 with SMTP id lo1mr17300553wic.15.1378906144285; 
+	Wed, 11 Sep 2013 06:29:04 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	iz19sm10699410wic.9.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 11 Sep 2013 06:29:03 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Sep 2013 14:28:57 +0100
+Message-Id: <1378906138-12414-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] weston: as weston-launch depends on PAM, control it with a PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,25 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 13:09:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 11 Sep 2013 13:29:03 -0000
 
-On 11 September 2013 01:23, Kamble, Nitin A <nitin.a.kamble@intel.com> wrote:
-> With few more fixes, this is working for EMGD based meta-intel BSPs.
-> Here are the commits which worked:
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=nitin/mesa-gl
 
-The dependency on "mesa" is actually right, any other GL
-implementation may or may not provide the DRI interface, which is what
-X is depending on.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/wayland/weston_1.1.0.bb |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-I've updated my mesagl branch to add a virtual/mesa provider.
+diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes-graphics/wayland/weston_1.1.0.bb
+index c7c64ad..b765f65 100644
+--- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
+@@ -35,12 +35,13 @@ EXTRA_OECONF = "--disable-android-compositor \
+ PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
+                   "
+ #
+ # Compositor choices
+ #
+ # Weston on KMS
+-PACKAGECONFIG[kms] = "--enable-drm-compositor --enable-weston-launch,--disable-drm-compositor --disable-weston-launch,drm udev mesa mtdev libpam"
++PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev mesa mtdev"
+ # Weston on Wayland (nested Weston)
+ PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa"
+ # Weston on X11
+@@ -49,7 +50,8 @@ PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/l
+ PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compositor"
+ # Weston on framebuffer
+ PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
+-
++# weston-launch
++PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam"
+ # Use cairo-gl or cairo-glesv2
+ PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
+ 
+-- 
+1.7.10.4
 
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-contrib/log/?h=nitin/mesa-gl
-
-Add a preferred provider of virtual/mesa="mesa-gl" in here and I think
-you'll be sorted.
-
-Ross
 
