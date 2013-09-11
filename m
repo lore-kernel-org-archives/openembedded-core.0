@@ -1,32 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 845DA60F85
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 825FD615C4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Sep 2013 21:52:59 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8AM6SJe008193; Tue, 10 Sep 2013 23:06:28 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id QV0aIyVnZRDr; Tue, 10 Sep 2013 23:06:27 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8AM6KFC008189
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 10 Sep 2013 23:06:22 +0100
-Message-ID: <1378849956.3484.169.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>
-Date: Tue, 10 Sep 2013 22:52:36 +0100
-In-Reply-To: <20130910184442.GT11500@jama>
-References: <cover.1378824959.git.laurentiu.palcu@intel.com>
-	<fd6e252155ed3646c0e474647c214f4dc2fb7136.1378824959.git.laurentiu.palcu@intel.com>
-	<20130910184442.GT11500@jama>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] meta-environment: change package name to include MACHINE
+	Wed, 11 Sep 2013 00:23:00 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 10 Sep 2013 17:20:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,881,1371106800"; d="scan'208";a="376325087"
+Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
+	by orsmga001.jf.intel.com with ESMTP; 10 Sep 2013 17:23:01 -0700
+Received: from orsmsx156.amr.corp.intel.com (10.22.240.22) by
+	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Tue, 10 Sep 2013 17:23:01 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.161]) by
+	ORSMSX156.amr.corp.intel.com ([169.254.8.190]) with mapi id
+	14.03.0123.003; Tue, 10 Sep 2013 17:23:01 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+Thread-Index: AQHOrVfn4qnFo/lz+k+5cqfakFWZAJm9npjQgAGSyQCAAHv9sA==
+Date: Wed, 11 Sep 2013 00:23:00 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
+References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,46 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Sep 2013 21:53:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Sep 2013 00:23:01 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 2013-09-10 at 20:44 +0200, Martin Jansa wrote:
-> On Tue, Sep 10, 2013 at 06:10:46PM +0300, Laurentiu Palcu wrote:
-> > Currently, the package name contains just the TRANSLATED_TARGET_ARCH.
-> > When compiling the toolchain for two machines, belonging to the same
-> > architecture (for example: qemuarm and beagleboard), this package gets
-> > overwritten and adt-installer repo will contain just one
-> > meta-environment package... This leads to situations like installing the
-> > toolchain for qemuarm and end up with meta-environment package with
-> > beagleboard cpu options.
-> > 
-> > [YOCTO #4783]
-> > 
-> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
-> > ---
-> >  meta/recipes-core/meta/meta-environment.bb |    2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
-> > index 9731300..3a71a9b 100644
-> > --- a/meta/recipes-core/meta/meta-environment.bb
-> > +++ b/meta/recipes-core/meta/meta-environment.bb
-> > @@ -37,7 +37,7 @@ do_install() {
-> >      install -m 0644 -t ${D}/${SDKPATH} ${SDK_OUTPUT}/${SDKPATH}/*
-> >  }
-> >  
-> > -PN = "meta-environment-${TRANSLATED_TARGET_ARCH}"
-> > +PN = "meta-environment-${MACHINE}"
-> 
-> You should probably change PACKAGE_ARCH as well.
-
-No, this isn't the correct thing to do in this case. The PN itself is
-machine specific so the multiple packages can coexist in one nativesdk
-arch.
-
-Cheers,
-
-Richard
-
+V2l0aCBmZXcgbW9yZSBmaXhlcywgdGhpcyBpcyB3b3JraW5nIGZvciBFTUdEIGJhc2VkIG1ldGEt
+aW50ZWwgQlNQcy4gDQpIZXJlIGFyZSB0aGUgY29tbWl0cyB3aGljaCB3b3JrZWQ6DQoNCmh0dHA6
+Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJpYi9jb21taXQv
+P2g9bml0aW4vbWVzYS1nbA0KaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5j
+Z2kvbWV0YS1pbnRlbC1jb250cmliL2xvZy8/aD1uaXRpbi9tZXNhLWdsDQoNCkJUVyB0aGUgc2Ft
+ZSBmdW5jdGlvbmFsaXR5IGNhbiBhbHNvIGJlIGltcGxlbWVudGVkIGJ5IGN1c3RvbWl6aW5nIGN1
+cnJlbnQgbWVzYSANCnJlY2lwZSBiYXNlZCBvbiBhIG5ldyBtYWNoaW5lIGZlYXR1cmUgd2hpY2gg
+Y2FuIGJlIGNhbGxlZCBhcw0KImN1c3RvbS1nbGVzIiBvciAibm8tbWVzYS1nbGVzIg0KDQpCVFcg
+aW4gb3RoZXIgY29udGV4dCwgdGhpcyBkb2VzIG5vdCBoZWxwIGZvciB0aGUgcmVidWlsZCBpc3N1
+ZSBSUCB3YXMgbWVudGlvbmluZyBlYXJsaWVyLg0KDQpUaGFua3MsDQpOaXRpbg0KDQoNCg0KPiAt
+LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
+b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIFNlcHRlbWJlciAxMCwgMjAx
+MyAyOjUyIEFNDQo+IFRvOiBLYW1ibGUsIE5pdGluIEENCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUkZDXVtQ
+QVRDSF0gbWVzYS1nbDogYWRkIEdMLW9ubHkgTWVzYSByZWNpcGUNCj4gDQo+IE9uIDkgU2VwdGVt
+YmVyIDIwMTMgMTc6NTcsIEthbWJsZSwgTml0aW4gQSA8bml0aW4uYS5rYW1ibGVAaW50ZWwuY29t
+Pg0KPiB3cm90ZToNCj4gPiAgIFRoaXMgaXMgYSBjbGV2ZXIgd2F5IHRvIGRlYWwgd2l0aCB1bm5l
+Y2Vzc2FyeSByZWJ1aWxkaW5nIG9mIG1lc2Egd2UNCj4gPiB3ZXJlIHNlZWluZyBlYXJsaWVyLiBX
+aXRoIHRoaXMgbWVzYS1nbCwgdGhlIG1lc2EgYWxzbyBuZWVkIG1vZGlmaWNhdGlvbiB0bw0KPiBy
+ZW1vdmUgZ2wgZnJvbSB0aGUgZGVmYXVsdCByZWNpcGUuDQo+IA0KPiBObywgbWVzYSBhbmQgbWVz
+YS1nbCBpbnRlbnRpb25hbGx5IGNvbmZsaWN0LiAgbWVzYS1nbCBwcm92aWRlcyBHTCwgZW1nZC0N
+Cj4gZHJpdmVyLWJpbiBwcm92aWRlcyBFR0wgYW5kIEdMRVMsIHlvdXIgbWFjaGluZXMgc2hvdWxk
+bid0IG5lZWQgYm90aCBtZXNhDQo+IGFuZCBtZXNhLWdsLg0KPiANCj4gPiBBbHNvIGxvb2tzIGxp
+a2UgdGhlcmUgaXMgYSBuZWVkIGZyb20gY29tbXVuaXR5IGZvciBtZXNhLWdsLWxpYiBhbmQNCj4g
+PiBtZXNhLWdsLWhlYWRlcnMsIGFzIHNvbWUgcGxhdGZvcm1zIG5lZWQganVzdCB0aGUgbWVzYS1n
+bC1oZWFkZXJzIGFuZA0KPiBub3QgdGhlIGxpYnMuDQo+IA0KPiBUbyBiZSBob25lc3QgR0wgcGxh
+dGZvcm1zIHRoYXQgZG9uJ3Qgc2hpcCB0aGVpciBvd24gaGVhZGVycyBhcmUgKnRvdGFsbHkNCj4g
+YnJva2VuKiBhbmQgdXNpbmcgbWVzYSdzIGhlYWRlcnMgaXMgYmFzaWNhbGx5IHRoZSBzYW1lIGFz
+IGNyb3NzaW5nIHlvdXINCj4gZmluZ2VycyBhbmQgcHJheWluZyB0byAkREVJVFkuIFBsYXRmb3Jt
+cyB0aGF0IGRvIHRoaXMgbmVlZCB0byBiZSBmaXhlZCwgbm90DQo+IHdvcmtlZCBhcm91bmQsIGFu
+ZCB0YWtpbmcgTWVzYSdzIGhlYWRlcnMgd2l0aG91dCBlZGl0aW5nIHRoZW0gaXMganVzdA0KPiB3
+cm9uZy4NCj4gDQo+IFJvc3MNCg==
 
