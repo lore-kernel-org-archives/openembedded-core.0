@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 6630C6B3A2
+	by mail.openembedded.org (Postfix) with ESMTP id 6EDFA6C812
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 09:42:55 +0000 (UTC)
+	Wed, 11 Sep 2013 09:43:35 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8B9uYpD026278 for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 10:56:34 +0100
+	r8B9vEKw026313 for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 10:57:14 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id pDBiR8r4-umR
+	with LMTP id i5lkxEu5M5ZK
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 10:56:34 +0100 (BST)
+	Wed, 11 Sep 2013 10:57:14 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8B9uWAn026273
+	r8B9vAlU026296
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 10:56:33 +0100
-Message-ID: <1378892564.3484.172.camel@ted>
+	Wed, 11 Sep 2013 10:57:11 +0100
+Message-ID: <1378892603.3484.173.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Sep 2013 10:42:44 +0100
+Date: Wed, 11 Sep 2013 10:43:23 +0100
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] image/populate_sdk: Ensure symlinks in target sysroot are relative
+Subject: [PATCH] uclibc: Add missing DEPENDS on kern-tools-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,81 +38,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 09:42:56 -0000
+X-List-Received-Date: Wed, 11 Sep 2013 09:43:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-In the target sysroot of an SDK we can have target system absolute links
-which don't make sense. This adds a script which fixes them up to become relative
-paths instead.
-
-[YOCTO #5020]
+This is needed for the kconfig handling and the merge-config.sh script.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 4a0946c..f1e62f14 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -4,7 +4,7 @@ inherit populate_sdk_base
+diff --git a/meta/recipes-core/uclibc/uclibc-initial_git.bb b/meta/recipes-core/uclibc/uclibc-initial_git.bb
+index 9e3edbd..3a1140e 100644
+--- a/meta/recipes-core/uclibc/uclibc-initial_git.bb
++++ b/meta/recipes-core/uclibc/uclibc-initial_git.bb
+@@ -2,7 +2,7 @@ SECTION = "base"
+ require uclibc.inc
+ require uclibc-git.inc
  
- TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
- TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
--POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_install_complementary populate_sdk; "
-+POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_install_complementary populate_sdk; rootfs_sysroot_relativelinks; "
+-DEPENDS = "linux-libc-headers ncurses-native virtual/${TARGET_PREFIX}gcc-initial"
++DEPENDS = "linux-libc-headers ncurses-native virtual/${TARGET_PREFIX}gcc-initial kern-tools-native"
+ PROVIDES = "virtual/${TARGET_PREFIX}libc-initial"
  
- inherit gzipnative
+ PACKAGES = ""
+diff --git a/meta/recipes-core/uclibc/uclibc_git.bb b/meta/recipes-core/uclibc/uclibc_git.bb
+index a66656d..b4f5d9c 100644
+--- a/meta/recipes-core/uclibc/uclibc_git.bb
++++ b/meta/recipes-core/uclibc/uclibc_git.bb
+@@ -10,7 +10,8 @@ PROVIDES += "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
+            virtual/${TARGET_PREFIX}gcc-initial \
+            virtual/${TARGET_PREFIX}libc-initial \
+-           linux-libc-headers ncurses-native"
++           linux-libc-headers ncurses-native \
++           kern-tools-native"
  
-@@ -617,6 +617,11 @@ rootfs_trim_schemas () {
- 	done
- }
- 
-+# Make any absolute links in a sysroot relative
-+rootfs_sysroot_relativelinks () {
-+	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
-+}
-+
- EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
- 
- do_fetch[noexec] = "1"
-diff --git a/scripts/sysroot-relativelinks.py b/scripts/sysroot-relativelinks.py
-new file mode 100755
-index 0000000..2e13744
---- /dev/null
-+++ b/scripts/sysroot-relativelinks.py
-@@ -0,0 +1,31 @@
-+#!/usr/bin/env python
-+import sys
-+import os
-+
-+# Take a sysroot directory and turn all the abolute symlinks and turn them into
-+# relative ones such that the sysroot is usable within another system.
-+
-+if len(sys.argv) != 2:
-+    print("Usage is " + sys.argv[0] + "<directory>")
-+    sys.exit(1)
-+
-+topdir = sys.argv[1]
-+topdir = os.path.abspath(topdir)
-+
-+def handlelink(filep, subdir):
-+    link = os.readlink(filep)
-+    if link[0] != "/":
-+        return
-+    if link.startswith(topdir):
-+        return
-+    #print("Replacing %s with %s for %s" % (link, topdir+link, filep))
-+    print("Replacing %s with %s for %s" % (link, os.path.relpath(topdir+link, subdir), filep))
-+    os.unlink(filep)
-+    os.symlink(os.path.relpath(topdir+link, subdir), filep)
-+
-+for subdir, dirs, files in os.walk(topdir):
-+    for f in files:
-+        filep = os.path.join(subdir, f)
-+        if os.path.islink(filep):
-+            #print("Considering %s" % filep)
-+            handlelink(filep, subdir)
-
+ RDEPENDS_${PN}-dev = "linux-libc-headers-dev"
+ RPROVIDES_${PN}-dev += "libc-dev virtual-libc-dev"
 
 
 
