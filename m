@@ -1,38 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
-	[209.85.128.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 37EBB60EE5
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 85E4260F18
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 18:08:01 +0000 (UTC)
-Received: by mail-ve0-f180.google.com with SMTP id jz11so5895821veb.25
+	Wed, 11 Sep 2013 18:17:52 +0000 (UTC)
+Received: by mail-wi0-f176.google.com with SMTP id cb5so2527310wib.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 11:08:02 -0700 (PDT)
+	Wed, 11 Sep 2013 11:17:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=cYlgIKNl/Hj6PKipojBPzTsEUSFVNNlTBCxnbn8K2T8=;
-	b=TePC54tNnGEqkduwKNYl/+3sgTJ4HvtewjXMOIeUtdxe0/aDjGWQCxiCloMqeCOJay
-	6QUK5AjO7DR94ZYgF/BMu1RDC2YdnwYQ+NB1OksYzj1iu3BfrBH2L3HCEfcWMUdCP8rf
-	kPKZu4VLkWJKg6Xic9UAeGTsa6OPuNV5+KY8uVu18MxBBo54JRp8sR78wSPhLr9RG/N3
-	Snr5oFHJtYWkhPNsCx94Aw4x1omUoElwC2nXCWBuuEcw4EUfmHk58St6Pe+Hr217Dy+x
-	5l7JIpSCLGaQjLKyulRJMfKDgxgebOmryBg4GGOmzvdQsDJLzlnvcR9xNE68QEwqvvoh
-	12mQ==
-X-Gm-Message-State: ALoCoQlKsRcTdEcQK1JFCHKTmCbLOv5tGIvBcke0X6Uq0/zSrTho8pzLv2+1lOkbBwRKPKeWFAnL
-X-Received: by 10.221.55.4 with SMTP id vw4mr1245635vcb.37.1378922882632; Wed,
-	11 Sep 2013 11:08:02 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 11 Sep 2013 11:07:42 -0700 (PDT)
-In-Reply-To: <5230AFB0.7010008@mentor.com>
-References: <5230AAB4.2060005@mentor.com>
-	<CAJTo0LZMNna84CTpC3QTr6X+kMMcFXCERgsx=8kaqL3PpRr_hw@mail.gmail.com>
-	<5230AFB0.7010008@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 11 Sep 2013 19:07:42 +0100
-Message-ID: <CAJTo0Lbt25Rd0yz3XGTjhA3+S-55t6DpgyhhDRmxSpxB6HNpTQ@mail.gmail.com>
-To: Stefan Seefeld <stefan_seefeld@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: build errors after upgrading
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=6/NzKbu+kPFQvFeuTnT9o0K1eo7GWjO5x3lGXnRujbU=;
+	b=NImOc+0bmYNoDF2zdUnpCq140zQdo7l+otmFVJ4JEuTmolmvi6vTSyvONlu2Fnx1c1
+	eAp5Qod6tFJowzbHpdaXm8yl4dFQz2ixwEz9966oZ0H3EBjGKbHZBnpn+duDQc/P6WvX
+	JUE2ThiK+PnxrLxmVs3bZY+u3ua7pf7wP07CYUVPP6iCpBeEXRswXf6/23QktJYnMS+w
+	sa0OlPP1tUlL4UE8tJRz9wlsr/YkB5A3VhOg0JLZ/95o9MgJt9+ANaa6SFDXin8ObC+Y
+	a1nKhQXyHWvAnNGaBtomjremuBPazymwhzACUoWDj4nT6zrBt6Z9JbL4phepJ0Wy4pmq
+	oF5Q==
+X-Gm-Message-State: ALoCoQkHT35LDioarhBAvOp1Vp8nrBTbDCTspQ3XQlynkaHArmIzqzjGhvi9ztGHoLCtkMVbHiJs
+X-Received: by 10.180.38.73 with SMTP id e9mr2459522wik.31.1378923473884;
+	Wed, 11 Sep 2013 11:17:53 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fb9sm12442961wid.7.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 11 Sep 2013 11:17:53 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Sep 2013 19:17:42 +0100
+Message-Id: <1378923463-31773-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] base: improve PACKAGECONFIG handling logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,16 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 18:08:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 11 Sep 2013 18:17:52 -0000
 
-On 11 September 2013 19:00, Stefan Seefeld <stefan_seefeld@mentor.com> wrote:
-> But meanwhile, what is the appropriate fix on OE trunk, to get back to a
-> working state ?
+The existing code for handling PACKAGECONFIG lists wasn't the cleanest Python
+around.  Instead of diving into the list directly using indices and lengths, use
+pop() to iterate through the list.
 
-The appropriate fix would be fixing the configure script.  I'm
-starting a build without opengl now to replicate, unless you can beat
-me to a patch.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/base.bbclass |   23 ++++++++++++++++-------
+ 1 file changed, 16 insertions(+), 7 deletions(-)
 
-Ross
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index dfa580c..37dc790 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -420,7 +420,7 @@ python () {
+         def appendVar(varname, appends):
+             if not appends:
+                 return
+-            if varname.find("DEPENDS") != -1:
++            if "DEPENDS_" in varname:
+                 if pn.startswith("nativesdk-"):
+                     appends = expandFilter(appends, "", "nativesdk-")
+                 if pn.endswith("-native"):
+@@ -442,12 +442,21 @@ python () {
+                 bb.error("Only enable,disable,depend,rdepend can be specified!")
+ 
+             if flag in pkgconfig:
+-                if num >= 3 and items[2]:
+-                    extradeps.append(items[2])
+-                if num >= 4 and items[3]:
+-                    extrardeps.append(items[3])
+-                if num >= 1 and items[0]:
+-                    extraconf.append(items[0])
++                if items:
++                    item = items.pop(0)
++                    if item:
++                        extraconf.append(item)
++                # Skip over disable
++                if items:
++                    items.pop(0)
++                if items:
++                    item = items.pop(0)
++                    if item:
++                        extradeps.append(item)
++                if items:
++                    item = items.pop(0)
++                    if item:
++                        extrardeps.append(item)
+             elif num >= 2 and items[1]:
+                     extraconf.append(items[1])
+         appendVar('DEPENDS', extradeps)
+-- 
+1.7.10.4
+
 
