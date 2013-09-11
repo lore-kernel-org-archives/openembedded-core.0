@@ -1,26 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 119D66008D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id C6E3C6B05F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 09:17:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8B9HYr4010047
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 11 Sep 2013 09:27:25 +0000 (UTC)
+Received: by mail-wi0-f172.google.com with SMTP id c10so1882801wiw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 02:17:34 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 11 Sep 2013 02:17:33 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Sep 2013 17:17:32 +0800
-Message-ID: <dec697bffb0eebaeb34f5acd32929ba866174585.1378890742.git.rongqing.li@windriver.com>
+	Wed, 11 Sep 2013 02:27:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=I8Gjj7uuxxZNEQCgfJRouDUPMD+6wO2LaL9YnjpAHr8=;
+	b=aqBA+DmNWjOV+/YN8nythOCiERA/3M80VcmJu9ykBT7pJgKfdSVrzjLG8MRfDPNee1
+	xPjW2w8Z1Xm7zgVXigPGHhUiyFIAfaWCDhAjUT2Fo3eRDqYCuSe+07a5I7P2+D5uX4wn
+	8nVPRBkwizl3OQ07QQIRq8NQsNGgGIV6zPnnCrTEJ9GF8tjQqD05IshGBXZCrpQAsKg4
+	nI7KgXOaVvq6ILWuY3bmZ9Bi4IsrBSRZTDQJnji+r2b9p2b4/MkiqC7cZeVvStuPJ0we
+	iItS7HUXqMevh59ncit04dPRaexIHGJMmxtq24zrKCcKCnrXAu7incvbPYJBvuEeHEHt
+	WJ9Q==
+X-Gm-Message-State: ALoCoQmJspunvYjyBZUlgQONDPZR3UIKcdfMi4DTFeSHIav5KQQidokQEZ2T5Xq9qiFTv+LdoE2z
+X-Received: by 10.180.85.65 with SMTP id f1mr16267814wiz.33.1378891646698;
+	Wed, 11 Sep 2013 02:27:26 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id b13sm8543135wiv.1.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 11 Sep 2013 02:27:26 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Sep 2013 10:27:22 +0100
+Message-Id: <1378891642-20906-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1378890742.git.rongqing.li@windriver.com>
-References: <cover.1378890742.git.rongqing.li@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] ptest-runner: trivial fixes and refine
+Subject: [PATCH] qemu: only depend on mesa-driver-swrast if opengl is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +42,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 09:17:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Sep 2013 09:27:27 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+As Mesa refuses to compile if the "opengl" DISTRO_FEATURE isn't enabled,
+mesa-driver-swrast has to be conditional in the QEMU machine defintions too.
 
-1. ptest files may be installed under /usr/lib64/ for 64bit filesystem
-or under /usr/lib/ for 64bit multilib filesystem, so we should check both
-directories
-
-2. If a soft link is linking to a directory under the same directory, we
-only run once.
-
-[YOCTO #5125]
-[YOCTO #5126]
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../ptest-runner/files/ptest-runner                |   30 +++++++++++++++-----
- 1 file changed, 23 insertions(+), 7 deletions(-)
+ meta/conf/machine/include/qemu.inc |    2 +-
+ meta/conf/machine/qemux86-64.conf  |    2 +-
+ meta/conf/machine/qemux86.conf     |    2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/recipes-support/ptest-runner/files/ptest-runner
-index 4f3c7ce..ccb0434 100644
---- a/meta/recipes-support/ptest-runner/files/ptest-runner
-+++ b/meta/recipes-support/ptest-runner/files/ptest-runner
-@@ -1,16 +1,32 @@
- #!/bin/sh
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 95d7e66..a78622d 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -5,7 +5,7 @@ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
  
- echo "START: $0"
--cd /usr/lib
--for x in *
-+
-+for libdir in /usr/lib*
- do
--    if [ -x "/usr/lib/$x/ptest/run-ptest" ]; then
--       date "+%Y-%m-%dT%H:%M"
-+
-+    [ ! -d "$libdir" ] && continue
-+
-+    cd "$libdir"
-+    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
-+    do
-+        # test if a dir is linking to one that they are under same directory
-+        # like perl5-->perl
-+        ptestdir=`dirname $x|cut -f2 -d"/"`
-+        if [ -h "$ptestdir" ]; then
-+            linkdir=`readlink -f "$ptestdir"`
-+            if [ `dirname "$linkdir"` = "$libdir" ]; then
-+                continue
-+            fi
-+        fi
-+    
-+        date "+%Y-%m-%dT%H:%M"
-         echo "BEGIN: $x"
--        cd /usr/lib/$x/ptest
-+        pushd `dirname "$x"`
-         ./run-ptest
-+        popd
-         echo "END: $x"
--       date "+%Y-%m-%dT%H:%M"
--    fi
-+        date "+%Y-%m-%dT%H:%M"
-+    done
- done
- echo "STOP: $0"
+ XSERVER ?= "xserver-xorg \
+-            mesa-driver-swrast \
++            ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast', '', d)} \
+             xf86-input-evdev \
+             xf86-input-mouse \
+             xf86-video-fbdev \
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index ff666af..c572225 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -15,7 +15,7 @@ KERNEL_IMAGETYPE = "bzImage"
+ SERIAL_CONSOLE = "115200 ttyS0"
+ 
+ XSERVER = "xserver-xorg \
+-           mesa-driver-swrast \
++           ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast', '', d)} \
+            xf86-input-vmmouse \
+            xf86-input-keyboard \
+            xf86-input-evdev \
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 5f107be..94ee573 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -15,7 +15,7 @@ KERNEL_IMAGETYPE = "bzImage"
+ SERIAL_CONSOLE = "115200 ttyS0"
+ 
+ XSERVER = "xserver-xorg \
+-           mesa-driver-swrast \
++           ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-swrast', '', d)} \
+            xf86-input-vmmouse \
+            xf86-input-keyboard \
+            xf86-input-evdev \
 -- 
 1.7.10.4
 
