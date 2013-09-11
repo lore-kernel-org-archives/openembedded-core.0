@@ -1,27 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 148DC6B3A2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 88C8A6BEC0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 10:04:21 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 Sep 2013 03:01:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,883,1371106800"; d="scan'208";a="401690573"
-Received: from pmcgurk-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.123.175])
-	by orsmga002.jf.intel.com with ESMTP; 11 Sep 2013 03:04:21 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Date: Wed, 11 Sep 2013 11:04:20 +0100
-Message-ID: <4927217.dsrI5AkMql@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <522FCFAD.2030400@windriver.com>
-References: <1378864775-7094-1-git-send-email-mark.hatle@windriver.com>
-	<522FCFAD.2030400@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python-smartpm: Add an attempt install mode
+	Wed, 11 Sep 2013 10:10:42 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8BAOLYC027337; Wed, 11 Sep 2013 11:24:21 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id c3pvl1f5S9f5; Wed, 11 Sep 2013 11:24:21 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8BAOGjd027333
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 11 Sep 2013 11:24:18 +0100
+Message-ID: <1378894228.3484.176.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Wed, 11 Sep 2013 11:10:28 +0100
+In-Reply-To: <52303854.1020209@windriver.com>
+References: <1378736079.3484.117.camel@ted> <522ECB4B.2070209@windriver.com>
+	<1378822091.3484.163.camel@ted> <52303854.1020209@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] bitbake.conf: Stop providing ${P} and ${PF} by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +38,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 10:04:21 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 11 Sep 2013 10:10:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Mark,
+On Wed, 2013-09-11 at 17:31 +0800, Robert Yang wrote:
+> 
+> On 09/10/2013 10:08 PM, Richard Purdie wrote:
+> > On Tue, 2013-09-10 at 15:33 +0800, Robert Yang wrote:
+> >> Thanks, Can we provide a replacement for the "bitbake PN-PV" since it is
+> >> useful, for example, can we support the PREFERRED_VERSION_${PN} in the env
+> >> in the future ? There is a similar bug:
+> >>
+> >> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4965
+> >
+> > If you set BB_PRESERVE_ENV=1 you can set PREFERRED_VERSION_xxx from the
+> > environment so this should already be possible?
+> >
+> 
+> It seems that the BB_PRESERVE_ENV=1 doesn't work, but we use the
+> BB_ENV_EXTRAWHITE, for example:
+> 
+> $ export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE PREFERRED_VERSION_make"
+> $ export PREFERRED_VERSION_make="3.81",
+> 
+> Then it works, maybe something is wrong with the BB_PRESERVE_ENV.
 
-On Tuesday 10 September 2013 21:04:29 Mark Hatle wrote:
-> Time measurements with:
-> 
-> MACHINE = "qemux86"
-> PACKAGE_CLASSES = "package_rpm"
-> EXTRA_IMAGE_FEATURES = "dev-pkgs staticdev-pkgs doc-pkgs dbg-pkgs
-> ptest-pkgs" BB_NUMBER_THREADS ?= "8"
-> PARALLEL_MAKE ?= "-j 8"
-> 
-> image: core-image-sato
-> 
-> Quad Core i7 workstation...
-> 
-> With all of the recipes built, and just executing the do_rootfs:
-> 
-> Before this change:
->   real    26m2.541s
->   user    21m8.458s
->   sys     7m9.683s
-> 
-> After this change:
->   real    14m43.436s
->   user    15m57.525s
->   sys     5m16.412s
-> 
-> This is a significant performance boost when using the 'complementary'
-> installs and attemptonly installs.  The performance is by doing the
-> complementary installs as a batch instead of one at a time, ignoring
-> failures.
+It is broken, yes, I've sent out a patch to fix it. There is one other
+problem, you can't use "-" in a shell environment variable so you can't
+do:
 
-This is a significant improvement, well done! My concern about not catching 
-failures stands though, which is why I hadn't implemented this yet. How do we 
-ensure that genuine failures are caught with this mode?
+PREFERRED_VERSION_make-native = xxx
+
+which is annoying. We might want to add some kind of mangling mechanism
+like a double underscore translating to a dash or something...
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
