@@ -1,28 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6409D61005
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 6630C6B3A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 09:31:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8B9VEsu011290
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 11 Sep 2013 02:31:14 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Wed, 11 Sep 2013 02:31:13 -0700
-Message-ID: <52303854.1020209@windriver.com>
-Date: Wed, 11 Sep 2013 17:31:00 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1378736079.3484.117.camel@ted> <522ECB4B.2070209@windriver.com>
-	<1378822091.3484.163.camel@ted>
-In-Reply-To: <1378822091.3484.163.camel@ted>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] bitbake.conf: Stop providing ${P} and ${PF} by default
+	Wed, 11 Sep 2013 09:42:55 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8B9uYpD026278 for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 10:56:34 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id pDBiR8r4-umR
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 10:56:34 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8B9uWAn026273
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Sep 2013 10:56:33 +0100
+Message-ID: <1378892564.3484.172.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Sep 2013 10:42:44 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] image/populate_sdk: Ensure symlinks in target sysroot are relative
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +38,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Sep 2013 09:31:14 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Wed, 11 Sep 2013 09:42:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+In the target sysroot of an SDK we can have target system absolute links
+which don't make sense. This adds a script which fixes them up to become relative
+paths instead.
+
+[YOCTO #5020]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 4a0946c..f1e62f14 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -4,7 +4,7 @@ inherit populate_sdk_base
+ 
+ TOOLCHAIN_TARGET_TASK += "${PACKAGE_INSTALL}"
+ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+-POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_install_complementary populate_sdk; "
++POPULATE_SDK_POST_TARGET_COMMAND += "rootfs_install_complementary populate_sdk; rootfs_sysroot_relativelinks; "
+ 
+ inherit gzipnative
+ 
+@@ -617,6 +617,11 @@ rootfs_trim_schemas () {
+ 	done
+ }
+ 
++# Make any absolute links in a sysroot relative
++rootfs_sysroot_relativelinks () {
++	sysroot-relativelinks.py ${SDK_OUTPUT}/${SDKTARGETSYSROOT}
++}
++
+ EXPORT_FUNCTIONS zap_root_password remove_init_link do_rootfs make_zimage_symlink_relative set_image_autologin rootfs_update_timestamp rootfs_no_x_startup
+ 
+ do_fetch[noexec] = "1"
+diff --git a/scripts/sysroot-relativelinks.py b/scripts/sysroot-relativelinks.py
+new file mode 100755
+index 0000000..2e13744
+--- /dev/null
++++ b/scripts/sysroot-relativelinks.py
+@@ -0,0 +1,31 @@
++#!/usr/bin/env python
++import sys
++import os
++
++# Take a sysroot directory and turn all the abolute symlinks and turn them into
++# relative ones such that the sysroot is usable within another system.
++
++if len(sys.argv) != 2:
++    print("Usage is " + sys.argv[0] + "<directory>")
++    sys.exit(1)
++
++topdir = sys.argv[1]
++topdir = os.path.abspath(topdir)
++
++def handlelink(filep, subdir):
++    link = os.readlink(filep)
++    if link[0] != "/":
++        return
++    if link.startswith(topdir):
++        return
++    #print("Replacing %s with %s for %s" % (link, topdir+link, filep))
++    print("Replacing %s with %s for %s" % (link, os.path.relpath(topdir+link, subdir), filep))
++    os.unlink(filep)
++    os.symlink(os.path.relpath(topdir+link, subdir), filep)
++
++for subdir, dirs, files in os.walk(topdir):
++    for f in files:
++        filep = os.path.join(subdir, f)
++        if os.path.islink(filep):
++            #print("Considering %s" % filep)
++            handlelink(filep, subdir)
 
 
-On 09/10/2013 10:08 PM, Richard Purdie wrote:
-> On Tue, 2013-09-10 at 15:33 +0800, Robert Yang wrote:
->> Thanks, Can we provide a replacement for the "bitbake PN-PV" since it is
->> useful, for example, can we support the PREFERRED_VERSION_${PN} in the env
->> in the future ? There is a similar bug:
->>
->> https://bugzilla.yoctoproject.org/show_bug.cgi?id=4965
->
-> If you set BB_PRESERVE_ENV=1 you can set PREFERRED_VERSION_xxx from the
-> environment so this should already be possible?
->
 
-It seems that the BB_PRESERVE_ENV=1 doesn't work, but we use the
-BB_ENV_EXTRAWHITE, for example:
-
-$ export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE PREFERRED_VERSION_make"
-$ export PREFERRED_VERSION_make="3.81",
-
-Then it works, maybe something is wrong with the BB_PRESERVE_ENV.
-
-// Robert
-
-> Cheers,
->
-> Richard
->
->
->
 
