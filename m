@@ -1,26 +1,26 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 42FB36C013
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 40E316BCC7
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 17:20:03 +0000 (UTC)
+	Thu, 12 Sep 2013 17:20:05 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8CHK5JK005443
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8CHK54E022840
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
 	Thu, 12 Sep 2013 10:20:05 -0700 (PDT)
 Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Thu, 12 Sep 2013 10:20:05 -0700
+	Thu, 12 Sep 2013 10:20:06 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Sep 2013 12:19:46 -0500
-Message-ID: <1379006387-20186-5-git-send-email-jason.wessel@windriver.com>
+Date: Thu, 12 Sep 2013 12:19:47 -0500
+Message-ID: <1379006387-20186-6-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1379006387-20186-1-git-send-email-jason.wessel@windriver.com>
 References: <1379006387-20186-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [PATCH 4/5] bootimage.bbclass: Improve EFI & PCBIOS+EFI ISO support
+Subject: [PATCH 5/5] grub-efi.bbclass: Add serial and graphics menu options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,105 +33,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 17:20:03 -0000
+X-List-Received-Date: Thu, 12 Sep 2013 17:20:10 -0000
 Content-Type: text/plain
 
-Using the latest mkisofs it is possible to generate 3 different types
-of ISO images, which can be used in various scenarios.
-
-1) PCBIOS Only ISO
-   - This option remains unchanged by this commit
-   - Uses syslinux menus
-   - Can be directly copied with dd to a USB device
-   - Can be burned to optical media
-
-2) EFI Only ISO
-   - Uses grub 2 menus
-   - Can be burned to optical media
-   - If you want to use this image on a USB device
-     extra steps must be taken in order to format the USB
-     device with fat32, and copy an EFI loader which will
-     in turn load the iso image
-
-3) PCBIOS / EFI ISO
-   - This is a hybrid image ISO that will work for case 1 or 2
-     as above with the same restrictions and boot menu types
-     depending on what type of firmware is installed on
-     the hardware or depending on if EFI or "Legacy Boot" is
-     enabled on some UEFI firmwares.
+The syslinux.bbclass already has support for automatically generated
+serial and graphics menu choices.  This patch adds the same concept to
+the grub-efi menu.  That makes it possible to generate a single image
+which can boot on a PCBIOS or EFI firmware with consistent looking
+boot options.
 
 [YOCTO #4100]
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/bootimg.bbclass |   37 ++++++++++++++++++++++++++++++++++---
- 1 file changed, 34 insertions(+), 3 deletions(-)
+ meta/classes/grub-efi.bbclass     |   41 ++++++++++++++++++++++++-------------
+ meta/conf/machine/qemux86-64.conf |    2 +-
+ meta/conf/machine/qemux86.conf    |    2 ++
+ 3 files changed, 30 insertions(+), 15 deletions(-)
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 2ed7017..b4301e8 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -35,6 +35,7 @@ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index c6f5d4e..c07e4a1 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -9,6 +9,7 @@
+ # External variables
+ # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
+ # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
++# ${GRUB_GFXSERIAL} - set this to 1 to have graphics and serial in the boot menu
+ # ${LABELS} - a list of targets for the automatic config
+ # ${APPEND} - an override list of append strings for each label
+ # ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
+@@ -16,6 +17,7 @@
  
- HDDDIR = "${S}/hddimg"
- ISODIR = "${S}/iso"
-+EFIIMGDIR = "${S}/efi_img"
- COMPACT_ISODIR = "${S}/iso.z"
+ do_bootimg[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
  
- BOOTIMG_VOLUME_ID   ?= "boot"
-@@ -109,19 +110,49 @@ build_iso() {
- 		mkisofs_opts="-R -z -D -l"
- 	fi
++GRUB_SERIAL ?= "console=ttyS0,115200"
+ GRUBCFG = "${S}/grub.cfg"
+ GRUB_TIMEOUT ?= "10"
+ #FIXME: build this from the machine config
+@@ -55,6 +57,8 @@ python build_grub_cfg() {
+         bb.error("WORKDIR not defined, unable to package")
+         return
  
--	if [ "${PCBIOS}" = "1" ]; then
-+	if [ "${EFI}" = "1" ] ; then
-+		# Build a EFI directory to create efi.img
-+		mkdir -p ${EFIIMGDIR}/${EFIDIR}
-+		cp ${ISODIR}/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
-+		cp ${ISODIR}/vmlinuz ${EFIIMGDIR}
-+		GRUB_IMAGE="bootia32.efi"
-+		if [ "${TARGET_ARCH}" = "x86_64" ]; then
-+			GRUB_IMAGE="bootx64.efi"
-+		fi
-+		echo "EFI\\BOOT\\${GRUB_IMAGE}" > ${EFIIMGDIR}/startup.nsh
-+		if [ -f "${ISODIR}/initrd" ] ; then
-+			cp ${ISODIR}/initrd ${EFIIMGDIR}
-+		fi
-+		build_fat_img ${EFIIMGDIR} ${ISODIR}/efi.img
-+	fi
++    gfxserial = d.getVar('GRUB_GFXSERIAL', True) or ""
 +
-+	# Three ways to build the media
-+	if [ "${PCBIOS}" = "1" -a "${EFI}" = "1" ]; then
-+		# 1) Build EFI + PCBIOS hybrid
-+		mkisofs -A ${BOOTIMG_VOLUME_ID} -V ${BOOTIMG_VOLUME_ID} \
-+		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
-+			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} $mkisofs_opts \
-+			${MKISOFS_OPTIONS} \
-+			-eltorito-alt-boot -eltorito-platform efi \
-+			-b efi.img -no-emul-boot \
-+			${ISODIR}
-+	elif [ "${PCBIOS}" = "1" ] ; then
-+		# 2) Build PCBIOS only media
- 		mkisofs -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
- 			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} $mkisofs_opts \
- 			${MKISOFS_OPTIONS} ${ISODIR}
- 	else
--		bbnote "EFI-only ISO images are untested, please provide feedback."
- 		mkisofs -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
-+			-eltorito-alt-boot -eltorito-platform efi \
-+			-b efi.img -no-emul-boot \
- 			-r ${ISODIR}
- 	fi
+     labels = d.getVar('LABELS', True)
+     if not labels:
+         bb.debug(1, "LABELS not defined, nothing to do")
+@@ -88,6 +92,12 @@ python build_grub_cfg() {
+     else:
+         cfgfile.write('timeout=50\n')
  
--	isohybrid ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso
-+	if [ "${PCBIOS}" = "1" ]; then
-+		isohybrid ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso
-+	fi
++    if gfxserial == "1":
++        btypes = [ [ " graphics console", "console=tty0" ],
++            [ " serial console", d.getVar('GRUB_SERIAL', True) or "" ] ]
++    else:
++        btypes = [ [ "", "" ] ]
++
+     for label in labels.split():
+         localdata = d.createCopy()
  
- 	cd ${DEPLOY_DIR_IMAGE}
- 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+@@ -95,24 +105,27 @@ python build_grub_cfg() {
+         if not overrides:
+             raise bb.build.FuncFailed('OVERRIDES not defined')
+ 
+-        localdata.setVar('OVERRIDES', label + ':' + overrides)
+-        bb.data.update_data(localdata)
++        for btype in btypes:
++            localdata.setVar('OVERRIDES', label + ':' + overrides)
++            bb.data.update_data(localdata)
+ 
+-        cfgfile.write('\nmenuentry \'%s\'{\n' % (label))
+-        if label == "install":
+-            label = "install-efi"
+-        cfgfile.write('linux /vmlinuz LABEL=%s' % (label))
++            cfgfile.write('\nmenuentry \'%s%s\'{\n' % (label, btype[0]))
++            lb = label
++            if label == "install":
++                lb = "install-efi"
++            cfgfile.write('linux /vmlinuz LABEL=%s' % (lb))
+ 
+-        append = localdata.getVar('APPEND', True)
+-        initrd = localdata.getVar('INITRD', True)
++            append = localdata.getVar('APPEND', True)
++            initrd = localdata.getVar('INITRD', True)
+ 
+-        if append:
+-            cfgfile.write('%s' % (append))
+-        cfgfile.write('\n')
++            if append:
++                cfgfile.write('%s' % (append))
++            cfgfile.write(' %s' % btype[1])
++            cfgfile.write('\n')
+ 
+-        if initrd:
+-            cfgfile.write('initrd /initrd')
+-        cfgfile.write('\n}\n')
++            if initrd:
++                cfgfile.write('initrd /initrd')
++            cfgfile.write('\n}\n')
+ 
+     cfgfile.close()
+ }
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+index c572225..6f68410 100644
+--- a/meta/conf/machine/qemux86-64.conf
++++ b/meta/conf/machine/qemux86-64.conf
+@@ -21,6 +21,6 @@ XSERVER = "xserver-xorg \
+            xf86-input-evdev \
+            xf86-video-vmware"
+ 
+-MACHINE_FEATURES += "x86"
++MACHINE_FEATURES += "x86 efi"
+ 
+ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index 94ee573..57a9a50 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -22,5 +22,7 @@ XSERVER = "xserver-xorg \
+            xf86-video-vmware"
+ 
+ MACHINE_FEATURES += "x86"
++MACHINE_FEATURES += "efi"
++#MACHINE_FEATURES += "pcbios"
+ 
+ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
 -- 
 1.7.9.5
 
