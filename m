@@ -1,29 +1,40 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B6D46BEB4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CFA960579
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 12:03:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8CC3QwJ013982
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Sep 2013 05:03:26 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 12 Sep 2013 05:03:26 -0700
-Message-ID: <5231AD8C.9030509@windriver.com>
-Date: Thu, 12 Sep 2013 20:03:24 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	Thu, 12 Sep 2013 12:16:55 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id e53so5304593eek.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Sep 2013 05:16:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=MBZmW8WnDV4OO4j/Dxp5QUVcZbOkXUsd+j/UzoRR6hQ=;
+	b=kzUjawB4ypWU2U3fZ925eBNd417n4bf5oQRC2YXFo92vvIQAAbvwQWtaib4KSccwG6
+	W2GpQv6UdmCbPKN+LmDr3FMGI9Y33l5H0tkdKnv1IIKZJqHpwFAn/iVPMLJ3rhsTCtp4
+	+GD1bRwGmf5g75Bu3dwxl3Aa/ERYzcabVHxikj8OO854iu5FJNoesXN3IXtezS05CQEi
+	7Plz+Er5+/DcabnjIN/n4Hc6q9M6ElvjhhkfNv0Lztl8VwzJnEojSZFS8x88Kzl4fkmE
+	A96MYzy9HCxknKNuMr200IfM+GINR/pUxAyqMfwgBUsF4vMfmyzZutF+yCTG3spDGzGV
+	B1qw==
+X-Received: by 10.14.3.9 with SMTP id 9mr2076484eeg.72.1378988216651;
+	Thu, 12 Sep 2013 05:16:56 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	a43sm5390244eep.9.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 12 Sep 2013 05:16:56 -0700 (PDT)
+Date: Thu, 12 Sep 2013 14:18:23 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <20130912121823.GZ11500@jama>
+References: <cover.1378978986.git.Qi.Chen@windriver.com>
+	<4802511117bc648d9cd10d8262645069d9db1317.1378978986.git.Qi.Chen@windriver.com>
+	<20130912102503.GY11500@jama> <5231A2F4.7070107@windriver.com>
 MIME-Version: 1.0
-To: Mike Looijmans <mike.looijmans@topic.nl>
-References: <cover.1378977276.git.hongxu.jia@windriver.com>
-	<732e1a82d56c4355c0bae26ed5aec0151b5adb1a.1378977276.git.hongxu.jia@windriver.com>
-	<52318DAB.9090108@topic.nl>
-In-Reply-To: <52318DAB.9090108@topic.nl>
-Cc: cxu@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel.bbclass: Need a method to install/update for bzImage
+In-Reply-To: <5231A2F4.7070107@windriver.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] update-rc.d.bbclass: change RRECOMMENDS to RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,189 +47,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 12:03:27 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Sep 2013 12:16:56 -0000
+X-Groupsio-MsgNum: 44881
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0k2ZE0YWsaeoufzj"
+Content-Disposition: inline
 
-On 09/12/2013 05:47 PM, Mike Looijmans wrote:
-> This change just assumes that all boot systems are alike. Just 
-> applying this patch "as is" will probably break a lot of embedded 
-> systems that have totally different ways of upgrading the kernel. Best 
-> scenario is that they'll waste time and space running scripts that 
-> will have no effect.
->
-> It should be possible - and more important: default - to NOT include 
-> these scripts, and use them only on targets they apply to. 
-> kernel.bbclass is in my opinion not the correct location.
->
+--0k2ZE0YWsaeoufzj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Yes, we should add a on-off to decide whether the method should be used 
-or not,
-and set off by default.
+On Thu, Sep 12, 2013 at 07:18:12PM +0800, ChenQi wrote:
+> On 09/12/2013 06:25 PM, Martin Jansa wrote:
+> > On Thu, Sep 12, 2013 at 05:43:55PM +0800, Qi.Chen@windriver.com wrote:
+> >> From: Chen Qi <Qi.Chen@windriver.com>
+> >>
+> >> If a package inherits update-rc.d.bbclass, it actually needs it to
+> >> update the symlinks under /etc/rc?.d/ directories. This is a runtime
+> >> dependency. For example, if we try to upgrade the dropbear on target,
+> >> its postinst process will need the update-rc.d utility available,
+> >> otherwise, the upgrade process will fail.
+> >>
+> >> Besides, if we only recommend update-rc.d, the do_rootfs process will
+> >> fail once NO_RRECOMMENDATIONS is enabled. Because in OE, we try to do
+> >> the postinsts at rootfs time.
+> > IIRC it was changed to allow systemd images to be built completely
+> > without update-rc.d (with BAD_RECOMMENDATIONS +=3D "update-rc.d") and i=
+t's
+> > IMHO still valid use-case as update-rc.d is inherited even when systemd
+> > is used.
+> >
+>=20
+> Now that the 'rm_sysvinit_initdir' function has been added to the=20
+> systemd.bbclass, I think we can safely use RDEPENDS here. Because
+> 1) If the /etc/init is removed, update-rc.d command in postinst has no=20
+> real effect.
+> 2) If the /etc/init is not removed, that means symlinks under=20
+> /etc/rc?.d/ should be set up.
+>=20
+> So I think there's no negative effect if update-rc.d is installed in=20
+> case of a systemd system.
+>=20
+> Also, I don't think adding update-rc.d to BAD_RECOMMENDATIONS is a good=
+=20
+> idea.
+> For example, we have a systemd based image running and we are installing=
+=20
+> a new package to that image. That package has an init script but no=20
+> corresponding service file. If we only recommend update-rc.d and it's in=
+=20
+> BAD_RECOMMENDATIONS, the install process will fail. This is not what=20
+> user might expect.
+>=20
+> So I'd like to suggest that we change it back to RDEPENDS.
 
-But I could not find a better location to do this, almost all of targets 
-in oe-core may
-need this, do you have any suggestions?
+commit 2c403979c03898c679c5a1e1092aec784dbeb77c
+Author: Ross Burton <ross.burton@intel.com>
+Date:   Tue Mar 5 11:57:00 2013 +0000
 
-Thanks,
-Hongxu
-> Otherwise, should I add my kernel postinstall script that writes the 
-> kernel into an MTD block on an embedded target to this class as well? 
-> And a NAND version? And SD?
->
-> Mike.
->
->
-> On 09/12/2013 11:25 AM, Hongxu Jia wrote:
->> While installing a rpm to update kernel on a deployed target, it will 
->> update
->> the boot area and the boot menu with the kernel as the priority but 
->> allow
->> you to fall back to the original kernel as well.
->>
->> - In pre-install script, it backs up original kernel to avoid 
->> confliction with
->>    new one.
->> - In post-install script, it updates the new kernel as the boot 
->> priority.
->>
->> [YOCTO #4104]
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->>   meta/classes/kernel.bbclass | 65 
->> +++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 65 insertions(+)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index e039dfc..f0dd679 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -263,7 +263,72 @@ ALLOW_EMPTY_kernel-image = "1"
->>   ALLOW_EMPTY_kernel-modules = "1"
->>   DESCRIPTION_kernel-modules = "Kernel modules meta package"
->>
->> +pkg_preinst_kernel-image () {
->> +    if [ -z "$D" ]; then
->> +        # Parsing confliction
->> +        [ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
->> +        [ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
->> +        if [ -n "$grubcfg" ]; then
->> +            # Dereference symlink to avoid confliction with new 
->> kernel name.
->> +            if grep -q "/${KERNEL_IMAGETYPE} root=" $grubcfg; then
->> +                kimage=`realpath /boot/${KERNEL_IMAGETYPE}`;
->> +                sed -i "s#${KERNEL_IMAGETYPE} root=#${kimage##*/} 
->> root=#" $grubcfg
->> +            fi
->> +
->> +            # Rename old kernel if it conflicts with new kernel name.
->> +            if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} 
->> root=" $grubcfg; then
->> +                timestamp=`date +%s`
->> + kimage="/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-back"
->> +                sed -i "s#${KERNEL_IMAGETYPE}-${KERNEL_VERSION} 
->> root=#${kimage##*/} root=#" $grubcfg
->> +                mv /boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} $kimage
->> +            fi
->> +        fi
->> +    fi
->> +}
->> +
->>   pkg_postinst_kernel-image () {
->> +    get_new_grub_cfg() {
->> +        title="Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
->> +        if [ -f /boot/grub/grub.cfg ]; then
->> +            rootfs=`grep " *linux [^ ].* root=" /boot/grub/grub.cfg 
->> -m 1 | \
->> +                 sed "s# *linux [^ ].* root=#    linux 
->> /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
->> +
->> +            echo "menuentry \"$title\" {"
->> +            echo "    set root=(hd0,1)"
->> +            echo "$rootfs"
->> +            echo "}"
->> +        elif [ -f /boot/grub/menu.list ] ; then
->> +            rootfs=`grep "kernel [^ ].* root=" /boot/grub/menu.list 
->> -m 1 | \
->> +                 sed "s#kernel [^ ].* root=#kernel 
->> /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
->> +
->> +            echo "default 0"
->> +            echo "timeout 30"
->> +            echo "title $title"
->> +            echo "root  (hd0,0)"
->> +            echo "$rootfs"
->> +        fi
->> +    }
->> +
->> +    get_old_grub_cfg() {
->> +        if [ -f /boot/grub/grub.cfg ]; then
->> +            cat /boot/grub/grub.cfg
->> +        elif [ -f /boot/grub/menu.list ] ; then
->> +            cat /boot/grub/menu.list | sed -e '/^default/d' -e 
->> '/^timeout/d'
->> +        fi
->> +    }
->> +
->> +    if [ -z "$D" ]; then
->> +        [ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
->> +        [ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
->> +        if [ -n "$grubcfg" ]; then
->> +            grubcfgtmp="$grubcfg.tmp"
->> +            get_new_grub_cfg  > $grubcfgtmp
->> +            get_old_grub_cfg >> $grubcfgtmp
->> +            mv $grubcfgtmp $grubcfg
->> +            echo "Caution! Update kernel may affect kernel-module!"
->> +        fi
->> +    fi
->> +
->>       update-alternatives --install 
->> /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} 
->> ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
->>       if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
->>           mkdir -p $D/lib/modules/${KERNEL_VERSION}
->>
->
->
->
-> Met vriendelijke groet / kind regards,
->
-> Mike Looijmans
->
-> TOPIC Embedded Systems
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: (+31) – (0)499 - 33.69.79
-> Telefax: (+31) - (0)499 - 33.69.70
-> E-mail: mike.looijmans@topic.nl
-> Website: www.topic.nl
->
-> Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn 
-> uitsluitend bestemd voor de geadresseerde, zoals die blijkt uit het 
-> e-mail bericht en/of de bijlagen. Er kunnen gegevens met betrekking 
-> tot een derde instaan. Indien u als niet-geadresseerde dit bericht en 
-> de bijlagen ontvangt, terwijl u niet bevoegd of gemachtigd bent om dit 
-> bericht namens de geadresseerde te ontvangen, wordt u verzocht de 
-> afzender hierover direct te informeren en het e-mail bericht met de 
-> bijlagen te vernietigen. Ieder gebruik van de inhoud van het e-mail 
-> bericht, waaronder de daarbij behorende bijlagen, door een ander dan 
-> de geadresseerde is onrechtmatig jegens ons dan wel de eventueel in 
-> het e-mail bericht of de bijlagen voorkomende andere personen. TOPIC 
-> Embedded Systems is niet aansprakelijk voor enigerlei schade 
-> voortvloeiend uit het gebruik en/of acceptatie van dit e-mail bericht 
-> of de daarbij behorende bijlagen.
->
-> The contents of this message, as well as any enclosures, are addressed 
-> personally to, and thus solely intended for the addressee. They may 
-> contain information regarding a third party. A recipient who is 
-> neither the addressee, nor empowered to receive this message on behalf 
-> of the addressee, is kindly requested to immediately inform the sender 
-> of receipt, and to destroy the message and the enclosures. Any use of 
-> the contents of this message and/or the enclosures by any other person 
-> than the addressee or person who is empowered to receive this message, 
-> is illegal towards the sender and/or the aforementioned third party. 
-> TOPIC Embedded Systems is not  liable for any damage as a result of 
-> the use and/or acceptance of this message and as well as any enclosures.
+update-rcd: drop depends to recommends, check for update-rcd in scripts
 
+This class is still checking if update-rc.d is installed before using
+it, so nothing should fail terribly if image developer decides that he
+want's image without any sysvinit related stuff.
 
+If you want image which supports both you can add runtime dependency on
+update-rc.d somewhere else - it doesn't need to be pulled by every
+recipe which inherits update-rc.d bbclass.
+
+> Best Regards,
+> Chen Qi
+>=20
+> >> This patch fixes this problem by changing the RRECOMMENDS to RDEPENDS
+> >> to let the packages actually rdepend on update-rc.d.
+> >>
+> >> [YOCTO #5169]
+> >>
+> >> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> >> ---
+> >>   meta/classes/update-rc.d.bbclass |    2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc=
+=2Ed.bbclass
+> >> index 5588569..3dee13a 100644
+> >> --- a/meta/classes/update-rc.d.bbclass
+> >> +++ b/meta/classes/update-rc.d.bbclass
+> >> @@ -6,7 +6,7 @@ UPDATERCD_virtclass-cross =3D ""
+> >>   UPDATERCD_class-native =3D ""
+> >>   UPDATERCD_class-nativesdk =3D ""
+> >>  =20
+> >> -RRECOMMENDS_${UPDATERCPN}_append =3D " ${UPDATERCD}"
+> >> +RDEPENDS_${UPDATERCPN}_append =3D " ${UPDATERCD}"
+> >>  =20
+> >>   INITSCRIPT_PARAMS ?=3D "defaults"
+> >>  =20
+> >> --=20
+> >> 1.7.9.5
+> >>
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--0k2ZE0YWsaeoufzj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlIxsQ8ACgkQN1Ujt2V2gBwC2wCfZnCk0ModrF1vW8IxW8k+Jm/Q
++AkAoIPHdrQdEy2tEqn+7si1ZxYQVW9x
+=O4dy
+-----END PGP SIGNATURE-----
+
+--0k2ZE0YWsaeoufzj--
