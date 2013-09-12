@@ -1,25 +1,17 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 6025260FD5
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 4180760F28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 03:30:08 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 11 Sep 2013 20:30:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,888,1371106800"; d="scan'208";a="293828094"
-Received: from unknown (HELO [10.255.14.99]) ([10.255.14.99])
-	by AZSMGA002.ch.intel.com with ESMTP; 11 Sep 2013 20:30:05 -0700
-Message-ID: <5231353D.6070604@linux.intel.com>
-Date: Wed, 11 Sep 2013 20:30:05 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
-References: <1378923463-31773-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1378923463-31773-1-git-send-email-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] base: improve PACKAGECONFIG handling logic
+	Thu, 12 Sep 2013 06:30:03 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r8C6U05S025117; 
+	Thu, 12 Sep 2013 01:30:02 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Sep 2013 11:31:18 +0500
+Message-Id: <1378967479-8725-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] oprofileui-server: Add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,67 +24,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 03:30:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Sep 2013 06:30:03 -0000
 
-On 09/11/2013 11:17 AM, Ross Burton wrote:
-> The existing code for handling PACKAGECONFIG lists wasn't the cleanest Python
-> around.  Instead of diving into the list directly using indices and lengths, use
-> pop() to iterate through the list.
->
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-I started to get some strange behaviour with building world, 
-specifically, rpm-native stopped building.  You can test this by 
-cleaning beecrypt-native and then try to build rpm-native.
+-Remove dependency on meta-systemd
 
-Sau!
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../oprofileui-server/oprofileui-server.service    |    6 ++++++
+ .../oprofile/oprofileui-server_git.bb              |   13 +++++++++++--
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   meta/classes/base.bbclass |   23 ++++++++++++++++-------
->   1 file changed, 16 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index dfa580c..37dc790 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -420,7 +420,7 @@ python () {
->           def appendVar(varname, appends):
->               if not appends:
->                   return
-> -            if varname.find("DEPENDS") != -1:
-> +            if "DEPENDS_" in varname:
->                   if pn.startswith("nativesdk-"):
->                       appends = expandFilter(appends, "", "nativesdk-")
->                   if pn.endswith("-native"):
-> @@ -442,12 +442,21 @@ python () {
->                   bb.error("Only enable,disable,depend,rdepend can be specified!")
->
->               if flag in pkgconfig:
-> -                if num >= 3 and items[2]:
-> -                    extradeps.append(items[2])
-> -                if num >= 4 and items[3]:
-> -                    extrardeps.append(items[3])
-> -                if num >= 1 and items[0]:
-> -                    extraconf.append(items[0])
-> +                if items:
-> +                    item = items.pop(0)
-> +                    if item:
-> +                        extraconf.append(item)
-> +                # Skip over disable
-> +                if items:
-> +                    items.pop(0)
-> +                if items:
-> +                    item = items.pop(0)
-> +                    if item:
-> +                        extradeps.append(item)
-> +                if items:
-> +                    item = items.pop(0)
-> +                    if item:
-> +                        extrardeps.append(item)
->               elif num >= 2 and items[1]:
->                       extraconf.append(items[1])
->           appendVar('DEPENDS', extradeps)
->
+diff --git a/meta/recipes-kernel/oprofile/oprofileui-server/oprofileui-server.service b/meta/recipes-kernel/oprofile/oprofileui-server/oprofileui-server.service
+new file mode 100644
+index 0000000..1a2cbe6
+--- /dev/null
++++ b/meta/recipes-kernel/oprofile/oprofileui-server/oprofileui-server.service
+@@ -0,0 +1,6 @@
++[Unit]
++Description=OProfileUI Server
++After=network.target
++
++[Service]
++ExecStart=/bin/sh -c ". @SYSCONFDIR@/profile; @BINDIR@/oprofile-server"
+diff --git a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
+index 200bab3..70a1fbf 100644
+--- a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
++++ b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
+@@ -6,7 +6,8 @@ PV = "0.0+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ SRC_URI = "git://git.yoctoproject.org/oprofileui \
+-           file://init"
++           file://init \
++           file://oprofileui-server.service "
+ 
+ EXTRA_OECONF += "--disable-client --enable-server"
+ 
+@@ -15,9 +16,17 @@ RDEPENDS_${PN} = "oprofile"
+ do_install_append() {
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/oprofileui-server
++
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/oprofileui-server.service ${D}${systemd_unitdir}/system/
++	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
++		-e 's,@BINDIR@,${bindir},g' ${D}${systemd_unitdir}/system/oprofileui-server.service
+ }
+ 
++inherit update-rc.d systemd
++
+ INITSCRIPT_NAME = "oprofileui-server"
+ INITSCRIPT_PARAMS = "start 999 5 2 . stop 20 0 1 6 ."
+ 
+-inherit update-rc.d
++SYSTEMD_SERVICE_${PN} = "oprofileui-server.service"
++SYSTEMD_AUTO_ENABLE = "disable"
+-- 
+1.7.9.5
+
 
