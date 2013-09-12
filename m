@@ -1,36 +1,24 @@
-Return-Path: <hans.beckerus@gmail.com>
-Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 17E5C605A0
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FC3B60ED9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 08:29:51 +0000 (UTC)
-Received: by mail-ob0-f180.google.com with SMTP id wm4so210588obc.25
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 01:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=sqeHAnvs8oPWV3V4uqlW/l530gQLa1L38OnkKGD9m48=;
-	b=SxzqdeToyjTxg/zSBb81/pIQvB3+7i5QBentweyuthLJ9BTzQ10s/zti6/EtCx8ADn
-	+Z+0VAsT6O1o4V5UK+bUwPPB/uTjy8OX2upFomqYfsneoTJHJ1yJrNkjYYgbi2R6A8rZ
-	xudSTORnO11JD2HsoT5FEqtQNgoqKp0nD0RglmhBEuVizic+9NlGvhb5PBux+ZPnWEST
-	0kVMLew5e3f8Myp3iSYSjzCFuE3DcR4dgKteiW1i4A4/jGQdpu5vkmhCJVNeYdhW4CiY
-	Q9mdJp1Ea1Kz0ySOGTTH/LAIkJZ5imaSBI5Nw3XN9KSbWJTe5ZNTh7CwOllnhX1iE78j
-	jq/A==
+	Thu, 12 Sep 2013 09:26:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8C9Q02f012131
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Sep 2013 02:26:00 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 12 Sep 2013 02:25:58 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Sep 2013 17:25:55 +0800
+Message-ID: <cover.1378977276.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-X-Received: by 10.60.51.41 with SMTP id h9mr5544599oeo.49.1378974591857; Thu,
-	12 Sep 2013 01:29:51 -0700 (PDT)
-Received: by 10.182.44.8 with HTTP; Thu, 12 Sep 2013 01:29:51 -0700 (PDT)
-In-Reply-To: <1378972945.3484.217.camel@ted>
-References: <1378892564.3484.172.camel@ted>
-	<CAFyqS9rx5ycOOzfxkCxr5N+wCKBTgqQYjzzmc3CA5u-MZNHA1g@mail.gmail.com>
-	<1378972945.3484.217.camel@ted>
-Date: Thu, 12 Sep 2013 10:29:51 +0200
-Message-ID: <CAFyqS9q0hLpdgA+rnQSZ7U51HRGSXCXVDGb+ADUYBbeMcofVkg@mail.gmail.com>
-From: =?ISO-8859-1?Q?Hans_Beck=E9rus?= <hans.beckerus@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image/populate_sdk: Ensure symlinks in target sysroot are relative
+Cc: cxu@windriver.com
+Subject: [PATCH 0/1] kernel.bbclass: Need a method to install/update for bzImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +31,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 08:29:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Sep 2013 09:26:02 -0000
+Content-Type: text/plain
 
-On Thu, Sep 12, 2013 at 10:02 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2013-09-12 at 09:48 +0200, Hans Beck=E9rus wrote:
->> I have a slight problem with this patch. The new
->> sysroot-relativelinks.py does not obtain the proper access protection
->> bits!?
->> Which results in the following error when packaging the SDK
->>
->> /home/poky/build/tmp/work/zynq_zc706-poky-linux-gnueabi/rootfs-default/1=
-.0-r0/temp/run.populate_sdk_image.20803:
->> line 496: /home/poky/scripts/sysroot-relativelinks.py: Permission
->> denied
->>
->> [home/poky]: ls -l scripts/sysroot-relativelinks.py
->> -rw-rw-r-- 1  poky poky 959 Sep 12 09:38 scripts/sysroot-relativelinks.p=
-y
->>
->> The execution bit is missing!?
->>
->> I can of course apply the execution bit manually, but what may cause
->> the patch to not set the bits properly in my scripts folder for new
->> files? Please advise.
->
-> I checked the poky and oe-core trees and they have a+x:
->
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/scripts
-> http://git.openembedded.org/openembedded-core/tree/scripts
->
-> so I'm a bit puzzled. How did you update your tree?
->
-All the other scripts in the scripts folder has a+x, it is only the
-new .py file added by your patch that does not obtain it in my local
-tree.
+Test Case:
+1. Prepare a deployed target, and make sure your boot area has enough disk
+   space.
 
-> Cheers,
->
-> Richard
->
+2. Download the new kernel image rpm to the target
+
+3. Before install/update, check boot area and menu
+root@qemux86:~# ls /boot/
+grub        vmlinuz
+
+root@qemux86:~# cat /boot/grub/grub.cfg
+menuentry "Linux" {
+    set root=(hd0,1)
+    linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
+}
+
+4. Install/update bzImage
+root@qemux86:~# rpm -i kernel-image-3.10.9-yocto-standard-3.10.9+git0+cd502a8814_7144bcc4b8-r0.qemux86.rpm 
+Caution! Update kernel may affect kernel-module!
+update-alternatives: Linking //boot/bzImage to bzImage-3.10.9-yocto-standard
+
+5. After install/update, check boot area and menu
+root@qemux86:~# ls /boot/ -al
+drwxr-xr-x    4 root     root          1024 Sep 12 08:48 .
+drwxr-xr-x   17 root     root          4096 Sep 12 07:08 ..
+lrwxrwxrwx    1 root     root            29 Sep 12 08:48 bzImage -> bzImage-3.10.9-yocto-standard
+-rw-r--r--    1 root     root       6172096 Sep 12 07:39 bzImage-3.10.9-yocto-standard
+drwxr-xr-x    4 root     root          1024 Sep 12 08:48 grub
+-rwxr-x---    1 root     root       6172096 Sep 12 08:45 vmlinuz
+
+root@qemux86:~# cat /boot/grub/grub.cfg 
+menuentry "Update bzImage-3.10.9-yocto-standard-3.10.9+gitAUTOINC+cd502a8814_7144bcc4b8" {
+    set root=(hd0,1)
+    linux /bzImage-3.10.9-yocto-standard root=/dev/hdb2  rw  console=tty0  quiet
+}
+menuentry "Linux" {
+    set root=(hd0,1)
+    linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
+}
+
+6. Reboot target, 'Update bzImage-3.10.9-yocto-standard-3.10.9+gitAUTOINC+cd502a8814_7144bcc4b8'
+   will be in the boot menu.
+
+7. It supports GRUB 0.97 in which the grub.cfg doesn't exist and menu.lst
+   is used.
+
+8. If you install the same rpm more than one time with '--force', there will
+   be multiple kernel images in boot area and menu.
+
+//Hongxu
+
+
+The following changes since commit 1b814498b60d5f354d8cc5bdf568b91baf0745dc:
+
+  bitbake: bitbake/cooker: fix some calls of cookerdata.findConfigFile method (2013-09-02 12:26:20 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/update-bzimage
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/update-bzimage
+
+Hongxu Jia (1):
+  kernel.bbclass: Need a method to install/update for bzImage
+
+ meta/classes/kernel.bbclass | 65 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+
+-- 
+1.8.1.2
+
 
