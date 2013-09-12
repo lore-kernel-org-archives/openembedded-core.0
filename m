@@ -1,27 +1,37 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C8336100E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f42.google.com (mail-vb0-f42.google.com
+	[209.85.212.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AE2F96010E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 07:24:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8C7O2QG010513
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Sep 2013 00:24:02 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 12 Sep 2013 00:24:01 -0700
-Message-ID: <52316C02.7090607@windriver.com>
-Date: Thu, 12 Sep 2013 15:23:46 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
+	Thu, 12 Sep 2013 07:35:25 +0000 (UTC)
+Received: by mail-vb0-f42.google.com with SMTP id e12so6976667vbg.15
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Sep 2013 00:35:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=lQ9IFsyMdn0Xh9AFPNMRRU8BSdmS98e5zLFoS1xWPCI=;
+	b=f6qh7yXaQoiW19381IV6Ox8iySrk7G2aIEDFQFL+O6cWPk667S/bzJJQhyiLOt16Cx
+	w4DTwLrQl80tNfnlTQpoe6Q1GPfx+4PpuNQabLn/kkkC3tX+UXL3pYQ23fiudFTt+Uvw
+	j+Q109+dp/HRk3qAWbjCJwpC0/+OnUZgHKqEGpLQmi3xn1paZCZBXE9mI4AYKvBquKub
+	sjpMxiNDiXyED7nWUOuJTX+AH4xyt3h9Envm8muuaxTUJ4V/qAPeql7WBsnEjNzW9nt7
+	WiGYfOLSmWZOuCp9MBYFW/a9KKCq8tp5QmikpXaRWyrZFoQSgKEdl0+lwl7Xm/8mVkJE
+	yaqQ==
+X-Gm-Message-State: ALoCoQk/xezwbf4zusuKPTUDUx+9+C5Trm8JgK+eRVaUDBsXoOCiZ/Tf9dTDNY1JppZixoRkbbCP
+X-Received: by 10.58.73.202 with SMTP id n10mr5352952vev.7.1378971327035; Thu,
+	12 Sep 2013 00:35:27 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1378736079.3484.117.camel@ted>
-In-Reply-To: <1378736079.3484.117.camel@ted>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] bitbake.conf: Stop providing ${P} and ${PF} by default
+Received: by 10.220.71.201 with HTTP; Thu, 12 Sep 2013 00:35:06 -0700 (PDT)
+In-Reply-To: <1378948627.5240.66.camel@dvhart-mobl4.amr.corp.intel.com>
+References: <1378931427-3479-1-git-send-email-ross.burton@intel.com>
+	<1378948627.5240.66.camel@dvhart-mobl4.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 12 Sep 2013 08:35:06 +0100
+Message-ID: <CAJTo0LYhBv5RAf1QZV4ndQxWRrdZ=4jgRTRrsWnLe_7p7j1Dsg@mail.gmail.com>
+To: Darren Hart <dvhart@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] ia32-base: only depend on GL if opengl DISTRO_FEATURE enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,75 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 07:24:02 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Sep 2013 07:35:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 12 September 2013 02:17, Darren Hart <dvhart@linux.intel.com> wrote:
+> I thought the idea was to try to build with --disable-gl or similar if
+> the DISTRO_FEATURES didn't include opengl, rather than disable the
+> driver entirely.
+>
+> Am I remembering incorrectly, or was there more discussion on that which
+> showed that couldn't be made to work?
 
-I've done a world build on qemux86 with:
+Orthogonal issues.  We're building the xf86-video-intel without DRI/GL
+support in that case, but the machine recommends in ia32-base are
+currently always pulling in the Mesa drivers (which we're not
+building) and the server-side GLX support (which we're not building).
 
-PROVIDES_prepend = "${PN} "
-
-it worked well.
-
-// Robert
-
-On 09/09/2013 10:14 PM, Richard Purdie wrote:
-> For a long time we've provided PN-PV and PN-PV-PR by tweaking PROVIDES. This looks
-> nice at first glance however it turns out to be a bit problematic. Taking make as an
-> example where there are two versions, 3.81 and 3.82, what should "bitbake make-3.81" do?
->
-> Currently it builds make-3.81 and make-3.82 and breaks in interesting ways. Is that
-> a bitbake bug? Well, it certainly shouldn't try and run the build. Why is it building
-> 3.82 though? Its due to finding a dependency on "make-dev" and then trying to figure
-> out what provides it? The answer is "make" and the default version of "make" is 3.82.
->
-> So arguably, finding "make-3.81" should infer PREFERRED_VERSION_make = "3.81". Doing
-> so resolved the above problem since now "make" resolves to "make-3.81".
->
-> So what about if we have Recipe A:
-> DEPENDS = "make-3.81"
-> and Recipe B:
-> DEPENDS = "make-3.82"
->
-> That is clearly an error, easy. So finally what about if we have Recipe A:
-> DEPENDS = "make-3.81"
-> and Recipe B:
-> DEPENDS = "make"
->
-> The first recipe infers the PREFERRED_VERSION_make = "3.81" and then forces that
-> version on everything else. Is that desired? Probably not in most cases, at least not
-> silently.
->
-> As mitigation, we could print a WARNING about this happening. The final part of the problem
-> is that we can ony figure this out within bitbake itself. That means we'd have to teach bitbake
-> about the PN-PV format of PROVIDES which is breaking the separation between bitbake and the
-> metadata. We can't win :(.
->
-> Nobody that I know of is using or relying on this functionality so perhaps we should
-> just remove it instead which is what this patch does. Opinions?
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 2d19d86..578c7d0 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -253,7 +253,7 @@ DEPCHAIN_POST = "-dev -dbg"
->   DEPENDS = ""
->   RDEPENDS = ""
->   PROVIDES = ""
-> -PROVIDES_prepend = "${P} ${PF} ${PN} "
-> +PROVIDES_prepend = "${PN} "
->   RPROVIDES = ""
->
->   MULTI_PROVIDER_WHITELIST = "virtual/libintl virtual/libintl-native virtual/nativesdk-libintl virtual/xserver virtual/update-alternatives-native virtual/update-alternatives"
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
+Ross
 
