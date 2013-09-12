@@ -1,26 +1,46 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 45C2C60ED9
+Return-Path: <mike.looijmans@topic.nl>
+Received: from smtp102.mer-nm.internl.net (smtp102.mer-nm.internl.net
+	[217.149.192.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4A861016
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 09:43:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8C9hF8K012464
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 02:43:15 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 12 Sep 2013 02:43:13 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Sep 2013 17:43:55 +0800
-Message-ID: <4802511117bc648d9cd10d8262645069d9db1317.1378978986.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1378978986.git.Qi.Chen@windriver.com>
-References: <cover.1378978986.git.Qi.Chen@windriver.com>
+	Thu, 12 Sep 2013 09:47:24 +0000 (UTC)
+Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTP id 53C2A3F6F7;
+	Thu, 12 Sep 2013 11:47:25 +0200 (CEST)
+X-Spam-scanned: scanned by InterNLnet Mail Scan System
+X-Spam-Flag: NO
+X-Spam-Score: -4.4
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.4 tagged_above=-999 required=4.5
+	tests=[BAYES_00=-2.9, KHOP_THREADED=-1.5] autolearn=no
+X-Spam-Languages: en
+Received: from smtp102.mer-nm.internl.net ([217.149.192.138])
+	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
+	(amavisd-new, port 10024)
+	with ESMTP; Thu, 12 Sep 2013 11:47:24 +0200 (CEST)
+Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by smtp102.mer-nm.internl.net (Postfix) with ESMTPS;
+	Thu, 12 Sep 2013 11:47:23 +0200 (CEST)
+Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
+	Thu, 12 Sep 2013 11:47:25 +0200
+Message-ID: <52318DAB.9090108@topic.nl>
+Date: Thu, 12 Sep 2013 11:47:23 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
 MIME-Version: 1.0
-Subject: [PATCH 1/1] update-rc.d.bbclass: change RRECOMMENDS to RDEPENDS
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1378977276.git.hongxu.jia@windriver.com>
+	<732e1a82d56c4355c0bae26ed5aec0151b5adb1a.1378977276.git.hongxu.jia@windriver.com>
+In-Reply-To: <732e1a82d56c4355c0bae26ed5aec0151b5adb1a.1378977276.git.hongxu.jia@windriver.com>
+X-Originating-IP: [192.168.80.45]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+Cc: cxu@windriver.com
+Subject: Re: [PATCH 1/1] kernel.bbclass: Need a method to install/update for bzImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +53,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 09:43:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Sep 2013 09:47:24 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-From: Chen Qi <Qi.Chen@windriver.com>
+=EF=BB=BFThis change just assumes that all boot systems are alike. Just app=
+lying=20
+this patch "as is" will probably break a lot of embedded systems that=20
+have totally different ways of upgrading the kernel. Best scenario is=20
+that they'll waste time and space running scripts that will have no effect.
 
-If a package inherits update-rc.d.bbclass, it actually needs it to
-update the symlinks under /etc/rc?.d/ directories. This is a runtime
-dependency. For example, if we try to upgrade the dropbear on target,
-its postinst process will need the update-rc.d utility available,
-otherwise, the upgrade process will fail.
+It should be possible - and more important: default - to NOT include=20
+these scripts, and use them only on targets they apply to.=20
+kernel.bbclass is in my opinion not the correct location.
 
-Besides, if we only recommend update-rc.d, the do_rootfs process will
-fail once NO_RRECOMMENDATIONS is enabled. Because in OE, we try to do
-the postinsts at rootfs time.
+Otherwise, should I add my kernel postinstall script that writes the=20
+kernel into an MTD block on an embedded target to this class as well?=20
+And a NAND version? And SD?
 
-This patch fixes this problem by changing the RRECOMMENDS to RDEPENDS
-to let the packages actually rdepend on update-rc.d.
+Mike.
 
-[YOCTO #5169]
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/update-rc.d.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 09/12/2013 11:25 AM, Hongxu Jia wrote:
+> While installing a rpm to update kernel on a deployed target, it will upd=
+ate
+> the boot area and the boot menu with the kernel as the priority but allow
+> you to fall back to the original kernel as well.
+>
+> - In pre-install script, it backs up original kernel to avoid confliction=
+ with
+>    new one.
+> - In post-install script, it updates the new kernel as the boot priority.
+>
+> [YOCTO #4104]
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/classes/kernel.bbclass | 65 ++++++++++++++++++++++++++++++++++++++=
++++++++
+>   1 file changed, 65 insertions(+)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index e039dfc..f0dd679 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -263,7 +263,72 @@ ALLOW_EMPTY_kernel-image =3D "1"
+>   ALLOW_EMPTY_kernel-modules =3D "1"
+>   DESCRIPTION_kernel-modules =3D "Kernel modules meta package"
+>
+> +pkg_preinst_kernel-image () {
+> +	if [ -z "$D" ]; then
+> +		# Parsing confliction
+> +		[ -f /boot/grub/menu.list ] && grubcfg=3D"/boot/grub/menu.list"
+> +		[ -f /boot/grub/grub.cfg ] && grubcfg=3D"/boot/grub/grub.cfg"
+> +		if [ -n "$grubcfg" ]; then
+> +			# Dereference symlink to avoid confliction with new kernel name.
+> +			if grep -q "/${KERNEL_IMAGETYPE} root=3D" $grubcfg; then
+> +				kimage=3D`realpath /boot/${KERNEL_IMAGETYPE}`;
+> +				sed -i "s#${KERNEL_IMAGETYPE} root=3D#${kimage##*/} root=3D#" $grubc=
+fg
+> +			fi
+> +
+> +			# Rename old kernel if it conflicts with new kernel name.
+> +			if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=3D" $grubcfg;=
+ then
+> +				timestamp=3D`date +%s`
+> +				kimage=3D"/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-bac=
+k"
+> +				sed -i "s#${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=3D#${kimage##*/=
+} root=3D#" $grubcfg
+> +				mv /boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} $kimage
+> +			fi
+> +		fi
+> +	fi
+> +}
+> +
+>   pkg_postinst_kernel-image () {
+> +	get_new_grub_cfg() {
+> +		title=3D"Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
+> +		if [ -f /boot/grub/grub.cfg ]; then
+> +			rootfs=3D`grep " *linux [^ ].* root=3D" /boot/grub/grub.cfg -m 1 | \
+> +				 sed "s# *linux [^ ].* root=3D#    linux /${KERNEL_IMAGETYPE}-${KERN=
+EL_VERSION} root=3D#"`
+> +
+> +			echo "menuentry \"$title\" {"
+> +			echo "    set root=3D(hd0,1)"
+> +			echo "$rootfs"
+> +			echo "}"
+> +		elif [ -f /boot/grub/menu.list ] ; then
+> +			rootfs=3D`grep "kernel [^ ].* root=3D" /boot/grub/menu.list -m 1 | \
+> +				 sed "s#kernel [^ ].* root=3D#kernel /${KERNEL_IMAGETYPE}-${KERNEL_V=
+ERSION} root=3D#"`
+> +
+> +			echo "default 0"
+> +			echo "timeout 30"
+> +			echo "title $title"
+> +			echo "root  (hd0,0)"
+> +			echo "$rootfs"
+> +		fi
+> +	}
+> +
+> +	get_old_grub_cfg() {
+> +		if [ -f /boot/grub/grub.cfg ]; then
+> +			cat /boot/grub/grub.cfg
+> +		elif [ -f /boot/grub/menu.list ] ; then
+> +			cat /boot/grub/menu.list | sed -e '/^default/d' -e '/^timeout/d'
+> +		fi
+> +	}
+> +
+> +	if [ -z "$D" ]; then
+> +		[ -f /boot/grub/menu.list ] && grubcfg=3D"/boot/grub/menu.list"
+> +		[ -f /boot/grub/grub.cfg ] && grubcfg=3D"/boot/grub/grub.cfg"
+> +		if [ -n "$grubcfg" ]; then
+> +			grubcfgtmp=3D"$grubcfg.tmp"
+> +			get_new_grub_cfg  > $grubcfgtmp
+> +			get_old_grub_cfg >> $grubcfgtmp
+> +			mv $grubcfgtmp $grubcfg
+> +			echo "Caution! Update kernel may affect kernel-module!"
+> +		fi
+> +	fi
+> +
+>   	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE}=
+ ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORIT=
+Y} || true
+>   	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+>   		mkdir -p $D/lib/modules/${KERNEL_VERSION}
+>
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 5588569..3dee13a 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -6,7 +6,7 @@ UPDATERCD_virtclass-cross = ""
- UPDATERCD_class-native = ""
- UPDATERCD_class-nativesdk = ""
- 
--RRECOMMENDS_${UPDATERCPN}_append = " ${UPDATERCD}"
-+RDEPENDS_${UPDATERCPN}_append = " ${UPDATERCD}"
- 
- INITSCRIPT_PARAMS ?= "defaults"
- 
--- 
-1.7.9.5
 
+
+Met vriendelijke groet / kind regards,
+
+Mike Looijmans
+
+TOPIC Embedded Systems
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
+Telefax: (+31) - (0)499 - 33.69.70
+E-mail: mike.looijmans@topic.nl
+Website: www.topic.nl
+
+Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
+end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
+en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
+ Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
+jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
+ te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
+n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
+nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
+ een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
+ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
+C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
+d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
+orende bijlagen.
+
+The contents of this message, as well as any enclosures, are addressed pers=
+onally to, and thus solely intended for the addressee. They may contain inf=
+ormation regarding a third party. A recipient who is neither the addressee,=
+ nor empowered to receive this message on behalf of the addressee, is kindl=
+y requested to immediately inform the sender of receipt, and to destroy the=
+ message and the enclosures. Any use of the contents of this message and/or=
+ the enclosures by any other person than the addressee or person who is emp=
+owered to receive this message, is illegal towards the sender and/or the af=
+orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
+age as a result of the use and/or acceptance of this message and as well as=
+ any enclosures.
 
