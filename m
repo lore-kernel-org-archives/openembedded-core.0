@@ -1,27 +1,30 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5412060EDC
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 00:08:29 +0000 (UTC)
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DA30160EDC
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 12 Sep 2013 00:51:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8C08T7P002173
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Sep 2013 17:08:29 -0700 (PDT)
-Received: from [128.224.162.168] (128.224.162.168) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Wed, 11 Sep 2013 17:08:29 -0700
-Message-ID: <523105FE.3070904@windriver.com>
-Date: Thu, 12 Sep 2013 08:08:30 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8C0pIJt006750
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 11 Sep 2013 17:51:18 -0700 (PDT)
+Received: from [172.25.32.37] (172.25.32.37) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 11 Sep 2013 17:51:18 -0700
+Message-ID: <52311003.6000500@windriver.com>
+Date: Wed, 11 Sep 2013 19:51:15 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1378276893.git.rongqing.li@windriver.com>
-In-Reply-To: <cover.1378276893.git.rongqing.li@windriver.com>
-Subject: Re: [PATCH 0/2] make runlevel to return correct value
+To: Khem Raj <raj.khem@gmail.com>
+References: <1378937370-29730-1-git-send-email-jason.wessel@windriver.com>
+	<CAMKF1spuidmKq2eDY+0JXjkmNYBoFggycxZmwpNDLQy1fekqMw@mail.gmail.com>
+In-Reply-To: <CAMKF1spuidmKq2eDY+0JXjkmNYBoFggycxZmwpNDLQy1fekqMw@mail.gmail.com>
+X-Enigmail-Version: 1.5.2
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bootimage.bbclass, zisofs-tools-native: add ability to compress ISO images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +37,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 00:08:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Thu, 12 Sep 2013 00:51:20 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-ping...
+On 09/11/2013 06:15 PM, Khem Raj wrote:
+> 
+> 
+> On Wednesday, September 11, 2013, Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>> wrote:
+>> The mkzftree is needed to allow ISO images to be compressed with
+>> minimal runtime overhead.  Below is an example of the savings on a
+>> core-image-minimal.
+>>
+>> Before ls -l:
+>> 24117248 core-image-minimal-qemux86-64.iso
+>>
+>> Using the mkzftree ls -l:
+>> 16777216 core-image-minimal-qemux86-64.iso
+>>
+>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com <mailto:jason.wessel@windriver.com>>
+>> ---
+>>  meta/classes/bootimg.bbclass                       |   21 ++++++++++++++--
+>>  .../zisofs-tools/zisofs-tools-native_1.0.8.bb <http://zisofs-tools-native_1.0.8.bb>      |   26 ++++++++++++++++++++
+>>  2 files changed, 45 insertions(+), 2 deletions(-)
+>>  create mode 100644 meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb <http://zisofs-tools-native_1.0.8.bb>
+>>
+>> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+>> index 90a241d..b312e0d 100644
+>> --- a/meta/classes/bootimg.bbclass
+>> +++ b/meta/classes/bootimg.bbclass
+>> @@ -19,19 +19,23 @@
+>>
+>>  # External variables (also used by syslinux.bbclass)
+>>  # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
+>> +# ${COMPRESSISO}
+>>  # ${NOISO}  - skip building the ISO image if set to 1
+>>  # ${NOHDD}  - skip building the HDD image if set to 1
+>>  # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
+>>
+>> +COMPRESSISO ?= ""
+>>  do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
+>>                          mtools-native:do_populate_sysroot \
+>> -                        cdrtools-native:do_populate_sysroot"
+>> +                        cdrtools-native:do_populate_sysroot \
+>> +                        ${@oe.utils.ifelse(d.getVar('COMPRESSISO'),'zisofs-tools-native:do_populate_sysroot','')}"
+>>
+>>  PACKAGES = " "
+>>  EXCLUDE_FROM_WORLD = "1"
+>>
+>>  HDDDIR = "${S}/hddimg"
+>>  ISODIR = "${S}/iso"
+>> +COMPACT_ISODIR = "${S}/iso.z"
+>>
+>>  BOOTIMG_VOLUME_ID   ?= "boot"
+>>  BOOTIMG_EXTRA_SPACE ?= "512"
+>> @@ -92,10 +96,23 @@ build_iso() {
+>>                 grubefi_iso_populate
+>>         fi
+>>
+>> +       if [ "${COMPRESSISO}" = "1" ] ; then
+>> +               # create compact directory, compress iso
+>> +               mkdir -p ${COMPACT_ISODIR}
+>> +               mkzftree -z 9 -p 4 -F ${ISODIR}/rootfs.img ${COMPACT_ISODIR}/rootfs.img
+>> +
+>> +               # move compact iso to iso, then remove compact directory
+>> +               mv ${COMPACT_ISODIR}/rootfs.img ${ISODIR}/rootfs.img
+>> +               rm -Rf ${COMPACT_ISODIR}
+>> +               mkisofs_opts="-r"
+>> +       else
+>> +               mkisofs_opts="-R -z -D -l"
+>> +       fi
+>> +
+>>         if [ "${PCBIOS}" = "1" ]; then
+>>                 mkisofs -V ${BOOTIMG_VOLUME_ID} \
+>>                         -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
+>> -                       -b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} -r \
+>> +                       -b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} $mkisofs_opts \
+>>                         ${MKISOFS_OPTIONS} ${ISODIR}
+>>         else
+>>                 bbnote "EFI-only ISO images are untested, please provide feedback."
+>> diff --git a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb <http://zisofs-tools-native_1.0.8.bb> b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb <http://zisofs-tools-native_1.0.8.bb>
+>> new file mode 100644
+>> index 0000000..b590854
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb <http://zisofs-tools-native_1.0.8.bb>
+>> @@ -0,0 +1,26 @@
+>> +# zisofs-tools-native OE build file
+>> +# Copyright (C) 1989, 1991 Free Software Foundation, Inc.
+>> +SUMMARY = "A set of tools for iso file compression"
+>> +DESCRIPTION = "A set of tools for iso file compression"
+>> +HOMEPAGE = "http://http://freecode.com/projects/zisofs-tools"
+>> +SECTION = "console/utils"
+>> +LICENSE = "GPLv2"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>> +PR = "r0"
+>> +
+>> +SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/zisofs-tools/zisofs-tools-${PV}.tar.bz2/2d0ed8c9a1f60b45f949b136f9be1f6c/zisofs-tools-${PV}.tar.bz2 <http://pkgs.fedoraproject.org/repo/pkgs/zisofs-tools/zisofs-tools-$%7BPV%7D.tar.bz2/2d0ed8c9a1f60b45f949b136f9be1f6c/zisofs-tools-$%7BPV%7D.tar.bz2>"
+>> +
+>> +SRC_URI[md5sum] = "2d0ed8c9a1f60b45f949b136f9be1f6c"
+>> +SRC_URI[sha256sum] = "ae4e53e4914934d41660248fb59d3c8761f1f1fd180d5ec993c17ddb3afd04f3"
+>> +
+>> +inherit native
+>> +
+>> +STAGE_TEMP = "${WORKDIR}/image-temp"
+>> +
+>> +do_install() {
+>> +       install -d ${STAGE_TEMP}
+>> +       make install INSTALLROOT=${STAGE_TEMP}
+> 
+> why cant INSTALLROOT be pointing to ${D}
 
--Roy
 
-On 09/04/2013 02:56 PM, rongqing.li@windriver.com wrote:
-> From: "Roy.Li" <rongqing.li@windriver.com>
->
-> The following changes since commit 8c272641ef3e8410f331ca4133d28dea8f36e4f4:
->
->    lib/oeqa/runtime: smart: serve repo on host ip only and increase timeout (2013-09-03 19:57:31 +0100)
->
-> are available in the git repository at:
->
->    git://git.pokylinux.org/poky-contrib roy/systemd-1
->    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/systemd-1
->
-> Roy.Li (2):
->    systemd-compat-units: do not create runlevel command
->    systemd: link runlevel from systemctl
->
->   meta/recipes-core/systemd/systemd-compat-units.bb |    5 -----
->   meta/recipes-core/systemd/systemd_206.bb          |    6 +++++-
->   2 files changed, 5 insertions(+), 6 deletions(-)
->
+Not being the originator of this patch, I took a look and it is all a game to not copy the man page and ensure that ${bindir} is used.
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+I'll send a v2 shortly and catch this kind of problem in the future. 
+
+Thanks,
+Jason.
+
+> 
+> 
+>> +
+>> +       install -d ${D}${bindir}/
+>> +       install ${STAGE_TEMP}/usr/bin/* ${D}${bindir}/
+>> +}
+>> --
+>> 1.7.9.5
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org <mailto:Openembedded-core@lists.openembedded.org>
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+
 
