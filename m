@@ -1,26 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 328566BFDC
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C90F76BE11
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 17:40:39 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Sep 2013 10:40:41 -0700
+	Thu, 12 Sep 2013 17:48:27 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 12 Sep 2013 10:45:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,891,1371106800"; d="scan'208";a="394862512"
-Received: from unknown (HELO [10.255.14.99]) ([10.255.14.99])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Sep 2013 10:40:40 -0700
-Message-ID: <5231FC98.1000401@linux.intel.com>
-Date: Thu, 12 Sep 2013 10:40:40 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="4.90,891,1371106800"; d="scan'208";a="402459056"
+Received: from unknown (HELO [10.255.14.117]) ([10.255.14.117])
+	by orsmga002.jf.intel.com with ESMTP; 12 Sep 2013 10:48:29 -0700
+Message-ID: <1379008109.1285.13.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
 To: Jason Wessel <jason.wessel@windriver.com>
+Date: Thu, 12 Sep 2013 10:48:29 -0700
+In-Reply-To: <1379006387-20186-4-git-send-email-jason.wessel@windriver.com>
 References: <1379006387-20186-1-git-send-email-jason.wessel@windriver.com>
-	<1379006387-20186-3-git-send-email-jason.wessel@windriver.com>
-In-Reply-To: <1379006387-20186-3-git-send-email-jason.wessel@windriver.com>
-Cc: dvhart@linux.intel.com, Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] cdrtools-native: Update from 3.00 to 3.01a17
+	<1379006387-20186-4-git-send-email-jason.wessel@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/5] grub-efi-native: Add support for EFI ISO images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,112 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 17:40:39 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 12 Sep 2013 17:48:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 09/12/2013 10:19 AM, Jason Wessel wrote:
-> The update is needed to support generation of EFI boot images that
-> work with optical media.  Specifically the "-eltorito-platform efi"
-> capability for mkisofs is needed.
->
+On Thu, 2013-09-12 at 12:19 -0500, Jason Wessel wrote:
+> The iso9660 file system support needs to be added to grub in order to
+> be able to correctly find the grub.cfg.  The grub commands to locate
+> the grub.cfg also needs to be encoded into grub's default
+> configuration.
+> 
+> This change allows the resulting grub binary to work both in the hard
+> drive / USB boot case or the optical media boot case.
+> 
+
+
+
 > [YOCTO #4100]
->
+> 
 > Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 > ---
->   .../cdrtools/cdrtools-native_3.00.bb               |   30 -------------------
->   .../cdrtools/cdrtools-native_3.01a17.bb            |   31 ++++++++++++++++++++
->   2 files changed, 31 insertions(+), 30 deletions(-)
->   delete mode 100644 meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
->   create mode 100644 meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
->
-> diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
-> deleted file mode 100644
-> index 7e4c381..0000000
-> --- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
-> +++ /dev/null
-> @@ -1,30 +0,0 @@
-> -# cdrtools-native OE build file
-> -# Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
-> -# Released under the MIT license (see packages/COPYING)
-> -SUMMARY = "A set of tools for CD recording, including cdrecord"
-> -DESCRIPTION = "A set of tools for CD recording, including cdrecord"
-> -HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
-> -SECTION = "console/utils"
-> -LICENSE = "GPLv2"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=8d16123ffd39e649a5e4a6bc1de60e6d"
-> -PR = "r0"
-> -
-> -SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
-> -           file://no_usr_src.patch"
-> -
-> -SRC_URI[md5sum] = "f9fbab08fbd458b0d2312976d8c5f558"
-> -SRC_URI[sha256sum] = "7f9cb64820055573b880f77b2f16662a512518336ba95ab49228a1617973423d"
-> -
-> -inherit native
-> -
-> -STAGE_TEMP = "${WORKDIR}/image-temp"
-> -
-> -FILESPATH = "${FILE_DIRNAME}/cdrtools-native/"
-> -
-> -do_install() {
-> -	install -d ${STAGE_TEMP}
-> -	make install INS_BASE=${STAGE_TEMP}
-> -
-> -	install -d ${D}${bindir}/
-> -	install ${STAGE_TEMP}/bin/* ${D}${bindir}/
-> -}
-> diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
-> new file mode 100644
-> index 0000000..4a7a160
-> --- /dev/null
-> +++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
-> @@ -0,0 +1,31 @@
-> +# cdrtools-native OE build file
-> +# Copyright (C) 2004-2006, Advanced Micro Devices, Inc.  All Rights Reserved
-> +# Released under the MIT license (see packages/COPYING)
-> +SUMMARY = "A set of tools for CD recording, including cdrecord"
-> +DESCRIPTION = "A set of tools for CD recording, including cdrecord"
-> +HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
-> +SECTION = "console/utils"
-> +LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
-> +PR = "r0"
-You can drop the PR completely.
+>  meta/recipes-bsp/grub/grub-efi-native_2.00.bb |    8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> index 2d3d68a..3cff838 100644
+> --- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> +++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+> @@ -66,9 +66,13 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
+>                  --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+>  
+>  do_mkimage() {
+> -	./grub-mkimage -p /EFI/BOOT -d ./grub-core/ \
+> +	# Search for the grub.cfg on the local boot media with built in config file
+> +	echo 'search.file /EFI/BOOT/grub.cfg root' > cfg\
+> +	echo 'set prefix=($root)/EFI/BOOT' >> cfg
 
-> +
-> +SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/alpha/cdrtools-${PV}.tar.bz2"
-> +
-> +SRC_URI[md5sum] = "4cef9db0cf15a770c52d65b00bbee2db"
-> +SRC_URI[sha256sum] = "3d613965b213ad83e4be0ba2535e784901839ea4d11a20a2beb6765f0eb76dfa"
-> +
-> +S = "${WORKDIR}/cdrtools-3.01"
-> +
-> +inherit native
-> +
-> +STAGE_TEMP = "${WORKDIR}/image-temp"
-> +
-> +FILESPATH = "${FILE_DIRNAME}/cdrtools-native/"
-> +
-> +do_install() {
-> +	install -d ${STAGE_TEMP}
-> +	make install INS_BASE=${STAGE_TEMP}
-> +
-> +	install -d ${D}${bindir}/
-> +	install ${STAGE_TEMP}/bin/* ${D}${bindir}/
-> +}
->
-I was working on this update also and was able to simplify this 
-do_install to the following:
+Hrm, I think adding a cfg as a file via the SRC_URI would be preferable
+to dynamically creating it every time. This would make it easier to
+modify the config in the future.
 
-EXTRA_OEMAKE += "GMAKE_NOWARN=true INS_BASE=${prefix_native} DESTDIR=${D}
+Otherwise, looks good. 
 
-do_install() {
-	oe_runmake install
-}
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
-This allowed me to get rid of the STAGE_TEMP
-
-Sau!
 
 
