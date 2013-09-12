@@ -1,36 +1,30 @@
-Return-Path: <joaohf@gmail.com>
-Received: from mail-pb0-f49.google.com (mail-pb0-f49.google.com
-	[209.85.160.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 469F66BE11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 19:02:56 +0000 (UTC)
-Received: by mail-pb0-f49.google.com with SMTP id xb4so202769pbc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 12:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=/P02OvChpxLnMgkTTizh+jdEUYxNrnL1XqNggzFmtH0=;
-	b=MhGzFCp5vsaRc15knvmkiuiCMVVOunOcDjBsOnJef0NWVbZb1f3AHNcTJ+DOyFPK6/
-	yjOwdrvHPOIpuIARBq6eGELo4827uwN5IvjKcZBWChnnIN6OB7atdUHGbU/hsU9HMPJb
-	WFkA2UjWkOyiaZfnOBJW4tm4ewYIAW+xMIFHugns8nh1mnV/XZl7nkKQxqSEC5TCO3bZ
-	/ox3Y2GvUP/vUU7RJ9h12G/iaDyLOeZfgh1jUrF9Go1IuAjONPVrbZQxkZAATxplPuje
-	UESF+2kSB2GbZvsDlz1Eb+PTTvkwdVr8UmfctbC+2mZMF08XkXqjddir4mDcqjT7Hmbx
-	l1xw==
-X-Received: by 10.68.1.4 with SMTP id 4mr9271990pbi.60.1379012578034;
-	Thu, 12 Sep 2013 12:02:58 -0700 (PDT)
-Received: from jfreitas.padtec.com.br (apolo.padtec.com.br. [200.228.158.130])
-	by mx.google.com with ESMTPSA id
-	xv2sm448305pbb.39.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 12 Sep 2013 12:02:56 -0700 (PDT)
-From: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Sep 2013 16:02:08 -0300
-Message-Id: <1379012528-7683-1-git-send-email-joaohf@gmail.com>
-X-Mailer: git-send-email 1.8.1.2
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 175A561864
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 12 Sep 2013 19:52:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8CJqBOJ025082
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Sep 2013 12:52:12 -0700 (PDT)
+Received: from [147.11.119.100] (147.11.119.100) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 12 Sep 2013 12:52:11 -0700
+Message-ID: <52321B6A.4080100@windriver.com>
+Date: Thu, 12 Sep 2013 14:52:10 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-Subject: [PATCH] boot-directdisk: Allow for EFI-only boot direct disk images
+To: Darren Hart <dvhart@linux.intel.com>
+References: <1379006387-20186-1-git-send-email-jason.wessel@windriver.com>
+	<1379006387-20186-6-git-send-email-jason.wessel@windriver.com>
+	<1379009772.1285.30.camel@dvhart-mobl4.amr.corp.intel.com>
+In-Reply-To: <1379009772.1285.30.camel@dvhart-mobl4.amr.corp.intel.com>
+X-Enigmail-Version: 1.5.2
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] grub-efi.bbclass: Add serial and graphics menu options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,150 +37,162 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 19:02:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Sep 2013 19:52:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+On 09/12/2013 01:16 PM, Darren Hart wrote:
+> On Thu, 2013-09-12 at 12:19 -0500, Jason Wessel wrote:
+>> The syslinux.bbclass already has support for automatically generated
+>> serial and graphics menu choices.  This patch adds the same concept to
+>> the grub-efi menu.  That makes it possible to generate a single image
+>> which can boot on a PCBIOS or EFI firmware with consistent looking
+>> boot options.
+>>
+>> [YOCTO #4100]
+>>
+>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> ---
+>>  meta/classes/grub-efi.bbclass     |   41 ++++++++++++++++++++++++-------------
+>>  meta/conf/machine/qemux86-64.conf |    2 +-
+>>  meta/conf/machine/qemux86.conf    |    2 ++
+>>  3 files changed, 30 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+>> index c6f5d4e..c07e4a1 100644
+>> --- a/meta/classes/grub-efi.bbclass
+>> +++ b/meta/classes/grub-efi.bbclass
+>> @@ -9,6 +9,7 @@
+>>  # External variables
+>>  # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
+>>  # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
+>> +# ${GRUB_GFXSERIAL} - set this to 1 to have graphics and serial in the boot menu
+>>  # ${LABELS} - a list of targets for the automatic config
+>>  # ${APPEND} - an override list of append strings for each label
+>>  # ${GRUB_OPTS} - additional options to add to the config, ';' delimited # (optional)
+>> @@ -16,6 +17,7 @@
+>>  
+>>  do_bootimg[depends] += "grub-efi-${TRANSLATED_TARGET_ARCH}-native:do_deploy"
+>>  
+>> +GRUB_SERIAL ?= "console=ttyS0,115200"
+>>  GRUBCFG = "${S}/grub.cfg"
+>>  GRUB_TIMEOUT ?= "10"
+>>  #FIXME: build this from the machine config
+>> @@ -55,6 +57,8 @@ python build_grub_cfg() {
+>>          bb.error("WORKDIR not defined, unable to package")
+>>          return
+>>  
+>> +    gfxserial = d.getVar('GRUB_GFXSERIAL', True) or ""
+>> +
+>>      labels = d.getVar('LABELS', True)
+>>      if not labels:
+>>          bb.debug(1, "LABELS not defined, nothing to do")
+>> @@ -88,6 +92,12 @@ python build_grub_cfg() {
+>>      else:
+>>          cfgfile.write('timeout=50\n')
+>>  
+>> +    if gfxserial == "1":
+>> +        btypes = [ [ " graphics console", "console=tty0" ],
+>> +            [ " serial console", d.getVar('GRUB_SERIAL', True) or "" ] ]
+>> +    else:
+>> +        btypes = [ [ "", "" ] ]
+>> +
+>>      for label in labels.split():
+>>          localdata = d.createCopy()
+>>  
+>> @@ -95,24 +105,27 @@ python build_grub_cfg() {
+>>          if not overrides:
+>>              raise bb.build.FuncFailed('OVERRIDES not defined')
+>>  
+>> -        localdata.setVar('OVERRIDES', label + ':' + overrides)
+>> -        bb.data.update_data(localdata)
+>> +        for btype in btypes:
+>> +            localdata.setVar('OVERRIDES', label + ':' + overrides)
+>> +            bb.data.update_data(localdata)
+>>  
+>> -        cfgfile.write('\nmenuentry \'%s\'{\n' % (label))
+>> -        if label == "install":
+>> -            label = "install-efi"
+>> -        cfgfile.write('linux /vmlinuz LABEL=%s' % (label))
+>> +            cfgfile.write('\nmenuentry \'%s%s\'{\n' % (label, btype[0]))
+>> +            lb = label
+>> +            if label == "install":
+>> +                lb = "install-efi"
+>> +            cfgfile.write('linux /vmlinuz LABEL=%s' % (lb))
+>>  
+>> -        append = localdata.getVar('APPEND', True)
+>> -        initrd = localdata.getVar('INITRD', True)
+>> +            append = localdata.getVar('APPEND', True)
+>> +            initrd = localdata.getVar('INITRD', True)
+>>  
+>> -        if append:
+>> -            cfgfile.write('%s' % (append))
+>> -        cfgfile.write('\n')
+>> +            if append:
+>> +                cfgfile.write('%s' % (append))
+>> +            cfgfile.write(' %s' % btype[1])
+>> +            cfgfile.write('\n')
+>>  
+>> -        if initrd:
+>> -            cfgfile.write('initrd /initrd')
+>> -        cfgfile.write('\n}\n')
+>> +            if initrd:
+>> +                cfgfile.write('initrd /initrd')
+>> +            cfgfile.write('\n}\n')
+>>  
+>>      cfgfile.close()
+>>  }
+> 
+> I'm not very familiar with the cfgfile for menus and such, so I don't
+> have much to add. The one thing that catches me by surprise is the need
+> for the serial device. On EFI systems, grub here uses the EFI console
+> service, so if that uses the serial port you get it for free, no need
+> for GRUB to try and use it directly. In fact.... does the above not
+> cause some kind of conflict between the EFI console service and grub
+> serial?
+> 
 
-    Condition building PCBIOS legacy images on MACHINE_FEATURES containing "pcbios"
-    or not containing "efi". This ensures existing BSPs will continue to get the
-    old PCBIOS legacy-only images. New BSPs can add "efi", "pcbios", or both. The
-    images created likewise support one or the other or both.
+In part that is why it is optional.   With respect to the serial bits, these are only the kernel boot arguments we are talking about.  It doesn't seem that there is a "primary" display interface for the HCDP in the EFI firmware I have.   Additionally, the kernel throws the EFI serial console under the bus at ACPI probe time, while this certainly could also be a bug in the firmware I have on my test board, the only way to keep the serial port alive for a login and the kernel boot information was to specify console=ttyS0...
 
-Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
----
- meta/classes/boot-directdisk.bbclass | 65 ++++++++++++++++++++++++++++++------
- meta/classes/syslinux.bbclass        |  5 +++
- 2 files changed, 60 insertions(+), 10 deletions(-)
+I have yet another system I need to try this on which has a much newer UEFI and a serial port, but I thought it would be best to get something out there that covers the "buggy firmwares" as well which can be built optionally. 
 
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index 8a55aae..4b9d7bd 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -31,6 +31,29 @@ EXCLUDE_FROM_WORLD = "1"
- BOOTDD_VOLUME_ID   ?= "boot"
- BOOTDD_EXTRA_SPACE ?= "16384"
- 
-+EFI = "${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
-+EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "", d)}"
-+
-+# Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
-+# contain "efi". This way legacy is supported by default if neither is
-+# specified, maintaining the original behavior.
-+def pcbios(d):
-+    pcbios = base_contains("MACHINE_FEATURES", "pcbios", "1", "0", d)
-+    if pcbios == "0":
-+        pcbios = base_contains("MACHINE_FEATURES", "efi", "0", "1", d)
-+    return pcbios
-+
-+def pcbios_class(d):
-+    if d.getVar("PCBIOS", True) == "1":
-+        return "syslinux"
-+    return ""
-+
-+PCBIOS = "${@pcbios(d)}"
-+PCBIOS_CLASS = "${@pcbios_class(d)}"
-+
-+inherit ${PCBIOS_CLASS}
-+inherit ${EFI_CLASS}
-+
- # Get the build_syslinux_cfg() function from the syslinux class
- 
- AUTO_SYSLINUXCFG = "1"
-@@ -38,17 +61,32 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
- SYSLINUX_ROOT ?= "root=/dev/sda2"
- SYSLINUX_TIMEOUT ?= "10"
- 
--inherit syslinux
--		
-+populate() {
-+	DEST=$1
-+	install -d ${DEST}
-+
-+	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
-+	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
-+
-+	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
-+		install -m 0644 ${INITRD} ${DEST}/initrd
-+	fi
-+
-+}
-+
- build_boot_dd() {
- 	HDDDIR="${S}/hdd/boot"
- 	HDDIMG="${S}/hdd.image"
- 	IMAGE=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect
- 
--	install -d $HDDDIR
--	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage $HDDDIR/vmlinuz
--	install -m 0644 ${S}/syslinux.cfg $HDDDIR/syslinux.cfg
--	install -m 444 ${STAGING_DATADIR}/syslinux/ldlinux.sys $HDDDIR/ldlinux.sys
-+	populate ${HDDDIR}
-+
-+	if [ "${PCBIOS}" = "1" ]; then
-+		syslinux_hddimg_populate
-+	fi
-+	if [ "${EFI}" = "1" ]; then
-+		grubefi_hddimg_populate
-+	fi
- 
- 	BLOCKS=`du -bks $HDDDIR | cut -f 1`
- 	BLOCKS=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
-@@ -62,7 +100,9 @@ build_boot_dd() {
- 	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
- 	mcopy -i $HDDIMG -s $HDDDIR/* ::/
- 
--	syslinux $HDDIMG
-+	if [ "${PCBIOS}" = "1" ]; then
-+		syslinux_hdddirect_install $HDDIMG
-+	fi	
- 	chmod 644 $HDDIMG
- 
- 	ROOTFSBLOCKS=`du -Lbks ${ROOTFS} | cut -f 1`
-@@ -85,9 +125,11 @@ build_boot_dd() {
- 		dd of=$IMAGE bs=1 seek=440 conv=notrunc
- 
- 	OFFSET=`expr $END2 / 512`
--	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
-+	if [ "${PCBIOS}" = "1" ]; then
-+		dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
-+	fi
- 	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
--	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
-+	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512	
- 
- 	cd ${DEPLOY_DIR_IMAGE}
- 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
-@@ -96,7 +138,10 @@ build_boot_dd() {
- 
- python do_bootdirectdisk() {
-     validate_disk_signature(d)
--    bb.build.exec_func('build_syslinux_cfg', d)
-+    if d.getVar("PCBIOS", True) == "1":
-+        bb.build.exec_func('build_syslinux_cfg', d)
-+    if d.getVar("EFI", True) == "1":
-+        bb.build.exec_func('build_grub_cfg', d)
-     bb.build.exec_func('build_boot_dd', d)
- }
- 
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index 501bc6d..dae6609 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -64,6 +64,11 @@ syslinux_hddimg_install() {
- 	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
- }
- 
-+syslinux_hdddirect_install() {
-+	DEST=$1
-+	syslinux $DEST
-+}
-+
- python build_syslinux_cfg () {
-     import copy
-     import sys
--- 
-1.8.1.2
+
+> Both of the following should be in a separate patch. In fact, they
+> should probably have a qemux86-common.inc which took care of most of
+> this (as was done recently for genericx86-common.inc).
+
+
+So I am not sure that we want to patch up the qemux86* conf files at all.  Do we want to enable EFI + PCBIOS all the time now that we have a way to generate images (noting these images will work with runqemu)?  I figured I would just drop those modifications entirely.  I would expect something like a "all encompassing" white box BSP to select both, but for the qemux86*, I don't think it makes sense.
+
+Cheers,
+Jason.
+
+
+> 
+>> diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-64.conf
+>> index c572225..6f68410 100644
+>> --- a/meta/conf/machine/qemux86-64.conf
+>> +++ b/meta/conf/machine/qemux86-64.conf
+>> @@ -21,6 +21,6 @@ XSERVER = "xserver-xorg \
+>>             xf86-input-evdev \
+>>             xf86-video-vmware"
+>>  
+>> -MACHINE_FEATURES += "x86"
+>> +MACHINE_FEATURES += "x86 efi"
+>>  
+>>  MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+>> diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+>> index 94ee573..57a9a50 100644
+>> --- a/meta/conf/machine/qemux86.conf
+>> +++ b/meta/conf/machine/qemux86.conf
+>> @@ -22,5 +22,7 @@ XSERVER = "xserver-xorg \
+>>             xf86-video-vmware"
+>>  
+>>  MACHINE_FEATURES += "x86"
+>> +MACHINE_FEATURES += "efi"
+>> +#MACHINE_FEATURES += "pcbios"
+>>  
+>>  MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+> 
 
 
