@@ -1,26 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id ED82D6156D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C1826156D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 09:29:56 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga102.ch.intel.com with ESMTP; 12 Sep 2013 02:29:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,890,1371106800"; d="scan'208";a="394636736"
-Received: from ks-mobl3.gar.corp.intel.com (HELO helios.localnet)
-	([10.252.123.176])
-	by fmsmga001.fm.intel.com with ESMTP; 12 Sep 2013 02:29:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Thu, 12 Sep 2013 10:29:56 +0100
-Message-ID: <2771628.zHcdCVtJ3y@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-29-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <1378935481-592-1-git-send-email-sgw@linux.intel.com>
-References: <1378935481-592-1-git-send-email-sgw@linux.intel.com>
+	Thu, 12 Sep 2013 09:33:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8C9Xdpn025982
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Sep 2013 02:33:39 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 12 Sep 2013 02:33:38 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Sep 2013 05:33:35 -0400
+Message-ID: <cover.1378978213.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bluez4/5: Add EXCLUDE_FROM_WORLD = 1
+Subject: [PATCH 0/1] icu-native: do_install: Segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 09:29:57 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 12 Sep 2013 09:33:37 -0000
+Content-Type: text/plain
 
-On Wednesday 11 September 2013 14:38:01 Saul Wold wrote:
-> We can't build both recipes in the world build as there is a collision of
-> package name and PR values. Specificly the libasound-module-bluez which is
-> the same in both goes backwards from r5 (bluez4) -> r0 (bluez5) and the
-> subpackage_metadata check fails:
-> 
-> ERROR: Recipe lib32-bluez5 is trying to change PR from 'r0' to 'r5'. This
-> will cause do_package_write_* failures since the incorrect data will be
-> used and they will be unable to find the right workdir.
-> 
-> [YOCTO #5165]
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-connectivity/bluez/bluez4.inc  | 1 +
->  meta/recipes-connectivity/bluez5/bluez5.inc | 2 ++
->  2 files changed, 3 insertions(+)
-> 
-> diff --git a/meta/recipes-connectivity/bluez/bluez4.inc
-> b/meta/recipes-connectivity/bluez/bluez4.inc index b540622..e4f6834 100644
-> --- a/meta/recipes-connectivity/bluez/bluez4.inc
-> +++ b/meta/recipes-connectivity/bluez/bluez4.inc
-> @@ -43,3 +43,4 @@ EXTRA_OECONF = "\
->    --with-udevrulesdir=`pkg-config --variable=udevdir udev`/rules.d \
->  "
-> 
-> +EXCLUDE_FROM_WORLD = "1"
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc
-> b/meta/recipes-connectivity/bluez5/bluez5.inc index e5cb9e8..2e25d86 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -82,3 +82,5 @@ FILES_${PN}-dbg += "\
->  RDEPENDS_${PN}-testtools += "python python-dbus python-pygobject"
-> 
->  SYSTEMD_SERVICE_${PN} = "bluetooth.service"
-> +
-> +EXCLUDE_FROM_WORLD = "1"
+The following changes since commit bd76847d867f9f76f76f033439cfb834cf59380f:
 
-Surely we don't need to exclude both from world, just one of them?
+  libnewt-python: Don't write a whiptail package (2013-09-12 08:23:42 +0100)
 
-Cheers,
-Paul
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib robert/icu
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/icu
+
+Robert Yang (1):
+  icu-native: do_install: Segmentation fault
+
+ .../icu/icu-51.2/icu-pkgdata-large-cmd.patch       |   29 ++++++++++++++++++++
+ meta/recipes-support/icu/icu_51.2.bb               |    4 ++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/icu/icu-51.2/icu-pkgdata-large-cmd.patch
 
 -- 
+1.7.10.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
