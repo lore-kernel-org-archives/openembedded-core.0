@@ -1,40 +1,22 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f178.google.com (mail-ea0-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id C758360ED9
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id C9F6F60ED9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 10:23:35 +0000 (UTC)
-Received: by mail-ea0-f178.google.com with SMTP id a15so5243825eae.37
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 03:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=lEBBmD47YuDdagumzfEc/IBdllAM9D/b0FjCmZ0P1k8=;
-	b=aFEDI8CRgAoJsPVDnGg14/CZqgcHNRzklP0rUyfNhupxOS2mN7ecsNh1WO2S+8ZohU
-	dDkZ5aw3QVl3bxnX4l9p+3Zp5w9cCtz48OnF+uh70uWlM0sSs+SLqHDB3sxHnlvF0xEi
-	bwNlRZ1PspRvr30SPjzTpg0Luc7+m2iIlQ7Co5t/eLHo8A+UAgLR7o0tYlAapaW17U64
-	+p/N7Y5m3Y2FcdMJR+Vr4jCNVjkZxE5sU0AeL1MreQlsk1jJMv2eMh5LXDK9XLmdgi6Z
-	r5osPeeA/1Ai1UJ+YZ0YmDVTY15A1MB/L9SsRG3pcKdpBLLpqFs6ib80VjxjQs99/m1u
-	2aeQ==
-X-Received: by 10.15.75.73 with SMTP id k49mr9764411eey.36.1378981416727;
-	Thu, 12 Sep 2013 03:23:36 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	z12sm4586562eev.6.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 12 Sep 2013 03:23:35 -0700 (PDT)
-Date: Thu, 12 Sep 2013 12:25:03 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Qi.Chen@windriver.com
-Message-ID: <20130912102503.GY11500@jama>
-References: <cover.1378978986.git.Qi.Chen@windriver.com>
-	<4802511117bc648d9cd10d8262645069d9db1317.1378978986.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <4802511117bc648d9cd10d8262645069d9db1317.1378978986.git.Qi.Chen@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] update-rc.d.bbclass: change RRECOMMENDS to RDEPENDS
+	Thu, 12 Sep 2013 11:05:09 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 12 Sep 2013 04:05:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,890,1371106800"; d="scan'208";a="359459988"
+Received: from ks-mobl3.gar.corp.intel.com (HELO helios.ger.corp.intel.com)
+	([10.252.123.176])
+	by azsmga001.ch.intel.com with ESMTP; 12 Sep 2013 04:05:09 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Sep 2013 12:04:52 +0100
+Message-Id: <1378983892-7327-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Cc: Koen Kooi <koen@dominion.thruhere.net>
+Subject: [PATCH] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,81 +29,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 10:23:36 -0000
-X-Groupsio-MsgNum: 44876
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="SBKwXYz1xY/kcGv0"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Sep 2013 11:05:11 -0000
 
---SBKwXYz1xY/kcGv0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This allows a clean seperation between image outputs from different
+machines, and makes it possible to have convenience symlinks to make
+the output ready to deploy.
 
-On Thu, Sep 12, 2013 at 05:43:55PM +0800, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->=20
-> If a package inherits update-rc.d.bbclass, it actually needs it to
-> update the symlinks under /etc/rc?.d/ directories. This is a runtime
-> dependency. For example, if we try to upgrade the dropbear on target,
-> its postinst process will need the update-rc.d utility available,
-> otherwise, the upgrade process will fail.
->=20
-> Besides, if we only recommend update-rc.d, the do_rootfs process will
-> fail once NO_RRECOMMENDATIONS is enabled. Because in OE, we try to do
-> the postinsts at rootfs time.
+This did require some surgery in runqemu; if explicit paths to the image
+and kernel are not supplied then DEPLOY_DIR_IMAGE needs to be determined
+from bitbake or set in the environment. However the script does try to
+avoid requiring it unless it really is needed. Corresponding changes
+were made in the automated testing code as well.
 
-IIRC it was changed to allow systemd images to be built completely
-without update-rc.d (with BAD_RECOMMENDATIONS +=3D "update-rc.d") and it's
-IMHO still valid use-case as update-rc.d is inherited even when systemd
-is used.
+Based on an RFC patch by Koen Kooi <koen@dominion.thruhere.net>
 
->=20
-> This patch fixes this problem by changing the RRECOMMENDS to RDEPENDS
-> to let the packages actually rdepend on update-rc.d.
->=20
-> [YOCTO #5169]
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/update-rc.d.bbclass |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.=
-bbclass
-> index 5588569..3dee13a 100644
-> --- a/meta/classes/update-rc.d.bbclass
-> +++ b/meta/classes/update-rc.d.bbclass
-> @@ -6,7 +6,7 @@ UPDATERCD_virtclass-cross =3D ""
->  UPDATERCD_class-native =3D ""
->  UPDATERCD_class-nativesdk =3D ""
-> =20
-> -RRECOMMENDS_${UPDATERCPN}_append =3D " ${UPDATERCD}"
-> +RDEPENDS_${UPDATERCPN}_append =3D " ${UPDATERCD}"
-> =20
->  INITSCRIPT_PARAMS ?=3D "defaults"
-> =20
-> --=20
-> 1.7.9.5
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/testimage.bbclass    |  1 +
+ meta/conf/bitbake.conf            |  2 +-
+ meta/lib/oeqa/utils/qemurunner.py |  8 +++++-
+ scripts/runqemu                   | 56 +++++++++++++++++++++++++++------------
+ 4 files changed, 48 insertions(+), 19 deletions(-)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 4eef0be..c83906d 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -122,6 +122,7 @@ def testimage_main(d):
+ 
+     qemu = QemuRunner(machine, rootfs)
+     qemu.tmpdir = d.getVar("TMPDIR", True)
++    qemu.deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE", True)
+     qemu.display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
+     qemu.logfile = os.path.join(testdir, "qemu_boot_log.%s" % d.getVar('DATETIME', True))
+     try:
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 2d19d86..0e1a9e2 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -379,7 +379,7 @@ DEPLOY_DIR_TAR = "${DEPLOY_DIR}/tar"
+ DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
+ DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
+ DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
+-DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images"
++DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
+ DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
+ 
+ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MULTIMACH_TARGET_SYS}"
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index b5c757a..d362ede 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -16,7 +16,7 @@ import bb
+ 
+ class QemuRunner:
+ 
+-    def __init__(self, machine, rootfs, display = None, tmpdir = None, logfile = None, boottime = 400, runqemutime = 60):
++    def __init__(self, machine, rootfs, display = None, tmpdir = None, deploy_dir_image = None, logfile = None, boottime = 400, runqemutime = 60):
+         # Popen object
+         self.runqemu = None
+ 
+@@ -28,6 +28,7 @@ class QemuRunner:
+ 
+         self.display = display
+         self.tmpdir = tmpdir
++        self.deploy_dir_image = deploy_dir_image
+         self.logfile = logfile
+         self.boottime = boottime
+         self.runqemutime = runqemutime
+@@ -71,6 +72,11 @@ class QemuRunner:
+             return False
+         else:
+             os.environ["OE_TMPDIR"] = self.tmpdir
++        if not os.path.exists(self.deploy_dir_image):
++            bb.error("Invalid DEPLOY_DIR_IMAGE path %s" % self.deploy_dir_image)
++            return False
++        else:
++            os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
+ 
+         self.qemuparams = 'bootparams="console=tty1 console=ttyS0,115200n8" qemuparams="-serial tcp:127.0.0.1:%s"' % self.serverport
+         if qemuparams:
+diff --git a/scripts/runqemu b/scripts/runqemu
+index b496785..efab1a2 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -321,9 +321,17 @@ AKITA_DEFAULT_FSTYPE=jffs2
+ SPITZ_DEFAULT_KERNEL=zImage-spitz.bin
+ SPITZ_DEFAULT_FSTYPE=ext3
+ 
+-setup_tmpdir() {
+-    if [ -z "$OE_TMPDIR" ]; then
+-        # Try to get OE_TMPDIR from bitbake
++setup_path_vars() {
++    if [ -z "$OE_TMPDIR" ] ; then
++        PATHS_REQUIRED=true
++    elif [ "$1" = "1" -a -z "$DEPLOY_DIR_IMAGE" ] ; then
++        PATHS_REQUIRED=true
++    else
++        PATHS_REQUIRED=false
++    fi
++
++    if [ "$PATHS_REQUIRED" = "true" ]; then
++        # Try to get the variable values from bitbake
+         type -P bitbake &>/dev/null || {
+             echo "In order for this script to dynamically infer paths";
+             echo "to kernels or filesystem images, you either need";
+@@ -331,21 +339,35 @@ setup_tmpdir() {
+             echo "before running this script" >&2;
+             exit 1; }
+ 
+-        # We have bitbake in PATH, get OE_TMPDIR from bitbake
+-        OE_TMPDIR=`MACHINE=$MACHINE bitbake -e | grep ^TMPDIR=\" | cut -d '=' -f2 | cut -d '"' -f2`
++        # We have bitbake in PATH, get the variable values from bitbake
++        BITBAKE_ENV_TMPFILE=`mktemp runqemu.XXXXXXXXXX`
++        if [ "$?" != "0" ] ; then
++            echo "Error: mktemp failed for bitbake environment output"
++            exit 1
++        fi
++
++        MACHINE=$MACHINE bitbake -e > $BITBAKE_ENV_TMPFILE
++        if [ -z "$OE_TMPDIR" ] ; then
++            OE_TMPDIR=`cat $BITBAKE_ENV_TMPFILE | sed -n 's/^TMPDIR=\"\(.*\)\"/\1/p'`
++        fi
++        if [ -z "$DEPLOY_DIR_IMAGE" ] ; then
++            DEPLOY_DIR_IMAGE=`cat $BITBAKE_ENV_TMPFILE | sed -n 's/^DEPLOY_DIR_IMAGE=\"\(.*\)\"/\1/p'`
++        fi
+         if [ -z "$OE_TMPDIR" ]; then
+             # Check for errors from bitbake that the user needs to know about
+-            BITBAKE_OUTPUT=`bitbake -e | wc -l`
++            BITBAKE_OUTPUT=`cat $BITBAKE_ENV_TMPFILE | wc -l`
+             if [ "$BITBAKE_OUTPUT" -eq "0" ]; then
+-                echo "Error: this script needs to be run from your build directory,"
+-                echo "or you need to explicitly set OE_TMPDIR in your environment"
++                echo "Error: this script needs to be run from your build directory, or you need"
++                echo "to explicitly set OE_TMPDIR and DEPLOY_DIR_IMAGE in your environment"
+             else
+                 echo "There was an error running bitbake to determine TMPDIR"
+                 echo "Here is the output from 'bitbake -e':"
+-                bitbake -e
++                cat $BITBAKE_ENV_TMPFILE
+             fi
++            rm $BITBAKE_ENV_TMPFILE
+             exit 1
+         fi
++        rm $BITBAKE_ENV_TMPFILE
+     fi
+ }
+ 
+@@ -355,7 +377,7 @@ setup_sysroot() {
+     # either in an in-tree build scenario or the environment
+     # script wasn't source'd.
+     if [ -z "$OECORE_NATIVE_SYSROOT" ]; then
+-        setup_tmpdir
++        setup_path_vars
+         BUILD_ARCH=`uname -m`
+         BUILD_OS=`uname | tr '[A-Z]' '[a-z]'`
+         BUILD_SYS="$BUILD_ARCH-$BUILD_OS"
+@@ -405,9 +427,9 @@ if [ -e "$ROOTFS" -a -z "$FSTYPE" ]; then
+ fi
+ 
+ if [ -z "$KERNEL" -a "x$FSTYPE" != "xvmdk" ]; then
+-    setup_tmpdir
++    setup_path_vars 1
+     eval kernel_file=\$${machine2}_DEFAULT_KERNEL
+-    KERNEL=$OE_TMPDIR/deploy/images/$kernel_file
++    KERNEL=$DEPLOY_DIR_IMAGE/$kernel_file
+ 
+     if [ -z "$KERNEL" ]; then
+         error "Unable to determine default kernel for MACHINE [$MACHINE]"
+@@ -428,14 +450,14 @@ fi
+ # Handle cases where a ROOTFS type is given instead of a filename, e.g.
+ # core-image-sato
+ if [ "$LAZY_ROOTFS" = "true" ]; then
+-    setup_tmpdir
+-    echo "Assuming $ROOTFS really means $OE_TMPDIR/deploy/images/$ROOTFS-$MACHINE.$FSTYPE"
+-    ROOTFS=$OE_TMPDIR/deploy/images/$ROOTFS-$MACHINE.$FSTYPE
++    setup_path_vars 1
++    echo "Assuming $ROOTFS really means $DEPLOY_DIR_IMAGE/$ROOTFS-$MACHINE.$FSTYPE"
++    ROOTFS=$DEPLOY_DIR_IMAGE/$ROOTFS-$MACHINE.$FSTYPE
+ fi
+ 
+ if [ -z "$ROOTFS" -a "x$FSTYPE" != "xvmdk" ]; then
+-    setup_tmpdir
+-    T=$OE_TMPDIR/deploy/images
++    setup_path_vars 1
++    T=$DEPLOY_DIR_IMAGE
+     eval rootfs_list=\$${machine2}_DEFAULT_ROOTFS
+     findimage $T $MACHINE $FSTYPE
+ 
+-- 
+1.8.1.2
 
---SBKwXYz1xY/kcGv0
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlIxln8ACgkQN1Ujt2V2gBwqRACeJiZCwODsFRqNOnohGWBdHuqE
-AQ0AoLn+mw6dSHRE9bfbY1cBxPK76f9j
-=3iG9
------END PGP SIGNATURE-----
-
---SBKwXYz1xY/kcGv0--
