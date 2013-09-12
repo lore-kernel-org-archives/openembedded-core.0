@@ -1,38 +1,25 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id E060060135
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B8A65615E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 20:45:46 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id w6so1358935lbh.19
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 13:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=8gjQtrnaAdLNSZ8bLWvwRomRFpS0/B1mfqcM6NCG/Rs=;
-	b=F+gg1ZZpQ7ULF6uft39JIsSMBXJSrehmWHegGwUuaKrbKCrMV2cR+J8ETWfsV7xlrR
-	WMIdBE6Gw6w9ZEGlS5Xg7sSF0SlzSqakKF9sFClXhsxcvF0EZJh2A/oT/qjocGA4jKoP
-	cCTR9/4yJo7TxSG6GCICxSzZuKwMij4BIUegpxs1NnwGGqzFrVCHN1qe92Iy3G78M0jI
-	VoH3+nzvEJx8EM9PpEuos4dARkH1sh4TM+sMZSvHHnc9QlockqL4d8KSDLjijAYTSfR0
-	QGUrjvlKakIroP5IvxHbdjec9jRxKd9eCXUdqjlBdjX/yBUajIYYBg1d05mceEIvsQaK
-	PSmw==
-X-Received: by 10.152.29.103 with SMTP id j7mr7470024lah.7.1379018747814; Thu,
-	12 Sep 2013 13:45:47 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.35.200 with HTTP; Thu, 12 Sep 2013 13:45:27 -0700 (PDT)
-In-Reply-To: <dec697bffb0eebaeb34f5acd32929ba866174585.1378890742.git.rongqing.li@windriver.com>
-References: <cover.1378890742.git.rongqing.li@windriver.com>
-	<dec697bffb0eebaeb34f5acd32929ba866174585.1378890742.git.rongqing.li@windriver.com>
-From: Chris Larson <clarson@kergoth.com>
-Date: Thu, 12 Sep 2013 13:45:27 -0700
-X-Google-Sender-Auth: kkFXFKaG_CPfWkTZ4kQRqofcdu0
-Message-ID: <CABcZANk8PQkxHUZ93-bSzgoSzc2_W3ArNT7_cD1v47oLBL7X7g@mail.gmail.com>
-To: rongqing.li@windriver.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] ptest-runner: trivial fixes and refine
+	Thu, 12 Sep 2013 20:53:58 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 12 Sep 2013 13:54:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,892,1371106800"; d="scan'208";a="402535916"
+Received: from unknown (HELO [10.255.14.117]) ([10.255.14.117])
+	by orsmga002.jf.intel.com with ESMTP; 12 Sep 2013 13:53:59 -0700
+Message-ID: <1379019238.1285.48.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
+Date: Thu, 12 Sep 2013 13:53:58 -0700
+In-Reply-To: <1379012528-7683-1-git-send-email-joaohf@gmail.com>
+References: <1379012528-7683-1-git-send-email-joaohf@gmail.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] boot-directdisk: Allow for EFI-only boot direct disk images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,37 +32,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 20:45:48 -0000
-Content-Type: multipart/alternative; boundary=089e0160b8289a299b04e635d280
+X-List-Received-Date: Thu, 12 Sep 2013 20:53:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---089e0160b8289a299b04e635d280
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2013-09-12 at 16:02 -0300, Joao Henrique Ferreira de Freitas
+wrote:
+> From: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+> 
+>     Condition building PCBIOS legacy images on MACHINE_FEATURES containing "pcbios"
+>     or not containing "efi". This ensures existing BSPs will continue to get the
+>     old PCBIOS legacy-only images. New BSPs can add "efi", "pcbios", or both. The
+>     images created likewise support one or the other or both.
 
-On Wed, Sep 11, 2013 at 2:17 AM, <rongqing.li@windriver.com> wrote:
+Nitpic: please keep your commit message line length under something like
+72 chars to allow for some indentation from the git log command,
+otherwise this gets truncated in an 80 char terminal.
 
-> +    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
-> +    do
->
+Otherwise looks good.
 
-As far as I can tell, busybox find doesn't support -L, so this adds an
-implicit, undeclared dependency upon findutils.
+> 
+> Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
+
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
+
+> ---
+>  meta/classes/boot-directdisk.bbclass | 65 ++++++++++++++++++++++++++++++------
+>  meta/classes/syslinux.bbclass        |  5 +++
+>  2 files changed, 60 insertions(+), 10 deletions(-)
+> 
+> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+> index 8a55aae..4b9d7bd 100644
+> --- a/meta/classes/boot-directdisk.bbclass
+> +++ b/meta/classes/boot-directdisk.bbclass
+> @@ -31,6 +31,29 @@ EXCLUDE_FROM_WORLD = "1"
+>  BOOTDD_VOLUME_ID   ?= "boot"
+>  BOOTDD_EXTRA_SPACE ?= "16384"
+>  
+> +EFI = "${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
+> +EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "", d)}"
+> +
+> +# Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
+> +# contain "efi". This way legacy is supported by default if neither is
+> +# specified, maintaining the original behavior.
+> +def pcbios(d):
+> +    pcbios = base_contains("MACHINE_FEATURES", "pcbios", "1", "0", d)
+> +    if pcbios == "0":
+> +        pcbios = base_contains("MACHINE_FEATURES", "efi", "0", "1", d)
+> +    return pcbios
+> +
+> +def pcbios_class(d):
+> +    if d.getVar("PCBIOS", True) == "1":
+> +        return "syslinux"
+> +    return ""
+> +
+> +PCBIOS = "${@pcbios(d)}"
+> +PCBIOS_CLASS = "${@pcbios_class(d)}"
+> +
+> +inherit ${PCBIOS_CLASS}
+> +inherit ${EFI_CLASS}
+> +
+>  # Get the build_syslinux_cfg() function from the syslinux class
+>  
+>  AUTO_SYSLINUXCFG = "1"
+> @@ -38,17 +61,32 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+>  SYSLINUX_ROOT ?= "root=/dev/sda2"
+>  SYSLINUX_TIMEOUT ?= "10"
+>  
+> -inherit syslinux
+> -		
+> +populate() {
+> +	DEST=$1
+> +	install -d ${DEST}
+> +
+> +	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
+> +	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
+> +
+> +	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
+> +		install -m 0644 ${INITRD} ${DEST}/initrd
+> +	fi
+> +
+> +}
+> +
+>  build_boot_dd() {
+>  	HDDDIR="${S}/hdd/boot"
+>  	HDDIMG="${S}/hdd.image"
+>  	IMAGE=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect
+>  
+> -	install -d $HDDDIR
+> -	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage $HDDDIR/vmlinuz
+> -	install -m 0644 ${S}/syslinux.cfg $HDDDIR/syslinux.cfg
+> -	install -m 444 ${STAGING_DATADIR}/syslinux/ldlinux.sys $HDDDIR/ldlinux.sys
+> +	populate ${HDDDIR}
+> +
+> +	if [ "${PCBIOS}" = "1" ]; then
+> +		syslinux_hddimg_populate
+> +	fi
+> +	if [ "${EFI}" = "1" ]; then
+> +		grubefi_hddimg_populate
+> +	fi
+>  
+>  	BLOCKS=`du -bks $HDDDIR | cut -f 1`
+>  	BLOCKS=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
+> @@ -62,7 +100,9 @@ build_boot_dd() {
+>  	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
+>  	mcopy -i $HDDIMG -s $HDDDIR/* ::/
+>  
+> -	syslinux $HDDIMG
+> +	if [ "${PCBIOS}" = "1" ]; then
+> +		syslinux_hdddirect_install $HDDIMG
+> +	fi	
+>  	chmod 644 $HDDIMG
+>  
+>  	ROOTFSBLOCKS=`du -Lbks ${ROOTFS} | cut -f 1`
+> @@ -85,9 +125,11 @@ build_boot_dd() {
+>  		dd of=$IMAGE bs=1 seek=440 conv=notrunc
+>  
+>  	OFFSET=`expr $END2 / 512`
+> -	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+> +	if [ "${PCBIOS}" = "1" ]; then
+> +		dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
+> +	fi
+>  	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
+> -	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
+> +	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512	
+>  
+>  	cd ${DEPLOY_DIR_IMAGE}
+>  	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
+> @@ -96,7 +138,10 @@ build_boot_dd() {
+>  
+>  python do_bootdirectdisk() {
+>      validate_disk_signature(d)
+> -    bb.build.exec_func('build_syslinux_cfg', d)
+> +    if d.getVar("PCBIOS", True) == "1":
+> +        bb.build.exec_func('build_syslinux_cfg', d)
+> +    if d.getVar("EFI", True) == "1":
+> +        bb.build.exec_func('build_grub_cfg', d)
+>      bb.build.exec_func('build_boot_dd', d)
+>  }
+>  
+> diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
+> index 501bc6d..dae6609 100644
+> --- a/meta/classes/syslinux.bbclass
+> +++ b/meta/classes/syslinux.bbclass
+> @@ -64,6 +64,11 @@ syslinux_hddimg_install() {
+>  	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+>  }
+>  
+> +syslinux_hdddirect_install() {
+> +	DEST=$1
+> +	syslinux $DEST
+> +}
+> +
+>  python build_syslinux_cfg () {
+>      import copy
+>      import sys
+
 -- 
-Christopher Larson
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
---089e0160b8289a299b04e635d280
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Sep 11, 2013 at 2:17 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongq=
-ing.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</=
-span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">+ =C2=A0 =C2=A0for x in `f=
-ind -L ./ -name run-ptest -type f -perm /u+x,g+x`<br>
-+ =C2=A0 =C2=A0do</div></blockquote></div><br>As far as I can tell, busybox=
- find doesn&#39;t support -L, so this adds an implicit, undeclared dependen=
-cy upon findutils.<br>-- <br>Christopher Larson</div></div>
-
---089e0160b8289a299b04e635d280--
