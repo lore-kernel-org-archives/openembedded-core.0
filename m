@@ -1,35 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 9035560579
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B6D46BEB4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 11:58:57 +0000 (UTC)
-Received: by mail-wi0-f173.google.com with SMTP id hq15so3386536wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 04:58:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=mTYVjNmq5my/Z0lVaOr3E01SopHqzxLr+zfmZgVyeis=;
-	b=QjoXC3TbyP+2CiGmol7WLMjV0VsnzKvUYyTTWLUbS3rppzO8edKObVldcObUMGjvG9
-	dhg7cxre86rLb563fX8PD0y5Om8eMLbO0zdqrQRr5wWhPqQMy7+x/VLKN69Fi5HB53Bd
-	LK+8QhBlrfX6GEc3knYwbbVyusati1+imgHhuRNR3RzrryzNdFBLviYfCsQAiFmkQnt+
-	oeFCoDZwmeeOV4BD2CRev3MszUbpyUmk6CJux6oziTgWJuJvMIyVUooGdBJpfJtYTCms
-	H80Xa1iAfdHIuy1R3xdS4NaCx/gbP2etylFLIFNLOGVVUceCDOFgK44KMnquKesz19Sb
-	nQlQ==
-X-Gm-Message-State: ALoCoQm0x8WezeGOG5Cxf+MyHqe7v8K/wssfTg8ts1+W0/ifrNYmdNNGFeEdFT63bTeKJE/clKfU
-X-Received: by 10.194.123.227 with SMTP id md3mr5791878wjb.17.1378987138400;
-	Thu, 12 Sep 2013 04:58:58 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id dx7sm3934231wib.8.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 12 Sep 2013 04:58:57 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Sep 2013 12:58:53 +0100
-Message-Id: <1378987133-27321-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] xf86-video-vmware: disable VMWGFX
+	Thu, 12 Sep 2013 12:03:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8CC3QwJ013982
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 12 Sep 2013 05:03:26 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Thu, 12 Sep 2013 05:03:26 -0700
+Message-ID: <5231AD8C.9030509@windriver.com>
+Date: Thu, 12 Sep 2013 20:03:24 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Mike Looijmans <mike.looijmans@topic.nl>
+References: <cover.1378977276.git.hongxu.jia@windriver.com>
+	<732e1a82d56c4355c0bae26ed5aec0151b5adb1a.1378977276.git.hongxu.jia@windriver.com>
+	<52318DAB.9090108@topic.nl>
+In-Reply-To: <52318DAB.9090108@topic.nl>
+Cc: cxu@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] kernel.bbclass: Need a method to install/update for bzImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,116 +36,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 11:58:58 -0000
+X-List-Received-Date: Thu, 12 Sep 2013 12:03:27 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Our Mesa doesn't yet ship the XA Gallium state tracker that the VMWGFX
-sub-driver needs, so just disable vmwgfx.
+On 09/12/2013 05:47 PM, Mike Looijmans wrote:
+> This change just assumes that all boot systems are alike. Just 
+> applying this patch "as is" will probably break a lot of embedded 
+> systems that have totally different ways of upgrading the kernel. Best 
+> scenario is that they'll waste time and space running scripts that 
+> will have no effect.
+>
+> It should be possible - and more important: default - to NOT include 
+> these scripts, and use them only on targets they apply to. 
+> kernel.bbclass is in my opinion not the correct location.
+>
 
-Also remove a spurious xvmc dependency.
+Yes, we should add a on-off to decide whether the method should be used 
+or not,
+and set off by default.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../xf86-video-vmware/vmwgfx-option.patch          |   69 ++++++++++++++++++++
- .../xorg-driver/xf86-video-vmware_13.0.1.bb        |    7 +-
- 2 files changed, 74 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vmware/vmwgfx-option.patch
+But I could not find a better location to do this, almost all of targets 
+in oe-core may
+need this, do you have any suggestions?
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware/vmwgfx-option.patch b/meta/recipes-graphics/xorg-driver/xf86-video-vmware/vmwgfx-option.patch
-new file mode 100644
-index 0000000..9256449
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware/vmwgfx-option.patch
-@@ -0,0 +1,69 @@
-+From 5ec0aae666feb88d01256cdebbf94a6b373bf4c4 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 11 Sep 2013 21:40:44 +0100
-+Subject: [PATCH] build: add explicit option to enable/disable VMWGFX
-+
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+---
-+ configure.ac |   31 ++++++++++++++-----------------
-+ 1 file changed, 14 insertions(+), 17 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 0631bcc..3e14abd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -85,11 +85,6 @@ PKG_CHECK_EXISTS([xorg-server >= 1.4.99],
-+                  [AC_DEFINE([HAVE_XORG_SERVER_1_5_0], 1,
-+                  [Has version 1.5.0 or greater of the Xserver])])
-+ 
-+-PKG_CHECK_EXISTS([xorg-server >= 1.7.0],
-+-                 [AC_DEFINE([HAVE_XORG_SERVER_1_7_0], 1,
-+-                 [Has version 1.7.0 or greater of the Xserver])
-+-		 BUILD_VMWGFX=yes],[BUILD_VMWGFX=no])
-+-
-+ PKG_CHECK_EXISTS([xorg-server >= 1.12.0],
-+                  [AC_DEFINE([HAVE_XORG_SERVER_1_12_0], 1,
-+                  [Has version 1.12.0 or greater of the Xserver])])
-+@@ -114,25 +109,27 @@ AM_CONDITIONAL(XSERVER_LIBPCIACCESS, test "x$XSERVER_LIBPCIACCESS" = xyes)
-+ 
-+ AC_SUBST([moduledir])
-+ 
-+-if test x$BUILD_VMWGFX = xyes; then
-+-	PKG_CHECK_MODULES([LIBDRM], [libdrm],[],[BUILD_VMWGFX=no])
-+-fi
-+-if test x$BUILD_VMWGFX = xyes; then
-+-	PKG_CHECK_MODULES([XATRACKER], [xatracker >= 0.4.0],[],[BUILD_VMWGFX=no])
-+-fi
-+-
-+ DRIVER_NAME=vmware
-+ AC_SUBST([DRIVER_NAME])
-+ 
-++AC_ARG_ENABLE(vmwgfx,
-++              AS_HELP_STRING([--disable-vmwgfx],
-++                             [Disable vmwgfx driver (KMS/3D) (default: enabled)]),
-++                             [VMWGFX="$enableval"], [VMWGFX="yes"])
-++
-+ AC_MSG_CHECKING([whether to build Kernel Mode Setting and 3D])
-+-if test x$BUILD_VMWGFX = xyes; then
-+-	AC_MSG_RESULT([yes])
-++if test "x$VMWGFX" = xyes; then
-++        AC_MSG_RESULT([yes])
-++        PKG_CHECK_EXISTS([xorg-server >= 1.7.0],
-++                         [AC_DEFINE([HAVE_XORG_SERVER_1_7_0], 1,
-++                         [Has version 1.7.0 or greater of the Xserver])])
-++        PKG_CHECK_MODULES([LIBDRM], [libdrm])
-++        PKG_CHECK_MODULES([XATRACKER], [xatracker >= 0.4.0])
-+         AC_DEFINE([BUILD_VMWGFX], 1, [Building the vmwgfx driver path])
-+ else
-+-	AC_MSG_RESULT([no])
-++        AC_MSG_RESULT([no])
-+ fi
-+-
-+-AM_CONDITIONAL(BUILD_VMWGFX, test "x$BUILD_VMWGFX" = xyes)
-++AM_CONDITIONAL(BUILD_VMWGFX, test "x$VMWGFX" = xyes)
-+ 
-+ AC_CONFIG_FILES([
-+                 Makefile
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
-index 0d8c8d2..7b48e0c 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vmware_13.0.1.bb
-@@ -6,10 +6,13 @@ DESCRIPTION = "vmware is an Xorg driver for VMware virtual video cards."
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=5fcd7d437a959a15fbee8707747c6b53"
- 
--DEPENDS += "virtual/libx11 libxvmc xineramaproto libpciaccess \
--            ${@base_contains('DISTRO_FEATURES', 'opengl', 'drm virtual/libgl', '', d)}"
-+DEPENDS += "virtual/libx11 xineramaproto videoproto libpciaccess"
-+
-+SRC_URI += "file://vmwgfx-option.patch"
- 
- SRC_URI[md5sum] = "b08e0195ebf3f88a82129322cb93da08"
- SRC_URI[sha256sum] = "802dda415c22412edad6c3df44fe18a06e91d0f8456d9a58bac0d340fdf8fe3d"
- 
- COMPATIBLE_HOST = '(i.86.*-linux|x86_64.*-linux)'
-+
-+EXTRA_OECONF += "--disable-vmwgfx"
--- 
-1.7.10.4
+Thanks,
+Hongxu
+> Otherwise, should I add my kernel postinstall script that writes the 
+> kernel into an MTD block on an embedded target to this class as well? 
+> And a NAND version? And SD?
+>
+> Mike.
+>
+>
+> On 09/12/2013 11:25 AM, Hongxu Jia wrote:
+>> While installing a rpm to update kernel on a deployed target, it will 
+>> update
+>> the boot area and the boot menu with the kernel as the priority but 
+>> allow
+>> you to fall back to the original kernel as well.
+>>
+>> - In pre-install script, it backs up original kernel to avoid 
+>> confliction with
+>>    new one.
+>> - In post-install script, it updates the new kernel as the boot 
+>> priority.
+>>
+>> [YOCTO #4104]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/classes/kernel.bbclass | 65 
+>> +++++++++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 65 insertions(+)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index e039dfc..f0dd679 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -263,7 +263,72 @@ ALLOW_EMPTY_kernel-image = "1"
+>>   ALLOW_EMPTY_kernel-modules = "1"
+>>   DESCRIPTION_kernel-modules = "Kernel modules meta package"
+>>
+>> +pkg_preinst_kernel-image () {
+>> +    if [ -z "$D" ]; then
+>> +        # Parsing confliction
+>> +        [ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
+>> +        [ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
+>> +        if [ -n "$grubcfg" ]; then
+>> +            # Dereference symlink to avoid confliction with new 
+>> kernel name.
+>> +            if grep -q "/${KERNEL_IMAGETYPE} root=" $grubcfg; then
+>> +                kimage=`realpath /boot/${KERNEL_IMAGETYPE}`;
+>> +                sed -i "s#${KERNEL_IMAGETYPE} root=#${kimage##*/} 
+>> root=#" $grubcfg
+>> +            fi
+>> +
+>> +            # Rename old kernel if it conflicts with new kernel name.
+>> +            if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} 
+>> root=" $grubcfg; then
+>> +                timestamp=`date +%s`
+>> + kimage="/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-back"
+>> +                sed -i "s#${KERNEL_IMAGETYPE}-${KERNEL_VERSION} 
+>> root=#${kimage##*/} root=#" $grubcfg
+>> +                mv /boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} $kimage
+>> +            fi
+>> +        fi
+>> +    fi
+>> +}
+>> +
+>>   pkg_postinst_kernel-image () {
+>> +    get_new_grub_cfg() {
+>> +        title="Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
+>> +        if [ -f /boot/grub/grub.cfg ]; then
+>> +            rootfs=`grep " *linux [^ ].* root=" /boot/grub/grub.cfg 
+>> -m 1 | \
+>> +                 sed "s# *linux [^ ].* root=#    linux 
+>> /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
+>> +
+>> +            echo "menuentry \"$title\" {"
+>> +            echo "    set root=(hd0,1)"
+>> +            echo "$rootfs"
+>> +            echo "}"
+>> +        elif [ -f /boot/grub/menu.list ] ; then
+>> +            rootfs=`grep "kernel [^ ].* root=" /boot/grub/menu.list 
+>> -m 1 | \
+>> +                 sed "s#kernel [^ ].* root=#kernel 
+>> /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
+>> +
+>> +            echo "default 0"
+>> +            echo "timeout 30"
+>> +            echo "title $title"
+>> +            echo "root  (hd0,0)"
+>> +            echo "$rootfs"
+>> +        fi
+>> +    }
+>> +
+>> +    get_old_grub_cfg() {
+>> +        if [ -f /boot/grub/grub.cfg ]; then
+>> +            cat /boot/grub/grub.cfg
+>> +        elif [ -f /boot/grub/menu.list ] ; then
+>> +            cat /boot/grub/menu.list | sed -e '/^default/d' -e 
+>> '/^timeout/d'
+>> +        fi
+>> +    }
+>> +
+>> +    if [ -z "$D" ]; then
+>> +        [ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
+>> +        [ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
+>> +        if [ -n "$grubcfg" ]; then
+>> +            grubcfgtmp="$grubcfg.tmp"
+>> +            get_new_grub_cfg  > $grubcfgtmp
+>> +            get_old_grub_cfg >> $grubcfgtmp
+>> +            mv $grubcfgtmp $grubcfg
+>> +            echo "Caution! Update kernel may affect kernel-module!"
+>> +        fi
+>> +    fi
+>> +
+>>       update-alternatives --install 
+>> /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} 
+>> ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
+>>       if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+>>           mkdir -p $D/lib/modules/${KERNEL_VERSION}
+>>
+>
+>
+>
+> Met vriendelijke groet / kind regards,
+>
+> Mike Looijmans
+>
+> TOPIC Embedded Systems
+> Eindhovenseweg 32-C, NL-5683 KH Best
+> Postbus 440, NL-5680 AK Best
+> Telefoon: (+31) – (0)499 - 33.69.79
+> Telefax: (+31) - (0)499 - 33.69.70
+> E-mail: mike.looijmans@topic.nl
+> Website: www.topic.nl
+>
+> Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn 
+> uitsluitend bestemd voor de geadresseerde, zoals die blijkt uit het 
+> e-mail bericht en/of de bijlagen. Er kunnen gegevens met betrekking 
+> tot een derde instaan. Indien u als niet-geadresseerde dit bericht en 
+> de bijlagen ontvangt, terwijl u niet bevoegd of gemachtigd bent om dit 
+> bericht namens de geadresseerde te ontvangen, wordt u verzocht de 
+> afzender hierover direct te informeren en het e-mail bericht met de 
+> bijlagen te vernietigen. Ieder gebruik van de inhoud van het e-mail 
+> bericht, waaronder de daarbij behorende bijlagen, door een ander dan 
+> de geadresseerde is onrechtmatig jegens ons dan wel de eventueel in 
+> het e-mail bericht of de bijlagen voorkomende andere personen. TOPIC 
+> Embedded Systems is niet aansprakelijk voor enigerlei schade 
+> voortvloeiend uit het gebruik en/of acceptatie van dit e-mail bericht 
+> of de daarbij behorende bijlagen.
+>
+> The contents of this message, as well as any enclosures, are addressed 
+> personally to, and thus solely intended for the addressee. They may 
+> contain information regarding a third party. A recipient who is 
+> neither the addressee, nor empowered to receive this message on behalf 
+> of the addressee, is kindly requested to immediately inform the sender 
+> of receipt, and to destroy the message and the enclosures. Any use of 
+> the contents of this message and/or the enclosures by any other person 
+> than the addressee or person who is empowered to receive this message, 
+> is illegal towards the sender and/or the aforementioned third party. 
+> TOPIC Embedded Systems is not  liable for any damage as a result of 
+> the use and/or acceptance of this message and as well as any enclosures.
 
 
