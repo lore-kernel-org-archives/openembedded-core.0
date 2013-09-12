@@ -1,34 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D2A3A6160A
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id A464A61011
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 15:53:52 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8CG7Npi018778; Thu, 12 Sep 2013 17:07:23 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dwPd2ohkSqdL; Thu, 12 Sep 2013 17:07:23 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8CG7IjV018771
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 12 Sep 2013 17:07:20 +0100
-Message-ID: <1379001204.3484.226.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-Date: Thu, 12 Sep 2013 16:53:24 +0100
-In-Reply-To: <CAPhnLPAfKsLnuiTQKSwU+XVsxrXF0rBURUzc_-ZBmEvCXuKbGw@mail.gmail.com>
-References: <1378983892-7327-1-git-send-email-paul.eggleton@linux.intel.com>
-	<CAPhnLPAfKsLnuiTQKSwU+XVsxrXF0rBURUzc_-ZBmEvCXuKbGw@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Koen Kooi <koen@dominion.thruhere.net>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake.conf: include machine name in DEPLOY_DIR_IMAGE
+	Thu, 12 Sep 2013 15:57:24 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 12 Sep 2013 08:57:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,891,1371106800"; d="scan'208";a="359591698"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by azsmga001.ch.intel.com with ESMTP; 12 Sep 2013 08:57:13 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id CD9586A47F9;
+	Thu, 12 Sep 2013 04:09:02 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Sep 2013 14:09:00 +0300
+Message-Id: <1378984140-11843-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] scripts/contrib/build-perf-test.sh: record size in kb and remove extra spaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,16 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 15:53:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Sep 2013 15:57:25 -0000
 
-On Thu, 2013-09-12 at 08:47 -0700, Flanagan, Elizabeth wrote:
-> This will need a LAYERVERSION_core bump for autobuilder compatibility.
-I've queued on in master-next along with this patch.
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
+---
+ scripts/contrib/build-perf-test.sh | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/scripts/contrib/build-perf-test.sh b/scripts/contrib/build-perf-test.sh
+index ce0fb9a..be3b648 100755
+--- a/scripts/contrib/build-perf-test.sh
++++ b/scripts/contrib/build-perf-test.sh
+@@ -170,6 +170,7 @@ fi
+ # Disabling the network sanity check helps a bit (because of my crappy network connection and/or proxy)
+ echo "CONNECTIVITY_CHECK_URIS =\"\"" >> conf/local.conf
+ 
++
+ #
+ # Functions
+ #
+@@ -284,7 +285,7 @@ test1_p1 () {
+     do_rmsstate
+     do_sync
+     bbtime $IMAGE
+-    s=`du -sh tmp | sed 's/tmp//'`
++    s=`du -s tmp | sed 's/tmp//' | sed 's/[ \t]*$//'`
+     SIZES[(( size_count++ ))]="$s"
+     log "SIZE of tmp dir is: $s"
+     log "Buildstats are saved in $OUTDIR/buildstats-test1"
+@@ -307,7 +308,7 @@ test1_p3 () {
+     do_sync
+     bbtime $IMAGE
+     sed -i 's/INHERIT += \"rm_work\"//' conf/local.conf
+-    s=`du -sh tmp | sed 's/tmp//'`
++    s=`du -s tmp | sed 's/tmp//' | sed 's/[ \t]*$//'`
+     SIZES[(( size_count++ ))]="$s"
+     log "SIZE of tmp dir is: $s"
+     log "Buildstats are saved in $OUTDIR/buildstats-test13"
+-- 
+1.8.3.1
 
 
