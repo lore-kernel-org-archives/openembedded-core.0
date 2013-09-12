@@ -1,24 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FC3B60ED9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 40F9461016
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 09:26:00 +0000 (UTC)
+	Thu, 12 Sep 2013 09:26:01 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8C9Q02f012131
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8C9Q2On024942
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 12 Sep 2013 02:26:00 -0700 (PDT)
+	Thu, 12 Sep 2013 02:26:02 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 12 Sep 2013 02:25:58 -0700
+	14.2.342.3; Thu, 12 Sep 2013 02:26:01 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Sep 2013 17:25:55 +0800
-Message-ID: <cover.1378977276.git.hongxu.jia@windriver.com>
+Date: Thu, 12 Sep 2013 17:25:56 +0800
+Message-ID: <732e1a82d56c4355c0bae26ed5aec0151b5adb1a.1378977276.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
+In-Reply-To: <cover.1378977276.git.hongxu.jia@windriver.com>
+References: <cover.1378977276.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Cc: cxu@windriver.com
-Subject: [PATCH 0/1] kernel.bbclass: Need a method to install/update for bzImage
+Subject: [PATCH 1/1] kernel.bbclass: Need a method to install/update for bzImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,73 +36,98 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 12 Sep 2013 09:26:02 -0000
 Content-Type: text/plain
 
-Test Case:
-1. Prepare a deployed target, and make sure your boot area has enough disk
-   space.
+While installing a rpm to update kernel on a deployed target, it will update
+the boot area and the boot menu with the kernel as the priority but allow
+you to fall back to the original kernel as well.
 
-2. Download the new kernel image rpm to the target
+- In pre-install script, it backs up original kernel to avoid confliction with
+  new one.
+- In post-install script, it updates the new kernel as the boot priority.
 
-3. Before install/update, check boot area and menu
-root@qemux86:~# ls /boot/
-grub        vmlinuz
+[YOCTO #4104]
 
-root@qemux86:~# cat /boot/grub/grub.cfg
-menuentry "Linux" {
-    set root=(hd0,1)
-    linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
-}
-
-4. Install/update bzImage
-root@qemux86:~# rpm -i kernel-image-3.10.9-yocto-standard-3.10.9+git0+cd502a8814_7144bcc4b8-r0.qemux86.rpm 
-Caution! Update kernel may affect kernel-module!
-update-alternatives: Linking //boot/bzImage to bzImage-3.10.9-yocto-standard
-
-5. After install/update, check boot area and menu
-root@qemux86:~# ls /boot/ -al
-drwxr-xr-x    4 root     root          1024 Sep 12 08:48 .
-drwxr-xr-x   17 root     root          4096 Sep 12 07:08 ..
-lrwxrwxrwx    1 root     root            29 Sep 12 08:48 bzImage -> bzImage-3.10.9-yocto-standard
--rw-r--r--    1 root     root       6172096 Sep 12 07:39 bzImage-3.10.9-yocto-standard
-drwxr-xr-x    4 root     root          1024 Sep 12 08:48 grub
--rwxr-x---    1 root     root       6172096 Sep 12 08:45 vmlinuz
-
-root@qemux86:~# cat /boot/grub/grub.cfg 
-menuentry "Update bzImage-3.10.9-yocto-standard-3.10.9+gitAUTOINC+cd502a8814_7144bcc4b8" {
-    set root=(hd0,1)
-    linux /bzImage-3.10.9-yocto-standard root=/dev/hdb2  rw  console=tty0  quiet
-}
-menuentry "Linux" {
-    set root=(hd0,1)
-    linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
-}
-
-6. Reboot target, 'Update bzImage-3.10.9-yocto-standard-3.10.9+gitAUTOINC+cd502a8814_7144bcc4b8'
-   will be in the boot menu.
-
-7. It supports GRUB 0.97 in which the grub.cfg doesn't exist and menu.lst
-   is used.
-
-8. If you install the same rpm more than one time with '--force', there will
-   be multiple kernel images in boot area and menu.
-
-//Hongxu
-
-
-The following changes since commit 1b814498b60d5f354d8cc5bdf568b91baf0745dc:
-
-  bitbake: bitbake/cooker: fix some calls of cookerdata.findConfigFile method (2013-09-02 12:26:20 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib hongxu/update-bzimage
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/update-bzimage
-
-Hongxu Jia (1):
-  kernel.bbclass: Need a method to install/update for bzImage
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
  meta/classes/kernel.bbclass | 65 +++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 65 insertions(+)
 
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index e039dfc..f0dd679 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -263,7 +263,72 @@ ALLOW_EMPTY_kernel-image = "1"
+ ALLOW_EMPTY_kernel-modules = "1"
+ DESCRIPTION_kernel-modules = "Kernel modules meta package"
+ 
++pkg_preinst_kernel-image () {
++	if [ -z "$D" ]; then
++		# Parsing confliction
++		[ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
++		[ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
++		if [ -n "$grubcfg" ]; then
++			# Dereference symlink to avoid confliction with new kernel name.
++			if grep -q "/${KERNEL_IMAGETYPE} root=" $grubcfg; then
++				kimage=`realpath /boot/${KERNEL_IMAGETYPE}`;
++				sed -i "s#${KERNEL_IMAGETYPE} root=#${kimage##*/} root=#" $grubcfg
++			fi
++
++			# Rename old kernel if it conflicts with new kernel name.
++			if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=" $grubcfg; then
++				timestamp=`date +%s`
++				kimage="/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-back"
++				sed -i "s#${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#${kimage##*/} root=#" $grubcfg
++				mv /boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} $kimage
++			fi
++		fi
++	fi
++}
++
+ pkg_postinst_kernel-image () {
++	get_new_grub_cfg() {
++		title="Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
++		if [ -f /boot/grub/grub.cfg ]; then
++			rootfs=`grep " *linux [^ ].* root=" /boot/grub/grub.cfg -m 1 | \
++				 sed "s# *linux [^ ].* root=#    linux /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
++
++			echo "menuentry \"$title\" {"
++			echo "    set root=(hd0,1)"
++			echo "$rootfs"
++			echo "}"
++		elif [ -f /boot/grub/menu.list ] ; then
++			rootfs=`grep "kernel [^ ].* root=" /boot/grub/menu.list -m 1 | \
++				 sed "s#kernel [^ ].* root=#kernel /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
++
++			echo "default 0"
++			echo "timeout 30"
++			echo "title $title"
++			echo "root  (hd0,0)"
++			echo "$rootfs"
++		fi
++	}
++
++	get_old_grub_cfg() {
++		if [ -f /boot/grub/grub.cfg ]; then
++			cat /boot/grub/grub.cfg
++		elif [ -f /boot/grub/menu.list ] ; then
++			cat /boot/grub/menu.list | sed -e '/^default/d' -e '/^timeout/d'
++		fi
++	}
++
++	if [ -z "$D" ]; then
++		[ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
++		[ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
++		if [ -n "$grubcfg" ]; then
++			grubcfgtmp="$grubcfg.tmp"
++			get_new_grub_cfg  > $grubcfgtmp
++			get_old_grub_cfg >> $grubcfgtmp
++			mv $grubcfgtmp $grubcfg
++			echo "Caution! Update kernel may affect kernel-module!"
++		fi
++	fi
++
+ 	update-alternatives --install /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
+ 	if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
+ 		mkdir -p $D/lib/modules/${KERNEL_VERSION}
 -- 
 1.8.1.2
 
