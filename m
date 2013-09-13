@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DD0456BCF3
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E58BC610EE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 08:14:49 +0000 (UTC)
+	Fri, 13 Sep 2013 08:23:53 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8D8Epvn000367
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8D8NuY9004050
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 01:14:52 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	Fri, 13 Sep 2013 01:23:56 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 13 Sep 2013 01:14:50 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	14.2.347.0; Fri, 13 Sep 2013 01:23:54 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Sep 2013 16:14:44 +0800
-Message-ID: <4ed03e50b60b31d9ab8bb51017816bf8cfff9117.1379059861.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1379059861.git.hongxu.jia@windriver.com>
-References: <cover.1379059861.git.hongxu.jia@windriver.com>
+Date: Fri, 13 Sep 2013 04:23:51 -0400
+Message-ID: <cover.1379054099.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Subject: [PATCH 4/4] util-linux: move su to /bin for lsb command check test
+Subject: [PATCH 0/1] linux-libc-headers: do_install: fix "Argument list too long" error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,43 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 08:14:50 -0000
+X-List-Received-Date: Fri, 13 Sep 2013 08:23:54 -0000
 Content-Type: text/plain
 
-In busybox, util-linux and shadow, su has been moved to /usr/bin/,
-but lsb cmdchk needs su in /bin.
+Hi Saul and Bruce,
 
-Move su to /bin could fix this issue.
+This patch is only for linux-libc-headers, the linux-yocto also has the
+file Makefile.headersinst, but we don't use it when build linux-yocto,
+so it works well, I'm not sure whether we should apply this to
+linux-yocto.
 
-[YOCTO#5175]
+// Robert
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-core/util-linux/util-linux.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit c6dc3cb329428e92cb035be504e044c1c3c0e939:
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 8a14d16..15b6770 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -129,7 +129,7 @@ do_install () {
-         sbinprogs="agetty ctrlaltdel cfdisk vipw vigr"
-         sbinprogs_a="pivot_root hwclock mkswap mkfs.minix fsck.minix losetup swapon swapoff fdisk readprofile fsck blkid blockdev"
-         usrbinprogs_a="chfn chsh hexdump last logger mesg newgrp renice utmpdump wall setsid chrt flock getopt"
--        binprogs_a="dmesg kill more umount mount login reset"
-+        binprogs_a="dmesg kill more umount mount login reset su"
- 
-         if [ "${base_sbindir}" != "${sbindir}" ]; then
-         	mkdir -p ${D}${base_sbindir}
-@@ -224,6 +224,6 @@ BBCLASSEXTEND = "native nativesdk"
- python do_package_prepend () {
-     if '--enable-su' in d.getVar('EXTRA_OECONF', True).split():
-         alt_name = "su"
--        d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, '%s/%s' % (d.getVar('bindir', True), alt_name))
-+        d.setVarFlag('ALTERNATIVE_LINK_NAME', alt_name, '%s/%s' % (d.getVar('base_bindir', True), alt_name))
-         d.appendVar('ALTERNATIVE_%s' % (d.getVar('PN', True)), ' ' + alt_name)
- }
+  icu-native: do_install: Segmentation fault (2013-09-12 05:29:07 -0400)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib robert/linux_headers
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/linux_headers
+
+Robert Yang (1):
+  linux-libc-headers: do_install: fix "Argument list too long" error
+
+ ...cripts-Makefile.headersinst-args-too-long.patch |   36 ++++++++++++++++++++
+ .../linux-libc-headers/linux-libc-headers_3.10.bb  |    1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-args-too-long.patch
+
 -- 
-1.8.1.2
+1.7.10.4
 
 
