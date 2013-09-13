@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CD3DB6A496
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 32A5A6B674
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 05:33:16 +0000 (UTC)
+	Fri, 13 Sep 2013 05:33:18 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8D5XIWh015005
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8D5XKk8002113
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 22:33:18 -0700 (PDT)
+	Thu, 12 Sep 2013 22:33:20 -0700 (PDT)
 Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 12 Sep 2013 22:33:16 -0700
+	14.2.347.0; Thu, 12 Sep 2013 22:33:18 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Sep 2013 13:33:10 +0800
-Message-ID: <772c186481bec298466fe249f6be7a661e7c6c7b.1379049723.git.hongxu.jia@windriver.com>
+Date: Fri, 13 Sep 2013 13:33:11 +0800
+Message-ID: <f4a4b20f0d16ea241dbb1e5586bb27bee4a605a8.1379049723.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1379049723.git.hongxu.jia@windriver.com>
 References: <cover.1379049723.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] LSB Command Check: fix install_initd and remove_initd not found
+Subject: [PATCH 2/4] busybox: move su to /bin for lsb command check test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +33,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 05:33:17 -0000
+X-List-Received-Date: Fri, 13 Sep 2013 05:33:18 -0000
 Content-Type: text/plain
 
-The install_initd and remove_initd are linked to /sbin/chkconfig for lsb
-core test, and chkconfig has been moved from /sbin to /usr/sbin in order
-to fix QA warning about unsafe references in binaries.
-(In commit e486242db83297701803866bea971a2f1a1135fe)
+In busybox, util-linux and shadow, su has been moved to /usr/bin/,
+but lsb cmdchk needs su in /bin.
 
-Let install_initd and remove_initd link to /usr/sbin/chkconfig could fix
-this issue.
+Move su to /bin could fix this issue.
 
-[YOCTO #5152]
+[YOCTO #5175]
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb | 4 ++--
- meta/recipes-extended/lsb/lsb_4.1.bb                | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ .../busybox/busybox-1.21.1/su-usr-bin.patch        | 26 ----------------------
+ meta/recipes-core/busybox/busybox_1.21.1.bb        |  1 -
+ 2 files changed, 27 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch
 
-diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-index c6f8b1d..38c3cdf 100644
---- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-+++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-@@ -50,8 +50,8 @@ do_install() {
- 
- do_install_append_linuxstdbase() {
- 	install -d ${D}${libdir}/lsb/
--	ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
--	ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
-+	ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
-+	ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
- }
- 
- PACKAGES =+ "${PN}-alternatives ${PN}-alternatives-doc"
-diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
-index 59d5bca..c80ff59 100644
---- a/meta/recipes-extended/lsb/lsb_4.1.bb
-+++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-@@ -79,8 +79,8 @@ do_install_append(){
- 
-        # creat links for LSB test
-        install -d ${D}/${libdir}/lsb
--       ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
--       ln -sf ${base_sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
-+       ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/install_initd
-+       ln -sf ${sbindir}/chkconfig ${D}/${libdir}/lsb/remove_initd
-        ln -sf ${sbindir}/sendmail ${D}/${libdir}/sendmail
- 
-        if [ "${TARGET_ARCH}" = "x86_64" ];then
+diff --git a/meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch b/meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch
+deleted file mode 100644
+index 0d5b558..0000000
+--- a/meta/recipes-core/busybox/busybox-1.21.1/su-usr-bin.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-busybox: move /bin/su to /usr/bin/su to match util-linux and shadow
+-
+-Both of util-linux and shadow have su binary in /usr/bin, fix busybox
+-to use the same path so they can be properly tracked by alternatives.
+-
+-Upstream-Status: Inappropriate [embedded]
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- include/applets.src.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/include/applets.src.h b/include/applets.src.h
+---- a/include/applets.src.h
+-+++ b/include/applets.src.h
+-@@ -349,7 +349,7 @@ IF_STAT(APPLET(stat, BB_DIR_USR_BIN, BB_SUID_DROP))
+- IF_STRINGS(APPLET(strings, BB_DIR_USR_BIN, BB_SUID_DROP))
+- IF_STTY(APPLET(stty, BB_DIR_BIN, BB_SUID_DROP))
+- /* Needs to be run by root or be suid root - needs to change uid and gid: */
+--IF_SU(APPLET(su, BB_DIR_BIN, BB_SUID_REQUIRE))
+-+IF_SU(APPLET(su, BB_DIR_USR_BIN, BB_SUID_REQUIRE))
+- IF_SULOGIN(APPLET(sulogin, BB_DIR_SBIN, BB_SUID_DROP))
+- IF_SUM(APPLET(sum, BB_DIR_USR_BIN, BB_SUID_DROP))
+- IF_SV(APPLET(sv, BB_DIR_USR_BIN, BB_SUID_DROP))
+--- 
+-1.8.1.2
+-
+diff --git a/meta/recipes-core/busybox/busybox_1.21.1.bb b/meta/recipes-core/busybox/busybox_1.21.1.bb
+index 784c924..44e507e 100644
+--- a/meta/recipes-core/busybox/busybox_1.21.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.21.1.bb
+@@ -23,7 +23,6 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://umount.busybox \
+            file://defconfig \
+            file://stat-usr-bin.patch \
+-           file://su-usr-bin.patch \
+            file://busybox-syslog.service.in \
+            file://busybox-klogd.service.in \
+            file://testsuite-du-du-k-works-fix-false-positive.patch \
 -- 
 1.8.1.2
 
