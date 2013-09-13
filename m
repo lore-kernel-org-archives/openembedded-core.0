@@ -1,39 +1,24 @@
-Return-Path: <jc@vtkloud.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 34EE160EE8
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B80F60EE8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 23:12:41 +0000 (UTC)
-Received: by mail-wi0-f181.google.com with SMTP id ex4so1457024wid.14
+	Fri, 13 Sep 2013 23:28:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8DNSe1t021438
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 16:12:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:content-type:content-transfer-encoding;
-	bh=fiwY8ipopWgc71krWcffr9I0Oj3UOb/E4Sf8UnFB0Qc=;
-	b=Xe5wsoLQeHU3eN4LUjCAyf2a8xt/QvlS6GxixzkvDwbXqZBcRZs68qDL2ZJtN8TyNZ
-	MZoMKREknHPUFJjFiNvfijicUjHTxUZpbLuhv/tXFSwkR+FVmiHPVhnfiRodPDMHPyhU
-	yL9uVC0GPekRLCvlwY/Ni5NFYxltnatu2aZniRTl7PfzQAO0a6TeKEVYqaAARRXQ+LeU
-	OIfIevfBjn2oTVzJ27tYMwm87jWYVso2w/ZxTX8lpEU2jgQq5Xy1EUGOfFCRimeSzOKv
-	XKuK7jWoV1U03pEhQbVWyXk5p79muoOZUXO1MNkrwbIvAasuiC2YuaImGzHrAiYW8U+J
-	B5xg==
-X-Gm-Message-State: ALoCoQn+lekXfQSXUEO8eMdm8hkdTjiJJkxGyceFIIpqkzxMzgz1lsDCQw227+35hjwVSY98VI2a
-X-Received: by 10.180.20.42 with SMTP id k10mr4686096wie.0.1379113962522;
-	Fri, 13 Sep 2013 16:12:42 -0700 (PDT)
-Received: from [192.168.0.50] (aig34-1-88-167-231-94.fbx.proxad.net.
-	[88.167.231.94])
-	by mx.google.com with ESMTPSA id e5sm6580387wiy.2.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Sep 2013 16:12:39 -0700 (PDT)
-Message-ID: <52339BE5.8000804@vtkloud.com>
-Date: Sat, 14 Sep 2013 01:12:37 +0200
-From: JC <jc@vtkloud.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	Fri, 13 Sep 2013 16:28:40 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 13 Sep 2013 16:28:40 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Sep 2013 16:28:40 -0700
+Message-ID: <1379114920-23851-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: lib ao ?
+Subject: [PATCH 1/1] webkit-gtk: limit ld memory requirement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,16 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 23:12:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Sep 2013 23:28:40 -0000
+Content-Type: text/plain
 
-Hi,
+Add --no-keep-memory to LDFLAGS.
 
-I cannot find a trace of libao. Is this present somewhere in some 
-openembedded-* repo I would have missed ? I could not find it in 
-layers.openembedded.org
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb |    4 ++++
+ 1 files changed, 4 insertions(+), 0 deletions(-)
 
-Thanks for your help,
-Jay
+diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
+index 5691d3f..9304243 100644
+--- a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
++++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
+@@ -58,6 +58,10 @@ CPPFLAGS_append_powerpc = " -I${STAGING_INCDIR}/pango-1.0 \
+                             -I${STAGING_LIBDIR}/glib-2.0/include \
+                             -I${STAGING_INCDIR}/glib-2.0"
+ 
++# ld can run out of memory linking libwebkitgtk!
++#
++LDFLAGS += "-Wl,--no-keep-memory"
++
+ EXTRA_AUTORECONF = " -I Source/autotools "
+ 
+ 
+-- 
+1.7.3.4
+
 
