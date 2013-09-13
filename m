@@ -1,25 +1,44 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CDB8260FD5
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id A38DF60FD5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 20:59:06 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 13 Sep 2013 13:59:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,900,1371106800"; d="scan'208";a="377920867"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.62]) ([10.7.201.62])
-	by orsmga001.jf.intel.com with ESMTP; 13 Sep 2013 13:59:08 -0700
-Message-ID: <1379105947.1285.115.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Joao Henrique Ferreira de Freitas <joaohf@gmail.com>
-Date: Fri, 13 Sep 2013 13:59:07 -0700
-In-Reply-To: <1379095958-15269-1-git-send-email-joaohf@gmail.com>
-References: <1379095958-15269-1-git-send-email-joaohf@gmail.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] boot-directdisk: Allow for EFI-only boot direct disk images
+	Fri, 13 Sep 2013 21:09:47 +0000 (UTC)
+Received: by mail-ie0-f170.google.com with SMTP id x13so3821401ief.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Sep 2013 14:09:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=AAwwPdsl1Mo37gdewhrvqmEtTk8Gxb/vjxGda5A65sU=;
+	b=UTpWsmjKwL9GbolQnq91LeDJFVvWf6F0u9R1Rg2fpuPyMTGhFLRZIEUipb5Niigwyi
+	mkDcHDE0KzX/rXQdVzTNjaExYINfH/xoEdKT2D/KcT7vg8CjR95LQ1dTLlTkoNkTOdjh
+	2UNIjNYZnyKEAesTqHIvlJr4L3304ItkazY8Hryizs88rjD68T87mC5MiO0Nys9eZtaf
+	IOkqhvaYyBljbz6PUO8KYom2WgnzmXQAgDb3iY5UaLxMnzJ6oN4FKR3LcoQcyAIJWgvw
+	l+AJHJVJeoL1/k4V/nl7fGsGULTdXmuqV/PFe89xGYiQBLKrNT/E9fLGtS7Vo+KORz1V
+	ng3g==
+MIME-Version: 1.0
+X-Received: by 10.50.73.194 with SMTP id n2mr2090458igv.6.1379106588892; Fri,
+	13 Sep 2013 14:09:48 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.64.20.229 with HTTP; Fri, 13 Sep 2013 14:09:48 -0700 (PDT)
+In-Reply-To: <1378917967.3484.199.camel@ted>
+References: <cover.1378361078.git.nitin.a.kamble@intel.com>
+	<2b4e12bfea634eaecac61b471a9d607fe127d1cd.1378361078.git.nitin.a.kamble@intel.com>
+	<1378369981.32427.23.camel@ted>
+	<CAJTo0LbLaH4-YTJVo_yr-gsaaSbXXe9Ucfbq_i+4gO+qKa354Q@mail.gmail.com>
+	<CAP9ODKo0KQ3gJd+eCfzDF0QX9EYb_NhRRX6NWJOKsxWth7_wxg@mail.gmail.com>
+	<CAJTo0LYUL1kvZB=Lk8ine+zVpAipRNMevnnpLi5C2_+ZobLdyw@mail.gmail.com>
+	<1378917967.3484.199.camel@ted>
+Date: Fri, 13 Sep 2013 18:09:48 -0300
+X-Google-Sender-Auth: NB0b6KpvQ18Ce8hBKNdA5JF1DtU
+Message-ID: <CAP9ODKp7TW6TU44XRkaJPy-WAOJ=9YW745KovZtz-bP+7-NdVw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "meta-intel@yoctoproject.org" <meta-intel@yoctoproject.org>,
+	Darren Hart <darren.hart@intel.com>, Saul Wold <saul.wold@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Patch-v2 1/1] mesa: avoid unnecessary rerunning of tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,170 +51,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 20:59:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 13 Sep 2013 21:09:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, 2013-09-13 at 15:12 -0300, Joao Henrique Ferreira de Freitas
-wrote:
-> From: João Henrique Ferreira de Freitas <joaohf@gmail.com>
-> 
-> Condition building PCBIOS legacy images on MACHINE_FEATURES containing "pcbios"
-> or not containing "efi". This ensures existing BSPs will continue to get the
-> old PCBIOS legacy-only images. New BSPs can add "efi", "pcbios", or both. The
-> images created likewise support one or the other or both.
-> 
-> Signed-off-by: João Henrique Ferreira de Freitas <joaohf@gmail.com>
-> ---
+On Wed, Sep 11, 2013 at 1:46 PM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Mon, 2013-09-09 at 12:36 +0100, Burton, Ross wrote:
+>> On 7 September 2013 00:56, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> >> Maybe it is time to have a mesa-gl recipe alongside mesa that *just*
+>> >> builds the GL libraries.  EMGD can depend on it for the driver modules
+>> >> it installs, and presumably other vendors with binary drivers can
+>> >> install it for the software rendering/GLX support (Otavio etc, please
+>> >> step in here!).
+>> >
+>> > Yes; we have both situations at Freescale ARM BSP.
+>> >
+>> > For the AMD GPU binaries, which are used in MX5 SoCs we *just* use
+>> > mesa GL and do software rendering.
+>>
+>> So mesa-gl will work fine there.
+>>
+>> > For Vivante GPU binaries, used for
+>> > MX6, we use mesa GL *headers* but Vivante provides a libGL binary.
+>>
+>> My, that's horrific.  I'd forgotten about this, for good reason clearly.
+>
+> So I now have actual code which is better than any thought experiment :)
+>
+> First, I have this applied:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t1&id=3e2c058ffab5b4e92523dac3078c1bc02d0eb8b8
+>
+> This creates a machine specific pkgdata/shlibs directory instead of the
+> current multiple directories and iterations we use. Its not complete yet
+> (buildhistory is broken for example), its another proof of concept. What
+> this does is ensure that the main TUNE_PKGARCH directory doesn't get
+> corrupted with emgd shlibs below, accidentally or otherwise.
+>
+> We then have two PoC patches one for OE-Core, one for meta-intel. These
+> put the gl bits into "i586-emgd" instead of "i586" so they're isolated.
+>
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t1&id=258e068bbb309877b6e36eeec1107806fc710cde
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/metaintel&id=917286eebc5e4eeb13fcc1b0db6adb50ccd847a0
+>
+> I hacked emenlow so it shared qemux86's TUNE_PKGARCH for testing
+> purposes. You can then build both qemux86 and emenlow in the same build
+> directory without them trampling clutter.
+>
+> cogl would also need to inherit the gl class so its rough around the
+> edges but basically works.
+>
+> Thoughts?
 
-Please provide a list of what changed since v1 after the --- line, for
-example:
+Sorry by delayed reply.
 
-Changes since v1:
-* blah blah blah
+I did look at the changes and I did enjoy it a lot. I had something
+like this in O.S. Systems fork of OpenEmbedded-Classic to share
+multiple builds against compatible geode machines... so let's stop
+with nostalgy and focus in 2013 ;-)
 
-I believe I acked v1, so what's different here? I will reiterate my
-comment about line length in the commit message which does not appear to
-have been fixed in this v2.
+It does looks great. I like the idea however I'd prefer if you could
+name it like "subarch" or something like that. For example we have
+some uses for this in FSL layer:
 
---
-Darren
+ * xserver-xorg
+ * gpu-viv
+ * amd-gpu
+ * gst-fsl-plugin
 
->  meta/classes/boot-directdisk.bbclass | 65 ++++++++++++++++++++++++++++++------
->  meta/classes/syslinux.bbclass        |  5 +++
->  2 files changed, 60 insertions(+), 10 deletions(-)
-> 
-> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-> index 8a55aae..4b9d7bd 100644
-> --- a/meta/classes/boot-directdisk.bbclass
-> +++ b/meta/classes/boot-directdisk.bbclass
-> @@ -31,6 +31,29 @@ EXCLUDE_FROM_WORLD = "1"
->  BOOTDD_VOLUME_ID   ?= "boot"
->  BOOTDD_EXTRA_SPACE ?= "16384"
->  
-> +EFI = "${@base_contains("MACHINE_FEATURES", "efi", "1", "0", d)}"
-> +EFI_CLASS = "${@base_contains("MACHINE_FEATURES", "efi", "grub-efi", "", d)}"
-> +
-> +# Include legacy boot if MACHINE_FEATURES includes "pcbios" or if it does not
-> +# contain "efi". This way legacy is supported by default if neither is
-> +# specified, maintaining the original behavior.
-> +def pcbios(d):
-> +    pcbios = base_contains("MACHINE_FEATURES", "pcbios", "1", "0", d)
-> +    if pcbios == "0":
-> +        pcbios = base_contains("MACHINE_FEATURES", "efi", "0", "1", d)
-> +    return pcbios
-> +
-> +def pcbios_class(d):
-> +    if d.getVar("PCBIOS", True) == "1":
-> +        return "syslinux"
-> +    return ""
-> +
-> +PCBIOS = "${@pcbios(d)}"
-> +PCBIOS_CLASS = "${@pcbios_class(d)}"
-> +
-> +inherit ${PCBIOS_CLASS}
-> +inherit ${EFI_CLASS}
-> +
->  # Get the build_syslinux_cfg() function from the syslinux class
->  
->  AUTO_SYSLINUXCFG = "1"
-> @@ -38,17 +61,32 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
->  SYSLINUX_ROOT ?= "root=/dev/sda2"
->  SYSLINUX_TIMEOUT ?= "10"
->  
-> -inherit syslinux
-> -		
-> +populate() {
-> +	DEST=$1
-> +	install -d ${DEST}
-> +
-> +	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
-> +	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
-> +
-> +	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
-> +		install -m 0644 ${INITRD} ${DEST}/initrd
-> +	fi
-> +
-> +}
-> +
->  build_boot_dd() {
->  	HDDDIR="${S}/hdd/boot"
->  	HDDIMG="${S}/hdd.image"
->  	IMAGE=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect
->  
-> -	install -d $HDDDIR
-> -	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage $HDDDIR/vmlinuz
-> -	install -m 0644 ${S}/syslinux.cfg $HDDDIR/syslinux.cfg
-> -	install -m 444 ${STAGING_DATADIR}/syslinux/ldlinux.sys $HDDDIR/ldlinux.sys
-> +	populate ${HDDDIR}
-> +
-> +	if [ "${PCBIOS}" = "1" ]; then
-> +		syslinux_hddimg_populate
-> +	fi
-> +	if [ "${EFI}" = "1" ]; then
-> +		grubefi_hddimg_populate
-> +	fi
->  
->  	BLOCKS=`du -bks $HDDDIR | cut -f 1`
->  	BLOCKS=`expr $BLOCKS + ${BOOTDD_EXTRA_SPACE}`
-> @@ -62,7 +100,9 @@ build_boot_dd() {
->  	mkdosfs -n ${BOOTDD_VOLUME_ID} -S 512 -C $HDDIMG $BLOCKS 
->  	mcopy -i $HDDIMG -s $HDDDIR/* ::/
->  
-> -	syslinux $HDDIMG
-> +	if [ "${PCBIOS}" = "1" ]; then
-> +		syslinux_hdddirect_install $HDDIMG
-> +	fi	
->  	chmod 644 $HDDIMG
->  
->  	ROOTFSBLOCKS=`du -Lbks ${ROOTFS} | cut -f 1`
-> @@ -85,9 +125,11 @@ build_boot_dd() {
->  		dd of=$IMAGE bs=1 seek=440 conv=notrunc
->  
->  	OFFSET=`expr $END2 / 512`
-> -	dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
-> +	if [ "${PCBIOS}" = "1" ]; then
-> +		dd if=${STAGING_DATADIR}/syslinux/mbr.bin of=$IMAGE conv=notrunc
-> +	fi
->  	dd if=$HDDIMG of=$IMAGE conv=notrunc seek=1 bs=512
-> -	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512
-> +	dd if=${ROOTFS} of=$IMAGE conv=notrunc seek=$OFFSET bs=512	
->  
->  	cd ${DEPLOY_DIR_IMAGE}
->  	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.hdddirect
-> @@ -96,7 +138,10 @@ build_boot_dd() {
->  
->  python do_bootdirectdisk() {
->      validate_disk_signature(d)
-> -    bb.build.exec_func('build_syslinux_cfg', d)
-> +    if d.getVar("PCBIOS", True) == "1":
-> +        bb.build.exec_func('build_syslinux_cfg', d)
-> +    if d.getVar("EFI", True) == "1":
-> +        bb.build.exec_func('build_grub_cfg', d)
->      bb.build.exec_func('build_boot_dd', d)
->  }
->  
-> diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-> index 501bc6d..dae6609 100644
-> --- a/meta/classes/syslinux.bbclass
-> +++ b/meta/classes/syslinux.bbclass
-> @@ -64,6 +64,11 @@ syslinux_hddimg_install() {
->  	syslinux ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
->  }
->  
-> +syslinux_hdddirect_install() {
-> +	DEST=$1
-> +	syslinux $DEST
-> +}
-> +
->  python build_syslinux_cfg () {
->      import copy
->      import sys
+All these are subarch compatible but currently are marked as machine
+specific (which slow down builds).
+
+Regards,
 
 -- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
