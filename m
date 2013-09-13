@@ -1,17 +1,24 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-wv.mentorg.com [192.94.38.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 7530960842
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EA4E601DB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 11:48:42 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r8DBmd2i016729; 
-	Fri, 13 Sep 2013 06:48:41 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Sep 2013 16:50:02 +0500
-Message-Id: <1379073002-19032-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] connman: Fix EXTRA_OECONF
+	Fri, 13 Sep 2013 12:02:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8DC2akV009413
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Sep 2013 05:02:36 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Fri, 13 Sep 2013 05:02:34 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Sep 2013 20:02:31 +0800
+Message-ID: <cover.1379073449.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Subject: [PATCH 0/1]LSB 4.1 Library Check: fix unable to find library libqt-mt.so.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,57 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 11:48:42 -0000
+X-List-Received-Date: Fri, 13 Sep 2013 12:02:34 -0000
+Content-Type: text/plain
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+*Problem
 
-- --enable-threads and --enable-fake are obsolete, unrecognized options
-now.
-- --enable-bluetooth,wifi,ofono just build these technologies as plugins
-and these plugins need to be installed explicitly. Our intention here
-is to make these technologies available by default, if enabled. For
-this we need --enable-bluetooth,wifi,ofono=builtin.
-- If bluetooth is getting disabled then disable dundee as well, which
-is enabled by default.
+Build core-image-lsb for lsb test which doesn't include meta-qt layer,
+and there is a LSB 4.1 Library Check failure: unable to find library
+libqt-mt.so.3
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/recipes-connectivity/connman/connman.inc |    8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+//Hongxu
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 37ce3ec..71ecce2 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -21,14 +21,12 @@ EXTRA_OECONF += "\
-     ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
-     ac_cv_path_PPPD=${sbindir}/pppd \
-     --enable-debug \
--    --enable-threads \
-     --enable-loopback \
-     --enable-ethernet \
-     --enable-tools \
-     --enable-test \
-     --disable-polkit \
-     --enable-client \
--    --enable-fake \
-     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
- "
- 
-@@ -42,9 +40,9 @@ PACKAGECONFIG ??= "wispr \
- # local.conf or distro config
- # PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
- 
--PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
--PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
--PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
-+PACKAGECONFIG[wifi] = "--enable-wifi=builtin, --disable-wifi, wpa-supplicant"
-+PACKAGECONFIG[bluetooth] = "--enable-bluetooth=builtin, --disable-bluetooth --disable-dundee, bluez4"
-+PACKAGECONFIG[3g] = "--enable-ofono=builtin, --disable-ofono, ofono"
- PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
- PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
- PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
+The following changes since commit dd36930f3f37b2e0e1258de28ac1b1fa99cf196f:
+
+  bitbake: data_smart: Account for changes in append/prepend/remove in the config hash (2013-09-12 17:03:17 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/fix-lsb-libqt3
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/fix-lsb-libqt3
+
+Hongxu Jia (1):
+  LSB 4.1 Library Check: fix unable to find library libqt-mt.so.3
+
+ meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
 -- 
-1.7.9.5
+1.8.1.2
 
 
