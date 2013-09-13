@@ -1,34 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f46.google.com (mail-wg0-f46.google.com [74.125.82.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 711E96156C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f54.google.com (mail-ee0-f54.google.com [74.125.83.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3271D610EE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 08:35:22 +0000 (UTC)
-Received: by mail-wg0-f46.google.com with SMTP id k14so823539wgh.25
+	Fri, 13 Sep 2013 08:45:55 +0000 (UTC)
+Received: by mail-ee0-f54.google.com with SMTP id e53so415337eek.41
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 01:35:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=UwJbwkavPcvM0mzpxnDfLeDXV6sNX/0Gyn9F0kz0ZBc=;
-	b=aKBJCClyeAULgLVON4RihI5tn0O3RFzjeQV68m028KlLobFWOmoe8o8YP14rKDYXtM
-	YgmczeE/VXwi4R08nAg4Gb1VSHW0sgM1YZsm2ouHgy2rkSGzTyS5e1RcdntDWzDLUspE
-	jQAoSysHx+bg8qWrGyfBIg82VZMDM6jCC0HgJv/LYo+EhVCisNuR0QRqZ3W9oImGGjS5
-	m1PdRxviD8PFXzEs8THX3fp6Ht/i3LxE6SK4J16eb1uOuXrqAWjvM1MKH4AXSmiwTIDK
-	8xJvp1ABiStHCV1sHbtgIt0Xql+OXEWiUOjvLG4hIkTn/eKLr0mM21MlLnGOF0qZ3pIj
-	Aq/w==
-X-Gm-Message-State: ALoCoQmMv/2XoyZDGzq/wuJbnUFy17DO3loMoi2beTJJoHoXAz+ZxKubBwFhpEzlz+AZ2N2P+nwy
-X-Received: by 10.180.77.68 with SMTP id q4mr1668507wiw.4.1379061323638;
-	Fri, 13 Sep 2013 01:35:23 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id dx7sm1775015wib.8.1969.12.31.16.00.00
+	Fri, 13 Sep 2013 01:45:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+OqAJwXBPWobQsqWNx9g4BKqQdf+I0zB6vFd6ExocOM=;
+	b=jRZU4ZopuM5eEsAIpkB02qgCh7+UdCKzPwiz8OcisrwFvpxFTB7Qvh+WnbOocTz0wb
+	/GemC081ir9i1+/z7XKYIwHK8Nm2INcttI5jHTo6U0YI+TKU4C8lo1y1Bag2ZFYumV9Z
+	Oc1Rc2KEHbE8rt6OBX/YCDrCbbyuLWuDgfRMkuXMCB9CK3JiupDrp5et+EmgNaYILnbw
+	7In3cvh12Z+WIA/Cl7loHg/YLvJ5aef9MfcFAIcpq+0mF9hIaZllrBUcSehU15ofTum2
+	iRDhCDPwsYZ1n9ttUK6M+folTSwNwa3rwvwo3iGJrOvBJcDhzyrooU64i3VWIFmSVneO
+	MfCw==
+X-Received: by 10.15.43.13 with SMTP id w13mr16500843eev.37.1379061956498;
+	Fri, 13 Sep 2013 01:45:56 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	m54sm12934586eex.2.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 13 Sep 2013 01:35:22 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Sep 2013 09:35:18 +0100
-Message-Id: <1379061318-6726-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] anjuta-remote-run: remove
+	Fri, 13 Sep 2013 01:45:56 -0700 (PDT)
+Date: Fri, 13 Sep 2013 10:47:24 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Saul Wold <sgw@linux.intel.com>
+Message-ID: <20130913084724.GC11500@jama>
+References: <1379054574-8526-1-git-send-email-sgw@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1379054574-8526-1-git-send-email-sgw@linux.intel.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: bjorn.arnelid@xdin.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] qemu.inc: Fix typo for KERNEL_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,55 +45,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 08:35:22 -0000
+X-List-Received-Date: Fri, 13 Sep 2013 08:45:56 -0000
+X-Groupsio-MsgNum: 44949
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="JAtnJwvplI04zgov"
+Content-Disposition: inline
 
-This is from the Anjuta integration which was removed many years ago.
+--JAtnJwvplI04zgov
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../devel-config/anjuta-remote-run.bb                 |   17 -----------------
- .../devel-config/anjuta-remote-run/anjuta-remote-run  |    7 -------
- 2 files changed, 24 deletions(-)
- delete mode 100644 meta/recipes-devtools/devel-config/anjuta-remote-run.bb
- delete mode 100644 meta/recipes-devtools/devel-config/anjuta-remote-run/anjuta-remote-run
+On Thu, Sep 12, 2013 at 11:42:54PM -0700, Saul Wold wrote:
+> Thans to Bjorn Arnelid for finding this
+>=20
+> Cc: bjorn.arnelid@xdin.com
+>=20
+> [YOCTO #5173]
+>=20
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/conf/machine/include/qemu.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/inclu=
+de/qemu.inc
+> index a78622d..8557777 100644
+> --- a/meta/conf/machine/include/qemu.inc
+> +++ b/meta/conf/machine/include/qemu.inc
+> @@ -26,4 +26,4 @@ PREFERRED_PROVIDER_virtual/kernel ?=3D "linux-yocto"
+>  EXTRA_IMAGEDEPENDS +=3D "qemu-native qemu-helper-native"
+> =20
+>  # Provide the nfs server kernel module for all qemu images
+> -KERNEL_FEATURES_append_pn-linux-yocto =3D " features/nfsd/nfsd-enable.sc=
+c"
+> +KERNEL_FEATURES_append_pn_linux-yocto =3D " features/nfsd/nfsd-enable.sc=
+c"
 
-diff --git a/meta/recipes-devtools/devel-config/anjuta-remote-run.bb b/meta/recipes-devtools/devel-config/anjuta-remote-run.bb
-deleted file mode 100644
-index b9cded7..0000000
---- a/meta/recipes-devtools/devel-config/anjuta-remote-run.bb
-+++ /dev/null
-@@ -1,17 +0,0 @@
--SUMMARY = "Provides on-device script for interaction with the Anjuta IDE"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=3f40d7994397109285ec7b81fdeb3b58 \
--                    file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--
--SRC_URI = "file://anjuta-remote-run"
--
--S = "${WORKDIR}"
--
--do_install() {
--	install -d ${D}${bindir}
--	install -m 0755 anjuta-remote-run ${D}${bindir}/
--}
--
--PACKAGES = "${PN}"
--RDEPENDS_${PN} = "dbus rsync"
--
-diff --git a/meta/recipes-devtools/devel-config/anjuta-remote-run/anjuta-remote-run b/meta/recipes-devtools/devel-config/anjuta-remote-run/anjuta-remote-run
-deleted file mode 100644
-index 620e3a7..0000000
---- a/meta/recipes-devtools/devel-config/anjuta-remote-run/anjuta-remote-run
-+++ /dev/null
-@@ -1,7 +0,0 @@
--#!/bin/sh
--
--. /etc/profile
--export DISPLAY=:0
--dbus-launch $@
--
--
--- 
-1.7.10.4
+Wait a minute, isn't _pn-foo correct override?
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--JAtnJwvplI04zgov
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlIy0RwACgkQN1Ujt2V2gBx7EQCgt5poExeSx1W1VeTHuhVvxbTf
+8t0AnRF2mm3Yf3dKuMAShbB1trIlWCKx
+=hdNM
+-----END PGP SIGNATURE-----
+
+--JAtnJwvplI04zgov--
