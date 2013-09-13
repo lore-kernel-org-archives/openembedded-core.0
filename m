@@ -1,31 +1,17 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 12F8F60EE1
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-wv.mentorg.com [192.94.38.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 7530960842
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 11:18:29 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8DBVv1I021087 for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 12:32:20 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NHohC6TDlGfS
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 12:32:19 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8DBWCRn021107
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 12:32:14 +0100
-Message-ID: <1379071094.3484.245.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Sep 2013 12:18:14 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Subject: [PATCH] linux-libc-headers: Add big warning about antisocial behaviour
+	Fri, 13 Sep 2013 11:48:42 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r8DBmd2i016729; 
+	Fri, 13 Sep 2013 06:48:41 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Sep 2013 16:50:02 +0500
+Message-Id: <1379073002-19032-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] connman: Fix EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,49 +24,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 11:18:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Sep 2013 11:48:42 -0000
 
-I'm getting concerned with the number of people forking this recipe
-and not understanding what they're doing. I'm therefore proposing
-adding in a suitable warning to people thinking of copying it.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+- --enable-threads and --enable-fake are obsolete, unrecognized options
+now.
+- --enable-bluetooth,wifi,ofono just build these technologies as plugins
+and these plugins need to be installed explicitly. Our intention here
+is to make these technologies available by default, if enabled. For
+this we need --enable-bluetooth,wifi,ofono=builtin.
+- If bluetooth is getting disabled then disable dundee as well, which
+is enabled by default.
+
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 ---
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index 96fe2ff..79b7dc4 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -2,6 +2,28 @@ DESCRIPTION = "Sanitized set of kernel headers for the C library's use."
- SECTION = "devel"
- LICENSE = "GPLv2"
- 
-+#########################################################################
-+####                        PLEASE READ 
-+#########################################################################
-+#
-+# You're probably looking here thinking you need to create some new copy
-+# of linux-libc-headers since you have your own custom kernel. To put 
-+# this simply, you DO NOT.
-+#
-+# Why? These headers are used to build the libc. If you customise the 
-+# headers you are customising the libc and the libc becomes machine
-+# specific. Most people do not add custom libc extensions to the kernel
-+# and have a machine specific libc.
-+#
-+# But you have some kernel headers you need for some driver? That is fine
-+# but get them from STAGING_KERNEL_DIR where the kernel installs itself.
-+# This will make the package using them machine specific but this is much
-+# better than having a maching specific C library. This does mean your 
-+# recipe needs a DEPENDS += "virtual/kernel" but again, that is fine and
-+# makes total sense.
-+#
-+# -- RP
-+
- LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
- 
- python __anonymous () {
+ meta/recipes-connectivity/connman/connman.inc |    8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
+index 37ce3ec..71ecce2 100644
+--- a/meta/recipes-connectivity/connman/connman.inc
++++ b/meta/recipes-connectivity/connman/connman.inc
+@@ -21,14 +21,12 @@ EXTRA_OECONF += "\
+     ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
+     ac_cv_path_PPPD=${sbindir}/pppd \
+     --enable-debug \
+-    --enable-threads \
+     --enable-loopback \
+     --enable-ethernet \
+     --enable-tools \
+     --enable-test \
+     --disable-polkit \
+     --enable-client \
+-    --enable-fake \
+     ${@base_contains('DISTRO_FEATURES', 'systemd', '--with-systemdunitdir=${systemd_unitdir}/system/', '--with-systemdunitdir=', d)} \
+ "
+ 
+@@ -42,9 +40,9 @@ PACKAGECONFIG ??= "wispr \
+ # local.conf or distro config
+ # PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
+ 
+-PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
+-PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, bluez4"
+-PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
++PACKAGECONFIG[wifi] = "--enable-wifi=builtin, --disable-wifi, wpa-supplicant"
++PACKAGECONFIG[bluetooth] = "--enable-bluetooth=builtin, --disable-bluetooth --disable-dundee, bluez4"
++PACKAGECONFIG[3g] = "--enable-ofono=builtin, --disable-ofono, ofono"
+ PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+ PACKAGECONFIG[openvpn] = "--enable-openvpn --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+ PACKAGECONFIG[vpnc] = "--enable-vpnc --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
+-- 
+1.7.9.5
 
 
