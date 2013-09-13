@@ -1,40 +1,38 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 29D4C60579
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 950F460FD5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 20:36:09 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 13 Sep 2013 13:33:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,900,1371106800"; d="scan'208";a="403059468"
-Received: from unknown (HELO [10.255.15.78]) ([10.255.15.78])
-	by orsmga002.jf.intel.com with ESMTP; 13 Sep 2013 13:36:06 -0700
-Message-ID: <52337736.1070906@linux.intel.com>
-Date: Fri, 13 Sep 2013 13:36:06 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Fri, 13 Sep 2013 20:46:54 +0000 (UTC)
+Received: by mail-ie0-f178.google.com with SMTP id to1so3675329ieb.37
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Sep 2013 13:46:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=jiCwZHj9qvTKVJivQtlEHq4t9P/Az1KUD5LTIpzs8dE=;
+	b=ezJi2ILY6ZbNKkkEE+z5vCaQ0Vlvs+D1Y/R7WzdJ9hQ5od8iHhmygCv48qMQu4BiCu
+	bfX3zqZ+TityDHtBhRem/KNL+uJ2mUWy7406zIi7RCbVWYwizEeHsQcHPkkUbS0OxeB7
+	8yLAjV7+ITc6jqnedR8/bAQRtjKPQPdIsKS2gkseIo9v2/A8Z6PIaA0TiVitF5jYMbig
+	e3v4i4K5liWJMEOUgTbNuWfAZd3NoEq+2CadO8Td22Mp9IAhm0DzyvhghdUuIyjDwshN
+	KAMyimNeYD7H5FORSK9Pqj2lXFvV803Gf7xfDIrAX/0fJZm0iAf+BNZ40J71aawQ9Zk4
+	vVSA==
 MIME-Version: 1.0
-To: Hans Beckerus <hans.beckerus@gmail.com>
-References: <1378825041-20190-1-git-send-email-hans.beckerus@gmail.com>
-	<CAFyqS9rvPFr2F8+Tb1P0BLn84jJ0Q+cSCM-9pt8gOATquo4Gig@mail.gmail.com>
-	<5231F548.6010801@linux.intel.com>
-	<CAFyqS9r3WOEjfrPe5s=n1H9SzFsnJ4FAdo=AGprWUkufUe6QRQ@mail.gmail.com>
-	<52322D8B.7080406@gmail.com> <52324915.6030708@gmail.com>
-	<CAFyqS9omO7majs22+o-DPii9wpw15rrhxkgQAUD35GRWjRFqLw@mail.gmail.com>
-	<1379062359.3484.243.camel@ted>
-	<CAFyqS9qFA-gRZw_9XXtZfROmzc5vaWSyg6MRobhFiWkzekAnHA@mail.gmail.com>
-	<CAFyqS9pUHcEDZOpw9r2-LjCwN9EwK4Y0cpQp+oVCV2VzWL2FdQ@mail.gmail.com>
-	<CAFyqS9oavyrMkDL_W8MM36_fA9p_mxweiCk17j470WTv4YFvYw@mail.gmail.com>
-	<CAFyqS9pQdQMSBJ04Rz+AeRkfgZbPDZAsTK6DPerRdiB5LHRQ+w@mail.gmail.com>
-	<1379074896.3484.262.camel@ted>
-	<CAFyqS9q1RMXjV-L3M3ZGz+Bw2Ky81WjDQSLmdZJUmm2yp5-pqg@mail.gmail.com>
-	<CAFyqS9pvkL9dv=Oh=S8LmApy2wQppttJeQH+1+s6+bqmKXwRyg@mail.gmail.com>
-	<52335040.101@linux.intel.com> <5233538E.9020404@gmail.com>
-	<523367D6.4050604@gmail.com>
-In-Reply-To: <523367D6.4050604@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] libtool: fix resolve of lt_sysroot
+X-Received: by 10.50.114.168 with SMTP id jh8mr2044256igb.6.1379105216437;
+	Fri, 13 Sep 2013 13:46:56 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.64.20.229 with HTTP; Fri, 13 Sep 2013 13:46:56 -0700 (PDT)
+In-Reply-To: <a8748357e163efb38b354d4142293393c2a2cc9a.1379100075.git.anders@chargestorm.se>
+References: <cover.1379100075.git.anders@chargestorm.se>
+	<a8748357e163efb38b354d4142293393c2a2cc9a.1379100075.git.anders@chargestorm.se>
+Date: Fri, 13 Sep 2013 17:46:56 -0300
+X-Google-Sender-Auth: Q1EeTUHDbxQzAAenlD8Qwg1Duok
+Message-ID: <CAP9ODKoNGpYvW6zyzSA3gtF8cbbP7p9DmJcmmqppv4y4s6=5YA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Anders Darander <anders@chargestorm.se>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] u-boot-fw-utils: reinstate target recipe for fw_printenv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,54 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 20:36:10 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 13 Sep 2013 20:46:55 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On 09/13/2013 12:30 PM, Hans Beckerus wrote:
-> On 2013-09-13 8:03, Hans Beckerus wrote:
->> On 2013-09-13 7:49, Saul Wold wrote:
->>> On 09/13/2013 06:29 AM, Hans Beckérus wrote:
-
-<<SNIP>>
-
->>>>>>
->>>>> Agree. Since all my patch did initially was to make sure gcc was
->>>>> queried when --with-libtool-sysroot was not specified this is the only
->>>>> possible reason I can think of that causes it to break like this. And
->>>>> there is only one side on this coin. The result before the patch if a
->>>>> sysroot *was* specified is the same now also after the patch. I will
->>>>> get back later with a status update on my world build. Will probably
->>>>> take all weekend since it is a simple dual-core ARM mini-server :(
->>>>> I am not really concerned about what release this is targeting. I
->>>>> consider this a workaround until I can dig deeper into what is
->>>>> actually going wrong. My primary goal is to make sure that the SDK
->>>>> does not break as it did before when installed in different paths. Of
->>>>> course that must not affect legacy features so hopefully this
->>>>> workaround eliminates that.
->>>>>
-> The current patch looks good so far. I am still running a world build on
-> my "failing" host and no errors as of yet. The packages that failed
-> before has now passed. Should I make a v5 out of this and then someone
-> else (Saul?) can give it an extra spin?
+On Fri, Sep 13, 2013 at 4:21 PM, Anders Darander <anders@chargestorm.se> wr=
+ote:
+> The latest upgrade changed u-boot-fw-utils to u-boot-fw-utils-cross, whic=
+h
+> removed the on-target fw_printenv (and fw_setenv).
 >
-Sure, I will give it a local test and if it passes here I can throw it 
-on the Autobuilder over the weekend and see what happens.
-
-Sau!
-
-
->>>>> Thanks.
->>>>> Hans
->>>>>
->>>>>
->>>>>> Cheers,
->>>>>>
->>>>>> Richard
->>>>>>
->>>>>>
->>>>
->>>>
->>
+> Re-create the updated version of the u-boot-fw-utils recipe.
 >
+> U-Boot does try to strip the fw_printenv binary by default now. To avoid
+> this, without patching the Makefile, we add HOSTSTRIP=3Dtrue to EXTRA_OEM=
+AKE.
+>
+> The new U-Boot do also require us to configure the build for a specific
+> machine, thus we change the package arch.=A7
+>
+> Signed-off-by: Anders Darander <anders@chargestorm.se>
+
+I think this is the best way to handle this for Dora; for 1.6 (I will
+prepare the patches when updating to 2013.10) I think we ought to
+squash this into u-boot build so it is done all in same build process.
+
+Thanks for fixing a regression introduced by me.
+
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
