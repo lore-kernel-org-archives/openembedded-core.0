@@ -1,47 +1,37 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from smtp103.mer-nm.internl.net (smtp103.mer-nm.internl.net
-	[217.149.192.139])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C5CD6156C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id C99126B6C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 08:51:13 +0000 (UTC)
-Received: from amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.127])
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTP id 65FD43F6B4;
-	Fri, 13 Sep 2013 10:51:14 +0200 (CEST)
-X-Spam-scanned: scanned by InterNLnet Mail Scan System
-X-Spam-Flag: NO
-X-Spam-Score: -4.4
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.4 tagged_above=-999 required=4.5
-	tests=[BAYES_00=-2.9, KHOP_THREADED=-1.5] autolearn=no
-X-Spam-Languages: en
-Received: from smtp103.mer-nm.internl.net ([217.149.192.139])
-	by amavisd-new (mailscanner04.wrt-nm.internl.net [217.149.192.160])
-	(amavisd-new, port 10024)
-	with ESMTP; Fri, 13 Sep 2013 10:51:13 +0200 (CEST)
-Received: from TOP-EX01.TOPIC.LOCAL (mail.topic.nl [82.204.13.182])
-	(using TLSv1 with cipher AES128-SHA (128/128 bits))
-	(No client certificate requested)
-	by smtp103.mer-nm.internl.net (Postfix) with ESMTPS;
-	Fri, 13 Sep 2013 10:51:12 +0200 (CEST)
-Received: from [192.168.80.45] (192.168.80.45) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.1.438.0;
-	Fri, 13 Sep 2013 10:51:14 +0200
-Message-ID: <5232D1FF.30603@topic.nl>
-Date: Fri, 13 Sep 2013 10:51:11 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>
-References: <cover.1378977276.git.hongxu.jia@windriver.com>
-	<732e1a82d56c4355c0bae26ed5aec0151b5adb1a.1378977276.git.hongxu.jia@windriver.com>
-	<52318DAB.9090108@topic.nl> <5231AD8C.9030509@windriver.com>
-In-Reply-To: <5231AD8C.9030509@windriver.com>
-X-Originating-IP: [192.168.80.45]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel.bbclass: Need a method to install/update for bzImage
+	Fri, 13 Sep 2013 08:53:02 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8D96gcB015312; Fri, 13 Sep 2013 10:06:42 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id bPGh2RCNaAAd; Fri, 13 Sep 2013 10:06:42 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8D96bj7015294
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 13 Sep 2013 10:06:39 +0100
+Message-ID: <1379062359.3484.243.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Hans =?ISO-8859-1?Q?Beck=E9rus?= <hans.beckerus@gmail.com>
+Date: Fri, 13 Sep 2013 09:52:39 +0100
+In-Reply-To: <CAFyqS9omO7majs22+o-DPii9wpw15rrhxkgQAUD35GRWjRFqLw@mail.gmail.com>
+References: <1378825041-20190-1-git-send-email-hans.beckerus@gmail.com>
+	<522F9030.3020804@linux.intel.com>
+	<CAFyqS9qRvPafVSt90BQe6F3Vaz8f0P2E2R4PLKh5Zz8JH8T6Vw@mail.gmail.com>
+	<CAFyqS9rvPFr2F8+Tb1P0BLn84jJ0Q+cSCM-9pt8gOATquo4Gig@mail.gmail.com>
+	<5231F548.6010801@linux.intel.com>
+	<CAFyqS9r3WOEjfrPe5s=n1H9SzFsnJ4FAdo=AGprWUkufUe6QRQ@mail.gmail.com>
+	<52322D8B.7080406@gmail.com> <52324915.6030708@gmail.com>
+	<CAFyqS9omO7majs22+o-DPii9wpw15rrhxkgQAUD35GRWjRFqLw@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4] libtool: fix resolve of lt_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,246 +44,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 08:51:13 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 13 Sep 2013 08:53:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-=EF=BB=BFOn 09/12/2013 02:03 PM, Hongxu Jia wrote:
-> On 09/12/2013 05:47 PM, Mike Looijmans wrote:
->> This change just assumes that all boot systems are alike. Just
->> applying this patch "as is" will probably break a lot of embedded
->> systems that have totally different ways of upgrading the kernel. Best
->> scenario is that they'll waste time and space running scripts that
->> will have no effect.
->>
->> It should be possible - and more important: default - to NOT include
->> these scripts, and use them only on targets they apply to.
->> kernel.bbclass is in my opinion not the correct location.
->>
->
-> Yes, we should add a on-off to decide whether the method should be used
-> or not,
-> and set off by default.
->
-> But I could not find a better location to do this, almost all of targets
-> in oe-core may
-> need this, do you have any suggestions?
+On Fri, 2013-09-13 at 10:06 +0200, Hans Beckérus wrote:
+> On Fri, Sep 13, 2013 at 1:07 AM, Hans Beckerus <hans.beckerus@gmail.com> wrote:
+> > On 2013-09-12 11:09, Hans Beckerus wrote:
+> >>
+> >> On 2013-09-12 8:02, Hans Beckérus wrote:
+> >>
+> > I now got a somewhat better picture of what is going on. I know what is
+> > failing, and why. But currently I have no solution ready. Actually there are
+> > some nasty traps to get caught in here :(. The problem is actually as simple
+> > as it is obvious. For all those native packages that do work (this is a
+> > unique problem for native packages using libtool), they all seem to share a
+> > common thing in their recipes:
+> >
+> > EXTRA_OECONF += " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
+> >
+> > Great! This is the way to do it. But, what if someone forgets to do this?
+> > Well the answer is; it will most likely *not* compile!
+> > Since libtool now has been fixed to correctly pick up the sysroot from the
+> > compiler (using --print-sysroot) if --with-libtool-sysroot is not specified
+> > it will try to execute ${CC} --print-sysroot. Bummer! ${CC} is most likely
+> > simply set to 'gcc' for native packages. That is, the local host compiler is
+> > used.
+> > The sysroot for that is of course "/". And it should be. Otherwise it will
+> > bring in the wrong set of header files and libraries. But, there is another
+> > problem here. We should not let libtool use "/"! Because even if we use the
+> > local host compiler for native packages, we still use the oe-core upstream
+> > version of libtool, and that does not like using "/" as sysroot.  If it does
+> > everything becomes a mess. And that is exactly what seems to happen now
+> > after the patch. Before the patch libtool rendered the SDK for libtool
+> > enabled packages more or less useless. But, it also saved us in the native
+> > case. Because if --with-libtool-sysroot was set, the path was used directly,
+> > but if it was not set, lt_sysroot was also kept unset. And here is the
+> > spooky part again. Having lt_sysroot set to nothing seems to work just as
+> > well as setting it, provided it points to a valid location!? This magic
+> > however did not work for the SDK which requires the sysroot to be resolved
+> > correctly when not specified. So one conclusion could be that, for native
+> > packages, enforcement of --with-libtool-sysroot is a possible way forward.
+> > Would this be safe? I think so, but I might have overlooked something.  I
+> > can also see in config.log that "configure" is fed with a lot of arguments,
+> > even if EXTRA_OECONF is not specified. How is this handled? How can I try to
+> > force this in for all native packages. I looked into native.bbclass but it
+> > was not obvious to me how anything in there actually ends up in arguments to
+> > "configure". Any hints? There are still a lot of gaps in my analysis ;) If
+> > anyone feels like they can fill in the gaps, please do.
+> >
+> >
+> Now this is getting interesting. When I said before I could reproduce
+> the problem in a world build I did not know that it would actually
+> succeed later. On a different build server!! The previous analysis
+> made is mostly true. But there is something more. Why did it succeed
+> on one of my servers but not the other one? The way to find out was to
+> compare what lt_sysroot is resolved to in both cases. And there it
+> was. On the machine for which it works, lt_sysroot is now picked up
+> from $CC --print-sysroot (due to the patch), but the result is not
+> "/", it is unset! Which is the same behavior that can be observed
+> without the libtool patch. So this is getting even worse now. It is
+> gcc and host dependent. If gcc has been built with a sysroot of "/" is
+> does not work since that will be picked up by libtool, and is of
+> course wrong in our case. But if lt_sysroot is kept unset, libtool
+> seems to be able to resolve a working default using some other
+> (unknown) mechanism. That is why we have not seen this problem before,
+> even though libtool actually did the wrong thing before the patch. So
+> this leaves me with at least this question; is it actually correct
+> that gcc has "/" as a compiled in sysroot on some machines?
+> 
+> I then saw two possible solutions:
+> 
+> a) update the patch in libtool and if gcc reports a single "/", skip
+> it and leave lt_sysroot unset.
+> b) consistency is the key. Let all native packages force setting of a
+> proper lt_sysroot  using --with-libtool-sysroot.
+> 
+> This is also when I found this in autotools.bbclass
+> 
+> def append_libtool_sysroot(d):
+>     # Only supply libtool sysroot option for non-native packages
+>     if not bb.data.inherits_class('native', d):
+>         return '--with-libtool-sysroot=${STAGING_DIR_HOST}'
+>     return ""
+> 
+> I can somewhat understand the rationale behind this. If building for
+> target you wish to point libtool to a proper sysroot, and leaving it
+> unset for native seems like a good idea. But I do not think that
+> really is the case. Even for native builds you wish to point it to the
+> sysroot for the libtool actually being used. Not to what the compiler
+> is pointing to, which is now the effect after applying the libtool
+> patch. But which is actually what you want when building from an
+> placement independent SDK toolchain for which $CC is updated with a
+> proper --sysroot argument to gcc automatically when the environment
+> script is sourced.
+> 
+> So my propasal now is to update autotools.bbclass and for native
+> packages set -with-libtool-sysroot=${STAGING_DIR_NATIVE}. This should
+> cover all the corner cases and work in all different combinations.
+> Again, consistency is the key. But I still need to try it. Problem now
+> is that I need to wait until I have access to the machine for which it
+> currently does not work to verify it properly.
+> 
+> Please advise. Does anyone object strongly to this idea?
 
-My intuition says, just create a "kernel-grub.bbclass". I don't see=20
-anything wrong with that yet.
+Sadly its not the right thing to do. The purpose of a sysroot option is
+to say "compile and link against things in this subdirectory, do not
+look outside it". Our native binaries need to use the system libc and
+headers. They are therefore expected to look outside STAGING_DIR_NATIVE
+if they don't find what they need in there. Native is really a special
+hybrid case.
 
-On the other hand, it's more of a thing I'd expect in BSP or machine=20
-support layer.
+So things should be working if "/" is specified as the sysroot, or its
+not specified at all. I think there are deeper bugs in libtool we're
+uncovering :(
 
-Mike.
+When I first saw the patch, it looked like the correct thing to be doing
+but it now seems it may uncover further bugs which are going to need to
+get fixed before we can take this patch :(.
+
+Cheers,
+
+Richard
 
 
->> Otherwise, should I add my kernel postinstall script that writes the
->> kernel into an MTD block on an embedded target to this class as well?
->> And a NAND version? And SD?
->>
->> Mike.
->>
->>
->> On 09/12/2013 11:25 AM, Hongxu Jia wrote:
->>> While installing a rpm to update kernel on a deployed target, it will
->>> update
->>> the boot area and the boot menu with the kernel as the priority but
->>> allow
->>> you to fall back to the original kernel as well.
->>>
->>> - In pre-install script, it backs up original kernel to avoid
->>> confliction with
->>>    new one.
->>> - In post-install script, it updates the new kernel as the boot
->>> priority.
->>>
->>> [YOCTO #4104]
->>>
->>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>> ---
->>>   meta/classes/kernel.bbclass | 65
->>> +++++++++++++++++++++++++++++++++++++++++++++
->>>   1 file changed, 65 insertions(+)
->>>
->>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>> index e039dfc..f0dd679 100644
->>> --- a/meta/classes/kernel.bbclass
->>> +++ b/meta/classes/kernel.bbclass
->>> @@ -263,7 +263,72 @@ ALLOW_EMPTY_kernel-image =3D "1"
->>>   ALLOW_EMPTY_kernel-modules =3D "1"
->>>   DESCRIPTION_kernel-modules =3D "Kernel modules meta package"
->>>
->>> +pkg_preinst_kernel-image () {
->>> +    if [ -z "$D" ]; then
->>> +        # Parsing confliction
->>> +        [ -f /boot/grub/menu.list ] && grubcfg=3D"/boot/grub/menu.list=
-"
->>> +        [ -f /boot/grub/grub.cfg ] && grubcfg=3D"/boot/grub/grub.cfg"
->>> +        if [ -n "$grubcfg" ]; then
->>> +            # Dereference symlink to avoid confliction with new
->>> kernel name.
->>> +            if grep -q "/${KERNEL_IMAGETYPE} root=3D" $grubcfg; then
->>> +                kimage=3D`realpath /boot/${KERNEL_IMAGETYPE}`;
->>> +                sed -i "s#${KERNEL_IMAGETYPE} root=3D#${kimage##*/}
->>> root=3D#" $grubcfg
->>> +            fi
->>> +
->>> +            # Rename old kernel if it conflicts with new kernel name.
->>> +            if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
->>> root=3D" $grubcfg; then
->>> +                timestamp=3D`date +%s`
->>> + kimage=3D"/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-back=
-"
->>> +                sed -i "s#${KERNEL_IMAGETYPE}-${KERNEL_VERSION}
->>> root=3D#${kimage##*/} root=3D#" $grubcfg
->>> +                mv /boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} $kimage
->>> +            fi
->>> +        fi
->>> +    fi
->>> +}
->>> +
->>>   pkg_postinst_kernel-image () {
->>> +    get_new_grub_cfg() {
->>> +        title=3D"Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
->>> +        if [ -f /boot/grub/grub.cfg ]; then
->>> +            rootfs=3D`grep " *linux [^ ].* root=3D" /boot/grub/grub.cf=
-g
->>> -m 1 | \
->>> +                 sed "s# *linux [^ ].* root=3D#    linux
->>> /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=3D#"`
->>> +
->>> +            echo "menuentry \"$title\" {"
->>> +            echo "    set root=3D(hd0,1)"
->>> +            echo "$rootfs"
->>> +            echo "}"
->>> +        elif [ -f /boot/grub/menu.list ] ; then
->>> +            rootfs=3D`grep "kernel [^ ].* root=3D" /boot/grub/menu.lis=
-t
->>> -m 1 | \
->>> +                 sed "s#kernel [^ ].* root=3D#kernel
->>> /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=3D#"`
->>> +
->>> +            echo "default 0"
->>> +            echo "timeout 30"
->>> +            echo "title $title"
->>> +            echo "root  (hd0,0)"
->>> +            echo "$rootfs"
->>> +        fi
->>> +    }
->>> +
->>> +    get_old_grub_cfg() {
->>> +        if [ -f /boot/grub/grub.cfg ]; then
->>> +            cat /boot/grub/grub.cfg
->>> +        elif [ -f /boot/grub/menu.list ] ; then
->>> +            cat /boot/grub/menu.list | sed -e '/^default/d' -e
->>> '/^timeout/d'
->>> +        fi
->>> +    }
->>> +
->>> +    if [ -z "$D" ]; then
->>> +        [ -f /boot/grub/menu.list ] && grubcfg=3D"/boot/grub/menu.list=
-"
->>> +        [ -f /boot/grub/grub.cfg ] && grubcfg=3D"/boot/grub/grub.cfg"
->>> +        if [ -n "$grubcfg" ]; then
->>> +            grubcfgtmp=3D"$grubcfg.tmp"
->>> +            get_new_grub_cfg  > $grubcfgtmp
->>> +            get_old_grub_cfg >> $grubcfgtmp
->>> +            mv $grubcfgtmp $grubcfg
->>> +            echo "Caution! Update kernel may affect kernel-module!"
->>> +        fi
->>> +    fi
->>> +
->>>       update-alternatives --install
->>> /${KERNEL_IMAGEDEST}/${KERNEL_IMAGETYPE} ${KERNEL_IMAGETYPE}
->>> ${KERNEL_IMAGETYPE}-${KERNEL_VERSION} ${KERNEL_PRIORITY} || true
->>>       if [ ! -e "$D/lib/modules/${KERNEL_VERSION}" ]; then
->>>           mkdir -p $D/lib/modules/${KERNEL_VERSION}
->>>
->>
->>
->>
->> Met vriendelijke groet / kind regards,
->>
->> Mike Looijmans
->>
->> TOPIC Embedded Systems
->> Eindhovenseweg 32-C, NL-5683 KH Best
->> Postbus 440, NL-5680 AK Best
->> Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
->> Telefax: (+31) - (0)499 - 33.69.70
->> E-mail: mike.looijmans@topic.nl
->> Website: www.topic.nl
->>
->> Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn
->> uitsluitend bestemd voor de geadresseerde, zoals die blijkt uit het
->> e-mail bericht en/of de bijlagen. Er kunnen gegevens met betrekking
->> tot een derde instaan. Indien u als niet-geadresseerde dit bericht en
->> de bijlagen ontvangt, terwijl u niet bevoegd of gemachtigd bent om dit
->> bericht namens de geadresseerde te ontvangen, wordt u verzocht de
->> afzender hierover direct te informeren en het e-mail bericht met de
->> bijlagen te vernietigen. Ieder gebruik van de inhoud van het e-mail
->> bericht, waaronder de daarbij behorende bijlagen, door een ander dan
->> de geadresseerde is onrechtmatig jegens ons dan wel de eventueel in
->> het e-mail bericht of de bijlagen voorkomende andere personen. TOPIC
->> Embedded Systems is niet aansprakelijk voor enigerlei schade
->> voortvloeiend uit het gebruik en/of acceptatie van dit e-mail bericht
->> of de daarbij behorende bijlagen.
->>
->> The contents of this message, as well as any enclosures, are addressed
->> personally to, and thus solely intended for the addressee. They may
->> contain information regarding a third party. A recipient who is
->> neither the addressee, nor empowered to receive this message on behalf
->> of the addressee, is kindly requested to immediately inform the sender
->> of receipt, and to destroy the message and the enclosures. Any use of
->> the contents of this message and/or the enclosures by any other person
->> than the addressee or person who is empowered to receive this message,
->> is illegal towards the sender and/or the aforementioned third party.
->> TOPIC Embedded Systems is not  liable for any damage as a result of
->> the use and/or acceptance of this message and as well as any enclosures.
->
->=20
-
-Met vriendelijke groet / kind regards,
-
-Mike Looijmans
-
-TOPIC Embedded Systems
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: (+31) =E2=80=93 (0)499 - 33.69.79
-Telefax: (+31) - (0)499 - 33.69.70
-E-mail: mike.looijmans@topic.nl
-Website: www.topic.nl
-
-Dit e-mail bericht en de eventueel daarbij behorende bijlagen zijn uitsluit=
-end bestemd voor de geadresseerde, zoals die blijkt uit het e-mail bericht =
-en/of de bijlagen. Er kunnen gegevens met betrekking tot een derde instaan.=
- Indien u als niet-geadresseerde dit bericht en de bijlagen ontvangt, terwi=
-jl u niet bevoegd of gemachtigd bent om dit bericht namens de geadresseerde=
- te ontvangen, wordt u verzocht de afzender hierover direct te informeren e=
-n het e-mail bericht met de bijlagen te vernietigen. Ieder gebruik van de i=
-nhoud van het e-mail bericht, waaronder de daarbij behorende bijlagen, door=
- een ander dan de geadresseerde is onrechtmatig jegens ons dan wel de event=
-ueel in het e-mail bericht of de bijlagen voorkomende andere personen. TOPI=
-C Embedded Systems is niet aansprakelijk voor enigerlei schade voortvloeien=
-d uit het gebruik en/of acceptatie van dit e-mail bericht of de daarbij beh=
-orende bijlagen.
-
-The contents of this message, as well as any enclosures, are addressed pers=
-onally to, and thus solely intended for the addressee. They may contain inf=
-ormation regarding a third party. A recipient who is neither the addressee,=
- nor empowered to receive this message on behalf of the addressee, is kindl=
-y requested to immediately inform the sender of receipt, and to destroy the=
- message and the enclosures. Any use of the contents of this message and/or=
- the enclosures by any other person than the addressee or person who is emp=
-owered to receive this message, is illegal towards the sender and/or the af=
-orementioned third party. TOPIC Embedded Systems is not  liable for any dam=
-age as a result of the use and/or acceptance of this message and as well as=
- any enclosures.
-_______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
