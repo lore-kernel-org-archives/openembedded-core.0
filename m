@@ -1,26 +1,34 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FCC861011
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id CBF7560F91
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 02:08:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8D28NuH001362
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 13 Sep 2013 05:25:56 +0000 (UTC)
+Received: by mail-pa0-f41.google.com with SMTP id bj1so2065954pad.14
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Sep 2013 19:08:23 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 12 Sep 2013 19:08:22 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Sep 2013 10:09:06 +0800
-Message-ID: <5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1379038097.git.Qi.Chen@windriver.com>
-References: <cover.1379038097.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] image.bbclass: do not automatically remove update-rc.d
+	Thu, 12 Sep 2013 22:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=1WFnDTuHJh1yhHAYGdCHPDmlnc3PtHh0Kk0NLPZZnMg=;
+	b=pQoceNz+BCsM3Z7yo5OxTVVagUJX+TLn5EPlrGyE1+CEDbbv01kR2nx127W2sGlTLr
+	PpyGEvNNQx2NdppX7h+/G5jts/53Vwu7RehkUCOd+hWqREJC5jZjDe3FHKpe255AztfW
+	fW+s2LvX6+bClMoXeKM64XHWGtebgFv6TqMkC3melZ01vFLtOcNGk8ZNxZ3rO7/0OH4a
+	K+etfgfc6iIKxGWd6ldIIbGiLZMVT+DuBV189pi7vesBCS2Q81OwKTyC5iECe1P1GiEA
+	5gxVumGe2QbWHa28de9w9gTNyTSZ/PCHi7gC5fW9GDBF2tKLziyyZ7sey6xA+TJd+ZUC
+	t56Q==
+X-Received: by 10.68.189.39 with SMTP id gf7mr74311pbc.184.1379049958526;
+	Thu, 12 Sep 2013 22:25:58 -0700 (PDT)
+Received: from haswell.gateway.2wire.net
+	(99-57-140-209.lightspeed.sntcca.sbcglobal.net. [99.57.140.209])
+	by mx.google.com with ESMTPSA id go4sm9076706pbb.15.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 12 Sep 2013 22:25:57 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Sep 2013 22:25:50 -0700
+Message-Id: <1379049950-21734-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.8.3.2
+Subject: [PATCH] elfutils-native: Fix build on distros with gcc 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +41,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 02:08:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Sep 2013 05:25:58 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+The patch redhat-portability.diff causes this issue
+so lets revert the portion which was using %a instead of %m
+thats recommended anyway, redhat patch seems to be targetting
+old compilers.
 
-In rootfs_uninstall_unneeded function, the update-rc.d package would
-be removed if no 'package-management' and no delayed postinsts.
-
-However, in update-rc.d.bbclass, the update-rc.d package is only
-recommended. Thus, if NO_RECOMMENDATIONS is enabled or 'update-rc.d'
-is added to BAD_RECOMMENDATIONS, the update-rc.d package will not
-be installed at the first place. Tring to remove it will result in an
-error.
-
-Also this function assumes that update-rc.d is only used by postinsts.
-This assumption isn't always true. Users may want to write their own
-init scripts and use the update-rc.d tool to manage them.
-
-[YOCTO #5169]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/image.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../elfutils/elfutils/fix-build-gcc-4.8.patch      | 44 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.155.bb   |  3 +-
+ 2 files changed, 45 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index f1e62f14..f37cd90 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -505,12 +505,12 @@ rootfs_uninstall_unneeded () {
- 	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
- 		if [ -z "$(delayed_postinsts)" ]; then
- 			# All packages were successfully configured.
--			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
-+			# base-passwd, run-postinsts are no further use, remove them now
- 			remove_run_postinsts=false
- 			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
- 				remove_run_postinsts=true
- 			fi
--			rootfs_uninstall_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
-+			rootfs_uninstall_packages base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
+diff --git a/meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch b/meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch
+new file mode 100644
+index 0000000..a7c3519
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils/fix-build-gcc-4.8.patch
+@@ -0,0 +1,44 @@
++This patch fixes a warning seen with gcc 4.8 (especially on ubuntu 13.10)
++
++| addr2line.c: In function 'handle_address':
++| addr2line.c:450:7: error: format '%a' expects argument of type 'float *', but argument 3 has type 'char **' [-Werror=format=]
++|        if (sscanf (string, "(%a[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
++|        ^
++| addr2line.c:453:7: error: format '%a' expects argument of type 'float *', but argument 3 has type 'char **' [-Werror=format=]
++|        switch (sscanf (string, "%a[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
++|        ^
++| cc1: all warnings being treated as errors
++
++
++%a is old GNU style and should be abandoned in favor of %m
++
++Also see
++
++http://gcc.gnu.org/bugzilla/show_bug.cgi?id=54361
++
++to support this assertion
++
++This patch is added via redhat-compatibility patch so lets revert this part
++here.
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Upstream-Status: Inappropriate [Caused by an earlier patch]
++
++Index: elfutils-0.155/src/addr2line.c
++===================================================================
++--- elfutils-0.155.orig/src/addr2line.c
+++++ elfutils-0.155/src/addr2line.c
++@@ -447,10 +447,10 @@ handle_address (const char *string, Dwfl
++       bool parsed = false;
++       int i, j;
++       char *name = NULL;
++-      if (sscanf (string, "(%a[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
+++      if (sscanf (string, "(%m[^)])%" PRIiMAX "%n", &name, &addr, &i) == 2
++ 	  && string[i] == '\0')
++ 	parsed = adjust_to_section (name, &addr, dwfl);
++-      switch (sscanf (string, "%a[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
+++      switch (sscanf (string, "%m[^-+]%n%" PRIiMAX "%n", &name, &i, &addr, &j))
++ 	{
++ 	default:
++ 	  break;
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.155.bb b/meta/recipes-devtools/elfutils/elfutils_0.155.bb
+index c5a2f0e..1a8c3c7 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.155.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.155.bb
+@@ -5,8 +5,6 @@ LICENSE = "(GPLv3 & Elfutils-Exception)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
  
- 			# Need to remove rc.d files for run-postinsts by hand since opkg won't
- 			# call postrm scripts in offline root mode.
+-PR = "r0"
+-
+ SRC_URI = "https://fedorahosted.org/releases/e/l/elfutils/${PV}/elfutils-${PV}.tar.bz2"
+ 
+ SRC_URI[md5sum] = "163a5712b86f6bdfebdf233cc6e2192d"
+@@ -24,6 +22,7 @@ SRC_URI += "\
+ 	file://dso-link-change.patch \
+ 	file://nm-Fix-size-passed-to-snprintf-for-invalid-sh_name-case.patch \
+ 	file://elfutils-ar-c-fix-num-passed-to-memset.patch \
++	file://fix-build-gcc-4.8.patch \
+ "
+ # Only apply when building uclibc based target recipe
+ SRC_URI_append_libc-uclibc = " file://uclibc-support.patch"
 -- 
-1.7.9.5
+1.8.3.2
 
 
