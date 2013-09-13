@@ -1,36 +1,33 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CC7FD60FDF
+Return-Path: <Muhammad_Shakeel@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AD356B6C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 13:49:02 +0000 (UTC)
-Received: by mail-lb0-f179.google.com with SMTP id x18so2135941lbi.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Sep 2013 06:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=CdpyyQQvSIWng2MVowqYNt73Gq1qx695N9KpOq9a2i8=;
-	b=eTSlQ56ziql6B6nB9LKS6aDktNpo9vJI4a2tkCha45L9XPEoT8G11KkD6StM0GFKXO
-	pCSIkoF4iuoyU8Fo2TMjEv5LYW3++ZKEEGcledA3JOJsMQgM2gzRpDQonV4RciSUFBxo
-	fwoL2DshdE4YYT9jGDx7mWV5IvOt3n11TeUn0OYxa7yp8QEsp0bLIhg/QOcnRZvoS3fo
-	VtnwWmcEpnnUYowoNUUVq3EZuMl24uX7J/tnK5PPo+nOzJPGccG0MsUnVb7LAtgwB/ob
-	i+EVr3DFsoqqgXykeodUxsCgap0YkfUyb68J7G2hfRLMbnrgs95GfGaHdr7hXl0kaexO
-	ORUA==
+	Fri, 13 Sep 2013 14:58:06 +0000 (UTC)
+Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
+	by relay1.mentorg.com with esmtp 
+	id 1VKUoy-00057C-AR from Muhammad_Shakeel@mentor.com ;
+	Fri, 13 Sep 2013 07:58:08 -0700
+Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
+	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
+	SMTPSVC(6.0.3790.4675); Fri, 13 Sep 2013 07:58:08 -0700
+Received: from [137.202.157.119] (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server (TLS) id 14.2.247.3; Fri, 13 Sep 2013 15:58:06 +0100
+Message-ID: <52332851.4020009@mentor.com>
+Date: Fri, 13 Sep 2013 19:59:29 +0500
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-X-Received: by 10.112.156.74 with SMTP id wc10mr336077lbb.44.1379080142354;
-	Fri, 13 Sep 2013 06:49:02 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Fri, 13 Sep 2013 06:49:02 -0700 (PDT)
-In-Reply-To: <1628869.GrtJx7trgC@helios>
-References: <1379054574-8526-1-git-send-email-sgw@linux.intel.com>
-	<20130913084724.GC11500@jama> <1628869.GrtJx7trgC@helios>
-Date: Fri, 13 Sep 2013 09:49:02 -0400
-Message-ID: <CADkTA4PZJt_qT3UcSrTZLuruBkj4XEy0Z7gZVhhndTLRYc11Tw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: bjorn.arnelid@xdin.com, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu.inc: Fix typo for KERNEL_FEATURES
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+References: <1379073002-19032-1-git-send-email-muhammad_shakeel@mentor.com>
+	<52330B60.6000008@linux.intel.com>
+In-Reply-To: <52330B60.6000008@linux.intel.com>
+X-Originating-IP: [137.202.0.76]
+X-OriginalArrivalTime: 13 Sep 2013 14:58:08.0315 (UTC)
+	FILETIME=[A87290B0:01CEB091]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: Fix EXTRA_OECONF
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,109 +40,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Sep 2013 13:49:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 13 Sep 2013 14:58:06 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 13, 2013 at 5:19 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Friday 13 September 2013 10:47:24 Martin Jansa wrote:
->> On Thu, Sep 12, 2013 at 11:42:54PM -0700, Saul Wold wrote:
->> > Thans to Bjorn Arnelid for finding this
->> >
->> > Cc: bjorn.arnelid@xdin.com
->> >
->> > [YOCTO #5173]
->> >
->> > Signed-off-by: Saul Wold <sgw@linux.intel.com>
->> > ---
->> >
->> >  meta/conf/machine/include/qemu.inc | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/meta/conf/machine/include/qemu.inc
->> > b/meta/conf/machine/include/qemu.inc index a78622d..8557777 100644
->> > --- a/meta/conf/machine/include/qemu.inc
->> > +++ b/meta/conf/machine/include/qemu.inc
->> > @@ -26,4 +26,4 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto"
->> >
->> >  EXTRA_IMAGEDEPENDS += "qemu-native qemu-helper-native"
->> >
->> >  # Provide the nfs server kernel module for all qemu images
->> >
->> > -KERNEL_FEATURES_append_pn-linux-yocto = " features/nfsd/nfsd-enable.scc"
->> > +KERNEL_FEATURES_append_pn_linux-yocto = " features/nfsd/nfsd-enable.scc"
->>
->> Wait a minute, isn't _pn-foo correct override?
+On 09/13/2013 05:56 PM, Jukka Rissanen wrote:
+> Hi Muhammad,
 >
-> It is. Bjorn and I discussed this on IRC already, this patch shouldn't be
-> applied. He's switched back to the linux-yocto 3.2 kernel and I guess that
-> feature is not available/working there, thus this change did fix his build
-> failure as it effectively disabled the line. Perhaps we should fix the
-> underlying bug instead? Bruce, any suggestions?
+> On 13.09.2013 14:50, Shakeel, Muhammad wrote:
+>> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>>
+>> - --enable-threads and --enable-fake are obsolete, unrecognized options
+>> now.
+>> - --enable-bluetooth,wifi,ofono just build these technologies as plugins
+>> and these plugins need to be installed explicitly. Our intention here
+>> is to make these technologies available by default, if enabled. For
+>> this we need --enable-bluetooth,wifi,ofono=builtin.
+>> - If bluetooth is getting disabled then disable dundee as well, which
+>> is enabled by default.
+>>
+>> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>> ---
+>>   meta/recipes-connectivity/connman/connman.inc |    8 +++-----
+>>   1 file changed, 3 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/recipes-connectivity/connman/connman.inc 
+>> b/meta/recipes-connectivity/connman/connman.inc
+>> index 37ce3ec..71ecce2 100644
+>> --- a/meta/recipes-connectivity/connman/connman.inc
+>> +++ b/meta/recipes-connectivity/connman/connman.inc
+>> @@ -21,14 +21,12 @@ EXTRA_OECONF += "\
+>>       ac_cv_path_WPASUPPLICANT=${sbindir}/wpa_supplicant \
+>>       ac_cv_path_PPPD=${sbindir}/pppd \
+>>       --enable-debug \
+>> -    --enable-threads \
+>>       --enable-loopback \
+>>       --enable-ethernet \
+>>       --enable-tools \
+>>       --enable-test \
+>>       --disable-polkit \
+>>       --enable-client \
+>> -    --enable-fake \
+>
+> Ack to this part, those options can be removed.
+>
+>>       ${@base_contains('DISTRO_FEATURES', 'systemd', 
+>> '--with-systemdunitdir=${systemd_unitdir}/system/', 
+>> '--with-systemdunitdir=', d)} \
+>>   "
+>>
+>> @@ -42,9 +40,9 @@ PACKAGECONFIG ??= "wispr \
+>>   # local.conf or distro config
+>>   # PACKAGECONFIG_append_pn-connman = " openvpn vpnc l2tp pptp"
+>>
+>> -PACKAGECONFIG[wifi] = "--enable-wifi, --disable-wifi, wpa-supplicant"
+>> -PACKAGECONFIG[bluetooth] = "--enable-bluetooth, --disable-bluetooth, 
+>> bluez4"
+>> -PACKAGECONFIG[3g] = "--enable-ofono, --disable-ofono, ofono"
+>> +PACKAGECONFIG[wifi] = "--enable-wifi=builtin, --disable-wifi, 
+>> wpa-supplicant"
+>> +PACKAGECONFIG[bluetooth] = "--enable-bluetooth=builtin, 
+>> --disable-bluetooth --disable-dundee, bluez4"
+>> +PACKAGECONFIG[3g] = "--enable-ofono=builtin, --disable-ofono, ofono"
+>
+> There is no need to say builtin here as that is the default and those 
+> plugins are always builtin anyways.
+>
+Hi Jukka,
+I did this change because I was trying to enable wifi, bluetooth and 
+ofono through connman and I was getting this (for all these options):
+connmanctl> enable ofono
+Error ofono: Method "SetProperty" with signature "sv" on interface 
+"net.connman.Technology" doesn't exist
 
-Outside of that there's no underlying bug or at least it is something
-that is working
-as it should ?
+I shared this on connman channel and what I got from there was:
+"connman plugins have not been installed. if you do --enable-bluetooth, 
+bluetooth functionality is built as plugins and these plugins need to be 
+installed. if you do --enable-bluetooth=builtin, the functionality is 
+built into connman. if you specify nothing (as there is no reason to 
+specify anything anyway), the functionality will be built into connman"
 
-Linux yocto 3.2 didn't have that underlying feature, so combining the
-master/1.5 qemu.inc
-that is looking for that feature with the older tree will cause that
-to warn and then
-stop the build before some missing functionality is silently dropped.
+and --enable-*=builtin worked for me. So either we should not mention 
+anything or we have to use builtin otherwise (seems more intuitive). Do 
+you think it should have worked without builtin and it was something 
+else which was incorrect? has anyone else seen this error?
 
-To get around it, the KERNEL_FEATURES can be cleared (via a finalize handler
-as an example), the same kernel feature can be provided by an update to that
-kernel's meta-data, or as a userspace feature (but the feature
-relative path will
-be the issue). I have something for this in the 1.6 planning.
-
-Anyway, rather than trying to be to fancy or complex and speed up 1.6 work, my
-suggestion is to just clear the variable in a bbappend if working on
-the 3.2 kernel
-with this .inc
-
-and again, by clear, I mean something like the following .. which I just happen
-to have kicking around:
-
----------------------------------------------
-# This handler has the ability to clear KERNEL_FEATURES, but should
-# be used carefully since clearing KERNEL_FEATURES breaks the "contract"
-# between layers and what the kernel provides
-python kernfeatures_handler () {
-    if not isinstance(e, bb.event.RecipeParsed):
-        return
-
-    kernfeatures_clear = e.data.getVar( 'KERNEL_FEATURES_CLEAR' )
-    if kernfeatures_clear:
-          e.data.setVar('KERNEL_FEATURES', "")
-
-    kernfeatures_force = e.data.getVar( 'KERNEL_FEATURES_FORCE' )
-    if kernfeatures_force:
-          e.data.setVar('KERNEL_FEATURES', kernfeatures_force )
-}
-addhandler kernfeatures_handler
----------------------------------------------
-
-Cheers,
-
-Bruce
-
+> About the dundee disabling, it would probably be better to have this 
+> check in upstream connman. This would mean that if bluetooth is 
+> disabled, then dundee would be automatically disabled (tweak 
+> Makefile.plugins in ConnMan).
+> Could you send patch for this to connman ml?
+>
+yes, I can do this but we need it for at least this version of connman.
+>
+>>   PACKAGECONFIG[tist] = "--enable-tist,--disable-tist,"
+>>   PACKAGECONFIG[openvpn] = "--enable-openvpn 
+>> --with-openvpn=${sbindir}/openvpn,--disable-openvpn,,openvpn"
+>>   PACKAGECONFIG[vpnc] = "--enable-vpnc 
+>> --with-vpnc=${sbindir}/vpnc,--disable-vpnc,,vpnc"
+>>
+>
 >
 > Cheers,
-> Paul
+> Jukka
 >
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
