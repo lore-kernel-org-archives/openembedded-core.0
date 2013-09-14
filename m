@@ -1,26 +1,26 @@
 Return-Path: <jason.wessel@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 501746111E
+	by mail.openembedded.org (Postfix) with ESMTP id 50F1A615E5
 	for <Openembedded-core@lists.openembedded.org>;
 	Sat, 14 Sep 2013 00:09:10 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8E09B1P021433
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8E09CwI021436
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 13 Sep 2013 17:09:11 -0700 (PDT)
+	Fri, 13 Sep 2013 17:09:12 -0700 (PDT)
 Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Fri, 13 Sep 2013 17:09:10 -0700
+	Fri, 13 Sep 2013 17:09:11 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Sep 2013 19:08:57 -0500
-Message-ID: <1379117343-29877-2-git-send-email-jason.wessel@windriver.com>
+Date: Fri, 13 Sep 2013 19:08:58 -0500
+Message-ID: <1379117343-29877-3-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1379117343-29877-1-git-send-email-jason.wessel@windriver.com>
 References: <1379117343-29877-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [v2 PATCH 1/7] bootimage.bbclass: Move fat image creation into a function
+Subject: [v2 PATCH 2/7] cdrtools-native: Update from 3.00 to 3.01a17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,146 +36,60 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 14 Sep 2013 00:09:11 -0000
 Content-Type: text/plain
 
-In order to call the fat image creation multiple times it needs to be
-in its own function.  A future commit will make use of the new
-function to additionally create EFI image files for use with an ISO.
+The update is needed to support generation of EFI boot images that
+work with optical media.  Specifically the "-eltorito-platform efi"
+capability for mkisofs is needed.
 
 [YOCTO #4100]
-[YOCTO #1913]
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/bootimg.bbclass |  110 ++++++++++++++++++++++--------------------
- 1 file changed, 58 insertions(+), 52 deletions(-)
+ ...s-native_3.00.bb => cdrtools-native_3.01a17.bb} |   22 +++++++-------------
+ 1 file changed, 8 insertions(+), 14 deletions(-)
+ rename meta/recipes-devtools/cdrtools/{cdrtools-native_3.00.bb => cdrtools-native_3.01a17.bb} (47%)
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 90a241d..bd211fb 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -111,6 +111,63 @@ build_iso() {
- 	ln -s ${IMAGE_NAME}.iso ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
+similarity index 47%
+rename from meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
+rename to meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
+index 7e4c381..2ae3f4a 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
+@@ -5,26 +5,20 @@ SUMMARY = "A set of tools for CD recording, including cdrecord"
+ DESCRIPTION = "A set of tools for CD recording, including cdrecord"
+ HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
+ SECTION = "console/utils"
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8d16123ffd39e649a5e4a6bc1de60e6d"
+-PR = "r0"
++LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
+ 
+-SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
+-           file://no_usr_src.patch"
++SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/alpha/cdrtools-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "f9fbab08fbd458b0d2312976d8c5f558"
+-SRC_URI[sha256sum] = "7f9cb64820055573b880f77b2f16662a512518336ba95ab49228a1617973423d"
++SRC_URI[md5sum] = "4cef9db0cf15a770c52d65b00bbee2db"
++SRC_URI[sha256sum] = "3d613965b213ad83e4be0ba2535e784901839ea4d11a20a2beb6765f0eb76dfa"
+ 
+-inherit native
++S = "${WORKDIR}/cdrtools-3.01"
+ 
+-STAGE_TEMP = "${WORKDIR}/image-temp"
++inherit native
+ 
+ FILESPATH = "${FILE_DIRNAME}/cdrtools-native/"
+ 
+ do_install() {
+-	install -d ${STAGE_TEMP}
+-	make install INS_BASE=${STAGE_TEMP}
+-
+-	install -d ${D}${bindir}/
+-	install ${STAGE_TEMP}/bin/* ${D}${bindir}/
++	make install GMAKE_NOWARN=true INS_BASE=${prefix} DESTDIR=${D}
  }
- 
-+build_fat_img() {
-+	FATSOURCEDIR=$1
-+	FATIMG=$2
-+
-+	# Calculate the size required for the final image including the
-+	# data and filesystem overhead.
-+	# Sectors: 512 bytes
-+	#  Blocks: 1024 bytes
-+
-+	# Determine the sector count just for the data
-+	SECTORS=$(expr $(du --apparent-size -ks ${FATSOURCEDIR} | cut -f 1) \* 2)
-+
-+	# Account for the filesystem overhead. This includes directory
-+	# entries in the clusters as well as the FAT itself.
-+	# Assumptions:
-+	#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
-+	#   padding will be minimal on those smaller images and not
-+	#   worth the logic here to caclulate the smaller FAT sizes)
-+	#   < 16 entries per directory
-+	#   8.3 filenames only
-+
-+	# 32 bytes per dir entry
-+	DIR_BYTES=$(expr $(find ${FATSOURCEDIR} | tail -n +2 | wc -l) \* 32)
-+	# 32 bytes for every end-of-directory dir entry
-+	DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 32))
-+	# 4 bytes per FAT entry per sector of data
-+	FAT_BYTES=$(expr $SECTORS \* 4)
-+	# 4 bytes per FAT entry per end-of-cluster list
-+	FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 4))
-+
-+	# Use a ceiling function to determine FS overhead in sectors
-+	DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
-+	# There are two FATs on the image
-+	FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
-+	SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
-+
-+	# Determine the final size in blocks accounting for some padding
-+	BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
-+
-+	# Ensure total sectors is an integral number of sectors per
-+	# track or mcopy will complain. Sectors are 512 bytes, and we
-+	# generate images with 32 sectors per track. This calculation is
-+	# done in blocks, thus the mod by 16 instead of 32.
-+	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
-+
-+	# mkdosfs will sometimes use FAT16 when it is not appropriate,
-+	# resulting in a boot failure from SYSLINUX. Use FAT32 for
-+	# images larger than 512MB, otherwise let mkdosfs decide.
-+	if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
-+		FATSIZE="-F 32"
-+	fi
-+
-+	mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} ${BLOCKS}
-+	# Copy FATSOURCEDIR recursively into the image file directly
-+	mcopy -i ${FATIMG} -s ${FATSOURCEDIR}/* ::/
-+}
-+
- build_hddimg() {
- 	# Create an HDD image
- 	if [ "${NOHDD}" != "1" ] ; then
-@@ -123,58 +180,7 @@ build_hddimg() {
- 			grubefi_hddimg_populate
- 		fi
- 
--		# Calculate the size required for the final image including the
--		# data and filesystem overhead.
--		# Sectors: 512 bytes
--		#  Blocks: 1024 bytes
--
--		# Determine the sector count just for the data
--		SECTORS=$(expr $(du --apparent-size -ks ${HDDDIR} | cut -f 1) \* 2)
--
--		# Account for the filesystem overhead. This includes directory
--		# entries in the clusters as well as the FAT itself.
--		# Assumptions:
--		#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
--		#   padding will be minimal on those smaller images and not
--		#   worth the logic here to caclulate the smaller FAT sizes)
--		#   < 16 entries per directory
--		#   8.3 filenames only
--
--		# 32 bytes per dir entry
--		DIR_BYTES=$(expr $(find ${HDDDIR} | tail -n +2 | wc -l) \* 32)
--		# 32 bytes for every end-of-directory dir entry
--		DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 32))
--		# 4 bytes per FAT entry per sector of data
--		FAT_BYTES=$(expr $SECTORS \* 4)
--		# 4 bytes per FAT entry per end-of-cluster list
--		FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 4))
--
--		# Use a ceiling function to determine FS overhead in sectors
--		DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
--		# There are two FATs on the image
--		FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
--		SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
--
--		# Determine the final size in blocks accounting for some padding
--		BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
--
--		# Ensure total sectors is an integral number of sectors per
--		# track or mcopy will complain. Sectors are 512 bytes, and we
--		# generate images with 32 sectors per track. This calculation is
--		# done in blocks, thus the mod by 16 instead of 32.
--		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
--
--		# mkdosfs will sometimes use FAT16 when it is not appropriate,
--		# resulting in a boot failure from SYSLINUX. Use FAT32 for
--		# images larger than 512MB, otherwise let mkdosfs decide.
--		if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
--			FATSIZE="-F 32"
--		fi
--
--		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
--		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
--		# Copy HDDDIR recursively into the image file directly
--		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
-+		build_fat_img ${HDDDIR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
- 
- 		if [ "${PCBIOS}" = "1" ]; then
- 			syslinux_hddimg_install
 -- 
 1.7.9.5
 
