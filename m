@@ -1,42 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 2156360648
+Return-Path: <hans.beckerus@gmail.com>
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4671360EDA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 08:07:13 +0000 (UTC)
-Received: by mail-ea0-f177.google.com with SMTP id f15so990748eak.22
+	Sat, 14 Sep 2013 08:34:27 +0000 (UTC)
+Received: by mail-lb0-f173.google.com with SMTP id o14so2755559lbi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 01:07:15 -0700 (PDT)
+	Sat, 14 Sep 2013 01:34:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=xrpr+GWr/hMTb4Z+FFZwSpTYMeFOSHbt2/KlqNpMLJ4=;
-	b=VyZcM0HwJNTCre5N/b8c/qjyd1Wr00RQdKIK0tZEKIGvsVQ5Dy3vV8o6N1mWswRGB3
-	QDOicOHJoegUed0sMmQFH2Qz5pOT/DLzQlINoAyaZbZHMObzdwT7omodYEmOyQ+VF4bF
-	fJpgy/mOOuPtzxZi99Rujnsmf4I6OC0yWvXnQa6gcv9ed94WOTbUITHOqyczFpio0OKp
-	bihU8blDeGLafvIzIRoLjr+80ZxPwJFHsQJSz+CA+CAAfTByuvpuRWDgXUT3u9KO6Fkl
-	if/phc9nDj5oR6a3EgIVfmxbAx/MhwHV3ahQZEab2nBrPtODuJDw13aijTLbfOBmlrS/
-	6JVw==
-X-Received: by 10.15.48.197 with SMTP id h45mr24827513eew.0.1379146035523;
-	Sat, 14 Sep 2013 01:07:15 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	d8sm21858232eeh.8.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 14 Sep 2013 01:07:14 -0700 (PDT)
-Date: Sat, 14 Sep 2013 10:08:44 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20130914080844.GB30637@jama>
-References: <1379114920-23851-1-git-send-email-jslater@windriver.com>
-	<CAMKF1spii+oAutyKLg0+k2Qdp-KccVzX+r0=tX57bBgYkxrMgA@mail.gmail.com>
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=KNGKekDgzUeS6/IL62k3x6XUouNo4o+LtIE3Kr16H68=;
+	b=tgeeldSkn1ezuE/8RcFQAUif2LrZVTghJzKC2ZNIBaqr+eHFfY0tNaJTvM7Az/pHZA
+	nZiKt2hH12PWynP3yp466LONuLeJhpjOQ5LJ5eCDiDDFF2XUr9JX6gyEdrHJt1iPc+7M
+	MoTaixo6i7+/T1EvSAlT/eONbHOIdwkAhsi8rWx/3kztor5s5m+ujsyy2GLvatVo0euy
+	DFUO1RKEkk5qCC3q/rGGqDBeNxRSowmx7cpTDt1WQo0Rvkjij5dN6kJKwQ3IgEVrBmv7
+	DHPBq/SzNV1VFAqk858tE9oKdLobXNel03f9jNDPx1tDvoEpJajViP0IVqdJQWKvHctU
+	0ZRQ==
+X-Received: by 10.112.190.1 with SMTP id gm1mr521674lbc.30.1379147668016;
+	Sat, 14 Sep 2013 01:34:28 -0700 (PDT)
+Received: from [192.168.0.10] (h135n8-rny-a12.ias.bredband.telia.com.
+	[217.209.54.135])
+	by mx.google.com with ESMTPSA id js17sm6215548lab.5.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 14 Sep 2013 01:34:27 -0700 (PDT)
+Message-ID: <52341F90.1060907@gmail.com>
+Date: Sat, 14 Sep 2013 10:34:24 +0200
+From: Hans Beckerus <hans.beckerus@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1spii+oAutyKLg0+k2Qdp-KccVzX+r0=tX57bBgYkxrMgA@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: Joe Slater <jslater@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] webkit-gtk: limit ld memory requirement
+References: <5233941C.10406@gmail.com>
+In-Reply-To: <5233941C.10406@gmail.com>
+Subject: Re: [PATCH v5] libtool: fix resolve of lt_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,84 +47,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Sep 2013 08:07:14 -0000
-X-Groupsio-MsgNum: 45024
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="St7VIuEGZ6dlpu13"
-Content-Disposition: inline
+X-List-Received-Date: Sat, 14 Sep 2013 08:34:27 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
---St7VIuEGZ6dlpu13
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I will commit a new patch. I just discovered a minor flaw in it. In an attempt to handle
+also the case that someone provides --with-libtool-sysroot ="/" the switch cases have
+wrong precedence since "/*" hits before "/".  Sorry for overlooking this.
+Even if the chance of someone actually hitting this problem is slim, it think should be corrected.
 
-On Fri, Sep 13, 2013 at 09:35:36PM -0700, Khem Raj wrote:
-> On Friday, September 13, 2013, Joe Slater wrote:
->=20
-> > Add --no-keep-memory to LDFLAGS.
->=20
+Thanks.
+Hans
 
-I think it was discussed on this ML before and conclusion was that it's
-distro/builder policy and shouldn't be default in the recipe.
-=20
-> It does not come with out a price. Have you measured how much performance
-> degradation it brings in ?
-> We need that to assess the trade off and also describe the machine
-> configuration where this option is helping
->=20
->=20
-> >
-> > Signed-off-by: Joe Slater <jslater@windriver.com <javascript:;>>
-> > ---
-> >  meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb |    4 ++++
-> >  1 files changed, 4 insertions(+), 0 deletions(-)
-> >
-> > diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bbb/meta/recipes=
--sato/webkit/
-> > webkit-gtk_1.8.3.bb
-> > index 5691d3f..9304243 100644
-> > --- a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-> > +++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-> > @@ -58,6 +58,10 @@ CPPFLAGS_append_powerpc =3D "
-> > -I${STAGING_INCDIR}/pango-1.0 \
-> >                              -I${STAGING_LIBDIR}/glib-2.0/include \
-> >                              -I${STAGING_INCDIR}/glib-2.0"
-> >
-> > +# ld can run out of memory linking libwebkitgtk!
-> > +#
-> > +LDFLAGS +=3D "-Wl,--no-keep-memory"
-> > +
-> >  EXTRA_AUTORECONF =3D " -I Source/autotools "
-> >
-> >
-> > --
-> > 1.7.3.4
-> >
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org <javascript:;>
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
+On 2013-09-14 12:39, Hans Beckerus wrote:
+> This patch updates libtool.m4 (and its output) to resolve a problem 
+> with variable 'lt_sysroot' not being properly updated if the option 
+> '--with[-libtool]-sysroot' is not provided when running the 'configure'
+> script for a package.
+>
+> According to the help text ouput from 'configure':
+> --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+>                         (or the compiler's sysrooot if not specified).
+>
+> Due to mixed up cases in a switch statement, when checking if the option
+> was specified or not, wrong actions were taken resulting in an
+> incorrect sysroot and failures to properly locate e.g. .la files when
+> using the populated SDK toolchain.
+>
+> For current upstream status see:
+> http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
+>
+> Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
+> ---
+>  meta/recipes-devtools/libtool/libtool-2.4.2.inc    |    1 +
+>  .../libtool/libtool/fix-resolve-lt-sysroot.patch   |   40 ++++++++++++++++++++
+>  2 files changed, 41 insertions(+)
+>  create mode 100644 meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+>
+> diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> index bb4ddf0..92e4949 100644
+> --- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> +++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+> @@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+>  	   file://respect-fstack-protector.patch \
+>             file://norm-rpath.patch \
+>             file://dont-depend-on-help2man.patch \
+> +           file://fix-resolve-lt-sysroot.patch \
+>            "
+>  
+>  SRC_URI[md5sum] = "d2f3b7d4627e69e13514a40e72a24d50"
+> diff --git a/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+> new file mode 100644
+> index 0000000..9f9f22e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+> @@ -0,0 +1,40 @@
+> +
+> +Upstream-Status: Pending
+> +
+> +This patch updates libtool.m4 (and its output) to resolve a problem
+> +with variable 'lt_sysroot' not being properly updated if the option
+> +'--with[-libtool]-sysroot' is not provided when running the 'configure'
+> +script for a package.
+> +
+> +I have also reported the problem to libtool here
+> +
+> +http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
+> +
+> +Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
+> +---
+> +diff -ur libtool-2.4.2.orig/libltdl/m4/libtool.m4 libtool-2.4.2/libltdl/m4/libtool.m4
+> +--- libtool-2.4.2.orig/libltdl/m4/libtool.m4	2013-09-13 22:37:43.647282945 +0200
+> ++++ libtool-2.4.2/libltdl/m4/libtool.m4	2013-09-13 22:40:07.535285985 +0200
+> +@@ -1234,15 +1234,20 @@
+> + dnl in case the user passed a directory name.
+> + lt_sysroot=
+> + case ${with_libtool_sysroot} in #(
+> +- yes)
+> ++ no)
+> +    if test "$GCC" = yes; then
+> +      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+> ++     # Treat "/" the same a an unset sysroot. It seems to be more
+> ++     # compatible across host platforms that way!?
+> ++     if test "$lt_sysroot" = /; then
+> ++       lt_sysroot=
+> ++     fi
+> +    fi
+> +    ;; #(
+> +  /*)
+> +    lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+> +    ;; #(
+> +- no|'')
+> ++ yes|''|/)
+> +    ;; #(
+> +  *)
+> +    AC_MSG_RESULT([${with_libtool_sysroot}])
 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---St7VIuEGZ6dlpu13
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlI0GYwACgkQN1Ujt2V2gBxI+QCfV3twlGxHhDNrWEmV+C1nAk9M
-8lkAoKTKbTkF9PyV6J4Ql3DskKo0d4+N
-=tMwf
------END PGP SIGNATURE-----
-
---St7VIuEGZ6dlpu13--
