@@ -1,37 +1,30 @@
-Return-Path: <nitin.a.kamble@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 13CD76111E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EF01A6111E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 00:49:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by azsmga101.ch.intel.com with ESMTP; 13 Sep 2013 17:49:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,901,1371106800"; d="scan'208";a="395554352"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by fmsmga001.fm.intel.com with ESMTP; 13 Sep 2013 17:49:55 -0700
-Received: from orsmsx103.amr.corp.intel.com ([169.254.2.161]) by
-	ORSMSX109.amr.corp.intel.com ([169.254.2.174]) with mapi id
-	14.03.0123.003; Fri, 13 Sep 2013 17:49:54 -0700
-From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
-Thread-Index: AQHOrVfn4qnFo/lz+k+5cqfakFWZAJm9npjQgAGSyQCAAHv9sIABTWgAgANx+JA=
-Date: Sat, 14 Sep 2013 00:49:53 +0000
-Message-ID: <ADD6A3980E8C39419A432FF422031B4C70495CFD@ORSMSX103.amr.corp.intel.com>
-References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
+	Sat, 14 Sep 2013 01:39:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8E1dCcp022335
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 13 Sep 2013 18:39:12 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 13 Sep 2013 18:39:11 -0700
+Message-ID: <5233BE2C.2010006@windriver.com>
+Date: Sat, 14 Sep 2013 09:38:52 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130404 Thunderbird/17.0.5
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1379054099.git.liezhi.yang@windriver.com>
+	<76daa47ae32a04d0bc4bea8a04b7ef240ee6e599.1379054099.git.liezhi.yang@windriver.com>
+	<CADkTA4Ovp7SzxCT85f_Skhqt2OGTF81nNbw+ihm5X7OR=dMsEA@mail.gmail.com>
+In-Reply-To: <CADkTA4Ovp7SzxCT85f_Skhqt2OGTF81nNbw+ihm5X7OR=dMsEA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+Subject: Re: [PATCH 1/1] linux-libc-headers: do_install: fix "Argument list too long" error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +37,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Sep 2013 00:49:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 14 Sep 2013 01:39:14 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgUm9zcywNCiAgSSBoYXZlIHVwZGF0ZWQgbXkgYnJhbmNoZXMgYWNjb3JkaW5nbHkgaGVyZS4g
-DQoNCmh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3ktY29udHJp
-Yi9sb2cvP2g9bml0aW4vbWVzYWdsDQpodHRwOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9j
-Z2l0LmNnaS9tZXRhLWludGVsLWNvbnRyaWIvbG9nLz9oPW5pdGluL21lc2FnbA0KDQpJIGhhdmUg
-dGVzdGVkIHRoaXMgd2l0aCBlbWVubG93IEJTUC4gIElmIGl0IGxvb2tzIG9rIHRvIHlvdSwgSSBj
-YW4gc2VuZCB0aGVzZSBmb3IgdXBzdHJlYW1pbmcuDQoNClRoYW5rcywNCk5pdGluDQoNCg0KPiAt
-LS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpy
-b3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo+IFNlbnQ6IFdlZG5lc2RheSwgU2VwdGVtYmVyIDExLCAy
-MDEzIDY6MDkgQU0NCj4gVG86IEthbWJsZSwgTml0aW4gQQ0KPiBDYzogb3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtSRkNd
-W1BBVENIXSBtZXNhLWdsOiBhZGQgR0wtb25seSBNZXNhIHJlY2lwZQ0KPiANCj4gT24gMTEgU2Vw
-dGVtYmVyIDIwMTMgMDE6MjMsIEthbWJsZSwgTml0aW4gQSA8bml0aW4uYS5rYW1ibGVAaW50ZWwu
-Y29tPg0KPiB3cm90ZToNCj4gPiBXaXRoIGZldyBtb3JlIGZpeGVzLCB0aGlzIGlzIHdvcmtpbmcg
-Zm9yIEVNR0QgYmFzZWQgbWV0YS1pbnRlbCBCU1BzLg0KPiA+IEhlcmUgYXJlIHRoZSBjb21taXRz
-IHdoaWNoIHdvcmtlZDoNCj4gPg0KPiA+IGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0
-L2NnaXQuY2dpL3Bva3ktY29udHJpYi9jb21taXQvP2g9bml0aW4NCj4gPiAvbWVzYS1nbA0KPiAN
-Cj4gVGhlIGRlcGVuZGVuY3kgb24gIm1lc2EiIGlzIGFjdHVhbGx5IHJpZ2h0LCBhbnkgb3RoZXIg
-R0wgaW1wbGVtZW50YXRpb24NCj4gbWF5IG9yIG1heSBub3QgcHJvdmlkZSB0aGUgRFJJIGludGVy
-ZmFjZSwgd2hpY2ggaXMgd2hhdCBYIGlzIGRlcGVuZGluZyBvbi4NCj4gDQo+IEkndmUgdXBkYXRl
-ZCBteSBtZXNhZ2wgYnJhbmNoIHRvIGFkZCBhIHZpcnR1YWwvbWVzYSBwcm92aWRlci4NCj4gDQo+
-ID4gaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kvbWV0YS1pbnRlbC1j
-b250cmliL2xvZy8/aD1uaQ0KPiA+IHRpbi9tZXNhLWdsDQo+IA0KPiBBZGQgYSBwcmVmZXJyZWQg
-cHJvdmlkZXIgb2YgdmlydHVhbC9tZXNhPSJtZXNhLWdsIiBpbiBoZXJlIGFuZCBJIHRoaW5rIHlv
-dSdsbA0KPiBiZSBzb3J0ZWQuDQo+IA0KPiBSb3NzDQo=
+
+
+On 09/13/2013 09:43 PM, Bruce Ashfield wrote:
+> On Fri, Sep 13, 2013 at 4:23 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> There would be an "Argument list too long" error when the TMPDIR is in a deep
+>> dir, for example, when "len(readlink -f TMPDIR) >= 350 (our supported value is
+>> 410)". Use "$(foreach ,,$(shell echo))" to fix it.
+>>
+>> [YOCTO #5138]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   ...cripts-Makefile.headersinst-args-too-long.patch |   36 ++++++++++++++++++++
+>>   .../linux-libc-headers/linux-libc-headers_3.10.bb  |    1 +
+>>   2 files changed, 37 insertions(+)
+>>   create mode 100644 meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-args-too-long.patch
+>>
+>> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-args-too-long.patch b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-args-too-long.patch
+>> new file mode 100644
+>> index 0000000..c0e1a06
+>> --- /dev/null
+>> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers/scripts-Makefile.headersinst-args-too-long.patch
+>> @@ -0,0 +1,36 @@
+>> +Makefile.headersinst: fix "Argument list too long" error
+>> +
+>> +There would be an "Argument list too long" error when the src is in a
+>> +deep dir, for example, when "len(readlink -f src_dir) >= 400", use
+>> +"$(foreach ,,$(shell echo))" to fix it.
+>> +
+>> +Upstream-Status: Pending
+>
+> Put this as inappropriate. I've already tried to submit these
+> upstream, and they didn't
+> work. So just tag them as yocto specific, and I'll continue to work
+> upstream on the
+> issue.
+>
+>> +
+>> +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> +---
+>> + scripts/Makefile.headersinst |    7 ++++++-
+>> + 1 file changed, 6 insertions(+), 1 deletion(-)
+>> +
+>> +diff --git a/scripts/Makefile.headersinst b/scripts/Makefile.headersinst
+>> +--- a/scripts/Makefile.headersinst
+>> ++++ b/scripts/Makefile.headersinst
+>> +@@ -98,10 +98,15 @@ __headersinst: $(subdirs) $(install-file)
+>> +       @:
+>> +
+>> + targets += $(install-file)
+>> ++# Use the $(foreach ,,$(shell echo)) to avoid the "Argument list too
+>> ++# long" error, and use the "$(shell echo)" rather than "echo" to keep
+>> ++# the order.
+>> + $(install-file): scripts/headers_install.sh $(input-files) FORCE
+>> +       $(if $(unwanted),$(call cmd,remove),)
+>> +       $(if $(wildcard $(dir $@)),,$(shell mkdir -p $(dir $@)))
+>> +-      @echo $(input-files) > $(INSTALL_HDR_PATH)/.input-files
+>> ++      $(shell echo -n > $(INSTALL_HDR_PATH)/.input-files)
+>> ++      $(foreach f,$(input-files),$(shell echo -n "$(f) " >> \
+>> ++                      $(INSTALL_HDR_PATH)/.input-files))
+>> +       $(call if_changed,install)
+>> +       @rm $(INSTALL_HDR_PATH)/.input-files
+>> +
+>> +--
+>> +1.7.10.4
+>> +
+>> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>> index 65df230..d056e7c 100644
+>> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_3.10.bb
+>> @@ -2,6 +2,7 @@ require linux-libc-headers.inc
+>>
+>>   SRC_URI += "file://0001-ptrace.h-remove-ptrace_peeksiginfo_args.patch"
+>>   SRC_URI += "file://scripts-Makefile.headersinst-install-headers-from-sc.patch"
+>> +SRC_URI += "file://scripts-Makefile.headersinst-args-too-long.patch"
+>
+> When you looked at this .. didn't it strike you as wrong ? We already
+> have a patch
+> that was attempting to fix the same problem.
+>
+
+Sorry, I missed the previous patch, I will squash them into one.
+
+> Technically even the foreach can still become to large and blow out the shells
+> processing capabilities .. I know, since I wrote the same for loop at one point.
+>
+> That being said, if you have reproduced the problem and can show that this does
+> fix at least the problem at hand, I'm ok with the change ..
+>
+
+Yes, this patch makes it work when len(TMPDIR) <= 410, this is what our
+sanity.bbclass checks, I will send a V2 sooner.
+
+// Robert
+
+> BUT, it needs to be squashed into the previous patch and have both our Sign-offs
+> left in the single patch.
+>
+> Cheers,
+>
+> Bruce
+>
+>>
+>>   SRC_URI[md5sum] = "72d0a9b3e60cd86fabcd3f24b1708944"
+>>   SRC_URI[sha256sum] = "46c9e55e1fddf40813b8d697d5645037a8e2af5c1a8dff52b3fe82b5021582b8"
+>> --
+>> 1.7.10.4
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
