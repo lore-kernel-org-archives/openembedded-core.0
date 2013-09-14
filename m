@@ -1,38 +1,30 @@
-Return-Path: <hans.beckerus@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 02FF360EDA
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 09:01:40 +0000 (UTC)
-Received: by mail-la0-f42.google.com with SMTP id ep20so1784421lab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 02:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=fFCNGY5nqGVVQEGPwLQPHO6FhTmOBTIsBK5e5iSf7ZE=;
-	b=fBmW42UQgRZudiFgFpxU1tDDeaU91U7jiSsagBNaPUOCvyoyKCzAdezQFuWNEFuJEL
-	uhgQwg4v5ID1ZE7yWBOBMY9hutdVvrD2qgSdIFuUmuHkw8UDDfEfxaYrZkY9w4luGBbY
-	ZQEL9hzJA4q+/IGqFHu/+DZ8VdwcUbFA2DLG+0wHjBVljmnJYgtRhOOmQ+hhd4vRyJIM
-	2nkfb/SV2MPp1IshnaLUyKrDToCS1JUIUO340cWlPTLd/gKSxUDSDWAaZ+VmYd4a45Ec
-	GG32SZpiDm6kKcUBajnL1K5JtZY/b+d6kSYpsZfewAqUmvE6YoRs1i+9+39Ra6cO36qY
-	9z0w==
-X-Received: by 10.112.168.35 with SMTP id zt3mr15365032lbb.11.1379149301363;
-	Sat, 14 Sep 2013 02:01:41 -0700 (PDT)
-Received: from [192.168.0.10] (h135n8-rny-a12.ias.bredband.telia.com.
-	[217.209.54.135])
-	by mx.google.com with ESMTPSA id pw4sm8018369lbb.9.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 14 Sep 2013 02:01:40 -0700 (PDT)
-Message-ID: <523425F2.9070109@gmail.com>
-Date: Sat, 14 Sep 2013 11:01:38 +0200
-From: Hans Beckerus <hans.beckerus@gmail.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F3EB661013
+	for <Openembedded-core@lists.openembedded.org>;
+	Sat, 14 Sep 2013 12:19:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8ECJjT4028556
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 14 Sep 2013 05:19:45 -0700 (PDT)
+Received: from [172.25.32.34] (172.25.32.34) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Sat, 14 Sep 2013 05:19:44 -0700
+Message-ID: <5234545F.70706@windriver.com>
+Date: Sat, 14 Sep 2013 07:19:43 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: [PATCH v6] libtool: fix resolve of lt_sysroot
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <1379117343-29877-1-git-send-email-jason.wessel@windriver.com>
+	<1379117343-29877-5-git-send-email-jason.wessel@windriver.com>
+	<20130914080555.GA30637@jama>
+In-Reply-To: <20130914080555.GA30637@jama>
+X-Enigmail-Version: 1.5.2
+Cc: dvhart@linux.intel.com, Openembedded-core@lists.openembedded.org
+Subject: Re: [v2 PATCH 4/7] syslinux.bbclass, syslinux: Update to syslinux 6.01
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,97 +37,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Sep 2013 09:01:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 14 Sep 2013 12:19:47 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060109060002000001020703"
+
+--------------060109060002000001020703
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
 
-This patch updates libtool.m4 (and its output) to resolve a problem 
-with variable 'lt_sysroot' not being properly updated if the option
-'--with[-libtool]-sysroot' is not provided when running the 'configure'
-script for a package.
-
-According to the help text ouput from 'configure':
---with-libtool-sysroot=DIR Search for dependent libraries within DIR
-                        (or the compiler's sysrooot if not specified).
-
-Due to mixed up cases in a switch statement, when checking if the option
-was specified or not, wrong actions were taken resulting in an incorrect
-sysroot and failures to properly locate e.g. .la files when using the 
-populated SDK toolchain.
-
-For current upstream status see:
-http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
-
-Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
----
-Changes since v5:
-* Fixes a precedence issue in the switch case
----
- meta/recipes-devtools/libtool/libtool-2.4.2.inc    |    1 +
- .../libtool/libtool/fix-resolve-lt-sysroot.patch   |   41 ++++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
-
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-index bb4ddf0..92e4949 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
-@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
- 	   file://respect-fstack-protector.patch \
-            file://norm-rpath.patch \
-            file://dont-depend-on-help2man.patch \
-+           file://fix-resolve-lt-sysroot.patch \
-           "
- 
- SRC_URI[md5sum] = "d2f3b7d4627e69e13514a40e72a24d50"
-diff --git a/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
-new file mode 100644
-index 0000000..44e9fe1
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
-@@ -0,0 +1,41 @@
-+Upstream-Status: Pending
-+
-+This patch updates libtool.m4 (and its output) to resolve a problem
-+with variable 'lt_sysroot' not being properly updated if the option
-+'--with[-libtool]-sysroot' is not provided when running the 'configure'
-+script for a package.
-+
-+I have also reported the problem to libtool here
-+
-+http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
-+
-+Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
-+---
-+diff -ur libtool-2.4.2.orig/libltdl/m4/libtool.m4 libtool-2.4.2/libltdl/m4/libtool.m4
-+--- libtool-2.4.2.orig/libltdl/m4/libtool.m4	2013-09-13 22:37:43.647282945 +0200
-++++ libtool-2.4.2/libltdl/m4/libtool.m4	2013-09-14 10:27:37.168178605 +0200
-+@@ -1234,16 +1234,21 @@
-+ dnl in case the user passed a directory name.
-+ lt_sysroot=
-+ case ${with_libtool_sysroot} in #(
-+- yes)
-++ no)
-+    if test "$GCC" = yes; then
-+      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
-++     # Treat "/" the same a an unset sysroot. It seems to be more
-++     # compatible across host platforms that way!?
-++     if test "$lt_sysroot" = /; then
-++       lt_sysroot=
-++     fi
-+    fi
-+    ;; #(
-++ yes|''|/)
-++   ;; #(
-+  /*)
-+    lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
-+    ;; #(
-+- no|'')
-+-   ;; #(
-+  *)
-+    AC_MSG_RESULT([${with_libtool_sysroot}])
-+    AC_MSG_ERROR([The sysroot must be an absolute path.])
--- 
-1.7.9.5
+On 09/14/2013 03:05 AM, Martin Jansa wrote:
+> On Fri, Sep 13, 2013 at 07:09:00PM -0500, Jason Wessel wrote:
+>> A newer version of syslinux is required for an EFI enabled isohybrid.
+>> This is used for the the capability to generate 3 types of ISO images,
+>> all of which can be booted off a USB device or HDD if copied with dd.
+>>
+>> 1) PC BIOS only ISO
+>> 2) EFI only ISO
+>> 3) EFI + PC BIOS ISO
+>>
+>> The syslinux.bbclass required a minor tweak because ldlinux.c32 is
+>> dynamically loaded and needs to be in the created media as of syslinux
+>> 5 and up.
+>
+> Hi Jason,
+>
+> can you please look at
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3944
+> ?
 
 
+I can look at fixing the defect, but there is no description of how to use the directdisk to see the problem.  Could you provide an example?
+
+I added the directdisk to IMAGE_FSTYPES, but didn't get a .directdisk in the deploy directory so that is not how it works.   Also I think the right solution is to simply call syslinux_hddimg_populate() from the directdisk class vs having copied code for the install of the syslinux specific files (that is how 1/2 the problem occurred in the first place).
+
+Back to this particular patch, the ldlinux.c32 change does not affect the bootdirect class.  The ldlinux.c32 is only required for isolinux and the copy is contained with in the inherited syslinux class.
+
+Cheers,
+Jason.
+
+
+--------------060109060002000001020703
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    On 09/14/2013 03:05 AM, Martin Jansa wrote:<br>
+    <span style="white-space: pre;">&gt; On Fri, Sep 13, 2013 at
+      07:09:00PM -0500, Jason Wessel wrote:<br>
+      &gt;&gt; A newer version of syslinux is required for an EFI
+      enabled isohybrid.<br>
+      &gt;&gt; This is used for the the capability to generate 3 types
+      of ISO images,<br>
+      &gt;&gt; all of which can be booted off a USB device or HDD if
+      copied with dd.<br>
+      &gt;&gt;<br>
+      &gt;&gt; 1) PC BIOS only ISO<br>
+      &gt;&gt; 2) EFI only ISO<br>
+      &gt;&gt; 3) EFI + PC BIOS ISO<br>
+      &gt;&gt;<br>
+      &gt;&gt; The syslinux.bbclass required a minor tweak because
+      ldlinux.c32 is<br>
+      &gt;&gt; dynamically loaded and needs to be in the created media
+      as of syslinux<br>
+      &gt;&gt; 5 and up.<br>
+      &gt;<br>
+      &gt; Hi Jason,<br>
+      &gt;<br>
+      &gt; can you please look at<br>
+      &gt; <a class="moz-txt-link-freetext" href="https://bugzilla.yoctoproject.org/show_bug.cgi?id=3944">https://bugzilla.yoctoproject.org/show_bug.cgi?id=3944</a><br>
+      &gt; ?</span><br>
+    <br>
+    <br>
+    I can look at fixing the defect, but there is no description of how
+    to use the directdisk to see the problem.&nbsp; Could you provide an
+    example?<br>
+    <br>
+    I added the directdisk to IMAGE_FSTYPES, but didn't get a
+    .directdisk in the deploy directory so that is not how it works.&nbsp;&nbsp;
+    Also I think the right solution is to simply call
+    syslinux_hddimg_populate() from the directdisk class vs having
+    copied code for the install of the syslinux specific files (that is
+    how 1/2 the problem occurred in the first place).<br>
+    <br>
+    Back to this particular patch, the ldlinux.c32 change does not
+    affect the bootdirect class.&nbsp; The ldlinux.c32 is only required for
+    isolinux and the copy is contained with in the inherited syslinux
+    class.<br>
+    <br>
+    Cheers,<br>
+    Jason.<br>
+    <br>
+  </body>
+</html>
+
+--------------060109060002000001020703--
