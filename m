@@ -1,39 +1,42 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 739E760648
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 08:04:25 +0000 (UTC)
-Received: by mail-ee0-f53.google.com with SMTP id b15so1013936eek.12
-	for <Openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 01:04:26 -0700 (PDT)
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2156360648
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Sep 2013 08:07:13 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id f15so990748eak.22
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 14 Sep 2013 01:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ttbSoGUq9n+F7sPNXWUQd8iCLFPYf0RqripPSQ6KCvU=;
-	b=NhgzTlOnH43e61AiIcZnq9ptkC6CZuNPlsdjmD+IoqEQbL90G8iIehIYDrRAWE1Ust
-	FmY5Lz5cMDcBphd9EWR4JpTmyMA0NKJttJL6n6ciBtSNp3g0hiF1WqOHsIUAU9X5EiUn
-	hu5virlO4Asi7zVBkU6CvIbFXqgoNpMg9RilnYaZJu6hypo6QWqOnW/nOUz0IfaHU5pM
-	VjCT6JY60XnmRI2akRQLoXez80902jiidXGVpUg9bpye1yvo/J+XWtmf8m1J3Pr4y5iq
-	3AbQ4SSaPvO6wUDDJwzMa8rcv2w5f0aHcTpNttqXNppC+91/wPNi2Og2I+PuYuuQUGaZ
-	36PQ==
-X-Received: by 10.14.246.11 with SMTP id p11mr24916741eer.9.1379145866773;
-	Sat, 14 Sep 2013 01:04:26 -0700 (PDT)
+	bh=xrpr+GWr/hMTb4Z+FFZwSpTYMeFOSHbt2/KlqNpMLJ4=;
+	b=VyZcM0HwJNTCre5N/b8c/qjyd1Wr00RQdKIK0tZEKIGvsVQ5Dy3vV8o6N1mWswRGB3
+	QDOicOHJoegUed0sMmQFH2Qz5pOT/DLzQlINoAyaZbZHMObzdwT7omodYEmOyQ+VF4bF
+	fJpgy/mOOuPtzxZi99Rujnsmf4I6OC0yWvXnQa6gcv9ed94WOTbUITHOqyczFpio0OKp
+	bihU8blDeGLafvIzIRoLjr+80ZxPwJFHsQJSz+CA+CAAfTByuvpuRWDgXUT3u9KO6Fkl
+	if/phc9nDj5oR6a3EgIVfmxbAx/MhwHV3ahQZEab2nBrPtODuJDw13aijTLbfOBmlrS/
+	6JVw==
+X-Received: by 10.15.48.197 with SMTP id h45mr24827513eew.0.1379146035523;
+	Sat, 14 Sep 2013 01:07:15 -0700 (PDT)
 Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
 	by mx.google.com with ESMTPSA id
-	h52sm21873206eez.3.1969.12.31.16.00.00
+	d8sm21858232eeh.8.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 14 Sep 2013 01:04:25 -0700 (PDT)
-Date: Sat, 14 Sep 2013 10:05:55 +0200
+	Sat, 14 Sep 2013 01:07:14 -0700 (PDT)
+Date: Sat, 14 Sep 2013 10:08:44 +0200
 From: Martin Jansa <martin.jansa@gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <20130914080555.GA30637@jama>
-References: <1379117343-29877-1-git-send-email-jason.wessel@windriver.com>
-	<1379117343-29877-5-git-send-email-jason.wessel@windriver.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130914080844.GB30637@jama>
+References: <1379114920-23851-1-git-send-email-jslater@windriver.com>
+	<CAMKF1spii+oAutyKLg0+k2Qdp-KccVzX+r0=tX57bBgYkxrMgA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1379117343-29877-5-git-send-email-jason.wessel@windriver.com>
+In-Reply-To: <CAMKF1spii+oAutyKLg0+k2Qdp-KccVzX+r0=tX57bBgYkxrMgA@mail.gmail.com>
 User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: dvhart@linux.intel.com, Openembedded-core@lists.openembedded.org
-Subject: Re: [v2 PATCH 4/7] syslinux.bbclass, syslinux: Update to syslinux 6.01
+Cc: Joe Slater <jslater@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] webkit-gtk: limit ld memory requirement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,62 +49,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Sep 2013 08:04:26 -0000
-X-Groupsio-MsgNum: 45023
+X-List-Received-Date: Sat, 14 Sep 2013 08:07:14 -0000
+X-Groupsio-MsgNum: 45024
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cNdxnHkX5QqsyA0e"
+	protocol="application/pgp-signature"; boundary="St7VIuEGZ6dlpu13"
 Content-Disposition: inline
 
---cNdxnHkX5QqsyA0e
+--St7VIuEGZ6dlpu13
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 13, 2013 at 07:09:00PM -0500, Jason Wessel wrote:
-> A newer version of syslinux is required for an EFI enabled isohybrid.
-> This is used for the the capability to generate 3 types of ISO images,
-> all of which can be booted off a USB device or HDD if copied with dd.
+On Fri, Sep 13, 2013 at 09:35:36PM -0700, Khem Raj wrote:
+> On Friday, September 13, 2013, Joe Slater wrote:
 >=20
-> 1) PC BIOS only ISO
-> 2) EFI only ISO
-> 3) EFI + PC BIOS ISO
+> > Add --no-keep-memory to LDFLAGS.
 >=20
-> The syslinux.bbclass required a minor tweak because ldlinux.c32 is
-> dynamically loaded and needs to be in the created media as of syslinux
-> 5 and up.
 
-Hi Jason,
+I think it was discussed on this ML before and conclusion was that it's
+distro/builder policy and shouldn't be default in the recipe.
+=20
+> It does not come with out a price. Have you measured how much performance
+> degradation it brings in ?
+> We need that to assess the trade off and also describe the machine
+> configuration where this option is helping
+>=20
+>=20
+> >
+> > Signed-off-by: Joe Slater <jslater@windriver.com <javascript:;>>
+> > ---
+> >  meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb |    4 ++++
+> >  1 files changed, 4 insertions(+), 0 deletions(-)
+> >
+> > diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bbb/meta/recipes=
+-sato/webkit/
+> > webkit-gtk_1.8.3.bb
+> > index 5691d3f..9304243 100644
+> > --- a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
+> > +++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
+> > @@ -58,6 +58,10 @@ CPPFLAGS_append_powerpc =3D "
+> > -I${STAGING_INCDIR}/pango-1.0 \
+> >                              -I${STAGING_LIBDIR}/glib-2.0/include \
+> >                              -I${STAGING_INCDIR}/glib-2.0"
+> >
+> > +# ld can run out of memory linking libwebkitgtk!
+> > +#
+> > +LDFLAGS +=3D "-Wl,--no-keep-memory"
+> > +
+> >  EXTRA_AUTORECONF =3D " -I Source/autotools "
+> >
+> >
+> > --
+> > 1.7.3.4
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org <javascript:;>
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
 
-can you please look at
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D3944
-?
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
->=20
-> [YOCTO #4100]
->=20
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/classes/syslinux.bbclass                      |    1 +
->  .../{syslinux_4.07.bb =3D> syslinux_6.01.bb}         |   26 ++++++++++++=
---------
->  2 files changed, 17 insertions(+), 10 deletions(-)
->  rename meta/recipes-devtools/syslinux/{syslinux_4.07.bb =3D> syslinux_6.=
-01.bb} (63%)
->=20
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---cNdxnHkX5QqsyA0e
+--St7VIuEGZ6dlpu13
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.21 (GNU/Linux)
 
-iEYEARECAAYFAlI0GOMACgkQN1Ujt2V2gBxaEQCcCrZjqhirZXABbZyEnsLmw7rV
-2IwAn3+AYJGua0i+rg95xjD8x6eC5WtE
-=ZOY1
+iEYEARECAAYFAlI0GYwACgkQN1Ujt2V2gBxI+QCfV3twlGxHhDNrWEmV+C1nAk9M
+8lkAoKTKbTkF9PyV6J4Ql3DskKo0d4+N
+=tMwf
 -----END PGP SIGNATURE-----
 
---cNdxnHkX5QqsyA0e--
+--St7VIuEGZ6dlpu13--
