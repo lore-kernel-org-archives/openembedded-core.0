@@ -1,26 +1,38 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E81E6B1FF
+Return-Path: <hans.beckerus@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 02FF360EDA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 08:49:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8E8nG7q017274
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 14 Sep 2013 09:01:40 +0000 (UTC)
+Received: by mail-la0-f42.google.com with SMTP id ep20so1784421lab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Sep 2013 01:49:16 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sat, 14 Sep 2013 01:49:15 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 14 Sep 2013 04:49:11 -0400
-Message-ID: <3b4c037e41f6678845fb29d97aae5f48f07a68c7.1379148332.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1379148332.git.liezhi.yang@windriver.com>
-References: <cover.1379148332.git.liezhi.yang@windriver.com>
+	Sat, 14 Sep 2013 02:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=fFCNGY5nqGVVQEGPwLQPHO6FhTmOBTIsBK5e5iSf7ZE=;
+	b=fBmW42UQgRZudiFgFpxU1tDDeaU91U7jiSsagBNaPUOCvyoyKCzAdezQFuWNEFuJEL
+	uhgQwg4v5ID1ZE7yWBOBMY9hutdVvrD2qgSdIFuUmuHkw8UDDfEfxaYrZkY9w4luGBbY
+	ZQEL9hzJA4q+/IGqFHu/+DZ8VdwcUbFA2DLG+0wHjBVljmnJYgtRhOOmQ+hhd4vRyJIM
+	2nkfb/SV2MPp1IshnaLUyKrDToCS1JUIUO340cWlPTLd/gKSxUDSDWAaZ+VmYd4a45Ec
+	GG32SZpiDm6kKcUBajnL1K5JtZY/b+d6kSYpsZfewAqUmvE6YoRs1i+9+39Ra6cO36qY
+	9z0w==
+X-Received: by 10.112.168.35 with SMTP id zt3mr15365032lbb.11.1379149301363;
+	Sat, 14 Sep 2013 02:01:41 -0700 (PDT)
+Received: from [192.168.0.10] (h135n8-rny-a12.ias.bredband.telia.com.
+	[217.209.54.135])
+	by mx.google.com with ESMTPSA id pw4sm8018369lbb.9.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 14 Sep 2013 02:01:40 -0700 (PDT)
+Message-ID: <523425F2.9070109@gmail.com>
+Date: Sat, 14 Sep 2013 11:01:38 +0200
+From: Hans Beckerus <hans.beckerus@gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: [PATCH v6] libtool: fix resolve of lt_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +45,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Sep 2013 08:49:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 14 Sep 2013 09:01:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-There might be an error when parallel build:
+This patch updates libtool.m4 (and its output) to resolve a problem 
+with variable 'lt_sysroot' not being properly updated if the option
+'--with[-libtool]-sysroot' is not provided when running the 'configure'
+script for a package.
 
-[snip]
-Traceback (most recent call last):
-  File "/path/to/tools/glib-gtypes-generator.py", line 304, in <module>
-    GTypesGenerator(dom, argv[1], argv[2])()
-  File "/path/to/tools/glib-gtypes-generator.py", line 295, in __call__
-    file_set_contents(self.output + '.h', ''.join(self.header))
-  File "/path/to/tools/libtpcodegen.py", line 42, in file_set_contents
-    os.rename(filename + '.tmp', filename)
-OSError: [Errno 2] No such file or directory
-[snip]
+According to the help text ouput from 'configure':
+--with-libtool-sysroot=DIR Search for dependent libraries within DIR
+                        (or the compiler's sysrooot if not specified).
 
-This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
-write(remove/rename) _gen/gtypes.tmp at the same time, then there would
-be the error.
+Due to mixed up cases in a switch statement, when checking if the option
+was specified or not, wrong actions were taken resulting in an incorrect
+sysroot and failures to properly locate e.g. .la files when using the 
+populated SDK toolchain.
 
-Use ".NOTPARALLEL: _gen/gtypes.h _gen/gtypes-body.h" will fix the
-problem.
+For current upstream status see:
+http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
 
-[YOCTO #5184]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
 ---
- .../tmc-Makefile-fix-race.patch                    |   47 ++++++++++++++++++++
- .../telepathy/telepathy-mission-control_5.15.0.bb  |    5 ++-
- 2 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch
+Changes since v5:
+* Fixes a precedence issue in the switch case
+---
+ meta/recipes-devtools/libtool/libtool-2.4.2.inc    |    1 +
+ .../libtool/libtool/fix-resolve-lt-sysroot.patch   |   41 ++++++++++++++++++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch b/meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch
+diff --git a/meta/recipes-devtools/libtool/libtool-2.4.2.inc b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+index bb4ddf0..92e4949 100644
+--- a/meta/recipes-devtools/libtool/libtool-2.4.2.inc
++++ b/meta/recipes-devtools/libtool/libtool-2.4.2.inc
+@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
+ 	   file://respect-fstack-protector.patch \
+            file://norm-rpath.patch \
+            file://dont-depend-on-help2man.patch \
++           file://fix-resolve-lt-sysroot.patch \
+           "
+ 
+ SRC_URI[md5sum] = "d2f3b7d4627e69e13514a40e72a24d50"
+diff --git a/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
 new file mode 100644
-index 0000000..537e1d7
+index 0000000..44e9fe1
 --- /dev/null
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch
-@@ -0,0 +1,47 @@
-+From 029fcd600707f25a73b0171497140dab264f56b7 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Sat, 14 Sep 2013 04:26:46 -0400
-+Subject: [PATCH] src/Makefile.am: let _gen/gtypes.h and _gen/gtypes-body.h run serially
-+
-+There might be an error when parallel build:
-+
-+[snip]
-+Traceback (most recent call last):
-+  File "/path/to/tools/glib-gtypes-generator.py", line 304, in <module>
-+    GTypesGenerator(dom, argv[1], argv[2])()
-+  File "/path/to/tools/glib-gtypes-generator.py", line 295, in __call__
-+    file_set_contents(self.output + '.h', ''.join(self.header))
-+  File "/path/to/tools/libtpcodegen.py", line 42, in file_set_contents
-+    os.rename(filename + '.tmp', filename)
-+OSError: [Errno 2] No such file or directory
-+[snip]
-+
-+This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
-+write(remove/rename) _gen/gtypes.tmp at the same time, then there would
-+be the error.
-+
-+Use ".NOTPARALLEL: _gen/gtypes.h _gen/gtypes-body.h" will fix the
-+problem.
-+
++++ b/meta/recipes-devtools/libtool/libtool/fix-resolve-lt-sysroot.patch
+@@ -0,0 +1,41 @@
 +Upstream-Status: Pending
 +
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++This patch updates libtool.m4 (and its output) to resolve a problem
++with variable 'lt_sysroot' not being properly updated if the option
++'--with[-libtool]-sysroot' is not provided when running the 'configure'
++script for a package.
++
++I have also reported the problem to libtool here
++
++http://lists.gnu.org/archive/html/bug-libtool/2013-09/msg00005.html
++
++Signed-off-by: Hans Beckerus <hans.beckerus at gmail.com>
 +---
-+ src/Makefile.am |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -293,7 +293,7 @@ _gen/gtypes.h _gen/gtypes-body.h: _gen/mcd.xml \
-+ 	$(AM_V_GEN)$(PYTHON) $(top_srcdir)/tools/glib-gtypes-generator.py \
-+ 		$< _gen/gtypes mc
-+ 
-+-
-++.NOTPARALLEL: _gen/gtypes.h _gen/gtypes-body.h
-+ 
-+ # Generated files which must be generated per "class".
-+ # (Currently the only "class" is nmc4, but the new API will need "classes"
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb
-index b2736ca..91159e1 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb
-@@ -6,7 +6,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499 \
- SECTION = "libs"
- DEPENDS = "libtelepathy dbus-glib gconf libxslt-native"
- 
--SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
-+SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz \
-+	   file://tmc-Makefile-fix-race.patch \
-+	"
-+
- SRC_URI[md5sum] = "0efd7d9043f6e189e8ed8111d043b52c"
- SRC_URI[sha256sum] = "88800d1b5f385e94b34721319ff4fe65c493632954d7229b36e57af5b4a7e1b5"
- 
++diff -ur libtool-2.4.2.orig/libltdl/m4/libtool.m4 libtool-2.4.2/libltdl/m4/libtool.m4
++--- libtool-2.4.2.orig/libltdl/m4/libtool.m4	2013-09-13 22:37:43.647282945 +0200
+++++ libtool-2.4.2/libltdl/m4/libtool.m4	2013-09-14 10:27:37.168178605 +0200
++@@ -1234,16 +1234,21 @@
++ dnl in case the user passed a directory name.
++ lt_sysroot=
++ case ${with_libtool_sysroot} in #(
++- yes)
+++ no)
++    if test "$GCC" = yes; then
++      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+++     # Treat "/" the same a an unset sysroot. It seems to be more
+++     # compatible across host platforms that way!?
+++     if test "$lt_sysroot" = /; then
+++       lt_sysroot=
+++     fi
++    fi
++    ;; #(
+++ yes|''|/)
+++   ;; #(
++  /*)
++    lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
++    ;; #(
++- no|'')
++-   ;; #(
++  *)
++    AC_MSG_RESULT([${with_libtool_sysroot}])
++    AC_MSG_ERROR([The sysroot must be an absolute path.])
 -- 
-1.7.10.4
+1.7.9.5
 
 
