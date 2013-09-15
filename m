@@ -1,31 +1,24 @@
-Return-Path: <kirgene@gmail.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7422760FF0
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 458136C79A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Sep 2013 15:03:01 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id x12so2149485qcv.36
+	Sun, 15 Sep 2013 16:21:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8FGLxPJ024921
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Sep 2013 08:03:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=TlUXfidjgfYSiLfdcMFtqxObo2os5se8NqbNZPa+ixw=;
-	b=edN/vDGaFXVdBF4f8N6yPbciQmjP8mK3Sk5PMZI14nohDZfrli3edirxmxTz3T5MLF
-	b+juET/YuhBPdsDMkxuwpCH6JwMZuvw2+BdcZOLW61bATgetLoWmIiRLefG28CoULYBj
-	Q6oUJfoHg5GJEfcy6jKi59q/E89WOWbwP8Cx8qlwh45D8L5xhAyeEnUhcBMO6OKfwr6+
-	crh/QbPz7cgy7qjxj6QI9ukGzviOAkU6dKlMb8C671n87cG3pUip1gDe7DQYHz0cg/M+
-	cDimeZsYcJS9j9lZ2LfT4WnAf+kGJJZCZK2joAy15s/mKx9kllyTfPlCOQUsqW6Gzmsh
-	XGxw==
+	Sun, 15 Sep 2013 09:21:59 -0700 (PDT)
+Received: from fidler.corp.ad.wrs.com (128.224.22.90) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Sun, 15 Sep 2013 09:21:59 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 15 Sep 2013 12:21:47 -0400
+Message-ID: <1379262107-31255-1-git-send-email-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 1.8.2.1
 MIME-Version: 1.0
-X-Received: by 10.49.50.198 with SMTP id e6mr1894218qeo.76.1379257382123; Sun,
-	15 Sep 2013 08:03:02 -0700 (PDT)
-Received: by 10.49.108.39 with HTTP; Sun, 15 Sep 2013 08:03:02 -0700 (PDT)
-Date: Sun, 15 Sep 2013 18:03:02 +0300
-Message-ID: <CADV-EXFKZrRS5K-_dsxVe570Q3ESi6Oqg3muNXgfmgu6RttrPQ@mail.gmail.com>
-From: Yevhen Kyriukha <kirgene@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Patch for psplash
+Subject: [PATCH] vala: add bison-native depends for vala-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,14 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Sep 2013 15:03:01 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sun, 15 Sep 2013 16:21:58 -0000
+Content-Type: text/plain
 
-Hi!
+vala-native builds were working because most systems have
+bison installed on the host. Add an explicit dependency on
+bison-native since bison isn't a sanity checked host tool.
 
-I made a patch for psplash to work without mmap support.
-How can I submit this patch to psplash repository?
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ meta/recipes-devtools/vala/vala.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best regards,
-Yevhen
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 6cdc605..a8927d7 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -3,7 +3,7 @@ Vala compiles to plain C and has no runtime environment nor penalities whatsoeve
+ SECTION = "devel"
+ DEPENDS = "glib-2.0 dbus gtk+"
+ BBCLASSEXTEND = "native"
+-DEPENDS_virtclass-native = "glib-2.0-native dbus-native"
++DEPENDS_virtclass-native = "bison-native glib-2.0-native dbus-native"
+ HOMEPAGE = "http://vala-project.org"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+-- 
+1.8.2.1
+
 
