@@ -1,30 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 57C996102E;
-	Sun, 15 Sep 2013 07:33:13 +0000 (UTC)
-Received: by mail-ie0-f181.google.com with SMTP id tp5so5345023ieb.40
-	for <multiple recipients>; Sun, 15 Sep 2013 00:33:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=JuphKaTyEdya5r5PxVvwZhMKlaeTTtvjB5zT76p64G4=;
-	b=p89v95lL4rcOuxAx11XYGn+L5EYb2tjFbBrkKVXXGBQ653MOLoRZmQOhzWgEdtKN/W
-	a6AkdDlZe8n72FfRWWj3G2lgS5V7OUw+8ucWdz+11KEyc/usvMZQDBA/lmDvm/+Fcd39
-	ANpbOz78kxwYvCiiO+NBiJ2cwsgMEZSb2lZCFvKS5QSK7ugnGBSjGHOCr6YNnMW5wdmR
-	zbyA4FlAN4r8Pyk1+6I5S6Z5Pm9oplMs2O3cMzYScUg5YCpDcIyVwdjuCPrwr3Py8Rol
-	/m1t4wubEprvTfOPjwDLpfGHAId9lGV24B8w8Y9mETZp4J+Y055qgnXteWf63rOrw1WT
-	Dx9w==
-X-Received: by 10.42.51.144 with SMTP id e16mr5667269icg.2.1379230394469; Sun,
-	15 Sep 2013 00:33:14 -0700 (PDT)
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E3F1A6A564
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Sep 2013 09:13:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8F9DGtn000553
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Sep 2013 02:13:16 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 15 Sep 2013 02:13:16 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 15 Sep 2013 05:13:12 -0400
+Message-ID: <e4f5f3c244b7d3b7f49cad8fd57dbfa7c4a009f7.1379235732.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1379235732.git.liezhi.yang@windriver.com>
+References: <cover.1379235732.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Received: by 10.50.216.195 with HTTP; Sun, 15 Sep 2013 00:32:44 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 15 Sep 2013 00:32:44 -0700
-Message-ID: <CAMKF1sonakYiB++QeeeXKVztx+7CKW3zn=ndn=kP+kSVmqu3Qw@mail.gmail.com>
-To: openembeded-devel <Openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: patchwork updated
+Subject: [PATCH 1/1] coreutils: set acpaths to avoid "Argument list too long" error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,15 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Sep 2013 07:33:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 15 Sep 2013 09:13:15 -0000
+Content-Type: text/plain
 
-Hi All,
+There would be an error when the TMPDIR is long/deep, for example when
+len(TMPDIR) = 350 while our supported longest value is 410:
 
-The patchwork has been updated to latest. Please keep an eye if you
-see something non working let me know immediately.
+[snip]
+aclocal: error: cannot open xxx
+autoreconf: aclocal failed with exit status: 1
+ERROR: autoreconf execution failed.
+[snip]
 
+Let aclocal use the relative path for the m4 file rather than the
+absolute would fix the problem.
 
-Thanks
--Khem
+Another fix is that we can modify autotools.bbclass to let it use the
+relative path rather than the absolute, but I don't think that we have
+to do that based on the following 2 thoughts:
+
+* The coreutils is the only recipe which has this issue as far as we
+  know when len(TMPDIR) <= 410, because it has the most amount of m4
+  files (more than 400 ones).
+
+* That would impact all the recipes which use autotools.bbclass, and we
+  are not sure about the side effect, for example, it would break the
+  build there is a sub-configure.
+
+[YOCTO #2766]
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-core/coreutils/coreutils_6.9.bb  |    6 ++++++
+ meta/recipes-core/coreutils/coreutils_8.21.bb |    6 ++++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/meta/recipes-core/coreutils/coreutils_6.9.bb b/meta/recipes-core/coreutils/coreutils_6.9.bb
+index 2654028..eeeab05 100644
+--- a/meta/recipes-core/coreutils/coreutils_6.9.bb
++++ b/meta/recipes-core/coreutils/coreutils_6.9.bb
+@@ -57,6 +57,12 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdi
+ 
+ sbindir_progs= "chroot"
+ 
++# Let aclocal use the relative path for the m4 file rather than the
++# absolute since coreutils has a lot of m4 files, otherwise there might
++# be an "Argument list too long" error when it is built in a long/deep
++# directory.
++acpaths = "-I ./m4"
++
+ do_install() {
+ 	autotools_do_install
+ 
+diff --git a/meta/recipes-core/coreutils/coreutils_8.21.bb b/meta/recipes-core/coreutils/coreutils_8.21.bb
+index 35c9100..da14303 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.21.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.21.bb
+@@ -47,6 +47,12 @@ base_bindir_progs = "cat chgrp chmod chown cp date dd echo false kill ln ls mkdi
+ 
+ sbindir_progs= "chroot"
+ 
++# Let aclocal use the relative path for the m4 file rather than the
++# absolute since coreutils has a lot of m4 files, otherwise there might
++# be an "Argument list too long" error when it is built in a long/deep
++# directory.
++acpaths = "-I ./m4"
++
+ # Deal with a separate builddir failure if src doesn't exist when creating version.c/version.h
+ do_compile_prepend () {
+ 	mkdir -p ${B}/src
+-- 
+1.7.10.4
+
 
