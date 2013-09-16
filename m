@@ -1,26 +1,44 @@
-Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DB92860F28
-	for <Openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 17:57:52 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 16 Sep 2013 10:54:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,917,1371106800"; d="scan'208";a="379050578"
-Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.128]) ([10.7.201.128])
-	by orsmga001.jf.intel.com with ESMTP; 16 Sep 2013 10:57:54 -0700
-Message-ID: <1379354273.1285.169.camel@dvhart-mobl4.amr.corp.intel.com>
-From: Darren Hart <dvhart@linux.intel.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Date: Mon, 16 Sep 2013 10:57:53 -0700
-In-Reply-To: <1379117343-29877-8-git-send-email-jason.wessel@windriver.com>
-References: <1379117343-29877-1-git-send-email-jason.wessel@windriver.com>
-	<1379117343-29877-8-git-send-email-jason.wessel@windriver.com>
-Organization: Intel
-X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
-Mime-Version: 1.0
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [v2 PATCH 7/7] bootimage.bbclass, zisofs-tools-native: add ability to compress ISO images
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E7B7615CA
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 17:59:54 +0000 (UTC)
+Received: by mail-vc0-f174.google.com with SMTP id gd11so3100717vcb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 10:59:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=jvLfV4wAgvcX4WYI8NQeC5UZUAGTWDLmGvJ8q1mpJ/4=;
+	b=MaFsuX7+zuuvhWaWOu+yPNWUyaFHnoKi0YIsSpHG2xqU1hTl2O4OC2c7LbDzyYQVlb
+	oAIZA7Mvhl+aGUYQffqYAI62uhhj4GpHH1jwxHt8vbTsNSMFENF/dqUb3RcdH4xX3hQu
+	8XqqIy4ArqzMuOnfbM/HkLssc7kuy8lJDTRjqG1Wl/pfX5XDv5J8SIaeF/v9czsokEgS
+	g54KFa0a+fM1rbo2/ME7wGtB1OAQXu49K+KZozvnH3XcUoAiFTkK18EVZoQpWaaQyg6K
+	YPm3MjDVGUs73yMVQFgmNcv0H9D5Ig5x1iU924FT0Tkt/5X+psT24qwU9Mtc+EquEKgl
+	kXQg==
+X-Gm-Message-State: ALoCoQmFG3NVvMIgw7kKW5CKrbYWksNhg51ayJVcz3ksLSrKcISNUqL72nDOgIBHaTcCvFoYqYKB
+X-Received: by 10.52.229.73 with SMTP id so9mr2182650vdc.27.1379354395580;
+	Mon, 16 Sep 2013 10:59:55 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Mon, 16 Sep 2013 10:59:35 -0700 (PDT)
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C704963FC@ORSMSX103.amr.corp.intel.com>
+References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C70495CFD@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LZucKPx8oG-v+JghEwQmcXhu5qz36bie_sgB9tWoN2tfw@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C704963FC@ORSMSX103.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Sep 2013 18:59:35 +0100
+Message-ID: <CAJTo0Lbgd0h3HVfmAb_2CUY8Atmj+9YtiCaRc=BX4p3ZSFi2ew@mail.gmail.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,143 +51,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 17:57:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Sep 2013 17:59:54 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2013-09-13 at 19:09 -0500, Jason Wessel wrote:
-> The mkzftree is needed to allow ISO images to be compressed with
-> minimal runtime overhead.  Below is an example of the savings on a
-> core-image-minimal.
-> 
-> Before ls -l:
-> 24117248 core-image-minimal-qemux86-64.iso
-> 
-> Using the mkzftree ls -l:
-> 16777216 core-image-minimal-qemux86-64.iso
-> 
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/classes/bootimg.bbclass                       |   24 +++++++++++++++++---
->  .../zisofs-tools/zisofs-tools-native_1.0.8.bb      |   19 ++++++++++++++++
->  2 files changed, 40 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-> 
-> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-> index 756a287..e9e4e8d 100644
-> --- a/meta/classes/bootimg.bbclass
-> +++ b/meta/classes/bootimg.bbclass
-> @@ -19,13 +19,15 @@
->  
->  # External variables (also used by syslinux.bbclass)
->  # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
-> +# ${COMPRESSISO} - Transparent compress ISO, reduce size ~40% if set to 1
->  # ${NOISO}  - skip building the ISO image if set to 1
->  # ${NOHDD}  - skip building the HDD image if set to 1
->  # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
->  
->  do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
->                          mtools-native:do_populate_sysroot \
-> -                        cdrtools-native:do_populate_sysroot"
-> +                        cdrtools-native:do_populate_sysroot \
-> +                        ${@oe.utils.ifelse(d.getVar('COMPRESSISO'),'zisofs-tools-native:do_populate_sysroot','')}"
->  
->  PACKAGES = " "
->  EXCLUDE_FROM_WORLD = "1"
-> @@ -33,6 +35,8 @@ EXCLUDE_FROM_WORLD = "1"
->  HDDDIR = "${S}/hddimg"
->  ISODIR = "${S}/iso"
->  EFIIMGDIR = "${S}/efi_img"
-> +COMPACT_ISODIR = "${S}/iso.z"
-> +COMPRESSISO ?= ""
+On 16 September 2013 17:16, Kamble, Nitin A <nitin.a.kamble@intel.com> wrote:
+> The PROVIDES from mesa.inc is not what mesa-gl recipe provides. Mesa-gl is dropping
+> gles & elg components, and that should be reflected in the PROVIDES. Right?
 
+Urgh, yes.  That will teach me for grabbing an hour of work in between
+being dad.  V2 incoming.
 
-Would an explicit '0' here be better?
-
-
->  
->  BOOTIMG_VOLUME_ID   ?= "boot"
->  BOOTIMG_EXTRA_SPACE ?= "512"
-> @@ -95,18 +99,32 @@ build_iso() {
->  		install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
->  	fi
->  
-> +	if [ "${COMPRESSISO}" = "1" ] ; then
-> +		# create compact directory, compress iso
-> +		mkdir -p ${COMPACT_ISODIR}
-> +		mkzftree -z 9 -p 4 -F ${ISODIR}/rootfs.img ${COMPACT_ISODIR}/rootfs.img
-> +
-> +		# move compact iso to iso, then remove compact directory
-> +		mv ${COMPACT_ISODIR}/rootfs.img ${ISODIR}/rootfs.img
-> +		rm -Rf ${COMPACT_ISODIR}
-> +		mkisofs_compress_opts="-R -z -D -l"
-> +	else
-> +		mkisofs_compress_opts="-r"
-> +	fi
-> +
->  	if [ "${PCBIOS}" = "1" ] && [ "${EFI}" != "1" ] ; then
->  		# PCBIOS only media
->  		mkisofs -V ${BOOTIMG_VOLUME_ID} \
->  		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
-> -			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} -r \
-> +			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} \
-> +			$mkisofs_compress_opts \
->  			${MKISOFS_OPTIONS} ${ISODIR}
->  	else
->  		# EFI only OR EFI+PCIBIOS
->  		mkisofs -A ${BOOTIMG_VOLUME_ID} -V ${BOOTIMG_VOLUME_ID} \
->  		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
->  			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} \
-> -			-r ${MKISOFS_OPTIONS} \
-> +			$mkisofs_compress_opts ${MKISOFS_OPTIONS} \
->  			-eltorito-alt-boot -eltorito-platform efi \
->  			-b efi.img -no-emul-boot \
->  			${ISODIR}
-
-
-OK...
-
-
-> diff --git a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-> new file mode 100644
-> index 0000000..1501307
-> --- /dev/null
-> +++ b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-> @@ -0,0 +1,19 @@
-> +# zisofs-tools-native OE build file
-> +# Copyright (C) 1989, 1991 Free Software Foundation, Inc.
-> +SUMMARY = "A set of tools for iso file compression"
-> +DESCRIPTION = "A set of tools for iso file compression"
-> +HOMEPAGE = "http://http://freecode.com/projects/zisofs-tools"
-> +SECTION = "console/utils"
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-> +
-> +SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/zisofs-tools/zisofs-tools-${PV}.tar.bz2/2d0ed8c9a1f60b45f949b136f9be1f6c/zisofs-tools-${PV}.tar.bz2"
-> +
-> +SRC_URI[md5sum] = "2d0ed8c9a1f60b45f949b136f9be1f6c"
-> +SRC_URI[sha256sum] = "ae4e53e4914934d41660248fb59d3c8761f1f1fd180d5ec993c17ddb3afd04f3"
-> +
-> +inherit native
-> +
-> +do_install() {
-> +	oe_runmake install INSTALLROOT=${D} bindir=${bindir}
-> +}
-
-Does EXTRA_OEMAKE not work here? I see it isn't listed in the reference
-manual for the install step (just the compile step), so perhaps not.
-Just wanted to check.
-
-Generally speaking, I think this looks fine though and I don't object to
-it going in as-is.
-
-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
-
-
--- 
-Darren Hart
-Intel Open Source Technology Center
-Yocto Project - Linux Kernel
-
-
+Ross
 
