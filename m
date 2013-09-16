@@ -1,27 +1,21 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id BA0A96C7F1
+Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
+Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id C89C66A40C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 03:05:20 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 15 Sep 2013 20:05:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,912,1371106800"; d="scan'208";a="378647993"
-Received: from unknown (HELO [10.255.14.132]) ([10.255.14.132])
-	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2013 20:05:10 -0700
-Message-ID: <52367566.6060504@linux.intel.com>
-Date: Sun, 15 Sep 2013 20:05:10 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Hongxu Jia <hongxu.jia@windriver.com>
-References: <cover.1379132723.git.hongxu.jia@windriver.com>
-	<9bafb39aaaf33a7a3eee1e20ca2beca8378df3c8.1379132723.git.hongxu.jia@windriver.com>
-	<52361DFB.5090506@linux.intel.com> <52365FE7.6000102@windriver.com>
-In-Reply-To: <52365FE7.6000102@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] python: fix failures of LSB python-runtime tests
+	Mon, 16 Sep 2013 04:59:15 +0000 (UTC)
+Received: from AFplatform.bmw-carit.intra (afplatform.bmw-carit.intra
+	[192.168.101.5])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: lukas.bulwahn)
+	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id B122C40044;
+	Mon, 16 Sep 2013 05:56:26 +0200 (CEST)
+From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Sep 2013 06:59:13 +0200
+Message-Id: <1379307553-2744-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] boost: set up PACKAGECONFIG for boost-python library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,85 +28,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 03:05:21 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Sep 2013 04:59:17 -0000
 
-On 09/15/2013 06:33 PM, Hongxu Jia wrote:
-> On 09/16/2013 04:52 AM, Saul Wold wrote:
->> On 09/13/2013 09:31 PM, Hongxu Jia wrote:
->>> It has been fixed in:
->>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=e261c1760d8a660c13cd00039a4812d51f47f3df
->>>
->>>
->>> But there is a typo in:
->>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=78ac027f2ac6c6663fff7080eabbd3d09c1241bb
->>>
->>> It missed to remove an extra "--with-wctype-functions" in EXTRA_OECONF
->>>
->>> [YOCTO #5154]
->>>
->>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->>> ---
->>>   meta/recipes-devtools/python/python.inc | 1 -
->>>   1 file changed, 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-devtools/python/python.inc
->>> b/meta/recipes-devtools/python/python.inc
->>> index 80609a8..fcfeda5 100644
->>> --- a/meta/recipes-devtools/python/python.inc
->>> +++ b/meta/recipes-devtools/python/python.inc
->>> @@ -25,7 +25,6 @@ EXTRA_OECONF = "\
->>>     --with-cyclic-gc \
->>>     --without-cxx \
->>>     --with-signal-module \
->>> -  --with-wctype-functions \
->> I think this needs to be protected with a linuxstdbase check.
->>
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=78ac027f2ac6c6663fff7080eabbd3d09c1241bb
-> has done this, but missing to remove the extra ' --with-wctype-functions'
->
-Sorry, I rushed the review of this and did not look at the big picture. 
-  Your patch seems correct.
+Until now, the comment in the boost.inc file suggested to enable
+the boost-python library by uncommenting some lines in that file.
+Using the new PACKAGECONFIG feature, boost-python can now be added
+optionally without need to modify the file or copying those lines
+into a bbappend file.
+Furthermore, we obtain the python version by inheriting python-dir
+instead of fixing the python version in this file.
 
-Sau!
+This commit is motivated by the need in the meta-ros layer, as
+discussed in the issue #145 of the meta-ros issue tracker [1].
 
-> inherit autotools
->
-> +PYTHONLSBOPTS = "--with-wctype-functions"
-> +PYTHONLSBOPTS_linuxstdbase = "ac_cv_sizeof_off_t=8"
-> +
->   EXTRA_OECONF = "\
->     --with-threads \
->     --with-pymalloc \
-> @@ -24,14 +27,5 @@ EXTRA_OECONF = "\
->     --with-signal-module \
->     --with-wctype-functions \
->     --enable-shared \
-> -"
-> -
-> -EXTRA_OECONF_linuxstdbase = "\
-> -  --with-threads \
-> -  --with-pymalloc \
-> -  --with-cyclic-gc \
-> -  --without-cxx \
-> -  --with-signal-module \
-> -  --enable-shared \
-> -  ac_cv_sizeof_off_t=8 \
-> +  ${PYTHONLSBOPTS} \
->   "
->
-> //Hongxu
->
->
->
->> Sau!
->>
->>>     --enable-shared \
->>>     --enable-ipv6=${@base_contains('DISTRO_FEATURES', 'ipv6', 'yes',
->>> 'no', d)} \
->>>     ${PYTHONLSBOPTS} \
->>>
->
+[1] https://github.com/bmwcarit/meta-ros/pull/145
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
+---
+ meta/recipes-support/boost/boost.inc |   15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 5a219c5..f13051c 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -18,11 +18,12 @@ BOOST_LIBS = "\
+ 	thread \
+ 	"
+ 
+-# To enable python, uncomment the following:
+-#BOOST_LIBS += "python"
+-#DEPENDS += "python"
+-#PYTHON_ROOT = "${STAGING_DIR_HOST}/${prefix}"
+-#PYTHON_VERSION = "2.7"
++# optional boost-python library
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[python] = ",,python"
++BOOST_LIBS += "${@base_contains('PACKAGECONFIG', 'python', 'python', '', d)}"
++inherit python-dir
++PYTHON_ROOT = "${STAGING_DIR_HOST}/${prefix}"
+ 
+ # Make a package for each library, plus -dev
+ PACKAGES = "${PN}-dbg ${BOOST_PACKAGES}"
+@@ -95,7 +96,7 @@ BJAM_TOOLS   = "-sTOOLS=gcc \
+ 		'-sGCC_INCLUDE_DIRECTORY=${STAGING_INCDIR}' \
+ 		'-sGCC_STDLIB_DIRECTORY=${STAGING_LIBDIR}' \
+ 		'-sBUILD=release <optimization>space <threading>multi <inlining>on <debug-symbols>off' \
+-		'-sPYTHON_VERSION=${PYTHON_VERSION}' \
++		'-sPYTHON_VERSION=${PYTHON_BASEVERSION}' \
+ 		'-sPYTHON_ROOT=${PYTHON_ROOT}' \
+ 		'--layout=system' \
+ 		"
+@@ -136,7 +137,7 @@ do_boostconfig() {
+ 		echo 'using gcc : 4.3.1 : ${CXX} : compileflags -DBOOST_SP_USE_PTHREADS -I${includedir} linkflags -L${libdir} ;' >> ${S}/tools/build/v2/user-config.jam
+ 	fi	
+ 
+-	echo "using python : ${PYTHON_VERSION} : : ${STAGING_INCDIR}/python${PYTHON_VERSION} ;" >> ${S}/tools/build/v2/user-config.jam
++	echo "using python : ${PYTHON_BASEVERSION} : : ${STAGING_INCDIR}/python${PYTHON_BASEVERSION} ;" >> ${S}/tools/build/v2/user-config.jam
+ 
+ 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" ./bootstrap.sh --with-bjam=bjam --with-toolset=gcc --with-python-root=${PYTHON_ROOT}
+ 	sed -i '/^using python/d' project-config.jam
+-- 
+1.7.10.4
+
 
