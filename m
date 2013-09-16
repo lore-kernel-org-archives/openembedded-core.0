@@ -1,38 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f181.google.com (mail-ve0-f181.google.com
-	[209.85.128.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AB2460F28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 17:16:13 +0000 (UTC)
-Received: by mail-ve0-f181.google.com with SMTP id oy12so3317368veb.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 10:16:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Ye4VPHRu/+7Az+RxJiHAiVxR0Bq7brwogNn9QU/AaCk=;
-	b=Yu5oOSmDPy12Hx5YaCtMcUd0c/FxPtIK3wkovTATK8Z6CMKlOx73iSIWeFZeQE6Pkm
-	BDQ7t4NBQ/wmlM2z2AIGGYHyrQkLpvVM5U/0dZvh80CG5ygsvWoJ+2nwxVSU9sxAVUbB
-	rZ1OVGg/4rmuJn3f2K9410K+2XAgy8M2Lueakwb7roBNHNcGI7RfLNK0ln6WcPwigYk+
-	nZ6/wqTS/tGNXlxi+hj2dtWFDJM1Aclvd4M0pqobq2a4bw2xVKvv8CfFwmnJ06qzoEE2
-	K70TplNMLH4PP0qHUv3CJIvrv1gC2q8cdYlFVxVLCwfqWhfqbeAvFk35Q//mu1swgWm6
-	iOiw==
-X-Gm-Message-State: ALoCoQnKkqY/zhoMyIpjM4mPse1iOUz5n1YwTLxUcoXVv9/tKvVBqSuHtBupgURfSsqVdKE7Pw0y
-X-Received: by 10.59.11.69 with SMTP id eg5mr9617560ved.17.1379351775401; Mon,
-	16 Sep 2013 10:16:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 16 Sep 2013 10:15:55 -0700 (PDT)
-In-Reply-To: <C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
-References: <cover.1379329974.git.hongxu.jia@windriver.com>
-	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
-	<C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Sep 2013 18:15:55 +0100
-Message-ID: <CAJTo0LbqJN2sJ9oo1Qf9qpRqLTJJO_ci6T_RYE1zArpcijFBDA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libxml2: fix LSB desktop-xml tests failure
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2394160F28
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 17:22:03 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 16 Sep 2013 10:22:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,917,1371106800"; d="scan'208";a="404151004"
+Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.128]) ([10.7.201.128])
+	by orsmga002.jf.intel.com with ESMTP; 16 Sep 2013 10:21:39 -0700
+Message-ID: <1379352098.1285.146.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Date: Mon, 16 Sep 2013 10:21:38 -0700
+In-Reply-To: <1379117343-29877-3-git-send-email-jason.wessel@windriver.com>
+References: <1379117343-29877-1-git-send-email-jason.wessel@windriver.com>
+	<1379117343-29877-3-git-send-email-jason.wessel@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [v2 PATCH 2/7] cdrtools-native: Update from 3.00 to 3.01a17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,14 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 17:16:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Sep 2013 17:22:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 16 September 2013 18:09, Khem Raj <raj.khem@gmail.com> wrote:
-> IMO the testcase should be fixed. This is security patch that you are disabling. I don't think LSB compliance
-> should mean less secure
+On Fri, 2013-09-13 at 19:08 -0500, Jason Wessel wrote:
+> The update is needed to support generation of EFI boot images that
+> work with optical media.  Specifically the "-eltorito-platform efi"
+> capability for mkisofs is needed.
+> 
+> [YOCTO #4100]
+> 
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 
-Yes, what Khem said.
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 
-Ross
+> ---
+>  ...s-native_3.00.bb => cdrtools-native_3.01a17.bb} |   22 +++++++-------------
+>  1 file changed, 8 insertions(+), 14 deletions(-)
+>  rename meta/recipes-devtools/cdrtools/{cdrtools-native_3.00.bb => cdrtools-native_3.01a17.bb} (47%)
+> 
+> diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
+> similarity index 47%
+> rename from meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
+> rename to meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
+> index 7e4c381..2ae3f4a 100644
+> --- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.00.bb
+> +++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a17.bb
+> @@ -5,26 +5,20 @@ SUMMARY = "A set of tools for CD recording, including cdrecord"
+>  DESCRIPTION = "A set of tools for CD recording, including cdrecord"
+>  HOMEPAGE = "http://cdrecord.berlios.de/private/cdrecord.html"
+>  SECTION = "console/utils"
+> -LICENSE = "GPLv2"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=8d16123ffd39e649a5e4a6bc1de60e6d"
+> -PR = "r0"
+> +LICENSE = "GPLv2 & CDDL-1.0 & LGPLv2.1+"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
+>  
+> -SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/cdrtools-${PV}.tar.bz2 \
+> -           file://no_usr_src.patch"
+> +SRC_URI = "ftp://ftp.berlios.de/pub/cdrecord/alpha/cdrtools-${PV}.tar.bz2"
+>  
+> -SRC_URI[md5sum] = "f9fbab08fbd458b0d2312976d8c5f558"
+> -SRC_URI[sha256sum] = "7f9cb64820055573b880f77b2f16662a512518336ba95ab49228a1617973423d"
+> +SRC_URI[md5sum] = "4cef9db0cf15a770c52d65b00bbee2db"
+> +SRC_URI[sha256sum] = "3d613965b213ad83e4be0ba2535e784901839ea4d11a20a2beb6765f0eb76dfa"
+>  
+> -inherit native
+> +S = "${WORKDIR}/cdrtools-3.01"
+>  
+> -STAGE_TEMP = "${WORKDIR}/image-temp"
+> +inherit native
+>  
+>  FILESPATH = "${FILE_DIRNAME}/cdrtools-native/"
+>  
+>  do_install() {
+> -	install -d ${STAGE_TEMP}
+> -	make install INS_BASE=${STAGE_TEMP}
+> -
+> -	install -d ${D}${bindir}/
+> -	install ${STAGE_TEMP}/bin/* ${D}${bindir}/
+> +	make install GMAKE_NOWARN=true INS_BASE=${prefix} DESTDIR=${D}
+>  }
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
 
