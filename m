@@ -1,37 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id CED366C806
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mail.openembedded.org (Postfix) with ESMTP id D2E146C84E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 18:06:42 +0000 (UTC)
-Received: by mail-wg0-f47.google.com with SMTP id f12so3936696wgh.2
+	Mon, 16 Sep 2013 18:06:54 +0000 (UTC)
+Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
+	r8GI6rQT028464
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 11:06:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=jRP+jM6an56iG41kvgdXp8/COkp44bKe6tp+81gtY2Y=;
-	b=OhCU7OcQYwGiIya5s3STqGc5AjBpPSIo4cIs06GKw9INspAJmaiHvUizDBbrXQMWUu
-	notmavC6KmxzOtY2HaczWKrIMe4e51KxBPlcc4iVUh6qn6eE+mHiwc0Yif0KIvo70pQS
-	SjOFRK54ufP7XuB08ZEBkCpsjvzaJpYG0pAtjw7lXZfTVPsx8Y3QyymWA2jeO+Ity/Hu
-	OU4krXUd+8/A0qSk1mxbMe7yiX213rJ6nvasJ2gfg3RmS2/gVot4lrlqTebmbyzdIewp
-	4oNXyHzbf9WvgvDTk/0m0w2vexZC+dD07Gtn4Fi+ndfkc03YvZHIrSoXibgjH8LPvQz9
-	lqYg==
-X-Gm-Message-State: ALoCoQmUWJqBGr+KjNgE3JzWHp2ZwT9v0/tARfPCONJk8v3SC4S/tgEV/25aJy4fU/O9YwCFMXOm
-X-Received: by 10.194.175.66 with SMTP id by2mr2481686wjc.59.1379354804168;
-	Mon, 16 Sep 2013 11:06:44 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id dx7sm25399911wib.8.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 16 Sep 2013 11:06:43 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 16 Sep 2013 20:06:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1379354815;
+	bh=2L+qZg4++DTBg1j4kNJhsqLVNUk9cc6FwV0ZwBLaR4Q=;
+	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
+	MIME-Version:Content-Type:Sender;
+	b=ZWbpR8fqJEvANLLTC7PClIH6/caxF0r+apMVE3sxDSNG3cA9jCpJcBlk46FI8h7FX
+	XOqFnEBp9DIHm9m79yDAhLqigXVvXsTe9bAuLD0Y/JKIwmxq+mw+YlZZ9vig6dhcRf
+	mYFsn7RW9D+mAWCyrij9aASPnY27sSdn1l5hCpuA=
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r8GI6nYX028898
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 20:06:50 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VLdCB-0003i1-UQ
+	for openembedded-core@lists.openembedded.org;
+	Mon, 16 Sep 2013 20:06:49 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2013 19:06:36 +0100
-Message-Id: <1379354796-8157-4-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1379354796-8157-1-git-send-email-ross.burton@intel.com>
-References: <1379354796-8157-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH][V2 4/4] weston: change mesa dependency to virtual/mesa
+References: <1378452180-2872-1-git-send-email-jukka.rissanen@linux.intel.com>
+Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Date: Mon, 16 Sep 2013 20:06:46 +0200
+In-Reply-To: <1378452180-2872-1-git-send-email-jukka.rissanen@linux.intel.com>
+	(Jukka Rissanen's message of "Fri, 6 Sep 2013 10:23:00 +0300")
+Message-ID: <ly7gegd4jt.fsf@ensc-virt.intern.sigma-chemnitz.de>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+X-DSPAM-Result: Innocent
+X-DSPAM-Probability: 0
+X-DSPAM-Confidence: 1
+X-Spam-Score: -5.3
+X-Spam-Level: -----
+X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
+	DSPAM_INNOCENT
+X-Scanned-By: MIMEDefang 2.73
+Subject: Re: [PATCH] connman: Ignore the NFS root network interface in init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 18:06:43 -0000
+X-List-Received-Date: Mon, 16 Sep 2013 18:06:55 -0000
+Content-Type: text/plain
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/wayland/weston_1.1.0.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Jukka Rissanen <jukka.rissanen-VuQAYsv1563Yd54FQh9/CA@public.gmane.org>
+writes:
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes-graphics/wayland/weston_1.1.0.bb
-index b765f65..8280bf2 100644
---- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
-@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "e7715d2c731f77a729c994a599ffdaebac1307b2dd9336136706869fa5
- inherit autotools pkgconfig useradd
- 
- DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
--DEPENDS += "wayland mesa virtual/egl pango"
-+DEPENDS += "wayland virtual/mesa virtual/egl pango"
- 
- EXTRA_OECONF = "--disable-android-compositor \
-                 --enable-setuid-install \
--- 
-1.7.10.4
+> The connman init.d script tried to ignore all the network interfaces
+> if NFS root is configured. We should only ignore the interface that is
+> used by NFS root.
 
+This does not really work; e.g. here:
+
+1. the cmdline is 'ip=dhcp' and won't be detected by your expression
+
+2. system needs information from dhcp for DNS and NTP
+
+3. system must renew the DHCP lease periodically
+
+
+I wrote
+
+   https://www.cvg.de/people/ensc/0001-added-noipconfig-option.patch
+
+which fixes the last two issues (it's probably too invasive and specific
+to be applied upstream).  I do not think that point 1 can be solved in a
+generic way but requires some customization.
+
+
+
+Enrico
 
