@@ -1,44 +1,34 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f174.google.com (mail-vc0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E7B7615CA
+Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CB6BC60F07
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 17:59:54 +0000 (UTC)
-Received: by mail-vc0-f174.google.com with SMTP id gd11so3100717vcb.5
+	Mon, 16 Sep 2013 18:06:39 +0000 (UTC)
+Received: by mail-wg0-f49.google.com with SMTP id l18so4142889wgh.16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 10:59:55 -0700 (PDT)
+	Mon, 16 Sep 2013 11:06:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=jvLfV4wAgvcX4WYI8NQeC5UZUAGTWDLmGvJ8q1mpJ/4=;
-	b=MaFsuX7+zuuvhWaWOu+yPNWUyaFHnoKi0YIsSpHG2xqU1hTl2O4OC2c7LbDzyYQVlb
-	oAIZA7Mvhl+aGUYQffqYAI62uhhj4GpHH1jwxHt8vbTsNSMFENF/dqUb3RcdH4xX3hQu
-	8XqqIy4ArqzMuOnfbM/HkLssc7kuy8lJDTRjqG1Wl/pfX5XDv5J8SIaeF/v9czsokEgS
-	g54KFa0a+fM1rbo2/ME7wGtB1OAQXu49K+KZozvnH3XcUoAiFTkK18EVZoQpWaaQyg6K
-	YPm3MjDVGUs73yMVQFgmNcv0H9D5Ig5x1iU924FT0Tkt/5X+psT24qwU9Mtc+EquEKgl
-	kXQg==
-X-Gm-Message-State: ALoCoQmFG3NVvMIgw7kKW5CKrbYWksNhg51ayJVcz3ksLSrKcISNUqL72nDOgIBHaTcCvFoYqYKB
-X-Received: by 10.52.229.73 with SMTP id so9mr2182650vdc.27.1379354395580;
-	Mon, 16 Sep 2013 10:59:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 16 Sep 2013 10:59:35 -0700 (PDT)
-In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C704963FC@ORSMSX103.amr.corp.intel.com>
-References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C70495CFD@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LZucKPx8oG-v+JghEwQmcXhu5qz36bie_sgB9tWoN2tfw@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C704963FC@ORSMSX103.amr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Sep 2013 18:59:35 +0100
-Message-ID: <CAJTo0Lbgd0h3HVfmAb_2CUY8Atmj+9YtiCaRc=BX4p3ZSFi2ew@mail.gmail.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=o1bxHdSAOz2ZaMDYmw6DnQkndgwmh45HVFSZXjU38F8=;
+	b=MFS68cxJY2mpOcWx9bbXD2V2/uoHTSKigDEz74qKuR/zO5TEKTnyTTallc4rTh6l72
+	jZYRL5x+xvyaSiwMMiNRqwXZPTVhNumASSxH2ee/mm4OMjADqJlTJY9l4SN4g7RXA1VL
+	jR4s/mZBIskfN7JqDGoEp2dEK0YWHUrqsMvkfGC0+4aKONHZpAQMJFfyki1QAS2Tiieu
+	EfsXUZDTbrRfjSEiOx7dyxJqh9ul8IUpKMy9dmHQKn+mNfI5AYApxrHUQxfUsOjoe25Q
+	qXJ8j7KFA6Yxf3zsPP32+JF3e2+RsUyUsPXBcKAsQJBkvC7xxnCqj1XW5hxJYgPIxAJG
+	jy7Q==
+X-Gm-Message-State: ALoCoQkI5WdLFzSL/61BmR+biGpYJ9woj76xfov9eJdenKzO7LHRoTmemT31asXulJPHwnk2gVxi
+X-Received: by 10.180.183.108 with SMTP id el12mr14176997wic.55.1379354800529; 
+	Mon, 16 Sep 2013 11:06:40 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id dx7sm25399911wib.8.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 16 Sep 2013 11:06:39 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Sep 2013 19:06:33 +0100
+Message-Id: <1379354796-8157-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH][V2 1/4] mesa: add virtual/mesa provider
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,15 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 17:59:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Sep 2013 18:06:40 -0000
 
-On 16 September 2013 17:16, Kamble, Nitin A <nitin.a.kamble@intel.com> wrote:
-> The PROVIDES from mesa.inc is not what mesa-gl recipe provides. Mesa-gl is dropping
-> gles & elg components, and that should be reflected in the PROVIDES. Right?
+As there are two alternative mesa recipes (mesa and mesa-gl), there needs to be
+a virtual provider that recipes that explicitly need Mesa (such as xserver-xorg)
+can depend on.
 
-Urgh, yes.  That will teach me for grabbing an hour of work in between
-being dad.  V2 incoming.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/default-providers.inc |    1 +
+ meta/recipes-graphics/mesa/mesa.inc            |    2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-Ross
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index a804089..d4b9db0 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -9,6 +9,7 @@ PREFERRED_PROVIDER_virtual/egl ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgl ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
++PREFERRED_PROVIDER_virtual/mesa ?= "mesa"
+ PREFERRED_PROVIDER_virtual/update-alternatives ?= "opkg"
+ PREFERRED_PROVIDER_virtual/update-alternatives-native ?= "opkg-native"
+ PREFERRED_PROVIDER_virtual/libx11 ?= "libx11"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 79605fa..afc795c 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -17,7 +17,7 @@ PE = "2"
+ 
+ DEPENDS = "expat makedepend-native flex-native bison-native"
+ 
+-PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl"
++PROVIDES = "virtual/libgl virtual/libgles1 virtual/libgles2 virtual/egl virtual/mesa"
+ 
+ inherit autotools pkgconfig pythonnative gettext distro_features_check
+ 
+-- 
+1.7.10.4
+
 
