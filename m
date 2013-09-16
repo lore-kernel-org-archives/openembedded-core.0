@@ -1,40 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f41.google.com (mail-pb0-f41.google.com
-	[209.85.160.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B7A3B60F28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 17:09:39 +0000 (UTC)
-Received: by mail-pb0-f41.google.com with SMTP id rp2so4360643pbb.28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 10:09:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=73cJdEFIzfjiI1AHfPPMUwu3oN0gv1YiSI30f4aeICQ=;
-	b=qavvfxops13NtVzPnIrP8oemeubGKiAt0HsnZJ/5sDW8swdQAWLeJpySwkvONxyGmn
-	RHcyWxIC43S+ZaX8P1Jtk6uLVmNq68CGBfSNJf4NBmonvUgzElo2UJRysLGtqbZ1EqIp
-	w9d0FWWAVdwtUbRFaXVkZIp5vr2k5tLMCEY9yO6BMkOa0fIbJbaxl67X88L/xSY/TPJb
-	HjfYDs7FFlxWi+0+Ba+CBtDaLgkhW36/tB/u5CupP8pWbxHhc70N/RAQiSQlu7hXKzAI
-	AIy/7VTFnYhD4Q7kk+rqLvPQq8eG830zmwxTar5KESuPH19Xrn4YANBovBQv5+FE4qkw
-	L8Iw==
-X-Received: by 10.67.30.100 with SMTP id kd4mr32505777pad.24.1379351381238;
-	Mon, 16 Sep 2013 10:09:41 -0700 (PDT)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPSA id
-	im2sm32409463pbd.31.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 16 Sep 2013 10:09:39 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
-Date: Mon, 16 Sep 2013 10:09:41 -0700
-Message-Id: <C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
-References: <cover.1379329974.git.hongxu.jia@windriver.com>
-	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-X-Mailer: Apple Mail (2.1510)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libxml2: fix LSB desktop-xml tests failure
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B8C3C60F28
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 17:12:11 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 16 Sep 2013 10:12:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,917,1371106800"; d="scan'208";a="379030850"
+Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.128]) ([10.7.201.128])
+	by orsmga001.jf.intel.com with ESMTP; 16 Sep 2013 10:12:12 -0700
+Message-ID: <1379351531.1285.144.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Date: Mon, 16 Sep 2013 10:12:11 -0700
+In-Reply-To: <1379117343-29877-2-git-send-email-jason.wessel@windriver.com>
+References: <1379117343-29877-1-git-send-email-jason.wessel@windriver.com>
+	<1379117343-29877-2-git-send-email-jason.wessel@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [v2 PATCH 1/7] bootimage.bbclass: Move fat image creation into a function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,61 +33,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 17:09:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 16 Sep 2013 17:12:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Fri, 2013-09-13 at 19:08 -0500, Jason Wessel wrote:
+> In order to call the fat image creation multiple times it needs to be
+> in its own function.  A future commit will make use of the new
+> function to additionally create EFI image files for use with an ISO.
+> 
+> [YOCTO #4100]
+> [YOCTO #1913]
+> 
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 
-On Sep 16, 2013, at 4:14 AM, Hongxu Jia <hongxu.jia@windriver.com> =
-wrote:
+Looks good, thanks Jason!
 
-> The commit
-> =
-http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D8780c5ddf2916b=
-bd42fc67b79c286652aebb1546
-> add a patch to fix a security issue. It modify include file 'tree.h'
-> to add 'const char *dummy_children' on 'struct _xmlNs'.
->=20
-> But lsb test suites didn't do this in his own include file, so the LSB
-> desktop-xml tests failed.
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 
-IMO the testcase should be fixed. This is security patch that you are =
-disabling. I don't think LSB compliance
-should mean less secure
-
->=20
-> Disable this patch for linuxstdbase could fix this issue.
->=20
-> [YOCTO #5151]
->=20
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
-> meta/recipes-core/libxml/libxml2_2.9.1.bb | 5 ++++-
-> 1 file changed, 4 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb =
-b/meta/recipes-core/libxml/libxml2_2.9.1.bb
-> index fa9c657..3b031a1 100644
-> --- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
-> +++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
-> @@ -1,6 +1,9 @@
-> require libxml2.inc
->=20
-> -SRC_URI +=3D "file://libxml2-CVE-2012-2871.patch \
-> +LIBXML2_CVE =3D "file://libxml2-CVE-2012-2871.patch"
-> +LIBXML2_CVE_linuxstdbase =3D ""
+>  meta/classes/bootimg.bbclass |  110 ++++++++++++++++++++++--------------------
+>  1 file changed, 58 insertions(+), 52 deletions(-)
+> 
+> diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+> index 90a241d..bd211fb 100644
+> --- a/meta/classes/bootimg.bbclass
+> +++ b/meta/classes/bootimg.bbclass
+> @@ -111,6 +111,63 @@ build_iso() {
+>  	ln -s ${IMAGE_NAME}.iso ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+>  }
+>  
+> +build_fat_img() {
+> +	FATSOURCEDIR=$1
+> +	FATIMG=$2
 > +
-> +SRC_URI +=3D "${LIBXML2_CVE} \
->             =
-http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=3Dtesttar \
-> 	   "
->=20
-> --=20
-> 1.8.1.2
->=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> +	# Calculate the size required for the final image including the
+> +	# data and filesystem overhead.
+> +	# Sectors: 512 bytes
+> +	#  Blocks: 1024 bytes
+> +
+> +	# Determine the sector count just for the data
+> +	SECTORS=$(expr $(du --apparent-size -ks ${FATSOURCEDIR} | cut -f 1) \* 2)
+> +
+> +	# Account for the filesystem overhead. This includes directory
+> +	# entries in the clusters as well as the FAT itself.
+> +	# Assumptions:
+> +	#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
+> +	#   padding will be minimal on those smaller images and not
+> +	#   worth the logic here to caclulate the smaller FAT sizes)
+> +	#   < 16 entries per directory
+> +	#   8.3 filenames only
+> +
+> +	# 32 bytes per dir entry
+> +	DIR_BYTES=$(expr $(find ${FATSOURCEDIR} | tail -n +2 | wc -l) \* 32)
+> +	# 32 bytes for every end-of-directory dir entry
+> +	DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 32))
+> +	# 4 bytes per FAT entry per sector of data
+> +	FAT_BYTES=$(expr $SECTORS \* 4)
+> +	# 4 bytes per FAT entry per end-of-cluster list
+> +	FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 4))
+> +
+> +	# Use a ceiling function to determine FS overhead in sectors
+> +	DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
+> +	# There are two FATs on the image
+> +	FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
+> +	SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
+> +
+> +	# Determine the final size in blocks accounting for some padding
+> +	BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
+> +
+> +	# Ensure total sectors is an integral number of sectors per
+> +	# track or mcopy will complain. Sectors are 512 bytes, and we
+> +	# generate images with 32 sectors per track. This calculation is
+> +	# done in blocks, thus the mod by 16 instead of 32.
+> +	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
+> +
+> +	# mkdosfs will sometimes use FAT16 when it is not appropriate,
+> +	# resulting in a boot failure from SYSLINUX. Use FAT32 for
+> +	# images larger than 512MB, otherwise let mkdosfs decide.
+> +	if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
+> +		FATSIZE="-F 32"
+> +	fi
+> +
+> +	mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} ${BLOCKS}
+> +	# Copy FATSOURCEDIR recursively into the image file directly
+> +	mcopy -i ${FATIMG} -s ${FATSOURCEDIR}/* ::/
+> +}
+> +
+>  build_hddimg() {
+>  	# Create an HDD image
+>  	if [ "${NOHDD}" != "1" ] ; then
+> @@ -123,58 +180,7 @@ build_hddimg() {
+>  			grubefi_hddimg_populate
+>  		fi
+>  
+> -		# Calculate the size required for the final image including the
+> -		# data and filesystem overhead.
+> -		# Sectors: 512 bytes
+> -		#  Blocks: 1024 bytes
+> -
+> -		# Determine the sector count just for the data
+> -		SECTORS=$(expr $(du --apparent-size -ks ${HDDDIR} | cut -f 1) \* 2)
+> -
+> -		# Account for the filesystem overhead. This includes directory
+> -		# entries in the clusters as well as the FAT itself.
+> -		# Assumptions:
+> -		#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
+> -		#   padding will be minimal on those smaller images and not
+> -		#   worth the logic here to caclulate the smaller FAT sizes)
+> -		#   < 16 entries per directory
+> -		#   8.3 filenames only
+> -
+> -		# 32 bytes per dir entry
+> -		DIR_BYTES=$(expr $(find ${HDDDIR} | tail -n +2 | wc -l) \* 32)
+> -		# 32 bytes for every end-of-directory dir entry
+> -		DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 32))
+> -		# 4 bytes per FAT entry per sector of data
+> -		FAT_BYTES=$(expr $SECTORS \* 4)
+> -		# 4 bytes per FAT entry per end-of-cluster list
+> -		FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 4))
+> -
+> -		# Use a ceiling function to determine FS overhead in sectors
+> -		DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
+> -		# There are two FATs on the image
+> -		FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
+> -		SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
+> -
+> -		# Determine the final size in blocks accounting for some padding
+> -		BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
+> -
+> -		# Ensure total sectors is an integral number of sectors per
+> -		# track or mcopy will complain. Sectors are 512 bytes, and we
+> -		# generate images with 32 sectors per track. This calculation is
+> -		# done in blocks, thus the mod by 16 instead of 32.
+> -		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
+> -
+> -		# mkdosfs will sometimes use FAT16 when it is not appropriate,
+> -		# resulting in a boot failure from SYSLINUX. Use FAT32 for
+> -		# images larger than 512MB, otherwise let mkdosfs decide.
+> -		if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
+> -			FATSIZE="-F 32"
+> -		fi
+> -
+> -		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+> -		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
+> -		# Copy HDDDIR recursively into the image file directly
+> -		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
+> +		build_fat_img ${HDDDIR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+>  
+>  		if [ "${PCBIOS}" = "1" ]; then
+>  			syslinux_hddimg_install
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
 
 
