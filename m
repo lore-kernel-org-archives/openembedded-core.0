@@ -1,28 +1,42 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 68009605F2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f176.google.com (mail-ve0-f176.google.com
+	[209.85.128.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D2E2861577
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 14:59:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8GExjbG005509
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 16 Sep 2013 07:59:45 -0700 (PDT)
-Received: from [128.224.146.246] (128.224.146.246) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 16 Sep 2013 07:59:44 -0700
-Message-ID: <52371CDF.4020607@windriver.com>
-Date: Mon, 16 Sep 2013 10:59:43 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	Mon, 16 Sep 2013 15:00:23 +0000 (UTC)
+Received: by mail-ve0-f176.google.com with SMTP id jx11so3091232veb.35
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 08:00:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=VbBeylhrsPh2Sd/VhN5OXJsJudgK4ORFU539L/uuXuc=;
+	b=RJAwfUuvw+pEmUQMWFIJUv+BmIv6GUlR2AXmdbHYi1+UFz4smokB/E1QAOwMGnqvBs
+	e6f+QydbcFoqOHG72ZLkdVgGwAn79rapBjJ07iXvX0G/FsKpEGbNSYzMSAY17+P076f7
+	vk6S67LgUtmHr4l93nfJ6xLdA0OivlIe1ZZHOyq7OZkxUoWcyWqxErLkPjJCQtV3w5xT
+	KKYv+7jCfomQqYx7q6mNzgQP1XZONJVwF/qMRCE8EZuVkIK+UGQuI+0rF9IZWx6QFITK
+	Jy93PxjlDnQzMlm8HWFTxqIpBxIYjiAG5qSyhTh+0//eWJWRJoSj9wiJFx5XHgIeavDj
+	5bXw==
+X-Gm-Message-State: ALoCoQk//4k+DyhhLMLmGcgKmtvulVjzQsAZEn0zrMX9omN3eWihmSI/QOrydnRLFLTZvjo+3lOr
+X-Received: by 10.52.37.69 with SMTP id w5mr672766vdj.32.1379343625232; Mon,
+	16 Sep 2013 08:00:25 -0700 (PDT)
 MIME-Version: 1.0
-To: JC <jc@vtkloud.com>
-References: <52339BE5.8000804@vtkloud.com>
-In-Reply-To: <52339BE5.8000804@vtkloud.com>
-X-Originating-IP: [128.224.146.246]
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: lib ao ?
+Received: by 10.220.71.201 with HTTP; Mon, 16 Sep 2013 08:00:05 -0700 (PDT)
+In-Reply-To: <ADD6A3980E8C39419A432FF422031B4C70495CFD@ORSMSX103.amr.corp.intel.com>
+References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C70495CFD@ORSMSX103.amr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Sep 2013 16:00:05 +0100
+Message-ID: <CAJTo0LZucKPx8oG-v+JghEwQmcXhu5qz36bie_sgB9tWoN2tfw@mail.gmail.com>
+To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +49,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 14:59:43 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Sep 2013 15:00:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 13-09-13 07:12 PM, JC wrote:
-> Hi,
->
-> I cannot find a trace of libao. Is this present somewhere in some
+On 14 September 2013 01:49, Kamble, Nitin A <nitin.a.kamble@intel.com> wrote:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=nitin/mesagl
 
-It is:
-http://cgit.openembedded.org/cgit.cgi/openembedded/tree/recipes/libao/libao_0.8.8.bb
+The change to separatebuilddir.inc seems wrong and I merged your dri
+change to mesa-gl.bb into my branch which had moved on since you
+looked at it.  You won't need a PROVIDES in mesa-gl as it's in
+mesa.inc.
 
-> openembedded-* repo I would have missed ? I could not find it in
-> layers.openembedded.org
+I'll send my branch shortly.
 
-The UI for that site has changed, you have to set:
-Branch: OE-Classic
-to search meta-openembedded.
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-intel-contrib/log/?h=nitin/mesagl
 
-Painful, I know, but I assume there was confusion about what's in
-oe-core and what's in OE-Classic.
+Looks good to me.
 
-
-// Randy
->
-> Thanks for your help,
-> Jay
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
-
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350
+Ross
 
