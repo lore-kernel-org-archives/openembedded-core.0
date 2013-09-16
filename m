@@ -1,26 +1,25 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C50160F85
+Return-Path: <sgw@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 78B47610F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 06:14:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8G6E7KV003959
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Sep 2013 23:14:07 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.233) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 15 Sep 2013 23:14:06 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Sep 2013 14:14:54 +0800
-Message-ID: <d1bf328c047272cea3e7904f785b8e7ac56ad047.1379312032.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1379312032.git.Qi.Chen@windriver.com>
-References: <cover.1379312032.git.Qi.Chen@windriver.com>
+	Mon, 16 Sep 2013 07:10:56 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 16 Sep 2013 00:07:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,913,1371106800"; d="scan'208";a="403836832"
+Received: from unknown (HELO [10.255.14.132]) ([10.255.14.132])
+	by orsmga002.jf.intel.com with ESMTP; 16 Sep 2013 00:10:44 -0700
+Message-ID: <5236AEF3.4000609@linux.intel.com>
+Date: Mon, 16 Sep 2013 00:10:43 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH 1/1] rpm: fix typo in PACKAGECONFIG
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1379295470-3444-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1379295470-3444-1-git-send-email-otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perf: Remove CFLAGS and LDFLAGS override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 06:14:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Sep 2013 07:10:56 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+On 09/15/2013 06:37 PM, Otavio Salvador wrote:
+> The kernel build system does the right thing here and we should stop
+> overriding it. This code has been added based on a change from
+> 'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
+> without any information about what problem it fixes so I am reverting
+> it.
+>
+> Using the CFLAGS makes it impossible for kernel build system to append
+> to it, thus making the build fail in various ways as:
+>
+> |     CC /.../perf/1.0-r8/perf-1.0/perf.o
+> | In file included from builtin.h:4:0,
+> |                  from perf.c:9:
+> | util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
+> |  #include <lk/debugfs.h>
+> |                         ^
+> | compilation terminated.
+>
+> Cc: Christopher Larson <kergoth@gmail.com>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>   meta/recipes-kernel/perf/perf.bb | 6 ------
+>   1 file changed, 6 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index d2c1048..8d35fc6 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -72,13 +72,7 @@ EXTRA_OEMAKE = \
+>   		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+>   		'
+>
+> -# We already pass the correct arguments to our compiler for the CFLAGS (if we
+> -# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was failing
+> -# to find bfd symbols.
+>   EXTRA_OEMAKE += "\
+> -	'CFLAGS=${CFLAGS} -fPIC' \
+> -	'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
+> -	\
+Maybe not, I got a compile error with this on the Autobuilder.
 
-Fix typo, change PACAKGECONFIG to PACKAGECONFIG.
+http://autobuilder.yoctoproject.org:8011/builders/nightly-x86-64/builds/286/steps/Building%20Images/logs/stdio
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-devtools/rpm/rpm_5.4.9.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sau!
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index bd05336..3c7e03b 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -156,7 +156,7 @@ PACKAGECONFIG[neon] = "${WITH_NEON},${WITHOUT_NEON},neon expat,"
- PACKAGECONFIG[lua] = "--with-lua,--without-lua,expat,"
- PACKAGECONFIG[tcl] = "--with-tcl,--without-tcl,tcl,"
- 
--PACAKGECONFIG[augeas] = "--with-augeas,--without-augeas,augeas,"
-+PACKAGECONFIG[augeas] = "--with-augeas,--without-augeas,augeas,"
- 
- EXTRA_OECONF += "--verbose \
- 		--sysconfdir=${sysconfdir} \
--- 
-1.7.9.5
-
+>   	'prefix=${prefix}' \
+>   	'bindir=${bindir}' \
+>   	'sharedir=${datadir}' \
+>
 
