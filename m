@@ -1,36 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 332A660EEA
+Return-Path: <lizj@suika.fct.css.fujitsu.com>
+Received: from fgwmail6.fujitsu.co.jp (fgwmail6.fujitsu.co.jp [192.51.44.36])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C06960F9A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 01:38:06 +0000 (UTC)
-Received: by mail-qc0-f181.google.com with SMTP id q4so2374176qcx.12
+	Mon, 16 Sep 2013 02:02:37 +0000 (UTC)
+Received: from m3.gw.fujitsu.co.jp (unknown [10.0.50.73])
+	by fgwmail6.fujitsu.co.jp (Postfix) with ESMTP id 0F5DD3EE0AE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Sep 2013 18:38:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=hv9daj4tZa5ncZdk2glECqhezGhgyLTZhLwXAMyGm34=;
-	b=tnZKVruKec/zeXesEDfMgiEZpCB724i2elAGtE6tPzcy6fjvX8aanQCUJcXjH8Zpj4
-	XW02Tw3Cqn19SWSJaO+QvJP4uLnV2DCzmb1YDsoxMLaxFaw7/TJ55aLh3CGDh2vQSBXR
-	pebKkB7nv+a9c+BY2gyGHD1x9x8wM9wzOBilraSxoDFKQNJcQ5/M6ZMKCmcOFALvP7OO
-	QMMSoXKOtF9L3tc9deoczKlQbKbYWvC/jMKHTexZ6mKiNCaKgQ2LuMeXXt0HjWHDqtkD
-	fQ2XbVCe+KPRx433KjicSevOGsvLrYQ4Bke+eivuZ6adzgvEEmaSTQog52xaaWxsvC/o
-	u2Ug==
-X-Received: by 10.224.8.7 with SMTP id f7mr11786864qaf.17.1379295487935;
-	Sun, 15 Sep 2013 18:38:07 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.209.11])
-	by mx.google.com with ESMTPSA id e7sm18373158qag.7.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 15 Sep 2013 18:38:07 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Sep 2013 22:37:50 -0300
-Message-Id: <1379295470-3444-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.4.rc3
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] perf: Remove CFLAGS and LDFLAGS override
+	Mon, 16 Sep 2013 11:02:39 +0900 (JST)
+Received: from smail (m3 [127.0.0.1])
+	by outgoing.m3.gw.fujitsu.co.jp (Postfix) with ESMTP id 0174945DEB7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 11:02:39 +0900 (JST)
+Received: from s3.gw.fujitsu.co.jp (s3.gw.fujitsu.co.jp [10.0.50.93])
+	by m3.gw.fujitsu.co.jp (Postfix) with ESMTP id E006845DEB6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 11:02:38 +0900 (JST)
+Received: from s3.gw.fujitsu.co.jp (localhost.localdomain [127.0.0.1])
+	by s3.gw.fujitsu.co.jp (Postfix) with ESMTP id D46A31DB8038
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 11:02:38 +0900 (JST)
+Received: from suika.fct.css.fujitsu.com (mikan.fct.css.fujitsu.com
+	[10.24.14.129])
+	by s3.gw.fujitsu.co.jp (Postfix) with ESMTP id 8F7D81DB803C
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 11:02:38 +0900 (JST)
+Received: by suika.fct.css.fujitsu.com (Postfix, from userid 506)
+	id 5F13F180C60; Mon, 16 Sep 2013 11:02:37 +0900 (JST)
+From: Li Zhijian <lizhijian@cn.fujitsu.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Sep 2013 11:02:34 +0900
+Message-Id: <1379296954-30892-2-git-send-email-lizhijian@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.1
+In-Reply-To: <1379296954-30892-1-git-send-email-lizhijian@cn.fujitsu.com>
+References: <1379296954-30892-1-git-send-email-lizhijian@cn.fujitsu.com>
+Subject: [PATCH 2/2] kbd: Allow resizecons on x86_64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,50 +46,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 01:38:06 -0000
+X-List-Received-Date: Mon, 16 Sep 2013 02:02:38 -0000
 
-The kernel build system does the right thing here and we should stop
-overriding it. This code has been added based on a change from
-'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
-without any information about what problem it fixes so I am reverting
-it.
-
-Using the CFLAGS makes it impossible for kernel build system to append
-to it, thus making the build fail in various ways as:
-
-|     CC /.../perf/1.0-r8/perf-1.0/perf.o
-| In file included from builtin.h:4:0,
-|                  from perf.c:9:
-| util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
-|  #include <lk/debugfs.h>
-|                         ^
-| compilation terminated.
-
-Cc: Christopher Larson <kergoth@gmail.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
 ---
- meta/recipes-kernel/perf/perf.bb | 6 ------
- 1 file changed, 6 deletions(-)
+ .../kbd-1.15.2/Allow-resizecons-on-x86_64.patch    |   28 ++++++++++++++++++++
+ meta/recipes-core/kbd/kbd_1.15.2.bb                |    3 +-
+ 2 files changed, 30 insertions(+), 1 deletions(-)
+ create mode 100644 meta/recipes-core/kbd/kbd-1.15.2/Allow-resizecons-on-x86_64.patch
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index d2c1048..8d35fc6 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -72,13 +72,7 @@ EXTRA_OEMAKE = \
- 		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
- 		'
+diff --git a/meta/recipes-core/kbd/kbd-1.15.2/Allow-resizecons-on-x86_64.patch b/meta/recipes-core/kbd/kbd-1.15.2/Allow-resizecons-on-x86_64.patch
+new file mode 100644
+index 0000000..1a49846
+--- /dev/null
++++ b/meta/recipes-core/kbd/kbd-1.15.2/Allow-resizecons-on-x86_64.patch
+@@ -0,0 +1,28 @@
++Upstream-status: Accepted
++This patch had accepted at kdb-1.5.4
++
++From e069cfa96b41a6714118e15496cdd6b83fc16ad2 Mon Sep 17 00:00:00 2001
++From: Alexey Gladkov <gladkov.alexey@gmail.com>
++Date: Mon, 27 Feb 2012 14:30:50 +0400
++Subject: [PATCH] Allow resizecons on x86_64
++
++Signed-off-by: Alexey Gladkov <gladkov.alexey@gmail.com>
++---
++ configure.ac |    1 +
++ 1 files changed, 1 insertions(+), 0 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index a8115ed..b58f3bd 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -62,6 +62,7 @@ AM_CONDITIONAL(KEYCODES_PROGS, test "$KEYCODES_PROGS" = "yes")
++ 
++ case $host_cpu in
++ 	i?86*) RESIZECONS_PROGS=yes ;;
+++	x86_64*) RESIZECONS_PROGS=yes ;;
++ 	*)     RESIZECONS_PROGS=no ;;
++ esac
++ AM_CONDITIONAL(RESIZECONS_PROGS, test "$RESIZECONS_PROGS" = "yes")
++-- 
++1.7.1
++
+diff --git a/meta/recipes-core/kbd/kbd_1.15.2.bb b/meta/recipes-core/kbd/kbd_1.15.2.bb
+index c5cb66a..a150ff1 100644
+--- a/meta/recipes-core/kbd/kbd_1.15.2.bb
++++ b/meta/recipes-core/kbd/kbd_1.15.2.bb
+@@ -12,7 +12,8 @@ RCONFLICTS_${PN} = "console-tools"
  
--# We already pass the correct arguments to our compiler for the CFLAGS (if we
--# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was failing
--# to find bfd symbols.
- EXTRA_OEMAKE += "\
--	'CFLAGS=${CFLAGS} -fPIC' \
--	'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
--	\
- 	'prefix=${prefix}' \
- 	'bindir=${bindir}' \
- 	'sharedir=${datadir}' \
+ PR = "r4"
+ 
+-SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2"
++SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2 \
++           file://Allow-resizecons-on-x86_64.patch"
+ 
+ SRC_URI[md5sum] = "e850eb91e4d3b94b194efe8e953204c5"
+ SRC_URI[sha256sum] = "b3602d191eef7a6a8317fc3cd231efa40a89ac235dce57a77cac825a2a21eba6"
 -- 
-1.8.4.rc3
+1.7.1
 
 
