@@ -1,38 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 8815F6C806
+Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
+	by mail.openembedded.org (Postfix) with ESMTP id CED366C806
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 18:06:41 +0000 (UTC)
-Received: by mail-wi0-f170.google.com with SMTP id cb5so3926857wib.1
+	Mon, 16 Sep 2013 18:06:42 +0000 (UTC)
+Received: by mail-wg0-f47.google.com with SMTP id f12so3936696wgh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 11:06:43 -0700 (PDT)
+	Mon, 16 Sep 2013 11:06:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=gEH0Jx1WAXWF+QV2IZf0CfKTXw3O9FmUGoksGNH43UE=;
-	b=UXIIkEigDIm00+wb0kndert0ioxJ14m2l+9WQ/noSKuAx/c2enu77J/lnVSJl3sYWV
-	+UgWV8ZCCb6QFcrXThDKJ06GEw3hpxcOL3OGnbUhs6kSwe3eO9IAwjmbq9slHh8frqsv
-	92PLjIgCAGmZWNoQb2wnmHf4mGJlSqrDzueGY1oTxG0uTadmXkoVpScuaoVpuJal3bnF
-	bXfm4Kq6o6zdZuSpbBsbawQ5YcAkWuezwDegUrRpg0aruRGuAuY9MFdTUOrCRP6YBEIl
-	YJDpl6hIiUTYHUmM20fJwPXnFTefOyQ9qYCtwJ/5emfoG2ccIwvwcHO2RqaRl/f1GlC/
-	Hv0A==
-X-Gm-Message-State: ALoCoQlyLvMUdCeoDIiwst6kn3NC8Uyl3D24EZhNQqUl7JmHj79V/R0QfcYZswLSWaZLYc1AfQ/a
-X-Received: by 10.180.212.41 with SMTP id nh9mr4987049wic.9.1379354802995;
-	Mon, 16 Sep 2013 11:06:42 -0700 (PDT)
+	bh=jRP+jM6an56iG41kvgdXp8/COkp44bKe6tp+81gtY2Y=;
+	b=OhCU7OcQYwGiIya5s3STqGc5AjBpPSIo4cIs06GKw9INspAJmaiHvUizDBbrXQMWUu
+	notmavC6KmxzOtY2HaczWKrIMe4e51KxBPlcc4iVUh6qn6eE+mHiwc0Yif0KIvo70pQS
+	SjOFRK54ufP7XuB08ZEBkCpsjvzaJpYG0pAtjw7lXZfTVPsx8Y3QyymWA2jeO+Ity/Hu
+	OU4krXUd+8/A0qSk1mxbMe7yiX213rJ6nvasJ2gfg3RmS2/gVot4lrlqTebmbyzdIewp
+	4oNXyHzbf9WvgvDTk/0m0w2vexZC+dD07Gtn4Fi+ndfkc03YvZHIrSoXibgjH8LPvQz9
+	lqYg==
+X-Gm-Message-State: ALoCoQmUWJqBGr+KjNgE3JzWHp2ZwT9v0/tARfPCONJk8v3SC4S/tgEV/25aJy4fU/O9YwCFMXOm
+X-Received: by 10.194.175.66 with SMTP id by2mr2481686wjc.59.1379354804168;
+	Mon, 16 Sep 2013 11:06:44 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id dx7sm25399911wib.8.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 16 Sep 2013 11:06:42 -0700 (PDT)
+	Mon, 16 Sep 2013 11:06:43 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2013 19:06:35 +0100
-Message-Id: <1379354796-8157-3-git-send-email-ross.burton@intel.com>
+Date: Mon, 16 Sep 2013 19:06:36 +0100
+Message-Id: <1379354796-8157-4-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1379354796-8157-1-git-send-email-ross.burton@intel.com>
 References: <1379354796-8157-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH][V2 3/4] xserver-xorg: change mesa dependency to virtual/mesa
+Subject: [PATCH][V2 4/4] weston: change mesa dependency to virtual/mesa
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 18:06:42 -0000
+X-List-Received-Date: Mon, 16 Sep 2013 18:06:43 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc |    2 +-
+ meta/recipes-graphics/wayland/weston_1.1.0.bb |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index ab8171c..969b84e 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -124,7 +124,7 @@ EXTRA_OECONF += "--with-fop=no \
+diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes-graphics/wayland/weston_1.1.0.bb
+index b765f65..8280bf2 100644
+--- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.1.0.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "e7715d2c731f77a729c994a599ffdaebac1307b2dd9336136706869fa5
+ inherit autotools pkgconfig useradd
  
- PACKAGECONFIG ??= "udev ${@base_contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)}"
- PACKAGECONFIG[udev] = "--enable-config-udev,--disable-config-udev,udev"
--PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto mesa xf86driproto"
-+PACKAGECONFIG[dri] = "--enable-dri,--disable-dri,glproto virtual/mesa xf86driproto"
- PACKAGECONFIG[dri2] = "--enable-dri2,--disable-dri2,dri2proto"
- PACKAGECONFIG[glx] = "--enable-glx --enable-glx-tls,--disable-glx,glproto virtual/libgl virtual/libx11"
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+-DEPENDS += "wayland mesa virtual/egl pango"
++DEPENDS += "wayland virtual/mesa virtual/egl pango"
  
+ EXTRA_OECONF = "--disable-android-compositor \
+                 --enable-setuid-install \
 -- 
 1.7.10.4
 
