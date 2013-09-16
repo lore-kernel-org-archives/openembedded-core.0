@@ -1,43 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f52.google.com (mail-vb0-f52.google.com
-	[209.85.212.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A76A61577
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id CF32F61577
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 15:01:36 +0000 (UTC)
-Received: by mail-vb0-f52.google.com with SMTP id f12so3003947vbg.11
+	Mon, 16 Sep 2013 15:02:19 +0000 (UTC)
+Received: by mail-wi0-f180.google.com with SMTP id hj3so3597717wib.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 08:01:36 -0700 (PDT)
+	Mon, 16 Sep 2013 08:02:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=vaq5GV8gvYR+S6S3G2JRKNkhLX5ooqtqy8rFfjainsU=;
-	b=lNU3Z6QrhVDXx4GUXPVGZoRs5+y8a+DAeihFufqFfAaN1anmt+/sbDh6j04yqPgdMs
-	n/TPGrSrMTHvlwNRBlQt2f+C16MqRpNg6KP9DL/A+XrKL6IvaDubC+6JUP4u106oJ1uk
-	NxJS0SqX/3N8qFkDwKnM3rT2pWT5NAydMH9ZQ75PX2pE7LLjkkel2ePtiS2AIpXZXhsD
-	h+sBACugc6QFw1CflnAHoyDqvUpdk+DwcsCu3/GXDCBQ7AycN1nzWmAxn3c/I4LfMw44
-	QAa+HCOXbi+QS/0NtfPnafeng5Gts6ecT7L9kVaEK+xAbZC1swVzYgmc+J1sPZnQJ1fg
-	bXhw==
-X-Gm-Message-State: ALoCoQlduCsqr4xhWe9FSkyw8Dj2B4TPDLRiBm74gHjQydcj+Irn2wrQLRbHPPC+yCmwPsU2AqQB
-X-Received: by 10.52.34.40 with SMTP id w8mr23141173vdi.7.1379343696468; Mon,
-	16 Sep 2013 08:01:36 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 16 Sep 2013 08:01:16 -0700 (PDT)
-In-Reply-To: <CAJTo0LZucKPx8oG-v+JghEwQmcXhu5qz36bie_sgB9tWoN2tfw@mail.gmail.com>
-References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
-	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
-	<ADD6A3980E8C39419A432FF422031B4C70495CFD@ORSMSX103.amr.corp.intel.com>
-	<CAJTo0LZucKPx8oG-v+JghEwQmcXhu5qz36bie_sgB9tWoN2tfw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Sep 2013 16:01:16 +0100
-Message-ID: <CAJTo0La044A1SHOwLWkgM=koHn=Ont46SNJ5ddSS2XMn6hocAQ@mail.gmail.com>
-To: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=pf5TgyiE7g6c3BrRQQo03EeSKovZgKWaEtL3EIYCQ08=;
+	b=RqTfGkTE2v9PHABlco3rGv8gUFfp7EIc36MmeeA/Z2puuCpjHEhkew7a2SboDae16e
+	z2+zC1f5UK+OixuwPxAzO7QFpWZlZXzyQ4Fi+TNKJNuCPKllVwkzAYMFhkWZV/S0soNU
+	rbekQRC9c/UrP+Vye1zGM2J3wgEefTCY0oD7bl7KlHcli4G6AouMSXBbq57mSyfI0TBs
+	8ZTIXX29JsQcNXg0NdZbFfsHn21w43NuU5AXOe/5DGBw8flCLPjYXPJdWRjfgzpnseQz
+	Do9zIgfbpkjoRdf0YnFBp4a0SS+2HYhTlYJijtqvPaiV2VhVxVWHVUXk+yUofOI9V7nm
+	rA8g==
+X-Gm-Message-State: ALoCoQkGHB6Ok6sMSfnyVKv/wnjuFkFcpXyd0dccbrKoJR7S9pFdjC+OfhZxqAM3CRg1Z6dzQi6B
+X-Received: by 10.180.231.6 with SMTP id tc6mr13894621wic.59.1379343740275;
+	Mon, 16 Sep 2013 08:02:20 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	mz14sm24198374wic.11.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 16 Sep 2013 08:02:19 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Sep 2013 16:02:08 +0100
+Message-Id: <1379343731-7492-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/4] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,13 +43,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 15:01:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Sep 2013 15:02:20 -0000
 
-On 16 September 2013 16:00, Burton, Ross <ross.burton@intel.com> wrote:
-> The change to separatebuilddir.inc seems wrong
+Some machines have hardware-specific GL drivers that do EGL and GLES (many ARM
+boards).  Others have their own EGL/GLES drivers and provide a Mesa DRI driver
+(EMGD).  Previously adding Mesa, for software GL/GLX rendering in the first case
+and hardware GLX in the second, involved bbappends and changing Mesa to be
+machine-specific.
 
-Can't read diffs, thanks for the fix. ;)
+By adding a just-GL Mesa the machine definition can combine it with the hardware
+drivers cleanly.
 
-Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/distro/include/security_flags.inc   |    1 +
+ meta/conf/distro/include/seperatebuilddir.inc |    1 +
+ meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb   |    9 +++++++++
+ 3 files changed, 11 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
+
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 2858e46..e313be6 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -28,6 +28,7 @@ SECURITY_CFLAGS_pn-libgcc = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-opensp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-ppp = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python = "${SECURITY_NO_PIE_CFLAGS}"
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index 5bd0ab4..21d828f 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -442,6 +442,7 @@ B_pn-menu-cache = "${SEPB}"
+ B_pn-mesa-demos = "${SEPB}"
+ # src/mapi/mapi/stub.c:51:39: error: 'MAPI_TABLE_NUM_DYNAMIC' undeclared here (not in a function)
+ B_pn-mesa = "${SEPB}"
++B_pn-mesa-gl = "${SEPB}"
+ B_pn-minicom = "${SEPB}"
+ # Not automake, no external tree support
+ #B_pn-mkelfimage = "${SEPB}"
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
+new file mode 100644
+index 0000000..0938a40
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/mesa-gl_9.1.6.bb
+@@ -0,0 +1,9 @@
++require mesa_${PV}.bb
++
++SUMMARY += " (OpenGL only, no EGL/GLES)"
++
++FILESPATH = "${FILE_DIRNAME}/mesa-${PV}:${FILE_DIRNAME}/mesa"
++
++PACKAGECONFIG ??= "dri ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
++
++EXCLUDE_FROM_WORLD = "1"
+-- 
+1.7.10.4
+
 
