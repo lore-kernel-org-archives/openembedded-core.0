@@ -1,24 +1,28 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 927646C84B
+Return-Path: <anders@chargestorm.se>
+Received: from stoexhub03.domain01.net (STOEXHUB03.domain01.net
+	[83.145.59.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 179786C7FF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 09:51:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8G9p25k026535
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 02:51:03 -0700 (PDT)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 16 Sep 2013 02:51:02 -0700
-From: Ming Liu <ming.liu@windriver.com>
+	Mon, 16 Sep 2013 10:05:23 +0000 (UTC)
+Received: from ad.chargestorm.se (213.114.79.21) by stoexhub03.domain01.net
+	(10.12.10.3) with Microsoft SMTP Server (TLS) id 8.3.279.1;
+	Mon, 16 Sep 2013 12:03:29 +0200
+Date: Mon, 16 Sep 2013 12:05:19 +0200
+From: Anders Darander <anders@chargestorm.se>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Sep 2013 17:50:58 +0800
-Message-ID: <1379325058-20703-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.7.1
+Message-ID: <20130916100519.GA3268@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <1379071094.3484.245.camel@ted>
 MIME-Version: 1.0
-Subject: [PATCH V1] openssh: use volatiles for managing /var/run/sshd
+In-Reply-To: <1379071094.3484.245.camel@ted>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-GFI-SMTP-Submission: 1
+Subject: Re: [PATCH] linux-libc-headers: Add big warning about antisocial behaviour
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,62 +35,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 09:51:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Sep 2013 10:05:24 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-It fixes the following failure:
-"fatal: Missing privilege separation directory: /var/run/sshd"
+* Richard Purdie <richard.purdie@linuxfoundation.org> [130913 13:18]:
 
-when sshd is started through xinetd.
+> I'm getting concerned with the number of people forking this recipe
+> and not understanding what they're doing. I'm therefore proposing
+> adding in a suitable warning to people thinking of copying it.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- .../openssh/openssh-6.2p2/volatiles.99_sshd        |    1 +
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb |    8 ++++++--
- 2 files changed, 7 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd b/meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd
-new file mode 100644
-index 0000000..122320a
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd
-@@ -0,0 +1 @@
-+d root root 0755 /var/run/sshd none
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index 3a7f50d..bb5c79e 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -29,7 +29,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
-            ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://sshd.socket \
-            file://sshd@.service \
--           file://sshdgenkeys.service "
-+           file://sshdgenkeys.service \
-+           file://volatiles.99_sshd "
- 
- PAM_SRC_URI = "file://sshd"
- 
-@@ -92,6 +93,9 @@ do_install_append () {
- 	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
- 	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
- 	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
-+	install -d ${D}/${sysconfdir}/default/volatiles
-+	install -m 644 ${WORKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
-+
-         # Create config files for read-only rootfs
- 	install -d ${D}${sysconfdir}/ssh
- 	install -m 644 ${WORKDIR}/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
-@@ -116,7 +120,7 @@ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc $
- FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
--FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly"
-+FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+Acked-by: Anders Darander <anders@chargestorm.se>
+
 -- 
-1.7.1
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
