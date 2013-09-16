@@ -1,38 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
-	[209.85.219.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 118796C7B4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id EC9A661579
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 13:53:02 +0000 (UTC)
-Received: by mail-oa0-f52.google.com with SMTP id k18so15075oag.25
+	Mon, 16 Sep 2013 14:19:40 +0000 (UTC)
+Received: by mail-we0-f174.google.com with SMTP id q58so3754381wes.33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 06:53:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=cLhIYjz7g+bLHygaHqyGjFx2D/AJVEZjC6Sbw0P8GHM=;
-	b=CPGD71Phyoz54Zqv1biysuPIhhuBAeTg7vXnBv2jC9gd3op9mEw5XMOpWTj73dzwcm
-	aT3wgkNS6OiQqhK7FmpHhNLQaaX+Zb7fO4iAdPJgmxH7AuGA72f3ENa7jrlOJyaOkDXY
-	94swMBbQR0klyV+75N69QmEB1K3+yD+95jigZKacqDECfOrb1B2YoMWMvZr1qhWGT9CE
-	uKUL580PMhUpJtRLwffjEKdymEr571Izp1aPyxJEyiT6EZnGlkGMlTSeTk059adlk7lg
-	1LtU8ZWu4/lGLa3pqN7OX4FskwQ6GCq0asaqkuCEyk5yO+AW1hW3tX1KktaxF84QIEi0
-	5D0Q==
-MIME-Version: 1.0
-X-Received: by 10.182.129.201 with SMTP id ny9mr25840511obb.0.1379339583630;
-	Mon, 16 Sep 2013 06:53:03 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Mon, 16 Sep 2013 06:53:03 -0700 (PDT)
-In-Reply-To: <CAP9ODKp2-Gj1PMuFuBft+5v4WWzMPWFjWkfnaasN8au+D1vM9A@mail.gmail.com>
-References: <1379295470-3444-1-git-send-email-otavio@ossystems.com.br>
-	<5236AEF3.4000609@linux.intel.com>
-	<CAP9ODKp2-Gj1PMuFuBft+5v4WWzMPWFjWkfnaasN8au+D1vM9A@mail.gmail.com>
-Date: Mon, 16 Sep 2013 10:53:03 -0300
-X-Google-Sender-Auth: WtxtKD7l-_y1EdnNzxZ_4DwQg_A
-Message-ID: <CAP9ODKo8-_pt9SQrNiBWvEsFxVyDPg8+bBsr-hN1DSxCRJX-kw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Saul Wold <sgw@linux.intel.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: Remove CFLAGS and LDFLAGS override
+	Mon, 16 Sep 2013 07:19:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=VtMA+9wiN1Rl03SKjnQwjieNWH+k2HeU9fiBBQTFeQU=;
+	b=gaXBafQlmC4jGBOfgwVhuqirBorZ0YQMuT9tlnY0VQTlOHcOjoAPg8RTcdUb2uqKVe
+	u0XSWbV3RzlhxGFStszMLuMa8MMeWPxJ1F8bltigVIZ/qTLApZgbvL9+OcDjouBgAupK
+	yvjAB5KvYWsL/UBp2u9DMji8N9yVNRHFwPeWohTLxYQl8mBQsrkQsEukay0YH7e7B1TR
+	Wix+tM1zph4UIXr+BjieeoUFgsE99mBEkde/zQsgUxo0YSFQTB+MKmhBfWdTLAZ3Zsbd
+	fH2qt7nxqW6jc8neSCpv7Erk6lip/6ySl4fq3RoGIgwestDMN1QPsh7s4Cmrk/s0vEm8
+	YsbA==
+X-Gm-Message-State: ALoCoQkdD8EILT9/PDArQUJ/KmEoDoWAm1CGqOzrGjrtSBNDnzKG1BtR228rWUo1FSU7grt3N3NK
+X-Received: by 10.180.231.6 with SMTP id tc6mr13728271wic.59.1379341182114;
+	Mon, 16 Sep 2013 07:19:42 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id fz8sm23945496wic.0.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 16 Sep 2013 07:19:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Sep 2013 15:19:33 +0100
+Message-Id: <1379341173-31921-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] Revert "initrdscripts: look for new systemd-udevd location"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,70 +42,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 13:53:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 16 Sep 2013 14:19:41 -0000
 
-On Mon, Sep 16, 2013 at 8:01 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> On Mon, Sep 16, 2013 at 4:10 AM, Saul Wold <sgw@linux.intel.com> wrote:
->> On 09/15/2013 06:37 PM, Otavio Salvador wrote:
->>>
->>> The kernel build system does the right thing here and we should stop
->>> overriding it. This code has been added based on a change from
->>> 'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
->>> without any information about what problem it fixes so I am reverting
->>> it.
->>>
->>> Using the CFLAGS makes it impossible for kernel build system to append
->>> to it, thus making the build fail in various ways as:
->>>
->>> |     CC /.../perf/1.0-r8/perf-1.0/perf.o
->>> | In file included from builtin.h:4:0,
->>> |                  from perf.c:9:
->>> | util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
->>> |  #include <lk/debugfs.h>
->>> |                         ^
->>> | compilation terminated.
->>>
->>> Cc: Christopher Larson <kergoth@gmail.com>
->>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->>> ---
->>>   meta/recipes-kernel/perf/perf.bb | 6 ------
->>>   1 file changed, 6 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/perf/perf.bb
->>> b/meta/recipes-kernel/perf/perf.bb
->>> index d2c1048..8d35fc6 100644
->>> --- a/meta/recipes-kernel/perf/perf.bb
->>> +++ b/meta/recipes-kernel/perf/perf.bb
->>> @@ -72,13 +72,7 @@ EXTRA_OEMAKE = \
->>>                 NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
->>>                 '
->>>
->>> -# We already pass the correct arguments to our compiler for the CFLAGS
->>> (if we
->>> -# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was
->>> failing
->>> -# to find bfd symbols.
->>>   EXTRA_OEMAKE += "\
->>> -       'CFLAGS=${CFLAGS} -fPIC' \
->>> -       'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
->>> -       \
->>
->> Maybe not, I got a compile error with this on the Autobuilder.
->>
->> http://autobuilder.yoctoproject.org:8011/builders/nightly-x86-64/builds/286/steps/Building%20Images/logs/stdio
->
-> I only reproduce this error if I build with EXTRA_CFLAGS set. There
-> are no other changes in perf?
+systemd-udevd is back in /lib, so revert this change.
 
-I reproduced the error too. I am on it but still have no clue why it
-worked and now fails.
+This reverts commit 27bb516be433ed9dcde6fe4a17d2429951a010a0.
 
-Checking...
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/initrdscripts/files/init-live.sh       |    2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework/udev |    2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
+index df0076d..3f5fde8 100644
+--- a/meta/recipes-core/initrdscripts/files/init-live.sh
++++ b/meta/recipes-core/initrdscripts/files/init-live.sh
+@@ -11,7 +11,7 @@ ISOLINUX=""
+ # Copied from initramfs-framework. The core of this script probably should be
+ # turned into initramfs-framework modules to reduce duplication.
+ udev_daemon() {
+-	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
++	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /lib/systemd/systemd-udevd"
+ 
+ 	for o in $OPTIONS; do
+ 		if [ -x "$o" ]; then
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+index 18d44a5..bb462dc 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+@@ -11,7 +11,7 @@ udev_shutdown_hook_handler() {
+ }
+ 
+ udev_daemon() {
+-	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
++	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /lib/systemd/systemd-udevd"
+ 
+ 	for o in $OPTIONS; do
+ 		if [ -x "$o" ]; then
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.10.4
+
 
