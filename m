@@ -1,37 +1,27 @@
-Return-Path: <stefanx.stanacar@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id C04E16111E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 48B276C889
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 08:55:02 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 16 Sep 2013 01:55:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,913,1371106800"; d="scan'208";a="361004525"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by azsmga001.ch.intel.com with ESMTP; 16 Sep 2013 01:55:03 -0700
-Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
-	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
-	(TLS) id 14.3.123.3; Mon, 16 Sep 2013 09:54:01 +0100
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.29]) by
-	IRSMSX153.ger.corp.intel.com ([169.254.9.47]) with mapi id
-	14.03.0123.003; Mon, 16 Sep 2013 09:54:00 +0100
-From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
-To: Ming Liu <ming.liu@windriver.com>
-Thread-Topic: [OE-core] [PATCH] openssh: use volatiles for managing
-	/var/run/sshd
-Thread-Index: AQHOsGEchRQTJHV8n0Kcdf+HBPDBHZnIAx0A
-Date: Mon, 16 Sep 2013 08:54:00 +0000
-Message-ID: <1379321654.27015.2.camel@firebird.rb.intel.com>
-References: <1379063407-31988-1-git-send-email-ming.liu@windriver.com>
-In-Reply-To: <1379063407-31988-1-git-send-email-ming.liu@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.237.105.73]
+	Mon, 16 Sep 2013 09:03:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8G8wWFf027887
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Sep 2013 01:58:32 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 16 Sep 2013 01:58:30 -0700
+Message-ID: <5236C833.30002@windriver.com>
+Date: Mon, 16 Sep 2013 16:58:27 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssh: use volatiles for managing /var/run/sshd
+To: Ross Burton <ross.burton@intel.com>
+References: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] transfig-native: remove, nothing depends on it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,66 +34,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 08:55:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4418F6C2910B274E98688C33AAE16FA9@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 16 Sep 2013 09:03:30 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgTWluZywNCg0KT24gRnJpLCAyMDEzLTA5LTEzIGF0IDE3OjEwICswODAwLCBNaW5nIExpdSB3
-cm90ZToNCj4gSXQgZml4ZXMgdGhlIGZvbGxvd2luZyBmYWlsdXJlOg0KPiAiZmF0YWw6IE1pc3Np
-bmcgcHJpdmlsZWdlIHNlcGFyYXRpb24gZGlyZWN0b3J5OiAvdmFyL3J1bi9zc2hkIg0KPiANCj4g
-d2hlbiBzc2hkIGlzIHN0YXJ0ZWQgdGhyb3VnaCB4aW5ldGQuDQoNCldpdGggdGhpcyBwYXRjaCBh
-cHBsaWVkLCBvcGVuc3NoIGRvZXNuJ3Qgc3RhcnQgYW55bW9yZSBpbiBzdGFuZGFyZA0KaW1hZ2Vz
-IChlLmcuIGNvcmUtaW1hZ2Utc2F0by1zZGspDQoNCnJvb3RAcWVtdXg4Ni02NDp+IyAvZXRjL2lu
-aXQuZC9zc2hkIHJlc3RhcnQNCi92YXIvcnVuL3NzaGQgbXVzdCBiZSBvd25lZCBieSByb290IGFu
-ZCBub3QgZ3JvdXAgb3Igd29ybGQtd3JpdGFibGUuDQoNCkNoZWVycywNCg0KU3RlZmFuDQoNCj4g
-DQo+IFNpZ25lZC1vZmYtYnk6IE1pbmcgTGl1IDxtaW5nLmxpdUB3aW5kcml2ZXIuY29tPg0KPiAt
-LS0NCj4gIC4uLi9vcGVuc3NoL29wZW5zc2gtNi4ycDIvdm9sYXRpbGVzLjk5X3NzaGQgICAgICAg
-IHwgICAgMSArDQo+ICBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF82
-LjJwMi5iYiB8ICAgIDggKysrKysrLS0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25z
-KCspLCAyIGRlbGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1j
-b25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLTYuMnAyL3ZvbGF0aWxlcy45OV9zc2hkDQo+IA0K
-PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gt
-Ni4ycDIvdm9sYXRpbGVzLjk5X3NzaGQgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5z
-c2gvb3BlbnNzaC02LjJwMi92b2xhdGlsZXMuOTlfc3NoZA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0
-NA0KPiBpbmRleCAwMDAwMDAwLi44NmU3ZjZmDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gtNi4ycDIvdm9sYXRpbGVzLjk5
-X3NzaGQNCj4gQEAgLTAsMCArMSBAQA0KPiArZCBzc2hkIHNzaGQgMDc1NSAvdmFyL3J1bi9zc2hk
-IG5vbmUNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9v
-cGVuc3NoXzYuMnAyLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5z
-c2hfNi4ycDIuYmINCj4gaW5kZXggM2E3ZjUwZC4uYmI1Yzc5ZSAxMDA2NDQNCj4gLS0tIGEvbWV0
-YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfNi4ycDIuYmINCj4gKysrIGIv
-bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfNi4ycDIuYmINCj4gQEAg
-LTI5LDcgKzI5LDggQEAgU1JDX1VSSSA9ICJmdHA6Ly9mdHAub3BlbmJzZC5vcmcvcHViL09wZW5C
-U0QvT3BlblNTSC9wb3J0YWJsZS9vcGVuc3NoLSR7UFZ9LnRhci4NCj4gICAgICAgICAgICAgJHtA
-YmFzZV9jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3BhbScsICcke1BBTV9TUkNfVVJJfScs
-ICcnLCBkKX0gXA0KPiAgICAgICAgICAgICBmaWxlOi8vc3NoZC5zb2NrZXQgXA0KPiAgICAgICAg
-ICAgICBmaWxlOi8vc3NoZEAuc2VydmljZSBcDQo+IC0gICAgICAgICAgIGZpbGU6Ly9zc2hkZ2Vu
-a2V5cy5zZXJ2aWNlICINCj4gKyAgICAgICAgICAgZmlsZTovL3NzaGRnZW5rZXlzLnNlcnZpY2Ug
-XA0KPiArICAgICAgICAgICBmaWxlOi8vdm9sYXRpbGVzLjk5X3NzaGQgIg0KPiAgDQo+ICBQQU1f
-U1JDX1VSSSA9ICJmaWxlOi8vc3NoZCINCj4gIA0KPiBAQCAtOTIsNiArOTMsOSBAQCBkb19pbnN0
-YWxsX2FwcGVuZCAoKSB7DQo+ICAJaW5zdGFsbCAtbSAwNzU1ICR7V09SS0RJUn0vaW5pdCAke0R9
-JHtzeXNjb25mZGlyfS9pbml0LmQvc3NoZA0KPiAgCXJtIC1mICR7RH0ke2JpbmRpcn0vc2xvZ2lu
-ICR7RH0ke2RhdGFkaXJ9L1NzaC5iaW4NCj4gIAlybWRpciAke0R9JHtsb2NhbHN0YXRlZGlyfS9y
-dW4vc3NoZCAke0R9JHtsb2NhbHN0YXRlZGlyfS9ydW4gJHtEfSR7bG9jYWxzdGF0ZWRpcn0NCj4g
-KwlpbnN0YWxsIC1kICR7RH0vJHtzeXNjb25mZGlyfS9kZWZhdWx0L3ZvbGF0aWxlcw0KPiArCWlu
-c3RhbGwgLW0gNjQ0ICR7V09SS0RJUn0vdm9sYXRpbGVzLjk5X3NzaGQgJHtEfS8ke3N5c2NvbmZk
-aXJ9L2RlZmF1bHQvdm9sYXRpbGVzLzk5X3NzaGQNCj4gKw0KPiAgICAgICAgICAjIENyZWF0ZSBj
-b25maWcgZmlsZXMgZm9yIHJlYWQtb25seSByb290ZnMNCj4gIAlpbnN0YWxsIC1kICR7RH0ke3N5
-c2NvbmZkaXJ9L3NzaA0KPiAgCWluc3RhbGwgLW0gNjQ0ICR7V09SS0RJUn0vc3NoZF9jb25maWcg
-JHtEfSR7c3lzY29uZmRpcn0vc3NoL3NzaGRfY29uZmlnX3JlYWRvbmx5DQo+IEBAIC0xMTYsNyAr
-MTIwLDcgQEAgUEFDS0FHRVMgPSsgIiR7UE59LWtleWdlbiAke1BOfS1zY3AgJHtQTn0tc3NoICR7
-UE59LXNzaGQgJHtQTn0tc2Z0cCAke1BOfS1taXNjICQNCj4gIEZJTEVTXyR7UE59LXNjcCA9ICIk
-e2JpbmRpcn0vc2NwLiR7QlBOfSINCj4gIEZJTEVTXyR7UE59LXNzaCA9ICIke2JpbmRpcn0vc3No
-LiR7QlBOfSAke3N5c2NvbmZkaXJ9L3NzaC9zc2hfY29uZmlnIg0KPiAgRklMRVNfJHtQTn0tc3No
-ZCA9ICIke3NiaW5kaXJ9L3NzaGQgJHtzeXNjb25mZGlyfS9pbml0LmQvc3NoZCINCj4gLUZJTEVT
-XyR7UE59LXNzaGQgKz0gIiR7c3lzY29uZmRpcn0vc3NoL21vZHVsaSAke3N5c2NvbmZkaXJ9L3Nz
-aC9zc2hkX2NvbmZpZyAke3N5c2NvbmZkaXJ9L3NzaC9zc2hkX2NvbmZpZ19yZWFkb25seSINCj4g
-K0ZJTEVTXyR7UE59LXNzaGQgKz0gIiR7c3lzY29uZmRpcn0vc3NoL21vZHVsaSAke3N5c2NvbmZk
-aXJ9L3NzaC9zc2hkX2NvbmZpZyAke3N5c2NvbmZkaXJ9L3NzaC9zc2hkX2NvbmZpZ19yZWFkb25s
-eSAke3N5c2NvbmZkaXJ9L2RlZmF1bHQvdm9sYXRpbGVzLzk5X3NzaGQiDQo+ICBGSUxFU18ke1BO
-fS1zZnRwID0gIiR7YmluZGlyfS9zZnRwIg0KPiAgRklMRVNfJHtQTn0tc2Z0cC1zZXJ2ZXIgPSAi
-JHtsaWJleGVjZGlyfS9zZnRwLXNlcnZlciINCj4gIEZJTEVTXyR7UE59LW1pc2MgPSAiJHtiaW5k
-aXJ9L3NzaCogJHtsaWJleGVjZGlyfS9zc2gqIg0KDQo=
+
+Hi Ross,
+
+Is there a specify reason that we need to remove it ? transfig
+provides fig2dev which is used for building the documentation,
+for example, gstreamer and libtheora may use fig2dev.
+
+// Robert
+
+On 09/16/2013 04:26 PM, Ross Burton wrote:
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   .../transfig/transfig-native_3.2.5d.bb             |   39 --------------------
+>   .../packagegroups/packagegroup-toolset-native.bb   |    1 -
+>   2 files changed, 40 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb
+>
+> diff --git a/meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb b/meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb
+> deleted file mode 100644
+> index c20a243..0000000
+> --- a/meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb
+> +++ /dev/null
+> @@ -1,39 +0,0 @@
+> -SUMMARY = "Utilities for converting XFig figure files"
+> -DESCRIPTION = "This package contains utilities (mainly fig2dev) to \
+> -handle XFig (Facility for Interactive Generation of figures) files."
+> -HOMEPAGE = "http://www-epb.lbl.gov/xfig/"
+> -SECTION = "console/utils"
+> -LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://fig2dev/fig2dev.c;endline=16;md5=6bab01e017409cf9ab21d3e953b793f7"
+> -PR = "r1"
+> -
+> -DEPENDS = "imake-native xorg-cf-files-native zlib-native jpeg-native libpng-native libxpm-native"
+> -
+> -SRC_URI = "${SOURCEFORGE_MIRROR}/mcj/transfig.${PV}.tar.gz"
+> -
+> -SRC_URI[md5sum] = "f9eac7f265668ecbfda6aaf7581989ad"
+> -SRC_URI[sha256sum] = "ae81214177fb05f91f6e43b0b42633b6e0024570cbc6591a3858e12100ce8aaa"
+> -
+> -S = "${WORKDIR}/transfig.${PV}"
+> -
+> -EXTRA_OEMAKE = "-I${S}"
+> -
+> -inherit native
+> -
+> -do_configure() {
+> -	xmkmf
+> -	make Makefiles
+> -
+> -	# Fix hardcoded references to host build locations
+> -	sed -i -e "s|SYSTEMUSRLIBDIR = /usr/lib64|SYSTEMUSRLIBDIR = ${libdir}|g" fig2dev/Makefile
+> -	sed -i -e "s|SYSTEMUSRINCDIR = /usr/include|SYSTEMUSRINCDIR = ${includedir}|g" fig2dev/Makefile
+> -	sed -i -e "s|XPMINC = -I/usr/include/X11|XPMINC = -I${includedir}/X11|g" fig2dev/Makefile
+> -	sed -i -e "s|/usr/lib64|/usr/lib|g" fig2dev/Makefile || true
+> -	sed -i -e "s|/usr/lib64|/usr/lib|g" fig2dev/dev/Makefile || true
+> -	sed -i -e "s|/usr/local/lib|${libdir}|g" fig2dev/Makefile
+> -	sed -i -e "s|/usr/local/lib|${libdir}|g" fig2dev/dev/Makefile
+> -}
+> -
+> -do_install() {
+> -	oe_runmake install DESTDIR=${D}
+> -}
+> diff --git a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
+> index 82ee820..934b1be 100644
+> --- a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
+> +++ b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
+> @@ -213,7 +213,6 @@ DEPENDS = "\
+>       tcl-native \
+>       texinfo-native \
+>       tiff-native \
+> -    transfig-native \
+>       tzcode-native \
+>       u-boot-mkimage-native \
+>       unfs-server-native \
+>
 
