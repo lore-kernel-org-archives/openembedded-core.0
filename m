@@ -1,38 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A1566102D
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id C04E16111E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 08:26:32 +0000 (UTC)
-Received: by mail-wi0-f178.google.com with SMTP id hn9so3079308wib.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 01:26:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=YdCdKxQAtgITAdnJw9wS0YjLChbUzC7/grNK+X7hekA=;
-	b=S0/xyF+a0iCycI3OcH4KBsOHWHY8/NExRcEsMlEeiBamv+B2EWI3qxUjdwIMorDtke
-	MAPYKRDwuSsWixFdec+OMWCb+fGXoQj1uCR25vtjgnQJcJcH01TElpHZZA1GLDsWvTkm
-	uQ0qTuoVQCGO40MGg4ovq+cSodyspGD1DnUIMr13QqQpCWMDwYzvfkgv+KrGOSBDQHkH
-	Skai0IOUp80EWeVrnlT2n+MmzGMFD7LkaSovlI1TR1HbAH/mcJhz3jsNqTXcaKX2+Iha
-	IIuO4saB4XfQIRygsz1TPYRYvOs2zoWc3uwg/9BTMDlqq2VZ51F8opOUmLgCXbq5dr6l
-	+VRw==
-X-Gm-Message-State: ALoCoQmad7u5D9leYDtTR9TuZ6w73W9Xgr2QHR6fA/Cb1geKbHWAN1lvXr950Q0ZHa5Xm7C+FDqu
-X-Received: by 10.194.241.228 with SMTP id wl4mr21525398wjc.2.1379319994188;
-	Mon, 16 Sep 2013 01:26:34 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id li9sm21747874wic.4.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 16 Sep 2013 01:26:33 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2013 09:26:29 +0100
-Message-Id: <1379319989-9475-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
-References: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] imake: remove
+	Mon, 16 Sep 2013 08:55:02 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 16 Sep 2013 01:55:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,913,1371106800"; d="scan'208";a="361004525"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by azsmga001.ch.intel.com with ESMTP; 16 Sep 2013 01:55:03 -0700
+Received: from irsmsx153.ger.corp.intel.com (163.33.192.75) by
+	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
+	(TLS) id 14.3.123.3; Mon, 16 Sep 2013 09:54:01 +0100
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.29]) by
+	IRSMSX153.ger.corp.intel.com ([169.254.9.47]) with mapi id
+	14.03.0123.003; Mon, 16 Sep 2013 09:54:00 +0100
+From: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+To: Ming Liu <ming.liu@windriver.com>
+Thread-Topic: [OE-core] [PATCH] openssh: use volatiles for managing
+	/var/run/sshd
+Thread-Index: AQHOsGEchRQTJHV8n0Kcdf+HBPDBHZnIAx0A
+Date: Mon, 16 Sep 2013 08:54:00 +0000
+Message-ID: <1379321654.27015.2.camel@firebird.rb.intel.com>
+References: <1379063407-31988-1-git-send-email-ming.liu@windriver.com>
+In-Reply-To: <1379063407-31988-1-git-send-email-ming.liu@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.237.105.73]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: use volatiles for managing /var/run/sshd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,88 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 08:26:33 -0000
+X-List-Received-Date: Mon, 16 Sep 2013 08:55:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4418F6C2910B274E98688C33AAE16FA9@intel.com>
+Content-Transfer-Encoding: base64
 
-Remove both imake and the associated xorg-cf-files, as nothing has used imake to
-build for a long time.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../packagegroups/packagegroup-toolset-native.bb   |    2 --
- meta/recipes-graphics/xorg-util/imake_1.0.5.bb     |   20 --------------------
- .../xorg-util/xorg-cf-files_1.0.5.bb               |   15 ---------------
- 3 files changed, 37 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-util/imake_1.0.5.bb
- delete mode 100644 meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.5.bb
-
-diff --git a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-index 934b1be..53914f3 100644
---- a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-+++ b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-@@ -92,7 +92,6 @@ DEPENDS = "\
-     icecc-create-env-native \
-     icon-naming-utils-native \
-     icu-native \
--    imake-native \
-     inputproto-native \
-     insserv-native \
-     intltool-native \
-@@ -225,7 +224,6 @@ DEPENDS = "\
-     xcmiscproto-native \
-     xextproto-native \
-     xkbcomp-native \
--    xorg-cf-files-native \
-     xproto-native \
-     xtrans-native \
-     xz-native \
-diff --git a/meta/recipes-graphics/xorg-util/imake_1.0.5.bb b/meta/recipes-graphics/xorg-util/imake_1.0.5.bb
-deleted file mode 100644
-index ee1e181..0000000
---- a/meta/recipes-graphics/xorg-util/imake_1.0.5.bb
-+++ /dev/null
-@@ -1,20 +0,0 @@
--require xorg-util-common.inc
--
--SUMMARY = "C preprocessor interface to the make utility"
--DESCRIPTION = "Imake is used to generate Makefiles from a template, a \
--set of cpp macro functions, and a per-directory input file called an \
--Imakefile. This allows machine dependencies (such as compiler options, \
--alternate command names, and special make rules) to be kept separate \
--from the descriptions of the various items to be built."
--LIC_FILES_CHKSUM = "file://COPYING;md5=b9c6cfb044c6d0ff899eaafe4c729367"
--
--DEPENDS = "util-macros xproto xorg-cf-files"
--RDEPENDS_${PN} = "perl xproto"
--
--PR = "r0"
--PE = "1"
--
--SRC_URI[md5sum] = "60f4c648d9598603c2bc94b44efef4b2"
--SRC_URI[sha256sum] = "e939695e46c26bc123065911c13d1210d062a54e3e01ea26e8ad20fa8a8e3b4f"
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.5.bb b/meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.5.bb
-deleted file mode 100644
-index fca8328..0000000
---- a/meta/recipes-graphics/xorg-util/xorg-cf-files_1.0.5.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--require xorg-util-common.inc
--
--SUMMARY = "Data files for the imake utility"
--DESCRIPTION = "Data files for the imake utility"
--LIC_FILES_CHKSUM = "file://COPYING;md5=0f334a06f2de517e37e86d6757167d88"
--
--DEPENDS = "font-util"
--
--
--FILES_${PN} += "${libdir}/X11/config/*"
--
--SRC_URI[md5sum] = "ccb5f341ed5932d5ae870d9128e37c32"
--SRC_URI[sha256sum] = "8c9ce7952094d49a1d3f849e45caf848d83ad879d91f3169cc373f52502d0c20"
--
--BBCLASSEXTEND = "native"
--- 
-1.7.10.4
-
+SGkgTWluZywNCg0KT24gRnJpLCAyMDEzLTA5LTEzIGF0IDE3OjEwICswODAwLCBNaW5nIExpdSB3
+cm90ZToNCj4gSXQgZml4ZXMgdGhlIGZvbGxvd2luZyBmYWlsdXJlOg0KPiAiZmF0YWw6IE1pc3Np
+bmcgcHJpdmlsZWdlIHNlcGFyYXRpb24gZGlyZWN0b3J5OiAvdmFyL3J1bi9zc2hkIg0KPiANCj4g
+d2hlbiBzc2hkIGlzIHN0YXJ0ZWQgdGhyb3VnaCB4aW5ldGQuDQoNCldpdGggdGhpcyBwYXRjaCBh
+cHBsaWVkLCBvcGVuc3NoIGRvZXNuJ3Qgc3RhcnQgYW55bW9yZSBpbiBzdGFuZGFyZA0KaW1hZ2Vz
+IChlLmcuIGNvcmUtaW1hZ2Utc2F0by1zZGspDQoNCnJvb3RAcWVtdXg4Ni02NDp+IyAvZXRjL2lu
+aXQuZC9zc2hkIHJlc3RhcnQNCi92YXIvcnVuL3NzaGQgbXVzdCBiZSBvd25lZCBieSByb290IGFu
+ZCBub3QgZ3JvdXAgb3Igd29ybGQtd3JpdGFibGUuDQoNCkNoZWVycywNCg0KU3RlZmFuDQoNCj4g
+DQo+IFNpZ25lZC1vZmYtYnk6IE1pbmcgTGl1IDxtaW5nLmxpdUB3aW5kcml2ZXIuY29tPg0KPiAt
+LS0NCj4gIC4uLi9vcGVuc3NoL29wZW5zc2gtNi4ycDIvdm9sYXRpbGVzLjk5X3NzaGQgICAgICAg
+IHwgICAgMSArDQo+ICBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2gvb3BlbnNzaF82
+LjJwMi5iYiB8ICAgIDggKysrKysrLS0NCj4gIDIgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25z
+KCspLCAyIGRlbGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1j
+b25uZWN0aXZpdHkvb3BlbnNzaC9vcGVuc3NoLTYuMnAyL3ZvbGF0aWxlcy45OV9zc2hkDQo+IA0K
+PiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gt
+Ni4ycDIvdm9sYXRpbGVzLjk5X3NzaGQgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5z
+c2gvb3BlbnNzaC02LjJwMi92b2xhdGlsZXMuOTlfc3NoZA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0
+NA0KPiBpbmRleCAwMDAwMDAwLi44NmU3ZjZmDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gtNi4ycDIvdm9sYXRpbGVzLjk5
+X3NzaGQNCj4gQEAgLTAsMCArMSBAQA0KPiArZCBzc2hkIHNzaGQgMDc1NSAvdmFyL3J1bi9zc2hk
+IG5vbmUNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzaC9v
+cGVuc3NoXzYuMnAyLmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5z
+c2hfNi4ycDIuYmINCj4gaW5kZXggM2E3ZjUwZC4uYmI1Yzc5ZSAxMDA2NDQNCj4gLS0tIGEvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfNi4ycDIuYmINCj4gKysrIGIv
+bWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2hfNi4ycDIuYmINCj4gQEAg
+LTI5LDcgKzI5LDggQEAgU1JDX1VSSSA9ICJmdHA6Ly9mdHAub3BlbmJzZC5vcmcvcHViL09wZW5C
+U0QvT3BlblNTSC9wb3J0YWJsZS9vcGVuc3NoLSR7UFZ9LnRhci4NCj4gICAgICAgICAgICAgJHtA
+YmFzZV9jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3BhbScsICcke1BBTV9TUkNfVVJJfScs
+ICcnLCBkKX0gXA0KPiAgICAgICAgICAgICBmaWxlOi8vc3NoZC5zb2NrZXQgXA0KPiAgICAgICAg
+ICAgICBmaWxlOi8vc3NoZEAuc2VydmljZSBcDQo+IC0gICAgICAgICAgIGZpbGU6Ly9zc2hkZ2Vu
+a2V5cy5zZXJ2aWNlICINCj4gKyAgICAgICAgICAgZmlsZTovL3NzaGRnZW5rZXlzLnNlcnZpY2Ug
+XA0KPiArICAgICAgICAgICBmaWxlOi8vdm9sYXRpbGVzLjk5X3NzaGQgIg0KPiAgDQo+ICBQQU1f
+U1JDX1VSSSA9ICJmaWxlOi8vc3NoZCINCj4gIA0KPiBAQCAtOTIsNiArOTMsOSBAQCBkb19pbnN0
+YWxsX2FwcGVuZCAoKSB7DQo+ICAJaW5zdGFsbCAtbSAwNzU1ICR7V09SS0RJUn0vaW5pdCAke0R9
+JHtzeXNjb25mZGlyfS9pbml0LmQvc3NoZA0KPiAgCXJtIC1mICR7RH0ke2JpbmRpcn0vc2xvZ2lu
+ICR7RH0ke2RhdGFkaXJ9L1NzaC5iaW4NCj4gIAlybWRpciAke0R9JHtsb2NhbHN0YXRlZGlyfS9y
+dW4vc3NoZCAke0R9JHtsb2NhbHN0YXRlZGlyfS9ydW4gJHtEfSR7bG9jYWxzdGF0ZWRpcn0NCj4g
+KwlpbnN0YWxsIC1kICR7RH0vJHtzeXNjb25mZGlyfS9kZWZhdWx0L3ZvbGF0aWxlcw0KPiArCWlu
+c3RhbGwgLW0gNjQ0ICR7V09SS0RJUn0vdm9sYXRpbGVzLjk5X3NzaGQgJHtEfS8ke3N5c2NvbmZk
+aXJ9L2RlZmF1bHQvdm9sYXRpbGVzLzk5X3NzaGQNCj4gKw0KPiAgICAgICAgICAjIENyZWF0ZSBj
+b25maWcgZmlsZXMgZm9yIHJlYWQtb25seSByb290ZnMNCj4gIAlpbnN0YWxsIC1kICR7RH0ke3N5
+c2NvbmZkaXJ9L3NzaA0KPiAgCWluc3RhbGwgLW0gNjQ0ICR7V09SS0RJUn0vc3NoZF9jb25maWcg
+JHtEfSR7c3lzY29uZmRpcn0vc3NoL3NzaGRfY29uZmlnX3JlYWRvbmx5DQo+IEBAIC0xMTYsNyAr
+MTIwLDcgQEAgUEFDS0FHRVMgPSsgIiR7UE59LWtleWdlbiAke1BOfS1zY3AgJHtQTn0tc3NoICR7
+UE59LXNzaGQgJHtQTn0tc2Z0cCAke1BOfS1taXNjICQNCj4gIEZJTEVTXyR7UE59LXNjcCA9ICIk
+e2JpbmRpcn0vc2NwLiR7QlBOfSINCj4gIEZJTEVTXyR7UE59LXNzaCA9ICIke2JpbmRpcn0vc3No
+LiR7QlBOfSAke3N5c2NvbmZkaXJ9L3NzaC9zc2hfY29uZmlnIg0KPiAgRklMRVNfJHtQTn0tc3No
+ZCA9ICIke3NiaW5kaXJ9L3NzaGQgJHtzeXNjb25mZGlyfS9pbml0LmQvc3NoZCINCj4gLUZJTEVT
+XyR7UE59LXNzaGQgKz0gIiR7c3lzY29uZmRpcn0vc3NoL21vZHVsaSAke3N5c2NvbmZkaXJ9L3Nz
+aC9zc2hkX2NvbmZpZyAke3N5c2NvbmZkaXJ9L3NzaC9zc2hkX2NvbmZpZ19yZWFkb25seSINCj4g
+K0ZJTEVTXyR7UE59LXNzaGQgKz0gIiR7c3lzY29uZmRpcn0vc3NoL21vZHVsaSAke3N5c2NvbmZk
+aXJ9L3NzaC9zc2hkX2NvbmZpZyAke3N5c2NvbmZkaXJ9L3NzaC9zc2hkX2NvbmZpZ19yZWFkb25s
+eSAke3N5c2NvbmZkaXJ9L2RlZmF1bHQvdm9sYXRpbGVzLzk5X3NzaGQiDQo+ICBGSUxFU18ke1BO
+fS1zZnRwID0gIiR7YmluZGlyfS9zZnRwIg0KPiAgRklMRVNfJHtQTn0tc2Z0cC1zZXJ2ZXIgPSAi
+JHtsaWJleGVjZGlyfS9zZnRwLXNlcnZlciINCj4gIEZJTEVTXyR7UE59LW1pc2MgPSAiJHtiaW5k
+aXJ9L3NzaCogJHtsaWJleGVjZGlyfS9zc2gqIg0KDQo=
 
