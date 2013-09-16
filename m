@@ -1,29 +1,30 @@
-Return-Path: <anders@chargestorm.se>
-Received: from stoexhubfe01.domain01.net (STOEXHUBFE01.domain01.net
-	[83.145.59.140])
-	by mail.openembedded.org (Postfix) with ESMTP id 122906C84B
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 55DCB610F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 10:08:05 +0000 (UTC)
-Received: from ad.chargestorm.se (213.114.79.21) by stoexhubfe01.domain01.net
-	(10.12.10.6) with Microsoft SMTP Server (TLS) id 8.3.279.1;
-	Mon, 16 Sep 2013 12:08:04 +0200
-Date: Mon, 16 Sep 2013 12:08:03 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20130916100803.GB3268@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <1379071094.3484.245.camel@ted>
-	<CAMKF1so0f+8uJnqTxK0b+gkhhQAcjsAsVYZp8E_V5pEiL1heuQ@mail.gmail.com>
+	Mon, 16 Sep 2013 10:12:58 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8GACxC8001989
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Sep 2013 03:12:59 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 16 Sep 2013 03:12:59 -0700
+Message-ID: <5236D9A7.6080300@windriver.com>
+Date: Mon, 16 Sep 2013 18:12:55 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1so0f+8uJnqTxK0b+gkhhQAcjsAsVYZp8E_V5pEiL1heuQ@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-GFI-SMTP-Submission: 1
-Subject: Re: [PATCH] linux-libc-headers: Add big warning about antisocial behaviour
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
+	<5236C833.30002@windriver.com>
+	<CAJTo0LYqh0+TY8hgv4NufumF_uu6c_sVSG5=Eyf2b=FNe+FRhA@mail.gmail.com>
+	<CAJTo0LZPbYuFyCK2xRy4QcM=miAKaEQby+7Hxgw3V1WAuhVkAQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZPbYuFyCK2xRy4QcM=miAKaEQby+7Hxgw3V1WAuhVkAQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] transfig-native: remove, nothing depends on it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,85 +37,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 10:08:05 -0000
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-* Khem Raj <raj.khem@gmail.com> [130914 06:24]:
+X-List-Received-Date: Mon, 16 Sep 2013 10:12:59 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
 
-> On Friday, September 13, 2013, Richard Purdie wrote:
+On 09/16/2013 05:30 PM, Burton, Ross wrote:
+> On 16 September 2013 10:15, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 16 September 2013 09:58, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>> Is there a specify reason that we need to remove it ? transfig
+>>> provides fig2dev which is used for building the documentation,
+>>> for example, gstreamer and libtheora may use fig2dev.
+>>
+>> Considering nothing depends on it, clearly not in stock oe-core.
+>> Presumably you have some patches to enable the documentation builds
+>> and add the missing dependencies?
+>
+> It also appears that GStreamer (at least gstreamer itself, HEAD of
+> master and 0.10) doesn't actually use fig files for the documentation,
+> just PNG.
+>
+> If we're talking about a large number of packages then I'd agree, but
+> if we're saying that oe-core should have imake and transfig-native so
+> that if you patch libtheora to build documentation it has diagrams,
+> then I'm not sure that's a suitable trade-off.
+>
 
->     I'm getting concerned with the number of people forking this recipe
->     and not understanding what they're doing. I'm therefore proposing
->     adding in a suitable warning to people thinking of copying it.
+No, I don't have anything depend on transfig-native, I just worried about
+that many packages use it, I did a grep in a world build directory just now
+, didn't find any more packages use it.
 
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->     ---
->     diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-header=
-s.inc
->     b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
->     index 96fe2ff..79b7dc4 100644
->     --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
->     +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
->     @@ -2,6 +2,28 @@ DESCRIPTION =3D "Sanitized set of kernel headers for=
- the C
->     library's use."
->     =A0SECTION =3D "devel"
->     =A0LICENSE =3D "GPLv2"
+// Robert
 
->     +####################################################################=
-#####
->     +#### =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0PLEASE READ
->     +####################################################################=
-#####
->     +#
->     +# You're probably looking here thinking you need to create some new =
-copy
->     +# of linux-libc-headers since you have your own custom kernel. To put
->     +# this simply, you DO NOT.
->     +#
->     +# Why? These headers are used to build the libc. If you customise the
->     +# headers you are customising the libc and the libc becomes machine
->     +# specific. Most people do not add custom libc extensions to the ker=
-nel
->     +# and have a machine specific libc.
->     +#
->     +# But you have some kernel headers you need for some driver? That is=
- fine
->     +# but get them from STAGING_KERNEL_DIR where the kernel installs its=
-elf.
->     +# This will make the package using them machine specific but this is=
- much
->     +# better than having a maching specific C library. This does mean yo=
-ur
->     +# recipe needs a DEPENDS +=3D "virtual/kernel" but again, that is fi=
-ne and
->     +# makes total sense.
->     +#
->     +# -- RP
-
-
-> There are cases where we have bsps with 2.6.3x kernels and libc compiled
-> against 3.10 assumes syscalls
-> Which the kernel will not provide. These kinds are genuine cases for crea=
-ting
-> equivalent recipes
-> You should mention the valid case too in this notice and basically asses =
-the
-> user is knowing what. He is doing
-
-I'd be inclined to say that anyone working on / adding a bsp that needs
-this, will (hopefully) understand this anyway. If you know that
-3.x-based kernel headers aren't working, you're going to add a patched
-linux-libc-headers regardless of the warning above.
-
-Cheers,
-Ander
-
---=20
-Anders Darander
-ChargeStorm AB / eStorm AB
+> Ross
+>
+>
 
