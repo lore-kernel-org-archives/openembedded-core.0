@@ -1,35 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9A661579
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 34D586023B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 14:19:40 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id q58so3754381wes.33
+	Mon, 16 Sep 2013 14:48:34 +0000 (UTC)
+Received: by mail-la0-f49.google.com with SMTP id ev20so3154063lab.36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 07:19:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=VtMA+9wiN1Rl03SKjnQwjieNWH+k2HeU9fiBBQTFeQU=;
-	b=gaXBafQlmC4jGBOfgwVhuqirBorZ0YQMuT9tlnY0VQTlOHcOjoAPg8RTcdUb2uqKVe
-	u0XSWbV3RzlhxGFStszMLuMa8MMeWPxJ1F8bltigVIZ/qTLApZgbvL9+OcDjouBgAupK
-	yvjAB5KvYWsL/UBp2u9DMji8N9yVNRHFwPeWohTLxYQl8mBQsrkQsEukay0YH7e7B1TR
-	Wix+tM1zph4UIXr+BjieeoUFgsE99mBEkde/zQsgUxo0YSFQTB+MKmhBfWdTLAZ3Zsbd
-	fH2qt7nxqW6jc8neSCpv7Erk6lip/6ySl4fq3RoGIgwestDMN1QPsh7s4Cmrk/s0vEm8
-	YsbA==
-X-Gm-Message-State: ALoCoQkdD8EILT9/PDArQUJ/KmEoDoWAm1CGqOzrGjrtSBNDnzKG1BtR228rWUo1FSU7grt3N3NK
-X-Received: by 10.180.231.6 with SMTP id tc6mr13728271wic.59.1379341182114;
-	Mon, 16 Sep 2013 07:19:42 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id fz8sm23945496wic.0.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 16 Sep 2013 07:19:41 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2013 15:19:33 +0100
-Message-Id: <1379341173-31921-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] Revert "initrdscripts: look for new systemd-udevd location"
+	Mon, 16 Sep 2013 07:48:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=z2JNXS1kGt7hd5dItgxcm8k9GT2JLTfpbwS2ZQ7aMo4=;
+	b=LPBglaFaLo2f1lfR9fu0Gy85LY1yBWrCAmYss8pJdFacXJyneWSYIXrDgXQgEzrIRI
+	1ergjeSZhAF0x2hdmoDs69Amm5tg7b7kXveB54cXG5UgIevE70vCQwyjs2Th0L6rDu2x
+	aPhNnUQykK8ZiJE712RfZPptN9LCHCSgGDfs9P9Sf/MwFwmAajI/9TXbPF4I3BKl7Wq7
+	rz9ykuQ8gICMBiEqcQNUdMrfwe2zNlrDK0MXMRo6zbNMNT7FvjICLiz+wAPhVq/tNLei
+	49FZvjKAQHbf0Tfj11/r2PWbQJJLnvbSRRkX8g7+mWfW2L2uK/utQKXzL9/ozcn2AmtB
+	s5oA==
+MIME-Version: 1.0
+X-Received: by 10.152.170.233 with SMTP id ap9mr72142lac.51.1379342915195;
+	Mon, 16 Sep 2013 07:48:35 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Mon, 16 Sep 2013 07:48:35 -0700 (PDT)
+In-Reply-To: <CAP9ODKo8-_pt9SQrNiBWvEsFxVyDPg8+bBsr-hN1DSxCRJX-kw@mail.gmail.com>
+References: <1379295470-3444-1-git-send-email-otavio@ossystems.com.br>
+	<5236AEF3.4000609@linux.intel.com>
+	<CAP9ODKp2-Gj1PMuFuBft+5v4WWzMPWFjWkfnaasN8au+D1vM9A@mail.gmail.com>
+	<CAP9ODKo8-_pt9SQrNiBWvEsFxVyDPg8+bBsr-hN1DSxCRJX-kw@mail.gmail.com>
+Date: Mon, 16 Sep 2013 10:48:35 -0400
+Message-ID: <CADkTA4MPHGhrHkD9vncY3KLmcmpQHRm8vitSOnJFzoyFFKtZdA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perf: Remove CFLAGS and LDFLAGS override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,45 +44,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 14:19:41 -0000
+X-List-Received-Date: Mon, 16 Sep 2013 14:48:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-systemd-udevd is back in /lib, so revert this change.
+On Mon, Sep 16, 2013 at 9:53 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Mon, Sep 16, 2013 at 8:01 AM, Otavio Salvador
+> <otavio@ossystems.com.br> wrote:
+>> On Mon, Sep 16, 2013 at 4:10 AM, Saul Wold <sgw@linux.intel.com> wrote:
+>>> On 09/15/2013 06:37 PM, Otavio Salvador wrote:
+>>>>
+>>>> The kernel build system does the right thing here and we should stop
+>>>> overriding it. This code has been added based on a change from
+>>>> 'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
+>>>> without any information about what problem it fixes so I am reverting
+>>>> it.
+>>>>
+>>>> Using the CFLAGS makes it impossible for kernel build system to append
+>>>> to it, thus making the build fail in various ways as:
+>>>>
+>>>> |     CC /.../perf/1.0-r8/perf-1.0/perf.o
+>>>> | In file included from builtin.h:4:0,
+>>>> |                  from perf.c:9:
+>>>> | util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
+>>>> |  #include <lk/debugfs.h>
+>>>> |                         ^
+>>>> | compilation terminated.
+>>>>
+>>>> Cc: Christopher Larson <kergoth@gmail.com>
+>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>>> ---
+>>>>   meta/recipes-kernel/perf/perf.bb | 6 ------
+>>>>   1 file changed, 6 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-kernel/perf/perf.bb
+>>>> b/meta/recipes-kernel/perf/perf.bb
+>>>> index d2c1048..8d35fc6 100644
+>>>> --- a/meta/recipes-kernel/perf/perf.bb
+>>>> +++ b/meta/recipes-kernel/perf/perf.bb
+>>>> @@ -72,13 +72,7 @@ EXTRA_OEMAKE = \
+>>>>                 NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+>>>>                 '
+>>>>
+>>>> -# We already pass the correct arguments to our compiler for the CFLAGS
+>>>> (if we
+>>>> -# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was
+>>>> failing
+>>>> -# to find bfd symbols.
+>>>>   EXTRA_OEMAKE += "\
+>>>> -       'CFLAGS=${CFLAGS} -fPIC' \
+>>>> -       'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
+>>>> -       \
+>>>
+>>> Maybe not, I got a compile error with this on the Autobuilder.
+>>>
+>>> http://autobuilder.yoctoproject.org:8011/builders/nightly-x86-64/builds/286/steps/Building%20Images/logs/stdio
+>>
+>> I only reproduce this error if I build with EXTRA_CFLAGS set. There
+>> are no other changes in perf?
+>
+> I reproduced the error too. I am on it but still have no clue why it
+> worked and now fails.
 
-This reverts commit 27bb516be433ed9dcde6fe4a17d2429951a010a0.
+I've also reproduced it. Will report if I find anything interesting.
+The problem is that
+I don' t have Otavio's case to test against, so if we fix this, we'll
+probably just re-break
+his build.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/initrdscripts/files/init-live.sh       |    2 +-
- meta/recipes-core/initrdscripts/initramfs-framework/udev |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Bruce
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-live.sh b/meta/recipes-core/initrdscripts/files/init-live.sh
-index df0076d..3f5fde8 100644
---- a/meta/recipes-core/initrdscripts/files/init-live.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-live.sh
-@@ -11,7 +11,7 @@ ISOLINUX=""
- # Copied from initramfs-framework. The core of this script probably should be
- # turned into initramfs-framework modules to reduce duplication.
- udev_daemon() {
--	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
-+	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /lib/systemd/systemd-udevd"
- 
- 	for o in $OPTIONS; do
- 		if [ -x "$o" ]; then
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-index 18d44a5..bb462dc 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-@@ -11,7 +11,7 @@ udev_shutdown_hook_handler() {
- }
- 
- udev_daemon() {
--	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
-+	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /lib/systemd/systemd-udevd"
- 
- 	for o in $OPTIONS; do
- 		if [ -x "$o" ]; then
+>
+> Checking...
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-1.7.10.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
