@@ -1,26 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 48B276C889
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
+	[209.85.212.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FA3C6C850
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 09:03:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8G8wWFf027887
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 16 Sep 2013 01:58:32 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 16 Sep 2013 01:58:30 -0700
-Message-ID: <5236C833.30002@windriver.com>
-Date: Mon, 16 Sep 2013 16:58:27 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+	Mon, 16 Sep 2013 09:16:05 +0000 (UTC)
+Received: by mail-vb0-f41.google.com with SMTP id g17so2740290vbg.28
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 02:16:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=f4l9rRMfLrHFsnC5Wxr2fTe7iiBndLem8fLcFMP28gI=;
+	b=kFMayhosBi1G7xCEUK+xG2anw3/CLsN4qn2TdSMhsRa8T4LlobE3Fn7sNDpIdiwsnd
+	hOPqy5bQGeuYZRwPpg9D7FrNLS5u+71z1m26CzidP0blh5roMFC/12BY4E1mrnd8iSwN
+	t+AByKjBffhiM7dcJiWmNLuddvC6q+HTz8DiwAag+pHZMYyQREgJYLztnoiu+FhXkLsQ
+	kHVJJRE5ERC3Yonx6IHzctg4h3ItF+kMwAg/Gb4TWaY/pmVfe/BzNGeiy1Pg1MFrxqaX
+	C+V3qG+9wxFMHCus6w8vBFnkfoEhM4ubpIhnbmM7AUe4uKOJ8nzdV0k62b9o1qxotKQ/
+	2VXQ==
+X-Gm-Message-State: ALoCoQmSEf2pTawmwHUlqmlPpN2nxTw9l5Anp+aDRb3KOkH9hbFwLooxIL635SXxjtWktZZqCwen
+X-Received: by 10.52.231.5 with SMTP id tc5mr38124vdc.36.1379322966907; Mon,
+	16 Sep 2013 02:16:06 -0700 (PDT)
 MIME-Version: 1.0
-To: Ross Burton <ross.burton@intel.com>
+Received: by 10.220.71.201 with HTTP; Mon, 16 Sep 2013 02:15:46 -0700 (PDT)
+In-Reply-To: <5236C833.30002@windriver.com>
 References: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
-In-Reply-To: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
+	<5236C833.30002@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 16 Sep 2013 10:15:46 +0100
+Message-ID: <CAJTo0LYqh0+TY8hgv4NufumF_uu6c_sVSG5=Eyf2b=FNe+FRhA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] transfig-native: remove, nothing depends on it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,83 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 09:03:30 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Sep 2013 09:16:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 16 September 2013 09:58, Robert Yang <liezhi.yang@windriver.com> wrote:
+> Is there a specify reason that we need to remove it ? transfig
+> provides fig2dev which is used for building the documentation,
+> for example, gstreamer and libtheora may use fig2dev.
 
-Hi Ross,
+Considering nothing depends on it, clearly not in stock oe-core.
+Presumably you have some patches to enable the documentation builds
+and add the missing dependencies?
 
-Is there a specify reason that we need to remove it ? transfig
-provides fig2dev which is used for building the documentation,
-for example, gstreamer and libtheora may use fig2dev.
-
-// Robert
-
-On 09/16/2013 04:26 PM, Ross Burton wrote:
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->   .../transfig/transfig-native_3.2.5d.bb             |   39 --------------------
->   .../packagegroups/packagegroup-toolset-native.bb   |    1 -
->   2 files changed, 40 deletions(-)
->   delete mode 100644 meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb
->
-> diff --git a/meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb b/meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb
-> deleted file mode 100644
-> index c20a243..0000000
-> --- a/meta/recipes-devtools/transfig/transfig-native_3.2.5d.bb
-> +++ /dev/null
-> @@ -1,39 +0,0 @@
-> -SUMMARY = "Utilities for converting XFig figure files"
-> -DESCRIPTION = "This package contains utilities (mainly fig2dev) to \
-> -handle XFig (Facility for Interactive Generation of figures) files."
-> -HOMEPAGE = "http://www-epb.lbl.gov/xfig/"
-> -SECTION = "console/utils"
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://fig2dev/fig2dev.c;endline=16;md5=6bab01e017409cf9ab21d3e953b793f7"
-> -PR = "r1"
-> -
-> -DEPENDS = "imake-native xorg-cf-files-native zlib-native jpeg-native libpng-native libxpm-native"
-> -
-> -SRC_URI = "${SOURCEFORGE_MIRROR}/mcj/transfig.${PV}.tar.gz"
-> -
-> -SRC_URI[md5sum] = "f9eac7f265668ecbfda6aaf7581989ad"
-> -SRC_URI[sha256sum] = "ae81214177fb05f91f6e43b0b42633b6e0024570cbc6591a3858e12100ce8aaa"
-> -
-> -S = "${WORKDIR}/transfig.${PV}"
-> -
-> -EXTRA_OEMAKE = "-I${S}"
-> -
-> -inherit native
-> -
-> -do_configure() {
-> -	xmkmf
-> -	make Makefiles
-> -
-> -	# Fix hardcoded references to host build locations
-> -	sed -i -e "s|SYSTEMUSRLIBDIR = /usr/lib64|SYSTEMUSRLIBDIR = ${libdir}|g" fig2dev/Makefile
-> -	sed -i -e "s|SYSTEMUSRINCDIR = /usr/include|SYSTEMUSRINCDIR = ${includedir}|g" fig2dev/Makefile
-> -	sed -i -e "s|XPMINC = -I/usr/include/X11|XPMINC = -I${includedir}/X11|g" fig2dev/Makefile
-> -	sed -i -e "s|/usr/lib64|/usr/lib|g" fig2dev/Makefile || true
-> -	sed -i -e "s|/usr/lib64|/usr/lib|g" fig2dev/dev/Makefile || true
-> -	sed -i -e "s|/usr/local/lib|${libdir}|g" fig2dev/Makefile
-> -	sed -i -e "s|/usr/local/lib|${libdir}|g" fig2dev/dev/Makefile
-> -}
-> -
-> -do_install() {
-> -	oe_runmake install DESTDIR=${D}
-> -}
-> diff --git a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-> index 82ee820..934b1be 100644
-> --- a/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-> +++ b/meta/recipes-gnome/packagegroups/packagegroup-toolset-native.bb
-> @@ -213,7 +213,6 @@ DEPENDS = "\
->       tcl-native \
->       texinfo-native \
->       tiff-native \
-> -    transfig-native \
->       tzcode-native \
->       u-boot-mkimage-native \
->       unfs-server-native \
->
+Ross
 
