@@ -1,50 +1,42 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id D16BB615CA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AC106BF60
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 16:58:07 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r8GGw4de027876
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK);
-	Mon, 16 Sep 2013 18:58:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1379350687;
-	bh=rQCTiVAkpMlaL14NjfazlSAUriZhgoBvx84k+VbGEpE=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=BlVI/Dj5PhtYy90sxaI6KnDGbvfbQ85uODxFfZljWRyTCx/TKKzaW4ZKnKnfeNkuj
-	Z22pjSqQ9h5BiK4UWadTOqz0mTelApO9gtPyY8vBqSzBYhHmur4s4ixGWaszAOHXgi
-	auAuONKm1PHwRmAiq8QsolHXaAtbAFXfibaFFV24=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r8GGvwrV012554
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Mon, 16 Sep 2013 18:58:00 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1VLc7a-0007vE-OL; Mon, 16 Sep 2013 18:57:58 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1378728762-11206-1-git-send-email-ross.burton@intel.com>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Mon, 16 Sep 2013 18:57:58 +0200
-In-Reply-To: <1378728762-11206-1-git-send-email-ross.burton@intel.com> (Ross
-	Burton's message of "Mon, 9 Sep 2013 13:12:42 +0100")
-Message-ID: <lybo3sd7qh.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
-Cc: Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-Subject: Re: [PATCH] systemd: split out systemd-binfmt as a separate package
+	Mon, 16 Sep 2013 17:04:04 +0000 (UTC)
+Received: by mail-pa0-f47.google.com with SMTP id kl13so5618480pab.34
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 10:04:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=PEPi/Ev+WGJIQ1MhFMPb8SqF0OGTfL0c5LbvBVhq39c=;
+	b=yZIn2mI+0K153/Xt9lhNColvoF7RmsxF4YbNlA0haWg2KgTtJNgC0MwP9sfeRDSkSr
+	CqdCuECg6lc0QV+H+CZ/57bdsw4s6AGDC+gzNenutvqLfqehhhg1HNtZKn3+mFLH3CY/
+	JRCK/kHPIr/h9+xRm4E6ER/2SkNObJhqPWrbrQdNGu1LfVo7Xk315zAIVxhKgvcokAId
+	CMZUhioYWQDzqqxvj0STfSP5vRtGzlhkPVAt1aRvpJSKUzsVj1nvfDlvm/x9sGgZOcqy
+	OZ15O0xN64lF/YSkfpeI9DvHKIlD16SJ+Vzb9+n6q9DXQQOXa/BSXzHNgmIRA/xOZh37
+	O29A==
+X-Received: by 10.68.9.3 with SMTP id v3mr29659404pba.84.1379351045922;
+	Mon, 16 Sep 2013 10:04:05 -0700 (PDT)
+Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPSA id
+	7sm39860576paf.22.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 16 Sep 2013 10:04:03 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZPbYuFyCK2xRy4QcM=miAKaEQby+7Hxgw3V1WAuhVkAQ@mail.gmail.com>
+Date: Mon, 16 Sep 2013 10:04:07 -0700
+Message-Id: <FA6FA9DB-DA71-4288-B0B4-5B575E2A5BE7@gmail.com>
+References: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
+	<5236C833.30002@windriver.com>
+	<CAJTo0LYqh0+TY8hgv4NufumF_uu6c_sVSG5=Eyf2b=FNe+FRhA@mail.gmail.com>
+	<CAJTo0LZPbYuFyCK2xRy4QcM=miAKaEQby+7Hxgw3V1WAuhVkAQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.1510)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] transfig-native: remove, nothing depends on it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +49,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 16:58:08 -0000
-Content-Type: text/plain
-
-Ross Burton <ross.burton-ral2JQCrhuEAvxtiuMwx3w@public.gmane.org>
-writes:
-
-> If binfmt_misc was compiled as a module but isn't installed then systemd-binfmt
-> will put an automounter on /proc/sys/fs/binfmt_misc and when it attempts to
-> automount (e.g. when df is called) it can't find support for the filesystem, and
-> throws an error.
->
-> As binfmt_misc isn't commonly used, split this helper into it's own package, add
-> a dependency on kernel-module-binfmt-misc, and ensure the service gets started
-> when it's installed.
-> ...
-> + Conflicts=shutdown.target
-> ...
-> +SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
-
-This seems to trigger some strange behavior in the systemd.bbclass which
-adds 'Conflicts' (and 'Also') to the FILES list.  E.g. after this, the
-'shutdown.target' file is moved into the 'systemd-binfmt' package.  This
-in turn causes 'systemd-binfmt' becoming a rdependency of 'systemd' due
-to dead symlinks.
-
-I would avoid the 'inherit systemd' in the systemd recipe and package
-the files and .target.wants/ symlinks as-is in ${systemd_unitdir}.
+X-List-Received-Date: Mon, 16 Sep 2013 17:04:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 
 
+On Sep 16, 2013, at 2:30 AM, "Burton, Ross" <ross.burton@intel.com> wrote:
 
+> On 16 September 2013 10:15, Burton, Ross <ross.burton@intel.com> wrote:
+>> On 16 September 2013 09:58, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>> Is there a specify reason that we need to remove it ? transfig
+>>> provides fig2dev which is used for building the documentation,
+>>> for example, gstreamer and libtheora may use fig2dev.
+>> 
+>> Considering nothing depends on it, clearly not in stock oe-core.
+>> Presumably you have some patches to enable the documentation builds
+>> and add the missing dependencies?
+> 
+> It also appears that GStreamer (at least gstreamer itself, HEAD of
+> master and 0.10) doesn't actually use fig files for the documentation,
+> just PNG.
+> 
+> If we're talking about a large number of packages then I'd agree, but
+> if we're saying that oe-core should have imake and transfig-native so
+> that if you patch libtheora to build documentation it has diagrams,
+> then I'm not sure that's a suitable trade-off.
 
-Enrico
+agreed.
+
+> 
+> Ross
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
