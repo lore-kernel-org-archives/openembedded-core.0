@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f41.google.com (mail-vb0-f41.google.com
-	[209.85.212.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FA3C6C850
+Return-Path: <Ming.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D17260071
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 09:16:05 +0000 (UTC)
-Received: by mail-vb0-f41.google.com with SMTP id g17so2740290vbg.28
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 02:16:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=f4l9rRMfLrHFsnC5Wxr2fTe7iiBndLem8fLcFMP28gI=;
-	b=kFMayhosBi1G7xCEUK+xG2anw3/CLsN4qn2TdSMhsRa8T4LlobE3Fn7sNDpIdiwsnd
-	hOPqy5bQGeuYZRwPpg9D7FrNLS5u+71z1m26CzidP0blh5roMFC/12BY4E1mrnd8iSwN
-	t+AByKjBffhiM7dcJiWmNLuddvC6q+HTz8DiwAag+pHZMYyQREgJYLztnoiu+FhXkLsQ
-	kHVJJRE5ERC3Yonx6IHzctg4h3ItF+kMwAg/Gb4TWaY/pmVfe/BzNGeiy1Pg1MFrxqaX
-	C+V3qG+9wxFMHCus6w8vBFnkfoEhM4ubpIhnbmM7AUe4uKOJ8nzdV0k62b9o1qxotKQ/
-	2VXQ==
-X-Gm-Message-State: ALoCoQmSEf2pTawmwHUlqmlPpN2nxTw9l5Anp+aDRb3KOkH9hbFwLooxIL635SXxjtWktZZqCwen
-X-Received: by 10.52.231.5 with SMTP id tc5mr38124vdc.36.1379322966907; Mon,
-	16 Sep 2013 02:16:06 -0700 (PDT)
+	Mon, 16 Sep 2013 09:17:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8G9HULC028254
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Sep 2013 02:17:30 -0700 (PDT)
+Received: from [128.224.162.145] (128.224.162.145) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Mon, 16 Sep 2013 02:17:28 -0700
+Message-ID: <5236CCA5.1050505@windriver.com>
+Date: Mon, 16 Sep 2013 17:17:25 +0800
+From: Ming Liu <ming.liu@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 16 Sep 2013 02:15:46 -0700 (PDT)
-In-Reply-To: <5236C833.30002@windriver.com>
-References: <1379319989-9475-1-git-send-email-ross.burton@intel.com>
-	<5236C833.30002@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 16 Sep 2013 10:15:46 +0100
-Message-ID: <CAJTo0LYqh0+TY8hgv4NufumF_uu6c_sVSG5=Eyf2b=FNe+FRhA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] transfig-native: remove, nothing depends on it
+To: "Stanacar, StefanX" <stefanx.stanacar@intel.com>
+References: <1379063407-31988-1-git-send-email-ming.liu@windriver.com>
+	<1379321654.27015.2.camel@firebird.rb.intel.com>
+In-Reply-To: <1379321654.27015.2.camel@firebird.rb.intel.com>
+X-Originating-IP: [128.224.162.145]
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssh: use volatiles for managing /var/run/sshd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,17 +37,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 09:16:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 16 Sep 2013 09:17:29 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 16 September 2013 09:58, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Is there a specify reason that we need to remove it ? transfig
-> provides fig2dev which is used for building the documentation,
-> for example, gstreamer and libtheora may use fig2dev.
+On 09/16/2013 04:54 PM, Stanacar, StefanX wrote:
+> Hi Ming,
+>
+> On Fri, 2013-09-13 at 17:10 +0800, Ming Liu wrote:
+>> It fixes the following failure:
+>> "fatal: Missing privilege separation directory: /var/run/sshd"
+>>
+>> when sshd is started through xinetd.
+> With this patch applied, openssh doesn't start anymore in standard
+> images (e.g. core-image-sato-sdk)
+>
+> root@qemux86-64:~# /etc/init.d/sshd restart
+> /var/run/sshd must be owned by root and not group or world-writable.
+Sorry, I made a mistake, this patch is a little modifiled to which my 
+test based on, and I didn't notice that, I will send the V1 soon.
 
-Considering nothing depends on it, clearly not in stock oe-core.
-Presumably you have some patches to enable the documentation builds
-and add the missing dependencies?
+Thanks,
+Ming
+>
+> Cheers,
+>
+> Stefan
+>
+>> Signed-off-by: Ming Liu <ming.liu@windriver.com>
+>> ---
+>>   .../openssh/openssh-6.2p2/volatiles.99_sshd        |    1 +
+>>   meta/recipes-connectivity/openssh/openssh_6.2p2.bb |    8 ++++++--
+>>   2 files changed, 7 insertions(+), 2 deletions(-)
+>>   create mode 100644 meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd
+>>
+>> diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd b/meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd
+>> new file mode 100644
+>> index 0000000..86e7f6f
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/volatiles.99_sshd
+>> @@ -0,0 +1 @@
+>> +d sshd sshd 0755 /var/run/sshd none
+>> diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+>> index 3a7f50d..bb5c79e 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+>> +++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
+>> @@ -29,7 +29,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+>>              ${@base_contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+>>              file://sshd.socket \
+>>              file://sshd@.service \
+>> -           file://sshdgenkeys.service "
+>> +           file://sshdgenkeys.service \
+>> +           file://volatiles.99_sshd "
+>>   
+>>   PAM_SRC_URI = "file://sshd"
+>>   
+>> @@ -92,6 +93,9 @@ do_install_append () {
+>>   	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/sshd
+>>   	rm -f ${D}${bindir}/slogin ${D}${datadir}/Ssh.bin
+>>   	rmdir ${D}${localstatedir}/run/sshd ${D}${localstatedir}/run ${D}${localstatedir}
+>> +	install -d ${D}/${sysconfdir}/default/volatiles
+>> +	install -m 644 ${WORKDIR}/volatiles.99_sshd ${D}/${sysconfdir}/default/volatiles/99_sshd
+>> +
+>>           # Create config files for read-only rootfs
+>>   	install -d ${D}${sysconfdir}/ssh
+>>   	install -m 644 ${WORKDIR}/sshd_config ${D}${sysconfdir}/ssh/sshd_config_readonly
+>> @@ -116,7 +120,7 @@ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc $
+>>   FILES_${PN}-scp = "${bindir}/scp.${BPN}"
+>>   FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
+>>   FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
+>> -FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly"
+>> +FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd"
+>>   FILES_${PN}-sftp = "${bindir}/sftp"
+>>   FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
+>>   FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
 
-Ross
 
