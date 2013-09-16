@@ -1,40 +1,39 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f51.google.com (mail-oa0-f51.google.com
-	[209.85.219.51])
-	by mail.openembedded.org (Postfix) with ESMTP id D180B6BF60
+Return-Path: <nitin.a.kamble@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E811E6BF60
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 16:15:41 +0000 (UTC)
-Received: by mail-oa0-f51.google.com with SMTP id l6so188813oag.24
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 09:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=HOLVk/ZgP0LMzsanfbwB9RHKjjF5oHMgYpF2C0SpFo4=;
-	b=jugfYKuU8NIvjuswysQ41xoHnYqU5+EccWrPIqGEgrySU9q5GXJXiX7xE7zYTYpZS0
-	8nug5q4prX7ASibuNER2BiJ0JmlQT5U44KOwwstgZ67nTPTUGZqRLhsPgUSLl1zARtFh
-	Uz9NACQtPXO+GPFFt+4fTN0PljYq+5+pKDPf8F5Ao2vhTfvrdaFAt6RN8YfzdQ0g1qGS
-	BVXAuuWhdmVbbmuZikr/7fMd4jckJPhrXD8bVuYc+T7SINq8utkOS0vv+a0we0BZSlgG
-	nUho0b8zrEZR+65HCD0WPBCoviK/6iPuvPnpjGF/uRSCFZMWQiHyti0tD4KBHHUaqEAV
-	UxQA==
+	Mon, 16 Sep 2013 16:17:14 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 16 Sep 2013 09:17:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,916,1371106800"; d="scan'208";a="404108480"
+Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
+	by orsmga002.jf.intel.com with ESMTP; 16 Sep 2013 09:17:00 -0700
+Received: from orsmsx103.amr.corp.intel.com ([169.254.2.161]) by
+	ORSMSX108.amr.corp.intel.com ([169.254.4.62]) with mapi id
+	14.03.0123.003; Mon, 16 Sep 2013 09:16:59 -0700
+From: "Kamble, Nitin A" <nitin.a.kamble@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
+Thread-Index: AQHOrVfn4qnFo/lz+k+5cqfakFWZAJm9npjQgAGSyQCAAHv9sIABTWgAgANx+JCABIjFgP//i6hg
+Date: Mon, 16 Sep 2013 16:16:58 +0000
+Message-ID: <ADD6A3980E8C39419A432FF422031B4C704963FC@ORSMSX103.amr.corp.intel.com>
+References: <1378729614-11794-1-git-send-email-ross.burton@intel.com>
+	<ADD6A3980E8C39419A432FF422031B4C704914C3@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbKD7_vPLK1qV5ZAUBB78GedUZ84SLTSTe9MULArzn4uA@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C70492C1F@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LbvTNA=YgA5APK55MtO2wS7QDqJUy4t4C_C0g14AYC=wQ@mail.gmail.com>
+	<ADD6A3980E8C39419A432FF422031B4C70495CFD@ORSMSX103.amr.corp.intel.com>
+	<CAJTo0LZucKPx8oG-v+JghEwQmcXhu5qz36bie_sgB9tWoN2tfw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZucKPx8oG-v+JghEwQmcXhu5qz36bie_sgB9tWoN2tfw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-X-Received: by 10.60.33.74 with SMTP id p10mr2012181oei.18.1379348143215; Mon,
-	16 Sep 2013 09:15:43 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Mon, 16 Sep 2013 09:15:43 -0700 (PDT)
-In-Reply-To: <CADkTA4MPHGhrHkD9vncY3KLmcmpQHRm8vitSOnJFzoyFFKtZdA@mail.gmail.com>
-References: <1379295470-3444-1-git-send-email-otavio@ossystems.com.br>
-	<5236AEF3.4000609@linux.intel.com>
-	<CAP9ODKp2-Gj1PMuFuBft+5v4WWzMPWFjWkfnaasN8au+D1vM9A@mail.gmail.com>
-	<CAP9ODKo8-_pt9SQrNiBWvEsFxVyDPg8+bBsr-hN1DSxCRJX-kw@mail.gmail.com>
-	<CADkTA4MPHGhrHkD9vncY3KLmcmpQHRm8vitSOnJFzoyFFKtZdA@mail.gmail.com>
-Date: Mon, 16 Sep 2013 13:15:43 -0300
-X-Google-Sender-Auth: NG_cagqCsT4jgHnrYaNeKcscSLI
-Message-ID: <CAP9ODKqHSwWEhc=wTy6MDfB=WKaMx3zkhgb7APhh72a43JH4Yg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: Remove CFLAGS and LDFLAGS override
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH] mesa-gl: add GL-only Mesa recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,81 +46,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 16:15:42 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 16 Sep 2013 16:17:15 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Mon, Sep 16, 2013 at 11:48 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Mon, Sep 16, 2013 at 9:53 AM, Otavio Salvador
-> <otavio@ossystems.com.br> wrote:
->> On Mon, Sep 16, 2013 at 8:01 AM, Otavio Salvador
->> <otavio@ossystems.com.br> wrote:
->>> On Mon, Sep 16, 2013 at 4:10 AM, Saul Wold <sgw@linux.intel.com> wrote:
->>>> On 09/15/2013 06:37 PM, Otavio Salvador wrote:
->>>>>
->>>>> The kernel build system does the right thing here and we should stop
->>>>> overriding it. This code has been added based on a change from
->>>>> 'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
->>>>> without any information about what problem it fixes so I am reverting
->>>>> it.
->>>>>
->>>>> Using the CFLAGS makes it impossible for kernel build system to append
->>>>> to it, thus making the build fail in various ways as:
->>>>>
->>>>> |     CC /.../perf/1.0-r8/perf-1.0/perf.o
->>>>> | In file included from builtin.h:4:0,
->>>>> |                  from perf.c:9:
->>>>> | util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
->>>>> |  #include <lk/debugfs.h>
->>>>> |                         ^
->>>>> | compilation terminated.
->>>>>
->>>>> Cc: Christopher Larson <kergoth@gmail.com>
->>>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->>>>> ---
->>>>>   meta/recipes-kernel/perf/perf.bb | 6 ------
->>>>>   1 file changed, 6 deletions(-)
->>>>>
->>>>> diff --git a/meta/recipes-kernel/perf/perf.bb
->>>>> b/meta/recipes-kernel/perf/perf.bb
->>>>> index d2c1048..8d35fc6 100644
->>>>> --- a/meta/recipes-kernel/perf/perf.bb
->>>>> +++ b/meta/recipes-kernel/perf/perf.bb
->>>>> @@ -72,13 +72,7 @@ EXTRA_OEMAKE = \
->>>>>                 NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
->>>>>                 '
->>>>>
->>>>> -# We already pass the correct arguments to our compiler for the CFLAGS
->>>>> (if we
->>>>> -# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was
->>>>> failing
->>>>> -# to find bfd symbols.
->>>>>   EXTRA_OEMAKE += "\
->>>>> -       'CFLAGS=${CFLAGS} -fPIC' \
->>>>> -       'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
->>>>> -       \
->>>>
->>>> Maybe not, I got a compile error with this on the Autobuilder.
->>>>
->>>> http://autobuilder.yoctoproject.org:8011/builders/nightly-x86-64/builds/286/steps/Building%20Images/logs/stdio
->>>
->>> I only reproduce this error if I build with EXTRA_CFLAGS set. There
->>> are no other changes in perf?
->>
->> I reproduced the error too. I am on it but still have no clue why it
->> worked and now fails.
->
-> I've also reproduced it. Will report if I find anything interesting.
-> The problem is that
-> I don' t have Otavio's case to test against, so if we fix this, we'll
-> probably just re-break
-> his build.
-
-I did a fix for it and am adding it for my builder for testing. Will
-send if it proves to work there.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFtt
+YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPiBTZW50OiBNb25kYXksIFNlcHRlbWJlciAx
+NiwgMjAxMyA4OjAwIEFNDQo+IFRvOiBLYW1ibGUsIE5pdGluIEENCj4gQ2M6IG9wZW5lbWJlZGRl
+ZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBb
+UkZDXVtQQVRDSF0gbWVzYS1nbDogYWRkIEdMLW9ubHkgTWVzYSByZWNpcGUNCj4gDQo+IE9uIDE0
+IFNlcHRlbWJlciAyMDEzIDAxOjQ5LCBLYW1ibGUsIE5pdGluIEEgPG5pdGluLmEua2FtYmxlQGlu
+dGVsLmNvbT4NCj4gd3JvdGU6DQo+ID4gaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQv
+Y2dpdC5jZ2kvcG9reS1jb250cmliL2xvZy8/aD1uaXRpbi9tZQ0KPiA+IHNhZ2wNCj4gDQo+IFRo
+ZSBjaGFuZ2UgdG8gc2VwYXJhdGVidWlsZGRpci5pbmMgc2VlbXMgd3JvbmcgYW5kIEkgbWVyZ2Vk
+IHlvdXIgZHJpDQo+IGNoYW5nZSB0byBtZXNhLWdsLmJiIGludG8gbXkgYnJhbmNoIHdoaWNoIGhh
+ZCBtb3ZlZCBvbiBzaW5jZSB5b3UgbG9va2VkDQo+IGF0IGl0LiAgWW91IHdvbid0IG5lZWQgYSBQ
+Uk9WSURFUyBpbiBtZXNhLWdsIGFzIGl0J3MgaW4gbWVzYS5pbmMuDQo+IA0KDQoNClJvc3MsDQoN
+ClRoZSBQUk9WSURFUyBmcm9tIG1lc2EuaW5jIGlzIG5vdCB3aGF0IG1lc2EtZ2wgcmVjaXBlIHBy
+b3ZpZGVzLiBNZXNhLWdsIGlzIGRyb3BwaW5nDQpnbGVzICYgZWxnIGNvbXBvbmVudHMsIGFuZCB0
+aGF0IHNob3VsZCBiZSByZWZsZWN0ZWQgaW4gdGhlIFBST1ZJREVTLiBSaWdodD8NCg0KTml0aW4N
+Cg0KDQoNCj4gSSdsbCBzZW5kIG15IGJyYW5jaCBzaG9ydGx5Lg0KPiANCj4gPiBodHRwOi8vZ2l0
+LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9tZXRhLWludGVsLWNvbnRyaWIvbG9nLz9o
+PW5pDQo+ID4gdGluL21lc2FnbA0KPiANCj4gTG9va3MgZ29vZCB0byBtZS4NCj4gDQo+IFJvc3MN
+Cg==
 
