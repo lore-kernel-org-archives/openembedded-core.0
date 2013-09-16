@@ -1,34 +1,38 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
-	[209.85.217.171])
-	by mail.openembedded.org (Postfix) with ESMTP id E4B1D60648
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-oa0-f52.google.com (mail-oa0-f52.google.com
+	[209.85.219.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 118796C7B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 12:37:43 +0000 (UTC)
-Received: by mail-lb0-f171.google.com with SMTP id u14so4107496lbd.16
+	Mon, 16 Sep 2013 13:53:02 +0000 (UTC)
+Received: by mail-oa0-f52.google.com with SMTP id k18so15075oag.25
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 05:37:45 -0700 (PDT)
+	Mon, 16 Sep 2013 06:53:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=hwe835DF0SZIsXSFMXUvCY2bcjOVHmIoSJiCXpOzIj8=;
-	b=Lt8LoMusMjYOIW09QY+UJs6CQV4wZz9GP808S9dVVPOi4K557c96ZUPXZ2IAFQ1XOw
-	+5IdMO/xMM8gXCSmACWMOmYmtILhIjl5djDB6HfxypOo73BrgE54K16yv/oCtrWjoh1B
-	MCziKwgJmd8T0eF6o8fA+WYl32wqSKKQrKyi7ulHO5658K4FaRoFOrjRmAoan+GaSd/M
-	6d+6ZaJgThe1kHGlJp78hUpRgvySQ1Dq9AH9hOFikanrOY8W4yOU/SxKhHBnu1toxjth
-	34bnE8/OFHeNJDa0WUje68sT4qKqIlOIz7v4e8q4hb20cy5qylYRaIxkqCASeG/qT/5p
-	k1WA==
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=cLhIYjz7g+bLHygaHqyGjFx2D/AJVEZjC6Sbw0P8GHM=;
+	b=CPGD71Phyoz54Zqv1biysuPIhhuBAeTg7vXnBv2jC9gd3op9mEw5XMOpWTj73dzwcm
+	aT3wgkNS6OiQqhK7FmpHhNLQaaX+Zb7fO4iAdPJgmxH7AuGA72f3ENa7jrlOJyaOkDXY
+	94swMBbQR0klyV+75N69QmEB1K3+yD+95jigZKacqDECfOrb1B2YoMWMvZr1qhWGT9CE
+	uKUL580PMhUpJtRLwffjEKdymEr571Izp1aPyxJEyiT6EZnGlkGMlTSeTk059adlk7lg
+	1LtU8ZWu4/lGLa3pqN7OX4FskwQ6GCq0asaqkuCEyk5yO+AW1hW3tX1KktaxF84QIEi0
+	5D0Q==
 MIME-Version: 1.0
-X-Received: by 10.152.21.200 with SMTP id x8mr978878lae.43.1379335065044; Mon,
-	16 Sep 2013 05:37:45 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Mon, 16 Sep 2013 05:37:44 -0700 (PDT)
-In-Reply-To: <1379071094.3484.245.camel@ted>
-References: <1379071094.3484.245.camel@ted>
-Date: Mon, 16 Sep 2013 08:37:44 -0400
-Message-ID: <CADkTA4PT_GvK2nhz0NdomV1qPZSMwFc4t0Kx+3-TAeYz57N_Wg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] linux-libc-headers: Add big warning about antisocial behaviour
+X-Received: by 10.182.129.201 with SMTP id ny9mr25840511obb.0.1379339583630;
+	Mon, 16 Sep 2013 06:53:03 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Mon, 16 Sep 2013 06:53:03 -0700 (PDT)
+In-Reply-To: <CAP9ODKp2-Gj1PMuFuBft+5v4WWzMPWFjWkfnaasN8au+D1vM9A@mail.gmail.com>
+References: <1379295470-3444-1-git-send-email-otavio@ossystems.com.br>
+	<5236AEF3.4000609@linux.intel.com>
+	<CAP9ODKp2-Gj1PMuFuBft+5v4WWzMPWFjWkfnaasN8au+D1vM9A@mail.gmail.com>
+Date: Mon, 16 Sep 2013 10:53:03 -0300
+X-Google-Sender-Auth: WtxtKD7l-_y1EdnNzxZ_4DwQg_A
+Message-ID: <CAP9ODKo8-_pt9SQrNiBWvEsFxVyDPg8+bBsr-hN1DSxCRJX-kw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Saul Wold <sgw@linux.intel.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perf: Remove CFLAGS and LDFLAGS override
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,68 +45,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 12:37:44 -0000
+X-List-Received-Date: Mon, 16 Sep 2013 13:53:03 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Fri, Sep 13, 2013 at 7:18 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I'm getting concerned with the number of people forking this recipe
-> and not understanding what they're doing. I'm therefore proposing
-> adding in a suitable warning to people thinking of copying it.
+On Mon, Sep 16, 2013 at 8:01 AM, Otavio Salvador
+<otavio@ossystems.com.br> wrote:
+> On Mon, Sep 16, 2013 at 4:10 AM, Saul Wold <sgw@linux.intel.com> wrote:
+>> On 09/15/2013 06:37 PM, Otavio Salvador wrote:
+>>>
+>>> The kernel build system does the right thing here and we should stop
+>>> overriding it. This code has been added based on a change from
+>>> 'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
+>>> without any information about what problem it fixes so I am reverting
+>>> it.
+>>>
+>>> Using the CFLAGS makes it impossible for kernel build system to append
+>>> to it, thus making the build fail in various ways as:
+>>>
+>>> |     CC /.../perf/1.0-r8/perf-1.0/perf.o
+>>> | In file included from builtin.h:4:0,
+>>> |                  from perf.c:9:
+>>> | util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
+>>> |  #include <lk/debugfs.h>
+>>> |                         ^
+>>> | compilation terminated.
+>>>
+>>> Cc: Christopher Larson <kergoth@gmail.com>
+>>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>>> ---
+>>>   meta/recipes-kernel/perf/perf.bb | 6 ------
+>>>   1 file changed, 6 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-kernel/perf/perf.bb
+>>> b/meta/recipes-kernel/perf/perf.bb
+>>> index d2c1048..8d35fc6 100644
+>>> --- a/meta/recipes-kernel/perf/perf.bb
+>>> +++ b/meta/recipes-kernel/perf/perf.bb
+>>> @@ -72,13 +72,7 @@ EXTRA_OEMAKE = \
+>>>                 NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+>>>                 '
+>>>
+>>> -# We already pass the correct arguments to our compiler for the CFLAGS
+>>> (if we
+>>> -# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was
+>>> failing
+>>> -# to find bfd symbols.
+>>>   EXTRA_OEMAKE += "\
+>>> -       'CFLAGS=${CFLAGS} -fPIC' \
+>>> -       'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
+>>> -       \
+>>
+>> Maybe not, I got a compile error with this on the Autobuilder.
+>>
+>> http://autobuilder.yoctoproject.org:8011/builders/nightly-x86-64/builds/286/steps/Building%20Images/logs/stdio
 >
+> I only reproduce this error if I build with EXTRA_CFLAGS set. There
+> are no other changes in perf?
 
-This definitely has my vote. Its an issue that I'm constantly
-explaining as well.
+I reproduced the error too. I am on it but still have no clue why it
+worked and now fails.
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-
-
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> index 96fe2ff..79b7dc4 100644
-> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-> @@ -2,6 +2,28 @@ DESCRIPTION = "Sanitized set of kernel headers for the C library's use."
->  SECTION = "devel"
->  LICENSE = "GPLv2"
->
-> +#########################################################################
-> +####                        PLEASE READ
-> +#########################################################################
-> +#
-> +# You're probably looking here thinking you need to create some new copy
-> +# of linux-libc-headers since you have your own custom kernel. To put
-> +# this simply, you DO NOT.
-> +#
-> +# Why? These headers are used to build the libc. If you customise the
-> +# headers you are customising the libc and the libc becomes machine
-> +# specific. Most people do not add custom libc extensions to the kernel
-> +# and have a machine specific libc.
-> +#
-> +# But you have some kernel headers you need for some driver? That is fine
-> +# but get them from STAGING_KERNEL_DIR where the kernel installs itself.
-> +# This will make the package using them machine specific but this is much
-> +# better than having a maching specific C library. This does mean your
-> +# recipe needs a DEPENDS += "virtual/kernel" but again, that is fine and
-> +# makes total sense.
-> +#
-> +# -- RP
-> +
->  LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
->
->  python __anonymous () {
->
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+Checking...
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
