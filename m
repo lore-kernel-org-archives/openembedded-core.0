@@ -1,37 +1,27 @@
-Return-Path: <lizj@suika.fct.css.fujitsu.com>
-Received: from fgwmail5.fujitsu.co.jp (fgwmail5.fujitsu.co.jp [192.51.44.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 4634D60842
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id BA0A96C7F1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 02:02:37 +0000 (UTC)
-Received: from m2.gw.fujitsu.co.jp (unknown [10.0.50.72])
-	by fgwmail5.fujitsu.co.jp (Postfix) with ESMTP id 3D5F93EE1A3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 11:02:38 +0900 (JST)
-Received: from smail (m2 [127.0.0.1])
-	by outgoing.m2.gw.fujitsu.co.jp (Postfix) with ESMTP id 2F01445DD78
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 11:02:38 +0900 (JST)
-Received: from s2.gw.fujitsu.co.jp (s2.gw.fujitsu.co.jp [10.0.50.92])
-	by m2.gw.fujitsu.co.jp (Postfix) with ESMTP id 1A24845DE4D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 11:02:38 +0900 (JST)
-Received: from s2.gw.fujitsu.co.jp (localhost.localdomain [127.0.0.1])
-	by s2.gw.fujitsu.co.jp (Postfix) with ESMTP id 0E5B21DB8038
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 11:02:38 +0900 (JST)
-Received: from suika.fct.css.fujitsu.com (mikan.fct.css.fujitsu.com
-	[10.24.14.129])
-	by s2.gw.fujitsu.co.jp (Postfix) with ESMTP id C0FB01DB802C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 11:02:37 +0900 (JST)
-Received: by suika.fct.css.fujitsu.com (Postfix, from userid 506)
-	id 5E5E9180C60; Mon, 16 Sep 2013 11:02:36 +0900 (JST)
-From: Li Zhijian <lizhijian@cn.fujitsu.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2013 11:02:33 +0900
-Message-Id: <1379296954-30892-1-git-send-email-lizhijian@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.1
-Subject: [PATCH 1/2] kbd: Fix coding sytle
+	Mon, 16 Sep 2013 03:05:20 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 15 Sep 2013 20:05:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,912,1371106800"; d="scan'208";a="378647993"
+Received: from unknown (HELO [10.255.14.132]) ([10.255.14.132])
+	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2013 20:05:10 -0700
+Message-ID: <52367566.6060504@linux.intel.com>
+Date: Sun, 15 Sep 2013 20:05:10 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Hongxu Jia <hongxu.jia@windriver.com>
+References: <cover.1379132723.git.hongxu.jia@windriver.com>
+	<9bafb39aaaf33a7a3eee1e20ca2beca8378df3c8.1379132723.git.hongxu.jia@windriver.com>
+	<52361DFB.5090506@linux.intel.com> <52365FE7.6000102@windriver.com>
+In-Reply-To: <52365FE7.6000102@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] python: fix failures of LSB python-runtime tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +34,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Sep 2013 02:02:38 -0000
+X-List-Received-Date: Mon, 16 Sep 2013 03:05:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
----
- meta/recipes-core/kbd/kbd_1.15.2.bb |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+On 09/15/2013 06:33 PM, Hongxu Jia wrote:
+> On 09/16/2013 04:52 AM, Saul Wold wrote:
+>> On 09/13/2013 09:31 PM, Hongxu Jia wrote:
+>>> It has been fixed in:
+>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=e261c1760d8a660c13cd00039a4812d51f47f3df
+>>>
+>>>
+>>> But there is a typo in:
+>>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=78ac027f2ac6c6663fff7080eabbd3d09c1241bb
+>>>
+>>> It missed to remove an extra "--with-wctype-functions" in EXTRA_OECONF
+>>>
+>>> [YOCTO #5154]
+>>>
+>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>> ---
+>>>   meta/recipes-devtools/python/python.inc | 1 -
+>>>   1 file changed, 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/python/python.inc
+>>> b/meta/recipes-devtools/python/python.inc
+>>> index 80609a8..fcfeda5 100644
+>>> --- a/meta/recipes-devtools/python/python.inc
+>>> +++ b/meta/recipes-devtools/python/python.inc
+>>> @@ -25,7 +25,6 @@ EXTRA_OECONF = "\
+>>>     --with-cyclic-gc \
+>>>     --without-cxx \
+>>>     --with-signal-module \
+>>> -  --with-wctype-functions \
+>> I think this needs to be protected with a linuxstdbase check.
+>>
+>
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=78ac027f2ac6c6663fff7080eabbd3d09c1241bb
+> has done this, but missing to remove the extra ' --with-wctype-functions'
+>
+Sorry, I rushed the review of this and did not look at the big picture. 
+  Your patch seems correct.
 
-diff --git a/meta/recipes-core/kbd/kbd_1.15.2.bb b/meta/recipes-core/kbd/kbd_1.15.2.bb
-index 79ea468..c5cb66a 100644
---- a/meta/recipes-core/kbd/kbd_1.15.2.bb
-+++ b/meta/recipes-core/kbd/kbd_1.15.2.bb
-@@ -12,7 +12,8 @@ RCONFLICTS_${PN} = "console-tools"
- 
- PR = "r4"
- 
--SRC_URI="${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kbd/kbd-1.15.2.tar.bz2"
-+
- SRC_URI[md5sum] = "e850eb91e4d3b94b194efe8e953204c5"
- SRC_URI[sha256sum] = "b3602d191eef7a6a8317fc3cd231efa40a89ac235dce57a77cac825a2a21eba6"
- 
--- 
-1.7.1
+Sau!
 
+> inherit autotools
+>
+> +PYTHONLSBOPTS = "--with-wctype-functions"
+> +PYTHONLSBOPTS_linuxstdbase = "ac_cv_sizeof_off_t=8"
+> +
+>   EXTRA_OECONF = "\
+>     --with-threads \
+>     --with-pymalloc \
+> @@ -24,14 +27,5 @@ EXTRA_OECONF = "\
+>     --with-signal-module \
+>     --with-wctype-functions \
+>     --enable-shared \
+> -"
+> -
+> -EXTRA_OECONF_linuxstdbase = "\
+> -  --with-threads \
+> -  --with-pymalloc \
+> -  --with-cyclic-gc \
+> -  --without-cxx \
+> -  --with-signal-module \
+> -  --enable-shared \
+> -  ac_cv_sizeof_off_t=8 \
+> +  ${PYTHONLSBOPTS} \
+>   "
+>
+> //Hongxu
+>
+>
+>
+>> Sau!
+>>
+>>>     --enable-shared \
+>>>     --enable-ipv6=${@base_contains('DISTRO_FEATURES', 'ipv6', 'yes',
+>>> 'no', d)} \
+>>>     ${PYTHONLSBOPTS} \
+>>>
+>
 
