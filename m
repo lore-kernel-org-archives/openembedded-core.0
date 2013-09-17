@@ -1,31 +1,27 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
-	[209.85.217.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5827760A88
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FF1E60A88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 23:23:56 +0000 (UTC)
-Received: by mail-lb0-f174.google.com with SMTP id w6so5923279lbh.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 16:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=0CT9fibctUopVX9Z0Gn+k3XB43foIdOTmtjcenJ4AjU=;
-	b=0BfVVpXMmOhf2yud983KYFLbtcwThkFa5JjaQFoDohxXYJ8II2tB/g/feAUL3Mpp6Y
-	jy1xjBTTpeuIh0bqXVFnjpWxCm4pUEC/Eylzw+sR1uFGcWMyUlsVkWZlMlsRBVBk23rS
-	tNw2P2BJgK6jkpe+pU3vbkLWpXGaxkTArfdG/5VRp6RXGefaSAzGWrc+dobCcsJ4/f6a
-	RqNEah7/zVMgCJ/Hnwcv/q79i29Z9jqxuIzPm+QuLecIZ9FooXeU6p4Yal6pQjqhGe5D
-	xsTg3fprtJt1LjdtugcwAE7fhbiVCqrjAf6eS6xwckU0bhGkgcO3SniP3V/L8OEasTSN
-	xV3A==
-X-Received: by 10.112.149.197 with SMTP id uc5mr31342413lbb.19.1379460236724; 
-	Tue, 17 Sep 2013 16:23:56 -0700 (PDT)
+	Tue, 17 Sep 2013 23:47:24 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2013 16:47:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,926,1371106800"; d="scan'208";a="403303065"
+Received: from unknown (HELO [10.255.15.100]) ([10.255.15.100])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2013 16:47:25 -0700
+Message-ID: <5238EA0D.2010108@linux.intel.com>
+Date: Tue, 17 Sep 2013 16:47:25 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-Received: by 10.112.53.197 with HTTP; Tue, 17 Sep 2013 16:23:36 -0700 (PDT)
-From: Chris Larson <kergoth@gmail.com>
-Date: Tue, 17 Sep 2013 16:23:36 -0700
-Message-ID: <CABcZANkGd7riMtRE2KfAz+WufoMjr=GYxXHsO2tFSaxXXxS7BQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [RFC] Common code/framework for automatic runtime dependencies
+To: Anders Darander <anders@chargestorm.se>, 
+	Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1379100075.git.anders@chargestorm.se>
+	<a8748357e163efb38b354d4142293393c2a2cc9a.1379100075.git.anders@chargestorm.se>
+In-Reply-To: <a8748357e163efb38b354d4142293393c2a2cc9a.1379100075.git.anders@chargestorm.se>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] u-boot-fw-utils: reinstate target recipe for fw_printenv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,79 +34,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 23:23:57 -0000
-Content-Type: multipart/alternative; boundary=047d7b343cd264503e04e69c9d77
+X-List-Received-Date: Tue, 17 Sep 2013 23:47:24 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
---047d7b343cd264503e04e69c9d77
-Content-Type: text/plain; charset=UTF-8
+On 09/13/2013 12:21 PM, Anders Darander wrote:
+> The latest upgrade changed u-boot-fw-utils to u-boot-fw-utils-cross, which
+> removed the on-target fw_printenv (and fw_setenv).
+>
+> Re-create the updated version of the u-boot-fw-utils recipe.
+>
+> U-Boot does try to strip the fw_printenv binary by default now. To avoid
+> this, without patching the Makefile, we add HOSTSTRIP=true to EXTRA_OEMAKE.
+>
+> The new U-Boot do also require us to configure the build for a specific
+> machine, thus we change the package arch.§
+>
+> Signed-off-by: Anders Darander <anders@chargestorm.se>
+> ---
+>   meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb | 31 ++++++++++++++++++++++
+>   1 file changed, 31 insertions(+)
+>   create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+> new file mode 100644
+> index 0000000..f97df71
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+> @@ -0,0 +1,31 @@
+> +DESCRIPTION = "U-boot bootloader fw_printenv/setenv utils"
+> +LICENSE = "GPLv2+"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=1707d6db1d42237583f50183a5651ecb"
+> +SECTION = "bootloader"
+> +DEPENDS = "mtd-utils"
+> +
+> +# This revision corresponds to the tag "v2013.07"
+> +# We use the revision in order to avoid having to fetch it from the
+> +# repo during parse
+> +SRCREV = "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+> +
+> +PV = "v2013.07+git${SRCPV}"
+> +
+> +SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTSTRIP="true"'
+> +
+> +do_compile () {
+> +  oe_runmake ${UBOOT_MACHINE}
+> +  oe_runmake env
+> +}
+> +
+> +do_install () {
+> +  install -d ${D}${base_sbindir}
+> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
+> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+> +}
+> +
+> +PACKAGE_ARCH = "${MACHINE_ARCH}"
+>
 
-Greetings,
+I think this might need a COMPATIBLE_MACHINE or some check for correct 
+systems
+> ERROR: Function failed: do_compile (log file is located at /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+gitAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727)
+> ERROR: Logfile of failure stored in: /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+gitAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | NOTE: make -j 16 HOSTCC=i586-pokymllib32-linux-gcc  -m32 --sysroot=/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/sysroots/lib32-qemux86 HOSTSTRIP=true
+> | System not configured - see README
+> | make: *** [all] Error 1
+> | ERROR: oe_runmake failed
+> | WARNING: /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+gitAUTOINC+62c175fbb8-r0/temp/run.do_compile.4727:1 exit 1 from
+> |   exit 1
+> | ERROR: Function failed: do_compile (log file is located at /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/build/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+gitAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727)
+> NOTE: recipe lib32-u-boot-fw-utils-v2013.07+gitAUTOINC+62c175fbb8-r0: task do_compile: Failed
 
-I recently found myself wanting to implement a prototype of automatic
-python dependencies. In so doing, I realized that there's a certain pattern
-followed by each of these (shlibs, pkgconfig, kernel modules, ..), so I'd
-like to propose, in the 1.6 timeframe, consolidating this into common core
-code to make it easier to implement additional types of automatic rdepends
-where appopriate. This would also make it easy to enable a sanity check
-across all types to warn/fail if an automatic rdepend was generated for a
-recipe which isn't also explicitly included in the depends, to catch
-non-deterministic build issues.
+Sau!
 
-Does this concept seem relatively sane? I have a prototype of this in a
-layer that I've been playing with. I have so far added two modules for it,
-a pkg-config one that I've confirmed is behaving the same as the existing
-pkg-config dep handling, and a prototype python one which works for the
-most part, but is still a work-in-progress. I'd appreciate any comments on
-this. If folks don't think this is a good approach, I'm open to that too,
-but it seemed silly to have these things reimplemented or duplicated when
-the logic appears to be the same.
 
-See https://github.com/kergoth/meta-package-auto-deps for the prototype.
-https://github.com/kergoth/meta-package-auto-deps/blob/master/TODO.md shows
-my next steps.
 
-Thanks for your time,
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---047d7b343cd264503e04e69c9d77
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Greetings,<div><br></div><div>I recently found myself want=
-ing to implement a prototype of automatic python dependencies. In so doing,=
- I realized that there&#39;s a certain pattern followed by each of these (s=
-hlibs, pkgconfig, kernel modules, ..), so I&#39;d like to propose, in the 1=
-.6 timeframe, consolidating this into common core code to make it easier to=
- implement additional types of automatic rdepends where appopriate. This wo=
-uld also make it easy to enable a sanity check across all types to warn/fai=
-l if an automatic rdepend was generated for a recipe which isn&#39;t also e=
-xplicitly included in the depends, to catch non-deterministic build issues.=
-</div>
-
-<div><br></div><div>Does this concept seem relatively sane? I have a protot=
-ype of this in a layer that I&#39;ve been playing with. I have so far added=
- two modules for it, a pkg-config one that I&#39;ve confirmed is behaving t=
-he same as the existing pkg-config dep handling, and a prototype python one=
- which works for the most part, but is still a work-in-progress. I&#39;d ap=
-preciate any comments on this. If folks don&#39;t think this is a good appr=
-oach, I&#39;m open to that too, but it seemed silly to have these things re=
-implemented or duplicated when the logic appears to be the same.</div>
-
-<div><br></div><div style>See=C2=A0<a href=3D"https://github.com/kergoth/me=
-ta-package-auto-deps">https://github.com/kergoth/meta-package-auto-deps</a>=
-=C2=A0for the prototype.=C2=A0<a href=3D"https://github.com/kergoth/meta-pa=
-ckage-auto-deps/blob/master/TODO.md">https://github.com/kergoth/meta-packag=
-e-auto-deps/blob/master/TODO.md</a>=C2=A0shows my next steps.</div>
-
-<div><br></div><div>Thanks for your time,<br>-- <br>Christopher Larson<br>c=
-larson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br=
->Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
-
-</div></div>
-
---047d7b343cd264503e04e69c9d77--
