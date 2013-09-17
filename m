@@ -1,26 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 47BBA6B389
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 420E96B389
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 13:18:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2013 06:18:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,923,1371106800"; d="scan'208";a="403010003"
-Received: from unknown (HELO helios.localnet) ([10.252.123.194])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2013 06:18:18 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: JC <jc@vtkloud.com>
-Date: Tue, 17 Sep 2013 14:18:17 +0100
-Message-ID: <2046387.NLfZYpzpll@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-30-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <CANyK_8dVMs0gt59z7fL0Woa-zjKW2M6p+qczQBBjJXSibhsNQg@mail.gmail.com>
-References: <1379416979-10333-1-git-send-email-jc@vtkloud.com>
-	<CANyK_8dVMs0gt59z7fL0Woa-zjKW2M6p+qczQBBjJXSibhsNQg@mail.gmail.com>
-MIME-Version: 1.0
-Cc: JC Verdie <jc.verdie@innotis.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Integration of former (deprecated?) libao recipe from https://github.com/tworaz/oe-tworaz/blob/master/meta-jlime/recipes-support/libao/libao_1.1.0.bb
+	Tue, 17 Sep 2013 13:25:15 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8HDdPJ6022568; Tue, 17 Sep 2013 14:39:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eDohHCy87-Gp; Tue, 17 Sep 2013 14:39:25 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8HDdLdS022541
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 17 Sep 2013 14:39:23 +0100
+Message-ID: <1379424300.32201.123.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Qi.Chen@windriver.com
+Date: Tue, 17 Sep 2013 14:25:00 +0100
+In-Reply-To: <5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
+References: <cover.1379038097.git.Qi.Chen@windriver.com>
+	<5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] image.bbclass: do not automatically remove update-rc.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +38,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 13:18:24 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 17 Sep 2013 13:25:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 17 September 2013 14:07:01 Paul Barker wrote:
-> On 17 September 2013 12:22, JC <jc@vtkloud.com> wrote:
-> > From: JC Verdie <jc.verdie@innotis.org>
-> > 
-> > Signed-off-by: JC Verdie <jc.verdie@innotis.org>
+On Fri, 2013-09-13 at 10:09 +0800, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 > 
-> Couple of tips on the commit message:
+> In rootfs_uninstall_unneeded function, the update-rc.d package would
+> be removed if no 'package-management' and no delayed postinsts.
 > 
-> First line of the commit message should be "libao: add version 1.1.0"
-> or similar and should be and fairly short, put the link to the source
-> within the body of the commit message and possibly reference the
-> author of the recipe you're copying this from if you can.
+> However, in update-rc.d.bbclass, the update-rc.d package is only
+> recommended. Thus, if NO_RECOMMENDATIONS is enabled or 'update-rc.d'
+> is added to BAD_RECOMMENDATIONS, the update-rc.d package will not
+> be installed at the first place. Tring to remove it will result in an
+> error.
+> 
+> Also this function assumes that update-rc.d is only used by postinsts.
+> This assumption isn't always true. Users may want to write their own
+> init scripts and use the update-rc.d tool to manage them.
+> 
+> [YOCTO #5169]
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/classes/image.bbclass |    4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Right. A few other things:
-
-1) Since nothing in OE-Core needs this at the moment, this should really be 
-added to meta-multimedia (within the meta-openembedded repository) and sent to 
-the openembedded-devel mailing list marked with [meta-multimedia] in the 
-subject.
-
-2) Please use ${BP} in SRC_URI rather than ${P} so that multilib builds can 
-work
-
-3) It would be nice to have SUMMARY and HOMEPAGE set in the recipe (and 
-possibly also DESCRIPTION if you have a longer description).
+This is not correct. The correct behaviour here is to uninstall these
+packages *if* they are installed. Just removing it from the list is not
+the real fix.
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index f1e62f14..f37cd90 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -505,12 +505,12 @@ rootfs_uninstall_unneeded () {
+>  	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
+>  		if [ -z "$(delayed_postinsts)" ]; then
+>  			# All packages were successfully configured.
+> -			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
+> +			# base-passwd, run-postinsts are no further use, remove them now
+>  			remove_run_postinsts=false
+>  			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
+>  				remove_run_postinsts=true
+>  			fi
+> -			rootfs_uninstall_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
+> +			rootfs_uninstall_packages base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
+>  
+>  			# Need to remove rc.d files for run-postinsts by hand since opkg won't
+>  			# call postrm scripts in offline root mode.
+
+
 
