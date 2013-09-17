@@ -1,26 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E2DF56C7AB
+	by mail.openembedded.org (Postfix) with ESMTP id 049596C7A6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 02:35:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8H2Z5iX025251
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 19:35:55 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 16 Sep 2013 19:35:38 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Sep 2013 22:35:02 -0400
-Message-ID: <115a322c3e8d0998cb24ade3ce11ca0a2b0b211c.1379384999.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1379384999.git.liezhi.yang@windriver.com>
-References: <cover.1379384999.git.liezhi.yang@windriver.com>
+	Tue, 17 Sep 2013 02:36:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8H2ahn2025327
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Sep 2013 19:36:43 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Mon, 16 Sep 2013 19:36:43 -0700
+Message-ID: <5237C039.4080001@windriver.com>
+Date: Tue, 17 Sep 2013 10:36:41 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH 1/1] python-smartpm: truncate the filename to meet NAME_MAX
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1379329974.git.hongxu.jia@windriver.com>
+	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
+	<C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
+In-Reply-To: <C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] libxml2: fix LSB desktop-xml tests failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +36,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 02:35:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Sep 2013 02:36:44 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060805050308030504070001"
 
-There is a "File name too long" error when len(TMPDIR) = 410, this is
-because the function getLocalPath() converts the filepath into the
-filename, so there would be the error when len(filename)
-> NAME_MAX, truncate the filename to meet NAME_MAX will fix the problem.
+--------------060805050308030504070001
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-[YOCTO #5201]
+On 09/17/2013 01:09 AM, Khem Raj wrote:
+> On Sep 16, 2013, at 4:14 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>
+>> The commit
+>> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=8780c5ddf2916bbd42fc67b79c286652aebb1546
+>> add a patch to fix a security issue. It modify include file 'tree.h'
+>> to add 'const char *dummy_children' on 'struct _xmlNs'.
+>>
+>> But lsb test suites didn't do this in his own include file, so the LSB
+>> desktop-xml tests failed.
+> IMO the testcase should be fixed. This is security patch that you are disabling. I don't think LSB compliance
+> should mean less secure
+>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+The upstream of libxml2 has not fixed this issue:
+git clone git://git.gnome.org/libxml2
+
+And I have filed a bug to them
+https://bugzilla.gnome.org/show_bug.cgi?id=708205
+
+After this is fixed and released, also need to report another
+bug to LSB to update their libxml2 source code.
+
+The time cycle is long, should we mark this bug as "Waiting For Upstream"
+or accept this patch to workaround for LSB test.
+
+Thanks,
+Hongxu
+
+>> Disable this patch for linuxstdbase could fix this issue.
+>>
+>> [YOCTO #5151]
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>> meta/recipes-core/libxml/libxml2_2.9.1.bb | 5 ++++-
+>> 1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+>> index fa9c657..3b031a1 100644
+>> --- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
+>> +++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+>> @@ -1,6 +1,9 @@
+>> require libxml2.inc
+>>
+>> -SRC_URI += "file://libxml2-CVE-2012-2871.patch \
+>> +LIBXML2_CVE = "file://libxml2-CVE-2012-2871.patch"
+>> +LIBXML2_CVE_linuxstdbase = ""
+>> +
+>> +SRC_URI += "${LIBXML2_CVE} \
+>>              http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
+>> 	   "
+>>
+>> -- 
+>> 1.8.1.2
+>>
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--------------060805050308030504070001
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 09/17/2013 01:09 AM, Khem Raj wrote:<br>
+    </div>
+    <blockquote
+      cite="mid:C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com"
+      type="cite">
+      <pre wrap="">
+On Sep 16, 2013, at 4:14 AM, Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a> wrote:
+
+</pre>
+      <blockquote type="cite">
+        <pre wrap="">The commit
+<a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=8780c5ddf2916bbd42fc67b79c286652aebb1546">http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=8780c5ddf2916bbd42fc67b79c286652aebb1546</a>
+add a patch to fix a security issue. It modify include file 'tree.h'
+to add 'const char *dummy_children' on 'struct _xmlNs'.
+
+But lsb test suites didn't do this in his own include file, so the LSB
+desktop-xml tests failed.
+</pre>
+      </blockquote>
+      <pre wrap="">
+IMO the testcase should be fixed. This is security patch that you are disabling. I don't think LSB compliance
+should mean less secure
+
+</pre>
+    </blockquote>
+    <br>
+    The upstream of libxml2 has not fixed this issue:<br>
+    git clone git://git.gnome.org/libxml2<br>
+    <br>
+    And I have filed a bug to them<br>
+    <meta http-equiv="content-type" content="text/html;
+      charset=ISO-8859-1">
+    <a href="https://bugzilla.gnome.org/show_bug.cgi?id=708205">https://bugzilla.gnome.org/show_bug.cgi?id=708205</a><br>
+    <br>
+    After this is fixed and released, also need to report another<br>
+    bug to LSB to update their libxml2 source code.<br>
+    <br>
+    The time cycle is long, should we mark this bug as "Waiting For
+    Upstream"<br>
+    or accept this patch to workaround for LSB test.<br>
+    <br>
+    Thanks,<br>
+    Hongxu<br>
+    <br>
+    <blockquote
+      cite="mid:C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com"
+      type="cite">
+      <blockquote type="cite">
+        <pre wrap="">
+Disable this patch for linuxstdbase could fix this issue.
+
+[YOCTO #5151]
+
+Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
 ---
- .../python-smartpm/smart-filename-NAME_MAX.patch   |   35 ++++++++++++++++++++
- .../python/python-smartpm_1.4.1.bb                 |    1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-filename-NAME_MAX.patch
+meta/recipes-core/libxml/libxml2_2.9.1.bb | 5 ++++-
+1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-filename-NAME_MAX.patch b/meta/recipes-devtools/python/python-smartpm/smart-filename-NAME_MAX.patch
-new file mode 100644
-index 0000000..22794a7
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-filename-NAME_MAX.patch
-@@ -0,0 +1,35 @@
-+From a17998b6be3319ae476a64f366737bc267a53a8a Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 16 Sep 2013 05:54:13 -0400
-+Subject: [PATCH] fetcher.py: truncate the filename to meet NAME_MAX
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+index fa9c657..3b031a1 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+@@ -1,6 +1,9 @@
+require libxml2.inc
+
+-SRC_URI += <a class="moz-txt-link-rfc2396E" href="file://libxml2-CVE-2012-2871.patch\+LIBXML2_CVE=">"file://libxml2-CVE-2012-2871.patch \
++LIBXML2_CVE = "</a<a class="moz-txt-link-rfc2396E" href="file://libxml2-CVE-2012-2871.patch">"file://libxml2-CVE-2012-2871.patch"</a>
++LIBXML2_CVE_linuxstdbase = ""
 +
-+The function getLocalPath() converts the filepath into the filename,
-+there would be a "File name too long" error when len(filename) >
-+NAME_MAX, truncate it to meet NAME_MAX will fix the problem.
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ smart/fetcher.py |    8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/smart/fetcher.py b/smart/fetcher.py
-+--- a/smart/fetcher.py
-++++ b/smart/fetcher.py
-+@@ -139,6 +139,14 @@ class Fetcher(object):
-+             filename = os.path.basename(path)
-+         if self._localpathprefix:
-+             filename = self._localpathprefix+filename
-++        # pathconf requires the path existed
-++        if not os.path.exists(self._localdir):
-++            os.makedirs(self._localdir)
-++        name_max = os.pathconf(self._localdir, 'PC_NAME_MAX')
-++        # The length of the filename should be less than NAME_MAX
-++        if len(filename) > name_max:
-++            iface.debug(_("Truncate %s to %s") % (filename, filename[-name_max:]))
-++            filename = filename[-name_max:]
-+         return os.path.join(self._localdir, filename)
-+ 
-+     def setForceCopy(self, value):
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-index f406d69..f349469 100644
---- a/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_1.4.1.bb
-@@ -31,6 +31,7 @@ SRC_URI = "\
-           file://smart-flag-exclude-packages.patch \
-           file://smart-config-ignore-all-recommends.patch \
-           file://smart-attempt.patch \
-+          file://smart-filename-NAME_MAX.patch \
-           "
- 
- SRC_URI[md5sum] = "573ef32ba177a6b3c4bf7ef04873fcb6"
++SRC_URI += "${LIBXML2_CVE} \
+            <a class="moz-txt-link-freetext" href="http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar">http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar</a> \
+	   "
+
 -- 
-1.7.10.4
+1.8.1.2
 
+_______________________________________________
+Openembedded-core mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
+<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
+</pre>
+      </blockquote>
+      <pre wrap="">
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
 
+--------------060805050308030504070001--
