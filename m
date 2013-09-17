@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 420E96B389
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 13:25:15 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8HDdPJ6022568; Tue, 17 Sep 2013 14:39:26 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id eDohHCy87-Gp; Tue, 17 Sep 2013 14:39:25 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8HDdLdS022541
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 17 Sep 2013 14:39:23 +0100
-Message-ID: <1379424300.32201.123.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Qi.Chen@windriver.com
-Date: Tue, 17 Sep 2013 14:25:00 +0100
-In-Reply-To: <5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
-References: <cover.1379038097.git.Qi.Chen@windriver.com>
-	<5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: do not automatically remove update-rc.d
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 78EDE6B389
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 17 Sep 2013 13:32:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWScV028331
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 17 Sep 2013 06:32:28 -0700 (PDT)
+Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 17 Sep 2013 06:32:27 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Sep 2013 08:32:09 -0500
+Message-ID: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: dvhart@linux.intel.com
+Subject: [v3 PATCH 0/9] Improved EFI boot support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,60 +31,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 13:25:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Sep 2013 13:32:26 -0000
+Content-Type: text/plain
 
-On Fri, 2013-09-13 at 10:09 +0800, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
-> 
-> In rootfs_uninstall_unneeded function, the update-rc.d package would
-> be removed if no 'package-management' and no delayed postinsts.
-> 
-> However, in update-rc.d.bbclass, the update-rc.d package is only
-> recommended. Thus, if NO_RECOMMENDATIONS is enabled or 'update-rc.d'
-> is added to BAD_RECOMMENDATIONS, the update-rc.d package will not
-> be installed at the first place. Tring to remove it will result in an
-> error.
-> 
-> Also this function assumes that update-rc.d is only used by postinsts.
-> This assumption isn't always true. Users may want to write their own
-> init scripts and use the update-rc.d tool to manage them.
-> 
-> [YOCTO #5169]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/image.bbclass |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+V3
+- Add comment about isolinux.bin required in EFI only case
+- Fix typo of PCIBIOS -> PCBIOS
+- Change COMPRESSISO ?= "" -> COMPRESSISO ?= "0" for the default
+- Add comment to EFI/ISO syslinux.bbclass to clarify workaround
+  with EFI only case and hybrid boot
+- Add patch to fix syslinux serial and menu problems
+- Add patch to fix boot-directdisk.bbclass
+* Two new patches are 7 & 8, the zisofs patch moved from 7 -> 9
 
-This is not correct. The correct behaviour here is to uninstall these
-packages *if* they are installed. Just removing it from the list is not
-the real fix.
+
+V2
+- Added reference to YOCTO #1913 for per Darren
+- Remove PR number from cdrtools uprev
+- Added Saul's change to cdrtools to get rid of STAGE_TEMP
+- made the builtin grub cfg file copied from a SRC_URI
+- upreved syslinux to 6.01
+- Use the new isohybrid command from syslinux which can now
+  generate EFI enabled ISO's which can boot directly when
+  dd'ed to a USB or HDD device.
+- Dropped any references to efi or pcbios in the qemu* configs
+- Added the zisofs patch to the end of the series instead
+  of depending on it, in case it is dropped later.
+- git -format-patch -M20% is your friend for seeing the
+  delta on recipe upgrades :-)
+
+YAY, with the new version of syslinux it is now possible to
+build a single live ISO image which can boot in legacy mode
+or EFI on optical media or USB devices.
+
+We still have to create 2 ISO's one for 32bit EFI systems and one for
+64bit EFI systems but this is also true of all other Linux
+distributions today as well.
+
+Jason.
+
+---
+
+The goal of this patch set is to put the EFI ISO boot method on par
+with the ISO PCBIOS boot method.  This also allows for the creation of
+a single ISO image which can boot in "legacy boot" mode or EFI boot
+mode.
+
+In order to make this possible the cdrtools needed an update to the
+very latest and this brings in an license change.  Given that change
+it was not entirely clear to me if we needed to leave the older
+package around.  I opted to remove the older package recipe since
+there was no clean way to fail in the case you wanted to build EFI
+boot media.
+
+The bbnote that was previously in the bootimg.bbclass about EFI only
+media being untested was a bit of an understatement, as the images
+would not even build without errors due to the call to isohybrid.  I
+removed any such warnings because that path has been fully vetted now.
 
 Cheers,
-
-Richard
-
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index f1e62f14..f37cd90 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -505,12 +505,12 @@ rootfs_uninstall_unneeded () {
->  	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
->  		if [ -z "$(delayed_postinsts)" ]; then
->  			# All packages were successfully configured.
-> -			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
-> +			# base-passwd, run-postinsts are no further use, remove them now
->  			remove_run_postinsts=false
->  			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
->  				remove_run_postinsts=true
->  			fi
-> -			rootfs_uninstall_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
-> +			rootfs_uninstall_packages base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
->  
->  			# Need to remove rc.d files for run-postinsts by hand since opkg won't
->  			# call postrm scripts in offline root mode.
+Jason.
 
 
+----------------------------------------------------------------
 
