@@ -1,36 +1,45 @@
 Return-Path: <jc@vtkloud.com>
-Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 751D26C7FE
+Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 798F06028B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 14:49:46 +0000 (UTC)
-Received: by mail-vc0-f170.google.com with SMTP id kw10so4289091vcb.1
+	Tue, 17 Sep 2013 14:54:30 +0000 (UTC)
+Received: by mail-vc0-f169.google.com with SMTP id ib11so4275061vcb.28
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 07:49:47 -0700 (PDT)
+	Tue, 17 Sep 2013 07:54:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bXYnjaAwaWa4y1dPwhljP7MNFdYxQpzkXyIfT71BClk=;
-	b=J9rzg6l2b6tQbxPvf2wlXCtYZqCiT8vbw64qWjHG1VjRd32gDz2DaatDLTCruJHp6q
-	h0rmV73FfYjS15Ox/zLGZvR89kNsmjXcK3+TW+mCG1dgHN7JxHps85Dg4cmeoqRKeRzi
-	bDPu/Njtai/743jH+iSNePGxJyFFBC4G+iIRfYQX78XC1wHJGxG5ONGYyZYNaWj8KaFA
-	QqXeH13vhxt50kYNpjb9xYkOwiY0kYk6LYHjogtkcXzfu8nC4DID8zO4QlIY531HytwU
-	lJqArl6bGZy/51iiMnt2iQEF7b/hgVhTqcGiK6cMoidBNq53Yfft7x8UPoy1I8QjBWqG
-	yLOA==
-X-Gm-Message-State: ALoCoQljcAq3yjwFQYkjawb7fidITtkL92Q+l64Jt/aMNk7mGQlEhmK42rTCZ6FCoFFD/41fkN3G
-X-Received: by 10.52.116.74 with SMTP id ju10mr27360365vdb.20.1379429387750;
-	Tue, 17 Sep 2013 07:49:47 -0700 (PDT)
-Received: from mba.csail.mit.edu (31-34-121.wireless.csail.mit.edu.
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=G2Pew9vde/laVMffsPhrisGXV5xnW9V2iOtNkZtb0VU=;
+	b=eM/WnnbTML3YWFOPVT3JT6rnOt/pSezYS0skLoU+dl4PdJ/0DbNKCmzcNozn3Qn5S+
+	U332t5rXeOW8ibBGQKXQmZ/F84Vy6V+MpOr0IrH/lNuLaZV8h3KdCOgYJDb27sBNYx1y
+	nOzht6ieagjQdvThfN84hVWW1lgBbHcVz9ZCSsbnlY6jnTeiYe0unP0zY1lYqBLnxuiJ
+	fBOdsnGWpB+jHBRZ067cEbbDCSwo+Uf/o/7twBuSRzQwkWrGE1AV8rGbWYDr9rINyrnW
+	zUrz+hiKB9fMqalO/S+Bw04VrskQU4mRIOFuyrbymguhvOyss61kE0STjkjq5V+/yl3J
+	vm0g==
+X-Gm-Message-State: ALoCoQmF42fm3SWugCinnx9Z/wKH96YZPYkorcbjRRa1Lgg5yuIYwF8vjkgLUhPGghWgQm7/G8OL
+X-Received: by 10.220.3.78 with SMTP id 14mr598166vcm.44.1379429672414;
+	Tue, 17 Sep 2013 07:54:32 -0700 (PDT)
+Received: from [128.31.34.121] (31-34-121.wireless.csail.mit.edu.
 	[128.31.34.121])
-	by mx.google.com with ESMTPSA id n10sm24108723vew.4.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 17 Sep 2013 07:49:47 -0700 (PDT)
+	by mx.google.com with ESMTPSA id yi8sm21601756veb.2.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 17 Sep 2013 07:54:31 -0700 (PDT)
+Message-ID: <52386CA6.8070206@vtkloud.com>
+Date: Tue, 17 Sep 2013 10:52:22 -0400
 From: JC <jc@vtkloud.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2013 10:49:36 -0400
-Message-Id: <1379429376-30184-1-git-send-email-jc@vtkloud.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] libao: add version 1.1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1379416979-10333-1-git-send-email-jc@vtkloud.com>
+	<CANyK_8dVMs0gt59z7fL0Woa-zjKW2M6p+qczQBBjJXSibhsNQg@mail.gmail.com>
+	<2046387.NLfZYpzpll@helios>
+In-Reply-To: <2046387.NLfZYpzpll@helios>
+Cc: JC Verdie <jc.verdie@innotis.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Integration of former (deprecated?) libao recipe from https://github.com/tworaz/oe-tworaz/blob/master/meta-jlime/recipes-support/libao/libao_1.1.0.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,46 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 14:49:46 -0000
+X-List-Received-Date: Tue, 17 Sep 2013 14:54:31 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This is basically a 99% import of Peter Tworek's recipe from tworaz666@gmail.com found in https://github.com/tworaz/oe-tworaz/blob/master/meta-jlime/recipes-support/libao/libao_1.1.0.bb
+On 17/09/2013 09:18, Paul Eggleton wrote:
+>
+> Right. A few other things:
+>
+> 1) Since nothing in OE-Core needs this at the moment, this should really be
+> added to meta-multimedia (within the meta-openembedded repository) and sent to
+> the openembedded-devel mailing list marked with [meta-multimedia] in the
+> subject.
+>
+> 2) Please use ${BP} in SRC_URI rather than ${P} so that multilib builds can
+> work
+>
+> 3) It would be nice to have SUMMARY and HOMEPAGE set in the recipe (and
+> possibly also DESCRIPTION if you have a longer description).
+>
+> Cheers,
+> Paul
+>
 
-Signed-off-by: JC <jc@vtkloud.com>
----
- .../recipes-multimedia/libao/libao_1.1.0.bb        | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
- create mode 100644 meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
+I sent a new one trying to comply with your reco. But I could not work 
+on head anymore, since it's broken (at least for me). I'm afraid the 
+patch appears to belong to "dylan" but I'm not a git guru enough to 
+check how to commit it at the right place (I mean, I could simply use my 
+non working git clone of HEAD and commit it untested but I'm not sure 
+that's the way to go).
 
-diff --git a/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb b/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
-new file mode 100644
-index 0000000..08950b5
---- /dev/null
-+++ b/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
-@@ -0,0 +1,23 @@
-+SECTION = "multimedia"
-+SUMMARY = "Libao is a cross-platform audio library that allows programs to output audio using a simple API on a wide variety of platforms"
-+HOMEPAGE = "https://www.xiph.org/ao/"
-+
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+
-+SRC_URI="http://downloads.xiph.org/releases/ao/${BP}.tar.gz"
-+SRC_URI[md5sum] = "2b2508c29bc97e4dc218fa162cf883c8"
-+SRC_URI[sha256sum] = "29de5bb9b1726ba890455ef7e562d877df87811febb0d99ee69164b88c171bd4"
-+
-+inherit autotools
-+
-+do_install_append () {
-+    find "${D}" -name '*.la' -exec rm -f {} +
-+}
-+
-+python populate_packages_prepend () {
-+    rootdir = bb.data.expand('${libdir}/ao/plugins-4', d)
-+    rootdir_dbg = bb.data.expand('${libdir}/ao/plugins-4/.debug', d)
-+    do_split_packages(d, rootdir, '^(.*)\.so$', output_pattern='${BPN}-plugin-%s', description='AO %s plugin')
-+    do_split_packages(d, rootdir_dbg, '^(.*)\.so$', output_pattern='${BPN}-plugin-%s-dbg', description='AO %s plugin debug data')
-+}
--- 
-1.8.1.2
+I'm not sure how to add the [meta-multimedia] tag to the git send-mail, 
+also. Sorry for being dumb :(
+
+
+Jay
 
 
