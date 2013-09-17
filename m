@@ -1,39 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ea0-f172.google.com (mail-ea0-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D08D860F86
+Return-Path: <jc@vtkloud.com>
+Received: from mail-qa0-f47.google.com (mail-qa0-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id EA77E60F86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 10:34:44 +0000 (UTC)
-Received: by mail-ea0-f172.google.com with SMTP id r16so2643149ead.31
+	Tue, 17 Sep 2013 10:36:56 +0000 (UTC)
+Received: by mail-qa0-f47.google.com with SMTP id k4so1802850qaq.20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 03:34:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=HTjfM1QNozKLBC6s2O+L0vH0Qrwee2V+xEHHFCBjyc0=;
-	b=F7yx9q0DUGiVpSF2LnEdqf/gD/R+gsYJBAJOkQlNxnBRUs9rhO0Ht9uyZ93R1cWo3u
-	5770C7Ao0YdeZL3K8wzssDHApqPEq/8JZKsUXeQiUP0uu9UIGh/vzaDn/ez5mx6KWutH
-	h+Ek21cofpR4/J8eEhR7bSuCD4C9oVTpUvlkG0b4eqs3/mRhw/N979/zq8ZjYBxlpdaP
-	ZKGnciQKTsEe4EU2/Jb72vcB4VAckA2s06iU8dFdRG8a/DSrkQrm+BaT8IzjxzTK0Uu/
-	3/vrzC4/FTd/Q5jxS4fwXidy67pyZZGLeI2zzVQEL3tYQcHpX9bRWOS5hf/zewfpZOaI
-	jqRw==
-X-Received: by 10.14.42.3 with SMTP id i3mr211928eeb.95.1379414086234;
-	Tue, 17 Sep 2013 03:34:46 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	a43sm49661901eep.9.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 17 Sep 2013 03:34:45 -0700 (PDT)
-Date: Tue, 17 Sep 2013 12:36:21 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Ming Liu <ming.liu@windriver.com>
-Message-ID: <20130917103621.GB7313@jama>
-References: <1379408174-6732-1-git-send-email-ming.liu@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <1379408174-6732-1-git-send-email-ming.liu@windriver.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	Tue, 17 Sep 2013 03:36:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:message-id:references:to;
+	bh=gyVrkleLe9av2YytzqZ/jkC1yxkfVYubXlc2cLCCsPE=;
+	b=iVuJ3a97XTAGCyyMYeOqBzE7R1Oy5PYGHWskKc4ZNDfbicxMr8mGr4kiGoHD5Ji+6N
+	KOnFFPNvTJyetrFpVkUW44dvDAnT/qFi1BZPrX0UqIWkNQ0qM+Dz9rzR61pP86svPlY9
+	vC+VJqaQIowNkWPS0WjNaAsE/jn0kYPmJkaHadDQzpAHD6EgP79kNV+DcvqWlan+KPHZ
+	4Z63i0h1GGg+JvvO19OOBS/d8ESFHdzvaozu5cm1rV3v+o9naRSK5bnGOyhHuNHaJvja
+	JsZ+ccGxJB2/Yg795FKH9zMI8OVgxuNTiGc0c0aAnRhwVzCVVhCW7BD03UbTUc7SzZj3
+	0WSw==
+X-Gm-Message-State: ALoCoQnpuad1z5maroJlG07AxkrB9c2pZ7SfLsIxBFUN6ZsgIg8EPuljUJ7mnPKjA/OQkQD56Pd1
+X-Received: by 10.224.69.69 with SMTP id y5mr5130124qai.53.1379414218377;
+	Tue, 17 Sep 2013 03:36:58 -0700 (PDT)
+Received: from [172.20.6.243] ([12.96.84.3])
+	by mx.google.com with ESMTPSA id g2sm30250044qaf.12.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 17 Sep 2013 03:36:57 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.5 \(1508\))
+From: =?iso-8859-1?Q?Jean-Charles_JC_Verdi=E9?= <jc@vtkloud.com>
+In-Reply-To: <1379345967717.a9ba8559@Nodemailer>
+Date: Tue, 17 Sep 2013 06:36:54 -0400
+Message-Id: <07DD0C1F-96B0-4C4C-BC26-23EF171060F0@vtkloud.com>
+References: <3047549.YMT2qeacCQ@helios> <1379345967717.a9ba8559@Nodemailer>
+To: "Paul Eggleton" <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.1508)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [oe][meta-oe][PATCH] vsftpd: change default secure_chroot_dir
+Subject: Re: lib ao ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,176 +47,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 10:34:45 -0000
-X-Groupsio-MsgNum: 45130
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="eAbsdosE1cNLO4uF"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 17 Sep 2013 10:36:57 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_34559D92-0BB9-4CE7-B795-B29531AEEB55"
 
---eAbsdosE1cNLO4uF
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_34559D92-0BB9-4CE7-B795-B29531AEEB55
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Tue, Sep 17, 2013 at 04:56:14PM +0800, Ming Liu wrote:
-> Change default value of secure_chroot_dir to /var/run/vsftpd/empty, add
-> volatiles entry for it, to ensure it won't fail to start with error:
-> "500 OOPS: vsftpd: not found: directory given in 'secure_chroot_dir':/var=
-/share/empty"
+Hi Paul et al;
 >=20
-> This shows up in both standalone mode or started by xined.
+> There isn't currently a libao recipe in common OE-Core based layers =
+indexed by=20
+> the layer index. FYI though there is a recipe in the unofficial (and =
+apparently=20
+> unmaintained) meta-jlime layer here:=20
+>=20
+> https://github.com/tworaz/oe-tworaz/tree/master/meta-jlime=20
+>=20
+> It would be great to have this added to meta-multimedia - please test =
+it and=20
+> if it works for you please feel free to send a patch adding it to =
+meta-=20
+> multimedia.=20
+>=20
+>=20
 
-This belongs to openembedded-devel ML with [meta-networking] tag in
-subject.
 
+I got a mix from theirs and mine working.=20
+
+Any recommendation on the patch process? I think I saw something on a =
+wiki someday about how to send patches, but I can't find it again :(
+
+Jay
+
+
+> > The UI for that site has changed, you have to set:=20
+> > Branch: OE-Classic=20
+> > to search meta-openembedded.=20
+> >=20
+> > Painful, I know, but I assume there was confusion about what's in=20
+> > oe-core and what's in OE-Classic.=20
 >=20
-> Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> ---
->  .../vsftpd/files/change-secure_chroot_dir.patch    | 55 ++++++++++++++++=
-++++++
->  .../vsftpd/files/volatiles.99_vsftpd               |  1 +
->  .../recipes-daemons/vsftpd/vsftpd_3.0.0.bb         |  6 ++-
->  3 files changed, 61 insertions(+), 1 deletion(-)
->  create mode 100644 meta-networking/recipes-daemons/vsftpd/files/change-s=
-ecure_chroot_dir.patch
->  create mode 100644 meta-networking/recipes-daemons/vsftpd/files/volatile=
-s.99_vsftpd
+> This is *not* correct. OE-Classic as shown in the layer index is =
+OE-Classic,=20
+> the old monolithic OpenEmbedded; it is not the same thing as meta-oe =
+or any of=20
+> the layers in the meta-openembedded repository.=20
 >=20
-> diff --git a/meta-networking/recipes-daemons/vsftpd/files/change-secure_c=
-hroot_dir.patch b/meta-networking/recipes-daemons/vsftpd/files/change-secur=
-e_chroot_dir.patch
-> new file mode 100644
-> index 0000000..5f2860e
-> --- /dev/null
-> +++ b/meta-networking/recipes-daemons/vsftpd/files/change-secure_chroot_d=
-ir.patch
-> @@ -0,0 +1,55 @@
-> +vsftpd: change default value of secure_chroot_dir
-> +
-> +Upstream-Status: Pending
-> +
-> +Change secure_chroot_dir pointing to a volatile directory.
-> +
-> +Signed-off-by: Ming Liu <ming.liu@windriver.com>
-> +---
-> + INSTALL       |    6 +++---
-> + tunables.c    |    2 +-
-> + vsftpd.conf.5 |    2 +-
-> + 3 files changed, 5 insertions(+), 5 deletions(-)
-> +
-> +diff -urpN a/INSTALL b/INSTALL
-> +--- a/INSTALL	2013-09-13 10:23:57.504972397 +0800
-> ++++ b/INSTALL	2013-09-13 10:25:25.664971779 +0800
-> +@@ -27,11 +27,11 @@ user in case it does not already exist.=20
-> + [root@localhost root]# useradd nobody
-> + useradd: user nobody exists
-> +=20
-> +-2b) vsftpd needs the (empty) directory /usr/share/empty in the default
-> ++2b) vsftpd needs the (empty) directory /var/run/vsftpd/empty in the def=
-ault
-> + configuration. Add this directory in case it does not already exist. e.=
-g.:
-> +=20
-> +-[root@localhost root]# mkdir /usr/share/empty/
-> +-mkdir: cannot create directory `/usr/share/empty': File exists
-> ++[root@localhost root]# mkdir /var/run/vsftpd/empty/
-> ++mkdir: cannot create directory `/var/run/vsftpd/empty': File exists
-> +=20
-> + 2c) For anonymous FTP, you will need the user "ftp" to exist, and have a
-> + valid home directory (which is NOT owned or writable by the user "ftp").
-> +diff -urpN a/tunables.c b/tunables.c
-> +--- a/tunables.c	2013-09-13 10:26:29.554972817 +0800
-> ++++ b/tunables.c	2013-09-13 10:27:18.104972210 +0800
-> +@@ -254,7 +254,7 @@ tunables_load_defaults()
-> +   /* -rw------- */
-> +   tunable_chown_upload_mode =3D 0600;
-> +=20
-> +-  install_str_setting("/usr/share/empty", &tunable_secure_chroot_dir);
-> ++  install_str_setting("/var/run/vsftpd/empty", &tunable_secure_chroot_d=
-ir);
-> +   install_str_setting("ftp", &tunable_ftp_username);
-> +   install_str_setting("root", &tunable_chown_username);
-> +   install_str_setting("/var/log/xferlog", &tunable_xferlog_file);
-> +diff -urpN a/vsftpd.conf.5 b/vsftpd.conf.5
-> +--- a/vsftpd.conf.5	2013-09-13 10:09:33.774972462 +0800
-> ++++ b/vsftpd.conf.5	2013-09-13 10:10:41.914971989 +0800
-> +@@ -969,7 +969,7 @@ This option should be the name of a dire
-> + directory should not be writable by the ftp user. This directory is used
-> + as a secure chroot() jail at times vsftpd does not require filesystem a=
-ccess.
-> +=20
-> +-Default: /usr/share/empty
-> ++Default: /var/run/vsftpd/empty
-> + .TP
-> + .B ssl_ciphers
-> + This option can be used to select which SSL ciphers vsftpd will allow f=
-or
-> diff --git a/meta-networking/recipes-daemons/vsftpd/files/volatiles.99_vs=
-ftpd b/meta-networking/recipes-daemons/vsftpd/files/volatiles.99_vsftpd
-> new file mode 100644
-> index 0000000..8a602ba
-> --- /dev/null
-> +++ b/meta-networking/recipes-daemons/vsftpd/files/volatiles.99_vsftpd
-> @@ -0,0 +1 @@
-> +d root root 0755 /var/run/vsftpd/empty none
-> diff --git a/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb b/met=
-a-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb
-> index 2c3e009..49d5d2a 100644
-> --- a/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb
-> +++ b/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb
-> @@ -14,6 +14,8 @@ SRC_URI =3D "https://security.appspot.com/downloads/vsf=
-tpd-${PV}.tar.gz \
->             file://vsftpd.conf \
->             file://vsftpd.user_list \
->             file://vsftpd.ftpusers \
-> +           file://change-secure_chroot_dir.patch \
-> +           file://volatiles.99_vsftpd \
->  "
-> =20
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da6067ad950b28336613aed9dd47b1=
-271 \
-> @@ -40,7 +42,7 @@ LDFLAGS_append =3D" -lcrypt -lcap"
->  do_configure() {
->      # Fix hardcoded /usr, /etc, /var mess.
->      cat tunables.c|sed s:\"/usr:\"${prefix}:g|sed s:\"/var:\"${localstat=
-edir}:g \
-> -    |sed s:\"${prefix}/share/empty:\"${localstatedir}/share/empty:g |sed=
- s:\"/etc:\"${sysconfdir}:g > tunables.c.new
-> +    |sed s:\"/etc:\"${sysconfdir}:g > tunables.c.new
->      mv tunables.c.new tunables.c
->  }
-> =20
-> @@ -57,6 +59,8 @@ do_install() {
->      install -m 600 ${WORKDIR}/vsftpd.conf ${D}${sysconfdir}/vsftpd.conf
->      install -d ${D}${sysconfdir}/init.d/
->      install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/vsftpd
-> +    install -d ${D}/${sysconfdir}/default/volatiles
-> +    install -m 644 ${WORKDIR}/volatiles.99_vsftpd ${D}/${sysconfdir}/def=
-ault/volatiles/99_vsftpd
-> =20
->      install -m 600 ${WORKDIR}/vsftpd.ftpusers ${D}${sysconfdir}/
->      install -m 600 ${WORKDIR}/vsftpd.user_list ${D}${sysconfdir}/
+> Cheers,=20
+> Paul=20
+>=20
 > --=20
-> 1.8.3.3
 >=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Paul Eggleton=20
+> Intel Open Source Technology Centre=20
+>=20
+>=20
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---eAbsdosE1cNLO4uF
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--Apple-Mail=_34559D92-0BB9-4CE7-B795-B29531AEEB55
+Content-Transfer-Encoding: 7bit
+Content-Type: text/html;
+	charset=us-ascii
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
+<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space; "><div><blockquote type="cite"><div class="gmail_quote"></div></blockquote>Hi Paul et al;<br><blockquote type="cite"><div class="gmail_quote"><blockquote class="gmail_quote" style="margin: 0px 0px 0px 0.8ex; border-left-width: 1px; border-left-color: rgb(204, 204, 204); border-left-style: solid; padding-left: 1ex; position: static; z-index: auto; "><p><br>There isn't currently a libao recipe in common OE-Core based layers indexed by 
+<br>the layer index. FYI though there is a recipe in the unofficial (and apparently 
+<br>unmaintained) meta-jlime layer here:
+<br><br><a href="https://github.com/tworaz/oe-tworaz/tree/master/meta-jlime">https://github.com/tworaz/oe-tworaz/tree/master/meta-jlime</a>
+<br><br>It would be great to have this added to meta-multimedia - please test it and 
+<br>if it works for you please feel free to send a patch adding it to meta-
+<br>multimedia.
+<br><br></p></blockquote></div></blockquote><div><br></div><div><br></div></div><div>I got a mix from theirs and mine working.&nbsp;</div><div><br></div><div>Any recommendation on the patch process? I think I saw something on a wiki someday about how to send patches, but I can't find it again :(</div><div><br></div><div>Jay<br><br><br><blockquote type="cite"><div class="gmail_quote"><blockquote class="gmail_quote" style="margin: 0px 0px 0px 0.8ex; border-left-width: 1px; border-left-color: rgb(204, 204, 204); border-left-style: solid; padding-left: 1ex; position: static; z-index: auto; "><p>&gt; The UI for that site has changed, you have to set:
+<br>&gt; Branch: OE-Classic
+<br>&gt; to search meta-openembedded.
+<br>&gt; 
+<br>&gt; Painful, I know, but I assume there was confusion about what's in
+<br>&gt; oe-core and what's in OE-Classic.
+<br><br>This is *not* correct. OE-Classic as shown in the layer index is OE-Classic, 
+<br>the old monolithic OpenEmbedded; it is not the same thing as meta-oe or any of 
+<br>the layers in the meta-openembedded repository.
+<br><br>Cheers,
+<br>Paul
+<br><br>-- 
+<br><br>Paul Eggleton
+<br>Intel Open Source Technology Centre
+<br></p></blockquote></div><br></blockquote></div><br></body></html>
 
-iEYEARECAAYFAlI4MKUACgkQN1Ujt2V2gByhGQCggaP580hTcUT7hlY1jCanmxRk
-uEQAni5o6nnm1fenEGj3+L67p44Zmolf
-=WQEk
------END PGP SIGNATURE-----
-
---eAbsdosE1cNLO4uF--
+--Apple-Mail=_34559D92-0BB9-4CE7-B795-B29531AEEB55--
