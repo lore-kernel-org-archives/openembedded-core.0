@@ -1,34 +1,34 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C7C960F86
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 11:38:28 +0000 (UTC)
-Received: by mail-wg0-f50.google.com with SMTP id f12so5009636wgh.29
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 04:38:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=gChXpGTk2Axj45JW/V5S+WTp+hz7OtqccK/3x5OjUro=;
-	b=IRAnPW3v9LuxPu29esU+e88IoMXj/0UERDEBpDABUhoASuwaF2Fbadz7BjiZLZY2uJ
-	3yyTU9z6p7HdnZhvZT1OzAA27KR2sLRMA66or0yxOH1/fLVo4qa4DkeYl6ViZpqKHmWz
-	nNIQohD4XhMGZWAspXLEsiWS4a16QmV3Xo9bTP3KJexRv3qrpCoZRiZuzXtqromKJAIc
-	UAmp9t/rHt/U3wqrOsimEXODDMvHpq11HcQI50TqHq7+nBsRzQjlu4iFcotwmqNY17bY
-	imcglTD0+3509DRsH5bXkEtMPxgtui57MZqZgxtpnr788ytpkEe7D0WJ6LgpEwimPIbA
-	P76A==
-X-Gm-Message-State: ALoCoQnogHBC8pcUVG5NNO6v0+kfXRU2CQPjoEP5sXqZvuiWksd2K8TXi7w3E3ym3wvqrZFhH+4u
-X-Received: by 10.180.81.129 with SMTP id a1mr2178880wiy.2.1379417908898;
-	Tue, 17 Sep 2013 04:38:28 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id z13sm3835743wib.0.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 17 Sep 2013 04:38:28 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2013 12:38:24 +0100
-Message-Id: <1379417904-8251-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] avahi: fix and enable out-of-tree builds
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 63DB46B6CD
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 17 Sep 2013 12:19:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8HCJwPP027256
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 17 Sep 2013 05:19:58 -0700 (PDT)
+Received: from [128.224.22.106] (128.224.22.106) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Tue, 17 Sep 2013 05:19:58 -0700
+Message-ID: <523848EC.1000203@windriver.com>
+Date: Tue, 17 Sep 2013 07:19:56 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
+MIME-Version: 1.0
+To: Darren Hart <dvhart@linux.intel.com>
+References: <1379006387-20186-1-git-send-email-jason.wessel@windriver.com>
+	<1379006387-20186-6-git-send-email-jason.wessel@windriver.com>
+	<1379009772.1285.30.camel@dvhart-mobl4.amr.corp.intel.com>
+	<52321B6A.4080100@windriver.com>
+	<1379016587.1285.38.camel@dvhart-mobl4.amr.corp.intel.com>
+	<52338A9D.7000307@windriver.com>
+	<1379353761.1285.163.camel@dvhart-mobl4.amr.corp.intel.com>
+In-Reply-To: <1379353761.1285.163.camel@dvhart-mobl4.amr.corp.intel.com>
+X-Enigmail-Version: 1.5.2
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] grub-efi.bbclass: Add serial and graphics menu options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,83 +41,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 11:38:29 -0000
+X-List-Received-Date: Tue, 17 Sep 2013 12:19:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/seperatebuilddir.inc      |    5 ++-
- meta/recipes-connectivity/avahi/avahi.inc          |    1 +
- .../avahi/files/out-of-tree.patch                  |   32 ++++++++++++++++++++
- 3 files changed, 35 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-connectivity/avahi/files/out-of-tree.patch
+On 09/16/2013 12:49 PM, Darren Hart wrote:
+> On Fri, 2013-09-13 at 16:58 -0500, Jason Wessel wrote:
+>> On 09/12/2013 03:09 PM, Darren Hart wrote:
+>>> On Thu, 2013-09-12 at 14:52 -0500, Jason Wessel wrote:
+>>>> On 09/12/2013 01:16 PM, Darren Hart wrote:
+>>>>> On Thu, 2013-09-12 at 12:19 -0500, Jason Wessel wrote:
+> ...
+>
+>  
+>>>>>> +GRUB_SERIAL ?= "console=ttyS0,115200"
+>>> ...
+>>>
+>>>>> I'm not very familiar with the cfgfile for menus and such, so I don't
+>>>>> have much to add. The one thing that catches me by surprise is the need
+>>>>> for the serial device. On EFI systems, grub here uses the EFI console
+>>>>> service, so if that uses the serial port you get it for free, no need
+>>>>> for GRUB to try and use it directly. In fact.... does the above not
+>>>>> cause some kind of conflict between the EFI console service and grub
+>>>>> serial?
+>>>>>
+>>>> In part that is why it is optional.   With respect to the serial bits,
+>>>> these are only the kernel boot arguments we are talking about.  It
+>>>
+>>> Hrm.... this should be handled with APPEND parameter from the machine
+>>> configs, not a new GRUB_SERIAL statement....
+>>>
+>>
+>> Well there is a problem with that.  You only have 1 APPEND, but I need
+>> 2 options.  The whole point is the ability to add SERIAL or Graphics
+>
+> I don't follow. Do you mean you need both serial and VGA? That is still
+> handled by the single variable. Take the FRI2 for example:
+>
+> APPEND += "console=ttyPCH1,115200 console=tty0"
+>
+> With what you have here, it seems to me this will be ignored and GRUB
+> will instead pass console=ttyS0,115200 - which will not work on the
+> FRI2.
 
-diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
-index 5bd0ab4..309fb57 100644
---- a/meta/conf/distro/include/seperatebuilddir.inc
-+++ b/meta/conf/distro/include/seperatebuilddir.inc
-@@ -34,9 +34,8 @@ B_pn-autoconf-native = "${SEPB}"
- B_pn-autogen-native = "${SEPB}"
- B_pn-automake = "${SEPB}"
- B_pn-automake-native = "${SEPB}"
--#configure: error: *** xmltoman was not found or was disabled, it is required to build the manpages as they have not been pre-built, install xmltoman, pass --disable-manpages or dont pass --disable-xmltoman
--#B_pn-avahi = "${SEPB}"
--#B_pn-avahi-ui = "${SEPB}"
-+B_pn-avahi = "${SEPB}"
-+B_pn-avahi-ui = "${SEPB}"
- B_pn-babeltrace = "${SEPB}"
- B_pn-base-passwd = "${SEPB}"
- #B_pn-bash = "${SEPB}"
-diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
-index 7bb5381..6495ee9 100644
---- a/meta/recipes-connectivity/avahi/avahi.inc
-+++ b/meta/recipes-connectivity/avahi/avahi.inc
-@@ -24,6 +24,7 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
-           file://initscript.patch \
-           file://avahi_fix_install_issue.patch \
-           file://fix_for_automake_1.12.x.patch \
-+          file://out-of-tree.patch \
-           "
- 
- USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
-diff --git a/meta/recipes-connectivity/avahi/files/out-of-tree.patch b/meta/recipes-connectivity/avahi/files/out-of-tree.patch
-new file mode 100644
-index 0000000..43476cd
---- /dev/null
-+++ b/meta/recipes-connectivity/avahi/files/out-of-tree.patch
-@@ -0,0 +1,32 @@
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From a62dc95d75691ea4aefa86d8bbe54c62afd78ff6 Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Tue, 17 Sep 2013 12:27:36 +0100
-+Subject: [PATCH] build-sys: fix out-of-tree builds without xmltoman
-+
-+If manpages are enabled but xmltoman isn't present, out-of-tree builds fail
-+because it checks inside the build directory for the pre-generated manpages.
-+
-+Fix this by using $srcdir when looking for files inside the source directory.
-+---
-+ configure.ac |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 9debce2..047c7ae 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -1021,7 +1021,7 @@ if test x$manpages = xyes ; then
-+     fi
-+ 
-+     if test x$have_xmltoman = xno -o x$xmltoman = xno; then
-+-        if ! test -e man/avahi-daemon.8 ; then
-++        if ! test -e $srcdir/man/avahi-daemon.8 ; then
-+             AC_MSG_ERROR([*** xmltoman was not found or was disabled, it is required to build the manpages as they have not been pre-built, install xmltoman, pass --disable-manpages or dont pass --disable-xmltoman])
-+             exit 1
-+         fi
-+-- 
-+1.7.10.4
-+
--- 
-1.7.10.4
+
+This is fixed in the new series. 
+
+The auto menu is intended to offer the end user the choice of which is their default console.  Obviously you can emit text to both, but you only get one selected as the default input device.
+
+It might not be obvious but we use mingetty and selectively use the console.   The whole alternate boot thing is completely optional.  Now if you set the SERIAL stuff to be "".
+
+It might even be better to point this out more directly by changing the variable names to something like ALT_CONSOLE...
+
+
+>
+>>  console access for early boot all the way through user space hand off
+>> and seamlessly picking things up later in user space with mingetty
+>> etc...
+>>
+>> This option is mainly used for the installer media and to provide a
+>> consistent look and feel regardless if you come from EFI or a PCIBIOS
+>> + syslinux.
+> SYSLINUX also has some recipe-specific console options, but those are
+> due to the syntax differences and are used to specify how syslinux talks
+> to the device, while this appears to be Linux kernel syntax
+> ("console=ttyS0") rather than grub syntax ("serial --unit=0
+> --speed=115200")... and yet I don't see the "console=ttyS0" being passed
+> to the kernel.... so I am confused. Where does the GRUB_SERIAL content
+> actually get used? I mean besides the creation of the btypes array....
+
+
+This is addressed to, but we may yet go another round to clean up the understanding of things.  A v3 to arrive soon.
+
+Cheers,
+Jason.
 
 
