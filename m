@@ -1,43 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f169.google.com (mail-vc0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 949316BDAF
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 339AE60F86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 10:53:43 +0000 (UTC)
-Received: by mail-vc0-f169.google.com with SMTP id ib11so4005193vcb.28
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 03:53:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+Z4Y6FCEGKNf9bLi+4MJk9sXbZgs4fa5NXnpEEIE72g=;
-	b=P4UhSgU8wVGz5UXBcx7RcbHiJbnOtZ+QHkKASm3+ZbNBIKlOBtITnDTtXKOFVpOd29
-	zt+tUPjm4N0AkRrlxkZkrtOWg5BFinIA3ve5mIQYajxbRNtv4BzvctFhVqUsjCvdcMCQ
-	cFGDfn2x8Yik8jjHE/ngvqMsAgPQt2Xl7U3yHx1RsbgPw1zbLBaV0uwy3cfVZyB1B9LM
-	qAePI03rJPVMX9ATZOle82+GAflj2SzueMc9lW4zuENbp6P46aW8UuF8Q9lzRX/qPvZF
-	Tkx+ZIzeTABCEYA2nbWrUd34Whl2d2Y09gKvJixhL7cUq8dp3Sgsd/8U46a7AlOW+l0F
-	I8Sw==
-X-Gm-Message-State: ALoCoQnSoYXT33L1KAY7iSGrY0xagAGqvoyuwFLen6uI26eAUgk21z/O1fXv+NQ0zEx+L5Oeplma
-X-Received: by 10.52.23.113 with SMTP id l17mr8984998vdf.23.1379415224828;
-	Tue, 17 Sep 2013 03:53:44 -0700 (PDT)
+	Tue, 17 Sep 2013 10:58:15 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 34063F8120E; Tue, 17 Sep 2013 04:58:17 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=4.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=unavailable version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 4310EF811DB;
+	Tue, 17 Sep 2013 04:58:16 -0600 (MDT)
+Message-ID: <52383601.9040308@mlbassoc.com>
+Date: Tue, 17 Sep 2013 04:59:13 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 17 Sep 2013 03:53:24 -0700 (PDT)
-In-Reply-To: <20130917103029.GA7313@jama>
-References: <1379114920-23851-1-git-send-email-jslater@windriver.com>
-	<CAMKF1spii+oAutyKLg0+k2Qdp-KccVzX+r0=tX57bBgYkxrMgA@mail.gmail.com>
-	<CAJTo0LazMZXn9bajiMwNhAPiQiry4onu3iZfHws8XKb=sb1BJQ@mail.gmail.com>
-	<523501AC.4010208@linux.intel.com> <5237E49C.7090608@windriver.com>
-	<CAMKF1sqDxGyVnrap0=Jsq=iMFGnXkupjuWnTSwxzBv8K4tqzPg@mail.gmail.com>
-	<20130917103029.GA7313@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Sep 2013 11:53:24 +0100
-Message-ID: <CAJTo0LY0yOaFyn0+DiTgag2bJ4qJ5XM0-=Vz7EMN8ajXsseiiw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <CAH2s=tsyyTMO9KoJMfP0SS4x0vMLphYuDWhPEv0eWeui3CjJ1w@mail.gmail.com>
+	<523784BB.8080404@mlbassoc.com>
+	<CAJTo0LbhQkrrMYLrXJSpPR4MzYx6zYtSBxOVFhAivqH+O96hHA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbhQkrrMYLrXJSpPR4MzYx6zYtSBxOVFhAivqH+O96hHA@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Joe Slater <jslater@windriver.com>
-Subject: Re: [PATCH 1/1] webkit-gtk: limit ld memory requirement
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: re. Enabling x264 support in gstreamer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,18 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 10:53:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 17 Sep 2013 10:58:16 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 17 September 2013 11:30, Martin Jansa <martin.jansa@gmail.com> wrote:
-> I think someone should measure it on machine with a lot of ram. If the
-> test was executed on machine where it was linking mostly from swap,
-> then it's not so surprising it was faster with the option enabled.
+On 2013-09-16 16:32, Burton, Ross wrote:
+> On 16 September 2013 23:22, Gary Thomas <gary@mlbassoc.com> wrote:
+>> I did indeed get it working by using the attached .bbappend file.
+>> Actually pretty simple, I hope that the documentation on PACKAGECONFIG
+>> catches up soon.
+>
+> You don't need the DEPENDS line, the x264 stana specifies that for you.
 
-My very rough test says no significant difference between the option
-being enabled or disabled (~23m +- 30s each way).  i7 with 16GB RAM.
+Thanks, I missed that.
 
-Anyone else want to add a data point?
+>
+> I presume you're refering to something like a worked example of how to
+> use PACKAGECONFIG instead of just a reference?  You should file a bug
+> about that - there's a never-ending amount for Scott to document so
+> pointers for obvious gaps are always welcomed.
 
-Ross
+Done - bug #5214
+
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
