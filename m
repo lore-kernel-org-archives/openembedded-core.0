@@ -1,20 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B8E46C877
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C4A96C801
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 13:57:58 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2013 06:57:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,923,1371106800"; d="scan'208";a="403027518"
-Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.194])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2013 06:57:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2013 14:57:46 +0100
-Message-Id: <1379426266-16725-1-git-send-email-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] cmake-native: fix dependencies
+	Tue, 17 Sep 2013 14:24:43 +0000 (UTC)
+Received: by mail-ie0-f171.google.com with SMTP id at1so10075456iec.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Sep 2013 07:24:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Y+DTFt6mOnQ3ygXEcNJnJbx581VPksWx3/jXOGa1OfI=;
+	b=oaI/2HJA0yI7g0OBs5baqBTaRnDyigPEQ+tNaOAPt14vsjrey4Nb+L2ZGtCwhQXTiI
+	Gnf4c+eG+ikS6nsJCKmKTS1+3ViBrrB4t/qxehempLwnfgi8Wu1KzGart7B5WZ5tW4+K
+	d9q24sDzHbExMJSgnnS3dRfp2XykQ3GzTCdxWhRf6uX6sgM4c3i/KQL7z7bG9SOvAqqT
+	Hmh4kfqebF8/2oHGJN4D7+90K9v8XzhocPgOzWIwsGfcz2hSY4Ccjmw5ZIjINi7fCtVp
+	A/8ht4OLoAr8r11N4j4J7lLtN1PkbNG30ytXqWTW7P/dgbLx+h9609yth2CFwtoq7GPo
+	PTvQ==
+MIME-Version: 1.0
+X-Received: by 10.50.118.105 with SMTP id kl9mr1129289igb.3.1379427884555;
+	Tue, 17 Sep 2013 07:24:44 -0700 (PDT)
+Received: by 10.50.216.195 with HTTP; Tue, 17 Sep 2013 07:24:44 -0700 (PDT)
+In-Reply-To: <CAJTo0LaL_rxVQRdd8r1dkG5zV5FFLk5xBnWP34ME4P2oxu=Gnw@mail.gmail.com>
+References: <cover.1379329974.git.hongxu.jia@windriver.com>
+	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
+	<C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
+	<5237C039.4080001@windriver.com>
+	<CAJTo0LaL_rxVQRdd8r1dkG5zV5FFLk5xBnWP34ME4P2oxu=Gnw@mail.gmail.com>
+Date: Tue, 17 Sep 2013 07:24:44 -0700
+Message-ID: <CAMKF1sr6vktFkfBSySwn3OYqaOd0FY6sy59bHz1GfEJUqOoL=Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] libxml2: fix LSB desktop-xml tests failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,68 +45,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 13:57:59 -0000
+X-List-Received-Date: Tue, 17 Sep 2013 14:24:44 -0000
+Content-Type: multipart/alternative; boundary=089e011769cf0d6c6704e69515cc
 
-When building cmake for native, we don't use the system libraries and
-thus cmake builds its own internal version of libarchive; this requires
-zlib, bzip2, and e2fsprogs. We can add to DEPENDS for the two former
-libraries and patch out the latter.
+--089e011769cf0d6c6704e69515cc
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- .../cmake/cmake-native_2.8.11.2.bb                 |  5 +++++
- .../cmake/cmake/cmlibarchive-disable-ext2fs.patch  | 26 ++++++++++++++++++++++
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/cmlibarchive-disable-ext2fs.patch
+On Tuesday, September 17, 2013, Burton, Ross wrote:
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb b/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb
-index ab31049..e2a157b 100644
---- a/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_2.8.11.2.bb
-@@ -1,5 +1,10 @@
- require cmake.inc
- inherit native
- 
-+# Using cmake's internal libarchive, so some dependencies are needed
-+DEPENDS += "bzip2-native zlib-native"
-+
-+SRC_URI += "file://cmlibarchive-disable-ext2fs.patch"
-+
- SRC_URI[md5sum] = "6f5d7b8e7534a5d9e1a7664ba63cf882"
- SRC_URI[sha256sum] = "b32acb483afdd14339941c6e4ec25f633d916a7a472653a0b00838771a6c0562"
-diff --git a/meta/recipes-devtools/cmake/cmake/cmlibarchive-disable-ext2fs.patch b/meta/recipes-devtools/cmake/cmake/cmlibarchive-disable-ext2fs.patch
-new file mode 100644
-index 0000000..bf36712
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/cmlibarchive-disable-ext2fs.patch
-@@ -0,0 +1,26 @@
-+Disable use of ext2fs/ext2_fs.h by cmake's internal libarchive copy
-+
-+We don't want to add a dependency on e2fsprogs-native for cmake-native,
-+and we don't use CPack so just disable this functionality.
-+
-+Upstream-Status: Inappropriate [config]
-+
-+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-+
-+--- a/Utilities/cmlibarchive/CMakeLists.txt
-++++ b/Utilities/cmlibarchive/CMakeLists.txt
-+@@ -237,12 +237,8 @@ LA_CHECK_INCLUDE_FILE("copyfile.h" HAVE_COPYFILE_H)
-+ LA_CHECK_INCLUDE_FILE("direct.h" HAVE_DIRECT_H)
-+ LA_CHECK_INCLUDE_FILE("dlfcn.h" HAVE_DLFCN_H)
-+ LA_CHECK_INCLUDE_FILE("errno.h" HAVE_ERRNO_H)
-+-LA_CHECK_INCLUDE_FILE("ext2fs/ext2_fs.h" HAVE_EXT2FS_EXT2_FS_H)
-+-
-+-CHECK_C_SOURCE_COMPILES("#include <sys/ioctl.h>
-+-#include <ext2fs/ext2_fs.h>
-+-int main(void) { return EXT2_IOC_GETFLAGS; }" HAVE_WORKING_EXT2_IOC_GETFLAGS)
-+-
-++SET(HAVE_EXT2FS_EXT2_FS_H 0)
-++SET(HAVE_WORKING_EXT2_IOC_GETFLAGS 0)
-+ LA_CHECK_INCLUDE_FILE("fcntl.h" HAVE_FCNTL_H)
-+ LA_CHECK_INCLUDE_FILE("grp.h" HAVE_GRP_H)
-+ LA_CHECK_INCLUDE_FILE("inttypes.h" HAVE_INTTYPES_H)
--- 
-1.8.1.2
+> On 17 September 2013 03:36, Hongxu Jia <hongxu.jia@windriver.com<javascript:;>>
+> wrote:
+> > The upstream of libxml2 has not fixed this issue:
+> > git clone git://git.gnome.org/libxml2
+> >
+> > And I have filed a bug to them
+> > https://bugzilla.gnome.org/show_bug.cgi?id=708205
+> >
+> > After this is fixed and released, also need to report another
+> > bug to LSB to update their libxml2 source code.
+> >
+> > The time cycle is long, should we mark this bug as "Waiting For Upstream"
+> > or accept this patch to workaround for LSB test.
+>
+> Using my amazing ability of talking to the upstream maintainer (DV in
+> #xml on irc.gnome.org) I've sorted this out.
+>
+> The CVE is for *Chromium's fork of libxml*.  Not upstream libxml2.
+> The patch changes a public structure by adding fields *in the middle*,
+> so that broke the ABI.  That's two good reasons to revert the patch.
+> As Daniel has said in the bug, this patch was the quick fix that
+> Chromium did as they statically link to libxml2 so the API breakage
+> isn't an issue, the proper fix is already in libxslt.  As long as we
+> have libxml 2.9.0 and libxslt 1.1.27 onwards (which we do), the issue
+> is correctly fixed.
 
 
+Thanks for sorting this out in real good way
+
+>
+> So, NAK to this patch, and a revert incoming.
+>
+> Ross
+>
+
+--089e011769cf0d6c6704e69515cc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Tuesday, September 17, 2013, Burton, Ross  wrote:<br><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex">On 17 September 2013 03:36, Hongxu Jia &lt;<a href=3D"j=
+avascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;hongxu.jia@windriver=
+.com&#39;)">hongxu.jia@windriver.com</a>&gt; wrote:<br>
+
+&gt; The upstream of libxml2 has not fixed this issue:<br>
+&gt; git clone git://<a href=3D"http://git.gnome.org/libxml2" target=3D"_bl=
+ank">git.gnome.org/libxml2</a><br>
+&gt;<br>
+&gt; And I have filed a bug to them<br>
+&gt; <a href=3D"https://bugzilla.gnome.org/show_bug.cgi?id=3D708205" target=
+=3D"_blank">https://bugzilla.gnome.org/show_bug.cgi?id=3D708205</a><br>
+&gt;<br>
+&gt; After this is fixed and released, also need to report another<br>
+&gt; bug to LSB to update their libxml2 source code.<br>
+&gt;<br>
+&gt; The time cycle is long, should we mark this bug as &quot;Waiting For U=
+pstream&quot;<br>
+&gt; or accept this patch to workaround for LSB test.<br>
+<br>
+Using my amazing ability of talking to the upstream maintainer (DV in<br>
+#xml on <a href=3D"http://irc.gnome.org" target=3D"_blank">irc.gnome.org</a=
+>) I&#39;ve sorted this out.<br>
+<br>
+The CVE is for *Chromium&#39;s fork of libxml*. =C2=A0Not upstream libxml2.=
+<br>
+The patch changes a public structure by adding fields *in the middle*,<br>
+so that broke the ABI. =C2=A0That&#39;s two good reasons to revert the patc=
+h.<br>
+As Daniel has said in the bug, this patch was the quick fix that<br>
+Chromium did as they statically link to libxml2 so the API breakage<br>
+isn&#39;t an issue, the proper fix is already in libxslt. =C2=A0As long as =
+we<br>
+have libxml 2.9.0 and libxslt 1.1.27 onwards (which we do), the issue<br>
+is correctly fixed.</blockquote><div><br></div><div>Thanks for sorting this=
+ out in real good way=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+So, NAK to this patch, and a revert incoming.<br>
+<br>
+Ross<br>
+</blockquote>
+
+--089e011769cf0d6c6704e69515cc--
