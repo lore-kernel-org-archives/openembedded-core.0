@@ -1,26 +1,26 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C691B6C8C3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FB8C6B389
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 13:32:29 +0000 (UTC)
+	Tue, 17 Sep 2013 13:32:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWVq8006701
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWX01028343
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Sep 2013 06:32:31 -0700 (PDT)
+	Tue, 17 Sep 2013 06:32:33 -0700 (PDT)
 Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 17 Sep 2013 06:32:31 -0700
+	Tue, 17 Sep 2013 06:32:32 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Sep 2013 08:32:16 -0500
-Message-ID: <1379424738-16798-8-git-send-email-jason.wessel@windriver.com>
+Date: Tue, 17 Sep 2013 08:32:17 -0500
+Message-ID: <1379424738-16798-9-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
 References: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [v3 PATCH 7/9] syslinux.bbclass: Fix hard coding of console=tty*
+Subject: [v3 PATCH 8/9] boot-directdisk.bbclass: Fix media generation problems with vmdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +36,159 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 17 Sep 2013 13:32:30 -0000
 Content-Type: text/plain
 
-The SYSLINUX_SERIAL variable was hard coded and occasionally needs to
-be different for the kernel argument vs the syslinux argument.
+The various populate methods need to accept a path as an argument vs
+using hard expanded variables.  In the case of the boot-directdisk
+class it uses a different path for HDDDIR but it gets eclipsed by the
+the class definition at the point in time ${HDDDIR} gets expanded.
 
-In the auto-generated boot mode console=tty0 was hard coded, and this
-is not needed at all, and causes problems in some cases if a end user
-wanted to change the console=... via the kernel boot argument APPEND
-mechanism.  The default can be forced with SYSLINUX_DEFAULT_CONSOLE
-for systems that need a special specification to enable the frame
-buffer instead of a serial port.
+The logical fix is to pass the arguments to the functions as opposed
+to using globally expanded variables from the class definitions.
 
-[YOCTO #3944]
+This patch changes 3 things:
+1) syslinux_hddimg_populate takes an argument for the destination
+2) syslinux_iso_populate takes an argument for the destination
+3) populate is changed to boot_direct_populate because there
+   was a conflict with it overriding the populate in bootimg.bbclass
+
+[YOCTO #3994]
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/syslinux.bbclass |   14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+ meta/classes/boot-directdisk.bbclass |   16 ++++++++--------
+ meta/classes/bootimg.bbclass         |    8 ++++----
+ meta/classes/grub-efi.bbclass        |   13 +++++++------
+ meta/classes/syslinux.bbclass        |   12 +++++++-----
+ 4 files changed, 26 insertions(+), 23 deletions(-)
 
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 4b9d7bd..c58c6f0 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -61,15 +61,15 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+ SYSLINUX_ROOT ?= "root=/dev/sda2"
+ SYSLINUX_TIMEOUT ?= "10"
+ 
+-populate() {
+-	DEST=$1
+-	install -d ${DEST}
++boot_direct_populate() {
++	dest=$1
++	install -d $dest
+ 
+ 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
+-	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage ${DEST}/vmlinuz
++	install -m 0644 ${STAGING_KERNEL_DIR}/bzImage $dest/vmlinuz
+ 
+ 	if [ -n "${INITRD}" ] && [ -s "${INITRD}" ]; then
+-		install -m 0644 ${INITRD} ${DEST}/initrd
++		install -m 0644 ${INITRD} $dest/initrd
+ 	fi
+ 
+ }
+@@ -79,13 +79,13 @@ build_boot_dd() {
+ 	HDDIMG="${S}/hdd.image"
+ 	IMAGE=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect
+ 
+-	populate ${HDDDIR}
++	boot_direct_populate $HDDDIR
+ 
+ 	if [ "${PCBIOS}" = "1" ]; then
+-		syslinux_hddimg_populate
++		syslinux_hddimg_populate $HDDDIR
+ 	fi
+ 	if [ "${EFI}" = "1" ]; then
+-		grubefi_hddimg_populate
++		grubefi_hddimg_populate $HDDDIR
+ 	fi
+ 
+ 	BLOCKS=`du -bks $HDDDIR | cut -f 1`
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index fdd4ea9..ede6e21 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -82,10 +82,10 @@ build_iso() {
+ 	populate ${ISODIR}
+ 
+ 	if [ "${PCBIOS}" = "1" ]; then
+-		syslinux_iso_populate
++		syslinux_iso_populate ${ISODIR}
+ 	fi
+ 	if [ "${EFI}" = "1" ]; then
+-		grubefi_iso_populate
++		grubefi_iso_populate ${ISODIR}
+ 		build_fat_img ${EFIIMGDIR} ${ISODIR}/efi.img
+ 	fi
+ 
+@@ -185,10 +185,10 @@ build_hddimg() {
+ 		populate ${HDDDIR}
+ 
+ 		if [ "${PCBIOS}" = "1" ]; then
+-			syslinux_hddimg_populate
++			syslinux_hddimg_populate ${HDDDIR}
+ 		fi
+ 		if [ "${EFI}" = "1" ]; then
+-			grubefi_hddimg_populate
++			grubefi_hddimg_populate ${HDDDIR}
+ 		fi
+ 
+ 		build_fat_img ${HDDDIR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index ffbcf4c..cd6651e 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -42,19 +42,20 @@ grubefi_populate() {
+ }
+ 
+ grubefi_iso_populate() {
+-	grubefi_populate ${ISODIR}
++	iso_dir=$1
++	grubefi_populate $iso_dir
+ 	# Build a EFI directory to create efi.img
+ 	mkdir -p ${EFIIMGDIR}/${EFIDIR}
+-	cp ${ISODIR}/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
+-	cp ${ISODIR}/vmlinuz ${EFIIMGDIR}
++	cp $iso_dir/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
++	cp $iso_dir/vmlinuz ${EFIIMGDIR}
+ 	echo "EFI\\BOOT\\${GRUB_IMAGE}" > ${EFIIMGDIR}/startup.nsh
+-	if [ -f "${ISODIR}/initrd" ] ; then
+-		cp ${ISODIR}/initrd ${EFIIMGDIR}
++	if [ -f "$iso_dir/initrd" ] ; then
++		cp $iso_dir/initrd ${EFIIMGDIR}
+ 	fi
+ }
+ 
+ grubefi_hddimg_populate() {
+-	grubefi_populate ${HDDDIR}
++	grubefi_populate $1
+ }
+ 
+ python build_grub_cfg() {
 diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index 223e4dc..91b9731 100644
+index 91b9731..944bd92 100644
 --- a/meta/classes/syslinux.bbclass
 +++ b/meta/classes/syslinux.bbclass
-@@ -12,7 +12,9 @@
- # ${APPEND} - an override list of append strings for each label
- # ${SYSLINUX_OPTS} - additional options to add to the syslinux file ';' delimited
- # ${SYSLINUX_SPLASH} - A background for the vga boot menu if using the boot menu
-+# ${SYSLINUX_DEFAULT_CONSOLE} - set to "console=ttyX" to change kernel boot default console
- # ${SYSLINUX_SERIAL} - Set an alternate serial port or turn off serial with empty string
-+# ${SYSLINUX_SERIAL_TTY} - Set alternate console=tty... kernel boot argument
+@@ -53,14 +53,16 @@ syslinux_populate() {
+ }
  
- do_bootimg[depends] += "syslinux:do_populate_sysroot \
-                         syslinux-native:do_populate_sysroot"
-@@ -21,7 +23,11 @@ SYSLINUXCFG  = "${S}/syslinux.cfg"
+ syslinux_iso_populate() {
+-	syslinux_populate ${ISODIR} ${ISOLINUXDIR} isolinux.cfg
+-	install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
+-	install -m 0644 ${STAGING_DATADIR}/syslinux/ldlinux.c32 ${ISODIR}${ISOLINUXDIR}
++	iso_dir=$1
++	syslinux_populate $iso_dir ${ISOLINUXDIR} isolinux.cfg
++	install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin $iso_dir${ISOLINUXDIR}
++	install -m 0644 ${STAGING_DATADIR}/syslinux/ldlinux.c32 $iso_dir${ISOLINUXDIR}
+ }
  
- ISOLINUXDIR = "/isolinux"
- SYSLINUXDIR = "/"
-+# The kernel has an internal default console, which you can override with
-+# a console=...some_tty...
-+SYSLINUX_DEFAULT_CONSOLE ?= ""
- SYSLINUX_SERIAL ?= "0 115200"
-+SYSLINUX_SERIAL_TTY ?= "ttyS0,115200"
- ISO_BOOTIMG = "isolinux/isolinux.bin"
- ISO_BOOTCAT = "isolinux/boot.cat"
- MKISOFS_OPTIONS = "-no-emul-boot -boot-load-size 4 -boot-info-table"
-@@ -102,6 +108,8 @@ python build_syslinux_cfg () {
-             cfgfile.write('%s\n' % opt)
+ syslinux_hddimg_populate() {
+-	syslinux_populate ${HDDDIR} ${SYSLINUXDIR} syslinux.cfg
+-	install -m 0444 ${STAGING_DATADIR}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
++	hdd_dir=$1
++	syslinux_populate $hdd_dir ${SYSLINUXDIR} syslinux.cfg
++	install -m 0444 ${STAGING_DATADIR}/syslinux/ldlinux.sys $hdd_dir${SYSLINUXDIR}/ldlinux.sys
+ }
  
-     cfgfile.write('ALLOWOPTIONS 1\n');
-+    syslinux_default_console = d.getVar('SYSLINUX_DEFAULT_CONSOLE', True)
-+    syslinux_serial_tty = d.getVar('SYSLINUX_SERIAL_TTY', True)
-     syslinux_serial = d.getVar('SYSLINUX_SERIAL', True)
-     if syslinux_serial:
-         cfgfile.write('SERIAL %s\n' % syslinux_serial)
-@@ -144,10 +152,10 @@ python build_syslinux_cfg () {
-         localdata.setVar('OVERRIDES', label + ':' + overrides)
-         bb.data.update_data(localdata)
-     
--        btypes = [ [ "", "console=tty0" ] ]
-+        btypes = [ [ "", syslinux_default_console ] ]
-         if menu and syslinux_serial:
--            btypes = [ [ "Graphics console ", " console=tty0" ],
--                [ "Serial console ",  " console=ttyS0,115200" ] ]
-+            btypes = [ [ "Graphics console ", syslinux_default_console  ],
-+                [ "Serial console ", syslinux_serial_tty ] ]
- 
-         for btype in btypes:
-             cfgfile.write('LABEL %s%s\nKERNEL /vmlinuz\n' % (btype[0], label))
+ syslinux_hddimg_install() {
 -- 
 1.7.9.5
 
