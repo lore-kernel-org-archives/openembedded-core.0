@@ -1,29 +1,37 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 049596C7A6
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-yh0-f54.google.com (mail-yh0-f54.google.com
+	[209.85.213.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F44D61589
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 02:36:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8H2ahn2025327
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 16 Sep 2013 19:36:43 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 16 Sep 2013 19:36:43 -0700
-Message-ID: <5237C039.4080001@windriver.com>
-Date: Tue, 17 Sep 2013 10:36:41 +0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1379329974.git.hongxu.jia@windriver.com>
-	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
-	<C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
-In-Reply-To: <C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libxml2: fix LSB desktop-xml tests failure
+	Tue, 17 Sep 2013 04:18:27 +0000 (UTC)
+Received: by mail-yh0-f54.google.com with SMTP id z20so2493466yhz.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Sep 2013 21:18:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=zFr+1uMAJPsJInvlt84pJYhQLbFLZayUmeTlQaIrGbA=;
+	b=OEMvD5ZFvsApoaJVv52YlajcDcKlVSeVv/Q+1/8ykABFyBsOmw8jrrREjJmCS69Ekb
+	1gu0MGQSuhWiQP25QDl5CCNEr33Jqt/OdV6WHTfuvH4AGb5oYhXPxy4MbstXJrIj0DnY
+	NHJik2XC/c8CC6ShP89J+Zp4RTGKcWpEj1SFlZ9N9f1ZmSB+Tbvtz3Y8ljlTaVtyTet3
+	B0wHIKe8J2JBtPx5fj2YQ9yXoMgm9gB5CxXbyZlkd0NyGeotM9vkdLYYRUa9LjUPoFQa
+	eObuH7QHW+7rnS4fly4IjlSXUyiJpEfMh6xKiLfh/2xfqFF9ptNW5xTJqjPPO3lMID83
+	DEYw==
+X-Received: by 10.236.91.109 with SMTP id g73mr18454947yhf.24.1379391508537;
+	Mon, 16 Sep 2013 21:18:28 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.194.209.11])
+	by mx.google.com with ESMTPSA id
+	a21sm43323571yhc.23.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 16 Sep 2013 21:18:28 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Sep 2013 01:18:20 -0300
+Message-Id: <1379391500-22149-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.4.rc3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] perf: Ensure we use CFLAGS and LDFLAGS settings from kernel build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,173 +44,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 02:36:44 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060805050308030504070001"
+X-List-Received-Date: Tue, 17 Sep 2013 04:18:28 -0000
 
---------------060805050308030504070001
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+The kernel build system does the right thing here and we should stop
+overriding it. This code has been added based on a change from
+'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
+without any information about what problem it fixes so I am reverting
+it.
 
-On 09/17/2013 01:09 AM, Khem Raj wrote:
-> On Sep 16, 2013, at 4:14 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
->
->> The commit
->> http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=8780c5ddf2916bbd42fc67b79c286652aebb1546
->> add a patch to fix a security issue. It modify include file 'tree.h'
->> to add 'const char *dummy_children' on 'struct _xmlNs'.
->>
->> But lsb test suites didn't do this in his own include file, so the LSB
->> desktop-xml tests failed.
-> IMO the testcase should be fixed. This is security patch that you are disabling. I don't think LSB compliance
-> should mean less secure
->
+Using the CFLAGS and LDFLAGS makes it impossible for kernel build
+system to append to it, thus making the build fail in various ways as:
 
-The upstream of libxml2 has not fixed this issue:
-git clone git://git.gnome.org/libxml2
+|     CC /.../perf/1.0-r8/perf-1.0/perf.o
+| In file included from builtin.h:4:0,
+|                  from perf.c:9:
+| util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
+|  #include <lk/debugfs.h>
+|                         ^
+| compilation terminated.
 
-And I have filed a bug to them
-https://bugzilla.gnome.org/show_bug.cgi?id=708205
+The unset is done in do_compile and do_install otherwise it /rebuild/
+perf as it detects the compiler options has change.
 
-After this is fixed and released, also need to report another
-bug to LSB to update their libxml2 source code.
-
-The time cycle is long, should we mark this bug as "Waiting For Upstream"
-or accept this patch to workaround for LSB test.
-
-Thanks,
-Hongxu
-
->> Disable this patch for linuxstdbase could fix this issue.
->>
->> [YOCTO #5151]
->>
->> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->> ---
->> meta/recipes-core/libxml/libxml2_2.9.1.bb | 5 ++++-
->> 1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
->> index fa9c657..3b031a1 100644
->> --- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
->> +++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
->> @@ -1,6 +1,9 @@
->> require libxml2.inc
->>
->> -SRC_URI += "file://libxml2-CVE-2012-2871.patch \
->> +LIBXML2_CVE = "file://libxml2-CVE-2012-2871.patch"
->> +LIBXML2_CVE_linuxstdbase = ""
->> +
->> +SRC_URI += "${LIBXML2_CVE} \
->>              http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
->> 	   "
->>
->> -- 
->> 1.8.1.2
->>
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---------------060805050308030504070001
-Content-Type: text/html; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">On 09/17/2013 01:09 AM, Khem Raj wrote:<br>
-    </div>
-    <blockquote
-      cite="mid:C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com"
-      type="cite">
-      <pre wrap="">
-On Sep 16, 2013, at 4:14 AM, Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a> wrote:
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">The commit
-<a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=8780c5ddf2916bbd42fc67b79c286652aebb1546">http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=8780c5ddf2916bbd42fc67b79c286652aebb1546</a>
-add a patch to fix a security issue. It modify include file 'tree.h'
-to add 'const char *dummy_children' on 'struct _xmlNs'.
-
-But lsb test suites didn't do this in his own include file, so the LSB
-desktop-xml tests failed.
-</pre>
-      </blockquote>
-      <pre wrap="">
-IMO the testcase should be fixed. This is security patch that you are disabling. I don't think LSB compliance
-should mean less secure
-
-</pre>
-    </blockquote>
-    <br>
-    The upstream of libxml2 has not fixed this issue:<br>
-    git clone git://git.gnome.org/libxml2<br>
-    <br>
-    And I have filed a bug to them<br>
-    <meta http-equiv="content-type" content="text/html;
-      charset=ISO-8859-1">
-    <a href="https://bugzilla.gnome.org/show_bug.cgi?id=708205">https://bugzilla.gnome.org/show_bug.cgi?id=708205</a><br>
-    <br>
-    After this is fixed and released, also need to report another<br>
-    bug to LSB to update their libxml2 source code.<br>
-    <br>
-    The time cycle is long, should we mark this bug as "Waiting For
-    Upstream"<br>
-    or accept this patch to workaround for LSB test.<br>
-    <br>
-    Thanks,<br>
-    Hongxu<br>
-    <br>
-    <blockquote
-      cite="mid:C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com"
-      type="cite">
-      <blockquote type="cite">
-        <pre wrap="">
-Disable this patch for linuxstdbase could fix this issue.
-
-[YOCTO #5151]
-
-Signed-off-by: Hongxu Jia <a class="moz-txt-link-rfc2396E" href="mailto:hongxu.jia@windriver.com">&lt;hongxu.jia@windriver.com&gt;</a>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
-meta/recipes-core/libxml/libxml2_2.9.1.bb | 5 ++++-
-1 file changed, 4 insertions(+), 1 deletion(-)
+Changes in v2:
+- unset CFLAGS and LDFLAGS
+- reword commit log
 
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
-index fa9c657..3b031a1 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
-@@ -1,6 +1,9 @@
-require libxml2.inc
+ meta/recipes-kernel/perf/perf.bb | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
--SRC_URI += <a class="moz-txt-link-rfc2396E" href="file://libxml2-CVE-2012-2871.patch\+LIBXML2_CVE=">"file://libxml2-CVE-2012-2871.patch \
-+LIBXML2_CVE = "</a<a class="moz-txt-link-rfc2396E" href="file://libxml2-CVE-2012-2871.patch">"file://libxml2-CVE-2012-2871.patch"</a>
-+LIBXML2_CVE_linuxstdbase = ""
-+
-+SRC_URI += "${LIBXML2_CVE} \
-            <a class="moz-txt-link-freetext" href="http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar">http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar</a> \
-	   "
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index d2c1048..4a815ff 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -60,7 +60,6 @@ B = "${WORKDIR}/${BPN}-${PV}"
+ SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
+ TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
+ 
+-export LDFLAGS = "-ldl -lutil"
+ EXTRA_OEMAKE = \
+ 		'-C ${S}/tools/perf \
+ 		O=${B} \
+@@ -72,13 +71,7 @@ EXTRA_OEMAKE = \
+ 		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+ 		'
+ 
+-# We already pass the correct arguments to our compiler for the CFLAGS (if we
+-# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was failing
+-# to find bfd symbols.
+ EXTRA_OEMAKE += "\
+-	'CFLAGS=${CFLAGS} -fPIC' \
+-	'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
+-	\
+ 	'prefix=${prefix}' \
+ 	'bindir=${bindir}' \
+ 	'sharedir=${datadir}' \
+@@ -94,10 +87,14 @@ EXTRA_OEMAKE += "\
+ PARALLEL_MAKE = ""
+ 
+ do_compile() {
++	# Linux kernel build system is expected to do the right thing
++	unset CFLAGS LDFLAGS
+ 	oe_runmake all
+ }
+ 
+ do_install() {
++	# Linux kernel build system is expected to do the right thing
++	unset CFLAGS LDFLAGS
+ 	oe_runmake DESTDIR=${D} install
+ 	# we are checking for this make target to be compatible with older perf versions
+ 	if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" -a $(grep install-python_ext ${S}/tools/perf/Makefile) = "0"]; then
 -- 
-1.8.1.2
+1.8.4.rc3
 
-_______________________________________________
-Openembedded-core mailing list
-<a class="moz-txt-link-abbreviated" href="mailto:Openembedded-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>
-<a class="moz-txt-link-freetext" href="http://lists.openembedded.org/mailman/listinfo/openembedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a>
-</pre>
-      </blockquote>
-      <pre wrap="">
-</pre>
-    </blockquote>
-    <br>
-  </body>
-</html>
 
---------------060805050308030504070001--
