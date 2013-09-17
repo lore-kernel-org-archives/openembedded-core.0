@@ -1,26 +1,28 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F07256B389
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 13:32:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWWgB006708
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Sep 2013 06:32:32 -0700 (PDT)
-Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 17 Sep 2013 06:32:32 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Sep 2013 08:32:18 -0500
-Message-ID: <1379424738-16798-10-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
-References: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
+Return-Path: <Bjoern.Stenberg@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id BBB536C894
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Sep 2013 13:35:47 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Tue, 17 Sep 2013 15:35:46 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id BA80728BD31;
+	Tue, 17 Sep 2013 15:35:46 +0200 (CEST)
+Date: Tue, 17 Sep 2013 15:35:46 +0200
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+To: Chris Larson <clarson@kergoth.com>
+Message-ID: <20130917133546.GY26522@sestofb10.enea.se>
+References: <cover.1378890742.git.rongqing.li@windriver.com>
+	<dec697bffb0eebaeb34f5acd32929ba866174585.1378890742.git.rongqing.li@windriver.com>
+	<CABcZANk8PQkxHUZ93-bSzgoSzc2_W3ArNT7_cD1v47oLBL7X7g@mail.gmail.com>
 MIME-Version: 1.0
-Cc: dvhart@linux.intel.com
-Subject: [v3 PATCH 9/9] bootimage.bbclass, zisofs-tools-native: add ability to compress ISO images
+In-Reply-To: <CABcZANk8PQkxHUZ93-bSzgoSzc2_W3ArNT7_cD1v47oLBL7X7g@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] ptest-runner: trivial fixes and refine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,118 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 13:32:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Sep 2013 13:35:48 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The mkzftree is needed to allow ISO images to be compressed with
-minimal runtime overhead.  Below is an example of the savings on a
-core-image-minimal.
+Chris Larson wrote:
+> On Wed, Sep 11, 2013 at 2:17 AM, <rongqing.li@windriver.com> wrote:
+>=20
+> > +    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
+> > +    do
+> >
+>=20
+> As far as I can tell, busybox find doesn't support -L, so this adds an
+> implicit, undeclared dependency upon findutils.
 
-Before ls -l:
-24117248 core-image-minimal-qemux86-64.iso
+That is correct. Busybox find does however support -follow, which in turn G=
+NU find does not...
 
-Using the mkzftree ls -l:
-16777216 core-image-minimal-qemux86-64.iso
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
----
- meta/classes/bootimg.bbclass                       |   24 +++++++++++++++++---
- .../zisofs-tools/zisofs-tools-native_1.0.8.bb      |   19 ++++++++++++++++
- 2 files changed, 40 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index ede6e21..395085d 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -19,13 +19,15 @@
- 
- # External variables (also used by syslinux.bbclass)
- # ${INITRD} - indicates a filesystem image to use as an initrd (optional)
-+# ${COMPRESSISO} - Transparent compress ISO, reduce size ~40% if set to 1
- # ${NOISO}  - skip building the ISO image if set to 1
- # ${NOHDD}  - skip building the HDD image if set to 1
- # ${ROOTFS} - indicates a filesystem image to include as the root filesystem (optional)
- 
- do_bootimg[depends] += "dosfstools-native:do_populate_sysroot \
-                         mtools-native:do_populate_sysroot \
--                        cdrtools-native:do_populate_sysroot"
-+                        cdrtools-native:do_populate_sysroot \
-+                        ${@oe.utils.ifelse(d.getVar('COMPRESSISO'),'zisofs-tools-native:do_populate_sysroot','')}"
- 
- PACKAGES = " "
- EXCLUDE_FROM_WORLD = "1"
-@@ -33,6 +35,8 @@ EXCLUDE_FROM_WORLD = "1"
- HDDDIR = "${S}/hddimg"
- ISODIR = "${S}/iso"
- EFIIMGDIR = "${S}/efi_img"
-+COMPACT_ISODIR = "${S}/iso.z"
-+COMPRESSISO ?= "0"
- 
- BOOTIMG_VOLUME_ID   ?= "boot"
- BOOTIMG_EXTRA_SPACE ?= "512"
-@@ -97,18 +101,32 @@ build_iso() {
- 		install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
- 	fi
- 
-+	if [ "${COMPRESSISO}" = "1" ] ; then
-+		# create compact directory, compress iso
-+		mkdir -p ${COMPACT_ISODIR}
-+		mkzftree -z 9 -p 4 -F ${ISODIR}/rootfs.img ${COMPACT_ISODIR}/rootfs.img
-+
-+		# move compact iso to iso, then remove compact directory
-+		mv ${COMPACT_ISODIR}/rootfs.img ${ISODIR}/rootfs.img
-+		rm -Rf ${COMPACT_ISODIR}
-+		mkisofs_compress_opts="-R -z -D -l"
-+	else
-+		mkisofs_compress_opts="-r"
-+	fi
-+
- 	if [ "${PCBIOS}" = "1" ] && [ "${EFI}" != "1" ] ; then
- 		# PCBIOS only media
- 		mkisofs -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
--			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} -r \
-+			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} \
-+			$mkisofs_compress_opts \
- 			${MKISOFS_OPTIONS} ${ISODIR}
- 	else
- 		# EFI only OR EFI+PCBIOS
- 		mkisofs -A ${BOOTIMG_VOLUME_ID} -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
- 			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} \
--			-r ${MKISOFS_OPTIONS} \
-+			$mkisofs_compress_opts ${MKISOFS_OPTIONS} \
- 			-eltorito-alt-boot -eltorito-platform efi \
- 			-b efi.img -no-emul-boot \
- 			${ISODIR}
-diff --git a/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-new file mode 100644
-index 0000000..1501307
---- /dev/null
-+++ b/meta/recipes-devtools/zisofs-tools/zisofs-tools-native_1.0.8.bb
-@@ -0,0 +1,19 @@
-+# zisofs-tools-native OE build file
-+# Copyright (C) 1989, 1991 Free Software Foundation, Inc.
-+SUMMARY = "A set of tools for iso file compression"
-+DESCRIPTION = "A set of tools for iso file compression"
-+HOMEPAGE = "http://http://freecode.com/projects/zisofs-tools"
-+SECTION = "console/utils"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
-+
-+SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/zisofs-tools/zisofs-tools-${PV}.tar.bz2/2d0ed8c9a1f60b45f949b136f9be1f6c/zisofs-tools-${PV}.tar.bz2"
-+
-+SRC_URI[md5sum] = "2d0ed8c9a1f60b45f949b136f9be1f6c"
-+SRC_URI[sha256sum] = "ae4e53e4914934d41660248fb59d3c8761f1f1fd180d5ec993c17ddb3afd04f3"
-+
-+inherit native
-+
-+do_install() {
-+	oe_runmake install INSTALLROOT=${D} bindir=${bindir}
-+}
--- 
-1.7.9.5
-
+--=20
+Bj=F6rn
 
