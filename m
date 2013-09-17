@@ -1,26 +1,26 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 220956C8DF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DE726C8DF
 	for <Openembedded-core@lists.openembedded.org>;
 	Tue, 17 Sep 2013 13:32:28 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWU6Y028337
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWUCs006695
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
 	Tue, 17 Sep 2013 06:32:30 -0700 (PDT)
 Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 17 Sep 2013 06:32:29 -0700
+	Tue, 17 Sep 2013 06:32:30 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Sep 2013 08:32:13 -0500
-Message-ID: <1379424738-16798-5-git-send-email-jason.wessel@windriver.com>
+Date: Tue, 17 Sep 2013 08:32:14 -0500
+Message-ID: <1379424738-16798-6-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
 References: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [v3 PATCH 4/9] syslinux.bbclass, syslinux: Update to syslinux 6.01
+Subject: [v3 PATCH 5/9] bootimage.bbclass, grub-efi.bbclass: Improve EFI & PCBIOS+EFI ISO support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,135 +36,134 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 17 Sep 2013 13:32:28 -0000
 Content-Type: text/plain
 
-A newer version of syslinux is required for an EFI enabled isohybrid.
-This is used for the the capability to generate 3 types of ISO images,
-all of which can be booted off a USB device or HDD if copied with dd.
+Using the latest mkisofs it is possible to generate 3 different types
+of ISO images, which can be used in various scenarios.
 
-1) PC BIOS only ISO
-2) EFI only ISO
-3) EFI + PC BIOS ISO
+1) PCBIOS Only ISO
+   - This option remains unchanged by this commit
+   - Uses syslinux menus
+   - Can be directly copied with dd to a USB device
+   - Can be burned to optical media
 
-The syslinux.bbclass required a minor tweak because a few .c32
-libraries require dynamic loading from the created media as of
-syslinux 5 and up.  This was a good time to also fix the
-duplication of the AUTO_SYSLINUXMENU block.
+2) EFI Only ISO
+   - Uses grub 2 menus
+   - Can be burned to optical media
+   - If you want to use this image on a USB device
+     extra steps must be taken in order to format the USB
+     device with fat32, and copy an EFI loader which will
+     in turn load the iso image
+
+3) PCBIOS / EFI ISO
+   - This is a hybrid image ISO that will work for case 1 or 2
+     as above with the same restrictions and boot menu types
+     depending on what type of firmware is installed on
+     the hardware or depending on if EFI or "Legacy Boot" is
+     enabled on some UEFI firmwares.
+
+The syslinux.bbclass is now always required because that is where the
+isohybrid dependencies come from as well as the configuration data for
+the isohybrid.  The isohybrid is the secret sauce which allows the ISO
+to work as optical media or as a disk image on USB or a HDD/SSD.
 
 [YOCTO #4100]
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 ---
- meta/classes/syslinux.bbclass                      |   21 +++++++---------
- .../{syslinux_4.07.bb => syslinux_6.01.bb}         |   26 ++++++++++++--------
- 2 files changed, 25 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/syslinux/{syslinux_4.07.bb => syslinux_6.01.bb} (63%)
+ meta/classes/bootimg.bbclass  |   35 +++++++++++++++++++++++------------
+ meta/classes/grub-efi.bbclass |    8 ++++++++
+ 2 files changed, 31 insertions(+), 12 deletions(-)
 
-diff --git a/meta/classes/syslinux.bbclass b/meta/classes/syslinux.bbclass
-index dae6609..223e4dc 100644
---- a/meta/classes/syslinux.bbclass
-+++ b/meta/classes/syslinux.bbclass
-@@ -36,28 +36,25 @@ syslinux_populate() {
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index bd211fb..fdd4ea9 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -32,6 +32,7 @@ EXCLUDE_FROM_WORLD = "1"
  
- 	# Install the config files
- 	install -m 0644 ${SYSLINUXCFG} ${DEST}${BOOTDIR}/${CFGNAME}
-+	if [ "${AUTO_SYSLINUXMENU}" = 1 ] ; then
-+		install -m 0644 ${STAGING_DATADIR}/syslinux/vesamenu.c32 ${DEST}${BOOTDIR}/vesamenu.c32
-+		install -m 0444 ${STAGING_DATADIR}/syslinux/libcom32.c32 ${DEST}${BOOTDIR}/libcom32.c32
-+		install -m 0444 ${STAGING_DATADIR}/syslinux/libutil.c32 ${DEST}${BOOTDIR}/libutil.c32
-+		if [ "${SYSLINUX_SPLASH}" != "" ] ; then
-+			install -m 0644 ${SYSLINUX_SPLASH} ${DEST}${BOOTDIR}/splash.lss
-+		fi
+ HDDDIR = "${S}/hddimg"
+ ISODIR = "${S}/iso"
++EFIIMGDIR = "${S}/efi_img"
+ 
+ BOOTIMG_VOLUME_ID   ?= "boot"
+ BOOTIMG_EXTRA_SPACE ?= "512"
+@@ -48,15 +49,10 @@ def pcbios(d):
+         pcbios = base_contains("MACHINE_FEATURES", "efi", "0", "1", d)
+     return pcbios
+ 
+-def pcbios_class(d):
+-    if d.getVar("PCBIOS", True) == "1":
+-        return "syslinux"
+-    return ""
+-
+ PCBIOS = "${@pcbios(d)}"
+-PCBIOS_CLASS = "${@pcbios_class(d)}"
+ 
+-inherit ${PCBIOS_CLASS}
++# The syslinux is required for the isohybrid command and boot catalog
++inherit syslinux
+ inherit ${EFI_CLASS}
+ 
+ populate() {
+@@ -90,21 +86,36 @@ build_iso() {
+ 	fi
+ 	if [ "${EFI}" = "1" ]; then
+ 		grubefi_iso_populate
++		build_fat_img ${EFIIMGDIR} ${ISODIR}/efi.img
+ 	fi
+ 
+-	if [ "${PCBIOS}" = "1" ]; then
++	# EFI only
++	if [ "${PCBIOS}" != "1" ] && [ "${EFI}" = "1" ] ; then
++		# Work around bug in isohybrid where it requires isolinux.bin
++		# In the boot catalog, even though it is not used
++		mkdir -p ${ISODIR}/${ISOLINUXDIR}
++		install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
++	fi
++
++	if [ "${PCBIOS}" = "1" ] && [ "${EFI}" != "1" ] ; then
++		# PCBIOS only media
+ 		mkisofs -V ${BOOTIMG_VOLUME_ID} \
+ 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
+ 			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} -r \
+ 			${MKISOFS_OPTIONS} ${ISODIR}
+ 	else
+-		bbnote "EFI-only ISO images are untested, please provide feedback."
+-		mkisofs -V ${BOOTIMG_VOLUME_ID} \
++		# EFI only OR EFI+PCBIOS
++		mkisofs -A ${BOOTIMG_VOLUME_ID} -V ${BOOTIMG_VOLUME_ID} \
+ 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
+-			-r ${ISODIR}
++			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} \
++			-r ${MKISOFS_OPTIONS} \
++			-eltorito-alt-boot -eltorito-platform efi \
++			-b efi.img -no-emul-boot \
++			${ISODIR}
++		isohybrid_args="-u"
+ 	fi
+ 
+-	isohybrid ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso
++	isohybrid $isohybrid_args ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso
+ 
+ 	cd ${DEPLOY_DIR_IMAGE}
+ 	rm -f ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
+index c6f5d4e..c21babb 100644
+--- a/meta/classes/grub-efi.bbclass
++++ b/meta/classes/grub-efi.bbclass
+@@ -41,6 +41,14 @@ grubefi_populate() {
+ 
+ grubefi_iso_populate() {
+ 	grubefi_populate ${ISODIR}
++	# Build a EFI directory to create efi.img
++	mkdir -p ${EFIIMGDIR}/${EFIDIR}
++	cp ${ISODIR}/${EFIDIR}/* ${EFIIMGDIR}${EFIDIR}
++	cp ${ISODIR}/vmlinuz ${EFIIMGDIR}
++	echo "EFI\\BOOT\\${GRUB_IMAGE}" > ${EFIIMGDIR}/startup.nsh
++	if [ -f "${ISODIR}/initrd" ] ; then
++		cp ${ISODIR}/initrd ${EFIIMGDIR}
 +	fi
  }
  
- syslinux_iso_populate() {
- 	syslinux_populate ${ISODIR} ${ISOLINUXDIR} isolinux.cfg
- 	install -m 0644 ${STAGING_DATADIR}/syslinux/isolinux.bin ${ISODIR}${ISOLINUXDIR}
--	if [ "${AUTO_SYSLINUXMENU}" = 1 ] ; then
--		install -m 0644 ${STAGING_DATADIR}/syslinux/vesamenu.c32 ${ISODIR}${ISOLINUXDIR}/vesamenu.c32
--		if [ "${SYSLINUX_SPLASH}" != "" ] ; then
--			install -m 0644 ${SYSLINUX_SPLASH} ${ISODIR}${ISOLINUXDIR}/splash.lss
--		fi
--	fi
-+	install -m 0644 ${STAGING_DATADIR}/syslinux/ldlinux.c32 ${ISODIR}${ISOLINUXDIR}
- }
- 
- syslinux_hddimg_populate() {
- 	syslinux_populate ${HDDDIR} ${SYSLINUXDIR} syslinux.cfg
- 	install -m 0444 ${STAGING_DATADIR}/syslinux/ldlinux.sys ${HDDDIR}${SYSLINUXDIR}/ldlinux.sys
--	if [ "${AUTO_SYSLINUXMENU}" = 1 ] ; then
--		install -m 0644 ${STAGING_DATADIR}/syslinux/vesamenu.c32 ${HDDDIR}${SYSLINUXDIR}/vesamenu.c32
--		if [ "${SYSLINUX_SPLASH}" != "" ] ; then
--			install -m 0644 ${SYSLINUX_SPLASH} ${HDDDIR}${SYSLINUXDIR}/splash.lss
--		fi
--	fi
- }
- 
- syslinux_hddimg_install() {
-diff --git a/meta/recipes-devtools/syslinux/syslinux_4.07.bb b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-similarity index 63%
-rename from meta/recipes-devtools/syslinux/syslinux_4.07.bb
-rename to meta/recipes-devtools/syslinux/syslinux_6.01.bb
-index bba5dda..4438ea8 100644
---- a/meta/recipes-devtools/syslinux/syslinux_4.07.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.01.bb
-@@ -2,19 +2,21 @@ DESCRIPTION = "A multi-purpose linux bootloader"
- HOMEPAGE = "http://syslinux.zytor.com/"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
--                    file://README;beginline=35;endline=41;md5=f7249a750bc692d1048b2626752aa415"
-+                    file://README;beginline=35;endline=41;md5=558f2c71cb1fb9ba511ccd4858e48e8a"
- 
- # If you really want to run syslinux, you need mtools.  We just want the
- # ldlinux.* stuff for now, so skip mtools-native
- DEPENDS = "nasm-native util-linux"
--PR = "r0"
- 
--SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/4.xx/syslinux-${PV}.tar.bz2"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/utils/boot/syslinux/6.xx/syslinux-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "9ff6e1b94efab931fb4717b600d88779"
--SRC_URI[sha256sum] = "1240a4e4219b518bdaef78931b6e901befeff35e6894ac6db785115848a7a05a"
-+SRC_URI[md5sum] = "6945ee89e29119d459baed4937bbc534"
-+SRC_URI[sha256sum] = "83a04cf81e6a46b80ee5a321926eea095af3498b04317e3674b46c125c7a5b43"
- 
- COMPATIBLE_HOST = '(x86_64|i.86).*-(linux|freebsd.*)'
-+# Don't let the sanity checker trip on the 32 bit real mode BIOS binaries
-+INSANE_SKIP_${PN}-misc = "arch"
-+INSANE_SKIP_${PN}-chain = "arch"
- 
- EXTRA_OEMAKE = " \
- 	BINDIR=${bindir} SBINDIR=${sbindir} LIBDIR=${libdir} \
-@@ -28,21 +30,25 @@ do_configure() {
- 	sed -e 's,win32/\S*,,g' -i Makefile
- 
- 	# clean installer executables included in source tarball
--	oe_runmake clean
-+	oe_runmake clean firmware="efi32" EFIINC="${includedir}"
-+	# NOTE: There is a temporary work around above to specify
-+	#	the efi32 as the firmware else the pre-built bios
-+	#	files get erased contrary to the doc/distib.txt
-+	#	In the future this should be "bios" and not "efi32".
- }
- 
- do_compile() {
- 	# Rebuild only the installer; keep precompiled bootloaders
- 	# as per author's request (doc/distrib.txt)
--	oe_runmake CC="${CC} ${CFLAGS}" LDFLAGS="${LDFLAGS}" installer
-+	oe_runmake CC="${CC} ${CFLAGS}" LDFLAGS="${LDFLAGS}" firmware="bios" installer
- }
- 
- do_install() {
--	oe_runmake install INSTALLROOT="${D}"
-+	oe_runmake install INSTALLROOT="${D}" firmware="bios"
- 
- 	install -d ${D}${datadir}/syslinux/
--	install -m 644 ${S}/core/ldlinux.sys ${D}${datadir}/syslinux/
--	install -m 644 ${S}/core/ldlinux.bss ${D}${datadir}/syslinux/
-+	install -m 644 ${S}/bios/core/ldlinux.sys ${D}${datadir}/syslinux/
-+	install -m 644 ${S}/bios/core/ldlinux.bss ${D}${datadir}/syslinux/
- }
- 
- PACKAGES += "${PN}-extlinux ${PN}-mbr ${PN}-chain ${PN}-pxelinux ${PN}-isolinux ${PN}-misc"
+ grubefi_hddimg_populate() {
 -- 
 1.7.9.5
 
