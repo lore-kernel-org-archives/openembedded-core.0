@@ -1,11 +1,11 @@
 Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 78EDE6B389
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E9C826B389
 	for <Openembedded-core@lists.openembedded.org>;
 	Tue, 17 Sep 2013 13:32:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWScV028331
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWSiw006683
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
 	Tue, 17 Sep 2013 06:32:28 -0700 (PDT)
 Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
@@ -13,12 +13,14 @@ Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
 	Tue, 17 Sep 2013 06:32:27 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Sep 2013 08:32:09 -0500
-Message-ID: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
+Date: Tue, 17 Sep 2013 08:32:10 -0500
+Message-ID: <1379424738-16798-2-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
+References: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [v3 PATCH 0/9] Improved EFI boot support
+Subject: [v3 PATCH 1/9] bootimage.bbclass: Move fat image creation into a function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,67 +33,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 13:32:26 -0000
+X-List-Received-Date: Tue, 17 Sep 2013 13:32:27 -0000
 Content-Type: text/plain
 
-V3
-- Add comment about isolinux.bin required in EFI only case
-- Fix typo of PCIBIOS -> PCBIOS
-- Change COMPRESSISO ?= "" -> COMPRESSISO ?= "0" for the default
-- Add comment to EFI/ISO syslinux.bbclass to clarify workaround
-  with EFI only case and hybrid boot
-- Add patch to fix syslinux serial and menu problems
-- Add patch to fix boot-directdisk.bbclass
-* Two new patches are 7 & 8, the zisofs patch moved from 7 -> 9
+In order to call the fat image creation multiple times it needs to be
+in its own function.  A future commit will make use of the new
+function to additionally create EFI image files for use with an ISO.
 
+[YOCTO #4100]
+[YOCTO #1913]
 
-V2
-- Added reference to YOCTO #1913 for per Darren
-- Remove PR number from cdrtools uprev
-- Added Saul's change to cdrtools to get rid of STAGE_TEMP
-- made the builtin grub cfg file copied from a SRC_URI
-- upreved syslinux to 6.01
-- Use the new isohybrid command from syslinux which can now
-  generate EFI enabled ISO's which can boot directly when
-  dd'ed to a USB or HDD device.
-- Dropped any references to efi or pcbios in the qemu* configs
-- Added the zisofs patch to the end of the series instead
-  of depending on it, in case it is dropped later.
-- git -format-patch -M20% is your friend for seeing the
-  delta on recipe upgrades :-)
-
-YAY, with the new version of syslinux it is now possible to
-build a single live ISO image which can boot in legacy mode
-or EFI on optical media or USB devices.
-
-We still have to create 2 ISO's one for 32bit EFI systems and one for
-64bit EFI systems but this is also true of all other Linux
-distributions today as well.
-
-Jason.
-
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 ---
+ meta/classes/bootimg.bbclass |  110 ++++++++++++++++++++++--------------------
+ 1 file changed, 58 insertions(+), 52 deletions(-)
 
-The goal of this patch set is to put the EFI ISO boot method on par
-with the ISO PCBIOS boot method.  This also allows for the creation of
-a single ISO image which can boot in "legacy boot" mode or EFI boot
-mode.
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index 90a241d..bd211fb 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -111,6 +111,63 @@ build_iso() {
+ 	ln -s ${IMAGE_NAME}.iso ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+ }
+ 
++build_fat_img() {
++	FATSOURCEDIR=$1
++	FATIMG=$2
++
++	# Calculate the size required for the final image including the
++	# data and filesystem overhead.
++	# Sectors: 512 bytes
++	#  Blocks: 1024 bytes
++
++	# Determine the sector count just for the data
++	SECTORS=$(expr $(du --apparent-size -ks ${FATSOURCEDIR} | cut -f 1) \* 2)
++
++	# Account for the filesystem overhead. This includes directory
++	# entries in the clusters as well as the FAT itself.
++	# Assumptions:
++	#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
++	#   padding will be minimal on those smaller images and not
++	#   worth the logic here to caclulate the smaller FAT sizes)
++	#   < 16 entries per directory
++	#   8.3 filenames only
++
++	# 32 bytes per dir entry
++	DIR_BYTES=$(expr $(find ${FATSOURCEDIR} | tail -n +2 | wc -l) \* 32)
++	# 32 bytes for every end-of-directory dir entry
++	DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 32))
++	# 4 bytes per FAT entry per sector of data
++	FAT_BYTES=$(expr $SECTORS \* 4)
++	# 4 bytes per FAT entry per end-of-cluster list
++	FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 4))
++
++	# Use a ceiling function to determine FS overhead in sectors
++	DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
++	# There are two FATs on the image
++	FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
++	SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
++
++	# Determine the final size in blocks accounting for some padding
++	BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
++
++	# Ensure total sectors is an integral number of sectors per
++	# track or mcopy will complain. Sectors are 512 bytes, and we
++	# generate images with 32 sectors per track. This calculation is
++	# done in blocks, thus the mod by 16 instead of 32.
++	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
++
++	# mkdosfs will sometimes use FAT16 when it is not appropriate,
++	# resulting in a boot failure from SYSLINUX. Use FAT32 for
++	# images larger than 512MB, otherwise let mkdosfs decide.
++	if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
++		FATSIZE="-F 32"
++	fi
++
++	mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} ${BLOCKS}
++	# Copy FATSOURCEDIR recursively into the image file directly
++	mcopy -i ${FATIMG} -s ${FATSOURCEDIR}/* ::/
++}
++
+ build_hddimg() {
+ 	# Create an HDD image
+ 	if [ "${NOHDD}" != "1" ] ; then
+@@ -123,58 +180,7 @@ build_hddimg() {
+ 			grubefi_hddimg_populate
+ 		fi
+ 
+-		# Calculate the size required for the final image including the
+-		# data and filesystem overhead.
+-		# Sectors: 512 bytes
+-		#  Blocks: 1024 bytes
+-
+-		# Determine the sector count just for the data
+-		SECTORS=$(expr $(du --apparent-size -ks ${HDDDIR} | cut -f 1) \* 2)
+-
+-		# Account for the filesystem overhead. This includes directory
+-		# entries in the clusters as well as the FAT itself.
+-		# Assumptions:
+-		#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
+-		#   padding will be minimal on those smaller images and not
+-		#   worth the logic here to caclulate the smaller FAT sizes)
+-		#   < 16 entries per directory
+-		#   8.3 filenames only
+-
+-		# 32 bytes per dir entry
+-		DIR_BYTES=$(expr $(find ${HDDDIR} | tail -n +2 | wc -l) \* 32)
+-		# 32 bytes for every end-of-directory dir entry
+-		DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 32))
+-		# 4 bytes per FAT entry per sector of data
+-		FAT_BYTES=$(expr $SECTORS \* 4)
+-		# 4 bytes per FAT entry per end-of-cluster list
+-		FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 4))
+-
+-		# Use a ceiling function to determine FS overhead in sectors
+-		DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
+-		# There are two FATs on the image
+-		FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
+-		SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
+-
+-		# Determine the final size in blocks accounting for some padding
+-		BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
+-
+-		# Ensure total sectors is an integral number of sectors per
+-		# track or mcopy will complain. Sectors are 512 bytes, and we
+-		# generate images with 32 sectors per track. This calculation is
+-		# done in blocks, thus the mod by 16 instead of 32.
+-		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
+-
+-		# mkdosfs will sometimes use FAT16 when it is not appropriate,
+-		# resulting in a boot failure from SYSLINUX. Use FAT32 for
+-		# images larger than 512MB, otherwise let mkdosfs decide.
+-		if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
+-			FATSIZE="-F 32"
+-		fi
+-
+-		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+-		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
+-		# Copy HDDDIR recursively into the image file directly
+-		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
++		build_fat_img ${HDDDIR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+ 
+ 		if [ "${PCBIOS}" = "1" ]; then
+ 			syslinux_hddimg_install
+-- 
+1.7.9.5
 
-In order to make this possible the cdrtools needed an update to the
-very latest and this brings in an license change.  Given that change
-it was not entirely clear to me if we needed to leave the older
-package around.  I opted to remove the older package recipe since
-there was no clean way to fail in the case you wanted to build EFI
-boot media.
-
-The bbnote that was previously in the bootimg.bbclass about EFI only
-media being untested was a bit of an understatement, as the images
-would not even build without errors due to the call to isohybrid.  I
-removed any such warnings because that path has been fully vetted now.
-
-Cheers,
-Jason.
-
-
-----------------------------------------------------------------
 
