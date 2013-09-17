@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 792776C800
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E129F601DB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 12:32:48 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8HCk6f4019758; Tue, 17 Sep 2013 13:47:00 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id v_ORboF1H-lE; Tue, 17 Sep 2013 13:47:00 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8HCktS8019777
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Tue, 17 Sep 2013 13:46:56 +0100
-Message-ID: <1379421154.32201.116.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jackie.huang@windriver.com
-Date: Tue, 17 Sep 2013 13:32:34 +0100
-In-Reply-To: <1a438ef15a7474ce02b355c6c0ea0ea8b2f2477d.1379395520.git.jackie.huang@windriver.com>
-References: <cover.1379395520.git.jackie.huang@windriver.com>
-	<1a438ef15a7474ce02b355c6c0ea0ea8b2f2477d.1379395520.git.jackie.huang@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libunistring: remove the test to convert euc-jp in configure
+	Tue, 17 Sep 2013 13:03:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8HD37V6027777
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 17 Sep 2013 06:03:07 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 17 Sep 2013 06:03:06 -0700
+Message-ID: <523852F6.1010805@windriver.com>
+Date: Tue, 17 Sep 2013 09:02:46 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130623 Thunderbird/17.0.7
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>
+References: <1379391500-22149-1-git-send-email-otavio@ossystems.com.br>
+In-Reply-To: <1379391500-22149-1-git-send-email-otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] perf: Ensure we use CFLAGS and LDFLAGS settings from kernel build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,89 +34,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 12:32:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Sep 2013 13:03:07 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-09-17 at 13:31 +0800, jackie.huang@windriver.com wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
-> 
-> Remove the test "Test against HP-UX 11.11 bug:
-> No converter from EUC-JP to UTF-8 is provided"
-> since we don't support HP-UX and if the euc-jp is not
-> installed on the host, libunistring will be built without
-> iconv support and will cause guild-native configure fail.
+On 13-09-17 12:18 AM, Otavio Salvador wrote:
+> The kernel build system does the right thing here and we should stop
+> overriding it. This code has been added based on a change from
+> 'meta-metro' layer, revision 9d698004137c1a888d40d6a4808d94afa22387e7,
+> without any information about what problem it fixes so I am reverting
+> it.
+>
+> Using the CFLAGS and LDFLAGS makes it impossible for kernel build
+> system to append to it, thus making the build fail in various ways as:
+>
+> |     CC /.../perf/1.0-r8/perf-1.0/perf.o
+> | In file included from builtin.h:4:0,
+> |                  from perf.c:9:
+> | util/util.h:74:24: fatal error: lk/debugfs.h: No such file or directory
+> |  #include <lk/debugfs.h>
+> |                         ^
+> | compilation terminated.
+>
+> The unset is done in do_compile and do_install otherwise it /rebuild/
+> perf as it detects the compiler options has change.
 
-This information needs to be in the patch header...
+Confirmed. I was able to build perf for qemux8-64 with this change in place.
 
-Cheers,
+Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
-Richard
-> 
-> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+>
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 > ---
->  ...conv-m4-remove-the-test-to-convert-euc-jp.patch |   36 ++++++++++++++++++++
->  .../libunistring/libunistring_0.9.3.bb             |    4 ++-
->  2 files changed, 39 insertions(+), 1 deletions(-)
->  create mode 100644 meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-> 
-> diff --git a/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch b/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-> new file mode 100644
-> index 0000000..3f0f035
-> --- /dev/null
-> +++ b/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
-> @@ -0,0 +1,36 @@
-> +From 8d99a368615656a835f5502326afd31cec2cebfe Mon Sep 17 00:00:00 2001
-> +From: Jackie Huang <jackie.huang@windriver.com>
-> +Date: Mon, 16 Sep 2013 18:16:12 +0800
-> +Subject: [PATCH] remove the test to convert euc-jp
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +
-> +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-> +---
-> + gnulib-m4/iconv.m4 |   11 -----------
-> + 1 files changed, 0 insertions(+), 11 deletions(-)
-> +
-> +diff --git a/gnulib-m4/iconv.m4 b/gnulib-m4/iconv.m4
-> +index f46ff14..de0a5e9 100644
-> +--- a/gnulib-m4/iconv.m4
-> ++++ b/gnulib-m4/iconv.m4
-> +@@ -126,17 +126,6 @@ int main ()
-> +       }
-> +   }
-> + #endif
-> +-  /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
-> +-     provided.  */
-> +-  if (/* Try standardized names.  */
-> +-      iconv_open ("UTF-8", "EUC-JP") == (iconv_t)(-1)
-> +-      /* Try IRIX, OSF/1 names.  */
-> +-      && iconv_open ("UTF-8", "eucJP") == (iconv_t)(-1)
-> +-      /* Try AIX names.  */
-> +-      && iconv_open ("UTF-8", "IBM-eucJP") == (iconv_t)(-1)
-> +-      /* Try HP-UX names.  */
-> +-      && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
-> +-    return 1;
-> +   return 0;
-> + }], [am_cv_func_iconv_works=yes], [am_cv_func_iconv_works=no],
-> +         [case "$host_os" in
-> +--
-> +1.7.4
-> diff --git a/meta/recipes-support/libunistring/libunistring_0.9.3.bb b/meta/recipes-support/libunistring/libunistring_0.9.3.bb
-> index 454a0e6..6cffef4 100644
-> --- a/meta/recipes-support/libunistring/libunistring_0.9.3.bb
-> +++ b/meta/recipes-support/libunistring/libunistring_0.9.3.bb
-> @@ -19,7 +19,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
->  
->  SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
->             file://parallelmake.patch \
-> -           file://libunistring_fix_for_automake_1.12.patch"
-> +           file://libunistring_fix_for_automake_1.12.patch \
-> +           file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
-> +"
->  
->  SRC_URI[md5sum] = "db8eca3b64163abadf8c40e5cecc261f"
->  SRC_URI[sha256sum] = "610d3ec724fbdaa654afe3cff20b9f4d504be3fd296fded2e0f7f764041006a3"
-
+> Changes in v2:
+> - unset CFLAGS and LDFLAGS
+> - reword commit log
+>
+>   meta/recipes-kernel/perf/perf.bb | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+> index d2c1048..4a815ff 100644
+> --- a/meta/recipes-kernel/perf/perf.bb
+> +++ b/meta/recipes-kernel/perf/perf.bb
+> @@ -60,7 +60,6 @@ B = "${WORKDIR}/${BPN}-${PV}"
+>   SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
+>   TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
+>
+> -export LDFLAGS = "-ldl -lutil"
+>   EXTRA_OEMAKE = \
+>   		'-C ${S}/tools/perf \
+>   		O=${B} \
+> @@ -72,13 +71,7 @@ EXTRA_OEMAKE = \
+>   		NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+>   		'
+>
+> -# We already pass the correct arguments to our compiler for the CFLAGS (if we
+> -# don't override it, it'll add -m32/-m64 itself). For LDFLAGS, it was failing
+> -# to find bfd symbols.
+>   EXTRA_OEMAKE += "\
+> -	'CFLAGS=${CFLAGS} -fPIC' \
+> -	'LDFLAGS=${LDFLAGS} -lpthread -lrt -lelf -lm -lbfd' \
+> -	\
+>   	'prefix=${prefix}' \
+>   	'bindir=${bindir}' \
+>   	'sharedir=${datadir}' \
+> @@ -94,10 +87,14 @@ EXTRA_OEMAKE += "\
+>   PARALLEL_MAKE = ""
+>
+>   do_compile() {
+> +	# Linux kernel build system is expected to do the right thing
+> +	unset CFLAGS LDFLAGS
+>   	oe_runmake all
+>   }
+>
+>   do_install() {
+> +	# Linux kernel build system is expected to do the right thing
+> +	unset CFLAGS LDFLAGS
+>   	oe_runmake DESTDIR=${D} install
+>   	# we are checking for this make target to be compatible with older perf versions
+>   	if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" -a $(grep install-python_ext ${S}/tools/perf/Makefile) = "0"]; then
+>
 
 
