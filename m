@@ -1,26 +1,26 @@
 Return-Path: <jason.wessel@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E9C826B389
+	by mail.openembedded.org (Postfix) with ESMTP id 743746C7FB
 	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 13:32:26 +0000 (UTC)
+	Tue, 17 Sep 2013 13:32:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWSiw006683
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8HDWTlb006691
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Sep 2013 06:32:28 -0700 (PDT)
+	Tue, 17 Sep 2013 06:32:29 -0700 (PDT)
 Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 17 Sep 2013 06:32:27 -0700
+	Tue, 17 Sep 2013 06:32:29 -0700
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <Openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Sep 2013 08:32:10 -0500
-Message-ID: <1379424738-16798-2-git-send-email-jason.wessel@windriver.com>
+Date: Tue, 17 Sep 2013 08:32:12 -0500
+Message-ID: <1379424738-16798-4-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
 References: <1379424738-16798-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Cc: dvhart@linux.intel.com
-Subject: [v3 PATCH 1/9] bootimage.bbclass: Move fat image creation into a function
+Subject: [v3 PATCH 3/9] grub-efi-native: Add support for EFI ISO images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,147 +36,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 17 Sep 2013 13:32:27 -0000
 Content-Type: text/plain
 
-In order to call the fat image creation multiple times it needs to be
-in its own function.  A future commit will make use of the new
-function to additionally create EFI image files for use with an ISO.
+The iso9660 file system support needs to be added to grub in order to
+be able to correctly find the grub.cfg.  The grub commands to locate
+the grub.cfg also needs to be encoded into grub's default
+configuration.
+
+This change allows the resulting grub binary to work both in the hard
+drive / USB boot case or the optical media boot case.
 
 [YOCTO #4100]
-[YOCTO #1913]
 
 Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 Reviewed-by: Darren Hart <dvhart@linux.intel.com>
 ---
- meta/classes/bootimg.bbclass |  110 ++++++++++++++++++++++--------------------
- 1 file changed, 58 insertions(+), 52 deletions(-)
+ meta/recipes-bsp/grub/files/cfg               |    2 ++
+ meta/recipes-bsp/grub/grub-efi-native_2.00.bb |    7 +++++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-bsp/grub/files/cfg
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 90a241d..bd211fb 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -111,6 +111,63 @@ build_iso() {
- 	ln -s ${IMAGE_NAME}.iso ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.iso
+diff --git a/meta/recipes-bsp/grub/files/cfg b/meta/recipes-bsp/grub/files/cfg
+new file mode 100644
+index 0000000..ffffe47
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/cfg
+@@ -0,0 +1,2 @@
++search.file /EFI/BOOT/grub.cfg root
++set prefix=($root)/EFI/BOOT
+diff --git a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+index 2d3d68a..04973b5 100644
+--- a/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi-native_2.00.bb
+@@ -23,6 +23,7 @@ PR = "r2"
+ PN := "grub-efi-${TRANSLATED_TARGET_ARCH}-native"
+ 
+ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
++           file://cfg \
+            file://grub-2.00-fpmath-sse-387-fix.patch \
+            file://grub-2.00-fix-enable_execute_stack-check.patch \
+            file://grub-2.00-disable-help2man.patch \
+@@ -66,9 +67,11 @@ EXTRA_OECONF = "--with-platform=efi --disable-grub-mkfont \
+                 --enable-liblzma=no --enable-device-mapper=no --enable-libzfs=no"
+ 
+ do_mkimage() {
+-	./grub-mkimage -p /EFI/BOOT -d ./grub-core/ \
++	# Search for the grub.cfg on the local boot media by using the
++	# built in cfg file provided via this recipe
++	./grub-mkimage -c ../cfg -p /EFI/BOOT -d ./grub-core/ \
+ 	               -O ${GRUB_TARGET}-efi -o ./${GRUB_IMAGE} \
+-	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop
++	               boot linux ext2 fat serial part_msdos part_gpt normal efi_gop iso9660 search
  }
+ addtask mkimage after do_compile before do_install
  
-+build_fat_img() {
-+	FATSOURCEDIR=$1
-+	FATIMG=$2
-+
-+	# Calculate the size required for the final image including the
-+	# data and filesystem overhead.
-+	# Sectors: 512 bytes
-+	#  Blocks: 1024 bytes
-+
-+	# Determine the sector count just for the data
-+	SECTORS=$(expr $(du --apparent-size -ks ${FATSOURCEDIR} | cut -f 1) \* 2)
-+
-+	# Account for the filesystem overhead. This includes directory
-+	# entries in the clusters as well as the FAT itself.
-+	# Assumptions:
-+	#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
-+	#   padding will be minimal on those smaller images and not
-+	#   worth the logic here to caclulate the smaller FAT sizes)
-+	#   < 16 entries per directory
-+	#   8.3 filenames only
-+
-+	# 32 bytes per dir entry
-+	DIR_BYTES=$(expr $(find ${FATSOURCEDIR} | tail -n +2 | wc -l) \* 32)
-+	# 32 bytes for every end-of-directory dir entry
-+	DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 32))
-+	# 4 bytes per FAT entry per sector of data
-+	FAT_BYTES=$(expr $SECTORS \* 4)
-+	# 4 bytes per FAT entry per end-of-cluster list
-+	FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${FATSOURCEDIR} -type d | tail -n +2 | wc -l) \* 4))
-+
-+	# Use a ceiling function to determine FS overhead in sectors
-+	DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
-+	# There are two FATs on the image
-+	FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
-+	SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
-+
-+	# Determine the final size in blocks accounting for some padding
-+	BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
-+
-+	# Ensure total sectors is an integral number of sectors per
-+	# track or mcopy will complain. Sectors are 512 bytes, and we
-+	# generate images with 32 sectors per track. This calculation is
-+	# done in blocks, thus the mod by 16 instead of 32.
-+	BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
-+
-+	# mkdosfs will sometimes use FAT16 when it is not appropriate,
-+	# resulting in a boot failure from SYSLINUX. Use FAT32 for
-+	# images larger than 512MB, otherwise let mkdosfs decide.
-+	if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
-+		FATSIZE="-F 32"
-+	fi
-+
-+	mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} ${BLOCKS}
-+	# Copy FATSOURCEDIR recursively into the image file directly
-+	mcopy -i ${FATIMG} -s ${FATSOURCEDIR}/* ::/
-+}
-+
- build_hddimg() {
- 	# Create an HDD image
- 	if [ "${NOHDD}" != "1" ] ; then
-@@ -123,58 +180,7 @@ build_hddimg() {
- 			grubefi_hddimg_populate
- 		fi
- 
--		# Calculate the size required for the final image including the
--		# data and filesystem overhead.
--		# Sectors: 512 bytes
--		#  Blocks: 1024 bytes
--
--		# Determine the sector count just for the data
--		SECTORS=$(expr $(du --apparent-size -ks ${HDDDIR} | cut -f 1) \* 2)
--
--		# Account for the filesystem overhead. This includes directory
--		# entries in the clusters as well as the FAT itself.
--		# Assumptions:
--		#   FAT32 (12 or 16 may be selected by mkdosfs, but the extra
--		#   padding will be minimal on those smaller images and not
--		#   worth the logic here to caclulate the smaller FAT sizes)
--		#   < 16 entries per directory
--		#   8.3 filenames only
--
--		# 32 bytes per dir entry
--		DIR_BYTES=$(expr $(find ${HDDDIR} | tail -n +2 | wc -l) \* 32)
--		# 32 bytes for every end-of-directory dir entry
--		DIR_BYTES=$(expr $DIR_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 32))
--		# 4 bytes per FAT entry per sector of data
--		FAT_BYTES=$(expr $SECTORS \* 4)
--		# 4 bytes per FAT entry per end-of-cluster list
--		FAT_BYTES=$(expr $FAT_BYTES + $(expr $(find ${HDDDIR} -type d | tail -n +2 | wc -l) \* 4))
--
--		# Use a ceiling function to determine FS overhead in sectors
--		DIR_SECTORS=$(expr $(expr $DIR_BYTES + 511) / 512)
--		# There are two FATs on the image
--		FAT_SECTORS=$(expr $(expr $(expr $FAT_BYTES + 511) / 512) \* 2)
--		SECTORS=$(expr $SECTORS + $(expr $DIR_SECTORS + $FAT_SECTORS))
--
--		# Determine the final size in blocks accounting for some padding
--		BLOCKS=$(expr $(expr $SECTORS / 2) + ${BOOTIMG_EXTRA_SPACE})
--
--		# Ensure total sectors is an integral number of sectors per
--		# track or mcopy will complain. Sectors are 512 bytes, and we
--		# generate images with 32 sectors per track. This calculation is
--		# done in blocks, thus the mod by 16 instead of 32.
--		BLOCKS=$(expr $BLOCKS + $(expr 16 - $(expr $BLOCKS % 16)))
--
--		# mkdosfs will sometimes use FAT16 when it is not appropriate,
--		# resulting in a boot failure from SYSLINUX. Use FAT32 for
--		# images larger than 512MB, otherwise let mkdosfs decide.
--		if [ $(expr $BLOCKS / 1024) -gt 512 ]; then
--			FATSIZE="-F 32"
--		fi
--
--		IMG=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
--		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${IMG} ${BLOCKS}
--		# Copy HDDDIR recursively into the image file directly
--		mcopy -i ${IMG} -s ${HDDDIR}/* ::/
-+		build_fat_img ${HDDDIR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
- 
- 		if [ "${PCBIOS}" = "1" ]; then
- 			syslinux_hddimg_install
 -- 
 1.7.9.5
 
