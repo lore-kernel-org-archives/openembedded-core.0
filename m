@@ -1,38 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C4A96C801
+Return-Path: <jc@vtkloud.com>
+Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 751D26C7FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 14:24:43 +0000 (UTC)
-Received: by mail-ie0-f171.google.com with SMTP id at1so10075456iec.2
+	Tue, 17 Sep 2013 14:49:46 +0000 (UTC)
+Received: by mail-vc0-f170.google.com with SMTP id kw10so4289091vcb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 07:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Y+DTFt6mOnQ3ygXEcNJnJbx581VPksWx3/jXOGa1OfI=;
-	b=oaI/2HJA0yI7g0OBs5baqBTaRnDyigPEQ+tNaOAPt14vsjrey4Nb+L2ZGtCwhQXTiI
-	Gnf4c+eG+ikS6nsJCKmKTS1+3ViBrrB4t/qxehempLwnfgi8Wu1KzGart7B5WZ5tW4+K
-	d9q24sDzHbExMJSgnnS3dRfp2XykQ3GzTCdxWhRf6uX6sgM4c3i/KQL7z7bG9SOvAqqT
-	Hmh4kfqebF8/2oHGJN4D7+90K9v8XzhocPgOzWIwsGfcz2hSY4Ccjmw5ZIjINi7fCtVp
-	A/8ht4OLoAr8r11N4j4J7lLtN1PkbNG30ytXqWTW7P/dgbLx+h9609yth2CFwtoq7GPo
-	PTvQ==
-MIME-Version: 1.0
-X-Received: by 10.50.118.105 with SMTP id kl9mr1129289igb.3.1379427884555;
-	Tue, 17 Sep 2013 07:24:44 -0700 (PDT)
-Received: by 10.50.216.195 with HTTP; Tue, 17 Sep 2013 07:24:44 -0700 (PDT)
-In-Reply-To: <CAJTo0LaL_rxVQRdd8r1dkG5zV5FFLk5xBnWP34ME4P2oxu=Gnw@mail.gmail.com>
-References: <cover.1379329974.git.hongxu.jia@windriver.com>
-	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
-	<C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
-	<5237C039.4080001@windriver.com>
-	<CAJTo0LaL_rxVQRdd8r1dkG5zV5FFLk5xBnWP34ME4P2oxu=Gnw@mail.gmail.com>
-Date: Tue, 17 Sep 2013 07:24:44 -0700
-Message-ID: <CAMKF1sr6vktFkfBSySwn3OYqaOd0FY6sy59bHz1GfEJUqOoL=Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] libxml2: fix LSB desktop-xml tests failure
+	Tue, 17 Sep 2013 07:49:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=bXYnjaAwaWa4y1dPwhljP7MNFdYxQpzkXyIfT71BClk=;
+	b=J9rzg6l2b6tQbxPvf2wlXCtYZqCiT8vbw64qWjHG1VjRd32gDz2DaatDLTCruJHp6q
+	h0rmV73FfYjS15Ox/zLGZvR89kNsmjXcK3+TW+mCG1dgHN7JxHps85Dg4cmeoqRKeRzi
+	bDPu/Njtai/743jH+iSNePGxJyFFBC4G+iIRfYQX78XC1wHJGxG5ONGYyZYNaWj8KaFA
+	QqXeH13vhxt50kYNpjb9xYkOwiY0kYk6LYHjogtkcXzfu8nC4DID8zO4QlIY531HytwU
+	lJqArl6bGZy/51iiMnt2iQEF7b/hgVhTqcGiK6cMoidBNq53Yfft7x8UPoy1I8QjBWqG
+	yLOA==
+X-Gm-Message-State: ALoCoQljcAq3yjwFQYkjawb7fidITtkL92Q+l64Jt/aMNk7mGQlEhmK42rTCZ6FCoFFD/41fkN3G
+X-Received: by 10.52.116.74 with SMTP id ju10mr27360365vdb.20.1379429387750;
+	Tue, 17 Sep 2013 07:49:47 -0700 (PDT)
+Received: from mba.csail.mit.edu (31-34-121.wireless.csail.mit.edu.
+	[128.31.34.121])
+	by mx.google.com with ESMTPSA id n10sm24108723vew.4.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 17 Sep 2013 07:49:47 -0700 (PDT)
+From: JC <jc@vtkloud.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Sep 2013 10:49:36 -0400
+Message-Id: <1379429376-30184-1-git-send-email-jc@vtkloud.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] libao: add version 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,95 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 14:24:44 -0000
-Content-Type: multipart/alternative; boundary=089e011769cf0d6c6704e69515cc
+X-List-Received-Date: Tue, 17 Sep 2013 14:49:46 -0000
 
---089e011769cf0d6c6704e69515cc
-Content-Type: text/plain; charset=UTF-8
+This is basically a 99% import of Peter Tworek's recipe from tworaz666@gmail.com found in https://github.com/tworaz/oe-tworaz/blob/master/meta-jlime/recipes-support/libao/libao_1.1.0.bb
 
-On Tuesday, September 17, 2013, Burton, Ross wrote:
+Signed-off-by: JC <jc@vtkloud.com>
+---
+ .../recipes-multimedia/libao/libao_1.1.0.bb        | 23 ++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
 
-> On 17 September 2013 03:36, Hongxu Jia <hongxu.jia@windriver.com<javascript:;>>
-> wrote:
-> > The upstream of libxml2 has not fixed this issue:
-> > git clone git://git.gnome.org/libxml2
-> >
-> > And I have filed a bug to them
-> > https://bugzilla.gnome.org/show_bug.cgi?id=708205
-> >
-> > After this is fixed and released, also need to report another
-> > bug to LSB to update their libxml2 source code.
-> >
-> > The time cycle is long, should we mark this bug as "Waiting For Upstream"
-> > or accept this patch to workaround for LSB test.
->
-> Using my amazing ability of talking to the upstream maintainer (DV in
-> #xml on irc.gnome.org) I've sorted this out.
->
-> The CVE is for *Chromium's fork of libxml*.  Not upstream libxml2.
-> The patch changes a public structure by adding fields *in the middle*,
-> so that broke the ABI.  That's two good reasons to revert the patch.
-> As Daniel has said in the bug, this patch was the quick fix that
-> Chromium did as they statically link to libxml2 so the API breakage
-> isn't an issue, the proper fix is already in libxslt.  As long as we
-> have libxml 2.9.0 and libxslt 1.1.27 onwards (which we do), the issue
-> is correctly fixed.
+diff --git a/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb b/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
+new file mode 100644
+index 0000000..08950b5
+--- /dev/null
++++ b/meta-multimedia/recipes-multimedia/libao/libao_1.1.0.bb
+@@ -0,0 +1,23 @@
++SECTION = "multimedia"
++SUMMARY = "Libao is a cross-platform audio library that allows programs to output audio using a simple API on a wide variety of platforms"
++HOMEPAGE = "https://www.xiph.org/ao/"
++
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++
++SRC_URI="http://downloads.xiph.org/releases/ao/${BP}.tar.gz"
++SRC_URI[md5sum] = "2b2508c29bc97e4dc218fa162cf883c8"
++SRC_URI[sha256sum] = "29de5bb9b1726ba890455ef7e562d877df87811febb0d99ee69164b88c171bd4"
++
++inherit autotools
++
++do_install_append () {
++    find "${D}" -name '*.la' -exec rm -f {} +
++}
++
++python populate_packages_prepend () {
++    rootdir = bb.data.expand('${libdir}/ao/plugins-4', d)
++    rootdir_dbg = bb.data.expand('${libdir}/ao/plugins-4/.debug', d)
++    do_split_packages(d, rootdir, '^(.*)\.so$', output_pattern='${BPN}-plugin-%s', description='AO %s plugin')
++    do_split_packages(d, rootdir_dbg, '^(.*)\.so$', output_pattern='${BPN}-plugin-%s-dbg', description='AO %s plugin debug data')
++}
+-- 
+1.8.1.2
 
 
-Thanks for sorting this out in real good way
-
->
-> So, NAK to this patch, and a revert incoming.
->
-> Ross
->
-
---089e011769cf0d6c6704e69515cc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<br><br>On Tuesday, September 17, 2013, Burton, Ross  wrote:<br><blockquote=
- class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
-d;padding-left:1ex">On 17 September 2013 03:36, Hongxu Jia &lt;<a href=3D"j=
-avascript:;" onclick=3D"_e(event, &#39;cvml&#39;, &#39;hongxu.jia@windriver=
-.com&#39;)">hongxu.jia@windriver.com</a>&gt; wrote:<br>
-
-&gt; The upstream of libxml2 has not fixed this issue:<br>
-&gt; git clone git://<a href=3D"http://git.gnome.org/libxml2" target=3D"_bl=
-ank">git.gnome.org/libxml2</a><br>
-&gt;<br>
-&gt; And I have filed a bug to them<br>
-&gt; <a href=3D"https://bugzilla.gnome.org/show_bug.cgi?id=3D708205" target=
-=3D"_blank">https://bugzilla.gnome.org/show_bug.cgi?id=3D708205</a><br>
-&gt;<br>
-&gt; After this is fixed and released, also need to report another<br>
-&gt; bug to LSB to update their libxml2 source code.<br>
-&gt;<br>
-&gt; The time cycle is long, should we mark this bug as &quot;Waiting For U=
-pstream&quot;<br>
-&gt; or accept this patch to workaround for LSB test.<br>
-<br>
-Using my amazing ability of talking to the upstream maintainer (DV in<br>
-#xml on <a href=3D"http://irc.gnome.org" target=3D"_blank">irc.gnome.org</a=
->) I&#39;ve sorted this out.<br>
-<br>
-The CVE is for *Chromium&#39;s fork of libxml*. =C2=A0Not upstream libxml2.=
-<br>
-The patch changes a public structure by adding fields *in the middle*,<br>
-so that broke the ABI. =C2=A0That&#39;s two good reasons to revert the patc=
-h.<br>
-As Daniel has said in the bug, this patch was the quick fix that<br>
-Chromium did as they statically link to libxml2 so the API breakage<br>
-isn&#39;t an issue, the proper fix is already in libxslt. =C2=A0As long as =
-we<br>
-have libxml 2.9.0 and libxslt 1.1.27 onwards (which we do), the issue<br>
-is correctly fixed.</blockquote><div><br></div><div>Thanks for sorting this=
- out in real good way=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-So, NAK to this patch, and a revert incoming.<br>
-<br>
-Ross<br>
-</blockquote>
-
---089e011769cf0d6c6704e69515cc--
