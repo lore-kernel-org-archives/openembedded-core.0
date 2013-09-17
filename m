@@ -1,36 +1,34 @@
-Return-Path: <jc@vtkloud.com>
-Received: from mail-qc0-f177.google.com (mail-qc0-f177.google.com
-	[209.85.216.177])
-	by mail.openembedded.org (Postfix) with ESMTP id BD1EF6BDAF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C7C960F86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 11:23:45 +0000 (UTC)
-Received: by mail-qc0-f177.google.com with SMTP id x12so3465867qcv.36
+	Tue, 17 Sep 2013 11:38:28 +0000 (UTC)
+Received: by mail-wg0-f50.google.com with SMTP id f12so5009636wgh.29
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 04:23:47 -0700 (PDT)
+	Tue, 17 Sep 2013 04:38:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Y63CxFI75630G68vnW31bGCrbEGfQ+pFiay/8AN/hog=;
-	b=LwwPaU/siSaoarHwQFIPU1sWkTkG9wt2VVrH+Wl/asjzhuf/mqlgV+icjt14RArcfE
-	zZyZ8RR8MsfpDU3JbiqCsgUj1nr23BfsRWaksm/r5Tf+tSRO0Z6pJaRXSgQbO6EU3LWq
-	Q/BocqNfT+LN8EcUm9Sr035Ci0CxPhUFo43OonuVcoWYFylda3Fw+4SjEpcZqskXDjK+
-	SZm2HgxAGO5B4MamwxLGT6choQJwcn+2v7sJ4/MdR3FcM92UJQuL+hOnENJcMwQehSZh
-	vRWN5bY45UT4CU0l59a41XbWRdhQugIr57b+29efeEwnhGJBGCzl1PqVM8+dVv+DNibw
-	0EhA==
-X-Gm-Message-State: ALoCoQnTPc/Qh+E4F2kUVCwPhh/kHF/maToEiuGhz9RpZt52beaegITOwrSCy9J0WjMWL8Q0GMGS
-X-Received: by 10.224.88.136 with SMTP id a8mr1535361qam.106.1379417027192;
-	Tue, 17 Sep 2013 04:23:47 -0700 (PDT)
-Received: from mba.Marriott.com ([12.96.84.3]) by mx.google.com with ESMTPSA id
-	j10sm30550687qao.10.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 17 Sep 2013 04:23:46 -0700 (PDT)
-From: JC <jc@vtkloud.com>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gChXpGTk2Axj45JW/V5S+WTp+hz7OtqccK/3x5OjUro=;
+	b=IRAnPW3v9LuxPu29esU+e88IoMXj/0UERDEBpDABUhoASuwaF2Fbadz7BjiZLZY2uJ
+	3yyTU9z6p7HdnZhvZT1OzAA27KR2sLRMA66or0yxOH1/fLVo4qa4DkeYl6ViZpqKHmWz
+	nNIQohD4XhMGZWAspXLEsiWS4a16QmV3Xo9bTP3KJexRv3qrpCoZRiZuzXtqromKJAIc
+	UAmp9t/rHt/U3wqrOsimEXODDMvHpq11HcQI50TqHq7+nBsRzQjlu4iFcotwmqNY17bY
+	imcglTD0+3509DRsH5bXkEtMPxgtui57MZqZgxtpnr788ytpkEe7D0WJ6LgpEwimPIbA
+	P76A==
+X-Gm-Message-State: ALoCoQnogHBC8pcUVG5NNO6v0+kfXRU2CQPjoEP5sXqZvuiWksd2K8TXi7w3E3ym3wvqrZFhH+4u
+X-Received: by 10.180.81.129 with SMTP id a1mr2178880wiy.2.1379417908898;
+	Tue, 17 Sep 2013 04:38:28 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id z13sm3835743wib.0.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 17 Sep 2013 04:38:28 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2013 13:22:59 +0200
-Message-Id: <1379416979-10333-1-git-send-email-jc@vtkloud.com>
-X-Mailer: git-send-email 1.8.1.2
-Cc: JC Verdie <jc.verdie@innotis.org>
-Subject: [PATCH] Integration of former (deprecated?) libao recipe from https://github.com/tworaz/oe-tworaz/blob/master/meta-jlime/recipes-support/libao/libao_1.1.0.bb
+Date: Tue, 17 Sep 2013 12:38:24 +0100
+Message-Id: <1379417904-8251-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] avahi: fix and enable out-of-tree builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,44 +41,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 11:23:46 -0000
+X-List-Received-Date: Tue, 17 Sep 2013 11:38:29 -0000
 
-From: JC Verdie <jc.verdie@innotis.org>
-
-Signed-off-by: JC Verdie <jc.verdie@innotis.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-multimedia/libao/libao_1.1.0.bb | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/recipes-multimedia/libao/libao_1.1.0.bb
+ meta/conf/distro/include/seperatebuilddir.inc      |    5 ++-
+ meta/recipes-connectivity/avahi/avahi.inc          |    1 +
+ .../avahi/files/out-of-tree.patch                  |   32 ++++++++++++++++++++
+ 3 files changed, 35 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/out-of-tree.patch
 
-diff --git a/meta/recipes-multimedia/libao/libao_1.1.0.bb b/meta/recipes-multimedia/libao/libao_1.1.0.bb
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index 5bd0ab4..309fb57 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -34,9 +34,8 @@ B_pn-autoconf-native = "${SEPB}"
+ B_pn-autogen-native = "${SEPB}"
+ B_pn-automake = "${SEPB}"
+ B_pn-automake-native = "${SEPB}"
+-#configure: error: *** xmltoman was not found or was disabled, it is required to build the manpages as they have not been pre-built, install xmltoman, pass --disable-manpages or dont pass --disable-xmltoman
+-#B_pn-avahi = "${SEPB}"
+-#B_pn-avahi-ui = "${SEPB}"
++B_pn-avahi = "${SEPB}"
++B_pn-avahi-ui = "${SEPB}"
+ B_pn-babeltrace = "${SEPB}"
+ B_pn-base-passwd = "${SEPB}"
+ #B_pn-bash = "${SEPB}"
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 7bb5381..6495ee9 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -24,6 +24,7 @@ SRC_URI = "http://avahi.org/download/avahi-${PV}.tar.gz \
+           file://initscript.patch \
+           file://avahi_fix_install_issue.patch \
+           file://fix_for_automake_1.12.x.patch \
++          file://out-of-tree.patch \
+           "
+ 
+ USERADD_PACKAGES = "avahi-daemon avahi-autoipd"
+diff --git a/meta/recipes-connectivity/avahi/files/out-of-tree.patch b/meta/recipes-connectivity/avahi/files/out-of-tree.patch
 new file mode 100644
-index 0000000..687e773
+index 0000000..43476cd
 --- /dev/null
-+++ b/meta/recipes-multimedia/libao/libao_1.1.0.bb
-@@ -0,0 +1,21 @@
-+SECTION = "multimedia"
++++ b/meta/recipes-connectivity/avahi/files/out-of-tree.patch
+@@ -0,0 +1,32 @@
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
++From a62dc95d75691ea4aefa86d8bbe54c62afd78ff6 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Tue, 17 Sep 2013 12:27:36 +0100
++Subject: [PATCH] build-sys: fix out-of-tree builds without xmltoman
 +
-+SRC_URI="http://downloads.xiph.org/releases/ao/${P}.tar.gz"
-+SRC_URI[md5sum] = "2b2508c29bc97e4dc218fa162cf883c8"
-+SRC_URI[sha256sum] = "29de5bb9b1726ba890455ef7e562d877df87811febb0d99ee69164b88c171bd4"
++If manpages are enabled but xmltoman isn't present, out-of-tree builds fail
++because it checks inside the build directory for the pre-generated manpages.
 +
-+inherit autotools
++Fix this by using $srcdir when looking for files inside the source directory.
++---
++ configure.ac |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+do_install_append () {
-+    find "${D}" -name '*.la' -exec rm -f {} +
-+}
++diff --git a/configure.ac b/configure.ac
++index 9debce2..047c7ae 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1021,7 +1021,7 @@ if test x$manpages = xyes ; then
++     fi
++ 
++     if test x$have_xmltoman = xno -o x$xmltoman = xno; then
++-        if ! test -e man/avahi-daemon.8 ; then
+++        if ! test -e $srcdir/man/avahi-daemon.8 ; then
++             AC_MSG_ERROR([*** xmltoman was not found or was disabled, it is required to build the manpages as they have not been pre-built, install xmltoman, pass --disable-manpages or dont pass --disable-xmltoman])
++             exit 1
++         fi
++-- 
++1.7.10.4
 +
-+python populate_packages_prepend () {
-+    rootdir = bb.data.expand('${libdir}/ao/plugins-4', d)
-+    rootdir_dbg = bb.data.expand('${libdir}/ao/plugins-4/.debug', d)
-+    do_split_packages(d, rootdir, '^(.*)\.so$', output_pattern='${PN}-plugin-%s', description='AO %s plugin')
-+    do_split_packages(d, rootdir_dbg, '^(.*)\.so$', output_pattern='${PN}-plugin-%s-dbg', description='AO %s plugin debug data')
-+}
 -- 
-1.8.1.2
+1.7.10.4
 
 
