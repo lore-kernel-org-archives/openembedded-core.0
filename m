@@ -1,39 +1,34 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id EC4CD60F86
+Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CC2960F86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 09:16:06 +0000 (UTC)
-Received: by mail-vc0-f182.google.com with SMTP id hf12so3927794vcb.27
+	Tue, 17 Sep 2013 09:22:24 +0000 (UTC)
+Received: by mail-wg0-f54.google.com with SMTP id m15so4923877wgh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 02:16:08 -0700 (PDT)
+	Tue, 17 Sep 2013 02:22:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=A86jYRZ4BxFnHbp1NGb58Lt2WIrsfiqohfBpJAcV53Q=;
-	b=goFKx8ywXsrqOkAzzcd3LV6MNBFMqdZdveUvdJypk7E/zlSft800fnhFT2YDJOtlBS
-	sT2q1RJZ9+/pWPugxH57BKzcR5P6zaIP3aPcYa0p+7wHLXHn05QqowSTk6fMGAFlriO8
-	MPIp7BURVOu8TXhzmG3ub9KKTscMd3G81FZ1s1be54AcLuLgwitav638Q/fdYsly/nGg
-	9A4yrJIG1mvvVKJ6aHF5izAH2rsJ1WsoEz/kJs+448zGwwknE04mdByCcZXEnT/7UmnT
-	0XoE2QqNO+f5071XXlalUpWcG9P6n6OrVhenMQLhyKrMjo/4xQbBotlOrDReJ7yLnNyA
-	iV2w==
-X-Gm-Message-State: ALoCoQk7rig5wMTefZZYhxzDMCbvE3DN+Gxta73zYRoAySKAyvHE4lI8EtC65J93PRHDVVRo1wKr
-X-Received: by 10.52.230.233 with SMTP id tb9mr25967916vdc.17.1379409368439;
-	Tue, 17 Sep 2013 02:16:08 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 17 Sep 2013 02:15:48 -0700 (PDT)
-In-Reply-To: <5237C039.4080001@windriver.com>
-References: <cover.1379329974.git.hongxu.jia@windriver.com>
-	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
-	<C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
-	<5237C039.4080001@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 17 Sep 2013 10:15:48 +0100
-Message-ID: <CAJTo0LaL_rxVQRdd8r1dkG5zV5FFLk5xBnWP34ME4P2oxu=Gnw@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libxml2: fix LSB desktop-xml tests failure
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=P2FZ4ABzMIvBbEsiblRDZgD3Rum8w19RJ838yyHxlGw=;
+	b=P1JdYtn3mJLyCvdcIGNLCzZXPgWNRgOL1a/+gIXorUVOS8PBHG7wWuZWHHt0+TFPVM
+	krv4rO1fk1yyxJM9Kf3U0NgqiUzTnnk5RwIHXQqArIbZGPHRXfRby6RZ03mNKYkiGErx
+	iMOH+V0YZ6BHsrmRPO4jHEQL3ZUirkZoghl4SJH3LykjeiAOAl7NSisZ0DiwYVtLcnE0
+	fJke8yuPVLfXJP/RowXSEpnwinwidWzXxxcPDt3vdDOXE9lsCKnJK7xV9szmpmGJ0gdH
+	2h5ilkFCGRyisfrd5k5+MHKOsVg1C8ktaB/oWArGU9YpU1cQtpr7ZwJTJNTx/pFvsg+J
+	SAEw==
+X-Gm-Message-State: ALoCoQlEMYq8hQlhpuOFSB80dfzB7SqfBg0oOzJifCrUc/9uanxF6p7HktSJfr3EV866nVRnL6YG
+X-Received: by 10.194.10.193 with SMTP id k1mr553675wjb.50.1379409745025;
+	Tue, 17 Sep 2013 02:22:25 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id b13sm2969996wic.9.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 17 Sep 2013 02:22:24 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Sep 2013 10:22:17 +0100
+Message-Id: <1379409738-18923-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] libxml2: remove patch for CVE-2012-2871
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,35 +41,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 09:16:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 17 Sep 2013 09:22:25 -0000
 
-On 17 September 2013 03:36, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> The upstream of libxml2 has not fixed this issue:
-> git clone git://git.gnome.org/libxml2
->
-> And I have filed a bug to them
-> https://bugzilla.gnome.org/show_bug.cgi?id=708205
->
-> After this is fixed and released, also need to report another
-> bug to LSB to update their libxml2 source code.
->
-> The time cycle is long, should we mark this bug as "Waiting For Upstream"
-> or accept this patch to workaround for LSB test.
+This CVE patch is actually against Chromium as they ship an internal fork of
+libxml2 and breaks ABI.  The real issue has been resolved in libxslt 1.1.27, and
+we're shipping 1.1.28.
 
-Using my amazing ability of talking to the upstream maintainer (DV in
-#xml on irc.gnome.org) I've sorted this out.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libxml/libxml2/libxml2-CVE-2012-2871.patch     |   34 --------------------
+ meta/recipes-core/libxml/libxml2_2.9.1.bb          |    4 +--
+ 2 files changed, 1 insertion(+), 37 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.patch
 
-The CVE is for *Chromium's fork of libxml*.  Not upstream libxml2.
-The patch changes a public structure by adding fields *in the middle*,
-so that broke the ABI.  That's two good reasons to revert the patch.
-As Daniel has said in the bug, this patch was the quick fix that
-Chromium did as they statically link to libxml2 so the API breakage
-isn't an issue, the proper fix is already in libxslt.  As long as we
-have libxml 2.9.0 and libxslt 1.1.27 onwards (which we do), the issue
-is correctly fixed.
+diff --git a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.patch b/meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.patch
+deleted file mode 100644
+index 3c66a9c..0000000
+--- a/meta/recipes-core/libxml/libxml2/libxml2-CVE-2012-2871.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-libxml2 CVE-2012-2871
+-
+-the patch come from:
+-http://src.chromium.org/viewvc/chrome/trunk/src/third_party/libxml/src \
+-/include/libxml/tree.h?r1=56276&r2=149930
+-
+-libxml2 2.9.0-rc1 and earlier, as used in Google Chrome before 21.0.1180.89,
+-does not properly support a cast of an unspecified variable during handling
+-of XSL transforms, which allows remote attackers to cause a denial of service
+-or possibly have unknown other impact via a crafted document, related to the
+-_xmlNs data structure in include/libxml/tree.h.
+-
+-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2012-2871
+-
+-Signed-off-by: Li Wang <li.wang@windriver.com>
+----
+- include/libxml/tree.h |    1 +
+- 1 files changed, 1 insertions(+), 0 deletions(-)
+-
+-diff --git a/include/libxml/tree.h b/include/libxml/tree.h
+-index b733589..5422dda 100644
+---- a/include/libxml/tree.h
+-+++ b/include/libxml/tree.h
+-@@ -351,6 +351,7 @@ struct _xmlNs {
+-     struct _xmlNs  *next;	/* next Ns link for this node  */
+-     xmlNsType      type;	/* global or local */
+-     const xmlChar *href;	/* URL for the namespace */
+-+    const char *dummy_children;	/* lines up with node->children */
+-     const xmlChar *prefix;	/* prefix for the namespace */
+-     void           *_private;   /* application data */
+-     struct _xmlDoc *context;		/* normally an xmlDoc */
+--- 
+-1.7.0.5
+-
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.1.bb b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+index fa9c657..0b6ac5d 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.1.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.1.bb
+@@ -1,8 +1,6 @@
+ require libxml2.inc
+ 
+-SRC_URI += "file://libxml2-CVE-2012-2871.patch \
+-            http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar \
+-	   "
++SRC_URI += "http://www.w3.org/XML/Test/xmlts20080827.tar.gz;name=testtar"
+ 
+ SRC_URI[libtar.md5sum] = "9c0cfef285d5c4a5c80d00904ddab380"
+ SRC_URI[libtar.sha256sum] = "fd3c64cb66f2c4ea27e934d275904d92cec494a8e8405613780cbc8a71680fdb"
+-- 
+1.7.10.4
 
-So, NAK to this patch, and a revert incoming.
-
-Ross
 
