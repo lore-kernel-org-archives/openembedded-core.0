@@ -1,35 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id C5A2460F86
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CF30B6C800
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 09:27:41 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id q58so4847748wes.33
+	Tue, 17 Sep 2013 09:28:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8H9S6UO005688
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 02:27:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=/MYTdL6PuLRiNg/xmLQOg3hq612yBnVjrYitcNqhQls=;
-	b=BXa0ncvd4OjzgF/zP3y2PxHiRjtweQmHBrFhpWR8Mn4fV4f/jtk9PtadeID9tnDJm8
-	bCFFdbco5bwTjeWklNFpRKB+CoyxVfieh16/P1AvV9pUARmdaJBQZqdP0+DAPCm52xW/
-	+GZagIr+1R7a/83zTGt/D/UVaXLTiAXwBdCmgOHrOSIB0OYvDPI6cz0s20n4CKqGxyXZ
-	/gPT1ojmbRHwEOtHUUwUVJXMzvuqMYFr1zbfshehjQvdM/z8IilHpweQXsFKOCXZlgmk
-	ylhl3CSxVk5FwqdiNnU6mqFR1QF4t02z8LdNzGi2a8QQxJ761DFe8FnhCifOVCBGpBn/
-	ldNQ==
-X-Gm-Message-State: ALoCoQkAQ3DLDwt08VMYk42/LaRE7qOadmbkEjHGs/NT9SqBMLviEFuLUkNHQJm6MPx8XhWhclT1
-X-Received: by 10.194.109.35 with SMTP id hp3mr513070wjb.55.1379410063171;
-	Tue, 17 Sep 2013 02:27:43 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id iz19sm3014620wic.9.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 17 Sep 2013 02:27:42 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Sep 2013 10:27:39 +0100
-Message-Id: <1379410059-19120-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] webkit-gtk: remove compile-three-times hack
+	Tue, 17 Sep 2013 02:28:06 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 17 Sep 2013 02:28:05 -0700
+From: <jackie.huang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Sep 2013 17:28:03 +0800
+Message-ID: <cover.1379410020.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] findutils_4.2.31: backport fixes for doc build errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 09:27:42 -0000
+X-List-Received-Date: Tue, 17 Sep 2013 09:28:04 -0000
+Content-Type: text/plain
 
-Remove the hack to handle Make 3.82 which ran make three times, as we sanity
-check Make and refuse to build with the broken release.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb |   20 --------------------
- 1 file changed, 20 deletions(-)
+The following changes since commit 1ab0813c819d3b785178faa458486efa6992c636:
 
-diff --git a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-index 5691d3f..30b39d2 100644
---- a/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-+++ b/meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
-@@ -86,26 +86,6 @@ do_configure_append() {
- 	done
- }
- 
--# A dirty hack for GNU make 3.82 bug which means it drops required
--# dependencies. https://bugs.webkit.org/show_bug.cgi?id=79498 is the WebKitGTK+
--# bug, and http://savannah.gnu.org/bugs/?30653 is the GNU Make bug.  This is
--# fixed in Make CVS, so 3.83 won't have this problem.
--do_compile() {
--    if [ x"$MAKE" = x ]; then MAKE=make; fi
--    bbnote ${MAKE} ${EXTRA_OEMAKE} "$@"
--    for error_count in 1 2 3; do
--        bbnote "Attempt $error_count of 3"
--        exit_code=0
--        ${MAKE} ${EXTRA_OEMAKE} "$@" || exit_code=1
--        if [ $exit_code = 0 ]; then
--            break
--        fi
--    done
--    if [ ! $exit_code = 0 ]; then
--        die "oe_runmake failed"
--    fi
--}
--
- do_install_append() {
- 	rmdir ${D}${libexecdir}
- }
+  linux-yocto/3.10: genericx86 meta data factoring (2013-09-14 08:36:23 +0100)
+
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/d_findutils_0917_2
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_findutils_0917_2
+
+Jackie Huang (1):
+  findutils_4.2.31: backport fixes for doc build errors
+
+ .../findutils-fix-doc-build-error.patch            |   53 ++++++++++++++++++++
+ .../recipes-extended/findutils/findutils_4.2.31.bb |    1 +
+ 2 files changed, 54 insertions(+), 0 deletions(-)
+ create mode 100644 meta/recipes-extended/findutils/findutils-4.2.31/findutils-fix-doc-build-error.patch
+
 -- 
-1.7.10.4
+1.7.4.1
 
 
