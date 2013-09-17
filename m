@@ -1,24 +1,39 @@
-Return-Path: <Ming.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 047FA60F86
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id EC4CD60F86
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 08:56:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8H8uIsE021575
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 17 Sep 2013 09:16:06 +0000 (UTC)
+Received: by mail-vc0-f182.google.com with SMTP id hf12so3927794vcb.27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 01:56:18 -0700 (PDT)
-Received: from pek-lpgbuild1.wrs.com (128.224.153.21) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 17 Sep 2013 01:56:17 -0700
-From: Ming Liu <ming.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Sep 2013 16:56:14 +0800
-Message-ID: <1379408174-6732-1-git-send-email-ming.liu@windriver.com>
-X-Mailer: git-send-email 1.8.3.3
+	Tue, 17 Sep 2013 02:16:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=A86jYRZ4BxFnHbp1NGb58Lt2WIrsfiqohfBpJAcV53Q=;
+	b=goFKx8ywXsrqOkAzzcd3LV6MNBFMqdZdveUvdJypk7E/zlSft800fnhFT2YDJOtlBS
+	sT2q1RJZ9+/pWPugxH57BKzcR5P6zaIP3aPcYa0p+7wHLXHn05QqowSTk6fMGAFlriO8
+	MPIp7BURVOu8TXhzmG3ub9KKTscMd3G81FZ1s1be54AcLuLgwitav638Q/fdYsly/nGg
+	9A4yrJIG1mvvVKJ6aHF5izAH2rsJ1WsoEz/kJs+448zGwwknE04mdByCcZXEnT/7UmnT
+	0XoE2QqNO+f5071XXlalUpWcG9P6n6OrVhenMQLhyKrMjo/4xQbBotlOrDReJ7yLnNyA
+	iV2w==
+X-Gm-Message-State: ALoCoQk7rig5wMTefZZYhxzDMCbvE3DN+Gxta73zYRoAySKAyvHE4lI8EtC65J93PRHDVVRo1wKr
+X-Received: by 10.52.230.233 with SMTP id tb9mr25967916vdc.17.1379409368439;
+	Tue, 17 Sep 2013 02:16:08 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [oe][meta-oe][PATCH] vsftpd: change default secure_chroot_dir
+Received: by 10.220.71.201 with HTTP; Tue, 17 Sep 2013 02:15:48 -0700 (PDT)
+In-Reply-To: <5237C039.4080001@windriver.com>
+References: <cover.1379329974.git.hongxu.jia@windriver.com>
+	<dd0104c4f2811038c1ee78605e6b81a50045f5f6.1379329974.git.hongxu.jia@windriver.com>
+	<C187B0ED-19E6-47C1-AD22-CF80F1EC19B3@gmail.com>
+	<5237C039.4080001@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 17 Sep 2013 10:15:48 +0100
+Message-ID: <CAJTo0LaL_rxVQRdd8r1dkG5zV5FFLk5xBnWP34ME4P2oxu=Gnw@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] libxml2: fix LSB desktop-xml tests failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,124 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 08:56:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Sep 2013 09:16:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Change default value of secure_chroot_dir to /var/run/vsftpd/empty, add
-volatiles entry for it, to ensure it won't fail to start with error:
-"500 OOPS: vsftpd: not found: directory given in 'secure_chroot_dir':/var/share/empty"
+On 17 September 2013 03:36, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+> The upstream of libxml2 has not fixed this issue:
+> git clone git://git.gnome.org/libxml2
+>
+> And I have filed a bug to them
+> https://bugzilla.gnome.org/show_bug.cgi?id=708205
+>
+> After this is fixed and released, also need to report another
+> bug to LSB to update their libxml2 source code.
+>
+> The time cycle is long, should we mark this bug as "Waiting For Upstream"
+> or accept this patch to workaround for LSB test.
 
-This shows up in both standalone mode or started by xined.
+Using my amazing ability of talking to the upstream maintainer (DV in
+#xml on irc.gnome.org) I've sorted this out.
 
-Signed-off-by: Ming Liu <ming.liu@windriver.com>
----
- .../vsftpd/files/change-secure_chroot_dir.patch    | 55 ++++++++++++++++++++++
- .../vsftpd/files/volatiles.99_vsftpd               |  1 +
- .../recipes-daemons/vsftpd/vsftpd_3.0.0.bb         |  6 ++-
- 3 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 meta-networking/recipes-daemons/vsftpd/files/change-secure_chroot_dir.patch
- create mode 100644 meta-networking/recipes-daemons/vsftpd/files/volatiles.99_vsftpd
+The CVE is for *Chromium's fork of libxml*.  Not upstream libxml2.
+The patch changes a public structure by adding fields *in the middle*,
+so that broke the ABI.  That's two good reasons to revert the patch.
+As Daniel has said in the bug, this patch was the quick fix that
+Chromium did as they statically link to libxml2 so the API breakage
+isn't an issue, the proper fix is already in libxslt.  As long as we
+have libxml 2.9.0 and libxslt 1.1.27 onwards (which we do), the issue
+is correctly fixed.
 
-diff --git a/meta-networking/recipes-daemons/vsftpd/files/change-secure_chroot_dir.patch b/meta-networking/recipes-daemons/vsftpd/files/change-secure_chroot_dir.patch
-new file mode 100644
-index 0000000..5f2860e
---- /dev/null
-+++ b/meta-networking/recipes-daemons/vsftpd/files/change-secure_chroot_dir.patch
-@@ -0,0 +1,55 @@
-+vsftpd: change default value of secure_chroot_dir
-+
-+Upstream-Status: Pending
-+
-+Change secure_chroot_dir pointing to a volatile directory.
-+
-+Signed-off-by: Ming Liu <ming.liu@windriver.com>
-+---
-+ INSTALL       |    6 +++---
-+ tunables.c    |    2 +-
-+ vsftpd.conf.5 |    2 +-
-+ 3 files changed, 5 insertions(+), 5 deletions(-)
-+
-+diff -urpN a/INSTALL b/INSTALL
-+--- a/INSTALL	2013-09-13 10:23:57.504972397 +0800
-++++ b/INSTALL	2013-09-13 10:25:25.664971779 +0800
-+@@ -27,11 +27,11 @@ user in case it does not already exist. 
-+ [root@localhost root]# useradd nobody
-+ useradd: user nobody exists
-+ 
-+-2b) vsftpd needs the (empty) directory /usr/share/empty in the default
-++2b) vsftpd needs the (empty) directory /var/run/vsftpd/empty in the default
-+ configuration. Add this directory in case it does not already exist. e.g.:
-+ 
-+-[root@localhost root]# mkdir /usr/share/empty/
-+-mkdir: cannot create directory `/usr/share/empty': File exists
-++[root@localhost root]# mkdir /var/run/vsftpd/empty/
-++mkdir: cannot create directory `/var/run/vsftpd/empty': File exists
-+ 
-+ 2c) For anonymous FTP, you will need the user "ftp" to exist, and have a
-+ valid home directory (which is NOT owned or writable by the user "ftp").
-+diff -urpN a/tunables.c b/tunables.c
-+--- a/tunables.c	2013-09-13 10:26:29.554972817 +0800
-++++ b/tunables.c	2013-09-13 10:27:18.104972210 +0800
-+@@ -254,7 +254,7 @@ tunables_load_defaults()
-+   /* -rw------- */
-+   tunable_chown_upload_mode = 0600;
-+ 
-+-  install_str_setting("/usr/share/empty", &tunable_secure_chroot_dir);
-++  install_str_setting("/var/run/vsftpd/empty", &tunable_secure_chroot_dir);
-+   install_str_setting("ftp", &tunable_ftp_username);
-+   install_str_setting("root", &tunable_chown_username);
-+   install_str_setting("/var/log/xferlog", &tunable_xferlog_file);
-+diff -urpN a/vsftpd.conf.5 b/vsftpd.conf.5
-+--- a/vsftpd.conf.5	2013-09-13 10:09:33.774972462 +0800
-++++ b/vsftpd.conf.5	2013-09-13 10:10:41.914971989 +0800
-+@@ -969,7 +969,7 @@ This option should be the name of a dire
-+ directory should not be writable by the ftp user. This directory is used
-+ as a secure chroot() jail at times vsftpd does not require filesystem access.
-+ 
-+-Default: /usr/share/empty
-++Default: /var/run/vsftpd/empty
-+ .TP
-+ .B ssl_ciphers
-+ This option can be used to select which SSL ciphers vsftpd will allow for
-diff --git a/meta-networking/recipes-daemons/vsftpd/files/volatiles.99_vsftpd b/meta-networking/recipes-daemons/vsftpd/files/volatiles.99_vsftpd
-new file mode 100644
-index 0000000..8a602ba
---- /dev/null
-+++ b/meta-networking/recipes-daemons/vsftpd/files/volatiles.99_vsftpd
-@@ -0,0 +1 @@
-+d root root 0755 /var/run/vsftpd/empty none
-diff --git a/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb b/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb
-index 2c3e009..49d5d2a 100644
---- a/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb
-+++ b/meta-networking/recipes-daemons/vsftpd/vsftpd_3.0.0.bb
-@@ -14,6 +14,8 @@ SRC_URI = "https://security.appspot.com/downloads/vsftpd-${PV}.tar.gz \
-            file://vsftpd.conf \
-            file://vsftpd.user_list \
-            file://vsftpd.ftpusers \
-+           file://change-secure_chroot_dir.patch \
-+           file://volatiles.99_vsftpd \
- "
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=a6067ad950b28336613aed9dd47b1271 \
-@@ -40,7 +42,7 @@ LDFLAGS_append =" -lcrypt -lcap"
- do_configure() {
-     # Fix hardcoded /usr, /etc, /var mess.
-     cat tunables.c|sed s:\"/usr:\"${prefix}:g|sed s:\"/var:\"${localstatedir}:g \
--    |sed s:\"${prefix}/share/empty:\"${localstatedir}/share/empty:g |sed s:\"/etc:\"${sysconfdir}:g > tunables.c.new
-+    |sed s:\"/etc:\"${sysconfdir}:g > tunables.c.new
-     mv tunables.c.new tunables.c
- }
- 
-@@ -57,6 +59,8 @@ do_install() {
-     install -m 600 ${WORKDIR}/vsftpd.conf ${D}${sysconfdir}/vsftpd.conf
-     install -d ${D}${sysconfdir}/init.d/
-     install -m 755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/vsftpd
-+    install -d ${D}/${sysconfdir}/default/volatiles
-+    install -m 644 ${WORKDIR}/volatiles.99_vsftpd ${D}/${sysconfdir}/default/volatiles/99_vsftpd
- 
-     install -m 600 ${WORKDIR}/vsftpd.ftpusers ${D}${sysconfdir}/
-     install -m 600 ${WORKDIR}/vsftpd.user_list ${D}${sysconfdir}/
--- 
-1.8.3.3
+So, NAK to this patch, and a revert incoming.
 
+Ross
 
