@@ -1,34 +1,30 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-yh0-f52.google.com (mail-yh0-f52.google.com
-	[209.85.213.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9764160A88
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8540F6BFF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 01:26:52 +0000 (UTC)
-Received: by mail-yh0-f52.google.com with SMTP id v1so2492785yhn.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Sep 2013 18:26:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=M8d8A1XNJadcZlK2ozCFetO61UfuNCWBn1MPDL5HpJw=;
-	b=MnDjJrjUdpmnKlexSoyYsPRcekkzVh309jJfY+eamQndjTNhsp07wgcWLjtlZKwFpo
-	2uJAOBb6PkHBhYe+eBpA6zWoL9RN7h/WhZ6Us8AqVg6OPvLJB746LZh5ztmBOO9Ey8uL
-	Tt2Ogz1f3xs/hRp5BAH+NFSa/zZs7hehcL1JedAgxso+9hIQv2UhUbgazrRQEyFGK1RQ
-	sdOSJ4GsTbaKCk/5Kb3rTGsLROvv4yNqmF/VzOO3u8EiDFaELzUmfS5qg9iaICXsf22k
-	yTxvJC/r5uh92l2dJ2BB0UnGF6qGzpMttPm8Mwt52gkjFmHPzTGicUJdEtDEmwMLCQS5
-	Irzg==
-X-Received: by 10.236.30.70 with SMTP id j46mr11718398yha.73.1379381213822;
-	Mon, 16 Sep 2013 18:26:53 -0700 (PDT)
-Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
-	[74.71.215.22])
-	by mx.google.com with ESMTPSA id h66sm42409077yhb.7.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 16 Sep 2013 18:26:53 -0700 (PDT)
-From: Chris Patterson <cjp256@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Sep 2013 21:26:10 -0400
-Message-Id: <1379381170-10557-1-git-send-email-cjp256@gmail.com>
-X-Mailer: git-send-email 1.8.4.rc3
-Subject: [PATCH] qemu: upgrade to 1.6.0
+	Tue, 17 Sep 2013 02:03:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8H23eSv017360
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 16 Sep 2013 19:03:40 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 16 Sep 2013 19:03:39 -0700
+Message-ID: <5237B876.2080203@windriver.com>
+Date: Tue, 17 Sep 2013 10:03:34 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1379148332.git.liezhi.yang@windriver.com>
+	<3b4c037e41f6678845fb29d97aae5f48f07a68c7.1379148332.git.liezhi.yang@windriver.com>
+	<CAJTo0LbRYeWRB-zOb3NvyH3ZtsOyQMeqKmm8a7xLCs7mpeG-jA@mail.gmail.com>
+	<CAJTo0LZPhGjLrffo3coy_GSWLF+XhHpgyE6zTUxsPU30S72Z9Q@mail.gmail.com>
+In-Reply-To: <CAJTo0LZPhGjLrffo3coy_GSWLF+XhHpgyE6zTUxsPU30S72Z9Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,196 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2013 01:26:53 -0000
+X-List-Received-Date: Tue, 17 Sep 2013 02:03:38 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This update also drops the following patches which appear to have been resolved upstream:
-- ftd_header.patch
-- target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
 
-Signed-off-by: Chris Patterson <cjp256@gmail.com>
----
- meta/recipes-devtools/qemu/files/fdt_header.patch  | 39 -----------
- ...-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch | 79 ----------------------
- meta/recipes-devtools/qemu/qemu.inc                |  2 +-
- .../qemu/{qemu_1.5.0.bb => qemu_1.6.0.bb}          | 14 ++--
- 4 files changed, 9 insertions(+), 125 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/files/fdt_header.patch
- delete mode 100644 meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
- rename meta/recipes-devtools/qemu/{qemu_1.5.0.bb => qemu_1.6.0.bb} (44%)
+On 09/17/2013 07:49 AM, Burton, Ross wrote:
+> On 17 September 2013 00:08, Burton, Ross <ross.burton@intel.com> wrote:
+>>> This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
+>>> write(remove/rename) _gen/gtypes.tmp at the same time, then there would
+>>> be the error.
+>>>
+>>> Use ".NOTPARALLEL: _gen/gtypes.h _gen/gtypes-body.h" will fix the
+>>> problem.
+>>
+>> This is going to be a game of whack-a-mole as the root cause is the
+>> bad temporary filename assignment in libtpcodegen.py.  Is there an
+>> upstream bug for this?
+>
+> Had a quick look - there's a trivial race in the utility code that a
+> bit of tempfile can fix, but the more correct fix for
+> telepathy-mission-control is to do the same fix that telepathy-glib
+> did here:
+>
+> http://cgit.freedesktop.org/telepathy/telepathy-glib/commit/?id=36c2a545c9c1d1cc6db205bfc33d980d29b0a0f6
 
-diff --git a/meta/recipes-devtools/qemu/files/fdt_header.patch b/meta/recipes-devtools/qemu/files/fdt_header.patch
-deleted file mode 100644
-index dccfe53..0000000
---- a/meta/recipes-devtools/qemu/files/fdt_header.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--Upstream-Status: Pending 
--
--qemu: define fdt types in libfdt_env.h from qemu
--    
--    * fixes
--    In file included from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/libfdt.h:55:0,
--                     from /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/work/x86_64-linux/qemu-native/1.4.0-r0/qemu-1.4.0/hw/arm/../../device_tree.c:28:
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:58:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:59:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:60:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:61:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:62:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:63:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:64:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:67:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:70:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:73:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:77:2: error: unknown type name 'fdt64_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:78:2: error: unknown type name 'fdt64_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:82:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:87:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:88:2: error: unknown type name 'fdt32_t'
--    /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:89:2: error: unknown type name 'fdt32_t'
--
--Index: qemu-1.4.0/include/libfdt_env.h
--===================================================================
----- qemu-1.4.0.orig/include/libfdt_env.h	2013-02-15 23:05:35.000000000 +0000
--+++ qemu-1.4.0/include/libfdt_env.h	2013-04-13 14:17:27.918885225 +0000
--@@ -21,6 +21,10 @@
-- 
-- #include "qemu/bswap.h"
-- 
--+typedef uint16_t fdt16_t;
--+typedef uint32_t fdt32_t;
--+typedef uint64_t fdt64_t;
--+
-- #ifdef HOST_WORDS_BIGENDIAN
-- #define fdt32_to_cpu(x)  (x)
-- #define cpu_to_fdt32(x)  (x)
-diff --git a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch b/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
-deleted file mode 100644
-index 852efd1..0000000
---- a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
-+++ /dev/null
-@@ -1,79 +0,0 @@
--Upstream-Status: Backported
--
--From dec3fc9657e0682637de4d5a29d947284d01985c Mon Sep 17 00:00:00 2001
--From: Richard Henderson <rth@twiddle.net>
--Date: Wed, 29 May 2013 12:30:51 -0700
--Subject: [PATCH] target-i386: Fix aflag logic for CODE64 and the 0x67 prefix
--
--The code reorganization in commit 4a6fd938 broke handling of PREFIX_ADR.
--While fixing this, tidy and comment the code so that it's more obvious
--what's going on in setting both aflag and dflag.
--
--The TARGET_X86_64 ifdef can be eliminated because CODE64 expands to the
--constant zero when TARGET_X86_64 is undefined.
--
--Cc: Paolo Bonzini <pbonzini@redhat.com>
--Reported-by: Laszlo Ersek <lersek@redhat.com>
--Signed-off-by: Richard Henderson <rth@twiddle.net>
--Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
--Message-id: 1369855851-21400-1-git-send-email-rth@twiddle.net
--Signed-off-by: Anthony Liguori <aliguori@us.ibm.com>
-----
-- target-i386/translate.c |   30 +++++++++++++++---------------
-- 1 file changed, 15 insertions(+), 15 deletions(-)
--
--diff --git a/target-i386/translate.c b/target-i386/translate.c
--index 0aeccdb..14b0298 100644
----- a/target-i386/translate.c
--+++ b/target-i386/translate.c
--@@ -4677,8 +4677,6 @@ static target_ulong disas_insn(CPUX86State *env, DisasContext *s,
--     }
--     s->pc = pc_start;
--     prefixes = 0;
---    aflag = s->code32;
---    dflag = s->code32;
--     s->override = -1;
--     rex_w = -1;
--     rex_r = 0;
--@@ -4801,23 +4799,25 @@ static target_ulong disas_insn(CPUX86State *env, DisasContext *s,
--     }
-- 
--     /* Post-process prefixes.  */
---    if (prefixes & PREFIX_DATA) {
---        dflag ^= 1;
---    }
---    if (prefixes & PREFIX_ADR) {
---        aflag ^= 1;
---    }
---#ifdef TARGET_X86_64
--     if (CODE64(s)) {
---        if (rex_w == 1) {
---            /* 0x66 is ignored if rex.w is set */
---            dflag = 2;
--+        /* In 64-bit mode, the default data size is 32-bit.  Select 64-bit
--+           data with rex_w, and 16-bit data with 0x66; rex_w takes precedence
--+           over 0x66 if both are present.  */
--+        dflag = (rex_w > 0 ? 2 : prefixes & PREFIX_DATA ? 0 : 1);
--+        /* In 64-bit mode, 0x67 selects 32-bit addressing.  */
--+        aflag = (prefixes & PREFIX_ADR ? 1 : 2);
--+    } else {
--+        /* In 16/32-bit mode, 0x66 selects the opposite data size.  */
--+        dflag = s->code32;
--+        if (prefixes & PREFIX_DATA) {
--+            dflag ^= 1;
--         }
---        if (!(prefixes & PREFIX_ADR)) {
---            aflag = 2;
--+        /* In 16/32-bit mode, 0x67 selects the opposite addressing.  */
--+        aflag = s->code32;
--+        if (prefixes & PREFIX_ADR) {
--+            aflag ^= 1;
--         }
--     }
---#endif
-- 
--     s->prefix = prefixes;
--     s->aflag = aflag;
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 97e9b7b..296b405 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -54,7 +54,7 @@ do_configure() {
-        KVMOPTS="--enable-kvm"
-     fi
- 
--    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir} --libexecdir=${libexecdir} --disable-strip ${EXTRA_OECONF} $KVMOPTS
-+    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir} --libexecdir=${libexecdir} --localstatedir=${localstatedir} --disable-strip ${EXTRA_OECONF} $KVMOPTS
-     test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
- }
- 
-diff --git a/meta/recipes-devtools/qemu/qemu_1.5.0.bb b/meta/recipes-devtools/qemu/qemu_1.6.0.bb
-similarity index 44%
-rename from meta/recipes-devtools/qemu/qemu_1.5.0.bb
-rename to meta/recipes-devtools/qemu/qemu_1.6.0.bb
-index d6dd743..f8dbe6d 100644
---- a/meta/recipes-devtools/qemu/qemu_1.5.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.6.0.bb
-@@ -3,13 +3,15 @@ require qemu.inc
- LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
-                     file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
- 
--SRC_URI += "file://fdt_header.patch \
--            file://target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch \
--            file://target-ppc_fix_bit_extraction.patch \
--           "
-+SRC_URI += "file://target-ppc_fix_bit_extraction.patch"
- 
- SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
--SRC_URI[md5sum] = "b6f3265b8ed39d77e8f354f35cc26e16"
--SRC_URI[sha256sum] = "b22b30ee9712568dfb4eedf76783f4a76546e1cbc41659b909646bcf0b4867bb"
-+SRC_URI[md5sum] = "f3f39308472d629aca57a255a0c91ba9"
-+SRC_URI[sha256sum] = "3132e58ada26d43b6924e8c2f07db80aa1e5022f3dcf03dee7d8bb9194b2cb48"
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
-+
-+do_install_append() {
-+    # Prevent QA warnings about installed ${localstatedir}/run
-+    if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir}/run; fi
-+}
--- 
-1.8.4.rc3
+I don't think that the commit you mentioned is a correct fix, he changed:
 
+gen/gtypes.h _gen/gtypes-body.h: _gen/stable-spec.xml
+
+To:
+
+gen/gtypes.h: _gen/gtypes-body.h
+	@:
+gen/gtypes-body.h: _gen/stable-spec.xml
+
+Now if we run "make gen/gtypes.h gen/gtypes-body.h", the gen/gtypes-body.h
+will only run once, this is incorrect. And this fix has been dropped in the
+up to date source.
+
+// Robert
+
+>
+> https://bugs.freedesktop.org/show_bug.cgi?id=69446 is the upstream bug
+> I just filed for this.
+>
+> Ross
+>
+>
 
