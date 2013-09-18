@@ -1,34 +1,24 @@
-Return-Path: <anders.darander@gmail.com>
-Received: from mail-vb0-f50.google.com (mail-vb0-f50.google.com
-	[209.85.212.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 818096C722
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C8466C722
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 05:07:35 +0000 (UTC)
-Received: by mail-vb0-f50.google.com with SMTP id x14so5031357vbb.9
+	Wed, 18 Sep 2013 05:09:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8I59fQX011328
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 22:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=7ojvMSD0RjJYpa6lrmCYtVFVrJnIOHZpqPZTDEWt7sM=;
-	b=cnVU4YNflAf9fnB1DPIwNoiX4vOf6WE6EDT6hg8gqYIWqv/jFTrp5dszBiMWwvU+or
-	guYbQbczrLbnHS8J6Pc16r46DBOX/qsYkhttdy20NAUIw/fQsDTIcU4KTlo701hCKgbB
-	XCiXlg3V/sXOuOvQt+RCewRvvjybuYdwR0WE7xpuNQUiX/05cqnuwtmEGP1Cj6ZuIhxa
-	ijhDzi4pApj00CHgob9EYpExvdo2isxq4V5rNPZah7/3HDhRAxwBqIbrMtrMXoutlJ0Y
-	kpp4na5X4gB+aBqX5Nmm5zyko+4W1fEFg27cA/PO1XsZeN58NHad6wRuV7n6qWqDXFOu
-	04Tg==
+	Tue, 17 Sep 2013 22:09:41 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 17 Sep 2013 22:09:39 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Sep 2013 13:09:38 +0800
+Message-ID: <cover.1379480857.git.rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Received: by 10.52.113.99 with SMTP id ix3mr12245059vdb.22.1379480857325;
-	Tue, 17 Sep 2013 22:07:37 -0700 (PDT)
-Received: by 10.220.104.143 with HTTP; Tue, 17 Sep 2013 22:07:37 -0700 (PDT)
-In-Reply-To: <1379475258-21205-1-git-send-email-otavio@ossystems.com.br>
-References: <1379475258-21205-1-git-send-email-otavio@ossystems.com.br>
-Date: Wed, 18 Sep 2013 07:07:37 +0200
-Message-ID: <CAE4k23-9zpfexc+eeyLaEYyhm+Bfp-G5ZqQbb+pKi2RmqUFXmA@mail.gmail.com>
-From: Anders Darander <anders.darander@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot-fw-utils: Skip package if UBOOT_MACHINE is unset
+Subject: [PATCH 0/1] pciutils: remove pcimodules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,54 +31,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 05:07:35 -0000
-Content-Type: multipart/alternative; boundary=bcaec54860f479b61804e6a16afa
+X-List-Received-Date: Wed, 18 Sep 2013 05:09:39 -0000
+Content-Type: text/plain
 
---bcaec54860f479b61804e6a16afa
-Content-Type: text/plain; charset=ISO-8859-1
+From: Roy Li <rongqing.li@windriver.com>
 
-On 18 September 2013 05:34, Otavio Salvador <otavio@ossystems.com.br> wrote:
+The following changes since commit 1ab0813c819d3b785178faa458486efa6992c636:
 
-> The UBOOT_MACHINE variable needs to be set so the firmware utils can
-> know about some configuration settings which are board dependent. This
-> patch ensures the package is skipped in case UBOOT_MACHINE is unset
-> thus avoid its build in 'bitbake world' builds for incompatible
-> machines.
->
-> Fixes [YOCTO: #5223]
->
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
->
+  linux-yocto/3.10: genericx86 meta data factoring (2013-09-14 08:36:23 +0100)
 
-Thanks for the quick fix!
+are available in the git repository at:
 
-Acked-by: Anders Darander <anders@chargestorm.se>
+  git://git.pokylinux.org/poky-contrib roy/pciutils-1
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/pciutils-1
 
-/Anders
+Roy Li (1):
+  pciutils: remove pcimodules
 
---bcaec54860f479b61804e6a16afa
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+ .../pciutils/pciutils-3.2.0/lib-build-fix.patch    |   20 +-
+ .../pciutils-3.2.0/pcimodules-pciutils.diff        |  340 --------------------
+ meta/recipes-bsp/pciutils/pciutils_3.2.0.bb        |    1 -
+ 3 files changed, 9 insertions(+), 352 deletions(-)
+ delete mode 100644 meta/recipes-bsp/pciutils/pciutils-3.2.0/pcimodules-pciutils.diff
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On 18 September 2013 05:34, Otavio Salvador <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystem=
-s.com.br</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">The UBOOT_MACHINE variable needs to be set s=
-o the firmware utils can<br>
-know about some configuration settings which are board dependent. This<br>
-patch ensures the package is skipped in case UBOOT_MACHINE is unset<br>
-thus avoid its build in &#39;bitbake world&#39; builds for incompatible<br>
-machines.<br>
-<br>
-Fixes [YOCTO: #5223]<br>
-<br>
-Signed-off-by: Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystems.com.b=
-r">otavio@ossystems.com.br</a>&gt;<br></blockquote><div><br></div><div>Than=
-ks for the quick fix!</div><div><br></div><div>Acked-by: Anders Darander &l=
-t;<a href=3D"mailto:anders@chargestorm.se">anders@chargestorm.se</a>&gt;</d=
-iv>
-<div><br></div><div>/Anders</div><div><br></div></div></div></div>
+-- 
+1.7.10.4
 
---bcaec54860f479b61804e6a16afa--
+
