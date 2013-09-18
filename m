@@ -1,24 +1,26 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C8466C722
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AACB6C8F3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 05:09:39 +0000 (UTC)
+	Wed, 18 Sep 2013 05:09:40 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8I59fQX011328
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8I59ged017540
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 22:09:41 -0700 (PDT)
+	Tue, 17 Sep 2013 22:09:42 -0700 (PDT)
 Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 17 Sep 2013 22:09:39 -0700
+	14.2.347.0; Tue, 17 Sep 2013 22:09:41 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Sep 2013 13:09:38 +0800
-Message-ID: <cover.1379480857.git.rongqing.li@windriver.com>
+Date: Wed, 18 Sep 2013 13:09:39 +0800
+Message-ID: <791c3d2a817da0f69b197eaecd9a1f1077d86039.1379480857.git.rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <cover.1379480857.git.rongqing.li@windriver.com>
+References: <cover.1379480857.git.rongqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] pciutils: remove pcimodules
+Subject: [PATCH 1/1] pciutils: remove pcimodules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +33,444 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 05:09:39 -0000
+X-List-Received-Date: Wed, 18 Sep 2013 05:09:40 -0000
 Content-Type: text/plain
 
 From: Roy Li <rongqing.li@windriver.com>
 
-The following changes since commit 1ab0813c819d3b785178faa458486efa6992c636:
+pcimodules can not work due to no modules.pcimap file, and has been
+replaced by "lspci -k", so we can remove it.
 
-  linux-yocto/3.10: genericx86 meta data factoring (2013-09-14 08:36:23 +0100)
+Update lib-build-fix.patch since remove pcimodules-pciutils.diff.
 
-are available in the git repository at:
+[YOCTO# 5210]
 
-  git://git.pokylinux.org/poky-contrib roy/pciutils-1
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=roy/pciutils-1
-
-Roy Li (1):
-  pciutils: remove pcimodules
-
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
  .../pciutils/pciutils-3.2.0/lib-build-fix.patch    |   20 +-
  .../pciutils-3.2.0/pcimodules-pciutils.diff        |  340 --------------------
  meta/recipes-bsp/pciutils/pciutils_3.2.0.bb        |    1 -
  3 files changed, 9 insertions(+), 352 deletions(-)
  delete mode 100644 meta/recipes-bsp/pciutils/pciutils-3.2.0/pcimodules-pciutils.diff
 
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.2.0/lib-build-fix.patch b/meta/recipes-bsp/pciutils/pciutils-3.2.0/lib-build-fix.patch
+index 7268d53..413ef0e 100644
+--- a/meta/recipes-bsp/pciutils/pciutils-3.2.0/lib-build-fix.patch
++++ b/meta/recipes-bsp/pciutils/pciutils-3.2.0/lib-build-fix.patch
+@@ -8,35 +8,33 @@ Upstream-Status: Pending
+ 7/30/2010 - created by Qing He <qing.he@intel.com>
+ 
+ diff --git a/Makefile b/Makefile
+-index 1b48e18..21af4b3 100644
++index 74c570a..31337e0 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -51,9 +51,9 @@ PCIINC_INS=lib/config.h lib/header.h lib/pci.h lib/types.h
++@@ -56,9 +56,9 @@ PCIINC_INS=lib/config.h lib/header.h lib/pci.h lib/types.h
+  
+  export
+  
+--all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS) pcimodules pcimodules.8
+-+all: lib/$(PCILIB_DEV) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS) pcimodules pcimodules.8
++-all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS)
+++all: lib/$(PCILIB_DEV) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS)
+  
+ -lib/$(PCILIB): $(PCIINC) force
+ +lib/$(PCILIB) lib/$(PCILIB_DEV): $(PCIINC) force
+  	$(MAKE) -C lib all
+  
+  force:
+-@@ -61,9 +61,9 @@ force:
++@@ -66,8 +66,8 @@ force:
+  lib/config.h lib/config.mk:
+  	cd lib && ./configure
+  
+--pcimodules: pcimodules.o common.o lib/$(PCILIB)
+ -lspci: lspci.o ls-vpd.o ls-caps.o ls-ecaps.o ls-kernel.o ls-tree.o ls-map.o common.o lib/$(PCILIB)
+ -setpci: setpci.o common.o lib/$(PCILIB)
+-+pcimodules: pcimodules.o common.o lib/$(PCILIB_DEV)
+ +lspci: lspci.o ls-vpd.o ls-caps.o ls-ecaps.o ls-kernel.o ls-tree.o ls-map.o common.o lib/$(PCILIB_DEV)
+ +setpci: setpci.o common.o lib/$(PCILIB_DEV)
+  
+- pcimodules.o: pcimodules.c pciutils.h
+  LSPCIINC=lspci.h pciutils.h $(PCIINC)
+-@@ -83,7 +83,7 @@ update-pciids: update-pciids.sh
++ lspci.o: lspci.c $(LSPCIINC)
++@@ -89,7 +89,7 @@ update-pciids: update-pciids.sh
+  	chmod +x $@
+  
+  # The example of use of libpci
+@@ -69,10 +67,10 @@ index 1eb06a5..a8dab56 100644
+  
+  $(PCILIBPC): libpci.pc.in
+ diff --git a/lib/configure b/lib/configure
+-index eec225a..4318b05 100755
++index 27388bc..6c508cf 100755
+ --- a/lib/configure
+ +++ b/lib/configure
+-@@ -174,16 +193,18 @@ fi
++@@ -216,16 +216,18 @@ fi
+  echo "Checking whether to build a shared library... $SHARED (set manually)"
+  if [ "$SHARED" = no ] ; then
+  	echo >>$m 'PCILIB=$(LIBNAME).a'
+diff --git a/meta/recipes-bsp/pciutils/pciutils-3.2.0/pcimodules-pciutils.diff b/meta/recipes-bsp/pciutils/pciutils-3.2.0/pcimodules-pciutils.diff
+deleted file mode 100644
+index 0d4e0fb..0000000
+--- a/meta/recipes-bsp/pciutils/pciutils-3.2.0/pcimodules-pciutils.diff
++++ /dev/null
+@@ -1,340 +0,0 @@
+-Upstream-Status: Inappropriate [packaging]
+-
+-7/30/2010 - rebased to 3.1.5 by Qing He <qing.he@intel.com>
+-
+-diff -uNr pciutils-3.1.5.orig/Makefile pciutils-3.1.5/Makefile
+---- pciutils-3.1.5.orig/Makefile	2010-07-30 14:02:15.000000000 +0800
+-+++ pciutils-3.1.5/Makefile	2010-07-30 14:02:55.000000000 +0800
+-@@ -51,7 +51,7 @@
+- 
+- export
+- 
+--all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS)
+-+all: lib/$(PCILIB) lspci setpci example lspci.8 setpci.8 pcilib.7 update-pciids update-pciids.8 $(PCI_IDS) pcimodules pcimodules.8
+- 
+- lib/$(PCILIB): $(PCIINC) force
+- 	$(MAKE) -C lib all
+-@@ -61,9 +61,11 @@
+- lib/config.h lib/config.mk:
+- 	cd lib && ./configure
+- 
+-+pcimodules: pcimodules.o common.o lib/$(PCILIB)
+- lspci: lspci.o ls-vpd.o ls-caps.o ls-ecaps.o ls-kernel.o ls-tree.o ls-map.o common.o lib/$(PCILIB)
+- setpci: setpci.o common.o lib/$(PCILIB)
+- 
+-+pcimodules.o: pcimodules.c pciutils.h
+- LSPCIINC=lspci.h pciutils.h $(PCIINC)
+- lspci.o: lspci.c $(LSPCIINC)
+- ls-vpd.o: ls-vpd.c $(LSPCIINC)
+-@@ -100,10 +102,10 @@
+- install: all
+- # -c is ignored on Linux, but required on FreeBSD
+- 	$(DIRINSTALL) -m 755 $(DESTDIR)$(SBINDIR) $(DESTDIR)$(IDSDIR) $(DESTDIR)$(MANDIR)/man8 $(DESTDIR)$(MANDIR)/man7
+--	$(INSTALL) -c -m 755 lspci setpci $(DESTDIR)$(SBINDIR)
+-+	$(INSTALL) -c -m 755 lspci setpci pcimodules $(DESTDIR)$(SBINDIR)
+- 	$(INSTALL) -c -m 755 update-pciids $(DESTDIR)$(SBINDIR)
+- 	$(INSTALL) -c -m 644 $(PCI_IDS) $(DESTDIR)$(IDSDIR)
+--	$(INSTALL) -c -m 644 lspci.8 setpci.8 update-pciids.8 $(DESTDIR)$(MANDIR)/man8
+-+	$(INSTALL) -c -m 644 lspci.8 setpci.8 update-pciids.8 pcimodules.8 $(DESTDIR)$(MANDIR)/man8
+- 	$(INSTALL) -c -m 644 pcilib.7 $(DESTDIR)$(MANDIR)/man7
+- ifeq ($(SHARED),yes)
+- 	$(DIRINSTALL) -m 755 $(DESTDIR)$(LIBDIR)
+-@@ -121,9 +123,9 @@
+- endif
+- 
+- uninstall: all
+--	rm -f $(DESTDIR)$(SBINDIR)/lspci $(DESTDIR)$(SBINDIR)/setpci $(DESTDIR)$(SBINDIR)/update-pciids
+-+	rm -f $(DESTDIR)$(SBINDIR)/lspci $(DESTDIR)$(SBINDIR)/setpci $(DESTDIR)$(SBINDIR)/pcimodules $(DESTDIR)$(SBINDIR)/update-pciids
+- 	rm -f $(DESTDIR)$(IDSDIR)/$(PCI_IDS)
+--	rm -f $(DESTDIR)$(MANDIR)/man8/lspci.8 $(DESTDIR)$(MANDIR)/man8/setpci.8 $(DESTDIR)$(MANDIR)/man8/update-pciids.8
+-+	rm -f $(DESTDIR)$(MANDIR)/man8/lspci.8 $(DESTDIR)$(MANDIR)/man8/setpci.8 $(DESTDIR)$(MANDIR)/man8/pcimodules.8 $(DESTDIR)$(MANDIR)/man8/update-pciids.8
+- 	rm -f $(DESTDIR)$(MANDIR)/man7/pcilib.7
+- ifeq ($(SHARED),yes)
+- 	rm -f $(DESTDIR)$(LIBDIR)/$(PCILIB) $(DESTDIR)$(LIBDIR)/$(LIBNAME).so$(ABI_VERSION)
+-Index: pciutils-3.0.3/pcimodules.c
+-===================================================================
+---- /dev/null	1970-01-01 00:00:00.000000000 +0000
+-+++ pciutils-3.0.3/pcimodules.c	2008-12-31 00:41:47.000000000 +0000
+-@@ -0,0 +1,185 @@
+-+/*
+-+ *	pcimodules:  Load all kernel modules for PCI device currently
+-+ *      plugged into any PCI slot.
+-+ *
+-+ *	Copyright 2000 Yggdrasil Computing, Incorporated
+-+ *	This file may be copied under the terms and conditions of version 
+-+ *      two of the GNU General Public License, as published by the Free
+-+ *      Software Foundation (Cambridge, Massachusetts, USA).
+-+ *
+-+ *      This file is based on pciutils/lib/example.c, which has the following
+-+ *      authorship and copyright statement:
+-+ *
+-+ *		Written by Martin Mares and put to public domain. You can do
+-+ *		with it anything you want, but I don't give you any warranty.
+-+ */
+-+
+-+#include <stdlib.h>
+-+#include <stdio.h>
+-+#include <malloc.h>
+-+#include <string.h>
+-+#include <unistd.h>
+-+#include <sys/utsname.h>
+-+#include <sys/param.h>
+-+#include <sys/types.h>
+-+
+-+#define _GNU_SOURCE
+-+#include <getopt.h>
+-+
+-+#include "pciutils.h"
+-+
+-+#define MODDIR	"/lib/modules"
+-+#define PCIMAP	"modules.pcimap"
+-+
+-+#define LINELENGTH	8000 
+-+
+-+#define DEVICE_ANY	0xffffffff
+-+#define VENDOR_ANY	0xffffffff
+-+
+-+#include "lib/pci.h"
+-+
+-+ const char program_name[] = "lspci";
+-+
+-+struct pcimap_entry {
+-+	unsigned int vendor, subsys_vendor, dev, subsys_dev, class, class_mask;
+-+	char *module;
+-+	struct pcimap_entry *next;
+-+};
+-+
+-+static struct pcimap_entry *pcimap_list = NULL;
+-+
+-+#define OPT_STRING "h"
+-+static struct option long_options[] = {
+-+	{"class",	required_argument,	NULL, 'c'},
+-+	{"classmask",	required_argument,	NULL, 'm'},
+-+	{"help",	no_argument,		NULL, 'h'},
+-+	{ 0,		0,			0, 	0}
+-+};
+-+
+-+static unsigned long desired_class;
+-+static unsigned long desired_classmask; /* Default is 0: accept all classes.*/
+-+
+-+void
+-+read_pcimap(void)
+-+{
+-+	struct utsname utsname;
+-+	char filename[MAXPATHLEN];
+-+	FILE *pcimap_file;
+-+	char line[LINELENGTH];
+-+	struct pcimap_entry *entry;
+-+	unsigned int driver_data;
+-+	char *prevmodule = "";
+-+	char module[LINELENGTH];
+-+
+-+	if (uname(&utsname) < 0) {
+-+		perror("uname");
+-+		exit(1);
+-+	}
+-+	sprintf(filename, "%s/%s/%s", MODDIR, utsname.release, PCIMAP);
+-+	if ((pcimap_file = fopen(filename, "r")) == NULL) {
+-+		perror(filename);
+-+		exit(1);
+-+	}
+-+
+-+	while(fgets(line, LINELENGTH, pcimap_file) != NULL) {
+-+		if (line[0] == '#')
+-+			continue;
+-+
+-+		entry = xmalloc(sizeof(struct pcimap_entry));
+-+
+-+		if (sscanf(line, "%s 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x 0x%x",
+-+			   module,
+-+			   &entry->vendor, &entry->dev,
+-+			   &entry->subsys_vendor, &entry->subsys_dev,
+-+			   &entry->class, &entry->class_mask,
+-+			   &driver_data) != 8) {
+-+			fprintf (stderr,
+-+				"modules.pcimap unparsable line: %s.\n", line);
+-+			free(entry);
+-+			continue;
+-+		}
+-+
+-+		/* Optimize memory allocation a bit, in case someday we
+-+		   have Linux systems with ~100,000 modules.  It also
+-+		   allows us to just compare pointers to avoid trying
+-+		   to load a module twice. */
+-+		if (strcmp(module, prevmodule) != 0) {
+-+			prevmodule = xmalloc(strlen(module)+1);
+-+			strcpy(prevmodule, module);
+-+		}
+-+		entry->module = prevmodule;
+-+		entry->next = pcimap_list;
+-+		pcimap_list = entry;
+-+	}
+-+	fclose(pcimap_file);
+-+}
+-+
+-+/* Return a filled in pci_access->dev tree, with the device classes
+-+   stored in dev->aux.
+-+*/
+-+static void
+-+match_pci_modules(void)
+-+{
+-+	struct pci_access *pacc;
+-+	struct pci_dev *dev;
+-+	unsigned int class, subsys_dev, subsys_vendor;
+-+	struct pcimap_entry *map;
+-+	const char *prevmodule = "";
+-+
+-+	pacc = pci_alloc();		/* Get the pci_access structure */
+-+	/* Set all options you want -- here we stick with the defaults */
+-+	pci_init(pacc);		/* Initialize the PCI library */
+-+	pci_scan_bus(pacc);	/* We want to get the list of devices */
+-+  	for(dev=pacc->devices; dev; dev=dev->next) {
+-+		pci_fill_info(dev, PCI_FILL_IDENT | PCI_FILL_BASES);
+-+		class = (pci_read_word(dev, PCI_CLASS_DEVICE) << 8)
+-+			| pci_read_byte(dev, PCI_CLASS_PROG);
+-+		subsys_dev = pci_read_word(dev, PCI_SUBSYSTEM_ID);
+-+		subsys_vendor = pci_read_word(dev,PCI_SUBSYSTEM_VENDOR_ID);
+-+		for(map = pcimap_list; map != NULL; map = map->next) {
+-+			if (((map->class ^ class) & map->class_mask) == 0 &&
+-+			    ((desired_class ^ class) & desired_classmask)==0 &&
+-+			    (map->dev == DEVICE_ANY ||
+-+			     map->dev == dev->device_id) &&
+-+			    (map->vendor == VENDOR_ANY ||
+-+			     map->vendor == dev->vendor_id) &&
+-+			    (map->subsys_dev == DEVICE_ANY ||
+-+			     map->subsys_dev == subsys_dev) &&
+-+			    (map->subsys_vendor == VENDOR_ANY ||
+-+			     map->subsys_vendor == subsys_vendor) &&
+-+			    prevmodule != map->module) {
+-+				printf("%s\n", map->module);
+-+				prevmodule = map->module;
+-+			}
+-+		}
+-+
+-+	}
+-+	pci_cleanup(pacc);
+-+}
+-+
+-+int
+-+main (int argc, char **argv)
+-+{
+-+	int opt_index = 0;
+-+	int opt;
+-+
+-+	while ((opt = getopt_long(argc, argv, OPT_STRING, long_options,
+-+		           &opt_index)) != -1) {
+-+		switch(opt) {
+-+			case 'c':
+-+				desired_class = strtol(optarg, NULL, 0);
+-+				break;
+-+			case 'm':
+-+				desired_classmask = strtol(optarg, NULL, 0);
+-+				break;
+-+			case 'h':
+-+				printf ("Usage: pcimodules [--help]\n"
+-+					"  Lists kernel modules corresponding to PCI devices currently plugged"
+-+					"  into the computer.\n");
+-+		}
+-+	}	
+-+
+-+	read_pcimap();
+-+	match_pci_modules();
+-+	return 0;
+-+}
+-Index: pciutils-3.0.3/pcimodules.man
+-===================================================================
+---- /dev/null	1970-01-01 00:00:00.000000000 +0000
+-+++ pciutils-3.0.3/pcimodules.man	2008-12-31 00:41:47.000000000 +0000
+-@@ -0,0 +1,92 @@
+-+.TH pcimodules 8 "@TODAY@" "@VERSION@" "Linux PCI Utilities"
+-+.IX pcimodules
+-+.SH NAME
+-+pcimodules \- List kernel driver modules available for all currently plugged
+-+in PCI devices
+-+.SH SYNOPSIS
+-+.B pcimodules
+-+.RB [ --class class_id ]
+-+.RB [ --classmask mask ]
+-+.RB [ --help ]
+-+.SH DESCRIPTION
+-+.B pcimodules
+-+lists all driver modules for all currently plugged in PCI devices.
+-+.B pcimodules
+-+should be run at boot time, and whenever a PCI device is "hot plugged"
+-+into the system.  This can be done by the following Bourne shell syntax:
+-+.IP
+-+	for module in $(pcimodules) ; do
+-+.IP
+-+		modprobe -s -k "$module"
+-+.IP
+-+	done
+-+.PP
+-+When a PCI device is removed from the system, the Linux kernel will
+-+decrement a usage count on PCI driver module.  If this count drops
+-+to zero (i.e., there are no PCI drivers), then the
+-+.B modprobe -r
+-+process that is normally configured to run from cron every few minutes
+-+will eventually remove the unneeded module.
+-+.PP
+-+The --class and --classmask arguments can be used to limit the search
+-+to certain classes of PCI devices.  This is useful, for example, to
+-+generate a list of ethernet card drivers to be loaded when the kernel
+-+has indicated that it is trying to resolve an unknown network interface.
+-+.PP
+-+Modules are listed in the order in which the PCI devices are physically
+-+arranged so that the computer owner can arrange things like having scsi
+-+device 0 be on a controller that is not alphabetically the first scsi
+-+controller.
+-+.SH OPTIONS
+-+.TP
+-+.B --class class --classmask mask
+-+.PP
+-+--class and --classmask limit the search to PCI
+-+cards in particular classes.  These arguments are always used together.
+-+The arguments to --class and --classmask
+-+can be given as hexadecimal numbers by prefixing a leading "0x".
+-+Note that the classes used by pcimodules are in "Linux" format,
+-+meaning the class value that you see with lspci would be shifted
+-+left eight bits, with the new low eight bits programming interface ID.
+-+An examples of how to use class and classmask is provided below.
+-+.B --help, -h
+-+Print a help message and exit.
+-+.SH EXAMPLES
+-+.TP
+-+pcimodules
+-+lists all modules corresponding to currently plugged in PCI devices.
+-+.TP
+-+pcimodules --class 0x200000 --classmask 0xffff00
+-+lists all modules corresponding to currently plugged in ethernet PCI devices.
+-+.SH FILES
+-+.TP
+-+.B /lib/modules/<kernel-version>/modules.pcimap
+-+This file is automatically generated by
+-+.B depmod,
+-+and used by
+-+.B pcimodules
+-+to determine which modules correspond to which PCI ID's.
+-+.TP
+-+.B /proc/bus/pci
+-+An interface to PCI bus configuration space provided by the post-2.1.82 Linux
+-+kernels. Contains per-bus subdirectories with per-card config space files and a
+-+.I devices
+-+file containing a list of all PCI devices.
+-+
+-+.SH SEE ALSO
+-+.BR lspci (8)
+-+
+-+.SH MAINTAINER
+-+The Linux PCI Utilities are maintained by Martin Mares <mj@suse.cz>.
+-+
+-+.SH AUTHOR
+-+.B pcimodules
+-+was written by Adam J. Richter <adam@yggdrasil.com>, based on public
+-+domain example code by Martin Mares <mj@suse.cz>.
+-+
+-+.SH COPYRIGHT
+-+.B pcimodules
+-+is copyright 2000, Yggdrasil Computing, Incorporated, and may
+-+be copied under the terms and conditions of version 2 of the GNU
+-+General Public License as published by the Free Software Foundation
+-+(Cambrige, Massachusetts, United States of America).
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.2.0.bb b/meta/recipes-bsp/pciutils/pciutils_3.2.0.bb
+index 51099d1..c190e1b 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.2.0.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.2.0.bb
+@@ -13,7 +13,6 @@ PR = "r0"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.bz2 \
+            file://configure.patch \
+-           file://pcimodules-pciutils.diff \
+            file://lib-build-fix.patch \
+            file://guess-fix.patch \
+            file://makefile.patch"
 -- 
 1.7.10.4
 
