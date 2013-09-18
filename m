@@ -1,22 +1,37 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp1-g21.free.fr (smtp1-g21.free.fr [212.27.42.1])
-	by mail.openembedded.org (Postfix) with ESMTP id B148760664
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id CA8B26110E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 20:28:11 +0000 (UTC)
-Received: from e6520eb (unknown [82.233.81.124]) (Authenticated sender: eukrea)
-	by smtp1-g21.free.fr (Postfix) with ESMTPSA id 68B679400BA;
-	Wed, 18 Sep 2013 22:28:05 +0200 (CEST)
-Date: Wed, 18 Sep 2013 22:28:03 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20130918222803.39fdaaec@e6520eb>
-In-Reply-To: <1379522926-22817-1-git-send-email-ross.burton@intel.com>
-References: <1379522926-22817-1-git-send-email-ross.burton@intel.com>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.19; x86_64-redhat-linux-gnu)
+	Wed, 18 Sep 2013 20:33:22 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8IKlfbd024214; Wed, 18 Sep 2013 21:47:41 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id U1XcJgfK7XIP; Wed, 18 Sep 2013 21:47:41 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8IKlcPZ024205
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 18 Sep 2013 21:47:39 +0100
+Message-ID: <1379536390.18603.61.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 18 Sep 2013 21:33:10 +0100
+In-Reply-To: <CANyK_8fotVWZMkFO5kMJ_GFjGT2O79TsOWrCQV5Xez+rgdKbMg@mail.gmail.com>
+References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
+	<1376512209-11622-9-git-send-email-mark.hatle@windriver.com>
+	<52125F35.10305@linux.intel.com> <521264DA.8010404@windriver.com>
+	<CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
+	<1379520447.18603.30.camel@ted>
+	<CANyK_8e6OSe8KPvJ3uSEBdNBPMwZT7EsrRTZvLUgUTdyD1_p0g@mail.gmail.com>
+	<1379522909.18603.52.camel@ted>
+	<CANyK_8fotVWZMkFO5kMJ_GFjGT2O79TsOWrCQV5Xez+rgdKbMg@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] qemu: add option to disable X grabs
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/11] opkg: Add --no-install-recommends option.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,44 +44,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 20:28:14 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 18 Sep 2013 20:33:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Ross,
+On Wed, 2013-09-18 at 18:24 +0100, Paul Barker wrote:
+> On 18 September 2013 17:48, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> I'd rather have opkg and opkg-utils merged together or next to each
+> other on the same server if/when I move opkg to git. I think
+> OpenEmbedded/Yocto is probably the main user of opkg but there are
+> others and they'd also benefit from opkg-utils, so having everything
+> in one place would make them easier to find.
+> 
+> My personal preference would be to move opkg and opkg-utils to
+> Bitbucket/Github/similar, probably merged together, with at least one
+> of the core developers from the Yocto Project having admin access to
+> the repositories so that the bus factor is greater than 1.
 
-Le Wed, 18 Sep 2013 17:48:45 +0100,
-Ross Burton <ross.burton@intel.com> a =E9crit :
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
-qemu/qemu.inc
-> index 97e9b7b..1b861d7 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -17,6 +17,7 @@ SRC_URI =3D "\
->      file://powerpc_rom.bin \
->      file://no-strip.patch \
->      file://larger_default_ram_size.patch \
-> +    file://disable-grabs.patch \
->      "
-> =20
->  SRC_URI_append_class-nativesdk =3D "\
+FWIW, personally I dislike some of those services as they can be
+temperamental and with some of them, I can't actually get a view of the
+code in the repos as well as when I'm used to with cgit. I know others
+have different preferences, its just life...
 
-that seems to break the build here (while building meta-toolchain-qte) :
-ERROR: Command Error: exit status: 1  Output:
-Applying patch disable-grabs.patch
-patching file ui/sdl.c
-Hunk #3 FAILED at 912.
-1 out of 3 hunks FAILED -- rejects in file ui/sdl.c
-Patch disable-grabs.patch does not apply (enforce with -f)
-ERROR: Function failed: patch_do_patch
-ERROR: Logfile of failure stored
-in: /scratch/eb/eukrea2/master/setup-scripts/build/tmp-defaultsetup-eglibc-=
-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-qemu/1.5.0-r0/temp/log.do_=
-patch.14821
-ERROR: Task 2313
-(virtual:nativesdk:/scratch/eb/eukrea2/master/setup-scripts/sources/openemb=
-edded-core/meta/recipes-devtools/qemu/qemu_1.5.0.bb,
-do_patch) failed with exit code '1'
+>  I know I
+> could probably ask for opkg to be hosted on git.yoctoproject.org but I
+> think that would make non-Yocto Project users feel a little bit too
+> much like second-class citizens.
 
-Eric
+The Yocto Project is there to be an umbrella for projects serving the
+needs of embedded users. Pseudo is an example of something which can be
+used standalone, yet it is hosted on the YP servers.
+
+I'd say that opkg would fit under the umbrella and that we'd be more
+than happy to host the repo if that was appropriate so the offer is
+there. 
+
+Having more varied projects in the umbrella would actually help people
+understand what the Yocto Project is verses OpenEmbedded (the build
+system/architecture) and Poky (reference distro). We already have others
+like eglibc in there but that should be merging back with glibc,
+thankfully! :)
+
+> I want to avoid flag days where possible, at least one will be needed
+> for the libopkg API but hopefully not for the command line interface
+> or package format.
+
+The API has the .so version and can be managed. The package format  in
+particular need most careful attention.
+
+>  I am planning on proposing that opkg explicitly
+> follow semantic versioning (http://semver.org/) and I think a stable,
+> sane API is important regardless of whether opkg-utils is separate or
+> not.
+
+Agreed.
+
+Cheers,
+
+Richard
+
+
+
 
