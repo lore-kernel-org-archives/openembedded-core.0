@@ -1,51 +1,35 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 02BEC61DDD
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8650361DDD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 14:25:36 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r8IEPX4v016956
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Wed, 18 Sep 2013 14:39:34 +0000 (UTC)
+Received: by mail-lb0-f176.google.com with SMTP id y6so6614236lbh.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 16:25:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1379514336;
-	bh=WAn4cthm0GbVQG5Ozte6RWX4n497Zmt2jJwz3lRM2gI=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=CbFB/Ku8ER9wc/m8NM6IeQR9aVTviis/PI1T4zGAtTFx15vN7TZe9Fp1WsL3j5uPM
-	K9EBRDGpLA2V03CUZgnA9Oo9nwMp5je71DH6eMafKfaq3+CmEhp8IJbeL5Obb68aIq
-	yBLw9wN+S2EW1+tuWG6Og9LBR8Zu4PQHmsUYUM0c=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r8IEPOtd022761
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 16:25:26 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VMIh2-0008Ef-I3
-	for openembedded-core@lists.openembedded.org;
-	Wed, 18 Sep 2013 16:25:24 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: openembedded-core@lists.openembedded.org
-References: <1379512264-8755-1-git-send-email-otavio@ossystems.com.br>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Wed, 18 Sep 2013 16:25:24 +0200
-In-Reply-To: <1379512264-8755-1-git-send-email-otavio@ossystems.com.br>
-	(Otavio Salvador's message of "Wed, 18 Sep 2013 10:51:04 -0300")
-Message-ID: <ly38p2urzf.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
+	Wed, 18 Sep 2013 07:39:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=4F0YIqDPWhtzm2ZzPem+3ooUTMtvg99FYws+0Y57ZFI=;
+	b=YTeYtKbvLPq4WV5daHdQa3lSBxe4iXKdidm72m1ZxFcJce0/a3Y9N/BNdf7LLe2Y7e
+	X+BwClJ5t1guvsEuK/8lzb+269SYroiSVfLjn4QJq6BN78idt/HPup6HwkPunSBJCYJU
+	qe8jyYzEzTg93dAl6/MFmI6UpMBe9LI4cDLHoINqM/QYRvajaklTzlkT9Svxs/4WVsGw
+	ezftQvd95kHp/JRCt17Dcr7x0ABewgmzfsxMhvdn2QNgWe5/IiXucqo5PaKmTU8Y6rJ3
+	ncLU2LHIQVtYrG8BteFzjkuIdYZaSLjU5XK4A2nDxHuxuZhCCRBSERaVtRP67gFMIlJV
+	/erg==
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.3
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.73
+X-Received: by 10.152.8.115 with SMTP id q19mr35641499laa.16.1379515175074;
+	Wed, 18 Sep 2013 07:39:35 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Wed, 18 Sep 2013 07:39:35 -0700 (PDT)
+In-Reply-To: <ly38p2urzf.fsf@ensc-virt.intern.sigma-chemnitz.de>
+References: <1379512264-8755-1-git-send-email-otavio@ossystems.com.br>
+	<ly38p2urzf.fsf@ensc-virt.intern.sigma-chemnitz.de>
+Date: Wed, 18 Sep 2013 10:39:35 -0400
+Message-ID: <CADkTA4N+LdRpRW-497U0K8ZTFbFvy5Yr+2QznKbcg0yxSaBPww@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] perf: Add LDFLAGS to allow build of old kernels without patching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,34 +43,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 14:25:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Sep 2013 14:39:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Otavio Salvador <otavio-fKevB0iiKLMBZ+LybsDmbA@public.gmane.org> writes:
+On Wed, Sep 18, 2013 at 10:25 AM, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+> Otavio Salvador <otavio-fKevB0iiKLMBZ+LybsDmbA@public.gmane.org> writes:
+>
+>> The LDFLAGS is required or some old kernels fails due missing
+>> symbols and this is preferred than requiring patches to every old
+>> supported kernel.
+>> ...
+>> +LDFLAGS="-ldl -lutil"
+>
+> What is with -Wl,-as-needed or the gnu-hash ldflags which are applied
+> usually?  Perhaps, hacks like
 
-> The LDFLAGS is required or some old kernels fails due missing
-> symbols and this is preferred than requiring patches to every old
-> supported kernel.
-> ...
-> +LDFLAGS="-ldl -lutil"
+We don't want to influence the perf build from the build system, unless we
+absolutely have to. We want to use the flags and configs that are contained
+within the kernel, just as we do with anything from the kernel tree in general.
 
-What is with -Wl,-as-needed or the gnu-hash ldflags which are applied
-usually?  Perhaps, hacks like
+>
+> ----
+> do_configure_prepend() {
+>   cat <<"EOF" > ${S}/tools/perf/x.mk
+> include Makefile
+> CFLAGS += ${CFLAGS}
+> LDLAGS += ${LDFLAGS}
+> EOF
+> }
+>
+> EXTRA_OEMAKE = ... -f x.mk
+> ----
+>
+> would be a better way?
 
-----
-do_configure_prepend() {
-  cat <<"EOF" > ${S}/tools/perf/x.mk
-include Makefile
-CFLAGS += ${CFLAGS}
-LDLAGS += ${LDFLAGS}
-EOF
-}
+We only want to influence LDFLAGS at the moment, and we'll work to get an
+EXTRA_LDFLAGS into the mainline kernel, so creating less scaffolding, versus
+more, is what we are shooting for here :)
 
-EXTRA_OEMAKE = ... -f x.mk
-----
+Bruce
 
-would be a better way?
+>
+>
+> Enrico
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
-Enrico
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
