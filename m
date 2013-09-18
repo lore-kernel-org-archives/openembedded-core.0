@@ -1,29 +1,32 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D73D26C8E0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 35B106105E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 02:09:42 +0000 (UTC)
+	Wed, 18 Sep 2013 02:45:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8I29hLH005477
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8I2jeeE010028
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Sep 2013 19:09:43 -0700 (PDT)
-Received: from [128.224.162.192] (128.224.162.192) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 17 Sep 2013 19:09:42 -0700
-Message-ID: <52390B65.8040402@windriver.com>
-Date: Wed, 18 Sep 2013 10:09:41 +0800
-From: jhuang0 <jackie.huang@windriver.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Tue, 17 Sep 2013 19:45:40 -0700 (PDT)
+Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 17 Sep 2013 19:45:38 -0700
+Message-ID: <523913CD.3080104@windriver.com>
+Date: Wed, 18 Sep 2013 10:45:33 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1379395520.git.jackie.huang@windriver.com>
-	<1a438ef15a7474ce02b355c6c0ea0ea8b2f2477d.1379395520.git.jackie.huang@windriver.com>
-	<1379421154.32201.116.camel@ted>
-In-Reply-To: <1379421154.32201.116.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] libunistring: remove the test to convert euc-jp in configure
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1379148332.git.liezhi.yang@windriver.com>
+	<3b4c037e41f6678845fb29d97aae5f48f07a68c7.1379148332.git.liezhi.yang@windriver.com>
+	<CAJTo0LbRYeWRB-zOb3NvyH3ZtsOyQMeqKmm8a7xLCs7mpeG-jA@mail.gmail.com>
+	<CAJTo0LZPhGjLrffo3coy_GSWLF+XhHpgyE6zTUxsPU30S72Z9Q@mail.gmail.com>
+	<5237B876.2080203@windriver.com>
+	<CAJTo0LY2DZn2WBhQMZiBe1KFHnpZwT+C6u742reGvE3GLY4LnQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LY2DZn2WBhQMZiBe1KFHnpZwT+C6u742reGvE3GLY4LnQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,106 +39,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 02:09:43 -0000
+X-List-Received-Date: Wed, 18 Sep 2013 02:45:39 -0000
 Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 9/17/2013 8:32 PM, Richard Purdie wrote:
-> On Tue, 2013-09-17 at 13:31 +0800, jackie.huang@windriver.com wrote:
->> From: Jackie Huang <jackie.huang@windriver.com>
+On 09/17/2013 07:12 PM, Burton, Ross wrote:
+> On 17 September 2013 03:03, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> I don't think that the commit you mentioned is a correct fix, he changed:
 >>
->> Remove the test "Test against HP-UX 11.11 bug:
->> No converter from EUC-JP to UTF-8 is provided"
->> since we don't support HP-UX and if the euc-jp is not
->> installed on the host, libunistring will be built without
->> iconv support and will cause guild-native configure fail.
+>> gen/gtypes.h _gen/gtypes-body.h: _gen/stable-spec.xml
+>>
+>> To:
+>>
+>> gen/gtypes.h: _gen/gtypes-body.h
+>>          @:
+>> gen/gtypes-body.h: _gen/stable-spec.xml
+>>
+>> Now if we run "make gen/gtypes.h gen/gtypes-body.h", the gen/gtypes-body.h
+>> will only run once, this is incorrect.
 >
-> This information needs to be in the patch header...
+> But the Python script used in the second rule generates *both* files,
 
-Added and v2 is sent.
+Ah, yes, thanks, what's your opinion on my patch ? Is it OK or should it be
+re-worked ? I think that this fix is simple and easy to understand.
 
-Thanks,
-Jackie
+// Robert
 
+> which is why the current rules in telepathy-mission-control are
+> incorrect:
 >
-> Cheers,
+> ~/Local/mess/37/telepathy-mission-control/src
+> $ ls _gen/gtypes*
+> _gen/gtypes-body.h  _gen/gtypes.h
 >
-> Richard
->>
->> Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> ---
->>   ...conv-m4-remove-the-test-to-convert-euc-jp.patch |   36 ++++++++++++++++++++
->>   .../libunistring/libunistring_0.9.3.bb             |    4 ++-
->>   2 files changed, 39 insertions(+), 1 deletions(-)
->>   create mode 100644 meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
->>
->> diff --git a/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch b/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
->> new file mode 100644
->> index 0000000..3f0f035
->> --- /dev/null
->> +++ b/meta/recipes-support/libunistring/libunistring/iconv-m4-remove-the-test-to-convert-euc-jp.patch
->> @@ -0,0 +1,36 @@
->> +From 8d99a368615656a835f5502326afd31cec2cebfe Mon Sep 17 00:00:00 2001
->> +From: Jackie Huang <jackie.huang@windriver.com>
->> +Date: Mon, 16 Sep 2013 18:16:12 +0800
->> +Subject: [PATCH] remove the test to convert euc-jp
->> +
->> +Upstream-Status: Inappropriate [OE specific]
->> +
->> +Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
->> +---
->> + gnulib-m4/iconv.m4 |   11 -----------
->> + 1 files changed, 0 insertions(+), 11 deletions(-)
->> +
->> +diff --git a/gnulib-m4/iconv.m4 b/gnulib-m4/iconv.m4
->> +index f46ff14..de0a5e9 100644
->> +--- a/gnulib-m4/iconv.m4
->> ++++ b/gnulib-m4/iconv.m4
->> +@@ -126,17 +126,6 @@ int main ()
->> +       }
->> +   }
->> + #endif
->> +-  /* Test against HP-UX 11.11 bug: No converter from EUC-JP to UTF-8 is
->> +-     provided.  */
->> +-  if (/* Try standardized names.  */
->> +-      iconv_open ("UTF-8", "EUC-JP") == (iconv_t)(-1)
->> +-      /* Try IRIX, OSF/1 names.  */
->> +-      && iconv_open ("UTF-8", "eucJP") == (iconv_t)(-1)
->> +-      /* Try AIX names.  */
->> +-      && iconv_open ("UTF-8", "IBM-eucJP") == (iconv_t)(-1)
->> +-      /* Try HP-UX names.  */
->> +-      && iconv_open ("utf8", "eucJP") == (iconv_t)(-1))
->> +-    return 1;
->> +   return 0;
->> + }], [am_cv_func_iconv_works=yes], [am_cv_func_iconv_works=no],
->> +         [case "$host_os" in
->> +--
->> +1.7.4
->> diff --git a/meta/recipes-support/libunistring/libunistring_0.9.3.bb b/meta/recipes-support/libunistring/libunistring_0.9.3.bb
->> index 454a0e6..6cffef4 100644
->> --- a/meta/recipes-support/libunistring/libunistring_0.9.3.bb
->> +++ b/meta/recipes-support/libunistring/libunistring_0.9.3.bb
->> @@ -19,7 +19,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
->>
->>   SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
->>              file://parallelmake.patch \
->> -           file://libunistring_fix_for_automake_1.12.patch"
->> +           file://libunistring_fix_for_automake_1.12.patch \
->> +           file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
->> +"
->>
->>   SRC_URI[md5sum] = "db8eca3b64163abadf8c40e5cecc261f"
->>   SRC_URI[sha256sum] = "610d3ec724fbdaa654afe3cff20b9f4d504be3fd296fded2e0f7f764041006a3"
+> ~/Local/mess/37/telepathy-mission-control/src
+> $ rm _gen/gtypes* -f
+>
+> ~/Local/mess/37/telepathy-mission-control/src
+> $ make _gen/gtypes.h
+> /usr/bin/python ../tools/glib-gtypes-generator.py \
+> _gen/mcd.xml _gen/gtypes mc
+>
+> ~/Local/mess/37/telepathy-mission-control/src
+> $ ls _gen/gtypes*
+> _gen/gtypes-body.h  _gen/gtypes.h
+>
+> The anti-pattern of:
+>
+> foo bar:
+>    this-script-generates-both-files.sh
+>
+> is wrong in parallel builds.
+>
+> Ross
 >
 >
->
-
--- 
-Jackie Huang
-WIND RIVER | China Development Center
-MSN:jackielily@hotmail.com
-Tel: +86 8477 8594
-Mobile: +86 138 1027 4745
 
