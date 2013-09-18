@@ -1,32 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 35B106105E
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ED3260EEC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 02:45:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8I2jeeE010028
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Sep 2013 19:45:40 -0700 (PDT)
-Received: from [128.224.162.224] (128.224.162.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 17 Sep 2013 19:45:38 -0700
-Message-ID: <523913CD.3080104@windriver.com>
-Date: Wed, 18 Sep 2013 10:45:33 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1379148332.git.liezhi.yang@windriver.com>
-	<3b4c037e41f6678845fb29d97aae5f48f07a68c7.1379148332.git.liezhi.yang@windriver.com>
-	<CAJTo0LbRYeWRB-zOb3NvyH3ZtsOyQMeqKmm8a7xLCs7mpeG-jA@mail.gmail.com>
-	<CAJTo0LZPhGjLrffo3coy_GSWLF+XhHpgyE6zTUxsPU30S72Z9Q@mail.gmail.com>
-	<5237B876.2080203@windriver.com>
-	<CAJTo0LY2DZn2WBhQMZiBe1KFHnpZwT+C6u742reGvE3GLY4LnQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LY2DZn2WBhQMZiBe1KFHnpZwT+C6u742reGvE3GLY4LnQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
+	Wed, 18 Sep 2013 03:17:18 +0000 (UTC)
+Received: by mail-qc0-f175.google.com with SMTP id v2so4145999qcr.20
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Sep 2013 20:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=s2LU1dB0PHHwW8FgzxDeUmGfuQipR69rRJDXSPfeb0g=;
+	b=y7S8BnhcKG6x57r10s12w0bKj9cq86GEyqshDJ4zOjKFcijOgSTDUiQD4pqvJ/NpHg
+	ulv322bARFKzNddq/MH++xV44A+J5BLp10hIKPc5DBtRvGIeKfZQhWyb58g7LWYMQG5G
+	d9OuXK/oKNB06bKrgiQVFTtMtOMnS/+s5vjNpaF3yTf7bRAclGxIPjI7NYjdbQtO4uaF
+	RqCpBS5Pc0oJNfJIZni1/shEW7q166KTVPPrhNfqXSNdej31D+kNs/ibi6ximPtbO1yT
+	t+Gvmk42gqq6ce8fGNIuIoAVXHaoHAQ2X9JILjX/dZOyPwNqxvQXI1tmUto1AA+HXKYK
+	bejA==
+X-Received: by 10.49.94.172 with SMTP id dd12mr27015514qeb.4.1379474239466;
+	Tue, 17 Sep 2013 20:17:19 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.194.209.11])
+	by mx.google.com with ESMTPSA id g2sm2006491qaf.12.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 17 Sep 2013 20:17:18 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Sep 2013 00:17:10 -0300
+Message-Id: <1379474230-20707-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.4.rc3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v3] core-image-x11: Ensure x11 distro feature is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,61 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 02:45:39 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Sep 2013 03:17:18 -0000
 
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+Changes in v3:
+- Resend
 
+Changes in v2:
+- New patch
 
-On 09/17/2013 07:12 PM, Burton, Ross wrote:
-> On 17 September 2013 03:03, Robert Yang <liezhi.yang@windriver.com> wrote:
->> I don't think that the commit you mentioned is a correct fix, he changed:
->>
->> gen/gtypes.h _gen/gtypes-body.h: _gen/stable-spec.xml
->>
->> To:
->>
->> gen/gtypes.h: _gen/gtypes-body.h
->>          @:
->> gen/gtypes-body.h: _gen/stable-spec.xml
->>
->> Now if we run "make gen/gtypes.h gen/gtypes-body.h", the gen/gtypes-body.h
->> will only run once, this is incorrect.
->
-> But the Python script used in the second rule generates *both* files,
+ meta/recipes-graphics/images/core-image-x11.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Ah, yes, thanks, what's your opinion on my patch ? Is it OK or should it be
-re-worked ? I think that this fix is simple and easy to understand.
+diff --git a/meta/recipes-graphics/images/core-image-x11.bb b/meta/recipes-graphics/images/core-image-x11.bb
+index 64dc053..14bb1ac 100644
+--- a/meta/recipes-graphics/images/core-image-x11.bb
++++ b/meta/recipes-graphics/images/core-image-x11.bb
+@@ -4,4 +4,6 @@ IMAGE_FEATURES += "splash package-management x11-base"
+ 
+ LICENSE = "MIT"
+ 
+-inherit core-image
++inherit core-image distro_features_check
++
++REQUIRED_DISTRO_FEATURES = "x11"
+-- 
+1.8.4.rc3
 
-// Robert
-
-> which is why the current rules in telepathy-mission-control are
-> incorrect:
->
-> ~/Local/mess/37/telepathy-mission-control/src
-> $ ls _gen/gtypes*
-> _gen/gtypes-body.h  _gen/gtypes.h
->
-> ~/Local/mess/37/telepathy-mission-control/src
-> $ rm _gen/gtypes* -f
->
-> ~/Local/mess/37/telepathy-mission-control/src
-> $ make _gen/gtypes.h
-> /usr/bin/python ../tools/glib-gtypes-generator.py \
-> _gen/mcd.xml _gen/gtypes mc
->
-> ~/Local/mess/37/telepathy-mission-control/src
-> $ ls _gen/gtypes*
-> _gen/gtypes-body.h  _gen/gtypes.h
->
-> The anti-pattern of:
->
-> foo bar:
->    this-script-generates-both-files.sh
->
-> is wrong in parallel builds.
->
-> Ross
->
->
 
