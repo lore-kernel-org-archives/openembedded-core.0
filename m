@@ -1,42 +1,24 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
-	[209.85.128.179])
-	by mail.openembedded.org (Postfix) with ESMTP id C7E686100F
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EEF99610F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 17:25:18 +0000 (UTC)
-Received: by mail-ve0-f179.google.com with SMTP id c14so5693666vea.38
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 10:25:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=IzSKwCgrN3ajsLmwvtGtIDXJu3X+FqFCvPDJWpSG7rQ=;
-	b=VvqWTXEZpJZ0jkcrNHhEmZ0O+SLYOM94UskZq7tNy+r+OsvdCLyOYCv1S/TQult0Wq
-	hclFgEiVP3xStbdvBf4d5fsfpYa61hyoeXSMtyBlqcetwpnpBTMqSQt8gRsFeMEED7MP
-	ipNG+aXRfmnG4gLRKQDIJgORl/drIkAwnOwRnCYQhsnLYPTeOfqCd1Ug/DaXIkucRd/U
-	Py/nrK/NzUleSLqEt+a1/HWaUWSlPUmv85zJnwCeSGmlzFwAqH28xfoyYytWs/i3zF6n
-	F+fZS6FmWQxdIm7W+TjJx6+L4vSR2C2ahA78+hgZJRAEA1j+vqridjzIqDDLepel2b9D
-	sX2Q==
-X-Received: by 10.58.198.13 with SMTP id iy13mr39000701vec.11.1379525120038;
-	Wed, 18 Sep 2013 10:25:20 -0700 (PDT)
+	Wed, 18 Sep 2013 18:24:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8IIOi5u027936
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 18 Sep 2013 11:24:44 -0700 (PDT)
+Received: from yow-bashfiel-d3.wrs.com (128.224.130.112) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 18 Sep 2013 11:24:43 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 18 Sep 2013 14:24:38 -0400
+Message-ID: <cover.1379528498.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.109.72 with HTTP; Wed, 18 Sep 2013 10:24:39 -0700 (PDT)
-In-Reply-To: <1379522909.18603.52.camel@ted>
-References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
-	<1376512209-11622-9-git-send-email-mark.hatle@windriver.com>
-	<52125F35.10305@linux.intel.com> <521264DA.8010404@windriver.com>
-	<CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
-	<1379520447.18603.30.camel@ted>
-	<CANyK_8e6OSe8KPvJ3uSEBdNBPMwZT7EsrRTZvLUgUTdyD1_p0g@mail.gmail.com>
-	<1379522909.18603.52.camel@ted>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 18 Sep 2013 18:24:39 +0100
-X-Google-Sender-Auth: fLVhg8cGM70zSxQ2A6tQuuW-upc
-Message-ID: <CANyK_8fotVWZMkFO5kMJ_GFjGT2O79TsOWrCQV5Xez+rgdKbMg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/11] opkg: Add --no-install-recommends option.
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,54 +31,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 17:25:20 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 18 Sep 2013 18:24:45 -0000
+Content-Type: text/plain
 
-On 18 September 2013 17:48, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2013-09-18 at 17:35 +0100, Paul Barker wrote:
->> As a side question - is there a specific maintainer for opkg-utils?
->> I'd like to discuss whether two separate repositories is a good idea
->> or whether we'd benefit from merging this into the opkg repo.
->
-> I can probably speak for it. It was created out of necessity, we had the
-> situation where patches were piling up against ipkg-utils and since that
-> was dead, we created a new repository we could merge changes into rather
-> than having piles of patches.
->
-> There are some pretty horrific things in there and it probably needs a
-> good clean  out, we only use a small part of it. If we have an actively
-> maintained place for the in opkg, I'd be ok with that. Equally having
-> them separate does better force sane API decisions (flag days where both
-> need to change at the same time would be bad for example). If you wanted
-> commit access to opkg-utils that could probably be arranged if that
-> helps?
->
+Richard/Saul,
 
-I'd rather have opkg and opkg-utils merged together or next to each
-other on the same server if/when I move opkg to git. I think
-OpenEmbedded/Yocto is probably the main user of opkg but there are
-others and they'd also benefit from opkg-utils, so having everything
-in one place would make them easier to find.
+Here are three fixes for the upcoming RCs and release. Once is a new branch, but
+has zero impact on existing boards, so I've gone ahead and added it for this
+upcoming release. The other two are bug fixes.
 
-My personal preference would be to move opkg and opkg-utils to
-Bitbucket/Github/similar, probably merged together, with at least one
-of the core developers from the Yocto Project having admin access to
-the repositories so that the bus factor is greater than 1. I know I
-could probably ask for opkg to be hosted on git.yoctoproject.org but I
-think that would make non-Yocto Project users feel a little bit too
-much like second-class citizens.
+[PATCH 1/3] linux-yocto/3.8: add haswell-wc board config and branch
 
-I want to avoid flag days where possible, at least one will be needed
-for the libopkg API but hopefully not for the command line interface
-or package format. I am planning on proposing that opkg explicitly
-follow semantic versioning (http://semver.org/) and I think a stable,
-sane API is important regardless of whether opkg-utils is separate or
-not.
+   Bumping the meta branch SRCREV to import the following board support:
+
+     meta: add haswell-wc bsp for Intel Haswell Platform (Walnut Canyon CRB) scc and config files
+
+[PATCH 2/3] linux-yocto/3.10: mips configuration changes
+
+   Updating the 3.10 SRCREV to import the following MIPS configuration changes
+
+      4f689aa meta: remove ftrace/ftrace-disable feature
+      3058d81 mips: have the mips BSPs disable function tracing instead of ftrace
+      935f43f meta: add ftrace/ftrace-function-tracer-disable feature
+      0d72a03 mti-malta64: Default to support o32 and n32 userspace binaries
+
+   The first three changes improve the ftrace disabling fragments, to allow tracepoints
+   and ftrace to be enabled, while only disabling dynamic ftrace. This allows tools
+   that required tracepoints (like lttng) to be built against MIPS.
+
+   The mti-malta64 change adds n32 and o32 support to the default configuration to
+   support a broader range of userspace binaries.
+
+   [YOCTO #5215]
+
+   Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
+   Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+[PATCH 3/3] linux-yocto/3.10: fix long perf compile times
+
+   perf's builtin-sched.c triggers extremly long build times on some
+   architectures due to gcc 4.7+ var-tracking functionality.
+
+   To fix this, we can cherry pick the 3.12 commit:
+
+     f36f83f94 [perf sched: Move struct perf_sched definition out of cmd_sched()]
+
+   With this change build times are reduced from 15 to 20 minutes for qemuarm to:
+
+     real    2m19.940s
+     user    1m35.438s
+     sys     0m11.165s
+
+   For kernel's that are not carrying this patch, the following can be added
+   to the perf recipe to also fix the issue:
+
+       +++ b/meta/recipes-kernel/perf/perf.bb
+       @@ -68,6 +68,7 @@ EXTRA_OEMAKE = \
+		       CC="${CC}" \
+		       AR="${AR}" \
+		       perfexecdir=${libexecdir} \
+       +               EXTRA_CFLAGS="-fno-var-tracking" \
+		       NO_GTK2=1 ${TUI_DEFINES} NO_DWARF=1 ${SCRIPTING_DEFINES} \
+
+Cheers,
+
+Bruce
+
+
+The following changes since commit 99b41732458871080cfa7a9bad3f8dfe03e026be:
+
+  perf: Add LDFLAGS to allow build of old kernels without patching (2013-09-18 17:54:42 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  linux-yocto/3.8: add haswell-wc board config and branch
+  linux-yocto/3.10: mips configuration changes
+  linux-yocto/3.10: fix long perf compile times
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   |    6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb    |    2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb |    4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb  |    2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      |   16 ++++++++--------
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb       |    2 +-
+ 6 files changed, 16 insertions(+), 16 deletions(-)
 
 -- 
-Paul Barker
+1.7.10.4
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
