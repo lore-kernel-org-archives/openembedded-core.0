@@ -1,35 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EF7960FE0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 960BC60FE0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 16:48:43 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8IH32TB014383; Wed, 18 Sep 2013 18:03:02 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lTjx4ErPe7hT; Wed, 18 Sep 2013 18:03:02 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8IH2u9S014378
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 18 Sep 2013 18:02:58 +0100
-Message-ID: <1379522909.18603.52.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <paul@paulbarker.me.uk>
-Date: Wed, 18 Sep 2013 17:48:29 +0100
-In-Reply-To: <CANyK_8e6OSe8KPvJ3uSEBdNBPMwZT7EsrRTZvLUgUTdyD1_p0g@mail.gmail.com>
-References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
-	<1376512209-11622-9-git-send-email-mark.hatle@windriver.com>
-	<52125F35.10305@linux.intel.com> <521264DA.8010404@windriver.com>
-	<CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
-	<1379520447.18603.30.camel@ted>
-	<CANyK_8e6OSe8KPvJ3uSEBdNBPMwZT7EsrRTZvLUgUTdyD1_p0g@mail.gmail.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 08/11] opkg: Add --no-install-recommends option.
+	Wed, 18 Sep 2013 16:48:50 +0000 (UTC)
+Received: by mail-wg0-f51.google.com with SMTP id c11so6876079wgh.30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Sep 2013 09:48:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0BcqZ87SpA4WJ0cIAsCW2VCGYXyEQkaT9kGlaVSJSiU=;
+	b=LCQCUoaCOO0lwieDMGhoInGB5j6Qp9Z/UFRWqkdvxuIaZswVz28N81L5PDDKHNM6YP
+	SG69WEoannWLTPo1rx1WdjiRisGDvtwAHwCdgXzxf59iBs0EnAbruSYANf2WLar0C7pZ
+	socM5LIQEHhButWsRHD3vr8GKuIiy1FHHmgBCuKK8XfwUBJ26blziqIWbZhMW5bMhf3L
+	NJ/P6x6/IQ257aTPhjBPe3JG0239j4MSJlFFBvXw5n8EpejKwa6THJcHFE2Qgf2FzQuZ
+	DZMi4bMQG65EJt9jtEG9jA7bueK0NhwaR/gv2HyOTCQL+jnD54VDXFu8YTRIkxp9JnYg
+	9Wiw==
+X-Gm-Message-State: ALoCoQkDFL3S72oi11r03NS5eccLSuDoLiEXzUvAR6HDnaL4cl5ZTUkEfi4+fSXzxMi0uZ9Xhu6v
+X-Received: by 10.180.20.42 with SMTP id k10mr7968336wie.0.1379522931124;
+	Wed, 18 Sep 2013 09:48:51 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id mb7sm3648657wic.10.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 18 Sep 2013 09:48:50 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Sep 2013 17:48:45 +0100
+Message-Id: <1379522926-22817-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] qemu: add option to disable X grabs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,50 +41,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 16:48:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 18 Sep 2013 16:48:51 -0000
 
-On Wed, 2013-09-18 at 17:35 +0100, Paul Barker wrote:
-> My time for this is fairly limited, but felt it was important that
-> someone maintain it as it's a critical dependency for a lot of us.
+When the mouse pointer enters the qemu window it takes a pointer grab. This
+doesn't sound too dangerous at first but it turns out that SDL will infinitely
+busy-loop if it can't get the grab (e.g. if the screen is locked) and the
+average autobuilder setup's X server will have locked the screen a few minutes
+after boot.
 
-We all suffer from time problems so I appreciate someone stepping up
-there, it was certainly a gap.
+The result is that on many autobuilders apparently random qemu instances (the
+top-most one under the pointer) will hang during boot.
 
-> As I understand things the Yocto Project is currently in a
-> stabilisation cycle. So my plan was to wait until 1.5 is released and
-> then look at moving oe-core to opkg-0.2.0, adding PACKAGECONFIG
-> options (I've got a signed package feed I'd like my target to be able
-> to verify, this needs opkg to be built with --enable-gpg) and whatever
-> else needs doing. For now the experimental recipes are available from
-> https://bitbucket.org/opkg/meta-opkg.
+To resolve this add an option (via an environment variable) to never attempt a
+grab.  The default behaviour remains to grab so that everyone else doesn't see
+any change.
 
-PACKAGECONFIG sounds great but is 1.6 material, yes.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../qemu/files/disable-grabs.patch                 |   69 ++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu.inc                |    1 +
+ 2 files changed, 70 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/files/disable-grabs.patch
 
-> As a side question - is there a specific maintainer for opkg-utils?
-> I'd like to discuss whether two separate repositories is a good idea
-> or whether we'd benefit from merging this into the opkg repo.
-
-I can probably speak for it. It was created out of necessity, we had the
-situation where patches were piling up against ipkg-utils and since that
-was dead, we created a new repository we could merge changes into rather
-than having piles of patches.
-
-There are some pretty horrific things in there and it probably needs a
-good clean  out, we only use a small part of it. If we have an actively
-maintained place for the in opkg, I'd be ok with that. Equally having
-them separate does better force sane API decisions (flag days where both
-need to change at the same time would be bad for example). If you wanted
-commit access to opkg-utils that could probably be arranged if that
-helps?
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/recipes-devtools/qemu/files/disable-grabs.patch b/meta/recipes-devtools/qemu/files/disable-grabs.patch
+new file mode 100644
+index 0000000..0e82cc8
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/disable-grabs.patch
+@@ -0,0 +1,69 @@
++When the pointer enters the Qemu window it calls SDL_WM_GrabInput, which calls
++XGrabPointer in a busyloop until it returns GrabSuccess. However if there's already
++a pointer grab (screen is locked, a menu is open) then qemu will hang until the
++grab can be taken.  In the specific case of a headless X server on an autobuilder, once
++the screensaver has kicked in any qemu instance that appears underneath the
++pointer will hang.
++
++I'm not entirely sure why pointer grabs are required (the documentation
++explicitly says it doesn't do grabs when using a tablet, which we are) so wrap
++them in a conditional that can be set by the autobuilder environment, preserving
++the current grabbing behaviour for everyone else.
++
++Upstream-Status: Pending
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++
++From 4b1988ecb01a178269ec0513a75f2ec620c7ef6a Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Wed, 18 Sep 2013 14:04:54 +0100
++Subject: [PATCH] sdl.c: allow user to disable pointer grabs
++
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++---
++ ui/sdl.c |    9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/ui/sdl.c b/ui/sdl.c
++index 39a42d6..6095aa6 100644
++--- a/ui/sdl.c
+++++ b/ui/sdl.c
++@@ -59,6 +59,7 @@ static SDL_Cursor *guest_sprite = NULL;
++ static SDL_PixelFormat host_format;
++ static int scaling_active = 0;
++ static Notifier mouse_mode_notifier;
+++static doing_grabs = True;
++ 
++ static void sdl_update(DisplayChangeListener *dcl,
++                        int x, int y, int w, int h)
++@@ -384,14 +385,16 @@ static void sdl_grab_start(void)
++             SDL_WarpMouse(guest_x, guest_y);
++     } else
++         sdl_hide_cursor();
++-    SDL_WM_GrabInput(SDL_GRAB_ON);
+++    if (doing_grabs)
+++      SDL_WM_GrabInput(SDL_GRAB_ON);
++     gui_grab = 1;
++     sdl_update_caption();
++ }
++ 
++ static void sdl_grab_end(void)
++ {
++-    SDL_WM_GrabInput(SDL_GRAB_OFF);
+++    if (doing_grabs)
+++      SDL_WM_GrabInput(SDL_GRAB_OFF);
++     gui_grab = 0;
++     sdl_show_cursor();
++     sdl_update_caption();
++@@ -909,7 +912,8 @@ void sdl_display_init(DisplayState *ds, int full_screen, int no_frame)
++      * This requires SDL >= 1.2.14. */
++     setenv("SDL_DISABLE_LOCK_KEYS", "1", 1);
++ 
+++    doing_grabs = (getenv("QEMU_DONT_GRAB") == NULL);
+++
++     flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
++     if (SDL_Init (flags)) {
++         fprintf(stderr, "Could not initialize SDL(%s) - exiting\n",
++-- 
++1.7.10.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 97e9b7b..1b861d7 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -17,6 +17,7 @@ SRC_URI = "\
+     file://powerpc_rom.bin \
+     file://no-strip.patch \
+     file://larger_default_ram_size.patch \
++    file://disable-grabs.patch \
+     "
+ 
+ SRC_URI_append_class-nativesdk = "\
+-- 
+1.7.10.4
 
 
