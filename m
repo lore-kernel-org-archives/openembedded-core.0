@@ -1,37 +1,35 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CEFC60EEC
+Return-Path: <anders.darander@gmail.com>
+Received: from mail-ve0-f180.google.com (mail-ve0-f180.google.com
+	[209.85.128.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A9A296B6BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 03:36:23 +0000 (UTC)
-Received: by mail-ob0-f181.google.com with SMTP id gq1so6566968obb.40
+	Wed, 18 Sep 2013 04:51:02 +0000 (UTC)
+Received: by mail-ve0-f180.google.com with SMTP id jz11so5186890veb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 20:36:25 -0700 (PDT)
+	Tue, 17 Sep 2013 21:51:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type:content-transfer-encoding;
-	bh=AdupMyRjKFXSDcMW6rYEzBORtw+sMTfVGAARlK2OuWY=;
-	b=N4OW7cNS2gviSLaCr4TDaK8SqZRIwLHgCX0pYiqHXTCBNIukdaH5aO7M4iLDCUJSuG
-	KqvdjbplbcjVBiFXUmgq6TDSCdyQH71jUOwKBmIdH9AhJQzh3+xmJb+vnxOuL8OTHBH6
-	BxA4D9d7znS3jYrDWmmVKSa5LOAFu/uGf450CHKW+MhlS+1xTkjPF0GaxH5Mm1OLJzVl
-	5CVS2YTnw6AGAG8r57jug4z3bMEKP3pfzztQBS0KwyV8gp5u61ls5GVBg1yNlQ7Dmrq0
-	HsshKtToAUQTCtDIRelb3mMh0FLI/4mGUkmdzljJBPcShxqDdP4dypUr46EfpjJZgSi4
-	g6Lg==
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=vEZyxhNIeMUEOR2rL1iE/Tn6cMrjiUVlh3EfAjM+UgY=;
+	b=JvaaT+aNUV+rIOy71YBDrJNrBUgZ6Xdpd6x3lVEVgu5ffNoipGat0pz8yDrW4KfL8O
+	/Zbe5GDNWLOrYr1cqGuRK5acVm0Z0Q3P7TfB9tZbATND6uXaG84wPh19ZW5BvGZSNgFg
+	NeDGEtBV2JIiXejd06mQVUk7kVHor1ZsNW3zcYr5NAOs9sSMFqGUPpk3/JH39TApYtvF
+	KlLltOQ3xP/UCKgbMrJIiwfVxuyEKm0Imsh5hQc6dtHdvddUlkReAfmtHeWtdUsKMIhE
+	+fDpkfr801FC9hAgGe4z4ztjxAMJR9T/eUpASStizQ6S8h4/iG2mqNY4JzREvKQBmx/l
+	jsiw==
 MIME-Version: 1.0
-X-Received: by 10.182.71.82 with SMTP id s18mr32926250obu.9.1379475385017;
-	Tue, 17 Sep 2013 20:36:25 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 17 Sep 2013 20:36:24 -0700 (PDT)
+X-Received: by 10.220.11.7 with SMTP id r7mr36042115vcr.12.1379479863796; Tue,
+	17 Sep 2013 21:51:03 -0700 (PDT)
+Received: by 10.220.104.143 with HTTP; Tue, 17 Sep 2013 21:51:03 -0700 (PDT)
 In-Reply-To: <5238EA0D.2010108@linux.intel.com>
 References: <cover.1379100075.git.anders@chargestorm.se>
 	<a8748357e163efb38b354d4142293393c2a2cc9a.1379100075.git.anders@chargestorm.se>
 	<5238EA0D.2010108@linux.intel.com>
-Date: Wed, 18 Sep 2013 00:36:24 -0300
-X-Google-Sender-Auth: PuGufaFCEhOQ4xK-TEScdTABpMk
-Message-ID: <CAP9ODKp7fRrXguPO9un4XKJfQfCFOs0gjSErnDAjfmht7evd=w@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
+Date: Wed, 18 Sep 2013 06:51:03 +0200
+Message-ID: <CAE4k23-+smrW4=M80uNwrH1fG7U5zt2S8PhxpQF4askX=3vtug@mail.gmail.com>
+From: Anders Darander <anders.darander@gmail.com>
 To: Saul Wold <sgw@linux.intel.com>
-Cc: Anders Darander <anders@chargestorm.se>,
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] u-boot-fw-utils: reinstate target recipe for fw_printenv
@@ -47,13 +45,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 03:36:23 -0000
+X-List-Received-Date: Wed, 18 Sep 2013 04:51:04 -0000
+Content-Type: multipart/alternative; boundary=001a11c3e47c41a90a04e6a12f8f
+
+--001a11c3e47c41a90a04e6a12f8f
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 17, 2013 at 8:47 PM, Saul Wold <sgw@linux.intel.com> wrote:
+On 18 September 2013 01:47, Saul Wold <sgw@linux.intel.com> wrote:
+
 > On 09/13/2013 12:21 PM, Anders Darander wrote:
->>
+>
 >> The latest upgrade changed u-boot-fw-utils to u-boot-fw-utils-cross, whi=
 ch
 >> removed the on-target fw_printenv (and fw_setenv).
@@ -69,34 +71,39 @@ ch
 >>
 >> Signed-off-by: Anders Darander <anders@chargestorm.se>
 >> ---
->>   meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb | 31
->> ++++++++++++++++++++++
+>>   meta/recipes-bsp/u-boot/u-**boot-fw-utils_2013.07.bb<http://u-boot-fw-=
+utils_2013.07.bb>| 31 ++++++++++++++++++++++
 >>   1 file changed, 31 insertions(+)
->>   create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>>   create mode 100644 meta/recipes-bsp/u-boot/u-**boot-fw-utils_2013.07.b=
+b<http://u-boot-fw-utils_2013.07.bb>
 >>
->> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
->> b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>> diff --git a/meta/recipes-bsp/u-boot/u-**boot-fw-utils_2013.07.bb<http:/=
+/u-boot-fw-utils_2013.07.bb>b/meta/recipes-bsp/u-boot/
+>> u-**boot-fw-utils_2013.07.bb <http://u-boot-fw-utils_2013.07.bb>
 >> new file mode 100644
 >> index 0000000..f97df71
 >> --- /dev/null
->> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>> +++ b/meta/recipes-bsp/u-boot/u-**boot-fw-utils_2013.07.bb<http://u-boot=
+-fw-utils_2013.07.bb>
 >> @@ -0,0 +1,31 @@
 >> +DESCRIPTION =3D "U-boot bootloader fw_printenv/setenv utils"
 >> +LICENSE =3D "GPLv2+"
->> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a565=
-1ecb"
+>> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D**1707d6db1d42237583f50183a5=
+651e*
+>> *cb"
 >> +SECTION =3D "bootloader"
 >> +DEPENDS =3D "mtd-utils"
 >> +
 >> +# This revision corresponds to the tag "v2013.07"
 >> +# We use the revision in order to avoid having to fetch it from the
 >> +# repo during parse
->> +SRCREV =3D "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+>> +SRCREV =3D "**62c175fbb8a0f9a926c88294ea9f7e**88eb898f6c"
 >> +
 >> +PV =3D "v2013.07+git${SRCPV}"
 >> +
->> +SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3Dgi=
-t"
+>> +SRC_URI =3D "git://git.denx.de/u-boot.git;**branch=3Dmaster;protocol=3D=
+git<http://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3Dgit>
+>> "
 >> +
 >> +S =3D "${WORKDIR}/git"
 >> +
@@ -109,55 +116,124 @@ t"
 >> +
 >> +do_install () {
 >> +  install -d ${D}${base_sbindir}
->> +  install -m 755 ${S}/tools/env/fw_printenv
->> ${D}${base_sbindir}/fw_printenv
+>> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_**
+>> printenv
 >> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_sete=
 nv
 >> +}
 >> +
 >> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
 >>
->
+>>
 > I think this might need a COMPATIBLE_MACHINE or some check for correct
 > systems
->>
->> ERROR: Function failed: do_compile (log file is located at
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
-d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
-itAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727)
->> ERROR: Logfile of failure stored in:
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
-d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
-itAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727
->> Log data follows:
->> | DEBUG: Executing shell function do_compile
->> | NOTE: make -j 16 HOSTCC=3Di586-pokymllib32-linux-gcc  -m32
->> --sysroot=3D/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightl=
-y-world/build/build/tmp/sysroots/lib32-qemux86
->> HOSTSTRIP=3Dtrue
->> | System not configured - see README
->> | make: *** [all] Error 1
->> | ERROR: oe_runmake failed
->> | WARNING:
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
-d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
-itAUTOINC+62c175fbb8-r0/temp/run.do_compile.4727:1
->> exit 1 from
->> |   exit 1
->> | ERROR: Function failed: do_compile (log file is located at
->> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
-d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
-itAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727)
->> NOTE: recipe lib32-u-boot-fw-utils-v2013.07+gitAUTOINC+62c175fbb8-r0: ta=
-sk
->> do_compile: Failed
+>
 
-I sent a fix for this.
+Ah, you're correct.
 
-Please give it a try in autobuilder.
+I was looking too much on the old recipe and my working machine... As we're
+currently making the package machine specific, we definitely need this
+test. v2 on its way...
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Cheers,
+Anders
 
+--001a11c3e47c41a90a04e6a12f8f
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
+_quote">On 18 September 2013 01:47, Saul Wold <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:sgw@linux.intel.com" target=3D"_blank">sgw@linux.intel.com</a>&g=
+t;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">On 0=
+9/13/2013 12:21 PM, Anders Darander wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+The latest upgrade changed u-boot-fw-utils to u-boot-fw-utils-cross, which<=
+br>
+removed the on-target fw_printenv (and fw_setenv).<br>
+<br>
+Re-create the updated version of the u-boot-fw-utils recipe.<br>
+<br>
+U-Boot does try to strip the fw_printenv binary by default now. To avoid<br=
+>
+this, without patching the Makefile, we add HOSTSTRIP=3Dtrue to EXTRA_OEMAK=
+E.<br>
+<br>
+The new U-Boot do also require us to configure the build for a specific<br>
+machine, thus we change the package arch.=A7<br>
+<br>
+Signed-off-by: Anders Darander &lt;<a href=3D"mailto:anders@chargestorm.se"=
+ target=3D"_blank">anders@chargestorm.se</a>&gt;<br>
+---<br>
+=A0 meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-fw-utils_2013.07.bb" t=
+arget=3D"_blank">u-<u></u>boot-fw-utils_2013.07.bb</a> | 31 +++++++++++++++=
++++++++<br>
+=A0 1 file changed, 31 insertions(+)<br>
+=A0 create mode 100644 meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-fw-=
+utils_2013.07.bb" target=3D"_blank">u-<u></u>boot-fw-utils_2013.07.bb</a><b=
+r>
+<br>
+diff --git a/meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-fw-utils_2013=
+.07.bb" target=3D"_blank">u-<u></u>boot-fw-utils_2013.07.bb</a> b/meta/reci=
+pes-bsp/u-boot/<a href=3D"http://u-boot-fw-utils_2013.07.bb" target=3D"_bla=
+nk">u-<u></u>boot-fw-utils_2013.07.bb</a><br>
+
+new file mode 100644<br>
+index 0000000..f97df71<br>
+--- /dev/null<br>
++++ b/meta/recipes-bsp/u-boot/<a href=3D"http://u-boot-fw-utils_2013.07.bb"=
+ target=3D"_blank">u-<u></u>boot-fw-utils_2013.07.bb</a><br>
+@@ -0,0 +1,31 @@<br>
++DESCRIPTION =3D &quot;U-boot bootloader fw_printenv/setenv utils&quot;<br>
++LICENSE =3D &quot;GPLv2+&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<u></u>1707d6db1d42237583f=
+50183a5651e<u></u>cb&quot;<br>
++SECTION =3D &quot;bootloader&quot;<br>
++DEPENDS =3D &quot;mtd-utils&quot;<br>
++<br>
++# This revision corresponds to the tag &quot;v2013.07&quot;<br>
++# We use the revision in order to avoid having to fetch it from the<br>
++# repo during parse<br>
++SRCREV =3D &quot;<u></u>62c175fbb8a0f9a926c88294ea9f7e<u></u>88eb898f6c&qu=
+ot;<br>
++<br>
++PV =3D &quot;v2013.07+git${SRCPV}&quot;<br>
++<br>
++SRC_URI =3D &quot;git://<a href=3D"http://git.denx.de/u-boot.git;branch=3D=
+master;protocol=3Dgit" target=3D"_blank">git.denx.de/u-boot.git;<u></u>bran=
+ch=3Dmaster;protocol=3Dgit</a>&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/git&quot;<br>
++<br>
++EXTRA_OEMAKE =3D &#39;HOSTCC=3D&quot;${CC}&quot; HOSTSTRIP=3D&quot;true&qu=
+ot;&#39;<br>
++<br>
++do_compile () {<br>
++ =A0oe_runmake ${UBOOT_MACHINE}<br>
++ =A0oe_runmake env<br>
++}<br>
++<br>
++do_install () {<br>
++ =A0install -d ${D}${base_sbindir}<br>
++ =A0install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_<u></=
+u>printenv<br>
++ =A0install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_seten=
+v<br>
++}<br>
++<br>
++PACKAGE_ARCH =3D &quot;${MACHINE_ARCH}&quot;<br>
+<br>
+</blockquote>
+<br></div></div>
+I think this might need a COMPATIBLE_MACHINE or some check for correct syst=
+ems<br></blockquote><div><br></div><div>Ah, you&#39;re correct.=A0</div><di=
+v><br></div><div>I was looking too much on the old recipe and my working ma=
+chine... As we&#39;re currently making the package machine specific, we def=
+initely need this test. v2 on its way...</div>
+<div><br></div><div>Cheers,</div><div>Anders</div><div>=A0</div></div></div=
+></div>
+
+--001a11c3e47c41a90a04e6a12f8f--
