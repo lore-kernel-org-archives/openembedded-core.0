@@ -1,37 +1,40 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qc0-f172.google.com (mail-qc0-f172.google.com
-	[209.85.216.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 92B6C60EEC
+Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CEFC60EEC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 03:34:29 +0000 (UTC)
-Received: by mail-qc0-f172.google.com with SMTP id l13so4220714qcy.17
+	Wed, 18 Sep 2013 03:36:23 +0000 (UTC)
+Received: by mail-ob0-f181.google.com with SMTP id gq1so6566968obb.40
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 20:34:31 -0700 (PDT)
+	Tue, 17 Sep 2013 20:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=5/qaEKkR3qd6S+xWykshM4Xj4hLaR7gS8Z5zuUSv1qE=;
-	b=nuk3gD/ppXm6qs/oQ2naYUJFhTk7UUvy+v7b1felVhjjCLXJP0v+3tTwIfIuE8Isgf
-	d9933jyuuHeF74XM1GwrGgY8UOU8Bi9Sfw2lPi29GW3ctPBXhcrHdcbT8SFCUd/z4Jcu
-	DOEUxtS55LUTkEcHxMMeBCyJTIq71kBWlL4sdAUf33ANSCr6vCcxTmYKjSSKo4TwVPXr
-	KHEJltJH/fkqSQtfPyYFcFyAUeDKMCkWegEa6+JhGa6MuA8Jpx/gXjlgK5qa1IdFJGYY
-	xruVzd/LwNoa5T77gJ9EhvJYZR2Wvihly7STvjxmm/zxGpMN0fN8Idj80h/7ZrU9GOWD
-	5XNw==
-X-Received: by 10.224.171.196 with SMTP id i4mr11388177qaz.38.1379475271178;
-	Tue, 17 Sep 2013 20:34:31 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.209.11])
-	by mx.google.com with ESMTPSA id u8sm60772376qef.3.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 17 Sep 2013 20:34:30 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=AdupMyRjKFXSDcMW6rYEzBORtw+sMTfVGAARlK2OuWY=;
+	b=N4OW7cNS2gviSLaCr4TDaK8SqZRIwLHgCX0pYiqHXTCBNIukdaH5aO7M4iLDCUJSuG
+	KqvdjbplbcjVBiFXUmgq6TDSCdyQH71jUOwKBmIdH9AhJQzh3+xmJb+vnxOuL8OTHBH6
+	BxA4D9d7znS3jYrDWmmVKSa5LOAFu/uGf450CHKW+MhlS+1xTkjPF0GaxH5Mm1OLJzVl
+	5CVS2YTnw6AGAG8r57jug4z3bMEKP3pfzztQBS0KwyV8gp5u61ls5GVBg1yNlQ7Dmrq0
+	HsshKtToAUQTCtDIRelb3mMh0FLI/4mGUkmdzljJBPcShxqDdP4dypUr46EfpjJZgSi4
+	g6Lg==
+MIME-Version: 1.0
+X-Received: by 10.182.71.82 with SMTP id s18mr32926250obu.9.1379475385017;
+	Tue, 17 Sep 2013 20:36:25 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Tue, 17 Sep 2013 20:36:24 -0700 (PDT)
+In-Reply-To: <5238EA0D.2010108@linux.intel.com>
+References: <cover.1379100075.git.anders@chargestorm.se>
+	<a8748357e163efb38b354d4142293393c2a2cc9a.1379100075.git.anders@chargestorm.se>
+	<5238EA0D.2010108@linux.intel.com>
+Date: Wed, 18 Sep 2013 00:36:24 -0300
+X-Google-Sender-Auth: PuGufaFCEhOQ4xK-TEScdTABpMk
+Message-ID: <CAP9ODKp7fRrXguPO9un4XKJfQfCFOs0gjSErnDAjfmht7evd=w@mail.gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Sep 2013 00:34:18 -0300
-Message-Id: <1379475258-21205-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.4.rc3
-Organization: O.S. Systems Software LTDA.
+To: Saul Wold <sgw@linux.intel.com>
 Cc: Anders Darander <anders@chargestorm.se>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] u-boot-fw-utils: Skip package if UBOOT_MACHINE is unset
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] u-boot-fw-utils: reinstate target recipe for fw_printenv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +47,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 03:34:30 -0000
+X-List-Received-Date: Wed, 18 Sep 2013 03:36:23 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-The UBOOT_MACHINE variable needs to be set so the firmware utils can
-know about some configuration settings which are board dependent. This
-patch ensures the package is skipped in case UBOOT_MACHINE is unset
-thus avoid its build in 'bitbake world' builds for incompatible
-machines.
+On Tue, Sep 17, 2013 at 8:47 PM, Saul Wold <sgw@linux.intel.com> wrote:
+> On 09/13/2013 12:21 PM, Anders Darander wrote:
+>>
+>> The latest upgrade changed u-boot-fw-utils to u-boot-fw-utils-cross, whi=
+ch
+>> removed the on-target fw_printenv (and fw_setenv).
+>>
+>> Re-create the updated version of the u-boot-fw-utils recipe.
+>>
+>> U-Boot does try to strip the fw_printenv binary by default now. To avoid
+>> this, without patching the Makefile, we add HOSTSTRIP=3Dtrue to
+>> EXTRA_OEMAKE.
+>>
+>> The new U-Boot do also require us to configure the build for a specific
+>> machine, thus we change the package arch.=A7
+>>
+>> Signed-off-by: Anders Darander <anders@chargestorm.se>
+>> ---
+>>   meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb | 31
+>> ++++++++++++++++++++++
+>>   1 file changed, 31 insertions(+)
+>>   create mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>>
+>> diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>> b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>> new file mode 100644
+>> index 0000000..f97df71
+>> --- /dev/null
+>> +++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+>> @@ -0,0 +1,31 @@
+>> +DESCRIPTION =3D "U-boot bootloader fw_printenv/setenv utils"
+>> +LICENSE =3D "GPLv2+"
+>> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1707d6db1d42237583f50183a565=
+1ecb"
+>> +SECTION =3D "bootloader"
+>> +DEPENDS =3D "mtd-utils"
+>> +
+>> +# This revision corresponds to the tag "v2013.07"
+>> +# We use the revision in order to avoid having to fetch it from the
+>> +# repo during parse
+>> +SRCREV =3D "62c175fbb8a0f9a926c88294ea9f7e88eb898f6c"
+>> +
+>> +PV =3D "v2013.07+git${SRCPV}"
+>> +
+>> +SRC_URI =3D "git://git.denx.de/u-boot.git;branch=3Dmaster;protocol=3Dgi=
+t"
+>> +
+>> +S =3D "${WORKDIR}/git"
+>> +
+>> +EXTRA_OEMAKE =3D 'HOSTCC=3D"${CC}" HOSTSTRIP=3D"true"'
+>> +
+>> +do_compile () {
+>> +  oe_runmake ${UBOOT_MACHINE}
+>> +  oe_runmake env
+>> +}
+>> +
+>> +do_install () {
+>> +  install -d ${D}${base_sbindir}
+>> +  install -m 755 ${S}/tools/env/fw_printenv
+>> ${D}${base_sbindir}/fw_printenv
+>> +  install -m 755 ${S}/tools/env/fw_printenv ${D}${base_sbindir}/fw_sete=
+nv
+>> +}
+>> +
+>> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>>
+>
+> I think this might need a COMPATIBLE_MACHINE or some check for correct
+> systems
+>>
+>> ERROR: Function failed: do_compile (log file is located at
+>> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
+d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
+itAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727)
+>> ERROR: Logfile of failure stored in:
+>> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
+d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
+itAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727
+>> Log data follows:
+>> | DEBUG: Executing shell function do_compile
+>> | NOTE: make -j 16 HOSTCC=3Di586-pokymllib32-linux-gcc  -m32
+>> --sysroot=3D/srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightl=
+y-world/build/build/tmp/sysroots/lib32-qemux86
+>> HOSTSTRIP=3Dtrue
+>> | System not configured - see README
+>> | make: *** [all] Error 1
+>> | ERROR: oe_runmake failed
+>> | WARNING:
+>> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
+d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
+itAUTOINC+62c175fbb8-r0/temp/run.do_compile.4727:1
+>> exit 1 from
+>> |   exit 1
+>> | ERROR: Function failed: do_compile (log file is located at
+>> /srv/home/pokybuild/yocto-autobuilder-new/yocto-slave/nightly-world/buil=
+d/build/tmp/work/qemux86-pokymllib32-linux/lib32-u-boot-fw-utils/v2013.07+g=
+itAUTOINC+62c175fbb8-r0/temp/log.do_compile.4727)
+>> NOTE: recipe lib32-u-boot-fw-utils-v2013.07+gitAUTOINC+62c175fbb8-r0: ta=
+sk
+>> do_compile: Failed
 
-Fixes [YOCTO: #5223]
+I sent a fix for this.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Please give it a try in autobuilder.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-index f97df71..e711951 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-@@ -17,6 +17,15 @@ S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTSTRIP="true"'
- 
-+python () {
-+	if not d.getVar("UBOOT_MACHINE", True):
-+		PN = d.getVar("PN", True)
-+		FILE = os.path.basename(d.getVar("FILE", True))
-+		bb.debug(1, "To build %s, see %s for instructions on \
-+			     setting up your machine config" % (PN, FILE))
-+		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
-+}
-+
- do_compile () {
-   oe_runmake ${UBOOT_MACHINE}
-   oe_runmake env
--- 
-1.8.4.rc3
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
