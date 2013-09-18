@@ -1,39 +1,33 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DB46D6C8C7
+	by mail.openembedded.org (Postfix) with ESMTP id 733EA60664
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 16:02:47 +0000 (UTC)
+	Wed, 18 Sep 2013 16:07:41 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8IGH4BN012009; Wed, 18 Sep 2013 17:17:05 +0100
+	r8IGLwTi012268; Wed, 18 Sep 2013 17:21:59 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZgmSDrgHPPSw; Wed, 18 Sep 2013 17:17:04 +0100 (BST)
+	with LMTP id Jmpd0TTN44cE; Wed, 18 Sep 2013 17:21:58 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8IGH0Db012001
+	r8IGLr52012263
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 18 Sep 2013 17:17:02 +0100
-Message-ID: <1379520153.18603.27.camel@ted>
+	verify=NOT); Wed, 18 Sep 2013 17:21:55 +0100
+Message-ID: <1379520447.18603.30.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 18 Sep 2013 17:02:33 +0100
-In-Reply-To: <CADkTA4PEPFjA5Adi_NJm8gXof4HNcr6AC5XqvJHhWBY5js5tVw@mail.gmail.com>
-References: <1379512264-8755-1-git-send-email-otavio@ossystems.com.br>
-	<ly38p2urzf.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CADkTA4N+LdRpRW-497U0K8ZTFbFvy5Yr+2QznKbcg0yxSaBPww@mail.gmail.com>
-	<lytxhitawh.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CAP9ODKqWGteXc+_kR5o6rmifWXmnKD3vUjQkOUzxR1Fp+Bkqmg@mail.gmail.com>
-	<lyli2ut9r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-	<CADkTA4PEPFjA5Adi_NJm8gXof4HNcr6AC5XqvJHhWBY5js5tVw@mail.gmail.com>
+To: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 18 Sep 2013 17:07:27 +0100
+In-Reply-To: <CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
+References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
+	<1376512209-11622-9-git-send-email-mark.hatle@windriver.com>
+	<52125F35.10305@linux.intel.com> <521264DA.8010404@windriver.com>
+	<CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: Add LDFLAGS to allow build of old kernels without patching
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/11] opkg: Add --no-install-recommends option.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,55 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 16:02:49 -0000
+X-List-Received-Date: Wed, 18 Sep 2013 16:07:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2013-09-18 at 11:54 -0400, Bruce Ashfield wrote:
-> On Wed, Sep 18, 2013 at 11:44 AM, Enrico Scholz
-> <enrico.scholz@sigma-chemnitz.de> wrote:
-> > Otavio Salvador <otavio@ossystems.com.br> writes:
-> >
-> >> I don't agree on this. perf is tied to kernel and part of its code so
-> >> I think same exception rule apply for it as well.
-> >
-> > perf ships with the kernel but is a pure userspace program.  It does not
-> > require any special setup ('make configure'), it links against complex
-> > userspace gui frameworks and uses userspace headers.
+On Wed, 2013-09-18 at 16:14 +0100, Paul Barker wrote:
+> On 19 August 2013 19:32, Mark Hatle <mark.hatle@windriver.com> wrote:
+> > On 8/19/13 1:08 PM, Saul Wold wrote:
+> >>
+> >> On 08/14/2013 01:30 PM, Mark Hatle wrote:
+> >>> +Upstream-status: Pending
+> >>
 > 
-> yes, we realize this .. we have a long a complicated history with perf and the
-> related build issues.
+> I'm the new maintainer for opkg, 
+
+Congratulations! :)
+
+> I'd be happy to look at this patch
+> and any others if you could send them to opkg-devel@googlegroups.com
+> via git send-email. I like the idea of both '--no-install-recommends'
+> and '--add-exclude'.
 > 
-> We are stating our general policy, interfere with it's build as little
-> as possible.
-> Use extension variables, not clobber variables, etc.
-> 
-> Otherwise, we end up creating our own issues, and have the bugs to prove it :)
+> I stumbled on these as I'm looking at upgrading the opkg recipe to use
+> the newly released opkg-0.2.0 rather than pulling from subversion.
 
-For the record, I do think Enrico does have a valid point here. We do
-put things in CFLAGS and LDFLAGS which we expect *all* userspace to be
-built with. Things like the hash style, preferred debugging symbol
-options and so on are expected to be used for all userspace binaries.
+Sounds great!
 
-So somehow we do need to ensure that when the kernel is building
-userspace binaries, it does use the options we expect and match the rest
-of the system.
-
-Equally, I do understand the kernel build system is a complex beast in
-its own right.
-
-We don't have to solve this instantly, but in general its considered a
-bug if things like the hash-style in LDFLAGS don't make it to the linker
-commandline. We do have QA tests that check for this, however they don't
-function as they used to since we hard set the option on when we compile
-the linker now :/.
+Nice to see releases and someone looking after opkg a bit more.
 
 Cheers,
 
 Richard
-
-
-
-
 
 
