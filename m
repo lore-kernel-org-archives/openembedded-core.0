@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A7BE61566
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 63B9E610F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 21:17:02 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8ILUVOw025778; Wed, 18 Sep 2013 22:31:07 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9g3xnTvvRMRy; Wed, 18 Sep 2013 22:31:07 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8ILV2Gj025810
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 18 Sep 2013 22:31:04 +0100
-Message-ID: <1379538994.18603.63.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Eric =?ISO-8859-1?Q?B=E9nard?= <eric@eukrea.com>
-Date: Wed, 18 Sep 2013 22:16:34 +0100
-In-Reply-To: <20130918222803.39fdaaec@e6520eb>
+	Wed, 18 Sep 2013 21:40:39 +0000 (UTC)
+Received: by mail-vc0-f177.google.com with SMTP id hv10so3486556vcb.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Sep 2013 14:40:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=gOyL2W9RIsCLsfU4L2Gz7HoALaUb5qsVzn9pxGBbIOY=;
+	b=lUngP3PG8rKYtsAdxak0iP4PKZDsrYWo773B8z/35wsUXU563P7TmzvlX9YneXHRwH
+	6T3RL4WPp+6aB6X+aeQEaPNZAgnBt7/sfKQYB6snc/VuYi0hkCSRFEv2nj+KXVUg5Nvv
+	FLRN+McjftVEYOIgcXhllBnt1M7+fWE2BSDi652Lqk8KBp+OAPIX1BFIHJtXJrDZWpiZ
+	eGr9hfIG/JYahMryMo7bcIVzl3DHh1P0gQR6q3Xs6PqBpAGD49zyjI/pDvbsOne0/1tQ
+	MDqN+ksU6wOvrml75GxCHSMMn+zXlfzfHCHynPYshMvNU26JcjQa1E8Pn9ch57IeITuJ
+	bAyQ==
+X-Gm-Message-State: ALoCoQk2HG3UMB+winUDCTymSQ+L+U+2IDHt75Qvb3Csf8JUQdKE/CC4Su0v/1vkRIE7YOkCzxl7
+X-Received: by 10.52.98.131 with SMTP id ei3mr33282837vdb.4.1379540440941;
+	Wed, 18 Sep 2013 14:40:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Wed, 18 Sep 2013 14:40:20 -0700 (PDT)
+In-Reply-To: <1379538994.18603.63.camel@ted>
 References: <1379522926-22817-1-git-send-email-ross.burton@intel.com>
-	<20130918222803.39fdaaec@e6520eb>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<20130918222803.39fdaaec@e6520eb> <1379538994.18603.63.camel@ted>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 18 Sep 2013 22:40:20 +0100
+Message-ID: <CAJTo0La4GC8SzVCoCrnQUf_NTJkSvR-zm4gdSv=QCsupwMb6Gg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] qemu: add option to disable X grabs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -38,47 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 21:17:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 18 Sep 2013 21:40:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2013-09-18 at 22:28 +0200, Eric Bénard wrote:
-> Hi Ross,
-> 
-> Le Wed, 18 Sep 2013 17:48:45 +0100,
-> Ross Burton <ross.burton@intel.com> a écrit :
-> > diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-> > index 97e9b7b..1b861d7 100644
-> > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > @@ -17,6 +17,7 @@ SRC_URI = "\
-> >      file://powerpc_rom.bin \
-> >      file://no-strip.patch \
-> >      file://larger_default_ram_size.patch \
-> > +    file://disable-grabs.patch \
-> >      "
-> >  
-> >  SRC_URI_append_class-nativesdk = "\
-> 
-> that seems to break the build here (while building meta-toolchain-qte) :
-> ERROR: Command Error: exit status: 1  Output:
-> Applying patch disable-grabs.patch
-> patching file ui/sdl.c
-> Hunk #3 FAILED at 912.
-> 1 out of 3 hunks FAILED -- rejects in file ui/sdl.c
-> Patch disable-grabs.patch does not apply (enforce with -f)
-> ERROR: Function failed: patch_do_patch
-> ERROR: Logfile of failure stored
-> in: /scratch/eb/eukrea2/master/setup-scripts/build/tmp-defaultsetup-eglibc-eglibc/work/i686-nativesdk-oesdk-linux/nativesdk-qemu/1.5.0-r0/temp/log.do_patch.14821
-> ERROR: Task 2313
-> (virtual:nativesdk:/scratch/eb/eukrea2/master/setup-scripts/sources/openembedded-core/meta/recipes-devtools/qemu/qemu_1.5.0.bb,
-> do_patch) failed with exit code '1'
+On 18 September 2013 22:16, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Thanks for the report. I looked into it and somehow the patch was
+> corrupted. I've pushed a fix in.
 
-Thanks for the report. I looked into it and somehow the patch was
-corrupted. I've pushed a fix in.
+There was a typo in my patch and instead of re-generating it I did the
+transposition in emacs, which presumably decided to be "clever" and
+re-write the patch headers incorrectly.  Thanks, emacs!
 
-Cheers,
-
-Richard
-
+Sorry about that,
+Ross
 
