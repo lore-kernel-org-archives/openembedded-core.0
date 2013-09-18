@@ -1,38 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
-	[209.85.217.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 73F9F60664
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id DB46D6C8C7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 15:54:19 +0000 (UTC)
-Received: by mail-lb0-f169.google.com with SMTP id z5so6968891lbh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 08:54:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=YxF1QD5zoS6iCL/wAlVTwTM4g7cfwrk57KHL/eqmR0c=;
-	b=NosnMKvO0+ziiD6EOEdJsUjgWJCPgDq0QB75lp7eIl8b3YRH/Mxmyb2yIXxtSbtVVt
-	S2jNH3OvIbP0ZEJM3QEIpvMpOtXPgOCQZUJ8TsPg5KwPIVxl//gcvgVTtAZEiWQFfbaZ
-	D4TKXaoQU6T0i3d7OI0A+zZQ1AzCG5MdTszUlokpJ1HDJ0/IetUhrSO9oKiEuKYEbR70
-	5iZEi+ZAWwXvozt6LVqG/W+4Xrutb1S6FgOxDKhZawZ6ge/T3as5LN9CsJjZmkx4VeO7
-	Ks8x+4foOj/As4zgfdEg3wAOz3ONxCiIsBOjPyOLn+N5wj47wcq0xbKTKAtHQftif7xP
-	I/cA==
-MIME-Version: 1.0
-X-Received: by 10.112.128.166 with SMTP id np6mr35514617lbb.7.1379519660742;
-	Wed, 18 Sep 2013 08:54:20 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Wed, 18 Sep 2013 08:54:20 -0700 (PDT)
-In-Reply-To: <lyli2ut9r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
+	Wed, 18 Sep 2013 16:02:47 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8IGH4BN012009; Wed, 18 Sep 2013 17:17:05 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ZgmSDrgHPPSw; Wed, 18 Sep 2013 17:17:04 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8IGH0Db012001
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 18 Sep 2013 17:17:02 +0100
+Message-ID: <1379520153.18603.27.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 18 Sep 2013 17:02:33 +0100
+In-Reply-To: <CADkTA4PEPFjA5Adi_NJm8gXof4HNcr6AC5XqvJHhWBY5js5tVw@mail.gmail.com>
 References: <1379512264-8755-1-git-send-email-otavio@ossystems.com.br>
 	<ly38p2urzf.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CADkTA4N+LdRpRW-497U0K8ZTFbFvy5Yr+2QznKbcg0yxSaBPww@mail.gmail.com>
 	<lytxhitawh.fsf@ensc-virt.intern.sigma-chemnitz.de>
 	<CAP9ODKqWGteXc+_kR5o6rmifWXmnKD3vUjQkOUzxR1Fp+Bkqmg@mail.gmail.com>
 	<lyli2ut9r0.fsf@ensc-virt.intern.sigma-chemnitz.de>
-Date: Wed, 18 Sep 2013 11:54:20 -0400
-Message-ID: <CADkTA4PEPFjA5Adi_NJm8gXof4HNcr6AC5XqvJHhWBY5js5tVw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	<CADkTA4PEPFjA5Adi_NJm8gXof4HNcr6AC5XqvJHhWBY5js5tVw@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>,
+	Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] perf: Add LDFLAGS to allow build of old kernels without patching
@@ -48,42 +46,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 15:54:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 18 Sep 2013 16:02:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 18, 2013 at 11:44 AM, Enrico Scholz
-<enrico.scholz@sigma-chemnitz.de> wrote:
-> Otavio Salvador <otavio@ossystems.com.br> writes:
->
->> I don't agree on this. perf is tied to kernel and part of its code so
->> I think same exception rule apply for it as well.
->
-> perf ships with the kernel but is a pure userspace program.  It does not
-> require any special setup ('make configure'), it links against complex
-> userspace gui frameworks and uses userspace headers.
+On Wed, 2013-09-18 at 11:54 -0400, Bruce Ashfield wrote:
+> On Wed, Sep 18, 2013 at 11:44 AM, Enrico Scholz
+> <enrico.scholz@sigma-chemnitz.de> wrote:
+> > Otavio Salvador <otavio@ossystems.com.br> writes:
+> >
+> >> I don't agree on this. perf is tied to kernel and part of its code so
+> >> I think same exception rule apply for it as well.
+> >
+> > perf ships with the kernel but is a pure userspace program.  It does not
+> > require any special setup ('make configure'), it links against complex
+> > userspace gui frameworks and uses userspace headers.
+> 
+> yes, we realize this .. we have a long a complicated history with perf and the
+> related build issues.
+> 
+> We are stating our general policy, interfere with it's build as little
+> as possible.
+> Use extension variables, not clobber variables, etc.
+> 
+> Otherwise, we end up creating our own issues, and have the bugs to prove it :)
 
-yes, we realize this .. we have a long a complicated history with perf and the
-related build issues.
+For the record, I do think Enrico does have a valid point here. We do
+put things in CFLAGS and LDFLAGS which we expect *all* userspace to be
+built with. Things like the hash style, preferred debugging symbol
+options and so on are expected to be used for all userspace binaries.
 
-We are stating our general policy, interfere with it's build as little
-as possible.
-Use extension variables, not clobber variables, etc.
+So somehow we do need to ensure that when the kernel is building
+userspace binaries, it does use the options we expect and match the rest
+of the system.
 
-Otherwise, we end up creating our own issues, and have the bugs to prove it :)
+Equally, I do understand the kernel build system is a complex beast in
+its own right.
 
-Bruce
+We don't have to solve this instantly, but in general its considered a
+bug if things like the hash-style in LDFLAGS don't make it to the linker
+commandline. We do have QA tests that check for this, however they don't
+function as they used to since we hard set the option on when we compile
+the linker now :/.
 
->
->
-> Enrico
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
 
 
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+
+
 
