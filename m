@@ -1,42 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vc0-f170.google.com (mail-vc0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BA896C722
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B7DB6C722
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 06:25:07 +0000 (UTC)
-Received: by mail-vc0-f170.google.com with SMTP id kw10so5074725vcb.29
+	Wed, 18 Sep 2013 07:26:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8I7QjgN012689
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Sep 2013 23:25:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=71EUzxAKBr1wWpFxwLNf7UZcAgjEJg5oJfwMGMfqTMU=;
-	b=HYfdVg/3ehHxGinxLTw29dHWaAEYFNRFHCR6ijyDBGQO7IViJQWYQx8CzxxfGpwy1a
-	CoDRgPCU7Z3xrbB5Wm83kY5/c7JyDnyxzAlMPnVfgt/We/s3C+pPIvaR9US6YF4mnGIL
-	tFbmkbYruEo1pVAVYiF0hu553vDJyZYjSJi8nxbCmZ5uDKc2mz5fgOSMWRLAKghrcHnO
-	Xkwtyqx1UHEtWowhiUoXffZLenBOJJ/EeDnkPy3bPI1B0pT996TK5Mqh+TA+cwlj0r4f
-	gJTjLcrP9o71tkMkqtZsyjoHHW7qDeYlZ8gOvvNqtXiPn48w9xy4oC5O4PAaNhxjxAXg
-	UF/A==
-X-Gm-Message-State: ALoCoQlZ8XF71pkJSofc8L/OAb/QHH6UStFk2W539mkIlO5ZenLqZTTzlRRKpUZ3A1Zhci0v0YIJ
-X-Received: by 10.220.46.72 with SMTP id i8mr36877150vcf.10.1379485509334;
-	Tue, 17 Sep 2013 23:25:09 -0700 (PDT)
+	Wed, 18 Sep 2013 00:26:45 -0700 (PDT)
+Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Wed, 18 Sep 2013 00:26:43 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Sep 2013 15:26:40 +0800
+Message-ID: <cover.1379488759.git.hongxu.jia@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 17 Sep 2013 23:24:49 -0700 (PDT)
-In-Reply-To: <523913CD.3080104@windriver.com>
-References: <cover.1379148332.git.liezhi.yang@windriver.com>
-	<3b4c037e41f6678845fb29d97aae5f48f07a68c7.1379148332.git.liezhi.yang@windriver.com>
-	<CAJTo0LbRYeWRB-zOb3NvyH3ZtsOyQMeqKmm8a7xLCs7mpeG-jA@mail.gmail.com>
-	<CAJTo0LZPhGjLrffo3coy_GSWLF+XhHpgyE6zTUxsPU30S72Z9Q@mail.gmail.com>
-	<5237B876.2080203@windriver.com>
-	<CAJTo0LY2DZn2WBhQMZiBe1KFHnpZwT+C6u742reGvE3GLY4LnQ@mail.gmail.com>
-	<523913CD.3080104@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 18 Sep 2013 07:24:49 +0100
-Message-ID: <CAJTo0LbfBNcpuW4HLP=-S+hRpPis_8mY-EWUtHw0jV9JL_Oo_Q@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
+Subject: [PATCH V2 0/1] kernel-grub.bbclass: a method to install/update for bzImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,16 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 06:25:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 18 Sep 2013 07:26:43 -0000
+Content-Type: text/plain
 
-On 18 September 2013 03:45, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Ah, yes, thanks, what's your opinion on my patch ? Is it OK or should it be
-> re-worked ? I think that this fix is simple and easy to understand.
+Change in V2: Create a "kernel-grub.bbclass" to do the job which means
+              it is disabled by default.
 
-It should be re-worked to use the pattern in the commit I mentioned -
-using .NOTPARALLEL is working around the problem that the rule
-dependencies are incorrect.
+Test Case:
+1. Add INHERIT_append = " kernel-grub" to local.conf and build a new kernel
+   image rpm package.
 
-Ross
+2. Prepare a deployed target, and make sure your boot area has enough disk
+   space (free space >= 5MB).
+
+3. Download the new kernel image rpm to the target.
+
+4. Before install/update, check boot area and menu
+root@qemux86-64:~# ls /boot/
+grub        vmlinuz
+
+root@qemux86-64:~# cat /boot/grub/grub.cfg
+menuentry "Linux" {
+    set root=(hd0,1)
+    linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
+}
+
+4. Install/update bzImage
+root@qemux86-64:~# rpm -i kernel-image-3.10.11-yocto-standard-3.10.12+git0+285f93bf94_702040ac7c-r0.qemux86_64.rpm 
+Caution! Update kernel may affect kernel-module!
+update-alternatives: Linking //boot/bzImage to bzImage-3.10.11-yocto-standard
+
+5. After install/update, check boot area and menu
+root@qemux86-64:~# ls /boot/ -al
+drwxr-xr-x    4 root     root          1024 Sep 18 06:58 .
+drwxr-xr-x   17 root     root          4096 Sep 18 06:41 ..
+lrwxrwxrwx    1 root     root            30 Sep 18 06:58 bzImage -> bzImage-3.10.11-yocto-standard
+-rw-r--r--    1 root     root       5601808 Sep 18 06:45 bzImage-3.10.11-yocto-standard
+drwxr-xr-x    4 root     root          1024 Sep 18 06:58 grub
+-rwxr-x---    1 root     root       5601776 Sep 18 06:38 vmlinuz
+
+root@qemux86-64:~# cat /boot/grub/grub.cfg 
+menuentry "Update bzImage-3.10.11-yocto-standard-3.10.12+gitAUTOINC+285f93bf94_702040ac7c" {
+    set root=(hd0,1)
+    linux /bzImage-3.10.11-yocto-standard root=/dev/hdb2  rw  console=tty0  quiet
+}
+menuentry "Linux" {
+    set root=(hd0,1)
+    linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
+}
+
+
+6. Reboot target, 'Update bzImage-3.10.11-yocto-standard-3.10.12+gitAUTOINC+285f93bf94_702040ac7c'
+   will be in the boot menu.
+
+7. It supports GRUB 0.97 in which use menu.lst rather than grub.cfg as config
+   file.
+
+8. If you install the same rpm more than one time with '--force', there will
+   be multiple kernel images in boot area and menu.
+
+//Hongxu
+
+The following changes since commit 825cfeb2e6777a55077ecff32d5b2c0e3da13ae8:
+
+  bitbake: usermanual.xml: Two new sections added to BitBake "Description" (2013-09-17 22:27:56 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib hongxu/update-bzimage
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/update-bzimage
+
+Hongxu Jia (1):
+  kernel-grub.bbclass: a method to install/update for bzImage
+
+ meta/classes/kernel-grub.bbclass | 79 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
+ create mode 100644 meta/classes/kernel-grub.bbclass
+
+-- 
+1.8.1.2
+
 
