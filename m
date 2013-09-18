@@ -1,26 +1,36 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AEC026C722
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qa0-f53.google.com (mail-qa0-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A14A861DDD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 07:26:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8I7Qj5Y029227
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 18 Sep 2013 13:51:21 +0000 (UTC)
+Received: by mail-qa0-f53.google.com with SMTP id k4so2890741qaq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 00:26:45 -0700 (PDT)
-Received: from pek-hjia-d1.corp.ad.wrs.com (128.224.162.194) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 18 Sep 2013 00:26:45 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Sep 2013 15:26:41 +0800
-Message-ID: <3972d66ce581c06b12d537cddd57df794b8f841b.1379488759.git.hongxu.jia@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1379488759.git.hongxu.jia@windriver.com>
-References: <cover.1379488759.git.hongxu.jia@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] kernel-grub.bbclass: a method to install/update for bzImage
+	Wed, 18 Sep 2013 06:51:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=8nkPO4gAlsRUTpPS5nS1mv8tZU/zMVVHQ7YIrhiqZNE=;
+	b=rgjR49icKOMWNQBCxLh5mNv2cR7aLpdo2AMyQ5AhDArNcKlZEpP62KUCJMvm8t99X/
+	+gpP/dJY9mM49wwhBZ8y/rH5aZLFFZWp2HzADXdgMNTxhzB1/G2X90AJ1OtAqxPSGqnA
+	M6QiWbfgRc1LgwSxSODwWFePqLGdcozlWPKOreSp0BxQBdN3602KtPVKg10Gzs2tD2ho
+	bnAr5C9KHRpCb6fJyFxUOq3hRa3VKiVCLJC3llNprQoU9xOQQkoMoZqXkTfsZad2/+7w
+	bUN9p+tLZE+QrlRimPEh6N5aZgmdD0jflynsDeuuwXWHRnwQEtl/jTqUEZLvdhu1LN3x
+	0fbg==
+X-Received: by 10.229.244.69 with SMTP id lp5mr59922746qcb.14.1379512281660;
+	Wed, 18 Sep 2013 06:51:21 -0700 (PDT)
+Received: from nano.lab.ossystems.com.br ([177.194.209.11])
+	by mx.google.com with ESMTPSA id u8sm2336547qef.3.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 18 Sep 2013 06:51:21 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Wed, 18 Sep 2013 10:51:04 -0300
+Message-Id: <1379512264-8755-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 1.8.4.rc3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] perf: Add LDFLAGS to allow build of old kernels without patching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,112 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 07:26:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Sep 2013 13:51:22 -0000
 
-While installing a rpm to update kernel on a deployed target, it will update
-the boot area and the boot menu with the kernel as the priority but allow
-you to fall back to the original kernel as well.
+The LDFLAGS is required or some old kernels fails due missing
+symbols and this is preferred than requiring patches to every old
+supported kernel.
 
-- In kernel-image's preinstall scriptlet, it backs up original kernel to avoid
-  probable confliction with the new one.
-- In kernel-image's postinstall scriptlet, it modify grub's config file to
-  updates the new kernel as the boot priority.
+Fixes [YOCTO: #5221]
 
-[YOCTO #4104]
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/kernel-grub.bbclass | 79 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
- create mode 100644 meta/classes/kernel-grub.bbclass
+ meta/recipes-kernel/perf/perf.bb | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/kernel-grub.bbclass b/meta/classes/kernel-grub.bbclass
-new file mode 100644
-index 0000000..21fcabe
---- /dev/null
-+++ b/meta/classes/kernel-grub.bbclass
-@@ -0,0 +1,79 @@
-+#
-+# While installing a rpm to update kernel on a deployed target, it will update
-+# the boot area and the boot menu with the kernel as the priority but allow
-+# you to fall back to the original kernel as well.
-+#
-+# - In kernel-image's preinstall scriptlet, it backs up original kernel to avoid
-+#   probable confliction with the new one.
-+#
-+# - In kernel-image's postinstall scriptlet, it modify grub's config file to
-+#   updates the new kernel as the boot priority.
-+#
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 4a815ff..269069f 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -60,6 +60,11 @@ B = "${WORKDIR}/${BPN}-${PV}"
+ SCRIPTING_DEFINES = "${@perf_feature_enabled('perf-scripting', '', 'NO_LIBPERL=1 NO_LIBPYTHON=1',d)}"
+ TUI_DEFINES = "${@perf_feature_enabled('perf-tui', '', 'NO_NEWT=1',d)}"
+ 
++# The LDFLAGS is required or some old kernels fails due missing
++# symbols and this is preferred than requiring patches to every old
++# supported kernel.
++LDFLAGS="-ldl -lutil"
 +
-+pkg_preinst_kernel-image_append () {
-+	if [ -z "$D" ]; then
-+		# Parsing confliction
-+		[ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
-+		[ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
-+		if [ -n "$grubcfg" ]; then
-+			# Dereference symlink to avoid confliction with new kernel name.
-+			if grep -q "/${KERNEL_IMAGETYPE} root=" $grubcfg; then
-+				kimage=`realpath /boot/${KERNEL_IMAGETYPE}`;
-+				sed -i "s#${KERNEL_IMAGETYPE} root=#${kimage##*/} root=#" $grubcfg
-+			fi
-+
-+			# Rename old kernel if it conflicts with new kernel name.
-+			if grep -q "/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=" $grubcfg; then
-+				timestamp=`date +%s`
-+				kimage="/boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-$timestamp-back"
-+				sed -i "s#${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#${kimage##*/} root=#" $grubcfg
-+				mv /boot/${KERNEL_IMAGETYPE}-${KERNEL_VERSION} $kimage
-+			fi
-+		fi
-+	fi
-+}
-+
-+pkg_postinst_kernel-image_prepend () {
-+	get_new_grub_cfg() {
-+		title="Update ${KERNEL_IMAGETYPE}-${KERNEL_VERSION}-${PV}"
-+		if [ -f /boot/grub/grub.cfg ]; then
-+			rootfs=`grep " *linux [^ ].* root=" /boot/grub/grub.cfg -m 1 | \
-+				 sed "s# *linux [^ ].* root=#    linux /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
-+
-+			echo "menuentry \"$title\" {"
-+			echo "    set root=(hd0,1)"
-+			echo "$rootfs"
-+			echo "}"
-+		elif [ -f /boot/grub/menu.list ] ; then
-+			rootfs=`grep "kernel [^ ].* root=" /boot/grub/menu.list -m 1 | \
-+				 sed "s#kernel [^ ].* root=#kernel /${KERNEL_IMAGETYPE}-${KERNEL_VERSION} root=#"`
-+
-+			echo "default 0"
-+			echo "timeout 30"
-+			echo "title $title"
-+			echo "root  (hd0,0)"
-+			echo "$rootfs"
-+		fi
-+	}
-+
-+	get_old_grub_cfg() {
-+		if [ -f /boot/grub/grub.cfg ]; then
-+			cat /boot/grub/grub.cfg
-+		elif [ -f /boot/grub/menu.list ] ; then
-+			cat /boot/grub/menu.list | sed -e '/^default/d' -e '/^timeout/d'
-+		fi
-+	}
-+
-+	if [ -z "$D" ]; then
-+		[ -f /boot/grub/menu.list ] && grubcfg="/boot/grub/menu.list"
-+		[ -f /boot/grub/grub.cfg ] && grubcfg="/boot/grub/grub.cfg"
-+		if [ -n "$grubcfg" ]; then
-+			grubcfgtmp="$grubcfg.tmp"
-+			get_new_grub_cfg  > $grubcfgtmp
-+			get_old_grub_cfg >> $grubcfgtmp
-+			mv $grubcfgtmp $grubcfg
-+			echo "Caution! Update kernel may affect kernel-module!"
-+		fi
-+	fi
-+}
-+
+ EXTRA_OEMAKE = \
+ 		'-C ${S}/tools/perf \
+ 		O=${B} \
+@@ -88,13 +93,13 @@ PARALLEL_MAKE = ""
+ 
+ do_compile() {
+ 	# Linux kernel build system is expected to do the right thing
+-	unset CFLAGS LDFLAGS
++	unset CFLAGS
+ 	oe_runmake all
+ }
+ 
+ do_install() {
+ 	# Linux kernel build system is expected to do the right thing
+-	unset CFLAGS LDFLAGS
++	unset CFLAGS
+ 	oe_runmake DESTDIR=${D} install
+ 	# we are checking for this make target to be compatible with older perf versions
+ 	if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1" -a $(grep install-python_ext ${S}/tools/perf/Makefile) = "0"]; then
 -- 
-1.8.1.2
+1.8.4.rc3
 
 
