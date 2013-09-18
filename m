@@ -1,38 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D43D96BCCD
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-ve0-f179.google.com (mail-ve0-f179.google.com
+	[209.85.128.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C7E686100F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 16:48:50 +0000 (UTC)
-Received: by mail-wi0-f171.google.com with SMTP id hm2so6717117wib.16
+	Wed, 18 Sep 2013 17:25:18 +0000 (UTC)
+Received: by mail-ve0-f179.google.com with SMTP id c14so5693666vea.38
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Sep 2013 09:48:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=EAtfNYmXalQrsZy1JVv/91TBxhky1x0S46C6HWaRwKI=;
-	b=kL+I7i0cYjYPcOypCBKszbzPLPg3fB5YHQlfvum8ZUg7gkGgq45tfQXnV+MONtrmR7
-	WjaxnkaaWbYHHx8f4ZXTCgsRtCwRHz66A43HMR8j2itjJHxTye1uNq16ctyyUJ1MkSuV
-	hLqRwdQCfZqHXNIfxgXUS/MF6yzs0sKD7R8QdJZMdmbKVqv1/6tcxhOryi2yqCm7+akL
-	85OfMDjW8uQG0hQd8LRBVRkoGeqWG55uZqWxY1Pn7xlE+e4fnMn7BIY38teHjkgSMfMO
-	75pGFZR85S02Aicja8Hblys2U+Iy15kFVpcRMdLEVE5N4FkUH97GNvfdk3UNuyFk3xfh
-	SD/Q==
-X-Gm-Message-State: ALoCoQnXrI72CGT0Etqd4Xa6E0IOgcUODEBPsDXBCgoDHSWf+r2wecvszrpjYQnTioXUc0lGELUF
-X-Received: by 10.180.81.129 with SMTP id a1mr8058962wiy.2.1379522932355;
-	Wed, 18 Sep 2013 09:48:52 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id mb7sm3648657wic.10.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 18 Sep 2013 09:48:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Sep 2013 17:48:46 +0100
-Message-Id: <1379522926-22817-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1379522926-22817-1-git-send-email-ross.burton@intel.com>
-References: <1379522926-22817-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] qemurunner: disable grabs in automated testing
+	Wed, 18 Sep 2013 10:25:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=IzSKwCgrN3ajsLmwvtGtIDXJu3X+FqFCvPDJWpSG7rQ=;
+	b=VvqWTXEZpJZ0jkcrNHhEmZ0O+SLYOM94UskZq7tNy+r+OsvdCLyOYCv1S/TQult0Wq
+	hclFgEiVP3xStbdvBf4d5fsfpYa61hyoeXSMtyBlqcetwpnpBTMqSQt8gRsFeMEED7MP
+	ipNG+aXRfmnG4gLRKQDIJgORl/drIkAwnOwRnCYQhsnLYPTeOfqCd1Ug/DaXIkucRd/U
+	Py/nrK/NzUleSLqEt+a1/HWaUWSlPUmv85zJnwCeSGmlzFwAqH28xfoyYytWs/i3zF6n
+	F+fZS6FmWQxdIm7W+TjJx6+L4vSR2C2ahA78+hgZJRAEA1j+vqridjzIqDDLepel2b9D
+	sX2Q==
+X-Received: by 10.58.198.13 with SMTP id iy13mr39000701vec.11.1379525120038;
+	Wed, 18 Sep 2013 10:25:20 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.109.72 with HTTP; Wed, 18 Sep 2013 10:24:39 -0700 (PDT)
+In-Reply-To: <1379522909.18603.52.camel@ted>
+References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
+	<1376512209-11622-9-git-send-email-mark.hatle@windriver.com>
+	<52125F35.10305@linux.intel.com> <521264DA.8010404@windriver.com>
+	<CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
+	<1379520447.18603.30.camel@ted>
+	<CANyK_8e6OSe8KPvJ3uSEBdNBPMwZT7EsrRTZvLUgUTdyD1_p0g@mail.gmail.com>
+	<1379522909.18603.52.camel@ted>
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Wed, 18 Sep 2013 18:24:39 +0100
+X-Google-Sender-Auth: fLVhg8cGM70zSxQ2A6tQuuW-upc
+Message-ID: <CANyK_8fotVWZMkFO5kMJ_GFjGT2O79TsOWrCQV5Xez+rgdKbMg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/11] opkg: Add --no-install-recommends option.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,34 +49,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2013 16:48:51 -0000
+X-List-Received-Date: Wed, 18 Sep 2013 17:25:20 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Use the new QEMU_DONT_GRAB environment variable to disable grabs,
-finally/hopefully solving the random hangs that the autobuilder has been hitting
-for a while.
+On 18 September 2013 17:48, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2013-09-18 at 17:35 +0100, Paul Barker wrote:
+>> As a side question - is there a specific maintainer for opkg-utils?
+>> I'd like to discuss whether two separate repositories is a good idea
+>> or whether we'd benefit from merging this into the opkg repo.
+>
+> I can probably speak for it. It was created out of necessity, we had the
+> situation where patches were piling up against ipkg-utils and since that
+> was dead, we created a new repository we could merge changes into rather
+> than having piles of patches.
+>
+> There are some pretty horrific things in there and it probably needs a
+> good clean  out, we only use a small part of it. If we have an actively
+> maintained place for the in opkg, I'd be ok with that. Equally having
+> them separate does better force sane API decisions (flag days where both
+> need to change at the same time would be bad for example). If you wanted
+> commit access to opkg-utils that could probably be arranged if that
+> helps?
+>
 
-[ YOCTO #5131 ]
+I'd rather have opkg and opkg-utils merged together or next to each
+other on the same server if/when I move opkg to git. I think
+OpenEmbedded/Yocto is probably the main user of opkg but there are
+others and they'd also benefit from opkg-utils, so having everything
+in one place would make them easier to find.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/utils/qemurunner.py |    3 +++
- 1 file changed, 3 insertions(+)
+My personal preference would be to move opkg and opkg-utils to
+Bitbucket/Github/similar, probably merged together, with at least one
+of the core developers from the Yocto Project having admin access to
+the repositories so that the bus factor is greater than 1. I know I
+could probably ask for opkg to be hosted on git.yoctoproject.org but I
+think that would make non-Yocto Project users feel a little bit too
+much like second-class citizens.
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index d362ede..256cf3c 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -78,6 +78,9 @@ class QemuRunner:
-         else:
-             os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
- 
-+        # Set this flag so that Qemu doesn't do any grabs as SDL grabs interact
-+        # badly with screensavers.
-+        os.environ["QEMU_DONT_GRAB"] = "1"
-         self.qemuparams = 'bootparams="console=tty1 console=ttyS0,115200n8" qemuparams="-serial tcp:127.0.0.1:%s"' % self.serverport
-         if qemuparams:
-             self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
+I want to avoid flag days where possible, at least one will be needed
+for the libopkg API but hopefully not for the command line interface
+or package format. I am planning on proposing that opkg explicitly
+follow semantic versioning (http://semver.org/) and I think a stable,
+sane API is important regardless of whether opkg-utils is separate or
+not.
+
 -- 
-1.7.10.4
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
