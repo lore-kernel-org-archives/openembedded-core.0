@@ -1,37 +1,25 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B50460135
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4991461013
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:46:12 +0000 (UTC)
-Received: by mail-la0-f43.google.com with SMTP id ep20so7074934lab.30
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 06:46:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=npDutnkr9B69niYdKh8COY8jNi8hKzCPNt0Dq1CbAi0=;
-	b=HqjlodaUlADpBxJ6zk/emBXHleswvtRGeS1mKgDYa11QzVgpci6FYZCPhCdniz86Ee
-	t/c4nasHjFfWIQJv/MH0eNmXT4xSwAUTFyj/8uXmJXHu7TGns0NharcdVy1Cp/j3jo+u
-	Q23ardXgkzGLC6MnVVDz78OVjYmc85MvFxhbRKdUGsILRwVTTXV0iGcALKgxw18SojXX
-	ZdAG7QYhzu6xPKEc7mePGhv8lQX4kkBIE6TyqMObz7zIoES+OauTJBdnXSfFH3kj0/Q7
-	uF7BsMHK2/TFdA0xzKKXNpYZxgJ390Avcup9fgG80+qALT7f3ThkOl1akmgrao6CDATW
-	eNHA==
-X-Received: by 10.112.72.229 with SMTP id g5mr1929194lbv.10.1379598373650;
-	Thu, 19 Sep 2013 06:46:13 -0700 (PDT)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id ao4sm3608279lac.1.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 06:46:10 -0700 (PDT)
-Received: by nysan (Postfix, from userid 1000)
-	id BEC344014A3; Thu, 19 Sep 2013 15:46:03 +0200 (CEST)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2013 15:45:25 +0200
-Message-Id: <1379598325-23165-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
+	Thu, 19 Sep 2013 14:09:47 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2013 07:09:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,936,1371106800"; d="scan'208";a="380578001"
+Received: from unknown (HELO [10.255.15.100]) ([10.255.15.100])
+	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2013 07:09:43 -0700
+Message-ID: <523B05A7.9090201@linux.intel.com>
+Date: Thu, 19 Sep 2013 07:09:43 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH] Add makedevs to nativesdk, which can later allow creation of a small script which allows users of the toolchain tarball to create a custom rootfs from a package feed, using pseudo & makedevs.
+To: Ross Burton <ross.burton@intel.com>
+References: <1379585199-27059-1-git-send-email-ross.burton@intel.com>
+In-Reply-To: <1379585199-27059-1-git-send-email-ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] x11vnc: respect zeroconf DISTRO_FEATURE to enable Avahi support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 13:46:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Sep 2013 14:09:48 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- meta/recipes-devtools/makedevs/makedevs_1.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 09/19/2013 03:06 AM, Ross Burton wrote:
+> There's a standard way of announcing VNC services over mDNS that x11vnc
+> supports, so respect the feature and enable/disable it.
+>
+> Also re-order the statements and drop the redundant PR.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb |    8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
+> index 0abc84a..098d8e8 100644
+> --- a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
+> +++ b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
+> @@ -7,10 +7,6 @@ LICENSE = "GPLv2+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f \
+>                       file://x11vnc/x11vnc.h;endline=33;md5=6f95dc6535467d7ee1563fd434fb372e"
+>
+> -DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib libxfixes libxrandr libxdamage libxtst"
+> -
+> -PR = "r0"
+> -
+>   SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
+>              file://starting-fix.patch \
+>              file://endian-fix.patch "
+> @@ -18,5 +14,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
+>   SRC_URI[md5sum] = "a372ec4fe8211221547b1c108cf56e4c"
+>   SRC_URI[sha256sum] = "f6829f2e629667a5284de62b080b13126a0736499fe47cdb447aedb07a59f13b"
+>
+> +DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib libxfixes libxrandr libxdamage libxtst"
+> +
+Did you intend to move the DEPENDS line here and keep avahi as you have 
+avahi in the PACKAGECONFIG below.
 
-diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
-index 2b9fd37..e6860f0 100644
---- a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
-+++ b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
-@@ -19,4 +19,4 @@ do_install() {
- 	install -m 0755 ${S}/makedevs ${D}${base_sbindir}/makedevs
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-1.8.3.2
+Sau!
 
+>   inherit autotools
+>
+> +PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)}"
+> +PACKAGECONFIG[avahi] = "--with-avahi,--without-avahi,avahi"
+>
 
