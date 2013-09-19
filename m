@@ -1,36 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
-	[74.125.82.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 92BF761013
+Return-Path: <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+Received: from mailhost.eurogiciel.fr (mailhost.eurogiciel.fr [86.64.47.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB4560664
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 14:16:58 +0000 (UTC)
-Received: by mail-we0-f174.google.com with SMTP id q58so8089003wes.33
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 07:16:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=onxv7N8Gk0rtzJO/t+IsNVeACcrk814B4UzUQEWbF8o=;
-	b=cfqVBxPRx3IKBjo0sPSj3qq5NVvkGHW4W1+X40bo2WZU7wjYgLxh1TpcvSApi5m1Ew
-	lUGGB6jWq0l7B+yamNbHYppXssy3YmMuHm8/pZzQc+tsujujhsgSlj00iinZmFeZ91/5
-	J4EWenyBqqmN9h9VOg537P/yhnqK9uod0mqtNtusNcZOnS6F3lTTtZXb5xIzEW9ZwfJ9
-	+YR7tDLsvv48L1lMBIiEx/MbReZmXeXEqQ81PSD3XmFN9lTCJvr/ljkH7fLZvi3d74D4
-	+BhSC8rrqhP3WBzGusCshV+sRKxPK6QBUSR4wHgp8oh6xgdy5MF1zGWQ9qPMxWxvrWzE
-	YTfw==
-X-Gm-Message-State: ALoCoQnsWOTzo/iW4pourqWiITl+0DLFEq1jV4ii1UjwGEyoKyhvMbvOe/KoeSQ2k74pgp31biDr
-X-Received: by 10.194.94.10 with SMTP id cy10mr520043wjb.66.1379600219723;
-	Thu, 19 Sep 2013 07:16:59 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	iz19sm10146315wic.9.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 07:16:59 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2013 15:16:55 +0100
-Message-Id: <1379600215-31559-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH][V2] x11vnc: respect zeroconf DISTRO_FEATURE to enable Avahi support
+	Thu, 19 Sep 2013 14:48:46 +0000 (UTC)
+Received: from (31l-syracuse.eurogiciel.fr [172.16.88.4]) by
+	mailhost.eurogiciel.fr with smtp
+	id 1c2b_efdb_73810ace_213b_11e3_a82b_a4badbe01a3a;
+	Thu, 19 Sep 2013 16:54:57 +0200
+Received: from 06s-venera.eurogiciel.fr ([172.16.92.15]) by
+	31l-syracuse.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959); 
+	Thu, 19 Sep 2013 16:48:44 +0200
+Received: from 44c-mariner.eurogiciel.fr ([172.16.96.15]) by
+	06s-venera.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959); 
+	Thu, 19 Sep 2013 16:48:43 +0200
+X-MimeOLE: Produced By Microsoft Exchange V6.5
+MIME-Version: 1.0
+Date: Thu, 19 Sep 2013 16:48:42 +0200
+Message-ID: <552A140193B5B04F9B5027CA06300D85C47CD6@44c-mariner.eurogiciel.fr>
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Thread-Topic: Building a Poky distribution based on Wayland/Weston 1.2
+Thread-Index: Ac61R1Ul+DcQipWkSii9MMvSi89kDQ==
+From: "Ewan LE BIDEAU-CANEVET" <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+To: <openembedded-core@lists.openembedded.org>, <yocto@yoctoproject.org>,
+	<poky@yoctoproject.org>
+X-OriginalArrivalTime: 19 Sep 2013 14:48:43.0922 (UTC)
+	FILETIME=[56858720:01CEB547]
+Subject: Building a Poky distribution based on Wayland/Weston 1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,44 +39,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 14:16:58 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 14:48:49 -0000
+Content-class: urn:content-classes:message
+Content-Type: multipart/alternative;
+	boundary="----_=_NextPart_001_01CEB547.559AA6B0"
 
-There's a standard way of announcing VNC services over mDNS that x11vnc
-supports, so respect the feature and enable/disable it.
+------_=_NextPart_001_01CEB547.559AA6B0
+Content-Type: text/plain;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Also re-order the statements and drop the redundant PR.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-index 0abc84a..24c42d1 100644
---- a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-+++ b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
-@@ -7,10 +7,6 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f \
-                     file://x11vnc/x11vnc.h;endline=33;md5=6f95dc6535467d7ee1563fd434fb372e"
- 
--DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib libxfixes libxrandr libxdamage libxtst"
--
--PR = "r0"
--
- SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
-            file://starting-fix.patch \
-            file://endian-fix.patch "
-@@ -18,5 +14,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
- SRC_URI[md5sum] = "a372ec4fe8211221547b1c108cf56e4c"
- SRC_URI[sha256sum] = "f6829f2e629667a5284de62b080b13126a0736499fe47cdb447aedb07a59f13b"
- 
-+DEPENDS = "openssl virtual/libx11 libxext jpeg zlib libxfixes libxrandr libxdamage libxtst"
-+
- inherit autotools
- 
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)}"
-+PACKAGECONFIG[avahi] = "--with-avahi,--without-avahi,avahi"
--- 
-1.7.10.4
+Hello,
 
 
+I'm currently trying to have a poky distribution with Wayland/Weston 1.2 =
+and no X server at all. I think I have successfully ported =
+Wayland/Weston to 1.2 version and disabled the X server, so here is my =
+questions :
+
+
+1) Does this project interest you ?
+
+2) How can I test if Wayland  has been correctly built ?
+
+Currently, the Weston shell is up and running.
+
+3) Knowing I started my project from Poky and Open-Embedded =
+repositories, on which upstream repository can I deliver my work ?
+
+I added a poky distro configuration that seems to be delivered into =
+Yocto git , is it correct?
+
+About the changes around Weston & Wayland, the new bb files should be =
+delivered in YOCTO or OpenEmbedded project?
+
+Thank you for your attention.
+
+Ewan Le Bideau-Can=E9vet=20
+
+------_=_NextPart_001_01CEB547.559AA6B0
+Content-Type: text/html;
+	charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
+charset=3Diso-8859-1">
+<META NAME=3D"Generator" CONTENT=3D"MS Exchange Server version =
+6.5.7638.1">
+<TITLE>Building a Poky distribution based on Wayland/Weston 1.2</TITLE>
+</HEAD>
+<BODY>
+<!-- Converted from text/plain format -->
+
+<P><FONT SIZE=3D2>Hello,<BR>
+<BR>
+<BR>
+I'm currently trying to have a poky distribution with Wayland/Weston 1.2 =
+and no X server at all. I think I have successfully ported =
+Wayland/Weston to 1.2 version and disabled the X server, so here is my =
+questions :<BR>
+<BR>
+<BR>
+1) Does this project interest you ?<BR>
+<BR>
+2) How can I test if Wayland&nbsp; has been correctly built ?<BR>
+<BR>
+Currently, the Weston shell is up and running.<BR>
+<BR>
+3) Knowing I started my project from Poky and Open-Embedded =
+repositories, on which upstream repository can I deliver my work ?<BR>
+<BR>
+I added a poky distro configuration that seems to be delivered into =
+Yocto git , is it correct?<BR>
+<BR>
+About the changes around Weston &amp; Wayland, the new bb files should =
+be delivered in YOCTO or OpenEmbedded project?<BR>
+<BR>
+Thank you for your attention.<BR>
+<BR>
+Ewan Le Bideau-Can=E9vet<BR>
+</FONT>
+</P>
+
+</BODY>
+</HTML>
+
+------_=_NextPart_001_01CEB547.559AA6B0--
