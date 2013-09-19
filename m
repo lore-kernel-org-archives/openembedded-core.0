@@ -1,33 +1,36 @@
-Return-Path: <hans.beckerus@gmail.com>
-Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
-	[209.85.214.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 26A3B610F7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 1887F610F7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 15:24:59 +0000 (UTC)
-Received: by mail-ob0-f169.google.com with SMTP id wp4so10224872obc.0
+	Thu, 19 Sep 2013 15:32:58 +0000 (UTC)
+Received: by mail-ob0-f172.google.com with SMTP id gq1so9964237obb.17
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 08:25:00 -0700 (PDT)
+	Thu, 19 Sep 2013 08:32:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TlvSzhpAG2gOuiapEsUYLm/rOJ1A5+eSkXMwpIjmcjY=;
-	b=uqsEO+JYknrqb/Adgd8/eIcv0wbgZO/6E1jPlDHJf12m08cAwUf/iR7UE/3D19sXmk
-	u7J1cqCwvbkAc6LQewGanq5ICay3N3WOYOYJHR631OWkEcecUZJGO9BI3IMWDUITkDW1
-	L7UiwFuWE3/GgxMJCkA+/D+rlOaDIl7/F6GWW09prhwh9HoYrAsx146FH92LDkjKjtUk
-	ZlaeMfXBYl5a4PL2fbNHcoHVPhmcZwgNtK1B3gV73tTImGUp5Fm/smTnqikcVVHWSgUM
-	0ODnEuEOBgQmFA8VPL/S+Qu49ujD0/PY3iuwdTwQyv90U0Z7PyT9n/osftjiRITxRlMD
-	ka5w==
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type:content-transfer-encoding;
+	bh=HxQaFKs2/VVdC4wczWlPuilC4FLbDWeZVJ9WNtzN3xU=;
+	b=1FW6b89hMwIsMHVl2ULtnusOTUrBVIbC1+9KPdiItd7ilcnyuMBxbtJ7/MIte0gXa+
+	g1L+wZPKsRbkxlZsZtoUu9gbSQuGy2OoAZ5f+ug8T0kdlt3HeuJ8z1xjENuyNBI3Ebm4
+	r2fEzYgrIFVoKyEaipMenjMHx7xTDbb05wOqTdiWJgYbiq9Smklbv3iC0QcKL0maTBp2
+	sjR/5eex7Sf1tyaDwSVMsC0RVh/41kwEQ9EhM96SDS+BlRoBqj9E6t6u301o6UMlxmzn
+	B0snGb8HPw3pTAp1RlCauKAX2zY4DDIBEl8U2o9VSofVgDD/MgxNTpuCx/PrF5tVPGCl
+	iSqg==
 MIME-Version: 1.0
-X-Received: by 10.60.62.101 with SMTP id x5mr1645857oer.24.1379604300302; Thu,
-	19 Sep 2013 08:25:00 -0700 (PDT)
-Received: by 10.182.44.8 with HTTP; Thu, 19 Sep 2013 08:25:00 -0700 (PDT)
-In-Reply-To: <1379597321-5447-3-git-send-email-otavio@ossystems.com.br>
+X-Received: by 10.60.80.167 with SMTP id s7mr1686252oex.38.1379604779507; Thu,
+	19 Sep 2013 08:32:59 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Thu, 19 Sep 2013 08:32:59 -0700 (PDT)
+In-Reply-To: <CAFyqS9pDpKoNTk8dgJ5Xkbzmy8YXWX=PZEbbohhotuXr25MYmA@mail.gmail.com>
 References: <1379597321-5447-1-git-send-email-otavio@ossystems.com.br>
 	<1379597321-5447-3-git-send-email-otavio@ossystems.com.br>
-Date: Thu, 19 Sep 2013 17:25:00 +0200
-Message-ID: <CAFyqS9pDpKoNTk8dgJ5Xkbzmy8YXWX=PZEbbohhotuXr25MYmA@mail.gmail.com>
-From: =?ISO-8859-1?Q?Hans_Beck=E9rus?= <hans.beckerus@gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
+	<CAFyqS9pDpKoNTk8dgJ5Xkbzmy8YXWX=PZEbbohhotuXr25MYmA@mail.gmail.com>
+Date: Thu, 19 Sep 2013 12:32:59 -0300
+X-Google-Sender-Auth: xoOeMhJ2Hv0YIpnJDI0YkDnJ43c
+Message-ID: <CAP9ODKoXnLikZrm_HLWqFgdz7XsLY9UVAgmPMg_CjyX3=XvKAw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: =?ISO-8859-1?Q?Hans_Beck=E9rus?= <hans.beckerus@gmail.com>
 Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/3] uboot-config.bbclass: Handle UBOOT_MACHINE setting
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -42,68 +45,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 15:25:00 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 15:32:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 19, 2013 at 3:28 PM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> The class now consolidate the handle of UBOOT_MACHINE and UBOOT_CONFIG
-> variables and handle possible mistakes done by user when using these
-> variables.
+On Thu, Sep 19, 2013 at 12:25 PM, Hans Beck=E9rus <hans.beckerus@gmail.com>=
+ wrote:
+> On Thu, Sep 19, 2013 at 3:28 PM, Otavio Salvador
+> <otavio@ossystems.com.br> wrote:
+>> The class now consolidate the handle of UBOOT_MACHINE and UBOOT_CONFIG
+>> variables and handle possible mistakes done by user when using these
+>> variables.
+>>
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+>>  meta/classes/uboot-config.bbclass | 18 +++++++++++++++++-
+>>  1 file changed, 17 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-conf=
+ig.bbclass
+>> index 44b46ff..b81cc60 100644
+>> --- a/meta/classes/uboot-config.bbclass
+>> +++ b/meta/classes/uboot-config.bbclass
+>> @@ -1,14 +1,30 @@
+>> -# Allow easy override of U-Boot config for a machine
+>> +# Handle U-Boot config for a machine
+>>  #
+>>  # The format to specify it, in the machine, is:
+>>  #
+>>  # UBOOT_CONFIG ??=3D <default>
+>>  # UBOOT_CONFIG[foo] =3D "config,images"
+>>  #
+>> +# or
+>> +#
+>> +# UBOOT_MACHINE =3D "config"
+>> +#
+>>  # Copyright 2013 (C) O.S. Systems Software LTDA.
+>>
+>>  python () {
+>> +    ubootmachine =3D d.getVar("UBOOT_MACHINE", True)
+>>      ubootconfigflags =3D d.getVarFlags('UBOOT_CONFIG')
+>> +
+>> +    if not ubootmachine and not ubootconfigflags:
+>> +        PN =3D d.getVar("PN", True)
+>> +        FILE =3D os.path.basename(d.getVar("FILE", True))
+>> +        bb.debug(1, "To build %s, see %s for instructions on \
+>> +                 setting up your machine config" % (PN, FILE))
+>> +        raise bb.parse.SkipPackage("Either UBOOT_MACHINE or UBOOT_CONFI=
+G are must be set in the %s machine configuration." % d.getVar("MACHINE", T=
+rue))
+>> +
+> Minor grammar error;  UBOOT_CONFIG are must >  UBOOT_CONFIG must
 >
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
->  meta/classes/uboot-config.bbclass | 18 +++++++++++++++++-
->  1 file changed, 17 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-> index 44b46ff..b81cc60 100644
-> --- a/meta/classes/uboot-config.bbclass
-> +++ b/meta/classes/uboot-config.bbclass
-> @@ -1,14 +1,30 @@
-> -# Allow easy override of U-Boot config for a machine
-> +# Handle U-Boot config for a machine
->  #
->  # The format to specify it, in the machine, is:
->  #
->  # UBOOT_CONFIG ??= <default>
->  # UBOOT_CONFIG[foo] = "config,images"
->  #
-> +# or
-> +#
-> +# UBOOT_MACHINE = "config"
-> +#
->  # Copyright 2013 (C) O.S. Systems Software LTDA.
->
->  python () {
-> +    ubootmachine = d.getVar("UBOOT_MACHINE", True)
->      ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-> +
-> +    if not ubootmachine and not ubootconfigflags:
-> +        PN = d.getVar("PN", True)
-> +        FILE = os.path.basename(d.getVar("FILE", True))
-> +        bb.debug(1, "To build %s, see %s for instructions on \
-> +                 setting up your machine config" % (PN, FILE))
-> +        raise bb.parse.SkipPackage("Either UBOOT_MACHINE or UBOOT_CONFIG are must be set in the %s machine configuration." % d.getVar("MACHINE", True))
-> +
-Minor grammar error;  UBOOT_CONFIG are must >  UBOOT_CONFIG must
+>> +    if ubootmachine and ubootconfigflags:
+>> +        raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and UB=
+OOT_CONFIG at same time.")
+>> +
+> Minor grammar error;  at same time -> at the same time
 
-> +    if ubootmachine and ubootconfigflags:
-> +        raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and UBOOT_CONFIG at same time.")
-> +
-Minor grammar error;  at same time -> at the same time
+Thanks; I fixed both in my local tree and will wait some more time for
+feedback and I send a v2.
 
-Thanks.
-Hans
-
->      if not ubootconfigflags:
->          return
->
-> --
-> 1.8.4.rc3
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
