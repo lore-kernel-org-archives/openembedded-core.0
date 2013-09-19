@@ -1,33 +1,26 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vb0-f46.google.com (mail-vb0-f46.google.com
-	[209.85.212.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 06AB660135
+Return-Path: <jukka.rissanen@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F79160664
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:34:35 +0000 (UTC)
-Received: by mail-vb0-f46.google.com with SMTP id p13so6429812vbe.33
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 06:34:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=8wZgan5qlkSq76FMvzCqS+DUNg1EU7unbEJRTBN+NiY=;
-	b=gnl91Lp55PTx5LENpunpLZq+CW0SXqU7iGZ3yD/N7jSjDQS7ttkvC82ghrTbDPKChk
-	9Lgf23m28ns9zndSsAZAif7aG28vDdW8rM7AGPozgEFLFhLYY90v/1+C4IsNr6FXg/94
-	eWVvWtMdZFD3272DNpLa2L17HFe/SA6hIUc5UwJT8jXZmlX4izmjIo7rfCjPXdqGIj33
-	sxnCqej/P2Vm09kFT1Pfw46j76E3cYe8vB5KHcRVrB3JrN1U1rMW7+/ftFEeBV3oPJWZ
-	mcu3VWEsQdUbkzC76GACLFjpx8F8RJ6vo+gH0qBwJ+tvyIFB21dqf/WUSJnY6DlL8iXw
-	KePg==
-X-Received: by 10.220.97.145 with SMTP id l17mr204795vcn.35.1379597677452;
-	Thu, 19 Sep 2013 06:34:37 -0700 (PDT)
+	Thu, 19 Sep 2013 13:41:41 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2013 06:41:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,936,1371106800"; d="scan'208";a="398123833"
+Received: from sorvi.fi.intel.com (HELO [10.237.72.152]) ([10.237.72.152])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2013 06:41:41 -0700
+Message-ID: <523AFF14.10400@linux.intel.com>
+Date: Thu, 19 Sep 2013 16:41:40 +0300
+From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.109.72 with HTTP; Thu, 19 Sep 2013 06:33:57 -0700 (PDT)
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Thu, 19 Sep 2013 14:33:57 +0100
-X-Google-Sender-Auth: tuHngvLjFeTJ4H37TCLw9SQABDk
-Message-ID: <CANyK_8fTtdxWXPf9eSgpQWvvPspaashL14vi-h8x15FtJOQ0DA@mail.gmail.com>
-To: Yocto discussion list <yocto@yoctoproject.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: RFC: Janitorial tasks
+To: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+References: <1379595133-5812-1-git-send-email-muhammad_shakeel@mentor.com>
+	<1379596189.18603.115.camel@ted> <523AF9CB.5040600@mentor.com>
+In-Reply-To: <523AF9CB.5040600@mentor.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: Upgrade to v1.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,41 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 13:34:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 19 Sep 2013 13:41:41 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi all,
+On 19.09.2013 16:19, Muhammad Shakeel wrote:
+> On 09/19/2013 06:09 PM, Richard Purdie wrote:
+>> On Thu, 2013-09-19 at 17:52 +0500, Shakeel, Muhammad wrote:
+>>> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>>>
+>>> -This release contains a few important bugfixes in addition
+>>> to a few new features.
+>> So it fixes some old bugs and potentially adds new ones? I can't make a
+>> good risk assessment on that information, sorry. Are you asking for this
+>> in 1.5 or 1.6?
+>>
+> I was having issues running connman 1.17 on my platform. Connman 1.18
+> worked for me.
+> If it can go in 1.5, it will be great. Otherwise it should definitely go
+> in 1.6.
 
-After discussions at the last TSC meeting I've merged the OpenEmbedded
-wiki page for janitorial tasks
-(http://www.openembedded.org/wiki/OpenEmbeddedJanitors) in to the
-equivalent page on the Yocto Project wiki
-(https://wiki.yoctoproject.org/wiki/Janitors). In addition to keeping
-everything in one place, the benefit here is that the page on the YP
-wiki can integrate with the YP bugzilla.
+ConnMan 1.18 release notes can be found here
+https://connman.net/blogs/patrik/2013/connman-118
 
-To quote the page: "[Janitorial] tasks are intended to help people get
-started working with the Yocto Project. These tasks should not require
-a lot of context. Anyone with basic programming skills, experience
-working with Open Source software, and some time on their hands should
-be able to complete these."
+I would recommend taking it. Biggest issue fixed in 1.18 was the 
+iptables support which did not work in ARM based devices.
 
-If anyone has any suggestions for tasks which could be added to this
-list, please propose them in reply to this email or go ahead and add
-them to the wiki in the existing format. It would also be beneficial
-to add some hints and tips on where to start with the existing tasks
-that are already on the page. Suggestions of who to talk to/what
-mailing list to post on for each task may also be a good idea.
 
-If you've previously posted tasks on the janitors page, now would be a
-good time to quickly review them and ensure they're still relevant.
+This patch could perhaps split to two pieces, first one removing 
+obsolete options and second one updating the version.
 
-Any comments about the organisation of janitorial/newbie friendly
-tasks in general are also welcome.
 
--- 
-Paul Barker
+Cheers,
+Jukka
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
 
