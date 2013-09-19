@@ -1,20 +1,33 @@
-Return-Path: <valentin.popa@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id E270C60135
+Return-Path: <paul.betafive@gmail.com>
+Received: from mail-vb0-f46.google.com (mail-vb0-f46.google.com
+	[209.85.212.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 06AB660135
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:30:35 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 19 Sep 2013 06:30:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,936,1371106800"; d="scan'208";a="404121496"
-Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2013 06:30:36 -0700
-From: Valentin Popa <valentin.popa@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2013 16:31:34 +0300
-Message-Id: <1379597494-870-1-git-send-email-valentin.popa@intel.com>
-X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH_V5] image types: split live into iso and hddimg
+	Thu, 19 Sep 2013 13:34:35 +0000 (UTC)
+Received: by mail-vb0-f46.google.com with SMTP id p13so6429812vbe.33
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2013 06:34:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:from:date:message-id:subject:to:content-type;
+	bh=8wZgan5qlkSq76FMvzCqS+DUNg1EU7unbEJRTBN+NiY=;
+	b=gnl91Lp55PTx5LENpunpLZq+CW0SXqU7iGZ3yD/N7jSjDQS7ttkvC82ghrTbDPKChk
+	9Lgf23m28ns9zndSsAZAif7aG28vDdW8rM7AGPozgEFLFhLYY90v/1+C4IsNr6FXg/94
+	eWVvWtMdZFD3272DNpLa2L17HFe/SA6hIUc5UwJT8jXZmlX4izmjIo7rfCjPXdqGIj33
+	sxnCqej/P2Vm09kFT1Pfw46j76E3cYe8vB5KHcRVrB3JrN1U1rMW7+/ftFEeBV3oPJWZ
+	mcu3VWEsQdUbkzC76GACLFjpx8F8RJ6vo+gH0qBwJ+tvyIFB21dqf/WUSJnY6DlL8iXw
+	KePg==
+X-Received: by 10.220.97.145 with SMTP id l17mr204795vcn.35.1379597677452;
+	Thu, 19 Sep 2013 06:34:37 -0700 (PDT)
+MIME-Version: 1.0
+Sender: paul.betafive@gmail.com
+Received: by 10.220.109.72 with HTTP; Thu, 19 Sep 2013 06:33:57 -0700 (PDT)
+From: Paul Barker <paul@paulbarker.me.uk>
+Date: Thu, 19 Sep 2013 14:33:57 +0100
+X-Google-Sender-Auth: tuHngvLjFeTJ4H37TCLw9SQABDk
+Message-ID: <CANyK_8fTtdxWXPf9eSgpQWvvPspaashL14vi-h8x15FtJOQ0DA@mail.gmail.com>
+To: Yocto discussion list <yocto@yoctoproject.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: RFC: Janitorial tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,88 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 13:30:36 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 13:34:36 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Changes to split live into iso and hddimg without
-adding a new image type class.
-This patch has only a visible effect on HOB and solves
-part 2 of #3197
+Hi all,
 
-[YOCTO #3197]
+After discussions at the last TSC meeting I've merged the OpenEmbedded
+wiki page for janitorial tasks
+(http://www.openembedded.org/wiki/OpenEmbeddedJanitors) in to the
+equivalent page on the Yocto Project wiki
+(https://wiki.yoctoproject.org/wiki/Janitors). In addition to keeping
+everything in one place, the benefit here is that the page on the YP
+wiki can integrate with the YP bugzilla.
 
-Signed-off-by: Valentin Popa <valentin.popa@intel.com>
----
- meta/classes/image.bbclass       | 13 ++++++++++++-
- meta/classes/image_types.bbclass | 13 +++++++++----
- 2 files changed, 21 insertions(+), 5 deletions(-)
+To quote the page: "[Janitorial] tasks are intended to help people get
+started working with the Yocto Project. These tasks should not require
+a lot of context. Anyone with basic programming skills, experience
+working with Open Source software, and some time on their hands should
+be able to complete these."
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index f1e62f1..bbeb765 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -87,7 +87,18 @@ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
- do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
- do_rootfs[recrdeptask] += "do_packagedata"
- 
--IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}'
-+def build_live(d):
-+    if base_contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
-+        d.setVar('NOISO', base_contains('IMAGE_FSTYPES', "iso", "0", "1", d))
-+        d.setVar('NOHDD', base_contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
-+        if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
-+            return "live"
-+        return "empty"
-+    return "live"
-+
-+IMAGE_TYPE_temp = "${@build_live(d)}"
-+IMAGE_TYPE_live = "${@base_contains("IMAGE_FSTYPES", "live", "live", "${IMAGE_TYPE_temp}", d)}"
-+
- inherit image-${IMAGE_TYPE_live}
- IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
- inherit image-${IMAGE_TYPE_vmdk}
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 8c49169..9ead059 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -43,12 +43,17 @@ def get_imagecmds(d):
-         if "ext3" not in alltypes:
-             alltypes.append("ext3")
-         types.remove("vmdk")
--    if "live" in types:
-+    if "live" in types or "iso" in types or "hddimg" in types:
-         if "ext3" not in types:
-             types.append("ext3")
-         if "ext3" not in alltypes:
-             alltypes.append("ext3")
--        types.remove("live")
-+        if "live" in types:
-+            types.remove("live")
-+        if "iso" in types:
-+            types.remove("iso")
-+        if "hddimg" in types:
-+            types.remove("hddimg")
- 
-     if d.getVar('IMAGE_LINK_NAME', True):
-         if d.getVar('RM_OLD_IMAGE', True) == "1":
-@@ -115,7 +120,7 @@ def imagetypes_getdepends(d):
-     deps = []
-     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
--        if type == "vmdk" or type == "live":
-+        if type == "vmdk" or type == "live" or type == "iso" or type == "hddimg":
-             type = "ext3"
-         basetype = type
-         for ctype in ctypes:
-@@ -230,7 +235,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
--IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
-+IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+If anyone has any suggestions for tasks which could be added to this
+list, please propose them in reply to this email or go ahead and add
+them to the wiki in the existing format. It would also be beneficial
+to add some hints and tips on where to start with the existing tasks
+that are already on the page. Suggestions of who to talk to/what
+mailing list to post on for each task may also be a good idea.
+
+If you've previously posted tasks on the janitors page, now would be a
+good time to quickly review them and ensure they're still relevant.
+
+Any comments about the organisation of janitorial/newbie friendly
+tasks in general are also welcome.
+
 -- 
-1.8.1.2
+Paul Barker
 
+Email: paul@paulbarker.me.uk
+http://www.paulbarker.me.uk
 
