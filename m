@@ -1,38 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f46.google.com (mail-ee0-f46.google.com [74.125.83.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 90FC560664;
-	Thu, 19 Sep 2013 12:00:24 +0000 (UTC)
-Received: by mail-ee0-f46.google.com with SMTP id c13so4084632eek.19
-	for <multiple recipients>; Thu, 19 Sep 2013 05:00:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=+1MwQ3BrlNfUNQTvMttKNuX+5WN4HfZBJDTHpUjSNTM=;
-	b=fGvg24WlMgpFVEFrRwOem7uOGhgSQizg14Gx0xvImaAn7xs8y+oujuWbSdq+e9L+lH
-	n9vD8r+TvO9PgZH2oAGUIBRiVySFv/07APM+5II5ciY2pMP8qKKTJpE8eMKjcG3ogISx
-	CNOnUKE4OBnluAOGVGpXtlHITsOMA1PHqu7dTJmOgAJWYVr4NoiTaC5j0+9UnWjTIZEm
-	rmCkUmUtxl4Zd5Mb/IQgfc4tzADKdaZHv++/miwsLmWhJR2pJRybJFYTw3TEy9VcILUn
-	M8hVO+bR9WZkRSZgP7c5pZqz9Lk5K78e8of/gm8XrISxpU/pK9Q1hV16NzlZHZJnPCjV
-	hweQ==
-X-Received: by 10.15.25.5 with SMTP id k5mr1830841eeu.64.1379592025616;
-	Thu, 19 Sep 2013 05:00:25 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	x47sm10719958eea.16.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 05:00:24 -0700 (PDT)
-Date: Thu, 19 Sep 2013 14:02:02 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20130919120202.GK7313@jama>
-References: <CAMKF1sonakYiB++QeeeXKVztx+7CKW3zn=ndn=kP+kSVmqu3Qw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sonakYiB++QeeeXKVztx+7CKW3zn=ndn=kP+kSVmqu3Qw@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork updated
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A6A9E610FD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2013 12:36:03 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2013 05:36:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,936,1371106800"; d="scan'208";a="380540013"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 19 Sep 2013 05:36:04 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 6E7762C8001;
+	Thu, 19 Sep 2013 05:36:02 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Sep 2013 15:36:15 +0300
+Message-Id: <1379594176-30993-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] lib/oeqa/utils: sshcontrol: log how long the last command take
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 12:00:25 -0000
-X-Groupsio-MsgNum: 45234
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="fUvfsPTz/SzOZDdw"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 Sep 2013 12:36:03 -0000
 
---fUvfsPTz/SzOZDdw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It might be useful for debugging to have in the ssh log
+the number of seconds a command has run.
+---
+ meta/lib/oeqa/utils/sshcontrol.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-On Sun, Sep 15, 2013 at 12:32:44AM -0700, Khem Raj wrote:
-> Hi All,
->=20
-> The patchwork has been updated to latest. Please keep an eye if you
-> see something non working let me know immediately.
+diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
+index 643d0ad..1539ff2 100644
+--- a/meta/lib/oeqa/utils/sshcontrol.py
++++ b/meta/lib/oeqa/utils/sshcontrol.py
+@@ -15,6 +15,7 @@ class SSHControl(object):
+     def __init__(self, host=None, timeout=300, logfile=None):
+         self.host = host
+         self.timeout = timeout
++        self._starttime = None
+         self._out = ''
+         self._ret = 126
+         self.logfile = logfile
+@@ -35,6 +36,7 @@ class SSHControl(object):
+         cmd = ". /etc/profile; " + cmd
+         command = self.ssh + [self.host, cmd]
+         self.log("[Running]$ %s" % " ".join(command))
++        self._starttime = time.time()
+         # ssh hangs without os.setsid
+         proc = subprocess.Popen(command, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
+         return proc
+@@ -58,7 +60,7 @@ class SSHControl(object):
+                 tdelta = self.timeout
+             else:
+                 tdelta = timeout
+-            endtime = time.time() + tdelta
++            endtime = self._starttime + tdelta
+             while sshconn.poll() is None and time.time() < endtime:
+                 time.sleep(1)
+             # process hasn't returned yet
+@@ -69,23 +71,24 @@ class SSHControl(object):
+                 self._out = sshconn.stdout.read()
+                 sshconn.stdout.close()
+                 self._out += "\n[!!! SSH command timed out after %d seconds and it was killed]" % tdelta
+-                self.log("[!!! SSH command timed out after %d seconds and it was killed]" % tdelta)
+             else:
+                 self._out = sshconn.stdout.read()
+                 self._ret = sshconn.poll()
+         # strip the last LF so we can test the output
+         self._out = self._out.rstrip()
+         self.log("%s" % self._out)
+-        self.log("[SSH command returned]: %s" % self._ret)
++        self.log("[SSH command returned after %d seconds]: %s" % (time.time() - self._starttime, self._ret))
+         return (self._ret, self._out)
+ 
+     def _internal_scp(self, cmd):
+         cmd = ['scp'] + self.ssh_options + cmd
+         self.log("[Running SCP]$ %s" % " ".join(cmd))
++        self._starttime = time.time()
+         scpconn = subprocess.Popen(cmd, shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, preexec_fn=os.setsid)
+         out = scpconn.communicate()[0]
+         ret = scpconn.poll()
+         self.log("%s" % out)
++        self.log("[SCP command returned after %d seconds]: %s" % (time.time() - self._starttime, ret))
+         if ret != 0:
+             # we raise an exception so that tests fail in setUp and setUpClass without a need for an assert
+             raise Exception("Error running %s, output: %s" % ( " ".join(cmd), out))
+-- 
+1.8.3.1
 
-Hi,
 
-something is wrong,
-
-http://patchwork.openembedded.org/user/bundles/
-
-returns 502 Bad Gateway for me and I cannot access individual bundles,
-which is very bad, because all oe-devel patches are separated into
-bundles based on layer.
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---fUvfsPTz/SzOZDdw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
-
-iEYEARECAAYFAlI657oACgkQN1Ujt2V2gBzTvwCcC44NKJBxbEPI0BpjVx9Hjr2C
-Ld4AnjKnA/qno0IsdbsOjPrGF4PuD45R
-=ecVE
------END PGP SIGNATURE-----
-
---fUvfsPTz/SzOZDdw--
