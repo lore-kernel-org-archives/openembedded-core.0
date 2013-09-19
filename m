@@ -1,35 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DC3F6C877
+Return-Path: <Bjoern.Stenberg@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 16ECE60664
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 10:08:51 +0000 (UTC)
-Received: by mail-wi0-f171.google.com with SMTP id hm2so7693614wib.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 03:08:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=PfXbkoSKNfaEpnBG8jdiHNZzF9slPq/7UbuKebvFShA=;
-	b=Kor7th7PadmSg5ebFJtFDWExC0RvNY9VusBIaN2T5Y3HUl3lE8Ec3Nu8A406YFrK4x
-	HvRH7vl787XKwpdCH+Yu260WOMBUhRnIGEAKVnJMOekDyExCMn9iHp2+/LUS3LcReJqT
-	/3YUaEIiWaukcCAGXb4LU9uzRdcomj7QWLrk5lQw0w3mfQFk4jtj3LBS+Rv3EU7exJ8z
-	RtRTTUzuJCaMDiLmWaKGyzGMCF7UzDbGb6vTqlfg6Mkb9KxqpsGdBk9cZYe2U083zh+Q
-	DcwJqa+Esb+0+j5Ch8on62FIhWhz/IS5sjMaMpoOSuKxosWMlID6sack9wQjLFnka+r3
-	rDqg==
-X-Gm-Message-State: ALoCoQnKYTA0DWZ9uQSTFk+GVOQD9EWT/+6EjhR1f402z/Rt0uIalddfCpnd7tjECiGe71cl+c7a
-X-Received: by 10.180.109.132 with SMTP id hs4mr10905182wib.46.1379585332687; 
-	Thu, 19 Sep 2013 03:08:52 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id mw9sm16316350wib.0.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 03:08:52 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2013 11:08:48 +0100
-Message-Id: <1379585328-27537-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] wipe-sysroot: delete pkgdata stamps
+	Thu, 19 Sep 2013 11:47:55 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 19 Sep 2013 13:47:53 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4331)	id EDDEC28BD31;
+	Thu, 19 Sep 2013 13:47:53 +0200 (CEST)
+Date: Thu, 19 Sep 2013 13:47:53 +0200
+From: =?iso-8859-1?Q?Bj=F6rn?= Stenberg <bjst@enea.com>
+To: <rongqing.li@windriver.com>
+Message-ID: <20130919114753.GA26522@sestofb10.enea.se>
+References: <cover.1378890742.git.rongqing.li@windriver.com>
+	<dec697bffb0eebaeb34f5acd32929ba866174585.1378890742.git.rongqing.li@windriver.com>
+	<CABcZANk8PQkxHUZ93-bSzgoSzc2_W3ArNT7_cD1v47oLBL7X7g@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CABcZANk8PQkxHUZ93-bSzgoSzc2_W3ArNT7_cD1v47oLBL7X7g@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Received-SPF: None (SESTOEX08.enea.se: bjst@enea.com does not designate
+	permitted sender hosts)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ptest-runner: trivial fixes and refine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +34,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 10:08:51 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 11:47:57 -0000
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The pkgdata stamps now need to be wiped away if the sysroot is destroyed.
+Chris Larson wrote:
+> On Wed, Sep 11, 2013 at 2:17 AM, <rongqing.li@windriver.com> wrote:
+>=20
+> > +    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
+> > +    do
+> >
+>=20
+> As far as I can tell, busybox find doesn't support -L, so this adds an
+> implicit, undeclared dependency upon findutils.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- scripts/wipe-sysroot |    2 ++
- 1 file changed, 2 insertions(+)
+Rongquing, are you planning on fixing this? As committed, ptest-runner can'=
+t run on busybox systems (which I'd argue are the majority of embedded syst=
+ems).
 
-diff --git a/scripts/wipe-sysroot b/scripts/wipe-sysroot
-index 1c01166..7ca26fe 100755
---- a/scripts/wipe-sysroot
-+++ b/scripts/wipe-sysroot
-@@ -39,6 +39,8 @@ rm -rf $STAGING_DIR
- # The stamps that said the sysroot was populated
- rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot.*
- rm -rf $STAMPS_DIR/*/*/*.do_populate_sysroot_setscene.*
-+rm -rf $STAMPS_DIR/*/*/*.do_packagedata.*
-+rm -rf $STAMPS_DIR/*/*/*.do_packagedata_setscene.*
- 
- # The sstate manifests
- rm -rf $SSTATE_MANIFESTS/manifest-*.populate-sysroot
--- 
-1.7.10.4
-
+--=20
+Bj=F6rn
 
