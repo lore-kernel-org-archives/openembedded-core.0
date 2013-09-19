@@ -1,38 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 654FF60664
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B9ECC6C8EC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 10:03:47 +0000 (UTC)
-Received: by mail-we0-f180.google.com with SMTP id u57so7525467wes.25
+	Thu, 19 Sep 2013 10:06:41 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id t61so7599952wes.16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 03:03:48 -0700 (PDT)
+	Thu, 19 Sep 2013 03:06:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=tYk4jWRDULtjLqWpMAdF8fWPQwvxkYX2cX/VVTug6ww=;
-	b=mv/MkiWlV/nXOHZmvEU5W9t5ihfPA5TsznCvI281YuwFcdhLM02xlI55pue804D18d
-	100GiwjVUKo5h4CsG/dCtHIqbO62f1opwXMbhqA7GmGw0JQpqHJikDaHtvnugUK760QD
-	n2I7/hibZsH8fk7Uu7HneO7WjhjxVyPZw652E1Ze28+Wj4JtQKeIs16/w/XLwubDXw4c
-	yVHCF/w0PtXF+KjM773CFDqrI7fRyrebWKWvt1OlhYK4yFGsFywfokG0U0C7hv2s01/3
-	tPxT64Q+oEzhjo06vLC/bQ2K+MOcwUyG/MhjkCuNzHiZEo0YXn+J1wXwNNKQpHMSgT6c
-	edVw==
-X-Gm-Message-State: ALoCoQkb80NZ1419wcbcMHwmD8LNSE7B+5iQd9e74Vj8KsK9TZVPp9YJHDTZy9qcalJUYN2I38Py
-X-Received: by 10.180.20.13 with SMTP id j13mr685549wie.6.1379585028464;
-	Thu, 19 Sep 2013 03:03:48 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=tL+k2AIRhPtuHDLl3yYcxiRMesH26a4b/8rlZ2HXPkM=;
+	b=OHHd7Hg14SEAf73++AsIqofFQ8iUjWAA7rIswCn19w4+mWNxYPF9rld8kkMNarv2dl
+	w5okStkbBwN6DBwPFnZcPnAyy2jXb5hAhsRfZIJhUQ5uJbF3C1U7NOrmYfWQGC7AnI7z
+	SidxZVlQMX7LnDhftUsT1WJvIlfbXIJE8L6ZN/zgYivOnyto9q2+2tC7pHVJVmb6QKiI
+	8/O6dJmbHphgdGZCjWkXSGNBdEGvY8fcq4TGEVJi0VI0UuZpFlz7Fx8ORlzWfuusIyrg
+	oPMUn9uxIo3B8Us2tXQSivs/oQgimK0MQHaTVGRNP0azIQ4l8SjZQTVvsK6Wlc+ltLn7
+	u1xA==
+X-Gm-Message-State: ALoCoQlkCCWTDNoeOlgTpmT47H39TKXO52bGicgq5qfQQge2nv9eANePieR502JC0wAhdM80f51x
+X-Received: by 10.180.72.226 with SMTP id g2mr10893901wiv.52.1379585203032;
+	Thu, 19 Sep 2013 03:06:43 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id b11sm17597275wik.1.1969.12.31.16.00.00
+	by mx.google.com with ESMTPSA id z13sm8494858wib.0.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 03:03:47 -0700 (PDT)
+	Thu, 19 Sep 2013 03:06:42 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2013 11:03:43 +0100
-Message-Id: <1379585023-26278-2-git-send-email-ross.burton@intel.com>
+Date: Thu, 19 Sep 2013 11:06:39 +0100
+Message-Id: <1379585199-27059-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1379585023-26278-1-git-send-email-ross.burton@intel.com>
-References: <1379585023-26278-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] insane: don't abort if workdir is not TMPDIR/work
+Subject: [PATCH] x11vnc: respect zeroconf DISTRO_FEATURE to enable Avahi support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 10:03:47 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 10:06:42 -0000
 
-The BASE_WORKDIR variable can be used instead of enforcing WORKDIR being
-TMPDIR/work (and aborting the build if it isn't).
+There's a standard way of announcing VNC services over mDNS that x11vnc
+supports, so respect the feature and enable/disable it.
+
+Also re-order the statements and drop the redundant PR.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/insane.bbclass |    5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 524cdca..a784aff 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -175,10 +175,7 @@ def package_qa_check_rpath(file,name, d, elf, messages):
-     if os.path.islink(file):
-         return
+diff --git a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
+index 0abc84a..098d8e8 100644
+--- a/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
++++ b/meta/recipes-graphics/x11vnc/x11vnc_0.9.13.bb
+@@ -7,10 +7,6 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=361b6b837cad26c6900a926b62aada5f \
+                     file://x11vnc/x11vnc.h;endline=33;md5=6f95dc6535467d7ee1563fd434fb372e"
  
--    bad_dirs = [d.getVar('TMPDIR', True) + "/work", d.getVar('STAGING_DIR_TARGET', True)]
+-DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib libxfixes libxrandr libxdamage libxtst"
 -
--    if not bad_dirs[0] in d.getVar('WORKDIR', True):
--        bb.fatal("This class assumed that WORKDIR is ${TMPDIR}/work... Not doing any check")
-+    bad_dirs = [d.getVar('BASE_WORKDIR', True), d.getVar('STAGING_DIR_TARGET', True)]
+-PR = "r0"
+-
+ SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
+            file://starting-fix.patch \
+            file://endian-fix.patch "
+@@ -18,5 +14,9 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/libvncserver/x11vnc/${PV}/x11vnc-${PV}.tar.gz\
+ SRC_URI[md5sum] = "a372ec4fe8211221547b1c108cf56e4c"
+ SRC_URI[sha256sum] = "f6829f2e629667a5284de62b080b13126a0736499fe47cdb447aedb07a59f13b"
  
-     phdrs = elf.run_objdump("-p", d)
++DEPENDS = "openssl virtual/libx11 libxext avahi jpeg zlib libxfixes libxrandr libxdamage libxtst"
++
+ inherit autotools
  
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)}"
++PACKAGECONFIG[avahi] = "--with-avahi,--without-avahi,avahi"
 -- 
 1.7.10.4
 
