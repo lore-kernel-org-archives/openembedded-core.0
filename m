@@ -1,38 +1,40 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qa0-f44.google.com (mail-qa0-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CBF46158B
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 20:48:59 +0000 (UTC)
-Received: by mail-qa0-f44.google.com with SMTP id j7so3993075qaq.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:49:01 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f46.google.com (mail-pb0-f46.google.com
+	[209.85.160.46])
+	by mail.openembedded.org (Postfix) with ESMTP id A1AA36158D;
+	Thu, 19 Sep 2013 21:43:08 +0000 (UTC)
+Received: by mail-pb0-f46.google.com with SMTP id rq2so8881085pbb.19
+	for <multiple recipients>; Thu, 19 Sep 2013 14:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=ajBGUkzDZB7YD1rVKc9YOaYoeKOsg02OVkV90JZgakk=;
-	b=TV+COh4GislZpW1bMgT6/Q6QGIkD9xxU4TOQv2AGPHFfLkUZpoACj35aoheMd8KRni
-	98povrkft+DF7brWKTPQdLqy0GcqHjGbKZU7fLZm5eryQpHfUWR0T9NX0ZwPEvSFVjPl
-	TolWSCavqldGi+RMnE9r3ETER+0yMGZOcH1y6sRGkmbHzaKVWpyaapMe3iulPUxUmr8k
-	wOWsWwe3BuTyhZfsYsMAhZnT+ASDxsr/DxNSfplKcdBVIQKVxbtWwAC2nwzw3+6Z9fL/
-	18/g+Uv44n7AAP0aRsjv23Xa+KnB5VbYBoXkiCm5VZFosxasqZMWORmfkiT7hJUfVfYn
-	vmGg==
-X-Received: by 10.224.151.82 with SMTP id b18mr999956qaw.125.1379623741167;
-	Thu, 19 Sep 2013 13:49:01 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.209.11])
-	by mx.google.com with ESMTPSA id h20sm13258086qen.5.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 13:49:00 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Sep 2013 17:48:38 -0300
-Message-Id: <1379623718-29690-4-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.4.rc3
-In-Reply-To: <1379623718-29690-1-git-send-email-otavio@ossystems.com.br>
-References: <1379623718-29690-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH v2 3/3] u-boot, u-boot-fw-utils, u-boot-fw-utils-cross: Use uboot-config class
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=+/HFwmY5QZaA6yFTNET0VcNIU31syEQP8d9/bfEYQTw=;
+	b=aTpl7dIwEiuJB0uKY9nFheGfRr/72GIBpJ4qrsF5LJ14nCN5zRe0efFAReRTlORMg3
+	dygwic3xXTAUzQ8lNAHX6neDndSIAA4TzXUPOZzvEicB7A5dvL5RoVcBCUfR7BbeSFh8
+	4EKKgcPzzk++fjnjIHa3YmIY6fIBIp23rt3aa9O2xaZeLxnBj0pBUbWAWyoQEfSqzz6x
+	NvM+CEGwLhhBT3Kz0zFaPQXKvtsa85rBWOLLwIA3ZDvsZY/LcEhS/nv24LBCs8PsIPeQ
+	dWBeEEbmaxU00lULuEY95GRt02GWgXgFC9l8togUD+srLUFuRX7i1NDTPBzzUtfIfHXT
+	B6tg==
+X-Received: by 10.68.172.3 with SMTP id ay3mr4222517pbc.5.1379626990519;
+	Thu, 19 Sep 2013 14:43:10 -0700 (PDT)
+Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPSA id
+	l8sm11397912pbl.22.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 19 Sep 2013 14:43:09 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <20130919120202.GK7313@jama>
+Date: Thu, 19 Sep 2013 14:43:11 -0700
+Message-Id: <4A33DFFF-FC98-4FDF-B8D4-C03677808EDA@gmail.com>
+References: <CAMKF1sonakYiB++QeeeXKVztx+7CKW3zn=ndn=kP+kSVmqu3Qw@mail.gmail.com>
+	<20130919120202.GK7313@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
+X-Mailer: Apple Mail (2.1510)
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: patchwork updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,80 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 20:48:59 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 21:43:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-The U-Boot configuration has been consolidates into a single class to
-avoid code duplication. This is now done by uboot-config class, so we
-now use it.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
-Changes in v2: None
+On Sep 19, 2013, at 5:02 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
 
- meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb |  2 +-
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb       |  9 +--------
- meta/recipes-bsp/u-boot/u-boot.inc                       | 11 +----------
- 3 files changed, 3 insertions(+), 19 deletions(-)
+> On Sun, Sep 15, 2013 at 12:32:44AM -0700, Khem Raj wrote:
+>> Hi All,
+>>=20
+>> The patchwork has been updated to latest. Please keep an eye if you
+>> see something non working let me know immediately.
+>=20
+> Hi,
+>=20
+> something is wrong,
+>=20
+> http://patchwork.openembedded.org/user/bundles/
+>=20
+> returns 502 Bad Gateway for me and I cannot access individual bundles,
+> which is very bad, because all oe-devel patches are separated into
+> bundles based on layer.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
-index 7f649ca..4b7fd24 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
-@@ -15,7 +15,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
- 
- S = "${WORKDIR}/git"
- 
--inherit cross
-+inherit uboot-config cross
- 
- EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-index e711951..be54343 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-@@ -17,14 +17,7 @@ S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTSTRIP="true"'
- 
--python () {
--	if not d.getVar("UBOOT_MACHINE", True):
--		PN = d.getVar("PN", True)
--		FILE = os.path.basename(d.getVar("FILE", True))
--		bb.debug(1, "To build %s, see %s for instructions on \
--			     setting up your machine config" % (PN, FILE))
--		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
--}
-+inherit uboot-config
- 
- do_compile () {
-   oe_runmake ${UBOOT_MACHINE}
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 6ec63df..10a3cf8 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -3,19 +3,10 @@ HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
- SECTION = "bootloaders"
- PROVIDES = "virtual/bootloader"
- 
--inherit deploy
-+inherit uboot-config deploy
- 
- EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
- 
--python () {
--	if not d.getVar("UBOOT_MACHINE", True):
--		PN = d.getVar("PN", True)
--		FILE = os.path.basename(d.getVar("FILE", True))
--		bb.debug(1, "To build %s, see %s for instructions on \
--			     setting up your machine config" % (PN, FILE))
--		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
--}
--
- # Allow setting an additional version string that will be picked up by the
- # u-boot build system and appended to the u-boot version.  If the .scmversion
- # file already exists it will not be overwritten.
--- 
-1.8.4.rc3
+Hmm, I saw that we use python 2.6 on the server and pw has been using =
+few of python 2.7
+features and modules. I have requested Tom to look into upgrading the =
+server from 10.04 -> 12.04
+meanwhile I will see if I can reproduce it and see whats going on.
+
+>=20
+> Regards,
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
