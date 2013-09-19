@@ -1,38 +1,20 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
-	[209.85.216.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 52E166147D
+Return-Path: <valentin.popa@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E270C60135
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:29:00 +0000 (UTC)
-Received: by mail-qc0-f176.google.com with SMTP id t7so5383478qcv.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 06:29:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=h0nnGaIp1Z8imVpiLFMFihgiFKO4kx1fhdqKqJOvTX0=;
-	b=N2hm7N+aCCcG0pdM+R4fyJGSTSFAoO7GJbOBT0ySz/r8j/hTb9KW8s4feyMGFeBDwp
-	wzaJW6seCLzrn6SgXaLCgU1JnuHiQAkQG+lyfeOguTQae8EBpKE7qJjO9msWwwFWTIPI
-	3mGW2RU3azSuMegCO0zHC7yEjsRq1+JLkzX13hgiadf//XCJWwbOXYCo/wfKVLo+msH0
-	UnQAXeEmr0AXPa9ZaJiOuGK3TeXn3zAzkqO4F9xwpVqvVjf4e1z3zqdeKD34MnycInWd
-	BjTA0HBwWr9HB90prL/7GDF5q7hGXA7CaG4bhak1EDHDQyinDS5gPZMfdagxSToxf8OJ
-	3nTQ==
-X-Received: by 10.49.27.226 with SMTP id w2mr3600714qeg.32.1379597342143;
-	Thu, 19 Sep 2013 06:29:02 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.209.11])
-	by mx.google.com with ESMTPSA id fy7sm10866448qeb.1.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 06:29:01 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Sep 2013 10:28:41 -0300
-Message-Id: <1379597321-5447-4-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.4.rc3
-In-Reply-To: <1379597321-5447-1-git-send-email-otavio@ossystems.com.br>
-References: <1379597321-5447-1-git-send-email-otavio@ossystems.com.br>
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 3/3] u-boot, u-boot-fw-utils, u-boot-fw-utils-cross: Use uboot-config class
+	Thu, 19 Sep 2013 13:30:35 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Sep 2013 06:30:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,936,1371106800"; d="scan'208";a="404121496"
+Received: from vpopa-desktop.rb.intel.com ([10.237.105.58])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Sep 2013 06:30:36 -0700
+From: Valentin Popa <valentin.popa@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Sep 2013 16:31:34 +0300
+Message-Id: <1379597494-870-1-git-send-email-valentin.popa@intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH_V5] image types: split live into iso and hddimg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,78 +27,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 13:29:00 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 13:30:36 -0000
 
-The U-Boot configuration has been consolidates into a single class to
-avoid code duplication. This is now done by uboot-config class, so we
-now use it.
+Changes to split live into iso and hddimg without
+adding a new image type class.
+This patch has only a visible effect on HOB and solves
+part 2 of #3197
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+[YOCTO #3197]
+
+Signed-off-by: Valentin Popa <valentin.popa@intel.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb |  2 +-
- meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb       |  9 +--------
- meta/recipes-bsp/u-boot/u-boot.inc                       | 11 +----------
- 3 files changed, 3 insertions(+), 19 deletions(-)
+ meta/classes/image.bbclass       | 13 ++++++++++++-
+ meta/classes/image_types.bbclass | 13 +++++++++----
+ 2 files changed, 21 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
-index 7f649ca..4b7fd24 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
-@@ -15,7 +15,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index f1e62f1..bbeb765 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -87,7 +87,18 @@ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
+ do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
+ do_rootfs[recrdeptask] += "do_packagedata"
  
- S = "${WORKDIR}/git"
+-IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}'
++def build_live(d):
++    if base_contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
++        d.setVar('NOISO', base_contains('IMAGE_FSTYPES', "iso", "0", "1", d))
++        d.setVar('NOHDD', base_contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
++        if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
++            return "live"
++        return "empty"
++    return "live"
++
++IMAGE_TYPE_temp = "${@build_live(d)}"
++IMAGE_TYPE_live = "${@base_contains("IMAGE_FSTYPES", "live", "live", "${IMAGE_TYPE_temp}", d)}"
++
+ inherit image-${IMAGE_TYPE_live}
+ IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
+ inherit image-${IMAGE_TYPE_vmdk}
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 8c49169..9ead059 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -43,12 +43,17 @@ def get_imagecmds(d):
+         if "ext3" not in alltypes:
+             alltypes.append("ext3")
+         types.remove("vmdk")
+-    if "live" in types:
++    if "live" in types or "iso" in types or "hddimg" in types:
+         if "ext3" not in types:
+             types.append("ext3")
+         if "ext3" not in alltypes:
+             alltypes.append("ext3")
+-        types.remove("live")
++        if "live" in types:
++            types.remove("live")
++        if "iso" in types:
++            types.remove("iso")
++        if "hddimg" in types:
++            types.remove("hddimg")
  
--inherit cross
-+inherit uboot-config cross
+     if d.getVar('IMAGE_LINK_NAME', True):
+         if d.getVar('RM_OLD_IMAGE', True) == "1":
+@@ -115,7 +120,7 @@ def imagetypes_getdepends(d):
+     deps = []
+     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
+-        if type == "vmdk" or type == "live":
++        if type == "vmdk" or type == "live" or type == "iso" or type == "hddimg":
+             type = "ext3"
+         basetype = type
+         for ctype in ctypes:
+@@ -230,7 +235,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
  
- EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+-IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
++IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
  
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-index e711951..be54343 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
-@@ -17,14 +17,7 @@ S = "${WORKDIR}/git"
- 
- EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTSTRIP="true"'
- 
--python () {
--	if not d.getVar("UBOOT_MACHINE", True):
--		PN = d.getVar("PN", True)
--		FILE = os.path.basename(d.getVar("FILE", True))
--		bb.debug(1, "To build %s, see %s for instructions on \
--			     setting up your machine config" % (PN, FILE))
--		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
--}
-+inherit uboot-config
- 
- do_compile () {
-   oe_runmake ${UBOOT_MACHINE}
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 6ec63df..10a3cf8 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -3,19 +3,10 @@ HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
- SECTION = "bootloaders"
- PROVIDES = "virtual/bootloader"
- 
--inherit deploy
-+inherit uboot-config deploy
- 
- EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
- 
--python () {
--	if not d.getVar("UBOOT_MACHINE", True):
--		PN = d.getVar("PN", True)
--		FILE = os.path.basename(d.getVar("FILE", True))
--		bb.debug(1, "To build %s, see %s for instructions on \
--			     setting up your machine config" % (PN, FILE))
--		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
--}
--
- # Allow setting an additional version string that will be picked up by the
- # u-boot build system and appended to the u-boot version.  If the .scmversion
- # file already exists it will not be overwritten.
+ COMPRESSIONTYPES = "gz bz2 lzma xz"
+ COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
 -- 
-1.8.4.rc3
+1.8.1.2
 
 
