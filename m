@@ -1,25 +1,37 @@
-Return-Path: <jukka.rissanen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F79160664
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f53.google.com (mail-vb0-f53.google.com
+	[209.85.212.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D653360135
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:41:41 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 19 Sep 2013 06:41:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,936,1371106800"; d="scan'208";a="398123833"
-Received: from sorvi.fi.intel.com (HELO [10.237.72.152]) ([10.237.72.152])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Sep 2013 06:41:41 -0700
-Message-ID: <523AFF14.10400@linux.intel.com>
-Date: Thu, 19 Sep 2013 16:41:40 +0300
-From: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130625 Thunderbird/17.0.7
+	Thu, 19 Sep 2013 13:45:50 +0000 (UTC)
+Received: by mail-vb0-f53.google.com with SMTP id i3so6562578vbh.12
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2013 06:45:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=JvbEP2s0KDlUcTE13YqZS53AaaDa1HcdDE72t0160ag=;
+	b=cpYIKWIBauwh+Iob5lBlfg7MyeeUqWWfSMAFgWmArodZorHYmZU+fpAy3RdU71/41U
+	1+ZBo8dPeZKSgFX25hxHW1JzcVOpD9fX42jYP6V+kyE+z1lIkUvS/wWFlpLFZSxNMF8C
+	3AfORJQE21OAulHMDjRxOl7HstDJzKN0bHIP6oJpisUbAU+Yzmpspv8pz+dhtFYCVv+q
+	MhH9N20QSFtxjUhVXn5gkjbLKI+Hgc+mazRMuxayhhMBPeZtGTe82wYaLsYe8OAQxY/Q
+	QfggIeLJPTH7PBO+sHosKCIBQ8kdhU+SihllCJ2vmfXCLRU/tvm2N4p9Y7niVnXRvZqa
+	Hlpw==
+X-Gm-Message-State: ALoCoQlAVXBT7QKux0FHgRsMxC6HObZqswvzXKhKGqPJAItF5hQouvZXEzAfls10osYTwB522tVJ
+X-Received: by 10.220.181.136 with SMTP id by8mr1290616vcb.11.1379598352423;
+	Thu, 19 Sep 2013 06:45:52 -0700 (PDT)
 MIME-Version: 1.0
-To: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Received: by 10.220.71.201 with HTTP; Thu, 19 Sep 2013 06:45:32 -0700 (PDT)
+In-Reply-To: <523AFF14.10400@linux.intel.com>
 References: <1379595133-5812-1-git-send-email-muhammad_shakeel@mentor.com>
 	<1379596189.18603.115.camel@ted> <523AF9CB.5040600@mentor.com>
-In-Reply-To: <523AF9CB.5040600@mentor.com>
-Cc: openembedded-core@lists.openembedded.org
+	<523AFF14.10400@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 19 Sep 2013 14:45:32 +0100
+Message-ID: <CAJTo0LbpiFKwHaPUnp5Lzpum6FxCuJzpryu5gSsFeR3geVj=4g@mail.gmail.com>
+To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] connman: Upgrade to v1.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -33,38 +45,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 13:41:41 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Sep 2013 13:45:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 19.09.2013 16:19, Muhammad Shakeel wrote:
-> On 09/19/2013 06:09 PM, Richard Purdie wrote:
->> On Thu, 2013-09-19 at 17:52 +0500, Shakeel, Muhammad wrote:
->>> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
->>>
->>> -This release contains a few important bugfixes in addition
->>> to a few new features.
->> So it fixes some old bugs and potentially adds new ones? I can't make a
->> good risk assessment on that information, sorry. Are you asking for this
->> in 1.5 or 1.6?
->>
-> I was having issues running connman 1.17 on my platform. Connman 1.18
-> worked for me.
-> If it can go in 1.5, it will be great. Otherwise it should definitely go
-> in 1.6.
+On 19 September 2013 14:41, Jukka Rissanen
+<jukka.rissanen@linux.intel.com> wrote:
+> ConnMan 1.18 release notes can be found here
+> https://connman.net/blogs/patrik/2013/connman-118
 
-ConnMan 1.18 release notes can be found here
-https://connman.net/blogs/patrik/2013/connman-118
+<standard moan that connman doesn't do stable point releases here>
 
-I would recommend taking it. Biggest issue fixed in 1.18 was the 
-iptables support which did not work in ARM based devices.
-
-
-This patch could perhaps split to two pieces, first one removing 
-obsolete options and second one updating the version.
-
-
-Cheers,
-Jukka
-
+Ross
 
