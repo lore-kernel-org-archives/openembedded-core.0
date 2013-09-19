@@ -1,38 +1,38 @@
 Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qc0-f169.google.com (mail-qc0-f169.google.com
-	[209.85.216.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 816AE6C9D7
+Received: from mail-qc0-f176.google.com (mail-qc0-f176.google.com
+	[209.85.216.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 52E166147D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:28:58 +0000 (UTC)
-Received: by mail-qc0-f169.google.com with SMTP id c9so5546193qcz.0
+	Thu, 19 Sep 2013 13:29:00 +0000 (UTC)
+Received: by mail-qc0-f176.google.com with SMTP id t7so5383478qcv.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 06:29:00 -0700 (PDT)
+	Thu, 19 Sep 2013 06:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:organization; bh=qMJtT9sdSVMAiRvgBvIOQpn83S/UK93rJC+i0Hc52WI=;
-	b=Emot8cTliXMT3TeBcqe3nnmrwRGO/dAuVxWTLXMzTFlBD5VV9EDFjDvqM0WwZypcAm
-	dbswSThg1ndJk4LaAMR5tto2hmbXBvX5duhZmQLuX6mG1/ppbOr2+V/ZNaWKoT5LIT0e
-	JYQsj9grxkGS8xElOCusQi0dL4qxETaGjDa6yonBX6O8gH6Nq1utma2EZ56CYf/NzYw+
-	PnnVi6+Xjyx7GXE1n50cnd2qRzMgnnJwVwY111nCRy5U+u/t4Mc1ri+yO97RWT3bQROP
-	rgiMi+UlsfF4kyvtBHPCIy2aLZjNz4X2rct8Mih0xE5lUIRk+pDLpWCDK4Hf6Jp0GyEW
-	5S3g==
-X-Received: by 10.49.25.41 with SMTP id z9mr3597258qef.72.1379597340027;
-	Thu, 19 Sep 2013 06:29:00 -0700 (PDT)
+	:organization; bh=h0nnGaIp1Z8imVpiLFMFihgiFKO4kx1fhdqKqJOvTX0=;
+	b=N2hm7N+aCCcG0pdM+R4fyJGSTSFAoO7GJbOBT0ySz/r8j/hTb9KW8s4feyMGFeBDwp
+	wzaJW6seCLzrn6SgXaLCgU1JnuHiQAkQG+lyfeOguTQae8EBpKE7qJjO9msWwwFWTIPI
+	3mGW2RU3azSuMegCO0zHC7yEjsRq1+JLkzX13hgiadf//XCJWwbOXYCo/wfKVLo+msH0
+	UnQAXeEmr0AXPa9ZaJiOuGK3TeXn3zAzkqO4F9xwpVqvVjf4e1z3zqdeKD34MnycInWd
+	BjTA0HBwWr9HB90prL/7GDF5q7hGXA7CaG4bhak1EDHDQyinDS5gPZMfdagxSToxf8OJ
+	3nTQ==
+X-Received: by 10.49.27.226 with SMTP id w2mr3600714qeg.32.1379597342143;
+	Thu, 19 Sep 2013 06:29:02 -0700 (PDT)
 Received: from nano.lab.ossystems.com.br ([177.194.209.11])
 	by mx.google.com with ESMTPSA id fy7sm10866448qeb.1.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 06:28:59 -0700 (PDT)
+	Thu, 19 Sep 2013 06:29:01 -0700 (PDT)
 Sender: Otavio Salvador <otavio.salvador@gmail.com>
 From: Otavio Salvador <otavio@ossystems.com.br>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Sep 2013 10:28:40 -0300
-Message-Id: <1379597321-5447-3-git-send-email-otavio@ossystems.com.br>
+Date: Thu, 19 Sep 2013 10:28:41 -0300
+Message-Id: <1379597321-5447-4-git-send-email-otavio@ossystems.com.br>
 X-Mailer: git-send-email 1.8.4.rc3
 In-Reply-To: <1379597321-5447-1-git-send-email-otavio@ossystems.com.br>
 References: <1379597321-5447-1-git-send-email-otavio@ossystems.com.br>
 Organization: O.S. Systems Software LTDA.
 Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 2/3] uboot-config.bbclass: Handle UBOOT_MACHINE setting
+Subject: [PATCH 3/3] u-boot, u-boot-fw-utils, u-boot-fw-utils-cross: Use uboot-config class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,53 +45,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 13:28:58 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 13:29:00 -0000
 
-The class now consolidate the handle of UBOOT_MACHINE and UBOOT_CONFIG
-variables and handle possible mistakes done by user when using these
-variables.
+The U-Boot configuration has been consolidates into a single class to
+avoid code duplication. This is now done by uboot-config class, so we
+now use it.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/classes/uboot-config.bbclass | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb |  2 +-
+ meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb       |  9 +--------
+ meta/recipes-bsp/u-boot/u-boot.inc                       | 11 +----------
+ 3 files changed, 3 insertions(+), 19 deletions(-)
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 44b46ff..b81cc60 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -1,14 +1,30 @@
--# Allow easy override of U-Boot config for a machine
-+# Handle U-Boot config for a machine
- #
- # The format to specify it, in the machine, is:
- #
- # UBOOT_CONFIG ??= <default>
- # UBOOT_CONFIG[foo] = "config,images"
- #
-+# or
-+#
-+# UBOOT_MACHINE = "config"
-+#
- # Copyright 2013 (C) O.S. Systems Software LTDA.
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
+index 7f649ca..4b7fd24 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils-cross_2013.07.bb
+@@ -15,7 +15,7 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master;protocol=git"
  
- python () {
-+    ubootmachine = d.getVar("UBOOT_MACHINE", True)
-     ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-+
-+    if not ubootmachine and not ubootconfigflags:
-+        PN = d.getVar("PN", True)
-+        FILE = os.path.basename(d.getVar("FILE", True))
-+        bb.debug(1, "To build %s, see %s for instructions on \
-+                 setting up your machine config" % (PN, FILE))
-+        raise bb.parse.SkipPackage("Either UBOOT_MACHINE or UBOOT_CONFIG are must be set in the %s machine configuration." % d.getVar("MACHINE", True))
-+
-+    if ubootmachine and ubootconfigflags:
-+        raise bb.parse.SkipPackage("You cannot use UBOOT_MACHINE and UBOOT_CONFIG at same time.")
-+
-     if not ubootconfigflags:
-         return
+ S = "${WORKDIR}/git"
  
+-inherit cross
++inherit uboot-config cross
+ 
+ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
+ 
+diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+index e711951..be54343 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2013.07.bb
+@@ -17,14 +17,7 @@ S = "${WORKDIR}/git"
+ 
+ EXTRA_OEMAKE = 'HOSTCC="${CC}" HOSTSTRIP="true"'
+ 
+-python () {
+-	if not d.getVar("UBOOT_MACHINE", True):
+-		PN = d.getVar("PN", True)
+-		FILE = os.path.basename(d.getVar("FILE", True))
+-		bb.debug(1, "To build %s, see %s for instructions on \
+-			     setting up your machine config" % (PN, FILE))
+-		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
+-}
++inherit uboot-config
+ 
+ do_compile () {
+   oe_runmake ${UBOOT_MACHINE}
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 6ec63df..10a3cf8 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -3,19 +3,10 @@ HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
+ SECTION = "bootloaders"
+ PROVIDES = "virtual/bootloader"
+ 
+-inherit deploy
++inherit uboot-config deploy
+ 
+ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
+ 
+-python () {
+-	if not d.getVar("UBOOT_MACHINE", True):
+-		PN = d.getVar("PN", True)
+-		FILE = os.path.basename(d.getVar("FILE", True))
+-		bb.debug(1, "To build %s, see %s for instructions on \
+-			     setting up your machine config" % (PN, FILE))
+-		raise bb.parse.SkipPackage("UBOOT_MACHINE is not set in the %s machine configuration." % d.getVar("MACHINE", True))
+-}
+-
+ # Allow setting an additional version string that will be picked up by the
+ # u-boot build system and appended to the u-boot version.  If the .scmversion
+ # file already exists it will not be overwritten.
 -- 
 1.8.4.rc3
 
