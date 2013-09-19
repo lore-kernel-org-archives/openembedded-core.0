@@ -1,17 +1,30 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8C86B20E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 665C160664
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 13:02:17 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r8JD2G1U007962; 
-	Thu, 19 Sep 2013 08:02:17 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Sep 2013 18:03:38 +0500
-Message-Id: <1379595818-6019-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] openssl: Add ca-certificates in RRECOMMENDS
+	Thu, 19 Sep 2013 13:10:05 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8JDOSKF017893; Thu, 19 Sep 2013 14:24:28 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rB_8WwfbdQ4X; Thu, 19 Sep 2013 14:24:28 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8JDOLu7017881
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Thu, 19 Sep 2013 14:24:23 +0100
+Message-ID: <1379596189.18603.115.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+Date: Thu, 19 Sep 2013 14:09:49 +0100
+In-Reply-To: <1379595133-5812-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1379595133-5812-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: Upgrade to v1.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,32 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Sep 2013 13:02:17 -0000
+X-List-Received-Date: Thu, 19 Sep 2013 13:10:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+On Thu, 2013-09-19 at 17:52 +0500, Shakeel, Muhammad wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+> 
+> -This release contains a few important bugfixes in addition
+> to a few new features.
 
-In some situations ca-certificates are required along with openssl
-to communicate securely, i.e. curl trying to fetch contents through https.
+So it fixes some old bugs and potentially adds new ones? I can't make a
+good risk assessment on that information, sorry. Are you asking for this
+in 1.5 or 1.6?
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/recipes-connectivity/openssl/openssl.inc |    2 ++
- 1 file changed, 2 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 78ff7ae..cf60d4b 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
- 
- DEPENDS = "perl-native-runtime"
- 
-+RRECOMMENDS_${PN} = "ca-certificates"
-+
- SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-           "
- S = "${WORKDIR}/openssl-${PV}"
--- 
-1.7.9.5
+Richard
 
 
