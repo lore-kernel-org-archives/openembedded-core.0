@@ -1,40 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DF2FD60EE1;
-	Fri, 20 Sep 2013 04:11:50 +0000 (UTC)
-Received: by mail-pd0-f176.google.com with SMTP id q10so9146964pdj.7
-	for <multiple recipients>; Thu, 19 Sep 2013 21:11:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=TUj71AfOEN6kDBeugM7xwssebwCreR7Dznaba4zlhAg=;
-	b=NMJ85nLSpFAS3OJr79WsmJetYHr+LvzOhGPeIHW37ChbRJ9fHCHvAdYfeJalV4Mc1s
-	DGNOF1uGajaIbpp9LsqJtONKSWLifpU+HY7ViPYEtX/ka02kGia3JWrKIVxSlBO8exJD
-	2nigdCTqHCxZnYiCfwvpbJfwDu/XtOhdZ0a3u1gK3tWzh5MOp2QgsnMAFQCOIUYXYp0/
-	GhAjieJK9r7kj4hvpEEDsAePxrVBy4IzFrGGkp5oALYVFAlR4DDmL1lhZUA3qOk/wqOd
-	PfPjGlp2Ruqf1T6YIxuFsyNOGDDNUown/dScXdthBfBEuRz2dIklNYjOED8vfSFbt+nl
-	mNeA==
-X-Received: by 10.66.141.39 with SMTP id rl7mr6584938pab.46.1379650312567;
-	Thu, 19 Sep 2013 21:11:52 -0700 (PDT)
-Received: from [192.168.0.104] (99-57-140-209.lightspeed.sntcca.sbcglobal.net.
-	[99.57.140.209])
-	by mx.google.com with ESMTPSA id yo2sm15951287pab.8.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 21:11:52 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <20130919120202.GK7313@jama>
-Date: Thu, 19 Sep 2013 21:11:50 -0700
-Message-Id: <19D9595C-FE9E-4E24-B249-D32F62F25EA2@gmail.com>
-References: <CAMKF1sonakYiB++QeeeXKVztx+7CKW3zn=ndn=kP+kSVmqu3Qw@mail.gmail.com>
-	<20130919120202.GK7313@jama>
-To: Martin Jansa <martin.jansa@gmail.com>
-X-Mailer: Apple Mail (2.1510)
-Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: patchwork updated
+Return-Path: <iwamatsu@nigauri.org>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4196560EE1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Sep 2013 05:45:55 +0000 (UTC)
+Received: by mail-pd0-f171.google.com with SMTP id g10so9306239pdj.16
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Sep 2013 22:45:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=uKmrn40df/Y1p2HY3OpnrroTTpoKoPvejN8oc87pLDE=;
+	b=XukcI70FiXkFS2P/vuKfQPthlZMMyWPuGYa3dELo+JAEB3fkwo1usNZ/dQoo387Bcj
+	fgcj4tj56g9zN7Evg511qiRe90Uf+YQuD3PkY9zKzlltk7WcCUYHYD6TJCWyFIxYhgMs
+	xx3iP3O1/wu6yIRI4VFYD1f1PkcHpODcpwP8qrlyHrPs8RPO2m92IIsX9EYISOGQrivQ
+	v1d+xz0Uas7GcGcUOtTiUV7fRq8j9mqTtU/3OTYJ/nfLXcwzU8iIHO04A4Q8e+QJOzGA
+	mhnlOymW7mNmvwcsakqd5dnzF0ANftRhk9AyhpGFmnPWpbWv2IrjVt1F6RKURSDIiLci
+	3NrA==
+X-Gm-Message-State: ALoCoQkrEpdULXqLxwT8hb028Qomwtt569b/sxyI4RWnLtLmgoyzgtMYjwHAsVwjHkvVg2NOFQqB
+X-Received: by 10.68.223.131 with SMTP id qu3mr6100476pbc.4.1379655956917;
+	Thu, 19 Sep 2013 22:45:56 -0700 (PDT)
+Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
+	[202.32.14.49]) by mx.google.com with ESMTPSA id
+	ye1sm16451304pab.19.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 19 Sep 2013 22:45:55 -0700 (PDT)
+Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
+From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Sep 2013 14:45:46 +0900
+Message-Id: <1379655946-22508-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
+X-Mailer: git-send-email 1.8.4.rc3
+Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+Subject: [PATCH][RFC] kernel.bbclass: unset LDFLAGS when run devshell in kernel recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +45,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 04:11:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Sep 2013 05:45:56 -0000
 
+When user runs devshell in kernel recipe and compiles kernel,
+this will fail by unrecognized option of LD.
 
-On Sep 19, 2013, at 5:02 AM, Martin Jansa <martin.jansa@gmail.com> =
-wrote:
+----
+$ make
+...
+arm-poky-linux-gnueabi-ld: unrecognized option '-Wl,-O1'
+arm-poky-linux-gnueabi-ld: use the --help option for usage information
+----
 
-> On Sun, Sep 15, 2013 at 12:32:44AM -0700, Khem Raj wrote:
->> Hi All,
->>=20
->> The patchwork has been updated to latest. Please keep an eye if you
->> see something non working let me know immediately.
->=20
-> Hi,
->=20
-> something is wrong,
->=20
-> http://patchwork.openembedded.org/user/bundles/
->=20
-> returns 502 Bad Gateway for me and I cannot access individual bundles,
-> which is very bad, because all oe-devel patches are separated into
-> bundles based on layer.
+This set to empty LDFLAGS when user runs the devshell, and solve this problem.
 
-OK. I have created a local fix for it and also started a discussion on =
-patchwork ml
-bundles should be visible now. Let me know if there are further issues.
+Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+---
+ meta/classes/kernel.bbclass |    5 +++++
+ 1 file changed, 5 insertions(+)
 
->=20
-> Regards,
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 8cf66ce..0bf39e6 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -145,6 +145,11 @@ do_bundle_initramfs () {
+ 	fi
+ }
+ do_bundle_initramfs[nostamp] = "1"
++
++python do_devshell_prepend () {
++    os.environ["LDFLAGS"] = ''
++}
++
+ addtask bundle_initramfs after do_compile
+ 
+ kernel_do_compile() {
+-- 
+1.7.9.5
 
 
