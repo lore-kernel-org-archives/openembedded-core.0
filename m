@@ -1,38 +1,33 @@
-Return-Path: <iwamatsu@nigauri.org>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4196560EE1
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 25F896010E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 05:45:55 +0000 (UTC)
-Received: by mail-pd0-f171.google.com with SMTP id g10so9306239pdj.16
+	Fri, 20 Sep 2013 06:46:09 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.90,938,1371052800"; 
+   d="scan'208";a="8569340"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 20 Sep 2013 14:42:58 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r8K6k9Fs016107
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Sep 2013 22:45:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=uKmrn40df/Y1p2HY3OpnrroTTpoKoPvejN8oc87pLDE=;
-	b=XukcI70FiXkFS2P/vuKfQPthlZMMyWPuGYa3dELo+JAEB3fkwo1usNZ/dQoo387Bcj
-	fgcj4tj56g9zN7Evg511qiRe90Uf+YQuD3PkY9zKzlltk7WcCUYHYD6TJCWyFIxYhgMs
-	xx3iP3O1/wu6yIRI4VFYD1f1PkcHpODcpwP8qrlyHrPs8RPO2m92IIsX9EYISOGQrivQ
-	v1d+xz0Uas7GcGcUOtTiUV7fRq8j9mqTtU/3OTYJ/nfLXcwzU8iIHO04A4Q8e+QJOzGA
-	mhnlOymW7mNmvwcsakqd5dnzF0ANftRhk9AyhpGFmnPWpbWv2IrjVt1F6RKURSDIiLci
-	3NrA==
-X-Gm-Message-State: ALoCoQkrEpdULXqLxwT8hb028Qomwtt569b/sxyI4RWnLtLmgoyzgtMYjwHAsVwjHkvVg2NOFQqB
-X-Received: by 10.68.223.131 with SMTP id qu3mr6100476pbc.4.1379655956917;
-	Thu, 19 Sep 2013 22:45:56 -0700 (PDT)
-Received: from xps-iwamatsu.renesas.com (49.14.32.202.bf.2iij.net.
-	[202.32.14.49]) by mx.google.com with ESMTPSA id
-	ye1sm16451304pab.19.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 19 Sep 2013 22:45:55 -0700 (PDT)
-Sender: Nobuhiro Iwamatsu <iwamatsu@nigauri.org>
-From: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2013 14:45:46 +0900
-Message-Id: <1379655946-22508-1-git-send-email-nobuhiro.iwamatsu.yj@renesas.com>
-X-Mailer: git-send-email 1.8.4.rc3
-Cc: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
-Subject: [PATCH][RFC] kernel.bbclass: unset LDFLAGS when run devshell in kernel recipe
+	Fri, 20 Sep 2013 14:46:10 +0800
+Received: from G08FNSTD100511 ([10.167.226.63])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013092014443548-1650810 ;
+	Fri, 20 Sep 2013 14:44:35 +0800 
+From: "leimaohui" <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 20 Sep 2013 14:46:03 +0800
+Message-ID: <00d201ceb5cd$1440b070$3cc21150$@cn.fujitsu.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: Ac61zQ8JDgXxKy1ZTIiB+KwNFfN0fQ==
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/09/20 14:44:35,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/09/20 14:44:36,
+	Serialize complete at 2013/09/20 14:44:36
+Subject: [PATCH 1/1]udev_182: creat a symbolic file /sbin/udevadm to fix haldaemon starts error.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,42 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 05:45:56 -0000
+X-List-Received-Date: Fri, 20 Sep 2013 06:46:10 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Language: zh-cn
 
-When user runs devshell in kernel recipe and compiles kernel,
-this will fail by unrecognized option of LD.
+The haldaemon requires /sbin/udevadm to start.
+So creat a symbolic file  /sbin/udevadm that links to /usr/bin/udevadm.
 
-----
-$ make
-...
-arm-poky-linux-gnueabi-ld: unrecognized option '-Wl,-O1'
-arm-poky-linux-gnueabi-ld: use the --help option for usage information
-----
 
-This set to empty LDFLAGS when user runs the devshell, and solve this problem.
 
-Signed-off-by: Nobuhiro Iwamatsu <nobuhiro.iwamatsu.yj@renesas.com>
+Signed-off-by: leimaohui <leimaohui@cn.fujitsu.com>
 ---
- meta/classes/kernel.bbclass |    5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-core/udev/udev.inc |    3 +++
+ 1 files changed, 3 insertions(+), 0 deletions(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 8cf66ce..0bf39e6 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -145,6 +145,11 @@ do_bundle_initramfs () {
- 	fi
- }
- do_bundle_initramfs[nostamp] = "1"
+diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
+index dd250f7..fe53979 100644
+--- a/meta/recipes-core/udev/udev.inc
++++ b/meta/recipes-core/udev/udev.inc
+@@ -93,6 +93,9 @@ do_install_append () {
+    install -d ${D}${sysconfdir}/udev/rules.d/
+
+    install -m 0644 ${WORKDIR}/local.rules
+${D}${sysconfdir}/udev/rules.d/local.rules
 +
-+python do_devshell_prepend () {
-+    os.environ["LDFLAGS"] = ''
-+}
-+
- addtask bundle_initramfs after do_compile
- 
- kernel_do_compile() {
--- 
-1.7.9.5
++   install -d ${D}/${base_sbindir}
++   ln -s ../usr/bin/udevadm ${D}/${base_sbindir}/udevadm
+
+    # hid2hci has moved to bluez4. removed in udev as of version 169
+    rm -f ${D}${base_libdir}/udev/hid2hci
+--
+1.7.1
+
 
 
