@@ -1,34 +1,17 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 40FE760EE1
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id A20F060EE1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 13:09:28 +0000 (UTC)
-Received: from svr-orw-exc-10.mgc.mentorg.com ([147.34.98.58])
-	by relay1.mentorg.com with esmtp 
-	id 1VN0Sf-0003NX-NN from Muhammad_Shakeel@mentor.com ;
-	Fri, 20 Sep 2013 06:09:29 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	SVR-ORW-EXC-10.mgc.mentorg.com with Microsoft
-	SMTPSVC(6.0.3790.4675); Fri, 20 Sep 2013 06:09:29 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Fri, 20 Sep 2013 14:09:27 +0100
-Message-ID: <523C495F.2070105@mentor.com>
-Date: Fri, 20 Sep 2013 18:10:55 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Jukka Rissanen <jukka.rissanen@linux.intel.com>
-References: <1379595133-5812-1-git-send-email-muhammad_shakeel@mentor.com>
-	<1379596189.18603.115.camel@ted> <523AF9CB.5040600@mentor.com>
-	<523AFF14.10400@linux.intel.com>
-In-Reply-To: <523AFF14.10400@linux.intel.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 20 Sep 2013 13:09:29.0866 (UTC)
-	FILETIME=[A40A6EA0:01CEB602]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] connman: Upgrade to v1.18
+	Fri, 20 Sep 2013 13:50:53 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r8KDooX4008688; 
+	Fri, 20 Sep 2013 08:50:53 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Sep 2013 18:52:12 +0500
+Message-Id: <1379685133-3155-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] [v2] connman: Upgrade to v1.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,21 +24,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 13:09:29 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Sep 2013 13:50:54 -0000
 
-On 09/19/2013 06:41 PM, Jukka Rissanen wrote:
->
-> I would recommend taking it. Biggest issue fixed in 1.18 was the 
-> iptables support which did not work in ARM based devices.
->
->
-> This patch could perhaps split to two pieces, first one removing 
-> obsolete options and second one updating the version.
->
-Ok, I will resend this after splitting it into two commits.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Thanks,
+This release contains a few important bugfixes in addition
+to a few new features.
+
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ meta/recipes-connectivity/connman/connman_1.17.bb |   14 --------------
+ meta/recipes-connectivity/connman/connman_1.18.bb |   14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/meta/recipes-connectivity/connman/connman_1.17.bb b/meta/recipes-connectivity/connman/connman_1.17.bb
+deleted file mode 100644
+index 461157f..0000000
+--- a/meta/recipes-connectivity/connman/connman_1.17.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-require connman.inc
+-
+-SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+-            file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+-            file://add_xuser_dbus_permission.patch \
+-            file://connman \
+-            "
+-
+-SRC_URI[md5sum] = "dd4a13f789de1b69fcddf0cf613f2d5b"
+-SRC_URI[sha256sum] = "d31aa2e7dc9fa817c93aba973995b63506a8c83f55afe507028f09b580ef0b00"
+-
+-PR = "${INC_PR}.0"
+-
+-RRECOMMENDS_${PN} = "connman-conf"
+diff --git a/meta/recipes-connectivity/connman/connman_1.18.bb b/meta/recipes-connectivity/connman/connman_1.18.bb
+new file mode 100644
+index 0000000..44a4a07
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman_1.18.bb
+@@ -0,0 +1,14 @@
++require connman.inc
++
++SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
++            file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
++            file://add_xuser_dbus_permission.patch \
++            file://connman \
++            "
++
++SRC_URI[md5sum] = "7578ec8f0422d34f5a4ba51b605fe576"
++SRC_URI[sha256sum] = "56c2ca7842be2100b6b59367845d5beec125f231af6ea505604992e0c5a69992"
++
++PR = "${INC_PR}.0"
++
++RRECOMMENDS_${PN} = "connman-conf"
+-- 
+1.7.9.5
 
 
