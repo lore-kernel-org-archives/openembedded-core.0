@@ -1,31 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 170196B678
+Return-Path: <walters@verbum.org>
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+	[66.111.4.27])
+	by mail.openembedded.org (Postfix) with ESMTP id C97AB6BD79
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 16:16:29 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8KGUxtn028391 for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 17:30:59 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1n9OPYN6hHGd
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 17:30:59 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8KGUtvh028387
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 17:30:57 +0100
-Message-ID: <1379693778.18603.151.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Sep 2013 17:16:18 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+	Fri, 20 Sep 2013 16:19:30 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.mail.srv.osa [10.202.2.44])
+	by gateway1.nyi.mail.srv.osa (Postfix) with ESMTP id 8AF62220D1;
+	Fri, 20 Sep 2013 12:19:26 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute4.internal (MEProxy); Fri, 20 Sep 2013 12:19:26 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=subject:from:to:cc:in-reply-to:references
+	:content-type:date:message-id:mime-version
+	:content-transfer-encoding; s=smtpout; bh=J1iUfL/ZjhNQHC4Rh16vgW
+	wqrpc=; b=WCrb1+2C/7C6QpaqcCzgjM/VS02/sSotpyNWIzwaTWsq/dRGu1QBf+
+	9GaW6Dl0XyJMla7zDLtvbUwKDnpXmFfk7UJA90I9UjSfuzieCQWe4vyscZ7s+Bjm
+	pkTHdR03Ys9zQW+CF5ZQw1EqwsYMWlzuOwWWSHxJk40qhMFDE8Kxc=
+X-Sasl-enc: /5No3aS1k01sXA+oOxyF/Oo5nmZ5l2MB/qGZOhqkA1gk 1379693966
+Received: from [192.168.1.2] (unknown [66.31.18.51])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 2EE18C00E7F;
+	Fri, 20 Sep 2013 12:19:26 -0400 (EDT)
+From: Colin Walters <walters@verbum.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <4037078.8vkzREKUPL@helios>
+References: <1379688225-29241-1-git-send-email-paul.eggleton@linux.intel.com>
+	<1379693055.1665.9.camel@localhost>  <4037078.8vkzREKUPL@helios>
+Date: Fri, 20 Sep 2013 12:19:25 -0400
+Message-ID: <1379693965.1665.13.camel@localhost>
 Mime-Version: 1.0
-Subject: [PATCH] btrfs-tools: Fix parallel make issue
+X-Mailer: Evolution 2.32.3 (2.32.3-26.el6) 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] glib-2.0: fix broken python script header on machines using buildtools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,61 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 16:16:31 -0000
+X-List-Received-Date: Fri, 20 Sep 2013 16:19:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-btrfs-tools was failing occasionally due to version.h being missing. This
-fixes the problems, thanks to several people on #yocto for helping out
-why my lack of make knowledge of old fashioned suffix rules :)
+On Fri, 2013-09-20 at 17:14 +0100, Paul Eggleton wrote:
+> Hi Colin,
+> 
+> On Friday 20 September 2013 12:04:15 Colin Walters wrote:
+> > On Fri, 2013-09-20 at 15:43 +0100, Paul Eggleton wrote:
+> > >  it also seems sensible to do
+> > > this for native as well instead of explicitly trying to exclude that
+> > > case.
+> > 
+> > But someone presumably introduced the explicit special case for native
+> > for a reason, I'd expect some blame analysis to be done here to
+> > determine whether those reasons were bogus or not.
+> 
+> I already did that as a matter of course; there is no clue in the message
+> for the commit that added it:
+> 
+> http://cgit.openembedded.org/openembedded-core/commit/?id=08fd9740b9359425ec6ee9810fab1152e9737b0c
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch
-new file mode 100644
-index 0000000..af1a760
---- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/btrfs-progs-fix-parallel-build2.patch
-@@ -0,0 +1,27 @@
-+btrfs-progs: Fix parallel build
-+
-+Upstream-Status: Pending
-+
-+"make btrfs.o" fails unable to find version.h.
-+
-+This adds version.h as a dependency for all .o files and fixes various parallel 
-+build failures.
-+
-+RP 20/9/2013
-+---
-+ Makefile |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: git/Makefile
-+===================================================================
-+--- git.orig/Makefile	2013-09-20 14:45:34.307723221 +0000
-++++ git/Makefile	2013-09-20 16:06:45.503611030 +0000
-+@@ -76,7 +76,7 @@
-+ 	check = true
-+ endif
-+ 
-+-.c.o:
-++%.o: %.c version.h
-+ 	$(Q)$(check) $<
-+ 	@echo "    [CC]     $@"
-+ 	$(Q)$(CC) $(DEPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c $<
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index fe6a35a..2d2d555 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -21,6 +21,7 @@ PV = "0.20+git${SRCPV}"
- 
- SRC_URI += "file://weak-defaults.patch"
- SRC_URI += "file://btrfs-progs-fix-parallel-build.patch"
-+SRC_URI += "file://btrfs-progs-fix-parallel-build2.patch"
- 
- do_install () {
- 	oe_runmake 'DESTDIR=${D}' install
+Ok, well then I'd expect something in your commit message similar to
+"There was no original rationale for why native was special cased, and I
+think it should be safe to remove."
+
+It might be still cached in Richard's brain of course...let's see =)
 
 
 
