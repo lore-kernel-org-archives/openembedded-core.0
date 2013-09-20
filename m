@@ -1,36 +1,41 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F1B16BEA6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 09:49:23 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.90,938,1371052800"; 
-   d="scan'208";a="8569983"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 20 Sep 2013 17:46:10 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r8K9nMAH025868;
-	Fri, 20 Sep 2013 17:49:22 +0800
-Received: from G08FNSTD100511 ([10.167.226.63])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013092017474781-1655081 ;
-	Fri, 20 Sep 2013 17:47:47 +0800 
-From: "leimaohui" <leimaohui@cn.fujitsu.com>
-To: "'Burton, Ross'" <ross.burton@intel.com>
-References: <00d201ceb5cd$1440b070$3cc21150$@cn.fujitsu.com>
-	<CAJTo0LY_doa073K_9m2Ry24nKT54MoWsBQ9p_45c2WGL+EiDJA@mail.gmail.com>
-In-Reply-To: <CAJTo0LY_doa073K_9m2Ry24nKT54MoWsBQ9p_45c2WGL+EiDJA@mail.gmail.com>
-Date: Fri, 20 Sep 2013 17:49:18 +0800
-Message-ID: <00d501ceb5e6$ad9064f0$08b12ed0$@cn.fujitsu.com>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ea0-f177.google.com (mail-ea0-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id ED95161019;
+	Fri, 20 Sep 2013 11:46:35 +0000 (UTC)
+Received: by mail-ea0-f177.google.com with SMTP id f15so197083eak.36
+	for <multiple recipients>; Fri, 20 Sep 2013 04:46:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=V5z0d36zR3YyUY8lIG2fmgo+XfoBIq2zIMST21keEpA=;
+	b=H/wPbkI3tBfxK1diS80Nx3xaYoghDTDieFRiDh/N/yGOHK/gixZyzqnO2s7IXbQkuS
+	i72tLteBR3We1LraKtSrQtzqR4C50yAyTxCeSjIwoCsQ6GIjOKjvYFHQE93ckSBHgxNu
+	SmXz3hoZ4KuacVwWxkjZTvzy/OCZuKwhRaHzHVkDD4lKqPDKjoHTuf1DM0wQR/YVJIyO
+	HrxL1cKyFPcYfaz7ZD+P4lf1StTi40xVY2BpnCAXFkXBuNkEvndxq7Iwgph6DQL54w4X
+	p7M0soooNuhAd/Xu2Rt6fEBE2IF7hYJjmRvHWPMstlN86vBrG7KTeR28tcvmm5Zxjubk
+	ztQg==
+X-Received: by 10.14.99.196 with SMTP id x44mr2095286eef.83.1379677597317;
+	Fri, 20 Sep 2013 04:46:37 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	h52sm18790372eez.3.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 20 Sep 2013 04:46:36 -0700 (PDT)
+Date: Fri, 20 Sep 2013 13:48:15 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20130920114815.GI18414@jama>
+References: <CAMKF1sonakYiB++QeeeXKVztx+7CKW3zn=ndn=kP+kSVmqu3Qw@mail.gmail.com>
+	<20130919120202.GK7313@jama>
+	<19D9595C-FE9E-4E24-B249-D32F62F25EA2@gmail.com>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: AQJNp3O0zuBKJhcL6t7G1KdTvT1BQAFEKBmYmMZUqsA=
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/09/20 17:47:47,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/09/20 17:47:48,
-	Serialize complete at 2013/09/20 17:47:48
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1]udev_182: creat a symbolic file /sbin/udevadm to fix haldaemon starts error.
+In-Reply-To: <19D9595C-FE9E-4E24-B249-D32F62F25EA2@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: patchwork updated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +48,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 09:49:24 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Language: zh-cn
+X-List-Received-Date: Fri, 20 Sep 2013 11:46:36 -0000
+X-Groupsio-MsgNum: 45287
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="CD/aTaZybdUisKIc"
+Content-Disposition: inline
 
-On 20 September 2013 4:38 PM, Burton, Ross [mailto:ross.burton@intel.com] wrote:
-> On 20 September 2013 07:46, leimaohui <leimaohui@cn.fujitsu.com> wrote:
-> > The haldaemon requires /sbin/udevadm to start.
-> > So creat a symbolic file  /sbin/udevadm that links to /usr/bin/udevadm.
-> 
-> Why not fix haldaemon to use the right path?
+--CD/aTaZybdUisKIc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-But  according to  udev's changlog,I think it is better to add a symlink to
-udevadm.
+On Thu, Sep 19, 2013 at 09:11:50PM -0700, Khem Raj wrote:
+>=20
+> On Sep 19, 2013, at 5:02 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>=20
+> > On Sun, Sep 15, 2013 at 12:32:44AM -0700, Khem Raj wrote:
+> >> Hi All,
+> >>=20
+> >> The patchwork has been updated to latest. Please keep an eye if you
+> >> see something non working let me know immediately.
+> >=20
+> > Hi,
+> >=20
+> > something is wrong,
+> >=20
+> > http://patchwork.openembedded.org/user/bundles/
+> >=20
+> > returns 502 Bad Gateway for me and I cannot access individual bundles,
+> > which is very bad, because all oe-devel patches are separated into
+> > bundles based on layer.
+>=20
+> OK. I have created a local fix for it and also started a discussion on pa=
+tchwork ml
+> bundles should be visible now. Let me know if there are further issues.
 
-http://upstream-tracker.org/changelogs/libudev/182/changelog.html
+Thanks for quick fix, it works for me now, but maybe not for others
 
-" The default install location of the 'udevadm' tool moved from 'sbin'
-to /usr/bin. Some tools expect udevadm in 'sbin', a symlink to udevadm
-needs to be manually created if needed, or --bindir=/sbin be specified."
+Bundles main page
+http://patchwork.openembedded.org/user/bundles/
+as well as user bundle (this is "in-test" bundle)
+http://patchwork.openembedded.org/user/bundle/79/?archive=3Dboth
+work now, but public link for the same bundle
+http://patches.openembedded.org/bundle/jama/in-test/
+shows 502 Bad Gateway
 
-Best Regards,
-Maohui Lei
+Can you check that your local fix can be applied in last link as well?
 
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--CD/aTaZybdUisKIc
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
 
+iEYEARECAAYFAlI8Nf4ACgkQN1Ujt2V2gBwseQCfR0rAxH0d3iH7PDqrjQCAc65p
+oDQAn1ft+yvHre6cDqhV4TsUQhOoQlUT
+=5iyR
+-----END PGP SIGNATURE-----
+
+--CD/aTaZybdUisKIc--
