@@ -1,38 +1,25 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4394E6B678
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id E31306C8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 21:12:39 +0000 (UTC)
-Received: by mail-ob0-f172.google.com with SMTP id gq1so1254482obb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 14:12:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=Snbt1cU7G8yU4KJllvM0j20m12+eiwOs2DdBX2WPUPw=;
-	b=kL5UnVeq4NJB2Ks/cqxmf47VbUMC8h3vt+QYCx7qkqyTVJk2pHq3dq85Qs7IA+eoj1
-	kG/fpRbeAgBxqKt+Qr9EU1KV2prMFWcmHvUbGrcgkN6GGTxJb70L/LGhDpylFVjs/qaI
-	WA3EKEd2DDog/C9XBtHLd2kDxq5TIx0LaJtFq7xk7U1DMSEMkIoOTBchsFgqQyv0zQ9q
-	3mmllxT/rJz/Tt8j/+OY/6Wr+BK9A3TtQuTO+S40nV+yLeCbRa8wG8CHpJ5AaD+4pw+D
-	w+YClcZ0vf8lWlp+b+3MGaKppheb9mm/eAWUmb24o2b324xIlP60aIWWk6nV9E5vLRiM
-	ds5g==
+	Fri, 20 Sep 2013 21:14:39 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 20 Sep 2013 14:14:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,947,1371106800"; d="scan'208";a="363462709"
+Received: from unknown (HELO [10.255.15.101]) ([10.255.15.101])
+	by azsmga001.ch.intel.com with ESMTP; 20 Sep 2013 14:14:41 -0700
+Message-ID: <523CBAC0.1070306@linux.intel.com>
+Date: Fri, 20 Sep 2013 14:14:40 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-X-Received: by 10.182.246.74 with SMTP id xu10mr7574122obc.23.1379711560313;
-	Fri, 20 Sep 2013 14:12:40 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 20 Sep 2013 14:12:40 -0700 (PDT)
-In-Reply-To: <E78BBE677EB9144B8F0A0A29674CD5338ED47A955F@SRV-VS06.TELEVIC.COM>
-References: <E78BBE677EB9144B8F0A0A29674CD5338ED47A955F@SRV-VS06.TELEVIC.COM>
-Date: Fri, 20 Sep 2013 18:12:40 -0300
-X-Google-Sender-Auth: qKnpT0McVDem_r9lriMMYkA8olI
-Message-ID: <CAP9ODKrcLyHPW+TskFgbaa_9LnZphCSREmWfvi_ABxdyNBiAgA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Vanhauwaert Wouter <W.Vanhauwaert@televic.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>
-Subject: Re: [meta-freescale] imx53qsb and gst-fsl-plugin
+To: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
+References: <1379598325-23165-1-git-send-email-david.nystrom@enea.com>
+In-Reply-To: <1379598325-23165-1-git-send-email-david.nystrom@enea.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Add makedevs to nativesdk, which can later allow creation of a small script which allows users of the toolchain tarball to create a custom rootfs from a package feed, using pseudo & makedevs.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,24 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 21:12:40 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 20 Sep 2013 21:14:40 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 20, 2013 at 6:49 AM, Vanhauwaert Wouter
-<W.Vanhauwaert@televic.com> wrote:
-...
-> ERROR: Function failed: do_package_ipk
-> ERROR: Logfile of failure stored in: /opt/git/poky/build/tmp/work/imx53qsb-poky-linux-gnueabi/mesa/2_9.1.6-r0/temp/log.do_package_write_ipk.21959
-> ERROR: Task 3655 (/opt/git/poky/meta/recipes-graphics/mesa/mesa_9.1.6.bb, do_package_write_ipk) failed with exit code '1'
-...
 
-This is an error seems to be in OE-Core/Poky and not in meta-fsl-arm.
-I am adding the openembedded-core mailing list in Cc.
+Please reformat the commit message to meet the guidelines
 
-I started a build to try to reproduce it.
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+It should have a distinct summary: "makedevs: Add nativesdk" and then 
+the "why" in the body of the commit message.
+
+Thanks
+	Sau!
+
+
+On 09/19/2013 06:45 AM, David Nyström wrote:
+> Signed-off-by: David Nyström <david.nystrom@enea.com>
+> ---
+>   meta/recipes-devtools/makedevs/makedevs_1.0.0.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+> index 2b9fd37..e6860f0 100644
+> --- a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+> +++ b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+> @@ -19,4 +19,4 @@ do_install() {
+>   	install -m 0755 ${S}/makedevs ${D}${base_sbindir}/makedevs
+>   }
+>
+> -BBCLASSEXTEND = "native"
+> +BBCLASSEXTEND = "native nativesdk"
+>
 
