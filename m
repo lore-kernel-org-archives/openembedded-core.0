@@ -1,24 +1,24 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id D27836C7E1
+	by mail.openembedded.org (Postfix) with ESMTP id CBAA96C7E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 09:27:57 +0000 (UTC)
+	Fri, 20 Sep 2013 09:27:58 +0000 (UTC)
 Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 20 Sep 2013 02:28:00 -0700
+	by azsmga101.ch.intel.com with ESMTP; 20 Sep 2013 02:28:01 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,943,1371106800"; d="scan'208";a="363220956"
+X-IronPort-AV: E=Sophos;i="4.90,943,1371106800"; d="scan'208";a="363220959"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.234])
-	by azsmga001.ch.intel.com with ESMTP; 20 Sep 2013 02:27:59 -0700
+	by azsmga001.ch.intel.com with ESMTP; 20 Sep 2013 02:28:00 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2013 10:27:50 +0100
-Message-Id: <ceb65c408a19ce7c1b5223b5a3029a0ebfb39a9b.1379669217.git.paul.eggleton@linux.intel.com>
+Date: Fri, 20 Sep 2013 10:27:51 +0100
+Message-Id: <5e48791ccbb9ab86eef2f7dbbecb496a35ec6fcd.1379669217.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
 In-Reply-To: <cover.1379669217.git.paul.eggleton@linux.intel.com>
 References: <cover.1379669217.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1379669217.git.paul.eggleton@linux.intel.com>
 References: <cover.1379669217.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/5] classes/testimage-auto: add class to allow automatically running image tests
+Subject: [PATCH 3/5] classes/sanity: test for DISPLAY being set with testimage class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 09:27:58 -0000
+X-List-Received-Date: Fri, 20 Sep 2013 09:27:59 -0000
 
-Setting TEST_IMAGE = "1" alone will now automatically run tests on the
-image immediately after the image is built instead of having to add
-INHERIT += "testimage" and run bitbake -c testimage <image> manually
-(but that will still work). This restores functionality that was
-present in the older imagetest-qemu class with IMAGETEST.
+Update the sanity test for DISPLAY being set to handle the new testimage
+class rather than the old imagetest-qemu class.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/image.bbclass          |  3 +++
- meta/classes/testimage-auto.bbclass | 24 ++++++++++++++++++++++++
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/classes/testimage-auto.bbclass
+ meta/classes/sanity.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 889547a..246a4db 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -16,6 +16,9 @@ RRECOMMENDS += "${PACKAGE_INSTALL_ATTEMPTONLY}"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index feffed9..b8e5b02 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -627,11 +627,11 @@ def check_sanity_everybuild(status, d):
  
- INHIBIT_DEFAULT_DEPS = "1"
+     check_supported_distro(d)
  
-+TESTIMAGECLASS = "${@base_conditional('TEST_IMAGE', '1', 'testimage-auto', '', d)}"
-+inherit ${TESTIMAGECLASS}
-+
- # IMAGE_FEATURES may contain any available package group
- IMAGE_FEATURES ?= ""
- IMAGE_FEATURES[type] = "list"
-diff --git a/meta/classes/testimage-auto.bbclass b/meta/classes/testimage-auto.bbclass
-new file mode 100644
-index 0000000..1fc7593
---- /dev/null
-+++ b/meta/classes/testimage-auto.bbclass
-@@ -0,0 +1,24 @@
-+# Copyright (C) 2013 Intel Corporation
-+#
-+# Released under the MIT license (see COPYING.MIT)
-+
-+
-+# Run tests automatically on an image after the image is constructed
-+# (as opposed to testimage.bbclass alone where tests must be called
-+# manually using bitbake -c testimage <image>).
-+#
-+# NOTE: to use this class, simply set TEST_IMAGE = "1" - no need to
-+# inherit it since that will be done in image.bbclass when this variable
-+# has been set.
-+#
-+# See testimage.bbclass for the test implementation.
-+
-+inherit testimage
-+
-+python do_testimage_auto() {
-+    testimage_main(d)
-+}
-+addtask testimage_auto before do_build after do_rootfs
-+do_testimage_auto[nostamp] = "1"
-+do_testimage_auto[depends] += "qemu-native:do_populate_sysroot"
-+do_testimage_auto[depends] += "qemu-helper-native:do_populate_sysroot"
+-    # Check if DISPLAY is set if IMAGETEST is set
+-    if d.getVar( 'IMAGETEST', True ) == 'qemu':
++    # Check if DISPLAY is set if TEST_IMAGE is set
++    if d.getVar('TEST_IMAGE', True) == '1' or d.getVar('DEFAULT_TEST_SUITES', True):
+         display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
+         if not display:
+-            status.addresult('qemuimagetest needs an X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n')
++            status.addresult('testimage needs an X desktop to start qemu, please set DISPLAY correctly (e.g. DISPLAY=:1.0)\n')
+ 
+     omask = os.umask(022)
+     if omask & 0755:
 -- 
 1.8.1.2
 
