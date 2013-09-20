@@ -1,20 +1,20 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id AEEFF60EE1
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BA7561118
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 14:43:48 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 20 Sep 2013 07:43:50 -0700
+	Fri, 20 Sep 2013 14:49:23 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 20 Sep 2013 07:46:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,944,1371106800"; d="scan'208";a="297315507"
+X-IronPort-AV: E=Sophos;i="4.90,944,1371106800"; d="scan'208";a="406452264"
 Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.123.234])
-	by AZSMGA002.ch.intel.com with ESMTP; 20 Sep 2013 07:43:47 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Sep 2013 07:49:24 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2013 15:43:45 +0100
-Message-Id: <1379688225-29241-1-git-send-email-paul.eggleton@linux.intel.com>
+Date: Fri, 20 Sep 2013 15:49:22 +0100
+Message-Id: <1379688562-29529-1-git-send-email-paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] glib-2.0: fix broken python script header on machines using buildtools
+Subject: [PATCH] avahi: bump INC_PR to avoid do_configure failure in existing workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,43 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 14:43:48 -0000
+X-List-Received-Date: Fri, 20 Sep 2013 14:49:24 -0000
 
-With buildtools (which contains Python) installed on a build machine,
-glib-2.0's gtester-report script was ending up with the full path to
-the installed python binary in the shebang, which when rpm packaging
-was used led to this being added as a per-file dependency by rpmdeps for
-the libglib-2.0-utils package in which it ends up. This of course broke
-do_rootfs when the package was included in the rootfs and had been
-restored from sstate from another machine, as happened on the Yocto
-Project autobuilder.
-
-We were already trying to sed this script apparently only for the
-shebang (since it appears that there are no other paths in the script)
-so let's just sed the shebang properly; it also seems sensible to do
-this for native as well instead of explicitly trying to exclude that
-case.
-
-Fixes [YOCTO #5205].
+When we split S and B for avahi in OE-Core commit
+6112a07f4e9865f7ae0e5a953669c1adf789f9f0, files left over in the workdir
+from a previous build seem to break re-execution of do_configure. Bump
+PR to give a fresh workdir and avoid this problem.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/recipes-connectivity/avahi/avahi.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index aa1d400..e57d2ac 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -46,7 +46,5 @@ ARM_INSTRUCTION_SET = "arm"
- USE_NLS = "yes"
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 6495ee9..cf063db 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -14,7 +14,7 @@ SECTION = "network"
+ # python scripts are under GPLv2+
+ LICENSE = "GPLv2+ & LGPLv2.1+"
  
- do_install_append () {
--	if [ "${PN}" != "glib-2.0-native" ]; then
--		sed ${D}${bindir}/gtester-report -i -e 's,${STAGING_BINDIR_NATIVE},${bindir},g'
--	fi
-+	sed ${D}${bindir}/gtester-report -i -e '1s|^#!.*|#!/usr/bin/env python|'
- }
+-INC_PR = "r6"
++INC_PR = "r7"
+ 
+ DEPENDS = "expat libcap libdaemon dbus glib-2.0"
+ 
 -- 
 1.8.1.2
 
