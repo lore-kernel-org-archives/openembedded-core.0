@@ -1,37 +1,29 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
-	[209.85.214.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 177BC6028B
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 404C661118
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 22:36:56 +0000 (UTC)
-Received: by mail-ob0-f172.google.com with SMTP id gq1so1331910obb.31
+	Fri, 20 Sep 2013 23:23:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8KNNLnx016356
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 15:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=1TfeJ2Cj9jUcYUnF4ja/y5rUAtiYf9dKhz5/MCqfJ/8=;
-	b=PhJBo+J/5k/Xs0ZKqnqCIQR/FxeTi+k9Gc29lRoFRQynqquu1SVOCXcY0UuolL7WC2
-	6cJBG/SRmp/wG1aGuSu91/cLT5+HhPT/B4wknlJN0pRCfVykw8B01nu/+M9O4wph+xRH
-	MTGLYPGbDAsT2aa6Yv6ax6hfwkYv3Cf0HCrPN5Nc+FBafbMUnVzMpDhA0q+G19ZpQA8l
-	3HoNm3Ozxl+izNiyWsXSQ6AMqvmGOLmVOCSzQohRQL3f+kA+7aNXJWHK6YSGdnuaQy87
-	vw92/mZfTyLskI6td1qMrUEpYFzXmXTlWAUgB1DRx3IJroxHtWOkQldHRG/0fg1Wldhf
-	oRjw==
+	Fri, 20 Sep 2013 16:23:21 -0700 (PDT)
+Received: from [128.224.22.210] (128.224.22.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Fri, 20 Sep 2013 16:23:20 -0700
+Message-ID: <523CD8E6.5030302@windriver.com>
+Date: Fri, 20 Sep 2013 19:23:18 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-X-Received: by 10.60.60.5 with SMTP id d5mr7925261oer.0.1379716617428; Fri, 20
-	Sep 2013 15:36:57 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Fri, 20 Sep 2013 15:36:57 -0700 (PDT)
-In-Reply-To: <1379682086-27877-1-git-send-email-paul.eggleton@linux.intel.com>
-References: <1379682086-27877-1-git-send-email-paul.eggleton@linux.intel.com>
-Date: Fri, 20 Sep 2013 19:36:57 -0300
-X-Google-Sender-Auth: fo-N5J0zwM6EQJgipnjICwGppo0
-Message-ID: <CAP9ODKo3iBg=Gou6E3Ve5vRHK7dZF7qBFdXi=3nw-QYDO4hHvA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qt4-x11-free: disable QGtkStyle
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1377792005.git.Martin.Jansa@gmail.com>
+	<086c32308bdd8d212afe0c8fa4e614a2617fc4ba.1377792006.git.Martin.Jansa@gmail.com>
+In-Reply-To: <086c32308bdd8d212afe0c8fa4e614a2617fc4ba.1377792006.git.Martin.Jansa@gmail.com>
+X-Originating-IP: [128.224.22.210]
+Subject: Re: [WIP][PATCH 11/20] wget: Add dependency on libpcre
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 22:36:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 20 Sep 2013 23:23:19 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 20, 2013 at 10:01 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> This currently leads to a floating dependency on GTK+. Since most users
-> in an embedded context won't need this, just disable it by default.
+On 13-08-29 12:02 PM, Martin Jansa wrote:
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ---
+>   meta/recipes-extended/wget/wget.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Fixes [YOCTO #5116].
+> diff --git a/meta/recipes-extended/wget/wget.inc b/meta/recipes-extended/wget/wget.inc
+> index de9b620..7af55c4 100644
+> --- a/meta/recipes-extended/wget/wget.inc
+> +++ b/meta/recipes-extended/wget/wget.inc
+> @@ -2,7 +2,7 @@ DESCRIPTION = "A console URL download utility featuring HTTP, FTP, and more."
+>   SECTION = "console/network"
+>   LICENSE = "GPLv3"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> -DEPENDS = "openssl zlib"
+> +DEPENDS = "openssl zlib libpcre"
 >
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+>   INC_PR = "r16"
+>
+>
 
-Personally I use the QGtkStyle in some products but I am all in favor
-of this. This avoids floating dependencies and I can easily re-add it
-back in our internal layer.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+I haven't looked at the other patches yet but this seems
+to be valid since my image construction failed with:
+
+Computing transaction...error: Can't install wget-1.14-r16.0.0@core2: no 
+package provides libpcre >= 8.33
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350
 
