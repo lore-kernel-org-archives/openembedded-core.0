@@ -1,33 +1,34 @@
 Return-Path: <leimaohui@cn.fujitsu.com>
 Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 25F896010E
+	by mail.openembedded.org (Postfix) with ESMTP id E0EE360115
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 06:46:09 +0000 (UTC)
+	Fri, 20 Sep 2013 07:23:40 +0000 (UTC)
 X-IronPort-AV: E=Sophos;i="4.90,938,1371052800"; 
-   d="scan'208";a="8569340"
+   d="scan'208";a="8569454"
 Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 20 Sep 2013 14:42:58 +0800
+	by song.cn.fujitsu.com with ESMTP; 20 Sep 2013 15:20:29 +0800
 Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r8K6k9Fs016107
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r8K7NfRX018032
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 14:46:10 +0800
+	Fri, 20 Sep 2013 15:23:41 +0800
 Received: from G08FNSTD100511 ([10.167.226.63])
 	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013092014443548-1650810 ;
-	Fri, 20 Sep 2013 14:44:35 +0800 
+	with ESMTP id 2013092015220707-1651413 ;
+	Fri, 20 Sep 2013 15:22:07 +0800 
 From: "leimaohui" <leimaohui@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Sep 2013 14:46:03 +0800
-Message-ID: <00d201ceb5cd$1440b070$3cc21150$@cn.fujitsu.com>
+Date: Fri, 20 Sep 2013 15:23:37 +0800
+Message-ID: <00d301ceb5d2$539fbc20$fadf3460$@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Mailer: Microsoft Outlook 14.0
-Thread-Index: Ac61zQ8JDgXxKy1ZTIiB+KwNFfN0fQ==
+Thread-Index: Ac610f+HxcqT57neTcGyH4z+jMTezA==
 X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/09/20 14:44:35,
+	15, 2011) at 2013/09/20 15:22:07,
 	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/09/20 14:44:36,
-	Serialize complete at 2013/09/20 14:44:36
-Subject: [PATCH 1/1]udev_182: creat a symbolic file /sbin/udevadm to fix haldaemon starts error.
+	2011) at 2013/09/20 15:22:07,
+	Serialize complete at 2013/09/20 15:22:07
+Cc: fnst-ulinux@cn.fujitsu.com
+Subject: [PATCH 1/1] valgrind: Fix compile error about VEX/auxprogs/genoffsets.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +41,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 06:46:10 -0000
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Sep 2013 07:23:42 -0000
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset="us-ascii"
+	charset="gb2312"
 Content-Language: zh-cn
 
-The haldaemon requires /sbin/udevadm to start.
-So creat a symbolic file  /sbin/udevadm that links to /usr/bin/udevadm.
+To all=20
+
+    =
+=C7=EB=B8=F7=CE=BB=B0=EF=C3=A6review=D2=BB=CF=C2=D2=D4=CF=C2=B5=C4patch
 
 
+
+In some situations VEX/auxprogs/genoffsets.c will be compiled.But it =
+will cause
+a compile error.=20
+The error message looks like:
+
+| powerpc-poky-linux-gnuspe-gcc  -m32 -mcpu=3D8548 -mabi=3Dspe -mspe
+-mfloat-gprs=3Ddouble =
+--sysroot=3D/yocto/fnst/leimh/ubinux-v14/build/p1020rdb/build.
+ubinux-p1020rdb/tmp/sysroots/ubinux-p1020rdb -Wno-long-long -O2 -pipe -g
+-feliminate-unused-debug-types -Wno-pointer-sign -fno-stack-protector \
+|             -Wbad-function-cast -Wcast-qual -Wcast-align =
+-fstrict-aliasing \
+|             -m32 -O2 -g -Wall -Wmissing-prototypes -Wshadow =
+-Wpointer-arith
+-Wstrict-prototypes -Wmissing-declarations -Wno-format-zero-length
+-fno-strict-aliasing -fno-builtin \
+|                               -O -S -o auxprogs/genoffsets.s \
+|                                        auxprogs/genoffsets.c
+| powerpc-poky-linux-gnuspe-gcc: error: auxprogs/genoffsets.c: No such =
+file or
+directory
+
+
+The patch below will fix the error.
 
 Signed-off-by: leimaohui <leimaohui@cn.fujitsu.com>
 ---
- meta/recipes-core/udev/udev.inc |    3 +++
- 1 files changed, 3 insertions(+), 0 deletions(-)
+ .../valgrind-3.8.1/fix-genoffsets-error.patch      |   24 =
+++++++++++++++++++++
+ meta/recipes-devtools/valgrind/valgrind_3.8.1.bb   |    1 +
+ 2 files changed, 25 insertions(+), 0 deletions(-)
+ create mode 100644
+meta/recipes-devtools/valgrind/valgrind-3.8.1/fix-genoffsets-error.patch
 
-diff --git a/meta/recipes-core/udev/udev.inc b/meta/recipes-core/udev/udev.inc
-index dd250f7..fe53979 100644
---- a/meta/recipes-core/udev/udev.inc
-+++ b/meta/recipes-core/udev/udev.inc
-@@ -93,6 +93,9 @@ do_install_append () {
-    install -d ${D}${sysconfdir}/udev/rules.d/
-
-    install -m 0644 ${WORKDIR}/local.rules
-${D}${sysconfdir}/udev/rules.d/local.rules
+diff --git =
+a/meta/recipes-devtools/valgrind/valgrind-3.8.1/fix-genoffsets-error.
+patch =
+b/meta/recipes-devtools/valgrind/valgrind-3.8.1/fix-genoffsets-error.patc=
+h
+new file mode 100644
+index 0000000..463c8d0
+--- /dev/null
++++ =
+b/meta/recipes-devtools/valgrind/valgrind-3.8.1/fix-genoffsets-error.patc=
+h
+@@ -0,0 +1,24 @@
++diff --git a/Makefile.vex.am b/Makefile.vex.am
++index db16276..e00319b 100644
++--- a/Makefile.vex.am
+++++ b/Makefile.vex.am
++@@ -69,17 +69,18 @@ pub/libvex_guest_offsets.h: auxprogs/genoffsets.c \
++               pub/libvex_guest_arm.h \
++               pub/libvex_guest_s390x.h \
++               pub/libvex_guest_mips32.h
+++  [ ! -d auxprogs ] && mkdir auxprogs
++   rm -f auxprogs/genoffsets.s
++   $(CC) $(CFLAGS) \
++         $(LIBVEX_CFLAGS) \
++         $(AM_CFLAGS_@VGCONF_PLATFORM_PRI_CAPS@) \
++               -O -S -o auxprogs/genoffsets.s \
++-                   auxprogs/genoffsets.c
+++                   `if test -f 'auxprogs/genoffsets.c'; then =
+$(CYGPATH_W)
+'auxprogs/genoffsets.c'; else $(CYGPATH_W) =
+'$(srcdir)/auxprogs/genoffsets.c
+'; fi`
++   grep xyzzy auxprogs/genoffsets.s | grep "^#define" \
++      | sed "s/xyzzy\\$$//g" \
++      | sed "s/xyzzy#//g" \
++      | sed "s/xyzzy//g" \
++-     > pub/libvex_guest_offsets.h
+++     > $(srcdir)/pub/libvex_guest_offsets.h
++   rm -f auxprogs/genoffsets.s
 +
-+   install -d ${D}/${base_sbindir}
-+   ln -s ../usr/bin/udevadm ${D}/${base_sbindir}/udevadm
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
+b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
+index 3520d49..2d36258 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.8.1.bb
+@@ -18,6 +18,7 @@ SRC_URI =3D
+"http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            =
+file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
+            file://configure-with-newer-glibc.patch \
+            file://sepbuildfix.patch \
++          file://fix-genoffsets-error.patch \
+           "
 
-    # hid2hci has moved to bluez4. removed in udev as of version 169
-    rm -f ${D}${base_libdir}/udev/hid2hci
+ SRC_URI[md5sum] =3D "288758010b271119a0ffc0183f1d6e38"
 --
 1.7.1
 
