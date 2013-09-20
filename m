@@ -1,25 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 08CA96C99C
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F1B16BEA6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 09:41:52 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga102.ch.intel.com with ESMTP; 20 Sep 2013 02:41:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,943,1371106800"; d="scan'208";a="363224232"
-Received: from unknown (HELO helios.localnet) ([10.252.123.234])
-	by azsmga001.ch.intel.com with ESMTP; 20 Sep 2013 02:41:54 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Sep 2013 10:41:53 +0100
-Message-ID: <10866430.oefqsT3cHg@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-30-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <ceb65c408a19ce7c1b5223b5a3029a0ebfb39a9b.1379669217.git.paul.eggleton@linux.intel.com>
-References: <cover.1379669217.git.paul.eggleton@linux.intel.com>
-	<ceb65c408a19ce7c1b5223b5a3029a0ebfb39a9b.1379669217.git.paul.eggleton@linux.intel.com>
+	Fri, 20 Sep 2013 09:49:23 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="4.90,938,1371052800"; 
+   d="scan'208";a="8569983"
+Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
+	by song.cn.fujitsu.com with ESMTP; 20 Sep 2013 17:46:10 +0800
+Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
+	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r8K9nMAH025868;
+	Fri, 20 Sep 2013 17:49:22 +0800
+Received: from G08FNSTD100511 ([10.167.226.63])
+	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
+	with ESMTP id 2013092017474781-1655081 ;
+	Fri, 20 Sep 2013 17:47:47 +0800 
+From: "leimaohui" <leimaohui@cn.fujitsu.com>
+To: "'Burton, Ross'" <ross.burton@intel.com>
+References: <00d201ceb5cd$1440b070$3cc21150$@cn.fujitsu.com>
+	<CAJTo0LY_doa073K_9m2Ry24nKT54MoWsBQ9p_45c2WGL+EiDJA@mail.gmail.com>
+In-Reply-To: <CAJTo0LY_doa073K_9m2Ry24nKT54MoWsBQ9p_45c2WGL+EiDJA@mail.gmail.com>
+Date: Fri, 20 Sep 2013 17:49:18 +0800
+Message-ID: <00d501ceb5e6$ad9064f0$08b12ed0$@cn.fujitsu.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/5] classes/testimage-auto: add class to allow automatically running image tests
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQJNp3O0zuBKJhcL6t7G1KdTvT1BQAFEKBmYmMZUqsA=
+X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
+	15, 2011) at 2013/09/20 17:47:47,
+	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
+	2011) at 2013/09/20 17:47:48,
+	Serialize complete at 2013/09/20 17:47:48
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1]udev_182: creat a symbolic file /sbin/udevadm to fix haldaemon starts error.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,20 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 09:41:54 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 20 Sep 2013 09:49:24 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Language: zh-cn
 
-On Friday 20 September 2013 10:27:50 Paul Eggleton wrote:
-> +do_testimage_auto[nostamp] = "1"
+On 20 September 2013 4:38 PM, Burton, Ross [mailto:ross.burton@intel.com] wrote:
+> On 20 September 2013 07:46, leimaohui <leimaohui@cn.fujitsu.com> wrote:
+> > The haldaemon requires /sbin/udevadm to start.
+> > So creat a symbolic file  /sbin/udevadm that links to /usr/bin/udevadm.
+> 
+> Why not fix haldaemon to use the right path?
 
-Oops, this is erroneous; I have removed it on the branch.
+But  according to  udev's changlog,I think it is better to add a symlink to
+udevadm.
 
-Cheers,
-Paul
+http://upstream-tracker.org/changelogs/libudev/182/changelog.html
 
--- 
+" The default install location of the 'udevadm' tool moved from 'sbin'
+to /usr/bin. Some tools expect udevadm in 'sbin', a symlink to udevadm
+needs to be manually created if needed, or --bindir=/sbin be specified."
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Best Regards,
+Maohui Lei
+
+
+
+
 
