@@ -1,38 +1,38 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-ve0-f175.google.com (mail-ve0-f175.google.com
-	[209.85.128.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A262E61861
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4394E6B678
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 20:24:27 +0000 (UTC)
-Received: by mail-ve0-f175.google.com with SMTP id jy13so738487veb.6
+	Fri, 20 Sep 2013 21:12:39 +0000 (UTC)
+Received: by mail-ob0-f172.google.com with SMTP id gq1so1254482obb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 13:24:29 -0700 (PDT)
+	Fri, 20 Sep 2013 14:12:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=hTfDb0ZAyIQXGu9F7HjedhwYmMOCsBMXUDlhPGYr8NE=;
-	b=cvfRLuUBrLL+WiLVqwqo6AsOUf6xNeQQE+NalVs9Ac5Y7PbEa+L7V7wvxFN3sQeICm
-	xRVsNH+/qWqi75kg3w5zw4MeWOU+0W0whel59bHa9QP9uv+Q/mzCd6gtWiJU4RFYzRqo
-	r8z2yFMK06BVMDDkNeQKym+6YAAbssOJLw8Lb3Dyz5a/KxadjAzTFS1fLMSCszR7zZkP
-	F8E/RMrt7lSddK7cnWiSCttCVCdjvsg4eU5VtC1wPFX0pxXBvsTbTuWHKaAJ9AOiQchi
-	HYGD8gCVYWMRvkesI0HHKLn+vwSqWOjkcpeEVMupLuho6fIDbM/Y09G/TeDLhUcibAGY
-	WemA==
-X-Received: by 10.52.108.230 with SMTP id hn6mr2055031vdb.28.1379708668984;
-	Fri, 20 Sep 2013 13:24:28 -0700 (PDT)
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Snbt1cU7G8yU4KJllvM0j20m12+eiwOs2DdBX2WPUPw=;
+	b=kL5UnVeq4NJB2Ks/cqxmf47VbUMC8h3vt+QYCx7qkqyTVJk2pHq3dq85Qs7IA+eoj1
+	kG/fpRbeAgBxqKt+Qr9EU1KV2prMFWcmHvUbGrcgkN6GGTxJb70L/LGhDpylFVjs/qaI
+	WA3EKEd2DDog/C9XBtHLd2kDxq5TIx0LaJtFq7xk7U1DMSEMkIoOTBchsFgqQyv0zQ9q
+	3mmllxT/rJz/Tt8j/+OY/6Wr+BK9A3TtQuTO+S40nV+yLeCbRa8wG8CHpJ5AaD+4pw+D
+	w+YClcZ0vf8lWlp+b+3MGaKppheb9mm/eAWUmb24o2b324xIlP60aIWWk6nV9E5vLRiM
+	ds5g==
 MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.109.72 with HTTP; Fri, 20 Sep 2013 13:23:48 -0700 (PDT)
-In-Reply-To: <91586D499ADFD74FBCFB8425266A5DE40153B26E1373@pluto.melinkcorp.local>
-References: <CANyK_8fTtdxWXPf9eSgpQWvvPspaashL14vi-h8x15FtJOQ0DA@mail.gmail.com>
-	<91586D499ADFD74FBCFB8425266A5DE40153B26E1373@pluto.melinkcorp.local>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Fri, 20 Sep 2013 21:23:48 +0100
-X-Google-Sender-Auth: SVJ9Rhu1eI27L6y_1t8BspdGb5w
-Message-ID: <CANyK_8ds-F1Y2gPjKezDJW0NY5nixpCAOjBWow_J=jsLOLKwWg@mail.gmail.com>
-To: Bryan Evenson <bevenson@melinkcorp.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] RFC: Janitorial tasks
+X-Received: by 10.182.246.74 with SMTP id xu10mr7574122obc.23.1379711560313;
+	Fri, 20 Sep 2013 14:12:40 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.182.232.166 with HTTP; Fri, 20 Sep 2013 14:12:40 -0700 (PDT)
+In-Reply-To: <E78BBE677EB9144B8F0A0A29674CD5338ED47A955F@SRV-VS06.TELEVIC.COM>
+References: <E78BBE677EB9144B8F0A0A29674CD5338ED47A955F@SRV-VS06.TELEVIC.COM>
+Date: Fri, 20 Sep 2013 18:12:40 -0300
+X-Google-Sender-Auth: qKnpT0McVDem_r9lriMMYkA8olI
+Message-ID: <CAP9ODKrcLyHPW+TskFgbaa_9LnZphCSREmWfvi_ABxdyNBiAgA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Vanhauwaert Wouter <W.Vanhauwaert@televic.com>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>
+Subject: Re: [meta-freescale] imx53qsb and gst-fsl-plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,25 +45,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Sep 2013 20:24:28 -0000
+X-List-Received-Date: Fri, 20 Sep 2013 21:12:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On 19 September 2013 19:26, Bryan Evenson <bevenson@melinkcorp.com> wrote:
-> Paul,
->
-> Is the plan to move toward the YP wiki task list, the YP bugzilla, or both for Janitorial task entry?  If one would be preferred over the other, it'd probably be good to state that at the top of the wiki page.
->
+On Fri, Sep 20, 2013 at 6:49 AM, Vanhauwaert Wouter
+<W.Vanhauwaert@televic.com> wrote:
+...
+> ERROR: Function failed: do_package_ipk
+> ERROR: Logfile of failure stored in: /opt/git/poky/build/tmp/work/imx53qsb-poky-linux-gnueabi/mesa/2_9.1.6-r0/temp/log.do_package_write_ipk.21959
+> ERROR: Task 3655 (/opt/git/poky/meta/recipes-graphics/mesa/mesa_9.1.6.bb, do_package_write_ipk) failed with exit code '1'
+...
 
-Currently it's both as both can be seen from the YP wiki page.
+This is an error seems to be in OE-Core/Poky and not in meta-fsl-arm.
+I am adding the openembedded-core mailing list in Cc.
 
-> For the wiki task list, maybe add an "Assignee:" line, so that someone knows if the task is being worked on?  Would be frustrating to work on a task only to find someone else did the same thing.
->
-
-Probably a good idea.
+I started a build to try to reproduce it.
 
 -- 
-Paul Barker
-
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
