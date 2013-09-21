@@ -1,37 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ob0-f169.google.com (mail-ob0-f169.google.com
-	[209.85.214.169])
-	by mail.openembedded.org (Postfix) with ESMTP id F3719616EA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E68B6C008
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Sep 2013 00:28:08 +0000 (UTC)
-Received: by mail-ob0-f169.google.com with SMTP id wp4so1423313obc.14
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Sep 2013 17:28:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=qXExSALWanDbC4wJssslhHWY5M1rqhNM1gDecT6Umgk=;
-	b=HyOKjnq4mHAdXO2CKK30St+RJxrgdL6rdDBt48nf7RGCqaQqvVObhIBYfqVMfqOf3c
-	NoydEjmY/ufx1GOx1Coa7qdGBAEzXOoEzkXSiNcyTJVs0aG3g8dSB55i4YU4iTKLe5LV
-	oODaQUaisSF3glw3CI2+5pCW1+L8Aa+hU4+XNE0SAyiE9Yf6xBdIF03AFz9LPvL8d73Y
-	+YClTnfKZ2i6k7RI2bvTgEG3SDXvck0POOmhta6tINmqUjEpXwoXl9XRtoG43vvfgX1u
-	xEjWBKWhJVVEeIY61SVkZWIgUQLHp+RbNThzr9kLQb8117XP+Vh3pThs+DaYzVvgQcFa
-	Ox9Q==
-X-Received: by 10.182.129.201 with SMTP id ny9mr8291611obb.0.1379723289879;
-	Fri, 20 Sep 2013 17:28:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.60.77.41 with HTTP; Fri, 20 Sep 2013 17:27:39 -0700 (PDT)
-In-Reply-To: <523CD8E6.5030302@windriver.com>
-References: <cover.1377792005.git.Martin.Jansa@gmail.com>
-	<086c32308bdd8d212afe0c8fa4e614a2617fc4ba.1377792006.git.Martin.Jansa@gmail.com>
-	<523CD8E6.5030302@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 20 Sep 2013 17:27:39 -0700
-Message-ID: <CAMKF1sp_TuZDvWruw9UrisUkJmzxsJQNhkre5rgPkjST=6nsUA@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [WIP][PATCH 11/20] wget: Add dependency on libpcre
+	Sat, 21 Sep 2013 09:54:27 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8LA8qB3015512; Sat, 21 Sep 2013 11:08:52 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id InnxXlXMoyce; Sat, 21 Sep 2013 11:08:51 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8LA8jwv015497
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sat, 21 Sep 2013 11:08:47 +0100
+Message-ID: <1379757244.18603.192.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Riku Voipio <riku.voipio@linaro.org>
+Date: Sat, 21 Sep 2013 10:54:04 +0100
+In-Reply-To: <CAAqcGH=avmRB5GS23tj+JjckQ1Y-RrTnTkQmBHTFggnwDbihRA@mail.gmail.com>
+References: <CAAqcGH=avmRB5GS23tj+JjckQ1Y-RrTnTkQmBHTFggnwDbihRA@mail.gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "saul.wold" <saul.wold@intel.com>, openembedded-core@lists.openembedded.org
+Subject: Re: Using pigz-native from sstate-cache while zlib-native is not there yet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,56 +37,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Sep 2013 00:28:10 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 21 Sep 2013 09:54:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 20, 2013 at 4:23 PM, Randy MacLeod
-<randy.macleod@windriver.com> wrote:
-> On 13-08-29 12:02 PM, Martin Jansa wrote:
->>
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> ---
->>   meta/recipes-extended/wget/wget.inc | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-extended/wget/wget.inc
->> b/meta/recipes-extended/wget/wget.inc
->> index de9b620..7af55c4 100644
->> --- a/meta/recipes-extended/wget/wget.inc
->> +++ b/meta/recipes-extended/wget/wget.inc
->> @@ -2,7 +2,7 @@ DESCRIPTION = "A console URL download utility featuring
->> HTTP, FTP, and more."
->>   SECTION = "console/network"
->>   LICENSE = "GPLv3"
->>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->> -DEPENDS = "openssl zlib"
->> +DEPENDS = "openssl zlib libpcre"
->>
->>   INC_PR = "r16"
->>
->>
->
->
-> I haven't looked at the other patches yet but this seems
-> to be valid since my image construction failed with:
->
-> Computing transaction...error: Can't install wget-1.14-r16.0.0@core2: no
-> package provides libpcre >= 8.33
+On Tue, 2013-09-10 at 17:55 +0300, Riku Voipio wrote:
+> I've started observing build failures with pigz-native fails due
+> ttrying to use too old libz (from host), instead of the one in
+> sysroot. I take most don't see this bug because they have new enough
+> zlib on their host system.
+> 
+> | DEBUG: Executing shell function sstate_create_package
+> | gzip: /lib/x86_64-linux-gnu/libz.so.1: version `ZLIB_1.2.5.1' not
+> found (required by gzip)
+> | tar: Child returned status 1
+> | tar: Error is not recoverable: exiting now
+> | WARNING: exit code 2 from a shell command.
+> | DEBUG: Python function sstate_task_postfunc finished
+> | ERROR: Function failed: sstate_create_package
+> 
+> This seems to happen, because
+> 
+> 1) pigz-native is extracted from sstate cache
+> 2) zlib-native is outdated, and it's compilation is being started
+> 3) another task trying to use gzip/pigz meanwhile
+> 
+> Simply setting DEPENDS_class-native = "zlib-native" in pigz.bb didn't
+> seem to help. These errors started around September 3rd, and it
+> unclear to me what exactly changed that exposed thise bug.
+> 
+> Full build log at:
+> 
+> https://ci.linaro.org/jenkins/job/openembedded-armv8-rootfs/label=oe_persistent_cloud,rootfs=lamp/484/consoleText
+> 
+> Any hints howto fix this would be appreciated,
+
+We also just saw this on the autobuilder which reminded me of this
+email. I did look at the issue at the time but didn't understand it.
+Combining what I just looked at in a build and what you reported, I
+think I might have spotted a pattern now though. What happens is as you
+describe:
+
+pigz-native is used from sstate.
+zlib-native is getting rebuilt.
+
+pigz-native has some special handling to ensure its not used until the
+system is ready. This is through a class and installing into a subdir of
+PATH which only gets added in when we believe its available. We use
+pigz-native in the image generation code and its in DEPENDS.
+
+DEPENDS are guaranteed available for do_configure. do_populate_lic can
+run before do_configure so the DEPENDS isn't met and I think this is our
+corner case.
+
+I suspect ways of fixing this are to either:
+
+a) force do_populate_lic after do_configure everywhere
+b) statically link pigz-native
+c) add in an explicit dependency to gzipnative.bbclass forcing
+do_populate_lic after do_configure. If do_unpack handled a tar file in
+an image, it would also be at risk of course.
+
+Looking at each, a) is overkill and our dependency tree is nasty enough
+already. b) sounds nice but is also risky since what happens if the gzip
+binary is half copied when we run it. Our hardlink copying should deal
+with that but I'm still nervous. This leaves us with c) so we could do:
+
+do_unpack[depends] += "gzip-native:do_populate_sysroot"
+
+which I think should address the problem?
+
+If anyone is interested, the reproducer is:
+
+bitbake pigz-native
+bitbake zlib-native -c clean
+bitbake core-image-minimal -c populate_lic --no-setscene -f
+
+however your system needs to have an old version of zlib on it which
+pigz-native can't run against. The line above fixes it.
+
+Cheers,
+
+Richard
 
 
-this is a typical floating dependency order case. it should be turned
-into a PACKAGECONFIG, pcre is not a commonly shipped library and you
-dont
-want such hard dependency on it.
-
-
->
-> --
-> # Randy MacLeod. SMTS, Linux, Wind River
-> Direct: 613.963.1350
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
