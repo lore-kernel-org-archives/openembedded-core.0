@@ -1,23 +1,24 @@
-Return-Path: <amy.fong@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BA1B620B7
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CF88600A4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2013 04:31:40 +0000 (UTC)
-Received: from yow-afong-lx2.ottawa.windriver.com (yow-afong-lx2.wrs.com
-	[128.224.146.164])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8M4VdXt026225
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES128-SHA bits=128 verify=NO);
-	Sat, 21 Sep 2013 21:31:40 -0700 (PDT)
-Received: from afong by yow-afong-lx2.ottawa.windriver.com with local (Exim
-	4.80) (envelope-from <amy.fong@windriver.com>)
-	id 1VNbKd-0004iH-4i; Sun, 22 Sep 2013 00:31:39 -0400
-Date: Sun, 22 Sep 2013 00:31:39 -0400
-From: Amy Fong <amy.fong@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20130922043139.GA18105@windriver.com>
+	Sun, 22 Sep 2013 08:25:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8M8Pw70003392
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Sep 2013 01:25:58 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 22 Sep 2013 01:25:57 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Sep 2013 16:25:55 +0800
+Message-ID: <1379838355-19553-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Subject: [oe] distutils: Replacing path to native path only to be done to non-native python packages
+Subject: [PATCH] sstate.bbclass: ignore the tar failure.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Sep 2013 04:31:40 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sun, 22 Sep 2013 08:25:57 -0000
+Content-Type: text/plain
 
-distutils: Replacing path to native path only to be done to non-native python packages
+From: Roy Li <rongqing.li@windriver.com>
 
-distutils: Replacing path to native python by path to python in the
-image to support python packages with console-script setup resulted in
-a "bad interpreter" error message because coreutils-native is not
-a specified dependency of a number of native python packages.
+sstate_package creates hardlink from sysroot to SSTATE_BUILDDIR, and
+sstate_create_package stores SSTATE_BUILDDIR into a archive file by
+tar, these two task can be run simultaneously for different packages,
+and make a hardlink for a file will lead to the change of the links
+number of file, and if tar is reading this file, it will fail with exit
+code 1, and report "file changed as we read it":
 
-We modify the change to apply specifically to non-native packages.
+    DEBUG: Executing shell function sstate_create_package
+    tar: x86_64-linux/usr/share/aclocal/xorg-macros.m4: file changed as we read it
 
-Signed-off-by: Amy Fong <Amy.Fong@windriver.com>
+4b3e353a5[sstate.bbclass: fix parallel building issue] tries to use the
+tar parameter --ignore-failed-read to fix, but it does not work, and
+tar parameter --warning=no-file-changed can close the warning, but can
+not change the exit code. so close shell immediate exit, only fail
+if tar returns not 1 and 0.
+
+Exit codes of tar:
+    http://www.gnu.org/software/tar/manual/html_section/Synopsis.html
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/classes/distutils.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index 60cf9ee..fbe0ec8 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -47,14 +47,18 @@ distutils_do_install() {
- 
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
-+                if [ ${PN} != "${BPN}-native" ]; then
-+                	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 37ade3f..517c100 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -566,7 +566,12 @@ sstate_create_package () {
+ 	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
+ 	# Need to handle empty directories
+ 	if [ "$(ls -A)" ]; then
+-		tar --ignore-failed-read -czf $TFILE *
++		set +e
++		tar -czf $TFILE *
++		if [ $? -ne 0 ] && [ $? -ne 1 ]; then
++			exit 1
 +		fi
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if test -e ${D}${sbindir}; then
-             for i in ${D}${sbindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
-+                if [ ${PN} != "${BPN}-native" ]; then
-+                	sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${bindir}/env\ python:g $i
-+		fi
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
++		set -e
+ 	else
+ 		tar -cz --file=$TFILE --files-from=/dev/null
+ 	fi
 -- 
-1.7.12.4
+1.7.10.4
 
 
