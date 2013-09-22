@@ -1,26 +1,27 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C1D756C8B5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 962DA6A564
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2013 09:34:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8M9YOpM003710
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2013 02:34:24 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sun, 22 Sep 2013 02:34:22 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Sep 2013 17:34:18 +0800
-Message-ID: <943f0f04862b212f3641528f4c03385e092bc99b.1379842366.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1379842366.git.Qi.Chen@windriver.com>
-References: <cover.1379842366.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] image.bbclass: uninstall package only if it's already installed
+	Sun, 22 Sep 2013 10:54:48 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8MB9Pho005088; Sun, 22 Sep 2013 12:09:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9aAeuFXlw2l4; Sun, 22 Sep 2013 12:09:25 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8MB9Msn005084
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sun, 22 Sep 2013 12:09:24 +0100
+Message-ID: <1379847275.18603.207.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Sep 2013 11:54:35 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] gcc-target: Fix libatomic dependency tracking issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,45 +34,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Sep 2013 09:34:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 22 Sep 2013 10:54:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+The --enable-dependency-tracking option was added to workaround build
+issues in libatomic. This fixes that build problem properly and removes
+the flag since the dependency tracking code appears to be full of races
+which are much deeper and harder to fix.
 
-Remove a package from rootfs only if it's already installed. Also,
-if a package is uninstalled, remove it from installed_pkgs.txt.
+As per the automake manual, dependency tracking is only useful and worth
+the build performance cost if you are doing more than one compile of the same
+source code which in most cases we are not so this is a good thing anyway.
 
-[YOCTO #5169]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/image.bbclass |   12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 889547a..b4be509 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -510,7 +510,17 @@ rootfs_uninstall_unneeded () {
- 			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
- 				remove_run_postinsts=true
- 			fi
--			rootfs_uninstall_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0046-libatomic-deptracking.patch b/meta/recipes-devtools/gcc/gcc-4.8/0046-libatomic-deptracking.patch
+new file mode 100644
+index 0000000..6ea4f42
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-4.8/0046-libatomic-deptracking.patch
+@@ -0,0 +1,41 @@
++gcc 4.8 won't build with --disable-dependency-tracking since the *.Ppo files
++don't get created unless --enable-dependency-tracking is true.
 +
-+			# Remove package only if it's installed
-+			pkgs_to_remove="update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
-+			for pkg in $pkgs_to_remove; do
-+			    # regexp for pkg, to be used in grep and sed
-+			    pkg_regexp="^`echo $pkg | sed 's/\./\\\./'` "
-+			    if grep -q "$pkg_regexp" ${WORKDIR}/installed_pkgs.txt; then
-+				rootfs_uninstall_packages $pkg
-+				sed -i "/$pkg_regexp/d" ${WORKDIR}/installed_pkgs.txt
-+			    fi
-+			done
++This patch ensures we only use those compiler options when its enabled.
++
++Upstream-Status: Submitted
++
++(Problem was already reported upstream, attached this patch there
++http://gcc.gnu.org/bugzilla/show_bug.cgi?id=55930)
++
++RP 
++2012/09/22
++
++Index: gcc-4.8.1/libatomic/Makefile.am
++===================================================================
++--- gcc-4.8.1.orig/libatomic/Makefile.am	2013-01-14 18:16:23.000000000 +0000
+++++ gcc-4.8.1/libatomic/Makefile.am	2013-09-22 10:38:18.904064750 +0000
++@@ -100,7 +100,8 @@
++ IFUNC_DEF	= -DIFUNC_ALT=$(PAT_S)
++ IFUNC_OPT	= $(word $(PAT_S),$(IFUNC_OPTIONS))
++ 
++-M_DEPS		= -MT $@ -MD -MP -MF $(DEPDIR)/$(@F).Ppo
+++@AMDEP_TRUE@M_DEPS		= -MT $@ -MD -MP -MF $(DEPDIR)/$(@F).Ppo
+++@AMDEP_FALSE@M_DEPS		= 
++ M_SIZE		= -DN=$(PAT_N)
++ M_IFUNC		= $(if $(PAT_S),$(IFUNC_DEF) $(IFUNC_OPT))
++ M_FILE		= $(PAT_BASE)_n.c
++Index: gcc-4.8.1/libatomic/Makefile.in
++===================================================================
++--- gcc-4.8.1.orig/libatomic/Makefile.in	2013-05-31 09:09:26.000000000 +0000
+++++ gcc-4.8.1/libatomic/Makefile.in	2013-09-22 10:40:42.520059917 +0000
++@@ -298,7 +298,8 @@
++ PAT_S = $(word 3,$(PAT_SPLIT))
++ IFUNC_DEF = -DIFUNC_ALT=$(PAT_S)
++ IFUNC_OPT = $(word $(PAT_S),$(IFUNC_OPTIONS))
++-M_DEPS = -MT $@ -MD -MP -MF $(DEPDIR)/$(@F).Ppo
+++@AMDEP_TRUE@M_DEPS = -MT $@ -MD -MP -MF $(DEPDIR)/$(@F).Ppo
+++@AMDEP_FALSE@M_DEPS = 
++ M_SIZE = -DN=$(PAT_N)
++ M_IFUNC = $(if $(PAT_S),$(IFUNC_DEF) $(IFUNC_OPT))
++ M_FILE = $(PAT_BASE)_n.c
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index c7e3e16..e1179ac 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -5,7 +5,7 @@ EXTRA_OECONF_PATHS = " \
+     --with-sysroot=/ \
+     --with-build-sysroot=${STAGING_DIR_TARGET} \
+     --with-native-system-header-dir=${STAGING_DIR_TARGET}${target_includedir} \
+-    --with-gxx-include-dir=${includedir}/c++/ --enable-dependency-tracking"
++    --with-gxx-include-dir=${includedir}/c++/"
  
- 			# Need to remove rc.d files for run-postinsts by hand since opkg won't
- 			# call postrm scripts in offline root mode.
--- 
-1.7.9.5
+ ARCH_FLAGS_FOR_TARGET += "-isystem${STAGING_INCDIR} -I${B}/gcc/include/ "
+ 
+
 
 
