@@ -1,27 +1,27 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 962DA6A564
+	by mail.openembedded.org (Postfix) with ESMTP id 0A4306A564
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2013 10:54:48 +0000 (UTC)
+	Sun, 22 Sep 2013 11:12:36 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8MB9Pho005088; Sun, 22 Sep 2013 12:09:26 +0100
+	r8MBREL3005478; Sun, 22 Sep 2013 12:27:14 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9aAeuFXlw2l4; Sun, 22 Sep 2013 12:09:25 +0100 (BST)
+	with LMTP id 1ixuarCp2igB; Sun, 22 Sep 2013 12:27:14 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8MB9Msn005084
+	r8MBR8Vm005472
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sun, 22 Sep 2013 12:09:24 +0100
-Message-ID: <1379847275.18603.207.camel@ted>
+	verify=NOT); Sun, 22 Sep 2013 12:27:09 +0100
+Message-ID: <1379848341.18603.208.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sun, 22 Sep 2013 11:54:35 +0100
+Date: Sun, 22 Sep 2013 12:12:21 +0100
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] gcc-target: Fix libatomic dependency tracking issues
+Subject: [PATCHv2] gcc-target: Fix libatomic dependency tracking issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +34,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Sep 2013 10:54:49 -0000
+X-List-Received-Date: Sun, 22 Sep 2013 11:12:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
@@ -49,6 +49,21 @@ source code which in most cases we are not so this is a good thing anyway.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+
+v1 was missing the gcc-4.8.inc change
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
+index 0fbbc1d..4af98f8 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.8.inc
++++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
+@@ -75,6 +75,7 @@ SRC_URI = "${GNU_MIRROR}/gcc/gcc-${PV}/gcc-${PV}.tar.bz2 \
+ 	   file://0043-cpp.patch \
+ 	   file://0044-gengtypes.patch \
+ 	   file://0045-gcc-4.8-PR57717-PowerPC-E500v2.patch \
++	   file://0046-libatomic-deptracking.patch \
+ 	  "
+ SRC_URI[md5sum] = "3b2386c114cd74185aa3754b58a79304"
+ SRC_URI[sha256sum] = "545b44be3ad9f2c4e90e6880f5c9d4f0a8f0e5f67e1ffb0d45da9fa01bb05813"
 diff --git a/meta/recipes-devtools/gcc/gcc-4.8/0046-libatomic-deptracking.patch b/meta/recipes-devtools/gcc/gcc-4.8/0046-libatomic-deptracking.patch
 new file mode 100644
 index 0000000..6ea4f42
