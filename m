@@ -1,30 +1,24 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E0716C8EC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BE4796C8B5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2013 09:23:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8M9NXJ6003661
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 22 Sep 2013 02:23:33 -0700 (PDT)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Sun, 22 Sep 2013 02:23:31 -0700
-Message-ID: <523EB711.3030904@windriver.com>
-Date: Sun, 22 Sep 2013 17:23:29 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	Sun, 22 Sep 2013 09:34:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8M9YKus014735
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Sep 2013 02:34:20 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sun, 22 Sep 2013 02:34:20 -0700
+From: <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 22 Sep 2013 17:34:17 +0800
+Message-ID: <cover.1379842366.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1379038097.git.Qi.Chen@windriver.com>
-	<5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
-	<523E6042.8080403@windriver.com> <1379839497.18603.203.camel@ted>
-In-Reply-To: <1379839497.18603.203.camel@ted>
-X-Originating-IP: [128.224.162.213]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] image.bbclass: do not automatically remove update-rc.d
+Subject: [PATCH 0/1] image.bbclass: uninstall package only if it's already installed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Sep 2013 09:23:32 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 22 Sep 2013 09:34:19 -0000
+Content-Type: text/plain
 
-On 09/22/2013 04:44 PM, Richard Purdie wrote:
-> On Sun, 2013-09-22 at 11:13 +0800, ChenQi wrote:
->> ping
-> I replied to this:
->
-> """
-> This is not correct. The correct behaviour here is to uninstall these
-> packages *if* they are installed. Just removing it from the list is not
-> the real fix.
-> """
->
-> and I stand by that feedback.
->
-> Cheers,
->
-> Richard
->
->
->
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Thanks.
-I'll send out a new patch.
+The following changes since commit 1181e691197ab223e325546185d0a991e5ccbf1c:
 
-Best Regards,
-Chen Qi
+  bitbake: build: Add logfile to add TaskBase events (2013-09-16 13:12:34 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/uninstall-if-installed
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/uninstall-if-installed
+
+Chen Qi (1):
+  image.bbclass: uninstall package only if it's already installed
+
+ meta/classes/image.bbclass |   12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+-- 
+1.7.9.5
+
 
