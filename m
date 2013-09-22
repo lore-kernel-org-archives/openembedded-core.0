@@ -1,25 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id EDFC86BF4B
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 381A46CA13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Sep 2013 18:11:44 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 21 Sep 2013 11:11:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,953,1371106800"; d="scan'208";a="406993923"
-Received: from unknown (HELO [10.255.15.101]) ([10.255.15.101])
-	by orsmga002.jf.intel.com with ESMTP; 21 Sep 2013 11:11:45 -0700
-Message-ID: <523DE160.9030905@linux.intel.com>
-Date: Sat, 21 Sep 2013 11:11:44 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Sun, 22 Sep 2013 03:13:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8M3DASe000368
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 21 Sep 2013 20:13:10 -0700 (PDT)
+Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
+	Sat, 21 Sep 2013 20:13:08 -0700
+Message-ID: <523E6042.8080403@windriver.com>
+Date: Sun, 22 Sep 2013 11:13:06 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
 MIME-Version: 1.0
-To: Valentin Popa <valentin.popa@intel.com>
-References: <1379597494-870-1-git-send-email-valentin.popa@intel.com>
-In-Reply-To: <1379597494-870-1-git-send-email-valentin.popa@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH_V5] image types: split live into iso and hddimg
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1379038097.git.Qi.Chen@windriver.com>
+	<5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
+In-Reply-To: <5623d6e9d394f968e15d165d65ce3748008be05d.1379038097.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.213]
+Subject: Re: [PATCH 1/1] image.bbclass: do not automatically remove update-rc.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,97 +36,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Sep 2013 18:11:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sun, 22 Sep 2013 03:13:08 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/19/2013 06:31 AM, Valentin Popa wrote:
-> Changes to split live into iso and hddimg without
-> adding a new image type class.
-> This patch has only a visible effect on HOB and solves
-> part 2 of #3197
+ping
+
+On 09/13/2013 10:09 AM, Qi.Chen@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
 >
-> [YOCTO #3197]
+> In rootfs_uninstall_unneeded function, the update-rc.d package would
+> be removed if no 'package-management' and no delayed postinsts.
 >
-> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+> However, in update-rc.d.bbclass, the update-rc.d package is only
+> recommended. Thus, if NO_RECOMMENDATIONS is enabled or 'update-rc.d'
+> is added to BAD_RECOMMENDATIONS, the update-rc.d package will not
+> be installed at the first place. Tring to remove it will result in an
+> error.
+>
+> Also this function assumes that update-rc.d is only used by postinsts.
+> This assumption isn't always true. Users may want to write their own
+> init scripts and use the update-rc.d tool to manage them.
+>
+> [YOCTO #5169]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->   meta/classes/image.bbclass       | 13 ++++++++++++-
->   meta/classes/image_types.bbclass | 13 +++++++++----
->   2 files changed, 21 insertions(+), 5 deletions(-)
+>   meta/classes/image.bbclass |    4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 >
 > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index f1e62f1..bbeb765 100644
+> index f1e62f14..f37cd90 100644
 > --- a/meta/classes/image.bbclass
 > +++ b/meta/classes/image.bbclass
-> @@ -87,7 +87,18 @@ do_rootfs[depends] += "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
->   do_rootfs[depends] += "virtual/update-alternatives-native:do_populate_sysroot update-rc.d-native:do_populate_sysroot"
->   do_rootfs[recrdeptask] += "do_packagedata"
->
-> -IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", "empty", d)}'
-> +def build_live(d):
-> +    if base_contains("IMAGE_FSTYPES", "live", "live", "0", d) == "0": # live is not set but hob might set iso or hddimg
-> +        d.setVar('NOISO', base_contains('IMAGE_FSTYPES', "iso", "0", "1", d))
-> +        d.setVar('NOHDD', base_contains('IMAGE_FSTYPES', "hddimg", "0", "1", d))
-> +        if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) == "0":
-> +            return "live"
-> +        return "empty"
-> +    return "live"
-> +
-> +IMAGE_TYPE_temp = "${@build_live(d)}"
-> +IMAGE_TYPE_live = "${@base_contains("IMAGE_FSTYPES", "live", "live", "${IMAGE_TYPE_temp}", d)}"
-> +
-I don't think you need the _temp thing anymore since you have the live 
-check above, is that not correct?
+> @@ -505,12 +505,12 @@ rootfs_uninstall_unneeded () {
+>   	if ${@base_contains("IMAGE_FEATURES", "package-management", "false", "true", d)}; then
+>   		if [ -z "$(delayed_postinsts)" ]; then
+>   			# All packages were successfully configured.
+> -			# update-rc.d, base-passwd, run-postinsts are no further use, remove them now
+> +			# base-passwd, run-postinsts are no further use, remove them now
+>   			remove_run_postinsts=false
+>   			if [ -e ${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts ]; then
+>   				remove_run_postinsts=true
+>   			fi
+> -			rootfs_uninstall_packages update-rc.d base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
+> +			rootfs_uninstall_packages base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}
+>   
+>   			# Need to remove rc.d files for run-postinsts by hand since opkg won't
+>   			# call postrm scripts in offline root mode.
 
->   inherit image-${IMAGE_TYPE_live}
->   IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", "vmdk", "empty", d)}'
->   inherit image-${IMAGE_TYPE_vmdk}
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 8c49169..9ead059 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -43,12 +43,17 @@ def get_imagecmds(d):
->           if "ext3" not in alltypes:
->               alltypes.append("ext3")
->           types.remove("vmdk")
-> -    if "live" in types:
-> +    if "live" in types or "iso" in types or "hddimg" in types:
->           if "ext3" not in types:
->               types.append("ext3")
->           if "ext3" not in alltypes:
->               alltypes.append("ext3")
-> -        types.remove("live")
-> +        if "live" in types:
-> +            types.remove("live")
-> +        if "iso" in types:
-> +            types.remove("iso")
-> +        if "hddimg" in types:
-> +            types.remove("hddimg")
->
->       if d.getVar('IMAGE_LINK_NAME', True):
->           if d.getVar('RM_OLD_IMAGE', True) == "1":
-> @@ -115,7 +120,7 @@ def imagetypes_getdepends(d):
->       deps = []
->       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
->       for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
-> -        if type == "vmdk" or type == "live":
-> +        if type == "vmdk" or type == "live" or type == "iso" or type == "hddimg":
->               type = "ext3"
->           basetype = type
->           for ctype in ctypes:
-> @@ -230,7 +235,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
->   IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->
->   # This variable is available to request which values are suitable for IMAGE_FSTYPES
-> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
-> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz ubi ubifs tar tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
->
-If live is still a valid type, why remove it from the IMAGE_TYPES list?
-
-Sau!
-
-
->   COMPRESSIONTYPES = "gz bz2 lzma xz"
->   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
->
 
