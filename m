@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f175.google.com (mail-we0-f175.google.com
-	[74.125.82.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 5481D610F8
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-bk0-f41.google.com (mail-bk0-f41.google.com
+	[209.85.214.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CEC06110D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 15:50:30 +0000 (UTC)
-Received: by mail-we0-f175.google.com with SMTP id q59so3194135wes.6
+	Mon, 23 Sep 2013 16:34:15 +0000 (UTC)
+Received: by mail-bk0-f41.google.com with SMTP id na10so1254803bkb.14
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 08:50:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=dHN02soda6nLP5GXvebBkP/LKvX9t7lk4pOPcCC1wcM=;
-	b=g/FcFyPO8zy/L+ufUvAnZpyW8lhG5TrICcyjMPoqRtChf5vcJ3AjpTe/VqDD73LhVV
-	A/7sYEazy2mg4Ykv13LRfHxFTwvzwtBc+S0ZgiYFjuMWzBqL3xbSkxrQFVt1KfGD4U3j
-	gIVzI2Qv7D3VUPT5hC5BckIsD9gdBDC6HwyI79uF2CZecbZ3awJGPvEQQEH6FkhLfylj
-	E+0nrkyFCy6b9JnOWWUGl4YC426W8fhVpk3zQ7GAT9USp0qR2OlNexwf2tfz8t3wyKn0
-	F85nW1zIR6/7CGc58U4tBffjVwHwMVMtGiHFi9JcJHdCDxTVK7vz2VfCrXMz5+KBP2K+
-	z1kQ==
-X-Gm-Message-State: ALoCoQmO7+9zIS9hOMFexOjmMZjCJyBgfv8qKidwrNf9ruiPXhYBvhA5dd/YDeLYpD5ZYJIczWfu
-X-Received: by 10.180.206.180 with SMTP id lp20mr13986393wic.48.1379951431683; 
-	Mon, 23 Sep 2013 08:50:31 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id
-	ey4sm26779297wic.11.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 23 Sep 2013 08:50:30 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 23 Sep 2013 09:34:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=ecFr74aSaPUvWsxnB5y6QxFIPzlf85PyZ2KEBmZgLbA=;
+	b=A8YsSE+j8i33mlqfS95ISQD6ai8PqkuKpwvMdWaNLDMj3xgtPN3+0EqPQ+tokOa+wS
+	709zkRdPlGIw/P9HzrStfVuJ4fkldiXHaEGTWQrWJkHpT3Tx22OKYJaGhlBTThb1ZlPE
+	zfuQhvxhMpKRXA70FAUHZfen/CbMn2djd68/n1RzdWNnOKsAefSwL1c/loCJdgvoEVCQ
+	rms37rnUc/L15izrjleL2QGZ6UwQJYYdCgVuSyq5HqOC2tDO6SHmvhyh3YYahVVDVhdC
+	7GmBWQPD+30WuvpBnj2Ut9YufBbIhy67VtUt1kvWlyTgAB0IrhqQuYDZZ3JUrG/DLXUt
+	ReJA==
+X-Received: by 10.204.103.199 with SMTP id l7mr18628242bko.11.1379954056220;
+	Mon, 23 Sep 2013 09:34:16 -0700 (PDT)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPSA id qe6sm9054378bkb.5.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 23 Sep 2013 09:34:15 -0700 (PDT)
+Received: by nysan (Postfix, from userid 1000)
+	id 8035F400097; Mon, 23 Sep 2013 18:34:05 +0200 (CEST)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2013 16:50:24 +0100
-Message-Id: <1379951424-2636-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] qemu: don't claim support for IrDA and PCMCIA
+Date: Mon, 23 Sep 2013 18:34:00 +0200
+Message-Id: <1379954041-5575-2-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1379954041-5575-1-git-send-email-david.nystrom@enea.com>
+References: <1379954041-5575-1-git-send-email-david.nystrom@enea.com>
+MIME-Version: 1.0
+Subject: [PATCH] shadow: Create recipe nativesdk-shadow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +46,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 15:50:30 -0000
+X-List-Received-Date: Mon, 23 Sep 2013 16:34:16 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-QEMU machines don't have virtual IrDA or PCMCIA hardware, so don't claim to
-support them.
+This is a second in a series of patches to enable
+offline rootfs creation from a package repository.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Some postinstall cmds are Yocto specific and needed to create a
+rootfs with pre and post install hooks successfully run,
+using only the toolchain tarball + a package repo.
+
+End goal is to create a sandbox where _users_ of a Yocto
+based distribution can customize a rootfs from a package feed
+with their package manager of choice.
+
+With this patch, I can successfully create packagegroup-core-boot
+with only the toolchain tarball(OPKG). More fixes for a few postinstall
+hooks outside of packagegroup-core-boot will come next.
+
+Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- meta/conf/machine/include/qemu.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../nativesdk-packagegroup-sdk-host.bb             |  1 +
+ .../shadow/nativesdk-shadow_4.1.4.3.bb             | 62 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb
 
-diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
-index a78622d..591f6b4 100644
---- a/meta/conf/machine/include/qemu.inc
-+++ b/meta/conf/machine/include/qemu.inc
-@@ -11,7 +11,7 @@ XSERVER ?= "xserver-xorg \
-             xf86-video-fbdev \
-             xf86-input-keyboard"
+diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+index 84fb95d..5a64934 100644
+--- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
++++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+@@ -20,6 +20,7 @@ RDEPENDS_${PN} = "\
+     nativesdk-libtool \
+     nativesdk-autoconf \
+     nativesdk-automake \
++    ${@base_contains('DISTRO_FEATURES', 'pam', 'nativesdk-shadow', '', d)} \
+     "
  
--MACHINE_FEATURES = "alsa pcmcia bluetooth irda usbgadget screen"
-+MACHINE_FEATURES = "alsa bluetooth usbgadget screen"
- 
- MACHINEOVERRIDES =. "qemuall:"
- 
+ RDEPENDS_${PN}_darwin = "\
+diff --git a/meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb
+new file mode 100644
+index 0000000..22f4cf3
+--- /dev/null
++++ b/meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb
+@@ -0,0 +1,62 @@
++SUMMARY = "Tools to change and administer password and group data"
++DESCRIPTION = "Tools to change and administer password and group data"
++HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
++BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
++SECTION = "base utils"
++LICENSE = "BSD | Artistic-1.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
++                    file://src/passwd.c;beginline=8;endline=30;md5=d83888ea14ae61951982d77125947661"
++
++PR = "r8"
++
++inherit autotools gettext nativesdk
++
++SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/shadow-${PV}.tar.bz2 \
++           file://shadow.automake-1.11.patch \
++           file://shadow-4.1.3-dots-in-usernames.patch \
++           file://shadow-4.1.4.2-env-reset-keep-locale.patch \
++           file://add_root_cmd_options.patch \
++           file://disable-syslog.patch \
++           file://useradd.patch \
++           file://shadow_fix_for_automake-1.12.patch \
++           file://add_root_cmd_groupmems.patch \
++           "
++
++SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
++SRC_URI[sha256sum] = "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8d54e7ad6f9f9caa778" 
++
++S = "${WORKDIR}/shadow-${PV}"
++
++EXTRA_OECONF += "--without-audit \
++                 --without-libcrack \
++                 --without-libpam \
++                 --without-selinux \
++                 --without-nscd"
++
++do_install() {
++	oe_runmake DESTDIR="${D}" sbindir="${base_sbindir}" usbindir="${sbindir}" install
++
++	# Info dir listing isn't interesting at this point so remove it if it exists.
++	if [ -e "${D}${infodir}/dir" ]; then
++		rm -f ${D}${infodir}/dir
++	fi
++
++	# Enable CREATE_HOME by default.
++	sed -i 's/#CREATE_HOME/CREATE_HOME/g' ${D}${sysconfdir}/login.defs
++
++	# As we are on an embedded system, ensure the users mailbox is in
++	# ~/ not /var/spool/mail by default, as who knows where or how big
++	# /var is. The system MDA will set this later anyway.
++	sed -i 's/MAIL_DIR/#MAIL_DIR/g' ${D}${sysconfdir}/login.defs
++	sed -i 's/#MAIL_FILE/MAIL_FILE/g' ${D}${sysconfdir}/login.defs
++
++	# Disable checking emails.
++	sed -i 's/MAIL_CHECK_ENAB/#MAIL_CHECK_ENAB/g' ${D}${sysconfdir}/login.defs
++
++	# Now we don't have a mail system. Disable mail creation for now.
++	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
++	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
++
++	# Use users group by default
++	sed -i 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
++}
 -- 
-1.7.10.4
+1.8.3.2
 
 
