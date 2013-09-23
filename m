@@ -1,24 +1,20 @@
-Return-Path: <eric@eukrea.com>
-Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C4386110D
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D362610DB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 11:53:17 +0000 (UTC)
-Received: from e6520eb (unknown [88.170.243.169])
-	(Authenticated sender: eukrea)
-	by smtp3-g21.free.fr (Postfix) with ESMTPSA id CD110A62A1;
-	Mon, 23 Sep 2013 13:53:13 +0200 (CEST)
-Date: Mon, 23 Sep 2013 13:53:12 +0200
-From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20130923135312.3b7f5089@e6520eb>
-In-Reply-To: <1379935457.18603.215.camel@ted>
-References: <1379923619-27142-1-git-send-email-eric@eukrea.com>
-	<1379935457.18603.215.camel@ted>
-Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
-X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.19; x86_64-redhat-linux-gnu)
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH/RFC] autotools: handle dependency on intltool-native
+	Mon, 23 Sep 2013 13:18:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Sep 2013 06:18:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,962,1371106800"; d="scan'208";a="405828734"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.20])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Sep 2013 06:18:05 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Sep 2013 14:18:03 +0100
+Message-Id: <1379942283-19059-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] libav: make X11 dependencies dependent on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +27,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 11:53:19 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 23 Sep 2013 13:18:06 -0000
 
-Le Mon, 23 Sep 2013 12:24:17 +0100,
-Richard Purdie <richard.purdie@linuxfoundation.org> a =E9crit :
+This enables building libav when x11 is not in DISTRO_FEATURES.
 
-> On Mon, 2013-09-23 at 10:06 +0200, Eric B=E9nard wrote:
-> > autotools' class can use intltoolize but has no dependency on it
-> > which can leads to :
-> > /test/setup-scripts/build/tmp-defaultsetup-eglibc-eglibc/work/cortexa9h=
-f-vfp-neon-oe-linux-gnueabi/gnokii/0.6.31-r0/temp/run.do_configure.7559: li=
-ne 179: intltoolize: command not found
-> >=20
-> > This patch fix this problem by adding the dependency on
-> > intltool-native which can be tricky as it triggers
-> > circular dependencies very easily.
-> >=20
-> > Signed-off-by: Eric B=E9nard <eric@eukrea.com>
-> > ---
-> >  meta/classes/autotools.bbclass | 1 +
-> >  1 file changed, 1 insertion(+)
-> >=20
-> > diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bb=
-class
-> > index 883eb06..eb988cb 100644
-> > --- a/meta/classes/autotools.bbclass
-> > +++ b/meta/classes/autotools.bbclass
-> > @@ -16,6 +16,7 @@ def autotools_dep_prepend(d):
-> >                          and not bb.data.inherits_class('cross', d) \
-> >                          and not d.getVar('INHIBIT_DEFAULT_DEPS', True):
-> >              deps +=3D 'libtool-cross '
-> > +            deps +=3D 'intltool-native '
-> > =20
-> >      return deps + 'gnu-config-native '
->=20
-> Its expected that recipes using that add to DEPENDS. Please lets not add
-> in the dependency for everyone since it isn't actually used in that many
-> places. Its small details like this which end up causing significant
-> performance issues :/.
->=20
-OK agreed. Would you accept a patch to add this in comment in
-autotools.bbclass so that this gets documented somewhere ?
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/recipes-multimedia/libav/libav.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Eric
+diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
+index eae190d..c33f7ed 100644
+--- a/meta/recipes-multimedia/libav/libav.inc
++++ b/meta/recipes-multimedia/libav/libav.inc
+@@ -23,7 +23,7 @@ BUILD_OPTIMIZATION = "${FULL_OPTIMIZATION}"
+ EXTRA_FFCONF_armv7a = "--cpu=cortex-a8"
+ EXTRA_FFCONF ?= ""
+ 
+-PACKAGECONFIG ??= "bzip2 x264 x11"
++PACKAGECONFIG ??= "bzip2 x264 ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
+ PACKAGECONFIG[bzip2] = "--enable-bzlib,--disable-bzlib,bzip2"
+ PACKAGECONFIG[schroedinger] = "--enable-libschroedinger,--disable-libschroedinger,schroedinger"
+-- 
+1.8.1.2
+
 
