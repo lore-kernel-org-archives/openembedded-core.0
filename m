@@ -1,18 +1,18 @@
 Return-Path: <dvhart@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E7E0360FE0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2769660FE1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 19:14:23 +0000 (UTC)
+	Mon, 23 Sep 2013 20:43:56 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 23 Sep 2013 12:11:19 -0700
+	by orsmga101.jf.intel.com with ESMTP; 23 Sep 2013 13:43:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,964,1371106800"; d="scan'208";a="407864537"
+X-IronPort-AV: E=Sophos;i="4.90,965,1371106800"; d="scan'208";a="407911312"
 Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.154]) ([10.7.201.154])
-	by orsmga002.jf.intel.com with ESMTP; 23 Sep 2013 12:14:25 -0700
-Message-ID: <1379963665.3463.19.camel@dvhart-mobl4.amr.corp.intel.com>
+	by orsmga002.jf.intel.com with ESMTP; 23 Sep 2013 13:43:39 -0700
+Message-ID: <1379969019.3463.24.camel@dvhart-mobl4.amr.corp.intel.com>
 From: Darren Hart <dvhart@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2013 12:14:25 -0700
+Date: Mon, 23 Sep 2013 13:43:39 -0700
 In-Reply-To: <33c87052900b49e3f207cdc3e343ba08936a03a4.1379963382.git.dvhart@linux.intel.com>
 References: <33c87052900b49e3f207cdc3e343ba08936a03a4.1379963382.git.dvhart@linux.intel.com>
 Organization: Intel
@@ -31,9 +31,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 19:14:24 -0000
+X-List-Received-Date: Mon, 23 Sep 2013 20:43:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+
+Please ignore this patch. I've fixed another issue in the efi installer
+and will send the pair as a pull request with testing completed.
+
+--
+Darren
 
 On Mon, 2013-09-23 at 12:09 -0700, Darren Hart wrote:
 > Fixes [YOCTO #5233]
@@ -69,9 +75,6 @@ On Mon, 2013-09-23 at 12:09 -0700, Darren Hart wrote:
 >  rm -f /etc/udev/scripts/mount*
 >  
 >  #
-
-Note: this is completely untested. Mihai, could you confirm this
-addresses the installation issue you saw?
 
 -- 
 Darren Hart
