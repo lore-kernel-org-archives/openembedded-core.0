@@ -1,36 +1,21 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ee0-f41.google.com (mail-ee0-f41.google.com [74.125.83.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A635610E1
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EF9C6102E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 19:01:14 +0000 (UTC)
-Received: by mail-ee0-f41.google.com with SMTP id d17so1995297eek.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 12:01:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=j6Tz98tthtX0XZ2zT3SNBOaGEDuS0NwvdUhJSTS4nyU=;
-	b=UDYD84SIW5XJw8bv9mLI66xIi30dHFXjLtWXAMv8gBod00WudvGI6aSrX1uXSvIKW4
-	aUaAXu4hNl+UddenPFHE7DiimuQbuILueg18u+uLFeV3eoo2UpadDdIexTagfDKrFN8P
-	mnI8wim1JID1WtYOO4BTDVhIZiHXDNpHgVQvqW2CvvYXDrOE0xyeUacnkibq1UET3FuS
-	4rMWBh4sUw5Oun6WiXlFe6bnZDduAw0HOM4VzFAfcZmE8fWwZcg9ghB2sOGyDdgNR4DK
-	yWTnBIQsjiFNfcAu/ejFVoZLScI3OixgVshaoYWB/2vflvxI4a2eaQe0k4ZsDlH6V+ug
-	ugfA==
-MIME-Version: 1.0
-X-Received: by 10.15.74.197 with SMTP id j45mr15393322eey.40.1379962875365;
-	Mon, 23 Sep 2013 12:01:15 -0700 (PDT)
-Received: by 10.14.118.15 with HTTP; Mon, 23 Sep 2013 12:01:15 -0700 (PDT)
-Received: by 10.14.118.15 with HTTP; Mon, 23 Sep 2013 12:01:15 -0700 (PDT)
-In-Reply-To: <5240820E.5020407@windriver.com>
-References: <1379954041-5575-1-git-send-email-david.nystrom@enea.com>
-	<1379954041-5575-2-git-send-email-david.nystrom@enea.com>
-	<5240820E.5020407@windriver.com>
-Date: Mon, 23 Sep 2013 21:01:15 +0200
-Message-ID: <CAAKB1h2tRBDowRYZ9vOXduTCy0Fg4aoD+fJmVkN7vZ=XqzWpEg@mail.gmail.com>
-From: David Nystrom <david.c.nystrom@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] shadow: Create recipe nativesdk-shadow
+	Mon, 23 Sep 2013 19:10:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 23 Sep 2013 12:10:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,964,1371106800"; d="scan'208";a="382395877"
+Received: from dvhart-mobl4.jf.intel.com (HELO localhost) ([10.7.201.154])
+	by orsmga001.jf.intel.com with ESMTP; 23 Sep 2013 12:10:03 -0700
+From: Darren Hart <dvhart@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Sep 2013 12:09:42 -0700
+Message-Id: <33c87052900b49e3f207cdc3e343ba08936a03a4.1379963382.git.dvhart@linux.intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Cc: Darren Hart <dvhart@linux.intel.com>
+Subject: [PATCH] init-install-efi.sh: Remove unnecessary udev rules file to avoid errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +28,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 19:01:14 -0000
-Content-Type: multipart/alternative; boundary=001a11c39808fd8aed04e711a409
+X-List-Received-Date: Mon, 23 Sep 2013 19:10:09 -0000
 
---001a11c39808fd8aed04e711a409
-Content-Type: text/plain; charset=ISO-8859-1
+Fixes [YOCTO #5233]
 
-On Sep 23, 2013 8:01 PM, "Mark Hatle" <mark.hatle@windriver.com> wrote:
->
-> This looks to be the same as the 'native' package, but I don't think you
-can just add a BBCLASSEXTEND = "nativesdk"
+Modeled after Chen Qi's fix to [YOCTO #3924] from oe-core commit:
+6b6db7b4fb7aa17b8e29076decc830149b9d35bc
+init-install.sh: remove unnecessary udev rules file to avoid error messages
 
-It mostly is and I cant, your right.
+/etc/udev/scripts/mount.sh is removed by init-install-efi.sh, but the
+udev rules file which specifies the invocation of this script is not
+removed, thus causing the error message during a live install:
 
-> Perhaps (in 1.6) someone should look at merging the three back together.
+/etc/udev/scripts/mount.sh: No such file or directory
 
-Agree, the merged recipe will also get a bit messy, but probably easier to
-maintain than in its current state.
+The /etc/udev/rules/automount.rules no longer works once the mount.sh
+script is removed. Remove it to avoid the error message.
 
-> If this is the same as the native version, I'd suggest adding a comment
-stating as much so we can hopefully keep them in sync.
+Signed-off-by: Darren Hart <dvhart@linux.intel.com>
+Cc: mihaix.lindner@linux.intel.com
+---
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 1 +
+ 1 file changed, 1 insertion(+)
 
-Will do, will return with v2
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index 23228c9..26e3174 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -58,6 +58,7 @@ echo "Installing image on /dev/${device}"
+ #
+ # The udev automounter can cause pain here, kill it
+ #
++rm -f /etc/udev/rules.d/automount.rules
+ rm -f /etc/udev/scripts/mount*
+ 
+ #
+-- 
+1.8.3.1
 
---001a11c39808fd8aed04e711a409
-Content-Type: text/html; charset=ISO-8859-1
 
-<p dir="ltr"><br>
-On Sep 23, 2013 8:01 PM, &quot;Mark Hatle&quot; &lt;<a href="mailto:mark.hatle@windriver.com">mark.hatle@windriver.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This looks to be the same as the &#39;native&#39; package, but I don&#39;t think you can just add a BBCLASSEXTEND = &quot;nativesdk&quot;</p>
-<p dir="ltr">It mostly is and I cant, your right.</p>
-<p dir="ltr">&gt; Perhaps (in 1.6) someone should look at merging the three back together.</p>
-<p dir="ltr">Agree, the merged recipe will also get a bit messy, but probably easier to maintain than in its current state.</p>
-<p dir="ltr">&gt; If this is the same as the native version, I&#39;d suggest adding a comment stating as much so we can hopefully keep them in sync.</p>
-<p dir="ltr">Will do, will return with v2<br>
-</p>
-
---001a11c39808fd8aed04e711a409--
