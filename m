@@ -1,22 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3456F610E1
+	by mail.openembedded.org (Postfix) with ESMTP id 3BCF9610F8
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 23 Sep 2013 18:32:00 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
 	by fmsmga102.fm.intel.com with ESMTP; 23 Sep 2013 11:31:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,964,1371106800"; d="scan'208";a="405975714"
+X-IronPort-AV: E=Sophos;i="4.90,964,1371106800"; d="scan'208";a="405975725"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.44])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Sep 2013 11:31:57 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 23 Sep 2013 11:31:59 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2013 11:31:55 -0700
-Message-Id: <1379961116-29929-3-git-send-email-sgw@linux.intel.com>
+Date: Mon, 23 Sep 2013 11:31:56 -0700
+Message-Id: <1379961116-29929-4-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1379961116-29929-1-git-send-email-sgw@linux.intel.com>
 References: <1379961116-29929-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/3] wget: remove po.m4 patch
+Subject: [PATCH 3/3] gnutls: remove po.m4 patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +38,22 @@ specificed
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-extended/wget/wget-1.14/fix_makefile.patch | 13 -------------
+ .../recipes-support/gnutls/gnutls/fix-gettext-version.patch | 13 -------------
  1 file changed, 13 deletions(-)
 
-diff --git a/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch b/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
-index b76a017..8ad7c62 100644
---- a/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
-+++ b/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
-@@ -31,16 +31,3 @@ Index: wget-1.12/configure.ac
+diff --git a/meta/recipes-support/gnutls/gnutls/fix-gettext-version.patch b/meta/recipes-support/gnutls/gnutls/fix-gettext-version.patch
+index 4c9137a..23db7e3 100644
+--- a/meta/recipes-support/gnutls/gnutls/fix-gettext-version.patch
++++ b/meta/recipes-support/gnutls/gnutls/fix-gettext-version.patch
+@@ -18,19 +18,6 @@ Index: gnutls-2.12.14/lib/po/Makefile.in.in
   
-  AC_PROG_RANLIB
-  
--Index: wget-1.12/m4/po.m4
+  PACKAGE = @PACKAGE@
+  VERSION = @VERSION@
+-Index: gnutls-2.12.14/lib/m4/po.m4
 -===================================================================
----- wget-1.12.orig/m4/po.m4	2009-09-04 09:31:54.000000000 -0700
--+++ wget-1.12/m4/po.m4	2011-10-19 20:33:53.426812176 -0700
--@@ -30,7 +30,7 @@
+---- gnutls-2.12.14.orig/lib/m4/po.m4
+-+++ gnutls-2.12.14/lib/m4/po.m4
+-@@ -29,7 +29,7 @@ AC_DEFUN([AM_PO_SUBDIRS],
 - 
 -   dnl Release version of the gettext macros. This is used to ensure that
 -   dnl the gettext macros and po/Makefile.in.in are in sync.
@@ -62,6 +62,9 @@ index b76a017..8ad7c62 100644
 - 
 -   dnl Perform the following tests also if --disable-nls has been given,
 -   dnl because they are needed for "make dist" to work.
+ Index: gnutls-2.12.14/lib/configure.ac
+ ===================================================================
+ --- gnutls-2.12.14.orig/lib/configure.ac
 -- 
 1.8.3.1
 
