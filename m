@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C9FE610DB
+Return-Path: <valentin.popa@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 63D6B610DB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 14:35:14 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8NEnnnS008796; Mon, 23 Sep 2013 15:49:49 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ravFyUfD8FDW; Mon, 23 Sep 2013 15:49:48 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8NEnjl8008793
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 23 Sep 2013 15:49:46 +0100
-Message-ID: <1379946892.18603.216.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Eric =?ISO-8859-1?Q?B=E9nard?= <eric@eukrea.com>
-Date: Mon, 23 Sep 2013 15:34:52 +0100
-In-Reply-To: <20130923135312.3b7f5089@e6520eb>
-References: <1379923619-27142-1-git-send-email-eric@eukrea.com>
-	<1379935457.18603.215.camel@ted> <20130923135312.3b7f5089@e6520eb>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
+	Mon, 23 Sep 2013 14:50:37 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Sep 2013 07:50:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,963,1371106800"; d="scan'208";a="405868958"
+Received: from vpopa-desktop.rb.intel.com (HELO [10.237.105.58])
+	([10.237.105.58])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Sep 2013 07:50:28 -0700
+Message-ID: <5240556F.4040702@intel.com>
+Date: Mon, 23 Sep 2013 17:51:27 +0300
+From: Valentin Popa <valentin.popa@intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1379597494-870-1-git-send-email-valentin.popa@intel.com>
+	<523DE160.9030905@linux.intel.com>
+In-Reply-To: <523DE160.9030905@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH/RFC] autotools: handle dependency on intltool-native
+Subject: Re: [PATCH_V5] image types: split live into iso and hddimg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +34,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 14:35:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 23 Sep 2013 14:50:37 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-09-23 at 13:53 +0200, Eric Bénard wrote:
-> Le Mon, 23 Sep 2013 12:24:17 +0100,
-> Richard Purdie <richard.purdie@linuxfoundation.org> a écrit :
-> 
-> > On Mon, 2013-09-23 at 10:06 +0200, Eric Bénard wrote:
-> > > autotools' class can use intltoolize but has no dependency on it
-> > > which can leads to :
-> > > /test/setup-scripts/build/tmp-defaultsetup-eglibc-eglibc/work/cortexa9hf-vfp-neon-oe-linux-gnueabi/gnokii/0.6.31-r0/temp/run.do_configure.7559: line 179: intltoolize: command not found
-> > > 
-> > > This patch fix this problem by adding the dependency on
-> > > intltool-native which can be tricky as it triggers
-> > > circular dependencies very easily.
-> > > 
-> > > Signed-off-by: Eric Bénard <eric@eukrea.com>
-> > > ---
-> > >  meta/classes/autotools.bbclass | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > > 
-> > > diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> > > index 883eb06..eb988cb 100644
-> > > --- a/meta/classes/autotools.bbclass
-> > > +++ b/meta/classes/autotools.bbclass
-> > > @@ -16,6 +16,7 @@ def autotools_dep_prepend(d):
-> > >                          and not bb.data.inherits_class('cross', d) \
-> > >                          and not d.getVar('INHIBIT_DEFAULT_DEPS', True):
-> > >              deps += 'libtool-cross '
-> > > +            deps += 'intltool-native '
-> > >  
-> > >      return deps + 'gnu-config-native '
-> > 
-> > Its expected that recipes using that add to DEPENDS. Please lets not add
-> > in the dependency for everyone since it isn't actually used in that many
-> > places. Its small details like this which end up causing significant
-> > performance issues :/.
-> > 
-> OK agreed. Would you accept a patch to add this in comment in
-> autotools.bbclass so that this gets documented somewhere ?
+On 09/21/2013 09:11 PM, Saul Wold wrote:
+> On 09/19/2013 06:31 AM, Valentin Popa wrote:
+>> Changes to split live into iso and hddimg without
+>> adding a new image type class.
+>> This patch has only a visible effect on HOB and solves
+>> part 2 of #3197
+>>
+>> [YOCTO #3197]
+>>
+>> Signed-off-by: Valentin Popa <valentin.popa@intel.com>
+>> ---
+>>   meta/classes/image.bbclass       | 13 ++++++++++++-
+>>   meta/classes/image_types.bbclass | 13 +++++++++----
+>>   2 files changed, 21 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index f1e62f1..bbeb765 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -87,7 +87,18 @@ do_rootfs[depends] += 
+>> "makedevs-native:do_populate_sysroot virtual/fakeroot-nati
+>>   do_rootfs[depends] += 
+>> "virtual/update-alternatives-native:do_populate_sysroot 
+>> update-rc.d-native:do_populate_sysroot"
+>>   do_rootfs[recrdeptask] += "do_packagedata"
+>>
+>> -IMAGE_TYPE_live = '${@base_contains("IMAGE_FSTYPES", "live", "live", 
+>> "empty", d)}'
+>> +def build_live(d):
+>> +    if base_contains("IMAGE_FSTYPES", "live", "live", "0", d) == 
+>> "0": # live is not set but hob might set iso or hddimg
+>> +        d.setVar('NOISO', base_contains('IMAGE_FSTYPES', "iso", "0", 
+>> "1", d))
+>> +        d.setVar('NOHDD', base_contains('IMAGE_FSTYPES', "hddimg", 
+>> "0", "1", d))
+>> +        if d.getVar('NOISO', True) == "0" or d.getVar('NOHDD', True) 
+>> == "0":
+>> +            return "live"
+>> +        return "empty"
+>> +    return "live"
+>> +
+>> +IMAGE_TYPE_temp = "${@build_live(d)}"
+>> +IMAGE_TYPE_live = "${@base_contains("IMAGE_FSTYPES", "live", "live", 
+>> "${IMAGE_TYPE_temp}", d)}"
+>> +
+> I don't think you need the _temp thing anymore since you have the live 
+> check above, is that not correct?
 
-Yes.
+     You are right, but tried to call "build_live" form "base_contains" 
+and gave me "ExpansionError during parsing ..."
+>
+>>   inherit image-${IMAGE_TYPE_live}
+>>   IMAGE_TYPE_vmdk = '${@base_contains("IMAGE_FSTYPES", "vmdk", 
+>> "vmdk", "empty", d)}'
+>>   inherit image-${IMAGE_TYPE_vmdk}
+>> diff --git a/meta/classes/image_types.bbclass 
+>> b/meta/classes/image_types.bbclass
+>> index 8c49169..9ead059 100644
+>> --- a/meta/classes/image_types.bbclass
+>> +++ b/meta/classes/image_types.bbclass
+>> @@ -43,12 +43,17 @@ def get_imagecmds(d):
+>>           if "ext3" not in alltypes:
+>>               alltypes.append("ext3")
+>>           types.remove("vmdk")
+>> -    if "live" in types:
+>> +    if "live" in types or "iso" in types or "hddimg" in types:
+>>           if "ext3" not in types:
+>>               types.append("ext3")
+>>           if "ext3" not in alltypes:
+>>               alltypes.append("ext3")
+>> -        types.remove("live")
+>> +        if "live" in types:
+>> +            types.remove("live")
+>> +        if "iso" in types:
+>> +            types.remove("iso")
+>> +        if "hddimg" in types:
+>> +            types.remove("hddimg")
+>>
+>>       if d.getVar('IMAGE_LINK_NAME', True):
+>>           if d.getVar('RM_OLD_IMAGE', True) == "1":
+>> @@ -115,7 +120,7 @@ def imagetypes_getdepends(d):
+>>       deps = []
+>>       ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+>>       for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
+>> -        if type == "vmdk" or type == "live":
+>> +        if type == "vmdk" or type == "live" or type == "iso" or type 
+>> == "hddimg":
+>>               type = "ext3"
+>>           basetype = type
+>>           for ctype in ctypes:
+>> @@ -230,7 +235,7 @@ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>>   IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>>
+>>   # This variable is available to request which values are suitable 
+>> for IMAGE_FSTYPES
+>> -IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 
+>> ext3.gz ext2.lzma btrfs live squashfs squashfs-xz ubi ubifs tar 
+>> tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
+>> +IMAGE_TYPES = "jffs2 sum.jffs2 cramfs ext2 ext2.gz ext2.bz2 ext3 
+>> ext3.gz ext2.lzma btrfs iso hddimg squashfs squashfs-xz ubi ubifs tar 
+>> tar.gz tar.bz2 tar.xz cpio cpio.gz cpio.xz cpio.lzma vmdk elf"
+>>
+> If live is still a valid type, why remove it from the IMAGE_TYPES list?
+>
+     Because HOB displays everything that IMAGE_TYPES contains and is 
+not ok to have both "live" and "iso & hddimg".
+     Indeed this is a problem for the moment (that will be fixed with 
+the part 2 of  #3197 : "display only those image types that make sense") 
+if the user selects to build only the "iso" , but the machine has "live" 
+specified, both "iso" and "hddimg" will be built.
 
-Cheers,
-
-Richard
+> Sau!
+>
+>
+>>   COMPRESSIONTYPES = "gz bz2 lzma xz"
+>>   COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
+>>
 
 
