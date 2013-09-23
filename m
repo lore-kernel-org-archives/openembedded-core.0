@@ -1,37 +1,37 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-bk0-f45.google.com (mail-bk0-f45.google.com
-	[209.85.214.45])
-	by mail.openembedded.org (Postfix) with ESMTP id ECF4D610DB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f173.google.com (mail-vc0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E576B610DB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 13:45:38 +0000 (UTC)
-Received: by mail-bk0-f45.google.com with SMTP id mx11so1195286bkb.32
+	Mon, 23 Sep 2013 14:07:29 +0000 (UTC)
+Received: by mail-vc0-f173.google.com with SMTP id if17so2233549vcb.32
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 06:45:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=QkOKkUrfYHqvV9/idLWkEKljXeT9LUSBcHrLMJiN68Y=;
-	b=DZZlAEOJfWclky+u8AWcN0l76PbY5P9ZRKpGE85BCuENJg9PbcV0Loi0mBVE1hUkx6
-	2wXSR/lk3jC084XfN7AwYoR3t/+oTTorQwco56cXitTUlqmWrDqKlFarSH+EYAt1xJOL
-	hzKtMDTIoSeFlJY2CT+yV7UN04XJPQ5iFpy6bxEhVhSrxA40yk9ptF+qFCx7qNfnNwFi
-	WY5IsngiSwND/kjfaRRj68FxJ2YCXr3sY5qclYM9AJbhAy4QcMhIi+ShHtyDiFp52fOo
-	33ZFzqIwbGKSP8nb5Vekye0V+AVUlZD1HWvR8RYP/L/S2x9v+GK0CQkE45BwtqLlULoY
-	Nj+A==
-X-Received: by 10.204.111.196 with SMTP id t4mr47687bkp.38.1379943939239;
-	Mon, 23 Sep 2013 06:45:39 -0700 (PDT)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id b6sm8758888bko.16.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 23 Sep 2013 06:45:38 -0700 (PDT)
-Received: by nysan (Postfix, from userid 1000)
-	id 645C9400339; Mon, 23 Sep 2013 15:45:26 +0200 (CEST)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2013 15:45:25 +0200
-Message-Id: <1379943925-31969-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
+	Mon, 23 Sep 2013 07:07:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Lb2N/rs0wrkSveJe9hqekJxzdfEB/BZ6exjtwa1AF6E=;
+	b=keI5wzPm5fUQrprWemCH3Gen+XDtnFUZtzEUFR5orHIXZxGqmAbgjT5Ry7C3NcF7ON
+	5hp65RiNHSyUuN4FsAXV3mUNxwlVBy/qljXYjgp9XylPrYOsyP6l39wCDSMoYoqQwXsd
+	YNqV+YFzL1sY27qqoS9u8g6AmzRqzbk9tQikyrFwF8dF6ZsBEHfxV5Tqz9eRhBQHdqJp
+	8Pwyb2Z28oYAA8pi5VQAsz8emdEg0U++/aJSSvcoZWus59IWmW+N7t3UURhUUCHnxBOC
+	uW95168nXRNQV1hJdPR5gHotYyg9nyNmtBgV0eTVIjhXYclFgikP52uZz5IYiTP5OsXk
+	Eb4Q==
+X-Gm-Message-State: ALoCoQl3E5fedCBkZ/Rr3ZxquzIFEAebYX1Rp9txzjKPWoHcxEiTQRebPlfoPETTdbHcEpzKikM+
+X-Received: by 10.52.157.134 with SMTP id wm6mr1573026vdb.26.1379945251538;
+	Mon, 23 Sep 2013 07:07:31 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] Avoid host contamination issue libpam -> libprelude
+Received: by 10.220.71.201 with HTTP; Mon, 23 Sep 2013 07:07:11 -0700 (PDT)
+In-Reply-To: <620b9a68452878b620a520e585cf806db5e8d315.1379906677.git.liezhi.yang@windriver.com>
+References: <cover.1379906677.git.liezhi.yang@windriver.com>
+	<620b9a68452878b620a520e585cf806db5e8d315.1379906677.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 23 Sep 2013 15:07:11 +0100
+Message-ID: <CAJTo0LZJ7AgsHe3B9QCLWL8XBuBnmCBfpe6KnaxASykfMmT44w@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +44,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 13:45:39 -0000
+X-List-Received-Date: Mon, 23 Sep 2013 14:07:30 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Since we dont use prelude in OE, we just disable autodetection of
-prelude in the libpam configuration.
+On 23 September 2013 06:54, Robert Yang <liezhi.yang@windriver.com> wrote:
+> This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
+> write(remove/rename) _gen/gtypes.tmp at the same time, then there would
+> be the error.
 
-Problem described here in the Yocto mailinglist,
-subject: "libpam libprelude issues"
+Looks good.  Can you submit that patch against the upstream bug at
+https://bugs.freedesktop.org/show_bug.cgi?id=69446 too?
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- meta/recipes-extended/pam/libpam_1.1.6.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Acked-By: Ross Burton <ross.burton@intel.com>
 
-diff --git a/meta/recipes-extended/pam/libpam_1.1.6.bb b/meta/recipes-extended/pam/libpam_1.1.6.bb
-index f7493c5..c9bdcb0 100644
---- a/meta/recipes-extended/pam/libpam_1.1.6.bb
-+++ b/meta/recipes-extended/pam/libpam_1.1.6.bb
-@@ -37,7 +37,8 @@ EXTRA_OECONF = "--with-db-uniquename=_pam \
-                 --includedir=${includedir}/security \
-                 --libdir=${base_libdir} \
-                 --disable-nis \
--                --disable-regenerate-docu"
-+                --disable-regenerate-docu \
-+		--disable-prelude"
- 
- CFLAGS_append = " -fPIC "
- 
--- 
-1.8.3.2
-
+Ross
 
