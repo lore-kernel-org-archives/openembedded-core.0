@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 1426A610FF
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id E97E36007B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 11:24:34 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8NBdDA5001233; Mon, 23 Sep 2013 12:39:13 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id r6hqeSi2HxTK; Mon, 23 Sep 2013 12:39:13 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8NBd9Y2001230
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Mon, 23 Sep 2013 12:39:10 +0100
-Message-ID: <1379935457.18603.215.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Eric =?ISO-8859-1?Q?B=E9nard?= <eric@eukrea.com>
-Date: Mon, 23 Sep 2013 12:24:17 +0100
-In-Reply-To: <1379923619-27142-1-git-send-email-eric@eukrea.com>
-References: <1379923619-27142-1-git-send-email-eric@eukrea.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH/RFC] autotools: handle dependency on intltool-native
+	Mon, 23 Sep 2013 11:39:17 +0000 (UTC)
+Received: from [172.16.141.168] (172.16.141.168) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
+	Mon, 23 Sep 2013 13:39:16 +0200
+Message-ID: <5240285B.3050308@enea.com>
+Date: Mon, 23 Sep 2013 13:39:07 +0200
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <524006B4.6080209@communistcode.co.uk>
+	<CAJTo0LYvrg5Cj7jUf-6z09NdC+Si_Q68hB_ahHEGBHqaqVToRw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYvrg5Cj7jUf-6z09NdC+Si_Q68hB_ahHEGBHqaqVToRw@mail.gmail.com>
+X-Originating-IP: [172.16.141.168]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: elfutils patch failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 11:24:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 23 Sep 2013 11:39:18 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2013-09-23 at 10:06 +0200, Eric Bénard wrote:
-> autotools' class can use intltoolize but has no dependency on it
-> which can leads to :
-> /test/setup-scripts/build/tmp-defaultsetup-eglibc-eglibc/work/cortexa9hf-vfp-neon-oe-linux-gnueabi/gnokii/0.6.31-r0/temp/run.do_configure.7559: line 179: intltoolize: command not found
-> 
-> This patch fix this problem by adding the dependency on
-> intltool-native which can be tricky as it triggers
-> circular dependencies very easily.
-> 
-> Signed-off-by: Eric Bénard <eric@eukrea.com>
-> ---
->  meta/classes/autotools.bbclass | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index 883eb06..eb988cb 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -16,6 +16,7 @@ def autotools_dep_prepend(d):
->                          and not bb.data.inherits_class('cross', d) \
->                          and not d.getVar('INHIBIT_DEFAULT_DEPS', True):
->              deps += 'libtool-cross '
-> +            deps += 'intltool-native '
->  
->      return deps + 'gnu-config-native '
++1, saw this error as well.
+And an additional patch failure for libtool-native.
 
-Its expected that recipes using that add to DEPENDS. Please lets not add
-in the dependency for everyone since it isn't actually used in that many
-places. Its small details like this which end up causing significant
-performance issues :/.
+Br,
+David
 
-Cheers,
-
-Richard
-
+On 09/23/2013 11:35 AM, Burton, Ross wrote:
+> On 23 September 2013 10:15, Jack Mitchell <ml@communistcode.co.uk> wrote:
+>> patching file configure
+>> Hunk #1 FAILED at 598.
+>> Hunk #2 FAILED at 612.
+>> Hunk #3 FAILED at 725.
+>> Hunk #4 FAILED at 1378.
+>> Hunk #5 succeeded at 4079 with fuzz 1 (offset 162 lines).
+>> Hunk #6 FAILED at 4077.
+>> Hunk #7 succeeded at 4612 (offset 186 lines).
+>> Hunk #8 FAILED at 5162.
+>> Hunk #9 succeeded at 5530 with fuzz 1 (offset 205 lines).
+>> 6 out of 9 hunks FAILED -- rejects in file configure
+>
+> Patching a generated file is never a good idea, fix this by deleting
+> that file from the patch.  To be honest that patch appears to be
+> changing *far* too much.
+>
+> Ross
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
