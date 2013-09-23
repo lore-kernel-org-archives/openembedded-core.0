@@ -1,22 +1,23 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id E97E36007B
+Return-Path: <eric@eukrea.com>
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by mail.openembedded.org (Postfix) with ESMTP id DAD446007B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 11:39:17 +0000 (UTC)
-Received: from [172.16.141.168] (172.16.141.168) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1;
-	Mon, 23 Sep 2013 13:39:16 +0200
-Message-ID: <5240285B.3050308@enea.com>
-Date: Mon, 23 Sep 2013 13:39:07 +0200
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+	Mon, 23 Sep 2013 11:52:19 +0000 (UTC)
+Received: from e6520eb (unknown [88.170.243.169])
+	(Authenticated sender: eukrea)
+	by smtp3-g21.free.fr (Postfix) with ESMTPSA id 8CA38A62CD;
+	Mon, 23 Sep 2013 13:52:13 +0200 (CEST)
+Date: Mon, 23 Sep 2013 13:52:12 +0200
+From: Eric =?ISO-8859-1?B?QuluYXJk?= <eric@eukrea.com>
+To: David =?ISO-8859-1?B?TnlzdHL2bQ==?= <david.nystrom@enea.com>
+Message-ID: <20130923135212.1c735b41@e6520eb>
+In-Reply-To: <5240285B.3050308@enea.com>
 References: <524006B4.6080209@communistcode.co.uk>
 	<CAJTo0LYvrg5Cj7jUf-6z09NdC+Si_Q68hB_ahHEGBHqaqVToRw@mail.gmail.com>
-In-Reply-To: <CAJTo0LYvrg5Cj7jUf-6z09NdC+Si_Q68hB_ahHEGBHqaqVToRw@mail.gmail.com>
-X-Originating-IP: [172.16.141.168]
+	<5240285B.3050308@enea.com>
+Organization: =?ISO-8859-1?B?RXVrculh?= Electromatique
+X-Mailer: Claws Mail 3.9.2 (GTK+ 2.24.19; x86_64-redhat-linux-gnu)
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: elfutils patch failure
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -31,38 +32,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 11:39:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Sep 2013 11:52:21 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-+1, saw this error as well.
-And an additional patch failure for libtool-native.
+Le Mon, 23 Sep 2013 13:39:07 +0200,
+David Nystr=F6m <david.nystrom@enea.com> a =E9crit :
 
-Br,
-David
+> +1, saw this error as well.
+> And an additional patch failure for libtool-native.
+>=20
+not sure if that helps, but I also had patch errors (on other recipes)
+when a recipe which was already built is updated and gets rebuilt : a
+clean solved the problem.
 
-On 09/23/2013 11:35 AM, Burton, Ross wrote:
-> On 23 September 2013 10:15, Jack Mitchell <ml@communistcode.co.uk> wrote:
->> patching file configure
->> Hunk #1 FAILED at 598.
->> Hunk #2 FAILED at 612.
->> Hunk #3 FAILED at 725.
->> Hunk #4 FAILED at 1378.
->> Hunk #5 succeeded at 4079 with fuzz 1 (offset 162 lines).
->> Hunk #6 FAILED at 4077.
->> Hunk #7 succeeded at 4612 (offset 186 lines).
->> Hunk #8 FAILED at 5162.
->> Hunk #9 succeeded at 5530 with fuzz 1 (offset 205 lines).
->> 6 out of 9 hunks FAILED -- rejects in file configure
->
-> Patching a generated file is never a good idea, fix this by deleting
-> that file from the patch.  To be honest that patch appears to be
-> changing *far* too much.
->
-> Ross
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Eric
 
