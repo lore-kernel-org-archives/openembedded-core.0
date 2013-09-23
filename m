@@ -1,20 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DE7566CA1F
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C4D716A918
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 17:29:26 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 23 Sep 2013 10:26:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,963,1371106800"; d="scan'208";a="382345469"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.44])
-	by orsmga001.jf.intel.com with ESMTP; 23 Sep 2013 10:29:19 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 23 Sep 2013 10:29:15 -0700
-Message-Id: <1379957355-28446-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] elfutils: remove configure bits from patch
+	Mon, 23 Sep 2013 18:01:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8NI1ont016331
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Sep 2013 11:01:50 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Mon, 23 Sep 2013 11:01:49 -0700
+Message-ID: <5240820E.5020407@windriver.com>
+Date: Mon, 23 Sep 2013 13:01:50 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1379954041-5575-1-git-send-email-david.nystrom@enea.com>
+	<1379954041-5575-2-git-send-email-david.nystrom@enea.com>
+In-Reply-To: <1379954041-5575-2-git-send-email-david.nystrom@enea.com>
+Subject: Re: [PATCH] shadow: Create recipe nativesdk-shadow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,256 +36,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 17:29:27 -0000
+X-List-Received-Date: Mon, 23 Sep 2013 18:01:49 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-That is a generated file and patching it might fail, the patch already patches configure.ac
-which will have the configure file regenerated.
+This looks to be the same as the 'native' package, but I don't think you can 
+just add a BBCLASSEXTEND = "nativesdk"
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../elfutils-0.155/redhat-portability.diff         | 228 ---------------------
- 1 file changed, 228 deletions(-)
+Perhaps (in 1.6) someone should look at merging the three back together.
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils-0.155/redhat-portability.diff b/meta/recipes-devtools/elfutils/elfutils-0.155/redhat-portability.diff
-index bf47ade..d5628aa 100644
---- a/meta/recipes-devtools/elfutils/elfutils-0.155/redhat-portability.diff
-+++ b/meta/recipes-devtools/elfutils/elfutils-0.155/redhat-portability.diff
-@@ -277,234 +277,6 @@ Index: elfutils-0.155/config.h.in
- +#undef __thread
- +
-  #include <eu-config.h>
--Index: elfutils-0.155/configure
--===================================================================
----- elfutils-0.155.orig/configure
--+++ elfutils-0.155/configure
--@@ -598,6 +598,8 @@ ZLIB_TRUE
-- LIBEBL_SUBDIR
-- TESTS_RPATH_FALSE
-- TESTS_RPATH_TRUE
--+BUILD_WERROR_FALSE
--+BUILD_WERROR_TRUE
-- BUILD_STATIC_FALSE
-- BUILD_STATIC_TRUE
-- GCOV_FALSE
--@@ -612,6 +614,8 @@ NEVER_TRUE
-- base_cpu
-- NATIVE_LD_FALSE
-- NATIVE_LD_TRUE
--+LD_AS_NEEDED
--+WEXTRA
-- LEXLIB
-- LEX_OUTPUT_ROOT
-- LEX
--@@ -725,6 +729,7 @@ enable_mudflap
-- enable_debugpred
-- enable_gprof
-- enable_gcov
--+enable_werror
-- enable_tests_rpath
-- enable_libebl_subdir
-- with_zlib
--@@ -1378,6 +1383,7 @@ Optional Features:
--                           prediction
--   --enable-gprof          build binaries with gprof support
--   --enable-gcov           build binaries with gcov support
--+  --disable-werror        do not build with -Werror
--   --enable-tests-rpath    build $ORIGIN-using rpath into tests
--   --enable-libebl-subdir=DIR
--                           install libebl_CPU modules in $(libdir)/DIR
--@@ -3917,6 +3923,130 @@ if test "x$ac_cv_c99" != xyes; then :
--   as_fn_error $? "gcc with C99 support required" "$LINENO" 5
-- fi
-- 
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for -Wextra option to $CC" >&5
--+$as_echo_n "checking for -Wextra option to $CC... " >&6; }
--+if ${ac_cv_cc_wextra+:} false; then :
--+  $as_echo_n "(cached) " >&6
--+else
--+  old_CFLAGS="$CFLAGS"
--+CFLAGS="$CFLAGS -Wextra"
--+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
--+/* end confdefs.h.  */
--+void foo (void) { }
--+_ACEOF
--+if ac_fn_c_try_compile "$LINENO"; then :
--+  ac_cv_cc_wextra=yes
--+else
--+  ac_cv_cc_wextra=no
--+fi
--+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
--+CFLAGS="$old_CFLAGS"
--+fi
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cc_wextra" >&5
--+$as_echo "$ac_cv_cc_wextra" >&6; }
--+
--+if test "x$ac_cv_cc_wextra" = xyes; then :
--+  WEXTRA=-Wextra
--+else
--+  WEXTRA=-W
--+fi
--+
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for -fgnu89-inline option to $CC" >&5
--+$as_echo_n "checking for -fgnu89-inline option to $CC... " >&6; }
--+if ${ac_cv_cc_gnu89_inline+:} false; then :
--+  $as_echo_n "(cached) " >&6
--+else
--+  old_CFLAGS="$CFLAGS"
--+CFLAGS="$CFLAGS -fgnu89-inline -Werror"
--+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
--+/* end confdefs.h.  */
--+
--+void foo (void)
--+{
--+  inline void bar (void) {}
--+  bar ();
--+}
--+extern inline void baz (void) {}
--+
--+_ACEOF
--+if ac_fn_c_try_compile "$LINENO"; then :
--+  ac_cv_cc_gnu89_inline=yes
--+else
--+  ac_cv_cc_gnu89_inline=no
--+fi
--+rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
--+CFLAGS="$old_CFLAGS"
--+fi
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_cc_gnu89_inline" >&5
--+$as_echo "$ac_cv_cc_gnu89_inline" >&6; }
--+if test "x$ac_cv_cc_gnu89_inline" = xyes; then :
--+  WEXTRA="${WEXTRA:+$WEXTRA }-fgnu89-inline"
--+fi
--+
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for --as-needed linker option" >&5
--+$as_echo_n "checking for --as-needed linker option... " >&6; }
--+if ${ac_cv_as_needed+:} false; then :
--+  $as_echo_n "(cached) " >&6
--+else
--+  cat > conftest.c <<EOF
--+int main (void) { return 0; }
--+EOF
--+if { ac_try='${CC-cc} $CFLAGS $CPPFLAGS $LDFLAGS
--+			    -fPIC -shared -o conftest.so conftest.c
--+			    -Wl,--as-needed 1>&5'
--+  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
--+  (eval $ac_try) 2>&5
--+  ac_status=$?
--+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
--+  test $ac_status = 0; }; }
--+then
--+  ac_cv_as_needed=yes
--+else
--+  ac_cv_as_needed=no
--+fi
--+rm -f conftest*
--+fi
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_as_needed" >&5
--+$as_echo "$ac_cv_as_needed" >&6; }
--+if test "x$ac_cv_as_needed" = xyes; then :
--+  LD_AS_NEEDED=-Wl,--as-needed
--+else
--+  LD_AS_NEEDED=
--+fi
--+
--+
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for __builtin_popcount" >&5
--+$as_echo_n "checking for __builtin_popcount... " >&6; }
--+if ${ac_cv_popcount+:} false; then :
--+  $as_echo_n "(cached) " >&6
--+else
--+  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
--+/* end confdefs.h.  */
--+
--+int
--+main ()
--+{
--+exit (__builtin_popcount (127));
--+  ;
--+  return 0;
--+}
--+_ACEOF
--+if ac_fn_c_try_link "$LINENO"; then :
--+  ac_cv_popcount=yes
--+else
--+  ac_cv_popcount=no
--+fi
--+rm -f core conftest.err conftest.$ac_objext \
--+    conftest$ac_exeext conftest.$ac_ext
--+fi
--+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_popcount" >&5
--+$as_echo "$ac_cv_popcount" >&6; }
--+if test "x$ac_cv_popcount" = xyes; then :
--+
--+$as_echo "#define HAVE_BUILTIN_POPCOUNT 1" >>confdefs.h
--+
--+fi
--+
-- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for __thread support" >&5
-- $as_echo_n "checking for __thread support... " >&6; }
-- if ${ac_cv_tls+:} false; then :
--@@ -3953,7 +4083,13 @@ fi
-- { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_tls" >&5
-- $as_echo "$ac_cv_tls" >&6; }
-- if test "x$ac_cv_tls" != xyes; then :
---  as_fn_error $? "__thread support required" "$LINENO" 5
--+  if test "$use_locks" = yes; then :
--+  as_fn_error $? "--enable-thread-safety requires __thread support" "$LINENO" 5
--+else
--+
--+$as_echo "#define __thread /* empty: no multi-thread support */" >>confdefs.h
--+
--+fi
-- fi
-- 
-- # Check whether --enable-largefile was given.
--@@ -4302,6 +4438,22 @@ else
-- fi
-- 
-- 
--+# Check whether --enable-werror was given.
--+if test "${enable_werror+set}" = set; then :
--+  enableval=$enable_werror; enable_werror=$enableval
--+else
--+  enable_werror=yes
--+fi
--+
--+ if test "$enable_werror" = yes; then
--+  BUILD_WERROR_TRUE=
--+  BUILD_WERROR_FALSE='#'
--+else
--+  BUILD_WERROR_TRUE='#'
--+  BUILD_WERROR_FALSE=
--+fi
--+
--+
-- # Check whether --enable-tests-rpath was given.
-- if test "${enable_tests_rpath+set}" = set; then :
--   enableval=$enable_tests_rpath; tests_use_rpath=$enableval
--@@ -5022,7 +5174,7 @@ case "$eu_version" in
-- esac
-- 
-- # Round up to the next release API (x.y) version.
---eu_version=$(( (eu_version + 999) / 1000 ))
--+eu_version=`expr \( $eu_version + 999 \) / 1000`
-- 
-- cat >confcache <<\_ACEOF
-- # This file is a shell script that caches the results of configure
--@@ -5185,6 +5337,10 @@ if test -z "${BUILD_STATIC_TRUE}" && tes
--   as_fn_error $? "conditional \"BUILD_STATIC\" was never defined.
-- Usually this means the macro was only invoked conditionally." "$LINENO" 5
-- fi
--+if test -z "${BUILD_WERROR_TRUE}" && test -z "${BUILD_WERROR_FALSE}"; then
--+  as_fn_error $? "conditional \"BUILD_WERROR\" was never defined.
--+Usually this means the macro was only invoked conditionally." "$LINENO" 5
--+fi
-- if test -z "${TESTS_RPATH_TRUE}" && test -z "${TESTS_RPATH_FALSE}"; then
--   as_fn_error $? "conditional \"TESTS_RPATH\" was never defined.
-- Usually this means the macro was only invoked conditionally." "$LINENO" 5
--
- Index: elfutils-0.155/configure.ac
- ===================================================================
- --- elfutils-0.155.orig/configure.ac
--- 
-1.8.3.1
+If this is the same as the native version, I'd suggest adding a comment stating 
+as much so we can hopefully keep them in sync.
+
+--Mark
+
+On 9/23/13 11:34 AM, David Nyström wrote:
+> This is a second in a series of patches to enable
+> offline rootfs creation from a package repository.
+>
+> Some postinstall cmds are Yocto specific and needed to create a
+> rootfs with pre and post install hooks successfully run,
+> using only the toolchain tarball + a package repo.
+>
+> End goal is to create a sandbox where _users_ of a Yocto
+> based distribution can customize a rootfs from a package feed
+> with their package manager of choice.
+>
+> With this patch, I can successfully create packagegroup-core-boot
+> with only the toolchain tarball(OPKG). More fixes for a few postinstall
+> hooks outside of packagegroup-core-boot will come next.
+>
+> Signed-off-by: David Nyström <david.nystrom@enea.com>
+> ---
+>   .../nativesdk-packagegroup-sdk-host.bb             |  1 +
+>   .../shadow/nativesdk-shadow_4.1.4.3.bb             | 62 ++++++++++++++++++++++
+>   2 files changed, 63 insertions(+)
+>   create mode 100644 meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb
+>
+> diff --git a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> index 84fb95d..5a64934 100644
+> --- a/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> +++ b/meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+> @@ -20,6 +20,7 @@ RDEPENDS_${PN} = "\
+>       nativesdk-libtool \
+>       nativesdk-autoconf \
+>       nativesdk-automake \
+> +    ${@base_contains('DISTRO_FEATURES', 'pam', 'nativesdk-shadow', '', d)} \
+>       "
+>
+>   RDEPENDS_${PN}_darwin = "\
+> diff --git a/meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb b/meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb
+> new file mode 100644
+> index 0000000..22f4cf3
+> --- /dev/null
+> +++ b/meta/recipes-extended/shadow/nativesdk-shadow_4.1.4.3.bb
+> @@ -0,0 +1,62 @@
+> +SUMMARY = "Tools to change and administer password and group data"
+> +DESCRIPTION = "Tools to change and administer password and group data"
+> +HOMEPAGE = "http://pkg-shadow.alioth.debian.org"
+> +BUGTRACKER = "https://alioth.debian.org/tracker/?group_id=30580"
+> +SECTION = "base utils"
+> +LICENSE = "BSD | Artistic-1.0"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=08c553a87d4e51bbed50b20e0adcaede \
+> +                    file://src/passwd.c;beginline=8;endline=30;md5=d83888ea14ae61951982d77125947661"
+> +
+> +PR = "r8"
+> +
+> +inherit autotools gettext nativesdk
+> +
+> +SRC_URI = "http://pkg-shadow.alioth.debian.org/releases/shadow-${PV}.tar.bz2 \
+> +           file://shadow.automake-1.11.patch \
+> +           file://shadow-4.1.3-dots-in-usernames.patch \
+> +           file://shadow-4.1.4.2-env-reset-keep-locale.patch \
+> +           file://add_root_cmd_options.patch \
+> +           file://disable-syslog.patch \
+> +           file://useradd.patch \
+> +           file://shadow_fix_for_automake-1.12.patch \
+> +           file://add_root_cmd_groupmems.patch \
+> +           "
+> +
+> +SRC_URI[md5sum] = "b8608d8294ac88974f27b20f991c0e79"
+> +SRC_URI[sha256sum] = "633f5bb4ea0c88c55f3642c97f9d25cbef74f82e0b4cf8d54e7ad6f9f9caa778"
+> +
+> +S = "${WORKDIR}/shadow-${PV}"
+> +
+> +EXTRA_OECONF += "--without-audit \
+> +                 --without-libcrack \
+> +                 --without-libpam \
+> +                 --without-selinux \
+> +                 --without-nscd"
+> +
+> +do_install() {
+> +	oe_runmake DESTDIR="${D}" sbindir="${base_sbindir}" usbindir="${sbindir}" install
+> +
+> +	# Info dir listing isn't interesting at this point so remove it if it exists.
+> +	if [ -e "${D}${infodir}/dir" ]; then
+> +		rm -f ${D}${infodir}/dir
+> +	fi
+> +
+> +	# Enable CREATE_HOME by default.
+> +	sed -i 's/#CREATE_HOME/CREATE_HOME/g' ${D}${sysconfdir}/login.defs
+> +
+> +	# As we are on an embedded system, ensure the users mailbox is in
+> +	# ~/ not /var/spool/mail by default, as who knows where or how big
+> +	# /var is. The system MDA will set this later anyway.
+> +	sed -i 's/MAIL_DIR/#MAIL_DIR/g' ${D}${sysconfdir}/login.defs
+> +	sed -i 's/#MAIL_FILE/MAIL_FILE/g' ${D}${sysconfdir}/login.defs
+> +
+> +	# Disable checking emails.
+> +	sed -i 's/MAIL_CHECK_ENAB/#MAIL_CHECK_ENAB/g' ${D}${sysconfdir}/login.defs
+> +
+> +	# Now we don't have a mail system. Disable mail creation for now.
+> +	sed -i 's:/bin/bash:/bin/sh:g' ${D}${sysconfdir}/default/useradd
+> +	sed -i '/^CREATE_MAIL_SPOOL/ s:^:#:' ${D}${sysconfdir}/default/useradd
+> +
+> +	# Use users group by default
+> +	sed -i 's,^GROUP=1000,GROUP=100,g' ${D}${sysconfdir}/default/useradd
+> +}
+>
 
 
