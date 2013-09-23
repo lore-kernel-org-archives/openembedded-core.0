@@ -1,26 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A3A88610FB
+Return-Path: <stefanx.stanacar@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id EA5A06007B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 05:54:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8N5ss0m015961
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Sep 2013 22:54:54 -0700 (PDT)
-Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 22 Sep 2013 22:54:53 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 23 Sep 2013 01:54:47 -0400
-Message-ID: <620b9a68452878b620a520e585cf806db5e8d315.1379906677.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <cover.1379906677.git.liezhi.yang@windriver.com>
-References: <cover.1379906677.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
+	Mon, 23 Sep 2013 07:57:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Sep 2013 00:57:56 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,960,1371106800"; d="scan'208";a="405696039"
+Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Sep 2013 00:57:56 -0700
+Received: from firebird.rb.intel.com (firebird.rb.intel.com [10.237.105.73])
+	by linux.intel.com (Postfix) with ESMTP id 790EB6A4092;
+	Mon, 23 Sep 2013 00:57:53 -0700 (PDT)
+From: Stefan Stanacar <stefanx.stanacar@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 23 Sep 2013 10:58:11 +0300
+Message-Id: <1379923091-8294-1-git-send-email-stefanx.stanacar@intel.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] classes/testimage: add informational messages about tests and do some cleanup/formatting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,136 +30,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 05:54:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 23 Sep 2013 07:57:55 -0000
 
-There might be an error when parallel build:
+Adds info about tests run even if they passed (in case of errors log will
+be printed anyway). Also some style change for qemu object.
 
-[snip]
-Traceback (most recent call last):
-  File "/path/to/tools/glib-gtypes-generator.py", line 304, in <module>
-    GTypesGenerator(dom, argv[1], argv[2])()
-  File "/path/to/tools/glib-gtypes-generator.py", line 295, in __call__
-    file_set_contents(self.output + '.h', ''.join(self.header))
-  File "/path/to/tools/libtpcodegen.py", line 42, in file_set_contents
-    os.rename(filename + '.tmp', filename)
-OSError: [Errno 2] No such file or directory
-[snip]
-
-This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
-write(remove/rename) _gen/gtypes.tmp at the same time, then there would
-be the error.
-
-There was a similar bug in telepathy-glib which was already fixed, we use the
-similar patch to fix it here.
-
-[YOCTO #5184]
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Stefan Stanacar <stefanx.stanacar@intel.com>
 ---
- .../tmc-Makefile-fix-race.patch                    |   76 ++++++++++++++++++++
- .../telepathy/telepathy-mission-control_5.15.0.bb  |    4 +-
- 2 files changed, 79 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch
+ meta/classes/testimage.bbclass | 40 ++++++++++++++++++++++++----------------
+ 1 file changed, 24 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch b/meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch
-new file mode 100644
-index 0000000..ece1da6
---- /dev/null
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch
-@@ -0,0 +1,76 @@
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Sun, 22 Sep 2013 23:21:01 -0400
-+Subject: [PATCH] src/Makefile.am: fix race issue for _gen/gtypes.h and _gen/gtypes-body.h
-+
-+There might be an error when parallel build:
-+
-+[snip]
-+Traceback (most recent call last):
-+  File "/path/to/tools/glib-gtypes-generator.py", line 304, in <module>
-+    GTypesGenerator(dom, argv[1], argv[2])()
-+  File "/path/to/tools/glib-gtypes-generator.py", line 295, in __call__
-+    file_set_contents(self.output + '.h', ''.join(self.header))
-+  File "/path/to/tools/libtpcodegen.py", line 42, in file_set_contents
-+    os.rename(filename + '.tmp', filename)
-+OSError: [Errno 2] No such file or directory
-+[snip]
-+
-+This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
-+write(remove/rename) _gen/gtypes.tmp at the same time, then there would
-+be the error.
-+
-+There was a similar bug in telepathy-glib which was already fixed, we use the
-+similar patch to fix it.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ src/Makefile.am |   18 +++++++++++++++---
-+ 1 file changed, 15 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -288,7 +288,11 @@ _gen/interfaces-body.h: _gen/mcd.xml \
-+ 		$(tools_dir)/glib-interfaces-body-generator.xsl \
-+ 		$< > $@
-+ 
-+-_gen/gtypes.h _gen/gtypes-body.h: _gen/mcd.xml \
-++# do nothing, output as a side-effect
-++_gen/gtypes.h: _gen/gtypes-body.h
-++	@:
-++
-++_gen/gtypes-body.h: _gen/mcd.xml \
-+ 	$(top_srcdir)/tools/glib-gtypes-generator.py
-+ 	$(AM_V_GEN)$(PYTHON) $(top_srcdir)/tools/glib-gtypes-generator.py \
-+ 		$< _gen/gtypes mc
-+@@ -309,7 +313,11 @@ _gen/%.xml: %.xml $(wildcard $(top_srcdir)/xml/*.xml) Makefile.am
-+ 	$(AM_V_GEN)$(XSLTPROC) $(XSLTPROCFLAGS) --xinclude $(tools_dir)/identity.xsl \
-+ 		$< > $@
-+ 
-+-_gen/cli-%-body.h _gen/cli-%.h: _gen/%.xml \
-++# do nothing, output as a side-effect
-++_gen/cli-%.h: _gen/cli-%-body.h
-++	@:
-++
-++_gen/cli-%-body.h: _gen/%.xml \
-+ 	$(tools_dir)/glib-client-gen.py Makefile.am
-+ 	$(AM_V_GEN)$(PYTHON) $(tools_dir)/glib-client-gen.py \
-+ 		--group=`echo $* | tr x- x_` \
-+@@ -317,7 +325,11 @@ _gen/cli-%-body.h _gen/cli-%.h: _gen/%.xml \
-+ 		--tp-proxy-api=0.7.6 \
-+ 		$< Mc_Cli _gen/cli-$*
-+ 
-+-_gen/svc-%.c _gen/svc-%.h: _gen/%.xml \
-++# do nothing, output as a side-effect
-++_gen/svc-%.h: _gen/svc-%.c
-++	@:
-++
-++_gen/svc-%.c: _gen/%.xml \
-+ 	$(tools_dir)/glib-ginterface-gen.py Makefile.am
-+ 	$(AM_V_GEN)$(PYTHON) $(tools_dir)/glib-ginterface-gen.py \
-+ 		--filename=_gen/svc-$* \
-+-- 
-+1.7.10.4
-+
-diff --git a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb
-index b2736ca..aa776a1 100644
---- a/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb
-+++ b/meta/recipes-connectivity/telepathy/telepathy-mission-control_5.15.0.bb
-@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d8045f3b8f929c1cb29a1e3fd737b499 \
- SECTION = "libs"
- DEPENDS = "libtelepathy dbus-glib gconf libxslt-native"
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 9ecef68..86bf22e 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -85,6 +85,7 @@ def testimage_main(d):
+     import oeqa.runtime
+     import re
+     import shutil
++    import time
+     from oeqa.oetest import runTests
+     from oeqa.utils.sshcontrol import SSHControl
+     from oeqa.utils.qemurunner import QemuRunner
+@@ -114,21 +115,23 @@ def testimage_main(d):
+     #will handle fs type eventually, stick with ext3 for now
+     #make a copy of the original rootfs and use that for tests
+     origrootfs=os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME",True) + '.ext3')
+-    rootfs=os.path.join(testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.ext3')
++    testrootfs=os.path.join(testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.ext3')
+     try:
+-        shutil.copyfile(origrootfs, rootfs)
++        shutil.copyfile(origrootfs, testrootfs)
+     except Exception as e:
+         bb.fatal("Error copying rootfs: %s" % e)
  
--SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz"
-+SRC_URI = "http://telepathy.freedesktop.org/releases/telepathy-mission-control/telepathy-mission-control-${PV}.tar.gz \
-+	file://tmc-Makefile-fix-race.patch \
-+	"
- SRC_URI[md5sum] = "0efd7d9043f6e189e8ed8111d043b52c"
- SRC_URI[sha256sum] = "88800d1b5f385e94b34721319ff4fe65c493632954d7229b36e57af5b4a7e1b5"
+-    qemu = QemuRunner(machine, rootfs)
+-    qemu.tmpdir = d.getVar("TMPDIR", True)
+-    qemu.deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE", True)
+-    qemu.display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True)
+-    qemu.logfile = os.path.join(testdir, "qemu_boot_log.%s" % d.getVar('DATETIME', True))
+     try:
+-        qemu.boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT", True))
++        boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT", True))
+     except ValueError:
+-        qemu.boottime = 500
++        boottime = 1000
++
++    qemu = QemuRunner(machine=machine, rootfs=testrootfs,
++                        tmpdir = d.getVar("TMPDIR", True),
++                        deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE", True),
++                        display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True),
++                        logfile = os.path.join(testdir, "qemu_boot_log.%s" % d.getVar('DATETIME', True)),
++                        boottime = boottime)
  
+     qemuloglink = os.path.join(testdir, "qemu_boot_log")
+     if os.path.islink(qemuloglink):
+@@ -141,12 +144,12 @@ def testimage_main(d):
+         os.unlink(sshloglink)
+     os.symlink(sshlog, sshloglink)
+ 
+-
+     bb.note("DISPLAY value: %s" % qemu.display)
+-    bb.note("rootfs file: %s" %  rootfs)
++    bb.note("rootfs file: %s" %  qemu.rootfs)
+     bb.note("Qemu log file: %s" % qemu.logfile)
+     bb.note("SSH log file: %s" %  sshlog)
+ 
++    pn = d.getVar("PN", True)
+     #catch exceptions when loading or running tests (mostly our own errors)
+     try:
+         if qemu.launch():
+@@ -156,14 +159,19 @@ def testimage_main(d):
+             tc.qemu = qemu
+             tc.target = SSHControl(host=qemu.ip,logfile=sshlog)
+             # run tests and get the results
++            starttime = time.time()
+             result = runTests(tc)
+-
++            stoptime = time.time()
+             if result.wasSuccessful():
+-                bb.note("All required tests passed")
++                bb.plain("%s - Ran %d test%s in %.3fs" % (pn, result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
++                msg = "%s - OK - All required tests passed" % pn
++                skipped = len(result.skipped)
++                if skipped:
++                    msg += " (skipped=%d)" % skipped
++                bb.plain(msg)
+             else:
+-                raise bb.build.FuncFailed("Some tests failed. You should check the task log and the ssh log. (ssh log is %s" % sshlog)
+-
++                raise bb.build.FuncFailed("%s - FAILED - check the task log and the ssh log" % pn )
+         else:
+-            raise bb.build.FuncFailed("Failed to start qemu. You should check the task log and the qemu boot log (qemu log is %s)" % qemu.logfile)
++            raise bb.build.FuncFailed("%s - FAILED to start qemu - check the task log and the boot log" % pn)
+     finally:
+         qemu.kill()
 -- 
-1.7.10.4
+1.8.3.1
 
 
