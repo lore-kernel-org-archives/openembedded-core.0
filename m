@@ -1,25 +1,24 @@
-Return-Path: <lukas.bulwahn@oss.bmw-carit.de>
-Received: from linuxmail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 423B9610FB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3746F610FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 05:47:32 +0000 (UTC)
-Received: from [192.168.101.5] (afplatform.bmw-carit.intra [192.168.101.5])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	(Authenticated sender: lukas.bulwahn)
-	by linuxmail.bmw-carit.de (Postfix) with ESMTPSA id C6CAC4007F;
-	Mon, 23 Sep 2013 06:44:11 +0200 (CEST)
-Message-ID: <523FD5F5.1000209@oss.bmw-carit.de>
-Date: Mon, 23 Sep 2013 07:47:33 +0200
-From: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Mon, 23 Sep 2013 05:54:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8N5sqMx013497
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 22 Sep 2013 22:54:53 -0700 (PDT)
+Received: from pek-hostel-vm02.wrs.com (128.224.153.172) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Sun, 22 Sep 2013 22:54:51 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Sep 2013 01:54:46 -0400
+Message-ID: <cover.1379906677.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-To: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>, 
-	openembedded-core@lists.openembedded.org
-References: <1379307553-2744-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-In-Reply-To: <1379307553-2744-1-git-send-email-lukas.bulwahn@oss.bmw-carit.de>
-Subject: Re: [PATCH] boost: set up PACKAGECONFIG for boost-python library
+Subject: [PATCH 0/1 V2] telepathy-mission-control: do_compile failed (race issue)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Sep 2013 05:47:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 23 Sep 2013 05:54:52 -0000
+Content-Type: text/plain
 
-On 09/16/2013 06:59 AM, Lukas Bulwahn wrote:
-> Until now, the comment in the boost.inc file suggested to enable
-> the boost-python library by uncommenting some lines in that file.
-> Using the new PACKAGECONFIG feature, boost-python can now be added
-> optionally without need to modify the file or copying those lines
-> into a bbappend file.
-> Furthermore, we obtain the python version by inheriting python-dir
-> instead of fixing the python version in this file.
->
-> This commit is motivated by the need in the meta-ros layer, as
-> discussed in the issue #145 of the meta-ros issue tracker [1].
->
-> [1] https://github.com/bmwcarit/meta-ros/pull/145
->
-> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@oss.bmw-carit.de>
-> ---
->   meta/recipes-support/boost/boost.inc |   15 ++++++++-------
->   1 file changed, 8 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-> [...]
-This patch has been pending since last Monday. Are there any general 
-concerns about this patch or has it been simply overlooked?
+* Changes of V2:
+  - Use the similar fix from telepathy-glib to fix the problem as Ross suggested.
 
-Yours sincerely,
+// Robert
 
-Lukas Bulwahn
+The following changes since commit bf6b0d95db3863a2cfbccb154c0c7ad5b3bbf0b0:
+
+  glib-2.0: fix broken python script header on machines using buildtools (2013-09-22 12:23:35 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib robert/tmc
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=robert/tmc
+
+Robert Yang (1):
+  telepathy-mission-control: do_compile failed (race issue)
+
+ .../tmc-Makefile-fix-race.patch                    |   76 ++++++++++++++++++++
+ .../telepathy/telepathy-mission-control_5.15.0.bb  |    4 +-
+ 2 files changed, 79 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/telepathy/telepathy-mission-control/tmc-Makefile-fix-race.patch
+
+-- 
+1.7.10.4
+
 
