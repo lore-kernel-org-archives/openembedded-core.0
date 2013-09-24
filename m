@@ -1,37 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-oa0-f45.google.com (mail-oa0-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BFFE610FB
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F2785610FB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 12:42:32 +0000 (UTC)
-Received: by mail-oa0-f45.google.com with SMTP id o17so2040824oag.32
+	Tue, 24 Sep 2013 13:20:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8ODK8Kh009901
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 05:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=NpsxgLwztNwr7w8eCG7BVI6KZjos7DbrafauHt7V8Gs=;
-	b=X8EJsjkgK6aSnoARw0UlEj3N+5mjXv0+Wm8DmGMnUQW858b3WzunQ+QSL4j66gTvcm
-	7KZUlA392ASzXRXeOMVntrI9ckuqXfBS+y8If+SQVhmF8aV1NvPXZIGsyuEwYYpumzZg
-	QKJZIKT2IVzudVtWXzHhZTnYhnrd1teOnObBXoC9ygjfIlmxkJRqg8MZwIXKLLo4wuzG
-	51O8r4GiyPCyLgrxr1W40Ru0AlIXpFoUFUBfHMrK5AOESoDXcf5c5TMXH1uzMbqQavns
-	dU0V6lROWSnFDf2sp0gVhdejsNNNTSqyR8TRj0cTsvQqsdfwfqzxfldgvXH2XZCLJq5B
-	KvCg==
+	Tue, 24 Sep 2013 06:20:08 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 24 Sep 2013 06:20:07 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 24 Sep 2013 21:20:08 +0800
+Message-ID: <1380028808-24039-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-Received: by 10.182.226.199 with SMTP id ru7mr25201801obc.12.1380026553384; 
-	Tue, 24 Sep 2013 05:42:33 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.182.232.166 with HTTP; Tue, 24 Sep 2013 05:42:33 -0700 (PDT)
-In-Reply-To: <1380013034-2681-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-References: <1380013034-2681-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-Date: Tue, 24 Sep 2013 09:42:33 -0300
-X-Google-Sender-Auth: k8b1PajgxKxm_nRU4aBJ0MCdEZA
-Message-ID: <CAP9ODKo--dRe-FvP=p8UukRn4tCRdPyLiNfm2bj2jKCrpPjZVg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wayland/weston: bump to 1.2.0 version
+Subject: [PATCH] bind: port a patch to fix a build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +31,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2013 12:42:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 24 Sep 2013 13:20:07 -0000
+Content-Type: text/plain
 
-On Tue, Sep 24, 2013 at 5:57 AM, Ewan LE BIDEAU-CANEVET
-<Ewan.LEBIDEAU-CANEVET@eurogiciel.fr> wrote:
-> add bitbake files for wayland and weston 1.2.0
->
-> Signed-off-by: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-> ---
+From: Roy Li <rongqing.li@windriver.com>
 
-Your commit log say bump but in fact you add these.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../bind/bind-9.8.1/mips1-not-support-opcode.diff  |  104 ++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.8.1.bb       |    1 +
+ 2 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff
 
+diff --git a/meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff b/meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff
+new file mode 100644
+index 0000000..2930796
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind-9.8.1/mips1-not-support-opcode.diff
+@@ -0,0 +1,104 @@
++bind: port a patch to fix a build failure
++
++mips1 does not support ll and sc instructions, and lead to below error, now
++we port a patch from debian to fix it
++[http://security.debian.org/debian-security/pool/updates/main/b/bind9/bind9_9.8.4.dfsg.P1-6+nmu2+deb7u1.diff.gz]
++
++| {standard input}: Assembler messages:
++| {standard input}:47: Error: Opcode not supported on this processor: mips1 (mips1) `ll $3,0($6)'
++| {standard input}:50: Error: Opcode not supported on this processor: mips1 (mips1) `sc $3,0($6)'
++
++Upstream-Status: Pending
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++
++--- bind9-9.8.4.dfsg.P1.orig/lib/isc/mips/include/isc/atomic.h
+++++ bind9-9.8.4.dfsg.P1/lib/isc/mips/include/isc/atomic.h
++@@ -31,18 +31,20 @@
++ isc_atomic_xadd(isc_int32_t *p, int val) {
++ 	isc_int32_t orig;
++ 
++-	/* add is a cheat, since MIPS has no mov instruction */
++-	__asm__ volatile (
++-	    "1:"
++-	    "ll $3, %1\n"
++-	    "add %0, $0, $3\n"
++-	    "add $3, $3, %2\n"
++-	    "sc $3, %1\n"
++-	    "beq $3, 0, 1b"
++-	    : "=&r"(orig)
++-	    : "m"(*p), "r"(val)
++-	    : "memory", "$3"
++-		);
+++	__asm__ __volatile__ (
+++	"	.set	push		\n"
+++	"	.set	mips2		\n"
+++	"	.set	noreorder	\n"
+++	"	.set	noat		\n"
+++	"1:	ll	$1, %1		\n"
+++	"	addu	%0, $1, %2	\n"
+++	"	sc	%0, %1		\n"
+++	"	beqz	%0, 1b		\n"
+++	"	move	%0, $1		\n"
+++	"	.set	pop		\n"
+++	: "=&r" (orig), "+R" (*p)
+++	: "r" (val)
+++	: "memory");
++ 
++ 	return (orig);
++ }
++@@ -52,16 +54,7 @@
++  */
++ static inline void
++ isc_atomic_store(isc_int32_t *p, isc_int32_t val) {
++-	__asm__ volatile (
++-	    "1:"
++-	    "ll $3, %0\n"
++-	    "add $3, $0, %1\n"
++-	    "sc $3, %0\n"
++-	    "beq $3, 0, 1b"
++-	    :
++-	    : "m"(*p), "r"(val)
++-	    : "memory", "$3"
++-		);
+++	*p = val;
++ }
++ 
++ /*
++@@ -72,20 +65,23 @@
++ static inline isc_int32_t
++ isc_atomic_cmpxchg(isc_int32_t *p, int cmpval, int val) {
++ 	isc_int32_t orig;
+++	isc_int32_t tmp;
++ 
++-	__asm__ volatile(
++-	    "1:"
++-	    "ll $3, %1\n"
++-	    "add %0, $0, $3\n"
++-	    "bne $3, %2, 2f\n"
++-	    "add $3, $0, %3\n"
++-	    "sc $3, %1\n"
++-	    "beq $3, 0, 1b\n"
++-	    "2:"
++-	    : "=&r"(orig)
++-	    : "m"(*p), "r"(cmpval), "r"(val)
++-	    : "memory", "$3"
++-		);
+++	__asm__ __volatile__ (
+++	"	.set	push		\n"
+++	"	.set	mips2		\n"
+++	"	.set	noreorder	\n"
+++	"	.set	noat		\n"
+++	"1:	ll	$1, %1		\n"
+++	"	bne	$1, %3, 2f	\n"
+++	"	move	%2, %4		\n"
+++	"	sc	%2, %1		\n"
+++	"	beqz	%2, 1b		\n"
+++	"2:	move	%0, $1		\n"
+++	"	.set	pop		\n"
+++	: "=&r"(orig), "+R" (*p), "=r" (tmp)
+++	: "r"(cmpval), "r"(val)
+++	: "memory");
++ 
++ 	return (orig);
++ }
+diff --git a/meta/recipes-connectivity/bind/bind_9.8.1.bb b/meta/recipes-connectivity/bind/bind_9.8.1.bb
+index 3c5d600..5919c21 100644
+--- a/meta/recipes-connectivity/bind/bind_9.8.1.bb
++++ b/meta/recipes-connectivity/bind/bind_9.8.1.bb
+@@ -18,6 +18,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://bind-CVE-2012-3817.patch \
+            file://bind-CVE-2013-2266.patch \
+            file://bind-Fix-CVE-2012-4244.patch \
++           file://mips1-not-support-opcode.diff \
+ 	   "
+ 
+ SRC_URI[md5sum] = "cf31117c5d35af34d4c0702970ad9fb7"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.10.4
+
 
