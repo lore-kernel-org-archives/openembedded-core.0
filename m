@@ -1,30 +1,26 @@
-Return-Path: <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-Received: from mailhost.eurogiciel.fr (mailhost.eurogiciel.fr [86.64.47.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 90B496CA51
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C6516C99C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 15:03:43 +0000 (UTC)
-Received: from (unknown [172.16.88.4]) by mailhost.eurogiciel.fr with smtp
-	id 6a23_8a4e_60a7fd74_252b_11e3_81eb_a4badbe01a3a;
-	Tue, 24 Sep 2013 17:09:57 +0200
-Received: from 06s-venera.eurogiciel.fr ([172.16.92.15]) by
-	31l-syracuse.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959); 
-	Tue, 24 Sep 2013 17:03:43 +0200
-Received: from 44c-mariner.eurogiciel.fr ([172.16.96.15]) by
-	06s-venera.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959); 
-	Tue, 24 Sep 2013 17:03:42 +0200
-Received: from linux-7s87.rennes ([172.16.100.253]) by
-	44c-mariner.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959);
-	Tue, 24 Sep 2013 17:03:41 +0200
-From: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2013 17:01:54 +0200
-Message-Id: <1380034914-3792-2-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-X-Mailer: git-send-email 1.8.1.4
-In-Reply-To: <1380034914-3792-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-References: <1380034914-3792-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-X-OriginalArrivalTime: 24 Sep 2013 15:03:41.0170 (UTC)
-	FILETIME=[41637520:01CEB937]
-Subject: [PATCH v2 2/2] weston : Add weston 1.2.0 bb file
+	Tue, 24 Sep 2013 15:04:32 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 24 Sep 2013 08:04:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,971,1371106800"; d="scan'208";a="400349902"
+Received: from unknown (HELO [10.255.15.44]) ([10.255.15.44])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Sep 2013 08:04:25 -0700
+Message-ID: <5241A9F9.808@linux.intel.com>
+Date: Tue, 24 Sep 2013 08:04:25 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>
+References: <1380033916-31464-1-git-send-email-sgw@linux.intel.com>
+	<1380033916-31464-2-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1380033916-31464-2-git-send-email-sgw@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] sysvinit: don't use useradd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,100 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2013 15:03:44 -0000
+X-List-Received-Date: Tue, 24 Sep 2013 15:04:32 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
----
- meta/recipes-graphics/wayland/weston_1.2.0.bb | 79 +++++++++++++++++++++++++++
- 1 file changed, 79 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston_1.2.0.bb
+On 09/24/2013 07:45 AM, Saul Wold wrote:
+> It causes shadow to be used in core-image-minimal and increase the
+> size by 1.5M.  We will add the shutdown user to group via base-passwd
+> Ensure that sysvinit depends on base-passwd for the group chown.
+>
+> [YOCTO #5230]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> index 97ecc51..9ec92e2 100644
+> --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
+>                       file://COPYRIGHT;endline=15;md5=349c872e0066155e1818b786938876a4"
+>   PR = "r11"
+>
+> -RDEPENDS_${PN} = "${PN}-inittab"
+> +RDEPENDS_${PN} = "${PN}-inittab base-passwd"
+>
+This should be in DEPENDS, RP has this already patched.
 
-diff --git a/meta/recipes-graphics/wayland/weston_1.2.0.bb b/meta/recipes-graphics/wayland/weston_1.2.0.bb
-new file mode 100644
-index 0000000..d320f88
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston_1.2.0.bb
-@@ -0,0 +1,79 @@
-+SUMMARY = "Weston, a Wayland compositor"
-+DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
-+HOMEPAGE = "http://wayland.freedesktop.org"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
-+                    file://src/compositor.c;endline=23;md5=aa98a8db03480fe7d500d0b1f4b8850c"
-+
-+SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-+           file://install-examples.patch \
-+           file://weston.png \
-+           file://weston.desktop"
-+SRC_URI[md5sum] = "86f8c9e865923e138ce44ee41d951500"
-+SRC_URI[sha256sum] = "122e12ae8e4ec4618780465c0cc31d70d67054900a2aac458f82ed6eb5d397b7"
-+
-+
-+inherit autotools pkgconfig useradd
-+
-+DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
-+DEPENDS += "wayland mesa virtual/egl pango"
-+BBCLASSEXTEND = "native"
-+EXTRA_OECONF = "--disable-android-compositor \
-+                --enable-setuid-install \
-+                --disable-tablet-shell \
-+                --disable-xwayland \
-+                --enable-simple-clients \
-+                --enable-clients \
-+                --disable-simple-egl-clients \
-+                --disable-libunwind \
-+                --disable-rpi-compositor \
-+                --disable-rdp-compositor"
-+
-+
-+PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
-+                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
-+                  "
-+#
-+# Compositor choices
-+#
-+# Weston on KMS
-+PACKAGECONFIG[kms] = "--enable-drm-compositor --enable-weston-launch,--disable-drm-compositor --disable-weston-launch,drm udev mesa mtdev libpam"
-+# Weston on Wayland (nested Weston)
-+PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa"
-+# Weston on X11
-+PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
-+# Headless Weston
-+PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compositor"
-+# Weston on framebuffer
-+PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
-+
-+# Use cairo-gl or cairo-glesv2
-+PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
-+
-+do_install_append() {
-+	# Weston doesn't need the .la files to load modules, so wipe them
-+	rm -f ${D}/${libdir}/weston/*.la
-+
-+	for feature in ${DISTRO_FEATURES}; do
-+		# If X11, ship a desktop file to launch it
-+		if [ "$feature" = "x11" ]; then
-+			install -d ${D}${datadir}/applications
-+			install ${WORKDIR}/weston.desktop ${D}${datadir}/applications
-+
-+			install -d ${D}${datadir}/icons/hicolor/48x48/apps
-+			install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
-+                fi
-+	done
-+}
-+
-+PACKAGES += "${PN}-examples"
-+
-+FILES_${PN} = "${bindir}/weston* ${bindir}/wcap-decode ${libexecdir} ${datadir}"
-+FILES_${PN}-examples = "${bindir}/*"
-+
-+RDEPENDS_${PN} += "xkeyboard-config"
-+RRECOMMENDS_${PN} = "liberation-fonts"
-+
-+USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM_${PN} = "--system weston-launch"
--- 
-1.8.1.4
+Thanks
+	Sau!
 
+>   SRC_URI = "http://download.savannah.gnu.org/releases-noredirect/sysvinit/sysvinit-${PV}.tar.bz2 \
+>              file://install.patch \
+> @@ -24,7 +24,7 @@ SRC_URI[sha256sum] = "60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5
+>   S = "${WORKDIR}/sysvinit-${PV}"
+>   B = "${S}/src"
+>
+> -inherit update-alternatives useradd
+> +inherit update-alternatives
+>   DEPENDS_append = " update-rc.d-native"
+>
+>   ALTERNATIVE_${PN} = "init mountpoint halt reboot runlevel shutdown poweroff last mesg utmpdump wall"
+> @@ -53,9 +53,6 @@ ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
+>   ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
+>   ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
+>
+> -USERADD_PACKAGES = "${PN}"
+> -GROUPADD_PARAM_${PN} = "--system shutdown"
+> -
+>   PACKAGES =+ "sysvinit-pidof sysvinit-sulogin"
+>   FILES_${PN} += "${base_sbindir}/* ${base_bindir}/*"
+>   FILES_sysvinit-pidof = "${base_bindir}/pidof.sysvinit ${base_sbindir}/killall5"
+>
 
