@@ -1,29 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F830610D7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D855601D6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 01:35:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8O1ZWeR003742
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 23 Sep 2013 18:35:32 -0700 (PDT)
-Received: from [128.224.162.242] (128.224.162.242) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 23 Sep 2013 18:35:31 -0700
-Message-ID: <5240EC60.3090906@windriver.com>
-Date: Tue, 24 Sep 2013 09:35:28 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1379906677.git.liezhi.yang@windriver.com>
-	<620b9a68452878b620a520e585cf806db5e8d315.1379906677.git.liezhi.yang@windriver.com>
-	<CAJTo0LZJ7AgsHe3B9QCLWL8XBuBnmCBfpe6KnaxASykfMmT44w@mail.gmail.com>
-In-Reply-To: <CAJTo0LZJ7AgsHe3B9QCLWL8XBuBnmCBfpe6KnaxASykfMmT44w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
+	Tue, 24 Sep 2013 08:24:21 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8O8d9gP002484; Tue, 24 Sep 2013 09:39:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7ansFFc_2qNa; Tue, 24 Sep 2013 09:39:09 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8O8d6Dh002471
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 24 Sep 2013 09:39:08 +0100
+Message-ID: <1380011049.18603.269.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Date: Tue, 24 Sep 2013 09:24:09 +0100
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF843C51988E@ALA-MBB.corp.ad.wrs.com>
+References: <007BD92917A2324FA403BCF9A464CF843C51988E@ALA-MBB.corp.ad.wrs.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] vala.bbclass: add dependency on vala
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +38,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2013 01:35:31 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 24 Sep 2013 08:24:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Mon, 2013-09-23 at 21:42 +0000, Slater, Joseph wrote:
+> From: Joe Slater [mailto:jslater@windriver.com] 
+> Sent: Monday, September 23, 2013 1:53 PM
+> To: MacLeod, Randy; Polk, Jeffrey
+> Cc: lpd-eng-rr
+> Subject: [PATCH 1/1] vala.bbclass: add dependency on vala
+> 
+> This class points the inheritor to directories in
+> the target sysroot, so we want to be sure things
+> like .vapi files are there.
+> 
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+>  meta/classes/vala.bbclass |    6 +++---
+>  1 files changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/vala.bbclass b/meta/classes/vala.bbclass
+> index c7db08c..0a98dab 100644
+> --- a/meta/classes/vala.bbclass
+> +++ b/meta/classes/vala.bbclass
+> @@ -1,9 +1,9 @@
+>  # Vala has problems with multiple concurrent invocations
+>  PARALLEL_MAKE = ""
+>  
+> -# Vala needs vala-native
+> -DEPENDS += "vala-native"
+> -DEPENDS_virtclass-native += "vala-native"
+> +# Vala needs vala-native (and we need vala)
+> +DEPENDS += "vala-native vala"
+> +DEPENDS_class-native += "vala-native"
+
+In class code this is a really bad idea. Why? Imagine a recipe which
+does:
+
+DEPENDS =+ "x"
+DEPENDS_class-native = "y"
+
+The += on the class-native above will not do what you think.
+
+I'd recommend something like:
+
+VALADEPENDS = "vala vala-native"
+VALADEPENDS_class-native = "vala-native"
+DEPENDS += "${VALADEPENDS}"
+
+Most other classes actually use _append on DEPENDS to ensure consistent
+behaviour.
+
+Cheers,
+
+Richard
 
 
-On 09/23/2013 10:07 PM, Burton, Ross wrote:
-> On 23 September 2013 06:54, Robert Yang <liezhi.yang@windriver.com> wrote:
->> This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
->> write(remove/rename) _gen/gtypes.tmp at the same time, then there would
->> be the error.
->
-> Looks good.  Can you submit that patch against the upstream bug at
-> https://bugs.freedesktop.org/show_bug.cgi?id=69446 too?
-
-thanks, I will.
-
-// Robert
-
->
-> Acked-By: Ross Burton <ross.burton@intel.com>
->
-> Ross
->
->
 
