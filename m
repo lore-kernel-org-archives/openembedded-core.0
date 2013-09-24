@@ -1,22 +1,22 @@
 Return-Path: <sgw@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 11AC76CAC4
+	by mail.openembedded.org (Postfix) with ESMTP id 412896CAC6
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 24 Sep 2013 15:09:59 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Sep 2013 08:06:53 -0700
+	by orsmga102.jf.intel.com with ESMTP; 24 Sep 2013 08:06:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,971,1371106800"; d="scan'208";a="382857691"
+X-IronPort-AV: E=Sophos;i="4.90,971,1371106800"; d="scan'208";a="382857695"
 Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.44])
 	by orsmga001.jf.intel.com with ESMTP; 24 Sep 2013 08:09:59 -0700
 From: Saul Wold <sgw@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2013 08:09:57 -0700
-Message-Id: <1380035398-32760-2-git-send-email-sgw@linux.intel.com>
+Date: Tue, 24 Sep 2013 08:09:58 -0700
+Message-Id: <1380035398-32760-3-git-send-email-sgw@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1380035398-32760-1-git-send-email-sgw@linux.intel.com>
 References: <1380035398-32760-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 1/2] texi2html: remove po.m4 patch
+Subject: [PATCH 2/2] wget: remove po.m4 patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +38,22 @@ it since the version aclocal-copy version is correct (has gettext version
 
 Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- .../texi2html/texi2html-5.0/fix_gettext_version.patch       | 13 -------------
+ meta/recipes-extended/wget/wget-1.14/fix_makefile.patch | 13 -------------
  1 file changed, 13 deletions(-)
 
-diff --git a/meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch b/meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch
-index 35c119b..d1c9fe5 100644
---- a/meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch
-+++ b/meta/recipes-extended/texi2html/texi2html-5.0/fix_gettext_version.patch
-@@ -29,16 +29,3 @@ Index: texi2html-5.0/po_messages/Makefile.in.in
+diff --git a/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch b/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
+index b76a017..8ad7c62 100644
+--- a/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
++++ b/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
+@@ -31,16 +31,3 @@ Index: wget-1.12/configure.ac
   
-  PACKAGE = @PACKAGE@
-  VERSION = @VERSION@
--Index: texi2html-5.0/m4/po.m4
+  AC_PROG_RANLIB
+  
+-Index: wget-1.12/m4/po.m4
 -===================================================================
----- texi2html-5.0.orig/m4/po.m4
--+++ texi2html-5.0/m4/po.m4
--@@ -29,7 +29,7 @@ AC_DEFUN([AM_PO_SUBDIRS],
+---- wget-1.12.orig/m4/po.m4	2009-09-04 09:31:54.000000000 -0700
+-+++ wget-1.12/m4/po.m4	2011-10-19 20:33:53.426812176 -0700
+-@@ -30,7 +30,7 @@
 - 
 -   dnl Release version of the gettext macros. This is used to ensure that
 -   dnl the gettext macros and po/Makefile.in.in are in sync.
