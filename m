@@ -1,22 +1,44 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 412896CAC6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f182.google.com (mail-ve0-f182.google.com
+	[209.85.128.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C004D6C994
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 15:09:59 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 24 Sep 2013 08:06:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,971,1371106800"; d="scan'208";a="382857695"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.44])
-	by orsmga001.jf.intel.com with ESMTP; 24 Sep 2013 08:09:59 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2013 08:09:58 -0700
-Message-Id: <1380035398-32760-3-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1380035398-32760-1-git-send-email-sgw@linux.intel.com>
-References: <1380035398-32760-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/2] wget: remove po.m4 patch
+	Tue, 24 Sep 2013 16:34:40 +0000 (UTC)
+Received: by mail-ve0-f182.google.com with SMTP id oy12so3796387veb.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 24 Sep 2013 09:34:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=mdrTUifR/Nb5b4x+EhFLexvX1++6AXyQ3xLOgLP8vTw=;
+	b=WGXFsECK564KOZPOOXvAB96AH/cxHtiMfJ5fxAFZX2QCtK5VDmRA/UcGifRSABZRqr
+	r4g+k2I3cHFNUw8ZyTte5wfNA6f8NZncykAe+VQFchTkkznIZnfQyZvrxFzkVqtPIdaM
+	fzJPbO+JLlNpe+rE38SGsDKf1lLC9ejxn8VLyNQZdYdBzTZGp/gS6sijaEJcdQIbfRtQ
+	BvEuJj9PDgRl1r18ynbSt8orezbU2ojKWT71n4VbPoBp6+rAaR+dEKjcjLwoDasI3Sii
+	zE9ImuM57sOPIpOQu6tbo4H3DXNncfVUzV/T51Apn+91IOnnigCld4D2M29K8AXZTsII
+	OXog==
+X-Gm-Message-State: ALoCoQmbUfp7iAmLF4Pqvd3MNb6lg31kllT1cjom+vukQsmKguWtSAvDZPNDGSwgoWyTiW9cHVQq
+X-Received: by 10.52.118.73 with SMTP id kk9mr23692837vdb.13.1380040482457;
+	Tue, 24 Sep 2013 09:34:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Tue, 24 Sep 2013 09:34:22 -0700 (PDT)
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF843C5198BB@ALA-MBB.corp.ad.wrs.com>
+References: <1379114920-23851-1-git-send-email-jslater@windriver.com>
+	<CAMKF1spii+oAutyKLg0+k2Qdp-KccVzX+r0=tX57bBgYkxrMgA@mail.gmail.com>
+	<CAJTo0LazMZXn9bajiMwNhAPiQiry4onu3iZfHws8XKb=sb1BJQ@mail.gmail.com>
+	<523501AC.4010208@linux.intel.com> <5237E49C.7090608@windriver.com>
+	<CAMKF1sqDxGyVnrap0=Jsq=iMFGnXkupjuWnTSwxzBv8K4tqzPg@mail.gmail.com>
+	<20130917103029.GA7313@jama>
+	<CAJTo0LY0yOaFyn0+DiTgag2bJ4qJ5XM0-=Vz7EMN8ajXsseiiw@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF843C5198BB@ALA-MBB.corp.ad.wrs.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 24 Sep 2013 17:34:22 +0100
+Message-ID: <CAJTo0Lb-kjzX_=zRLc5q67xG3tWM4hn5dztj2XDd1w2md_smJg@mail.gmail.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] webkit-gtk: limit ld memory requirement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +51,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2013 15:09:59 -0000
+X-List-Received-Date: Tue, 24 Sep 2013 16:34:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-With the seperation of the sourcedir (S) and builddir (B), the po.m4 file
-is removed from S during autotools do_configure() so there no need to patch
-it since the version aclocal-copy version is correct (has gettext version
-0.18 specificed.
+On 23 September 2013 22:51, Slater, Joseph <joe.slater@windriver.com> wrote:
+>> Anyone else want to add a data point?
+>
+> I am the only user on the machine below.  I compiled twice, each way --
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-extended/wget/wget-1.14/fix_makefile.patch | 13 -------------
- 1 file changed, 13 deletions(-)
+[snip]
 
-diff --git a/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch b/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
-index b76a017..8ad7c62 100644
---- a/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
-+++ b/meta/recipes-extended/wget/wget-1.14/fix_makefile.patch
-@@ -31,16 +31,3 @@ Index: wget-1.12/configure.ac
-  
-  AC_PROG_RANLIB
-  
--Index: wget-1.12/m4/po.m4
--===================================================================
----- wget-1.12.orig/m4/po.m4	2009-09-04 09:31:54.000000000 -0700
--+++ wget-1.12/m4/po.m4	2011-10-19 20:33:53.426812176 -0700
--@@ -30,7 +30,7 @@
-- 
--   dnl Release version of the gettext macros. This is used to ensure that
--   dnl the gettext macros and po/Makefile.in.in are in sync.
---  AC_SUBST([GETTEXT_MACRO_VERSION], [0.17])
--+  AC_SUBST([GETTEXT_MACRO_VERSION], [0.18])
-- 
--   dnl Perform the following tests also if --disable-nls has been given,
--   dnl because they are needed for "make dist" to work.
--- 
-1.8.3.1
+Unless I'm reading that wrong, it looks like again its actually a
+small win to use -no-keep-memory.  Sounds like we should just add it.
 
+Ross
 
