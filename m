@@ -1,30 +1,20 @@
-Return-Path: <mihaix.lindner@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 10920601D6
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id ECE3A60F54
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 09:59:18 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 24 Sep 2013 02:59:20 -0700
+	Tue, 24 Sep 2013 10:52:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 24 Sep 2013 03:49:45 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,969,1371106800"; d="scan'208";a="406320217"
-Received: from linux.jf.intel.com (HELO linux.intel.com) ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 24 Sep 2013 02:59:19 -0700
-Received: from [10.237.105.31] (unknown [10.237.105.31])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 2BAF22C8001;
-	Tue, 24 Sep 2013 02:59:16 -0700 (PDT)
-Message-ID: <1380016738.3325.4.camel@mlindnex-mobl1.ger.corp.intel.com>
-From: Mihai Lindner <mihaix.lindner@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="4.90,970,1371106800"; d="scan'208";a="408262210"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.52])
+	by orsmga002.jf.intel.com with ESMTP; 24 Sep 2013 03:52:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2013 12:58:58 +0300
-In-Reply-To: <cover.1379969542.git.dvhart@linux.intel.com>
-References: <cover.1379969542.git.dvhart@linux.intel.com>
-Organization: Intel OTC
-X-Mailer: Evolution 3.6.4 
-Mime-Version: 1.0
-Cc: Darren Hart <dvhart@linux.intel.com>
-Subject: Re: [PATCH 0/2] EFI Installer Fixes
+Date: Tue, 24 Sep 2013 11:52:39 +0100
+Message-Id: <1380019959-18268-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] scripts/runqemu: write temp file into correct location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2013 09:59:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 24 Sep 2013 10:52:51 -0000
 
-On Mon, 2013-09-23 at 13:54 -0700, Darren Hart wrote:
-> Fix two bugs reported against the efi installer script when testing on the
-> MinnowBoard.
-> 
-> Patches have been tested together, successfully installing from USB to SD on the
-> MinnowBoard and booting without any manual manipulation of the installation
-> media after the fact.
-> 
-> The following changes since commit bf6b0d95db3863a2cfbccb154c0c7ad5b3bbf0b0:
-> 
->   glib-2.0: fix broken python script header on machines using buildtools (2013-09-22 12:23:35 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.yoctoproject.org/poky-contrib dvhart/efi-installer
->   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=dvhart/efi-installer
-> 
-> Darren Hart (2):
->   init-install-efi.sh: Fix root= specification
->   init-install-efi.sh: Remove unnecessary udev rules file to avoid
->     errors
-> 
->  .../initrdscripts/files/init-install-efi.sh        |    7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
+We want the temporary file to be written in /tmp not the current
+directory.
 
-Both fixed; tested here also.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
-
---
-Mihai Lindner
-Yocto Project QA
-Intel OTC
+diff --git a/scripts/runqemu b/scripts/runqemu
+index efab1a2..eb950bc 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -340,7 +340,7 @@ setup_path_vars() {
+             exit 1; }
+ 
+         # We have bitbake in PATH, get the variable values from bitbake
+-        BITBAKE_ENV_TMPFILE=`mktemp runqemu.XXXXXXXXXX`
++        BITBAKE_ENV_TMPFILE=`mktemp --tmpdir runqemu.XXXXXXXXXX`
+         if [ "$?" != "0" ] ; then
+             echo "Error: mktemp failed for bitbake environment output"
+             exit 1
+-- 
+1.8.1.2
 
 
