@@ -1,24 +1,29 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E5F9610D7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F830610D7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 01:16:22 +0000 (UTC)
+	Tue, 24 Sep 2013 01:35:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8O1GN3C028604
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Sep 2013 18:16:23 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Mon, 23 Sep 2013 18:16:23 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Sep 2013 09:16:23 +0800
-Message-ID: <1379985383-5526-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8O1ZWeR003742
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 23 Sep 2013 18:35:32 -0700 (PDT)
+Received: from [128.224.162.242] (128.224.162.242) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
+	Mon, 23 Sep 2013 18:35:31 -0700
+Message-ID: <5240EC60.3090906@windriver.com>
+Date: Tue, 24 Sep 2013 09:35:28 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: [PATCH v2] ptest-runner: compatibile with busybox
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1379906677.git.liezhi.yang@windriver.com>
+	<620b9a68452878b620a520e585cf806db5e8d315.1379906677.git.liezhi.yang@windriver.com>
+	<CAJTo0LZJ7AgsHe3B9QCLWL8XBuBnmCBfpe6KnaxASykfMmT44w@mail.gmail.com>
+In-Reply-To: <CAJTo0LZJ7AgsHe3B9QCLWL8XBuBnmCBfpe6KnaxASykfMmT44w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] telepathy-mission-control: do_compile failed (race issue)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +36,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2013 01:16:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Sep 2013 01:35:31 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
 
-Do not use pushd, busybox does not support it if system only has busybox;
-Replace find command with ls to avoid some busybox's find unsupported options;
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../recipes-support/ptest-runner/files/ptest-runner |   19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+On 09/23/2013 10:07 PM, Burton, Ross wrote:
+> On 23 September 2013 06:54, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> This is a race issue, the _gen/gtypes.h and _gen/gtypes-body.h may
+>> write(remove/rename) _gen/gtypes.tmp at the same time, then there would
+>> be the error.
+>
+> Looks good.  Can you submit that patch against the upstream bug at
+> https://bugs.freedesktop.org/show_bug.cgi?id=69446 too?
 
-diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/recipes-support/ptest-runner/files/ptest-runner
-index ccb0434..3342413 100644
---- a/meta/recipes-support/ptest-runner/files/ptest-runner
-+++ b/meta/recipes-support/ptest-runner/files/ptest-runner
-@@ -7,24 +7,15 @@ do
- 
-     [ ! -d "$libdir" ] && continue
- 
--    cd "$libdir"
--    for x in `find -L ./ -name run-ptest -type f -perm /u+x,g+x`
-+    for x in `ls -d $libdir/*/ptest 2>/dev/null`
-     do
--        # test if a dir is linking to one that they are under same directory
--        # like perl5-->perl
--        ptestdir=`dirname $x|cut -f2 -d"/"`
--        if [ -h "$ptestdir" ]; then
--            linkdir=`readlink -f "$ptestdir"`
--            if [ `dirname "$linkdir"` = "$libdir" ]; then
--                continue
--            fi
--        fi
--    
-+        [ ! -f $x/run-ptest ] && continue
-+        [ -h `dirname $x` ] && continue
-+
-         date "+%Y-%m-%dT%H:%M"
-         echo "BEGIN: $x"
--        pushd `dirname "$x"`
-+        cd "$x"
-         ./run-ptest
--        popd
-         echo "END: $x"
-         date "+%Y-%m-%dT%H:%M"
-     done
--- 
-1.7.10.4
+thanks, I will.
 
+// Robert
+
+>
+> Acked-By: Ross Burton <ross.burton@intel.com>
+>
+> Ross
+>
+>
 
