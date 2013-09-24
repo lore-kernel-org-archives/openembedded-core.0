@@ -1,22 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D65B610FB
+Return-Path: <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+Received: from mailhost.eurogiciel.fr (mailhost.eurogiciel.fr [86.64.47.76])
+	by mail.openembedded.org (Postfix) with ESMTP id C028E6C99C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 14:45:17 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 24 Sep 2013 07:45:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,970,1371106800"; d="scan'208";a="298757483"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.44])
-	by AZSMGA002.ch.intel.com with ESMTP; 24 Sep 2013 07:45:18 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Tue, 24 Sep 2013 15:03:41 +0000 (UTC)
+Received: from (unknown [172.16.88.4]) by mailhost.eurogiciel.fr with smtp
+	id 6a23_8a47_5ee7c7f8_252b_11e3_81eb_a4badbe01a3a;
+	Tue, 24 Sep 2013 17:09:54 +0200
+Received: from 06s-venera.eurogiciel.fr ([172.16.92.15]) by
+	31l-syracuse.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959); 
+	Tue, 24 Sep 2013 17:03:42 +0200
+Received: from 44c-mariner.eurogiciel.fr ([172.16.96.15]) by
+	06s-venera.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959); 
+	Tue, 24 Sep 2013 17:03:41 +0200
+Received: from linux-7s87.rennes ([172.16.100.253]) by
+	44c-mariner.eurogiciel.fr with Microsoft SMTPSVC(6.0.3790.3959);
+	Tue, 24 Sep 2013 17:03:40 +0200
+From: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 24 Sep 2013 07:45:16 -0700
-Message-Id: <1380033916-31464-3-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1380033916-31464-1-git-send-email-sgw@linux.intel.com>
-References: <1380033916-31464-1-git-send-email-sgw@linux.intel.com>
-Subject: [PATCH 2/2] base-passwd: add shutdown group
+Date: Tue, 24 Sep 2013 17:01:53 +0200
+Message-Id: <1380034914-3792-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+X-Mailer: git-send-email 1.8.1.4
+X-OriginalArrivalTime: 24 Sep 2013 15:03:40.0311 (UTC)
+	FILETIME=[40E06270:01CEB937]
+Subject: [PATCH v2 1/2] wayland : Add wayland 1.2.0 bb file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,62 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2013 14:45:17 -0000
+X-List-Received-Date: Tue, 24 Sep 2013 15:03:42 -0000
 
-Since using useradd in sysvinit causes core-image-minimal to
-gain shadow utilites instead of using busybox, we add the
-shutdown group directly.
-
-[YOCTO #5230]
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+Signed-off-by: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
 ---
- .../base-passwd/base-passwd-3.5.26/add_shutdown.patch | 19 +++++++++++++++++++
- meta/recipes-core/base-passwd/base-passwd_3.5.26.bb   |  4 +++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/base-passwd/base-passwd-3.5.26/add_shutdown.patch
+ meta/recipes-graphics/wayland/wayland_1.2.0.bb | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/wayland_1.2.0.bb
 
-diff --git a/meta/recipes-core/base-passwd/base-passwd-3.5.26/add_shutdown.patch b/meta/recipes-core/base-passwd/base-passwd-3.5.26/add_shutdown.patch
+diff --git a/meta/recipes-graphics/wayland/wayland_1.2.0.bb b/meta/recipes-graphics/wayland/wayland_1.2.0.bb
 new file mode 100644
-index 0000000..eb75559
+index 0000000..f001b43
 --- /dev/null
-+++ b/meta/recipes-core/base-passwd/base-passwd-3.5.26/add_shutdown.patch
-@@ -0,0 +1,19 @@
++++ b/meta/recipes-graphics/wayland/wayland_1.2.0.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Wayland, a protocol between a compositor and clients"
++DESCRIPTION = "Wayland is a protocol for a compositor to talk to its clients \
++as well as a C library implementation of that protocol. The compositor can be \
++a standalone display server running on Linux kernel modesetting and evdev \
++input devices, an X application, or a wayland client itself. The clients can \
++be traditional applications, X servers (rootless or fullscreen) or other \
++display servers."
++HOMEPAGE = "http://wayland.freedesktop.org"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
++                    file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
 +
-+We need to have a shutdown group to allow the shutdown icon
-+to work correctly. Any users that want to use shutdown like
-+the xuser should be added to this group.
++SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "48d375afb15f3e68a72cf7b4fd8f4a63"
++SRC_URI[sha256sum] = "6b0439a017185bc5b2fed96c178bed3abf7f19188f3078f4d69fd3ce222d654c"
++inherit autotools pkgconfig
 +
-+Upstream-Status: Inapporpriate [Embedded]
++# We need wayland-native for the wayland-scanner utility
++BBCLASSEXTEND = "native"
 +
-+Signed-off-by: Saul Wold <sgw@linux.intel.com>
-+Index: base-passwd-3.5.26/group.master
-+===================================================================
-+--- base-passwd-3.5.26.orig/group.master
-++++ base-passwd-3.5.26/group.master
-+@@ -36,5 +36,6 @@ sasl:*:45:
-+ plugdev:*:46:
-+ staff:*:50:
-+ games:*:60:
-++shutdown:*:70:
-+ users:*:100:
-+ nogroup:*:65534:
-diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.26.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.26.bb
-index 1c7e6b0..2181ac7 100644
---- a/meta/recipes-core/base-passwd/base-passwd_3.5.26.bb
-+++ b/meta/recipes-core/base-passwd/base-passwd_3.5.26.bb
-@@ -7,7 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/b/base-passwd/base-passwd_${PV}.tar.gz \
-            file://nobash.patch \
--           file://input.patch"
-+           file://input.patch \
-+           file://add_shutdown.patch \
-+          "
- 
- SRC_URI[md5sum] = "74245e5c21dc74d9675c77cd8dfa02e6"
- SRC_URI[sha256sum] = "258a78317aa563143d10375c6e1e63a60898e503887f00fffd70b6b297c1b429"
++DEPENDS_virtclass-native = "expat-native libffi-native"
++DEPENDS = "expat libffi wayland-native"
++
++EXTRA_OECONF_virtclass-native = "--disable-documentation"
++EXTRA_OECONF = "--disable-documentation --disable-scanner"
 -- 
-1.8.3.1
+1.8.1.4
 
 
