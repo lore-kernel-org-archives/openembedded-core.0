@@ -1,24 +1,20 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D4B58610DC
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id F1F4C610DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2013 05:58:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8P5waji026732
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Sep 2013 22:58:36 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Tue, 24 Sep 2013 22:58:36 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Sep 2013 13:58:36 +0800
-Message-ID: <1380088716-12512-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-MIME-Version: 1.0
-Subject: [PATCH] makedevs: rectify the exit codes and handle the invalid parameter
+	Wed, 25 Sep 2013 09:32:45 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga101.ch.intel.com with ESMTP; 25 Sep 2013 02:32:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,977,1371106800"; d="scan'208";a="299122954"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by AZSMGA002.ch.intel.com with ESMTP; 25 Sep 2013 02:32:36 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Sep 2013 12:32:32 +0300
+Message-Id: <cover.1380101457.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 0/1] relocate_sdk.py: make it work also with python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +27,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2013 05:58:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 Sep 2013 09:32:48 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+Tests done:
+ * installed meta-toolchain using both python 2.7 and 3.2;
+ * compiled iptables with the installed toolchain;
 
-It is correct behaviours to output help and version information,
-and should return 0;
-When input parameter is invalid, print help information and exit.
+Thanks,
+Laurentiu
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c |    9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+The following changes since commit 4d8ab87d25ea6e59dc88375813ef88ee0ac813d0:
 
-diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-index cc3707b..5d2c45b 100644
---- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-+++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-@@ -465,8 +465,8 @@ int main(int argc, char **argv)
- 				error_msg_and_die("%s: not a proper device table file", optarg);
- 			break;
- 		case 'h':
--			fprintf(stderr, helptext);
--			exit(1);
-+			printf(helptext);
-+			exit(0);
- 		case 'r':
- 		case 'd':				/* for compatibility with mkfs.jffs, genext2fs, etc... */
- 			if (rootdir != default_rootdir) {
-@@ -476,8 +476,11 @@ int main(int argc, char **argv)
- 			break;
- 
- 		case 'v':
--			fprintf(stderr, "makedevs revision %.*s\n",
-+			printf("makedevs revision %.*s\n",
- 					(int) strlen(revtext) - 13, revtext + 11);
-+			exit(0);
-+		default:
-+			fprintf(stderr, helptext);
- 			exit(1);
- 		}
- 	}
+  build-appliance: Update SRCREV (2013-09-24 18:09:12 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lpalcu/b4866_sdk_relocate_script_fail_python3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lpalcu/b4866_sdk_relocate_script_fail_python3
+
+Laurentiu Palcu (1):
+  relocate_sdk.py: make it work also with python 3
+
+ scripts/relocate_sdk.py |   54 ++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 35 insertions(+), 19 deletions(-)
+
 -- 
-1.7.10.4
+1.7.9.5
 
 
