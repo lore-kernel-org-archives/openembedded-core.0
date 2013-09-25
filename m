@@ -1,28 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EF5B60EDA
+Return-Path: <darren.hart@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A0218610D4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2013 20:59:37 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8PKxLQB017460; Wed, 25 Sep 2013 21:59:21 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id llXeJLxTFTGN; Wed, 25 Sep 2013 21:59:21 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8PKxElx017456
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Wed, 25 Sep 2013 21:59:16 +0100
-Message-ID: <1380142751.18603.344.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 25 Sep 2013 21:59:11 +0100
-X-Mailer: Evolution 3.6.4-0ubuntu1 
+	Wed, 25 Sep 2013 21:05:16 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 25 Sep 2013 14:02:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,980,1371106800"; d="scan'208";a="383539893"
+Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.84]) ([10.7.201.84])
+	by orsmga001.jf.intel.com with ESMTP; 25 Sep 2013 14:05:18 -0700
+Message-ID: <1380143117.4035.144.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <darren.hart@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Wed, 25 Sep 2013 14:05:17 -0700
+In-Reply-To: <1380142751.18603.344.camel@ted>
+References: <1380142751.18603.344.camel@ted>
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
 Mime-Version: 1.0
-Cc: "Hart, Darren" <darren.hart@intel.com>
-Subject: [PATCH] runqemu: Use correct kvm CPU options for qemux86* with kvm
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] runqemu: Use correct kvm CPU options for qemux86* with kvm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,36 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2013 20:59:38 -0000
+X-List-Received-Date: Wed, 25 Sep 2013 21:05:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The existing -cpu host option caused kernel panics when people attempted to use
-the kvm option. After research and discussion, the best options appear to
-be the kvm32/kvm64 cpu types so lets use these instead. These resolve
-the kernel issues for me.
+On Wed, 2013-09-25 at 21:59 +0100, Richard Purdie wrote:
+> The existing -cpu host option caused kernel panics when people attempted to use
+> the kvm option. After research and discussion, the best options appear to
+> be the kvm32/kvm64 cpu types so lets use these instead. These resolve
+> the kernel issues for me.
+> 
+> [YOCTO #3908]
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-[YOCTO #3908]
+Makes a lot of sense to me:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/scripts/runqemu b/scripts/runqemu
-index efab1a2..12c58d9 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -265,7 +265,11 @@ if [ "x$KVM_ENABLED" = "xyes" ]; then
-         exit 1;
-     fi
-     if [ -w /dev/kvm -a -r /dev/kvm ]; then
--        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu host"
-+        if [ "x$MACHINE" = "xqemux86" ]; then
-+            SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu kvm32"
-+        elif [ "x$MACHINE" = "xqemux86-64" ]; then
-+            SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu kvm64"
-+        fi
-         KVM_ACTIVE="yes"
-     else
-         echo "You have no rights on /dev/kvm."
+Acked-by: Darren Hart <dvhart@linux.intel.com>
+
+> ---
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index efab1a2..12c58d9 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -265,7 +265,11 @@ if [ "x$KVM_ENABLED" = "xyes" ]; then
+>          exit 1;
+>      fi
+>      if [ -w /dev/kvm -a -r /dev/kvm ]; then
+> -        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu host"
+> +        if [ "x$MACHINE" = "xqemux86" ]; then
+> +            SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu kvm32"
+> +        elif [ "x$MACHINE" = "xqemux86-64" ]; then
+> +            SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm -cpu kvm64"
+> +        fi
+
+The above is fine, but it does raise the question of dealing with non
+oe-core BSPs with runqemu. For instance, there would be value in testing
+genericx86 and genericx86_64 in the same way. We can deal with that
+separately though I think as this solves an immediate problem and
+doesn't make it any worse for the case I mention.
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
 
 
 
