@@ -1,27 +1,19 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 32B3760FE1
+Return-Path: <eric@eukrea.com>
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 23FA260FE1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2013 15:52:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 25 Sep 2013 08:52:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,978,1371106800"; d="scan'208";a="400924090"
-Received: from pauljbro-mobl.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.120.48])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Sep 2013 08:52:22 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-Date: Wed, 25 Sep 2013 16:52:20 +0100
-Message-ID: <2149237.RBEObpR8u8@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-30-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <5242FB37.6030104@mentor.com>
-References: <1379595818-6019-1-git-send-email-muhammad_shakeel@mentor.com>
-	<5242FB37.6030104@mentor.com>
+	Wed, 25 Sep 2013 16:52:04 +0000 (UTC)
+Received: from buildor.local.eukrea.com (unknown [88.170.243.169])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 5AB51A63A6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 25 Sep 2013 18:52:01 +0200 (CEST)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Sep 2013 18:52:13 +0200
+Message-Id: <1380127933-18916-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.8.4.rc3
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] openssl: Add ca-certificates in RRECOMMENDS
+Subject: [PATCH] busybox: update mdev.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,52 +26,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2013 15:52:22 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 25 Sep 2013 16:52:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wednesday 25 September 2013 20:03:19 Muhammad Shakeel wrote:
-> On 09/19/2013 06:03 PM, Shakeel, Muhammad wrote:
-> > From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> > 
-> > In some situations ca-certificates are required along with openssl
-> > to communicate securely, i.e. curl trying to fetch contents through https.
-> > 
-> > Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> > ---
-> > 
-> >   meta/recipes-connectivity/openssl/openssl.inc |    2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/meta/recipes-connectivity/openssl/openssl.inc
-> > b/meta/recipes-connectivity/openssl/openssl.inc index 78ff7ae..cf60d4b
-> > 100644
-> > --- a/meta/recipes-connectivity/openssl/openssl.inc
-> > +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> > @@ -13,6 +13,8 @@ LIC_FILES_CHKSUM =
-> > "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"> 
-> >   DEPENDS = "perl-native-runtime"
-> > 
-> > +RRECOMMENDS_${PN} = "ca-certificates"
-> > +
-> > 
-> >   SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-> >   
-> >             "
-> >   
-> >   S = "${WORKDIR}/openssl-${PV}"
-> 
-> Any feedback on this?
+busybox 1.21.1 's mdev has changed the way the device's name is
+reported so now we get input/event0 instead of event0.
+I think this commit is responsible of this new behaviour :
+http://git.busybox.net/busybox/commit/util-linux/mdev.c?id=c3cf1e30a3022453311a7e9fe11d94c7a381640e
 
-I could be wrong, but this doesn't seem like the right thing to do. Surely 
-individual *applications* that need ca-certificates in conjunction with OpenSSL 
-should be adding it to their RRECOMMENDS?
+Update mdev.conf according to this behaviour so that sound
+and input devices are correctly populated (and now
+/etc/mdev/find-touchscreen.sh is executed).
 
-Cheers,
-Paul
+Tested on an arm board.
 
+Signed-off-by: Eric Bénard <eric@eukrea.com>
+---
+ meta/recipes-core/busybox/files/mdev.conf | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-core/busybox/files/mdev.conf b/meta/recipes-core/busybox/files/mdev.conf
+index 0e1d6bc..e688911 100644
+--- a/meta/recipes-core/busybox/files/mdev.conf
++++ b/meta/recipes-core/busybox/files/mdev.conf
+@@ -24,12 +24,14 @@ usbdev.* 0:0 0660 */etc/mdev/usb.sh
+ vcs.* 0:5 0660 
+ zero 0:0 0666 
+  
+-pcm.* 0:0 0660 =snd/ 
+-control.* 0:0 0660 =snd/ 
+-timer 0:0 0660 =snd/ 
++snd/pcm.* 0:0 0660
++snd/control.* 0:0 0660
++snd/timer 0:0 0660
++snd/seq 0:0 0660
++snd/mini.* 0:00 0660
+ 
+-event.* 0:0 0660 =input/ @/etc/mdev/find-touchscreen.sh
+-mice 0:0 0660 =input/ 
+-mouse.* 0:0 0660 =input/
++input/event.* 0:0 0660 @/etc/mdev/find-touchscreen.sh
++input/mice 0:0 0660
++input/mouse.* 0:0 0660
+ 
+ tun[0-9]* 0:0 0660 =net/
 -- 
+1.8.4.rc3
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
