@@ -1,33 +1,24 @@
-Return-Path: <Muhammad_Shakeel@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id DC79F610DA
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 45A8461005
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2013 15:01:45 +0000 (UTC)
-Received: from svr-orw-fem-01.mgc.mentorg.com ([147.34.98.93])
-	by relay1.mentorg.com with esmtp 
-	id 1VOqb5-00022D-Gu from Muhammad_Shakeel@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Wed, 25 Sep 2013 08:01:47 -0700
-Received: from SVR-IES-FEM-01.mgc.mentorg.com ([137.202.0.104]) by
-	svr-orw-fem-01.mgc.mentorg.com over TLS secured channel with
-	Microsoft SMTPSVC(6.0.3790.4675); Wed, 25 Sep 2013 08:01:46 -0700
-Received: from [137.202.157.119] (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.2.247.3; Wed, 25 Sep 2013 16:01:46 +0100
-Message-ID: <5242FB37.6030104@mentor.com>
-Date: Wed, 25 Sep 2013 20:03:19 +0500
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <1379595818-6019-1-git-send-email-muhammad_shakeel@mentor.com>
-In-Reply-To: <1379595818-6019-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Originating-IP: [137.202.0.76]
-X-OriginalArrivalTime: 25 Sep 2013 15:01:46.0934 (UTC)
-	FILETIME=[27B62D60:01CEBA00]
-Subject: Re: [PATCH] openssl: Add ca-certificates in RRECOMMENDS
+	Wed, 25 Sep 2013 15:40:34 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 25 Sep 2013 08:37:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,978,1371106800"; d="scan'208";a="409209634"
+Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
+	by orsmga002.jf.intel.com with ESMTP; 25 Sep 2013 08:40:33 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 25 Sep 2013 18:40:28 +0300
+Message-Id: <e411ce5674b14719d0f6e2e30d109451e330a35c.1380123317.git.laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1380123317.git.laurentiu.palcu@intel.com>
+References: <cover.1380123317.git.laurentiu.palcu@intel.com>
+In-Reply-To: <cover.1380123317.git.laurentiu.palcu@intel.com>
+References: <cover.1380123317.git.laurentiu.palcu@intel.com>
+Subject: [PATCH 1/2] adt-installer: check if sudo is needed when installing target sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +31,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2013 15:01:45 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 25 Sep 2013 15:40:35 -0000
 
-On 09/19/2013 06:03 PM, Shakeel, Muhammad wrote:
-> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
->
-> In some situations ca-certificates are required along with openssl
-> to communicate securely, i.e. curl trying to fetch contents through https.
->
-> Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
-> ---
->   meta/recipes-connectivity/openssl/openssl.inc |    2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-> index 78ff7ae..cf60d4b 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -13,6 +13,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f9a8f968107345e0b75aa8c2ecaa7ec8"
->   
->   DEPENDS = "perl-native-runtime"
->   
-> +RRECOMMENDS_${PN} = "ca-certificates"
-> +
->   SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
->             "
->   S = "${WORKDIR}/openssl-${PV}"
+Currently, if SDK is installed in a directory that needs sudo
+preivileges, the target sysroot is also installed with sudo, even though
+the location is in users's home directory.
 
-Any feedback on this?
+This patch reuses the ownership checking code and uses it to check if
+sudo is needed for target sysroot too.
 
-Thanks,
-Shakeel
+[YOCTO #5259]
+
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
+---
+ .../adt-installer/scripts/adt_installer_internal   |   51 ++++++++++++--------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
+
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+index abed90d..ebfdf2a 100755
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/adt_installer_internal
+@@ -42,6 +42,28 @@ parse_config()
+   esac
+ }
+ 
++get_sudo_app()
++{
++  username=$(id -nu)
++
++  # find the owner of the parent
++  dir=$1
++  while [ 1 ]; do
++      if [ -d $dir ]; then
++          owner=$(stat -c %U $dir)
++          break
++     else
++          dir=$(dirname $dir)
++     fi
++  done
++
++  if [ "$owner" = "$username" ]; then
++      true
++  else
++      echo sudo
++  fi
++}
++
+ 
+ #let us install a qemu-native firstly
+ #installation step 2
+@@ -60,26 +82,11 @@ fi
+ 
+ #Now begin to install native sdk and extract qemu rootfs which needs privilege rights
+ #depending on the install location
+-username=$(id -nu)
+-
+-# find the owner of the parent
+-dir=$NATIVE_INSTALL_DIR
+-while [ 1 ]; do
+-    if [ -d $dir ]; then
+-        owner=$(stat -c %U $dir)
+-        break
+-   else
+-        dir=$(dirname $dir)
+-   fi
+-done
+-
+-if [ "$owner" = "$username" ]; then
+-    SUDO=""
+-else
+-    echo_info "#######################################################################"
+-    echo_info "Please note from this point on installation requires sudo password ..."
+-    echo_info "#######################################################################"
+-    SUDO=sudo
++SUDO=$(get_sudo_app $NATIVE_INSTALL_DIR)
++if [ -n "$SUDO" ]; then
++  echo_info "#######################################################################"
++  echo_info "Please note from this point on installation requires sudo password ..."
++  echo_info "#######################################################################"
+ fi
+ 
+ #we need to make this directory firstly since opkg need to use it.
+@@ -249,6 +256,9 @@ target_machine=`eval echo $target_machine_var`
+ sysroot_image_name="core-image-$target_sysroot_image-$target_machine.tar.bz2"
+     #echo_info "Extracting rootfs: $sysroot_image_name, using pseudo..."
+ 
++# sudo password might be needed to install the target sysroot
++SUDO=$(get_sudo_app $target_sysroot)
++
+ $SUDO scripts/extract_rootfs $sysroot_image_name $target_sysroot $OECORE_NATIVE_SYSROOT $user_inst_type
+ check_result
+ 
+@@ -260,6 +270,7 @@ else
+ fi
+ 
+ if [ ! -z "$env_filename" ]; then
++  SUDO=$(get_sudo_app $INSTALL_FOLDER)
+   $SUDO sed -i -e "s%##SDKTARGETSYSROOT##%$target_sysroot%g" $env_filename
+ else
+   echo_info "[ADT_INST] Error: Failed to find environment script for arch: $1"
+-- 
+1.7.9.5
+
 
