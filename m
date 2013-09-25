@@ -1,24 +1,35 @@
-Return-Path: <laurentiu.palcu@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 86A696CA88
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D57B610DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2013 09:32:46 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga101.ch.intel.com with ESMTP; 25 Sep 2013 02:32:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,977,1371106800"; d="scan'208";a="299122962"
-Received: from lpalcu-linux.rb.intel.com ([10.237.105.165])
-	by AZSMGA002.ch.intel.com with ESMTP; 25 Sep 2013 02:32:37 -0700
-From: Laurentiu Palcu <laurentiu.palcu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 25 Sep 2013 12:32:33 +0300
-Message-Id: <16bbed145ac2cffbf9e88a587a670383ebb18c74.1380101457.git.laurentiu.palcu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1380101457.git.laurentiu.palcu@intel.com>
-References: <cover.1380101457.git.laurentiu.palcu@intel.com>
-In-Reply-To: <cover.1380101457.git.laurentiu.palcu@intel.com>
-References: <cover.1380101457.git.laurentiu.palcu@intel.com>
-Subject: [PATCH 1/1] relocate_sdk.py: make it work also with python 3
+	Wed, 25 Sep 2013 10:03:31 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8PA3QSC024645; Wed, 25 Sep 2013 11:03:26 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id iDhEcaYCzaKI; Wed, 25 Sep 2013 11:03:26 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r8PA3NDa024637
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Wed, 25 Sep 2013 11:03:25 +0100
+Message-ID: <1380103400.18603.318.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.c.nystrom@gmail.com>
+Date: Wed, 25 Sep 2013 11:03:20 +0100
+In-Reply-To: <5241A215.4020501@gmail.com>
+References: <1379954041-5575-1-git-send-email-david.nystrom@enea.com>
+	<1379954041-5575-2-git-send-email-david.nystrom@enea.com>
+	<5240820E.5020407@windriver.com>
+	<CAAKB1h2tRBDowRYZ9vOXduTCy0Fg4aoD+fJmVkN7vZ=XqzWpEg@mail.gmail.com>
+	<1379970871.18603.265.camel@ted> <1380011114.18603.270.camel@ted>
+	<5241A215.4020501@gmail.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] shadow: Create recipe nativesdk-shadow
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,171 +42,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Sep 2013 09:32:48 -0000
+X-List-Received-Date: Wed, 25 Sep 2013 10:03:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Strings in Python 3, by default, are assumed to contain unicode
-characters. In previous versions of python (<3), unicode strings are
-explicitly declared with u"abc". If not, than they're automatically
-converted to bytes. This doesn't happen anymore in Python 3.
+On Tue, 2013-09-24 at 16:30 +0200, David Nyström wrote:
+> I'm have a question about this though.
+> 
+> diff --git a/meta/recipes-extended/shadow/shadow.inc 
+> b/meta/recipes-extended/shadow/shadow.inc
+> index 4df5e5e..75b0afc 100644
+> --- a/meta/recipes-extended/shadow/shadow.inc
+> +++ b/meta/recipes-extended/shadow/shadow.inc
+> <snip>
+> +pkg_postinst_${PN} () {
+> +	if [ "x$D" != "x" ]; then
+> +	  rootarg="--root=$D"
+> +	else
+> +	  rootarg=""
+> +	fi
+> +
+> +	pwconv $rootarg
+> +	grpconv $rootarg
+> +}
+> <snip>
+> 
+> This will introduce the postinstall hook for both ${BPN}-native and 
+> ${BPN} ?. Before the change, the postinstall hook was activated only by 
+> ${BPN} afaict. Tried removing it from native* through 
+> pkg_postinst_${BPN}, but that does not seem to work.
 
-Since we're dealing with binary files, opened in byte mode, make sure
-that we explicitly convert all strings to bytes to make both python 2
-and 3 happy.
+Basically the postinst is ignored for the -native version. It never gets
+packaged so isn't relevant. Adding in special cases for native for each
+and every recipe would get ugly very quickly.
 
-Other changes:
- * add a safety check to make sure relocation did not change the file
-   size;
- * a couple of cosmetic changes (wrap long lines so that we don't have
-   to scroll to reach the end of them);
+> Hmm, slightly off-topic, but when looking at the postinstalls:
+> 
+> shadow:
+> cat /tmp/opkg-extract-574/CONTROL/postinst
+> 	if [ "x$D" != "x" ]; then
+> 	  rootarg="--root=$D"
+> 	else
+> 	  rootarg=""
+> 	fi
+> 
+> 	pwconv $rootarg
+> 	grpconv $rootarg
+> 	update-alternatives --install /usr/bin/passwd passwd 
+> /usr/bin/passwd.shadow 200
+> 	update-alternatives --install /usr/bin/chfn chfn /usr/bin/chfn.shadow 200
+> 	update-alternatives --install /usr/bin/newgrp newgrp 
+> /usr/bin/newgrp.shadow 200
+> 
+> Above is not a problem since OPKG_OFFLINE_ROOT in update-alternatives 
+> can be used to redirect symlink creation when creating a from a package 
+> repo.
+> 
+> nativesdk-shadow:
+> if [ "x$D" != "x" ]; then
+> 	  rootarg="--root=$D"
+> 	else
+> 	  rootarg=""
+> 	fi
+> 
+> 	pwconv $rootarg
+> 	grpconv $rootarg
+> 	update-alternatives --install 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/passwd 
+> passwd 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/passwd.shadow 
+> 200
+> 	update-alternatives --install 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/chfn chfn 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/chfn.shadow 200
+> 	update-alternatives --install 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/newgrp 
+> newgrp 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/newgrp.shadow 
+> 200
+> 	update-alternatives --install 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/chsh chsh 
+> /opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/usr/bin/chsh.shadow 200
+> 
+> Could we not add a "--root" option to update-alternatives like done to 
+> update-rc.d instead of hardcoding paths or using envs.
 
-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
----
- scripts/relocate_sdk.py |   54 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 35 insertions(+), 19 deletions(-)
+nativesdk are built to run in that specific path. We're therefore not
+installing them to some subdirectory where a root makes sense, the
+prefix really was /opt/xxx. We then manipulate things later to make them
+more relocatable.
 
-diff --git a/scripts/relocate_sdk.py b/scripts/relocate_sdk.py
-index 1d7bbb3..fe6e4e0 100755
---- a/scripts/relocate_sdk.py
-+++ b/scripts/relocate_sdk.py
-@@ -31,7 +31,7 @@ import os
- import re
- import errno
- 
--old_prefix = re.compile("##DEFAULT_INSTALL_DIR##")
-+old_prefix = re.compile(b"##DEFAULT_INSTALL_DIR##")
- 
- def get_arch():
-     f.seek(0)
-@@ -92,12 +92,15 @@ def change_interpreter(elf_file_name):
-             # External SDKs with mixed pre-compiled binaries should not get
-             # relocated so look for some variant of /lib
-             fname = f.read(11)
--            if fname.startswith("/lib/") or fname.startswith("/lib64/") or fname.startswith("/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib32/") or fname.startswith("/usr/lib64/"):
-+            if fname.startswith(b"/lib/") or fname.startswith(b"/lib64/") or \
-+               fname.startswith(b"/lib32/") or fname.startswith(b"/usr/lib32/") or \
-+               fname.startswith(b"/usr/lib32/") or fname.startswith(b"/usr/lib64/"):
-                 break
-             if (len(new_dl_path) >= p_filesz):
--                print "ERROR: could not relocate %s, interp size = %i and %i is needed." % (elf_file_name, p_memsz, len(new_dl_path) + 1)
-+                print("ERROR: could not relocate %s, interp size = %i and %i is needed." \
-+                    % (elf_file_name, p_memsz, len(new_dl_path) + 1))
-                 break
--            dl_path = new_dl_path + "\0" * (p_filesz - len(new_dl_path))
-+            dl_path = new_dl_path + b"\0" * (p_filesz - len(new_dl_path))
-             f.seek(p_offset)
-             f.write(dl_path)
-             break
-@@ -129,40 +132,40 @@ def change_dl_sysdirs():
-         sh_name, sh_type, sh_flags, sh_addr, sh_offset, sh_size, sh_link,\
-             sh_info, sh_addralign, sh_entsize = struct.unpack(sh_fmt, sh_hdr)
- 
--        name = sh_strtab[sh_name:sh_strtab.find("\0", sh_name)]
-+        name = sh_strtab[sh_name:sh_strtab.find(b"\0", sh_name)]
- 
-         """ look only into SHT_PROGBITS sections """
-         if sh_type == 1:
-             f.seek(sh_offset)
-             """ default library paths cannot be changed on the fly because  """
-             """ the string lengths have to be changed too.                  """
--            if name == ".sysdirs":
-+            if name == b".sysdirs":
-                 sysdirs = f.read(sh_size)
-                 sysdirs_off = sh_offset
-                 sysdirs_sect_size = sh_size
--            elif name == ".sysdirslen":
-+            elif name == b".sysdirslen":
-                 sysdirslen = f.read(sh_size)
-                 sysdirslen_off = sh_offset
--            elif name == ".ldsocache":
-+            elif name == b".ldsocache":
-                 ldsocache_path = f.read(sh_size)
-                 new_ldsocache_path = old_prefix.sub(new_prefix, ldsocache_path)
-                 # pad with zeros
--                new_ldsocache_path += "\0" * (sh_size - len(new_ldsocache_path))
-+                new_ldsocache_path += b"\0" * (sh_size - len(new_ldsocache_path))
-                 # write it back
-                 f.seek(sh_offset)
-                 f.write(new_ldsocache_path)
- 
-     if sysdirs != "" and sysdirslen != "":
--        paths = sysdirs.split("\0")
--        sysdirs = ""
--        sysdirslen = ""
-+        paths = sysdirs.split(b"\0")
-+        sysdirs = b""
-+        sysdirslen = b""
-         for path in paths:
-             """ exit the loop when we encounter first empty string """
--            if path == "":
-+            if path == b"":
-                 break
- 
-             new_path = old_prefix.sub(new_prefix, path)
--            sysdirs += new_path + "\0"
-+            sysdirs += new_path + b"\0"
- 
-             if arch == 32:
-                 sysdirslen += struct.pack("<L", len(new_path))
-@@ -170,7 +173,7 @@ def change_dl_sysdirs():
-                 sysdirslen += struct.pack("<Q", len(new_path))
- 
-         """ pad with zeros """
--        sysdirs += "\0" * (sysdirs_sect_size - len(sysdirs))
-+        sysdirs += b"\0" * (sysdirs_sect_size - len(sysdirs))
- 
-         """ write the sections back """
-         f.seek(sysdirs_off)
-@@ -178,13 +181,19 @@ def change_dl_sysdirs():
-         f.seek(sysdirslen_off)
-         f.write(sysdirslen)
- 
--
- # MAIN
- if len(sys.argv) < 4:
-     sys.exit(-1)
- 
--new_prefix = sys.argv[1]
--new_dl_path = sys.argv[2]
-+# In python > 3, strings may also contain Unicode characters. So, convert
-+# them to bytes
-+if sys.version_info < (3,):
-+    new_prefix = sys.argv[1]
-+    new_dl_path = sys.argv[2]
-+else:
-+    new_prefix = sys.argv[1].encode()
-+    new_dl_path = sys.argv[2].encode()
-+
- executables_list = sys.argv[3:]
- 
- for e in executables_list:
-@@ -196,7 +205,7 @@ for e in executables_list:
- 
-     try:
-         f = open(e, "r+b")
--    except IOError, ioex:
-+    except IOError as ioex:
-         if ioex.errno == errno.ETXTBSY:
-             print("Could not open %s. File used by another process.\nPlease "\
-                   "make sure you exit all processes that might use any SDK "\
-@@ -205,6 +214,9 @@ for e in executables_list:
-             print("Could not open %s: %s(%d)" % (e, ioex.strerror, ioex.errno))
-         sys.exit(-1)
- 
-+    # Save old size and do a size check at the end. Just a safety measure.
-+    old_size = os.path.getsize(e)
-+
-     arch = get_arch()
-     if arch:
-         parse_elf_header()
-@@ -217,3 +229,7 @@ for e in executables_list:
- 
-     f.close()
- 
-+    if old_size != os.path.getsize(e):
-+        print("New file size for %s is different. Looks like a relocation error!", e)
-+        sys.exit(-1)
-+
--- 
-1.7.9.5
+> 
+> Also, seems like ${sysconfdir} in the nativesdk-opkg postinstall expands to:
+> 
+> chmod 0755 $D${sysconfdir}/rcS.d/S${POSTINSTALL_INITPOSITION}run-postinsts
+> chmod 0755 
+> $D/opt/poky/1.4+snapshot/sysroots/x86_64-pokysdk-linux/etc/rcS.d/S98run-postinsts
+> 
+> Is this really expected behaviour ?
+
+nativesdk postinstalls are probably badly handled at the moment. I
+suspect if things can run at rootfs creation time they work out, if they
+can't run then, they never happen at all. We don't have a "first boot"
+of the sdk...
+
+Cheers,
+
+Richard
 
 
