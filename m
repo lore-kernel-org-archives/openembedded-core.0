@@ -1,26 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BA056CA8D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
+	[74.125.82.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1358761105
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 10:02:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8QA24N3012407
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 26 Sep 2013 10:41:40 +0000 (UTC)
+Received: by mail-we0-f170.google.com with SMTP id w62so948475wes.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 03:02:04 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.213) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 26 Sep 2013 03:02:04 -0700
-From: <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Sep 2013 18:02:07 +0800
-Message-ID: <936abdfba1f8b3edf2f5dbfc6be803354798c4d2.1380189657.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1380189657.git.Qi.Chen@windriver.com>
-References: <cover.1380189657.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH V2 1/1] sysvinit: fix missing of boot log
+	Thu, 26 Sep 2013 03:41:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=QHoR92GqkRK8e1CSsWgz1l9GKU2PpqTpDoIiQvf6CWs=;
+	b=ZMSk5GU9U7AHRWbaFUAaYyGDmFjIuDHTI5kR4+9+fD3op5xKAw3z2LTquVSCYmDg3S
+	qJVsFV9S9WTtKRycqeGaDjHTc8lV7pVGBbdNC18+mmarRKIAyaEUWGfOKoPlbPxqb/vt
+	4K6a55Inrct9n5LtXcdUPDyytv2a+yXfXIoiho3tmz+I6oIXb29yxdr7aixOWpJy/8oZ
+	wfgM0cQ1eT7ajPkx6Y7ufnLAAwnNhD/x3IsXq8IhqSmfO1v02ApQMrQe8bn188/otUOQ
+	UyU+utRsGVuMOL20ZI8HtZUtLfDf+ln+g3wfkEJ889vUvSSDnm3O7NSsYeNf+Uw4UtuB
+	YXRQ==
+X-Gm-Message-State: ALoCoQmJCaJI2ceOvRFl+i+CL9pjWmzh6mzE5XO1r/lgI5mKvIco/Q8Twi4PGCV6XhJruStiHUpx
+X-Received: by 10.180.91.16 with SMTP id ca16mr104418wib.57.1380192101976;
+	Thu, 26 Sep 2013 03:41:41 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id i8sm2167817wiy.6.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 26 Sep 2013 03:41:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Sep 2013 11:41:35 +0100
+Message-Id: <1380192096-19856-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/2] pseudo: use bbnote/bbwarn instead of echo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 10:02:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Sep 2013 10:41:43 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+In the future bbnote/bbwarn will be integrated into bitbake's logging, so use
+those functions instead of echo directly.
 
-Previously, our system had no boot log even if the bootlogd daemon was
-started correctly. The root cause is that the log file doesn't exist
-when starting the bootlogd.
-
-Add '-c' option to bootlogd so that it will create the boot log if
-it doesn't exist.
-
-Besides, we need to make sure that tmpfs has been mounted. Otherwise,
-the boot log will still be missing.
-
-[YOCTO #5273]
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/sysvinit/sysvinit/bootlogd.init |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/pseudo/pseudo.inc |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-index 7b87827..3a10a3c 100755
---- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-+++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-@@ -42,14 +42,15 @@ esac
- 
- case "$ACTION" in
- 	start)
-+		mount -a -t tmpfs 2>/dev/null
- 		echo -n "Starting $DESC: "
- 		if [ -d /proc/1/. ]
- 		then
- 			umask 027
- 			start-stop-daemon --start --quiet \
--				--exec $DAEMON -- -r
-+				--exec $DAEMON -- -r -c
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index a4b7aaf..a287629 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -56,15 +56,15 @@ maybe_make32() {
+ 	fi
+ 	if $make32; then
+ 		if ! [ -e "/usr/include/gnu/stubs-32.h" ]; then
+-			echo >&2 "WARNING: Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
+-			echo >&2 "If the build fails, install 32-bit developer packages."
+-			echo >&2 "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
++			bbwarn "Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
++			bbwarn "If the build fails, install 32-bit developer packages."
++			bbwarn "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
  		else
--			$DAEMON -r
-+			$DAEMON -r -c
+-			echo "Attempting to build 32-bit libpseudo.so for ${PN}."
++			bbnote "Attempting to build 32-bit libpseudo.so for ${PN}."
  		fi
- 		echo "$NAME."
- 		;;
+ 	else
+-		echo "Building/installing only 64-bit libpseudo.so for ${PN}."
+-		echo "If you need to run 32-bit executables, ensure that NO32LIBS is set to 0."
++		bbnote "Building/installing only 64-bit libpseudo.so for ${PN}."
++		bbnote "If you need to run 32-bit executables, ensure that NO32LIBS is set to 0."
+ 	fi
+ }
+ 
 -- 
-1.7.9.5
+1.7.10.4
 
 
