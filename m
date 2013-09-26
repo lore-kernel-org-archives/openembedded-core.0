@@ -1,27 +1,25 @@
-Return-Path: <denis@denix.org>
-Received: from vms173007pub.verizon.net (vms173007pub.verizon.net
-	[206.46.173.7])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BAE46CA7E
+Return-Path: <dvhart@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id C977F6CB65
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 22:40:33 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173007.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MTR00E6W8APUH90@vms173007.mailsrvcs.net> for
-	Openembedded-core@lists.openembedded.org;
-	Thu, 26 Sep 2013 17:40:16 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 46FE720120; Thu,
-	26 Sep 2013 18:40:00 -0400 (EDT)
-Date: Thu, 26 Sep 2013 18:40:00 -0400
-From: Denys Dmytriyenko <denis@denix.org>
+	Thu, 26 Sep 2013 22:45:02 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Sep 2013 15:41:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,989,1371106800"; d="scan'208";a="384123051"
+Received: from dvhart-mobl4.jf.intel.com (HELO [10.7.201.176]) ([10.7.201.176])
+	by orsmga001.jf.intel.com with ESMTP; 26 Sep 2013 15:45:04 -0700
+Message-ID: <1380235504.32071.40.camel@dvhart-mobl4.amr.corp.intel.com>
+From: Darren Hart <dvhart@linux.intel.com>
 To: Jason Wessel <jason.wessel@windriver.com>
-Message-id: <20130926224000.GA31328@denix.org>
-References: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
-MIME-version: 1.0
-In-reply-to: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
+Date: Thu, 26 Sep 2013 15:45:04 -0700
+In-Reply-To: <1380234850-27169-1-git-send-email-jason.wessel@windriver.com>
+References: <1380234850-27169-1-git-send-email-jason.wessel@windriver.com>
+Organization: Intel
+X-Mailer: Evolution 3.8.5 (3.8.5-2.fc19) 
+Mime-Version: 1.0
 Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libtool-native_2.4.2.bb: Always use /bin/sed for SED
+Subject: Re: [PATCH] mkefidisk.sh: Allow using a loopback mounted file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,84 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 22:40:34 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Thu, 26 Sep 2013 22:45:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Feb 12, 2013 at 01:36:44PM -0600, Jason Wessel wrote:
-> If you never use sstate and always build everything from scratch you
-> will never see this problem.  However, if you use sstate and build
-> directories that last a long time eventually you can end up with the
-> scenario where libtool gets a hard coded path in it for sed, and sed
-> may not exist.  The reason you don't see this problem to often if you
-> generally build from scratch is that libtool builds before sed and
-> will pickup the host's /bin/sed.
-> 
-> The way to reproduce the issue is:
-> 
-> bitbake some_image
-> bitbake -c cleansstate libtool-native
-> bitbake sed-native
-> bitbake libtool-native
-> bitbake -c clean sed-native
-> bitbake ANY_PACKAGE_THAT_USES_LIBTOOL_NATIVE
-> 
-> In my case I used modphp, which doesn't exist in the oe-core. You will
-> end up with a strange looking error like:
-> 
-> | make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
-> | /opt/build/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool: line 981: /opt/build/bitbake_build/tmp/sysroots/x86_64-linux//bin/sed: No such file or directory
+On Thu, 2013-09-26 at 17:34 -0500, Jason Wessel wrote:
+> There is no reason not allow writing of direct boot disk images for
 
-Sorry for bringing up this old thread. I'm seeing these and similar errors now 
-(nothing really changed in my setup, but some race got them exposed).
+Nit:                    ^ to
 
-I do see that the proposed patch got merged all the way back in February. But 
-looks like it wasn't enough.
-
-I've just seen this error about missing sysroots/x86_64-linux//bin/sed coming 
-from nativesdk-gettext compilation while calling i686-linux-libtool, i.e. the 
-nativesdk version of libtool. Should be easy to duplicate the below patch for 
-libtool from native to nativesdk recipe.
-
-And another error was from sysroots/x86_64-linux/usr/bin/opkg-build during 
-do_package_write of some other package. Should opkg-utils-native be patched 
-the same?
-
-Denys
+> testing with simulators.  The easy way is to add loop back writing
+> capabilities.
 
 
-> The solution is to always use /bin/sed for libtool-native.
+Just note here that the /dev/loop device has the same partition prefix
+as mmc devices and requires special mkfs arguments.
+
+> Example:
+>   qemu-img create -f raw bigdisk 4G
+>   dev=`sudo losetup -f`
+>   sudo losetup $dev bigdisk
+>   mkefidisk.sh $dev tmp-eglibc/deploy/images/qemux86/core-image-minimal-qemux86.hddimg /dev/sda
+>   sudo losetup -d $dev
 > 
 > Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 > ---
->  .../libtool/libtool-native_2.4.2.bb                |    3 ++-
->  1 files changed, 2 insertions(+), 1 deletions(-)
+>  scripts/contrib/mkefidisk.sh |    9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> diff --git a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-> index f12e6a1..18188ef 100644
-> --- a/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-> +++ b/meta/recipes-devtools/libtool/libtool-native_2.4.2.bb
-> @@ -2,12 +2,13 @@ require libtool-${PV}.inc
+> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+> index af06b4b..224a146 100755
+> --- a/scripts/contrib/mkefidisk.sh
+> +++ b/scripts/contrib/mkefidisk.sh
+> @@ -142,7 +142,7 @@ SWAP_START=$((ROOTFS_END))
 >  
->  DEPENDS = ""
+>  # MMC devices use a partition prefix character 'p'
+>  PART_PREFIX=""
+> -if [ ! "${DEVICE#/dev/mmcblk}" = "${DEVICE}" ]; then
+> +if [ ! "${DEVICE#/dev/mmcblk}" = "${DEVICE}" ] || [ ! "${TARGET_DEVICE#/dev/loop}" = "${DEVICE}" ]; then
+
+I think you meant to use "${DEVICE#/dev/loop}" here? Not TARGET_DEVICE?
+
+--
+Darren
+
+>  	PART_PREFIX="p"
+>  fi
+>  BOOTFS=$DEVICE${PART_PREFIX}1
+> @@ -197,7 +197,12 @@ unmount_device
+>  #
+>  echo ""
+>  echo "Formatting $BOOTFS as vfat..."
+> -mkfs.vfat $BOOTFS -n "efi"
+> +if [ ! "${DEVICE#/dev/loop}" = "${DEVICE}" ]; then
+> +	mkfs.vfat -I $BOOTFS -n "efi"
+> +else
+> +	mkfs.vfat $BOOTFS -n "efi"
+> +
+> +fi
 >  
-> -PR = "${INC_PR}.0"
-> +PR = "${INC_PR}.1"
->  SRC_URI += "file://prefix.patch"
->  
->  inherit native
->  
->  EXTRA_OECONF = " --with-libtool-sysroot=${STAGING_DIR_NATIVE}"
-> +CACHED_CONFIGUREVARS += "ac_cv_path_SED=/bin/sed"
->  
->  do_configure_prepend () {
->  	# Remove any existing libtool m4 since old stale versions would break
-> -- 
-> 1.7.1
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.linuxtogo.org/cgi-bin/mailman/listinfo/openembedded-core
+>  echo "Formatting $ROOTFS as ext3..."
+>  mkfs.ext3 $ROOTFS -L "root"
+
+-- 
+Darren Hart
+Intel Open Source Technology Center
+Yocto Project - Linux Kernel
+
+
 
