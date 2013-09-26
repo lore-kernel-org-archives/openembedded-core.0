@@ -1,24 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E1CE96CAC7
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B697B6102E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 01:56:05 +0000 (UTC)
+	Thu, 26 Sep 2013 03:39:22 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8Q1u7ot025958
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8Q3dO98023375
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Sep 2013 18:56:07 -0700 (PDT)
-Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	Wed, 25 Sep 2013 20:39:24 -0700 (PDT)
+Received: from pek-cc-pb05l.wrs.com (128.224.157.65) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 25 Sep 2013 18:56:06 -0700
-From: <rongqing.li@windriver.com>
+	14.2.342.3; Wed, 25 Sep 2013 20:39:23 -0700
+From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Sep 2013 09:56:08 +0800
-Message-ID: <1380160568-1577-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
+Date: Thu, 26 Sep 2013 11:39:21 +0800
+Message-ID: <cover.1380166692.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.7.4.1
 MIME-Version: 1.0
-Subject: [PATCH] dropbear: pass SFTPSERVER_PATH explicitly
+Subject: [PATCH 0/1] packagegroup-self-hosted: add xz to enable bootstrap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +31,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 01:56:07 -0000
+X-List-Received-Date: Thu, 26 Sep 2013 03:39:22 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+From: Jackie Huang <jackie.huang@windriver.com>
 
-The default value of SFTPSERVER_PATH is "/usr/libexec/sftp-server" defined in
-dropbear-2013.58/option.h, but after commit 406bd38b423[bitbake.conf: change
-libexecdir to ${libdir}/${BPN}], sftp-server is provided by openssh package,
-and is installed into ${libdir}/openssh, so we pass it explicitly.
+The following changes since commit 821037700ae61fff6a63d4cdb68559c5fcc96fde:
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-core/dropbear/dropbear.inc |    1 +
- 1 file changed, 1 insertion(+)
+  build-appliance: Update SRCREV (2013-09-24 18:08:48 +0100)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index be93d60..9498bf8 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -40,6 +40,7 @@ BINCOMMANDS = "dbclient ssh scp"
- EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} ${BINCOMMANDS}"'
- EXTRA_OECONF += "\
-  ${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
-+CFLAGS += "-DSFTPSERVER_PATH=\\"${libdir}/openssh/sftp-server\\""
- 
- do_install() {
- 	install -d ${D}${sysconfdir} \
+are available in the git repository at:
+  git://git.pokylinux.org/poky-contrib jhuang0/d_missing_xz_0926_0
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/d_missing_xz_0926_0
+
+Jackie Huang (1):
+  packagegroup-self-hosted: add xz to enable bootstrap
+
+ .../packagegroups/packagegroup-self-hosted.bb      |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+
 -- 
-1.7.10.4
+1.7.4.1
 
 
