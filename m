@@ -1,35 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f170.google.com (mail-we0-f170.google.com
-	[74.125.82.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1358761105
+Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
+	[74.125.82.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C98A36B389
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 10:41:40 +0000 (UTC)
-Received: by mail-we0-f170.google.com with SMTP id w62so948475wes.1
+	Thu, 26 Sep 2013 10:41:41 +0000 (UTC)
+Received: by mail-we0-f171.google.com with SMTP id t61so938293wes.30
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 03:41:42 -0700 (PDT)
+	Thu, 26 Sep 2013 03:41:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=QHoR92GqkRK8e1CSsWgz1l9GKU2PpqTpDoIiQvf6CWs=;
-	b=ZMSk5GU9U7AHRWbaFUAaYyGDmFjIuDHTI5kR4+9+fD3op5xKAw3z2LTquVSCYmDg3S
-	qJVsFV9S9WTtKRycqeGaDjHTc8lV7pVGBbdNC18+mmarRKIAyaEUWGfOKoPlbPxqb/vt
-	4K6a55Inrct9n5LtXcdUPDyytv2a+yXfXIoiho3tmz+I6oIXb29yxdr7aixOWpJy/8oZ
-	wfgM0cQ1eT7ajPkx6Y7ufnLAAwnNhD/x3IsXq8IhqSmfO1v02ApQMrQe8bn188/otUOQ
-	UyU+utRsGVuMOL20ZI8HtZUtLfDf+ln+g3wfkEJ889vUvSSDnm3O7NSsYeNf+Uw4UtuB
-	YXRQ==
-X-Gm-Message-State: ALoCoQmJCaJI2ceOvRFl+i+CL9pjWmzh6mzE5XO1r/lgI5mKvIco/Q8Twi4PGCV6XhJruStiHUpx
-X-Received: by 10.180.91.16 with SMTP id ca16mr104418wib.57.1380192101976;
-	Thu, 26 Sep 2013 03:41:41 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=pYgvLg6PH6Tyzr3BIWMg08IWinon1RMlFjWcVYpGtWk=;
+	b=JAwHxil5pHiHJ4oltcFBgp0wbcKRy2WNq7nb+mZmhkTrwdwhCGhYhB9EbD0B+h88pO
+	A6BAav2KNMcv4hZvdbpHlZu3M2i8/xAEgiCLQLrhVQSHbcs5Q9JU3JSNxuEUW/2I8FqP
+	B6RSVJemNN2gTi9A2kEd1ioaHLuq80rnpFeruH6vSy06yvi23EtOLsrgFxbv3dl+wVPO
+	+qc5w0UocSxzRV66lZx9todSmIceAohaDGTK1xB4/7RFBmABWMi1BPZbqIJxT4EjDxIq
+	e4NQbQr6MUL5Juvrsq/zmj2iK0PwY+zZ/Ps5D2V7S3MASvBuadBP8LV0oD4TDsAD8JnZ
+	ZvTA==
+X-Gm-Message-State: ALoCoQmKmhKe5e2pBmcacg7jVjX4Ox3vlAEYT59XzCWDHcT55fM8Y5Ps3v/82u6nK2VMuz0smp+P
+X-Received: by 10.180.12.243 with SMTP id b19mr262120wic.18.1380192103350;
+	Thu, 26 Sep 2013 03:41:43 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id i8sm2167817wiy.6.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 26 Sep 2013 03:41:41 -0700 (PDT)
+	Thu, 26 Sep 2013 03:41:42 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2013 11:41:35 +0100
-Message-Id: <1380192096-19856-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 26 Sep 2013 11:41:36 +0100
+Message-Id: <1380192096-19856-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] pseudo: use bbnote/bbwarn instead of echo
+In-Reply-To: <1380192096-19856-1-git-send-email-ross.burton@intel.com>
+References: <1380192096-19856-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] pseudo: warn twice if the 32-bit toolchain appears broken
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +47,55 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 26 Sep 2013 10:41:43 -0000
 
-In the future bbnote/bbwarn will be integrated into bitbake's logging, so use
-those functions instead of echo directly.
+Putting a warning at the top of do_compile is useful but not everyone reads the
+file from beginning to end, so use a trap to put the message at the bottom too.
+
+[ YOCTO #4919 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/pseudo/pseudo.inc |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-devtools/pseudo/pseudo.inc |   13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index a4b7aaf..a287629 100644
+index a287629..0471cd6 100644
 --- a/meta/recipes-devtools/pseudo/pseudo.inc
 +++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -56,15 +56,15 @@ maybe_make32() {
+@@ -56,9 +56,7 @@ maybe_make32() {
  	fi
  	if $make32; then
  		if ! [ -e "/usr/include/gnu/stubs-32.h" ]; then
--			echo >&2 "WARNING: Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
--			echo >&2 "If the build fails, install 32-bit developer packages."
--			echo >&2 "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
-+			bbwarn "Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
-+			bbwarn "If the build fails, install 32-bit developer packages."
-+			bbwarn "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
+-			bbwarn "Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
+-			bbwarn "If the build fails, install 32-bit developer packages."
+-			bbwarn "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
++			warn_32bit_missing
  		else
--			echo "Attempting to build 32-bit libpseudo.so for ${PN}."
-+			bbnote "Attempting to build 32-bit libpseudo.so for ${PN}."
+ 			bbnote "Attempting to build 32-bit libpseudo.so for ${PN}."
  		fi
- 	else
--		echo "Building/installing only 64-bit libpseudo.so for ${PN}."
--		echo "If you need to run 32-bit executables, ensure that NO32LIBS is set to 0."
-+		bbnote "Building/installing only 64-bit libpseudo.so for ${PN}."
-+		bbnote "If you need to run 32-bit executables, ensure that NO32LIBS is set to 0."
+@@ -68,6 +66,12 @@ maybe_make32() {
  	fi
  }
  
++warn_32bit_missing() {
++	bbwarn "Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
++	bbwarn "If the build fails, install 32-bit developer packages."
++	bbwarn "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
++}
++
+ # Two below are the same
+ # If necessary compile for the alternative machine arch.  This is only 
+ # necessary in a native build.
+@@ -83,7 +87,10 @@ do_compile_prepend_class-native () {
+ 		make ${MAKEOPTS} distclean || :
+ 
+ 		./configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32 --without-rpath
++		save_traps=$(trap)
++		trap 'warn_32bit_missing' 0
+ 		oe_runmake ${MAKEOPTS} libpseudo
++		eval "$save_traps"
+ 		# prevent it from removing the lib, but remove everything else
+ 		make 'LIB=foo' ${MAKEOPTS} distclean 
+ 	fi
 -- 
 1.7.10.4
 
