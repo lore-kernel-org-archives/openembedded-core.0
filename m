@@ -1,24 +1,37 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A5BF610F8
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 579CC6CA7E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 18:52:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8QIqfaL008974
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 26 Sep 2013 21:51:44 +0000 (UTC)
+Received: by mail-ie0-f180.google.com with SMTP id u16so2262773iet.39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 11:52:41 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Thu, 26 Sep 2013 11:52:40 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Sep 2013 11:52:39 -0700
-Message-ID: <1380221559-25585-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Thu, 26 Sep 2013 14:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=cYBP6hXCou9E9P7WQLblj9aEL66iSzdXM0TKF/zKjsU=;
+	b=bU4osxTRmrOKA2V1kcuAxav8YrOIpcmGfoiTpSswdCg6xA4ul018EglpDOxPHcdLih
+	OJaA6chiZ6Au1eNOBJlT7687Css8h9GRkG7bIGCaf+r1l0EX+cuiMTq9anLfb1bugdn8
+	4K+Lb/J9kZoJhhXXFaD3P09FFDhDiH8vzBuuFwJlxDzF9mGBhksqbbSrgYcl7PUt7np/
+	ay8JCDYOhU7EZa3L0nqtW/lSxX3Uw59FipC0JydCS6Cg6MHcc09og62S1XYF9IeqkLPI
+	J0Jk3q41blzuHGHVSYCbTGZzcPTaWWQ/vGwx2nVQ2tw4qGuHkZd8MyuEvEyleeRQCaqW
+	iWew==
 MIME-Version: 1.0
-Subject: [v2][PATCH 1/1] vala.bbclass: add dependency on vala
+X-Received: by 10.42.223.134 with SMTP id ik6mr3870410icb.4.1380232305922;
+	Thu, 26 Sep 2013 14:51:45 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.64.20.229 with HTTP; Thu, 26 Sep 2013 14:51:45 -0700 (PDT)
+In-Reply-To: <1380213785-29476-1-git-send-email-ross.burton@intel.com>
+References: <1380213785-29476-1-git-send-email-ross.burton@intel.com>
+Date: Thu, 26 Sep 2013 18:51:45 -0300
+X-Google-Sender-Auth: w74e3Ria3XY-z53ZcLb0ZuO9-C0
+Message-ID: <CAP9ODKoz9QJuPss4UaZsbwXO71Dcjo70Uw1z14++0HWqEqnqQg@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] eglinfo: drop machine-specific configuration from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 18:52:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Sep 2013 21:51:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-This class points the inheritor, if it is a target,
-to directories in the target sysroot, so we want to
-be sure the .vapi files are there.
+On Thu, Sep 26, 2013 at 1:43 PM, Ross Burton <ross.burton@intel.com> wrote:
+> eglinfo.inc has some board-specific EGLINFO_DEVICE settings but is missing the
+> dependencies.  Maintaining them for all supported devices in oe-core isn't
+> scalable and this is trivially supported though a bbappend in each BSP layer.
+>
+> This was also causing problems compiling eglinfo on meta-yocto-bsp's beagleboard
+> machine as the EGLINFO_DEVICE setting for beagleboard was telling it to use the
+> closed GPU drivers, which are not supported in meta-yocto-bsp.
+>
+> [ YOCTO #5224 ]
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+...
+> +# BSP layers should add .bbappend files for the -x11 and -fb .bb recipes, which
+> +# append the respective EGL/OpenGLES/OpenVG libraries to DEPENDS and set
+> +# EGL_DEVICE as appropriate.
+>  EGLINFO_DEVICE ?= "generic"
+> -EGLINFO_DEVICE_raspberrypi ?= "raspberrypi"
+> -EGLINFO_DEVICE_beagleboard ?= "beagleboard"
+> -EGLINFO_DEVICE_mx6 ?= "imx6"
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/classes/vala.bbclass |    8 +++++---
- 1 files changed, 5 insertions(+), 3 deletions(-)
+Are you going to send the bbappend files for the respective layers?
 
-diff --git a/meta/classes/vala.bbclass b/meta/classes/vala.bbclass
-index c7db08c..3b70a04 100644
---- a/meta/classes/vala.bbclass
-+++ b/meta/classes/vala.bbclass
-@@ -1,9 +1,11 @@
- # Vala has problems with multiple concurrent invocations
- PARALLEL_MAKE = ""
- 
--# Vala needs vala-native
--DEPENDS += "vala-native"
--DEPENDS_virtclass-native += "vala-native"
-+# Everyone needs vala-native and targets need vala, too,
-+# because that is where target builds look for .vapi files.
-+#
-+VALADEPENDS_class-target = "vala"
-+DEPENDS_append = " vala-native ${VALADEPENDS}"
- 
- # Our patched version of Vala looks in STAGING_DATADIR for .vapi files
- export STAGING_DATADIR
 -- 
-1.7.3.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
