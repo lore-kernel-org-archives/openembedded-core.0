@@ -1,26 +1,20 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A05416CAA2
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 484E06CBAF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 15:47:19 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Sep 2013 08:47:21 -0700
+	Thu, 26 Sep 2013 16:00:42 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 26 Sep 2013 08:57:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,986,1371106800"; d="scan'208";a="407563051"
-Received: from unknown (HELO [10.255.15.105]) ([10.255.15.105])
-	by fmsmga002.fm.intel.com with ESMTP; 26 Sep 2013 08:47:21 -0700
-Message-ID: <52445708.502@linux.intel.com>
-Date: Thu, 26 Sep 2013 08:47:20 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
-References: <1380192442-12205-1-git-send-email-david.nystrom@enea.com>
-	<52443B2A.4040806@linux.intel.com> <52444E95.5020006@gmail.com>
-In-Reply-To: <52444E95.5020006@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] makedevs: Add device_table-minimal.txt to the nativesdk sysroot
+X-IronPort-AV: E=Sophos;i="4.90,986,1371106800"; d="scan'208";a="401446815"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.50])
+	by fmsmga001.fm.intel.com with ESMTP; 26 Sep 2013 09:00:35 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Sep 2013 17:00:33 +0100
+Message-Id: <1380211233-19201-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] classes/package_rpm: fix bitbake package-index for RPM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +27,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 15:47:21 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 26 Sep 2013 16:00:42 -0000
 
-On 09/26/2013 08:11 AM, David Nyström wrote:
-> On Thu 26 Sep 2013 03:48:26 PM CEST, Saul Wold wrote:
->> On 09/26/2013 03:47 AM, David Nyström wrote:
->>> Add an example device_table in the SDK under /usr/share/
->>>
->>> Signed-off-by: David Nyström <david.nystrom@enea.com>
->>> ---
->>>   meta/recipes-devtools/makedevs/makedevs_1.0.0.bb | 9 ++++++++-
->>>   1 file changed, 8 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
->>> b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
->>> index e6860f0..4c7a5ae 100644
->>> --- a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
->>> +++ b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
->>> @@ -4,7 +4,9 @@ LIC_FILES_CHKSUM =
->>> "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
->>>   SECTION = "base"
->>>   SRC_URI = "file://makedevs.c \
->>>              file://COPYING.patch"
->>> -PR = "r7"
->>> +PR = "r8"
->>> +
->> No PR bump needed any more.
->>
->> Thanks
->>     Sau!
->>
->>> +FILES_${PN}_append_class-nativesdk = " ${datadir}"
->>>
->>>   do_configure() {
->>>       install -m 0644 ${WORKDIR}/makedevs.c ${S}/
->>> @@ -19,4 +21,9 @@ do_install() {
->>>       install -m 0755 ${S}/makedevs ${D}${base_sbindir}/makedevs
->>>   }
->>>
->>> +do_install_append_class-nativesdk() {
->>> +        install -d ${D}${datadir}
->>> +        install -m 644
->>> ${COREBASE}/meta/files/device_table-minimal.txt ${D}${datadir}/
->>> +}
->>> +
->>>   BBCLASSEXTEND = "native nativesdk"
->>>
->
-> Any  reference to more info here?
-> Resend with PR removed ?
->
-No just un-changed.
->
->
->
+The function that "bitbake package-index" relies upon when using the RPM
+package backend (package_update_index_rpm()) uses MULTILIB_PREFIX_LIST
+to get the list of package architectures to be indexed, but that
+variable is only set when populate_sdk_rpm or rootfs_rpm are inherited,
+which is not the case for the package-index recipe. Until we're able to
+refactor this properly, for minimal impact just use the value of
+ALL_MULTILIB_PACKAGE_ARCHS if MULTILIB_PREFIX_LIST does not give us any
+architectures (the equivalent function in the ipk backend uses the
+former variable).
+
+Having "bitbake package-index" working is important because it's the
+only practical way of indexing RPM packages for use as a feed; host
+versions of createrepo won't work properly because they won't support
+indexing recommends relationships.
+
+Stopgap fix for [YOCTO #5278].
+
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/package_rpm.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index fd861e9..05de1ff 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -35,6 +35,11 @@ package_update_index_rpm () {
+ 		done
+ 	done
+ 
++	# FIXME stopgap for broken "bitbake package-index" since MULTILIB_PREFIX_LIST isn't set for that
++	if [ "$target_archs" = "" ] ; then
++		target_archs="${ALL_MULTILIB_PACKAGE_ARCHS}"
++	fi
++
+ 	target_archs=`echo "$target_archs" | tr - _`
+ 
+ 	archs=`for arch in $target_archs $sdk_archs ; do
+-- 
+1.8.1.2
+
 
