@@ -1,37 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 579CC6CA7E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 21:51:44 +0000 (UTC)
-Received: by mail-ie0-f180.google.com with SMTP id u16so2262773iet.39
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 14:51:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=cYBP6hXCou9E9P7WQLblj9aEL66iSzdXM0TKF/zKjsU=;
-	b=bU4osxTRmrOKA2V1kcuAxav8YrOIpcmGfoiTpSswdCg6xA4ul018EglpDOxPHcdLih
-	OJaA6chiZ6Au1eNOBJlT7687Css8h9GRkG7bIGCaf+r1l0EX+cuiMTq9anLfb1bugdn8
-	4K+Lb/J9kZoJhhXXFaD3P09FFDhDiH8vzBuuFwJlxDzF9mGBhksqbbSrgYcl7PUt7np/
-	ay8JCDYOhU7EZa3L0nqtW/lSxX3Uw59FipC0JydCS6Cg6MHcc09og62S1XYF9IeqkLPI
-	J0Jk3q41blzuHGHVSYCbTGZzcPTaWWQ/vGwx2nVQ2tw4qGuHkZd8MyuEvEyleeRQCaqW
-	iWew==
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 23ADC6CA7E
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2013 22:34:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8QMYZYO017103
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2013 15:34:36 -0700 (PDT)
+Received: from splat.wrs.com (128.224.60.28) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Thu, 26 Sep 2013 15:34:34 -0700
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Thu, 26 Sep 2013 17:34:10 -0500
+Message-ID: <1380234850-27169-1-git-send-email-jason.wessel@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.42.223.134 with SMTP id ik6mr3870410icb.4.1380232305922;
-	Thu, 26 Sep 2013 14:51:45 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.64.20.229 with HTTP; Thu, 26 Sep 2013 14:51:45 -0700 (PDT)
-In-Reply-To: <1380213785-29476-1-git-send-email-ross.burton@intel.com>
-References: <1380213785-29476-1-git-send-email-ross.burton@intel.com>
-Date: Thu, 26 Sep 2013 18:51:45 -0300
-X-Google-Sender-Auth: w74e3Ria3XY-z53ZcLb0ZuO9-C0
-Message-ID: <CAP9ODKoz9QJuPss4UaZsbwXO71Dcjo70Uw1z14++0HWqEqnqQg@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] eglinfo: drop machine-specific configuration from oe-core
+Subject: [PATCH] mkefidisk.sh: Allow using a loopback mounted file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 21:51:44 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 26 Sep 2013 22:34:36 -0000
+Content-Type: text/plain
 
-On Thu, Sep 26, 2013 at 1:43 PM, Ross Burton <ross.burton@intel.com> wrote:
-> eglinfo.inc has some board-specific EGLINFO_DEVICE settings but is missing the
-> dependencies.  Maintaining them for all supported devices in oe-core isn't
-> scalable and this is trivially supported though a bbappend in each BSP layer.
->
-> This was also causing problems compiling eglinfo on meta-yocto-bsp's beagleboard
-> machine as the EGLINFO_DEVICE setting for beagleboard was telling it to use the
-> closed GPU drivers, which are not supported in meta-yocto-bsp.
->
-> [ YOCTO #5224 ]
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-...
-> +# BSP layers should add .bbappend files for the -x11 and -fb .bb recipes, which
-> +# append the respective EGL/OpenGLES/OpenVG libraries to DEPENDS and set
-> +# EGL_DEVICE as appropriate.
->  EGLINFO_DEVICE ?= "generic"
-> -EGLINFO_DEVICE_raspberrypi ?= "raspberrypi"
-> -EGLINFO_DEVICE_beagleboard ?= "beagleboard"
-> -EGLINFO_DEVICE_mx6 ?= "imx6"
+There is no reason not allow writing of direct boot disk images for
+testing with simulators.  The easy way is to add loop back writing
+capabilities.
 
-Are you going to send the bbappend files for the respective layers?
+Example:
+  qemu-img create -f raw bigdisk 4G
+  dev=`sudo losetup -f`
+  sudo losetup $dev bigdisk
+  mkefidisk.sh $dev tmp-eglibc/deploy/images/qemux86/core-image-minimal-qemux86.hddimg /dev/sda
+  sudo losetup -d $dev
 
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ scripts/contrib/mkefidisk.sh |    9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index af06b4b..224a146 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -142,7 +142,7 @@ SWAP_START=$((ROOTFS_END))
+ 
+ # MMC devices use a partition prefix character 'p'
+ PART_PREFIX=""
+-if [ ! "${DEVICE#/dev/mmcblk}" = "${DEVICE}" ]; then
++if [ ! "${DEVICE#/dev/mmcblk}" = "${DEVICE}" ] || [ ! "${TARGET_DEVICE#/dev/loop}" = "${DEVICE}" ]; then
+ 	PART_PREFIX="p"
+ fi
+ BOOTFS=$DEVICE${PART_PREFIX}1
+@@ -197,7 +197,12 @@ unmount_device
+ #
+ echo ""
+ echo "Formatting $BOOTFS as vfat..."
+-mkfs.vfat $BOOTFS -n "efi"
++if [ ! "${DEVICE#/dev/loop}" = "${DEVICE}" ]; then
++	mkfs.vfat -I $BOOTFS -n "efi"
++else
++	mkfs.vfat $BOOTFS -n "efi"
++
++fi
+ 
+ echo "Formatting $ROOTFS as ext3..."
+ mkfs.ext3 $ROOTFS -L "root"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.9.5
+
 
