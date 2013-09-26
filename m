@@ -1,34 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 98EA16CA88
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A05416CAA2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 15:11:37 +0000 (UTC)
-Received: by mail-wg0-f41.google.com with SMTP id l18so6372098wgh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 08:11:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=5Xl1UWZ4R1KMTgOlpqaneTbSFeRNsj51RiEgYzOiHLo=;
-	b=hMrFlwjtGQ6HxS/uiAIO9s1dd0C/4URRq2AqzcTh21mnyqzuuTgonuDU2gBZ7yKG4G
-	nPkg55bKtpC6FtshNlxLG9H4Hf+2VMcHAWzSFxdZS+mf3nFfi/KteOM3HaGFFub8uHPs
-	QPQWEtrm08reqeVosj6B9nYzWq0xOFPt93mVr82ukHkAf3sVEkAJVkt/tmP56z6PL7jD
-	/Lg+8n3xvLVdVCkM+ELZMuym1vAhY+0v3P9YDS7Avvmr2W+OO7Npf2EnaWvVodx2+uU2
-	1g0ZzfHaIUTvNbKxKsEfv+yxIGcb6yp2hh2Q/w/yzJoCULWUQGpwMfKFCxobgJIVG1Vt
-	Juyg==
-X-Gm-Message-State: ALoCoQmxGCFsqjJkHPgaA1JRTO/n9Frx/orvs1WYCyUmjpGpWgAHKd9H/srGG8S+56nIGVrx+Zdz
-X-Received: by 10.180.89.206 with SMTP id bq14mr1278119wib.56.1380208298625;
-	Thu, 26 Sep 2013 08:11:38 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id jf2sm4363194wic.2.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 26 Sep 2013 08:11:37 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2013 16:11:33 +0100
-Message-Id: <1380208293-11112-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] oe-init-build-env-memres: use shell instead of Python to show the port number
+	Thu, 26 Sep 2013 15:47:19 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Sep 2013 08:47:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,986,1371106800"; d="scan'208";a="407563051"
+Received: from unknown (HELO [10.255.15.105]) ([10.255.15.105])
+	by fmsmga002.fm.intel.com with ESMTP; 26 Sep 2013 08:47:21 -0700
+Message-ID: <52445708.502@linux.intel.com>
+Date: Thu, 26 Sep 2013 08:47:20 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
+References: <1380192442-12205-1-git-send-email-david.nystrom@enea.com>
+	<52443B2A.4040806@linux.intel.com> <52444E95.5020006@gmail.com>
+In-Reply-To: <52444E95.5020006@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] makedevs: Add device_table-minimal.txt to the nativesdk sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,24 +33,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 15:11:38 -0000
+X-List-Received-Date: Thu, 26 Sep 2013 15:47:21 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- oe-init-build-env-memres |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/oe-init-build-env-memres b/oe-init-build-env-memres
-index 15e4f44..dca819b 100755
---- a/oe-init-build-env-memres
-+++ b/oe-init-build-env-memres
-@@ -52,4 +52,4 @@ else
- fi
- bitbake --server-only -t xmlrpc -B localhost:$port
- export BBSERVER=localhost:$port
--echo "Bitbake server started on port %s, use bitbake -m to shut it down"
-+echo "Bitbake server started on port $port, use bitbake -m to shut it down"
--- 
-1.7.10.4
-
+On 09/26/2013 08:11 AM, David Nyström wrote:
+> On Thu 26 Sep 2013 03:48:26 PM CEST, Saul Wold wrote:
+>> On 09/26/2013 03:47 AM, David Nyström wrote:
+>>> Add an example device_table in the SDK under /usr/share/
+>>>
+>>> Signed-off-by: David Nyström <david.nystrom@enea.com>
+>>> ---
+>>>   meta/recipes-devtools/makedevs/makedevs_1.0.0.bb | 9 ++++++++-
+>>>   1 file changed, 8 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+>>> b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+>>> index e6860f0..4c7a5ae 100644
+>>> --- a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+>>> +++ b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+>>> @@ -4,7 +4,9 @@ LIC_FILES_CHKSUM =
+>>> "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+>>>   SECTION = "base"
+>>>   SRC_URI = "file://makedevs.c \
+>>>              file://COPYING.patch"
+>>> -PR = "r7"
+>>> +PR = "r8"
+>>> +
+>> No PR bump needed any more.
+>>
+>> Thanks
+>>     Sau!
+>>
+>>> +FILES_${PN}_append_class-nativesdk = " ${datadir}"
+>>>
+>>>   do_configure() {
+>>>       install -m 0644 ${WORKDIR}/makedevs.c ${S}/
+>>> @@ -19,4 +21,9 @@ do_install() {
+>>>       install -m 0755 ${S}/makedevs ${D}${base_sbindir}/makedevs
+>>>   }
+>>>
+>>> +do_install_append_class-nativesdk() {
+>>> +        install -d ${D}${datadir}
+>>> +        install -m 644
+>>> ${COREBASE}/meta/files/device_table-minimal.txt ${D}${datadir}/
+>>> +}
+>>> +
+>>>   BBCLASSEXTEND = "native nativesdk"
+>>>
+>
+> Any  reference to more info here?
+> Resend with PR removed ?
+>
+No just un-changed.
+>
+>
+>
 
