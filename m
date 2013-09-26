@@ -1,38 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f171.google.com (mail-we0-f171.google.com
-	[74.125.82.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C98A36B389
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id EAAC96B8AB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 10:41:41 +0000 (UTC)
-Received: by mail-we0-f171.google.com with SMTP id t61so938293wes.30
+	Thu, 26 Sep 2013 10:47:34 +0000 (UTC)
+Received: by mail-la0-f51.google.com with SMTP id es20so764938lab.38
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 03:41:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=pYgvLg6PH6Tyzr3BIWMg08IWinon1RMlFjWcVYpGtWk=;
-	b=JAwHxil5pHiHJ4oltcFBgp0wbcKRy2WNq7nb+mZmhkTrwdwhCGhYhB9EbD0B+h88pO
-	A6BAav2KNMcv4hZvdbpHlZu3M2i8/xAEgiCLQLrhVQSHbcs5Q9JU3JSNxuEUW/2I8FqP
-	B6RSVJemNN2gTi9A2kEd1ioaHLuq80rnpFeruH6vSy06yvi23EtOLsrgFxbv3dl+wVPO
-	+qc5w0UocSxzRV66lZx9todSmIceAohaDGTK1xB4/7RFBmABWMi1BPZbqIJxT4EjDxIq
-	e4NQbQr6MUL5Juvrsq/zmj2iK0PwY+zZ/Ps5D2V7S3MASvBuadBP8LV0oD4TDsAD8JnZ
-	ZvTA==
-X-Gm-Message-State: ALoCoQmKmhKe5e2pBmcacg7jVjX4Ox3vlAEYT59XzCWDHcT55fM8Y5Ps3v/82u6nK2VMuz0smp+P
-X-Received: by 10.180.12.243 with SMTP id b19mr262120wic.18.1380192103350;
-	Thu, 26 Sep 2013 03:41:43 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id i8sm2167817wiy.6.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 26 Sep 2013 03:41:42 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 26 Sep 2013 03:47:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=7jgxaDfWZZI91JzuMOBJF7z5F6igOGtyC2M/FkwjZ3w=;
+	b=frgPXivluRWuxr6qCVDh87TCwyQuRGaiwgXAlXSI5AwU+QozgY+JavAOjgZ80yWVrg
+	VWHrjR+gdfkVcc/yUt52ibSWqj7x+A6ynA++yAteExa3m/z+3XGsfFisVofZJmBYAOlu
+	elKXzl1FJweZPuIlKmUtlx5s39oo+StjQtI3rYgifs5TUSzmqZRyaGXbUcqDKwM3RnF9
+	6iwlZZS0pS3N4MMXw6j+Gbq5jzZ4iomglZjsFQpZLR4RTEASL/vj0ZVgi6jzCC8tBdsr
+	UhYesaXgGmBBF8iEkz4+eaRjfgqYo7hJcyhnhcYbuVj7rhYFZZ49+FiHZ9N6Rm/rc07a
+	WFMA==
+X-Received: by 10.112.172.137 with SMTP id bc9mr3443944lbc.21.1380192455883;
+	Thu, 26 Sep 2013 03:47:35 -0700 (PDT)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPSA id oc1sm1986312lbb.3.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 26 Sep 2013 03:47:34 -0700 (PDT)
+Received: by nysan (Postfix, from userid 1000)
+	id 0C8A140055A; Thu, 26 Sep 2013 12:47:28 +0200 (CEST)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2013 11:41:36 +0100
-Message-Id: <1380192096-19856-2-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1380192096-19856-1-git-send-email-ross.burton@intel.com>
-References: <1380192096-19856-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/2] pseudo: warn twice if the 32-bit toolchain appears broken
+Date: Thu, 26 Sep 2013 12:47:22 +0200
+Message-Id: <1380192442-12205-1-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
+MIME-Version: 1.0
+Subject: [PATCH] makedevs: Add device_table-minimal.txt to the nativesdk sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Sep 2013 10:41:43 -0000
+X-List-Received-Date: Thu, 26 Sep 2013 10:47:35 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Putting a warning at the top of do_compile is useful but not everyone reads the
-file from beginning to end, so use a trap to put the message at the bottom too.
+Add an example device_table in the SDK under /usr/share/
 
-[ YOCTO #4919 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- meta/recipes-devtools/pseudo/pseudo.inc |   13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/makedevs/makedevs_1.0.0.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index a287629..0471cd6 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -56,9 +56,7 @@ maybe_make32() {
- 	fi
- 	if $make32; then
- 		if ! [ -e "/usr/include/gnu/stubs-32.h" ]; then
--			bbwarn "Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
--			bbwarn "If the build fails, install 32-bit developer packages."
--			bbwarn "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
-+			warn_32bit_missing
- 		else
- 			bbnote "Attempting to build 32-bit libpseudo.so for ${PN}."
- 		fi
-@@ -68,6 +66,12 @@ maybe_make32() {
- 	fi
+diff --git a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+index e6860f0..4c7a5ae 100644
+--- a/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
++++ b/meta/recipes-devtools/makedevs/makedevs_1.0.0.bb
+@@ -4,7 +4,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+ SECTION = "base"
+ SRC_URI = "file://makedevs.c \
+            file://COPYING.patch"
+-PR = "r7"
++PR = "r8"
++
++FILES_${PN}_append_class-nativesdk = " ${datadir}"
+ 
+ do_configure() {
+ 	install -m 0644 ${WORKDIR}/makedevs.c ${S}/
+@@ -19,4 +21,9 @@ do_install() {
+ 	install -m 0755 ${S}/makedevs ${D}${base_sbindir}/makedevs
  }
  
-+warn_32bit_missing() {
-+	bbwarn "Can't find stubs-32.h, but usually need it to build 32-bit libpseudo."
-+	bbwarn "If the build fails, install 32-bit developer packages."
-+	bbwarn "If you are using 32-bit binaries, the 32-bit libpseudo is NOT optional."
++do_install_append_class-nativesdk() {
++        install -d ${D}${datadir}
++        install -m 644 ${COREBASE}/meta/files/device_table-minimal.txt ${D}${datadir}/
 +}
 +
- # Two below are the same
- # If necessary compile for the alternative machine arch.  This is only 
- # necessary in a native build.
-@@ -83,7 +87,10 @@ do_compile_prepend_class-native () {
- 		make ${MAKEOPTS} distclean || :
- 
- 		./configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --bits=32 --without-rpath
-+		save_traps=$(trap)
-+		trap 'warn_32bit_missing' 0
- 		oe_runmake ${MAKEOPTS} libpseudo
-+		eval "$save_traps"
- 		# prevent it from removing the lib, but remove everything else
- 		make 'LIB=foo' ${MAKEOPTS} distclean 
- 	fi
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-1.7.10.4
+1.8.3.2
 
 
