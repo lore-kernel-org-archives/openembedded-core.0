@@ -1,29 +1,17 @@
-Return-Path: <denis@denix.org>
-Received: from vms173007pub.verizon.net (vms173007pub.verizon.net
-	[206.46.173.7])
-	by mail.openembedded.org (Postfix) with ESMTP id A6C2F6CAEB
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 16:49:17 +0000 (UTC)
-Received: from gandalf.denix.org ([unknown] [108.45.150.102])
-	by vms173007.mailsrvcs.net
-	(Sun Java(tm) System Messaging Server 7u2-7.02 32bit (built Apr 16
-	2009)) with ESMTPA id <0MTS00GETMQ7SN93@vms173007.mailsrvcs.net> for
-	Openembedded-core@lists.openembedded.org;
-	Fri, 27 Sep 2013 11:49:19 -0500 (CDT)
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id DF802200D3; Fri,
-	27 Sep 2013 12:49:18 -0400 (EDT)
-Date: Fri, 27 Sep 2013 12:49:18 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-id: <20130927164918.GB955@denix.org>
-References: <1360697804-39039-1-git-send-email-jason.wessel@windriver.com>
-	<20130926224000.GA31328@denix.org> <1380273659.18603.416.camel@ted>
-	<1380276402.18603.420.camel@ted>
-MIME-version: 1.0
-In-reply-to: <1380276402.18603.420.camel@ted>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libtool-native_2.4.2.bb: Always use /bin/sed for SED
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 335B861005
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 18:12:49 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r8RICjsB022961; 
+	Fri, 27 Sep 2013 13:12:49 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Sep 2013 23:14:15 +0500
+Message-Id: <1380305655-5492-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] opkg: Use systemd service for first boot configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,64 +24,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 16:49:18 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Fri, 27 Sep 2013 18:12:49 -0000
 
-On Fri, Sep 27, 2013 at 11:06:42AM +0100, Richard Purdie wrote:
-> On Fri, 2013-09-27 at 10:20 +0100, Richard Purdie wrote:
-> > On Thu, 2013-09-26 at 18:40 -0400, Denys Dmytriyenko wrote:
-> > > On Tue, Feb 12, 2013 at 01:36:44PM -0600, Jason Wessel wrote:
-> > > > If you never use sstate and always build everything from scratch you
-> > > > will never see this problem.  However, if you use sstate and build
-> > > > directories that last a long time eventually you can end up with the
-> > > > scenario where libtool gets a hard coded path in it for sed, and sed
-> > > > may not exist.  The reason you don't see this problem to often if you
-> > > > generally build from scratch is that libtool builds before sed and
-> > > > will pickup the host's /bin/sed.
-> > > > 
-> > > > The way to reproduce the issue is:
-> > > > 
-> > > > bitbake some_image
-> > > > bitbake -c cleansstate libtool-native
-> > > > bitbake sed-native
-> > > > bitbake libtool-native
-> > > > bitbake -c clean sed-native
-> > > > bitbake ANY_PACKAGE_THAT_USES_LIBTOOL_NATIVE
-> > > > 
-> > > > In my case I used modphp, which doesn't exist in the oe-core. You will
-> > > > end up with a strange looking error like:
-> > > > 
-> > > > | make[1]: *** [buckets/apr_buckets_alloc.lo] Error 1
-> > > > | /opt/build/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/x86_64-linux-libtool: line 981: /opt/build/bitbake_build/tmp/sysroots/x86_64-linux//bin/sed: No such file or directory
-> > > 
-> > > Sorry for bringing up this old thread. I'm seeing these and similar errors now 
-> > > (nothing really changed in my setup, but some race got them exposed).
-> > > 
-> > > I do see that the proposed patch got merged all the way back in February. But 
-> > > looks like it wasn't enough.
-> > > 
-> > > I've just seen this error about missing sysroots/x86_64-linux//bin/sed coming 
-> > > from nativesdk-gettext compilation while calling i686-linux-libtool, i.e. the 
-> > > nativesdk version of libtool. Should be easy to duplicate the below patch for 
-> > > libtool from native to nativesdk recipe.
-> > > 
-> > > And another error was from sysroots/x86_64-linux/usr/bin/opkg-build during 
-> > > do_package_write of some other package. Should opkg-utils-native be patched 
-> > > the same?
-> > 
-> > Was this in master with
-> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=32edeb391f2107bb66b361cdcd4b8d4447731c33 applied?
-> 
-> To answer my own question, the above introduced a bug since I'd
-> forgotten native doesn't use the site files. It probably should use at
-> least a minimal one so I've sent out a patch for that.
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-Richard,
+Currently opkg uses a script to configure packages during first time boot.
+This script is present in rcS.d and when 'sysvinit' is disabled this
+script doesn't execute. For systemd only distros this newly added service
+will run the opkg configure during first boot only.
 
-I was getting that on dylan and master, but the above patch was not in yet. 
-I'll give this one and the new native site config patch a try. Thanks!
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ meta/recipes-devtools/opkg/opkg.inc                |   21 ++++++++++++++++++--
+ .../opkg/opkg/opkg-configure.service               |   17 ++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_svn.bb             |    1 +
+ 3 files changed, 37 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
+index afe6cb0..3d56886 100644
+--- a/meta/recipes-devtools/opkg/opkg.inc
++++ b/meta/recipes-devtools/opkg/opkg.inc
+@@ -16,7 +16,13 @@ do_configure_prepend() {
+ 	sed -i -e s:-Werror::g ${S}/libopkg/Makefile.am
+ }
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig systemd
++
++python () {
++    if 'sysvinit' not in d.getVar("DISTRO_FEATURES", True).split():
++        pn = d.getVar('PN', True)
++        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'opkg-configure.service')
++}
+ 
+ target_localstatedir := "${localstatedir}"
+ OPKGLIBDIR = "${target_localstatedir}/lib"
+@@ -49,6 +55,16 @@ FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
+ do_install_append() {
+ 	# We need to create the lock directory
+ 	install -d ${D}${OPKGLIBDIR}/opkg
++
++	if ${@base_contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
++		install -d ${D}${systemd_unitdir}/system
++		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
++		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
++			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
++			-e 's,@BINDIR@,${bindir},g' \
++			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
++			${D}${systemd_unitdir}/system/opkg-configure.service
++	fi
+ }
+ 
+ do_install_append_class-native() {
+@@ -59,7 +75,8 @@ do_install_append_class-native() {
+ 
+ pkg_postinst_${PN} () {
+ #!/bin/sh
+-if [ "x$D" != "x" ] && [ -f $D${OPKGLIBDIR}/opkg/status ]; then
++if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)} && \
++	[ "x$D" != "x" ] && [ -f $D${OPKGLIBDIR}/opkg/status ]; then
+ 	install -d $D${sysconfdir}/rcS.d
+ 
+ 	# this happens at S98 where our good 'ole packages script used to run
+diff --git a/meta/recipes-devtools/opkg/opkg/opkg-configure.service b/meta/recipes-devtools/opkg/opkg/opkg-configure.service
+new file mode 100644
+index 0000000..a1c3a31
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/opkg-configure.service
+@@ -0,0 +1,17 @@
++[Unit]
++Description=Opkg first boot configure
++DefaultDependencies=no
++After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
++Before=sysinit.target
++
++[Service]
++Type=oneshot
++EnvironmentFile=-@SYSCONFDIR@/default/postinst
++ExecStart=@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/opkg-cl configure > $LOGFILE 2>&1; else @BINDIR@/opkg-cl configure; fi"
++ExecStartPost=@BASE_BINDIR@/systemctl disable opkg-configure.service
++StandardOutput=syslog
++RemainAfterExit=No
++
++[Install]
++WantedBy=basic.target
++WantedBy=sysinit.target
+diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
+index bc10491..cd0485f 100644
+--- a/meta/recipes-devtools/opkg/opkg_svn.bb
++++ b/meta/recipes-devtools/opkg/opkg_svn.bb
+@@ -3,6 +3,7 @@ require opkg.inc
+ SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
+            file://no-install-recommends.patch \
+            file://add-exclude.patch \
++           file://opkg-configure.service \
+ "
+ 
+ S = "${WORKDIR}/trunk"
 -- 
-Denys
+1.7.9.5
+
 
