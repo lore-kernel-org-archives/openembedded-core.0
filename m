@@ -1,27 +1,31 @@
-Return-Path: <tom.zanussi@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id A3C6E61005
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1768760F09
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 14:21:38 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 27 Sep 2013 07:21:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,993,1371106800"; d="scan'208";a="300147235"
-Received: from unknown (HELO [10.255.15.160]) ([10.255.15.160])
-	by AZSMGA002.ch.intel.com with ESMTP; 27 Sep 2013 07:21:39 -0700
-Message-ID: <1380291699.31937.46.camel@empanada>
-From: Tom Zanussi <tom.zanussi@linux.intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Date: Fri, 27 Sep 2013 09:21:39 -0500
-In-Reply-To: <CAP9ODKpYNSJs-T=GTpa725A6GK32GykgPbv7w5KeiwPhXVLfzw@mail.gmail.com>
-References: <cover.1380234931.git.tom.zanussi@linux.intel.com>
-	<8dbedc35cbce3319722c012af0dad737773446f6.1380234931.git.tom.zanussi@linux.intel.com>
-	<CAP9ODKpYNSJs-T=GTpa725A6GK32GykgPbv7w5KeiwPhXVLfzw@mail.gmail.com>
-X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] wic: Initial code for wic (OpenEmbedded Image Creator)
+	Fri, 27 Sep 2013 14:45:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8REjNG0026762
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 07:45:23 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Fri, 27 Sep 2013 07:45:21 -0700
+Message-ID: <52459A03.2000204@windriver.com>
+Date: Fri, 27 Sep 2013 09:45:23 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: Randy MacLeod <randy.macleod@windriver.com>
+References: <1380221559-25585-1-git-send-email-jslater@windriver.com>
+	<5244CDA3.7080607@windriver.com>
+In-Reply-To: <5244CDA3.7080607@windriver.com>
+Cc: Joe Slater <jslater@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [v2][PATCH 1/1] vala.bbclass: add dependency on vala
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +38,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 14:21:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 27 Sep 2013 14:45:22 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Otavio,
+On 9/26/13 7:13 PM, Randy MacLeod wrote:
+> On 13-09-26 02:52 PM, Joe Slater wrote:
+>> This class points the inheritor, if it is a target,
+>> to directories in the target sysroot, so we want to
+>> be sure the .vapi files are there.
+>>
+>> Signed-off-by: Joe Slater <jslater@windriver.com>
+>> ---
+>>    meta/classes/vala.bbclass |    8 +++++---
+>>    1 files changed, 5 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/classes/vala.bbclass b/meta/classes/vala.bbclass
+>> index c7db08c..3b70a04 100644
+>> --- a/meta/classes/vala.bbclass
+>> +++ b/meta/classes/vala.bbclass
+>> @@ -1,9 +1,11 @@
+>>    # Vala has problems with multiple concurrent invocations
+>>    PARALLEL_MAKE = ""
+>>
+>> -# Vala needs vala-native
+>> -DEPENDS += "vala-native"
+>> -DEPENDS_virtclass-native += "vala-native"
+>> +# Everyone needs vala-native and targets need vala, too,
+>> +# because that is where target builds look for .vapi files.
+>> +#
+>> +VALADEPENDS_class-target = "vala"
+>> +DEPENDS_append = " vala-native ${VALADEPENDS}"
+>>
+>>    # Our patched version of Vala looks in STAGING_DATADIR for .vapi files
+>>    export STAGING_DATADIR
+>>
+>
+>
+> In response to your previous patch, Richard P said:
+>> In class code this is a really bad idea. Why? Imagine a recipe which
+>> does:
+>>
+>> DEPENDS =+ "x"
+>> DEPENDS_class-native = "y"
+>>
+>> The += on the class-native above will not do what you think.
+>>
+>> I'd recommend something like:
+>>
+>> VALADEPENDS = "vala vala-native"
+>> VALADEPENDS_class-native = "vala-native"
+>> DEPENDS += "${VALADEPENDS}"
+>>
+>> Most other classes actually use _append on DEPENDS to ensure consistent
+>> behaviour.
+>
+> so send it to oe-core and see what they say.
+> Mark H any comments?
 
-On Fri, 2013-09-27 at 11:01 -0300, Otavio Salvador wrote:
-> Hello Tom,
-> 
-> On Thu, Sep 26, 2013 at 11:17 PM, Tom Zanussi
-> <tom.zanussi@linux.intel.com> wrote:
-> > Initial implementation of the 'wic' command.
-> >
-> > The 'wic' command generates partitioned images from existing
-> > OpenEmbedded build artifacts.  Image generation is driven by
-> > partitioning commands contained in an 'Openembedded kickstart' (.wks)
-> > file specified either directly on the command-line or as one of a
-> > selection of canned .wks files (see 'wic list images').  When applied
-> > to a given set of build artifacts, the result is an image or set of
-> > images that can be directly written onto media and used on a
-> > particular system.
-> >
-> > 'wic' is based loosely on the 'mic' (Meego Image Creator) framework,
-> > but heavily modified to make direct use of OpenEmbedded build
-> > artifacts instead of package installation and configuration, things
-> > already incorporated int the OE artifacts.
-> >
-> > The name 'wic' comes from 'oeic' with the 'oe' diphthong promoted to
-> > the letter 'w', because 'oeic' is impossible to remember or pronounce.
-> >
-> > This covers the mechanics of invoking and providing help for the
-> > command and sub-commands; it contains hooks for future commits to
-> > connect with the actual functionality, once implemented.
-> >
-> > Help is integrated into the 'wic' command - see that for details on
-> > usage.
-> >
-> > Signed-off-by: Tom Zanussi <tom.zanussi@linux.intel.com>
-> 
-> Could you please elaborate why to make a new command instead of using
-> the class system?
-> 
+Good catch, I had missed this.
 
-This isn't an either/or thing - the initial requirements were that the
-overall deployment effort end up being something that would be usable
-both from an external tool as well as from within the class system.
+Ya the overrides (class-native) run -after- the rest of the system.  So:
 
-This just happens to be the initial (easier) part of that, the external
-tool, and I expect in 1.6 to be doing a lot of the harder part,
-integration with the build system.
+DEPENDS = "foobar"
+DEPENDS =+ "x"
+DEPENDS_class-native =+ "y"
 
-The most important part, I think, is that this provides a high-level
-user-oriented 'language' (the kickstart files) that users can use to
-define custom images, rather than having to muck around in class files
-or variable settings, or write specialized scripts such as mkefidisk.sh
-for example.
+For "normal" it' would be "x foobar"
+For "native" it would be "y"
 
-Making that available from a standalone tool such as 'wic' is
-straightforward, doing the same from within the build system will
-require more thought and work, but that's what I'm hoping to do in
-1.6...
+This is because that system evals and gets:
 
-Tom
+DEPENDS = "foobar"  (DEPENDS = "foobar")
+DEPENDS =+ "x"      (DEPENDS = "x foobar")
+DEPENDS_class-native =+ "y"  (DEPENDS_class-native = "y")
 
+invoke 'class-native' override,  DEPENDS = "y"
 
+--Mark
 
+> // Randy
+>
 
 
