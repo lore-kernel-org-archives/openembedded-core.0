@@ -1,31 +1,27 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id A70C160F09
+	by mail.openembedded.org (Postfix) with ESMTP id 4EBA360F09
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 09:58:27 +0000 (UTC)
+	Fri, 27 Sep 2013 09:59:56 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8R9wHts021915 for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 10:58:23 +0100
+	r8R9xpr5021963; Fri, 27 Sep 2013 10:59:51 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TEph2XV8pJ5I
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 10:58:23 +0100 (BST)
+	with LMTP id Ot9vql6KVo7w; Fri, 27 Sep 2013 10:59:51 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r8R9wKCW021907
+	r8R9xlF6021958
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 10:58:22 +0100
-Message-ID: <1380275897.18603.417.camel@ted>
+	verify=NOT); Fri, 27 Sep 2013 10:59:48 +0100
+Message-ID: <1380275983.18603.419.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Sep 2013 10:58:17 +0100
+Date: Fri, 27 Sep 2013 10:59:43 +0100
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] native: Use a native site file and ensure the correct sed is used
+Subject: [PATCH] libtool: Don't patch generated files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +34,700 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 09:58:29 -0000
+X-List-Received-Date: Fri, 27 Sep 2013 09:59:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-native recipes were not using the site files. There are some things we need
-to correct such as not using the path to sed-native. This allows us
-to deploy settings globally for all recipes rather than hacking around
-then in individual recipes as libtool-native used to for sed.
-
-This fixes a regression introduced by
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=32edeb391f2107bb66b361cdcd4b8d4447731c33
+We wipe out and regenerate all configure files so there is no point in
+patching them.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 102dfb8..6704e66 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -54,7 +54,7 @@ DEPENDS_GETTEXT = "gettext-native"
- PTEST_ENABLED = "0"
+diff --git a/meta/recipes-devtools/libtool/libtool/rename-with-sysroot.patch b/meta/recipes-devtools/libtool/libtool/rename-with-sysroot.patch
+index 438c639..c3e3e86 100644
+--- a/meta/recipes-devtools/libtool/libtool/rename-with-sysroot.patch
++++ b/meta/recipes-devtools/libtool/libtool/rename-with-sysroot.patch
+@@ -10,126 +10,6 @@ http://lists.gnu.org/archive/html/libtool/2010-10/msg00048.html
  
- # Don't use site files for native builds
--export CONFIG_SITE = ""
-+export CONFIG_SITE = "${COREBASE}/meta/site/native"
+ -Khem Raj <raj.khem@gmail.com>
  
- # set the compiler as well. It could have been set to something else
- export CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_ARCH}"
-diff --git a/meta/site/native b/meta/site/native
-new file mode 100644
-index 0000000..7dfb1cb
---- /dev/null
-+++ b/meta/site/native
-@@ -0,0 +1 @@
-+ac_cv_path_SED=sed
+-Index: libtool-2.4.2/configure
+-===================================================================
+---- libtool-2.4.2.orig/configure
+-+++ libtool-2.4.2/configure
+-@@ -795,7 +795,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1451,7 +1451,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -6804,29 +6804,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/libltdl/configure
+-===================================================================
+---- libtool-2.4.2.orig/libltdl/configure
+-+++ libtool-2.4.2/libltdl/configure
+-@@ -747,7 +747,7 @@ with_pic
+- enable_fast_install
+- enable_dependency_tracking
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- enable_ltdl_install
+- '
+-@@ -1395,7 +1395,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -6017,29 +6017,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+ Index: libtool-2.4.2/libltdl/m4/libtool.m4
+ ===================================================================
+ --- libtool-2.4.2.orig/libltdl/m4/libtool.m4
+@@ -168,486 +48,6 @@ Index: libtool-2.4.2/libltdl/m4/libtool.m4
+     AC_MSG_ERROR([The sysroot must be an absolute path.])
+     ;;
+  esac
+-Index: libtool-2.4.2/tests/cdemo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/cdemo/configure
+-+++ libtool-2.4.2/tests/cdemo/configure
+-@@ -734,7 +734,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1380,7 +1380,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -5897,29 +5897,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/tests/demo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/demo/configure
+-+++ libtool-2.4.2/tests/demo/configure
+-@@ -738,7 +738,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1384,7 +1384,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -5895,29 +5895,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/tests/depdemo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/depdemo/configure
+-+++ libtool-2.4.2/tests/depdemo/configure
+-@@ -736,7 +736,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1382,7 +1382,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -5892,29 +5892,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/tests/f77demo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/f77demo/configure
+-+++ libtool-2.4.2/tests/f77demo/configure
+-@@ -738,7 +738,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1387,7 +1387,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -6877,29 +6877,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/tests/fcdemo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/fcdemo/configure
+-+++ libtool-2.4.2/tests/fcdemo/configure
+-@@ -739,7 +739,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1388,7 +1388,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -6976,29 +6976,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/tests/mdemo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/mdemo/configure
+-+++ libtool-2.4.2/tests/mdemo/configure
+-@@ -742,7 +742,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1388,7 +1388,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -5924,29 +5924,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/tests/mdemo2/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/mdemo2/configure
+-+++ libtool-2.4.2/tests/mdemo2/configure
+-@@ -734,7 +734,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1380,7 +1380,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -5897,29 +5897,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+-Index: libtool-2.4.2/tests/pdemo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/pdemo/configure
+-+++ libtool-2.4.2/tests/pdemo/configure
+-@@ -737,7 +737,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1383,7 +1383,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -5900,29 +5900,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+ Index: libtool-2.4.2/tests/sysroot.at
+ ===================================================================
+ --- libtool-2.4.2.orig/tests/sysroot.at
+@@ -679,66 +79,6 @@ Index: libtool-2.4.2/tests/sysroot.at
+  AC_SUBST([sysroot])
+  AC_OUTPUT(Makefile)
+  ]])
+-Index: libtool-2.4.2/tests/tagdemo/configure
+-===================================================================
+---- libtool-2.4.2.orig/tests/tagdemo/configure
+-+++ libtool-2.4.2/tests/tagdemo/configure
+-@@ -744,7 +744,7 @@ enable_static
+- with_pic
+- enable_fast_install
+- with_gnu_ld
+--with_sysroot
+-+with_libtool_sysroot
+- enable_libtool_lock
+- '
+-       ac_precious_vars='build_alias
+-@@ -1395,7 +1395,7 @@ Optional Packages:
+-   --with-pic[=PKGS]       try to use only PIC/non-PIC objects [default=use
+-                           both]
+-   --with-gnu-ld           assume the C compiler uses GNU ld [default=no]
+--  --with-sysroot=DIR Search for dependent libraries within DIR
+-+  --with-libtool-sysroot=DIR Search for dependent libraries within DIR
+-                         (or the compiler's sysroot if not specified).
+- 
+- Some influential environment variables:
+-@@ -6916,29 +6916,29 @@ fi
+- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sysroot" >&5
+- $as_echo_n "checking for sysroot... " >&6; }
+- 
+--# Check whether --with-sysroot was given.
+--if test "${with_sysroot+set}" = set; then :
+--  withval=$with_sysroot;
+-+# Check whether --with-libtool-sysroot was given.
+-+if test "${with_libtool_sysroot+set}" = set; then :
+-+  withval=$with_libtool_sysroot;
+- else
+--  with_sysroot=no
+-+  with_libtool_sysroot=no
+- fi
+- 
+- 
+- lt_sysroot=
+--case ${with_sysroot} in #(
+-+case ${with_libtool_sysroot} in #(
+-  yes)
+-    if test "$GCC" = yes; then
+-      lt_sysroot=`$CC --print-sysroot 2>/dev/null`
+-    fi
+-    ;; #(
+-  /*)
+--   lt_sysroot=`echo "$with_sysroot" | sed -e "$sed_quote_subst"`
+-+   lt_sysroot=`echo "$with_libtool_sysroot" | sed -e "$sed_quote_subst"`
+-    ;; #(
+-  no|'')
+-    ;; #(
+-  *)
+--   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_sysroot}" >&5
+--$as_echo "${with_sysroot}" >&6; }
+-+   { $as_echo "$as_me:${as_lineno-$LINENO}: result: ${with_libtool_sysroot}" >&5
+-+$as_echo "${with_libtool_sysroot}" >&6; }
+-    as_fn_error $? "The sysroot must be an absolute path." "$LINENO" 5
+-    ;;
+- esac
+ Index: libtool-2.4.2/tests/testsuite
+ ===================================================================
+ --- libtool-2.4.2.orig/tests/testsuite
 
 
 
