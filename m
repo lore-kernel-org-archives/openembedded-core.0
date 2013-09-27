@@ -1,31 +1,20 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1768760F09
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A494C6CBAD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 14:45:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8REjNG0026762
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 07:45:23 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.226) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.347.0; Fri, 27 Sep 2013 07:45:21 -0700
-Message-ID: <52459A03.2000204@windriver.com>
-Date: Fri, 27 Sep 2013 09:45:23 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: Randy MacLeod <randy.macleod@windriver.com>
-References: <1380221559-25585-1-git-send-email-jslater@windriver.com>
-	<5244CDA3.7080607@windriver.com>
-In-Reply-To: <5244CDA3.7080607@windriver.com>
-Cc: Joe Slater <jslater@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [v2][PATCH 1/1] vala.bbclass: add dependency on vala
+	Fri, 27 Sep 2013 15:46:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 27 Sep 2013 08:46:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,994,1371106800"; d="scan'208";a="410461403"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.120.88])
+	by orsmga002.jf.intel.com with ESMTP; 27 Sep 2013 08:46:12 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Sep 2013 16:46:06 +0100
+Message-Id: <1380296766-20331-1-git-send-email-paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [PATCH] psplash: copy image files from workdir instead of next to recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,86 +27,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 14:45:22 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Sep 2013 15:46:13 -0000
 
-On 9/26/13 7:13 PM, Randy MacLeod wrote:
-> On 13-09-26 02:52 PM, Joe Slater wrote:
->> This class points the inheritor, if it is a target,
->> to directories in the target sysroot, so we want to
->> be sure the .vapi files are there.
->>
->> Signed-off-by: Joe Slater <jslater@windriver.com>
->> ---
->>    meta/classes/vala.bbclass |    8 +++++---
->>    1 files changed, 5 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/classes/vala.bbclass b/meta/classes/vala.bbclass
->> index c7db08c..3b70a04 100644
->> --- a/meta/classes/vala.bbclass
->> +++ b/meta/classes/vala.bbclass
->> @@ -1,9 +1,11 @@
->>    # Vala has problems with multiple concurrent invocations
->>    PARALLEL_MAKE = ""
->>
->> -# Vala needs vala-native
->> -DEPENDS += "vala-native"
->> -DEPENDS_virtclass-native += "vala-native"
->> +# Everyone needs vala-native and targets need vala, too,
->> +# because that is where target builds look for .vapi files.
->> +#
->> +VALADEPENDS_class-target = "vala"
->> +DEPENDS_append = " vala-native ${VALADEPENDS}"
->>
->>    # Our patched version of Vala looks in STAGING_DATADIR for .vapi files
->>    export STAGING_DATADIR
->>
->
->
-> In response to your previous patch, Richard P said:
->> In class code this is a really bad idea. Why? Imagine a recipe which
->> does:
->>
->> DEPENDS =+ "x"
->> DEPENDS_class-native = "y"
->>
->> The += on the class-native above will not do what you think.
->>
->> I'd recommend something like:
->>
->> VALADEPENDS = "vala vala-native"
->> VALADEPENDS_class-native = "vala-native"
->> DEPENDS += "${VALADEPENDS}"
->>
->> Most other classes actually use _append on DEPENDS to ensure consistent
->> behaviour.
->
-> so send it to oe-core and see what they say.
-> Mark H any comments?
+During parsing this recipe builds up a list of splash image files,
+however it was recording full paths to local files (i.e. the files next
+to the recipe) and then in do_compile it was pointing to those instead
+of the fetched files in WORKDIR. Fix it to use the fetched files which
+has the added benefit of the do_compile signature not changing if the
+recipe is moved around.
 
-Good catch, I had missed this.
+Fixes [YOCTO #5250].
 
-Ya the overrides (class-native) run -after- the rest of the system.  So:
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/recipes-core/psplash/psplash_git.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-DEPENDS = "foobar"
-DEPENDS =+ "x"
-DEPENDS_class-native =+ "y"
-
-For "normal" it' would be "x foobar"
-For "native" it would be "y"
-
-This is because that system evals and gets:
-
-DEPENDS = "foobar"  (DEPENDS = "foobar")
-DEPENDS =+ "x"      (DEPENDS = "x foobar")
-DEPENDS_class-native =+ "y"  (DEPENDS_class-native = "y")
-
-invoke 'class-native' override,  DEPENDS = "y"
-
---Mark
-
-> // Randy
->
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 5122d38..1cab296 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -23,8 +23,8 @@ python __anonymous() {
+     haspng = False
+     for uri in splashfiles:
+         fetcher = bb.fetch2.Fetch([uri], d)
+-        flocal = fetcher.localpath(uri)
+-        fbase = os.path.splitext(os.path.basename(flocal))[0]
++        flocal = os.path.basename(fetcher.localpath(uri))
++        fbase = os.path.splitext(flocal)[0]
+         outsuffix = fetcher.ud[uri].parm.get("outsuffix")
+         if not outsuffix:
+             if fbase.startswith("psplash-"):
+@@ -74,18 +74,19 @@ python do_compile () {
+     import shutil
+ 
+     # Build a separate executable for each splash image
++    workdir = d.getVar('WORKDIR', True)
+     convertscript = "%s/make-image-header.sh" % d.getVar('S', True)
+     destfile = "%s/psplash-poky-img.h" % d.getVar('S', True)
+     localfiles = d.getVar('SPLASH_LOCALPATHS', True).split()
+     outputfiles = d.getVar('SPLASH_INSTALL', True).split()
+     for localfile, outputfile in zip(localfiles, outputfiles):
+         if localfile.endswith(".png"):
+-            outp = oe.utils.getstatusoutput('%s %s POKY' % (convertscript, localfile))
++            outp = oe.utils.getstatusoutput('%s %s POKY' % (convertscript, os.path.join(workdir, localfile)))
+             print(outp[1])
+-            fbase = os.path.splitext(os.path.basename(localfile))[0]
++            fbase = os.path.splitext(localfile)[0]
+             shutil.copyfile("%s-img.h" % fbase, destfile)
+         else:
+-            shutil.copyfile(localfile, destfile)
++            shutil.copyfile(os.path.join(workdir, localfile), destfile)
+         # For some reason just updating the header is not enough, we have to touch the .c
+         # file in order to get it to rebuild
+         os.utime("%s/psplash.c" % d.getVar('S', True), None)
+-- 
+1.8.1.2
 
 
