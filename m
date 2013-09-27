@@ -1,47 +1,24 @@
-Return-Path: <B40290@freescale.com>
-Received: from db8outboundpool.messaging.microsoft.com
-	(mail-db8lp0189.outbound.messaging.microsoft.com [213.199.154.189])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C5966CB8D
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B84E6CA7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 03:06:42 +0000 (UTC)
-Received: from mail207-db8-R.bigfish.com (10.174.8.251) by
-	DB8EHSOBE030.bigfish.com (10.174.4.93) with Microsoft SMTP Server id
-	14.1.225.22; Fri, 27 Sep 2013 03:06:42 +0000
-Received: from mail207-db8 (localhost [127.0.0.1])	by
-	mail207-db8-R.bigfish.com (Postfix) with ESMTP id C18374C0439	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 03:06:42 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 11
-X-BigFish: VS11(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h4a8s1155h)
-Received: from mail207-db8 (localhost.localdomain [127.0.0.1]) by mail207-db8
-	(MessageSwitch) id 1380251200482881_16160;
-	Fri, 27 Sep 2013 03:06:40 +0000 (UTC)
-Received: from DB8EHSMHS023.bigfish.com (unknown [10.174.8.252])	by
-	mail207-db8.bigfish.com (Postfix) with ESMTP id 69AD51E0031	for
-	<openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 03:06:40 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS023.bigfish.com
-	(10.174.4.33) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Fri, 27 Sep 2013 03:06:40 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
-	Server (TLS) id 14.3.158.2; Fri, 27 Sep 2013 03:06:38 +0000
-Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
-	[10.192.208.136])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
-	id r8R36ZGp000517;	Thu, 26 Sep 2013 20:06:36 -0700
-From: Chunrong Guo <B40290@freescale.com>
+	Fri, 27 Sep 2013 05:52:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8R5qTPL017938
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2013 22:52:29 -0700 (PDT)
+Received: from lirq-OptiPlex-780.corp.ad.wrs.com (128.224.162.168) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Thu, 26 Sep 2013 22:52:28 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 27 Sep 2013 11:06:29 +0800
-Message-ID: <1380251189-21193-1-git-send-email-B40290@freescale.com>
-X-Mailer: git-send-email 1.7.5.4
-In-Reply-To: <y>
-References: <y>
+Date: Fri, 27 Sep 2013 13:52:27 +0800
+Message-ID: <1380261147-21348-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.7.10.4
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Subject: [PATCH] perf : fix perf of cross-compile for PowerPC 64bit targets
+Subject: [PATCH] systemd-compat-units: do not create runlevel command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 03:06:42 -0000
+X-List-Received-Date: Fri, 27 Sep 2013 05:52:28 -0000
 Content-Type: text/plain
 
-    *fix perf build issue on powerpc 64bit targets
-    |error information:
-    | tests/attr.c: In function 'store_event':
-    | tests/attr.c:71:4: error: format '%llu' expects argument of type 'long long unsigned int',
-    | but argument 6 has type '__u64' [-Werror=format=]
-    | attr->type, attr->config, fd);
+From: "Roy.Li" <rongqing.li@windriver.com>
 
-Signed-off-by: Chunrong Guo <B40290@freescale.com>
----
- meta/recipes-kernel/perf/perf.bb |    1 +
- 1 files changed, 1 insertions(+), 0 deletions(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 269069f..fa6b8b9 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -77,6 +77,7 @@ EXTRA_OEMAKE = \
- 		'
+It seems strange that runlevel always returns 1, The comment says it is
+related to sysvinit, but if we enable systemd, sysvinit will not be
+installed. and we have created a link for runlevel to systemctl if 
+systemd is installed.
  
- EXTRA_OEMAKE += "\
-+	'CFLAGS=${CFLAGS} -fPIC' \
- 	'prefix=${prefix}' \
- 	'bindir=${bindir}' \
- 	'sharedir=${datadir}' \
--- 
-1.7.5.4
+Signed-off-by: Roy.Li <rongqing.li@windriver.com>
+---
+ meta/recipes-core/systemd/systemd-compat-units.bb |    5 -----
+ 1 file changed, 5 deletions(-)
 
+diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
+index 9b4a8a4..c47c14b 100644
+--- a/meta/recipes-core/systemd/systemd-compat-units.bb
++++ b/meta/recipes-core/systemd/systemd-compat-units.bb
+@@ -21,11 +21,6 @@ do_install() {
+ 	install -m 0644 ${WORKDIR}/machineid.service ${D}${systemd_unitdir}/system
+ 	ln -sf ../machineid.service ${D}${systemd_unitdir}/system/sysinit.target.wants/
+ 	ln -sf ../machineid.service ${D}${systemd_unitdir}/system/basic.target.wants/
+-
+-	# hack to make old style sysvinit postinsts succeed
+-	install -d ${D}${bindir}
+-	echo "echo 1" > ${D}${bindir}/runlevel
+-	chmod 0755 ${D}${bindir}/runlevel
+ }
+ 
+ SYSTEMD_DISABLED_SYSV_SERVICES = " \
+-- 
+1.7.10.4
 
 
