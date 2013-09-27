@@ -1,29 +1,25 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 22C0E61844
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 12:33:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8RCXfu5004274
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 27 Sep 2013 05:33:41 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 27 Sep 2013 05:33:41 -0700
-Message-ID: <52457B23.8040306@windriver.com>
-Date: Fri, 27 Sep 2013 08:33:39 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Andrea Adami <andrea.adami@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <1377212667-5915-1-git-send-email-jason.wessel@windriver.com>	<1377364531.6762.202.camel@ted>	<CAAQYJAtn3RqJa4K=-UUjfxQemqwH5Te1wCvGRqeJxhii03h29A@mail.gmail.com>	<1380272728.18603.414.camel@ted>
-	<CAAQYJAs3P1ii+RTgRdWq0R00p+20CKg25AbZhfUDwe7ZCxVpQA@mail.gmail.com>
-In-Reply-To: <CAAQYJAs3P1ii+RTgRdWq0R00p+20CKg25AbZhfUDwe7ZCxVpQA@mail.gmail.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [v2 PATCH] kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and bundling
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 06DED61844
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 13:32:18 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Sep 2013 06:32:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,993,1371106800"; d="scan'208";a="408086490"
+Received: from unknown (HELO [10.255.15.160]) ([10.255.15.160])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Sep 2013 06:32:16 -0700
+Message-ID: <1380288736.31937.29.camel@empanada>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: David Nystrom <david.c.nystrom@gmail.com>
+Date: Fri, 27 Sep 2013 08:32:16 -0500
+In-Reply-To: <CAAKB1h1Am8Ep7LNJOZ_-g=6j+ru7DjDTcR2dUs2VMC7s+qy2iw@mail.gmail.com>
+References: <cover.1380234931.git.tom.zanussi@linux.intel.com>
+	<CAAKB1h1Am8Ep7LNJOZ_-g=6j+ru7DjDTcR2dUs2VMC7s+qy2iw@mail.gmail.com>
+X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/3] 'wic'- OpenEmbedded Image Creator
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,298 +32,839 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 12:33:44 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Fri, 27 Sep 2013 13:32:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 13-09-27 07:59 AM, Andrea Adami wrote:
-> On Fri, Sep 27, 2013 at 11:05 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Fri, 2013-09-27 at 10:07 +0200, Andrea Adami wrote:
->>> On Sat, Aug 24, 2013 at 7:15 PM, Richard Purdie
->>> <richard.purdie@linuxfoundation.org> wrote:
->>>> On Thu, 2013-08-22 at 18:04 -0500, Jason Wessel wrote:
->>>>> This patch aims to fix the following two cases for the INITRAMFS generation.
->>>>>    1) Allow an image recipe to specify a paired INITRAMFS recipe such
->>>>>       as core-image-minimal-initramfs.  This allows building a base
->>>>>       image which always generates the needed initramfs image in one step
->>>>>    2) Allow building a single binary which contains a kernel and
->>>>>       the initramfs.
->>>>>
->>>>> A key requirement of the initramfs is to be able to add kernel
->>>>> modules.  The current implementation of the INITRAMFS_IMAGE variable
->>>>> has a circular dependency when using kernel modules in the initramfs
->>>>> image.bb file that is caused by kernel.bbclass trying to build the
->>>>> initramfs before the kernel's do_install rule.
->>>>>
->>>>> The solution for this problem is to have the kernel's
->>>>> do_bundle_initramfs_image task depend on the do_rootfs from the
->>>>> INITRAMFS_IMAGE and not some intermediate point.  The image.bbclass
->>>>> will also sets up dependencies to make the initramfs creation task run
->>>>> last.
->>>>>
->>>>> The code to bundle the kernel and initramfs together has been added.
->>>>> At a high level, all it is doing is invoking a second compilation of
->>>>> the kernel but changing the value of CONFIG_INITRAMFS_SOURCE to point
->>>>> to the generated initramfs from the image recipe.
->>>>>
->>>>> [YOCTO #4072]
->>>>>
->>>>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
->>>>> Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->>>>
->>>> I have a couple of things I'd really like to see get resolved here. One
->>>> is below, the other is I'm worried about the packaged output differences
->>>> since we can package the kernel into a package file and now its going to
->>>> be different.
->>>>
->>>> I appreciate its a hard problem to solve but not impossible. Basically
->>>> we move the package generation for that single package into a separate
->>>> recipe and have it depend on the bundling task if/as/when needed. The
->>>> bundle task stashes the kernel in the sysroot, the other recipe simply
->>>> packages it. Its a little bit of a dance but should ensure we get
->>>> everything consistent.
->>>>
->>>>
->>>>> ---
->>>>>   meta/classes/image.bbclass  |   12 ++++++
->>>>>   meta/classes/kernel.bbclass |   96 +++++++++++++++++++++++++++++++++++++------
->>>>>   meta/conf/local.conf.sample |   20 +++++++++
->>>>>   3 files changed, 116 insertions(+), 12 deletions(-)
->>>>>
->>>>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->>>>> index 909702a..23967ec 100644
->>>>> --- a/meta/classes/image.bbclass
->>>>> +++ b/meta/classes/image.bbclass
->>>>> @@ -130,6 +130,10 @@ python () {
->>>>>       d.setVar('MULTILIB_VENDORS', ml_vendor_list)
->>>>>
->>>>>       check_image_features(d)
->>>>> +    initramfs_image = d.getVar('INITRAMFS_IMAGE', True) or ""
->>>>> +    if initramfs_image != "":
->>>>> +        d.appendVarFlag('do_build', 'depends', " %s:do_bundle_initramfs" %  d.getVar('PN', True))
->>>>> +        d.appendVarFlag('do_bundle_initramfs', 'depends', " %s:do_rootfs" % initramfs_image)
->>>>>   }
->>>>>
->>>>>   #
->>>>> @@ -629,3 +633,11 @@ do_package_write_deb[noexec] = "1"
->>>>>   do_package_write_rpm[noexec] = "1"
->>>>>
->>>>>   addtask rootfs before do_build
->>>>> +# Allow the kernel to be repacked with the initramfs and boot image file as a single file
->>>>> +do_bundle_initramfs[depends] += "virtual/kernel:do_bundle_initramfs"
->>>>> +do_bundle_initramfs[nostamp] = "1"
->>>>> +do_bundle_initramfs[noexec] = "1"
->>>>> +do_bundle_initramfs () {
->>>>> +     :
->>>>> +}
->>>>> +addtask bundle_initramfs after do_rootfs
->>>>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->>>>> index e039dfc..8cf66ce 100644
->>>>> --- a/meta/classes/kernel.bbclass
->>>>> +++ b/meta/classes/kernel.bbclass
->>>>> @@ -9,6 +9,7 @@ INHIBIT_DEFAULT_DEPS = "1"
->>>>>   KERNEL_IMAGETYPE ?= "zImage"
->>>>>   INITRAMFS_IMAGE ?= ""
->>>>>   INITRAMFS_TASK ?= ""
->>>>> +INITRAMFS_IMAGE_BUNDLE ?= ""
->>>>>
->>>>>   python __anonymous () {
->>>>>       kerneltype = d.getVar('KERNEL_IMAGETYPE', True) or ''
->>>>> @@ -19,7 +20,15 @@ python __anonymous () {
->>>>>
->>>>>       image = d.getVar('INITRAMFS_IMAGE', True)
->>>>>       if image:
->>>>> -        d.setVar('INITRAMFS_TASK', '${INITRAMFS_IMAGE}:do_rootfs')
->>>>> +        d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_rootfs')
->>>>> +
->>>>> +    # NOTE: setting INITRAMFS_TASK is for backward compatibility
->>>>> +    #       The preferred method is to set INITRAMFS_IMAGE, because
->>>>> +    #       this INITRAMFS_TASK has circular dependency problems
->>>>> +    #       if the initramfs requires kernel modules
->>>>> +    image_task = d.getVar('INITRAMFS_TASK', True)
->>>>> +    if image_task:
->>>>> +        d.appendVarFlag('do_configure', 'depends', ' ${INITRAMFS_TASK}')
->>>>>   }
->>>>>
->>>>>   inherit kernel-arch deploy
->>>>> @@ -72,9 +81,82 @@ KERNEL_SRC_PATH = "/usr/src/kernel"
->>>>>
->>>>>   KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.getVar('KERNEL_IMAGETYPE', True))}"
->>>>>
->>>>> +copy_initramfs() {
->>>>> +     echo "Copying initramfs into ./usr ..."
->>>>> +     # Find and use the first initramfs image archive type we find
->>>>> +     rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
->>>>> +     for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
->>>>> +             if [ -e "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
->>>>> +                     cp ${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img ${B}/usr/.
->>>>> +                     case $img in
->>>>> +                     *gz)
->>>>> +                             echo "gzip decompressing image"
->>>>> +                             gunzip -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
->>>>> +                             break
->>>>> +                             ;;
->>>>> +                     *lzo)
->>>>> +                             echo "lzo decompressing image"
->>>>> +                             lzop -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
->>>>> +                             break
->>>>> +                             ;;
->>>>> +                     *lzma)
->>>>> +                             echo "lzma decompressing image"
->>>>> +                             lzmash -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
->>>>> +                             break
->>>>> +                             ;;
->>>>> +                     *xz)
->>>>> +                             echo "xz decompressing image"
->>>>> +                             xz -df ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.$img
->>>>> +                             break
->>>>> +                             ;;
->>>>> +                     esac
->>>>> +             fi
->>>>> +     done
->>>>> +     echo "Finished copy of initramfs into ./usr"
->>>>> +}
->>>>
->>>> But what about my bzip2'd image? ;-)
->>>>
->>>> I'd suggest we rid of this and instead ensure that we're generating an
->>>> uncompressed cpio image. The image generation code will happily sort
->>>> that our for us if we ask it for that specific image type.
->>>>
->>>> I'd also wondered if we could remove INITRAMFS_TASK since its just going
->>>> to confuse things and I'd prefer to maintain only one way of doing this
->>>> if at all possible.
->>>>
->>>> Cheers,
->>>>
->>>> Richard
->>>
->>>
->>> Though our observations, in an effort to solve Yocto #4072 the
->>> patchset has been merged.
->>> As side effect it broke the 'old style' creation of initramfs so some
->>> recipes are now unbuildable.
->>>
->>> I'm in touch with Bruce and Jason and I have already a patch for
->>> kernel.bbclass restoring the old functionality by adding one more
->>> variable in each recipe: INITRAMFS_TASK.
->>>
->>> I'm pretty sure we could have built the same kind of images containing
->>> modules in one pass before as well and still dislike the idea of
->>> having to set a variable in local.conf to spread it to the kernel and
->>> to the image (to any image...)
->>>
->>> With 1.5 approaching I'd like to have the issue solved as soon as possible.
->>> Richard, when is deadline for core-patches?
->>
->> Basically ASAP. The next release build is the start of next week but any
->> patches going into that need to have been run through an autobuilder
->> cycle first.
->>
->> This is the first I've heard of the problem, other than some comments
->> about possible problems on irc. Can someone please open up a bug for
->> this and clearly describe what used to work and now doesn't and what the
->> possible fixes or workarounds are?
->>
->> I don't think anyone likes regressions however if we don't have the open
->> bug, its very hard to track.
->>
->> You say you've talked to Bruce/Jason but why didn't the discussion
->> happen on the mailing list? That way others may have been able to help
->> and now I could read back the list and see for myself what the issue is.
->> As it is, I simply don't know other than the need to set a new variable
->> which is hinted at above...
->>
->
-> I'm waiting for feedback because my patch is just restoring some lines
-> of code in kernel_do_configure removed by the a.m. patch and should be
-> harmless wrt 'new-style' builds.
-> I don't know exactly which image has to be built for testing: I
-> successfully embedded core-image-base and its kernel+modules.
->
-> The point is, with the actual kernel.bbclass, it could *perhaps* be
-> necessary to add one more check before copying the cpio to the kernel
-> /usr.
->
-> -    if [ ! -z "${INITRAMFS_IMAGE}" ]; then
-> +    if [ ! -z "${INITRAMFS_IMAGE}" -a ! -z "${INITRAMFS_TASK}" ]; then
->
-> I don't think so anyway, and personally dislike this second var
-> INITRAMFS_TASK, which would need to be put in every kernel recipe
-> asking for old-compat build.
->
-> Alternatively one could write in the recipe do_configure[depends] +=
-> "my-image:do_rootfs" but imho is better to handle that in
-> kernel.bbclass and just set INITRAMFS_IMAGE in the recipe.
->
+On Fri, 2013-09-27 at 08:48 +0200, David Nystrom wrote:
+> 
+> On Sep 27, 2013 4:17 AM, "Tom Zanussi" <tom.zanussi@linux.intel.com>
+> wrote:
+> >
+> > This patchset implements a new command named 'wic' (for OpenEmbedded
+> > Image Creator).  Please see [YOCTO #3847] for extensive background
+> on
+> > what's implemented here.
+> 
+> Nice !
+> 
+> Would it be possible to add the MIC as a recipe for native and
+> nativesdk, with wic patches applied(easier to maintain), and could
+> also enable wic to use a package repo when built for nativesdk.
+> 
 
-I'm back at this again today, yesterday was a complete write off for
-me. Sorry about that. But I'm here to drive this to resolution now.
+Yes, I think something like that would make sense - for 1.5, the design
+goal was to make it a completely standalone thing, with any integration
+work and other enhancements coming in 1.6...
 
->
-> Patch follows (prolly mangled): will be resent once agreed
->
->  From 8d399441b32ae9d64c6045ca99b3a80f67590f8b Mon Sep 17 00:00:00 2001
-> From: Andrea Adami <andrea.adami@gmail.com>
-> Date: Mon, 16 Sep 2013 20:10:14 +0200
-> Subject: [PATCH] kernel.bbclass: copy the initramfs cpio in
-> kernel_do_configure()
->
-> The straight build of a kernel with embedded image fails
-> on do_compile after
->
-> commmit 609d5a9ab9e58bb1c2bcc2145399fbc8b701b85a
-> kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency and
-> bundling
->
-> To keep the old behavior kernel recipe must declare both
-> INITRAMFS_IMAGE and the respective INITRAMFS_TASK.
+Tom
 
-This definitely restores things in the short term, but I've got a
-few things I tried yeterday to check on, and see if the builds
-worked at all.
+> Br,
+> David
+> 
+> 
+> 
+> > This is a completely independent standalone utility that initially
+> > provides easier-to-use and more flexible replacements for a couple
+> > bits of existing functionality in oe-core: directdisk.bbclass and
+> > mkefidisk.sh.  The more interesting aspect of the current patchset
+> > though is that the replaced (this patchset doesn't actually replace
+> > those scripts, however) scripts are implemented by a general-purpose
+> > partitioning 'language' based on Redhat kickstart syntax (with the
+> > underlying code borrowed from Tizen mic, which in turn was borrowed
+> > from Meego mic, in turn borrowed from Fedora livecd, etc.).
+> >
+> > Though this patchset only uses the kickstart syntax related to
+> > partitioning and bootloaders and only for creating images, because
+> the
+> > code is based on the mic/pykickstart code, future deployment efforts
+> > such as those partially described by [YOCTO #4106], but also others
+> > including package selection (from e.g. binary feeds) and deployment
+> > configuration of users/network/services, etc, could be implemented
+> > under this framework, considering that all of those are implemented
+> > in some form by the base system.
+> >
+> > The current patchset has successfully been used to generate and boot
+> > images from core-image-minimal build artifacts using the 'mkefidisk'
+> > kickstart file (in scripts/lib/image/canned-wks) on minnow and the
+> > 'directdisk' kickstart file using both core-image-minimal and
+> > core-image-sato artifacts for crownbay.
+> >
+> > The 'wic' command generates partitioned images from existing
+> > OpenEmbedded build artifacts.  Image generation is driven by
+> > partitioning commands contained in an 'Openembedded
+> kickstart' (.wks)
+> > file specified either directly on the command-line or as one of a
+> > selection of canned .wks files (see 'wic list images').  When
+> applied
+> > to a given set of build artifacts, the result is an image or set of
+> > images that can be directly written onto media and used on a
+> > particular system.
+> >
+> > It can be used in 'raw' mode, where artifacts are explicitly
+> specified
+> > via command-line arguments (see example below), or it can be used in
+> a
+> > more easily usable 'cooked' mode which uses the current MACHINE
+> > setting and a specified image name to automatically locate the
+> > artifacts used to create the image.
+> >
+> > OE kickstart files (.wks) can of course be specified directly on the
+> > command-line, but the user can also choose from a set of
+> 'canned' .wks
+> > files available via the 'wic list images' command (example below).
+> >
+> > In any case, the prerequisite for generating any image is to have
+> the
+> > build artifacts already available.  The below examples assume the
+> user
+> > has already build a 'core-image-minimal' for a specific machine
+> > (future versions won't require this redundant step, but for now
+> that's
+> > typically how build artifacts get generated).
+> >
+> > The other prerequisite is to source the build environment:
+> >
+> > $ source oe-init-build-env
+> >
+> > To start out with, we'll generate an image from one of the
+> canned .wks
+> > files.  The following generates a list of availailable images:
+> >
+> > $ wic list images
+> >   mkefidisk             Create an EFI disk image
+> >   directdisk            Create a 'pcbios' direct disk image
+> >
+> > You can get more information about any of the available images by
+> typing
+> > 'wic list xxx help', where 'xxx' is one of the image names:
+> >
+> > $ wic list mkefidisk help
+> >
+> > Creates a partitioned EFI disk image that the user
+> > can directly dd to boot media.
+> >
+> > At any time, you can get help on the 'wic' command or any subcommand
+> > (currently 'list' and 'create').  For instance, to get the
+> description
+> > of 'wic create' command and its parameters:
+> >
+> > $ wic create
+> >
+> > Usage:
+> >
+> >  Create a new OpenEmbedded image
+> >
+> >  usage: wic create <wks file or image name> [-o <DIRNAME> | --outdir
+> <DIRNAME>]
+> >             [-i <JSON PROPERTY FILE> | --infile <JSON
+> PROPERTY_FILE>]
+> >             [-e | --image-name] [-r, --rootfs-dir] [-b,
+> --bootimg-dir]
+> >             [-k, --kernel-dir] [-n, --native-sysroot] [-s,
+> --skip-build-check]
+> >
+> >  This command creates an OpenEmbedded image based on the 'OE
+> kickstart
+> >  commands' found in the <wks file>.
+> >
+> >  The -o option can be used to place the image in a directory with a
+> >  different name and location.
+> >
+> >  See 'wic help create' for more detailed instructions.
+> >
+> > ...
+> >
+> > As mentioned in the command, you can get even more detailed
+> information
+> > by adding 'help' to the above:
+> >
+> > $ wic help create
+> >
+> > NAME
+> >     wic create - Create a new OpenEmbedded image
+> >
+> > SYNOPSIS
+> >     wic create <wks file or image name> [-o <DIRNAME> | --outdir
+> > <DIRNAME>]
+> >         [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
+> >         [-e | --image-name] [-r, --rootfs-dir] [-b, --bootimg-dir]
+> >         [-k, --kernel-dir] [-n, --native-sysroot] [-s,
+> > --skip-build-check]
+> >
+> > DESCRIPTION
+> >     This command creates an OpenEmbedded image based on the 'OE
+> >     kickstart commands' found in the <wks file>.
+> >
+> >     In order to do this, wic needs to know the locations of the
+> >     various build artifacts required to build the image.
+> >
+> >     Users can explicitly specify the build artifact locations using
+> >     the -r, -b, -k, and -n options.  See below for details on where
+> >     the corresponding artifacts are typically found in a normal
+> >     OpenEmbedded build.
+> >
+> >     Alternatively, users can use the -e option to have 'mic'
+> determine
+> >     those locations for a given image.  If the -e option is used,
+> the
+> >     user needs to have set the appropriate MACHINE variable in
+> >     local.conf, and have sourced the build environment.
+> >
+> >     The -e option is used to specify the name of the image to use
+> the
+> >     artifacts from e.g. core-image-sato.
+> >
+> >     The -r option is used to specify the path to the /rootfs dir to
+> >     use as the .wks rootfs source.
+> >
+> >     The -b option is used to specify the path to the dir containing
+> >     the boot artifacts (e.g. /EFI or /syslinux dirs) to use as the
+> >     .wks bootimg source.
+> >
+> >     The -k option is used to specify the path to the dir containing
+> >     the kernel to use in the .wks bootimg.
+> >
+> >     The -n option is used to specify the path to the native sysroot
+> >     containing the tools to use to build the image.
+> >
+> >     The -s option is used to skip the build check.  The build check
+> is
+> >     a simple sanity check used to determine whether the user has
+> >     sourced the build environment so that the -e option can operate
+> >     correctly.  If the user has specified the build artifact
+> locations
+> >     explicitly, 'wic' assumes the user knows what he or she is doing
+> >     and skips the build check.
+> >
+> >     When 'wic -e' is used, the locations for the build artifacts
+> >     values are determined by 'wic -e' from the output of the
+> 'bitbake
+> >     -e' command given an image name e.g. 'core-image-minimal' and a
+> >     given machine set in local.conf.  In that case, the image is
+> >     created as if the following 'bitbake -e' variables were used:
+> >
+> >     -r:        IMAGE_ROOTFS
+> >     -k:        STAGING_KERNEL_DIR
+> >     -n:        STAGING_DIR_NATIVE
+> >     -b:        HDDDIR and STAGING_DATA_DIR (handlers decide which to
+> > use)
+> >
+> >     If 'wic -e' is not used, the user needs to select the
+> appropriate
+> >     value for -b (as well as -r, -k, and -n).
+> >
+> >     The -o option can be used to place the image in a directory with
+> a
+> >     different name and location.
+> >
+> >     As an alternative to the wks file, the image-specific properties
+> >     that define the values that will be used to generate a
+> particular
+> >     image can be specified on the command-line using the -i option
+> and
+> >     supplying a JSON object consisting of the set of name:value
+> pairs
+> >     needed by image creation.
+> >
+> >     The set of properties available for a given image type can be
+> >     listed using the 'wic list' command.
+> >
+> > So, the easiest way to create an image is to use the -e option with
+> a
+> > canned .wks file.  To use the -e option, you need to specify the
+> image
+> > used to generate the artifacts and you actually need to have the
+> MACHINE
+> > used to build them specified in your local.conf (these requirements
+> > aren't necessary if you aren't using the -e options.  Below, we
+> generate
+> > a directdisk image, pointing the process at the core-image-minimal
+> > artifacts for the current MACHINE:
+> >
+> > $ wic create directdisk -e core-image-minimal
+> >
+> > Checking basic build environment...
+> > Done.
+> >
+> > Creating image(s)...
+> >
+> > Info: The new image(s) can be found here:
+> >   /var/tmp/wic/build/directdisk-201309252350-sda.direct
+> >
+> > The following build artifacts were used to create the image(s):
+> >
+> > ROOTFS_DIR:
+>  /home/trz/yocto/yocto-image/build/tmp/work/crownbay_noemgd-poky-linux/core-image-minimal/1.0-r0/rootfs
+> > BOOTIMG_DIR:
+>   /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/share
+> > KERNEL_DIR:
+>  /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/src/kernel
+> > NATIVE_SYSROOT:
+>  /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/src/kernel
+> >
+> > The image(s) were created using OE kickstart file:
+> >
+>   /home/trz/yocto/yocto-image/scripts/lib/image/canned-wks/directdisk.wks
+> >
+> > The output shows the name and location of the image created, and so
+> that
+> > you know exactly what was used to generate the image, each of the
+> > artifacts and the kickstart file used.
+> >
+> > Similarly, I can create a 'mkefidisk' image in the same way (notice
+> that
+> > I'm using a different machine - because I'm using the -e option, I
+> > needed to change the MACHINE in my local.conf):
+> >
+> > $ wic create mkefidisk -e core-image-minimal
+> > Checking basic build environment...
+> > Done.
+> >
+> > Creating image(s)...
+> >
+> > Info: The new image(s) can be found here:
+> >   /var/tmp/wic/build/mkefidisk-201309260027-sda.direct
+> >
+> > The following build artifacts were used to create the image(s):
+> >
+> > ROOTFS_DIR:
+>  /home/trz/yocto/yocto-image/build/tmp/work/minnow-poky-linux/core-image-minimal/1.0-r0/rootfs
+> > BOOTIMG_DIR:
+>   /home/trz/yocto/yocto-image/build/tmp/work/minnow-poky-linux/core-image-minimal/1.0-r0/core-image-minimal-1.0/hddimg
+> > KERNEL_DIR:
+>  /home/trz/yocto/yocto-image/build/tmp/sysroots/minnow/usr/src/kernel
+> > NATIVE_SYSROOT:
+>  /home/trz/yocto/yocto-image/build/tmp/sysroots/minnow/usr/src/kernel
+> >
+> > The image(s) were created using OE kickstart file:
+> >
+>   /home/trz/yocto/yocto-image/scripts/lib/image/canned-wks/mkefidisk.wks
+> >
+> > Here's an example that doesn't take the easy way out and manually
+> > specifies each build artifact, along with a non-canned .wks file,
+> and
+> > also uses the -o option to have wic create the output somewhere
+> other
+> > than the default /var/tmp/wic:
+> >
+> > $ wic create ~/test.wks -o /home/trz/testwic
+> >
+> --rootfs-dir /home/trz/yocto/yocto-image/build/tmp/work/crownbay_noemgd-poky-linux/core-image-minimal/1.0-r0/rootfs --bootimg-dir /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/share --kernel-dir /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/src/kernel --native-sysroot /home/trz/yocto/yocto-image/build/tmp/sysroots/x86_64-linux
+> >
+> > Creating image(s)...
+> >
+> > Info: The new image(s) can be found here:
+> >   /home/trz/testwic/build/test-201309260032-sda.direct
+> >
+> > The following build artifacts were used to create the image(s):
+> >
+> > ROOTFS_DIR:
+>  /home/trz/yocto/yocto-image/build/tmp/work/crownbay_noemgd-poky-linux/core-image-minimal/1.0-r0/rootfs
+> > BOOTIMG_DIR:
+>   /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/share
+> > KERNEL_DIR:
+>  /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/src/kernel
+> > NATIVE_SYSROOT:
+>  /home/trz/yocto/yocto-image/build/tmp/sysroots/crownbay-noemgd/usr/src/kernel
+> >
+> > The image(s) were created using OE kickstart file:
+> >   /home/trz/test.wks
+> >
+> > Finally, here's an example of the actual partition language commands
+> > used to generate the mkefidisk image i.e. these are the contents of
+> the
+> > mkefidisk.wks OE kickstart file:
+> >
+> > # short-description: Create an EFI disk image
+> > # long-description: Creates a partitioned EFI disk image that the
+> user
+> > # can directly dd to boot media.
+> >
+> > part /boot --source bootimg --ondisk sda --fstype=efi --label msdos
+> --active --align 1024
+> >
+> > part / --source rootfs --ondisk sda --fstype=ext3 --label platform
+> --align 1024
+> >
+> > part swap --ondisk sda --size 44 --label swap1 --fstype=swap
+> >
+> > bootloader  --timeout=10  --append="rootwait rootfstype=ext3
+> console=ttyPCH0,115200 console=tty0 vmalloc=256MB
+> snd-hda-intel.enable_msi=0"
+> >
+> > The initial 'wic' implementation here supports only the basic
+> > kickstart partitioning commands: 'partition' (or 'part' for short)
+> and
+> > 'bootloader'.
+> >
+> > Currently, only the options used in the 'canned' scripts (in
+> > scripts/lib/image/canned-wks) are supported.
+> >
+> > They're listed below and mostly follow the syntax and meaning of the
+> > standard kickstart options for those commands:
+> >
+> > http://fedoraproject.org/wiki/Anaconda/Kickstart#part_or_partition
+> > http://fedoraproject.org/wiki/Anaconda/Kickstart#bootloader
+> >
+> > For the 'partition' ('part') command, here are the supported
+> options:
+> >
+> > --source
+> >         bootimg
+> >         rootfs
+> > --ondisk sda
+> > --size size (in mB)
+> > --fstype
+> >         msdos
+> >         efi
+> >         ext4
+> >         ext3
+> >         ext2
+> >         btrfs
+> >         swap
+> > --label label
+> > --active
+> > ---align (in kB)
+> >
+> > The --source option is a wic-specific option that can currently have
+> > one of two values, 'bootimg' or 'rootfs'.
+> >
+> > If '--source rootfs' is used, it tells the wic command to create a
+> > partition as large as needed to fill with the contents of /rootfs
+> > (specified by the -r 'wic' option) and to fill it with the contents
+> of
+> > /rootfs.
+> >
+> > If '--source bootimg' is used, it tells the wic command to create a
+> > partition as large as needed to fill with the contents of the boot
+> > partition (specified by the -b 'wic' option).  Exactly what those
+> > contents are depend on the value of the --fstype option for that
+> > partition.  If '--fstype=efi' is specified, the boot artifacts
+> > contained in HDDDIR are used, and if '--fstype=msdos' is specified,
+> > the boot artifacts found in STAGING_DATADIR are used.
+> >
+> > The '--align' option is a mic-specific option that says to start a
+> > partition on an x kB boundary.
+> >
+> > For the 'bootloader' command, these are the supported options:
+> >
+> > --timeout
+> > --append
+> >
+> > Future updates will implement more options - using anything not
+> > explicitly supported can result in unpredicable results.
+> >
+> >
+> > The following changes since commit
+> b049d532f6e0ab9e458e486f81b00be47ee69acf:
+> >
+> >   testimage: Exclude BB_ORIGENV variable (2013-09-26 17:27:02 +0100)
+> >
+> > are available in the git repository at:
+> >
+> >   git://git.yoctoproject.org/poky-contrib.git tzanussi/wic-v1
+> >
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=tzanussi/wic-v1
+> >
+> > Tom Zanussi (3):
+> >   wic: Initial code for wic (OpenEmbedded Image Creator)
+> >   wic: Add mic w/pykickstart
+> >   wic: Add OpenEmbedded-specific implementation
+> >
+> >  scripts/lib/image/__init__.py                      |   22 +
+> >  scripts/lib/image/canned-wks/directdisk.wks        |   10 +
+> >  scripts/lib/image/canned-wks/mkefidisk.wks         |   11 +
+> >  scripts/lib/image/config/wic.conf                  |    7 +
+> >  scripts/lib/image/engine.py                        |  280 ++++
+> >  scripts/lib/image/help.py                          |  311 ++++
+> >  scripts/lib/mic/3rdparty/pykickstart/base.py       |  466 ++++++
+> >  .../mic/3rdparty/pykickstart/commands/__init__.py  |   26 +
+> >  .../3rdparty/pykickstart/commands/authconfig.py    |   40 +
+> >  .../mic/3rdparty/pykickstart/commands/autopart.py  |  119 ++
+> >  .../mic/3rdparty/pykickstart/commands/autostep.py  |   55 +
+> >  .../3rdparty/pykickstart/commands/bootloader.py    |  265 ++++
+> >  .../mic/3rdparty/pykickstart/commands/clearpart.py |   86 ++
+> >  .../mic/3rdparty/pykickstart/commands/device.py    |  125 ++
+> >  .../3rdparty/pykickstart/commands/deviceprobe.py   |   40 +
+> >  .../3rdparty/pykickstart/commands/displaymode.py   |   68 +
+> >  .../mic/3rdparty/pykickstart/commands/dmraid.py    |   91 ++
+> >  .../3rdparty/pykickstart/commands/driverdisk.py    |  184 +++
+> >  .../lib/mic/3rdparty/pykickstart/commands/fcoe.py  |  114 ++
+> >  .../mic/3rdparty/pykickstart/commands/firewall.py  |  193 +++
+> >  .../mic/3rdparty/pykickstart/commands/firstboot.py |   62 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/group.py |   88 ++
+> >  .../3rdparty/pykickstart/commands/ignoredisk.py    |  139 ++
+> >  .../3rdparty/pykickstart/commands/interactive.py   |   58 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/iscsi.py |  133 ++
+> >  .../mic/3rdparty/pykickstart/commands/iscsiname.py |   54 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/key.py   |   64 +
+> >  .../mic/3rdparty/pykickstart/commands/keyboard.py  |   55 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/lang.py  |   60 +
+> >  .../3rdparty/pykickstart/commands/langsupport.py   |   58 +
+> >  .../mic/3rdparty/pykickstart/commands/lilocheck.py |   54 +
+> >  .../mic/3rdparty/pykickstart/commands/logging.py   |   66 +
+> >  .../mic/3rdparty/pykickstart/commands/logvol.py    |  304 ++++
+> >  .../3rdparty/pykickstart/commands/mediacheck.py    |   53 +
+> >  .../mic/3rdparty/pykickstart/commands/method.py    |  186 +++
+> >  .../mic/3rdparty/pykickstart/commands/monitor.py   |  106 ++
+> >  .../lib/mic/3rdparty/pykickstart/commands/mouse.py |   70 +
+> >  .../mic/3rdparty/pykickstart/commands/multipath.py |  111 ++
+> >  .../mic/3rdparty/pykickstart/commands/network.py   |  363 +++++
+> >  .../mic/3rdparty/pykickstart/commands/partition.py |  353 +++++
+> >  .../lib/mic/3rdparty/pykickstart/commands/raid.py  |  365 +++++
+> >  .../mic/3rdparty/pykickstart/commands/reboot.py    |   79 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/repo.py  |  249 +++
+> >  .../mic/3rdparty/pykickstart/commands/rescue.py    |   68 +
+> >  .../mic/3rdparty/pykickstart/commands/rootpw.py    |   93 ++
+> >  .../mic/3rdparty/pykickstart/commands/selinux.py   |   64 +
+> >  .../mic/3rdparty/pykickstart/commands/services.py  |   71 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/skipx.py |   54 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/sshpw.py |  105 ++
+> >  .../mic/3rdparty/pykickstart/commands/timezone.py  |   86 ++
+> >  .../mic/3rdparty/pykickstart/commands/updates.py   |   60 +
+> >  .../mic/3rdparty/pykickstart/commands/upgrade.py   |  106 ++
+> >  .../lib/mic/3rdparty/pykickstart/commands/user.py  |  173 +++
+> >  .../lib/mic/3rdparty/pykickstart/commands/vnc.py   |  114 ++
+> >  .../mic/3rdparty/pykickstart/commands/volgroup.py  |  102 ++
+> >  .../mic/3rdparty/pykickstart/commands/xconfig.py   |  184 +++
+> >  .../mic/3rdparty/pykickstart/commands/zerombr.py   |   69 +
+> >  .../lib/mic/3rdparty/pykickstart/commands/zfcp.py  |  134 ++
+> >  scripts/lib/mic/3rdparty/pykickstart/constants.py  |   57 +
+> >  scripts/lib/mic/3rdparty/pykickstart/errors.py     |  103 ++
+> >  .../mic/3rdparty/pykickstart/handlers/control.py   | 1307
+> ++++++++++++++++
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f10.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f11.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f12.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f13.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f14.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f15.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f16.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f7.py    |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f8.py    |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/f9.py    |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/fc3.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/fc4.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/fc5.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/fc6.py   |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/rhel3.py |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/rhel4.py |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/rhel5.py |   24 +
+> >  .../lib/mic/3rdparty/pykickstart/handlers/rhel6.py |   24 +
+> >  scripts/lib/mic/3rdparty/pykickstart/ko.py         |   37 +
+> >  scripts/lib/mic/3rdparty/pykickstart/options.py    |  204 +++
+> >  scripts/lib/mic/3rdparty/pykickstart/parser.py     |  702 +++++++++
+> >  scripts/lib/mic/3rdparty/pykickstart/sections.py   |  244 +++
+> >  .../3rdparty/pykickstart/urlgrabber/__init__.py    |   53 +
+> >  .../3rdparty/pykickstart/urlgrabber/byterange.py   |  463 ++++++
+> >  .../mic/3rdparty/pykickstart/urlgrabber/grabber.py | 1477
+> ++++++++++++++++++
+> >  .../3rdparty/pykickstart/urlgrabber/keepalive.py   |  617 ++++++++
+> >  .../mic/3rdparty/pykickstart/urlgrabber/mirror.py  |  458 ++++++
+> >  .../3rdparty/pykickstart/urlgrabber/progress.py    |  530 +++++++
+> >  .../3rdparty/pykickstart/urlgrabber/sslfactory.py  |   90 ++
+> >  scripts/lib/mic/3rdparty/pykickstart/version.py    |  197 +++
+> >  scripts/lib/mic/__init__.py                        |    4 +
+> >  scripts/lib/mic/__version__.py                     |    1 +
+> >  scripts/lib/mic/bootstrap.py                       |  279 ++++
+> >  scripts/lib/mic/chroot.py                          |  343 +++++
+> >  scripts/lib/mic/conf.py                            |  201 +++
+> >  scripts/lib/mic/creator.py                         |  351 +++++
+> >  scripts/lib/mic/imager/baseimager.py               | 1265
+> ++++++++++++++++
+> >  scripts/lib/mic/imager/direct.py                   |  472 ++++++
+> >  scripts/lib/mic/imager/fs.py                       |   99 ++
+> >  scripts/lib/mic/imager/livecd.py                   |  750 +++++++++
+> >  scripts/lib/mic/imager/liveusb.py                  |  308 ++++
+> >  scripts/lib/mic/imager/loop.py                     |  418 ++++++
+> >  scripts/lib/mic/imager/raw.py                      |  501 +++++++
+> >  scripts/lib/mic/kickstart/__init__.py              |  892
+> +++++++++++
+> >  .../lib/mic/kickstart/custom_commands/__init__.py  |   17 +
+> >  .../lib/mic/kickstart/custom_commands/desktop.py   |   95 ++
+> >  .../mic/kickstart/custom_commands/installerfw.py   |   63 +
+> >  .../lib/mic/kickstart/custom_commands/micboot.py   |   49 +
+> >  .../mic/kickstart/custom_commands/micpartition.py  |   57 +
+> >  .../lib/mic/kickstart/custom_commands/micrepo.py   |  127 ++
+> >  .../lib/mic/kickstart/custom_commands/partition.py |  370 +++++
+> >  scripts/lib/mic/msger.py                           |  309 ++++
+> >  scripts/lib/mic/plugin.py                          |  102 ++
+> >  scripts/lib/mic/pluginbase.py                      |  101 ++
+> >  scripts/lib/mic/plugins/backend/yumpkgmgr.py       |  490 ++++++
+> >  scripts/lib/mic/plugins/backend/zypppkgmgr.py      |  973
+> ++++++++++++
+> >  scripts/lib/mic/plugins/hook/empty_hook.py         |    3 +
+> >  scripts/lib/mic/plugins/imager/direct_plugin.py    |   92 ++
+> >  scripts/lib/mic/plugins/imager/fs_plugin.py        |  143 ++
+> >  scripts/lib/mic/plugins/imager/livecd_plugin.py    |  255 ++++
+> >  scripts/lib/mic/plugins/imager/liveusb_plugin.py   |  260 ++++
+> >  scripts/lib/mic/plugins/imager/loop_plugin.py      |  255 ++++
+> >  scripts/lib/mic/plugins/imager/raw_plugin.py       |  275 ++++
+> >  scripts/lib/mic/rt_util.py                         |  223 +++
+> >  scripts/lib/mic/test                               |    1 +
+> >  scripts/lib/mic/utils/BmapCreate.py                |  298 ++++
+> >  scripts/lib/mic/utils/Fiemap.py                    |  252 ++++
+> >  scripts/lib/mic/utils/cmdln.py                     | 1586
+> ++++++++++++++++++++
+> >  scripts/lib/mic/utils/errors.py                    |   71 +
+> >  scripts/lib/mic/utils/fs_related.py                | 1057
+> +++++++++++++
+> >  scripts/lib/mic/utils/gpt_parser.py                |  331 ++++
+> >  scripts/lib/mic/utils/grabber.py                   |   97 ++
+> >  scripts/lib/mic/utils/misc.py                      | 1067
+> +++++++++++++
+> >  scripts/lib/mic/utils/oe/__init__.py               |   22 +
+> >  scripts/lib/mic/utils/oe/misc.py                   |  108 ++
+> >  scripts/lib/mic/utils/partitionedfs.py             |  776
+> ++++++++++
+> >  scripts/lib/mic/utils/proxy.py                     |  183 +++
+> >  scripts/lib/mic/utils/rpmmisc.py                   |  600 ++++++++
+> >  scripts/lib/mic/utils/runner.py                    |  109 ++
+> >  scripts/wic                                        |  185 +++
+> >  141 files changed, 30983 insertions(+)
+> >  create mode 100644 scripts/lib/image/__init__.py
+> >  create mode 100644 scripts/lib/image/canned-wks/directdisk.wks
+> >  create mode 100644 scripts/lib/image/canned-wks/mkefidisk.wks
+> >  create mode 100644 scripts/lib/image/config/wic.conf
+> >  create mode 100644 scripts/lib/image/engine.py
+> >  create mode 100644 scripts/lib/image/help.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/__init__.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/base.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/__init__.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/authconfig.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/autopart.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/autostep.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/bootloader.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/clearpart.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/device.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/deviceprobe.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/displaymode.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/dmraid.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/driverdisk.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/fcoe.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/firewall.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/firstboot.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/group.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/ignoredisk.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/interactive.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/iscsi.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/iscsiname.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/key.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/keyboard.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/lang.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/langsupport.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/lilocheck.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/logging.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/logvol.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/mediacheck.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/method.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/monitor.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/mouse.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/multipath.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/network.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/partition.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/raid.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/reboot.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/repo.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/rescue.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/rootpw.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/selinux.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/services.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/skipx.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/sshpw.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/timezone.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/updates.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/upgrade.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/user.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/vnc.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/volgroup.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/xconfig.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/zerombr.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/commands/zfcp.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/constants.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/errors.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/__init__.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/control.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f10.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f11.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f12.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f13.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f14.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f15.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f16.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f7.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f8.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/f9.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/fc3.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/fc4.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/fc5.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/fc6.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/rhel3.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/rhel4.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/rhel5.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/handlers/rhel6.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/ko.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/options.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/parser.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/sections.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/__init__.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/byterange.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/grabber.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/keepalive.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/mirror.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/progress.py
+> >  create mode 100644
+> scripts/lib/mic/3rdparty/pykickstart/urlgrabber/sslfactory.py
+> >  create mode 100644 scripts/lib/mic/3rdparty/pykickstart/version.py
+> >  create mode 100644 scripts/lib/mic/__init__.py
+> >  create mode 100644 scripts/lib/mic/__version__.py
+> >  create mode 100644 scripts/lib/mic/bootstrap.py
+> >  create mode 100644 scripts/lib/mic/chroot.py
+> >  create mode 100644 scripts/lib/mic/conf.py
+> >  create mode 100644 scripts/lib/mic/creator.py
+> >  create mode 100644 scripts/lib/mic/imager/__init__.py
+> >  create mode 100644 scripts/lib/mic/imager/baseimager.py
+> >  create mode 100644 scripts/lib/mic/imager/direct.py
+> >  create mode 100644 scripts/lib/mic/imager/fs.py
+> >  create mode 100644 scripts/lib/mic/imager/livecd.py
+> >  create mode 100644 scripts/lib/mic/imager/liveusb.py
+> >  create mode 100644 scripts/lib/mic/imager/loop.py
+> >  create mode 100644 scripts/lib/mic/imager/raw.py
+> >  create mode 100644 scripts/lib/mic/kickstart/__init__.py
+> >  create mode 100644
+> scripts/lib/mic/kickstart/custom_commands/__init__.py
+> >  create mode 100644
+> scripts/lib/mic/kickstart/custom_commands/desktop.py
+> >  create mode 100644
+> scripts/lib/mic/kickstart/custom_commands/installerfw.py
+> >  create mode 100644
+> scripts/lib/mic/kickstart/custom_commands/micboot.py
+> >  create mode 100644
+> scripts/lib/mic/kickstart/custom_commands/micpartition.py
+> >  create mode 100644
+> scripts/lib/mic/kickstart/custom_commands/micrepo.py
+> >  create mode 100644
+> scripts/lib/mic/kickstart/custom_commands/partition.py
+> >  create mode 100644 scripts/lib/mic/msger.py
+> >  create mode 100644 scripts/lib/mic/plugin.py
+> >  create mode 100644 scripts/lib/mic/pluginbase.py
+> >  create mode 100644 scripts/lib/mic/plugins/backend/yumpkgmgr.py
+> >  create mode 100755 scripts/lib/mic/plugins/backend/zypppkgmgr.py
+> >  create mode 100644 scripts/lib/mic/plugins/hook/.py
+> >  create mode 100644 scripts/lib/mic/plugins/hook/empty_hook.py
+> >  create mode 100644 scripts/lib/mic/plugins/imager/direct_plugin.py
+> >  create mode 100644 scripts/lib/mic/plugins/imager/fs_plugin.py
+> >  create mode 100644 scripts/lib/mic/plugins/imager/livecd_plugin.py
+> >  create mode 100644 scripts/lib/mic/plugins/imager/liveusb_plugin.py
+> >  create mode 100644 scripts/lib/mic/plugins/imager/loop_plugin.py
+> >  create mode 100644 scripts/lib/mic/plugins/imager/raw_plugin.py
+> >  create mode 100644 scripts/lib/mic/rt_util.py
+> >  create mode 100644 scripts/lib/mic/test
+> >  create mode 100644 scripts/lib/mic/utils/BmapCreate.py
+> >  create mode 100644 scripts/lib/mic/utils/Fiemap.py
+> >  create mode 100644 scripts/lib/mic/utils/__init__.py
+> >  create mode 100644 scripts/lib/mic/utils/cmdln.py
+> >  create mode 100644 scripts/lib/mic/utils/errors.py
+> >  create mode 100644 scripts/lib/mic/utils/fs_related.py
+> >  create mode 100644 scripts/lib/mic/utils/gpt_parser.py
+> >  create mode 100644 scripts/lib/mic/utils/grabber.py
+> >  create mode 100644 scripts/lib/mic/utils/misc.py
+> >  create mode 100644 scripts/lib/mic/utils/oe/__init__.py
+> >  create mode 100644 scripts/lib/mic/utils/oe/misc.py
+> >  create mode 100644 scripts/lib/mic/utils/partitionedfs.py
+> >  create mode 100644 scripts/lib/mic/utils/proxy.py
+> >  create mode 100644 scripts/lib/mic/utils/rpmmisc.py
+> >  create mode 100644 scripts/lib/mic/utils/runner.py
+> >  create mode 100755 scripts/wic
+> >
+> > --
+> > 1.7.11.4
+> >
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
 
-That being said, even the new changes I was working on have a
-larger footprint than this, so at this point, I don't object to this.
-As everyone recalls in the original threads, I was adamant that we
-not break any existing workflows when trying to add this bundling
-code.
-
-I'll follow up shortly with a better response.
-
-Cheers,
-
-Bruce
-
->
-> Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
-> ---
->   meta/classes/kernel.bbclass | 8 ++++++++
->   1 file changed, 8 insertions(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 8cf66ce..a534579 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -301,6 +301,14 @@ kernel_do_configure() {
->           cp "${WORKDIR}/defconfig" "${B}/.config"
->       fi
->       yes '' | oe_runmake oldconfig
-> +
-> +    if [ ! -z "${INITRAMFS_IMAGE}" -a ! -z "${INITRAMFS_TASK}" ]; then
-> +        for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
-> +        if [ -e
-> "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img" ]; then
-> +            cp
-> "${DEPLOY_DIR_IMAGE}/${INITRAMFS_IMAGE}-${MACHINE}.$img"
-> initramfs.$img
-> +        fi
-> +        done
-> +    fi
->   }
->
->   do_savedefconfig() {
->
 
 
