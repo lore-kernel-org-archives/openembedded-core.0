@@ -1,24 +1,34 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 175F961005
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 01:01:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8R11lsY014487
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 18:01:47 -0700 (PDT)
-Received: from splat.wrs.com (128.224.60.28) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.2.347.0;
-	Thu, 26 Sep 2013 18:01:45 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Sep 2013 20:01:20 -0500
-Message-ID: <1380243680-13770-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [v2 PATCH] mkefidisk.sh: Allow using a loopback mounted file
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 52E876CA6B
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 01:33:15 +0000 (UTC)
+Received: by mail-pa0-f48.google.com with SMTP id bj1so2086502pad.21
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Sep 2013 18:33:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=NkSvfKApTNixBRjVdzf7KC8N/tig+4OodsbjMQu1Zwg=;
+	b=LGa5nMb05vvXxnBND9UijI/Kq2bv/LMR4usWHD97PQlsRfjFQhbpW52sxtOfPkVtbn
+	46FwGKaOA9a6CO2VXFblSEFhSCkxRwe8fyAgocb4Axbj9umYbLPsvNs6FZRZCjpm8GMW
+	7pKz29TL/pM/kyC/ef/KjNCBo1rgQaK0uLb5x8zoD8J40GfKHvL6n6McXzbRO8HTTZ9y
+	fRRUvbcC1el4Vdrh8/zCR0iiHSbjnr51IQPk65+WgLEN9p95eyVRDbKaCUKvOjmN3Q4E
+	8T5zWbtzzrmd9vWdWkKIXb6WwCjIKskjJ8X1Si8/dhsW1x7fZAFG0Jxu295nzkbFOEOU
+	STNA==
+X-Received: by 10.66.164.136 with SMTP id yq8mr8441070pab.67.1380245597031;
+	Thu, 26 Sep 2013 18:33:17 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by mx.google.com with ESMTPSA id dw3sm5098493pbc.17.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 26 Sep 2013 18:33:16 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Sep 2013 11:30:10 +1000
+Message-Id: <1380245410-11696-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 1.8.4
+Subject: [PATCH] boot-directdisk: ensure generated MBR disk signature is non-zero
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 01:01:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 27 Sep 2013 01:33:16 -0000
 
-It should be possible to generate a disk to a file using a loopback
-device with mkefidisk.sh, which is useful for booting simulators.  To
-make this possible the partitions for the loop back need to work
-similarly to the mmc devices.  The mkfs.vfat also requires and
-additional argument to force it to write to something other then a
-real disk.
+A zero MBR disk signature is generally seen as no signature and
+another partitioning program might install a new signature.
 
-Example:
-  qemu-img create -f raw bigdisk 4G
-  dev=`sudo losetup -f`
-  sudo losetup $dev bigdisk
-  mkefidisk.sh $dev tmp-eglibc/deploy/images/qemux86/core-image-minimal-qemux86.hddimg /dev/sda
-  sudo losetup -d $dev
-
-Note:
-  Also a bug was fixed in the mkefidisk.sh where if the disk you are
-  writing to initially has an invalid label the size of the first
-  partition will be computed incorrectly.  For the simulator disk
-  creation this is generally always the case, but this can happen with
-  real hardware as well.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- scripts/contrib/mkefidisk.sh |   14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ meta/classes/boot-directdisk.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index af06b4b..c86849d 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -134,6 +134,11 @@ fi
- # Partition $DEVICE
- #
- DEVICE_SIZE=$(parted $DEVICE unit mb print | grep ^Disk | cut -d" " -f 3 | sed -e "s/MB//")
-+# If the device size is not reported there may not be a valid label
-+if [ "$DEVICE_SIZE" = "" ] ; then
-+	parted $DEVICE mklabel msdos
-+	DEVICE_SIZE=$(parted $DEVICE unit mb print | grep ^Disk | cut -d" " -f 3 | sed -e "s/MB//")
-+fi
- SWAP_SIZE=$((DEVICE_SIZE*SWAP_RATIO/100))
- ROOTFS_SIZE=$((DEVICE_SIZE-BOOT_SIZE-SWAP_SIZE))
- ROOTFS_START=$((BOOT_SIZE))
-@@ -142,7 +147,7 @@ SWAP_START=$((ROOTFS_END))
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 4b9d7bd..8641e85 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -148,7 +148,11 @@ python do_bootdirectdisk() {
+ def generate_disk_signature():
+     import uuid
  
- # MMC devices use a partition prefix character 'p'
- PART_PREFIX=""
--if [ ! "${DEVICE#/dev/mmcblk}" = "${DEVICE}" ]; then
-+if [ ! "${DEVICE#/dev/mmcblk}" = "${DEVICE}" ] || [ ! "${DEVICE#/dev/loop}" = "${DEVICE}" ]; then
- 	PART_PREFIX="p"
- fi
- BOOTFS=$DEVICE${PART_PREFIX}1
-@@ -197,7 +202,12 @@ unmount_device
- #
- echo ""
- echo "Formatting $BOOTFS as vfat..."
--mkfs.vfat $BOOTFS -n "efi"
-+if [ ! "${DEVICE#/dev/loop}" = "${DEVICE}" ]; then
-+	mkfs.vfat -I $BOOTFS -n "efi"
-+else
-+	mkfs.vfat $BOOTFS -n "efi"
+-    return str(uuid.uuid4())[:8]
++    while True:
++        signature = str(uuid.uuid4())[:8]
 +
-+fi
++        if signature != '00000000':
++            return signature
  
- echo "Formatting $ROOTFS as ext3..."
- mkfs.ext3 $ROOTFS -L "root"
+ def validate_disk_signature(d):
+     import re
 -- 
-1.7.9.5
+1.8.4
 
 
