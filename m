@@ -1,17 +1,34 @@
-Return-Path: <muhammad_shakeel@mentor.com>
-Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 335B861005
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 18:12:49 +0000 (UTC)
-Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
-	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r8RICjsB022961; 
-	Fri, 27 Sep 2013 13:12:49 -0500
-From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Sep 2013 23:14:15 +0500
-Message-Id: <1380305655-5492-1-git-send-email-muhammad_shakeel@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH] opkg: Use systemd service for first boot configuration
+Return-Path: <andrea.adami@gmail.com>
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B43756CAC8
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 21:06:36 +0000 (UTC)
+Received: by mail-la0-f45.google.com with SMTP id eh20so2607621lab.4
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 14:06:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=XRD4duxl0bwTkBsgsUUY6D8KrKxAZvXmsmip3rzb8JU=;
+	b=lpbAqiEvWs+Gwiz32XMpG0HwT1JsPK74icgGFEnprSz++J003u9Or7XB1CiywquQRi
+	Sb2d0iPkCpubwrxcPTVvYXwKnjsdQskLIZcWd/vinZO5nBYzY9pR69tr551RZQjQ5c58
+	fsITLAYNY7FjDbJ8GSg26xSB3nk0iz6Uma1CTTEdQuZfAgfhjQqVRWpWRiGGSKR8+RL7
+	S7S8IhPPlcwKICBHx0Y0mRDsCtycoChPktcoEAxrpqvJ9mqyuAc5kL/r89DvnN/u+u6A
+	VAdcyZoX9pGKGIGtiEQB3wUX0BJAuMf3i6h4hgvveYCiaKoXfbd/lErghQrpB08N3CCl
+	0d5g==
+MIME-Version: 1.0
+X-Received: by 10.112.146.33 with SMTP id sz1mr10104763lbb.14.1380315997108;
+	Fri, 27 Sep 2013 14:06:37 -0700 (PDT)
+Received: by 10.112.52.74 with HTTP; Fri, 27 Sep 2013 14:06:37 -0700 (PDT)
+In-Reply-To: <1380299019-10777-1-git-send-email-jason.wessel@windriver.com>
+References: <1380299019-10777-1-git-send-email-jason.wessel@windriver.com>
+Date: Fri, 27 Sep 2013 23:06:37 +0200
+Message-ID: <CAAQYJAsFbxdCsOTKRKMk+TMHe2=oAjw4vOaAwKpWMbKfwHHpfg@mail.gmail.com>
+From: Andrea Adami <andrea.adami@gmail.com>
+To: Jason Wessel <jason.wessel@windriver.com>
+Cc: Openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel.bbclass: Allow INITRAMFS_TASK to trigger copy initramfs code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,104 +41,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 18:12:49 -0000
+X-List-Received-Date: Fri, 27 Sep 2013 21:06:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+Jason,
 
-Currently opkg uses a script to configure packages during first time boot.
-This script is present in rcS.d and when 'sysvinit' is disabled this
-script doesn't execute. For systemd only distros this newly added service
-will run the opkg configure during first boot only.
+there is one more problem here:
 
-Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
----
- meta/recipes-devtools/opkg/opkg.inc                |   21 ++++++++++++++++++--
- .../opkg/opkg/opkg-configure.service               |   17 ++++++++++++++++
- meta/recipes-devtools/opkg/opkg_svn.bb             |    1 +
- 3 files changed, 37 insertions(+), 2 deletions(-)
+| DEBUG: Executing shell function do_compile
+| Copying initramfs into ./usr ...
+| cp: cannot create regular file
+'/oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/linux-yocto-tiny-kexecboot/3.10.11+gitAUTOINC+dad2b7e1ce_e1aa804148-r0/linux-poodle-tiny-build/usr/.':
+No such file or directory
 
-diff --git a/meta/recipes-devtools/opkg/opkg.inc b/meta/recipes-devtools/opkg/opkg.inc
-index afe6cb0..3d56886 100644
---- a/meta/recipes-devtools/opkg/opkg.inc
-+++ b/meta/recipes-devtools/opkg/opkg.inc
-@@ -16,7 +16,13 @@ do_configure_prepend() {
- 	sed -i -e s:-Werror::g ${S}/libopkg/Makefile.am
- }
- 
--inherit autotools pkgconfig
-+inherit autotools pkgconfig systemd
-+
-+python () {
-+    if 'sysvinit' not in d.getVar("DISTRO_FEATURES", True).split():
-+        pn = d.getVar('PN', True)
-+        d.setVar('SYSTEMD_SERVICE_%s' % (pn), 'opkg-configure.service')
-+}
- 
- target_localstatedir := "${localstatedir}"
- OPKGLIBDIR = "${target_localstatedir}/lib"
-@@ -49,6 +55,16 @@ FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
- do_install_append() {
- 	# We need to create the lock directory
- 	install -d ${D}${OPKGLIBDIR}/opkg
-+
-+	if ${@base_contains('DISTRO_FEATURES','sysvinit','false','true',d)};then
-+		install -d ${D}${systemd_unitdir}/system
-+		install -m 0644 ${WORKDIR}/opkg-configure.service ${D}${systemd_unitdir}/system/
-+		sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
-+			-e 's,@SYSCONFDIR@,${sysconfdir},g' \
-+			-e 's,@BINDIR@,${bindir},g' \
-+			-e 's,@SYSTEMD_UNITDIR@,${systemd_unitdir},g' \
-+			${D}${systemd_unitdir}/system/opkg-configure.service
-+	fi
- }
- 
- do_install_append_class-native() {
-@@ -59,7 +75,8 @@ do_install_append_class-native() {
- 
- pkg_postinst_${PN} () {
- #!/bin/sh
--if [ "x$D" != "x" ] && [ -f $D${OPKGLIBDIR}/opkg/status ]; then
-+if ${@base_contains('DISTRO_FEATURES','sysvinit','true','false',d)} && \
-+	[ "x$D" != "x" ] && [ -f $D${OPKGLIBDIR}/opkg/status ]; then
- 	install -d $D${sysconfdir}/rcS.d
- 
- 	# this happens at S98 where our good 'ole packages script used to run
-diff --git a/meta/recipes-devtools/opkg/opkg/opkg-configure.service b/meta/recipes-devtools/opkg/opkg/opkg-configure.service
-new file mode 100644
-index 0000000..a1c3a31
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/opkg-configure.service
-@@ -0,0 +1,17 @@
-+[Unit]
-+Description=Opkg first boot configure
-+DefaultDependencies=no
-+After=systemd-remount-fs.service systemd-tmpfiles-setup.service tmp.mount
-+Before=sysinit.target
-+
-+[Service]
-+Type=oneshot
-+EnvironmentFile=-@SYSCONFDIR@/default/postinst
-+ExecStart=@BASE_BINDIR@/sh -c " if [ $POSTINST_LOGGING = '1' ]; then @BINDIR@/opkg-cl configure > $LOGFILE 2>&1; else @BINDIR@/opkg-cl configure; fi"
-+ExecStartPost=@BASE_BINDIR@/systemctl disable opkg-configure.service
-+StandardOutput=syslog
-+RemainAfterExit=No
-+
-+[Install]
-+WantedBy=basic.target
-+WantedBy=sysinit.target
-diff --git a/meta/recipes-devtools/opkg/opkg_svn.bb b/meta/recipes-devtools/opkg/opkg_svn.bb
-index bc10491..cd0485f 100644
---- a/meta/recipes-devtools/opkg/opkg_svn.bb
-+++ b/meta/recipes-devtools/opkg/opkg_svn.bb
-@@ -3,6 +3,7 @@ require opkg.inc
- SRC_URI = "svn://opkg.googlecode.com/svn;module=trunk;protocol=http \
-            file://no-install-recommends.patch \
-            file://add-exclude.patch \
-+           file://opkg-configure.service \
- "
- 
- S = "${WORKDIR}/trunk"
--- 
-1.7.9.5
+I'm solving it this way:
 
+copy_initramfs() {
+        echo "Covpying initramfs into ./usr ..."
++        mkdir -p ${B}/usr
+        # Find and use the first initramfs image archive type we find
+
+
+Please take care of this.
+Thanks
+
+Andrea
+
+
+
+
+On Fri, Sep 27, 2013 at 6:23 PM, Jason Wessel
+<jason.wessel@windriver.com> wrote:
+> Activating the INITRAMFS_TASK can cause circular dependencies, but
+> that is up to the end user to resolve in recipes.  The INITRAMFS_TASK
+> should also trigger immediate linking of the cpio task in the first
+> compile pass.  This was a subtle regression introduced by: 609d5a9ab
+> (kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency
+> and bundling).
+>
+> This patch restores the previous behavior and only affects the
+> INITRAMFS_TASK which is not set by any of the default build profiles
+> in oe-core.
+>
+> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> ---
+>  meta/classes/kernel.bbclass |    6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 8cf66ce..73c525f 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -156,6 +156,12 @@ kernel_do_compile() {
+>         # different initramfs image.  The way to do that in the kernel
+>         # is to specify:
+>         # make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
+> +       if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
+> +               # The old style way of copying an prebuilt image and building it
+> +               # is turned on via INTIRAMFS_TASK != ""
+> +               copy_initramfs
+> +               use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
+> +       fi
+>         oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
+>         if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
+>                 gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
+> --
+> 1.7.9.5
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
