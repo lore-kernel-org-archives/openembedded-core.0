@@ -1,30 +1,47 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DF3A6CB8E
+Return-Path: <B40290@freescale.com>
+Received: from db8outboundpool.messaging.microsoft.com
+	(mail-db8lp0189.outbound.messaging.microsoft.com [213.199.154.189])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C5966CB8D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 02:20:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8R2KKPt003174
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Sep 2013 19:20:20 -0700 (PDT)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Thu, 26 Sep 2013 19:20:19 -0700
-Message-ID: <5244EB68.2080409@windriver.com>
-Date: Fri, 27 Sep 2013 10:20:24 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
-MIME-Version: 1.0
+	Fri, 27 Sep 2013 03:06:42 +0000 (UTC)
+Received: from mail207-db8-R.bigfish.com (10.174.8.251) by
+	DB8EHSOBE030.bigfish.com (10.174.4.93) with Microsoft SMTP Server id
+	14.1.225.22; Fri, 27 Sep 2013 03:06:42 +0000
+Received: from mail207-db8 (localhost [127.0.0.1])	by
+	mail207-db8-R.bigfish.com (Postfix) with ESMTP id C18374C0439	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 03:06:42 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 11
+X-BigFish: VS11(zzzz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097h8275bhz2dh2a8h839he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e23h1fe8h1ff5h4a8s1155h)
+Received: from mail207-db8 (localhost.localdomain [127.0.0.1]) by mail207-db8
+	(MessageSwitch) id 1380251200482881_16160;
+	Fri, 27 Sep 2013 03:06:40 +0000 (UTC)
+Received: from DB8EHSMHS023.bigfish.com (unknown [10.174.8.252])	by
+	mail207-db8.bigfish.com (Postfix) with ESMTP id 69AD51E0031	for
+	<openembedded-core@lists.openembedded.org>;
+	Fri, 27 Sep 2013 03:06:40 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS023.bigfish.com
+	(10.174.4.33) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Fri, 27 Sep 2013 03:06:40 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Fri, 27 Sep 2013 03:06:38 +0000
+Received: from sbuilder136.ap.freescale.net (sun.ap.freescale.net
+	[10.192.208.136])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
+	id r8R36ZGp000517;	Thu, 26 Sep 2013 20:06:36 -0700
+From: Chunrong Guo <B40290@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1380189657.git.Qi.Chen@windriver.com>
-	<936abdfba1f8b3edf2f5dbfc6be803354798c4d2.1380189657.git.Qi.Chen@windriver.com>
-	<lymwmzhn6f.fsf@ensc-virt.intern.sigma-chemnitz.de>
-In-Reply-To: <lymwmzhn6f.fsf@ensc-virt.intern.sigma-chemnitz.de>
-X-Originating-IP: [128.224.162.213]
-Subject: Re: [PATCH V2 1/1] sysvinit: fix missing of boot log
+Date: Fri, 27 Sep 2013 11:06:29 +0800
+Message-ID: <1380251189-21193-1-git-send-email-B40290@freescale.com>
+X-Mailer: git-send-email 1.7.5.4
+In-Reply-To: <y>
+References: <y>
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] perf : fix perf of cross-compile for PowerPC 64bit targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 02:20:18 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 27 Sep 2013 03:06:42 -0000
+Content-Type: text/plain
 
-On 09/26/2013 06:50 PM, Enrico Scholz wrote:
-> <Qi.Chen-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org> writes:
->
->> Besides, we need to make sure that tmpfs has been mounted. Otherwise,
->> the boot log will still be missing.
->> ...
->>   case "$ACTION" in
->>   	start)
->> +		mount -a -t tmpfs 2>/dev/null
-> This will mount filesystems out-of-order. E.g. it will break an /etc/fstab
-> with
->
-> | /dev/mmcblk0p1  /srv/www     ext4  default 1 1
-> | none            /srv/www/tmp tmpfs default 0 0
->
->
-> Enrico
-Hi Enrico,
+    *fix perf build issue on powerpc 64bit targets
+    |error information:
+    | tests/attr.c: In function 'store_event':
+    | tests/attr.c:71:4: error: format '%llu' expects argument of type 'long long unsigned int',
+    | but argument 6 has type '__u64' [-Werror=format=]
+    | attr->type, attr->config, fd);
 
-I tested with this situation just now, and everything worked out well 
-for me.
-My fstab has:
-/dev/hdb    /media           ext2     defaults  0   0
-tmpfs         /media/tmp   tmpfs   defaults  0   0
+Signed-off-by: Chunrong Guo <B40290@freescale.com>
+---
+ meta/recipes-kernel/perf/perf.bb |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-Note that udev's init script also tries to mount tmpfs. So if you used 
-such fstab, you have already verified it yourself.
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 269069f..fa6b8b9 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -77,6 +77,7 @@ EXTRA_OEMAKE = \
+ 		'
+ 
+ EXTRA_OEMAKE += "\
++	'CFLAGS=${CFLAGS} -fPIC' \
+ 	'prefix=${prefix}' \
+ 	'bindir=${bindir}' \
+ 	'sharedir=${datadir}' \
+-- 
+1.7.5.4
 
-So I think we might be OK here.
-
-Best Regards,
-Chen Qi
-
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
 
