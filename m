@@ -1,32 +1,27 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
-	[209.85.215.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B43756CAC8
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D911861005
 	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 21:06:36 +0000 (UTC)
-Received: by mail-la0-f45.google.com with SMTP id eh20so2607621lab.4
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 14:06:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=XRD4duxl0bwTkBsgsUUY6D8KrKxAZvXmsmip3rzb8JU=;
-	b=lpbAqiEvWs+Gwiz32XMpG0HwT1JsPK74icgGFEnprSz++J003u9Or7XB1CiywquQRi
-	Sb2d0iPkCpubwrxcPTVvYXwKnjsdQskLIZcWd/vinZO5nBYzY9pR69tr551RZQjQ5c58
-	fsITLAYNY7FjDbJ8GSg26xSB3nk0iz6Uma1CTTEdQuZfAgfhjQqVRWpWRiGGSKR8+RL7
-	S7S8IhPPlcwKICBHx0Y0mRDsCtycoChPktcoEAxrpqvJ9mqyuAc5kL/r89DvnN/u+u6A
-	VAdcyZoX9pGKGIGtiEQB3wUX0BJAuMf3i6h4hgvveYCiaKoXfbd/lErghQrpB08N3CCl
-	0d5g==
+	Fri, 27 Sep 2013 21:20:38 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8RLKchK002894
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 27 Sep 2013 14:20:38 -0700 (PDT)
+Received: from [172.25.32.36] (172.25.32.36) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Fri, 27 Sep 2013 14:20:38 -0700
+Message-ID: <5245F6A4.2050709@windriver.com>
+Date: Fri, 27 Sep 2013 16:20:36 -0500
+From: Jason Wessel <jason.wessel@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130308 Thunderbird/17.0.4
 MIME-Version: 1.0
-X-Received: by 10.112.146.33 with SMTP id sz1mr10104763lbb.14.1380315997108;
-	Fri, 27 Sep 2013 14:06:37 -0700 (PDT)
-Received: by 10.112.52.74 with HTTP; Fri, 27 Sep 2013 14:06:37 -0700 (PDT)
-In-Reply-To: <1380299019-10777-1-git-send-email-jason.wessel@windriver.com>
+To: Andrea Adami <andrea.adami@gmail.com>
 References: <1380299019-10777-1-git-send-email-jason.wessel@windriver.com>
-Date: Fri, 27 Sep 2013 23:06:37 +0200
-Message-ID: <CAAQYJAsFbxdCsOTKRKMk+TMHe2=oAjw4vOaAwKpWMbKfwHHpfg@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
+	<CAAQYJAsFbxdCsOTKRKMk+TMHe2=oAjw4vOaAwKpWMbKfwHHpfg@mail.gmail.com>
+In-Reply-To: <CAAQYJAsFbxdCsOTKRKMk+TMHe2=oAjw4vOaAwKpWMbKfwHHpfg@mail.gmail.com>
+X-Enigmail-Version: 1.5.2
 Cc: Openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] kernel.bbclass: Allow INITRAMFS_TASK to trigger copy initramfs code
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -41,75 +36,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 21:06:38 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 27 Sep 2013 21:20:39 -0000
+Content-Type: multipart/alternative;
+	boundary="------------050906090001040606040603"
 
-Jason,
+--------------050906090001040606040603
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
 
-there is one more problem here:
+On 09/27/2013 04:06 PM, Andrea Adami wrote:
+> | DEBUG: Executing shell function do_compile
+> | Copying initramfs into ./usr ...
+> | cp: cannot create regular file
+> '/oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/linux-yocto-tiny-kexecboot/3.10.11+gitAUTOINC+dad2b7e1ce_e1aa804148-r0/linux-poodle-tiny-build/usr/.':
 
-| DEBUG: Executing shell function do_compile
+
+I suppose that one makes sense given that the compile directory might not exist.  My testing did not show this problem because my working env was "dirty".
+
+Thanks for the report, your fix is perfectly fine.  I'll send a v2.
+
+Jason.
+
+--------------050906090001040606040603
+Content-Type: text/html; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 09/27/2013 04:06 PM, Andrea Adami
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAAQYJAsFbxdCsOTKRKMk+TMHe2=oAjw4vOaAwKpWMbKfwHHpfg@mail.gmail.com"
+      type="cite">
+      <pre wrap="">| DEBUG: Executing shell function do_compile
 | Copying initramfs into ./usr ...
 | cp: cannot create regular file
-'/oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/linux-yocto-tiny-kexecboot/3.10.11+gitAUTOINC+dad2b7e1ce_e1aa804148-r0/linux-poodle-tiny-build/usr/.':
-No such file or directory
+'<i class="moz-txt-slash"><span class="moz-txt-tag">/</span>oe/oe-core/build/tmp-eglibc/work/poodle-oe-linux-gnueabi/linux-yocto-tiny-kexecboot/3.10.11+gitAUTOINC+dad2b7e1ce_e1aa804148-r0/linux-poodle-tiny-build/usr<span class="moz-txt-tag">/</span></i>.':</pre>
+    </blockquote>
+    <br>
+    <br>
+    I suppose that one makes sense given that the compile directory
+    might not exist.&nbsp; My testing did not show this problem because my
+    working env was "dirty".<br>
+    <br>
+    Thanks for the report, your fix is perfectly fine.&nbsp; I'll send a v2.<br>
+    <br>
+    Jason.<br>
+  </body>
+</html>
 
-I'm solving it this way:
-
-copy_initramfs() {
-        echo "Covpying initramfs into ./usr ..."
-+        mkdir -p ${B}/usr
-        # Find and use the first initramfs image archive type we find
-
-
-Please take care of this.
-Thanks
-
-Andrea
-
-
-
-
-On Fri, Sep 27, 2013 at 6:23 PM, Jason Wessel
-<jason.wessel@windriver.com> wrote:
-> Activating the INITRAMFS_TASK can cause circular dependencies, but
-> that is up to the end user to resolve in recipes.  The INITRAMFS_TASK
-> should also trigger immediate linking of the cpio task in the first
-> compile pass.  This was a subtle regression introduced by: 609d5a9ab
-> (kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency
-> and bundling).
->
-> This patch restores the previous behavior and only affects the
-> INITRAMFS_TASK which is not set by any of the default build profiles
-> in oe-core.
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/classes/kernel.bbclass |    6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 8cf66ce..73c525f 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -156,6 +156,12 @@ kernel_do_compile() {
->         # different initramfs image.  The way to do that in the kernel
->         # is to specify:
->         # make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-> +       if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
-> +               # The old style way of copying an prebuilt image and building it
-> +               # is turned on via INTIRAMFS_TASK != ""
-> +               copy_initramfs
-> +               use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-> +       fi
->         oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
->         if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
->                 gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
-> --
-> 1.7.9.5
->
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+--------------050906090001040606040603--
