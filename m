@@ -1,35 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D1C496CA64
+Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
+	[74.125.82.179])
+	by mail.openembedded.org (Postfix) with ESMTP id F0AEF6CBF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 16:41:19 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id hj3so1118642wib.0
+	Fri, 27 Sep 2013 16:41:20 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id x55so2911517wes.38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 09:41:21 -0700 (PDT)
+	Fri, 27 Sep 2013 09:41:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=C9uJ+goV0EYAZwsA1ugfU5RJ/PPyE+gD7YrypZnr/zM=;
-	b=YVQPO7WtrgfIvZkF+8iJVmL46kf0WTMJpYuwHSoCMFDYnMDDCF0C6RheYzzkO+TeRS
-	MZfPNiJWba9N5uPAZv7RrNi4/D9YGHYqIBaOObgXB47zo3mhA3/aG9zNskJRntOyPsaM
-	AdKsEGXedQw5oM/FypEqX5hQgoBqLrkfR2+VP5URzrgZymyZgope4hVVJWXh0kylv4iB
-	o57ZaaqyYytpx+NJlKKjOoUoAelxeY83HA5kNC7rZkTy6ARoI9Nz+tbLB4oQH4IZH4xx
-	xpODDhv2ihRw7pW+f8hX8Xdcqa5kQzqYE1tK4O1H2SinCaA160v7kqeVqhIoKCEmjLhI
-	7UDw==
-X-Gm-Message-State: ALoCoQmPOsMIMvbQQzeXb36Is8oqdkDsaRQECf8TsegXeA9fTB5hI7eYa3CKbPy+VMblTaNCLVTm
-X-Received: by 10.180.39.134 with SMTP id p6mr3401745wik.9.1380300080956;
-	Fri, 27 Sep 2013 09:41:20 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=cg58M6H3NDqeGkwu4cixcEzTZP24xRh0UYeoPg51X/U=;
+	b=JfEblcCDBKK6GkTxsCThiboUjWLLq9bsV8Ng5hhq0rQkQa/hNELzXAz1339gikLZsp
+	JpVtuWw4eZCiuLf7CXAAwLIWX6ykM3nCUDMxNnxtbPf5r7kHV2H/SX6ln63byAQ+pz9A
+	OiYE3oQHcUKdIWy834kvPnLXOkomdCziUC4ujkVWyHpvCiD1OJzBQru0ptk6Z06SG6Ga
+	CelgeqU64K2O2msT1JeE+Clqekb2OCdG2fBbvA+9FU8Y1j9c7Ym/pvJHt1WBpyXiW47r
+	Vq8Uv8kx2EW6sSo6KoMWTgBsltCxVL1/XGNahnnv22wLjo8vz5BQjZ98cnBYeRcjwUNd
+	Zefw==
+X-Gm-Message-State: ALoCoQmlhLq9GIBeiD6BvbyedtjUtViGWmZU08GBGKrhbhukOwK1u0BVoPYwWMnwwTkIBhAuCWbd
+X-Received: by 10.195.13.164 with SMTP id ez4mr6642940wjd.11.1380300082374;
+	Fri, 27 Sep 2013 09:41:22 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id j5sm15523980wia.4.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 27 Sep 2013 09:41:20 -0700 (PDT)
+	Fri, 27 Sep 2013 09:41:21 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 27 Sep 2013 17:41:16 +0100
-Message-Id: <1380300077-23074-1-git-send-email-ross.burton@intel.com>
+Date: Fri, 27 Sep 2013 17:41:17 +0100
+Message-Id: <1380300077-23074-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] pcmanfm: hide the desktop preferences
+In-Reply-To: <1380300077-23074-1-git-send-email-ross.burton@intel.com>
+References: <1380300077-23074-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] sato-icon-theme: add more compatibility symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,52 +45,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 16:41:20 -0000
+X-List-Received-Date: Fri, 27 Sep 2013 16:41:21 -0000
 
-Sato doesn't use the pcmanfm desktop, so hide the desktop preferences launcher.
+libfm uses "preferences-desktop", so link it to the close-enough
+"preferences-sytem".
+
+x11vnc uses "computer", link it to "terminal".
+
+pcmanfm uses "system-file-manager", link it to "file-manager".
+
+[ YOCTO #4062 ]
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-sato/pcmanfm/files/no-desktop.patch |   15 +++++++++++++++
- meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb       |    3 ++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-sato/pcmanfm/files/no-desktop.patch
+ meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb |    6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-sato/pcmanfm/files/no-desktop.patch b/meta/recipes-sato/pcmanfm/files/no-desktop.patch
-new file mode 100644
-index 0000000..cb4cae0
---- /dev/null
-+++ b/meta/recipes-sato/pcmanfm/files/no-desktop.patch
-@@ -0,0 +1,15 @@
-+Disable the desktop preferences launcher as we don't use the pcmanfm desktop in
-+Sato.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/data/pcmanfm-desktop-pref.desktop b/data/pcmanfm-desktop-pref.desktop
-+index ccf8abb..3f6fc1c 100644
-+--- a/data/pcmanfm-desktop-pref.desktop
-++++ b/data/pcmanfm-desktop-pref.desktop
-+@@ -97,3 +97,4 @@ Exec=pcmanfm --desktop-pref
-+ StartupNotify=true
-+ Terminal=false
-+ NotShowIn=GNOME;XFCE;KDE;
-++NoDisplay=true
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb
-index bcfc9db..9a038fe 100644
---- a/meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.1.0.bb
-@@ -20,7 +20,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/pcmanfm-${PV}.tar.gz \
- 	   file://gnome-fs-regular.png \
- 	   file://gnome-mime-text-plain.png \
- 	   file://emblem-symbolic-link.png \
--	   file://cross-compile-fix.patch"
-+	   file://cross-compile-fix.patch \
-+	   file://no-desktop.patch"
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+index cb3b68c..cf23aeb 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme_0.4.1.bb
+@@ -23,6 +23,12 @@ FILES_${PN} += "${datadir}"
  
- SRC_URI[md5sum] = "af0cff78690e658f3c06ceabf27bc71a"
- SRC_URI[sha256sum] = "1f6301f330ad648f3322708ec6c0f680a8695a9453932fe19653bab6731e5582"
+ EXTRA_OECONF += "--with-iconmap=${@d.getVar('STAGING_LIBEXECDIR_NATIVE', True).replace('sato-icon-theme', 'icon-naming-utils')}/icon-name-mapping"
+ 
++do_install_append() {
++	find ${D}${datadir}/icons/Sato/ -maxdepth 1 -type d -exec ln -s preferences-system.png {}/apps/preferences-desktop.png \;
++	find ${D}${datadir}/icons/Sato/ -maxdepth 1 -type d -exec ln -s file-manager.png {}/apps/system-file-manager.png \;
++	find ${D}${datadir}/icons/Sato/ -maxdepth 1 -type d -exec ln -s ../apps/terminal.png {}/places/computer.png \;
++}
++
+ # Explictly setting "Sato" as the default icon theme to avoid flickering from
+ # the desktop and settings daemon racing.  This shouldn't be done here but in the sato image
+ pkg_postinst_${PN} () {
 -- 
 1.7.10.4
 
