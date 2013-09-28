@@ -1,34 +1,43 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CE8E61005
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 21:42:18 +0000 (UTC)
-Received: by mail-la0-f44.google.com with SMTP id eo20so2694630lab.3
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 27 Sep 2013 14:42:19 -0700 (PDT)
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 42CB46C9CC
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Sep 2013 12:17:41 +0000 (UTC)
+Received: by mail-la0-f51.google.com with SMTP id es20so2982394lab.24
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 28 Sep 2013 05:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=PKMn1qYeMy1fJB4bablSMNDcObgvbWpf9QZ++k2MX2U=;
-	b=bbuR/jXzbrM998/NerQb/L0Vs+2qeM3JjZM7JIRhOt5Vrs6npj0KKDHsrwF7VOThTZ
-	myjMnXTBx3ARkWHIOZ88YNf7fRPQt7mYbwuT67w6aJnsPbY/qyIlpBS+IhopHvQOOVHR
-	8SUPa8sGhL2dffjs4NVIPgLOybFZAqnhPZmM8bOjzOvGDY5Xxjngq4R/eHXUwQpLR7Q/
-	J6Bn4CVqRLnQxd8KktfUvNuJIzU06STME7uXU1NTkUzLVBKXso/rS5QcTroIlnKCqVQm
-	ORLrzDVqvgqb9zkRgjdimQ5/TEi83apNhJAGXs5u/JpqUQmfZ2s/Oomdgg+LMVfqT8wk
-	ZrjQ==
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=1ZD/Ze76HXAFm9opfBjMdeRDZ3qCkJtUnbTqE6lJHzM=;
+	b=h2YBozuTxT5yaV1YTtDWAD0NN/iE9gYHWITzZ/TfyLN6j+m4TfWCX2EJsympuu9nmE
+	ZfdOdIKXwzVWeeE15N6WoUDK5/3BPBrnFJh3AWo0s795xEC+1htgOwHVokGlMX42N85R
+	1ECjZ2dWL8K15+jxMoMD+V/LJ3UveDaA/C+eVRae8N4apkeOZGFrOnX+iyKXeserU6CP
+	LJ0cJwc1dIQAtVUdPlji/RcpI20A2BwBf21L53bSmS297z+ppMBfc6iVJYkqyCR2McRR
+	fs9oU+y43kXFtbhj7ld74XfBNwuucyz63qOxDKcwfuHvvssZrQINPL3/4btPk4g/tLpz
+	WSRA==
+X-Received: by 10.112.0.242 with SMTP id 18mr12845862lbh.18.1380370662094;
+	Sat, 28 Sep 2013 05:17:42 -0700 (PDT)
+Received: from [192.168.43.167] (c-5eeaaaa0-74736162.cust.telenor.se.
+	[94.234.170.160])
+	by mx.google.com with ESMTPSA id f17sm9074172lbo.12.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 28 Sep 2013 05:17:41 -0700 (PDT)
+Message-ID: <5246C8E2.7060702@gmail.com>
+Date: Sat, 28 Sep 2013 14:17:38 +0200
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Received: by 10.112.155.39 with SMTP id vt7mr10194109lbb.29.1380318139128;
-	Fri, 27 Sep 2013 14:42:19 -0700 (PDT)
-Received: by 10.112.52.74 with HTTP; Fri, 27 Sep 2013 14:42:19 -0700 (PDT)
-In-Reply-To: <1380317520-2111-1-git-send-email-jason.wessel@windriver.com>
-References: <1380317520-2111-1-git-send-email-jason.wessel@windriver.com>
-Date: Fri, 27 Sep 2013 23:42:19 +0200
-Message-ID: <CAAQYJAtmM7N3jtuzv4NMpJjUYNOZLnWqWvzcPA3PcjbvP18Uzw@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Cc: Openembedded-core@lists.openembedded.org
-Subject: Re: [v2 PATCH] kernel.bbclass: Allow INITRAMFS_TASK to trigger copy initramfs code
+To: Tom Zanussi <tom.zanussi@linux.intel.com>, 
+	Otavio Salvador <otavio@ossystems.com.br>
+References: <cover.1380234931.git.tom.zanussi@linux.intel.com>	<8dbedc35cbce3319722c012af0dad737773446f6.1380234931.git.tom.zanussi@linux.intel.com>	<CAP9ODKpYNSJs-T=GTpa725A6GK32GykgPbv7w5KeiwPhXVLfzw@mail.gmail.com>
+	<1380291699.31937.46.camel@empanada>
+In-Reply-To: <1380291699.31937.46.camel@empanada>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] wic: Initial code for wic (OpenEmbedded Image Creator)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,64 +50,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Sep 2013 21:42:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 28 Sep 2013 12:17:42 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 27, 2013 at 11:32 PM, Jason Wessel
-<jason.wessel@windriver.com> wrote:
-> Activating the INITRAMFS_TASK can cause circular dependencies, but
-> that is up to the end user to resolve in recipes.  The INITRAMFS_TASK
-> should also trigger immediate linking of the cpio task in the first
-> compile pass.  This was a subtle regression introduced by: 609d5a9ab
-> (kernel.bbclass, image.bbclass: Implement kernel INITRAMFS dependency
-> and bundling).
+On 09/27/2013 04:21 PM, Tom Zanussi wrote:
+> Hi Otavio,
 >
-> This patch restores the previous behavior and only affects the
-> INITRAMFS_TASK which is not set by any of the default build profiles
-> in oe-core.
+> On Fri, 2013-09-27 at 11:01 -0300, Otavio Salvador wrote:
+>> Hello Tom,
+>>
+>> On Thu, Sep 26, 2013 at 11:17 PM, Tom Zanussi
+>> <tom.zanussi@linux.intel.com> wrote:
+>>> Initial implementation of the 'wic' command.
+>>>
+><snip>
+>> Could you please elaborate why to make a new command instead of using
+>> the class system?
+>>
 >
-> Reviewed-by: Andrea Adami <andrea.adami@gmail.com>
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/classes/kernel.bbclass |    8 ++++++++
->  1 file changed, 8 insertions(+)
+> This isn't an either/or thing - the initial requirements were that the
+> overall deployment effort end up being something that would be usable
+> both from an external tool as well as from within the class system.
+
+What do you mean when you say "within the class system" here ?
+* A tool using only (kickstart for image cfg, partitioning et.c.) + 
+(tmp/deploy/ipk|rpm|deb) as input data for image creation ?
+
+Just my five cents,
+
+I would like to see reproducible image creation from both the bitbake/OE 
+build env and the nativesdk SDK build env.
+This would require a common interface for input distribution data, It 
+naturally feels like this interface should be the package repository.
+i.e. if X is not packaged as class-target, it can't be included on the 
+generated image.
+Also, if X is required to generate the image, it should be packaged as 
+class-nativesdk.
+
+afaict, the standalone wic tool uses a hybrid approach, using 
+OpenEmbedded build artifacts + a package repository as input for rootfs 
+generation.
+What is the long term plan for wic in regards to the above ?
+
+Br,
+David
+
+> This just happens to be the initial (easier) part of that, the external
+> tool, and I expect in 1.6 to be doing a lot of the harder part,
+> integration with the build system.
+
+
+> The most important part, I think, is that this provides a high-level
+> user-oriented 'language' (the kickstart files) that users can use to
+> define custom images, rather than having to muck around in class files
+> or variable settings, or write specialized scripts such as mkefidisk.sh
+> for example.
 >
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 8cf66ce..4acfb7e 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -83,6 +83,8 @@ KERNEL_IMAGETYPE_FOR_MAKE = "${@(lambda s: s[:-3] if s[-3:] == ".gz" else s)(d.g
+> Making that available from a standalone tool such as 'wic' is
+> straightforward, doing the same from within the build system will
+> require more thought and work, but that's what I'm hoping to do in
+> 1.6...
+
+
+
 >
->  copy_initramfs() {
->         echo "Copying initramfs into ./usr ..."
-> +       # In case the directory is not created yet from the first pass compile:
-> +       mkdir -p ${B}/usr
->         # Find and use the first initramfs image archive type we find
->         rm -f ${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
->         for img in cpio.gz cpio.lzo cpio.lzma cpio.xz; do
-> @@ -156,6 +158,12 @@ kernel_do_compile() {
->         # different initramfs image.  The way to do that in the kernel
->         # is to specify:
->         # make ...args... CONFIG_INITRAMFS_SOURCE=some_other_initramfs.cpio
-> +       if [ "$use_alternate_initrd" = "" ] && [ "${INITRAMFS_TASK}" != "" ] ; then
-> +               # The old style way of copying an prebuilt image and building it
-> +               # is turned on via INTIRAMFS_TASK != ""
-> +               copy_initramfs
-> +               use_alternate_initrd=CONFIG_INITRAMFS_SOURCE=${B}/usr/${INITRAMFS_IMAGE}-${MACHINE}.cpio
-> +       fi
->         oe_runmake ${KERNEL_IMAGETYPE_FOR_MAKE} ${KERNEL_ALT_IMAGETYPE} CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS} $use_alternate_initrd
->         if test "${KERNEL_IMAGETYPE_FOR_MAKE}.gz" = "${KERNEL_IMAGETYPE}"; then
->                 gzip -9c < "${KERNEL_IMAGETYPE_FOR_MAKE}" > "${KERNEL_OUTPUT}"
-> --
-> 1.7.9.5
+> Tom
+>
+>
+>
 >
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Thanks
-
-Tested by: Andrea Adami <andrea.adami@gmail.com>
-Acked by: Andrea Adami <andrea.adami@gmail.com>
 
