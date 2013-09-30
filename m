@@ -1,28 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DBEB60EA7
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 80E806102E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2013 08:26:39 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Sep 2013 01:26:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1006,1371106800"; d="scan'208";a="409164712"
-Received: from mmckenna-mobl1.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.120.71])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Sep 2013 01:26:40 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Date: Mon, 30 Sep 2013 09:26:38 +0100
-Message-ID: <2097746.hRm7Rg6kXR@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-30-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <52493149.3030403@pseudoterminal.org>
-References: <5248A04E.3060804@pseudoterminal.org>
-	<969F26A8BAB325438E7EB80D3C3134FB16C43C69@IRSMSX105.ger.corp.intel.com>
-	<52493149.3030403@pseudoterminal.org>
+	Mon, 30 Sep 2013 09:48:35 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8U9mcc8000723
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Sep 2013 02:48:38 -0700 (PDT)
+Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Mon, 30 Sep 2013 02:48:36 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <mark.hatle@windriver.com>
+Date: Mon, 30 Sep 2013 17:48:24 +0800
+Message-ID: <cover.1380534395.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
+X-Originating-IP: [128.224.162.231]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Questions about Orc and GStreamer
+Subject: [PATCH 0/1] Fix YOCTO #3656
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +33,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2013 08:26:40 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 30 Sep 2013 09:48:36 -0000
+Content-Type: text/plain
 
-Hi Carlos,
+The following changes since commit b049d532f6e0ab9e458e486f81b00be47ee69acf:
 
-On Monday 30 September 2013 10:07:37 Carlos Rafael Giani wrote:
-> Yes, thats Orc. It is part of meta-oe , but really should be in OE-core.
-> I think there was a discussion about this in OE-core months ago, and I
-> didn't see an opinion against it.
-> Can the GStreamer upgrade be included in the dora branch after release?
-> I remember seeing package upgrades in the dylan happening after its
-> release. In other words, package upgrades aren't just restricted to the
-> master branch, correct?
+  testimage: Exclude BB_ORIGENV variable (2013-09-26 17:27:02 +0100)
 
-The answer is we generally don't do upgrades on stable branches unless there 
-is a very good reason (for example, a security bug where it is more practical 
-to just upgrade to a new version for the recipe instead of trying to backport 
-patches to the existing version).
+are available in the git repository at:
 
-Specifically regarding gstreamer 1.2, I'm not too keen on the idea of upgrading 
-it in a stable branch - I've been told that there have been backwards-
-incompatible changes since 1.0; if that is the case it wouldn't really be 
-appropriate. FWIW, the option as always is open to add the new version as a 
-separate layer on top of dylan.
+  git://git.pokylinux.org/poky-contrib kangkai/rpm2cpio
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/rpm2cpio
 
-Cheers,
-Paul
+Kang Kai (1):
+  rpm: fix rpm2cpio segmentation fault
+
+ .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch  | 28 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.9.bb             |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
 
 -- 
+1.8.1.2
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
