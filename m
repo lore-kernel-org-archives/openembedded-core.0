@@ -1,37 +1,21 @@
-Return-Path: <riku.voipio@linaro.org>
-Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
-	[209.85.216.43])
-	by mail.openembedded.org (Postfix) with ESMTP id A304C6102E
+Return-Path: <marius.avram@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 86B3160EAA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2013 10:29:08 +0000 (UTC)
-Received: by mail-qa0-f43.google.com with SMTP id k15so2169200qaq.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2013 03:29:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=bTxKlJQfEVRtU8XUl1bwN6pUx480jcOYjYgNLaJguLw=;
-	b=LMm4mWLK133xusaviwtLA+U+nkMAq32N0oGEGs9djfTo/hOk8+5DS9qPv7vy7neiZy
-	6FQ6ivE4j/vtQNXwj/tywlWfEDEiDyfWRL4T+BB27cvXUHK/mcmlXfs2lw3o8GkJf0iS
-	hudv1dZ0fck3JUOSsacWBB7lmbDQfdcCJAfsTpGGyR5aVdl4ReUCllf1jWZZBaHac1JQ
-	0DtU0KkP34fSyb+YGsShXHKSdT2TKyp+ZXEFm1R5YdQcLa0oJtfk+kJc2xdMekl1IWLe
-	0YfcPkrnsnVCVDPKJRQmaOVZaDI5w0sxLZz9yLWO9ibW+jYJtu5oUWTTaGMAWsHTTQWC
-	vS7w==
-X-Gm-Message-State: ALoCoQlgehBM3L1e/y2Uv4U0j+Ez1JcU2lXACGz/QFvvR9gjIOITMyUwnwXzXi5CKIrUqvWjDxKQ
-MIME-Version: 1.0
-X-Received: by 10.224.73.200 with SMTP id r8mr12869350qaj.72.1380536949841;
-	Mon, 30 Sep 2013 03:29:09 -0700 (PDT)
-Received: by 10.49.71.232 with HTTP; Mon, 30 Sep 2013 03:29:09 -0700 (PDT)
-In-Reply-To: <1379757244.18603.192.camel@ted>
-References: <CAAqcGH=avmRB5GS23tj+JjckQ1Y-RrTnTkQmBHTFggnwDbihRA@mail.gmail.com>
-	<1379757244.18603.192.camel@ted>
-Date: Mon, 30 Sep 2013 13:29:09 +0300
-Message-ID: <CAAqcGHkrqYdVr8f87rqEfLQY8nYO5rC87m2CUJFdtS=gTmK42Q@mail.gmail.com>
-From: Riku Voipio <riku.voipio@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "saul.wold" <saul.wold@intel.com>, openembedded-core@lists.openembedded.org
-Subject: Re: Using pigz-native from sstate-cache while zlib-native is not there yet
+	Mon, 30 Sep 2013 12:30:22 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2013 05:30:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,1007,1371106800"; d="scan'208";a="367692005"
+Received: from mavram-vostro.rb.intel.com ([10.237.105.72])
+	by azsmga001.ch.intel.com with ESMTP; 30 Sep 2013 05:30:22 -0700
+From: Marius Avram <marius.avram@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Sep 2013 15:31:38 +0300
+Message-Id: <1380544298-7822-1-git-send-email-marius.avram@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: Irina Patru <irina.patru@intel.com>
+Subject: [PATCH] slang: fix sprintf bug concerning 8-bit characters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +28,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2013 10:29:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 30 Sep 2013 12:30:23 -0000
 
-Hi Richard,
+Buffer used for copying a "%c" character was getting
+out of scope when it was required by the sprintf operation.
 
-On 21 September 2013 12:54, Richard Purdie
-> do_unpack[depends] += "gzip-native:do_populate_sysroot"
->
-> which I think should address the problem?
->
-> If anyone is interested, the reproducer is:
->
-> bitbake pigz-native
-> bitbake zlib-native -c clean
-> bitbake core-image-minimal -c populate_lic --no-setscene -f
+[YOCTO #5272]
 
-> however your system needs to have an old version of zlib on it which
-> pigz-native can't run against. The line above fixes it.
+Signed-off-by: Marius Avram <marius.avram@intel.com>
+Signed-off-by: Irina Patru <irina.patru@intel.com>
+---
+ .../sprintf-bug-concerning-8-bit-characters.patch  |   42 ++++++++++++++++++++
+ meta/recipes-extended/slang/slang_2.2.4.bb         |    1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-extended/slang/slang/sprintf-bug-concerning-8-bit-characters.patch
 
-I verified on ubuntu precise that the above steps do not cause the
-zlib relocation error anymore. I see the fix is alreadt in OE-core,
-thanks!
+diff --git a/meta/recipes-extended/slang/slang/sprintf-bug-concerning-8-bit-characters.patch b/meta/recipes-extended/slang/slang/sprintf-bug-concerning-8-bit-characters.patch
+new file mode 100644
+index 0000000..ddf5cce
+--- /dev/null
++++ b/meta/recipes-extended/slang/slang/sprintf-bug-concerning-8-bit-characters.patch
+@@ -0,0 +1,42 @@
++Upstream-Status: Backported
++
++From 3a05d1a920140e9f2c72791c12f664213feb46df Mon Sep 17 00:00:00 2001
++From: Manfred Hanke <Manfred.Hanke@tngtech.com>
++Date: Thu, 20 Jun 2013 10:24:12 +0200
++Subject: [PATCH] sprintf bug (concerning %c for 8-bit character in non-UTF8
++ mode) fixed
++
++char *str points to SLuchar_Type utf8_buf[], which had too small scope
++
++src/test/strops.sl failed in the following environment:
++ - compiler:  gcc (Debian 4.7.2-5) 4.7.2
++ - CFLAGS:    -g -O2
++ - libc:      GNU C Library (Debian EGLIBC 2.13-38) stable release version 2.13
++ - kernel:    3.2.0-4-686-pae #1 SMP Debian 3.2.39-2 i686 GNU/Linux
++---
++ src/slstrops.c |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/slstrops.c b/src/slstrops.c
++index ce6acb0..cbbbb01 100644
++--- a/src/slstrops.c
+++++ b/src/slstrops.c
++@@ -1884,6 +1884,7 @@ static char *SLdo_sprintf (char *fmt) /*{{{*/
++ #endif
++    unsigned char uch;
++    int use_long = 0, use_alt_format = 0;
+++   SLuchar_Type utf8_buf[SLUTF8_MAX_MBLEN+1];
++ 
++    while (1)
++      {
++@@ -2071,7 +2072,6 @@ static char *SLdo_sprintf (char *fmt) /*{{{*/
++ #endif
++ 	       {
++ 		  SLwchar_Type wc;
++-		  SLuchar_Type utf8_buf[SLUTF8_MAX_MBLEN+1];
++ 
++ 		  if (-1 == SLang_pop_wchar (&wc))
++ 		    return out;
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
+index f06caeb..db5c633 100644
+--- a/meta/recipes-extended/slang/slang_2.2.4.bb
++++ b/meta/recipes-extended/slang/slang_2.2.4.bb
+@@ -20,6 +20,7 @@ SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
+            file://rpathfix.patch \
+            file://fix-check-pcre.patch \
+            file://change-char-type-to-signed-char-in-macros.patch \
++           file://sprintf-bug-concerning-8-bit-characters.patch \
+           "
+ 
+ inherit autotools
+-- 
+1.7.9.5
 
-Riku
 
