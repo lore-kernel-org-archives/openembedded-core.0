@@ -1,26 +1,26 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D68D610DC
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id 5498B60EAA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2013 16:27:13 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 30 Sep 2013 09:27:06 -0700
+	Mon, 30 Sep 2013 17:39:43 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2013 10:39:40 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1009,1371106800"; d="scan'208";a="411914464"
-Received: from mmckenna-mobl1.ger.corp.intel.com (HELO helios.localnet)
-	([10.252.120.71])
-	by orsmga002.jf.intel.com with ESMTP; 30 Sep 2013 09:27:01 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 30 Sep 2013 17:26:59 +0100
-Message-ID: <345142465.cI7Ru9Zzi7@helios>
-Organization: Intel Corporation
-User-Agent: KMail/4.10.5 (Linux/3.8.0-30-generic; KDE/4.10.5; i686; ; )
-In-Reply-To: <d46d403192a73aaf1a5d61aefb890dcc03e41b25.1380172958.git.Qi.Chen@windriver.com>
-References: <cover.1380172958.git.Qi.Chen@windriver.com>
-	<d46d403192a73aaf1a5d61aefb890dcc03e41b25.1380172958.git.Qi.Chen@windriver.com>
+X-IronPort-AV: E=Sophos;i="4.90,1009,1371106800"; d="scan'208";a="301378289"
+Received: from unknown (HELO [10.255.15.64]) ([10.255.15.64])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Sep 2013 10:39:40 -0700
+Message-ID: <5249B75B.6090602@linux.intel.com>
+Date: Mon, 30 Sep 2013 10:39:39 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] buildhistory.bbclass: always record PKG, PKGE, PKGV and PKGR
+To: Tudor Florea <tudor.florea@enea.com>
+References: <1380490304-58258-1-git-send-email-tudor.florea@enea.com>
+In-Reply-To: <1380490304-58258-1-git-send-email-tudor.florea@enea.com>
+Cc: "Maxin B. John" <maxin.john@enea.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kmod: ptest fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +33,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2013 16:27:14 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 30 Sep 2013 17:39:45 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thursday 26 September 2013 13:23:32 Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
-> 
-> The buildhistory.bbclass always records PV instead of PKGV. However,
-> the buildhistory-diff script treats PKGV as a monitored variable
-> instead of PV.
-> 
-> If a recipe's PV changes, for example, hello_1.0.bb is renamed to
-> hello_2.0.bb, then buildhistory-diff reports nothing because PV is
-> not monitored and PKGV is not recorded.
-> 
-> So the buildhistory.bbclass should always record PKGV no matter it
-> equals to PV or not.
-> 
-> The same logic applies to PKG, PKGE and PKGR.
-> 
-> [YOCTO #5263]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+On 09/29/2013 02:31 PM, Tudor Florea wrote:
+>   Make kmod-ptest able to compile with separated source and
+>   build dir. Add exception to insane.bbclass allowing any
+>   type of binaries in ptest packages. Since kmod test files
+>   contain kernel modules for many different architectures,
+>   strip gets confused and throws an error.
+>
+> Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+> Signed-off-by: Björn Stenberg <bjst@enea.com>
+> Signed-off-by: Maxin B. John <maxin.john@enea.com>
 > ---
->  meta/classes/buildhistory.bbclass |    8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/classes/buildhistory.bbclass
-> b/meta/classes/buildhistory.bbclass index 3da03c8..cea917c 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -277,10 +277,10 @@ def write_pkghistory(pkginfo, d):
->          f.write("PR = %s\n" %  pkginfo.pr)
-> 
->          pkgvars = {}
-> -        pkgvars['PKG'] = pkginfo.pkg if pkginfo.pkg != pkginfo.name else ''
-> -        pkgvars['PKGE'] = pkginfo.pkge if pkginfo.pkge != pkginfo.pe else
-> '' -        pkgvars['PKGV'] = pkginfo.pkgv if pkginfo.pkgv != pkginfo.pv
-> else '' -        pkgvars['PKGR'] = pkginfo.pkgr if pkginfo.pkgr !=
-> pkginfo.pr else '' +        pkgvars['PKG'] = pkginfo.pkg
-> +        pkgvars['PKGE'] = pkginfo.pkge
-> +        pkgvars['PKGV'] = pkginfo.pkgv
-> +        pkgvars['PKGR'] = pkginfo.pkgr
->          for pkgvar in pkgvars:
->              val = pkgvars[pkgvar]
->              if val:
+>   meta/classes/insane.bbclass               |    4 ++++
+>   meta/recipes-kernel/kmod/kmod/ptest.patch |    8 ++++----
+>   meta/recipes-kernel/kmod/kmod/run-ptest   |    4 +---
+>   meta/recipes-kernel/kmod/kmod_git.bb      |    5 +++--
+>   4 files changed, 12 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index a784aff..898d2ca 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -434,6 +434,10 @@ def package_qa_check_arch(path,name,d, elf, messages):
+>       if os.path.islink(path):
+>           return
+>
+> +    # ptest packages can contain any file types whatsoever
+> +    if name.endswith("-ptest"):
+> +        return
+> +
+I think that this is too board an approach, if kmod provides binaries 
+for multiple architectures, then that particular package should be 
+skipped using the INSANE_SKIP_kmod-ptest = "arch" setting in 
+kmod_git.bb.  How many other ptest packages have this issue?
 
-Please see my comment on the bug (just added):
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=5263
+Sau!
 
-Cheers,
-Paul
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+>       #if this will throw an exception, then fix the dict above
+>       (machine, osabi, abiversion, littleendian, bits) \
+>           = package_qa_get_machine_dict()[target_os][target_arch]
+> diff --git a/meta/recipes-kernel/kmod/kmod/ptest.patch b/meta/recipes-kernel/kmod/kmod/ptest.patch
+> index c6479b2..831dbcb 100644
+> --- a/meta/recipes-kernel/kmod/kmod/ptest.patch
+> +++ b/meta/recipes-kernel/kmod/kmod/ptest.patch
+> @@ -15,10 +15,10 @@ diff -ruN a/Makefile.am b/Makefile.am
+>   +	@for file in $(TESTSUITE); do \
+>   +		install $$file $(DESTDIR)/testsuite; \
+>   +	done;
+> -+	@cp Makefile $(DESTDIR)
+> -+	@sed -i 's/^Makefile/_Makefile/'  ${DESTDIR}/Makefile
+> -+	@tar -czf $(DESTDIR)/tools.tgz $(noinst_SCRIPTS) $(noinst_PROGRAMS)
+> -+	@tar -C testsuite -czf $(DESTDIR)/testsuite.tgz rootfs-pristine .libs
+> ++	@sed -e 's/^Makefile/_Makefile/' < Makefile > $(DESTDIR)/Makefile
+> ++	@$(MKDIR_P) $(DESTDIR)/tools
+> ++	@cp $(noinst_SCRIPTS) $(noinst_PROGRAMS) $(DESTDIR)/tools
+> ++	@cp -r testsuite/rootfs testsuite/.libs $(DESTDIR)/testsuite
+>   +
+>    # ------------------------------------------------------------------------------
+>    # custom release helpers
+> diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/kmod/kmod/run-ptest
+> index fac24fd..37adec3 100755
+> --- a/meta/recipes-kernel/kmod/kmod/run-ptest
+> +++ b/meta/recipes-kernel/kmod/kmod/run-ptest
+> @@ -1,5 +1,3 @@
+>   #!/bin/sh
+> -tar -xzf tools.tgz
+> -tar -C testsuite -xzf testsuite.tgz
+> -make rootfs
+> +touch testsuite/stamp-rootfs
+>   make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
+> diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+> index b07c06e..0a8af7b 100644
+> --- a/meta/recipes-kernel/kmod/kmod_git.bb
+> +++ b/meta/recipes-kernel/kmod/kmod_git.bb
+> @@ -41,10 +41,11 @@ do_compile_prepend() {
+>   }
+>
+>   do_compile_ptest () {
+> -        oe_runmake buildtest-TESTS
+> -        oe_runmake rootfs
+> +        oe_runmake buildtest-TESTS rootfs
+>   }
+>
+> +INHIBIT_PACKAGE_STRIP = "${@base_contains("DISTRO_FEATURES", "ptest", "1", "0", d)}"
+> +
+>   inherit update-alternatives
+>
+>   ALTERNATIVE_PRIORITY = "60"
+>
 
