@@ -1,25 +1,30 @@
-Return-Path: <cliff.brake@gmail.com>
-Received: from bec-systems.com (u15414263.onlinehome-server.com
-	[74.208.70.121])
-	by mail.openembedded.org (Postfix) with ESMTP id E0AE760EAA;
-	Mon, 30 Sep 2013 14:55:30 +0000 (UTC)
-Received: from oh-67-76-203-50.sta.embarqhsd.net ([67.76.203.50]
-	helo=happy.bec-systems.com)
-	by bec-systems.com with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cliff.brake@gmail.com>)
-	id 1VQeli-0001sI-Bi; Mon, 30 Sep 2013 10:48:20 -0400
-MIME-Version: 1.0
-X-Mailer: Nodemailer (0.3.22; +http://andris9.github.com/Nodemailer/)
-Date: Mon, 30 Sep 2013 14:55:17 GMT
-Message-Id: <1380552917431.3d1273d7@Nodemailer>
-From: cliff.brake@gmail.com
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org,
-	angstrom-distro-devel@linuxtogo.org, meta-ti@yoctoproject.org
-X-Spam_score: -2.9
-X-Spam_score_int: -28
-X-Spam_bar: --
-Subject: OE Changelog since 2013-09-22 until 2013-09-29
+Return-Path: <tom.zanussi@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id C059D60EAA
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 30 Sep 2013 15:15:03 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 30 Sep 2013 08:15:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,1008,1371106800"; d="scan'208";a="301310323"
+Received: from unknown (HELO [10.255.15.164]) ([10.255.15.164])
+	by AZSMGA002.ch.intel.com with ESMTP; 30 Sep 2013 08:15:03 -0700
+Message-ID: <1380554103.31937.181.camel@empanada>
+From: Tom Zanussi <tom.zanussi@linux.intel.com>
+To: David =?ISO-8859-1?Q?Nystr=F6m?= <david.c.nystrom@gmail.com>
+Date: Mon, 30 Sep 2013 10:15:03 -0500
+In-Reply-To: <5249758E.1010808@gmail.com>
+References: <cover.1380234931.git.tom.zanussi@linux.intel.com>
+	<8dbedc35cbce3319722c012af0dad737773446f6.1380234931.git.tom.zanussi@linux.intel.com>
+	<CAP9ODKpYNSJs-T=GTpa725A6GK32GykgPbv7w5KeiwPhXVLfzw@mail.gmail.com>
+	<1380291699.31937.46.camel@empanada> <5246C8E2.7060702@gmail.com>
+	<1380503475.31937.154.camel@empanada> <5249758E.1010808@gmail.com>
+X-Mailer: Evolution 3.4.1 (3.4.1-2.fc17) 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] wic: Initial code for wic (OpenEmbedded Image Creator)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,425 +37,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2013 14:55:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-Changelog since 2013-09-22 until 2013-09-29.  Projects included in this =
-report:
-
-bitbake: git://git.openembedded.org/bitbake
-openembedded-core: git://git.openembedded.org/openembedded-core
-meta-openembedded: git://git.openembedded.org/meta-openembedded
-meta-angstrom: git://github.com/Angstrom-distribution/meta-angstrom.git
-meta-arago: git://arago-project.org/git/meta-arago.git
-meta-beagleboard: git://github.com/beagleboard/meta-beagleboard.git
-meta-browser: git://github.com/OSSystems/meta-browser.git
-meta-bug: git://github.com/buglabs/meta-bug.git
-meta-chicken: git://github.com/OSSystems/meta-chicken
-meta-efikamx: git://github.com/kraj/meta-efikamx.git
-meta-ettus: http://github.com/koenkooi/meta-ettus.git
-meta-fsl-arm: git://git.yoctoproject.org/meta-fsl-arm
-meta-fsl-arm-extra: git://github.com/Freescale/meta-fsl-arm-extra.git
-meta-fsl-ppc: git://git.yoctoproject.org/meta-fsl-ppc
-meta-guacamayo: git://github.com/Guacamayo/meta-guacamayo.git
-meta-gumstix: git://github.com/gumstix/meta-gumstix.git
-meta-gumstix-community: =
-git://gitorious.org/schnitzeltony-oe-meta/meta-gumstix-community.git
-meta-handheld: git://git.openembedded.org/meta-handheld
-meta-igep: http://github.com/ebutera/meta-igep.git
-meta-intel: git://git.yoctoproject.org/meta-intel
-meta-ivi: git://git.yoctoproject.org/meta-ivi
-meta-java: git://github.com/woglinde/meta-java
-meta-kde: git://gitorious.org/openembedded-core-layers/meta-kde.git
-meta-micro: git://git.openembedded.org/meta-micro
-meta-mono: git://git.yoctoproject.org/meta-mono.git
-meta-netbookpro: git://github.com/tworaz/meta-netbookpro
-meta-nslu2: git://github.com/kraj/meta-nslu2
-meta-opie: git://git.openembedded.org/meta-opie
-meta-qt3: git://git.yoctoproject.org/meta-qt3
-meta-qt5: git://github.com/meta-qt5/meta-qt5.git
-meta-slugos: git://github.com/kraj/meta-slugos
-meta-systemd: git://git.yoctoproject.org/meta-systemd
-meta-raspberrypi: git://github.com/djwillis/meta-raspberrypi.git
-meta-smartphone: http://git.shr-project.org/repo/meta-smartphone.git
-meta-ti: git://git.yoctoproject.org/meta-ti
-meta-webos: git://github.com/openwebos/meta-webos.git
-meta-xilinx: git://git.yoctoproject.org/meta-xilinx
-meta-yocto: git://git.yoctoproject.org/meta-yocto
-openembedded: git://git.openembedded.org/openembedded
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for bitbake:
-
-Richard Purdie (1):
-=20=20bitbake: Update to version 1.20.0
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for openembedded-core:
-
-Amy Fong (1):
-=20=20distutils: Replacing path to native path only to be done to =
-non-native pytho
-
-Belen Barros Pena (1):
-=20=20documentation.conf: update contents
-
-Bruce Ashfield (2):
-=20=20kern-tools: fix multi patch application without headers
-=20=20linux-yocto/3.10: common-pc* config updates
-
-Chen Qi (1):
-=20=20image.bbclass: uninstall package only if it's already installed
-
-Cristian Iorga (2):
-=20=20packagegroup-self-hosted: add leafpad text editor
-=20=20builder: register text files with leafpad
-
-Darren Hart (2):
-=20=20init-install-efi.sh: Fix root=3D specification
-=20=20init-install-efi.sh: Remove unnecessary udev rules file to avoid =
-errors
-
-David Nystr=C3=B6m (4):
-=20=20makedevs: add nativesdk to BBCLASSEXTEND
-=20=20libpam: Avoid host contamination issue w. libprelude
-=20=20shadow: Add nativesdk to BBCLASSEXTEND
-=20=20nativesdk-packagegroup-sdk-host: Add nativesdk-shadow
-
-Eric B=C3=A9nard (1):
-=20=20busybox: update mdev.conf
-
-Joe Slater (1):
-=20=20webkit-gtk: limit ld memory requirement
-
-Laurentiu Palcu (4):
-=20=20package_deb, apt.conf: fix apt failure in do_rootfs()
-=20=20relocate_sdk.py: make it work also with python 3
-=20=20adt-installer: check if sudo is needed when installing target sysroot
-=20=20adt-installer: add warning if MACHINE is not set in adt-installer.conf
-
-Lukas Bulwahn (1):
-=20=20boost: set up PACKAGECONFIG for boost-python library
-
-Muhammad Shakeel (1):
-=20=20systemd: fix ptest support
-
-Paul Eggleton (5):
-=20=20libav: make X11 dependencies dependent on DISTRO_FEATURES
-=20=20scripts/runqemu: write temp file into correct location
-=20=20grub: don't patch generated configure to fix do_patch re-execution
-=20=20qt4-x11-free: disable QGtkStyle
-=20=20classes/package_rpm: fix bitbake package-index for RPM
-
-Richard Purdie (8):
-=20=20autoconf: Add fix for sh verses bash issues
-=20=20shadow: Move common code to shadow.inc
-=20=20shadow: Turn shadow-native into a BBCLASSEXTEND
-=20=20build-appliance: Update SRCREV
-=20=20package.bbclass: Clear umask when using os.mkdir
-=20=20runqemu: Use correct kvm CPU options for qemux86* with kvm
-=20=20gcc/libtool/perl: Fix various path to sed-native problems
-=20=20testimage: Exclude BB_ORIGENV variable
-
-Robert Yang (1):
-=20=20telepathy-mission-control: do_compile failed (race issue)
-
-Ross Burton (4):
-=20=20qemu: don't claim support for IrDA and PCMCIA
-=20=20pseudo: use bbnote/bbwarn instead of echo
-=20=20pseudo: warn twice if the 32-bit toolchain appears broken
-=20=20oe-init-build-env-memres: use shell instead of Python to show the =
-port numbe
-
-Roy Li (4):
-=20=20sstate.bbclass: ignore the tar failure.
-=20=20perl: do not use pushd
-=20=20ptest-runner: compatibile with busybox
-=20=20bind: port a patch to fix a build failure
-
-Saul Wold (5):
-=20=20elfutils: remove configure bits from patch
-=20=20base-passwd: add shutdown group
-=20=20sysvinit: don't use useradd
-=20=20texi2html: remove po.m4 patch
-=20=20wget: remove po.m4 patch
-
-Stefan Stanacar (2):
-=20=20classes/testimage: add informational messages about tests and do some =
-cleanu
-=20=20lib/oeqa/runtime: ping: wait for 5 echo replies
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-openembedded:
-
-Chen Qi (1):
-=20=20quagga: fix babeld_option
-
-Hongxu Jia (1):
-=20=20apache2: fix error messages when restart apache service
-
-Ming Liu (1):
-=20=20vsftpd: change default secure_chroot_dir
-
-Paul Eggleton (1):
-=20=20lowpan-tools: add git version
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-angstrom:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-arago:
-
-Denys Dmytriyenko (5):
-=20=20sourceipk: do not dereference symlinks when packaging data to avoid =
-breakage
-=20=20packagegroup-arago-test: re-enable ltp-ddt for am437x now
-=20=20gadget-init: replace RDEPENDS with RRECOMMENDS for recommended modules
-=20=20tisdk-image.bbclass: adjust to handle zImage along with uImage kernels
-=20=20external-linaro-toolchain: add a way to use specific =
-linux-libc-headers prov
-
-Yan Liu (1):
-=20=20busybox: Enable dd ibs obs option which turns on the conv=3D options
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-beagleboard:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-browser:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-bug:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-chicken:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-efikamx:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ettus:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-arm:
-
-Mario Domenech Goulart (7):
-=20=20imx6dlsabreauto: set up UBOOT_CONFIG with config/fs-type for the =
-supported b
-=20=20imx6dlsabresd: set up UBOOT_CONFIG with config/fs-type for the =
-supported boo
-=20=20imx6qsabreauto: set up UBOOT_CONFIG with config/fs-type for the =
-supported bo
-=20=20imx6qsabresd: set up UBOOT_CONFIG with config/fs-type for the =
-supported boot
-=20=20imx6solosabreauto: set up UBOOT_CONFIG with config/fs-type for the =
-supported
-=20=20imx6solosabresd: set up UBOOT_CONFIG with config/fs-type for the =
-supported b
-=20=20imx28evk: set up UBOOT_CONFIG with config/fs-type for the supported =
-boot dev
-
-Otavio Salvador (25):
-=20=20u-boot-fslc: Update revision to aa822f4
-=20=20imx-bootlets: Pass sysroot for compiler and linker
-=20=20imx-bootlets: Add deploy in sstate-cache
-=20=20u-boot-fslc-mxsboot: Use sysroot contents for native builds
-=20=20imx-base.inc: Drop gst-fsl-plugin for vf60 SoC family
-=20=20fsl-dynamic-packagearch.bbclass: Dynamically set package architecture
-=20=20xf86-input-evdev: Drop PACKAGE_ARCH override
-=20=20imx-base.inc: Use 'fsl-dynamic-packagearch' class
-=20=20mxs-base.inc: Use 'fsl-dynamic-packagearch' class
-=20=20qt4: Remove redundant PACKAGE_ARCH setting
-=20=20qt5: Remove redundant PACKAGE_ARCH setting
-=20=20mesa-demos: Remove redundant PACKAGE_ARCH setting
-=20=20mesa: Remove redundant PACKAGE_ARCH setting
-=20=20amd-gpu-mx51.inc: Remove redundant PACKAGE_ARCH setting
-=20=20gpu-viv-bin-mx6q.inc: Remove redundant PACKAGE_ARCH setting
-=20=20gpu-viv-g2d.inc: Remove redundant PACKAGE_ARCH setting
-=20=20imx-test: Remove redundant PACKAGE_ARCH setting
-=20=20imx-lib: Remove redundant PACKAGE_ARCH setting
-=20=20fsl-alsa-plugins: Remove redundant PACKAGE_ARCH setting
-=20=20gst-fsl-plugin.inc: Remove redundant PACKAGE_ARCH setting
-=20=20mxs-base.inc: Add MACHINE_GSTREAMER_PLUGIN default setting
-=20=20imx28evk: Drop inherited MACHINE_GSTREAMER_PLUGIN setting
-=20=20firmware-imx: Use MACHINE_SOCARCH for PACKAGE_ARCH
-=20=20libdrm: Use MACHINE_SOCARCH for PACKAGE_ARCH
-=20=20xf86-video-imxfb-vivante: Use MACHINE_SOCARCH for PACKAGE_ARCH
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-arm-extra:
-
-Eric B=C3=A9nard (1):
-=20=20init-ifupdown: migrate interfaces from netbase
-
-Otavio Salvador (2):
-=20=20cfa10036.inc: Ensure we don't include gst-fsl-plugin
-=20=20cfa10036.inc: Fix machine override definition
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-fsl-ppc:
-
-Zhenhua Luo (2):
-=20=20u-boot: fix depend race issue of u-boot-NAND.bin build
-=20=20Remove overriding linux-libc-headers
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-guacamayo:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-gumstix:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-gumstix-community:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-handheld:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-igep:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-intel:
-
-Nitin A Kamble (10):
-=20=20emenlow-noemgd: linux-yocto_3.10 recipe extension
-=20=20emenlow-noemgd: move BSP to the v3.10 kernel
-=20=20fri2-noemgd: linux-yocto_3.10 recipe extension
-=20=20fri2-noemgd: move BSP to the v3.10 kernel
-=20=20sys940x-noemgd: linux-yocto_3.10 recipe extension
-=20=20sys940x-noemgd: move BSP to the v3.10 kernel
-=20=20chiefriver: update linux-yocto_3.10 kernel to 3.10.11
-=20=20jasperforest: update linux-yocto_3.10 kernel to 3.10.11
-=20=20nuc: update linux-yocto_3.10 kernel to 3.10.11
-=20=20sugarbay: update linux-yocto_3.10 kernel to 3.10.11
-
-Ong Boon Leong (1):
-=20=20common: Remove obsolete QAT-related recipes
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ivi:
-
-Abhijit Potnis (1):
-=20=20packagegroup-placeholder-component-p1: packagegroup-xserver-ivi is =
-needed on
-
-Florin Sarbu (1):
-=20=20CommonApi: Update common-api-c++ and common-api-c++-dbus     to =
-version 2.1.
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-java:
-
-Henning Heinold (1):
-=20=20icedtea: update download url for icedtea6-native
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-kde:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-micro:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-mono:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-netbookpro:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-nslu2:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-opie:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-qt3:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-qt5:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-slugos:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-systemd:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-raspberrypi:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-smartphone:
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-ti:
-
-Denys Dmytriyenko (7):
-=20=20linux-ti-staging: bump to 3.12-rc1 with platform-base and PMIC merged
-=20=20linux*: don't force KERNEL_IMAGETYPE from recipes, let machine config =
-set it
-=20=20u-boot-ti-staging: update to the latest 2013.10-rc2 and make it the =
-default
-=20=20linux-ti-staging: make 3.12-rc the default for supported platforms, =
-drop oma
-=20=20ti43x, omap-a15: switch KERNEL_IMAGETYPE to zImage by default
-=20=20linux-ti-staging: fix missing kernel image in /boot
-=20=20Revert "linux: Inherit new machine_kernel_pr class"
-
-Franklin S. Cooper Jr (1):
-=20=20linux: Inherit new machine_kernel_pr class
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-webos:
-
-Ed Chejlava (2):
-=20=20upstart: Modify initctl's set-env to process a list
-=20=20upstart: Add udev dependency and drop unpackaged icons
-
-Hongjeon Ha (1):
-=20=20webos-image: pmlogdaemon=3D111 pmloglib=3D40
-
-Iyad Qumei (1):
-=20=20webos-image: Update for change in format of SetEnvInit.conf
-
-Mark Bessey (1):
-=20=20webos-image: mojoservicelauncher=3D78
-
-Martin Jansa (2):
-=20=20prepare-submission.sh: Add simple script for creating webos tags
-=20=20upstart: Fix update-alternatives setup
-
-Nikolay Orliuk (1):
-=20=20qmake5.bbclass: Add WEBOS_INSTALL_PREFIX
-
-Roger Stringer (7):
-=20=20webos-image: luna-sysservice=3D14
-=20=20webos-image: activitymanager=3D114
-=20=20webos-image: configurator=3D54,v3.0.0
-=20=20webos-image: db8=3D85
-=20=20webos-image: db8=3D86
-=20=20meta-webos: db8=3D87,v3.1.0
-=20=20webos-image: activitymanager=3D115,v3.0.0
-
-wonkyo.seo (1):
-=20=20libnsbmp: Fix build
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-xilinx:
-
-Nathan Rossi (1):
-=20=20README: Added details of Known Issues with MicroBlaze
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for meta-yocto:
-
-Richard Purdie (1):
-=20=20poky: Update to 1.5 release version
-
-Tom Zanussi (1):
-=20=20yocto-bsp: add 3.10/remove 3.8 kernel from templates
-
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-Changelog for openembedded:
+X-List-Received-Date: Mon, 30 Sep 2013 15:15:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+
+On Mon, 2013-09-30 at 14:58 +0200, David Nyström wrote:
+> On 09/30/2013 03:11 AM, Tom Zanussi wrote:
+> > On Sat, 2013-09-28 at 14:17 +0200, David Nyström wrote:
+> >> On 09/27/2013 04:21 PM, Tom Zanussi wrote:
+> >>> Hi Otavio,
+> >>>
+> >>> On Fri, 2013-09-27 at 11:01 -0300, Otavio Salvador wrote:
+> >>>> Hello Tom,
+> >>>>
+> >>>> On Thu, Sep 26, 2013 at 11:17 PM, Tom Zanussi
+> >>>> <tom.zanussi@linux.intel.com> wrote:
+> >>>>> Initial implementation of the 'wic' command.
+> >>>>>
+> >>> <snip>
+> >>>> Could you please elaborate why to make a new command instead of using
+> >>>> the class system?
+> >>>>
+> >>>
+> >>> This isn't an either/or thing - the initial requirements were that the
+> >>> overall deployment effort end up being something that would be usable
+> >>> both from an external tool as well as from within the class system.
+> >>
+> >> What do you mean when you say "within the class system" here ?
+> >> * A tool using only (kickstart for image cfg, partitioning et.c.) +
+> >> (tmp/deploy/ipk|rpm|deb) as input data for image creation ?
+> >>
+> >
+> > For me, 'within the class system' just covers what I originally outlined
+> > in the analysis (Bug 3847 - New partitioning description and tooling),
+> > basically providing a more flexible alternative/eventual replacement for
+> > things like boot-directdisk.class/image-vmdk.bbclass and mkefidisk.sh,
+> > and the IMAGE_FSTYPEs mechanism used all over the place for creating
+> > custom images.  At this point, that's the scope of it for me - I'm not
+> > even sure yet where the kickstart interface will hook into things or
+> > exactly how it will presented to users - that's for 1.6.  What I do know
+> > is that the current wic functionality should be sufficient and that it's
+> > pretty well modularized - the 'wic' command itself is just a thin
+> > wrapper that gathers info from the user e.g. paths to the build
+> > artifacts and a kickstart file and invokes the image creator through a
+> > well-defined entry point.
+> >
+> > For current work (and presumably also when integrated into the class
+> > system), I'm directly using the target rootfs - my first versions
+> > actually just used the rootfs image e.g. xx.ext3, but because I needed
+> > access to the filesystem for e.g. generating the fstab, and can't do a
+> > loop mount because it requires root, that's what the tool uses.
+> >
+> > Using tmp/deploy/ipk|rpm|deb as input for image creation is a step
+> > beyond what I had scoped out for this immediate task - things like image
+> > configuration and package selection from package repositories/feeds are
+> > things I believe other people are interested in; using kickstart/mic as
+> > the underlying infrastructure for those additional capabilities at first
+> > glance seems that it might also make sense in those cases, since those
+> > things are already implemented in some form, but I haven't looked deeply
+> > and that's probably something for those who have the need/interest to
+> > determine...
+> 
+> I started hacking on a simple test to evaluate dependencies et.c. for 
+> SDK rootfs + image generation from a repo, similiar to "mic-chroot".
+> 
+> https://github.com/nysan/rootfs-sandbox , dep: (oe-core master-next)
+> 
+> some postinst hooks are OE dependent and require special attention, and 
+> there is also the need to expand the nativesdk with some postinst 
+> dependencies to avoid host contamination. et.c.
+> 
+> When I saw the wic/kickstart patches, my hope was that we could, long 
+> term, share the codebase between the nativeSDK 'mic-like-interface', and 
+> bitbake/OE 'mic-like-interface', since functionality probably will be 
+> overlapping.
+> 
+> The nativeSDK 'mic-like-interface' would naturally only have the package 
+> repo + wks as input data.
+> 
+
+Looking at your code, it definitely seems there could be a good fit, if
+I understand it correctly.
+
+As I understand it, you allow users to interactively specify packages to
+include in an image and then generate the image.
+
+If I were going to take a first stab at using the wic infrastructure for
+this, I'd probably have the interactive tool start off by having the
+user specify a kickstart file and, instead of a pointer to the rootfs as
+-r does with 'wic', a pointer to the package repo.
+
+The initial kickstart file would have an initial set of packages that
+would automatically be added, using the standard kickstart package
+selection syntax e.g.
+
+%packages
+@packagegroup-core-boot
+%end
+
+http://fedoraproject.org/wiki/Anaconda/Kickstart#Chapter_3._Package_Selection
+
+Your interactive wrapper would allow the user to select and add packages
+from the package repo, which would be dynamically added to the %packages
+section of the kickstart file.
+
+Once done, all the packages selected to go into the image would generate
+the rootfs at an internally known temporary location that would just be
+passed to the existing image creation code in place of the -r option,
+which is a previously solved problem ;-)
+
+Well, there would be a lot more details involved but at a high level,
+that's one way I could see it working...
+
+Tom
+
+
+> Br,
+> David
+> 
+> >> Just my five cents,
+> >>
+> >> I would like to see reproducible image creation from both the bitbake/OE
+> >> build env and the nativesdk SDK build env.
+> >> This would require a common interface for input distribution data, It
+> >> naturally feels like this interface should be the package repository.
+> >> i.e. if X is not packaged as class-target, it can't be included on the
+> >> generated image.
+> >> Also, if X is required to generate the image, it should be packaged as
+> >> class-nativesdk.
+> >>
+> >> afaict, the standalone wic tool uses a hybrid approach, using
+> >> OpenEmbedded build artifacts + a package repository as input for rootfs
+> >> generation.
+> >
+> > Yeah, that's what the tool currently uses, but as you say, some more
+> > thought towards a common interface needs to be done.  I originally had
+> > this for the --source param to the 'part commmand':
+> >
+> > parser.add_option("-s", "--source", action = "append",
+> >                    default = True, help = "define additional wks sources
+> > [sourcename=/path/to/source], referenced in .wks part commands as
+> > --source sourcename")
+> >
+> > For the current wic code, I punted on trying to come up with something
+> > more general purpose like this (and as you can see it's not really
+> > general purpose, in my case just allowing multiple filesystem sources
+> > and not very well thought out at that), and simply defined 'rootfs' to
+> > mean the entire /rootfs passed in using the -r option.
+> >
+> > I think there needs to be a way to specify arbitrary (user-defined as
+> > well) sources and those sources could really be anything, including
+> > package repositories in whatever form you need them to be.  I don't have
+> > the answer at the moment, just that there needs to be a generic
+> > mechanism for providing and making use of arbitrary sources - any input
+> > you could provide for the use cases it sounds like you've given more
+> > thought to handling would help move that along...
+> >
+> > Thanks,
+> >
+> > Tom
+> >
+> >> What is the long term plan for wic in regards to the above ?
+> >>
+> >> Br,
+> >> David
+> >>
+> >>> This just happens to be the initial (easier) part of that, the external
+> >>> tool, and I expect in 1.6 to be doing a lot of the harder part,
+> >>> integration with the build system.
+> >>
+> >>
+> >>> The most important part, I think, is that this provides a high-level
+> >>> user-oriented 'language' (the kickstart files) that users can use to
+> >>> define custom images, rather than having to muck around in class files
+> >>> or variable settings, or write specialized scripts such as mkefidisk.sh
+> >>> for example.
+> >>>
+> >>> Making that available from a standalone tool such as 'wic' is
+> >>> straightforward, doing the same from within the build system will
+> >>> require more thought and work, but that's what I'm hoping to do in
+> >>> 1.6...
+> >>
+> >>
+> >>
+> >>>
+> >>> Tom
+> >>>
+> >>>
+> >>>
+> >>>
+> >>> _______________________________________________
+> >>> Openembedded-core mailing list
+> >>> Openembedded-core@lists.openembedded.org
+> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >>>
+> >>
+> >
+> >
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
