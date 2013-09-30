@@ -1,28 +1,37 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FC8F6102E
+Return-Path: <riku.voipio@linaro.org>
+Received: from mail-qa0-f43.google.com (mail-qa0-f43.google.com
+	[209.85.216.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A304C6102E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2013 09:48:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r8U9mdhR018561
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 30 Sep 2013 10:29:08 +0000 (UTC)
+Received: by mail-qa0-f43.google.com with SMTP id k15so2169200qaq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Sep 2013 02:48:39 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Mon, 30 Sep 2013 02:48:38 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <mark.hatle@windriver.com>
-Date: Mon, 30 Sep 2013 17:48:25 +0800
-Message-ID: <4092f836c8e0d512fa2f0b4378766820a16e4957.1380534395.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-In-Reply-To: <cover.1380534395.git.kai.kang@windriver.com>
-References: <cover.1380534395.git.kai.kang@windriver.com>
+	Mon, 30 Sep 2013 03:29:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=bTxKlJQfEVRtU8XUl1bwN6pUx480jcOYjYgNLaJguLw=;
+	b=LMm4mWLK133xusaviwtLA+U+nkMAq32N0oGEGs9djfTo/hOk8+5DS9qPv7vy7neiZy
+	6FQ6ivE4j/vtQNXwj/tywlWfEDEiDyfWRL4T+BB27cvXUHK/mcmlXfs2lw3o8GkJf0iS
+	hudv1dZ0fck3JUOSsacWBB7lmbDQfdcCJAfsTpGGyR5aVdl4ReUCllf1jWZZBaHac1JQ
+	0DtU0KkP34fSyb+YGsShXHKSdT2TKyp+ZXEFm1R5YdQcLa0oJtfk+kJc2xdMekl1IWLe
+	0YfcPkrnsnVCVDPKJRQmaOVZaDI5w0sxLZz9yLWO9ibW+jYJtu5oUWTTaGMAWsHTTQWC
+	vS7w==
+X-Gm-Message-State: ALoCoQlgehBM3L1e/y2Uv4U0j+Ez1JcU2lXACGz/QFvvR9gjIOITMyUwnwXzXi5CKIrUqvWjDxKQ
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] rpm: fix rpm2cpio segmentation fault
+X-Received: by 10.224.73.200 with SMTP id r8mr12869350qaj.72.1380536949841;
+	Mon, 30 Sep 2013 03:29:09 -0700 (PDT)
+Received: by 10.49.71.232 with HTTP; Mon, 30 Sep 2013 03:29:09 -0700 (PDT)
+In-Reply-To: <1379757244.18603.192.camel@ted>
+References: <CAAqcGH=avmRB5GS23tj+JjckQ1Y-RrTnTkQmBHTFggnwDbihRA@mail.gmail.com>
+	<1379757244.18603.192.camel@ted>
+Date: Mon, 30 Sep 2013 13:29:09 +0300
+Message-ID: <CAAqcGHkrqYdVr8f87rqEfLQY8nYO5rC87m2CUJFdtS=gTmK42Q@mail.gmail.com>
+From: Riku Voipio <riku.voipio@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "saul.wold" <saul.wold@intel.com>, openembedded-core@lists.openembedded.org
+Subject: Re: Using pigz-native from sstate-cache while zlib-native is not there yet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,73 +44,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2013 09:48:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 30 Sep 2013 10:29:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Kang Kai <kai.kang@windriver.com>
+Hi Richard,
 
-When run rpm2cpio, it fails with segmentation fault. The root cause is
-no macros "_db_path" and "_dbi_config*" defined, when query these macros
-get nothing then cause segment fault.
+On 21 September 2013 12:54, Richard Purdie
+> do_unpack[depends] += "gzip-native:do_populate_sysroot"
+>
+> which I think should address the problem?
+>
+> If anyone is interested, the reproducer is:
+>
+> bitbake pigz-native
+> bitbake zlib-native -c clean
+> bitbake core-image-minimal -c populate_lic --no-setscene -f
 
-Add patch to parse macro files first to fix this problem.
+> however your system needs to have an old version of zlib on it which
+> pigz-native can't run against. The line above fixes it.
 
-[YOCTO #3656]
+I verified on ubuntu precise that the above steps do not cause the
+zlib relocation error anymore. I see the fix is alreadt in OE-core,
+thanks!
 
-Signed-off-by: Kang Kai <kai.kang@windriver.com>
----
- .../rpm/rpm/rpm2cpio-fix-segmentation-fault.patch  | 28 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.9.bb             |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
-
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
-new file mode 100644
-index 0000000..cdf8fb1
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm2cpio-fix-segmentation-fault.patch
-@@ -0,0 +1,28 @@
-+Upstream-Status: Pending
-+
-+rpm2cpio fails on target with "Segmentation fault". Because macros
-+"_dbpath" and "_dbi_config*" need to be defined, otherwise query these
-+macros will cause segment fault.
-+
-+Parse config files first to fix this bug. If parse fails, give a warning.
-+
-+[YOCTO #3656]
-+
-+Signed-off-by: Kang Kai <kai.kang@windriver.com>
-+
-+--- rpm-5.4.9/tools/rpm2cpio.c.orig	2013-04-15 10:35:14.269398890 +0800
-++++ rpm-5.4.9/tools/rpm2cpio.c	2013-04-15 10:44:12.777417885 +0800
-+@@ -87,6 +87,13 @@
-+ #endif
-+ 	(void) rpmtsSetVSFlags(ts, vsflags);
-+ 
-++	/* If macros "_dbpath" and "_dbi_config*" are not defined,
-++	 * sigment fault occurs */
-++	rc = rpmReadConfigFiles(NULL, NULL);
-++	if (rc) {
-++		fprintf(stderr, _("Read RPM config files failed that may cause sigment fault.\n"));
-++	}
-++
-+ 	/*@-mustmod@*/      /* LCL: segfault */
-+ 	rc = rpmReadPackageFile(ts, fdi, "rpm2cpio", &h);
-+ 	/*@=mustmod@*/
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.9.bb b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-index 3c7e03b..492393e 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.9.bb
-@@ -88,6 +88,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.9-0.20120508.src.rpm;ex
- 	   file://debugedit-segv.patch \
- 	   file://rpm-platform-file-fix.patch \
- 	   file://rpm-lsb-compatibility.patch \
-+	   file://rpm2cpio-fix-segmentation-fault.patch \
- 	  "
- 
- # Uncomment the following line to enable platform score debugging
--- 
-1.8.1.2
-
+Riku
 
