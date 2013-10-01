@@ -1,40 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
-	[209.85.160.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ED326007B
+Return-Path: <eu@felipetonello.com>
+Received: from mail-oa0-f50.google.com (mail-oa0-f50.google.com
+	[209.85.219.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 83FE160EA8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2013 17:07:09 +0000 (UTC)
-Received: by mail-pb0-f51.google.com with SMTP id jt11so7434619pbb.10
+	Tue,  1 Oct 2013 17:19:24 +0000 (UTC)
+Received: by mail-oa0-f50.google.com with SMTP id j1so5109953oag.37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Oct 2013 10:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=tUrT8qZPPWAkOEAhUwBQmfHIlh1pcehlQnQtblI/SYE=;
-	b=0cwwWQ11tpCitImsxEbbukQxIMjANfb4nDCYLF9IVJuFi05kI6EtsBhsmEBCe5gaeV
-	UVgsjUItHa90cPxlbX+oHZG2IYr2CElqJdrHj8n/EvFGhccl+gEiFAS9PPd5ww5iZsS0
-	Qz48if5lLFmr2afrR/t+kSCKNbWYw8987QUs8qpN+cafKgO4yyPB495W9vcP3VYeXYdv
-	LGd2H6fJ0hDyg73tNxZikrdsj6DTJI66i7Yn3X1DCwCBCMiwGQ6/zZRJ2eVshbJeZ3+o
-	xV6Ke0o7iJx8M4Cj3uc46DP3gD+g+koe6vzjpmbjlO9/tt3s5A2KiTWh78j+MMNr6Y/k
-	+I4A==
-X-Received: by 10.66.159.40 with SMTP id wz8mr15153408pab.135.1380647231134;
-	Tue, 01 Oct 2013 10:07:11 -0700 (PDT)
-Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
-	by mx.google.com with ESMTPSA id
-	vz4sm9458806pab.11.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 01 Oct 2013 10:07:10 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1380646575.23533.89.camel@phil-desktop.brightsign>
-Date: Tue, 1 Oct 2013 10:07:09 -0700
-Message-Id: <AAB26854-909B-4667-B173-E02F3595A0FA@gmail.com>
-References: <1380646260-15245-1-git-send-email-sgw@linux.intel.com>
-	<1380646575.23533.89.camel@phil-desktop.brightsign>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.1510)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] makedevs: Do not return error if the fifo exisits
+	Tue, 01 Oct 2013 10:19:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=4mU38IJblu/b/poLMNjjEo10ZgE1RHioe4rUxDb+yKo=;
+	b=h6H9v6YgKZcpEVRmlTcr3COb3/0pG66PqO/mNjrismhh4Hz/MZSwRFh8L7SrVP7+aJ
+	v4eZv8++dyNvGtNo+oRcj/w7TLP7+rZvVGUGisvuOfEeoHsNdMk58HfMRkbQYCQvMRim
+	/3FkjakhkNrjeJBjmQYr6Kltmi7iwtLtq8DFgxOuxtguqtqi1gYX32in+au/g/bA4q66
+	+6MGL8BXhAK5zGv9iuht2oSH3d2z/B/J36waBxrG+sCzgmVXW0LPTvA8hQ2BZm/u3tzO
+	+WhPczyThXkpBrufemHGqwNULUstMa38ld8eUmp1aeZvsoTOvqtcsrd8gyDO1A8ivwpH
+	9S9Q==
+X-Gm-Message-State: ALoCoQkIMvOUyYwZ27Kn7OyJBwalUBmeMP5e8Bas8Lf5pn3vH5lqoZtAGNS6a6D2v0jZOkJj+OyY
+X-Received: by 10.60.96.131 with SMTP id ds3mr2787813oeb.50.1380647965863;
+	Tue, 01 Oct 2013 10:19:25 -0700 (PDT)
+Received: from localhost.localdomain.com (wsip-70-183-20-162.oc.oc.cox.net.
+	[70.183.20.162])
+	by mx.google.com with ESMTPSA id u3sm13795349oeq.3.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Tue, 01 Oct 2013 10:19:24 -0700 (PDT)
+From: eu@felipetonello.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Oct 2013 10:19:18 -0700
+Message-Id: <1380647958-5424-1-git-send-email-eu@felipetonello.com>
+X-Mailer: git-send-email 1.8.3.1
+Subject: [PATCH] update-rc: Stop and remove service if updating package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,33 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 17:07:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Oct 2013 17:19:25 -0000
 
+From: "Felipe F. Tonello" <eu@felipetonello.com>
 
-On Oct 1, 2013, at 9:56 AM, Phil Blundell <pb@pbcl.net> wrote:
+Since when updating packages packages managers do not remove the previous package,
+it just replaces new files and run pre/post install scripts. This causes not
+to update update-rc scripts if they were changed.
 
-> On Tue, 2013-10-01 at 09:51 -0700, Saul Wold wrote:
->> static void add_new_fifo(char *name, char *path, unsigned long uid,
->> 				  unsigned long gid, unsigned long mode)
->> {
->> -	if (mknod(path, mode, 0))
->> +	if (mknod(path, mode, 0) && errno != EEXIST)
->> 		error_msg_and_die("%s: file can not be created with mknod!", path);
-> 
-> Will this do the right thing if the mode has changed from the old to the
-> new versions?
+This patch is useful in case the newer package version updated the update-rc
+script.
 
-and it wont catch dangling symlinks anymore
+Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+---
+ meta/classes/update-rc.d.bbclass | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-> 
-> p.
-> 
-> 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+index 5588569..773ca60 100644
+--- a/meta/classes/update-rc.d.bbclass
++++ b/meta/classes/update-rc.d.bbclass
+@@ -13,7 +13,23 @@ INITSCRIPT_PARAMS ?= "defaults"
+ INIT_D_DIR = "${sysconfdir}/init.d"
+ 
+ updatercd_postinst() {
+-if test "x$D" != "x"; then
++IN_TARGET=`test "x$D" = "x"`
++
++# test if there is a previous init script there, ie, we are updating the package
++# if so, we stop the service and remove it before we install from the new package
++if type update-rc.d >/dev/null 2>/dev/null; then
++	if [ $IN_TARGET -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
++		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
++	fi
++	if [ $IN_TARGET ]; then
++		OPT="-f -r $D"
++	else
++		OPT="-f"
++	fi
++	update-rc.d $OPT ${INITSCRIPT_NAME} remove
++fi
++
++if [ $IN_TARGET ]; then
+ 	OPT="-r $D"
+ else
+ 	OPT="-s"
+-- 
+1.8.3.1
 
 
