@@ -1,27 +1,39 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F3B16007B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
+	[209.85.160.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ED326007B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2013 17:01:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r91H1Hqn005926
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  1 Oct 2013 17:07:09 +0000 (UTC)
+Received: by mail-pb0-f51.google.com with SMTP id jt11so7434619pbb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Oct 2013 10:01:17 -0700 (PDT)
-Received: from msp-dhcp16.wrs.com (172.25.34.16) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Tue, 1 Oct 2013 10:01:17 -0700
-Message-ID: <524AFFDD.7090502@windriver.com>
-Date: Tue, 1 Oct 2013 12:01:17 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Tue, 01 Oct 2013 10:07:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=tUrT8qZPPWAkOEAhUwBQmfHIlh1pcehlQnQtblI/SYE=;
+	b=0cwwWQ11tpCitImsxEbbukQxIMjANfb4nDCYLF9IVJuFi05kI6EtsBhsmEBCe5gaeV
+	UVgsjUItHa90cPxlbX+oHZG2IYr2CElqJdrHj8n/EvFGhccl+gEiFAS9PPd5ww5iZsS0
+	Qz48if5lLFmr2afrR/t+kSCKNbWYw8987QUs8qpN+cafKgO4yyPB495W9vcP3VYeXYdv
+	LGd2H6fJ0hDyg73tNxZikrdsj6DTJI66i7Yn3X1DCwCBCMiwGQ6/zZRJ2eVshbJeZ3+o
+	xV6Ke0o7iJx8M4Cj3uc46DP3gD+g+koe6vzjpmbjlO9/tt3s5A2KiTWh78j+MMNr6Y/k
+	+I4A==
+X-Received: by 10.66.159.40 with SMTP id wz8mr15153408pab.135.1380647231134;
+	Tue, 01 Oct 2013 10:07:11 -0700 (PDT)
+Received: from kraj-sslvpn-nc.jnpr.net (natint3.juniper.net. [66.129.224.36])
+	by mx.google.com with ESMTPSA id
+	vz4sm9458806pab.11.1969.12.31.16.00.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 01 Oct 2013 10:07:10 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 6.6 \(1510\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1380646575.23533.89.camel@phil-desktop.brightsign>
+Date: Tue, 1 Oct 2013 10:07:09 -0700
+Message-Id: <AAB26854-909B-4667-B173-E02F3595A0FA@gmail.com>
 References: <1380646260-15245-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1380646260-15245-1-git-send-email-sgw@linux.intel.com>
+	<1380646575.23533.89.camel@phil-desktop.brightsign>
+To: Phil Blundell <pb@pbcl.net>
+X-Mailer: Apple Mail (2.1510)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] makedevs: Do not return error if the fifo exisits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -35,41 +47,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 17:01:16 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+X-List-Received-Date: Tue, 01 Oct 2013 17:07:09 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 
-On 10/1/13 11:51 AM, Saul Wold wrote:
-> This ensures that makedevs will not cause image creation failures
-> when it encounters a pipe (fifo) that exists from a previous image.
-> The other file/device creation code either ignore this error or check
-> for file type.
->
-> [YOCTO #5288]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c |    2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-> index 5d2c45b..7b0487f 100644
-> --- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-> +++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-> @@ -274,7 +274,7 @@ static void add_new_file(char *name, char *path, unsigned long uid,
->   static void add_new_fifo(char *name, char *path, unsigned long uid,
->   				  unsigned long gid, unsigned long mode)
->   {
-> -	if (mknod(path, mode, 0))
-> +	if (mknod(path, mode, 0) && errno != EEXIST)
->   		error_msg_and_die("%s: file can not be created with mknod!", path);
->   	chown(path, uid, gid);
->   //	printf("File: %s %s  UID: %ld  GID: %ld  MODE: %04lo\n",
->
 
-Ya, I'm happy with this.  It avoids recreating it if it exists.. no error.
+On Oct 1, 2013, at 9:56 AM, Phil Blundell <pb@pbcl.net> wrote:
 
-No idea if a warning is reasonable in this case, but I'm happy with the change.
+> On Tue, 2013-10-01 at 09:51 -0700, Saul Wold wrote:
+>> static void add_new_fifo(char *name, char *path, unsigned long uid,
+>> 				  unsigned long gid, unsigned long mode)
+>> {
+>> -	if (mknod(path, mode, 0))
+>> +	if (mknod(path, mode, 0) && errno != EEXIST)
+>> 		error_msg_and_die("%s: file can not be created with mknod!", path);
+> 
+> Will this do the right thing if the mode has changed from the old to the
+> new versions?
 
---Mark
+and it wont catch dangling symlinks anymore
+
+> 
+> p.
+> 
+> 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
