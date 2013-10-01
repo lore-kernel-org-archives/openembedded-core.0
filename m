@@ -1,22 +1,27 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 240C66007B
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F3B16007B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2013 16:56:15 +0000 (UTC)
-Received: from cpc6-cmbg17-2-0-cust487.5-4.cable.virginmedia.com
-	([86.30.57.232] helo=[172.30.1.45])
-	by hetzner.pbcl.net with esmtpsa (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <pb@pbcl.net>)
-	id 1VR3FA-0003Bm-6A; Tue, 01 Oct 2013 18:56:16 +0200
-Message-ID: <1380646575.23533.89.camel@phil-desktop.brightsign>
-From: Phil Blundell <pb@pbcl.net>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Tue, 01 Oct 2013 17:56:15 +0100
-In-Reply-To: <1380646260-15245-1-git-send-email-sgw@linux.intel.com>
+	Tue,  1 Oct 2013 17:01:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r91H1Hqn005926
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Oct 2013 10:01:17 -0700 (PDT)
+Received: from msp-dhcp16.wrs.com (172.25.34.16) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 1 Oct 2013 10:01:17 -0700
+Message-ID: <524AFFDD.7090502@windriver.com>
+Date: Tue, 1 Oct 2013 12:01:17 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
 References: <1380646260-15245-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: Evolution 3.4.4-4+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+In-Reply-To: <1380646260-15245-1-git-send-email-sgw@linux.intel.com>
 Subject: Re: [PATCH] makedevs: Do not return error if the fifo exisits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -30,22 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 16:56:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 01 Oct 2013 17:01:16 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2013-10-01 at 09:51 -0700, Saul Wold wrote:
->  static void add_new_fifo(char *name, char *path, unsigned long uid,
->  				  unsigned long gid, unsigned long mode)
->  {
+On 10/1/13 11:51 AM, Saul Wold wrote:
+> This ensures that makedevs will not cause image creation failures
+> when it encounters a pipe (fifo) that exists from a previous image.
+> The other file/device creation code either ignore this error or check
+> for file type.
+>
+> [YOCTO #5288]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c |    2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+> index 5d2c45b..7b0487f 100644
+> --- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+> +++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
+> @@ -274,7 +274,7 @@ static void add_new_file(char *name, char *path, unsigned long uid,
+>   static void add_new_fifo(char *name, char *path, unsigned long uid,
+>   				  unsigned long gid, unsigned long mode)
+>   {
 > -	if (mknod(path, mode, 0))
 > +	if (mknod(path, mode, 0) && errno != EEXIST)
->  		error_msg_and_die("%s: file can not be created with mknod!", path);
+>   		error_msg_and_die("%s: file can not be created with mknod!", path);
+>   	chown(path, uid, gid);
+>   //	printf("File: %s %s  UID: %ld  GID: %ld  MODE: %04lo\n",
+>
 
-Will this do the right thing if the mode has changed from the old to the
-new versions?
+Ya, I'm happy with this.  It avoids recreating it if it exists.. no error.
 
-p.
+No idea if a warning is reasonable in this case, but I'm happy with the change.
 
-
+--Mark
 
