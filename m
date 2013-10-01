@@ -1,28 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 3256260EA8
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 655A56B896
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2013 20:34:47 +0000 (UTC)
-Received: from azsmga001.ch.intel.com ([10.2.17.19])
-	by azsmga101.ch.intel.com with ESMTP; 01 Oct 2013 13:34:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1015,1371106800"; d="scan'208";a="368432983"
-Received: from unknown (HELO [10.255.15.107]) ([10.255.15.107])
-	by azsmga001.ch.intel.com with ESMTP; 01 Oct 2013 13:34:44 -0700
-Message-ID: <524B31E3.30709@linux.intel.com>
-Date: Tue, 01 Oct 2013 13:34:43 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130805 Thunderbird/17.0.8
+	Tue,  1 Oct 2013 22:54:49 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.2.318.1; Wed, 2 Oct 2013
+	00:54:46 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id B420728C24E;
+	Wed,  2 Oct 2013 00:54:46 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Oct 2013 00:54:40 +0200
+Message-ID: <1380668080-52460-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <1380490304-58258-1-git-send-email-tudor.florea@enea.com>
+References: <1380490304-58258-1-git-send-email-tudor.florea@enea.com>
 MIME-Version: 1.0
-To: Phil Blundell <pb@pbcl.net>
-References: <1380654945-17787-1-git-send-email-sgw@linux.intel.com>
-	<1380656968.3822.12.camel@x121e.pbcl.net>
-	<524B297C.7090804@linux.intel.com>
-	<1380658028.3822.19.camel@x121e.pbcl.net>
-In-Reply-To: <1380658028.3822.19.camel@x121e.pbcl.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] makedevs: Do not return error if the fifo exisits
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH v2] kmod: ptest fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +32,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 20:34:48 -0000
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Oct 2013 22:54:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/01/2013 01:07 PM, Phil Blundell wrote:
-> On Tue, 2013-10-01 at 12:58 -0700, Saul Wold wrote:
->> On 10/01/2013 12:49 PM, Phil Blundell wrote:
->>> On Tue, 2013-10-01 at 12:15 -0700, Saul Wold wrote:
->>>> +	int status;
->>>> +	struct stat sb;
->>>> +
->>>> +	memset(&sb, 0, sizeof(struct stat));
->>>> +	status = stat(path, &sb);
->>>
->>> Don't you want lstat() there?  Also, I think *stat() is guaranteed to
->>> fill in all of sb if it returns anything other than an error, so the
->>> memset() may be redundant.
->>>
->> I was keeping the same code style from the file function in the same code.
->>
->> I chose to use stat() to maintain the same failure and error handling we
->> have currently.
->
-> I'm not quite sure I understand the last sentence you wrote above.  Can
-> you expand on why stat() rather than lstat() is the right thing?
->
-To be able to handle the dangling symbolic link that Khem mentioned, or 
-more like not handle it, let it fall through and fail.
 
-Not that this case is going to happen very often since our 1 pipe fifo 
-is the same and not likely going to be a link.
+ Make kmod-ptest able to compile with separated source and
+ build dir. Since kmod test files contain kernel modules for
+ many different architectures, strip and arch gets confused
+ and throws errors.
 
-Sau!
 
->> I was attempting to get a point fix for the release, we can worry
->> about a more robust handling of the error / upgrade case in 1.5.1
->> or 1.6.
->
-> Righto.  I am blissfully ignorant of the criteria for the release so I
-> am happy to defer to your judgement on that.
->
-> p.
->
->
->
->
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+Signed-off-by: Bj=C3=B6rn Stenberg <bjst@enea.com>
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ meta/recipes-kernel/kmod/kmod/ptest.patch |    8 ++++----
+ meta/recipes-kernel/kmod/kmod/run-ptest   |    4 +---
+ meta/recipes-kernel/kmod/kmod_git.bb      |    6 ++++--
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/meta/recipes-kernel/kmod/kmod/ptest.patch b/meta/recipes-kerne=
+l/kmod/kmod/ptest.patch
+index c6479b2..831dbcb 100644
+--- a/meta/recipes-kernel/kmod/kmod/ptest.patch
++++ b/meta/recipes-kernel/kmod/kmod/ptest.patch
+@@ -15,10 +15,10 @@ diff -ruN a/Makefile.am b/Makefile.am
+ +	@for file in $(TESTSUITE); do \
+ +		install $$file $(DESTDIR)/testsuite; \
+ +	done;
+-+	@cp Makefile $(DESTDIR)
+-+	@sed -i 's/^Makefile/_Makefile/'  ${DESTDIR}/Makefile
+-+	@tar -czf $(DESTDIR)/tools.tgz $(noinst_SCRIPTS) $(noinst_PROGRAMS)
+-+	@tar -C testsuite -czf $(DESTDIR)/testsuite.tgz rootfs-pristine .libs
+++	@sed -e 's/^Makefile/_Makefile/' < Makefile > $(DESTDIR)/Makefile
+++	@$(MKDIR_P) $(DESTDIR)/tools
+++	@cp $(noinst_SCRIPTS) $(noinst_PROGRAMS) $(DESTDIR)/tools
+++	@cp -r testsuite/rootfs testsuite/.libs $(DESTDIR)/testsuite
+ +
+  # -----------------------------------------------------------------------=
+-------
+  # custom release helpers
+diff --git a/meta/recipes-kernel/kmod/kmod/run-ptest b/meta/recipes-kernel/=
+kmod/kmod/run-ptest
+index fac24fd..37adec3 100755
+--- a/meta/recipes-kernel/kmod/kmod/run-ptest
++++ b/meta/recipes-kernel/kmod/kmod/run-ptest
+@@ -1,5 +1,3 @@
+ #!/bin/sh
+-tar -xzf tools.tgz
+-tar -C testsuite -xzf testsuite.tgz
+-make rootfs
++touch testsuite/stamp-rootfs
+ make -k runtest-TESTS 2>/dev/null| grep -e ^PASS -e ^FAIL
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmo=
+d/kmod_git.bb
+index b07c06e..ebecbcc 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -41,10 +41,12 @@ do_compile_prepend() {
+ }
+=20
+ do_compile_ptest () {
+-        oe_runmake buildtest-TESTS
+-        oe_runmake rootfs
++        oe_runmake buildtest-TESTS rootfs
+ }
+=20
++INHIBIT_PACKAGE_STRIP =3D "${@base_contains("DISTRO_FEATURES", "ptest", "1=
+", "0", d)}"
++INSANE_SKIP_${PN}-ptest =3D "arch"
++
+ inherit update-alternatives
+=20
+ ALTERNATIVE_PRIORITY =3D "60"
+--=20
+1.7.10.4
+
 
