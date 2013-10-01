@@ -1,20 +1,28 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2585A6007B
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E39546007B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2013 15:40:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 01 Oct 2013 08:37:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1013,1371106800"; d="scan'208";a="386280403"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.107])
-	by orsmga001.jf.intel.com with ESMTP; 01 Oct 2013 08:40:11 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Oct 2013 08:40:11 -0700
-Message-Id: <1380642011-14346-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH] image.bbclass: ensure makedevs does return true
+	Tue,  1 Oct 2013 15:52:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r91FqwAL026226
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Oct 2013 08:52:58 -0700 (PDT)
+Received: from msp-dhcp16.wrs.com (172.25.34.16) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Tue, 1 Oct 2013 08:52:58 -0700
+Message-ID: <524AEFDB.4010804@windriver.com>
+Date: Tue, 1 Oct 2013 10:52:59 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8;
+	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1380642011-14346-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1380642011-14346-1-git-send-email-sgw@linux.intel.com>
+Subject: Re: [PATCH] image.bbclass: ensure makedevs does return true
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,32 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 15:40:40 -0000
+X-List-Received-Date: Tue, 01 Oct 2013 15:52:58 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When doing an incremental image generation, ensure that makedevs returns true when it encounters
-a node that already exists, otherwise image generation will fail.
+On 10/1/13 10:40 AM, Saul Wold wrote:
+> When doing an incremental image generation, ensure that makedevs returns true when it encounters
+> a node that already exists, otherwise image generation will fail.
+>
+> [YOCTO #5288]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta/classes/image.bbclass | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 7650594..463fa71 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -337,7 +337,7 @@ fakeroot do_rootfs () {
+>   		for devtable in ${@get_devtable_list(d)}; do
+>   			# Always return ture since there maybe already one when use the
+>   			# incremental image generation
+> -			makedevs -r ${IMAGE_ROOTFS} -D $devtable
+> +			makedevs -r ${IMAGE_ROOTFS} -D $devtable || true
 
-[YOCTO #5288]
+I'm a little worried about this patch.  There is a known case where makedevs 
+will fail with a message indicating it can't do the name -> uid/gid 
+translations.  In this case it just stops, and the nodes are never generated.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The underlying cause is that the passwd/group files never got installed onto the 
+target.  Adding a specific check for this might be a good idea, but doing the || 
+true will cause errors like that to be masked.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 7650594..463fa71 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -337,7 +337,7 @@ fakeroot do_rootfs () {
- 		for devtable in ${@get_devtable_list(d)}; do
- 			# Always return ture since there maybe already one when use the
- 			# incremental image generation
--			makedevs -r ${IMAGE_ROOTFS} -D $devtable
-+			makedevs -r ${IMAGE_ROOTFS} -D $devtable || true
- 		done
- 	fi
- 
--- 
-1.8.3.1
+Perhaps finding a way to patch makedevs to no error when a node already exists?
+
+--Mark
+
+>   		done
+>   	fi
+>
+>
 
 
