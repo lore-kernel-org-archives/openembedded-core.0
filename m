@@ -1,20 +1,24 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 972FF60EA8
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EC9F60EA8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Oct 2013 19:15:51 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 01 Oct 2013 12:15:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1015,1371106800"; d="scan'208";a="403813172"
-Received: from unknown (HELO swold-linux.bigsur.com) ([10.255.15.107])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Oct 2013 12:15:45 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Oct 2013 12:15:45 -0700
-Message-Id: <1380654945-17787-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH v2] makedevs: Do not return error if the fifo exisits
+	Tue,  1 Oct 2013 19:50:00 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25]
+	helo=[192.168.114.7])
+	by hetzner.pbcl.net with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <pb@pbcl.net>)
+	id 1VR5xJ-0004C4-IQ; Tue, 01 Oct 2013 21:50:01 +0200
+Message-ID: <1380656968.3822.12.camel@x121e.pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 01 Oct 2013 20:49:28 +0100
+In-Reply-To: <1380654945-17787-1-git-send-email-sgw@linux.intel.com>
+References: <1380654945-17787-1-git-send-email-sgw@linux.intel.com>
+Organization: Phil Blundell Consulting Ltd
+X-Mailer: Evolution 3.4.4-3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] makedevs: Do not return error if the fifo exisits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,56 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 19:15:52 -0000
+X-List-Received-Date: Tue, 01 Oct 2013 19:50:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This ensures that makedevs will not cause image creation failures
-when it encounters a pipe (fifo) that exists from a previous image.
-This handles mode changes and it will correctly fail for dangling
-symlinks.
+On Tue, 2013-10-01 at 12:15 -0700, Saul Wold wrote:
+> +	int status;
+> +	struct stat sb;
+> +
+> +	memset(&sb, 0, sizeof(struct stat));
+> +	status = stat(path, &sb);
 
-[YOCTO #5288]
+Don't you want lstat() there?  Also, I think *stat() is guaranteed to
+fill in all of sb if it returns anything other than an error, so the
+memset() may be redundant.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+I sort of wonder whether just unlink()ing the destination prior to
+calling mknod would be a simpler and more robust way of fixing this
+problem.
 
-makedev
+Also, on a tangential note, you seemed to have rather a surfeit of
+signed-off-by lines in your email. 
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+p.
 
-makedev
-
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- .../makedevs/makedevs-1.0.0/makedevs.c                 |   16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-index 5d2c45b..53700c6 100644
---- a/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-+++ b/meta/recipes-devtools/makedevs/makedevs-1.0.0/makedevs.c
-@@ -274,8 +274,20 @@ static void add_new_file(char *name, char *path, unsigned long uid,
- static void add_new_fifo(char *name, char *path, unsigned long uid,
- 				  unsigned long gid, unsigned long mode)
- {
--	if (mknod(path, mode, 0))
--		error_msg_and_die("%s: file can not be created with mknod!", path);
-+	int status;
-+	struct stat sb;
-+
-+	memset(&sb, 0, sizeof(struct stat));
-+	status = stat(path, &sb);
-+
-+
-+	/* Update the mode if we exist and are a fifo already */
-+	if (status >= 0 && S_ISFIFO(sb.st_mode)) {
-+		chmod(path, mode);
-+	} else {
-+		if (mknod(path, mode, 0))
-+			error_msg_and_die("%s: file can not be created with mknod!", path);
-+	}
- 	chown(path, uid, gid);
- //	printf("File: %s %s  UID: %ld  GID: %ld  MODE: %04lo\n",
- //			path, name, gid, uid, mode);
--- 
-1.7.10.4
 
 
