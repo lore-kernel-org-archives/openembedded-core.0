@@ -1,32 +1,25 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id F30006CBDA
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D3FD61EF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2013 23:18:20 +0000 (UTC)
-Received: from mailserv59-us.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	r92NILUw022602; Wed, 2 Oct 2013 18:18:21 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by mailserv59-us.natinst.com (Lotus Domino Release 8.5.3FP2 HF169)
-	with ESMTP id 2013100218182179-717603 ;
-	Wed, 2 Oct 2013 18:18:21 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 2 Oct 2013 18:18:01 -0500
-Message-Id: <1380755881-17842-1-git-send-email-rich.tollerton@ni.com>
-X-Mailer: git-send-email 1.8.4
-X-MIMETrack: Itemize by SMTP Server on MailServ59-US/AUS/H/NIC(Release
-	8.5.3FP2 HF169|September 14, 2012) at 10/02/2013 06:18:21 PM,
-	Serialize by Router on MailServ59-US/AUS/H/NIC(Release 8.5.3FP2
-	HF169|September 14, 2012) at 10/02/2013 06:18:21 PM,
-	Serialize complete at 10/02/2013 06:18:21 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.10.8794, 1.0.431,
-	0.0.0000
-	definitions=2013-10-02_09:2013-10-02, 2013-10-02,
-	1970-01-01 signatures=0
-Cc: paul.eggleton@linux.intel.com, gratian.crisan@ni.com, ken.sharp@ni.com
-Subject: [dylan, master][PATCH] populate_sdk_base: Fix relocate_sdk.py execution on Arch
+	Wed,  2 Oct 2013 23:36:33 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Oct 2013 16:36:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,1022,1371106800"; d="scan'208";a="410664580"
+Received: from unknown (HELO [10.255.15.228]) ([10.255.15.228])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Oct 2013 16:36:32 -0700
+Message-ID: <524CAE00.4030004@linux.intel.com>
+Date: Wed, 02 Oct 2013 16:36:32 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
+MIME-Version: 1.0
+To: eu@felipetonello.com
+References: <1380647958-5424-1-git-send-email-eu@felipetonello.com>
+In-Reply-To: <1380647958-5424-1-git-send-email-eu@felipetonello.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] update-rc: Stop and remove service if updating package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,34 +32,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2013 23:18:21 -0000
+X-List-Received-Date: Wed, 02 Oct 2013 23:36:34 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-relocate_sdk.py is #!/usr/bin/env python, but is not python3-compatible.
-The PEP 394 alias `python2` is sadly not universally supported, so
-instead of modifying relocate_sdk.py directly, change the `exec` in
-relocate_sdk.sh to use it if it exists.
+On 10/01/2013 10:19 AM, eu@felipetonello.com wrote:
+> From: "Felipe F. Tonello" <eu@felipetonello.com>
+>
+> Since when updating packages packages managers do not remove the previous package,
+> it just replaces new files and run pre/post install scripts. This causes not
+> to update update-rc scripts if they were changed.
+>
+> This patch is useful in case the newer package version updated the update-rc
+> script.
+>
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
----
- meta/classes/populate_sdk_base.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I think this patch might be responsible for some failures I am seeing on 
+the master_under_test build.
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index e5bc0b4..e67d8b6 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -256,8 +256,9 @@ if [ x$tdir = x ] ; then
-    echo "SDK relocate failed, could not create a temporary directory"
-    exit 1
- fi
-+python_bin="$(command -v python2 2>/dev/null)" || python_bin=python
- echo "#!/bin/bash" > $tdir/relocate_sdk.sh
--echo exec ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> $tdir/relocate_sdk.sh
-+echo exec $python_bin ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> $tdir/relocate_sdk.sh
- $SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
- $SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
- rm -rf $tdir
--- 
-1.8.4
+Check out this error log: 
+http://autobuilder.yoctoproject.org:8011/builders/minnow/builds/169/steps/Building%20Images/logs/stdio
+Sau!
 
+> Signed-off-by: Felipe F. Tonello <eu@felipetonello.com>
+> ---
+>   meta/classes/update-rc.d.bbclass | 18 +++++++++++++++++-
+>   1 file changed, 17 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
+> index 5588569..773ca60 100644
+> --- a/meta/classes/update-rc.d.bbclass
+> +++ b/meta/classes/update-rc.d.bbclass
+> @@ -13,7 +13,23 @@ INITSCRIPT_PARAMS ?= "defaults"
+>   INIT_D_DIR = "${sysconfdir}/init.d"
+>
+>   updatercd_postinst() {
+> -if test "x$D" != "x"; then
+> +IN_TARGET=`test "x$D" = "x"`
+> +
+> +# test if there is a previous init script there, ie, we are updating the package
+> +# if so, we stop the service and remove it before we install from the new package
+> +if type update-rc.d >/dev/null 2>/dev/null; then
+> +	if [ $IN_TARGET -a `test -f "${INIT_D_DIR}/${INITSCRIPT_NAME}"` ]; then
+> +		${INIT_D_DIR}/${INITSCRIPT_NAME} stop
+> +	fi
+> +	if [ $IN_TARGET ]; then
+> +		OPT="-f -r $D"
+> +	else
+> +		OPT="-f"
+> +	fi
+> +	update-rc.d $OPT ${INITSCRIPT_NAME} remove
+> +fi
+> +
+> +if [ $IN_TARGET ]; then
+>   	OPT="-r $D"
+>   else
+>   	OPT="-s"
+>
 
