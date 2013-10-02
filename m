@@ -1,43 +1,29 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from anubis.se.axis.com (anubis.se.axis.com [195.60.68.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 731C26B605
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A0EB16CC05
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2013 13:46:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by anubis.se.axis.com (Postfix) with ESMTP id 7863F19E26;
-	Wed,  2 Oct 2013 15:46:01 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at anubis.se.axis.com
-Received: from anubis.se.axis.com ([127.0.0.1])
-	by localhost (anubis.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id P9SpyCTfvIKv; Wed,  2 Oct 2013 15:46:00 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by anubis.se.axis.com (Postfix) with ESMTP id D82EA19EF1;
-	Wed,  2 Oct 2013 15:45:56 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 9601B631;
-	Wed,  2 Oct 2013 15:45:56 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id 8A48D5EF;
-	Wed,  2 Oct 2013 15:45:56 +0200 (CEST)
-Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
-	by thoth.se.axis.com (Postfix) with ESMTP id 8877B3404E;
-	Wed,  2 Oct 2013 15:45:56 +0200 (CEST)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
-	([10.0.5.75]) with mapi; Wed, 2 Oct 2013 15:45:56 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "OE Core (openembedded-core@lists.openembedded.org)"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Oct 2013 15:45:55 +0200
-Thread-Topic: Sanitized kernel headers
-Thread-Index: Ac6/dbC10wpW1zUGSAeBSzXzxUmHxA==
-Message-ID: <A612847CFE53224C91B23E3A5B48BAC798CE595749@xmail3.se.axis.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+	Wed,  2 Oct 2013 13:56:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r92DuWTP027188
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 2 Oct 2013 06:56:32 -0700 (PDT)
+Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
+	Wed, 2 Oct 2013 06:56:31 -0700
+Message-ID: <524C260C.6040507@windriver.com>
+Date: Wed, 2 Oct 2013 09:56:28 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, "OE Core
+	(openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+References: <A612847CFE53224C91B23E3A5B48BAC798CE595749@xmail3.se.axis.com>
+In-Reply-To: <A612847CFE53224C91B23E3A5B48BAC798CE595749@xmail3.se.axis.com>
 Cc: "Darren Hart \(dvhart@linux.intel.com\)" <dvhart@linux.intel.com>
-Subject: Sanitized kernel headers
+Subject: Re: Sanitized kernel headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,53 +36,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2013 13:46:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 02 Oct 2013 13:56:39 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-In a recent commit=20
-(http://cgit.openembedded.org/openembedded-core/commit/?id=3Dc27ac156bcaf31=
-93d52f456480947b0cfaef3c72),=20
-Richard added a big warning about not forking the=20
-linux-libc-headers recipe to get at specific kernel=20
-headers for user space. As a consequence I thought I=20
-should remove our fork of linux-libc-headers and instead=20
-use the suggested method of including the needed files=20
-from ${STAGING_KERNEL_DIR} in the recipes that need them.
+On 13-10-02 09:45 AM, Peter Kjellerstedt wrote:
+> In a recent commit
+> (http://cgit.openembedded.org/openembedded-core/commit/?id=c27ac156bcaf3193d52f456480947b0cfaef3c72),
+> Richard added a big warning about not forking the
+> linux-libc-headers recipe to get at specific kernel
+> headers for user space. As a consequence I thought I
+> should remove our fork of linux-libc-headers and instead
+> use the suggested method of including the needed files
+> from ${STAGING_KERNEL_DIR} in the recipes that need them.
+>
+> However, I soon realized that what I need are the sanitized
+> headers that are generated by running "make headers_install"
+> in the kernel sources. So what I then did was to create a
+> simple bbclass that generates them for me and makes them
+> available for my recipe:
+>
+> ---- %< ------------- kernel-headers.bbclass --------------
+> DEPENDS += "virtual/kernel"
+>
+> PACKAGE_ARCH = "${MACHINE_ARCH}"
+>
+> inherit kernel-arch
+>
+> KINCLUDES ?= "${WORKDIR}/kernel-includes"
+>
+> do_compile_prepend() {
+> 	mkdir -p ${KINCLUDES}
+> 	oe_runmake -C ${STAGING_KERNEL_DIR} headers_install INSTALL_HDR_PATH=${KINCLUDES}
+> }
+> --------------------------------------------------- >% ----
+>
+> After that I could simply do 'inherit kernel-headers' and
+> 'CFLAGS += "-I${KINCLUDES}/includes"' in my recipe to get
+> at the sanitized kernel headers.
+>
+> But, it seems somewhat wasteful for each recipe that need
+> those headers to do that. Wouldn't it be an idea to provide
+> the sanitized headers in ${STAGING_KERNEL_DIR}/usr/include
+> (which would be the default path for make headers_install)
+> by default?
 
-However, I soon realized that what I need are the sanitized=20
-headers that are generated by running "make headers_install"=20
-in the kernel sources. So what I then did was to create a=20
-simple bbclass that generates them for me and makes them=20
-available for my recipe:
+For developers already comfortable with using a previously forked
+libc-headers, I don't see much of a problem. There of course is still
+a potential issue if these parallel, machine specific headers are
+generated from a kernel tree that modifies files which are already
+exported and made available via the libc-headers package.
 
----- %< ------------- kernel-headers.bbclass --------------
-DEPENDS +=3D "virtual/kernel"
+That being said, the risk is actually less in this situation, since
+a different include path is required, hence an explicit acknowledgment
+that something not quite standard is happening.
 
-PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+I've proposed similar solutions in the past, including installing
+the headers into the sysroot along side of the libc-headers in
+"usr-alt/", or "kernel-headers/", rather than within the kernel
+staging dir, since the staging dir is often tar'd up and added to
+things like the kernel-dev package or SDKs .. and if not properly
+installed, you can clash with the libc usr/include/linux headers.
 
-inherit kernel-arch
+But yes, either way, I'm all for doing this once, making them
+available in a oe-core "standard" location, as long as it isn't
+picked up by default include paths.
 
-KINCLUDES ?=3D "${WORKDIR}/kernel-includes"
+If you want to open up something in the bugzilla, we can take care
+of this early in the yocto 1.6 cycle, since at this point in 1.5,
+we don't want to jiggle much of anything :)
 
-do_compile_prepend() {
-	mkdir -p ${KINCLUDES}
-	oe_runmake -C ${STAGING_KERNEL_DIR} headers_install INSTALL_HDR_PATH=3D${K=
-INCLUDES}
-}
---------------------------------------------------- >% ----
+Cheers,
 
-After that I could simply do 'inherit kernel-headers' and=20
-'CFLAGS +=3D "-I${KINCLUDES}/includes"' in my recipe to get=20
-at the sanitized kernel headers.
+Bruce
 
-But, it seems somewhat wasteful for each recipe that need=20
-those headers to do that. Wouldn't it be an idea to provide=20
-the sanitized headers in ${STAGING_KERNEL_DIR}/usr/include=20
-(which would be the default path for make headers_install)=20
-by default?
-
-//Peter
+>
+> //Peter
+>
 
 
