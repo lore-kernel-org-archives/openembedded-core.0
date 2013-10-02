@@ -1,35 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-we0-f180.google.com (mail-we0-f180.google.com
-	[74.125.82.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B838760EF6
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B4161EF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Oct 2013 16:30:24 +0000 (UTC)
-Received: by mail-we0-f180.google.com with SMTP id q59so1053522wes.39
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Oct 2013 09:30:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=C1C3JIh2ZSGMRDU7mE5UP7sC8xe5ygcNYFxg5aMM3qk=;
-	b=Y5mmGJD1XPyd31IaoFOUXOGto/CcXCtZ5PvfB1QRn24s99gYDCsdWxKgBieDWRCT4y
-	heR7OYut4XwBhO+XwcYf7TbcL2MnLzGN/7XZ2FMm5OnW1zF3hwqKqbOeOrU6Wn0J80uU
-	D+ofqiK8ikpZQRgi1Y51qZatY009L/MIVUmRllxCuoll2vuBq4POSHlZqSE5cCuLDYCe
-	a8wEqAeOJXiZOk3e2mfxpV5tcInYR940c2r4yfLaUrXVKiIKuzUokCJ3wkd/wGISRAAz
-	mjfeF24r7VYQLz5jyIp2pqm7ttxZzXlHtmPRxPYPTvkyXg/GMj87lizbDs9XvhQ5yFAW
-	rQmw==
-X-Gm-Message-State: ALoCoQmnTxjPJ8OB4i4gFUalv9LWNq70GmT0nAC/ZAA3D+j84K3zDPFhqAUX/tGLSA/q/SBniaBh
-X-Received: by 10.180.187.2 with SMTP id fo2mr24341162wic.65.1380731425627;
-	Wed, 02 Oct 2013 09:30:25 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id iz19sm5163639wic.9.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 02 Oct 2013 09:30:24 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Oct 2013 17:30:21 +0100
-Message-Id: <1380731421-948-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] license.bbclass: use shutil instead of bb.utils.copyfile
+	Wed,  2 Oct 2013 19:15:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r92JFUog012246
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 2 Oct 2013 12:15:30 -0700 (PDT)
+Received: from yow-bashfiel-d3.corp.ad.wrs.com (128.224.130.112) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Wed, 2 Oct 2013 12:15:29 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Wed, 2 Oct 2013 15:15:25 -0400
+Message-ID: <cover.1380741229.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] linux-yocto: enable CONFIG_INPUT_EVDEV as standard policy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Oct 2013 16:30:26 -0000
+X-List-Received-Date: Wed, 02 Oct 2013 19:15:33 -0000
+Content-Type: text/plain
 
-bb.utils.copyfile is for a specific purpose and more complicated than needed
-here, so just use shutil.copyfile.
+We have a number (in fact most) BSPs that require INPUT_EVDEV for basic
+functionality. The size increase is minimal, so we'll add it to the
+standard configuration for all platforms.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/license.bbclass |   10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+[YOCTO #5279]
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 0160313..6abdae4 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -128,12 +128,14 @@ def add_package_and_files(d):
-             d.setVar('RRECOMMENDS_' + pn, "%s" % (pn_lic))
- 
- def copy_license_files(lic_files_paths, destdir):
-+    import shutil
-+
-     bb.utils.mkdirhier(destdir)
-     for (basename, path) in lic_files_paths:
--        ret = bb.utils.copyfile(path, os.path.join(destdir, basename))
--        # If the copy didn't occur, something horrible went wrong and we fail out
--        if not ret:
--            bb.warn("%s could not be copied for some reason. It may not exist. WARN for now." % path)
-+        try:
-+            ret = shutil.copyfile(path, os.path.join(destdir, basename))
-+        except Exception as e:
-+            bb.warn("Could not copy license file %s: %s" % (basename, e))
- 
- def find_license_files(d):
-     """
+Cheers,
+
+Bruce
+
+The following changes since commit 56f39bcf2237c11508d82238b6292e4bfbfed764:
+
+  bitbake: lib/bb/monitordisk.py: fix spelling in error text (2013-10-02 15:41:21 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (1):
+  linux-yocto: enable CONFIG_INPUT_EVDEV as standard policy
+
+ meta/recipes-kernel/linux/linux-yocto-rt_3.10.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.8.bb    | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.10.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.8.bb  | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.10.bb      | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.8.bb       | 2 +-
+ 6 files changed, 6 insertions(+), 6 deletions(-)
+
 -- 
-1.7.10.4
+1.8.1.2
 
 
