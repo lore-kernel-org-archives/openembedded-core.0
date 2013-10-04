@@ -1,31 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rpurdie@rpsys.net>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id D7D6860FA4
+	by mail.openembedded.org (Postfix) with ESMTP id 2FFE660FA6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 11:26:16 +0000 (UTC)
+	Fri,  4 Oct 2013 11:27:01 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r94BQDxe004369 for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Oct 2013 12:26:13 +0100
+	r94BQwMh004403 for <openembedded-core@lists.openembedded.org>;
+	Fri, 4 Oct 2013 12:26:58 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id FeO6k_R8q6fa
+	with LMTP id Xz51q0sGLVyp
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 12:26:12 +0100 (BST)
+	Fri,  4 Oct 2013 12:26:58 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r94BQAl9004363
+	r94BQtsW004400
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
 	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Oct 2013 12:26:12 +0100
-Message-ID: <1380885965.18603.593.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 4 Oct 2013 12:26:57 +0100
+Message-ID: <1380886011.18603.594.camel@ted>
+From: Richard Purdie <rpurdie@rpsys.net>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Oct 2013 12:26:05 +0100
+Date: Fri, 04 Oct 2013 12:26:51 +0100
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] gcc-common: Improve fpu code checksum dependencies
+Subject: [PATCH] pixman: Fix nativesdk rebuilds for armv7a
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +38,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 11:26:17 -0000
+X-List-Received-Date: Fri, 04 Oct 2013 11:27:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-We only care about the end result in this case, not the specific inputs
-that went into determining the gcc option. This change updates the code
-to reflect that.
+MACHINE=X bitbake nativesdk-pixman; MACHINE=Y bitbake nativesdk-pixman
+
+where X is an armv7a machine and Y is not results in pixman rebuilding
+due to the neon option. This is incorrect. The ultimate fix will be
+not to apply target system overrides in the nativesdk case. Until
+we do that we can at least work around the issue as done by this patch.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index 062ccc7..4f691a0 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -16,6 +16,8 @@ def get_gcc_fpu_setting(bb, d):
-         return "--enable-e500_double"
-     return ""
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb b/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
+index 742a066..36d9b2d 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.30.2.bb
+@@ -20,6 +20,7 @@ PE = "1"
+ IWMMXT = "--disable-arm-iwmmxt"
+ LOONGSON_MMI = "--disable-loongson-mmi"
+ NEON = " --disable-arm-neon "
++NEON_class-nativesdk = " --disable-arm-neon "
+ NEON_armv7a = " "
+ NEON_armv7a-vfp-neon = " "
  
-+get_gcc_fpu_setting[vardepvalue] = "${@get_gcc_fpu_setting(bb, d)}"
-+
- def get_gcc_mips_plt_setting(bb, d):
-     if d.getVar('TRANSLATED_TARGET_ARCH', True) in [ 'mips', 'mipsel' ] and 'mplt' in d.getVar('DISTRO_FEATURES',1).split() :
-         return "--with-mips-plt"
 
 
 
