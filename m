@@ -1,31 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id DCE9160FA6
+	by mail.openembedded.org (Postfix) with ESMTP id A6AE06CC50
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 11:29:20 +0000 (UTC)
+	Fri,  4 Oct 2013 11:33:58 +0000 (UTC)
 Received: from localhost (dan.rpsys.net [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r94BTHbB004486 for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Oct 2013 12:29:17 +0100
+	r94BXl73004634; Fri, 4 Oct 2013 12:33:47 +0100
 X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 519V5OO4lwL4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 12:29:17 +0100 (BST)
+	with LMTP id ZJkTV80UC1md; Fri,  4 Oct 2013 12:33:46 +0100 (BST)
 Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r94BTDMe004478
+	r94BXfgH004618
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT) for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Oct 2013 12:29:14 +0100
-Message-ID: <1380886148.18603.597.camel@ted>
+	verify=NOT); Fri, 4 Oct 2013 12:33:42 +0100
+Message-ID: <1380886416.18603.598.camel@ted>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Oct 2013 12:29:08 +0100
+To: Richard Tollerton <rich.tollerton@ni.com>
+Date: Fri, 04 Oct 2013 12:33:36 +0100
+In-Reply-To: <1380755881-17842-1-git-send-email-rich.tollerton@ni.com>
+References: <1380755881-17842-1-git-send-email-rich.tollerton@ni.com>
 X-Mailer: Evolution 3.6.4-0ubuntu1 
 Mime-Version: 1.0
-Subject: [PATCH] udpated-rc.d: Track postinst/prerm/postrm in task checksum
+Cc: paul.eggleton@linux.intel.com, gratian.crisan@ni.com, ken.sharp@ni.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [dylan, master][PATCH] populate_sdk_base: Fix relocate_sdk.py execution on Arch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +38,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 11:29:21 -0000
+X-List-Received-Date: Fri, 04 Oct 2013 11:33:59 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-When these functions change, the package should rebuild but currently it
-does not. We need to add the dependencies manually as the dependency
-code can't track dynamically created variables.
+On Wed, 2013-10-02 at 18:18 -0500, Richard Tollerton wrote:
+> relocate_sdk.py is #!/usr/bin/env python, but is not python3-compatible.
+> The PEP 394 alias `python2` is sadly not universally supported, so
+> instead of modifying relocate_sdk.py directly, change the `exec` in
+> relocate_sdk.sh to use it if it exists.
+> 
+> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 5588569..f726f2f 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -54,6 +54,8 @@ python __anonymous() {
- 
- PACKAGESPLITFUNCS_prepend = "populate_packages_updatercd "
- 
-+populate_packages_updatercd[vardeps] += "updatercd_prerm updatercd_postrm updatercd_postinst"
-+
- python populate_packages_updatercd () {
-     def update_rcd_package(pkg):
-         bb.debug(1, 'adding update-rc.d calls to postinst/postrm for %s' % pkg)
+Wasn't the script fixed in master to avoid this problem?
+
+Cheers,
+
+Richard
+
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index e5bc0b4..e67d8b6 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -256,8 +256,9 @@ if [ x$tdir = x ] ; then
+>     echo "SDK relocate failed, could not create a temporary directory"
+>     exit 1
+>  fi
+> +python_bin="$(command -v python2 2>/dev/null)" || python_bin=python
+>  echo "#!/bin/bash" > $tdir/relocate_sdk.sh
+> -echo exec ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> $tdir/relocate_sdk.sh
+> +echo exec $python_bin ${env_setup_script%/*}/relocate_sdk.py $target_sdk_dir $dl_path $executable_files >> $tdir/relocate_sdk.sh
+>  $SUDO_EXEC mv $tdir/relocate_sdk.sh ${env_setup_script%/*}/relocate_sdk.sh
+>  $SUDO_EXEC chmod 755 ${env_setup_script%/*}/relocate_sdk.sh
+>  rm -rf $tdir
 
 
 
