@@ -1,37 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BF0F6CC9C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 78A8B60FA4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 10:17:27 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id b45so1699300eek.29
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Oct 2013 03:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=02EXEecIR7fxOacDNYlod3Ae4CloQqrE2u8AavfrXz4=;
-	b=qwBnmaVQHuscKH+hLIwWybEZuUzPAFDKm92ZWZSCyTl73AKap7jgUhYLLJehpsodzB
-	FVQv2Cx1wE08JpBL2GKQbroiAJmh6gJ5NIcLWeHxtdNq78HdjY6vsurv+9dWN/CdpblD
-	ZYMuNwMzYeQN5F2Blg0ajbgnFF3J2VAC/I/CKRPIttPxOuMwCYYJ48ij3tnL3GbDGoFb
-	FeJQTLqOt8kgJD836hEc6yTyfQXBaR3emhaiuh6shjoxE0fCSLZwT0MZw+Fbm5++vm9g
-	v03FKREsX9B5RfO+YKsDhjEIDQsKL3g56AiligW+EkVEUgaW+GST8LBST31wn1NMo+v2
-	W25g==
-X-Received: by 10.14.179.9 with SMTP id g9mr214477eem.93.1380881848822;
-	Fri, 04 Oct 2013 03:17:28 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	h52sm26352832eez.3.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 04 Oct 2013 03:17:27 -0700 (PDT)
-Date: Fri, 4 Oct 2013 12:17:34 +0200
-From: Martin Jansa <martin.jansa@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20131004101734.GD6240@jama>
+	Fri,  4 Oct 2013 10:46:28 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r94AkNMW003210; Fri, 4 Oct 2013 11:46:24 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id aDgQPfI-X3RY; Fri,  4 Oct 2013 11:46:23 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r94AkHcV003202
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Fri, 4 Oct 2013 11:46:20 +0100
+Message-ID: <1380883572.18603.591.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Date: Fri, 04 Oct 2013 11:46:12 +0100
+In-Reply-To: <524E24AE.5060009@windriver.com>
 References: <524E24AE.5060009@windriver.com>
-	<CAJTo0LZ9hgtDX1EHvinBtrnVgJsm6YeTOQ6p1FBp49MTVOn4+A@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ9hgtDX1EHvinBtrnVgJsm6YeTOQ6p1FBp49MTVOn4+A@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: DISTRO_FEATURES and world builds.
@@ -47,62 +38,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 10:17:29 -0000
-X-Groupsio-MsgNum: 45575
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="NklN7DEeGtkPCoo3"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 04 Oct 2013 10:46:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---NklN7DEeGtkPCoo3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2013-10-03 at 22:15 -0400, Randy MacLeod wrote:
 
-On Fri, Oct 04, 2013 at 09:02:50AM +0100, Burton, Ross wrote:
-> On 4 October 2013 03:15, Randy MacLeod <randy.macleod@windriver.com> wrot=
-e:
-> > ERROR: Nothing PROVIDES 'virtual/libgl' (but
-> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/clutter/=
-clutter-1.0_1.14.4.bb,
-> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/mes=
-a-demos_8.1.0.bb,
-> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/glew/gle=
-w_1.10.0.bb,
-> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-qt/qt4/qt4-x11-fr=
-ee_4.8.5.bb,
-> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/lib=
-glu_9.0.0.bb,
-> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/cogl/cog=
-l-1.0_1.14.0.bb
-> > DEPENDS on or otherwise requires it)
-> > ERROR: mesa PROVIDES virtual/libgl but was skipped: missing required di=
-stro
-> > feature ['opengl'] (not in DISTRO_FEATURES)
->=20
-> Would a better solution be for "world" builds to recognise that a
-> dependency was explicitly skipped and turn that into a warning instead
-> of an error?
+> If I drop x11 from the DF list things are even worse.
+> 
+> I tried to sprinkle these recipes with:
+>     REQUIRED_DISTRO_FEATURES = "opengl"
+> but just as I thought, that didn't work either.
 
-Agreed, I'm using PNBLACKLIST to mask recipes with unsatisfied
-dependencies when building world on distro without x11 and opengl and
-it's really long list:
+Did you also inherit the class that implements that?
 
-https://github.com/openwebos/meta-webos/blob/master/conf/distro/include/web=
-os-recipe-blacklist-world.inc
+Cheers,
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Richard
 
---NklN7DEeGtkPCoo3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.21 (GNU/Linux)
+> 
 
-iEYEARECAAYFAlJOlb4ACgkQN1Ujt2V2gBygnwCdGeUo210CkN9oK99MTc3Kx/8t
-OpAAn26vJe8j4OW4h0JdGNQElNZPi92o
-=3kQ4
------END PGP SIGNATURE-----
 
---NklN7DEeGtkPCoo3--
+
