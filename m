@@ -1,29 +1,31 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8058160FA6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 055B060FA6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 12:42:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r94CgrYe002670
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 4 Oct 2013 05:42:53 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Fri, 4 Oct 2013 05:42:53 -0700
-Message-ID: <524EB7C8.4010402@windriver.com>
-Date: Fri, 4 Oct 2013 08:42:48 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1380844647.git.bruce.ashfield@windriver.com>	
-	<d8f31589fe2bf6f63ef55fca4c6f5182971e1441.1380844647.git.bruce.ashfield@windriver.com>
-	<1380872773.18603.570.camel@ted>
-In-Reply-To: <1380872773.18603.570.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
+	Fri,  4 Oct 2013 13:14:23 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r94DEKJH007589 for <openembedded-core@lists.openembedded.org>;
+	Fri, 4 Oct 2013 14:14:20 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id tT5x0Sxn6Eco
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  4 Oct 2013 14:14:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r94DEF4w007564
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Fri, 4 Oct 2013 14:14:16 +0100
+Message-ID: <1380892450.18603.600.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 04 Oct 2013 14:14:10 +0100
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Subject: [PATCH] oe-init-build-env: unset BBSERVER
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 12:42:56 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Fri, 04 Oct 2013 13:14:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 13-10-04 03:46 AM, Richard Purdie wrote:
-> On Thu, 2013-10-03 at 20:02 -0400, Bruce Ashfield wrote:
->> When building against the sysroot, out of tree modules can require modpost
->> and other utilities normally found in the kernel's scripts directory. For
->> the kernel source in the staging dir, these scripts have been removed to
->> avoid mixing archiectures when packaging kernel-dev (among other things).
->
-> Its also to avoid mixing architectures when packaging the sstate for
-> do_populate_sysroot. The sstate for that task is now native arch
-> specific after this patch but its task hash is not. Even if we made it
-> native specific, that means the kernel would rebuild entirely if you
-> switch 32 bit to 64 bit native machine. We therefore cannot merge this
-> patch as is.
+If BBSERVER is set, we should unset it before proceeding. Its assumed the
+user will have unloaded the server from memory should they have wished
+to do so.
 
-Aha! I knew there was a lurking element I wouldn't know about. I nearly
-put "RFC" in the patch .. and clearly should have :)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+diff --git a/oe-init-build-env b/oe-init-build-env
+index 68af7b5..de9692f 100755
+--- a/oe-init-build-env
++++ b/oe-init-build-env
+@@ -35,7 +35,10 @@ else
+    else
+       OEROOT="`pwd`"
+    fi
+-   OEROOT=`readlink -f "$OEROOT"`
++   if [ -n "$BBSERVER" ]; then
++      unset BBSERVER
++   fi
++    OEROOT=`readlink -f "$OEROOT"`
+    export OEROOT
+    . $OEROOT/scripts/oe-buildenv-internal && \
+         $OEROOT/scripts/oe-setup-builddir && \
 
->
-> Instead do something like:
->
->
-> SSTATEPOSTINSTFUNCS += "kernelheaders_sstate_postinst"
->
-> kernelheaders_sstate_postinst () {
-> 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-> 	then
-> 		( cd ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH};
-> 		  oe_runmake scripts
-> 		)
-> 	fi
-> }
->
-> This will rerun the oe_runmake scripts each time the sstate package is
-> installed. It slows down the use of sstate but should be correct whether
-> the build machine is 32 or 64 bit.
-
-I'll try what you have above and re-spin the patch.
-
-Cheers,
-
-Bruce
-
->
->
-> Cheers,
->
-> Richard
->
->
 
 
