@@ -1,37 +1,35 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A40460FA4
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
+	[209.85.215.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C6BD760FA4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 16:26:20 +0000 (UTC)
-Received: from US-AUS-MAIL4.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	r94GPOOt004940; Fri, 4 Oct 2013 11:25:24 -0500
+	Fri,  4 Oct 2013 17:21:36 +0000 (UTC)
+Received: by mail-la0-f50.google.com with SMTP id gx14so3443732lab.23
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Oct 2013 10:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=tEfCjG+l60iOqLAFRozOGzBSqolnDKaqDgYw2sQlc7U=;
+	b=LTZ99LgRvR/yj67P39Eq0G3PbimdQc2M5IYTptMliqiMZipLmSCBvzYg8ISLWlaA55
+	Hq3xHJ9lOaTMjIWlj3o1MVwJZ2aIlBjkExnpO1r9rSXWFbZDsIK61Y63q8fxvwnaBqFl
+	g7qosFJiZH0gx4hfHexwjUo0sxiDvVXKupsD7JBou63cY0WkR3ZX9Yo4W7gQNZxeINMc
+	s0SfZCQ9H5e0jMQDmR+xn/FgOW1EHquLE2icYTksjBx8xBZ+RLJiDIDKfveI6zbn1RqR
+	68gS/puCYO1LxojzubwmLSYiDXWbANpuJGQ4Ax8T5bnkFAdwKRQWn0YSCX4/EpB2SvXO
+	aKKw==
 MIME-Version: 1.0
-Importance: Normal
-X-Priority: 3 (Normal)
-In-Reply-To: <1380886416.18603.598.camel@ted>
-References: <1380886416.18603.598.camel@ted>,
-	<1380755881-17842-1-git-send-email-rich.tollerton@ni.com>
-From: Rich Tollerton <rich.tollerton@ni.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <OF45A5E8ED.9A5B3596-ON86257BFA.005A3767-86257BFA.005A376A@ni.com>
-Date: Fri, 4 Oct 2013 11:25:24 -0500
-X-Mailer: Lotus Domino Web Server Release 8.5.3FP2 HF169 September 14, 2012
-X-MIMETrack: Serialize by HTTP Server on US-AUS-MAIL4/AUS/M/NIC(Release
-	8.5.3FP2 HF169|September 14, 2012) at 10/04/2013 11:25:24 AM,
-	Serialize complete at 10/04/2013 11:25:24 AM,
-	Itemize by HTTP Server on US-AUS-MAIL4/AUS/M/NIC(Release 8.5.3FP2
-	HF169|September 14, 2012) at 10/04/2013 11:25:24 AM,
-	Serialize by Router on US-AUS-MAIL4/AUS/M/NIC(Release 8.5.3FP2
-	HF169|September 14, 2012) at 10/04/2013 11:25:24 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.10.8794, 1.0.431,
-	0.0.0000
-	definitions=2013-10-04_02:2013-10-04, 2013-10-04,
-	1970-01-01 signatures=0
-Cc: paul.eggleton@linux.intel.com, Gratian Crisan <gratian.crisan@ni.com>,
-	Ken Sharp <ken.sharp@ni.com>, openembedded-core@lists.openembedded.org
-Subject: Re: [dylan, master][PATCH] populate_sdk_base: Fix relocate_sdk.py execution on Arch
+X-Received: by 10.112.0.173 with SMTP id 13mr12395896lbf.8.1380907297746; Fri,
+	04 Oct 2013 10:21:37 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Fri, 4 Oct 2013 10:21:37 -0700 (PDT)
+In-Reply-To: <1380901699-18760-1-git-send-email-mark.hatle@windriver.com>
+References: <1380901699-18760-1-git-send-email-mark.hatle@windriver.com>
+Date: Fri, 4 Oct 2013 13:21:37 -0400
+Message-ID: <CADkTA4MhEVy+n_tNs+kPVdhCFpDsaFMMRunJ-eemgU0FUqwqOA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] run-postinst: Ensure that the postinsts are ordered
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,118 +42,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 16:26:21 -0000
-Content-Type: multipart/alternative;
-	boundary="=_alternative 005A376986257BFA_="
+X-List-Received-Date: Fri, 04 Oct 2013 17:21:38 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---=_alternative 005A376986257BFA_=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=ISO-8859-1
+On Fri, Oct 4, 2013 at 11:48 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+> The postinst files were being generated using purely the name of the package,
+> this unfortunately meant the run order would be based on the name of the
+> package and not the order in which it was installed on the filesystem.
+>
+> If package A requires package Z to be fully installed, this causes a problem.
+>
+> Note:
+>
+> rpm - as the rpm based install proceeds the order is defined and captured.
+>       so the problem is resolved there.
+>
+> ipk - this unfortunately does not appear to solve the problem for ipk, as
+>       the status file is not ordered in any appreciable way.  This does not
+>       cause any regressions however and sets the stage for a proper fix.
 
-D'oh! I checked master for changes to .sh generation but not the .py itself=
-. My bad.
+I can confirm that it does solve rpm, and ipk it makes things
+"better". No matter
+what, I prefer the bit of ordering over the alphabetical ordering.
 
-Change 175f20e2 (relocate=5Fsdk.py: make it work also with python 3) appear=
-s to work fine.
+Tested-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 
----
-Richard Tollerton <rich.tollerton@ni.com> (512)683-6346
-
-
------Richard Purdie <richard.purdie@linuxfoundation.org> wrote: -----
-To: Richard Tollerton <rich.tollerton@ni.com>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: 10/04/2013 06:34AM
-Cc: openembedded-core@lists.openembedded.org, paul.eggleton@linux.intel.com=
-, gratian.crisan@ni.com, ken.sharp@ni.com
-Subject: Re: [OE-core] [dylan, master][PATCH] populate=5Fsdk=5Fbase: Fix re=
-locate=5Fsdk.py execution on Arch
-
-On Wed, 2013-10-02 at 18:18 -0500, Richard Tollerton wrote:
-> relocate=5Fsdk.py is #!/usr/bin/env python, but is not python3-compatible.
-> The PEP 394 alias `python2` is sadly not universally supported, so
-> instead of modifying relocate=5Fsdk.py directly, change the `exec` in
-> relocate=5Fsdk.sh to use it if it exists.
->=20
-> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
+>
+> deb - this -may- fix the deb install.  Early testing indicates at least some
+>       ordering to the status file.  But it's unclear if it completely resolves
+>       the issue.
+>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
 > ---
-> =A0meta/classes/populate=5Fsdk=5Fbase.bbclass | 3 ++-
-> =A01 file changed, 2 insertions(+), 1 deletion(-)
+>  meta/classes/package_rpm.bbclass | 14 ++++++++++----
+>  meta/classes/rootfs_deb.bbclass  |  7 ++++++-
+>  meta/classes/rootfs_ipk.bbclass  |  7 ++++++-
+>  3 files changed, 22 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+> index 98aa98b..36bad09 100644
+> --- a/meta/classes/package_rpm.bbclass
+> +++ b/meta/classes/package_rpm.bbclass
+> @@ -391,6 +391,10 @@ EOF
+>         fi
+>
+>         # Construct install scriptlet wrapper
+> +       # Scripts need to be ordered when executed, this ensures numeric order
+> +       # If we ever run into needing more the 899 scripts, we'll have to
+> +       # change num to start with 1000.
+> +       #
+>         cat << EOF > ${WORKDIR}/scriptlet_wrapper
+>  #!/bin/bash
+>
+> @@ -406,11 +410,13 @@ export NATIVE_ROOT=${STAGING_DIR_NATIVE}
+>  if [ \$? -ne 0 ]; then
+>    if [ \$4 -eq 1 ]; then
+>      mkdir -p \$1/etc/rpm-postinsts
+> +    num=100
+> +    while [ -e \$1/etc/rpm-postinsts/\${num}-* ]; do num=\$((num + 1)); done
+>      name=\`head -1 \$1/\$3 | cut -d' ' -f 2\`
+> -    echo "#!\$2" > \$1/etc/rpm-postinsts/\${name}
+> -    echo "# Arg: \$4" >> \$1/etc/rpm-postinsts/\${name}
+> -    cat \$1/\$3 >> \$1/etc/rpm-postinsts/\${name}
+> -    chmod +x \$1/etc/rpm-postinsts/\${name}
+> +    echo "#!\$2" > \$1/etc/rpm-postinsts/\${num}-\${name}
+> +    echo "# Arg: \$4" >> \$1/etc/rpm-postinsts/\${num}-\${name}
+> +    cat \$1/\$3 >> \$1/etc/rpm-postinsts/\${num}-\${name}
+> +    chmod +x \$1/etc/rpm-postinsts/\${num}-\${name}
+>    else
+>      echo "Error: pre/post remove scriptlet failed"
+>    fi
+> diff --git a/meta/classes/rootfs_deb.bbclass b/meta/classes/rootfs_deb.bbclass
+> index 0161f7a..b1c52f9 100644
+> --- a/meta/classes/rootfs_deb.bbclass
+> +++ b/meta/classes/rootfs_deb.bbclass
+> @@ -107,9 +107,14 @@ delayed_postinsts () {
+>  }
+>
+>  save_postinsts () {
+> +       # Scripts need to be ordered when executed, this ensures numeric order
+> +       # If we ever run into needing more the 899 scripts, we'll have to
+> +       # change num to start with 1000.
+> +       num=100
+>         for p in $(delayed_postinsts); do
+>                 install -d ${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts
+> -               cp ${IMAGE_ROOTFS}/var/lib/dpkg/info/$p.postinst ${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts/$p
+> +               cp ${IMAGE_ROOTFS}/var/lib/dpkg/info/$p.postinst ${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts/$num-$p
+> +               num=`echo \$((num+1))`
+>         done
+>  }
+>
+> diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+> index a37ab14..b0805dc 100644
+> --- a/meta/classes/rootfs_ipk.bbclass
+> +++ b/meta/classes/rootfs_ipk.bbclass
+> @@ -106,9 +106,14 @@ delayed_postinsts () {
+>  }
+>
+>  save_postinsts () {
+> +       # Scripts need to be ordered when executed, this ensures numeric order
+> +       # If we ever run into needing more the 899 scripts, we'll have to
+> +       # change num to start with 1000.
+> +       num=100
+>         for p in $(delayed_postinsts); do
+>                 install -d ${IMAGE_ROOTFS}${sysconfdir}/ipk-postinsts
+> -               cp ${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/info/$p.postinst ${IMAGE_ROOTFS}${sysconfdir}/ipk-postinsts/$p
+> +               cp ${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/info/$p.postinst ${IMAGE_ROOTFS}${sysconfdir}/ipk-postinsts/$num-$p
+> +               num=`echo \$((num+1))`
+>         done
+>  }
+>
+> --
+> 1.8.1.2.545.g2f19ada
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Wasn't the script fixed in master to avoid this problem?
-
-Cheers,
-
-Richard
-
-> diff --git a/meta/classes/populate=5Fsdk=5Fbase.bbclass b/meta/classes/po=
-pulate=5Fsdk=5Fbase.bbclass
-> index e5bc0b4..e67d8b6 100644
-> --- a/meta/classes/populate=5Fsdk=5Fbase.bbclass
-> +++ b/meta/classes/populate=5Fsdk=5Fbase.bbclass
-> @@ -256,8 +256,9 @@ if [ x$tdir =3D x ] ; then
-> =A0 =A0 echo "SDK relocate failed, could not create a temporary directory"
-> =A0 =A0 exit 1
-> =A0fi
-> +python=5Fbin=3D"$(command -v python2 2>/dev/null)" || python=5Fbin=3Dpyt=
-hon
-> =A0echo "#!/bin/bash" > $tdir/relocate=5Fsdk.sh
-> -echo exec ${env=5Fsetup=5Fscript%/*}/relocate=5Fsdk.py $target=5Fsdk=5Fd=
-ir $dl=5Fpath $executable=5Ffiles >> $tdir/relocate=5Fsdk.sh
-> +echo exec $python=5Fbin ${env=5Fsetup=5Fscript%/*}/relocate=5Fsdk.py $ta=
-rget=5Fsdk=5Fdir $dl=5Fpath $executable=5Ffiles >> $tdir/relocate=5Fsdk.sh
-> =A0$SUDO=5FEXEC mv $tdir/relocate=5Fsdk.sh ${env=5Fsetup=5Fscript%/*}/rel=
-ocate=5Fsdk.sh
-> =A0$SUDO=5FEXEC chmod 755 ${env=5Fsetup=5Fscript%/*}/relocate=5Fsdk.sh
-> =A0rm -rf $tdir
 
 
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
---=_alternative 005A376986257BFA_=
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=ISO-8859-1
-Content-ID: <>
-
-<font face=3D"Default Sans Serif,Verdana,Arial,Helvetica,sans-serif" size=
-=3D"2"><div>D'oh! I checked master for changes to .sh generation but not th=
-e .py itself. My bad.</div><div><br></div><div>Change 175f20e2 (relocate=5F=
-sdk.py: make it work also with python 3) appears to work fine.</div><div><b=
-r>---<br>Richard Tollerton &lt;rich.tollerton@ni.com&gt; (512)683-6346</div=
-><br><br><font color=3D"#990099">-----Richard Purdie &lt;richard.purdie@lin=
-uxfoundation.org&gt; wrote: -----</font><div style=3D"padding-left:5px;"><d=
-iv style=3D"padding-right:0px;padding-left:5px;border-left:solid black 2px;=
-">To: Richard Tollerton &lt;rich.tollerton@ni.com&gt;<br>From: Richard Purd=
-ie &lt;richard.purdie@linuxfoundation.org&gt;<br>Date: 10/04/2013 06:34AM<b=
-r>Cc: openembedded-core@lists.openembedded.org, paul.eggleton@linux.intel.c=
-om, gratian.crisan@ni.com, ken.sharp@ni.com<br>Subject: Re: [OE-core] [dyla=
-n, master][PATCH] populate=5Fsdk=5Fbase: Fix relocate=5Fsdk.py execution on=
- Arch<br><br><div><font face=3D"Courier New,Courier,monospace" size=3D"3">O=
-n Wed, 2013-10-02 at 18:18 -0500, Richard Tollerton wrote:<br>&gt; relocate=
-=5Fsdk.py is #!/usr/bin/env python, but is not python3-compatible.<br>&gt; =
-The PEP 394 alias `python2` is sadly not universally supported, so<br>&gt; =
-instead of modifying relocate=5Fsdk.py directly, change the `exec` in<br>&g=
-t; relocate=5Fsdk.sh to use it if it exists.<br>&gt; <br>&gt; Signed-off-by=
-: Richard Tollerton &lt;rich.tollerton@ni.com&gt;<br>&gt; ---<br>&gt; &nbsp=
-;meta/classes/populate=5Fsdk=5Fbase.bbclass | 3 ++-<br>&gt; &nbsp;1 file ch=
-anged, 2 insertions(+), 1 deletion(-)<br><br>Wasn't the script fixed in mas=
-ter to avoid this problem?<br><br>Cheers,<br><br>Richard<br><br>&gt; diff -=
--git a/meta/classes/populate=5Fsdk=5Fbase.bbclass b/meta/classes/populate=
-=5Fsdk=5Fbase.bbclass<br>&gt; index e5bc0b4..e67d8b6 100644<br>&gt; --- a/m=
-eta/classes/populate=5Fsdk=5Fbase.bbclass<br>&gt; +++ b/meta/classes/popula=
-te=5Fsdk=5Fbase.bbclass<br>&gt; @@ -256,8 +256,9 @@ if [ x$tdir =3D x ] ; t=
-hen<br>&gt; &nbsp; &nbsp; echo "SDK relocate failed, could not create a tem=
-porary directory"<br>&gt; &nbsp; &nbsp; exit 1<br>&gt; &nbsp;fi<br>&gt; +py=
-thon=5Fbin=3D"$(command -v python2 2&gt;/dev/null)" || python=5Fbin=3Dpytho=
-n<br>&gt; &nbsp;echo "#!/bin/bash" &gt; $tdir/relocate=5Fsdk.sh<br>&gt; -ec=
-ho exec ${env=5Fsetup=5Fscript%/*}/relocate=5Fsdk.py $target=5Fsdk=5Fdir $d=
-l=5Fpath $executable=5Ffiles &gt;&gt; $tdir/relocate=5Fsdk.sh<br>&gt; +echo=
- exec $python=5Fbin ${env=5Fsetup=5Fscript%/*}/relocate=5Fsdk.py $target=5F=
-sdk=5Fdir $dl=5Fpath $executable=5Ffiles &gt;&gt; $tdir/relocate=5Fsdk.sh<b=
-r>&gt; &nbsp;$SUDO=5FEXEC mv $tdir/relocate=5Fsdk.sh ${env=5Fsetup=5Fscript=
-%/*}/relocate=5Fsdk.sh<br>&gt; &nbsp;$SUDO=5FEXEC chmod 755 ${env=5Fsetup=
-=5Fscript%/*}/relocate=5Fsdk.sh<br>&gt; &nbsp;rm -rf $tdir<br><br><br></fon=
-t></div></div></div></font>
-
---=_alternative 005A376986257BFA_=--
