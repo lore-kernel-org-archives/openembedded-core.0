@@ -1,31 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 55F6860EA4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
+	[209.85.128.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B1BA860EA4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 07:46:26 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r947kK7l029670; Fri, 4 Oct 2013 08:46:21 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rYVg8hg9cv_w; Fri,  4 Oct 2013 08:46:20 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r947kHba029658
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Fri, 4 Oct 2013 08:46:19 +0100
-Message-ID: <1380872773.18603.570.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Fri, 04 Oct 2013 08:46:13 +0100
-In-Reply-To: <d8f31589fe2bf6f63ef55fca4c6f5182971e1441.1380844647.git.bruce.ashfield@windriver.com>
-References: <cover.1380844647.git.bruce.ashfield@windriver.com>
-	<d8f31589fe2bf6f63ef55fca4c6f5182971e1441.1380844647.git.bruce.ashfield@windriver.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
+	Fri,  4 Oct 2013 08:03:08 +0000 (UTC)
+Received: by mail-ve0-f174.google.com with SMTP id jy13so2258671veb.19
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Oct 2013 01:03:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tvBpn9ROGwP7TXsfMBLUiMHSE0TtN+qcDZQQPKtyrPo=;
+	b=mFrEOSNNcVs1wIsmq3FaY9DXRnjKqOGwe8O+ZKqbqc7MsUahJMUP5+8pkYoPGbf9LG
+	Whb2y2ZiSSz2aNVYWJwpKbp++jUH7DjICoJXpe5GLDQMGlRZ3s34LWVdnpzDoQBjih83
+	KYbe3k8pI0uCDNOiPYpm6XUJQ8jiFcD37u8NKJtlWdtrB/3V8aa9Y3ykeV16akXbftfU
+	sWdNro4AS4Xevp0hSL9aLw0XJ8DcT+HQq44hfE80ZzP+bQyEgr2XC2gR/GSJsmnNJDoj
+	0r6e4mMZeZcqjYm+/4MkpFLi62DcQQ2WVzKTRtFFWIaqQ/Ksu7Xcbeccp3GSc/V52QCo
+	RtxQ==
+X-Gm-Message-State: ALoCoQk9AlK/9Yc5TZqEqxVxNl0Vojm8zOZDeBMjq+r9zNrhGYOS7sCz1murX5q+7pwXOpAUpJDE
+X-Received: by 10.220.11.7 with SMTP id r7mr11349072vcr.12.1380873790118; Fri,
+	04 Oct 2013 01:03:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Fri, 4 Oct 2013 01:02:50 -0700 (PDT)
+In-Reply-To: <524E24AE.5060009@windriver.com>
+References: <524E24AE.5060009@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Oct 2013 09:02:50 +0100
+Message-ID: <CAJTo0LZ9hgtDX1EHvinBtrnVgJsm6YeTOQ6p1FBp49MTVOn4+A@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: DISTRO_FEATURES and world builds.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 07:46:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Oct 2013 08:03:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2013-10-03 at 20:02 -0400, Bruce Ashfield wrote:
-> When building against the sysroot, out of tree modules can require modpost
-> and other utilities normally found in the kernel's scripts directory. For
-> the kernel source in the staging dir, these scripts have been removed to
-> avoid mixing archiectures when packaging kernel-dev (among other things).
+On 4 October 2013 03:15, Randy MacLeod <randy.macleod@windriver.com> wrote:
+> ERROR: Nothing PROVIDES 'virtual/libgl' (but
+> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/clutter/clutter-1.0_1.14.4.bb,
+> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb,
+> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/glew/glew_1.10.0.bb,
+> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-qt/qt4/qt4-x11-free_4.8.5.bb,
+> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/libglu_9.0.0.bb,
+> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
+> DEPENDS on or otherwise requires it)
+> ERROR: mesa PROVIDES virtual/libgl but was skipped: missing required distro
+> feature ['opengl'] (not in DISTRO_FEATURES)
 
-Its also to avoid mixing architectures when packaging the sstate for
-do_populate_sysroot. The sstate for that task is now native arch
-specific after this patch but its task hash is not. Even if we made it
-native specific, that means the kernel would rebuild entirely if you
-switch 32 bit to 64 bit native machine. We therefore cannot merge this
-patch as is.
+Would a better solution be for "world" builds to recognise that a
+dependency was explicitly skipped and turn that into a warning instead
+of an error?
 
-Instead do something like:
-
-
-SSTATEPOSTINSTFUNCS += "kernelheaders_sstate_postinst"
-
-kernelheaders_sstate_postinst () {
-	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-	then
-		( cd ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH};
-		  oe_runmake scripts 
-		)
-	fi
-}
-
-This will rerun the oe_runmake scripts each time the sstate package is
-installed. It slows down the use of sstate but should be correct whether
-the build machine is 32 or 64 bit.
-
-
-Cheers,
-
-Richard
-
-
+Ross
 
