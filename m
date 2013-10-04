@@ -1,34 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f174.google.com (mail-ve0-f174.google.com
-	[209.85.128.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B1BA860EA4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BF0F6CC9C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Oct 2013 08:03:08 +0000 (UTC)
-Received: by mail-ve0-f174.google.com with SMTP id jy13so2258671veb.19
+	Fri,  4 Oct 2013 10:17:27 +0000 (UTC)
+Received: by mail-ee0-f42.google.com with SMTP id b45so1699300eek.29
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Oct 2013 01:03:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=tvBpn9ROGwP7TXsfMBLUiMHSE0TtN+qcDZQQPKtyrPo=;
-	b=mFrEOSNNcVs1wIsmq3FaY9DXRnjKqOGwe8O+ZKqbqc7MsUahJMUP5+8pkYoPGbf9LG
-	Whb2y2ZiSSz2aNVYWJwpKbp++jUH7DjICoJXpe5GLDQMGlRZ3s34LWVdnpzDoQBjih83
-	KYbe3k8pI0uCDNOiPYpm6XUJQ8jiFcD37u8NKJtlWdtrB/3V8aa9Y3ykeV16akXbftfU
-	sWdNro4AS4Xevp0hSL9aLw0XJ8DcT+HQq44hfE80ZzP+bQyEgr2XC2gR/GSJsmnNJDoj
-	0r6e4mMZeZcqjYm+/4MkpFLi62DcQQ2WVzKTRtFFWIaqQ/Ksu7Xcbeccp3GSc/V52QCo
-	RtxQ==
-X-Gm-Message-State: ALoCoQk9AlK/9Yc5TZqEqxVxNl0Vojm8zOZDeBMjq+r9zNrhGYOS7sCz1murX5q+7pwXOpAUpJDE
-X-Received: by 10.220.11.7 with SMTP id r7mr11349072vcr.12.1380873790118; Fri,
-	04 Oct 2013 01:03:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Fri, 4 Oct 2013 01:02:50 -0700 (PDT)
-In-Reply-To: <524E24AE.5060009@windriver.com>
+	Fri, 04 Oct 2013 03:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=02EXEecIR7fxOacDNYlod3Ae4CloQqrE2u8AavfrXz4=;
+	b=qwBnmaVQHuscKH+hLIwWybEZuUzPAFDKm92ZWZSCyTl73AKap7jgUhYLLJehpsodzB
+	FVQv2Cx1wE08JpBL2GKQbroiAJmh6gJ5NIcLWeHxtdNq78HdjY6vsurv+9dWN/CdpblD
+	ZYMuNwMzYeQN5F2Blg0ajbgnFF3J2VAC/I/CKRPIttPxOuMwCYYJ48ij3tnL3GbDGoFb
+	FeJQTLqOt8kgJD836hEc6yTyfQXBaR3emhaiuh6shjoxE0fCSLZwT0MZw+Fbm5++vm9g
+	v03FKREsX9B5RfO+YKsDhjEIDQsKL3g56AiligW+EkVEUgaW+GST8LBST31wn1NMo+v2
+	W25g==
+X-Received: by 10.14.179.9 with SMTP id g9mr214477eem.93.1380881848822;
+	Fri, 04 Oct 2013 03:17:28 -0700 (PDT)
+Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
+	by mx.google.com with ESMTPSA id
+	h52sm26352832eez.3.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 04 Oct 2013 03:17:27 -0700 (PDT)
+Date: Fri, 4 Oct 2013 12:17:34 +0200
+From: Martin Jansa <martin.jansa@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20131004101734.GD6240@jama>
 References: <524E24AE.5060009@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Oct 2013 09:02:50 +0100
-Message-ID: <CAJTo0LZ9hgtDX1EHvinBtrnVgJsm6YeTOQ6p1FBp49MTVOn4+A@mail.gmail.com>
-To: Randy MacLeod <randy.macleod@windriver.com>
+	<CAJTo0LZ9hgtDX1EHvinBtrnVgJsm6YeTOQ6p1FBp49MTVOn4+A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZ9hgtDX1EHvinBtrnVgJsm6YeTOQ6p1FBp49MTVOn4+A@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: DISTRO_FEATURES and world builds.
@@ -44,24 +47,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 08:03:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 Oct 2013 10:17:29 -0000
+X-Groupsio-MsgNum: 45575
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NklN7DEeGtkPCoo3"
+Content-Disposition: inline
 
-On 4 October 2013 03:15, Randy MacLeod <randy.macleod@windriver.com> wrote:
-> ERROR: Nothing PROVIDES 'virtual/libgl' (but
-> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/clutter/clutter-1.0_1.14.4.bb,
-> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/mesa-demos_8.1.0.bb,
-> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/glew/glew_1.10.0.bb,
-> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-qt/qt4/qt4-x11-free_4.8.5.bb,
-> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/libglu_9.0.0.bb,
-> /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/cogl/cogl-1.0_1.14.0.bb
-> DEPENDS on or otherwise requires it)
-> ERROR: mesa PROVIDES virtual/libgl but was skipped: missing required distro
-> feature ['opengl'] (not in DISTRO_FEATURES)
+--NklN7DEeGtkPCoo3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Would a better solution be for "world" builds to recognise that a
-dependency was explicitly skipped and turn that into a warning instead
-of an error?
+On Fri, Oct 04, 2013 at 09:02:50AM +0100, Burton, Ross wrote:
+> On 4 October 2013 03:15, Randy MacLeod <randy.macleod@windriver.com> wrot=
+e:
+> > ERROR: Nothing PROVIDES 'virtual/libgl' (but
+> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/clutter/=
+clutter-1.0_1.14.4.bb,
+> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/mes=
+a-demos_8.1.0.bb,
+> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/glew/gle=
+w_1.10.0.bb,
+> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-qt/qt4/qt4-x11-fr=
+ee_4.8.5.bb,
+> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/mesa/lib=
+glu_9.0.0.bb,
+> > /home/rmacleod/src/distro/oe/oe-core.git/meta/recipes-graphics/cogl/cog=
+l-1.0_1.14.0.bb
+> > DEPENDS on or otherwise requires it)
+> > ERROR: mesa PROVIDES virtual/libgl but was skipped: missing required di=
+stro
+> > feature ['opengl'] (not in DISTRO_FEATURES)
+>=20
+> Would a better solution be for "world" builds to recognise that a
+> dependency was explicitly skipped and turn that into a warning instead
+> of an error?
 
-Ross
+Agreed, I'm using PNBLACKLIST to mask recipes with unsatisfied
+dependencies when building world on distro without x11 and opengl and
+it's really long list:
 
+https://github.com/openwebos/meta-webos/blob/master/conf/distro/include/web=
+os-recipe-blacklist-world.inc
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--NklN7DEeGtkPCoo3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.21 (GNU/Linux)
+
+iEYEARECAAYFAlJOlb4ACgkQN1Ujt2V2gBygnwCdGeUo210CkN9oK99MTc3Kx/8t
+OpAAn26vJe8j4OW4h0JdGNQElNZPi92o
+=3kQ4
+-----END PGP SIGNATURE-----
+
+--NklN7DEeGtkPCoo3--
