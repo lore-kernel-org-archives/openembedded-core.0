@@ -1,32 +1,19 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id A30AD6B6BA
+Return-Path: <eric@eukrea.com>
+Received: from smtp3-g21.free.fr (smtp3-g21.free.fr [212.27.42.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 02D42621CD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Oct 2013 07:37:21 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r957b9V9030066; Sat, 5 Oct 2013 08:37:10 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rhk79HuQ9WFc; Sat,  5 Oct 2013 08:37:09 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r957b4Zr030063
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Sat, 5 Oct 2013 08:37:06 +0100
-Message-ID: <1380958620.30971.9.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Sat, 05 Oct 2013 08:37:00 +0100
-In-Reply-To: <524F85EA.30805@linux.intel.com>
-References: <1380929753-10606-1-git-send-email-rich.tollerton@ni.com>
-	<524F85EA.30805@linux.intel.com>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, gratian.crisan@ni.com, ken.sharp@ni.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [dylan, master][PATCH] autotools.bbclass: Fix race with sed-native
+	Sat,  5 Oct 2013 10:11:25 +0000 (UTC)
+Received: from localhost.localdomain (unknown [82.233.81.124])
+	by smtp3-g21.free.fr (Postfix) with ESMTP id 9810CA632A
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  5 Oct 2013 12:11:21 +0200 (CEST)
+From: =?UTF-8?q?Eric=20B=C3=A9nard?= <eric@eukrea.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  5 Oct 2013 12:11:19 +0200
+Message-Id: <1380967879-2902-1-git-send-email-eric@eukrea.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+Subject: [PATCH] qemu: fix nativesdk build without x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,36 +26,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Oct 2013 07:37:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 05 Oct 2013 10:11:28 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2013-10-04 at 20:22 -0700, Saul Wold wrote:
-> On 10/04/2013 04:35 PM, Richard Tollerton wrote:
-> > Suppose the following:
-> > 1) foo.do_configure/do_build runs in parallel with
-> >     sed-native.do_configure;
-> > 2) foo.do_configure/do_build makes use of sed (i.e. inherits autotools);
-> > 3) A previously built sed-native already exists in the native sysroot,
-> >     and in the sstate cache.
-> >
-> > Then sed-native may be deleted from its sysroot via
-> > sstate_clean_manifest while foo.do_configure/do_build is using it,
-> > leading to an irreproducible build failure.
-> >
-> > This fix does for sed-native what's already done for libtool-native,
-> > with some additional light refactoring.
-> >
-> This also starts to create more front end bottle next on autotools 
-> related items before we can really start to parallelize the build.
-> 
-> More thought is required on this.
+when x11 is not defined in DISTRO_FEATURES, there are no x11 headers
+so True is not defined leading to :
+| ui/sdl.c:62:8: warning: type defaults to 'int' in declaration of 'doing_grabs' [-Wimplicit-int]
+|  static doing_grabs = True;
+|         ^
+| ui/sdl.c:62:22: error: 'True' undeclared here (not in a function)
+|  static doing_grabs = True;
+|                       ^
 
-Please have a look at the sed-native changes that went into master
-recently as I think this issue has been fixed differently...
+Signed-off-by: Eric Bénard <eric@eukrea.com>
+---
+ meta/recipes-devtools/qemu/files/disable-grabs.patch | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/qemu/files/disable-grabs.patch b/meta/recipes-devtools/qemu/files/disable-grabs.patch
+index 99ad00b..41726b1 100644
+--- a/meta/recipes-devtools/qemu/files/disable-grabs.patch
++++ b/meta/recipes-devtools/qemu/files/disable-grabs.patch
+@@ -13,30 +13,33 @@ the current grabbing behaviour for everyone else.
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
+ 
+-
+ From 4b1988ecb01a178269ec0513a75f2ec620c7ef6a Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 18 Sep 2013 14:04:54 +0100
+ Subject: [PATCH] sdl.c: allow user to disable pointer grabs
+ 
+ Signed-off-by: Ross Burton <ross.burton@intel.com>
++Signed-off-by: Eric Bénard <eric@eukrea.com>
+ ---
+- ui/sdl.c |    9 +++++++--
+- 1 file changed, 7 insertions(+), 2 deletions(-)
++ ui/sdl.c | 12 ++++++++++--
++ 1 file changed, 10 insertions(+), 2 deletions(-)
+ 
+ diff --git a/ui/sdl.c b/ui/sdl.c
+-index 39a42d6..6095aa6 100644
++index 39a42d6..9b8abe5 100644
+ --- a/ui/sdl.c
+ +++ b/ui/sdl.c
+-@@ -59,6 +59,7 @@ static SDL_Cursor *guest_sprite = NULL;
++@@ -59,6 +59,10 @@ static SDL_Cursor *guest_sprite = NULL;
+  static SDL_PixelFormat host_format;
+  static int scaling_active = 0;
+  static Notifier mouse_mode_notifier;
+++#ifndef True
+++#define True 1
+++#endif
+ +static doing_grabs = True;
+  
+  static void sdl_update(DisplayChangeListener *dcl,
+                         int x, int y, int w, int h)
+-@@ -384,14 +385,16 @@ static void sdl_grab_start(void)
++@@ -384,14 +388,16 @@ static void sdl_grab_start(void)
+              SDL_WarpMouse(guest_x, guest_y);
+      } else
+          sdl_hide_cursor();
+@@ -55,7 +58,7 @@ index 39a42d6..6095aa6 100644
+      gui_grab = 0;
+      sdl_show_cursor();
+      sdl_update_caption();
+-@@ -909,6 +912,8 @@ void sdl_display_init(DisplayState *ds,
++@@ -909,6 +915,8 @@ void sdl_display_init(DisplayState *ds, int full_screen, int no_frame)
+       * This requires SDL >= 1.2.14. */
+      setenv("SDL_DISABLE_LOCK_KEYS", "1", 1);
+  
+@@ -65,5 +68,5 @@ index 39a42d6..6095aa6 100644
+      if (SDL_Init (flags)) {
+          fprintf(stderr, "Could not initialize SDL(%s) - exiting\n",
+ -- 
+-1.7.10.4
++1.8.3.1
+ 
+-- 
+1.8.3.1
 
 
