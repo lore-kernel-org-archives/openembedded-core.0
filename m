@@ -1,23 +1,29 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E27A610DC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A30AD6B6BA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Oct 2013 03:22:17 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 04 Oct 2013 20:22:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1037,1371106800"; d="scan'208";a="414279859"
-Received: from unknown (HELO [10.255.15.228]) ([10.255.15.228])
-	by orsmga002.jf.intel.com with ESMTP; 04 Oct 2013 20:22:18 -0700
-Message-ID: <524F85EA.30805@linux.intel.com>
-Date: Fri, 04 Oct 2013 20:22:18 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
-MIME-Version: 1.0
-To: Richard Tollerton <rich.tollerton@ni.com>
+	Sat,  5 Oct 2013 07:37:21 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r957b9V9030066; Sat, 5 Oct 2013 08:37:10 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rhk79HuQ9WFc; Sat,  5 Oct 2013 08:37:09 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r957b4Zr030063
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sat, 5 Oct 2013 08:37:06 +0100
+Message-ID: <1380958620.30971.9.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Sat, 05 Oct 2013 08:37:00 +0100
+In-Reply-To: <524F85EA.30805@linux.intel.com>
 References: <1380929753-10606-1-git-send-email-rich.tollerton@ni.com>
-In-Reply-To: <1380929753-10606-1-git-send-email-rich.tollerton@ni.com>
+	<524F85EA.30805@linux.intel.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
 Cc: paul.eggleton@linux.intel.com, gratian.crisan@ni.com, ken.sharp@ni.com,
 	openembedded-core@lists.openembedded.org
 Subject: Re: [dylan, master][PATCH] autotools.bbclass: Fix race with sed-native
@@ -33,76 +39,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Oct 2013 03:22:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Sat, 05 Oct 2013 07:37:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 10/04/2013 04:35 PM, Richard Tollerton wrote:
-> Suppose the following:
-> 1) foo.do_configure/do_build runs in parallel with
->     sed-native.do_configure;
-> 2) foo.do_configure/do_build makes use of sed (i.e. inherits autotools);
-> 3) A previously built sed-native already exists in the native sysroot,
->     and in the sstate cache.
->
-> Then sed-native may be deleted from its sysroot via
-> sstate_clean_manifest while foo.do_configure/do_build is using it,
-> leading to an irreproducible build failure.
->
-> This fix does for sed-native what's already done for libtool-native,
-> with some additional light refactoring.
->
-This also starts to create more front end bottle next on autotools 
-related items before we can really start to parallelize the build.
+On Fri, 2013-10-04 at 20:22 -0700, Saul Wold wrote:
+> On 10/04/2013 04:35 PM, Richard Tollerton wrote:
+> > Suppose the following:
+> > 1) foo.do_configure/do_build runs in parallel with
+> >     sed-native.do_configure;
+> > 2) foo.do_configure/do_build makes use of sed (i.e. inherits autotools);
+> > 3) A previously built sed-native already exists in the native sysroot,
+> >     and in the sstate cache.
+> >
+> > Then sed-native may be deleted from its sysroot via
+> > sstate_clean_manifest while foo.do_configure/do_build is using it,
+> > leading to an irreproducible build failure.
+> >
+> > This fix does for sed-native what's already done for libtool-native,
+> > with some additional light refactoring.
+> >
+> This also starts to create more front end bottle next on autotools 
+> related items before we can really start to parallelize the build.
+> 
+> More thought is required on this.
 
-More thought is required on this.
+Please have a look at the sed-native changes that went into master
+recently as I think this issue has been fixed differently...
 
-> Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
-> ---
->   meta/classes/autotools.bbclass | 26 +++++++++++++++++---------
->   1 file changed, 17 insertions(+), 9 deletions(-)
->
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index 66c0f5d..2bb2aa3 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -7,17 +7,25 @@ def autotools_dep_prepend(d):
->
->       if pn in ['autoconf-native', 'automake-native', 'help2man-native']:
->           return deps
-> -    deps += 'autoconf-native automake-native '
-> +    deps += 'autoconf-native automake-native gnu-config-native '
->
-You don't mention anything about this change.
+Cheers,
 
-Sau!
-> -    if not pn in ['libtool', 'libtool-native'] and not pn.endswith("libtool-cross"):
-> -        deps += 'libtool-native '
-> -        if not bb.data.inherits_class('native', d) \
-> -                        and not bb.data.inherits_class('nativesdk', d) \
-> -                        and not bb.data.inherits_class('cross', d) \
-> -                        and not d.getVar('INHIBIT_DEFAULT_DEPS', True):
-> -            deps += 'libtool-cross '
-> +    if pn in ['libtool', 'libtool-native'] or pn.endswith("libtool-cross"):
-> +        return deps
-> +    deps += 'libtool-native '
-> +
-> +    if d.getVar('INHIBIT_DEFAULT_DEPS', True):
-> +        return deps
-> +
-> +    if pn not in ['sed-native']:
-> +        deps += 'sed-native '
-> +
-> +    if bb.data.inherits_class('native', d) \
-> +       or bb.data.inherits_class('nativesdk', d) \
-> +       or bb.data.inherits_class('cross', d):
-> +        return deps
-> +    deps += 'libtool-cross '
->
-> -    return deps + 'gnu-config-native '
-> +    return deps
->
->   EXTRA_OEMAKE = ""
->
->
+Richard
+
 
