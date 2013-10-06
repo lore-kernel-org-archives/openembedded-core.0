@@ -1,37 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F2536CD9A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id A54EA6BE6E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Oct 2013 12:23:19 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id b45so2303122eek.29
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 05 Oct 2013 05:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=wGej04j9RrWxbo5OwZg/Kh47gJ/2LNdnKVrcqcwFgFY=;
-	b=e3/bzMaSBfr2cvXAeBNOxoz2JCKzW+TO1ET1LWlQwmOS/d8OI6fxYFE5I6cSNn3iTR
-	gvTAsIcHl9dSXOO7obQIhAfO80vHzQWfggaAD+OpSLlzTezj5c4OOnBnEbnrsXbUpAWl
-	cbeklhf59PjBeDnqzE+mmX3QJ6ZyzwUi8CGm/QRAuFH3R3L4XAOr9FqSfknIL3dZW2p2
-	F60htoCIsKmTZaFkUHDGOoPF1T5lfagOaX0Ib1aRrU7TPIyE8mL4WhT2TPFVccmDY3oe
-	C5pkxI6sclIMkWzsZNnyKcIqZEKtrUxOTohINmvVKSoNKdgiT0R7JB8GHCKTNRcZfO8l
-	sq0A==
-X-Received: by 10.15.91.3 with SMTP id r3mr30691721eez.4.1380975800800;
-	Sat, 05 Oct 2013 05:23:20 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	z12sm39214055eev.6.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 05 Oct 2013 05:23:20 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Oct 2013 14:23:11 +0200
-Message-Id: <cf398550378a2314eeba9ff4e0680bf85aba9207.1380975568.git.Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-In-Reply-To: <cover.1380975568.git.Martin.Jansa@gmail.com>
-References: <cover.1380975568.git.Martin.Jansa@gmail.com>
-In-Reply-To: <cover.1380975568.git.Martin.Jansa@gmail.com>
-References: <cover.1380975568.git.Martin.Jansa@gmail.com>
-Subject: [PATCHv2 14/14] systemd: Add PACKAGECONFIG for cryptsetup
+	Sun,  6 Oct 2013 08:57:25 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r968vLvQ017039; Sun, 6 Oct 2013 09:57:21 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id VpUrP0Wz6tj2; Sun,  6 Oct 2013 09:57:20 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r968vH8Q017026
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Sun, 6 Oct 2013 09:57:19 +0100
+Message-ID: <1381049833.30971.16.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Date: Sun, 06 Oct 2013 09:57:13 +0100
+In-Reply-To: <1380925365-18427-1-git-send-email-otavio@ossystems.com.br>
+References: <1380925365-18427-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe-buildenv-internal: Add UBOOT_CONFIG to environment whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +37,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Oct 2013 12:23:19 -0000
+X-List-Received-Date: Sun, 06 Oct 2013 08:57:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/systemd/systemd_206.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, 2013-10-04 at 19:22 -0300, Otavio Salvador wrote:
+> The uboot-config class uses the UBOOT_CONFIG environment setting to
+> choose which U-Boot option is intended to build. It is convenient to
+> allow it to be set from the shell, as supported for MACHINE.
+> 
+> This allow, for example, to trigger a build as:
+> 
+> ,----
+> | MACHINE=imx28evk UBOOT_CONFIG=nand bitbake core-image-minimal
+> `----
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>  scripts/oe-buildenv-internal | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_206.bb b/meta/recipes-core/systemd/systemd_206.bb
-index 02be793..a1a8bd7 100644
---- a/meta/recipes-core/systemd/systemd_206.bb
-+++ b/meta/recipes-core/systemd/systemd_206.bb
-@@ -53,6 +53,7 @@ DEPENDS += "libgcrypt"
- # Compress the journal
- PACKAGECONFIG[xz] = "--enable-xz,--disable-xz,xz"
- PACKAGECONFIG[tcp-wrappers] = "--enable-tcpwrap,--disable-tcpwrap,tcp-wrappers"
-+PACKAGECONFIG[cryptsetup] = "--enable-libcryptsetup,--disable-libcryptsetup,cryptsetup"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_KILL=${base_bindir}/kill"
- 
--- 
-1.8.3.2
+There are lots of things which we can expose from the shell, we only
+really want to default to be things which are commonly changed though.
+How often do people realistically change their uboot targets? I
+appreciate that when working on uboot its useful but I don't think this
+is a significant portion of the userbase?
+
+Cheers,
+
+Richard
+
+> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+> index bba6f8f..f8840c1 100755
+> --- a/scripts/oe-buildenv-internal
+> +++ b/scripts/oe-buildenv-internal
+> @@ -106,4 +106,4 @@ export BB_ENV_EXTRAWHITE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
+>  HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
+>  all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
+>  SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
+> -SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR"
+> +SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR UBOOT_CONFIG"
+
 
 
