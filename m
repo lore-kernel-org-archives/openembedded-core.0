@@ -1,33 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ee0-f42.google.com (mail-ee0-f42.google.com [74.125.83.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D51F610F7
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ie0-f172.google.com (mail-ie0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 79FF0610D4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Oct 2013 13:01:27 +0000 (UTC)
-Received: by mail-ee0-f42.google.com with SMTP id b45so2679609eek.15
+	Sun,  6 Oct 2013 18:08:15 +0000 (UTC)
+Received: by mail-ie0-f172.google.com with SMTP id x13so14105871ief.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Oct 2013 06:01:28 -0700 (PDT)
+	Sun, 06 Oct 2013 11:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=kFVizoGmAZCMF302nbIndTimybm9tEmwXvSdzTfVkD4=;
-	b=sfG/TvNtvKHQob6nOPjvgh5PSsO6hG50jfthKbSAhFyM478RARNxTPp1EI8jR5Y0kh
-	FrhT1RD36YQ9+q44nb+sQLFjKpObDxIEqwBda4fBVknJb99McQ+Ax000J6JsnmKL3SXb
-	oR3lIq5pbnWKr3YH6F+3xNgSdF2Yap5dZTs657Vv/LMz2NT7rjZSZHBXfy91ZQ8a+VQm
-	eX0c4dRyNHD7i/o2CEg434HOpvfm7BBEMdmlwcdG3oYUbqifXVlZFB3RBJbVDrOADDO1
-	vkofvA+ONmUDv9xTi0rQ3n5uzyuOabKqeDO2nJaMlgabW1nTdj7re9mFTTV0seIaREk6
-	YH6g==
-X-Received: by 10.15.36.9 with SMTP id h9mr40160065eev.30.1381064488409;
-	Sun, 06 Oct 2013 06:01:28 -0700 (PDT)
-Received: from localhost (ip-62-24-80-145.net.upcbroadband.cz. [62.24.80.145])
-	by mx.google.com with ESMTPSA id
-	d8sm51052990eeh.8.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 06 Oct 2013 06:01:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Oct 2013 15:01:33 +0200
-Message-Id: <1381064493-21427-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
-Subject: [PATCH] bitbake.conf: Remove double slash from PATH_prepend and PKG_CONFIG_DIR
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=gGI/8vFk4t/dDEWmgfOsY27q5U21HMEvW49wgm9AhWg=;
+	b=FtKJv2EA3e6d+QFYaXuMNic5R5R29G4LSxheaO3L3K8AFCGg6cH0eRMNAWR5erlVTy
+	p4LNvTno22mrwCuYYGDx/vWjXzNwjuoi4LqsdSCYj8yANwb3m+YJjJNMeiwBoiVqzcMX
+	RcimACrvibRl0Cnt62zQ6qxRm6acFCxSWA0TN59w9/ZbCAOxjfUmMWnAUb60L//EJRb8
+	1LOmJl5EpmxVfYZuBUrUkGupd9kqfiJjj1OItoqnTn4ZongUZQDSYQFMLNrqiq0+imE/
+	9/1vW6gdVh032RFpOVv7VsUVmQrUXzxSDF+Fj87ny90jh642dz4dA7Qhny4ErvFH9KZi
+	HtfA==
+MIME-Version: 1.0
+X-Received: by 10.50.114.168 with SMTP id jh8mr14087625igb.6.1381082896792;
+	Sun, 06 Oct 2013 11:08:16 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.64.20.229 with HTTP; Sun, 6 Oct 2013 11:08:16 -0700 (PDT)
+In-Reply-To: <1381049833.30971.16.camel@ted>
+References: <1380925365-18427-1-git-send-email-otavio@ossystems.com.br>
+	<1381049833.30971.16.camel@ted>
+Date: Sun, 6 Oct 2013 15:08:16 -0300
+X-Google-Sender-Auth: dBCeGu86zBBRnUaWRpRmfJQzhIk
+Message-ID: <CAP9ODKpM1OWqVCcJW_yXyNgLNXG-dd=sc+-xF-c4JvLorBjD=g@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe-buildenv-internal: Add UBOOT_CONFIG to environment whitelist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,88 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Oct 2013 13:01:28 -0000
+X-List-Received-Date: Sun, 06 Oct 2013 18:08:16 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-* we correctly have
-  ${STAGING_DIR_NATIVE}${base_sbindir_native}
-  and then double slash in
-  ${STAGING_DIR_NATIVE}/${base_bindir_native}
-* similar in PKG_CONFIG_DIR where libdir also starts with slash
-  ${STAGING_DIR_HOST}/${libdir}/pkgconfig
-* also fix double slash in insane.bbclass and staging.bbclass
-* I was a bit nervous about staging change (in case the / was important
-  in some weird use-case, but the extra slash is there since following
-  commit where other extra slashes were removed only the one before
-  libdir was kept:
+On Sun, Oct 6, 2013 at 5:57 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2013-10-04 at 19:22 -0300, Otavio Salvador wrote:
+>> The uboot-config class uses the UBOOT_CONFIG environment setting to
+>> choose which U-Boot option is intended to build. It is convenient to
+>> allow it to be set from the shell, as supported for MACHINE.
+>>
+>> This allow, for example, to trigger a build as:
+>>
+>> ,----
+>> | MACHINE=imx28evk UBOOT_CONFIG=nand bitbake core-image-minimal
+>> `----
+>>
+>> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+>> ---
+>>  scripts/oe-buildenv-internal | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> There are lots of things which we can expose from the shell, we only
+> really want to default to be things which are commonly changed though.
+> How often do people realistically change their uboot targets? I
+> appreciate that when working on uboot its useful but I don't think this
+> is a significant portion of the userbase?
 
-  commit 6ea78d648951e5bbe9669412c0863daaf7f49ca5
-  Author: Richard Purdie <rpurdie@linux.intel.com>
-  Date:   Mon Nov 2 17:10:51 2009 +0000
+Well this is hard to guess; I know this is important for me ask we
+used it daily.
 
-  autotools.bbclass: Separate out useful staging functions into
-                     base.bbclass and call from autotools classes
-* this isn't fixing any real-world issue AFAIK, I was just trying to
-  debug one weird case where debugedit fails with
-  canonicalization unexpectedly shrank by one character
-  and it's easier to grep for '//' without many harmless instances
-  already in run* scripts etc
+Besides that it is something which is very tied to the machine and it
+makes sense to be to be allowed to override it from shell, as this
+easy user's life in development and testing.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/insane.bbclass  | 2 +-
- meta/classes/staging.bbclass | 2 +-
- meta/conf/bitbake.conf       | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index a784aff..7ef3d8e 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -861,7 +861,7 @@ python do_package_qa () {
- python do_qa_staging() {
-     bb.note("QA checking staging")
- 
--    if not package_qa_check_staged(d.expand('${SYSROOT_DESTDIR}/${STAGING_LIBDIR}'), d):
-+    if not package_qa_check_staged(d.expand('${SYSROOT_DESTDIR}${STAGING_LIBDIR}'), d):
-         bb.fatal("QA staging was broken by the package built above")
- }
- 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index b522c7d..ac9028c 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -40,7 +40,7 @@ sysroot_stage_dirs() {
- 	fi
- 	if [ -d $from${libdir} ]
- 	then
--		sysroot_stage_libdir $from/${libdir} $to${libdir}
-+		sysroot_stage_libdir $from${libdir} $to${libdir}
- 	fi
- 	if [ -d $from${base_libdir} ]
- 	then
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 47d2171..5146808 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -426,7 +426,7 @@ EXTRA_IMAGEDEPENDS = ""
- # Toolchain info.
- ##################################################################
- 
--PATH_prepend = "${COREBASE}/scripts:${STAGING_BINDIR_TOOLCHAIN}:${STAGING_BINDIR_CROSS}:${STAGING_DIR_NATIVE}${sbindir_native}:${STAGING_BINDIR_NATIVE}:${STAGING_DIR_NATIVE}${base_sbindir_native}:${STAGING_DIR_NATIVE}/${base_bindir_native}:"
-+PATH_prepend = "${COREBASE}/scripts:${STAGING_BINDIR_TOOLCHAIN}:${STAGING_BINDIR_CROSS}:${STAGING_DIR_NATIVE}${sbindir_native}:${STAGING_BINDIR_NATIVE}:${STAGING_DIR_NATIVE}${base_sbindir_native}:${STAGING_DIR_NATIVE}${base_bindir_native}:"
- export PATH
- 
- ##################################################################
-@@ -643,7 +643,7 @@ BUILDCFG_NEEDEDVARS[type] = "list"
- 
- # Other
- 
--export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}/${libdir}/pkgconfig"
-+export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}${libdir}/pkgconfig"
- export PKG_CONFIG_PATH = "${PKG_CONFIG_DIR}:${STAGING_DATADIR}/pkgconfig"
- export PKG_CONFIG_LIBDIR = "${PKG_CONFIG_DIR}"
- export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR_HOST}"
 -- 
-1.8.3.2
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
