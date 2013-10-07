@@ -1,41 +1,33 @@
-Return-Path: <paul.betafive@gmail.com>
-Received: from mail-vc0-f177.google.com (mail-vc0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 7383C60F77
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A8F860F77
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2013 16:08:51 +0000 (UTC)
-Received: by mail-vc0-f177.google.com with SMTP id hv10so2928863vcb.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2013 09:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=qQ+9/wzzqGBCP/IfRUawQU1WMTPNYZyrhmTJE1zWTtc=;
-	b=tJv1Pyk0VYl23utvdFe9CBObLo9avpvhtnkSdxXhMa0xJ6YTqKS1vKhuaWRxPTXJf6
-	Z8O9vYf8yEKBGdkQfH5OQi79ch26Q98yXbKunNXjR0BNftjDhzVgKX6hmGtoeJlQNefu
-	svalfeVHc2a/WifkPafDpRHAljCLAfbOIOhcMUAMrhhEczpJytY1/gNBdKKZxc222fR9
-	9iIhel/ZA75jxhxwVn77fNufhGWYMPYeDZtOVay024Vxre0EpHN7ymNyORk5+5CWhhfr
-	ax01JTZO/kr8G7TSq8ja1GUFlTJ+McO7eYu/XIQD1MmTt0rZ22TtZLmGljJS4Vaet39N
-	8qVw==
-X-Received: by 10.52.33.147 with SMTP id r19mr11710vdi.37.1381162132792; Mon,
-	07 Oct 2013 09:08:52 -0700 (PDT)
-MIME-Version: 1.0
-Sender: paul.betafive@gmail.com
-Received: by 10.220.49.71 with HTTP; Mon, 7 Oct 2013 09:08:12 -0700 (PDT)
-In-Reply-To: <5252CCAA.1060105@opendreambox.org>
-References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>
-	<1376512209-11622-9-git-send-email-mark.hatle@windriver.com>
-	<52125F35.10305@linux.intel.com> <521264DA.8010404@windriver.com>
-	<CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
-	<5252CCAA.1060105@opendreambox.org>
-From: Paul Barker <paul@paulbarker.me.uk>
-Date: Mon, 7 Oct 2013 17:08:12 +0100
-X-Google-Sender-Auth: 9DGCaY1SPR0Nb-N2xrKMfL6UhfQ
-Message-ID: <CANyK_8dnUv8EK+0z2E7_Tjr8cG9Gqgr-T2ow9ksGGFqPzAEvoQ@mail.gmail.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Cc: opkg-devel <opkg-devel@googlegroups.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: opkg-devel group (was: Re: [PATCH 08/11] opkg: Add --no-install-recommends option.)
+	Mon,  7 Oct 2013 16:19:01 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r97GIuA0000694; Mon, 7 Oct 2013 17:18:56 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 4naqisJljA2n; Mon,  7 Oct 2013 17:18:56 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r97GIq9h000683
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Mon, 7 Oct 2013 17:18:54 +0100
+Message-ID: <1381162713.29912.16.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>
+Date: Mon, 07 Oct 2013 17:18:33 +0100
+In-Reply-To: <5252D124.9090603@windriver.com>
+References: <cover.1380844647.git.bruce.ashfield@windriver.com>
+	<d8f31589fe2bf6f63ef55fca4c6f5182971e1441.1380844647.git.bruce.ashfield@windriver.com>
+	<1380872773.18603.570.camel@ted> <52524055.2090303@windriver.com>
+	<1381139937.29912.11.camel@ted> <5252D124.9090603@windriver.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,25 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2013 16:08:52 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 07 Oct 2013 16:19:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 7 October 2013 16:00, Andreas Oberritter <obi@opendreambox.org> wrote:
-> Hello Paul,
->
-> I just tried to submit some unrelated patches, but received a DSN due to
-> not being subscribed to the opkg-devel group. If I understand correctly,
-> this would require setting up a google account first.
->
-> Would it be possible to lower the hurdles for contribution?
->
+On Mon, 2013-10-07 at 11:20 -0400, Bruce Ashfield wrote:
+>  I had it slightly wrong. Try:
+> >
+> > kernelheaders_sstate_postinst () {
+> >   	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+> >   	then
+> >   		( cd ${KERNEL_SRC_PATH};
+> >   		  oe_runmake scripts
+> >   		)
+> >   	fi
+> >   }
+> >
+> > since the files are actually installed at this point, therefore we
+> > operate on the final location.
+> 
+> That's the kicker, I can't get the right variable to find the final
+> location, KERNEL_SRC_PATH is set to /usr/src/kernel, so we can't operate
+> on it directly. When things were runing in the sysroot_append, the
+> kernel src was staged, and then operated on, then it makes it into the
+> sysroot. Here, we could operate on the STAGING_KERNEL, which is in the
+> sysroot, but stripped of the scripts. Perhaps that is the answer, but
+> I need to confirm that scripts installed in that location would be
+> available to the out of tree module builds that are looking for modpost
+> and friends.
 
-I've set posting to public, we'll see how this goes. Hopefully it
-won't result in an increase in spam...
+Guessing again (third time lucky?),
 
--- 
-Paul Barker
+cd ${STAGING_DIR_KERNEL};
 
-Email: paul@paulbarker.me.uk
-http://www.paulbarker.me.uk
+?
+
+Cheers,
+
+Richard
+
+
 
