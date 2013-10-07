@@ -1,39 +1,39 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-we0-f179.google.com (mail-we0-f179.google.com
 	[74.125.82.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 94A9B61957
+	by mail.openembedded.org (Postfix) with ESMTP id B76E3612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2013 11:49:17 +0000 (UTC)
-Received: by mail-we0-f179.google.com with SMTP id w61so2138138wes.10
+	Mon,  7 Oct 2013 11:49:18 +0000 (UTC)
+Received: by mail-we0-f179.google.com with SMTP id w61so2063066wes.38
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2013 04:49:19 -0700 (PDT)
+	Mon, 07 Oct 2013 04:49:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=8uSd1azp6CzenbpEKXFd3P9ukEeGaqdqyDHxt8AEhkI=;
-	b=Vhx4IkDcO1C4QigIrBkcCdzLkcf/lTweBUUOoUlpFwce9/H/T2w6xHqsEfgI+SBAXT
-	KKI9Aiz7nYlI8ZLMs1OJpBIn4RptN5STHjwKYuDmTYDtjQCooH8O+5yLqESMeRMRGqry
-	M8C2hAhE0d0R2VsU5y2GMC0HsNRI1cwOEnT1fQZNx/4QGXvzJUgIi8n6C5Zzj/hCDGTr
-	pW5Tz5Z9OKlFUr9iNrLOO5RIlG/0VCjeeIFhwC8wJzzbA+vgDQxWr+BDz9lIX8bAnuYA
-	bhlcQqAKZXl/h50dgUe0ZqqYEn7KvoNN94QaqBtKcu/ITr7zuYQ2XY6ETrc/3W0EjfyG
-	ytoQ==
-X-Gm-Message-State: ALoCoQmbi2wjdRL9VYwU8hMlQIblSIODcrW5r0xz8n5Bhz146MYVd9JD+y5bMfMXbLjNLggfCZ8R
-X-Received: by 10.180.98.228 with SMTP id el4mr19272784wib.4.1381146558991;
-	Mon, 07 Oct 2013 04:49:18 -0700 (PDT)
+	bh=kO6MiowyhFUcfrbTc8MDXOhWR7IKJTUaUpbyOcjj2Ow=;
+	b=SVFsJ3esAdBAkIpDjrt6I13FQS1DE5Pe1TwgvA5ZTdP/eLxtjMvDfUlfZLzK3e0M5E
+	d2LBiMGhFXnuNxvh3c6ep/VkevQLz2JDYYfDroG/9E/u1bqhJwVCfmIg0nqPprt1NIvg
+	nsX0dhTZj0pAh9IXCs9nUhuJhJgjqIHNEytK5p9m5mDT0FpNsYS4aIt4hBaq+RtSsMki
+	SHNvgh32XAxR/zhmTjnXUjY17pTwgicVkTCWlkuPWHf2LvrcA8C/kXsCllV4VeZSB7tR
+	h2n7kr/XcKgtDIHxru1e1QqU1DC1N3EGmeqTlycrQLFGeVdsqfFYMy9f69cAn31ErG6n
+	6tYA==
+X-Gm-Message-State: ALoCoQkWvKQ0L2hhquyxZqsB0N5hsZCNB1iWnmteXM5Q4Lr46JrlbORr0EWL4+HAQd5WoZNTMzr9
+X-Received: by 10.180.12.243 with SMTP id b19mr18710776wic.18.1381146560309;
+	Mon, 07 Oct 2013 04:49:20 -0700 (PDT)
 Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
 	by mx.google.com with ESMTPSA id
 	mb7sm38608731wic.10.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 07 Oct 2013 04:49:18 -0700 (PDT)
+	Mon, 07 Oct 2013 04:49:19 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Oct 2013 12:49:07 +0100
-Message-Id: <1381146549-16693-2-git-send-email-ross.burton@intel.com>
+Date: Mon,  7 Oct 2013 12:49:08 +0100
+Message-Id: <1381146549-16693-3-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1381146549-16693-1-git-send-email-ross.burton@intel.com>
 References: <1381146549-16693-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 2/4] libxmu: upgrade to 1.1.2
+Subject: [PATCH 3/4] libxpm: upgrade to 3.5.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,97 +46,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2013 11:49:18 -0000
+X-List-Received-Date: Mon, 07 Oct 2013 11:49:19 -0000
 
-License checksum changed as some missing copyright notices and dates were added.
+License checksum changed as a typo was fixed upstream.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/xorg-lib/libxmu_1.1.1.bb |   34 ------------------------
- meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb |   33 +++++++++++++++++++++++
- 2 files changed, 33 insertions(+), 34 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-lib/libxmu_1.1.1.bb
- create mode 100644 meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
+ meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb |   28 -----------------------
+ meta/recipes-graphics/xorg-lib/libxpm_3.5.11.bb |   27 ++++++++++++++++++++++
+ 2 files changed, 27 insertions(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxpm_3.5.11.bb
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxmu_1.1.1.bb b/meta/recipes-graphics/xorg-lib/libxmu_1.1.1.bb
+diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
 deleted file mode 100644
-index 18ced97..0000000
---- a/meta/recipes-graphics/xorg-lib/libxmu_1.1.1.bb
+index 17b1ef5..0000000
+--- a/meta/recipes-graphics/xorg-lib/libxpm_3.5.10.bb
 +++ /dev/null
-@@ -1,34 +0,0 @@
--SUMMARY = "Xmu and Xmuu: X Miscellaneous Utility libraries"
--
--DESCRIPTION = "The Xmu Library is a collection of miscellaneous (some \
--might say random) utility functions that have been useful in building \
--various applications and widgets. This library is required by the Athena \
--Widgets. A subset of the functions that do not rely on the Athena \
--Widgets (libXaw) or X Toolkit Instrinsics (libXt) are provided in a \
--second library, libXmuu."
--
--
+@@ -1,28 +0,0 @@
 -require xorg-lib-common.inc
 -
--LICENSE = "MIT & MIT-style"
--LIC_FILES_CHKSUM = "file://COPYING;md5=15f1d981860c677503992da79140669c"
+-# libxpm requires xgettext to build
+-inherit gettext
 -
--DEPENDS += "libxt libxext"
--PROVIDES = "xmu"
+-SUMMARY = "Xpm: X Pixmap extension library"
 -
+-DESCRIPTION = "libXpm provides support and common operation for the XPM \
+-pixmap format, which is commonly used in legacy X applications.  XPM is \
+-an extension of the monochrome XBM bitmap specificied in the X \
+-protocol."
+-
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3e07763d16963c3af12db271a31abaa5"
+-DEPENDS += "libxext libsm libxt"
 -PR = "r0"
 -PE = "1"
 -
--XORG_PN = "libXmu"
+-XORG_PN = "libXpm"
 -
--LEAD_SONAME = "libXmu"
+-PACKAGES =+ "sxpm cxpm"
+-FILES_cxpm = "${bindir}/cxpm"
+-FILES_sxpm = "${bindir}/sxpm"
 -
--PACKAGES =+ "libxmuu libxmuu-dev"
--
--FILES_libxmuu = "${libdir}/libXmuu.so.*"
--FILES_libxmuu-dev = "${libdir}/libXmuu.so"
+-SRC_URI[md5sum] = "7ae7eff7a14d411e84a67bd166bcec1a"
+-SRC_URI[sha256sum] = "a6db7e234750e7d60330017972e31d8e1f29f0a8c1391e4ac82f6102d919a735"
 -
 -BBCLASSEXTEND = "native"
--
--SRC_URI[md5sum] = "a4efff8de85bd45dd3da124285d10c00"
--SRC_URI[sha256sum] = "709081c550cc3a866d7c760a3f97384a1fe16e27fc38fe8169b8db9f33aa7edd"
-diff --git a/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb b/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
+diff --git a/meta/recipes-graphics/xorg-lib/libxpm_3.5.11.bb b/meta/recipes-graphics/xorg-lib/libxpm_3.5.11.bb
 new file mode 100644
-index 0000000..3922b52
+index 0000000..545874c
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
-@@ -0,0 +1,33 @@
-+SUMMARY = "Xmu and Xmuu: X Miscellaneous Utility libraries"
-+
-+DESCRIPTION = "The Xmu Library is a collection of miscellaneous (some \
-+might say random) utility functions that have been useful in building \
-+various applications and widgets. This library is required by the Athena \
-+Widgets. A subset of the functions that do not rely on the Athena \
-+Widgets (libXaw) or X Toolkit Instrinsics (libXt) are provided in a \
-+second library, libXmuu."
-+
-+
++++ b/meta/recipes-graphics/xorg-lib/libxpm_3.5.11.bb
+@@ -0,0 +1,27 @@
 +require xorg-lib-common.inc
 +
-+LICENSE = "MIT & MIT-style"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=def3d8e4e9c42004f1941fa22f01dc18"
++# libxpm requires xgettext to build
++inherit gettext
 +
-+DEPENDS += "libxt libxext"
-+PROVIDES = "xmu"
++SUMMARY = "Xpm: X Pixmap extension library"
 +
++DESCRIPTION = "libXpm provides support and common operation for the XPM \
++pixmap format, which is commonly used in legacy X applications.  XPM is \
++an extension of the monochrome XBM bitmap specificied in the X \
++protocol."
++
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=51f4270b012ecd4ab1a164f5f4ed6cf7"
++DEPENDS += "libxext libsm libxt"
 +PE = "1"
 +
-+XORG_PN = "libXmu"
++XORG_PN = "libXpm"
 +
-+LEAD_SONAME = "libXmu"
++PACKAGES =+ "sxpm cxpm"
++FILES_cxpm = "${bindir}/cxpm"
++FILES_sxpm = "${bindir}/sxpm"
 +
-+PACKAGES =+ "libxmuu libxmuu-dev"
-+
-+FILES_libxmuu = "${libdir}/libXmuu.so.*"
-+FILES_libxmuu-dev = "${libdir}/libXmuu.so"
++SRC_URI[md5sum] = "769ee12a43611cdebd38094eaf83f3f0"
++SRC_URI[sha256sum] = "c5bdafa51d1ae30086fac01ab83be8d47fe117b238d3437f8e965434090e041c"
 +
 +BBCLASSEXTEND = "native"
-+
-+SRC_URI[md5sum] = "41d92ab627dfa06568076043f3e089e4"
-+SRC_URI[sha256sum] = "756edc7c383254eef8b4e1b733c3bf1dc061b523c9f9833ac7058378b8349d0b"
 -- 
 1.7.10.4
 
