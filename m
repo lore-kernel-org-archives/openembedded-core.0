@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-ve0-f178.google.com (mail-ve0-f178.google.com
-	[209.85.128.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C17360CEA
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A6D9612D1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2013 11:34:21 +0000 (UTC)
-Received: by mail-ve0-f178.google.com with SMTP id jw12so3787382veb.9
+	Mon,  7 Oct 2013 11:49:16 +0000 (UTC)
+Received: by mail-wi0-f173.google.com with SMTP id hq15so4631146wib.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Oct 2013 04:34:22 -0700 (PDT)
+	Mon, 07 Oct 2013 04:49:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=zjONTlPXz2mMx8zVn+FmJWYrPKwFEVjqv1VBYB5t4fw=;
-	b=kuHqoJkGP5dOHmV63KvZv7maf6QYiwBIqlRwTpKMgcMCQc/2PQvtnjGXES4OILn7GG
-	QAugXyICq0h6KuNcBRyF+3Ccjrti0y3ITAL91SND+vAv/tZMffTR645LeuPmeZ0xT/Km
-	tiZMps7TP/sbQpqKx2zBV5nsCyH8QHK1dRax2hSSxXO2zBCm75Ui8JkcEIUvfVULP6jE
-	y1kGTi58s9Kp+DSiBBiSEV3B3svq4aQgv74cU+EZ676NXEchXJKddYjah0sk1eY8jMW2
-	KojcbS9wJ7u9VkW5pRdKQOAVdBe+zBhWPqoWBJwhwVO6y7pBk+tOKnIK52/rAyRBq9TK
-	T/kg==
-X-Gm-Message-State: ALoCoQlMn5gCh0xPKjhxR34FIU7umr2+jVX3QyGnOpNNSUU/GAk8OcNckLt7ZwkLi9E+uYG1yMeW
-X-Received: by 10.52.161.231 with SMTP id xv7mr22190330vdb.1.1381145662725;
-	Mon, 07 Oct 2013 04:34:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Mon, 7 Oct 2013 04:34:02 -0700 (PDT)
-In-Reply-To: <1380967879-2902-1-git-send-email-eric@eukrea.com>
-References: <1380967879-2902-1-git-send-email-eric@eukrea.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Oct 2013 12:34:02 +0100
-Message-ID: <CAJTo0LbSycGjd3WGX5bpvv538=hfe1g05FY5dy4vj-P5mfxxnw@mail.gmail.com>
-To: =?UTF-8?B?RXJpYyBCw6luYXJk?= <eric@eukrea.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: fix nativesdk build without x11
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=9/1j50Ujl79VcGCfjw+LeXDzsgXBxY3xgb+PqW90UAE=;
+	b=hKUwjomcMD8uicf6d479Ucol8Kg88CSl/HewtcLlBJLS9tLJ/Ppn3P/pRf/Z+JrgQJ
+	g+jaMUTtcyIWw+1c64Z0UQUdiosTSE5Qzcl57gc5Hua6Z5HyCa13QxlVHaCWdKWxErBi
+	gmWnQnuEPVfLuZztlZUgjfkEOakZoxVXkKW0hHHQOOj/mcGnvf8fDbKCoPVGV+wAyF/v
+	HnLJg9H+FG4GBotysJ06uww1CIiWR1FWv52kTaS0wixuf1y2CdFVVxEGOw0A6Q/b9zYE
+	owsj/wkjhhV5r7W7PS07yujO06SLVYe9TQB9v20PZye8hucvSI1GTwVINzsnD8Kkya0M
+	i/2w==
+X-Gm-Message-State: ALoCoQkcbLerTHkaxW8JQjn53Ovb4jM4yrBVcByM39qibPVByVMd5yagiSCuClfcCUk8qirid+vO
+X-Received: by 10.180.38.36 with SMTP id d4mr18190787wik.7.1381146557624;
+	Mon, 07 Oct 2013 04:49:17 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id
+	mb7sm38608731wic.10.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 07 Oct 2013 04:49:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Oct 2013 12:49:06 +0100
+Message-Id: <1381146549-16693-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/4] libsm: upgrade to 1.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +43,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2013 11:34:22 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 07 Oct 2013 11:49:18 -0000
 
-On 5 October 2013 11:11, Eric B=C3=A9nard <eric@eukrea.com> wrote:
-> when x11 is not defined in DISTRO_FEATURES, there are no x11 headers
-> so True is not defined leading to :
-> | ui/sdl.c:62:8: warning: type defaults to 'int' in declaration of 'doing=
-_grabs' [-Wimplicit-int]
-> |  static doing_grabs =3D True;
-> |         ^
-> | ui/sdl.c:62:22: error: 'True' undeclared here (not in a function)
-> |  static doing_grabs =3D True;
-> |                       ^
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-lib/libsm_1.2.1.bb |   24 ------------------------
+ meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb |   23 +++++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libsm_1.2.1.bb
+ create mode 100644 meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb
 
-Does qemu on SDL on framebuffer actually work?  I'd assumed that
-people using qemu without x11 were using it without SDL, so maybe this
-is a bug in the build configuration for nativesdk.
+diff --git a/meta/recipes-graphics/xorg-lib/libsm_1.2.1.bb b/meta/recipes-graphics/xorg-lib/libsm_1.2.1.bb
+deleted file mode 100644
+index 1613bb9..0000000
+--- a/meta/recipes-graphics/xorg-lib/libsm_1.2.1.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-SUMMARY = "SM: Session Management library"
+-
+-DESCRIPTION = "The Session Management Library (SMlib) is a low-level \"C\" \
+-language interface to XSMP.  The purpose of the X Session Management \
+-Protocol (XSMP) is to provide a uniform mechanism for users to save and \
+-restore their sessions.  A session is a group of clients, each of which \
+-has a particular state."
+-
+-require xorg-lib-common.inc
+-
+-LICENSE = "MIT-style"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=c0fb37f44e02bdbde80546024400728d"
+-
+-DEPENDS += "libice xproto xtrans e2fsprogs"
+-
+-PR = "r0"
+-PE = "1"
+-
+-XORG_PN = "libSM"
+-
+-BBCLASSEXTEND = "native"
+-
+-SRC_URI[md5sum] = "766de9d1e1ecf8bf74cebe2111d8e2bd"
+-SRC_URI[sha256sum] = "93c11d569c64f40723b93b44af1efb474a0cfe92573b0c8c330343cabb897f1d"
+diff --git a/meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb b/meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb
+new file mode 100644
+index 0000000..180acfa
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-lib/libsm_1.2.2.bb
+@@ -0,0 +1,23 @@
++SUMMARY = "SM: Session Management library"
++
++DESCRIPTION = "The Session Management Library (SMlib) is a low-level \"C\" \
++language interface to XSMP.  The purpose of the X Session Management \
++Protocol (XSMP) is to provide a uniform mechanism for users to save and \
++restore their sessions.  A session is a group of clients, each of which \
++has a particular state."
++
++require xorg-lib-common.inc
++
++LICENSE = "MIT-style"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c0fb37f44e02bdbde80546024400728d"
++
++DEPENDS += "libice xproto xtrans e2fsprogs"
++
++PE = "1"
++
++XORG_PN = "libSM"
++
++BBCLASSEXTEND = "native"
++
++SRC_URI[md5sum] = "499a7773c65aba513609fe651853c5f3"
++SRC_URI[sha256sum] = "0baca8c9f5d934450a70896c4ad38d06475521255ca63b717a6510fdb6e287bd"
+-- 
+1.7.10.4
 
-A better fix would be to use 1/0 instead of True/False, I was assuming
-that SDL meant X was being used.
-
-Ross
 
