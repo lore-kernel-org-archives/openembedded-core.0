@@ -1,35 +1,17 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D2660F77
+Return-Path: <muhammad_shakeel@mentor.com>
+Received: from gemini.alm.mentorg.com (nat-lmt.mentorg.com [139.181.28.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 816926CEA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2013 15:01:08 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 7871B314720C;
-	Mon,  7 Oct 2013 17:01:08 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id DzjhbBvn0G45; Mon,  7 Oct 2013 17:00:59 +0200 (CEST)
-Received: from [172.22.22.61] (unknown [212.255.37.178])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 3265E3140023;
-	Mon,  7 Oct 2013 17:00:59 +0200 (CEST)
-Message-ID: <5252CCAA.1060105@opendreambox.org>
-Date: Mon, 07 Oct 2013 17:00:58 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Paul Barker <paul@paulbarker.me.uk>
-References: <1376512209-11622-1-git-send-email-mark.hatle@windriver.com>	<1376512209-11622-9-git-send-email-mark.hatle@windriver.com>	<52125F35.10305@linux.intel.com>
-	<521264DA.8010404@windriver.com>
-	<CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
-In-Reply-To: <CANyK_8cSzYGQHDCeCCz7HM5yWm=Uq_fkpyr6gbYMJXPxuQxy-Q@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: opkg-devel group (was: Re: [PATCH 08/11] opkg: Add --no-install-recommends option.)
+	Mon,  7 Oct 2013 15:03:30 +0000 (UTC)
+Received: from pkl-mshakeel-ubuntu.mgc.mentorg.com ([137.202.157.119])
+	by gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id r97F3So5024533; 
+	Mon, 7 Oct 2013 10:03:29 -0500
+From: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Oct 2013 20:05:04 +0500
+Message-Id: <1381158304-931-1-git-send-email-muhammad_shakeel@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] sysvinit-inittab: Fix getting tty device name from SERIAL_CONSOLES entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,25 +24,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2013 15:01:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Oct 2013 15:03:30 -0000
 
-Hello Paul,
+From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
 
-On 18.09.2013 17:14, Paul Barker wrote:
-> I'm the new maintainer for opkg, I'd be happy to look at this patch
-> and any others if you could send them to opkg-devel@googlegroups.com
-> via git send-email. I like the idea of both '--no-install-recommends'
-> and '--add-exclude'.
+Currently the part after "tty" in the device name go into label along with
+everything after that part. For example if SERIAL_CONSOLES="115200;vt100;ttyS0"
+than label=S0 but if SERIAL_CONSOLES="115200;ttyS0;vt100" than label=S0;vt100.
+If SERIAL_CONSOLES="..;ttyX;..", part after 'X' should also be trimmed.
 
-I just tried to submit some unrelated patches, but received a DSN due to
-not being subscribed to the opkg-devel group. If I understand correctly,
-this would require setting up a google account first.
+Signed-off-by: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+---
+ .../sysvinit/sysvinit-inittab_2.88dsf.bb           |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Would it be possible to lower the hurdles for contribution?
-
-Regards,
-Andreas
+diff --git a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+index 23c284d..05ba410 100644
+--- a/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bb
+@@ -22,7 +22,7 @@ do_install() {
+     for i in $tmp
+     do
+ 	j=`echo ${i} | sed s/\;/\ /g`
+-	label=`echo ${i} | sed -e 's/^.*;tty//'`
++	label=`echo ${i} | sed -e 's/^.*;tty//' -e 's/;.*//'`
+ 	echo "$label:12345:respawn:${base_sbindir}/getty ${j}" >> ${D}${sysconfdir}/inittab
+     done
+ 
+-- 
+1.7.9.5
 
 
