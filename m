@@ -1,29 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A10B46101A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vc0-f180.google.com (mail-vc0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A242C60FD4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2013 05:02:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9752EBt027467
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 6 Oct 2013 22:02:14 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.23.148) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Sun, 6 Oct 2013 22:02:14 -0700
-Message-ID: <52524055.2090303@windriver.com>
-Date: Mon, 7 Oct 2013 01:02:13 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:17.0) Gecko/20130801 Thunderbird/17.0.8
+	Mon,  7 Oct 2013 09:32:32 +0000 (UTC)
+Received: by mail-vc0-f180.google.com with SMTP id ld13so2882482vcb.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Oct 2013 02:32:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=W5V6QYcZTMr65VoVOLBXBfKsLDHZdp/PKQ/7KuiBZRg=;
+	b=Vv+GmXoui0bOZYCVeDj7Ax8uutq7PqAIzsbF0GBbsi7UoBhjufWgBIf4LOkpiFNl6L
+	UA2TQ93ZWMKNH91sLzloa/MsHKm+ilqv/753uRYBxza13ou384lV1r7ugeWmv/MPcCkX
+	yCvsqUUt+srBs3QXJeK70GHY6inS+9jHrKOMAsg5xpelUbwBayiUo/Do0TCNJatOSAeb
+	xmPtvXYXGO2QNN4RYQUzfePbf9dSYhxsVTXHhNxefmuqb0zHK/M9Se703wfjKRbmYyUM
+	M4aH+hJkUiQyqC9lIFnRxfEbj2W/qNHqqOtUFNvRYEGIoZNis9SpcYR54ct+KxpQbm0T
+	nNPg==
+X-Gm-Message-State: ALoCoQk2oGNwArH2XMryqOUh+Ao3bYAHlKlB8Il/qlu/8UatWmUAi8OHy6FUMPy5qZcoMKsrcpTm
+X-Received: by 10.220.91.16 with SMTP id k16mr694072vcm.21.1381138353889; Mon,
+	07 Oct 2013 02:32:33 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1380844647.git.bruce.ashfield@windriver.com>
-	<d8f31589fe2bf6f63ef55fca4c6f5182971e1441.1380844647.git.bruce.ashfield@windriver.com>
-	<1380872773.18603.570.camel@ted>
-In-Reply-To: <1380872773.18603.570.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
+Received: by 10.220.71.201 with HTTP; Mon, 7 Oct 2013 02:32:13 -0700 (PDT)
+In-Reply-To: <cover.1380975568.git.Martin.Jansa@gmail.com>
+References: <cover.1380975568.git.Martin.Jansa@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Oct 2013 10:32:13 +0100
+Message-ID: <CAJTo0LZNNheEJUOU83wj-5LEB43YPSDZoW18fNGpjjSsdWetVQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 00/14] Deterministic dependencies II
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,80 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2013 05:02:19 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Oct 2013 09:32:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 13-10-04 3:46 AM, Richard Purdie wrote:
-> On Thu, 2013-10-03 at 20:02 -0400, Bruce Ashfield wrote:
->> When building against the sysroot, out of tree modules can require modpost
->> and other utilities normally found in the kernel's scripts directory. For
->> the kernel source in the staging dir, these scripts have been removed to
->> avoid mixing archiectures when packaging kernel-dev (among other things).
->
-> Its also to avoid mixing architectures when packaging the sstate for
-> do_populate_sysroot. The sstate for that task is now native arch
-> specific after this patch but its task hash is not. Even if we made it
-> native specific, that means the kernel would rebuild entirely if you
-> switch 32 bit to 64 bit native machine. We therefore cannot merge this
-> patch as is.
->
-> Instead do something like:
->
->
-> SSTATEPOSTINSTFUNCS += "kernelheaders_sstate_postinst"
->
-> kernelheaders_sstate_postinst () {
-> 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
-> 	then
-> 		( cd ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH};
-> 		  oe_runmake scripts
-> 		)
-> 	fi
-> }
->
-> This will rerun the oe_runmake scripts each time the sstate package is
-> installed. It slows down the use of sstate but should be correct whether
-> the build machine is 32 or 64 bit.
+On 5 October 2013 13:22, Martin Jansa <martin.jansa@gmail.com> wrote:
+> Martin Jansa (14):
+>   gstreamer1.0-libav: Add PACKAGECONFIG for orc
+>   libunique: Add PACKAGECONFIG for dbus
+>   aspell: Add PACKAGECONFIG for curses
+>   xf86-input-synaptics: Add dependency on libxtst
+>   xdpyinfo: Add dependency on libxcomposite
+>   matchbox-wm: Add dependency on libxfixes and libxcursor
+>   telepathy-mission-control: Add PACKAGECONFIG for upower and
+>     connectivity
+>   tcl: Add dependency on zlib
+>   wget: Add dependency on libpcre
+>   x11vnc: Add PACKAGECONFIG for xinerama
+>   glib-networking: Add PACKAGECONFIG for p11-kit
+>   lame: Add dependency on ncurses
+>   subversion: Add dependency on file for libmagic
+>   systemd: Add PACKAGECONFIG for cryptsetup
 
-I poked with this a bit over the weekend, and never did get the right 
-results.
+All looks good to me.  Worth noting that the telepathy-mission-control
+changes will need changing when 5.15.1 onwards is integrated, and it's
+clear that matchbox-wm needs to share a .inc file.
 
-I can make the scripts trigger, but since the sysroot population appears
-to already be done, but build scripts don't actually make it into the
-sysroot for use during module builds.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-I tried a few variants of the below, all trying to get the actual
-tmp/sysroots/<machine> to have the scripts, with no luck. Dumping the
-available variables didn't get me anything really promising either.
-
-I'll have another look in the morning, since I'm sure it is just me not
-understanding the ordering of things .. but any pointers would of course
-be appreciated.
-
-Cheers,
-
-Bruce
-
-STATEPOSTINSTFUNCS += "kernelscripts_sstate_postinst"
-kernelscripts_sstate_postinst () {
-         if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o 
-"${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]; then
-                 sysroot_stage_dir ${D}${KERNEL_SRC_PATH} 
-${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
-                 oe_runmake -C ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH} scripts
-	fi
-} 
- 
-
-
-
->
->
-> Cheers,
->
-> Richard
->
->
-
+Ross
 
