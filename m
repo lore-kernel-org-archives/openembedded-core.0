@@ -1,30 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D27A660F77
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 99E3D60F77
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Oct 2013 15:20:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r97FKA2i023864
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 7 Oct 2013 08:20:10 -0700 (PDT)
-Received: from [128.224.146.67] (128.224.146.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.347.0;
-	Mon, 7 Oct 2013 08:20:10 -0700
-Message-ID: <5252D124.9090603@windriver.com>
-Date: Mon, 7 Oct 2013 11:20:04 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
+	Mon,  7 Oct 2013 15:41:01 +0000 (UTC)
+Received: by mail-ie0-f181.google.com with SMTP id tp5so16530690ieb.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Oct 2013 08:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=x4cU8rT5hou+k9COQCHPN8bcEHxKO0vg9ctZ60n+jYU=;
+	b=UxYT6PgBvhEL59H80+mEqr0Mp4l/sjACk8jWU96+BAXbbp3mYayBKCa9OQNEASEzlf
+	8yWa4t28uSunRKSiKq1Oa8E5xjeimStEYRIsKnFbuzxYFy9hxFAHzeu6pcnjQJPlUNuV
+	b3eBzQERYrA52Vlf+D/TNFXb1ibQfQLWOWRtChl9EeV1SQbJoEkrh5MnocvQlVP7JvY9
+	KTnNF9PpEinTYoJi0ahI49Xi0khNkdw4WhkaGH3dovGmOGCVvJNRxlvvRAzfV3DWZC1f
+	ISYcS/COlrsE2fIbhzd2+pW5at6K4uJnaxnBNofMMasIk2tp9b2VYJW+3V4HNIl+Ta4Y
+	G6mA==
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1380844647.git.bruce.ashfield@windriver.com>	
-	<d8f31589fe2bf6f63ef55fca4c6f5182971e1441.1380844647.git.bruce.ashfield@windriver.com>	
-	<1380872773.18603.570.camel@ted> <52524055.2090303@windriver.com>
-	<1381139937.29912.11.camel@ted>
-In-Reply-To: <1381139937.29912.11.camel@ted>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] kernel: restore scripts in the sysroot
+X-Received: by 10.42.61.147 with SMTP id u19mr17565860ich.36.1381160463105;
+	Mon, 07 Oct 2013 08:41:03 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.64.20.229 with HTTP; Mon, 7 Oct 2013 08:41:03 -0700 (PDT)
+In-Reply-To: <2BC32295742BF14CA5950C3659567EB677B19E@039-SN1MPN1-003.039d.mgd.msft.net>
+References: <1381158916-2648-1-git-send-email-otavio@ossystems.com.br>
+	<2BC32295742BF14CA5950C3659567EB677B19E@039-SN1MPN1-003.039d.mgd.msft.net>
+Date: Mon, 7 Oct 2013 12:41:03 -0300
+X-Google-Sender-Auth: jRpe8D98wE19a1yt9tl9i0UQDgc
+Message-ID: <CAP9ODKp3PVoaB52aa9LHzh5hZmcm23-3Lh+ssxOyC6p4DiQqcw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Post Lauren-RAA013 <RAA013@freescale.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] uboot-config.bbclass: Fix use without IMAGE_FSTYPES appending
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,121 +44,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Oct 2013 15:20:13 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Oct 2013 15:41:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On 13-10-07 05:58 AM, Richard Purdie wrote:
-> On Mon, 2013-10-07 at 01:02 -0400, Bruce Ashfield wrote:
->> On 13-10-04 3:46 AM, Richard Purdie wrote:
->>> On Thu, 2013-10-03 at 20:02 -0400, Bruce Ashfield wrote:
->>>> When building against the sysroot, out of tree modules can require modpost
->>>> and other utilities normally found in the kernel's scripts directory. For
->>>> the kernel source in the staging dir, these scripts have been removed to
->>>> avoid mixing archiectures when packaging kernel-dev (among other things).
->>>
->>> Its also to avoid mixing architectures when packaging the sstate for
->>> do_populate_sysroot. The sstate for that task is now native arch
->>> specific after this patch but its task hash is not. Even if we made it
->>> native specific, that means the kernel would rebuild entirely if you
->>> switch 32 bit to 64 bit native machine. We therefore cannot merge this
->>> patch as is.
->>>
->>> Instead do something like:
->>>
->>>
->>> SSTATEPOSTINSTFUNCS += "kernelheaders_sstate_postinst"
->>>
->>> kernelheaders_sstate_postinst () {
->>> 	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
->>> 	then
->>> 		( cd ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH};
->>> 		  oe_runmake scripts
->>> 		)
->>> 	fi
->>> }
->>>
->>> This will rerun the oe_runmake scripts each time the sstate package is
->>> installed. It slows down the use of sstate but should be correct whether
->>> the build machine is 32 or 64 bit.
->>
->> I poked with this a bit over the weekend, and never did get the right
->> results.
->>
->> I can make the scripts trigger, but since the sysroot population appears
->> to already be done, but build scripts don't actually make it into the
->> sysroot for use during module builds.
->>
->> I tried a few variants of the below, all trying to get the actual
->> tmp/sysroots/<machine> to have the scripts, with no luck. Dumping the
->> available variables didn't get me anything really promising either.
->>
->> I'll have another look in the morning, since I'm sure it is just me not
->> understanding the ordering of things .. but any pointers would of course
->> be appreciated.
->>
->> Cheers,
->>
->> Bruce
->>
->> STATEPOSTINSTFUNCS += "kernelscripts_sstate_postinst"
->> kernelscripts_sstate_postinst () {
->>           if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o
->> "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]; then
->>                   sysroot_stage_dir ${D}${KERNEL_SRC_PATH}
->> ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH}
->>                   oe_runmake -C ${SYSROOT_DESTDIR}${KERNEL_SRC_PATH} scripts
->> 	fi
->> }
->>
->
-> Ah, I had it slightly wrong. Try:
->
-> kernelheaders_sstate_postinst () {
->   	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
->   	then
->   		( cd ${KERNEL_SRC_PATH};
->   		  oe_runmake scripts
->   		)
->   	fi
->   }
->
-> since the files are actually installed at this point, therefore we
-> operate on the final location.
+On Mon, Oct 7, 2013 at 12:30 PM, Post Lauren-RAA013
+<RAA013@freescale.com> wrote:
+> This works and is needed otherwise we can't set the UBOOT_CONFIG for uboot configs that do not require an FSTYPE.  Please accept this change otherwise some of our uboot builds are broken.
 
-That's the kicker, I can't get the right variable to find the final
-location, KERNEL_SRC_PATH is set to /usr/src/kernel, so we can't operate
-on it directly. When things were runing in the sysroot_append, the
-kernel src was staged, and then operated on, then it makes it into the
-sysroot. Here, we could operate on the STAGING_KERNEL, which is in the
-sysroot, but stripped of the scripts. Perhaps that is the answer, but
-I need to confirm that scripts installed in that location would be
-available to the out of tree module builds that are looking for modpost
-and friends.
+Thanks for confirming it worked for you.
 
->
-> The risk here is that when we uninstall the sstate package, we don't
-> track the generated files. We can probably live with that for now.
-
-Agreed.
-
->
-> What we really needs is a preinst but the one we have is really a
-> preunpack :/.
->
-> Ultimately, I think we need to rename the preinst to preunpack and add a
-> real preinst...
-
-I'll keep digging.
-
-Cheers,
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
