@@ -1,55 +1,35 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DD456CE8C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-we0-f174.google.com (mail-we0-f174.google.com
+	[74.125.82.174])
+	by mail.openembedded.org (Postfix) with ESMTP id CF9536CEA7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2013 13:03:41 +0000 (UTC)
-Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.4/8.14.4) with ESMTP id
-	r98D3cAt015404
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Tue,  8 Oct 2013 14:13:32 +0000 (UTC)
+Received: by mail-we0-f174.google.com with SMTP id u56so5545899wes.19
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Oct 2013 15:03:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1381237420;
-	bh=bvLqQYYYKV/Jy3llc2EnTqooPj8QGXLp2RIvXvKy2Ac=;
-	h=From:To:Subject:References:Date:In-Reply-To:Message-ID:
-	MIME-Version:Content-Type:Sender;
-	b=HYTZnWGRZwVNihzmd18sOGawcQ8m8ksARksxYVLYAuv7F5yuryKTZTMfzCl2kzk/e
-	10LJLT48e/e/twN5Ul2woNwDTqfBrxwM5zG1iqsEoIdi+xmhw2rCMVSFFaA+AHGWQn
-	vs1kKD7poBjfql5rPOvjGSxjH9w/J80JjQMXTIio=
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id r98D3WYe013663
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Oct 2013 15:03:33 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.80.1) (envelope-from <ensc@sigma-chemnitz.de>) id 1VTWwm-0001Eu-MV
-	for openembedded-core@lists.openembedded.org;
-	Tue, 08 Oct 2013 15:03:32 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+	Tue, 08 Oct 2013 07:13:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=fQGrp8CL3TOzeAH8GNaD8XFfJGaXXDcS9lblTZDAxh0=;
+	b=Rr0w3Pcf/nZvSxq+Wf9zLBVl3T7vfn6rh4CH2iYN8pFdxrjrvfSsVK+8XGLWtXXi3m
+	r0e5GTOpFnx9bKoKZrUcmx5SdKR8bU5iXOhxaMa/+ztSTv24YtWIdrisgNwpdW7PRJnk
+	lDL52U8JdsRu4QMOipvac9+eOgOODXUY2FFXgRmyA5qBMWmatKLhDOjuJ/CUQa7ZDr9i
+	KCRasZO5h4SApi5KaQSTcK762ou2P9fdyHysrIxdujrrH7+rzyh6oaq51JZ+8iVF19gt
+	g/74QkrGJoX5QU5cF1VVLywuzvUaTUQjjIAmKjKJivuypOEMmWmdWMBt8NC6lacb3F/k
+	9Gyw==
+X-Gm-Message-State: ALoCoQnWM4DUdkbvIVa78F4fxxMKiX16L5CjvfroxynEnX+gYxD6A+bVuUCFyilkMTFoqRZ6VbGk
+X-Received: by 10.194.176.74 with SMTP id cg10mr1384639wjc.75.1381241613715;
+	Tue, 08 Oct 2013 07:13:33 -0700 (PDT)
+Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id dq11sm5551459wid.3.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 08 Oct 2013 07:13:32 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1380929753-10606-1-git-send-email-rich.tollerton@ni.com>
-	<524F85EA.30805@linux.intel.com> <1380958620.30971.9.camel@ted>
-	<87mwmkpjlp.fsf@weregild.amer.corp.natinst.com>
-	<1381234763.29912.39.camel@ted>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Tue, 08 Oct 2013 15:03:32 +0200
-In-Reply-To: <1381234763.29912.39.camel@ted> (Richard Purdie's message of
-	"Tue, 08 Oct 2013 13:19:23 +0100")
-Message-ID: <lytxgrvrrv.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.3 (gnu/linux)
-MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-X-DSPAM-Result: Innocent
-X-DSPAM-Probability: 0
-X-DSPAM-Confidence: 1
-X-Spam-Score: -5.2
-X-Spam-Level: -----
-X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, RP_MATCHES_RCVD, SPF_NEUTRAL,
-	DSPAM_INNOCENT
-X-Scanned-By: MIMEDefang 2.74
-Subject: Re: [dylan, master][PATCH] autotools.bbclass: Fix race with sed-native
+Date: Tue,  8 Oct 2013 15:13:20 +0100
+Message-Id: <1381241603-29429-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH 1/4] gtk+: remove unused configure options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,28 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2013 13:03:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Oct 2013 14:13:34 -0000
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
+--without-libjasper and --without-libtiff were removed when GTK+ and gdk-pixbuf
+separated, in 2.22.0
 
-> The list of things we assume are ok is relatively small and we look at
-> new issues on a case by case basis. I think sed is well enough
-> established and well enough behaved to be something we can rely on. In
-> general we don't rely on much. Do you have any other specific things you
-> worry about? 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/gtk+/gtk+_2.24.20.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-ccache... it causes big problems when CC='ccache real-gcc' is set and
-ccache-native gets rebuilt in parallel.  A customer had problems when
-building apr-utils (libtool reported missing '--tag=cc' option) which
-are very likely related to a no-ccache -> ccache-available situation.
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.20.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.20.bb
+index baa5c9a..ad3b4e9 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.20.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.20.bb
+@@ -31,7 +31,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+ SRC_URI[md5sum] = "9d7833331d7accd80668e29d7f567ce5"
+ SRC_URI[sha256sum] = "cc66bcbf9239a7d9861175c681ba95894b55c70dc0b37aad8345c46ecfda0da3"
+ 
+-EXTRA_OECONF = "--without-libtiff --without-libjasper --enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
++EXTRA_OECONF = "--enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
+ 
+ LIBV = "2.10.0"
+ 
+-- 
+1.7.10.4
 
-It is very difficult to recover from such things because CCACHE is in
-BB_HASHBASE_WHITELIST.
-
-
-
-Enrico
 
