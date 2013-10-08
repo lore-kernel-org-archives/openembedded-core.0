@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f53.google.com (mail-vb0-f53.google.com
-	[209.85.212.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DD4E6C046
+Return-Path: <cristiana.voicu@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [143.182.124.21])
+	by mail.openembedded.org (Postfix) with ESMTP id E68476CEF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2013 09:01:21 +0000 (UTC)
-Received: by mail-vb0-f53.google.com with SMTP id i3so3913523vbh.40
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2013 02:01:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Y7I2iMgBej+Ui92xFgAJluUNks0QfM/BjBFsnDZlKW0=;
-	b=MMkOx0+fVmnpyCdmewqochjcjB33GedZOlgIoA8bregbpWmkZAvyJkfCwEMrygnRnU
-	xrKR/6tNPmLePDEHGuIA4I5dlb80HL08IEszbpviOSf0mmQJzE/QZ7eZVQN0VwXvft8L
-	app0szj+h6OSDaGsU0+3+DbLT3XbaiRhDSUVRvZV0g/QYmhQnUKXpHrUuCwPTL9oqb2+
-	y+rkNrwWzs+nRwnx4qwVKg8OMOKTrZT2kybumZuXjmUxCUHoub0DL2YGcBg3Chq6DnVG
-	mGES7+DTR+NX6ytdybXxpoi+HKgTntQlo/Wex9ZqPiEEmZNNyx0Goa/k7lvbVS8LVxr4
-	ZBog==
-X-Gm-Message-State: ALoCoQlnw//NcuIxmU/uAzVjaXfSO7uMXXmLhSTXYcG22/ckjs+cJPdCD6MwGLqOWCpQaQdjNv14
-X-Received: by 10.52.100.202 with SMTP id fa10mr186101vdb.0.1381222883082;
-	Tue, 08 Oct 2013 02:01:23 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Tue, 8 Oct 2013 02:01:02 -0700 (PDT)
-In-Reply-To: <1380726432-25519-1-git-send-email-muhammad_shakeel@mentor.com>
-References: <1380726432-25519-1-git-send-email-muhammad_shakeel@mentor.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Oct 2013 10:01:02 +0100
-Message-ID: <CAJTo0LYSD5R3E6acsZQxHd1AKOLqwSx54cXbYfW_RNO6owoY9Q@mail.gmail.com>
-To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] opkg: ignore result of opkg configure
+	Tue,  8 Oct 2013 09:10:21 +0000 (UTC)
+Received: from azsmga001.ch.intel.com ([10.2.17.19])
+	by azsmga101.ch.intel.com with ESMTP; 08 Oct 2013 02:10:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,1056,1371106800"; d="scan'208";a="371307835"
+Received: from cvoicu-vostro-460.rb.intel.com ([10.237.105.65])
+	by azsmga001.ch.intel.com with ESMTP; 08 Oct 2013 02:10:22 -0700
+From: Cristiana Voicu <cristiana.voicu@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Oct 2013 12:14:55 +0300
+Message-Id: <1381223695-26573-1-git-send-email-cristiana.voicu@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] separatebuilddir: remove entries for imake and xorg-cf-files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,22 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2013 09:01:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 08 Oct 2013 09:10:22 -0000
 
-On 2 October 2013 16:07, Shakeel, Muhammad <muhammad_shakeel@mentor.com> wrote:
-> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
->
-> Some packages may return error while running opkg-cl configure, during
-> first boot. This will fail 'ExecStart' and 'ExecStartPost' will not run.
-> Without 'ExecStartPost' opkg-configure service will continue to run on
-> successive boot attempts. 'ExecStartPost' should disable this service
-> after first boot irrespective of 'ExecStart' status.
+Imake and the associated xorg-cf-files recipes were removed.
 
-Isn't there an argument that the current behaviour is right?  Whilst
-there's still outstanding postinstalls to run, continue attempting to
-run them.  At some point they'll hopefully succeed - the original
-failure may have been an ordering problem.
+Signed-off-by: Cristiana Voicu <cristiana.voicu@intel.com>
+---
+ meta/conf/distro/include/seperatebuilddir.inc |    4 ----
+ 1 file changed, 4 deletions(-)
 
-Ross
+diff --git a/meta/conf/distro/include/seperatebuilddir.inc b/meta/conf/distro/include/seperatebuilddir.inc
+index 8f2ebfa..c067183 100644
+--- a/meta/conf/distro/include/seperatebuilddir.inc
++++ b/meta/conf/distro/include/seperatebuilddir.inc
+@@ -234,8 +234,6 @@ B_pn-help2man-native = "${SEPB}"
+ B_pn-icon-naming-utils-native = "${SEPB}"
+ B_pn-icu = "${SEPB}"
+ B_pn-icu-native = "${SEPB}"
+-B_pn-imake = "${SEPB}"
+-B_pn-imake-native = "${SEPB}"
+ B_pn-inputproto = "${SEPB}"
+ B_pn-inputproto-native = "${SEPB}"
+ B_pn-intltool = "${SEPB}"
+@@ -753,8 +751,6 @@ B_pn-xkbcomp = "${SEPB}"
+ B_pn-xkbcomp-native = "${SEPB}"
+ B_pn-xkeyboard-config = "${SEPB}"
+ B_pn-xmodmap = "${SEPB}"
+-B_pn-xorg-cf-files = "${SEPB}"
+-B_pn-xorg-cf-files-native = "${SEPB}"
+ B_pn-xprop = "${SEPB}"
+ B_pn-xproto = "${SEPB}"
+ B_pn-xproto-native = "${SEPB}"
+-- 
+1.7.9.5
+
 
