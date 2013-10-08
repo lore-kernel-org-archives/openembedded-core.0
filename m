@@ -1,35 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AE556CC99
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
+	by mail.openembedded.org (Postfix) with ESMTP id 8542D610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2013 11:23:35 +0000 (UTC)
-Received: by mail-wi0-f172.google.com with SMTP id hn9so6343805wib.17
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Oct 2013 04:23:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=aB+Kg25WdtlhdN4hEvdoczQfzRaryvhzmkQUdiOzPtg=;
-	b=jyDLRIuiBvzYRWis9dtXADBW8Lpwiw5mRXWJeR2NBAd3n7lQvNhPA+lJyJ3SWF6fga
-	n2kfqUWJU874X8r+gAPTmDzL/WxsxTjBN/hFayskK94296LDMNBiEKdzi4NuaXvB9Mtq
-	Y0BVZc+F5yZJh5RHOIXaWhjSoZxCS0xOaNfa20CspmiGnK4deDTQfa3tCGS0F8aODHXb
-	fZRQEYX+Atmi4bkEHb1oaOPSTptSeyhxO+AuB6x+cktDWQzZ0bcgG8WBBkj7s3JYUKI9
-	zzyaWQ9drHqY9Y0NSJ2kUHjeW/vVJD589TAF64+WVqB0neJKDeysb90pB+rEVcikoTqi
-	xcxQ==
-X-Gm-Message-State: ALoCoQl9j52Tymd7DY/7Zc6Rkvoh2T2bBcsQEajAytiugASJLW7/33umTOnuD1B9TMbb1LeSUO/6
-X-Received: by 10.180.211.171 with SMTP id nd11mr23532587wic.0.1381231416937; 
-	Tue, 08 Oct 2013 04:23:36 -0700 (PDT)
-Received: from melchett.burtonini.com (35.106.2.81.in-addr.arpa. [81.2.106.35])
-	by mx.google.com with ESMTPSA id d11sm4183529wic.4.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Oct 2013 04:23:36 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Oct 2013 12:23:32 +0100
-Message-Id: <1381231412-31162-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] xorg-lib-common: fix malloc0returnsnull usage
+	Tue,  8 Oct 2013 12:19:44 +0000 (UTC)
+Received: from localhost (dan.rpsys.net [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r98CJXsS003790; Tue, 8 Oct 2013 13:19:33 +0100
+X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gjciBAH2ZalM; Tue,  8 Oct 2013 13:19:33 +0100 (BST)
+Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
+	r98CJRMF003780
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
+	verify=NOT); Tue, 8 Oct 2013 13:19:29 +0100
+Message-ID: <1381234763.29912.39.camel@ted>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Date: Tue, 08 Oct 2013 13:19:23 +0100
+In-Reply-To: <87mwmkpjlp.fsf@weregild.amer.corp.natinst.com>
+References: <1380929753-10606-1-git-send-email-rich.tollerton@ni.com>
+	<524F85EA.30805@linux.intel.com> <1380958620.30971.9.camel@ted>
+	<87mwmkpjlp.fsf@weregild.amer.corp.natinst.com>
+X-Mailer: Evolution 3.6.4-0ubuntu1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org, gratian.crisan@ni.com,
+	ken.sharp@ni.com
+Subject: Re: [dylan, master][PATCH] autotools.bbclass: Fix race with sed-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +40,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2013 11:23:35 -0000
+X-List-Received-Date: Tue, 08 Oct 2013 12:19:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Xorg libraries that use Xmalloc need to know if malloc(0) returns NULL or not,
-and as this is a runtime test it can't be checked for.  Previously
-xorg-lib-common declared that malloc(0) did return NULL, but this isn't true for
-eglibc (only uclibc).
+On Mon, 2013-10-07 at 21:44 -0500, Richard Tollerton wrote:
+> richard.purdie@linuxfoundation.org writes:
+> 
+> > On Fri, 2013-10-04 at 20:22 -0700, Saul Wold wrote:
+> >> On 10/04/2013 04:35 PM, Richard Tollerton wrote:
+> >> This also starts to create more front end bottle next on autotools 
+> >> related items before we can really start to parallelize the build.
+> >> 
+> >> More thought is required on this.
+> >
+> > Please have a look at the sed-native changes that went into master
+> > recently as I think this issue has been fixed differently...
+> 
+> Indeed, I agree that commit db2eb325 would fix the race... aaaand this
+> also makes me 2-for-2 this month on reinventing the wheel. :'(
+> 
+> But this brings up a question I've been meaning to ask.
+> 
+> Build reproducibility is reduced (all other things being equal) as more
+> external dependencies are introduced. So I would have expected that The
+> Right Thing here would have been to specify -native packages as explicit
+> dependencies (just like it's always important to comprehensively
+> enumerate dependencies). Not to add specific short-circuits to use the
+> system package. sed's probably a bad example here since it is rather
+> well-behaved -- surely this sort of issue comes up for many other
+> packages, though...
+> 
+> I know that the OE build is horribly slow, but is it really so slow as
+> to require short-circuiting native package dependencies such as this?
+> Has there been a general architectural decision made over this sort of
+> thing? (I'm sorry, I tried to search for one on the mailing list and
+> wiki, but couldn't find any.)
 
-Instead, use libc-specific overrides to pass the relevant option.
+Some native utilities cause big problems in the dependency chain. Things
+like tar and gzip have caused us big problems in the past. We've made a
+conscious decision to require specific versions of tar, gzip and git for
+example to ensure builds work as expected.
 
-(ideally the check would use the autoconf cache so this can be stored in the site files)
+The list of things we assume are ok is relatively small and we look at
+new issues on a case by case basis. I think sed is well enough
+established and well enough behaved to be something we can rely on. In
+general we don't rely on much. Do you have any other specific things you
+worry about? When you start to look at it, the list is rather small...
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-index c911925..98e1416 100644
---- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-+++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-@@ -13,8 +13,9 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
- 
- inherit autotools pkgconfig
- 
--EXTRA_OECONF = "--enable-malloc0returnsnull \
--                --disable-specs --with-groff=no --with-ps2pdf=no --with-fop=no --without-xmlto"
-+EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop --without-xmlto"
-+EXTRA_OECONF_append_libc-glibc = " --disable-malloc0returnsnull"
-+EXTRA_OECONF_append_libc-uclibc = " --enable-malloc0returnsnull"
- 
- python () {
-         whitelist = [ "pixman", "libpciaccess" ]
--- 
-1.7.10.4
+Richard
+
+
+
 
 
