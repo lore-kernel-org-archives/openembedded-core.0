@@ -1,29 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 030106CC42
+Return-Path: <rich.tollerton@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C09560CEA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2013 01:51:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r981p3dx020369
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Oct 2013 18:51:03 -0700 (PDT)
-Received: from [128.224.162.213] (128.224.162.213) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.347.0;
-	Mon, 7 Oct 2013 18:51:03 -0700
-Message-ID: <5253651C.1030305@windriver.com>
-Date: Tue, 8 Oct 2013 09:51:24 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130804 Thunderbird/17.0.8
+	Tue,  8 Oct 2013 02:44:18 +0000 (UTC)
+Received: from mailserv59-us.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.14.5/8.14.5) with ESMTP id
+	r982iIiF002759; Mon, 7 Oct 2013 21:44:18 -0500
+Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
+	by mailserv59-us.natinst.com (Lotus Domino Release 8.5.3FP2 HF169)
+	with ESMTP id 2013100721441859-52949 ;
+	Mon, 7 Oct 2013 21:44:18 -0500 
+References: <1380929753-10606-1-git-send-email-rich.tollerton@ni.com>
+	<524F85EA.30805@linux.intel.com> <1380958620.30971.9.camel@ted>
+User-agent: mu4e 0.9.9.5; emacs 24.3.4
+From: Richard Tollerton <rich.tollerton@ni.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-reply-to: <1380958620.30971.9.camel@ted>
+Date: Mon, 07 Oct 2013 21:44:18 -0500
+Message-ID: <87mwmkpjlp.fsf@weregild.amer.corp.natinst.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1380189657.git.Qi.Chen@windriver.com>
-	<936abdfba1f8b3edf2f5dbfc6be803354798c4d2.1380189657.git.Qi.Chen@windriver.com>
-In-Reply-To: <936abdfba1f8b3edf2f5dbfc6be803354798c4d2.1380189657.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.213]
-Subject: Re: [PATCH V2 1/1] sysvinit: fix missing of boot log
+X-MIMETrack: Itemize by SMTP Server on MailServ59-US/AUS/H/NIC(Release
+	8.5.3FP2 HF169|September 14, 2012) at 10/07/2013 09:44:18 PM,
+	Serialize by Router on MailServ59-US/AUS/H/NIC(Release 8.5.3FP2
+	HF169|September 14, 2012) at 10/07/2013 09:44:18 PM,
+	Serialize complete at 10/07/2013 09:44:18 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.10.8794, 1.0.431,
+	0.0.0000
+	definitions=2013-10-08_01:2013-10-08, 2013-10-08,
+	1970-01-01 signatures=0
+Cc: openembedded-core@lists.openembedded.org, gratian.crisan@ni.com,
+	ken.sharp@ni.com
+Subject: Re: [dylan, master][PATCH] autotools.bbclass: Fix race with sed-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +44,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2013 01:51:03 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Oct 2013 02:44:19 -0000
+Content-Type: text/plain
 
-ping
 
-On 09/26/2013 06:02 PM, Qi.Chen@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> Previously, our system had no boot log even if the bootlogd daemon was
-> started correctly. The root cause is that the log file doesn't exist
-> when starting the bootlogd.
->
-> Add '-c' option to bootlogd so that it will create the boot log if
-> it doesn't exist.
->
-> Besides, we need to make sure that tmpfs has been mounted. Otherwise,
-> the boot log will still be missing.
->
-> [YOCTO #5273]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   meta/recipes-core/sysvinit/sysvinit/bootlogd.init |    5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-> index 7b87827..3a10a3c 100755
-> --- a/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-> +++ b/meta/recipes-core/sysvinit/sysvinit/bootlogd.init
-> @@ -42,14 +42,15 @@ esac
->   
->   case "$ACTION" in
->   	start)
-> +		mount -a -t tmpfs 2>/dev/null
->   		echo -n "Starting $DESC: "
->   		if [ -d /proc/1/. ]
->   		then
->   			umask 027
->   			start-stop-daemon --start --quiet \
-> -				--exec $DAEMON -- -r
-> +				--exec $DAEMON -- -r -c
->   		else
-> -			$DAEMON -r
-> +			$DAEMON -r -c
->   		fi
->   		echo "$NAME."
->   		;;
+richard.purdie@linuxfoundation.org writes:
 
+> On Fri, 2013-10-04 at 20:22 -0700, Saul Wold wrote:
+>> On 10/04/2013 04:35 PM, Richard Tollerton wrote:
+>> This also starts to create more front end bottle next on autotools 
+>> related items before we can really start to parallelize the build.
+>> 
+>> More thought is required on this.
+>
+> Please have a look at the sed-native changes that went into master
+> recently as I think this issue has been fixed differently...
+
+Indeed, I agree that commit db2eb325 would fix the race... aaaand this
+also makes me 2-for-2 this month on reinventing the wheel. :'(
+
+But this brings up a question I've been meaning to ask.
+
+Build reproducibility is reduced (all other things being equal) as more
+external dependencies are introduced. So I would have expected that The
+Right Thing here would have been to specify -native packages as explicit
+dependencies (just like it's always important to comprehensively
+enumerate dependencies). Not to add specific short-circuits to use the
+system package. sed's probably a bad example here since it is rather
+well-behaved -- surely this sort of issue comes up for many other
+packages, though...
+
+I know that the OE build is horribly slow, but is it really so slow as
+to require short-circuiting native package dependencies such as this?
+Has there been a general architectural decision made over this sort of
+thing? (I'm sorry, I tried to search for one on the mailing list and
+wiki, but couldn't find any.)
+
+>
+> Cheers,
+>
+> Richard
+
+
+-- 
+Richard Tollerton <rich.tollerton@ni.com>
 
