@@ -1,36 +1,36 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 501A360CEA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f53.google.com (mail-vb0-f53.google.com
+	[209.85.212.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DD4E6C046
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2013 02:55:26 +0000 (UTC)
-Received: from mailserv59-us.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.14.5/8.14.5) with ESMTP id
-	r982tPxY007889; Mon, 7 Oct 2013 21:55:25 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by mailserv59-us.natinst.com (Lotus Domino Release 8.5.3FP2 HF169)
-	with ESMTP id 2013100721552525-53178 ;
-	Mon, 7 Oct 2013 21:55:25 -0500 
-References: <1380929753-10606-1-git-send-email-rich.tollerton@ni.com>
-	<524F85EA.30805@linux.intel.com>
-User-agent: mu4e 0.9.9.5; emacs 24.3.4
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: Saul Wold <sgw@linux.intel.com>
-In-reply-to: <524F85EA.30805@linux.intel.com>
-Date: Mon, 07 Oct 2013 21:55:25 -0500
-Message-ID: <87li24pj36.fsf@weregild.amer.corp.natinst.com>
+	Tue,  8 Oct 2013 09:01:21 +0000 (UTC)
+Received: by mail-vb0-f53.google.com with SMTP id i3so3913523vbh.40
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Oct 2013 02:01:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Y7I2iMgBej+Ui92xFgAJluUNks0QfM/BjBFsnDZlKW0=;
+	b=MMkOx0+fVmnpyCdmewqochjcjB33GedZOlgIoA8bregbpWmkZAvyJkfCwEMrygnRnU
+	xrKR/6tNPmLePDEHGuIA4I5dlb80HL08IEszbpviOSf0mmQJzE/QZ7eZVQN0VwXvft8L
+	app0szj+h6OSDaGsU0+3+DbLT3XbaiRhDSUVRvZV0g/QYmhQnUKXpHrUuCwPTL9oqb2+
+	y+rkNrwWzs+nRwnx4qwVKg8OMOKTrZT2kybumZuXjmUxCUHoub0DL2YGcBg3Chq6DnVG
+	mGES7+DTR+NX6ytdybXxpoi+HKgTntQlo/Wex9ZqPiEEmZNNyx0Goa/k7lvbVS8LVxr4
+	ZBog==
+X-Gm-Message-State: ALoCoQlnw//NcuIxmU/uAzVjaXfSO7uMXXmLhSTXYcG22/ckjs+cJPdCD6MwGLqOWCpQaQdjNv14
+X-Received: by 10.52.100.202 with SMTP id fa10mr186101vdb.0.1381222883082;
+	Tue, 08 Oct 2013 02:01:23 -0700 (PDT)
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on MailServ59-US/AUS/H/NIC(Release
-	8.5.3FP2 HF169|September 14, 2012) at 10/07/2013 09:55:25 PM,
-	Serialize by Router on MailServ59-US/AUS/H/NIC(Release 8.5.3FP2
-	HF169|September 14, 2012) at 10/07/2013 09:55:25 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:5.10.8794, 1.0.431,
-	0.0.0000
-	definitions=2013-10-08_01:2013-10-08, 2013-10-08,
-	1970-01-01 signatures=0
-Cc: paul.eggleton@linux.intel.com, gratian.crisan@ni.com, ken.sharp@ni.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [dylan, master][PATCH] autotools.bbclass: Fix race with sed-native
+Received: by 10.220.71.201 with HTTP; Tue, 8 Oct 2013 02:01:02 -0700 (PDT)
+In-Reply-To: <1380726432-25519-1-git-send-email-muhammad_shakeel@mentor.com>
+References: <1380726432-25519-1-git-send-email-muhammad_shakeel@mentor.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Oct 2013 10:01:02 +0100
+Message-ID: <CAJTo0LYSD5R3E6acsZQxHd1AKOLqwSx54cXbYfW_RNO6owoY9Q@mail.gmail.com>
+To: "Shakeel, Muhammad" <muhammad_shakeel@mentor.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] opkg: ignore result of opkg configure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +43,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2013 02:55:27 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Oct 2013 09:01:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On 2 October 2013 16:07, Shakeel, Muhammad <muhammad_shakeel@mentor.com> wrote:
+> From: Muhammad Shakeel <muhammad_shakeel@mentor.com>
+>
+> Some packages may return error while running opkg-cl configure, during
+> first boot. This will fail 'ExecStart' and 'ExecStartPost' will not run.
+> Without 'ExecStartPost' opkg-configure service will continue to run on
+> successive boot attempts. 'ExecStartPost' should disable this service
+> after first boot irrespective of 'ExecStart' status.
 
-sgw@linux.intel.com writes:
+Isn't there an argument that the current behaviour is right?  Whilst
+there's still outstanding postinstalls to run, continue attempting to
+run them.  At some point they'll hopefully succeed - the original
+failure may have been an ordering problem.
 
->> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbc=
-lass
->> index 66c0f5d..2bb2aa3 100644
->> --- a/meta/classes/autotools.bbclass
->> +++ b/meta/classes/autotools.bbclass
->> @@ -7,17 +7,25 @@ def autotools=5Fdep=5Fprepend(d):
->>
->>       if pn in ['autoconf-native', 'automake-native', 'help2man-native']:
->>           return deps
->> -    deps +=3D 'autoconf-native automake-native '
->> +    deps +=3D 'autoconf-native automake-native gnu-config-native '
->>
-> You don't mention anything about this change.
-
-This might be a moot topic, but maybe I did miss something here:
-
-I thought it was implied in the =E2=80=9Clight refactoring=E2=80=9D. In the=
- original
-code, 'gnu-config-native ' would have always been appended by this point
-in the code. I thought the "if ...: return deps" idiom would greatly
-simplify this function, but in order to use it, 'gnu-config-native '
-needs to be appended before each return. So just append it here.
-
-> Sau!
-
-
---=20
-Richard Tollerton <rich.tollerton@ni.com>
-=
+Ross
 
