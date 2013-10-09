@@ -1,24 +1,35 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A02226CE9E
+Return-Path: <sujith.h@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A9A56ADA2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Oct 2013 21:12:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r98LCtZP017713
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Oct 2013 14:12:56 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com (128.224.147.67) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.347.0; Tue, 8 Oct 2013 14:12:55 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 8 Oct 2013 17:12:53 -0400
-Message-ID: <cover.1381266484.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.8.1.2
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] kernel: restore scripts in the sysroot
+	Wed,  9 Oct 2013 04:30:01 +0000 (UTC)
+Received: by mail-pa0-f42.google.com with SMTP id lj1so453515pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Oct 2013 21:30:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=TEIAcwOEwFHN/ADQHGIhh4cepQwwc6UzEeukP0VUCY8=;
+	b=UIGoteoNJzuMtKx2l+47mEMOCw0I7sVFceCgny0lCp+FI2k4F7O19waI/7w4hSB0MW
+	sxfLrh7Kfcjvy69qOgVGF3Uj80h2wmHulvFPHFzzfy0yvmBvKWA+BDMGhKaFc60CGo8t
+	G/2UV6oLbLBHe8smi5mx4bymgZ6oISKxL0GqJtY5LjaL6hsasHDeXaTRIGg2e6EPrF13
+	UpJ7gvr6yZnlUmA+IgVl8M9i/ulyzC+JwEptaeQVy107+HM/mfrHC07AdipHHIHuTVov
+	b2p5IkPsRmXjWKD5121HPJU7/HbLT/6WJrpcv4NSVDJM3arQEcm+hiSWYRDKpcoxJRuo
+	mDXA==
+X-Received: by 10.68.2.105 with SMTP id 9mr5803735pbt.26.1381293003179;
+	Tue, 08 Oct 2013 21:30:03 -0700 (PDT)
+Received: from SVR-IES-FEM-02.mgc.mentorg.com ([139.181.35.34])
+	by mx.google.com with ESMTPSA id
+	vz4sm51592584pab.11.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 08 Oct 2013 21:30:02 -0700 (PDT)
+From: Sujith H <sujith.h@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Oct 2013 09:55:32 +0530
+Message-Id: <1381292732-5090-1-git-send-email-sujith.h@gmail.com>
+X-Mailer: git-send-email 1.8.1.4
+Cc: Sujith H <Sujith_Haridasan@mentor.com>
+Subject: [PATCH] Fixing the warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Oct 2013 21:12:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 09 Oct 2013 04:30:02 -0000
 
-Richard/Saul,
+Warning: No GNU_HASH in the elf binary
 
-3rd time is a charm, and I finally have the right incantation to
-build the scripts in:
+Signed-off-by: Sujith H <Sujith_Haridasan@mentor.com>
+---
+ meta/recipes-support/nspr/nspr_4.10.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-  tmp/sysroots/<machine>/usr/src/kernel/scripts/mod
-
-This works in my environment, for my test cases, but I don't have Khem's
-exact external module build case handy.
-
-Khem: if you can try this patch and ack it if it works, that would be
-fantastic.
-
-Cheers,
-
-Bruce
-
-p.s. I'm out of the office for the next week, but will track this
-via my gmail account.
-
-
-The following changes since commit 72ca7801f3b733f7fc63326c1d8c98a3c32a519f:
-
-  linux-yocto/3.10: integrate lxc kernel feature and 32 bit x86 config (2013-10-08 16:44:54 -0400)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel-oe
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
-
-Bruce Ashfield (1):
-  kernel: restore scripts in the sysroot
-
- meta/classes/kernel.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
+diff --git a/meta/recipes-support/nspr/nspr_4.10.bb b/meta/recipes-support/nspr/nspr_4.10.bb
+index fcecb95..4247fd0 100644
+--- a/meta/recipes-support/nspr/nspr_4.10.bb
++++ b/meta/recipes-support/nspr/nspr_4.10.bb
+@@ -19,6 +19,7 @@ SRC_URI[sha256sum] = "0cfbe561676b92e5af3ddc7ac77452014e3da8885da66baec811e73541
+ S = "${WORKDIR}/nspr-${PV}/nspr"
+ 
+ RDEPENDS_${PN}-dev += "perl"
++TARGET_CC_ARCH += "${LDFLAGS}"
+ 
+ TESTS = "runtests.pl \
+     runtests.sh \
 -- 
-1.8.1.2
+1.8.1.4
 
 
