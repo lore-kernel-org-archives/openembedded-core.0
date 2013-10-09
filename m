@@ -1,41 +1,39 @@
-Return-Path: <cazfi74@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 647416CDA7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
+	[209.85.212.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C96E96CD66
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2013 23:29:56 +0000 (UTC)
-Received: by mail-lb0-f182.google.com with SMTP id c11so1439874lbj.13
+	Wed,  9 Oct 2013 23:33:23 +0000 (UTC)
+Received: by mail-vb0-f44.google.com with SMTP id e13so1066764vbg.17
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Oct 2013 16:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=7+T6vwetw/pgwYBJ83QbS7k/jQGLEkiUJU6OsolvWmE=;
-	b=T4haXLZ1PpDQrORT4cuoZd5T3Q8IQw4BzyvfX12/VT5UCWQq4CV46N50Mll/znjTYp
-	nG2c8U09bz1tmjSsTh236VMQaJPwA0i2609uZ1g1gFhvrL1OfAhEUN7tr0zzhd+nopjP
-	fCczLlpZ1y6oU0/8DOXanlDeOgwnCdkpD70QYqvqPYU27vUyTveamcQWVxb3F99aJPL/
-	uZO0i1Yzj6hgfz6onjJQ1mTL5bE9FRab7jjFoWx6Xh05qLz7C7B6tEEjVUJswzjZ/u2m
-	+QG+clp/c/PPUQMAVsZ2oi9ZOIIVcZOHaoDoWN6YgAaEwePW4pXCGRmLok1epUmHO0ul
-	Hvpg==
-X-Received: by 10.152.6.41 with SMTP id x9mr4430400lax.31.1381361397701;
-	Wed, 09 Oct 2013 16:29:57 -0700 (PDT)
-Received: from prime (a91-153-14-158.elisa-laajakaista.fi. [91.153.14.158])
-	by mx.google.com with ESMTPSA id b6sm37202487lae.0.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 09 Oct 2013 16:29:56 -0700 (PDT)
-Received: from cazfi by prime with local (Exim 4.80)
-	(envelope-from <cazfi74@gmail.com>)
-	id 1VU3CV-0006u1-D8; Thu, 10 Oct 2013 02:29:55 +0300
-From: Marko Lindqvist <cazfi74@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2013 02:29:53 +0300
-Message-Id: <1f7fb78a4aa92dc73e4a741ffb37561ae82ce7bd.1381360919.git.cazfi74@gmail.com>
-X-Mailer: git-send-email 1.8.4.rc3
-In-Reply-To: <a66e4d4b217db0a5f8f94afeb624c4e576cd3b6f.1381360919.git.cazfi74@gmail.com>
-References: <a66e4d4b217db0a5f8f94afeb624c4e576cd3b6f.1381360919.git.cazfi74@gmail.com>
-In-Reply-To: <cover.1381360919.git.cazfi74@gmail.com>
-References: <cover.1381360919.git.cazfi74@gmail.com>
-Subject: [PATCH 2/2] automake: update to upstream version 1.13.4
+	Wed, 09 Oct 2013 16:33:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9fikmVBjTGUrKyOcoxhjxdftiZ6ASUpylWn3o/BZm/Q=;
+	b=cHp8vFnvbN7jtW0IWRJPNZVdMF9+T6cNEUswiTqQ0XIpTh9Xu0bqaTJILHx64ihOUl
+	frZDs/P9PEAknQUuY2bOYfX74TlM1QHWB24ShlJ8Gwd4uTvAXXTR8w7wr+iH3JpIHEIm
+	oS/zIkTY+8C32ODkQ7K9GusFD8sJBN6OHy6RugGckbViA7JVvB5Gwb215UbxSSoU1Ndi
+	HTWmdECd7dAgJh66aiVxcwFkNE56aCqFd+v8sR523JHjsdPrDxGnhekf3zcn4t84w9w3
+	fi4SUn2umu4Bala2HvqiNDDGpQmjeNGLKG34wHmjuQ5ezvS8wKfei0Fo48g53HcYgOe0
+	ruLQ==
+X-Gm-Message-State: ALoCoQnUKbkD4KRMbtmoDwsLLtyRfYszqlJS2To/S1gw2DI4rXvMygnnc/yxgQLm3d1B1lWLEYS7
+X-Received: by 10.52.229.4 with SMTP id sm4mr2592749vdc.50.1381361605489; Wed,
+	09 Oct 2013 16:33:25 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.220.71.201 with HTTP; Wed, 9 Oct 2013 16:33:05 -0700 (PDT)
+In-Reply-To: <CABcZAN=u1TsXA745EJxv-NwHwv+HUvuzENGV7StnH=wOiOYB8Q@mail.gmail.com>
+References: <1381242605-13393-1-git-send-email-ross.burton@intel.com>
+	<1381242605-13393-2-git-send-email-ross.burton@intel.com>
+	<CABcZAN=u1TsXA745EJxv-NwHwv+HUvuzENGV7StnH=wOiOYB8Q@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Oct 2013 00:33:05 +0100
+Message-ID: <CAJTo0LY+xZMo6Xm=3JHD2HwP9NL4ou0t-AhMAF=y=cm5My5DXA@mail.gmail.com>
+To: Chris Larson <clarson@kergoth.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane: configure option checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,89 +46,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Oct 2013 23:29:56 -0000
+X-List-Received-Date: Wed, 09 Oct 2013 23:33:24 -0000
+Content-Type: text/plain; charset=UTF-8
 
-prefer-cpio-over-pax-for-ustar-archives.patch updated to apply
+On 10 October 2013 00:17, Chris Larson <clarson@kergoth.com> wrote:
+> Why is the entire block in the try/except rather than just the
+> subprocess.check_output()?
 
-Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
----
- .../prefer-cpio-over-pax-for-ustar-archives.patch  | 37 +++++++++++-----------
- .../{automake_1.12.6.bb => automake_1.13.4.bb}     |  4 +--
- 2 files changed, 21 insertions(+), 20 deletions(-)
- rename meta/recipes-devtools/automake/{automake_1.12.6.bb => automake_1.13.4.bb} (91%)
+It could easily be just the check_output call if I pull the test into
+a separate function so it can return after handling the exception
+(which normally means that no warnings were found).  I'm not bothered
+either way to be honest.
 
-diff --git a/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
-index 4627855..6ffff83 100644
---- a/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
-+++ b/meta/recipes-devtools/automake/automake/prefer-cpio-over-pax-for-ustar-archives.patch
-@@ -19,24 +19,13 @@ Updated for version 1.11.3:
- Signed-off-by: Nitin A Kamble <nitin.a.kamble@intel.com>
- Date: 2011/03/14
- 
--Index: automake-1.11.3/m4/tar.m4
--===================================================================
----- automake-1.11.3.orig/m4/tar.m4	2012-01-31 03:41:18.000000000 -0800
--+++ automake-1.11.3/m4/tar.m4	2012-03-14 17:36:11.901303777 -0700
--@@ -31,7 +31,7 @@ m4_if([$1], [v7],
--               [m4_fatal([Unknown tar format])])
-- AC_MSG_CHECKING([how to create a $1 tar archive])
-- # Loop over all known methods to create a tar archive until one works.
---_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
--+_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
-- _am_tools=${am_cv_prog_tar_$1-$_am_tools}
-- # Do not fold the above two line into one, because Tru64 sh and
-- # Solaris sh will not grok spaces in the rhs of `-'.
--Index: automake-1.11.3/Makefile.in
--===================================================================
----- automake-1.11.3.orig/Makefile.in	2012-02-01 02:37:59.000000000 -0800
--+++ automake-1.11.3/Makefile.in	2012-03-14 17:38:03.530869197 -0700
--@@ -62,7 +62,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/a
-+Updated for version 1.13.2:
-+Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-+
-+diff -Nurd automake-1.13.2/Makefile.in automake-1.13.2/Makefile.in
-+--- automake-1.13.2/Makefile.in	2013-05-15 23:12:58.000000000 +0300
-++++ automake-1.13.2/Makefile.in	2013-05-23 02:13:41.364026301 +0300
-+@@ -141,7 +141,7 @@
-  	$(top_srcdir)/m4/options.m4 $(top_srcdir)/m4/runlog.m4 \
-  	$(top_srcdir)/m4/sanity.m4 $(top_srcdir)/m4/silent.m4 \
-  	$(top_srcdir)/m4/strip.m4 $(top_srcdir)/m4/substnot.m4 \
-@@ -45,3 +34,15 @@ Index: automake-1.11.3/Makefile.in
-  am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
-  	$(ACLOCAL_M4)
-  am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
-+diff -Nurd automake-1.13.2/m4/tar.m4 automake-1.13.2/m4/tar.m4
-+--- automake-1.13.2/m4/tar.m4	2013-05-13 23:12:48.000000000 +0300
-++++ automake-1.13.2/m4/tar.m4	2013-05-23 02:13:26.600025805 +0300
-+@@ -26,7 +26,7 @@
-+ AC_SUBST([AMTAR], ['$${TAR-tar}'])
-+
-+ # We'll loop over all known methods to create a tar archive until one works.
-+-_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) pax cpio none'
-++_am_tools='gnutar m4_if([$1], [ustar], [plaintar]) cpio pax none'
-+
-+ m4_if([$1], [v7],
-+   [am__tar='$${TAR-tar} chof - "$$tardir"' am__untar='$${TAR-tar} xf -'],
-\ No newline at end of file
-diff --git a/meta/recipes-devtools/automake/automake_1.12.6.bb b/meta/recipes-devtools/automake/automake_1.13.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/automake/automake_1.12.6.bb
-rename to meta/recipes-devtools/automake/automake_1.13.4.bb
-index b65e5ae..b114d99 100644
---- a/meta/recipes-devtools/automake/automake_1.12.6.bb
-+++ b/meta/recipes-devtools/automake/automake_1.13.4.bb
-@@ -28,8 +28,8 @@ SRC_URI += "${PATHFIXPATCH} \
-             file://py-compile-compile-only-optimized-byte-code.patch \
-             file://buildtest.patch"
- 
--SRC_URI[md5sum] = "199d39ece2e6070d64ac20d45ac86026"
--SRC_URI[sha256sum] = "0cbe570db487908e70af7119da85ba04f7e28656b26f717df0265ae08defd9ef"
-+SRC_URI[md5sum] = "9199e266993a5bbdc914923349d51e3e"
-+SRC_URI[sha256sum] = "4c93abc0bff54b296f41f92dd3aa1e73e554265a6f719df465574983ef6f878c"
- 
- do_install_append () {
-     install -d ${D}${datadir}
--- 
-1.8.4.rc3
-
+Ross
 
