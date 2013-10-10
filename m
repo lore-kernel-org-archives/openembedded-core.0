@@ -1,39 +1,48 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 935526CC4E
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from ra.se.axis.com (ra.se.axis.com [195.60.68.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 96D156CF91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 08:34:34 +0000 (UTC)
-Received: by mail-lb0-f178.google.com with SMTP id z5so1758472lbh.23
+	Thu, 10 Oct 2013 08:52:14 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by ra.se.axis.com (Postfix) with ESMTP id 374CA365286
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 01:34:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=yj45czfljS1wAA0iHAvDbtlax1KnI6cBd6afFhNngfQ=;
-	b=JMKMPy+rAGUCLtHI57PkCAgqvrw9wPqCKpkMKIM03wdscyQymiCzT7ih1REQu7uuU3
-	P0+m20l0OBkbiuir5xXAtmEO0I6F4zQjCzVspIgZeMwriBYbbiCDbt/2jnSgrSpCxCO3
-	sFfWDsqDEVpnWD5YQkGWF+su4xLWPJJwRrlLmjf11YPZbFqYR+tP8wd1d3CuCKkoBDGZ
-	9FHrzWKvr5hxhI+EU0sZi0NGmriJeiBrqbKrQjBfVq3LfOZo0YBqSyezqHEb4RujcQrr
-	mFbUoCnQWjOnEi1WfOqLxuPZLjU/7ePFO7C6kMNaeaF/OIEfgis8AKZZlDIyR0tfRiZG
-	NxsQ==
-X-Gm-Message-State: ALoCoQlgTzTc3DTWb0TgWiUdiRIWpuYPhUfdR1mBr1bF4ki5oiDQLCtSnGLFCtSaSFBve6WqZywr
-MIME-Version: 1.0
-X-Received: by 10.112.0.173 with SMTP id 13mr11011535lbf.8.1381394075480; Thu,
-	10 Oct 2013 01:34:35 -0700 (PDT)
-Received: by 10.112.173.66 with HTTP; Thu, 10 Oct 2013 01:34:35 -0700 (PDT)
-In-Reply-To: <2013BC5B-3177-47F4-8914-07A9A8E00AAD@gmail.com>
-References: <D14FF4AA-C9DA-40C4-B706-3953E31F1A35@dominion.thruhere.net>
-	<2013BC5B-3177-47F4-8914-07A9A8E00AAD@gmail.com>
-Date: Thu, 10 Oct 2013 11:34:35 +0300
-Message-ID: <CAGNsrLCs1cdVKuskCub08g-XEyS-7rycugTpaoe7mFpKT3_F+w@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Koen Kooi <koen@dominion.thruhere.net>,
-	"openembedded-core@lists.openembedded.org oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Architectures with underscores in their names, how to handle that?
+	Thu, 10 Oct 2013 10:52:13 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at ra.se.axis.com
+Received: from ra.se.axis.com ([127.0.0.1])
+	by localhost (ra.se.axis.com [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AhWJF+u1wumD
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2013 10:52:12 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by ra.se.axis.com (Postfix) with ESMTP id 8812311E33
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2013 10:52:11 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 67CBB9FE
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2013 10:52:11 +0200 (CEST)
+Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
+	by boulder.se.axis.com (Postfix) with ESMTP id 5CE8054D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2013 10:52:11 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id 520393404E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2013 10:52:11 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id r9A8qBUD027882
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2013 10:52:11 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id r9A8qBYf027881
+	for openembedded-core@lists.openembedded.org;
+	Thu, 10 Oct 2013 10:52:11 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Oct 2013 10:52:05 +0200
+Message-Id: <cover.1381395083.git.pkj@axis.com>
+X-Mailer: git-send-email 1.8.4
+Subject: [PATCH 0/1] Add a missing '[' to kernel-yocto.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,16 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2013 08:34:35 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 10 Oct 2013 08:52:15 -0000
 
-On 10 October 2013 09:30, Khem Raj <raj.khem@gmail.com> wrote:
-> why not suggest them to use aarch64eb is that too hard a change ?
+This adds a missing '[' which caused the test for
+${SRCREV_machine} == "INVALID" to not work as expected.
 
-We've done it but the counter argument is that toolchains are already
-out there with an official release.
-The upstream FSF GCC 4.8, Binutils 2.23, EGLIBC 2.18 releases. So
-basically the community has accepted the triplet.
+//Peter
 
-> it matches other known Big Endian naming conventions like mips and so on in autotools world.
+The following changes since commit 102bf5e0f640fe85068452a42b85077f1c81e0c9:
+
+  build-appliance: Update SRCREV for release (2013-10-08 16:33:43 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib pkj/kernel-yocto_typo
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=pkj/kernel-yocto_typo
+
+Peter Kjellerstedt (1):
+  kernel-yocto: Add a missing '['
+
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+1.8.4
+
 
