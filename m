@@ -1,33 +1,36 @@
-Return-Path: <yaoxp@cn.fujitsu.com>
-Received: from song.cn.fujitsu.com (unknown [222.73.24.84])
-	by mail.openembedded.org (Postfix) with ESMTP id 450C36CC37
+Return-Path: <ross.burton@intel.com>
+Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
+	[209.85.212.54])
+	by mail.openembedded.org (Postfix) with ESMTP id DE6006CF2B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 13:36:21 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="4.93,467,1378828800"; 
-   d="scan'208";a="8715144"
-Received: from unknown (HELO tang.cn.fujitsu.com) ([10.167.250.3])
-	by song.cn.fujitsu.com with ESMTP; 10 Oct 2013 21:33:02 +0800
-Received: from fnstmail02.fnst.cn.fujitsu.com (tang.cn.fujitsu.com [127.0.0.1])
-	by tang.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id r9ADaIEA014289
+	Thu, 10 Oct 2013 14:16:30 +0000 (UTC)
+Received: by mail-vb0-f54.google.com with SMTP id q14so1636367vbe.41
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 21:36:18 +0800
-Received: from G08FNSTD100620 ([10.167.226.76])
-	by fnstmail02.fnst.cn.fujitsu.com (Lotus Domino Release 8.5.3)
-	with ESMTP id 2013101021341033-2154317 ;
-	Thu, 10 Oct 2013 21:34:10 +0800 
-From: "yaoxp" <yaoxp@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Oct 2013 21:36:14 +0800
-Message-ID: <008a01cec5bd$b1797160$146c5420$@cn.fujitsu.com>
+	Thu, 10 Oct 2013 07:16:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=U1gHIq3SYPWaEXABvzKhDVfat2X5BBXtMh7l94dyn5o=;
+	b=f+H9pofmXHFk0ZbWO0Q4e+l/9u0iiEG2yFgiCk3oKi85XOldBOKbymj6ZFS3/Nu2kP
+	p+vvLoUd1AfycjSGtePp0dgz148U94xLflVebRDtjnTq7fzHc+uwiJUDEDcj1Uq6JmKF
+	+9YxcSQppso8eEeDccosRShLixfCQV52QX3maw3zG4PBGz6JOsciDdMKc1AvoYrhFcbt
+	tqCroe5AcDLrfvzaAoLSdeRVNd/Q4COkmvBGKA49GRZNSq/zcsS/LiBaE/uaREKAh6Yh
+	RyNnNoftyh+eTIM7MuJOPMPv36Ge5xxHKZJlVeTwut9H741CzqdFipfBroV/fdLyDuPR
+	qwqw==
+X-Gm-Message-State: ALoCoQlfpi2s/79A4tXYi09iAmP2315vnsfJuZA9hmAGNsyMmvy7pJ5I84jCnacpvqEtGh1XKulr
+X-Received: by 10.221.41.67 with SMTP id tt3mr7347161vcb.91.1381414592459;
+	Thu, 10 Oct 2013 07:16:32 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 14.0
-Thread-Index: Ac7FuMMqqoLGy8lcQEu+cZcgDZ1keQ==
-X-MIMETrack: Itemize by SMTP Server on mailserver/fnst(Release 8.5.3|September
-	15, 2011) at 2013/10/10 21:34:10,
-	Serialize by Router on mailserver/fnst(Release 8.5.3|September 15,
-	2011) at 2013/10/10 21:34:10,
-	Serialize complete at 2013/10/10 21:34:10
-Subject: [PATCH 1/1] cronie: build cronie with --with-syscrontab
+Received: by 10.220.71.201 with HTTP; Thu, 10 Oct 2013 07:16:11 -0700 (PDT)
+In-Reply-To: <1381407802-16852-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+References: <1381407802-16852-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Oct 2013 15:16:11 +0100
+Message-ID: <CAJTo0LaW6XJThFnBGydYNDBMZ-_ONt=BRgbnosNapadyDyoqFg@mail.gmail.com>
+To: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/2] wayland : Bump to 1.2.0 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,49 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2013 13:36:23 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset="UTF-8"
-Content-Language: zh-cn
+X-List-Received-Date: Thu, 10 Oct 2013 14:16:33 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi all,
-=09
-If build cronie without --with-syscrontab, the /etc/crontab will not =
-work.
+On 10 October 2013 13:23, Ewan LE BIDEAU-CANEVET
+<Ewan.LEBIDEAU-CANEVET@eurogiciel.fr> wrote:
+> -SRC_URI_append_class-native = " file://just-scanner.patch"
 
-Signed-off-by: Yao Xinpan <yaoxp@cn.fujitsu.com>
----
- meta/recipes-extended/cronie/cronie_1.4.9.bb |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
+That patch -  as it says - serves a useful purpose.  What is the
+rationale for deleting it?  If there's a good reason, please say what
+it is.
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.9.bb =
-b/meta/recipes-extended/cronie/cronie_1.4.9.bb
-index 7db0381..0fbb815 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.9.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.4.9.bb
-@@ -34,7 +34,9 @@ SRC_URI[sha256sum] =3D =
-"bd7f6f118460c452bd1217a24b80fd3c000425d3de28731b98354a81a2
- inherit autotools update-rc.d useradd
+> -# Wayland installs a M4 macro for other projects to use. This M4 macro includes
+> -# a path to a Makefile fragment to get the rules to generate stubs from protocol
+> -# description files.  The paths to the sysroot end up incorrect, so fix them.
+> -do_configure_append_class-native() {
+> -  sed -e 's,@prefix@,${STAGING_DIR_NATIVE},g' \
+> -      -e 's,@exec_prefix@,${STAGING_DIR_NATIVE},g' \
+> -      -e 's,@bindir@,${STAGING_BINDIR_NATIVE},g' \
+> -      -e 's,@datarootdir@,${STAGING_DATADIR_NATIVE},g' \
+> -  ${S}/wayland-scanner.m4.in > ${B}/wayland-scanner.m4
+> -}
 
- EXTRA_OECONF +=3D "\
--                ${@base_contains('DISTRO_FEATURES', 'pam', =
-'--with-pam', '--without-pam', d)}"
-+                ${@base_contains('DISTRO_FEATURES', 'pam', =
-'--with-pam', '--without-pam', d)} \
-+                --with-syscrontab \
-+                "
+Wayland is still installing this m4 file, so why delete this fix?
+From a glance at Wayland 1.2 it looks like it isn't required anymore
+as pkgconfig is used to determine the paths, but you need to state
+this in the commit message.
 
- INITSCRIPT_NAME =3D "crond"
- INITSCRIPT_PARAMS =3D "start 90 2 3 4 5 . stop 60 0 1 6 ."
---
-1.7.1
+Also, there's a 1.2.1 release now.
 
--------------------------------------------
-Yao Xinpan
-TEL: 8559
-
-
-
-
+Ross
 
