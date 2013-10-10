@@ -1,28 +1,28 @@
 Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
-	by mail.openembedded.org (Postfix) with ESMTP id C2F296CCD0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D4040610F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 00:31:45 +0000 (UTC)
-Received: from azsmga002.ch.intel.com ([10.2.17.35])
-	by azsmga102.ch.intel.com with ESMTP; 09 Oct 2013 17:31:46 -0700
+	Thu, 10 Oct 2013 00:39:54 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 09 Oct 2013 17:39:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1067,1371106800"; d="scan'208";a="305892204"
+X-IronPort-AV: E=Sophos;i="4.90,1067,1371106800"; d="scan'208";a="408574395"
 Received: from unknown (HELO [10.255.15.232]) ([10.255.15.232])
-	by AZSMGA002.ch.intel.com with ESMTP; 09 Oct 2013 17:31:45 -0700
-Message-ID: <5255F571.3060108@linux.intel.com>
-Date: Wed, 09 Oct 2013 17:31:45 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 09 Oct 2013 17:36:57 -0700
+Message-ID: <5255F6A9.8000600@linux.intel.com>
+Date: Wed, 09 Oct 2013 17:36:57 -0700
 From: Saul Wold <sgw@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
 MIME-Version: 1.0
-To: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-References: <1380013034-2681-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
-	<CAP9ODKo--dRe-FvP=p8UukRn4tCRdPyLiNfm2bj2jKCrpPjZVg@mail.gmail.com>
-In-Reply-To: <CAP9ODKo--dRe-FvP=p8UukRn4tCRdPyLiNfm2bj2jKCrpPjZVg@mail.gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
+To: Chris Patterson <cjp256@gmail.com>
+References: <1379381170-10557-1-git-send-email-cjp256@gmail.com>
+	<CAMKF1srOTaNFj_vKkG1SkE9-YxVFkeVoukxW9qEkNo_s8qw--w@mail.gmail.com>
+	<CABZSBQci_GqUw7nMBJWQUOgmuKKfxmjqGCqsX35ni8Dvj6DHZw@mail.gmail.com>
+In-Reply-To: <CABZSBQci_GqUw7nMBJWQUOgmuKKfxmjqGCqsX35ni8Dvj6DHZw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wayland/weston: bump to 1.2.0 version
+Subject: Re: [PATCH] qemu: upgrade to 1.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,24 +35,295 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2013 00:31:53 -0000
+X-List-Received-Date: Thu, 10 Oct 2013 00:39:55 -0000
 Content-Type: text/plain; charset=ISO-8859-1; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/24/2013 05:42 AM, Otavio Salvador wrote:
-> On Tue, Sep 24, 2013 at 5:57 AM, Ewan LE BIDEAU-CANEVET
-> <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr> wrote:
->> add bitbake files for wayland and weston 1.2.0
->>
->> Signed-off-by: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
->> ---
+On 09/17/2013 04:21 AM, Chris Patterson wrote:
+> Will do, thanks.
 >
-> Your commit log say bump but in fact you add these.
->
-Now that we are going to open Master up again, can you resend this patch 
-with the version bump as a git mv instead of a git add?
+Now that we are starting to open master up again, can you update and 
+resend your patch.
 
 Thanks
 	Sau!
-
+>
+> On Tue, Sep 17, 2013 at 1:34 AM, Khem Raj <raj.khem@gmail.com
+> <mailto:raj.khem@gmail.com>> wrote:
+>
+>     Hi Chris
+>
+>     On Mon, Sep 16, 2013 at 6:26 PM, Chris Patterson <cjp256@gmail.com
+>     <mailto:cjp256@gmail.com>> wrote:
+>      > This update also drops the following patches which appear to have
+>     been resolved upstream:
+>      > - ftd_header.patch
+>      > - target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+>      >
+>
+>     Thanks for the patch. I think its a tad late for 1.5 release since we
+>     use Qemu heavily
+>     but I would suggest to keep it current and submit it after the window
+>     for 1.6 is open after branch for 1.5 is cut out.
+>
+>      > Signed-off-by: Chris Patterson <cjp256@gmail.com
+>     <mailto:cjp256@gmail.com>>
+>      > ---
+>      >  meta/recipes-devtools/qemu/files/fdt_header.patch  | 39 -----------
+>      >  ...-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch | 79
+>     ----------------------
+>      >  meta/recipes-devtools/qemu/qemu.inc                |  2 +-
+>      >  .../qemu/{qemu_1.5.0.bb <http://qemu_1.5.0.bb> => qemu_1.6.0.bb
+>     <http://qemu_1.6.0.bb>}          | 14 ++--
+>      >  4 files changed, 9 insertions(+), 125 deletions(-)
+>      >  delete mode 100644 meta/recipes-devtools/qemu/files/fdt_header.patch
+>      >  delete mode 100644
+>     meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+>      >  rename meta/recipes-devtools/qemu/{qemu_1.5.0.bb
+>     <http://qemu_1.5.0.bb> => qemu_1.6.0.bb <http://qemu_1.6.0.bb>} (44%)
+>      >
+>      > diff --git a/meta/recipes-devtools/qemu/files/fdt_header.patch
+>     b/meta/recipes-devtools/qemu/files/fdt_header.patch
+>      > deleted file mode 100644
+>      > index dccfe53..0000000
+>      > --- a/meta/recipes-devtools/qemu/files/fdt_header.patch
+>      > +++ /dev/null
+>      > @@ -1,39 +0,0 @@
+>      > -Upstream-Status: Pending
+>      > -
+>      > -qemu: define fdt types in libfdt_env.h from qemu
+>      > -
+>      > -    * fixes
+>      > -    In file included from
+>     /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/libfdt.h:55:0,
+>      > -                     from
+>     /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/work/x86_64-linux/qemu-native/1.4.0-r0/qemu-1.4.0/hw/arm/../../device_tree.c:28:
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:58:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:59:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:60:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:61:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:62:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:63:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:64:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:67:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:70:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:73:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:77:2: error: unknown type name 'fdt64_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:78:2: error: unknown type name 'fdt64_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:82:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:87:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:88:2: error: unknown type name 'fdt32_t'
+>      > -
+>       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:89:2: error: unknown type name 'fdt32_t'
+>      > -
+>      > -Index: qemu-1.4.0/include/libfdt_env.h
+>      > -===================================================================
+>      > ---- qemu-1.4.0.orig/include/libfdt_env.h       2013-02-15
+>     23:05:35.000000000 +0000
+>      > -+++ qemu-1.4.0/include/libfdt_env.h    2013-04-13
+>     14:17:27.918885225 +0000
+>      > -@@ -21,6 +21,10 @@
+>      > -
+>      > - #include "qemu/bswap.h"
+>      > -
+>      > -+typedef uint16_t fdt16_t;
+>      > -+typedef uint32_t fdt32_t;
+>      > -+typedef uint64_t fdt64_t;
+>      > -+
+>      > - #ifdef HOST_WORDS_BIGENDIAN
+>      > - #define fdt32_to_cpu(x)  (x)
+>      > - #define cpu_to_fdt32(x)  (x)
+>      > diff --git
+>     a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+>     b/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+>      > deleted file mode 100644
+>      > index 852efd1..0000000
+>      > ---
+>     a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
+>      > +++ /dev/null
+>      > @@ -1,79 +0,0 @@
+>      > -Upstream-Status: Backported
+>      > -
+>      > -From dec3fc9657e0682637de4d5a29d947284d01985c Mon Sep 17
+>     00:00:00 2001
+>      > -From: Richard Henderson <rth@twiddle.net <mailto:rth@twiddle.net>>
+>      > -Date: Wed, 29 May 2013 12:30:51 -0700
+>      > -Subject: [PATCH] target-i386: Fix aflag logic for CODE64 and the
+>     0x67 prefix
+>      > -
+>      > -The code reorganization in commit 4a6fd938 broke handling of
+>     PREFIX_ADR.
+>      > -While fixing this, tidy and comment the code so that it's more
+>     obvious
+>      > -what's going on in setting both aflag and dflag.
+>      > -
+>      > -The TARGET_X86_64 ifdef can be eliminated because CODE64 expands
+>     to the
+>      > -constant zero when TARGET_X86_64 is undefined.
+>      > -
+>      > -Cc: Paolo Bonzini <pbonzini@redhat.com <mailto:pbonzini@redhat.com>>
+>      > -Reported-by: Laszlo Ersek <lersek@redhat.com
+>     <mailto:lersek@redhat.com>>
+>      > -Signed-off-by: Richard Henderson <rth@twiddle.net
+>     <mailto:rth@twiddle.net>>
+>      > -Reviewed-by: Paolo Bonzini <pbonzini@redhat.com
+>     <mailto:pbonzini@redhat.com>>
+>      > -Message-id: 1369855851-21400-1-git-send-email-rth@twiddle.net
+>     <mailto:1369855851-21400-1-git-send-email-rth@twiddle.net>
+>      > -Signed-off-by: Anthony Liguori <aliguori@us.ibm.com
+>     <mailto:aliguori@us.ibm.com>>
+>      > ----
+>      > - target-i386/translate.c |   30 +++++++++++++++---------------
+>      > - 1 file changed, 15 insertions(+), 15 deletions(-)
+>      > -
+>      > -diff --git a/target-i386/translate.c b/target-i386/translate.c
+>      > -index 0aeccdb..14b0298 100644
+>      > ---- a/target-i386/translate.c
+>      > -+++ b/target-i386/translate.c
+>      > -@@ -4677,8 +4677,6 @@ static target_ulong disas_insn(CPUX86State
+>     *env, DisasContext *s,
+>      > -     }
+>      > -     s->pc = pc_start;
+>      > -     prefixes = 0;
+>      > --    aflag = s->code32;
+>      > --    dflag = s->code32;
+>      > -     s->override = -1;
+>      > -     rex_w = -1;
+>      > -     rex_r = 0;
+>      > -@@ -4801,23 +4799,25 @@ static target_ulong
+>     disas_insn(CPUX86State *env, DisasContext *s,
+>      > -     }
+>      > -
+>      > -     /* Post-process prefixes.  */
+>      > --    if (prefixes & PREFIX_DATA) {
+>      > --        dflag ^= 1;
+>      > --    }
+>      > --    if (prefixes & PREFIX_ADR) {
+>      > --        aflag ^= 1;
+>      > --    }
+>      > --#ifdef TARGET_X86_64
+>      > -     if (CODE64(s)) {
+>      > --        if (rex_w == 1) {
+>      > --            /* 0x66 is ignored if rex.w is set */
+>      > --            dflag = 2;
+>      > -+        /* In 64-bit mode, the default data size is 32-bit.
+>       Select 64-bit
+>      > -+           data with rex_w, and 16-bit data with 0x66; rex_w
+>     takes precedence
+>      > -+           over 0x66 if both are present.  */
+>      > -+        dflag = (rex_w > 0 ? 2 : prefixes & PREFIX_DATA ? 0 : 1);
+>      > -+        /* In 64-bit mode, 0x67 selects 32-bit addressing.  */
+>      > -+        aflag = (prefixes & PREFIX_ADR ? 1 : 2);
+>      > -+    } else {
+>      > -+        /* In 16/32-bit mode, 0x66 selects the opposite data
+>     size.  */
+>      > -+        dflag = s->code32;
+>      > -+        if (prefixes & PREFIX_DATA) {
+>      > -+            dflag ^= 1;
+>      > -         }
+>      > --        if (!(prefixes & PREFIX_ADR)) {
+>      > --            aflag = 2;
+>      > -+        /* In 16/32-bit mode, 0x67 selects the opposite
+>     addressing.  */
+>      > -+        aflag = s->code32;
+>      > -+        if (prefixes & PREFIX_ADR) {
+>      > -+            aflag ^= 1;
+>      > -         }
+>      > -     }
+>      > --#endif
+>      > -
+>      > -     s->prefix = prefixes;
+>      > -     s->aflag = aflag;
+>      > ---
+>      > -1.7.9.5
+>      > -
+>      > diff --git a/meta/recipes-devtools/qemu/qemu.inc
+>     b/meta/recipes-devtools/qemu/qemu.inc
+>      > index 97e9b7b..296b405 100644
+>      > --- a/meta/recipes-devtools/qemu/qemu.inc
+>      > +++ b/meta/recipes-devtools/qemu/qemu.inc
+>      > @@ -54,7 +54,7 @@ do_configure() {
+>      >         KVMOPTS="--enable-kvm"
+>      >      fi
+>      >
+>      > -    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir}
+>     --libexecdir=${libexecdir} --disable-strip ${EXTRA_OECONF} $KVMOPTS
+>      > +    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir}
+>     --libexecdir=${libexecdir} --localstatedir=${localstatedir}
+>     --disable-strip ${EXTRA_OECONF} $KVMOPTS
+>      >      test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x
+>     ${S}/target-i386/beginend_funcs.sh
+>      >  }
+>      >
+>      > diff --git a/meta/recipes-devtools/qemu/qemu_1.5.0.bb
+>     <http://qemu_1.5.0.bb> b/meta/recipes-devtools/qemu/qemu_1.6.0.bb
+>     <http://qemu_1.6.0.bb>
+>      > similarity index 44%
+>      > rename from meta/recipes-devtools/qemu/qemu_1.5.0.bb
+>     <http://qemu_1.5.0.bb>
+>      > rename to meta/recipes-devtools/qemu/qemu_1.6.0.bb
+>     <http://qemu_1.6.0.bb>
+>      > index d6dd743..f8dbe6d 100644
+>      > --- a/meta/recipes-devtools/qemu/qemu_1.5.0.bb <http://qemu_1.5.0.bb>
+>      > +++ b/meta/recipes-devtools/qemu/qemu_1.6.0.bb <http://qemu_1.6.0.bb>
+>      > @@ -3,13 +3,15 @@ require qemu.inc
+>      >  LIC_FILES_CHKSUM =
+>     "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+>      >
+>       file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
+>      >
+>      > -SRC_URI += "file://fdt_header.patch \
+>      > -
+>       file://target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch \
+>      > -            file://target-ppc_fix_bit_extraction.patch \
+>      > -           "
+>      > +SRC_URI += "file://target-ppc_fix_bit_extraction.patch"
+>      >
+>      >  SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+>      > -SRC_URI[md5sum] = "b6f3265b8ed39d77e8f354f35cc26e16"
+>      > -SRC_URI[sha256sum] =
+>     "b22b30ee9712568dfb4eedf76783f4a76546e1cbc41659b909646bcf0b4867bb"
+>      > +SRC_URI[md5sum] = "f3f39308472d629aca57a255a0c91ba9"
+>      > +SRC_URI[sha256sum] =
+>     "3132e58ada26d43b6924e8c2f07db80aa1e5022f3dcf03dee7d8bb9194b2cb48"
+>      >
+>      >  COMPATIBLE_HOST_class-target_mips64 = "null"
+>      > +
+>      > +do_install_append() {
+>      > +    # Prevent QA warnings about installed ${localstatedir}/run
+>      > +    if [ -d ${D}${localstatedir}/run ]; then rmdir
+>     ${D}${localstatedir}/run; fi
+>      > +}
+>      > --
+>      > 1.8.4.rc3
+>      >
+>      > _______________________________________________
+>      > Openembedded-core mailing list
+>      > Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>      > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+>
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
