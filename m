@@ -1,39 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-vb0-f44.google.com (mail-vb0-f44.google.com
-	[209.85.212.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C96E96CD66
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [143.182.124.37])
+	by mail.openembedded.org (Postfix) with ESMTP id C2F296CCD0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Oct 2013 23:33:23 +0000 (UTC)
-Received: by mail-vb0-f44.google.com with SMTP id e13so1066764vbg.17
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Oct 2013 16:33:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9fikmVBjTGUrKyOcoxhjxdftiZ6ASUpylWn3o/BZm/Q=;
-	b=cHp8vFnvbN7jtW0IWRJPNZVdMF9+T6cNEUswiTqQ0XIpTh9Xu0bqaTJILHx64ihOUl
-	frZDs/P9PEAknQUuY2bOYfX74TlM1QHWB24ShlJ8Gwd4uTvAXXTR8w7wr+iH3JpIHEIm
-	oS/zIkTY+8C32ODkQ7K9GusFD8sJBN6OHy6RugGckbViA7JVvB5Gwb215UbxSSoU1Ndi
-	HTWmdECd7dAgJh66aiVxcwFkNE56aCqFd+v8sR523JHjsdPrDxGnhekf3zcn4t84w9w3
-	fi4SUn2umu4Bala2HvqiNDDGpQmjeNGLKG34wHmjuQ5ezvS8wKfei0Fo48g53HcYgOe0
-	ruLQ==
-X-Gm-Message-State: ALoCoQnUKbkD4KRMbtmoDwsLLtyRfYszqlJS2To/S1gw2DI4rXvMygnnc/yxgQLm3d1B1lWLEYS7
-X-Received: by 10.52.229.4 with SMTP id sm4mr2592749vdc.50.1381361605489; Wed,
-	09 Oct 2013 16:33:25 -0700 (PDT)
+	Thu, 10 Oct 2013 00:31:45 +0000 (UTC)
+Received: from azsmga002.ch.intel.com ([10.2.17.35])
+	by azsmga102.ch.intel.com with ESMTP; 09 Oct 2013 17:31:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.90,1067,1371106800"; d="scan'208";a="305892204"
+Received: from unknown (HELO [10.255.15.232]) ([10.255.15.232])
+	by AZSMGA002.ch.intel.com with ESMTP; 09 Oct 2013 17:31:45 -0700
+Message-ID: <5255F571.3060108@linux.intel.com>
+Date: Wed, 09 Oct 2013 17:31:45 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
 MIME-Version: 1.0
-Received: by 10.220.71.201 with HTTP; Wed, 9 Oct 2013 16:33:05 -0700 (PDT)
-In-Reply-To: <CABcZAN=u1TsXA745EJxv-NwHwv+HUvuzENGV7StnH=wOiOYB8Q@mail.gmail.com>
-References: <1381242605-13393-1-git-send-email-ross.burton@intel.com>
-	<1381242605-13393-2-git-send-email-ross.burton@intel.com>
-	<CABcZAN=u1TsXA745EJxv-NwHwv+HUvuzENGV7StnH=wOiOYB8Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Oct 2013 00:33:05 +0100
-Message-ID: <CAJTo0LY+xZMo6Xm=3JHD2HwP9NL4ou0t-AhMAF=y=cm5My5DXA@mail.gmail.com>
-To: Chris Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
+To: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+References: <1380013034-2681-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+	<CAP9ODKo--dRe-FvP=p8UukRn4tCRdPyLiNfm2bj2jKCrpPjZVg@mail.gmail.com>
+In-Reply-To: <CAP9ODKo--dRe-FvP=p8UukRn4tCRdPyLiNfm2bj2jKCrpPjZVg@mail.gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane: configure option checking
+Subject: Re: [PATCH] wayland/weston: bump to 1.2.0 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,17 +35,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Oct 2013 23:33:24 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 10 Oct 2013 00:31:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 10 October 2013 00:17, Chris Larson <clarson@kergoth.com> wrote:
-> Why is the entire block in the try/except rather than just the
-> subprocess.check_output()?
+On 09/24/2013 05:42 AM, Otavio Salvador wrote:
+> On Tue, Sep 24, 2013 at 5:57 AM, Ewan LE BIDEAU-CANEVET
+> <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr> wrote:
+>> add bitbake files for wayland and weston 1.2.0
+>>
+>> Signed-off-by: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+>> ---
+>
+> Your commit log say bump but in fact you add these.
+>
+Now that we are going to open Master up again, can you resend this patch 
+with the version bump as a git mv instead of a git add?
 
-It could easily be just the check_output call if I pull the test into
-a separate function so it can return after handling the exception
-(which normally means that no warnings were found).  I'm not bothered
-either way to be honest.
+Thanks
+	Sau!
 
-Ross
 
