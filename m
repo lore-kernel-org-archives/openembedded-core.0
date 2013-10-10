@@ -1,36 +1,16 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B25A66CEE1
+Return-Path: <seebs@msp-lpggp2.wrs.com>
+Received: from msp-lpggp2.wrs.com (unknown [206.144.70.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B1E26CEF0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 18:16:03 +0000 (UTC)
-Received: by mail-vc0-f176.google.com with SMTP id lf11so1949087vcb.21
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 11:16:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:organization;
-	bh=9+QGxTSA2nQNWwuxhURRy1lQbzW5xdL1ATtNN1KtbRw=;
-	b=PEoNEzPPjNZ6S5grSXdcY1jOTRrqGhcvWU/yxx+vbFCFn/nfSX9ozlP0PVxFbiSoYN
-	uKvNMUug9kiAzGSxdJzM52Qbcjw6HzmZjqetdkJ6Rc0BZUt5FeBHBW6oWNFjU9Gc4qM1
-	lAsC1Y32UeX7wOipFxx5UzzpSyUEVlAeD38Kfi/F73QlRD7vi2sEi478JOJUZ/q4RHYZ
-	kiaAh/RDlATQUAvBYLP2w03dqVLD8t16hFBd/jxzCuQCg6aRkO4STZ20s0pCIZuKnNjU
-	ZEeHrQDCcAcHg7gkkyUkXtLla/+P7JuAdbCO+if5oww3Q1YyEsLM1gc4leWVUE6Cy0gH
-	g2+A==
-X-Received: by 10.52.98.66 with SMTP id eg2mr13640397vdb.24.1381428964520;
-	Thu, 10 Oct 2013 11:16:04 -0700 (PDT)
-Received: from nano.lab.ossystems.com.br ([177.194.208.225])
-	by mx.google.com with ESMTPSA id k17sm51342893vdh.7.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 10 Oct 2013 11:16:03 -0700 (PDT)
-Sender: Otavio Salvador <otavio.salvador@gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Thu, 10 Oct 2013 15:15:27 -0300
-Message-Id: <1381428927-7057-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 1.8.4.rc3
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] uboot-config.bbclass; Raise an error for unknown configs
+	Thu, 10 Oct 2013 20:05:31 +0000 (UTC)
+Received: by msp-lpggp2.wrs.com (Postfix, from userid 508)
+	id DEC9DA024DE; Thu, 10 Oct 2013 15:06:13 -0500 (CDT)
+From: Peter Seebach <peter.seebach@windriver.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Oct 2013 15:06:11 -0500
+Message-Id: <cover.1381435139.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 1.7.1
+Subject: [PATCH 0/2] Use alternatives for all of binutils instead of -symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +23,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2013 18:16:04 -0000
+X-List-Received-Date: Thu, 10 Oct 2013 20:05:31 -0000
 
-When passing the wrong value for UBOOT_CONFIG it ought to raise an
-error otherwise it is quite difficult for user to notice it didn't
-behave as expected.
+The original complaint that got me started on this was that someone
+was using binutils on a target, and didn't have an ld command, so they
+asked for it. We added binutils-symlinks, and that seemed to work, but
+eventually we ran into a problem because "ar" and "strings" weren't
+showing up.
 
-Reported-by: Lauren Post <lauren.post@freescale.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- meta/classes/uboot-config.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
+After some asking about as to why ar and strings might be omitted from
+binutils, we concluded that it was probably because they were using
+the alternatives mechanism. In a local branch, we experimented for a while
+with just using that instead of the -symlinks package, and found that
+it was overall better-behaved; in particular, it produces the desireable
+result that you don't have to know about or add a "-symlinks" package
+to use the utilities in the common case where you just install a package
+and expect its binaries to show up. It also eliminates the odd special
+case difference between ar/strings (which can be provided by busybox)
+and the other utilities.
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index ba01bff..ff226a1 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -51,4 +51,9 @@ python () {
-             if len(items) > 1 and items[1]:
-                 bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
-                 d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-+
-+            # Go out as we found a match!
-+            break
-+    else:
-+        raise bb.parse.SkipPackage("UBOOT_CONFIG %s is not supported" % ubootconfig)
- }
--- 
-1.8.4.rc3
+This is implemented as two patches. The first switches to using the
+alternatives mechanism, but leaves the alternatives in the -symlinks
+package rather than in the base package. The second moves them into
+the base package, and adds an RPROVIDES for the -symlinks name in
+case anyone is using it.
+
+One caveat: This can produce warnings because the "embedspu" and "ld.gold"
+binaries don't always exist, but they sometimes exist. I'm not sure whether
+there's a good way to fix that...
+
+The following changes since commit 1149b1fef8912f77d971242dfec151fff5a3aa51:
+
+  build-appliance: Update SRCREV for release (2013-10-08 16:33:25 +0100)
+
+are available in the git repository at:
+  git://git.yoctoproject.org/poky-contrib seebs/binutils-alternatives
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/binutils-alternatives
+
+Peter Seebach (2):
+  Use alternatives for the binutils-symlinks package.
+  Drop binutils-symlinks
+
+ meta/recipes-devtools/binutils/binutils.inc |   68 ++++++++++++++++-----------
+ 1 files changed, 40 insertions(+), 28 deletions(-)
 
 
