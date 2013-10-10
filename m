@@ -1,28 +1,27 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D4040610F5
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A67156CC84
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 00:39:54 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 09 Oct 2013 17:39:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.90,1067,1371106800"; d="scan'208";a="408574395"
-Received: from unknown (HELO [10.255.15.232]) ([10.255.15.232])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Oct 2013 17:36:57 -0700
-Message-ID: <5255F6A9.8000600@linux.intel.com>
-Date: Wed, 09 Oct 2013 17:36:57 -0700
-From: Saul Wold <sgw@linux.intel.com>
+	Thu, 10 Oct 2013 02:30:04 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9A2U5Lj020404
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 9 Oct 2013 19:30:06 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.2.342.3;
+	Wed, 9 Oct 2013 19:30:05 -0700
+Message-ID: <5256112B.5060205@windriver.com>
+Date: Thu, 10 Oct 2013 10:30:03 +0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130923 Thunderbird/17.0.9
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-To: Chris Patterson <cjp256@gmail.com>
-References: <1379381170-10557-1-git-send-email-cjp256@gmail.com>
-	<CAMKF1srOTaNFj_vKkG1SkE9-YxVFkeVoukxW9qEkNo_s8qw--w@mail.gmail.com>
-	<CABZSBQci_GqUw7nMBJWQUOgmuKKfxmjqGCqsX35ni8Dvj6DHZw@mail.gmail.com>
-In-Reply-To: <CABZSBQci_GqUw7nMBJWQUOgmuKKfxmjqGCqsX35ni8Dvj6DHZw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: upgrade to 1.6.0
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1379488759.git.hongxu.jia@windriver.com>
+In-Reply-To: <cover.1379488759.git.hongxu.jia@windriver.com>
+Subject: Re: [PATCH V2 0/1] kernel-grub.bbclass: a method to install/update for bzImage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,295 +34,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2013 00:39:55 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 10 Oct 2013 02:30:05 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 09/17/2013 04:21 AM, Chris Patterson wrote:
-> Will do, thanks.
->
-Now that we are starting to open master up again, can you update and 
-resend your patch.
+Ping
 
-Thanks
-	Sau!
+//Hongxu
+
+On 09/18/2013 03:26 PM, Hongxu Jia wrote:
+> Change in V2: Create a "kernel-grub.bbclass" to do the job which means
+>                it is disabled by default.
 >
-> On Tue, Sep 17, 2013 at 1:34 AM, Khem Raj <raj.khem@gmail.com
-> <mailto:raj.khem@gmail.com>> wrote:
+> Test Case:
+> 1. Add INHERIT_append = " kernel-grub" to local.conf and build a new kernel
+>     image rpm package.
 >
->     Hi Chris
+> 2. Prepare a deployed target, and make sure your boot area has enough disk
+>     space (free space >= 5MB).
 >
->     On Mon, Sep 16, 2013 at 6:26 PM, Chris Patterson <cjp256@gmail.com
->     <mailto:cjp256@gmail.com>> wrote:
->      > This update also drops the following patches which appear to have
->     been resolved upstream:
->      > - ftd_header.patch
->      > - target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
->      >
+> 3. Download the new kernel image rpm to the target.
 >
->     Thanks for the patch. I think its a tad late for 1.5 release since we
->     use Qemu heavily
->     but I would suggest to keep it current and submit it after the window
->     for 1.6 is open after branch for 1.5 is cut out.
+> 4. Before install/update, check boot area and menu
+> root@qemux86-64:~# ls /boot/
+> grub        vmlinuz
 >
->      > Signed-off-by: Chris Patterson <cjp256@gmail.com
->     <mailto:cjp256@gmail.com>>
->      > ---
->      >  meta/recipes-devtools/qemu/files/fdt_header.patch  | 39 -----------
->      >  ...-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch | 79
->     ----------------------
->      >  meta/recipes-devtools/qemu/qemu.inc                |  2 +-
->      >  .../qemu/{qemu_1.5.0.bb <http://qemu_1.5.0.bb> => qemu_1.6.0.bb
->     <http://qemu_1.6.0.bb>}          | 14 ++--
->      >  4 files changed, 9 insertions(+), 125 deletions(-)
->      >  delete mode 100644 meta/recipes-devtools/qemu/files/fdt_header.patch
->      >  delete mode 100644
->     meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
->      >  rename meta/recipes-devtools/qemu/{qemu_1.5.0.bb
->     <http://qemu_1.5.0.bb> => qemu_1.6.0.bb <http://qemu_1.6.0.bb>} (44%)
->      >
->      > diff --git a/meta/recipes-devtools/qemu/files/fdt_header.patch
->     b/meta/recipes-devtools/qemu/files/fdt_header.patch
->      > deleted file mode 100644
->      > index dccfe53..0000000
->      > --- a/meta/recipes-devtools/qemu/files/fdt_header.patch
->      > +++ /dev/null
->      > @@ -1,39 +0,0 @@
->      > -Upstream-Status: Pending
->      > -
->      > -qemu: define fdt types in libfdt_env.h from qemu
->      > -
->      > -    * fixes
->      > -    In file included from
->     /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/libfdt.h:55:0,
->      > -                     from
->     /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/work/x86_64-linux/qemu-native/1.4.0-r0/qemu-1.4.0/hw/arm/../../device_tree.c:28:
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:58:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:59:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:60:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:61:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:62:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:63:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:64:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:67:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:70:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:73:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:77:2: error: unknown type name 'fdt64_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:78:2: error: unknown type name 'fdt64_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:82:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:87:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:88:2: error: unknown type name 'fdt32_t'
->      > -
->       /home/oe/setup-scripts/build/tmp-angstrom_next-uclibc/sysroots/x86_64-linux/usr/include/fdt.h:89:2: error: unknown type name 'fdt32_t'
->      > -
->      > -Index: qemu-1.4.0/include/libfdt_env.h
->      > -===================================================================
->      > ---- qemu-1.4.0.orig/include/libfdt_env.h       2013-02-15
->     23:05:35.000000000 +0000
->      > -+++ qemu-1.4.0/include/libfdt_env.h    2013-04-13
->     14:17:27.918885225 +0000
->      > -@@ -21,6 +21,10 @@
->      > -
->      > - #include "qemu/bswap.h"
->      > -
->      > -+typedef uint16_t fdt16_t;
->      > -+typedef uint32_t fdt32_t;
->      > -+typedef uint64_t fdt64_t;
->      > -+
->      > - #ifdef HOST_WORDS_BIGENDIAN
->      > - #define fdt32_to_cpu(x)  (x)
->      > - #define cpu_to_fdt32(x)  (x)
->      > diff --git
->     a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
->     b/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
->      > deleted file mode 100644
->      > index 852efd1..0000000
->      > ---
->     a/meta/recipes-devtools/qemu/files/target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch
->      > +++ /dev/null
->      > @@ -1,79 +0,0 @@
->      > -Upstream-Status: Backported
->      > -
->      > -From dec3fc9657e0682637de4d5a29d947284d01985c Mon Sep 17
->     00:00:00 2001
->      > -From: Richard Henderson <rth@twiddle.net <mailto:rth@twiddle.net>>
->      > -Date: Wed, 29 May 2013 12:30:51 -0700
->      > -Subject: [PATCH] target-i386: Fix aflag logic for CODE64 and the
->     0x67 prefix
->      > -
->      > -The code reorganization in commit 4a6fd938 broke handling of
->     PREFIX_ADR.
->      > -While fixing this, tidy and comment the code so that it's more
->     obvious
->      > -what's going on in setting both aflag and dflag.
->      > -
->      > -The TARGET_X86_64 ifdef can be eliminated because CODE64 expands
->     to the
->      > -constant zero when TARGET_X86_64 is undefined.
->      > -
->      > -Cc: Paolo Bonzini <pbonzini@redhat.com <mailto:pbonzini@redhat.com>>
->      > -Reported-by: Laszlo Ersek <lersek@redhat.com
->     <mailto:lersek@redhat.com>>
->      > -Signed-off-by: Richard Henderson <rth@twiddle.net
->     <mailto:rth@twiddle.net>>
->      > -Reviewed-by: Paolo Bonzini <pbonzini@redhat.com
->     <mailto:pbonzini@redhat.com>>
->      > -Message-id: 1369855851-21400-1-git-send-email-rth@twiddle.net
->     <mailto:1369855851-21400-1-git-send-email-rth@twiddle.net>
->      > -Signed-off-by: Anthony Liguori <aliguori@us.ibm.com
->     <mailto:aliguori@us.ibm.com>>
->      > ----
->      > - target-i386/translate.c |   30 +++++++++++++++---------------
->      > - 1 file changed, 15 insertions(+), 15 deletions(-)
->      > -
->      > -diff --git a/target-i386/translate.c b/target-i386/translate.c
->      > -index 0aeccdb..14b0298 100644
->      > ---- a/target-i386/translate.c
->      > -+++ b/target-i386/translate.c
->      > -@@ -4677,8 +4677,6 @@ static target_ulong disas_insn(CPUX86State
->     *env, DisasContext *s,
->      > -     }
->      > -     s->pc = pc_start;
->      > -     prefixes = 0;
->      > --    aflag = s->code32;
->      > --    dflag = s->code32;
->      > -     s->override = -1;
->      > -     rex_w = -1;
->      > -     rex_r = 0;
->      > -@@ -4801,23 +4799,25 @@ static target_ulong
->     disas_insn(CPUX86State *env, DisasContext *s,
->      > -     }
->      > -
->      > -     /* Post-process prefixes.  */
->      > --    if (prefixes & PREFIX_DATA) {
->      > --        dflag ^= 1;
->      > --    }
->      > --    if (prefixes & PREFIX_ADR) {
->      > --        aflag ^= 1;
->      > --    }
->      > --#ifdef TARGET_X86_64
->      > -     if (CODE64(s)) {
->      > --        if (rex_w == 1) {
->      > --            /* 0x66 is ignored if rex.w is set */
->      > --            dflag = 2;
->      > -+        /* In 64-bit mode, the default data size is 32-bit.
->       Select 64-bit
->      > -+           data with rex_w, and 16-bit data with 0x66; rex_w
->     takes precedence
->      > -+           over 0x66 if both are present.  */
->      > -+        dflag = (rex_w > 0 ? 2 : prefixes & PREFIX_DATA ? 0 : 1);
->      > -+        /* In 64-bit mode, 0x67 selects 32-bit addressing.  */
->      > -+        aflag = (prefixes & PREFIX_ADR ? 1 : 2);
->      > -+    } else {
->      > -+        /* In 16/32-bit mode, 0x66 selects the opposite data
->     size.  */
->      > -+        dflag = s->code32;
->      > -+        if (prefixes & PREFIX_DATA) {
->      > -+            dflag ^= 1;
->      > -         }
->      > --        if (!(prefixes & PREFIX_ADR)) {
->      > --            aflag = 2;
->      > -+        /* In 16/32-bit mode, 0x67 selects the opposite
->     addressing.  */
->      > -+        aflag = s->code32;
->      > -+        if (prefixes & PREFIX_ADR) {
->      > -+            aflag ^= 1;
->      > -         }
->      > -     }
->      > --#endif
->      > -
->      > -     s->prefix = prefixes;
->      > -     s->aflag = aflag;
->      > ---
->      > -1.7.9.5
->      > -
->      > diff --git a/meta/recipes-devtools/qemu/qemu.inc
->     b/meta/recipes-devtools/qemu/qemu.inc
->      > index 97e9b7b..296b405 100644
->      > --- a/meta/recipes-devtools/qemu/qemu.inc
->      > +++ b/meta/recipes-devtools/qemu/qemu.inc
->      > @@ -54,7 +54,7 @@ do_configure() {
->      >         KVMOPTS="--enable-kvm"
->      >      fi
->      >
->      > -    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir}
->     --libexecdir=${libexecdir} --disable-strip ${EXTRA_OECONF} $KVMOPTS
->      > +    ${S}/configure --prefix=${prefix} --sysconfdir=${sysconfdir}
->     --libexecdir=${libexecdir} --localstatedir=${localstatedir}
->     --disable-strip ${EXTRA_OECONF} $KVMOPTS
->      >      test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x
->     ${S}/target-i386/beginend_funcs.sh
->      >  }
->      >
->      > diff --git a/meta/recipes-devtools/qemu/qemu_1.5.0.bb
->     <http://qemu_1.5.0.bb> b/meta/recipes-devtools/qemu/qemu_1.6.0.bb
->     <http://qemu_1.6.0.bb>
->      > similarity index 44%
->      > rename from meta/recipes-devtools/qemu/qemu_1.5.0.bb
->     <http://qemu_1.5.0.bb>
->      > rename to meta/recipes-devtools/qemu/qemu_1.6.0.bb
->     <http://qemu_1.6.0.bb>
->      > index d6dd743..f8dbe6d 100644
->      > --- a/meta/recipes-devtools/qemu/qemu_1.5.0.bb <http://qemu_1.5.0.bb>
->      > +++ b/meta/recipes-devtools/qemu/qemu_1.6.0.bb <http://qemu_1.6.0.bb>
->      > @@ -3,13 +3,15 @@ require qemu.inc
->      >  LIC_FILES_CHKSUM =
->     "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
->      >
->       file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
->      >
->      > -SRC_URI += "file://fdt_header.patch \
->      > -
->       file://target-i386-Fix-aflag-logic-for-CODE64-and-the-0x67-.patch \
->      > -            file://target-ppc_fix_bit_extraction.patch \
->      > -           "
->      > +SRC_URI += "file://target-ppc_fix_bit_extraction.patch"
->      >
->      >  SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
->      > -SRC_URI[md5sum] = "b6f3265b8ed39d77e8f354f35cc26e16"
->      > -SRC_URI[sha256sum] =
->     "b22b30ee9712568dfb4eedf76783f4a76546e1cbc41659b909646bcf0b4867bb"
->      > +SRC_URI[md5sum] = "f3f39308472d629aca57a255a0c91ba9"
->      > +SRC_URI[sha256sum] =
->     "3132e58ada26d43b6924e8c2f07db80aa1e5022f3dcf03dee7d8bb9194b2cb48"
->      >
->      >  COMPATIBLE_HOST_class-target_mips64 = "null"
->      > +
->      > +do_install_append() {
->      > +    # Prevent QA warnings about installed ${localstatedir}/run
->      > +    if [ -d ${D}${localstatedir}/run ]; then rmdir
->     ${D}${localstatedir}/run; fi
->      > +}
->      > --
->      > 1.8.4.rc3
->      >
->      > _______________________________________________
->      > Openembedded-core mailing list
->      > Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->      > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> root@qemux86-64:~# cat /boot/grub/grub.cfg
+> menuentry "Linux" {
+>      set root=(hd0,1)
+>      linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
+> }
+>
+> 4. Install/update bzImage
+> root@qemux86-64:~# rpm -i kernel-image-3.10.11-yocto-standard-3.10.12+git0+285f93bf94_702040ac7c-r0.qemux86_64.rpm
+> Caution! Update kernel may affect kernel-module!
+> update-alternatives: Linking //boot/bzImage to bzImage-3.10.11-yocto-standard
+>
+> 5. After install/update, check boot area and menu
+> root@qemux86-64:~# ls /boot/ -al
+> drwxr-xr-x    4 root     root          1024 Sep 18 06:58 .
+> drwxr-xr-x   17 root     root          4096 Sep 18 06:41 ..
+> lrwxrwxrwx    1 root     root            30 Sep 18 06:58 bzImage -> bzImage-3.10.11-yocto-standard
+> -rw-r--r--    1 root     root       5601808 Sep 18 06:45 bzImage-3.10.11-yocto-standard
+> drwxr-xr-x    4 root     root          1024 Sep 18 06:58 grub
+> -rwxr-x---    1 root     root       5601776 Sep 18 06:38 vmlinuz
+>
+> root@qemux86-64:~# cat /boot/grub/grub.cfg
+> menuentry "Update bzImage-3.10.11-yocto-standard-3.10.12+gitAUTOINC+285f93bf94_702040ac7c" {
+>      set root=(hd0,1)
+>      linux /bzImage-3.10.11-yocto-standard root=/dev/hdb2  rw  console=tty0  quiet
+> }
+> menuentry "Linux" {
+>      set root=(hd0,1)
+>      linux /vmlinuz root=/dev/hdb2  rw  console=tty0  quiet
+> }
 >
 >
+> 6. Reboot target, 'Update bzImage-3.10.11-yocto-standard-3.10.12+gitAUTOINC+285f93bf94_702040ac7c'
+>     will be in the boot menu.
 >
+> 7. It supports GRUB 0.97 in which use menu.lst rather than grub.cfg as config
+>     file.
 >
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 8. If you install the same rpm more than one time with '--force', there will
+>     be multiple kernel images in boot area and menu.
 >
+> //Hongxu
+>
+> The following changes since commit 825cfeb2e6777a55077ecff32d5b2c0e3da13ae8:
+>
+>    bitbake: usermanual.xml: Two new sections added to BitBake "Description" (2013-09-17 22:27:56 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.pokylinux.org/poky-contrib hongxu/update-bzimage
+>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=hongxu/update-bzimage
+>
+> Hongxu Jia (1):
+>    kernel-grub.bbclass: a method to install/update for bzImage
+>
+>   meta/classes/kernel-grub.bbclass | 79 ++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 79 insertions(+)
+>   create mode 100644 meta/classes/kernel-grub.bbclass
+>
+
 
