@@ -1,29 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (dan.rpsys.net [93.97.175.187])
-	by mail.openembedded.org (Postfix) with ESMTP id 277786CC84
+Return-Path: <fathi.boudra@linaro.org>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 935526CC4E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 06:56:13 +0000 (UTC)
-Received: from localhost (dan.rpsys.net [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9A6u9Gq017829; Thu, 10 Oct 2013 07:56:09 +0100
-X-Virus-Scanned: Debian amavisd-new at dan.rpsys.net
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 8ORohd30vmIW; Thu, 10 Oct 2013 07:56:09 +0100 (BST)
-Received: from [192.168.3.10] (rpvlan0 [192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-2.1ubuntu1) with ESMTP id
-	r9A6u5Iv017825
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-CAMELLIA256-SHA bits=256
-	verify=NOT); Thu, 10 Oct 2013 07:56:06 +0100
-Message-ID: <1381388161.29912.67.camel@ted>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Koen Kooi <koen@dominion.thruhere.net>
-Date: Thu, 10 Oct 2013 07:56:01 +0100
-In-Reply-To: <D14FF4AA-C9DA-40C4-B706-3953E31F1A35@dominion.thruhere.net>
+	Thu, 10 Oct 2013 08:34:34 +0000 (UTC)
+Received: by mail-lb0-f178.google.com with SMTP id z5so1758472lbh.23
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Oct 2013 01:34:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=yj45czfljS1wAA0iHAvDbtlax1KnI6cBd6afFhNngfQ=;
+	b=JMKMPy+rAGUCLtHI57PkCAgqvrw9wPqCKpkMKIM03wdscyQymiCzT7ih1REQu7uuU3
+	P0+m20l0OBkbiuir5xXAtmEO0I6F4zQjCzVspIgZeMwriBYbbiCDbt/2jnSgrSpCxCO3
+	sFfWDsqDEVpnWD5YQkGWF+su4xLWPJJwRrlLmjf11YPZbFqYR+tP8wd1d3CuCKkoBDGZ
+	9FHrzWKvr5hxhI+EU0sZi0NGmriJeiBrqbKrQjBfVq3LfOZo0YBqSyezqHEb4RujcQrr
+	mFbUoCnQWjOnEi1WfOqLxuPZLjU/7ePFO7C6kMNaeaF/OIEfgis8AKZZlDIyR0tfRiZG
+	NxsQ==
+X-Gm-Message-State: ALoCoQlgTzTc3DTWb0TgWiUdiRIWpuYPhUfdR1mBr1bF4ki5oiDQLCtSnGLFCtSaSFBve6WqZywr
+MIME-Version: 1.0
+X-Received: by 10.112.0.173 with SMTP id 13mr11011535lbf.8.1381394075480; Thu,
+	10 Oct 2013 01:34:35 -0700 (PDT)
+Received: by 10.112.173.66 with HTTP; Thu, 10 Oct 2013 01:34:35 -0700 (PDT)
+In-Reply-To: <2013BC5B-3177-47F4-8914-07A9A8E00AAD@gmail.com>
 References: <D14FF4AA-C9DA-40C4-B706-3953E31F1A35@dominion.thruhere.net>
-X-Mailer: Evolution 3.6.4-0ubuntu1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org oe-core layer"
+	<2013BC5B-3177-47F4-8914-07A9A8E00AAD@gmail.com>
+Date: Thu, 10 Oct 2013 11:34:35 +0300
+Message-ID: <CAGNsrLCs1cdVKuskCub08g-XEyS-7rycugTpaoe7mFpKT3_F+w@mail.gmail.com>
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Koen Kooi <koen@dominion.thruhere.net>,
+	"openembedded-core@lists.openembedded.org oe-core layer"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Architectures with underscores in their names, how to handle that?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,32 +46,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2013 06:56:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Oct 2013 08:34:35 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, 2013-10-10 at 08:27 +0200, Koen Kooi wrote:
-> Hi,
-> 
-> I'm working on adding support for big-endian armv8 and the toolchain
-> people decided that it should be named 'aarch64_eb'. That currently
-> works in OE because there isn't a 'eb' override yet, but there might
-> be one in the future.
-> 
-> So my question is, how can I safely handle a name like this?
+On 10 October 2013 09:30, Khem Raj <raj.khem@gmail.com> wrote:
+> why not suggest them to use aarch64eb is that too hard a change ?
 
-I suspect we'll just have to be careful never to add an "eb" override,
-in much the same way as a 64 override would also cause problems for
-x86_64. There is code in place to change the _ to - for package feed
-use.
+We've done it but the counter argument is that toolchains are already
+out there with an official release.
+The upstream FSF GCC 4.8, Binutils 2.23, EGLIBC 2.18 releases. So
+basically the community has accepted the triplet.
 
-Longer term I'd like to see us find a better character for overrides
-than the current use of "_" but that would be a fair bit of work to
-achieve. I'd like to think that would performance as well as readablity
-of .bb files but I've yet to prove it.
-
-Cheers,
-
-Richard
-
+> it matches other known Big Endian naming conventions like mips and so on in autotools world.
 
