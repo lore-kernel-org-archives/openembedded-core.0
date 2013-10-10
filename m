@@ -1,22 +1,24 @@
 Return-Path: <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
 Received: from mailhost.eurogiciel.fr (mailhost.eurogiciel.fr [86.64.47.76])
-	by mail.openembedded.org (Postfix) with ESMTP id 1603F60FAA
+	by mail.openembedded.org (Postfix) with ESMTP id DDCFB6D01A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Oct 2013 12:23:45 +0000 (UTC)
+	Thu, 10 Oct 2013 12:23:47 +0000 (UTC)
 Received: from (unknown [172.16.88.4]) by mailhost.eurogiciel.fr with smtp
-	id 1717_711a_adf65110_31a7_11e3_b3fa_a4badbe01a3a;
-	Thu, 10 Oct 2013 14:29:59 +0200
+	id 1717_7123_b0edabe8_31a7_11e3_b3fa_a4badbe01a3a;
+	Thu, 10 Oct 2013 14:30:04 +0200
 Received: from intel13.vannes ([172.16.100.253]) by 31l-syracuse.eurogiciel.fr
 	with Microsoft SMTPSVC(6.0.3790.3959); 
 	Thu, 10 Oct 2013 14:23:31 +0200
 From: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2013 14:23:21 +0200
-Message-Id: <1381407802-16852-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+Date: Thu, 10 Oct 2013 14:23:22 +0200
+Message-Id: <1381407802-16852-2-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
 X-Mailer: git-send-email 1.7.10.4
-X-OriginalArrivalTime: 10 Oct 2013 12:23:31.0269 (UTC)
-	FILETIME=[880CEF50:01CEC5B3]
-Subject: [PATCH v3 1/2] wayland : Bump to 1.2.0 version
+In-Reply-To: <1381407802-16852-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+References: <1381407802-16852-1-git-send-email-Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
+X-OriginalArrivalTime: 10 Oct 2013 12:23:31.0925 (UTC)
+	FILETIME=[88710850:01CEC5B3]
+Subject: [PATCH v3 2/2] weston : Bump to 1.2.0 version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,90 +35,317 @@ X-List-Received-Date: Thu, 10 Oct 2013 12:23:48 -0000
 
 Signed-off-by: Ewan LE BIDEAU-CANEVET <Ewan.LEBIDEAU-CANEVET@eurogiciel.fr>
 ---
- .../wayland/wayland/just-scanner.patch             |   36 --------------------
- .../wayland/{wayland_1.1.0.bb => wayland_1.2.0.bb} |   18 ++--------
- 2 files changed, 2 insertions(+), 52 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/wayland/just-scanner.patch
- rename meta/recipes-graphics/wayland/{wayland_1.1.0.bb => wayland_1.2.0.bb} (59%)
+ meta/recipes-graphics/wayland/weston/groups.patch  |   47 ------
+ .../wayland/weston/weston-launch-shell.patch       |   74 ---------
+ .../wayland/{weston_1.1.0.bb => weston_1.2.0.bb}   |  162 ++++++++++----------
+ 3 files changed, 79 insertions(+), 204 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/groups.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/weston-launch-shell.patch
+ rename meta/recipes-graphics/wayland/{weston_1.1.0.bb => weston_1.2.0.bb} (83%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland/just-scanner.patch b/meta/recipes-graphics/wayland/wayland/just-scanner.patch
+diff --git a/meta/recipes-graphics/wayland/weston/groups.patch b/meta/recipes-graphics/wayland/weston/groups.patch
 deleted file mode 100644
-index 234a9c5..0000000
---- a/meta/recipes-graphics/wayland/wayland/just-scanner.patch
+index 9dc043a..0000000
+--- a/meta/recipes-graphics/wayland/weston/groups.patch
 +++ /dev/null
-@@ -1,36 +0,0 @@
--We only build wayland-native for the scanner, so disable the bits we don't
--actually need.  This gives us a small speed up but importantly should allow
--wayland-native to compile on older hosts such as CentOS 5 which currently fails:
--
--| wayland-1.0.6/src/wayland-server.c:1245: error: 'O_CLOEXEC' undeclared (first use in this function)
--| wayland-1.0.6/src/event-loop.c:34:25: error: sys/timerfd.h: No such file or directory
--| wayland-1.0.6/src/event-loop.c:199: error: 'CLOCK_MONOTONIC' undeclared (first use in this function)
--| wayland-1.0.6/src/event-loop.c:199: error: 'TFD_CLOEXEC' undeclared (first use in this function)
--| wayland-1.0.6/src/event-loop.c:268: error: 'SFD_CLOEXEC' undeclared (first use in this function)
--
--Upstream-Status: Inappropriate
+@@ -1,47 +0,0 @@
+-Upstream-Status: Submitted (https://bugs.freedesktop.org/show_bug.cgi?id=65933)
 -Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
--diff --git a/Makefile.am b/Makefile.am
--index 306d7b3..571fe89 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -2,7 +2,7 @@ if BUILD_DOCS
-- doc_subdir = doc
-- endif
-- 
---SUBDIRS = src protocol $(doc_subdir) tests cursor
--+SUBDIRS = src protocol $(doc_subdir)
-- 
-- ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-- 
--diff --git a/src/Makefile.am b/src/Makefile.am
--index e1d04ea..702342e 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -1,4 +1,4 @@
---lib_LTLIBRARIES = libwayland-server.la libwayland-client.la
--+#lib_LTLIBRARIES = libwayland-server.la libwayland-client.la
-- noinst_LTLIBRARIES = libwayland-util.la
-- 
-- include_HEADERS =				\
-diff --git a/meta/recipes-graphics/wayland/wayland_1.1.0.bb b/meta/recipes-graphics/wayland/wayland_1.2.0.bb
-similarity index 59%
-rename from meta/recipes-graphics/wayland/wayland_1.1.0.bb
-rename to meta/recipes-graphics/wayland/wayland_1.2.0.bb
-index a71402e..f001b43 100644
---- a/meta/recipes-graphics/wayland/wayland_1.1.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.2.0.bb
-@@ -11,11 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1d4476a7d98dd5691c53d4d43a510c72 \
-                     file://src/wayland-server.c;endline=21;md5=079ae21dbf98ada52ec23744851b0a5c"
- 
- SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "d2dc9398a83692cafc16eba6e45f85d8"
--SRC_URI[sha256sum] = "2ef587cf1a0e52b6dee44eeb9c288110e8180819abf4e419d247dfe234867a5c"
+-From 42821739a228a85ce3432be1796858e5cc31688b Mon Sep 17 00:00:00 2001
+-From: Quentin Glidic <sardemff7+git@sardemff7.net>
+-Date: Wed, 19 Jun 2013 15:27:11 +0200
+-Subject: [PATCH weston] weston-launch: Set all groups for user
 -
--SRC_URI_append_class-native = " file://just-scanner.patch"
+-Signed-off-by: Quentin Glidic <sardemff7+git@sardemff7.net>
+----
+- configure.ac        | 2 +-
+- src/weston-launch.c | 4 ++++
+- 2 files changed, 5 insertions(+), 1 deletion(-)
 -
-+SRC_URI[md5sum] = "48d375afb15f3e68a72cf7b4fd8f4a63"
-+SRC_URI[sha256sum] = "6b0439a017185bc5b2fed96c178bed3abf7f19188f3078f4d69fd3ce222d654c"
- inherit autotools pkgconfig
- 
- # We need wayland-native for the wayland-scanner utility
-@@ -26,14 +23,3 @@ DEPENDS = "expat libffi wayland-native"
- 
- EXTRA_OECONF_virtclass-native = "--disable-documentation"
- EXTRA_OECONF = "--disable-documentation --disable-scanner"
+-diff --git a/configure.ac b/configure.ac
+-index b625221..db3feb0 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -52,7 +52,7 @@ AC_CHECK_DECL(CLOCK_MONOTONIC,[],
+- 	      [[#include <time.h>]])
+- AC_CHECK_HEADERS([execinfo.h])
+- 
+--AC_CHECK_FUNCS([mkostemp strchrnul])
+-+AC_CHECK_FUNCS([mkostemp strchrnul initgroups])
+- 
+- COMPOSITOR_MODULES="wayland-server >= 1.1.90 xkbcommon pixman-1"
+- 
+-diff --git a/src/weston-launch.c b/src/weston-launch.c
+-index 76dcede..7d7b556 100644
+---- a/src/weston-launch.c
+-+++ b/src/weston-launch.c
+-@@ -631,9 +631,13 @@ main(int argc, char *argv[])
+- 		}
+- 
+- 		if (setgid(wl.pw->pw_gid) < 0 ||
+-+#ifdef HAVE_INITGROUPS
+-+                    initgroups(wl.pw->pw_name, wl.pw->pw_gid) < 0 ||
+-+#endif
+- 		    setuid(wl.pw->pw_uid) < 0)
+- 			error(1, errno, "dropping privilidges failed");
+- 
+-+
+- 		if (sleep_fork) {
+- 			if (wl.verbose)
+- 				printf("weston-launch: waiting %d seconds\n", sleep_fork);
+--- 
+-1.8.3
+diff --git a/meta/recipes-graphics/wayland/weston/weston-launch-shell.patch b/meta/recipes-graphics/wayland/weston/weston-launch-shell.patch
+deleted file mode 100644
+index ffe0608..0000000
+--- a/meta/recipes-graphics/wayland/weston/weston-launch-shell.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
--# Wayland installs a M4 macro for other projects to use. This M4 macro includes
--# a path to a Makefile fragment to get the rules to generate stubs from protocol
--# description files.  The paths to the sysroot end up incorrect, so fix them.
--do_configure_append_class-native() {
--  sed -e 's,@prefix@,${STAGING_DIR_NATIVE},g' \
--      -e 's,@exec_prefix@,${STAGING_DIR_NATIVE},g' \
--      -e 's,@bindir@,${STAGING_BINDIR_NATIVE},g' \
--      -e 's,@datarootdir@,${STAGING_DATADIR_NATIVE},g' \
--  ${S}/wayland-scanner.m4.in > ${B}/wayland-scanner.m4
+-From ff3230952a68077669e0ea0ac3ceb234273556fc Mon Sep 17 00:00:00 2001
+-From: Quentin Glidic <sardemff7+git@sardemff7.net>
+-Date: Fri, 17 May 2013 16:20:37 +0200
+-Subject: [PATCH] weston-launch: Run weston in the user login shell
+-
+-This patch brings back the user environment from the shell.
+-In the future, weston-launch could create the Wayland socket earlier, in
+-which case the user's shell could be used to run Wayland-specific tools
+-in the new Weston session.
+-
+-Signed-off-by: Quentin Glidic <sardemff7+git@sardemff7.net>
+----
+- src/weston-launch.c |   19 ++++++++++++++++---
+- 1 file changed, 16 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/weston-launch.c b/src/weston-launch.c
+-index 64d4a8a..89c3c5a 100644
+---- a/src/weston-launch.c
+-+++ b/src/weston-launch.c
+-@@ -60,6 +60,8 @@
+- 
+- #include "weston-launch.h"
+- 
+-+#define MAX_ARGV_SIZE 256
+-+
+- struct weston_launch {
+- 	struct pam_conv pc;
+- 	pam_handle_t *ph;
+-@@ -523,8 +525,9 @@ main(int argc, char *argv[])
+- 	struct weston_launch wl;
+- 	char **env;
+- 	int i, c;
+--	char **child_argv;
+-+	char *child_argv[MAX_ARGV_SIZE];
+- 	char *tty = NULL, *new_user = NULL;
+-+	char *term;
+- 	int sleep_fork = 0;
+- 	struct option opts[] = {
+- 		{ "user",    required_argument, NULL, 'u' },
+-@@ -562,8 +565,8 @@ main(int argc, char *argv[])
+- 		}
+- 	}
+- 
+--	child_argv = &argv[optind-1];
+--	child_argv[0] = BINDIR "/weston";
+-+	if ((argc - optind) > (MAX_ARGV_SIZE - 5))
+-+		error(1, E2BIG, "Too many arguments to pass to weston");
+- 
+- 	if (new_user)
+- 		wl.pw = getpwnam(new_user);
+-@@ -572,7 +575,17 @@ main(int argc, char *argv[])
+- 	if (wl.pw == NULL)
+- 		error(1, errno, "failed to get username");
+- 
+-+	child_argv[0] = wl.pw->pw_shell;
+-+	child_argv[1] = "-l";
+-+	child_argv[2] = "-c";
+-+	child_argv[3] = BINDIR "/weston \"$@\"";
+-+	child_argv[4] = "weston";
+-+	for (i = 0; i < (argc - optind); ++i)
+-+		child_argv[5+i] = argv[optind+i];
+-+
+-+	term = getenv("TERM");
+- 	clearenv();
+-+	setenv("TERM", term, 1);
+- 	setenv("USER", wl.pw->pw_name, 1);
+- 	setenv("LOGNAME", wl.pw->pw_name, 1);
+- 	setenv("HOME", wl.pw->pw_dir, 1);
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-graphics/wayland/weston_1.1.0.bb b/meta/recipes-graphics/wayland/weston_1.2.0.bb
+similarity index 83%
+rename from meta/recipes-graphics/wayland/weston_1.1.0.bb
+rename to meta/recipes-graphics/wayland/weston_1.2.0.bb
+index 8280bf2..d320f88 100644
+--- a/meta/recipes-graphics/wayland/weston_1.1.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.2.0.bb
+@@ -1,83 +1,79 @@
+-SUMMARY = "Weston, a Wayland compositor"
+-DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
+-HOMEPAGE = "http://wayland.freedesktop.org"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
+-                    file://src/compositor.c;endline=23;md5=aa98a8db03480fe7d500d0b1f4b8850c"
+-
+-SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+-           file://install-examples.patch \
+-           file://weston-launch-shell.patch \
+-           file://groups.patch \
+-           file://weston.png \
+-           file://weston.desktop"
+-SRC_URI[md5sum] = "dd9f3043fc5228c6bc4e99873fae2254"
+-SRC_URI[sha256sum] = "e7715d2c731f77a729c994a599ffdaebac1307b2dd9336136706869fa53618b4"
+-
+-
+-inherit autotools pkgconfig useradd
+-
+-DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
+-DEPENDS += "wayland virtual/mesa virtual/egl pango"
+-
+-EXTRA_OECONF = "--disable-android-compositor \
+-                --enable-setuid-install \
+-                --disable-tablet-shell \
+-                --disable-xwayland \
+-                --enable-simple-clients \
+-                --enable-clients \
+-                --disable-simple-egl-clients \
+-                --disable-libunwind \
+-                --disable-rpi-compositor \
+-                --disable-rdp-compositor"
+-
+-
+-PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland', '', d)} \
+-                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+-                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
+-                   ${@base_contains('DISTRO_FEATURES', 'pam', 'launch', '', d)} \
+-                  "
+-#
+-# Compositor choices
+-#
+-# Weston on KMS
+-PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev mesa mtdev"
+-# Weston on Wayland (nested Weston)
+-PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa"
+-# Weston on X11
+-PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
+-# Headless Weston
+-PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compositor"
+-# Weston on framebuffer
+-PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
+-# weston-launch
+-PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,libpam"
+-# Use cairo-gl or cairo-glesv2
+-PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
+-
+-do_install_append() {
+-	# Weston doesn't need the .la files to load modules, so wipe them
+-	rm -f ${D}/${libdir}/weston/*.la
+-
+-	for feature in ${DISTRO_FEATURES}; do
+-		# If X11, ship a desktop file to launch it
+-		if [ "$feature" = "x11" ]; then
+-			install -d ${D}${datadir}/applications
+-			install ${WORKDIR}/weston.desktop ${D}${datadir}/applications
+-
+-			install -d ${D}${datadir}/icons/hicolor/48x48/apps
+-			install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
+-                fi
+-	done
 -}
+-
+-PACKAGES += "${PN}-examples"
+-
+-FILES_${PN} = "${bindir}/weston* ${bindir}/wcap-decode ${libexecdir} ${datadir}"
+-FILES_${PN}-examples = "${bindir}/*"
+-
+-RDEPENDS_${PN} += "xkeyboard-config"
+-RRECOMMENDS_${PN} = "liberation-fonts"
+-
+-USERADD_PACKAGES = "${PN}"
+-GROUPADD_PARAM_${PN} = "--system weston-launch"
++SUMMARY = "Weston, a Wayland compositor"
++DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
++HOMEPAGE = "http://wayland.freedesktop.org"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=275efac2559a224527bd4fd593d38466 \
++                    file://src/compositor.c;endline=23;md5=aa98a8db03480fe7d500d0b1f4b8850c"
++
++SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
++           file://install-examples.patch \
++           file://weston.png \
++           file://weston.desktop"
++SRC_URI[md5sum] = "86f8c9e865923e138ce44ee41d951500"
++SRC_URI[sha256sum] = "122e12ae8e4ec4618780465c0cc31d70d67054900a2aac458f82ed6eb5d397b7"
++
++
++inherit autotools pkgconfig useradd
++
++DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0 jpeg"
++DEPENDS += "wayland mesa virtual/egl pango"
++BBCLASSEXTEND = "native"
++EXTRA_OECONF = "--disable-android-compositor \
++                --enable-setuid-install \
++                --disable-tablet-shell \
++                --disable-xwayland \
++                --enable-simple-clients \
++                --enable-clients \
++                --disable-simple-egl-clients \
++                --disable-libunwind \
++                --disable-rpi-compositor \
++                --disable-rdp-compositor"
++
++
++PACKAGECONFIG ??= "${@base_contains('DISTRO_FEATURES', 'wayland', 'kms wayland', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
++                   ${@base_contains('DISTRO_FEATURES', 'opengles2', 'gles', '', d)} \
++                  "
++#
++# Compositor choices
++#
++# Weston on KMS
++PACKAGECONFIG[kms] = "--enable-drm-compositor --enable-weston-launch,--disable-drm-compositor --disable-weston-launch,drm udev mesa mtdev libpam"
++# Weston on Wayland (nested Weston)
++PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,mesa"
++# Weston on X11
++PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
++# Headless Weston
++PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compositor"
++# Weston on framebuffer
++PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
++
++# Use cairo-gl or cairo-glesv2
++PACKAGECONFIG[gles] = "--with-cairo-glesv2,,virtual/libgles2"
++
++do_install_append() {
++	# Weston doesn't need the .la files to load modules, so wipe them
++	rm -f ${D}/${libdir}/weston/*.la
++
++	for feature in ${DISTRO_FEATURES}; do
++		# If X11, ship a desktop file to launch it
++		if [ "$feature" = "x11" ]; then
++			install -d ${D}${datadir}/applications
++			install ${WORKDIR}/weston.desktop ${D}${datadir}/applications
++
++			install -d ${D}${datadir}/icons/hicolor/48x48/apps
++			install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
++                fi
++	done
++}
++
++PACKAGES += "${PN}-examples"
++
++FILES_${PN} = "${bindir}/weston* ${bindir}/wcap-decode ${libexecdir} ${datadir}"
++FILES_${PN}-examples = "${bindir}/*"
++
++RDEPENDS_${PN} += "xkeyboard-config"
++RRECOMMENDS_${PN} = "liberation-fonts"
++
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM_${PN} = "--system weston-launch"
 -- 
 1.7.10.4
 
