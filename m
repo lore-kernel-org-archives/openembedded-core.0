@@ -1,36 +1,39 @@
 Return-Path: <koen@dominion.thruhere.net>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A50E6CC7F
+Received: from mail-we0-f173.google.com (mail-we0-f173.google.com
+	[74.125.82.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 464396CC7F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 13:37:55 +0000 (UTC)
-Received: by mail-wi0-f169.google.com with SMTP id cb5so1175454wib.4
+	Fri, 11 Oct 2013 13:37:56 +0000 (UTC)
+Received: by mail-we0-f173.google.com with SMTP id u57so4140390wes.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Oct 2013 06:37:56 -0700 (PDT)
+	Fri, 11 Oct 2013 06:37:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ikpvomH1xI68js+NZvnfsgiCHPjj7479zZYQRL2W/JA=;
-	b=ZuASqDV/TcIAWWYOkFtxOfYVXNXr7lbm0AjH0H5sITq71g4YBjsroOQ3XHo4RktQx5
-	xhPR9H4Q36Mn/6raQPiP5bNvuibkZj5CcgF/S6oo+Ce1t9VqB4dQ/hE415AiOjr3CsrZ
-	7Nv0NFhHQuV4YsQgVcQMFTiZgduRPzGceooeu9F1YoRLoiAkKhiguRwTYosk24jnz7BZ
-	dZ/ThzyTs5P7fJjmqZKAMl2t5aYXd9InU+KMpm78EohxkGdHs38t87FzOOu9bERc2tGt
-	zR+UL+7RQ3tUBFYGNM0zow9Qc5hUy71/slpmUVazdYoO+XswgGHeT8MvHmPVphw1oTa4
-	CyPw==
-X-Gm-Message-State: ALoCoQl6qnswPlGdbeRf/G4HOtqStRZuHUPRISQLFNvKi6xOHFRZmhXC4Io3+u7oFAxhFTLoOKci
-X-Received: by 10.194.123.227 with SMTP id md3mr17218229wjb.17.1381498676375; 
-	Fri, 11 Oct 2013 06:37:56 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=uG/QcdHqtgzR9FB0vtQOxg0GCdrVhoj5q/xbHq78EzA=;
+	b=ZUx1ufLQUmlrQNObuQUZmI+54wRiO7sgTZdRZdBxAtZcyRsCX49j6usjoUnjRhfAm/
+	LBskn9f2zMNQAAQ1bA/TjBHKvY9EE/HSZ87GnTlo4tSBQXKnmmyiMbxG/JxZGNSxCU7v
+	yuP4zpHea/s89QItvTNPVjMg05j/k7kPCB55yM8QC7b1ZAvNB3wlrYku2V6oUh2sdRps
+	WHSGKQG5+HAarmrmtrESFKVQ05diXyEa8l2ZT3zjSxATIwmBMpDrshxxfjmigLv1gPLR
+	DqgSQ4+ps62WMND1b+B+wa02g7x1Bf7NpWpYlGoEjH0gQ1xjoV08eEr9LZkEVPWQLxnM
+	/gDg==
+X-Gm-Message-State: ALoCoQlxyujtR1jkGc+G/EVOe+GywAKyiQeCQ+pY1f4RFzdw1KIxc3GHk10ovtcJHNU3/jFLYwJC
+X-Received: by 10.180.13.174 with SMTP id i14mr3254087wic.49.1381498677753;
+	Fri, 11 Oct 2013 06:37:57 -0700 (PDT)
 Received: from localhost.localdomain (ip4da2a5ae.direct-adsl.nl.
 	[77.162.165.174])
 	by mx.google.com with ESMTPSA id ey4sm5790095wic.11.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Fri, 11 Oct 2013 06:37:54 -0700 (PDT)
+	Fri, 11 Oct 2013 06:37:56 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Oct 2013 15:37:44 +0200
-Message-Id: <1381498665-21514-1-git-send-email-koen@dominion.thruhere.net>
+Date: Fri, 11 Oct 2013 15:37:45 +0200
+Message-Id: <1381498665-21514-2-git-send-email-koen@dominion.thruhere.net>
 X-Mailer: git-send-email 1.8.3.1
-Subject: [PATCH 1/2] openssh: package sshd PAM config inside openssh-sshd package
+In-Reply-To: <1381498665-21514-1-git-send-email-koen@dominion.thruhere.net>
+References: <1381498665-21514-1-git-send-email-koen@dominion.thruhere.net>
+Subject: [PATCH 2/2] openssh: allow empty passwords if PAM allows it as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,26 +48,24 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 11 Oct 2013 13:37:56 -0000
 
-Without this PAM integration is broken after installing openssh-sshd
-
 Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
 ---
- meta/recipes-connectivity/openssh/openssh_6.2p2.bb | 2 +-
+ meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-index bb5c79e..4b44bf4 100644
---- a/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_6.2p2.bb
-@@ -120,7 +120,7 @@ PACKAGES =+ "${PN}-keygen ${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-sftp ${PN}-misc $
- FILES_${PN}-scp = "${bindir}/scp.${BPN}"
- FILES_${PN}-ssh = "${bindir}/ssh.${BPN} ${sysconfdir}/ssh/ssh_config"
- FILES_${PN}-sshd = "${sbindir}/sshd ${sysconfdir}/init.d/sshd"
--FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd"
-+FILES_${PN}-sshd += "${sysconfdir}/ssh/moduli ${sysconfdir}/ssh/sshd_config ${sysconfdir}/ssh/sshd_config_readonly ${sysconfdir}/default/volatiles/99_sshd ${sysconfdir}/pam.d/sshd"
- FILES_${PN}-sftp = "${bindir}/sftp"
- FILES_${PN}-sftp-server = "${libexecdir}/sftp-server"
- FILES_${PN}-misc = "${bindir}/ssh* ${libexecdir}/ssh*"
+diff --git a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
+index 4f9b626..175e8f3 100644
+--- a/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
++++ b/meta/recipes-connectivity/openssh/openssh-6.2p2/sshd_config
+@@ -59,7 +59,7 @@ Protocol 2
+ 
+ # To disable tunneled clear text passwords, change to no here!
+ #PasswordAuthentication yes
+-#PermitEmptyPasswords no
++PermitEmptyPasswords yes
+ 
+ # Change to no to disable s/key passwords
+ #ChallengeResponseAuthentication yes
 -- 
 1.8.3.1
 
